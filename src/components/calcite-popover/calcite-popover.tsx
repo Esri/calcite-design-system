@@ -393,6 +393,7 @@ export class CalcitePopover {
 
     return dismissible || closeButton ? (
       <calcite-action
+        appearance="clear"
         class={CSS.closeButton}
         onClick={this.hide}
         ref={(closeButtonEl) => (this.closeButtonEl = closeButtonEl)}

@@ -51,7 +51,6 @@
   @apply bg-foreground-1
     relative
     flex
-    overflow-hidden
     flex-nowrap
     flex-row
     h-full
@@ -67,7 +66,8 @@
   flex-col
   flex-nowrap
   self-center
-  overflow-hidden
+  word-break
+  rounded
   h-full
   w-full;
 }
