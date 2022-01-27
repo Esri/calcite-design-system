@@ -287,6 +287,7 @@ export class CalciteInput implements LabelableComponent, FormComponent {
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
+    this.status = getElementProp(this.el, "status", this.status);
     this.scale = getElementProp(this.el, "scale", this.scale);
     this.inlineEditableEl = this.el.closest("calcite-inline-editable");
     if (this.inlineEditableEl) {
