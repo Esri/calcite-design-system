@@ -35,6 +35,41 @@ export const SimpleWithLinks = (): string => html`
   </div>
 `;
 
+export const SimpleWithDropdown = (): string => html`
+  <div>
+    <calcite-card ${boolean("loading", false)} ${boolean("selectable", false)}>
+    <div style="display: flex; flex-direction: column">
+      <calcite-dropdown type="hover">
+        <calcite-button id="card-icon-test-4" slot="dropdown-trigger" scale="s" color="neutral" icon-start="caret-down">
+        </calcite-button>
+        <calcite-dropdown-group selection-mode="none">
+          <calcite-dropdown-item>View details</calcite-dropdown-item>
+          <calcite-dropdown-item>Duplicate</calcite-dropdown-item>
+          <calcite-dropdown-item>Delete</calcite-dropdown-item>
+        </calcite-dropdown-group>
+      </calcite-dropdown>
+      <calcite-dropdown>
+        <calcite-button slot="dropdown-trigger">Activate Dropdown</calcite-button>
+        <calcite-dropdown-group selection-mode="single" group-title="Selection Mode: Single">
+          <calcite-dropdown-item>Relevance</calcite-dropdown-item>
+          <calcite-dropdown-item active>Date modified</calcite-dropdown-item>
+          <calcite-dropdown-item>Title</calcite-dropdown-item>
+        </calcite-dropdown-group>
+        <calcite-dropdown-group selection-mode="multi" group-title="Selection Mode: Multi">
+          <calcite-dropdown-item active>Maps</calcite-dropdown-item>
+          <calcite-dropdown-item>Layers</calcite-dropdown-item>
+          <calcite-dropdown-item active>Data</calcite-dropdown-item>
+        </calcite-dropdown-group>
+        <calcite-dropdown-group selection-mode="none" group-title="Selection Mode: None">
+          <calcite-dropdown-item>Mountain</calcite-dropdown-item>
+          <calcite-dropdown-item>River</calcite-dropdown-item>
+        </calcite-dropdown-group>
+      </calcite-dropdown>
+    </calcite-card>
+    </div>
+  </div>
+`;
+
 SimpleWithLinks.storyName = "Simple with Links";
 
 const footerThumbnail = `<img alt="footer thumbnail" slot="thumbnail" src="${placeholderImage({
