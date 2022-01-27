@@ -410,8 +410,8 @@
 
       <script>
         (function () {
-          var tree_small = document.getElementById("tree-events-demo-tree-small");
-          var result_small = document.getElementById("tree-events-demo-result-small");
+          const tree_small = document.getElementById("tree-events-demo-tree-small");
+          const result_small = document.getElementById("tree-events-demo-result-small");
           tree_small.addEventListener("calciteTreeSelect", function (e) {
             console.log(e.detail.selected);
             result_small.textContent = e.detail.selected.length + " Selected";
@@ -419,8 +419,8 @@
         })();
 
         (function () {
-          var tree_medium = document.getElementById("tree-events-demo-tree-medium");
-          var result_medium = document.getElementById("tree-events-demo-result-medium");
+          const tree_medium = document.getElementById("tree-events-demo-tree-medium");
+          const result_medium = document.getElementById("tree-events-demo-result-medium");
           tree_medium.addEventListener("calciteTreeSelect", function (e) {
             console.log(e.detail.selected);
             result_medium.textContent = e.detail.selected.length + " Selected";
