@@ -149,11 +149,12 @@ export class CalciteAlert {
     const { active, autoDismiss, label, placement, queued, requestedIcon } = this;
     const role = autoDismiss ? "alert" : "alertdialog";
     const hidden = !active;
+    const priority = autoDismiss ? "assertive" : "polite";
     return (
       <Host
         aria-hidden={hidden.toString()}
         aria-label={label}
-        aria-live={this.autoDismiss ? "assertive" : "polite"}
+        aria-live={priority}
         calcite-hydrated-hidden={hidden}
         role={role}
       >
