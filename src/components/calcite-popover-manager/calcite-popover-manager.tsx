@@ -52,9 +52,22 @@ export class CalcitePopoverManager {
   //
   //--------------------------------------------------------------------------
 
-  getRelatedPopover = (element: HTMLElement): HTMLCalcitePopoverElement => {
-    const { selector, el } = this;
-    const id = element.closest(selector)?.getAttribute(POPOVER_REFERENCE);
+  getRelatedPopover = (composedPath: EventTarget[]): HTMLCalcitePopoverElement => {
+    const { el } = this;
+
+    if (!composedPath.includes(el)) {
+      return null;
+    }
+
+    const referenceElement = (composedPath as HTMLElement[]).find(
+      (pathEl) => pathEl?.hasAttribute && pathEl.hasAttribute(POPOVER_REFERENCE)
+    );
+
+    if (!referenceElement) {
+      return null;
+    }
+
+    const id = referenceElement.getAttribute(POPOVER_REFERENCE);
 
     return queryElementRoots(el, { id }) as HTMLCalcitePopoverElement;
   };
@@ -67,22 +80,17 @@ export class CalcitePopoverManager {
 
   @Listen("click", { target: "window", capture: true })
   closeOpenPopovers(event: Event): void {
-    const target = event.target as HTMLElement;
     const { autoClose, el } = this;
     const popoverSelector = "calcite-popover";
-    const isTargetInsidePopover = target.closest(popoverSelector);
-    const relatedPopover = this.getRelatedPopover(target);
+    const composedPath = event.composedPath();
+    const relatedPopover = this.getRelatedPopover(composedPath);
 
-    if (autoClose && !isTargetInsidePopover) {
+    if (autoClose && !relatedPopover) {
       (queryElementsRoots(el, popoverSelector) as HTMLCalcitePopoverElement[])
-        .filter((popover) => popover.open && popover !== relatedPopover)
+        .filter((popover) => popover.open && !composedPath.includes(popover))
         .forEach((popover) => popover.toggle(false));
     }
 
-    if (!el.contains(target) || !relatedPopover) {
-      return;
-    }
-
-    relatedPopover.toggle();
+    relatedPopover?.toggle();
   }
 }
