@@ -25,12 +25,15 @@ export interface InteractiveComponent {
  * * this util is not needed for simple components whose root element or elements are an interactive component (custom element or native control). For those cases, set the `disabled` props on the root components instead.
  * * technically, users can override `tabindex` and restore keyboard navigation, but this will be considered user error
  */
-export function updateHostInteraction(component: InteractiveComponent): void {
-  // intentionally using attribute to avoid making host tabbable when !disabled
-  if (component.disabled) {
-    component.el.setAttribute("tabindex", "-1");
+export function updateHostInteraction(component: InteractiveComponent, hostIsTabbable = false): void {
+  if (hostIsTabbable) {
+    component.el.setAttribute("tabindex", component.disabled ? "-1" : "0");
   } else {
-    component.el.removeAttribute("tabindex");
+    if (component.disabled) {
+      component.el.setAttribute("tabindex", "-1");
+    } else {
+      component.el.removeAttribute("tabindex");
+    }
   }
 
   component.el.setAttribute("aria-disabled", component.disabled.toString());

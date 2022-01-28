@@ -19,7 +19,7 @@ import { getElementProp, getElementDir } from "../../utils/dom";
 import { TabID, TabLayout, TabPosition } from "../calcite-tabs/interfaces";
 import { FlipContext, Scale } from "../interfaces";
 import { createObserver } from "../../utils/observers";
-import { InteractiveComponent } from "../../utils/interactive";
+import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 
 /**
  * @slot - A slot for adding text.
@@ -131,7 +131,6 @@ export class CalciteTabTitle implements InteractiveComponent {
 
   render(): VNode {
     const id = this.el.id || this.guid;
-    const Tag = this.disabled ? "span" : "a";
     const showSideBorders = this.bordered && !this.disabled && this.layout !== "center";
 
     const iconStartEl = (
@@ -152,16 +151,9 @@ export class CalciteTabTitle implements InteractiveComponent {
       />
     );
 
-    // TODO: check tabindex usage here
     return (
-      <Host
-        aria-controls={this.controls}
-        aria-expanded={this.active.toString()}
-        id={id}
-        role="tab"
-        tabindex={this.disabled ? "-1" : "0"}
-      >
-        <Tag
+      <Host aria-controls={this.controls} aria-expanded={this.active.toString()} id={id} role="tab">
+        <a
           class={{
             container: true,
             "container--has-text": this.hasText
@@ -171,13 +163,17 @@ export class CalciteTabTitle implements InteractiveComponent {
           {this.iconStart ? iconStartEl : null}
           <slot />
           {this.iconEnd ? iconEndEl : null}
-        </Tag>
+        </a>
       </Host>
     );
   }
 
   async componentDidLoad(): Promise<void> {
     this.calciteTabTitleRegister.emit(await this.getTabIdentifier());
+  }
+
+  componentDidRender(): void {
+    updateHostInteraction(this, true);
   }
 
   //--------------------------------------------------------------------------
