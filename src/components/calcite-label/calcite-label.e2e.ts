@@ -21,14 +21,13 @@ describe("calcite-label", () => {
   it("renders requested props when valid props are provided", async () => {
     const page = await newE2EPage();
     await page.setContent(`
-    <calcite-label status="invalid" layout="inline-space-between">
+    <calcite-label layout="inline-space-between">
     Label text
     <calcite-input></calcite-input>
     </calcite-label>
     `);
 
     const element = await page.find("calcite-label");
-    expect(element).toEqualAttribute("status", "invalid");
     expect(element).toEqualAttribute("layout", "inline-space-between");
   });
 
@@ -128,7 +127,7 @@ describe("calcite-label", () => {
   it("does not pass id to child label element", async () => {
     const page = await newE2EPage();
     await page.setContent(`
-    <calcite-label id="dont-duplicate-me" status="invalid" layout="inline-space-between">
+    <calcite-label id="dont-duplicate-me" layout="inline-space-between">
     Label text
     <calcite-input></calcite-input>
     </calcite-label>
@@ -138,7 +137,6 @@ describe("calcite-label", () => {
     const childElement = await page.find("calcite-label >>> .container");
     expect(element).toEqualAttribute("id", "dont-duplicate-me");
     expect(childElement).not.toHaveAttribute("id");
-    expect(element).toEqualAttribute("status", "invalid");
     expect(element).toEqualAttribute("layout", "inline-space-between");
   });
 
