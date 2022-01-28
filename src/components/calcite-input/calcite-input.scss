@@ -92,15 +92,6 @@
 }
 
 @include disabled() {
-  // TODO: test
-  & .wrapper {
-    @apply pointer-events-none text-opacity-disabled;
-  }
-  & button,
-  & textarea,
-  & input {
-    @apply pointer-events-none;
-  }
   & textarea {
     resize: none;
   }
