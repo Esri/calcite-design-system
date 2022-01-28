@@ -132,6 +132,25 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
 
 const selector = "calcite-action";
 
+export const DefaultTextEnabled = stepStory(
+  (): string => html`<div>${create("calcite-action", createAttributes())}</div>`,
+
+  createSteps("calcite-action")
+    //compact
+    .snapshot("Compact Alignment End")
+    .executeScript(
+      setKnobs({
+        story: "components-buttons-action--default",
+        knobs: [
+          { name: "compact", value: "true" },
+          { name: "textEnabled", value: "false" },
+          { name: "icon", value: "beaker" }
+        ]
+      })
+    )
+    .snapshot("Compact Text Disabled")
+);
+
 export const Default = stepStory(
   (): string => html`<div style="width: 150px">${create("calcite-action", createAttributes())}</div>`,
 
@@ -236,17 +255,6 @@ export const Default = stepStory(
       })
     )
     .snapshot("Compact Alignment End")
-    .executeScript(
-      setKnobs({
-        story: "components-buttons-action--default",
-        knobs: [
-          { name: "compact", value: "true" },
-          { name: "textEnabled", value: "false" },
-          { name: "icon", value: "beaker" }
-        ]
-      })
-    )
-    .snapshot("Compact Text Disabled")
 
     // Dark
     .executeScript(
