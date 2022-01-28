@@ -47,6 +47,7 @@
     @apply cursor-default opacity-disabled pointer-events-none select-none;
     @content;
 
+    ::slotted([calcite-hydrated][disabled]),
     [calcite-hydrated][disabled] {
       /* prevent opacity stacking */
       @apply opacity-100;
