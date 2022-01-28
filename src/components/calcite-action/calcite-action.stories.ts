@@ -131,6 +131,76 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
 };
 
 const selector = "calcite-action";
+export const DefaultTextEnabled = stepStory(
+  (): string => html`<div">${create("calcite-action", createAttributes())}</div>`,
+
+  createSteps("calcite-action")
+    //compact
+    .snapshot("Compact Alignment End")
+    .executeScript(
+      setKnobs({
+        story: "components-buttons-action--default",
+        knobs: [
+          { name: "compact", value: "true" },
+          { name: "textEnabled", value: "false" },
+          { name: "icon", value: "beaker" }
+        ]
+      })
+    )
+    .snapshot("Compact Text Disabled")
+
+    //indicator
+    .executeScript(
+      setKnobs({
+        story: "components-buttons-action--default",
+        knobs: [
+          { name: "indicator", value: "true" },
+          { name: "textEnabled", value: "false" },
+          { name: "icon", value: "beaker" }
+        ]
+      })
+    )
+    .snapshot("Indicator Text Disabled")
+
+    //loading
+    .executeScript(
+      setKnobs({
+        story: "components-buttons-action--default",
+        knobs: [
+          { name: "loading", value: "true" },
+          { name: "textEnabled", value: "false" },
+          { name: "icon", value: "beaker" }
+        ]
+      })
+    )
+    .snapshot("Loading Text Disabled")
+
+    //scale
+    .executeScript(
+      setKnobs({
+        story: "components-buttons-action--default",
+        knobs: [
+          { name: "indicator", value: "true" },
+          { name: "scale", value: "s" },
+          { name: "textEnabled", value: "false" },
+          { name: "icon", value: "beaker" }
+        ]
+      })
+    )
+    .snapshot("Scale Small Text Disabled")
+    .executeScript(
+      setKnobs({
+        story: "components-buttons-action--default",
+        knobs: [
+          { name: "indicator", value: "true" },
+          { name: "scale", value: "l" },
+          { name: "textEnabled", value: "false" },
+          { name: "icon", value: "beaker" }
+        ]
+      })
+    )
+    .snapshot("Scale Large Text Disabled")
+);
 
 export const Default = stepStory(
   (): string => html`<div style="width: 150px">${create("calcite-action", createAttributes())}</div>`,
@@ -235,18 +305,6 @@ export const Default = stepStory(
         ]
       })
     )
-    .snapshot("Compact Alignment End")
-    .executeScript(
-      setKnobs({
-        story: "components-buttons-action--default",
-        knobs: [
-          { name: "compact", value: "true" },
-          { name: "textEnabled", value: "false" },
-          { name: "icon", value: "beaker" }
-        ]
-      })
-    )
-    .snapshot("Compact Text Disabled")
 
     // Dark
     .executeScript(
@@ -342,17 +400,6 @@ export const Default = stepStory(
       })
     )
     .snapshot("Indicator")
-    .executeScript(
-      setKnobs({
-        story: "components-buttons-action--default",
-        knobs: [
-          { name: "indicator", value: "true" },
-          { name: "textEnabled", value: "false" },
-          { name: "icon", value: "beaker" }
-        ]
-      })
-    )
-    .snapshot("Indicator Text Disabled")
 
     // Loading
     .executeScript(
@@ -365,17 +412,6 @@ export const Default = stepStory(
       })
     )
     .snapshot("Loading")
-    .executeScript(
-      setKnobs({
-        story: "components-buttons-action--default",
-        knobs: [
-          { name: "loading", value: "true" },
-          { name: "textEnabled", value: "false" },
-          { name: "icon", value: "beaker" }
-        ]
-      })
-    )
-    .snapshot("Loading Text Disabled")
 
     // RTL
     .executeScript(
@@ -505,36 +541,12 @@ export const Default = stepStory(
         story: "components-buttons-action--default",
         knobs: [
           { name: "indicator", value: "true" },
-          { name: "scale", value: "s" },
-          { name: "textEnabled", value: "false" },
-          { name: "icon", value: "beaker" }
-        ]
-      })
-    )
-    .snapshot("Scale Small Text Disabled")
-    .executeScript(
-      setKnobs({
-        story: "components-buttons-action--default",
-        knobs: [
-          { name: "indicator", value: "true" },
           { name: "scale", value: "l" },
           { name: "icon", value: "beaker" }
         ]
       })
     )
     .snapshot("Scale Large")
-    .executeScript(
-      setKnobs({
-        story: "components-buttons-action--default",
-        knobs: [
-          { name: "indicator", value: "true" },
-          { name: "scale", value: "l" },
-          { name: "textEnabled", value: "false" },
-          { name: "icon", value: "beaker" }
-        ]
-      })
-    )
-    .snapshot("Scale Large Text Disabled")
 
     // Text
     .executeScript(
