@@ -71,6 +71,11 @@
   w-full;
 }
 
+.close-button {
+  margin-block: theme("borderRadius.DEFAULT");
+  margin-inline-end: theme("borderRadius.DEFAULT");
+}
+
 ::slotted(calcite-panel),
 ::slotted(calcite-flow) {
   @apply h-full;
