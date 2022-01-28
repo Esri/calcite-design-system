@@ -28,6 +28,7 @@
   @apply flex-auto flex flex-col;
 }
 
+// this is kept relative during loading to limit the loading area within the container
 :host([loading]) .calcite-card-container {
   @apply relative;
 }
