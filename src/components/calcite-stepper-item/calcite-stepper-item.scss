@@ -131,12 +131,7 @@
   margin-inline-end: var(--calcite-stepper-item-spacing-unit-m);
 }
 
-// TODO: check below -> allow overrides
-@include disabled() {
-  & * {
-    @apply cursor-not-allowed pointer-events-auto;
-  }
-}
+@include disabled();
 
 :host([complete]) .container {
   // todo dark theme
