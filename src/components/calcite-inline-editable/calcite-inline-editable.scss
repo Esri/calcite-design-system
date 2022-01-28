@@ -44,7 +44,6 @@
   @apply flex;
 }
 
-// TODO: Test
 @include disabled() {
   .cancel-editing-button-wrapper {
     @apply border-color-2;

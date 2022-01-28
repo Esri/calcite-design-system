@@ -177,8 +177,6 @@ export class CalciteRating implements LabelableComponent, FormComponent, Interac
   render() {
     const { disabled, intlRating, showChip, scale, count, average } = this;
 
-    // TODO: test if we need to handle chip
-
     return (
       <Fragment>
         <fieldset
