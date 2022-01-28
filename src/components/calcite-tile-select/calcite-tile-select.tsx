@@ -15,7 +15,7 @@ import { Alignment, Width } from "../interfaces";
 import { TileSelectType } from "./interfaces";
 import { guid } from "../../utils/guid";
 import { CSS } from "./resources";
-import { InteractiveComponent } from "../../utils/interactive";
+import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 
 /**
  * @slot - A slot for adding custom content.
@@ -226,13 +226,15 @@ export class CalciteTileSelect implements InteractiveComponent {
     this.input.parentNode.removeChild(this.input);
   }
 
+  componentDidRender(): void {
+    updateHostInteraction(this);
+  }
+
   // --------------------------------------------------------------------------
   //
   //  Render Methods
   //
   // --------------------------------------------------------------------------
-
-  // TODO: double check disabled usage here
 
   private renderInput(): void {
     this.input = document.createElement(
