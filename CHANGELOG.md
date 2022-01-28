@@ -16,6 +16,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ### Bug Fixes
 
 - **accordion:** no longer has white background when set to transparent ([#3954](https://github.com/Esri/calcite-components/issues/3954)) ([0af12f3](https://github.com/Esri/calcite-components/commit/0af12f3546d53125038cddfd7f5c59437637073d))
+- **Action:** updates font-family declaration. ([bf1072c](https://github.com/Esri/calcite-components/commit/bf1072c10ebaac2b977d68b8b3dad32833547032))
 - **combobox:** fix stacking icon on very narrow combobox ([#3891](https://github.com/Esri/calcite-components/issues/3891)) ([#3983](https://github.com/Esri/calcite-components/issues/3983)) ([574ad1e](https://github.com/Esri/calcite-components/commit/574ad1e709baf08678c3de04c265663e8c23fa85))
 - **date-picker:** update utils locale to get the lang code if regional code is not found ([#3968](https://github.com/Esri/calcite-components/issues/3968)) ([6dcd01f](https://github.com/Esri/calcite-components/commit/6dcd01f5b00b3cea8fb257c7700e28d62f0f502f))
 - **date-picker, input-date-picker:** update pt-BR and pt-PT localization files ([#3980](https://github.com/Esri/calcite-components/issues/3980)) ([e060029](https://github.com/Esri/calcite-components/commit/e060029f505da31f33654f78846964f5191f82e5))
