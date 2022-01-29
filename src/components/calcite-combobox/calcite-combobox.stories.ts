@@ -217,3 +217,16 @@ export const Rtl = (): string => html`
 `;
 
 Rtl.storyName = "RTL";
+
+export const disabled = (): string => html`<calcite-combobox disabled>
+  <calcite-combobox-item value="Trees" text-label="Trees">
+    <calcite-combobox-item value="Pine" text-label="Pine"></calcite-combobox-item>
+    <calcite-combobox-item value="Sequoia" disabled text-label="Sequoia"></calcite-combobox-item>
+    <calcite-combobox-item value="Douglas Fir" text-label="Douglas Fir"></calcite-combobox-item>
+  </calcite-combobox-item>
+  <calcite-combobox-item value="Flowers" text-label="Flowers" disabled>
+    <calcite-combobox-item value="Daffodil" text-label="Daffodil"></calcite-combobox-item>
+    <calcite-combobox-item value="Black Eyed Susan" text-label="Black Eyed Susan"></calcite-combobox-item>
+    <calcite-combobox-item value="Nasturtium" text-label="Nasturtium"></calcite-combobox-item>
+  </calcite-combobox-item>
+</calcite-combobox>`;

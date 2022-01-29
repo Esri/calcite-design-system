@@ -142,3 +142,5 @@ export const WithIconStartAndIconEndRTL = (): string => html`
     around the link
   </div>
 `;
+
+export const disabled = (): string => html`<calcite-link disabled>disabled</calcite-link`;

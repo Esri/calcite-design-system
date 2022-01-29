@@ -64,3 +64,5 @@ export const Rtl = (): string => html`
 `;
 
 Rtl.storyName = "RTL";
+
+export const disabled = (): string => html`<calcite-switch disabled checked></calcite-switch>`;

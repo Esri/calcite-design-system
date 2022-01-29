@@ -139,3 +139,11 @@ export const DarkMode = (): string => html`
 
 DarkMode.storyName = "Dark mode";
 DarkMode.parameters = { themes: themesDarkDefault };
+
+export const disabled = (): string => html`<calcite-split-button disabled>
+  <calcite-dropdown-group selection-mode="none">
+    <calcite-dropdown-item>Option 2</calcite-dropdown-item>
+    <calcite-dropdown-item>Option 3</calcite-dropdown-item>
+    <calcite-dropdown-item>Option 4</calcite-dropdown-item>
+  </calcite-dropdown-group>
+</calcite-split-button>`;

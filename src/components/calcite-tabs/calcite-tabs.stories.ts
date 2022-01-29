@@ -238,3 +238,12 @@ export const RTL = (): string => html`
     <calcite-tab><p>Tab 4 Content</p></calcite-tab>
   </calcite-tabs>
 `;
+
+export const disabled = (): string => html`<calcite-tabs>
+  <calcite-tab-nav slot="tab-nav">
+    <calcite-tab-title active>Tab 1 Title</calcite-tab-title>
+    <calcite-tab-title disabled>Tab 2 Title</calcite-tab-title>
+  </calcite-tab-nav>
+  <calcite-tab active><p>Tab 1 Content</p></calcite-tab>
+  <calcite-tab><p>Tab 2 Content</p></calcite-tab>
+</calcite-tabs>`;

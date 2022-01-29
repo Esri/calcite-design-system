@@ -49,3 +49,5 @@ export const RTL = (): string => html`
     ${text("label", "Checkbox")}
   </calcite-label>
 `;
+
+export const disabled = (): string => html`<calcite-checkbox checked disabled></calcite-checkbox>`;

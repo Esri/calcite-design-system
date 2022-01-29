@@ -115,3 +115,10 @@ export const RTL = (): string => html`
     <calcite-radio-group-item value="vue">Vue</calcite-radio-group-item>
   </calcite-radio-group>
 `;
+
+export const disabled = (): string => html`<calcite-radio-group disabled>
+  <calcite-radio-group-item value="react" checked>React</calcite-radio-group-item>
+  <calcite-radio-group-item value="ember">Ember</calcite-radio-group-item>
+  <calcite-radio-group-item value="angular">Angular</calcite-radio-group-item>
+  <calcite-radio-group-item value="vue">Vue</calcite-radio-group-item>
+</calcite-radio-group>`;

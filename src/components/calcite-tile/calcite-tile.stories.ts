@@ -76,3 +76,5 @@ export const LargeTile = (): string => html`
   >
   </calcite-tile>
 `;
+
+export const disabled = (): string => html`<calcite-tile heading="Heading" disabled></calcite-tile>`;
