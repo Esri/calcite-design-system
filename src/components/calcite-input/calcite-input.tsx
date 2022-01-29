@@ -320,16 +320,6 @@ export class CalciteInput implements LabelableComponent, FormComponent {
     this.requestedIcon = setRequestedIcon(INPUT_TYPE_ICONS, this.icon, this.type);
   }
 
-  componentShouldUpdate(newValue: string, oldValue: string, property: string): boolean {
-    if (this.type === "number" && property === "value" && newValue && !isValidNumber(newValue)) {
-      this.setValue({
-        value: oldValue
-      });
-      return false;
-    }
-    return true;
-  }
-
   //--------------------------------------------------------------------------
   //
   //  Events
