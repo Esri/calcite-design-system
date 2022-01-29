@@ -1,4 +1,4 @@
-import { accessible, labelable, renders } from "../../tests/commonTests";
+import { accessible, disabled, labelable, renders } from "../../tests/commonTests";
 import { E2EPage } from "@stencil/core/testing";
 import { newE2EPage } from "@stencil/core/testing";
 import { CSS } from "./resources";
@@ -14,6 +14,13 @@ describe("calcite-inline-editable", () => {
       `,
       { display: "block" }
     ));
+
+  it("can be disabled", () =>
+    disabled(html`
+      <calcite-inline-editable>
+        <calcite-input />
+      </calcite-inline-editable>
+    `));
 
   describe("rendering permutations", () => {
     let page: E2EPage;
@@ -108,30 +115,6 @@ describe("calcite-inline-editable", () => {
       const element = await page.find("calcite-inline-editable");
       await element.click();
       expect(element).toHaveAttribute("editing-enabled");
-      expect(calciteInlineEditableEnableEditingChange).toHaveReceivedEventTimes(1);
-    });
-
-    it("prevents editing when the component is disabled", async () => {
-      page = await newE2EPage();
-      await page.setContent(`
-      <calcite-inline-editable disabled>
-        <calcite-input value="John Doe"/>
-      </calcite-inline-editable>
-      `);
-      const calciteInlineEditableEnableEditingChange = await page.spyOnEvent(
-        "calciteInlineEditableEnableEditingChange"
-      );
-      const element = await page.find("calcite-inline-editable");
-      const input = await page.find("calcite-input");
-      await element.click();
-      expect(element).not.toHaveAttribute("editing-enabled");
-      expect(input).toHaveAttribute("disabled");
-      expect(calciteInlineEditableEnableEditingChange).toHaveReceivedEventTimes(0);
-      element.setProperty("disabled", false);
-      await page.waitForChanges();
-      await element.click();
-      expect(element).toHaveAttribute("editing-enabled");
-      expect(input).not.toHaveAttribute("disabled");
       expect(calciteInlineEditableEnableEditingChange).toHaveReceivedEventTimes(1);
     });
 

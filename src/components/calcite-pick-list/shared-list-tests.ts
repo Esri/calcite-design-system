@@ -1,5 +1,5 @@
 import { E2EElement, E2EPage, newE2EPage } from "@stencil/core/testing";
-import { focusable } from "../../tests/commonTests";
+import { disabled, focusable } from "../../tests/commonTests";
 import { html } from "../../tests/utils";
 import { CSS as PICK_LIST_ITEM_CSS } from "../calcite-pick-list-item/resources";
 
@@ -514,24 +514,7 @@ export function filterBehavior(listType: ListType): void {
   });
 }
 
-export function disabledStates(listType: ListType): void {
-  it("disabled", async () => {
-    const page = await newE2EPage({
-      html: html`
-        <calcite-${listType}-list disabled>
-          <calcite-${listType}-list-item value="one" label="One"></calcite-${listType}-list-item>
-        </calcite-${listType}-list>
-      `
-    });
-
-    const list = await page.find(`calcite-${listType}-list`);
-    const item1 = await list.find("[value=one]");
-    const toggleSpy = await list.spyOnEvent("calciteListChange");
-
-    await item1.click();
-    expect(toggleSpy).toHaveReceivedEventTimes(0);
-  });
-
+export function loadingState(listType: ListType): void {
   it("loading", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-${listType}-list loading>
@@ -597,4 +580,8 @@ export function focusing(listType: ListType): void {
         }
       ));
   });
+}
+
+export function disabling(listType: ListType): void {
+  it("can be disabled", () => disabled(`calcite-${listType}`));
 }

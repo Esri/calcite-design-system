@@ -1,5 +1,5 @@
 import { E2EPage, newE2EPage } from "@stencil/core/testing";
-import { accessible, hidden, renders } from "../../tests/commonTests";
+import { accessible, disabled, hidden, renders } from "../../tests/commonTests";
 import { dragAndDrop } from "../../tests/utils";
 
 describe("calcite-sortable-list", () => {
@@ -8,6 +8,8 @@ describe("calcite-sortable-list", () => {
   it("honors hidden attribute", async () => hidden("calcite-sortable-list"));
 
   it("is accessible", async () => accessible(`<calcite-sortable-list></calcite-sortable-list>`));
+
+  it("can be disabled", () => disabled("calcite-sortable-list"));
 
   const worksUsingMouse = async (page: E2EPage): Promise<void> => {
     await dragAndDrop(page, `#one calcite-handle`, `#two calcite-handle`);

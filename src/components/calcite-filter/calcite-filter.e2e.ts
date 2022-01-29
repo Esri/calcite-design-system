@@ -1,5 +1,5 @@
 import { E2EPage, newE2EPage } from "@stencil/core/testing";
-import { accessible, focusable, hidden, renders } from "../../tests/commonTests";
+import { accessible, disabled, focusable, hidden, renders } from "../../tests/commonTests";
 import { CSS } from "./resources";
 
 describe("calcite-filter", () => {
@@ -10,6 +10,8 @@ describe("calcite-filter", () => {
   it("is accessible", async () => accessible("calcite-filter"));
 
   it("is focusable", async () => focusable("calcite-filter"));
+
+  it("can be disabled", () => disabled("calcite-filter"));
 
   describe("strings", () => {
     it("should update the filter placeholder when a string is provided", async () => {

@@ -1,5 +1,5 @@
 import { E2EPage, newE2EPage } from "@stencil/core/testing";
-import { focusable, formAssociated, labelable, renders } from "../../tests/commonTests";
+import { disabled, focusable, formAssociated, labelable, renders } from "../../tests/commonTests";
 import { html } from "../../tests/utils";
 
 describe("calcite-radio-group", () => {
@@ -14,6 +14,8 @@ describe("calcite-radio-group", () => {
       </calcite-radio-group>`,
       { focusTargetSelector: "calcite-radio-group-item" }
     ));
+
+  it("can be disabled", () => disabled("calcite-radio-group"));
 
   it("does not require an item to be checked", async () => {
     const page = await newE2EPage();

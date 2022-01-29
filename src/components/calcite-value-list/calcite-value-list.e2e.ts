@@ -4,10 +4,11 @@ import { accessible, hidden, renders } from "../../tests/commonTests";
 import {
   selectionAndDeselection,
   filterBehavior,
-  disabledStates,
+  loadingState,
   keyboardNavigation,
   itemRemoval,
-  focusing
+  focusing,
+  disabling
 } from "../calcite-pick-list/shared-list-tests";
 import { dragAndDrop, html } from "../../tests/utils";
 
@@ -22,6 +23,10 @@ describe("calcite-value-list", () => {
         <calcite-value-list-item label="Sample" value="one"></calcite-value-list-item>
       </calcite-value-list>
     `));
+
+  describe("disabling", () => {
+    disabling("value");
+  });
 
   describe("Selection and Deselection", () => {
     selectionAndDeselection("value");
@@ -64,8 +69,8 @@ describe("calcite-value-list", () => {
     itemRemoval("value");
   });
 
-  describe("disabled states", () => {
-    disabledStates("value");
+  describe("loading state", () => {
+    loadingState("value");
   });
 
   describe("setFocus", () => {

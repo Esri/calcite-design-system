@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { defaults, formAssociated, labelable, renders } from "../../tests/commonTests";
+import { defaults, disabled, formAssociated, labelable, renders } from "../../tests/commonTests";
 import { getElementXY, html } from "../../tests/utils";
 
 describe("calcite-slider", () => {
@@ -53,12 +53,7 @@ describe("calcite-slider", () => {
 
   it("is labelable", async () => labelable("calcite-slider"));
 
-  it("becomes inactive from disabled prop", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-slider disabled></calcite-slider>`);
-    const slider = await page.find("calcite-slider");
-    expect(slider).toHaveAttribute("disabled");
-  });
+  it("can be disabled", () => disabled("calcite-slider"));
 
   it("sets aria attributes properly for single value", async () => {
     const page = await newE2EPage();

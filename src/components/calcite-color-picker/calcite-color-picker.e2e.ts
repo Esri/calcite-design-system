@@ -1,4 +1,4 @@
-import { accessible, defaults, hidden, reflects, renders, focusable } from "../../tests/commonTests";
+import { accessible, defaults, hidden, reflects, renders, focusable, disabled } from "../../tests/commonTests";
 
 import { CSS, DEFAULT_COLOR, DEFAULT_STORAGE_KEY_PREFIX, DIMENSIONS, TEXT } from "./resources";
 import { E2EElement, E2EPage, EventSpy, newE2EPage } from "@stencil/core/testing";
@@ -162,6 +162,8 @@ describe("calcite-color-picker", () => {
         defaultValue: "#007ac2"
       }
     ]));
+
+  it("can be disabled", () => disabled("calcite-color-picker"));
 
   it("emits event when value changes", async () => {
     const page = await newE2EPage({
