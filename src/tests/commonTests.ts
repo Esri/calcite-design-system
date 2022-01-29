@@ -526,16 +526,46 @@ export async function formAssociated(componentTagOrHtml: TagOrHTML, options: For
 export async function disabled(componentTagOrHtml: TagOrHTML): Promise<void> {
   const page = await simplePageSetup(componentTagOrHtml);
   const tag = getTag(componentTagOrHtml);
-
   const component = await page.find(tag);
-  component.setProperty("disabled", true);
-  await page.waitForChanges();
+  const enabledComponentClickSpy = await component.spyOnEvent("click");
+
+  async function expectToBeFocused(tag: string): Promise<void> {
+    expect(await page.evaluate((tag: string) => document.activeElement.matches(tag), tag)).toBe(true);
+  }
+
+  expect(component.getAttribute("aria-disabled")).toBe("false");
 
   await page.keyboard.press("Tab");
+  await expectToBeFocused(tag);
 
-  expect(await page.evaluate(() => document.activeElement.matches("BODY"))).toBe(true);
+  const [shadowFocusableX, shadowFocusableY] = await page.$eval(tag, (element: HTMLElement) => {
+    const rect = element.shadowRoot.activeElement.getBoundingClientRect();
+    return [rect.x, rect.y];
+  });
 
-  await component.click();
+  await page.keyboard.press("Tab");
+  await expectToBeFocused("body");
 
-  expect(await page.evaluate(() => document.activeElement.matches("BODY"))).toBe(true);
+  await page.mouse.click(shadowFocusableX, shadowFocusableY);
+  await expectToBeFocused(tag);
+
+  expect(enabledComponentClickSpy).toHaveReceivedEventTimes(1);
+
+  component.setProperty("disabled", true);
+  await page.waitForChanges();
+  const disabledComponentClickSpy = await component.spyOnEvent("click");
+
+  expect(component.getAttribute("aria-disabled")).toBe("true");
+
+  await page.$eval("body", (body: HTMLBodyElement) =>
+    // use click() to avoid having Puppeteer click on the test component
+    body.click()
+  );
+  await page.keyboard.press("Tab");
+  await expectToBeFocused("body");
+
+  await page.mouse.click(shadowFocusableX, shadowFocusableY);
+  await expectToBeFocused("body");
+
+  expect(disabledComponentClickSpy).toHaveReceivedEventTimes(0);
 }
