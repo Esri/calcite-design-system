@@ -49,7 +49,7 @@ export const Simple = (): string => html`
 `;
 
 export const Single = (): string => html`
-  <div style="width:400px;max-width:100%;background-color:white;padding:100px">
+  <div style="width:150px;max-width:100%;background-color:white;padding:100px">
     <calcite-combobox
       label="demo combobox"
       selection-mode="${select("selection-mode", ["multi", "single", "ancestors"], "single")}"
@@ -59,7 +59,7 @@ export const Single = (): string => html`
       ${boolean("disabled", false)}
       max-items="${number("max-items", 0)}"
     >
-      <calcite-combobox-item icon="altitude" value="altitude" text-label="Altitude"></calcite-combobox-item>
+      <calcite-combobox-item icon="altitude" value="altitude" text-label="Altitude" selected></calcite-combobox-item>
       <calcite-combobox-item icon="article" value="article" text-label="Article"></calcite-combobox-item>
       <calcite-combobox-item icon="attachment" value="attachment" text-label="Attachment"></calcite-combobox-item>
       <calcite-combobox-item icon="banana" value="banana" text-label="Banana"></calcite-combobox-item>
