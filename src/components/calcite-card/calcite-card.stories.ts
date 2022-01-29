@@ -22,9 +22,9 @@ export const Simple = (): string => html`
   </div>
 `;
 
-export const SimpleWithLinks = (): string => html`
+export const LinksBorderRadius = (): string => html`
   <div style="width:260px">
-    <calcite-card ${boolean("loading", false)} ${boolean("selectable", false)}>
+    <calcite-card style="--calcite-border-radius:5px" ${boolean("loading", false)} ${boolean("selectable", false)}>
       <h3 slot="title">ArcGIS Online: Gallery and Organization pages</h3>
       <span slot="subtitle"
         >A great example of a study description that might wrap to a line or two, but isn't overly verbose.</span
@@ -35,7 +35,7 @@ export const SimpleWithLinks = (): string => html`
   </div>
 `;
 
-SimpleWithLinks.storyName = "Simple with Links";
+LinksBorderRadius.storyName = "Links, Border Radius";
 
 const footerThumbnail = `<img alt="footer thumbnail" slot="thumbnail" src="${placeholderImage({
   width: 380,
