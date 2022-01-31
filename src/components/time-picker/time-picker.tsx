@@ -697,6 +697,7 @@ export class TimePicker {
           [CSS.showSecond]: this.showSecond,
           [CSS[`scale-${this.scale}`]]: true
         }}
+        dir="ltr"
       >
         <div class={CSS.column} role="group">
           <span

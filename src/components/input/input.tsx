@@ -12,7 +12,7 @@ import {
   VNode,
   Watch
 } from "@stencil/core";
-import { getElementDir, getElementProp, setRequestedIcon } from "../../utils/dom";
+import { getElementDir, getElementProp, getSlotted, setRequestedIcon } from "../../utils/dom";
 
 import { CSS, INPUT_TYPE_ICONS, SLOTS } from "./resources";
 import { InputPlacement } from "./interfaces";
@@ -28,6 +28,7 @@ import { numberKeys } from "../../utils/key";
 import { isValidNumber, parseNumberString, sanitizeNumberString } from "../../utils/number";
 import { CSS_UTILITY, TEXT } from "../../utils/resources";
 import { decimalPlaces } from "../../utils/math";
+import { createObserver } from "../../utils/observers";
 
 type NumberNudgeDirection = "up" | "down";
 
@@ -267,10 +268,9 @@ export class Input implements LabelableComponent, FormComponent {
   /** the computed icon to render */
   private requestedIcon?: string;
 
-  /** determine if there is a slotted action for styling purposes */
-  private slottedActionEl?: HTMLSlotElement;
-
   private nudgeNumberValueIntervalId;
+
+  mutationObserver = createObserver("mutation", () => this.setDisabledAction());
 
   //--------------------------------------------------------------------------
   //
@@ -303,11 +303,14 @@ export class Input implements LabelableComponent, FormComponent {
     }
     connectLabel(this);
     connectForm(this);
+    this.mutationObserver?.observe(this.el, { childList: true });
+    this.setDisabledAction();
   }
 
   disconnectedCallback(): void {
     disconnectLabel(this);
     disconnectForm(this);
+    this.mutationObserver?.disconnect();
   }
 
   componentWillLoad(): void {
@@ -315,21 +318,6 @@ export class Input implements LabelableComponent, FormComponent {
     this.maxString = this.max?.toString();
     this.minString = this.min?.toString();
     this.requestedIcon = setRequestedIcon(INPUT_TYPE_ICONS, this.icon, this.type);
-  }
-
-  componentDidLoad(): void {
-    this.slottedActionEl = this.el.querySelector("[slot=action]");
-    this.setDisabledAction();
-  }
-
-  componentShouldUpdate(newValue: any, oldValue: any, property: string): boolean {
-    if (this.type === "number" && property === "value" && newValue && !isValidNumber(newValue)) {
-      this.setValue({
-        value: oldValue
-      });
-      return false;
-    }
-    return true;
   }
 
   //--------------------------------------------------------------------------
@@ -449,7 +437,8 @@ export class Input implements LabelableComponent, FormComponent {
   };
 
   private inputFocusHandler = (event: FocusEvent): void => {
-    if (event.target !== this.slottedActionEl) {
+    const slottedActionEl = getSlotted(this.el, "action");
+    if (event.target !== slottedActionEl) {
       this.setFocus();
     }
     this.calciteInputFocus.emit({
@@ -636,10 +625,11 @@ export class Input implements LabelableComponent, FormComponent {
   };
 
   private setDisabledAction(): void {
-    if (!this.slottedActionEl) {
+    const slottedActionEl = getSlotted(this.el, "action");
+
+    if (!slottedActionEl) {
       return;
     }
-    const slottedActionEl = this.slottedActionEl as HTMLElement;
 
     this.disabled
       ? slottedActionEl.setAttribute("disabled", "")
@@ -672,7 +662,7 @@ export class Input implements LabelableComponent, FormComponent {
     value
   }: {
     committing?: boolean;
-    nativeEvent?: any;
+    nativeEvent?: MouseEvent | KeyboardEvent | InputEvent;
     origin?: "internal" | "external" | "loading";
     value: string;
   }): void => {
