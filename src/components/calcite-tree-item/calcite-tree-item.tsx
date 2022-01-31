@@ -89,6 +89,13 @@ export class CalciteTreeItem implements ConditionalSlotComponent {
   /** @internal Tree selection-mode (set on parent) */
   @Prop({ mutable: true }) selectionMode: TreeSelectionMode;
 
+  @Watch("selectionMode")
+  getselectionMode(): void {
+    this.isSelectionMultiLike =
+      this.selectionMode === TreeSelectionMode.Multi ||
+      this.selectionMode === TreeSelectionMode.MultiChildren;
+  }
+
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -138,6 +145,14 @@ export class CalciteTreeItem implements ConditionalSlotComponent {
     this.updateAncestorTree();
   }
 
+  //--------------------------------------------------------------------------
+  //
+  //  Private State/Props
+  //
+  //--------------------------------------------------------------------------
+
+  private isSelectionMultiLike: boolean;
+
   render(): VNode {
     const rtl = getElementDir(this.el) === "rtl";
     const showBulletPoint =
@@ -158,9 +173,10 @@ export class CalciteTreeItem implements ConditionalSlotComponent {
         scale="s"
       />
     ) : null;
+    const defaultSlotNode: VNode = <slot key="default-slot" />;
     const checkbox =
       this.selectionMode === TreeSelectionMode.Ancestors ? (
-        <label class={CSS.checkboxLabel}>
+        <label class={CSS.checkboxLabel} key="checkbox-label">
           <calcite-checkbox
             checked={this.selected}
             class={CSS.checkbox}
@@ -169,7 +185,7 @@ export class CalciteTreeItem implements ConditionalSlotComponent {
             scale={this.scale}
             tabIndex={-1}
           />
-          <slot />
+          {defaultSlotNode}
         </label>
       ) : null;
     const selectedIcon = showBulletPoint
@@ -210,7 +226,7 @@ export class CalciteTreeItem implements ConditionalSlotComponent {
         >
           {chevron}
           {bulletOrCheckIcon}
-          {checkbox ? checkbox : <slot />}
+          {checkbox ? checkbox : defaultSlotNode}
         </div>
         <div
           class={{
@@ -245,7 +261,7 @@ export class CalciteTreeItem implements ConditionalSlotComponent {
     }
     this.calciteTreeItemSelect.emit({
       modifyCurrentSelection:
-        (e as any).shiftKey || this.selectionMode === TreeSelectionMode.Ancestors,
+        this.selectionMode === TreeSelectionMode.Ancestors || this.isSelectionMultiLike,
       forceToggle: false
     });
   }
@@ -255,7 +271,7 @@ export class CalciteTreeItem implements ConditionalSlotComponent {
     this.expanded = !this.expanded;
     if (this.selectionMode !== TreeSelectionMode.Ancestors) {
       this.calciteTreeItemSelect.emit({
-        modifyCurrentSelection: event.shiftKey,
+        modifyCurrentSelection: this.isSelectionMultiLike,
         forceToggle: true
       });
     }
@@ -269,7 +285,7 @@ export class CalciteTreeItem implements ConditionalSlotComponent {
     switch (e.key) {
       case " ":
         this.calciteTreeItemSelect.emit({
-          modifyCurrentSelection: e.shiftKey,
+          modifyCurrentSelection: this.isSelectionMultiLike,
           forceToggle: false
         });
 
@@ -287,7 +303,7 @@ export class CalciteTreeItem implements ConditionalSlotComponent {
           this.selected = true;
         } else {
           this.calciteTreeItemSelect.emit({
-            modifyCurrentSelection: e.shiftKey,
+            modifyCurrentSelection: this.isSelectionMultiLike,
             forceToggle: false
           });
         }

@@ -9,18 +9,43 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### Features
 
+- **label:** deprecate status prop ([#3984](https://github.com/Esri/calcite-components/issues/3984)) ([066571f](https://github.com/Esri/calcite-components/commit/066571f812baf9c120f503880a3048fea0cd583b)), closes [#3962](https://github.com/Esri/calcite-components/issues/3962) [#3924](https://github.com/Esri/calcite-components/issues/3924) [#3960](https://github.com/Esri/calcite-components/issues/3960) [#3940](https://github.com/Esri/calcite-components/issues/3940) [#3972](https://github.com/Esri/calcite-components/issues/3972) [#3977](https://github.com/Esri/calcite-components/issues/3977) [#3981](https://github.com/Esri/calcite-components/issues/3981) [#3889](https://github.com/Esri/calcite-components/issues/3889) [#3686](https://github.com/Esri/calcite-components/issues/3686) [#3969](https://github.com/Esri/calcite-components/issues/3969) [#3985](https://github.com/Esri/calcite-components/issues/3985) [#3989](https://github.com/Esri/calcite-components/issues/3989) [#3994](https://github.com/Esri/calcite-components/issues/3994) [#3970](https://github.com/Esri/calcite-components/issues/3970) [#3964](https://github.com/Esri/calcite-components/issues/3964) [#3996](https://github.com/Esri/calcite-components/issues/3996) [#3968](https://github.com/Esri/calcite-components/issues/3968) [#3999](https://github.com/Esri/calcite-components/issues/3999) [#3980](https://github.com/Esri/calcite-components/issues/3980) [#3733](https://github.com/Esri/calcite-components/issues/3733) [#3998](https://github.com/Esri/calcite-components/issues/3998)
+- **panel:** Add method to scroll content. [#3924](https://github.com/Esri/calcite-components/issues/3924) ([#3960](https://github.com/Esri/calcite-components/issues/3960)) ([1ebcb3f](https://github.com/Esri/calcite-components/commit/1ebcb3f6118f3f2bd968265d603d0b4eb69a073a))
+- **tree:** multi-selection no longer requires holding shift key ([#3733](https://github.com/Esri/calcite-components/issues/3733)) ([b8fdfbf](https://github.com/Esri/calcite-components/commit/b8fdfbf0576e1bc1042d2368d0410cd3a1227d2b))
+
+### Bug Fixes
+
+- **accordion:** no longer has white background when set to transparent ([#3954](https://github.com/Esri/calcite-components/issues/3954)) ([0af12f3](https://github.com/Esri/calcite-components/commit/0af12f3546d53125038cddfd7f5c59437637073d))
+- **Action:** updates font-family declaration. ([bf1072c](https://github.com/Esri/calcite-components/commit/bf1072c10ebaac2b977d68b8b3dad32833547032))
+- **combobox:** fix stacking icon on very narrow combobox ([#3891](https://github.com/Esri/calcite-components/issues/3891)) ([#3983](https://github.com/Esri/calcite-components/issues/3983)) ([574ad1e](https://github.com/Esri/calcite-components/commit/574ad1e709baf08678c3de04c265663e8c23fa85))
+- **date-picker:** update utils locale to get the lang code if regional code is not found ([#3968](https://github.com/Esri/calcite-components/issues/3968)) ([6dcd01f](https://github.com/Esri/calcite-components/commit/6dcd01f5b00b3cea8fb257c7700e28d62f0f502f))
+- **date-picker, input-date-picker:** update pt-BR and pt-PT localization files ([#3980](https://github.com/Esri/calcite-components/issues/3980)) ([e060029](https://github.com/Esri/calcite-components/commit/e060029f505da31f33654f78846964f5191f82e5))
+- **input:** correct negative values in ar and et locales ([#4020](https://github.com/Esri/calcite-components/issues/4020)) ([c8de9f0](https://github.com/Esri/calcite-components/commit/c8de9f0f8d0cba974a5c17da58b2a125b80ecd99))
+- **switch:** provide a selected color to track element ([#3987](https://github.com/Esri/calcite-components/issues/3987)) ([#3991](https://github.com/Esri/calcite-components/issues/3991)) ([8a4dcbe](https://github.com/Esri/calcite-components/commit/8a4dcbeb4301be61479227afc95f37300d49e09c))
+- **time-picker:** match rtl order with ltr ([#3993](https://github.com/Esri/calcite-components/issues/3993)) ([ccca4c5](https://github.com/Esri/calcite-components/commit/ccca4c5a871b5d84636dadcd98f9e51c605f32b3))
+<!--@unreleased-section-end-->
+
+## [1.0.0-beta.75](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.74...v1.0.0-beta.75) (2022-01-20)
+
+### Features
+
 - **calcite-link:** Add support for download attribute. [#3758](https://github.com/Esri/calcite-components/issues/3758) ([#3922](https://github.com/Esri/calcite-components/issues/3922)) ([3ae875d](https://github.com/Esri/calcite-components/commit/3ae875d4c9b0b015cc97e20a8a9f9c063b750568))
 - **combobox:** Add 'intlRemoveTag' property to override the remove tag text. ([#3920](https://github.com/Esri/calcite-components/issues/3920)) ([4070c2e](https://github.com/Esri/calcite-components/commit/4070c2e5430727d3c3af51535a4631a69b3b878b))
 - **inline-editable:** change internal events to public ([#3872](https://github.com/Esri/calcite-components/issues/3872)) ([3d0daa7](https://github.com/Esri/calcite-components/commit/3d0daa7c08b2b5397f1668ce4664433e90cf359c))
 
 ### Bug Fixes
 
-- rerender components with conditional slots when slotting elements after initialization ([#3871](https://github.com/Esri/calcite-components/issues/3871)) ([2ec9848](https://github.com/Esri/calcite-components/commit/2ec984876f33939d06c7ad0b47c9040f1a7d0a9d)), closes [#3686](https://github.com/Esri/calcite-components/issues/3686)
+- **action, action-group:** alignment center when enclosed within group (grid layout, text-enabled vs no text) ([#3929](https://github.com/Esri/calcite-components/issues/3929)) ([f3290e2](https://github.com/Esri/calcite-components/commit/f3290e236260a613b9a612ab3dcf84991b36f80c))
 - **alert:** Emit calciteAlertClose/calciteAlertOpen after animation. [#3760](https://github.com/Esri/calcite-components/issues/3760) ([#3923](https://github.com/Esri/calcite-components/issues/3923)) ([9c4486c](https://github.com/Esri/calcite-components/commit/9c4486cff7987dcadaafc372e479a930141d70d1))
+- **card, combobox-item:** rerender components with conditional slots when slotting elements after initialization ([#3959](https://github.com/Esri/calcite-components/issues/3959)) ([b6feb0d](https://github.com/Esri/calcite-components/commit/b6feb0d8cd1a291825155b7982e7961abd0e5c4e)), closes [#3686](https://github.com/Esri/calcite-components/issues/3686)
 - **combobox:** Properly set internal identifiers. [#3754](https://github.com/Esri/calcite-components/issues/3754) ([#3919](https://github.com/Esri/calcite-components/issues/3919)) ([ab807c5](https://github.com/Esri/calcite-components/commit/ab807c5609a16d23d9fbcda5ff70b8e80fb33ceb))
 - **dropdown:** dropdown wrapper no longer overflows inside a panel ([#3378](https://github.com/Esri/calcite-components/issues/3378)) ([5b966e3](https://github.com/Esri/calcite-components/commit/5b966e3a6b36f29a83ccdf66e14163d6b73f9878))
 - **input:** number input no longer increments by itself indefinitely when up/down buttons are toggled fast or pressed at the same time; ([#3908](https://github.com/Esri/calcite-components/issues/3908)) ([d2863d2](https://github.com/Esri/calcite-components/commit/d2863d208bd7c8ebead42ad354ce3647af015232))
-<!--@unreleased-section-end-->
+- **input:** the visible input value stays in sync with the stored value when it is controlled programmatically ([#3915](https://github.com/Esri/calcite-components/issues/3915)) ([7d9e545](https://github.com/Esri/calcite-components/commit/7d9e545dc841f476e1bbf8c0010e2ef98f122fb2))
+- **input-date-picker:** return the matching locale code to prop locale ([#3941](https://github.com/Esri/calcite-components/issues/3941)) ([fdeb2d2](https://github.com/Esri/calcite-components/commit/fdeb2d2192210e8e1c064cc7b26862345efe8e81))
+- **slider:** maxValue thumb positioned above minValue when overlapped… ([#3813](https://github.com/Esri/calcite-components/issues/3813)) ([9239c24](https://github.com/Esri/calcite-components/commit/9239c24106ad113c7664332b6860a649259c82a2))
+- **tree:** change tab index when tabbing in/out for first element ([#3914](https://github.com/Esri/calcite-components/issues/3914)) ([7469960](https://github.com/Esri/calcite-components/commit/7469960b57a13d4df1d5a453b4d42b6fd92216d2))
+- rerender components with conditional slots when slotting elements after initialization ([#3871](https://github.com/Esri/calcite-components/issues/3871)) ([2ec9848](https://github.com/Esri/calcite-components/commit/2ec984876f33939d06c7ad0b47c9040f1a7d0a9d)), closes [#3686](https://github.com/Esri/calcite-components/issues/3686)
 
 ## [1.0.0-beta.74](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.73...v1.0.0-beta.74) (2022-01-11)
 

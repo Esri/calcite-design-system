@@ -81,9 +81,9 @@ describe("calcite-input", () => {
       </calcite-label>
     `);
 
-    const element = await page.find("calcite-input");
-    expect(await element.getProperty("status")).toEqual("invalid");
-    expect(await element.getProperty("scale")).toEqual("s");
+    const deprecatedLabelStatusElement = await page.find("calcite-input");
+    expect(await deprecatedLabelStatusElement.getProperty("status")).toEqual("invalid");
+    expect(await deprecatedLabelStatusElement.getProperty("scale")).toEqual("s");
   });
 
   it("renders an icon when explicit Calcite UI is requested, and is a type without a default icon", async () => {
@@ -686,20 +686,16 @@ describe("calcite-input", () => {
     expect(await input.getProperty("value")).toBe(`${finalNudgedValue}`);
   });
 
-  it.skip("when both 'ArrowUp' and 'ArrowDown' are pressed at the same time most recently pressed key takes over", async () => {
+  it("when both 'ArrowUp' and 'ArrowDown' are pressed at the same time most recently pressed key takes over", async () => {
     const page = await newE2EPage();
     await page.setContent(html`<calcite-input type="number" value="0"></calcite-input>`);
     const element = await page.find("calcite-input");
     await element.callMethod("setFocus");
 
-    await page.keyboard.down("ArrowUp");
-    await page.waitForChanges();
-    expect(await element.getProperty("value")).toBe("1");
-    await page.keyboard.down("ArrowDown");
+    const arrowUpDown = page.keyboard.down("ArrowUp");
+    const arrowDownDown = page.keyboard.down("ArrowDown");
+    await Promise.all([arrowUpDown, arrowDownDown]);
     await page.waitForTimeout(delayFor2UpdatesInMs);
-    await page.keyboard.up("ArrowUp");
-    await page.keyboard.up("ArrowDown");
-    await page.waitForChanges();
     expect(await element.getProperty("value")).toBe("-1");
   });
 
@@ -752,7 +748,7 @@ describe("calcite-input", () => {
 
   it(`allows clearing value for type=text`, async () => {
     const page = await newE2EPage();
-    await page.setContent(html`<calcite-input value="hello""></calcite-input>`);
+    await page.setContent(html`<calcite-input value="hello"></calcite-input>`);
     const input = await page.find("calcite-input");
 
     input.setProperty("value", null);
@@ -764,6 +760,33 @@ describe("calcite-input", () => {
     await page.waitForChanges();
 
     expect(await input.getProperty("value")).toBe("");
+  });
+
+  it("number input value stays in sync when value property is controlled with javascript", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html`<calcite-input type="number"></calcite-input>`);
+    const calciteInput = await page.find("calcite-input");
+    const input = await page.find("calcite-input >>> input");
+
+    await page.evaluate(() => {
+      document.querySelector("calcite-input").addEventListener("calciteInputInput", (event: InputEvent): void => {
+        const target = event.target as HTMLInputElement;
+        target.value = "5";
+      });
+    });
+
+    await calciteInput.click();
+    await typeNumberValue(page, "1");
+    await page.waitForChanges();
+
+    expect(await calciteInput.getProperty("value")).toBe("5");
+    expect(await input.getProperty("value")).toBe("5");
+
+    await typeNumberValue(page, "2");
+    await page.waitForChanges();
+
+    expect(await calciteInput.getProperty("value")).toBe("5");
+    expect(await input.getProperty("value")).toBe("5");
   });
 
   describe("number type", () => {
@@ -1059,6 +1082,18 @@ describe("calcite-input", () => {
           expect(await internalLocaleInput.getProperty("value")).toBe(localizeNumberString(assertedValue, locale));
         });
       });
+  });
+
+  it(`allows negative numbers for ar locale`, async () => {
+    const value = "123";
+    const page = await newE2EPage();
+    await page.setContent(html`<calcite-input locale="ar" type="number"></calcite-input>`);
+    const element = await page.find("calcite-input");
+    await element.callMethod("setFocus");
+    await typeNumberValue(page, value);
+    await page.waitForChanges();
+    await page.keyboard.press("Tab");
+    expect(await element.getProperty("value")).toBe(value);
   });
 
   it(`allows clearing value for type=number`, async () => {

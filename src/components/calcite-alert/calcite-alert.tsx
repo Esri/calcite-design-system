@@ -12,7 +12,7 @@ import {
   VNode,
   Watch
 } from "@stencil/core";
-import { setRequestedIcon } from "../../utils/dom";
+import { getSlotted, setRequestedIcon } from "../../utils/dom";
 import { DURATIONS, SLOTS, TEXT } from "./resources";
 import { Scale } from "../interfaces";
 import { AlertDuration, AlertPlacement, StatusColor, StatusIcons } from "./interfaces";
@@ -119,10 +119,6 @@ export class CalciteAlert {
 
   componentWillLoad(): void {
     this.requestedIcon = setRequestedIcon(StatusIcons, this.icon, this.color);
-  }
-
-  componentDidLoad(): void {
-    this.alertLinkEl = this.el.querySelectorAll("calcite-link")[0] as HTMLCalciteLinkElement;
   }
 
   disconnectedCallback(): void {
@@ -242,10 +238,12 @@ export class CalciteAlert {
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    if (!this.closeButton && !this.alertLinkEl) {
+    const alertLinkEl: HTMLCalciteLinkElement = getSlotted(this.el, { selector: "calcite-link" });
+
+    if (!this.closeButton && !alertLinkEl) {
       return;
-    } else if (this.alertLinkEl) {
-      this.alertLinkEl.setFocus();
+    } else if (alertLinkEl) {
+      alertLinkEl.setFocus();
     } else if (this.closeButton) {
       this.closeButton.focus();
     }
@@ -268,9 +266,6 @@ export class CalciteAlert {
 
   /** the close button element */
   private closeButton?: HTMLButtonElement;
-
-  /** the slotted alert link child element  */
-  private alertLinkEl?: HTMLCalciteLinkElement;
 
   private autoDismissTimeoutId: number = null;
 

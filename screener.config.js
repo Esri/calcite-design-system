@@ -20,5 +20,7 @@ module.exports = {
     username: process.env.SAUCE_ACCESS_NAME,
     accessKey: process.env.SAUCE_ACCESS_KEY,
     maxConcurrent: 10
-  }
+  },
+  excludeRules: [/^Overview/],
+  resolution: "1920x1440"
 };

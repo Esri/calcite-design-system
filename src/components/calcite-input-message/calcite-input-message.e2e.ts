@@ -37,8 +37,8 @@ describe("calcite-input-message", () => {
     </calcite-label>
     `);
 
-    const element = await page.find("calcite-input-message");
-    expect(element).toEqualAttribute("status", "invalid");
+    const deprecatedLabelStatusElement = await page.find("calcite-input-message");
+    expect(deprecatedLabelStatusElement).toEqualAttribute("status", "invalid");
   });
 
   it("does not render an icon if not requested", async () => {
