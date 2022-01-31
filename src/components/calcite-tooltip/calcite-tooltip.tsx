@@ -31,7 +31,7 @@ export class CalciteTooltip {
   @Prop() label!: string;
 
   /**
-   * Offset the position of the popover away from the reference element.
+   * Offset the position of the tooltip away from the reference element.
    * @default 6
    */
   @Prop({ reflect: true }) offsetDistance = defaultOffsetDistance;
@@ -42,7 +42,7 @@ export class CalciteTooltip {
   }
 
   /**
-   * Offset the position of the popover along the reference element.
+   * Offset the position of the tooltip along the reference element.
    */
   @Prop({ reflect: true }) offsetSkidding = 0;
 

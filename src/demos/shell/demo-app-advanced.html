@@ -8,7 +8,7 @@
 
     <script src="../_assets/head.js"></script>
     <script>
-      var dojoConfig = {
+      const dojoConfig = {
         has: {
           "esri-layerlist-new-ui": 1
         }
@@ -53,7 +53,7 @@
           map: webmap
         });
         view.when(function () {
-          var layerList = new LayerList({
+          const layerList = new LayerList({
             view: view,
             selectionEnabled: true,
             container: "layerlist-container"

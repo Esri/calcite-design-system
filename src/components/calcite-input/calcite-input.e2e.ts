@@ -83,9 +83,9 @@ describe("calcite-input", () => {
       </calcite-label>
     `);
 
-    const element = await page.find("calcite-input");
-    expect(await element.getProperty("status")).toEqual("invalid");
-    expect(await element.getProperty("scale")).toEqual("s");
+    const deprecatedLabelStatusElement = await page.find("calcite-input");
+    expect(await deprecatedLabelStatusElement.getProperty("status")).toEqual("invalid");
+    expect(await deprecatedLabelStatusElement.getProperty("scale")).toEqual("s");
   });
 
   it("renders an icon when explicit Calcite UI is requested, and is a type without a default icon", async () => {
@@ -1061,6 +1061,18 @@ describe("calcite-input", () => {
           expect(await internalLocaleInput.getProperty("value")).toBe(localizeNumberString(assertedValue, locale));
         });
       });
+  });
+
+  it(`allows negative numbers for ar locale`, async () => {
+    const value = "123";
+    const page = await newE2EPage();
+    await page.setContent(html`<calcite-input locale="ar" type="number"></calcite-input>`);
+    const element = await page.find("calcite-input");
+    await element.callMethod("setFocus");
+    await typeNumberValue(page, value);
+    await page.waitForChanges();
+    await page.keyboard.press("Tab");
+    expect(await element.getProperty("value")).toBe(value);
   });
 
   it(`allows clearing value for type=number`, async () => {

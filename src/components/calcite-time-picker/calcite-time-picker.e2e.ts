@@ -1003,5 +1003,14 @@ describe("calcite-time-picker", () => {
 
       expect(meridiem.textContent).toBe("PM");
     });
+
+    it("time picker container direction is ltr when set to rtl on host", async () => {
+      const page = await newE2EPage({
+        html: `<calcite-time-picker dir="rtl" ></calcite-time-picker>`
+      });
+      const timePicker = await page.find(`calcite-time-picker >>> .${CSS.timePicker}`);
+      const timePickerDir = await timePicker.getAttribute("dir");
+      expect(timePickerDir).toBe("ltr");
+    });
   });
 });
