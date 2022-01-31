@@ -35,6 +35,7 @@ export const labelClickEvent = "calciteInternalLabelClick";
 
 const labelTagName = "calcite-label";
 const onLabelClickMap = new WeakMap<HTMLCalciteLabelElement, typeof onLabelClick>();
+const labelListenerMap = new WeakMap<LabelableComponent, EventListenerOrEventListenerObject>();
 
 const findLabelForComponent = (componentEl: HTMLElement): HTMLCalciteLabelElement | null => {
   const { id } = componentEl;
@@ -87,32 +88,54 @@ function hasAncestorCustomElements(label: HTMLCalciteLabelElement, componentEl: 
 export function connectLabel(component: LabelableComponent): void {
   const labelEl = findLabelForComponent(component.el);
 
-  //if label has the click handler, return
+  const addClickEventListenerToComponentLabel = () => {
+    component.labelEl = labelEl;
+    const boundOnLabelClick = onLabelClick.bind(component);
+    onLabelClickMap.set(component.labelEl, boundOnLabelClick);
+    component.labelEl.addEventListener(labelClickEvent, boundOnLabelClick);
+  };
+
   if (onLabelClickMap.has(labelEl)) {
     return;
   }
 
-  // If we don’t have the labelEl for that input, add listener for custom event
-  if (!labelEl) {
-    document.addEventListener("labelAdded", () => {
-      component.labelEl = labelEl;
-      const boundOnLabelClick = onLabelClick.bind(component);
-      onLabelClickMap.set(component.labelEl, boundOnLabelClick);
-      component.labelEl.addEventListener(labelClickEvent, boundOnLabelClick);
-    });
+  if (labelEl) {
+    addClickEventListenerToComponentLabel();
+
+    //when label is added for the existing component, remove label event listener for this component
+    const componentLabelAddedEventListener = labelListenerMap.get(component);
+    if (componentLabelAddedEventListener) {
+      document.removeEventListener("labelAdded", componentLabelAddedEventListener);
+      labelListenerMap.delete(component);
+    }
+
+    console.log("componentLabelAddedEventListener", componentLabelAddedEventListener);
   }
 
-  //if label is there for that input, bind the labelClick Event to the input
-  component.labelEl = labelEl;
-  const boundOnLabelClick = onLabelClick.bind(component);
-  onLabelClickMap.set(component.labelEl, boundOnLabelClick);
-  component.labelEl.addEventListener(labelClickEvent, boundOnLabelClick);
+  if (!labelEl) {
+    const componentLabelAddedEventListener = labelListenerMap.get(component);
+    if (!componentLabelAddedEventListener) {
+      const labelAddedListener = () => {
+        connectLabel(component);
+      };
+      document.addEventListener("labelAdded", labelAddedListener);
+      labelListenerMap.set(component, labelAddedListener);
+    }
+  }
 }
 
 /**
- * Helper to tear down label interactions on disconnectedCallback.
+ * Helper to tear down label interactions on disconnectedCallback on labelable components.
  */
 export function disconnectLabel(component: LabelableComponent): void {
+  //remove label event listener for this component when removing component
+  const componentLabelAddedEventListener = labelListenerMap.get(component);
+  if (componentLabelAddedEventListener) {
+    document.removeEventListener("labelAdded", componentLabelAddedEventListener);
+    labelListenerMap.delete(component);
+  }
+  console.log("componentLabelAddedEventListener", componentLabelAddedEventListener);
+
   if (!component.labelEl) {
     return;
   }

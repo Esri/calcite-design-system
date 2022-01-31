@@ -83,7 +83,7 @@ export class CalciteLabel {
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
-    this.labelAdded.emit("labelEmitted");
+    this.labelAdded.emit();
   }
 
   render(): VNode {
