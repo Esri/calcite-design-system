@@ -336,14 +336,6 @@
         visible = !visible;
         if (visible) {
           document.querySelector("#label").innerHTML = template;
-          // check if event emitted when label rendered
-          // const label = document.querySelector('[for="input-switch-2"]');
-          // if (document.body.contains(label)) {
-          //   console.log("exists");
-          //   label.addEventListener("labelAdded", (event) => {
-          //     console.log(event.detail);
-          //   });
-          // }
         } else {
           document.querySelector("#label").innerHTML = "";
         }

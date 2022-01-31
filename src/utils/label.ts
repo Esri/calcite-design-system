@@ -118,7 +118,7 @@ export function connectLabel(component: LabelableComponent): void {
       const labelAddedListener = () => {
         connectLabel(component);
       };
-      document.addEventListener("labelAdded", labelAddedListener);
+      document.addEventListener("onCalciteLabelConnected", labelAddedListener);
       labelListenerMap.set(component, labelAddedListener);
     }
   }
@@ -131,7 +131,7 @@ export function disconnectLabel(component: LabelableComponent): void {
   //remove label event listener for this component when removing component
   const componentLabelAddedEventListener = labelListenerMap.get(component);
   if (componentLabelAddedEventListener) {
-    document.removeEventListener("labelAdded", componentLabelAddedEventListener);
+    document.removeEventListener("onCalciteLabelConnected", componentLabelAddedEventListener);
     labelListenerMap.delete(component);
   }
   console.log("componentLabelAddedEventListener", componentLabelAddedEventListener);
