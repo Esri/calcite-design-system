@@ -21,6 +21,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - **date-picker:** update utils locale to get the lang code if regional code is not found ([#3968](https://github.com/Esri/calcite-components/issues/3968)) ([6dcd01f](https://github.com/Esri/calcite-components/commit/6dcd01f5b00b3cea8fb257c7700e28d62f0f502f))
 - **date-picker, input-date-picker:** update pt-BR and pt-PT localization files ([#3980](https://github.com/Esri/calcite-components/issues/3980)) ([e060029](https://github.com/Esri/calcite-components/commit/e060029f505da31f33654f78846964f5191f82e5))
 - **input:** correct negative values in ar and et locales ([#4020](https://github.com/Esri/calcite-components/issues/4020)) ([c8de9f0](https://github.com/Esri/calcite-components/commit/c8de9f0f8d0cba974a5c17da58b2a125b80ecd99))
+- **switch:** provide a selected color to track element ([#3987](https://github.com/Esri/calcite-components/issues/3987)) ([#3991](https://github.com/Esri/calcite-components/issues/3991)) ([8a4dcbe](https://github.com/Esri/calcite-components/commit/8a4dcbeb4301be61479227afc95f37300d49e09c))
 - **time-picker:** match rtl order with ltr ([#3993](https://github.com/Esri/calcite-components/issues/3993)) ([ccca4c5](https://github.com/Esri/calcite-components/commit/ccca4c5a871b5d84636dadcd98f9e51c605f32b3))
 <!--@unreleased-section-end-->
 
