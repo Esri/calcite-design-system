@@ -27,6 +27,10 @@
         margin: 15px;
         padding: 0 18px;
       }
+
+      .rounded {
+        --calcite-border-radius-base: 5px;
+      }
     </style>
     <script src="_assets/head.js"></script>
   </head>
@@ -52,9 +56,9 @@
       </div>
 
       <!-- text only, selectable, and border-radius -->
-      <div class="child">
+      <div class="child rounded">
         <p>No buttons, selectable, border-radius</p>
-        <calcite-card selectable style="--calcite-border-radius: 5px">
+        <calcite-card selectable>
           <h3 slot="title">ArcGIS Online: Gallery and Organization pages</h3>
           <span slot="subtitle"
             >A great example of a study description that might wrap to a line or two, but isn't overly verbose.</span
