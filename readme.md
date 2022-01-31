@@ -4,11 +4,11 @@
 
 # Calcite Components
 
-Shared Web Components for Esri's Calcite Design Systems. To see the components in action, [view the documentation](https://developers.arcgis.com/calcite-design-system/components/).
+Calcite Components, part of Esri's Calcite Design System, is a rich library of flexible, framework-agnostic web components for building applications. View the [documentation](https://developers.arcgis.com/calcite-design-system/components/) for component descriptions, examples, and API reference, which includes properties, slots, styles, and themes.
 
-## Installation
+## Use the CDN
 
-The simplest way to set up the components in your project is to add the following tags in the head of your HTML document:
+The most common approach for loading Calcite Components is to use the version hosted on the CDN. The components can be loaded via `<script>` and `<link>` tags in the head of your HTML document:
 
 ```html
 <script
@@ -22,12 +22,74 @@ The simplest way to set up the components in your project is to add the followin
 />
 ```
 
-Once these tags are added, components can be used just like any other HTML element. Only components that are actually used will be loaded.
+Once these tags are added, components can be used like any other HTML element. Only components that are used in the application will be loaded.
 
-You can also install the components locally with NPM and update the script URLs to reference same files under `node_modules`.
+## Use the NPM package
 
+Calcite Components is also provided as an [NPM package](https://www.npmjs.com/package/@esri/calcite-components). To get started, first install the package, then follow the steps below. Alternatively, you can find examples using different frameworks and build tools [here](https://github.com/Esri/calcite-components-examples).
+
+```sh
+npm install @esri/calcite-components
 ```
-npm install --save @esri/calcite-components
+
+### 1. Build
+
+Choose one of the two builds provided by Calcite Components.
+
+#### Custom Elements
+
+[Custom Elements](https://stenciljs.com/docs/custom-elements) is the recommended build when leveraging a frontend framework. To use this build, you will need to set the path to Calcite Components' assets. You can either use local assets, which will be explained in a subsequent step, or assets hosted on the CDN.
+
+```jsx
+import { setAssetPath } from "@esri/calcite-components/dist/components";
+// CDN hosted assets
+setAssetPath("https://unpkg.com/@esri/calcite-components/dist/calcite/assets");
+
+// Local assets
+// setAssetPath(PATH); // PATH depends on framework, more info below
+```
+
+Next, you need to import each component you use from the custom elements build. This will automatically define the custom elements on the window.
+
+```jsx
+import "@esri/calcite-components/dist/components/calcite-button";
+import "@esri/calcite-components/dist/components/calcite-icon";
+import "@esri/calcite-components/dist/components/calcite-slider";
+```
+
+#### Distribution
+
+When using the [Distribution](https://stenciljs.com/docs/distribution) build, you'll need to define the custom elements on the window. You can also choose between local and CDN hosted assets.
+
+```jsx
+import { defineCustomElements } from "@esri/calcite-components/dist/loader";
+// CDN hosted assets
+defineCustomElements(window, {
+  resourcesUrl: "https://unpkg.com/@esri/calcite-components/dist/calcite/assets"
+});
+
+// Local assets
+// defineCustomElements(window);
+```
+
+Since you defined the custom elements on the window, you do not need to import individual components.
+
+### 2. Assets
+
+Some components, such as `calcite-icon` and `calcite-date-picker`, rely on assets being available at a particular path. As mentioned, with the NPM package you have the option to provide a local path or the URL to the assets hosted on the CDN. Using the CDN hosted assets can help decrease on disk build size.
+
+To use the assets locally, they need to be copied using a build tool or NPM script. The Calcite Components [examples repo](https://github.com/Esri/calcite-components-examples) demonstrates using local assets in a variety of JavaScript frameworks and build tools. Each example has a README with a framework or build tool specific explanation.
+
+```sh
+cp -r node_modules/@esri/calcite-components/dist/calcite/assets/* ./public/assets/
+```
+
+### 3. Styles
+
+Finally, load the Cascading Style Sheet (CSS). This is also dependent on your framework or build tool, however in many cases it can be imported in JavaScript:
+
+```js
+import "@esri/calcite-components/dist/calcite/calcite.css";
 ```
 
 ## TypeScript
@@ -51,18 +113,6 @@ loader.isActive = true;
 const loader = document.querySelector(".my-loader-element") as HTMLCalciteLoaderElement;
 loader.isActive = true;
 ```
-
-### TypeScript with Preact
-
-For preact applications using TypeScript, you must add an additional file to your `tsconfig.json`:
-
-```
-"files": [
-  "node_modules/@esri/calcite-components/dist/types/preact.d.ts"
-],
-```
-
-This allows you to use custom tags and provides auto-complete for calcite-components. See the [Preact + TypeScript example](https://github.com/ArcGIS/calcite-components-examples/tree/master/preact-typescript) for more details.
 
 ## Browser Support
 
