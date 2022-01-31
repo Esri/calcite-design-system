@@ -113,6 +113,14 @@
   }
 }
 
+@media (forced-colors: active) {
+  :host([checked]) {
+    .track {
+      background-color: canvasText;
+    }
+  }
+}
+
 .container:focus {
   @apply focus-outset;
 }
