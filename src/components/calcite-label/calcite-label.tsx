@@ -62,7 +62,7 @@ export class CalciteLabel {
     sourceEvent: MouseEvent;
   }>;
 
-  @Event() onCalciteLabelConnected: EventEmitter;
+  @Event() calciteInternalLabelConnected: EventEmitter;
 
   //--------------------------------------------------------------------------
   //
@@ -83,7 +83,12 @@ export class CalciteLabel {
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
-    this.onCalciteLabelConnected.emit();
+    this.calciteInternalLabelConnected.emit();
+  }
+
+  disconnectedCallback(): void {
+    // Dispatching to body in order to be listened by other elements that are still connected to the DOM.
+    document.body?.dispatchEvent(new CustomEvent("calciteInternalLabelUnregister"));
   }
 
   render(): VNode {
