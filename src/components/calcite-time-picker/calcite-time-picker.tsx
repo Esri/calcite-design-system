@@ -697,205 +697,208 @@ export class CalciteTimePicker {
           [CSS.showSecond]: this.showSecond,
           [CSS[`scale-${this.scale}`]]: true
         }}
-        dir="ltr"
       >
-        <div class={CSS.column} role="group">
-          <span
-            aria-label={this.intlHourUp}
-            class={{
-              [CSS.button]: true,
-              [CSS.buttonHourUp]: true,
-              [CSS.buttonTopLeft]: true
-            }}
-            onClick={this.incrementHour}
-            onKeyDown={this.hourUpButtonKeyDownHandler}
-            role="button"
-            tabIndex={-1}
-          >
-            <calcite-icon icon="chevron-up" scale={iconScale} />
-          </span>
-          <span
-            aria-label={this.intlHour}
-            aria-valuemax="23"
-            aria-valuemin="1"
-            aria-valuenow={(hourIsNumber && parseInt(this.hour)) || "0"}
-            aria-valuetext={this.hour}
-            class={{
-              [CSS.input]: true,
-              [CSS.hour]: true
-            }}
-            onFocus={this.focusHandler}
-            onKeyDown={this.hourKeyDownHandler}
-            ref={this.setHourEl}
-            role="spinbutton"
-            tabIndex={0}
-          >
-            {this.localizedHour || "--"}
-          </span>
-          <span
-            aria-label={this.intlHourDown}
-            class={{
-              [CSS.button]: true,
-              [CSS.buttonHourDown]: true,
-              [CSS.buttonBottomLeft]: true
-            }}
-            onClick={this.decrementHour}
-            onKeyDown={this.hourDownButtonKeyDownHandler}
-            role="button"
-            tabIndex={-1}
-          >
-            <calcite-icon icon="chevron-down" scale={iconScale} />
-          </span>
-        </div>
-        <span class={CSS.delimiter}>{this.localizedHourSuffix}</span>
-        <div class={CSS.column} role="group">
-          <span
-            aria-label={this.intlMinuteUp}
-            class={{
-              [CSS.button]: true,
-              [CSS.buttonMinuteUp]: true
-            }}
-            onClick={this.incrementMinute}
-            onKeyDown={this.minuteUpButtonKeyDownHandler}
-            role="button"
-            tabIndex={-1}
-          >
-            <calcite-icon icon="chevron-up" scale={iconScale} />
-          </span>
-          <span
-            aria-label={this.intlMinute}
-            aria-valuemax="12"
-            aria-valuemin="1"
-            aria-valuenow={(minuteIsNumber && parseInt(this.minute)) || "0"}
-            aria-valuetext={this.minute}
-            class={{
-              [CSS.input]: true,
-              [CSS.minute]: true
-            }}
-            onFocus={this.focusHandler}
-            onKeyDown={this.minuteKeyDownHandler}
-            ref={this.setMinuteEl}
-            role="spinbutton"
-            tabIndex={0}
-          >
-            {this.localizedMinute || "--"}
-          </span>
-          <span
-            aria-label={this.intlMinuteDown}
-            class={{
-              [CSS.button]: true,
-              [CSS.buttonMinuteDown]: true
-            }}
-            onClick={this.decrementMinute}
-            onKeyDown={this.minuteDownButtonKeyDownHandler}
-            role="button"
-            tabIndex={-1}
-          >
-            <calcite-icon icon="chevron-down" scale={iconScale} />
-          </span>
-        </div>
-        {this.showSecond && <span class={CSS.delimiter}>{this.localizedMinuteSuffix}</span>}
-        {this.showSecond && (
+        <span class="main-column" dir="ltr">
           <div class={CSS.column} role="group">
             <span
-              aria-label={this.intlSecondUp}
+              aria-label={this.intlHourUp}
               class={{
                 [CSS.button]: true,
-                [CSS.buttonSecondUp]: true
+                [CSS.buttonHourUp]: true,
+                [CSS.buttonTopLeft]: true
               }}
-              onClick={this.incrementSecond}
-              onKeyDown={this.secondUpButtonKeyDownHandler}
+              onClick={this.incrementHour}
+              onKeyDown={this.hourUpButtonKeyDownHandler}
               role="button"
               tabIndex={-1}
             >
               <calcite-icon icon="chevron-up" scale={iconScale} />
             </span>
             <span
-              aria-label={this.intlSecond}
-              aria-valuemax="59"
-              aria-valuemin="0"
-              aria-valuenow={(secondIsNumber && parseInt(this.second)) || "0"}
-              aria-valuetext={this.second}
-              class={{
-                [CSS.input]: true,
-                [CSS.second]: true
-              }}
-              onFocus={this.focusHandler}
-              onKeyDown={this.secondKeyDownHandler}
-              ref={this.setSecondEl}
-              role="spinbutton"
-              tabIndex={0}
-            >
-              {this.localizedSecond || "--"}
-            </span>
-            <span
-              aria-label={this.intlSecondDown}
-              class={{
-                [CSS.button]: true,
-                [CSS.buttonSecondDown]: true
-              }}
-              onClick={this.decrementSecond}
-              onKeyDown={this.secondDownButtonKeyDownHandler}
-              role="button"
-              tabIndex={-1}
-            >
-              <calcite-icon icon="chevron-down" scale={iconScale} />
-            </span>
-          </div>
-        )}
-        {this.localizedSecondSuffix && (
-          <span class={CSS.delimiter}>{this.localizedSecondSuffix}</span>
-        )}
-        {showMeridiem && (
-          <div class={CSS.column} role="group">
-            <span
-              aria-label={this.intlMeridiemUp}
-              class={{
-                [CSS.button]: true,
-                [CSS.buttonMeridiemUp]: true,
-                [CSS.buttonTopRight]: true
-              }}
-              onClick={this.incrementMeridiem}
-              onKeyDown={this.meridiemUpButtonKeyDownHandler}
-              role="button"
-              tabIndex={-1}
-            >
-              <calcite-icon icon="chevron-up" scale={iconScale} />
-            </span>
-            <span
-              aria-label={this.intlMeridiem}
-              aria-valuemax="2"
+              aria-label={this.intlHour}
+              aria-valuemax="23"
               aria-valuemin="1"
-              aria-valuenow={(this.meridiem === "PM" && "2") || "1"}
-              aria-valuetext={this.meridiem}
+              aria-valuenow={(hourIsNumber && parseInt(this.hour)) || "0"}
+              aria-valuetext={this.hour}
               class={{
                 [CSS.input]: true,
-                [CSS.meridiem]: true
+                [CSS.hour]: true
               }}
               onFocus={this.focusHandler}
-              onKeyDown={this.meridiemKeyDownHandler}
-              ref={this.setMeridiemEl}
+              onKeyDown={this.hourKeyDownHandler}
+              ref={this.setHourEl}
               role="spinbutton"
               tabIndex={0}
             >
-              {this.localizedMeridiem || "--"}
+              {this.localizedHour || "--"}
             </span>
             <span
-              aria-label={this.intlMeridiemDown}
+              aria-label={this.intlHourDown}
               class={{
                 [CSS.button]: true,
-                [CSS.buttonMeridiemDown]: true,
-                [CSS.buttonBottomRight]: true
+                [CSS.buttonHourDown]: true,
+                [CSS.buttonBottomLeft]: true
               }}
-              onClick={this.decrementMeridiem}
-              onKeyDown={this.meridiemDownButtonKeyDownHandler}
+              onClick={this.decrementHour}
+              onKeyDown={this.hourDownButtonKeyDownHandler}
               role="button"
               tabIndex={-1}
             >
               <calcite-icon icon="chevron-down" scale={iconScale} />
             </span>
           </div>
-        )}
+          <span class={CSS.delimiter}>{this.localizedHourSuffix}</span>
+          <div class={CSS.column} role="group">
+            <span
+              aria-label={this.intlMinuteUp}
+              class={{
+                [CSS.button]: true,
+                [CSS.buttonMinuteUp]: true
+              }}
+              onClick={this.incrementMinute}
+              onKeyDown={this.minuteUpButtonKeyDownHandler}
+              role="button"
+              tabIndex={-1}
+            >
+              <calcite-icon icon="chevron-up" scale={iconScale} />
+            </span>
+            <span
+              aria-label={this.intlMinute}
+              aria-valuemax="12"
+              aria-valuemin="1"
+              aria-valuenow={(minuteIsNumber && parseInt(this.minute)) || "0"}
+              aria-valuetext={this.minute}
+              class={{
+                [CSS.input]: true,
+                [CSS.minute]: true
+              }}
+              onFocus={this.focusHandler}
+              onKeyDown={this.minuteKeyDownHandler}
+              ref={this.setMinuteEl}
+              role="spinbutton"
+              tabIndex={0}
+            >
+              {this.localizedMinute || "--"}
+            </span>
+            <span
+              aria-label={this.intlMinuteDown}
+              class={{
+                [CSS.button]: true,
+                [CSS.buttonMinuteDown]: true
+              }}
+              onClick={this.decrementMinute}
+              onKeyDown={this.minuteDownButtonKeyDownHandler}
+              role="button"
+              tabIndex={-1}
+            >
+              <calcite-icon icon="chevron-down" scale={iconScale} />
+            </span>
+          </div>
+          {this.showSecond && <span class={CSS.delimiter}>{this.localizedMinuteSuffix}</span>}
+          {this.showSecond && (
+            <div class={CSS.column} role="group">
+              <span
+                aria-label={this.intlSecondUp}
+                class={{
+                  [CSS.button]: true,
+                  [CSS.buttonSecondUp]: true
+                }}
+                onClick={this.incrementSecond}
+                onKeyDown={this.secondUpButtonKeyDownHandler}
+                role="button"
+                tabIndex={-1}
+              >
+                <calcite-icon icon="chevron-up" scale={iconScale} />
+              </span>
+              <span
+                aria-label={this.intlSecond}
+                aria-valuemax="59"
+                aria-valuemin="0"
+                aria-valuenow={(secondIsNumber && parseInt(this.second)) || "0"}
+                aria-valuetext={this.second}
+                class={{
+                  [CSS.input]: true,
+                  [CSS.second]: true
+                }}
+                onFocus={this.focusHandler}
+                onKeyDown={this.secondKeyDownHandler}
+                ref={this.setSecondEl}
+                role="spinbutton"
+                tabIndex={0}
+              >
+                {this.localizedSecond || "--"}
+              </span>
+              <span
+                aria-label={this.intlSecondDown}
+                class={{
+                  [CSS.button]: true,
+                  [CSS.buttonSecondDown]: true
+                }}
+                onClick={this.decrementSecond}
+                onKeyDown={this.secondDownButtonKeyDownHandler}
+                role="button"
+                tabIndex={-1}
+              >
+                <calcite-icon icon="chevron-down" scale={iconScale} />
+              </span>
+            </div>
+          )}
+        </span>
+        <span class="main-column">
+          {this.localizedSecondSuffix && (
+            <span class={CSS.delimiter}>{this.localizedSecondSuffix}</span>
+          )}
+          {showMeridiem && (
+            <div class={CSS.column} role="group">
+              <span
+                aria-label={this.intlMeridiemUp}
+                class={{
+                  [CSS.button]: true,
+                  [CSS.buttonMeridiemUp]: true,
+                  [CSS.buttonTopRight]: true
+                }}
+                onClick={this.incrementMeridiem}
+                onKeyDown={this.meridiemUpButtonKeyDownHandler}
+                role="button"
+                tabIndex={-1}
+              >
+                <calcite-icon icon="chevron-up" scale={iconScale} />
+              </span>
+              <span
+                aria-label={this.intlMeridiem}
+                aria-valuemax="2"
+                aria-valuemin="1"
+                aria-valuenow={(this.meridiem === "PM" && "2") || "1"}
+                aria-valuetext={this.meridiem}
+                class={{
+                  [CSS.input]: true,
+                  [CSS.meridiem]: true
+                }}
+                onFocus={this.focusHandler}
+                onKeyDown={this.meridiemKeyDownHandler}
+                ref={this.setMeridiemEl}
+                role="spinbutton"
+                tabIndex={0}
+              >
+                {this.localizedMeridiem || "--"}
+              </span>
+              <span
+                aria-label={this.intlMeridiemDown}
+                class={{
+                  [CSS.button]: true,
+                  [CSS.buttonMeridiemDown]: true,
+                  [CSS.buttonBottomRight]: true
+                }}
+                onClick={this.decrementMeridiem}
+                onKeyDown={this.meridiemDownButtonKeyDownHandler}
+                role="button"
+                tabIndex={-1}
+              >
+                <calcite-icon icon="chevron-down" scale={iconScale} />
+              </span>
+            </div>
+          )}
+        </span>
       </div>
     );
   }

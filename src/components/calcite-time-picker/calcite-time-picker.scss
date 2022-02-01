@@ -18,6 +18,10 @@
       flex-col;
   }
 
+  .main-column {
+    @apply flex;
+  }
+
   .button {
     @apply bg-foreground-1
       cursor-pointer
