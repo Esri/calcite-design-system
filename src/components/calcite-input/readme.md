@@ -42,10 +42,10 @@ function logChange() {
 Using a wrapping `calcite-label` component lets consumers set the status attribute once and have it propagate to child `calcite-input` and `calcite-input-message` elements
 
 ```html
-<calcite-label for="invalid-input">
+<calcite-label status="invalid" for="invalid-input">
   Invalid input
-  <calcite-input id="invalid-input" placeholder="Filter your files" status="invalid" value="adfo2h2"></calcite-input>
-  <calcite-input-message active icon status="invalid"> Something doesn't look right </calcite-input-message>
+  <calcite-input id="invalid-input" placeholder="Filter your files" value="adfo2h2"></calcite-input>
+  <calcite-input-message active icon> Something doesn't look right </calcite-input-message>
 </calcite-label>
 ```
 

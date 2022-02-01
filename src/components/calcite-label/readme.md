@@ -8,11 +8,13 @@ Renders a `<label>` around its children and can be used with any [labelable nati
 
 ### Basic
 
+It also allows consumers to set a `status` attribute for child `calcite-input` and `calcite-input-message` components to use to set their own properties.
+
 ```html
-<calcite-label>
+<calcite-label status="invalid">
   Invalid input
-  <calcite-input type="search" placeholder="Filter your files" value="adfo2h2" status="invalid"></calcite-input>
-  <calcite-input-message active icon status="invalid"> Something doesn't look right </calcite-input-message>
+  <calcite-input type="search" placeholder="Filter your files" value="adfo2h2"></calcite-input>
+  <calcite-input-message active icon> Something doesn't look right </calcite-input-message>
 </calcite-label>
 ```
 
@@ -29,15 +31,15 @@ When using the `default`, `inline` or `inline-space-between` layout option with 
 
 ## Properties
 
-| Property         | Attribute         | Description                                                          | Type                                              | Default     |
-| ---------------- | ----------------- | -------------------------------------------------------------------- | ------------------------------------------------- | ----------- |
-| `alignment`      | `alignment`       | specify the text alignment of the label                              | `"center" \| "end" \| "start"`                    | `"start"`   |
-| `disableSpacing` | `disable-spacing` | eliminates any space around the label                                | `boolean`                                         | `false`     |
-| `disabled`       | `disabled`        | is the label disabled                                                | `boolean`                                         | `false`     |
-| `for`            | `for`             | The id of the input associated with the label                        | `string`                                          | `undefined` |
-| `layout`         | `layout`          | is the wrapped element positioned inline with the label slotted text | `"default" \| "inline" \| "inline-space-between"` | `"default"` |
-| `scale`          | `scale`           | specify the scale of the label, defaults to m                        | `"l" \| "m" \| "s"`                               | `"m"`       |
-| `status`         | `status`          | specify the status of the label and any child input / input messages | `"idle" \| "invalid" \| "valid"`                  | `"idle"`    |
+| Property         | Attribute         | Description                                                                                                                                                         | Type                                              | Default     |
+| ---------------- | ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------- | ----------- |
+| `alignment`      | `alignment`       | specify the text alignment of the label                                                                                                                             | `"center" \| "end" \| "start"`                    | `"start"`   |
+| `disableSpacing` | `disable-spacing` | eliminates any space around the label                                                                                                                               | `boolean`                                         | `false`     |
+| `disabled`       | `disabled`        | is the label disabled                                                                                                                                               | `boolean`                                         | `false`     |
+| `for`            | `for`             | The id of the input associated with the label                                                                                                                       | `string`                                          | `undefined` |
+| `layout`         | `layout`          | is the wrapped element positioned inline with the label slotted text                                                                                                | `"default" \| "inline" \| "inline-space-between"` | `"default"` |
+| `scale`          | `scale`           | specify the scale of the label, defaults to m                                                                                                                       | `"l" \| "m" \| "s"`                               | `"m"`       |
+| `status`         | `status`          | <span style="color:red">**[DEPRECATED]**</span> set directly on child element instead<br/><br/>specify the status of the label and any child input / input messages | `"idle" \| "invalid" \| "valid"`                  | `"idle"`    |
 
 ## Slots
 
