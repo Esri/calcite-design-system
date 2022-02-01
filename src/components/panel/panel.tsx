@@ -13,7 +13,7 @@ import {
 import { CSS, HEADING_LEVEL, ICONS, SLOTS, TEXT } from "./resources";
 import { getElementDir, getSlotted } from "../../utils/dom";
 import { Scale } from "../interfaces";
-import { HeadingLevel, CalciteHeading } from "../functional/CalciteHeading";
+import { HeadingLevel, Heading } from "../functional/Heading";
 import { SLOTS as ACTION_MENU_SLOTS } from "../action-menu/resources";
 import {
   ConditionalSlotComponent,
@@ -290,9 +290,9 @@ export class Panel implements ConditionalSlotComponent, InteractiveComponent {
   renderHeaderContent(): VNode {
     const { heading, headingLevel, summary } = this;
     const headingNode = heading ? (
-      <CalciteHeading class={CSS.heading} level={headingLevel || HEADING_LEVEL}>
+      <Heading class={CSS.heading} level={headingLevel || HEADING_LEVEL}>
         {heading}
-      </CalciteHeading>
+      </Heading>
     ) : null;
 
     const summaryNode = summary ? <span class={CSS.summary}>{summary}</span> : null;

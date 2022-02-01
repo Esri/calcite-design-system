@@ -1,7 +1,7 @@
 import { Component, Element, Event, EventEmitter, h, Host, Prop, VNode } from "@stencil/core";
 import { CSS, HEADING_LEVEL, ICONS, SLOTS, TEXT } from "./resources";
 import { getSlotted } from "../../utils/dom";
-import { CalciteHeading, HeadingLevel } from "../functional/CalciteHeading";
+import { Heading, HeadingLevel } from "../functional/Heading";
 import { Status } from "../interfaces";
 import {
   ConditionalSlotComponent,
@@ -192,9 +192,9 @@ export class Block implements ConditionalSlotComponent, InteractiveComponent {
     const { heading, headingLevel, summary } = this;
     return heading || summary ? (
       <div class={CSS.title}>
-        <CalciteHeading class={CSS.heading} level={headingLevel || HEADING_LEVEL}>
+        <Heading class={CSS.heading} level={headingLevel || HEADING_LEVEL}>
           {heading}
-        </CalciteHeading>
+        </Heading>
         {summary ? <div class={CSS.summary}>{summary}</div> : null}
       </div>
     ) : null;

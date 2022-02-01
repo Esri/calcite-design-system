@@ -1,6 +1,6 @@
 import { Component, Element, h, VNode, Host, Prop, Method } from "@stencil/core";
 import { CSS } from "./resources";
-import { HeadingLevel } from "../functional/CalciteHeading";
+import { HeadingLevel } from "../functional/Heading";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 
 /**
