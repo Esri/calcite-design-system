@@ -539,7 +539,8 @@ export async function disabled(componentTagOrHtml: TagOrHTML): Promise<void> {
   await expectToBeFocused(tag);
 
   const [shadowFocusableX, shadowFocusableY] = await page.$eval(tag, (element: HTMLElement) => {
-    const rect = element.shadowRoot.activeElement.getBoundingClientRect();
+    const focusTarget = element.shadowRoot.activeElement || element;
+    const rect = focusTarget.getBoundingClientRect();
     return [rect.x, rect.y];
   });
 
