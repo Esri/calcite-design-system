@@ -81,6 +81,10 @@ describe("calcite-popover", () => {
       {
         propertyName: "overlayPositioning",
         defaultValue: "absolute"
+      },
+      {
+        propertyName: "group",
+        defaultValue: undefined
       }
     ]));
 
