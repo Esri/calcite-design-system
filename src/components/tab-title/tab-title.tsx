@@ -32,7 +32,7 @@ import { InteractiveComponent, updateHostInteraction } from "../../utils/interac
 export class TabTitle implements InteractiveComponent {
   //--------------------------------------------------------------------------
   //
-  //  Events
+  //  Element
   //
   //--------------------------------------------------------------------------
 
