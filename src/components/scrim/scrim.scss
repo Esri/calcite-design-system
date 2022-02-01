@@ -1,0 +1,36 @@
+:host {
+  @apply flex
+  absolute
+  z-50
+  flex-col
+  items-stretch
+  w-full
+  h-full
+  inset-0;
+}
+
+@keyframes calcite-scrim-fade-in {
+  0% {
+    @apply bg-opacity-0;
+  }
+  100% {
+    @apply text-opacity-100;
+  }
+}
+
+.scrim {
+  @apply flex
+  absolute
+  overflow-hidden
+  inset-0
+  content-center
+  items-center
+  flex-col
+  justify-center;
+  animation: -scrim-fade-in var(--calcite-internal-animation-timing-medium) ease-in-out;
+  background-color: var(--calcite-scrim-background);
+}
+
+.content {
+  @apply p-4;
+}
