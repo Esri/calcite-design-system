@@ -32,7 +32,7 @@ export interface LabelableComponent {
  * @internal
  */
 export const labelClickEvent = "calciteInternalLabelClick";
-export const labelConnectedEvent = "calciteInternalLabelRegister";
+export const labelConnectedEvent = "calciteInternalLabelConnected";
 export const labelDisconnectedEvent = "calciteInternalLabelUnregister";
 
 const labelTagName = "calcite-label";
@@ -108,10 +108,13 @@ export function connectLabel(component: LabelableComponent): void {
     addClickEventListenerToComponentLabel();
     unlabeledComponents.delete(component);
     document.removeEventListener(labelConnectedEvent, boundOnLabelConnected);
-    document.addEventListener(labelDisconnectedEvent, boundOnLabelDisconnected);
-  } else {
-    boundOnLabelDisconnected();
-    document.removeEventListener(labelDisconnectedEvent, boundOnLabelDisconnected);
+    document.body.addEventListener(labelDisconnectedEvent, boundOnLabelDisconnected);
+  }
+
+  if (!labelEl) {
+    unlabeledComponents.add(component);
+    document.addEventListener(labelConnectedEvent, boundOnLabelConnected);
+    document.body.removeEventListener(labelDisconnectedEvent, boundOnLabelDisconnected);
   }
 }
 
@@ -123,7 +126,7 @@ export function disconnectLabel(component: LabelableComponent): void {
   const boundOnLabelDisconnected = onLabelDisconnected.bind(component);
   unlabeledComponents.delete(component);
   document.removeEventListener(labelConnectedEvent, boundOnLabelConnected);
-  document.removeEventListener(labelDisconnectedEvent, boundOnLabelDisconnected);
+  document.body.removeEventListener(labelDisconnectedEvent, boundOnLabelDisconnected);
 
   if (!component.labelEl) {
     return;

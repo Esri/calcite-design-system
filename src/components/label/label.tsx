@@ -1,7 +1,6 @@
 import { Component, Element, Event, h, Prop, EventEmitter, VNode, Host } from "@stencil/core";
 import { Alignment, Scale, Status } from "../interfaces";
 import { CSS } from "./resources";
-import { labelDisconnectedEvent } from "../../utils/label";
 
 /**
  * @slot - A slot for adding text and a component that can be labeled.
@@ -63,10 +62,7 @@ export class Label {
     sourceEvent: MouseEvent;
   }>;
 
-  /**
-   * @internal
-   */
-  @Event() calciteInternalLabelRegister: EventEmitter;
+  @Event() calciteInternalLabelConnected: EventEmitter;
 
   //--------------------------------------------------------------------------
   //
@@ -87,12 +83,12 @@ export class Label {
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
-    this.calciteInternalLabelRegister.emit();
+    this.calciteInternalLabelConnected.emit();
   }
 
   disconnectedCallback(): void {
-    // Dispatching to document in order to be listened by other elements that are still connected to the DOM.
-    document?.dispatchEvent(new CustomEvent(labelDisconnectedEvent));
+    // Dispatching to body in order to be listened by other elements that are still connected to the DOM.
+    document.body?.dispatchEvent(new CustomEvent("calciteInternalLabelUnregister"));
   }
 
   render(): VNode {
