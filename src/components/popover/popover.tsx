@@ -75,6 +75,11 @@ export class Popover {
   @Prop() flipPlacements?: Placement[];
 
   /**
+   * Allows grouping of popovers to identify which to automatically close.
+   */
+  @Prop() group?: string;
+
+  /**
    * Heading text.
    */
   @Prop() heading?: string;

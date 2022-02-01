@@ -28,6 +28,7 @@ export class PopoverManager {
   /**
    * CSS Selector to match reference elements for popovers. Reference elements will be identified by this selector in order to open their associated popover.
    * @default `[data-calcite-popover-reference]`
+   * @deprecated Will be removed in a future release.
    */
   @Prop() selector = `[${POPOVER_REFERENCE}]`;
 
@@ -35,6 +36,11 @@ export class PopoverManager {
    * Automatically closes any currently open popovers when clicking outside of a popover.
    */
   @Prop({ reflect: true }) autoClose = false;
+
+  /**
+   * Allows grouping of popovers to identify which to automatically close.
+   */
+  @Prop() group?: string;
 
   // --------------------------------------------------------------------------
   //
@@ -80,7 +86,7 @@ export class PopoverManager {
 
   @Listen("click", { target: "window", capture: true })
   closeOpenPopovers(event: Event): void {
-    const { autoClose, el } = this;
+    const { autoClose, el, group } = this;
     const popoverSelector = "calcite-popover";
     const composedPath = event.composedPath();
     const popover = this.queryPopover(composedPath);
@@ -92,7 +98,12 @@ export class PopoverManager {
 
     if (autoClose) {
       (queryElementsRoots(el, popoverSelector) as HTMLCalcitePopoverElement[])
-        .filter((popover) => popover.open && !composedPath.includes(popover))
+        .filter(
+          (popover) =>
+            popover.open &&
+            (group ? popover.group === group : true) &&
+            !composedPath.includes(popover)
+        )
         .forEach((popover) => popover.toggle(false));
     }
   }
