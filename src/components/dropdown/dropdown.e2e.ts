@@ -25,7 +25,15 @@ describe("calcite-dropdown", () => {
       }
     ]));
 
-  it("can be disabled", () => disabled("calcite-dropdown"));
+  it("can be disabled", () =>
+    disabled(`<calcite-dropdown>
+        <calcite-button slot="dropdown-trigger">Open dropdown</calcite-button>
+        <calcite-dropdown-group id="group-1">
+          <calcite-dropdown-item id="item-1"> Dropdown Item Content </calcite-dropdown-item>
+          <calcite-dropdown-item id="item-2" active> Dropdown Item Content </calcite-dropdown-item>
+          <calcite-dropdown-item id="item-3"> Dropdown Item Content </calcite-dropdown-item>
+        </calcite-dropdown-group>
+      </calcite-dropdown>`));
 
   /**
    * Test helper for selected calcite-dropdown items. Expects items to have IDs to test against.

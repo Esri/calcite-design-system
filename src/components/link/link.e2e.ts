@@ -18,7 +18,7 @@ describe("calcite-link", () => {
     await accessible("<calcite-link icon-start='plus' icon-end='plus' href='/'>Go</calcite-link>");
   });
 
-  it("can be disabled", () => disabled("calcite-link"));
+  it("can be disabled", () => disabled(`<calcite-link href='/'>link</calcite-link>`));
 
   it("sets download attribute on internal anchor", async () => {
     const page = await newE2EPage();
