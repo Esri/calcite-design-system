@@ -26,15 +26,17 @@ export interface InteractiveComponent {
  * * technically, users can override `tabindex` and restore keyboard navigation, but this will be considered user error
  */
 export function updateHostInteraction(component: InteractiveComponent, hostIsTabbable = false): void {
-  if (hostIsTabbable) {
-    component.el.setAttribute("tabindex", component.disabled ? "-1" : "0");
-  } else {
-    if (component.disabled) {
-      component.el.setAttribute("tabindex", "-1");
-    } else {
-      component.el.removeAttribute("tabindex");
-    }
+  if (component.disabled) {
+    component.el.setAttribute("tabindex", "-1");
+    component.el.setAttribute("aria-disabled", "true");
+    return;
   }
 
-  component.el.setAttribute("aria-disabled", component.disabled.toString());
+  if (hostIsTabbable) {
+    component.el.setAttribute("tabindex", "0");
+  } else {
+    component.el.removeAttribute("tabindex");
+  }
+
+  component.el.removeAttribute("aria-disabled");
 }

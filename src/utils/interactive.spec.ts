@@ -16,7 +16,7 @@ describe("interactive", () => {
     updateHostInteraction(fakeInteractive);
 
     expect(fakeInteractiveEl.getAttribute("tabindex")).toBeNull();
-    expect(fakeInteractiveEl.getAttribute("aria-disabled")).toBe("false");
+    expect(fakeInteractiveEl.getAttribute("aria-disabled")).toBeNull();
 
     fakeInteractive.disabled = true;
 

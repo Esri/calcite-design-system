@@ -533,7 +533,7 @@ export async function disabled(componentTagOrHtml: TagOrHTML): Promise<void> {
     expect(await page.evaluate((tag: string) => document.activeElement.matches(tag), tag)).toBe(true);
   }
 
-  expect(component.getAttribute("aria-disabled")).toBe("false");
+  expect(component.getAttribute("aria-disabled")).toBeNull();
 
   await page.keyboard.press("Tab");
   await expectToBeFocused(tag);
