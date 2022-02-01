@@ -44,7 +44,7 @@
     "test:watch": "npm run util:run-tests -- --watchAll",
     "util:build-docs": "npm run util:copy-icons && stencil build --config stencil.storybook.config.ts",
     "util:clean-tested-build": "npm ci && npm test && npm run build",
-    "util:copy-icons": "cpy ./node_modules/@esri/calcite-ui-icons/js/*.json ./src/components/calcite-icon/assets/calcite-icon/",
+    "util:copy-icons": "cpy ./node_modules/@esri/calcite-ui-icons/js/*.json ./src/components/icon/assets/icon/",
     "util:deploy-next-from-existing-build": "npm run util:prep-next-from-existing-build && npm run util:push-tags && npm run util:publish-next",
     "util:deploy-next-from-ci": "ts-node --project ./tsconfig-node-scripts.json support/deployNextFromCI.ts",
     "util:check-squash-mergeable-branch": "ts-node --project ./tsconfig-node-scripts.json support/checkSquashMergeableBranch.ts",
