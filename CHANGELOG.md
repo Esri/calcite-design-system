@@ -3,9 +3,7 @@
 This document maintains a list of released versions and changes introduced by them.
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
-<!--@unreleased-section-start-->
-
-## Unreleased
+## [1.0.0-beta.76](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.75...v1.0.0-beta.76) (2022-02-01)
 
 ### Features
 
@@ -23,7 +21,6 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - **input:** correct negative values in ar and et locales ([#4020](https://github.com/Esri/calcite-components/issues/4020)) ([c8de9f0](https://github.com/Esri/calcite-components/commit/c8de9f0f8d0cba974a5c17da58b2a125b80ecd99))
 - **switch:** provide a selected color to track element ([#3987](https://github.com/Esri/calcite-components/issues/3987)) ([#3991](https://github.com/Esri/calcite-components/issues/3991)) ([8a4dcbe](https://github.com/Esri/calcite-components/commit/8a4dcbeb4301be61479227afc95f37300d49e09c))
 - **time-picker:** match rtl order with ltr ([#3993](https://github.com/Esri/calcite-components/issues/3993)) ([ccca4c5](https://github.com/Esri/calcite-components/commit/ccca4c5a871b5d84636dadcd98f9e51c605f32b3))
-<!--@unreleased-section-end-->
 
 ## [1.0.0-beta.75](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.74...v1.0.0-beta.75) (2022-01-20)
 
