@@ -177,7 +177,7 @@ describe("calcite-popover-manager", () => {
     const popover1 = await page.find("#popover1");
     const popover2 = await page.find("#popover2");
 
-    expect(await popover1.getProperty("open")).toBe(false);
-    expect(await popover2.getProperty("open")).toBe(true);
+    expect(await popover1.getProperty("open")).toBe(true);
+    expect(await popover2.getProperty("open")).toBe(false);
   });
 });
