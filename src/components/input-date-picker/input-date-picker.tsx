@@ -35,7 +35,7 @@ import {
 } from "../../utils/popper";
 import { StrictModifiers, Instance as Popper } from "@popperjs/core";
 import { DateRangeChange } from "../date-picker/interfaces";
-import { InteractiveComponent } from "../../utils/interactive";
+import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 
 const DEFAULT_PLACEMENT = "bottom-leading";
 
@@ -333,6 +333,10 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
     this.destroyPopper();
     disconnectLabel(this);
     disconnectForm(this);
+  }
+
+  componentDidRender(): void {
+    updateHostInteraction(this);
   }
 
   render(): VNode {

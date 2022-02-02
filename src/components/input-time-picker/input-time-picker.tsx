@@ -17,7 +17,7 @@ import { formatTimeString, isValidTime, localizeTimeString } from "../../utils/t
 import { Scale } from "../interfaces";
 import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
 import { connectForm, disconnectForm, FormComponent, HiddenFormInputSlot } from "../../utils/form";
-import { InteractiveComponent } from "../../utils/interactive";
+import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 
 @Component({
   tag: "calcite-input-time-picker",
@@ -358,6 +358,10 @@ export class InputTimePicker implements LabelableComponent, FormComponent, Inter
   disconnectedCallback() {
     disconnectLabel(this);
     disconnectForm(this);
+  }
+
+  componentDidRender(): void {
+    updateHostInteraction(this);
   }
 
   // --------------------------------------------------------------------------

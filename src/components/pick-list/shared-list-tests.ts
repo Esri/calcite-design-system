@@ -583,5 +583,15 @@ export function focusing(listType: ListType): void {
 }
 
 export function disabling(listType: ListType): void {
-  it("can be disabled", () => disabled(`calcite-${listType}`));
+  it("can be disabled", () =>
+    disabled(
+      html`
+      <calcite-${listType}-list>
+        <calcite-${listType}-list-item label="Sample" value="one"></calcite-${listType}-list-item>
+      </calcite-${listType}-list>
+    `,
+      {
+        focusTarget: "child"
+      }
+    ));
 }

@@ -3,7 +3,7 @@ import { CSS } from "./resources";
 import { ButtonAppearance, ButtonColor, DropdownIconType } from "../button/interfaces";
 import { FlipContext, Scale, Width } from "../interfaces";
 import { OverlayPositioning } from "../../utils/popper";
-import { InteractiveComponent } from "../../utils/interactive";
+import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 
 /**
  * @slot - A slot for adding `calcite-dropdown` content.
@@ -84,6 +84,16 @@ export class SplitButton implements InteractiveComponent {
 
   /** fired when the secondary button is clicked */
   @Event() calciteSplitButtonSecondaryClick: EventEmitter;
+
+  //--------------------------------------------------------------------------
+  //
+  //  Lifecycle
+  //
+  //--------------------------------------------------------------------------
+
+  componentDidRender(): void {
+    updateHostInteraction(this);
+  }
 
   render(): VNode {
     const widthClasses = {
