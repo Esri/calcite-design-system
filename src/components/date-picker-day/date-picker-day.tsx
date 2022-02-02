@@ -129,12 +129,7 @@ export class DatePickerDay implements InteractiveComponent {
       .join("");
     const dir = getElementDir(this.el);
     return (
-      <Host
-        onClick={this.onClick}
-        onKeyDown={this.keyDownHandler}
-        role="gridcell"
-        tabindex={this.active ? 0 : -1}
-      >
+      <Host onClick={this.onClick} onKeyDown={this.keyDownHandler} role="gridcell">
         <div class={{ "day-v-wrapper": true, [CSS_UTILITY.rtl]: dir === "rtl" }}>
           <div class="day-wrapper">
             <span class="day">

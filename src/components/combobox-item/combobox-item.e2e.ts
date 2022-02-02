@@ -7,5 +7,5 @@ describe("calcite-combobox-item", () => {
 
   it("has slots", () => slots("calcite-combobox-item", [], true));
 
-  it("can be disabled", () => disabled("calcite-combobox-item"));
+  it("can be disabled", () => disabled("calcite-combobox-item", { focusable: false }));
 });

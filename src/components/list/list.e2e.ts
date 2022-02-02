@@ -30,5 +30,8 @@ describe("calcite-list", () => {
   </calcite-list>`);
   });
 
-  it("can be disabled", () => disabled("calcite-list"));
+  it("can be disabled", () =>
+    disabled(html`<calcite-list>
+      <calcite-list-item label="test" description="hello world"></calcite-list-item>
+    </calcite-list>`));
 });
