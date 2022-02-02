@@ -16,7 +16,7 @@ import { Scale } from "../interfaces";
 import { LabelableComponent, connectLabel, disconnectLabel } from "../../utils/label";
 import { connectForm, disconnectForm, FormComponent, HiddenFormInputSlot } from "../../utils/form";
 import { TEXT } from "./resources";
-import { InteractiveComponent } from "../../utils/interactive";
+import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 
 @Component({
   tag: "calcite-rating",
@@ -95,6 +95,10 @@ export class Rating implements LabelableComponent, FormComponent, InteractiveCom
     disconnectForm(this);
   }
 
+  componentDidRender(): void {
+    updateHostInteraction(this);
+  }
+
   //--------------------------------------------------------------------------
   //
   //  Events
@@ -159,6 +163,10 @@ export class Rating implements LabelableComponent, FormComponent, InteractiveCom
             id={`${this.guid}-${i}`}
             name={this.guid}
             onChange={() => this.updateValue(i)}
+            onClick={(event) =>
+              // click is fired from the the component's label, so we treat this as an internal event
+              event.stopPropagation()
+            }
             onFocus={() => {
               this.hasFocus = true;
               this.focusValue = i;
