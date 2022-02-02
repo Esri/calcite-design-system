@@ -1,5 +1,6 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { renders } from "../../tests/commonTests";
+import { html } from "../../tests/utils";
 
 describe("calcite-label", () => {
   it("renders", () => renders("calcite-label", { display: "inline" }));
@@ -173,5 +174,39 @@ describe("calcite-label", () => {
     const eventDetail: any = await page.evaluateHandle(() => (window as any).eventDetail);
 
     expect(eventDetail).toBeTruthy();
+  });
+
+  describe("label click behavior", () => {
+    it("works when label is rendered before input", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html` <calcite-label></calcite-label> `);
+      await page.$eval(
+        "calcite-label",
+        (node) => ((node as HTMLElement).innerHTML = `<calcite-switch></calcite-switch>`)
+      );
+      await page.click("calcite-label", { clickCount: 1 });
+    });
+
+    it("works when label is rendered after input", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html` <calcite-switch id="switch"></calcite-switch> `);
+      await page.waitForTimeout(100);
+      await page.evaluate(() => `<calcite-label for='switch'></calcite-label>`);
+    });
+
+    it("works when label is removed and added back", async () => {
+      const page = await newE2EPage();
+      await page.setContent(
+        html`
+          <calcite-label for="switch">
+            <calcite-switch id="switch"></calcite-switch>
+          </calcite-label>
+        `
+      );
+      await page.waitForTimeout(100);
+      await page.evaluate(() => document.querySelector("calcite-label").remove());
+      await page.waitForTimeout(100);
+      await page.evaluate(() => `<calcite-label for='switch'></calcite-label>`);
+    });
   });
 });

@@ -91,8 +91,8 @@ export class Label {
   }
 
   disconnectedCallback(): void {
-    // Dispatching to body in order to be listened by other elements that are still connected to the DOM.
-    document?.dispatchEvent(new CustomEvent(labelDisconnectedEvent));
+    // Dispatching to document in order to be listened by other elements that are still connected to the DOM.
+    document.dispatchEvent(new CustomEvent(labelDisconnectedEvent));
   }
 
   render(): VNode {
