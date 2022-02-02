@@ -128,7 +128,7 @@ export class StepperItem implements InteractiveComponent {
   }
 
   componentDidRender(): void {
-    updateHostInteraction(this);
+    updateHostInteraction(this, true);
   }
 
   render(): VNode {
