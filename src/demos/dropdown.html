@@ -42,6 +42,18 @@
   </head>
 
   <body>
+    <div class="child">
+      <calcite-button id="reftest" icon-end="hamburger" appearance="outline" slot="dropdown-trigger"
+        >Scale S</calcite-button
+      >
+      <calcite-dropdown reference-element="reftest" scale="s" width="s">
+        <calcite-dropdown-group group-title="View">
+          <calcite-dropdown-item icon-end="list-bullet" active>List</calcite-dropdown-item>
+          <calcite-dropdown-item icon-end="grid">Grid</calcite-dropdown-item>
+          <calcite-dropdown-item icon-end="table">Table</calcite-dropdown-item>
+        </calcite-dropdown-group>
+      </calcite-dropdown>
+    </div>
     <!-- Headers -->
     <div class="parent">
       <div class="child"></div>

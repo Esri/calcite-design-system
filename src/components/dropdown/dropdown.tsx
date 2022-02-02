@@ -8,12 +8,13 @@ import {
   Listen,
   Method,
   Prop,
+  State,
   VNode,
   Watch
 } from "@stencil/core";
 import { DropdownPlacement, ItemKeyboardEvent } from "./interfaces";
 
-import { focusElement, getSlotted } from "../../utils/dom";
+import { focusElement, getSlotted, queryElementRoots } from "../../utils/dom";
 import {
   createPopper,
   CSS as PopperCSS,
@@ -24,6 +25,14 @@ import { Instance as Popper, StrictModifiers } from "@popperjs/core";
 import { Scale } from "../interfaces";
 import { DefaultDropdownPlacement, SLOTS } from "./resources";
 import { createObserver } from "../../utils/observers";
+import {
+  ConditionalSlotComponent,
+  connectConditionalSlotComponent,
+  disconnectConditionalSlotComponent
+} from "../../utils/conditionalSlot";
+
+const ARIA_EXPANDED = "aria-expanded";
+const ARIA_HASPOPUP = "aria-haspopup";
 
 /**
  * @slot - A slot for adding `calcite-dropdown-group`s or `calcite-dropdown-item`s.
@@ -34,7 +43,7 @@ import { createObserver } from "../../utils/observers";
   styleUrl: "dropdown.scss",
   shadow: true
 })
-export class Dropdown {
+export class Dropdown implements ConditionalSlotComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -108,6 +117,16 @@ export class Dropdown {
   /** specify the width of dropdown, defaults to m */
   @Prop({ reflect: true }) width: Scale = "m";
 
+  /**
+   * Reference HTMLElement used to position this component according to the placement property. As a convenience, a string ID of the reference element can be used. However, setting this property to use an HTMLElement is preferred so that the component does not need to query the DOM for the referenceElement.
+   */
+  @Prop() referenceElement?: HTMLElement | string;
+
+  @Watch("referenceElement")
+  referenceElementHandler(): void {
+    this.setUpReferenceElement();
+  }
+
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -116,18 +135,34 @@ export class Dropdown {
 
   connectedCallback(): void {
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
-    this.createPopper();
     this.updateItems();
+    connectConditionalSlotComponent(this);
   }
 
-  componentDidLoad(): void {
-    this.reposition();
+  componentWillLoad(): void {
+    this.setUpReferenceElement();
   }
 
   disconnectedCallback(): void {
     this.mutationObserver?.disconnect();
     this.resizeObserver?.disconnect();
     this.destroyPopper();
+    disconnectConditionalSlotComponent(this);
+  }
+
+  renderTriggerNode(): VNode {
+    const { el, active } = this;
+
+    return getSlotted(el, SLOTS.dropdownTrigger) ? (
+      <div
+        class="calcite-dropdown-trigger-container"
+        onClick={this.openCalciteDropdown} // todo
+        onKeyDown={this.keyDownHandler} // todo
+        ref={this.setReferenceEl}
+      >
+        <slot aria-expanded={active.toString()} aria-haspopup="true" name={SLOTS.dropdownTrigger} />
+      </div>
+    ) : null;
   }
 
   render(): VNode {
@@ -135,18 +170,7 @@ export class Dropdown {
 
     return (
       <Host tabIndex={this.disabled ? -1 : null}>
-        <div
-          class="calcite-dropdown-trigger-container"
-          onClick={this.openCalciteDropdown}
-          onKeyDown={this.keyDownHandler}
-          ref={this.setReferenceEl}
-        >
-          <slot
-            aria-expanded={active.toString()}
-            aria-haspopup="true"
-            name={SLOTS.dropdownTrigger}
-          />
-        </div>
+        {this.renderTriggerNode()}
         <div
           aria-hidden={(!active).toString()}
           class="calcite-dropdown-wrapper"
@@ -210,7 +234,12 @@ export class Dropdown {
 
   @Listen("click", { target: "window" })
   closeCalciteDropdownOnClick(e: Event): void {
-    if (!this.active || e.composedPath().includes(this.el)) {
+    const composedPath = e.composedPath();
+    if (
+      !this.active ||
+      composedPath.includes(this.el) ||
+      composedPath.includes(this.effectiveReferenceElement)
+    ) {
       return;
     }
 
@@ -301,6 +330,8 @@ export class Dropdown {
   //
   //--------------------------------------------------------------------------
 
+  @State() effectiveReferenceElement: HTMLElement = null;
+
   private items: HTMLCalciteDropdownItemElement[] = [];
 
   /** trigger elements */
@@ -310,7 +341,7 @@ export class Dropdown {
 
   private menuEl: HTMLDivElement;
 
-  private referenceEl: HTMLDivElement;
+  private triggerEl: HTMLDivElement;
 
   private activeTransitionProp = "visibility";
 
@@ -325,6 +356,67 @@ export class Dropdown {
   //  Private Methods
   //
   //--------------------------------------------------------------------------
+
+  getReferenceElement(): HTMLElement {
+    const { referenceElement, el } = this;
+
+    return (
+      (typeof referenceElement === "string"
+        ? queryElementRoots(el, { id: referenceElement })
+        : referenceElement) || null
+    );
+  }
+
+  removeReferences = (): void => {
+    const { effectiveReferenceElement } = this;
+
+    if (!effectiveReferenceElement) {
+      return;
+    }
+
+    effectiveReferenceElement.removeEventListener("click", this.openCalciteDropdown);
+    effectiveReferenceElement.removeEventListener("keydown", this.keyDownHandler);
+    effectiveReferenceElement.removeAttribute(ARIA_EXPANDED);
+    effectiveReferenceElement.removeAttribute(ARIA_HASPOPUP);
+  };
+
+  setExpandedAttr = (): void => {
+    const { effectiveReferenceElement, active } = this;
+
+    if (!effectiveReferenceElement) {
+      return;
+    }
+
+    effectiveReferenceElement.setAttribute(ARIA_EXPANDED, active.toString());
+  };
+
+  addReferences = (): void => {
+    const { effectiveReferenceElement } = this;
+
+    if (!effectiveReferenceElement) {
+      return;
+    }
+
+    effectiveReferenceElement.addEventListener("click", this.openCalciteDropdown);
+    effectiveReferenceElement.addEventListener("keydown", this.keyDownHandler);
+    effectiveReferenceElement.setAttribute(ARIA_HASPOPUP, "true");
+    this.setExpandedAttr();
+  };
+
+  setUpReferenceElement = (): void => {
+    this.removeReferences();
+    this.effectiveReferenceElement = this.getReferenceElement();
+
+    const { el, referenceElement, effectiveReferenceElement } = this;
+    if (referenceElement && !effectiveReferenceElement) {
+      console.warn(`${el.tagName}: reference-element id "${referenceElement}" was not found.`, {
+        el
+      });
+    }
+
+    this.addReferences();
+    this.createPopper();
+  };
 
   updateItems = (): void => {
     this.updateSelectedItems();
@@ -361,7 +453,8 @@ export class Dropdown {
   };
 
   setReferenceEl = (el: HTMLDivElement): void => {
-    this.referenceEl = el;
+    this.triggerEl = el;
+    this.setUpReferenceElement();
   };
 
   setMenuEl = (el: HTMLDivElement): void => {
@@ -383,8 +476,14 @@ export class Dropdown {
 
   createPopper(): void {
     this.destroyPopper();
-    const { menuEl, referenceEl, placement, overlayPositioning } = this;
+    const { menuEl, triggerEl, effectiveReferenceElement, placement, overlayPositioning } = this;
     const modifiers = this.getModifiers();
+
+    const referenceEl = triggerEl || effectiveReferenceElement;
+
+    if (!referenceEl || !menuEl) {
+      return;
+    }
 
     this.popper = createPopper({
       el: menuEl,
