@@ -583,7 +583,9 @@ export async function disabled(
     return [rect.x + rect.width / 2, rect.y + rect.height / 2];
   });
 
+  await page.keyboard.down("Shift");
   await page.keyboard.press("Tab");
+  await page.keyboard.up("Shift");
   await expectToBeFocused("body");
 
   await page.mouse.click(shadowFocusableX, shadowFocusableY);
