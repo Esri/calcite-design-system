@@ -1,4 +1,4 @@
-import { DateLocaleData } from "../components/calcite-date-picker/utils";
+import { DateLocaleData } from "../components/date-picker/utils";
 
 export interface HoverRange {
   focused: "end" | "start";
