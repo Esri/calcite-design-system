@@ -177,8 +177,13 @@ describe("calcite-label", () => {
   });
 
   describe("label click behavior", () => {
+    let page;
+
+    beforeEach(async function () {
+      page = await newE2EPage();
+    });
+
     it("works when label is rendered before input", async () => {
-      const page = await newE2EPage();
       await page.setContent(html` <calcite-label></calcite-label> `);
       await page.$eval(
         "calcite-label",
@@ -189,14 +194,12 @@ describe("calcite-label", () => {
     });
 
     it("works when label is rendered after input", async () => {
-      const page = await newE2EPage();
       await page.setContent(html` <calcite-switch id="switch"></calcite-switch> `);
       await page.waitForTimeout(100);
       await page.evaluate(() => `<calcite-label for='switch'></calcite-label>`);
     });
 
     it("works when label is removed and added back", async () => {
-      const page = await newE2EPage();
       await page.setContent(
         html`
           <calcite-label for="switch">
