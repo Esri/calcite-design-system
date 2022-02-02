@@ -1,7 +1,6 @@
 :host {
   @apply flex
     justify-center
-    outline-none
     text-color-3
     cursor-pointer
     min-w-0;
@@ -96,6 +95,7 @@
 
 :host(:focus),
 :host([active]) {
+  @apply outline-none;
   z-index: 1;
 }
 
@@ -385,4 +385,37 @@
 :host([scale="l"][highlighted]:first-child) .calcite--rtl .day-wrapper,
 :host([scale="l"][range-hover]:first-child) .calcite--rtl .day-wrapper {
   box-shadow: inset -6px 0px 0px 0px var(--calcite-ui-foreground-1);
+}
+
+@media (forced-colors: active) {
+  :host(:hover:not([disabled])),
+  :host([active]:not([range])) {
+    .day {
+      @apply rounded-none;
+    }
+  }
+
+  :host([selected]) {
+    outline: 2px solid canvasText;
+    z-index: 1;
+    .day {
+      @apply rounded-none;
+      background-color: highlight;
+    }
+  }
+
+  :host([range][selected]),
+  :host([highlighted]),
+  :host([range-hover]:not([selected])) {
+    .day-wrapper {
+      background-color: highlight;
+    }
+  }
+
+  :host([range][selected][start-of-range]),
+  :host([range][selected][end-of-range]) {
+    .day-wrapper {
+      background-color: canvas;
+    }
+  }
 }
