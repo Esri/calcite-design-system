@@ -7,7 +7,7 @@ updates:
     # Check the npm registry for updates every week (Tuesdays)
     schedule:
       interval: "weekly"
-      day: "tuesday"
+      day: "thursday"
       time: "05:00"
       timezone: "America/Los_Angeles"
     # Conventional commits
@@ -16,8 +16,8 @@ updates:
     # Ignore updates to packages below
     ignore:
       - dependency-name: "typescript"
-      - dependency-name: "tailwindcss"
       - dependency-name: "@types/jest"
       - dependency-name: "jest"
       - dependency-name: "jest-cli"
+      - dependency-name: "ts-jest"
       - dependency-name: "puppeteer"

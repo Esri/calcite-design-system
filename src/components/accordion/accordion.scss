@@ -1,0 +1,45 @@
+// scale variants for child
+:host([scale="s"]) {
+  --calcite-accordion-item-spacing-unit: theme("spacing.1");
+  --calcite-accordion-icon-margin: theme("spacing.2");
+  --calcite-accordion-item-padding: var(--calcite-accordion-item-spacing-unit) theme("spacing.2");
+  @apply text-n2h;
+}
+
+:host([scale="m"]) {
+  --calcite-accordion-item-spacing-unit: theme("spacing.2");
+  --calcite-accordion-icon-margin: theme("spacing.3");
+  --calcite-accordion-item-padding: var(--calcite-accordion-item-spacing-unit) theme("spacing.3");
+  @apply text-n1h;
+}
+
+:host([scale="l"]) {
+  --calcite-accordion-item-spacing-unit: theme("spacing.3");
+  --calcite-accordion-icon-margin: theme("spacing.4");
+  --calcite-accordion-item-padding: var(--calcite-accordion-item-spacing-unit) theme("spacing.4");
+  @apply text-0h;
+}
+
+:host {
+  @apply block
+    relative
+    max-w-full
+    border
+    border-solid
+    border-color-2
+    border-b-0
+    leading-6;
+  --calcite-accordion-item-border: theme("borderColor.color.2");
+  --calcite-accordion-item-background: theme("backgroundColor.foreground.1");
+}
+
+.accordion--transparent {
+  border-color: transparent;
+  --calcite-accordion-item-border: transparent;
+  --calcite-accordion-item-background: transparent;
+}
+
+.accordion--minimal {
+  --calcite-accordion-item-padding: var(--calcite-accordion-item-spacing-unit) 0;
+  border-color: transparent;
+}
