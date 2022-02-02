@@ -539,6 +539,11 @@ export async function disabled(
   const component = await page.find(tag);
   const enabledComponentClickSpy = await component.spyOnEvent("click");
 
+  await page.$eval(tag, (el) => {
+    // we prevent the default behavior to avoid having a component redirect the page
+    el.addEventListener("click", (event) => event.preventDefault());
+  });
+
   async function expectToBeFocused(tag: string): Promise<void> {
     const focusedTag = await page.evaluate(() => document.activeElement?.tagName.toLowerCase());
     expect(focusedTag).toBe(tag);
