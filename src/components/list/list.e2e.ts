@@ -31,7 +31,10 @@ describe("calcite-list", () => {
   });
 
   it("can be disabled", () =>
-    disabled(html`<calcite-list>
-      <calcite-list-item label="test" description="hello world"></calcite-list-item>
-    </calcite-list>`));
+    disabled(
+      html`<calcite-list>
+        <calcite-list-item label="test" description="hello world"></calcite-list-item>
+      </calcite-list>`,
+      { focusTarget: "child" }
+    ));
 });

@@ -12,9 +12,12 @@ describe("calcite-tile-select-group", () => {
   it("reflects", async () => reflects("calcite-tile-select-group", [{ propertyName: "layout", value: "horizontal" }]));
 
   it("can be disabled", () =>
-    disabled(html`<calcite-tile-select-group>
-      <calcite-tile-select heading="Uno" type="radio" value="one"></calcite-tile-select>
-      <calcite-tile-select heading="Dos" type="radio" value="two"></calcite-tile-select>
-      <calcite-tile-select heading="Tres" type="radio" value="three"></calcite-tile-select>
-    </calcite-tile-select-group>`));
+    disabled(
+      html`<calcite-tile-select-group>
+        <calcite-tile-select heading="Uno" type="radio" value="one"></calcite-tile-select>
+        <calcite-tile-select heading="Dos" type="radio" value="two"></calcite-tile-select>
+        <calcite-tile-select heading="Tres" type="radio" value="three"></calcite-tile-select>
+      </calcite-tile-select-group>`,
+      { focusTarget: "child" }
+    ));
 });

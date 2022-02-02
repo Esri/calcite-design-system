@@ -42,6 +42,8 @@
   }
 }
 
+// mixin to provide base disabled styles for interactive components
+// additional styling can be passed via @content
 @mixin disabled() {
   :host([disabled]) {
     @apply cursor-default opacity-disabled pointer-events-none select-none;

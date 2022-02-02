@@ -520,9 +520,9 @@ export async function formAssociated(componentTagOrHtml: TagOrHTML, options: For
 
 interface DisabledOptions {
   /**
-   *  When `true`, the test will skip assertions on internal, focusable elements.
+   *  Use this to specify whether the test should cover focusing.
    */
-  focusable: boolean;
+  focusTarget: "host" | "child" | "none";
 }
 
 /**
@@ -532,7 +532,7 @@ interface DisabledOptions {
  */
 export async function disabled(
   componentTagOrHtml: TagOrHTML,
-  options?: DisabledOptions = { focusable: true }
+  options: DisabledOptions = { focusTarget: "host" }
 ): Promise<void> {
   const page = await simplePageSetup(componentTagOrHtml);
   const tag = getTag(componentTagOrHtml);
@@ -545,7 +545,7 @@ export async function disabled(
 
   expect(component.getAttribute("aria-disabled")).toBeNull();
 
-  if (!options.focusable) {
+  if (options.focusTarget === "none") {
     await page.click(tag);
 
     await expectToBeFocused("body");
@@ -566,9 +566,12 @@ export async function disabled(
   }
 
   await page.keyboard.press("Tab");
-  await expectToBeFocused(tag);
+  const focusTarget =
+    options.focusTarget === "host" ? tag : await page.evaluate(() => document.activeElement?.tagName.toLowerCase());
+  expect(focusTarget).not.toBe("body");
+  await expectToBeFocused(focusTarget);
 
-  const [shadowFocusableX, shadowFocusableY] = await page.$eval(tag, (element: HTMLElement) => {
+  const [shadowFocusableX, shadowFocusableY] = await page.$eval(focusTarget, (element: HTMLElement) => {
     const focusTarget = element.shadowRoot.activeElement || element;
     const rect = focusTarget.getBoundingClientRect();
     return [rect.x, rect.y];
@@ -578,7 +581,7 @@ export async function disabled(
   await expectToBeFocused("body");
 
   await page.mouse.click(shadowFocusableX, shadowFocusableY);
-  await expectToBeFocused(tag);
+  await expectToBeFocused(focusTarget);
 
   expect(enabledComponentClickSpy).toHaveReceivedEventTimes(1);
 

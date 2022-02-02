@@ -16,11 +16,14 @@ describe("calcite-inline-editable", () => {
     ));
 
   it("can be disabled", () =>
-    disabled(html`
-      <calcite-inline-editable>
-        <calcite-input />
-      </calcite-inline-editable>
-    `));
+    disabled(
+      html`
+        <calcite-inline-editable>
+          <calcite-input />
+        </calcite-inline-editable>
+      `,
+      { focusTarget: "child" }
+    ));
 
   describe("rendering permutations", () => {
     let page: E2EPage;
