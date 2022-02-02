@@ -281,7 +281,6 @@ export class CalciteInputTimePicker implements LabelableComponent, FormComponent
       this.locale,
       this.shouldIncludeSeconds()
     );
-
     this.internalValueChange = origin !== "external" && origin !== "loading";
 
     const shouldEmit =
@@ -373,6 +372,7 @@ export class CalciteInputTimePicker implements LabelableComponent, FormComponent
             ref={this.setCalciteInputEl}
             scale={this.scale}
             step={this.step}
+            // dir={!document.documentElement.lang && !navigator.language ? "ltr" : this.el.dir}
           />
         </div>
         <calcite-popover
