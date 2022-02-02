@@ -184,6 +184,7 @@ describe("calcite-label", () => {
         "calcite-label",
         (node) => ((node as HTMLElement).innerHTML = `<calcite-switch></calcite-switch>`)
       );
+      await page.waitForTimeout(100);
       await page.click("calcite-label", { clickCount: 1 });
     });
 
