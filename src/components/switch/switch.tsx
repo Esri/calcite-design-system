@@ -45,11 +45,6 @@ export class Switch implements LabelableComponent, CheckableFormCompoment, Inter
   /** True if the switch is disabled */
   @Prop({ reflect: true }) disabled = false;
 
-  @Watch("disabled")
-  disabledWatcher(newDisabled: boolean): void {
-    this.tabindex = newDisabled ? -1 : 0;
-  }
-
   /** Applies to the aria-label attribute on the switch */
   @Prop() label?: string;
 
@@ -90,14 +85,6 @@ export class Switch implements LabelableComponent, CheckableFormCompoment, Inter
   defaultValue: Switch["checked"];
 
   defaultChecked: boolean;
-
-  //--------------------------------------------------------------------------
-  //
-  //  State
-  //
-  //--------------------------------------------------------------------------
-
-  @State() tabindex: number;
 
   //--------------------------------------------------------------------------
   //

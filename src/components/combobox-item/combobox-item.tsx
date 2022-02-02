@@ -21,7 +21,7 @@ import {
   disconnectConditionalSlotComponent,
   ConditionalSlotComponent
 } from "../../utils/conditionalSlot";
-import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import { InteractiveComponent } from "../../utils/interactive";
 
 /**
  * @slot - A slot for adding nested `calcite-combobox-item`s.
@@ -96,10 +96,6 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
 
   disconnectedCallback(): void {
     disconnectConditionalSlotComponent(this);
-  }
-
-  componentDidRender(): void {
-    updateHostInteraction(this);
   }
 
   // --------------------------------------------------------------------------

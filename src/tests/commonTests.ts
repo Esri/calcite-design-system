@@ -518,12 +518,22 @@ export async function formAssociated(componentTagOrHtml: TagOrHTML, options: For
   }
 }
 
+interface DisabledOptions {
+  /**
+   *  When `true`, the test will skip assertions on internal, focusable elements.
+   */
+  focusable: boolean;
+}
+
 /**
  * Helper to test the disabled prop disabling user interaction.
  *
  * @param componentTagOrHTML - the component tag or HTML markup to test against
  */
-export async function disabled(componentTagOrHtml: TagOrHTML): Promise<void> {
+export async function disabled(
+  componentTagOrHtml: TagOrHTML,
+  options?: DisabledOptions = { focusable: true }
+): Promise<void> {
   const page = await simplePageSetup(componentTagOrHtml);
   const tag = getTag(componentTagOrHtml);
   const component = await page.find(tag);
@@ -534,6 +544,26 @@ export async function disabled(componentTagOrHtml: TagOrHTML): Promise<void> {
   }
 
   expect(component.getAttribute("aria-disabled")).toBeNull();
+
+  if (!options.focusable) {
+    await page.click(tag);
+
+    await expectToBeFocused("body");
+    expect(enabledComponentClickSpy).toHaveReceivedEventTimes(1);
+
+    component.setProperty("disabled", true);
+    await page.waitForChanges();
+    const disabledComponentClickSpy = await component.spyOnEvent("click");
+
+    expect(component.getAttribute("aria-disabled")).toBe("true");
+
+    await page.click(tag);
+    await expectToBeFocused("body");
+
+    expect(disabledComponentClickSpy).toHaveReceivedEventTimes(0);
+
+    return;
+  }
 
   await page.keyboard.press("Tab");
   await expectToBeFocused(tag);
