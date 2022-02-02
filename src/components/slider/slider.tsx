@@ -26,7 +26,7 @@ import {
   FormComponent,
   HiddenFormInputSlot
 } from "../../utils/form";
-import { InteractiveComponent } from "../../utils/interactive";
+import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 
 type ActiveSliderProperty = "minValue" | "maxValue" | "value" | "minMaxValue";
 
@@ -174,6 +174,7 @@ export class Slider implements LabelableComponent, FormComponent, InteractiveCom
       }
     }
     this.hideObscuredBoundingTickLabels();
+    updateHostInteraction(this);
   }
 
   render(): VNode {

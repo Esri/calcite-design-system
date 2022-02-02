@@ -13,7 +13,7 @@ import {
 import { debounce, forIn } from "lodash-es";
 import { CSS, ICONS, TEXT } from "./resources";
 import { focusElement } from "../../utils/dom";
-import { InteractiveComponent } from "../../utils/interactive";
+import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 
 const filterDebounceInMs = 250;
 
@@ -88,6 +88,16 @@ export class Filter implements InteractiveComponent {
   @Element() el: HTMLCalciteFilterElement;
 
   textInput: HTMLCalciteInputElement;
+
+  //--------------------------------------------------------------------------
+  //
+  //  Lifecycle
+  //
+  //--------------------------------------------------------------------------
+
+  componentDidRender(): void {
+    updateHostInteraction(this);
+  }
 
   // --------------------------------------------------------------------------
   //

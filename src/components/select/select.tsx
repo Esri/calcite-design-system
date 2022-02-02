@@ -23,7 +23,7 @@ import {
 } from "../../utils/form";
 import { CSS } from "./resources";
 import { createObserver } from "../../utils/observers";
-import { InteractiveComponent } from "../../utils/interactive";
+import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 
 type OptionOrGroup = HTMLCalciteOptionElement | HTMLCalciteOptionGroupElement;
 type NativeOptionOrGroup = HTMLOptionElement | HTMLOptGroupElement;
@@ -153,6 +153,10 @@ export class Select implements LabelableComponent, FormComponent, InteractiveCom
 
   componentDidLoad(): void {
     afterConnectDefaultValueSet(this, this.selectedOption?.value ?? "");
+  }
+
+  componentDidRender(): void {
+    updateHostInteraction(this);
   }
 
   //--------------------------------------------------------------------------

@@ -16,7 +16,7 @@ import { Alignment, Appearance, Scale } from "../interfaces";
 import { CSS, TEXT } from "./resources";
 
 import { createObserver } from "../../utils/observers";
-import { InteractiveComponent } from "../../utils/interactive";
+import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 
 /**
  * @slot - A slot for adding a `calcite-icon`.
@@ -132,6 +132,10 @@ export class Action implements InteractiveComponent {
 
   disconnectedCallback(): void {
     this.mutationObserver?.disconnect();
+  }
+
+  componentDidRender(): void {
+    updateHostInteraction(this);
   }
 
   // --------------------------------------------------------------------------
