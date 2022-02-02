@@ -8,7 +8,6 @@ import {
   Listen,
   Method,
   Prop,
-  State,
   VNode,
   Watch
 } from "@stencil/core";
@@ -32,6 +31,7 @@ import {
 } from "../../utils/conditionalSlot";
 
 const ARIA_EXPANDED = "aria-expanded";
+const ARIA_HASPOPUP = "aria-haspopup";
 const ARIA_HASPOPUP = "aria-haspopup";
 
 /**
@@ -64,6 +64,7 @@ export class Dropdown implements ConditionalSlotComponent {
   @Watch("active")
   activeHandler(): void {
     this.reposition();
+    this.setExpandedAttr();
   }
 
   /**
@@ -148,6 +149,7 @@ export class Dropdown implements ConditionalSlotComponent {
     this.resizeObserver?.disconnect();
     this.destroyPopper();
     disconnectConditionalSlotComponent(this);
+    this.removeReferences();
   }
 
   renderTriggerNode(): VNode {
@@ -330,7 +332,7 @@ export class Dropdown implements ConditionalSlotComponent {
   //
   //--------------------------------------------------------------------------
 
-  @State() effectiveReferenceElement: HTMLElement = null;
+  effectiveReferenceElement: HTMLElement = null;
 
   private items: HTMLCalciteDropdownItemElement[] = [];
 
