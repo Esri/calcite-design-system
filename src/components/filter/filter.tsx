@@ -12,6 +12,7 @@ import {
 } from "@stencil/core";
 import { debounce, forIn } from "lodash-es";
 import { CSS, ICONS, TEXT } from "./resources";
+import { Scale } from "../interfaces";
 import { focusElement } from "../../utils/dom";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 
@@ -68,6 +69,9 @@ export class Filter implements InteractiveComponent {
    * Placeholder text for the input element's placeholder attribute
    */
   @Prop() placeholder?: string;
+
+  /** specify the scale of filter, defaults to m */
+  @Prop({ reflect: true }) scale: Scale = "m";
 
   /**
    * Filter value.
@@ -190,7 +194,7 @@ export class Filter implements InteractiveComponent {
   // --------------------------------------------------------------------------
 
   render(): VNode {
-    const { disabled } = this;
+    const { disabled, scale } = this;
 
     return (
       <Fragment>
@@ -207,6 +211,7 @@ export class Filter implements InteractiveComponent {
               ref={(el): void => {
                 this.textInput = el;
               }}
+              scale={scale}
               type="text"
               value={this.value}
             />
@@ -218,7 +223,7 @@ export class Filter implements InteractiveComponent {
               disabled={disabled}
               onClick={this.clear}
             >
-              <calcite-icon icon={ICONS.close} />
+              <calcite-icon icon={ICONS.close} scale={scale} />
             </button>
           ) : null}
         </div>
