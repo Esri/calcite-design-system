@@ -59,8 +59,8 @@ export class PopoverManager {
       return null;
     }
 
-    const referenceElement = (composedPath as HTMLElement[]).find(
-      (pathEl) => pathEl?.hasAttribute && pathEl.hasAttribute(POPOVER_REFERENCE)
+    const referenceElement = (composedPath as HTMLElement[]).find((pathEl) =>
+      pathEl?.hasAttribute?.(POPOVER_REFERENCE)
     );
 
     if (!referenceElement) {
