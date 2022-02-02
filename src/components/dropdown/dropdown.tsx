@@ -32,7 +32,6 @@ import {
 
 const ARIA_EXPANDED = "aria-expanded";
 const ARIA_HASPOPUP = "aria-haspopup";
-const ARIA_HASPOPUP = "aria-haspopup";
 
 /**
  * @slot - A slot for adding `calcite-dropdown-group`s or `calcite-dropdown-item`s.
