@@ -156,8 +156,8 @@ export class Dropdown implements ConditionalSlotComponent {
     return getSlotted(el, SLOTS.dropdownTrigger) ? (
       <div
         class="calcite-dropdown-trigger-container"
-        onClick={this.openCalciteDropdown} // todo
-        onKeyDown={this.keyDownHandler} // todo
+        onClick={this.openCalciteDropdown}
+        onKeyDown={this.keyDownHandler}
         ref={this.setReferenceEl}
       >
         <slot aria-expanded={active.toString()} aria-haspopup="true" name={SLOTS.dropdownTrigger} />
