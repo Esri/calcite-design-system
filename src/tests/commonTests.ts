@@ -540,7 +540,8 @@ export async function disabled(
   const enabledComponentClickSpy = await component.spyOnEvent("click");
 
   async function expectToBeFocused(tag: string): Promise<void> {
-    expect(await page.evaluate((tag: string) => document.activeElement.matches(tag), tag)).toBe(true);
+    const focusedTag = await page.evaluate(() => document.activeElement?.tagName.toLowerCase());
+    expect(focusedTag).toBe(tag);
   }
 
   expect(component.getAttribute("aria-disabled")).toBeNull();
@@ -574,7 +575,7 @@ export async function disabled(
   const [shadowFocusableX, shadowFocusableY] = await page.$eval(focusTarget, (element: HTMLElement) => {
     const focusTarget = element.shadowRoot.activeElement || element;
     const rect = focusTarget.getBoundingClientRect();
-    return [rect.x, rect.y];
+    return [rect.x + rect.width / 2, rect.y + rect.height / 2];
   });
 
   await page.keyboard.press("Tab");
