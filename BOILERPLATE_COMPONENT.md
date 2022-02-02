@@ -13,10 +13,10 @@ import { CSS, TEXT } from "./resources";
 
 @Component({
   tag: "calcite-example",
-  styleUrl: "calcite-example.scss",
+  styleUrl: "example.scss",
   shadow: true
 })
-export class CalciteExample {
+export class Example {
   // --------------------------------------------------------------------------
   //
   //  Properties
