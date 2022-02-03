@@ -147,8 +147,13 @@ export class Tooltip implements FloatingUIComponent {
       overlayPositioning,
       offsetDistance,
       offsetSkidding,
-      arrowEl
+      arrowEl,
+      open
     } = this;
+
+    if (!effectiveReferenceElement || !open) {
+      return;
+    }
 
     return positionFloatingUI({
       floatingEl: el,

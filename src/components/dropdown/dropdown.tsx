@@ -186,7 +186,12 @@ export class Dropdown implements FloatingUIComponent {
   /** Updates the position of the component. */
   @Method()
   async reposition(): Promise<void> {
-    const { floatingEl, referenceEl, placement, overlayPositioning } = this;
+    const { active, floatingEl, referenceEl, placement, overlayPositioning } = this;
+
+    if (!floatingEl || !referenceEl || !active) {
+      return;
+    }
+
     return positionFloatingUI({
       floatingEl,
       referenceEl,

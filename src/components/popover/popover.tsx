@@ -229,8 +229,13 @@ export class Popover implements FloatingUIComponent {
       flipPlacements,
       offsetDistance,
       offsetSkidding,
-      arrowEl
+      arrowEl,
+      open
     } = this;
+
+    if (!effectiveReferenceElement || !open) {
+      return;
+    }
 
     return positionFloatingUI({
       floatingEl: el,
