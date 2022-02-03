@@ -200,9 +200,9 @@ describe("calcite-alert", () => {
     </calcite-alert>`);
 
     const alert = await page.find("calcite-alert");
-    const politeness = alert.getAttribute("aria-live");
+    const priority = alert.getAttribute("aria-live");
 
-    expect(politeness).toBe("assertive");
+    expect(priority).toBe("assertive");
   });
 
   describe("CSS properties for light/dark themes", () => {
