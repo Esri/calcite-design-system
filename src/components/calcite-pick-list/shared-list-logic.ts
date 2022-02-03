@@ -108,15 +108,16 @@ export function calciteListFocusOutHandler<T extends Lists>(this: List<T>, event
   }
 
   const focusedInside = !!el.contains(event.relatedTarget as Node | null);
-
   if (focusedInside) {
-    toggleSingleSelectItemTabbing(event.target as ListItemElement<T>, false);
     return;
   }
 
-  items.forEach((item) =>
-    toggleSingleSelectItemTabbing(item, selectedValues.size === 0 ? event.target === item : item.selected)
-  );
+  items.forEach((item) => {
+    toggleSingleSelectItemTabbing(
+      item,
+      selectedValues.size === 0 ? !!item.contains(event.target) || event.target === item : item.selected
+    );
+  });
 }
 
 export function keyDownHandler<T extends Lists>(this: List<T>, event: KeyboardEvent): void {
