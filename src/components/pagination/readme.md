@@ -38,10 +38,10 @@ For example, after querying the search API, you'll get back a response similar t
 
 ## Events
 
-| Event                     | Description                                                                                                                              | Type                                   |
-| ------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------- |
-| `calcitePaginationChange` | Emitted whenever the selected page changes.                                                                                              | `CustomEvent<CalcitePaginationDetail>` |
-| `calcitePaginationUpdate` | <span style="color:red">**[DEPRECATED]**</span> use calcitePaginationChange instead<br/><br/>Emitted whenever the selected page changes. | `CustomEvent<CalcitePaginationDetail>` |
+| Event                     | Description                                                                                                                              | Type                            |
+| ------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------- |
+| `calcitePaginationChange` | Emitted whenever the selected page changes.                                                                                              | `CustomEvent<PaginationDetail>` |
+| `calcitePaginationUpdate` | <span style="color:red">**[DEPRECATED]**</span> use calcitePaginationChange instead<br/><br/>Emitted whenever the selected page changes. | `CustomEvent<PaginationDetail>` |
 
 ## Methods
 
