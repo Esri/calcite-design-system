@@ -8,10 +8,10 @@ import { hiddenFormInputSlotName } from "../utils/form";
 
 expect.extend(toHaveNoViolations);
 
-type CalciteComponentTag = keyof JSX.IntrinsicElements;
+type ComponentTag = keyof JSX.IntrinsicElements;
 type AxeOwningWindow = GlobalTestProps<{ axe: typeof axe }>;
 type ComponentHTML = string;
-type TagOrHTML = CalciteComponentTag | ComponentHTML;
+type TagOrHTML = ComponentTag | ComponentHTML;
 
 export const HYDRATED_ATTR = config.hydratedFlag.name;
 
@@ -19,14 +19,14 @@ function isHTML(tagOrHTML: string): boolean {
   return tagOrHTML.trim().startsWith("<");
 }
 
-function getTag(tagOrHTML: string): CalciteComponentTag {
+function getTag(tagOrHTML: string): ComponentTag {
   if (isHTML(tagOrHTML)) {
     const regex = /[>\s]/;
     const trimmedTag = tagOrHTML.trim();
-    return trimmedTag.substring(1, trimmedTag.search(regex)) as CalciteComponentTag;
+    return trimmedTag.substring(1, trimmedTag.search(regex)) as ComponentTag;
   }
 
-  return tagOrHTML as CalciteComponentTag;
+  return tagOrHTML as ComponentTag;
 }
 
 async function simplePageSetup(componentTagOrHTML: TagOrHTML): Promise<E2EPage> {
@@ -50,7 +50,7 @@ export async function accessible(componentTagOrHTML: TagOrHTML, page?: E2EPage):
 
   expect(
     await page.evaluate(
-      async (componentTag: CalciteComponentTag) => (window as AxeOwningWindow).axe.run(componentTag),
+      async (componentTag: ComponentTag) => (window as AxeOwningWindow).axe.run(componentTag),
       getTag(componentTagOrHTML)
     )
   ).toHaveNoViolations();
@@ -161,7 +161,7 @@ export async function focusable(componentTagOrHTML: TagOrHTML, options?: Focusab
   const element = await page.find(tag);
   const focusTargetSelector = options?.focusTargetSelector || tag;
 
-  await element.callMethod("setFocus", options?.focusId); // assumes element is CalciteFocusableElement
+  await element.callMethod("setFocus", options?.focusId); // assumes element is FocusableElement
 
   if (options?.shadowFocusTargetSelector) {
     expect(
