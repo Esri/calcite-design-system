@@ -3,7 +3,7 @@ import { POPOVER_REFERENCE } from "../popover/resources";
 import { queryElementRoots, queryElementsRoots } from "../../utils/dom";
 
 /**
- * @slot - A slot for adding elements that reference a 'calcite-popover' by the 'selector' property.
+ * @slot - A slot for adding elements that reference a 'calcite-popover'(s).
  */
 @Component({
   tag: "calcite-popover-manager",

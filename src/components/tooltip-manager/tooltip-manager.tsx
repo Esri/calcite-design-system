@@ -3,7 +3,7 @@ import { TOOLTIP_REFERENCE, TOOLTIP_DELAY_MS } from "../tooltip/resources";
 import { queryElementRoots } from "../../utils/dom";
 
 /**
- * @slot - A slot for adding elements that reference a 'calcite-tooltip' by the 'selector' property.
+ * @slot - A slot for adding elements that reference 'calcite-tooltip'(s).
  */
 @Component({
   tag: "calcite-tooltip-manager",
