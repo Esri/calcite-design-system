@@ -103,7 +103,7 @@ Before adding a new component, please read through the [component conventions gu
 
 Calcite Components utilizes [Storybook](https://storybook.js.org/) for documenting components. Adding a new component is very simple:
 
-1. Create a new file inside your component directory like `calcite-X.stories.js`
+1. Create a new file inside your component directory like `X.stories.js`
 2. Write stories (see below)
 3. Run the documentation locally with `npm run docs:preview`
 
