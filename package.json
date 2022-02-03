@@ -80,7 +80,7 @@
     "@stencil/sass": "1.5.2",
     "@stencil/state-tunnel": "^1.0.1",
     "@storybook/addon-a11y": "6.4.18",
-    "@storybook/addon-docs": "6.4.14",
+    "@storybook/addon-docs": "6.4.18",
     "@storybook/addon-knobs": "6.4.0",
     "@storybook/html": "6.4.14",
     "@storybook/storybook-deployer": "2.8.10",
