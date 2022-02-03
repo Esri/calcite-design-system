@@ -1,5 +1,5 @@
 import { E2EPage, newE2EPage } from "@stencil/core/testing";
-import { accessible, focusable, hidden, renders } from "../../tests/commonTests";
+import { accessible, defaults, focusable, hidden, reflects, renders } from "../../tests/commonTests";
 import { CSS } from "./resources";
 
 describe("calcite-filter", () => {
@@ -10,6 +10,43 @@ describe("calcite-filter", () => {
   it("is accessible", async () => accessible("calcite-filter"));
 
   it("is focusable", async () => focusable("calcite-filter"));
+
+  it("reflects", async () =>
+    reflects("calcite-filter", [
+      {
+        propertyName: "disabled",
+        value: true
+      },
+      {
+        propertyName: "scale",
+        value: "s"
+      }
+    ]));
+
+  it("has defaults", async () =>
+    defaults("calcite-filter", [
+      {
+        propertyName: "disabled",
+        defaultValue: false
+      },
+      {
+        propertyName: "filteredItems",
+        defaultValue: []
+      },
+      {
+        propertyName: "scale",
+        defaultValue: "m"
+      }
+    ]));
+
+  it("sets scale on the input", async () => {
+    const scale = "s";
+    const page = await newE2EPage();
+    await page.setContent(`<calcite-filter scale="${scale}"></calcite-filter>`);
+
+    const input = await page.find(`calcite-filter >>> calcite-input`);
+    expect(await input.getProperty("scale")).toBe(scale);
+  });
 
   describe("strings", () => {
     it("should update the filter placeholder when a string is provided", async () => {

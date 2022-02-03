@@ -51,8 +51,8 @@ export class TooltipManager {
       return null;
     }
 
-    const referenceElement = (composedPath as HTMLElement[]).find(
-      (pathEl) => pathEl?.hasAttribute && pathEl.hasAttribute(TOOLTIP_REFERENCE)
+    const referenceElement = (composedPath as HTMLElement[]).find((pathEl) =>
+      pathEl?.hasAttribute?.(TOOLTIP_REFERENCE)
     );
 
     if (!referenceElement) {

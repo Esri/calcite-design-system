@@ -32,10 +32,12 @@
 }
 
 .week-days {
-  @apply outline-none
-    flex
+  @apply flex
     flex-row
     py-0;
   padding-left: 6px;
   padding-right: 6px;
+  &:focus {
+    @apply outline-none;
+  }
 }
