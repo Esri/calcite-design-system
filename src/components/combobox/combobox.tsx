@@ -299,6 +299,7 @@ export class Combobox implements LabelableComponent, FormComponent, FloatingUICo
 
   disconnectedCallback(): void {
     this.mutationObserver?.disconnect();
+    this.resizeObserver?.disconnect();
     disconnectLabel(this);
     disconnectForm(this);
     disconnectFloatingUI(this, this.floatingEl);
@@ -350,9 +351,6 @@ export class Combobox implements LabelableComponent, FormComponent, FloatingUICo
 
   @State() open = this.active;
 
-  /** specifies the item wrapper height; it is updated when maxItems is > 0  **/
-  @State() maxScrollerHeight = 0;
-
   /** when search text is cleared, reset active to  */
   @Watch("text")
   textHandler(): void {
@@ -364,6 +362,8 @@ export class Combobox implements LabelableComponent, FormComponent, FloatingUICo
   data: ItemData[];
 
   mutationObserver = createObserver("mutation", () => this.updateItems());
+
+  resizeObserver = createObserver("resize", () => this.setMaxScrollerHeight());
 
   private guid = guid();
 
@@ -477,9 +477,15 @@ export class Combobox implements LabelableComponent, FormComponent, FloatingUICo
   };
 
   setMaxScrollerHeight = (): void => {
-    if (this.active) {
-      this.maxScrollerHeight = this.getMaxScrollerHeight(this.getCombinedItems());
+    const { active, listContainerEl } = this;
+
+    if (!listContainerEl || !active) {
+      return;
     }
+
+    const maxScrollerHeight = this.getMaxScrollerHeight();
+    listContainerEl.style.maxHeight = maxScrollerHeight > 0 ? `${maxScrollerHeight}px` : "";
+    this.reposition();
   };
 
   calciteChipDismissHandler = (
@@ -538,6 +544,7 @@ export class Combobox implements LabelableComponent, FormComponent, FloatingUICo
   };
 
   setListContainerEl = (el: HTMLDivElement): void => {
+    this.resizeObserver.observe(el);
     this.listContainerEl = el;
   };
 
@@ -546,7 +553,9 @@ export class Combobox implements LabelableComponent, FormComponent, FloatingUICo
     connectFloatingUI(this, el);
   };
 
-  private getMaxScrollerHeight(items: ComboboxChildElement[]): number {
+  private getMaxScrollerHeight(): number {
+    const items = this.getCombinedItems();
+
     const { maxItems } = this;
     let itemsToProcess = 0;
     let maxScrollerHeight = 0;
@@ -964,27 +973,20 @@ export class Combobox implements LabelableComponent, FormComponent, FloatingUICo
   }
 
   renderFloatingUIContainer(): VNode {
-    const { active, maxScrollerHeight, setFloatingEl, setListContainerEl, hideList, open } = this;
+    const { active, setFloatingEl, setListContainerEl, hideList, open } = this;
     const classes = {
       "list-container": true,
       [FloatingCSS.animation]: true,
       [FloatingCSS.animationActive]: active
     };
-    const style = {
-      maxHeight: maxScrollerHeight > 0 ? `${maxScrollerHeight}px` : ""
-    };
+
     return (
       <div
         aria-hidden="true"
         class={{ "floating-ui-container": true, "floating-ui-container--active": open }}
         ref={setFloatingEl}
       >
-        <div
-          class={classes}
-          onTransitionEnd={this.transitionEnd}
-          ref={setListContainerEl}
-          style={style}
-        >
+        <div class={classes} onTransitionEnd={this.transitionEnd} ref={setListContainerEl}>
           <ul class={{ list: true, "list--hide": hideList }}>
             <slot />
           </ul>
