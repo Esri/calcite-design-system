@@ -15,7 +15,7 @@ import { Scale } from "../interfaces";
 import { TEXT, CSS } from "./resources";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import { createObserver } from "../../utils/observers";
-import { InteractiveComponent } from "../../utils/interactive";
+import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 
 /**
  * @slot - A slot for adding a `calcite-input`.
@@ -105,6 +105,10 @@ export class InlineEditable implements InteractiveComponent, LabelableComponent 
   disconnectedCallback() {
     disconnectLabel(this);
     this.mutationObserver?.disconnect();
+  }
+
+  componentDidRender(): void {
+    updateHostInteraction(this);
   }
 
   render(): VNode {

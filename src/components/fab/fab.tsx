@@ -3,7 +3,7 @@ import { Appearance, Scale } from "../interfaces";
 import { ButtonColor } from "../button/interfaces";
 import { CSS, ICONS } from "./resources";
 import { focusElement } from "../../utils/dom";
-import { InteractiveComponent } from "../../utils/interactive";
+import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 
 @Component({
   tag: "calcite-fab",
@@ -72,6 +72,16 @@ export class Fab implements InteractiveComponent {
   @Element() el: HTMLCalciteFabElement;
 
   private buttonEl: HTMLElement;
+
+  //--------------------------------------------------------------------------
+  //
+  //  Lifecycle
+  //
+  //--------------------------------------------------------------------------
+
+  componentDidRender(): void {
+    updateHostInteraction(this);
+  }
 
   // --------------------------------------------------------------------------
   //
