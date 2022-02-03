@@ -9,6 +9,18 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### Features
 
+- **calcite-filter:** add scale prop/attribute ([#4041](https://github.com/Esri/calcite-components/issues/4041)) ([9d35be0](https://github.com/Esri/calcite-components/commit/9d35be0775aa7afebaf6712f5072452bcdf7ed61))
+
+### Bug Fixes
+
+- **date-picker:** make date picker work in high-contrast ([#4005](https://github.com/Esri/calcite-components/issues/4005)) ([#4011](https://github.com/Esri/calcite-components/issues/4011)) ([15e89f7](https://github.com/Esri/calcite-components/commit/15e89f7d92f9de955dde2ba6bd80ce9e9623019d))
+- **popover-manager, tooltip-manager:** Properly query referenceElement in shadowRoot ([#4014](https://github.com/Esri/calcite-components/issues/4014)) ([12a70eb](https://github.com/Esri/calcite-components/commit/12a70eb4dd296c0ae1f5684c3a1bca8688162a0a)), closes [#3625](https://github.com/Esri/calcite-components/issues/3625)
+<!--@unreleased-section-end-->
+
+## [1.0.0-beta.76](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.75...v1.0.0-beta.76) (2022-02-01)
+
+### Features
+
 - **label:** deprecate status prop ([#3984](https://github.com/Esri/calcite-components/issues/3984)) ([066571f](https://github.com/Esri/calcite-components/commit/066571f812baf9c120f503880a3048fea0cd583b)), closes [#3962](https://github.com/Esri/calcite-components/issues/3962) [#3924](https://github.com/Esri/calcite-components/issues/3924) [#3960](https://github.com/Esri/calcite-components/issues/3960) [#3940](https://github.com/Esri/calcite-components/issues/3940) [#3972](https://github.com/Esri/calcite-components/issues/3972) [#3977](https://github.com/Esri/calcite-components/issues/3977) [#3981](https://github.com/Esri/calcite-components/issues/3981) [#3889](https://github.com/Esri/calcite-components/issues/3889) [#3686](https://github.com/Esri/calcite-components/issues/3686) [#3969](https://github.com/Esri/calcite-components/issues/3969) [#3985](https://github.com/Esri/calcite-components/issues/3985) [#3989](https://github.com/Esri/calcite-components/issues/3989) [#3994](https://github.com/Esri/calcite-components/issues/3994) [#3970](https://github.com/Esri/calcite-components/issues/3970) [#3964](https://github.com/Esri/calcite-components/issues/3964) [#3996](https://github.com/Esri/calcite-components/issues/3996) [#3968](https://github.com/Esri/calcite-components/issues/3968) [#3999](https://github.com/Esri/calcite-components/issues/3999) [#3980](https://github.com/Esri/calcite-components/issues/3980) [#3733](https://github.com/Esri/calcite-components/issues/3733) [#3998](https://github.com/Esri/calcite-components/issues/3998)
 - **panel:** Add method to scroll content. [#3924](https://github.com/Esri/calcite-components/issues/3924) ([#3960](https://github.com/Esri/calcite-components/issues/3960)) ([1ebcb3f](https://github.com/Esri/calcite-components/commit/1ebcb3f6118f3f2bd968265d603d0b4eb69a073a))
 - **tree:** multi-selection no longer requires holding shift key ([#3733](https://github.com/Esri/calcite-components/issues/3733)) ([b8fdfbf](https://github.com/Esri/calcite-components/commit/b8fdfbf0576e1bc1042d2368d0410cd3a1227d2b))
@@ -23,7 +35,6 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - **input:** correct negative values in ar and et locales ([#4020](https://github.com/Esri/calcite-components/issues/4020)) ([c8de9f0](https://github.com/Esri/calcite-components/commit/c8de9f0f8d0cba974a5c17da58b2a125b80ecd99))
 - **switch:** provide a selected color to track element ([#3987](https://github.com/Esri/calcite-components/issues/3987)) ([#3991](https://github.com/Esri/calcite-components/issues/3991)) ([8a4dcbe](https://github.com/Esri/calcite-components/commit/8a4dcbeb4301be61479227afc95f37300d49e09c))
 - **time-picker:** match rtl order with ltr ([#3993](https://github.com/Esri/calcite-components/issues/3993)) ([ccca4c5](https://github.com/Esri/calcite-components/commit/ccca4c5a871b5d84636dadcd98f9e51c605f32b3))
-<!--@unreleased-section-end-->
 
 ## [1.0.0-beta.75](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.74...v1.0.0-beta.75) (2022-01-20)
 
