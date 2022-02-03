@@ -554,20 +554,22 @@ export class Combobox implements LabelableComponent, FormComponent, FloatingUICo
   };
 
   private getMaxScrollerHeight(): number {
-    const items = this.getCombinedItems();
+    const items = this.getCombinedItems().filter((item) => !item.hidden);
 
     const { maxItems } = this;
     let itemsToProcess = 0;
     let maxScrollerHeight = 0;
-    items.forEach((item) => {
-      if (itemsToProcess < maxItems && maxItems > 0) {
-        const height = this.calculateSingleItemHeight(item);
-        if (height > 0) {
-          maxScrollerHeight += height;
-          itemsToProcess++;
+    if (items.length > maxItems) {
+      items.forEach((item) => {
+        if (itemsToProcess < maxItems && maxItems > 0) {
+          const height = this.calculateSingleItemHeight(item);
+          if (height > 0) {
+            maxScrollerHeight += height;
+            itemsToProcess++;
+          }
         }
-      }
-    });
+      });
+    }
     return maxScrollerHeight;
   }
 
