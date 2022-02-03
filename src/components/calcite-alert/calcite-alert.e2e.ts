@@ -192,6 +192,19 @@ describe("calcite-alert", () => {
     expect(container).toHaveClass("top-end");
   });
 
+  it("has aria-live attribute set to assertive on autoDimiss", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+    <calcite-alert placement="top-end" auto-dismiss>
+    ${alertContent}
+    </calcite-alert>`);
+
+    const alert = await page.find("calcite-alert");
+    const politeness = alert.getAttribute("aria-live");
+
+    expect(politeness).toBe("assertive");
+  });
+
   describe("CSS properties for light/dark themes", () => {
     const alertSnippet = `
       <calcite-alert
