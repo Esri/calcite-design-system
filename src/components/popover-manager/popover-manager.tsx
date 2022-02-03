@@ -101,7 +101,7 @@ export class PopoverManager {
         .filter(
           (popover) =>
             popover.open &&
-            (group ? popover.group === group : true) &&
+            (group ? popover.group === group : !popover.group) &&
             !composedPath.includes(popover)
         )
         .forEach((popover) => popover.toggle(false));

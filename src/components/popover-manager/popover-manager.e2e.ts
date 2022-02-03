@@ -180,4 +180,38 @@ describe("calcite-popover-manager", () => {
     expect(await popover1.getProperty("open")).toBe(true);
     expect(await popover2.getProperty("open")).toBe(false);
   });
+
+  it("autoClose only close ungrouped popovers", async () => {
+    const page = await newE2EPage();
+
+    await page.setContent(
+      `
+      <div id="outsideNode">Outside node</div>
+      <calcite-popover-manager auto-close>
+        <calcite-popover id="popover1" reference-element="ref" open>
+          Popover1
+        </calcite-popover>
+        <calcite-popover id="popover2" group="test" reference-element="ref2" open>
+          Popover2
+        </calcite-popover>
+        <div id="ref">Button</div>
+        <div id="ref2">Button</div>
+      <calcite-popover-manager>
+      `
+    );
+
+    await page.waitForChanges();
+
+    const outsideNode = await page.find("#outsideNode");
+
+    await outsideNode.click();
+
+    await page.waitForChanges();
+
+    const popover1 = await page.find("#popover1");
+    const popover2 = await page.find("#popover2");
+
+    expect(await popover1.getProperty("open")).toBe(false);
+    expect(await popover2.getProperty("open")).toBe(true);
+  });
 });
