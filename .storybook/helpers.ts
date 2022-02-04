@@ -3,6 +3,7 @@ import { boolean as booleanKnob } from "@storybook/addon-knobs";
 import { Steps } from "screener-storybook/src/screener";
 import { THEMES } from "../src/utils/resources";
 import { ThemeName } from "../src/components/interfaces";
+import { Parameters } from "@storybook/api";
 
 // we can get all unique icon names from all size 16 non-filled icons.
 export const iconNames = Object.keys(icons)
@@ -21,6 +22,7 @@ export const boolean = (prop, value, standalone = true) => {
 export interface Story {
   (): string;
   decorators?: ((Story: Story) => DocumentFragment)[];
+  parameters?: Parameters;
 }
 
 export const setKnobs = ({ story, knobs }: { story: string; knobs: { name: string; value: string }[] }) => {
