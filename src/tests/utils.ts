@@ -1,4 +1,4 @@
-import { E2EElement, E2EPage } from "@stencil/core/testing";
+import { E2EElement, E2EPage, newE2EPage } from "@stencil/core/testing";
 import { BoundingBox, JSONObject } from "puppeteer";
 import dedent from "dedent";
 
@@ -327,4 +327,16 @@ export async function visualizeMouseCursor(page: E2EPage): Promise<void> {
 
 export async function waitForAnimationFrame(): Promise<void> {
   return new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+}
+
+/**
+ * Creates an E2E page for tests that need to create and set up elements programmatically.
+ */
+export async function newProgrammaticE2EPage(): Promise<E2EPage> {
+  const page = await newE2EPage();
+  // we need to initialize the page with any component to ensure they are available in the browser context
+  await page.setContent("<calcite-icon></calcite-icon>");
+  await page.evaluate(() => document.querySelector("calcite-icon").remove());
+
+  return page;
 }

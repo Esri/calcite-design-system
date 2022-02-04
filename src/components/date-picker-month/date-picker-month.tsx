@@ -395,7 +395,6 @@ export class DatePickerMonth {
         scale={this.scale}
         selected={this.isSelected(date)}
         startOfRange={this.isStartOfRange(date)}
-        tabIndex={active ? 0 : null}
         value={date}
       />
     );

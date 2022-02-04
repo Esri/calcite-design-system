@@ -188,7 +188,7 @@ export class TileSelect implements InteractiveComponent {
     const target = event.target as HTMLElement;
     const targets = ["calcite-tile", "calcite-tile-select"];
     if (targets.includes(target.localName)) {
-      this.input.checked = true;
+      this.input.click();
     }
   }
 

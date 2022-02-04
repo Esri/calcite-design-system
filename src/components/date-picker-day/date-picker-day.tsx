@@ -142,6 +142,10 @@ export class DatePickerDay implements InteractiveComponent {
   }
 
   componentDidRender(): void {
-    updateHostInteraction(this);
+    updateHostInteraction(this, this.isTabbable);
+  }
+
+  isTabbable(): boolean {
+    return this.active;
   }
 }

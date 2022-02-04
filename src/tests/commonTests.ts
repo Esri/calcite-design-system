@@ -12,6 +12,10 @@ type ComponentTag = keyof JSX.IntrinsicElements;
 type AxeOwningWindow = GlobalTestProps<{ axe: typeof axe }>;
 type ComponentHTML = string;
 type TagOrHTML = ComponentTag | ComponentHTML;
+type TagAndPage = {
+  tag: ComponentTag;
+  page: E2EPage;
+};
 
 export const HYDRATED_ATTR = config.hydratedFlag.name;
 
@@ -525,17 +529,28 @@ interface DisabledOptions {
   focusTarget: "host" | "child" | "none";
 }
 
+async function getTagAndPage(componentSetup: TagOrHTML | TagAndPage): Promise<TagAndPage> {
+  if (typeof componentSetup === "string") {
+    const page = await simplePageSetup(componentSetup);
+    const tag = getTag(componentSetup);
+
+    return { page, tag };
+  }
+
+  return componentSetup;
+}
+
 /**
  * Helper to test the disabled prop disabling user interaction.
  *
  * @param componentTagOrHTML - the component tag or HTML markup to test against
  */
 export async function disabled(
-  componentTagOrHtml: TagOrHTML,
+  componentSetup: TagOrHTML | TagAndPage,
   options: DisabledOptions = { focusTarget: "host" }
 ): Promise<void> {
-  const page = await simplePageSetup(componentTagOrHtml);
-  const tag = getTag(componentTagOrHtml);
+  const { page, tag } = await getTagAndPage(componentSetup);
+
   const component = await page.find(tag);
   const enabledComponentClickSpy = await component.spyOnEvent("click");
 
@@ -603,7 +618,9 @@ export async function disabled(
   await page.mouse.click(shadowFocusableCenterX, shadowFocusableCenterY);
   await expectToBeFocused(focusTarget);
 
-  expect(enabledComponentClickSpy).toHaveReceivedEventTimes(1);
+  // some components emit more than one click event,
+  // so we check if at least one event is received
+  expect(enabledComponentClickSpy.length).toBeGreaterThanOrEqual(1);
 
   component.setProperty("disabled", true);
   await page.waitForChanges();
