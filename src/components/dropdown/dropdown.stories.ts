@@ -1,6 +1,7 @@
 import { number, select } from "@storybook/addon-knobs";
 import { boolean, createSteps, stepStory } from "../../../.storybook/helpers";
 import { themesDarkDefault } from "../../../.storybook/utils";
+import { DefaultDropdownPlacement } from "./resources";
 import readme1 from "./readme.md";
 import readme2 from "../dropdown-group/readme.md";
 import readme3 from "../dropdown-item/readme.md";
@@ -52,7 +53,7 @@ export default {
 export const Simple = (): string => html`
   <calcite-dropdown
     active
-    placement="${select("placement", calcite_placements, "bottom-leading")}"
+    placement="${select("placement", calcite_placements, DefaultDropdownPlacement)}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
     width="${select("width", ["s", "m", "l"], "m")}"
     type="${select("type", ["click", "hover"], "click")}"
@@ -74,7 +75,7 @@ export const Simple = (): string => html`
 export const WithIcons = (): string => html`
   <calcite-dropdown
     active
-    placement="${select("placement", calcite_placements, "bottom-leading")}"
+    placement="${select("placement", calcite_placements, DefaultDropdownPlacement)}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
     width="${select("width", ["s", "m", "l"], "m")}"
     type="${select("type", ["click", "hover"], "click")}"
@@ -112,7 +113,7 @@ export const WithIcons = (): string => html`
 export const GroupsAndSelectionModes = (): string => html`
   <calcite-dropdown
     active
-    placement="${select("placement", calcite_placements, "bottom-leading")}"
+    placement="${select("placement", calcite_placements, DefaultDropdownPlacement)}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
     width="${select("width", ["s", "m", "l"], "m")}"
     type="${select("type", ["click", "hover"], "click")}"
@@ -142,7 +143,7 @@ GroupsAndSelectionModes.storyName = "Groups and selection modes";
 export const ItemsAsLinks = (): string => html`
   <calcite-dropdown
     active
-    placement="${select("placement", calcite_placements, "bottom-leading")}"
+    placement="${select("placement", calcite_placements, DefaultDropdownPlacement)}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
     width="${select("width", ["s", "m", "l"], "m")}"
     type="${select("type", ["click", "hover"], "click")}"
@@ -175,7 +176,7 @@ ItemsAsLinks.storyName = "Items as Links";
 export const AMixOfLinksAndNonLinks = (): string => html`
   <calcite-dropdown
     active
-    placement="${select("placement", calcite_placements, "bottom-leading")}"
+    placement="${select("placement", calcite_placements, DefaultDropdownPlacement)}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
     width="${select("width", ["s", "m", "l"], "m")}"
     type="${select("type", ["click", "hover"], "click")}"
@@ -203,7 +204,7 @@ export const DarkTheme = (): string => html`
   <calcite-dropdown
     active
     class="calcite-theme-dark"
-    placement="${select("placement", calcite_placements, "bottom-leading")}"
+    placement="${select("placement", calcite_placements, DefaultDropdownPlacement)}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
     width="${select("width", ["s", "m", "l"], "m")}"
     type="${select("type", ["click", "hover"], "click")}"
@@ -229,7 +230,7 @@ export const WithIconsDarkTheme = (): string => html`
   <calcite-dropdown
     active
     class="calcite-theme-dark"
-    placement="${select("placement", calcite_placements, "bottom-leading")}"
+    placement="${select("placement", calcite_placements, DefaultDropdownPlacement)}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
     width="${select("width", ["s", "m", "l"], "m")}"
     type="${select("type", ["click", "hover"], "click")}"
@@ -271,7 +272,7 @@ export const GroupsAndSelectionModesDarkTheme = (): string => html`
   <calcite-dropdown
     active
     class="calcite-theme-dark"
-    placement="${select("placement", calcite_placements, "bottom-leading")}"
+    placement="${select("placement", calcite_placements, DefaultDropdownPlacement)}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
     type="${select("type", ["click", "hover"], "click")}"
     ${boolean("disable-close-on-select", false)}
@@ -302,7 +303,7 @@ export const ItemsAsLinksDarkTheme = (): string => html`
   <calcite-dropdown
     active
     class="calcite-theme-dark"
-    placement="${select("placement", calcite_placements, "bottom-leading")}"
+    placement="${select("placement", calcite_placements, DefaultDropdownPlacement)}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
     width="${select("width", ["s", "m", "l"], "m")}"
     type="${select("type", ["click", "hover"], "click")}"
@@ -337,7 +338,7 @@ export const SimpleRtl = (): string => html`
   <calcite-dropdown
     active
     dir="rtl"
-    placement="${select("placement", calcite_placements, "bottom-leading")}"
+    placement="${select("placement", calcite_placements, DefaultDropdownPlacement)}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
     width="${select("width", ["s", "m", "l"], "m")}"
     type="${select("type", ["click", "hover"], "click")}"
@@ -361,7 +362,7 @@ SimpleRtl.storyName = "Simple - RTL";
 export const ScrollingAfterCertainItems = (): string => html`
   <calcite-dropdown
     active
-    placement="${select("placement", calcite_placements, "bottom-leading")}"
+    placement="${select("placement", calcite_placements, DefaultDropdownPlacement)}"
     max-items="${number("max-items", 7, { min: 0, max: 10, step: 1 })}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
     width="${select("width", ["s", "m", "l"], "m")}"
@@ -391,9 +392,9 @@ ScrollingAfterCertainItems.storyName = "Scrolling after certain items";
 
 export const FlipPositioning = stepStory(
   (): string => html`
-    <div style="overflow: auto; height: 600px; width: 500px;">
-      <div style="height: 400px;"></div>
-      <calcite-dropdown placement="${select("placement", calcite_placements, "bottom-leading")}">
+    <div style="overflow: auto; height: 400px; width: 400px;">
+      <div style="height: 300px;"></div>
+      <calcite-dropdown placement="${select("placement", calcite_placements, DefaultDropdownPlacement)}">
         <calcite-button slot="dropdown-trigger">Open Dropdown</calcite-button>
         <calcite-dropdown-group group-title="First group">
           <calcite-dropdown-item>1</calcite-dropdown-item>
@@ -410,6 +411,7 @@ export const FlipPositioning = stepStory(
           <calcite-dropdown-item>10</calcite-dropdown-item>
         </calcite-dropdown-group>
       </calcite-dropdown>
+      <div style="height: 300px;"></div>
     </div>
   `,
   createSteps("calcite-dropdown").snapshot("Default").click("calcite-button").snapshot("Open")
