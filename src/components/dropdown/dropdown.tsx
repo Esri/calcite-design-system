@@ -87,7 +87,6 @@ export class Dropdown implements InteractiveComponent {
 
   @Watch("maxItems")
   maxItemsHandler(): void {
-    this.reposition();
     this.setMaxScrollerHeight();
   }
 
@@ -362,8 +361,10 @@ export class Dropdown implements InteractiveComponent {
       return;
     }
 
+    this.reposition();
     const maxScrollerHeight = this.getMaxScrollerHeight();
     scrollerEl.style.maxHeight = maxScrollerHeight > 0 ? `${maxScrollerHeight}px` : "";
+    this.reposition();
   };
 
   setScrollerEl = (scrollerEl: HTMLDivElement): void => {

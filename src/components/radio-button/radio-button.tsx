@@ -144,7 +144,7 @@ export class RadioButton
   };
 
   queryButtons = (): HTMLCalciteRadioButtonElement[] => {
-    return Array.from(this.rootNode.querySelectorAll("calcite-radio-button:not([hidden]")).filter(
+    return Array.from(this.rootNode.querySelectorAll("calcite-radio-button:not([hidden])")).filter(
       (radioButton: HTMLCalciteRadioButtonElement) => radioButton.name === this.name
     ) as HTMLCalciteRadioButtonElement[];
   };
