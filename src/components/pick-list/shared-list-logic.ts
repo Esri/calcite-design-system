@@ -107,7 +107,7 @@ export function calciteListFocusOutHandler<T extends Lists>(this: List<T>, event
     return;
   }
 
-  const focusedInside = !!el.contains(event.relatedTarget as Node | null);
+  const focusedInside = el.contains(event.relatedTarget as Node | null);
   if (focusedInside) {
     return;
   }
@@ -115,7 +115,7 @@ export function calciteListFocusOutHandler<T extends Lists>(this: List<T>, event
   items.forEach((item) => {
     toggleSingleSelectItemTabbing(
       item,
-      selectedValues.size === 0 ? !!item.contains(event.target) || event.target === item : item.selected
+      selectedValues.size === 0 ? item.contains(event.target) || event.target === item : item.selected
     );
   });
 }
