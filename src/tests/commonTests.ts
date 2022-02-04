@@ -522,11 +522,18 @@ export async function formAssociated(componentTagOrHtml: TagOrHTML, options: For
   }
 }
 
+interface TabAndClickTargets {
+  tab: string;
+  click: string;
+}
+
+type FocusTarget = "host" | "child" | "none";
+
 interface DisabledOptions {
   /**
    *  Use this to specify whether the test should cover focusing.
    */
-  focusTarget: "host" | "child" | "none";
+  focusTarget: FocusTarget | TabAndClickTargets;
 }
 
 async function getTagAndPage(componentSetup: TagOrHTML | TagAndPage): Promise<TagAndPage> {
@@ -578,6 +585,7 @@ export async function disabled(
 
   if (options.focusTarget === "none") {
     await page.click(tag);
+    await page.waitForChanges();
 
     await expectToBeFocused("body");
     expect(enabledComponentClickSpy).toHaveReceivedEventTimes(1);
@@ -589,6 +597,7 @@ export async function disabled(
     expect(component.getAttribute("aria-disabled")).toBe("true");
 
     await page.click(tag);
+    await page.waitForChanges();
     await expectToBeFocused("body");
 
     expect(disabledComponentClickSpy).toHaveReceivedEventTimes(0);
@@ -596,13 +605,27 @@ export async function disabled(
     return;
   }
 
-  await page.keyboard.press("Tab");
-  const focusTarget =
-    options.focusTarget === "host" ? tag : await page.evaluate(() => document.activeElement?.tagName.toLowerCase());
-  expect(focusTarget).not.toBe("body");
-  await expectToBeFocused(focusTarget);
+  async function getFocusTarget(focusTarget: FocusTarget): Promise<string> {
+    return focusTarget === "host" ? tag : await page.evaluate(() => document.activeElement?.tagName.toLowerCase());
+  }
 
-  const [shadowFocusableCenterX, shadowFocusableCenterY] = await page.$eval(focusTarget, (element: HTMLElement) => {
+  await page.keyboard.press("Tab");
+  await page.waitForChanges();
+
+  let tabFocusTarget: string;
+  let clickFocusTarget: string;
+
+  if (typeof options.focusTarget === "object") {
+    tabFocusTarget = options.focusTarget.tab;
+    clickFocusTarget = options.focusTarget.click;
+  } else {
+    tabFocusTarget = clickFocusTarget = await getFocusTarget(options.focusTarget);
+  }
+
+  expect(tabFocusTarget).not.toBe("body");
+  await expectToBeFocused(tabFocusTarget);
+
+  const [shadowFocusableCenterX, shadowFocusableCenterY] = await page.$eval(tabFocusTarget, (element: HTMLElement) => {
     const focusTarget = element.shadowRoot.activeElement || element;
     const rect = focusTarget.getBoundingClientRect();
     return [rect.x + rect.width / 2, rect.y + rect.height / 2];
@@ -610,13 +633,15 @@ export async function disabled(
 
   async function resetFocus(): Promise<void> {
     await page.mouse.click(0, 0);
+    await page.waitForChanges();
   }
 
   await resetFocus();
   await expectToBeFocused("body");
 
   await page.mouse.click(shadowFocusableCenterX, shadowFocusableCenterY);
-  await expectToBeFocused(focusTarget);
+  await page.waitForChanges();
+  await expectToBeFocused(clickFocusTarget);
 
   // some components emit more than one click event,
   // so we check if at least one event is received
@@ -630,9 +655,11 @@ export async function disabled(
 
   await resetFocus();
   await page.keyboard.press("Tab");
+  await page.waitForChanges();
   await expectToBeFocused("body");
 
   await page.mouse.click(shadowFocusableCenterX, shadowFocusableCenterY);
+  await page.waitForChanges();
   await expectToBeFocused("body");
 
   expect(disabledComponentClickSpy).toHaveReceivedEventTimes(0);
