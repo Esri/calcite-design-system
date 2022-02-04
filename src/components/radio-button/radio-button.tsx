@@ -140,7 +140,7 @@ export class RadioButton
   //--------------------------------------------------------------------------
 
   selectItem = (items: HTMLCalciteRadioButtonElement[], selectedIndex: number): void => {
-    items[selectedIndex].click();
+    items[selectedIndex].checked = true;
   };
 
   queryButtons = (): HTMLCalciteRadioButtonElement[] => {

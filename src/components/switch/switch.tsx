@@ -188,6 +188,7 @@ export class Switch implements LabelableComponent, CheckableFormCompoment, Inter
           onClick={this.clickHandler}
           ref={this.setSwitchEl}
           role="switch"
+          tabIndex={0}
         >
           <div class="track">
             <div class="handle" />
