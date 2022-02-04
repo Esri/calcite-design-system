@@ -3,7 +3,7 @@ import { JSX } from "../components";
 import { toHaveNoViolations } from "jest-axe";
 import axe from "axe-core";
 import { config } from "../../stencil.config";
-import { GlobalTestProps, html } from "./utils";
+import { GlobalTestProps, html, waitForAnimationFrame } from "./utils";
 import { hiddenFormInputSlotName } from "../utils/form";
 
 expect.extend(toHaveNoViolations);
@@ -586,18 +586,21 @@ export async function disabled(
   if (options.focusTarget === "none") {
     await page.click(tag);
     await page.waitForChanges();
+    await waitForAnimationFrame();
 
     await expectToBeFocused("body");
     expect(enabledComponentClickSpy).toHaveReceivedEventTimes(1);
 
     component.setProperty("disabled", true);
     await page.waitForChanges();
+    await waitForAnimationFrame();
     const disabledComponentClickSpy = await component.spyOnEvent("click");
 
     expect(component.getAttribute("aria-disabled")).toBe("true");
 
     await page.click(tag);
     await page.waitForChanges();
+    await waitForAnimationFrame();
     await expectToBeFocused("body");
 
     expect(disabledComponentClickSpy).toHaveReceivedEventTimes(0);
@@ -611,6 +614,7 @@ export async function disabled(
 
   await page.keyboard.press("Tab");
   await page.waitForChanges();
+  await waitForAnimationFrame();
 
   let tabFocusTarget: string;
   let clickFocusTarget: string;
@@ -634,6 +638,7 @@ export async function disabled(
   async function clearFocus(): Promise<void> {
     await page.evaluate(() => (document.activeElement as HTMLElement)?.blur());
     await page.waitForChanges();
+    await waitForAnimationFrame();
   }
 
   await clearFocus();
@@ -641,6 +646,7 @@ export async function disabled(
 
   await page.mouse.click(shadowFocusableCenterX, shadowFocusableCenterY);
   await page.waitForChanges();
+  await waitForAnimationFrame();
   await expectToBeFocused(clickFocusTarget);
 
   // some components emit more than one click event,
@@ -649,6 +655,7 @@ export async function disabled(
 
   component.setProperty("disabled", true);
   await page.waitForChanges();
+  await waitForAnimationFrame();
   const disabledComponentClickSpy = await component.spyOnEvent("click");
 
   expect(component.getAttribute("aria-disabled")).toBe("true");
@@ -656,10 +663,12 @@ export async function disabled(
   await clearFocus();
   await page.keyboard.press("Tab");
   await page.waitForChanges();
+  await waitForAnimationFrame();
   await expectToBeFocused("body");
 
   await page.mouse.click(shadowFocusableCenterX, shadowFocusableCenterY);
   await page.waitForChanges();
+  await waitForAnimationFrame();
   await expectToBeFocused("body");
 
   expect(disabledComponentClickSpy).toHaveReceivedEventTimes(0);
