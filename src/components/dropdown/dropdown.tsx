@@ -74,7 +74,6 @@ export class Dropdown {
 
   @Watch("maxItems")
   maxItemsHandler(): void {
-    this.reposition();
     this.setMaxScrollerHeight();
   }
 
@@ -345,8 +344,10 @@ export class Dropdown {
       return;
     }
 
+    this.reposition();
     const maxScrollerHeight = this.getMaxScrollerHeight();
     scrollerEl.style.maxHeight = maxScrollerHeight > 0 ? `${maxScrollerHeight}px` : "";
+    this.reposition();
   };
 
   setScrollerEl = (scrollerEl: HTMLDivElement): void => {
