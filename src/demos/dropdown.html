@@ -42,16 +42,6 @@
   </head>
 
   <body>
-    <div class="child">
-      <calcite-button id="reftest" icon-end="hamburger" appearance="outline">Scale S</calcite-button>
-      <calcite-dropdown reference-element="reftest" scale="s" width="s">
-        <calcite-dropdown-group group-title="View">
-          <calcite-dropdown-item icon-end="list-bullet" active>List</calcite-dropdown-item>
-          <calcite-dropdown-item icon-end="grid">Grid</calcite-dropdown-item>
-          <calcite-dropdown-item icon-end="table">Table</calcite-dropdown-item>
-        </calcite-dropdown-group>
-      </calcite-dropdown>
-    </div>
     <!-- Headers -->
     <div class="parent">
       <div class="child"></div>
@@ -799,6 +789,37 @@
             <calcite-dropdown-item>River</calcite-dropdown-item>
           </calcite-dropdown-group>
         </calcite-dropdown>
+      </div>
+    </div>
+
+    <hr />
+    <div class="parent">
+      <script>
+        function openModal(selector) {
+          document.querySelector(selector).active = true;
+        }
+      </script>
+      <calcite-dropdown reference-element="reftest" scale="s" width="s">
+        <calcite-dropdown-group group-title="View">
+          <calcite-dropdown-item icon-end="list-bullet" active>List</calcite-dropdown-item>
+          <calcite-dropdown-item icon-end="grid">Grid</calcite-dropdown-item>
+          <calcite-dropdown-item icon-end="table">Table</calcite-dropdown-item>
+        </calcite-dropdown-group>
+      </calcite-dropdown>
+      <calcite-modal class="js-modal-s-s" width="s" scale="s">
+        <h3 slot="header">Small width and small scale modal</h3>
+        <div slot="content">
+          <p>The small modal is perfect for short confirmation dialogs or very compact interfaces with few elements.</p>
+          <calcite-button id="reftest" icon-end="hamburger" appearance="outline">Scale S</calcite-button>
+        </div>
+        <calcite-button slot="secondary" width="full" scale="s" appearance="outline">Cancel</calcite-button>
+        <calcite-button slot="primary" width="full" scale="s">Save</calcite-button>
+      </calcite-modal>
+      <div class="child right-aligned-text">dropdown trigger inside modal</div>
+      <div class="child">
+        <calcite-button onClick="openModal('.js-modal-s-s')" appearance="outline" scale="s">
+          Dropdown inside modal
+        </calcite-button>
       </div>
     </div>
   </body>
