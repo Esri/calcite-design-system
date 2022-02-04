@@ -95,15 +95,9 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
       this.open = false;
     } else if (!oldValue && newValue) {
       this.el.addEventListener("calciteComboboxOpen", this.toggleOpenEnd);
-      // give the combobox height, then reposition prior to opening
-      requestAnimationFrame(() => {
-        this.reposition();
-        this.setMaxScrollerHeight();
-        this.open = true;
-      });
+      this.open = true;
     }
     this.reposition();
-    this.setMaxScrollerHeight();
   }
 
   /** Disable combobox input */
@@ -303,6 +297,7 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
 
   disconnectedCallback(): void {
     this.mutationObserver?.disconnect();
+    this.resizeObserver?.disconnect();
     this.destroyPopper();
     disconnectLabel(this);
     disconnectForm(this);
@@ -351,9 +346,6 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
 
   @State() open = this.active;
 
-  /** specifies the item wrapper height; it is updated when maxItems is > 0  **/
-  @State() maxScrollerHeight = 0;
-
   /** when search text is cleared, reset active to  */
   @Watch("text")
   textHandler(): void {
@@ -365,6 +357,8 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
   data: ItemData[];
 
   mutationObserver = createObserver("mutation", () => this.updateItems());
+
+  resizeObserver = createObserver("resize", () => this.setMaxScrollerHeight());
 
   private guid = guid();
 
@@ -480,9 +474,16 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
   };
 
   setMaxScrollerHeight = (): void => {
-    if (this.active) {
-      this.maxScrollerHeight = this.getMaxScrollerHeight(this.getCombinedItems());
+    const { active, listContainerEl } = this;
+
+    if (!listContainerEl || !active) {
+      return;
     }
+
+    this.reposition();
+    const maxScrollerHeight = this.getMaxScrollerHeight();
+    listContainerEl.style.maxHeight = maxScrollerHeight > 0 ? `${maxScrollerHeight}px` : "";
+    this.reposition();
   };
 
   calciteChipDismissHandler = (
@@ -540,6 +541,7 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
   };
 
   setListContainerEl = (el: HTMLDivElement): void => {
+    this.resizeObserver.observe(el);
     this.listContainerEl = el;
   };
 
@@ -584,19 +586,26 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
     this.popper = null;
   }
 
-  private getMaxScrollerHeight(items: ComboboxChildElement[]): number {
+  private getMaxScrollerHeight(): number {
+    const items = this.getCombinedItems().filter((item) => !item.hidden);
+
     const { maxItems } = this;
+
     let itemsToProcess = 0;
     let maxScrollerHeight = 0;
-    items.forEach((item) => {
-      if (itemsToProcess < maxItems && maxItems > 0) {
-        const height = this.calculateSingleItemHeight(item);
-        if (height > 0) {
-          maxScrollerHeight += height;
-          itemsToProcess++;
+
+    if (items.length > maxItems) {
+      items.forEach((item) => {
+        if (itemsToProcess < maxItems && maxItems > 0) {
+          const height = this.calculateSingleItemHeight(item);
+          if (height > 0) {
+            maxScrollerHeight += height;
+            itemsToProcess++;
+          }
         }
-      }
-    });
+      });
+    }
+
     return maxScrollerHeight;
   }
 
@@ -1002,27 +1011,20 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
   }
 
   renderPopperContainer(): VNode {
-    const { active, maxScrollerHeight, setMenuEl, setListContainerEl, hideList, open } = this;
+    const { active, setMenuEl, setListContainerEl, hideList, open } = this;
     const classes = {
       "list-container": true,
       [PopperCSS.animation]: true,
       [PopperCSS.animationActive]: active
     };
-    const style = {
-      maxHeight: maxScrollerHeight > 0 ? `${maxScrollerHeight}px` : ""
-    };
+
     return (
       <div
         aria-hidden="true"
         class={{ "popper-container": true, "popper-container--active": open }}
         ref={setMenuEl}
       >
-        <div
-          class={classes}
-          onTransitionEnd={this.transitionEnd}
-          ref={setListContainerEl}
-          style={style}
-        >
+        <div class={classes} onTransitionEnd={this.transitionEnd} ref={setListContainerEl}>
           <ul class={{ list: true, "list--hide": hideList }}>
             <slot />
           </ul>
