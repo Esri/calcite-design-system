@@ -587,18 +587,20 @@ export async function disabled(
   expect(focusTarget).not.toBe("body");
   await expectToBeFocused(focusTarget);
 
-  const [shadowFocusableX, shadowFocusableY] = await page.$eval(focusTarget, (element: HTMLElement) => {
+  const [shadowFocusableCenterX, shadowFocusableCenterY] = await page.$eval(focusTarget, (element: HTMLElement) => {
     const focusTarget = element.shadowRoot.activeElement || element;
     const rect = focusTarget.getBoundingClientRect();
     return [rect.x + rect.width / 2, rect.y + rect.height / 2];
   });
 
-  await page.keyboard.down("Shift");
-  await page.keyboard.press("Tab");
-  await page.keyboard.up("Shift");
+  async function resetFocus(): Promise<void> {
+    await page.mouse.click(0, 0);
+  }
+
+  await resetFocus();
   await expectToBeFocused("body");
 
-  await page.mouse.click(shadowFocusableX, shadowFocusableY);
+  await page.mouse.click(shadowFocusableCenterX, shadowFocusableCenterY);
   await expectToBeFocused(focusTarget);
 
   expect(enabledComponentClickSpy).toHaveReceivedEventTimes(1);
@@ -609,14 +611,11 @@ export async function disabled(
 
   expect(component.getAttribute("aria-disabled")).toBe("true");
 
-  await page.$eval("body", (body: HTMLBodyElement) =>
-    // use click() to avoid having Puppeteer click on the test component
-    body.click()
-  );
+  await resetFocus();
   await page.keyboard.press("Tab");
   await expectToBeFocused("body");
 
-  await page.mouse.click(shadowFocusableX, shadowFocusableY);
+  await page.mouse.click(shadowFocusableCenterX, shadowFocusableCenterY);
   await expectToBeFocused("body");
 
   expect(disabledComponentClickSpy).toHaveReceivedEventTimes(0);
