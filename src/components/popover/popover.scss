@@ -71,9 +71,11 @@
   w-full;
 }
 
-.close-button {
-  margin-block: theme("borderRadius.DEFAULT");
-  margin-inline-end: theme("borderRadius.DEFAULT");
+.close-button-container {
+  @apply flex overflow-hidden;
+  flex: 0 0 auto;
+  border-start-end-radius: theme("borderRadius.DEFAULT");
+  border-end-end-radius: theme("borderRadius.DEFAULT");
 }
 
 ::slotted(calcite-panel),
