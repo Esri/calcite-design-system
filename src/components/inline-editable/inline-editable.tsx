@@ -307,7 +307,6 @@ export class InlineEditable implements InteractiveComponent, LabelableComponent 
         }
         if (!!e.shiftKey && e.target === this.cancelEditingButton) {
           e.preventDefault();
-          e.stopPropagation();
           this.inputElement?.setFocus();
         }
       }
@@ -318,13 +317,11 @@ export class InlineEditable implements InteractiveComponent, LabelableComponent 
 
   private cancelEditingHandler = async (e: MouseEvent) => {
     e.preventDefault();
-    e.stopPropagation();
     this.cancelEditing();
   };
 
   private enableEditingHandler = async (e: MouseEvent) => {
     e.preventDefault();
-    e.stopPropagation();
     if (this.disabled) {
       return;
     }
@@ -335,7 +332,6 @@ export class InlineEditable implements InteractiveComponent, LabelableComponent 
 
   private confirmChangesHandler = async (e: MouseEvent) => {
     e.preventDefault();
-    e.stopPropagation();
     this.calciteInlineEditableEditConfirm.emit();
     try {
       if (this.afterConfirm) {

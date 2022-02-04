@@ -163,7 +163,7 @@ describe("calcite-color-picker", () => {
       }
     ]));
 
-  it("can be disabled", () => disabled("calcite-color-picker"));
+  it("can be disabled", () => disabled("<calcite-color-picker value='#408047'></calcite-color-picker>"));
 
   it("emits event when value changes", async () => {
     const page = await newE2EPage({

@@ -22,7 +22,7 @@ describe("calcite-inline-editable", () => {
           <calcite-input />
         </calcite-inline-editable>
       `,
-      { focusTarget: "child" }
+      { focusTarget: { tab: "calcite-inline-editable", click: "calcite-input" } }
     ));
 
   describe("rendering permutations", () => {
