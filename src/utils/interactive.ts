@@ -34,6 +34,11 @@ export function updateHostInteraction(
   if (component.disabled) {
     component.el.setAttribute("tabindex", "-1");
     component.el.setAttribute("aria-disabled", "true");
+
+    if (component.el.contains(document.activeElement)) {
+      (document.activeElement as HTMLElement).blur();
+    }
+
     return;
   }
 
