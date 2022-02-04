@@ -223,6 +223,7 @@ export const FlipPositioning = stepStory(
     <div style="overflow: auto; height: 600px; width: 500px;">
       <div style="height: 400px;"></div>
       <calcite-combobox
+        max-items="${number("max-items", 6)}"
         placeholder="${text("placeholder", "placeholder")}"
         label="${text("label (for screen readers)", "demo")}"
         selection-mode="${select("selection-mode", ["multi", "single", "ancestors"], "multi")}"
@@ -240,6 +241,14 @@ export const FlipPositioning = stepStory(
           <calcite-combobox-item value="Black Eyed Susan" text-label="Black Eyed Susan"></calcite-combobox-item>
           <calcite-combobox-item value="Nasturtium" text-label="Nasturtium"></calcite-combobox-item>
         </calcite-combobox-item>
+        <calcite-combobox-item value="Animals" text-label="Animals">
+          <calcite-combobox-item value="Birds" text-label="Birds"></calcite-combobox-item>
+          <calcite-combobox-item value="Reptiles" text-label="Reptiles"></calcite-combobox-item>
+          <calcite-combobox-item value="Amphibians" text-label="Amphibians"></calcite-combobox-item>
+        </calcite-combobox-item>
+        <calcite-combobox-item value="Rocks" text-label="Rocks"></calcite-combobox-item>
+        <calcite-combobox-item value="Insects" text-label="Insects"></calcite-combobox-item>
+        <calcite-combobox-item value="Rivers" text-label="Rivers"></calcite-combobox-item>
       </calcite-combobox>
     </div>
   `,

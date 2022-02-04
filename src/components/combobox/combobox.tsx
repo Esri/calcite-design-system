@@ -89,13 +89,9 @@ export class Combobox implements LabelableComponent, FormComponent {
       this.open = false;
     } else if (!oldValue && newValue) {
       this.el.addEventListener("calciteComboboxOpen", this.toggleOpenEnd);
-      // give the combobox height, then reposition prior to opening
-      requestAnimationFrame(() => {
-        this.setMaxScrollerHeight();
-        this.open = true;
-      });
+      this.open = true;
     }
-    this.setMaxScrollerHeight();
+    this.reposition();
   }
 
   /** Disable combobox input */
