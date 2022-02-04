@@ -83,7 +83,6 @@ export class Dropdown implements ConditionalSlotComponent {
 
   @Watch("maxItems")
   maxItemsHandler(): void {
-    this.reposition();
     this.setMaxScrollerHeight();
   }
 
@@ -438,8 +437,10 @@ export class Dropdown implements ConditionalSlotComponent {
       return;
     }
 
+    this.reposition();
     const maxScrollerHeight = this.getMaxScrollerHeight();
     scrollerEl.style.maxHeight = maxScrollerHeight > 0 ? `${maxScrollerHeight}px` : "";
+    this.reposition();
   };
 
   setScrollerEl = (scrollerEl: HTMLDivElement): void => {
