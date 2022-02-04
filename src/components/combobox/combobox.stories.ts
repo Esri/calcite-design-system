@@ -220,8 +220,7 @@ Rtl.storyName = "RTL";
 
 export const FlipPositioning = stepStory(
   (): string => html`
-    <div style="overflow: auto; height: 600px; width: 500px;">
-      <div style="height: 400px;"></div>
+    <div style="position: absolute; bottom: 10px; left: 10px;">
       <calcite-combobox
         max-items="${number("max-items", 6)}"
         placeholder="${text("placeholder", "placeholder")}"
@@ -254,3 +253,6 @@ export const FlipPositioning = stepStory(
   `,
   createSteps("calcite-combobox").snapshot("Default").click("calcite-combobox").snapshot("Open")
 );
+FlipPositioning.parameters = {
+  layout: "fullscreen"
+};
