@@ -51,7 +51,6 @@
   @apply bg-foreground-1
     relative
     flex
-    overflow-hidden
     flex-nowrap
     flex-row
     h-full
@@ -67,9 +66,16 @@
   flex-col
   flex-nowrap
   self-center
-  overflow-hidden
+  word-break
   h-full
   w-full;
+}
+
+.close-button-container {
+  @apply flex overflow-hidden;
+  flex: 0 0 auto;
+  border-start-end-radius: theme("borderRadius.DEFAULT");
+  border-end-end-radius: theme("borderRadius.DEFAULT");
 }
 
 ::slotted(calcite-panel),
