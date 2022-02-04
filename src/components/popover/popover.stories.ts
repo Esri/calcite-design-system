@@ -96,14 +96,14 @@ export const Nested = stepStory(
       <calcite-popover-manager>
         ${referenceElementHTML}
         <calcite-popover
-          ${boolean("dismissible", false)}
+          ${boolean("dismissible", true)}
           reference-element="reference-element"
           placement="${select("placement", calcite_placements, "auto")}"
           ${boolean("open", false)}
         >
           <div style="width: 300px; padding:12px 16px;">${nestedReferenceElementHTML}</div>
           <calcite-popover
-            ${boolean("dismissible", false)}
+            ${boolean("dismissible", true)}
             reference-element="reference-element-nested"
             placement="${select("placement", calcite_placements, "auto")}"
             ${boolean("open", false)}
