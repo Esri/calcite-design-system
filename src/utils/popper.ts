@@ -5,7 +5,7 @@ import {
   StrictModifiers,
   PositioningStrategy
 } from "@popperjs/core";
-import { getElementDir } from "./dom";
+import { getElementDir, queryElementRoots } from "./dom";
 
 type PlacementRtl = "leading-start" | "leading" | "leading-end" | "trailing-end" | "trailing" | "trailing-start";
 type VariationRtl =
@@ -97,3 +97,22 @@ export function hypotenuse(sideA: number, sideB: number): number {
 const visiblePointerSize = 4;
 
 export const defaultOffsetDistance = Math.ceil(hypotenuse(visiblePointerSize, visiblePointerSize));
+
+export interface ReferenceElementComponent {
+  el: HTMLElement;
+  referenceElement?: HTMLElement | string;
+  effectiveReferenceElement: HTMLElement;
+}
+
+export function setEffectiveReferenceElement(component: ReferenceElementComponent): void {
+  const { el, referenceElement } = component;
+
+  component.effectiveReferenceElement =
+    (typeof referenceElement === "string" ? queryElementRoots(el, { id: referenceElement }) : referenceElement) || null;
+
+  if (referenceElement && !component.effectiveReferenceElement) {
+    console.warn(`${el.tagName}: reference-element id "${referenceElement}" was not found.`, {
+      el
+    });
+  }
+}

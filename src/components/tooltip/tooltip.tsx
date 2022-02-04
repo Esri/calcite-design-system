@@ -8,9 +8,10 @@ import {
   createPopper,
   updatePopper,
   CSS as PopperCSS,
-  OverlayPositioning
+  OverlayPositioning,
+  ReferenceElementComponent,
+  setEffectiveReferenceElement
 } from "../../utils/popper";
-import { queryElementRoots } from "../../utils/dom";
 
 /**
  * @slot - A slot for adding text.
@@ -20,7 +21,7 @@ import { queryElementRoots } from "../../utils/dom";
   styleUrl: "tooltip.scss",
   shadow: true
 })
-export class Tooltip {
+export class Tooltip implements ReferenceElementComponent {
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -150,15 +151,7 @@ export class Tooltip {
 
   setUpReferenceElement = (): void => {
     this.removeReferences();
-    this.effectiveReferenceElement = this.getReferenceElement();
-
-    const { el, referenceElement, effectiveReferenceElement } = this;
-    if (referenceElement && !effectiveReferenceElement) {
-      console.warn(`${el.tagName}: reference-element id "${referenceElement}" was not found.`, {
-        el
-      });
-    }
-
+    setEffectiveReferenceElement(this);
     this.addReferences();
     this.createPopper();
   };
@@ -198,16 +191,6 @@ export class Tooltip {
   hide = (): void => {
     this.open = false;
   };
-
-  getReferenceElement(): HTMLElement {
-    const { referenceElement, el } = this;
-
-    return (
-      (typeof referenceElement === "string"
-        ? queryElementRoots(el, { id: referenceElement })
-        : referenceElement) || null
-    );
-  }
 
   getModifiers(): Partial<StrictModifiers>[] {
     const { arrowEl, offsetDistance, offsetSkidding } = this;

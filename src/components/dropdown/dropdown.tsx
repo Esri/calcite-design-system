@@ -13,11 +13,13 @@ import {
 } from "@stencil/core";
 import { DropdownPlacement, ItemKeyboardEvent } from "./interfaces";
 
-import { focusElement, getSlotted, queryElementRoots } from "../../utils/dom";
+import { focusElement, getSlotted } from "../../utils/dom";
 import {
+  setEffectiveReferenceElement,
   createPopper,
   CSS as PopperCSS,
   OverlayPositioning,
+  ReferenceElementComponent,
   updatePopper
 } from "../../utils/popper";
 import { Instance as Popper, StrictModifiers } from "@popperjs/core";
@@ -42,7 +44,7 @@ const ARIA_HASPOPUP = "aria-haspopup";
   styleUrl: "dropdown.scss",
   shadow: true
 })
-export class Dropdown implements ConditionalSlotComponent {
+export class Dropdown implements ConditionalSlotComponent, ReferenceElementComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -140,6 +142,10 @@ export class Dropdown implements ConditionalSlotComponent {
 
   componentWillLoad(): void {
     this.setUpReferenceElement();
+  }
+
+  componentDidLoad(): void {
+    this.reposition();
   }
 
   disconnectedCallback(): void {
@@ -357,16 +363,6 @@ export class Dropdown implements ConditionalSlotComponent {
   //
   //--------------------------------------------------------------------------
 
-  getReferenceElement(): HTMLElement {
-    const { referenceElement, el } = this;
-
-    return (
-      (typeof referenceElement === "string"
-        ? queryElementRoots(el, { id: referenceElement })
-        : referenceElement) || null
-    );
-  }
-
   removeReferences = (): void => {
     const { effectiveReferenceElement } = this;
 
@@ -403,21 +399,6 @@ export class Dropdown implements ConditionalSlotComponent {
     this.setExpandedAttr();
   };
 
-  setUpReferenceElement = (): void => {
-    this.removeReferences();
-    this.effectiveReferenceElement = this.getReferenceElement();
-
-    const { el, referenceElement, effectiveReferenceElement } = this;
-    if (referenceElement && !effectiveReferenceElement) {
-      console.warn(`${el.tagName}: reference-element id "${referenceElement}" was not found.`, {
-        el
-      });
-    }
-
-    this.addReferences();
-    this.createPopper();
-  };
-
   updateItems = (): void => {
     this.updateSelectedItems();
 
@@ -428,6 +409,13 @@ export class Dropdown implements ConditionalSlotComponent {
     );
 
     this.reposition();
+  };
+
+  setUpReferenceElement = (): void => {
+    this.removeReferences();
+    setEffectiveReferenceElement(this);
+    this.addReferences();
+    this.createPopper();
   };
 
   setMaxScrollerHeight = (): void => {
@@ -455,8 +443,8 @@ export class Dropdown implements ConditionalSlotComponent {
   };
 
   setReferenceEl = (el: HTMLDivElement): void => {
+    this.removeReferences();
     this.triggerEl = el;
-    this.setUpReferenceElement();
   };
 
   setMenuEl = (el: HTMLDivElement): void => {

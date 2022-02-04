@@ -26,11 +26,12 @@ import {
   createPopper,
   updatePopper,
   CSS as PopperCSS,
-  OverlayPositioning
+  OverlayPositioning,
+  ReferenceElementComponent,
+  setEffectiveReferenceElement
 } from "../../utils/popper";
 import { StrictModifiers, Placement, Instance as Popper } from "@popperjs/core";
 import { guid } from "../../utils/guid";
-import { queryElementRoots } from "../../utils/dom";
 import { HeadingLevel, Heading } from "../functional/Heading";
 
 /**
@@ -41,7 +42,7 @@ import { HeadingLevel, Heading } from "../functional/Heading";
   styleUrl: "popover.scss",
   shadow: true
 })
-export class Popover {
+export class Popover implements ReferenceElementComponent {
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -249,15 +250,7 @@ export class Popover {
 
   setUpReferenceElement = (): void => {
     this.removeReferences();
-    this.effectiveReferenceElement = this.getReferenceElement();
-
-    const { el, referenceElement, effectiveReferenceElement } = this;
-    if (referenceElement && !effectiveReferenceElement) {
-      console.warn(`${el.tagName}: reference-element id "${referenceElement}" was not found.`, {
-        el
-      });
-    }
-
+    setEffectiveReferenceElement(this);
     this.addReferences();
     this.createPopper();
   };
@@ -301,16 +294,6 @@ export class Popover {
     effectiveReferenceElement.removeAttribute(ARIA_CONTROLS);
     effectiveReferenceElement.removeAttribute(ARIA_EXPANDED);
   };
-
-  getReferenceElement(): HTMLElement {
-    const { referenceElement, el } = this;
-
-    return (
-      (typeof referenceElement === "string"
-        ? queryElementRoots(el, { id: referenceElement })
-        : referenceElement) || null
-    );
-  }
 
   getModifiers(): Partial<StrictModifiers>[] {
     const { arrowEl, flipPlacements, disableFlip, disablePointer, offsetDistance, offsetSkidding } =
