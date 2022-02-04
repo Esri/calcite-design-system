@@ -75,7 +75,6 @@ export class Dropdown implements FloatingUIComponent {
 
   @Watch("maxItems")
   maxItemsHandler(): void {
-    this.reposition();
     this.setMaxScrollerHeight();
   }
 
@@ -351,6 +350,7 @@ export class Dropdown implements FloatingUIComponent {
       return;
     }
 
+    this.reposition();
     const maxScrollerHeight = this.getMaxScrollerHeight();
     scrollerEl.style.maxHeight = maxScrollerHeight > 0 ? `${maxScrollerHeight}px` : "";
     this.reposition();

@@ -91,15 +91,9 @@ export class Combobox implements LabelableComponent, FormComponent, FloatingUICo
       this.open = false;
     } else if (!oldValue && newValue) {
       this.el.addEventListener("calciteComboboxOpen", this.toggleOpenEnd);
-      // give the combobox height, then reposition prior to opening
-      requestAnimationFrame(() => {
-        this.reposition();
-        this.setMaxScrollerHeight();
-        this.open = true;
-      });
+      this.open = true;
     }
     this.reposition();
-    this.setMaxScrollerHeight();
   }
 
   /** Disable combobox input */
@@ -483,6 +477,7 @@ export class Combobox implements LabelableComponent, FormComponent, FloatingUICo
       return;
     }
 
+    this.reposition();
     const maxScrollerHeight = this.getMaxScrollerHeight();
     listContainerEl.style.maxHeight = maxScrollerHeight > 0 ? `${maxScrollerHeight}px` : "";
     this.reposition();
@@ -557,8 +552,10 @@ export class Combobox implements LabelableComponent, FormComponent, FloatingUICo
     const items = this.getCombinedItems().filter((item) => !item.hidden);
 
     const { maxItems } = this;
+
     let itemsToProcess = 0;
     let maxScrollerHeight = 0;
+
     if (items.length > maxItems) {
       items.forEach((item) => {
         if (itemsToProcess < maxItems && maxItems > 0) {
@@ -570,6 +567,7 @@ export class Combobox implements LabelableComponent, FormComponent, FloatingUICo
         }
       });
     }
+
     return maxScrollerHeight;
   }
 
