@@ -631,12 +631,12 @@ export async function disabled(
     return [rect.x + rect.width / 2, rect.y + rect.height / 2];
   });
 
-  async function resetFocus(): Promise<void> {
-    await page.mouse.click(0, 0);
+  async function clearFocus(): Promise<void> {
+    await page.evaluate(() => (document.activeElement as HTMLElement)?.blur());
     await page.waitForChanges();
   }
 
-  await resetFocus();
+  await clearFocus();
   await expectToBeFocused("body");
 
   await page.mouse.click(shadowFocusableCenterX, shadowFocusableCenterY);
@@ -653,7 +653,7 @@ export async function disabled(
 
   expect(component.getAttribute("aria-disabled")).toBe("true");
 
-  await resetFocus();
+  await clearFocus();
   await page.keyboard.press("Tab");
   await page.waitForChanges();
   await expectToBeFocused("body");
