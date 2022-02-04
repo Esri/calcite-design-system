@@ -1,5 +1,5 @@
 import { number, select } from "@storybook/addon-knobs";
-import { boolean } from "../../../.storybook/helpers";
+import { boolean, createSteps, stepStory } from "../../../.storybook/helpers";
 import { themesDarkDefault } from "../../../.storybook/utils";
 import readme1 from "./readme.md";
 import readme2 from "../dropdown-group/readme.md";
@@ -388,3 +388,29 @@ export const ScrollingAfterCertainItems = (): string => html`
 `;
 
 ScrollingAfterCertainItems.storyName = "Scrolling after certain items";
+
+export const FlipPositioning = stepStory(
+  (): string => html`
+    <div style="overflow: auto; height: 600px; width: 500px;">
+      <div style="height: 400px;"></div>
+      <calcite-dropdown placement="${select("placement", calcite_placements, "bottom-leading")}">
+        <calcite-button slot="dropdown-trigger">Open Dropdown</calcite-button>
+        <calcite-dropdown-group group-title="First group">
+          <calcite-dropdown-item>1</calcite-dropdown-item>
+          <calcite-dropdown-item>2</calcite-dropdown-item>
+          <calcite-dropdown-item>3</calcite-dropdown-item>
+          <calcite-dropdown-item>4</calcite-dropdown-item>
+          <calcite-dropdown-item>5</calcite-dropdown-item>
+        </calcite-dropdown-group>
+        <calcite-dropdown-group group-title="Second group">
+          <calcite-dropdown-item>6</calcite-dropdown-item>
+          <calcite-dropdown-item>7</calcite-dropdown-item>
+          <calcite-dropdown-item>8</calcite-dropdown-item>
+          <calcite-dropdown-item>9</calcite-dropdown-item>
+          <calcite-dropdown-item>10</calcite-dropdown-item>
+        </calcite-dropdown-group>
+      </calcite-dropdown>
+    </div>
+  `,
+  createSteps("calcite-dropdown").snapshot("Default").click("calcite-button").snapshot("Open")
+);
