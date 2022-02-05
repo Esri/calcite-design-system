@@ -637,7 +637,6 @@ export async function disabled(
     const focusTarget = element.shadowRoot.activeElement || element;
     const rect = focusTarget.getBoundingClientRect();
 
-    console.log(Math.floor(rect.x + rect.width / 2), Math.floor(rect.y + rect.height / 2));
     return [Math.floor(rect.x + rect.width / 2), Math.floor(rect.y + rect.height / 2)];
   });
 
@@ -654,6 +653,7 @@ export async function disabled(
   await page.mouse.click(shadowFocusableCenterX, shadowFocusableCenterY);
   await page.waitForChanges();
   await waitForAnimationFrame();
+
   await expectToBeFocused(clickFocusTarget);
 
   // some components emit more than one click event,

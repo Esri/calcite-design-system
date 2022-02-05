@@ -302,6 +302,8 @@ export class ColorPicker implements InteractiveComponent {
 
   private hueThumbState: "idle" | "hover" | "drag" = "idle";
 
+  private hueScopeNode: HTMLDivElement;
+
   private internalColorUpdateContext: "internal" | "initial" | null = null;
 
   private previousColor: InternalColor | null;
@@ -522,9 +524,11 @@ export class ColorPicker implements InteractiveComponent {
     if (region === "color-field") {
       this.hueThumbState = "drag";
       this.captureColorFieldColor(offsetX, offsetY);
+      this.colorFieldScopeNode.focus();
     } else if (region === "slider") {
       this.sliderThumbState = "drag";
       this.captureHueSliderColor(offsetX);
+      this.hueScopeNode.focus();
     }
 
     // prevent text selection outside of color field & slider area
@@ -798,6 +802,7 @@ export class ColorPicker implements InteractiveComponent {
             aria-valuenow={color?.round().hue() || DEFAULT_COLOR.round().hue()}
             class={{ [CSS.scope]: true, [CSS.hueScope]: true }}
             onKeyDown={this.handleHueScopeKeyDown}
+            ref={this.storeHueScope}
             role="slider"
             style={{ top: `${hueTop}px`, left: `${hueLeft}px` }}
             tabindex="0"
@@ -900,6 +905,10 @@ export class ColorPicker implements InteractiveComponent {
 
   private storeColorFieldScope = (node: HTMLDivElement): void => {
     this.colorFieldScopeNode = node;
+  };
+
+  private storeHueScope = (node: HTMLDivElement): void => {
+    this.hueScopeNode = node;
   };
 
   private renderChannelsTabTitle = (channelMode: this["channelMode"]): VNode => {
