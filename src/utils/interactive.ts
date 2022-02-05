@@ -15,7 +15,7 @@ export interface InteractiveComponent {
   disabled: boolean;
 }
 
-type Predicate = () => boolean;
+type HostIsTabbablePredicate = () => boolean;
 
 /**
  * This helper updates the host element to prevent keyboard interaction on its subtree and sets the appropriate aria attribute for accessibility.
@@ -29,7 +29,7 @@ type Predicate = () => boolean;
  */
 export function updateHostInteraction(
   component: InteractiveComponent,
-  hostIsTabbable: boolean | Predicate = false
+  hostIsTabbable: boolean | HostIsTabbablePredicate = false
 ): void {
   if (component.disabled) {
     component.el.setAttribute("tabindex", "-1");
@@ -42,7 +42,9 @@ export function updateHostInteraction(
     return;
   }
 
-  if (hostIsTabbable === true || (typeof hostIsTabbable === "function" && hostIsTabbable.call(component))) {
+  if (typeof hostIsTabbable === "function") {
+    component.el.setAttribute("tabindex", hostIsTabbable.call(component) ? "0" : "-1");
+  } else if (hostIsTabbable === true) {
     component.el.setAttribute("tabindex", "0");
   } else {
     component.el.removeAttribute("tabindex");
