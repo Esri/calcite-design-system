@@ -99,6 +99,7 @@ export class Link implements InteractiveComponent {
 
     const Tag = this.childElType;
     const role = this.childElType === "span" ? "link" : null;
+    const tabIndex = this.childElType === "span" ? 0 : null;
 
     return (
       <Host role="presentation">
@@ -113,6 +114,7 @@ export class Link implements InteractiveComponent {
           ref={this.storeTagRef}
           rel={Tag === "a" && this.rel}
           role={role}
+          tabIndex={tabIndex}
           target={Tag === "a" && this.target}
         >
           {this.iconStart ? iconStartEl : null}
