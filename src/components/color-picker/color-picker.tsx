@@ -29,7 +29,7 @@ import { colorEqual, CSSColorMode, Format, normalizeHex, parseMode, SupportedMod
 import { throttle } from "lodash-es";
 
 import { clamp } from "../../utils/math";
-import { updateHostInteraction } from "../../utils/interactive";
+import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 
 const throttleFor60FpsInMs = 16;
 const defaultValue = normalizeHex(DEFAULT_COLOR.hex());
@@ -40,7 +40,7 @@ const defaultFormat = "auto";
   styleUrl: "color-picker.scss",
   shadow: true
 })
-export class ColorPicker {
+export class ColorPicker implements InteractiveComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
