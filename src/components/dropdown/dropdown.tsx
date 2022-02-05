@@ -164,7 +164,7 @@ export class Dropdown implements ConditionalSlotComponent, ReferenceElementCompo
         class="calcite-dropdown-trigger-container"
         onClick={this.openCalciteDropdown}
         onKeyDown={this.keyDownHandler}
-        ref={this.setReferenceEl}
+        ref={this.setSlottedReferenceEl}
       >
         <slot aria-expanded={active.toString()} aria-haspopup="true" name={SLOTS.dropdownTrigger} />
       </div>
@@ -347,7 +347,7 @@ export class Dropdown implements ConditionalSlotComponent, ReferenceElementCompo
 
   private menuEl: HTMLDivElement;
 
-  private triggerEl: HTMLDivElement;
+  private slottedReferenceEl: HTMLDivElement;
 
   private activeTransitionProp = "visibility";
 
@@ -442,9 +442,9 @@ export class Dropdown implements ConditionalSlotComponent, ReferenceElementCompo
     }
   };
 
-  setReferenceEl = (el: HTMLDivElement): void => {
+  setSlottedReferenceEl = (el: HTMLDivElement): void => {
     this.removeReferences();
-    this.triggerEl = el;
+    this.slottedReferenceEl = el;
   };
 
   setMenuEl = (el: HTMLDivElement): void => {
@@ -466,10 +466,11 @@ export class Dropdown implements ConditionalSlotComponent, ReferenceElementCompo
 
   createPopper(): void {
     this.destroyPopper();
-    const { menuEl, triggerEl, effectiveReferenceElement, placement, overlayPositioning } = this;
+    const { menuEl, slottedReferenceEl, effectiveReferenceElement, placement, overlayPositioning } =
+      this;
     const modifiers = this.getModifiers();
 
-    const referenceEl = triggerEl || effectiveReferenceElement;
+    const referenceEl = slottedReferenceEl || effectiveReferenceElement;
 
     if (!referenceEl || !menuEl) {
       return;
