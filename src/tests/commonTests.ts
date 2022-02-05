@@ -635,13 +635,14 @@ export async function disabled(
     return [rect.x + rect.width / 2, rect.y + rect.height / 2];
   });
 
-  async function clearFocus(): Promise<void> {
-    await page.evaluate(() => (document.activeElement as HTMLElement)?.blur());
+  async function resetFocusOrder(): Promise<void> {
+    // test page has default margin, so clicking on 0,0 will not hit the test element
+    await page.mouse.click(0, 0);
     await page.waitForChanges();
     await waitForAnimationFrame();
   }
 
-  await clearFocus();
+  await resetFocusOrder();
   await expectToBeFocused("body");
 
   await page.mouse.click(shadowFocusableCenterX, shadowFocusableCenterY);
@@ -660,7 +661,7 @@ export async function disabled(
 
   expect(component.getAttribute("aria-disabled")).toBe("true");
 
-  await clearFocus();
+  await resetFocusOrder();
   await page.keyboard.press("Tab");
   await page.waitForChanges();
   await waitForAnimationFrame();
