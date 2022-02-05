@@ -161,6 +161,7 @@ export class InlineEditable implements InteractiveComponent, LabelableComponent 
               label={this.intlConfirmChanges}
               loading={this.loading}
               onClick={this.confirmChangesHandler}
+              ref={(el) => (this.confirmEditingButton = el)}
               scale={this.scale}
             />
           ]}
@@ -218,6 +219,8 @@ export class InlineEditable implements InteractiveComponent, LabelableComponent 
   private enableEditingButton: HTMLCalciteButtonElement;
 
   private cancelEditingButton: HTMLCalciteButtonElement;
+
+  private confirmEditingButton: HTMLCalciteButtonElement;
 
   labelEl: HTMLCalciteLabelElement;
 
@@ -321,10 +324,15 @@ export class InlineEditable implements InteractiveComponent, LabelableComponent 
   };
 
   private enableEditingHandler = async (e: MouseEvent) => {
-    e.preventDefault();
-    if (this.disabled) {
+    if (
+      this.disabled ||
+      e.target === this.cancelEditingButton ||
+      e.target === this.confirmEditingButton
+    ) {
       return;
     }
+
+    e.preventDefault();
     if (!this.editingEnabled) {
       this.enableEditing();
     }
