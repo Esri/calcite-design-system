@@ -589,22 +589,17 @@ export async function disabled(
 
   if (options.focusTarget === "none") {
     await page.click(tag);
-    await page.waitForChanges();
-    await waitForAnimationFrame();
-
     await expectToBeFocused("body");
+
     expect(enabledComponentClickSpy).toHaveReceivedEventTimes(1);
 
     component.setProperty("disabled", true);
     await page.waitForChanges();
-    await waitForAnimationFrame();
     const disabledComponentClickSpy = await component.spyOnEvent("click");
 
     expect(component.getAttribute("aria-disabled")).toBe("true");
 
     await page.click(tag);
-    await page.waitForChanges();
-    await waitForAnimationFrame();
     await expectToBeFocused("body");
 
     expect(disabledComponentClickSpy).toHaveReceivedEventTimes(0);
@@ -617,8 +612,6 @@ export async function disabled(
   }
 
   await page.keyboard.press("Tab");
-  await page.waitForChanges();
-  await waitForAnimationFrame();
 
   let tabFocusTarget: string;
   let clickFocusTarget: string;
@@ -643,17 +636,12 @@ export async function disabled(
   async function resetFocusOrder(): Promise<void> {
     // test page has default margin, so clicking on 0,0 will not hit the test element
     await page.mouse.click(0, 0);
-    await page.waitForChanges();
-    await waitForAnimationFrame();
   }
 
   await resetFocusOrder();
   await expectToBeFocused("body");
 
   await page.mouse.click(shadowFocusableCenterX, shadowFocusableCenterY);
-  await page.waitForChanges();
-  await waitForAnimationFrame();
-
   await expectToBeFocused(clickFocusTarget);
 
   // some components emit more than one click event,
@@ -662,20 +650,15 @@ export async function disabled(
 
   component.setProperty("disabled", true);
   await page.waitForChanges();
-  await waitForAnimationFrame();
   const disabledComponentClickSpy = await component.spyOnEvent("click");
 
   expect(component.getAttribute("aria-disabled")).toBe("true");
 
   await resetFocusOrder();
   await page.keyboard.press("Tab");
-  await page.waitForChanges();
-  await waitForAnimationFrame();
   await expectToBeFocused("body");
 
   await page.mouse.click(shadowFocusableCenterX, shadowFocusableCenterY);
-  await page.waitForChanges();
-  await waitForAnimationFrame();
   await expectToBeFocused("body");
 
   expect(disabledComponentClickSpy).toHaveReceivedEventTimes(0);
