@@ -630,7 +630,7 @@ export async function disabled(
     const focusTarget = element.shadowRoot.activeElement || element;
     const rect = focusTarget.getBoundingClientRect();
 
-    return [Math.floor(rect.x + rect.width / 2), Math.floor(rect.y + rect.height / 2)];
+    return [rect.x + rect.width / 2, rect.y + rect.height / 2];
   });
 
   async function resetFocusOrder(): Promise<void> {
