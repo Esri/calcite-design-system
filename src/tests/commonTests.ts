@@ -560,6 +560,10 @@ export async function disabled(
 
   const component = await page.find(tag);
   const enabledComponentClickSpy = await component.spyOnEvent("click");
+  await page.addStyleTag({
+    // skip animations/transitions
+    content: `:root { --calcite-duration-factor: 0; }`
+  });
 
   await page.$eval(tag, (el) => {
     el.addEventListener(
@@ -632,7 +636,9 @@ export async function disabled(
   const [shadowFocusableCenterX, shadowFocusableCenterY] = await page.$eval(tabFocusTarget, (element: HTMLElement) => {
     const focusTarget = element.shadowRoot.activeElement || element;
     const rect = focusTarget.getBoundingClientRect();
-    return [rect.x + rect.width / 2, rect.y + rect.height / 2];
+
+    console.log(Math.floor(rect.x + rect.width / 2), Math.floor(rect.y + rect.height / 2));
+    return [Math.floor(rect.x + rect.width / 2), Math.floor(rect.y + rect.height / 2)];
   });
 
   async function resetFocusOrder(): Promise<void> {

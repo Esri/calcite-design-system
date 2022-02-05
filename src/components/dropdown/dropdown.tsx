@@ -230,7 +230,7 @@ export class Dropdown implements InteractiveComponent {
       return;
     }
 
-    this.closeCalciteDropdown();
+    this.closeCalciteDropdown(false);
   }
 
   @Listen("calciteDropdownCloseRequest")
@@ -488,9 +488,12 @@ export class Dropdown implements InteractiveComponent {
     return maxScrollerHeight;
   }
 
-  private closeCalciteDropdown() {
+  private closeCalciteDropdown(focusTrigger = true) {
     this.active = false;
-    focusElement(this.triggers[0]);
+
+    if (focusTrigger) {
+      focusElement(this.triggers[0]);
+    }
   }
 
   private focusOnFirstActiveOrFirstItem = (): void => {
