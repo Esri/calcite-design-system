@@ -20,6 +20,16 @@ describe("calcite-fab", () => {
       }
     ]));
 
+  it(`should set all internal calcite-button types to 'button'`, async () => {
+    const page = await newE2EPage({
+      html: "<calcite-fab></calcite-fab>"
+    });
+
+    const buttons = await page.findAll("calcite-fab >>> calcite-button");
+
+    buttons.forEach(async (button) => expect(await button.getProperty("type")).toBe("button"));
+  });
+
   it("should have visible text when text is enabled", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-fab text="hello world" text-enabled></calcite-fab>`);
