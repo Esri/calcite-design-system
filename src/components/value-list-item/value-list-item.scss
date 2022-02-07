@@ -21,7 +21,7 @@ calcite-pick-list-item {
 
 :host([active]),
 :host([selected]) {
-  @apply ring;
+  @apply shadow-outline-active;
 }
 
 .handle {
