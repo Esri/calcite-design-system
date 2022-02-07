@@ -127,4 +127,33 @@ describe("calcite-pick-list-item", () => {
 
     expect(removeEventSpy).toHaveReceivedEventTimes(1);
   });
+
+  it("slot keyboard navigation", async () => {
+    const page = await newE2EPage();
+    await page.setContent(
+      html`
+        <calcite-pick-list style="width: 400px">
+          <calcite-pick-list-item label="apple" value="apple" icon="circle" intl-remove="Remove">
+            <calcite-action slot="actions-end" icon="information"></calcite-action>
+          </calcite-pick-list-item>
+          <calcite-pick-list-item label="mango" value="mango" selected="" icon="circle" intl-remove="Remove">
+            <calcite-action slot="actions-end" icon="information"></calcite-action>
+          </calcite-pick-list-item>
+        </calcite-pick-list>
+      `
+    );
+
+    const item = await page.find("calcite-pick-list-item:nth-child(2)");
+    await item.click();
+    await item.press("Tab");
+    expect(await page.evaluate(() => document.activeElement.getAttribute("slot"))).toEqual("actions-end");
+
+    await page.keyboard.down("Shift");
+    await page.keyboard.press("Tab");
+    await page.keyboard.up("Shift");
+    expect(await page.evaluate(() => document.activeElement.matches("calcite-pick-list-item:nth-child(2)"))).toBe(true);
+
+    await item.press("Tab");
+    expect(await page.evaluate(() => document.activeElement.getAttribute("slot"))).toEqual("actions-end");
+  });
 });
