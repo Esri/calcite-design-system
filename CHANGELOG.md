@@ -18,6 +18,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - **dropdown:** Reposition floating menu correctly. ([#4058](https://github.com/Esri/calcite-components/issues/4058)) ([2be87c1](https://github.com/Esri/calcite-components/commit/2be87c1c3b2af63bde433547285cec327b54b539)), closes [#3234](https://github.com/Esri/calcite-components/issues/3234)
 - **popover:** Allow nesting of popovers ([#4021](https://github.com/Esri/calcite-components/issues/4021)) ([31b7d8f](https://github.com/Esri/calcite-components/commit/31b7d8ff72a8673d6bb7a1b5bcfe52a7443c56f3)), closes [#4009](https://github.com/Esri/calcite-components/issues/4009)
 - **popover-manager, tooltip-manager:** Properly query referenceElement in shadowRoot ([#4014](https://github.com/Esri/calcite-components/issues/4014)) ([12a70eb](https://github.com/Esri/calcite-components/commit/12a70eb4dd296c0ae1f5684c3a1bca8688162a0a)), closes [#3625](https://github.com/Esri/calcite-components/issues/3625)
+- **value-list-item:** change to older tailwind class for outlining a selected item ([#4057](https://github.com/Esri/calcite-components/issues/4057)) ([56e9d94](https://github.com/Esri/calcite-components/commit/56e9d941e62eaa86e3f8dc9450c3d3a89d016d02))
 <!--@unreleased-section-end-->
 
 ## [1.0.0-beta.76](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.75...v1.0.0-beta.76) (2022-02-01)
