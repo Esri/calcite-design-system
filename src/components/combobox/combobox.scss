@@ -173,7 +173,7 @@
 }
 
 .chip {
-  margin-block: calc(var(--calcite-combobox-item-spacing-unit-s) / 2) 0;
+  margin-block: calc(var(--calcite-combobox-item-spacing-unit-s) / 2);
   margin-inline: 0 var(--calcite-combobox-item-spacing-unit-s);
   max-width: 100%;
 }
