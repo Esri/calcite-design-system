@@ -482,7 +482,7 @@ export class Panel implements ConditionalSlotComponent, InteractiveComponent {
 
     return (
       <Fragment>
-        {loading || disabled ? <calcite-scrim loading={loading} /> : null}
+        {loading ? <calcite-scrim loading={loading} /> : null}
         {panelNode}
       </Fragment>
     );

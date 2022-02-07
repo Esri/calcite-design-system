@@ -198,12 +198,11 @@ export class Filter implements InteractiveComponent {
 
     return (
       <Fragment>
-        {disabled ? <calcite-scrim /> : null}
         <div class={CSS.container}>
           <label>
             <calcite-input
               aria-label={this.intlLabel || TEXT.filterLabel}
-              disabled={this.disabled}
+              disabled={disabled}
               icon={ICONS.search}
               onCalciteInputInput={this.inputHandler}
               onKeyDown={this.keyDownHandler}
