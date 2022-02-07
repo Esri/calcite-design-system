@@ -392,14 +392,16 @@ export class Popover {
     const { dismissible, closeButton, intlClose } = this;
 
     return dismissible || closeButton ? (
-      <calcite-action
-        class={CSS.closeButton}
-        onClick={this.hide}
-        ref={(closeButtonEl) => (this.closeButtonEl = closeButtonEl)}
-        text={intlClose}
-      >
-        <calcite-icon icon="x" scale="m" />
-      </calcite-action>
+      <div class={CSS.closeButtonContainer}>
+        <calcite-action
+          class={CSS.closeButton}
+          onClick={this.hide}
+          ref={(closeButtonEl) => (this.closeButtonEl = closeButtonEl)}
+          text={intlClose}
+        >
+          <calcite-icon icon="x" scale="m" />
+        </calcite-action>
+      </div>
     ) : null;
   }
 

@@ -2,6 +2,7 @@ export const CSS = {
   container: "container",
   arrow: "arrow",
   imageContainer: "image-container",
+  closeButtonContainer: "close-button-container",
   closeButton: "close-button",
   content: "content",
   hasHeader: "has-header",

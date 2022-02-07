@@ -3,6 +3,23 @@
 This document maintains a list of released versions and changes introduced by them.
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
+<!--@unreleased-section-start-->
+
+## Unreleased
+
+### Features
+
+- **calcite-filter:** add scale prop/attribute ([#4041](https://github.com/Esri/calcite-components/issues/4041)) ([9d35be0](https://github.com/Esri/calcite-components/commit/9d35be0775aa7afebaf6712f5072452bcdf7ed61))
+
+### Bug Fixes
+
+- **combobox:** Align with dropdown logic and repositioning ([#4059](https://github.com/Esri/calcite-components/issues/4059)) ([631c49f](https://github.com/Esri/calcite-components/commit/631c49fde2a42b19c337d5b59982293331f4f96c)), closes [#3868](https://github.com/Esri/calcite-components/issues/3868)
+- **date-picker:** make date picker work in high-contrast ([#4005](https://github.com/Esri/calcite-components/issues/4005)) ([#4011](https://github.com/Esri/calcite-components/issues/4011)) ([15e89f7](https://github.com/Esri/calcite-components/commit/15e89f7d92f9de955dde2ba6bd80ce9e9623019d))
+- **dropdown:** Reposition floating menu correctly. ([#4058](https://github.com/Esri/calcite-components/issues/4058)) ([2be87c1](https://github.com/Esri/calcite-components/commit/2be87c1c3b2af63bde433547285cec327b54b539)), closes [#3234](https://github.com/Esri/calcite-components/issues/3234)
+- **popover:** Allow nesting of popovers ([#4021](https://github.com/Esri/calcite-components/issues/4021)) ([31b7d8f](https://github.com/Esri/calcite-components/commit/31b7d8ff72a8673d6bb7a1b5bcfe52a7443c56f3)), closes [#4009](https://github.com/Esri/calcite-components/issues/4009)
+- **popover-manager, tooltip-manager:** Properly query referenceElement in shadowRoot ([#4014](https://github.com/Esri/calcite-components/issues/4014)) ([12a70eb](https://github.com/Esri/calcite-components/commit/12a70eb4dd296c0ae1f5684c3a1bca8688162a0a)), closes [#3625](https://github.com/Esri/calcite-components/issues/3625)
+<!--@unreleased-section-end-->
+
 ## [1.0.0-beta.76](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.75...v1.0.0-beta.76) (2022-02-01)
 
 ### Features

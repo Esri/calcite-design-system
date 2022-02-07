@@ -47,7 +47,8 @@ const contentHTML = `
 </div>
 `;
 
-const referenceElementHTML = `<calcite-popover-manager>Ut enim ad minim veniam, quis <calcite-button title="Reference Element" id="reference-element">nostrud exercitation</calcite-button> ullamco laboris nisi ut aliquip ex ea commodo consequat.</calcite-popover-manager>`;
+const referenceElementHTML = `Ut enim ad minim veniam, quis <calcite-button title="Reference Element" id="reference-element">nostrud exercitation</calcite-button> ullamco laboris nisi ut aliquip ex ea commodo consequat.`;
+const nestedReferenceElementHTML = `Ut enim ad minim veniam, quis <calcite-button title="Nested Reference Element" id="reference-element-nested">nostrud exercitation</calcite-button> ullamco laboris nisi ut aliquip ex ea commodo consequat.`;
 
 export default {
   title: "Components/Popover",
@@ -59,7 +60,7 @@ export default {
 export const Simple = stepStory(
   (): string => html`
     <div style="width: 400px;">
-      ${referenceElementHTML}
+      <calcite-popover-manager>${referenceElementHTML}</calcite-popover-manager>
       <calcite-popover
         ${boolean("dismissible", false)}
         ${boolean("disable-flip", false)}
@@ -87,4 +88,35 @@ export const Simple = stepStory(
     .ltr()
     .executeScript(setTheme("dark"))
     .snapshot("Dark theme")
+);
+
+export const Nested = stepStory(
+  (): string => html`
+    <div style="width: 400px;">
+      <calcite-popover-manager>
+        ${referenceElementHTML}
+        <calcite-popover
+          ${boolean("dismissible", true)}
+          reference-element="reference-element"
+          placement="${select("placement", calcite_placements, "auto")}"
+          ${boolean("open", false)}
+        >
+          <div style="width: 300px; padding:12px 16px;">${nestedReferenceElementHTML}</div>
+          <calcite-popover
+            ${boolean("dismissible", true)}
+            reference-element="reference-element-nested"
+            placement="${select("placement", calcite_placements, "auto")}"
+            ${boolean("open", false)}
+          >
+            ${contentHTML}
+          </calcite-popover>
+        </calcite-popover>
+      </calcite-popover-manager>
+    </div>
+  `,
+  createSteps("calcite-popover")
+    .click("#reference-element")
+    .snapshot("Single popover open")
+    .click("#reference-element-nested")
+    .snapshot("Multiple popovers open")
 );
