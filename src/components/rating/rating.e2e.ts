@@ -8,7 +8,7 @@ describe("calcite-rating", () => {
 
   it("is labelable", async () => labelable("calcite-rating"));
 
-  it("can be disabled", () => disabled("calcite-rating"));
+  it("can be disabled", () => disabled("<calcite-rating value='3'></calcite-rating>"));
 
   it("renders outlined star when no value or average is set", async () => {
     const page = await newE2EPage();
