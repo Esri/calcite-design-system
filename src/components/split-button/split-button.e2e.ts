@@ -71,6 +71,8 @@ describe("calcite-split-button", () => {
 
     const buttons = await page.findAll("calcite-split-button >>> calcite-button");
 
+    expect(buttons).toHaveLength(2);
+
     buttons.forEach(async (button) => expect(await button.getProperty("type")).toBe("button"));
   });
 

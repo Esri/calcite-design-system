@@ -36,12 +36,14 @@ describe("calcite-inline-editable", () => {
 
     it(`should set all internal calcite-button types to 'button'`, async () => {
       const page = await newE2EPage({
-        html: html`<calcite-inline-editable>
+        html: html`<calcite-inline-editable controls editing-enabled>
           <calcite-input />
         </calcite-inline-editable>`
       });
 
       const buttons = await page.findAll("calcite-inline-editable >>> calcite-button");
+
+      expect(buttons).toHaveLength(3);
 
       buttons.forEach(async (button) => expect(await button.getProperty("type")).toBe("button"));
     });

@@ -170,6 +170,8 @@ describe("calcite-color-picker", () => {
 
     const buttons = await page.findAll("calcite-color-picker >>> calcite-button");
 
+    expect(buttons).toHaveLength(2);
+
     buttons.forEach(async (button) => expect(await button.getProperty("type")).toBe("button"));
   });
 

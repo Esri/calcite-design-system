@@ -27,6 +27,8 @@ describe("calcite-fab", () => {
 
     const buttons = await page.findAll("calcite-fab >>> calcite-button");
 
+    expect(buttons).toHaveLength(1);
+
     buttons.forEach(async (button) => expect(await button.getProperty("type")).toBe("button"));
   });
 
