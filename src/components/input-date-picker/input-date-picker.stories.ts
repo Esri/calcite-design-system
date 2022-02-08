@@ -4,7 +4,6 @@ import { themesDarkDefault } from "../../../.storybook/utils";
 import readme from "./readme.md";
 import { html } from "../../tests/utils";
 import { locales } from "../../utils/locale";
-import { popperFlipPlacements } from "../../utils/popper";
 
 export default {
   title: "Components/Controls/InputDatePicker",
@@ -26,7 +25,6 @@ export const Simple = (): string => html`
         locale="${select("locale", locales, "en")}"
         intl-next-month="${text("intl-next-month", "Next month")}"
         intl-prev-month="${text("intl-prev-month", "Previous month")}"
-        flipPlacements="${select("flipPlacements", popperFlipPlacements, "")}"
       ></calcite-input-date-picker
     ></calcite-label>
   </div>
@@ -45,7 +43,6 @@ export const DarkMode = (): string => html`
         intl-next-month="${text("intl-next-month", "Next month")}"
         intl-prev-month="${text("intl-prev-month", "Previous month")}"
         range="${boolean("range", false)}"
-        flipPlacements="${select("flipPlacements", popperFlipPlacements, "")}"
       ></calcite-input-date-picker
     ></calcite-label>
   </div>
@@ -67,7 +64,6 @@ export const Range = (): string => html`
       prev-month-label="${text("prev-month-label", "Previous month")}"
       range="${boolean("range", true)}"
       layout="${select("layout", ["horizontal", "vertical"], "horizontal")}"
-      flipPlacements="${select("flipPlacements", popperFlipPlacements, "")}"
     ></calcite-input-date-picker>
   </div>
 `;
@@ -84,7 +80,6 @@ export const RTL = (): string => html`
         locale="${select("locale", locales, "en")}"
         intl-next-month="${text("intl-next-month", "Next month")}"
         intl-prev-month="${text("intl-prev-month", "Previous month")}"
-        flipPlacements="${select("flipPlacements", popperFlipPlacements, "")}"
       ></calcite-input-date-picker
     ></calcite-label>
   </div>

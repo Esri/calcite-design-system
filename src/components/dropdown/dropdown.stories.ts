@@ -5,7 +5,7 @@ import readme1 from "./readme.md";
 import readme2 from "../dropdown-group/readme.md";
 import readme3 from "../dropdown-item/readme.md";
 import { html } from "../../tests/utils";
-import { defaultMenuPlacement, popperFlipPlacements, popperMenuPlacements } from "../../utils/popper";
+import { defaultMenuPlacement, popperMenuPlacements } from "../../utils/popper";
 
 export default {
   title: "Components/Buttons/Dropdown",
@@ -19,7 +19,6 @@ export const Simple = (): string => html`
   <calcite-dropdown
     active
     placement="${select("placement", popperMenuPlacements, defaultMenuPlacement)}"
-    flipPlacements="${select("flipPlacements", popperFlipPlacements, "")}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
     width="${select("width", ["s", "m", "l"], "m")}"
     type="${select("type", ["click", "hover"], "click")}"
@@ -42,7 +41,6 @@ export const WithIcons = (): string => html`
   <calcite-dropdown
     active
     placement="${select("placement", popperMenuPlacements, defaultMenuPlacement)}"
-    flipPlacements="${select("flipPlacements", popperFlipPlacements, "")}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
     width="${select("width", ["s", "m", "l"], "m")}"
     type="${select("type", ["click", "hover"], "click")}"
@@ -81,7 +79,6 @@ export const GroupsAndSelectionModes = (): string => html`
   <calcite-dropdown
     active
     placement="${select("placement", popperMenuPlacements, defaultMenuPlacement)}"
-    flipPlacements="${select("flipPlacements", popperFlipPlacements, "")}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
     width="${select("width", ["s", "m", "l"], "m")}"
     type="${select("type", ["click", "hover"], "click")}"
@@ -112,7 +109,6 @@ export const ItemsAsLinks = (): string => html`
   <calcite-dropdown
     active
     placement="${select("placement", popperMenuPlacements, defaultMenuPlacement)}"
-    flipPlacements="${select("flipPlacements", popperFlipPlacements, "")}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
     width="${select("width", ["s", "m", "l"], "m")}"
     type="${select("type", ["click", "hover"], "click")}"
@@ -146,7 +142,6 @@ export const AMixOfLinksAndNonLinks = (): string => html`
   <calcite-dropdown
     active
     placement="${select("placement", popperMenuPlacements, defaultMenuPlacement)}"
-    flipPlacements="${select("flipPlacements", popperFlipPlacements, "")}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
     width="${select("width", ["s", "m", "l"], "m")}"
     type="${select("type", ["click", "hover"], "click")}"
@@ -175,7 +170,6 @@ export const DarkTheme = (): string => html`
     active
     class="calcite-theme-dark"
     placement="${select("placement", popperMenuPlacements, defaultMenuPlacement)}"
-    flipPlacements="${select("flipPlacements", popperFlipPlacements, "")}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
     width="${select("width", ["s", "m", "l"], "m")}"
     type="${select("type", ["click", "hover"], "click")}"
@@ -202,7 +196,6 @@ export const WithIconsDarkTheme = (): string => html`
     active
     class="calcite-theme-dark"
     placement="${select("placement", popperMenuPlacements, defaultMenuPlacement)}"
-    flipPlacements="${select("flipPlacements", popperFlipPlacements, "")}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
     width="${select("width", ["s", "m", "l"], "m")}"
     type="${select("type", ["click", "hover"], "click")}"
@@ -245,7 +238,6 @@ export const GroupsAndSelectionModesDarkTheme = (): string => html`
     active
     class="calcite-theme-dark"
     placement="${select("placement", popperMenuPlacements, defaultMenuPlacement)}"
-    flipPlacements="${select("flipPlacements", popperFlipPlacements, "")}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
     type="${select("type", ["click", "hover"], "click")}"
     ${boolean("disable-close-on-select", false)}
@@ -277,7 +269,6 @@ export const ItemsAsLinksDarkTheme = (): string => html`
     active
     class="calcite-theme-dark"
     placement="${select("placement", popperMenuPlacements, defaultMenuPlacement)}"
-    flipPlacements="${select("flipPlacements", popperFlipPlacements, "")}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
     width="${select("width", ["s", "m", "l"], "m")}"
     type="${select("type", ["click", "hover"], "click")}"
@@ -313,7 +304,6 @@ export const SimpleRtl = (): string => html`
     active
     dir="rtl"
     placement="${select("placement", popperMenuPlacements, defaultMenuPlacement)}"
-    flipPlacements="${select("flipPlacements", popperFlipPlacements, "")}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
     width="${select("width", ["s", "m", "l"], "m")}"
     type="${select("type", ["click", "hover"], "click")}"
