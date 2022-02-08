@@ -866,6 +866,7 @@ export class ColorPicker implements InteractiveComponent {
                   label={intlDeleteColor}
                   onClick={this.deleteColor}
                   scale={hexInputScale}
+                  type="button"
                 />
                 <calcite-button
                   appearance="transparent"
@@ -876,6 +877,7 @@ export class ColorPicker implements InteractiveComponent {
                   label={intlSaveColor}
                   onClick={this.saveColor}
                   scale={hexInputScale}
+                  type="button"
                 />
               </div>
             </div>

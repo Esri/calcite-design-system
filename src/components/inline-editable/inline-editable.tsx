@@ -137,6 +137,7 @@ export class InlineEditable implements InteractiveComponent, LabelableComponent 
               opacity: this.editingEnabled ? "0" : "1",
               width: this.editingEnabled ? "0" : "inherit"
             }}
+            type="button"
           />
           {this.shouldShowControls && [
             <div class={CSS.cancelEditingButtonWrapper}>
@@ -150,6 +151,7 @@ export class InlineEditable implements InteractiveComponent, LabelableComponent 
                 onClick={this.cancelEditingHandler}
                 ref={(el) => (this.cancelEditingButton = el)}
                 scale={this.scale}
+                type="button"
               />
             </div>,
             <calcite-button
@@ -163,6 +165,7 @@ export class InlineEditable implements InteractiveComponent, LabelableComponent 
               onClick={this.confirmChangesHandler}
               ref={(el) => (this.confirmEditingButton = el)}
               scale={this.scale}
+              type="button"
             />
           ]}
         </div>
