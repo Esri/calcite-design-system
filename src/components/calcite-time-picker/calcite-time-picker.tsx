@@ -31,6 +31,7 @@ import {
   getformatToParts
 } from "../../utils/time";
 import { CSS, TEXT } from "./resources";
+import { getElementDir } from "../../utils/dom";
 
 function capitalize(str: string): string {
   return str.charAt(0).toUpperCase() + str.slice(1);
@@ -127,6 +128,7 @@ export class CalciteTimePicker {
   localeWatcher(newLocale: string): void {
     this.hourCycle = getLocaleHourCycle(newLocale);
     this.setValue(this.value, false);
+    this.setMeridiemOrder(newLocale);
   }
 
   /** The scale (size) of the time picker */
@@ -160,6 +162,8 @@ export class CalciteTimePicker {
   private secondEl: HTMLSpanElement;
 
   private formatParts: Intl.DateTimeFormatPart[];
+
+  private meridiemOrder: string;
 
   // --------------------------------------------------------------------------
   //
@@ -597,7 +601,6 @@ export class CalciteTimePicker {
         localizedMeridiem
       } = localizeTimeStringToParts(value, this.locale);
       this.formatParts = getformatToParts(value, this.locale);
-      console.log(this.formatParts);
       this.localizedHour = localizedHour;
       this.localizedHourSuffix = localizedHourSuffix;
       this.localizedMinute = localizedMinute;
@@ -671,6 +674,29 @@ export class CalciteTimePicker {
     }
   };
 
+  private setMeridiemOrder(newLocale?: string): void {
+    if (this.isDefaultLocaleRTL(newLocale)) {
+      this.meridiemOrder = "-1";
+    } else {
+      this.meridiemOrder = this.getMeridiemOrder() === 0 ? "-1" : "0";
+    }
+  }
+
+  private getMeridiemOrder(): number {
+    const index = this.formatParts.findIndex((parts: { type: string; value: string }) => {
+      return parts.value === this.localizedMeridiem;
+    });
+    return index;
+  }
+
+  private isDefaultLocaleRTL(newLocale?: string): boolean {
+    return (
+      !document.documentElement.lang &&
+      (this.locale === "en" || this.locale === "en-US") &&
+      !newLocale &&
+      (this.el.dir === "rtl" || getElementDir(this.el) === "rtl")
+    );
+  }
   // --------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -680,6 +706,7 @@ export class CalciteTimePicker {
   connectedCallback() {
     this.setValue(this.value, false);
     this.hourCycle = getLocaleHourCycle(this.locale);
+    this.setMeridiemOrder();
   }
 
   // --------------------------------------------------------------------------
@@ -694,16 +721,6 @@ export class CalciteTimePicker {
     const minuteIsNumber = isValidNumber(this.minute);
     const secondIsNumber = isValidNumber(this.second);
     const showMeridiem = this.hourCycle === "12";
-    console.log("timepicker dir", this.el.dir);
-    const dayPeriodOrderIndex = this.formatParts.findIndex(
-      (parts: { type: string; value: string }) => {
-        return parts.value === this.localizedMeridiem;
-      }
-    );
-    // console.log(this.formatparts, this.locale);
-    console.log(`%c localized meridiem ${this.localizedMeridiem}`, "color:blue");
-    // const dayPeriodOrderIndex = getMeridiemPosition(this.formatparts, this.localizedMeridiem);
-    console.log(`%c dayPeriodOrderIndex  ${dayPeriodOrderIndex}`, "color:green");
     return (
       <div
         class={{
@@ -712,9 +729,8 @@ export class CalciteTimePicker {
           [CSS.showSecond]: this.showSecond,
           [CSS[`scale-${this.scale}`]]: true
         }}
-        dir={document.documentElement.lang || navigator.language ? "ltr" : this.el.dir}
+        dir="ltr"
       >
-        {/* <div class="main-column" dir="ltr"> */}
         <div class={CSS.column} role="group">
           <span
             aria-label={this.intlHourUp}
@@ -859,17 +875,11 @@ export class CalciteTimePicker {
             </span>
           </div>
         )}
-        {/* </div> */}
-        {/* <div class="main-column"> */}
         {this.localizedSecondSuffix && (
           <span class={CSS.delimiter}>{this.localizedSecondSuffix}</span>
         )}
         {showMeridiem && (
-          <div
-            class={CSS.column}
-            role="group"
-            style={{ order: dayPeriodOrderIndex === 0 ? "-1" : "0" }}
-          >
+          <div class={CSS.column} role="group" style={{ order: this.meridiemOrder }}>
             <span
               aria-label={this.intlMeridiemUp}
               class={{
@@ -918,7 +928,6 @@ export class CalciteTimePicker {
             </span>
           </div>
         )}
-        {/* </div> */}
       </div>
     );
   }

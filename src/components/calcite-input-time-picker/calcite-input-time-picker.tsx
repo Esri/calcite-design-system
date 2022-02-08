@@ -91,7 +91,7 @@ export class CalciteInputTimePicker implements LabelableComponent, FormComponent
   @Watch("locale")
   localeWatcher(newLocale: string): void {
     this.setInputValue(localizeTimeString(this.value, newLocale, this.shouldIncludeSeconds()));
-    this.setElDirection();
+    this.setElDirection(newLocale);
   }
 
   /** The name of the time input */
@@ -325,13 +325,17 @@ export class CalciteInputTimePicker implements LabelableComponent, FormComponent
     }
   };
 
-  private setElDirection(): void {
+  private setElDirection(newLocale?: string): void {
     this.calciteInputElDir =
+      this.isDefaultLocale() && !newLocale ? this.el.dir || getElementDir(this.el) : "ltr";
+  }
+
+  private isDefaultLocale(): boolean {
+    return (
       !document.documentElement.lang &&
       !this.el.lang &&
       (this.locale === "en" || this.locale === "en-US")
-        ? this.el.dir || getElementDir(this.el)
-        : "ltr";
+    );
   }
 
   //--------------------------------------------------------------------------
