@@ -89,9 +89,9 @@ export type MenuPlacement = Extract<
   | "bottom-trailing"
 >;
 
-export const defaultMenuPlacement: PopperPlacement = "bottom-leading";
+export const defaultMenuPlacement: MenuPlacement = "bottom-leading";
 
-export const popperMenuPlacements: PopperPlacement[] = [
+export const popperMenuPlacements: MenuPlacement[] = [
   "top-start",
   "top",
   "top-end",
