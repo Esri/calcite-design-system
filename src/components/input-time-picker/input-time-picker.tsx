@@ -350,6 +350,9 @@ export class InputTimePicker implements LabelableComponent, FormComponent {
     }
     connectLabel(this);
     connectForm(this);
+  }
+
+  componentWillRender() {
     this.setElDirection();
   }
 

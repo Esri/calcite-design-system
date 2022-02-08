@@ -683,10 +683,13 @@ export class TimePicker {
   }
 
   private getMeridiemOrder(): number {
-    const index = this.formatParts.findIndex((parts: { type: string; value: string }) => {
-      return parts.value === this.localizedMeridiem;
-    });
-    return index;
+    if (this.formatParts) {
+      const index = this.formatParts.findIndex((parts: { type: string; value: string }) => {
+        return parts.value === this.localizedMeridiem;
+      });
+      return index;
+    }
+    return 0;
   }
 
   private isDefaultLocaleRTL(newLocale?: string): boolean {
