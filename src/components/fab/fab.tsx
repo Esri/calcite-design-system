@@ -109,6 +109,7 @@ export class Fab {
         round={true}
         scale={scale}
         title={title}
+        type="button"
         width="auto"
       >
         {this.textEnabled ? this.text : null}
