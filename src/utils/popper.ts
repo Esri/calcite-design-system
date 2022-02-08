@@ -28,7 +28,7 @@ export type PopperPlacement = Placement | PlacementRtl | VariationRtl;
 
 export type OverlayPositioning = PositioningStrategy;
 
-export const popperPlacements = [
+export const popperPlacements: PopperPlacement[] = [
   "auto",
   "auto-start",
   "auto-end",
@@ -89,9 +89,9 @@ export type MenuPlacement = Extract<
   | "bottom-trailing"
 >;
 
-export const defaultMenuPlacement = "bottom-leading";
+export const defaultMenuPlacement: PopperPlacement = "bottom-leading";
 
-export const popperMenuPlacements = [
+export const popperMenuPlacements: PopperPlacement[] = [
   "top-start",
   "top",
   "top-end",
