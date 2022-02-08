@@ -163,6 +163,7 @@ describe("calcite-color-picker", () => {
       }
     ]));
 
+  // #408047 is a color in the middle of the color field
   it("can be disabled", () => disabled("<calcite-color-picker value='#408047'></calcite-color-picker>"));
 
   it(`should set all internal calcite-button types to 'button'`, async () => {
