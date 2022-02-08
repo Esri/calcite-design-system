@@ -463,7 +463,7 @@ export class Panel implements ConditionalSlotComponent, InteractiveComponent {
   }
 
   render(): VNode {
-    const { dismissed, disabled, dismissible, loading, panelKeyDownHandler } = this;
+    const { dismissed, dismissible, loading, panelKeyDownHandler } = this;
 
     const panelNode = (
       <article
