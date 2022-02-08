@@ -11,18 +11,22 @@ import {
   VNode,
   Watch
 } from "@stencil/core";
-import { DropdownPlacement, ItemKeyboardEvent } from "./interfaces";
+import { ItemKeyboardEvent } from "./interfaces";
 
 import { focusElement, getSlotted } from "../../utils/dom";
 import {
+  PopperComputedPlacement,
   createPopper,
   CSS as PopperCSS,
   OverlayPositioning,
-  updatePopper
+  updatePopper,
+  popperMenuFlipPlacements,
+  MenuPlacement,
+  defaultMenuPlacement
 } from "../../utils/popper";
 import { Instance as Popper, StrictModifiers } from "@popperjs/core";
 import { Scale } from "../interfaces";
-import { DefaultDropdownPlacement, SLOTS } from "./resources";
+import { SLOTS } from "./resources";
 import { createObserver } from "../../utils/observers";
 
 /**
@@ -67,6 +71,11 @@ export class Dropdown {
   @Prop({ reflect: true }) disabled = false;
 
   /**
+   * Defines the available placements that can be used when a flip occurs.
+   */
+  @Prop() flipPlacements?: PopperComputedPlacement[];
+
+  /**
    specify the maximum number of calcite-dropdown-items to display before showing the scroller, must be greater than 0 -
    this value does not include groupTitles passed to calcite-dropdown-group
   */
@@ -84,7 +93,7 @@ export class Dropdown {
    * Determines where the dropdown will be positioned relative to the button.
    * @default "bottom-leading"
    */
-  @Prop({ reflect: true }) placement: DropdownPlacement = DefaultDropdownPlacement;
+  @Prop({ reflect: true }) placement: MenuPlacement = defaultMenuPlacement;
 
   @Watch("placement")
   placementHandler(): void {
@@ -376,7 +385,7 @@ export class Dropdown {
     };
 
     flipModifier.options = {
-      fallbackPlacements: ["top-start", "top", "top-end", "bottom-start", "bottom", "bottom-end"]
+      fallbackPlacements: this.flipPlacements || popperMenuFlipPlacements
     };
 
     return [flipModifier];

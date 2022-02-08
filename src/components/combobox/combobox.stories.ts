@@ -1,6 +1,6 @@
 import { select, number, text } from "@storybook/addon-knobs";
 import { boolean, createSteps, stepStory } from "../../../.storybook/helpers";
-
+import { popperFlipPlacements } from "../../utils/popper";
 import { themesDarkDefault } from "../../../.storybook/utils";
 import readme1 from "./readme.md";
 import readme2 from "../combobox-item/readme.md";
@@ -17,6 +17,7 @@ export default {
 export const Simple = (): string => html`
   <div style="width:400px;max-width:100%;background-color:white;padding:100px">
     <calcite-combobox
+      flipPlacements="${select("flipPlacements", popperFlipPlacements, "")}"
       label="demo combobox"
       placeholder="${text("placeholder", "placeholder")}"
       label="${text("label (for screen readers)", "demo")}"
@@ -51,6 +52,7 @@ export const Simple = (): string => html`
 export const Single = (): string => html`
   <div style="width:150px;max-width:100%;background-color:white;padding:100px">
     <calcite-combobox
+      flipPlacements="${select("flipPlacements", popperFlipPlacements, "")}"
       label="demo combobox"
       selection-mode="${select("selection-mode", ["multi", "single", "ancestors"], "single")}"
       placeholder="${text("placeholder", "placeholder")}"
@@ -79,6 +81,7 @@ export const Single = (): string => html`
 export const Multiple = (): string => html`
   <div style="width:400px;max-width:100%;background-color:white;padding:100px">
     <calcite-combobox
+      flipPlacements="${select("flipPlacements", popperFlipPlacements, "")}"
       label="demo combobox"
       placeholder="${text("placeholder", "placeholder")}"
       label="${text("label (for screen readers)", "demo")}"
@@ -107,6 +110,7 @@ export const NestedItems = (): string => html`
   <div style="width:400px;max-width:100%;background-color:white;padding:100px">
     <calcite-combobox
       active
+      flipPlacements="${select("flipPlacements", popperFlipPlacements, "")}"
       label="demo combobox"
       selection-mode="${select("selection-mode", ["multi", "single", "ancestors"], "multi")}"
       placeholder="${text("placeholder", "placeholder")}"
@@ -149,6 +153,7 @@ export const NestedItems = (): string => html`
 export const DarkTheme = (): string => html`
   <div style="width:400px;max-width:100%;padding:100px">
     <calcite-combobox
+      flipPlacements="${select("flipPlacements", popperFlipPlacements, "")}"
       label="demo combobox"
       selection-mode="${select("selection-mode", ["multi", "single", "ancestors"], "multi")}"
       class="calcite-theme-dark"
@@ -186,6 +191,7 @@ DarkTheme.parameters = { themes: themesDarkDefault };
 export const Rtl = (): string => html`
   <div style="width:400px;max-width:100%;background-color:white;padding:100px">
     <calcite-combobox
+      flipPlacements="${select("flipPlacements", popperFlipPlacements, "")}"
       placeholder="${text("placeholder", "placeholder")}"
       label="${text("label (for screen readers)", "demo")}"
       selection-mode="${select("selection-mode", ["multi", "single", "ancestors"], "multi")}"
@@ -222,6 +228,7 @@ export const FlipPositioning = stepStory(
   (): string => html`
     <div style="position: absolute; bottom: 10px; left: 10px;">
       <calcite-combobox
+        flipPlacements="${select("flipPlacements", popperFlipPlacements, "")}"
         max-items="${number("max-items", 6)}"
         placeholder="${text("placeholder", "placeholder")}"
         label="${text("label (for screen readers)", "demo")}"

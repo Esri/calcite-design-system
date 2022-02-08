@@ -31,12 +31,13 @@ import {
   createPopper,
   updatePopper,
   CSS as PopperCSS,
-  OverlayPositioning
+  OverlayPositioning,
+  popperMenuFlipPlacements,
+  PopperComputedPlacement,
+  defaultMenuPlacement
 } from "../../utils/popper";
 import { StrictModifiers, Instance as Popper } from "@popperjs/core";
 import { DateRangeChange } from "../date-picker/interfaces";
-
-const DEFAULT_PLACEMENT = "bottom-leading";
 
 @Component({
   tag: "calcite-input-date-picker",
@@ -80,6 +81,11 @@ export class InputDatePicker implements LabelableComponent, FormComponent {
       this.end = undefined;
     }
   }
+
+  /**
+   * Defines the available placements that can be used when a flip occurs.
+   */
+  @Prop() flipPlacements?: PopperComputedPlacement[];
 
   /**
    * Number at which section headings should start for this component.
@@ -266,7 +272,7 @@ export class InputDatePicker implements LabelableComponent, FormComponent {
       ? await updatePopper({
           el: menuEl,
           modifiers,
-          placement: DEFAULT_PLACEMENT,
+          placement: defaultMenuPlacement,
           popper
         })
       : this.createPopper();
@@ -560,7 +566,7 @@ export class InputDatePicker implements LabelableComponent, FormComponent {
     };
 
     flipModifier.options = {
-      fallbackPlacements: ["top-start", "top", "top-end", "bottom-start", "bottom", "bottom-end"]
+      fallbackPlacements: this.flipPlacements || popperMenuFlipPlacements
     };
 
     return [flipModifier];
@@ -580,7 +586,7 @@ export class InputDatePicker implements LabelableComponent, FormComponent {
       el: menuEl,
       modifiers,
       overlayPositioning,
-      placement: DEFAULT_PLACEMENT,
+      placement: defaultMenuPlacement,
       referenceEl
     });
   }

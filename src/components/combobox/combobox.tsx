@@ -19,19 +19,16 @@ import {
   createPopper,
   updatePopper,
   CSS as PopperCSS,
-  OverlayPositioning
+  OverlayPositioning,
+  PopperComputedPlacement,
+  popperMenuFlipPlacements,
+  defaultMenuPlacement
 } from "../../utils/popper";
 import { StrictModifiers, Instance as Popper } from "@popperjs/core";
 import { guid } from "../../utils/guid";
 import { Scale } from "../interfaces";
 import { ComboboxSelectionMode, ComboboxChildElement } from "./interfaces";
-import {
-  ComboboxChildSelector,
-  ComboboxItem,
-  ComboboxItemGroup,
-  ComboboxDefaultPlacement,
-  TEXT
-} from "./resources";
+import { ComboboxChildSelector, ComboboxItem, ComboboxItemGroup, TEXT } from "./resources";
 import { getItemAncestors, getItemChildren, hasActiveChildren } from "./utils";
 import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
 import {
@@ -160,6 +157,11 @@ export class Combobox implements LabelableComponent, FormComponent {
    */
   @Prop({ reflect: false }) intlRemoveTag: string = TEXT.removeTag;
 
+  /**
+   * Defines the available placements that can be used when a flip occurs.
+   */
+  @Prop() flipPlacements?: PopperComputedPlacement[];
+
   //--------------------------------------------------------------------------
   //
   //  Event Listeners
@@ -196,7 +198,7 @@ export class Combobox implements LabelableComponent, FormComponent {
       ? await updatePopper({
           el: menuEl,
           modifiers,
-          placement: ComboboxDefaultPlacement,
+          placement: defaultMenuPlacement,
           popper
         })
       : this.createPopper();
@@ -541,7 +543,7 @@ export class Combobox implements LabelableComponent, FormComponent {
     };
 
     flipModifier.options = {
-      fallbackPlacements: ["top-start", "top", "top-end", "bottom-start", "bottom", "bottom-end"]
+      fallbackPlacements: this.flipPlacements || popperMenuFlipPlacements
     };
 
     return [flipModifier];
@@ -556,7 +558,7 @@ export class Combobox implements LabelableComponent, FormComponent {
       el: menuEl,
       modifiers,
       overlayPositioning,
-      placement: ComboboxDefaultPlacement,
+      placement: defaultMenuPlacement,
       referenceEl
     });
   }
