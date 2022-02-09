@@ -374,6 +374,66 @@ describe("calcite-combobox", () => {
 
       expect(eventSpy).toHaveReceivedEventTimes(1);
     });
+
+    it("should auto-select new custom value if single selection mode is empty", async () => {
+      const page = await newE2EPage();
+      await page.setContent(
+        html`
+          <calcite-combobox allow-custom-values selection-mode="single">
+            <calcite-combobox-item id="one" value="one" text-label="one"></calcite-combobox-item>
+            <calcite-combobox-item id="two" value="two" text-label="two"></calcite-combobox-item>
+            <calcite-combobox-item id="three" value="three" text-label="three"></calcite-combobox-item>
+          </calcite-combobox>
+        `
+      );
+      const eventSpy = await page.spyOnEvent("calciteComboboxChange");
+      const input = await page.find("calcite-combobox >>> input");
+
+      await input.click();
+      await input.press("K");
+      await input.press("Enter");
+      expect(eventSpy.lastEvent.detail.selectedItems.length).toBe(1);
+    });
+
+    it("should not auto-select new custom value if single selection mode is already selected", async () => {
+      const page = await newE2EPage();
+      await page.setContent(
+        html`
+          <calcite-combobox allow-custom-values selection-mode="single">
+            <calcite-combobox-item selected id="one" value="one" text-label="one"></calcite-combobox-item>
+            <calcite-combobox-item id="two" value="two" text-label="two"></calcite-combobox-item>
+            <calcite-combobox-item id="three" value="three" text-label="three"></calcite-combobox-item>
+          </calcite-combobox>
+        `
+      );
+      const eventSpy = await page.spyOnEvent("calciteComboboxChange");
+      const input = await page.find("calcite-combobox >>> input");
+
+      await input.click();
+      await input.press("K");
+      await input.press("Enter");
+      expect(eventSpy.lastEvent.detail.selectedItems.length).toBe(1);
+    });
+
+    it("should auto-select new custom values if it is in mutli selection mode", async () => {
+      const page = await newE2EPage();
+      await page.setContent(
+        html`
+          <calcite-combobox allow-custom-values>
+            <calcite-combobox-item selected id="one" value="one" text-label="one"></calcite-combobox-item>
+            <calcite-combobox-item selected id="two" value="two" text-label="two"></calcite-combobox-item>
+            <calcite-combobox-item id="three" value="three" text-label="three"></calcite-combobox-item>
+          </calcite-combobox>
+        `
+      );
+      const eventSpy = await page.spyOnEvent("calciteComboboxChange");
+      const input = await page.find("calcite-combobox >>> input");
+
+      await input.click();
+      await input.press("K");
+      await input.press("Enter");
+      expect(eventSpy.lastEvent.detail.selectedItems.length).toBe(3);
+    });
   });
 
   describe("keyboard navigation", () => {
