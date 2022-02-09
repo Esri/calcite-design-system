@@ -723,7 +723,9 @@ export class Combobox implements LabelableComponent, FormComponent {
 
   getSelectedItems(): HTMLCalciteComboboxItemElement[] {
     return !this.isMulti()
-      ? [this.items.find((item) => item.selected)]
+      ? !this.items.find((item) => item.selected)
+        ? []
+        : [this.items.find((item) => item.selected)]
       : this.items
           .filter(
             (item) =>
@@ -791,7 +793,7 @@ export class Combobox implements LabelableComponent, FormComponent {
       const item = document.createElement(ComboboxItem) as HTMLCalciteComboboxItemElement;
       item.value = value;
       item.textLabel = value;
-      item.selected = true;
+      item.selected = !this.selectedItems.length || this.selectionMode !== "single";
       this.el.appendChild(item);
       this.resetText();
       if (focus) {
