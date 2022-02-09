@@ -393,6 +393,9 @@ describe("calcite-combobox", () => {
       await input.press("K");
       await input.press("Enter");
       expect(eventSpy.lastEvent.detail.selectedItems.length).toBe(1);
+
+      const item = await page.find("calcite-combobox-item:last-child");
+      expect(await item.getProperty("selected")).toBe(true);
     });
 
     it("should not auto-select new custom value if single selection mode is already selected", async () => {
@@ -413,6 +416,9 @@ describe("calcite-combobox", () => {
       await input.press("K");
       await input.press("Enter");
       expect(eventSpy.lastEvent.detail.selectedItems.length).toBe(1);
+
+      const item = await page.find("calcite-combobox-item:last-child");
+      expect(await item.getProperty("selected")).toBe(false);
     });
 
     it("should auto-select new custom values if it is in mutli selection mode", async () => {
@@ -433,6 +439,9 @@ describe("calcite-combobox", () => {
       await input.press("K");
       await input.press("Enter");
       expect(eventSpy.lastEvent.detail.selectedItems.length).toBe(3);
+
+      const item = await page.find("calcite-combobox-item:last-child");
+      expect(await item.getProperty("selected")).toBe(true);
     });
   });
 
