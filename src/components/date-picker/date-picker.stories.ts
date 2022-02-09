@@ -140,10 +140,20 @@ export const Default = stepStory(
   createSteps("calcite-date-picker")
     .snapshot("Default")
 
-    .rtl()
+    .executeScript(
+      setKnobs({
+        story: "components-controls-datepicker--default",
+        knobs: [{ name: "dir", value: "rtl" }]
+      })
+    )
     .snapshot("Default RTL")
 
-    .ltr()
+    .executeScript(
+      setKnobs({
+        story: "components-controls-datepicker--default",
+        knobs: []
+      })
+    )
     .executeScript(setTheme("dark"))
     .snapshot("Dark")
 
@@ -161,6 +171,17 @@ export const Default = stepStory(
     )
     .snapshot("Range")
 
-    .rtl()
+    .executeScript(
+      setKnobs({
+        story: "components-controls-datepicker--default",
+        knobs: [
+          { name: "dir", value: "rtl" },
+          { name: "end", value: "2020-12-16" },
+          { name: "min", value: "2016-08-09" },
+          { name: "range", value: "true" },
+          { name: "start", value: "2020-12-12" }
+        ]
+      })
+    )
     .snapshot("Range RTL")
 );
