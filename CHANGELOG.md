@@ -10,6 +10,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ### Features
 
 - **calcite-filter:** add scale prop/attribute ([#4041](https://github.com/Esri/calcite-components/issues/4041)) ([9d35be0](https://github.com/Esri/calcite-components/commit/9d35be0775aa7afebaf6712f5072452bcdf7ed61))
+- **card:** use css variable to change border-radius ([#4026](https://github.com/Esri/calcite-components/issues/4026)) ([b6e4c3e](https://github.com/Esri/calcite-components/commit/b6e4c3ecb9205360a2b045e316a0146e2c35f5b5))
 
 ### Bug Fixes
 
