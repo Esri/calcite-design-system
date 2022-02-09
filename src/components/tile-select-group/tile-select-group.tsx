@@ -1,0 +1,24 @@
+import { Component, h, VNode, Prop } from "@stencil/core";
+import { TileSelectGroupLayout } from "./interfaces";
+
+/**
+ * @slot - A slot for adding `calcite-tile-select`s.
+ */
+@Component({
+  tag: "calcite-tile-select-group",
+  styleUrl: "tile-select-group.scss",
+  shadow: true
+})
+export class TileSelectGroup {
+  //--------------------------------------------------------------------------
+  //
+  //  Properties
+  //
+  //--------------------------------------------------------------------------
+  /** Tiles by default move horizontally, stacking with each row, vertical allows single-column layouts */
+  @Prop({ reflect: true }) layout?: TileSelectGroupLayout = "horizontal";
+
+  render(): VNode {
+    return <slot />;
+  }
+}
