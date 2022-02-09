@@ -26,6 +26,14 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
   return filterComponentAttributes(
     [
       {
+        name: "dir",
+        commit(): Attribute {
+          this.value = text("dir", "");
+          delete this.build;
+          return this;
+        }
+      },
+      {
         name: "end",
         commit(): Attribute {
           this.value = text("end", "");
