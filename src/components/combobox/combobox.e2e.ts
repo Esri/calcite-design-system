@@ -375,7 +375,7 @@ describe("calcite-combobox", () => {
       expect(eventSpy).toHaveReceivedEventTimes(1);
     });
 
-    it("should auto-select new custom value if single selection mode is empty", async () => {
+    it("should auto-select new custom value if selection is empty", async () => {
       const page = await newE2EPage();
       await page.setContent(
         html`
@@ -392,13 +392,18 @@ describe("calcite-combobox", () => {
       await input.click();
       await input.press("K");
       await input.press("Enter");
-      expect(eventSpy.lastEvent.detail.selectedItems.length).toBe(1);
+      await input.press("Escape");
+      await page.waitForChanges();
 
       const item = await page.find("calcite-combobox-item:last-child");
+      const label = await page.find("calcite-combobox >>> .label");
+
+      expect(label.textContent).toBe("K");
+      expect(eventSpy.lastEvent.detail.selectedItems.length).toBe(1);
       expect(await item.getProperty("selected")).toBe(true);
     });
 
-    it("should replace input field of current value to new custom value", async () => {
+    it("should replace current value to new custom value in single selection mode", async () => {
       const page = await newE2EPage();
       await page.setContent(
         html`
@@ -420,15 +425,15 @@ describe("calcite-combobox", () => {
 
       const item1 = await page.find("calcite-combobox-item#one");
       const item2 = await page.find("calcite-combobox-item:last-child");
-      const label = await page.find("calcite-combobox >>> span.label");
+      const label = await page.find("calcite-combobox >>> .label");
 
+      expect(label.textContent).toBe("K");
       expect(eventSpy.lastEvent.detail.selectedItems.length).toBe(1);
       expect(await item1.getProperty("selected")).toBe(false);
       expect(await item2.getProperty("selected")).toBe(true);
-      expect(await label.textContent).toBe("K");
     });
 
-    it("should auto-select new custom values if it is in multi selection mode", async () => {
+    it("should auto-select new custom values in multi selection mode", async () => {
       const page = await newE2EPage();
       await page.setContent(
         html`
@@ -445,10 +450,19 @@ describe("calcite-combobox", () => {
       await input.click();
       await input.press("K");
       await input.press("Enter");
-      expect(eventSpy.lastEvent.detail.selectedItems.length).toBe(3);
+      await input.press("Escape");
+      await page.waitForChanges();
 
-      const item = await page.find("calcite-combobox-item:last-child");
-      expect(await item.getProperty("selected")).toBe(true);
+      const item1 = await page.find("calcite-combobox-item#one");
+      const item2 = await page.find("calcite-combobox-item#two");
+      const item3 = await page.find("calcite-combobox-item:last-child");
+      const chips = await page.findAll("calcite-combobox >>> calcite-chip");
+
+      expect(eventSpy.lastEvent.detail.selectedItems.length).toBe(3);
+      expect(chips[2].textContent).toBe("K");
+      expect(await item1.getProperty("selected")).toBe(true);
+      expect(await item2.getProperty("selected")).toBe(true);
+      expect(await item3.getProperty("selected")).toBe(true);
     });
   });
 
