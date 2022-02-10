@@ -797,7 +797,10 @@ describe("calcite-input", () => {
       const element = await page.find("calcite-input");
       await element.callMethod("setFocus");
       await page.waitForChanges();
-      await typeNumberValue(page, "-0.001");
+      await typeNumberValue(page, "-");
+      await page.waitForChanges();
+      expect(await element.getProperty("value")).toBe("");
+      await typeNumberValue(page, "0.001");
       await page.waitForChanges();
       expect(await element.getProperty("value")).toBe("-0.001");
     });
@@ -1082,18 +1085,6 @@ describe("calcite-input", () => {
           expect(await internalLocaleInput.getProperty("value")).toBe(localizeNumberString(assertedValue, locale));
         });
       });
-  });
-
-  it(`allows negative numbers for ar locale`, async () => {
-    const value = "123";
-    const page = await newE2EPage();
-    await page.setContent(html`<calcite-input locale="ar" type="number"></calcite-input>`);
-    const element = await page.find("calcite-input");
-    await element.callMethod("setFocus");
-    await typeNumberValue(page, value);
-    await page.waitForChanges();
-    await page.keyboard.press("Tab");
-    expect(await element.getProperty("value")).toBe(value);
   });
 
   it(`allows clearing value for type=number`, async () => {
