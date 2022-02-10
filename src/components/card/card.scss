@@ -14,6 +14,7 @@
       border-color-2
       text-color-3
       shadow-none;
+    border-radius: var(--calcite-border-radius-base);
     &:hover {
       @apply shadow-1-lg;
       z-index: 1;
