@@ -68,7 +68,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
       {
         name: "max",
         commit(): Attribute {
-          this.value = text("max", "2023-12-18");
+          this.value = text("max", "");
           delete this.build;
           return this;
         }
@@ -76,7 +76,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
       {
         name: "min",
         commit(): Attribute {
-          this.value = text("min", "2020-12-03");
+          this.value = text("min", "");
           delete this.build;
           return this;
         }
@@ -162,10 +162,10 @@ export const Default = stepStory(
       setKnobs({
         story: "components-controls-datepicker--default",
         knobs: [
-          { name: "end", value: "2020-12-16" },
+          { name: "end", value: "2020-02-16" },
           { name: "min", value: "2016-08-09" },
           { name: "range", value: "true" },
-          { name: "start", value: "2020-12-12" }
+          { name: "start", value: "2020-02-12" }
         ]
       })
     )
@@ -176,10 +176,10 @@ export const Default = stepStory(
         story: "components-controls-datepicker--default",
         knobs: [
           { name: "dir", value: "rtl" },
-          { name: "end", value: "2020-12-16" },
+          { name: "end", value: "2020-02-16" },
           { name: "min", value: "2016-08-09" },
           { name: "range", value: "true" },
-          { name: "start", value: "2020-12-12" }
+          { name: "start", value: "2020-02-12" }
         ]
       })
     )
