@@ -124,7 +124,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
       {
         name: "value",
         commit(): Attribute {
-          this.value = text("value", "2020-12-12");
+          this.value = text("value", "2020-02-28");
           delete this.build;
           return this;
         }
@@ -204,7 +204,7 @@ export const Default = stepStory(
           await datePickerMonthHeader.componentOnReady();
 
           const input = datePickerMonthHeader.shadowRoot.querySelector("input");
-          input.value = "2004";
+          input.value = "2016";
         })();
     `
     )
