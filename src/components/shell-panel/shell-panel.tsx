@@ -52,7 +52,7 @@ export class ShellPanel implements ConditionalSlotComponent {
   @Prop({ reflect: true }) detached = false;
 
   /**
-   * Specifies the maxiumum height of the contents when detached.
+   * Specifies the maximum height of the contents when detached.
    */
   @Prop({ reflect: true }) detachedHeightScale: Scale = "l";
 

@@ -30,7 +30,7 @@ export class ShellCenterRow implements ConditionalSlotComponent {
   @Prop({ reflect: true }) detached = false;
 
   /**
-   * Specifies the maxiumum height of the row.
+   * Specifies the maximum height of the row.
    */
   @Prop({ reflect: true }) heightScale: Scale = "s";
 
