@@ -797,7 +797,10 @@ describe("calcite-input", () => {
       const element = await page.find("calcite-input");
       await element.callMethod("setFocus");
       await page.waitForChanges();
-      await typeNumberValue(page, "-0.001");
+      await typeNumberValue(page, "-");
+      await page.waitForChanges();
+      expect(await element.getProperty("value")).toBe("");
+      await typeNumberValue(page, "0.001");
       await page.waitForChanges();
       expect(await element.getProperty("value")).toBe("-0.001");
     });
