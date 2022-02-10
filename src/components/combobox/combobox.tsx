@@ -793,7 +793,10 @@ export class Combobox implements LabelableComponent, FormComponent {
       const item = document.createElement(ComboboxItem) as HTMLCalciteComboboxItemElement;
       item.value = value;
       item.textLabel = value;
-      item.selected = !this.selectedItems.length || this.selectionMode !== "single";
+      if (this.selectionMode === "single") {
+        this.toggleSelection(this.selectedItems[this.selectedItems.length - 1], false);
+      }
+      item.selected = true;
       this.el.appendChild(item);
       this.resetText();
       if (focus) {
