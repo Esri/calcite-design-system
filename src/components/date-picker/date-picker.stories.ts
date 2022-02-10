@@ -134,8 +134,6 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
   );
 };
 
-const yearElSelector = `document.querySelector("calcite-date-picker").shadowRoot.querySelector("calcite-date-picker-month-header").shadowRoot.querySelector("input.year")`;
-
 export const Default = stepStory(
   (): string => html`<div style="width: 400px">${create("calcite-date-picker", createAttributes())}</div>`,
 
@@ -193,7 +191,22 @@ export const Default = stepStory(
         knobs: [{ name: "value", value: "2000-02-28" }]
       })
     )
-    .keys(yearElSelector, "Backspace")
-    .keys(yearElSelector, "4")
+    .executeScript(
+      `
+        (async () => {
+          await customElements.whenDefined("calcite-date-picker");
+          await customElements.whenDefined("calcite-date-picker-month-header");
+
+          const datePicker = document.querySelector("calcite-date-picker");
+          await datePicker.componentOnReady();
+
+          const datePickerMonthHeader = datePicker.shadowRoot.querySelector("calcite-date-picker-month-header");
+          await datePickerMonthHeader.componentOnReady();
+
+          const input = datePickerMonthHeader.shadowRoot.querySelector("input");
+          input.value = "2004";
+        })();
+    `
+    )
     .snapshot("Changing to leap year immediately updates calendar to show February 29th")
 );
