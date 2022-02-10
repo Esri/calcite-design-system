@@ -88,7 +88,7 @@
     "@types/git-semver-tags": "4.1.1",
     "@types/jest": "26.0.21",
     "@types/jest-axe": "3.5.3",
-    "@types/lodash-es": "4.17.5",
+    "@types/lodash-es": "4.17.6",
     "@types/pify": "5.0.1",
     "@types/rimraf": "3.0.2",
     "@types/semver": "7.3.9",
