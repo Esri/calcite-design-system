@@ -84,9 +84,9 @@ export class Panel implements ConditionalSlotComponent {
   @Prop() intlBack?: string;
 
   /**
-   * Specifies the maxiumum height of the panel.
+   * Specifies the maximum height of the panel.
    */
-  @Prop({ reflect: true }) heightScale: Scale;
+  @Prop({ reflect: true }) heightScale?: Scale;
 
   /**
    * This sets width of the panel.
