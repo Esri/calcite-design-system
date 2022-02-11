@@ -40,7 +40,10 @@ body:
     attributes:
       label: Reproduction Steps
       description: Clear, numbered steps for reproducing the issue using the sample provided above.
-      value: "1. "
+      placeholder: |
+        1. Open the DevTools console
+        2. Click on XYZ
+        3. ...
     validations:
       required: true
   - type: input
@@ -48,7 +51,7 @@ body:
     attributes:
       label: Reproduction Version
       description: The latest version that reproduces the issue.
-      value: "@esri/calcite-components@1.0.0-VERSION"
+      placeholder: beta.2
     validations:
       required: true
   - type: input
@@ -63,15 +66,17 @@ body:
     attributes:
       label: Relevant Info
       description: Browser, OS, mobile, stack traces, related issues, suggestions/resources on how to fix, etc.
-      value: "Regression? Last working version: `@esri/calcite-components@1.0.0-VERSION`"
+      placeholder: |
+        Windows 10, Chrome 97
+        `Uncaught TypeError: Cannot read property of undefined`
+        ...
     validations:
       required: false
-  - type: checkboxes
-    id: source
+  - type: input
+    id: regression
     attributes:
-      label: Source
-      options:
-        - label: CDN
-          required: false
-        - label: NPM package
-          required: false
+      label: Regression?
+      description: Please provide the last working version if the issue is a regression.
+      placeholder: beta.1
+    validations:
+      required: false

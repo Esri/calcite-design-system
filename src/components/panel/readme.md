@@ -75,7 +75,7 @@ Renders a panel with a header and a footer.
 | `dismissible`    | `dismissible`      | Displays a close button in the trailing side of the header.                                               | `boolean`                    | `false`     |
 | `heading`        | `heading`          | Heading text.                                                                                             | `string`                     | `undefined` |
 | `headingLevel`   | `heading-level`    | Number at which section headings should start for this component.                                         | `1 \| 2 \| 3 \| 4 \| 5 \| 6` | `undefined` |
-| `heightScale`    | `height-scale`     | Specifies the maxiumum height of the panel.                                                               | `"l" \| "m" \| "s"`          | `undefined` |
+| `heightScale`    | `height-scale`     | Specifies the maximum height of the panel.                                                                | `"l" \| "m" \| "s"`          | `undefined` |
 | `intlBack`       | `intl-back`        | 'Back' text string.                                                                                       | `string`                     | `undefined` |
 | `intlClose`      | `intl-close`       | 'Close' text string for the close button. The close button will only be shown when 'dismissible' is true. | `string`                     | `undefined` |
 | `intlOptions`    | `intl-options`     | 'Options' text string for the actions menu.                                                               | `string`                     | `undefined` |
