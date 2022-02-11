@@ -184,31 +184,4 @@ export const Default = stepStory(
       })
     )
     .snapshot("Range RTL")
-
-    .executeScript(
-      setKnobs({
-        story: "components-controls-datepicker--default",
-        knobs: [{ name: "value", value: "2015-02-28" }]
-      })
-    )
-    .snapshot("Before Changing To Leap Year")
-
-    .executeScript(
-      `
-        (async () => {
-          await customElements.whenDefined("calcite-date-picker");
-          await customElements.whenDefined("calcite-date-picker-month-header");
-
-          const datePicker = document.querySelector("calcite-date-picker");
-          await datePicker.componentOnReady();
-
-          const datePickerMonthHeader = datePicker.shadowRoot.querySelector("calcite-date-picker-month-header");
-          await datePickerMonthHeader.componentOnReady();
-
-          const input = datePickerMonthHeader.shadowRoot.querySelector("input");
-          input.value = "2016";
-        })();
-    `
-    )
-    .snapshot("Changing to leap year immediately updates calendar to show February 29th")
 );
