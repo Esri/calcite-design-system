@@ -188,7 +188,7 @@ export const Default = stepStory(
     .executeScript(
       setKnobs({
         story: "components-controls-datepicker--default",
-        knobs: [{ name: "value", value: "2000-02-28" }]
+        knobs: [{ name: "value", value: "2015-02-28" }]
       })
     )
     .snapshot("Before Changing To Leap Year")
