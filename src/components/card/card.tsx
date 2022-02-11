@@ -64,7 +64,7 @@ export class Card implements ConditionalSlotComponent {
    */
   @Prop({ reflect: false }) intlDeselect: string = TEXT.deselect;
 
-  @Prop() thumbnail: "start" | "end" | "bottom" = "bottom";
+  @Prop() thumbnail: "start" | "end" | "bottom" | "top" = "top";
 
   //--------------------------------------------------------------------------
   //
