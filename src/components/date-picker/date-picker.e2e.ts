@@ -54,6 +54,7 @@ describe("calcite-date-picker", () => {
   it("updates the calendar immediately as a new year is typed but doesn't change the year", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-date-picker value="2015-02-28" active></calcite-date-picker>`);
+    const datePicker = await page.find("calcite-date-picker");
     await page.waitForTimeout(animationDurationInMs);
 
     let extraFebruaryDayInLeapYear = await page.evaluate(async () => {
@@ -73,6 +74,7 @@ describe("calcite-date-picker", () => {
     });
 
     expect(extraFebruaryDayInLeapYear).toBeUndefined();
+    expect(await datePicker.getProperty("value")).toBe("2015-02-28");
 
     await page.keyboard.press("Tab");
     await page.keyboard.press("Tab");
@@ -116,6 +118,7 @@ describe("calcite-date-picker", () => {
 
     expect(year).toEqual("2016");
     expect(extraFebruaryDayInLeapYear).toEqual("29");
+    expect(await datePicker.getProperty("value")).toBe("2015-02-28");
   });
 
   it("fires a calciteDatePickerChange event when day is selected", async () => {
