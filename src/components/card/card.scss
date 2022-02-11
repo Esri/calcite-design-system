@@ -27,7 +27,23 @@
 }
 
 .container {
-  @apply flex-auto flex flex-col;
+  @apply flex-auto flex;
+}
+
+.column {
+  @apply flex flex-col;
+}
+
+.column-reverse {
+  flex-direction: column-reverse;
+}
+
+.row {
+  @apply flex flex-row;
+}
+
+.row-reverse {
+  flex-direction: row-reverse;
 }
 
 :host([loading]) .calcite-card-container *:not(calcite-loader):not(.calcite-card-loader-container) {

@@ -64,6 +64,8 @@ export class Card implements ConditionalSlotComponent {
    */
   @Prop({ reflect: false }) intlDeselect: string = TEXT.deselect;
 
+  @Prop() thumbnail: "start" | "end" | "bottom" = "bottom";
+
   //--------------------------------------------------------------------------
   //
   //  Events
@@ -95,14 +97,30 @@ export class Card implements ConditionalSlotComponent {
             <calcite-loader active label={this.intlLoading} />
           </div>
         ) : null}
-        <section aria-busy={this.loading.toString()} class={{ [CSS.container]: true }}>
+        <section
+          aria-busy={this.loading.toString()}
+          class={{
+            [CSS.container]: true
+          }}
+        >
           {this.selectable ? this.renderCheckbox() : null}
-          {this.renderThumbnail()}
-          {this.renderHeader()}
-          <div class="card-content">
-            <slot />
+          <div
+            class={{
+              row: this.thumbnail === "start" || this.thumbnail === "end",
+              "row-reverse": this.thumbnail === "end",
+              column: this.thumbnail === "bottom",
+              "column-reverse": this.thumbnail === "bottom"
+            }}
+          >
+            {this.renderThumbnail()}
+            <div class={{}}>
+              {this.renderHeader()}
+              <div class="card-content">
+                <slot />
+              </div>
+              {this.renderFooter()}
+            </div>
           </div>
-          {this.renderFooter()}
         </section>
       </div>
     );
