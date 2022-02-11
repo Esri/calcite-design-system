@@ -63,15 +63,13 @@ body:
     attributes:
       label: Relevant Info
       description: Browser, OS, mobile, stack traces, related issues, suggestions/resources on how to fix, etc.
-      value: "Regression? Last working version: `@esri/calcite-components@1.0.0-VERSION`"
     validations:
       required: false
   - type: checkboxes
-    id: source
+    id: regression
     attributes:
-      label: Source
+      label: Regression?
+      description: Please provide the last working version in the Relevant Info section if the issue is a regression.
       options:
-        - label: CDN
-          required: false
-        - label: NPM package
+        - label: "Yes"
           required: false
