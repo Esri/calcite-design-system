@@ -191,6 +191,8 @@ export const Default = stepStory(
         knobs: [{ name: "value", value: "2000-02-28" }]
       })
     )
+    .snapshot("Before Changing To Leap Year")
+
     .executeScript(
       `
         (async () => {
