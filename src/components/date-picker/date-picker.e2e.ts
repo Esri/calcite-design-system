@@ -51,6 +51,73 @@ describe("calcite-date-picker", () => {
     expect(changedEvent).toHaveReceivedEventTimes(0);
   });
 
+  it("updates the calendar immediately as a new year is typed but doesn't change the year", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<calcite-date-picker value="2015-02-28" active></calcite-date-picker>`);
+    await page.waitForTimeout(animationDurationInMs);
+
+    let extraFebruaryDayInLeapYear = await page.evaluate(async () => {
+      await customElements.whenDefined("calcite-date-picker");
+      await customElements.whenDefined("calcite-date-picker-month-header");
+
+      const datePicker = document.querySelector("calcite-date-picker");
+      await datePicker.componentOnReady();
+
+      const datePickerMonthHeader = datePicker.shadowRoot.querySelector("calcite-date-picker-month-header");
+      await datePickerMonthHeader.componentOnReady();
+
+      const datePickerMonth = datePicker.shadowRoot.querySelector("calcite-date-picker-month");
+      await datePickerMonthHeader.componentOnReady();
+
+      return datePickerMonth.shadowRoot.querySelector(`calcite-date-picker-day[day="29"]`)?.getAttribute("value");
+    });
+
+    expect(extraFebruaryDayInLeapYear).toBeUndefined();
+
+    await page.keyboard.press("Tab");
+    await page.keyboard.press("Tab");
+    await page.keyboard.down("Meta");
+    await page.keyboard.press("a");
+    await page.keyboard.press("Backspace");
+    await page.keyboard.up("Meta");
+    await page.keyboard.type("2016");
+    await page.waitForChanges();
+
+    extraFebruaryDayInLeapYear = await page.evaluate(async () => {
+      await customElements.whenDefined("calcite-date-picker");
+      await customElements.whenDefined("calcite-date-picker-month-header");
+
+      const datePicker = document.querySelector("calcite-date-picker");
+      await datePicker.componentOnReady();
+
+      const datePickerMonthHeader = datePicker.shadowRoot.querySelector("calcite-date-picker-month-header");
+      await datePickerMonthHeader.componentOnReady();
+
+      const datePickerMonth = datePicker.shadowRoot.querySelector("calcite-date-picker-month");
+      await datePickerMonth.componentOnReady();
+
+      const datePickerDay = datePickerMonth.shadowRoot.querySelector(`calcite-date-picker-day[day="29"]`);
+      return datePickerDay.getAttribute("day");
+    });
+
+    const year = await page.evaluate(async () => {
+      await customElements.whenDefined("calcite-date-picker");
+      await customElements.whenDefined("calcite-date-picker-month-header");
+
+      const datePicker = document.querySelector("calcite-date-picker");
+      await datePicker.componentOnReady();
+
+      const datePickerMonthHeader = datePicker.shadowRoot.querySelector("calcite-date-picker-month-header");
+      await datePickerMonthHeader.componentOnReady();
+
+      const yearInputEl = datePickerMonthHeader.shadowRoot.querySelector("input");
+      return yearInputEl.value;
+    });
+
+    expect(year).toEqual("2016");
+    expect(extraFebruaryDayInLeapYear).toEqual("29");
+  });
+
   it("fires a calciteDatePickerChange event when day is selected", async () => {
     const page = await newE2EPage();
     await page.setContent("<calcite-date-picker value='2000-11-27' active></calcite-date-picker>");
