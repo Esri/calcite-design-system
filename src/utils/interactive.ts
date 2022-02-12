@@ -17,6 +17,10 @@ export interface InteractiveComponent {
 
 type HostIsTabbablePredicate = () => boolean;
 
+function noopClick(): void {
+  /** noop **/
+}
+
 /**
  * This helper updates the host element to prevent keyboard interaction on its subtree and sets the appropriate aria attribute for accessibility.
  *
@@ -39,8 +43,12 @@ export function updateHostInteraction(
       (document.activeElement as HTMLElement).blur();
     }
 
+    component.el.click = noopClick;
+
     return;
   }
+
+  component.el.click = HTMLElement.prototype.click;
 
   if (typeof hostIsTabbable === "function") {
     component.el.setAttribute("tabindex", hostIsTabbable.call(component) ? "0" : "-1");
