@@ -27,6 +27,10 @@
         margin: 15px;
         padding: 0 18px;
       }
+
+      .rounded {
+        --calcite-border-radius-base: 5px;
+      }
     </style>
     <script src="_assets/head.js"></script>
   </head>
@@ -51,9 +55,9 @@
         </calcite-card>
       </div>
 
-      <!-- text only and selectable -->
-      <div class="child">
-        <p>No buttons, selectable</p>
+      <!-- text only, selectable, and border-radius -->
+      <div class="child rounded">
+        <p>No buttons, selectable, border-radius</p>
         <calcite-card selectable>
           <h3 slot="title">ArcGIS Online: Gallery and Organization pages</h3>
           <span slot="subtitle"

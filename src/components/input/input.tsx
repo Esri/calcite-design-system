@@ -321,6 +321,16 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
     this.requestedIcon = setRequestedIcon(INPUT_TYPE_ICONS, this.icon, this.type);
   }
 
+  componentShouldUpdate(newValue: string, oldValue: string, property: string): boolean {
+    if (this.type === "number" && property === "value" && newValue && !isValidNumber(newValue)) {
+      this.setValue({
+        value: oldValue
+      });
+      return false;
+    }
+    return true;
+  }
+
   componentDidRender(): void {
     updateHostInteraction(this);
   }

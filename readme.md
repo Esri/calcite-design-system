@@ -78,7 +78,9 @@ Since you defined the custom elements on the window, you do not need to import i
 
 Some components, such as `calcite-icon` and `calcite-date-picker`, rely on assets being available at a particular path. As mentioned, with the NPM package you have the option to provide a local path or the URL to the assets hosted on the CDN. Using the CDN hosted assets can help decrease on disk build size.
 
-To use the assets locally, they need to be copied using a build tool or NPM script. The Calcite Components [examples repo](https://github.com/Esri/calcite-components-examples) demonstrates using local assets in a variety of JavaScript frameworks and build tools. Each example has a README with a framework or build tool specific explanation.
+To use the assets locally, they need to be copied using a build tool or NPM script. The directory for the local assets must be named `assets`, which eases the copying process. For example, `/public/calcite/assets` will work, however `/public/calcite-assets` will not.
+
+The Calcite Components [examples repo](https://github.com/Esri/calcite-components-examples) demonstrates using local assets in a variety of JavaScript frameworks and build tools. Each example has a README with a framework or build tool specific explanation.
 
 ```sh
 cp -r node_modules/@esri/calcite-components/dist/calcite/assets/* ./public/assets/
