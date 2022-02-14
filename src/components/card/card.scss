@@ -4,8 +4,6 @@
     @apply bg-foreground-1
       border-color-2
       text-color-3
-      border-color-2
-      text-color-3
       relative
       flex
       h-full
@@ -13,7 +11,9 @@
       justify-between
       border
       border-solid
-      shadow-none;
+      shadow-none
+      duration-150
+      ease-in-out;
     border-radius: var(--calcite-border-radius-base);
     &:hover {
       @apply shadow-1-lg;

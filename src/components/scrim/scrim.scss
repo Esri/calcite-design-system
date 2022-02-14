@@ -27,7 +27,7 @@
   items-center
   justify-center
   overflow-hidden;
-  animation: -scrim-fade-in var(--calcite-internal-animation-timing-medium) ease-in-out;
+  animation: calcite-scrim-fade-in var(--calcite-internal-animation-timing-medium) ease-in-out;
   background-color: var(--calcite-scrim-background);
 }
 

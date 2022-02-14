@@ -11,7 +11,7 @@
     flex
     items-stretch;
   transition: background-color var(--calcite-animation-timing);
-  animation: -fade-in var(--calcite-animation-timing);
+  animation: calcite-fade-in var(--calcite-animation-timing);
 
   * {
     @apply box-border;

@@ -54,8 +54,6 @@
     flex
     h-full
     flex-row
-    flex-row
-    flex-nowrap
     flex-nowrap
     rounded;
   &.has-header {
@@ -65,11 +63,8 @@
 
 .content {
   @apply word-break
-  word-break
   flex
   h-full
-  h-full
-  w-full
   w-full
   flex-col
   flex-nowrap
