@@ -8,24 +8,24 @@
 .button {
   @apply bg-foreground-1
     fill-color-3
-    flex
-    font-sans
     focus-base
     text-n2h
     text-color-3
+    text-n2h
+    text-color-3
+    relative
     relative
     m-0
+    m-0
     flex
+    flex
+    w-auto
     w-auto
     cursor-pointer
     items-center
     justify-start
-    m-0
-    relative
-    text-n2h
-    font-medium
-    text-color-3
-    w-auto;
+    font-sans
+    font-medium;
 
   text-align: unset;
   flex: 1 0 auto;

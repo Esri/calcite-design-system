@@ -1,8 +1,8 @@
 :host {
-  @apply flex
-    justify-center
-    text-color-3
+  @apply text-color-3
+    flex
     cursor-pointer
+    justify-center
     justify-center;
   width: calc(100% / 7);
 }

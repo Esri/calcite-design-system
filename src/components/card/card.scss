@@ -4,6 +4,8 @@
     @apply bg-foreground-1
       border-color-2
       text-color-3
+      border-color-2
+      text-color-3
       relative
       flex
       h-full
@@ -11,8 +13,6 @@
       justify-between
       border
       border-solid
-      border-color-2
-      text-color-3
       shadow-none;
     border-radius: var(--calcite-border-radius-base);
     &:hover {
