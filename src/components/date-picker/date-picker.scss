@@ -1,14 +1,14 @@
 :host {
-  @apply inline-block
-    align-top
-    w-full
+  @apply border-color-2
+    bg-foreground-1
     relative
+    inline-block
+    w-full
     overflow-visible
     rounded-none
     border
     border-solid
-    border-color-2
-    bg-foreground-1;
+    align-top;
 }
 
 //FIXME: These need to be revisted by design to get scale values

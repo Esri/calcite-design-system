@@ -32,10 +32,10 @@
 
 :host .container {
   @apply text-color-1
-    w-full
     mt-0
     mr-0
     ml-0
+    w-full
     leading-snug;
 }
 
@@ -48,7 +48,7 @@
 :host([layout="inline"]),
 :host([layout="inline-space-between"]) {
   .container {
-    @apply flex items-center flex-row gap-2;
+    @apply flex flex-row items-center gap-2;
   }
 }
 :host([layout="inline"][scale="l"]) {
@@ -66,7 +66,7 @@
 // disabled styles
 :host([disabled]) {
   & > .container {
-    @apply pointer-events-none opacity-disabled;
+    @apply opacity-disabled pointer-events-none;
   }
   ::slotted(*) {
     @apply pointer-events-none;
@@ -83,6 +83,6 @@
 
 :host([disable-spacing]) {
   .container {
-    @apply gap-0 m-0;
+    @apply m-0 gap-0;
   }
 }

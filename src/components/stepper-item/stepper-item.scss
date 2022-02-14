@@ -32,26 +32,26 @@
 }
 
 :host {
-  @apply flex
+  @apply relative
+  flex
   flex-grow
-  flex-col
-  relative;
+  flex-col;
   margin-bottom: var(--calcite-stepper-item-spacing-unit-s);
 }
 
 :host .container {
-  @apply flex
-    flex-grow
-    flex-col
-    text-color-3
-    no-underline
-    outline-none
+  @apply text-color-3
+    border-color-3
     relative
+    flex
+    flex-grow
+    cursor-pointer
+    flex-col
     border-0
     border-t-2
     border-solid
-    border-color-3
-    cursor-pointer
+    no-underline
+    outline-none
     duration-150
     ease-in-out;
 }
@@ -66,7 +66,7 @@
 
 // .stepper-item-header / content
 :host .stepper-item-header {
-  @apply flex items-start cursor-pointer;
+  @apply flex cursor-pointer items-start;
 }
 
 :host .stepper-item-content,
@@ -85,22 +85,22 @@
 }
 
 :host .stepper-item-content {
-  @apply flex-col
-    w-full
+  @apply text-n2-wrap
     hidden
-    text-n2-wrap;
+    w-full
+    flex-col;
 }
 
 // stepper item icon
 :host .stepper-item-icon {
   margin-inline-end: var(--calcite-stepper-item-spacing-unit-m);
   @apply text-color-3
-    mt-px
     opacity-disabled
+    mt-px
     inline-flex
+    h-3
     flex-shrink-0
     self-start
-    h-3
     duration-150
     ease-in-out;
 }
@@ -117,15 +117,15 @@
   @apply flex w-full;
 }
 :host .stepper-item-title {
-  @apply text-color-2 font-medium mb-1;
+  @apply text-color-2 mb-1 font-medium;
 }
 :host .stepper-item-subtitle {
   @apply text-color-3;
 }
 
 :host .stepper-item-number {
-  @apply font-medium
-    text-color-3
+  @apply text-color-3
+    font-medium
     duration-150
     ease-in-out;
   margin-inline-end: var(--calcite-stepper-item-spacing-unit-m);
@@ -136,7 +136,7 @@
 }
 :host([disabled]),
 :host([disabled]) * {
-  @apply cursor-not-allowed pointer-events-auto;
+  @apply pointer-events-auto cursor-not-allowed;
 }
 
 :host([complete]) .container {
@@ -195,18 +195,18 @@
 
 // vertical layout
 :host([layout="vertical"]) .container {
-  @apply flex-auto
+  @apply border-color-3
+    mx-0
+    mt-0
+    flex-auto
     border-t-0
     border-solid
-    border-color-3
-    py-0
-    mx-0
-    mt-0;
+    py-0;
   border-inline-start-width: theme("borderWidth.2");
   padding-inline-start: var(--calcite-stepper-item-spacing-unit-l);
 
   & .stepper-item-icon {
-    @apply mt-px mb-0 order-3;
+    @apply order-3 mt-px mb-0;
     padding-inline-start: var(--calcite-stepper-item-spacing-unit-s);
     margin-inline-start: theme("margin.auto");
   }

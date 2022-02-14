@@ -1,9 +1,9 @@
 :host {
   @extend %component-host;
-  @apply self-stretch
+  @apply pointer-events-auto
     inline-flex
     flex-col
-    pointer-events-auto;
+    self-stretch;
   max-width: 15vw;
 }
 
@@ -16,10 +16,10 @@
 }
 
 ::slotted(calcite-action-group) {
-  @apply border-0
+  @apply border-color-3
+    border-0
     border-b
-    border-solid
-    border-color-3;
+    border-solid;
 }
 
 ::slotted(calcite-action-group:last-child) {
@@ -27,5 +27,5 @@
 }
 
 .action-group--bottom {
-  @apply pb-0 flex-grow justify-end;
+  @apply flex-grow justify-end pb-0;
 }

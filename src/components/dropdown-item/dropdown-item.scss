@@ -39,23 +39,23 @@
 }
 
 @mixin itemStyling {
-  @apply flex
+  @apply text-color-3
+    relative
+    flex
     flex-grow
-    items-center
-    text-color-3
-    duration-150
-    ease-in-out
     cursor-pointer
+    items-center
     no-underline
     outline-none
-    relative;
+    duration-150
+    ease-in-out;
 }
 
 :host {
-  @apply flex
+  @apply relative
+    flex
     flex-grow
-    items-center
-    relative;
+    items-center;
 }
 
 .container {

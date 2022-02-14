@@ -1,19 +1,19 @@
 :host {
-  @apply max-w-full block;
+  @apply block max-w-full;
   & .calcite-card-container {
-    @apply flex
+    @apply bg-foreground-1
+      border-color-2
+      text-color-3
+      relative
+      flex
       h-full
       flex-col
       justify-between
-      bg-foreground-1
-      duration-150
-      ease-in-out
-      relative
       border
       border-solid
-      border-color-2
-      text-color-3
-      shadow-none;
+      shadow-none
+      duration-150
+      ease-in-out;
     border-radius: var(--calcite-border-radius-base);
     &:hover {
       @apply shadow-1-lg;
@@ -27,23 +27,23 @@
 }
 
 .container {
-  @apply flex-auto flex flex-col;
+  @apply flex flex-auto flex-col;
 }
 
 :host([loading]) .calcite-card-container *:not(calcite-loader):not(.calcite-card-loader-container) {
-  @apply opacity-0 pointer-events-none;
+  @apply pointer-events-none opacity-0;
 }
 
 :host([loading]) .calcite-card-loader-container {
-  @apply flex
-    items-center
-    absolute
-    inset-0;
+  @apply absolute
+    inset-0
+    flex
+    items-center;
 }
 
 .header,
 .footer {
-  @apply pt-3 pb-1 px-3 flex;
+  @apply flex px-3 pt-3 pb-1;
 }
 
 .header {
@@ -51,17 +51,17 @@
 }
 
 .footer {
-  @apply pt-1 pb-3 px-3
-    flex-row
-    content-between
+  @apply mt-auto flex-row content-between
     justify-between
-    mt-auto;
+    px-3
+    pt-1
+    pb-3;
 }
 
 .card-content {
-  @apply p-3
-    text-color-3
-    text-n2-wrap;
+  @apply text-color-3
+    text-n2-wrap
+    p-3;
 }
 
 // selectable and selected styles
@@ -75,30 +75,30 @@
 
 // slotted content
 @include slotted("title", "*") {
-  @apply font-medium
-    text-color-1
+  @apply text-color-1
+    text-n1-wrap
     m-0
-    text-n1-wrap;
+    font-medium;
 }
 
 @include slotted("subtitle", "*") {
-  @apply font-normal
-    text-color-2
+  @apply text-color-2
+    text-n2-wrap
     m-0
     mt-2
-    text-n2-wrap;
+    font-normal;
 }
 
 @include slotted("thumbnail", "img") {
-  @apply max-w-full min-w-full;
+  @apply min-w-full max-w-full;
 }
 
 @include slotted("footer-leading", "*") {
-  @apply self-center text-n2-wrap;
+  @apply text-n2-wrap self-center;
   margin-inline-end: auto;
 }
 @include slotted("footer-trailing", "*") {
-  @apply self-center text-n2-wrap;
+  @apply text-n2-wrap self-center;
 }
 
 .thumbnail-wrapper {

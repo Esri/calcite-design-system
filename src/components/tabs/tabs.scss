@@ -20,7 +20,7 @@
 }
 
 :host([bordered]) section {
-  @apply border border-solid border-color-1;
+  @apply border-color-1 border border-solid;
 }
 
 :host([bordered][scale="s"]) section {
@@ -40,19 +40,19 @@
 }
 
 section {
-  @apply flex
+  @apply border-t-color-1
+    flex
     flex-grow
     overflow-hidden
-    border-t
-    border-t-color-1;
+    border-t;
   border-top-style: solid;
 }
 
 :host([position="below"]) section {
-  @apply flex-col-reverse
+  @apply border-b-color-1
+    flex-col-reverse
     border-t-0
-    border-b
-    border-b-color-1;
+    border-b;
 }
 
 :host([position="below"]:not([bordered])) section {

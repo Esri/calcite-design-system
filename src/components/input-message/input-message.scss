@@ -12,11 +12,11 @@
 }
 
 :host {
-  @apply flex items-center w-full box-border text-color-1 font-medium invisible h-0 opacity-0 transition-default;
+  @apply text-color-1 transition-default invisible box-border flex h-0 w-full items-center font-medium opacity-0;
 }
 
 :host([active]) {
-  @apply h-auto visible opacity-100 transition-default;
+  @apply transition-default visible h-auto opacity-100;
 }
 
 :host([active][scale="m"]),
@@ -25,10 +25,10 @@
 }
 
 .calcite-input-message-icon {
-  @apply inline-flex
-    flex-shrink-0
+  @apply transition-default
     pointer-events-none
-    transition-default;
+    inline-flex
+    flex-shrink-0;
   margin-inline-end: theme("margin.2");
 }
 

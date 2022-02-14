@@ -27,22 +27,22 @@
   --calcite-button-padding-y: 3px;
   padding: var(--calcite-button-padding-y) var(--calcite-button-padding-x) var(--calcite-button-padding-y)
     var(--calcite-button-padding-x);
-  @apply relative
+  @apply font-inherit
+    relative
+    box-border
     flex
-    items-center
-    justify-center
-    no-underline
-    w-full
     h-full
-    rounded-none
-    border-none
+    w-full
+    cursor-pointer
     select-none
     appearance-none
-    cursor-pointer
+    items-center
+    justify-center
+    rounded-none
+    border-none
     text-center
-    box-border
-    font-inherit
-    font-normal;
+    font-normal
+    no-underline;
   // include transition from focus
   transition: color var(--calcite-animation-timing) ease-in-out,
     background-color var(--calcite-animation-timing) ease-in-out, box-shadow var(--calcite-animation-timing) ease-in-out,
@@ -152,9 +152,9 @@
 }
 
 .icon {
-  @apply inline-flex
-    relative
+  @apply relative
     m-0
+    inline-flex
     font-normal;
   line-height: inherit;
 }
@@ -165,7 +165,7 @@
   @apply pointer-events-none;
   button,
   a {
-    @apply pointer-events-none opacity-disabled;
+    @apply opacity-disabled pointer-events-none;
   }
 }
 
@@ -235,9 +235,9 @@
 :host([appearance="solid"]) {
   button,
   a {
-    @apply border
-      border-solid
-      border-color-transparent;
+    @apply border-color-transparent
+      border
+      border-solid;
   }
 }
 :host([appearance="solid"][color="blue"]) {
@@ -408,7 +408,7 @@
 :host([appearance="clear"]) {
   button,
   a {
-    @apply bg-transparent border border-solid;
+    @apply border border-solid bg-transparent;
     box-shadow: inset 0 0 0 1px transparent;
   }
 }
@@ -579,10 +579,10 @@
 :host([appearance="transparent"][color="neutral"].cancel-editing-button) {
   button {
     @apply text-color-3
-      border-t
       border-t-color-input
-      border-b
-      border-b-color-input;
+      border-b-color-input
+      border-t
+      border-b;
     border-bottom-style: solid;
     border-top-style: solid;
 

@@ -46,8 +46,8 @@
 :host([layout="grid"]) {
   @apply bg-background
   grid
-  gap-px
   place-content-stretch
+  gap-px
   p-px;
 
   grid-template-columns: repeat(var(--calcite-action-group-columns), auto);

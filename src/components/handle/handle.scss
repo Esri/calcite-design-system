@@ -3,14 +3,14 @@
 }
 
 .handle {
-  @apply flex
-    items-center
-    self-stretch
-    justify-center
-    bg-transparent
-    border-none
+  @apply focus-base
+    flex
     cursor-move
-    focus-base;
+    items-center
+    justify-center
+    self-stretch
+    border-none
+    bg-transparent;
   color: theme("borderColor.color.3");
   padding: theme("spacing.3") theme("spacing.1");
   line-height: 0;
