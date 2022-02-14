@@ -57,24 +57,13 @@ describe("calcite-date-picker", () => {
     const datePicker = await page.find("calcite-date-picker");
     await page.waitForTimeout(animationDurationInMs);
 
-    let extraFebruaryDayInLeapYear = await page.evaluate(async () => {
-      await customElements.whenDefined("calcite-date-picker");
-      await customElements.whenDefined("calcite-date-picker-month-header");
+    async function getActiveMonthDate(): Promise<string> {
+      return page.$eval("calcite-date-picker", (datePicker: HTMLCalciteDatePickerElement) =>
+        datePicker.shadowRoot.querySelector("calcite-date-picker-month").activeDate.toISOString()
+      );
+    }
 
-      const datePicker = document.querySelector("calcite-date-picker");
-      await datePicker.componentOnReady();
-
-      const datePickerMonthHeader = datePicker.shadowRoot.querySelector("calcite-date-picker-month-header");
-      await datePickerMonthHeader.componentOnReady();
-
-      const datePickerMonth = datePicker.shadowRoot.querySelector("calcite-date-picker-month");
-      await datePickerMonthHeader.componentOnReady();
-
-      return datePickerMonth.shadowRoot.querySelector(`calcite-date-picker-day[day="29"]`)?.getAttribute("value");
-    });
-
-    expect(extraFebruaryDayInLeapYear).toBeUndefined();
-    expect(await datePicker.getProperty("value")).toBe("2015-02-28");
+    const activeDateBefore = await getActiveMonthDate();
 
     await page.keyboard.press("Tab");
     await page.keyboard.press("Tab");
@@ -85,39 +74,9 @@ describe("calcite-date-picker", () => {
     await page.keyboard.type("2016");
     await page.waitForChanges();
 
-    extraFebruaryDayInLeapYear = await page.evaluate(async () => {
-      await customElements.whenDefined("calcite-date-picker");
-      await customElements.whenDefined("calcite-date-picker-month-header");
+    const activeDateAfter = await getActiveMonthDate();
 
-      const datePicker = document.querySelector("calcite-date-picker");
-      await datePicker.componentOnReady();
-
-      const datePickerMonthHeader = datePicker.shadowRoot.querySelector("calcite-date-picker-month-header");
-      await datePickerMonthHeader.componentOnReady();
-
-      const datePickerMonth = datePicker.shadowRoot.querySelector("calcite-date-picker-month");
-      await datePickerMonth.componentOnReady();
-
-      const datePickerDay = datePickerMonth.shadowRoot.querySelector(`calcite-date-picker-day[day="29"]`);
-      return datePickerDay.getAttribute("day");
-    });
-
-    const year = await page.evaluate(async () => {
-      await customElements.whenDefined("calcite-date-picker");
-      await customElements.whenDefined("calcite-date-picker-month-header");
-
-      const datePicker = document.querySelector("calcite-date-picker");
-      await datePicker.componentOnReady();
-
-      const datePickerMonthHeader = datePicker.shadowRoot.querySelector("calcite-date-picker-month-header");
-      await datePickerMonthHeader.componentOnReady();
-
-      const yearInputEl = datePickerMonthHeader.shadowRoot.querySelector("input");
-      return yearInputEl.value;
-    });
-
-    expect(year).toEqual("2016");
-    expect(extraFebruaryDayInLeapYear).toEqual("29");
+    expect(activeDateBefore).not.toEqual(activeDateAfter);
     expect(await datePicker.getProperty("value")).toBe("2015-02-28");
   });
 

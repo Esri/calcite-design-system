@@ -36,7 +36,7 @@ export class DatePickerDay {
   //--------------------------------------------------------------------------
 
   /** Day of the month to be shown. */
-  @Prop({ reflect: true }) day: number;
+  @Prop() day: number;
 
   /** Date is outside of range and can't be selected */
   @Prop({ reflect: true }) disabled = false;
