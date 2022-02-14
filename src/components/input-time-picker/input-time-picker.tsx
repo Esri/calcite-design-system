@@ -17,7 +17,6 @@ import { formatTimeString, isValidTime, localizeTimeString } from "../../utils/t
 import { Scale } from "../interfaces";
 import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
 import { connectForm, disconnectForm, FormComponent, HiddenFormInputSlot } from "../../utils/form";
-import { getElementDir } from "../../utils/dom";
 
 @Component({
   tag: "calcite-input-time-picker",
@@ -91,7 +90,6 @@ export class InputTimePicker implements LabelableComponent, FormComponent {
   @Watch("locale")
   localeWatcher(newLocale: string): void {
     this.setInputValue(localizeTimeString(this.value, newLocale, this.shouldIncludeSeconds()));
-    this.setElDirection(newLocale);
   }
 
   /** The name of the time input */
@@ -143,8 +141,6 @@ export class InputTimePicker implements LabelableComponent, FormComponent {
   private previousValidValue: string = null;
 
   private referenceElementId = `input-time-picker-${guid()}`;
-
-  private calciteInputElDir: string;
 
   //--------------------------------------------------------------------------
   //
@@ -325,19 +321,6 @@ export class InputTimePicker implements LabelableComponent, FormComponent {
     }
   };
 
-  private setElDirection(newLocale?: string): void {
-    this.calciteInputElDir =
-      this.isDefaultLocale() && !newLocale ? this.el.dir || getElementDir(this.el) : "ltr";
-  }
-
-  private isDefaultLocale(): boolean {
-    return (
-      !document.documentElement.lang &&
-      !this.el.lang &&
-      (this.locale === "en" || this.locale === "en-US")
-    );
-  }
-
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -350,10 +333,6 @@ export class InputTimePicker implements LabelableComponent, FormComponent {
     }
     connectLabel(this);
     connectForm(this);
-  }
-
-  componentWillRender() {
-    this.setElDirection();
   }
 
   componentDidLoad() {
@@ -380,7 +359,6 @@ export class InputTimePicker implements LabelableComponent, FormComponent {
           aria-haspopup="dialog"
           aria-label={this.name}
           aria-owns={popoverId}
-          dir={this.calciteInputElDir}
           id={this.referenceElementId}
           role="combobox"
         >

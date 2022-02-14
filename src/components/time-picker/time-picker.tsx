@@ -31,7 +31,6 @@ import {
   getformatToParts
 } from "../../utils/time";
 import { CSS, TEXT } from "./resources";
-import { getElementDir } from "../../utils/dom";
 
 function capitalize(str: string): string {
   return str.charAt(0).toUpperCase() + str.slice(1);
@@ -128,7 +127,6 @@ export class TimePicker {
   localeWatcher(newLocale: string): void {
     this.hourCycle = getLocaleHourCycle(newLocale);
     this.setValue(this.value, false);
-    this.setMeridiemOrder(newLocale);
   }
 
   /** The scale (size) of the time picker */
@@ -162,8 +160,6 @@ export class TimePicker {
   private secondEl: HTMLSpanElement;
 
   private formatParts: Intl.DateTimeFormatPart[];
-
-  private meridiemOrder: string;
 
   // --------------------------------------------------------------------------
   //
@@ -674,14 +670,6 @@ export class TimePicker {
     }
   };
 
-  private setMeridiemOrder(newLocale?: string): void {
-    if (this.isDefaultLocaleRTL(newLocale)) {
-      this.meridiemOrder = "-1";
-    } else {
-      this.meridiemOrder = this.getMeridiemOrder() === 0 ? "-1" : "0";
-    }
-  }
-
   private getMeridiemOrder(): number {
     if (this.formatParts) {
       const index = this.formatParts.findIndex((parts: { type: string; value: string }) => {
@@ -692,14 +680,6 @@ export class TimePicker {
     return 0;
   }
 
-  private isDefaultLocaleRTL(newLocale?: string): boolean {
-    return (
-      !document.documentElement.lang &&
-      (this.locale === "en" || this.locale === "en-US") &&
-      !newLocale &&
-      (this.el.dir === "rtl" || getElementDir(this.el) === "rtl")
-    );
-  }
   // --------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -709,7 +689,6 @@ export class TimePicker {
   connectedCallback() {
     this.setValue(this.value, false);
     this.hourCycle = getLocaleHourCycle(this.locale);
-    this.setMeridiemOrder();
   }
 
   // --------------------------------------------------------------------------
@@ -882,7 +861,11 @@ export class TimePicker {
           <span class={CSS.delimiter}>{this.localizedSecondSuffix}</span>
         )}
         {showMeridiem && (
-          <div class={CSS.column} role="group" style={{ order: this.meridiemOrder }}>
+          <div
+            class={CSS.column}
+            role="group"
+            style={{ order: this.getMeridiemOrder() === 0 ? "-1" : "0" }}
+          >
             <span
               aria-label={this.intlMeridiemUp}
               class={{
