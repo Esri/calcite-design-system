@@ -4,7 +4,7 @@ import {
   Attributes,
   createComponentHTML as create
 } from "../../../.storybook/utils";
-import { html } from "../../tests/utils";
+import { html } from "../../../support/formatting";
 import { boolean, text } from "@storybook/addon-knobs";
 import selectReadme from "../select/readme.md";
 import optionReadme from "../option/readme.md";

@@ -1,7 +1,7 @@
 import { CSS, SLOTS } from "./resources";
 import { accessible, renders, slots } from "../../tests/commonTests";
 import { newE2EPage } from "@stencil/core/testing";
-import { html } from "../../tests/utils";
+import { html } from "../../../support/formatting";
 
 describe("calcite-pick-list-item", () => {
   it("renders", async () => renders("calcite-pick-list-item", { display: "flex" }));

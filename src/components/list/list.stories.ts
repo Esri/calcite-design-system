@@ -1,8 +1,8 @@
-import { themesDarkDefault } from "../../../.storybook/utils";
+import { placeholderImage, themesDarkDefault } from "../../../.storybook/utils";
 import readme from "./readme.md";
 import itemReadme from "../list-item/readme.md";
 import groupReadme from "../list-item-group/readme.md";
-import { html, placeholderImage } from "../../tests/utils";
+import { html } from "../../../support/formatting";
 
 export default {
   title: "Components/List",

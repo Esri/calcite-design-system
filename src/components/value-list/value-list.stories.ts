@@ -8,7 +8,7 @@ import {
 } from "../../../.storybook/utils";
 import readme from "./readme.md";
 import itemReadme from "../value-list-item/readme.md";
-import { html } from "../../tests/utils";
+import { html } from "../../../support/formatting";
 
 export default {
   title: "Components/Value List",

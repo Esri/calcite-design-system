@@ -10,7 +10,7 @@ import {
   focusing,
   disabling
 } from "./shared-list-tests";
-import { html } from "../../tests/utils";
+import { html } from "../../../support/formatting";
 import { CSS as PICK_LIST_GROUP_CSS } from "../pick-list-group/resources";
 
 describe("calcite-pick-list", () => {

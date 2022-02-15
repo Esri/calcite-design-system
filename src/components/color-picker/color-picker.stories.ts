@@ -8,7 +8,7 @@ import {
 } from "../../../.storybook/utils";
 import colorReadme from "./readme.md";
 import { ATTRIBUTES } from "../../../.storybook/resources";
-import { html } from "../../tests/utils";
+import { html } from "../../../support/formatting";
 
 export default {
   title: "Components/Controls/ColorPicker",

@@ -1,6 +1,6 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { accessible, renders, defaults, disabled } from "../../tests/commonTests";
-import { html } from "../../tests/utils";
+import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
 
 describe("calcite-split-button", () => {

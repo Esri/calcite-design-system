@@ -2,7 +2,7 @@ import { text, select } from "@storybook/addon-knobs";
 import { iconNames, boolean } from "../../../.storybook/helpers";
 import { themesDarkDefault } from "../../../.storybook/utils";
 import readme from "./readme.md";
-import { html } from "../../tests/utils";
+import { html } from "../../../support/formatting";
 
 export default {
   title: "Components/Buttons/Split Button",

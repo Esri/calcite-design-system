@@ -1,5 +1,5 @@
 import { accessible, defaults, disabled, reflects, renders } from "../../tests/commonTests";
-import { html } from "../../tests/utils";
+import { html } from "../../../support/formatting";
 
 describe("calcite-tile-select-group", () => {
   it("renders", async () => renders("calcite-tile-select-group", { display: "flex" }));

@@ -1,6 +1,6 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { renders, hidden, accessible, defaults, labelable, formAssociated, disabled } from "../../tests/commonTests";
-import { html } from "../../tests/utils";
+import { html } from "../../../support/formatting";
 import { TEXT } from "./resources";
 
 describe("calcite-combobox", () => {

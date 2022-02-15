@@ -1,7 +1,7 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { TOOLTIP_REFERENCE, TOOLTIP_DELAY_MS } from "../tooltip/resources";
 import { accessible, defaults, hidden, renders } from "../../tests/commonTests";
-import { html } from "../../tests/utils";
+import { html } from "../../../support/formatting";
 
 describe("calcite-tooltip-manager", () => {
   it("renders", async () => renders(`<calcite-tooltip-manager></calcite-tooltip-manager>`, { display: "block" }));

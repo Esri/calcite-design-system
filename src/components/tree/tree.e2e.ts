@@ -1,6 +1,7 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { accessible, renders, defaults } from "../../tests/commonTests";
-import { GlobalTestProps, html } from "../../tests/utils";
+import { GlobalTestProps } from "../../tests/utils";
+import { html } from "../../../support/formatting";
 import { CSS } from "../tree-item/resources";
 import { TreeSelectionMode } from "./interfaces";
 

@@ -1,5 +1,5 @@
 import { accessible, hidden, renders, focusable, disabled } from "../../tests/commonTests";
-import { html } from "../../tests/utils";
+import { html } from "../../../support/formatting";
 
 describe("calcite-list", () => {
   it("renders", async () => renders("calcite-list", { display: "block" }));

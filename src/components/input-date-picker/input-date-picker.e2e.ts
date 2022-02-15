@@ -1,6 +1,6 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { defaults, disabled, formAssociated, labelable, renders } from "../../tests/commonTests";
-import { html } from "../../tests/utils";
+import { html } from "../../../support/formatting";
 
 const animationDurationInMs = 200;
 

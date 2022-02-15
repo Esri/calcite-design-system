@@ -5,7 +5,7 @@ import { DefaultDropdownPlacement } from "./resources";
 import readme1 from "./readme.md";
 import readme2 from "../dropdown-group/readme.md";
 import readme3 from "../dropdown-item/readme.md";
-import { html } from "../../tests/utils";
+import { html } from "../../../support/formatting";
 
 const placements = [
   "top-start",

@@ -1,7 +1,7 @@
 import { text, select } from "@storybook/addon-knobs";
 import { iconNames, boolean } from "../../../.storybook/helpers";
 import { themesDarkDefault } from "../../../.storybook/utils";
-import { html, placeholderImage } from "../../tests/utils";
+import { html } from "../../../support/formatting";
 import readme from "./readme.md";
 
 export default {

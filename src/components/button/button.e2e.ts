@@ -1,7 +1,8 @@
 import { E2EElement, newE2EPage } from "@stencil/core/testing";
 import { accessible, disabled, HYDRATED_ATTR, labelable } from "../../tests/commonTests";
 import { CSS } from "./resources";
-import { html, GlobalTestProps } from "../../tests/utils";
+import { GlobalTestProps } from "../../tests/utils";
+import { html } from "../../../support/formatting";
 
 describe("calcite-button", () => {
   it("renders as a button with default props", async () => {

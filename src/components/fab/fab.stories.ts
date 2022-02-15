@@ -9,7 +9,7 @@ import {
 import readme from "./readme.md";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { ICONS } from "./resources";
-import { html } from "../../tests/utils";
+import { html } from "../../../support/formatting";
 const { scale } = ATTRIBUTES;
 
 export default {

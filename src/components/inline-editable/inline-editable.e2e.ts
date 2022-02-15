@@ -2,7 +2,7 @@ import { accessible, disabled, labelable, renders } from "../../tests/commonTest
 import { E2EPage } from "@stencil/core/testing";
 import { newE2EPage } from "@stencil/core/testing";
 import { CSS } from "./resources";
-import { html } from "../../tests/utils";
+import { html } from "../../../support/formatting";
 
 describe("calcite-inline-editable", () => {
   it("renders", () =>

@@ -1,6 +1,6 @@
 import { E2EElement, E2EPage, newE2EPage } from "@stencil/core/testing";
 import { disabled, focusable } from "../../tests/commonTests";
-import { html } from "../../tests/utils";
+import { html } from "../../../support/formatting";
 import { CSS as PICK_LIST_ITEM_CSS } from "../pick-list-item/resources";
 
 type ListType = "pick" | "value";

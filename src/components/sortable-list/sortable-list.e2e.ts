@@ -1,6 +1,7 @@
 import { E2EPage, newE2EPage } from "@stencil/core/testing";
 import { accessible, disabled, hidden, renders } from "../../tests/commonTests";
-import { dragAndDrop, html } from "../../tests/utils";
+import { dragAndDrop } from "../../tests/utils";
+import { html } from "../../../support/formatting";
 
 describe("calcite-sortable-list", () => {
   it("renders", async () => renders("calcite-sortable-list", { display: "flex" }));

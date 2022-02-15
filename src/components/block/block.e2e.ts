@@ -1,7 +1,7 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { CSS, SLOTS, TEXT } from "./resources";
 import { accessible, defaults, disabled, hidden, renders, slots } from "../../tests/commonTests";
-import { html } from "../../tests/utils";
+import { html } from "../../../support/formatting";
 
 describe("calcite-block", () => {
   it("renders", async () => renders("calcite-block", { display: "flex" }));

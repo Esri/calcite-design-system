@@ -10,7 +10,8 @@ import {
   focusing,
   disabling
 } from "../pick-list/shared-list-tests";
-import { dragAndDrop, html } from "../../tests/utils";
+import { dragAndDrop } from "../../tests/utils";
+import { html } from "../../../support/formatting";
 
 describe("calcite-value-list", () => {
   it("renders", () => renders("calcite-value-list", { display: "flex" }));
