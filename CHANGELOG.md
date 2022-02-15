@@ -3,9 +3,7 @@
 This document maintains a list of released versions and changes introduced by them.
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
-<!--@unreleased-section-start-->
-
-## Unreleased
+## [1.0.0-beta.77](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.76...v1.0.0-beta.77) (2022-02-15)
 
 ### Features
 
@@ -27,11 +25,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - **progress:** make progress visible in high contrast ([#3896](https://github.com/Esri/calcite-components/issues/3896)) ([#3988](https://github.com/Esri/calcite-components/issues/3988)) ([debe612](https://github.com/Esri/calcite-components/commit/debe6128af59ee147aa348546c660d442cde95ff))
 - **radio-button:** scale selection indicator with radio button size ([#3952](https://github.com/Esri/calcite-components/issues/3952)) ([dfa1304](https://github.com/Esri/calcite-components/commit/dfa1304a5f14c176c3e1b0c3db3fd844f8051afe))
 - **value-list-item:** change to older tailwind class for outlining a selected item ([#4057](https://github.com/Esri/calcite-components/issues/4057)) ([56e9d94](https://github.com/Esri/calcite-components/commit/56e9d941e62eaa86e3f8dc9450c3d3a89d016d02))
-
-### Reverts
-
-- **input:** correct negative values in ar and et locales ([#4083](https://github.com/Esri/calcite-components/issues/4083)) ([d0f5207](https://github.com/Esri/calcite-components/commit/d0f5207e7639287813e4612a54c46d3e7d7e7bf0)), closes [#4020](https://github.com/Esri/calcite-components/issues/4020)
-<!--@unreleased-section-end-->
+- **input:** reverted fix for negative values in ar and et locales ([#4083](https://github.com/Esri/calcite-components/pull/4083)) ([#4020](https://github.com/Esri/calcite-components/issues/4020)) ([c8de9f0](https://github.com/Esri/calcite-components/commit/c8de9f0f8d0cba974a5c17da58b2a125b80ecd99))
 
 ## [1.0.0-beta.76](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.75...v1.0.0-beta.76) (2022-02-01)
 
