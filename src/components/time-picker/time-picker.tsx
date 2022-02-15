@@ -862,9 +862,8 @@ export class TimePicker {
         )}
         {showMeridiem && (
           <div
-            class={CSS.column}
+            class={{ [CSS.column]: true, [CSS.meridiemStart]: this.getMeridiemOrder() === 0 }}
             role="group"
-            style={{ order: this.getMeridiemOrder() === 0 ? "-1" : "0" }}
           >
             <span
               aria-label={this.intlMeridiemUp}

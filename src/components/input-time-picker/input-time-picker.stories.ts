@@ -51,7 +51,7 @@ export const KoreanLocale = stepStory(
     >
     </calcite-input-time-picker>
   `,
-  createSteps("calcite-input-time-picker").snapshot("Default").click("#reference-element").snapshot("timePicker")
+  createSteps("calcite-input-time-picker").click("#reference-element").snapshot("timePicker")
 );
 
 DarkTheme.parameters = { themes: themesDarkDefault };
