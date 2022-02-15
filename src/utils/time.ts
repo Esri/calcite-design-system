@@ -190,7 +190,7 @@ export function localizeTimeStringToParts(value: string, locale = "en"): Localiz
   return null;
 }
 
-export function getformatToParts(value: string, locale = "en"): Intl.DateTimeFormatPart[] {
+export function getTimeParts(value: string, locale = "en"): Intl.DateTimeFormatPart[] {
   if (!isValidTime(value)) {
     return null;
   }

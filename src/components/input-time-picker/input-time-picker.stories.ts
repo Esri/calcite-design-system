@@ -54,4 +54,22 @@ export const KoreanLocale = stepStory(
   createSteps("calcite-input-time-picker").click("#reference-element").snapshot("timePicker")
 );
 
+export const ArabicLocale = stepStory(
+  (): string => html`
+    <calcite-input-time-picker
+      id="reference-element"
+      ${boolean("disabled", false)}
+      ${boolean("hidden", false)}
+      name="${text("name", "light")}"
+      scale="${select("scale", ["s", "m", "l"], "m")}"
+      step="${number("step", 1)}"
+      value="${text("value", "10:37")}"
+      lang="ar"
+      dir="rtl"
+    >
+    </calcite-input-time-picker>
+  `,
+  createSteps("calcite-input-time-picker").click("#reference-element").snapshot("timePicker")
+);
+
 DarkTheme.parameters = { themes: themesDarkDefault };

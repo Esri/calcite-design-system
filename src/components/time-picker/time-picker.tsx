@@ -28,7 +28,7 @@ import {
   localizeTimePart,
   Meridiem,
   getLocaleHourCycle,
-  getformatToParts
+  getTimeParts
 } from "../../utils/time";
 import { CSS, TEXT } from "./resources";
 
@@ -159,7 +159,7 @@ export class TimePicker {
 
   private secondEl: HTMLSpanElement;
 
-  private formatParts: Intl.DateTimeFormatPart[];
+  private meridiemOrder: number;
 
   // --------------------------------------------------------------------------
   //
@@ -596,7 +596,6 @@ export class TimePicker {
         localizedSecondSuffix,
         localizedMeridiem
       } = localizeTimeStringToParts(value, this.locale);
-      this.formatParts = getformatToParts(value, this.locale);
       this.localizedHour = localizedHour;
       this.localizedHourSuffix = localizedHourSuffix;
       this.localizedMinute = localizedMinute;
@@ -609,6 +608,8 @@ export class TimePicker {
       if (localizedMeridiem) {
         this.localizedMeridiem = localizedMeridiem;
         this.meridiem = getMeridiem(this.hour);
+        const formatParts = getTimeParts(value, this.locale);
+        this.meridiemOrder = this.getMeridiemOrder(formatParts);
       }
     } else {
       this.hour = null;
@@ -670,9 +671,10 @@ export class TimePicker {
     }
   };
 
-  private getMeridiemOrder(): number {
-    if (this.formatParts) {
-      const index = this.formatParts.findIndex((parts: { type: string; value: string }) => {
+  private getMeridiemOrder(formatParts: Intl.DateTimeFormatPart[]): number {
+    const isRTLkind = this.locale === "ar" || this.locale === "he";
+    if (formatParts && !isRTLkind) {
+      const index = formatParts.findIndex((parts: { type: string; value: string }) => {
         return parts.value === this.localizedMeridiem;
       });
       return index;
@@ -862,7 +864,10 @@ export class TimePicker {
         )}
         {showMeridiem && (
           <div
-            class={{ [CSS.column]: true, [CSS.meridiemStart]: this.getMeridiemOrder() === 0 }}
+            class={{
+              [CSS.column]: true,
+              [CSS.meridiemStart]: this.meridiemOrder === 0
+            }}
             role="group"
           >
             <span
