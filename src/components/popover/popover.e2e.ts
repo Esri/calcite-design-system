@@ -306,4 +306,24 @@ describe("calcite-popover", () => {
     expect(id).toEqual(userDefinedId);
     expect(referenceId).toEqual(userDefinedId);
   });
+
+  it("should not be visible if reference is hidden", async () => {
+    const page = await newE2EPage();
+
+    await page.setContent(
+      `<calcite-popover placement="auto" reference-element="ref" open>content</calcite-popover><div id="ref">referenceElement</div>`
+    );
+
+    await page.waitForChanges();
+
+    const popover = await page.find("calcite-popover");
+
+    expect(await popover.isVisible()).toBe(true);
+
+    popover.setAttribute("data-popper-reference-hidden", "");
+
+    await page.waitForChanges();
+
+    expect(await popover.isVisible()).toBe(false);
+  });
 });

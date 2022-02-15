@@ -75,6 +75,10 @@ $popper-default-z-index: 900;
   :host([data-popper-placement]) .calcite-popper-anim--active {
     @include popperAnimActive();
   }
+
+  :host([data-popper-reference-hidden]) {
+    opacity: 0;
+  }
 }
 
 @mixin popperContainer($zIndex: $popper-default-z-index) {
