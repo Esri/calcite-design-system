@@ -21,6 +21,7 @@ export interface Time {
   minute: string;
   second: string;
 }
+const currentTime = new Date();
 
 export type TimePart = "hour" | "hourSuffix" | "minute" | "minuteSuffix" | "second" | "secondSuffix" | "meridiem";
 
@@ -194,14 +195,9 @@ export function getTimeParts(value: string, locale = "en"): Intl.DateTimeFormatP
   if (!isValidTime(value)) {
     return null;
   }
-  const { hour, minute, second = "0" } = parseTimeString(value);
-  const dateFromTimeString = new Date(Date.UTC(0, 0, 0, parseInt(hour), parseInt(minute), parseInt(second)));
-  if (dateFromTimeString) {
-    const formatter = createLocaleDateTimeFormatter(locale);
-    const parts = formatter.formatToParts(dateFromTimeString);
-    return parts;
-  }
-  return null;
+  const formatter = createLocaleDateTimeFormatter(locale);
+  const parts = formatter.formatToParts(currentTime);
+  return parts;
 }
 
 export function parseTimeString(value: string): Time {
