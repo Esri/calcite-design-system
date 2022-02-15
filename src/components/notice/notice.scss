@@ -66,18 +66,18 @@
 }
 
 :host {
-  @apply hidden mx-auto max-w-full items-center;
+  @apply mx-auto hidden max-w-full items-center;
   width: var(--calcite-notice-width);
 }
 
 .container {
-  @apply hidden
+  @apply bg-foreground-1
+    pointer-events-none
     my-0
     box-border
+    hidden
     w-full
-    opacity-0
-    pointer-events-none
-    bg-foreground-1;
+    opacity-0;
   max-height: 0;
   text-align: start;
   transition: var(--calcite-animation-timing);
@@ -98,33 +98,33 @@
 }
 
 :host([active]) .container {
-  @apply flex
-    shadow-1
-    items-center
-    opacity-100
+  @apply shadow-1
+    pointer-events-auto
+    flex
     max-h-full
+    items-center
     border-2
-    pointer-events-auto;
+    opacity-100;
 }
 
 @include slotted("title", "*", ".container") {
-  @apply m-0 font-medium text-color-1;
+  @apply text-color-1 m-0 font-medium;
 }
 
 @include slotted("message", "*", ".container") {
-  @apply inline m-0 font-normal text-color-2;
+  @apply text-color-2 m-0 inline font-normal;
   margin-inline-end: var(--calcite-notice-spacing-token-small);
 }
 
 @mixin notice-element-base() {
-  @apply box-border transition-default;
+  @apply transition-default box-border;
   padding: var(--calcite-notice-spacing-token-small) var(--calcite-notice-spacing-token-large);
   flex: 0 0 auto;
 }
 
 .notice-content {
   @include notice-element-base;
-  @apply flex flex-col min-w-0 break-words;
+  @apply flex min-w-0 flex-col break-words;
   flex: 1 1 0;
   padding-block: var(--calcite-notice-spacing-token-small);
   padding-inline: 0 var(--calcite-notice-spacing-token-small);
@@ -143,7 +143,7 @@
 }
 
 .notice-close {
-  @apply flex items-center self-stretch bg-transparent border-none outline-none cursor-pointer text-color-3;
+  @apply text-color-3 flex cursor-pointer items-center self-stretch border-none bg-transparent outline-none;
   @include notice-element-base;
   -webkit-appearance: none;
 

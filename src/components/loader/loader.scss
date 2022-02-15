@@ -13,7 +13,7 @@ $loader-scale: 54;
 $loader-circumference: ($loader-scale - (2 * $stroke-width)) * 3.14159;
 
 :host {
-  @apply items-center relative justify-center hidden mx-auto opacity-100 py-16;
+  @apply relative mx-auto hidden items-center justify-center py-16 opacity-100;
   min-height: var(--calcite-loader-size);
   font-size: var(--calcite-loader-font-size);
   stroke: var(--calcite-ui-brand);
@@ -54,15 +54,15 @@ $loader-circumference: ($loader-scale - (2 * $stroke-width)) * 3.14159;
 }
 
 .loader__text {
-  @apply block
-  text-n2h
-  text-center
-  text-color-1;
+  @apply text-n2h
+  text-color-1
+  block
+  text-center;
   margin-top: calc(var(--calcite-loader-size) + theme("spacing.6"));
 }
 
 .loader__percentage {
-  @apply block absolute text-color-1 text-center;
+  @apply text-color-1 absolute block text-center;
   font-size: var(--calcite-loader-font-size);
   width: var(--calcite-loader-size);
   left: 50%;
@@ -81,7 +81,7 @@ $loader-circumference: ($loader-scale - (2 * $stroke-width)) * 3.14159;
 }
 
 .loader__svg {
-  @apply absolute overflow-visible top-0 left-0 origin-center;
+  @apply absolute top-0 left-0 origin-center overflow-visible;
   width: var(--calcite-loader-size);
   height: var(--calcite-loader-size);
   animation-iteration-count: infinite;
@@ -115,7 +115,7 @@ $loader-circumference: ($loader-scale - (2 * $stroke-width)) * 3.14159;
 }
 
 :host([inline]) {
-  @apply relative m-0 py-0 animate-none stroke-current stroke-2;
+  @apply relative m-0 animate-none stroke-current stroke-2 py-0;
   height: var(--calcite-loader-size-inline);
   min-height: var(--calcite-loader-size-inline);
   width: var(--calcite-loader-size-inline);

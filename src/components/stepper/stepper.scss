@@ -1,22 +1,22 @@
 :host {
-  @apply flex
+  @apply relative
+    flex
+    w-full
+    min-w-full
     flex-row
     flex-wrap
-    relative
-    justify-between
     items-stretch
-    w-full
-    min-w-full;
+    justify-between;
 }
 
 :host([layout="vertical"]) {
-  @apply flex-col flex-auto;
+  @apply flex-auto flex-col;
 }
 
 :host ::slotted(.calcite-stepper-content) {
   @apply flex
-    flex-col
-    flex-wrap
     w-full
-    min-w-full;
+    min-w-full
+    flex-col
+    flex-wrap;
 }

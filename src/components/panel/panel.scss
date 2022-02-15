@@ -10,7 +10,7 @@
 
 :host {
   @extend %component-host;
-  @apply flex flex-auto overflow-hidden relative w-full;
+  @apply relative flex w-full flex-auto overflow-hidden;
 
   --calcite-min-header-height: calc(var(--calcite-icon-size) * 3);
   --calcite-panel-max-height: unset;
@@ -22,7 +22,7 @@
 @import "../../assets/styles/header";
 
 .container {
-  @apply flex flex-auto flex-col items-stretch bg-background w-full p-0 m-0;
+  @apply bg-background m-0 flex w-full flex-auto flex-col items-stretch p-0;
 
   max-height: var(--calcite-panel-max-height);
   width: var(--calcite-panel-width);
@@ -73,32 +73,32 @@
 
 .header {
   border-bottom: 1px solid;
-  @apply items-stretch
-    bg-foreground-1
-    justify-start
+  @apply bg-foreground-1
+    border-b-color-3
     sticky
     top-0
-    border-b-color-3
-    w-full;
+    w-full
+    items-stretch
+    justify-start;
   flex: 0 0 auto;
   z-index: 2;
 }
 
 .header-content {
-  @apply overflow-hidden
+  @apply flex
+    flex-col
+    overflow-hidden
     px-3
-    py-3.5
-    flex
-    flex-col;
+    py-3.5;
   margin-inline-end: auto;
   .heading,
   .summary {
-    @apply p-0
-      block
-      break-words;
+    @apply block
+      break-words
+      p-0;
   }
   .heading {
-    @apply font-medium mt-0 mx-0 mb-1 text-0h;
+    @apply text-0h mx-0 mt-0 mb-1 font-medium;
     &:only-child {
       @apply mb-0;
     }
@@ -110,16 +110,16 @@
 
 .back-button {
   @apply border-color-3
-  border-solid
-  border-0;
+  border-0
+  border-solid;
   border-inline-end-width: theme("borderWidth.DEFAULT");
 }
 
 .header-actions {
   @apply flex
-  items-stretch
   flex-row
-  flex-nowrap;
+  flex-nowrap
+  items-stretch;
 }
 
 .header-actions--end,
@@ -128,10 +128,10 @@
 }
 
 .menu-button {
-  @apply self-stretch
-    flex-initial
+  @apply relative
     h-full
-    relative;
+    flex-initial
+    self-stretch;
 }
 .menu {
   min-width: theme("spacing.40");
@@ -147,23 +147,23 @@
 }
 
 .content-container {
-  @apply items-stretch
-  bg-background
+  @apply bg-background
   flex
   flex-auto
+  flex-col
   flex-nowrap
-  flex-col;
+  items-stretch;
 }
 
 .footer {
   border-top: 1px solid;
   @apply bg-foreground-1
   border-t-color-3
-  flex
-  justify-evenly
   sticky
   bottom-0
-  w-full;
+  flex
+  w-full
+  justify-evenly;
 
   flex: 0 0 auto;
   min-height: theme("spacing.12");
@@ -171,14 +171,14 @@
 }
 
 .fab-container {
-  @apply block
-  sticky
-  my-0
-  mx-auto
-  p-2
+  @apply sticky
   bottom-0
   left-0
-  right-0;
+  right-0
+  my-0
+  mx-auto
+  block
+  p-2;
   width: fit-content;
   z-index: 1;
 }

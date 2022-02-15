@@ -10,9 +10,9 @@
 :host {
   @extend %component-spacing;
 
-  @apply flex
-    items-stretch
-    relative;
+  @apply relative
+    flex
+    items-stretch;
   width: var(--select-width);
 }
 
@@ -56,20 +56,20 @@
 }
 
 .select {
-  @apply appearance-none
-    border
-    border-solid
-    bg-foreground-1
+  @apply bg-foreground-1
     border-color-input
-    rounded-none
     text-color-2
-    cursor-pointer
     font-inherit
-    m-0
-    w-full
     focus-base
+    m-0
     box-border
-    truncate;
+    w-full
+    cursor-pointer
+    appearance-none
+    truncate
+    rounded-none
+    border
+    border-solid;
   font-size: var(--calcite-select-font-size);
   padding-inline: var(--calcite-select-spacing-inline);
   border-inline-end-width: theme("borderWidth.0");
@@ -89,20 +89,20 @@ select:disabled {
 }
 
 :host([disabled]) {
-  @apply pointer-events-none select-none opacity-disabled;
+  @apply opacity-disabled pointer-events-none select-none;
 }
 
 .icon-container {
-  @apply items-center
-    bg-transparent
-    border-0
-    border-solid
-    border-color-input
+  @apply border-color-input
     text-color-2
-    flex
     pointer-events-none
     absolute
-    inset-y-0;
+    inset-y-0
+    flex
+    items-center
+    border-0
+    border-solid
+    bg-transparent;
   inset-inline-end: theme("inset.0");
   border-inline-width: theme("borderWidth.0") theme("borderWidth.DEFAULT");
 }

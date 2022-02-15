@@ -24,11 +24,11 @@
 
 :host,
 .list {
-  @apply flex flex-col m-0 p-0 outline-none;
+  @apply m-0 flex flex-col p-0 outline-none;
 }
 
 .label {
-  @apply box-border w-full max-w-full min-w-0 text-color-3 flex;
+  @apply text-color-3 box-border flex w-full min-w-0 max-w-full;
 }
 
 .label--indent-1 {
@@ -41,13 +41,13 @@
 
 .title {
   border: 0 solid;
-  @apply block
-    flex-1
-    border-b-color-3
-    border-b
+  @apply border-b-color-3
     text-color-2
-    font-bold
-    word-break;
+    word-break
+    block
+    flex-1
+    border-b
+    font-bold;
   padding: var(--calcite-combobox-item-spacing-unit-l) 0;
   margin-left: var(--calcite-combobox-item-spacing-unit-s);
   margin-right: var(--calcite-combobox-item-spacing-unit-s);
