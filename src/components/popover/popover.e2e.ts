@@ -325,5 +325,18 @@ describe("calcite-popover", () => {
     await page.waitForChanges();
 
     expect(await popover.isVisible()).toBe(false);
+
+    popover.removeAttribute("data-popper-reference-hidden");
+    popover.setAttribute("data-popper-escaped", "");
+
+    await page.waitForChanges();
+
+    expect(await popover.isVisible()).toBe(false);
+
+    popover.removeAttribute("data-popper-escaped");
+
+    await page.waitForChanges();
+
+    expect(await popover.isVisible()).toBe(true);
   });
 });

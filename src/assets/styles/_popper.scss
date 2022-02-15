@@ -76,8 +76,9 @@ $popper-default-z-index: 900;
     @include popperAnimActive();
   }
 
+  :host([data-popper-escaped]),
   :host([data-popper-reference-hidden]) {
-    opacity: 0;
+    @apply opacity-0 pointer-events-none;
   }
 }
 
