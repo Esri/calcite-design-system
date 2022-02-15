@@ -51,6 +51,35 @@ describe("calcite-date-picker", () => {
     expect(changedEvent).toHaveReceivedEventTimes(0);
   });
 
+  it("updates the calendar immediately as a new year is typed but doesn't change the year", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<calcite-date-picker value="2015-02-28" active></calcite-date-picker>`);
+    const datePicker = await page.find("calcite-date-picker");
+    await page.waitForTimeout(animationDurationInMs);
+
+    async function getActiveMonthDate(): Promise<string> {
+      return page.$eval("calcite-date-picker", (datePicker: HTMLCalciteDatePickerElement) =>
+        datePicker.shadowRoot.querySelector("calcite-date-picker-month").activeDate.toISOString()
+      );
+    }
+
+    const activeDateBefore = await getActiveMonthDate();
+
+    await page.keyboard.press("Tab");
+    await page.keyboard.press("Tab");
+    await page.keyboard.down("Meta");
+    await page.keyboard.press("a");
+    await page.keyboard.press("Backspace");
+    await page.keyboard.up("Meta");
+    await page.keyboard.type("2016");
+    await page.waitForChanges();
+
+    const activeDateAfter = await getActiveMonthDate();
+
+    expect(activeDateBefore).not.toEqual(activeDateAfter);
+    expect(await datePicker.getProperty("value")).toBe("2015-02-28");
+  });
+
   it("fires a calciteDatePickerChange event when day is selected", async () => {
     const page = await newE2EPage();
     await page.setContent("<calcite-date-picker value='2000-11-27' active></calcite-date-picker>");
