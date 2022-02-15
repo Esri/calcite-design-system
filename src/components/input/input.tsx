@@ -204,7 +204,7 @@ export class Input implements LabelableComponent, FormComponent {
       this.setValue({
         origin: "external",
         value:
-          newValue == null
+          newValue == null || newValue == ""
             ? ""
             : this.type === "number"
             ? isValidNumber(newValue)
