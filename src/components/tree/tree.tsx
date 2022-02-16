@@ -75,10 +75,14 @@ export class Tree {
   render(): VNode {
     return (
       <Host
-        aria-multiselectable={(
-          this.selectionMode === TreeSelectionMode.Multi ||
-          this.selectionMode === TreeSelectionMode.MultiChildren
-        ).toString()}
+        aria-multiselectable={
+          this.child
+            ? undefined
+            : (
+                this.selectionMode === TreeSelectionMode.Multi ||
+                this.selectionMode === TreeSelectionMode.MultiChildren
+              ).toString()
+        }
         role={!this.child ? "tree" : undefined}
         tabIndex={this.getRootTabIndex()}
       >
