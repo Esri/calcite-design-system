@@ -115,8 +115,7 @@ export class Tab {
     // to allow `<calcite-tabs>` to be nested we need to make sure this
     // `calciteTabChange` event was actually fired from a title that is a
     // child of the `<calcite-tabs>` that is the a parent of this tab.
-    const composedPath = event.composedPath();
-    if (!composedPath.includes(this.el.closest("calcite-tabs"))) {
+    if (!event.composedPath().includes(this.el.closest("calcite-tabs"))) {
       return;
     }
 
