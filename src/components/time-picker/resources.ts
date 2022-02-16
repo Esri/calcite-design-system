@@ -24,7 +24,8 @@ export const CSS = {
   "scale-s": "scale-s",
   "scale-m": "scale-m",
   "scale-l": "scale-l",
-  timePicker: "time-picker"
+  timePicker: "time-picker",
+  meridiemStart: "meridiem--start"
 };
 
 export const TEXT = {

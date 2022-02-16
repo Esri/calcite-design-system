@@ -2,28 +2,28 @@
 @include popperArrow();
 
 .container {
-  @apply relative
-    bg-foreground-1
-    flex
-    justify-start
-    flex-col
-    font-medium
+  @apply bg-foreground-1
     text-color-1
+    text-n2-wrap
+    relative
+    flex
+    flex-col
+    justify-start
+    overflow-hidden
+    rounded
     py-3
     px-4
-    overflow-hidden
-    text-n2-wrap
-    rounded;
+    font-medium;
   max-width: 20rem;
   max-height: 20rem;
 }
 
 .calcite-popper-anim {
   @apply bg-foreground-1
-    border
-    border-solid
     border-color-3
-    rounded;
+    rounded
+    border
+    border-solid;
 }
 
 .arrow::before {

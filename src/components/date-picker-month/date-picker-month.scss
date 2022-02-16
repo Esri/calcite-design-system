@@ -3,11 +3,11 @@
 }
 
 .week-headers {
-  @apply flex
+  @apply border-color-3
+    flex
     border-0
     border-t
     border-solid
-    border-color-3
     py-0
     px-1;
 }
@@ -20,15 +20,15 @@
 }
 
 :host([scale="s"]) .week-header {
-  @apply text-n2h pt-2 pb-3 px-0;
+  @apply text-n2h px-0 pt-2 pb-3;
 }
 
 :host([scale="m"]) .week-header {
-  @apply text-n2h pt-3 pb-4 px-0;
+  @apply text-n2h px-0 pt-3 pb-4;
 }
 
 :host([scale="l"]) .week-header {
-  @apply text-n1h pt-4 pb-5 px-0;
+  @apply text-n1h px-0 pt-4 pb-5;
 }
 
 .week-days {

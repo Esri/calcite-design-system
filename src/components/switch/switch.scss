@@ -4,10 +4,10 @@
     @apply h-3;
   }
   .track {
-    @apply w-6 h-3;
+    @apply h-3 w-6;
   }
   .handle {
-    @apply w-2 h-2;
+    @apply h-2 w-2;
   }
 }
 
@@ -16,10 +16,10 @@
     @apply h-4;
   }
   .track {
-    @apply w-8 h-4;
+    @apply h-4 w-8;
   }
   .handle {
-    @apply w-3 h-3;
+    @apply h-3 w-3;
   }
 }
 
@@ -28,16 +28,16 @@
     @apply h-6;
   }
   .track {
-    @apply w-12 h-6;
+    @apply h-6 w-12;
   }
   .handle {
-    @apply w-5 h-5;
+    @apply h-5 w-5;
   }
 }
 
 :host {
-  @apply inline-block
-    relative
+  @apply relative
+    inline-block
     w-auto
     cursor-pointer
     select-none
@@ -54,33 +54,33 @@
 }
 
 .track {
-  @apply relative
+  @apply bg-foreground-2
+    border-color-2
+    pointer-events-none
+    relative
+    box-border
     inline-block
-    align-top
-    bg-foreground-2
+    rounded-full
     border
     border-solid
-    border-color-2
-    box-border
-    pointer-events-none
+    align-top
     transition-all
     duration-150
-    ease-in-out
-    rounded-full;
+    ease-in-out;
 }
 
 .handle {
-  @apply absolute
+  @apply bg-foreground-1
+    border-color-input
+    pointer-events-none
+    absolute
     block
-    bg-foreground-1
+    rounded-full
     border-2
     border-solid
-    border-color-input
     transition-all
     duration-150
-    ease-in-out
-    rounded-full
-    pointer-events-none;
+    ease-in-out;
   top: -1px;
   inset-inline: -1px theme("inset.auto");
 }

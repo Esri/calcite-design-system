@@ -29,12 +29,12 @@
 }
 
 :host {
-  @apply flex
+  @apply text-color-3
+    relative
+    flex
     flex-col
     no-underline
-    outline-none
-    relative
-    text-color-3;
+    outline-none;
   background-color: var(--calcite-accordion-item-background, theme("backgroundColor.foreground.1"));
 }
 
@@ -50,7 +50,7 @@
 :host([active]) {
   @apply text-color-1;
   & .accordion-item-content {
-    @apply block text-color-1;
+    @apply text-color-1 block;
   }
   & .accordion-item-header {
     border-bottom-color: transparent;
@@ -59,15 +59,15 @@
 
 // .accordion-item-header / content
 :host .accordion-item-header {
-  @apply flex items-center cursor-pointer;
+  @apply flex cursor-pointer items-center;
   flex-direction: var(--calcite-accordion-item-flex-direction);
 }
 
 :host .accordion-item-icon {
-  @apply inline-flex
+  @apply text-color-3
     relative
     m-0
-    text-color-3
+    inline-flex
     duration-150
     ease-in-out;
   margin-inline-end: var(--calcite-accordion-item-icon-spacing-start);
@@ -88,7 +88,7 @@
 }
 
 :host .accordion-item-content {
-  @apply hidden text-color-3 pt-0;
+  @apply text-color-3 hidden pt-0;
   text-align: initial;
 }
 
@@ -114,7 +114,7 @@
 
 // accordion item title
 :host .accordion-item-header-text {
-  @apply flex-col flex-grow my-0 py-0;
+  @apply my-0 flex-grow flex-col py-0;
   text-align: initial;
   margin-inline-end: theme("margin.auto");
 }

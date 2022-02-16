@@ -204,7 +204,7 @@ export class Input implements LabelableComponent, FormComponent {
       this.setValue({
         origin: "external",
         value:
-          newValue == null
+          newValue == null || newValue == ""
             ? ""
             : this.type === "number"
             ? isValidNumber(newValue)
@@ -318,6 +318,16 @@ export class Input implements LabelableComponent, FormComponent {
     this.maxString = this.max?.toString();
     this.minString = this.min?.toString();
     this.requestedIcon = setRequestedIcon(INPUT_TYPE_ICONS, this.icon, this.type);
+  }
+
+  componentShouldUpdate(newValue: string, oldValue: string, property: string): boolean {
+    if (this.type === "number" && property === "value" && newValue && !isValidNumber(newValue)) {
+      this.setValue({
+        value: oldValue
+      });
+      return false;
+    }
+    return true;
   }
 
   //--------------------------------------------------------------------------

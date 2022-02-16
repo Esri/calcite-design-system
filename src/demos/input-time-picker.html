@@ -37,7 +37,6 @@
       }
     </style>
   </head>
-
   <body>
     <div id="main-container">
       <div id="locales">
@@ -49,13 +48,11 @@
         <div></div>
         <div></div>
         <div></div>
-
         <!-- column heading row -->
         <div></div>
         <calcite-label scale="l">small</calcite-label>
         <calcite-label scale="l">medium</calcite-label>
         <calcite-label scale="l">large</calcite-label>
-
         <calcite-label scale="l">basic</calcite-label>
         <calcite-label scale="s">
           Small Label
@@ -101,29 +98,22 @@
         await customElements.whenDefined("calcite-input-time-picker");
         await customElements.whenDefined("calcite-tile-select-group");
         await customElements.whenDefined("calcite-tile-select");
-
         const inputTimePicker = document.querySelector("calcite-input-time-picker");
         await inputTimePicker.componentOnReady();
-
         const tileSelectGroup = document.querySelector("calcite-tile-select-group");
         await tileSelectGroup.componentOnReady();
-
         const inputTimePickerEls = Array.from(document.querySelectorAll("calcite-input-time-picker"));
         const timePickerEls = Array.from(document.querySelectorAll("calcite-time-picker"));
-
         document.addEventListener("calciteInputTimePickerChange", (event) => {
           console.log("calciteInputTimePickerChange", event.target.value);
         });
-
         document.addEventListener("calciteTimePickerChange", (event) => {
           console.log("calciteTimePickerChange", event.target.value);
         });
-
         document.addEventListener("calciteTileSelectChange", (event) => {
           inputTimePickerEls.forEach((inputTimePickerEl) => (inputTimePickerEl.locale = event.target.value));
           timePickerEls.forEach((timePickerEl) => (timePickerEl.locale = event.target.value));
         });
-
         locales.forEach(({ locale, name }) => {
           let localeEl = document.createElement("calcite-tile-select");
           localeEl.setAttribute("heading", name);
@@ -133,7 +123,6 @@
           localeEl.setAttribute("value", locale);
           tileSelectGroup.appendChild(localeEl);
         });
-
         const htmlEl = document.querySelector("html");
         const htmlElObserver = new MutationObserver((mutations) => {
           mutations.forEach((mutation) => {
@@ -145,7 +134,6 @@
             }
           });
         });
-
         htmlElObserver.observe(htmlEl, {
           attributes: true
         });

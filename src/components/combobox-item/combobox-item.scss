@@ -31,22 +31,22 @@
 
 :host,
 ul {
-  @apply flex flex-col m-0 p-0 outline-none;
+  @apply m-0 flex flex-col p-0 outline-none;
 }
 
 .label {
-  @apply flex
+  @apply text-color-3
+    focus-base
+    relative
     box-border
+    flex
     w-full
     min-w-full
-    items-center
-    text-color-3
     cursor-pointer
-    relative
+    items-center
+    no-underline
     duration-150
-    ease-in-out
-    focus-base
-    no-underline;
+    ease-in-out;
   padding: var(--calcite-combobox-item-spacing-unit-s) var(--calcite-combobox-item-spacing-unit-l);
 }
 
@@ -67,8 +67,8 @@ ul {
 .label:active {
   @apply text-color-1
     bg-foreground-2
-    shadow-none
-    no-underline;
+    no-underline
+    shadow-none;
 }
 
 .title {
