@@ -672,8 +672,8 @@ export class TimePicker {
   };
 
   private getMeridiemOrder(formatParts: Intl.DateTimeFormatPart[]): number {
-    const isRTLkind = this.locale === "ar" || this.locale === "he";
-    if (formatParts && !isRTLkind) {
+    const isRTLKind = this.locale === "ar" || this.locale === "he";
+    if (formatParts && !isRTLKind) {
       const index = formatParts.findIndex((parts: { type: string; value: string }) => {
         return parts.value === this.localizedMeridiem;
       });
