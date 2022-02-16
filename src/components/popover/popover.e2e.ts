@@ -319,12 +319,14 @@ describe("calcite-popover", () => {
     const popover = await page.find("calcite-popover");
 
     expect(await popover.isVisible()).toBe(true);
+    expect((await popover.getComputedStyle()).pointerEvents).toBe("auto");
 
     popover.setAttribute("data-popper-reference-hidden", "");
 
     await page.waitForChanges();
 
     expect(await popover.isVisible()).toBe(false);
+    expect((await popover.getComputedStyle()).pointerEvents).toBe("none");
 
     popover.removeAttribute("data-popper-reference-hidden");
     popover.setAttribute("data-popper-escaped", "");
@@ -332,11 +334,13 @@ describe("calcite-popover", () => {
     await page.waitForChanges();
 
     expect(await popover.isVisible()).toBe(false);
+    expect((await popover.getComputedStyle()).pointerEvents).toBe("none");
 
     popover.removeAttribute("data-popper-escaped");
 
     await page.waitForChanges();
 
     expect(await popover.isVisible()).toBe(true);
+    expect((await popover.getComputedStyle()).pointerEvents).toBe("auto");
   });
 });
