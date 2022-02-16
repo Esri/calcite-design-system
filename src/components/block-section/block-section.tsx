@@ -1,4 +1,4 @@
-import { Component, Element, Event, EventEmitter, Prop, h, VNode } from "@stencil/core";
+import { Component, Element, Event, EventEmitter, Prop, h, VNode, Host } from "@stencil/core";
 
 import { getElementDir } from "../../utils/dom";
 import { CSS, ICONS, TEXT } from "./resources";
@@ -167,7 +167,7 @@ export class BlockSection {
       );
 
     return (
-      <div>
+      <Host>
         {headerNode}
         <section
           aria-expanded={open.toString()}
@@ -178,7 +178,7 @@ export class BlockSection {
         >
           <slot />
         </section>
-      </div>
+      </Host>
     );
   }
 }
