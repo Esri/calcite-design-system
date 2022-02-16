@@ -1,18 +1,18 @@
 :host {
-  @apply block flex-initial outline-none mr-5;
+  @apply mr-5 block flex-initial outline-none;
   margin-inline-start: theme("margin.0");
   margin-inline-end: theme("margin.5");
 }
 
 :host([layout="center"]) {
-  @apply text-center my-0 mx-5;
+  @apply my-0 mx-5 text-center;
   flex-basis: theme("spacing.48");
 }
 
 :host([position="below"]) a {
-  @apply border-b-0
-    border-t-2
-    border-t-color-transparent;
+  @apply border-t-color-transparent
+    border-b-0
+    border-t-2;
   border-top-style: solid;
 }
 
@@ -28,7 +28,7 @@
 :host(:focus),
 :host(:hover) {
   a {
-    @apply no-underline text-color-1 border-color-2;
+    @apply text-color-1 border-color-2 no-underline;
   }
 }
 
@@ -69,19 +69,19 @@
 
 a,
 span {
-  @apply box-border
-    appearance-none
-    cursor-pointer
-    truncate
-    border-b-2
-    border-b-color-transparent
-    w-full
-    h-full
-    flex
-    justify-center
+  @apply border-b-color-transparent
     text-color-3
     text-n1h
     transition-default
+    box-border
+    flex
+    h-full
+    w-full
+    cursor-pointer
+    appearance-none
+    justify-center
+    truncate
+    border-b-2
     px-0
     py-2;
   border-bottom-style: solid;
@@ -92,9 +92,9 @@ span {
 }
 
 .calcite-tab-title--icon {
-  @apply inline-flex
-    relative
+  @apply relative
     m-0
+    inline-flex
     self-center;
   & svg {
     @apply transition-default;

@@ -7,11 +7,11 @@
 }
 
 .content {
-  @apply flex
+  @apply m-0
+    flex
     h-full
-    m-0
-    overflow-hidden
-    w-full;
+    w-full
+    overflow-hidden;
   flex: 1 0 0;
 }
 
@@ -20,11 +20,11 @@
 }
 
 :host([detached]) {
-  @apply border-0
-  rounded
-  shadow-0
-  mt-2 mb-6 mx-2
-  animate-in-up;
+  @apply shadow-0
+  animate-in-up
+  mx-2
+  mt-2 mb-6 rounded
+  border-0;
 }
 
 :host([position="end"]) {
@@ -52,7 +52,7 @@
 }
 
 ::slotted(calcite-panel) {
-  @apply w-full h-full;
+  @apply h-full w-full;
 }
 
 ::slotted(calcite-action-bar),

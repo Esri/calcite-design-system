@@ -11,10 +11,10 @@
 
 .calcite-popper-anim {
   @apply bg-foreground-1
-    border
-    border-solid
     border-color-3
-    rounded;
+    rounded
+    border
+    border-solid;
 }
 
 .arrow::before {
@@ -22,39 +22,39 @@
 }
 
 .header {
-  @apply border-0
-    border-b
-    border-b-color-3
-    border-solid
+  @apply border-b-color-3
+    bg-foreground-1
     flex
     flex-auto
     items-stretch
-    bg-foreground-1
-    justify-start;
+    justify-start
+    border-0
+    border-b
+    border-solid;
 }
 
 .heading {
-  @apply block
-  flex-auto
-  font-medium
+  @apply text-color-1
+  text-0-wrap
+  word-break
   m-0
+  block
+  flex-auto
+  self-center
+  whitespace-normal
   px-4
   py-3
-  self-center
-  text-color-1
-  text-0-wrap
-  whitespace-normal
-  word-break;
+  font-medium;
 }
 
 .container {
   @apply bg-foreground-1
+    text-color-1
     relative
     flex
-    flex-nowrap
-    flex-row
     h-full
-    text-color-1
+    flex-row
+    flex-nowrap
     rounded;
   &.has-header {
     @apply flex-col;
@@ -62,13 +62,13 @@
 }
 
 .content {
-  @apply flex
+  @apply word-break
+  flex
+  h-full
+  w-full
   flex-col
   flex-nowrap
-  self-center
-  word-break
-  h-full
-  w-full;
+  self-center;
 }
 
 .close-button-container {

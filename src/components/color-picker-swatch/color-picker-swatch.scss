@@ -3,7 +3,7 @@ $size-m: 24px;
 $size-l: 28px;
 
 :host {
-  @apply inline-flex relative;
+  @apply relative inline-flex;
 }
 
 :host([scale="s"]) {
@@ -29,8 +29,8 @@ $size-l: 28px;
 }
 
 .no-color-icon {
-  @apply h-full
-    w-full
+  @apply absolute
     inset-0
-    absolute;
+    h-full
+    w-full;
 }

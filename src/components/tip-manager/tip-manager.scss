@@ -8,11 +8,11 @@
  */
 
 :host {
-  @apply block
-  box-border
-  bg-foreground-1
+  @apply bg-foreground-1
   text-color-2
-  text-n1h;
+  text-n1h
+  box-border
+  block;
 
   * {
     @apply box-border;
@@ -28,27 +28,27 @@
 @import "../../assets/styles/header";
 
 .header {
-  @apply border-0
+  @apply border-color-3
+    border-0
     border-b
     border-solid
-    border-color-3
     py-0;
 
   padding-inline-end: theme("padding.0");
   padding-inline-start: theme("padding.4");
 
   h2.heading {
-    @apply font-bold
-      text-color-1
+    @apply text-color-1
       text-1h
-      p-0;
+      p-0
+      font-bold;
   }
 }
 
 .container {
-  @apply overflow-hidden
+  @apply focus-base
     relative
-    focus-base;
+    overflow-hidden;
   min-height: 150px;
   &:focus {
     @apply focus-outset;
@@ -56,12 +56,12 @@
 }
 
 .tip-container {
-  @apply overflow-auto
+  @apply focus-base
+    mt-px
     flex
-    justify-center
     items-start
-    focus-base
-    mt-px;
+    justify-center
+    overflow-auto;
   animation-name: none;
   animation-duration: var(--calcite-animation-timing);
   height: var(--calcite-tip-manager-height);
@@ -88,9 +88,9 @@
   @apply flex
   items-center
   justify-center
+  px-0
   pt-3
-  pb-2
-  px-0;
+  pb-2;
 }
 
 .page-position {

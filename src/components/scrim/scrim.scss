@@ -1,12 +1,12 @@
 :host {
-  @apply flex
-  absolute
+  @apply absolute
+  inset-0
   z-50
-  flex-col
-  items-stretch
-  w-full
+  flex
   h-full
-  inset-0;
+  w-full
+  flex-col
+  items-stretch;
 }
 
 @keyframes calcite-scrim-fade-in {
@@ -19,14 +19,14 @@
 }
 
 .scrim {
-  @apply flex
-  absolute
-  overflow-hidden
+  @apply absolute
   inset-0
+  flex
+  flex-col
   content-center
   items-center
-  flex-col
-  justify-center;
+  justify-center
+  overflow-hidden;
   animation: calcite-scrim-fade-in var(--calcite-internal-animation-timing-medium) ease-in-out;
   background-color: var(--calcite-scrim-background);
 }

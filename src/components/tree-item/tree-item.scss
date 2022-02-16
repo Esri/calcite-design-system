@@ -1,9 +1,9 @@
 :host {
-  @apply block
-    cursor-pointer
-    outline-none
+  @apply text-color-3
+    block
     max-w-full
-    text-color-3;
+    cursor-pointer
+    outline-none;
 }
 
 :host([scale="s"]) {
@@ -51,10 +51,10 @@
 :host([lines]) {
   .children-container:after {
     @apply transition-default
-        transition-colors
-        top-0
         absolute
-        w-px;
+        top-0
+        w-px
+        transition-colors;
     // ensure lines don't overlap focus outline
     height: 96%;
     content: "";
@@ -68,7 +68,7 @@
 }
 
 ::slotted(*) {
-  @apply break-words min-w-0 max-w-full;
+  @apply min-w-0 max-w-full break-words;
   color: inherit;
   text-decoration: none !important;
 
@@ -94,11 +94,11 @@
 }
 
 .checkbox-label {
-  @apply flex items-center pointer-events-none;
+  @apply pointer-events-none flex items-center;
 }
 
 .children-container {
-  @apply relative overflow-hidden h-0;
+  @apply relative h-0 overflow-hidden;
   margin-inline-start: theme("margin.5");
   transform: scaleY(0);
   opacity: 0;
@@ -114,7 +114,7 @@
 }
 
 .node-container {
-  @apply flex items-center relative;
+  @apply relative flex items-center;
   padding: var(--calcite-tree-padding-y) 0;
 
   .checkmark,
@@ -135,7 +135,7 @@
 
 :host([selected]) > .node-container,
 :host([selected]) > .node-container:hover {
-  @apply font-medium text-color-1;
+  @apply text-color-1 font-medium;
 
   .bullet-point,
   .checkmark {
@@ -174,7 +174,7 @@
 // dropdown expanded and not selected
 :host([has-children][expanded]:not([selected])) > .node-container {
   ::slotted(*) {
-    @apply font-medium text-color-1;
+    @apply text-color-1 font-medium;
   }
 }
 
@@ -188,9 +188,9 @@
 
 .chevron {
   @apply transition-default
+    text-color-3
     relative
-    self-center
-    text-color-3;
+    self-center;
   flex: 0 0 auto;
   transform: rotate(0deg);
 

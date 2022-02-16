@@ -1,6 +1,6 @@
 :host {
   @extend %component-host;
-  @apply block animate-in rounded-sm;
+  @apply animate-in block rounded-sm;
 }
 
 :host([expanded]) {
@@ -8,20 +8,20 @@
 }
 
 ::slotted(calcite-action-group) {
-  @apply border-0
+  @apply border-color-3
+  border-0
   border-b
-  border-color-3
   border-solid
   pb-0 pt-0;
 }
 
 .container {
-  @apply flex-col
+  @apply bg-background
+  shadow-2
   inline-flex
+  flex-col
   overflow-y-auto
-  rounded
-  bg-background
-  shadow-2;
+  rounded;
   max-width: 15vw;
 }
 

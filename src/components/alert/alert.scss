@@ -79,14 +79,14 @@
   @apply block;
   .container {
     @apply shadow-2
-      flex
-      fixed
-      justify-center
-      items-center
+      bg-foreground-1
       pointer-events-none
+      fixed
       my-0
       mx-auto
-      bg-foreground-1
+      flex
+      items-center
+      justify-center
       opacity-0;
     border-radius: var(--calcite-border-radius);
     border-top: 0px solid transparent;
@@ -128,8 +128,8 @@
 .container {
   @apply flex
     w-full
-    justify-center
-    items-center;
+    items-center
+    justify-center;
 }
 
 // focus styles
@@ -142,7 +142,7 @@
 
 :host([active]) {
   .container:not(.queued) {
-    @apply opacity-100 max-h-full border-t-2;
+    @apply max-h-full border-t-2 opacity-100;
     pointer-events: initial;
     &[class*="bottom"] {
       transform: translate3d(0, calc(-1 * var(--calcite-alert-edge-distance)), inherit);
@@ -154,17 +154,17 @@
 }
 
 @include slotted("title", "*") {
-  @apply font-medium
-    text-0-wrap
-    text-color-1;
+  @apply text-0-wrap
+    text-color-1
+    font-medium;
 }
 
 @include slotted("message", "*") {
-  @apply inline
+  @apply text-n1-wrap
+    text-color-2
     m-0
-    font-normal
-    text-n1-wrap
-    text-color-2;
+    inline
+    font-normal;
   margin-inline-end: theme("margin.2");
 }
 
@@ -180,7 +180,7 @@
 
 .alert-content {
   @include alert-element-base;
-  @apply break-words bg-foreground-1;
+  @apply bg-foreground-1 break-words;
   flex: 1 1 auto;
   min-width: 0;
   padding-block: var(--calcite-alert-spacing-token-small);
@@ -198,23 +198,23 @@
 
 .alert-icon {
   @include alert-element-base;
-  @apply py-0
+  @apply bg-foreground-1
     flex
-    self-stretch
     items-center
-    bg-foreground-1;
+    self-stretch
+    py-0;
 }
 
 .alert-close {
   @include alert-element-base;
-  @apply py-0
-    self-stretch
-    bg-foreground-1
-    border-none
-    outline-none
-    cursor-pointer
+  @apply bg-foreground-1
     text-color-3
-    overflow-hidden;
+    cursor-pointer
+    self-stretch
+    overflow-hidden
+    border-none
+    py-0
+    outline-none;
   border-end-end-radius: var(--calcite-border-radius);
 
   &:hover,
@@ -228,19 +228,19 @@
 }
 
 .alert-queue-count {
-  @apply flex
+  @apply text-color-2
+    bg-foreground-1
+    transition-default
+    invisible
+    flex
+    cursor-default
     items-center
     justify-around
     self-stretch
     overflow-hidden
-    invisible
-    font-medium
     text-center
-    text-color-2
-    bg-foreground-1
-    opacity-0
-    cursor-default
-    transition-default;
+    font-medium
+    opacity-0;
   border-left: 0px solid transparent;
   border-right: 0px solid transparent;
   border-top-right-radius: 0;
@@ -255,10 +255,10 @@
 }
 
 .alert-dismiss-progress {
-  @apply block
-    absolute
+  @apply absolute
     left-0
     right-0
+    block
     w-full
     overflow-hidden;
   top: -2px;
@@ -266,9 +266,9 @@
   z-index: 103;
   border-radius: var(--calcite-border-radius) var(--calcite-border-radius) 0 0;
   &:after {
-    @apply top-0
-    block
-    absolute;
+    @apply absolute
+    top-0
+    block;
     height: 2px;
     content: "";
     background-color: var(--calcite-alert-dismiss-progress-background);
