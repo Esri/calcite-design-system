@@ -43,9 +43,22 @@ export class TooltipManager {
   //
   // --------------------------------------------------------------------------
 
-  queryTooltip = (element: HTMLElement): HTMLCalciteTooltipElement => {
-    const { selector, el } = this;
-    const id = element.closest(selector)?.getAttribute(TOOLTIP_REFERENCE);
+  queryTooltip = (composedPath: EventTarget[]): HTMLCalciteTooltipElement => {
+    const { el } = this;
+
+    if (!composedPath.includes(el)) {
+      return null;
+    }
+
+    const referenceElement = (composedPath as HTMLElement[]).find((pathEl) =>
+      pathEl?.hasAttribute?.(TOOLTIP_REFERENCE)
+    );
+
+    if (!referenceElement) {
+      return null;
+    }
+
+    const id = referenceElement.getAttribute(TOOLTIP_REFERENCE);
 
     return queryElementRoots(el, { id }) as HTMLCalciteTooltipElement;
   };
@@ -144,7 +157,7 @@ export class TooltipManager {
   };
 
   hoverEvent = (event: MouseEvent, value: boolean): void => {
-    const tooltip = this.queryTooltip(event.target as HTMLElement);
+    const tooltip = this.queryTooltip(event.composedPath());
 
     this.activeTooltipHover(event);
 
@@ -156,7 +169,7 @@ export class TooltipManager {
   };
 
   focusEvent = (event: FocusEvent, value: boolean): void => {
-    const tooltip = this.queryTooltip(event.target as HTMLElement);
+    const tooltip = this.queryTooltip(event.composedPath());
 
     if (!tooltip || tooltip === this.clickedTooltip) {
       this.clickedTooltip = null;
@@ -206,7 +219,7 @@ export class TooltipManager {
 
   @Listen("click", { capture: true })
   clickHandler(event: MouseEvent): void {
-    const clickedTooltip = this.queryTooltip(event.target as HTMLElement);
+    const clickedTooltip = this.queryTooltip(event.composedPath());
 
     this.clickedTooltip = clickedTooltip;
 

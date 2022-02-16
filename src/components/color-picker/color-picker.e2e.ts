@@ -163,6 +163,18 @@ describe("calcite-color-picker", () => {
       }
     ]));
 
+  it(`should set all internal calcite-button types to 'button'`, async () => {
+    const page = await newE2EPage({
+      html: "<calcite-color-picker></calcite-color-picker>"
+    });
+
+    const buttons = await page.findAll("calcite-color-picker >>> calcite-button");
+
+    expect(buttons).toHaveLength(2);
+
+    buttons.forEach(async (button) => expect(await button.getProperty("type")).toBe("button"));
+  });
+
   it("emits event when value changes", async () => {
     const page = await newE2EPage({
       html: "<calcite-color-picker></calcite-color-picker>"

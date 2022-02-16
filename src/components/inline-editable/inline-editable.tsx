@@ -132,6 +132,7 @@ export class InlineEditable implements LabelableComponent {
               opacity: this.editingEnabled ? "0" : "1",
               width: this.editingEnabled ? "0" : "inherit"
             }}
+            type="button"
           />
           {this.shouldShowControls && [
             <div class={CSS.cancelEditingButtonWrapper}>
@@ -145,6 +146,7 @@ export class InlineEditable implements LabelableComponent {
                 onClick={this.cancelEditingHandler}
                 ref={(el) => (this.cancelEditingButton = el)}
                 scale={this.scale}
+                type="button"
               />
             </div>,
             <calcite-button
@@ -157,6 +159,7 @@ export class InlineEditable implements LabelableComponent {
               loading={this.loading}
               onClick={this.confirmChangesHandler}
               scale={this.scale}
+              type="button"
             />
           ]}
         </div>

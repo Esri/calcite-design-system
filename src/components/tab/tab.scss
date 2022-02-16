@@ -3,15 +3,15 @@
 }
 
 :host {
-  @apply hidden w-full h-full;
+  @apply hidden h-full w-full;
 }
 
 :host([active]) {
-  @apply block w-full h-full overflow-auto;
+  @apply block h-full w-full overflow-auto;
 }
 
 section {
-  @apply h-full w-full hidden;
+  @apply hidden h-full w-full;
 }
 
 :host([scale="s"]) {

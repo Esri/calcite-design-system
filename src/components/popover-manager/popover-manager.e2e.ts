@@ -9,7 +9,7 @@ describe("calcite-popover-manager", () => {
     accessible(`<calcite-popover-manager>
   <calcite-popover reference-element="ref">Content</calcite-popover>
   <div id="ref">Button</div>
-<calcite-popover-manager>`));
+</calcite-popover-manager>`));
 
   it("honors hidden attribute", async () => hidden("calcite-popover-manager"));
 
@@ -25,6 +25,14 @@ describe("calcite-popover-manager", () => {
       }
     ]));
 
+  it("should be positioned relative", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<calcite-popover-manager></calcite-popover-manager>`);
+    await page.waitForChanges();
+    const manager = await page.find("calcite-popover-manager");
+    expect((await manager.getComputedStyle()).position).toBe("relative");
+  });
+
   it("should open popovers", async () => {
     const page = await newE2EPage();
 
@@ -33,7 +41,7 @@ describe("calcite-popover-manager", () => {
       <calcite-popover-manager>
         <calcite-popover reference-element="ref">Content</calcite-popover>
         <div id="ref">Button</div>
-      <calcite-popover-manager>
+      </calcite-popover-manager>
       `
     );
 
@@ -60,7 +68,7 @@ describe("calcite-popover-manager", () => {
       <calcite-popover-manager>
         <calcite-popover reference-element="ref">Content</calcite-popover>
         <div id="ref"><span>Button</span></div>
-      <calcite-popover-manager>
+      </calcite-popover-manager>
       `
     );
 
@@ -88,7 +96,7 @@ describe("calcite-popover-manager", () => {
       <calcite-popover-manager>
         <calcite-popover reference-element="ref" open>Content</calcite-popover>
         <div id="ref">Button</div>
-      <calcite-popover-manager>
+      </calcite-popover-manager>
       `
     );
 
@@ -116,7 +124,7 @@ describe("calcite-popover-manager", () => {
           <div id="insideNode">Inside node</div>
         </calcite-popover>
         <div id="ref">Button</div>
-      <calcite-popover-manager>
+      </calcite-popover-manager>
       `
     );
 

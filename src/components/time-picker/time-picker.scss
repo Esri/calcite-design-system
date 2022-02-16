@@ -4,12 +4,12 @@
 
 .time-picker {
   @apply bg-foreground-1
-    flex
-    font-medium
-    items-center
-    select-none
     shadow-2
-    text-color-1;
+    text-color-1
+    flex
+    select-none
+    items-center
+    font-medium;
 
   border-radius: var(--calcite-border-radius);
 
@@ -20,8 +20,8 @@
 
   .button {
     @apply bg-foreground-1
-      cursor-pointer
       inline-flex
+      cursor-pointer
       items-center
       justify-center;
     &:hover,
@@ -51,11 +51,11 @@
 
   .input {
     @apply bg-foreground-1
-      cursor-pointer
-      font-medium
       inline-flex
+      cursor-pointer
       items-center
-      justify-center;
+      justify-center
+      font-medium;
     &:hover {
       box-shadow: inset 0 0 0 2px var(--calcite-ui-foreground-2);
     }

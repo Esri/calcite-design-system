@@ -1,20 +1,20 @@
 :host {
-  @apply flex
-    items-stretch
+  @apply pointer-events-none
+    flex
     flex-initial
-    pointer-events-none;
+    items-stretch;
   --calcite-shell-panel-detached-max-height: unset;
 }
 
 .container {
-  @apply box-border
-  flex
-  items-stretch
-  bg-transparent
-  flex-auto
+  @apply text-color-2
+  text-n1
   pointer-events-none
-  text-color-2
-  text-n1;
+  box-border
+  flex
+  flex-auto
+  items-stretch
+  bg-transparent;
 
   * {
     @apply box-border;
@@ -30,17 +30,17 @@
 }
 
 .separator {
-  @apply absolute
-  bg-transparent
+  @apply transition-default
+  pointer-events-auto
+  absolute
   bottom-0
+  top-0
+  z-10
   flex
   h-full
-  opacity-0
-  pointer-events-auto
-  top-0
-  transition-default
   w-0.5
-  z-10;
+  bg-transparent
+  opacity-0;
   cursor: col-resize;
   outline: none;
   &:hover {
@@ -62,7 +62,7 @@
 
 ::slotted(calcite-panel),
 ::slotted(calcite-flow) {
-  @apply flex-auto h-full w-full;
+  @apply h-full w-full flex-auto;
   max-height: unset;
   max-width: unset;
 }
@@ -72,14 +72,14 @@
 }
 
 .content {
-  @apply items-stretch
-  self-stretch
-  bg-background
-  flex
-  p-0
+  @apply bg-background
   pointer-events-auto
+  flex
   flex-col
-  flex-nowrap;
+  flex-nowrap
+  items-stretch
+  self-stretch
+  p-0;
 
   width: var(--calcite-shell-panel-width);
   max-width: var(--calcite-shell-panel-max-width);
@@ -89,8 +89,8 @@
 
 .content__header {
   @apply flex
-  flex-col
   flex-initial
+  flex-col
   flex-nowrap
   items-stretch;
 }
@@ -133,13 +133,13 @@
 }
 
 .content--detached {
-  @apply rounded
-  shadow-0
-  h-auto
-  overflow-hidden
+  @apply shadow-0
+  mx-2
   mt-2
   mb-auto
-  mx-2;
+  h-auto
+  overflow-hidden
+  rounded;
 
   max-height: var(--calcite-shell-panel-detached-max-height);
   ::slotted(calcite-panel),
@@ -163,7 +163,7 @@
 slot[name="action-bar"]::slotted(calcite-action-bar),
 .content ::slotted(calcite-flow),
 .content ::slotted(calcite-panel) {
-  @apply border border-color-3 border-solid;
+  @apply border-color-3 border border-solid;
 }
 
 :host([position="start"]) slot[name="action-bar"]::slotted(calcite-action-bar),
