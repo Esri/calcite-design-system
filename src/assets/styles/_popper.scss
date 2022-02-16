@@ -78,7 +78,7 @@ $popper-default-z-index: 900;
 
   :host([data-popper-escaped]),
   :host([data-popper-reference-hidden]) {
-    @apply opacity-0 pointer-events-none;
+    @apply opacity-0 pointer-events-none !important;
   }
 }
 
