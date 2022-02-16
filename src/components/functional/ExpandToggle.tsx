@@ -50,7 +50,7 @@ const setTooltipReference = ({
   ref?: (el: HTMLElement) => void;
 }): HTMLCalciteActionElement => {
   if (tooltip) {
-    tooltip.referenceElement = !expanded && referenceElement;
+    tooltip.referenceElement = !expanded && referenceElement ? referenceElement : null;
   }
 
   if (ref) {
