@@ -240,23 +240,20 @@ export async function slots(
 }
 
 async function assertLabelable({
-  html,
+  page,
   componentTag,
   propertyToToggle,
   focusTargetSelector = componentTag,
   shadowFocusTargetSelector
 }: {
-  html: string;
+  page: E2EPage;
   componentTag: string;
   propertyToToggle?: string;
   focusTargetSelector?: string;
   shadowFocusTargetSelector?: string;
 }): Promise<void> {
-  const page: E2EPage = await newE2EPage({ html });
-  await page.waitForChanges();
   let component: E2EElement;
   let initialPropertyValue: boolean;
-
   if (propertyToToggle) {
     component = await page.find(componentTag);
     initialPropertyValue = await component.getProperty(propertyToToggle);
@@ -323,11 +320,12 @@ export async function labelable(componentTagOrHtml: TagOrHTML, options?: Labelab
   function ensureId(html: string): string {
     return html.includes("id=") ? html : html.replace(componentTag, `${componentTag} id="${id}" `);
   }
-
   const wrappedHtml = html`<calcite-label> ${labelTitle} ${componentHtml} </calcite-label>`;
+  const wrappedPage: E2EPage = await newE2EPage({ html: wrappedHtml });
+  await wrappedPage.waitForChanges();
 
   await assertLabelable({
-    html: wrappedHtml,
+    page: wrappedPage,
     componentTag,
     propertyToToggle,
     focusTargetSelector,
@@ -338,16 +336,35 @@ export async function labelable(componentTagOrHtml: TagOrHTML, options?: Labelab
     <calcite-label for="${id}">${labelTitle}</calcite-label>
     ${componentHtml}
   `;
+  const siblingPage: E2EPage = await newE2EPage({ html: siblingHtml });
+  await siblingPage.waitForChanges();
 
   await assertLabelable({
-    html: siblingHtml,
+    page: siblingPage,
+    componentTag,
+    propertyToToggle,
+    focusTargetSelector,
+    shadowFocusTargetSelector
+  });
+
+  const componentFirstPage: E2EPage = await newE2EPage({ html: componentHtml });
+  await componentFirstPage.waitForChanges();
+  await componentFirstPage.evaluate((id: string) => {
+    const label = document.createElement("calcite-label");
+    label.setAttribute("for", `${id}`);
+    document.body.appendChild(label);
+  }, id);
+  const label = await componentFirstPage.find("calcite-label");
+  expect(await label.getProperty("for")).toBe(`${id}`);
+
+  await assertLabelable({
+    page: componentFirstPage,
     componentTag,
     propertyToToggle,
     focusTargetSelector,
     shadowFocusTargetSelector
   });
 }
-
 interface FormAssociatedOptions {
   /**
    * This value will be set on the component and submitted by the form.
