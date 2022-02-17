@@ -344,11 +344,11 @@ describe("calcite-popover", () => {
     const page = await newE2EPage();
 
     await page.setContent(
-      html`<div id="ref">referenceElement</div>
-        <div id="scrollEl" style="height: 200px; overflow: auto;">
-          <calcite-popover placement="auto" reference-element="ref" open>content</calcite-popover>
-          <div style="height: 400px;">some content</div>
-        </div>`
+      html`<div id="scrollEl" style="height: 200px; overflow: auto;">
+        <calcite-popover placement="auto" reference-element="ref" open>content</calcite-popover>
+        <div id="ref">referenceElement</div>
+        <div style="height: 400px;">some content</div>
+      </div>`
     );
 
     await page.waitForChanges();
