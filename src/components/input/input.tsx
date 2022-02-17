@@ -435,8 +435,7 @@ export class Input implements LabelableComponent, FormComponent {
   private inputBlurHandler = () => {
     if (this.type === "number") {
       this.setValue({
-        value: this.value,
-        origin: "external"
+        value: this.value
       });
     }
     this.calciteInputBlur.emit({
@@ -695,7 +694,7 @@ export class Input implements LabelableComponent, FormComponent {
         ? localizeNumberString(newValue, this.locale, this.groupSeparator)
         : "";
 
-    this.internalValueChange = origin === "internal";
+    this.internalValueChange = origin === "external" && this.value !== newValue;
     this.setPreviousValue(this.value);
     this.value = newValue;
 

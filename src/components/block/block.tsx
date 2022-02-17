@@ -8,6 +8,7 @@ import {
   connectConditionalSlotComponent,
   disconnectConditionalSlotComponent
 } from "../../utils/conditionalSlot";
+import { guid } from "../../utils/guid";
 
 /**
  * @slot - A slot for adding content to the block.
@@ -99,6 +100,8 @@ export class Block implements ConditionalSlotComponent {
   // --------------------------------------------------------------------------
 
   @Element() el: HTMLCalciteBlockElement;
+
+  private guid = guid();
 
   // --------------------------------------------------------------------------
   //
@@ -206,14 +209,20 @@ export class Block implements ConditionalSlotComponent {
     const hasMenuActions = !!getSlotted(el, SLOTS.headerMenuActions);
     const collapseIcon = open ? ICONS.opened : ICONS.closed;
 
+    const { guid } = this;
+    const regionId = `${guid}-region`;
+    const buttonId = `${guid}-button`;
+
     const headerNode = (
       <div class={CSS.headerContainer}>
         {this.dragHandle ? <calcite-handle /> : null}
         {collapsible ? (
           <button
+            aria-controls={regionId}
             aria-expanded={collapsible ? open.toString() : null}
             aria-label={toggleLabel}
             class={CSS.toggle}
+            id={buttonId}
             onClick={this.onHeaderClick}
             title={toggleLabel}
           >
@@ -254,9 +263,15 @@ export class Block implements ConditionalSlotComponent {
           }}
         >
           {headerNode}
-          <div class={CSS.content} hidden={!open}>
+          <section
+            aria-expanded={this.open.toString()}
+            aria-labelledby={buttonId}
+            class={CSS.content}
+            hidden={!open}
+            id={regionId}
+          >
             {this.renderScrim()}
-          </div>
+          </section>
         </article>
       </Host>
     );

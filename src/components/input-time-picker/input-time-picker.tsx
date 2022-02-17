@@ -281,7 +281,6 @@ export class InputTimePicker implements LabelableComponent, FormComponent {
       this.locale,
       this.shouldIncludeSeconds()
     );
-
     this.internalValueChange = origin !== "external" && origin !== "loading";
 
     const shouldEmit =
