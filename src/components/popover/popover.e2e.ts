@@ -1,6 +1,7 @@
 import { newE2EPage } from "@stencil/core/testing";
 
 import { accessible, defaults, hidden, renders } from "../../tests/commonTests";
+import { html } from "../../tests/utils";
 
 import { CSS, POPOVER_REFERENCE } from "./resources";
 
@@ -307,49 +308,67 @@ describe("calcite-popover", () => {
     expect(referenceId).toEqual(userDefinedId);
   });
 
-  // todo: use actual scrolling
-  it.skip("should not be visible if reference is hidden", async () => {
-    /*
-    Hide modifier
-    https://popper.js.org/docs/v2/modifiers/hide/
-
-    data-popper-reference-hidden: This attribute gets applied to the popper when the reference element is fully clipped and hidden from view, which causes the popper to appear to be attached to nothing.
-
-    data-popper-escaped: This attribute gets applied when the popper escapes the reference element's boundary (and so it appears detached).
-    */
+  it("should not be visible if reference is hidden", async () => {
     const page = await newE2EPage();
 
     await page.setContent(
-      `<calcite-popover placement="auto" reference-element="ref" open>content</calcite-popover><div id="ref">referenceElement</div>`
+      html` <calcite-popover placement="auto" reference-element="ref" open>content</calcite-popover>
+        <div id="scrollEl" style="height: 200px; overflow: auto;">
+          <div id="ref">referenceElement</div>
+          <div style="height: 400px;">some content</div>
+        </div>`
     );
 
     await page.waitForChanges();
+
+    const scrollEl = await page.find("#scrollEl");
+
+    expect(await scrollEl.getProperty("scrollTop")).toBe(0);
 
     const popover = await page.find("calcite-popover");
 
     expect(await popover.isVisible()).toBe(true);
     expect((await popover.getComputedStyle()).pointerEvents).toBe("auto");
 
-    popover.setAttribute("data-popper-reference-hidden", "");
+    await page.$eval("#scrollEl", async (scrollEl: HTMLDivElement) => {
+      scrollEl.scrollTo({ top: 300 });
+    });
 
     await page.waitForChanges();
 
     expect(await popover.isVisible()).toBe(false);
     expect((await popover.getComputedStyle()).pointerEvents).toBe("none");
+  });
 
-    popover.removeAttribute("data-popper-reference-hidden");
-    popover.setAttribute("data-popper-escaped", "");
+  it("should not be visible if popper has escaped", async () => {
+    const page = await newE2EPage();
+
+    await page.setContent(
+      html`<div id="ref">referenceElement</div>
+        <div id="scrollEl" style="height: 200px; overflow: auto;">
+          <calcite-popover placement="auto" reference-element="ref" open>content</calcite-popover>
+          <div style="height: 400px;">some content</div>
+        </div>`
+    );
 
     await page.waitForChanges();
 
-    expect(await popover.isVisible()).toBe(false);
-    expect((await popover.getComputedStyle()).pointerEvents).toBe("none");
+    const scrollEl = await page.find("#scrollEl");
 
-    popover.removeAttribute("data-popper-escaped");
+    expect(await scrollEl.getProperty("scrollTop")).toBe(0);
 
-    await page.waitForChanges();
+    const popover = await page.find("calcite-popover");
 
     expect(await popover.isVisible()).toBe(true);
     expect((await popover.getComputedStyle()).pointerEvents).toBe("auto");
+
+    await page.$eval("#scrollEl", async (scrollEl: HTMLDivElement) => {
+      scrollEl.scrollTo({ top: 300 });
+    });
+
+    await page.waitForChanges();
+
+    expect(await popover.isVisible()).toBe(false);
+    expect((await popover.getComputedStyle()).pointerEvents).toBe("none");
   });
 });
