@@ -306,4 +306,49 @@ describe("calcite-popover", () => {
     expect(id).toEqual(userDefinedId);
     expect(referenceId).toEqual(userDefinedId);
   });
+
+  it("should not be visible if reference is hidden", async () => {
+    /*
+    Hide modifier
+    https://popper.js.org/docs/v2/modifiers/hide/
+
+    data-popper-reference-hidden: This attribute gets applied to the popper when the reference element is fully clipped and hidden from view, which causes the popper to appear to be attached to nothing.
+
+    data-popper-escaped: This attribute gets applied when the popper escapes the reference element's boundary (and so it appears detached).
+    */
+    const page = await newE2EPage();
+
+    await page.setContent(
+      `<calcite-popover placement="auto" reference-element="ref" open>content</calcite-popover><div id="ref">referenceElement</div>`
+    );
+
+    await page.waitForChanges();
+
+    const popover = await page.find("calcite-popover");
+
+    expect(await popover.isVisible()).toBe(true);
+    expect((await popover.getComputedStyle()).pointerEvents).toBe("auto");
+
+    popover.setAttribute("data-popper-reference-hidden", "");
+
+    await page.waitForChanges();
+
+    expect(await popover.isVisible()).toBe(false);
+    expect((await popover.getComputedStyle()).pointerEvents).toBe("none");
+
+    popover.removeAttribute("data-popper-reference-hidden");
+    popover.setAttribute("data-popper-escaped", "");
+
+    await page.waitForChanges();
+
+    expect(await popover.isVisible()).toBe(false);
+    expect((await popover.getComputedStyle()).pointerEvents).toBe("none");
+
+    popover.removeAttribute("data-popper-escaped");
+
+    await page.waitForChanges();
+
+    expect(await popover.isVisible()).toBe(true);
+    expect((await popover.getComputedStyle()).pointerEvents).toBe("auto");
+  });
 });

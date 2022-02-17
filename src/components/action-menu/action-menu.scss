@@ -1,16 +1,16 @@
 :host {
-  @apply flex
-  flex-col
-  box-border
-  bg-foreground-1
+  @apply bg-foreground-1
   text-color-2
-  text-1;
+  text-1
+  box-border
+  flex
+  flex-col;
 }
 
 .menu ::slotted(calcite-action) {
-  @apply flex
-  focus-base
-  m-0.5;
+  @apply focus-base
+  m-0.5
+  flex;
 }
 
 ::slotted(calcite-action[active]) {
@@ -19,17 +19,17 @@
 }
 
 .default-trigger {
-  @apply self-stretch
-  flex-initial
+  @apply relative
   h-full
-  relative;
+  flex-initial
+  self-stretch;
 }
 
 @include slotted("trigger", "calcite-action") {
-  @apply self-stretch
-  flex-initial
+  @apply relative
   h-full
-  relative;
+  flex-initial
+  self-stretch;
 }
 
 .menu {

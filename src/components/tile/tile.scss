@@ -1,41 +1,41 @@
 :host {
   @apply bg-foreground-1
-    box-border
     text-color-3
+    box-border
     inline-block
+    select-none
     duration-150
-    ease-in-out
-    select-none;
+    ease-in-out;
 
   .container {
-    @apply grid
+    @apply pointer-events-none
+  grid
   grid-cols-1
-  gap-2
-  pointer-events-none;
+  gap-2;
   }
 
   .content {
-    @apply justify-center
-  flex
+    @apply flex
   flex-auto
   flex-col
+  justify-center
   gap-2;
     // set width handles slotted content and heading word wrap
     width: 10%;
   }
 
   .content-container {
-    @apply flex
-  flex-auto
-  focus-base
-  items-stretch
-  p-0
+    @apply focus-base
   text-color-2
-  w-full;
+  flex
+  w-full
+  flex-auto
+  items-stretch
+  p-0;
   }
 
   .content-slot-container {
-    @apply flex items-center bg-foreground-1;
+    @apply bg-foreground-1 flex items-center;
 
     &:first-child {
       @apply pr-3;
@@ -49,11 +49,11 @@
   .heading {
     @apply text-n1-wrap
     text-color-2
-    duration-150
-    ease-in-out
-    font-medium
     pointer-events-none
-    break-words;
+    break-words
+    font-medium
+    duration-150
+    ease-in-out;
   }
   .large-visual {
     @apply items-center
@@ -71,9 +71,9 @@
   .description {
     @apply text-n2-wrap
     text-color-3
+    pointer-events-none
     duration-150
-    ease-in-out
-    pointer-events-none;
+    ease-in-out;
   }
 }
 :host(:not([embed])) {

@@ -25,6 +25,14 @@ describe("calcite-tooltip-manager", () => {
       }
     ]));
 
+  it("should be positioned relative", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<calcite-tooltip-manager></calcite-tooltip-manager>`);
+    await page.waitForChanges();
+    const manager = await page.find("calcite-tooltip-manager");
+    expect((await manager.getComputedStyle()).position).toBe("relative");
+  });
+
   it("should honor tooltips on mouseover/mouseout", async () => {
     const page = await newE2EPage();
 

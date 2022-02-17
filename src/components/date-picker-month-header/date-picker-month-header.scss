@@ -37,21 +37,21 @@
 
 .chevron {
   @apply text-color-3
-    flex-grow-0
-    box-content
-    outline-none
-    px-1
+    bg-foreground-1
+    focus-base
     -mx-1
-    border-none
+    box-content
     flex
+    flex-grow-0
+    cursor-pointer
     items-center
     justify-center
-    bg-foreground-1
-    cursor-pointer
+    border-none
+    px-1
+    outline-none
     transition-all
     duration-150
-    ease-in-out
-    focus-base;
+    ease-in-out;
   width: calc(100% / 7);
 
   &:focus {
@@ -73,13 +73,13 @@
 }
 
 .text {
-  @apply flex-auto
+  @apply my-auto
+    w-full
+    flex-auto
     items-center
     justify-center
-    leading-none
-    my-auto
     text-center
-    w-full;
+    leading-none;
 }
 
 .text-nreverse {
@@ -91,22 +91,22 @@
 .suffix {
   @apply text-color-1
     bg-foreground-1
-    font-medium
-    leading-tight
     mx-1
     my-auto
-    inline-block;
+    inline-block
+    font-medium
+    leading-tight;
   font-size: inherit;
 }
 
 .year {
   @apply font-inherit
-    text-center
-    border-none
-    w-12
-    bg-transparent
+    focus-base
     relative
-    focus-base;
+    w-12
+    border-none
+    bg-transparent
+    text-center;
   z-index: 2;
   &:hover {
     @apply duration-100 ease-in-out;
@@ -129,11 +129,11 @@
 
 .suffix {
   @apply absolute
+    top-0
+    left-0
     w-16
     whitespace-nowrap
-    text-left
-    top-0
-    left-0;
+    text-left;
 }
 
 .suffix__invisible {

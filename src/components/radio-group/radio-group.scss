@@ -1,5 +1,5 @@
 :host {
-  @apply flex bg-foreground-1;
+  @apply bg-foreground-1 flex;
   width: fit-content;
   outline: 1px solid var(--calcite-ui-border-input);
   outline-offset: -1px;

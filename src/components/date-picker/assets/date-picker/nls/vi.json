@@ -2,7 +2,7 @@
   "default-calendar": "gregorian",
   "separator": "/",
   "unitOrder": "DD/MM/YYYY",
-  "weekStart": 7,
+  "weekStart": 1,
   "placeholder": "DD/MM/YYYY",
   "days": {
     "abbreviated": ["CN", "Th 2", "Th 3", "Th 4", "Th 5", "Th 6", "Th 7"],

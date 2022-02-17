@@ -1,15 +1,15 @@
 :host {
-  @apply relative
-    flex
-    flex-row
-    m-4
-    border
-    border-solid
-    border-color-2
-    box-border
+  @apply border-color-2
     bg-foreground-1
     text-color-2
-    text-n1h;
+    text-n1h
+    relative
+    m-4
+    box-border
+    flex
+    flex-row
+    border
+    border-solid;
 
   * {
     @apply box-border;
@@ -17,7 +17,7 @@
 }
 
 .container {
-  @apply p-4 w-full;
+  @apply w-full p-4;
 }
 
 :host([dismissed]),
@@ -26,7 +26,7 @@
 }
 
 :host([selected]) .container {
-  @apply border-none m-0 p-0;
+  @apply m-0 border-none p-0;
 }
 
 @import "../../assets/styles/header";

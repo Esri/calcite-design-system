@@ -1,10 +1,10 @@
 :host {
-  @apply bg-transparent
+  @apply text-color-2
+    text-n1
+    mb-1
     box-border
     block
-    mb-1
-    text-color-2
-    text-n1;
+    bg-transparent;
 
   * {
     @apply box-border;

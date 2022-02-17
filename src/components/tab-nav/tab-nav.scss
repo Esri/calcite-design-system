@@ -17,8 +17,8 @@
 .tab-nav {
   @apply flex
     w-full
-    overflow-auto
-    justify-start;
+    justify-start
+    overflow-auto;
 }
 
 :host([layout="center"]) .tab-nav {
@@ -27,22 +27,22 @@
 
 // prevent indicator overflow in horizontal scrolling situations
 .tab-nav-active-indicator-container {
-  @apply w-full
+  @apply absolute
     inset-x-0
     bottom-0
-    absolute
-    overflow-hidden
-    h-0.5;
+    h-0.5
+    w-full
+    overflow-hidden;
 }
 
 .tab-nav-active-indicator {
-  @apply absolute
+  @apply bg-brand
+    absolute
     bottom-0
     block
+    h-0.5
     transition-all
-    ease-out
-    bg-brand
-    h-0.5;
+    ease-out;
 }
 
 :host([position="below"]) .tab-nav-active-indicator {
