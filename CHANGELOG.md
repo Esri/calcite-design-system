@@ -14,6 +14,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - **input:** Allow "" to clear a number input ([#4119](https://github.com/Esri/calcite-components/issues/4119)) ([1c052f0](https://github.com/Esri/calcite-components/commit/1c052f0c1a93db11d70e89e965a2a23626ae297d))
 - **popover-manager, tooltip-manager:** Misalignment of tooltips in FireFox [#3900](https://github.com/Esri/calcite-components/issues/3900) ([#4069](https://github.com/Esri/calcite-components/issues/4069)) ([7c03bf0](https://github.com/Esri/calcite-components/commit/7c03bf01be1284c1cf247f071e2bb50b7109f5dc))
 - **popover, tooltip, combobox, dropdown, input-date-picker:** Hide popover when the reference element or popover is out of view. ([#4115](https://github.com/Esri/calcite-components/issues/4115)) ([e5ab5ff](https://github.com/Esri/calcite-components/commit/e5ab5ff40b314da28be047d1016e9a61c442abb2))
+- **tab-title, tab:** tab switching will function even when wrapped wi… ([#4114](https://github.com/Esri/calcite-components/issues/4114)) ([ce7759c](https://github.com/Esri/calcite-components/commit/ce7759c2d39cd1c23a704bbe2d48fa712461a85f))
 - **time-picker:** meridiem order matches with input time picker ([#4030](https://github.com/Esri/calcite-components/issues/4030)) ([808c1ef](https://github.com/Esri/calcite-components/commit/808c1eff155d8223171bea11d973bf1cd97d8638))
 <!--@unreleased-section-end-->
 
