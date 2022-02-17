@@ -9,20 +9,20 @@
 
 .button {
   @apply bg-foreground-1
-    border-none
-    cursor-pointer
     fill-color-3
-    flex
-    font-sans
     focus-base
+    text-n2h
+    text-color-3
+    relative
+    m-0
+    flex
+    w-auto
+    cursor-pointer
     items-center
     justify-start
-    m-0
-    relative
-    text-n2h
-    font-medium
-    text-color-3
-    w-auto;
+    border-none
+    font-sans
+    font-medium;
 
   text-align: unset;
   flex: 1 0 auto;
@@ -39,36 +39,36 @@
   }
 
   .icon-container {
-    @apply flex
-      items-center
-      justify-center
+    @apply pointer-events-none
       m-0
-      pointer-events-none;
+      flex
+      items-center
+      justify-center;
     min-width: theme("spacing.4");
     min-height: theme("spacing.4");
   }
 
   .text-container {
-    @apply leading-4
-      truncate
-      m-0
+    @apply m-0
       w-0
+      truncate
+      leading-4
       opacity-0
-      ease-in-out
+      transition-opacity
       duration-150
-      transition-opacity;
+      ease-in-out;
     transition-property: margin;
     transition-property: width;
   }
 
   .text-container--visible {
-    @apply flex-auto opacity-100 w-auto;
+    @apply w-auto flex-auto opacity-100;
   }
 }
 
 :host([scale="s"]) {
   .button {
-    @apply font-normal p-2 text-n2h;
+    @apply text-n2h p-2 font-normal;
   }
   .button--text-visible .icon-container {
     margin-inline-end: theme("spacing.2");
@@ -77,7 +77,7 @@
 
 :host([scale="m"]) {
   .button {
-    @apply font-normal p-4 text-n1h;
+    @apply text-n1h p-4 font-normal;
   }
   .button--text-visible .icon-container {
     margin-inline-end: theme("spacing.3");
@@ -86,7 +86,7 @@
 
 :host([scale="l"]) {
   .button {
-    @apply font-normal p-5 text-0h;
+    @apply text-0h p-5 font-normal;
   }
   .button--text-visible .icon-container {
     margin-inline-end: theme("spacing.4");
@@ -172,13 +172,13 @@
 }
 
 :host([loading]) calcite-loader[inline] {
-  @apply mr-0 text-color-3;
+  @apply text-color-3 mr-0;
 }
 
 :host([disabled]) .button,
 :host([disabled]) .button:hover,
 :host([disabled]) .button:focus {
-  @apply cursor-default opacity-disabled bg-foreground-1;
+  @apply opacity-disabled bg-foreground-1 cursor-default;
 }
 
 :host([disabled][active]) .button,
@@ -190,13 +190,13 @@
 :host([indicator]) {
   .button::after {
     content: "";
-    @apply absolute
-      border-2
-      bg-brand
-      rounded-full
+    @apply bg-brand
+      absolute
+      z-10
       h-2
       w-2
-      z-10;
+      rounded-full
+      border-2;
     border-color: theme("colors.background.foreground.1");
     inset-block-end: theme("spacing.3");
     inset-inline-end: theme("spacing.3");

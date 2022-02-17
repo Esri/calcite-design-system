@@ -1,9 +1,18 @@
 import { select, text, boolean } from "@storybook/addon-knobs";
 
-import { themesDarkDefault } from "../../../.storybook/utils";
+import {
+  Attribute,
+  filterComponentAttributes,
+  Attributes,
+  createComponentHTML as create,
+  themesDarkDefault
+} from "../../../.storybook/utils";
 import readme from "./readme.md";
 import { html } from "../../tests/utils";
 import { locales } from "../../utils/locale";
+import { createSteps, setKnobs, setTheme, stepStory } from "../../../.storybook/helpers";
+import { ATTRIBUTES } from "../../../.storybook/resources";
+const { scale } = ATTRIBUTES;
 
 export default {
   title: "Components/Controls/DatePicker",
@@ -13,87 +22,166 @@ export default {
   }
 };
 
-export const Simple = (): string => html`
-  <div style="width: 400px">
-    <calcite-date-picker
-      scale="${select("scale", ["s", "m", "l"], "m")}"
-      value="${text("value", "2020-12-12")}"
-      min="${text("min", "2020-12-03")}"
-      max="${text("max", "2023-12-18")}"
-      locale="${select("locale", locales, "en")}"
-      intl-next-month="${text("intl-next-month", "Next month")}"
-      intl-prev-month="${text("intl-prev-month", "Previous month")}"
-    ></calcite-date-picker>
-  </div>
-`;
+const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ exceptions } = { exceptions: [] }) => {
+  return filterComponentAttributes(
+    [
+      {
+        name: "dir",
+        commit(): Attribute {
+          this.value = text("dir", "");
+          delete this.build;
+          return this;
+        }
+      },
+      {
+        name: "end",
+        commit(): Attribute {
+          this.value = text("end", "");
+          delete this.build;
+          return this;
+        }
+      },
+      {
+        name: "intl-next-month",
+        commit(): Attribute {
+          this.value = text("intl-next-month", "Next month");
+          delete this.build;
+          return this;
+        }
+      },
+      {
+        name: "intl-prev-month",
+        commit(): Attribute {
+          this.value = text("intl-prev-month", "Previous month");
+          delete this.build;
+          return this;
+        }
+      },
+      {
+        name: "locale",
+        commit(): Attribute {
+          this.value = select("locale", locales, "en");
+          delete this.build;
+          return this;
+        }
+      },
+      {
+        name: "max",
+        commit(): Attribute {
+          this.value = text("max", "");
+          delete this.build;
+          return this;
+        }
+      },
+      {
+        name: "min",
+        commit(): Attribute {
+          this.value = text("min", "");
+          delete this.build;
+          return this;
+        }
+      },
+      {
+        name: "next-month-label",
+        commit(): Attribute {
+          this.value = text("next-month-label", "");
+          delete this.build;
+          return this;
+        }
+      },
+      {
+        name: "prev-month-label",
+        commit(): Attribute {
+          this.value = text("prev-month-label", "");
+          delete this.build;
+          return this;
+        }
+      },
+      {
+        name: "range",
+        commit(): Attribute {
+          this.value = boolean("range", false);
+          delete this.build;
+          return this;
+        }
+      },
+      {
+        name: "scale",
+        commit(): Attribute {
+          this.value = select("scale", scale.values, scale.defaultValue);
+          delete this.build;
+          return this;
+        }
+      },
+      {
+        name: "start",
+        commit(): Attribute {
+          this.value = text("start", "");
+          delete this.build;
+          return this;
+        }
+      },
+      {
+        name: "value",
+        commit(): Attribute {
+          this.value = text("value", "2020-02-28");
+          delete this.build;
+          return this;
+        }
+      }
+    ],
+    exceptions
+  );
+};
 
-Simple.storyName = "Simple";
+export const Default = stepStory(
+  (): string => html`<div style="width: 400px">${create("calcite-date-picker", createAttributes())}</div>`,
 
-export const DarkMode = (): string => html`
-  <div style="width: 400px">
-    <calcite-label layout="inline" class="calcite-theme-dark">
-      Date
-      <calcite-date-picker
-        scale="${select("scale", ["s", "m", "l"], "m")}"
-        value="${text("value", "2020-12-12")}"
-        min="${text("min", "2016-08-09")}"
-        max="${text("max", "2023-12-18")}"
-        locale="${select("locale", locales, "en")}"
-        intl-next-month="${text("intl-next-month", "Next month")}"
-        intl-prev-month="${text("intl-prev-month", "Previous month")}"
-        range="${boolean("range", false)}"
-      ></calcite-date-picker
-    ></calcite-label>
-  </div>
-`;
+  createSteps("calcite-date-picker")
+    .snapshot("Default")
 
-DarkMode.storyName = "Dark mode";
-DarkMode.parameters = { themes: themesDarkDefault };
+    .executeScript(
+      setKnobs({
+        story: "components-controls-datepicker--default",
+        knobs: [{ name: "dir", value: "rtl" }]
+      })
+    )
+    .snapshot("Default RTL")
 
-export const Range = (): string => html`
-  <div style="width: 400px">
-    <calcite-date-picker
-      scale="${select("scale", ["s", "m", "l"], "m")}"
-      start="${text("start", "2020-12-12")}"
-      end="${text("end", "2020-12-16")}"
-      min="${text("min", "2016-08-09")}"
-      max="${text("max", "2023-12-18")}"
-      locale="${select("locale", locales, "en")}"
-      next-month-label="${text("next-month-label", "Next month")}"
-      prev-month-label="${text("prev-month-label", "Previous month")}"
-      range="${boolean("range", true)}"
-      layout="${select("layout", ["horizontal", "vertical"], "horizontal")}"
-    ></calcite-date-picker>
-  </div>
-`;
+    .executeScript(
+      setKnobs({
+        story: "components-controls-datepicker--default",
+        knobs: []
+      })
+    )
+    .executeScript(setTheme("dark"))
+    .snapshot("Dark")
 
-export const SimpleRTL = (): string => html`
-  <div style="width: 400px" dir="rtl">
-    <calcite-date-picker
-      scale="${select("scale", ["s", "m", "l"], "m")}"
-      value="${text("value", "2020-12-12")}"
-      min="${text("min", "2020-12-03")}"
-      max="${text("max", "2023-12-18")}"
-      locale="${select("locale", locales, "en")}"
-      intl-next-month="${text("intl-next-month", "Next month")}"
-      intl-prev-month="${text("intl-prev-month", "Previous month")}"
-    ></calcite-date-picker>
-  </div>
-`;
+    .executeScript(setTheme("light"))
+    .executeScript(
+      setKnobs({
+        story: "components-controls-datepicker--default",
+        knobs: [
+          { name: "end", value: "2020-02-16" },
+          { name: "min", value: "2016-08-09" },
+          { name: "range", value: "true" },
+          { name: "start", value: "2020-02-12" }
+        ]
+      })
+    )
+    .snapshot("Range")
 
-export const RangeRTL = (): string => html`
-  <div style="width: 400px" dir="rtl">
-    <calcite-date-picker
-      scale="${select("scale", ["s", "m", "l"], "m")}"
-      start="${text("start", "2020-12-12")}"
-      end="${text("end", "2020-12-16")}"
-      min="${text("min", "2016-08-09")}"
-      max="${text("max", "2023-12-18")}"
-      locale="${select("locale", locales, "en")}"
-      next-month-label="${text("next-month-label", "Next month")}"
-      prev-month-label="${text("prev-month-label", "Previous month")}"
-      range="${boolean("range", true)}"
-      layout="${select("layout", ["horizontal", "vertical"], "horizontal")}"
-    ></calcite-date-picker>
-  </div>
-`;
+    .executeScript(
+      setKnobs({
+        story: "components-controls-datepicker--default",
+        knobs: [
+          { name: "dir", value: "rtl" },
+          { name: "end", value: "2020-02-16" },
+          { name: "min", value: "2016-08-09" },
+          { name: "range", value: "true" },
+          { name: "start", value: "2020-02-12" }
+        ]
+      })
+    )
+    .snapshot("Range RTL")
+);

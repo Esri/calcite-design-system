@@ -7,23 +7,23 @@
  */
 
 :host {
-  @apply inline-flex text-color-icon;
+  @apply text-color-icon inline-flex;
 }
 
 :host([scale="s"]) {
-  @apply w-4 h-4;
+  @apply h-4 w-4;
   min-width: theme("spacing.4");
   min-height: theme("spacing.4");
 }
 
 :host([scale="m"]) {
-  @apply w-6 h-6;
+  @apply h-6 w-6;
   min-width: theme("spacing.6");
   min-height: theme("spacing.6");
 }
 
 :host([scale="l"]) {
-  @apply w-8 h-8;
+  @apply h-8 w-8;
   min-width: theme("spacing.8");
   min-height: theme("spacing.8");
 }

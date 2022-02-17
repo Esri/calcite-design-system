@@ -30,7 +30,7 @@
 
 .handle__label,
 .tick__label {
-  @apply font-medium text-color-2;
+  @apply text-color-2 font-medium;
   font-size: var(--calcite-slider-container-font-size);
 }
 
@@ -39,7 +39,7 @@
 }
 
 .container {
-  @apply block relative;
+  @apply relative block;
   padding: calc(var(--calcite-slider-handle-size) * 0.5);
   margin: calc(var(--calcite-slider-handle-size) * 0.5) 0;
   --calcite-slider-full-handle-height: calc(
@@ -78,31 +78,31 @@
 }
 
 .thumb-container {
-  @apply max-w-full relative;
+  @apply relative max-w-full;
 }
 
 .thumb {
   --calcite-slider-thumb-x-offset: calc(var(--calcite-slider-handle-size) * 0.5);
-  @apply absolute
-    border-none
-    bg-transparent
-    cursor-pointer
-    outline-none
-    p-0
+  @apply font-inherit
+    absolute
     m-0
     flex
+    cursor-pointer
     flex-col
     items-center
-    font-inherit;
+    border-none
+    bg-transparent
+    p-0
+    outline-none;
   transform: translate(var(--calcite-slider-thumb-x-offset), var(--calcite-slider-thumb-y-offset));
 
   .handle__label {
     &.static,
     &.transformed {
-      @apply opacity-0
-        absolute
+      @apply absolute
         top-0
-        bottom-0;
+        bottom-0
+        opacity-0;
     }
     &.hyphen::after {
       content: "\2014";
@@ -116,9 +116,9 @@
 
   .handle {
     @apply focus-base
+      bg-foreground-1
       box-border
-      rounded-full
-      bg-foreground-1;
+      rounded-full;
     height: var(--calcite-slider-handle-size);
     width: var(--calcite-slider-handle-size);
     box-shadow: 0 0 0 2px var(--calcite-ui-text-3) inset;
@@ -223,16 +223,16 @@
 }
 
 .track {
-  @apply h-0.5 rounded-none relative;
+  @apply relative h-0.5 rounded-none;
   background-color: var(--calcite-ui-border-2);
   transition: all var(--calcite-internal-animation-timing-medium) ease-in;
 }
 
 .track__range {
-  @apply absolute
+  @apply bg-brand
+    absolute
     top-0
-    h-0.5
-    bg-brand;
+    h-0.5;
 }
 .container--range {
   .track__range {
@@ -250,8 +250,8 @@
 
 .tick {
   @apply absolute
-    w-0.5
     h-1
+    w-0.5
     border
     border-solid;
   background-color: var(--calcite-ui-border-input);
@@ -266,10 +266,10 @@
 }
 
 .tick__label {
-  @apply flex
-    justify-center
-    pointer-events-none
-    mt-3.5;
+  @apply pointer-events-none
+    mt-3.5
+    flex
+    justify-center;
 }
 
 .tick__label--min {
@@ -284,7 +284,7 @@
 :host([has-histogram][precise]) {
   .tick__label--min,
   .tick__label--max {
-    @apply font-normal text-color-3;
+    @apply text-color-3 font-normal;
   }
 }
 

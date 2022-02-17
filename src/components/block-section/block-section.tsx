@@ -1,9 +1,10 @@
-import { Component, Element, Event, EventEmitter, Prop, h, VNode } from "@stencil/core";
+import { Component, Element, Event, EventEmitter, Prop, h, VNode, Host } from "@stencil/core";
 
 import { getElementDir } from "../../utils/dom";
 import { CSS, ICONS, TEXT } from "./resources";
 import { BlockSectionToggleDisplay } from "./interfaces";
 import { Status } from "../interfaces";
+import { guid } from "../../utils/guid";
 
 /**
  * @slot - A slot for adding content to the block section.
@@ -59,6 +60,8 @@ export class BlockSection {
   // --------------------------------------------------------------------------
 
   @Element() el: HTMLCalciteBlockSectionElement;
+
+  private guid = guid();
 
   // --------------------------------------------------------------------------
   //
@@ -120,14 +123,20 @@ export class BlockSection {
 
     const toggleLabel = open ? intlCollapse || TEXT.collapse : intlExpand || TEXT.expand;
 
+    const { guid } = this;
+    const regionId = `${guid}-region`;
+    const buttonId = `${guid}-button`;
+
     const headerNode =
       toggleDisplay === "switch" ? (
         <div
+          aria-controls={regionId}
           aria-label={toggleLabel}
           class={{
             [CSS.toggle]: true,
             [CSS.toggleSwitch]: true
           }}
+          id={buttonId}
           onClick={this.toggleSection}
           onKeyDown={this.handleHeaderKeyDown}
           tabIndex={0}
@@ -141,11 +150,13 @@ export class BlockSection {
         </div>
       ) : (
         <button
+          aria-controls={regionId}
           aria-label={toggleLabel}
           class={{
             [CSS.sectionHeader]: true,
             [CSS.toggle]: true
           }}
+          id={buttonId}
           name={toggleLabel}
           onClick={this.toggleSection}
         >
@@ -156,12 +167,18 @@ export class BlockSection {
       );
 
     return (
-      <section aria-expanded={open.toString()}>
+      <Host>
         {headerNode}
-        <div class={CSS.content} hidden={!open}>
+        <section
+          aria-expanded={open.toString()}
+          aria-labelledby={buttonId}
+          class={CSS.content}
+          hidden={!open}
+          id={regionId}
+        >
           <slot />
-        </div>
-      </section>
+        </section>
+      </Host>
     );
   }
 }

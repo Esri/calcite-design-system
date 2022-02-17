@@ -29,11 +29,11 @@
 }
 
 .wrapper {
-  @apply box-border
+  @apply bg-foreground-1
+    transition-default
+    box-border
     flex
-    justify-between
-    bg-foreground-1
-    transition-default;
+    justify-between;
 
   .input-wrapper {
     @apply flex-1;

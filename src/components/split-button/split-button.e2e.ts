@@ -1,5 +1,6 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { accessible, renders, defaults } from "../../tests/commonTests";
+import { html } from "../../tests/utils";
 import { CSS } from "./resources";
 
 describe("calcite-split-button", () => {
@@ -61,6 +62,18 @@ describe("calcite-split-button", () => {
     expect(element).toEqualAttribute("color", "blue");
     expect(element).toEqualAttribute("dropdown-icon-type", "chevron");
     expect(element).toEqualAttribute("width", "auto");
+  });
+
+  it(`should set all internal calcite-button types to 'button'`, async () => {
+    const page = await newE2EPage({
+      html: html`<calcite-split-button primary-text="primary action"></calcite-split-button>`
+    });
+
+    const buttons = await page.findAll("calcite-split-button >>> calcite-button");
+
+    expect(buttons).toHaveLength(2);
+
+    buttons.forEach(async (button) => expect(await button.getProperty("type")).toBe("button"));
   });
 
   it("renders requested props when valid props are provided", async () => {
