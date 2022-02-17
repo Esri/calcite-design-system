@@ -198,7 +198,9 @@ export async function positionFloatingUI({
   }
 
   const referenceHidden = middlewareData?.hide?.referenceHidden;
-  const visibility = referenceHidden ? "hidden" : null;
+  const escaped = middlewareData?.hide?.escaped;
+  const visibility = referenceHidden || escaped ? "hidden" : null;
+  const pointerEvents = visibility ? "none" : null;
 
   floatingEl.setAttribute("data-placement", computedPlacement);
 
@@ -206,6 +208,7 @@ export async function positionFloatingUI({
 
   Object.assign(floatingEl.style, {
     visibility,
+    pointerEvents,
     position,
     top: "0",
     left: "0",

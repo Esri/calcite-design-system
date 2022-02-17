@@ -307,7 +307,8 @@ describe("calcite-popover", () => {
     expect(referenceId).toEqual(userDefinedId);
   });
 
-  it("should not be visible if reference is hidden", async () => {
+  // todo: use actual scrolling
+  it.skip("should not be visible if reference is hidden", async () => {
     /*
     Hide modifier
     https://popper.js.org/docs/v2/modifiers/hide/
