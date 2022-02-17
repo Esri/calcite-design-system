@@ -11,13 +11,13 @@
  */
 
 :host {
-  @apply fixed
+  @apply text-color-2
+    fixed
     inset-0
     flex
-    justify-center
     items-center
+    justify-center
     overflow-y-hidden
-    text-color-2
     opacity-0;
   visibility: hidden !important;
   transition: visibility 0ms linear 300ms, opacity var(--calcite-internal-animation-timing-slow) $easing-function;
@@ -51,18 +51,18 @@
 }
 
 .modal {
-  @apply flex
-    flex-col
-    shadow-2-sm
-    box-border
+  @apply shadow-2-sm
+    bg-foreground-1
+    pointer-events-none
     float-none
     m-6
-    rounded
-    bg-foreground-1
+    box-border
+    flex
     w-full
-    opacity-0
-    pointer-events-none
-    overflow-hidden;
+    flex-col
+    overflow-hidden
+    rounded
+    opacity-0;
   z-index: 102;
   -webkit-overflow-scrolling: touch;
   visibility: hidden;
@@ -76,7 +76,7 @@
   visibility: visible !important;
   transition-delay: 0ms;
   .modal {
-    @apply opacity-100 pointer-events-auto visible;
+    @apply pointer-events-auto visible opacity-100;
     transform: translate3d(0, 0, 0);
     transition: transform var(--calcite-internal-animation-timing-slow) $easing-function, visibility 0ms linear,
       opacity var(--calcite-internal-animation-timing-slow) $easing-function,
@@ -90,29 +90,29 @@
  * Header
  */
 .header {
-  @apply flex
-    max-w-full
+  @apply bg-foreground-1
+    border-color-3
+    flex
     min-w-0
+    max-w-full
     rounded-t
-    bg-foreground-1
     border-0
     border-b
-    border-solid
-    border-color-3;
+    border-solid;
   flex: 0 0 auto;
   z-index: 2;
 }
 
 .close {
-  @apply m-0
+  @apply text-color-3
+    transition-default
+    focus-base
+    order-2
+    m-0
+    cursor-pointer
     appearance-none
     border-none
-    text-color-3
-    order-2
-    cursor-pointer
-    bg-transparent
-    transition-default
-    focus-base;
+    bg-transparent;
   border-start-end-radius: theme("borderRadius.DEFAULT");
   padding: var(--calcite-modal-padding);
   flex: 0 0 auto;
@@ -131,13 +131,13 @@
 }
 
 .title {
-  @apply flex items-center order-1 min-w-0;
+  @apply order-1 flex min-w-0 items-center;
   flex: 1 1 auto;
   padding: var(--calcite-modal-padding) var(--calcite-modal-padding-large);
 }
 
 @include slotted("header", "*") {
-  @apply m-0 font-normal text-color-1;
+  @apply text-color-1 m-0 font-normal;
   font-size: var(--calcite-modal-title-text);
 }
 
@@ -145,7 +145,7 @@
  * Content area
  */
 .content {
-  @apply relative p-0 h-full overflow-auto block bg-foreground-1 box-border;
+  @apply bg-foreground-1 relative box-border block h-full overflow-auto p-0;
   max-height: calc(100vh - 12rem);
   z-index: 1;
 }
@@ -172,17 +172,17 @@
  * Footer
  */
 .footer {
-  @apply flex
-    justify-between
+  @apply bg-foreground-1
+    border-color-3
     mt-auto
     box-border
-    rounded-b
+    flex
     w-full
-    bg-foreground-1
+    justify-between
+    rounded-b
     border-0
     border-t
-    border-solid
-    border-color-3;
+    border-solid;
   flex: 0 0 auto;
   padding: var(--calcite-modal-padding) var(--calcite-modal-padding-large);
   z-index: 2;
@@ -199,7 +199,7 @@
 }
 
 .secondary {
-  @apply block mx-1;
+  @apply mx-1 block;
 }
 
 slot[name="primary"] {
@@ -218,7 +218,7 @@ slot[name="primary"] {
   @media screen and (max-width: $width + 2 * $baseline) {
     :host([width="#{$size}"]) {
       .modal {
-        @apply h-full max-h-full w-full max-w-full m-0 rounded-none;
+        @apply m-0 h-full max-h-full w-full max-w-full rounded-none;
       }
       .content {
         flex: 1 1 auto;
@@ -245,7 +245,7 @@ slot[name="primary"] {
 :host([fullscreen]) {
   background-color: transparent;
   .modal {
-    @apply h-full max-h-full w-full max-w-full m-0;
+    @apply m-0 h-full max-h-full w-full max-w-full;
     transform: translate3D(0, 20px, 0) scale(0.95);
   }
   .content {

@@ -1,17 +1,17 @@
 :host {
-  @apply inline-block rounded-half overflow-hidden;
+  @apply rounded-half inline-block overflow-hidden;
 }
 
 :host([scale="s"]) {
-  @apply w-6 h-6 text-n3;
+  @apply text-n3 h-6 w-6;
 }
 
 :host([scale="m"]) {
-  @apply w-8 h-8 text-n2;
+  @apply text-n2 h-8 w-8;
 }
 
 :host([scale="l"]) {
-  @apply w-11 h-11 text-0;
+  @apply text-0 h-11 w-11;
 }
 
 .icon {
@@ -19,13 +19,13 @@
 }
 
 .background {
-  @apply w-full h-full flex items-center justify-center rounded-half;
+  @apply rounded-half flex h-full w-full items-center justify-center;
 }
 
 .initials {
-  @apply font-bold uppercase text-color-3;
+  @apply text-color-3 font-bold uppercase;
 }
 
 .thumbnail {
-  @apply w-full h-full rounded-half;
+  @apply rounded-half h-full w-full;
 }

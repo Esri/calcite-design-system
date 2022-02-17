@@ -374,6 +374,96 @@ describe("calcite-combobox", () => {
 
       expect(eventSpy).toHaveReceivedEventTimes(1);
     });
+
+    it("should auto-select new custom value if selection is empty", async () => {
+      const page = await newE2EPage();
+      await page.setContent(
+        html`
+          <calcite-combobox allow-custom-values selection-mode="single">
+            <calcite-combobox-item id="one" value="one" text-label="one"></calcite-combobox-item>
+            <calcite-combobox-item id="two" value="two" text-label="two"></calcite-combobox-item>
+            <calcite-combobox-item id="three" value="three" text-label="three"></calcite-combobox-item>
+          </calcite-combobox>
+        `
+      );
+      const eventSpy = await page.spyOnEvent("calciteComboboxChange");
+      const input = await page.find("calcite-combobox >>> input");
+
+      await input.click();
+      await input.press("K");
+      await input.press("Enter");
+      await input.press("Escape");
+      await page.waitForChanges();
+
+      const item = await page.find("calcite-combobox-item:last-child");
+      const label = await page.find("calcite-combobox >>> .label");
+
+      expect(label.textContent).toBe("K");
+      expect(eventSpy.lastEvent.detail.selectedItems.length).toBe(1);
+      expect(await item.getProperty("selected")).toBe(true);
+    });
+
+    it("should replace current value to new custom value in single selection mode", async () => {
+      const page = await newE2EPage();
+      await page.setContent(
+        html`
+          <calcite-combobox allow-custom-values selection-mode="single">
+            <calcite-combobox-item selected id="one" value="one" text-label="one"></calcite-combobox-item>
+            <calcite-combobox-item id="two" value="two" text-label="two"></calcite-combobox-item>
+            <calcite-combobox-item id="three" value="three" text-label="three"></calcite-combobox-item>
+          </calcite-combobox>
+        `
+      );
+      const eventSpy = await page.spyOnEvent("calciteComboboxChange");
+      const input = await page.find("calcite-combobox >>> input");
+
+      await input.click();
+      await input.press("K");
+      await input.press("Enter");
+      await input.press("Escape");
+      await page.waitForChanges();
+
+      const item1 = await page.find("calcite-combobox-item#one");
+      const item2 = await page.find("calcite-combobox-item:last-child");
+      const label = await page.find("calcite-combobox >>> .label");
+
+      expect(label.textContent).toBe("K");
+      expect(eventSpy.lastEvent.detail.selectedItems.length).toBe(1);
+      expect(await item1.getProperty("selected")).toBe(false);
+      expect(await item2.getProperty("selected")).toBe(true);
+    });
+
+    it("should auto-select new custom values in multi selection mode", async () => {
+      const page = await newE2EPage();
+      await page.setContent(
+        html`
+          <calcite-combobox allow-custom-values>
+            <calcite-combobox-item selected id="one" value="one" text-label="one"></calcite-combobox-item>
+            <calcite-combobox-item selected id="two" value="two" text-label="two"></calcite-combobox-item>
+            <calcite-combobox-item id="three" value="three" text-label="three"></calcite-combobox-item>
+          </calcite-combobox>
+        `
+      );
+      const eventSpy = await page.spyOnEvent("calciteComboboxChange");
+      const input = await page.find("calcite-combobox >>> input");
+
+      await input.click();
+      await input.press("K");
+      await input.press("Enter");
+      await input.press("Escape");
+      await page.waitForChanges();
+
+      const item1 = await page.find("calcite-combobox-item#one");
+      const item2 = await page.find("calcite-combobox-item#two");
+      const item3 = await page.find("calcite-combobox-item:last-child");
+      const chips = await page.findAll("calcite-combobox >>> calcite-chip");
+
+      expect(eventSpy.lastEvent.detail.selectedItems.length).toBe(3);
+      expect(chips[2].textContent).toBe("K");
+      expect(await item1.getProperty("selected")).toBe(true);
+      expect(await item2.getProperty("selected")).toBe(true);
+      expect(await item3.getProperty("selected")).toBe(true);
+    });
   });
 
   describe("keyboard navigation", () => {

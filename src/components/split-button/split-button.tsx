@@ -93,6 +93,7 @@ export class SplitButton {
           onClick={this.calciteSplitButtonPrimaryClickHandler}
           scale={this.scale}
           splitChild={"primary"}
+          type="button"
           width={buttonWidth}
         >
           {this.primaryText}
@@ -117,6 +118,7 @@ export class SplitButton {
             scale={this.scale}
             slot="dropdown-trigger"
             splitChild={"secondary"}
+            type="button"
           />
           <slot />
         </calcite-dropdown>

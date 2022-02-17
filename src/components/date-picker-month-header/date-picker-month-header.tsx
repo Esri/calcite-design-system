@@ -145,7 +145,7 @@ export class DatePickerMonthHeader {
               inputmode="numeric"
               maxlength="4"
               minlength="1"
-              onChange={this.yearChanged}
+              onInput={this.yearChanged}
               onKeyDown={this.onYearKey}
               pattern="\d*"
               ref={(el) => (this.yearInput = el)}

@@ -1,15 +1,15 @@
 :host {
   @apply bg-foreground-1
-    box-border
-    items-stretch
-    flex
     text-n1
     text-color-1
     shadow-border-bottom
+    bg-foreground-1
+    text-n1h
     m-0
     mb-px
-    bg-foreground-1
-    text-n1h;
+    box-border
+    flex
+    items-stretch;
   transition: background-color var(--calcite-animation-timing);
   animation: calcite-fade-in var(--calcite-animation-timing);
 
@@ -19,12 +19,12 @@
 }
 
 .label {
-  @apply bg-transparent
+  @apply focus-base
     flex
     flex-auto
-    items-center
     cursor-pointer
-    focus-base;
+    items-center
+    bg-transparent;
   &:focus {
     @apply focus-inset;
   }
@@ -43,7 +43,7 @@
 }
 
 .icon {
-  @apply items-center flex my-0 p-1 cursor-pointer;
+  @apply my-0 flex cursor-pointer items-center p-1;
   color: theme("colors.brand");
   flex: 0 0 auto;
   line-height: 0;
@@ -53,7 +53,7 @@
 }
 
 .icon-dot {
-  @apply items-center flex w-6 p-2;
+  @apply flex w-6 items-center p-2;
   &:before {
     @apply opacity-0;
     content: "\2022";
@@ -71,15 +71,15 @@
 }
 
 .text-container {
-  @apply flex
-    overflow-hidden
-    pointer-events-none
-    py-2
-    px-3
-    text-n2-wrap
+  @apply text-n2-wrap
     word-break
+    pointer-events-none
+    flex
     flex-col
-    flex-nowrap;
+    flex-nowrap
+    overflow-hidden
+    py-2
+    px-3;
 }
 
 .title {
@@ -87,11 +87,11 @@
 }
 
 .description {
-  @apply mt-0.5 text-color-3 font-normal;
+  @apply text-color-3 mt-0.5 font-normal;
 }
 
 .actions {
-  @apply items-stretch flex justify-end m-0 flex-initial;
+  @apply m-0 flex flex-initial items-stretch justify-end;
 }
 
 .actions--start ~ .label {

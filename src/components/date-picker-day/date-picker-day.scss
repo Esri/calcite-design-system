@@ -1,9 +1,9 @@
 :host {
-  @apply flex
-    justify-center
-    text-color-3
+  @apply text-color-3
+    flex
+    min-w-0
     cursor-pointer
-    min-w-0;
+    justify-center;
   width: calc(100% / 7);
 }
 
@@ -18,15 +18,15 @@
 }
 
 .day {
-  @apply flex
-    rounded-full
-    text-n2h
-    justify-center
-    items-center
-    leading-none
+  @apply text-n2h
     text-color-3
-    transition-all
-    opacity-disabled;
+    opacity-disabled
+    flex
+    items-center
+    justify-center
+    rounded-full
+    leading-none
+    transition-all;
   background: none;
   box-shadow: 0 0 0 2px transparent, 0 0 0 0px transparent;
 }
@@ -187,7 +187,7 @@
 }
 
 :host([highlighted]:not([active]:focus)) .day {
-  @apply rounded-none text-color-1;
+  @apply text-color-1 rounded-none;
 }
 
 :host([range-hover]:not([selected])) {

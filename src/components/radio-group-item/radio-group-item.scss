@@ -1,20 +1,20 @@
 :host {
   @apply flex
-    self-stretch
     cursor-pointer
+    self-stretch
     font-normal;
   transition: background-color var(--calcite-internal-animation-timing-fast) ease-in-out,
     border-color var(--calcite-animation-timing) ease-in-out;
 }
 
 :host label {
-  @apply flex
-    flex-1
-    text-color-3
-    box-border
+  @apply text-color-3
     pointer-events-none
-    items-center
-    m-0.5;
+    m-0.5
+    box-border
+    flex
+    flex-1
+    items-center;
   transition: background-color var(--calcite-internal-animation-timing-fast) ease-in-out,
     border-color var(--calcite-internal-animation-timing-fast) ease-in-out,
     color var(--calcite-internal-animation-timing-fast) ease-in-out;
@@ -74,9 +74,9 @@
 
 // icon
 .radio-group-item-icon {
-  @apply inline-flex
-    relative
-    m-0;
+  @apply relative
+    m-0
+    inline-flex;
   line-height: inherit;
 }
 

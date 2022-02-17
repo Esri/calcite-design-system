@@ -1,16 +1,16 @@
 :host {
-  @apply box-border
-    bg-foreground-1
+  @apply bg-foreground-1
     text-color-2
     text-n1
+    box-border
     block;
 }
 
 :host([open]) {
-  @apply border-solid
+  @apply border-b-color-3
     border-0
-    border-b-color-3
-    border-b;
+    border-b
+    border-solid;
 }
 
 :host(:last-child) {
@@ -18,26 +18,26 @@
 }
 
 .toggle {
-  @apply bg-transparent
+  @apply text-color-2
+    w-full
     border-0
-    text-color-2
+    bg-transparent
     font-sans
-    font-medium
-    w-full;
+    font-medium;
 }
 
 .toggle--switch,
 .section-header {
-  @apply items-center
-    cursor-pointer
-    flex
+  @apply text-n1
+    focus-base
     mx-0
     my-1
-    px-0
-    py-2
+    flex
+    cursor-pointer
     select-none
-    text-n1
-    focus-base;
+    items-center
+    px-0
+    py-2;
 
   &:focus {
     @apply focus-outset;
@@ -52,9 +52,9 @@
 }
 
 .section-header__text {
-  @apply flex-auto
-    mx-3
-    my-0;
+  @apply mx-3
+    my-0
+    flex-auto;
 
   text-align: initial;
   word-wrap: anywhere;
@@ -71,7 +71,7 @@
 }
 
 .toggle--switch__content {
-  @apply flex items-center flex-auto;
+  @apply flex flex-auto items-center;
 }
 
 .status-icon.valid {

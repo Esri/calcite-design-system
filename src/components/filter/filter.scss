@@ -8,22 +8,22 @@
 }
 
 label {
-  @apply flex
-    items-center
-    overflow-hidden
-    relative w-full
+  @apply relative
     mx-1
-    my-0;
+    my-0
+    flex w-full
+    items-center
+    overflow-hidden;
 }
 
 input[type="text"] {
-  @apply bg-transparent
-    border-none
-    font-inherit
+  @apply font-inherit
     text-color-1
     text-n2h
     mb-1
     w-full
+    border-none
+    bg-transparent
     py-1
     pr-1
     pl-6;
@@ -38,9 +38,9 @@ calcite-input {
 }
 
 .search-icon {
-  @apply flex
+  @apply text-color-2
     absolute
-    text-color-2;
+    flex;
   inset-inline-start: 0;
   transition: left var(--calcite-animation-timing), right var(--calcite-animation-timing),
     opacity var(--calcite-animation-timing);
@@ -57,11 +57,11 @@ input[type="text"]:focus {
 
 .clear-button {
   @apply text-color-2
-    bg-transparent
-    border-0
-    cursor-pointer
     flex
-    items-center;
+    cursor-pointer
+    items-center
+    border-0
+    bg-transparent;
   &:hover,
   &:focus {
     @apply text-color-1;

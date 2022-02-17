@@ -7,7 +7,7 @@
  */
 
 :host {
-  @apply block relative;
+  @apply relative block;
 }
 
 :host([disabled]) {
@@ -36,10 +36,10 @@
 }
 
 .wrapper {
-  @apply flex
-    bg-foreground-1
+  @apply bg-foreground-1
     text-color-1
-    focus-base;
+    focus-base
+    flex;
   box-shadow: inset 0 0 0 1px var(--calcite-ui-border-input);
   padding: 0 var(--calcite-combobox-item-spacing-unit-l) 0 var(--calcite-combobox-item-spacing-unit-l);
 }
@@ -59,18 +59,18 @@
     flex-grow
     flex-wrap
     items-center
-    p-0
-    truncate;
+    truncate
+    p-0;
 }
 
 .input {
-  @apply flex-grow
-  font-inherit
-  p-0
-  bg-transparent
-  border-none
+  @apply font-inherit
   text-color-1
-  appearance-none;
+  flex-grow
+  appearance-none
+  border-none
+  bg-transparent
+  p-0;
   font-size: inherit;
   height: var(--calcite-combobox-input-height);
   line-height: var(--calcite-combobox-input-height);
@@ -94,10 +94,10 @@
 }
 
 .input--hidden {
-  @apply w-0
+  @apply pointer-events-none
+  w-0
   min-w-0
-  opacity-0
-  pointer-events-none;
+  opacity-0;
 }
 
 .input--icon {
@@ -113,13 +113,13 @@
 }
 
 .label {
-  @apply p-0
+  @apply pointer-events-none
     flex
-    font-normal
+    max-w-full
     flex-auto
-    pointer-events-none
     truncate
-    max-w-full;
+    p-0
+    font-normal;
   height: var(--calcite-combobox-input-height);
   line-height: var(--calcite-combobox-input-height);
 }
@@ -132,9 +132,9 @@
 
 .icon-end,
 .icon-start {
-  @apply cursor-pointer
-    flex items-center
-    w-4;
+  @apply flex
+    w-4 cursor-pointer
+    items-center;
 }
 
 .icon-end {
@@ -158,14 +158,14 @@
 }
 
 .list-container {
-  @apply overflow-y-auto
+  @apply bg-foreground-1
     max-h-screen
-    bg-foreground-1;
+    overflow-y-auto;
   width: var(--calcite-dropdown-width);
 }
 
 .list {
-  @apply block m-0 p-0;
+  @apply m-0 block p-0;
 }
 
 .list--hide {
