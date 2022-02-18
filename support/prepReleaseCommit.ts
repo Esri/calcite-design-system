@@ -112,10 +112,10 @@ async function runStandardVersion(next: boolean, standardVersionOptions: Options
   if (next) {
     await appendUnreleasedNotesToChangelog();
     await exec(`git add ${changelogPath}`);
+  } else {
+    await updateReadmeCdnUrls(standardVersionOptions.releaseAs);
+    await exec(`git add ${readmePath}`);
   }
-
-  await updateReadmeCdnUrls(standardVersionOptions.releaseAs);
-  await exec(`git add ${readmePath}`);
 
   await standardVersion(standardVersionOptions);
 }

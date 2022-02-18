@@ -1,0 +1,183 @@
+:host {
+  @apply mr-5 block flex-initial outline-none;
+  margin-inline-start: theme("margin.0");
+  margin-inline-end: theme("margin.5");
+}
+
+:host([layout="center"]) {
+  @apply my-0 mx-5 text-center;
+  flex-basis: theme("spacing.48");
+}
+
+:host([position="below"]) a {
+  @apply border-t-color-transparent
+    border-b-0
+    border-t-2;
+  border-top-style: solid;
+}
+
+:host a {
+  @apply focus-base;
+}
+
+:host(:focus) a {
+  @apply focus-inset;
+}
+
+:host(:active),
+:host(:focus),
+:host(:hover) {
+  a {
+    @apply text-color-1 border-color-2 no-underline;
+  }
+}
+
+:host([active]) a {
+  @apply text-color-1 border-color-transparent;
+}
+
+:host([disabled]) {
+  @apply pointer-events-none;
+  span,
+  a {
+    @apply pointer-events-none opacity-50;
+  }
+}
+
+:host([scale="s"]) {
+  margin-inline-end: 1rem;
+  a,
+  span {
+    @apply text-n2h py-1;
+  }
+}
+
+:host([scale="m"]) {
+  a,
+  span {
+    @apply text-n1h py-2;
+  }
+}
+
+:host([scale="l"]) {
+  margin-inline-end: 1.5rem;
+  a,
+  span {
+    @apply text-0h py-3;
+  }
+}
+
+a,
+span {
+  @apply border-b-color-transparent
+    text-color-3
+    text-n1h
+    transition-default
+    box-border
+    flex
+    h-full
+    w-full
+    cursor-pointer
+    appearance-none
+    justify-center
+    truncate
+    border-b-2
+    px-0
+    py-2;
+  border-bottom-style: solid;
+}
+
+span {
+  @apply cursor-default;
+}
+
+.calcite-tab-title--icon {
+  @apply relative
+    m-0
+    inline-flex
+    self-center;
+  & svg {
+    @apply transition-default;
+  }
+}
+
+.container--has-text {
+  @apply p-1;
+}
+
+.container--has-text .calcite-tab-title--icon.icon-start {
+  margin-inline-end: theme("margin.2");
+}
+
+.container--has-text .calcite-tab-title--icon.icon-end {
+  margin-inline-start: theme("margin.2");
+}
+
+// compensate for spacing when no hastext and two icons
+:host([icon-start][icon-end]) {
+  .calcite-tab-title--icon:first-child {
+    margin-inline-end: theme("margin.2");
+  }
+}
+
+// bordered styles
+:host([bordered]) {
+  margin-inline-end: 0;
+}
+
+:host([bordered][active]) {
+  box-shadow: inset 0px -2px var(--calcite-ui-foreground-1);
+}
+
+:host([bordered][active][position="below"]) {
+  box-shadow: inset 0 2px 0 var(--calcite-ui-foreground-1);
+}
+
+:host([bordered]:hover),
+:host([bordered]:focus),
+:host([bordered]:active) {
+  a {
+    @apply relative;
+  }
+}
+
+:host([bordered]:hover) {
+  a {
+    background-color: var(--calcite-button-transparent-hover);
+    @apply transition-default;
+  }
+}
+
+:host([bordered]) a {
+  border-bottom-style: unset;
+}
+
+:host([bordered][position="below"]) a {
+  border-top-style: unset;
+}
+
+:host([active][bordered]) a {
+  border-left: 1px solid var(--calcite-ui-border-1);
+  border-right: 1px solid var(--calcite-ui-border-1);
+}
+
+:host([bordered]) {
+  a,
+  span {
+    @apply pl-3 pr-3;
+  }
+}
+
+:host([bordered][scale="s"]) {
+  a,
+  span {
+    @apply pl-2 pr-2;
+  }
+}
+
+:host([bordered][scale="l"]) {
+  a,
+  span {
+    @apply pl-4 pr-4;
+  }
+}

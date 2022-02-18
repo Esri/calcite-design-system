@@ -23,7 +23,6 @@ __docs-temp__/*
 *.orig
 .stencil/
 .idea/
-.vscode/
 .sass-cache/
 .versions/
 .DS_Store
@@ -33,4 +32,4 @@ Thumbs.db
 UserInterfaceState.xcuserstate
 log.txt
 src/components.d.ts
-src/components/calcite-icon/assets
+src/components/icon/assets
