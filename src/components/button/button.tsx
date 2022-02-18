@@ -141,8 +141,8 @@ export class Button implements LabelableComponent {
   }
 
   render(): VNode {
-    const childEl = this.href ? "a" : "button";
-    const Tag = childEl;
+    const childElType = this.href ? "a" : "button";
+    const Tag = childElType;
     const loaderNode = this.hasLoader ? (
       <div class={CSS.buttonLoader}>
         <calcite-loader
@@ -188,14 +188,14 @@ export class Button implements LabelableComponent {
           [CSS.iconEndEmpty]: !this.iconEnd
         }}
         disabled={this.disabled || this.loading}
-        href={childEl === "a" && this.href}
-        name={childEl === "button" && this.name}
+        href={childElType === "a" && this.href}
+        name={childElType === "button" && this.name}
         onClick={this.handleClick}
         ref={(el) => (this.childEl = el)}
-        rel={childEl === "a" && this.rel}
+        rel={childElType === "a" && this.rel}
         tabIndex={this.disabled || this.loading ? -1 : null}
-        target={childEl === "a" && this.target}
-        type={childEl === "button" && this.type}
+        target={childElType === "a" && this.target}
+        type={childElType === "button" && this.type}
       >
         {loaderNode}
         {this.iconStart ? iconStartEl : null}

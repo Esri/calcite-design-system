@@ -1,4 +1,4 @@
-import { Component, Element, h, Host, Method, Prop, State, VNode, Watch } from "@stencil/core";
+import { Component, Element, h, Host, Method, Prop, VNode } from "@stencil/core";
 import { focusElement, getElementDir } from "../../utils/dom";
 import { FlipContext } from "../interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
@@ -64,7 +64,7 @@ export class Link {
   render(): VNode {
     const { download, el } = this;
     const dir = getElementDir(el);
-    const childEl = this.href ? "a" : "span";
+    const childElType = this.href ? "a" : "span";
     const iconStartEl = (
       <calcite-icon
         class="calcite-link--icon icon-start"
@@ -83,9 +83,9 @@ export class Link {
       />
     );
 
-    const Tag = childEl;
-    const role = childEl === "span" ? "link" : null;
-    const tabIndex = this.disabled ? -1 : childEl === "span" ? 0 : null;
+    const Tag = childElType;
+    const role = childElType === "span" ? "link" : null;
+    const tabIndex = this.disabled ? -1 : childElType === "span" ? 0 : null;
 
     return (
       <Host role="presentation">
