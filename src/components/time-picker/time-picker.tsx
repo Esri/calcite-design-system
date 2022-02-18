@@ -27,7 +27,8 @@ import {
   parseTimeString,
   localizeTimePart,
   Meridiem,
-  getLocaleHourCycle
+  getLocaleHourCycle,
+  getTimeParts
 } from "../../utils/time";
 import { CSS, TEXT } from "./resources";
 
@@ -157,6 +158,8 @@ export class TimePicker {
   private minuteEl: HTMLSpanElement;
 
   private secondEl: HTMLSpanElement;
+
+  private meridiemOrder: number;
 
   // --------------------------------------------------------------------------
   //
@@ -605,6 +608,8 @@ export class TimePicker {
       if (localizedMeridiem) {
         this.localizedMeridiem = localizedMeridiem;
         this.meridiem = getMeridiem(this.hour);
+        const formatParts = getTimeParts(value, this.locale);
+        this.meridiemOrder = this.getMeridiemOrder(formatParts);
       }
     } else {
       this.hour = null;
@@ -665,6 +670,17 @@ export class TimePicker {
       this.calciteTimePickerChange.emit();
     }
   };
+
+  private getMeridiemOrder(formatParts: Intl.DateTimeFormatPart[]): number {
+    const isRTLKind = this.locale === "ar" || this.locale === "he";
+    if (formatParts && !isRTLKind) {
+      const index = formatParts.findIndex((parts: { type: string; value: string }) => {
+        return parts.value === this.localizedMeridiem;
+      });
+      return index;
+    }
+    return 0;
+  }
 
   // --------------------------------------------------------------------------
   //
@@ -847,7 +863,13 @@ export class TimePicker {
           <span class={CSS.delimiter}>{this.localizedSecondSuffix}</span>
         )}
         {showMeridiem && (
-          <div class={CSS.column} role="group">
+          <div
+            class={{
+              [CSS.column]: true,
+              [CSS.meridiemStart]: this.meridiemOrder === 0
+            }}
+            role="group"
+          >
             <span
               aria-label={this.intlMeridiemUp}
               class={{

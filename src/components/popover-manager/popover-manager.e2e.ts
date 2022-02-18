@@ -8,7 +8,7 @@ describe("calcite-popover-manager", () => {
   it("is accessible", async () =>
     accessible(`<calcite-popover-manager>
   <calcite-popover reference-element="ref">Content</calcite-popover>
-  <div id="ref">Button</div>
+  <button id="ref">Button</button>
 </calcite-popover-manager>`));
 
   it("honors hidden attribute", async () => hidden("calcite-popover-manager"));

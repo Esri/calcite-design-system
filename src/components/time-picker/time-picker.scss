@@ -18,6 +18,10 @@
       flex-col;
   }
 
+  .meridiem--start {
+    order: -1;
+  }
+
   .button {
     @apply bg-foreground-1
       inline-flex
