@@ -434,9 +434,7 @@ export class Input implements LabelableComponent, FormComponent {
 
   private inputBlurHandler = () => {
     if (this.type === "number") {
-      this.setValue({
-        value: this.value
-      });
+      this.setValue({ value: this.value });
     }
     this.calciteInputBlur.emit({
       element: this.childEl,

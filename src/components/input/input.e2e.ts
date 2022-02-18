@@ -1363,4 +1363,30 @@ describe("calcite-input", () => {
     it("supports type=text", () => formAssociated("calcite-input", { testValue: "test" }));
     it("supports type=number", () => formAssociated("<calcite-input type='number'></calcite-input>", { testValue: 5 }));
   });
+
+  describe("external/programmatic changes to the value via JavaScript", () => {
+    it("incrementing correctly updates the value after focus and blur events", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html`
+        <calcite-input id="myInput" type="number" value="1"></calcite-input>
+        <button id="myButton"></button>
+      `);
+      const element = await page.find("calcite-input");
+
+      await element.callMethod("setFocus");
+      await page.$eval("calcite-input", (e: HTMLInputElement) => e.blur());
+
+      await page.evaluate(() => {
+        const button = document.getElementById("myButton");
+        button.onclick = function () {
+          const el = <HTMLInputElement>document.getElementById("myInput");
+          const currentValue = parseInt(el.value);
+          el.value = `${currentValue + 2}`;
+        };
+        button.click();
+      });
+
+      expect(await element.getProperty("value")).toBe("3");
+    });
+  });
 });
