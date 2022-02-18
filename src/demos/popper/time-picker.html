@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
+    <title>Demos</title>
+    <script src="../_assets/head.js"></script>
+    <style>
+      a {
+        text-decoration: none;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div>
+      Instructions:<br />
+      - open calendar popover<br />
+      - notice that the top of the calendar will not show on top of the panel header<br />
+      - if I add more space above the input box it's fine<br />
+      - if I remove some space above the input box it's fine too and the calendar shows below<br /><br />
+      <calcite-button id="button" onclick=""> popover reference </calcite-button>
+    </div>
+
+    <calcite-popover
+      open="true"
+      disable-pointer="true"
+      reference-element="button"
+      offset-distance="20"
+      offset-skidding="15"
+      label=""
+    >
+      <calcite-flow>
+        <calcite-panel height-scale="m" heading="panel header" dismissible="true" style="width: 350px; height: 350px">
+          <br /><br /><br /><br /><br /><br /><br /><br />
+          <br /><br /><br /><br /><br /><br /><br /><br />
+          <calcite-input-date-picker value="2021-12-10" overlay-positioning="fixed" />
+          <br /><br />
+        </calcite-panel>
+      </calcite-flow>
+    </calcite-popover>
+  </body>
+</html>

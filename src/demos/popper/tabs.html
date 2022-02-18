@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
+    <title>Demos</title>
+    <script src="../_assets/head.js"></script>
+    <style>
+      a {
+        text-decoration: none;
+      }
+    </style>
+  </head>
+
+  <body>
+    <calcite-tabs>
+      <calcite-tab-nav slot="tab-nav">
+        <calcite-tab-title is-active>First tab</calcite-tab-title>
+      </calcite-tab-nav>
+      <calcite-tab is-active>
+        <div style="display: flex; flex-direction: row; gap: 1rem">
+          <calcite-dropdown overlay-positioning="absolute">
+            <button slot="dropdown-trigger">Dropdown</button>
+
+            <calcite-dropdown-group group-title="Select one">
+              <calcite-dropdown-item>First</calcite-dropdown-item>
+              <calcite-dropdown-item>Second</calcite-dropdown-item>
+              <calcite-dropdown-item>Third</calcite-dropdown-item>
+              <calcite-dropdown-item>Fourth</calcite-dropdown-item>
+            </calcite-dropdown-group>
+          </calcite-dropdown>
+
+          <calcite-popover-manager>
+            <button id="popover-trigger">Popover</button>
+          </calcite-popover-manager>
+
+          <calcite-popover reference-element="popover-trigger" placement="bottom">
+            <p>Popover content</p>
+          </calcite-popover>
+        </div>
+      </calcite-tab>
+    </calcite-tabs>
+  </body>
+</html>

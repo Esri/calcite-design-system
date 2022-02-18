@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
+    <title>Demos</title>
+    <script src="../_assets/head.js"></script>
+    <style>
+      a {
+        text-decoration: none;
+      }
+    </style>
+  </head>
+
+  <body>
+    <calcite-shell content-behind="true">
+      <div id="viewDiv"></div>
+      <calcite-shell-panel slot="primary-panel" position="start" style="visibility: hidden"></calcite-shell-panel>
+      <calcite-shell-panel slot="contextual-panel" position="end" id="shell-panel">
+        <calcite-action-bar slot="action-bar"></calcite-action-bar>
+        <div id="initial-content">
+          <calcite-button id="button" style=""> popover reference</calcite-button>
+        </div>
+      </calcite-shell-panel>
+    </calcite-shell>
+
+    <arcgis-field-pick-list>
+      <calcite-popover
+        open="true"
+        disable-pointer="true"
+        reference-element="button"
+        overlay-positioning="absolute"
+        label=""
+      >
+        <calcite-flow>
+          <calcite-panel height-scale="m" heading="panel header" dismissible="true">
+            <calcite-pick-list id="myList" filter-enabled="true" filter-placeholder="search something" multiple="true">
+              <calcite-dropdown slot="menu-actions" placement="bottom-trailing" overlay-positioning="fixed" active>
+                <calcite-action slot="dropdown-trigger" text="sort" title="sort">
+                  <calcite-icon scale="s" icon="sortDescending"></calcite-icon>
+                </calcite-action>
+                <calcite-dropdown-group>
+                  <calcite-dropdown-item active="true"> Display name</calcite-dropdown-item>
+                  <calcite-dropdown-item active="true"> Type</calcite-dropdown-item>
+                  <calcite-dropdown-item active="true"> Order in table</calcite-dropdown-item>
+                  <calcite-dropdown-item active="true"> Field name</calcite-dropdown-item>
+                </calcite-dropdown-group>
+              </calcite-dropdown>
+
+              <calcite-pick-list-item
+                label="Vestibulum commodo felis quis tortor.
+      "
+              ></calcite-pick-list-item>
+              <calcite-pick-list-item label="Cras iaculis ultricies nulla.">
+                <calcite-action
+                  slot="actions-end"
+                  text="info"
+                  title="info"
+                  scale="s"
+                  icon="information"
+                ></calcite-action>
+              </calcite-pick-list-item>
+              <calcite-pick-list-item label="Ut aliquam sollicitudin leo.">
+                <calcite-action
+                  slot="actions-end"
+                  text="info"
+                  title="info"
+                  scale="s"
+                  icon="information"
+                ></calcite-action>
+              </calcite-pick-list-item>
+            </calcite-pick-list>
+          </calcite-panel>
+        </calcite-flow>
+      </calcite-popover>
+    </arcgis-field-pick-list>
+  </body>
+</html>
