@@ -345,7 +345,8 @@ export class TreeItem implements ConditionalSlotComponent {
 
         // When focus is on a open node, moves focus to the first child node.
         if (this.hasChildren && this.expanded) {
-          this.el.querySelector("calcite-tree-item").focus();
+          this.el.querySelector("calcite-tree-item")?.focus();
+          e.stopPropagation();
           break;
         }
 
