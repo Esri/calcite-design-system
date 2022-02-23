@@ -40,8 +40,15 @@ export class Label {
   /** specify the scale of the label, defaults to m */
   @Prop({ reflect: true }) scale: Scale = "m";
 
-  /** is the wrapped element positioned inline with the label slotted text */
-  @Prop({ reflect: true }) layout: "inline" | "inline-space-between" | "default" = "default";
+  /** is the wrapped element positioned inline with the label slotted text
+   * @deprecated "inline"/"inline-space-between" layout will no longer be supported, use "horizontal"/"horizontal-space-between" instead
+   */
+  @Prop({ reflect: true }) layout:
+    | "horizontal"
+    | "horizontal-space-between"
+    | "inline"
+    | "inline-space-between"
+    | "default" = "default";
 
   /** eliminates any space around the label */
   @Prop() disableSpacing = false;
