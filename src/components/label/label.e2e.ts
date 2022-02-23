@@ -1,6 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { renders } from "../../tests/commonTests";
-import { html } from "../../tests/utils";
 
 describe("calcite-label", () => {
   it("renders", () => renders("calcite-label", { display: "inline" }));

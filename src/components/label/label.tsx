@@ -1,6 +1,6 @@
 import { Component, Element, Event, h, Prop, EventEmitter, VNode, Host } from "@stencil/core";
 import { Alignment, Scale, Status } from "../interfaces";
-import { labelDisconnectedEvent } from "../../utils/label";
+import { labelDisconnectedEvent, labelConnectedEvent } from "../../utils/label";
 import { CSS } from "./resources";
 
 /**
@@ -59,14 +59,14 @@ export class Label {
   /**
    * @internal
    */
-  @Event({ bubbles: false }) calciteInternalLabelClick: EventEmitter<{
+  @Event({ bubbles: false }) labelClickEvent: EventEmitter<{
     sourceEvent: MouseEvent;
   }>;
 
   /**
    * @internal
    */
-  @Event() calciteInternalLabelRegister: EventEmitter;
+  @Event() labelConnectedEvent: EventEmitter;
 
   //--------------------------------------------------------------------------
   //
@@ -75,7 +75,7 @@ export class Label {
   //--------------------------------------------------------------------------
 
   labelClickHandler = (event: MouseEvent): void => {
-    this.calciteInternalLabelClick.emit({
+    this.labelClickEvent.emit({
       sourceEvent: event
     });
   };
@@ -87,7 +87,7 @@ export class Label {
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
-    this.calciteInternalLabelRegister.emit();
+    document.dispatchEvent(new CustomEvent(labelConnectedEvent));
   }
 
   disconnectedCallback(): void {

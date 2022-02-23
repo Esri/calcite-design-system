@@ -347,18 +347,18 @@ export async function labelable(componentTagOrHtml: TagOrHTML, options?: Labelab
     shadowFocusTargetSelector
   });
 
-  const componentFirstPage: E2EPage = await newE2EPage({ html: componentHtml });
-  await componentFirstPage.waitForChanges();
-  await componentFirstPage.evaluate((id: string) => {
+  const componentFirstSiblingPage: E2EPage = await newE2EPage({ html: componentHtml });
+  await componentFirstSiblingPage.waitForChanges();
+  await componentFirstSiblingPage.evaluate((id: string) => {
     const label = document.createElement("calcite-label");
+    // setting the prop doesn't reflect the attribute; see issue #...
     label.setAttribute("for", `${id}`);
-    document.body.appendChild(label);
+    document.body.append(label);
   }, id);
-  const label = await componentFirstPage.find("calcite-label");
-  expect(await label.getProperty("for")).toBe(`${id}`);
+  await componentFirstSiblingPage.waitForChanges();
 
   await assertLabelable({
-    page: componentFirstPage,
+    page: componentFirstSiblingPage,
     componentTag,
     propertyToToggle,
     focusTargetSelector,
