@@ -262,25 +262,16 @@ export class Modal implements ConditionalSlotComponent {
   //
   //--------------------------------------------------------------------------
   @Listen("keyup", { target: "window" })
-  handleEscape(e: KeyboardEvent): void {
+  handleFocus(e: KeyboardEvent): void {
+    const elements = getFocusableElements(this.el);
     if (this.active && !this.disableEscape && e.key === "Escape") {
       this.close();
     }
-  }
-
-  @Listen("keydown")
-  handleTab(e: KeyboardEvent): void {
-    console.log("lastactivelement", this.lastActiveElement);
-    console.log("activeElement", document.activeElement);
-    const elements = getFocusableElements(this.el);
-    console.log(elements.length, elements);
     if (this.active && e.key === "Tab") {
-      if (
-        (this.lastActiveElement === elements[elements.length - 2] ||
-          this.lastActiveElement === elements[elements.length - 1]) &&
-        !this.closeButtonEl
-      ) {
-        elements[elements.length - 2].focus();
+      console.log("keyed up");
+      console.log("activeElement", document.activeElement);
+      if (this.lastActiveElement === elements[elements.length - 1] && !this.closeButtonEl) {
+        elements[elements.length - 1].focus();
       } else {
         this.lastActiveElement = document.activeElement;
       }
@@ -325,11 +316,10 @@ export class Modal implements ConditionalSlotComponent {
   @Method()
   async setFocus(focusId?: "close-button"): Promise<void> {
     const closeButton = this.closeButtonEl;
-    this.lastActiveElement =
-      focusId === "close-button" ? closeButton : getFocusableElements(this.el)[0] || closeButton;
-    return focusElement(
+    await focusElement(
       focusId === "close-button" ? closeButton : getFocusableElements(this.el)[0] || closeButton
     );
+    this.lastActiveElement = document.activeElement;
   }
 
   /** Set the scroll top of the modal content */
