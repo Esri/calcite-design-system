@@ -5,7 +5,7 @@ $gap--small: 4px;
 $gap--large: 12px;
 
 :host {
-  @apply inline-block text-n2h font-normal;
+  @apply text-n2h inline-block font-normal;
 }
 
 :host([scale="s"]) {
@@ -77,8 +77,8 @@ $gap--large: 12px;
   }
 
   .color-hex-options {
-    @apply flex-shrink
-      flex
+    @apply flex
+      flex-shrink
       flex-col
       justify-around;
     min-height: 98px;
@@ -108,14 +108,14 @@ $gap--large: 12px;
 
 .scope {
   @apply text-n1
-    p-0
+    focus-base
+    pointer-events-none
+    absolute
     mb-0
     mr-0
-    focus-base
-    w-2
     h-2
-    absolute
-    pointer-events-none;
+    w-2
+    p-0;
 
   margin-top: -0.25rem;
   margin-left: -0.25rem;
@@ -155,10 +155,10 @@ $gap--large: 12px;
 }
 
 .header {
-  @apply flex
+  @apply text-color-1
+    flex
     items-center
     justify-between
-    text-color-1
     pb-1;
 }
 

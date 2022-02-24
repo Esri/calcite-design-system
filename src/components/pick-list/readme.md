@@ -49,18 +49,18 @@ Renders groups of pick list items that are visually separated.
 ```html
 <calcite-pick-list>
   <calcite-pick-list-group group-title="numbers">
-    <calcite-pick-list-item heading="one" description="fish" value="one" icon="grip">
+    <calcite-pick-list-item label="one" description="fish" value="one" icon="grip">
       <calcite-action slot="actions-end" icon="ellipsis"></calcite-action>
     </calcite-pick-list-item>
-    <calcite-pick-list-item heading="two" description="fish" value="two" icon="grip">
+    <calcite-pick-list-item label="two" description="fish" value="two" icon="grip">
       <calcite-action slot="actions-end" icon="ellipsis"></calcite-action>
     </calcite-pick-list-item>
   </calcite-pick-list-group>
   <calcite-pick-list-group group-title="colors">
-    <calcite-pick-list-item heading="red" description="fish" value="red" icon="grip">
+    <calcite-pick-list-item label="red" description="fish" value="red" icon="grip">
       <calcite-action slot="actions-end" icon="ellipsis"></calcite-action>
     </calcite-pick-list-item>
-    <calcite-pick-list-item heading="blue" description="fish" value="blue" icon="grip">
+    <calcite-pick-list-item label="blue" description="fish" value="blue" icon="grip">
       <calcite-action slot="actions-end" icon="ellipsis"></calcite-action>
     </calcite-pick-list-item>
   </calcite-pick-list-group>
@@ -81,9 +81,9 @@ Renders groups of pick list items that are visually separated.
 
 ## Events
 
-| Event               | Description                                           | Type                            |
-| ------------------- | ----------------------------------------------------- | ------------------------------- |
-| `calciteListChange` | Emitted when any of the item selections have changed. | `CustomEvent<Map<string, any>>` |
+| Event               | Description                                           | Type                                                       |
+| ------------------- | ----------------------------------------------------- | ---------------------------------------------------------- |
+| `calciteListChange` | Emitted when any of the item selections have changed. | `CustomEvent<Map<string, HTMLCalcitePickListItemElement>>` |
 
 ## Methods
 
@@ -93,7 +93,7 @@ Returns the currently selected items
 
 #### Returns
 
-Type: `Promise<Map<string, any>>`
+Type: `Promise<Map<string, HTMLCalcitePickListItemElement>>`
 
 ### `setFocus(focusId?: ListFocusId) => Promise<void>`
 

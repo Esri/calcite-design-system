@@ -7,7 +7,7 @@
   & input,
   & .prefix,
   & .suffix {
-    @apply text-n2h p-2 h-6;
+    @apply text-n2h h-6 p-2;
   }
   & textarea {
     @apply h-6;
@@ -27,9 +27,9 @@
   }
   & textarea {
     @apply text-n2h
+    h-auto
     py-1
-    px-2
-    h-auto;
+    px-2;
   }
 }
 
@@ -37,7 +37,7 @@
   & input,
   & .prefix,
   & .suffix {
-    @apply text-n1h p-3 h-8;
+    @apply text-n1h h-8 p-3;
   }
   & textarea {
     min-height: theme("spacing.8");
@@ -56,9 +56,9 @@
   }
   & textarea {
     @apply text-n1h
+      h-auto
       py-2
-      px-3
-      h-auto;
+      px-3;
   }
 }
 
@@ -66,7 +66,7 @@
   & input,
   & .prefix,
   & .suffix {
-    @apply text-0h p-4 h-11;
+    @apply text-0h h-11 p-4;
   }
   & textarea {
     min-height: theme("spacing.11");
@@ -85,18 +85,18 @@
   }
   & textarea {
     @apply text-0h
+      h-auto
       py-3
-      px-4
-      h-auto;
+      px-4;
   }
 }
 
 // disabled styles
 :host([disabled]) {
-  @apply pointer-events-none opacity-disabled;
+  @apply opacity-disabled pointer-events-none;
 
   & .wrapper {
-    @apply pointer-events-none text-opacity-disabled;
+    @apply text-opacity-disabled pointer-events-none;
   }
   & button,
   & textarea,
@@ -112,19 +112,19 @@
 :host input {
   transition: var(--calcite-animation-timing), height 0s;
   -webkit-appearance: none;
-  @apply w-full
-    rounded-none
-    relative
-    max-h-full
-    max-w-full
-    m-0
-    font-normal
-    font-inherit
-    flex-1
-    flex
+  @apply font-inherit
     text-color-1
+    bg-foreground-1
+    relative
+    m-0
     box-border
-    bg-foreground-1;
+    flex
+    max-h-full
+    w-full
+    max-w-full
+    flex-1
+    rounded-none
+    font-normal;
 }
 
 :host input[type="search"]::-webkit-search-decoration {
@@ -136,9 +136,9 @@
   & input,
   & textarea {
     @apply text-color-1
+      border-color-input
       border
-      border-solid
-      border-color-input;
+      border-solid;
     &::placeholder,
     &:-ms-input-placeholder,
     &::-ms-input-placeholder {
@@ -216,19 +216,19 @@
 // positioning wrapper for icon and loader
 
 .element-wrapper {
-  @apply inline-flex
-    items-center
+  @apply relative
+    order-3
+    inline-flex
     flex-1
-    relative
-    order-3;
+    items-center;
 }
 
 .icon {
-  @apply block
-    absolute
+  @apply transition-default
     pointer-events-none
+    absolute
     z-10
-    transition-default;
+    block;
 }
 
 // hide browser default clear
@@ -236,8 +236,8 @@
 input[type="text"]::-ms-clear,
 input[type="text"]::-ms-reveal {
   @apply hidden
-    w-0
-    h-0;
+    h-0
+    w-0;
 }
 input[type="search"]::-webkit-search-decoration,
 input[type="search"]::-webkit-search-cancel-button,
@@ -251,19 +251,19 @@ input[type="time"]::-webkit-clear-button {
 .clear-button {
   pointer-events: initial;
   @apply focus-base
-    flex
-    self-stretch
-    items-center
-    justify-center
-    box-border
-    cursor-pointer
-    min-h-full
-    border
-    border-solid
     border-color-input
     bg-foreground-1
     order-4
-    m-0;
+    m-0
+    box-border
+    flex
+    min-h-full
+    cursor-pointer
+    items-center
+    justify-center
+    self-stretch
+    border
+    border-solid;
 
   border-inline-start-width: theme("borderWidth.0");
 
@@ -292,34 +292,34 @@ input[type="time"]::-webkit-clear-button {
   top: 1px;
   left: 1px;
   right: 1px;
-  @apply block
-    pointer-events-none
-    absolute;
+  @apply pointer-events-none
+    absolute
+    block;
 }
 
 // slotted action
 .action-wrapper {
-  @apply flex order-7;
+  @apply order-7 flex;
 }
 
 // prefix and suffix
 .prefix,
 .suffix {
-  @apply flex
-    items-center
-    content-center
+  @apply border-color-input
+    bg-background
+    text-color-2
+    box-border
+    flex
     h-auto
     min-h-full
     select-none
-    box-border
-    font-medium
+    content-center
+    items-center
+    break-words
     border
     border-solid
-    border-color-input
-    bg-background
-    text-color-2
-    leading-none
-    break-words;
+    font-medium
+    leading-none;
 }
 
 .prefix {
@@ -359,12 +359,12 @@ input[type="time"]::-webkit-clear-button {
 }
 
 .number-button-wrapper {
-  @apply box-border
-    flex
-    flex-col
+  @apply transition-default
     pointer-events-none
     order-6
-    transition-default;
+    box-border
+    flex
+    flex-col;
 }
 
 :host([number-button-type="vertical"]) .wrapper {
@@ -391,9 +391,9 @@ input[type="time"]::-webkit-clear-button {
 .number-button-item.number-button-item--horizontal {
   &[data-adjustment="down"],
   &[data-adjustment="up"] {
-    @apply min-h-full
+    @apply order-1
       max-h-full
-      order-1
+      min-h-full
       self-stretch;
     & calcite-icon {
       transform: rotate(90deg);
@@ -402,9 +402,9 @@ input[type="time"]::-webkit-clear-button {
 }
 
 .number-button-item.number-button-item--horizontal[data-adjustment="down"] {
-  @apply border
-    border-solid
-    border-color-input;
+  @apply border-color-input
+    border
+    border-solid;
   border-inline-end-width: theme("borderWidth.0");
   &:hover {
     @apply bg-foreground-2;
@@ -446,22 +446,22 @@ input[type="time"]::-webkit-clear-button {
   max-height: 50%;
   min-height: 50%;
   pointer-events: initial;
-  @apply flex
-    self-center
-    items-center
-    box-border
-    cursor-pointer
-    py-0
-    px-2
-    border
-    border-solid
-    border-color-input
+  @apply border-color-input
     bg-foreground-1
     transition-default
-    m-0;
+    m-0
+    box-border
+    flex
+    cursor-pointer
+    items-center
+    self-center
+    border
+    border-solid
+    py-0
+    px-2;
   border-inline-start-width: theme("borderWidth.0");
   & calcite-icon {
-    @apply pointer-events-none transition-default;
+    @apply transition-default pointer-events-none;
   }
   &:focus {
     @apply bg-foreground-2;
@@ -475,10 +475,10 @@ input[type="time"]::-webkit-clear-button {
 }
 
 .wrapper {
-  @apply flex
+  @apply relative
+    flex
     flex-row
-    items-center
-    relative;
+    items-center;
 }
 
 // hide the default date picker
@@ -492,9 +492,9 @@ input[type="time"]::-webkit-clear-button {
 
 // textarea resize icon
 :host textarea::-webkit-resizer {
-  @apply box-border
-    absolute
+  @apply absolute
     bottom-0
+    box-border
     py-0
     px-1;
   inset-inline-end: 0;
@@ -506,11 +506,11 @@ input[type="time"]::-webkit-clear-button {
 
   @apply bg-foreground-1
     text-color-3
+    pointer-events-none
     absolute
     z-10
-    pointer-events-none
-    w-3
-    h-3;
+    h-3
+    w-3;
 
   & calcite-icon {
     bottom: theme("spacing.1");
@@ -534,10 +534,10 @@ input[type="time"]::-webkit-clear-button {
 // file input
 :host([type="file"]) input {
   @apply bg-foreground-1
+    border-color-input
     cursor-pointer
     border
     border-dashed
-    border-color-input
     text-center;
 }
 
@@ -570,9 +570,9 @@ input[type="time"]::-webkit-clear-button {
 }
 
 :host .inline-child:not(.editing-enabled) {
-  @apply flex
-    cursor-pointer
-    border-color-transparent;
+  @apply border-color-transparent
+    flex
+    cursor-pointer;
   padding-inline-start: 0;
 }
 

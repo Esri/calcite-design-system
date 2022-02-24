@@ -3,11 +3,11 @@
 }
 
 .heading {
-  @apply font-sans bg-foreground-2 text-n1 font-bold m-0 p-3 text-color-2 flex flex-1;
+  @apply bg-foreground-2 text-n1 text-color-2 m-0 flex flex-1 p-3 font-sans font-bold;
 }
 
 .container {
-  @apply w-full flex flex-col bg-foreground-1;
+  @apply bg-foreground-1 flex w-full flex-col;
 }
 
 ::slotted(calcite-list-item-group) {

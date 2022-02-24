@@ -112,7 +112,7 @@ $spacing: $baseline * 0.5;
     }
 
     &.width-full {
-      @apply max-w-none flex;
+      @apply flex max-w-none;
       calcite-tile {
         @apply flex-auto;
       }

@@ -24,16 +24,16 @@
 }
 
 .dropdown-title {
-  @apply block
+  @apply border-color-3
+  text-color-2
+  -mb-px
+  block
+  cursor-default
+  break-words
   border-0
   border-b
   border-solid
-  border-color-3
-  text-color-2
-  font-bold
-  break-words
-  cursor-default
-  -mb-px;
+  font-bold;
 }
 
 .dropdown-separator {

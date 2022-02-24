@@ -1,14 +1,14 @@
 :host {
-  @apply items-stretch
-    box-border
-    bg-transparent
-    flex
-    flex-col
+  @apply text-color-2
+    text-n1h
     relative
-    flex-grow
+    box-border
+    flex
     flex-shrink-0
-    text-color-2
-    text-n1h;
+    flex-grow
+    flex-col
+    items-stretch
+    bg-transparent;
 
   * {
     @apply box-border;
@@ -17,10 +17,10 @@
 
 :host([filter-enabled]) header {
   @apply bg-foreground-1
+    mb-1
     flex
-    justify-end
     items-stretch
-    mb-1;
+    justify-end;
   &.sticky-pos {
     @apply sticky top-0;
     z-index: 1;

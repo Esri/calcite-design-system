@@ -722,22 +722,27 @@ export class Combobox implements LabelableComponent, FormComponent {
   }
 
   getSelectedItems(): HTMLCalciteComboboxItemElement[] {
-    return !this.isMulti()
-      ? [this.items.find((item) => item.selected)]
-      : this.items
-          .filter(
-            (item) =>
-              item.selected && (this.selectionMode !== "ancestors" || !hasActiveChildren(item))
-          )
-          /** Preserve order of entered tags */
-          .sort((a, b) => {
-            const aIdx = this.selectedItems.indexOf(a);
-            const bIdx = this.selectedItems.indexOf(b);
-            if (aIdx > -1 && bIdx > -1) {
-              return aIdx - bIdx;
-            }
-            return bIdx - aIdx;
-          });
+    if (!this.isMulti()) {
+      const match = this.items.find(({ selected }) => selected);
+      return match ? [match] : [];
+    }
+
+    return (
+      this.items
+        .filter(
+          (item) =>
+            item.selected && (this.selectionMode !== "ancestors" || !hasActiveChildren(item))
+        )
+        /** Preserve order of entered tags */
+        .sort((a, b) => {
+          const aIdx = this.selectedItems.indexOf(a);
+          const bIdx = this.selectedItems.indexOf(b);
+          if (aIdx > -1 && bIdx > -1) {
+            return aIdx - bIdx;
+          }
+          return bIdx - aIdx;
+        })
+    );
   }
 
   updateItems = (): void => {
@@ -788,6 +793,9 @@ export class Combobox implements LabelableComponent, FormComponent {
     if (existingItem) {
       this.toggleSelection(existingItem, true);
     } else {
+      if (!this.isMulti()) {
+        this.toggleSelection(this.selectedItems[this.selectedItems.length - 1], false);
+      }
       const item = document.createElement(ComboboxItem) as HTMLCalciteComboboxItemElement;
       item.value = value;
       item.textLabel = value;

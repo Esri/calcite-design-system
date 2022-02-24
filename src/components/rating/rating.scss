@@ -7,7 +7,7 @@
  */
 
 :host {
-  @apply flex items-center relative;
+  @apply relative flex items-center;
   width: fit-content;
 }
 
@@ -35,7 +35,7 @@
 }
 
 .fieldset {
-  @apply p-0 m-0 border-0 flex;
+  @apply m-0 flex border-0 p-0;
 }
 
 .wrapper {
@@ -44,10 +44,10 @@
 }
 
 .star {
-  @apply relative
+  @apply focus-base
+    relative
     flex
-    cursor-pointer
-    focus-base;
+    cursor-pointer;
   color: theme("borderColor.color.input");
   transition: var(--calcite-animation-timing);
   transform: scale(1);
@@ -77,17 +77,17 @@
 }
 
 :host .fraction {
-  @apply absolute
-    overflow-hidden
-    pointer-events-none
-    top-0;
+  @apply pointer-events-none
+    absolute
+    top-0
+    overflow-hidden;
   transition: var(--calcite-animation-timing);
   inset-inline-start: 0;
 }
 
 // rating count
 calcite-chip {
-  @apply cursor-default pointer-events-none;
+  @apply pointer-events-none cursor-default;
 }
 
 .number--average {
