@@ -1367,26 +1367,17 @@ describe("calcite-input", () => {
   describe("external/programmatic changes to the value", () => {
     it("incrementing correctly updates the value after focus and blur events", async () => {
       const page = await newE2EPage();
-      await page.setContent(html`
-        <calcite-input id="myInput" type="number" value="1"></calcite-input>
-        <button id="myButton"></button>
-      `);
+      await page.setContent(html` <calcite-input type="number" value="1"></calcite-input> `);
       const element = await page.find("calcite-input");
-
-      await element.callMethod("setFocus");
-      await page.$eval("calcite-input", (e: HTMLCalciteInputElement) => e.blur());
-
-      await page.evaluate(() => {
-        const button = document.getElementById("myButton");
-        button.onclick = function () {
-          const el = <HTMLInputElement>document.getElementById("myInput");
-          const currentValue = parseInt(el.value);
-          el.value = `${currentValue + 2}`;
-        };
-        button.click();
-      });
-
-      expect(await element.getProperty("value")).toBe("3");
+      await element.click();
+      await page.waitForChanges;
+      await element.callMethod("blur");
+      await page.waitForChanges;
+      element.setProperty("value", "2");
+      await page.waitForChanges();
+      expect(await element.getProperty("value")).toBe("2");
+      const input = await page.find("calcite-input >>> input");
+      expect(await input.getProperty("value")).toBe("2");
     });
   });
 });
