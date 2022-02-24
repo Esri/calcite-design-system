@@ -70,7 +70,8 @@ export class Accordion {
       <div
         class={{
           "accordion--transparent": this.appearance === "transparent",
-          "accordion--minimal": this.appearance === "minimal"
+          "accordion--minimal": this.appearance === "minimal",
+          accordion: this.appearance === "default"
         }}
       >
         <slot />
