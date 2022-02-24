@@ -230,6 +230,30 @@ export class Tree {
     });
   }
 
+  @Listen("keydown")
+  keyDownHandler(event: KeyboardEvent): void {
+    const root = this.el.closest("calcite-tree:not([child])") as HTMLCalciteTreeElement;
+    const target = event.target as HTMLCalciteTreeItemElement;
+
+    if (root === this.el && target.tagName === "CALCITE-TREE-ITEM" && this.el.contains(target)) {
+      switch (event.key) {
+        case "ArrowRight":
+          // When focus is on a closed node, opens the node; focus does not move.
+          if (target.hasChildren && target.expanded === false) {
+            target.expanded = true;
+          }
+
+          // When focus is on a open node, moves focus to the first child node.
+          if (target.hasChildren && target.expanded) {
+            target.querySelector("calcite-tree-item")?.focus();
+          }
+
+          // When focus is on an end node, does nothing.
+          break;
+      }
+    }
+  }
+
   updateAncestorTree(e: CustomEvent<TreeItemSelectDetail>): void {
     const item = e.target as HTMLCalciteTreeItemElement;
     const children = item.querySelectorAll("calcite-tree-item");

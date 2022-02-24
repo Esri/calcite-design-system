@@ -349,4 +349,47 @@ describe("calcite-tree", () => {
       });
     });
   });
+
+  describe("keyboard support", () => {
+    it("should allow ArrowRight keydown events to propagate outside the root tree", async () => {
+      const page = await newE2EPage({
+        html: html`<div id="container">
+          <calcite-tree id="root">
+            <calcite-tree-item id="one">
+              <span>One</span>
+              <calcite-tree slot="children">
+                <calcite-tree-item id="child-one">
+                  <span>Child 1</span>
+                  <calcite-tree slot="children">
+                    <calcite-tree-item id="grandchild-one">
+                      <span>Grandchild 1</span>
+                    </calcite-tree-item>
+                  </calcite-tree>
+                </calcite-tree-item>
+              </calcite-tree>
+            </calcite-tree-item>
+          </calcite-tree>
+        </div>`
+      });
+
+      const container = await page.find("#container");
+      const one = await page.find("#one");
+      const keydownSpy = await container.spyOnEvent("keydown");
+
+      expect(keydownSpy).toHaveReceivedEventTimes(0);
+
+      await one.focus();
+      await page.keyboard.press("ArrowRight");
+
+      expect(keydownSpy).toHaveReceivedEventTimes(1);
+
+      await page.keyboard.press("ArrowRight");
+
+      expect(keydownSpy).toHaveReceivedEventTimes(2);
+
+      await page.keyboard.press("ArrowRight");
+
+      expect(keydownSpy).toHaveReceivedEventTimes(3);
+    });
+  });
 });
