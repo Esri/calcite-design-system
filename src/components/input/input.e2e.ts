@@ -1364,7 +1364,7 @@ describe("calcite-input", () => {
     it("supports type=number", () => formAssociated("<calcite-input type='number'></calcite-input>", { testValue: 5 }));
   });
 
-  describe("external/programmatic changes to the value via JavaScript", () => {
+  describe("external/programmatic changes to the value", () => {
     it("incrementing correctly updates the value after focus and blur events", async () => {
       const page = await newE2EPage();
       await page.setContent(html`
@@ -1374,7 +1374,7 @@ describe("calcite-input", () => {
       const element = await page.find("calcite-input");
 
       await element.callMethod("setFocus");
-      await page.$eval("calcite-input", (e: HTMLInputElement) => e.blur());
+      await page.$eval("calcite-input", (e: HTMLCalciteInputElement) => e.blur());
 
       await page.evaluate(() => {
         const button = document.getElementById("myButton");
