@@ -109,6 +109,8 @@ export class Modal implements ConditionalSlotComponent {
   /** Turn off spacing around the content area slot */
   @Prop() noPadding = false;
 
+  private isShiftPressed: boolean;
+
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -267,14 +269,26 @@ export class Modal implements ConditionalSlotComponent {
     if (this.active && !this.disableEscape && e.key === "Escape") {
       this.close();
     }
+    if (e.key === "Shift") {
+      this.isShiftPressed = false;
+    }
     if (this.active && e.key === "Tab") {
-      console.log("keyed up");
-      console.log("activeElement", document.activeElement);
-      if (this.lastActiveElement === elements[elements.length - 1] && !this.closeButtonEl) {
+      if (
+        this.lastActiveElement === elements[elements.length - 1] &&
+        !this.closeButtonEl &&
+        !this.isShiftPressed
+      ) {
         elements[elements.length - 1].focus();
       } else {
         this.lastActiveElement = document.activeElement;
       }
+    }
+  }
+
+  @Listen("keydown")
+  handleKeyDown(e: KeyboardEvent): void {
+    if (e.key === "Shift") {
+      this.isShiftPressed = true;
     }
   }
 
@@ -364,7 +378,6 @@ export class Modal implements ConditionalSlotComponent {
 
   /** Open the modal */
   private open() {
-    // debugger;
     this.previousActiveElement = document.activeElement as HTMLElement;
     this.el.addEventListener("calciteModalOpen", this.openEnd);
     this.active = true;
@@ -396,7 +409,6 @@ export class Modal implements ConditionalSlotComponent {
   };
 
   focusFirstElement = (): void => {
-    // console.log("focus first element");
     focusElement(this.closeButtonEl);
   };
 
