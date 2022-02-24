@@ -16,6 +16,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - **popover, tooltip, combobox, dropdown, input-date-picker:** Hide popover when the reference element or popover is out of view. ([#4115](https://github.com/Esri/calcite-components/issues/4115)) ([e5ab5ff](https://github.com/Esri/calcite-components/commit/e5ab5ff40b314da28be047d1016e9a61c442abb2))
 - **tab-title, tab:** tab switching will function even when wrapped wi… ([#4114](https://github.com/Esri/calcite-components/issues/4114)) ([ce7759c](https://github.com/Esri/calcite-components/commit/ce7759c2d39cd1c23a704bbe2d48fa712461a85f))
 - **time-picker:** meridiem order matches with input time picker ([#4030](https://github.com/Esri/calcite-components/issues/4030)) ([808c1ef](https://github.com/Esri/calcite-components/commit/808c1eff155d8223171bea11d973bf1cd97d8638))
+- **tree-item:** Pressing right arrow key focuses first child when the tree-item contains an expanded subtree ([#4150](https://github.com/Esri/calcite-components/issues/4150)) ([cddaf20](https://github.com/Esri/calcite-components/commit/cddaf20d785cf7f33d30e5ff4b34e4113631b855))
 <!--@unreleased-section-end-->
 
 ## [1.0.0-beta.77](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.76...v1.0.0-beta.77) (2022-02-15)
