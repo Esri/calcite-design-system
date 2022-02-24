@@ -238,6 +238,8 @@ export class Modal implements ConditionalSlotComponent {
   //--------------------------------------------------------------------------
   @State() hasFooter = true;
 
+  @State() lastActiveElement: any;
+
   closeButtonEl: HTMLButtonElement;
 
   contentId: string;
@@ -263,6 +265,25 @@ export class Modal implements ConditionalSlotComponent {
   handleEscape(e: KeyboardEvent): void {
     if (this.active && !this.disableEscape && e.key === "Escape") {
       this.close();
+    }
+  }
+
+  @Listen("keydown")
+  handleTab(e: KeyboardEvent): void {
+    console.log("lastactivelement", this.lastActiveElement);
+    console.log("activeElement", document.activeElement);
+    const elements = getFocusableElements(this.el);
+    console.log(elements.length, elements);
+    if (this.active && e.key === "Tab") {
+      if (
+        (this.lastActiveElement === elements[elements.length - 2] ||
+          this.lastActiveElement === elements[elements.length - 1]) &&
+        !this.closeButtonEl
+      ) {
+        elements[elements.length - 2].focus();
+      } else {
+        this.lastActiveElement = document.activeElement;
+      }
     }
   }
 
@@ -304,7 +325,8 @@ export class Modal implements ConditionalSlotComponent {
   @Method()
   async setFocus(focusId?: "close-button"): Promise<void> {
     const closeButton = this.closeButtonEl;
-
+    this.lastActiveElement =
+      focusId === "close-button" ? closeButton : getFocusableElements(this.el)[0] || closeButton;
     return focusElement(
       focusId === "close-button" ? closeButton : getFocusableElements(this.el)[0] || closeButton
     );
@@ -352,6 +374,7 @@ export class Modal implements ConditionalSlotComponent {
 
   /** Open the modal */
   private open() {
+    // debugger;
     this.previousActiveElement = document.activeElement as HTMLElement;
     this.el.addEventListener("calciteModalOpen", this.openEnd);
     this.active = true;
@@ -383,6 +406,7 @@ export class Modal implements ConditionalSlotComponent {
   };
 
   focusFirstElement = (): void => {
+    // console.log("focus first element");
     focusElement(this.closeButtonEl);
   };
 
