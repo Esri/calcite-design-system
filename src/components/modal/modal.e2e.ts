@@ -157,6 +157,35 @@ describe("calcite-modal accessibility checks", () => {
     expect(document.activeElement).toEqual($button);
   });
 
+  it("traps focus within the modal when open and disabled close button", async () => {
+    const page = await newE2EPage();
+    await page.setContent(
+      `<calcite-modal disable-close-button>
+        <div slot="content">
+          <button class="btn-1">Focus1</button>
+          <button class="btn-2">Focus1</button>
+        </div>
+      </calcite-modal>`
+    );
+    const modal = await page.find("calcite-modal");
+    let $button1;
+    let $button2;
+    await page.$eval(".btn-1", (elm) => ($button1 = elm));
+    await page.$eval(".btn-2", (elm) => ($button2 = elm));
+
+    await modal.setProperty("active", true);
+    await page.waitForChanges();
+    await page.keyboard.press("Tab");
+    expect(document.activeElement).toEqual($button1);
+    await page.keyboard.press("Tab");
+    expect(document.activeElement).toEqual($button2);
+    await page.keyboard.down("Shift");
+    await page.keyboard.press("Tab");
+    expect(document.activeElement).toEqual($button2);
+    await page.keyboard.press("Tab");
+    expect(document.activeElement).toEqual($button1);
+  });
+
   describe("setFocus", () => {
     const createModalHTML = (contentHTML?: string) => `<calcite-modal active>${contentHTML}</calcite-modal>`;
 
