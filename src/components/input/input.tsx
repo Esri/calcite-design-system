@@ -692,7 +692,7 @@ export class Input implements LabelableComponent, FormComponent {
         ? localizeNumberString(newValue, this.locale, this.groupSeparator)
         : "";
 
-    this.internalValueChange = origin === "internal";
+    this.internalValueChange = origin === "internal" && this.value !== newValue;
     this.setPreviousValue(this.value);
     this.value = newValue;
 
