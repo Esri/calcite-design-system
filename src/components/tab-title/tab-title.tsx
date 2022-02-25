@@ -184,7 +184,7 @@ export class TabTitle implements InteractiveComponent {
 
   @Listen("calciteTabChange", { target: "body" })
   tabChangeHandler(event: CustomEvent<TabChangeEventDetail>): void {
-    if (this.parentTabNavEl === event.target) {
+    if (event.composedPath().includes(this.parentTabNavEl)) {
       if (this.tab) {
         this.active = this.tab === event.detail.tab;
       } else {

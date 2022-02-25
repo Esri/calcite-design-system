@@ -26,7 +26,7 @@ export const Simple = (): string => html`
       ${boolean("allow-custom-values", false)}
       max-items="${number("max-items", 0)}"
     >
-      <calcite-combobox-item value="Trees" text-label="Trees">
+      <calcite-combobox-item value="Trees" text-label="Trees" selected>
         <calcite-combobox-item value="Pine" text-label="Pine"></calcite-combobox-item>
         <calcite-combobox-item value="Sequoia" disabled text-label="Sequoia"></calcite-combobox-item>
         <calcite-combobox-item value="Douglas Fir" text-label="Douglas Fir"></calcite-combobox-item>

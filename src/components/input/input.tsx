@@ -205,7 +205,7 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
       this.setValue({
         origin: "external",
         value:
-          newValue == null
+          newValue == null || newValue == ""
             ? ""
             : this.type === "number"
             ? isValidNumber(newValue)
@@ -697,7 +697,7 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
         ? localizeNumberString(newValue, this.locale, this.groupSeparator)
         : "";
 
-    this.internalValueChange = origin === "internal";
+    this.internalValueChange = origin === "internal" && this.value !== newValue;
     this.setPreviousValue(this.value);
     this.value = newValue;
 
