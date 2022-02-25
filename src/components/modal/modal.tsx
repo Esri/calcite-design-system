@@ -109,7 +109,7 @@ export class Modal implements ConditionalSlotComponent {
   /** Turn off spacing around the content area slot */
   @Prop() noPadding = false;
 
-  private isShiftPressed: boolean;
+  private isShiftKeyPressed: boolean;
 
   //--------------------------------------------------------------------------
   //
@@ -265,20 +265,20 @@ export class Modal implements ConditionalSlotComponent {
   //--------------------------------------------------------------------------
   @Listen("keyup", { target: "window" })
   handleFocus(e: KeyboardEvent): void {
-    const elements = getFocusableElements(this.el);
     if (this.active && !this.disableEscape && e.key === "Escape") {
       this.close();
     }
     if (e.key === "Shift") {
-      this.isShiftPressed = false;
+      this.isShiftKeyPressed = false;
     }
     if (this.active && e.key === "Tab") {
+      const focusableElements = getFocusableElements(this.el);
       if (
-        this.lastActiveElement === elements[elements.length - 1] &&
+        this.lastActiveElement === focusableElements[focusableElements.length - 1] &&
         !this.closeButtonEl &&
-        !this.isShiftPressed
+        !this.isShiftKeyPressed
       ) {
-        elements[elements.length - 1].focus();
+        this.setFocus();
       } else {
         this.lastActiveElement = document.activeElement;
       }
@@ -288,7 +288,7 @@ export class Modal implements ConditionalSlotComponent {
   @Listen("keydown")
   handleKeyDown(e: KeyboardEvent): void {
     if (e.key === "Shift") {
-      this.isShiftPressed = true;
+      this.isShiftKeyPressed = true;
     }
   }
 
