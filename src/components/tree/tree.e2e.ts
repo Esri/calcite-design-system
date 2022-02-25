@@ -390,6 +390,121 @@ describe("calcite-tree", () => {
       await page.keyboard.press("ArrowRight");
 
       expect(keydownSpy).toHaveReceivedEventTimes(3);
+
+      await page.keyboard.press("ArrowLeft");
+
+      expect(keydownSpy).toHaveReceivedEventTimes(4);
+
+      await page.keyboard.press("ArrowLeft");
+
+      expect(keydownSpy).toHaveReceivedEventTimes(5);
+
+      await page.keyboard.press("ArrowLeft");
+
+      expect(keydownSpy).toHaveReceivedEventTimes(6);
+    });
+
+    it("ArrowRight and ArrowLeft keys expand and collapse nested trees", async () => {
+      const parent = "parent";
+      const child = "child";
+      const grandchild = "grandchild";
+
+      const page = await newE2EPage({
+        html: html`<div id="container">
+          <calcite-tree id="root">
+            <calcite-tree-item id=${parent}>
+              <span>Parent</span>
+              <calcite-tree slot="children">
+                <calcite-tree-item id=${child}>
+                  <span>Child</span>
+                  <calcite-tree slot="children">
+                    <calcite-tree-item id=${grandchild}>
+                      <span>Grandchild</span>
+                    </calcite-tree-item>
+                  </calcite-tree>
+                </calcite-tree-item>
+              </calcite-tree>
+            </calcite-tree-item>
+          </calcite-tree>
+        </div>`
+      });
+
+      const parentEl = await page.find(`#${parent}`);
+      const childEl = await page.find(`#${child}`);
+
+      expect(await parentEl.getProperty("expanded")).toBe(false);
+      expect(await childEl.getProperty("expanded")).toBe(false);
+
+      await parentEl.focus();
+      await page.keyboard.press("ArrowRight");
+      await page.waitForChanges();
+
+      expect(await page.evaluate(() => document.activeElement.id)).toEqual(parent);
+      expect(await parentEl.getProperty("expanded")).toBe(true);
+      expect(await childEl.getProperty("expanded")).toBe(false);
+
+      await page.keyboard.press("ArrowRight");
+      await page.waitForChanges();
+
+      expect(await page.evaluate(() => document.activeElement.id)).toEqual(child);
+      expect(await parentEl.getProperty("expanded")).toBe(true);
+      expect(await childEl.getProperty("expanded")).toBe(false);
+
+      await page.keyboard.press("ArrowRight");
+      await page.waitForChanges();
+
+      expect(await page.evaluate(() => document.activeElement.id)).toEqual(child);
+      expect(await parentEl.getProperty("expanded")).toBe(true);
+      expect(await childEl.getProperty("expanded")).toBe(true);
+
+      await page.keyboard.press("ArrowRight");
+      await page.waitForChanges();
+
+      expect(await page.evaluate(() => document.activeElement.id)).toEqual(grandchild);
+      expect(await parentEl.getProperty("expanded")).toBe(true);
+      expect(await childEl.getProperty("expanded")).toBe(true);
+
+      await page.keyboard.press("ArrowRight");
+      await page.waitForChanges();
+
+      expect(await page.evaluate(() => document.activeElement.id)).toEqual(grandchild);
+      expect(await parentEl.getProperty("expanded")).toBe(true);
+      expect(await childEl.getProperty("expanded")).toBe(true);
+
+      await page.keyboard.press("ArrowRight");
+      await page.waitForChanges();
+
+      expect(await page.evaluate(() => document.activeElement.id)).toEqual(grandchild);
+      expect(await parentEl.getProperty("expanded")).toBe(true);
+      expect(await childEl.getProperty("expanded")).toBe(true);
+
+      await page.keyboard.press("ArrowLeft");
+      await page.waitForChanges();
+
+      expect(await page.evaluate(() => document.activeElement.id)).toEqual(child);
+      expect(await parentEl.getProperty("expanded")).toBe(true);
+      expect(await childEl.getProperty("expanded")).toBe(true);
+
+      await page.keyboard.press("ArrowLeft");
+      await page.waitForChanges();
+
+      expect(await page.evaluate(() => document.activeElement.id)).toEqual(child);
+      expect(await parentEl.getProperty("expanded")).toBe(true);
+      expect(await childEl.getProperty("expanded")).toBe(false);
+
+      await page.keyboard.press("ArrowLeft");
+      await page.waitForChanges();
+
+      expect(await page.evaluate(() => document.activeElement.id)).toEqual(parent);
+      expect(await parentEl.getProperty("expanded")).toBe(true);
+      expect(await childEl.getProperty("expanded")).toBe(false);
+
+      await page.keyboard.press("ArrowLeft");
+      await page.waitForChanges();
+
+      expect(await page.evaluate(() => document.activeElement.id)).toEqual(parent);
+      expect(await parentEl.getProperty("expanded")).toBe(false);
+      expect(await childEl.getProperty("expanded")).toBe(false);
     });
   });
 });

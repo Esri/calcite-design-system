@@ -255,16 +255,16 @@ export class Tree {
           // When focus is on a root node that is also either an end node or a closed node, does nothing.
           break;
         case "ArrowRight":
-          // When focus is on a closed node, opens the node; focus does not move.
-          if (target.hasChildren && target.expanded === false) {
+          if (!target.hasChildren) {
+            break;
+          }
+          if (target.expanded && document.activeElement === target) {
+            // When focus is on an open node, moves focus to the first child node.
+            target.querySelector("calcite-tree-item")?.focus();
+          } else {
+            // When focus is on a closed node, opens the node; focus does not move.
             target.expanded = true;
           }
-
-          // When focus is on a open node, moves focus to the first child node.
-          if (target.hasChildren && target.expanded) {
-            target.querySelector("calcite-tree-item")?.focus();
-          }
-
           // When focus is on an end node, does nothing.
           break;
       }
