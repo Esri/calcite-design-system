@@ -347,11 +347,33 @@ export async function labelable(componentTagOrHtml: TagOrHTML, options?: Labelab
     shadowFocusTargetSelector
   });
 
+  const labelFirstSiblingPage: E2EPage = await newE2EPage();
+  await labelFirstSiblingPage.setContent(`<calcite-label for="${id}"></calcite-label>`);
+  await labelFirstSiblingPage.waitForChanges();
+  await labelFirstSiblingPage.evaluate((componentHtml: string) => {
+    function htmlToElement(html) {
+      const template = document.createElement("template");
+      html = html.trim();
+      template.innerHTML = html;
+      return template.content.firstChild;
+    }
+    const componentNode = htmlToElement(`${componentHtml}`);
+    document.body.append(componentNode);
+  }, componentHtml);
+  await labelFirstSiblingPage.waitForChanges();
+
+  await assertLabelable({
+    page: labelFirstSiblingPage,
+    componentTag,
+    propertyToToggle,
+    focusTargetSelector,
+    shadowFocusTargetSelector
+  });
+
   const componentFirstSiblingPage: E2EPage = await newE2EPage({ html: componentHtml });
   await componentFirstSiblingPage.waitForChanges();
   await componentFirstSiblingPage.evaluate((id: string) => {
     const label = document.createElement("calcite-label");
-    // setting the prop doesn't reflect the attribute; see issue #...
     label.setAttribute("for", `${id}`);
     document.body.append(label);
   }, id);
