@@ -311,29 +311,6 @@ export class TreeItem implements ConditionalSlotComponent {
         e.preventDefault();
         e.stopPropagation();
         break;
-      case "ArrowLeft":
-        // When focus is on an open node, closes the node.
-        if (this.hasChildren && this.expanded) {
-          this.expanded = false;
-
-          e.preventDefault();
-          e.stopPropagation();
-          break;
-        }
-
-        // When focus is on a child node that is also either an end node or a closed node, moves focus to its parent node.
-        const parentItem = this.parentTreeItem;
-
-        if (parentItem && (!this.hasChildren || this.expanded === false)) {
-          parentItem.focus();
-
-          e.preventDefault();
-          e.stopPropagation();
-          break;
-        }
-
-        // When focus is on a root node that is also either an end node or a closed node, does nothing.
-        break;
       case "ArrowUp":
         const previous = this.el.previousElementSibling as HTMLCalciteTreeItemElement;
         if (previous && previous.matches("calcite-tree-item")) {

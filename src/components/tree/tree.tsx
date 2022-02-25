@@ -237,6 +237,23 @@ export class Tree {
 
     if (root === this.el && target.tagName === "CALCITE-TREE-ITEM" && this.el.contains(target)) {
       switch (event.key) {
+        case "ArrowLeft":
+          // When focus is on an open node, closes the node.
+          if (target.hasChildren && target.expanded) {
+            target.expanded = false;
+            break;
+          }
+
+          // When focus is on a child node that is also either an end node or a closed node, moves focus to its parent node.
+          const parentItem = target.parentElement.closest("calcite-tree-item");
+
+          if (parentItem && (!target.hasChildren || target.expanded === false)) {
+            parentItem.focus();
+            break;
+          }
+
+          // When focus is on a root node that is also either an end node or a closed node, does nothing.
+          break;
         case "ArrowRight":
           // When focus is on a closed node, opens the node; focus does not move.
           if (target.hasChildren && target.expanded === false) {
