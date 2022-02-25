@@ -9,6 +9,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### Bug Fixes
 
+- **accordion:** transparent appearance no longer has border ([#4122](https://github.com/Esri/calcite-components/issues/4122)) ([0b4bccb](https://github.com/Esri/calcite-components/commit/0b4bccbe212cbab05b8cc6de91c885e6f75888b6))
 - **action-bar, action-pad:** Remove warning when when expanding with expand tooltip [#3978](https://github.com/Esri/calcite-components/issues/3978) ([#4067](https://github.com/Esri/calcite-components/issues/4067)) ([f3a5632](https://github.com/Esri/calcite-components/commit/f3a5632afecfcecf01a78d2c5b4a1c57d028b6ed))
 - **date-picker:** set correct first day of week for all locales ([#4118](https://github.com/Esri/calcite-components/issues/4118)) ([efe509d](https://github.com/Esri/calcite-components/commit/efe509dc2b31d707971e5e8baef8c83818a75cb2)), closes [#4075](https://github.com/Esri/calcite-components/issues/4075)
 - **input:** Allow "" to clear a number input ([#4119](https://github.com/Esri/calcite-components/issues/4119)) ([1c052f0](https://github.com/Esri/calcite-components/commit/1c052f0c1a93db11d70e89e965a2a23626ae297d))
