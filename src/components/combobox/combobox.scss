@@ -41,7 +41,7 @@
     focus-base
     flex;
   box-shadow: inset 0 0 0 1px var(--calcite-ui-border-input);
-  padding: 0 var(--calcite-combobox-item-spacing-unit-l) 0 var(--calcite-combobox-item-spacing-unit-l);
+  padding: calc(var(--calcite-combobox-item-spacing-unit-s) / 4) var(--calcite-combobox-item-spacing-unit-l);
 }
 
 :host(:focus-within) .wrapper,
@@ -173,17 +173,13 @@
 }
 
 .chip {
-  margin-block: calc(var(--calcite-combobox-item-spacing-unit-s) / 2) 0;
+  margin-block: calc(var(--calcite-combobox-item-spacing-unit-s) / 4);
   margin-inline: 0 var(--calcite-combobox-item-spacing-unit-s);
   max-width: 100%;
 }
 
 .chip--active {
   @apply bg-foreground-3;
-}
-
-.chip:last-of-type {
-  margin-inline-end: 0;
 }
 
 .item {
