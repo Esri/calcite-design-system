@@ -109,8 +109,6 @@ export class Modal implements ConditionalSlotComponent {
   /** Turn off spacing around the content area slot */
   @Prop() noPadding = false;
 
-  private isShiftKeyPressed: boolean;
-
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -240,7 +238,7 @@ export class Modal implements ConditionalSlotComponent {
   //--------------------------------------------------------------------------
   @State() hasFooter = true;
 
-  @State() lastActiveElement: any;
+  @State() lastActiveElement: Element;
 
   closeButtonEl: HTMLButtonElement;
 
@@ -257,6 +255,8 @@ export class Modal implements ConditionalSlotComponent {
   titleId: string;
 
   private activeTransitionProp = "opacity";
+
+  private isShiftKeyPressed: boolean;
 
   //--------------------------------------------------------------------------
   //
