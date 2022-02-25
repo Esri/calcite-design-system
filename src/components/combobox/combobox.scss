@@ -75,7 +75,6 @@
   height: var(--calcite-combobox-input-height);
   line-height: var(--calcite-combobox-input-height);
   min-width: 120px;
-  margin-left: var(--calcite-combobox-item-spacing-unit-s);
   margin-bottom: var(--calcite-combobox-item-spacing-unit-s);
   &:focus {
     @apply outline-none;
@@ -181,10 +180,6 @@
 
 .chip--active {
   @apply bg-foreground-3;
-}
-
-.chip:last-of-type {
-  margin-inline-end: 0;
 }
 
 .item {
