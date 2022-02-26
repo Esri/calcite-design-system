@@ -237,6 +237,12 @@ export class Tree {
 
     if (root === this.el && target.tagName === "CALCITE-TREE-ITEM" && this.el.contains(target)) {
       switch (event.key) {
+        case "ArrowDown":
+          const next = target.nextElementSibling as HTMLCalciteTreeItemElement;
+          if (next && next.matches("calcite-tree-item")) {
+            next.focus();
+          }
+          break;
         case "ArrowLeft":
           // When focus is on an open node, closes the node.
           if (target.hasChildren && target.expanded) {
@@ -266,6 +272,12 @@ export class Tree {
             target.expanded = true;
           }
           // When focus is on an end node, does nothing.
+          break;
+        case "ArrowUp":
+          const previous = target.previousElementSibling as HTMLCalciteTreeItemElement;
+          if (previous && previous.matches("calcite-tree-item")) {
+            previous.focus();
+          }
           break;
       }
     }

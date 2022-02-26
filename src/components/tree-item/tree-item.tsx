@@ -311,18 +311,6 @@ export class TreeItem implements ConditionalSlotComponent {
         e.preventDefault();
         e.stopPropagation();
         break;
-      case "ArrowUp":
-        const previous = this.el.previousElementSibling as HTMLCalciteTreeItemElement;
-        if (previous && previous.matches("calcite-tree-item")) {
-          previous.focus();
-        }
-        break;
-      case "ArrowDown":
-        const next = this.el.nextElementSibling as HTMLCalciteTreeItemElement;
-        if (next && next.matches("calcite-tree-item")) {
-          next.focus();
-        }
-        break;
       case "Home":
         root = this.el.closest("calcite-tree:not([child])") as HTMLCalciteTreeElement;
 

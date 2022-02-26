@@ -351,7 +351,7 @@ describe("calcite-tree", () => {
   });
 
   describe("keyboard support", () => {
-    it("should allow ArrowRight keydown events to propagate outside the root tree", async () => {
+    it("should allow ArrowRight and ArrowLeft keydown events to propagate outside the root tree", async () => {
       const page = await newE2EPage({
         html: html`<div id="container">
           <calcite-tree id="root">
@@ -505,6 +505,128 @@ describe("calcite-tree", () => {
       expect(await page.evaluate(() => document.activeElement.id)).toEqual(parent);
       expect(await parentEl.getProperty("expanded")).toBe(false);
       expect(await childEl.getProperty("expanded")).toBe(false);
+    });
+
+    it("ArrowUp and ArrowDown keys move focus between adjacent tree items at all 3 levels of depth and allow keydown events to propagate outside the tree root", async () => {
+      const page = await newE2EPage({
+        html: html`<div id="container">
+          <calcite-tree id="root">
+            <calcite-tree-item id="root-item-1">
+              <span>Root Item 1</span>
+            </calcite-tree-item>
+            <calcite-tree-item id="parent" expanded>
+              <span>Parent</span>
+              <calcite-tree slot="children">
+                <calcite-tree-item id="child">
+                  <span>Child</span>
+                </calcite-tree-item>
+                <calcite-tree-item id="child2" expanded>
+                  <span>Child 2</span>
+                  <calcite-tree slot="children">
+                    <calcite-tree-item id="grandchild">
+                      <span>Grandchild</span>
+                    </calcite-tree-item>
+                    <calcite-tree-item id="grandchild2">
+                      <span>Grandchild 2</span>
+                    </calcite-tree-item>
+                  </calcite-tree>
+                </calcite-tree-item>
+                <calcite-tree-item id="child3">
+                  <span>Child 3</span>
+                </calcite-tree-item>
+              </calcite-tree>
+            </calcite-tree-item>
+            <calcite-tree-item id="root-item-3">
+              <span>Root Item 3</span>
+            </calcite-tree-item>
+          </calcite-tree>
+        </div>`
+      });
+
+      const container = await page.find("#container");
+      const root = await page.find("#root");
+      const keydownSpy = await container.spyOnEvent("keydown");
+
+      expect(keydownSpy).toHaveReceivedEventTimes(0);
+
+      await root.focus();
+      await page.waitForChanges();
+
+      expect(await page.evaluate(() => document.activeElement.id)).toEqual("root-item-1");
+
+      await page.keyboard.press("ArrowDown");
+      await page.waitForChanges();
+
+      expect(await page.evaluate(() => document.activeElement.id)).toEqual("parent");
+      expect(keydownSpy).toHaveReceivedEventTimes(1);
+
+      await page.keyboard.press("ArrowRight");
+      await page.waitForChanges();
+
+      expect(await page.evaluate(() => document.activeElement.id)).toEqual("child");
+      expect(keydownSpy).toHaveReceivedEventTimes(2);
+
+      await page.keyboard.press("ArrowDown");
+      await page.waitForChanges();
+
+      expect(await page.evaluate(() => document.activeElement.id)).toEqual("child2");
+      expect(keydownSpy).toHaveReceivedEventTimes(3);
+
+      await page.keyboard.press("ArrowRight");
+      await page.waitForChanges();
+
+      expect(await page.evaluate(() => document.activeElement.id)).toEqual("grandchild");
+      expect(keydownSpy).toHaveReceivedEventTimes(4);
+
+      await page.keyboard.press("ArrowDown");
+      await page.waitForChanges();
+
+      expect(await page.evaluate(() => document.activeElement.id)).toEqual("grandchild2");
+      expect(keydownSpy).toHaveReceivedEventTimes(5);
+
+      await page.keyboard.press("ArrowUp");
+      await page.waitForChanges();
+
+      expect(await page.evaluate(() => document.activeElement.id)).toEqual("grandchild");
+      expect(keydownSpy).toHaveReceivedEventTimes(6);
+
+      await page.keyboard.press("ArrowLeft");
+      await page.keyboard.press("ArrowDown");
+      await page.waitForChanges();
+
+      expect(await page.evaluate(() => document.activeElement.id)).toEqual("child3");
+      expect(keydownSpy).toHaveReceivedEventTimes(8);
+
+      await page.keyboard.press("ArrowUp");
+      await page.waitForChanges();
+
+      expect(await page.evaluate(() => document.activeElement.id)).toEqual("child2");
+      expect(keydownSpy).toHaveReceivedEventTimes(9);
+
+      await page.keyboard.press("ArrowUp");
+      await page.waitForChanges();
+
+      expect(await page.evaluate(() => document.activeElement.id)).toEqual("child");
+      expect(keydownSpy).toHaveReceivedEventTimes(10);
+
+      await page.keyboard.press("ArrowLeft");
+      await page.keyboard.press("ArrowDown");
+      await page.waitForChanges();
+
+      expect(await page.evaluate(() => document.activeElement.id)).toEqual("root-item-3");
+      expect(keydownSpy).toHaveReceivedEventTimes(12);
+
+      await page.keyboard.press("ArrowUp");
+      await page.waitForChanges();
+
+      expect(await page.evaluate(() => document.activeElement.id)).toEqual("parent");
+      expect(keydownSpy).toHaveReceivedEventTimes(13);
+
+      await page.keyboard.press("ArrowUp");
+      await page.waitForChanges();
+
+      expect(await page.evaluate(() => document.activeElement.id)).toEqual("root-item-1");
+      expect(keydownSpy).toHaveReceivedEventTimes(14);
     });
   });
 });
