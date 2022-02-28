@@ -221,7 +221,6 @@ export class Slider implements LabelableComponent, FormComponent {
         aria-valuemax={this.max}
         aria-valuemin={this.min}
         aria-valuenow={value}
-        // disabled={this.disabled}
         class={{
           thumb: true,
           "thumb--value": true,
