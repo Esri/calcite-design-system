@@ -97,3 +97,5 @@
 .actions--start ~ .label {
   padding-inline-start: theme("padding.1");
 }
+
+@include disabled();

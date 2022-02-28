@@ -29,10 +29,10 @@ import {
   removeItem,
   selectSiblings,
   setFocus,
-  setUpItems
+  setUpItems,
+  moveItemIndex
 } from "../pick-list/shared-list-logic";
 import List from "../pick-list/shared-list-render";
-import { getRoundRobinIndex } from "../../utils/array";
 import { createObserver } from "../../utils/observers";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 
@@ -272,9 +272,7 @@ export class ValueList<
     event.preventDefault();
 
     const { el } = this;
-    const moveOffset = event.key === "ArrowDown" ? 1 : -1;
-    const currentIndex = items.indexOf(item);
-    const nextIndex = getRoundRobinIndex(currentIndex + moveOffset, items.length);
+    const nextIndex = moveItemIndex(this, item, event.key === "ArrowUp" ? "up" : "down");
 
     if (nextIndex === items.length - 1) {
       el.appendChild(item);

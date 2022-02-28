@@ -23,8 +23,10 @@ export function keyboardNavigation(listType: ListType): void {
       const page = await newE2EPage({
         html: `
         <calcite-${listType}-list multiple>
+          <calcite-${listType}-list-item disabled value="zero" label="Zero (disabled)"></calcite-${listType}-list-item>
           <calcite-${listType}-list-item value="one" label="One"></calcite-${listType}-list-item>
           <calcite-${listType}-list-item value="two" label="Two"></calcite-${listType}-list-item>
+          <calcite-${listType}-list-item disabled value="three" label="Three (disabled)"></calcite-${listType}-list-item>
         </calcite-${listType}-list>
       `
       });
