@@ -269,12 +269,6 @@ export class TreeItem implements ConditionalSlotComponent {
   iconClickHandler = (event: MouseEvent): void => {
     event.stopPropagation();
     this.expanded = !this.expanded;
-    if (this.selectionMode !== TreeSelectionMode.Ancestors) {
-      this.calciteTreeItemSelect.emit({
-        modifyCurrentSelection: this.isSelectionMultiLike,
-        forceToggle: true
-      });
-    }
   };
 
   childrenClickHandler = (event: MouseEvent): void => event.stopPropagation();
