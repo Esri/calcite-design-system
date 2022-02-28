@@ -347,4 +347,43 @@ describe("calcite-tree-item", () => {
 
     expect(await page.evaluate(() => document.activeElement.id)).toBe("xlr");
   });
+
+  describe("emitting calciteTreeSelect event", () => {
+    let page;
+
+    beforeEach(async function () {
+      page = await newE2EPage();
+      await page.setContent(html`
+        <calcite-tree selection-mode="multi-children">
+          <calcite-tree-item id="cables">
+            Cables
+            <calcite-tree slot="children">
+              <calcite-tree-item id="xlr">XLR Cable</calcite-tree-item>
+              <calcite-tree-item id="instrument">Instrument Cable</calcite-tree-item>
+            </calcite-tree>
+          </calcite-tree-item>
+        </calcite-tree>
+      `);
+    });
+    it("emits calciteTreeSelect on item select", async () => {
+      const treeItem = await page.find(`#cables >>> .node-container`);
+      console.log(treeItem);
+      treeItem.click();
+
+      const changeSpy = await treeItem.spyOnEvent("calciteTreeSelect");
+      await page.waitForChanges();
+
+      expect(changeSpy).toHaveReceivedEventTimes(1);
+    });
+
+    it("does not emit calciteTreeSelect on toggling the caret icon", async () => {
+      const treeItemIcon = await page.find(`#cables >>> [data-test-id="icon"]`);
+      treeItemIcon.click();
+
+      const changeSpy = await treeItemIcon.spyOnEvent("calciteTreeSelect");
+      await page.waitForChanges();
+
+      expect(changeSpy).toHaveReceivedEventTimes(0);
+    });
+  });
 });
