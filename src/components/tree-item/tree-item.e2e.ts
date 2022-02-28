@@ -1,7 +1,7 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { accessible, renders, defaults, slots } from "../../tests/commonTests";
 import { html } from "../../tests/utils";
-import { SLOTS, CSS } from "./resources";
+import { SLOTS } from "./resources";
 
 describe("calcite-tree-item", () => {
   it("renders", async () => renders("calcite-tree-item", { visible: false, display: "block" }));
