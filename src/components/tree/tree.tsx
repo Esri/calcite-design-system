@@ -241,12 +241,14 @@ export class Tree {
           const next = target.nextElementSibling as HTMLCalciteTreeItemElement;
           if (next && next.matches("calcite-tree-item")) {
             next.focus();
+            event.preventDefault();
           }
           break;
         case "ArrowLeft":
           // When focus is on an open node, closes the node.
           if (target.hasChildren && target.expanded) {
             target.expanded = false;
+            event.preventDefault();
             break;
           }
 
@@ -255,6 +257,7 @@ export class Tree {
 
           if (parentItem && (!target.hasChildren || target.expanded === false)) {
             parentItem.focus();
+            event.preventDefault();
             break;
           }
 
@@ -267,9 +270,11 @@ export class Tree {
           if (target.expanded && document.activeElement === target) {
             // When focus is on an open node, moves focus to the first child node.
             target.querySelector("calcite-tree-item")?.focus();
+            event.preventDefault();
           } else {
             // When focus is on a closed node, opens the node; focus does not move.
             target.expanded = true;
+            event.preventDefault();
           }
           // When focus is on an end node, does nothing.
           break;
@@ -277,6 +282,7 @@ export class Tree {
           const previous = target.previousElementSibling as HTMLCalciteTreeItemElement;
           if (previous && previous.matches("calcite-tree-item")) {
             previous.focus();
+            event.preventDefault();
           }
           break;
       }
