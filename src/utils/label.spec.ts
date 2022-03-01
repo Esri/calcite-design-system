@@ -1,4 +1,4 @@
-import { connectLabel, disconnectLabel, getLabelText, LabelableComponent, labelClickEvent } from "./label";
+import { connectLabel, disconnectLabel, getLabelText, LabelableComponent, calciteInternalLabelClick } from "./label";
 
 describe("label", () => {
   function createFakeLabelable(overrides: Partial<LabelableComponent>): LabelableComponent {
@@ -39,7 +39,7 @@ describe("label", () => {
        */
       function wireUpFakeLabel(label: HTMLElement): void {
         label.addEventListener("click", (event: MouseEvent) => {
-          label.dispatchEvent(new CustomEvent(labelClickEvent, { detail: { sourceEvent: event } }));
+          label.dispatchEvent(new CustomEvent(calciteInternalLabelClick, { detail: { sourceEvent: event } }));
         });
       }
 

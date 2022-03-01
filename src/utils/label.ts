@@ -31,9 +31,9 @@ export interface LabelableComponent {
  * Exported for testing purposes only
  * @internal
  */
-export const labelClickEvent = "labelClickEvent";
-export const labelConnectedEvent = "labelConnectedEvent";
-export const labelDisconnectedEvent = "labelDisconnectedEvent";
+export const calciteInternalLabelClick = "calciteInternalLabelClick";
+export const calciteInternalLabelConnected = "calciteInternalLabelConnected";
+export const calciteInternaLabelDisconnected = "calciteInternaLabelDisconnected";
 
 const labelTagName = "calcite-label";
 const onLabelClickMap = new WeakMap<HTMLCalciteLabelElement, typeof onLabelClick>();
@@ -102,20 +102,17 @@ export function connectLabel(component: LabelableComponent): void {
       component.labelEl = labelEl;
       const boundOnLabelClick = onLabelClick.bind(component);
       onLabelClickMap.set(component.labelEl, boundOnLabelClick);
-      component.labelEl.addEventListener(labelClickEvent, boundOnLabelClick);
+      component.labelEl.addEventListener(calciteInternalLabelClick, boundOnLabelClick);
     };
     addClickEventListenerToComponentLabel();
     unlabeledComponents.delete(component);
-    document.removeEventListener(labelConnectedEvent, boundOnLabelConnected);
-    document.addEventListener(labelDisconnectedEvent, boundOnLabelDisconnected);
-  } else {
-    if (!unlabeledComponents.has(component)) {
-      boundOnLabelDisconnected();
-      document.removeEventListener(labelDisconnectedEvent, boundOnLabelDisconnected);
-    }
+    document.removeEventListener(calciteInternalLabelConnected, boundOnLabelConnected);
+    document.addEventListener(calciteInternaLabelDisconnected, boundOnLabelDisconnected);
+  } else if (!labelEl && !unlabeledComponents.has(component)) {
+    boundOnLabelDisconnected();
+    document.removeEventListener(calciteInternaLabelDisconnected, boundOnLabelDisconnected);
   }
 }
-
 /**
  * Helper to tear down label interactions on disconnectedCallback on labelable components.
  */
@@ -123,15 +120,15 @@ export function disconnectLabel(component: LabelableComponent): void {
   const boundOnLabelConnected = onLabelConnected.bind(component);
   const boundOnLabelDisconnected = onLabelDisconnected.bind(component);
   unlabeledComponents.delete(component);
-  document.removeEventListener(labelConnectedEvent, boundOnLabelConnected);
-  document.removeEventListener(labelDisconnectedEvent, boundOnLabelDisconnected);
+  document.removeEventListener(calciteInternalLabelConnected, boundOnLabelConnected);
+  document.removeEventListener(calciteInternaLabelDisconnected, boundOnLabelDisconnected);
 
   if (!component.labelEl) {
     return;
   }
 
   const boundOnLabelClick = onLabelClickMap.get(component.labelEl);
-  component.labelEl.removeEventListener(labelClickEvent, boundOnLabelClick);
+  component.labelEl.removeEventListener(calciteInternalLabelClick, boundOnLabelClick);
   onLabelClickMap.delete(component.labelEl);
 }
 
@@ -165,5 +162,5 @@ function onLabelConnected(this: LabelableComponent): void {
 function onLabelDisconnected(this: LabelableComponent): void {
   unlabeledComponents.add(this);
   const boundOnLabelConnected = onLabelConnected.bind(this);
-  document.addEventListener(labelConnectedEvent, boundOnLabelConnected);
+  document.addEventListener(calciteInternalLabelConnected, boundOnLabelConnected);
 }
