@@ -258,6 +258,7 @@ export function deselectSiblingItems<T extends Lists>(this: List<T>, item: ListI
   this.items.forEach((currentItem) => {
     if (currentItem.value !== item.value) {
       currentItem.toggleSelected(false);
+      toggleSingleSelectItemTabbing(currentItem, false);
       if (this.selectedValues.has(currentItem.value)) {
         this.selectedValues.delete(currentItem.value);
       }
