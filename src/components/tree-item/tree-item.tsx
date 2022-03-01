@@ -288,9 +288,7 @@ export class TreeItem implements ConditionalSlotComponent {
           modifyCurrentSelection: this.isSelectionMultiLike,
           forceToggle: false
         });
-
         e.preventDefault();
-        e.stopPropagation();
         break;
       case "Enter":
         // activates a node, i.e., performs its default action. For parent nodes, one possible default action is to open or close the node. In single-select trees where selection does not follow focus (see note below), the default action is typically to select the focused node.
