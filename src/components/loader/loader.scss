@@ -38,7 +38,7 @@ $loader-circumference: ($loader-scale - (2 * $stroke-width)) * 3.14159;
 :host([scale="l"]) {
   --calcite-loader-font-size: theme("fontSize.2");
   --calcite-loader-size: theme("spacing.24");
-  --calcite-loader-size-inline: theme("spacing.5");
+  --calcite-loader-size-inline: theme("spacing.6");
 }
 
 :host([no-padding]) {

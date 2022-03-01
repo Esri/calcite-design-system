@@ -170,7 +170,7 @@ export class Action {
     const { loading, icon, scale, el, intlLoading } = this;
     const iconScale = scale === "l" ? "m" : "s";
     const calciteLoaderNode = loading ? (
-      <calcite-loader active inline label={intlLoading} scale={iconScale} />
+      <calcite-loader active inline label={intlLoading} scale={"l" ? "l" : "m"} />
     ) : null;
     const calciteIconNode = icon ? <calcite-icon icon={icon} scale={iconScale} /> : null;
     const iconNode = calciteLoaderNode || calciteIconNode;
