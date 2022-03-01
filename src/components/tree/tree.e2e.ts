@@ -351,6 +351,39 @@ describe("calcite-tree", () => {
   });
 
   describe("keyboard support", () => {
+    it("should allow spacebar keydown events to propagate outside the root tree", async () => {
+      const page = await newE2EPage({
+        html: html`<div id="container">
+          <calcite-tree id="root">
+            <calcite-tree-item id="one" expanded>
+              <span>One</span>
+              <calcite-tree slot="children">
+                <calcite-tree-item id="child-one" expanded>
+                  <span>Child 1</span>
+                  <calcite-tree slot="children">
+                    <calcite-tree-item id="grandchild-one">
+                      <span>Grandchild 1</span>
+                    </calcite-tree-item>
+                  </calcite-tree>
+                </calcite-tree-item>
+              </calcite-tree>
+            </calcite-tree-item>
+          </calcite-tree>
+        </div>`
+      });
+
+      const container = await page.find("#container");
+      const grandchild = await page.find("#grandchild-one");
+      const keydownSpy = await container.spyOnEvent("keydown");
+
+      expect(keydownSpy).toHaveReceivedEventTimes(0);
+
+      await grandchild.focus();
+      await page.keyboard.press("Space");
+
+      expect(keydownSpy).toHaveReceivedEventTimes(1);
+    });
+
     it("should allow ArrowRight and ArrowLeft keydown events to propagate outside the root tree", async () => {
       const page = await newE2EPage({
         html: html`<div id="container">
