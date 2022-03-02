@@ -282,9 +282,7 @@ export class TreeItem implements ConditionalSlotComponent {
           modifyCurrentSelection: this.isSelectionMultiLike,
           forceToggle: false
         });
-
         e.preventDefault();
-        e.stopPropagation();
         break;
       case "Enter":
         // activates a node, i.e., performs its default action. For parent nodes, one possible default action is to open or close the node. In single-select trees where selection does not follow focus (see note below), the default action is typically to select the focused node.
@@ -303,60 +301,6 @@ export class TreeItem implements ConditionalSlotComponent {
         }
 
         e.preventDefault();
-        e.stopPropagation();
-        break;
-      case "ArrowLeft":
-        // When focus is on an open node, closes the node.
-        if (this.hasChildren && this.expanded) {
-          this.expanded = false;
-
-          e.preventDefault();
-          e.stopPropagation();
-          break;
-        }
-
-        // When focus is on a child node that is also either an end node or a closed node, moves focus to its parent node.
-        const parentItem = this.parentTreeItem;
-
-        if (parentItem && (!this.hasChildren || this.expanded === false)) {
-          parentItem.focus();
-
-          e.preventDefault();
-          e.stopPropagation();
-          break;
-        }
-
-        // When focus is on a root node that is also either an end node or a closed node, does nothing.
-        break;
-      case "ArrowRight":
-        // When focus is on a closed node, opens the node; focus does not move.
-        if (this.hasChildren && this.expanded === false) {
-          this.expanded = true;
-          e.preventDefault();
-          e.stopPropagation();
-          break;
-        }
-
-        // When focus is on a open node, moves focus to the first child node.
-        if (this.hasChildren && this.expanded) {
-          this.el.querySelector("calcite-tree-item")?.focus();
-          e.stopPropagation();
-          break;
-        }
-
-        // When focus is on an end node, does nothing.
-        break;
-      case "ArrowUp":
-        const previous = this.el.previousElementSibling as HTMLCalciteTreeItemElement;
-        if (previous && previous.matches("calcite-tree-item")) {
-          previous.focus();
-        }
-        break;
-      case "ArrowDown":
-        const next = this.el.nextElementSibling as HTMLCalciteTreeItemElement;
-        if (next && next.matches("calcite-tree-item")) {
-          next.focus();
-        }
         break;
       case "Home":
         root = this.el.closest("calcite-tree:not([child])") as HTMLCalciteTreeElement;
