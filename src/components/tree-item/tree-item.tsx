@@ -307,7 +307,6 @@ export class TreeItem implements ConditionalSlotComponent {
         }
 
         e.preventDefault();
-        e.stopPropagation();
         break;
       case "Home":
         root = this.el.closest("calcite-tree:not([child])") as HTMLCalciteTreeElement;
