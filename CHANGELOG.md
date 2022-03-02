@@ -9,16 +9,25 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### Bug Fixes
 
+- **tree, tree-item:** calciteTreeSelect only emits when item is selected and not on toggle parent icon ([#4170](https://github.com/Esri/calcite-components/issues/4170)) ([12ec17f](https://github.com/Esri/calcite-components/commit/12ec17fac9ab9f61abbc51d1ebf9d93c1b72eb03))
+<!--@unreleased-section-end-->
+
+## [1.0.0-beta.78](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.77...v1.0.0-beta.78) (2022-03-02)
+
+### Bug Fixes
+
 - **accordion:** transparent appearance no longer has border ([#4122](https://github.com/Esri/calcite-components/issues/4122)) ([0b4bccb](https://github.com/Esri/calcite-components/commit/0b4bccbe212cbab05b8cc6de91c885e6f75888b6))
 - **action-bar, action-pad:** Remove warning when when expanding with expand tooltip [#3978](https://github.com/Esri/calcite-components/issues/3978) ([#4067](https://github.com/Esri/calcite-components/issues/4067)) ([f3a5632](https://github.com/Esri/calcite-components/commit/f3a5632afecfcecf01a78d2c5b4a1c57d028b6ed))
+- **action, loader:** adjust the loadable icon size to match regular icon size ([#4175](https://github.com/Esri/calcite-components/issues/4175)) ([86bf1a0](https://github.com/Esri/calcite-components/commit/86bf1a08522ac8f8213d6f80e7f3dc492d593c63))
+- **combobox:** balance the margin to be equal on vertical chip sides ([#4068](https://github.com/Esri/calcite-components/issues/4068)) ([5b4a27a](https://github.com/Esri/calcite-components/commit/5b4a27a782fada1fb0b64b88d685c3239b6bc992))
 - **date-picker:** set correct first day of week for all locales ([#4118](https://github.com/Esri/calcite-components/issues/4118)) ([efe509d](https://github.com/Esri/calcite-components/commit/efe509dc2b31d707971e5e8baef8c83818a75cb2)), closes [#4075](https://github.com/Esri/calcite-components/issues/4075)
 - **input:** Allow "" to clear a number input ([#4119](https://github.com/Esri/calcite-components/issues/4119)) ([1c052f0](https://github.com/Esri/calcite-components/commit/1c052f0c1a93db11d70e89e965a2a23626ae297d))
+- **input:** update number programmatically after blur event ([#4125](https://github.com/Esri/calcite-components/issues/4125)) ([9d62f32](https://github.com/Esri/calcite-components/commit/9d62f32c4c1fa8946eb1c15463cf988c4b1687d6))
 - **popover-manager, tooltip-manager:** Misalignment of tooltips in FireFox [#3900](https://github.com/Esri/calcite-components/issues/3900) ([#4069](https://github.com/Esri/calcite-components/issues/4069)) ([7c03bf0](https://github.com/Esri/calcite-components/commit/7c03bf01be1284c1cf247f071e2bb50b7109f5dc))
 - **popover, tooltip, combobox, dropdown, input-date-picker:** Hide popover when the reference element or popover is out of view. ([#4115](https://github.com/Esri/calcite-components/issues/4115)) ([e5ab5ff](https://github.com/Esri/calcite-components/commit/e5ab5ff40b314da28be047d1016e9a61c442abb2))
-- **tab-title, tab:** tab switching will function even when wrapped wi… ([#4114](https://github.com/Esri/calcite-components/issues/4114)) ([ce7759c](https://github.com/Esri/calcite-components/commit/ce7759c2d39cd1c23a704bbe2d48fa712461a85f))
+- **tab-title, tab:** tab switching will function even when wrapped within a custom external element ([#4114](https://github.com/Esri/calcite-components/issues/4114)) ([ce7759c](https://github.com/Esri/calcite-components/commit/ce7759c2d39cd1c23a704bbe2d48fa712461a85f))
 - **time-picker:** meridiem order matches with input time picker ([#4030](https://github.com/Esri/calcite-components/issues/4030)) ([808c1ef](https://github.com/Esri/calcite-components/commit/808c1eff155d8223171bea11d973bf1cd97d8638))
 - **tree-item:** Pressing right arrow key focuses first child when the tree-item contains an expanded subtree ([#4150](https://github.com/Esri/calcite-components/issues/4150)) ([cddaf20](https://github.com/Esri/calcite-components/commit/cddaf20d785cf7f33d30e5ff4b34e4113631b855))
-<!--@unreleased-section-end-->
 
 ## [1.0.0-beta.77](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.76...v1.0.0-beta.77) (2022-02-15)
 
