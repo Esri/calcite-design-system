@@ -242,6 +242,22 @@ export function selectionAndDeselection(listType: ListType): void {
       await item2.click(); // deselect
       expect(toggleSpy).toHaveReceivedEventTimes(3);
     });
+
+    it("should only have selected item as tabbable", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`<calcite-${listType}-list>
+          <calcite-${listType}-list-item value="one" label="One"></calcite-${listType}-list-item>
+          <calcite-${listType}-list-item value="two" label="Two"></calcite-${listType}-list-item>
+        </calcite-${listType}-list>`);
+
+      const list = await page.find(`calcite-${listType}-list`);
+      const item1 = await list.find("[value=one]");
+      const item2 = await list.find("[value=two]");
+
+      await item2.click();
+      expect(item1.getAttribute("tabindex")).toEqual("-1");
+      expect(item2).not.toHaveAttribute("tabIndex");
+    });
   });
 
   describe("preselected items", () => {
