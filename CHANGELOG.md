@@ -9,6 +9,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### Bug Fixes
 
+- **slider:** aria-role is assigned to appropriate element ([#4173](https://github.com/Esri/calcite-components/issues/4173)) ([3a73ae4](https://github.com/Esri/calcite-components/commit/3a73ae4b5e8bdee06432005f1f92b554dbafa70d))
 - **tree, tree-item:** calciteTreeSelect only emits when item is selected and not on toggle parent icon ([#4170](https://github.com/Esri/calcite-components/issues/4170)) ([12ec17f](https://github.com/Esri/calcite-components/commit/12ec17fac9ab9f61abbc51d1ebf9d93c1b72eb03))
 <!--@unreleased-section-end-->
 
