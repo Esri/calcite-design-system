@@ -228,6 +228,28 @@ describe("calcite-tree", () => {
       expect(selectEventSpy).toHaveReceivedEventTimes(1);
     });
 
+    it("does not emit calciteTreeSelect on toggling the caret icon", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html`
+        <calcite-tree selection-mode="multi-children">
+          <calcite-tree-item id="cables">
+            Cables
+            <calcite-tree slot="children">
+              <calcite-tree-item id="xlr">XLR Cable</calcite-tree-item>
+              <calcite-tree-item id="instrument">Instrument Cable</calcite-tree-item>
+            </calcite-tree>
+          </calcite-tree-item>
+        </calcite-tree>
+      `);
+      const treeItemIcon = await page.find(`#cables >>> [data-test-id="icon"]`);
+      treeItemIcon.click();
+
+      const changeSpy = await treeItemIcon.spyOnEvent("calciteTreeSelect");
+      await page.waitForChanges();
+
+      expect(changeSpy).toHaveReceivedEventTimes(0);
+    });
+
     describe("has selected items in the selection event payload", () => {
       it("contains current selection when selection=multi", async () => {
         const page = await newE2EPage({
