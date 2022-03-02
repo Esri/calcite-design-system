@@ -3,6 +3,15 @@
 This document maintains a list of released versions and changes introduced by them.
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
+<!--@unreleased-section-start-->
+
+## Unreleased
+
+### Bug Fixes
+
+- **tree, tree-item:** calciteTreeSelect only emits when item is selected and not on toggle parent icon ([#4170](https://github.com/Esri/calcite-components/issues/4170)) ([12ec17f](https://github.com/Esri/calcite-components/commit/12ec17fac9ab9f61abbc51d1ebf9d93c1b72eb03))
+<!--@unreleased-section-end-->
+
 ## [1.0.0-beta.78](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.77...v1.0.0-beta.78) (2022-03-02)
 
 ### Bug Fixes
