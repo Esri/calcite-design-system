@@ -101,7 +101,12 @@ export class Input implements LabelableComponent, FormComponent {
   @Prop({ reflect: true }) loading = false;
 
   /** BCP 47 language tag for desired language and country format */
-  @Prop() locale?: string = document.documentElement.lang || "en";
+  @Prop({ mutable: true }) locale?: string = document.documentElement.lang || "en";
+
+  /**
+   * standard UniCode numeral system tag for localization
+   */
+  @Prop() numberingSystem?: string;
 
   /**
    * Toggles locale formatting for numbers.
@@ -287,6 +292,9 @@ export class Input implements LabelableComponent, FormComponent {
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
+    if (this.numberingSystem) {
+      this.locale = `${this.locale}-u-nu-${this.numberingSystem}`;
+    }
     this.scale = getElementProp(this.el, "scale", this.scale);
     this.status = getElementProp(this.el, "status", this.status);
     this.inlineEditableEl = this.el.closest("calcite-inline-editable");
@@ -738,7 +746,6 @@ export class Input implements LabelableComponent, FormComponent {
 
   render(): VNode {
     const dir = getElementDir(this.el);
-
     const loader = (
       <div class={CSS.loader}>
         <calcite-progress label={this.intlLoading} type="indeterminate" />
@@ -885,7 +892,10 @@ export class Input implements LabelableComponent, FormComponent {
 
     return (
       <Host onClick={this.inputFocusHandler} onKeyDown={this.keyDownHandler}>
-        <div class={{ [CSS.inputWrapper]: true, [CSS_UTILITY.rtl]: dir === "rtl" }}>
+        <div
+          class={{ [CSS.inputWrapper]: true, [CSS_UTILITY.rtl]: dir === "rtl" }}
+          lang={this.locale}
+        >
           {this.type === "number" && this.numberButtonType === "horizontal" && !this.readOnly
             ? numberButtonsHorizontalDown
             : null}
