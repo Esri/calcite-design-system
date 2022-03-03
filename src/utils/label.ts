@@ -31,7 +31,7 @@ export interface LabelableComponent {
  * Exported for testing purposes only
  * @internal
  */
-export const calciteInternalLabelClick = "calciteInternalLabelClick";
+export const labelClickEvent = "calciteInternalLabelClick";
 export const calciteInternalLabelConnected = "calciteInternalLabelConnected";
 export const calciteInternaLabelDisconnected = "calciteInternaLabelDisconnected";
 
@@ -102,7 +102,7 @@ export function connectLabel(component: LabelableComponent): void {
       component.labelEl = labelEl;
       const boundOnLabelClick = onLabelClick.bind(component);
       onLabelClickMap.set(component.labelEl, boundOnLabelClick);
-      component.labelEl.addEventListener(calciteInternalLabelClick, boundOnLabelClick);
+      component.labelEl.addEventListener(labelClickEvent, boundOnLabelClick);
     };
     addClickEventListenerToComponentLabel();
     unlabeledComponents.delete(component);
@@ -128,7 +128,7 @@ export function disconnectLabel(component: LabelableComponent): void {
   }
 
   const boundOnLabelClick = onLabelClickMap.get(component.labelEl);
-  component.labelEl.removeEventListener(calciteInternalLabelClick, boundOnLabelClick);
+  component.labelEl.removeEventListener(labelClickEvent, boundOnLabelClick);
   onLabelClickMap.delete(component.labelEl);
 }
 

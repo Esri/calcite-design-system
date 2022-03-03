@@ -86,7 +86,6 @@ export class Label {
   }
 
   disconnectedCallback(): void {
-    // Dispatching to document in order to be listened by other elements that are still connected to the DOM.
     document.dispatchEvent(new CustomEvent(calciteInternaLabelDisconnected));
   }
 
