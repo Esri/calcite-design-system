@@ -32,8 +32,8 @@ export interface LabelableComponent {
  * @internal
  */
 export const labelClickEvent = "calciteInternalLabelClick";
-export const labelConnectedEvent = "calciteInternalLabelConnected";
-export const labelDisconnectedEvent = "calciteInternaLabelDisconnected";
+export const calciteInternalLabelConnected = "calciteInternalLabelConnected";
+export const calciteInternaLabelDisconnected = "calciteInternaLabelDisconnected";
 
 const labelTagName = "calcite-label";
 const onLabelClickMap = new WeakMap<HTMLCalciteLabelElement, typeof onLabelClick>();
@@ -106,11 +106,11 @@ export function connectLabel(component: LabelableComponent): void {
     };
     addClickEventListenerToComponentLabel();
     unlabeledComponents.delete(component);
-    document.removeEventListener(labelConnectedEvent, boundOnLabelConnected);
-    document.addEventListener(labelDisconnectedEvent, boundOnLabelDisconnected);
+    document.removeEventListener(calciteInternalLabelConnected, boundOnLabelConnected);
+    document.addEventListener(calciteInternaLabelDisconnected, boundOnLabelDisconnected);
   } else if (!labelEl && !unlabeledComponents.has(component)) {
     boundOnLabelDisconnected();
-    document.removeEventListener(labelDisconnectedEvent, boundOnLabelDisconnected);
+    document.removeEventListener(calciteInternaLabelDisconnected, boundOnLabelDisconnected);
   }
 }
 /**
@@ -120,8 +120,8 @@ export function disconnectLabel(component: LabelableComponent): void {
   const boundOnLabelConnected = onLabelConnected.bind(component);
   const boundOnLabelDisconnected = onLabelDisconnected.bind(component);
   unlabeledComponents.delete(component);
-  document.removeEventListener(labelConnectedEvent, boundOnLabelConnected);
-  document.removeEventListener(labelDisconnectedEvent, boundOnLabelDisconnected);
+  document.removeEventListener(calciteInternalLabelConnected, boundOnLabelConnected);
+  document.removeEventListener(calciteInternaLabelDisconnected, boundOnLabelDisconnected);
 
   if (!component.labelEl) {
     return;
@@ -162,5 +162,5 @@ function onLabelConnected(this: LabelableComponent): void {
 function onLabelDisconnected(this: LabelableComponent): void {
   unlabeledComponents.add(this);
   const boundOnLabelConnected = onLabelConnected.bind(this);
-  document.addEventListener(labelConnectedEvent, boundOnLabelConnected);
+  document.addEventListener(calciteInternalLabelConnected, boundOnLabelConnected);
 }
