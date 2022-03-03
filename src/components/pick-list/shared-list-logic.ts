@@ -102,7 +102,6 @@ function isValidNavigationKey(key: string): boolean {
 
 export function calciteListFocusOutHandler<T extends Lists>(this: List<T>, event: FocusEvent): void {
   const { el, items, multiple, selectedValues } = this;
-
   if (multiple) {
     return;
   }
@@ -258,7 +257,6 @@ export function deselectSiblingItems<T extends Lists>(this: List<T>, item: ListI
   this.items.forEach((currentItem) => {
     if (currentItem.value !== item.value) {
       currentItem.toggleSelected(false);
-      toggleSingleSelectItemTabbing(currentItem, false);
       if (this.selectedValues.has(currentItem.value)) {
         this.selectedValues.delete(currentItem.value);
       }
