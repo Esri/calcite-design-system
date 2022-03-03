@@ -102,6 +102,7 @@ function isValidNavigationKey(key: string): boolean {
 
 export function calciteListFocusOutHandler<T extends Lists>(this: List<T>, event: FocusEvent): void {
   const { el, items, multiple, selectedValues } = this;
+
   if (multiple) {
     return;
   }

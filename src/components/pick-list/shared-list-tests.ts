@@ -219,9 +219,9 @@ export function keyboardNavigation(listType: ListType): void {
 
       await page.keyboard.press("Tab");
       await page.keyboard.press("Tab");
-
       expect(item1).not.toHaveAttribute("tabIndex");
       expect(item2.getAttribute("tabindex")).toEqual("-1");
+
       await page.keyboard.down("Shift");
       await page.keyboard.press("Tab");
       expect(await page.evaluate(() => document.activeElement.getAttribute("value"))).toEqual("one");
