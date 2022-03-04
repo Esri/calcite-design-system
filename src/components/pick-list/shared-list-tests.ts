@@ -205,26 +205,22 @@ export function keyboardNavigation(listType: ListType): void {
     it("resets tabindex to selected item when focusing out of list", async () => {
       const page = await newE2EPage({
         html: `
+        <body>
         <calcite-${listType}-list>
           <calcite-${listType}-list-item value="one" label="One" selected></calcite-${listType}-list-item>
           <calcite-${listType}-list-item value="two" label="Two"></calcite-${listType}-list-item>
         </calcite-${listType}-list>
-        <calcite-button name="next-element">next element</calcite-button>
+        </body>
       `
       });
 
-      const list = await page.find(`calcite-${listType}-list`);
-      const item1 = await list.find("[value=one]");
-      const item2 = await list.find("[value=two]");
-
       await page.keyboard.press("Tab");
       await page.keyboard.press("Tab");
-      expect(item1).not.toHaveAttribute("tabIndex");
-      expect(item2.getAttribute("tabindex")).toEqual("-1");
+      expect(await getFocusedItemValue(page)).toEqual(null);
 
       await page.keyboard.down("Shift");
       await page.keyboard.press("Tab");
-      expect(await page.evaluate(() => document.activeElement.getAttribute("value"))).toEqual("one");
+      expect(await getFocusedItemValue(page)).toEqual("one");
     });
   });
 }
