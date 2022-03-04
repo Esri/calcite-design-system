@@ -292,9 +292,6 @@ export class Input implements LabelableComponent, FormComponent {
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
-    if (this.numberingSystem) {
-      this.locale = `${this.locale}-u-nu-${this.numberingSystem}`;
-    }
     this.scale = getElementProp(this.el, "scale", this.scale);
     this.status = getElementProp(this.el, "status", this.status);
     this.inlineEditableEl = this.el.closest("calcite-inline-editable");
@@ -686,7 +683,12 @@ export class Input implements LabelableComponent, FormComponent {
   }): void => {
     const previousLocalizedValue =
       this.type === "number"
-        ? localizeNumberString(this.previousValue, this.locale, this.groupSeparator)
+        ? localizeNumberString(
+            this.previousValue,
+            this.locale,
+            this.groupSeparator,
+            this.numberingSystem
+          )
         : "";
     const sanitizedValue = this.type === "number" ? sanitizeNumberString(value) : value;
     const newValue =
@@ -697,7 +699,7 @@ export class Input implements LabelableComponent, FormComponent {
         : sanitizedValue;
     const newLocalizedValue =
       this.type === "number"
-        ? localizeNumberString(newValue, this.locale, this.groupSeparator)
+        ? localizeNumberString(newValue, this.locale, this.groupSeparator, this.numberingSystem)
         : "";
 
     this.internalValueChange = origin === "internal" && this.value !== newValue;
@@ -892,10 +894,7 @@ export class Input implements LabelableComponent, FormComponent {
 
     return (
       <Host onClick={this.inputFocusHandler} onKeyDown={this.keyDownHandler}>
-        <div
-          class={{ [CSS.inputWrapper]: true, [CSS_UTILITY.rtl]: dir === "rtl" }}
-          lang={this.locale}
-        >
+        <div class={{ [CSS.inputWrapper]: true, [CSS_UTILITY.rtl]: dir === "rtl" }}>
           {this.type === "number" && this.numberButtonType === "horizontal" && !this.readOnly
             ? numberButtonsHorizontalDown
             : null}

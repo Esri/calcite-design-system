@@ -1,5 +1,4 @@
 import { sanitizeDecimalString, sanitizeExponentialNumberString } from "./number";
-
 export const locales = [
   "ar",
   "bg",
@@ -52,11 +51,12 @@ export const locales = [
   "zh-TW"
 ];
 
-function createLocaleNumberFormatter(locale: string): Intl.NumberFormat {
+function createLocaleNumberFormatter(locale: string, numberingSystem?: string): Intl.NumberFormat {
   return new Intl.NumberFormat(locale, {
     minimumFractionDigits: 0,
-    maximumFractionDigits: 20
-  });
+    maximumFractionDigits: 20,
+    numberingSystem: numberingSystem
+  } as Intl.ResolvedNumberFormatOptions);
 }
 
 export function delocalizeNumberString(numberString: string, locale: string): string {
@@ -98,12 +98,17 @@ export function getDecimalSeparator(locale: string): string {
   return value.trim().length === 0 ? " " : value;
 }
 
-export function localizeNumberString(numberString: string, locale: string, displayGroupSeparator = false): string {
+export function localizeNumberString(
+  numberString: string,
+  locale: string,
+  displayGroupSeparator = false,
+  numberingSystem?: string
+): string {
   return sanitizeExponentialNumberString(numberString, (nonExpoNumString: string): string => {
     if (nonExpoNumString) {
       const number = Number(sanitizeDecimalString(nonExpoNumString));
       if (!isNaN(number)) {
-        const formatter = createLocaleNumberFormatter(locale);
+        const formatter = createLocaleNumberFormatter(locale, numberingSystem);
         const parts = formatter.formatToParts(number);
         const localizedNumberString = parts
           .map(({ type, value }) => {
