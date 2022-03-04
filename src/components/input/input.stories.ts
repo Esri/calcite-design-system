@@ -270,3 +270,9 @@ export const WithLabelAndInputMessageRTL = (): string => html`
     </calcite-label>
   </div>
 `;
+
+export const WithTibetNumberingSystem = (): string =>
+  html` <calcite-input type="number" numbering-system="tibt" value="123456"></calcite-input>`;
+
+export const ArabicLocaleWithLatinNumberingSystem = (): string =>
+  html` <calcite-input type="number" locale="ar" numbering-system="latn" value="123456"></calcite-input>`;

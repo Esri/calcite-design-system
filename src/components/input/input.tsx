@@ -104,6 +104,11 @@ export class Input implements LabelableComponent, FormComponent {
   @Prop() locale?: string = document.documentElement.lang || "en";
 
   /**
+   * standard UniCode numeral system tag for localization
+   */
+  @Prop() numberingSystem?: string = new Intl.NumberFormat().resolvedOptions().numberingSystem;
+
+  /**
    * Toggles locale formatting for numbers.
    * @internal
    */
@@ -678,7 +683,12 @@ export class Input implements LabelableComponent, FormComponent {
   }): void => {
     const previousLocalizedValue =
       this.type === "number"
-        ? localizeNumberString(this.previousValue, this.locale, this.groupSeparator)
+        ? localizeNumberString(
+            this.previousValue,
+            this.locale,
+            this.groupSeparator,
+            this.numberingSystem
+          )
         : "";
     const sanitizedValue = this.type === "number" ? sanitizeNumberString(value) : value;
     const newValue =
@@ -689,7 +699,7 @@ export class Input implements LabelableComponent, FormComponent {
         : sanitizedValue;
     const newLocalizedValue =
       this.type === "number"
-        ? localizeNumberString(newValue, this.locale, this.groupSeparator)
+        ? localizeNumberString(newValue, this.locale, this.groupSeparator, this.numberingSystem)
         : "";
 
     this.internalValueChange = origin === "internal" && this.value !== newValue;
@@ -738,7 +748,6 @@ export class Input implements LabelableComponent, FormComponent {
 
   render(): VNode {
     const dir = getElementDir(this.el);
-
     const loader = (
       <div class={CSS.loader}>
         <calcite-progress label={this.intlLoading} type="indeterminate" />
