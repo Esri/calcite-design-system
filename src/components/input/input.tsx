@@ -101,12 +101,12 @@ export class Input implements LabelableComponent, FormComponent {
   @Prop({ reflect: true }) loading = false;
 
   /** BCP 47 language tag for desired language and country format */
-  @Prop({ mutable: true }) locale?: string = document.documentElement.lang || "en";
+  @Prop() locale?: string = document.documentElement.lang || "en";
 
   /**
    * standard UniCode numeral system tag for localization
    */
-  @Prop() numberingSystem?: string;
+  @Prop() numberingSystem?: string = new Intl.NumberFormat().resolvedOptions().numberingSystem;
 
   /**
    * Toggles locale formatting for numbers.
