@@ -9,6 +9,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### Bug Fixes
 
+- solve regression with preact type generation ([#4181](https://github.com/Esri/calcite-components/issues/4181)) ([30e3f84](https://github.com/Esri/calcite-components/commit/30e3f8477ed959be6681ef89f09e260f07b9f2fb))
 - **pick-list:** change unselected items to be untabbable when an item is selected ([#4177](https://github.com/Esri/calcite-components/issues/4177)) ([5e47301](https://github.com/Esri/calcite-components/commit/5e4730128c714d5d7a0d44b4c01d40560bc83f41))
 - **slider:** aria-role is assigned to appropriate element ([#4173](https://github.com/Esri/calcite-components/issues/4173)) ([3a73ae4](https://github.com/Esri/calcite-components/commit/3a73ae4b5e8bdee06432005f1f92b554dbafa70d))
 - **tree, tree-item:** calciteTreeSelect only emits when item is selected and not on toggle parent icon ([#4170](https://github.com/Esri/calcite-components/issues/4170)) ([12ec17f](https://github.com/Esri/calcite-components/commit/12ec17fac9ab9f61abbc51d1ebf9d93c1b72eb03))
