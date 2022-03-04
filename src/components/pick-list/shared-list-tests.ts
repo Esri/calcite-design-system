@@ -205,12 +205,10 @@ export function keyboardNavigation(listType: ListType): void {
     it("resets tabindex to selected item when focusing out of list", async () => {
       const page = await newE2EPage({
         html: `
-        <body>
         <calcite-${listType}-list>
           <calcite-${listType}-list-item value="one" label="One" selected></calcite-${listType}-list-item>
           <calcite-${listType}-list-item value="two" label="Two"></calcite-${listType}-list-item>
         </calcite-${listType}-list>
-        </body>
       `
       });
 
