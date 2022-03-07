@@ -126,6 +126,11 @@ describe("calcite-filter", () => {
     });
   });
 
+  function assertMatchingItems(filtered: any[], values: string[]): void {
+    expect(filtered).toHaveLength(values.length);
+    values.forEach((value) => expect(filtered.find((element) => element.value === value)).toBeDefined());
+  }
+
   describe("filter behavior", () => {
     let page: E2EPage;
 
@@ -174,11 +179,6 @@ describe("calcite-filter", () => {
         ];
       });
     });
-
-    function assertMatchingItems(filtered: any[], values: string[]): void {
-      expect(filtered).toHaveLength(values.length);
-      values.forEach((value) => expect(filtered.find((element) => element.value === value)).toBeDefined());
-    }
 
     it("updates filtered items after filtering", async () => {
       const filterChangeSpy = await page.spyOnEvent("calciteFilterChange");
@@ -251,11 +251,6 @@ describe("calcite-filter", () => {
         ];
       });
     });
-
-    function assertMatchingItems(filtered: any[], values: string[]): void {
-      expect(filtered).toHaveLength(values.length);
-      values.forEach((value) => expect(filtered.find((element) => element.value === value)).toBeDefined());
-    }
 
     it("should return matching value", async () => {
       const filterChangeSpy = await page.spyOnEvent("calciteFilterChange");
