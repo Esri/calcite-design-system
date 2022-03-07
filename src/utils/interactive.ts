@@ -33,7 +33,7 @@ function noopClick(): void {
  */
 export function updateHostInteraction(
   component: InteractiveComponent,
-  hostIsTabbable: boolean | HostIsTabbablePredicate = false
+  hostIsTabbable: boolean | HostIsTabbablePredicate | "managed" = false
 ): void {
   if (component.disabled) {
     component.el.setAttribute("tabindex", "-1");
@@ -54,8 +54,10 @@ export function updateHostInteraction(
     component.el.setAttribute("tabindex", hostIsTabbable.call(component) ? "0" : "-1");
   } else if (hostIsTabbable === true) {
     component.el.setAttribute("tabindex", "0");
-  } else {
+  } else if (hostIsTabbable === false) {
     component.el.removeAttribute("tabindex");
+  } else {
+    // noop for "managed" as owning component will manage its tab index
   }
 
   component.el.removeAttribute("aria-disabled");

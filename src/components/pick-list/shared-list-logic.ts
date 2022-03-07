@@ -112,10 +112,10 @@ export function calciteListFocusOutHandler<T extends Lists>(this: List<T>, event
     return;
   }
 
-  items.forEach((item) => {
+  filterOutDisabled(items).forEach((item) => {
     toggleSingleSelectItemTabbing(
       item,
-      selectedValues.size === 0 ? item.contains(event.target) || event.target === item : item.selected
+      selectedValues.size === 0 ? item.contains(event.target as HTMLElement) || event.target === item : item.selected
     );
   });
 }
@@ -175,6 +175,10 @@ export function moveItemIndex<T extends Lists>(
   return index;
 }
 
+function filterOutDisabled<T extends Lists>(items: ListItemElement<T>[]): ListItemElement<T>[] {
+  return items.filter((item) => !item.disabled);
+}
+
 export function internalCalciteListChangeEvent<T extends Lists>(this: List<T>): void {
   this.calciteListChange.emit(this.selectedValues as any);
 }
@@ -224,12 +228,13 @@ export async function setFocus<T extends Lists>(this: List<T>, focusId: ListFocu
   }
 
   if (multiple) {
-    return items[0].setFocus();
+    return filterOutDisabled(items)[0]?.setFocus();
   }
 
-  const focusTarget = (items as ListItemElement<T>[]).find((item) => item.selected) || items[0];
+  const filtered = filterOutDisabled(items);
+  const focusTarget = filtered.find((item) => item.selected) || filtered[0];
 
-  if (selectionFollowsFocus) {
+  if (selectionFollowsFocus && focusTarget) {
     focusTarget.selected = true;
   }
 

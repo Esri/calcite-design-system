@@ -152,7 +152,7 @@ export class PickListItem implements ConditionalSlotComponent, InteractiveCompon
   }
 
   componentDidRender(): void {
-    updateHostInteraction(this);
+    updateHostInteraction(this, this.el.closest("calcite-pick-list") ? "managed" : false);
   }
 
   // --------------------------------------------------------------------------

@@ -122,7 +122,7 @@ export class ValueListItem implements ConditionalSlotComponent, InteractiveCompo
   }
 
   componentDidRender(): void {
-    updateHostInteraction(this);
+    updateHostInteraction(this, this.el.closest("calcite-value-list") ? "managed" : false);
   }
 
   // --------------------------------------------------------------------------
