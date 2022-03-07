@@ -201,6 +201,25 @@ export function keyboardNavigation(listType: ListType): void {
 
       expect(await getFocusedItemValue(page)).toEqual("two");
     });
+
+    it("resets tabindex to selected item when focusing out of list", async () => {
+      const page = await newE2EPage({
+        html: `
+        <calcite-${listType}-list>
+          <calcite-${listType}-list-item value="one" label="One" selected></calcite-${listType}-list-item>
+          <calcite-${listType}-list-item value="two" label="Two"></calcite-${listType}-list-item>
+        </calcite-${listType}-list>
+      `
+      });
+
+      await page.keyboard.press("Tab");
+      await page.keyboard.press("Tab");
+      expect(await getFocusedItemValue(page)).toEqual(null);
+
+      await page.keyboard.down("Shift");
+      await page.keyboard.press("Tab");
+      expect(await getFocusedItemValue(page)).toEqual("one");
+    });
   });
 }
 

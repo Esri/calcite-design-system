@@ -145,7 +145,7 @@ describe("calcite-filter", () => {
             name: "Matt",
             description: "developer",
             value: "matt",
-            metadata: { haircolor: "black", favoriteBand: "unknown" }
+            metadata: { haircolor: "black", favoriteBand: "Radiohead" }
           },
           {
             name: "Franco",
@@ -224,6 +224,48 @@ describe("calcite-filter", () => {
       await waitForEvent;
 
       assertMatchingItems(await filter.getProperty("filteredItems"), ["regex"]);
+    });
+  });
+
+  describe("filter behavior with predefined value prop", () => {
+    let page: E2EPage;
+
+    beforeEach(async () => {
+      page = await newE2EPage();
+      await page.setContent(`<calcite-filter value="harry"></calcite-filter>`);
+      await page.evaluate(() => {
+        const filter = document.querySelector("calcite-filter");
+        filter.items = [
+          {
+            name: "Harry",
+            description: "developer",
+            value: "harry",
+            metadata: { haircolor: "red", favoriteBand: "MetallicA" }
+          },
+          {
+            name: "Matt",
+            description: "developer",
+            value: "matt",
+            metadata: { haircolor: "black", favoriteBand: "Radiohead" }
+          }
+        ];
+      });
+    });
+
+    function assertMatchingItems(filtered: any[], values: string[]): void {
+      expect(filtered).toHaveLength(values.length);
+      values.forEach((value) => expect(filtered.find((element) => element.value === value)).toBeDefined());
+    }
+
+    it("should return matching value", async () => {
+      const filterChangeSpy = await page.spyOnEvent("calciteFilterChange");
+      const filter = await page.find("calcite-filter");
+      await page.waitForEvent("calciteFilterChange");
+
+      expect(filterChangeSpy).toHaveReceivedEventTimes(1);
+
+      await filter;
+      assertMatchingItems(await filter.getProperty("filteredItems"), ["harry"]);
     });
   });
 });
