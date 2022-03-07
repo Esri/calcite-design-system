@@ -14,6 +14,7 @@ import {
 import { CSS, ICON_TYPES } from "./resources";
 import {
   ListFocusId,
+  calciteListFocusOutHandler,
   calciteListItemChangeHandler,
   calciteListItemValueChangeHandler,
   cleanUpObserver,
@@ -157,6 +158,11 @@ export class ValueList<
    * Emitted when the order of the list has changed.
    */
   @Event() calciteListOrderChange: EventEmitter<any[]>;
+
+  @Listen("focusout")
+  calciteListFocusOutHandler(event: FocusEvent): void {
+    calciteListFocusOutHandler.call(this, event);
+  }
 
   @Listen("calciteListItemRemove")
   calciteListItemRemoveHandler(event: CustomEvent<void>): void {
