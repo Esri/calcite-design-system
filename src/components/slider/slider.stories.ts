@@ -18,7 +18,7 @@ export const SingleValue = (): string => html`
     max="${number("max", 100)}"
     value="${number("value", 50)}"
     step="${number("step", 1)}"
-    label="${text("label", "Temperature")}"
+    min-label="${text("min-label", "Temperature")}"
     ${boolean("disabled", false)}
     ${boolean("label-handles", false)}
     ${boolean("label-ticks", false)}

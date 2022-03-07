@@ -191,7 +191,8 @@ export class Slider implements LabelableComponent, FormComponent, InteractiveCom
     const rightThumbOffset = `${mirror ? maxInterval : 100 - maxInterval}%`;
 
     const handle = (
-      <button
+      <div
+        aria-disabled={this.disabled}
         aria-label={this.isRange ? this.maxLabel : this.minLabel}
         aria-orientation="horizontal"
         aria-valuemax={this.max}
@@ -202,20 +203,21 @@ export class Slider implements LabelableComponent, FormComponent, InteractiveCom
           "thumb--value": true,
           "thumb--active": this.lastDragProp !== "minMaxValue" && this.dragProp === maxProp
         }}
-        disabled={this.disabled}
         onBlur={() => (this.activeProp = null)}
         onFocus={() => (this.activeProp = maxProp)}
         onPointerDown={() => this.dragStart(maxProp)}
-        ref={(el) => (this.maxHandle = el as HTMLButtonElement)}
+        ref={(el) => (this.maxHandle = el as HTMLDivElement)}
         role="slider"
         style={{ right: rightThumbOffset }}
+        tabIndex={0}
       >
         <div class="handle" />
-      </button>
+      </div>
     );
 
     const labeledHandle = (
-      <button
+      <div
+        aria-disabled={this.disabled}
         aria-label={this.isRange ? this.maxLabel : this.minLabel}
         aria-orientation="horizontal"
         aria-valuemax={this.max}
@@ -226,13 +228,13 @@ export class Slider implements LabelableComponent, FormComponent, InteractiveCom
           "thumb--value": true,
           "thumb--active": this.lastDragProp !== "minMaxValue" && this.dragProp === maxProp
         }}
-        disabled={this.disabled}
         onBlur={() => (this.activeProp = null)}
         onFocus={() => (this.activeProp = maxProp)}
         onPointerDown={() => this.dragStart(maxProp)}
-        ref={(el) => (this.maxHandle = el as HTMLButtonElement)}
+        ref={(el) => (this.maxHandle = el as HTMLDivElement)}
         role="slider"
         style={{ right: rightThumbOffset }}
+        tabIndex={0}
       >
         <span aria-hidden="true" class="handle__label handle__label--value">
           {value ? value.toLocaleString() : value}
@@ -244,11 +246,12 @@ export class Slider implements LabelableComponent, FormComponent, InteractiveCom
           {value ? value.toLocaleString() : value}
         </span>
         <div class="handle" />
-      </button>
+      </div>
     );
 
     const histogramLabeledHandle = (
-      <button
+      <div
+        aria-disabled={this.disabled}
         aria-label={this.isRange ? this.maxLabel : this.minLabel}
         aria-orientation="horizontal"
         aria-valuemax={this.max}
@@ -259,13 +262,13 @@ export class Slider implements LabelableComponent, FormComponent, InteractiveCom
           "thumb--value": true,
           "thumb--active": this.lastDragProp !== "minMaxValue" && this.dragProp === maxProp
         }}
-        disabled={this.disabled}
         onBlur={() => (this.activeProp = null)}
         onFocus={() => (this.activeProp = maxProp)}
         onPointerDown={() => this.dragStart(maxProp)}
-        ref={(el) => (this.maxHandle = el as HTMLButtonElement)}
+        ref={(el) => (this.maxHandle = el as HTMLDivElement)}
         role="slider"
         style={{ right: rightThumbOffset }}
+        tabIndex={0}
       >
         <div class="handle" />
         <span aria-hidden="true" class="handle__label handle__label--value">
@@ -277,11 +280,12 @@ export class Slider implements LabelableComponent, FormComponent, InteractiveCom
         <span aria-hidden="true" class="handle__label handle__label--value transformed">
           {value ? value.toLocaleString() : value}
         </span>
-      </button>
+      </div>
     );
 
     const preciseHandle = (
-      <button
+      <div
+        aria-disabled={this.disabled}
         aria-label={this.isRange ? this.maxLabel : this.minLabel}
         aria-orientation="horizontal"
         aria-valuemax={this.max}
@@ -293,21 +297,22 @@ export class Slider implements LabelableComponent, FormComponent, InteractiveCom
           "thumb--active": this.lastDragProp !== "minMaxValue" && this.dragProp === maxProp,
           "thumb--precise": true
         }}
-        disabled={this.disabled}
         onBlur={() => (this.activeProp = null)}
         onFocus={() => (this.activeProp = maxProp)}
         onPointerDown={() => this.dragStart(maxProp)}
-        ref={(el) => (this.maxHandle = el as HTMLButtonElement)}
+        ref={(el) => (this.maxHandle = el as HTMLDivElement)}
         role="slider"
         style={{ right: rightThumbOffset }}
+        tabIndex={0}
       >
         <div class="handle" />
         <div class="handle-extension" />
-      </button>
+      </div>
     );
 
     const histogramPreciseHandle = (
-      <button
+      <div
+        aria-disabled={this.disabled}
         aria-label={this.isRange ? this.maxLabel : this.minLabel}
         aria-orientation="horizontal"
         aria-valuemax={this.max}
@@ -319,21 +324,22 @@ export class Slider implements LabelableComponent, FormComponent, InteractiveCom
           "thumb--active": this.lastDragProp !== "minMaxValue" && this.dragProp === maxProp,
           "thumb--precise": true
         }}
-        disabled={this.disabled}
         onBlur={() => (this.activeProp = null)}
         onFocus={() => (this.activeProp = maxProp)}
         onPointerDown={() => this.dragStart(maxProp)}
-        ref={(el) => (this.maxHandle = el as HTMLButtonElement)}
+        ref={(el) => (this.maxHandle = el as HTMLDivElement)}
         role="slider"
         style={{ right: rightThumbOffset }}
+        tabIndex={0}
       >
         <div class="handle-extension" />
         <div class="handle" />
-      </button>
+      </div>
     );
 
     const labeledPreciseHandle = (
-      <button
+      <div
+        aria-disabled={this.disabled}
         aria-label={this.isRange ? this.maxLabel : this.minLabel}
         aria-orientation="horizontal"
         aria-valuemax={this.max}
@@ -345,13 +351,13 @@ export class Slider implements LabelableComponent, FormComponent, InteractiveCom
           "thumb--active": this.lastDragProp !== "minMaxValue" && this.dragProp === maxProp,
           "thumb--precise": true
         }}
-        disabled={this.disabled}
         onBlur={() => (this.activeProp = null)}
         onFocus={() => (this.activeProp = maxProp)}
         onPointerDown={() => this.dragStart(maxProp)}
-        ref={(el) => (this.maxHandle = el as HTMLButtonElement)}
+        ref={(el) => (this.maxHandle = el as HTMLDivElement)}
         role="slider"
         style={{ right: rightThumbOffset }}
+        tabIndex={0}
       >
         <span aria-hidden="true" class="handle__label handle__label--value">
           {value ? value.toLocaleString() : value}
@@ -364,11 +370,12 @@ export class Slider implements LabelableComponent, FormComponent, InteractiveCom
         </span>
         <div class="handle" />
         <div class="handle-extension" />
-      </button>
+      </div>
     );
 
     const histogramLabeledPreciseHandle = (
-      <button
+      <div
+        aria-disabled={this.disabled}
         aria-label={this.isRange ? this.maxLabel : this.minLabel}
         aria-orientation="horizontal"
         aria-valuemax={this.max}
@@ -380,13 +387,13 @@ export class Slider implements LabelableComponent, FormComponent, InteractiveCom
           "thumb--active": this.lastDragProp !== "minMaxValue" && this.dragProp === maxProp,
           "thumb--precise": true
         }}
-        disabled={this.disabled}
         onBlur={() => (this.activeProp = null)}
         onFocus={() => (this.activeProp = maxProp)}
         onPointerDown={() => this.dragStart(maxProp)}
-        ref={(el) => (this.maxHandle = el as HTMLButtonElement)}
+        ref={(el) => (this.maxHandle = el as HTMLDivElement)}
         role="slider"
         style={{ right: rightThumbOffset }}
+        tabIndex={0}
       >
         <div class="handle-extension" />
         <div class="handle" />
@@ -399,11 +406,12 @@ export class Slider implements LabelableComponent, FormComponent, InteractiveCom
         <span aria-hidden="true" class="handle__label handle__label--value transformed">
           {value ? value.toLocaleString() : value}
         </span>
-      </button>
+      </div>
     );
 
     const minHandle = (
-      <button
+      <div
+        aria-disabled={this.disabled}
         aria-label={this.minLabel}
         aria-orientation="horizontal"
         aria-valuemax={this.max}
@@ -414,20 +422,21 @@ export class Slider implements LabelableComponent, FormComponent, InteractiveCom
           "thumb--minValue": true,
           "thumb--active": this.dragProp === "minValue"
         }}
-        disabled={this.disabled}
         onBlur={() => (this.activeProp = null)}
         onFocus={() => (this.activeProp = "minValue")}
         onPointerDown={() => this.dragStart("minValue")}
-        ref={(el) => (this.minHandle = el as HTMLButtonElement)}
+        ref={(el) => (this.minHandle = el as HTMLDivElement)}
         role="slider"
         style={{ left: leftThumbOffset }}
+        tabIndex={0}
       >
         <div class="handle" />
-      </button>
+      </div>
     );
 
     const minLabeledHandle = (
-      <button
+      <div
+        aria-disabled={this.disabled}
         aria-label={this.minLabel}
         aria-orientation="horizontal"
         aria-valuemax={this.max}
@@ -438,13 +447,13 @@ export class Slider implements LabelableComponent, FormComponent, InteractiveCom
           "thumb--minValue": true,
           "thumb--active": this.dragProp === "minValue"
         }}
-        disabled={this.disabled}
         onBlur={() => (this.activeProp = null)}
         onFocus={() => (this.activeProp = "minValue")}
         onPointerDown={() => this.dragStart("minValue")}
-        ref={(el) => (this.minHandle = el as HTMLButtonElement)}
+        ref={(el) => (this.minHandle = el as HTMLDivElement)}
         role="slider"
         style={{ left: leftThumbOffset }}
+        tabIndex={0}
       >
         <span aria-hidden="true" class="handle__label handle__label--minValue">
           {this.minValue && this.minValue.toLocaleString()}
@@ -456,11 +465,12 @@ export class Slider implements LabelableComponent, FormComponent, InteractiveCom
           {this.minValue && this.minValue.toLocaleString()}
         </span>
         <div class="handle" />
-      </button>
+      </div>
     );
 
     const minHistogramLabeledHandle = (
-      <button
+      <div
+        aria-disabled={this.disabled}
         aria-label={this.minLabel}
         aria-orientation="horizontal"
         aria-valuemax={this.max}
@@ -471,13 +481,13 @@ export class Slider implements LabelableComponent, FormComponent, InteractiveCom
           "thumb--minValue": true,
           "thumb--active": this.dragProp === "minValue"
         }}
-        disabled={this.disabled}
         onBlur={() => (this.activeProp = null)}
         onFocus={() => (this.activeProp = "minValue")}
         onPointerDown={() => this.dragStart("minValue")}
-        ref={(el) => (this.minHandle = el as HTMLButtonElement)}
+        ref={(el) => (this.minHandle = el as HTMLDivElement)}
         role="slider"
         style={{ left: leftThumbOffset }}
+        tabIndex={0}
       >
         <div class="handle" />
         <span aria-hidden="true" class="handle__label handle__label--minValue">
@@ -489,11 +499,12 @@ export class Slider implements LabelableComponent, FormComponent, InteractiveCom
         <span aria-hidden="true" class="handle__label handle__label--minValue transformed">
           {this.minValue && this.minValue.toLocaleString()}
         </span>
-      </button>
+      </div>
     );
 
     const minPreciseHandle = (
-      <button
+      <div
+        aria-disabled={this.disabled}
         aria-label={this.minLabel}
         aria-orientation="horizontal"
         aria-valuemax={this.max}
@@ -505,21 +516,22 @@ export class Slider implements LabelableComponent, FormComponent, InteractiveCom
           "thumb--active": this.dragProp === "minValue",
           "thumb--precise": true
         }}
-        disabled={this.disabled}
         onBlur={() => (this.activeProp = null)}
         onFocus={() => (this.activeProp = "minValue")}
         onPointerDown={() => this.dragStart("minValue")}
-        ref={(el) => (this.minHandle = el as HTMLButtonElement)}
+        ref={(el) => (this.minHandle = el as HTMLDivElement)}
         role="slider"
         style={{ left: leftThumbOffset }}
+        tabIndex={0}
       >
         <div class="handle-extension" />
         <div class="handle" />
-      </button>
+      </div>
     );
 
     const minLabeledPreciseHandle = (
-      <button
+      <div
+        aria-disabled={this.disabled}
         aria-label={this.minLabel}
         aria-orientation="horizontal"
         aria-valuemax={this.max}
@@ -531,13 +543,13 @@ export class Slider implements LabelableComponent, FormComponent, InteractiveCom
           "thumb--active": this.dragProp === "minValue",
           "thumb--precise": true
         }}
-        disabled={this.disabled}
         onBlur={() => (this.activeProp = null)}
         onFocus={() => (this.activeProp = "minValue")}
         onPointerDown={() => this.dragStart("minValue")}
-        ref={(el) => (this.minHandle = el as HTMLButtonElement)}
+        ref={(el) => (this.minHandle = el as HTMLDivElement)}
         role="slider"
         style={{ left: leftThumbOffset }}
+        tabIndex={0}
       >
         <div class="handle-extension" />
         <div class="handle" />
@@ -550,7 +562,7 @@ export class Slider implements LabelableComponent, FormComponent, InteractiveCom
         <span aria-hidden="true" class="handle__label handle__label--minValue transformed">
           {this.minValue && this.minValue.toLocaleString()}
         </span>
-      </button>
+      </div>
     );
 
     return (
@@ -863,9 +875,9 @@ export class Slider implements LabelableComponent, FormComponent, InteractiveCom
 
   private lastDragPropValue: number;
 
-  private minHandle: HTMLButtonElement;
+  private minHandle: HTMLDivElement;
 
-  private maxHandle: HTMLButtonElement;
+  private maxHandle: HTMLDivElement;
 
   private trackEl: HTMLDivElement;
 
@@ -1068,13 +1080,13 @@ export class Slider implements LabelableComponent, FormComponent, InteractiveCom
     return num;
   }
 
-  private getClosestHandle(valueX: number): HTMLButtonElement {
+  private getClosestHandle(valueX: number): HTMLDivElement {
     return this.getDistanceX(this.maxHandle, valueX) > this.getDistanceX(this.minHandle, valueX)
       ? this.minHandle
       : this.maxHandle;
   }
 
-  private getDistanceX(el: HTMLButtonElement, valueX: number): number {
+  private getDistanceX(el: HTMLDivElement, valueX: number): number {
     return Math.abs(el.getBoundingClientRect().left - valueX);
   }
 
@@ -1248,9 +1260,8 @@ export class Slider implements LabelableComponent, FormComponent, InteractiveCom
       return;
     }
 
-    const minHandle: HTMLButtonElement | null =
-      this.el.shadowRoot.querySelector(".thumb--minValue");
-    const maxHandle: HTMLButtonElement | null = this.el.shadowRoot.querySelector(".thumb--value");
+    const minHandle: HTMLDivElement | null = this.el.shadowRoot.querySelector(".thumb--minValue");
+    const maxHandle: HTMLDivElement | null = this.el.shadowRoot.querySelector(".thumb--value");
 
     const minTickLabel: HTMLSpanElement | null =
       this.el.shadowRoot.querySelector(".tick__label--min");
@@ -1311,22 +1322,22 @@ export class Slider implements LabelableComponent, FormComponent, InteractiveCom
   }
 
   /**
-   * Returns a boolean value representing if the minLabel span element is obscured (being overlapped) by the given handle button element.
+   * Returns a boolean value representing if the minLabel span element is obscured (being overlapped) by the given handle div element.
    * @param minLabel
    * @param handle
    */
-  private isMinTickLabelObscured(minLabel: HTMLSpanElement, handle: HTMLButtonElement): boolean {
+  private isMinTickLabelObscured(minLabel: HTMLSpanElement, handle: HTMLDivElement): boolean {
     const minLabelBounds = minLabel.getBoundingClientRect();
     const handleBounds = handle.getBoundingClientRect();
     return intersects(minLabelBounds, handleBounds);
   }
 
   /**
-   * Returns a boolean value representing if the maxLabel span element is obscured (being overlapped) by the given handle button element.
+   * Returns a boolean value representing if the maxLabel span element is obscured (being overlapped) by the given handle div element.
    * @param maxLabel
    * @param handle
    */
-  private isMaxTickLabelObscured(maxLabel: HTMLSpanElement, handle: HTMLButtonElement): boolean {
+  private isMaxTickLabelObscured(maxLabel: HTMLSpanElement, handle: HTMLDivElement): boolean {
     const maxLabelBounds = maxLabel.getBoundingClientRect();
     const handleBounds = handle.getBoundingClientRect();
     return intersects(maxLabelBounds, handleBounds);
