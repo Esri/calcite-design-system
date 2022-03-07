@@ -41,6 +41,7 @@
     "test": "npm run util:run-tests",
     "test:prerender": "stencil build --no-docs --prerender",
     "test:storybook": "concurrently --raw \"npm:util:build-docs && screener-storybook --conf screener.config.js\"",
+    "test:storybook-legacy": "concurrently --raw \"npm:util:build-docs && screener-storybook --conf screener-legacy.config.js\"",
     "test:watch": "npm run util:run-tests -- --watchAll",
     "util:build-docs": "npm run util:copy-icons && stencil build --config stencil.storybook.config.ts",
     "util:clean-tested-build": "npm ci && npm test && npm run build",
