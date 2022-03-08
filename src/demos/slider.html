@@ -51,9 +51,33 @@
       <div class="child right-aligned-text">disabled</div>
 
       <div class="child">
-        <calcite-slider scale="s" min="0" max="100" value="40" step="1" label="Temperature" disabled></calcite-slider>
-        <calcite-slider scale="m" min="0" max="100" value="40" step="1" label="Temperature" disabled></calcite-slider>
-        <calcite-slider scale="l" min="0" max="100" value="40" step="1" label="Temperature" disabled></calcite-slider>
+        <calcite-slider
+          scale="s"
+          min="0"
+          max="100"
+          value="40"
+          step="1"
+          min-label="Temperature"
+          disabled
+        ></calcite-slider>
+        <calcite-slider
+          scale="m"
+          min="0"
+          max="100"
+          value="40"
+          step="1"
+          min-label="Temperature"
+          disabled
+        ></calcite-slider>
+        <calcite-slider
+          scale="l"
+          min="0"
+          max="100"
+          value="40"
+          step="1"
+          min-label="Temperature"
+          disabled
+        ></calcite-slider>
       </div>
 
       <div class="child">
@@ -187,7 +211,7 @@
           max="100000"
           value="100000"
           step="1000.12"
-          label="Temperature"
+          min-label="Temperature"
           precise
           label-handles
         >
@@ -201,7 +225,7 @@
           max="100000"
           value="100000"
           step="1000.12"
-          label="Temperature"
+          min-label="Temperature"
           precise
           label-handles
         >
@@ -363,7 +387,16 @@
       <div class="child right-aligned-text">ticks with precise labeled handle and a decimal step</div>
 
       <div class="child">
-        <calcite-slider min="0" max="100" value="60" step="10.12" ticks="10" label="Temperature" label-handles precise>
+        <calcite-slider
+          min="0"
+          max="100"
+          value="60"
+          step="10.12"
+          ticks="10"
+          min-label="Temperature"
+          label-handles
+          precise
+        >
         </calcite-slider>
       </div>
 
@@ -375,7 +408,7 @@
           value="60"
           step="10.12"
           ticks="10"
-          label="Temperature"
+          min-label="Temperature"
           label-handles
           precise
         >
@@ -666,7 +699,7 @@
           label-handles
           label-ticks
           precise
-          label="Temperature"
+          min-label="Temperature"
         ></calcite-slider>
       </div>
 
@@ -681,7 +714,7 @@
           label-handles
           label-ticks
           precise
-          label="Temperature"
+          min-label="Temperature"
         ></calcite-slider>
       </div>
     </div>
@@ -1812,7 +1845,7 @@
           max-value="80000"
           step="10000.12"
           ticks="10000"
-          label="Temperature"
+          min-label="Temperature"
           precise
           label-handles
           label-ticks
@@ -1828,7 +1861,7 @@
           max-value="80000"
           step="10000.12"
           ticks="10000"
-          label="Temperature"
+          min-label="Temperature"
           precise
           label-handles
           label-ticks
@@ -2929,7 +2962,14 @@
       <div class="child right-aligned-text">Event listener</div>
 
       <div class="child">
-        <calcite-slider id="sliderEvents" min="0" max="100" value="50" step="1" label="Temperature"></calcite-slider>
+        <calcite-slider
+          id="sliderEvents"
+          min="0"
+          max="100"
+          value="50"
+          step="1"
+          min-label="Temperature"
+        ></calcite-slider>
         <p>Current slider value is: <span id="sliderEventDisplay"></span></p>
       </div>
     </div>

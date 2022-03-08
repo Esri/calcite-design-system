@@ -34,16 +34,17 @@ declare module "preact/src/jsx" {
 }
 
 function getType({ events, tagName, componentClassName }): string {
+  const className = `Calcite${componentClassName}`;
   if (!events?.length) {
     return `
-      "${tagName}": JSX.${componentClassName} & JSXInternal.HTMLAttributes<HTML${componentClassName}Element>`;
+      "${tagName}": JSX.${className} & JSXInternal.HTMLAttributes<HTML${className}Element>`;
   } else {
     const stencilEvents = events.map(({ name }) => `"on${capitalize(name)}"`).join(" | ");
     const preactEvents = events
       .map(({ name }) => `"on${name}"?: (event: CustomEvent<any>) => void;`)
       .join("\n        ");
     return `
-      "${tagName}": Omit<JSX.${componentClassName}, ${stencilEvents}> & JSXInternal.HTMLAttributes<HTML${componentClassName}Element> & {
+      "${tagName}": Omit<JSX.${className}, ${stencilEvents}> & JSXInternal.HTMLAttributes<HTML${className}Element> & {
         ${preactEvents}
       }`;
   }

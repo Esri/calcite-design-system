@@ -35,7 +35,7 @@ export class Filter {
    *
    * This property is required.
    */
-  @Prop({ mutable: true }) items!: object[];
+  @Prop({ mutable: true }) items: object[] = [];
 
   @Watch("items")
   watchItemsHandler(): void {
@@ -75,7 +75,7 @@ export class Filter {
   /**
    * Filter value.
    */
-  @Prop({ mutable: true }) value?: string;
+  @Prop({ mutable: true }) value = "";
 
   @Watch("value")
   valueHandler(value: string): void {
@@ -102,6 +102,16 @@ export class Filter {
    * This event fires when the filter text changes.
    */
   @Event() calciteFilterChange: EventEmitter<void>;
+
+  //--------------------------------------------------------------------------
+  //
+  //  Lifecycle
+  //
+  //--------------------------------------------------------------------------
+
+  componentWillLoad(): void {
+    this.filter(this.value);
+  }
 
   // --------------------------------------------------------------------------
   //

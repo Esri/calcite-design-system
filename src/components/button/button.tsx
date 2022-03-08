@@ -49,11 +49,6 @@ export class Button implements LabelableComponent {
   /** optionally pass a href - used to determine if the component should render as a button or an anchor */
   @Prop({ reflect: true }) href?: string;
 
-  @Watch("href")
-  hrefHandler(href: string): void {
-    this.childElType = href ? "a" : "button";
-  }
-
   /** optionally pass an icon to display at the end of a button - accepts calcite ui icon names  */
   @Prop({ reflect: true }) iconEnd?: string;
 
@@ -121,7 +116,6 @@ export class Button implements LabelableComponent {
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
-    this.childElType = this.href ? "a" : "button";
     this.hasLoader = this.loading;
     this.setupTextContentObserver();
     connectLabel(this);
@@ -140,14 +134,15 @@ export class Button implements LabelableComponent {
   componentWillLoad(): void {
     if (Build.isBrowser) {
       this.updateHasContent();
-      if (this.childElType === "button" && !this.type) {
+      if (!this.href && !this.type) {
         this.type = "submit";
       }
     }
   }
 
   render(): VNode {
-    const Tag = this.childElType;
+    const childElType = this.href ? "a" : "button";
+    const Tag = childElType;
     const loaderNode = this.hasLoader ? (
       <div class={CSS.buttonLoader}>
         <calcite-loader
@@ -193,14 +188,14 @@ export class Button implements LabelableComponent {
           [CSS.iconEndEmpty]: !this.iconEnd
         }}
         disabled={this.disabled || this.loading}
-        href={this.childElType === "a" && this.href}
-        name={this.childElType === "button" && this.name}
+        href={childElType === "a" && this.href}
+        name={childElType === "button" && this.name}
         onClick={this.handleClick}
         ref={(el) => (this.childEl = el)}
-        rel={this.childElType === "a" && this.rel}
+        rel={childElType === "a" && this.rel}
         tabIndex={this.disabled || this.loading ? -1 : null}
-        target={this.childElType === "a" && this.target}
-        type={this.childElType === "button" && this.type}
+        target={childElType === "a" && this.target}
+        type={childElType === "button" && this.type}
       >
         {loaderNode}
         {this.iconStart ? iconStartEl : null}
@@ -238,9 +233,6 @@ export class Button implements LabelableComponent {
   /** the rendered child element */
   private childEl?: HTMLElement;
 
-  /** the node type of the rendered child element */
-  @State() childElType?: "a" | "button" = "button";
-
   /** determine if there is slotted content for styling purposes */
   @State() private hasContent = false;
 
@@ -272,9 +264,9 @@ export class Button implements LabelableComponent {
 
   // act on a requested or nearby form based on type
   private handleClick = (): void => {
-    const { childElType, formEl, type } = this;
+    const { formEl, type } = this;
     // this.type refers to type attribute, not child element type
-    if (childElType === "button" && type !== "button") {
+    if (!this.href && type !== "button") {
       if (type === "submit") {
         formEl?.requestSubmit();
       } else if (type === "reset") {

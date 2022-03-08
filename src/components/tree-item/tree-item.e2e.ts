@@ -292,4 +292,59 @@ describe("calcite-tree-item", () => {
     expect(checkbox).not.toHaveAttribute("checked");
     expect(isVisible).toBe(true);
   });
+
+  it("right arrow key expands subtree and left arrow collapses it", async () => {
+    const page = await newE2EPage({
+      html: `
+        <calcite-tree>
+          <calcite-tree-item id="cables">
+            Cables
+            <calcite-tree slot="children">
+              <calcite-tree-item id="xlr">XLR Cable</calcite-tree-item>
+              <calcite-tree-item id="instrument">Instrument Cable</calcite-tree-item>
+            </calcite-tree>
+          </calcite-tree-item>
+        </calcite-tree>
+    `
+    });
+
+    await page.keyboard.press("Tab");
+
+    expect(await page.evaluate(() => document.activeElement.id)).toBe("cables");
+    expect(await page.evaluate(() => (document.activeElement as HTMLCalciteTreeItemElement).expanded)).toBe(false);
+
+    await page.keyboard.press("ArrowRight");
+
+    expect(await page.evaluate(() => document.activeElement.id)).toBe("cables");
+    expect(await page.evaluate(() => (document.activeElement as HTMLCalciteTreeItemElement).expanded)).toBe(true);
+
+    await page.keyboard.press("ArrowLeft");
+
+    expect(await page.evaluate(() => document.activeElement.id)).toBe("cables");
+    expect(await page.evaluate(() => (document.activeElement as HTMLCalciteTreeItemElement).expanded)).toBe(false);
+  });
+
+  it("right arrow key focuses first item in expanded subtree", async () => {
+    const page = await newE2EPage({
+      html: `
+        <calcite-tree>
+          <calcite-tree-item id="cables" expanded>
+            Cables
+            <calcite-tree slot="children">
+              <calcite-tree-item id="xlr">XLR Cable</calcite-tree-item>
+              <calcite-tree-item id="instrument">Instrument Cable</calcite-tree-item>
+            </calcite-tree>
+          </calcite-tree-item>
+        </calcite-tree>
+    `
+    });
+
+    await page.keyboard.press("Tab");
+
+    expect(await page.evaluate(() => document.activeElement.id)).toBe("cables");
+
+    await page.keyboard.press("ArrowRight");
+
+    expect(await page.evaluate(() => document.activeElement.id)).toBe("xlr");
+  });
 });
