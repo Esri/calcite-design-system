@@ -99,4 +99,4 @@ export const AllowingEmpty = (): string =>
     { name: "value", value: text("value", "") }
   ]);
 
-export const disabled = (): string => html`<calcite-color-picker></calcite-color-picker>`;
+export const disabled = (): string => html`<calcite-color-picker disabled></calcite-color-picker>`;
