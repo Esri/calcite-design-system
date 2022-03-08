@@ -1042,9 +1042,10 @@ export class Combobox implements LabelableComponent, FormComponent {
   }
 
   renderIconEnd(): VNode {
+    const { open } = this;
     return (
       <span class="icon-end">
-        <calcite-icon icon="chevron-down" scale="s" />
+        <calcite-icon icon={open ? "chevron-up" : "chevron-down"} scale="s" />
       </span>
     );
   }
