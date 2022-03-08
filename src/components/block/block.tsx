@@ -157,11 +157,10 @@ export class Block implements ConditionalSlotComponent, InteractiveComponent {
   // --------------------------------------------------------------------------
 
   renderScrim(): VNode[] {
-    const { disabled, loading } = this;
-
+    const { loading } = this;
     const defaultSlot = <slot />;
 
-    return [loading || disabled ? <calcite-scrim loading={loading} /> : null, defaultSlot];
+    return [loading ? <calcite-scrim loading={loading} /> : null, defaultSlot];
   }
 
   renderIcon(): VNode[] {
