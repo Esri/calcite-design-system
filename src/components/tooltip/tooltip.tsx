@@ -11,16 +11,16 @@ import {
   OverlayPositioning
 } from "../../utils/popper";
 import { queryElementRoots } from "../../utils/dom";
-import { getKey } from "../../utils/key";
 
 class TooltipManagerSingleton {
-  keyUpHandler = (event: KeyboardEvent): void => {
-    if (getKey(event.key) === "Escape") {
-      const tooltipEl = this.registeredElements.get(event.currentTarget as HTMLElement);
+  keyDownHandler = (event: KeyboardEvent): void => {
+    if (event.key === "Escape") {
+      const referenceEl = event.currentTarget as HTMLElement;
+      const tooltipEl = this.registeredElements.get(referenceEl);
 
       if (tooltipEl) {
         this.clearHoverTimeout(tooltipEl);
-        this.toggleTooltip(tooltipEl, false);
+        this.toggleTooltip(referenceEl, tooltipEl, false);
       }
     }
   };
@@ -34,12 +34,13 @@ class TooltipManagerSingleton {
   };
 
   clickHandler = (event: MouseEvent): void => {
-    const clickedTooltip = this.registeredElements.get(event.currentTarget as HTMLElement);
+    const referenceEl = event.currentTarget as HTMLElement;
+    const clickedTooltip = this.registeredElements.get(referenceEl);
 
     this.clickedTooltip = clickedTooltip;
 
     if (clickedTooltip) {
-      this.toggleTooltip(clickedTooltip, false);
+      this.toggleTooltip(referenceEl, clickedTooltip, false);
     }
   };
 
@@ -71,26 +72,45 @@ class TooltipManagerSingleton {
 
   registeredElements = new WeakMap<HTMLElement, HTMLCalciteTooltipElement>();
 
-  registerElement(element: HTMLElement, tooltip: HTMLCalciteTooltipElement): void {
-    this.registeredElements.set(element, tooltip);
+  registerElement(referenceEl: HTMLElement, tooltip: HTMLCalciteTooltipElement): void {
+    this.registeredElements.set(referenceEl, tooltip);
 
-    element.addEventListener("keyup", this.keyUpHandler);
-    element.addEventListener("mouseover", this.mouseEnterShow);
-    element.addEventListener("mouseout", this.mouseLeaveHide);
-    element.addEventListener("click", this.clickHandler);
-    element.addEventListener("focus", this.focusShow);
-    element.addEventListener("blur", this.blurHide);
+    if (tooltip.open) {
+      this.addOpenListeners(referenceEl);
+    } else {
+      this.addClosedListeners(referenceEl);
+    }
   }
 
-  unregisterElement(element: HTMLElement): void {
-    this.registeredElements.delete(element);
+  private addOpenListeners(referenceEl: HTMLElement): void {
+    referenceEl.addEventListener("keydown", this.keyDownHandler);
+    referenceEl.addEventListener("mouseout", this.mouseLeaveHide);
+    referenceEl.addEventListener("blur", this.blurHide);
+  }
 
-    element.removeEventListener("keyup", this.keyUpHandler);
-    element.removeEventListener("mouseover", this.mouseEnterShow);
-    element.removeEventListener("mouseout", this.mouseLeaveHide);
-    element.removeEventListener("click", this.clickHandler);
-    element.removeEventListener("focus", this.focusShow);
-    element.removeEventListener("blur", this.blurHide);
+  private addClosedListeners(referenceEl: HTMLElement): void {
+    referenceEl.addEventListener("click", this.clickHandler);
+    referenceEl.addEventListener("focus", this.focusShow);
+    referenceEl.addEventListener("mouseover", this.mouseEnterShow);
+  }
+
+  unregisterElement(referenceEl: HTMLElement): void {
+    this.registeredElements.delete(referenceEl);
+
+    this.removeOpenListeners(referenceEl);
+    this.removeClosedListeners(referenceEl);
+  }
+
+  private removeClosedListeners(referenceEl: HTMLElement): void {
+    referenceEl.removeEventListener("click", this.clickHandler);
+    referenceEl.removeEventListener("focus", this.focusShow);
+    referenceEl.removeEventListener("mouseover", this.mouseEnterShow);
+  }
+
+  private removeOpenListeners(referenceEl: HTMLElement): void {
+    referenceEl.removeEventListener("keydown", this.keyDownHandler);
+    referenceEl.removeEventListener("mouseout", this.mouseLeaveHide);
+    referenceEl.removeEventListener("blur", this.blurHide);
   }
 
   private clearHoverTimeout(tooltip: HTMLCalciteTooltipElement): void {
@@ -102,77 +122,83 @@ class TooltipManagerSingleton {
     }
   }
 
-  private closeExistingTooltip(): void {
+  private closeExistingTooltip(referenceEl: HTMLElement): void {
     const tooltipEl = this.activeTooltipEl;
 
     if (tooltipEl) {
-      this.toggleTooltip(tooltipEl, false);
+      this.toggleTooltip(referenceEl, tooltipEl, false);
     }
   }
 
-  private focusTooltip({
-    tooltip,
-    value
-  }: {
-    tooltip: HTMLCalciteTooltipElement;
-    value: boolean;
-  }): void {
-    this.closeExistingTooltip();
+  private focusTooltip(
+    referenceEl: HTMLElement,
+    tooltip: HTMLCalciteTooltipElement,
+    value: boolean
+  ): void {
+    this.closeExistingTooltip(referenceEl);
 
     if (value) {
       this.clearHoverTimeout(tooltip);
     }
 
-    this.toggleTooltip(tooltip, value);
+    this.toggleTooltip(referenceEl, tooltip, value);
   }
 
-  private toggleTooltip(tooltip: HTMLCalciteTooltipElement, value: boolean): void {
+  private toggleTooltip(
+    referenceEl: HTMLElement,
+    tooltip: HTMLCalciteTooltipElement,
+    value: boolean
+  ): void {
     tooltip.open = value;
 
     if (value) {
       this.activeTooltipEl = tooltip;
+      this.addOpenListeners(referenceEl);
+      this.removeClosedListeners(referenceEl);
+    } else {
+      this.addClosedListeners(referenceEl);
+      this.removeOpenListeners(referenceEl);
     }
   }
 
-  private hoverToggle = ({
-    tooltip,
-    value
-  }: {
-    tooltip: HTMLCalciteTooltipElement;
-    value: boolean;
-  }): void => {
+  private hoverToggle = (
+    referenceEl: HTMLElement,
+    tooltip: HTMLCalciteTooltipElement,
+    value: boolean
+  ): void => {
     const { hoverTimeouts } = this;
 
     hoverTimeouts.delete(tooltip);
 
     if (value) {
-      this.closeExistingTooltip();
+      this.closeExistingTooltip(referenceEl);
     }
 
-    this.toggleTooltip(tooltip, value);
+    this.toggleTooltip(referenceEl, tooltip, value);
   };
 
-  private hoverTooltip({
-    tooltip,
-    value
-  }: {
-    tooltip: HTMLCalciteTooltipElement;
-    value: boolean;
-  }): void {
+  private hoverTooltip(
+    referenceEl: HTMLElement,
+    tooltip: HTMLCalciteTooltipElement,
+    value: boolean
+  ): void {
     this.clearHoverTimeout(tooltip);
 
     const { hoverTimeouts } = this;
 
-    const timeoutId = window.setTimeout(
-      () => this.hoverToggle({ tooltip, value }),
-      TOOLTIP_DELAY_MS || 0
-    );
+    const timeoutId = window.setTimeout(() => {
+      const willOpenAndStillHovered =
+        (value && referenceEl.matches(":hover")) || tooltip.matches(":hover");
+
+      this.hoverToggle(referenceEl, tooltip, willOpenAndStillHovered);
+    }, TOOLTIP_DELAY_MS || 0);
 
     hoverTimeouts.set(tooltip, timeoutId);
   }
 
   private activeTooltipHover(event: MouseEvent): void {
-    const tooltipEl = this.registeredElements.get(event.currentTarget as HTMLElement);
+    const referenceEl = event.currentTarget as HTMLElement;
+    const tooltipEl = this.registeredElements.get(referenceEl);
     const { hoverTimeouts } = this;
     const { type } = event;
 
@@ -183,12 +209,13 @@ class TooltipManagerSingleton {
     if (type === "mouseover" && event.composedPath().includes(tooltipEl)) {
       this.clearHoverTimeout(tooltipEl);
     } else if (type === "mouseout" && !hoverTimeouts.has(tooltipEl)) {
-      this.hoverTooltip({ tooltip: tooltipEl, value: false });
+      this.hoverTooltip(referenceEl, tooltipEl, false);
     }
   }
 
   private hoverEvent(event: MouseEvent, value: boolean): void {
-    const tooltip = this.registeredElements.get(event.currentTarget as HTMLElement);
+    const referenceEl = event.currentTarget as HTMLElement;
+    const tooltip = this.registeredElements.get(referenceEl);
 
     this.activeTooltipHover(event);
 
@@ -196,18 +223,19 @@ class TooltipManagerSingleton {
       return;
     }
 
-    this.hoverTooltip({ tooltip, value });
+    this.hoverTooltip(referenceEl, tooltip, value);
   }
 
   private focusEvent(event: FocusEvent, value: boolean): void {
-    const tooltip = this.registeredElements.get(event.currentTarget as HTMLElement);
+    const referenceEl = event.currentTarget as HTMLElement;
+    const tooltip = this.registeredElements.get(referenceEl);
 
     if (!tooltip || tooltip === this.clickedTooltip) {
       this.clickedTooltip = null;
       return;
     }
 
-    this.focusTooltip({ tooltip, value });
+    this.focusTooltip(referenceEl, tooltip, value);
   }
 }
 
@@ -258,8 +286,12 @@ export class Tooltip {
   @Prop({ reflect: true }) open = false;
 
   @Watch("open")
-  openHandler(): void {
-    this.reposition();
+  openHandler(value: boolean): void {
+    if (value) {
+      this.launchTooltip();
+    } else {
+      this.destroyPopper();
+    }
   }
 
   /** Describes the type of positioning to use for the overlaid content. If your element is in a fixed container, use the 'fixed' value. */
@@ -284,6 +316,8 @@ export class Tooltip {
   @Watch("referenceElement")
   referenceElementHandler(): void {
     this.setUpReferenceElement();
+
+    // check if changed then open if needed?
   }
 
   // --------------------------------------------------------------------------
@@ -309,11 +343,13 @@ export class Tooltip {
   // --------------------------------------------------------------------------
 
   componentWillLoad(): void {
+    // TODO: set up if open
     this.setUpReferenceElement();
   }
 
   componentDidLoad(): void {
-    this.reposition();
+    // TODO: needed?
+    // this.reposition();
   }
 
   disconnectedCallback(): void {
@@ -330,17 +366,20 @@ export class Tooltip {
   /** Updates the position of the component. */
   @Method()
   async reposition(): Promise<void> {
-    const { popper, el, placement } = this;
+    const { popper, el, open, placement } = this;
+
+    if (!open || !popper) {
+      return;
+    }
+
     const modifiers = this.getModifiers();
 
-    popper
-      ? await updatePopper({
-          el,
-          modifiers,
-          placement,
-          popper
-        })
-      : this.createPopper();
+    await updatePopper({
+      el,
+      modifiers,
+      placement,
+      popper
+    });
   }
 
   // --------------------------------------------------------------------------
@@ -349,9 +388,21 @@ export class Tooltip {
   //
   // --------------------------------------------------------------------------
 
+  launchTooltip(): void {
+    this.createPopper();
+  }
+
   setUpReferenceElement = (): void => {
     this.removeReferences();
-    this.effectiveReferenceElement = this.getReferenceElement();
+
+    if (
+      !this.effectiveReferenceElement ||
+      (typeof this.referenceElement === "string" &&
+        !this.effectiveReferenceElement.matches(`#${this.referenceElement}`)) ||
+      this.effectiveReferenceElement !== this.referenceElement
+    ) {
+      this.effectiveReferenceElement = this.getReferenceElement();
+    }
 
     const { el, referenceElement, effectiveReferenceElement } = this;
     if (referenceElement && !effectiveReferenceElement) {
@@ -361,7 +412,6 @@ export class Tooltip {
     }
 
     this.addReferences();
-    this.createPopper();
   };
 
   getId = (): string => {
@@ -394,14 +444,6 @@ export class Tooltip {
     effectiveReferenceElement.removeAttribute(ARIA_DESCRIBED_BY);
 
     manager.unregisterElement(effectiveReferenceElement);
-  };
-
-  show = (): void => {
-    this.open = true;
-  };
-
-  hide = (): void => {
-    this.open = false;
   };
 
   getReferenceElement(): HTMLElement {
