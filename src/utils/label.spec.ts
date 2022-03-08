@@ -154,6 +154,78 @@ describe("label", () => {
         expect(labelable.onLabelClick).toHaveBeenCalledTimes(1);
       });
 
+      it("supports being rendered after labelable", () => {
+        document.body.innerHTML = `
+          <fake-labelable id="renderedFirst"></fake-labelable>
+        `;
+
+        const label = document.createElement("calcite-label");
+        label.setAttribute("for", "renderedFirst");
+        document.body.appendChild(label);
+
+        const labelEl = document.querySelector<HTMLElement>("calcite-label");
+        const fakeLabelableEl = document.querySelector<HTMLElement>("fake-labelable");
+
+        wireUpFakeLabel(labelEl);
+
+        const labelable = createFakeLabelable({
+          el: fakeLabelableEl
+        });
+
+        connectLabel(labelable);
+
+        expect(labelable.labelEl).toBe(labelEl);
+
+        labelEl.click();
+
+        expect(labelable.onLabelClick).toHaveBeenCalledTimes(1);
+
+        disconnectLabel(labelable);
+
+        expect(labelable.labelEl).toBe(labelEl);
+
+        labelEl.click();
+
+        expect(labelable.onLabelClick).toHaveBeenCalledTimes(1);
+      });
+
+      it("works if reattached to labelable", () => {
+        document.body.innerHTML = `
+          <calcite-label for="for"></calcite-label>
+          <fake-labelable id="for"></fake-labelable>
+        `;
+        document.querySelector("calcite-label").remove();
+
+        const label = document.createElement("calcite-label");
+        label.setAttribute("for", "for");
+        document.body.appendChild(label);
+
+        const labelEl = document.querySelector<HTMLElement>("calcite-label");
+        const fakeLabelableEl = document.querySelector<HTMLElement>("fake-labelable");
+
+        wireUpFakeLabel(labelEl);
+
+        const labelable = createFakeLabelable({
+          el: fakeLabelableEl
+        });
+
+        connectLabel(labelable);
+
+        expect(labelable.labelEl).toBe(labelEl);
+
+        labelEl.click();
+
+        expect(labelable.onLabelClick).toHaveBeenCalledTimes(1);
+
+        disconnectLabel(labelable);
+
+        expect(labelable.labelEl).toBe(labelEl);
+
+        labelEl.click();
+
+        expect(labelable.onLabelClick).toHaveBeenCalledTimes(1);
+      });
+
       it("does not support nested labelables", () => {
         document.body.innerHTML = `
         <calcite-label>
