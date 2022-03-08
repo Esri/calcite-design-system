@@ -271,8 +271,8 @@ export const WithLabelAndInputMessageRTL = (): string => html`
   </div>
 `;
 
-export const ArabicLocale = (): string =>
-  html` <calcite-input type="number" locale="ar-EG" value="123456"></calcite-input>`;
+export const ThaiNumberingSystem = (): string =>
+  html` <calcite-input type="number" locale="thai" value="123456"></calcite-input>`;
 
 export const ArabicLocaleWithLatinNumberingSystem = (): string =>
   html` <calcite-input type="number" locale="ar-EG" numbering-system="latn" value="123456"></calcite-input>`;
