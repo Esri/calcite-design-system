@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, focusable, formAssociated, HYDRATED_ATTR, labelable } from "../../tests/commonTests";
+import { accessible, disabled, focusable, formAssociated, HYDRATED_ATTR, labelable } from "../../tests/commonTests";
 
 describe("calcite-checkbox", () => {
   it("is accessible", async () =>
@@ -14,6 +14,8 @@ describe("calcite-checkbox", () => {
     labelable("calcite-checkbox", { propertyToToggle: "checked", shadowFocusTargetSelector: ".toggle" }));
 
   it("is form-associated", async () => formAssociated("calcite-checkbox", { testValue: true }));
+
+  it("can be disabled", () => disabled("calcite-checkbox"));
 
   it("renders with correct default attributes", async () => {
     const page = await newE2EPage();
@@ -68,21 +70,6 @@ describe("calcite-checkbox", () => {
     await element.setProperty("checked", false);
     await page.waitForChanges();
     expect(spy).toHaveReceivedEventTimes(0);
-  });
-
-  it("does not toggle when clicked if disabled", async () => {
-    const page = await newE2EPage();
-    await page.setContent("<calcite-checkbox disabled></calcite-checkbox>");
-
-    const calciteCheckbox = await page.find("calcite-checkbox");
-
-    expect(calciteCheckbox).not.toHaveAttribute("checked");
-
-    await calciteCheckbox.click();
-
-    await page.waitForChanges();
-
-    expect(calciteCheckbox).not.toHaveAttribute("checked");
   });
 
   it("removes the indeterminate attribute when clicked", async () => {

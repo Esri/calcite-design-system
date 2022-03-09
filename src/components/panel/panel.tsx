@@ -20,6 +20,7 @@ import {
   connectConditionalSlotComponent,
   disconnectConditionalSlotComponent
 } from "../../utils/conditionalSlot";
+import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 
 /**
  * @slot - A slot for adding custom content.
@@ -36,7 +37,7 @@ import {
   styleUrl: "panel.scss",
   shadow: true
 })
-export class Panel implements ConditionalSlotComponent {
+export class Panel implements ConditionalSlotComponent, InteractiveComponent {
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -122,6 +123,16 @@ export class Panel implements ConditionalSlotComponent {
    * Opens the action menu.
    */
   @Prop({ reflect: true }) menuOpen = false;
+
+  //--------------------------------------------------------------------------
+  //
+  //  Lifecycle
+  //
+  //--------------------------------------------------------------------------
+
+  componentDidRender(): void {
+    updateHostInteraction(this);
+  }
 
   // --------------------------------------------------------------------------
   //
@@ -452,7 +463,7 @@ export class Panel implements ConditionalSlotComponent {
   }
 
   render(): VNode {
-    const { dismissed, disabled, dismissible, loading, panelKeyDownHandler } = this;
+    const { dismissed, dismissible, loading, panelKeyDownHandler } = this;
 
     const panelNode = (
       <article
@@ -471,7 +482,7 @@ export class Panel implements ConditionalSlotComponent {
 
     return (
       <Fragment>
-        {loading || disabled ? <calcite-scrim loading={loading} /> : null}
+        {loading ? <calcite-scrim loading={loading} /> : null}
         {panelNode}
       </Fragment>
     );

@@ -44,15 +44,6 @@ calcite-icon {
   margin-top: 0.125rem;
 }
 
-// disabled styles
-:host([disabled]) {
-  @apply pointer-events-none;
-  span,
-  a {
-    @apply opacity-disabled pointer-events-none;
-  }
-}
-
 // icon positioning and styles
 :host .calcite-link--icon.icon-start {
   margin-inline-end: theme("margin.2");
@@ -92,3 +83,5 @@ calcite-icon {
     }
   }
 }
+
+@include disabled();

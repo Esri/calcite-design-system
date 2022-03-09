@@ -1,7 +1,7 @@
 import readme from "./readme.md";
 import { boolean, select, text } from "@storybook/addon-knobs";
 import { themesDarkDefault } from "../../../.storybook/utils";
-import { html } from "../../tests/utils";
+import { html } from "../../../support/formatting";
 
 export default {
   title: "Components/Controls/Inline Editable",
@@ -126,3 +126,7 @@ export const DarkMode = (): string => html`
 
 DarkMode.storyName = "Dark mode";
 DarkMode.parameters = { themes: themesDarkDefault };
+
+export const disabled = (): string => html`<calcite-inline-editable disabled>
+  <calcite-input value="disabled"></calcite-input>
+</calcite-inline-editable>`;

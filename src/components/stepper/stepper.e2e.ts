@@ -1,6 +1,6 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { renders } from "../../tests/commonTests";
-import { html } from "../../tests/utils";
+import { html } from "../../../support/formatting";
 
 // todo test the automatic setting of first item to active
 describe("calcite-stepper", () => {

@@ -1,7 +1,7 @@
 import { select, text } from "@storybook/addon-knobs";
 import { iconNames } from "../../../.storybook/helpers";
 import readme from "./readme.md";
-import { html } from "../../tests/utils";
+import { html } from "../../../support/formatting";
 
 export default {
   title: "Components/Action Group",

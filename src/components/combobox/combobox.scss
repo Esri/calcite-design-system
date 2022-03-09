@@ -10,9 +10,7 @@
   @apply relative block;
 }
 
-:host([disabled]) {
-  @apply pointer-events-none select-none opacity-50;
-}
+@include disabled();
 
 :host([scale="s"]) {
   @apply text-n2;

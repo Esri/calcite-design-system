@@ -1,7 +1,7 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { CSS, SLOTS, TEXT } from "./resources";
-import { accessible, defaults, hidden, renders, slots } from "../../tests/commonTests";
-import { html } from "../../tests/utils";
+import { accessible, defaults, disabled, hidden, renders, slots } from "../../tests/commonTests";
+import { html } from "../../../support/formatting";
 
 describe("calcite-block", () => {
   it("renders", async () => renders("calcite-block", { display: "flex" }));
@@ -43,42 +43,8 @@ describe("calcite-block", () => {
       </calcite-block>
   `));
 
-  it("can be disabled", async () => {
-    const page = await newE2EPage({
-      html: `
-        <calcite-block heading="heading" summary="summary" open collapsible>
-          <div class="content">content</div>
-        </calcite-block>
-    `
-    });
-
-    const content = await page.find(".content");
-    const clickSpy = await content.spyOnEvent("click");
-    await content.click();
-    expect(clickSpy).toHaveReceivedEventTimes(1);
-
-    const block = await page.find("calcite-block");
-    block.setProperty("disabled", true);
-    await page.waitForChanges();
-
-    // `tabindex=-1` on host removes children from the tab order
-    expect(block.getAttribute("tabindex")).toBe("-1");
-
-    await content.click();
-    expect(clickSpy).toHaveReceivedEventTimes(1);
-
-    const header = await page.find(`calcite-block >>> .${CSS.headerContainer}`);
-    const toggleSpy = await block.spyOnEvent("calciteBlockToggle");
-
-    await header.click();
-    await header.click();
-    expect(toggleSpy).toHaveReceivedEventTimes(0);
-
-    block.setAttribute("disabled", false);
-    await page.waitForChanges();
-
-    expect(block.getAttribute("tabindex")).toBeNull();
-  });
+  it("can be disabled", () =>
+    disabled(html`<calcite-block heading="heading" summary="summary" collapsible></calcite-block>`));
 
   it("has a loading state", async () => {
     const page = await newE2EPage({

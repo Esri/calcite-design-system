@@ -123,7 +123,7 @@
   }
 }
 
-:host([disabled]) {
+@include disabled() {
   .split-button__divider-container {
     @apply opacity-disabled;
   }

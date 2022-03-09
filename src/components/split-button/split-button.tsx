@@ -1,8 +1,9 @@
-import { Component, Element, Event, EventEmitter, h, Prop, VNode } from "@stencil/core";
+import { Component, Element, Event, EventEmitter, h, Prop, VNode, Watch } from "@stencil/core";
 import { CSS } from "./resources";
 import { ButtonAppearance, ButtonColor, DropdownIconType } from "../button/interfaces";
 import { FlipContext, Scale, Width } from "../interfaces";
 import { OverlayPositioning } from "../../utils/popper";
+import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 
 /**
  * @slot - A slot for adding `calcite-dropdown` content.
@@ -12,7 +13,7 @@ import { OverlayPositioning } from "../../utils/popper";
   styleUrl: "split-button.scss",
   shadow: true
 })
-export class SplitButton {
+export class SplitButton implements InteractiveComponent {
   @Element() el: HTMLCalciteSplitButtonElement;
 
   /** specify the appearance style of the button, defaults to solid. */
@@ -24,11 +25,25 @@ export class SplitButton {
   /** is the control disabled  */
   @Prop({ reflect: true }) disabled = false;
 
+  @Watch("disabled")
+  handleDisabledChange(value: boolean): void {
+    if (!value) {
+      this.active = false;
+    }
+  }
+
   /**
    * Is the dropdown currently active or not
    * @internal
    */
-  @Prop({ reflect: true }) active = false;
+  @Prop({ mutable: true, reflect: true }) active = false;
+
+  @Watch("active")
+  activeHandler(): void {
+    if (this.disabled) {
+      this.active = false;
+    }
+  }
 
   /** specify the icon used for the dropdown menu, defaults to chevron */
   @Prop({ reflect: true }) dropdownIconType: DropdownIconType = "chevron";
@@ -70,6 +85,16 @@ export class SplitButton {
   /** fired when the secondary button is clicked */
   @Event() calciteSplitButtonSecondaryClick: EventEmitter;
 
+  //--------------------------------------------------------------------------
+  //
+  //  Lifecycle
+  //
+  //--------------------------------------------------------------------------
+
+  componentDidRender(): void {
+    updateHostInteraction(this);
+  }
+
   render(): VNode {
     const widthClasses = {
       [CSS.container]: true,
@@ -103,6 +128,7 @@ export class SplitButton {
         </div>
         <calcite-dropdown
           active={this.active}
+          disabled={this.disabled}
           onClick={this.calciteSplitButtonSecondaryClickHandler}
           overlayPositioning={this.overlayPositioning}
           placement="bottom-trailing"
