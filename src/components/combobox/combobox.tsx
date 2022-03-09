@@ -42,6 +42,7 @@ import {
   HiddenFormInputSlot
 } from "../../utils/form";
 import { createObserver } from "../../utils/observers";
+import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 interface ItemData {
   label: string;
   value: string;
@@ -64,7 +65,7 @@ const inputUidPrefix = "combobox-input-";
   styleUrl: "combobox.scss",
   shadow: true
 })
-export class Combobox implements LabelableComponent, FormComponent {
+export class Combobox implements LabelableComponent, FormComponent, InteractiveComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -83,11 +84,23 @@ export class Combobox implements LabelableComponent, FormComponent {
 
   @Watch("active")
   activeHandler(): void {
+    if (this.disabled) {
+      this.active = false;
+      return;
+    }
+
     this.reposition();
   }
 
   /** Disable combobox input */
   @Prop({ reflect: true }) disabled = false;
+
+  @Watch("disabled")
+  handleDisabledChange(value: boolean): void {
+    if (!value) {
+      this.active = false;
+    }
+  }
 
   /** Aria label for combobox (required) */
   @Prop() label!: string;
@@ -270,6 +283,8 @@ export class Combobox implements LabelableComponent, FormComponent {
       this.reposition();
       this.inputHeight = this.el.offsetHeight;
     }
+
+    updateHostInteraction(this);
   }
 
   disconnectedCallback(): void {

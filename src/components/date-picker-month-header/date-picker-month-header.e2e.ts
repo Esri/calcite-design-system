@@ -1,6 +1,6 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { renders } from "../../tests/commonTests";
-import { html } from "../../tests/utils";
+import { html } from "../../../support/formatting";
 
 describe("calcite-date-picker-month-header", () => {
   it("renders", async () => renders("calcite-date-picker-month-header", { display: "block" }));

@@ -23,13 +23,16 @@ import {
 } from "../../utils/form";
 import { CSS } from "./resources";
 import { getRoundRobinIndex } from "../../utils/array";
+import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 
 @Component({
   tag: "calcite-radio-button",
   styleUrl: "radio-button.scss",
   shadow: true
 })
-export class RadioButton implements LabelableComponent, CheckableFormCompoment {
+export class RadioButton
+  implements LabelableComponent, CheckableFormCompoment, InteractiveComponent
+{
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -386,6 +389,10 @@ export class RadioButton implements LabelableComponent, CheckableFormCompoment {
   disconnectedCallback(): void {
     disconnectLabel(this);
     disconnectForm(this);
+  }
+
+  componentDidRender(): void {
+    updateHostInteraction(this);
   }
 
   // --------------------------------------------------------------------------

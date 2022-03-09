@@ -35,6 +35,7 @@ import {
 } from "../../utils/popper";
 import { StrictModifiers, Instance as Popper } from "@popperjs/core";
 import { DateRangeChange } from "../date-picker/interfaces";
+import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 
 const DEFAULT_PLACEMENT = "bottom-leading";
 
@@ -43,7 +44,7 @@ const DEFAULT_PLACEMENT = "bottom-leading";
   styleUrl: "input-date-picker.scss",
   shadow: true
 })
-export class InputDatePicker implements LabelableComponent, FormComponent {
+export class InputDatePicker implements LabelableComponent, FormComponent, InteractiveComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -60,6 +61,13 @@ export class InputDatePicker implements LabelableComponent, FormComponent {
    * When false, the component won't be interactive.
    */
   @Prop({ reflect: true }) disabled = false;
+
+  @Watch("disabled")
+  handleDisabledChange(value: boolean): void {
+    if (!value) {
+      this.active = false;
+    }
+  }
 
   /** Selected date */
   @Prop({ mutable: true }) value: string | string[];
@@ -128,7 +136,12 @@ export class InputDatePicker implements LabelableComponent, FormComponent {
 
   @Watch("active")
   activeHandler(): void {
-    this.reposition();
+    if (!this.disabled) {
+      this.reposition();
+      return;
+    }
+
+    this.active = false;
   }
 
   /**
@@ -322,6 +335,10 @@ export class InputDatePicker implements LabelableComponent, FormComponent {
     disconnectForm(this);
   }
 
+  componentDidRender(): void {
+    updateHostInteraction(this);
+  }
+
   render(): VNode {
     const { disabled } = this;
     const date = dateFromRange(
@@ -360,10 +377,12 @@ export class InputDatePicker implements LabelableComponent, FormComponent {
                 />
               </div>
             }
-
             <div
               aria-hidden={(!this.active).toString()}
-              class="menu-container"
+              class={{
+                "menu-container": true,
+                "menu-container--active": this.active
+              }}
               ref={this.setMenuEl}
             >
               <div

@@ -9,6 +9,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### Bug Fixes
 
+- ensure components are disabled consistently ([#4109](https://github.com/Esri/calcite-components/issues/4109)) ([083d283](https://github.com/Esri/calcite-components/commit/083d283caf719eed91cb1f5bd71b4584864b5e61)), closes [#2655](https://github.com/Esri/calcite-components/issues/2655)
 - **filter:** filter method runs on load in case there is a predefined search value prop ([#4207](https://github.com/Esri/calcite-components/issues/4207)) ([454938c](https://github.com/Esri/calcite-components/commit/454938cb0b04adcff0f0ba47050d987ae312b58b))
 - **label, input, label util:** clicking the label always triggers a "click" event, whether the label was added before component was added or after ([#4029](https://github.com/Esri/calcite-components/issues/4029)) ([53451bb](https://github.com/Esri/calcite-components/commit/53451bb6aed6345259756f3eca116276711d38a5))
 - solve regression with preact type generation ([#4181](https://github.com/Esri/calcite-components/issues/4181)) ([30e3f84](https://github.com/Esri/calcite-components/commit/30e3f8477ed959be6681ef89f09e260f07b9f2fb))

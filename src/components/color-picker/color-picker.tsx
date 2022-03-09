@@ -29,6 +29,7 @@ import { colorEqual, CSSColorMode, Format, normalizeHex, parseMode, SupportedMod
 import { throttle } from "lodash-es";
 
 import { clamp } from "../../utils/math";
+import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 
 const throttleFor60FpsInMs = 16;
 const defaultValue = normalizeHex(DEFAULT_COLOR.hex());
@@ -39,7 +40,7 @@ const defaultFormat = "auto";
   styleUrl: "color-picker.scss",
   shadow: true
 })
-export class ColorPicker {
+export class ColorPicker implements InteractiveComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -84,6 +85,11 @@ export class ColorPicker {
 
     this.value = this.toValue(color);
   }
+
+  /**
+   * When true, disabled prevents user interaction.
+   */
+  @Prop({ reflect: true }) disabled = false;
 
   /**
    * The format of the value property.
@@ -295,6 +301,8 @@ export class ColorPicker {
   private colorFieldScopeNode: HTMLDivElement;
 
   private hueThumbState: "idle" | "hover" | "drag" = "idle";
+
+  private hueScopeNode: HTMLDivElement;
 
   private internalColorUpdateContext: "internal" | "initial" | null = null;
 
@@ -516,9 +524,11 @@ export class ColorPicker {
     if (region === "color-field") {
       this.hueThumbState = "drag";
       this.captureColorFieldColor(offsetX, offsetY);
+      this.colorFieldScopeNode.focus();
     } else if (region === "slider") {
       this.sliderThumbState = "drag";
       this.captureHueSliderColor(offsetX);
+      this.hueScopeNode.focus();
     }
 
     // prevent text selection outside of color field & slider area
@@ -717,6 +727,10 @@ export class ColorPicker {
     document.removeEventListener("mouseup", this.globalMouseUpHandler);
   }
 
+  componentDidRender(): void {
+    updateHostInteraction(this);
+  }
+
   //--------------------------------------------------------------------------
   //
   //  Render Methods
@@ -788,6 +802,7 @@ export class ColorPicker {
             aria-valuenow={color?.round().hue() || DEFAULT_COLOR.round().hue()}
             class={{ [CSS.scope]: true, [CSS.hueScope]: true }}
             onKeyDown={this.handleHueScopeKeyDown}
+            ref={this.storeHueScope}
             role="slider"
             style={{ top: `${hueTop}px`, left: `${hueLeft}px` }}
             tabindex="0"
@@ -892,6 +907,10 @@ export class ColorPicker {
 
   private storeColorFieldScope = (node: HTMLDivElement): void => {
     this.colorFieldScopeNode = node;
+  };
+
+  private storeHueScope = (node: HTMLDivElement): void => {
+    this.hueScopeNode = node;
   };
 
   private renderChannelsTabTitle = (channelMode: this["channelMode"]): VNode => {

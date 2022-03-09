@@ -12,6 +12,7 @@ import {
 } from "@stencil/core";
 import { getElementProp } from "../../utils/dom";
 import { Scale } from "../interfaces";
+import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 
 /**
  * @slot - A slot for adding custom content.
@@ -21,7 +22,7 @@ import { Scale } from "../interfaces";
   styleUrl: "stepper-item.scss",
   shadow: true
 })
-export class StepperItem {
+export class StepperItem implements InteractiveComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -45,7 +46,7 @@ export class StepperItem {
   @Prop() error = false;
 
   /** is the step disabled and not navigable to by a user */
-  @Prop() disabled = false;
+  @Prop({ reflect: true }) disabled = false;
 
   /** pass a title for the stepper item */
   @Prop() itemTitle?: string;
@@ -126,13 +127,13 @@ export class StepperItem {
     }
   }
 
+  componentDidRender(): void {
+    updateHostInteraction(this, true);
+  }
+
   render(): VNode {
     return (
-      <Host
-        aria-expanded={this.active.toString()}
-        onClick={() => this.emitRequestedItem()}
-        tabindex={this.disabled ? null : 0}
-      >
+      <Host aria-expanded={this.active.toString()} onClick={() => this.emitRequestedItem()}>
         <div class="container">
           <div class="stepper-item-header">
             {this.icon ? this.renderIcon() : null}

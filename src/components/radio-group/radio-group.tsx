@@ -18,6 +18,7 @@ import { Layout, Scale, Width } from "../interfaces";
 import { LabelableComponent, connectLabel, disconnectLabel } from "../../utils/label";
 import { connectForm, disconnectForm, FormComponent, HiddenFormInputSlot } from "../../utils/form";
 import { RadioAppearance } from "./interfaces";
+import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 
 /**
  * @slot - A slot for adding `calcite-radio-group-item`s.
@@ -27,7 +28,7 @@ import { RadioAppearance } from "./interfaces";
   styleUrl: "radio-group.scss",
   shadow: true
 })
-export class RadioGroup implements LabelableComponent, FormComponent {
+export class RadioGroup implements LabelableComponent, FormComponent, InteractiveComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -133,9 +134,13 @@ export class RadioGroup implements LabelableComponent, FormComponent {
     disconnectForm(this);
   }
 
+  componentDidRender(): void {
+    updateHostInteraction(this);
+  }
+
   render(): VNode {
     return (
-      <Host onClick={this.handleClick} role="radiogroup" tabIndex={this.disabled ? -1 : null}>
+      <Host onClick={this.handleClick} role="radiogroup">
         <slot />
         <HiddenFormInputSlot component={this} />
       </Host>

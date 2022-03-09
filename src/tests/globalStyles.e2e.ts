@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { html } from "./utils";
+import { html } from "../../support/formatting";
 describe("global styles", () => {
   describe("animation", () => {
     const snippet = `<calcite-notice width="half" id="in" class="calcite-animate ">

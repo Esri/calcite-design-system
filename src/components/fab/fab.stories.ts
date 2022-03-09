@@ -9,6 +9,7 @@ import {
 import readme from "./readme.md";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { ICONS } from "./resources";
+import { html } from "../../../support/formatting";
 const { scale } = ATTRIBUTES;
 
 export default {
@@ -107,3 +108,5 @@ export const darkThemeRTL = (): string =>
   );
 
 darkThemeRTL.parameters = { themes: themesDarkDefault };
+
+export const disabled = (): string => html`<calcite-fab disabled icon="plus"></calcite-fab>`;

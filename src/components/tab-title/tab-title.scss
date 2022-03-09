@@ -36,8 +36,7 @@
   @apply text-color-1 border-color-transparent;
 }
 
-:host([disabled]) {
-  @apply pointer-events-none;
+@include disabled() {
   span,
   a {
     @apply pointer-events-none opacity-50;
