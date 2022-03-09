@@ -515,9 +515,7 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
       this.active = false;
     } else {
       this.active = true;
-      this.textInput?.focus();
-      this.activeChipIndex = -1;
-      this.activeItemIndex = -1;
+      this.setFocus();
     }
   };
 
