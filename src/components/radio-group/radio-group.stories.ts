@@ -3,7 +3,7 @@ import { boolean } from "../../../.storybook/helpers";
 import { themesDarkDefault } from "../../../.storybook/utils";
 import readme1 from "./readme.md";
 import readme2 from "../radio-group-item/readme.md";
-import { html } from "../../tests/utils";
+import { html } from "../../../support/formatting";
 
 export default {
   title: "Components/Controls/Radio/Radio Group",
@@ -115,3 +115,10 @@ export const RTL = (): string => html`
     <calcite-radio-group-item value="vue">Vue</calcite-radio-group-item>
   </calcite-radio-group>
 `;
+
+export const disabled = (): string => html`<calcite-radio-group disabled>
+  <calcite-radio-group-item value="react" checked>React</calcite-radio-group-item>
+  <calcite-radio-group-item value="ember">Ember</calcite-radio-group-item>
+  <calcite-radio-group-item value="angular">Angular</calcite-radio-group-item>
+  <calcite-radio-group-item value="vue">Vue</calcite-radio-group-item>
+</calcite-radio-group>`;

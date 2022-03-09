@@ -2,6 +2,8 @@
   @apply flex bg-transparent;
 }
 
+@include disabled();
+
 calcite-button {
   @apply shadow-2;
   &:hover {

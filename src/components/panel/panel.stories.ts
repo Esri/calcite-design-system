@@ -9,7 +9,7 @@ import {
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import readme from "./readme.md";
 import { SLOTS, TEXT } from "./resources";
-import { html } from "../../tests/utils";
+import { html } from "../../../support/formatting";
 
 export default {
   title: "Components/Panel",
@@ -163,3 +163,5 @@ export const darkThemeRTL = (): string =>
   );
 
 darkThemeRTL.parameters = { themes: themesDarkDefault };
+
+export const disabled = (): string => html`<calcite-panel heading="Heading" disabled>disabled</calcite-panel>`;

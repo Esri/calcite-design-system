@@ -5,7 +5,7 @@ import { DefaultDropdownPlacement } from "./resources";
 import readme1 from "./readme.md";
 import readme2 from "../dropdown-group/readme.md";
 import readme3 from "../dropdown-item/readme.md";
-import { html } from "../../tests/utils";
+import { html } from "../../../support/formatting";
 
 const placements = [
   "top-start",
@@ -386,3 +386,21 @@ export const FlipPositioning = stepStory(
 FlipPositioning.parameters = {
   layout: "fullscreen"
 };
+
+export const disabled = (): string => html` <calcite-dropdown disabled>
+  <calcite-button slot="dropdown-trigger">Open Dropdown</calcite-button>
+  <calcite-dropdown-group group-title="First group">
+    <calcite-dropdown-item>1</calcite-dropdown-item>
+    <calcite-dropdown-item>2</calcite-dropdown-item>
+    <calcite-dropdown-item>3</calcite-dropdown-item>
+    <calcite-dropdown-item>4</calcite-dropdown-item>
+    <calcite-dropdown-item>5</calcite-dropdown-item>
+  </calcite-dropdown-group>
+  <calcite-dropdown-group group-title="Second group">
+    <calcite-dropdown-item>6</calcite-dropdown-item>
+    <calcite-dropdown-item>7</calcite-dropdown-item>
+    <calcite-dropdown-item>8</calcite-dropdown-item>
+    <calcite-dropdown-item>9</calcite-dropdown-item>
+    <calcite-dropdown-item>10</calcite-dropdown-item>
+  </calcite-dropdown-group>
+</calcite-dropdown>`;

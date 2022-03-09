@@ -16,13 +16,14 @@ import { Scale } from "../interfaces";
 import { LabelableComponent, connectLabel, disconnectLabel } from "../../utils/label";
 import { connectForm, disconnectForm, FormComponent, HiddenFormInputSlot } from "../../utils/form";
 import { TEXT } from "./resources";
+import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 
 @Component({
   tag: "calcite-rating",
   styleUrl: "rating.scss",
   shadow: true
 })
-export class Rating implements LabelableComponent, FormComponent {
+export class Rating implements LabelableComponent, FormComponent, InteractiveComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -94,6 +95,10 @@ export class Rating implements LabelableComponent, FormComponent {
     disconnectForm(this);
   }
 
+  componentDidRender(): void {
+    updateHostInteraction(this);
+  }
+
   //--------------------------------------------------------------------------
   //
   //  Events
@@ -158,6 +163,10 @@ export class Rating implements LabelableComponent, FormComponent {
             id={`${this.guid}-${i}`}
             name={this.guid}
             onChange={() => this.updateValue(i)}
+            onClick={(event) =>
+              // click is fired from the the component's label, so we treat this as an internal event
+              event.stopPropagation()
+            }
             onFocus={() => {
               this.hasFocus = true;
               this.focusValue = i;
@@ -174,12 +183,13 @@ export class Rating implements LabelableComponent, FormComponent {
   }
 
   render() {
-    const { intlRating, showChip, scale, count, average } = this;
+    const { disabled, intlRating, showChip, scale, count, average } = this;
 
     return (
       <Fragment>
         <fieldset
           class="fieldset"
+          disabled={disabled}
           onBlur={() => (this.hoverValue = null)}
           onMouseLeave={() => (this.hoverValue = null)}
           onTouchEnd={() => (this.hoverValue = null)}

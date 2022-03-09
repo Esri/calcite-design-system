@@ -16,6 +16,8 @@
   width: var(--select-width);
 }
 
+@include disabled();
+
 :host([scale="s"]) {
   @apply h-6;
   --calcite-select-font-size: theme("fontSize.n2h");
@@ -86,10 +88,6 @@
 // override user agent stylesheet disabled styling
 select:disabled {
   @apply border-color-input bg-opacity-100;
-}
-
-:host([disabled]) {
-  @apply opacity-disabled pointer-events-none select-none;
 }
 
 .icon-container {

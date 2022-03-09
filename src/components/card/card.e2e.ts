@@ -1,6 +1,6 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { accessible, renders, slots } from "../../tests/commonTests";
-import { placeholderImage } from "../../tests/utils";
+import { placeholderImage } from "../../../.storybook/utils";
 import { CSS, SLOTS } from "./resources";
 const placeholder = placeholderImage({
   width: 350,
