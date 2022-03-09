@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { renders, hidden, accessible, defaults, labelable, formAssociated } from "../../tests/commonTests";
+import { renders, hidden, accessible, defaults, labelable, formAssociated, popperOwner } from "../../tests/commonTests";
 import { html } from "../../tests/utils";
 import { TEXT } from "./resources";
 
@@ -945,5 +945,16 @@ describe("calcite-combobox", () => {
         <calcite-combobox-item id="three" value="three" text-label="Three"></calcite-combobox-item>
       </calcite-combobox>`,
       { testValue: "two" }
+    ));
+
+  it("owns a popper", () =>
+    popperOwner(
+      html` <calcite-combobox>
+        <calcite-combobox-item id="one" icon="banana" value="one" text-label="One"></calcite-combobox-item>
+        <calcite-combobox-item id="two" icon="beaker" value="two" text-label="Two" selected></calcite-combobox-item>
+        <calcite-combobox-item id="three" value="three" text-label="Three"></calcite-combobox-item>
+      </calcite-combobox>`,
+      "active",
+      { shadowPopperSelector: ".popper-container" }
     ));
 });

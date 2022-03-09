@@ -228,7 +228,12 @@ export class Tooltip {
       }
     };
 
-    return [arrowModifier, offsetModifier];
+    const eventListenerModifier: Partial<StrictModifiers> = {
+      name: "eventListeners",
+      enabled: this.open
+    };
+
+    return [arrowModifier, offsetModifier, eventListenerModifier];
   }
 
   createPopper(): void {

@@ -82,15 +82,7 @@ export class Combobox implements LabelableComponent, FormComponent {
   @Prop({ reflect: true, mutable: true }) active = false;
 
   @Watch("active")
-  activeHandler(newValue: boolean, oldValue: boolean): void {
-    // when closing, wait transition time then hide to prevent overscroll
-    if (oldValue && !newValue) {
-      this.el.addEventListener("calciteComboboxClose", this.toggleCloseEnd);
-      this.open = false;
-    } else if (!oldValue && newValue) {
-      this.el.addEventListener("calciteComboboxOpen", this.toggleOpenEnd);
-      this.open = true;
-    }
+  activeHandler(): void {
     this.reposition();
   }
 
@@ -319,8 +311,6 @@ export class Combobox implements LabelableComponent, FormComponent {
 
   @State() needsIcon: boolean;
 
-  @State() hideList = !this.active;
-
   @State() activeItemIndex = -1;
 
   @State() activeChipIndex = -1;
@@ -328,8 +318,6 @@ export class Combobox implements LabelableComponent, FormComponent {
   @State() activeDescendant = "";
 
   @State() text = "";
-
-  @State() open = this.active;
 
   /** when search text is cleared, reset active to  */
   @Watch("text")
@@ -443,12 +431,12 @@ export class Combobox implements LabelableComponent, FormComponent {
   };
 
   private toggleCloseEnd = (): void => {
-    this.hideList = true;
+    this.active = true;
     this.el.removeEventListener("calciteComboboxClose", this.toggleCloseEnd);
   };
 
   private toggleOpenEnd = (): void => {
-    this.hideList = false;
+    this.active = false;
     this.el.removeEventListener("calciteComboboxOpen", this.toggleOpenEnd);
   };
 
@@ -544,7 +532,12 @@ export class Combobox implements LabelableComponent, FormComponent {
       fallbackPlacements: ["top-start", "top", "top-end", "bottom-start", "bottom", "bottom-end"]
     };
 
-    return [flipModifier];
+    const eventListenerModifier: Partial<StrictModifiers> = {
+      name: "eventListeners",
+      enabled: this.active
+    };
+
+    return [flipModifier, eventListenerModifier];
   }
 
   createPopper(): void {
@@ -1004,7 +997,7 @@ export class Combobox implements LabelableComponent, FormComponent {
   }
 
   renderPopperContainer(): VNode {
-    const { active, setMenuEl, setListContainerEl, hideList, open } = this;
+    const { active, setMenuEl, setListContainerEl } = this;
     const classes = {
       "list-container": true,
       [PopperCSS.animation]: true,
@@ -1014,11 +1007,11 @@ export class Combobox implements LabelableComponent, FormComponent {
     return (
       <div
         aria-hidden="true"
-        class={{ "popper-container": true, "popper-container--active": open }}
+        class={{ "popper-container": true, "popper-container--active": active }}
         ref={setMenuEl}
       >
         <div class={classes} onTransitionEnd={this.transitionEnd} ref={setListContainerEl}>
-          <ul class={{ list: true, "list--hide": hideList }}>
+          <ul class={{ list: true, "list--hide": active }}>
             <slot />
           </ul>
         </div>
@@ -1050,7 +1043,7 @@ export class Combobox implements LabelableComponent, FormComponent {
   }
 
   render(): VNode {
-    const { guid, open, label } = this;
+    const { active, guid, label } = this;
     const single = this.selectionMode === "single";
 
     return (
@@ -1064,7 +1057,7 @@ export class Combobox implements LabelableComponent, FormComponent {
           class={{
             wrapper: true,
             "wrapper--single": single || !this.selectedItems.length,
-            "wrapper--active": open
+            "wrapper--active": active
           }}
           onClick={this.setFocusClick}
           ref={this.setReferenceEl}

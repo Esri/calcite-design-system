@@ -563,7 +563,12 @@ export class InputDatePicker implements LabelableComponent, FormComponent {
       fallbackPlacements: ["top-start", "top", "top-end", "bottom-start", "bottom", "bottom-end"]
     };
 
-    return [flipModifier];
+    const eventListenerModifier: Partial<StrictModifiers> = {
+      name: "eventListeners",
+      enabled: this.active
+    };
+
+    return [flipModifier, eventListenerModifier];
   }
 
   createPopper(): void {
