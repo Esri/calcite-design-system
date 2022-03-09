@@ -34,6 +34,7 @@ import {
 import List from "./shared-list-render";
 import { HeadingLevel } from "../functional/Heading";
 import { createObserver } from "../../utils/observers";
+import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 
 /**
  * @slot - A slot for adding `calcite-pick-list-item` elements or `calcite-pick-list-group` elements. Items are displayed as a vertical list.
@@ -46,7 +47,8 @@ import { createObserver } from "../../utils/observers";
 })
 export class PickList<
   ItemElement extends HTMLCalcitePickListItemElement = HTMLCalcitePickListItemElement
-> {
+> implements InteractiveComponent
+{
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -126,6 +128,10 @@ export class PickList<
 
   disconnectedCallback(): void {
     cleanUpObserver.call(this);
+  }
+
+  componentDidRender(): void {
+    updateHostInteraction(this);
   }
 
   // --------------------------------------------------------------------------

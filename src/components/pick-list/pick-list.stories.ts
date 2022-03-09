@@ -9,7 +9,7 @@ import {
 import readme from "./readme.md";
 import itemReadme from "../pick-list-item/readme.md";
 import groupReadme from "../pick-list-group/readme.md";
-import { html } from "../../tests/utils";
+import { html } from "../../../support/formatting";
 
 export default {
   title: "Components/Pick List",
@@ -165,3 +165,14 @@ export const nested = (): string =>
       </calcite-pick-list-group>
     `
   );
+
+export const disabled = (): string => html`<calcite-pick-list disabled>
+  <calcite-pick-list-item label="T. Rex" description="arm strength impaired" value="trex"></calcite-pick-list-item>
+  <calcite-pick-list-item
+    label="Triceratops"
+    description="3 horn"
+    value="triceratops"
+    selected
+  ></calcite-pick-list-item>
+  <calcite-pick-list-item label="hi" description="there" value="helloWorld"></calcite-pick-list-item>
+</calcite-pick-list>`;

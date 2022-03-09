@@ -1,7 +1,8 @@
 import { E2EElement, newE2EPage } from "@stencil/core/testing";
-import { accessible, HYDRATED_ATTR, labelable } from "../../tests/commonTests";
+import { accessible, disabled, HYDRATED_ATTR, labelable } from "../../tests/commonTests";
 import { CSS } from "./resources";
-import { html, GlobalTestProps } from "../../tests/utils";
+import { GlobalTestProps } from "../../tests/utils";
+import { html } from "../../../support/formatting";
 
 describe("calcite-button", () => {
   it("renders as a button with default props", async () => {
@@ -43,6 +44,8 @@ describe("calcite-button", () => {
     accessible(`<calcite-button loading icon-start='plus' icon-end='plus'>Continue</calcite-button>`));
 
   it("is labelable", async () => labelable("calcite-button"));
+
+  it("can be disabled", () => disabled("calcite-button"));
 
   it("should update childElType when href changes", async () => {
     const page = await newE2EPage({ html: `<calcite-button>Continue</calcite-button>` });

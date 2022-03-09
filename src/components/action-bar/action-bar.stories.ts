@@ -8,7 +8,7 @@ import {
 } from "../../../.storybook/utils";
 import readme from "./readme.md";
 import { ATTRIBUTES } from "../../../.storybook/resources";
-import { html } from "../../tests/utils";
+import { html } from "../../../support/formatting";
 import { TEXT } from "./resources";
 
 export default {

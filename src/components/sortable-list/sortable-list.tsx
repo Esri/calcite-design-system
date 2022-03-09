@@ -13,6 +13,7 @@ import {
 import { createObserver } from "../../utils/observers";
 import { Layout } from "../interfaces";
 import { CSS } from "./resources";
+import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 
 /**
  * @slot - A slot for adding sortable items.
@@ -22,7 +23,7 @@ import { CSS } from "./resources";
   styleUrl: "sortable-list.scss",
   shadow: true
 })
-export class SortableList {
+export class SortableList implements InteractiveComponent {
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -96,6 +97,10 @@ export class SortableList {
   disconnectedCallback(): void {
     this.mutationObserver?.disconnect();
     this.cleanUpDragAndDrop();
+  }
+
+  componentDidRender(): void {
+    updateHostInteraction(this);
   }
 
   // --------------------------------------------------------------------------
