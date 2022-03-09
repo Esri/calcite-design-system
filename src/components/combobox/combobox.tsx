@@ -205,7 +205,6 @@ export class Combobox implements LabelableComponent, FormComponent {
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    this.active = true;
     this.textInput?.focus();
     this.activeChipIndex = -1;
     this.activeItemIndex = -1;
@@ -373,7 +372,12 @@ export class Combobox implements LabelableComponent, FormComponent {
   };
 
   onLabelClick = (): void => {
-    this.setFocus();
+    if (this.active) {
+      this.active = false;
+    } else {
+      this.active = true;
+      this.setFocus();
+    }
   };
 
   keydownHandler = (event: KeyboardEvent): void => {
@@ -386,8 +390,9 @@ export class Combobox implements LabelableComponent, FormComponent {
         if (this.allowCustomValues && this.text) {
           this.addCustomChip(this.text, true);
           event.preventDefault();
-        } else {
+        } else if (this.active) {
           this.active = false;
+          event.preventDefault();
         }
         break;
       case "ArrowLeft":
@@ -407,10 +412,12 @@ export class Combobox implements LabelableComponent, FormComponent {
         this.shiftActiveItemIndex(1);
         break;
       case "Home":
+        event.preventDefault();
         this.active = true;
         this.updateActiveItemIndex(0);
         break;
       case "End":
+        event.preventDefault();
         this.active = true;
         this.updateActiveItemIndex(this.visibleItems.length - 1);
         break;
@@ -418,7 +425,11 @@ export class Combobox implements LabelableComponent, FormComponent {
         this.active = false;
         break;
       case "Enter":
-        if (this.activeItemIndex > -1) {
+        if (!this.active) {
+          event.preventDefault();
+          this.active = true;
+          this.shiftActiveItemIndex(1);
+        } else if (this.activeItemIndex > -1) {
           this.toggleSelection(this.visibleItems[this.activeItemIndex]);
         } else if (this.activeChipIndex > -1) {
           this.removeActiveChip();
@@ -432,11 +443,6 @@ export class Combobox implements LabelableComponent, FormComponent {
           this.removeActiveChip();
         } else if (!this.text && this.isMulti()) {
           this.removeLastChip();
-        }
-        break;
-      default:
-        if (!this.active) {
-          this.setFocus();
         }
         break;
     }
@@ -486,12 +492,18 @@ export class Combobox implements LabelableComponent, FormComponent {
     this.calciteComboboxChipDismiss.emit(event.detail);
   };
 
-  setFocusClick = (event: MouseEvent): void => {
+  clickHandler = (event: MouseEvent): void => {
     if (event.composedPath().some((node: HTMLElement) => node.tagName === "CALCITE-CHIP")) {
       return;
     }
-
-    this.setFocus();
+    if (this.active) {
+      this.active = false;
+    } else {
+      this.active = true;
+      this.textInput?.focus();
+      this.activeChipIndex = -1;
+      this.activeItemIndex = -1;
+    }
   };
 
   setInactiveIfNotContained = (event: Event): void => {
@@ -504,7 +516,7 @@ export class Combobox implements LabelableComponent, FormComponent {
       return;
     }
 
-    if (this.allowCustomValues && this.text) {
+    if (this.allowCustomValues && this.text.length) {
       this.addCustomChip(this.text);
     }
 
@@ -896,7 +908,6 @@ export class Combobox implements LabelableComponent, FormComponent {
   }
 
   comboboxFocusHandler = (): void => {
-    this.active = true;
     this.textInput?.focus();
   };
 
@@ -1067,7 +1078,7 @@ export class Combobox implements LabelableComponent, FormComponent {
             "wrapper--single": single || !this.selectedItems.length,
             "wrapper--active": open
           }}
-          onClick={this.setFocusClick}
+          onClick={this.clickHandler}
           ref={this.setReferenceEl}
           role="combobox"
         >
