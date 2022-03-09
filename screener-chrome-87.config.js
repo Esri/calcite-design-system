@@ -1,5 +1,5 @@
 module.exports = {
-  projectRepo: "Esri/calcite-components",
+  projectRepo: "Esri/calcite-components-chrome-87",
   storybookConfigDir: ".storybook",
   storybookStaticDir: "./__docs-temp__",
   apiKey: process.env.SCREENER_API_KEY,

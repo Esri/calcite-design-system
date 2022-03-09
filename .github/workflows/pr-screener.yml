@@ -41,11 +41,11 @@ jobs:
           cache: npm
       - run: npm install
       - if: steps.one.outputs.skip == 'screen'
-        name: run screener legacy check
+        name: run screener chrome 87 check
         env:
           SCREENER_API_KEY: ${{ secrets.SCREENER_API_KEY }}
           COMMIT_SHA: ${{github.event.pull_request.head.sha || github.sha}}
-        run: npm run test:storybook-legacy || true
+        run: npm run test:storybook-chrome-87 || true
       - if: steps.one.outputs.skip == 'screen'
         name: run screener check
         env:
