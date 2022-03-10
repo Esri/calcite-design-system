@@ -1,4 +1,4 @@
-import { newE2EPage } from "@stencil/core/testing";
+import { E2EPage, newE2EPage } from "@stencil/core/testing";
 import { renders, hidden, accessible, defaults, labelable, formAssociated, disabled } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { TEXT } from "./resources";
@@ -465,6 +465,87 @@ describe("calcite-combobox", () => {
       expect(await item1.getProperty("selected")).toBe(true);
       expect(await item2.getProperty("selected")).toBe(true);
       expect(await item3.getProperty("selected")).toBe(true);
+    });
+  });
+
+  describe("navigation", () => {
+    let page: E2EPage;
+
+    beforeEach(async () => {
+      page = await newE2EPage();
+      await page.setContent(
+        html`
+          <calcite-combobox id="parentOne">
+            <calcite-combobox-item id="one" value="one" label="one"></calcite-combobox-item>
+            <calcite-combobox-item id="two" value="two" label="two"></calcite-combobox-item>
+            <calcite-combobox-item-group label="Last Item">
+              <calcite-combobox-item id="three" value="three" label="three"></calcite-combobox-item>
+            </calcite-combobox-item-group>
+          </calcite-combobox>
+          <calcite-combobox id="parentTwo">
+            <calcite-combobox-item id="one" value="one" label="one"></calcite-combobox-item>
+            <calcite-combobox-item id="two" value="two" label="two"></calcite-combobox-item>
+            <calcite-combobox-item-group label="Last Item">
+              <calcite-combobox-item id="three" value="three" label="three"></calcite-combobox-item>
+            </calcite-combobox-item-group>
+          </calcite-combobox>
+        `
+      );
+    });
+
+    it("tab moves to next input, but doesn’t open the item group", async () => {
+      const inputEl = await page.find(`calcite-combobox >>> input`);
+      await inputEl.focus();
+      await page.waitForChanges();
+      expect(await page.evaluate(() => document.activeElement.id)).toBe("parentOne");
+
+      await page.keyboard.press("Tab");
+      expect(await page.evaluate(() => document.activeElement.id)).toBe("parentTwo");
+
+      const popper = await page.find("#parentTwo >>> .popper-container--active");
+      expect(popper).toBeNull();
+    });
+
+    it("tab will close the item group if it’s open", async () => {
+      const inputEl = await page.find(`#parentOne >>> input`);
+      await inputEl.focus();
+      await page.waitForChanges();
+      expect(await page.evaluate(() => document.activeElement.id)).toBe("parentOne");
+
+      await page.keyboard.press("Enter");
+      await page.waitForChanges();
+      let popper = await page.find("#parentOne >>> .popper-container--active");
+      expect(popper).toBeTruthy();
+
+      await page.keyboard.press("Tab");
+      await page.waitForChanges();
+      popper = await page.find("#parentOne >>> .popper-container--active");
+      expect(popper).toBeNull();
+    });
+
+    it(`enter opens the item group for combobox in focus and jumps to the first item,
+    next enter toggles the item selection on/off`, async () => {
+      const inputEl = await page.find(`#parentOne >>> input`);
+      await inputEl.focus();
+      await page.waitForChanges();
+      expect(await page.evaluate(() => document.activeElement.id)).toBe("parentOne");
+
+      await page.keyboard.press("Enter");
+      await page.waitForChanges();
+      const firstFocusedGroupItem = await page.find("#one >>> .label--active");
+      expect(firstFocusedGroupItem).toBeTruthy();
+
+      const eventSpy = await page.spyOnEvent("calciteComboboxChange", "window");
+      const item1 = await page.find("calcite-combobox-item#one");
+      await page.keyboard.press("Enter");
+      await page.waitForChanges();
+      expect(await item1.getProperty("selected")).toBe(true);
+      expect(eventSpy).toHaveReceivedEventTimes(1);
+
+      await page.keyboard.press("Enter");
+      await page.waitForChanges();
+      expect(await item1.getProperty("selected")).toBe(false);
+      expect(eventSpy).toHaveReceivedEventTimes(2);
     });
   });
 
