@@ -4,7 +4,6 @@ module.exports = {
   storybookStaticDir: "./__docs-temp__",
   apiKey: process.env.SCREENER_API_KEY,
   commit: process.env.COMMIT_SHA,
-  resolution: "1024x768",
   baseBranch: "master",
   browsers: [
     {
