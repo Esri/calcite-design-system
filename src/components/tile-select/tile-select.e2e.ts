@@ -1,6 +1,6 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, defaults, focusable, hidden, reflects, renders } from "../../tests/commonTests";
-import { html } from "../../tests/utils";
+import { accessible, defaults, disabled, focusable, hidden, reflects, renders } from "../../tests/commonTests";
+import { html } from "../../../support/formatting";
 
 describe("calcite-tile-select", () => {
   it("renders", async () => renders("calcite-tile-select", { display: "block" }));
@@ -31,6 +31,14 @@ describe("calcite-tile-select", () => {
     ]));
 
   it("honors hidden attribute", async () => hidden("calcite-tile-select"));
+
+  it("can be disabled", () =>
+    disabled(
+      "calcite-tile-select",
+
+      /* focusing on child since tile appends to light DOM */
+      { focusTarget: "child" }
+    ));
 
   it("renders a calcite-tile", async () => {
     const page = await newE2EPage();

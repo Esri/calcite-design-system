@@ -1,6 +1,15 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { localizeTimeString } from "../../utils/time";
-import { accessible, defaults, focusable, formAssociated, labelable, reflects, renders } from "../../tests/commonTests";
+import {
+  accessible,
+  defaults,
+  disabled,
+  focusable,
+  formAssociated,
+  labelable,
+  reflects,
+  renders
+} from "../../tests/commonTests";
 
 describe("calcite-input-time-picker", () => {
   it("renders", async () => renders("calcite-input-time-picker", { display: "inline-block" }));
@@ -32,6 +41,8 @@ describe("calcite-input-time-picker", () => {
     focusable(`calcite-input-time-picker`, {
       shadowFocusTargetSelector: "calcite-input"
     }));
+
+  it("can be disabled", () => disabled("calcite-input-time-picker"));
 
   it("opens the time picker on input keyboard focus", async () => {
     const page = await newE2EPage({

@@ -4,7 +4,7 @@ import {
   Attributes,
   createComponentHTML as create
 } from "../../../.storybook/utils";
-import { html } from "../../tests/utils";
+import { html } from "../../../support/formatting";
 import { boolean, text } from "@storybook/addon-knobs";
 import selectReadme from "../select/readme.md";
 import optionReadme from "../option/readme.md";
@@ -138,3 +138,8 @@ export const RTL = (): string =>
       </calcite-option-group>
     `
   );
+
+export const disabled = (): string => html`<calcite-select disabled>
+  <calcite-option label="first" value="1"></calcite-option>
+  <calcite-option label="second" value="2"></calcite-option>
+</calcite-select>`;

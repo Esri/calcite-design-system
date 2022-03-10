@@ -19,6 +19,8 @@
   --calcite-panel-max-width: unset;
 }
 
+@include disabled();
+
 @import "../../assets/styles/header";
 
 .container {

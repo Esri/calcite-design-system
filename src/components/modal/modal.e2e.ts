@@ -1,6 +1,6 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { focusable, renders, slots } from "../../tests/commonTests";
-import { html } from "../../tests/utils";
+import { html } from "../../../support/formatting";
 import { SLOTS } from "./resources";
 
 describe("calcite-modal properties", () => {

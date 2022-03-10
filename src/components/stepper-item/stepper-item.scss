@@ -131,13 +131,7 @@
   margin-inline-end: var(--calcite-stepper-item-spacing-unit-m);
 }
 
-:host([disabled]) {
-  @apply opacity-disabled;
-}
-:host([disabled]),
-:host([disabled]) * {
-  @apply pointer-events-auto cursor-not-allowed;
-}
+@include disabled();
 
 :host([complete]) .container {
   // todo dark theme
