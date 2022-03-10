@@ -256,13 +256,12 @@ export class ValueList<
       .find(
         (item: HTMLElement) => item.dataset?.jsHandle !== undefined
       ) as HTMLCalciteHandleElement;
-
     const item = event
       .composedPath()
       .find(
         (item: HTMLElement) => item.tagName?.toLowerCase() === "calcite-value-list-item"
       ) as ItemElement;
-
+    // console.log("handleElement", handleElement, item);
     // Only trigger keyboard sorting when the internal drag handle is focused and activated
     if (!handleElement || !item.handleActivated) {
       keyDownHandler.call(this, event);
@@ -279,7 +278,7 @@ export class ValueList<
 
     const { el } = this;
     const nextIndex = moveItemIndex(this, item, event.key === "ArrowUp" ? "up" : "down");
-
+    this.updateLiveText("something");
     if (nextIndex === items.length - 1) {
       el.appendChild(item);
     } else {
@@ -328,6 +327,12 @@ export class ValueList<
       type = ICON_TYPES.grip;
     }
     return type;
+  }
+
+  updateLiveText(): void {
+    //code to update text to our aria-live span
+    // let spanEle = document.querySelector(".assistive-text");
+    // spanEle.textContent = selectedItem;
   }
 
   render(): VNode {
