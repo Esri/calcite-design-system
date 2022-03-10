@@ -41,12 +41,6 @@ jobs:
           cache: npm
       - run: npm install
       - if: steps.one.outputs.skip == 'screen'
-        name: run screener chrome 87 check
-        env:
-          SCREENER_API_KEY: ${{ secrets.SCREENER_API_KEY }}
-          COMMIT_SHA: ${{github.event.pull_request.head.sha || github.sha}}
-        run: npm run test:storybook-chrome-87 || true
-      - if: steps.one.outputs.skip == 'screen'
         name: run screener check
         env:
           SCREENER_API_KEY: ${{ secrets.SCREENER_API_KEY }}
@@ -54,6 +48,12 @@ jobs:
           SAUCE_ACCESS_NAME: ${{ secrets.SAUCE_ACCESS_NAME}}
           SAUCE_ACCESS_KEY: ${{ secrets.SAUCE_ACCESS_KEY }}
         run: npm run test:storybook || true
+      - if: steps.one.outputs.skip == 'screen'
+        name: run screener chrome 87 check
+        env:
+          SCREENER_API_KEY: ${{ secrets.SCREENER_API_KEY }}
+          COMMIT_SHA: ${{github.event.pull_request.head.sha || github.sha}}
+        run: npm run test:storybook-chrome-87 || true
       - if: steps.one.outputs.skip == 'skip'
         name: skip screener
         uses: Sibz/github-status-action@v1
