@@ -483,10 +483,10 @@ describe("calcite-combobox", () => {
             </calcite-combobox-item-group>
           </calcite-combobox>
           <calcite-combobox id="parentTwo">
-            <calcite-combobox-item id="one" value="one" label="one"></calcite-combobox-item>
-            <calcite-combobox-item id="two" value="two" label="two"></calcite-combobox-item>
+            <calcite-combobox-item id="four" value="four" label="four"></calcite-combobox-item>
+            <calcite-combobox-item id="five" value="five" label="five"></calcite-combobox-item>
             <calcite-combobox-item-group label="Last Item">
-              <calcite-combobox-item id="three" value="three" label="three"></calcite-combobox-item>
+              <calcite-combobox-item id="six" value="six" label="six"></calcite-combobox-item>
             </calcite-combobox-item-group>
           </calcite-combobox>
         `
@@ -546,6 +546,57 @@ describe("calcite-combobox", () => {
       await page.waitForChanges();
       expect(await item1.getProperty("selected")).toBe(false);
       expect(eventSpy).toHaveReceivedEventTimes(2);
+    });
+
+    it(`escape closes the dropdown, but remains focused`, async () => {
+      const inputEl = await page.find(`#parentOne >>> input`);
+      await inputEl.focus();
+      await page.waitForChanges();
+      expect(await page.evaluate(() => document.activeElement.id)).toBe("parentOne");
+
+      await page.keyboard.press("Enter");
+      await page.waitForChanges();
+      let popper = await page.find("#parentOne >>> .popper-container--active");
+      expect(popper).toBeTruthy();
+
+      await page.keyboard.press("Escape");
+      await page.waitForChanges();
+      popper = await page.find("#parentOne >>> .popper-container--active");
+      expect(popper).toBeNull();
+
+      expect(await page.evaluate(() => document.activeElement.id)).toBe("parentOne");
+    });
+
+    it(`home opens dropdown and puts focus on first item`, async () => {
+      const inputEl = await page.find(`#parentOne >>> input`);
+      await inputEl.focus();
+      await page.waitForChanges();
+      expect(await page.evaluate(() => document.activeElement.id)).toBe("parentOne");
+
+      await page.keyboard.press("Home");
+      await page.waitForChanges();
+      const firstFocusedGroupItem = await page.find("#one >>> .label--active");
+      expect(firstFocusedGroupItem).toBeTruthy();
+
+      const visible = await firstFocusedGroupItem.isVisible();
+      expect(visible).toBe(true);
+    });
+
+    it(`end opens dropdown and puts focus on last item`, async () => {
+      const inputEl = await page.find(`#parentOne >>> input`);
+      await inputEl.focus();
+      await page.waitForChanges();
+      expect(await page.evaluate(() => document.activeElement.id)).toBe("parentOne");
+
+      await page.keyboard.press("End");
+      await page.waitForChanges();
+      const lastFocusedGroupItem = await page.find("#three >>> .label--active");
+      expect(lastFocusedGroupItem).toBeTruthy();
+
+      // follow up issue on existing bug: the last item in focus won't scroll into view.
+
+      // const visible = await lastFocusedGroupItem.isVisible();
+      // expect(visible).toBe(true);
     });
   });
 
