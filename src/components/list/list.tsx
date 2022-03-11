@@ -71,7 +71,9 @@ export class List implements InteractiveComponent {
   render(): VNode {
     return (
       <Host role="list">
-        <div class={CSS.container} />
+        <div class={CSS.container}>
+          <slot />
+        </div>
       </Host>
     );
   }
