@@ -1,6 +1,7 @@
 import { Component, Element, Event, EventEmitter, h, Prop, VNode } from "@stencil/core";
 import { getSlotted } from "../../utils/dom";
 import { CSS, SLOTS, TEXT } from "./resources";
+import { LogicalFlowPosition } from "../interfaces";
 import {
   connectConditionalSlotComponent,
   disconnectConditionalSlotComponent,
@@ -63,6 +64,8 @@ export class Card implements ConditionalSlotComponent {
    * @default "Deselect"
    */
   @Prop({ reflect: false }) intlDeselect: string = TEXT.deselect;
+
+  @Prop() thumbnailPosition: LogicalFlowPosition = "block-start";
 
   //--------------------------------------------------------------------------
   //
