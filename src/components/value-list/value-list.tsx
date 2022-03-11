@@ -278,7 +278,9 @@ export class ValueList<
 
     const { el } = this;
     const nextIndex = moveItemIndex(this, item, event.key === "ArrowUp" ? "up" : "down");
-    this.updateLiveText("something");
+    this.updateLiveText(
+      `New Position ${nextIndex + 1} of ${this.getItems().length}, press space to confirm `
+    );
     if (nextIndex === items.length - 1) {
       el.appendChild(item);
     } else {
@@ -329,10 +331,11 @@ export class ValueList<
     return type;
   }
 
-  updateLiveText(): void {
+  updateLiveText(selectedItem: string): void {
     //code to update text to our aria-live span
-    // let spanEle = document.querySelector(".assistive-text");
-    // spanEle.textContent = selectedItem;
+    const spanEle = this.el.shadowRoot.querySelector(".assistive-text");
+    console.log(spanEle, selectedItem);
+    spanEle.textContent = selectedItem;
   }
 
   render(): VNode {

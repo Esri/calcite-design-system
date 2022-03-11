@@ -215,7 +215,7 @@ export class ValueListItem implements ConditionalSlotComponent, InteractiveCompo
     if (icon === ICON_TYPES.grip) {
       return (
         <span
-          aria-pressed={this.handleActivated.toString()}
+          // aria-pressed={this.handleActivated.toString()}
           class={{
             [CSS.handle]: true,
             [CSS.handleActivated]: this.handleActivated
