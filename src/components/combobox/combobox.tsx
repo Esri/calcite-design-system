@@ -446,12 +446,12 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
   };
 
   private toggleCloseEnd = (): void => {
-    this.active = true;
+    this.active = false;
     this.el.removeEventListener("calciteComboboxClose", this.toggleCloseEnd);
   };
 
   private toggleOpenEnd = (): void => {
-    this.active = false;
+    this.active = true;
     this.el.removeEventListener("calciteComboboxOpen", this.toggleOpenEnd);
   };
 
@@ -499,11 +499,7 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
 
   setInactiveIfNotContained = (event: Event): void => {
     const composedPath = event.composedPath();
-    if (
-      (!this.active && !this.open) ||
-      composedPath.includes(this.el) ||
-      composedPath.includes(this.referenceEl)
-    ) {
+    if (!this.active || composedPath.includes(this.el) || composedPath.includes(this.referenceEl)) {
       return;
     }
 
@@ -521,7 +517,6 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
     }
 
     this.active = false;
-    this.open = false;
   };
 
   setMenuEl = (el: HTMLDivElement): void => {
@@ -1026,7 +1021,7 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
         ref={setMenuEl}
       >
         <div class={classes} onTransitionEnd={this.transitionEnd} ref={setListContainerEl}>
-          <ul class={{ list: true, "list--hide": active }}>
+          <ul class={{ list: true, "list--hide": !active }}>
             <slot />
           </ul>
         </div>
@@ -1065,7 +1060,7 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
       <Host onKeyDown={this.keydownHandler}>
         <div
           aria-autocomplete="list"
-          aria-expanded={open.toString()}
+          aria-expanded={active.toString()}
           aria-haspopup="listbox"
           aria-labelledby={`${labelUidPrefix}${guid}`}
           aria-owns={`${listboxUidPrefix}${guid}`}
