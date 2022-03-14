@@ -29,6 +29,7 @@ import { TEXT } from "../calcite-date-picker/resources";
 import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
 
 import {
+  PopperPlacement,
   createPopper,
   updatePopper,
   CSS as PopperCSS,
@@ -36,8 +37,6 @@ import {
 } from "../../utils/popper";
 import { StrictModifiers, Instance as Popper } from "@popperjs/core";
 import { DateRangeChange } from "../calcite-date-picker/interfaces";
-
-const DEFAULT_PLACEMENT = "bottom-leading";
 
 @Component({
   tag: "calcite-input-date-picker",
@@ -109,6 +108,17 @@ export class CalciteInputDatePicker implements LabelableComponent {
 
   /** specify the scale of the date picker */
   @Prop({ reflect: true }) scale: "s" | "m" | "l" = "m";
+
+  /**
+   * Scale of the calcite-date-picker rendered in the input popover.
+   */
+  @Prop() datePickerScale: "s" | "m" | "l" = "m";
+
+  /**
+   * Determines where the date-picker component will be positioned relative to the input.
+   * @see [PopperPlacement](https://github.com/Esri/calcite-components/blob/master/src/utils/popper.ts#L25)
+   */
+  @Prop({ reflect: true }) placement: PopperPlacement = "bottom-leading";
 
   /** Range mode activation */
   @Prop({ reflect: true }) range = false;
@@ -191,7 +201,7 @@ export class CalciteInputDatePicker implements LabelableComponent {
       ? updatePopper({
           el: menuEl,
           modifiers,
-          placement: DEFAULT_PLACEMENT,
+          placement: this.placement,
           popper
         })
       : this.createPopper();
@@ -309,7 +319,7 @@ export class CalciteInputDatePicker implements LabelableComponent {
                   onCalciteDatePickerRangeChange={this.handleDateRangeChange}
                   proximitySelectionDisabled={this.proximitySelectionDisabled}
                   range={this.range}
-                  scale={this.scale}
+                  scale={this.datePickerScale || this.scale}
                   startAsDate={this.startAsDate}
                   tabIndex={0}
                   valueAsDate={this.valueAsDate}
@@ -492,7 +502,7 @@ export class CalciteInputDatePicker implements LabelableComponent {
       el: menuEl,
       modifiers,
       overlayPositioning,
-      placement: DEFAULT_PLACEMENT,
+      placement: this.placement,
       referenceEl
     });
   }
