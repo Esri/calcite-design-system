@@ -3,11 +3,12 @@ import {
   Attribute,
   filterComponentAttributes,
   Attributes,
-  createComponentHTML as create
+  createComponentHTML as create,
+  placeholderImage
 } from "../../../.storybook/utils";
 import blockReadme from "./readme.md";
 import sectionReadme from "../block-section/readme.md";
-import { html, placeholderImage } from "../../tests/utils";
+import { html } from "../../../support/formatting";
 
 export default {
   title: "Components/Block",
@@ -167,3 +168,9 @@ export const withHeaderControl = (): string =>
 
 export const withIconAndHeader = (): string =>
   create("calcite-block", createBlockAttributes({ exceptions: ["open", "collapsible"] }), `<div slot="icon">✅</div>`);
+
+export const disabled = (): string => html`<calcite-block heading="heading" summary="summary" open collapsible disabled>
+  <calcite-block-section text="Nature" open>
+    <img alt="demo" src="${placeholderImage({ width: 320, height: 240 })}" />
+  </calcite-block-section>
+</calcite-block>`;

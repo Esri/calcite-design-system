@@ -24,6 +24,7 @@ import { Instance as Popper, StrictModifiers } from "@popperjs/core";
 import { Scale } from "../interfaces";
 import { DefaultDropdownPlacement, SLOTS } from "./resources";
 import { createObserver } from "../../utils/observers";
+import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 
 /**
  * @slot - A slot for adding `calcite-dropdown-group`s or `calcite-dropdown-item`s.
@@ -34,7 +35,7 @@ import { createObserver } from "../../utils/observers";
   styleUrl: "dropdown.scss",
   shadow: true
 })
-export class Dropdown {
+export class Dropdown implements InteractiveComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -54,7 +55,12 @@ export class Dropdown {
 
   @Watch("active")
   activeHandler(): void {
-    this.reposition();
+    if (!this.disabled) {
+      this.reposition();
+      return;
+    }
+
+    this.active = false;
   }
 
   /**
@@ -65,6 +71,13 @@ export class Dropdown {
 
   /** is the dropdown disabled  */
   @Prop({ reflect: true }) disabled = false;
+
+  @Watch("disabled")
+  handleDisabledChange(value: boolean): void {
+    if (!value) {
+      this.active = false;
+    }
+  }
 
   /**
    specify the maximum number of calcite-dropdown-items to display before showing the scroller, must be greater than 0 -
@@ -123,6 +136,10 @@ export class Dropdown {
     this.reposition();
   }
 
+  componentDidRender(): void {
+    updateHostInteraction(this);
+  }
+
   disconnectedCallback(): void {
     this.mutationObserver?.disconnect();
     this.resizeObserver?.disconnect();
@@ -133,7 +150,7 @@ export class Dropdown {
     const { active } = this;
 
     return (
-      <Host tabIndex={this.disabled ? -1 : null}>
+      <Host>
         <div
           class="calcite-dropdown-trigger-container"
           onClick={this.openCalciteDropdown}
@@ -213,7 +230,7 @@ export class Dropdown {
       return;
     }
 
-    this.closeCalciteDropdown();
+    this.closeCalciteDropdown(false);
   }
 
   @Listen("calciteDropdownCloseRequest")
@@ -379,7 +396,12 @@ export class Dropdown {
       fallbackPlacements: ["top-start", "top", "top-end", "bottom-start", "bottom", "bottom-end"]
     };
 
-    return [flipModifier];
+    const eventListenerModifier: Partial<StrictModifiers> = {
+      name: "eventListeners",
+      enabled: this.active
+    };
+
+    return [flipModifier, eventListenerModifier];
   }
 
   createPopper(): void {
@@ -471,9 +493,12 @@ export class Dropdown {
     return maxScrollerHeight;
   }
 
-  private closeCalciteDropdown() {
+  private closeCalciteDropdown(focusTrigger = true) {
     this.active = false;
-    focusElement(this.triggers[0]);
+
+    if (focusTrigger) {
+      focusElement(this.triggers[0]);
+    }
   }
 
   private focusOnFirstActiveOrFirstItem = (): void => {

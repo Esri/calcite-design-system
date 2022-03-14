@@ -127,12 +127,11 @@ Type: `Promise<void>`
 graph TD;
   calcite-value-list --> calcite-filter
   calcite-value-list --> calcite-scrim
-  calcite-filter --> calcite-scrim
   calcite-filter --> calcite-input
   calcite-filter --> calcite-icon
-  calcite-scrim --> calcite-loader
   calcite-input --> calcite-progress
   calcite-input --> calcite-icon
+  calcite-scrim --> calcite-loader
   style calcite-value-list fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

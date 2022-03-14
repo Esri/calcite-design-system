@@ -29,7 +29,7 @@ export const List: FunctionalComponent<{ props: ListProps } & DOMAttributes<any>
 }): VNode => {
   const defaultSlot = <slot />;
   return (
-    <Host aria-busy={loading.toString()} aria-disabled={disabled.toString()} role="menu" {...rest}>
+    <Host aria-busy={loading.toString()} role="menu" {...rest}>
       <section>
         <header class={{ [CSS.sticky]: true }}>
           {filterEnabled ? (
@@ -44,7 +44,7 @@ export const List: FunctionalComponent<{ props: ListProps } & DOMAttributes<any>
           ) : null}
           <slot name={SLOTS.menuActions} />
         </header>
-        {loading || disabled ? <calcite-scrim loading={loading} /> : null}
+        {loading ? <calcite-scrim loading={loading} /> : null}
         {defaultSlot}
       </section>
     </Host>

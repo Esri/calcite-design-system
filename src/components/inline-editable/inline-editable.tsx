@@ -15,6 +15,7 @@ import { Scale } from "../interfaces";
 import { TEXT, CSS } from "./resources";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import { createObserver } from "../../utils/observers";
+import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 
 /**
  * @slot - A slot for adding a `calcite-input`.
@@ -24,7 +25,7 @@ import { createObserver } from "../../utils/observers";
   shadow: true,
   styleUrl: "inline-editable.scss"
 })
-export class InlineEditable implements LabelableComponent {
+export class InlineEditable implements InteractiveComponent, LabelableComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -106,6 +107,10 @@ export class InlineEditable implements LabelableComponent {
     this.mutationObserver?.disconnect();
   }
 
+  componentDidRender(): void {
+    updateHostInteraction(this);
+  }
+
   render(): VNode {
     return (
       <div
@@ -158,6 +163,7 @@ export class InlineEditable implements LabelableComponent {
               label={this.intlConfirmChanges}
               loading={this.loading}
               onClick={this.confirmChangesHandler}
+              ref={(el) => (this.confirmEditingButton = el)}
               scale={this.scale}
               type="button"
             />
@@ -216,6 +222,8 @@ export class InlineEditable implements LabelableComponent {
   private enableEditingButton: HTMLCalciteButtonElement;
 
   private cancelEditingButton: HTMLCalciteButtonElement;
+
+  private confirmEditingButton: HTMLCalciteButtonElement;
 
   labelEl: HTMLCalciteLabelElement;
 
@@ -305,7 +313,6 @@ export class InlineEditable implements LabelableComponent {
         }
         if (!!e.shiftKey && e.target === this.cancelEditingButton) {
           e.preventDefault();
-          e.stopPropagation();
           this.inputElement?.setFocus();
         }
       }
@@ -316,16 +323,19 @@ export class InlineEditable implements LabelableComponent {
 
   private cancelEditingHandler = async (e: MouseEvent) => {
     e.preventDefault();
-    e.stopPropagation();
     this.cancelEditing();
   };
 
   private enableEditingHandler = async (e: MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    if (this.disabled) {
+    if (
+      this.disabled ||
+      e.target === this.cancelEditingButton ||
+      e.target === this.confirmEditingButton
+    ) {
       return;
     }
+
+    e.preventDefault();
     if (!this.editingEnabled) {
       this.enableEditing();
     }
@@ -333,7 +343,6 @@ export class InlineEditable implements LabelableComponent {
 
   private confirmChangesHandler = async (e: MouseEvent) => {
     e.preventDefault();
-    e.stopPropagation();
     this.calciteInlineEditableEditConfirm.emit();
     try {
       if (this.afterConfirm) {

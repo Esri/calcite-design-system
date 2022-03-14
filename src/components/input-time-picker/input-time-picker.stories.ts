@@ -2,7 +2,7 @@ import { number, select, text } from "@storybook/addon-knobs";
 import { boolean, createSteps, stepStory } from "../../../.storybook/helpers";
 import { themesDarkDefault } from "../../../.storybook/utils";
 import readme from "./readme.md";
-import { html } from "../../tests/utils";
+import { html } from "../../../support/formatting";
 
 export default {
   title: "Components/Controls/Time/Input Time Picker",
@@ -73,3 +73,5 @@ export const ArabicLocale = stepStory(
 );
 
 DarkTheme.parameters = { themes: themesDarkDefault };
+
+export const disabled = (): string => html`<calcite-input-time-picker disabled></calcite-input-time-picker>`;

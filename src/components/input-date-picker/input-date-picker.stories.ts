@@ -2,7 +2,7 @@ import { select, text, boolean } from "@storybook/addon-knobs";
 
 import { themesDarkDefault } from "../../../.storybook/utils";
 import readme from "./readme.md";
-import { html } from "../../tests/utils";
+import { html } from "../../../support/formatting";
 import { locales } from "../../utils/locale";
 
 export default {
@@ -84,3 +84,5 @@ export const RTL = (): string => html`
     ></calcite-label>
   </div>
 `;
+
+export const disabled = (): string => html`<calcite-input-date-picker disabled></calcite-input-date-picker>`;

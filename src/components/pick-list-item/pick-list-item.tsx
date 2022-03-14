@@ -18,6 +18,7 @@ import {
   connectConditionalSlotComponent,
   disconnectConditionalSlotComponent
 } from "../../utils/conditionalSlot";
+import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 
 /**
  * @slot actions-end - a slot for adding actions or content to the end side of the item.
@@ -28,7 +29,7 @@ import {
   styleUrl: "pick-list-item.scss",
   shadow: true
 })
-export class PickListItem implements ConditionalSlotComponent {
+export class PickListItem implements ConditionalSlotComponent, InteractiveComponent {
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -48,7 +49,7 @@ export class PickListItem implements ConditionalSlotComponent {
   /**
    * When true, the item cannot be clicked and is visually muted.
    */
-  @Prop({ reflect: true }) disabled? = false;
+  @Prop({ reflect: true }) disabled = false;
 
   /**
    * When false, the item cannot be deselected by user interaction.
@@ -150,6 +151,10 @@ export class PickListItem implements ConditionalSlotComponent {
     disconnectConditionalSlotComponent(this);
   }
 
+  componentDidRender(): void {
+    updateHostInteraction(this, this.el.closest("calcite-pick-list") ? "managed" : false);
+  }
+
   // --------------------------------------------------------------------------
   //
   //  Events
@@ -198,10 +203,6 @@ export class PickListItem implements ConditionalSlotComponent {
    */
   @Method()
   async toggleSelected(coerce?: boolean): Promise<void> {
-    if (this.disabled) {
-      return;
-    }
-
     this.selected = typeof coerce === "boolean" ? coerce : !this.selected;
   }
 

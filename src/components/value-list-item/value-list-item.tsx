@@ -21,6 +21,7 @@ import {
   connectConditionalSlotComponent,
   disconnectConditionalSlotComponent
 } from "../../utils/conditionalSlot";
+import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 
 /**
  * @slot actions-end - A slot for adding actions or content to the end side of the item.
@@ -31,7 +32,7 @@ import {
   styleUrl: "value-list-item.scss",
   shadow: true
 })
-export class ValueListItem implements ConditionalSlotComponent {
+export class ValueListItem implements ConditionalSlotComponent, InteractiveComponent {
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -46,7 +47,7 @@ export class ValueListItem implements ConditionalSlotComponent {
   /**
    * When true, the item cannot be clicked and is visually muted
    */
-  @Prop({ reflect: true }) disabled? = false;
+  @Prop({ reflect: true }) disabled = false;
 
   /**
    * @internal When false, the item cannot be deselected by user interaction.
@@ -118,6 +119,10 @@ export class ValueListItem implements ConditionalSlotComponent {
 
   disconnectedCallback(): void {
     disconnectConditionalSlotComponent(this);
+  }
+
+  componentDidRender(): void {
+    updateHostInteraction(this, this.el.closest("calcite-value-list") ? "managed" : false);
   }
 
   // --------------------------------------------------------------------------

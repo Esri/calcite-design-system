@@ -3,7 +3,7 @@ import { boolean } from "../../../.storybook/helpers";
 import { themesDarkDefault } from "../../../.storybook/utils";
 import * as icons from "../../../node_modules/@esri/calcite-ui-icons";
 import readme from "./readme.md";
-import { html } from "../../tests/utils";
+import { html } from "../../../support/formatting";
 
 // we can get all unique icon names from all size 16 non-filled icons.
 const iconNames = Object.keys(icons)
@@ -142,3 +142,5 @@ export const WithIconStartAndIconEndRTL = (): string => html`
     around the link
   </div>
 `;
+
+export const disabled = (): string => html`<calcite-link disabled>disabled</calcite-link`;
