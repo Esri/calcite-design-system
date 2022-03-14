@@ -21,6 +21,6 @@ module.exports = {
     maxConcurrent: 10
   },
   excludeRules: [/^Overview/],
-  resolution: "1920x1440",
+  resolution: "1024x768",
   failureExitCode: 0
 };
