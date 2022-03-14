@@ -21,6 +21,7 @@ import {
   getMeridiem,
   getMeridiemHour
 } from "../../utils/time";
+import { PopperPlacement } from "../../utils/popper";
 import { Scale } from "../interfaces";
 import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
 
@@ -91,6 +92,12 @@ export class CalciteInputTimePicker implements LabelableComponent {
 
   /** The name of the time input */
   @Prop() name?: string;
+
+  /**
+   * Determines where the popover will be positioned relative to the input.
+   * @see [PopperPlacement](https://github.com/Esri/calcite-components/blob/master/src/utils/popper.ts#L25)
+   */
+  @Prop({ reflect: true }) placement: PopperPlacement = "auto";
 
   /** The scale (size) of the time input */
   @Prop({ reflect: true }) scale: Scale = "m";
@@ -347,6 +354,7 @@ export class CalciteInputTimePicker implements LabelableComponent {
           id={popoverId}
           label="Time Picker"
           open={this.active || false}
+          placement={this.placement}
           referenceElement={this.referenceElementId}
         >
           <calcite-time-picker
