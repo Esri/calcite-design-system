@@ -47,22 +47,6 @@ describe("calcite-combobox", () => {
 
   it("can be disabled", () => disabled("calcite-combobox"));
 
-  it("should show the listbox when it receives focus", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-combobox>
-      <calcite-combobox-item value="one" text-label="one"></calcite-combobox-item>
-      <calcite-combobox-item value="two" text-label="two"></calcite-combobox-item>
-    </calcite-combobox>`);
-
-    const openEvent = page.waitForEvent("calciteComboboxOpen");
-    await page.keyboard.press("Tab");
-    await openEvent;
-
-    const container = await page.find(`calcite-combobox >>> .popper-container`);
-    const visible = await container.isVisible();
-    expect(visible).toBe(true);
-  });
-
   it.skip("should filter the items in listbox when typing into the input", async () => {
     const page = await newE2EPage({
       html: html` <calcite-combobox>
@@ -468,6 +452,60 @@ describe("calcite-combobox", () => {
     });
   });
 
+  describe("mouse navigation", () => {
+    let page: E2EPage;
+    let combobox;
+    let label;
+    let popper;
+
+    beforeEach(async () => {
+      page = await newE2EPage();
+      await page.setContent(
+        html`
+          <calcite-label id="label">
+            <span class="label-text">Yeah<span>
+            <calcite-combobox id="parentOne">
+              <calcite-combobox-item id="one" icon="banana" value="one" text-label="One"></calcite-combobox-item>
+              <calcite-combobox-item id="two" icon="beaker" value="two" text-label="Two"></calcite-combobox-item>
+              <calcite-combobox-item id="three" value="three" text-label="Three"></calcite-combobox-item>
+            </calcite-combobox>
+          </calcite-label>
+        `
+      );
+      const inputEl = await page.find(`#parentOne >>> input`);
+      await inputEl.focus();
+      await page.waitForChanges();
+      combobox = await page.find("#parentOne");
+      label = await page.find("#label");
+      popper = await page.find(`#parentOne >>> .popper-container`);
+    });
+
+    it("label click focuses on the combobox, does not open", async () => {
+      expect(await page.evaluate(() => document.activeElement.id)).toBe("parentOne");
+      const visible = await popper.isVisible();
+      expect(visible).toBe(false);
+
+      await label.click();
+      await page.waitForChanges();
+      expect(await page.evaluate(() => document.activeElement.id)).toBe("parentOne");
+      await popper.isVisible();
+      expect(visible).toBe(false);
+    });
+
+    it("label click closes the listbox if it's open", async () => {
+      expect(await page.evaluate(() => document.activeElement.id)).toBe("parentOne");
+      expect(await popper.isVisible()).toBe(false);
+
+      await page.keyboard.press("Enter");
+      await page.waitForChanges();
+      expect(await popper.isVisible()).toBe(true);
+
+      await label.click();
+      await page.waitForChanges();
+      expect(await popper.isVisible()).toBe(false);
+    });
+  });
+
   describe("keyboard navigation", () => {
     let page: E2EPage;
 
@@ -491,6 +529,17 @@ describe("calcite-combobox", () => {
           </calcite-combobox>
         `
       );
+    });
+
+    it("should not show the listbox when it receives focus", async () => {
+      const inputEl = await page.find(`#parentOne >>> input`);
+      await inputEl.focus();
+      await page.waitForChanges();
+      expect(await page.evaluate(() => document.activeElement.id)).toBe("parentOne");
+
+      const container = await page.find(`#parentOne >>> .popper-container`);
+      const visible = await container.isVisible();
+      expect(visible).toBe(false);
     });
 
     it("tab moves to next input, but doesn’t open the item group", async () => {
@@ -1009,31 +1058,6 @@ describe("calcite-combobox", () => {
     expect(await combobox.getProperty("active")).toBeFalsy();
     await input.click();
     expect(await combobox.getProperty("active")).toBe(true);
-  });
-
-  it("works correctly inside a calcite label", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
-      <calcite-button>Other button</calcite-button>
-      <calcite-label>
-        <span class="label-text">Yeah<span>
-        <calcite-combobox selection-mode="single">
-          <calcite-combobox-item id="one" icon="banana" value="one" text-label="One"></calcite-combobox-item>
-          <calcite-combobox-item id="two" icon="beaker" value="two" text-label="Two"></calcite-combobox-item>
-          <calcite-combobox-item id="three" value="three" text-label="Three"></calcite-combobox-item>
-        </calcite-combobox>
-      </calcite-label>
-    `);
-
-    await page.waitForChanges();
-    const span = await page.find(".label-text");
-    const combobox = await page.find("calcite-combobox");
-    const button = await page.find("calcite-button");
-    expect(await combobox.getProperty("active")).toBeFalsy();
-    await span.click();
-    expect(await combobox.getProperty("active")).toBe(true);
-    await button.click();
-    expect(await combobox.getProperty("active")).toBe(false);
   });
 
   it("is form-associated", () =>
