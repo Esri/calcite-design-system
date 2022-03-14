@@ -1,5 +1,5 @@
-import { accessible, hidden, renders, focusable } from "../../tests/commonTests";
-import { html } from "../../tests/utils";
+import { accessible, hidden, renders, focusable, disabled } from "../../tests/commonTests";
+import { html } from "../../../support/formatting";
 
 describe("calcite-list", () => {
   it("renders", async () => renders("calcite-list", { display: "block" }));
@@ -29,4 +29,12 @@ describe("calcite-list", () => {
     <calcite-list-item label="test" description="hello world"></calcite-list-item>
   </calcite-list>`);
   });
+
+  it("can be disabled", () =>
+    disabled(
+      html`<calcite-list>
+        <calcite-list-item label="test" description="hello world"></calcite-list-item>
+      </calcite-list>`,
+      { focusTarget: "child" }
+    ));
 });

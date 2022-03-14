@@ -1,5 +1,5 @@
 import { select, number, text } from "@storybook/addon-knobs";
-import { html } from "../../tests/utils";
+import { html } from "../../../support/formatting";
 import { boolean, createSteps, stepStory, setTheme, setKnobs } from "../../../.storybook/helpers";
 import { popperPlacements } from "../../utils/popper";
 import readme from "./readme.md";

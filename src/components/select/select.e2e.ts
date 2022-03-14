@@ -1,6 +1,6 @@
 import { E2EElement, E2EPage, newE2EPage } from "@stencil/core/testing";
-import { accessible, focusable, formAssociated, labelable, reflects, renders } from "../../tests/commonTests";
-import { html } from "../../tests/utils";
+import { accessible, disabled, focusable, formAssociated, labelable, reflects, renders } from "../../tests/commonTests";
+import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
 
 describe("calcite-select", () => {
@@ -40,6 +40,8 @@ describe("calcite-select", () => {
   }
 
   it("is labelable", async () => labelable("calcite-select"));
+
+  it("can be disabled", () => disabled("calcite-select"));
 
   describe("flat options", () => {
     it("allows selecting items", async () => {

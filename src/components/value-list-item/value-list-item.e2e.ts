@@ -1,7 +1,7 @@
 import { CSS as PICK_LIST_ITEM_CSS, SLOTS } from "../pick-list-item/resources";
-import { accessible, focusable, renders, slots } from "../../tests/commonTests";
+import { accessible, disabled, focusable, renders, slots } from "../../tests/commonTests";
 import { E2EPage, newE2EPage } from "@stencil/core/testing";
-import { html } from "../../tests/utils";
+import { html } from "../../../support/formatting";
 
 describe("calcite-value-list-item", () => {
   it("renders", async () => renders("calcite-value-list-item", { display: "flex" }));
@@ -29,6 +29,8 @@ describe("calcite-value-list-item", () => {
   it("has slots", () => slots("calcite-value-list-item", SLOTS));
 
   it("is focusable", async () => focusable("calcite-value-list-item"));
+
+  it("can be disabled", async () => disabled("calcite-value-list-item"));
 
   it("should toggle selected attribute when clicked", async () => {
     const page = await newE2EPage({ html: `<calcite-value-list-item label="test"></calcite-value-list-item>` });

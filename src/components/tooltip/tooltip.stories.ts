@@ -1,6 +1,6 @@
 import { select, number } from "@storybook/addon-knobs";
 import readme from "./readme.md";
-import { html } from "../../tests/utils";
+import { html } from "../../../support/formatting";
 import { boolean, createSteps, stepStory, setTheme } from "../../../.storybook/helpers";
 
 const placements = [

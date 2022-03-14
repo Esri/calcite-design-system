@@ -81,9 +81,9 @@ Renders groups of pick list items that are visually separated.
 
 ## Events
 
-| Event               | Description                                           | Type                            |
-| ------------------- | ----------------------------------------------------- | ------------------------------- |
-| `calciteListChange` | Emitted when any of the item selections have changed. | `CustomEvent<Map<string, any>>` |
+| Event               | Description                                           | Type                                                       |
+| ------------------- | ----------------------------------------------------- | ---------------------------------------------------------- |
+| `calciteListChange` | Emitted when any of the item selections have changed. | `CustomEvent<Map<string, HTMLCalcitePickListItemElement>>` |
 
 ## Methods
 
@@ -93,7 +93,7 @@ Returns the currently selected items
 
 #### Returns
 
-Type: `Promise<Map<string, any>>`
+Type: `Promise<Map<string, HTMLCalcitePickListItemElement>>`
 
 ### `setFocus(focusId?: ListFocusId) => Promise<void>`
 
@@ -123,12 +123,11 @@ Type: `Promise<void>`
 graph TD;
   calcite-pick-list --> calcite-filter
   calcite-pick-list --> calcite-scrim
-  calcite-filter --> calcite-scrim
   calcite-filter --> calcite-input
   calcite-filter --> calcite-icon
-  calcite-scrim --> calcite-loader
   calcite-input --> calcite-progress
   calcite-input --> calcite-icon
+  calcite-scrim --> calcite-loader
   style calcite-pick-list fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

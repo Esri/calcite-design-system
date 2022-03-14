@@ -8,7 +8,7 @@ import {
 } from "../../../.storybook/utils";
 import readme from "./readme.md";
 import itemReadme from "../value-list-item/readme.md";
-import { html } from "../../tests/utils";
+import { html } from "../../../support/formatting";
 
 export default {
   title: "Components/Value List",
@@ -130,3 +130,14 @@ export const darkThemeRTL = (): string =>
   );
 
 darkThemeRTL.parameters = { themes: themesDarkDefault };
+
+export const disabled = (): string => html`<calcite-value-list disabled>
+  <calcite-value-list-item label="T. Rex" description="arm strength impaired" value="trex"></calcite-value-list-item>
+  <calcite-value-list-item
+    label="Triceratops"
+    description="3 horn"
+    value="triceratops"
+    selected
+  ></calcite-value-list-item>
+  <calcite-value-list-item label="hi" description="there" value="helloWorld"></calcite-value-list-item>
+</calcite-value-list>`;

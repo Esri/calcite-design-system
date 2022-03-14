@@ -1,7 +1,7 @@
 import { accessible, hidden, renders, defaults, reflects, focusable, slots } from "../../tests/commonTests";
 import { newE2EPage } from "@stencil/core/testing";
 import { SLOTS, CSS } from "./resources";
-import { html } from "../../tests/utils";
+import { html } from "../../../support/formatting";
 
 describe("calcite-action-menu", () => {
   it("renders", async () => renders("calcite-action-menu", { display: "flex" }));

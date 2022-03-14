@@ -2,6 +2,7 @@ import { newE2EPage } from "@stencil/core/testing";
 import {
   accessible,
   defaults,
+  disabled,
   focusable,
   formAssociated,
   hidden,
@@ -30,6 +31,8 @@ describe("calcite-radio-button", () => {
       shadowFocusTargetSelector: ".container",
       propertyToToggle: "checked"
     }));
+
+  it("can be disabled", () => disabled("calcite-radio-button"));
 
   it("focusing skips over hidden radio-buttons", async () => {
     const page = await newE2EPage();
