@@ -28,6 +28,7 @@ import { TEXT } from "../date-picker/resources";
 import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
 import { connectForm, disconnectForm, FormComponent, HiddenFormInputSlot } from "../../utils/form";
 import {
+  PopperPlacement,
   createPopper,
   updatePopper,
   CSS as PopperCSS,
@@ -36,8 +37,6 @@ import {
 import { StrictModifiers, Instance as Popper } from "@popperjs/core";
 import { DateRangeChange } from "../date-picker/interfaces";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
-
-const DEFAULT_PLACEMENT = "bottom-leading";
 
 @Component({
   tag: "calcite-input-date-picker",
@@ -170,6 +169,18 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
   /** specify the scale of the date picker */
   @Prop({ reflect: true }) scale: "s" | "m" | "l" = "m";
 
+  /**
+   * Scale of the calcite-date-picker rendered in the input popover.
+   * @default undefined
+   */
+  @Prop({ reflect: true }) datePickerScale: "s" | "m" | "l" = "m";
+
+  /**
+   * Determines where the date-picker component will be positioned relative to the input.
+   * @default "bottom-leading"
+   */
+  @Prop({ reflect: true }) placement: PopperPlacement = "bottom-leading";
+
   /** Range mode activation */
   @Prop({ reflect: true }) range = false;
 
@@ -279,7 +290,7 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
       ? await updatePopper({
           el: menuEl,
           modifiers,
-          placement: DEFAULT_PLACEMENT,
+          placement: this.placement,
           popper
         })
       : this.createPopper();
@@ -410,7 +421,7 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
                   onCalciteDatePickerRangeChange={this.handleDateRangeChange}
                   proximitySelectionDisabled={this.proximitySelectionDisabled}
                   range={this.range}
-                  scale={this.scale}
+                  scale={this.datePickerScale || this.scale}
                   startAsDate={this.startAsDate}
                   tabIndex={0}
                   valueAsDate={this.valueAsDate}
@@ -604,7 +615,7 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
       el: menuEl,
       modifiers,
       overlayPositioning,
-      placement: DEFAULT_PLACEMENT,
+      placement: this.placement,
       referenceEl
     });
   }

@@ -15,6 +15,7 @@ import {
 import { guid } from "../../utils/guid";
 import { formatTimeString, isValidTime, localizeTimeString } from "../../utils/time";
 import { Scale } from "../interfaces";
+import { PopperPlacement } from "../../utils/popper";
 import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
 import { connectForm, disconnectForm, FormComponent, HiddenFormInputSlot } from "../../utils/form";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
@@ -119,6 +120,18 @@ export class InputTimePicker implements LabelableComponent, FormComponent, Inter
 
   /** The scale (size) of the time input */
   @Prop({ reflect: true }) scale: Scale = "m";
+
+  /**
+   * Scale of the calcite-time-picker rendered in the input popover.
+   * @default undefined
+   */
+  @Prop({ reflect: true }) timePickerScale: "s" | "m" | "l" = "m";
+
+  /**
+   * Determines where the popover will be positioned relative to the input.
+   * @see [PopperPlacement](https://github.com/Esri/calcite-components/blob/master/src/utils/popper.ts#L25)
+   */
+  @Prop({ reflect: true }) placement: PopperPlacement = "auto";
 
   /** number (seconds) that specifies the granularity that the value must adhere to */
   @Prop() step = 60;
@@ -397,6 +410,7 @@ export class InputTimePicker implements LabelableComponent, FormComponent, Inter
           id={popoverId}
           label="Time Picker"
           open={this.active}
+          placement={this.placement}
           referenceElement={this.referenceElementId}
         >
           <calcite-time-picker
@@ -415,7 +429,7 @@ export class InputTimePicker implements LabelableComponent, FormComponent, Inter
             lang={this.locale}
             onCalciteTimePickerChange={this.timePickerChangeHandler}
             ref={this.setCalciteTimePickerEl}
-            scale={this.scale}
+            scale={this.timePickerScale || this.scale}
             step={this.step}
             value={this.value}
           />
