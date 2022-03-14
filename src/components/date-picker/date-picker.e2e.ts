@@ -1,7 +1,7 @@
 import { E2EPage, newE2EPage } from "@stencil/core/testing";
 import { renders, defaults, hidden } from "../../tests/commonTests";
 import { TEXT } from "./resources";
-import { html } from "../../tests/utils";
+import { html } from "../../../support/formatting";
 
 describe("calcite-date-picker", () => {
   it("renders", async () => renders("calcite-date-picker", { display: "inline-block" }));
@@ -184,7 +184,7 @@ describe("calcite-date-picker", () => {
   });
 
   describe("when the locale is set to Slovak calendar", () => {
-    it.skip("should start the week on Monday", async () => {
+    it("should start the week on Monday", async () => {
       const page = await newE2EPage({
         html: `<calcite-date-picker scale="m" locale="sk" value="2000-11-27"></calcite-date-picker>`
       });

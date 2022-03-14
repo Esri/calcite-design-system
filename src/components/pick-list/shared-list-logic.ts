@@ -112,10 +112,10 @@ export function calciteListFocusOutHandler<T extends Lists>(this: List<T>, event
     return;
   }
 
-  items.forEach((item) => {
+  filterOutDisabled(items).forEach((item) => {
     toggleSingleSelectItemTabbing(
       item,
-      selectedValues.size === 0 ? item.contains(event.target) || event.target === item : item.selected
+      selectedValues.size === 0 ? item.contains(event.target as HTMLElement) || event.target === item : item.selected
     );
   });
 }
@@ -137,7 +137,7 @@ export function keyDownHandler<T extends Lists>(this: List<T>, event: KeyboardEv
 
   event.preventDefault();
 
-  const index = getRoundRobinIndex(currentIndex + (key === "ArrowUp" ? -1 : 1), totalItems);
+  const index = moveItemIndex(this, target as ListItemElement<T>, key === "ArrowUp" ? "up" : "down");
   const item = items[index];
 
   items.forEach((i: HTMLCalcitePickListItemElement | HTMLCalciteValueListItemElement) =>
@@ -149,6 +149,34 @@ export function keyDownHandler<T extends Lists>(this: List<T>, event: KeyboardEv
   }
 
   focusElement(item);
+}
+
+export function moveItemIndex<T extends Lists>(
+  list: List<T>,
+  item: ListItemElement<T>,
+  direction: "up" | "down"
+): number {
+  const { items } = list;
+  const { length: totalItems } = items;
+  const currentIndex = (items as ListItemElement<T>[]).indexOf(item);
+  const directionFactor = direction === "up" ? -1 : 1;
+  let moveOffset = 1;
+  let index = getRoundRobinIndex(currentIndex + directionFactor * moveOffset++, totalItems);
+  const firstMovedIndex = index;
+
+  while (items[index].disabled) {
+    index = getRoundRobinIndex(currentIndex + directionFactor * moveOffset++, totalItems);
+
+    if (index === firstMovedIndex) {
+      break;
+    }
+  }
+
+  return index;
+}
+
+function filterOutDisabled<T extends Lists>(items: ListItemElement<T>[]): ListItemElement<T>[] {
+  return items.filter((item) => !item.disabled);
 }
 
 export function internalCalciteListChangeEvent<T extends Lists>(this: List<T>): void {
@@ -175,6 +203,10 @@ export function removeItem<T extends Lists, U extends ListItemElement<T>>(this: 
 }
 
 function toggleSingleSelectItemTabbing<T extends Lists>(item: ListItemElement<T>, selectable: boolean): void {
+  if (item.disabled) {
+    return;
+  }
+
   // using attribute intentionally
   if (selectable) {
     item.removeAttribute("tabindex");
@@ -196,12 +228,13 @@ export async function setFocus<T extends Lists>(this: List<T>, focusId: ListFocu
   }
 
   if (multiple) {
-    return items[0].setFocus();
+    return filterOutDisabled(items)[0]?.setFocus();
   }
 
-  const focusTarget = (items as ListItemElement<T>[]).find((item) => item.selected) || items[0];
+  const filtered = filterOutDisabled(items);
+  const focusTarget = filtered.find((item) => item.selected) || filtered[0];
 
-  if (selectionFollowsFocus) {
+  if (selectionFollowsFocus && focusTarget) {
     focusTarget.selected = true;
   }
 
@@ -232,7 +265,7 @@ export function setUpItems<T extends Lists>(
 
   const [first] = items;
 
-  if (!hasSelected && first) {
+  if (!hasSelected && first && !first.disabled) {
     toggleSingleSelectItemTabbing(first, true);
   }
 }

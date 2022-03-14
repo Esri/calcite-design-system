@@ -14,6 +14,7 @@ import { debounce, forIn } from "lodash-es";
 import { CSS, ICONS, TEXT } from "./resources";
 import { Scale } from "../interfaces";
 import { focusElement } from "../../utils/dom";
+import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 
 const filterDebounceInMs = 250;
 
@@ -22,7 +23,7 @@ const filterDebounceInMs = 250;
   styleUrl: "filter.scss",
   shadow: true
 })
-export class Filter {
+export class Filter implements InteractiveComponent {
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -35,7 +36,7 @@ export class Filter {
    *
    * This property is required.
    */
-  @Prop({ mutable: true }) items!: object[];
+  @Prop({ mutable: true }) items: object[] = [];
 
   @Watch("items")
   watchItemsHandler(): void {
@@ -75,7 +76,7 @@ export class Filter {
   /**
    * Filter value.
    */
-  @Prop({ mutable: true }) value?: string;
+  @Prop({ mutable: true }) value = "";
 
   @Watch("value")
   valueHandler(value: string): void {
@@ -92,6 +93,16 @@ export class Filter {
 
   textInput: HTMLCalciteInputElement;
 
+  //--------------------------------------------------------------------------
+  //
+  //  Lifecycle
+  //
+  //--------------------------------------------------------------------------
+
+  componentDidRender(): void {
+    updateHostInteraction(this);
+  }
+
   // --------------------------------------------------------------------------
   //
   //  Events
@@ -102,6 +113,16 @@ export class Filter {
    * This event fires when the filter text changes.
    */
   @Event() calciteFilterChange: EventEmitter<void>;
+
+  //--------------------------------------------------------------------------
+  //
+  //  Lifecycle
+  //
+  //--------------------------------------------------------------------------
+
+  componentWillLoad(): void {
+    this.filter(this.value);
+  }
 
   // --------------------------------------------------------------------------
   //
@@ -187,12 +208,11 @@ export class Filter {
 
     return (
       <Fragment>
-        {disabled ? <calcite-scrim /> : null}
         <div class={CSS.container}>
           <label>
             <calcite-input
               aria-label={this.intlLabel || TEXT.filterLabel}
-              disabled={this.disabled}
+              disabled={disabled}
               icon={ICONS.search}
               onCalciteInputInput={this.inputHandler}
               onKeyDown={this.keyDownHandler}
@@ -209,6 +229,7 @@ export class Filter {
             <button
               aria-label={this.intlClear || TEXT.clear}
               class={CSS.clearButton}
+              disabled={disabled}
               onClick={this.clear}
             >
               <calcite-icon icon={ICONS.close} scale={scale} />

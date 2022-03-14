@@ -1,7 +1,7 @@
 import { CSS, SLOTS } from "./resources";
-import { accessible, renders, slots } from "../../tests/commonTests";
+import { accessible, disabled, renders, slots } from "../../tests/commonTests";
 import { newE2EPage } from "@stencil/core/testing";
-import { html } from "../../tests/utils";
+import { html } from "../../../support/formatting";
 
 describe("calcite-pick-list-item", () => {
   it("renders", async () => renders("calcite-pick-list-item", { display: "flex" }));
@@ -27,6 +27,8 @@ describe("calcite-pick-list-item", () => {
   });
 
   it("has slots", () => slots("calcite-pick-list-item", SLOTS));
+
+  it("can be disabled", async () => disabled("calcite-pick-list-item"));
 
   it("should toggle selected attribute when clicked", async () => {
     const page = await newE2EPage({ html: `<calcite-pick-list-item label="test"></calcite-pick-list-item>` });

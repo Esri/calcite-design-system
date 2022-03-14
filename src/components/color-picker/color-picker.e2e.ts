@@ -1,4 +1,4 @@
-import { accessible, defaults, hidden, reflects, renders, focusable } from "../../tests/commonTests";
+import { accessible, defaults, hidden, reflects, renders, focusable, disabled } from "../../tests/commonTests";
 
 import { CSS, DEFAULT_COLOR, DEFAULT_STORAGE_KEY_PREFIX, DIMENSIONS, TEXT } from "./resources";
 import { E2EElement, E2EPage, EventSpy, newE2EPage } from "@stencil/core/testing";
@@ -162,6 +162,9 @@ describe("calcite-color-picker", () => {
         defaultValue: "#007ac2"
       }
     ]));
+
+  // #408047 is a color in the middle of the color field
+  it("can be disabled", () => disabled("<calcite-color-picker value='#408047'></calcite-color-picker>"));
 
   it(`should set all internal calcite-button types to 'button'`, async () => {
     const page = await newE2EPage({

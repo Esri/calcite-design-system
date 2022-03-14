@@ -25,6 +25,7 @@ import {
 import { Scale } from "../interfaces";
 import { DefaultDropdownPlacement, SLOTS } from "./resources";
 import { createObserver } from "../../utils/observers";
+import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 
 /**
  * @slot - A slot for adding `calcite-dropdown-group`s or `calcite-dropdown-item`s.
@@ -35,7 +36,7 @@ import { createObserver } from "../../utils/observers";
   styleUrl: "dropdown.scss",
   shadow: true
 })
-export class Dropdown implements FloatingUIComponent {
+export class Dropdown implements InteractiveComponent, FloatingUIComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -55,7 +56,12 @@ export class Dropdown implements FloatingUIComponent {
 
   @Watch("active")
   activeHandler(): void {
-    this.reposition();
+    if (!this.disabled) {
+      this.reposition();
+      return;
+    }
+
+    this.active = false;
   }
 
   /**
@@ -66,6 +72,13 @@ export class Dropdown implements FloatingUIComponent {
 
   /** is the dropdown disabled  */
   @Prop({ reflect: true }) disabled = false;
+
+  @Watch("disabled")
+  handleDisabledChange(value: boolean): void {
+    if (!value) {
+      this.active = false;
+    }
+  }
 
   /**
    specify the maximum number of calcite-dropdown-items to display before showing the scroller, must be greater than 0 -
@@ -129,6 +142,10 @@ export class Dropdown implements FloatingUIComponent {
     this.reposition();
   }
 
+  componentDidRender(): void {
+    updateHostInteraction(this);
+  }
+
   disconnectedCallback(): void {
     this.mutationObserver?.disconnect();
     disconnectFloatingUI(this, this.floatingEl);
@@ -140,7 +157,7 @@ export class Dropdown implements FloatingUIComponent {
     const { active } = this;
 
     return (
-      <Host tabIndex={this.disabled ? -1 : null}>
+      <Host>
         <div
           class="calcite-dropdown-trigger-container"
           onClick={this.openCalciteDropdown}
@@ -221,7 +238,7 @@ export class Dropdown implements FloatingUIComponent {
       return;
     }
 
-    this.closeCalciteDropdown();
+    this.closeCalciteDropdown(false);
   }
 
   @Listen("calciteDropdownCloseRequest")
@@ -442,9 +459,12 @@ export class Dropdown implements FloatingUIComponent {
     return maxScrollerHeight;
   }
 
-  private closeCalciteDropdown() {
+  private closeCalciteDropdown(focusTrigger = true) {
     this.active = false;
-    focusElement(this.triggers[0]);
+
+    if (focusTrigger) {
+      focusElement(this.triggers[0]);
+    }
   }
 
   private focusOnFirstActiveOrFirstItem = (): void => {

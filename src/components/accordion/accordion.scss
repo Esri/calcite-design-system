@@ -21,25 +21,23 @@
 }
 
 :host {
-  @apply border-color-2
-    relative
+  @apply relative
     block
     max-w-full
-    border
-    border-b-0
-    border-solid
     leading-6;
   --calcite-accordion-item-border: theme("borderColor.color.2");
   --calcite-accordion-item-background: theme("backgroundColor.foreground.1");
 }
 
 .accordion--transparent {
-  border-color: transparent;
   --calcite-accordion-item-border: transparent;
   --calcite-accordion-item-background: transparent;
 }
 
 .accordion--minimal {
   --calcite-accordion-item-padding: var(--calcite-accordion-item-spacing-unit) 0;
-  border-color: transparent;
+}
+
+.accordion {
+  @apply border border-solid border-color-2 border-b-0;
 }

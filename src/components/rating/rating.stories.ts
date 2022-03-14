@@ -2,7 +2,7 @@ import { number, select, text } from "@storybook/addon-knobs";
 import { boolean } from "../../../.storybook/helpers";
 import { themesDarkDefault } from "../../../.storybook/utils";
 import readme from "./readme.md";
-import { html } from "../../tests/utils";
+import { html } from "../../../support/formatting";
 
 export default {
   title: "Components/Controls/Rating",
@@ -80,3 +80,5 @@ export const Rtl = (): string => html`
 `;
 
 Rtl.storyName = "RTL";
+
+export const disabled = (): string => html`<calcite-rating disabled value="3"></calcite-rating>`;

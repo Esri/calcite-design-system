@@ -1,5 +1,5 @@
 import { E2EPage, newE2EPage } from "@stencil/core/testing";
-import { accessible, defaults, focusable, hidden, reflects, renders } from "../../tests/commonTests";
+import { accessible, defaults, disabled, focusable, hidden, reflects, renders } from "../../tests/commonTests";
 import { CSS } from "./resources";
 
 describe("calcite-filter", () => {
@@ -10,6 +10,8 @@ describe("calcite-filter", () => {
   it("is accessible", async () => accessible("calcite-filter"));
 
   it("is focusable", async () => focusable("calcite-filter"));
+
+  it("can be disabled", () => disabled("calcite-filter"));
 
   it("reflects", async () =>
     reflects("calcite-filter", [
@@ -126,6 +128,11 @@ describe("calcite-filter", () => {
     });
   });
 
+  function assertMatchingItems(filtered: any[], values: string[]): void {
+    expect(filtered).toHaveLength(values.length);
+    values.forEach((value) => expect(filtered.find((element) => element.value === value)).toBeDefined());
+  }
+
   describe("filter behavior", () => {
     let page: E2EPage;
 
@@ -145,7 +152,7 @@ describe("calcite-filter", () => {
             name: "Matt",
             description: "developer",
             value: "matt",
-            metadata: { haircolor: "black", favoriteBand: "unknown" }
+            metadata: { haircolor: "black", favoriteBand: "Radiohead" }
           },
           {
             name: "Franco",
@@ -174,11 +181,6 @@ describe("calcite-filter", () => {
         ];
       });
     });
-
-    function assertMatchingItems(filtered: any[], values: string[]): void {
-      expect(filtered).toHaveLength(values.length);
-      values.forEach((value) => expect(filtered.find((element) => element.value === value)).toBeDefined());
-    }
 
     it("updates filtered items after filtering", async () => {
       const filterChangeSpy = await page.spyOnEvent("calciteFilterChange");
@@ -224,6 +226,43 @@ describe("calcite-filter", () => {
       await waitForEvent;
 
       assertMatchingItems(await filter.getProperty("filteredItems"), ["regex"]);
+    });
+  });
+
+  describe("filter behavior with predefined value prop", () => {
+    let page: E2EPage;
+
+    beforeEach(async () => {
+      page = await newE2EPage();
+      await page.setContent(`<calcite-filter value="harry"></calcite-filter>`);
+      await page.evaluate(() => {
+        const filter = document.querySelector("calcite-filter");
+        filter.items = [
+          {
+            name: "Harry",
+            description: "developer",
+            value: "harry",
+            metadata: { haircolor: "red", favoriteBand: "MetallicA" }
+          },
+          {
+            name: "Matt",
+            description: "developer",
+            value: "matt",
+            metadata: { haircolor: "black", favoriteBand: "Radiohead" }
+          }
+        ];
+      });
+    });
+
+    it("should return matching value", async () => {
+      const filterChangeSpy = await page.spyOnEvent("calciteFilterChange");
+      const filter = await page.find("calcite-filter");
+      await page.waitForEvent("calciteFilterChange");
+
+      expect(filterChangeSpy).toHaveReceivedEventTimes(1);
+
+      await filter;
+      assertMatchingItems(await filter.getProperty("filteredItems"), ["harry"]);
     });
   });
 });

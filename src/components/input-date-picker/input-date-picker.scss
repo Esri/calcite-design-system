@@ -9,6 +9,8 @@
     shadow-none;
 }
 
+@include disabled();
+
 .calendar-picker-wrapper {
   @apply static
     w-full
@@ -88,12 +90,15 @@
 
 .menu-container {
   @include floatingUIContainer();
+  @include floatingUIWrapper();
   @apply invisible
     pointer-events-none;
 }
-:host([active]) .menu-container {
-  @apply pointer-events-auto
-    visible;
+
+@include popperElemAnim(".menu-container");
+
+.menu-container--active {
+  @include popperElemAnim(".menu-container");
 }
 
 .input .calcite-input__wrapper {

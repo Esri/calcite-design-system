@@ -84,10 +84,10 @@ Renders a value list with label editing and single select.
 
 ## Events
 
-| Event                    | Description                                           | Type                            |
-| ------------------------ | ----------------------------------------------------- | ------------------------------- |
-| `calciteListChange`      | Emitted when any of the item selections have changed. | `CustomEvent<Map<string, any>>` |
-| `calciteListOrderChange` | Emitted when the order of the list has changed.       | `CustomEvent<any[]>`            |
+| Event                    | Description                                           | Type                                                        |
+| ------------------------ | ----------------------------------------------------- | ----------------------------------------------------------- |
+| `calciteListChange`      | Emitted when any of the item selections have changed. | `CustomEvent<Map<string, HTMLCalciteValueListItemElement>>` |
+| `calciteListOrderChange` | Emitted when the order of the list has changed.       | `CustomEvent<any[]>`                                        |
 
 ## Methods
 
@@ -97,7 +97,7 @@ Returns the currently selected items
 
 #### Returns
 
-Type: `Promise<Map<string, any>>`
+Type: `Promise<Map<string, HTMLCalciteValueListItemElement>>`
 
 ### `setFocus(focusId?: ListFocusId) => Promise<void>`
 
@@ -127,12 +127,11 @@ Type: `Promise<void>`
 graph TD;
   calcite-value-list --> calcite-filter
   calcite-value-list --> calcite-scrim
-  calcite-filter --> calcite-scrim
   calcite-filter --> calcite-input
   calcite-filter --> calcite-icon
-  calcite-scrim --> calcite-loader
   calcite-input --> calcite-progress
   calcite-input --> calcite-icon
+  calcite-scrim --> calcite-loader
   style calcite-value-list fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

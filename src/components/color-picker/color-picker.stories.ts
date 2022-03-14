@@ -8,6 +8,7 @@ import {
 } from "../../../.storybook/utils";
 import colorReadme from "./readme.md";
 import { ATTRIBUTES } from "../../../.storybook/resources";
+import { html } from "../../../support/formatting";
 
 export default {
   title: "Components/Controls/ColorPicker",
@@ -97,3 +98,5 @@ export const AllowingEmpty = (): string =>
     { name: "allow-empty", value: true },
     { name: "value", value: text("value", "") }
   ]);
+
+export const disabled = (): string => html`<calcite-color-picker disabled></calcite-color-picker>`;

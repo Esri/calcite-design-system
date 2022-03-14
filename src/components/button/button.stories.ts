@@ -1,7 +1,7 @@
 import { text, select } from "@storybook/addon-knobs";
 import { iconNames, boolean } from "../../../.storybook/helpers";
 import { themesDarkDefault } from "../../../.storybook/utils";
-import { html } from "../../tests/utils";
+import { html } from "../../../support/formatting";
 import readme from "./readme.md";
 
 export default {
@@ -175,3 +175,5 @@ export const RTL = (): string => html`
     ${text("text", "button text here")}
   </calcite-button>
 `;
+
+export const disabled = (): string => html`<calcite-button disabled>disabled</calcite-button>`;

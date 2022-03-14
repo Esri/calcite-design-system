@@ -3,6 +3,8 @@
   @apply flex w-full;
 }
 
+@include disabled();
+
 .container {
   @apply flex w-full p-2;
 }

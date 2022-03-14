@@ -1,6 +1,6 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { defaults, formAssociated, labelable, renders } from "../../tests/commonTests";
-import { html } from "../../tests/utils";
+import { defaults, disabled, formAssociated, labelable, renders } from "../../tests/commonTests";
+import { html } from "../../../support/formatting";
 
 const animationDurationInMs = 200;
 
@@ -16,6 +16,8 @@ describe("calcite-input-date-picker", () => {
     ]));
 
   it("is labelable", async () => labelable("calcite-input-date-picker"));
+
+  it("can be disabled", () => disabled("calcite-input-date-picker"));
 
   describe("event emitting when the value changes", () => {
     it("emits when configured for single date", async () => {

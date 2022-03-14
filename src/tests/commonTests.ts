@@ -3,8 +3,9 @@ import { JSX } from "../components";
 import { toHaveNoViolations } from "jest-axe";
 import axe from "axe-core";
 import { config } from "../../stencil.config";
-import { GlobalTestProps, html } from "./utils";
+import { GlobalTestProps, waitForAnimationFrame } from "./utils";
 import { hiddenFormInputSlotName } from "../utils/form";
+import { html } from "../../support/formatting";
 
 expect.extend(toHaveNoViolations);
 
@@ -12,6 +13,10 @@ type ComponentTag = keyof JSX.IntrinsicElements;
 type AxeOwningWindow = GlobalTestProps<{ axe: typeof axe }>;
 type ComponentHTML = string;
 type TagOrHTML = ComponentTag | ComponentHTML;
+type TagAndPage = {
+  tag: ComponentTag;
+  page: E2EPage;
+};
 
 export const HYDRATED_ATTR = config.hydratedFlag.name;
 
@@ -240,23 +245,20 @@ export async function slots(
 }
 
 async function assertLabelable({
-  html,
+  page,
   componentTag,
   propertyToToggle,
   focusTargetSelector = componentTag,
   shadowFocusTargetSelector
 }: {
-  html: string;
+  page: E2EPage;
   componentTag: string;
   propertyToToggle?: string;
   focusTargetSelector?: string;
   shadowFocusTargetSelector?: string;
 }): Promise<void> {
-  const page: E2EPage = await newE2EPage({ html });
-  await page.waitForChanges();
   let component: E2EElement;
   let initialPropertyValue: boolean;
-
   if (propertyToToggle) {
     component = await page.find(componentTag);
     initialPropertyValue = await component.getProperty(propertyToToggle);
@@ -323,11 +325,12 @@ export async function labelable(componentTagOrHtml: TagOrHTML, options?: Labelab
   function ensureId(html: string): string {
     return html.includes("id=") ? html : html.replace(componentTag, `${componentTag} id="${id}" `);
   }
-
   const wrappedHtml = html`<calcite-label> ${labelTitle} ${componentHtml} </calcite-label>`;
+  const wrappedPage: E2EPage = await newE2EPage({ html: wrappedHtml });
+  await wrappedPage.waitForChanges();
 
   await assertLabelable({
-    html: wrappedHtml,
+    page: wrappedPage,
     componentTag,
     propertyToToggle,
     focusTargetSelector,
@@ -338,16 +341,93 @@ export async function labelable(componentTagOrHtml: TagOrHTML, options?: Labelab
     <calcite-label for="${id}">${labelTitle}</calcite-label>
     ${componentHtml}
   `;
+  const siblingPage: E2EPage = await newE2EPage({ html: siblingHtml });
+  await siblingPage.waitForChanges();
 
   await assertLabelable({
-    html: siblingHtml,
+    page: siblingPage,
+    componentTag,
+    propertyToToggle,
+    focusTargetSelector,
+    shadowFocusTargetSelector
+  });
+
+  const labelFirstSiblingPage: E2EPage = await newE2EPage();
+  await labelFirstSiblingPage.setContent(`<calcite-label for="${id}"></calcite-label>`);
+  await labelFirstSiblingPage.waitForChanges();
+  await labelFirstSiblingPage.evaluate((componentHtml: string) => {
+    const template = document.createElement("template");
+    template.innerHTML = `${componentHtml}`.trim();
+    const componentNode = template.content.firstChild;
+    document.body.append(componentNode);
+  }, componentHtml);
+  await labelFirstSiblingPage.waitForChanges();
+
+  await assertLabelable({
+    page: labelFirstSiblingPage,
+    componentTag,
+    propertyToToggle,
+    focusTargetSelector,
+    shadowFocusTargetSelector
+  });
+
+  const labelFirstWrappedPage: E2EPage = await newE2EPage();
+  await labelFirstWrappedPage.setContent(`<calcite-label for="${id}"></calcite-label>`);
+  await labelFirstWrappedPage.waitForChanges();
+  await labelFirstWrappedPage.evaluate((componentHtml: string) => {
+    const template = document.createElement("template");
+    template.innerHTML = `${componentHtml}`.trim();
+    const componentNode = template.content.firstChild;
+    const labelEl = document.querySelector("calcite-label");
+    labelEl.append(componentNode);
+  }, componentHtml);
+  await labelFirstWrappedPage.waitForChanges();
+
+  await assertLabelable({
+    page: labelFirstWrappedPage,
+    componentTag,
+    propertyToToggle,
+    focusTargetSelector,
+    shadowFocusTargetSelector
+  });
+
+  const componentFirstSiblingPage: E2EPage = await newE2EPage({ html: componentHtml });
+  await componentFirstSiblingPage.waitForChanges();
+  await componentFirstSiblingPage.evaluate((id: string) => {
+    const label = document.createElement("calcite-label");
+    label.setAttribute("for", `${id}`);
+    document.body.append(label);
+  }, id);
+  await componentFirstSiblingPage.waitForChanges();
+
+  await assertLabelable({
+    page: componentFirstSiblingPage,
+    componentTag,
+    propertyToToggle,
+    focusTargetSelector,
+    shadowFocusTargetSelector
+  });
+
+  const componentFirstWrappedPage: E2EPage = await newE2EPage();
+  await componentFirstWrappedPage.setContent(`${componentHtml}`);
+  await componentFirstWrappedPage.waitForChanges();
+  await componentFirstWrappedPage.evaluate((id: string) => {
+    const componentEl = document.querySelector(`[id='${id}']`);
+    const labelEl = document.createElement("calcite-label");
+    labelEl.setAttribute("for", `${id}`);
+    document.body.append(labelEl);
+    labelEl.append(componentEl);
+  }, id);
+  await componentFirstWrappedPage.waitForChanges();
+
+  await assertLabelable({
+    page: componentFirstWrappedPage,
     componentTag,
     propertyToToggle,
     focusTargetSelector,
     shadowFocusTargetSelector
   });
 }
-
 interface FormAssociatedOptions {
   /**
    * This value will be set on the component and submitted by the form.
@@ -516,4 +596,152 @@ export async function formAssociated(componentTagOrHtml: TagOrHTML, options: For
       );
     }
   }
+}
+
+interface TabAndClickTargets {
+  tab: string;
+  click: string;
+}
+
+type FocusTarget = "host" | "child" | "none";
+
+interface DisabledOptions {
+  /**
+   *  Use this to specify whether the test should cover focusing.
+   */
+  focusTarget: FocusTarget | TabAndClickTargets;
+}
+
+async function getTagAndPage(componentSetup: TagOrHTML | TagAndPage): Promise<TagAndPage> {
+  if (typeof componentSetup === "string") {
+    const page = await simplePageSetup(componentSetup);
+    const tag = getTag(componentSetup);
+
+    return { page, tag };
+  }
+
+  return componentSetup;
+}
+
+/**
+ * Helper to test the disabled prop disabling user interaction.
+ *
+ * @param componentTagOrHTML - the component tag or HTML markup to test against
+ */
+export async function disabled(
+  componentSetup: TagOrHTML | TagAndPage,
+  options: DisabledOptions = { focusTarget: "host" }
+): Promise<void> {
+  const { page, tag } = await getTagAndPage(componentSetup);
+
+  const component = await page.find(tag);
+  const enabledComponentClickSpy = await component.spyOnEvent("click");
+  await page.addStyleTag({
+    // skip animations/transitions
+    content: `:root { --calcite-duration-factor: 0; }`
+  });
+
+  await page.$eval(tag, (el) => {
+    el.addEventListener(
+      "click",
+      (event) => {
+        const path = event.composedPath() as HTMLElement[];
+
+        if (path.find((el) => el?.tagName === "A")) {
+          // we prevent the default behavior to avoid a page redirect
+          el.addEventListener("click", (event) => event.preventDefault(), { once: true });
+        }
+      },
+      true
+    );
+  });
+
+  async function expectToBeFocused(tag: string): Promise<void> {
+    const focusedTag = await page.evaluate(() => document.activeElement?.tagName.toLowerCase());
+    expect(focusedTag).toBe(tag);
+  }
+
+  expect(component.getAttribute("aria-disabled")).toBeNull();
+
+  if (options.focusTarget === "none") {
+    await page.click(tag);
+    await expectToBeFocused("body");
+
+    expect(enabledComponentClickSpy).toHaveReceivedEventTimes(1);
+
+    component.setProperty("disabled", true);
+    await page.waitForChanges();
+    const disabledComponentClickSpy = await component.spyOnEvent("click");
+
+    expect(component.getAttribute("aria-disabled")).toBe("true");
+
+    await page.click(tag);
+    await expectToBeFocused("body");
+
+    await component.callMethod("click");
+    await expectToBeFocused("body");
+
+    expect(disabledComponentClickSpy).toHaveReceivedEventTimes(0);
+
+    return;
+  }
+
+  async function getFocusTarget(focusTarget: FocusTarget): Promise<string> {
+    return focusTarget === "host" ? tag : await page.evaluate(() => document.activeElement?.tagName.toLowerCase());
+  }
+
+  await page.keyboard.press("Tab");
+
+  let tabFocusTarget: string;
+  let clickFocusTarget: string;
+
+  if (typeof options.focusTarget === "object") {
+    tabFocusTarget = options.focusTarget.tab;
+    clickFocusTarget = options.focusTarget.click;
+  } else {
+    tabFocusTarget = clickFocusTarget = await getFocusTarget(options.focusTarget);
+  }
+
+  expect(tabFocusTarget).not.toBe("body");
+  await expectToBeFocused(tabFocusTarget);
+
+  const [shadowFocusableCenterX, shadowFocusableCenterY] = await page.$eval(tabFocusTarget, (element: HTMLElement) => {
+    const focusTarget = element.shadowRoot.activeElement || element;
+    const rect = focusTarget.getBoundingClientRect();
+
+    return [rect.x + rect.width / 2, rect.y + rect.height / 2];
+  });
+
+  async function resetFocusOrder(): Promise<void> {
+    // test page has default margin, so clicking on 0,0 will not hit the test element
+    await page.mouse.click(0, 0);
+  }
+
+  await resetFocusOrder();
+  await expectToBeFocused("body");
+
+  await page.mouse.click(shadowFocusableCenterX, shadowFocusableCenterY);
+  await expectToBeFocused(clickFocusTarget);
+
+  await component.callMethod("click");
+  await expectToBeFocused(clickFocusTarget);
+
+  // some components emit more than one click event,
+  // so we check if at least one event is received
+  expect(enabledComponentClickSpy.length).toBeGreaterThanOrEqual(2);
+
+  component.setProperty("disabled", true);
+  await page.waitForChanges();
+  const disabledComponentClickSpy = await component.spyOnEvent("click");
+
+  expect(component.getAttribute("aria-disabled")).toBe("true");
+
+  await resetFocusOrder();
+  await page.keyboard.press("Tab");
+  await expectToBeFocused("body");
+
+  await page.mouse.click(shadowFocusableCenterX, shadowFocusableCenterY);
+  await expectToBeFocused("body");
+
+  expect(disabledComponentClickSpy).toHaveReceivedEventTimes(0);
 }
