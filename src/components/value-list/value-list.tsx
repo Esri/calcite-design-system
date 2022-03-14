@@ -14,6 +14,7 @@ import {
 import { CSS, ICON_TYPES } from "./resources";
 import {
   ListFocusId,
+  calciteListFocusOutHandler,
   calciteListItemChangeHandler,
   calciteListItemValueChangeHandler,
   cleanUpObserver,
@@ -29,11 +30,12 @@ import {
   removeItem,
   selectSiblings,
   setFocus,
-  setUpItems
+  setUpItems,
+  moveItemIndex
 } from "../pick-list/shared-list-logic";
 import List from "../pick-list/shared-list-render";
-import { getRoundRobinIndex } from "../../utils/array";
 import { createObserver } from "../../utils/observers";
+import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 
 /**
  * @slot - A slot for adding `calcite-value-list-item` elements. Items are displayed as a vertical list.
@@ -46,7 +48,8 @@ import { createObserver } from "../../utils/observers";
 })
 export class ValueList<
   ItemElement extends HTMLCalciteValueListItemElement = HTMLCalciteValueListItemElement
-> {
+> implements InteractiveComponent
+{
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -137,6 +140,10 @@ export class ValueList<
     this.setUpDragAndDrop();
   }
 
+  componentDidRender(): void {
+    updateHostInteraction(this);
+  }
+
   disconnectedCallback(): void {
     cleanUpObserver.call(this);
     this.cleanUpDragAndDrop();
@@ -157,6 +164,11 @@ export class ValueList<
    * Emitted when the order of the list has changed.
    */
   @Event() calciteListOrderChange: EventEmitter<any[]>;
+
+  @Listen("focusout")
+  calciteListFocusOutHandler(event: FocusEvent): void {
+    calciteListFocusOutHandler.call(this, event);
+  }
 
   @Listen("calciteListItemRemove")
   calciteListItemRemoveHandler(event: CustomEvent<void>): void {
@@ -266,9 +278,7 @@ export class ValueList<
     event.preventDefault();
 
     const { el } = this;
-    const moveOffset = event.key === "ArrowDown" ? 1 : -1;
-    const currentIndex = items.indexOf(item);
-    const nextIndex = getRoundRobinIndex(currentIndex + moveOffset, items.length);
+    const nextIndex = moveItemIndex(this, item, event.key === "ArrowUp" ? "up" : "down");
 
     if (nextIndex === items.length - 1) {
       el.appendChild(item);

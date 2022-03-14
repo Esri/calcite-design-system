@@ -1,6 +1,6 @@
 import { getElementProp, getSlotted, setRequestedIcon, ensureId, getThemeName } from "./dom";
 import { guidPattern } from "./guid.spec";
-import { html } from "../tests/utils";
+import { html } from "../../support/formatting";
 import { ThemeName } from "../../src/components/interfaces";
 
 describe("dom", () => {

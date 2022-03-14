@@ -1,11 +1,13 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, hidden, renders } from "../../tests/commonTests";
+import { accessible, disabled, hidden, renders } from "../../tests/commonTests";
 import { CSS } from "./resources";
 
 describe("calcite-action", () => {
   it("renders", async () => renders("calcite-action", { display: "flex" }));
 
   it("honors hidden attribute", async () => hidden("calcite-action"));
+
+  it("can be disabled", () => disabled("calcite-action"));
 
   it("should have visible text when text is enabled", async () => {
     const page = await newE2EPage();
@@ -99,14 +101,6 @@ describe("calcite-action", () => {
     expect(button.getAttribute("aria-label")).toBe("hi");
   });
 
-  it("should be disabled", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-action disabled></calcite-action>`);
-
-    const button = await page.find(`calcite-action >>> .${CSS.button}`);
-    expect(button).toHaveAttribute("disabled");
-  });
-
   it("should have appearance=solid", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-action text="hello world"></calcite-action>`);
@@ -118,19 +112,5 @@ describe("calcite-action", () => {
   it("should be accessible", async () => {
     await accessible(`<calcite-action text="hello world"></calcite-action>`);
     await accessible(`<calcite-action text="hello world" disabled text-enabled></calcite-action>`);
-  });
-
-  it("should not emit click event when disabled", async () => {
-    const page = await newE2EPage();
-
-    await page.setContent(`<calcite-action text="hello world" disabled></calcite-action>`);
-
-    const action = await page.find("calcite-action");
-
-    const clickSpy = await action.spyOnEvent("click");
-
-    await action.click();
-
-    expect(clickSpy).toHaveReceivedEventTimes(0);
   });
 });

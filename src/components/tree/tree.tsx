@@ -230,6 +230,65 @@ export class Tree {
     });
   }
 
+  @Listen("keydown")
+  keyDownHandler(event: KeyboardEvent): void {
+    const root = this.el.closest("calcite-tree:not([child])") as HTMLCalciteTreeElement;
+    const target = event.target as HTMLCalciteTreeItemElement;
+
+    if (root === this.el && target.tagName === "CALCITE-TREE-ITEM" && this.el.contains(target)) {
+      switch (event.key) {
+        case "ArrowDown":
+          const next = target.nextElementSibling as HTMLCalciteTreeItemElement;
+          if (next && next.matches("calcite-tree-item")) {
+            next.focus();
+            event.preventDefault();
+          }
+          break;
+        case "ArrowLeft":
+          // When focus is on an open node, closes the node.
+          if (target.hasChildren && target.expanded) {
+            target.expanded = false;
+            event.preventDefault();
+            break;
+          }
+
+          // When focus is on a child node that is also either an end node or a closed node, moves focus to its parent node.
+          const parentItem = target.parentElement.closest("calcite-tree-item");
+
+          if (parentItem && (!target.hasChildren || target.expanded === false)) {
+            parentItem.focus();
+            event.preventDefault();
+            break;
+          }
+
+          // When focus is on a root node that is also either an end node or a closed node, does nothing.
+          break;
+        case "ArrowRight":
+          if (!target.hasChildren) {
+            break;
+          }
+          if (target.expanded && document.activeElement === target) {
+            // When focus is on an open node, moves focus to the first child node.
+            target.querySelector("calcite-tree-item")?.focus();
+            event.preventDefault();
+          } else {
+            // When focus is on a closed node, opens the node; focus does not move.
+            target.expanded = true;
+            event.preventDefault();
+          }
+          // When focus is on an end node, does nothing.
+          break;
+        case "ArrowUp":
+          const previous = target.previousElementSibling as HTMLCalciteTreeItemElement;
+          if (previous && previous.matches("calcite-tree-item")) {
+            previous.focus();
+            event.preventDefault();
+          }
+          break;
+      }
+    }
+  }
+
   updateAncestorTree(e: CustomEvent<TreeItemSelectDetail>): void {
     const item = e.target as HTMLCalciteTreeItemElement;
     const children = item.querySelectorAll("calcite-tree-item");

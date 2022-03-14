@@ -8,7 +8,7 @@ import {
   themesDarkDefault
 } from "../../../.storybook/utils";
 import readme from "./readme.md";
-import { html } from "../../tests/utils";
+import { html } from "../../../support/formatting";
 import { locales } from "../../utils/locale";
 import { createSteps, setKnobs, setTheme, stepStory } from "../../../.storybook/helpers";
 import { ATTRIBUTES } from "../../../.storybook/resources";

@@ -6,7 +6,7 @@ import {
   createComponentHTML as create
 } from "../../../.storybook/utils";
 import readme from "./readme.md";
-import { html } from "../../tests/utils";
+import { html } from "../../../support/formatting";
 import { createSteps, iconNames, stepStory, setTheme, setKnobs } from "../../../.storybook/helpers";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 const { alignment, scale } = ATTRIBUTES;

@@ -1,5 +1,5 @@
 import { E2EElement, E2EPage, newE2EPage } from "@stencil/core/testing";
-import { accessible, defaults, renders } from "../../tests/commonTests";
+import { accessible, defaults, disabled, renders } from "../../tests/commonTests";
 
 describe("calcite-link", () => {
   it("renders", async () => renders("<calcite-link href='/'>link</calcite-link>", { display: "inline" }));
@@ -17,6 +17,8 @@ describe("calcite-link", () => {
     await accessible("<calcite-link>link</calcite-link>");
     await accessible("<calcite-link icon-start='plus' icon-end='plus' href='/'>Go</calcite-link>");
   });
+
+  it("can be disabled", () => disabled(`<calcite-link href='/'>link</calcite-link>`));
 
   it("sets download attribute on internal anchor", async () => {
     const page = await newE2EPage();

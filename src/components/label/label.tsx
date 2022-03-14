@@ -1,5 +1,6 @@
 import { Component, Element, Event, h, Prop, EventEmitter, VNode, Host } from "@stencil/core";
 import { Alignment, Scale, Status } from "../interfaces";
+import { labelDisconnectedEvent, labelConnectedEvent } from "../../utils/label";
 import { CSS } from "./resources";
 
 /**
@@ -46,7 +47,11 @@ export class Label {
   /** eliminates any space around the label */
   @Prop() disableSpacing = false;
 
-  /** is the label disabled  */
+  /**
+   * is the label disabled
+   *
+   * @deprecated use the `disabled` property on the interactive components instead
+   */
   @Prop({ reflect: true }) disabled = false;
 
   //--------------------------------------------------------------------------
@@ -79,6 +84,14 @@ export class Label {
   //  Lifecycle
   //
   //--------------------------------------------------------------------------
+
+  connectedCallback(): void {
+    document.dispatchEvent(new CustomEvent(labelConnectedEvent));
+  }
+
+  disconnectedCallback(): void {
+    document.dispatchEvent(new CustomEvent(labelDisconnectedEvent));
+  }
 
   render(): VNode {
     return (

@@ -19,6 +19,7 @@ import { getElementProp, getElementDir } from "../../utils/dom";
 import { TabID, TabLayout, TabPosition } from "../tabs/interfaces";
 import { FlipContext, Scale } from "../interfaces";
 import { createObserver } from "../../utils/observers";
+import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 
 /**
  * @slot - A slot for adding text.
@@ -28,10 +29,10 @@ import { createObserver } from "../../utils/observers";
   styleUrl: "tab-title.scss",
   shadow: true
 })
-export class TabTitle {
+export class TabTitle implements InteractiveComponent {
   //--------------------------------------------------------------------------
   //
-  //  Events
+  //  Element
   //
   //--------------------------------------------------------------------------
 
@@ -130,7 +131,6 @@ export class TabTitle {
 
   render(): VNode {
     const id = this.el.id || this.guid;
-    const Tag = this.disabled ? "span" : "a";
     const showSideBorders = this.bordered && !this.disabled && this.layout !== "center";
 
     const iconStartEl = (
@@ -152,14 +152,8 @@ export class TabTitle {
     );
 
     return (
-      <Host
-        aria-controls={this.controls}
-        aria-expanded={this.active.toString()}
-        id={id}
-        role="tab"
-        tabindex={this.disabled ? "-1" : "0"}
-      >
-        <Tag
+      <Host aria-controls={this.controls} aria-expanded={this.active.toString()} id={id} role="tab">
+        <a
           class={{
             container: true,
             "container--has-text": this.hasText
@@ -169,13 +163,17 @@ export class TabTitle {
           {this.iconStart ? iconStartEl : null}
           <slot />
           {this.iconEnd ? iconEndEl : null}
-        </Tag>
+        </a>
       </Host>
     );
   }
 
   async componentDidLoad(): Promise<void> {
     this.calciteTabTitleRegister.emit(await this.getTabIdentifier());
+  }
+
+  componentDidRender(): void {
+    updateHostInteraction(this, true);
   }
 
   //--------------------------------------------------------------------------
