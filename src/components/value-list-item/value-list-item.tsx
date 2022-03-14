@@ -216,6 +216,11 @@ export class ValueListItem implements ConditionalSlotComponent, InteractiveCompo
       return (
         <span
           // aria-pressed={this.handleActivated.toString()}
+          aria-label={
+            this.handleActivated.toString()
+              ? "press space and use arrow keys to reorder content"
+              : "Reordering"
+          }
           class={{
             [CSS.handle]: true,
             [CSS.handleActivated]: this.handleActivated
