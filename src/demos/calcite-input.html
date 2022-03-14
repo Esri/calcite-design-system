@@ -703,6 +703,62 @@
       </div>
     </div>
 
+    <!-- Different scale and datePickerScale -->
+    <div class="parent-flex">
+      <div class="child-flex font right-aligned-text">Different scale and datePickerScale</div>
+      <div class="child-flex">
+        <calcite-label>
+          <calcite-input-date-picker
+            icon="calendar"
+            type="date"
+            value=""
+            scale="s"
+            date-picker-scale="m"
+          ></calcite-input-date-picker>
+        </calcite-label>
+      </div>
+
+      <div class="child-flex">
+        <calcite-label>
+          <calcite-input-date-picker
+            icon="calendar"
+            type="date"
+            value=""
+            scale="m"
+            date-picker-scale="s"
+          ></calcite-input-date-picker>
+        </calcite-label>
+      </div>
+    </div>
+
+    <!-- Different Placements -->
+    <div class="parent-flex">
+      <div class="child-flex font right-aligned-text">Different Placements</div>
+      <div class="child-flex">
+        <calcite-label>
+          <calcite-input-date-picker
+            icon="calendar"
+            type="date"
+            value=""
+            scale="m"
+            placement="top"
+          ></calcite-input-date-picker>
+        </calcite-label>
+      </div>
+
+      <div class="child-flex">
+        <calcite-label>
+          <calcite-input-date-picker
+            icon="calendar"
+            type="date"
+            value=""
+            scale="m"
+            placement="right"
+          ></calcite-input-date-picker>
+        </calcite-label>
+      </div>
+    </div>
+
     <hr />
 
     <!--
@@ -773,6 +829,22 @@
 
       <div class="child-flex">
         <calcite-input icon type="time" clearable scale="l"></calcite-input>
+      </div>
+    </div>
+
+    <!-- Different Placements -->
+    <div class="parent-flex">
+      <div class="child-flex font right-aligned-text">Different Placements</div>
+      <div class="child-flex">
+        <calcite-input icon type="time" clearable scale="m" value="01:02:03" placement="auto"></calcite-input>
+      </div>
+
+      <div class="child-flex">
+        <calcite-input icon type="time" clearable scale="m" value="01:02:03" placement="bottom"></calcite-input>
+      </div>
+
+      <div class="child-flex">
+        <calcite-input icon type="time" clearable scale="m" value="01:02:03" placement="top"></calcite-input>
       </div>
     </div>
 
