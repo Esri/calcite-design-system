@@ -59,7 +59,7 @@
   },
   "dependencies": {
     "@a11y/focus-trap": "1.0.5",
-    "@popperjs/core": "2.11.2",
+    "@popperjs/core": "2.11.4",
     "@stencil/core": "2.14.1",
     "@types/color": "3.0.3",
     "color": "4.2.1",
