@@ -11,33 +11,12 @@ import {
   autoUpdate,
   Middleware
 } from "@floating-ui/dom";
-import { getElementDir } from "./dom";
 
 type UIType = "menu" | "tooltip" | "popover";
 export type OverlayPositioning = Strategy;
 
-type VariationPlacement =
-  | "leading-start"
-  | "leading"
-  | "leading-end"
-  | "trailing-end"
-  | "trailing"
-  | "trailing-start"
-  | "leading-leading"
-  | "leading-trailing"
-  | "trailing-leading"
-  | "trailing-trailing"
-  | "top-leading"
-  | "top-trailing"
-  | "bottom-leading"
-  | "bottom-trailing"
-  | "right-leading"
-  | "right-trailing"
-  | "left-leading"
-  | "left-trailing";
-
 type AutoPlacement = "auto" | "auto-start" | "auto-end";
-export type LogicalPlacement = AutoPlacement | Placement | VariationPlacement;
+export type LogicalPlacement = AutoPlacement | Placement;
 export type EffectivePlacement = Placement;
 
 export const placements: LogicalPlacement[] = [
@@ -51,39 +30,10 @@ export const placements: LogicalPlacement[] = [
   "right-start",
   "right-end",
   "left-start",
-  "left-end",
-  "leading-start",
-  "leading",
-  "leading-end",
-  "trailing-end",
-  "trailing",
-  "trailing-start",
-  "leading-leading",
-  "leading-trailing",
-  "trailing-leading",
-  "trailing-trailing",
-  "top-leading",
-  "top-trailing",
-  "bottom-leading",
-  "bottom-trailing",
-  "right-leading",
-  "right-trailing",
-  "left-leading",
-  "left-trailing"
+  "left-end"
 ];
 
-export const menuPlacements: MenuPlacement[] = [
-  "top-start",
-  "top",
-  "top-end",
-  "bottom-start",
-  "bottom",
-  "bottom-end",
-  "top-leading",
-  "top-trailing",
-  "bottom-leading",
-  "bottom-trailing"
-];
+export const menuPlacements: MenuPlacement[] = ["top-start", "top", "top-end", "bottom-start", "bottom", "bottom-end"];
 
 export const flipPlacements: EffectivePlacement[] = [
   "top",
@@ -114,7 +64,7 @@ export type MenuPlacement = Extract<
   | "bottom-trailing"
 >;
 
-export const defaultMenuPlacement: MenuPlacement = "bottom-leading";
+export const defaultMenuPlacement: MenuPlacement = "bottom-start";
 
 export interface FloatingUIComponent {
   /**
@@ -145,22 +95,6 @@ export const FloatingCSS = {
   animation: "calcite-floating-ui-anim",
   animationActive: "calcite-floating-ui-anim--active"
 };
-
-export function getEffectivePlacement(floatingEl: HTMLElement, placement: LogicalPlacement): EffectivePlacement {
-  const placements = ["left", "right"];
-  const variations = ["start", "end"];
-
-  if (getElementDir(floatingEl) === "rtl") {
-    placements.reverse();
-    variations.reverse();
-  }
-
-  return placement
-    .replace(/-leading/gi, `-${variations[0]}`)
-    .replace(/-trailing/gi, `-${variations[1]}`)
-    .replace(/leading/gi, placements[0])
-    .replace(/trailing/gi, placements[1]) as EffectivePlacement;
-}
 
 function getMiddleware({
   placement,
@@ -257,7 +191,7 @@ export async function positionFloatingUI({
     middlewareData
   } = await computePosition(referenceEl, floatingEl, {
     strategy: overlayPositioning,
-    placement: placement === "auto" ? undefined : getEffectivePlacement(floatingEl, placement),
+    placement: placement === "auto" || placement === "auto-start" || placement === "auto-end" ? undefined : placement,
     middleware: getMiddleware({
       placement,
       disableFlip,

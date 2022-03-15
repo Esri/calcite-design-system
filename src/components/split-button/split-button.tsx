@@ -131,7 +131,7 @@ export class SplitButton implements InteractiveComponent {
           disabled={this.disabled}
           onClick={this.calciteSplitButtonSecondaryClickHandler}
           overlayPositioning={this.overlayPositioning}
-          placement="bottom-trailing"
+          placement="bottom-end"
           scale={this.scale}
           width={this.scale}
         >

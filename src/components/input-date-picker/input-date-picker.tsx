@@ -481,7 +481,7 @@ export class InputDatePicker
   //
   //--------------------------------------------------------------------------
 
-  placement: LogicalPlacement = "bottom-leading";
+  placement: LogicalPlacement = "bottom-start";
 
   labelEl: HTMLCalciteLabelElement;
 
