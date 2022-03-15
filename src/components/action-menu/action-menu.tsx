@@ -14,11 +14,10 @@ import { CSS, SLOTS, ICONS } from "./resources";
 import { focusElement, getSlotted } from "../../utils/dom";
 import { Fragment, VNode } from "@stencil/core/internal";
 import { getRoundRobinIndex } from "../../utils/array";
-import { OverlayPositioning } from "../../utils/floating-ui";
 import { guid } from "../../utils/guid";
 import { Scale } from "../interfaces";
 import { createObserver } from "../../utils/observers";
-import { LogicalPlacement, EffectivePlacement } from "../../utils/floating-ui";
+import { LogicalPlacement, EffectivePlacement, OverlayPositioning } from "../../utils/floating-ui";
 import {
   ConditionalSlotComponent,
   connectConditionalSlotComponent,

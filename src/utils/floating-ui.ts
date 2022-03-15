@@ -8,7 +8,7 @@ import {
   hide,
   offset,
   autoPlacement,
-  getScrollParents,
+  autoUpdate,
   Middleware
 } from "@floating-ui/dom";
 import { getElementDir } from "./dom";
@@ -232,47 +232,47 @@ export async function positionFloatingUI({
   });
 }
 
-const floatingElMap = new WeakMap<HTMLElement, (Element | Window | VisualViewport)[]>();
+const cleanupMap = new WeakMap<FloatingUIComponent, () => void>();
 
 /**
  * Helper to set up floating element interactions on connectedCallback.
  */
-export function connectFloatingUI(component: FloatingUIComponent, el: HTMLElement): void {
-  if (!el) {
+export function connectFloatingUI(
+  component: FloatingUIComponent,
+  referenceEl: HTMLElement,
+  floatingEl: HTMLElement
+): void {
+  const { reposition } = component;
+  const boundReposition = reposition.bind(component);
+  boundReposition();
+
+  if (!floatingEl || !referenceEl) {
     return;
   }
 
-  disconnectFloatingUI(component, el);
-  const { reposition } = component;
-  const boundReposition = reposition.bind(component);
-  const scrollParents = getScrollParents(el);
-  floatingElMap.set(el, scrollParents);
-
-  scrollParents.forEach((el) => {
-    el.addEventListener("scroll", boundReposition);
-    el.addEventListener("resize", boundReposition);
-  });
-
-  boundReposition();
+  disconnectFloatingUI(component, referenceEl, floatingEl);
+  cleanupMap.set(component, autoUpdate(referenceEl, floatingEl, boundReposition));
 }
 
 /**
  * Helper to tear down floating element interactions on disconnectedCallback.
  */
-export function disconnectFloatingUI(component: FloatingUIComponent, el: HTMLElement): void {
-  if (!el) {
+export function disconnectFloatingUI(
+  component: FloatingUIComponent,
+  referenceEl: HTMLElement,
+  floatingEl: HTMLElement
+): void {
+  if (!floatingEl || !referenceEl) {
     return;
   }
 
-  const { reposition } = component;
-  const boundReposition = reposition.bind(component);
+  const cleanup = cleanupMap.get(component);
 
-  floatingElMap.get(el)?.forEach((el) => {
-    el.removeEventListener("scroll", boundReposition);
-    el.removeEventListener("resize", boundReposition);
-  });
+  if (cleanup) {
+    cleanup();
+  }
 
-  floatingElMap.delete(el);
+  cleanupMap.delete(component);
 }
 
 export function hypotenuse(sideA: number, sideB: number): number {

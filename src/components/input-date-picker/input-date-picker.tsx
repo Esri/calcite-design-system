@@ -351,8 +351,7 @@ export class InputDatePicker
   disconnectedCallback(): void {
     disconnectLabel(this);
     disconnectForm(this);
-    disconnectFloatingUI(this, this.floatingEl);
-    disconnectFloatingUI(this, this.referenceEl);
+    disconnectFloatingUI(this, this.referenceEl, this.floatingEl);
   }
 
   componentDidRender(): void {
@@ -518,7 +517,7 @@ export class InputDatePicker
         ? endWrapper || startWrapper
         : startWrapper || endWrapper;
 
-    connectFloatingUI(this, this.referenceEl);
+    connectFloatingUI(this, this.referenceEl, this.floatingEl);
   }
 
   //--------------------------------------------------------------------------
@@ -578,7 +577,7 @@ export class InputDatePicker
   setFloatingEl = (el: HTMLDivElement): void => {
     if (el) {
       this.floatingEl = el;
-      connectFloatingUI(this, this.referenceEl);
+      connectFloatingUI(this, this.referenceEl, this.floatingEl);
     }
   };
 

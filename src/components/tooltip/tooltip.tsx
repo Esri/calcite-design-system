@@ -114,7 +114,7 @@ export class Tooltip implements FloatingUIComponent {
   // --------------------------------------------------------------------------
 
   connectedCallback(): void {
-    connectFloatingUI(this, this.el);
+    connectFloatingUI(this, this.effectiveReferenceElement, this.el);
   }
 
   componentWillLoad(): void {
@@ -127,8 +127,7 @@ export class Tooltip implements FloatingUIComponent {
 
   disconnectedCallback(): void {
     this.removeReferences();
-    disconnectFloatingUI(this, this.el);
-    disconnectFloatingUI(this, this.effectiveReferenceElement);
+    disconnectFloatingUI(this, this.effectiveReferenceElement, this.el);
   }
 
   // --------------------------------------------------------------------------
@@ -176,7 +175,7 @@ export class Tooltip implements FloatingUIComponent {
   setUpReferenceElement = (): void => {
     this.removeReferences();
     this.effectiveReferenceElement = this.getReferenceElement();
-    connectFloatingUI(this, this.effectiveReferenceElement);
+    connectFloatingUI(this, this.effectiveReferenceElement, this.el);
 
     const { el, referenceElement, effectiveReferenceElement } = this;
     if (referenceElement && !effectiveReferenceElement) {

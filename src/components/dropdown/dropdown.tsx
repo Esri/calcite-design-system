@@ -156,8 +156,7 @@ export class Dropdown implements InteractiveComponent, FloatingUIComponent {
 
   disconnectedCallback(): void {
     this.mutationObserver?.disconnect();
-    disconnectFloatingUI(this, this.floatingEl);
-    disconnectFloatingUI(this, this.referenceEl);
+    disconnectFloatingUI(this, this.referenceEl, this.floatingEl);
     this.resizeObserver?.disconnect();
   }
 
@@ -394,12 +393,12 @@ export class Dropdown implements InteractiveComponent, FloatingUIComponent {
 
   setReferenceEl = (el: HTMLDivElement): void => {
     this.referenceEl = el;
-    connectFloatingUI(this, this.referenceEl);
+    connectFloatingUI(this, this.referenceEl, this.floatingEl);
   };
 
   setFloatingEl = (el: HTMLDivElement): void => {
     this.floatingEl = el;
-    connectFloatingUI(this, this.floatingEl);
+    connectFloatingUI(this, this.referenceEl, this.floatingEl);
   };
 
   private keyDownHandler = (e: KeyboardEvent): void => {

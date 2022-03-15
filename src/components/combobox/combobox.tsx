@@ -306,8 +306,7 @@ export class Combobox
     this.resizeObserver?.disconnect();
     disconnectLabel(this);
     disconnectForm(this);
-    disconnectFloatingUI(this, this.floatingEl);
-    disconnectFloatingUI(this, this.referenceEl);
+    disconnectFloatingUI(this, this.referenceEl, this.floatingEl);
   }
 
   //--------------------------------------------------------------------------
@@ -536,7 +535,7 @@ export class Combobox
 
   setFloatingEl = (el: HTMLDivElement): void => {
     this.floatingEl = el;
-    connectFloatingUI(this, el);
+    connectFloatingUI(this, this.referenceEl, this.floatingEl);
   };
 
   setListContainerEl = (el: HTMLDivElement): void => {
@@ -546,7 +545,7 @@ export class Combobox
 
   setReferenceEl = (el: HTMLDivElement): void => {
     this.referenceEl = el;
-    connectFloatingUI(this, el);
+    connectFloatingUI(this, this.referenceEl, this.floatingEl);
   };
 
   private getMaxScrollerHeight(): number {
