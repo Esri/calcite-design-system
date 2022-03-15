@@ -425,11 +425,7 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
         this.active = false;
         break;
       case "Enter":
-        if (!this.active) {
-          event.preventDefault();
-          this.active = true;
-          this.shiftActiveItemIndex(1);
-        } else if (this.activeItemIndex > -1) {
+        if (this.activeItemIndex > -1) {
           this.toggleSelection(this.visibleItems[this.activeItemIndex]);
         } else if (this.activeChipIndex > -1) {
           this.removeActiveChip();
@@ -496,12 +492,11 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
     if (event.composedPath().some((node: HTMLElement) => node.tagName === "CALCITE-CHIP")) {
       return;
     }
-    if (this.active) {
-      this.active = false;
-    } else {
-      this.active = true;
-      this.setFocus();
-    }
+    this.setFocus();
+  };
+
+  iconClickHandler = (event: MouseEvent): void => {
+    this.active = !this.active;
   };
 
   setInactiveIfNotContained = (event: Event): void => {
@@ -1054,7 +1049,11 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
     const { active } = this;
     return (
       <span class="icon-end">
-        <calcite-icon icon={active ? "chevron-up" : "chevron-down"} scale="s" />
+        <calcite-icon
+          icon={active ? "chevron-up" : "chevron-down"}
+          onClick={this.iconClickHandler}
+          scale="s"
+        />
       </span>
     );
   }
