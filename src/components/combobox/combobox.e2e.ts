@@ -23,6 +23,10 @@ describe("calcite-combobox", () => {
       {
         propertyName: "intlRemoveTag",
         defaultValue: TEXT.removeTag
+      },
+      {
+        propertyName: "flipPlacements",
+        defaultValue: undefined
       }
     ]));
   it("honors hidden attribute", async () => hidden("calcite-combobox"));
