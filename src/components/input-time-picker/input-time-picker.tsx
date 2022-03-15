@@ -122,12 +122,6 @@ export class InputTimePicker implements LabelableComponent, FormComponent, Inter
   @Prop({ reflect: true }) scale: Scale = "m";
 
   /**
-   * Scale of the calcite-time-picker rendered in the input popover.
-   * @default undefined
-   */
-  @Prop({ reflect: true }) timePickerScale: "s" | "m" | "l" = "m";
-
-  /**
    * Determines where the popover will be positioned relative to the input.
    * @see [PopperPlacement](https://github.com/Esri/calcite-components/blob/master/src/utils/popper.ts#L25)
    */
@@ -429,7 +423,7 @@ export class InputTimePicker implements LabelableComponent, FormComponent, Inter
             lang={this.locale}
             onCalciteTimePickerChange={this.timePickerChangeHandler}
             ref={this.setCalciteTimePickerEl}
-            scale={this.timePickerScale || this.scale}
+            scale={this.scale}
             step={this.step}
             value={this.value}
           />

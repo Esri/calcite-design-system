@@ -170,12 +170,6 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
   @Prop({ reflect: true }) scale: "s" | "m" | "l" = "m";
 
   /**
-   * Scale of the calcite-date-picker rendered in the input popover.
-   * @default undefined
-   */
-  @Prop({ reflect: true }) datePickerScale: "s" | "m" | "l" = "m";
-
-  /**
    * Determines where the date-picker component will be positioned relative to the input.
    * @default "bottom-leading"
    */
@@ -421,7 +415,7 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
                   onCalciteDatePickerRangeChange={this.handleDateRangeChange}
                   proximitySelectionDisabled={this.proximitySelectionDisabled}
                   range={this.range}
-                  scale={this.datePickerScale || this.scale}
+                  scale={this.scale}
                   startAsDate={this.startAsDate}
                   tabIndex={0}
                   valueAsDate={this.valueAsDate}
