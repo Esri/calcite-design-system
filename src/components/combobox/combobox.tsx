@@ -20,7 +20,7 @@ import {
   updatePopper,
   CSS as PopperCSS,
   OverlayPositioning,
-  PopperComputedPlacement,
+  ComputedPlacement,
   popperMenuFlipPlacements,
   defaultMenuPlacement
 } from "../../utils/popper";
@@ -80,20 +80,12 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
   @Prop({ reflect: true, mutable: true }) active = false;
 
   @Watch("active")
-  activeHandler(newValue: boolean, oldValue: boolean): void {
+  activeHandler(): void {
     if (this.disabled) {
       this.active = false;
       return;
     }
 
-    // when closing, wait transition time then hide to prevent overscroll
-    if (oldValue && !newValue) {
-      this.el.addEventListener("calciteComboboxClose", this.toggleCloseEnd);
-      this.open = false;
-    } else if (!oldValue && newValue) {
-      this.el.addEventListener("calciteComboboxOpen", this.toggleOpenEnd);
-      this.open = true;
-    }
     this.reposition();
   }
 
@@ -173,7 +165,7 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
   /**
    * Defines the available placements that can be used when a flip occurs.
    */
-  @Prop() flipPlacements?: PopperComputedPlacement[];
+  @Prop() flipPlacements?: ComputedPlacement[];
 
   //--------------------------------------------------------------------------
   //
@@ -336,8 +328,6 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
 
   @State() needsIcon: boolean;
 
-  @State() hideList = !this.active;
-
   @State() activeItemIndex = -1;
 
   @State() activeChipIndex = -1;
@@ -345,8 +335,6 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
   @State() activeDescendant = "";
 
   @State() text = "";
-
-  @State() open = this.active;
 
   /** when search text is cleared, reset active to  */
   @Watch("text")
@@ -460,12 +448,12 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
   };
 
   private toggleCloseEnd = (): void => {
-    this.hideList = true;
+    this.active = false;
     this.el.removeEventListener("calciteComboboxClose", this.toggleCloseEnd);
   };
 
   private toggleOpenEnd = (): void => {
-    this.hideList = false;
+    this.active = true;
     this.el.removeEventListener("calciteComboboxOpen", this.toggleOpenEnd);
   };
 
@@ -513,11 +501,7 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
 
   setInactiveIfNotContained = (event: Event): void => {
     const composedPath = event.composedPath();
-    if (
-      (!this.active && !this.open) ||
-      composedPath.includes(this.el) ||
-      composedPath.includes(this.referenceEl)
-    ) {
+    if (!this.active || composedPath.includes(this.el) || composedPath.includes(this.referenceEl)) {
       return;
     }
 
@@ -535,7 +519,6 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
     }
 
     this.active = false;
-    this.open = false;
   };
 
   setMenuEl = (el: HTMLDivElement): void => {
@@ -561,7 +544,12 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
       fallbackPlacements: this.flipPlacements || popperMenuFlipPlacements
     };
 
-    return [flipModifier];
+    const eventListenerModifier: Partial<StrictModifiers> = {
+      name: "eventListeners",
+      enabled: this.active
+    };
+
+    return [flipModifier, eventListenerModifier];
   }
 
   createPopper(): void {
@@ -1021,7 +1009,7 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
   }
 
   renderPopperContainer(): VNode {
-    const { active, setMenuEl, setListContainerEl, hideList, open } = this;
+    const { active, setMenuEl, setListContainerEl } = this;
     const classes = {
       "list-container": true,
       [PopperCSS.animation]: true,
@@ -1031,11 +1019,11 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
     return (
       <div
         aria-hidden="true"
-        class={{ "popper-container": true, "popper-container--active": open }}
+        class={{ "popper-container": true, "popper-container--active": active }}
         ref={setMenuEl}
       >
         <div class={classes} onTransitionEnd={this.transitionEnd} ref={setListContainerEl}>
-          <ul class={{ list: true, "list--hide": hideList }}>
+          <ul class={{ list: true, "list--hide": !active }}>
             <slot />
           </ul>
         </div>
@@ -1067,21 +1055,21 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
   }
 
   render(): VNode {
-    const { guid, open, label } = this;
+    const { active, guid, label } = this;
     const single = this.selectionMode === "single";
 
     return (
       <Host onKeyDown={this.keydownHandler}>
         <div
           aria-autocomplete="list"
-          aria-expanded={open.toString()}
+          aria-expanded={active.toString()}
           aria-haspopup="listbox"
           aria-labelledby={`${labelUidPrefix}${guid}`}
           aria-owns={`${listboxUidPrefix}${guid}`}
           class={{
             wrapper: true,
             "wrapper--single": single || !this.selectedItems.length,
-            "wrapper--active": open
+            "wrapper--active": active
           }}
           onClick={this.setFocusClick}
           ref={this.setReferenceEl}

@@ -1,6 +1,6 @@
 import {
   Placement,
-  ComputedPlacement,
+  ComputedPlacement as PopperComputedPlacement,
   Instance as Popper,
   createPopper as setupPopper,
   StrictModifiers,
@@ -23,7 +23,7 @@ type VariationRtl =
   | "left-leading"
   | "left-trailing";
 
-export type PopperComputedPlacement = ComputedPlacement;
+export type ComputedPlacement = PopperComputedPlacement;
 export type PopperPlacement = Placement | PlacementRtl | VariationRtl;
 
 export type OverlayPositioning = PositioningStrategy;

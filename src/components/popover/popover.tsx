@@ -347,7 +347,12 @@ export class Popover {
       }
     };
 
-    return [arrowModifier, flipModifier, offsetModifier];
+    const eventListenerModifier: Partial<StrictModifiers> = {
+      name: "eventListeners",
+      enabled: this.open
+    };
+
+    return [arrowModifier, flipModifier, offsetModifier, eventListenerModifier];
   }
 
   createPopper(): void {

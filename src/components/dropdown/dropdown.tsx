@@ -15,7 +15,7 @@ import { ItemKeyboardEvent } from "./interfaces";
 
 import { focusElement, getSlotted } from "../../utils/dom";
 import {
-  PopperComputedPlacement,
+  ComputedPlacement,
   createPopper,
   CSS as PopperCSS,
   OverlayPositioning,
@@ -86,7 +86,7 @@ export class Dropdown implements InteractiveComponent {
   /**
    * Defines the available placements that can be used when a flip occurs.
    */
-  @Prop() flipPlacements?: PopperComputedPlacement[];
+  @Prop() flipPlacements?: ComputedPlacement[];
 
   /**
    specify the maximum number of calcite-dropdown-items to display before showing the scroller, must be greater than 0 -
@@ -405,7 +405,12 @@ export class Dropdown implements InteractiveComponent {
       fallbackPlacements: this.flipPlacements || popperMenuFlipPlacements
     };
 
-    return [flipModifier];
+    const eventListenerModifier: Partial<StrictModifiers> = {
+      name: "eventListeners",
+      enabled: this.active
+    };
+
+    return [flipModifier, eventListenerModifier];
   }
 
   createPopper(): void {
