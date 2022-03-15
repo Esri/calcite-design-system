@@ -3,6 +3,15 @@
 This document maintains a list of released versions and changes introduced by them.
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
+<!--@unreleased-section-start-->
+
+## Unreleased
+
+### Bug Fixes
+
+- **action-menu:** Correctly set flipPlacements on popover. ([#4074](https://github.com/Esri/calcite-components/issues/4074)) ([3406469](https://github.com/Esri/calcite-components/commit/3406469c7a159719557d7033c156eba9e977adba)), closes [#2814](https://github.com/Esri/calcite-components/issues/2814)
+<!--@unreleased-section-end-->
+
 ## [1.0.0-beta.79](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.78...v1.0.0-beta.79) (2022-03-15)
 
 ### Features
