@@ -242,15 +242,16 @@ export function connectFloatingUI(
   referenceEl: HTMLElement,
   floatingEl: HTMLElement
 ): void {
-  const { reposition } = component;
-  const boundReposition = reposition.bind(component);
-  boundReposition();
-
   if (!floatingEl || !referenceEl) {
     return;
   }
 
   disconnectFloatingUI(component, referenceEl, floatingEl);
+
+  const { reposition } = component;
+  const boundReposition = reposition.bind(component);
+  boundReposition();
+
   cleanupMap.set(component, autoUpdate(referenceEl, floatingEl, boundReposition));
 }
 
