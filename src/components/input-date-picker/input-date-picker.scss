@@ -98,7 +98,7 @@
 @include floatingUIElemAnim(".menu-container");
 
 .menu-container--active {
-  @include floatingUIWrapperActive(".menu-container");
+  @include floatingUIWrapperActive();
 }
 
 .input .calcite-input__wrapper {
