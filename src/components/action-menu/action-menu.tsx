@@ -14,7 +14,7 @@ import { CSS, SLOTS, ICONS } from "./resources";
 import { focusElement, getSlotted } from "../../utils/dom";
 import { Fragment, VNode } from "@stencil/core/internal";
 import { getRoundRobinIndex } from "../../utils/array";
-import { PopperPlacement, OverlayPositioning, PopperComputedPlacement } from "../../utils/popper";
+import { PopperPlacement, OverlayPositioning, ComputedPlacement } from "../../utils/popper";
 import { guid } from "../../utils/guid";
 import { Scale } from "../interfaces";
 import { createObserver } from "../../utils/observers";
@@ -76,7 +76,7 @@ export class ActionMenu implements ConditionalSlotComponent {
   /**
    * Defines the available placements that can be used when a flip occurs.
    */
-  @Prop() flipPlacements?: PopperComputedPlacement[];
+  @Prop() flipPlacements?: ComputedPlacement[];
 
   /**
    *  Text string for the actions menu.

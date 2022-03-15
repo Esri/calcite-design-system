@@ -28,7 +28,7 @@ import {
   updatePopper,
   CSS as PopperCSS,
   OverlayPositioning,
-  PopperComputedPlacement
+  ComputedPlacement
 } from "../../utils/popper";
 import { StrictModifiers, Instance as Popper } from "@popperjs/core";
 import { guid } from "../../utils/guid";
@@ -74,7 +74,7 @@ export class Popover {
   /**
    * Defines the available placements that can be used when a flip occurs.
    */
-  @Prop() flipPlacements?: PopperComputedPlacement[];
+  @Prop() flipPlacements?: ComputedPlacement[];
 
   /**
    * Heading text.
