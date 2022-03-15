@@ -217,7 +217,7 @@ export class ValueListItem implements ConditionalSlotComponent, InteractiveCompo
         <span
           // aria-pressed={this.handleActivated.toString()}
           aria-label={
-            this.handleActivated.toString()
+            !this.handleActivated.toString()
               ? "press space and use arrow keys to reorder content"
               : "Reordering"
           }
@@ -239,7 +239,7 @@ export class ValueListItem implements ConditionalSlotComponent, InteractiveCompo
 
   render(): VNode {
     return (
-      <Host id={this.el.id || this.guid}>
+      <Host id={this.el.id || this.guid} role="listitem">
         {this.renderHandle()}
         <calcite-pick-list-item
           description={this.description}

@@ -29,7 +29,7 @@ export const List: FunctionalComponent<{ props: ListProps } & DOMAttributes<any>
 }): VNode => {
   const defaultSlot = <slot />;
   return (
-    <Host aria-busy={loading.toString()} {...rest}>
+    <Host aria-busy={loading.toString()} {...rest} role="list">
       <section>
         <span aria-live="assertive" class="assistive-text">
           {" "}
