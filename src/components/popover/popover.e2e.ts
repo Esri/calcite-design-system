@@ -1,8 +1,7 @@
 import { newE2EPage } from "@stencil/core/testing";
+import { html } from "../../../support/formatting";
 
-import { accessible, defaults, hidden, renders } from "../../tests/commonTests";
-import { html } from "../../tests/utils";
-
+import { accessible, defaults, hidden, renders, popperOwner } from "../../tests/commonTests";
 import { CSS, POPOVER_REFERENCE } from "./resources";
 
 describe("calcite-popover", () => {
@@ -371,4 +370,10 @@ describe("calcite-popover", () => {
     expect(await popover.isVisible()).toBe(false);
     expect((await popover.getComputedStyle()).pointerEvents).toBe("none");
   });
+
+  it("owns a popper", () =>
+    popperOwner(
+      `<calcite-popover placement="auto" reference-element="ref" open>content</calcite-popover><div id="ref">referenceElement</div>`,
+      "open"
+    ));
 });

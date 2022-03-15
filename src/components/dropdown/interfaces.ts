@@ -17,3 +17,7 @@ export type DropdownPlacement = Extract<
   | "bottom-leading"
   | "bottom-trailing"
 >;
+
+export interface ItemKeyboardEvent {
+  keyboardEvent: KeyboardEvent;
+}

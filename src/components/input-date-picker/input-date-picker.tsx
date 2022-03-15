@@ -34,10 +34,12 @@ import {
   FloatingUIComponent,
   connectFloatingUI,
   disconnectFloatingUI,
-  LogicalPlacement
+  LogicalPlacement,
+  EffectivePlacement
 } from "../../utils/floating-ui";
 import { DateRangeChange } from "../date-picker/interfaces";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+
 @Component({
   tag: "calcite-input-date-picker",
   styleUrl: "input-date-picker.scss",
@@ -89,6 +91,11 @@ export class InputDatePicker
       this.end = undefined;
     }
   }
+
+  /**
+   * Defines the available placements that can be used when a flip occurs.
+   */
+  @Prop() flipPlacements?: EffectivePlacement[];
 
   /**
    * Number at which section headings should start for this component.

@@ -11,7 +11,7 @@ import {
   VNode,
   Watch
 } from "@stencil/core";
-import { DropdownPlacement, ItemKeyboardEvent } from "./interfaces";
+import { ItemKeyboardEvent } from "./interfaces";
 
 import { focusElement, getSlotted } from "../../utils/dom";
 import {
@@ -20,10 +20,13 @@ import {
   OverlayPositioning,
   FloatingUIComponent,
   connectFloatingUI,
-  disconnectFloatingUI
+  disconnectFloatingUI,
+  EffectivePlacement,
+  MenuPlacement,
+  defaultMenuPlacement
 } from "../../utils/floating-ui";
 import { Scale } from "../interfaces";
-import { DefaultDropdownPlacement, SLOTS } from "./resources";
+import { SLOTS } from "./resources";
 import { createObserver } from "../../utils/observers";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 
@@ -81,6 +84,11 @@ export class Dropdown implements InteractiveComponent, FloatingUIComponent {
   }
 
   /**
+   * Defines the available placements that can be used when a flip occurs.
+   */
+  @Prop() flipPlacements?: EffectivePlacement[];
+
+  /**
    specify the maximum number of calcite-dropdown-items to display before showing the scroller, must be greater than 0 -
    this value does not include groupTitles passed to calcite-dropdown-group
   */
@@ -103,7 +111,7 @@ export class Dropdown implements InteractiveComponent, FloatingUIComponent {
    * Determines where the dropdown will be positioned relative to the button.
    * @default "bottom-leading"
    */
-  @Prop({ reflect: true }) placement: DropdownPlacement = DefaultDropdownPlacement;
+  @Prop({ reflect: true }) placement: MenuPlacement = defaultMenuPlacement;
 
   @Watch("placement")
   placementHandler(): void {

@@ -40,6 +40,22 @@ type AutoPlacement = "auto" | "auto-start" | "auto-end";
 export type LogicalPlacement = AutoPlacement | Placement | VariationPlacement;
 export type EffectivePlacement = Placement;
 
+export type MenuPlacement = Extract<
+  LogicalPlacement,
+  | "top-start"
+  | "top"
+  | "top-end"
+  | "bottom-start"
+  | "bottom"
+  | "bottom-end"
+  | "top-leading"
+  | "top-trailing"
+  | "bottom-leading"
+  | "bottom-trailing"
+>;
+
+export const defaultMenuPlacement: MenuPlacement = "bottom-leading";
+
 export interface FloatingUIComponent {
   /**
    * Describes the type of positioning to use for the overlaid content. If your element is in a fixed container, use the 'fixed' value.
