@@ -1,7 +1,7 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { html } from "../../../support/formatting";
 
-import { accessible, defaults, hidden, renders, popperOwner } from "../../tests/commonTests";
+import { accessible, defaults, hidden, renders, floatingUIOwner } from "../../tests/commonTests";
 import { CSS, POPOVER_REFERENCE } from "./resources";
 
 describe("calcite-popover", () => {
@@ -339,7 +339,7 @@ describe("calcite-popover", () => {
     expect((await popover.getComputedStyle()).pointerEvents).toBe("none");
   });
 
-  it("should not be visible if popper has escaped", async () => {
+  it("should not be visible if ui has escaped", async () => {
     const page = await newE2EPage();
 
     await page.setContent(
@@ -371,8 +371,8 @@ describe("calcite-popover", () => {
     expect((await popover.getComputedStyle()).pointerEvents).toBe("none");
   });
 
-  it("owns a popper", () =>
-    popperOwner(
+  it("owns a floating-ui", () =>
+    floatingUIOwner(
       `<calcite-popover placement="auto" reference-element="ref" open>content</calcite-popover><div id="ref">referenceElement</div>`,
       "open"
     ));

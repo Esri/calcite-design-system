@@ -1,5 +1,5 @@
 import { E2EPage, newE2EPage } from "@stencil/core/testing";
-import { accessible, defaults, disabled, popperOwner, renders } from "../../tests/commonTests";
+import { accessible, defaults, disabled, floatingUIOwner, renders } from "../../tests/commonTests";
 import dedent from "dedent";
 import { html } from "../../../support/formatting";
 
@@ -1007,8 +1007,8 @@ describe("calcite-dropdown", () => {
     expect(dropdownContentHeight.height).toBe("0px");
   });
 
-  it("owns a popper", () =>
-    popperOwner(
+  it("owns a floating-ui", () =>
+    floatingUIOwner(
       html` <calcite-dropdown>
         <calcite-button slot="dropdown-trigger">Open</calcite-button>
         <calcite-dropdown-group selection-mode="single">
@@ -1019,7 +1019,7 @@ describe("calcite-dropdown", () => {
       </calcite-dropdown>`,
       "active",
       {
-        shadowPopperSelector: ".calcite-dropdown-wrapper"
+        shadowSelector: ".calcite-dropdown-wrapper"
       }
     ));
 });

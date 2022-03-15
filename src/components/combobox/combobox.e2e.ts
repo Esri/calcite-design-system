@@ -5,7 +5,7 @@ import {
   accessible,
   defaults,
   labelable,
-  popperOwner,
+  floatingUIOwner,
   formAssociated,
   disabled
 } from "../../tests/commonTests";
@@ -962,14 +962,14 @@ describe("calcite-combobox", () => {
       { testValue: "two" }
     ));
 
-  it("owns a popper", () =>
-    popperOwner(
+  it("owns a floating-ui", () =>
+    floatingUIOwner(
       html` <calcite-combobox>
         <calcite-combobox-item id="one" icon="banana" value="one" text-label="One"></calcite-combobox-item>
         <calcite-combobox-item id="two" icon="beaker" value="two" text-label="Two" selected></calcite-combobox-item>
         <calcite-combobox-item id="three" value="three" text-label="Three"></calcite-combobox-item>
       </calcite-combobox>`,
       "active",
-      { shadowPopperSelector: ".floating-ui-container" }
+      { shadowSelector: ".floating-ui-container" }
     ));
 });

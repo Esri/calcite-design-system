@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { defaults, disabled, formAssociated, labelable, popperOwner, renders } from "../../tests/commonTests";
+import { defaults, disabled, formAssociated, labelable, floatingUIOwner, renders } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 
 const animationDurationInMs = 200;
@@ -173,10 +173,10 @@ describe("calcite-input-date-picker", () => {
     expect(minDateAsTime).toEqual(new Date(minDateString).getTime());
   });
 
-  it("owns a popper", () =>
-    popperOwner(
+  it("owns a floating-ui", () =>
+    floatingUIOwner(
       `<calcite-input-date-picker value="2022-11-27" min="2022-11-15" max="2024-11-15"></calcite-input-date-picker>`,
       "active",
-      { shadowPopperSelector: ".menu-container" }
+      { shadowSelector: ".menu-container" }
     ));
 });
