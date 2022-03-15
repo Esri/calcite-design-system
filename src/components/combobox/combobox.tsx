@@ -20,7 +20,7 @@ import {
   updatePopper,
   CSS as PopperCSS,
   OverlayPositioning,
-  PopperComputedPlacement,
+  ComputedPlacement,
   popperMenuFlipPlacements,
   defaultMenuPlacement
 } from "../../utils/popper";
@@ -173,7 +173,7 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
   /**
    * Defines the available placements that can be used when a flip occurs.
    */
-  @Prop() flipPlacements?: PopperComputedPlacement[];
+  @Prop() flipPlacements?: ComputedPlacement[];
 
   //--------------------------------------------------------------------------
   //

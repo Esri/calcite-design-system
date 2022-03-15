@@ -23,7 +23,7 @@ type VariationRtl =
   | "left-leading"
   | "left-trailing";
 
-export type PopperComputedPlacement = ComputedPlacement;
+export type ComputedPlacement = ComputedPlacement;
 export type PopperPlacement = Placement | PlacementRtl | VariationRtl;
 
 export type OverlayPositioning = PositioningStrategy;

@@ -33,7 +33,7 @@ import {
   CSS as PopperCSS,
   OverlayPositioning,
   popperMenuFlipPlacements,
-  PopperComputedPlacement,
+  ComputedPlacement,
   defaultMenuPlacement
 } from "../../utils/popper";
 import { StrictModifiers, Instance as Popper } from "@popperjs/core";
@@ -93,7 +93,7 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
   /**
    * Defines the available placements that can be used when a flip occurs.
    */
-  @Prop() flipPlacements?: PopperComputedPlacement[];
+  @Prop() flipPlacements?: ComputedPlacement[];
 
   /**
    * Number at which section headings should start for this component.
