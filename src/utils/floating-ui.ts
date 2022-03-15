@@ -11,12 +11,15 @@ import {
   autoUpdate,
   Middleware
 } from "@floating-ui/dom";
+import { getElementDir } from "./dom";
 
 type UIType = "menu" | "tooltip" | "popover";
 export type OverlayPositioning = Strategy;
 
+type VariationPlacement = "leading-start" | "leading" | "leading-end" | "trailing-end" | "trailing" | "trailing-start";
+
 type AutoPlacement = "auto" | "auto-start" | "auto-end";
-export type LogicalPlacement = AutoPlacement | Placement;
+export type LogicalPlacement = AutoPlacement | Placement | VariationPlacement;
 export type EffectivePlacement = Placement;
 
 export const placements: LogicalPlacement[] = [
@@ -30,7 +33,13 @@ export const placements: LogicalPlacement[] = [
   "right-start",
   "right-end",
   "left-start",
-  "left-end"
+  "left-end",
+  "leading-start",
+  "leading",
+  "leading-end",
+  "trailing-end",
+  "trailing",
+  "trailing-start"
 ];
 
 export const menuPlacements: MenuPlacement[] = ["top-start", "top", "top-end", "bottom-start", "bottom", "bottom-end"];
@@ -71,7 +80,7 @@ export interface FloatingUIComponent {
   /**
    * Determines where the component will be positioned relative to the referenceElement.
    *
-   * Possible values: "auto", "auto-start", "auto-end", "top", "right", "bottom", "left", "top-start", "top-end", "right-start", "right-end", "bottom-start", "bottom-end", "left-start", or "left-end".
+   * Possible values: "auto", "auto-start", "auto-end", "top", "right", "bottom", "left", "top-start", "top-end", "right-start", "right-end", "bottom-start", "bottom-end", "left-start", "left-end", "leading-start", "leading", "leading-end", "trailing-end", "trailing",  or "trailing-start".
    *
    */
   placement: LogicalPlacement;
@@ -144,6 +153,16 @@ function getMiddleware({
   return [];
 }
 
+export function getEffectivePlacement(floatingEl: HTMLElement, placement: LogicalPlacement): EffectivePlacement {
+  const placements = ["left", "right"];
+
+  if (getElementDir(floatingEl) === "rtl") {
+    placements.reverse();
+  }
+
+  return placement.replace(/leading/gi, placements[0]).replace(/trailing/gi, placements[1]) as EffectivePlacement;
+}
+
 /**
  * Positions the floating element relative to the reference element.
  */
@@ -182,7 +201,10 @@ export async function positionFloatingUI({
     middlewareData
   } = await computePosition(referenceEl, floatingEl, {
     strategy: overlayPositioning,
-    placement: placement === "auto" || placement === "auto-start" || placement === "auto-end" ? undefined : placement,
+    placement:
+      placement === "auto" || placement === "auto-start" || placement === "auto-end"
+        ? undefined
+        : getEffectivePlacement(floatingEl, placement),
     middleware: getMiddleware({
       placement,
       disableFlip,

@@ -109,7 +109,7 @@ export class ActionGroup implements ConditionalSlotComponent {
         label={intlMore || TEXT.more}
         onCalciteActionMenuOpenChange={this.setMenuOpen}
         open={menuOpen}
-        placement="left-start"
+        placement="leading-start"
         scale={scale}
       >
         <calcite-action
