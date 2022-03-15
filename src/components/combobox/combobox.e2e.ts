@@ -970,6 +970,6 @@ describe("calcite-combobox", () => {
         <calcite-combobox-item id="three" value="three" text-label="Three"></calcite-combobox-item>
       </calcite-combobox>`,
       "active",
-      { shadowPopperSelector: ".popper-container" }
+      { shadowPopperSelector: ".floating-ui-container" }
     ));
 });

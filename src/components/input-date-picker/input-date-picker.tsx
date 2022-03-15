@@ -285,9 +285,9 @@ export class InputDatePicker
   /** Updates the position of the component. */
   @Method()
   async reposition(): Promise<void> {
-    const { active, floatingEl, referenceEl, placement, overlayPositioning } = this;
+    const { floatingEl, referenceEl, placement, overlayPositioning } = this;
 
-    if (!floatingEl || !referenceEl || !active) {
+    if (!floatingEl || !referenceEl) {
       return;
     }
 

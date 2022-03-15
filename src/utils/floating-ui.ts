@@ -40,6 +40,66 @@ type AutoPlacement = "auto" | "auto-start" | "auto-end";
 export type LogicalPlacement = AutoPlacement | Placement | VariationPlacement;
 export type EffectivePlacement = Placement;
 
+export const placements: LogicalPlacement[] = [
+  "auto",
+  "auto-start",
+  "auto-end",
+  "top-start",
+  "top-end",
+  "bottom-start",
+  "bottom-end",
+  "right-start",
+  "right-end",
+  "left-start",
+  "left-end",
+  "leading-start",
+  "leading",
+  "leading-end",
+  "trailing-end",
+  "trailing",
+  "trailing-start",
+  "leading-leading",
+  "leading-trailing",
+  "trailing-leading",
+  "trailing-trailing",
+  "top-leading",
+  "top-trailing",
+  "bottom-leading",
+  "bottom-trailing",
+  "right-leading",
+  "right-trailing",
+  "left-leading",
+  "left-trailing"
+];
+
+export const menuPlacements: MenuPlacement[] = [
+  "top-start",
+  "top",
+  "top-end",
+  "bottom-start",
+  "bottom",
+  "bottom-end",
+  "top-leading",
+  "top-trailing",
+  "bottom-leading",
+  "bottom-trailing"
+];
+
+export const flipPlacements: EffectivePlacement[] = [
+  "top",
+  "bottom",
+  "right",
+  "left",
+  "top-start",
+  "top-end",
+  "bottom-start",
+  "bottom-end",
+  "right-start",
+  "right-end",
+  "left-start",
+  "left-end"
+];
+
 export type MenuPlacement = Extract<
   LogicalPlacement,
   | "top-start"
@@ -57,6 +117,11 @@ export type MenuPlacement = Extract<
 export const defaultMenuPlacement: MenuPlacement = "bottom-leading";
 
 export interface FloatingUIComponent {
+  /**
+   * Whether the component is opened.
+   */
+  active: boolean;
+
   /**
    * Describes the type of positioning to use for the overlaid content. If your element is in a fixed container, use the 'fixed' value.
    */
@@ -248,11 +313,14 @@ export function connectFloatingUI(
 
   disconnectFloatingUI(component, referenceEl, floatingEl);
 
-  const { reposition } = component;
-  const boundReposition = reposition.bind(component);
-  boundReposition();
-
-  cleanupMap.set(component, autoUpdate(referenceEl, floatingEl, boundReposition));
+  cleanupMap.set(
+    component,
+    autoUpdate(referenceEl, floatingEl, () => {
+      if (component.active) {
+        component.reposition();
+      }
+    })
+  );
 }
 
 /**
