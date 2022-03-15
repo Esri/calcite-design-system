@@ -3,9 +3,7 @@
 This document maintains a list of released versions and changes introduced by them.
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
-<!--@unreleased-section-start-->
-
-## Unreleased
+## [1.0.0-beta.79](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.78...v1.0.0-beta.79) (2022-03-15)
 
 ### Features
 
@@ -21,11 +19,6 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - **pick-list:** change unselected items to be untabbable when an item is selected ([#4177](https://github.com/Esri/calcite-components/issues/4177)) ([5e47301](https://github.com/Esri/calcite-components/commit/5e4730128c714d5d7a0d44b4c01d40560bc83f41))
 - **slider:** aria-role is assigned to appropriate element ([#4173](https://github.com/Esri/calcite-components/issues/4173)) ([3a73ae4](https://github.com/Esri/calcite-components/commit/3a73ae4b5e8bdee06432005f1f92b554dbafa70d))
 - **tree, tree-item:** calciteTreeSelect only emits when item is selected and not on toggle parent icon ([#4170](https://github.com/Esri/calcite-components/issues/4170)) ([12ec17f](https://github.com/Esri/calcite-components/commit/12ec17fac9ab9f61abbc51d1ebf9d93c1b72eb03))
-
-### Reverts
-
-- **pick-list:** this change was in the wrong pr branch that got merged by accident ([#4180](https://github.com/Esri/calcite-components/issues/4180)) ([7a4e935](https://github.com/Esri/calcite-components/commit/7a4e935d5235b3ddf27930b477c75f2450e22991))
-<!--@unreleased-section-end-->
 
 ## [1.0.0-beta.78](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.77...v1.0.0-beta.78) (2022-03-02)
 
