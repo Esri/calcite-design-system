@@ -274,7 +274,8 @@ export class ActionMenu implements ConditionalSlotComponent {
       menuButtonEl,
       label,
       placement,
-      overlayPositioning
+      overlayPositioning,
+      flipPlacements
     } = this;
 
     const activeAction = actionElements[activeMenuItemIndex];
@@ -283,6 +284,7 @@ export class ActionMenu implements ConditionalSlotComponent {
     return (
       <calcite-popover
         disablePointer
+        flipPlacements={flipPlacements}
         label={label}
         offsetDistance={0}
         open={open}
