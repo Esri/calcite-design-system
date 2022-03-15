@@ -7,6 +7,10 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## Unreleased
 
+### Features
+
+- **combobox, dropdown, input-date-picker:** Add flipPlacements property ([#4073](https://github.com/Esri/calcite-components/issues/4073)) ([19a1657](https://github.com/Esri/calcite-components/commit/19a16577ed55f48ea107bb4955c968869fee8bdf)), closes [#2814](https://github.com/Esri/calcite-components/issues/2814)
+
 ### Bug Fixes
 
 - **combobox, dropdown, input-date-picker, popover, tooltip:** disable scroll event listeners for hidden poppers ([#4216](https://github.com/Esri/calcite-components/issues/4216)) ([85ab670](https://github.com/Esri/calcite-components/commit/85ab670d4ed09e8e2c7a70a6648ba4cb735f7741)), closes [#3727](https://github.com/Esri/calcite-components/issues/3727)
