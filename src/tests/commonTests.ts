@@ -745,3 +745,84 @@ export async function disabled(
 
   expect(disabledComponentClickSpy).toHaveReceivedEventTimes(0);
 }
+
+/**
+ * This helper will test if a popper-owning component has configured the popper correctly.
+ *
+ * At the moment, this only tests if the scroll event listeners are only active when the popper is displayed.
+ *
+ * @param componentTagOrHTML - The component tag or HTML used to test label support.
+ * @param togglePropName - The component property that toggles the popper
+ * @param options - the popper owner test configuration
+ */
+export async function popperOwner(
+  componentTagOrHTML: TagOrHTML,
+  togglePropName: string,
+  options?: {
+    /**
+     * Use this to specify the selector in the shadow DOM for the popper element.
+     */
+    shadowPopperSelector?: string;
+  }
+): Promise<void> {
+  const page = await simplePageSetup(componentTagOrHTML);
+
+  const scrollablePageSizeInPx = 2400;
+  await page.addStyleTag({
+    content: `body { 
+      height: ${scrollablePageSizeInPx}px; 
+      width: ${scrollablePageSizeInPx}px; 
+    }`
+  });
+  await page.waitForChanges();
+
+  const tag = getTag(componentTagOrHTML);
+  const component = await page.find(tag);
+
+  async function getTransform(): Promise<string> {
+    // need to get the style attribute from the browser context since the E2E element returns null
+    return page.$eval(
+      tag,
+      (component: HTMLElement, shadowSelector: string): string => {
+        const popperEl = shadowSelector ? component.shadowRoot.querySelector<HTMLElement>(shadowSelector) : component;
+
+        return popperEl.getAttribute("style");
+      },
+      options?.shadowPopperSelector
+    );
+  }
+
+  async function scrollTo(x: number, y: number): Promise<void> {
+    await page.evaluate((x: number, y: number) => document.firstElementChild.scrollTo(x, y), x, y);
+  }
+
+  component.setProperty(togglePropName, false);
+  await page.waitForChanges();
+
+  const initialClosedTransform = await getTransform();
+
+  await scrollTo(scrollablePageSizeInPx, scrollablePageSizeInPx);
+  await page.waitForChanges();
+
+  expect(await getTransform()).toBe(initialClosedTransform);
+
+  await scrollTo(0, 0);
+  await page.waitForChanges();
+
+  expect(await getTransform()).toBe(initialClosedTransform);
+
+  component.setProperty(togglePropName, true);
+  await page.waitForChanges();
+
+  const initialOpenTransform = await getTransform();
+
+  await scrollTo(scrollablePageSizeInPx, scrollablePageSizeInPx);
+  await page.waitForChanges();
+
+  expect(await getTransform()).not.toBe(initialOpenTransform);
+
+  await scrollTo(0, 0);
+  await page.waitForChanges();
+
+  expect(await getTransform()).toBe(initialOpenTransform);
+}
