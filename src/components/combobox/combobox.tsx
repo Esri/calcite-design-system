@@ -378,7 +378,6 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
 
   onLabelClick = (): void => {
     this.setFocus();
-    this.active = false;
   };
 
   keydownHandler = (event: KeyboardEvent): void => {
@@ -968,7 +967,6 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
               "label--spaced": needsIcon
             }}
             key="label"
-            onClick={this.onLabelClick}
             onFocus={this.comboboxFocusHandler}
             tabindex="0"
           >
