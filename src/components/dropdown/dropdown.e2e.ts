@@ -90,13 +90,13 @@ describe("calcite-dropdown", () => {
     const group1 = await element.find("calcite-dropdown-group[id='group-1']");
     expect(element).toEqualAttribute("scale", "m");
     expect(element).toEqualAttribute("width", "m");
-    expect(element).toEqualAttribute("placement", "bottom-leading");
+    expect(element).toEqualAttribute("placement", "bottom-start");
     expect(group1).toEqualAttribute("selection-mode", "single");
   });
 
   it("renders requested props when valid props are provided", async () => {
     const page = await newE2EPage();
-    await page.setContent(html`<calcite-dropdown placement="bottom-trailing" scale="l" width="l">
+    await page.setContent(html`<calcite-dropdown placement="bottom-end" scale="l" width="l">
       <calcite-button slot="dropdown-trigger">Open dropdown</calcite-button>
       <calcite-dropdown-group id="group-1" selection-mode="multi">
         <calcite-dropdown-item id="item-1"> Dropdown Item Content </calcite-dropdown-item>
@@ -109,7 +109,7 @@ describe("calcite-dropdown", () => {
     const group1 = await element.find("calcite-dropdown-group[id='group-1']");
     expect(element).toEqualAttribute("scale", "l");
     expect(element).toEqualAttribute("width", "l");
-    expect(element).toEqualAttribute("placement", "bottom-trailing");
+    expect(element).toEqualAttribute("placement", "bottom-end");
     expect(group1).toEqualAttribute("selection-mode", "multi");
   });
 
@@ -980,7 +980,7 @@ describe("calcite-dropdown", () => {
     const page = await newE2EPage({
       html: html`<calcite-panel heading="Issue #3048">
         <calcite-pick-list filter-enabled>
-          <calcite-dropdown slot="menu-actions" placement="bottom-trailing" type="click">
+          <calcite-dropdown slot="menu-actions" placement="bottom-end" type="click">
             <calcite-action slot="dropdown-trigger" title="Sort" icon="sort-descending"> </calcite-action>
             <calcite-dropdown-group selection-mode="single">
               <calcite-dropdown-item>Display name</calcite-dropdown-item>
