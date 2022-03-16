@@ -10,6 +10,8 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ### Bug Fixes
 
 - **action-menu:** Correctly set flipPlacements on popover. ([#4074](https://github.com/Esri/calcite-components/issues/4074)) ([3406469](https://github.com/Esri/calcite-components/commit/3406469c7a159719557d7033c156eba9e977adba)), closes [#2814](https://github.com/Esri/calcite-components/issues/2814)
+- **dropdown-item:** ensure dropdown items are initialized properly ([#4244](https://github.com/Esri/calcite-components/issues/4244)) ([9b08b2a](https://github.com/Esri/calcite-components/commit/9b08b2acf48ac99081a864f9efdd36d05e9e320c)), closes [#4215](https://github.com/Esri/calcite-components/issues/4215)
+- **pick-list:** only remove group if removable item is slotted as parent ([#4245](https://github.com/Esri/calcite-components/issues/4245)) ([3575119](https://github.com/Esri/calcite-components/commit/35751197dbfd07c9e704a154549c021ec637913f)), closes [#4208](https://github.com/Esri/calcite-components/issues/4208)
 - **popover, tooltip, combobox, dropdown, input-date-picker:** display escaped poppers ([#4239](https://github.com/Esri/calcite-components/issues/4239)) ([6aa6072](https://github.com/Esri/calcite-components/commit/6aa60729da37f474d254455ee2ba30aa057cc478)), closes [#4197](https://github.com/Esri/calcite-components/issues/4197)
 <!--@unreleased-section-end-->
 
