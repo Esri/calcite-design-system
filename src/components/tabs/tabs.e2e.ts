@@ -261,4 +261,57 @@ describe("calcite-tabs", () => {
     expect(finalSelectedItem.titleTab).toBe("title-2");
     expect(finalSelectedItem.contentTab).toBe("tab-2");
   });
+
+  it("item selection should work with nested tabs", async () => {
+    const page = await newE2EPage({
+      // load page with the dropdown template,
+      // so they're available in the browser-evaluated fn below
+      html: html`
+        <calcite-tabs id="parent-tabs">
+          <calcite-tab-nav slot="tab-nav">
+            <calcite-tab-title id="parent-a">Parent 1</calcite-tab-title>
+            <calcite-tab-title>Parent 2</calcite-tab-title>
+          </calcite-tab-nav>
+          <calcite-tab id="parent-tab">
+            <calcite-tabs>
+              <calcite-tab-nav slot="tab-nav">
+                <calcite-tab-title>Child 1</calcite-tab-title>
+                <calcite-tab-title id="kid-b">Child 2</calcite-tab-title>
+                <calcite-tab-title>Child 3</calcite-tab-title>
+              </calcite-tab-nav>
+              <calcite-tab>child content 1</calcite-tab>
+              <calcite-tab id="kid-b-tab">child content 2</calcite-tab>
+              <calcite-tab>child content 3</calcite-tab>
+            </calcite-tabs>
+          </calcite-tab>
+          <calcite-tab>Parent content 2</calcite-tab>
+        </calcite-tabs>
+      `
+    });
+
+    await page.waitForChanges();
+
+    const results = await page.evaluate(
+      async (): Promise<{ childTitle: string; childContent: string; parentContent: string; parentTitle: string }> => {
+        document.getElementById("kid-b").click();
+
+        await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+        await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+
+        const parentTab = document.getElementById("parent-tab");
+        const childTitle = parentTab.querySelector("calcite-tab-title[active]").id;
+        const childContent = parentTab.querySelector("calcite-tab[active]").id;
+
+        const parentTabs = document.getElementById("parent-tabs");
+        const parentTitle = parentTabs.querySelector("calcite-tab-title[active]").id;
+        const parentContent = parentTabs.querySelector("calcite-tab[active]").id;
+
+        return { childTitle, childContent, parentTitle, parentContent };
+      }
+    );
+    expect(results.childTitle).toBe("kid-b");
+    expect(results.childContent).toBe("kid-b-tab");
+    expect(results.parentTitle).toBe("parent-a");
+    expect(results.parentContent).toBe("parent-tab");
+  });
 });
