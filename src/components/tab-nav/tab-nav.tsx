@@ -65,16 +65,6 @@ export class TabNav {
   /**
    * @internal
    */
-  @State() selectedTab: TabID;
-
-  /**
-   * @internal
-   */
-  @State() selectedTabEl: HTMLCalciteTabTitleElement;
-
-  /**
-   * @internal
-   */
   @Prop({ mutable: true }) indicatorOffset: number;
 
   /**
@@ -269,13 +259,19 @@ export class TabNav {
   //
   //--------------------------------------------------------------------------
 
-  private tabNavEl: HTMLDivElement;
+  @State() selectedTab: TabID;
 
-  private activeIndicatorEl: HTMLElement;
+  @State() selectedTabEl: HTMLCalciteTabTitleElement;
 
-  private activeIndicatorContainerEl: HTMLDivElement;
+  parentTabsEl: HTMLCalciteTabsElement;
 
-  private animationActiveDuration = 0.3;
+  tabNavEl: HTMLDivElement;
+
+  activeIndicatorEl: HTMLElement;
+
+  activeIndicatorContainerEl: HTMLDivElement;
+
+  animationActiveDuration = 0.3;
 
   //--------------------------------------------------------------------------
   //
@@ -283,13 +279,13 @@ export class TabNav {
   //
   //--------------------------------------------------------------------------
 
-  private handleContainerScroll = (): void => {
+  handleContainerScroll = (): void => {
     // remove active indicator transition duration while container is scrolling to prevent wobble
     this.activeIndicatorEl.style.transitionDuration = "0s";
     this.updateOffsetPosition();
   };
 
-  private updateOffsetPosition(): void {
+  updateOffsetPosition(): void {
     const dir = getElementDir(this.el);
     const navWidth = this.activeIndicatorContainerEl?.offsetWidth;
     const tabLeft = this.selectedTabEl?.offsetLeft;
@@ -299,27 +295,27 @@ export class TabNav {
       dir !== "rtl" ? tabLeft - this.tabNavEl?.scrollLeft : offsetRight + this.tabNavEl?.scrollLeft;
   }
 
-  private updateActiveWidth(): void {
+  updateActiveWidth(): void {
     this.indicatorWidth = this.selectedTabEl?.offsetWidth;
   }
 
-  private getIndexOfTabTitle(el: HTMLCalciteTabTitleElement, tabTitles = this.tabTitles): number {
+  getIndexOfTabTitle(el: HTMLCalciteTabTitleElement, tabTitles = this.tabTitles): number {
     // In most cases, since these indexes correlate with tab contents, we want to consider all tab titles.
     // However, when doing relative index operations, it makes sense to pass in this.enabledTabTitles as the 2nd arg.
     return tabTitles.indexOf(el);
   }
 
-  private async getTabTitleById(id: TabID): Promise<HTMLCalciteTabTitleElement | null> {
+  async getTabTitleById(id: TabID): Promise<HTMLCalciteTabTitleElement | null> {
     return Promise.all(this.tabTitles.map((el) => el.getTabIdentifier())).then((ids) => {
       return this.tabTitles[ids.indexOf(id)];
     });
   }
 
-  private get tabTitles(): HTMLCalciteTabTitleElement[] {
+  get tabTitles(): HTMLCalciteTabTitleElement[] {
     return filterDirectChildren<HTMLCalciteTabTitleElement>(this.el, "calcite-tab-title");
   }
 
-  private get enabledTabTitles(): HTMLCalciteTabTitleElement[] {
+  get enabledTabTitles(): HTMLCalciteTabTitleElement[] {
     return filterDirectChildren<HTMLCalciteTabTitleElement>(
       this.el,
       "calcite-tab-title:not([disabled])"

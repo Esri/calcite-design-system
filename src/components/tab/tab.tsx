@@ -151,12 +151,11 @@ export class Tab {
   //
   //--------------------------------------------------------------------------
 
-  /**
-   * @internal
-   */
-  private guid = `calcite-tab-title-${guid()}`;
+  parentTabsEl: HTMLCalciteTabsElement;
 
-  @State() private labeledBy: string;
+  guid = `calcite-tab-title-${guid()}`;
+
+  @State() labeledBy: string;
 
   //--------------------------------------------------------------------------
   //
