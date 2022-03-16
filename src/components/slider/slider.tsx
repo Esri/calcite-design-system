@@ -126,7 +126,18 @@ export class Slider implements LabelableComponent, FormComponent, InteractiveCom
   @Prop() ticks?: number;
 
   /** Currently selected number (if single select) */
-  @Prop({ reflect: true, mutable: true }) value: null | number = null;
+  @Prop({ reflect: true, mutable: true }) value: null | number | number[] = null;
+
+  @Watch("value")
+  valueHandler(): void {
+    this.setMinMaxFromValue();
+  }
+
+  @Watch("minValue")
+  @Watch("maxValue")
+  minMaxValueHandler(): void {
+    this.setValueFromMinMax();
+  }
 
   /**
    * Specify the scale of the slider, defaults to m
@@ -140,6 +151,8 @@ export class Slider implements LabelableComponent, FormComponent, InteractiveCom
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
+    this.setMinMaxFromValue();
+    this.setValueFromMinMax();
     connectLabel(this);
     connectForm(this);
   }
@@ -153,9 +166,11 @@ export class Slider implements LabelableComponent, FormComponent, InteractiveCom
   componentWillLoad(): void {
     this.isRange = !!(this.maxValue || this.maxValue === 0);
     this.tickValues = this.generateTickValues();
-    this.value = this.clamp(this.value);
+    if (typeof this.value === "number") {
+      this.value = this.clamp(this.value);
+    }
     afterConnectDefaultValueSet(this, this.value);
-    if (this.snap) {
+    if (this.snap && typeof this.value === "number") {
       this.value = this.getClosestStep(this.value);
     }
     if (this.histogram) {
@@ -180,7 +195,7 @@ export class Slider implements LabelableComponent, FormComponent, InteractiveCom
   render(): VNode {
     const id = this.el.id || this.guid;
     const min = this.minValue || this.min;
-    const max = this.maxValue || this.value;
+    const max = this.maxValue || (typeof this.value === "number" && this.value);
     const maxProp = this.isRange ? "maxValue" : "value";
     const value = this[maxProp];
     const useMinValue = this.shouldUseMinValue();
@@ -647,7 +662,7 @@ export class Slider implements LabelableComponent, FormComponent, InteractiveCom
         class="graph"
         colorStops={this.histogramStops}
         data={this.histogram}
-        highlightMax={this.isRange ? this.maxValue : this.value}
+        highlightMax={this.isRange ? this.maxValue : typeof this.value === "number" && this.value}
         highlightMin={this.isRange ? this.minValue : this.min}
         max={this.max}
         min={this.min}
@@ -896,6 +911,23 @@ export class Slider implements LabelableComponent, FormComponent, InteractiveCom
   //  Private Methods
   //
   //--------------------------------------------------------------------------
+
+  setValueFromMinMax(): void {
+    const { minValue, maxValue } = this;
+
+    if (typeof minValue === "number" && typeof maxValue === "number") {
+      this.value = [minValue, maxValue];
+    }
+  }
+
+  setMinMaxFromValue(): void {
+    const { value } = this;
+
+    if (Array.isArray(value) && value.length === 2) {
+      this.minValue = value[0];
+      this.maxValue = value[1];
+    }
+  }
 
   onLabelClick(): void {
     this.setFocus();
