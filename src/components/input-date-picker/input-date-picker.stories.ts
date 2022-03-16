@@ -5,6 +5,41 @@ import readme from "./readme.md";
 import { html } from "../../../support/formatting";
 import { locales } from "../../utils/locale";
 
+const placements = [
+  "auto",
+  "auto-start",
+  "auto-end",
+  "top-start",
+  "top-end",
+  "bottom-start",
+  "bottom-end",
+  "right-start",
+  "right-end",
+  "left-start",
+  "left-end"
+];
+
+const calcite_placements = placements.concat([
+  "leading-start",
+  "leading",
+  "leading-end",
+  "trailing-end",
+  "trailing",
+  "trailing-start",
+  "leading-leading",
+  "leading-trailing",
+  "trailing-leading",
+  "trailing-trailing",
+  "top-leading",
+  "top-trailing",
+  "bottom-leading",
+  "bottom-trailing",
+  "right-leading",
+  "right-trailing",
+  "left-leading",
+  "left-trailing"
+]);
+
 export default {
   title: "Components/Controls/InputDatePicker",
 
@@ -43,6 +78,24 @@ export const DarkMode = (): string => html`
         intl-next-month="${text("intl-next-month", "Next month")}"
         intl-prev-month="${text("intl-prev-month", "Previous month")}"
         range="${boolean("range", false)}"
+      ></calcite-input-date-picker
+    ></calcite-label>
+  </div>
+`;
+
+export const Placement = (): string => html`
+  <div style="width: 400px">
+    <calcite-label layout="inline">
+      Date
+      <calcite-input-date-picker
+        scale="${select("scale", ["s", "m", "l"], "m")}"
+        value="${text("value", "2020-12-12")}"
+        min="${text("min", "2016-08-09")}"
+        max="${text("max", "2023-12-18")}"
+        locale="${select("locale", locales, "en")}"
+        intl-next-month="${text("intl-next-month", "Next month")}"
+        intl-prev-month="${text("intl-prev-month", "Previous month")}"
+        placement="${select("placement", calcite_placements, "auto")}"
       ></calcite-input-date-picker
     ></calcite-label>
   </div>
