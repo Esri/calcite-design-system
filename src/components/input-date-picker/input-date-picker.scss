@@ -94,6 +94,10 @@
 
 @include popperElemAnim(".menu-container");
 
+:host([active]) .menu-container {
+  @include popperWrapperActive();
+}
+
 .menu-container--active {
   @include popperElemAnim(".menu-container");
 }
