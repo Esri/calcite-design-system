@@ -126,7 +126,7 @@ export class Slider implements LabelableComponent, FormComponent, InteractiveCom
   @Prop() ticks?: number;
 
   /** Currently selected number (if single select) */
-  @Prop({ reflect: true, mutable: true }) value: null | number | number[] = null;
+  @Prop({ reflect: true, mutable: true }) value: null | number | number[] = 0;
 
   @Watch("value")
   valueHandler(): void {
@@ -166,11 +166,11 @@ export class Slider implements LabelableComponent, FormComponent, InteractiveCom
   componentWillLoad(): void {
     this.isRange = !!(this.maxValue || this.maxValue === 0);
     this.tickValues = this.generateTickValues();
-    if (typeof this.value === "number") {
+    if (!Array.isArray(this.value)) {
       this.value = this.clamp(this.value);
     }
     afterConnectDefaultValueSet(this, this.value);
-    if (this.snap && typeof this.value === "number") {
+    if (this.snap && !Array.isArray(this.value)) {
       this.value = this.getClosestStep(this.value);
     }
     if (this.histogram) {
@@ -194,10 +194,10 @@ export class Slider implements LabelableComponent, FormComponent, InteractiveCom
 
   render(): VNode {
     const id = this.el.id || this.guid;
+    const maxProp = Array.isArray(this.value) ? "maxValue" : "value";
+    const value = Array.isArray(this.value) ? this.maxValue : this.value;
     const min = this.minValue || this.min;
-    const max = this.maxValue || (typeof this.value === "number" && this.value);
-    const maxProp = this.isRange ? "maxValue" : "value";
-    const value = this[maxProp];
+    const max = this.maxValue || value;
     const useMinValue = this.shouldUseMinValue();
     const minInterval = this.getUnitInterval(useMinValue ? this.minValue : min) * 100;
     const maxInterval = this.getUnitInterval(max) * 100;
@@ -662,7 +662,7 @@ export class Slider implements LabelableComponent, FormComponent, InteractiveCom
         class="graph"
         colorStops={this.histogramStops}
         data={this.histogram}
-        highlightMax={this.isRange ? this.maxValue : typeof this.value === "number" && this.value}
+        highlightMax={Array.isArray(this.value) ? this.maxValue : this.value}
         highlightMin={this.isRange ? this.minValue : this.min}
         max={this.max}
         min={this.min}
