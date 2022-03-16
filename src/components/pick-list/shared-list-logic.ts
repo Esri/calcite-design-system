@@ -3,6 +3,7 @@ import { ValueList } from "../value-list/value-list";
 import { debounce } from "lodash-es";
 import { focusElement, getSlotted } from "../../utils/dom";
 import { getRoundRobinIndex } from "../../utils/array";
+import { SLOTS } from "../pick-list-group/resources";
 
 type Lists = PickList | ValueList;
 type ListItemElement<T> = T extends PickList ? HTMLCalcitePickListItemElement : HTMLCalciteValueListItemElement;
@@ -191,7 +192,7 @@ export function removeItem<T extends Lists, U extends ListItemElement<T>>(this: 
   const item = event.target as U;
   const selectedValues = this.selectedValues as Map<string, U>;
 
-  if (item.parentElement.tagName === "CALCITE-PICK-LIST-GROUP") {
+  if (item.parentElement.tagName === "CALCITE-PICK-LIST-GROUP" && item.slot === SLOTS.parentItem) {
     item.parentElement.remove();
     Array.from(item.parentElement.children).forEach((item: U) => selectedValues.delete(item.value));
   } else {
