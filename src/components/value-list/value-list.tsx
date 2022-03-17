@@ -31,7 +31,8 @@ import {
   selectSiblings,
   setFocus,
   setUpItems,
-  moveItemIndex
+  moveItemIndex,
+  getItemIndex
 } from "../pick-list/shared-list-logic";
 import List from "../pick-list/shared-list-render";
 import { createObserver } from "../../utils/observers";
@@ -251,6 +252,7 @@ export class ValueList<
   getItemData = getItemData.bind(this);
 
   keyDownHandler = (event: KeyboardEvent): void => {
+    debugger;
     const handleElement = event
       .composedPath()
       .find(
@@ -299,6 +301,34 @@ export class ValueList<
     item.handleActivated = true;
   };
 
+  keyUpHandler = (event: KeyboardEvent): void => {
+    const handleElement = event
+      .composedPath()
+      .find(
+        (item: HTMLElement) => item.dataset?.jsHandle !== undefined
+      ) as HTMLCalciteHandleElement;
+
+    if (event.key !== "Tab" && !handleElement) {
+      return;
+    }
+    const item = event
+      .composedPath()
+      .find(
+        (item: HTMLElement) => item.tagName?.toLowerCase() === "calcite-value-list-item"
+      ) as ItemElement;
+
+    const { items } = this;
+    const currentPosition = getItemIndex(this, item);
+    const currentPositionText = `currentposition ${currentPosition + 1} of ${items.length}`;
+
+    handleElement.setAttribute(
+      "aria-label",
+      item.handleActivated
+        ? `Reordering. ${currentPositionText} `
+        : `press space and use arrow keys to reorder content. ${currentPositionText}`
+    );
+  };
+
   // --------------------------------------------------------------------------
   //
   //  Public Methods
@@ -339,6 +369,6 @@ export class ValueList<
   }
 
   render(): VNode {
-    return <List onKeyDown={this.keyDownHandler} props={this} />;
+    return <List onKeyDown={this.keyDownHandler} onKeyUp={this.keyUpHandler} props={this} />;
   }
 }

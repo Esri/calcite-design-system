@@ -173,6 +173,7 @@ export class ValueListItem implements ConditionalSlotComponent, InteractiveCompo
     (this.pickListItem = el);
 
   handleKeyDown = (event: KeyboardEvent): void => {
+    debugger;
     if (event.key === " ") {
       this.handleActivated = !this.handleActivated;
     }
@@ -186,6 +187,9 @@ export class ValueListItem implements ConditionalSlotComponent, InteractiveCompo
     this.selected = event.detail.selected;
   };
 
+  // handleKeyUp = (event: KeyboardEvent): void => {
+  //   console.log("keyup");
+  // };
   // --------------------------------------------------------------------------
   //
   //  Render Methods
@@ -215,12 +219,6 @@ export class ValueListItem implements ConditionalSlotComponent, InteractiveCompo
     if (icon === ICON_TYPES.grip) {
       return (
         <span
-          // aria-pressed={this.handleActivated.toString()}
-          aria-label={
-            !this.handleActivated.toString()
-              ? "press space and use arrow keys to reorder content"
-              : "Reordering"
-          }
           class={{
             [CSS.handle]: true,
             [CSS.handleActivated]: this.handleActivated
