@@ -253,6 +253,11 @@ export class ValueList<
 
   keyDownHandler = (event: KeyboardEvent): void => {
     const { handleElement, item } = this.getHandleAndItemElement(event);
+    const currentPositionText = this.getItemPositionText(item);
+
+    if (handleElement && !item.handleActivated && event.key === " ") {
+      this.updateLiveText(`${currentPositionText}`);
+    }
 
     if (!handleElement || !item.handleActivated) {
       keyDownHandler.call(this, event);
@@ -262,7 +267,6 @@ export class ValueList<
     const { items } = this;
 
     if (event.key === " ") {
-      const currentPositionText = this.getItemPositionText(item);
       this.updateLiveText(`${HANDLE_ACTIVATED_LABEL}. ${currentPositionText}`);
     }
 
