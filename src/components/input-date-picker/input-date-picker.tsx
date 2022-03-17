@@ -34,7 +34,8 @@ import {
   OverlayPositioning,
   popperMenuFlipPlacements,
   ComputedPlacement,
-  defaultMenuPlacement
+  defaultMenuPlacement,
+  MenuPlacement
 } from "../../utils/popper";
 import { StrictModifiers, Instance as Popper } from "@popperjs/core";
 import { DateRangeChange } from "../date-picker/interfaces";
@@ -176,6 +177,12 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
   /** specify the scale of the date picker */
   @Prop({ reflect: true }) scale: "s" | "m" | "l" = "m";
 
+  /**
+   * Determines where the date-picker component will be positioned relative to the input.
+   * @default "bottom-leading"
+   */
+  @Prop({ reflect: true }) placement: MenuPlacement = defaultMenuPlacement;
+
   /** Range mode activation */
   @Prop({ reflect: true }) range = false;
 
@@ -278,14 +285,14 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
   /** Updates the position of the component. */
   @Method()
   async reposition(): Promise<void> {
-    const { popper, menuEl } = this;
+    const { placement, popper, menuEl } = this;
     const modifiers = this.getModifiers();
 
     popper
       ? await updatePopper({
           el: menuEl,
           modifiers,
-          placement: defaultMenuPlacement,
+          placement,
           popper
         })
       : this.createPopper();
@@ -598,7 +605,7 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
 
   createPopper(): void {
     this.destroyPopper();
-    const { menuEl, referenceEl, overlayPositioning } = this;
+    const { menuEl, placement, referenceEl, overlayPositioning } = this;
 
     if (!menuEl || !referenceEl) {
       return;
@@ -610,7 +617,7 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
       el: menuEl,
       modifiers,
       overlayPositioning,
-      placement: defaultMenuPlacement,
+      placement,
       referenceEl
     });
   }
