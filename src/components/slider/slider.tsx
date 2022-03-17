@@ -923,7 +923,7 @@ export class Slider implements LabelableComponent, FormComponent, InteractiveCom
   setMinMaxFromValue(): void {
     const { value } = this;
 
-    if (Array.isArray(value) && value.length === 2) {
+    if (Array.isArray(value)) {
       this.minValue = value[0];
       this.maxValue = value[1];
     }
