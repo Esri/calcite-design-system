@@ -127,7 +127,7 @@
     "prettier": "2.6.0",
     "puppeteer": "10.0.0",
     "rimraf": "3.0.2",
-    "screener-storybook": "0.22.0",
+    "screener-storybook": "0.23.0",
     "semver": "7.3.5",
     "shell-quote": "1.7.3",
     "standard-version": "9.3.2",
