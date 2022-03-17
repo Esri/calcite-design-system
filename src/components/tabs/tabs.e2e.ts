@@ -221,7 +221,7 @@ describe("calcite-tabs", () => {
     `;
 
     const page = await newE2EPage({
-      // load page with the dropdown template,
+      // load page with the tab template,
       // so they're available in the browser-evaluated fn below
       html: wrappedTabTemplateHTML
     });
@@ -264,23 +264,21 @@ describe("calcite-tabs", () => {
 
   it("item selection should work with nested tabs", async () => {
     const page = await newE2EPage({
-      // load page with the dropdown template,
-      // so they're available in the browser-evaluated fn below
       html: html`
-        <calcite-tabs id="parent-tabs">
+        <calcite-tabs id="parentTabs">
           <calcite-tab-nav slot="tab-nav">
-            <calcite-tab-title id="parent-a">Parent 1</calcite-tab-title>
+            <calcite-tab-title id="parentA">Parent 1</calcite-tab-title>
             <calcite-tab-title>Parent 2</calcite-tab-title>
           </calcite-tab-nav>
-          <calcite-tab id="parent-tab">
+          <calcite-tab id="parentTab">
             <calcite-tabs>
               <calcite-tab-nav slot="tab-nav">
                 <calcite-tab-title>Child 1</calcite-tab-title>
-                <calcite-tab-title id="kid-b">Child 2</calcite-tab-title>
+                <calcite-tab-title id="kidB">Child 2</calcite-tab-title>
                 <calcite-tab-title>Child 3</calcite-tab-title>
               </calcite-tab-nav>
               <calcite-tab>child content 1</calcite-tab>
-              <calcite-tab id="kid-b-tab">child content 2</calcite-tab>
+              <calcite-tab id="kidBTab">child content 2</calcite-tab>
               <calcite-tab>child content 3</calcite-tab>
             </calcite-tabs>
           </calcite-tab>
@@ -291,27 +289,22 @@ describe("calcite-tabs", () => {
 
     await page.waitForChanges();
 
-    const results = await page.evaluate(
-      async (): Promise<{ childTitle: string; childContent: string; parentContent: string; parentTitle: string }> => {
-        document.getElementById("kid-b").click();
+    const kidB = await page.find("#kidB");
+    kidB.click();
 
-        await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
-        await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+    await page.waitForChanges();
 
-        const parentTab = document.getElementById("parent-tab");
-        const childTitle = parentTab.querySelector("calcite-tab-title[active]").id;
-        const childContent = parentTab.querySelector("calcite-tab[active]").id;
+    const parentTab = await page.find("#parentTab");
+    const childTitle = (await parentTab.find("calcite-tab-title[active]")).getAttribute("id");
+    const childContent = (await parentTab.find("calcite-tab[active]")).getAttribute("id");
 
-        const parentTabs = document.getElementById("parent-tabs");
-        const parentTitle = parentTabs.querySelector("calcite-tab-title[active]").id;
-        const parentContent = parentTabs.querySelector("calcite-tab[active]").id;
+    const parentTabs = await page.find("#parentTabs");
+    const parentTitle = (await parentTabs.find("calcite-tab-title[active]")).getAttribute("id");
+    const parentContent = (await parentTabs.find("calcite-tab[active]")).getAttribute("id");
 
-        return { childTitle, childContent, parentTitle, parentContent };
-      }
-    );
-    expect(results.childTitle).toBe("kid-b");
-    expect(results.childContent).toBe("kid-b-tab");
-    expect(results.parentTitle).toBe("parent-a");
-    expect(results.parentContent).toBe("parent-tab");
+    expect(childTitle).toBe("kidB");
+    expect(childContent).toBe("kidBTab");
+    expect(parentTitle).toBe("parentA");
+    expect(parentContent).toBe("parentTab");
   });
 });
