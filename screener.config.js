@@ -22,5 +22,6 @@ module.exports = {
   },
   excludeRules: [/^Overview/],
   resolution: "1024x768",
-  failureExitCode: 0
+  failureExitCode: 0,
+  failOnNewStates: false
 };
