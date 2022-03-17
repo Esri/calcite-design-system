@@ -1,44 +1,10 @@
-import { select, text, boolean } from "@storybook/addon-knobs";
+import { boolean, select, text } from "@storybook/addon-knobs";
 
 import { themesDarkDefault } from "../../../.storybook/utils";
 import readme from "./readme.md";
 import { html } from "../../../support/formatting";
 import { locales } from "../../utils/locale";
-
-const placements = [
-  "auto",
-  "auto-start",
-  "auto-end",
-  "top-start",
-  "top-end",
-  "bottom-start",
-  "bottom-end",
-  "right-start",
-  "right-end",
-  "left-start",
-  "left-end"
-];
-
-const calcite_placements = placements.concat([
-  "leading-start",
-  "leading",
-  "leading-end",
-  "trailing-end",
-  "trailing",
-  "trailing-start",
-  "leading-leading",
-  "leading-trailing",
-  "trailing-leading",
-  "trailing-trailing",
-  "top-leading",
-  "top-trailing",
-  "bottom-leading",
-  "bottom-trailing",
-  "right-leading",
-  "right-trailing",
-  "left-leading",
-  "left-trailing"
-]);
+import { defaultMenuPlacement, popperMenuPlacements } from "../../utils/popper";
 
 export default {
   title: "Components/Controls/InputDatePicker",
@@ -95,7 +61,7 @@ export const Placement = (): string => html`
         locale="${select("locale", locales, "en")}"
         intl-next-month="${text("intl-next-month", "Next month")}"
         intl-prev-month="${text("intl-prev-month", "Previous month")}"
-        placement="${select("placement", calcite_placements, "auto")}"
+        placement="${select("placement", popperMenuPlacements, defaultMenuPlacement)}"
       ></calcite-input-date-picker
     ></calcite-label>
   </div>

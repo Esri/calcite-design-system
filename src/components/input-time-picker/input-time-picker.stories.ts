@@ -3,41 +3,7 @@ import { boolean, createSteps, stepStory } from "../../../.storybook/helpers";
 import { themesDarkDefault } from "../../../.storybook/utils";
 import readme from "./readme.md";
 import { html } from "../../../support/formatting";
-
-const placements = [
-  "auto",
-  "auto-start",
-  "auto-end",
-  "top-start",
-  "top-end",
-  "bottom-start",
-  "bottom-end",
-  "right-start",
-  "right-end",
-  "left-start",
-  "left-end"
-];
-
-const calcite_placements = placements.concat([
-  "leading-start",
-  "leading",
-  "leading-end",
-  "trailing-end",
-  "trailing",
-  "trailing-start",
-  "leading-leading",
-  "leading-trailing",
-  "trailing-leading",
-  "trailing-trailing",
-  "top-leading",
-  "top-trailing",
-  "bottom-leading",
-  "bottom-trailing",
-  "right-leading",
-  "right-trailing",
-  "left-leading",
-  "left-trailing"
-]);
+import { defaultMenuPlacement, popperMenuPlacements } from "../../utils/popper";
 
 export default {
   title: "Components/Controls/Time/Input Time Picker",
@@ -80,7 +46,7 @@ export const Placement = (): string => html`
     scale="${select("scale", ["s", "m", "l"], "m")}"
     step="${number("step", 1)}"
     value="${text("value", "10:37")}"
-    placement="${select("placement", calcite_placements, "auto")}"
+    placement="${select("placement", popperMenuPlacements, defaultMenuPlacement)}"
   >
   </calcite-input-time-picker>
 `;
