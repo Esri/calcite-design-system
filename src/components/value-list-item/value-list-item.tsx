@@ -173,7 +173,6 @@ export class ValueListItem implements ConditionalSlotComponent, InteractiveCompo
     (this.pickListItem = el);
 
   handleKeyDown = (event: KeyboardEvent): void => {
-    debugger;
     if (event.key === " ") {
       this.handleActivated = !this.handleActivated;
     }
@@ -237,7 +236,7 @@ export class ValueListItem implements ConditionalSlotComponent, InteractiveCompo
 
   render(): VNode {
     return (
-      <Host id={this.el.id || this.guid} role="listitem">
+      <Host id={this.el.id || this.guid}>
         {this.renderHandle()}
         <calcite-pick-list-item
           description={this.description}

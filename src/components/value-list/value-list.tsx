@@ -11,7 +11,7 @@ import {
   State,
   VNode
 } from "@stencil/core";
-import { CSS, ICON_TYPES } from "./resources";
+import { CSS, HANDLE_ACTIVATED_LABEL, HANDLE_LABEL, ICON_TYPES } from "./resources";
 import {
   ListFocusId,
   calciteListFocusOutHandler,
@@ -252,25 +252,19 @@ export class ValueList<
   getItemData = getItemData.bind(this);
 
   keyDownHandler = (event: KeyboardEvent): void => {
-    debugger;
-    const handleElement = event
-      .composedPath()
-      .find(
-        (item: HTMLElement) => item.dataset?.jsHandle !== undefined
-      ) as HTMLCalciteHandleElement;
-    const item = event
-      .composedPath()
-      .find(
-        (item: HTMLElement) => item.tagName?.toLowerCase() === "calcite-value-list-item"
-      ) as ItemElement;
-    // console.log("handleElement", handleElement, item);
-    // Only trigger keyboard sorting when the internal drag handle is focused and activated
+    const { handleElement, item } = this.getHandleAndItemElement(event);
+
     if (!handleElement || !item.handleActivated) {
       keyDownHandler.call(this, event);
       return;
     }
 
     const { items } = this;
+
+    if (event.key === " ") {
+      const currentPositionText = this.getItemPositionText(item);
+      this.updateLiveText(`${HANDLE_ACTIVATED_LABEL}. ${currentPositionText}`);
+    }
 
     if ((event.key !== "ArrowUp" && event.key !== "ArrowDown") || items.length <= 1) {
       return;
@@ -301,33 +295,41 @@ export class ValueList<
     item.handleActivated = true;
   };
 
-  keyUpHandler = (event: KeyboardEvent): void => {
+  focusHandler = (event: FocusEvent): void => {
+    const { handleElement, item } = this.getHandleAndItemElement(event);
+
+    if (!handleElement) {
+      return;
+    }
+    const currentPositionText = this.getItemPositionText(item);
+    handleElement.setAttribute("aria-label", `${HANDLE_LABEL}. ${currentPositionText}`);
+  };
+
+  getItemPositionText(item: HTMLCalciteValueListItemElement): string {
+    const { items } = this;
+    const itemPosition = getItemIndex(this, item);
+    const itemPositionText = `currentposition ${itemPosition + 1} of ${items.length}`;
+    return itemPositionText;
+  }
+
+  getHandleAndItemElement(event: KeyboardEvent | FocusEvent): {
+    handleElement: HTMLCalciteHandleElement;
+    item: HTMLCalciteValueListItemElement;
+  } {
     const handleElement = event
       .composedPath()
       .find(
         (item: HTMLElement) => item.dataset?.jsHandle !== undefined
       ) as HTMLCalciteHandleElement;
 
-    if (event.key !== "Tab" && !handleElement) {
-      return;
-    }
     const item = event
       .composedPath()
       .find(
         (item: HTMLElement) => item.tagName?.toLowerCase() === "calcite-value-list-item"
       ) as ItemElement;
 
-    const { items } = this;
-    const currentPosition = getItemIndex(this, item);
-    const currentPositionText = `currentposition ${currentPosition + 1} of ${items.length}`;
-
-    handleElement.setAttribute(
-      "aria-label",
-      item.handleActivated
-        ? `Reordering. ${currentPositionText} `
-        : `press space and use arrow keys to reorder content. ${currentPositionText}`
-    );
-  };
+    return { handleElement, item };
+  }
 
   // --------------------------------------------------------------------------
   //
@@ -364,11 +366,10 @@ export class ValueList<
   updateLiveText(selectedItem: string): void {
     //code to update text to our aria-live span
     const spanEle = this.el.shadowRoot.querySelector(".assistive-text");
-    console.log(spanEle, selectedItem);
     spanEle.textContent = selectedItem;
   }
 
   render(): VNode {
-    return <List onKeyDown={this.keyDownHandler} onKeyUp={this.keyUpHandler} props={this} />;
+    return <List onFocusin={this.focusHandler} onKeyDown={this.keyDownHandler} props={this} />;
   }
 }
