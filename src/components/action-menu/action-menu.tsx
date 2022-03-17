@@ -14,8 +14,7 @@ import { CSS, SLOTS, ICONS } from "./resources";
 import { focusElement, getSlotted } from "../../utils/dom";
 import { Fragment, VNode } from "@stencil/core/internal";
 import { getRoundRobinIndex } from "../../utils/array";
-import { PopperPlacement, OverlayPositioning } from "../../utils/popper";
-import { Placement } from "@popperjs/core";
+import { PopperPlacement, OverlayPositioning, ComputedPlacement } from "../../utils/popper";
 import { guid } from "../../utils/guid";
 import { Scale } from "../interfaces";
 import { createObserver } from "../../utils/observers";
@@ -77,7 +76,7 @@ export class ActionMenu implements ConditionalSlotComponent {
   /**
    * Defines the available placements that can be used when a flip occurs.
    */
-  @Prop() flipPlacements?: Placement[];
+  @Prop() flipPlacements?: ComputedPlacement[];
 
   /**
    *  Text string for the actions menu.
@@ -272,7 +271,8 @@ export class ActionMenu implements ConditionalSlotComponent {
       menuButtonEl,
       label,
       placement,
-      overlayPositioning
+      overlayPositioning,
+      flipPlacements
     } = this;
 
     const activeAction = actionElements[activeMenuItemIndex];
@@ -281,6 +281,7 @@ export class ActionMenu implements ConditionalSlotComponent {
     return (
       <calcite-popover
         disablePointer
+        flipPlacements={flipPlacements}
         label={label}
         offsetDistance={0}
         open={open}

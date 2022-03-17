@@ -551,10 +551,26 @@ export function loadingState(listType: ListType): void {
 }
 
 export function itemRemoval(listType: ListType): void {
+  const pickListGroupHtml = html` <calcite-pick-list-group
+      label="Will be removed when slotted 'parent item' is removed"
+      value="remove-me"
+    >
+      <calcite-pick-list-item
+        slot="parent-item"
+        value="remove-me"
+        label="Remove me!"
+        removable
+      ></calcite-pick-list-item>
+    </calcite-pick-list-group>
+    <calcite-pick-list-group label="Will not be removed when child item is removed" value="do-not-remove-me">
+      <calcite-pick-list-item value="remove-me" label="Do not remove me!" removable></calcite-pick-list-item>
+    </calcite-pick-list-group>`;
+
   it("handles removing items", async () => {
     const page = await newE2EPage({
       html: html`
       <calcite-${listType}-list>
+        ${listType === "value" ? "" : pickListGroupHtml}
         <calcite-${listType}-list-item value="remove-me" label="Remove me!" removable></calcite-${listType}-list-item>
       </calcite-${listType}-list>
     `
@@ -563,15 +579,19 @@ export function itemRemoval(listType: ListType): void {
     const removeItemSpy = await list.spyOnEvent("calciteListItemRemove");
     const listChangeSpy = await list.spyOnEvent("calciteListChange");
 
-    await page.$eval(
+    const removableItems = await page.$$eval(
       `calcite-${listType}-list-item`,
-      (item: ListElement, listType, selector: string) => {
-        listType === "pick"
-          ? item.shadowRoot.querySelector<HTMLElement>(selector).click()
-          : item.shadowRoot
-              .querySelector<ListElement>("calcite-pick-list-item")
-              .shadowRoot.querySelector<HTMLElement>(selector)
-              .click();
+      (items: ListElement[], listType, selector: string) => {
+        items.forEach((item) => {
+          listType === "pick"
+            ? item.shadowRoot.querySelector<HTMLElement>(selector).click()
+            : item.shadowRoot
+                .querySelector<ListElement>("calcite-pick-list-item")
+                .shadowRoot.querySelector<HTMLElement>(selector)
+                .click();
+        });
+
+        return items;
       },
       listType,
       `.${PICK_LIST_ITEM_CSS.remove}`
@@ -579,8 +599,9 @@ export function itemRemoval(listType: ListType): void {
 
     await page.waitForChanges();
 
-    expect(await page.find(`calcite-${listType}-list-item`)).toBeNull();
-    expect(removeItemSpy).toHaveReceivedEventTimes(1);
+    expect(await page.findAll(`calcite-${listType}-list-item`)).toHaveLength(0);
+    expect(await page.findAll(`calcite-pick-list-group`)).toHaveLength(listType === "pick" ? 1 : 0);
+    expect(removeItemSpy).toHaveReceivedEventTimes(removableItems.length);
     expect(listChangeSpy).toHaveReceivedEventTimes(1);
   });
 }

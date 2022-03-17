@@ -31,13 +31,14 @@ import {
   createPopper,
   updatePopper,
   CSS as PopperCSS,
-  OverlayPositioning
+  OverlayPositioning,
+  popperMenuFlipPlacements,
+  ComputedPlacement,
+  defaultMenuPlacement
 } from "../../utils/popper";
 import { StrictModifiers, Instance as Popper } from "@popperjs/core";
 import { DateRangeChange } from "../date-picker/interfaces";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
-
-const DEFAULT_PLACEMENT = "bottom-leading";
 
 @Component({
   tag: "calcite-input-date-picker",
@@ -88,6 +89,11 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
       this.end = undefined;
     }
   }
+
+  /**
+   * Defines the available placements that can be used when a flip occurs.
+   */
+  @Prop() flipPlacements?: ComputedPlacement[];
 
   /**
    * Number at which section headings should start for this component.
@@ -279,7 +285,7 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
       ? await updatePopper({
           el: menuEl,
           modifiers,
-          placement: DEFAULT_PLACEMENT,
+          placement: defaultMenuPlacement,
           popper
         })
       : this.createPopper();
@@ -579,10 +585,15 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
     };
 
     flipModifier.options = {
-      fallbackPlacements: ["top-start", "top", "top-end", "bottom-start", "bottom", "bottom-end"]
+      fallbackPlacements: this.flipPlacements || popperMenuFlipPlacements
     };
 
-    return [flipModifier];
+    const eventListenerModifier: Partial<StrictModifiers> = {
+      name: "eventListeners",
+      enabled: this.active
+    };
+
+    return [flipModifier, eventListenerModifier];
   }
 
   createPopper(): void {
@@ -599,7 +610,7 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
       el: menuEl,
       modifiers,
       overlayPositioning,
-      placement: DEFAULT_PLACEMENT,
+      placement: defaultMenuPlacement,
       referenceEl
     });
   }

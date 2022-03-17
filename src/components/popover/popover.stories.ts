@@ -1,43 +1,10 @@
 import { select, number, text } from "@storybook/addon-knobs";
 import { html } from "../../../support/formatting";
 import { boolean, createSteps, stepStory, setTheme, setKnobs } from "../../../.storybook/helpers";
+import { popperPlacements } from "../../utils/popper";
 import readme from "./readme.md";
 import managerReadme from "../popover-manager/readme.md";
-
-const placements = [
-  "auto",
-  "auto-start",
-  "auto-end",
-  "top-start",
-  "top-end",
-  "bottom-start",
-  "bottom-end",
-  "right-start",
-  "right-end",
-  "left-start",
-  "left-end"
-];
-
-const calcite_placements = placements.concat([
-  "leading-start",
-  "leading",
-  "leading-end",
-  "trailing-end",
-  "trailing",
-  "trailing-start",
-  "leading-leading",
-  "leading-trailing",
-  "trailing-leading",
-  "trailing-trailing",
-  "top-leading",
-  "top-trailing",
-  "bottom-leading",
-  "bottom-trailing",
-  "right-leading",
-  "right-trailing",
-  "left-leading",
-  "left-trailing"
-]);
+import { defaultPopoverPlacement } from "../popover/resources";
 
 const contentHTML = `
 <div style="width: 300px; padding:12px 16px;">
@@ -66,7 +33,7 @@ export const Simple = stepStory(
         ${boolean("disable-flip", false)}
         ${boolean("disable-pointer", false)}
         reference-element="reference-element"
-        placement="${select("placement", calcite_placements, "auto")}"
+        placement="${select("placement", popperPlacements, defaultPopoverPlacement)}"
         offset-distance="${number("offset-distance", 6)}"
         offset-skidding="${number("offset-skidding", 0)}"
         ${boolean("open", false)}
@@ -98,14 +65,14 @@ export const Nested = stepStory(
         <calcite-popover
           ${boolean("dismissible", true)}
           reference-element="reference-element"
-          placement="${select("placement", calcite_placements, "auto")}"
+          placement="${select("placement", popperPlacements, defaultPopoverPlacement)}"
           ${boolean("open", false)}
         >
           <div style="width: 300px; padding:12px 16px;">${nestedReferenceElementHTML}</div>
           <calcite-popover
             ${boolean("dismissible", true)}
             reference-element="reference-element-nested"
-            placement="${select("placement", calcite_placements, "auto")}"
+            placement="${select("placement", popperPlacements, defaultPopoverPlacement)}"
             ${boolean("open", false)}
           >
             ${contentHTML}

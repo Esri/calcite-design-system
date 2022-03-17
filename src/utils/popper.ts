@@ -1,5 +1,6 @@
 import {
   Placement,
+  ComputedPlacement as PopperComputedPlacement,
   Instance as Popper,
   createPopper as setupPopper,
   StrictModifiers,
@@ -22,9 +23,95 @@ type VariationRtl =
   | "left-leading"
   | "left-trailing";
 
+export type ComputedPlacement = PopperComputedPlacement;
 export type PopperPlacement = Placement | PlacementRtl | VariationRtl;
 
 export type OverlayPositioning = PositioningStrategy;
+
+export const popperPlacements: PopperPlacement[] = [
+  "auto",
+  "auto-start",
+  "auto-end",
+  "top-start",
+  "top-end",
+  "bottom-start",
+  "bottom-end",
+  "right-start",
+  "right-end",
+  "left-start",
+  "left-end",
+  "leading-start",
+  "leading",
+  "leading-end",
+  "trailing-end",
+  "trailing",
+  "trailing-start",
+  "leading-leading",
+  "leading-trailing",
+  "trailing-leading",
+  "trailing-trailing",
+  "top-leading",
+  "top-trailing",
+  "bottom-leading",
+  "bottom-trailing",
+  "right-leading",
+  "right-trailing",
+  "left-leading",
+  "left-trailing"
+];
+
+export const popperFlipPlacements: ComputedPlacement[] = [
+  "top",
+  "bottom",
+  "right",
+  "left",
+  "top-start",
+  "top-end",
+  "bottom-start",
+  "bottom-end",
+  "right-start",
+  "right-end",
+  "left-start",
+  "left-end"
+];
+
+export type MenuPlacement = Extract<
+  PopperPlacement,
+  | "top-start"
+  | "top"
+  | "top-end"
+  | "bottom-start"
+  | "bottom"
+  | "bottom-end"
+  | "top-leading"
+  | "top-trailing"
+  | "bottom-leading"
+  | "bottom-trailing"
+>;
+
+export const defaultMenuPlacement: MenuPlacement = "bottom-leading";
+
+export const popperMenuPlacements: MenuPlacement[] = [
+  "top-start",
+  "top",
+  "top-end",
+  "bottom-start",
+  "bottom",
+  "bottom-end",
+  "top-leading",
+  "top-trailing",
+  "bottom-leading",
+  "bottom-trailing"
+];
+
+export const popperMenuFlipPlacements: ComputedPlacement[] = [
+  "top-start",
+  "top",
+  "top-end",
+  "bottom-start",
+  "bottom",
+  "bottom-end"
+];
 
 export const CSS = {
   animation: "calcite-popper-anim",

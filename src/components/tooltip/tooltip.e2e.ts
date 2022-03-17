@@ -1,6 +1,6 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { TOOLTIP_DELAY_MS, TOOLTIP_REFERENCE } from "../tooltip/resources";
-import { accessible, defaults, hidden, renders } from "../../tests/commonTests";
+import { accessible, defaults, hidden, popperOwner, renders } from "../../tests/commonTests";
 
 describe("calcite-tooltip", () => {
   it("renders", async () => {
@@ -248,4 +248,10 @@ describe("calcite-tooltip", () => {
     expect(id).toEqual(userDefinedId);
     expect(referenceId).toEqual(userDefinedId);
   });
+
+  it("owns a popper", () =>
+    popperOwner(
+      `<calcite-tooltip reference-element="ref">content</calcite-tooltip><div id="ref">referenceElement</div>`,
+      "open"
+    ));
 });
