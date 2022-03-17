@@ -238,8 +238,6 @@ export class Modal implements ConditionalSlotComponent {
   //--------------------------------------------------------------------------
   @State() hasFooter = true;
 
-  @State() lastActiveElement: Element;
-
   closeButtonEl: HTMLButtonElement;
 
   contentId: string;
@@ -256,39 +254,15 @@ export class Modal implements ConditionalSlotComponent {
 
   private activeTransitionProp = "opacity";
 
-  private isShiftKeyPressed: boolean;
-
   //--------------------------------------------------------------------------
   //
   //  Event Listeners
   //
   //--------------------------------------------------------------------------
   @Listen("keyup", { target: "window" })
-  handleFocus(e: KeyboardEvent): void {
+  handleEscape(e: KeyboardEvent): void {
     if (this.active && !this.disableEscape && e.key === "Escape") {
       this.close();
-    }
-    if (e.key === "Shift") {
-      this.isShiftKeyPressed = false;
-    }
-    if (this.active && e.key === "Tab") {
-      const focusableElements = getFocusableElements(this.el);
-      if (
-        this.lastActiveElement === focusableElements[focusableElements.length - 1] &&
-        !this.closeButtonEl &&
-        !this.isShiftKeyPressed
-      ) {
-        this.setFocus();
-      } else {
-        this.lastActiveElement = document.activeElement;
-      }
-    }
-  }
-
-  @Listen("keydown")
-  handleKeyDown(e: KeyboardEvent): void {
-    if (e.key === "Shift") {
-      this.isShiftKeyPressed = true;
     }
   }
 
@@ -330,10 +304,9 @@ export class Modal implements ConditionalSlotComponent {
   @Method()
   async setFocus(focusId?: "close-button"): Promise<void> {
     const closeButton = this.closeButtonEl;
-    await focusElement(
+    return focusElement(
       focusId === "close-button" ? closeButton : getFocusableElements(this.el)[0] || closeButton
     );
-    this.lastActiveElement = document.activeElement;
   }
 
   /** Set the scroll top of the modal content */
@@ -409,7 +382,7 @@ export class Modal implements ConditionalSlotComponent {
   };
 
   focusFirstElement = (): void => {
-    focusElement(this.closeButtonEl);
+    focusElement(this.disableCloseButton ? getFocusableElements(this.el)[0] : this.closeButtonEl);
   };
 
   focusLastElement = (): void => {
