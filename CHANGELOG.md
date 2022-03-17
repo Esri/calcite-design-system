@@ -3,6 +3,15 @@
 This document maintains a list of released versions and changes introduced by them.
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
+<!--@unreleased-section-start-->
+
+## Unreleased
+
+### Features
+
+- **input-date-picker, input-time-picker:** add placement props ([#4253](https://github.com/Esri/calcite-components/issues/4253)) ([57f1c88](https://github.com/Esri/calcite-components/commit/57f1c8824557141e2093a0fbb5dc1413eacb3fdb)), closes [#1785](https://github.com/Esri/calcite-components/issues/1785)
+<!--@unreleased-section-end-->
+
 ## [1.0.0-beta.80](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.79...v1.0.0-beta.80) (2022-03-17)
 
 ### Bug Fixes
