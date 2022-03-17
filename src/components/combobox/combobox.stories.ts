@@ -1,6 +1,5 @@
 import { select, number, text } from "@storybook/addon-knobs";
 import { boolean, createSteps, stepStory } from "../../../.storybook/helpers";
-
 import { themesDarkDefault } from "../../../.storybook/utils";
 import readme1 from "./readme.md";
 import readme2 from "../combobox-item/readme.md";

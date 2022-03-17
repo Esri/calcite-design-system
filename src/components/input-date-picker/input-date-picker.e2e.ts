@@ -12,6 +12,10 @@ describe("calcite-input-date-picker", () => {
       {
         propertyName: "overlayPositioning",
         defaultValue: "absolute"
+      },
+      {
+        propertyName: "flipPlacements",
+        defaultValue: undefined
       }
     ]));
 

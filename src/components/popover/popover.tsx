@@ -18,7 +18,8 @@ import {
   ARIA_EXPANDED,
   HEADING_LEVEL,
   POPOVER_REFERENCE,
-  TEXT
+  TEXT,
+  defaultPopoverPlacement
 } from "./resources";
 import {
   PopperPlacement,
@@ -26,9 +27,10 @@ import {
   createPopper,
   updatePopper,
   CSS as PopperCSS,
-  OverlayPositioning
+  OverlayPositioning,
+  ComputedPlacement
 } from "../../utils/popper";
-import { StrictModifiers, Placement, Instance as Popper } from "@popperjs/core";
+import { StrictModifiers, Instance as Popper } from "@popperjs/core";
 import { guid } from "../../utils/guid";
 import { queryElementRoots } from "../../utils/dom";
 import { HeadingLevel, Heading } from "../functional/Heading";
@@ -72,7 +74,7 @@ export class Popover {
   /**
    * Defines the available placements that can be used when a flip occurs.
    */
-  @Prop() flipPlacements?: Placement[];
+  @Prop() flipPlacements?: ComputedPlacement[];
 
   /**
    * Heading text.
@@ -126,7 +128,7 @@ export class Popover {
    * Determines where the component will be positioned relative to the referenceElement.
    * @see [PopperPlacement](https://github.com/Esri/calcite-components/blob/master/src/utils/popper.ts#L25)
    */
-  @Prop({ reflect: true }) placement: PopperPlacement = "auto";
+  @Prop({ reflect: true }) placement: PopperPlacement = defaultPopoverPlacement;
 
   @Watch("placement")
   placementHandler(): void {

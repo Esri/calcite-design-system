@@ -28,11 +28,14 @@ import { TEXT } from "../date-picker/resources";
 import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
 import { connectForm, disconnectForm, FormComponent, HiddenFormInputSlot } from "../../utils/form";
 import {
-  PopperPlacement,
   createPopper,
   updatePopper,
   CSS as PopperCSS,
-  OverlayPositioning
+  OverlayPositioning,
+  popperMenuFlipPlacements,
+  ComputedPlacement,
+  defaultMenuPlacement,
+  MenuPlacement
 } from "../../utils/popper";
 import { StrictModifiers, Instance as Popper } from "@popperjs/core";
 import { DateRangeChange } from "../date-picker/interfaces";
@@ -87,6 +90,11 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
       this.end = undefined;
     }
   }
+
+  /**
+   * Defines the available placements that can be used when a flip occurs.
+   */
+  @Prop() flipPlacements?: ComputedPlacement[];
 
   /**
    * Number at which section headings should start for this component.
@@ -173,7 +181,7 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
    * Determines where the date-picker component will be positioned relative to the input.
    * @default "bottom-leading"
    */
-  @Prop({ reflect: true }) placement: PopperPlacement = "bottom-leading";
+  @Prop({ reflect: true }) placement: MenuPlacement = defaultMenuPlacement;
 
   /** Range mode activation */
   @Prop({ reflect: true }) range = false;
@@ -277,14 +285,14 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
   /** Updates the position of the component. */
   @Method()
   async reposition(): Promise<void> {
-    const { popper, menuEl } = this;
+    const { placement, popper, menuEl } = this;
     const modifiers = this.getModifiers();
 
     popper
       ? await updatePopper({
           el: menuEl,
           modifiers,
-          placement: this.placement,
+          placement,
           popper
         })
       : this.createPopper();
@@ -584,7 +592,7 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
     };
 
     flipModifier.options = {
-      fallbackPlacements: ["top-start", "top", "top-end", "bottom-start", "bottom", "bottom-end"]
+      fallbackPlacements: this.flipPlacements || popperMenuFlipPlacements
     };
 
     const eventListenerModifier: Partial<StrictModifiers> = {
@@ -597,7 +605,7 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
 
   createPopper(): void {
     this.destroyPopper();
-    const { menuEl, referenceEl, overlayPositioning } = this;
+    const { menuEl, placement, referenceEl, overlayPositioning } = this;
 
     if (!menuEl || !referenceEl) {
       return;
@@ -609,7 +617,7 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
       el: menuEl,
       modifiers,
       overlayPositioning,
-      placement: this.placement,
+      placement,
       referenceEl
     });
   }

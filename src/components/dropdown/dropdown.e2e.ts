@@ -22,6 +22,10 @@ describe("calcite-dropdown", () => {
       {
         propertyName: "overlayPositioning",
         defaultValue: "absolute"
+      },
+      {
+        propertyName: "flipPlacements",
+        defaultValue: undefined
       }
     ]));
 
