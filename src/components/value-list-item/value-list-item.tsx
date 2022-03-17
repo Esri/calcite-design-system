@@ -186,9 +186,6 @@ export class ValueListItem implements ConditionalSlotComponent, InteractiveCompo
     this.selected = event.detail.selected;
   };
 
-  // handleKeyUp = (event: KeyboardEvent): void => {
-  //   console.log("keyup");
-  // };
   // --------------------------------------------------------------------------
   //
   //  Render Methods

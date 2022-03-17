@@ -37,12 +37,9 @@ calcite-filter {
 }
 
 .assistive-text {
-  position: absolute;
-  margin: -1px;
-  border: 0;
-  padding: 0;
-  width: 0px;
-  height: 0px;
-  overflow: hidden;
-  clip: rect(0 0 0 0);
+  @apply absolute
+  p-0
+  w-0
+  h-0
+  m-0;
 }
