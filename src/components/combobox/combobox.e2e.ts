@@ -408,7 +408,7 @@ describe("calcite-combobox", () => {
       expect(await item.getProperty("selected")).toBe(true);
     });
 
-    it("should replacee current value to new custom value in single selection mode", async () => {
+    it("should replace current value to new custom value in single selection mode", async () => {
       const page = await newE2EPage();
       await page.setContent(
         html`
@@ -635,7 +635,7 @@ describe("calcite-combobox", () => {
       expect(visible).toBe(true);
     });
 
-    it(`end opens dropdown and puts focus on last item`, async () => {
+    it(`End opens dropdown and puts focus on last item`, async () => {
       const inputEl = await page.find(`#parentOne >>> input`);
       await inputEl.focus();
       await page.waitForChanges();
@@ -646,7 +646,7 @@ describe("calcite-combobox", () => {
       const lastFocusedGroupItem = await page.find("#three >>> .label--active");
       expect(lastFocusedGroupItem).toBeTruthy();
 
-      // follow up issue on existing bug: the last item in focus won't scroll into view.
+      // follow up issue #4265 on an existing bug: the last item in focus won't scroll into view.
 
       // const visible = await lastFocusedGroupItem.isVisible();
       // expect(visible).toBe(true);

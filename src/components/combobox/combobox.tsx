@@ -509,7 +509,7 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
       return;
     }
 
-    if (this.allowCustomValues && this.text.length) {
+    if (this.allowCustomValues && this.text?.trim().length) {
       this.addCustomChip(this.text);
     }
 
