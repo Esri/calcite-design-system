@@ -31,9 +31,7 @@ export const List: FunctionalComponent<{ props: ListProps } & DOMAttributes<any>
   return (
     <Host aria-busy={loading.toString()} role="menu" {...rest}>
       <section>
-        <span aria-live="assertive" class="assistive-text">
-          {" "}
-        </span>
+        <span aria-live="assertive" class="assistive-text" />
         <header class={{ [CSS.sticky]: true }}>
           {filterEnabled ? (
             <calcite-filter
