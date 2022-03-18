@@ -270,7 +270,7 @@ describe("calcite-tabs", () => {
             <calcite-tab-title id="parentA">Parent 1</calcite-tab-title>
             <calcite-tab-title>Parent 2</calcite-tab-title>
           </calcite-tab-nav>
-          <calcite-tab id="parentTab">
+          <calcite-tab id="parentTabA">
             <calcite-tabs>
               <calcite-tab-nav slot="tab-nav">
                 <calcite-tab-title>Child 1</calcite-tab-title>
@@ -294,9 +294,9 @@ describe("calcite-tabs", () => {
 
     await page.waitForChanges();
 
-    const parentTab = await page.find("#parentTab");
-    const childTitle = (await parentTab.find("calcite-tab-title[active]")).getAttribute("id");
-    const childContent = (await parentTab.find("calcite-tab[active]")).getAttribute("id");
+    const parentTabA = await page.find("#parentTabA");
+    const childTitle = (await parentTabA.find("calcite-tab-title[active]")).getAttribute("id");
+    const childContent = (await parentTabA.find("calcite-tab[active]")).getAttribute("id");
 
     const parentTabs = await page.find("#parentTabs");
     const parentTitle = (await parentTabs.find("calcite-tab-title[active]")).getAttribute("id");
@@ -305,6 +305,6 @@ describe("calcite-tabs", () => {
     expect(childTitle).toBe("kidB");
     expect(childContent).toBe("kidBTab");
     expect(parentTitle).toBe("parentA");
-    expect(parentContent).toBe("parentTab");
+    expect(parentContent).toBe("parentTabA");
   });
 });
