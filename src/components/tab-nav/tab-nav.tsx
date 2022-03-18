@@ -103,6 +103,10 @@ export class TabNav {
   //
   //--------------------------------------------------------------------------
 
+  connectedCallback(): void {
+    this.parentTabsEl = this.el.closest("calcite-tabs");
+  }
+
   componentWillLoad(): void {
     const storageKey = `calcite-tab-nav-${this.storageId}`;
     if (localStorage && this.storageId && localStorage.getItem(storageKey)) {
@@ -115,10 +119,12 @@ export class TabNav {
   }
 
   componentWillRender(): void {
-    this.layout = this.el.closest("calcite-tabs")?.layout;
-    this.position = this.el.closest("calcite-tabs")?.position;
-    this.scale = this.el.closest("calcite-tabs")?.scale;
-    this.bordered = this.el.closest("calcite-tabs")?.bordered;
+    const { parentTabsEl } = this;
+
+    this.layout = parentTabsEl?.layout;
+    this.position = parentTabsEl?.position;
+    this.scale = parentTabsEl?.scale;
+    this.bordered = parentTabsEl?.bordered;
     // fix issue with active tab-title not lining up with blue indicator
     if (this.selectedTabEl) {
       this.updateOffsetPosition();

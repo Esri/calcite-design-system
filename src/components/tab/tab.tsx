@@ -76,12 +76,16 @@ export class Tab {
     );
   }
 
+  connectedCallback(): void {
+    this.parentTabsEl = this.el.closest("calcite-tabs");
+  }
+
   componentDidLoad(): void {
     this.calciteTabRegister.emit();
   }
 
   componentWillRender(): void {
-    this.scale = this.el.closest("calcite-tabs")?.scale;
+    this.scale = this.parentTabsEl?.scale;
   }
 
   disconnectedCallback(): void {
@@ -112,10 +116,14 @@ export class Tab {
 
   @Listen("calciteTabChange", { target: "body" })
   tabChangeHandler(event: CustomEvent<TabChangeEventDetail>): void {
+    const targetTabsEl = event
+      .composedPath()
+      .find((el: HTMLElement) => el.tagName === "CALCITE-TABS");
+
     // to allow `<calcite-tabs>` to be nested we need to make sure this
-    // `calciteTabChange` event was actually fired from a title that is a
-    // child of the `<calcite-tabs>` that is the a parent of this tab.
-    if (!event.composedPath().includes(this.el.closest("calcite-tabs"))) {
+    // `calciteTabChange` event was actually fired from a within the same
+    // `<calcite-tabs>` that is the a parent of this tab.
+    if (targetTabsEl !== this.parentTabsEl) {
       return;
     }
 
