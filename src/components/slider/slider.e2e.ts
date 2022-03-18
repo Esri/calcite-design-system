@@ -669,4 +669,6 @@ describe("calcite-slider", () => {
   });
 
   it("is form-associated", () => formAssociated("calcite-slider", { testValue: 5 }));
+
+  it("is form-associated with range", () => formAssociated("calcite-slider", { testValue: [5, 10] }));
 });

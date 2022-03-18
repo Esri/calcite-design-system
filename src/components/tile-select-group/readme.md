@@ -4,9 +4,10 @@
 
 ## Properties
 
-| Property | Attribute | Description                                                                                       | Type                         | Default        |
-| -------- | --------- | ------------------------------------------------------------------------------------------------- | ---------------------------- | -------------- |
-| `layout` | `layout`  | Tiles by default move horizontally, stacking with each row, vertical allows single-column layouts | `"horizontal" \| "vertical"` | `"horizontal"` |
+| Property   | Attribute  | Description                                                                                       | Type                         | Default        |
+| ---------- | ---------- | ------------------------------------------------------------------------------------------------- | ---------------------------- | -------------- |
+| `disabled` | `disabled` | The disabled state of the tile select.                                                            | `boolean`                    | `false`        |
+| `layout`   | `layout`   | Tiles by default move horizontally, stacking with each row, vertical allows single-column layouts | `"horizontal" \| "vertical"` | `"horizontal"` |
 
 ## Slots
 

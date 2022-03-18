@@ -40,7 +40,6 @@ Type: `Promise<void>`
 
 ### Depends on
 
-- [calcite-scrim](../scrim)
 - [calcite-input](../input)
 - [calcite-icon](../icon)
 
@@ -48,10 +47,8 @@ Type: `Promise<void>`
 
 ```mermaid
 graph TD;
-  calcite-filter --> calcite-scrim
   calcite-filter --> calcite-input
   calcite-filter --> calcite-icon
-  calcite-scrim --> calcite-loader
   calcite-input --> calcite-progress
   calcite-input --> calcite-icon
   calcite-pick-list --> calcite-filter

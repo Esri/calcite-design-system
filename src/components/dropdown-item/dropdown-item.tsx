@@ -98,12 +98,12 @@ export class DropdownItem {
   //
   //--------------------------------------------------------------------------
 
+  componentWillLoad(): void {
+    this.initialize();
+  }
+
   connectedCallback(): void {
-    this.selectionMode = getElementProp(this.el, "selection-mode", "single");
-    this.parentDropdownGroupEl = this.el.closest("calcite-dropdown-group");
-    if (this.selectionMode === "none") {
-      this.active = false;
-    }
+    this.initialize();
   }
 
   render(): VNode {
@@ -267,6 +267,14 @@ export class DropdownItem {
   //  Private Methods
   //
   //--------------------------------------------------------------------------
+
+  private initialize(): void {
+    this.selectionMode = getElementProp(this.el, "selection-mode", "single");
+    this.parentDropdownGroupEl = this.el.closest("calcite-dropdown-group");
+    if (this.selectionMode === "none") {
+      this.active = false;
+    }
+  }
 
   private determineActiveItem(): void {
     switch (this.selectionMode) {

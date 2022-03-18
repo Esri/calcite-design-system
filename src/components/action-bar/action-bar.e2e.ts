@@ -42,7 +42,7 @@ describe("calcite-action-bar", () => {
       const page = await newE2EPage({
         html: html`<calcite-action-bar expanded>
           <calcite-action-group>
-            <calcite-action id="action-bar-action" text="Add" label="Add Item" icon="plus"></calcite-action>
+            <calcite-action id="my-action" text="Add" label="Add Item" icon="plus"></calcite-action>
           </calcite-action-group>
           <calcite-action-group>
             <calcite-action-menu label="Save and open">
@@ -53,7 +53,7 @@ describe("calcite-action-bar", () => {
       });
       await page.waitForChanges();
       const actionBar = await page.find("calcite-action-bar");
-      const actionBarAction = await page.find("#action-bar-action");
+      const actionBarAction = await page.find("#my-action");
       const menuAction = await page.find("#menu-action");
       expect(await actionBar.getProperty("expanded")).toBe(true);
       expect(await actionBarAction.getProperty("textEnabled")).toBe(true);
@@ -144,20 +144,25 @@ describe("calcite-action-bar", () => {
       expect(buttonGroup).toBeNull();
     });
 
-    it("should not modify textEnabled on actions when not expandable", async () => {
+    it("should modify textEnabled on actions when expanded and expandDisabled", async () => {
       const page = await newE2EPage();
 
-      await page.setContent(
-        html`<calcite-action-bar expand-disabled expanded
-          ><calcite-action text="hello"></calcite-action
-        ></calcite-action-bar>`
-      );
+      await page.setContent(html`<calcite-action-bar expand-disabled expanded>
+        <calcite-action-group>
+          <calcite-action id="my-action" text="Add" label="Add Item" icon="plus"></calcite-action>
+        </calcite-action-group>
+      </calcite-action-bar>`);
 
+      const expandAction = await page.find("calcite-action-bar >>> calcite-action");
       const action = await page.find("calcite-action");
+      const actionBar = await page.find("calcite-action-bar");
+      const group = await page.find("calcite-action-group");
 
-      const textEnabled = await action.getProperty("textEnabled");
-
-      expect(textEnabled).toBe(false);
+      expect(await actionBar.getProperty("expanded")).toBe(true);
+      expect(expandAction).toBeNull();
+      expect(action).not.toBeNull();
+      expect(await group.getProperty("expanded")).toBe(true);
+      expect(await action.getProperty("textEnabled")).toBe(true);
     });
 
     it("should modify textEnabled on actions when expanded is true and new children are added", async () => {
