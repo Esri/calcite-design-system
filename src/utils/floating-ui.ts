@@ -226,8 +226,7 @@ export async function positionFloatingUI({
   }
 
   const referenceHidden = middlewareData?.hide?.referenceHidden;
-  const escaped = middlewareData?.hide?.escaped;
-  const visibility = referenceHidden || escaped ? "hidden" : null;
+  const visibility = referenceHidden ? "hidden" : null;
   const pointerEvents = visibility ? "none" : null;
 
   floatingEl.setAttribute("data-placement", computedPlacement);

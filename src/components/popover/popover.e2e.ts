@@ -308,6 +308,12 @@ describe("calcite-popover", () => {
   });
 
   it("should not be visible if reference is hidden", async () => {
+    /*
+    Hide modifier
+    https://popper.js.org/docs/v2/modifiers/hide/
+
+    data-popper-reference-hidden: This attribute gets applied to the popper when the reference element is fully clipped and hidden from view, which causes the popper to appear to be attached to nothing.
+    */
     const page = await newE2EPage();
 
     await page.setContent(

@@ -34,8 +34,9 @@ import {
   FloatingUIComponent,
   connectFloatingUI,
   disconnectFloatingUI,
-  LogicalPlacement,
-  EffectivePlacement
+  EffectivePlacement,
+  MenuPlacement,
+  defaultMenuPlacement
 } from "../../utils/floating-ui";
 import { DateRangeChange } from "../date-picker/interfaces";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
@@ -177,6 +178,12 @@ export class InputDatePicker
 
   /** specify the scale of the date picker */
   @Prop({ reflect: true }) scale: "s" | "m" | "l" = "m";
+
+  /**
+   * Determines where the date-picker component will be positioned relative to the input.
+   * @default "bottom-leading"
+   */
+  @Prop({ reflect: true }) placement: MenuPlacement = defaultMenuPlacement;
 
   /** Range mode activation */
   @Prop({ reflect: true }) range = false;
@@ -480,8 +487,6 @@ export class InputDatePicker
   //  Private State/Props
   //
   //--------------------------------------------------------------------------
-
-  placement: LogicalPlacement = "bottom-start";
 
   labelEl: HTMLCalciteLabelElement;
 

@@ -97,6 +97,10 @@
 
 @include floatingUIElemAnim(".menu-container");
 
+:host([active]) .menu-container {
+  @include popperWrapperActive();
+}
+
 .menu-container--active {
   @include floatingUIWrapperActive();
 }
