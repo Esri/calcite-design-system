@@ -15,6 +15,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 - **date-picker:** Allow changing year in header when minValue/maxValue are set. ([#4252](https://github.com/Esri/calcite-components/issues/4252)) ([7a5405c](https://github.com/Esri/calcite-components/commit/7a5405c8a211777160f8ea31a3e10299feccf2af)), closes [#4186](https://github.com/Esri/calcite-components/issues/4186)
 - **slider:** Properly reset and submit form value when a range is used ([#4249](https://github.com/Esri/calcite-components/issues/4249)) ([4962420](https://github.com/Esri/calcite-components/commit/496242005c4c4a6150cbf008797f964ab74454bf)), closes [#4174](https://github.com/Esri/calcite-components/issues/4174)
+- **tab-title, tab:** Support nested tabs ([#4250](https://github.com/Esri/calcite-components/issues/4250)) ([7a8b6db](https://github.com/Esri/calcite-components/commit/7a8b6dbed71dced31ba9a442afa13067b1c18d1b)), closes [#4198](https://github.com/Esri/calcite-components/issues/4198)
 <!--@unreleased-section-end-->
 
 ## [1.0.0-beta.80](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.79...v1.0.0-beta.80) (2022-03-17)
