@@ -129,7 +129,6 @@ export class Tabs {
   //--------------------------------------------------------------------------
 
   /**
-   * @internal
    *
    * Stores an array of ids of `<calcite-tab-titles>`s to match up ARIA
    * attributes.
@@ -137,7 +136,6 @@ export class Tabs {
   @State() titles: HTMLCalciteTabTitleElement[] = [];
 
   /**
-   * @internal
    *
    * Stores an array of ids of `<calcite-tab>`s to match up ARIA attributes.
    */
@@ -150,13 +148,12 @@ export class Tabs {
   //--------------------------------------------------------------------------
 
   /**
-   * @internal
    *
    * Matches up elements from the internal `tabs` and `titles` to automatically
    * update the ARIA attributes and link `<calcite-tab>` and
    * `<calcite-tab-title>` components.
    */
-  private async registryHandler() {
+  async registryHandler(): Promise<void> {
     let tabIds;
     let titleIds;
 

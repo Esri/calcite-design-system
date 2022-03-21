@@ -63,15 +63,29 @@ describe("calcite-date-picker", () => {
       );
     }
 
+    async function getActiveMonthHeaderInputValue(): Promise<string> {
+      return page.$eval(
+        "calcite-date-picker",
+        (datePicker: HTMLCalciteDatePickerElement) =>
+          (
+            datePicker.shadowRoot
+              .querySelector("calcite-date-picker-month-header")
+              .shadowRoot.querySelector(".year") as HTMLInputElement
+          ).value
+      );
+    }
+
     const activeDateBefore = await getActiveMonthDate();
 
     await page.keyboard.press("Tab");
     await page.keyboard.press("Tab");
     await page.keyboard.down("Meta");
     await page.keyboard.press("a");
+    expect(await getActiveMonthHeaderInputValue()).toBe("2015");
     await page.keyboard.press("Backspace");
     await page.keyboard.up("Meta");
     await page.keyboard.type("2016");
+    expect(await getActiveMonthHeaderInputValue()).toBe("2016");
     await page.waitForChanges();
 
     const activeDateAfter = await getActiveMonthDate();
