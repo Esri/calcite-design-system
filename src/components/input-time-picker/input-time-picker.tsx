@@ -15,7 +15,7 @@ import {
 import { guid } from "../../utils/guid";
 import { formatTimeString, isValidTime, localizeTimeString } from "../../utils/time";
 import { Scale } from "../interfaces";
-import { PopperPlacement } from "../../utils/popper";
+import { LogicalPlacement } from "../../utils/floating-ui";
 import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
 import { connectForm, disconnectForm, FormComponent, HiddenFormInputSlot } from "../../utils/form";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
@@ -123,9 +123,8 @@ export class InputTimePicker implements LabelableComponent, FormComponent, Inter
 
   /**
    * Determines where the popover will be positioned relative to the input.
-   * @see [PopperPlacement](https://github.com/Esri/calcite-components/blob/master/src/utils/popper.ts#L25)
    */
-  @Prop({ reflect: true }) placement: PopperPlacement = "auto";
+  @Prop({ reflect: true }) placement: LogicalPlacement = "auto";
 
   /** number (seconds) that specifies the granularity that the value must adhere to */
   @Prop() step = 60;

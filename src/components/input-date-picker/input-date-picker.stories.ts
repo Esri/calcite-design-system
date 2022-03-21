@@ -4,7 +4,7 @@ import { themesDarkDefault } from "../../../.storybook/utils";
 import readme from "./readme.md";
 import { html } from "../../../support/formatting";
 import { locales } from "../../utils/locale";
-import { defaultMenuPlacement, popperMenuPlacements } from "../../utils/popper";
+import { defaultMenuPlacement, menuPlacements } from "../../utils/floating-ui";
 
 export default {
   title: "Components/Controls/InputDatePicker",
@@ -61,7 +61,7 @@ export const Placement = (): string => html`
         locale="${select("locale", locales, "en")}"
         intl-next-month="${text("intl-next-month", "Next month")}"
         intl-prev-month="${text("intl-prev-month", "Previous month")}"
-        placement="${select("placement", popperMenuPlacements, defaultMenuPlacement)}"
+        placement="${select("placement", menuPlacements, defaultMenuPlacement)}"
       ></calcite-input-date-picker
     ></calcite-label>
   </div>
