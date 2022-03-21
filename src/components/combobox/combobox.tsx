@@ -966,8 +966,6 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
               "label--spaced": needsIcon
             }}
             key="label"
-            onFocus={this.comboboxFocusHandler}
-            tabindex="0"
           >
             {selectedItem.textLabel}
           </span>
