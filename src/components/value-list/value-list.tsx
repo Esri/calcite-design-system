@@ -102,6 +102,17 @@ export class ValueList<
    */
   @Prop() selectionFollowsFocus = false;
 
+  /**
+   * props to localize the screen reader text when sorting the list
+   */
+  @Prop() intlDragButtonText: string;
+
+  @Prop() intlReorderingText: string;
+
+  @Prop() intlNewPositionText: string;
+
+  @Prop() intlCurrentPositionText: string;
+
   // --------------------------------------------------------------------------
   //
   //  Private Properties
