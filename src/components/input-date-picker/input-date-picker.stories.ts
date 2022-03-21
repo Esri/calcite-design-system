@@ -1,9 +1,10 @@
-import { select, text, boolean } from "@storybook/addon-knobs";
+import { boolean, select, text } from "@storybook/addon-knobs";
 
 import { themesDarkDefault } from "../../../.storybook/utils";
 import readme from "./readme.md";
 import { html } from "../../../support/formatting";
 import { locales } from "../../utils/locale";
+import { defaultMenuPlacement, popperMenuPlacements } from "../../utils/popper";
 
 export default {
   title: "Components/Controls/InputDatePicker",
@@ -43,6 +44,24 @@ export const DarkMode = (): string => html`
         intl-next-month="${text("intl-next-month", "Next month")}"
         intl-prev-month="${text("intl-prev-month", "Previous month")}"
         range="${boolean("range", false)}"
+      ></calcite-input-date-picker
+    ></calcite-label>
+  </div>
+`;
+
+export const Placement = (): string => html`
+  <div style="width: 400px">
+    <calcite-label layout="inline">
+      Date
+      <calcite-input-date-picker
+        scale="${select("scale", ["s", "m", "l"], "m")}"
+        value="${text("value", "2020-12-12")}"
+        min="${text("min", "2016-08-09")}"
+        max="${text("max", "2023-12-18")}"
+        locale="${select("locale", locales, "en")}"
+        intl-next-month="${text("intl-next-month", "Next month")}"
+        intl-prev-month="${text("intl-prev-month", "Previous month")}"
+        placement="${select("placement", popperMenuPlacements, defaultMenuPlacement)}"
       ></calcite-input-date-picker
     ></calcite-label>
   </div>
