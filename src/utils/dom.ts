@@ -43,11 +43,11 @@ export function getElementProp(el: Element, prop: string, fallbackValue: any): a
   return closest ? closest.getAttribute(prop) : fallbackValue;
 }
 
-export function getRootNode(el: Element): HTMLDocument | ShadowRoot {
-  return el.getRootNode() as HTMLDocument | ShadowRoot;
+export function getRootNode(el: Element): Document | ShadowRoot {
+  return el.getRootNode() as Document | ShadowRoot;
 }
 
-export function getHost(root: HTMLDocument | ShadowRoot): Element | null {
+export function getHost(root: Document | ShadowRoot): Element | null {
   return (root as ShadowRoot).host || null;
 }
 
@@ -69,6 +69,10 @@ export function queryElementsRoots<T extends Element = Element>(element: Element
     }
 
     const rootNode = getRootNode(el);
+
+    if (!rootNode) {
+      return allResults;
+    }
 
     const results = Array.from(rootNode.querySelectorAll(selector)) as T[];
 
@@ -113,6 +117,10 @@ export function queryElementRoots<T extends Element = Element>(
     }
 
     const rootNode = getRootNode(el);
+
+    if (!rootNode) {
+      return null;
+    }
 
     const found = id
       ? (rootNode.getElementById(id) as Element as T)
