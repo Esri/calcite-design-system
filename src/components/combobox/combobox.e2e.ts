@@ -216,15 +216,15 @@ describe("calcite-combobox", () => {
         </calcite-combobox>
       `
     );
-    const input = await page.find("calcite-combobox >>> input");
+    const element = await page.find("calcite-combobox");
     const openEvent = page.waitForEvent("calciteComboboxOpen");
-    await input.click();
+    await element.click();
     await openEvent;
 
-    await input.press("p");
-    await input.press("i");
+    await element.press("p");
+    await element.press("i");
     await page.waitForChanges();
-    await input.press("Enter");
+    await element.press("Enter");
     await page.waitForChanges();
 
     const items = await page.findAll("calcite-combobox-item, calcite-combobox-item-group");
@@ -497,8 +497,8 @@ describe("calcite-combobox", () => {
     });
 
     it("should not show the listbox when it receives focus", async () => {
-      const inputEl = await page.find(`#parentOne >>> input`);
-      await inputEl.focus();
+      const input = await page.find(`#parentOne >>> input`);
+      await input.focus();
       await page.waitForChanges();
       expect(await page.evaluate(() => document.activeElement.id)).toBe("parentOne");
 
@@ -589,30 +589,30 @@ describe("calcite-combobox", () => {
       const item2 = await page.find("calcite-combobox-item#two");
       const item3 = await page.find("calcite-combobox-item#three");
 
-      const input = await page.find("calcite-combobox >>> input");
-      await input.click();
+      const element = await page.find("calcite-combobox");
+      await element.click();
       expect(await item1.getProperty("active")).toBe(false);
 
-      await input.press("ArrowDown");
+      await element.press("ArrowDown");
       expect(await item1.getProperty("active")).toBe(true);
 
-      await input.press("ArrowUp");
+      await element.press("ArrowUp");
       expect(await item3.getProperty("active")).toBe(true);
       expect(await item1.getProperty("active")).toBe(false);
 
-      await input.press("ArrowUp");
+      await element.press("ArrowUp");
       expect(await item2.getProperty("active")).toBe(true);
       expect(await item3.getProperty("active")).toBe(false);
 
-      await input.press("ArrowDown");
-      await input.press("ArrowDown");
+      await element.press("ArrowDown");
+      await element.press("ArrowDown");
       expect(await item1.getProperty("active")).toBe(true);
 
-      await input.press("Enter");
+      await element.press("Enter");
       expect(await item1.getProperty("selected")).toBe(true);
       expect(eventSpy).toHaveReceivedEventTimes(1);
 
-      await input.press("Enter");
+      await element.press("Enter");
       expect(await item1.getProperty("selected")).toBe(false);
       expect(eventSpy).toHaveReceivedEventTimes(2);
     });
@@ -624,13 +624,13 @@ describe("calcite-combobox", () => {
       expect(chips[2]).not.toBeNull();
 
       const box = await page.find("#parentTwo");
-      const input = await page.find("#parentTwo >>> input");
-      await input.click();
+      const element = await page.find("#parentTwo");
+      await element.click();
 
-      await input.press("ArrowLeft");
+      await element.press("ArrowLeft");
       expect(chips[2]).toHaveClass("chip--active");
 
-      await input.press("ArrowLeft");
+      await element.press("ArrowLeft");
       expect(await chips[1]).toHaveClass("chip--active");
       expect(chips[2]).not.toHaveClass("chip--active");
 
@@ -645,10 +645,10 @@ describe("calcite-combobox", () => {
       expect(chips[1]).not.toBeNull();
       expect(chips[2]).not.toBeNull();
 
-      const input = await page.find("#parentTwo >>> input");
-      await input.click();
+      const element = await page.find("#parentTwo");
+      await element.click();
 
-      await input.press("Backspace");
+      await element.press("Backspace");
       chips = await page.findAll("#parentTwo >>> calcite-chip");
       expect(chips.length).toEqual(2);
     });
@@ -669,8 +669,8 @@ describe("calcite-combobox", () => {
 
       await page.waitForChanges();
 
-      const input = await page.find("calcite-combobox >>> input");
-      await input.click();
+      const element = await page.find("calcite-combobox");
+      await element.click();
       await page.waitForChanges();
 
       const eventSpy = await page.spyOnEvent("calciteComboboxChange");
@@ -696,8 +696,8 @@ describe("calcite-combobox", () => {
       );
       await page.waitForChanges();
 
-      const input = await page.find("calcite-combobox >>> input");
-      await input.click();
+      const element = await page.find("calcite-combobox");
+      await element.click();
       await page.waitForChanges();
 
       const eventSpy = await page.spyOnEvent("calciteComboboxChange");
@@ -726,20 +726,20 @@ describe("calcite-combobox", () => {
       let chip = await page.find("calcite-combobox >>> calcite-chip");
       expect(chip).toBeNull();
 
-      const input = await page.find("calcite-combobox >>> input");
-      await input.click();
+      const element = await page.find("calcite-combobox");
+      await element.click();
 
-      await input.press("K");
-      await input.press("Enter");
+      await element.press("K");
+      await element.press("Enter");
 
       chip = await page.find("calcite-combobox >>> calcite-chip");
       expect(chip).toBeDefined();
       expect(await chip.getProperty("value")).toBe("K");
 
-      await input.click();
+      await element.click();
 
-      await input.press("K");
-      await input.press("Enter");
+      await element.press("K");
+      await element.press("Enter");
       const chips = await page.findAll("calcite-combobox >>> calcite-chip");
       expect(chips.length).toBe(1);
     });
