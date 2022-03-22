@@ -76,14 +76,7 @@ export class ColorPicker implements InteractiveComponent {
   handleColorChange(color: Color | null, oldColor: Color | null): void {
     this.drawColorFieldAndSlider();
     this.updateChannelsFromColor(color);
-
     this.previousColor = oldColor;
-
-    if (this.internalColorUpdateContext) {
-      return;
-    }
-
-    this.value = this.toValue(color);
   }
 
   /**
@@ -102,7 +95,7 @@ export class ColorPicker implements InteractiveComponent {
   @Watch("format")
   handleFormatChange(format: ColorPicker["format"]): void {
     this.setMode(format);
-    this.value = this.toValue(this.color);
+    this.internalColorSet(this.color, false);
   }
 
   /** When true, hides the hex input */
@@ -258,12 +251,13 @@ export class ColorPicker implements InteractiveComponent {
 
     const dragging = this.sliderThumbState === "drag" || this.hueThumbState === "drag";
 
-    if (this.internalColorUpdateContext) {
-      if (this.internalColorUpdateContext === "initial") {
-        return;
-      }
+    if (this.internalColorUpdateContext === "initial") {
+      return;
+    }
 
+    if (this.internalColorUpdateContext === "internal") {
       this.calciteColorPickerInput.emit();
+
       if (!dragging) {
         this.calciteColorPickerChange.emit();
       }
@@ -274,12 +268,7 @@ export class ColorPicker implements InteractiveComponent {
     const colorChanged = !colorEqual(color, this.color);
 
     if (modeChanged || colorChanged) {
-      this.color = color;
-
-      this.calciteColorPickerInput.emit();
-      if (!dragging) {
-        this.calciteColorPickerChange.emit();
-      }
+      this.internalColorSet(color);
     }
   }
   //--------------------------------------------------------------------------

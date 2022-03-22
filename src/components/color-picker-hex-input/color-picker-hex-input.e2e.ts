@@ -154,7 +154,7 @@ describe("calcite-color-picker-hex-input", () => {
     expect(await input.getProperty("value")).toBe(hex);
   });
 
-  it("emits event when color changes", async () => {
+  it("emits event when color changes via user and not programmatically", async () => {
     const page = await newE2EPage({
       html: "<calcite-color-picker-hex-input value='#b33f33'></calcite-color-picker-hex-input>"
     });
@@ -163,6 +163,11 @@ describe("calcite-color-picker-hex-input", () => {
     const spy = await input.spyOnEvent("calciteColorPickerHexInputChange");
 
     await input.setProperty("value", "#abcdef");
+    await page.waitForChanges();
+
+    expect(spy).toHaveReceivedEventTimes(0);
+
+    await input.type("#abc");
     await page.waitForChanges();
 
     expect(spy).toHaveReceivedEventTimes(1);
