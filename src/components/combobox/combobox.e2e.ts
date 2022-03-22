@@ -485,13 +485,6 @@ describe("calcite-combobox", () => {
               <calcite-combobox-item id="three" value="three" label="three"></calcite-combobox-item>
             </calcite-combobox-item-group>
           </calcite-combobox>
-          <calcite-combobox id="parentTwo">
-            <calcite-combobox-item id="four" value="four" label="four" selected></calcite-combobox-item>
-            <calcite-combobox-item id="five" value="five" label="five" selected></calcite-combobox-item>
-            <calcite-combobox-item-group label="Last Item">
-              <calcite-combobox-item id="six" value="six" label="six" selected></calcite-combobox-item>
-            </calcite-combobox-item-group>
-          </calcite-combobox>
         `
       );
     });
@@ -508,15 +501,10 @@ describe("calcite-combobox", () => {
     });
 
     it("tab moves to next input, but doesn’t open the item group", async () => {
-      const inputEl = await page.find(`calcite-combobox >>> input`);
-      await inputEl.focus();
-      await page.waitForChanges();
+      await page.keyboard.press("Tab");
       expect(await page.evaluate(() => document.activeElement.id)).toBe("parentOne");
 
-      await page.keyboard.press("Tab");
-      expect(await page.evaluate(() => document.activeElement.id)).toBe("parentTwo");
-
-      const popper = await page.find("#parentTwo >>> .popper-container--active");
+      const popper = await page.find("#parentOne >>> .popper-container--active");
       expect(popper).toBeNull();
     });
 
@@ -616,15 +604,35 @@ describe("calcite-combobox", () => {
       expect(await item1.getProperty("selected")).toBe(false);
       expect(eventSpy).toHaveReceivedEventTimes(2);
     });
+  });
+
+  describe("keyboard interaction with chips", () => {
+    let page: E2EPage;
+
+    beforeEach(async () => {
+      page = await newE2EPage();
+      await page.setContent(
+        html`
+          <calcite-combobox id="parentOne">
+            <calcite-combobox-item id="four" value="four" label="four" selected></calcite-combobox-item>
+            <calcite-combobox-item id="five" value="five" label="five" selected></calcite-combobox-item>
+            <calcite-combobox-item-group label="Last Item">
+              <calcite-combobox-item id="three" value="three" text-label="three"></calcite-combobox-item>
+              <calcite-combobox-item id="six" value="six" label="six" selected></calcite-combobox-item>
+            </calcite-combobox-item-group>
+          </calcite-combobox>
+        `
+      );
+    });
 
     it("should cycle through chips on left/right keys", async () => {
-      let chips = await page.findAll("#parentTwo >>> calcite-chip");
+      let chips = await page.findAll("#parentOne >>> calcite-chip");
       expect(chips[0]).not.toBeNull();
       expect(chips[1]).not.toBeNull();
       expect(chips[2]).not.toBeNull();
 
-      const box = await page.find("#parentTwo");
-      const element = await page.find("#parentTwo");
+      const box = await page.find("#parentOne");
+      const element = await page.find("#parentOne");
       await element.click();
 
       await element.press("ArrowLeft");
@@ -635,21 +643,21 @@ describe("calcite-combobox", () => {
       expect(chips[2]).not.toHaveClass("chip--active");
 
       await box.press("Delete");
-      chips = await page.findAll("#parentTwo >>> calcite-chip");
+      chips = await page.findAll("#parentOne >>> calcite-chip");
       expect(chips.length).toEqual(2);
     });
 
     it("should delete last chip on Delete", async () => {
-      let chips = await page.findAll("#parentTwo >>> calcite-chip");
+      let chips = await page.findAll("#parentOne >>> calcite-chip");
       expect(chips[0]).not.toBeNull();
       expect(chips[1]).not.toBeNull();
       expect(chips[2]).not.toBeNull();
 
-      const element = await page.find("#parentTwo");
+      const element = await page.find("#parentOne");
       await element.click();
 
       await element.press("Backspace");
-      chips = await page.findAll("#parentTwo >>> calcite-chip");
+      chips = await page.findAll("#parentOne >>> calcite-chip");
       expect(chips.length).toEqual(2);
     });
   });
