@@ -201,7 +201,7 @@ describe("calcite-filter", () => {
       });
       await waitForEvent;
 
-      expect(filterChangeSpy).toHaveReceivedEventTimes(2);
+      expect(filterChangeSpy).toHaveReceivedEventTimes(1);
 
       assertMatchingItems(await filter.getProperty("filteredItems"), ["jon"]);
     });
