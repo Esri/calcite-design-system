@@ -5,7 +5,6 @@ import {
   EventEmitter,
   Method,
   Prop,
-  Watch,
   h,
   VNode,
   Fragment
