@@ -509,7 +509,7 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
       return;
     }
 
-    if (this.allowCustomValues && this.text?.trim().length) {
+    if (this.allowCustomValues && this.text.trim().length) {
       this.addCustomChip(this.text);
     }
 
@@ -1050,7 +1050,7 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
   renderIconEnd(): VNode {
     const { active } = this;
     return (
-      <span class="icon-end" tabIndex={-1}>
+      <span class="icon-end">
         <calcite-icon icon={active ? "chevron-up" : "chevron-down"} scale="s" />
       </span>
     );

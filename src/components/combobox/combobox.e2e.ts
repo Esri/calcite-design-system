@@ -635,23 +635,6 @@ describe("calcite-combobox", () => {
       expect(visible).toBe(true);
     });
 
-    it(`End opens dropdown and puts focus on last item`, async () => {
-      const inputEl = await page.find(`#parentOne >>> input`);
-      await inputEl.focus();
-      await page.waitForChanges();
-      expect(await page.evaluate(() => document.activeElement.id)).toBe("parentOne");
-
-      await page.keyboard.press("End");
-      await page.waitForChanges();
-      const lastFocusedGroupItem = await page.find("#three >>> .label--active");
-      expect(lastFocusedGroupItem).toBeTruthy();
-
-      // follow up issue #4265 on an existing bug: the last item in focus won't scroll into view.
-
-      // const visible = await lastFocusedGroupItem.isVisible();
-      // expect(visible).toBe(true);
-    });
-
     it("should cycle through items on ArrowUp/ArrowDown and toggle selection on/off on Enter", async () => {
       const eventSpy = await page.spyOnEvent("calciteComboboxChange", "window");
       const item1 = await page.find("calcite-combobox-item#one");
