@@ -184,7 +184,7 @@ describe("calcite-filter", () => {
 
     it("updates filtered items after filtering", async () => {
       const filterChangeSpy = await page.spyOnEvent("calciteFilterChange");
-      let waitForEvent = page.waitForEvent("calciteFilterChange");
+      const waitForEvent = page.waitForEvent("calciteFilterChange");
       const filter = await page.find("calcite-filter");
       await filter.callMethod("setFocus");
       await filter.type("developer");
@@ -194,16 +194,13 @@ describe("calcite-filter", () => {
 
       assertMatchingItems(await filter.getProperty("filteredItems"), ["harry", "matt", "franco", "jon"]);
 
-      waitForEvent = page.waitForEvent("calciteFilterChange");
       await page.evaluate(() => {
         const filter = document.querySelector("calcite-filter");
         filter.items = filter.items.slice(3);
       });
-      await waitForEvent;
-
-      expect(filterChangeSpy).toHaveReceivedEventTimes(1);
 
       assertMatchingItems(await filter.getProperty("filteredItems"), ["jon"]);
+      expect(filterChangeSpy).toHaveReceivedEventTimes(1);
     });
 
     it("searches recursively in items and works and matches on a partial string ignoring case", async () => {
