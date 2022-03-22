@@ -358,10 +358,8 @@ export class ValueList<
   getItemPositionText(item: HTMLCalciteValueListItemElement): string {
     const { items } = this;
     const totalItems = items.length;
-    const itemPositionIndex = getItemIndex(this, item);
-    const itemPosition = itemPositionIndex + 1;
-    const itemPositionText = `current position ${itemPosition} of ${totalItems}`;
-    return itemPositionText;
+    const itemPosition = getItemIndex(this, item) + 1;
+    return `current position ${itemPosition} of ${totalItems}`;
   }
 
   getHandleAndItemElement(event: KeyboardEvent | FocusEvent): {
