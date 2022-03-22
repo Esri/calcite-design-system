@@ -103,15 +103,32 @@ export class ValueList<
   @Prop() selectionFollowsFocus = false;
 
   /**
-   * props to localize the screen reader text when sorting the list
+   * localize the screen reader text when drag button is focused
+   *
+   * use ${itemposition} of ${totalitems} as place holder for indexes.
    */
-  @Prop() intlDragButtonText: string;
+  @Prop() intlDragHandleStart?: string;
 
-  @Prop() intlReorderingText: string;
+  /**
+   * localize the screen reader text when drag button is activated
+   *
+   * use ${itemposition} of ${totalitems} as place holder for displaying index.
+   */
+  @Prop() intlDragHandleActivated?: string;
 
-  @Prop() intlNewPositionText: string;
+  /**
+   * localize the screen reader text when the item is moved to a new position
+   *
+   * use ${newPosition} of ${totalItems} as place holder for displaying index
+   */
+  @Prop() intlDragHandleNewPosition?: string;
 
-  @Prop() intlCurrentPositionText: string;
+  /**
+   * localize the screen reader text after the item is moved to a new position and handle is deactivated.
+   *
+   * use ${itemposition} of ${totalitems} as place holder for displaying indexes.
+   */
+  @Prop() intlDragHandleCurrentPosition?: string;
 
   // --------------------------------------------------------------------------
   //
@@ -267,7 +284,11 @@ export class ValueList<
     const currentPositionText = this.getItemPositionText(item);
 
     if (handleElement && !item.handleActivated && event.key === " ") {
-      this.updateLiveText(`${currentPositionText}`);
+      this.updateLiveText(
+        this.intlDragHandleCurrentPosition
+          ? this.intlDragHandleCurrentPosition
+          : `${currentPositionText}`
+      );
     }
 
     if (!handleElement || !item.handleActivated) {
@@ -278,7 +299,11 @@ export class ValueList<
     const { items } = this;
 
     if (event.key === " ") {
-      this.updateLiveText(`${HANDLE_ACTIVATED_LABEL}. ${currentPositionText}`);
+      this.updateLiveText(
+        this.intlDragHandleActivated
+          ? this.intlDragHandleActivated
+          : `${HANDLE_ACTIVATED_LABEL}. ${currentPositionText}`
+      );
     }
 
     if ((event.key !== "ArrowUp" && event.key !== "ArrowDown") || items.length <= 1) {
@@ -289,9 +314,14 @@ export class ValueList<
 
     const { el } = this;
     const nextIndex = moveItemIndex(this, item, event.key === "ArrowUp" ? "up" : "down");
+    const newPosition = nextIndex + 1;
+    const totalItems = items.length;
     this.updateLiveText(
-      `New Position ${nextIndex + 1} of ${this.getItems().length}, press space to confirm `
+      this.intlDragHandleNewPosition
+        ? this.intlDragHandleNewPosition
+        : `New Position ${newPosition} of ${totalItems}, press space to confirm `
     );
+
     if (nextIndex === items.length - 1) {
       el.appendChild(item);
     } else {
@@ -317,13 +347,20 @@ export class ValueList<
       return;
     }
     const currentPositionText = this.getItemPositionText(item);
-    handleElement.setAttribute("aria-label", `${HANDLE_LABEL}. ${currentPositionText}`);
+    handleElement.setAttribute(
+      "aria-label",
+      this.intlDragHandleStart
+        ? this.intlDragHandleStart
+        : `${HANDLE_LABEL}. ${currentPositionText}`
+    );
   };
 
   getItemPositionText(item: HTMLCalciteValueListItemElement): string {
     const { items } = this;
-    const itemPosition = getItemIndex(this, item);
-    const itemPositionText = `currentposition ${itemPosition + 1} of ${items.length}`;
+    const totalItems = items.length;
+    const itemPositionIndex = getItemIndex(this, item);
+    const itemPosition = itemPositionIndex + 1;
+    const itemPositionText = `current position ${itemPosition} of ${totalItems}`;
     return itemPositionText;
   }
 
