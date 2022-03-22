@@ -49,11 +49,6 @@ export class Panel implements ConditionalSlotComponent, InteractiveComponent {
    */
   @Prop({ mutable: true, reflect: true }) dismissed = false;
 
-  @Watch("dismissed")
-  dismissedHandler(): void {
-    this.calcitePanelDismissedChange.emit();
-  }
-
   /**
    * When provided, this method will be called before it is removed from the parent flow.
    */
@@ -211,6 +206,7 @@ export class Panel implements ConditionalSlotComponent, InteractiveComponent {
 
   dismiss = (): void => {
     this.dismissed = true;
+    this.calcitePanelDismissedChange.emit();
   };
 
   panelScrollHandler = (): void => {

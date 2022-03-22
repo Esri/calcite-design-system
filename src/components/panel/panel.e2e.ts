@@ -55,6 +55,20 @@ describe("calcite-panel", () => {
     expect(eventSpy).toHaveReceivedEvent();
   });
 
+  it("dismissible should not fire event when closed via prop", async () => {
+    const page = await newE2EPage({ html: "<calcite-panel dismissible>test</calcite-panel>" });
+
+    const eventSpy = await page.spyOnEvent("calcitePanelDismissedChange", "window");
+
+    const panel = await page.find("calcite-panel");
+
+    panel.setProperty("dismissed", true);
+
+    await page.waitForChanges();
+
+    expect(eventSpy).not.toHaveReceivedEvent();
+  });
+
   it("should be accessible", async () =>
     accessible(`
     <calcite-panel>
