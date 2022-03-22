@@ -471,58 +471,6 @@ describe("calcite-combobox", () => {
     });
   });
 
-  describe("mouse navigation", () => {
-    let page: E2EPage;
-    let label;
-    let popper;
-
-    beforeEach(async () => {
-      page = await newE2EPage();
-      await page.setContent(
-        html`
-          <calcite-label id="label">
-            <span class="label-text">Yeah<span>
-            <calcite-combobox id="parentOne">
-              <calcite-combobox-item id="one" icon="banana" value="one" text-label="One"></calcite-combobox-item>
-              <calcite-combobox-item id="two" icon="beaker" value="two" text-label="Two"></calcite-combobox-item>
-              <calcite-combobox-item id="three" value="three" text-label="Three"></calcite-combobox-item>
-            </calcite-combobox>
-          </calcite-label>
-        `
-      );
-      const inputEl = await page.find(`#parentOne >>> input`);
-      await inputEl.focus();
-      await page.waitForChanges();
-      label = await page.find("#label");
-      popper = await page.find(`#parentOne >>> .popper-container`);
-    });
-
-    it("label click focuses on the combobox, does not open", async () => {
-      expect(await page.evaluate(() => document.activeElement.id)).toBe("parentOne");
-      const visible = await popper.isVisible();
-      expect(visible).toBe(false);
-
-      await label.click();
-      await page.waitForChanges();
-      expect(await page.evaluate(() => document.activeElement.id)).toBe("parentOne");
-      await popper.isVisible();
-      expect(visible).toBe(false);
-    });
-
-    it("label click closes the listbox if it's open", async () => {
-      expect(await page.evaluate(() => document.activeElement.id)).toBe("parentOne");
-      expect(await popper.isVisible()).toBe(false);
-
-      await page.keyboard.press("ArrowDown");
-      await page.waitForChanges();
-      expect(await popper.isVisible()).toBe(true);
-
-      await label.click();
-      await page.waitForChanges();
-      expect(await popper.isVisible()).toBe(false);
-    });
-  });
-
   describe("keyboard navigation", () => {
     let page: E2EPage;
 
