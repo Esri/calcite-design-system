@@ -1,11 +1,11 @@
 import { select, optionsKnob } from "@storybook/addon-knobs";
 import { createSteps, iconNames, stepStory } from "../../../.storybook/helpers";
-import { themesDarkDefault } from "../../../.storybook/utils";
+import { placeholderImage, themesDarkDefault } from "../../../.storybook/utils";
 import readme1 from "./readme.md";
 import readme2 from "../tab/readme.md";
 import readme3 from "../tab-nav/readme.md";
 import readme4 from "../tab-title/readme.md";
-import { html, placeholderImage } from "../../tests/utils";
+import { html } from "../../../support/formatting";
 
 export default {
   title: "Components/Tabs",
@@ -238,3 +238,12 @@ export const RTL = (): string => html`
     <calcite-tab><p>Tab 4 Content</p></calcite-tab>
   </calcite-tabs>
 `;
+
+export const disabled = (): string => html`<calcite-tabs>
+  <calcite-tab-nav slot="tab-nav">
+    <calcite-tab-title active>Tab 1 Title</calcite-tab-title>
+    <calcite-tab-title disabled>Tab 2 Title</calcite-tab-title>
+  </calcite-tab-nav>
+  <calcite-tab active><p>Tab 1 Content</p></calcite-tab>
+  <calcite-tab><p>Tab 2 Content</p></calcite-tab>
+</calcite-tabs>`;

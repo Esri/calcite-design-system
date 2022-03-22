@@ -1,6 +1,6 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { defaults, formAssociated, labelable, renders } from "../../tests/commonTests";
-import { html } from "../../tests/utils";
+import { defaults, disabled, formAssociated, labelable, popperOwner, renders } from "../../tests/commonTests";
+import { html } from "../../../support/formatting";
 
 const animationDurationInMs = 200;
 
@@ -12,10 +12,16 @@ describe("calcite-input-date-picker", () => {
       {
         propertyName: "overlayPositioning",
         defaultValue: "absolute"
+      },
+      {
+        propertyName: "flipPlacements",
+        defaultValue: undefined
       }
     ]));
 
   it("is labelable", async () => labelable("calcite-input-date-picker"));
+
+  it("can be disabled", () => disabled("calcite-input-date-picker"));
 
   describe("event emitting when the value changes", () => {
     it("emits when configured for single date", async () => {
@@ -166,4 +172,11 @@ describe("calcite-input-date-picker", () => {
     );
     expect(minDateAsTime).toEqual(new Date(minDateString).getTime());
   });
+
+  it("owns a popper", () =>
+    popperOwner(
+      `<calcite-input-date-picker value="2022-11-27" min="2022-11-15" max="2024-11-15"></calcite-input-date-picker>`,
+      "active",
+      { shadowPopperSelector: ".menu-container" }
+    ));
 });

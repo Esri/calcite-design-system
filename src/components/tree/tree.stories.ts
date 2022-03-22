@@ -3,7 +3,7 @@ import { boolean } from "../../../.storybook/helpers";
 import { themesDarkDefault } from "../../../.storybook/utils";
 import readme from "./readme.md";
 import treeItemReadme from "../tree-item/readme.md";
-import { html } from "../../tests/utils";
+import { html } from "../../../support/formatting";
 
 const treeItems = `
   <calcite-tree-item>

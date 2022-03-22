@@ -129,7 +129,4 @@ $spacing: $baseline * 0.5;
   }
 }
 
-:host([disabled]) {
-  @apply opacity-disabled;
-  pointer-events: none;
-}
+@include disabled();

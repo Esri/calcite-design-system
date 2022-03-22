@@ -1,10 +1,15 @@
 import { boolean, select } from "@storybook/addon-knobs";
-import { filterComponentAttributes, Attributes, createComponentHTML as create } from "../../../.storybook/utils";
+import {
+  filterComponentAttributes,
+  Attributes,
+  createComponentHTML as create,
+  placeholderImage
+} from "../../../.storybook/utils";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import readme from "./readme.md";
 import panelReadme from "../shell-panel/readme.md";
 import centerRowReadme from "../shell-center-row/readme.md";
-import { html, placeholderImage } from "../../tests/utils";
+import { html } from "../../../support/formatting";
 
 export default {
   title: "Components/Shell",

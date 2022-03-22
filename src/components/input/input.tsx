@@ -29,6 +29,7 @@ import { isValidNumber, parseNumberString, sanitizeNumberString } from "../../ut
 import { CSS_UTILITY, TEXT } from "../../utils/resources";
 import { decimalPlaces } from "../../utils/math";
 import { createObserver } from "../../utils/observers";
+import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 
 type NumberNudgeDirection = "up" | "down";
 
@@ -40,7 +41,7 @@ type NumberNudgeDirection = "up" | "down";
   styleUrl: "input.scss",
   shadow: true
 })
-export class Input implements LabelableComponent, FormComponent {
+export class Input implements LabelableComponent, FormComponent, InteractiveComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -328,6 +329,10 @@ export class Input implements LabelableComponent, FormComponent {
       return false;
     }
     return true;
+  }
+
+  componentDidRender(): void {
+    updateHostInteraction(this);
   }
 
   //--------------------------------------------------------------------------

@@ -10,10 +10,8 @@
   @apply inline-flex flex-initial;
 }
 
-// disabled styles
-:host([disabled]) {
-  @apply opacity-disabled pointer-events-none;
-}
+@include disabled();
+
 :host .calcite-dropdown-wrapper {
   @include popperContainer();
   @include popperWrapper();

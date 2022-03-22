@@ -1,6 +1,6 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, defaults, focusable, hidden, renders, slots } from "../../tests/commonTests";
-import { html } from "../../tests/utils";
+import { accessible, defaults, disabled, focusable, hidden, renders, slots } from "../../tests/commonTests";
+import { html } from "../../../support/formatting";
 import { CSS, SLOTS } from "./resources";
 
 describe("calcite-panel", () => {
@@ -21,6 +21,8 @@ describe("calcite-panel", () => {
     ]));
 
   it("has slots", () => slots("calcite-panel", SLOTS));
+
+  it("can be disabled", () => disabled(`<calcite-panel>scrolling content</calcite-panel>`));
 
   it("honors dismissed prop", async () => {
     const page = await newE2EPage();

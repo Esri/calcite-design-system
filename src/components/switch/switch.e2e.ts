@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, formAssociated, HYDRATED_ATTR, labelable } from "../../tests/commonTests";
+import { accessible, disabled, formAssociated, HYDRATED_ATTR, labelable } from "../../tests/commonTests";
 
 describe("calcite-switch", () => {
   it("renders with correct default attributes", async () => {
@@ -19,6 +19,8 @@ describe("calcite-switch", () => {
   it("is labelable", async () => labelable("calcite-switch", { propertyToToggle: "checked" }));
 
   it("is form-associated", async () => formAssociated("calcite-switch", { testValue: true }));
+
+  it("can be disabled", () => disabled("calcite-switch"));
 
   it("toggles the checked attributes appropriately when clicked", async () => {
     const page = await newE2EPage();
@@ -72,18 +74,6 @@ describe("calcite-switch", () => {
     await element.setProperty("checked", false);
     await page.waitForChanges();
     expect(spy).toHaveReceivedEventTimes(0);
-  });
-
-  it("does not toggle when disabled", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-switch disabled></calcite-switch>`);
-    const calciteSwitch = await page.find("calcite-switch");
-    const changeEvent = await calciteSwitch.spyOnEvent("calciteSwitchChange");
-    expect(changeEvent).toHaveReceivedEventTimes(0);
-    await calciteSwitch.click();
-    expect(changeEvent).toHaveReceivedEventTimes(0);
-    expect(calciteSwitch).not.toHaveAttribute("checked");
-    expect(await calciteSwitch.getProperty("checked")).toBe(false);
   });
 
   it("toggles the checked attributes when the checkbox is toggled", async () => {

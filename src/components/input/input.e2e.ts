@@ -1,6 +1,6 @@
 import { E2EPage, newE2EPage } from "@stencil/core/testing";
-import { defaults, focusable, formAssociated, labelable, reflects, renders } from "../../tests/commonTests";
-import { html } from "../../tests/utils";
+import { defaults, disabled, focusable, formAssociated, labelable, reflects, renders } from "../../tests/commonTests";
+import { html } from "../../../support/formatting";
 import { letterKeys, numberKeys } from "../../utils/key";
 import { getDecimalSeparator, locales, localizeNumberString } from "../../utils/locale";
 import { getElementXY } from "../../tests/utils";
@@ -71,6 +71,8 @@ describe("calcite-input", () => {
         defaultValue: ""
       }
     ]));
+
+  it("can be disabled", () => disabled("calcite-input"));
 
   it("inherits requested props when from wrapping calcite-label when props are provided", async () => {
     const page = await newE2EPage();
@@ -353,29 +355,6 @@ describe("calcite-input", () => {
     await numberHorizontalItemUp.click();
     await page.waitForChanges();
     expect(await element.getProperty("value")).toBe("6");
-  });
-
-  it("should not increment or decrement value when disabled", async () => {
-    const page = await newE2EPage();
-    await page.setContent(html`<calcite-input type="number" value="5" disabled></calcite-input>`);
-
-    const input = await page.find("calcite-input");
-
-    expect(await input.getProperty("value")).toBe("5");
-
-    const numberHorizontalItemUp = await page.find("calcite-input >>> .number-button-item[data-adjustment='up']");
-
-    await numberHorizontalItemUp.click();
-    await page.waitForChanges();
-
-    expect(await input.getProperty("value")).toBe("5");
-
-    const numberHorizontalItemDown = await page.find("calcite-input >>> .number-button-item[data-adjustment='down']");
-
-    await numberHorizontalItemDown.click();
-    await page.waitForChanges();
-
-    expect(await input.getProperty("value")).toBe("5");
   });
 
   it("correctly stops decrementing value when min is set", async () => {

@@ -8,7 +8,8 @@ import {
 } from "../../../.storybook/utils";
 import readme from "./readme.md";
 import { TEXT } from "./resources";
-import { html, placeholderImage } from "../../tests/utils";
+import { html } from "../../../support/formatting";
+import { placeholderImage } from "../../../.storybook/utils";
 
 export default {
   title: "Components/Tips/Tip Manager",

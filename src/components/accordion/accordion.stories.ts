@@ -3,15 +3,15 @@ import {
   Attributes,
   filterComponentAttributes,
   createComponentHTML as create,
-  themesDarkDefault
+  themesDarkDefault,
+  placeholderImage
 } from "../../../.storybook/utils";
-import { html } from "../../tests/utils";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { iconNames } from "../../../.storybook/helpers";
 import { select, text } from "@storybook/addon-knobs";
 import accordionReadme from "./readme.md";
 import accordionItemReadme from "../accordion-item/readme.md";
-import { placeholderImage } from "../../tests/utils";
+import { html } from "../../../support/formatting";
 
 const createAccordionAttributes: (options?: { exceptions: string[] }) => Attributes = (
   { exceptions } = { exceptions: [] }

@@ -31,19 +31,22 @@ import {
   createPopper,
   updatePopper,
   CSS as PopperCSS,
-  OverlayPositioning
+  OverlayPositioning,
+  popperMenuFlipPlacements,
+  ComputedPlacement,
+  defaultMenuPlacement,
+  MenuPlacement
 } from "../../utils/popper";
 import { StrictModifiers, Instance as Popper } from "@popperjs/core";
 import { DateRangeChange } from "../date-picker/interfaces";
-
-const DEFAULT_PLACEMENT = "bottom-leading";
+import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 
 @Component({
   tag: "calcite-input-date-picker",
   styleUrl: "input-date-picker.scss",
   shadow: true
 })
-export class InputDatePicker implements LabelableComponent, FormComponent {
+export class InputDatePicker implements LabelableComponent, FormComponent, InteractiveComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -60,6 +63,13 @@ export class InputDatePicker implements LabelableComponent, FormComponent {
    * When false, the component won't be interactive.
    */
   @Prop({ reflect: true }) disabled = false;
+
+  @Watch("disabled")
+  handleDisabledChange(value: boolean): void {
+    if (!value) {
+      this.active = false;
+    }
+  }
 
   /** Selected date */
   @Prop({ mutable: true }) value: string | string[];
@@ -80,6 +90,11 @@ export class InputDatePicker implements LabelableComponent, FormComponent {
       this.end = undefined;
     }
   }
+
+  /**
+   * Defines the available placements that can be used when a flip occurs.
+   */
+  @Prop() flipPlacements?: ComputedPlacement[];
 
   /**
    * Number at which section headings should start for this component.
@@ -128,7 +143,12 @@ export class InputDatePicker implements LabelableComponent, FormComponent {
 
   @Watch("active")
   activeHandler(): void {
-    this.reposition();
+    if (!this.disabled) {
+      this.reposition();
+      return;
+    }
+
+    this.active = false;
   }
 
   /**
@@ -156,6 +176,12 @@ export class InputDatePicker implements LabelableComponent, FormComponent {
 
   /** specify the scale of the date picker */
   @Prop({ reflect: true }) scale: "s" | "m" | "l" = "m";
+
+  /**
+   * Determines where the date-picker component will be positioned relative to the input.
+   * @default "bottom-leading"
+   */
+  @Prop({ reflect: true }) placement: MenuPlacement = defaultMenuPlacement;
 
   /** Range mode activation */
   @Prop({ reflect: true }) range = false;
@@ -259,14 +285,14 @@ export class InputDatePicker implements LabelableComponent, FormComponent {
   /** Updates the position of the component. */
   @Method()
   async reposition(): Promise<void> {
-    const { popper, menuEl } = this;
+    const { placement, popper, menuEl } = this;
     const modifiers = this.getModifiers();
 
     popper
       ? await updatePopper({
           el: menuEl,
           modifiers,
-          placement: DEFAULT_PLACEMENT,
+          placement,
           popper
         })
       : this.createPopper();
@@ -322,6 +348,10 @@ export class InputDatePicker implements LabelableComponent, FormComponent {
     disconnectForm(this);
   }
 
+  componentDidRender(): void {
+    updateHostInteraction(this);
+  }
+
   render(): VNode {
     const { disabled } = this;
     const date = dateFromRange(
@@ -360,10 +390,12 @@ export class InputDatePicker implements LabelableComponent, FormComponent {
                 />
               </div>
             }
-
             <div
               aria-hidden={(!this.active).toString()}
-              class="menu-container"
+              class={{
+                "menu-container": true,
+                "menu-container--active": this.active
+              }}
               ref={this.setMenuEl}
             >
               <div
@@ -560,15 +592,20 @@ export class InputDatePicker implements LabelableComponent, FormComponent {
     };
 
     flipModifier.options = {
-      fallbackPlacements: ["top-start", "top", "top-end", "bottom-start", "bottom", "bottom-end"]
+      fallbackPlacements: this.flipPlacements || popperMenuFlipPlacements
     };
 
-    return [flipModifier];
+    const eventListenerModifier: Partial<StrictModifiers> = {
+      name: "eventListeners",
+      enabled: this.active
+    };
+
+    return [flipModifier, eventListenerModifier];
   }
 
   createPopper(): void {
     this.destroyPopper();
-    const { menuEl, referenceEl, overlayPositioning } = this;
+    const { menuEl, placement, referenceEl, overlayPositioning } = this;
 
     if (!menuEl || !referenceEl) {
       return;
@@ -580,7 +617,7 @@ export class InputDatePicker implements LabelableComponent, FormComponent {
       el: menuEl,
       modifiers,
       overlayPositioning,
-      placement: DEFAULT_PLACEMENT,
+      placement,
       referenceEl
     });
   }

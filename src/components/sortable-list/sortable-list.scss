@@ -2,6 +2,8 @@
   @apply flex;
 }
 
+@include disabled();
+
 .container {
   @apply flex flex-auto;
 }

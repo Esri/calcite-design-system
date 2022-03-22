@@ -29,6 +29,8 @@
   @apply shadow-none;
 }
 
+@include disabled();
+
 :host,
 ul {
   @apply m-0 flex flex-col p-0 outline-none;
