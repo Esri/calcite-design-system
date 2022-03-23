@@ -199,6 +199,7 @@ describe("calcite-filter", () => {
         filter.items = filter.items.slice(3);
       });
 
+      await page.waitForChanges();
       assertMatchingItems(await filter.getProperty("filteredItems"), ["jon"]);
       expect(filterChangeSpy).toHaveReceivedEventTimes(1);
     });
@@ -252,13 +253,8 @@ describe("calcite-filter", () => {
     });
 
     it("should return matching value", async () => {
-      const filterChangeSpy = await page.spyOnEvent("calciteFilterChange");
       const filter = await page.find("calcite-filter");
-      await page.waitForEvent("calciteFilterChange");
-
-      expect(filterChangeSpy).toHaveReceivedEventTimes(1);
-
-      await filter;
+      await page.waitForChanges();
       assertMatchingItems(await filter.getProperty("filteredItems"), ["harry"]);
     });
   });
