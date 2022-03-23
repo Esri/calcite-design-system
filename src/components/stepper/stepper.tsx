@@ -48,19 +48,6 @@ export class Stepper {
   /** specify the scale of stepper, defaults to m */
   @Prop({ reflect: true }) scale: Scale = "m";
 
-  /** @internal */
-  @Prop({ mutable: true }) requestedContent: HTMLElement[] | NodeListOf<any>;
-
-  // watch for removal of disabled to register step
-  @Watch("requestedContent") contentWatcher(): void {
-    if (this.layout === "horizontal") {
-      if (!this.stepperContentContainer && this.requestedContent) {
-        this.addHorizontalContentContainer();
-      }
-      this.updateContent(this.requestedContent);
-    }
-  }
-
   //--------------------------------------------------------------------------
   //
   //  Events
@@ -84,12 +71,6 @@ export class Stepper {
       this.calciteStepperItemChange.emit({
         position: 0
       });
-    }
-  }
-
-  componentWillLoad() {
-    if (this.layout === "horizontal" && !this.stepperContentContainer) {
-      this.addHorizontalContentContainer();
     }
   }
 
@@ -140,9 +121,6 @@ export class Stepper {
       position: event.detail.position,
       content: event.detail.content
     };
-    if (item.content && item.item.active) {
-      this.requestedContent = item.content;
-    }
     if (!this.items.includes(item)) {
       this.items.push(item);
     }
@@ -150,9 +128,6 @@ export class Stepper {
   }
 
   @Listen("calciteStepperItemSelect") updateItem(event: CustomEvent): void {
-    if (event.detail.content) {
-      this.requestedContent = event.detail.content;
-    }
     this.currentPosition = event.detail.position;
     this.calciteStepperItemChange.emit({
       position: this.currentPosition
@@ -228,12 +203,6 @@ export class Stepper {
   //
   //--------------------------------------------------------------------------
 
-  private addHorizontalContentContainer(): void {
-    this.stepperContentContainer = document.createElement("div") as HTMLDivElement;
-    this.stepperContentContainer.classList.add("calcite-stepper-content");
-    this.el.insertAdjacentElement("beforeend", this.stepperContentContainer);
-  }
-
   private emitChangedItem(): void {
     this.calciteStepperItemChange.emit({
       position: this.currentPosition
@@ -278,10 +247,5 @@ export class Stepper {
       .map((a) => a.item);
 
     return [...Array.from(new Set(items))];
-  }
-
-  private updateContent(content) {
-    this.stepperContentContainer.innerHTML = "";
-    this.stepperContentContainer.append(...content);
   }
 }

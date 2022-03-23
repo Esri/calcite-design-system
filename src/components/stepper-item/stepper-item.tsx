@@ -57,7 +57,6 @@ export class StepperItem implements InteractiveComponent {
   // internal props inherited from wrapping calcite-stepper
   /** pass a title for the stepper item */
   /** @internal */
-
   @Prop({ reflect: true, mutable: true }) layout?: string;
 
   /** should the items display an icon based on status */
@@ -91,7 +90,7 @@ export class StepperItem implements InteractiveComponent {
   /**
    * @internal
    */
-  @Event() calciteStepperItemSelect: EventEmitter;
+  @Event() calciteStepperItemSelect: EventEmitter<{ position: number }>;
 
   /**
    * @internal
@@ -114,7 +113,6 @@ export class StepperItem implements InteractiveComponent {
 
   componentDidLoad(): void {
     this.itemPosition = this.getItemPosition();
-    this.itemContent = this.getItemContent();
     this.registerStepperItem();
     if (this.active) {
       this.emitRequestedItem();
@@ -135,7 +133,13 @@ export class StepperItem implements InteractiveComponent {
     return (
       <Host aria-expanded={this.active.toString()} onClick={() => this.emitRequestedItem()}>
         <div class="container">
-          <div class="stepper-item-header">
+          <div
+            class="stepper-item-header"
+            tabIndex={
+              /* additional tab index logic needed because of display: contents */
+              this.layout === "horizontal" && !this.disabled ? 0 : -1
+            }
+          >
             {this.icon ? this.renderIcon() : null}
             {this.numbered ? (
               <div class="stepper-item-number">{this.getItemPosition() + 1}.</div>
@@ -202,9 +206,6 @@ export class StepperItem implements InteractiveComponent {
   /** the latest requested item position*/
   private activePosition: number;
 
-  /** the slotted item content */
-  private itemContent: HTMLElement[] | NodeListOf<any>;
-
   /** the parent stepper component */
   private parentStepperEl: HTMLCalciteStepperElement;
 
@@ -232,27 +233,16 @@ export class StepperItem implements InteractiveComponent {
 
   private registerStepperItem(): void {
     this.calciteStepperItemRegister.emit({
-      position: this.itemPosition,
-      content: this.itemContent
+      position: this.itemPosition
     });
   }
 
   private emitRequestedItem(): void {
     if (!this.disabled) {
       this.calciteStepperItemSelect.emit({
-        position: this.itemPosition,
-        content: this.itemContent
+        position: this.itemPosition
       });
     }
-  }
-
-  private getItemContent(): HTMLElement[] | NodeListOf<any> {
-    // todo: Remove IE/Edge specific code.
-    return this.el.shadowRoot?.querySelector("slot")
-      ? (this.el.shadowRoot.querySelector("slot").assignedNodes({ flatten: true }) as HTMLElement[])
-      : this.el.querySelector(".stepper-item-content")
-      ? (this.el.querySelector(".stepper-item-content").childNodes as NodeListOf<any>)
-      : null;
   }
 
   private getItemPosition(): number {

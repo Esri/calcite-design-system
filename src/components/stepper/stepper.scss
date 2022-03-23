@@ -13,6 +13,17 @@
   @apply flex-auto flex-col;
 }
 
+:host([layout="horizontal"]) {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr 1fr;
+  gap: 0px 0px;
+  grid-template-areas:
+    "items items items items"
+    "content content content content"
+    ". . . .";
+}
+
 :host ::slotted(.calcite-stepper-content) {
   @apply flex
     w-full
