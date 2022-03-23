@@ -199,7 +199,7 @@ describe("calcite-filter", () => {
         filter.items = filter.items.slice(3);
       });
 
-      await page.waitForChanges();
+      await page.waitForTimeout(250); // debounce timeout
       assertMatchingItems(await filter.getProperty("filteredItems"), ["jon"]);
       expect(filterChangeSpy).toHaveReceivedEventTimes(1);
     });
