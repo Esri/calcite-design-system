@@ -100,7 +100,7 @@ ul {
 
 .icon--dot {
   @apply flex justify-end;
-  width: var(--calcite-combobox-item-spacing-unit-l);
+  min-width: var(--calcite-combobox-item-spacing-unit-l);
 }
 
 .icon--dot:before {
