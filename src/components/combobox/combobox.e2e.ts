@@ -495,7 +495,7 @@ describe("calcite-combobox", () => {
       await page.waitForChanges();
       expect(await page.evaluate(() => document.activeElement.id)).toBe("myCombobox");
 
-      const container = await page.find(`#myCombobox >>> .popper-container`);
+      const container = await page.find(`#myCombobox >>> .floating-ui-container`);
       const visible = await container.isVisible();
       expect(visible).toBe(false);
     });
@@ -504,8 +504,8 @@ describe("calcite-combobox", () => {
       await page.keyboard.press("Tab");
       expect(await page.evaluate(() => document.activeElement.id)).toBe("myCombobox");
 
-      const popper = await page.find("#myCombobox >>> .popper-container--active");
-      expect(popper).toBeNull();
+      const floatingUI = await page.find("#myCombobox >>> .floating-ui-container--active");
+      expect(floatingUI).toBeNull();
     });
 
     it("tab will close the item group if it’s open", async () => {
@@ -516,13 +516,13 @@ describe("calcite-combobox", () => {
 
       await page.keyboard.press("ArrowDown");
       await page.waitForChanges();
-      let popper = await page.find("#myCombobox >>> .popper-container--active");
-      expect(popper).toBeTruthy();
+      let floatingUI = await page.find("#myCombobox >>> .floating-ui-container--active");
+      expect(floatingUI).toBeTruthy();
 
       await page.keyboard.press("Tab");
       await page.waitForChanges();
-      popper = await page.find("#myCombobox >>> .popper-container--active");
-      expect(popper).toBeNull();
+      floatingUI = await page.find("#myCombobox >>> .floating-ui-container--active");
+      expect(floatingUI).toBeNull();
     });
 
     it(`ArrowDown opens the item group for combobox in focus and jumps to the first item`, async () => {
@@ -545,13 +545,13 @@ describe("calcite-combobox", () => {
 
       await page.keyboard.press("ArrowDown");
       await page.waitForChanges();
-      let popper = await page.find("#myCombobox >>> .popper-container--active");
-      expect(popper).toBeTruthy();
+      let floatingUI = await page.find("#myCombobox >>> .floating-ui-container--active");
+      expect(floatingUI).toBeTruthy();
 
       await page.keyboard.press("Escape");
       await page.waitForChanges();
-      popper = await page.find("#myCombobox >>> .popper-container--active");
-      expect(popper).toBeNull();
+      floatingUI = await page.find("#myCombobox >>> .floating-ui-container--active");
+      expect(floatingUI).toBeNull();
 
       expect(await page.evaluate(() => document.activeElement.id)).toBe("myCombobox");
     });
