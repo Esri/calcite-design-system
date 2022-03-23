@@ -1,6 +1,6 @@
 import { E2EPage, newE2EPage } from "@stencil/core/testing";
 import { accessible, defaults, disabled, focusable, hidden, reflects, renders } from "../../tests/commonTests";
-import { CSS } from "./resources";
+import { CSS, DEBOUNCE_TIMEOUT } from "./resources";
 
 describe("calcite-filter", () => {
   it("renders", async () => renders("calcite-filter", { display: "flex" }));
@@ -199,7 +199,7 @@ describe("calcite-filter", () => {
         filter.items = filter.items.slice(3);
       });
 
-      await page.waitForTimeout(250); // debounce timeout
+      await page.waitForTimeout(DEBOUNCE_TIMEOUT);
       assertMatchingItems(await filter.getProperty("filteredItems"), ["jon"]);
       expect(filterChangeSpy).toHaveReceivedEventTimes(1);
     });
@@ -254,7 +254,7 @@ describe("calcite-filter", () => {
 
     it("should return matching value", async () => {
       const filter = await page.find("calcite-filter");
-      await page.waitForChanges();
+      await page.waitForTimeout(DEBOUNCE_TIMEOUT);
       assertMatchingItems(await filter.getProperty("filteredItems"), ["harry"]);
     });
   });

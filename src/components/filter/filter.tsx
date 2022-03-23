@@ -11,12 +11,10 @@ import {
   Watch
 } from "@stencil/core";
 import { debounce, forIn } from "lodash-es";
-import { CSS, ICONS, TEXT } from "./resources";
+import { CSS, ICONS, TEXT, DEBOUNCE_TIMEOUT } from "./resources";
 import { Scale } from "../interfaces";
 import { focusElement } from "../../utils/dom";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
-
-const filterDebounceInMs = 250;
 
 @Component({
   tag: "calcite-filter",
@@ -173,7 +171,7 @@ export class Filter implements InteractiveComponent {
     });
 
     this.updateFiltered(result, emit);
-  }, filterDebounceInMs);
+  }, DEBOUNCE_TIMEOUT);
 
   inputHandler = (event: CustomEvent): void => {
     const target = event.target as HTMLCalciteInputElement;
