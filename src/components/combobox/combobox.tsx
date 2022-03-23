@@ -223,7 +223,6 @@ export class Combobox
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    this.active = true;
     this.textInput?.focus();
     this.activeChipIndex = -1;
     this.activeItemIndex = -1;
@@ -403,8 +402,9 @@ export class Combobox
         if (this.allowCustomValues && this.text) {
           this.addCustomChip(this.text, true);
           event.preventDefault();
-        } else {
+        } else if (this.active) {
           this.active = false;
+          event.preventDefault();
         }
         break;
       case "ArrowLeft":
@@ -423,11 +423,20 @@ export class Combobox
         this.active = true;
         this.shiftActiveItemIndex(1);
         break;
+      case " ":
+        if (!this.textInput.value) {
+          event.preventDefault();
+          this.active = true;
+          this.shiftActiveItemIndex(1);
+        }
+        break;
       case "Home":
+        event.preventDefault();
         this.active = true;
         this.updateActiveItemIndex(0);
         break;
       case "End":
+        event.preventDefault();
         this.active = true;
         this.updateActiveItemIndex(this.visibleItems.length - 1);
         break;
@@ -449,11 +458,6 @@ export class Combobox
           this.removeActiveChip();
         } else if (!this.text && this.isMulti()) {
           this.removeLastChip();
-        }
-        break;
-      default:
-        if (!this.active) {
-          this.setFocus();
         }
         break;
     }
@@ -503,11 +507,11 @@ export class Combobox
     this.calciteComboboxChipDismiss.emit(event.detail);
   };
 
-  setFocusClick = (event: MouseEvent): void => {
+  clickHandler = (event: MouseEvent): void => {
     if (event.composedPath().some((node: HTMLElement) => node.tagName === "CALCITE-CHIP")) {
       return;
     }
-
+    this.active = !this.active;
     this.setFocus();
   };
 
@@ -517,7 +521,7 @@ export class Combobox
       return;
     }
 
-    if (this.allowCustomValues && this.text) {
+    if (this.allowCustomValues && this.text.trim().length) {
       this.addCustomChip(this.text);
     }
 
@@ -873,7 +877,6 @@ export class Combobox
   }
 
   comboboxFocusHandler = (): void => {
-    this.active = true;
     this.textInput?.focus();
   };
 
@@ -935,8 +938,6 @@ export class Combobox
               "label--spaced": needsIcon
             }}
             key="label"
-            onFocus={this.comboboxFocusHandler}
-            tabindex="0"
           >
             {selectedItem.textLabel}
           </span>
@@ -1019,9 +1020,10 @@ export class Combobox
   }
 
   renderIconEnd(): VNode {
+    const { active } = this;
     return (
       <span class="icon-end">
-        <calcite-icon icon="chevron-down" scale="s" />
+        <calcite-icon icon={active ? "chevron-up" : "chevron-down"} scale="s" />
       </span>
     );
   }
@@ -1043,7 +1045,7 @@ export class Combobox
             "wrapper--single": single || !this.selectedItems.length,
             "wrapper--active": active
           }}
-          onClick={this.setFocusClick}
+          onClick={this.clickHandler}
           ref={this.setReferenceEl}
           role="combobox"
         >
