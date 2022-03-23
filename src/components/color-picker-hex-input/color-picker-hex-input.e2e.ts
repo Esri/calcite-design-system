@@ -167,7 +167,9 @@ describe("calcite-color-picker-hex-input", () => {
 
     expect(spy).toHaveReceivedEventTimes(0);
 
-    await input.type("#abc");
+    await selectText(input);
+    await page.keyboard.type("abc");
+    await page.keyboard.press("Enter");
     await page.waitForChanges();
 
     expect(spy).toHaveReceivedEventTimes(1);
