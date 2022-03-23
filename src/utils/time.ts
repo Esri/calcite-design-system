@@ -190,6 +190,20 @@ export function localizeTimeStringToParts(value: string, locale = "en"): Localiz
   return null;
 }
 
+export function getTimeParts(value: string, locale = "en"): Intl.DateTimeFormatPart[] {
+  if (!isValidTime(value)) {
+    return null;
+  }
+  const { hour, minute, second = "0" } = parseTimeString(value);
+  const dateFromTimeString = new Date(Date.UTC(0, 0, 0, parseInt(hour), parseInt(minute), parseInt(second)));
+  if (dateFromTimeString) {
+    const formatter = createLocaleDateTimeFormatter(locale);
+    const parts = formatter.formatToParts(dateFromTimeString);
+    return parts;
+  }
+  return null;
+}
+
 export function parseTimeString(value: string): Time {
   if (isValidTime(value)) {
     const [hour, minute, second] = value.split(":");

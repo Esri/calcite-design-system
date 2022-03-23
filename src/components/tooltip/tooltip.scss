@@ -1,0 +1,31 @@
+@include popperHost(999);
+@include popperArrow();
+
+.container {
+  @apply bg-foreground-1
+    text-color-1
+    text-n2-wrap
+    relative
+    flex
+    flex-col
+    justify-start
+    overflow-hidden
+    rounded
+    py-3
+    px-4
+    font-medium;
+  max-width: 20rem;
+  max-height: 20rem;
+}
+
+.calcite-popper-anim {
+  @apply bg-foreground-1
+    border-color-3
+    rounded
+    border
+    border-solid;
+}
+
+.arrow::before {
+  outline: 1px solid var(--calcite-ui-border-3);
+}

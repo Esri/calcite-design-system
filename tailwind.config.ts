@@ -2,6 +2,7 @@ import flattenColorPalette from "tailwindcss/lib/util/flattenColorPalette";
 import plugin from "tailwindcss/plugin";
 
 export default {
+  content: ["./src/components/**/*.scss"],
   theme: {
     borderColor: ({ theme }): object => ({
       color: {
@@ -144,7 +145,9 @@ export default {
         "2-sm": "0 2px 12px -4px rgba(0, 0, 0, 0.2), 0 2px 4px -2px rgba(0, 0, 0, 0.16)",
         "border-bottom": "0 1px 0 var(--calcite-ui-border-3)",
         "outline-active": "0 0 0 1px var(--calcite-ui-brand)",
-        none: "none"
+        none: "none",
+        xs: "0 0 0 1px rgba(0, 0, 0, 0.05)",
+        outline: "0 0 0 3px rgba(66, 153, 225, 0.5)"
       },
       keyframes: {
         in: {
