@@ -871,15 +871,6 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
     const length = this.visibleItems.length;
     const newIndex = (this.activeItemIndex + length + delta) % length;
     this.updateActiveItemIndex(newIndex);
-    // ensure active item is in view if we have scrolling
-    const activeItem = this.visibleItems[this.activeItemIndex];
-    const height = this.calculateSingleItemHeight(activeItem);
-    const { offsetHeight, scrollTop } = this.listContainerEl;
-    if (offsetHeight + scrollTop < activeItem.offsetTop + height) {
-      this.listContainerEl.scrollTop = activeItem.offsetTop - offsetHeight + height;
-    } else if (activeItem.offsetTop < scrollTop) {
-      this.listContainerEl.scrollTop = activeItem.offsetTop;
-    }
   }
 
   updateActiveItemIndex(index: number): void {
@@ -897,6 +888,15 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
     if (this.activeItemIndex > -1) {
       this.activeChipIndex = -1;
       this.textInput?.focus();
+    }
+    // ensure active item is in view if we have scrolling
+    const activeItem = this.visibleItems[this.activeItemIndex];
+    const height = this.calculateSingleItemHeight(activeItem);
+    const { offsetHeight, scrollTop } = this.listContainerEl;
+    if (offsetHeight + scrollTop < activeItem.offsetTop + height) {
+      this.listContainerEl.scrollTop = activeItem.offsetTop - offsetHeight + height;
+    } else if (activeItem.offsetTop < scrollTop) {
+      this.listContainerEl.scrollTop = activeItem.offsetTop;
     }
   }
 
