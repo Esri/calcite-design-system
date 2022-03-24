@@ -178,6 +178,15 @@ export class ValueListItem implements ConditionalSlotComponent, InteractiveCompo
     }
   };
 
+  handleClick = (): void => {
+    this.handleActivated = !this.handleActivated;
+  };
+
+  handleMouseLeave = (event: MouseEvent): void => {
+    console.log("leave", event);
+    this.handleActivated = false;
+  };
+
   handleBlur = (): void => {
     this.handleActivated = false;
   };
@@ -215,13 +224,16 @@ export class ValueListItem implements ConditionalSlotComponent, InteractiveCompo
     if (icon === ICON_TYPES.grip) {
       return (
         <span
+          // aria-pressed={this.handleActivated.toString()}
           class={{
             [CSS.handle]: true,
             [CSS.handleActivated]: this.handleActivated
           }}
           data-js-handle
           onBlur={this.handleBlur}
+          onClick={this.handleClick}
           onKeyDown={this.handleKeyDown}
+          onMouseLeave={this.handleMouseLeave}
           role="button"
           tabindex="0"
         >
