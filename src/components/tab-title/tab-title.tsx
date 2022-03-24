@@ -184,14 +184,20 @@ export class TabTitle implements InteractiveComponent {
 
   @Listen("calciteTabChange", { target: "body" })
   tabChangeHandler(event: CustomEvent<TabChangeEventDetail>): void {
-    if (event.composedPath().includes(this.parentTabNavEl)) {
-      if (this.tab) {
-        this.active = this.tab === event.detail.tab;
-      } else {
-        this.getTabIndex().then((index) => {
-          this.active = index === event.detail.tab;
-        });
-      }
+    const targetTabsEl = event
+      .composedPath()
+      .find((el: HTMLElement) => el.tagName === "CALCITE-TABS");
+
+    if (targetTabsEl !== this.parentTabsEl) {
+      return;
+    }
+
+    if (this.tab) {
+      this.active = this.tab === event.detail.tab;
+    } else {
+      this.getTabIndex().then((index) => {
+        this.active = index === event.detail.tab;
+      });
     }
   }
 
@@ -292,34 +298,26 @@ export class TabTitle implements InteractiveComponent {
   //--------------------------------------------------------------------------
 
   /** watches for changing text content **/
-  private mutationObserver: MutationObserver = createObserver("mutation", () =>
-    this.updateHasText()
-  );
+  mutationObserver: MutationObserver = createObserver("mutation", () => this.updateHasText());
 
-  @State() private controls: string;
+  @State() controls: string;
 
   /** determine if there is slotted text for styling purposes */
-  @State() private hasText = false;
+  @State() hasText = false;
 
-  /**
-   * @internal
-   */
-  private parentTabNavEl: HTMLCalciteTabNavElement;
+  parentTabNavEl: HTMLCalciteTabNavElement;
 
-  /**
-   * @internal
-   */
-  private parentTabsEl: HTMLCalciteTabsElement;
+  parentTabsEl: HTMLCalciteTabsElement;
 
-  private updateHasText(): void {
+  updateHasText(): void {
     this.hasText = this.el.textContent.trim().length > 0;
   }
 
-  private setupTextContentObserver(): void {
+  setupTextContentObserver(): void {
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
   }
 
-  private emitActiveTab(): void {
+  emitActiveTab(): void {
     if (!this.disabled) {
       this.calciteTabsActivate.emit({
         tab: this.tab
@@ -327,10 +325,7 @@ export class TabTitle implements InteractiveComponent {
     }
   }
 
-  /**
-   * @internal
-   */
-  private guid = `calcite-tab-title-${guid()}`;
+  guid = `calcite-tab-title-${guid()}`;
 
   //--------------------------------------------------------------------------
   //
