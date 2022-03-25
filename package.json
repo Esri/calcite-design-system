@@ -35,7 +35,7 @@
     "prepublishOnly": "ts-node ./support/prepublish.ts",
     "release:docs": "npm run docs && storybook-to-ghpages --existing-output-dir=docs",
     "release:next": "npm run util:clean-tested-build && npm run util:deploy-next-from-existing-build",
-    "release:prepare": "npm run util:clean-tested-build && ts-node --project ./tsconfig-node-scripts.json support/prepReleaseCommit.ts && git add .",
+    "release:prepare": "npm ci && npm test && ts-node --project ./tsconfig-node-scripts.json support/prepReleaseCommit.ts && npm run build && git add .",
     "release:publish": "npm run util:push-tags && npm publish && ts-node ./support/releaseToGitHub.ts",
     "start": "concurrently --kill-others --raw \"tsc --project ./tsconfig-demos.json --watch\" \"npm:build -- --dev --watch --serve\" \"ts-node ./support/cleanOnProcessExit.ts --path ./src/demos/**/*.js \"",
     "test": "npm run util:run-tests",
