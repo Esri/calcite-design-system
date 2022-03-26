@@ -70,6 +70,8 @@ export function queryElementsRoots<T extends Element = Element>(element: Element
 
     const rootNode = getRootNode(el);
 
+    const results = Array.from(rootNode.querySelectorAll(selector)) as T[];
+
     const uniqueResults = results.filter((result) => !allResults.includes(result));
 
     allResults = [...allResults, ...uniqueResults];
