@@ -70,12 +70,6 @@ export function queryElementsRoots<T extends Element = Element>(element: Element
 
     const rootNode = getRootNode(el);
 
-    if (!rootNode) {
-      return allResults;
-    }
-
-    const results = Array.from(rootNode.querySelectorAll(selector)) as T[];
-
     const uniqueResults = results.filter((result) => !allResults.includes(result));
 
     allResults = [...allResults, ...uniqueResults];
@@ -118,12 +112,10 @@ export function queryElementRoots<T extends Element = Element>(
 
     const rootNode = getRootNode(el);
 
-    if (!rootNode) {
-      return null;
-    }
-
     const found = id
-      ? (rootNode.getElementById(id) as Element as T)
+      ? "getElementById" in rootNode
+        ? (rootNode.getElementById(id) as Element as T)
+        : null
       : selector
       ? (rootNode.querySelector(selector) as T)
       : null;
