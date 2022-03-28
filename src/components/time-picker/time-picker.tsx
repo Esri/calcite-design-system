@@ -169,13 +169,6 @@ export class TimePicker {
 
   @State() hour: string;
 
-  @Watch("hour")
-  hourChanged(newHour: string): void {
-    if (this.meridiem && isValidNumber(newHour)) {
-      this.setValuePart("meridiem", getMeridiem(newHour));
-    }
-  }
-
   @State() hourCycle: HourCycle;
 
   @State() localizedHour: string;
