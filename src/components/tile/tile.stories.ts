@@ -77,4 +77,15 @@ export const LargeTile = (): string => html`
   </calcite-tile>
 `;
 
+export const ContentStartRTL = (): string => html`
+  <calcite-tile
+    description="${text("description", "polygon layer")}"
+    heading="${text("heading", "Percent of population that carpool to work")}"
+    dir="rtl"
+  >
+    <calcite-icon scale="s" slot="content-start" icon="polygon"></calcite-icon>
+    <calcite-icon scale="s" slot="content-end" icon="launch"></calcite-icon>
+  </calcite-tile>
+`;
+
 export const disabled = (): string => html`<calcite-tile heading="Heading" disabled></calcite-tile>`;
