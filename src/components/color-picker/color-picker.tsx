@@ -24,7 +24,7 @@ import {
   RGB_LIMITS,
   TEXT
 } from "./resources";
-import { focusElement } from "../../utils/dom";
+import { focusElement, getElementDir } from "../../utils/dom";
 import { colorEqual, CSSColorMode, Format, normalizeHex, parseMode, SupportedMode } from "./utils";
 import { throttle } from "lodash-es";
 
@@ -958,7 +958,7 @@ export class ColorPicker implements InteractiveComponent {
 
     return (
       <calcite-tab active={active} class={CSS.control} key={channelMode}>
-        <div class={CSS.channels}>
+        <div class={{ [CSS.channels]: true, [CSS.channelsRTL]: getElementDir(this.el) === "rtl" }}>
           {channels.map((channel, index) =>
             this.renderChannel(channel, index, channelLabels[index], channelAriaLabels[index])
           )}

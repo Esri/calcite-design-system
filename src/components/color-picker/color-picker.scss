@@ -143,6 +143,10 @@ $gap--large: 12px;
   flex-wrap: wrap;
 }
 
+.channels--rtl {
+  @apply flex-row-reverse;
+}
+
 .section {
   padding: 0 $section-padding $section-padding;
 
