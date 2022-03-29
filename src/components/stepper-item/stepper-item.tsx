@@ -182,7 +182,10 @@ export class StepperItem implements InteractiveComponent {
 
   @Listen("calciteStepperItemChange", { target: "body" })
   updateActiveItemOnChange(event: CustomEvent): void {
-    if (event.target === this.parentStepperEl) {
+    if (
+      event.target === this.parentStepperEl ||
+      event.composedPath().includes(this.parentStepperEl)
+    ) {
       this.activePosition = event.detail.position;
       this.determineActiveItem();
     }
