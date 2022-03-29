@@ -13,8 +13,7 @@ then
         exit 0
     fi
     exit 1
-# disabled due to Windows error: https://github.com/Esri/calcite-components/pull/4307
-# else
-    # npm run util:check-squash-mergeable-branch
-    # exit
+else
+    npm run util:check-squash-mergeable-branch
+    exit
 fi
