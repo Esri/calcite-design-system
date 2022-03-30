@@ -382,6 +382,12 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
 
   keydownHandler = (event: KeyboardEvent): void => {
     const { key } = event;
+    const bounding = this.el.getBoundingClientRect();
+    const inViewport =
+      bounding.top >= 0 &&
+      bounding.left >= 0 &&
+      bounding.right <= (window.innerWidth || document.documentElement.clientWidth) &&
+      bounding.bottom <= (window.innerHeight || document.documentElement.clientHeight);
 
     switch (key) {
       case "Tab":
@@ -402,14 +408,12 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
         this.nextChip();
         break;
       case "ArrowUp":
-        event.preventDefault();
-        this.active = true;
         this.shiftActiveItemIndex(-1);
+        !inViewport ? this.el.scrollIntoView({ block: "start", inline: "nearest" }) : null;
         break;
       case "ArrowDown":
-        event.preventDefault();
-        this.active = true;
         this.shiftActiveItemIndex(1);
+        !inViewport ? this.el.scrollIntoView({ block: "start", inline: "nearest" }) : null;
         break;
       case " ":
         if (!this.textInput.value) {
@@ -419,14 +423,14 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
         }
         break;
       case "Home":
-        event.preventDefault();
-        this.active = true;
+        this.active ? event.preventDefault() : null;
         this.updateActiveItemIndex(0);
+        !inViewport ? this.el.scrollIntoView({ block: "start", inline: "nearest" }) : null;
         break;
       case "End":
-        event.preventDefault();
-        this.active = true;
+        this.active ? event.preventDefault() : null;
         this.updateActiveItemIndex(this.visibleItems.length - 1);
+        !inViewport ? this.el.scrollIntoView({ block: "start", inline: "nearest" }) : null;
         break;
       case "Escape":
         this.active = false;
@@ -500,6 +504,7 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
       return;
     }
     this.active = !this.active;
+    this.updateActiveItemIndex(0);
     this.setFocus();
   };
 
