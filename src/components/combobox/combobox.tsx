@@ -425,11 +425,13 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
       case "Home":
         this.active ? event.preventDefault() : null;
         this.updateActiveItemIndex(0);
+        this.activeInView();
         !inViewport ? this.el.scrollIntoView({ block: "start", inline: "nearest" }) : null;
         break;
       case "End":
         this.active ? event.preventDefault() : null;
         this.updateActiveItemIndex(this.visibleItems.length - 1);
+        this.activeInView();
         !inViewport ? this.el.scrollIntoView({ block: "start", inline: "nearest" }) : null;
         break;
       case "Escape":
@@ -872,10 +874,22 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
     chip?.setFocus();
   }
 
+  private activeInView = (): void => {
+    const activeItem = this.visibleItems[this.activeItemIndex];
+    const height = this.calculateSingleItemHeight(activeItem);
+    const { offsetHeight, scrollTop } = this.listContainerEl;
+    if (offsetHeight + scrollTop < activeItem.offsetTop + height) {
+      this.listContainerEl.scrollTop = activeItem.offsetTop - offsetHeight + height;
+    } else if (activeItem.offsetTop < scrollTop) {
+      this.listContainerEl.scrollTop = activeItem.offsetTop;
+    }
+  };
+
   shiftActiveItemIndex(delta: number): void {
     const length = this.visibleItems.length;
     const newIndex = (this.activeItemIndex + length + delta) % length;
     this.updateActiveItemIndex(newIndex);
+    this.activeInView();
   }
 
   updateActiveItemIndex(index: number): void {
@@ -893,15 +907,6 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
     if (this.activeItemIndex > -1) {
       this.activeChipIndex = -1;
       this.textInput?.focus();
-    }
-    // ensure active item is in view if we have scrolling
-    const activeItem = this.visibleItems[this.activeItemIndex];
-    const height = this.calculateSingleItemHeight(activeItem);
-    const { offsetHeight, scrollTop } = this.listContainerEl;
-    if (offsetHeight + scrollTop < activeItem.offsetTop + height) {
-      this.listContainerEl.scrollTop = activeItem.offsetTop - offsetHeight + height;
-    } else if (activeItem.offsetTop < scrollTop) {
-      this.listContainerEl.scrollTop = activeItem.offsetTop;
     }
   }
 
