@@ -14,9 +14,9 @@ This ensures a conventional commit message when PRs are squash-merged.
 
   const currentBranch = (await exec(`git rev-parse --abbrev-ref HEAD`, { encoding: "utf-8" })).trim();
 
-  const commits = (await exec(`git log --format=%B ${currentBranch} --not master | tr '\n' ';'`, { encoding: "utf-8" }))
+  const commits = (await exec(`git log --format=%B ${currentBranch} --not master`, { encoding: "utf-8" }))
     .trim()
-    .split(";")
+    .split("\n")
     .filter((commit: string) => !!commit);
 
   process.exitCode = commits.length === 1 ? (conventionalCommitRegex.test(commits[0]) ? 0 : 1) : 0;
