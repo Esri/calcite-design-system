@@ -1,6 +1,7 @@
 import { Component, Element, h, VNode, Host, Prop, Method } from "@stencil/core";
 import { CSS } from "./resources";
 import { HeadingLevel } from "../functional/Heading";
+import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 
 /**
  * A general purpose list that enables users to construct list items that conform to Calcite styling.
@@ -11,7 +12,7 @@ import { HeadingLevel } from "../functional/Heading";
   styleUrl: "list.scss",
   shadow: true
 })
-export class List {
+export class List implements InteractiveComponent {
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -19,9 +20,24 @@ export class List {
   // --------------------------------------------------------------------------
 
   /**
+   * When true, disabled prevents user interaction.
+   */
+  @Prop({ reflect: true }) disabled = false;
+
+  /**
    * Number at which section headings should start for this component.
    */
   @Prop() headingLevel: HeadingLevel;
+
+  //--------------------------------------------------------------------------
+  //
+  //  Lifecycle
+  //
+  //--------------------------------------------------------------------------
+
+  componentDidRender(): void {
+    updateHostInteraction(this);
+  }
 
   // --------------------------------------------------------------------------
   //

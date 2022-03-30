@@ -1,7 +1,7 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { accessible, focusable, renders, slots } from "../../tests/commonTests";
 import { CSS, SLOTS } from "./resources";
-import { html } from "../../tests/utils";
+import { html } from "../../../support/formatting";
 
 describe("calcite-notice", () => {
   const noticeContent = `

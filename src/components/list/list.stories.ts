@@ -1,8 +1,8 @@
-import { themesDarkDefault } from "../../../.storybook/utils";
+import { placeholderImage, themesDarkDefault } from "../../../.storybook/utils";
 import readme from "./readme.md";
 import itemReadme from "../list-item/readme.md";
 import groupReadme from "../list-item-group/readme.md";
-import { html, placeholderImage } from "../../tests/utils";
+import { html } from "../../../support/formatting";
 
 export default {
   title: "Components/List",
@@ -187,3 +187,21 @@ export const DarkMode = (): string => html`
 
 DarkMode.storyName = "Dark mode";
 DarkMode.parameters = { themes: themesDarkDefault };
+
+export const disabled = (): string => html`<calcite-list disabled>
+  <calcite-list-item
+    label="Cras iaculis ultricies nulla."
+    description="Lorem ipsum dolor sit amet, consectetuer adipiscing elit."
+  ></calcite-list-item>
+  <calcite-list-item
+    disabled
+    label="Ut aliquam sollicitudin leo."
+    description="Aliquam tincidunt mauris eu risus."
+  ></calcite-list-item>
+  <calcite-list-item
+    label="Vestibulum commodo felis quis tortor.
+    "
+    description="Vestibulum auctor dapibus neque.
+    "
+  ></calcite-list-item>
+</calcite-list>`;

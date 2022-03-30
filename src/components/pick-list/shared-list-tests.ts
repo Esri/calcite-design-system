@@ -1,6 +1,6 @@
 import { E2EElement, E2EPage, newE2EPage } from "@stencil/core/testing";
-import { focusable } from "../../tests/commonTests";
-import { html } from "../../tests/utils";
+import { disabled, focusable } from "../../tests/commonTests";
+import { html } from "../../../support/formatting";
 import { CSS as PICK_LIST_ITEM_CSS } from "../pick-list-item/resources";
 
 type ListType = "pick" | "value";
@@ -23,8 +23,10 @@ export function keyboardNavigation(listType: ListType): void {
       const page = await newE2EPage({
         html: `
         <calcite-${listType}-list multiple>
+          <calcite-${listType}-list-item disabled value="zero" label="Zero (disabled)"></calcite-${listType}-list-item>
           <calcite-${listType}-list-item value="one" label="One"></calcite-${listType}-list-item>
           <calcite-${listType}-list-item value="two" label="Two"></calcite-${listType}-list-item>
+          <calcite-${listType}-list-item disabled value="three" label="Three (disabled)"></calcite-${listType}-list-item>
         </calcite-${listType}-list>
       `
       });
@@ -200,6 +202,24 @@ export function keyboardNavigation(listType: ListType): void {
       await page.keyboard.press("Tab");
 
       expect(await getFocusedItemValue(page)).toEqual("two");
+    });
+
+    it("resets tabindex to selected item when focusing out of list", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html`
+        <calcite-${listType}-list>
+          <calcite-${listType}-list-item value="one" label="One" selected></calcite-${listType}-list-item>
+          <calcite-${listType}-list-item value="two" label="Two"></calcite-${listType}-list-item>
+        </calcite-${listType}-list>
+      `);
+
+      await page.keyboard.press("Tab");
+      await page.keyboard.press("Tab");
+      expect(await getFocusedItemValue(page)).toEqual(null);
+
+      await page.keyboard.down("Shift");
+      await page.keyboard.press("Tab");
+      expect(await getFocusedItemValue(page)).toEqual("one");
     });
   });
 }
@@ -514,24 +534,7 @@ export function filterBehavior(listType: ListType): void {
   });
 }
 
-export function disabledStates(listType: ListType): void {
-  it("disabled", async () => {
-    const page = await newE2EPage({
-      html: html`
-        <calcite-${listType}-list disabled>
-          <calcite-${listType}-list-item value="one" label="One"></calcite-${listType}-list-item>
-        </calcite-${listType}-list>
-      `
-    });
-
-    const list = await page.find(`calcite-${listType}-list`);
-    const item1 = await list.find("[value=one]");
-    const toggleSpy = await list.spyOnEvent("calciteListChange");
-
-    await item1.click();
-    expect(toggleSpy).toHaveReceivedEventTimes(0);
-  });
-
+export function loadingState(listType: ListType): void {
   it("loading", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-${listType}-list loading>
@@ -548,10 +551,26 @@ export function disabledStates(listType: ListType): void {
 }
 
 export function itemRemoval(listType: ListType): void {
+  const pickListGroupHtml = html` <calcite-pick-list-group
+      label="Will be removed when slotted 'parent item' is removed"
+      value="remove-me"
+    >
+      <calcite-pick-list-item
+        slot="parent-item"
+        value="remove-me"
+        label="Remove me!"
+        removable
+      ></calcite-pick-list-item>
+    </calcite-pick-list-group>
+    <calcite-pick-list-group label="Will not be removed when child item is removed" value="do-not-remove-me">
+      <calcite-pick-list-item value="remove-me" label="Do not remove me!" removable></calcite-pick-list-item>
+    </calcite-pick-list-group>`;
+
   it("handles removing items", async () => {
     const page = await newE2EPage({
       html: html`
       <calcite-${listType}-list>
+        ${listType === "value" ? "" : pickListGroupHtml}
         <calcite-${listType}-list-item value="remove-me" label="Remove me!" removable></calcite-${listType}-list-item>
       </calcite-${listType}-list>
     `
@@ -560,15 +579,19 @@ export function itemRemoval(listType: ListType): void {
     const removeItemSpy = await list.spyOnEvent("calciteListItemRemove");
     const listChangeSpy = await list.spyOnEvent("calciteListChange");
 
-    await page.$eval(
+    const removableItems = await page.$$eval(
       `calcite-${listType}-list-item`,
-      (item: ListElement, listType, selector: string) => {
-        listType === "pick"
-          ? item.shadowRoot.querySelector<HTMLElement>(selector).click()
-          : item.shadowRoot
-              .querySelector<ListElement>("calcite-pick-list-item")
-              .shadowRoot.querySelector<HTMLElement>(selector)
-              .click();
+      (items: ListElement[], listType, selector: string) => {
+        items.forEach((item) => {
+          listType === "pick"
+            ? item.shadowRoot.querySelector<HTMLElement>(selector).click()
+            : item.shadowRoot
+                .querySelector<ListElement>("calcite-pick-list-item")
+                .shadowRoot.querySelector<HTMLElement>(selector)
+                .click();
+        });
+
+        return items;
       },
       listType,
       `.${PICK_LIST_ITEM_CSS.remove}`
@@ -576,8 +599,9 @@ export function itemRemoval(listType: ListType): void {
 
     await page.waitForChanges();
 
-    expect(await page.find(`calcite-${listType}-list-item`)).toBeNull();
-    expect(removeItemSpy).toHaveReceivedEventTimes(1);
+    expect(await page.findAll(`calcite-${listType}-list-item`)).toHaveLength(0);
+    expect(await page.findAll(`calcite-pick-list-group`)).toHaveLength(listType === "pick" ? 1 : 0);
+    expect(removeItemSpy).toHaveReceivedEventTimes(removableItems.length);
     expect(listChangeSpy).toHaveReceivedEventTimes(1);
   });
 }
@@ -597,4 +621,18 @@ export function focusing(listType: ListType): void {
         }
       ));
   });
+}
+
+export function disabling(listType: ListType): void {
+  it("can be disabled", () =>
+    disabled(
+      html`
+      <calcite-${listType}-list>
+        <calcite-${listType}-list-item label="Sample" value="one"></calcite-${listType}-list-item>
+      </calcite-${listType}-list>
+    `,
+      {
+        focusTarget: "child"
+      }
+    ));
 }

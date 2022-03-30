@@ -91,18 +91,7 @@
   }
 }
 
-// disabled styles
-:host([disabled]) {
-  @apply opacity-disabled pointer-events-none;
-
-  & .wrapper {
-    @apply text-opacity-disabled pointer-events-none;
-  }
-  & button,
-  & textarea,
-  & input {
-    @apply pointer-events-none;
-  }
+@include disabled() {
   & textarea {
     resize: none;
   }

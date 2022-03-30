@@ -2,7 +2,8 @@ import { number, select, text } from "@storybook/addon-knobs";
 import { boolean, createSteps, stepStory } from "../../../.storybook/helpers";
 import { themesDarkDefault } from "../../../.storybook/utils";
 import readme from "./readme.md";
-import { html } from "../../tests/utils";
+import { html } from "../../../support/formatting";
+import { defaultMenuPlacement, popperMenuPlacements } from "../../utils/popper";
 
 export default {
   title: "Components/Controls/Time/Input Time Picker",
@@ -33,6 +34,19 @@ export const DarkTheme = (): string => html`
     scale="${select("scale", ["s", "m", "l"], "m")}"
     step="${number("step", 1)}"
     value="${text("value", "22:37")}"
+  >
+  </calcite-input-time-picker>
+`;
+
+export const Placement = (): string => html`
+  <calcite-input-time-picker
+    ${boolean("disabled", false)}
+    ${boolean("hidden", false)}
+    name="${text("name", "placement-top")}"
+    scale="${select("scale", ["s", "m", "l"], "m")}"
+    step="${number("step", 1)}"
+    value="${text("value", "10:37")}"
+    placement="${select("placement", popperMenuPlacements, defaultMenuPlacement)}"
   >
   </calcite-input-time-picker>
 `;
@@ -73,3 +87,5 @@ export const ArabicLocale = stepStory(
 );
 
 DarkTheme.parameters = { themes: themesDarkDefault };
+
+export const disabled = (): string => html`<calcite-input-time-picker disabled></calcite-input-time-picker>`;

@@ -1,7 +1,7 @@
 import { E2EPage, newE2EPage } from "@stencil/core/testing";
-import { accessible, defaults, renders } from "../../tests/commonTests";
+import { accessible, defaults, disabled, popperOwner, renders } from "../../tests/commonTests";
 import dedent from "dedent";
-import { html } from "../../tests/utils";
+import { html } from "../../../support/formatting";
 
 describe("calcite-dropdown", () => {
   it("renders", () =>
@@ -22,8 +22,26 @@ describe("calcite-dropdown", () => {
       {
         propertyName: "overlayPositioning",
         defaultValue: "absolute"
+      },
+      {
+        propertyName: "flipPlacements",
+        defaultValue: undefined
       }
     ]));
+
+  it("can be disabled", () =>
+    disabled(
+      html`<calcite-dropdown>
+        <calcite-button slot="dropdown-trigger">Open dropdown</calcite-button>
+        <calcite-dropdown-group id="group-1">
+          <calcite-dropdown-item id="item-1"> Dropdown Item Content </calcite-dropdown-item>
+          <calcite-dropdown-item id="item-2" active> Dropdown Item Content </calcite-dropdown-item>
+          <calcite-dropdown-item id="item-3"> Dropdown Item Content </calcite-dropdown-item>
+        </calcite-dropdown-group>
+      </calcite-dropdown>`,
+      { focusTarget: "child" }
+    ));
+
   /**
    * Test helper for selected calcite-dropdown items. Expects items to have IDs to test against.
    */
@@ -796,28 +814,6 @@ describe("calcite-dropdown", () => {
     expect(await page.evaluate(() => document.activeElement.id)).toEqual("trigger");
   });
 
-  it("when disabled, clicks on slotted dropdown trigger do not open dropdown", async () => {
-    const page = await newE2EPage();
-    await page.setContent(html`
-      <calcite-dropdown disabled>
-        <calcite-button id="trigger" slot="dropdown-trigger">Open dropdown</calcite-button>
-        <calcite-dropdown-group id="group-1" selection-mode="single">
-          <calcite-dropdown-item id="item-1"> Dropdown Item Content </calcite-dropdown-item>
-          <calcite-dropdown-item id="item-2" active> Dropdown Item Content </calcite-dropdown-item>
-          <calcite-dropdown-item id="item-3"> Dropdown Item Content </calcite-dropdown-item>
-        </calcite-dropdown-group>
-      </calcite-dropdown>
-    `);
-
-    const element = await page.find("calcite-dropdown");
-    const trigger = await element.find("#trigger");
-    const dropdownWrapper = await page.find("calcite-dropdown >>> .calcite-dropdown-wrapper");
-    expect(await dropdownWrapper.isVisible()).toBe(false);
-    await trigger.click();
-    await page.waitForChanges();
-    expect(await dropdownWrapper.isVisible()).toBe(false);
-  });
-
   it("accepts multiple triggers", async () => {
     const page = await newE2EPage();
     await page.setContent(html`
@@ -1010,4 +1006,20 @@ describe("calcite-dropdown", () => {
 
     expect(dropdownContentHeight.height).toBe("0px");
   });
+
+  it("owns a popper", () =>
+    popperOwner(
+      html` <calcite-dropdown>
+        <calcite-button slot="dropdown-trigger">Open</calcite-button>
+        <calcite-dropdown-group selection-mode="single">
+          <calcite-dropdown-item id="item-1" active>1</calcite-dropdown-item>
+          <calcite-dropdown-item id="item-2">2</calcite-dropdown-item>
+          <calcite-dropdown-item id="item-3">3</calcite-dropdown-item>
+        </calcite-dropdown-group>
+      </calcite-dropdown>`,
+      "active",
+      {
+        shadowPopperSelector: ".calcite-dropdown-wrapper"
+      }
+    ));
 });

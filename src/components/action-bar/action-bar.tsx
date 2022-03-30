@@ -51,11 +51,7 @@ export class ActionBar implements ConditionalSlotComponent {
   @Prop({ reflect: true }) expandDisabled = false;
 
   @Watch("expandDisabled")
-  expandHandler(expandDisabled: boolean): void {
-    if (!expandDisabled) {
-      toggleChildActionText({ parent: this.el, expanded: this.expanded });
-    }
-
+  expandHandler(): void {
     this.conditionallyOverflowActions();
   }
 
@@ -66,10 +62,7 @@ export class ActionBar implements ConditionalSlotComponent {
 
   @Watch("expanded")
   expandedHandler(expanded: boolean): void {
-    if (!this.expandDisabled) {
-      toggleChildActionText({ parent: this.el, expanded });
-    }
-
+    toggleChildActionText({ parent: this.el, expanded });
     this.calciteActionBarToggle.emit();
   }
 
@@ -145,11 +138,9 @@ export class ActionBar implements ConditionalSlotComponent {
   }
 
   connectedCallback(): void {
-    const { el, expandDisabled, expanded } = this;
+    const { el, expanded } = this;
 
-    if (!expandDisabled) {
-      toggleChildActionText({ parent: el, expanded });
-    }
+    toggleChildActionText({ parent: el, expanded });
 
     this.mutationObserver?.observe(el, { childList: true, subtree: true });
 

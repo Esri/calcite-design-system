@@ -1,6 +1,7 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { defaults, formAssociated, labelable, renders } from "../../tests/commonTests";
-import { getElementXY, html } from "../../tests/utils";
+import { defaults, disabled, formAssociated, labelable, renders } from "../../tests/commonTests";
+import { getElementXY } from "../../tests/utils";
+import { html } from "../../../support/formatting";
 
 describe("calcite-slider", () => {
   const sliderWidthFor1To1PixelValueTrack = "114px";
@@ -53,12 +54,7 @@ describe("calcite-slider", () => {
 
   it("is labelable", async () => labelable("calcite-slider"));
 
-  it("becomes inactive from disabled prop", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-slider disabled></calcite-slider>`);
-    const slider = await page.find("calcite-slider");
-    expect(slider).toHaveAttribute("disabled");
-  });
+  it("can be disabled", () => disabled("calcite-slider"));
 
   it("sets aria attributes properly for single value", async () => {
     const page = await newE2EPage();
@@ -673,4 +669,6 @@ describe("calcite-slider", () => {
   });
 
   it("is form-associated", () => formAssociated("calcite-slider", { testValue: 5 }));
+
+  it("is form-associated with range", () => formAssociated("calcite-slider", { testValue: [5, 10] }));
 });

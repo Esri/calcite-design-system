@@ -1,6 +1,6 @@
 import { boolean } from "../../../.storybook/helpers";
-import { themesDarkDefault } from "../../../.storybook/utils";
-import { html, placeholderImage } from "../../tests/utils";
+import { placeholderImage, themesDarkDefault } from "../../../.storybook/utils";
+import { html } from "../../../support/formatting";
 import readme from "./readme.md";
 
 export default {

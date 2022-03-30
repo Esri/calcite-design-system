@@ -1,10 +1,12 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { HYDRATED_ATTR, renders } from "../../tests/commonTests";
+import { disabled, HYDRATED_ATTR, renders } from "../../tests/commonTests";
 
 describe("calcite-tab-title", () => {
   const tabTitleHtml = "<calcite-tab-title></calcite-tab-title>";
 
   it("renders", async () => renders(tabTitleHtml, { display: "block" }));
+
+  it("can be disabled", () => disabled("calcite-tab-title"));
 
   it("renders with an icon-start", async () => {
     const page = await newE2EPage();

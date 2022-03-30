@@ -4,12 +4,13 @@ import { accessible, hidden, renders, defaults } from "../../tests/commonTests";
 import {
   selectionAndDeselection,
   filterBehavior,
-  disabledStates,
+  loadingState,
   keyboardNavigation,
   itemRemoval,
-  focusing
+  focusing,
+  disabling
 } from "./shared-list-tests";
-import { html } from "../../tests/utils";
+import { html } from "../../../support/formatting";
 import { CSS as PICK_LIST_GROUP_CSS } from "../pick-list-group/resources";
 
 describe("calcite-pick-list", () => {
@@ -31,6 +32,10 @@ describe("calcite-pick-list", () => {
         <calcite-pick-list-item label="Sample" value="one"></calcite-pick-list-item>
       </calcite-pick-list>
     `));
+
+  describe("disabling", () => {
+    disabling("pick");
+  });
 
   describe("Selection and Deselection", () => {
     selectionAndDeselection("pick");
@@ -183,8 +188,8 @@ describe("calcite-pick-list", () => {
     itemRemoval("pick");
   });
 
-  describe("disabled states", () => {
-    disabledStates("pick");
+  describe("loading state", () => {
+    loadingState("pick");
   });
 
   describe("setFocus", () => {

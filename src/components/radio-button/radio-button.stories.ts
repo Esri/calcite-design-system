@@ -2,7 +2,7 @@ import { select, text } from "@storybook/addon-knobs";
 import { boolean } from "../../../.storybook/helpers";
 import { themesDarkDefault } from "../../../.storybook/utils";
 import readme from "./readme.md";
-import { html } from "../../tests/utils";
+import { html } from "../../../support/formatting";
 
 export default {
   title: "Components/Controls/Radio/Radio Button",
@@ -59,3 +59,5 @@ export const RTL = (): string => html`
     ${text("label", "Radio Button")}
   </calcite-label>
 `;
+
+export const disabled = (): string => html`<calcite-radio-button checked disabled></calcite-radio-button>`;
