@@ -11,7 +11,7 @@ import {
   State,
   VNode
 } from "@stencil/core";
-import { CSS, HANDLE_ACTIVATED_LABEL, HANDLE_LABEL, ICON_TYPES } from "./resources";
+import { CSS, ICON_TYPES } from "./resources";
 import {
   ListFocusId,
   calciteListFocusOutHandler,
@@ -37,6 +37,7 @@ import {
 import List from "../pick-list/shared-list-render";
 import { createObserver } from "../../utils/observers";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import { DragStatus } from "./interfaces";
 
 /**
  * @slot - A slot for adding `calcite-value-list-item` elements. Items are displayed as a vertical list.
@@ -283,13 +284,12 @@ export class ValueList<
 
   keyDownHandler = (event: KeyboardEvent): void => {
     const { handleElement, item } = this.getHandleAndItemElement(event);
-    const currentPositionText = this.getItemPositionText(item);
 
     if (handleElement && !item.handleActivated && event.key === " ") {
-      this.updateLiveText(
+      this.updateScreenReaderText(
         this.intlDragHandleCurrentPosition
           ? this.intlDragHandleCurrentPosition
-          : `${currentPositionText}`
+          : this.getScreenReaderText(item, "currentPosition")
       );
     }
 
@@ -301,10 +301,10 @@ export class ValueList<
     const { items } = this;
 
     if (event.key === " ") {
-      this.updateLiveText(
+      this.updateScreenReaderText(
         this.intlDragHandleActivated
           ? this.intlDragHandleActivated
-          : `${HANDLE_ACTIVATED_LABEL}. ${currentPositionText}`
+          : this.getScreenReaderText(item, "activated")
       );
     }
 
@@ -316,9 +316,6 @@ export class ValueList<
 
     const { el } = this;
     const nextIndex = moveItemIndex(this, item, event.key === "ArrowUp" ? "up" : "down");
-    const newPosition = nextIndex + 1;
-    const totalItems = items.length;
-
     if (nextIndex === items.length - 1) {
       el.appendChild(item);
     } else {
@@ -336,32 +333,26 @@ export class ValueList<
     requestAnimationFrame(() => handleElement.focus());
     item.handleActivated = true;
 
-    this.updateLiveText(
+    this.updateScreenReaderText(
       this.intlDragHandleNewPosition
         ? this.intlDragHandleNewPosition
-        : `New Position ${newPosition} of ${totalItems}, press space to confirm `
+        : this.getScreenReaderText(item, "newPosition")
     );
   };
 
-  focusHandler = (event: FocusEvent): void => {
+  focusInHandler = (event: FocusEvent): void => {
     const { handleElement, item } = this.getHandleAndItemElement(event);
     if (!handleElement) {
       return;
     }
-    const currentPositionText = this.getItemPositionText(item);
-    this.updateLiveText(
-      this.intlDragHandleStart
-        ? this.intlDragHandleStart
-        : `${HANDLE_LABEL}. ${currentPositionText}`
-    );
+    if (!item.handleActivated) {
+      this.updateScreenReaderText(
+        this.intlDragHandleStart
+          ? this.intlDragHandleStart
+          : this.getScreenReaderText(item, "start")
+      );
+    }
   };
-
-  getItemPositionText(item: HTMLCalciteValueListItemElement): string {
-    const { items } = this;
-    const totalItems = items.length;
-    const itemPosition = getItemIndex(this, item) + 1;
-    return `current position ${itemPosition} of ${totalItems}`;
-  }
 
   getHandleAndItemElement(event: KeyboardEvent | FocusEvent): {
     handleElement: HTMLCalciteHandleElement;
@@ -414,13 +405,32 @@ export class ValueList<
     return type;
   }
 
-  updateLiveText(assertiveText: string): void {
-    //code to update text to our aria-live span
+  updateScreenReaderText(assertiveText: string): void {
+    //code to update text to our aria-live span element
     const screenReaderElement = this.el.shadowRoot.querySelector(".assistive-text");
     screenReaderElement.textContent = assertiveText;
   }
 
+  getScreenReaderText(item: HTMLCalciteValueListItemElement, status: DragStatus): string {
+    const { items } = this;
+    const total = items.length;
+    const position = getItemIndex(this, item) + 1;
+
+    switch (status) {
+      case "start":
+        return `press space and use arrow keys to re-order content. current position ${position} of ${total}`;
+      case "activated":
+        return `Reordering.current position ${position} of ${total}`;
+      case "newPosition":
+        return `new position ${position} of ${total}. press space to confirm`;
+      case "currentPosition":
+        return `current position ${position} of ${total}`;
+      default:
+        break;
+    }
+  }
+
   render(): VNode {
-    return <List onFocusin={this.focusHandler} onKeyDown={this.keyDownHandler} props={this} />;
+    return <List onFocusin={this.focusInHandler} onKeyDown={this.keyDownHandler} props={this} />;
   }
 }
