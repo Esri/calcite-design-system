@@ -83,7 +83,7 @@ export class TabNav {
       localStorage.setItem(`calcite-tab-nav-${this.storageId}`, JSON.stringify(this.selectedTab));
     }
 
-    this.calciteTabChange.emit({
+    this.calciteInternalTabChange.emit({
       tab: this.selectedTab
     });
 
@@ -112,7 +112,7 @@ export class TabNav {
     if (localStorage && this.storageId && localStorage.getItem(storageKey)) {
       const storedTab = JSON.parse(localStorage.getItem(storageKey));
       this.selectedTab = storedTab;
-      this.calciteTabChange.emit({
+      this.calciteInternalTabChange.emit({
         tab: this.selectedTab
       });
     }
@@ -139,7 +139,7 @@ export class TabNav {
       !this.selectedTab
     ) {
       this.tabTitles[0].getTabIdentifier().then((tab) => {
-        this.calciteTabChange.emit({
+        this.calciteInternalTabChange.emit({
           tab
         });
       });
@@ -217,10 +217,21 @@ export class TabNav {
     e.preventDefault();
   }
 
-  @Listen("calciteTabsActivate") activateTabHandler(e: CustomEvent<TabChangeEventDetail>): void {
+  @Listen("calciteInternalTabsActivate") internalActivateTabHandler(
+    e: CustomEvent<TabChangeEventDetail>
+  ): void {
     this.selectedTab = e.detail.tab
       ? e.detail.tab
       : this.getIndexOfTabTitle(e.target as HTMLCalciteTabTitleElement);
+    e.stopPropagation();
+    e.preventDefault();
+  }
+
+  @Listen("calciteTabsActivate") activateTabHandler(e: CustomEvent<TabChangeEventDetail>): void {
+    this.calciteTabChange.emit({
+      tab: this.selectedTab
+    });
+
     e.stopPropagation();
     e.preventDefault();
   }
@@ -234,7 +245,7 @@ export class TabNav {
     }
   }
 
-  @Listen("calciteTabChange", { target: "body" }) globalTabChangeHandler(
+  @Listen("calciteInternalTabChange", { target: "body" }) globalInternalTabChangeHandler(
     e: CustomEvent<TabChangeEventDetail>
   ): void {
     if (
@@ -258,6 +269,11 @@ export class TabNav {
    * @see [TabChangeEventDetail](https://github.com/Esri/calcite-components/blob/master/src/components/tab/interfaces.ts#L1)
    */
   @Event() calciteTabChange: EventEmitter<TabChangeEventDetail>;
+
+  /**
+   * @internal
+   */
+  @Event() calciteInternalTabChange: EventEmitter<TabChangeEventDetail>;
 
   //--------------------------------------------------------------------------
   //

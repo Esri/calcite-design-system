@@ -8,19 +8,29 @@ describe("calcite-tab-nav", () => {
 
   it("is accessible", async () => await accessible(tabNavHtml));
 
+  it("emits on user interaction", async () => await accessible(tabNavHtml));
+
   it("has its active indicator positioned from left if LTR", async () => {
     const page = await newE2EPage();
     await page.setContent(`
-      <calcite-tab-nav>
+      <calcite-tab-nav dir='rtl'>
         <calcite-tab-title active>Tab 1 Title</calcite-tab-title>
         <calcite-tab-title>Tab 2 Title</calcite-tab-title>
         <calcite-tab-title>Tab 3 Title</calcite-tab-title>
         <calcite-tab-title>Tab 4 Title</calcite-tab-title>
       </calcite-tab-nav>`);
-    const element = await page.find("calcite-tab-nav >>> .tab-nav-active-indicator");
-    const style = await element.getComputedStyle();
-    expect(style["left"]).toBe("0px");
-    expect(style["right"]).not.toBe("0px");
+    const activeEventSpy = await page.spyOnEvent("calciteTabChange");
+    const firstTabTitle = await page.find("calcite-tab-title");
+
+    firstTabTitle.setProperty("active", true);
+    await page.waitForChanges();
+    expect(activeEventSpy).toHaveReceivedEventTimes(0);
+
+    await firstTabTitle.click();
+    expect(activeEventSpy).toHaveReceivedEventTimes(1);
+
+    await page.keyboard.press("Enter");
+    expect(activeEventSpy).toHaveReceivedEventTimes(2);
   });
 
   it("has its active indicator positioned from right if RTL", async () => {
