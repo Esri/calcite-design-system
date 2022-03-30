@@ -51,7 +51,7 @@ export const locales = [
   "zh-TW"
 ];
 
-function createLocaleNumberFormatter(locale: string, numberingSystem?: string): Intl.NumberFormat {
+function createLocaleNumberFormatter(locale: string, numberingSystem = "latn"): Intl.NumberFormat {
   return new Intl.NumberFormat(locale, {
     minimumFractionDigits: 0,
     maximumFractionDigits: 20,
