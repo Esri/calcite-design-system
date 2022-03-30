@@ -318,11 +318,6 @@ export class ValueList<
     const nextIndex = moveItemIndex(this, item, event.key === "ArrowUp" ? "up" : "down");
     const newPosition = nextIndex + 1;
     const totalItems = items.length;
-    this.updateLiveText(
-      this.intlDragHandleNewPosition
-        ? this.intlDragHandleNewPosition
-        : `New Position ${newPosition} of ${totalItems}, press space to confirm `
-    );
 
     if (nextIndex === items.length - 1) {
       el.appendChild(item);
@@ -340,17 +335,21 @@ export class ValueList<
 
     requestAnimationFrame(() => handleElement.focus());
     item.handleActivated = true;
+
+    this.updateLiveText(
+      this.intlDragHandleNewPosition
+        ? this.intlDragHandleNewPosition
+        : `New Position ${newPosition} of ${totalItems}, press space to confirm `
+    );
   };
 
   focusHandler = (event: FocusEvent): void => {
     const { handleElement, item } = this.getHandleAndItemElement(event);
-
     if (!handleElement) {
       return;
     }
     const currentPositionText = this.getItemPositionText(item);
-    handleElement.setAttribute(
-      "aria-label",
+    this.updateLiveText(
       this.intlDragHandleStart
         ? this.intlDragHandleStart
         : `${HANDLE_LABEL}. ${currentPositionText}`
@@ -415,10 +414,10 @@ export class ValueList<
     return type;
   }
 
-  updateLiveText(selectedItem: string): void {
+  updateLiveText(assertiveText: string): void {
     //code to update text to our aria-live span
-    const spanEle = this.el.shadowRoot.querySelector(".assistive-text");
-    spanEle.textContent = selectedItem;
+    const screenReaderElement = this.el.shadowRoot.querySelector(".assistive-text");
+    screenReaderElement.textContent = assertiveText;
   }
 
   render(): VNode {
