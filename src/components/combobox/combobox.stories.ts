@@ -256,6 +256,21 @@ FlipPositioning.parameters = {
   layout: "fullscreen"
 };
 
+
+export const SingleLongLabel = (): string => html`
+  <calcite-combobox active selection-mode="single" allow-custom-values>
+    <calcite-combobox-item value="Trees" text-label="Trees">
+      <calcite-combobox-item
+        value="CommercialDamageAssessment - Damage to Commercial Buildings"
+        text-label="CommercialDamageAssessment - Damage to Commercial Buildings &  Damage to Residential Buildings "
+      ></calcite-combobox-item>
+      <calcite-combobox-item value="Sequoia" text-label="Sequoia"></calcite-combobox-item>
+      <calcite-combobox-item value="Douglas Fir" text-label="Douglas Fir"></calcite-combobox-item>
+    </calcite-combobox-item>
+    <calcite-combobox-item value="Rivers" text-label="Rivers"></calcite-combobox-item>
+  </calcite-combobox>
+`;
+
 export const disabled = (): string => html`<calcite-combobox disabled>
   <calcite-combobox-item value="Trees" text-label="Trees">
     <calcite-combobox-item value="Pine" text-label="Pine"></calcite-combobox-item>
@@ -268,3 +283,4 @@ export const disabled = (): string => html`<calcite-combobox disabled>
     <calcite-combobox-item value="Nasturtium" text-label="Nasturtium"></calcite-combobox-item>
   </calcite-combobox-item>
 </calcite-combobox>`;
+
