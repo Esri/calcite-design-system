@@ -110,7 +110,7 @@ export class TabNav {
   }
 
   disconnectedCallback(): void {
-    this.resizeObserver?.unobserve(this.el);
+    this.resizeObserver?.disconnect();
   }
 
   componentWillLoad(): void {
