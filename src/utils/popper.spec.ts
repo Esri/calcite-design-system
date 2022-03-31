@@ -60,5 +60,5 @@ it("should correctly calculate hypotenuse", () => {
 });
 
 it("should filter computed placements", () => {
-  expect(filterComputedPlacements(popperPlacements)).toEqual(popperComputedPlacements);
+  expect(new Set(filterComputedPlacements(popperPlacements))).toEqual(new Set(popperComputedPlacements));
 });
