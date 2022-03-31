@@ -143,7 +143,7 @@
     "typescript": "4.5.4",
     "updtr": "4.0.0",
     "workbox-build": "6.5.1",
-    "yargs": "17.3.1"
+    "yargs": "17.4.0"
   },
   "license": "SEE LICENSE IN copyright.txt",
   "volta": {
