@@ -21,8 +21,9 @@ import {
   CSS as PopperCSS,
   OverlayPositioning,
   ComputedPlacement,
-  popperMenuFlipPlacements,
-  defaultMenuPlacement
+  popperMenuComputedPlacements,
+  defaultMenuPlacement,
+  filterComputedPlacements
 } from "../../utils/popper";
 import { StrictModifiers, Instance as Popper } from "@popperjs/core";
 import { guid } from "../../utils/guid";
@@ -545,7 +546,9 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
     };
 
     flipModifier.options = {
-      fallbackPlacements: this.flipPlacements || popperMenuFlipPlacements
+      fallbackPlacements: filterComputedPlacements(
+        this.flipPlacements || popperMenuComputedPlacements
+      )
     };
 
     const eventListenerModifier: Partial<StrictModifiers> = {

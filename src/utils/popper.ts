@@ -60,7 +60,7 @@ export const popperPlacements: PopperPlacement[] = [
   "left-trailing"
 ];
 
-export const popperFlipPlacements: ComputedPlacement[] = [
+export const popperComputedPlacements: ComputedPlacement[] = [
   "top",
   "bottom",
   "right",
@@ -104,7 +104,7 @@ export const popperMenuPlacements: MenuPlacement[] = [
   "bottom-trailing"
 ];
 
-export const popperMenuFlipPlacements: ComputedPlacement[] = [
+export const popperMenuComputedPlacements: ComputedPlacement[] = [
   "top-start",
   "top",
   "top-end",
@@ -117,6 +117,12 @@ export const CSS = {
   animation: "calcite-popper-anim",
   animationActive: "calcite-popper-anim--active"
 };
+
+export function filterComputedPlacements(placements: string[]): PopperComputedPlacement[] {
+  return placements.filter((placement: PopperComputedPlacement) =>
+    popperComputedPlacements.includes(placement)
+  ) as PopperComputedPlacement[];
+}
 
 export function getPlacement(el: HTMLElement, placement: PopperPlacement): Placement {
   const placements = ["left", "right"];

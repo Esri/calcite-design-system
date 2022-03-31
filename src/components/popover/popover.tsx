@@ -28,7 +28,8 @@ import {
   updatePopper,
   CSS as PopperCSS,
   OverlayPositioning,
-  ComputedPlacement
+  ComputedPlacement,
+  filterComputedPlacements
 } from "../../utils/popper";
 import { StrictModifiers, Instance as Popper } from "@popperjs/core";
 import { guid } from "../../utils/guid";
@@ -324,7 +325,7 @@ export class Popover {
 
     if (flipPlacements) {
       flipModifier.options = {
-        fallbackPlacements: flipPlacements
+        fallbackPlacements: filterComputedPlacements(flipPlacements)
       };
     }
 

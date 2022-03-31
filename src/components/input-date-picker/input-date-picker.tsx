@@ -32,10 +32,11 @@ import {
   updatePopper,
   CSS as PopperCSS,
   OverlayPositioning,
-  popperMenuFlipPlacements,
+  popperMenuComputedPlacements,
   ComputedPlacement,
   defaultMenuPlacement,
-  MenuPlacement
+  MenuPlacement,
+  filterComputedPlacements
 } from "../../utils/popper";
 import { StrictModifiers, Instance as Popper } from "@popperjs/core";
 import { DateRangeChange } from "../date-picker/interfaces";
@@ -592,7 +593,9 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
     };
 
     flipModifier.options = {
-      fallbackPlacements: this.flipPlacements || popperMenuFlipPlacements
+      fallbackPlacements: filterComputedPlacements(
+        this.flipPlacements || popperMenuComputedPlacements
+      )
     };
 
     const eventListenerModifier: Partial<StrictModifiers> = {

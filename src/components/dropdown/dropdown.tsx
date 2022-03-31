@@ -20,9 +20,10 @@ import {
   CSS as PopperCSS,
   OverlayPositioning,
   updatePopper,
-  popperMenuFlipPlacements,
+  popperMenuComputedPlacements,
   MenuPlacement,
-  defaultMenuPlacement
+  defaultMenuPlacement,
+  filterComputedPlacements
 } from "../../utils/popper";
 import { Instance as Popper, StrictModifiers } from "@popperjs/core";
 import { Scale } from "../interfaces";
@@ -402,7 +403,9 @@ export class Dropdown implements InteractiveComponent {
     };
 
     flipModifier.options = {
-      fallbackPlacements: this.flipPlacements || popperMenuFlipPlacements
+      fallbackPlacements: filterComputedPlacements(
+        this.flipPlacements || popperMenuComputedPlacements
+      )
     };
 
     const eventListenerModifier: Partial<StrictModifiers> = {
