@@ -1,4 +1,4 @@
-# Accessability
+# Accessibility
 
 Components must be accessible and are required to have tests that focus on a11y. We use the following resources as guides:
 
