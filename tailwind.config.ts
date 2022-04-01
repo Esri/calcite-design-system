@@ -2,6 +2,7 @@ import flattenColorPalette from "tailwindcss/lib/util/flattenColorPalette";
 import plugin from "tailwindcss/plugin";
 
 export default {
+  content: ["./src/components/**/*.scss"],
   theme: {
     borderColor: ({ theme }): object => ({
       color: {

@@ -1,5 +1,6 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { renders, accessible } from "../../tests/commonTests";
+import { accessible, renders } from "../../tests/commonTests";
+import { html } from "../../../support/formatting";
 
 describe("calcite-tab-nav", () => {
   const tabNavHtml = "<calcite-tab-nav></calcite-tab-nav>";
@@ -8,34 +9,46 @@ describe("calcite-tab-nav", () => {
 
   it("is accessible", async () => await accessible(tabNavHtml));
 
-  it("has its active indicator positioned from left if LTR", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
-      <calcite-tab-nav>
-        <calcite-tab-title active>Tab 1 Title</calcite-tab-title>
-        <calcite-tab-title>Tab 2 Title</calcite-tab-title>
-        <calcite-tab-title>Tab 3 Title</calcite-tab-title>
-        <calcite-tab-title>Tab 4 Title</calcite-tab-title>
-      </calcite-tab-nav>`);
-    const element = await page.find("calcite-tab-nav >>> .tab-nav-active-indicator");
-    const style = await element.getComputedStyle();
-    expect(style["left"]).toBe("0px");
-    expect(style["right"]).not.toBe("0px");
-  });
+  describe("active indicator", () => {
+    const tabTitles = html`
+      <calcite-tab-title active>Tab 1 Title</calcite-tab-title>
+      <calcite-tab-title>Tab 2 Title</calcite-tab-title>
+      <calcite-tab-title>Tab 3 Title</calcite-tab-title>
+      <calcite-tab-title>Tab 4 Title</calcite-tab-title>
+    `;
 
-  it("has its active indicator positioned from right if RTL", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
-      <calcite-tab-nav dir='rtl'>
-        <calcite-tab-title active>Tab 1 Title</calcite-tab-title>
-        <calcite-tab-title>Tab 2 Title</calcite-tab-title>
-        <calcite-tab-title>Tab 3 Title</calcite-tab-title>
-        <calcite-tab-title>Tab 4 Title</calcite-tab-title>
-      </calcite-tab-nav>`);
-    const element = await page.find("calcite-tab-nav >>> .tab-nav-active-indicator");
-    const style = await element.getComputedStyle();
-    expect(style["right"]).toBe("0px");
-    expect(style["left"]).not.toBe("0px");
+    it("has its active indicator positioned from left if LTR", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`<calcite-tab-nav>${tabTitles}</calcite-tab-nav>`);
+      const element = await page.find("calcite-tab-nav >>> .tab-nav-active-indicator");
+      const style = await element.getComputedStyle();
+      expect(style["left"]).toBe("0px");
+      expect(style["right"]).not.toBe("0px");
+      expect(style["width"]).not.toBe("0px");
+    });
+
+    it("has its active indicator positioned from right if RTL", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`<calcite-tab-nav dir='rtl'>${tabTitles}</calcite-tab-nav>`);
+      const element = await page.find("calcite-tab-nav >>> .tab-nav-active-indicator");
+      const style = await element.getComputedStyle();
+      expect(style["right"]).toBe("0px");
+      expect(style["left"]).not.toBe("0px");
+      expect(style["width"]).not.toBe("0px");
+    });
+
+    it("updates position when made visible", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`<calcite-tab-nav hidden>${tabTitles}</calcite-tab-nav>`);
+      const tabNav = await page.find("calcite-tab-nav");
+      const indicator = await page.find("calcite-tab-nav >>> .tab-nav-active-indicator");
+
+      tabNav.setProperty("hidden", false);
+      await page.waitForChanges();
+
+      const style = await indicator.getComputedStyle();
+      expect(style["width"]).not.toBe("0px");
+    });
   });
 
   describe("scale property", () => {
