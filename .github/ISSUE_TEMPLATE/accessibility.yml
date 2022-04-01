@@ -65,9 +65,9 @@ body:
     id: relevant
     attributes:
       label: Relevant Info
-      description: Browser, OS, mobile, stack traces, related issues, suggestions/resources on how to fix, etc.
+      description: Browser, OS, tools, mobile, stack traces, related issues, suggestions/resources on how to fix, etc.
       placeholder: |
-        Windows 10, Chrome 97
+        Windows 10, Chrome 97, JAWS, NVDA, VoiceOver, Dragon
         `Uncaught TypeError: Cannot read property of undefined`
         ...
     validations:
