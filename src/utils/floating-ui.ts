@@ -251,12 +251,14 @@ export function getEffectivePlacement(floatingEl: HTMLElement, placement: Logica
 
   if (getElementDir(floatingEl) === "rtl") {
     placements.reverse();
-    variations.reverse();
+    // todo: already happens in floating-ui.
+    // https://github.com/floating-ui/floating-ui/issues/1530
+    // variations.reverse();
   }
 
   return placement
-    .replace(/-leading/gi, `-${variations[0]}`)
-    .replace(/-trailing/gi, `-${variations[1]}`)
+    .replace(/-leading/gi, `-${variations[0]}`) // todo: remove in future
+    .replace(/-trailing/gi, `-${variations[1]}`) // todo: remove in future
     .replace(/leading/gi, placements[0])
     .replace(/trailing/gi, placements[1]) as EffectivePlacement;
 }
