@@ -24,7 +24,7 @@ import {
   RGB_LIMITS,
   TEXT
 } from "./resources";
-import { focusElement, getElementDir } from "../../utils/dom";
+import { Direction, focusElement, getElementDir } from "../../utils/dom";
 import { colorEqual, CSSColorMode, Format, normalizeHex, parseMode, SupportedMode } from "./utils";
 import { throttle } from "lodash-es";
 
@@ -955,12 +955,21 @@ export class ColorPicker implements InteractiveComponent {
     const channelAriaLabels = isRgb
       ? [intlRed, intlGreen, intlBlue]
       : [intlHue, intlSaturation, intlValue];
+    const direction = getElementDir(this.el);
 
     return (
       <calcite-tab active={active} class={CSS.control} key={channelMode}>
-        <div class={{ [CSS.channels]: true, [CSS.channelsRTL]: getElementDir(this.el) === "rtl" }}>
+        {/* channel order should not be mirrored */}
+        <div class={CSS.channels} dir="ltr">
           {channels.map((channel, index) =>
-            this.renderChannel(channel, index, channelLabels[index], channelAriaLabels[index])
+            /* the channel container is ltr, so we apply the host's direction */
+            this.renderChannel(
+              channel,
+              index,
+              channelLabels[index],
+              channelAriaLabels[index],
+              direction
+            )
           )}
         </div>
       </calcite-tab>
@@ -971,11 +980,13 @@ export class ColorPicker implements InteractiveComponent {
     value: number | null,
     index: number,
     label: string,
-    ariaLabel: string
+    ariaLabel: string,
+    direction: Direction
   ): VNode => (
     <calcite-input
       class={CSS.channel}
       data-channel-index={index}
+      dir={direction}
       label={ariaLabel}
       numberButtonType="none"
       onCalciteInputChange={this.handleChannelChange}

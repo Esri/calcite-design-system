@@ -24,8 +24,7 @@ export const CSS = {
   scope: "scope",
   hueScope: "scope--hue",
   colorFieldScope: "scope--color-field",
-  savedColor: "saved-color",
-  channelsRTL: "channels--rtl"
+  savedColor: "saved-color"
 };
 
 export const DEFAULT_COLOR = Color("#007AC2");
