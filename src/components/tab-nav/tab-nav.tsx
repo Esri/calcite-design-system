@@ -16,6 +16,7 @@ import { getElementDir, filterDirectChildren } from "../../utils/dom";
 import { TabID, TabLayout } from "../tabs/interfaces";
 import { TabPosition } from "../tabs/interfaces";
 import { Scale } from "../interfaces";
+import { createObserver } from "../../utils/observers";
 
 /**
  * @slot - A slot for adding `calcite-tab-title`s.
@@ -105,6 +106,11 @@ export class TabNav {
 
   connectedCallback(): void {
     this.parentTabsEl = this.el.closest("calcite-tabs");
+    this.resizeObserver?.observe(this.el);
+  }
+
+  disconnectedCallback(): void {
+    this.resizeObserver?.disconnect();
   }
 
   componentWillLoad(): void {
@@ -179,13 +185,6 @@ export class TabNav {
   //  Event Listeners
   //
   //--------------------------------------------------------------------------
-
-  @Listen("resize", { target: "window" }) resizeHandler(): void {
-    // remove active indicator transition duration during resize to prevent wobble
-    this.activeIndicatorEl.style.transitionDuration = "0s";
-    this.updateActiveWidth();
-    this.updateOffsetPosition();
-  }
 
   @Listen("calciteTabsFocusPrevious") focusPreviousTabHandler(e: CustomEvent): void {
     const currentIndex = this.getIndexOfTabTitle(
@@ -278,6 +277,13 @@ export class TabNav {
   activeIndicatorContainerEl: HTMLDivElement;
 
   animationActiveDuration = 0.3;
+
+  resizeObserver = createObserver("resize", () => {
+    // remove active indicator transition duration during resize to prevent wobble
+    this.activeIndicatorEl.style.transitionDuration = "0s";
+    this.updateActiveWidth();
+    this.updateOffsetPosition();
+  });
 
   //--------------------------------------------------------------------------
   //
