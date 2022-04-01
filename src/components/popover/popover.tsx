@@ -30,7 +30,8 @@ import {
   disconnectFloatingUI,
   LogicalPlacement,
   EffectivePlacement,
-  defaultOffsetDistance
+  defaultOffsetDistance,
+  filterComputedPlacements
 } from "../../utils/floating-ui";
 import { guid } from "../../utils/guid";
 import { queryElementRoots } from "../../utils/dom";
@@ -76,6 +77,11 @@ export class Popover implements FloatingUIComponent {
    * Defines the available placements that can be used when a flip occurs.
    */
   @Prop() flipPlacements?: EffectivePlacement[];
+
+  @Watch("flipPlacements")
+  flipPlacementsHandler(): void {
+    this.setFilteredPlacements();
+  }
 
   /**
    * Heading text.
@@ -166,6 +172,8 @@ export class Popover implements FloatingUIComponent {
   //
   // --------------------------------------------------------------------------
 
+  filteredFlipPlacements: EffectivePlacement[];
+
   @Element() el: HTMLCalcitePopoverElement;
 
   @State() effectiveReferenceElement: HTMLElement;
@@ -189,6 +197,7 @@ export class Popover implements FloatingUIComponent {
   connectedCallback(): void {
     this.active = this.open;
     connectFloatingUI(this, this.effectiveReferenceElement, this.el);
+    this.setFilteredPlacements();
   }
 
   componentWillLoad(): void {
@@ -280,6 +289,14 @@ export class Popover implements FloatingUIComponent {
   //  Private Methods
   //
   // --------------------------------------------------------------------------
+
+  setFilteredPlacements = (): void => {
+    const { el, flipPlacements } = this;
+
+    this.filteredFlipPlacements = flipPlacements
+      ? filterComputedPlacements(flipPlacements, el)
+      : null;
+  };
 
   setUpReferenceElement = (): void => {
     this.removeReferences();

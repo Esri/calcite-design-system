@@ -36,7 +36,8 @@ import {
   disconnectFloatingUI,
   EffectivePlacement,
   MenuPlacement,
-  defaultMenuPlacement
+  defaultMenuPlacement,
+  filterComputedPlacements
 } from "../../utils/floating-ui";
 import { DateRangeChange } from "../date-picker/interfaces";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
@@ -97,6 +98,11 @@ export class InputDatePicker
    * Defines the available placements that can be used when a flip occurs.
    */
   @Prop() flipPlacements?: EffectivePlacement[];
+
+  @Watch("flipPlacements")
+  flipPlacementsHandler(): void {
+    this.setFilteredPlacements();
+  }
 
   /**
    * Number at which section headings should start for this component.
@@ -343,6 +349,7 @@ export class InputDatePicker
     connectLabel(this);
     connectForm(this);
     this.reposition();
+    this.setFilteredPlacements();
   }
 
   async componentWillLoad(): Promise<void> {
@@ -488,6 +495,8 @@ export class InputDatePicker
   //
   //--------------------------------------------------------------------------
 
+  filteredFlipPlacements: EffectivePlacement[];
+
   labelEl: HTMLCalciteLabelElement;
 
   formEl: HTMLFormElement;
@@ -530,6 +539,14 @@ export class InputDatePicker
   //  Private Methods
   //
   //--------------------------------------------------------------------------
+
+  setFilteredPlacements = (): void => {
+    const { el, flipPlacements } = this;
+
+    this.filteredFlipPlacements = flipPlacements
+      ? filterComputedPlacements(flipPlacements, el)
+      : null;
+  };
 
   onLabelClick(): void {
     this.setFocus();

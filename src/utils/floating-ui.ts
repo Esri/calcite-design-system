@@ -227,6 +227,24 @@ function getMiddleware({
   return [];
 }
 
+export function filterComputedPlacements(placements: string[], el: HTMLElement): EffectivePlacement[] {
+  const filteredPlacements = placements.filter((placement: EffectivePlacement) =>
+    effectivePlacements.includes(placement)
+  ) as EffectivePlacement[];
+
+  if (filteredPlacements.length !== placements.length) {
+    console.warn(
+      `${el.tagName}: Invalid value found in: flipPlacements. Try any of these: ${effectivePlacements
+        .map((placement) => `"${placement}"`)
+        .join(", ")
+        .trim()}`,
+      { el }
+    );
+  }
+
+  return filteredPlacements;
+}
+
 export function getEffectivePlacement(floatingEl: HTMLElement, placement: LogicalPlacement): EffectivePlacement {
   const placements = ["left", "right"];
   const variations = ["start", "end"];

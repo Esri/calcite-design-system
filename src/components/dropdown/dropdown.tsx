@@ -23,7 +23,8 @@ import {
   disconnectFloatingUI,
   EffectivePlacement,
   MenuPlacement,
-  defaultMenuPlacement
+  defaultMenuPlacement,
+  filterComputedPlacements
 } from "../../utils/floating-ui";
 import { Scale } from "../interfaces";
 import { SLOTS } from "./resources";
@@ -88,6 +89,11 @@ export class Dropdown implements InteractiveComponent, FloatingUIComponent {
    */
   @Prop() flipPlacements?: EffectivePlacement[];
 
+  @Watch("flipPlacements")
+  flipPlacementsHandler(): void {
+    this.setFilteredPlacements();
+  }
+
   /**
    specify the maximum number of calcite-dropdown-items to display before showing the scroller, must be greater than 0 -
    this value does not include groupTitles passed to calcite-dropdown-group
@@ -144,6 +150,7 @@ export class Dropdown implements InteractiveComponent, FloatingUIComponent {
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
     this.updateItems();
     this.reposition();
+    this.setFilteredPlacements();
   }
 
   componentDidLoad(): void {
@@ -332,6 +339,8 @@ export class Dropdown implements InteractiveComponent, FloatingUIComponent {
   //
   //--------------------------------------------------------------------------
 
+  filteredFlipPlacements: EffectivePlacement[];
+
   private items: HTMLCalciteDropdownItemElement[] = [];
 
   /** trigger elements */
@@ -354,6 +363,14 @@ export class Dropdown implements InteractiveComponent, FloatingUIComponent {
   //  Private Methods
   //
   //--------------------------------------------------------------------------
+
+  setFilteredPlacements = (): void => {
+    const { el, flipPlacements } = this;
+
+    this.filteredFlipPlacements = flipPlacements
+      ? filterComputedPlacements(flipPlacements, el)
+      : null;
+  };
 
   updateItems = (): void => {
     this.updateSelectedItems();

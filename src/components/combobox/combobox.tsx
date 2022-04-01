@@ -24,7 +24,8 @@ import {
   disconnectFloatingUI,
   LogicalPlacement,
   EffectivePlacement,
-  defaultMenuPlacement
+  defaultMenuPlacement,
+  filterComputedPlacements
 } from "../../utils/floating-ui";
 import { guid } from "../../utils/guid";
 import { Scale } from "../interfaces";
@@ -175,6 +176,11 @@ export class Combobox
    */
   @Prop() flipPlacements?: EffectivePlacement[];
 
+  @Watch("flipPlacements")
+  flipPlacementsHandler(): void {
+    this.setFilteredPlacements();
+  }
+
   //--------------------------------------------------------------------------
   //
   //  Event Listeners
@@ -280,6 +286,7 @@ export class Combobox
     connectLabel(this);
     connectForm(this);
     this.reposition();
+    this.setFilteredPlacements();
   }
 
   componentWillLoad(): void {
@@ -315,6 +322,8 @@ export class Combobox
   //--------------------------------------------------------------------------
 
   placement: LogicalPlacement = defaultMenuPlacement;
+
+  filteredFlipPlacements: EffectivePlacement[];
 
   internalValueChangeFlag = false;
 
@@ -382,6 +391,14 @@ export class Combobox
   //  Private Methods
   //
   // --------------------------------------------------------------------------
+
+  setFilteredPlacements = (): void => {
+    const { el, flipPlacements } = this;
+
+    this.filteredFlipPlacements = flipPlacements
+      ? filterComputedPlacements(flipPlacements, el)
+      : null;
+  };
 
   getValue = (): string | string[] => {
     const items = this.selectedItems.map((item) => item?.value.toString());

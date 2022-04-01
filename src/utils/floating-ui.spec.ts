@@ -1,4 +1,11 @@
-import { getEffectivePlacement, defaultOffsetDistance, hypotenuse } from "./floating-ui";
+import {
+  getEffectivePlacement,
+  defaultOffsetDistance,
+  hypotenuse,
+  filterComputedPlacements,
+  placements,
+  effectivePlacements
+} from "./floating-ui";
 
 it("should set calcite placement to FloatingUI placement", () => {
   const el = document.createElement("div");
@@ -50,4 +57,10 @@ it("should have correct value for defaultOffsetDistance", () => {
 
 it("should correctly calculate hypotenuse", () => {
   expect(Math.floor(hypotenuse(4, 4))).toBe(5);
+});
+
+it("should filter computed placements", () => {
+  expect(new Set(filterComputedPlacements(placements, document.createElement("div")))).toEqual(
+    new Set(effectivePlacements)
+  );
 });
