@@ -72,7 +72,7 @@ export const placements: LogicalPlacement[] = [
   "left-trailing"
 ];
 
-export const computedPlacements: EffectivePlacement[] = [
+export const effectivePlacements: EffectivePlacement[] = [
   "top",
   "bottom",
   "right",
@@ -100,7 +100,7 @@ export const menuPlacements: MenuPlacement[] = [
   "bottom-trailing"
 ];
 
-export const menuComputedPlacements: EffectivePlacement[] = [
+export const menuEffectivePlacements: EffectivePlacement[] = [
   "top-start",
   "top",
   "top-end",
@@ -276,7 +276,7 @@ export async function positionFloatingUI({
   const {
     x,
     y,
-    placement: computedPlacement,
+    placement: effectivePlacement,
     strategy: position,
     middlewareData
   } = await computePosition(referenceEl, floatingEl, {
@@ -309,7 +309,7 @@ export async function positionFloatingUI({
   const visibility = referenceHidden ? "hidden" : null;
   const pointerEvents = visibility ? "none" : null;
 
-  floatingEl.setAttribute("data-placement", computedPlacement);
+  floatingEl.setAttribute("data-placement", effectivePlacement);
 
   const transform = `translate(${Math.round(x)}px,${Math.round(y)}px)`;
 
