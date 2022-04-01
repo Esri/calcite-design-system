@@ -72,7 +72,42 @@ export const placements: LogicalPlacement[] = [
   "left-trailing"
 ];
 
-export const menuPlacements: MenuPlacement[] = ["top-start", "top", "top-end", "bottom-start", "bottom", "bottom-end"];
+export const computedPlacements: EffectivePlacement[] = [
+  "top",
+  "bottom",
+  "right",
+  "left",
+  "top-start",
+  "top-end",
+  "bottom-start",
+  "bottom-end",
+  "right-start",
+  "right-end",
+  "left-start",
+  "left-end"
+];
+
+export const menuPlacements: MenuPlacement[] = [
+  "top-start",
+  "top",
+  "top-end",
+  "bottom-start",
+  "bottom",
+  "bottom-end",
+  "top-leading",
+  "top-trailing",
+  "bottom-leading",
+  "bottom-trailing"
+];
+
+export const menuComputedPlacements: EffectivePlacement[] = [
+  "top-start",
+  "top",
+  "top-end",
+  "bottom-start",
+  "bottom",
+  "bottom-end"
+];
 
 export const flipPlacements: EffectivePlacement[] = [
   "top",
@@ -91,7 +126,16 @@ export const flipPlacements: EffectivePlacement[] = [
 
 export type MenuPlacement = Extract<
   LogicalPlacement,
-  "top-start" | "top" | "top-end" | "bottom-start" | "bottom" | "bottom-end"
+  | "top-start"
+  | "top"
+  | "top-end"
+  | "bottom-start"
+  | "bottom"
+  | "bottom-end"
+  | "top-leading"
+  | "top-trailing"
+  | "bottom-leading"
+  | "bottom-trailing"
 >;
 
 export const defaultMenuPlacement: MenuPlacement = "bottom-start";
