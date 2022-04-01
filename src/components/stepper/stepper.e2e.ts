@@ -243,4 +243,65 @@ describe("calcite-stepper", () => {
     expect(step3).not.toHaveAttribute("active");
     expect(step4).not.toHaveAttribute("active");
   });
+
+  it("next/previous methods work when placed inside shadow DOM (#992)", async () => {
+    const templateHTML = html`
+      <calcite-stepper id="stepper">
+        <calcite-stepper-item id="item-1" active item-title="Add info" item-subtitle="Subtitle lorem ipsum" complete
+          >Step 1 Content here lorem ipsum</calcite-stepper-item
+        >
+        <calcite-stepper-item id="item-2" item-title="Add data" item-subtitle="Error example" error
+          >Step 2 Content here error</calcite-stepper-item
+        >
+        <calcite-stepper-item id="item-3" item-title="Upload images" item-subtitle="Subtitle lorem ipsum">
+          Step 3 Content here dolor set amet et geographica</calcite-stepper-item
+        >
+        <calcite-stepper-item id="item-4" item-title="Review" item-subtitle="Disabled example" disabled
+          >Step 4 Content here</calcite-stepper-item
+        >
+      </calcite-stepper>
+      <calcite-button id="prev">Previous Step</calcite-button>
+      <calcite-button id="next">Next Step</calcite-button>
+    `;
+
+    const page = await newE2EPage({ html: templateHTML });
+
+    await page.waitForChanges();
+
+    const finalSelectedItem = await page.evaluate(
+      async (templateHTML: string): Promise<string> => {
+        const wrapperName = "test-calcite-stepper";
+
+        customElements.define(
+          wrapperName,
+          class extends HTMLElement {
+            constructor() {
+              super();
+            }
+
+            connectedCallback(): void {
+              this.attachShadow({ mode: "open" }).innerHTML = templateHTML;
+              const stepper = this.shadowRoot.getElementById("stepper") as HTMLCalciteStepperElement;
+              this.shadowRoot.getElementById("next").addEventListener("click", () => stepper.nextStep());
+              this.shadowRoot.getElementById("prev").addEventListener("click", () => stepper.prevStep());
+            }
+          }
+        );
+
+        document.body.innerHTML = `<${wrapperName}></${wrapperName}>`;
+
+        const wrapper = document.querySelector(wrapperName);
+
+        await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+        wrapper.shadowRoot.querySelector<HTMLElement>("#item-2").click();
+        wrapper.shadowRoot.querySelector<HTMLElement>("#next").click();
+        await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+
+        return wrapper.shadowRoot.querySelector("calcite-stepper-item[active]").id;
+      },
+      [templateHTML]
+    );
+
+    expect(finalSelectedItem).toBe("item-3");
+  });
 });
