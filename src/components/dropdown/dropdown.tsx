@@ -109,7 +109,7 @@ export class Dropdown implements InteractiveComponent, FloatingUIComponent {
 
   /**
    * Determines where the dropdown will be positioned relative to the button.
-   * @default "bottom-start"
+   * @default "bottom-leading"
    */
   @Prop({ reflect: true }) placement: MenuPlacement = defaultMenuPlacement;
 

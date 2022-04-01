@@ -138,7 +138,7 @@ export type MenuPlacement = Extract<
   | "bottom-trailing"
 >;
 
-export const defaultMenuPlacement: MenuPlacement = "bottom-start";
+export const defaultMenuPlacement: MenuPlacement = "bottom-leading";
 
 export interface FloatingUIComponent {
   /**
