@@ -118,10 +118,31 @@ export const CSS = {
   animationActive: "calcite-popper-anim--active"
 };
 
-export function filterComputedPlacements(placements: string[]): PopperComputedPlacement[] {
-  return placements.filter((placement: PopperComputedPlacement) =>
+export function filterComputedPlacements(el: HTMLElement, placements: string[]): PopperComputedPlacement[] {
+  const placementsLength = placements?.length;
+
+  if (!placementsLength) {
+    return null;
+  }
+
+  const filteredPlacements = placements.filter((placement: PopperComputedPlacement) =>
     popperComputedPlacements.includes(placement)
   ) as PopperComputedPlacement[];
+
+  const filteredLength = filteredPlacements.length;
+
+  if (filteredLength !== placementsLength) {
+    console.warn(
+      `${
+        el.tagName
+      }: Invalid value found in 'flipPlacements'. Try one of these:  ${popperComputedPlacements.toString()}.`,
+      {
+        el
+      }
+    );
+  }
+
+  return filteredLength ? filteredPlacements : null;
 }
 
 export function getPlacement(el: HTMLElement, placement: PopperPlacement): Placement {

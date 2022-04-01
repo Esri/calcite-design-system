@@ -404,6 +404,7 @@ export class Dropdown implements InteractiveComponent {
 
     flipModifier.options = {
       fallbackPlacements: filterComputedPlacements(
+        this.el,
         this.flipPlacements || popperMenuComputedPlacements
       )
     };

@@ -325,7 +325,7 @@ export class Popover {
 
     if (flipPlacements) {
       flipModifier.options = {
-        fallbackPlacements: filterComputedPlacements(flipPlacements)
+        fallbackPlacements: filterComputedPlacements(this.el, flipPlacements)
       };
     }
 

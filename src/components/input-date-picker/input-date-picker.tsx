@@ -594,6 +594,7 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
 
     flipModifier.options = {
       fallbackPlacements: filterComputedPlacements(
+        this.el,
         this.flipPlacements || popperMenuComputedPlacements
       )
     };

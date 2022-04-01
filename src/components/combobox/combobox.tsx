@@ -547,6 +547,7 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
 
     flipModifier.options = {
       fallbackPlacements: filterComputedPlacements(
+        this.el,
         this.flipPlacements || popperMenuComputedPlacements
       )
     };
