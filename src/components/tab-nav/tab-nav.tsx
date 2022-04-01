@@ -112,9 +112,6 @@ export class TabNav {
     if (localStorage && this.storageId && localStorage.getItem(storageKey)) {
       const storedTab = JSON.parse(localStorage.getItem(storageKey));
       this.selectedTab = storedTab;
-      this.calciteInternalTabChange.emit({
-        tab: this.selectedTab
-      });
     }
   }
 
