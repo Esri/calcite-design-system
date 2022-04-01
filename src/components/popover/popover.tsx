@@ -77,6 +77,11 @@ export class Popover {
    */
   @Prop() flipPlacements?: ComputedPlacement[];
 
+  @Watch("flipPlacements")
+  flipPlacementsHandler(): void {
+    this.setFilteredPlacements();
+  }
+
   /**
    * Heading text.
    */
@@ -157,6 +162,8 @@ export class Popover {
   //
   // --------------------------------------------------------------------------
 
+  filteredFlipPlacements: ComputedPlacement[];
+
   @Element() el: HTMLCalcitePopoverElement;
 
   @State() effectiveReferenceElement: HTMLElement;
@@ -176,6 +183,10 @@ export class Popover {
   //  Lifecycle
   //
   // --------------------------------------------------------------------------
+
+  connectedCallback(): void {
+    this.setFilteredPlacements();
+  }
 
   componentWillLoad(): void {
     this.setUpReferenceElement();
@@ -250,6 +261,14 @@ export class Popover {
   //
   // --------------------------------------------------------------------------
 
+  setFilteredPlacements = (): void => {
+    const { el, flipPlacements } = this;
+
+    this.filteredFlipPlacements = flipPlacements
+      ? filterComputedPlacements(flipPlacements, el)
+      : null;
+  };
+
   setUpReferenceElement = (): void => {
     this.removeReferences();
     this.effectiveReferenceElement = this.getReferenceElement();
@@ -316,16 +335,22 @@ export class Popover {
   }
 
   getModifiers(): Partial<StrictModifiers>[] {
-    const { arrowEl, flipPlacements, disableFlip, disablePointer, offsetDistance, offsetSkidding } =
-      this;
+    const {
+      arrowEl,
+      disableFlip,
+      disablePointer,
+      offsetDistance,
+      offsetSkidding,
+      filteredFlipPlacements
+    } = this;
     const flipModifier: Partial<StrictModifiers> = {
       name: "flip",
       enabled: !disableFlip
     };
 
-    if (flipPlacements) {
+    if (filteredFlipPlacements) {
       flipModifier.options = {
-        fallbackPlacements: filterComputedPlacements(this.el, flipPlacements)
+        fallbackPlacements: filteredFlipPlacements
       };
     }
 

@@ -97,6 +97,11 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
    */
   @Prop() flipPlacements?: ComputedPlacement[];
 
+  @Watch("flipPlacements")
+  flipPlacementsHandler(): void {
+    this.setFilteredPlacements();
+  }
+
   /**
    * Number at which section headings should start for this component.
    */
@@ -335,6 +340,7 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
     this.createPopper();
     connectLabel(this);
     connectForm(this);
+    this.setFilteredPlacements();
   }
 
   async componentWillLoad(): Promise<void> {
@@ -476,6 +482,8 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
   //
   //--------------------------------------------------------------------------
 
+  filteredFlipPlacements: ComputedPlacement[];
+
   labelEl: HTMLCalciteLabelElement;
 
   formEl: HTMLFormElement;
@@ -520,6 +528,14 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
   //  Private Methods
   //
   //--------------------------------------------------------------------------
+
+  setFilteredPlacements = (): void => {
+    const { el, flipPlacements } = this;
+
+    this.filteredFlipPlacements = flipPlacements
+      ? filterComputedPlacements(flipPlacements, el)
+      : null;
+  };
 
   onLabelClick(): void {
     this.setFocus();
@@ -593,10 +609,7 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
     };
 
     flipModifier.options = {
-      fallbackPlacements: filterComputedPlacements(
-        this.el,
-        this.flipPlacements || popperMenuComputedPlacements
-      )
+      fallbackPlacements: this.filteredFlipPlacements || popperMenuComputedPlacements
     };
 
     const eventListenerModifier: Partial<StrictModifiers> = {
