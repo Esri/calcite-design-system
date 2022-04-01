@@ -200,6 +200,7 @@
         </calcite-list>
       </div>
     </div>
+
     <div class="parent">
       <div class="child right-aligned-text">grouped and nested</div>
 
@@ -227,6 +228,75 @@
               </calcite-list-item>
             </calcite-list-item-group>
           </calcite-list-item-group>
+        </calcite-list>
+      </div>
+    </div>
+
+    <!-- inline editing -->
+    <div class="parent">
+      <style>
+        .form-container {
+          width: 100%;
+          padding: 0.75rem;
+          border-inline-end: 1px solid var(--calcite-ui-border-3);
+        }
+      </style>
+      <div class="child right-aligned-text">inline editing</div>
+
+      <div class="child">
+        <calcite-list>
+          <calcite-list-item label="Jake the Dog" description="Is yellow and magical.">
+            <calcite-action slot="actions-end" icon="pencil"></calcite-action>
+          </calcite-list-item>
+
+          <calcite-list-item non-interactive>
+            <calcite-action slot="actions-end" icon="undo"> </calcite-action>
+            <calcite-action slot="actions-end" icon="check"> </calcite-action>
+            <div class="form-container" slot="content-start">
+              <calcite-input scale="s" value="Jake the Dog" scale="m" placeholder="This is an input."></calcite-input>
+            </div>
+          </calcite-list-item>
+        </calcite-list>
+      </div>
+    </div>
+
+    <!-- custom content -->
+    <div class="parent">
+      <style>
+        .list-chip {
+          margin-inline-end: 0.5rem;
+        }
+      </style>
+      <div class="child right-aligned-text">start/end content slots</div>
+      <div class="child">
+        <calcite-list>
+          <calcite-list-item>
+            <calcite-action slot="actions-end" icon="ellipsis"> </calcite-action>
+            <calcite-icon icon="layers" scale="m" slot="content-start"></calcite-icon>
+            <span slot="content-start">Some value or something and a <b>thing</b>.</span>
+            <div slot="content-end" style="display: flex; justify-content: flex-end">
+              <calcite-chip class="list-chip" icon="ribbon-rosette" scale="s">Review</calcite-chip>
+              <calcite-chip class="list-chip" icon="globe" scale="s" color="green">Good</calcite-chip>
+            </div>
+          </calcite-list-item>
+
+          <calcite-list-item>
+            <calcite-action slot="actions-end" icon="ellipsis"> </calcite-action>
+            <calcite-icon icon="user" scale="m" slot="content-start"></calcite-icon>
+            <span slot="content-start">Some value or something and a <b>thing</b>.</span>
+            <div slot="content-end" style="display: flex; justify-content: flex-end">
+              <calcite-chip class="list-chip" icon="globe" scale="s" color="green">Good</calcite-chip>
+            </div>
+          </calcite-list-item>
+
+          <calcite-list-item>
+            <calcite-action slot="actions-end" icon="ellipsis"> </calcite-action>
+            <calcite-icon icon="user" scale="m" slot="content-start"></calcite-icon>
+            <span slot="content-start">Some value or something and a <b>thing</b>.</span>
+            <div slot="content-end" style="display: flex; justify-content: flex-end">
+              <calcite-chip class="list-chip" icon="bell" color="red" scale="s">Halp!</calcite-chip>
+            </div>
+          </calcite-list-item>
         </calcite-list>
       </div>
     </div>
