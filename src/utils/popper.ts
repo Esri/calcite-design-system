@@ -134,7 +134,7 @@ export function filterComputedPlacements(el: HTMLElement, placements: string[]):
   if (filteredLength !== placementsLength) {
     console.warn(
       `${
-        el.tagName
+        el?.tagName
       }: Invalid value found in 'flipPlacements'. Try one of these:  ${popperComputedPlacements.toString()}.`,
       {
         el
