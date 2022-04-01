@@ -129,12 +129,11 @@ export function filterComputedPlacements(placements: string[], el: HTMLElement):
 
   if (filteredPlacements.length !== placements.length) {
     console.warn(
-      `${
-        el.tagName
-      }: Invalid value found in 'flipPlacements'. Try one of these: ${popperComputedPlacements.toString()}.`,
-      {
-        el
-      }
+      `${el.tagName}: Invalid value found in: flipPlacements. Try any of these: ${popperComputedPlacements
+        .map((placement) => `"${placement}"`)
+        .join(", ")
+        .trim()}`,
+      { el }
     );
   }
 
