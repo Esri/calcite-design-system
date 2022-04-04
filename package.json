@@ -45,9 +45,10 @@
     "util:build-docs": "npm run util:copy-icons && stencil build --config stencil.storybook.config.ts",
     "util:clean-tested-build": "npm ci && npm test && npm run build",
     "util:copy-icons": "cpy \"./node_modules/@esri/calcite-ui-icons/js/*.json\" \"./src/components/icon/assets/icon/\" --flat",
-    "util:deploy-next": "npm run util:prep-next && npm run util:push-tags && npm publish --tag next",
+    "util:deploy-next": "npm run util:prep-next && npm run util:push-tags && npm run util:publish-next",
     "util:deploy-next-from-ci": "ts-node --project ./tsconfig-node-scripts.json support/deployNextFromCI.ts",
     "util:prep-next": "ts-node --project ./tsconfig-node-scripts.json support/prepReleaseCommit.ts --next && npm run build",
+    "util:publish-next": "npm publish --tag next",
     "util:check-squash-mergeable-branch": "ts-node --project ./tsconfig-node-scripts.json support/checkSquashMergeableBranch.ts",
     "util:push-tags": "git push --atomic --follow-tags origin master",
     "util:run-tests": "npm run util:copy-icons && stencil test --no-docs --spec --e2e"
