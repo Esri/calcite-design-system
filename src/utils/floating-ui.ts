@@ -18,22 +18,8 @@ export type OverlayPositioning = Strategy;
 
 type VariationPlacement = "leading-start" | "leading" | "leading-end" | "trailing-end" | "trailing" | "trailing-start";
 
-type VariationPlacementRTL =
-  | "leading-leading"
-  | "leading-trailing"
-  | "trailing-leading"
-  | "trailing-trailing"
-  | "top-leading"
-  | "top-trailing"
-  | "bottom-leading"
-  | "bottom-trailing"
-  | "right-leading"
-  | "right-trailing"
-  | "left-leading"
-  | "left-trailing";
-
 type AutoPlacement = "auto" | "auto-start" | "auto-end";
-export type LogicalPlacement = AutoPlacement | Placement | VariationPlacement | VariationPlacementRTL;
+export type LogicalPlacement = AutoPlacement | Placement | VariationPlacement;
 export type EffectivePlacement = Placement;
 
 export const placements: LogicalPlacement[] = [
@@ -57,19 +43,7 @@ export const placements: LogicalPlacement[] = [
   "leading-end",
   "trailing-end",
   "trailing",
-  "trailing-start",
-  "leading-leading",
-  "leading-trailing",
-  "trailing-leading",
-  "trailing-trailing",
-  "top-leading",
-  "top-trailing",
-  "bottom-leading",
-  "bottom-trailing",
-  "right-leading",
-  "right-trailing",
-  "left-leading",
-  "left-trailing"
+  "trailing-start"
 ];
 
 export const effectivePlacements: EffectivePlacement[] = [
@@ -87,18 +61,7 @@ export const effectivePlacements: EffectivePlacement[] = [
   "left-end"
 ];
 
-export const menuPlacements: MenuPlacement[] = [
-  "top-start",
-  "top",
-  "top-end",
-  "bottom-start",
-  "bottom",
-  "bottom-end",
-  "top-leading",
-  "top-trailing",
-  "bottom-leading",
-  "bottom-trailing"
-];
+export const menuPlacements: MenuPlacement[] = ["top-start", "top", "top-end", "bottom-start", "bottom", "bottom-end"];
 
 export const menuEffectivePlacements: EffectivePlacement[] = [
   "top-start",
@@ -126,19 +89,10 @@ export const flipPlacements: EffectivePlacement[] = [
 
 export type MenuPlacement = Extract<
   LogicalPlacement,
-  | "top-start"
-  | "top"
-  | "top-end"
-  | "bottom-start"
-  | "bottom"
-  | "bottom-end"
-  | "top-leading"
-  | "top-trailing"
-  | "bottom-leading"
-  | "bottom-trailing"
+  "top-start" | "top" | "top-end" | "bottom-start" | "bottom" | "bottom-end"
 >;
 
-export const defaultMenuPlacement: MenuPlacement = "bottom-leading";
+export const defaultMenuPlacement: MenuPlacement = "bottom-start";
 
 export interface FloatingUIComponent {
   /**
@@ -245,22 +199,21 @@ export function filterComputedPlacements(placements: string[], el: HTMLElement):
   return filteredPlacements;
 }
 
+/*
+In floating-ui, "*-start" and "*-end" are already flipped in RTL.
+There is no need for our "*-leading" and "*-trailing" values anymore.
+https://github.com/floating-ui/floating-ui/issues/1530
+*/
 export function getEffectivePlacement(floatingEl: HTMLElement, placement: LogicalPlacement): EffectivePlacement {
   const placements = ["left", "right"];
-  const variations = ["start", "end"];
 
   if (getElementDir(floatingEl) === "rtl") {
     placements.reverse();
-    // todo: already happens in floating-ui.
-    // https://github.com/floating-ui/floating-ui/issues/1530
-    // variations.reverse();
   }
 
   return placement
-    .replace(/-leading/gi, `-${variations[0]}`) // todo: remove in future
-    .replace(/-trailing/gi, `-${variations[1]}`) // todo: remove in future
-    .replace(/leading/gi, placements[0])
-    .replace(/trailing/gi, placements[1]) as EffectivePlacement;
+    .replace(/leading-/gi, `${placements[0]}-`)
+    .replace(/trailing-/gi, `${placements[1]}-`) as EffectivePlacement;
 }
 
 /**

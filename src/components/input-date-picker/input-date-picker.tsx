@@ -187,7 +187,7 @@ export class InputDatePicker
 
   /**
    * Determines where the date-picker component will be positioned relative to the input.
-   * @default "bottom-leading"
+   * @default "bottom-start"
    */
   @Prop({ reflect: true }) placement: MenuPlacement = defaultMenuPlacement;
 
