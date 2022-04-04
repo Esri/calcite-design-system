@@ -479,7 +479,7 @@ describe("calcite-combobox", () => {
       page = await newE2EPage();
       await page.setContent(
         html`
-          <calcite-combobox id="myCombobox" style="top: 1400px">
+          <calcite-combobox id="myCombobox">
             <calcite-combobox-item id="one" value="one" label="one"></calcite-combobox-item>
             <calcite-combobox-item id="two" value="two" label="two"></calcite-combobox-item>
             <calcite-combobox-item-group label="Last Item">
@@ -572,36 +572,53 @@ describe("calcite-combobox", () => {
       expect(visible).toBe(true);
     });
 
-    it("when the combobox is focused & closed, Home scrolls the entire page to the very top", async () => {
-      scrollablePageSizeInPx = 2400;
+    it("when the combobox is focused & closed, Home scrolls the entire page to the very top, End scrolls to bottom", async () => {
+      const scrollablePageSizeInPx = 2400; // body.height = document.firstElementChild.scrollHeight
       await page.addStyleTag({
-        content: `body { 
-          height: ${scrollablePageSizeInPx}px; 
-          width: ${scrollablePageSizeInPx}px; 
-        }`
+        content: `body {
+            height: ${scrollablePageSizeInPx}px;
+            width: ${scrollablePageSizeInPx}px;
+          }
+          html, body {
+            margin: 0;
+            padding: 0;
+          }
+      `
       });
-      await page.waitForChanges();
-
-      const inputEl = await page.find(`#myCombobox >>> input`);
-      await inputEl.focus();
-      await page.waitForChanges();
-      expect(await page.evaluate(() => document.activeElement.id)).toBe("myCombobox");
+      const combobox = await page.find("calcite-combobox");
+      await combobox.callMethod(`setFocus`);
       const popper = await page.find("#myCombobox >>> .popper-container--active");
       expect(popper).toBeNull();
-
+      // maybe we need to make this a utility?
       async function scrollTo(x: number, y: number): Promise<void> {
         await page.evaluate((x: number, y: number) => document.firstElementChild.scrollTo(x, y), x, y);
       }
-      await scrollTo(scrollablePageSizeInPx, scrollablePageSizeInPx);
+      await scrollTo(0, scrollablePageSizeInPx);
       await page.waitForChanges();
+      expect(await page.evaluate(() => window.scrollY)).toEqual(1800);
 
       await page.keyboard.press("Home");
       await page.waitForChanges();
+      expect(await page.evaluate(() => window.scrollY)).toEqual(0);
+
+      await page.keyboard.up("Home");
+      await page.waitForChanges();
+
+      expect(popper).toBeNull();
+
+      await page.keyboard.press("End");
+      await page.waitForChanges();
       expect(
         await page.evaluate(() => {
-          return document.body.scrollTop;
+          console.log("clientHeight", document.firstElementChild.clientHeight);
+          console.log("scrollTop", document.firstElementChild.scrollTop);
+          console.log("scrollHeight", document.firstElementChild.scrollHeight);
+          return (
+            document.firstElementChild.scrollHeight - document.firstElementChild.scrollTop ===
+            document.firstElementChild.clientHeight
+          );
         })
-      ).toBe(0);
+      ).toBeTruthy();
     });
 
     it("should cycle through items on ArrowUp/ArrowDown and toggle selection on/off on Enter", async () => {
