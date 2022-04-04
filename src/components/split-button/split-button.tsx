@@ -129,6 +129,7 @@ export class SplitButton implements InteractiveComponent {
         <calcite-dropdown
           active={this.active}
           disabled={this.disabled}
+          hostEl={this.el}
           onClick={this.calciteSplitButtonSecondaryClickHandler}
           overlayPositioning={this.overlayPositioning}
           placement="bottom-trailing"

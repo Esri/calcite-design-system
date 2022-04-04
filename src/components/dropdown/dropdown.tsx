@@ -55,6 +55,11 @@ export class Dropdown implements InteractiveComponent {
   //
   //--------------------------------------------------------------------------
 
+  /**
+   * @internal
+   */
+  @Prop() hostEl: HTMLElement = null;
+
   /** Opens or closes the dropdown */
   @Prop({ reflect: true, mutable: true }) active = false;
 
@@ -368,13 +373,17 @@ export class Dropdown implements InteractiveComponent {
       : null;
   };
 
+  getHostEl = (): HTMLElement => {
+    return this.hostEl || this.el;
+  };
+
   updateItems = (): void => {
     this.updateSelectedItems();
 
     this.triggers = getSlotted(this.el, "dropdown-trigger", { all: true });
 
     this.items = Array.from(
-      this.el.querySelectorAll<HTMLCalciteDropdownItemElement>("calcite-dropdown-item")
+      this.getHostEl().querySelectorAll<HTMLCalciteDropdownItemElement>("calcite-dropdown-item")
     );
 
     this.reposition();
@@ -481,14 +490,14 @@ export class Dropdown implements InteractiveComponent {
 
   private updateSelectedItems(): void {
     const items = Array.from(
-      this.el.querySelectorAll<HTMLCalciteDropdownItemElement>("calcite-dropdown-item")
+      this.getHostEl().querySelectorAll<HTMLCalciteDropdownItemElement>("calcite-dropdown-item")
     );
     this.selectedItems = items.filter((item) => item.active);
   }
 
   private getMaxScrollerHeight(): number {
     const groups = Array.from(
-      this.el.querySelectorAll<HTMLCalciteDropdownGroupElement>("calcite-dropdown-group")
+      this.getHostEl().querySelectorAll<HTMLCalciteDropdownGroupElement>("calcite-dropdown-group")
     );
 
     const { maxItems } = this;
