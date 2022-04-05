@@ -12,6 +12,7 @@ import {
 
 import { html } from "../../../support/formatting";
 import { TEXT } from "./resources";
+import { scrollTo } from "./utils";
 
 describe("calcite-combobox", () => {
   it("renders", async () => renders("calcite-combobox", { display: "block" }));
@@ -589,11 +590,7 @@ describe("calcite-combobox", () => {
       await combobox.callMethod(`setFocus`);
       const popper = await page.find("#myCombobox >>> .popper-container--active");
       expect(popper).toBeNull();
-      // maybe we need to make this a utility?
-      async function scrollTo(x: number, y: number): Promise<void> {
-        await page.evaluate((x: number, y: number) => document.firstElementChild.scrollTo(x, y), x, y);
-      }
-      await scrollTo(0, scrollablePageSizeInPx);
+      await scrollTo(0, scrollablePageSizeInPx, page);
       await page.waitForChanges();
       expect(await page.evaluate(() => window.scrollY)).toEqual(1800);
 
@@ -645,7 +642,6 @@ describe("calcite-combobox", () => {
       expect(await page.evaluate(() => window.scrollY)).toBeTruthy();
 
       const previousScrollPosition = await page.evaluate(() => window.scrollY);
-      // console.log("previousScrollPosition", previousScrollPosition);//455
       await page.keyboard.press("PageUp");
       await page.waitForChanges();
       expect(
