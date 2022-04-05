@@ -211,7 +211,11 @@ export function getEffectivePlacement(floatingEl: HTMLElement, placement: Logica
     placements.reverse();
   }
 
-  return placement.replace(/leading/gi, placements[0]).replace(/trailing/gi, placements[1]) as EffectivePlacement;
+  return placement
+    .replace(/-leading/gi, "-start") // todo: remove in future.
+    .replace(/-trailing/gi, "-end") // todo: remove in future.
+    .replace(/leading/gi, placements[0])
+    .replace(/trailing/gi, placements[1]) as EffectivePlacement;
 }
 
 /**
