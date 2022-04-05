@@ -53,6 +53,35 @@ describe("calcite-time-picker", () => {
       shadowFocusTargetSelector: `.${CSS.hour}`
     }));
 
+  it("value displays correctly when value is programmatically changed", async () => {
+    const originalValue = "11:00:00";
+    const newValue = "14:30:40";
+    const page = await newE2EPage({
+      html: `<calcite-time-picker step="1" value="${originalValue}"></calcite-time-picker>`
+    });
+
+    const timePicker = await page.find("calcite-time-picker");
+    const hourEl = await page.find(`calcite-time-picker >>> .${CSS.hour}`);
+    const minuteEl = await page.find(`calcite-time-picker >>> .${CSS.minute}`);
+    const secondEl = await page.find(`calcite-time-picker >>> .${CSS.second}`);
+    const meridiemEl = await page.find(`calcite-time-picker >>> .${CSS.meridiem}`);
+
+    expect(await timePicker.getProperty("value")).toBe(originalValue);
+    expect(hourEl.textContent).toBe("11");
+    expect(minuteEl.textContent).toBe("00");
+    expect(secondEl.textContent).toBe("00");
+    expect(meridiemEl.textContent).toBe("AM");
+
+    timePicker.setProperty("value", newValue);
+    await page.waitForChanges();
+
+    expect(await timePicker.getProperty("value")).toBe(newValue);
+    expect(hourEl.textContent).toBe("02");
+    expect(minuteEl.textContent).toBe("30");
+    expect(secondEl.textContent).toBe("40");
+    expect(meridiemEl.textContent).toBe("PM");
+  });
+
   describe("keyboard accessibility", () => {
     it("tabbing focuses each input in the correct sequence", async () => {
       const page = await newE2EPage({
