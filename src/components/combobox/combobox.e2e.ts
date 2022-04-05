@@ -621,6 +621,40 @@ describe("calcite-combobox", () => {
       ).toBeTruthy();
     });
 
+    it("when the combobox is focused & closed, Page up/down (fn arrow up/down) scrolls up and down the page", async () => {
+      const scrollablePageSizeInPx = 2400;
+      await page.addStyleTag({
+        content: `body {
+            height: ${scrollablePageSizeInPx}px;
+            width: ${scrollablePageSizeInPx}px;
+          }
+          html, body {
+            margin: 0;
+            padding: 0;
+          }
+      `
+      });
+      const combobox = await page.find("calcite-combobox");
+      await combobox.callMethod(`setFocus`);
+      const popper = await page.find("#myCombobox >>> .popper-container--active");
+      expect(popper).toBeNull();
+      expect(await page.evaluate(() => window.scrollY)).toEqual(0);
+
+      await page.keyboard.press("PageDown");
+      await page.waitForChanges();
+      expect(await page.evaluate(() => window.scrollY)).toBeTruthy();
+
+      const previousScrollPosition = await page.evaluate(() => window.scrollY);
+      // console.log("previousScrollPosition", previousScrollPosition);//455
+      await page.keyboard.press("PageUp");
+      await page.waitForChanges();
+      expect(
+        await page.evaluate((previousScrollPosition) => {
+          return window.scrollY < previousScrollPosition;
+        }, previousScrollPosition)
+      ).toBeTruthy();
+    });
+
     it("should cycle through items on ArrowUp/ArrowDown and toggle selection on/off on Enter", async () => {
       const eventSpy = await page.spyOnEvent("calciteComboboxChange", "window");
       const item1 = await page.find("calcite-combobox-item#one");
