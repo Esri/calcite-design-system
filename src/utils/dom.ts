@@ -162,14 +162,27 @@ export async function focusElement(el: FocusableElement): Promise<void> {
   return isCalciteFocusable(el) ? el.setFocus() : el.focus();
 }
 
+function getAssignedElements<T extends Element = Element>(element: Element, slotName: string | string[]): T[] {
+  const slotSelector = Array.isArray(slotName)
+    ? slotName.map((name) => `slot[name="${name}"]`).join(",")
+    : slotName
+    ? `slot[name="${slotName}"]`
+    : "slot:not([name])";
+
+  const slots = Array.from(element.shadowRoot.querySelectorAll(slotSelector)) as HTMLSlotElement[];
+
+  const elements = slots
+    .map((slot) => slot.assignedElements({ flatten: true }) as T[])
+    .reduce((previousValue, currentValue) => [...previousValue, ...currentValue], []);
+
+  return elements;
+}
+
 interface GetSlottedOptions {
   all?: boolean;
-  direct?: boolean;
   matches?: string;
   selector?: string;
 }
-
-const defaultSlotSelector = ":not([slot])";
 
 export function getSlotted<T extends Element = Element>(
   element: Element,
@@ -191,38 +204,19 @@ export function getSlotted<T extends Element = Element>(
     slotName = null;
   }
 
-  const slotSelector = slotName
-    ? Array.isArray(slotName)
-      ? slotName.map((name) => `[slot="${name}"]`).join(",")
-      : `[slot="${slotName}"]`
-    : defaultSlotSelector;
-
   if (options?.all) {
-    return queryMultiple<T>(element, slotSelector, options);
+    return queryMultiple<T>(element, slotName as any, options);
   }
 
-  return querySingle<T>(element, slotSelector, options);
-}
-
-function getDirectChildren<T extends Element = Element>(el: Element, selector: string): T[] {
-  return el
-    ? (Array.from(el.children || []) as T[])
-        .map((child) => (child.tagName === "slot" ? (child as any).assignedElements() : child))
-        .filter((child) => child?.matches(selector))
-    : [];
+  return querySingle<T>(element, slotName as any, options);
 }
 
 function queryMultiple<T extends Element = Element>(
   element: Element,
-  slotSelector: string,
+  slotName: string | string[],
   options?: GetSlottedOptions
 ): T[] {
-  let matches =
-    slotSelector === defaultSlotSelector
-      ? getDirectChildren<T>(element, defaultSlotSelector)
-      : Array.from(element.querySelectorAll<T>(slotSelector));
-
-  matches = options && options.direct === false ? matches : matches.filter((el) => el.parentElement === element);
+  let matches = getAssignedElements<T>(element, slotName);
 
   matches = options?.matches ? matches.filter((el) => el?.matches(options.matches)) : matches;
 
@@ -237,15 +231,11 @@ function queryMultiple<T extends Element = Element>(
 
 function querySingle<T extends Element = Element>(
   element: Element,
-  slotSelector: string,
+  slotName: string | string[],
   options?: GetSlottedOptions
 ): T | null {
-  let match =
-    slotSelector === defaultSlotSelector
-      ? getDirectChildren<T>(element, defaultSlotSelector)[0] || null
-      : element.querySelector<T>(slotSelector);
-
-  match = options && options.direct === false ? match : match?.parentElement === element ? match : null;
+  const matches = getAssignedElements<T>(element, slotName);
+  let match = matches[0];
 
   match = options?.matches ? (match?.matches(options.matches) ? match : null) : match;
 

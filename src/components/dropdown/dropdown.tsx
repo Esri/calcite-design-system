@@ -194,7 +194,7 @@ export class Dropdown implements InteractiveComponent {
             ref={this.setScrollerEl}
           >
             <div hidden={!this.active}>
-              <slot />
+              <slot onSlotchange={this.updateItems} />
             </div>
           </div>
         </div>
@@ -368,7 +368,7 @@ export class Dropdown implements InteractiveComponent {
       : null;
   };
 
-  getGroups = (): HTMLCalciteTipGroupElement[] => {
+  getGroups = (): HTMLCalciteDropdownGroupElement[] => {
     const groups = getSlotted(this.el, {
       all: true,
       matches: "calcite-dropdown-group"
@@ -380,17 +380,9 @@ export class Dropdown implements InteractiveComponent {
   getItems = (): HTMLCalciteDropdownItemElement[] => {
     const groups = this.getGroups();
 
-    let items: any = [];
-
-    console.log(groups);
-
-    groups.forEach((group) => {
-      const groupItems = Array.from(group?.querySelectorAll("calcite-dropdown-item"));
-      console.log(groupItems);
-      items = items.concat(groupItems);
-    });
-
-    console.log(items);
+    const items = groups
+      .map((group) => Array.from(group?.querySelectorAll("calcite-dropdown-item")))
+      .reduce((previousValue, currentValue) => [...previousValue, ...currentValue], []);
 
     return items;
   };
