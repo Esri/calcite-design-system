@@ -336,6 +336,7 @@ export class ActionMenu implements ConditionalSlotComponent {
     const { el, expanded, menuButtonEl } = this;
 
     const slotted = getSlotted(el, SLOTS.tooltip);
+    // todo: this logic should be built in to dom utility.
     const tooltip =
       slotted?.tagName === "SLOT" ? (slotted as HTMLSlotElement).assignedElements()[0] : slotted;
 
@@ -361,12 +362,6 @@ export class ActionMenu implements ConditionalSlotComponent {
   updateActions = (actions: HTMLCalciteActionElement[]): void => {
     actions?.forEach(this.updateAction);
   };
-
-  getAssignedElements(): HTMLElement[] {
-    return Array.from(this.el.querySelectorAll("slot"))
-      .map((slot) => slot.assignedElements({ flatten: true }) as HTMLElement[])
-      .reduce((ar, val) => ar.concat(val), []);
-  }
 
   getActions = (): void => {
     const { el } = this;

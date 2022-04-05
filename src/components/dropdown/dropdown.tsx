@@ -368,14 +368,39 @@ export class Dropdown implements InteractiveComponent {
       : null;
   };
 
+  getGroups = (): HTMLCalciteTipGroupElement[] => {
+    const groups = getSlotted(this.el, {
+      all: true,
+      matches: "calcite-dropdown-group"
+    }) as any;
+
+    return groups;
+  };
+
+  getItems = (): HTMLCalciteDropdownItemElement[] => {
+    const groups = this.getGroups();
+
+    let items: any = [];
+
+    console.log(groups);
+
+    groups.forEach((group) => {
+      const groupItems = Array.from(group?.querySelectorAll("calcite-dropdown-item"));
+      console.log(groupItems);
+      items = items.concat(groupItems);
+    });
+
+    console.log(items);
+
+    return items;
+  };
+
   updateItems = (): void => {
     this.updateSelectedItems();
 
     this.triggers = getSlotted(this.el, "dropdown-trigger", { all: true });
 
-    this.items = Array.from(
-      this.el.querySelectorAll<HTMLCalciteDropdownItemElement>("calcite-dropdown-item")
-    );
+    this.items = this.getItems();
 
     this.reposition();
   };
@@ -480,16 +505,12 @@ export class Dropdown implements InteractiveComponent {
   };
 
   private updateSelectedItems(): void {
-    const items = Array.from(
-      this.el.querySelectorAll<HTMLCalciteDropdownItemElement>("calcite-dropdown-item")
-    );
+    const items = this.getItems();
     this.selectedItems = items.filter((item) => item.active);
   }
 
   private getMaxScrollerHeight(): number {
-    const groups = Array.from(
-      this.el.querySelectorAll<HTMLCalciteDropdownGroupElement>("calcite-dropdown-group")
-    );
+    const groups = this.getGroups();
 
     const { maxItems } = this;
     let itemsToProcess = 0;

@@ -205,7 +205,11 @@ export function getSlotted<T extends Element = Element>(
 }
 
 function getDirectChildren<T extends Element = Element>(el: Element, selector: string): T[] {
-  return el ? (Array.from(el.children || []) as T[]).filter((child) => child?.matches(selector)) : [];
+  return el
+    ? (Array.from(el.children || []) as T[])
+        .map((child) => (child.tagName === "slot" ? (child as any).assignedElements() : child))
+        .filter((child) => child?.matches(selector))
+    : [];
 }
 
 function queryMultiple<T extends Element = Element>(
