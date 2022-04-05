@@ -203,6 +203,7 @@ export function filterComputedPlacements(placements: string[], el: HTMLElement):
 In floating-ui, "*-start" and "*-end" are already flipped in RTL.
 There is no need for our "*-leading" and "*-trailing" values anymore.
 https://github.com/floating-ui/floating-ui/issues/1530
+https://github.com/floating-ui/floating-ui/issues/1563
 */
 export function getEffectivePlacement(floatingEl: HTMLElement, placement: LogicalPlacement): EffectivePlacement {
   const placements = ["left", "right"];
