@@ -445,7 +445,7 @@ export class Panel implements ConditionalSlotComponent, InteractiveComponent {
   };
 
   renderContent(): VNode {
-    const { el } = this;
+    const { el, hasContentScroll } = this;
     const hasFab = getSlotted(el, SLOTS.fab);
 
     const defaultSlotNode: VNode = <slot key="default-slot" />;
@@ -457,7 +457,7 @@ export class Panel implements ConditionalSlotComponent, InteractiveComponent {
         key={contentWrapperKey}
         onScroll={this.panelScrollHandler}
         ref={this.storeScrollEl}
-        tabIndex={this.hasContentScroll ? 0 : null}
+        tabIndex={hasContentScroll ? 0 : null}
       >
         <section class={CSS.contentContainer}>{defaultSlotNode}</section>
         {this.renderFab()}
@@ -468,7 +468,7 @@ export class Panel implements ConditionalSlotComponent, InteractiveComponent {
         key={contentWrapperKey}
         onScroll={this.panelScrollHandler}
         ref={this.storeScrollEl}
-        tabIndex={this.hasContentScroll ? 0 : null}
+        tabIndex={hasContentScroll ? 0 : null}
       >
         {defaultSlotNode}
       </section>
