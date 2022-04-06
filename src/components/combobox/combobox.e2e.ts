@@ -516,7 +516,7 @@ describe("calcite-combobox", () => {
       await page.waitForChanges();
       expect(await page.evaluate(() => document.activeElement.id)).toBe("myCombobox");
 
-      await page.keyboard.press("ArrowDown");
+      await page.keyboard.press("Space");
       await page.waitForChanges();
       let popper = await page.find("#myCombobox >>> .popper-container--active");
       expect(popper).toBeTruthy();
@@ -545,7 +545,7 @@ describe("calcite-combobox", () => {
       await page.waitForChanges();
       expect(await page.evaluate(() => document.activeElement.id)).toBe("myCombobox");
 
-      await page.keyboard.press("ArrowDown");
+      await page.keyboard.press("Space");
       await page.waitForChanges();
       let popper = await page.find("#myCombobox >>> .popper-container--active");
       expect(popper).toBeTruthy();
@@ -558,64 +558,19 @@ describe("calcite-combobox", () => {
       expect(await page.evaluate(() => document.activeElement.id)).toBe("myCombobox");
     });
 
-    it(`Home opens dropdown and puts focus on first item`, async () => {
+    it(`Space opens dropdown and puts focus on first item`, async () => {
       const inputEl = await page.find(`#myCombobox >>> input`);
       await inputEl.focus();
       await page.waitForChanges();
       expect(await page.evaluate(() => document.activeElement.id)).toBe("myCombobox");
 
-      await page.keyboard.press("Home");
+      await page.keyboard.press("Space");
       await page.waitForChanges();
       const firstFocusedGroupItem = await page.find("#one >>> .label--active");
       expect(firstFocusedGroupItem).toBeTruthy();
 
       const visible = await firstFocusedGroupItem.isVisible();
       expect(visible).toBe(true);
-    });
-
-    it("when the combobox is focused & closed, Home scrolls the entire page to the very top, End scrolls to bottom", async () => {
-      const scrollablePageSizeInPx = 2400; // body.height = document.firstElementChild.scrollHeight
-      await page.addStyleTag({
-        content: `body {
-            height: ${scrollablePageSizeInPx}px;
-            width: ${scrollablePageSizeInPx}px;
-          }
-          html, body {
-            margin: 0;
-            padding: 0;
-          }
-      `
-      });
-      const combobox = await page.find("calcite-combobox");
-      await combobox.callMethod(`setFocus`);
-      const popper = await page.find("#myCombobox >>> .popper-container--active");
-      expect(popper).toBeNull();
-      await scrollTo(0, scrollablePageSizeInPx, page);
-      await page.waitForChanges();
-      expect(await page.evaluate(() => window.scrollY)).toEqual(1800);
-
-      await page.keyboard.press("Home");
-      await page.waitForChanges();
-      expect(await page.evaluate(() => window.scrollY)).toEqual(0);
-
-      await page.keyboard.up("Home");
-      await page.waitForChanges();
-
-      expect(popper).toBeNull();
-
-      await page.keyboard.press("End");
-      await page.waitForChanges();
-      expect(
-        await page.evaluate(() => {
-          console.log("clientHeight", document.firstElementChild.clientHeight);
-          console.log("scrollTop", document.firstElementChild.scrollTop);
-          console.log("scrollHeight", document.firstElementChild.scrollHeight);
-          return (
-            document.firstElementChild.scrollHeight - document.firstElementChild.scrollTop ===
-            document.firstElementChild.clientHeight
-          );
-        })
-      ).toBeTruthy();
     });
 
     it("when the combobox is focused & closed, Page up/down (fn arrow up/down) scrolls up and down the page", async () => {
@@ -659,7 +614,7 @@ describe("calcite-combobox", () => {
 
       const element = await page.find("calcite-combobox");
       await element.click();
-      expect(await item1.getProperty("active")).toBe(false);
+      expect(await item1.getProperty("active")).toBe(true);
 
       await element.press("ArrowDown");
       expect(await item1.getProperty("active")).toBe(true);
