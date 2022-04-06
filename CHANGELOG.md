@@ -23,6 +23,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - **stepper:** visually change position using component methods when inside a custom element ([#4313](https://github.com/Esri/calcite-components/issues/4313)) ([3ca27c2](https://github.com/Esri/calcite-components/commit/3ca27c22043d952096d57c79070ecb48a744ce8f))
 - **tab-title, tab:** Support nested tabs ([#4250](https://github.com/Esri/calcite-components/issues/4250)) ([7a8b6db](https://github.com/Esri/calcite-components/commit/7a8b6dbed71dced31ba9a442afa13067b1c18d1b)), closes [#4198](https://github.com/Esri/calcite-components/issues/4198)
 - **tabs:** update active tab styling on resize ([#4351](https://github.com/Esri/calcite-components/issues/4351)) ([838b54f](https://github.com/Esri/calcite-components/commit/838b54f6910570bd1c0ff274217b40368ef2ce48)), closes [#2885](https://github.com/Esri/calcite-components/issues/2885)
+- **tile:** match content-start spacing when dir set to rtl ([#4324](https://github.com/Esri/calcite-components/issues/4324)) ([3cb4523](https://github.com/Esri/calcite-components/commit/3cb4523456742db9e7ec726b839b05736fde7146)), closes [#4240](https://github.com/Esri/calcite-components/issues/4240)
 - **tooltip:** Removes console error when querying the tooltip ([#4280](https://github.com/Esri/calcite-components/issues/4280)) ([dcffd15](https://github.com/Esri/calcite-components/commit/dcffd1546d1362f77e2f62c9d4803dbe1ed09d3d)), closes [#4279](https://github.com/Esri/calcite-components/issues/4279)
 <!--@unreleased-section-end-->
 
