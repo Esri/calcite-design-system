@@ -8,7 +8,8 @@ import {
   Watch,
   h,
   VNode,
-  Fragment
+  Fragment,
+  State
 } from "@stencil/core";
 import { CSS, HEADING_LEVEL, ICONS, SLOTS, TEXT } from "./resources";
 import { getElementDir, getSlotted } from "../../utils/dom";
@@ -21,6 +22,7 @@ import {
   disconnectConditionalSlotComponent
 } from "../../utils/conditionalSlot";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import { createObserver } from "../../utils/observers";
 
 /**
  * @slot - A slot for adding custom content.
@@ -140,7 +142,11 @@ export class Panel implements ConditionalSlotComponent, InteractiveComponent {
   //
   // --------------------------------------------------------------------------
 
+  resizeObserver = createObserver("resize", (entries) => this.resizeHandlerEntries(entries));
+
   @Element() el: HTMLCalcitePanelElement;
+
+  @State() hasScroll = false;
 
   backButtonEl: HTMLCalciteActionElement;
 
@@ -162,6 +168,7 @@ export class Panel implements ConditionalSlotComponent, InteractiveComponent {
 
   disconnectedCallback(): void {
     disconnectConditionalSlotComponent(this);
+    this.resizeObserver.disconnect();
   }
 
   // --------------------------------------------------------------------------
@@ -190,6 +197,18 @@ export class Panel implements ConditionalSlotComponent, InteractiveComponent {
   //  Private Methods
   //
   // --------------------------------------------------------------------------
+
+  resizeHandlerEntries = (entries: ResizeObserverEntry[]): void => {
+    entries.forEach(this.resizeHandler);
+  };
+
+  resizeHandler = (entry: ResizeObserverEntry): void => {
+    const target = entry.target as HTMLElement;
+
+    if (target === this.panelScrollEl) {
+      this.hasScroll = target.scrollHeight > target.offsetHeight;
+    }
+  };
 
   setContainerRef = (node: HTMLElement): void => {
     this.containerEl = node;
@@ -423,6 +442,12 @@ export class Panel implements ConditionalSlotComponent, InteractiveComponent {
     ) : null;
   }
 
+  storeScrollEl = (el: HTMLElement): void => {
+    this.panelScrollEl = el;
+    this.resizeObserver.disconnect();
+    this.resizeObserver?.observe(el);
+  };
+
   renderContent(): VNode {
     const { el } = this;
     const hasFab = getSlotted(el, SLOTS.fab);
@@ -435,8 +460,8 @@ export class Panel implements ConditionalSlotComponent, InteractiveComponent {
         class={{ [CSS.contentWrapper]: true, [CSS.contentHeight]: true }}
         key={contentWrapperKey}
         onScroll={this.panelScrollHandler}
-        ref={(el) => (this.panelScrollEl = el)}
-        tabIndex={0}
+        ref={this.storeScrollEl}
+        tabIndex={this.hasScroll ? 0 : null}
       >
         <section class={CSS.contentContainer}>{defaultSlotNode}</section>
         {this.renderFab()}
@@ -446,8 +471,8 @@ export class Panel implements ConditionalSlotComponent, InteractiveComponent {
         class={{ [CSS.contentWrapper]: true, [CSS.contentContainer]: true }}
         key={contentWrapperKey}
         onScroll={this.panelScrollHandler}
-        ref={(el) => (this.panelScrollEl = el)}
-        tabIndex={0}
+        ref={this.storeScrollEl}
+        tabIndex={this.hasScroll ? 0 : null}
       >
         {defaultSlotNode}
       </section>
