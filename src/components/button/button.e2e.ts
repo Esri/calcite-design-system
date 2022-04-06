@@ -1,10 +1,94 @@
 import { E2EElement, newE2EPage } from "@stencil/core/testing";
-import { accessible, disabled, HYDRATED_ATTR, labelable } from "../../tests/commonTests";
+import { accessible, disabled, HYDRATED_ATTR, labelable, defaults } from "../../tests/commonTests";
 import { CSS } from "./resources";
 import { GlobalTestProps } from "../../tests/utils";
 import { html } from "../../../support/formatting";
 
 describe("calcite-button", () => {
+  it("defaults", async () =>
+    defaults("calcite-button", [
+      {
+        propertyName: "alignment",
+        defaultValue: "center"
+      },
+      {
+        propertyName: "appearance",
+        defaultValue: "solid"
+      },
+      {
+        propertyName: "label",
+        defaultValue: undefined
+      },
+      {
+        propertyName: "color",
+        defaultValue: "blue"
+      },
+      {
+        propertyName: "disabled",
+        defaultValue: false
+      },
+      {
+        propertyName: "href",
+        defaultValue: undefined
+      },
+      {
+        propertyName: "iconEnd",
+        defaultValue: undefined
+      },
+      {
+        propertyName: "iconFlipRtl",
+        defaultValue: undefined
+      },
+      {
+        propertyName: "iconStart",
+        defaultValue: undefined
+      },
+      {
+        propertyName: "intlLoading",
+        defaultValue: "Loading"
+      },
+      {
+        propertyName: "loading",
+        defaultValue: false
+      },
+      {
+        propertyName: "name",
+        defaultValue: undefined
+      },
+      {
+        propertyName: "rel",
+        defaultValue: undefined
+      },
+      {
+        propertyName: "form",
+        defaultValue: undefined
+      },
+      {
+        propertyName: "round",
+        defaultValue: false
+      },
+      {
+        propertyName: "scale",
+        defaultValue: "m"
+      },
+      {
+        propertyName: "splitChild",
+        defaultValue: false
+      },
+      {
+        propertyName: "target",
+        defaultValue: undefined
+      },
+      {
+        propertyName: "type",
+        defaultValue: "button"
+      },
+      {
+        propertyName: "width",
+        defaultValue: "auto"
+      }
+    ]));
+
   it("renders as a button with default props", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-button>Continue</calcite-button>`);

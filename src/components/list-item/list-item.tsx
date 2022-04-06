@@ -147,20 +147,27 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
   }
 
   renderContentContainer(): VNode {
-    const { disabled, nonInteractive } = this;
-
+    const { description, disabled, label, nonInteractive } = this;
+    const hasCenterContent = !!label || !!description;
     const content = [this.renderContentStart(), this.renderContent(), this.renderContentEnd()];
 
     return !nonInteractive ? (
       <button
-        class={{ [CSS.contentContainer]: true, [CSS.contentContainerButton]: true }}
+        class={{
+          [CSS.contentContainer]: true,
+          [CSS.contentContainerButton]: true,
+          [CSS.hasCenterContent]: hasCenterContent
+        }}
         disabled={disabled}
         ref={(focusEl) => (this.focusEl = focusEl)}
       >
         {content}
       </button>
     ) : (
-      <div class={CSS.contentContainer} ref={() => (this.focusEl = null)}>
+      <div
+        class={{ [CSS.contentContainer]: true, [CSS.hasCenterContent]: hasCenterContent }}
+        ref={() => (this.focusEl = null)}
+      >
         {content}
       </div>
     );
