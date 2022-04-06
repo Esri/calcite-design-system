@@ -41,13 +41,6 @@ export class ActionPad implements ConditionalSlotComponent {
    */
   @Prop({ reflect: true }) expandDisabled = false;
 
-  @Watch("expandDisabled")
-  expandHandler(expandDisabled: boolean): void {
-    if (!expandDisabled) {
-      toggleChildActionText({ parent: this.el, expanded: this.expanded });
-    }
-  }
-
   /**
    * Indicates whether widget is expanded.
    */
@@ -55,10 +48,7 @@ export class ActionPad implements ConditionalSlotComponent {
 
   @Watch("expanded")
   expandedHandler(expanded: boolean): void {
-    if (!this.expandDisabled) {
-      toggleChildActionText({ parent: this.el, expanded });
-    }
-
+    toggleChildActionText({ parent: this.el, expanded });
     this.calciteActionPadToggle.emit();
   }
 
@@ -123,11 +113,9 @@ export class ActionPad implements ConditionalSlotComponent {
   }
 
   componentWillLoad(): void {
-    const { el, expandDisabled, expanded } = this;
+    const { el, expanded } = this;
 
-    if (!expandDisabled) {
-      toggleChildActionText({ parent: el, expanded });
-    }
+    toggleChildActionText({ parent: el, expanded });
   }
 
   // --------------------------------------------------------------------------

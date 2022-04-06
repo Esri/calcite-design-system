@@ -11,18 +11,23 @@ import {
   VNode,
   Watch
 } from "@stencil/core";
-import { DropdownPlacement, ItemKeyboardEvent } from "./interfaces";
+import { ItemKeyboardEvent } from "./interfaces";
 
 import { focusElement, getSlotted } from "../../utils/dom";
 import {
+  ComputedPlacement,
   createPopper,
   CSS as PopperCSS,
   OverlayPositioning,
-  updatePopper
+  updatePopper,
+  popperMenuComputedPlacements,
+  MenuPlacement,
+  defaultMenuPlacement,
+  filterComputedPlacements
 } from "../../utils/popper";
 import { Instance as Popper, StrictModifiers } from "@popperjs/core";
 import { Scale } from "../interfaces";
-import { DefaultDropdownPlacement, SLOTS } from "./resources";
+import { SLOTS } from "./resources";
 import { createObserver } from "../../utils/observers";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 
@@ -80,6 +85,16 @@ export class Dropdown implements InteractiveComponent {
   }
 
   /**
+   * Defines the available placements that can be used when a flip occurs.
+   */
+  @Prop() flipPlacements?: ComputedPlacement[];
+
+  @Watch("flipPlacements")
+  flipPlacementsHandler(): void {
+    this.setFilteredPlacements();
+  }
+
+  /**
    specify the maximum number of calcite-dropdown-items to display before showing the scroller, must be greater than 0 -
    this value does not include groupTitles passed to calcite-dropdown-group
   */
@@ -97,7 +112,7 @@ export class Dropdown implements InteractiveComponent {
    * Determines where the dropdown will be positioned relative to the button.
    * @default "bottom-leading"
    */
-  @Prop({ reflect: true }) placement: DropdownPlacement = DefaultDropdownPlacement;
+  @Prop({ reflect: true }) placement: MenuPlacement = defaultMenuPlacement;
 
   @Watch("placement")
   placementHandler(): void {
@@ -130,6 +145,7 @@ export class Dropdown implements InteractiveComponent {
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
     this.createPopper();
     this.updateItems();
+    this.setFilteredPlacements();
   }
 
   componentDidLoad(): void {
@@ -317,6 +333,8 @@ export class Dropdown implements InteractiveComponent {
   //
   //--------------------------------------------------------------------------
 
+  filteredFlipPlacements: ComputedPlacement[];
+
   private items: HTMLCalciteDropdownItemElement[] = [];
 
   /** trigger elements */
@@ -341,6 +359,14 @@ export class Dropdown implements InteractiveComponent {
   //  Private Methods
   //
   //--------------------------------------------------------------------------
+
+  setFilteredPlacements = (): void => {
+    const { el, flipPlacements } = this;
+
+    this.filteredFlipPlacements = flipPlacements
+      ? filterComputedPlacements(flipPlacements, el)
+      : null;
+  };
 
   updateItems = (): void => {
     this.updateSelectedItems();
@@ -393,7 +419,7 @@ export class Dropdown implements InteractiveComponent {
     };
 
     flipModifier.options = {
-      fallbackPlacements: ["top-start", "top", "top-end", "bottom-start", "bottom", "bottom-end"]
+      fallbackPlacements: this.filteredFlipPlacements || popperMenuComputedPlacements
     };
 
     const eventListenerModifier: Partial<StrictModifiers> = {
@@ -429,28 +455,27 @@ export class Dropdown implements InteractiveComponent {
   }
 
   private keyDownHandler = (e: KeyboardEvent): void => {
-    const target = e.target as HTMLSlotElement;
+    const target = e.target as HTMLElement;
+
+    if (target !== this.referenceEl) {
+      return;
+    }
+
     const key = e.key;
-    if (
-      this.triggers.includes(target) ||
-      this.triggers.some((trigger) => trigger.contains(target))
-    ) {
-      const ignoredNodeTypes = ["BUTTON", "CALCITE-BUTTON", "CALCITE-ACTION"];
-      if (ignoredNodeTypes.includes(target.nodeName)) {
-        if (this.active && (key === "Escape" || (e.shiftKey && key === "Tab"))) {
-          this.closeCalciteDropdown();
-        }
-        return;
-      }
-      switch (key) {
-        case " ":
-        case "Enter":
-          this.openCalciteDropdown();
-          break;
-        case "Escape":
-          this.closeCalciteDropdown();
-          break;
-      }
+
+    if (this.active && (key === "Escape" || (e.shiftKey && key === "Tab"))) {
+      this.closeCalciteDropdown();
+      return;
+    }
+
+    switch (key) {
+      case " ":
+      case "Enter":
+        this.openCalciteDropdown();
+        break;
+      case "Escape":
+        this.closeCalciteDropdown();
+        break;
     }
   };
 

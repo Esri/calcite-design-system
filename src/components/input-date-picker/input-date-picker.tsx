@@ -31,13 +31,16 @@ import {
   createPopper,
   updatePopper,
   CSS as PopperCSS,
-  OverlayPositioning
+  OverlayPositioning,
+  popperMenuComputedPlacements,
+  ComputedPlacement,
+  defaultMenuPlacement,
+  MenuPlacement,
+  filterComputedPlacements
 } from "../../utils/popper";
 import { StrictModifiers, Instance as Popper } from "@popperjs/core";
 import { DateRangeChange } from "../date-picker/interfaces";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
-
-const DEFAULT_PLACEMENT = "bottom-leading";
 
 @Component({
   tag: "calcite-input-date-picker",
@@ -87,6 +90,16 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
       this.start = undefined;
       this.end = undefined;
     }
+  }
+
+  /**
+   * Defines the available placements that can be used when a flip occurs.
+   */
+  @Prop() flipPlacements?: ComputedPlacement[];
+
+  @Watch("flipPlacements")
+  flipPlacementsHandler(): void {
+    this.setFilteredPlacements();
   }
 
   /**
@@ -169,6 +182,12 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
 
   /** specify the scale of the date picker */
   @Prop({ reflect: true }) scale: "s" | "m" | "l" = "m";
+
+  /**
+   * Determines where the date-picker component will be positioned relative to the input.
+   * @default "bottom-leading"
+   */
+  @Prop({ reflect: true }) placement: MenuPlacement = defaultMenuPlacement;
 
   /** Range mode activation */
   @Prop({ reflect: true }) range = false;
@@ -272,14 +291,14 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
   /** Updates the position of the component. */
   @Method()
   async reposition(): Promise<void> {
-    const { popper, menuEl } = this;
+    const { placement, popper, menuEl } = this;
     const modifiers = this.getModifiers();
 
     popper
       ? await updatePopper({
           el: menuEl,
           modifiers,
-          placement: DEFAULT_PLACEMENT,
+          placement,
           popper
         })
       : this.createPopper();
@@ -321,6 +340,7 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
     this.createPopper();
     connectLabel(this);
     connectForm(this);
+    this.setFilteredPlacements();
   }
 
   async componentWillLoad(): Promise<void> {
@@ -462,6 +482,8 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
   //
   //--------------------------------------------------------------------------
 
+  filteredFlipPlacements: ComputedPlacement[];
+
   labelEl: HTMLCalciteLabelElement;
 
   formEl: HTMLFormElement;
@@ -506,6 +528,14 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
   //  Private Methods
   //
   //--------------------------------------------------------------------------
+
+  setFilteredPlacements = (): void => {
+    const { el, flipPlacements } = this;
+
+    this.filteredFlipPlacements = flipPlacements
+      ? filterComputedPlacements(flipPlacements, el)
+      : null;
+  };
 
   onLabelClick(): void {
     this.setFocus();
@@ -579,7 +609,7 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
     };
 
     flipModifier.options = {
-      fallbackPlacements: ["top-start", "top", "top-end", "bottom-start", "bottom", "bottom-end"]
+      fallbackPlacements: this.filteredFlipPlacements || popperMenuComputedPlacements
     };
 
     const eventListenerModifier: Partial<StrictModifiers> = {
@@ -592,7 +622,7 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
 
   createPopper(): void {
     this.destroyPopper();
-    const { menuEl, referenceEl, overlayPositioning } = this;
+    const { menuEl, placement, referenceEl, overlayPositioning } = this;
 
     if (!menuEl || !referenceEl) {
       return;
@@ -604,7 +634,7 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
       el: menuEl,
       modifiers,
       overlayPositioning,
-      placement: DEFAULT_PLACEMENT,
+      placement,
       referenceEl
     });
   }

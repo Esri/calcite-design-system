@@ -383,7 +383,7 @@ export class Modal implements ConditionalSlotComponent {
   };
 
   focusFirstElement = (): void => {
-    focusElement(this.closeButtonEl);
+    focusElement(this.disableCloseButton ? getFocusableElements(this.el)[0] : this.closeButtonEl);
   };
 
   focusLastElement = (): void => {
