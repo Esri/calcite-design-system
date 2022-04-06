@@ -142,11 +142,9 @@ export class Panel implements ConditionalSlotComponent, InteractiveComponent {
   //
   // --------------------------------------------------------------------------
 
-  resizeObserver = createObserver("resize", (entries) => this.resizeHandlerEntries(entries));
-
   @Element() el: HTMLCalcitePanelElement;
 
-  @State() hasScroll = false;
+  @State() hasContentScroll = false;
 
   backButtonEl: HTMLCalciteActionElement;
 
@@ -155,6 +153,8 @@ export class Panel implements ConditionalSlotComponent, InteractiveComponent {
   containerEl: HTMLElement;
 
   panelScrollEl: HTMLElement;
+
+  resizeObserver = createObserver("resize", () => this.resizeHandler());
 
   // --------------------------------------------------------------------------
   //
@@ -168,7 +168,7 @@ export class Panel implements ConditionalSlotComponent, InteractiveComponent {
 
   disconnectedCallback(): void {
     disconnectConditionalSlotComponent(this);
-    this.resizeObserver.disconnect();
+    this.resizeObserver?.disconnect();
   }
 
   // --------------------------------------------------------------------------
@@ -198,16 +198,12 @@ export class Panel implements ConditionalSlotComponent, InteractiveComponent {
   //
   // --------------------------------------------------------------------------
 
-  resizeHandlerEntries = (entries: ResizeObserverEntry[]): void => {
-    entries.forEach(this.resizeHandler);
-  };
+  resizeHandler = (): void => {
+    const { panelScrollEl } = this;
 
-  resizeHandler = (entry: ResizeObserverEntry): void => {
-    const target = entry.target as HTMLElement;
-
-    if (target === this.panelScrollEl) {
-      this.hasScroll = target.scrollHeight > target.offsetHeight;
-    }
+    this.hasContentScroll = panelScrollEl
+      ? panelScrollEl.scrollHeight > panelScrollEl.offsetHeight
+      : false;
   };
 
   setContainerRef = (node: HTMLElement): void => {
@@ -443,9 +439,9 @@ export class Panel implements ConditionalSlotComponent, InteractiveComponent {
   }
 
   storeScrollEl = (el: HTMLElement): void => {
-    this.panelScrollEl = el;
-    this.resizeObserver.disconnect();
+    this.resizeObserver?.disconnect();
     this.resizeObserver?.observe(el);
+    this.panelScrollEl = el;
   };
 
   renderContent(): VNode {
@@ -461,7 +457,7 @@ export class Panel implements ConditionalSlotComponent, InteractiveComponent {
         key={contentWrapperKey}
         onScroll={this.panelScrollHandler}
         ref={this.storeScrollEl}
-        tabIndex={this.hasScroll ? 0 : null}
+        tabIndex={this.hasContentScroll ? 0 : null}
       >
         <section class={CSS.contentContainer}>{defaultSlotNode}</section>
         {this.renderFab()}
@@ -472,7 +468,7 @@ export class Panel implements ConditionalSlotComponent, InteractiveComponent {
         key={contentWrapperKey}
         onScroll={this.panelScrollHandler}
         ref={this.storeScrollEl}
-        tabIndex={this.hasScroll ? 0 : null}
+        tabIndex={this.hasContentScroll ? 0 : null}
       >
         {defaultSlotNode}
       </section>
