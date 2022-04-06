@@ -23,6 +23,8 @@
     text-color-2
     flex
     flex-auto
+    font-sans
+    font-normal
     items-stretch
     p-0;
 }
@@ -44,6 +46,11 @@
   }
   &:focus {
     @apply focus-inset;
+  }
+
+  .content-start,
+  .content-end {
+    @apply pointer-events-none;
   }
 }
 
@@ -73,9 +80,22 @@
   @apply text-color-3 mt-0.5;
 }
 
+.content-start {
+  @apply justify-start;
+}
+
+.content-end {
+  @apply justify-end;
+}
+
 .content-start,
 .content-end {
-  @apply pointer-events-none flex-initial;
+  @apply flex-auto;
+}
+
+.has-center-content .content-start,
+.has-center-content .content-end {
+  @apply flex-initial;
 }
 
 .actions-start,

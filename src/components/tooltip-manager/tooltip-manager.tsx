@@ -219,13 +219,7 @@ export class TooltipManager {
 
   @Listen("click", { capture: true })
   clickHandler(event: MouseEvent): void {
-    const clickedTooltip = this.queryTooltip(event.composedPath());
-
-    this.clickedTooltip = clickedTooltip;
-
-    if (clickedTooltip) {
-      this.toggleTooltip(clickedTooltip, false);
-    }
+    this.clickedTooltip = this.queryTooltip(event.composedPath());
   }
 
   @Listen("focus", { capture: true })
