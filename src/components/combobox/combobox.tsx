@@ -397,14 +397,16 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
     this.setFocus();
   };
 
-  keydownHandler = (event: KeyboardEvent): void => {
-    const { key } = event;
+  inViewport = (): void => {
     const bounding = this.el.getBoundingClientRect();
-    const inViewport =
-      bounding.top >= 0 &&
+    bounding.top >= 0 &&
       bounding.left >= 0 &&
       bounding.right <= (window.innerWidth || document.documentElement.clientWidth) &&
       bounding.bottom <= (window.innerHeight || document.documentElement.clientHeight);
+  };
+
+  keydownHandler = (event: KeyboardEvent): void => {
+    const { key } = event;
 
     switch (key) {
       case "Tab":
@@ -426,11 +428,15 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
         break;
       case "ArrowUp":
         this.shiftActiveItemIndex(-1);
-        !inViewport ? this.el.scrollIntoView({ block: "start", inline: "nearest" }) : null;
+        if (!this.inViewport) {
+          this.el.scrollIntoView();
+        }
         break;
       case "ArrowDown":
         this.shiftActiveItemIndex(1);
-        !inViewport ? this.el.scrollIntoView({ block: "start", inline: "nearest" }) : null;
+        if (!this.inViewport) {
+          this.el.scrollIntoView();
+        }
         break;
       case " ":
         if (!this.textInput.value) {
@@ -440,16 +446,24 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
         }
         break;
       case "Home":
-        this.active ? event.preventDefault() : null;
+        if (this.active) {
+          event.preventDefault();
+        }
         this.updateActiveItemIndex(0);
-        this.activeInView();
-        !inViewport ? this.el.scrollIntoView({ block: "start", inline: "nearest" }) : null;
+        this.scrollToActiveItem();
+        if (!this.inViewport) {
+          this.el.scrollIntoView();
+        }
         break;
       case "End":
-        this.active ? event.preventDefault() : null;
+        if (this.active) {
+          event.preventDefault();
+        }
         this.updateActiveItemIndex(this.visibleItems.length - 1);
-        this.activeInView();
-        !inViewport ? this.el.scrollIntoView({ block: "start", inline: "nearest" }) : null;
+        this.scrollToActiveItem();
+        if (!this.inViewport) {
+          this.el.scrollIntoView();
+        }
         break;
       case "Escape":
         this.active = false;
@@ -891,7 +905,7 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
     chip?.setFocus();
   }
 
-  private activeInView = (): void => {
+  private scrollToActiveItem = (): void => {
     const activeItem = this.visibleItems[this.activeItemIndex];
     const height = this.calculateSingleItemHeight(activeItem);
     const { offsetHeight, scrollTop } = this.listContainerEl;
@@ -903,10 +917,10 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
   };
 
   shiftActiveItemIndex(delta: number): void {
-    const length = this.visibleItems.length;
+    const { length } = this.visibleItems;
     const newIndex = (this.activeItemIndex + length + delta) % length;
     this.updateActiveItemIndex(newIndex);
-    this.activeInView();
+    this.scrollToActiveItem();
   }
 
   updateActiveItemIndex(index: number): void {
