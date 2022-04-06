@@ -341,13 +341,11 @@ export class Tooltip {
   // --------------------------------------------------------------------------
 
   componentWillLoad(): void {
-    // TODO: set up if open
     this.setUpReferenceElement();
   }
 
   componentDidLoad(): void {
-    // TODO: needed?
-    // this.reposition();
+    this.reposition();
   }
 
   disconnectedCallback(): void {
