@@ -21,8 +21,9 @@ import {
   CSS as PopperCSS,
   OverlayPositioning,
   ComputedPlacement,
-  popperMenuFlipPlacements,
-  defaultMenuPlacement
+  popperMenuComputedPlacements,
+  defaultMenuPlacement,
+  filterComputedPlacements
 } from "../../utils/popper";
 import { StrictModifiers, Instance as Popper } from "@popperjs/core";
 import { guid } from "../../utils/guid";
@@ -167,6 +168,11 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
    */
   @Prop() flipPlacements?: ComputedPlacement[];
 
+  @Watch("flipPlacements")
+  flipPlacementsHandler(): void {
+    this.setFilteredPlacements();
+  }
+
   //--------------------------------------------------------------------------
   //
   //  Event Listeners
@@ -269,6 +275,7 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
     this.createPopper();
     connectLabel(this);
     connectForm(this);
+    this.setFilteredPlacements();
   }
 
   componentWillLoad(): void {
@@ -301,6 +308,8 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
   //  Private State/Props
   //
   //--------------------------------------------------------------------------
+
+  filteredFlipPlacements: ComputedPlacement[];
 
   internalValueChangeFlag = false;
 
@@ -370,6 +379,14 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
   //  Private Methods
   //
   // --------------------------------------------------------------------------
+
+  setFilteredPlacements = (): void => {
+    const { el, flipPlacements } = this;
+
+    this.filteredFlipPlacements = flipPlacements
+      ? filterComputedPlacements(flipPlacements, el)
+      : null;
+  };
 
   getValue = (): string | string[] => {
     const items = this.selectedItems.map((item) => item?.value.toString());
@@ -545,7 +562,7 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
     };
 
     flipModifier.options = {
-      fallbackPlacements: this.flipPlacements || popperMenuFlipPlacements
+      fallbackPlacements: this.filteredFlipPlacements || popperMenuComputedPlacements
     };
 
     const eventListenerModifier: Partial<StrictModifiers> = {

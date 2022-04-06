@@ -15,25 +15,6 @@ describe("label", () => {
 
   describe("connectLabel/disconnectLabel", () => {
     describe("wires up the associated label", () => {
-      beforeEach(() => {
-        // we polyfill composedPath since Stencil's MockEvent does not support it: https://github.com/ionic-team/stencil/blob/main/src/mock-doc/event.ts#L5-L40
-        CustomEvent.prototype.composedPath = function () {
-          // based on https://gist.github.com/rockinghelvetica/00b9f7b5c97a16d3de75ba99192ff05c
-          if (this.path) {
-            return this.path;
-          }
-          let target = this.target;
-
-          this.path = [];
-          while (target.parentNode !== null) {
-            this.path.push(target);
-            target = target.parentNode;
-          }
-          this.path.push(document, window);
-          return this.path;
-        };
-      });
-
       /**
        * This util helps simulate calcite-label's behavior since we cannot use the component here
        */
