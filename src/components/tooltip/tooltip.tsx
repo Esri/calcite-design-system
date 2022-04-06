@@ -316,8 +316,6 @@ export class Tooltip {
   @Watch("referenceElement")
   referenceElementHandler(): void {
     this.setUpReferenceElement();
-
-    // check if changed then open if needed?
   }
 
   // --------------------------------------------------------------------------
