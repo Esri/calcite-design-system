@@ -20,9 +20,10 @@ import {
   CSS as PopperCSS,
   OverlayPositioning,
   updatePopper,
-  popperMenuFlipPlacements,
+  popperMenuComputedPlacements,
   MenuPlacement,
-  defaultMenuPlacement
+  defaultMenuPlacement,
+  filterComputedPlacements
 } from "../../utils/popper";
 import { Instance as Popper, StrictModifiers } from "@popperjs/core";
 import { Scale } from "../interfaces";
@@ -88,6 +89,11 @@ export class Dropdown implements InteractiveComponent {
    */
   @Prop() flipPlacements?: ComputedPlacement[];
 
+  @Watch("flipPlacements")
+  flipPlacementsHandler(): void {
+    this.setFilteredPlacements();
+  }
+
   /**
    specify the maximum number of calcite-dropdown-items to display before showing the scroller, must be greater than 0 -
    this value does not include groupTitles passed to calcite-dropdown-group
@@ -139,6 +145,7 @@ export class Dropdown implements InteractiveComponent {
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
     this.createPopper();
     this.updateItems();
+    this.setFilteredPlacements();
   }
 
   componentDidLoad(): void {
@@ -326,6 +333,8 @@ export class Dropdown implements InteractiveComponent {
   //
   //--------------------------------------------------------------------------
 
+  filteredFlipPlacements: ComputedPlacement[];
+
   private items: HTMLCalciteDropdownItemElement[] = [];
 
   /** trigger elements */
@@ -350,6 +359,14 @@ export class Dropdown implements InteractiveComponent {
   //  Private Methods
   //
   //--------------------------------------------------------------------------
+
+  setFilteredPlacements = (): void => {
+    const { el, flipPlacements } = this;
+
+    this.filteredFlipPlacements = flipPlacements
+      ? filterComputedPlacements(flipPlacements, el)
+      : null;
+  };
 
   updateItems = (): void => {
     this.updateSelectedItems();
@@ -402,7 +419,7 @@ export class Dropdown implements InteractiveComponent {
     };
 
     flipModifier.options = {
-      fallbackPlacements: this.flipPlacements || popperMenuFlipPlacements
+      fallbackPlacements: this.filteredFlipPlacements || popperMenuComputedPlacements
     };
 
     const eventListenerModifier: Partial<StrictModifiers> = {
