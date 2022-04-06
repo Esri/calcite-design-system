@@ -194,7 +194,7 @@ export class Dropdown implements InteractiveComponent {
             ref={this.setScrollerEl}
           >
             <div hidden={!this.active}>
-              <slot onSlotchange={this.storeItems} />
+              <slot onSlotchange={this.storeDefaultSlotted} />
             </div>
           </div>
         </div>
@@ -370,7 +370,7 @@ export class Dropdown implements InteractiveComponent {
       : null;
   };
 
-  storeItems = (event: Event): void => {
+  storeDefaultSlotted = (event: Event): void => {
     const groups = (event.target as HTMLSlotElement)
       .assignedElements({ flatten: true })
       .filter((el) => el?.matches("calcite-dropdown-group")) as HTMLCalciteDropdownGroupElement[];
