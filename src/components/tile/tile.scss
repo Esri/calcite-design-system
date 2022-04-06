@@ -38,11 +38,11 @@
     @apply bg-foreground-1 flex items-center;
 
     &:first-child {
-      @apply pr-3;
+      padding-inline: 0 0.75rem;
     }
 
     &:last-child {
-      @apply pl-3;
+      padding-inline: 0.75rem 0;
     }
   }
 

@@ -19,9 +19,6 @@ const exec = pify(childProcess.exec);
       return;
     }
 
-    console.log("Building deployable candidate ⚙️");
-    await exec("npm run build");
-
     await runGit("checkout", "master", "--quiet");
     await runGit("fetch", "--tags", "--quiet");
 
@@ -41,8 +38,8 @@ const exec = pify(childProcess.exec);
       // the setup-node gh action handles the token
       // https://docs.github.com/en/actions/publishing-packages/publishing-nodejs-packages#publishing-packages-to-the-npm-registry
 
-      console.log(" - prepping package...");
-      await exec(`npm run util:prep-next-from-existing-build`);
+      console.log(" - prepping and building package...");
+      await exec(`npm run util:prep-next`);
 
       const changesCommitted = (await exec(`git rev-parse HEAD`)) !== (await exec(`git rev-parse origin/master`));
       if (!changesCommitted) {
