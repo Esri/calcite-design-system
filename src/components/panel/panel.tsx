@@ -438,8 +438,7 @@ export class Panel implements ConditionalSlotComponent, InteractiveComponent {
     ) : null;
   }
 
-  storeScrollEl = (el: HTMLElement): void => {
-    this.resizeObserver?.disconnect();
+  setContainerScrollEl = (el: HTMLElement): void => {
     this.resizeObserver?.observe(el);
     this.panelScrollEl = el;
   };
@@ -456,7 +455,7 @@ export class Panel implements ConditionalSlotComponent, InteractiveComponent {
         class={{ [CSS.contentWrapper]: true, [CSS.contentHeight]: true }}
         key={contentWrapperKey}
         onScroll={this.panelScrollHandler}
-        ref={this.storeScrollEl}
+        ref={this.setContainerScrollEl}
         tabIndex={hasContentScroll ? 0 : null}
       >
         <section class={CSS.contentContainer}>{defaultSlotNode}</section>
@@ -467,7 +466,7 @@ export class Panel implements ConditionalSlotComponent, InteractiveComponent {
         class={{ [CSS.contentWrapper]: true, [CSS.contentContainer]: true }}
         key={contentWrapperKey}
         onScroll={this.panelScrollHandler}
-        ref={this.storeScrollEl}
+        ref={this.setContainerScrollEl}
         tabIndex={hasContentScroll ? 0 : null}
       >
         {defaultSlotNode}

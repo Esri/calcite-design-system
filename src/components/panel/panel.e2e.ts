@@ -22,7 +22,7 @@ describe("calcite-panel", () => {
 
   it("has slots", () => slots("calcite-panel", SLOTS));
 
-  it("can be disabled", () => disabled(`<calcite-panel>scrolling content</calcite-panel>`));
+  it("can be disabled", () => disabled(`<calcite-panel dismissible>scrolling content</calcite-panel>`));
 
   it("honors dismissed prop", async () => {
     const page = await newE2EPage();
