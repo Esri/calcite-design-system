@@ -194,7 +194,7 @@ export class Dropdown implements InteractiveComponent {
             ref={this.setScrollerEl}
           >
             <div hidden={!this.active}>
-              <slot />
+              <slot onSlotchange={this.storeItems} />
             </div>
           </div>
         </div>
@@ -337,6 +337,8 @@ export class Dropdown implements InteractiveComponent {
 
   private items: HTMLCalciteDropdownItemElement[] = [];
 
+  private groups: HTMLCalciteDropdownGroupElement[] = [];
+
   /** trigger elements */
   private triggers: HTMLElement[];
 
@@ -368,14 +370,22 @@ export class Dropdown implements InteractiveComponent {
       : null;
   };
 
+  storeItems = (event: Event): void => {
+    const groups = (event.target as HTMLSlotElement)
+      .assignedElements({ flatten: true })
+      .filter((el) => el?.matches("calcite-dropdown-group")) as HTMLCalciteDropdownGroupElement[];
+
+    this.groups = groups;
+
+    this.items = groups
+      .map((group) => Array.from(group?.querySelectorAll("calcite-dropdown-item")))
+      .reduce((previousValue, currentValue) => [...previousValue, ...currentValue], []);
+  };
+
   updateItems = (): void => {
     this.updateSelectedItems();
 
     this.triggers = getSlotted(this.el, "dropdown-trigger", { all: true });
-
-    this.items = Array.from(
-      this.el.querySelectorAll<HTMLCalciteDropdownItemElement>("calcite-dropdown-item")
-    );
 
     this.reposition();
   };
@@ -480,23 +490,16 @@ export class Dropdown implements InteractiveComponent {
   };
 
   private updateSelectedItems(): void {
-    const items = Array.from(
-      this.el.querySelectorAll<HTMLCalciteDropdownItemElement>("calcite-dropdown-item")
-    );
-    this.selectedItems = items.filter((item) => item.active);
+    this.selectedItems = this.items.filter((item) => item.active);
   }
 
   private getMaxScrollerHeight(): number {
-    const groups = Array.from(
-      this.el.querySelectorAll<HTMLCalciteDropdownGroupElement>("calcite-dropdown-group")
-    );
-
     const { maxItems } = this;
     let itemsToProcess = 0;
     let maxScrollerHeight = 0;
     let groupHeaderHeight: number;
 
-    groups.forEach((group) => {
+    this.groups.forEach((group) => {
       if (maxItems > 0 && itemsToProcess < maxItems) {
         Array.from(group.children).forEach((item: HTMLCalciteDropdownItemElement, index) => {
           if (index === 0) {
