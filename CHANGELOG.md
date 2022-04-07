@@ -9,6 +9,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### ⚠ BREAKING CHANGES
 
+- **color-picker:** Changing the value programmatically will no longer emit an event, so make sure to run value-handling code when setting it directly.
 - **button:** Change type property to be "button" by default. (#4117) (#4335)
 
 ### Features
@@ -19,6 +20,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ### Bug Fixes
 
 - **button:** Change type property to be "button" by default. ([#4117](https://github.com/Esri/calcite-components/issues/4117)) ([#4335](https://github.com/Esri/calcite-components/issues/4335)) ([0ff143c](https://github.com/Esri/calcite-components/commit/0ff143cf8ab9f3125dc5e5917421b84c14dc8203))
+- **color-picker:** emit color change and input events on user-interaction only ([#4288](https://github.com/Esri/calcite-components/issues/4288)) ([817ce35](https://github.com/Esri/calcite-components/commit/817ce35103f1ea107edc3eaaea72ff1a79dc55b4)), closes [#2033](https://github.com/Esri/calcite-components/issues/2033)
 - **combobox:** can toggle the dropdown using the icon ([#4218](https://github.com/Esri/calcite-components/issues/4218)) ([5b3a6bd](https://github.com/Esri/calcite-components/commit/5b3a6bd66c60013e306d23e4edec343e2439ca94))
 - **combobox-item:** items align to left when added dynamically ([#4176](https://github.com/Esri/calcite-components/issues/4176)) ([fdca1e9](https://github.com/Esri/calcite-components/commit/fdca1e966c080c5b8ef4ffb6d3389316e10b9c29))
 - **combobox, dropdown, input-date-picker, popover:** Ensure flipPlacements are computed placements. ([#4359](https://github.com/Esri/calcite-components/issues/4359)) ([70dc5bd](https://github.com/Esri/calcite-components/commit/70dc5bdede882dbd2d402c1e7635e697513b674b))
