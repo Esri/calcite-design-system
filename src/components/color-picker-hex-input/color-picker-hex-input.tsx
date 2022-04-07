@@ -245,7 +245,6 @@ export class ColorPickerHexInput {
   private internalSetValue(
     value: string | null,
     oldValue: string | null,
-    // skipEqual = true,
     emit = true
   ): void {
     if (value) {
