@@ -14,6 +14,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ### Features
 
 - **input-date-picker, input-time-picker:** add placement props ([#4253](https://github.com/Esri/calcite-components/issues/4253)) ([57f1c88](https://github.com/Esri/calcite-components/commit/57f1c8824557141e2093a0fbb5dc1413eacb3fdb)), closes [#1785](https://github.com/Esri/calcite-components/issues/1785)
+- **ListItem:** updates flex definitions on start and end content slots ([35c3d27](https://github.com/Esri/calcite-components/commit/35c3d274543db5a8bc38582abad1cc77059c2cee)), closes [#4336](https://github.com/Esri/calcite-components/issues/4336) [#4336](https://github.com/Esri/calcite-components/issues/4336) [#4336](https://github.com/Esri/calcite-components/issues/4336)
 
 ### Bug Fixes
 
@@ -25,6 +26,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - **filter:** emit events only on user interaction ([#4287](https://github.com/Esri/calcite-components/issues/4287)) ([5660247](https://github.com/Esri/calcite-components/commit/5660247ac82a450d5a34b8b545b6a89c792b2634)), closes [#4284](https://github.com/Esri/calcite-components/issues/4284)
 - **input-time-picker, time-picker:** fixing direct value setting issue where the minutes and seconds weren't respected when a default value is supplied ([#4321](https://github.com/Esri/calcite-components/issues/4321)) ([b7dc95e](https://github.com/Esri/calcite-components/commit/b7dc95eb10a4e60f730e190b2ce9a345677413e9))
 - **modal:** focus traps when close button is disabled ([#4160](https://github.com/Esri/calcite-components/issues/4160)) ([db34d1d](https://github.com/Esri/calcite-components/commit/db34d1d231774843a4975382067b4b8284173add))
+- **panel:** drop z-index usage for internal component styles ([#4182](https://github.com/Esri/calcite-components/issues/4182)) ([f18140e](https://github.com/Esri/calcite-components/commit/f18140eac7736ac8309936dca8ed8920916c1f68)), closes [#3724](https://github.com/Esri/calcite-components/issues/3724)
 - **slider:** Properly reset and submit form value when a range is used ([#4249](https://github.com/Esri/calcite-components/issues/4249)) ([4962420](https://github.com/Esri/calcite-components/commit/496242005c4c4a6150cbf008797f964ab74454bf)), closes [#4174](https://github.com/Esri/calcite-components/issues/4174)
 - **stepper:** visually change position using component methods when inside a custom element ([#4313](https://github.com/Esri/calcite-components/issues/4313)) ([3ca27c2](https://github.com/Esri/calcite-components/commit/3ca27c22043d952096d57c79070ecb48a744ce8f))
 - **switch:** Calling click() on switch should toggle checked ([#4320](https://github.com/Esri/calcite-components/issues/4320)) ([fbdc031](https://github.com/Esri/calcite-components/commit/fbdc0319a2cb9ed899ed377cb8213132b7f75d62)), closes [#4211](https://github.com/Esri/calcite-components/issues/4211)
