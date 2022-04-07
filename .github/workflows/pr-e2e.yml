@@ -14,7 +14,7 @@ jobs:
         run: |
           current_branch=$(git rev-parse --abbrev-ref HEAD)
           # diff of branch excluding md
-          testable_changes=$(git diff --name-only "$current_branch" $(git merge-base "$current_branch" origin/master) -- . ':(exclude)*.(md|mdx)')
+          testable_changes=$(git diff --name-only "$current_branch" $(git merge-base "$current_branch" origin/master) -- . ':(exclude)*.md*')
           echo "changed files: $testable_changes"
           # skip if there are only md changes
           if [ -z "$testable_changes" ]; then
