@@ -13,4 +13,4 @@ jobs:
           days-before-issue-close: 5
           remove-stale-when-updated: false
           stale-issue-label: "incomplete issue report"
-          close-issue-message: "This issue has been automatically closed due to missing information. We will reopen the issue if the information is provided and `${{secrets.PRIMARY_CONTACT}}` is mentioned in the comment."
+          close-issue-message: "This issue has been automatically closed due to missing information. We will reopen the issue if the information is provided."
