@@ -1,6 +1,6 @@
 import { E2EPage, newE2EPage } from "@stencil/core/testing";
 import { accessible, defaults, disabled, focusable, hidden, reflects, renders } from "../../tests/commonTests";
-import { CSS } from "./resources";
+import { CSS, DEBOUNCE_TIMEOUT } from "./resources";
 
 describe("calcite-filter", () => {
   it("renders", async () => renders("calcite-filter", { display: "flex" }));
@@ -184,7 +184,7 @@ describe("calcite-filter", () => {
 
     it("updates filtered items after filtering", async () => {
       const filterChangeSpy = await page.spyOnEvent("calciteFilterChange");
-      let waitForEvent = page.waitForEvent("calciteFilterChange");
+      const waitForEvent = page.waitForEvent("calciteFilterChange");
       const filter = await page.find("calcite-filter");
       await filter.callMethod("setFocus");
       await filter.type("developer");
@@ -194,16 +194,14 @@ describe("calcite-filter", () => {
 
       assertMatchingItems(await filter.getProperty("filteredItems"), ["harry", "matt", "franco", "jon"]);
 
-      waitForEvent = page.waitForEvent("calciteFilterChange");
       await page.evaluate(() => {
         const filter = document.querySelector("calcite-filter");
         filter.items = filter.items.slice(3);
       });
-      await waitForEvent;
 
-      expect(filterChangeSpy).toHaveReceivedEventTimes(2);
-
+      await page.waitForTimeout(DEBOUNCE_TIMEOUT);
       assertMatchingItems(await filter.getProperty("filteredItems"), ["jon"]);
+      expect(filterChangeSpy).toHaveReceivedEventTimes(1);
     });
 
     it("searches recursively in items and works and matches on a partial string ignoring case", async () => {
@@ -255,13 +253,8 @@ describe("calcite-filter", () => {
     });
 
     it("should return matching value", async () => {
-      const filterChangeSpy = await page.spyOnEvent("calciteFilterChange");
       const filter = await page.find("calcite-filter");
-      await page.waitForEvent("calciteFilterChange");
-
-      expect(filterChangeSpy).toHaveReceivedEventTimes(1);
-
-      await filter;
+      await page.waitForTimeout(DEBOUNCE_TIMEOUT);
       assertMatchingItems(await filter.getProperty("filteredItems"), ["harry"]);
     });
   });

@@ -32,10 +32,11 @@ import {
   updatePopper,
   CSS as PopperCSS,
   OverlayPositioning,
-  popperMenuFlipPlacements,
+  popperMenuComputedPlacements,
   ComputedPlacement,
   defaultMenuPlacement,
-  MenuPlacement
+  MenuPlacement,
+  filterComputedPlacements
 } from "../../utils/popper";
 import { StrictModifiers, Instance as Popper } from "@popperjs/core";
 import { DateRangeChange } from "../date-picker/interfaces";
@@ -95,6 +96,11 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
    * Defines the available placements that can be used when a flip occurs.
    */
   @Prop() flipPlacements?: ComputedPlacement[];
+
+  @Watch("flipPlacements")
+  flipPlacementsHandler(): void {
+    this.setFilteredPlacements();
+  }
 
   /**
    * Number at which section headings should start for this component.
@@ -334,6 +340,7 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
     this.createPopper();
     connectLabel(this);
     connectForm(this);
+    this.setFilteredPlacements();
   }
 
   async componentWillLoad(): Promise<void> {
@@ -475,6 +482,8 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
   //
   //--------------------------------------------------------------------------
 
+  filteredFlipPlacements: ComputedPlacement[];
+
   labelEl: HTMLCalciteLabelElement;
 
   formEl: HTMLFormElement;
@@ -519,6 +528,14 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
   //  Private Methods
   //
   //--------------------------------------------------------------------------
+
+  setFilteredPlacements = (): void => {
+    const { el, flipPlacements } = this;
+
+    this.filteredFlipPlacements = flipPlacements
+      ? filterComputedPlacements(flipPlacements, el)
+      : null;
+  };
 
   onLabelClick(): void {
     this.setFocus();
@@ -592,7 +609,7 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
     };
 
     flipModifier.options = {
-      fallbackPlacements: this.flipPlacements || popperMenuFlipPlacements
+      fallbackPlacements: this.filteredFlipPlacements || popperMenuComputedPlacements
     };
 
     const eventListenerModifier: Partial<StrictModifiers> = {

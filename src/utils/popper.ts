@@ -32,12 +32,16 @@ export const popperPlacements: PopperPlacement[] = [
   "auto",
   "auto-start",
   "auto-end",
+  "top",
   "top-start",
   "top-end",
+  "bottom",
   "bottom-start",
   "bottom-end",
+  "right",
   "right-start",
   "right-end",
+  "left",
   "left-start",
   "left-end",
   "leading-start",
@@ -60,7 +64,7 @@ export const popperPlacements: PopperPlacement[] = [
   "left-trailing"
 ];
 
-export const popperFlipPlacements: ComputedPlacement[] = [
+export const popperComputedPlacements: ComputedPlacement[] = [
   "top",
   "bottom",
   "right",
@@ -104,7 +108,7 @@ export const popperMenuPlacements: MenuPlacement[] = [
   "bottom-trailing"
 ];
 
-export const popperMenuFlipPlacements: ComputedPlacement[] = [
+export const popperMenuComputedPlacements: ComputedPlacement[] = [
   "top-start",
   "top",
   "top-end",
@@ -117,6 +121,24 @@ export const CSS = {
   animation: "calcite-popper-anim",
   animationActive: "calcite-popper-anim--active"
 };
+
+export function filterComputedPlacements(placements: string[], el: HTMLElement): PopperComputedPlacement[] {
+  const filteredPlacements = placements.filter((placement: PopperComputedPlacement) =>
+    popperComputedPlacements.includes(placement)
+  ) as PopperComputedPlacement[];
+
+  if (filteredPlacements.length !== placements.length) {
+    console.warn(
+      `${el.tagName}: Invalid value found in: flipPlacements. Try any of these: ${popperComputedPlacements
+        .map((placement) => `"${placement}"`)
+        .join(", ")
+        .trim()}`,
+      { el }
+    );
+  }
+
+  return filteredPlacements;
+}
 
 export function getPlacement(el: HTMLElement, placement: PopperPlacement): Placement {
   const placements = ["left", "right"];
