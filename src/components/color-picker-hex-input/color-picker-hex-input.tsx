@@ -242,7 +242,11 @@ export class ColorPickerHexInput {
   //
   //--------------------------------------------------------------------------
 
-  private internalSetValue(value: string | null, oldValue: string | null, emit = true): void {
+  private internalSetValue(
+    value: string | null,
+    oldValue: string | null,
+    emit = true
+  ): void {
     if (value) {
       const normalized = normalizeHex(value);
 
