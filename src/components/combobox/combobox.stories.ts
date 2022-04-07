@@ -13,6 +13,8 @@ export default {
   }
 };
 
+const scrollablePageSizeInPx = 2400;
+
 export const Simple = (): string => html`
   <div style="width:400px;max-width:100%;background-color:white;padding:100px">
     <calcite-combobox
@@ -256,7 +258,6 @@ FlipPositioning.parameters = {
   layout: "fullscreen"
 };
 
-
 export const SingleLongLabel = (): string => html`
   <calcite-combobox active selection-mode="single" allow-custom-values>
     <calcite-combobox-item value="Trees" text-label="Trees">
@@ -284,3 +285,41 @@ export const disabled = (): string => html`<calcite-combobox disabled>
   </calcite-combobox-item>
 </calcite-combobox>`;
 
+export const ScrollHomeEnd = stepStory(
+  (): string => html`
+    <calcite-combobox
+      placeholder="${text("placeholder", "placeholder")}"
+      selection-mode="${select("selection-mode", ["multi", "single", "ancestors"], "multi")}"
+      scale="${select("scale", ["s", "m", "l"], "m")}"
+      ${boolean("disabled", false)}
+      ${boolean("allow-custom-values", false)}
+      max-items="${number("max-items", 0)}"
+      ${boolean("active", false)}
+    >
+      <calcite-combobox-item id="one" value="one" label="one"></calcite-combobox-item>
+      <calcite-combobox-item id="two" value="two" label="two"></calcite-combobox-item>
+      <calcite-combobox-item-group label="Last Item">
+        <calcite-combobox-item id="three" value="three" label="three"></calcite-combobox-item>
+      </calcite-combobox-item-group>
+    </calcite-combobox>
+    <style>
+      body {
+        height: ${scrollablePageSizeInPx}px;
+        width: ${scrollablePageSizeInPx}px;
+      }
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+  `,
+  createSteps("calcite-combobox")
+    .snapshot("Default")
+    .focus()
+    .snapshot("inFocus")
+    .press("End")
+    .snapshot("ScrollToEnd")
+    .press("Home")
+    .snapshot("ScrollHome")
+);
