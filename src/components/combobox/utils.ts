@@ -40,7 +40,3 @@ export function getDepth(element: HTMLElement): number {
 
   return result.snapshotLength;
 }
-
-export async function scrollTo(x: number, y: number, page: E2EPage): Promise<void> {
-  await page.evaluate((x: number, y: number) => document.firstElementChild.scrollTo(x, y), x, y);
-}

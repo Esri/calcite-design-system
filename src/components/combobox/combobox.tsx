@@ -397,7 +397,7 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
     this.setFocus();
   };
 
-  comboboxInViewport = (): boolean => {
+  private comboboxInViewport(): boolean {
     const bounding = this.el.getBoundingClientRect();
     return (
       bounding.top >= 0 &&
@@ -405,7 +405,7 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
       bounding.right <= (window.innerWidth || document.documentElement.clientWidth) &&
       bounding.bottom <= (window.innerHeight || document.documentElement.clientHeight)
     );
-  };
+  }
 
   keydownHandler = (event: KeyboardEvent): void => {
     const { key } = event;
@@ -435,6 +435,10 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
         }
         break;
       case "ArrowDown":
+        if (!this.active) {
+          event.preventDefault();
+          this.active = true;
+        }
         this.shiftActiveItemIndex(1);
         if (!this.comboboxInViewport()) {
           this.el.scrollIntoView();

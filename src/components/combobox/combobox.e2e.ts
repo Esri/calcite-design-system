@@ -12,7 +12,6 @@ import {
 
 import { html } from "../../../support/formatting";
 import { TEXT } from "./resources";
-import { scrollTo } from "./utils";
 
 describe("calcite-combobox", () => {
   it("renders", async () => renders("calcite-combobox", { display: "block" }));
