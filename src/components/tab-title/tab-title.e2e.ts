@@ -41,6 +41,23 @@ describe("calcite-tab-title", () => {
     expect(iconEnd).not.toBeNull();
   });
 
+  it("emits active event on user interaction only", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<calcite-tab-title>Title</calcite-tab-title>`);
+    const activeEventSpy = await page.spyOnEvent("calciteTabsActivate");
+    const title = await page.find("calcite-tab-title");
+
+    title.setProperty("active", true);
+    await page.waitForChanges();
+    expect(activeEventSpy).toHaveReceivedEventTimes(0);
+
+    await title.click();
+    expect(activeEventSpy).toHaveReceivedEventTimes(1);
+
+    await page.keyboard.press("Enter");
+    expect(activeEventSpy).toHaveReceivedEventTimes(2);
+  });
+
   describe("when parent element is tab-nav", () => {
     describe("when position is above, default", () => {
       it("should render with bottom border on hover", async () => {
