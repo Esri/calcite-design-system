@@ -65,16 +65,16 @@ export class ColorPicker implements InteractiveComponent {
   //--------------------------------------------------------------------------
 
   /**
-   * When true, the color picker will process and display alpha characters.
-   */
-  @Prop() alphaSupport = false;
-
-  /**
    * When false, empty color (null) will be allowed as a value. Otherwise, a color value is always enforced by the component.
    *
    * When true, clearing the input and blurring will restore the last valid color set. When false, it will set it to empty.
    */
   @Prop() allowEmpty = false;
+
+  /**
+   * When true, the color picker will process and display alpha characters.
+   */
+  @Prop() alphaEnabled = false;
 
   /** specify the appearance - default (containing border), or minimal (no containing border) */
   @Prop({ reflect: true }) appearance: ColorAppearance = "default";
@@ -252,7 +252,7 @@ export class ColorPicker implements InteractiveComponent {
    * @see [ColorValue](https://github.com/Esri/calcite-components/blob/master/src/components/color-picker/interfaces.ts#L10)
    */
   @Prop({ mutable: true }) value: ColorValue | null = normalizeHex(
-    hexify(DEFAULT_COLOR, this.alphaSupport)
+    hexify(DEFAULT_COLOR, this.alphaEnabled)
   );
 
   @Watch("value")
@@ -424,7 +424,7 @@ export class ColorPicker implements InteractiveComponent {
       return;
     }
 
-    const normalizedHex = color && normalizeHex(hexify(color, this.alphaSupport));
+    const normalizedHex = color && normalizeHex(hexify(color, this.alphaEnabled));
 
     if (hex !== normalizedHex) {
       this.internalColorSet(Color(hex));
@@ -779,9 +779,9 @@ export class ColorPicker implements InteractiveComponent {
 
     /* incoming
 
-    const { alphaSupport, color, format, value } = this;
+    const { alphaEnabled, color, format, value } = this;
 
-    const defaultValue = normalizeHex(hexify(DEFAULT_COLOR, alphaSupport));
+    const defaultValue = normalizeHex(hexify(DEFAULT_COLOR, alphaEnabled));
     const initialValueDefault = format === "auto" ? defaultValue : this.toValue(color, format);
     const initialValue = format === "auto" || value === defaultValue ? value : initialValueDefault;
 
@@ -831,7 +831,7 @@ export class ColorPicker implements InteractiveComponent {
 
   render(): VNode {
     const {
-      alphaSupport,
+      alphaEnabled,
       allowEmpty,
       color,
       intlDeleteColor,
@@ -845,7 +845,7 @@ export class ColorPicker implements InteractiveComponent {
       savedColors,
       scale
     } = this;
-    const selectedColorInHex = color ? hexify(color, alphaSupport) : null;
+    const selectedColorInHex = color ? hexify(color, alphaEnabled) : null;
     const hexInputScale = scale === "l" ? "m" : "s";
     const {
       colorFieldAndSliderInteractive,
@@ -922,7 +922,7 @@ export class ColorPicker implements InteractiveComponent {
                   </span>
                   <calcite-color-picker-hex-input
                     allowEmpty={allowEmpty}
-                    alphaSupport={alphaSupport}
+                    alphaEnabled={alphaEnabled}
                     class={CSS.control}
                     onCalciteColorPickerHexInputChange={this.handleHexInputChange}
                     scale={hexInputScale}
@@ -947,7 +947,7 @@ export class ColorPicker implements InteractiveComponent {
                 </calcite-tabs>
               )}
             </div>
-            {!alphaSupport || hideOpacity ? null : this.renderOpacitySection()}
+            {!alphaEnabled || hideOpacity ? null : this.renderOpacitySection()}
           </div>
         )}
         {hideSaved ? null : (
@@ -1209,7 +1209,7 @@ export class ColorPicker implements InteractiveComponent {
     const hexMode = "hex";
 
     if (format.includes(hexMode)) {
-      return normalizeHex(hexify(color.round(), this.alphaSupport));
+      return normalizeHex(hexify(color.round(), this.alphaEnabled));
     }
 
     if (format.includes("-css")) {
@@ -1241,7 +1241,7 @@ export class ColorPicker implements InteractiveComponent {
   }
 
   private deleteColor = (): void => {
-    const colorToDelete = hexify(this.color, this.alphaSupport);
+    const colorToDelete = hexify(this.color, this.alphaEnabled);
     const inStorage = this.savedColors.indexOf(colorToDelete) > -1;
 
     if (!inStorage) {
@@ -1260,7 +1260,7 @@ export class ColorPicker implements InteractiveComponent {
   };
 
   private saveColor = (): void => {
-    const colorToSave = hexify(this.color, this.alphaSupport);
+    const colorToSave = hexify(this.color, this.alphaEnabled);
     const alreadySaved = this.savedColors.indexOf(colorToSave) > -1;
 
     if (alreadySaved) {
@@ -1493,7 +1493,7 @@ export class ColorPicker implements InteractiveComponent {
   private updateColorFromChannels(channels: this["channels"]): void {
     this.internalColorSet(
       Color(
-        this.alphaSupport && this.color ? [...channels, this.color.alpha()] : channels,
+        this.alphaEnabled && this.color ? [...channels, this.color.alpha()] : channels,
         this.channelMode
       )
     );

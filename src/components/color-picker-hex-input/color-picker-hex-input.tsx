@@ -50,12 +50,12 @@ export class ColorPickerHexInput {
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
-    const { allowEmpty, alphaSupport, value } = this;
+    const { allowEmpty, alphaEnabled, value } = this;
 
     if (value) {
       const normalized = normalizeHex(value);
 
-      if (isValidHex(normalized, alphaSupport)) {
+      if (isValidHex(normalized, alphaEnabled)) {
         this.internalSetValue(normalized, normalized, false);
       }
 
@@ -74,16 +74,16 @@ export class ColorPickerHexInput {
   //--------------------------------------------------------------------------
 
   /**
-   * When true, the input will process and display hex characters for the alpha channel.
-   */
-  @Prop() alphaSupport = false;
-
-  /**
    * When false, empty color (null) will be allowed as a value. Otherwise, a color value is always enforced by the component.
    *
    * When true, clearing the input and blurring will restore the last valid color set. When false, it will set it to empty.
    */
   @Prop() allowEmpty = false;
+
+  /**
+   * When true, the input will process and display hex characters for the alpha channel.
+   */
+  @Prop() alphaEnabled = false;
 
   /**
    * Label used for the hex input.
@@ -106,7 +106,7 @@ export class ColorPickerHexInput {
    * The hex value.
    */
   @Prop({ mutable: true, reflect: true }) value: string = normalizeHex(
-    hexify(DEFAULT_COLOR, this.alphaSupport)
+    hexify(DEFAULT_COLOR, this.alphaEnabled)
   );
 
   @Watch("value")
@@ -129,10 +129,10 @@ export class ColorPickerHexInput {
     const node = this.inputNode;
     const inputValue = node.value;
     const hex = `#${inputValue}`;
-    const { allowEmpty, alphaSupport, internalColor } = this;
+    const { allowEmpty, alphaEnabled, internalColor } = this;
     const willClearValue = allowEmpty && !inputValue;
 
-    if (willClearValue || (isValidHex(hex, alphaSupport) && isLonghandHex(hex))) {
+    if (willClearValue || (isValidHex(hex, alphaEnabled) && isLonghandHex(hex))) {
       return;
     }
 
@@ -142,7 +142,7 @@ export class ColorPickerHexInput {
         ? ""
         : this.formatForInternalInput(
             rgbToHex(
-              alphaSupport
+              alphaEnabled
                 ? normalizeAlpha(internalColor.object())
                 : (internalColor.object() as any as RGB)
             )
@@ -157,7 +157,7 @@ export class ColorPickerHexInput {
   @Listen("keydown", { capture: true })
   protected onInputKeyDown(event: KeyboardEvent): void {
     const { altKey, ctrlKey, metaKey, shiftKey } = event;
-    const { alphaSupport, internalColor, value } = this;
+    const { alphaEnabled, internalColor, value } = this;
     const key = event.key;
 
     if (key === "Tab" || key === "Enter") {
@@ -179,7 +179,7 @@ export class ColorPickerHexInput {
       const bump = shiftKey ? 10 : 1;
 
       this.internalSetValue(
-        normalizeHex(hexify(this.nudgeRGBChannels(internalColor, bump * direction), alphaSupport)),
+        normalizeHex(hexify(this.nudgeRGBChannels(internalColor, bump * direction), alphaEnabled)),
         oldValue
       );
 
@@ -218,7 +218,7 @@ export class ColorPickerHexInput {
   //--------------------------------------------------------------------------
 
   render(): VNode {
-    const { alphaSupport, intlHex, value } = this;
+    const { alphaEnabled, intlHex, value } = this;
     const hexInputValue = this.formatForInternalInput(value);
 
     return (
@@ -226,7 +226,7 @@ export class ColorPickerHexInput {
         <calcite-input
           class={CSS.input}
           label={intlHex}
-          maxLength={alphaSupport ? 8 : 6}
+          maxLength={alphaEnabled ? 8 : 6}
           onCalciteInputBlur={this.onCalciteInputBlur}
           onCalciteInputChange={this.onInputChange}
           prefixText="#"
@@ -267,12 +267,12 @@ export class ColorPickerHexInput {
   private internalSetValue(value: string | null, oldValue: string | null, emit = true): void {
     if (value) {
       const normalized = normalizeHex(value);
-      const { alphaSupport } = this;
+      const { alphaEnabled } = this;
 
-      if (isValidHex(normalized, alphaSupport)) {
+      if (isValidHex(normalized, alphaEnabled)) {
         const { internalColor } = this;
         const changed =
-          !internalColor || normalized !== normalizeHex(hexify(internalColor, alphaSupport));
+          !internalColor || normalized !== normalizeHex(hexify(internalColor, alphaEnabled));
         this.internalColor = Color(normalized);
         this.previousNonNullValue = normalized;
         this.value = normalized;
@@ -309,6 +309,6 @@ export class ColorPickerHexInput {
     const nudgedRGBChannels = color.array().map((channel) => channel + amount);
     const nudgedColor = Color.rgb(nudgedRGBChannels);
 
-    return this.alphaSupport ? nudgedColor.alpha(color.alpha()) : nudgedColor;
+    return this.alphaEnabled ? nudgedColor.alpha(color.alpha()) : nudgedColor;
   }
 }
