@@ -9,6 +9,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### ⚠ BREAKING CHANGES
 
+- **tabs:** Setting `active` on `calcite-tab-title` programmatically will no longer emit an event, so make sure to run active-tab-handling code when setting it directly.
 - **color-picker:** Changing the value programmatically will no longer emit an event, so make sure to run value-handling code when setting it directly.
 - **button:** Change type property to be "button" by default. (#4117) (#4335)
 
@@ -34,6 +35,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - **stepper:** visually change position using component methods when inside a custom element ([#4313](https://github.com/Esri/calcite-components/issues/4313)) ([3ca27c2](https://github.com/Esri/calcite-components/commit/3ca27c22043d952096d57c79070ecb48a744ce8f))
 - **switch:** Calling click() on switch should toggle checked ([#4320](https://github.com/Esri/calcite-components/issues/4320)) ([fbdc031](https://github.com/Esri/calcite-components/commit/fbdc0319a2cb9ed899ed377cb8213132b7f75d62)), closes [#4211](https://github.com/Esri/calcite-components/issues/4211)
 - **tab-title, tab:** Support nested tabs ([#4250](https://github.com/Esri/calcite-components/issues/4250)) ([7a8b6db](https://github.com/Esri/calcite-components/commit/7a8b6dbed71dced31ba9a442afa13067b1c18d1b)), closes [#4198](https://github.com/Esri/calcite-components/issues/4198)
+- **tabs:** emit `calciteTabsActivate` and `calciteTabChange` events on user interaction ([#4353](https://github.com/Esri/calcite-components/issues/4353)) ([e17edcb](https://github.com/Esri/calcite-components/commit/e17edcbb5272a3c9238ec020a06ef91427d113c3))
 - **tabs:** update active tab styling on resize ([#4351](https://github.com/Esri/calcite-components/issues/4351)) ([838b54f](https://github.com/Esri/calcite-components/commit/838b54f6910570bd1c0ff274217b40368ef2ce48)), closes [#2885](https://github.com/Esri/calcite-components/issues/2885)
 - **tile:** match content-start spacing when dir set to rtl ([#4324](https://github.com/Esri/calcite-components/issues/4324)) ([3cb4523](https://github.com/Esri/calcite-components/commit/3cb4523456742db9e7ec726b839b05736fde7146)), closes [#4240](https://github.com/Esri/calcite-components/issues/4240)
 - **tooltip:** Removes console error when querying the tooltip ([#4280](https://github.com/Esri/calcite-components/issues/4280)) ([dcffd15](https://github.com/Esri/calcite-components/commit/dcffd1546d1362f77e2f62c9d4803dbe1ed09d3d)), closes [#4279](https://github.com/Esri/calcite-components/issues/4279)
