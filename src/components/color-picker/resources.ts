@@ -1,4 +1,4 @@
-import { createColor } from "./utils";
+import Color from "color";
 
 export const CSS = {
   container: "container",
@@ -31,7 +31,7 @@ export const CSS = {
   hexAndChannelsGroup: "hex-and-channels-group"
 };
 
-export const DEFAULT_COLOR = createColor("#007AC2");
+export const DEFAULT_COLOR = Color("#007AC2");
 export const DEFAULT_STORAGE_KEY_PREFIX = "calcite-color-";
 
 export const RGB_LIMITS = {

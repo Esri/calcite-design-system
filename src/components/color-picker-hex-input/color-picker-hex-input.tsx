@@ -12,7 +12,6 @@ import {
   Watch
 } from "@stencil/core";
 import {
-  createColor,
   hexify,
   normalizeAlpha,
   hexChar,
@@ -28,7 +27,7 @@ import { RGB } from "../color-picker/interfaces";
 import { focusElement } from "../../utils/dom";
 import { TEXT } from "../color-picker/resources";
 
-const DEFAULT_COLOR = createColor();
+const DEFAULT_COLOR = Color();
 
 @Component({
   tag: "calcite-color-picker-hex-input",
@@ -274,7 +273,7 @@ export class ColorPickerHexInput {
         const { internalColor } = this;
         const changed =
           !internalColor || normalized !== normalizeHex(hexify(internalColor, alphaSupport));
-        this.internalColor = createColor(normalized);
+        this.internalColor = Color(normalized);
         this.previousNonNullValue = normalized;
         this.value = normalized;
 

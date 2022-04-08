@@ -3,7 +3,7 @@ import Color from "color";
 import { COLORS, CSS } from "./resources";
 import { Scale } from "../interfaces";
 import { getThemeName } from "../../utils/dom";
-import { createColor, hexify } from "../color-picker/utils";
+import { hexify } from "../color-picker/utils";
 
 const CHECKER_SQUARE_SIZE_IN_PX = 4;
 const CHECKER_SIZE_IN_PX = CHECKER_SQUARE_SIZE_IN_PX * 2;
@@ -38,7 +38,7 @@ export class ColorPickerSwatch {
 
   @Watch("color")
   handleColorChange(color: string): void {
-    this.internalColor = createColor(color);
+    this.internalColor = Color(color);
   }
 
   /**

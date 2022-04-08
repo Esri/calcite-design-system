@@ -1,5 +1,4 @@
 import { ColorValue, RGB, RGBA } from "./interfaces";
-
 import Color from "color";
 
 export const hexChar = /^[0-9A-F]$/i;
@@ -185,10 +184,4 @@ function hasChannels(colorObject: Exclude<ColorValue, string> | null, ...channel
 
 export function colorEqual(value1: Color | null, value2: Color | null): boolean {
   return value1?.rgb().array().toString() === value2?.rgb().array().toString();
-}
-
-type ColorConstructorParams = ConstructorParameters<typeof Color>;
-
-export function createColor(object?: ColorConstructorParams[0], model?: ColorConstructorParams[1]): Color {
-  return Color(object, model);
 }

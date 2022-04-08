@@ -28,7 +28,6 @@ import { Direction, focusElement, getElementDir } from "../../utils/dom";
 import {
   alphaToOpacity,
   colorEqual,
-  createColor,
   CSSColorMode,
   Format,
   hexify,
@@ -290,7 +289,7 @@ export class ColorPicker implements InteractiveComponent {
       return;
     }
 
-    const color = allowEmpty && !value ? null : createColor(value);
+    const color = allowEmpty && !value ? null : Color(value);
     const colorChanged = !colorEqual(color, this.color);
 
     if (modeChanged || colorChanged) {
@@ -428,13 +427,13 @@ export class ColorPicker implements InteractiveComponent {
     const normalizedHex = color && normalizeHex(hexify(color, this.alphaSupport));
 
     if (hex !== normalizedHex) {
-      this.internalColorSet(createColor(hex));
+      this.internalColorSet(Color(hex));
     }
   };
 
   private handleSavedColorSelect = (event: Event): void => {
     const swatch = event.currentTarget as HTMLCalciteColorPickerSwatchElement;
-    this.internalColorSet(createColor(swatch.color));
+    this.internalColorSet(Color(swatch.color));
   };
 
   private handleChannelInput = (event: CustomEvent): void => {
@@ -1480,7 +1479,7 @@ export class ColorPicker implements InteractiveComponent {
     let currentOffset = 0;
 
     hueSliderColorStopKeywords.forEach((keyword) => {
-      gradient.addColorStop(currentOffset, createColor(keyword).string());
+      gradient.addColorStop(currentOffset, Color(keyword).string());
       currentOffset += offset;
     });
 
@@ -1493,7 +1492,7 @@ export class ColorPicker implements InteractiveComponent {
 
   private updateColorFromChannels(channels: this["channels"]): void {
     this.internalColorSet(
-      createColor(
+      Color(
         this.alphaSupport && this.color ? [...channels, this.color.alpha()] : channels,
         this.channelMode
       )
