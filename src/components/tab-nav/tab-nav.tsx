@@ -251,6 +251,7 @@ export class TabNav {
       this.selectedTab !== e.detail.tab
     ) {
       this.selectedTab = e.detail.tab;
+      e.stopPropagation();
     }
   }
 

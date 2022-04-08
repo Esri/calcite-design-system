@@ -12,7 +12,7 @@ describe("calcite-tab-nav", () => {
   it("emits on user interaction", async () => {
     const page = await newE2EPage();
     await page.setContent(html`<calcite-tab-nav>
-      <calcite-tab-title active>Tab 1 Title</calcite-tab-title>
+      <calcite-tab-title>Tab 1 Title</calcite-tab-title>
     </calcite-tab-nav>`);
     const activeEventSpy = await page.spyOnEvent("calciteTabChange");
     const firstTabTitle = await page.find("calcite-tab-title");
