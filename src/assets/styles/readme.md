@@ -2,11 +2,11 @@
 
 When building any component in calcite-components or [calcite-components](https://github.com/esri/calcite-components), please use these set of global variables (CSS variables and Sass mixins or variables)
 
-## From calcite-components
+## From [calcite-colors](https://github.com/Esri/calcite-colors)
 
 ### Color
 
-[`_colors.scss`](https://github.com/Esri/calcite-components/blob/master/src/assets/styles/_colors.scss): you'll find the global CSS variables for both light and dark theme.
+[`colors.scss`](https://github.com/Esri/calcite-colors/blob/master/dist/colors.scss): you'll find the global CSS variables for both light and dark theme.
 
 ## From [calcite-base](https://github.com/esri/calcite-base)
 
@@ -59,7 +59,7 @@ Two font weights are available using CSS vars.
 | --calcite-font-weight-light  | 300   |
 | --calcite-font-weight-normal | 400   |
 | --calcite-font-weight-medium | 500   |
-| --calcite-font-weight-bold   | 700   |
+| --calcite-font-weight-bold   | 600   |
 
 Example:
 

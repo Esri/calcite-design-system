@@ -1,9 +1,0 @@
-:host {
-  @apply cursor-pointer block;
-  .calcite-radio-button__container {
-    @apply relative;
-  }
-}
-:host([disabled]) {
-  @apply cursor-pointer;
-}

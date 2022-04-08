@@ -1,0 +1,20 @@
+name: PR Bot
+on:
+  pull_request:
+    types: [opened]
+    branches: [master]
+jobs:
+  assign:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: technote-space/assign-author@v1
+  label:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: srvaroa/labeler@v0.8
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  milestone:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: benelan/milestone-action@v1.1.1

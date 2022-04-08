@@ -1,0 +1,30 @@
+name: Verify Install
+on:
+  issues:
+    types: [labeled]
+jobs:
+  assign:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v4
+        env:
+          ISSUE_VERIFIERS: ${{secrets.ISSUE_VERIFIERS}}
+        with:
+          script: |
+            const { ISSUE_VERIFIERS } = process.env;
+            const { label } = context.payload;
+            if (label && label.name === "3 - installed") {
+              const assignees = ISSUE_VERIFIERS.split(",").map(v => v.trim());
+              await github.issues.update({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                assignees,
+              });
+              await github.issues.createComment({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: "Installed and assigned for verification.",
+              });
+            }

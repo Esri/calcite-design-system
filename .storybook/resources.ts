@@ -1,6 +1,4 @@
-import { Appearance, Position, Scale, ThemeClass } from "../src/components/interfaces";
-
-type Direction = "ltr" | "rtl";
+import { Alignment, Appearance, Position, Scale } from "../src/components/interfaces";
 
 interface AttributeMetadata<T> {
   values: T[];
@@ -8,38 +6,32 @@ interface AttributeMetadata<T> {
 }
 
 interface CommonAttributes {
-  dir: AttributeMetadata<Direction>;
-  theme: AttributeMetadata<ThemeClass>;
+  alignment: AttributeMetadata<Alignment>;
+  appearance: AttributeMetadata<Appearance>;
   scale: AttributeMetadata<Scale>;
   position: AttributeMetadata<Position>;
-  appearance: AttributeMetadata<Appearance>;
 }
 
-const dirOptions: Direction[] = ["ltr", "rtl"];
-const themeOptions: ThemeClass[] = ["calcite-theme-light", "calcite-theme-dark", "calcite-theme-auto"];
 const positionOptions: Position[] = ["start", "end"];
 const scaleOptions: Scale[] = ["s", "m", "l"];
+const alignmentOptions: Alignment[] = ["start", "center", "end"];
 const appearanceOptions: Appearance[] = ["solid", "clear", "outline"];
 
 export const ATTRIBUTES: CommonAttributes = {
-  dir: {
-    values: dirOptions,
-    defaultValue: dirOptions[0]
+  alignment: {
+    values: alignmentOptions,
+    defaultValue: alignmentOptions[0]
   },
-  theme: {
-    values: themeOptions,
-    defaultValue: themeOptions[0]
-  },
-  scale: {
-    values: scaleOptions,
-    defaultValue: scaleOptions[1]
+  appearance: {
+    values: appearanceOptions,
+    defaultValue: appearanceOptions[0]
   },
   position: {
     values: positionOptions,
     defaultValue: positionOptions[0]
   },
-  appearance: {
-    values: appearanceOptions,
-    defaultValue: appearanceOptions[0]
+  scale: {
+    values: scaleOptions,
+    defaultValue: scaleOptions[1]
   }
 };

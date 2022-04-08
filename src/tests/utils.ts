@@ -1,6 +1,10 @@
-import { E2EElement, E2EPage } from "@stencil/core/testing";
+import { E2EElement, E2EPage, newE2EPage } from "@stencil/core/testing";
 import { BoundingBox, JSONObject } from "puppeteer";
-import dedent from "dedent";
+
+/**
+ * Util to help type global props for testing.
+ */
+export type GlobalTestProps<T> = T & Window & typeof globalThis;
 
 type DragAndDropSelector = string | SelectorOptions;
 
@@ -91,7 +95,7 @@ export async function dragAndDrop(
     dragStart.dispatchEvent(new PointerEvent("pointerdown", dragStartInitializer));
     dragStart.dispatchEvent(new DragEvent("dragstart", dragStartInitializer));
 
-    await new Promise((resolve) => setTimeout(resolve, 2000));
+    await new Promise((resolve) => window.setTimeout(resolve, 2000));
 
     dragEnd.dispatchEvent(new MouseEvent("dragenter", dragEndInitializer));
     dragStart.dispatchEvent(new DragEvent("dragend", dragEndInitializer));
@@ -112,102 +116,26 @@ export function selectText(input: E2EElement): Promise<void> {
 }
 
 /**
- * Use this tagged template to help Prettier format any HTML template literals.
- * @param strings the
- *
- * @example
- *
- * ```ts
- * const page = await newE2EPage({
- *   html: html`
- *     <calcite-select>
- *       <calcite-option id="1">uno</calcite-option>
- *       <calcite-option id="2">dos</calcite-option>
- *       <calcite-option id="3">tres</calcite-option>
- *     </calcite-select>
- *   `
- * });
- * ```
+ * Helper to get an E2EElement's x,y coordinates
+ * @param page
+ * @param elementSelector
+ * @param shadowSelector
  */
-export function html(strings: string): string;
-export function html(strings: TemplateStringsArray, ...placeholders: any[]): string;
-export function html(strings: any, ...placeholders: any[]): string {
-  return dedent(strings, ...placeholders);
-}
+export async function getElementXY(
+  page: E2EPage,
+  elementSelector: string,
+  shadowSelector?: string
+): Promise<[number, number]> {
+  return page.evaluate(
+    ([elementSelector, shadowSelector]): [number, number] => {
+      const element = document.querySelector(elementSelector);
+      const measureTarget = shadowSelector ? element.shadowRoot.querySelector(shadowSelector) : element;
+      const { x, y } = measureTarget.getBoundingClientRect();
 
-/*
-MIT License
-
-Copyright (c) 2020 Cloud Four
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-
-https://github.com/cloudfour/simple-svg-placeholder
-*/
-
-interface SimpleSvgPlaceholderParams {
-  width?: number;
-  height?: number;
-  text?: string;
-  fontFamily?: string;
-  fontWeight?: string;
-  fontSize?: number;
-  dy?: number;
-  bgColor?: string;
-  textColor?: string;
-  dataUri?: boolean;
-  charset?: string;
-}
-
-export function placeholderImage({
-  width = 300,
-  height = 150,
-  text = `${width}×${height}`,
-  fontFamily = "sans-serif",
-  fontWeight = "bold",
-  fontSize = Math.floor(Math.min(width, height) * 0.2),
-  dy = fontSize * 0.35,
-  bgColor = "#ddd",
-  textColor = "rgba(0,0,0,0.5)",
-  dataUri = true,
-  charset = "UTF-8"
-}: SimpleSvgPlaceholderParams): string {
-  const str = `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}">
-    <rect fill="${bgColor}" width="${width}" height="${height}"/>
-    <text fill="${textColor}" font-family="${fontFamily}" font-size="${fontSize}" dy="${dy}" font-weight="${fontWeight}" x="50%" y="50%" text-anchor="middle">${text}</text>
-  </svg>`;
-
-  // Thanks to: filamentgroup/directory-encoder
-  const cleaned = str
-    .replace(/[\t\n\r]/gim, "") // Strip newlines and tabs
-    .replace(/\s\s+/g, " ") // Condense multiple spaces
-    .replace(/'/gim, "\\i"); // Normalize quotes
-
-  if (dataUri) {
-    const encoded = encodeURIComponent(cleaned)
-      .replace(/\(/g, "%28") // Encode brackets
-      .replace(/\)/g, "%29");
-
-    return `data:image/svg+xml;charset=${charset},${encoded}`;
-  }
-
-  return cleaned;
+      return [x, y];
+    },
+    [elementSelector, shadowSelector]
+  );
 }
 
 /**
@@ -295,4 +223,20 @@ export async function visualizeMouseCursor(page: E2EPage): Promise<void> {
       }
     }
   });
+}
+
+export async function waitForAnimationFrame(): Promise<void> {
+  return new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+}
+
+/**
+ * Creates an E2E page for tests that need to create and set up elements programmatically.
+ */
+export async function newProgrammaticE2EPage(): Promise<E2EPage> {
+  const page = await newE2EPage();
+  // we need to initialize the page with any component to ensure they are available in the browser context
+  await page.setContent("<calcite-icon></calcite-icon>");
+  await page.evaluate(() => document.querySelector("calcite-icon").remove());
+
+  return page;
 }

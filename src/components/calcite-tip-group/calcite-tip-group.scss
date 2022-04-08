@@ -1,9 +1,0 @@
-:host {
-  @extend %component-host;
-  @apply block;
-}
-
-::slotted(calcite-tip) {
-  @apply border-none;
-  max-width: 34rem;
-}

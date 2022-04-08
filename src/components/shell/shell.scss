@@ -1,0 +1,97 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-shell-tip-spacing: the left/right positioning of the tip-manager when slotted within a shell
+ */
+
+:host {
+  @extend %component-host;
+  @apply absolute
+    inset-0
+    flex
+    h-full
+    w-full
+    flex-col
+    overflow-hidden;
+  --calcite-shell-tip-spacing: 26vw;
+}
+
+.main {
+  @apply relative
+    flex
+    h-full
+    w-full
+    flex-auto
+    flex-row
+    justify-between
+    overflow-hidden;
+}
+
+.main--reversed {
+  @apply flex-row-reverse;
+}
+
+.content {
+  @apply flex
+    h-full
+    w-full
+    flex-col
+    flex-nowrap
+    overflow-auto;
+}
+
+.content ::slotted(calcite-shell-center-row),
+.content ::slotted(calcite-panel),
+.content ::slotted(calcite-flow) {
+  @apply flex-auto self-stretch;
+  max-height: unset;
+}
+
+.content--behind {
+  @apply absolute
+    inset-0
+    z-0
+    border-0;
+  display: initial;
+}
+
+::slotted(calcite-shell-center-row) {
+  width: unset;
+}
+
+::slotted(.header .heading) {
+  @apply text-n2-wrap font-normal;
+}
+
+::slotted(calcite-shell-panel),
+::slotted(calcite-shell-center-row) {
+  @apply relative;
+  z-index: 1;
+}
+
+::slotted(calcite-panel),
+::slotted(calcite-flow) {
+  @apply border-color-3
+  border
+  border-l-0
+  border-r-0
+  border-solid;
+}
+
+slot[name="center-row"]::slotted(calcite-shell-center-row:not([detached])) {
+  @apply border-color-3 border-l border-r;
+}
+
+::slotted(calcite-tip-manager) {
+  @apply shadow-2
+  animate-in-up
+  absolute
+  box-border
+  rounded;
+  bottom: theme("spacing.2");
+  left: var(--calcite-shell-tip-spacing);
+  right: var(--calcite-shell-tip-spacing);
+  z-index: 2;
+}

@@ -2,39 +2,6 @@
 
 This is a living document defining our best practices and reasoning for authoring Calcite Components.
 
-<!-- TOC depthFrom:2 -->
-
-- [Component Guidelines](#component-guidelines)
-  - [General Guidelines](#general-guidelines)
-  - [Color](#color)
-  - [Light Theme/Dark Theme](#light-themedark-theme)
-  - [Custom Themes](#custom-themes)
-    - [Typography](#typography)
-    - [Palette](#palette)
-  - [Component Responsibilities](#component-responsibilities)
-  - [Events](#events)
-    - [Event Names](#event-names)
-    - [Private/Internal Events](#privateinternal-events)
-    - [Event Details](#event-details)
-  - [Props](#props)
-  - [Focus support](#focus-support)
-  - [CSS Class Names](#css-class-names)
-  - [assets](#assets)
-  - [a11y](#a11y)
-  - [i18n](#i18n)
-    - [Translated strings](#translated-strings)
-  - [Bundling and Loading](#bundling-and-loading)
-  - [Unique IDs for Components](#unique-ids-for-components)
-  - [Prerendering and SSR](#prerendering-and-ssr)
-  - [Cleaning up resources](#cleaning-up-resources)
-    - [Timeouts](#timeouts)
-  - [Tests](#tests)
-    - [Writing Tests](#writing-tests)
-      - [Prevent logging unnecessary messaging in the build](#prevent-logging-unnecessary-messaging-in-the-build)
-    - [Unstable Tests](#unstable-tests)
-
-<!-- /TOC -->
-
 ## General Guidelines
 
 Generally adhere to and follow these best practices for authoring components.
@@ -42,121 +9,9 @@ Generally adhere to and follow these best practices for authoring components.
 - [Google Web Component Best Practices](https://developers.google.com/web/fundamentals/web-components/best-practices)
 - [Custom Element Conformance - W3C Editor's Draft](https://w3c.github.io/webcomponents/spec/custom/#custom-element-conformance)
 
-## Color
+## Structure
 
-If a component has multiple color themes (for example Blue, Red, Green, and Yellow) representing various state implement a `color` prop and reflect it to an attributes.
-
-```tsx
-enum Colors {
-  red = "red",
-  blue = "blue",
-  green = "green",
-  yellow = "yellow",
-}
-
-export class CalciteComponent {
-
-// ...
-
-@Prop({ reflect: true }) color: Colors = 'blue'
-
-// ...
-```
-
-You can then use the `:host()` selector to define your custom colors:
-
-```scss
-:host([color="blue"]) {
-  .something {
-    // make it blue
-  }
-}
-
-:host([color="red"]) {
-  .something {
-    // make it red
-  }
-}
-```
-
-**Discussed In**:
-
-- https://github.com/Esri/calcite-components/pull/24/files/3446c89010e3ef0421803d68d627aba2e7c4bfa0#r289427838
-
-## Light Theme/Dark Theme
-
-In the [global CSS file](https://github.com/Esri/calcite-components/blob/master/src/assets/styles/global.scss), we specify the values of each color for both light and dark theme. This enables theming to be inherited throughout a component tree. Consider this valid example:
-
-```html
-<div class="calcite-theme-dark">
-  <calcite-button>Button text</calcite-button>
-  <calcite-date-picker></calcite-date-picker>
-</div>
-```
-
-This will cause both the button and the date picker to use the dark theme color variables declared in the global file. This makes it very easy for developers to move an entire app from light to dark and vice versa.
-
-To make this work, inside a component's SASS file, _you must use colors from the theme variables_. For example
-
-```scss
-// 🙅‍♀️ using the sass var will not correctly inherit or change in light/dark mode
-:host {
-  color: $ui-brand-light;
-}
-
-// 👍 using the CSS var will inherit correctly
-:host {
-  color: var(--calcite-ui-brand);
-}
-```
-
-## Custom Themes
-
-Since Calcite Components might be used in many different contexts such as configurable apps, multiple themes and appearances need to be supported. The most common use case for custom themes are applications where the end user needs to be able to customize brand colors and typography. To this end custom theming can be accomplished by overriding the [CSS Custom Properties (CSS Variables)](https://developer.mozilla.org/en-US/docs/Web/CSS/--*) from the main light and dark themes with new values:
-
-```css
-:root {
-  --calcite-ui-brand: red;
-}
-```
-
-You can apply these overrides to individual components as well:
-
-```css
-calcite-slider {
-  --calcite-ui-brand: red;
-}
-```
-
-Or, add a class to the specific instance:
-
-```css
-.my-custom-theme {
-  --calcite-ui-brand: red;
-}
-```
-
-```html
-<calcite-slider class="my-custom-theme"></calcite-slider>
-```
-
-### Typography
-
-All components have been constructed to inherit their `font-family`. This enables you to change the font much like changing the colors:
-
-```css
-:root {
-  font-family: "Comic Sans";
-}
-```
-
-### Palette
-
-The current light theme colors and their hex values can be found [here](https://esri.github.io/calcite-colors/).
-
-**Discussed In**:
-
-- https://github.com/Esri/calcite-components/issues/507
+We follow Stencil's suggested component structure. See their [style guide](https://github.com/ionic-team/stencil/blob/master/STYLE_GUIDE.md#file-structure) for more details.
 
 ## Component Responsibilities
 
@@ -165,18 +20,18 @@ Calcite Components broadly targets two groups of projects inside Esri:
 - **Sites** like [esri.com](https://esri.com) and [developers.arcgis.com](https://developers.arcgis.com).
 - **Apps** like [ArcGIS Online](https://arcgis.com), [Vector Tile Style Editor](https://developers.arcgis.com/vector-tile-style-editor), [Workforce](https://www.esri.com/en-us/arcgis/products/workforce/overview), [ArcGIS Hub](https://hub.arcgis.com) etc...
 
-Components should present the the minimum possible implementation to be usable by both sites and apps and leave as much as possible to users.
+Components should present the minimum possible implementation to be usable by both sites and apps and leave as much as possible to users.
 
 It is generally agreed on that components should not:
 
-- Make network requests. Authentication and the exact environment of the request is difficult to mange and better left to the specific application or site.
-- Manage routing or manipulate the URL. managing the URL is the the domain and the specific site or app.
+- Make network requests. Authentication and the exact environment of the request is difficult to manage and better left to the specific application or site.
+- Manage routing or manipulate the URL. Managing the URL is the domain of the specific site or app.
 - Implement any feature which can easily be achieved with simple CSS and HTML. E.x. it was decided that `<calcite-switch>` should not support `text` or `position` properties because those could be easily duplicated with CSS ([ref](https://github.com/ArcGIS/calcite-components/pull/24#discussion_r289424140))
 - Implement any component which might replace a browser feature, without adding functionality that goes above and beyond what browser defaults would provide.
 
 However components are allowed to:
 
-- Use or implement `localStorage` if there is specific use case.
+- Use or implement `localStorage` if there is a specific use case.
 - Communicate with other components if a specific use case exists.
 
 **Discussed In**:
@@ -244,8 +99,8 @@ type FocusId = string;
 
 Examples:
 
-- [`calcite-color`](https://github.com/Esri/calcite-components/blob/78a70a805324689d516130816a69f031e39c5338/src/components/calcite-color/calcite-color.tsx#L409-L413)
-- [`calcite-panel` (supports `focusId`)](https://github.com/Esri/calcite-components/blob/f2bb61828f3da54b7dcb5fb1dade12b85d82331e/src/components/calcite-panel/calcite-panel.tsx#L298-L311)
+- [`calcite-color`](https://github.com/Esri/calcite-components/blob/78a70a805324689d516130816a69f031e39c5338/src/components/color/color.tsx#L409-L413)
+- [`calcite-panel` (supports `focusId`)](https://github.com/Esri/calcite-components/blob/f2bb61828f3da54b7dcb5fb1dade12b85d82331e/src/components/panel/panel.tsx#L298-L311)
 
 ## CSS Class Names
 
@@ -334,81 +189,6 @@ const assetPath = getAssetPath(`./assets/my-component/asset.json`);
 
 This is required in order to have a unified assets folder in the distributable.
 
-## a11y
-
-In generally follow the guidelines and standards in these articles:
-
-- [Google Accessibility Overview](https://developers.google.com/web/fundamentals/accessibility/)
-- [WAI-ARIA Authoring Practices](https://www.w3.org/TR/wai-aria-practices-1.1/)
-
-## i18n
-
-Components should require as a few text translations as possible. In general, components should let users supply text values via slots and attributes; this lets a user handle translation within their apps.
-
-If you component involves formatting numbers or dates use the [`Intl` APIs](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl) for formatting the display of numbers and dates in your component.
-
-To add RTL support to your components you should use the internal `getElementDir` helper to apply the `CSS_UTILITY.rtl` class to your component.
-
-If the node is in shadow DOM, you may add a `dir` attribute to it instead. However, if **DO NOT** add the `dir` attribute to the HOST or a light DOM node.
-
-```tsx
-import { Component, Host, Element, h} from "@stencil/core";
-import { getElementDir } from "../../utils/dom";
-import { CSS_UTILITY } from "../../utils/resources";
-
-@Component({
-  tag: "calcite-component",
-  styleUrl: "calcite-component.scss",
-  shadow: true
-})
-export class CalciteComponent {
-  @Element() el: HTMLElement;
-
-  // ...
-
-  render() {
-    const dir = getElementDir(this.el);
-
-    return (
-      <Host>
-        <div class={{ [CSS_UTILITY.rtl]: dir === "rtl" }}>
-          <!-- The rest of your component -->
-        </div>
-      </Host>
-    );
-  }
-}
-```
-
-You can then implement direction specific CSS with CSS variables:
-
-```scss
-:host {
-  --calcite-tabs-tab-margin-start: 1.25rem;
-  --calcite-tabs-tab-margin-end: 0;
-}
-
-.calcite--rtl {
-  --calcite-tabs-tab-margin-start: 0;
-  --calcite-tabs-tab-margin-end: 1.25rem;
-}
-```
-
-Your component and its child components can then use `var(--calcite-tabs-tab-margin-start)` to access their proper values based on the direction of the document.
-
-### Translated strings
-
-In future it will likely become necessary to provide string translations for components. An example would be the `aria-label` for the `<calcite-modal>` close button. Initial research looks promising and we could likely implement one of these approaches and set a `lang` for each component.
-
-- https://medium.com/stencil-tricks/implementing-internationalisation-i18n-with-stencil-5e6559554117 and https://codesandbox.io/s/43pmx55vo9
-- https://github.com/ionic-team/ionic-stencil-conference-app/issues/69
-
-Until we implement a `lang` facility and set up translations for all components, we have been allowing a small number of strings to be passed in as props. Props that represent translated strings should have the syntax: `text-label-x`, where `x` is the name for the string. For example, when providing a string from "Close", use the prop name `text-label-close`. In the component, these props should default to their English equivalent (this is useful for non-localized apps):
-
-```
-@Prop() textLabelClose: string = 'Close';
-```
-
 ## Bundling and Loading
 
 Stencil has the capability to build and distribute a large variety of outputs based on our needs. You can read more about this in the [output targets](https://github.com/ionic-team/stencil/blob/cc55401555ff5c28757cf99edf372dcada2c0b25/src/compiler/output-targets/readme.md) documentation.
@@ -417,7 +197,7 @@ As a best practice we should follow [Ionic's configuration](https://github.com/i
 
 **Note:** This is highly likely to change as we move closer to our first release and as Stencil improves their documentation around their specific methods and build processes.
 
-Each root component should have a corresponding bundle entry in `stencil.config.ts`. It is important that the root component be listed first (the `util:add-build-extras:build-utils` NPM script depends on this).
+Each root component should have a corresponding bundle entry in `stencil.config.ts`.
 
 ## Unique IDs for Components
 
@@ -428,10 +208,10 @@ import { guid } from "../../utils/guid";
 
 @Component({
   tag: "calcite-example",
-  styleUrl: "calcite-example.scss",
+  styleUrl: "example.scss",
   shadow: true
 })
-export class CalciteExample {
+export class Example {
   // ...
 
   guid: string = `calcite-example-${guid()}`;
@@ -491,21 +271,3 @@ focusMenu(): void => {
   this.menuFocusTimeout = window.setTimeout(() => focusElement(this.menuEl), 100);
 }
 ```
-
-## Tests
-
-### Writing Tests
-
-#### Prevent logging unnecessary messaging in the build
-
-**This is only necessary if a component's test will produce a lot of console messages in a test run.**
-
-As a best practice when writing tests, prevent emitting console warnings by stubbing them. Depending on the tested component, this may also apply to other console APIs.
-
-Console warnings can end up polluting the build output messaging that makes it more difficult to identify real issues. By stubbing `console.warn`, you can prevent warning messages from displaying in the build. See [`calcite-color.e2e`](https://github.com/Esri/calcite-components/blob/af0c6cb/src/components/calcite-color/calcite-color.e2e.ts#L9-L17) for an example.
-
-### Unstable Tests
-
-If you notice that a test fails intermittently during local or CI test runs, it is unstable and must be skipped to avoid holding up test runs, builds and deployments.
-
-To skip a test, use the `skip` method that's available on [tests, or suites](https://jestjs.io/docs/en/api#methods) and submit a pull request. Once that's done, please create a follow-up issue by [choosing](https://github.com/Esri/calcite-components/issues/new/choose) the unstable test template and filling it out.

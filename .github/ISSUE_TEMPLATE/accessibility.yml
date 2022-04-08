@@ -1,0 +1,82 @@
+name: Accessibility
+description: Report an accessibility issue in a component
+labels: ["a11y", "bug", "0 - new", "p - high", "needs triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        - Please [check for existing issues](https://github.com/Esri/calcite-components/issues) to avoid duplicates. If someone has already opened an issue for what you are experiencing, please add a 👍 reaction to the existing issue instead of creating a new one.
+        - For support, please check the [community forum](https://developers.arcgis.com/calcite-design-system/community/)
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+    validations:
+      required: false
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual Behavior
+      description: A clear description of the issue (optionally include before/after screenshots/GIFs).
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected Behavior
+      description: What you expected instead, and why?
+    validations:
+      required: true
+  - type: input
+    id: sample
+    attributes:
+      label: Reproduction Sample
+      description: |
+        We provide the following templates to help get started: [codepen](https://codepen.io/pen?template=RwgrjEx) (just Calcite), [codesandbox](https://codesandbox.io/s/calcite-template-p95kp?file=/src/App.js) (Calcite with React wrapper), or [jsbin](https://jsbin.com/wiguxohisa/edit?html,output) (Calcite with ArcGIS JSAPI). You can also make your own sample using one of the those websites. Alternatively, a [documentation sample](https://developers.arcgis.com/calcite-design-system/components) can be used if the issue is reproducible.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Reproduction Steps
+      description: Clear, numbered steps for reproducing the issue using the sample provided above.
+      placeholder: |
+        1. Open the DevTools console
+        2. Click on XYZ
+        3. ...
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Reproduction Version
+      description: The latest version that reproduces the issue.
+      placeholder: beta.2
+    validations:
+      required: true
+  - type: input
+    id: w3c
+    attributes:
+      label: Working W3C Example/Tutorial
+      description: Link to valid w3c example for reference.
+    validations:
+      required: false
+  - type: textarea
+    id: relevant
+    attributes:
+      label: Relevant Info
+      description: Browser, OS, tools, mobile, stack traces, related issues, suggestions/resources on how to fix, etc.
+      placeholder: |
+        Windows 10, Chrome 97, JAWS, NVDA, VoiceOver, Dragon
+        `Uncaught TypeError: Cannot read property of undefined`
+        ...
+    validations:
+      required: false
+  - type: input
+    id: regression
+    attributes:
+      label: Regression?
+      description: Please provide the last working version if the issue is a regression.
+      placeholder: beta.1
+    validations:
+      required: false

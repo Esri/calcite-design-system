@@ -3,8 +3,10 @@ import { postcss } from "@stencil/postcss";
 import { sass } from "@stencil/sass";
 import babel from "@rollup/plugin-babel";
 import autoprefixer from "autoprefixer";
-import tailwind from "tailwindcss";
+import tailwindcss from "tailwindcss";
+import tailwindConfig from "./tailwind.config";
 import { generatePreactTypes } from "./support/preact";
+import { version } from "./package.json";
 
 export const create: () => Config = () => ({
   buildEs5: "prod",
@@ -52,7 +54,7 @@ export const create: () => Config = () => ({
     { components: ["calcite-popover", "calcite-popover-manager"] },
     { components: ["calcite-progress"] },
     { components: ["calcite-pick-list", "calcite-pick-list-group", "calcite-pick-list-item"] },
-    { components: ["calcite-radio-button", "calcite-radio"] },
+    { components: ["calcite-radio-button"] },
     { components: ["calcite-radio-button-group"] },
     { components: ["calcite-radio-group", "calcite-radio-group-item"] },
     { components: ["calcite-rating"] },
@@ -75,6 +77,7 @@ export const create: () => Config = () => ({
   outputTargets: [
     { type: "dist-hydrate-script" },
     { type: "dist-custom-elements-bundle" },
+    { type: "dist-custom-elements", autoDefineCustomElements: true },
     { type: "dist" },
     { type: "docs-readme" },
     { type: "docs-json", file: "./dist/extras/docs-json.json" },
@@ -98,7 +101,7 @@ export const create: () => Config = () => ({
       injectGlobalPaths: ["src/assets/styles/includes.scss"]
     }),
     postcss({
-      plugins: [tailwind(), autoprefixer()]
+      plugins: [tailwindcss(tailwindConfig), autoprefixer()]
     })
   ],
   rollupPlugins: {
@@ -120,6 +123,7 @@ export const create: () => Config = () => ({
     selector: "attribute",
     name: "calcite-hydrated"
   },
+  preamble: `All material copyright ESRI, All Rights Reserved, unless otherwise specified.\nSee https://github.com/Esri/calcite-components/blob/master/LICENSE.md for details.\nv${version}`,
   extras: {
     scriptDataOpts: true
   }
