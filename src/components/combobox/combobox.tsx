@@ -397,7 +397,7 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
     this.setFocus();
   };
 
-  inViewport = (): boolean => {
+  comboboxInViewport = (): boolean => {
     const bounding = this.el.getBoundingClientRect();
     return (
       bounding.top >= 0 &&
@@ -430,13 +430,13 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
         break;
       case "ArrowUp":
         this.shiftActiveItemIndex(-1);
-        if (!this.inViewport()) {
+        if (!this.comboboxInViewport()) {
           this.el.scrollIntoView();
         }
         break;
       case "ArrowDown":
         this.shiftActiveItemIndex(1);
-        if (!this.inViewport()) {
+        if (!this.comboboxInViewport()) {
           this.el.scrollIntoView();
         }
         break;
@@ -453,7 +453,7 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
         }
         this.updateActiveItemIndex(0);
         this.scrollToActiveItem();
-        if (!this.inViewport()) {
+        if (!this.comboboxInViewport()) {
           this.el.scrollIntoView();
         }
         break;
@@ -463,7 +463,7 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
         }
         this.updateActiveItemIndex(this.visibleItems.length - 1);
         this.scrollToActiveItem();
-        if (!this.inViewport()) {
+        if (!this.comboboxInViewport()) {
           this.el.scrollIntoView();
         }
         break;
