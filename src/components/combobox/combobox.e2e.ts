@@ -12,6 +12,7 @@ import {
 
 import { html } from "../../../support/formatting";
 import { TEXT } from "./resources";
+import { scrollTo } from "./utils";
 
 describe("calcite-combobox", () => {
   it("renders", async () => renders("calcite-combobox", { display: "block" }));
@@ -473,7 +474,7 @@ describe("calcite-combobox", () => {
 
   describe("keyboard navigation", () => {
     let page: E2EPage;
-    let scrollablePageSizeInPx: 2400;
+    const scrollablePageSizeInPx = 2400;
 
     beforeEach(async () => {
       page = await newE2EPage();
@@ -594,15 +595,15 @@ describe("calcite-combobox", () => {
 
       await page.keyboard.press("PageDown");
       await page.waitForChanges();
-      const position = await page.evaluate(() => window.scrollY);
-      expect(position).toBeTruthy();
+      const scrollPosition = await page.evaluate(() => window.scrollY);
+      expect(scrollPosition).toBeTruthy();
 
       await page.keyboard.press("PageUp");
       await page.waitForChanges();
       expect(
-        await page.evaluate((position) => {
-          return window.scrollY < position;
-        }, position)
+        await page.evaluate((scrollPosition) => {
+          return window.scrollY < scrollPosition;
+        }, scrollPosition)
       ).toBeTruthy();
     });
 
