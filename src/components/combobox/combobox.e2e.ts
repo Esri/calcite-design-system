@@ -474,7 +474,7 @@ describe("calcite-combobox", () => {
 
   describe("keyboard navigation", () => {
     let page: E2EPage;
-    let scrollablePageSizeInPx: number;
+    let scrollablePageSizeInPx: 2400;
 
     beforeEach(async () => {
       page = await newE2EPage();
@@ -574,7 +574,8 @@ describe("calcite-combobox", () => {
     });
 
     it("when the combobox is focused & closed, Page up/down (fn arrow up/down) scrolls up and down the page", async () => {
-      const scrollablePageSizeInPx = 2400;
+      // set body to overflow so we can test the scroll functionality;
+      // set default margin/padding to 0 to not have to adjust for it in position calculations
       await page.addStyleTag({
         content: `body {
             height: ${scrollablePageSizeInPx}px;
@@ -594,15 +595,15 @@ describe("calcite-combobox", () => {
 
       await page.keyboard.press("PageDown");
       await page.waitForChanges();
-      expect(await page.evaluate(() => window.scrollY)).toBeTruthy();
+      const position = await page.evaluate(() => window.scrollY);
+      expect(position).toBeTruthy();
 
-      const previousScrollPosition = await page.evaluate(() => window.scrollY);
       await page.keyboard.press("PageUp");
       await page.waitForChanges();
       expect(
-        await page.evaluate((previousScrollPosition) => {
-          return window.scrollY < previousScrollPosition;
-        }, previousScrollPosition)
+        await page.evaluate((position) => {
+          return window.scrollY < position;
+        }, position)
       ).toBeTruthy();
     });
 
