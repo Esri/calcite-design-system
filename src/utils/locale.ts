@@ -52,6 +52,8 @@ export const locales = [
   "zh-TW"
 ];
 
+const localesNegativeCharacters = ["−", "-", "﹣", "－"];
+
 function createLocaleNumberFormatter(locale: string): Intl.NumberFormat {
   return new Intl.NumberFormat(locale, {
     minimumFractionDigits: 0,
@@ -67,6 +69,9 @@ export function delocalizeNumberString(numberString: string, locale: string): st
 
       const splitNumberString = nonExpoNumString.split("");
       const decimalIndex = splitNumberString.lastIndexOf(decimalSeparator);
+      if (localesNegativeCharacters.includes(splitNumberString[0])) {
+        splitNumberString[0] = "-";
+      }
 
       const delocalizedNumberString = splitNumberString
         .map((value, index) => {
