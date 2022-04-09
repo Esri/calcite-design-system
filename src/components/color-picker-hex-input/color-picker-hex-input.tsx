@@ -129,12 +129,24 @@ export class ColorPickerHexInput {
     const node = this.inputNode;
     const inputValue = node.value;
     const hex = `#${inputValue}`;
-    const { allowEmpty, alphaEnabled, internalColor } = this;
+    const { allowEmpty, alphaEnabled } = this;
     const willClearValue = allowEmpty && !inputValue;
 
     if (willClearValue || (isValidHex(hex, alphaEnabled) && isLonghandHex(hex))) {
       return;
     }
+
+    if (alphaEnabled) {
+      const validHex = isValidHex(hex, false);
+      const validHexa = isValidHex(hex, true);
+      const canConvertToHexa = !validHexa && validHex;
+
+      if (canConvertToHexa) {
+        this.internalSetValue(`${hex}f`, this.value);
+      }
+    }
+
+    const { internalColor } = this;
 
     // manipulating DOM directly since rerender doesn't update input value
     node.value =
@@ -270,12 +282,16 @@ export class ColorPickerHexInput {
       const { alphaEnabled } = this;
 
       if (isValidHex(normalized, alphaEnabled)) {
-        const { internalColor } = this;
+        const { internalColor: currentColor } = this;
+        const nextColor = Color(normalized);
+        const normalizedLonghand = normalizeHex(hexify(nextColor, alphaEnabled));
+
+        this.internalColor = nextColor;
+        this.previousNonNullValue = normalizedLonghand;
+        this.value = normalizedLonghand;
+
         const changed =
-          !internalColor || normalized !== normalizeHex(hexify(internalColor, alphaEnabled));
-        this.internalColor = Color(normalized);
-        this.previousNonNullValue = normalized;
-        this.value = normalized;
+          !currentColor || normalizedLonghand !== normalizeHex(hexify(currentColor, alphaEnabled));
 
         if (changed && emit) {
           this.calciteColorPickerHexInputChange.emit();
