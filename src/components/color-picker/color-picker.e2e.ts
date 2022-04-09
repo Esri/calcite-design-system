@@ -70,7 +70,7 @@ describe("calcite-color-picker", () => {
         defaultValue: false
       },
       {
-        propertyName: "alphaSupport",
+        propertyName: "alphaEnabled",
         defaultValue: false
       },
       {
@@ -78,8 +78,28 @@ describe("calcite-color-picker", () => {
         defaultValue: "default"
       },
       {
+        propertyName: "channelsDisabled",
+        defaultValue: false
+      },
+      {
         propertyName: "format",
         defaultValue: "auto"
+      },
+      {
+        propertyName: "hexDisabled",
+        defaultValue: false
+      },
+      {
+        propertyName: "hideChannels",
+        defaultValue: false
+      },
+      {
+        propertyName: "hideHex",
+        defaultValue: false
+      },
+      {
+        propertyName: "hideSaved",
+        defaultValue: false
       },
       {
         propertyName: "intlB",
@@ -156,6 +176,10 @@ describe("calcite-color-picker", () => {
       {
         propertyName: "intlValue",
         defaultValue: TEXT.value
+      },
+      {
+        propertyName: "savedDisabled",
+        defaultValue: false
       },
       {
         propertyName: "scale",

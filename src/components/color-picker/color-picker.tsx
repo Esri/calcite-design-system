@@ -93,6 +93,9 @@ export class ColorPicker implements InteractiveComponent {
     this.previousColor = oldColor;
   }
 
+  /** When true, hides the RGB/HSV channel inputs */
+  @Prop() channelsDisabled = false;
+
   /**
    * When true, disabled prevents user interaction.
    */
@@ -113,15 +116,27 @@ export class ColorPicker implements InteractiveComponent {
   }
 
   /** When true, hides the hex input */
+  @Prop() hexDisabled = false;
+
+  /**
+   * When true, hides the hex input
+   *
+   * @deprecated use `hexDisabled` instead
+   */
   @Prop() hideHex = false;
 
-  /** When true, hides the RGB/HSV channel inputs */
+  /**
+   * When true, hides the RGB/HSV channel inputs
+   *
+   * @deprecated use `channelsDisabled` instead
+   */
   @Prop() hideChannels = false;
 
-  /** When true and alpha is enabled, hides the opacity controls */
-  @Prop() hideOpacity = false;
-
-  /** When true, hides the saved colors section */
+  /**
+   * When true, hides the saved colors section
+   *
+   * @deprecated use `saveDisabled` instead
+   */
   @Prop() hideSaved = false;
 
   /** Label used for the blue channel
@@ -225,6 +240,9 @@ export class ColorPicker implements InteractiveComponent {
    * @default "Value"
    */
   @Prop() intlValue = TEXT.value;
+
+  /** When true, hides the saved colors section */
+  @Prop() savedDisabled = false;
 
   /**
    * The scale of the color picker.
@@ -833,16 +851,18 @@ export class ColorPicker implements InteractiveComponent {
     const {
       alphaEnabled,
       allowEmpty,
+      channelsDisabled,
       color,
       intlDeleteColor,
+      hexDisabled,
       hideHex,
       hideChannels,
-      hideOpacity,
       hideSaved,
       intlHex,
       intlSaved,
       intlSaveColor,
       savedColors,
+      savedDisabled,
       scale
     } = this;
     const selectedColorInHex = color ? hexify(color, alphaEnabled) : null;
@@ -863,6 +883,10 @@ export class ColorPicker implements InteractiveComponent {
     const hueLeft = hueScopeLeft ?? (colorFieldWidth * DEFAULT_COLOR.hue()) / HSV_LIMITS.h;
     const noColor = color === null;
     const vertical = scopeOrientation === "vertical";
+    const noHex = hexDisabled || hideHex;
+    const noChannels = channelsDisabled || hideChannels;
+    const noSaved = savedDisabled || hideSaved;
+
     return (
       <div class={CSS.container}>
         <div class={CSS.colorFieldAndSliderWrap}>
@@ -902,7 +926,7 @@ export class ColorPicker implements InteractiveComponent {
             tabindex="0"
           />
         </div>
-        {hideHex && hideChannels ? null : (
+        {noHex && noChannels ? null : (
           <div
             class={{
               [CSS.controlSection]: true,
@@ -910,7 +934,7 @@ export class ColorPicker implements InteractiveComponent {
             }}
           >
             <div class={CSS.hexAndChannelsGroup}>
-              {hideHex ? null : (
+              {noHex ? null : (
                 <div class={CSS.hexOptions}>
                   <span
                     class={{
@@ -930,7 +954,7 @@ export class ColorPicker implements InteractiveComponent {
                   />
                 </div>
               )}
-              {hideChannels ? null : (
+              {noChannels ? null : (
                 <calcite-tabs
                   class={{
                     [CSS.colorModeContainer]: true,
@@ -947,10 +971,10 @@ export class ColorPicker implements InteractiveComponent {
                 </calcite-tabs>
               )}
             </div>
-            {!alphaEnabled || hideOpacity ? null : this.renderOpacitySection()}
+            {alphaEnabled ? this.renderOpacitySection() : null}
           </div>
         )}
-        {hideSaved ? null : (
+        {noSaved ? null : (
           <div class={{ [CSS.savedColorsSection]: true, [CSS.section]: true }}>
             <div class={CSS.header}>
               <label>{intlSaved}</label>
