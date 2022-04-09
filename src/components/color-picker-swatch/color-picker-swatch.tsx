@@ -111,7 +111,6 @@ export class ColorPickerSwatch {
           fill={hex}
           height="100%"
           id="swatch"
-          opacity={alpha}
           rx={borderRadius}
           stroke={borderColor}
           // stroke-width and clip-path are needed to hide overflowing portion of stroke
