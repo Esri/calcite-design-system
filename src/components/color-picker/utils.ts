@@ -15,6 +15,12 @@ export function isValidHex(hex: string, hasAlpha = false): boolean {
   return isShorthandHex(hex, hasAlpha) || isLonghandHex(hex, hasAlpha);
 }
 
+export function canConvertToHexa(hex: string): boolean {
+  const validHex = isValidHex(hex, false);
+  const validHexa = isValidHex(hex, true);
+  return !validHexa && validHex;
+}
+
 function evaluateHex(hex: string, length: number, pattern: RegExp): boolean {
   if (!hex) {
     return false;

@@ -18,7 +18,8 @@ import {
   isLonghandHex,
   isValidHex,
   normalizeHex,
-  rgbToHex
+  rgbToHex,
+  canConvertToHexa
 } from "../color-picker/utils";
 import Color from "color";
 import { CSS } from "./resources";
@@ -131,18 +132,15 @@ export class ColorPickerHexInput {
     const hex = `#${inputValue}`;
     const { allowEmpty, alphaEnabled } = this;
     const willClearValue = allowEmpty && !inputValue;
+    const isLonghand = isLonghandHex(hex);
 
-    if (willClearValue || (isValidHex(hex, alphaEnabled) && isLonghandHex(hex))) {
+    if (willClearValue || (isValidHex(hex, alphaEnabled) && isLonghand)) {
       return;
     }
 
     if (alphaEnabled) {
-      const validHex = isValidHex(hex, false);
-      const validHexa = isValidHex(hex, true);
-      const canConvertToHexa = !validHexa && validHex;
-
-      if (canConvertToHexa) {
-        this.internalSetValue(`${hex}f`, this.value);
+      if (canConvertToHexa(hex)) {
+        this.internalSetValue(`${hex}${isLonghand ? "ff" : "f"}`, this.value);
       }
     }
 
@@ -281,7 +279,11 @@ export class ColorPickerHexInput {
       const normalized = normalizeHex(value);
       const { alphaEnabled } = this;
 
-      if (isValidHex(normalized, alphaEnabled)) {
+      if (
+        !alphaEnabled
+          ? isValidHex(normalized)
+          : isValidHex(normalized, true) || canConvertToHexa(normalized)
+      ) {
         const { internalColor: currentColor } = this;
         const nextColor = Color(normalized);
         const normalizedLonghand = normalizeHex(hexify(nextColor, alphaEnabled));

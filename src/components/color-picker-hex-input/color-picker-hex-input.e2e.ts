@@ -1,6 +1,6 @@
 import { E2EElement, E2EPage, newE2EPage } from "@stencil/core/testing";
 import { accessible, defaults, focusable, reflects, renders } from "../../tests/commonTests";
-import { isValidHex, normalizeHex } from "../color-picker/utils";
+import { canConvertToHexa, isValidHex, normalizeHex } from "../color-picker/utils";
 import { CSS } from "./resources";
 import { TEXT } from "../color-picker/resources";
 import { selectText } from "../../tests/utils";
@@ -49,9 +49,8 @@ describe("calcite-color-picker-hex-input", () => {
   it("can be focused", async () => focusable("calcite-color-picker-hex-input"));
 
   it("supports no color", async () => {
-    const page = await newE2EPage({
-      html: "<calcite-color-picker-hex-input allow-empty></calcite-color-picker-hex-input>"
-    });
+    const page = await newE2EPage();
+    await page.setContent("<calcite-color-picker-hex-input allow-empty></calcite-color-picker-hex-input>");
 
     const input = await page.find(`calcite-color-picker-hex-input`);
     await input.setProperty("value", null);
@@ -68,9 +67,8 @@ describe("calcite-color-picker-hex-input", () => {
   });
 
   it("accepts shorthand hex", async () => {
-    const page = await newE2EPage({
-      html: "<calcite-color-picker-hex-input></calcite-color-picker-hex-input>"
-    });
+    const page = await newE2EPage();
+    await page.setContent("<calcite-color-picker-hex-input></calcite-color-picker-hex-input>");
 
     const input = await page.find(`calcite-color-picker-hex-input`);
     await input.setProperty("value", "#abc");
@@ -80,9 +78,8 @@ describe("calcite-color-picker-hex-input", () => {
   });
 
   it("accepts shorthand hexa", async () => {
-    const page = await newE2EPage({
-      html: "<calcite-color-picker-hex-input alpha-enabled></calcite-color-picker-hex-input>"
-    });
+    const page = await newE2EPage();
+    await page.setContent("<calcite-color-picker-hex-input alpha-enabled></calcite-color-picker-hex-input>");
 
     const input = await page.find(`calcite-color-picker-hex-input`);
     await input.setProperty("value", "#abcd");
@@ -92,9 +89,8 @@ describe("calcite-color-picker-hex-input", () => {
   });
 
   it("accepts longhand hex", async () => {
-    const page = await newE2EPage({
-      html: "<calcite-color-picker-hex-input></calcite-color-picker-hex-input>"
-    });
+    const page = await newE2EPage();
+    await page.setContent("<calcite-color-picker-hex-input></calcite-color-picker-hex-input>");
 
     const input = await page.find(`calcite-color-picker-hex-input`);
     await input.setProperty("value", "#fafafa");
@@ -104,9 +100,8 @@ describe("calcite-color-picker-hex-input", () => {
   });
 
   it("accepts longhand hexa", async () => {
-    const page = await newE2EPage({
-      html: "<calcite-color-picker-hex-input alpha-enabled></calcite-color-picker-hex-input>"
-    });
+    const page = await newE2EPage();
+    await page.setContent("<calcite-color-picker-hex-input alpha-enabled></calcite-color-picker-hex-input>");
 
     const input = await page.find(`calcite-color-picker-hex-input`);
     await input.setProperty("value", "#fafafafa");
@@ -116,20 +111,18 @@ describe("calcite-color-picker-hex-input", () => {
   });
 
   it("normalizes value when initialized", async () => {
-    const page = await newE2EPage({
-      html: "<calcite-color-picker-hex-input value='#f0f'></calcite-color-picker-hex-input>"
-    });
-    await page.waitForChanges();
+    const page = await newE2EPage();
+    await page.setContent("<calcite-color-picker-hex-input value='#f0f'></calcite-color-picker-hex-input>");
     const input = await page.find(`calcite-color-picker-hex-input`);
 
     expect(await input.getProperty("value")).toBe("#ff00ff");
   });
 
   it("normalizes hexa value when initialized", async () => {
-    const page = await newE2EPage({
-      html: "<calcite-color-picker-hex-input alpha-enabled value='#f0f0'></calcite-color-picker-hex-input>"
-    });
-    await page.waitForChanges();
+    const page = await newE2EPage();
+    await page.setContent(
+      "<calcite-color-picker-hex-input alpha-enabled value='#f0f0'></calcite-color-picker-hex-input>"
+    );
     const input = await page.find(`calcite-color-picker-hex-input`);
 
     expect(await input.getProperty("value")).toBe("#ff00ff00");
@@ -137,9 +130,8 @@ describe("calcite-color-picker-hex-input", () => {
 
   it("ignores invalid hex", async () => {
     const hex = "#b33f33";
-    const page = await newE2EPage({
-      html: `<calcite-color-picker-hex-input value='${hex}'></calcite-color-picker-hex-input>`
-    });
+    const page = await newE2EPage();
+    await page.setContent(`<calcite-color-picker-hex-input value='${hex}'></calcite-color-picker-hex-input>`);
     const input = await page.find(`calcite-color-picker-hex-input`);
 
     await input.setProperty("value", null);
@@ -180,9 +172,10 @@ describe("calcite-color-picker-hex-input", () => {
 
   it("ignores invalid hexa", async () => {
     const hex = "#b33f33ff";
-    const page = await newE2EPage({
-      html: `<calcite-color-picker-hex-input alpha-enabled value='${hex}'></calcite-color-picker-hex-input>`
-    });
+    const page = await newE2EPage();
+    await page.setContent(
+      `<calcite-color-picker-hex-input alpha-enabled value='${hex}'></calcite-color-picker-hex-input>`
+    );
     const input = await page.find(`calcite-color-picker-hex-input`);
 
     await input.setProperty("value", null);
@@ -210,17 +203,7 @@ describe("calcite-color-picker-hex-input", () => {
 
     expect(await input.getProperty("value")).toBe(hex);
 
-    await input.setProperty("value", "#aaaa");
-    await page.waitForChanges();
-
-    expect(await input.getProperty("value")).toBe(hex);
-
     await input.setProperty("value", "#aaaaa");
-    await page.waitForChanges();
-
-    expect(await input.getProperty("value")).toBe(hex);
-
-    await input.setProperty("value", "#aaaaaa");
     await page.waitForChanges();
 
     expect(await input.getProperty("value")).toBe(hex);
@@ -232,9 +215,8 @@ describe("calcite-color-picker-hex-input", () => {
   });
 
   it("emits event when color changes via user and not programmatically", async () => {
-    const page = await newE2EPage({
-      html: "<calcite-color-picker-hex-input value='#b33f33'></calcite-color-picker-hex-input>"
-    });
+    const page = await newE2EPage();
+    await page.setContent("<calcite-color-picker-hex-input value='#b33f33'></calcite-color-picker-hex-input>");
 
     const input = await page.find("calcite-color-picker-hex-input");
     const spy = await input.spyOnEvent("calciteColorPickerHexInputChange");
@@ -253,9 +235,8 @@ describe("calcite-color-picker-hex-input", () => {
   });
 
   it("prevents entering chars if invalid hex chars or it exceeds max hex length", async () => {
-    const page = await newE2EPage({
-      html: "<calcite-color-picker-hex-input value='#b33f33'></calcite-color-picker-hex-input>"
-    });
+    const page = await newE2EPage();
+    await page.setContent("<calcite-color-picker-hex-input value='#b33f33'></calcite-color-picker-hex-input>");
     const input = await page.find("calcite-color-picker-hex-input");
     const selectAllText = async (): Promise<void> => await input.click({ clickCount: 3 });
 
@@ -275,20 +256,20 @@ describe("calcite-color-picker-hex-input", () => {
   });
 
   it("prevents entering chars if invalid hexa chars or it exceeds max hexa length", async () => {
-    const page = await newE2EPage({
-      html: "<calcite-color-picker-hex-input alpha-enabled value='#b33f33'></calcite-color-picker-hex-input>"
-    });
+    const page = await newE2EPage();
+    await page.setContent(
+      "<calcite-color-picker-hex-input alpha-enabled value='#b33f33'></calcite-color-picker-hex-input>"
+    );
     const input = await page.find("calcite-color-picker-hex-input");
-    const selectAllText = async (): Promise<void> => await input.click({ clickCount: 3 });
 
-    await selectAllText();
+    await selectText(input);
     await page.keyboard.type("zabcdz");
     await page.keyboard.press("Enter");
     await page.waitForChanges();
 
     expect(await input.getProperty("value")).toBe("#aabbccdd");
 
-    await selectAllText();
+    await selectText(input);
     await page.keyboard.type("bbbbbbbbc");
     await page.keyboard.press("Enter");
     await page.waitForChanges();
@@ -297,18 +278,28 @@ describe("calcite-color-picker-hex-input", () => {
   });
 
   describe("keyboard interaction", () => {
+    let page: E2EPage;
+    let input: E2EElement;
+
     async function assertTabAndEnterBehavior(
       hexInputChars: string,
       expectedValue: string | null,
-      resetHex = "#efface"
+      allowAlpha = false
     ): Promise<void> {
       const normalizedInputHex = normalizeHex(hexInputChars);
+      const resetHex = allowAlpha ? "#face0fff" : "#efface";
 
       if (normalizedInputHex === resetHex) {
         throw new Error(`input hex (${hexInputChars}) cannot be the same as reset value (${resetHex})`);
       }
 
-      expectedValue = expectedValue === null || isValidHex(normalizedInputHex) ? expectedValue : resetHex;
+      expectedValue =
+        expectedValue === null ||
+        (!allowAlpha
+          ? isValidHex(normalizedInputHex)
+          : isValidHex(normalizedInputHex, true) || canConvertToHexa(normalizedInputHex))
+          ? expectedValue
+          : resetHex;
 
       await typeHexValue(resetHex, "Enter");
       expect(await input.getProperty("value")).toBe(resetHex);
@@ -331,40 +322,19 @@ describe("calcite-color-picker-hex-input", () => {
     }
 
     async function clearText(): Promise<void> {
-      await input.callMethod("setFocus");
-
-      await page.$eval("calcite-color-picker-hex-input", (el: HTMLCalciteColorPickerHexInputElement): void => {
-        const input = el.shadowRoot?.querySelector("calcite-input").shadowRoot?.querySelector("input");
-
-        if (!input) {
-          return;
-        }
-
-        const inputType = input.type;
-        input.type = "text";
-        input.setSelectionRange(input.value.length, input.value.length);
-        input.type = inputType;
-      });
-
-      await page.keyboard.press("Backspace");
-      await page.keyboard.press("Backspace");
-      await page.keyboard.press("Backspace");
-      await page.keyboard.press("Backspace");
-      await page.keyboard.press("Backspace");
+      await selectText(input);
       await page.keyboard.press("Backspace");
     }
-
-    let page: E2EPage;
-    let input: E2EElement;
 
     describe("when color value is required", () => {
       describe("hex", () => {
         const startingHex = "#b33f33";
 
         beforeEach(async () => {
-          page = await newE2EPage({
-            html: `<calcite-color-picker-hex-input value=${startingHex}></calcite-color-picker-hex-input>`
-          });
+          page = await newE2EPage();
+          await page.setContent(
+            `<calcite-color-picker-hex-input value=${startingHex}></calcite-color-picker-hex-input>`
+          );
 
           input = await page.find("calcite-color-picker-hex-input");
         });
@@ -466,34 +436,34 @@ describe("calcite-color-picker-hex-input", () => {
       });
 
       describe("hexa", () => {
-        const startingHexa = "#ffddccee";
+        const startingHexa = "#ff00ff00";
+
         beforeEach(async () => {
-          page = await newE2EPage({
-            html: `<calcite-color-picker-hex-input alpha-enabled value=${startingHexa}></calcite-color-picker-hex-input>`
-          });
+          page = await newE2EPage();
+          await page.setContent(
+            `<calcite-color-picker-hex-input alpha-enabled value=${startingHexa}></calcite-color-picker-hex-input>`
+          );
 
           input = await page.find("calcite-color-picker-hex-input");
         });
 
         it("commits hexa chars on Tab and Enter", async () => {
-          await assertTabAndEnterBehavior("b00", "#bb0000ff");
-          await assertTabAndEnterBehavior("abcd", "#aabbccdd");
-          await assertTabAndEnterBehavior("c0ffee", "#c0ffeeff");
-          await assertTabAndEnterBehavior("b0b0b0b0", "#b0b0b0b0");
-          await assertTabAndEnterBehavior("", startingHexa);
+          await assertTabAndEnterBehavior("b00", "#bb0000ff", true);
+          await assertTabAndEnterBehavior("abcd", "#aabbccdd", true);
+          await assertTabAndEnterBehavior("c0ffee", "#c0ffeeff", true);
+          await assertTabAndEnterBehavior("b0b0b0b0", "#b0b0b0b0", true);
+          await assertTabAndEnterBehavior("", startingHexa, true);
         });
 
         it("prevents committing invalid hexa values", async () => {
-          const otherHexa = "#aabbccff";
-
-          await assertTabAndEnterBehavior("aabbccd", startingHexa);
-          await assertTabAndEnterBehavior("aabbcc", otherHexa);
-          await assertTabAndEnterBehavior("ffddc", otherHexa);
-          await assertTabAndEnterBehavior("ffdd", startingHexa);
-          await assertTabAndEnterBehavior("aab", startingHexa);
-          await assertTabAndEnterBehavior("aa", startingHexa);
-          await assertTabAndEnterBehavior("a", startingHexa);
-          await assertTabAndEnterBehavior("", otherHexa);
+          await assertTabAndEnterBehavior("aabbccd", startingHexa, true);
+          await assertTabAndEnterBehavior("aabbcc", "#aabbccff", true);
+          await assertTabAndEnterBehavior("ff00f", "#aabbccff", true);
+          await assertTabAndEnterBehavior("ff00", "#ffff0000", true);
+          await assertTabAndEnterBehavior("aab", "#aaaabbff", true);
+          await assertTabAndEnterBehavior("aa", "#aaaabbff", true);
+          await assertTabAndEnterBehavior("a", "#aaaabbff", true);
+          await assertTabAndEnterBehavior("", "#aaaabbff", true);
         });
 
         it("allows nudging RGB channels with arrow keys (+/-1) and shift modifies amount (+/-10)", async () => {
@@ -529,24 +499,22 @@ describe("calcite-color-picker-hex-input", () => {
           });
 
           it("commits hex chars on Tab and Enter", async () => {
-            await assertTabAndEnterBehavior("b00", "#bb0000ff");
-            await assertTabAndEnterBehavior("baba", "#bbaabbaa");
-            await assertTabAndEnterBehavior("c0ffee", "#c0ffeeff");
-            await assertTabAndEnterBehavior("c0c0c0c0", "#c0c0c0c0");
-            await assertTabAndEnterBehavior("", null);
+            await assertTabAndEnterBehavior("b00", "#bb0000ff", true);
+            await assertTabAndEnterBehavior("baba", "#bbaabbaa", true);
+            await assertTabAndEnterBehavior("c0ffee", "#c0ffeeff", true);
+            await assertTabAndEnterBehavior("c0c0c0c0", "#c0c0c0c0", true);
+            await assertTabAndEnterBehavior("", null, true);
           });
 
           it("prevents committing invalid hexa values", async () => {
-            const otherHexa = "#aabbccff";
-
-            await assertTabAndEnterBehavior("aabbccd", startingHexa);
-            await assertTabAndEnterBehavior("aabbcc", otherHexa);
-            await assertTabAndEnterBehavior("ffddc", otherHexa);
-            await assertTabAndEnterBehavior("ffdd", startingHexa);
-            await assertTabAndEnterBehavior("aab", startingHexa);
-            await assertTabAndEnterBehavior("aa", startingHexa);
-            await assertTabAndEnterBehavior("a", startingHexa);
-            await assertTabAndEnterBehavior("", null);
+            await assertTabAndEnterBehavior("aabbccd", startingHexa, true);
+            await assertTabAndEnterBehavior("aabbcc", "#aabbccff", true);
+            await assertTabAndEnterBehavior("ff00f", "#aabbccff", true);
+            await assertTabAndEnterBehavior("ff00", "#ffff0000", true);
+            await assertTabAndEnterBehavior("aab", "#aaaabbff", true);
+            await assertTabAndEnterBehavior("aa", "#aaaabbff", true);
+            await assertTabAndEnterBehavior("a", "#aaaabbff", true);
+            await assertTabAndEnterBehavior("", null, true);
           });
 
           it("restores previous value when a nudge key is pressed and no-color is allowed and set", async () => {
