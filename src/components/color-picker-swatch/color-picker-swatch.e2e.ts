@@ -64,10 +64,39 @@ describe("calcite-color-picker-swatch", () => {
         html: "<calcite-color-picker-swatch color='#ff8200'></calcite-color-picker-swatch>"
       });
       const swatch = await page.find(`calcite-color-picker-swatch >>> .${CSS.swatch} rect`);
-
       const style = await swatch.getComputedStyle();
 
       expect(style["fill"]).toBe("rgb(255, 130, 0)");
+    });
+
+    it("supports rgba", async () => {
+      const page = await newE2EPage({
+        html: "<calcite-color-picker-swatch color='rgba(255, 255, 255, 255)'></calcite-color-picker-swatch>"
+      });
+      const swatch = await page.find(`calcite-color-picker-swatch >>> .${CSS.swatch} rect`);
+      const style = await swatch.getComputedStyle();
+
+      expect(style["fill"]).toBe("rgb(255, 255, 255, 255)");
+    });
+
+    it("supports hsla", async () => {
+      const page = await newE2EPage({
+        html: "<calcite-color-picker-swatch color='hsla(120, 100%, 97%, 1)'></calcite-color-picker-swatch>"
+      });
+      const swatch = await page.find(`calcite-color-picker-swatch >>> .${CSS.swatch} rect`);
+      const style = await swatch.getComputedStyle();
+
+      expect(style["fill"]).toBe("rgba(240, 255, 240, 255)");
+    });
+
+    it("supports hexa", async () => {
+      const page = await newE2EPage({
+        html: "<calcite-color-picker-swatch color='#ff8200ff'></calcite-color-picker-swatch>"
+      });
+      const swatch = await page.find(`calcite-color-picker-swatch >>> .${CSS.swatch} rect`);
+      const style = await swatch.getComputedStyle();
+
+      expect(style["fill"]).toBe("rgba(255, 130, 0, 255)");
     });
   });
 
