@@ -1,7 +1,6 @@
 import { nodeListToArray } from "../../utils/dom";
 import { ComboboxChildElement } from "./interfaces";
 import { ComboboxChildSelector } from "./resources";
-import { E2EPage } from "@stencil/core/testing";
 import { Build } from "@stencil/core";
 
 export function getAncestors(element: HTMLElement): ComboboxChildElement[] {
