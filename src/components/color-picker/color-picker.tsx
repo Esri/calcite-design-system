@@ -578,7 +578,7 @@ export class ColorPicker implements InteractiveComponent {
     internalInput.value = inputValue;
   };
 
-  private handleOpacitySliderChange = (event: CustomEvent): void => {
+  private handleOpacitySliderInput = (event: CustomEvent): void => {
     const alpha =
       Number((event.currentTarget as HTMLCalciteInputElement).value) +
       this.shiftKeyChannelAdjustment;
@@ -1048,7 +1048,7 @@ export class ColorPicker implements InteractiveComponent {
             class={CSS.opacitySlider}
             max={100}
             min={0}
-            onCalciteSliderChange={this.handleOpacitySliderChange}
+            onCalciteSliderInput={this.handleOpacitySliderInput}
             step={1}
             value={sliderOpacity}
           />
