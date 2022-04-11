@@ -43,11 +43,20 @@ export function isLonghandHex(hex: string, hasAlpha = false): boolean {
   return evaluateHex(hex, hexLength, hexPattern);
 }
 
-export function normalizeHex(hex: string): string {
+export function normalizeHex(hex: string, hasAlpha = false, convertFromHexToHexa = false): string {
   hex = hex.toLowerCase();
 
   if (!hex.startsWith("#")) {
     hex = `#${hex}`;
+  }
+
+  if (isShorthandHex(hex, hasAlpha)) {
+    return rgbToHex(hexToRGB(hex, hasAlpha));
+  }
+
+  if (hasAlpha && convertFromHexToHexa && isValidHex(hex, false /* we only care about RGB hex for conversion */)) {
+    const isShorthand = isShorthandHex(hex, false);
+    return rgbToHex(hexToRGB(`${hex}${isShorthand ? "f" : "ff"}`, true));
   }
 
   return hex;
@@ -97,12 +106,12 @@ export function hexToRGB(hex: string, hasAlpha = false): RGB | RGBA {
     r = parseInt(`${first}${first}`, 16);
     g = parseInt(`${second}${second}`, 16);
     b = parseInt(`${third}${third}`, 16);
-    a = parseInt(`${fourth}${fourth}`, 16);
+    a = parseInt(`${fourth}${fourth}`, 16) / 255;
   } else {
     r = parseInt(hex.slice(0, 2), 16);
     g = parseInt(hex.slice(2, 4), 16);
     b = parseInt(hex.slice(4, 6), 16);
-    a = parseInt(hex.slice(6, 8), 16);
+    a = parseInt(hex.slice(6, 8), 16) / 255;
   }
 
   return isNaN(a) ? { r, g, b } : { r, g, b, a };
