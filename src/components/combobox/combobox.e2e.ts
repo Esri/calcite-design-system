@@ -475,6 +475,8 @@ describe("calcite-combobox", () => {
   describe("keyboard navigation", () => {
     let page: E2EPage;
     const scrollablePageSizeInPx = 2400;
+    // PageUp/Down scroll test fails without the delay
+    const scrollTestDelayInMilliseconds = 500;
 
     beforeEach(async () => {
       page = await newE2EPage();
@@ -594,12 +596,12 @@ describe("calcite-combobox", () => {
       expect(await page.evaluate(() => window.scrollY)).toEqual(0);
 
       await page.keyboard.press("PageDown");
-      await page.waitForTimeout(500);
+      await page.waitForTimeout(scrollTestDelayInMilliseconds);
       const scrollPosition = await page.evaluate(() => window.scrollY);
       expect(scrollPosition).toBeTruthy();
 
       await page.keyboard.press("PageUp");
-      await page.waitForTimeout(500);
+      await page.waitForTimeout(scrollTestDelayInMilliseconds);
       expect(
         await page.evaluate((scrollPosition) => {
           return window.scrollY < scrollPosition;
