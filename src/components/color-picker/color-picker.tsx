@@ -26,6 +26,7 @@ import {
 } from "./resources";
 import { Direction, focusElement, getElementDir } from "../../utils/dom";
 import {
+  alphaCompatible,
   alphaToOpacity,
   colorEqual,
   CSSColorMode,
@@ -35,7 +36,9 @@ import {
   normalizeHex,
   opacityToAlpha,
   parseMode,
-  SupportedMode
+  SupportedMode,
+  toAlphaMode,
+  toNonAlphaMode
 } from "./utils";
 
 import { clamp } from "../../utils/math";
@@ -76,6 +79,18 @@ export class ColorPicker implements InteractiveComponent {
    */
   @Prop() alphaEnabled = false;
 
+  @Watch("alphaEnabled")
+  handleAlphaEnabledChange(alphaEnabled: boolean): void {
+    const { format } = this;
+
+    if (alphaEnabled && format !== "auto" && !alphaCompatible(format)) {
+      console.warn(
+        `ignoring alphaEnabled as the current format (${format}) does not support alpha`
+      );
+      this.alphaEnabled = false;
+    }
+  }
+
   /** specify the appearance - default (containing border), or minimal (no containing border) */
   @Prop({ reflect: true }) appearance: ColorAppearance = "default";
 
@@ -110,7 +125,7 @@ export class ColorPicker implements InteractiveComponent {
   @Prop() format: Format = "auto";
 
   @Watch("format")
-  handleFormatChange(format: ColorPicker["format"]): void {
+  handleFormatChange(format: Format): void {
     this.setMode(format);
     this.internalColorSet(this.color, false);
   }
@@ -795,21 +810,6 @@ export class ColorPicker implements InteractiveComponent {
   componentWillLoad(): void {
     const { allowEmpty, color, format, value } = this;
 
-    /* incoming
-
-    const { alphaEnabled, color, format, value } = this;
-
-    const defaultValue = normalizeHex(hexify(DEFAULT_COLOR, alphaEnabled));
-    const initialValueDefault = format === "auto" ? defaultValue : this.toValue(color, format);
-    const initialValue = format === "auto" || value === defaultValue ? value : initialValueDefault;
-
-    this.setMode(format);
-    this.handleValueChange(initialValue, initialValueDefault);
-
-    this.updateDimensions(this.scale);
-
-    */
-
     const willSetNoColor = allowEmpty && !value;
     const parsedMode = parseMode(value);
     const valueIsCompatible =
@@ -1177,7 +1177,32 @@ export class ColorPicker implements InteractiveComponent {
   }
 
   private setMode(format: ColorPicker["format"]): void {
-    this.mode = format === "auto" ? this.mode : format;
+    this.mode = this.ensureCompatibleMode(format === "auto" ? this.mode : format);
+  }
+
+  private ensureCompatibleMode(mode: SupportedMode): SupportedMode {
+    const { alphaEnabled } = this;
+    const isAlphaCompatible = alphaCompatible(mode);
+
+    if (alphaEnabled && !isAlphaCompatible) {
+      const alphaMode = toAlphaMode(mode);
+      console.warn(
+        `setting format to (${alphaMode}) as the provided one (${mode}) does not support alpha`
+      );
+
+      return alphaMode;
+    }
+
+    if (!alphaEnabled && isAlphaCompatible) {
+      const nonAlphaMode = toNonAlphaMode(mode);
+      console.warn(
+        `setting format to (${nonAlphaMode}) as the provided one (${mode}) does not support alpha`
+      );
+
+      return nonAlphaMode;
+    }
+
+    return mode;
   }
 
   private captureHueSliderColor(x: number): void {

@@ -200,3 +200,23 @@ function hasChannels(colorObject: Exclude<ColorValue, string> | null, ...channel
 export function colorEqual(value1: Color | null, value2: Color | null): boolean {
   return value1?.rgb().array().toString() === value2?.rgb().array().toString();
 }
+
+export function alphaCompatible(mode: SupportedMode): boolean {
+  return mode === CSSColorMode.HEXA || mode === CSSColorMode.RGBA_CSS || mode === CSSColorMode.HSLA_CSS;
+}
+
+export function toAlphaMode(mode: SupportedMode): SupportedMode {
+  return mode === CSSColorMode.HEX
+    ? CSSColorMode.HEXA
+    : mode === CSSColorMode.RGB_CSS
+    ? CSSColorMode.RGBA_CSS
+    : CSSColorMode.HSLA_CSS;
+}
+
+export function toNonAlphaMode(mode: SupportedMode): SupportedMode {
+  return mode === CSSColorMode.HEXA
+    ? CSSColorMode.HEX
+    : mode === CSSColorMode.RGBA_CSS
+    ? CSSColorMode.RGB_CSS
+    : CSSColorMode.HSL_CSS;
+}

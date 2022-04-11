@@ -312,16 +312,19 @@ describe("calcite-color-picker", () => {
 
   const supportedFormatToSampleValue = {
     hex: "#ffffff",
-    hexa: "#ffffffff",
     "rgb-css": "rgb(255, 255, 255)",
-    "rgba-css": "rgba(255, 255, 255, 1)",
     "hsl-css": "hsl(0, 0%, 100%)",
-    "hsla-css": "hsla(0, 0%, 100%, 1)",
     rgb: { r: 255, g: 255, b: 255 },
-    rgba: { r: 255, g: 255, b: 255, a: 1 },
     hsl: { h: 0, s: 0, l: 100 },
+    hsv: { h: 0, s: 0, v: 100 }
+  };
+
+  const supportedAlphaFormatToSampleValue = {
+    hexa: "#ffffffff",
+    "rgba-css": "rgba(255, 255, 255, 1)",
+    "hsla-css": "hsla(0, 0%, 100%, 1)",
+    rgba: { r: 255, g: 255, b: 255, a: 1 },
     hsla: { h: 0, s: 0, l: 100, a: 1 },
-    hsv: { h: 0, s: 0, v: 100 },
     hsva: { h: 0, s: 0, v: 100, a: 1 }
   };
 
@@ -447,43 +450,39 @@ describe("calcite-color-picker", () => {
     });
   });
 
-  it("accepts multiple color value formats", async () => {
-    const page = await newE2EPage({
-      html: "<calcite-color-picker></calcite-color-picker>"
+  describe("accepts multiple color value formats", () => {
+    it("default", async () => {
+      const page = await newE2EPage({
+        html: "<calcite-color-picker></calcite-color-picker>"
+      });
+      const picker = await page.find("calcite-color-picker");
+
+      const supportedStringFormats = [
+        supportedFormatToSampleValue.hex,
+        supportedFormatToSampleValue["rgb-css"],
+        supportedFormatToSampleValue["hsl-css"]
+      ];
+
+      for (const value of supportedStringFormats) {
+        picker.setProperty("value", value);
+        await page.waitForChanges();
+
+        expect(await picker.getProperty("value")).toBe(value);
+      }
+
+      const supportedObjectFormats = [
+        supportedFormatToSampleValue.rgb,
+        supportedFormatToSampleValue.hsl,
+        supportedFormatToSampleValue.hsv
+      ];
+
+      for (const value of supportedObjectFormats) {
+        picker.setProperty("value", value);
+        await page.waitForChanges();
+
+        expect(await picker.getProperty("value")).toMatchObject(value);
+      }
     });
-    const picker = await page.find("calcite-color-picker");
-
-    const supportedStringFormats = [
-      supportedFormatToSampleValue.hex,
-      supportedFormatToSampleValue.hexa,
-      supportedFormatToSampleValue["rgb-css"],
-      supportedFormatToSampleValue["rgba-css"],
-      supportedFormatToSampleValue["hsl-css"],
-      supportedFormatToSampleValue["hsla-css"]
-    ];
-
-    for (const value of supportedStringFormats) {
-      picker.setProperty("value", value);
-      await page.waitForChanges();
-
-      expect(await picker.getProperty("value")).toBe(value);
-    }
-
-    const supportedObjectFormats = [
-      supportedFormatToSampleValue.rgb,
-      supportedFormatToSampleValue.rgba,
-      supportedFormatToSampleValue.hsl,
-      supportedFormatToSampleValue.hsla,
-      supportedFormatToSampleValue.hsv,
-      supportedFormatToSampleValue.hsva
-    ];
-
-    for (const value of supportedObjectFormats) {
-      picker.setProperty("value", value);
-      await page.waitForChanges();
-
-      expect(await picker.getProperty("value")).toMatchObject(value);
-    }
   });
 
   it("allows selecting colors via color field/slider", async () => {
