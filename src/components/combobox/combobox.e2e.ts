@@ -594,12 +594,12 @@ describe("calcite-combobox", () => {
       expect(await page.evaluate(() => window.scrollY)).toEqual(0);
 
       await page.keyboard.press("PageDown");
-      await page.waitForChanges();
+      await page.waitForTimeout(500);
       const scrollPosition = await page.evaluate(() => window.scrollY);
       expect(scrollPosition).toBeTruthy();
 
       await page.keyboard.press("PageUp");
-      await page.waitForChanges();
+      await page.waitForTimeout(500);
       expect(
         await page.evaluate((scrollPosition) => {
           return window.scrollY < scrollPosition;
