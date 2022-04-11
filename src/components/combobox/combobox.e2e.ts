@@ -574,9 +574,9 @@ describe("calcite-combobox", () => {
     });
 
     it("when the combobox is focused & closed, Page up/down (fn arrow up/down) scrolls up and down the page", async () => {
-      // set body to overflow so we can test the scroll functionality;
-      // set default margin/padding to 0 to not have to adjust for it in position calculations
       await page.addStyleTag({
+        // set body to overflow so we can test the scroll functionality;
+        // set default margin/padding to 0 to not have to adjust for it in position calculations
         content: `body {
             height: ${scrollablePageSizeInPx}px;
             width: ${scrollablePageSizeInPx}px;
@@ -594,12 +594,10 @@ describe("calcite-combobox", () => {
       expect(await page.evaluate(() => window.scrollY)).toEqual(0);
 
       await page.keyboard.press("PageDown");
-      await page.waitForTimeout(500);
       const scrollPosition = await page.evaluate(() => window.scrollY);
       expect(scrollPosition).toBeTruthy();
 
       await page.keyboard.press("PageUp");
-      await page.waitForTimeout(500);
       expect(
         await page.evaluate((scrollPosition) => {
           return window.scrollY < scrollPosition;
