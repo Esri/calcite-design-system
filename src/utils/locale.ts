@@ -64,6 +64,7 @@ export function delocalizeNumberString(numberString: string, locale: string): st
     if (nonExpoNumString) {
       const groupSeparator = getGroupSeparator(locale);
       const decimalSeparator = getDecimalSeparator(locale);
+      const minusSign = getMinusSign(locale);
 
       const splitNumberString = nonExpoNumString.split("");
       const decimalIndex = splitNumberString.lastIndexOf(decimalSeparator);
@@ -76,7 +77,8 @@ export function delocalizeNumberString(numberString: string, locale: string): st
           return value;
         })
         .reduce((string, part) => string + part)
-        .replace(decimalSeparator, ".");
+        .replace(decimalSeparator, ".")
+        .replace(minusSign, "-");
 
       return isNaN(Number(delocalizedNumberString)) ? nonExpoNumString : delocalizedNumberString;
     }
@@ -96,6 +98,13 @@ export function getDecimalSeparator(locale: string): string {
   const parts = formatter.formatToParts(1234567.8);
   const value = parts.find((part) => part.type === "decimal").value;
   return value.trim().length === 0 ? " " : value;
+}
+
+export function getMinusSign(locale: string): string {
+  const formatter = createLocaleNumberFormatter(locale);
+  const parts = formatter.formatToParts(-1234567.8);
+  const value = parts.find((part) => part.type === "minusSign").value;
+  return value.trim().length === 0 ? "-" : value;
 }
 
 export function localizeNumberString(numberString: string, locale: string, displayGroupSeparator = false): string {
