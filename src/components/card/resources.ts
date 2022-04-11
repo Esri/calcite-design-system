@@ -4,7 +4,6 @@ export const CSS = {
   footer: "footer",
   title: "title",
   subtitle: "subtitle",
-  thumbnailWrapper: "thumbnail-wrapper",
   checkboxWrapper: "checkbox-wrapper"
 };
 

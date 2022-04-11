@@ -2,18 +2,18 @@
   @apply block max-w-full;
   & .calcite-card-container {
     @apply bg-foreground-1
-      border-color-2
-      text-color-3
-      relative
-      flex
-      h-full
-      flex-col
-      justify-between
-      border
-      border-solid
-      shadow-none
-      duration-150
-      ease-in-out;
+    border-color-2
+    text-color-3
+    relative
+    flex
+    h-full
+    flex-col
+    justify-between
+    border
+    border-solid
+    shadow-none
+    duration-150
+    ease-in-out;
     border-radius: var(--calcite-border-radius-base);
     &:hover {
       @apply shadow-1-lg;
@@ -24,10 +24,13 @@
       z-index: 1;
     }
   }
+  & .calcite-card-container.inline {
+    @apply flex-row;
+  }
 }
 
 .container {
-  @apply flex flex-auto flex-col;
+  @apply relative flex flex-auto flex-col;
 }
 
 :host([loading]) .calcite-card-container *:not(calcite-loader):not(.calcite-card-loader-container) {
@@ -99,10 +102,6 @@
 }
 @include slotted("footer-trailing", "*") {
   @apply text-n2-wrap self-center;
-}
-
-.thumbnail-wrapper {
-  @apply text-0-wrap;
 }
 
 .checkbox-wrapper {

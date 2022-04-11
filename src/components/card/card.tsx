@@ -91,22 +91,25 @@ export class Card implements ConditionalSlotComponent {
   }
 
   render(): VNode {
+    const thumbnailInline = this.thumbnailPosition.startsWith("inline");
+    const thumbnailStart = this.thumbnailPosition.endsWith("start");
     return (
-      <div class="calcite-card-container">
+      <div class={{ "calcite-card-container": true, inline: thumbnailInline }}>
         {this.loading ? (
           <div class="calcite-card-loader-container">
             <calcite-loader active label={this.intlLoading} />
           </div>
         ) : null}
+        {thumbnailStart && this.renderThumbnail()}
         <section aria-busy={this.loading.toString()} class={{ [CSS.container]: true }}>
           {this.selectable ? this.renderCheckbox() : null}
-          {this.renderThumbnail()}
           {this.renderHeader()}
           <div class="card-content">
             <slot />
           </div>
           {this.renderFooter()}
         </section>
+        {!thumbnailStart && this.renderThumbnail()}
       </div>
     );
   }
@@ -143,7 +146,7 @@ export class Card implements ConditionalSlotComponent {
 
   private renderThumbnail(): VNode {
     return getSlotted(this.el, SLOTS.thumbnail) ? (
-      <div class={CSS.thumbnailWrapper} key="thumbnail-wrapper">
+      <div>
         <slot name={SLOTS.thumbnail} />
       </div>
     ) : null;
