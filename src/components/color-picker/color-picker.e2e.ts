@@ -490,7 +490,7 @@ describe("calcite-color-picker", () => {
     // set to corner right value that's not red (first value)
     picker.setProperty("value", "#ff0");
     await page.waitForChanges();
-    expect(spy).toHaveReceivedEventTimes(++changes);
+    expect(spy).toHaveReceivedEventTimes(changes);
 
     // clicking on color slider to set hue
     const colorsToSample = 7;
