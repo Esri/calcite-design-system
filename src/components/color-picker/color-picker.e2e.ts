@@ -524,8 +524,9 @@ describe("calcite-color-picker", () => {
     // clicking on the slider when the color won't change by hue adjustments
 
     picker.setProperty("value", "#000");
-    changes++;
     await page.waitForChanges();
+    expect(spy).toHaveReceivedEventTimes(changes);
+
     x = 0;
 
     type TestWindow = GlobalTestProps<{
