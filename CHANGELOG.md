@@ -3,9 +3,7 @@
 This document maintains a list of released versions and changes introduced by them.
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
-<!--@unreleased-section-start-->
-
-## Unreleased
+## [1.0.0-beta.81](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.80...v1.0.0-beta.81) (2022-04-12)
 
 ### ⚠ BREAKING CHANGES
 
@@ -23,6 +21,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - **button:** Change type property to be "button" by default. ([#4117](https://github.com/Esri/calcite-components/issues/4117)) ([#4335](https://github.com/Esri/calcite-components/issues/4335)) ([0ff143c](https://github.com/Esri/calcite-components/commit/0ff143cf8ab9f3125dc5e5917421b84c14dc8203))
 - **color-picker:** color channels order no longer mirrors when dir='rtl' ([#4327](https://github.com/Esri/calcite-components/issues/4327)) ([65935d5](https://github.com/Esri/calcite-components/commit/65935d5c4f70c18a86fa4f5c498215e085eea5ed)), closes [#4238](https://github.com/Esri/calcite-components/issues/4238)
 - **color-picker:** emit color change and input events on user-interaction only ([#4288](https://github.com/Esri/calcite-components/issues/4288)) ([817ce35](https://github.com/Esri/calcite-components/commit/817ce35103f1ea107edc3eaaea72ff1a79dc55b4)), closes [#2033](https://github.com/Esri/calcite-components/issues/2033)
+- **color-picker:** setting value programmatically twice or more in a row will no longer emit change/input events ([#4395](https://github.com/Esri/calcite-components/issues/4395)) ([a4294f5](https://github.com/Esri/calcite-components/commit/a4294f5768cdd3a91cb6fffc1ab4561795d4cff5)), closes [#2033](https://github.com/Esri/calcite-components/issues/2033)
 - **combobox:** can toggle the dropdown using the icon ([#4218](https://github.com/Esri/calcite-components/issues/4218)) ([5b3a6bd](https://github.com/Esri/calcite-components/commit/5b3a6bd66c60013e306d23e4edec343e2439ca94))
 - **combobox:** listbox item focused with home or end now scrolls into view ([#4304](https://github.com/Esri/calcite-components/issues/4304)) ([8b09553](https://github.com/Esri/calcite-components/commit/8b09553da1237454907893ccf8a01e0d855bb9db))
 - **combobox-item:** items align to left when added dynamically ([#4176](https://github.com/Esri/calcite-components/issues/4176)) ([fdca1e9](https://github.com/Esri/calcite-components/commit/fdca1e966c080c5b8ef4ffb6d3389316e10b9c29))
@@ -42,7 +41,6 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - **tile:** match content-start spacing when dir set to rtl ([#4324](https://github.com/Esri/calcite-components/issues/4324)) ([3cb4523](https://github.com/Esri/calcite-components/commit/3cb4523456742db9e7ec726b839b05736fde7146)), closes [#4240](https://github.com/Esri/calcite-components/issues/4240)
 - **tooltip:** Removes console error when querying the tooltip ([#4280](https://github.com/Esri/calcite-components/issues/4280)) ([dcffd15](https://github.com/Esri/calcite-components/commit/dcffd1546d1362f77e2f62c9d4803dbe1ed09d3d)), closes [#4279](https://github.com/Esri/calcite-components/issues/4279)
 - **tooltip-manager:** click on tooltip no longer closes it ([#4294](https://github.com/Esri/calcite-components/issues/4294)) ([#4310](https://github.com/Esri/calcite-components/issues/4310)) ([83b6d40](https://github.com/Esri/calcite-components/commit/83b6d405f35b059b0b2ba9dafb2a48aea6d5ed01))
-<!--@unreleased-section-end-->
 
 ## [1.0.0-beta.80](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.79...v1.0.0-beta.80) (2022-03-17)
 
