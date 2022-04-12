@@ -95,7 +95,7 @@ export class ColorPicker implements InteractiveComponent {
   @Watch("format")
   handleFormatChange(format: ColorPicker["format"]): void {
     this.setMode(format);
-    this.internalColorSet(this.color, false);
+    this.internalColorSet(this.color, false, "internal");
   }
 
   /** When true, hides the hex input */
@@ -255,7 +255,7 @@ export class ColorPicker implements InteractiveComponent {
       return;
     }
 
-    if (this.internalColorUpdateContext === "internal") {
+    if (this.internalColorUpdateContext === "user-interaction") {
       this.calciteColorPickerInput.emit();
 
       if (!dragging) {
@@ -268,7 +268,7 @@ export class ColorPicker implements InteractiveComponent {
     const colorChanged = !colorEqual(color, this.color);
 
     if (modeChanged || colorChanged) {
-      this.internalColorSet(color);
+      this.internalColorSet(color, true, "internal");
     }
   }
   //--------------------------------------------------------------------------
@@ -293,7 +293,7 @@ export class ColorPicker implements InteractiveComponent {
 
   private hueScopeNode: HTMLDivElement;
 
-  private internalColorUpdateContext: "internal" | "initial" | null = null;
+  private internalColorUpdateContext: "internal" | "initial" | "user-interaction" | null = null;
 
   private previousColor: InternalColor | null;
 
@@ -1036,7 +1036,7 @@ export class ColorPicker implements InteractiveComponent {
   private internalColorSet(
     color: Color | null,
     skipEqual = true,
-    context: ColorPicker["internalColorUpdateContext"] = "internal"
+    context: ColorPicker["internalColorUpdateContext"] = "user-interaction"
   ): void {
     if (skipEqual && colorEqual(color, this.color)) {
       return;
