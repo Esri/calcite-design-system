@@ -24,7 +24,7 @@ import {
 import Color from "color";
 import { CSS } from "./resources";
 import { Scale } from "../interfaces";
-import { RGB } from "../color-picker/interfaces";
+import { RGB, RGBA } from "../color-picker/interfaces";
 import { focusElement } from "../../utils/dom";
 import { TEXT } from "../color-picker/resources";
 
@@ -153,7 +153,7 @@ export class ColorPickerHexInput {
         : this.formatForInternalInput(
             rgbToHex(
               alphaEnabled
-                ? normalizeAlpha(internalColor.object())
+                ? normalizeAlpha<RGBA>(internalColor.object())
                 : (internalColor.object() as any as RGB)
             )
           );

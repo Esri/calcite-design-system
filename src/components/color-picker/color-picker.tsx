@@ -13,7 +13,15 @@ import {
 } from "@stencil/core";
 
 import Color from "color";
-import { ColorAppearance, ColorMode, ColorValue, InternalColor } from "./interfaces";
+import {
+  ColorAppearance,
+  ColorMode,
+  ColorValue,
+  HSLA,
+  HSVA,
+  InternalColor,
+  RGBA
+} from "./interfaces";
 import { Scale } from "../interfaces";
 import {
   CSS,
@@ -33,6 +41,7 @@ import {
   Format,
   hexify,
   normalizeAlpha,
+  normalizeColor,
   normalizeHex,
   opacityToAlpha,
   parseMode,
@@ -304,7 +313,7 @@ export class ColorPicker implements InteractiveComponent {
       }
 
       modeChanged = this.mode !== nextMode;
-      this.setMode(nextMode);
+      this.setMode(nextMode, true, this.internalColorUpdateContext === null);
     }
 
     const dragging = this.sliderThumbState === "drag" || this.hueThumbState === "drag";
@@ -322,7 +331,14 @@ export class ColorPicker implements InteractiveComponent {
       return;
     }
 
-    const color = allowEmpty && !value ? null : Color(value);
+    const color =
+      allowEmpty && !value
+        ? null
+        : Color(
+            value != null && typeof value === "object" && alphaCompatible(this.mode)
+              ? normalizeColor(value as RGBA | HSVA | HSLA)
+              : value
+          );
     const colorChanged = !colorEqual(color, this.color);
 
     if (modeChanged || colorChanged) {
@@ -457,7 +473,7 @@ export class ColorPicker implements InteractiveComponent {
       return;
     }
 
-    const normalizedHex = color && normalizeHex(hexify(color, this.alphaEnabled));
+    const normalizedHex = color && normalizeHex(hexify(color, alphaCompatible(this.mode)));
 
     if (hex !== normalizedHex) {
       this.internalColorSet(Color(hex));
@@ -820,7 +836,7 @@ export class ColorPicker implements InteractiveComponent {
       this.showIncompatibleColorWarning(value, format);
     }
 
-    this.setMode(format);
+    this.setMode(format, false, false);
     this.internalColorSet(initialColor, false, "initial");
 
     this.updateDimensions(this.scale);
@@ -1176,28 +1192,35 @@ export class ColorPicker implements InteractiveComponent {
     );
   }
 
-  private setMode(format: ColorPicker["format"]): void {
-    this.mode = this.ensureCompatibleMode(format === "auto" ? this.mode : format);
+  private setMode(format: ColorPicker["format"], _force = false, warn = true): void {
+    const mode = format === "auto" ? this.mode : format;
+    this.mode = this.ensureCompatibleMode(mode, warn);
   }
 
-  private ensureCompatibleMode(mode: SupportedMode): SupportedMode {
+  private ensureCompatibleMode(mode: SupportedMode, warn): SupportedMode {
     const { alphaEnabled } = this;
     const isAlphaCompatible = alphaCompatible(mode);
 
     if (alphaEnabled && !isAlphaCompatible) {
       const alphaMode = toAlphaMode(mode);
-      console.warn(
-        `setting format to (${alphaMode}) as the provided one (${mode}) does not support alpha`
-      );
+
+      if (warn) {
+        console.warn(
+          `setting format to (${alphaMode}) as the provided one (${mode}) does not support alpha`
+        );
+      }
 
       return alphaMode;
     }
 
     if (!alphaEnabled && isAlphaCompatible) {
       const nonAlphaMode = toNonAlphaMode(mode);
-      console.warn(
-        `setting format to (${nonAlphaMode}) as the provided one (${mode}) does not support alpha`
-      );
+
+      if (warn) {
+        console.warn(
+          `setting format to (${nonAlphaMode}) as the provided one (${mode}) does not support alpha`
+        );
+      }
 
       return nonAlphaMode;
     }
@@ -1258,14 +1281,17 @@ export class ColorPicker implements InteractiveComponent {
     const hexMode = "hex";
 
     if (format.includes(hexMode)) {
-      return normalizeHex(hexify(color.round(), this.alphaEnabled));
+      const hasAlpha = format === CSSColorMode.HEXA;
+      return normalizeHex(hexify(color.round(), hasAlpha), hasAlpha);
     }
 
     if (format.includes("-css")) {
       return color[format.replace("-css", "").replace("a", "")]().round().string();
     }
 
-    const colorObject = color[format]().round().object();
+    const colorObject =
+      /* Color() does not support hsva, hsla nor rgba, so we use the non-alpha mode */
+      color[toNonAlphaMode(format)]().round().object();
 
     if (format.endsWith("a")) {
       return normalizeAlpha(colorObject);

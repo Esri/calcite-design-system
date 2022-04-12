@@ -1,4 +1,4 @@
-import { ColorValue, RGB, RGBA } from "./interfaces";
+import { ColorValue, HSLA, HSVA, RGB, RGBA } from "./interfaces";
 import Color from "color";
 
 export const hexChar = /^[0-9A-F]$/i;
@@ -62,8 +62,8 @@ export function normalizeHex(hex: string, hasAlpha = false, convertFromHexToHexa
   return hex;
 }
 
-export function hexify(color: Color, alphaSupport = false): string {
-  return alphaSupport ? color.hexa() : color.hex();
+export function hexify(color: Color, hasAlpha = false): string {
+  return hasAlpha ? color.hexa() : color.hex();
 }
 
 export function rgbToHex(color: RGB | RGBA): string {
@@ -81,13 +81,20 @@ function numToHex(num: number): string {
   return num.toString(16).padStart(2, "0");
 }
 
-export function normalizeAlpha(colorObject: ReturnType<Color["object"]>): RGBA {
-  return {
-    r: colorObject.r,
-    g: colorObject.g,
-    b: colorObject.b,
-    a: colorObject.alpha ?? 1 // color will omit alpha if 1
-  };
+export function normalizeAlpha<T extends RGBA | HSVA | HSLA>(colorObject: ReturnType<Color["object"]>): T {
+  const normalized = { ...colorObject, a: colorObject.alpha ?? 1 /* Color() will omit alpha if 1 */ };
+  delete normalized.alpha;
+
+  return normalized as T;
+}
+
+export function normalizeColor(alphaColorObject: RGBA | HSVA | HSLA): ReturnType<Color["object"]> {
+  const normalized = { ...alphaColorObject, alpha: alphaColorObject.a };
+  delete normalized.a;
+
+  console.log(JSON.stringify(alphaColorObject, null, 2), JSON.stringify(normalized, null, 2));
+
+  return normalized;
 }
 
 export function hexToRGB(hex: string, hasAlpha = false): RGB | RGBA {
@@ -202,21 +209,58 @@ export function colorEqual(value1: Color | null, value2: Color | null): boolean 
 }
 
 export function alphaCompatible(mode: SupportedMode): boolean {
-  return mode === CSSColorMode.HEXA || mode === CSSColorMode.RGBA_CSS || mode === CSSColorMode.HSLA_CSS;
+  return (
+    mode === CSSColorMode.HEXA ||
+    mode === CSSColorMode.RGBA_CSS ||
+    mode === CSSColorMode.HSLA_CSS ||
+    mode === ObjectColorMode.RGBA ||
+    mode === ObjectColorMode.HSLA ||
+    mode === ObjectColorMode.HSVA
+  );
 }
 
 export function toAlphaMode(mode: SupportedMode): SupportedMode {
-  return mode === CSSColorMode.HEX
-    ? CSSColorMode.HEXA
-    : mode === CSSColorMode.RGB_CSS
-    ? CSSColorMode.RGBA_CSS
-    : CSSColorMode.HSLA_CSS;
+  const alphaMode =
+    mode === CSSColorMode.HEX
+      ? CSSColorMode.HEXA
+      : mode === CSSColorMode.RGB_CSS
+      ? CSSColorMode.RGBA_CSS
+      : mode === CSSColorMode.HSL_CSS
+      ? CSSColorMode.HSLA_CSS
+      : mode === ObjectColorMode.RGB
+      ? ObjectColorMode.RGBA
+      : mode === ObjectColorMode.HSL
+      ? ObjectColorMode.HSLA
+      : mode === ObjectColorMode.HSV
+      ? ObjectColorMode.HSVA
+      : mode;
+
+  // if (alphaMode === undefined) {
+  //   throw new Error(`invalid mode ${mode}`);
+  // }
+
+  return alphaMode;
 }
 
 export function toNonAlphaMode(mode: SupportedMode): SupportedMode {
-  return mode === CSSColorMode.HEXA
-    ? CSSColorMode.HEX
-    : mode === CSSColorMode.RGBA_CSS
-    ? CSSColorMode.RGB_CSS
-    : CSSColorMode.HSL_CSS;
+  const nonAlphaMode =
+    mode === CSSColorMode.HEXA
+      ? CSSColorMode.HEX
+      : mode === CSSColorMode.RGBA_CSS
+      ? CSSColorMode.RGB_CSS
+      : mode === CSSColorMode.HSLA_CSS
+      ? CSSColorMode.HSL_CSS
+      : mode === ObjectColorMode.RGBA
+      ? ObjectColorMode.RGB
+      : mode === ObjectColorMode.HSLA
+      ? ObjectColorMode.HSL
+      : mode === ObjectColorMode.HSVA
+      ? ObjectColorMode.HSV
+      : mode;
+
+  // if (nonAlphaMode === undefined) {
+  //   throw new Error(`invalid mode ${mode}`);
+  // }
+
+  return nonAlphaMode;
 }

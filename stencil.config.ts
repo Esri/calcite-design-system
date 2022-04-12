@@ -117,7 +117,8 @@ export const create: () => Config = () => ({
     moduleNameMapper: {
       "^/assets/(.*)$": "<rootDir>/src/tests/iconPathDataStub.ts"
     },
-    setupFilesAfterEnv: ["<rootDir>/src/tests/setupTests.ts"]
+    setupFilesAfterEnv: ["<rootDir>/src/tests/setupTests.ts"],
+    browserHeadless: false
   },
   hydratedFlag: {
     selector: "attribute",
