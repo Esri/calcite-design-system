@@ -5,6 +5,9 @@ module.exports = {
   apiKey: process.env.SCREENER_API_KEY,
   commit: process.env.COMMIT_SHA,
   baseBranch: "master",
+  build: "fake",
+  branch: "fake",
+  commit: "fake",
   browsers: [
     {
       browserName: "chrome",
