@@ -179,9 +179,8 @@ describe("calcite-color-picker", () => {
   });
 
   it("emits event when value changes via user interaction and not programmatically", async () => {
-    const page = await newE2EPage({
-      html: "<calcite-color-picker></calcite-color-picker>"
-    });
+    const page = await newE2EPage();
+    await page.setContent("<calcite-color-picker></calcite-color-picker>");
     const picker = await page.find("calcite-color-picker");
     const changeSpy = await picker.spyOnEvent("calciteColorPickerChange");
     const inputSpy = await picker.spyOnEvent("calciteColorPickerInput");
@@ -249,7 +248,7 @@ describe("calcite-color-picker", () => {
 
     // change by dragging hue slider thumb
     const [hueScopeX, hueScopeY] = await getElementXY(page, "calcite-color-picker", `.${CSS.hueScope}`);
-    const previousInputEventLength = inputSpy.length;
+    let previousInputEventLength = inputSpy.length;
 
     await page.mouse.move(hueScopeX + thumbRadius, hueScopeY + thumbRadius);
     await page.mouse.down();
@@ -259,6 +258,17 @@ describe("calcite-color-picker", () => {
 
     expect(changeSpy).toHaveReceivedEventTimes(7);
     expect(inputSpy.length).toBeGreaterThan(previousInputEventLength + 1); // input event fires more than once
+
+    previousInputEventLength = inputSpy.length;
+
+    // this portion covers an odd scenario where setting twice would cause the component to emit
+    picker.setProperty("value", "colorFieldCenterValueHex");
+    await page.waitForChanges();
+    picker.setProperty("value", "#fff");
+    await page.waitForChanges();
+
+    expect(changeSpy).toHaveReceivedEventTimes(7);
+    expect(inputSpy.length).toBe(previousInputEventLength);
   });
 
   it("does not emit on initialization", async () => {
@@ -480,7 +490,7 @@ describe("calcite-color-picker", () => {
     // set to corner right value that's not red (first value)
     picker.setProperty("value", "#ff0");
     await page.waitForChanges();
-    expect(spy).toHaveReceivedEventTimes(++changes);
+    expect(spy).toHaveReceivedEventTimes(changes);
 
     // clicking on color slider to set hue
     const colorsToSample = 7;
@@ -514,8 +524,9 @@ describe("calcite-color-picker", () => {
     // clicking on the slider when the color won't change by hue adjustments
 
     picker.setProperty("value", "#000");
-    changes++;
     await page.waitForChanges();
+    expect(spy).toHaveReceivedEventTimes(changes);
+
     x = 0;
 
     type TestWindow = GlobalTestProps<{

@@ -78,7 +78,8 @@ export function delocalizeNumberString(numberString: string, locale: string): st
         })
         .reduce((string, part) => string + part)
         .replace(decimalSeparator, ".")
-        .replace(minusSign, "-");
+        .replace(minusSign, "-")
+        .replace(/[^0-9\-\.]/g, ""); // remove everything except numbers, "-", and "."
 
       return isNaN(Number(delocalizedNumberString)) ? nonExpoNumString : delocalizedNumberString;
     }
