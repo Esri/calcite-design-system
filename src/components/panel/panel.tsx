@@ -202,7 +202,7 @@ export class Panel implements ConditionalSlotComponent, InteractiveComponent {
       return;
     }
 
-    panelScrollEl.tabIndex = panelScrollEl.scrollHeight > panelScrollEl.offsetHeight ? 0 : null;
+    panelScrollEl.tabIndex = panelScrollEl.scrollHeight > panelScrollEl.offsetHeight ? 0 : -1;
   };
 
   setContainerRef = (node: HTMLElement): void => {
@@ -456,7 +456,6 @@ export class Panel implements ConditionalSlotComponent, InteractiveComponent {
         key={contentWrapperKey}
         onScroll={this.panelScrollHandler}
         ref={this.setPanelScrollEl}
-        tabIndex={0}
       >
         <section class={CSS.contentContainer}>{defaultSlotNode}</section>
         {this.renderFab()}
@@ -467,7 +466,6 @@ export class Panel implements ConditionalSlotComponent, InteractiveComponent {
         key={contentWrapperKey}
         onScroll={this.panelScrollHandler}
         ref={this.setPanelScrollEl}
-        tabIndex={0}
       >
         {defaultSlotNode}
       </section>
