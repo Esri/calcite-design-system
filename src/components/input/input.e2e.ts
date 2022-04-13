@@ -1075,16 +1075,16 @@ describe("calcite-input", () => {
       });
   });
 
-  it(`allows negative, decimal numbers for et locale`, async () => {
-    const value = "-1,5";
+  it(`allows negative, decimal numbers for ar locale`, async () => {
+    const value = "-0001.0001";
     const page = await newE2EPage();
-    await page.setContent(html`<calcite-input locale="et" type="number"></calcite-input>`);
+    await page.setContent(html`<calcite-input locale="ar" type="number"></calcite-input>`);
     const element = await page.find("calcite-input");
     await element.callMethod("setFocus");
     await typeNumberValue(page, value);
     await page.waitForChanges();
     await page.keyboard.press("Tab");
-    expect(await element.getProperty("value")).toBe("-1.5");
+    expect(await element.getProperty("value")).toBe("-1.0001");
   });
 
   it(`allows clearing value for type=number`, async () => {
