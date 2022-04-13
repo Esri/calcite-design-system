@@ -1,4 +1,5 @@
 import { sanitizeDecimalString, sanitizeExponentialNumberString } from "./number";
+import { isValidNumber } from "./number";
 
 export const locales = [
   "ar",
@@ -61,17 +62,14 @@ function createLocaleNumberFormatter(locale: string): Intl.NumberFormat {
 
 export function delocalizeNumberString(numberString: string, locale: string): string {
   return sanitizeExponentialNumberString(numberString, (nonExpoNumString: string): string => {
-    if (nonExpoNumString) {
-      const allDecimalsExceptLast = new RegExp(`[.](?=.*[.])`, "g");
-      const delocalizedNumberString = nonExpoNumString
-        .replace(getDecimalSeparator(locale), ".")
-        .replace(getMinusSign(locale), "-")
-        .replace(allDecimalsExceptLast, "")
-        .replace(/[^0-9\-\.]/g, ""); // remove everything except numbers, minus signs, and decimals
+    const allDecimalsExceptLast = new RegExp(`[.](?=.*[.])`, "g");
+    const delocalizedNumberString = nonExpoNumString
+      .replace(getDecimalSeparator(locale), ".")
+      .replace(getMinusSign(locale), "-")
+      .replace(allDecimalsExceptLast, "")
+      .replace(/[^0-9\-\.]/g, ""); // remove everything except numbers, minus signs, and decimals
 
-      return isNaN(Number(delocalizedNumberString)) ? delocalizedNumberString : delocalizedNumberString;
-    }
-    return nonExpoNumString;
+    return isValidNumber(delocalizedNumberString) ? delocalizedNumberString : nonExpoNumString;
   });
 }
 
