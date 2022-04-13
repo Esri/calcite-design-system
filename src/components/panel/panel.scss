@@ -70,7 +70,6 @@
 :host([loading]) .container,
 :host([disabled]) .container {
   @apply relative;
-  z-index: 1;
 }
 
 .header {
@@ -83,7 +82,6 @@
     items-stretch
     justify-start;
   flex: 0 0 auto;
-  z-index: 2;
 }
 
 .header-content {
@@ -182,5 +180,4 @@
   block
   p-2;
   width: fit-content;
-  z-index: 1;
 }

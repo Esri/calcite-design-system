@@ -24,7 +24,7 @@ export function parseNumberString(numberString?: string): string {
         return numberKeys.includes(value);
       })
       .reduce((string, part) => string + part);
-    return isValidNumber(result) ? Number(result).toString() : null;
+    return isValidNumber(result) ? Number(result).toString() : "";
   });
 }
 
