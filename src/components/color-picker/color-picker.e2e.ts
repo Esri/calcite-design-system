@@ -178,10 +178,9 @@ describe("calcite-color-picker", () => {
     buttons.forEach(async (button) => expect(await button.getProperty("type")).toBe("button"));
   });
 
-  it("emits event when value changes", async () => {
-    const page = await newE2EPage({
-      html: "<calcite-color-picker></calcite-color-picker>"
-    });
+  it("emits event when value changes via user interaction and not programmatically", async () => {
+    const page = await newE2EPage();
+    await page.setContent("<calcite-color-picker></calcite-color-picker>");
     const picker = await page.find("calcite-color-picker");
     const changeSpy = await picker.spyOnEvent("calciteColorPickerChange");
     const inputSpy = await picker.spyOnEvent("calciteColorPickerInput");
@@ -190,42 +189,42 @@ describe("calcite-color-picker", () => {
     picker.setProperty("value", colorFieldCenterValueHex);
     await page.waitForChanges();
 
-    expect(changeSpy).toHaveReceivedEventTimes(1);
-    expect(inputSpy).toHaveReceivedEventTimes(1);
+    expect(changeSpy).toHaveReceivedEventTimes(0);
+    expect(inputSpy).toHaveReceivedEventTimes(0);
 
     // save for future test/assertion
     await (await page.find(`calcite-color-picker >>> .${CSS.saveColor}`)).click();
 
     // change by clicking on field
     await (await page.find(`calcite-color-picker >>> .${CSS.colorFieldAndSlider}`)).click();
-    expect(changeSpy).toHaveReceivedEventTimes(2);
-    expect(inputSpy).toHaveReceivedEventTimes(2);
+    expect(changeSpy).toHaveReceivedEventTimes(1);
+    expect(inputSpy).toHaveReceivedEventTimes(1);
 
     // change by clicking on hue
     await (await page.find(`calcite-color-picker >>> .${CSS.hueScope}`)).click();
-    expect(changeSpy).toHaveReceivedEventTimes(3);
-    expect(inputSpy).toHaveReceivedEventTimes(3);
+    expect(changeSpy).toHaveReceivedEventTimes(2);
+    expect(inputSpy).toHaveReceivedEventTimes(2);
 
     // change by changing hex value
     const hexInput = await page.find(`calcite-color-picker >>> calcite-color-picker-hex-input`);
     await selectText(hexInput);
     await hexInput.type("fff");
     await hexInput.press("Enter");
-    expect(changeSpy).toHaveReceivedEventTimes(4);
-    expect(inputSpy).toHaveReceivedEventTimes(4);
+    expect(changeSpy).toHaveReceivedEventTimes(3);
+    expect(inputSpy).toHaveReceivedEventTimes(3);
 
     // change by changing color channels (we only test R and assume the same holds for G/B & H/S/V channels)
     const channelInput = await page.find(`calcite-color-picker >>> .${CSS.channel}`);
     await selectText(channelInput);
     await channelInput.type("254");
     await channelInput.press("Enter");
-    expect(changeSpy).toHaveReceivedEventTimes(5);
-    expect(inputSpy).toHaveReceivedEventTimes(5);
+    expect(changeSpy).toHaveReceivedEventTimes(4);
+    expect(inputSpy).toHaveReceivedEventTimes(4);
 
     // change by clicking stored color
     await (await page.find(`calcite-color-picker >>> .${CSS.savedColor}`)).click();
-    expect(changeSpy).toHaveReceivedEventTimes(6);
-    expect(inputSpy).toHaveReceivedEventTimes(6);
+    expect(changeSpy).toHaveReceivedEventTimes(5);
+    expect(inputSpy).toHaveReceivedEventTimes(5);
 
     // change by dragging color field thumb
     const thumbRadius = DIMENSIONS.m.thumb.radius;
@@ -244,12 +243,12 @@ describe("calcite-color-picker", () => {
     await page.mouse.up();
     await page.waitForChanges();
 
-    expect(changeSpy).toHaveReceivedEventTimes(7);
-    expect(inputSpy.length).toBeGreaterThan(7); // input event fires more than once
+    expect(changeSpy).toHaveReceivedEventTimes(6);
+    expect(inputSpy.length).toBeGreaterThan(6); // input event fires more than once
 
     // change by dragging hue slider thumb
     const [hueScopeX, hueScopeY] = await getElementXY(page, "calcite-color-picker", `.${CSS.hueScope}`);
-    const previousInputEventLength = inputSpy.length;
+    let previousInputEventLength = inputSpy.length;
 
     await page.mouse.move(hueScopeX + thumbRadius, hueScopeY + thumbRadius);
     await page.mouse.down();
@@ -257,8 +256,19 @@ describe("calcite-color-picker", () => {
     await page.mouse.up();
     await page.waitForChanges();
 
-    expect(changeSpy).toHaveReceivedEventTimes(8);
+    expect(changeSpy).toHaveReceivedEventTimes(7);
     expect(inputSpy.length).toBeGreaterThan(previousInputEventLength + 1); // input event fires more than once
+
+    previousInputEventLength = inputSpy.length;
+
+    // this portion covers an odd scenario where setting twice would cause the component to emit
+    picker.setProperty("value", "colorFieldCenterValueHex");
+    await page.waitForChanges();
+    picker.setProperty("value", "#fff");
+    await page.waitForChanges();
+
+    expect(changeSpy).toHaveReceivedEventTimes(7);
+    expect(inputSpy.length).toBe(previousInputEventLength);
   });
 
   it("does not emit on initialization", async () => {
@@ -418,7 +428,6 @@ describe("calcite-color-picker", () => {
       html: "<calcite-color-picker></calcite-color-picker>"
     });
     const picker = await page.find("calcite-color-picker");
-    const spy = await picker.spyOnEvent("calciteColorPickerChange");
 
     const supportedStringFormats = [
       supportedFormatToSampleValue.hex,
@@ -445,8 +454,6 @@ describe("calcite-color-picker", () => {
 
       expect(await picker.getProperty("value")).toMatchObject(value);
     }
-
-    expect(spy).toHaveReceivedEventTimes(supportedStringFormats.length + supportedObjectFormats.length);
   });
 
   it("allows selecting colors via color field/slider", async () => {
@@ -483,7 +490,7 @@ describe("calcite-color-picker", () => {
     // set to corner right value that's not red (first value)
     picker.setProperty("value", "#ff0");
     await page.waitForChanges();
-    expect(spy).toHaveReceivedEventTimes(++changes);
+    expect(spy).toHaveReceivedEventTimes(changes);
 
     // clicking on color slider to set hue
     const colorsToSample = 7;
@@ -517,8 +524,9 @@ describe("calcite-color-picker", () => {
     // clicking on the slider when the color won't change by hue adjustments
 
     picker.setProperty("value", "#000");
-    changes++;
     await page.waitForChanges();
+    expect(spy).toHaveReceivedEventTimes(changes);
+
     x = 0;
 
     type TestWindow = GlobalTestProps<{

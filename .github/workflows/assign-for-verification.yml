@@ -8,19 +8,13 @@ jobs:
     steps:
       - uses: actions/github-script@v4
         env:
-          PRIMARY_CONTACT: ${{secrets.PRIMARY_CONTACT}}
-          SECONDARY_CONTACTS: ${{secrets.SECONDARY_CONTACTS}}
+          ISSUE_VERIFIERS: ${{secrets.ISSUE_VERIFIERS}}
         with:
           script: |
-            const { PRIMARY_CONTACT, SECONDARY_CONTACTS } = process.env
-            const { label, sender } = context.payload;
-            if (sender && label && label.name === "3 - installed") {
-              const secondaryArr = SECONDARY_CONTACTS.split(",").map(c => c.trim());
-              const secondaryContact = secondaryArr[Math.floor(Math.random() * secondaryArr.length)];
-              const assignees =
-                sender.login !== PRIMARY_CONTACT
-                  ? [PRIMARY_CONTACT]
-                  : [secondaryContact]
+            const { ISSUE_VERIFIERS } = process.env;
+            const { label } = context.payload;
+            if (label && label.name === "3 - installed") {
+              const assignees = ISSUE_VERIFIERS.split(",").map(v => v.trim());
               await github.issues.update({
                 issue_number: context.issue.number,
                 owner: context.repo.owner,
