@@ -677,7 +677,7 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
       item &&
       filteredData.some(({ label, value }) => {
         if (isGroup(item)) {
-          return value === item.label || value === item.label;
+          return value === item.label;
         }
 
         return (

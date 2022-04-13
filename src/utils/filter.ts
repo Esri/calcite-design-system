@@ -14,7 +14,10 @@ export const filter = (data: Array<object>, value: string): Array<any> => {
       return true;
     }
     let found = false;
-    forIn(input, (val) => {
+
+    const inputSubset = (({ label, value }) => ({ label, value }))(input as any);
+
+    forIn(inputSubset, (val) => {
       if (typeof val === "function") {
         return;
       }
