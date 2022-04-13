@@ -8,8 +8,7 @@ import {
   Watch,
   h,
   VNode,
-  Fragment,
-  State
+  Fragment
 } from "@stencil/core";
 import { CSS, HEADING_LEVEL, ICONS, SLOTS, TEXT } from "./resources";
 import { getElementDir, getSlotted } from "../../utils/dom";
@@ -144,8 +143,6 @@ export class Panel implements ConditionalSlotComponent, InteractiveComponent {
 
   @Element() el: HTMLCalcitePanelElement;
 
-  @State() hasContentScroll = false;
-
   backButtonEl: HTMLCalciteActionElement;
 
   dismissButtonEl: HTMLCalciteActionElement;
@@ -199,11 +196,13 @@ export class Panel implements ConditionalSlotComponent, InteractiveComponent {
   // --------------------------------------------------------------------------
 
   resizeHandler = (): void => {
-    const { panelScrollEl } = this;
+    const { panelScrollEl, resizeObserver } = this;
 
-    this.hasContentScroll = panelScrollEl
-      ? panelScrollEl.scrollHeight > panelScrollEl.offsetHeight
-      : false;
+    if (!panelScrollEl || !resizeObserver) {
+      return;
+    }
+
+    panelScrollEl.tabIndex = panelScrollEl.scrollHeight > panelScrollEl.offsetHeight ? 0 : null;
   };
 
   setContainerRef = (node: HTMLElement): void => {
@@ -438,13 +437,14 @@ export class Panel implements ConditionalSlotComponent, InteractiveComponent {
     ) : null;
   }
 
-  setContainerScrollEl = (el: HTMLElement): void => {
+  setPanelScrollEl = (el: HTMLElement): void => {
     this.resizeObserver?.observe(el);
     this.panelScrollEl = el;
+    this.resizeHandler();
   };
 
   renderContent(): VNode {
-    const { el, hasContentScroll } = this;
+    const { el } = this;
     const hasFab = getSlotted(el, SLOTS.fab);
 
     const defaultSlotNode: VNode = <slot key="default-slot" />;
@@ -455,8 +455,8 @@ export class Panel implements ConditionalSlotComponent, InteractiveComponent {
         class={{ [CSS.contentWrapper]: true, [CSS.contentHeight]: true }}
         key={contentWrapperKey}
         onScroll={this.panelScrollHandler}
-        ref={this.setContainerScrollEl}
-        tabIndex={hasContentScroll ? 0 : null}
+        ref={this.setPanelScrollEl}
+        tabIndex={0}
       >
         <section class={CSS.contentContainer}>{defaultSlotNode}</section>
         {this.renderFab()}
@@ -466,8 +466,8 @@ export class Panel implements ConditionalSlotComponent, InteractiveComponent {
         class={{ [CSS.contentWrapper]: true, [CSS.contentContainer]: true }}
         key={contentWrapperKey}
         onScroll={this.panelScrollHandler}
-        ref={this.setContainerScrollEl}
-        tabIndex={hasContentScroll ? 0 : null}
+        ref={this.setPanelScrollEl}
+        tabIndex={0}
       >
         {defaultSlotNode}
       </section>
