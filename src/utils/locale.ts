@@ -63,11 +63,13 @@ function createLocaleNumberFormatter(locale: string): Intl.NumberFormat {
 export function delocalizeNumberString(numberString: string, locale: string): string {
   return sanitizeExponentialNumberString(numberString, (nonExpoNumString: string): string => {
     const allDecimalsExceptLast = new RegExp(`[.](?=.*[.])`, "g");
+    const everythingExceptNumbersDecimalsAndMinusSigns = new RegExp("[^0-9-.]", "g");
     const delocalizedNumberString = nonExpoNumString
-      .replace(getDecimalSeparator(locale), ".")
       .replace(getMinusSign(locale), "-")
+      .replace(getGroupSeparator(locale), "")
+      .replace(getDecimalSeparator(locale), ".")
       .replace(allDecimalsExceptLast, "")
-      .replace(/[^0-9\-\.]/g, ""); // remove everything except numbers, minus signs, and decimals
+      .replace(everythingExceptNumbersDecimalsAndMinusSigns, "");
 
     return isValidNumber(delocalizedNumberString) ? delocalizedNumberString : nonExpoNumString;
   });
@@ -97,7 +99,7 @@ export function getMinusSign(locale: string): string {
 export function localizeNumberString(numberString: string, locale: string, displayGroupSeparator = false): string {
   return sanitizeExponentialNumberString(numberString, (nonExpoNumString: string): string => {
     if (nonExpoNumString) {
-      const number = Number(sanitizeDecimalString(nonExpoNumString));
+      const number = Number(sanitizeDecimalString(nonExpoNumString.replace(/,/g, "")));
       if (!isNaN(number)) {
         const formatter = createLocaleNumberFormatter(locale);
         const parts = formatter.formatToParts(number);
