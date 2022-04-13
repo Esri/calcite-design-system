@@ -79,7 +79,7 @@ export function delocalizeNumberString(numberString: string, locale: string): st
         .reduce((string, part) => string + part)
         .replace(decimalSeparator, ".")
         .replace(minusSign, "-")
-        .replace(/[^0-9\-\e\.]/g, ""); // remove everything except numbers, "e", "-", and "."
+        .replace(/[^0-9\-\.]/g, ""); // remove everything except numbers, "-", and "."
 
       return isNaN(Number(delocalizedNumberString)) ? nonExpoNumString : delocalizedNumberString;
     }
@@ -96,7 +96,7 @@ export function getGroupSeparator(locale: string): string {
 
 export function getDecimalSeparator(locale: string): string {
   const formatter = createLocaleNumberFormatter(locale);
-  const parts = formatter.formatToParts(-1234567.8);
+  const parts = formatter.formatToParts(1234567.8);
   const value = parts.find((part) => part.type === "decimal").value;
   return value.trim().length === 0 ? " " : value;
 }
