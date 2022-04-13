@@ -3,6 +3,15 @@
 This document maintains a list of released versions and changes introduced by them.
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
+<!--@unreleased-section-start-->
+
+## Unreleased
+
+### Bug Fixes
+
+- **input:** negative numbers delocalize correctly in ar locale ([#4400](https://github.com/Esri/calcite-components/issues/4400)) ([935b859](https://github.com/Esri/calcite-components/commit/935b859ef412d5dd5984cb763ab1a1d07d555c9e))
+<!--@unreleased-section-end-->
+
 ## [1.0.0-beta.81](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.80...v1.0.0-beta.81) (2022-04-12)
 
 ### ⚠ BREAKING CHANGES
