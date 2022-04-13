@@ -33,6 +33,7 @@ describe("localizeNumberString and delocalizeNumberString", () => {
         const delocalizedNumberString = delocalizeNumberString(localizedNumberString, locale);
         expect(delocalizedNumberString).toBe(numberString);
       });
+
       it(`numbers with group separators localize and delocalize in "${locale}"`, () => {
         const numberString = "1,234";
         const localizedNumberString = localizeNumberString(numberString, locale, true);
