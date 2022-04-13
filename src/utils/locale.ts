@@ -80,7 +80,9 @@ export function delocalizeNumberString(numberString: string, locale: string): st
 export function getGroupSeparator(locale: string): string {
   const formatter = createLocaleNumberFormatter(locale);
   const parts = formatter.formatToParts(1234567);
-  return parts.find((part) => part.type === "group").value;
+  const value = parts.find((part) => part.type === "group").value;
+  // there are whitespace group characters that doesn't render correctly
+  return value.trim().length === 0 ? " " : value;
 }
 
 export function getDecimalSeparator(locale: string): string {
