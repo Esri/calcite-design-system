@@ -501,7 +501,7 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
     } else {
       this.setValue({
         nativeEvent,
-        value: delocalizeNumberString(value, this.locale)
+        value: delocalizedValue
       });
     }
   };

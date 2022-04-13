@@ -30,7 +30,7 @@ export class TipManager {
   //
   // --------------------------------------------------------------------------
   /**
-   * Alternate text for closing the `calcite-tip-manager`.
+   * Closed state of the `calcite-tip-manager`.
    */
   @Prop({ reflect: true, mutable: true }) closed = false;
 
