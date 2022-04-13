@@ -17,4 +17,5 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           npm ci
-          npm run release:docs
+          npm run docs
+          npx storybook-to-ghpages --existing-output-dir=docs
