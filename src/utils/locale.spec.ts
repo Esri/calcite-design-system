@@ -33,5 +33,11 @@ describe("localizeNumberString and delocalizeNumberString", () => {
         const delocalizedNumberString = delocalizeNumberString(localizedNumberString, locale);
         expect(delocalizedNumberString).toBe(numberString);
       });
+      it(`numbers with group separators localize and delocalize in "${locale}"`, () => {
+        const numberString = "12,345,678.9";
+        const localizedNumberString = localizeNumberString(numberString, locale, true);
+        const delocalizedNumberString = delocalizeNumberString(localizedNumberString, locale);
+        expect(delocalizedNumberString).toBe("12345678.9");
+      });
     });
 });

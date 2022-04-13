@@ -62,26 +62,14 @@ function createLocaleNumberFormatter(locale: string): Intl.NumberFormat {
 export function delocalizeNumberString(numberString: string, locale: string): string {
   return sanitizeExponentialNumberString(numberString, (nonExpoNumString: string): string => {
     if (nonExpoNumString) {
-      const groupSeparator = getGroupSeparator(locale);
-      const decimalSeparator = getDecimalSeparator(locale);
-      const minusSign = getMinusSign(locale);
+      const allDecimalsExceptLast = new RegExp(`[.](?=.*[.])`, "g");
+      const delocalizedNumberString = nonExpoNumString
+        .replace(getDecimalSeparator(locale), ".")
+        .replace(getMinusSign(locale), "-")
+        .replace(allDecimalsExceptLast, "")
+        .replace(/[^0-9\-\.]/g, ""); // remove everything except numbers, minus signs, and decimals
 
-      const splitNumberString = nonExpoNumString.split("");
-      const decimalIndex = splitNumberString.lastIndexOf(decimalSeparator);
-
-      const delocalizedNumberString = splitNumberString
-        .map((value, index) => {
-          if (value === groupSeparator || (value === decimalSeparator && index !== decimalIndex)) {
-            return "";
-          }
-          return value;
-        })
-        .reduce((string, part) => string + part)
-        .replace(decimalSeparator, ".")
-        .replace(minusSign, "-")
-        .replace(/[^0-9\-\.]/g, ""); // remove everything except numbers, "-", and "."
-
-      return isNaN(Number(delocalizedNumberString)) ? nonExpoNumString : delocalizedNumberString;
+      return isNaN(Number(delocalizedNumberString)) ? delocalizedNumberString : delocalizedNumberString;
     }
     return nonExpoNumString;
   });
@@ -89,23 +77,23 @@ export function delocalizeNumberString(numberString: string, locale: string): st
 
 export function getGroupSeparator(locale: string): string {
   const formatter = createLocaleNumberFormatter(locale);
-  const parts = formatter.formatToParts(1234567.8);
-  const value = parts.find((part) => part.type === "group").value;
-  return value.trim().length === 0 ? " " : value;
+  const parts = formatter.formatToParts(1234567);
+  const value = parts.find((part) => part.type === "group")?.value;
+  return value ? value.trim() : "";
 }
 
 export function getDecimalSeparator(locale: string): string {
   const formatter = createLocaleNumberFormatter(locale);
-  const parts = formatter.formatToParts(1234567.8);
-  const value = parts.find((part) => part.type === "decimal").value;
-  return value.trim().length === 0 ? " " : value;
+  const parts = formatter.formatToParts(1.1);
+  const value = parts.find((part) => part.type === "decimal")?.value;
+  return value ? value.trim() : "";
 }
 
 export function getMinusSign(locale: string): string {
   const formatter = createLocaleNumberFormatter(locale);
-  const parts = formatter.formatToParts(-1234567.8);
-  const value = parts.find((part) => part.type === "minusSign").value;
-  return value.trim().length === 0 ? "-" : value;
+  const parts = formatter.formatToParts(-9);
+  const value = parts.find((part) => part.type === "minusSign")?.value;
+  return value ? value.trim() : "";
 }
 
 export function localizeNumberString(numberString: string, locale: string, displayGroupSeparator = false): string {
@@ -122,6 +110,8 @@ export function localizeNumberString(numberString: string, locale: string, displ
                 return displayGroupSeparator ? getGroupSeparator(locale) : "";
               case "decimal":
                 return getDecimalSeparator(locale);
+              case "minusSign":
+                return getMinusSign(locale);
               default:
                 return value;
             }
@@ -129,7 +119,7 @@ export function localizeNumberString(numberString: string, locale: string, displ
           .reduce((string, part) => string + part);
         return localizedNumberString;
       }
-      return nonExpoNumString;
     }
+    return nonExpoNumString;
   });
 }
