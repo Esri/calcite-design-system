@@ -81,7 +81,7 @@ export function getGroupSeparator(locale: string): string {
   const formatter = createLocaleNumberFormatter(locale);
   const parts = formatter.formatToParts(1234567);
   const value = parts.find((part) => part.type === "group").value;
-  // there are whitespace group characters that doesn't render correctly
+  // change whitespace group characters that don't render correctly
   return value.trim().length === 0 ? " " : value;
 }
 
