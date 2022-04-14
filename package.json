@@ -126,7 +126,7 @@
     "puppeteer": "10.0.0",
     "rimraf": "3.0.2",
     "screener-storybook": "0.23.0",
-    "semver": "7.3.6",
+    "semver": "7.3.7",
     "shell-quote": "1.7.3",
     "standard-version": "9.3.2",
     "stencil-eslint-core": "0.3.1",
