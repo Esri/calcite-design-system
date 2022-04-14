@@ -125,7 +125,6 @@ describe("calcite-input-date-picker", () => {
       await input.press("Backspace");
       await input.press("Backspace");
       await page.waitForChanges();
-      await page.waitForTimeout(animationDurationInMs);
       expect(changeEvent).toHaveReceivedEventTimes(8);
       expect(deprecatedChangeEvent).toHaveReceivedEventTimes(8);
       expect(await element.getProperty("start")).toBeUndefined();
