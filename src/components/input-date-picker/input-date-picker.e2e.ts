@@ -63,6 +63,18 @@ describe("calcite-input-date-picker", () => {
       const element = await page.find("calcite-input-date-picker");
       expect(await element.getProperty("value")).toBe("2020-03-07");
       expect(await element.getProperty("valueAsDate")).toBeDefined();
+
+      // emit when date cleared
+      await input.press("Backspace");
+      await input.press("Backspace");
+      await input.press("Backspace");
+      await input.press("Backspace");
+      await page.waitForChanges();
+      expect(changeEvent).toHaveReceivedEventTimes(8);
+      expect(deprecatedChangeEvent).toHaveReceivedEventTimes(8);
+
+      expect(await element.getProperty("value")).toBe("");
+      expect(await element.getProperty("valueAsDate")).toBeUndefined();
     });
 
     it("emits when configured for date range", async () => {
@@ -106,6 +118,18 @@ describe("calcite-input-date-picker", () => {
       await page.waitForChanges();
       expect(await element.getProperty("start")).toBe("2020-03-07");
       expect(await element.getProperty("startAsDate")).toBeDefined();
+
+      // emit when date cleared
+      await input.press("Backspace");
+      await input.press("Backspace");
+      await input.press("Backspace");
+      await input.press("Backspace");
+      await page.waitForChanges();
+      await page.waitForTimeout(animationDurationInMs);
+      expect(changeEvent).toHaveReceivedEventTimes(8);
+      expect(deprecatedChangeEvent).toHaveReceivedEventTimes(8);
+      expect(await element.getProperty("start")).toBeUndefined();
+      expect(await element.getProperty("startAsDate")).toBeNull();
     });
   });
 
