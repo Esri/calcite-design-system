@@ -12,6 +12,7 @@ import {
 
 import { html } from "../../../support/formatting";
 import { TEXT } from "./resources";
+import { scrollTo } from "./utils";
 
 describe("calcite-combobox", () => {
   it("renders", async () => renders("calcite-combobox", { display: "block" }));
@@ -473,6 +474,9 @@ describe("calcite-combobox", () => {
 
   describe("keyboard navigation", () => {
     let page: E2EPage;
+    const scrollablePageSizeInPx = 2400;
+    // PageUp/Down scroll test fails without the delay
+    const scrollTestDelayInMilliseconds = 500;
 
     beforeEach(async () => {
       page = await newE2EPage();
@@ -514,7 +518,7 @@ describe("calcite-combobox", () => {
       await page.waitForChanges();
       expect(await page.evaluate(() => document.activeElement.id)).toBe("myCombobox");
 
-      await page.keyboard.press("ArrowDown");
+      await page.keyboard.press("Space");
       await page.waitForChanges();
       let popper = await page.find("#myCombobox >>> .popper-container--active");
       expect(popper).toBeTruthy();
@@ -543,7 +547,7 @@ describe("calcite-combobox", () => {
       await page.waitForChanges();
       expect(await page.evaluate(() => document.activeElement.id)).toBe("myCombobox");
 
-      await page.keyboard.press("ArrowDown");
+      await page.keyboard.press("Space");
       await page.waitForChanges();
       let popper = await page.find("#myCombobox >>> .popper-container--active");
       expect(popper).toBeTruthy();
@@ -556,19 +560,53 @@ describe("calcite-combobox", () => {
       expect(await page.evaluate(() => document.activeElement.id)).toBe("myCombobox");
     });
 
-    it(`home opens dropdown and puts focus on first item`, async () => {
+    it(`Space opens dropdown and puts focus on first item`, async () => {
       const inputEl = await page.find(`#myCombobox >>> input`);
       await inputEl.focus();
       await page.waitForChanges();
       expect(await page.evaluate(() => document.activeElement.id)).toBe("myCombobox");
 
-      await page.keyboard.press("Home");
+      await page.keyboard.press("Space");
       await page.waitForChanges();
       const firstFocusedGroupItem = await page.find("#one >>> .label--active");
       expect(firstFocusedGroupItem).toBeTruthy();
 
       const visible = await firstFocusedGroupItem.isVisible();
       expect(visible).toBe(true);
+    });
+
+    it("when the combobox is focused & closed, Page up/down (fn arrow up/down) scrolls up and down the page", async () => {
+      await page.addStyleTag({
+        // set body to overflow so we can test the scroll functionality;
+        // set default margin/padding to 0 to not have to adjust for it in position calculations
+        content: `body {
+            height: ${scrollablePageSizeInPx}px;
+            width: ${scrollablePageSizeInPx}px;
+          }
+          html, body {
+            margin: 0;
+            padding: 0;
+          }
+      `
+      });
+      const combobox = await page.find("calcite-combobox");
+      await combobox.callMethod(`setFocus`);
+      const popper = await page.find("#myCombobox >>> .popper-container--active");
+      expect(popper).toBeNull();
+      expect(await page.evaluate(() => window.scrollY)).toEqual(0);
+
+      await page.keyboard.press("PageDown");
+      await page.waitForTimeout(scrollTestDelayInMilliseconds);
+      const scrollPosition = await page.evaluate(() => window.scrollY);
+      expect(scrollPosition).toBeTruthy();
+
+      await page.keyboard.press("PageUp");
+      await page.waitForTimeout(scrollTestDelayInMilliseconds);
+      expect(
+        await page.evaluate((scrollPosition) => {
+          return window.scrollY < scrollPosition;
+        }, scrollPosition)
+      ).toBeTruthy();
     });
 
     it("should cycle through items on ArrowUp/ArrowDown and toggle selection on/off on Enter", async () => {
@@ -579,7 +617,7 @@ describe("calcite-combobox", () => {
 
       const element = await page.find("calcite-combobox");
       await element.click();
-      expect(await item1.getProperty("active")).toBe(false);
+      expect(await item1.getProperty("active")).toBe(true);
 
       await element.press("ArrowDown");
       expect(await item1.getProperty("active")).toBe(true);
