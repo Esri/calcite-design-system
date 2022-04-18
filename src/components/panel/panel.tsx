@@ -5,6 +5,7 @@ import {
   EventEmitter,
   Method,
   Prop,
+  Watch,
   h,
   VNode,
   Fragment
@@ -47,6 +48,11 @@ export class Panel implements ConditionalSlotComponent, InteractiveComponent {
    * Hides the panel.
    */
   @Prop({ mutable: true, reflect: true }) dismissed = false;
+
+  @Watch("dismissed")
+  dismissedHandler(): void {
+    this.calcitePanelDismissedChange.emit();
+  }
 
   /**
    * When provided, this method will be called before it is removed from the parent flow.
@@ -167,6 +173,12 @@ export class Panel implements ConditionalSlotComponent, InteractiveComponent {
   /**
    * Emitted when the close button has been clicked.
    */
+  @Event() calcitePanelDismiss: EventEmitter;
+
+  /**
+   * Emitted when the close button has been clicked.
+   * @deprecated use calcitePanelDismiss instead.
+   */
   @Event() calcitePanelDismissedChange: EventEmitter;
 
   /**
@@ -205,7 +217,7 @@ export class Panel implements ConditionalSlotComponent, InteractiveComponent {
 
   dismiss = (): void => {
     this.dismissed = true;
-    this.calcitePanelDismissedChange.emit();
+    this.calcitePanelDismiss.emit();
   };
 
   panelScrollHandler = (): void => {
