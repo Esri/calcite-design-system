@@ -1,4 +1,5 @@
 import { sanitizeDecimalString, sanitizeExponentialNumberString } from "./number";
+import { isValidNumber } from "./number";
 
 export const locales = [
   "ar",
@@ -52,6 +53,10 @@ export const locales = [
   "zh-TW"
 ];
 
+const allDecimalsExceptLast = new RegExp(`[.](?=.*[.])`, "g");
+const everythingExceptNumbersDecimalsAndMinusSigns = new RegExp("[^0-9-.]", "g");
+const defaultGroupSeparator = new RegExp(",", "g");
+
 function createLocaleNumberFormatter(locale: string): Intl.NumberFormat {
   return new Intl.NumberFormat(locale, {
     minimumFractionDigits: 0,
@@ -61,57 +66,41 @@ function createLocaleNumberFormatter(locale: string): Intl.NumberFormat {
 
 export function delocalizeNumberString(numberString: string, locale: string): string {
   return sanitizeExponentialNumberString(numberString, (nonExpoNumString: string): string => {
-    if (nonExpoNumString) {
-      const groupSeparator = getGroupSeparator(locale);
-      const decimalSeparator = getDecimalSeparator(locale);
-      const minusSign = getMinusSign(locale);
+    const delocalizedNumberString = nonExpoNumString
+      .replace(getMinusSign(locale), "-")
+      .replace(getGroupSeparator(locale), "")
+      .replace(getDecimalSeparator(locale), ".")
+      .replace(allDecimalsExceptLast, "")
+      .replace(everythingExceptNumbersDecimalsAndMinusSigns, "");
 
-      const splitNumberString = nonExpoNumString.split("");
-      const decimalIndex = splitNumberString.lastIndexOf(decimalSeparator);
-
-      const delocalizedNumberString = splitNumberString
-        .map((value, index) => {
-          if (value === groupSeparator || (value === decimalSeparator && index !== decimalIndex)) {
-            return "";
-          }
-          return value;
-        })
-        .reduce((string, part) => string + part)
-        .replace(decimalSeparator, ".")
-        .replace(minusSign, "-")
-        .replace(/[^0-9\-\.]/g, ""); // remove everything except numbers, "-", and "."
-
-      return isNaN(Number(delocalizedNumberString)) ? nonExpoNumString : delocalizedNumberString;
-    }
-    return nonExpoNumString;
+    return isValidNumber(delocalizedNumberString) ? delocalizedNumberString : nonExpoNumString;
   });
 }
 
 export function getGroupSeparator(locale: string): string {
   const formatter = createLocaleNumberFormatter(locale);
-  const parts = formatter.formatToParts(1234567.8);
+  const parts = formatter.formatToParts(1234567);
   const value = parts.find((part) => part.type === "group").value;
+  // change whitespace group characters that don't render correctly
   return value.trim().length === 0 ? " " : value;
 }
 
 export function getDecimalSeparator(locale: string): string {
   const formatter = createLocaleNumberFormatter(locale);
-  const parts = formatter.formatToParts(1234567.8);
-  const value = parts.find((part) => part.type === "decimal").value;
-  return value.trim().length === 0 ? " " : value;
+  const parts = formatter.formatToParts(1.1);
+  return parts.find((part) => part.type === "decimal").value;
 }
 
 export function getMinusSign(locale: string): string {
   const formatter = createLocaleNumberFormatter(locale);
-  const parts = formatter.formatToParts(-1234567.8);
-  const value = parts.find((part) => part.type === "minusSign").value;
-  return value.trim().length === 0 ? "-" : value;
+  const parts = formatter.formatToParts(-9);
+  return parts.find((part) => part.type === "minusSign").value;
 }
 
 export function localizeNumberString(numberString: string, locale: string, displayGroupSeparator = false): string {
   return sanitizeExponentialNumberString(numberString, (nonExpoNumString: string): string => {
     if (nonExpoNumString) {
-      const number = Number(sanitizeDecimalString(nonExpoNumString));
+      const number = Number(sanitizeDecimalString(nonExpoNumString.replace(defaultGroupSeparator, "")));
       if (!isNaN(number)) {
         const formatter = createLocaleNumberFormatter(locale);
         const parts = formatter.formatToParts(number);
@@ -122,6 +111,8 @@ export function localizeNumberString(numberString: string, locale: string, displ
                 return displayGroupSeparator ? getGroupSeparator(locale) : "";
               case "decimal":
                 return getDecimalSeparator(locale);
+              case "minusSign":
+                return getMinusSign(locale);
               default:
                 return value;
             }
@@ -129,7 +120,7 @@ export function localizeNumberString(numberString: string, locale: string, displ
           .reduce((string, part) => string + part);
         return localizedNumberString;
       }
-      return nonExpoNumString;
     }
+    return nonExpoNumString;
   });
 }
