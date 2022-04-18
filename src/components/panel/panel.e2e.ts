@@ -43,19 +43,21 @@ describe("calcite-panel", () => {
     expect(await container.isVisible()).toBe(false);
   });
 
-  it("dismissible should fire event when closed", async () => {
+  it("dismiss event should fire when closed", async () => {
     const page = await newE2EPage({ html: "<calcite-panel dismissible>test</calcite-panel>" });
 
-    const eventSpy = await page.spyOnEvent("calcitePanelDismiss", "window");
+    const calcitePanelDismiss = await page.spyOnEvent("calcitePanelDismiss", "window");
+    const calcitePanelDismissedChange = await page.spyOnEvent("calcitePanelDismissedChange", "window");
 
     const closeButton = await page.find("calcite-panel >>> calcite-action");
 
     await closeButton.click();
 
-    expect(eventSpy).toHaveReceivedEvent();
+    expect(calcitePanelDismiss).toHaveReceivedEvent();
+    expect(calcitePanelDismissedChange).toHaveReceivedEvent();
   });
 
-  it("dismissible should not fire event when closed via prop", async () => {
+  it("dismiss event should not fire when closed via prop", async () => {
     const page = await newE2EPage({ html: "<calcite-panel dismissible>test</calcite-panel>" });
 
     const eventSpy = await page.spyOnEvent("calcitePanelDismiss", "window");
