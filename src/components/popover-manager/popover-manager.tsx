@@ -78,8 +78,8 @@ export class PopoverManager {
   //
   //--------------------------------------------------------------------------
 
-  @Listen("click", { target: "window", capture: true })
-  closeOpenPopovers(event: Event): void {
+  @Listen("pointerdown", { target: "window", capture: true })
+  pointerDownHandler(event: Event): void {
     const { autoClose, el } = this;
     const popoverSelector = "calcite-popover";
     const composedPath = event.composedPath();
