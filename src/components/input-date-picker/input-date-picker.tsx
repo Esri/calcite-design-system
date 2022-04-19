@@ -672,7 +672,7 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
   private clearCurrentValue(): void {
     if (!this.range) {
       if (typeof this.value === "string" && this.value.length > 0) {
-        this.calciteDatePickerChange.emit(undefined);
+        this.calciteDatePickerChange.emit();
       }
       this.value = "";
       return;
@@ -682,13 +682,13 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
 
     if (focusedInput === "start") {
       if (typeof this.start === "string" && this.start.length > 0) {
-        this.calciteDatePickerRangeChange.emit(undefined);
+        this.calciteDatePickerRangeChange.emit();
       }
       this.value = Array.isArray(this.value) ? ["", this.value[1] || ""] : [""];
       this.start = undefined;
     } else if (focusedInput === "end") {
       if (typeof this.end === "string" && this.end.length > 0) {
-        this.calciteDatePickerRangeChange.emit(undefined);
+        this.calciteDatePickerRangeChange.emit();
       }
       this.value = Array.isArray(this.value) ? [this.value[0] || "", ""] : ["", ""];
       this.end = undefined;
