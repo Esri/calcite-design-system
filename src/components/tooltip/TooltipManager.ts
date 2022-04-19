@@ -1,9 +1,55 @@
 import { TOOLTIP_DELAY_MS } from "./resources";
 
 export default class TooltipManager {
-  registeredElementCount = 0;
+  // --------------------------------------------------------------------------
+  //
+  //  Private Properties
+  //
+  // --------------------------------------------------------------------------
 
-  queryTooltip = (composedPath: EventTarget[]): HTMLCalciteTooltipElement => {
+  private registeredElements = new WeakMap<HTMLElement, HTMLCalciteTooltipElement>();
+
+  private hoverTimeouts: WeakMap<HTMLCalciteTooltipElement, number> = new WeakMap();
+
+  private clickedTooltip: HTMLCalciteTooltipElement;
+
+  private activeTooltipEl: HTMLCalciteTooltipElement;
+
+  private registeredElementCount = 0;
+
+  // --------------------------------------------------------------------------
+  //
+  //  Public Methods
+  //
+  // --------------------------------------------------------------------------
+
+  registerElement(referenceEl: HTMLElement, tooltip: HTMLCalciteTooltipElement): void {
+    this.registeredElementCount++;
+
+    this.registeredElements.set(referenceEl, tooltip);
+
+    if (this.registeredElementCount === 1) {
+      this.addListeners();
+    }
+  }
+
+  unregisterElement(referenceEl: HTMLElement): void {
+    if (this.registeredElements.delete(referenceEl)) {
+      this.registeredElementCount--;
+    }
+
+    if (this.registeredElementCount === 0) {
+      this.removeListeners();
+    }
+  }
+
+  // --------------------------------------------------------------------------
+  //
+  //  Private Methods
+  //
+  // --------------------------------------------------------------------------
+
+  private queryTooltip = (composedPath: EventTarget[]): HTMLCalciteTooltipElement => {
     const { registeredElements } = this;
 
     const registeredElement = (composedPath as HTMLElement[]).find((pathEl) => registeredElements.has(pathEl));
@@ -11,7 +57,7 @@ export default class TooltipManager {
     return registeredElements.get(registeredElement);
   };
 
-  keyDownHandler = (event: KeyboardEvent): void => {
+  private keyDownHandler = (event: KeyboardEvent): void => {
     if (event.key === "Escape") {
       const { activeTooltipEl } = this;
 
@@ -22,47 +68,25 @@ export default class TooltipManager {
     }
   };
 
-  mouseEnterShow = (event: MouseEvent): void => {
+  private mouseEnterShow = (event: MouseEvent): void => {
     this.hoverEvent(event, true);
   };
 
-  mouseLeaveHide = (event: MouseEvent): void => {
+  private mouseLeaveHide = (event: MouseEvent): void => {
     this.hoverEvent(event, false);
   };
 
-  clickHandler = (event: MouseEvent): void => {
+  private clickHandler = (event: MouseEvent): void => {
     this.clickedTooltip = this.queryTooltip(event.composedPath());
   };
 
-  focusShow = (event: FocusEvent): void => {
+  private focusShow = (event: FocusEvent): void => {
     this.focusEvent(event, true);
   };
 
-  blurHide = (event: FocusEvent): void => {
+  private blurHide = (event: FocusEvent): void => {
     this.focusEvent(event, false);
   };
-
-  hoverTimeouts: WeakMap<HTMLCalciteTooltipElement, number> = new WeakMap();
-
-  clickedTooltip: HTMLCalciteTooltipElement;
-
-  activeTooltipEl: HTMLCalciteTooltipElement;
-
-  // --------------------------------------------------------------------------
-  //
-  //  Properties
-  //
-  // --------------------------------------------------------------------------
-
-  registeredElements = new WeakMap<HTMLElement, HTMLCalciteTooltipElement>();
-
-  registerElement(referenceEl: HTMLElement, tooltip: HTMLCalciteTooltipElement): void {
-    this.registeredElements.set(referenceEl, tooltip);
-    this.registeredElementCount++;
-    if (this.registeredElementCount === 1) {
-      this.addListeners();
-    }
-  }
 
   private addListeners(): void {
     document.addEventListener("keydown", this.keyDownHandler);
@@ -80,14 +104,6 @@ export default class TooltipManager {
     document.removeEventListener("pointerdown", this.clickHandler, { capture: true });
     document.removeEventListener("focusin", this.focusShow, { capture: true });
     document.removeEventListener("focusout", this.blurHide, { capture: true });
-  }
-
-  unregisterElement(referenceEl: HTMLElement): void {
-    this.registeredElements.delete(referenceEl);
-    this.registeredElementCount--;
-    if (this.registeredElementCount === 0) {
-      this.removeListeners();
-    }
   }
 
   private clearHoverTimeout(tooltip: HTMLCalciteTooltipElement): void {
