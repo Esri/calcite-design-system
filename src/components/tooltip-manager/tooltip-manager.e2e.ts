@@ -1,6 +1,6 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { TOOLTIP_REFERENCE, TOOLTIP_DELAY_MS } from "../tooltip/resources";
-import { accessible, defaults, hidden, renders } from "../../tests/commonTests";
+import { TOOLTIP_DELAY_MS } from "../tooltip/resources";
+import { accessible, hidden, renders } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 
 describe("calcite-tooltip-manager", () => {
@@ -16,14 +16,6 @@ describe("calcite-tooltip-manager", () => {
     ));
 
   it("honors hidden attribute", async () => hidden("calcite-tooltip-manager"));
-
-  it("has property defaults", async () =>
-    defaults("calcite-tooltip-manager", [
-      {
-        propertyName: "selector",
-        defaultValue: `[${TOOLTIP_REFERENCE}]`
-      }
-    ]));
 
   it("should be positioned relative", async () => {
     const page = await newE2EPage();
