@@ -68,7 +68,7 @@ export default class TooltipManager {
     document.addEventListener("keydown", this.keyDownHandler);
     document.addEventListener("mouseover", this.mouseEnterShow, { capture: true });
     document.addEventListener("mouseout", this.mouseLeaveHide, { capture: true });
-    document.addEventListener("click", this.clickHandler, { capture: true });
+    document.addEventListener("pointerdown", this.clickHandler, { capture: true });
     document.addEventListener("focusin", this.focusShow), { capture: true };
     document.addEventListener("focusout", this.blurHide, { capture: true });
   }
@@ -77,7 +77,7 @@ export default class TooltipManager {
     document.removeEventListener("keydown", this.keyDownHandler);
     document.removeEventListener("mouseover", this.mouseEnterShow, { capture: true });
     document.removeEventListener("mouseout", this.mouseLeaveHide, { capture: true });
-    document.removeEventListener("click", this.clickHandler, { capture: true });
+    document.removeEventListener("pointerdown", this.clickHandler, { capture: true });
     document.removeEventListener("focusin", this.focusShow, { capture: true });
     document.removeEventListener("focusout", this.blurHide, { capture: true });
   }
