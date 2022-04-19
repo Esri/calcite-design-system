@@ -65,8 +65,8 @@ describe("calcite-combobox", () => {
     const page = await newE2EPage({
       html: html`
         <calcite-combobox id="myCombobox">
-          <calcite-combobox-item value="Raising Arisona" text-label="Raising Arisona"></calcite-combobox-item>
-          <calcite-combobox-item value="Millers Crossing" text-label="Millers Crossing"></calcite-combobox-item>
+          <calcite-combobox-item value="Raising Arizona" text-label="Raising Arizona"></calcite-combobox-item>
+          <calcite-combobox-item value="Miller's Crossing" text-label="Miller's Crossing"></calcite-combobox-item>
           <calcite-combobox-item value="The Hudsucker Proxy" text-label="The Hudsucker Proxy"></calcite-combobox-item>
           <calcite-combobox-item value="Inside Llewyn Davis" text-label="Inside Llewyn Davis"></calcite-combobox-item>
         </calcite-combobox>
