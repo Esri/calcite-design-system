@@ -3,12 +3,11 @@ import { TOOLTIP_DELAY_MS } from "./resources";
 export default class TooltipManager {
   keyDownHandler = (event: KeyboardEvent): void => {
     if (event.key === "Escape") {
-      const referenceEl = event.currentTarget as HTMLElement;
-      const tooltipEl = this.registeredElements.get(referenceEl);
+      const { activeReferenceEl, activeTooltipEl } = this;
 
-      if (tooltipEl) {
-        this.clearHoverTimeout(tooltipEl);
-        this.toggleTooltip(referenceEl, tooltipEl, false);
+      if (activeTooltipEl) {
+        this.clearHoverTimeout(activeTooltipEl);
+        this.toggleTooltip(activeReferenceEl, activeTooltipEl, false);
       }
     }
   };
@@ -40,6 +39,8 @@ export default class TooltipManager {
 
   activeTooltipEl: HTMLCalciteTooltipElement;
 
+  activeReferenceEl: HTMLElement;
+
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -59,7 +60,7 @@ export default class TooltipManager {
   }
 
   private addOpenListeners(referenceEl: HTMLElement): void {
-    referenceEl.addEventListener("keydown", this.keyDownHandler);
+    document.addEventListener("keydown", this.keyDownHandler);
     referenceEl.addEventListener("mouseout", this.mouseLeaveHide);
     referenceEl.addEventListener("blur", this.blurHide);
   }
@@ -84,7 +85,7 @@ export default class TooltipManager {
   }
 
   private removeOpenListeners(referenceEl: HTMLElement): void {
-    referenceEl.removeEventListener("keydown", this.keyDownHandler);
+    document.removeEventListener("keydown", this.keyDownHandler);
     referenceEl.removeEventListener("mouseout", this.mouseLeaveHide);
     referenceEl.removeEventListener("blur", this.blurHide);
   }
@@ -121,6 +122,7 @@ export default class TooltipManager {
 
     if (value) {
       this.activeTooltipEl = tooltip;
+      this.activeReferenceEl = referenceEl;
       this.addOpenListeners(referenceEl);
       this.removeClosedListeners(referenceEl);
     } else {
