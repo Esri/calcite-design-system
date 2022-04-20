@@ -16,6 +16,7 @@
         margin-left: 10%;
         padding: 15px 0;
       }
+
       .child {
         display: inline-flex;
         flex-direction: column;
@@ -79,11 +80,9 @@
         <div class="child">Tooltip and popover test</div>
 
         <div class="child">
-          <calcite-tooltip-manager>
-            <calcite-button appearance="outline" id="tooltip-and-popover" icon-start="popup">
-              Tooltip and popover test</calcite-button
-            >
-          </calcite-tooltip-manager>
+          <calcite-button appearance="outline" id="tooltip-and-popover" icon-start="popup">
+            Tooltip and popover test</calcite-button
+          >
         </div>
       </div>
       <calcite-tooltip label="bottom placed tooltip" reference-element="tooltip-and-popover" placement="bottom">
