@@ -70,19 +70,11 @@ export const Nested = stepStory(
         <div style="width: 300px; padding:12px 16px;">${nestedReferenceElementHTML}</div>
         <calcite-popover
           ${boolean("dismissible", true)}
-          reference-element="reference-element"
+          reference-element="reference-element-nested"
           placement="${select("placement", placements, defaultPopoverPlacement)}"
           ${boolean("open", false)}
         >
-          <div style="width: 300px; padding:12px 16px;">${nestedReferenceElementHTML}</div>
-          <calcite-popover
-            ${boolean("dismissible", true)}
-            reference-element="reference-element-nested"
-            placement="${select("placement", placements, defaultPopoverPlacement)}"
-            ${boolean("open", false)}
-          >
-            ${contentHTML}
-          </calcite-popover>
+          ${contentHTML}
         </calcite-popover>
       </calcite-popover>
     </div>
