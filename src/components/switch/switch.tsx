@@ -107,6 +107,7 @@ export class Switch implements LabelableComponent, CheckableFormCompoment, Inter
     const key = e.key;
     if (!this.disabled && (key === " " || key === "Enter")) {
       this.toggle();
+      e.preventDefault();
     }
   };
 
@@ -180,12 +181,11 @@ export class Switch implements LabelableComponent, CheckableFormCompoment, Inter
 
   render(): VNode {
     return (
-      <Host onKeyDown={this.keyDownHandler}>
+      <Host onClick={this.clickHandler} onKeyDown={this.keyDownHandler}>
         <div
           aria-checked={this.checked.toString()}
           aria-label={getLabelText(this)}
           class="container"
-          onClick={this.clickHandler}
           ref={this.setSwitchEl}
           role="switch"
           tabIndex={0}

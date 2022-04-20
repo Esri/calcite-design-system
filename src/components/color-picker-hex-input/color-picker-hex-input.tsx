@@ -11,14 +11,7 @@ import {
   VNode,
   Watch
 } from "@stencil/core";
-import {
-  hexChar,
-  hexToRGB,
-  isLonghandHex,
-  isValidHex,
-  normalizeHex,
-  rgbToHex
-} from "../color-picker/utils";
+import { hexChar, isLonghandHex, isValidHex, normalizeHex, rgbToHex } from "../color-picker/utils";
 import Color from "color";
 import { CSS } from "./resources";
 import { Scale } from "../interfaces";
@@ -55,16 +48,14 @@ export class ColorPickerHexInput {
       const normalized = normalizeHex(value);
 
       if (isValidHex(normalized)) {
-        this.internalColor = Color(normalized);
-        this.value = normalized;
+        this.internalSetValue(normalized, normalized, false);
       }
 
       return;
     }
 
     if (allowEmpty) {
-      this.internalColor = null;
-      this.value = null;
+      this.internalSetValue(null, null, false);
     }
   }
 
@@ -105,31 +96,7 @@ export class ColorPickerHexInput {
 
   @Watch("value")
   handleValueChange(value: string, oldValue: string): void {
-    if (value) {
-      const normalized = normalizeHex(value);
-
-      if (isValidHex(normalized)) {
-        const { internalColor } = this;
-        const changed = !internalColor || normalized !== normalizeHex(internalColor.hex());
-        this.internalColor = Color(normalized);
-        this.previousNonNullValue = normalized;
-        this.value = normalized;
-
-        if (changed) {
-          this.calciteColorPickerHexInputChange.emit();
-        }
-
-        return;
-      }
-    } else if (this.allowEmpty) {
-      this.internalColor = null;
-      this.value = null;
-      this.calciteColorPickerHexInputChange.emit();
-
-      return;
-    }
-
-    this.value = oldValue;
+    this.internalSetValue(value, oldValue, false);
   }
 
   //--------------------------------------------------------------------------
@@ -161,24 +128,7 @@ export class ColorPickerHexInput {
   };
 
   private onInputChange = (): void => {
-    const inputValue = this.inputNode.value;
-    let value: this["value"];
-
-    if (inputValue) {
-      const hex = inputValue;
-      const color = hexToRGB(`#${hex}`);
-
-      if (!color) {
-        return;
-      }
-
-      value = normalizeHex(hex);
-    } else if (this.allowEmpty) {
-      value = null;
-    }
-
-    this.value = value;
-    this.calciteColorPickerHexInputChange.emit();
+    this.internalSetValue(this.inputNode.value, this.value);
   };
 
   // using @Listen as a workaround for VDOM listener not firing
@@ -194,10 +144,11 @@ export class ColorPickerHexInput {
     }
 
     const isNudgeKey = key === "ArrowDown" || key === "ArrowUp";
+    const oldValue = this.value;
 
     if (isNudgeKey) {
       if (!value) {
-        this.value = this.previousNonNullValue;
+        this.internalSetValue(this.previousNonNullValue, oldValue);
         event.preventDefault();
         return;
       }
@@ -205,7 +156,10 @@ export class ColorPickerHexInput {
       const direction = key === "ArrowUp" ? 1 : -1;
       const bump = shiftKey ? 10 : 1;
 
-      this.value = normalizeHex(this.nudgeRGBChannels(internalColor, bump * direction).hex());
+      this.internalSetValue(
+        normalizeHex(this.nudgeRGBChannels(internalColor, bump * direction).hex()),
+        oldValue
+      );
 
       event.preventDefault();
       return;
@@ -287,6 +241,41 @@ export class ColorPickerHexInput {
   //  Private Methods
   //
   //--------------------------------------------------------------------------
+
+  private internalSetValue(
+    value: string | null,
+    oldValue: string | null,
+    emit = true
+  ): void {
+    if (value) {
+      const normalized = normalizeHex(value);
+
+      if (isValidHex(normalized)) {
+        const { internalColor } = this;
+        const changed = !internalColor || normalized !== normalizeHex(internalColor.hex());
+        this.internalColor = Color(normalized);
+        this.previousNonNullValue = normalized;
+        this.value = normalized;
+
+        if (changed && emit) {
+          this.calciteColorPickerHexInputChange.emit();
+        }
+
+        return;
+      }
+    } else if (this.allowEmpty) {
+      this.internalColor = null;
+      this.value = null;
+
+      if (emit) {
+        this.calciteColorPickerHexInputChange.emit();
+      }
+
+      return;
+    }
+
+    this.value = oldValue;
+  }
 
   private storeInputRef = (node: HTMLCalciteInputElement): void => {
     this.inputNode = node;
