@@ -74,9 +74,9 @@ export class PopoverManager {
   //
   // --------------------------------------------------------------------------
 
-  setAutoClose = (): void => {
+  setAutoClose(): void {
     const { autoClose, el } = this;
 
     el.querySelectorAll("calcite-popover").forEach((popover) => (popover.autoClose = autoClose));
-  };
+  }
 }

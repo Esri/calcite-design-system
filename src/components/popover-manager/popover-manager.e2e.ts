@@ -1,4 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
+import { html } from "../../../support/formatting";
 import { accessible, hidden, renders } from "../../tests/commonTests";
 
 describe("calcite-popover-manager", () => {
@@ -18,5 +19,22 @@ describe("calcite-popover-manager", () => {
     await page.waitForChanges();
     const manager = await page.find("calcite-popover-manager");
     expect((await manager.getComputedStyle()).position).toBe("relative");
+  });
+
+  it("should set autoClose on child popovers", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html`<calcite-popover-manager>
+      <calcite-popover>Popover1</calcite-popover>
+      <calcite-popover>Popover2</calcite-popover>
+    </calcite-popover-manager>`);
+    await page.waitForChanges();
+    const popovers = await page.findAll("calcite-popover");
+    expect(popovers.length).toBe(2);
+    popovers.forEach(async (popover) => expect(await popover.getProperty("autoClose")).toBe(false));
+    const manager = await page.find("calcite-popover-manager");
+    expect(await manager.getProperty("autoClose")).toBe(false);
+    manager.setProperty("autoClose", true);
+    await page.waitForChanges();
+    popovers.forEach(async (popover) => expect(await popover.getProperty("autoClose")).toBe(true));
   });
 });
