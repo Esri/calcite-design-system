@@ -17,7 +17,6 @@ import {
   ARIA_CONTROLS,
   ARIA_EXPANDED,
   HEADING_LEVEL,
-  POPOVER_REFERENCE,
   TEXT,
   defaultPopoverPlacement
 } from "./resources";
@@ -37,6 +36,10 @@ import { guid } from "../../utils/guid";
 import { queryElementRoots } from "../../utils/dom";
 import { HeadingLevel, Heading } from "../functional/Heading";
 
+import PopoverManager from "./PopoverManager";
+
+const manager = new PopoverManager();
+
 /**
  * @slot - A slot for adding custom content.
  */
@@ -51,6 +54,11 @@ export class Popover implements FloatingUIComponent {
   //  Properties
   //
   // --------------------------------------------------------------------------
+
+  /**
+   * Automatically closes any currently open popovers when clicking outside of a popover.
+   */
+  @Prop({ reflect: true }) autoClose = false;
 
   /**
    * Display a close button within the Popover.
@@ -336,8 +344,8 @@ export class Popover implements FloatingUIComponent {
 
     const id = this.getId();
 
-    effectiveReferenceElement.setAttribute(POPOVER_REFERENCE, id);
     effectiveReferenceElement.setAttribute(ARIA_CONTROLS, id);
+    manager.registerElement(effectiveReferenceElement, this.el);
     this.setExpandedAttr();
   };
 
@@ -348,9 +356,9 @@ export class Popover implements FloatingUIComponent {
       return;
     }
 
-    effectiveReferenceElement.removeAttribute(POPOVER_REFERENCE);
     effectiveReferenceElement.removeAttribute(ARIA_CONTROLS);
     effectiveReferenceElement.removeAttribute(ARIA_EXPANDED);
+    manager.unregisterElement(effectiveReferenceElement);
   };
 
   getReferenceElement(): HTMLElement {

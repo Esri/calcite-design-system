@@ -649,7 +649,7 @@ export class Combobox
       item &&
       filteredData.some(({ label, value }) => {
         if (isGroup(item)) {
-          return value === item.label || value === item.label;
+          return value === item.label;
         }
 
         return (
@@ -786,8 +786,7 @@ export class Combobox
     return this.items.map((item) => ({
       constant: item.constant,
       value: item.value,
-      label: item.textLabel,
-      guid: item.guid
+      label: item.textLabel
     }));
   }
 

@@ -1,5 +1,5 @@
 import { Component, Element, Host, Method, Prop, State, Watch, h, VNode } from "@stencil/core";
-import { CSS, TOOLTIP_REFERENCE, ARIA_DESCRIBED_BY } from "./resources";
+import { CSS, ARIA_DESCRIBED_BY } from "./resources";
 import { guid } from "../../utils/guid";
 import {
   positionFloatingUI,
@@ -12,6 +12,10 @@ import {
   defaultOffsetDistance
 } from "../../utils/floating-ui";
 import { queryElementRoots } from "../../utils/dom";
+
+import TooltipManager from "./TooltipManager";
+
+const manager = new TooltipManager();
 
 /**
  * @slot - A slot for adding text.
@@ -203,8 +207,8 @@ export class Tooltip implements FloatingUIComponent {
 
     const id = this.getId();
 
-    effectiveReferenceElement.setAttribute(TOOLTIP_REFERENCE, id);
     effectiveReferenceElement.setAttribute(ARIA_DESCRIBED_BY, id);
+    manager.registerElement(effectiveReferenceElement, this.el);
   };
 
   removeReferences = (): void => {
@@ -214,16 +218,8 @@ export class Tooltip implements FloatingUIComponent {
       return;
     }
 
-    effectiveReferenceElement.removeAttribute(TOOLTIP_REFERENCE);
     effectiveReferenceElement.removeAttribute(ARIA_DESCRIBED_BY);
-  };
-
-  show = (): void => {
-    this.open = true;
-  };
-
-  hide = (): void => {
-    this.open = false;
+    manager.unregisterElement(effectiveReferenceElement);
   };
 
   getReferenceElement(): HTMLElement {

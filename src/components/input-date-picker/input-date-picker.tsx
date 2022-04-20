@@ -635,6 +635,9 @@ export class InputDatePicker
 
   private clearCurrentValue(): void {
     if (!this.range) {
+      if (typeof this.value === "string" && this.value) {
+        this.calciteDatePickerChange.emit();
+      }
       this.value = "";
       return;
     }
@@ -642,9 +645,15 @@ export class InputDatePicker
     const { focusedInput } = this;
 
     if (focusedInput === "start") {
+      if (this.start) {
+        this.calciteDatePickerRangeChange.emit();
+      }
       this.value = Array.isArray(this.value) ? ["", this.value[1] || ""] : [""];
       this.start = undefined;
     } else if (focusedInput === "end") {
+      if (this.end) {
+        this.calciteDatePickerRangeChange.emit();
+      }
       this.value = Array.isArray(this.value) ? [this.value[0] || "", ""] : ["", ""];
       this.end = undefined;
     }

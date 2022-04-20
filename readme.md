@@ -107,12 +107,12 @@ This will provide autocomplete of component names/properties, as well as additio
 // created elements will implicitly have the correct type already
 const loader = document.createElement("calcite-loader");
 document.body.appendChild(loader);
-loader.isActive = true;
+loader.active = true;
 
 // you can also explicitly type an element using the generated types
 // the type name will always be formatted like HTML{CamelCaseComponentName}Element
 const loader = document.querySelector(".my-loader-element") as HTMLCalciteLoaderElement;
-loader.isActive = true;
+loader.active = true;
 ```
 
 ## Browser Support
