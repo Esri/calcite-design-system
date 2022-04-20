@@ -56,9 +56,9 @@ export interface FormComponent<T = any> {
   defaultValue: T;
 
   /**
-   * Hook for components to provide custom form enter key behavior.
+   * Hook for components to return whether an enter key should submit a form.
    */
-  onFormEnter?(): void;
+  onEnterShouldSubmit?(event: KeyboardEvent): boolean;
 
   /**
    * Hook for components to provide custom form reset behavior.
@@ -99,7 +99,7 @@ function isCheckable(component: FormComponent): component is CheckableFormCompom
 }
 
 const onFormResetMap = new WeakMap<HTMLElement, FormComponent["onFormReset"]>();
-const onFormEnterMap = new WeakMap<HTMLElement, FormComponent["onFormEnter"]>();
+const onKeyDownMap = new WeakMap<HTMLElement, () => void>();
 const formComponentSet = new WeakSet<HTMLElement>();
 
 function hasRegisteredFormComponentParent(
@@ -155,22 +155,22 @@ export function connectForm<T>(component: FormComponent<T>): void {
   form.addEventListener("reset", boundOnFormReset);
   onFormResetMap.set(el, boundOnFormReset);
 
-  const boundOnFormEnter = onFormEnter.bind(component);
-  el.addEventListener("keydown", boundOnFormEnter);
-  onFormEnterMap.set(el, boundOnFormEnter);
+  const boundOnKeyDown = onComponentKeyDown.bind(component);
+  el.addEventListener("keydown", boundOnKeyDown);
+  onKeyDownMap.set(el, boundOnKeyDown);
 
   formComponentSet.add(el);
 }
 
-function onFormEnter<T>(this: FormComponent<T>, event: KeyboardEvent): void {
-  const { formEl, onFormEnter } = this;
+function onComponentKeyDown<T>(this: FormComponent<T>, event: KeyboardEvent): void {
+  const { formEl, onEnterShouldSubmit } = this;
 
   if (!formEl) {
     return;
   }
 
-  if (event.key === "Enter") {
-    onFormEnter ? onFormEnter() : formEl.requestSubmit();
+  if (event.key === "Enter" && (onEnterShouldSubmit ? onEnterShouldSubmit(event) : true)) {
+    formEl.requestSubmit();
   }
 }
 
@@ -197,9 +197,9 @@ export function disconnectForm<T>(component: FormComponent<T>): void {
   formEl.removeEventListener("reset", boundOnFormReset);
   onFormResetMap.delete(el);
 
-  const boundOnFormEnter = onFormEnterMap.get(el);
-  el.removeEventListener("keydown", boundOnFormEnter);
-  onFormEnterMap.delete(el);
+  const boundOnKeyDown = onKeyDownMap.get(el);
+  el.removeEventListener("keydown", boundOnKeyDown);
+  onKeyDownMap.delete(el);
 
   component.formEl = null;
   formComponentSet.delete(el);
