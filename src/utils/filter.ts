@@ -14,6 +14,7 @@ export const filter = (data: Array<object>, value: string): Array<any> => {
       return true;
     }
     let found = false;
+
     forIn(input, (val) => {
       if (typeof val === "function") {
         return;
