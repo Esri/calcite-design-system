@@ -7,6 +7,10 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## Unreleased
 
+### Features
+
+- **tooltip:** Simplify tooltip usage by deprecating tooltip-manager component. ([#4422](https://github.com/Esri/calcite-components/issues/4422)) ([6e5d13f](https://github.com/Esri/calcite-components/commit/6e5d13f256b44be9b5367cae7309ae7be55c78d7))
+
 ### Bug Fixes
 
 - **input:** correctly delocalize numbers with group separators ([#4403](https://github.com/Esri/calcite-components/issues/4403)) ([fd51c93](https://github.com/Esri/calcite-components/commit/fd51c93c474068799bb4351cd68f224f9004be27))
