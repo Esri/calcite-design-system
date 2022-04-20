@@ -1,4 +1,5 @@
 import { Component, h, Prop, VNode, Element, Watch } from "@stencil/core";
+import { createObserver } from "../../utils/observers";
 
 /**
  * @slot - A slot for adding elements that reference a 'calcite-popover' by the 'selector' property.
@@ -34,21 +35,28 @@ export class PopoverManager {
 
   // --------------------------------------------------------------------------
   //
+  //  Private Properties
+  //
+  // --------------------------------------------------------------------------
+
+  @Element() el: HTMLCalcitePopoverManagerElement;
+
+  mutationObserver = createObserver("mutation", () => this.setAutoClose());
+
+  // --------------------------------------------------------------------------
+  //
   //  Lifecycle
   //
   // --------------------------------------------------------------------------
 
   connectedCallback(): void {
     this.setAutoClose();
+    this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
   }
 
-  // --------------------------------------------------------------------------
-  //
-  //  Private Properties
-  //
-  // --------------------------------------------------------------------------
-
-  @Element() el: HTMLCalcitePopoverManagerElement;
+  disconnectedCallback(): void {
+    this.mutationObserver?.disconnect();
+  }
 
   // --------------------------------------------------------------------------
   //
