@@ -13,6 +13,16 @@ import { createObserver } from "../../utils/observers";
 export class PopoverManager {
   // --------------------------------------------------------------------------
   //
+  //  Private Properties
+  //
+  // --------------------------------------------------------------------------
+
+  @Element() el: HTMLCalcitePopoverManagerElement;
+
+  mutationObserver = createObserver("mutation", () => this.setAutoClose());
+
+  // --------------------------------------------------------------------------
+  //
   //  Properties
   //
   // --------------------------------------------------------------------------
@@ -32,16 +42,6 @@ export class PopoverManager {
   autoCloseHandler(): void {
     this.setAutoClose();
   }
-
-  // --------------------------------------------------------------------------
-  //
-  //  Private Properties
-  //
-  // --------------------------------------------------------------------------
-
-  @Element() el: HTMLCalcitePopoverManagerElement;
-
-  mutationObserver = createObserver("mutation", () => this.setAutoClose());
 
   // --------------------------------------------------------------------------
   //
