@@ -56,6 +56,11 @@ export interface FormComponent<T = any> {
   defaultValue: T;
 
   /**
+   * Hook for components to provide custom form enter key behavior.
+   */
+  onFormEnter?(): void;
+
+  /**
    * Hook for components to provide custom form reset behavior.
    */
   onFormReset?(): void;
@@ -94,6 +99,7 @@ function isCheckable(component: FormComponent): component is CheckableFormCompom
 }
 
 const onFormResetMap = new WeakMap<HTMLElement, FormComponent["onFormReset"]>();
+const onFormEnterMap = new WeakMap<HTMLElement, FormComponent["onFormEnter"]>();
 const formComponentSet = new WeakSet<HTMLElement>();
 
 function hasRegisteredFormComponentParent(
@@ -147,7 +153,25 @@ export function connectForm<T>(component: FormComponent<T>): void {
 
   const boundOnFormReset = (component.onFormReset || onFormReset).bind(component);
   form.addEventListener("reset", boundOnFormReset);
+  onFormResetMap.set(el, boundOnFormReset);
+
+  const boundOnFormEnter = onFormEnter.bind(component);
+  el.addEventListener("keydown", boundOnFormEnter);
+  onFormEnterMap.set(el, boundOnFormEnter);
+
   formComponentSet.add(el);
+}
+
+function onFormEnter<T>(this: FormComponent<T>, event: KeyboardEvent): void {
+  const { formEl, onFormEnter } = this;
+
+  if (!formEl) {
+    return;
+  }
+
+  if (event.key === "Enter") {
+    onFormEnter ? onFormEnter() : formEl.requestSubmit();
+  }
 }
 
 function onFormReset<T>(this: FormComponent<T>): void {
@@ -172,6 +196,11 @@ export function disconnectForm<T>(component: FormComponent<T>): void {
   const boundOnFormReset = onFormResetMap.get(el);
   formEl.removeEventListener("reset", boundOnFormReset);
   onFormResetMap.delete(el);
+
+  const boundOnFormEnter = onFormEnterMap.get(el);
+  el.removeEventListener("keydown", boundOnFormEnter);
+  onFormEnterMap.delete(el);
+
   component.formEl = null;
   formComponentSet.delete(el);
 }
