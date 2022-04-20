@@ -1,4 +1,4 @@
-import { Component, h, Prop, VNode } from "@stencil/core";
+import { Component, h, Prop, VNode, Element, Watch } from "@stencil/core";
 
 /**
  * @slot - A slot for adding elements that reference a 'calcite-popover' by the 'selector' property.
@@ -27,6 +27,29 @@ export class PopoverManager {
    */
   @Prop({ reflect: true }) autoClose = false;
 
+  @Watch("autoClose")
+  autoCloseHandler(): void {
+    this.setAutoClose();
+  }
+
+  // --------------------------------------------------------------------------
+  //
+  //  Lifecycle
+  //
+  // --------------------------------------------------------------------------
+
+  connectedCallback(): void {
+    this.setAutoClose();
+  }
+
+  // --------------------------------------------------------------------------
+  //
+  //  Private Properties
+  //
+  // --------------------------------------------------------------------------
+
+  @Element() el: HTMLCalcitePopoverManagerElement;
+
   // --------------------------------------------------------------------------
   //
   //  Render Methods
@@ -36,4 +59,16 @@ export class PopoverManager {
   render(): VNode {
     return <slot />;
   }
+
+  // --------------------------------------------------------------------------
+  //
+  //  Private Methods
+  //
+  // --------------------------------------------------------------------------
+
+  setAutoClose = (): void => {
+    const { autoClose, el } = this;
+
+    el.querySelectorAll("calcite-popover").forEach((popover) => (popover.autoClose = autoClose));
+  };
 }
