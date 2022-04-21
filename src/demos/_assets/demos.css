@@ -24,7 +24,6 @@ main {
 .example-container h3,
 .example-container h4,
 .example-container h5 {
-  /* font-family: "Courier New", Courier, monospace; */
   font-weight: var(--calcite-app-font-weight-demi);
   /* margin: var(--calcite-app-cap-spacing) 0 0; */
 }
