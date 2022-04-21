@@ -104,9 +104,3 @@
 .thumbnail-wrapper {
   @apply text-0-wrap;
 }
-
-.checkbox-wrapper {
-  @apply absolute m-0 p-0;
-  top: theme("spacing.2");
-  inset-inline-end: theme("spacing.2");
-}

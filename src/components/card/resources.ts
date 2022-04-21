@@ -4,8 +4,7 @@ export const CSS = {
   footer: "footer",
   title: "title",
   subtitle: "subtitle",
-  thumbnailWrapper: "thumbnail-wrapper",
-  checkboxWrapper: "checkbox-wrapper"
+  thumbnailWrapper: "thumbnail-wrapper"
 };
 
 export const SLOTS = {
@@ -17,7 +16,5 @@ export const SLOTS = {
 };
 
 export const TEXT = {
-  select: "Select",
-  deselect: "Deselect",
   loading: "Loading"
 };

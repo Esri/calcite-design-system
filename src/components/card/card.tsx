@@ -54,16 +54,6 @@ export class Card implements ConditionalSlotComponent {
    */
   @Prop() intlLoading?: string = TEXT.loading;
 
-  /** string to override English select text for checkbox when selectable is true
-   * @default "Select"
-   */
-  @Prop({ reflect: false }) intlSelect: string = TEXT.select;
-
-  /** string to override English deselect text for checkbox when selectable is true
-   * @default "Deselect"
-   */
-  @Prop({ reflect: false }) intlDeselect: string = TEXT.deselect;
-
   //--------------------------------------------------------------------------
   //
   //  Events
@@ -96,7 +86,6 @@ export class Card implements ConditionalSlotComponent {
           </div>
         ) : null}
         <section aria-busy={this.loading.toString()} class={{ [CSS.container]: true }}>
-          {this.selectable ? this.renderCheckbox() : null}
           {this.renderThumbnail()}
           {this.renderHeader()}
           <div class="card-content">
@@ -146,17 +135,20 @@ export class Card implements ConditionalSlotComponent {
     ) : null;
   }
 
-  private renderCheckbox(): VNode {
-    const checkboxLabel = this.selected ? this.intlDeselect : this.intlSelect;
+  private renderTitle(): VNode {
+    const titleSlotNode = <slot key="title-slot" name={SLOTS.title} />;
 
-    return (
+    return this.selectable ? (
       <calcite-label
-        class={CSS.checkboxWrapper}
+        layout="inline"
         onClick={this.cardSelectClick}
         onKeyDown={this.cardSelectKeyDown}
       >
-        <calcite-checkbox checked={this.selected} label={checkboxLabel} />
+        <calcite-checkbox checked={this.selected} />
+        {titleSlotNode}
       </calcite-label>
+    ) : (
+      titleSlotNode
     );
   }
 
@@ -168,7 +160,7 @@ export class Card implements ConditionalSlotComponent {
 
     return hasHeader ? (
       <header class={CSS.header}>
-        <slot name={SLOTS.title} />
+        {this.renderTitle()}
         <slot name={SLOTS.subtitle} />
       </header>
     ) : null;
