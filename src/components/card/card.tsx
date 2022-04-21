@@ -54,6 +54,18 @@ export class Card implements ConditionalSlotComponent {
    */
   @Prop() intlLoading?: string = TEXT.loading;
 
+  /** string to override English select text for checkbox when selectable is true
+   * @default "Select"
+   * @deprecated the "title" slot content will be used instead.
+   */
+  @Prop({ reflect: false }) intlSelect: string = TEXT.select;
+
+  /** string to override English deselect text for checkbox when selectable is true
+   * @default "Deselect"
+   * @deprecated the "title" slot content will be used instead.
+   */
+  @Prop({ reflect: false }) intlDeselect: string = TEXT.deselect;
+
   //--------------------------------------------------------------------------
   //
   //  Events
@@ -136,11 +148,11 @@ export class Card implements ConditionalSlotComponent {
   }
 
   private renderTitle(): VNode {
-    const { selectable, selected } = this;
+    const { selectable, selected, intlSelect, intlDeselect } = this;
 
     const titleSlotNode = (
       <slot key="title-slot" name={SLOTS.title}>
-        {selectable ? TEXT.select : ""}
+        {selectable ? (selected ? intlDeselect : intlSelect) : ""}
       </slot>
     );
 
