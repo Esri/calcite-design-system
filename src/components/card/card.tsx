@@ -140,6 +140,7 @@ export class Card implements ConditionalSlotComponent {
 
     return this.selectable ? (
       <calcite-label
+        disableSpacing={true}
         layout="inline"
         onClick={this.cardSelectClick}
         onKeyDown={this.cardSelectKeyDown}
