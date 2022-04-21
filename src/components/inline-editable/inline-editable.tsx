@@ -117,7 +117,6 @@ export class InlineEditable implements InteractiveComponent, LabelableComponent 
         class={CSS.wrapper}
         onClick={this.enableEditingHandler}
         onKeyDown={this.escapeKeyHandler}
-        onTransitionEnd={this.transitionEnd}
       >
         <div class={CSS.inputWrapper}>
           <slot />
@@ -275,12 +274,6 @@ export class InlineEditable implements InteractiveComponent, LabelableComponent 
     this.inputElement.label = this.inputElement.label || getLabelText(this);
   }
 
-  transitionEnd = (): void => {
-    if (!this.editingEnabled && !!this.shouldEmitCancel) {
-      this.calciteInlineEditableEditCancel.emit();
-    }
-  };
-
   private get shouldShowControls(): boolean {
     return this.editingEnabled && this.controls;
   }
@@ -324,6 +317,9 @@ export class InlineEditable implements InteractiveComponent, LabelableComponent 
   private cancelEditingHandler = async (e: MouseEvent) => {
     e.preventDefault();
     this.cancelEditing();
+    if (!this.editingEnabled && !!this.shouldEmitCancel) {
+      this.calciteInlineEditableEditCancel.emit();
+    }
   };
 
   private enableEditingHandler = async (e: MouseEvent) => {
