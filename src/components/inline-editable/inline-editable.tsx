@@ -295,6 +295,9 @@ export class InlineEditable implements InteractiveComponent, LabelableComponent 
     }
     this.disableEditing();
     this.enableEditingButton.setFocus();
+    if (!this.editingEnabled && !!this.shouldEmitCancel) {
+      this.calciteInlineEditableEditCancel.emit();
+    }
   };
 
   private escapeKeyHandler = async (e: KeyboardEvent) => {
@@ -317,9 +320,6 @@ export class InlineEditable implements InteractiveComponent, LabelableComponent 
   private cancelEditingHandler = async (e: MouseEvent) => {
     e.preventDefault();
     this.cancelEditing();
-    if (!this.editingEnabled && !!this.shouldEmitCancel) {
-      this.calciteInlineEditableEditCancel.emit();
-    }
   };
 
   private enableEditingHandler = async (e: MouseEvent) => {
