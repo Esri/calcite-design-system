@@ -82,6 +82,7 @@ describe("calcite-tile", () => {
     expect(icon).toBeNull();
     expect(heading).toBeNull();
     expect(description).toEqualText("My Calcite Tile Description.");
+    expect((await description.getComputedStyle()).overflowWrap).toBe("break-word");
   });
 
   it("renders large icon when only icon and heading are supplied", async () => {

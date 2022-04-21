@@ -71,6 +71,7 @@
   .description {
     @apply text-n2-wrap
     text-color-3
+    break-words
     pointer-events-none
     duration-150
     ease-in-out;
