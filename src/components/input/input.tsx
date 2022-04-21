@@ -32,6 +32,7 @@ import { createObserver } from "../../utils/observers";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 
 type NumberNudgeDirection = "up" | "down";
+type SetValueOrigin = "initial" | "loading" | "user" | "direct";
 
 /**
  * @slot action - A slot for positioning a button next to an input
@@ -203,7 +204,7 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
   valueWatcher(newValue: string): void {
     if (!this.internalValueChange) {
       this.setValue({
-        origin: "external",
+        origin: "direct",
         value:
           newValue == null || newValue == ""
             ? ""
@@ -262,9 +263,9 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
 
   private maxString?: string;
 
-  private preFocusValue: string;
-
   private previousValue: string;
+
+  private previousValueOrigin: SetValueOrigin = "initial";
 
   /** the computed icon to render */
   private requestedIcon?: string;
@@ -446,7 +447,7 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
       value: this.value
     });
 
-    if (this.preFocusValue !== this.value) {
+    if (this.previousValueOrigin !== "direct") {
       this.calciteInputChange.emit();
     }
   };
@@ -460,8 +461,6 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
       element: this.childEl,
       value: this.value
     });
-
-    this.preFocusValue = this.value;
   };
 
   private inputInputHandler = (nativeEvent: InputEvent): void => {
@@ -673,12 +672,12 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
   private setValue = ({
     committing = false,
     nativeEvent,
-    origin = "internal",
+    origin = "user",
     value
   }: {
     committing?: boolean;
     nativeEvent?: MouseEvent | KeyboardEvent | InputEvent;
-    origin?: "internal" | "external" | "loading";
+    origin?: SetValueOrigin;
     value: string;
   }): void => {
     const previousLocalizedValue =
@@ -697,15 +696,16 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
         ? localizeNumberString(newValue, this.locale, this.groupSeparator)
         : "";
 
-    this.internalValueChange = origin === "internal" && this.value !== newValue;
+    this.internalValueChange = origin === "user" && this.value !== newValue;
     this.setPreviousValue(this.value);
     this.value = newValue;
+    this.previousValueOrigin = origin;
 
     if (this.type === "number") {
       this.localizedValue = newLocalizedValue;
     }
 
-    if (origin === "external") {
+    if (origin === "direct") {
       this.setInputValue(this.type === "number" ? newLocalizedValue : newValue);
     }
 
