@@ -27,7 +27,7 @@ export default {
 export const Simple = stepStory(
   (): string => html`
     <div style="width: 400px;">
-      <calcite-popover-manager>${referenceElementHTML}</calcite-popover-manager>
+      ${referenceElementHTML}
       <calcite-popover
         ${boolean("dismissible", false)}
         ${boolean("disable-flip", false)}
@@ -60,25 +60,23 @@ export const Simple = stepStory(
 export const Nested = stepStory(
   (): string => html`
     <div style="width: 400px;">
-      <calcite-popover-manager>
-        ${referenceElementHTML}
+      ${referenceElementHTML}
+      <calcite-popover
+        ${boolean("dismissible", true)}
+        reference-element="reference-element"
+        placement="${select("placement", popperPlacements, defaultPopoverPlacement)}"
+        ${boolean("open", false)}
+      >
+        <div style="width: 300px; padding:12px 16px;">${nestedReferenceElementHTML}</div>
         <calcite-popover
           ${boolean("dismissible", true)}
-          reference-element="reference-element"
+          reference-element="reference-element-nested"
           placement="${select("placement", popperPlacements, defaultPopoverPlacement)}"
           ${boolean("open", false)}
         >
-          <div style="width: 300px; padding:12px 16px;">${nestedReferenceElementHTML}</div>
-          <calcite-popover
-            ${boolean("dismissible", true)}
-            reference-element="reference-element-nested"
-            placement="${select("placement", popperPlacements, defaultPopoverPlacement)}"
-            ${boolean("open", false)}
-          >
-            ${contentHTML}
-          </calcite-popover>
+          ${contentHTML}
         </calcite-popover>
-      </calcite-popover-manager>
+      </calcite-popover>
     </div>
   `,
   createSteps("calcite-popover")

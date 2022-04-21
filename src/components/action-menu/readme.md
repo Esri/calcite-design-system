@@ -49,7 +49,6 @@ Type: `Promise<void>`
 ### Depends on
 
 - [calcite-action](../action)
-- [calcite-tooltip-manager](../tooltip-manager)
 - [calcite-popover](../popover)
 
 ### Graph
@@ -57,7 +56,6 @@ Type: `Promise<void>`
 ```mermaid
 graph TD;
   calcite-action-menu --> calcite-action
-  calcite-action-menu --> calcite-tooltip-manager
   calcite-action-menu --> calcite-popover
   calcite-action --> calcite-loader
   calcite-action --> calcite-icon

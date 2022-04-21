@@ -63,7 +63,6 @@ export class ActionBar implements ConditionalSlotComponent {
   @Watch("expanded")
   expandedHandler(expanded: boolean): void {
     toggleChildActionText({ parent: this.el, expanded });
-    this.calciteActionBarToggle.emit();
   }
 
   /**
@@ -247,6 +246,7 @@ export class ActionBar implements ConditionalSlotComponent {
 
   toggleExpand = (): void => {
     this.expanded = !this.expanded;
+    this.calciteActionBarToggle.emit();
   };
 
   setExpandToggleRef = (el: HTMLCalciteActionElement): void => {

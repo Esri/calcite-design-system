@@ -109,7 +109,6 @@ graph TD;
   calcite-scrim --> calcite-loader
   calcite-handle --> calcite-icon
   calcite-action-menu --> calcite-action
-  calcite-action-menu --> calcite-tooltip-manager
   calcite-action-menu --> calcite-popover
   calcite-action --> calcite-loader
   calcite-action --> calcite-icon
