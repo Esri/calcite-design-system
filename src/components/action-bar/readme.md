@@ -101,7 +101,6 @@ Type: `Promise<void>`
 
 - [calcite-action-group](../action-group)
 - [calcite-action](../action)
-- [calcite-tooltip-manager](../tooltip-manager)
 
 ### Graph
 
@@ -109,11 +108,9 @@ Type: `Promise<void>`
 graph TD;
   calcite-action-bar --> calcite-action-group
   calcite-action-bar --> calcite-action
-  calcite-action-bar --> calcite-tooltip-manager
   calcite-action-group --> calcite-action-menu
   calcite-action-group --> calcite-action
   calcite-action-menu --> calcite-action
-  calcite-action-menu --> calcite-tooltip-manager
   calcite-action-menu --> calcite-popover
   calcite-action --> calcite-loader
   calcite-action --> calcite-icon
