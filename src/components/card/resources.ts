@@ -16,5 +16,6 @@ export const SLOTS = {
 };
 
 export const TEXT = {
-  loading: "Loading"
+  loading: "Loading",
+  select: "Select"
 };

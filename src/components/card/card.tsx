@@ -136,16 +136,22 @@ export class Card implements ConditionalSlotComponent {
   }
 
   private renderTitle(): VNode {
-    const titleSlotNode = <slot key="title-slot" name={SLOTS.title} />;
+    const { selectable, selected } = this;
 
-    return this.selectable ? (
+    const titleSlotNode = (
+      <slot key="title-slot" name={SLOTS.title}>
+        {selectable ? TEXT.select : ""}
+      </slot>
+    );
+
+    return selectable ? (
       <calcite-label
         disableSpacing={true}
         layout="inline"
         onClick={this.cardSelectClick}
         onKeyDown={this.cardSelectKeyDown}
       >
-        <calcite-checkbox checked={this.selected} />
+        <calcite-checkbox checked={selected} />
         {titleSlotNode}
       </calcite-label>
     ) : (
