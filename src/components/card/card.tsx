@@ -153,10 +153,10 @@ export class Card implements ConditionalSlotComponent {
   }
 
   private renderHeader(): VNode {
-    const { el } = this;
+    const { el, selectable } = this;
     const title = getSlotted(el, SLOTS.title);
     const subtitle = getSlotted(el, SLOTS.subtitle);
-    const hasHeader = title || subtitle;
+    const hasHeader = title || subtitle || selectable;
 
     return hasHeader ? (
       <header class={CSS.header}>

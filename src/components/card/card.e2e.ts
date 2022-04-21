@@ -69,9 +69,9 @@ describe("calcite-card", () => {
       </calcite-card>
     `);
 
-    const thumbContainer = await page.find(`calcite-card >>> .${CSS.checkboxWrapper}`);
+    const checkbox = await page.find(`calcite-card >>> calcite-checkbox`);
 
-    expect(thumbContainer).not.toBeNull();
+    expect(checkbox).not.toBeNull();
   });
 
   describe("when a card is selectable", () => {
@@ -88,7 +88,7 @@ describe("calcite-card", () => {
       </div>
       `);
       const card = await page.find("calcite-card");
-      const checkbox = await page.find(`calcite-card >>> .${CSS.checkboxWrapper} calcite-checkbox`);
+      const checkbox = await page.find(`calcite-card >>> calcite-checkbox`);
       const cardSelectSpy = await card.spyOnEvent("calciteCardSelect");
       const clickSpy = await card.spyOnEvent("calciteCardSelect");
       await checkbox.click();
