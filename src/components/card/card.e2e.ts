@@ -15,6 +15,7 @@ describe("calcite-card", () => {
   it("is accessible when selectable", async () =>
     accessible(`
       <calcite-card selectable>
+        <h3 slot="title">ArcGIS Online: Gallery and Organization pages</h3>
         <img slot="thumbnail" src="${placeholder}" alt="Test image" />
       </calcite-card>`));
 
