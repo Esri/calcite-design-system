@@ -7,18 +7,6 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## Unreleased
 
-### ⚠ BREAKING CHANGES
-
-- **popover:** autoClose property has been moved from the popover-manager to the popover.
-
-- feat(popover): Simplify popover usage by deprecating popover-manager component
-
-- add observer
-
-- cleanup
-
-- cleanup, add test
-
 ### Features
 
 - **popover:** Simplify popover usage by deprecating popover-manager component ([#4423](https://github.com/Esri/calcite-components/issues/4423)) ([04d5374](https://github.com/Esri/calcite-components/commit/04d537441a890dcbd21a7551b488a9f4683e5a3a))
