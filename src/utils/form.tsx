@@ -6,12 +6,19 @@ import { FunctionalComponent, h } from "@stencil/core";
  */
 export const hiddenFormInputSlotName = "hidden-form-input";
 
+export interface FormSubmitComponent {
+  /**
+   * The form this component is associated with.
+   */
+  formEl: HTMLFormElement;
+}
+
 /**
  * Defines interface for form-associated components.
  *
  * Along with the interface, use the matching form utils to help set up the component behavior.
  */
-export interface FormComponent<T = any> {
+export interface FormComponent<T = any> extends FormSubmitComponent {
   /**
    * When true, this component's value will not be submitted in the form.
    */
@@ -28,11 +35,6 @@ export interface FormComponent<T = any> {
    * The host element.
    */
   readonly el: HTMLElement;
-
-  /**
-   * The form this component is associated with.
-   */
-  formEl: HTMLFormElement;
 
   /**
    * The name used to submit the value to the associated form.
@@ -129,15 +131,15 @@ function hasRegisteredFormComponentParent(
 /**
  * Helper to submit a form.
  */
-export function submitForm(formEl: HTMLFormElement): void {
-  formEl?.requestSubmit();
+export function submitForm(component: FormSubmitComponent): void {
+  component.formEl?.requestSubmit();
 }
 
 /**
  * Helper to reset a form.
  */
-export function resetForm(formEl: HTMLFormElement): void {
-  formEl?.reset();
+export function resetForm(component: FormSubmitComponent): void {
+  component.formEl?.reset();
 }
 
 /**

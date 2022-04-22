@@ -486,7 +486,7 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
     }
     if (event.key === "Enter") {
       this.calciteInputChange.emit();
-      submitForm(this.formEl);
+      submitForm(this);
     }
   };
 
