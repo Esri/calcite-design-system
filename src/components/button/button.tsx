@@ -7,7 +7,7 @@ import { FlipContext, Scale, Width } from "../interfaces";
 import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
 import { createObserver } from "../../utils/observers";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
-import { submitForm, resetForm, FormSubmitComponent } from "../../utils/form";
+import { submitForm, resetForm, FormOwner } from "../../utils/form";
 
 /** Passing a 'href' will render an anchor link, instead of a button. Role will be set to link, or button, depending on this. */
 /** It is the consumers responsibility to add aria information, rel, target, for links, and any button attributes for form submission */
@@ -18,7 +18,7 @@ import { submitForm, resetForm, FormSubmitComponent } from "../../utils/form";
   styleUrl: "button.scss",
   shadow: true
 })
-export class Button implements LabelableComponent, InteractiveComponent, FormSubmitComponent {
+export class Button implements LabelableComponent, InteractiveComponent, FormOwner {
   //--------------------------------------------------------------------------
   //
   //  Element
