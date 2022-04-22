@@ -233,11 +233,35 @@ describe("calcite-inline-editable", () => {
       });
       await input.type("typo");
       expect(await input.getProperty("value")).toBe("John Doetypo");
-      const cancelEvent = page.waitForEvent("calciteInlineEditableEditCancel");
       await page.keyboard.press("Escape");
-      await cancelEvent;
+      await calciteInlineEditableEditCancel;
       expect(await input.getProperty("value")).toBe("John Doe");
       expect(calciteInlineEditableEditCancel).toHaveReceivedEventTimes(1);
+    });
+
+    it("emits cancel event only once when editing is cancelled with x button or esc key", async () => {
+      const element = await page.find("calcite-inline-editable");
+      const input = await page.find("calcite-input");
+      const cancelEvent = await page.spyOnEvent("calciteInlineEditableEditCancel");
+
+      await element.click();
+      const cancelEditingButton = await page.find(`calcite-inline-editable >>> .${CSS.cancelEditingButton}`);
+
+      await input.type("one");
+      await cancelEditingButton.click();
+      await cancelEvent;
+      expect(cancelEvent).toHaveReceivedEventTimes(1);
+
+      // should not emit on hover after editing is cancelled, refers to: https://github.com/Esri/calcite-components/issues/4350
+      await element.hover();
+      input.triggerEvent("calciteInputBlur");
+      await page.waitForChanges();
+
+      await input.click();
+      await input.type("two");
+      await page.keyboard.press("Escape");
+      await cancelEvent;
+      expect(cancelEvent).toHaveReceivedEventTimes(2);
     });
 
     it("does not disable editing when input focus is lost", async () => {
