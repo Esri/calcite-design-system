@@ -7,6 +7,18 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## Unreleased
 
+### ⚠ BREAKING CHANGES
+
+- **popover:** autoClose property has been moved from the popover-manager to the popover.
+
+- feat(popover): Simplify popover usage by deprecating popover-manager component
+
+- add observer
+
+- cleanup
+
+- cleanup, add test
+
 ### Features
 
 - **popover:** Simplify popover usage by deprecating popover-manager component ([#4423](https://github.com/Esri/calcite-components/issues/4423)) ([04d5374](https://github.com/Esri/calcite-components/commit/04d537441a890dcbd21a7551b488a9f4683e5a3a))
@@ -20,6 +32,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - **input:** negative numbers delocalize correctly in ar locale ([#4400](https://github.com/Esri/calcite-components/issues/4400)) ([935b859](https://github.com/Esri/calcite-components/commit/935b859ef412d5dd5984cb763ab1a1d07d555c9e))
 - **input-date-picker:** emit events when date is cleared ([#4406](https://github.com/Esri/calcite-components/issues/4406)) ([f876e90](https://github.com/Esri/calcite-components/commit/f876e908ac997147d741eef1339417fe792703c3))
 - **label util:** avoid accumulation of event listeners ([#4413](https://github.com/Esri/calcite-components/issues/4413)) ([10c48f9](https://github.com/Esri/calcite-components/commit/10c48f94fede631cf18ffe5baddbc7498ff5a1a5))
+- **tile:** Prevent description from overflowing ([#4433](https://github.com/Esri/calcite-components/issues/4433)) ([220dfdb](https://github.com/Esri/calcite-components/commit/220dfdb51beff2422e87b7bfbac475c777259884)), closes [#4390](https://github.com/Esri/calcite-components/issues/4390)
 <!--@unreleased-section-end-->
 
 ## [1.0.0-beta.81](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.80...v1.0.0-beta.81) (2022-04-12)
