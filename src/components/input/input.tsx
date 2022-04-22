@@ -18,7 +18,13 @@ import { CSS, INPUT_TYPE_ICONS, SLOTS } from "./resources";
 import { InputPlacement } from "./interfaces";
 import { Position } from "../interfaces";
 import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
-import { connectForm, disconnectForm, FormComponent, HiddenFormInputSlot } from "../../utils/form";
+import {
+  connectForm,
+  disconnectForm,
+  FormComponent,
+  HiddenFormInputSlot,
+  submitForm
+} from "../../utils/form";
 import {
   getDecimalSeparator,
   delocalizeNumberString,
@@ -480,6 +486,7 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
     }
     if (event.key === "Enter") {
       this.calciteInputChange.emit();
+      submitForm(this.formEl);
     }
   };
 

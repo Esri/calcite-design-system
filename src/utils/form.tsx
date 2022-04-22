@@ -127,6 +127,20 @@ function hasRegisteredFormComponentParent(
 }
 
 /**
+ * Helper to submit a form.
+ */
+export function submitForm(formEl: HTMLFormElement): void {
+  formEl?.requestSubmit();
+}
+
+/**
+ * Helper to reset a form.
+ */
+export function resetForm(formEl: HTMLFormElement): void {
+  formEl?.reset();
+}
+
+/**
  * Helper to set up form interactions on connectedCallback.
  */
 export function connectForm<T>(component: FormComponent<T>): void {

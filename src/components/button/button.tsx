@@ -7,6 +7,7 @@ import { FlipContext, Scale, Width } from "../interfaces";
 import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
 import { createObserver } from "../../utils/observers";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import { submitForm, resetForm } from "../../utils/form";
 
 /** Passing a 'href' will render an anchor link, instead of a button. Role will be set to link, or button, depending on this. */
 /** It is the consumers responsibility to add aria information, rel, target, for links, and any button attributes for form submission */
@@ -274,9 +275,9 @@ export class Button implements LabelableComponent, InteractiveComponent {
 
     // this.type refers to type attribute, not child element type
     if (type === "submit") {
-      formEl?.requestSubmit();
+      submitForm(formEl);
     } else if (type === "reset") {
-      formEl?.reset();
+      resetForm(formEl);
     }
   };
 }
