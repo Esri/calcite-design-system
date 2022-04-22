@@ -3,7 +3,6 @@ import { html } from "../../../support/formatting";
 import { boolean, createSteps, stepStory, setTheme, setKnobs } from "../../../.storybook/helpers";
 import { popperPlacements } from "../../utils/popper";
 import readme from "./readme.md";
-import managerReadme from "../popover-manager/readme.md";
 import { defaultPopoverPlacement } from "../popover/resources";
 
 const contentHTML = `
@@ -20,7 +19,7 @@ const nestedReferenceElementHTML = `Ut enim ad minim veniam, quis <calcite-butto
 export default {
   title: "Components/Popover",
   parameters: {
-    notes: [readme, managerReadme]
+    notes: [readme]
   }
 };
 
