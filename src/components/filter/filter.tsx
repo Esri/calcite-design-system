@@ -158,7 +158,7 @@ export class Filter implements InteractiveComponent {
           if (find(val, RE)) {
             found = true;
           }
-        } else if (RE.test(val)) {
+        } else if (typeof val === "string" && RE.test(val)) {
           found = true;
         }
       });

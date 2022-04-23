@@ -23,7 +23,7 @@ export const filter = (data: Array<object>, value: string): Array<any> => {
         if (find(val, RE)) {
           found = true;
         }
-      } else if (RE.test(val)) {
+      } else if (typeof val === "string" && RE.test(val)) {
         found = true;
       }
     });
