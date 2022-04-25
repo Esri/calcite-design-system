@@ -8,7 +8,8 @@ import {
   Watch,
   h,
   VNode,
-  Fragment
+  Fragment,
+  Build
 } from "@stencil/core";
 import { CSS, HEADING_LEVEL, ICONS, SLOTS, TEXT } from "./resources";
 import { getElementDir, getSlotted } from "../../utils/dom";
@@ -151,7 +152,9 @@ export class Panel implements ConditionalSlotComponent, InteractiveComponent {
 
   panelScrollEl: HTMLElement;
 
-  resizeObserver = createObserver("resize", () => this.resizeHandler());
+  resizeObserver = !Build.isTesting
+    ? createObserver("resize", () => this.resizeHandler())
+    : undefined;
 
   // --------------------------------------------------------------------------
   //
@@ -204,7 +207,12 @@ export class Panel implements ConditionalSlotComponent, InteractiveComponent {
   resizeHandler = (): void => {
     const { panelScrollEl, resizeObserver } = this;
 
-    if (!panelScrollEl || !resizeObserver) {
+    if (
+      !resizeObserver ||
+      !panelScrollEl ||
+      typeof panelScrollEl.scrollHeight !== "number" ||
+      typeof panelScrollEl.offsetHeight !== "number"
+    ) {
       return;
     }
 
@@ -445,8 +453,8 @@ export class Panel implements ConditionalSlotComponent, InteractiveComponent {
   }
 
   setPanelScrollEl = (el: HTMLElement): void => {
-    this.resizeObserver?.observe(el);
     this.panelScrollEl = el;
+    this.resizeObserver?.observe(el);
     this.resizeHandler();
   };
 
