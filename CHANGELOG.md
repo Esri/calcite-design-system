@@ -26,11 +26,14 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### Bug Fixes
 
+- **action-pad, action-bar:** toggleChange event emit only on user interaction ([#4275](https://github.com/Esri/calcite-components/issues/4275)) ([32e8cc0](https://github.com/Esri/calcite-components/commit/32e8cc080582f9e26a4cbfe405c47df4f1e9ce9b))
 - **combobox:** input value will now filter correctly as typed in ([#4405](https://github.com/Esri/calcite-components/issues/4405)) ([6fcaa88](https://github.com/Esri/calcite-components/commit/6fcaa88d22239c4bb4b3157871bd7ffd463a180b))
+- **inline-editable:** will no longer emit unnecessary calciteInlineEditableEditCancel events ([#4432](https://github.com/Esri/calcite-components/issues/4432)) ([84bb7cc](https://github.com/Esri/calcite-components/commit/84bb7cc31365b916fd3308f6ca9d021a32d8ab15))
 - **input:** correctly delocalize numbers with group separators ([#4403](https://github.com/Esri/calcite-components/issues/4403)) ([fd51c93](https://github.com/Esri/calcite-components/commit/fd51c93c474068799bb4351cd68f224f9004be27))
 - **input:** negative numbers delocalize correctly in ar locale ([#4400](https://github.com/Esri/calcite-components/issues/4400)) ([935b859](https://github.com/Esri/calcite-components/commit/935b859ef412d5dd5984cb763ab1a1d07d555c9e))
 - **input-date-picker:** emit events when date is cleared ([#4406](https://github.com/Esri/calcite-components/issues/4406)) ([f876e90](https://github.com/Esri/calcite-components/commit/f876e908ac997147d741eef1339417fe792703c3))
 - **label util:** avoid accumulation of event listeners ([#4413](https://github.com/Esri/calcite-components/issues/4413)) ([10c48f9](https://github.com/Esri/calcite-components/commit/10c48f94fede631cf18ffe5baddbc7498ff5a1a5))
+- **tile:** Prevent description from overflowing ([#4433](https://github.com/Esri/calcite-components/issues/4433)) ([220dfdb](https://github.com/Esri/calcite-components/commit/220dfdb51beff2422e87b7bfbac475c777259884)), closes [#4390](https://github.com/Esri/calcite-components/issues/4390)
 <!--@unreleased-section-end-->
 
 ## [1.0.0-beta.81](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.80...v1.0.0-beta.81) (2022-04-12)
