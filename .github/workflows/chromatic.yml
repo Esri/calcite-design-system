@@ -16,8 +16,6 @@ jobs:
           fetch-depth: 0
       - name: Install deps
         run: npm ci
-      - name: Build docs
-        run: npm run docs
       - name: Publish to Chromatic
         uses: chromaui/action@v1
         with:
