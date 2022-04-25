@@ -140,6 +140,10 @@ export class Filter implements InteractiveComponent {
   //
   // --------------------------------------------------------------------------
 
+  handleCalciteInputEnter(event: CustomEvent): void {
+    event.preventDefault();
+  }
+
   filter = debounce((value: string, emit = false): void => {
     const regex = new RegExp(value, "i");
 
@@ -216,6 +220,7 @@ export class Filter implements InteractiveComponent {
               aria-label={this.intlLabel || TEXT.filterLabel}
               disabled={disabled}
               icon={ICONS.search}
+              onCalciteInputEnter={this.handleCalciteInputEnter}
               onCalciteInputInput={this.inputHandler}
               onKeyDown={this.keyDownHandler}
               placeholder={this.placeholder}

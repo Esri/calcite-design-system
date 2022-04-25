@@ -6,6 +6,7 @@ import {
   EventEmitter,
   h,
   Host,
+  Listen,
   Method,
   Prop,
   State,
@@ -367,6 +368,20 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
    */
   @Event() calciteInputChange: EventEmitter<void>;
 
+  /**
+   * This event fires on enter key.
+   */
+  @Event() calciteInputEnter: EventEmitter<void>;
+
+  @Listen("calciteInputEnter", { target: "body" })
+  handleCalciteInputEnter(event: CustomEvent): void {
+    if (event.defaultPrevented) {
+      return;
+    }
+
+    submitForm(this);
+  }
+
   //--------------------------------------------------------------------------
   //
   //  Public Methods
@@ -486,10 +501,7 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
     }
     if (event.key === "Enter") {
       this.calciteInputChange.emit();
-
-      if (!event.defaultPrevented) {
-        submitForm(this);
-      }
+      this.calciteInputEnter.emit();
     }
   };
 
