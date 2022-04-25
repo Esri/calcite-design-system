@@ -37,7 +37,8 @@ import {
   connectForm,
   disconnectForm,
   FormComponent,
-  HiddenFormInputSlot
+  HiddenFormInputSlot,
+  submitForm
 } from "../../utils/form";
 import { createObserver } from "../../utils/observers";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
@@ -260,6 +261,13 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
    * @internal
    */
   @Event() calciteComboboxClose: EventEmitter;
+
+  @Listen("keydown", { target: "body" })
+  bodyKeydownHandler(event: KeyboardEvent): void {
+    if (event.key === "Enter" && !event.defaultPrevented) {
+      submitForm(this);
+    }
+  }
 
   // --------------------------------------------------------------------------
   //

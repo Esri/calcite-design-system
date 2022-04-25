@@ -207,7 +207,7 @@ export class ColorPickerHexInput {
           maxLength={6}
           onCalciteInputBlur={this.onCalciteInputBlur}
           onCalciteInputChange={this.onInputChange}
-          onCalciteInputEnter={this.handleCalciteInputEnter}
+          onKeyDown={this.handleCalciteInputEnter}
           prefixText="#"
           ref={this.storeInputRef}
           scale={this.scale}
@@ -286,7 +286,9 @@ export class ColorPickerHexInput {
     return Color.rgb(color.array().map((channel) => channel + amount));
   }
 
-  handleCalciteInputEnter(event: CustomEvent): void {
-    event.preventDefault();
+  handleCalciteInputEnter(event: KeyboardEvent): void {
+    if (event.key === "Enter") {
+      event.preventDefault();
+    }
   }
 }

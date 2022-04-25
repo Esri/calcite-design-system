@@ -368,18 +368,11 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
    */
   @Event() calciteInputChange: EventEmitter<void>;
 
-  /**
-   * This event fires on enter key.
-   */
-  @Event() calciteInputEnter: EventEmitter<void>;
-
-  @Listen("calciteInputEnter", { target: "body" })
-  handleCalciteInputEnter(event: CustomEvent): void {
-    if (event.defaultPrevented) {
-      return;
+  @Listen("keydown", { target: "body" })
+  bodyKeydownHandler(event: KeyboardEvent): void {
+    if (event.key === "Enter" && !event.defaultPrevented) {
+      submitForm(this);
     }
-
-    submitForm(this);
   }
 
   //--------------------------------------------------------------------------
@@ -501,7 +494,6 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
     }
     if (event.key === "Enter") {
       this.calciteInputChange.emit();
-      this.calciteInputEnter.emit();
     }
   };
 

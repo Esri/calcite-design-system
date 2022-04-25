@@ -979,8 +979,8 @@ export class ColorPicker implements InteractiveComponent {
       label={ariaLabel}
       numberButtonType="none"
       onCalciteInputChange={this.handleChannelChange}
-      onCalciteInputEnter={this.handleCalciteInputEnter}
       onCalciteInputInput={this.handleChannelInput}
+      onKeyDown={this.handleKeyDown}
       prefixText={label}
       scale={this.scale === "l" ? "m" : "s"}
       type="number"
@@ -994,8 +994,10 @@ export class ColorPicker implements InteractiveComponent {
   //
   //--------------------------------------------------------------------------
 
-  handleCalciteInputEnter(event: CustomEvent): void {
-    event.preventDefault();
+  handleKeyDown(event: KeyboardEvent): void {
+    if (event.key === "Enter") {
+      event.preventDefault();
+    }
   }
 
   private showIncompatibleColorWarning(value: ColorValue, format: Format): void {
