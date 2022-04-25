@@ -1,0 +1,25 @@
+name: "Chromatic"
+on:
+  pull_request:
+    branches: [master]
+  # need to run on the base branch when merging to keep the baseline state up to date
+  push:
+    branches: [master]
+
+jobs:
+  chromatic-deployment:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Install deps
+        run: npm ci
+      - name: Build docs
+        run: npm run docs
+      - name: Publish to Chromatic
+        uses: chromaui/action@v1
+        with:
+          projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+          storybookBuildDir: docs
