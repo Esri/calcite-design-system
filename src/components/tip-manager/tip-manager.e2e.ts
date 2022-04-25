@@ -63,7 +63,8 @@ describe("calcite-tip-manager", () => {
       let isVisible = await container.isVisible();
       expect(isVisible).toBe(true);
 
-      const eventSpy = await page.spyOnEvent("calciteTipManagerToggle", "window");
+      const toggleEventSpy = await page.spyOnEvent("calciteTipManagerToggle", "window");
+      const closeEventSpy = await page.spyOnEvent("calciteTipManagerClose", "window");
 
       const closeButton = await page.find(`calcite-tip-manager >>> .${CSS.close}`);
       await closeButton.click();
@@ -74,7 +75,8 @@ describe("calcite-tip-manager", () => {
       isVisible = await container.isVisible();
       expect(isVisible).toBe(false);
 
-      expect(eventSpy).toHaveReceivedEvent();
+      expect(toggleEventSpy).toHaveReceivedEvent();
+      expect(closeEventSpy).toHaveReceivedEvent();
 
       const isClosed = await tipManager.getProperty("closed");
 

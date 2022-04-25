@@ -9,10 +9,9 @@ jobs:
         uses: actions/github-script@v5
         id: permission
         env:
-          PRIMARY_CONTACT: ${{secrets.PRIMARY_CONTACT}}
-          SECONDARY_CONTACTS: ${{secrets.SECONDARY_CONTACTS}}
+          PRIMARY_MAINTAINERS: ${{secrets.PRIMARY_MAINTAINERS}}
         with:
-          script: return [...process.env.SECONDARY_CONTACTS.split(",").map(c => c.trim()), process.env.PRIMARY_CONTACT].includes(context.actor)
+          script: return process.env.PRIMARY_MAINTAINERS.split(",").map(m => m.trim()).includes(context.actor)
       - name: merge
         uses: Goobles/gh-actions-merge-command@v1
         if: |

@@ -177,6 +177,12 @@ export class Panel implements ConditionalSlotComponent, InteractiveComponent {
   /**
    * Emitted when the close button has been clicked.
    */
+  @Event() calcitePanelDismiss: EventEmitter;
+
+  /**
+   * Emitted when the close button has been clicked.
+   * @deprecated use calcitePanelDismiss instead.
+   */
   @Event() calcitePanelDismissedChange: EventEmitter;
 
   /**
@@ -225,6 +231,7 @@ export class Panel implements ConditionalSlotComponent, InteractiveComponent {
 
   dismiss = (): void => {
     this.dismissed = true;
+    this.calcitePanelDismiss.emit();
   };
 
   panelScrollHandler = (): void => {

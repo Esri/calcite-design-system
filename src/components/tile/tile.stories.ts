@@ -89,3 +89,12 @@ export const ContentStartRTL = (): string => html`
 `;
 
 export const disabled = (): string => html`<calcite-tile heading="Heading" disabled></calcite-tile>`;
+
+export const OverflowingContent = (): string => html`
+  <calcite-tile
+    icon="2d-explore"
+    heading="Example tile headinghfjkdlsahfjklsdahfjklsadhfjkldsahfjldkashfjdkalshfds;ahfjkldshafljkdsahfljksdahfdlsajkfhsadkljfhsdajklfhsdalkjfhdsalkjfhdsalf"
+    description="Example tile description contenthfjdkslahfjkdsalhf sdajklfh ksdjahfljksadhfljkdsahfjklsdahfjlkdsahflkjdsahfjkdsahflkdjsahfldksajhfdsklajhfdsljkahfdsajkfhsadlkjfsadhfdsa"
+    style="width:200px"
+  ></calcite-tile>
+`;

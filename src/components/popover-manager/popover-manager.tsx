@@ -1,9 +1,9 @@
-import { Component, Element, h, Listen, Prop, VNode } from "@stencil/core";
-import { POPOVER_REFERENCE } from "../popover/resources";
-import { queryElementRoots, queryElementsRoots } from "../../utils/dom";
+import { Component, h, Prop, VNode, Element, Watch } from "@stencil/core";
+import { createObserver } from "../../utils/observers";
 
 /**
  * @slot - A slot for adding elements that reference a 'calcite-popover' by the 'selector' property.
+ * @deprecated No longer required for popover usage.
  */
 @Component({
   tag: "calcite-popover-manager",
@@ -19,6 +19,8 @@ export class PopoverManager {
 
   @Element() el: HTMLCalcitePopoverManagerElement;
 
+  mutationObserver = createObserver("mutation", () => this.setAutoClose());
+
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -29,12 +31,32 @@ export class PopoverManager {
    * CSS Selector to match reference elements for popovers. Reference elements will be identified by this selector in order to open their associated popover.
    * @default `[data-calcite-popover-reference]`
    */
-  @Prop() selector = `[${POPOVER_REFERENCE}]`;
+  @Prop() selector = "[data-calcite-popover-reference]";
 
   /**
    * Automatically closes any currently open popovers when clicking outside of a popover.
    */
   @Prop({ reflect: true }) autoClose = false;
+
+  @Watch("autoClose")
+  autoCloseHandler(): void {
+    this.setAutoClose();
+  }
+
+  // --------------------------------------------------------------------------
+  //
+  //  Lifecycle
+  //
+  // --------------------------------------------------------------------------
+
+  connectedCallback(): void {
+    this.setAutoClose();
+    this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
+  }
+
+  disconnectedCallback(): void {
+    this.mutationObserver?.disconnect();
+  }
 
   // --------------------------------------------------------------------------
   //
@@ -46,54 +68,15 @@ export class PopoverManager {
     return <slot />;
   }
 
-  //--------------------------------------------------------------------------
+  // --------------------------------------------------------------------------
   //
   //  Private Methods
   //
-  //--------------------------------------------------------------------------
+  // --------------------------------------------------------------------------
 
-  queryPopover = (composedPath: EventTarget[]): HTMLCalcitePopoverElement => {
-    const { el } = this;
-
-    if (!composedPath.includes(el)) {
-      return null;
-    }
-
-    const referenceElement = (composedPath as HTMLElement[]).find((pathEl) =>
-      pathEl?.hasAttribute?.(POPOVER_REFERENCE)
-    );
-
-    if (!referenceElement) {
-      return null;
-    }
-
-    const id = referenceElement.getAttribute(POPOVER_REFERENCE);
-
-    return queryElementRoots(el, { id }) as HTMLCalcitePopoverElement;
-  };
-
-  //--------------------------------------------------------------------------
-  //
-  //  Event Listeners
-  //
-  //--------------------------------------------------------------------------
-
-  @Listen("click", { target: "window", capture: true })
-  closeOpenPopovers(event: Event): void {
+  setAutoClose(): void {
     const { autoClose, el } = this;
-    const popoverSelector = "calcite-popover";
-    const composedPath = event.composedPath();
-    const popover = this.queryPopover(composedPath);
 
-    if (popover) {
-      popover.toggle();
-      return;
-    }
-
-    if (autoClose) {
-      (queryElementsRoots(el, popoverSelector) as HTMLCalcitePopoverElement[])
-        .filter((popover) => popover.open && !composedPath.includes(popover))
-        .forEach((popover) => popover.toggle(false));
-    }
+    el.querySelectorAll("calcite-popover").forEach((popover) => (popover.autoClose = autoClose));
   }
 }

@@ -104,7 +104,7 @@ describe("calcite-action-bar", () => {
       expect(bar).toHaveAttribute("expanded");
     });
 
-    it("should fire expanded event", async () => {
+    it("should not fire expanded event when expanded programmatically", async () => {
       const page = await newE2EPage();
 
       await page.setContent("<calcite-action-bar></calcite-action-bar>");
@@ -114,6 +114,22 @@ describe("calcite-action-bar", () => {
       const eventSpy = await element.spyOnEvent("calciteActionBarToggle");
 
       element.setProperty("expanded", true);
+
+      await page.waitForChanges();
+
+      expect(eventSpy).not.toHaveReceivedEvent();
+    });
+
+    it("should fire expanded event on user interaction", async () => {
+      const page = await newE2EPage();
+
+      await page.setContent("<calcite-action-bar></calcite-action-bar>");
+
+      const element = await page.find("calcite-action-bar");
+
+      const eventSpy = await element.spyOnEvent("calciteActionBarToggle");
+
+      await element.click();
 
       await page.waitForChanges();
 

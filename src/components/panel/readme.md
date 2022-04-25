@@ -87,11 +87,12 @@ Renders a panel with a header and a footer.
 
 ## Events
 
-| Event                         | Description                                     | Type               |
-| ----------------------------- | ----------------------------------------------- | ------------------ |
-| `calcitePanelBackClick`       | Emitted when the back button has been clicked.  | `CustomEvent<any>` |
-| `calcitePanelDismissedChange` | Emitted when the close button has been clicked. | `CustomEvent<any>` |
-| `calcitePanelScroll`          | Emitted when the content has been scrolled.     | `CustomEvent<any>` |
+| Event                         | Description                                                                                                                               | Type               |
+| ----------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- | ------------------ |
+| `calcitePanelBackClick`       | Emitted when the back button has been clicked.                                                                                            | `CustomEvent<any>` |
+| `calcitePanelDismiss`         | Emitted when the close button has been clicked.                                                                                           | `CustomEvent<any>` |
+| `calcitePanelDismissedChange` | <span style="color:red">**[DEPRECATED]**</span> use calcitePanelDismiss instead.<br/><br/>Emitted when the close button has been clicked. | `CustomEvent<any>` |
+| `calcitePanelScroll`          | Emitted when the content has been scrolled.                                                                                               | `CustomEvent<any>` |
 
 ## Methods
 
@@ -158,7 +159,6 @@ graph TD;
   calcite-action --> calcite-loader
   calcite-action --> calcite-icon
   calcite-action-menu --> calcite-action
-  calcite-action-menu --> calcite-tooltip-manager
   calcite-action-menu --> calcite-popover
   calcite-popover --> calcite-action
   calcite-popover --> calcite-icon
