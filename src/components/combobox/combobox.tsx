@@ -725,7 +725,6 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
     if (!item) {
       return;
     }
-
     if (this.isMulti()) {
       item.selected = value;
       this.updateAncestors(item);
@@ -748,6 +747,7 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
       this.resetText();
       this.filterItems("");
     }
+    this.setFocus();
   }
 
   updateAncestors(item: HTMLCalciteComboboxItemElement): void {
