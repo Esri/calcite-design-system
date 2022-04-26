@@ -26,7 +26,13 @@ import { HeadingLevel } from "../functional/Heading";
 
 import { TEXT } from "../date-picker/resources";
 import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
-import { connectForm, disconnectForm, FormComponent, HiddenFormInputSlot } from "../../utils/form";
+import {
+  connectForm,
+  disconnectForm,
+  FormComponent,
+  HiddenFormInputSlot,
+  submitForm
+} from "../../utils/form";
 import {
   createPopper,
   updatePopper,
@@ -373,7 +379,12 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
     const formattedDate = date ? date.toLocaleDateString(this.locale) : "";
 
     return (
-      <Host onBlur={this.deactivate} onKeyUp={this.keyUpHandler} role="application">
+      <Host
+        onBlur={this.deactivate}
+        onKeyDown={this.keyDownHandler}
+        onKeyUp={this.keyUpHandler}
+        role="application"
+      >
         {this.localeData && (
           <div aria-expanded={this.active.toString()} class="input-container" role="application">
             {
@@ -559,6 +570,12 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
 
   deactivate = (): void => {
     this.active = false;
+  };
+
+  keyDownHandler = (event: KeyboardEvent): void => {
+    if (event.key === "Enter" && !event.defaultPrevented) {
+      submitForm(this);
+    }
   };
 
   keyUpHandler = (e: KeyboardEvent): void => {

@@ -6,7 +6,6 @@ import {
   EventEmitter,
   h,
   Host,
-  Listen,
   Method,
   Prop,
   State,
@@ -368,13 +367,6 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
    */
   @Event() calciteInputChange: EventEmitter<void>;
 
-  @Listen("keydown", { target: "body" })
-  bodyKeydownHandler(event: KeyboardEvent): void {
-    if (event.key === "Enter" && !event.defaultPrevented) {
-      submitForm(this);
-    }
-  }
-
   //--------------------------------------------------------------------------
   //
   //  Public Methods
@@ -408,6 +400,9 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
     if (this.isClearable && event.key === "Escape") {
       this.clearInputValue(event);
       event.preventDefault();
+    }
+    if (event.key === "Enter" && !event.defaultPrevented) {
+      submitForm(this);
     }
   };
 

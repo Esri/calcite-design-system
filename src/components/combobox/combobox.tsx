@@ -262,13 +262,6 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
    */
   @Event() calciteComboboxClose: EventEmitter;
 
-  @Listen("keydown", { target: "body" })
-  bodyKeydownHandler(event: KeyboardEvent): void {
-    if (event.key === "Enter" && !event.defaultPrevented) {
-      submitForm(this);
-    }
-  }
-
   // --------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -489,6 +482,8 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
           this.removeActiveChip();
         } else if (this.allowCustomValues && this.text) {
           this.addCustomChip(this.text, true);
+        } else if (!event.defaultPrevented) {
+          submitForm(this);
         }
         break;
       case "Delete":
