@@ -21,6 +21,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### Features
 
+- **input-time-picker:** Add reposition method. ([#4364](https://github.com/Esri/calcite-components/issues/4364)) ([#4448](https://github.com/Esri/calcite-components/issues/4448)) ([7097b3b](https://github.com/Esri/calcite-components/commit/7097b3bf3efb6a43b5c1d6a8b37534a4060cfb93))
 - **popover:** Simplify popover usage by deprecating popover-manager component ([#4423](https://github.com/Esri/calcite-components/issues/4423)) ([04d5374](https://github.com/Esri/calcite-components/commit/04d537441a890dcbd21a7551b488a9f4683e5a3a))
 - **tooltip:** Simplify tooltip usage by deprecating tooltip-manager component. ([#4422](https://github.com/Esri/calcite-components/issues/4422)) ([6e5d13f](https://github.com/Esri/calcite-components/commit/6e5d13f256b44be9b5367cae7309ae7be55c78d7))
 
