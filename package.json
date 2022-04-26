@@ -19,6 +19,7 @@
     "build": "npm run util:copy-icons && stencil build",
     "build:watch": "npm run util:copy-icons && stencil build --watch",
     "build:watch-dev": "npm run util:copy-icons && stencil build --dev --watch",
+    "build-storybook": "npm run util:copy-icons && stencil build --config stencil.config.ts && build-storybook --static-dir ./www --output-dir ./docs",
     "deps:update": "updtr --exclude chalk typescript @types/jest jest jest-cli ts-jest puppeteer && npm audit fix",
     "docs": "concurrently --kill-others --raw \"npm:util:build-docs && build-storybook --static-dir ./__docs-temp__ --output-dir ./docs\"  \"ts-node ./support/cleanOnProcessExit.ts --path ./__docs-temp__\"",
     "docs:preview": "concurrently --raw \"npm:util:build-docs && start-storybook --static-dir ./__docs-temp__\" \"ts-node ./support/cleanOnProcessExit.ts --path ./__docs-temp__\"",
