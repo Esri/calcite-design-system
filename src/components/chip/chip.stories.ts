@@ -105,3 +105,6 @@ export const Rtl = (): string => html`
 `;
 
 Rtl.storyName = "RTL";
+
+export const OverriddenIconColor = (): string =>
+  html`<calcite-chip icon="banana" style="--calcite-ui-icon-color: #ac9f42" dismissible>Banana</calcite-chip>`;
