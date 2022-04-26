@@ -53,8 +53,8 @@ body:
   - type: input
     id: pr
     attributes:
-      label: Skipped In (if applicable)
-      description: Which PR skipped the unstable test(s), if applicable?
+      label: PR skipped, if applicable
+      description: Which PR skipped the unstable test(s)?
       value: "#"
     validations:
       required: false
