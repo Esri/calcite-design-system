@@ -1,6 +1,111 @@
 # Accessibility
 
-Components must be accessible and are required to have tests that focus on a11y. We use the following resources as guides:
+Calcite Components leverages the [W3C Accessibility Standards](https://www.w3.org/WAI/standards-guidelines) to ensure the applications and experiences are usable by a wide range of audiences.
 
-- [Google Accessibility Overview](https://developers.google.com/web/fundamentals/accessibility/)
-- [WAI-ARIA Authoring Practices](https://www.w3.org/TR/wai-aria-practices-1.1/)
+To get us started the team uses the [axe-core](https://github.com/dequelabs/axe-core) accessibility engine throughout its components. `axe-core` contains a number of best practices to help identify accessibility practices, such as ensuring every page has an h1 heading, and to help avoid "gotchas" in ARIA like where an ARIA attribute you used will get ignored.
+
+`axe-core` can mitigate over half of WCAG issues automatically. Additionally, it will return elements as "incomplete" where it's not certain, and manual review is needed. However **the best tools only find 30% of known issues**, so they can't be relied upon. But they can be the first step towards accessibility.
+
+## Audiences
+
+... placeholder for infographics showcasing recommendations for audiences (e.g., autism, low vision, hearing loss, motor skills, neurological, etc.) ...
+
+## Components
+
+Components leverage automated testing with the [axe-core](https://github.com/dequelabs/axe-core) and [jest-axe](https://github.com/nickcolley/jest-axe) accessibility engines.
+
+When a new component is added, breaking changes are introduced, and/or as new functionality is added - accessibility tests must take place. **All components should have automated tests pertaining to accessibility.**
+
+To add a test, add the following to the `<component>.e2e.ts` file:
+
+```ts
+// Import the accessible test from commonTests
+import { accessible } from "../../tests/commonTests";
+
+// describe function, identify the component
+describe("calcite-tree", () => {
+
+   // accessible() will test for a11y
+   it("is accessible", async () => accessible(`<calcite-tree></calcite-tree>`));
+
+   // Multiple a11y tests can be present in a component
+   it("is accessible: with nested children", async () =>
+    accessible(`
+        <calcite-tree lines>
+            <calcite-tree-item>
+            <a href="#">Child 2</a>
+            <calcite-tree slot="children">
+                <calcite-tree-item>
+                <a href="http://www.google.com">Grandchild 1</a>
+                </calcite-tree-item>
+            </calcite-tree>
+            </calcite-tree-item>
+        </calcite-tree>
+    `));
+```
+
+Multiple accessibility tests can be present in a component and be added to over time, which can be useful if the component contains many initiations. In the example above we're able to test `calcite-checkbox` with a `calcite-label` present and without. Note the tests will indicate which fails so we're able to mitigate if an error surfaces.
+
+An example of a failed test:
+
+```
+FAIL src/components/tree/tree.e2e.ts (23.34 s)
+  ● calcite-tree › is accessible: with nested children
+
+    expect(received).toHaveNoViolations(expected)
+
+    Expected the HTML found at $('calcite-tree[slot="children"]') to have no violations:
+
+    <calcite-tree slot="children" aria-multiselectable="false" tabindex="-1" lines="" child="" scale="m" selection-mode="single" calcite-hydrated="">
+
+    Received:
+
+    "Elements must only use allowed ARIA attributes (aria-allowed-attr)"
+
+    Fix any of the following:
+      ARIA attribute is not allowed: aria-multiselectable="false"
+
+    You can find more information on this issue here:
+    https://dequeuniversity.com/rules/axe/4.4/aria-allowed-attr?application=axeAPI
+
+      54 |       getTag(componentTagOrHTML)
+      55 |     )
+    > 56 |   ).toHaveNoViolations();
+         |     ^
+      57 | }
+      58 |
+      59 | export async function renders(
+
+      at Object.accessible (src/tests/commonTests.ts:56:5)
+          at runMicrotasks (<anonymous>)
+```
+
+### How to test
+
+- `npm test` runs the current test suite
+- `npm run test:watch` will retest on file changes
+- [Learn more on testing](https://github.com/Esri/calcite-components/blob/master/CONTRIBUTING.md#running-the-tests) from our contributing docs
+
+## Stories
+
+We've already added the a11y add on, [storybook-addon-a11y](https://storybook.js.org/addons/@storybook/addon-a11y) which uses `axe-core`, the same accessibility engine used for automated testing in CC. As new components and enhancements are added, **ensure stories are updated to test accessibility**. This includes as properties are added to components, to ensure we're upholding high standards to fit our audience's needs.
+
+[Learn more on writing stories](https://github.com/Esri/calcite-components/blob/master/CONTRIBUTING.md#writing-stories) from our contributing docs.
+
+To add a story, use the `<component>.stories.ts` file. For example:
+
+```ts
+// Accessible example
+export const accessibleExample = (): string => html`<button>Accessible button</button>`;
+
+// Inaccessible example due to contrast issues
+export const inaccessibleExample = (): string => html`
+  <button style="background-color:red;color:darkred">Inaccessible button</button>
+`;
+```
+
+Each story will showcase violations (if found), passes, and incomplete checks (requiring a manual check).
+
+For instance, when the `inaccessibleExample` from above is depicted in a story Storybook's accessibility add-on will indicate contrast issues are present. Storybook will identify, but also recommend what is needed to pass the violation. In this example we must ensure there is sufficient contrast between the foreground and background colors to meet WCAG 2.0 AA contrast ratio thresholds of 4.5 to 1.
+
+![Storybook inaccessible example with accessibility contrast issue error depicted](https://user-images.githubusercontent.com/5023024/165529845-bbcbb139-f642-49d4-80a7-e8916e808278.png)
