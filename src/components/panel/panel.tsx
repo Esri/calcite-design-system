@@ -450,6 +450,7 @@ export class Panel implements ConditionalSlotComponent, InteractiveComponent {
 
   setPanelScrollEl = (el: HTMLElement): void => {
     this.panelScrollEl = el;
+    this.resizeObserver?.disconnect();
     this.resizeObserver?.observe(el);
     this.resizeHandler();
   };
