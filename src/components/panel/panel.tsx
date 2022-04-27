@@ -205,10 +205,9 @@ export class Panel implements ConditionalSlotComponent, InteractiveComponent {
   // --------------------------------------------------------------------------
 
   resizeHandler = (): void => {
-    const { panelScrollEl, resizeObserver } = this;
+    const { panelScrollEl } = this;
 
     if (
-      !resizeObserver ||
       !panelScrollEl ||
       typeof panelScrollEl.scrollHeight !== "number" ||
       typeof panelScrollEl.offsetHeight !== "number"
