@@ -151,7 +151,7 @@ export class Filter implements InteractiveComponent {
     const find = (input: object, RE: RegExp): any => {
       let found = false;
       forIn(input, (val) => {
-        if (typeof val === "function") {
+        if (typeof val === "function" || val == null /* intentional == to catch undefined */) {
           return;
         }
         if (Array.isArray(val) || (typeof val === "object" && val !== null)) {
