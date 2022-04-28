@@ -812,17 +812,21 @@ describe("calcite-combobox", () => {
 
   describe("calciteComboboxItemChange event correctly updates active item index", () => {
     let page: E2EPage;
+    let element;
+    let lisboxItem;
+    let itemNestedLi;
+    let closeEvent;
 
     beforeEach(async () => {
       page = await newE2EPage();
       await page.setContent(
         html`
           <calcite-combobox id="myCombobox">
-            <calcite-combobox-item value="Trees" selected>
+            <calcite-combobox-item value="Trees">
               <calcite-combobox-item value="Pine">
                 <calcite-combobox-item id="PineNested" value="Pine Nested"></calcite-combobox-item>
               </calcite-combobox-item>
-              <calcite-combobox-item value="Sequoia" disabled></calcite-combobox-item>
+              <calcite-combobox-item value="Sequoia"></calcite-combobox-item>
               <calcite-combobox-item value="Douglas Fir"></calcite-combobox-item>
             </calcite-combobox-item>
             <calcite-combobox-item value="Flowers">
@@ -833,20 +837,37 @@ describe("calcite-combobox", () => {
           </calcite-combobox>
         `
       );
-    });
-
-    it("clicking on Listbox item focuses on the item and closes out of Listbox with tab", async () => {
-      const element = await page.find("calcite-combobox");
+      element = await page.find("calcite-combobox");
       await element.click();
 
-      const lisboxItem = await page.find("calcite-combobox-item#PineNested");
+      lisboxItem = await page.find("calcite-combobox-item#PineNested");
       await lisboxItem.click();
       await page.waitForChanges();
 
-      const nested = await page.find("calcite-combobox-item#PineNested >>> li");
-      expect(nested as any).toHaveClass("label--active");
+      itemNestedLi = await page.find("calcite-combobox-item#PineNested >>> li");
+      closeEvent = page.waitForEvent("calciteComboboxClose");
+    });
 
-      const closeEvent = page.waitForEvent("calciteComboboxClose");
+    it("clicking on Listbox item focuses on the item and closes out of Listbox with tab", async () => {
+      expect(itemNestedLi as any).toHaveClass("label--active");
+
+      await element.press("Tab");
+      await closeEvent;
+      await element.press("Tab");
+      expect(await page.evaluate(() => document.activeElement.id)).not.toBe("calcite-combobox");
+    });
+
+    it("after click interaction with listbox, user can transition to using keyboard “enter” to toggle selected on/off", async () => {
+      expect(itemNestedLi as any).toHaveClass("label--active");
+
+      await itemNestedLi.press("Enter");
+      expect(itemNestedLi as any).not.toHaveClass("label--selected");
+      expect(itemNestedLi as any).toHaveClass("label--active");
+
+      await itemNestedLi.press("Enter");
+      expect(itemNestedLi as any).toHaveClass("label--selected");
+      expect(itemNestedLi as any).toHaveClass("label--active");
+
       await element.press("Tab");
       await closeEvent;
       await element.press("Tab");
