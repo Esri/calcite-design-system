@@ -241,7 +241,7 @@ export class ActionMenu implements ConditionalSlotComponent {
   };
 
   renderMenuButton(): VNode {
-    const { el, label, scale } = this;
+    const { label, scale } = this;
 
     const menuButtonSlot = (
       <slot name={SLOTS.trigger}>
@@ -255,11 +255,7 @@ export class ActionMenu implements ConditionalSlotComponent {
       </slot>
     );
 
-    return getSlotted(el, SLOTS.tooltip) ? (
-      <calcite-tooltip-manager>{menuButtonSlot}</calcite-tooltip-manager>
-    ) : (
-      menuButtonSlot
-    );
+    return menuButtonSlot;
   }
 
   renderMenuItems(): VNode {

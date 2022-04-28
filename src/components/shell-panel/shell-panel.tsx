@@ -131,6 +131,7 @@ export class ShellPanel implements ConditionalSlotComponent {
 
   /**
    * Emitted when collapse has been toggled.
+   * @deprecated use a resizeObserver on the shell-panel to listen for changes to its size.
    */
   @Event() calciteShellPanelToggle: EventEmitter;
 

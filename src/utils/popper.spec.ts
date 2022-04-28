@@ -1,4 +1,11 @@
-import { getPlacement, defaultOffsetDistance, hypotenuse } from "./popper";
+import {
+  getPlacement,
+  defaultOffsetDistance,
+  hypotenuse,
+  filterComputedPlacements,
+  popperPlacements,
+  popperComputedPlacements
+} from "./popper";
 
 it("should set calcite placement to popper placement", () => {
   const el = document.createElement("div");
@@ -50,4 +57,10 @@ it("should have correct value for defaultOffsetDistance", () => {
 
 it("should correctly calculate hypotenuse", () => {
   expect(Math.floor(hypotenuse(4, 4))).toBe(5);
+});
+
+it("should filter computed placements", () => {
+  expect(new Set(filterComputedPlacements(popperPlacements, document.createElement("div")))).toEqual(
+    new Set(popperComputedPlacements)
+  );
 });

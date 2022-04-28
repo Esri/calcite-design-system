@@ -1,21 +1,21 @@
 import {
+  Build,
   Component,
-  Prop,
+  Element,
   Event,
   EventEmitter,
-  Listen,
-  Element,
-  Method,
   h,
   Host,
+  Listen,
+  Method,
+  Prop,
   State,
-  Build,
   VNode,
   Watch
 } from "@stencil/core";
 import { TabChangeEventDetail } from "../tab/interfaces";
 import { guid } from "../../utils/guid";
-import { getElementProp, getElementDir } from "../../utils/dom";
+import { getElementDir, getElementProp } from "../../utils/dom";
 import { TabID, TabLayout, TabPosition } from "../tabs/interfaces";
 import { FlipContext, Scale } from "../interfaces";
 import { createObserver } from "../../utils/observers";
@@ -80,7 +80,7 @@ export class TabTitle implements InteractiveComponent {
   @Watch("active")
   activeTabChanged(): void {
     if (this.active) {
-      this.emitActiveTab();
+      this.emitActiveTab(false);
     }
   }
 
@@ -111,7 +111,7 @@ export class TabTitle implements InteractiveComponent {
       this.updateHasText();
     }
     if (this.tab && this.active) {
-      this.emitActiveTab();
+      this.emitActiveTab(false);
     }
   }
 
@@ -182,8 +182,8 @@ export class TabTitle implements InteractiveComponent {
   //
   //--------------------------------------------------------------------------
 
-  @Listen("calciteTabChange", { target: "body" })
-  tabChangeHandler(event: CustomEvent<TabChangeEventDetail>): void {
+  @Listen("calciteInternalTabChange", { target: "body" })
+  internalTabChangeHandler(event: CustomEvent<TabChangeEventDetail>): void {
     const targetTabsEl = event
       .composedPath()
       .find((el: HTMLElement) => el.tagName === "CALCITE-TABS");
@@ -199,6 +199,8 @@ export class TabTitle implements InteractiveComponent {
         this.active = index === event.detail.tab;
       });
     }
+
+    event.stopPropagation();
   }
 
   @Listen("click")
@@ -242,6 +244,13 @@ export class TabTitle implements InteractiveComponent {
    * @see [TabChangeEventDetail](https://github.com/Esri/calcite-components/blob/master/src/components/tab/interfaces.ts#L1)
    */
   @Event() calciteTabsActivate: EventEmitter<TabChangeEventDetail>;
+
+  /**
+   * Fires when a specific tab is activated (`event.details`)
+   * @see [TabChangeEventDetail](https://github.com/Esri/calcite-components/blob/master/src/components/tab/interfaces.ts#L1)
+   * @internal
+   */
+  @Event() calciteInternalTabsActivate: EventEmitter<TabChangeEventDetail>;
 
   /**
    * @internal
@@ -317,11 +326,17 @@ export class TabTitle implements InteractiveComponent {
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
   }
 
-  emitActiveTab(): void {
-    if (!this.disabled) {
-      this.calciteTabsActivate.emit({
-        tab: this.tab
-      });
+  emitActiveTab(userTriggered = true): void {
+    if (this.disabled) {
+      return;
+    }
+
+    const payload = { tab: this.tab };
+
+    this.calciteInternalTabsActivate.emit(payload);
+
+    if (userTriggered) {
+      this.calciteTabsActivate.emit(payload);
     }
   }
 

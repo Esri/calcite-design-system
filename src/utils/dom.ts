@@ -43,11 +43,11 @@ export function getElementProp(el: Element, prop: string, fallbackValue: any): a
   return closest ? closest.getAttribute(prop) : fallbackValue;
 }
 
-export function getRootNode(el: Element): HTMLDocument | ShadowRoot {
-  return el.getRootNode() as HTMLDocument | ShadowRoot;
+export function getRootNode(el: Element): Document | ShadowRoot {
+  return el.getRootNode() as Document | ShadowRoot;
 }
 
-export function getHost(root: HTMLDocument | ShadowRoot): Element | null {
+export function getHost(root: Document | ShadowRoot): Element | null {
   return (root as ShadowRoot).host || null;
 }
 
@@ -115,7 +115,13 @@ export function queryElementRoots<T extends Element = Element>(
     const rootNode = getRootNode(el);
 
     const found = id
-      ? (rootNode.getElementById(id) as Element as T)
+      ? "getElementById" in rootNode
+        ? /*
+          Check to make sure 'getElementById' exists in cases where element is no longer connected to the DOM and getRootNode() returns the element.
+          https://github.com/Esri/calcite-components/pull/4280
+           */
+          (rootNode.getElementById(id) as Element as T)
+        : null
       : selector
       ? (rootNode.querySelector(selector) as T)
       : null;

@@ -30,7 +30,7 @@ export class TipManager {
   //
   // --------------------------------------------------------------------------
   /**
-   * Alternate text for closing the `calcite-tip-manager`.
+   * Closed state of the `calcite-tip-manager`.
    */
   @Prop({ reflect: true, mutable: true }) closed = false;
 
@@ -143,8 +143,14 @@ export class TipManager {
 
   /**
    * Emitted when the `calcite-tip-manager` has been toggled open or closed.
+   * @deprecated use calciteTipManagerClose instead.
    */
   @Event() calciteTipManagerToggle: EventEmitter;
+
+  /**
+   * Emitted when the `calcite-tip-manager` has been closed.
+   */
+  @Event() calciteTipManagerClose: EventEmitter;
 
   // --------------------------------------------------------------------------
   //
@@ -173,6 +179,7 @@ export class TipManager {
   hideTipManager = (): void => {
     this.closed = true;
     this.calciteTipManagerToggle.emit();
+    this.calciteTipManagerClose.emit();
   };
 
   showSelectedTip(): void {

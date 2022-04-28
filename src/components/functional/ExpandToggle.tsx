@@ -97,5 +97,5 @@ export const ExpandToggle: FunctionalComponent<ExpandToggleProps> = ({
     />
   );
 
-  return tooltip ? <calcite-tooltip-manager>{actionNode}</calcite-tooltip-manager> : actionNode;
+  return actionNode;
 };

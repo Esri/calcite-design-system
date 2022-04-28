@@ -48,6 +48,14 @@
 
 ## Methods
 
+### `reposition() => Promise<void>`
+
+Updates the position of the component.
+
+#### Returns
+
+Type: `Promise<void>`
+
 ### `setFocus() => Promise<void>`
 
 Sets focus on the component.
