@@ -1355,7 +1355,7 @@ describe("calcite-input", () => {
     it("supports type=number", () => formAssociated("<calcite-input type='number'></calcite-input>", { testValue: 5 }));
   });
 
-  describe("external/programmatic changes to the value", () => {
+  describe("direct changes to the value", () => {
     it("incrementing correctly updates the value after focus and blur events", async () => {
       const page = await newE2EPage();
       await page.setContent(html` <calcite-input type="number" value="1"></calcite-input> `);
@@ -1369,6 +1369,24 @@ describe("calcite-input", () => {
       expect(await element.getProperty("value")).toBe("2");
       const input = await page.find("calcite-input >>> input");
       expect(await input.getProperty("value")).toBe("2");
+    });
+
+    it("does not fire any input or change events when a focused input is blurred after its value is set directly", async () => {
+      const page = await newE2EPage({ html: "<calcite-input></calcite-input>" });
+      const input = await page.find("calcite-input");
+      const inputEventSpy = await input.spyOnEvent("calciteInputInput");
+      const changeEventSpy = await input.spyOnEvent("calciteInputChange");
+
+      expect(inputEventSpy).not.toHaveReceivedEvent();
+      expect(changeEventSpy).not.toHaveReceivedEvent();
+
+      await input.callMethod("setFocus");
+      await input.setProperty("value", Math.random());
+      await page.keyboard.press("Tab");
+      await page.waitForChanges();
+
+      expect(inputEventSpy).not.toHaveReceivedEvent();
+      expect(changeEventSpy).not.toHaveReceivedEvent();
     });
   });
 });
