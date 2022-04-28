@@ -201,7 +201,7 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
   @Prop({ mutable: true }) value = "";
 
   @Watch("value")
-  valueWatcher(newValue: string): void {
+  valueWatcher(newValue: string, previousValue: string): void {
     if (!this.internalValueChange) {
       this.setValue({
         origin: "direct",
@@ -214,6 +214,7 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
               : this.previousValue || ""
             : newValue
       });
+      this.setPreviousValue(previousValue);
       this.warnAboutInvalidNumberValue(newValue);
     }
     this.internalValueChange = false;
@@ -447,7 +448,7 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
       value: this.value
     });
 
-    if (this.previousValueOrigin !== "direct") {
+    if (this.previousValueOrigin !== "direct" && this.value !== this.previousValue) {
       this.calciteInputChange.emit();
     }
   };
@@ -697,7 +698,7 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
         : "";
 
     this.internalValueChange = origin === "user" && this.value !== newValue;
-    this.setPreviousValue(this.value);
+    origin !== "direct" && this.setPreviousValue(this.value);
     this.value = newValue;
     this.previousValueOrigin = origin;
 
