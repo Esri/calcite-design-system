@@ -189,6 +189,7 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
     if (this.ignoreSelectedEventsFlag) {
       return;
     }
+
     const target = event.target as HTMLCalciteComboboxItemElement;
     const newIndex = this.visibleItems.indexOf(target);
     this.updateActiveItemIndex(newIndex);
@@ -726,6 +727,7 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
     if (!item) {
       return;
     }
+
     if (this.isMulti()) {
       item.selected = value;
       this.updateAncestors(item);

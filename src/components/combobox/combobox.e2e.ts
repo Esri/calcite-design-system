@@ -810,6 +810,50 @@ describe("calcite-combobox", () => {
     });
   });
 
+  describe("calciteComboboxItemChange event correctly updates active item index", () => {
+    let page: E2EPage;
+
+    beforeEach(async () => {
+      page = await newE2EPage();
+      await page.setContent(
+        html`
+          <calcite-combobox id="myCombobox">
+            <calcite-combobox-item value="Trees" selected>
+              <calcite-combobox-item value="Pine">
+                <calcite-combobox-item id="PineNested" value="Pine Nested"></calcite-combobox-item>
+              </calcite-combobox-item>
+              <calcite-combobox-item value="Sequoia" disabled></calcite-combobox-item>
+              <calcite-combobox-item value="Douglas Fir"></calcite-combobox-item>
+            </calcite-combobox-item>
+            <calcite-combobox-item value="Flowers">
+              <calcite-combobox-item value="Daffodil"></calcite-combobox-item>
+              <calcite-combobox-item value="Black Eyed Susan"></calcite-combobox-item>
+              <calcite-combobox-item value="Nasturtium"></calcite-combobox-item>
+            </calcite-combobox-item>
+          </calcite-combobox>
+        `
+      );
+    });
+
+    it("clicking on Listbox item focuses on the item and closes out of Listbox with tab", async () => {
+      const element = await page.find("calcite-combobox");
+      await element.click();
+
+      const lisboxItem = await page.find("calcite-combobox-item#PineNested");
+      await lisboxItem.click();
+      await page.waitForChanges();
+
+      const nested = await page.find("calcite-combobox-item#PineNested >>> li");
+      expect(nested as any).toHaveClass("label--active");
+
+      const closeEvent = page.waitForEvent("calciteComboboxClose");
+      await element.press("Tab");
+      await closeEvent;
+      await element.press("Tab");
+      expect(await page.evaluate(() => document.activeElement.id)).not.toBe("calcite-combobox");
+    });
+  });
+
   describe("allows free entry of text", () => {
     it("should allow typing a new unknown tag", async () => {
       const page = await newE2EPage();
