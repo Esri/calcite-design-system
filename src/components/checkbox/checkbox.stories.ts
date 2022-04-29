@@ -4,6 +4,30 @@ import { themesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import readme from "./readme.md";
 
+import {
+  Attribute,
+  filterComponentAttributes,
+  Attributes,
+  createComponentHTML as create
+} from "../../../.storybook/utils";
+import { createSteps, stepStory } from "../../../.storybook/helpers";
+
+const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ exceptions } = { exceptions: [] }) => {
+  return filterComponentAttributes(
+    [
+      {
+        name: "checked",
+        commit(): Attribute {
+          this.value = boolean("checked", true);
+          delete this.build;
+          return this;
+        }
+      }
+    ],
+    exceptions
+  );
+};
+
 export default {
   title: "Components/Controls/Checkbox",
 
@@ -49,5 +73,10 @@ export const RTL = (): string => html`
     ${text("label", "Checkbox")}
   </calcite-label>
 `;
+
+export const TestFocusRing = stepStory(
+  (): string => html`${create("calcite-checkbox", createAttributes())}`,
+  createSteps("calcite-component").keys("calcite-checkbox", ["Tab", "Enter"])
+);
 
 export const disabled = (): string => html`<calcite-checkbox checked disabled></calcite-checkbox>`;
