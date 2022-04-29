@@ -38,4 +38,4 @@ export const DarkMode = (): string => html`
 `;
 
 DarkMode.storyName = "Dark mode";
-DarkMode.parameters = { themes: themesDarkDefault };
+DarkMode.parameters = { themes: themesDarkDefault, chromatic: { disableSnapshot: true } };
