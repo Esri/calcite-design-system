@@ -76,8 +76,7 @@ export const RTL = (): string => html`
 
 export const TestFocusRing = stepStory(
   (): string => html`${create("calcite-checkbox", createAttributes())}`,
-  createSteps("calcite-checkbox").snapshot("defaul")
-  // .keys("calcite-checkbox", ["Tab", "Enter"])
+  createSteps("calcite-checkbox").keys("calcite-checkbox", "Tab").snapshot("default")
 );
 
 export const disabled = (): string => html`<calcite-checkbox checked disabled></calcite-checkbox>`;
