@@ -8,7 +8,8 @@ export default {
   title: "Components/Loader",
 
   parameters: {
-    notes: readme
+    notes: readme,
+    chromatic: { disableSnapshot: true }
   }
 };
 
