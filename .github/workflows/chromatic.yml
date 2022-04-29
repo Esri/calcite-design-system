@@ -1,10 +1,10 @@
 name: "Chromatic"
 on:
   pull_request:
-    branches: [master]
+    branches: [benelan/chromatic]
   # need to run on the base branch when merging to keep the baseline state up to date
   push:
-    branches: [master]
+    branches: [benelan/chromatic]
 
 jobs:
   chromatic-deployment:
