@@ -65,7 +65,7 @@ export const RTL = (): string => html`
 
 export const KeyBoardNavigation = stepStory(
   (): string => html`${create("calcite-checkbox", createAttributes())}`,
-  createSteps("calcite-checkbox").keys("body", Keys.tab)
+  createSteps("calcite-checkbox").keys("body", Keys.tab).snapshot("focus")
 );
 
 export const disabled = (): string => html`<calcite-checkbox checked disabled></calcite-checkbox>`;
