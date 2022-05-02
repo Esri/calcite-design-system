@@ -14,19 +14,7 @@ import { createSteps, stepStory } from "../../../.storybook/helpers";
 import { Keys } from "screener-storybook/src/screener";
 
 const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ exceptions } = { exceptions: [] }) => {
-  return filterComponentAttributes(
-    [
-      // {
-      //   name: "checked",
-      //   commit(): Attribute {
-      //     this.value = boolean("checked", false);
-      //     delete this.build;
-      //     return this;
-      //   }
-      // }
-    ],
-    exceptions
-  );
+  return filterComponentAttributes([], exceptions);
 };
 
 export default {
@@ -75,9 +63,9 @@ export const RTL = (): string => html`
   </calcite-label>
 `;
 
-export const TestFocusRing = stepStory(
+export const KeyBoardNavigation = stepStory(
   (): string => html`${create("calcite-checkbox", createAttributes())}`,
-  createSteps("calcite-checkbox").keys("body", Keys.tab).snapshot("default")
+  createSteps("calcite-checkbox").keys("body", Keys.tab)
 );
 
 export const disabled = (): string => html`<calcite-checkbox checked disabled></calcite-checkbox>`;
