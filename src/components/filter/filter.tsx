@@ -214,8 +214,10 @@ export class Filter implements InteractiveComponent {
           <label>
             <calcite-input
               aria-label={this.intlLabel || TEXT.filterLabel}
+              clearable={true}
               disabled={disabled}
               icon={ICONS.search}
+              intlClear={this.intlClear || TEXT.clear}
               onCalciteInputInput={this.inputHandler}
               onKeyDown={this.keyDownHandler}
               placeholder={this.placeholder}
@@ -227,16 +229,6 @@ export class Filter implements InteractiveComponent {
               value={this.value}
             />
           </label>
-          {this.value ? (
-            <button
-              aria-label={this.intlClear || TEXT.clear}
-              class={CSS.clearButton}
-              disabled={disabled}
-              onClick={this.clear}
-            >
-              <calcite-icon icon={ICONS.close} scale={scale} />
-            </button>
-          ) : null}
         </div>
       </Fragment>
     );
