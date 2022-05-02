@@ -3,20 +3,20 @@
 
 <head>
   <meta charset="UTF-8" />
-  <title>MyComponent - Basic</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0" />
   <script type="module" src="../../../../../dist/calcite/calcite.esm.js"></script>
 </head>
 
 <body>
   <calcite-dropdown>
-    <calcite-button slot="dropdown-trigger">Open dropdown</calcite-button>
-    <calcite-dropdown-group id="group-1">
+    <calcite-button id="trigger" slot="dropdown-trigger">Open dropdown</calcite-button>
+    <calcite-dropdown-group id="group-1" selection-mode="multi">
       <calcite-dropdown-item id="item-1"> Dropdown Item Content </calcite-dropdown-item>
       <calcite-dropdown-item id="item-2" active> Dropdown Item Content </calcite-dropdown-item>
       <calcite-dropdown-item id="item-3"> Dropdown Item Content </calcite-dropdown-item>
     </calcite-dropdown-group>
   </calcite-dropdown>
+
 </body>
 
 </html>
