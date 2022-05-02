@@ -148,9 +148,12 @@ export class Dropdown implements InteractiveComponent {
     this.setFilteredPlacements();
   }
 
+  componentWillLoad(): void {
+    this.updateItems();
+  }
+
   componentDidLoad(): void {
     this.reposition();
-    this.updateItems();
   }
 
   componentDidRender(): void {
