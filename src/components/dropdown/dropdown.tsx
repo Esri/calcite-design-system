@@ -175,7 +175,6 @@ export class Dropdown implements InteractiveComponent {
             aria-haspopup="true"
             name={SLOTS.dropdownTrigger}
             onSlotchange={this.updateTriggers}
-            ref={this.setTriggerSlotEl}
           />
         </div>
         <div
@@ -193,7 +192,7 @@ export class Dropdown implements InteractiveComponent {
             ref={this.setScrollerEl}
           >
             <div hidden={!this.active}>
-              <slot onSlotchange={this.updateItems} ref={this.setDefaultSlotEl} />
+              <slot onSlotchange={this.updateItems} />
             </div>
           </div>
         </div>
@@ -353,10 +352,6 @@ export class Dropdown implements InteractiveComponent {
 
   resizeObserver = createObserver("resize", () => this.setMaxScrollerHeight());
 
-  defaultSlotEl: HTMLSlotElement;
-
-  triggerSlotEl: HTMLSlotElement;
-
   //--------------------------------------------------------------------------
   //
   //  Private Methods
@@ -371,35 +366,24 @@ export class Dropdown implements InteractiveComponent {
       : null;
   };
 
-  setTriggerSlotEl = (el: HTMLSlotElement): void => {
-    this.triggerSlotEl = el;
-  };
-
-  setDefaultSlotEl = (el: HTMLSlotElement): void => {
-    this.defaultSlotEl = el;
-  };
-
-  updateTriggers = (): void => {
-    this.triggers =
-      (this.triggerSlotEl?.assignedElements({ flatten: true }) as HTMLElement[]) || [];
+  updateTriggers = (event: Event): void => {
+    this.triggers = (event.target as HTMLSlotElement).assignedElements({
+      flatten: true
+    }) as HTMLElement[];
 
     this.reposition();
   };
 
-  updateItems = (): void => {
-    const groups =
-      (this.defaultSlotEl
-        ?.assignedElements({ flatten: true })
-        .filter((el) =>
-          el?.matches("calcite-dropdown-group")
-        ) as HTMLCalciteDropdownGroupElement[]) || [];
+  updateItems = (event: Event): void => {
+    const groups = (event.target as HTMLSlotElement)
+      .assignedElements({ flatten: true })
+      .filter((el) => el?.matches("calcite-dropdown-group")) as HTMLCalciteDropdownGroupElement[];
 
     this.groups = groups;
 
-    this.items =
-      groups
-        ?.map((group) => Array.from(group?.querySelectorAll("calcite-dropdown-item")))
-        .reduce((previousValue, currentValue) => [...previousValue, ...currentValue], []) || [];
+    this.items = groups
+      .map((group) => Array.from(group?.querySelectorAll("calcite-dropdown-item")))
+      .reduce((previousValue, currentValue) => [...previousValue, ...currentValue], []);
 
     this.updateSelectedItems();
 
