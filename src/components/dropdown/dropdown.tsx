@@ -150,6 +150,7 @@ export class Dropdown implements InteractiveComponent {
 
   componentDidLoad(): void {
     this.reposition();
+    this.updateItems();
   }
 
   componentDidRender(): void {
