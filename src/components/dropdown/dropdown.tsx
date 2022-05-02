@@ -142,15 +142,12 @@ export class Dropdown implements InteractiveComponent {
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
-    this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
     this.createPopper();
-    this.updateItems();
     this.setFilteredPlacements();
   }
 
   componentDidLoad(): void {
     this.reposition();
-    this.updateItems();
   }
 
   componentDidRender(): void {
@@ -158,7 +155,6 @@ export class Dropdown implements InteractiveComponent {
   }
 
   disconnectedCallback(): void {
-    this.mutationObserver?.disconnect();
     this.resizeObserver?.disconnect();
     this.destroyPopper();
   }
@@ -178,7 +174,7 @@ export class Dropdown implements InteractiveComponent {
             aria-expanded={active.toString()}
             aria-haspopup="true"
             name={SLOTS.dropdownTrigger}
-            //onSlotchange={this.updateItems}
+            onSlotchange={this.updateTriggers}
             ref={this.setTriggerSlotEl}
           />
         </div>
@@ -197,10 +193,7 @@ export class Dropdown implements InteractiveComponent {
             ref={this.setScrollerEl}
           >
             <div hidden={!this.active}>
-              <slot
-                //onSlotchange={this.updateItems}
-                ref={this.setDefaultSlotEl}
-              />
+              <slot onSlotchange={this.updateItems} ref={this.setDefaultSlotEl} />
             </div>
           </div>
         </div>
@@ -358,8 +351,6 @@ export class Dropdown implements InteractiveComponent {
 
   private scrollerEl: HTMLDivElement;
 
-  mutationObserver = createObserver("mutation", () => this.updateItems());
-
   resizeObserver = createObserver("resize", () => this.setMaxScrollerHeight());
 
   defaultSlotEl: HTMLSlotElement;
@@ -382,22 +373,20 @@ export class Dropdown implements InteractiveComponent {
 
   setTriggerSlotEl = (el: HTMLSlotElement): void => {
     this.triggerSlotEl = el;
-    this.updateTriggers();
   };
 
   setDefaultSlotEl = (el: HTMLSlotElement): void => {
     this.defaultSlotEl = el;
-    this.updateItems();
   };
 
   updateTriggers = (): void => {
     this.triggers =
       (this.triggerSlotEl?.assignedElements({ flatten: true }) as HTMLElement[]) || [];
+
+    this.reposition();
   };
 
   updateItems = (): void => {
-    this.updateTriggers();
-
     const groups =
       (this.defaultSlotEl
         ?.assignedElements({ flatten: true })
