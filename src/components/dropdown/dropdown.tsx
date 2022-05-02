@@ -13,7 +13,7 @@ import {
 } from "@stencil/core";
 import { ItemKeyboardEvent } from "./interfaces";
 
-import { focusElement, getSlotted } from "../../utils/dom";
+import { focusElement } from "../../utils/dom";
 import {
   ComputedPlacement,
   createPopper,
@@ -148,10 +148,6 @@ export class Dropdown implements InteractiveComponent {
     this.setFilteredPlacements();
   }
 
-  componentWillLoad(): void {
-    this.updateItems();
-  }
-
   componentDidLoad(): void {
     this.reposition();
   }
@@ -181,6 +177,7 @@ export class Dropdown implements InteractiveComponent {
             aria-expanded={active.toString()}
             aria-haspopup="true"
             name={SLOTS.dropdownTrigger}
+            ref={this.setTriggerSlotEl}
           />
         </div>
         <div
@@ -198,7 +195,7 @@ export class Dropdown implements InteractiveComponent {
             ref={this.setScrollerEl}
           >
             <div hidden={!this.active}>
-              <slot onSlotchange={this.storeDefaultSlotted} />
+              <slot onSlotchange={this.updateItems} ref={this.setDefaultSlotEl} />
             </div>
           </div>
         </div>
@@ -360,6 +357,10 @@ export class Dropdown implements InteractiveComponent {
 
   resizeObserver = createObserver("resize", () => this.setMaxScrollerHeight());
 
+  defaultSlotEl: HTMLSlotElement;
+
+  triggerSlotEl: HTMLSlotElement;
+
   //--------------------------------------------------------------------------
   //
   //  Private Methods
@@ -374,22 +375,29 @@ export class Dropdown implements InteractiveComponent {
       : null;
   };
 
-  storeDefaultSlotted = (event: Event): void => {
-    const groups = (event.target as HTMLSlotElement)
-      .assignedElements({ flatten: true })
+  setTriggerSlotEl = (el: HTMLSlotElement): void => {
+    this.triggerSlotEl = el;
+  };
+
+  setDefaultSlotEl = (el: HTMLSlotElement): void => {
+    this.defaultSlotEl = el;
+    this.updateItems();
+  };
+
+  updateItems = (): void => {
+    this.triggers = this.triggerSlotEl?.assignedElements({ flatten: true }) as HTMLElement[];
+
+    const groups = this.defaultSlotEl
+      ?.assignedElements({ flatten: true })
       .filter((el) => el?.matches("calcite-dropdown-group")) as HTMLCalciteDropdownGroupElement[];
 
     this.groups = groups;
 
     this.items = groups
-      .map((group) => Array.from(group?.querySelectorAll("calcite-dropdown-item")))
+      ?.map((group) => Array.from(group?.querySelectorAll("calcite-dropdown-item")))
       .reduce((previousValue, currentValue) => [...previousValue, ...currentValue], []);
-  };
 
-  updateItems = (): void => {
     this.updateSelectedItems();
-
-    this.triggers = getSlotted(this.el, "dropdown-trigger", { all: true });
 
     this.reposition();
   };
