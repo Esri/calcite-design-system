@@ -11,6 +11,7 @@ import {
   createComponentHTML as create
 } from "../../../.storybook/utils";
 import { createSteps, stepStory } from "../../../.storybook/helpers";
+import { Keys } from "screener-storybook/src/screener";
 
 const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ exceptions } = { exceptions: [] }) => {
   return filterComponentAttributes(
@@ -76,9 +77,7 @@ export const RTL = (): string => html`
 
 export const TestFocusRing = stepStory(
   (): string => html`${create("calcite-checkbox", createAttributes())}`,
-  createSteps("calcite-checkbox")
-  // .keys("body", ["Tab"])
-  // .snapshot("default")
+  createSteps("calcite-checkbox").keys("body", Keys.tab).snapshot("default")
 );
 
 export const disabled = (): string => html`<calcite-checkbox checked disabled></calcite-checkbox>`;
