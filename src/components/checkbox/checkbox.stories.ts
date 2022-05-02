@@ -15,14 +15,14 @@ import { createSteps, stepStory } from "../../../.storybook/helpers";
 const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ exceptions } = { exceptions: [] }) => {
   return filterComponentAttributes(
     [
-      {
-        name: "checked",
-        commit(): Attribute {
-          this.value = boolean("checked", false);
-          delete this.build;
-          return this;
-        }
-      }
+      // {
+      //   name: "checked",
+      //   commit(): Attribute {
+      //     this.value = boolean("checked", false);
+      //     delete this.build;
+      //     return this;
+      //   }
+      // }
     ],
     exceptions
   );
@@ -76,7 +76,9 @@ export const RTL = (): string => html`
 
 export const TestFocusRing = stepStory(
   (): string => html`${create("calcite-checkbox", createAttributes())}`,
-  createSteps("calcite-checkbox").keys("body", "Tab").snapshot("default")
+  createSteps("calcite-checkbox")
+    // .keys("body", "Tab")
+    .snapshot("default")
 );
 
 export const disabled = (): string => html`<calcite-checkbox checked disabled></calcite-checkbox>`;
