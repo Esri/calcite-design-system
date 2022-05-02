@@ -177,6 +177,7 @@ export class Dropdown implements InteractiveComponent {
             aria-expanded={active.toString()}
             aria-haspopup="true"
             name={SLOTS.dropdownTrigger}
+            //onSlotchange={this.updateItems}
             ref={this.setTriggerSlotEl}
           />
         </div>
@@ -195,7 +196,10 @@ export class Dropdown implements InteractiveComponent {
             ref={this.setScrollerEl}
           >
             <div hidden={!this.active}>
-              <slot onSlotchange={this.updateItems} ref={this.setDefaultSlotEl} />
+              <slot
+                //onSlotchange={this.updateItems}
+                ref={this.setDefaultSlotEl}
+              />
             </div>
           </div>
         </div>
@@ -377,6 +381,7 @@ export class Dropdown implements InteractiveComponent {
 
   setTriggerSlotEl = (el: HTMLSlotElement): void => {
     this.triggerSlotEl = el;
+    this.updateTriggers();
   };
 
   setDefaultSlotEl = (el: HTMLSlotElement): void => {
@@ -384,18 +389,27 @@ export class Dropdown implements InteractiveComponent {
     this.updateItems();
   };
 
-  updateItems = (): void => {
-    this.triggers = this.triggerSlotEl?.assignedElements({ flatten: true }) as HTMLElement[];
+  updateTriggers = (): void => {
+    this.triggers =
+      (this.triggerSlotEl?.assignedElements({ flatten: true }) as HTMLElement[]) || [];
+  };
 
-    const groups = this.defaultSlotEl
-      ?.assignedElements({ flatten: true })
-      .filter((el) => el?.matches("calcite-dropdown-group")) as HTMLCalciteDropdownGroupElement[];
+  updateItems = (): void => {
+    this.updateTriggers();
+
+    const groups =
+      (this.defaultSlotEl
+        ?.assignedElements({ flatten: true })
+        .filter((el) =>
+          el?.matches("calcite-dropdown-group")
+        ) as HTMLCalciteDropdownGroupElement[]) || [];
 
     this.groups = groups;
 
-    this.items = groups
-      ?.map((group) => Array.from(group?.querySelectorAll("calcite-dropdown-item")))
-      .reduce((previousValue, currentValue) => [...previousValue, ...currentValue], []);
+    this.items =
+      groups
+        ?.map((group) => Array.from(group?.querySelectorAll("calcite-dropdown-item")))
+        .reduce((previousValue, currentValue) => [...previousValue, ...currentValue], []) || [];
 
     this.updateSelectedItems();
 
