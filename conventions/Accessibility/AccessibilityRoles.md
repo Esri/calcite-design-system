@@ -15,35 +15,29 @@
 The `combobox` role is for input that controls another element, such as a listbox or grid, that can dynamically pop up to help the user set the value of the input.
 The popup can be a `listbox`, `grid`, `tree`, or `dialog`. Superclass role of `select`.
 
-### Demo
+### Example
 
-<label for="ex1-input" id="ex1-label" class="combobox-label">Fruit or Vegetable</label>
-
-<div class="combobox-wrapper">
-<div role="combobox" aria-expanded="false" aria-owns="ex1-listbox" aria-haspopup="listbox"
-  id="ex1-combobox">
-<input type="text"
-    aria-autocomplete="list"
-    aria-controls="ex1-listbox"
-    id="ex1-input">
-</div>
-<ul aria-labelledby="ex1-label"
-  role="listbox"
-  id="ex1-listbox"
-  class="listbox hidden">
-</ul>
-</div>
+![combobox](https://user-images.githubusercontent.com/5023024/165993726-b047c80a-9a7c-443b-b1b0-7a9ddf6498b2.svg)
 
 ### Code
 
 ```html
-<label for="ex1-input" id="ex1-label" class="combobox-label"> Choice 1 Fruit or Vegetable</label>
-<div class="combobox-wrapper">
-  <div role="combobox" aria-expanded="false" aria-owns="ex1-listbox" aria-haspopup="listbox" id="ex1-combobox">
-    <input type="text" aria-autocomplete="list" aria-controls="ex1-listbox" id="ex1-input" />
-  </div>
-  <ul aria-labelledby="ex1-label" role="listbox" id="ex1-listbox" class="listbox hidden"></ul>
-</div>
+<!-- Combobox role example -->
+<label for="season-input">Season</label>
+<input
+  id="season-input"
+  type="text"
+  role="combobox"
+  aria-autocomplete="list"
+  aria-expanded="false"
+  aria-controls="season-listbox"
+/>
+<ul id="season-listbox" role="listbox" aria-label="Seasons">
+  <li id="opt-winter" role="option">Winter</li>
+  <li id="opt-spring" role="option">Spring</li>
+  <li id="opt-summer" role="option">Summer</li>
+  <li id="opt-autumn" role="option">Autumn</li>
+</ul>
 ```
 
 ### Keyboard functionality
@@ -62,72 +56,52 @@ The popup can be a `listbox`, `grid`, `tree`, or `dialog`. Superclass role of `s
 
 The `grid` role contains one or more rows of cells. The position of each cell is significant and can be focused using keyboard input.
 
-### Demo
+### Example
 
-<table role="grid" aria-labelledby="id-select-your-seat">
-  <caption id="id-select-your-seat">Select your seat</caption>
-  <tbody role="presentation">
-    <tr role="presentation">
-      <td></td>
-      <th>Row A</th>
-      <th>Row B</th>
-    </tr>
-    <tr>
-      <th scope="row">Aisle 1</th>
-      <td tabindex="0">
-        <button id="1a" tabindex="-1">1A</button>
-      </td>
-      <td tabindex="-1">
-        <button id="1b" tabindex="-1">1B</button>
-      </td>
-      <!-- More Columns -->
-    </tr>
-    <tr>
-      <th scope="row">Aisle 2</th>
-      <td tabindex="-1">
-        <button id="2a" tabindex="-1">2A</button>
-      </td>
-      <td tabindex="-1">
-        <button id="2b" tabindex="-1">2B</button>
-      </td>
-      <!-- More Columns -->
-    </tr>
-  </tbody>
-</table>
+![grid](https://user-images.githubusercontent.com/5023024/166005854-81c5a218-ad46-42fd-9833-3f69b96b4657.svg)
 
 ### Code
 
 ```html
-<table role="grid" aria-labelledby="id-select-your-seat">
-  <caption id="id-select-your-seat">
-    Select your seat
+<!-- Grid role example 
+     Code pen example: https://codepen.io/geospatialem/pen/OJzwWKm 
+-->
+<table role="grid" aria-labelledby="grid-header">
+  <caption id="grid-header" class="sr-only">
+    WCAG Criterion and Versions
   </caption>
-  <tbody role="presentation">
-    <tr role="presentation">
+  <thead role="rowgroup">
+    <tr role="row">
       <td></td>
-      <th>Row A</th>
-      <th>Row B</th>
+      <th role="columnheader" aria-label="Criterion">Criterion</th>
+      <th role="columnheader" aria-label="Version">Version</th>
     </tr>
-    <tr>
-      <th scope="row">Aisle 1</th>
-      <td tabindex="0">
-        <button id="1a" tabindex="-1">1A</button>
-      </td>
-      <td tabindex="-1">
-        <button id="1b" tabindex="-1">1B</button>
-      </td>
-      <!-- More Columns -->
+  </thead>
+  <tbody role="rowgroup">
+    <tr role="row">
+      <th scope="row" role="rowheader" class="sr-only">Item 1</th>
+      <!-- Note: for keyboard accessibility, all td elements, such as an input must contain a tabindex of 0 -->
+      <!-- example 1: 
+           <input tabindex="0" type="checkbox" id="{{WCAG 2.0 1.4.1}}-select">
+           <label for="{{WCAG 2.0 1.4.1}}-select">{{WCAG 2.0 1.4.1}}</label> 
+      -->
+      <!-- example 2:
+           <button tabindex="0">Success Criterion <span class="sr-only">{{WCAG 2.0 1.4.1}}</span></button>
+      -->
+      <td role="gridcell" tabindex="-1">1.4.1</td>
+      <td role="gridcell" tabindex="-1">WCAG 2.0</td>
     </tr>
-    <tr>
-      <th scope="row">Aisle 2</th>
-      <td tabindex="-1">
-        <button id="2a" tabindex="-1">2A</button>
-      </td>
-      <td tabindex="-1">
-        <button id="2b" tabindex="-1">2B</button>
-      </td>
-      <!-- More Columns -->
+    <tr role="row">
+      <th scope="row" role="rowheader" class="sr-only">Item 2</th>
+      <td role="gridcell" tabindex="-1">1.4.10</td>
+      <td role="gridcell" tabindex="-1">WCAG 2.1</td>
     </tr>
+    <tr role="row">
+      <th scope="row" role="rowheader" class="sr-only">Item 3</th>
+      <td role="gridcell" tabindex="-1">1.4.10</td>
+      <td role="gridcell" tabindex="-1">WCAG 2.1</td>
+    </tr>
+    <!-- … Additional Rows … -->
   </tbody>
 </table>
 ```
@@ -157,43 +131,30 @@ To activate the interactive component, they will use the `return` and `space` ke
 
 The `listbox` role is used for lists from which a user may select one or more items which are static, unlike HTML `<select>` elements, may contain images.
 
-### Demo
+### Example
 
-<p id="listbox1label" role="label">Select a color:</p>
-<div role="listbox" tabindex="0" id="listbox1" aria-labelledby="listbox1label"
-  onclick="return listItemClick(event);"
-  onkeydown="return listItemKeyEvent(event);"
-  onkeypress="return listItemKeyEvent(event);"
-  aria-activedescendant="listbox1-1">
-    <div role="option" id="listbox1-1" class="selected" aria-selected="true">Green</div>
-    <div role="option" id="listbox1-2">Orange</div>
-    <div role="option" id="listbox1-3">Red</div>
-    <div role="option" id="listbox1-4">Blue</div>
-    <div role="option" id="listbox1-5">Violet</div>
-    <div role="option" id="listbox1-6">Periwinkle</div>
-</div>
+![listbox](https://user-images.githubusercontent.com/5023024/166012949-d4e16d17-48c2-40a1-a856-35676eb9c884.svg)
 
 ### Code
 
 ```html
-<p id="listbox1label" role="label">Select a color:</p>
-<div
-  role="listbox"
-  tabindex="0"
-  id="listbox1"
-  aria-labelledby="listbox1label"
-  onclick="return listItemClick(event);"
-  onkeydown="return listItemKeyEvent(event);"
-  onkeypress="return listItemKeyEvent(event);"
-  aria-activedescendant="listbox1-1"
->
-  <div role="option" id="listbox1-1" class="selected" aria-selected="true">Green</div>
-  <div role="option" id="listbox1-2">Orange</div>
-  <div role="option" id="listbox1-3">Red</div>
-  <div role="option" id="listbox1-4">Blue</div>
-  <div role="option" id="listbox1-5">Violet</div>
-  <div role="option" id="listbox1-6">Periwinkle</div>
-</div>
+<!-- Listbox role example -->
+<p id="listbox-label" role="label">Season</p>
+<input
+  type="text"
+  aria-labelledby="listbox-label"
+  role="combobox"
+  aria-expanded="true"
+  aria-autocomplete="list"
+  aria-owns="season-listbox"
+  aria-activedescendant="selected-option"
+/>
+<ul role="listbox" id="season-listbox">
+  <li role="option">Winter</li>
+  <li role="option" id="selected-option">Spring</li>
+  <li role="option">Summer</li>
+  <li role="option">Autumn</li>
+</ul>
 ```
 
 ### Keyboard functionality
@@ -201,45 +162,66 @@ The `listbox` role is used for lists from which a user may select one or more it
 #### Single selection
 
 If none of the options are selected before the `listbox` receives focus, the first option receives focus. Optionally, the first option may be automatically selected. If an option is selected before the `listbox` receives focus, focus is set on the selected option.
-| Key | Function |
-| ----------- | ----------- |
-| `↓` | Moves focus to the next option. Optionally, in a single-select listbox, selection may also move with focus. |
-| `↑` | Moves focus to the previous option. Optionally, in a single-select listbox, selection may also move with focus. |
+
+| Key                 | Function                                                                                                                                                                                    |
+| ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `↓`                 | Moves focus to the next option. Optionally, in a single-select listbox, selection may also move with focus.                                                                                 |
+| `↑`                 | Moves focus to the previous option. Optionally, in a single-select listbox, selection may also move with focus.                                                                             |
 | `Home` (_Optional_) | Moves focus to first option. Optionally, in a single-select listbox, selection may also move with focus. Supporting this key is strongly recommended for lists with more than five options. |
-| `End` (_Optional_) | Moves focus to last option. Optionally, in a single-select listbox, selection may also move with focus. Supporting this key is strongly recommended for lists with more than five options. |
+| `End` (_Optional_)  | Moves focus to last option. Optionally, in a single-select listbox, selection may also move with focus. Supporting this key is strongly recommended for lists with more than five options.  |
 
 #### Multiple selection
 
 If none of the options are selected before the `listbox` receives focus, focus is set on the first option and there is no automatic change in the selected state. If one or more options are selected before the `listbox` receives focus, focus is set on the first option in the list that is selected.
 
 Recommended selection model, holding modifier keys, such as `Shift` or `ctrl`, is not necessary:
-| Key | Function |
-| ----------- | ----------- |
-| `space` | Changes the selection state of the focused option. |
-| `Shift` + `↓` (_Optional_) | Moves focus to and toggles the selected state of the next option. |
-| `Shift` + `↑` (_Optional_) | Moves focus to and toggles the selected state of the previous option. |
-| `Shift` + `space` (_Optional_) | Selects contiguous items from the most recently selected item to the focused item. |
+
+| Key                                    | Function                                                                                                        |
+| -------------------------------------- | --------------------------------------------------------------------------------------------------------------- |
+| `space`                                | Changes the selection state of the focused option.                                                              |
+| `Shift` + `↓` (_Optional_)             | Moves focus to and toggles the selected state of the next option.                                               |
+| `Shift` + `↑` (_Optional_)             | Moves focus to and toggles the selected state of the previous option.                                           |
+| `Shift` + `space` (_Optional_)         | Selects contiguous items from the most recently selected item to the focused item.                              |
 | `ctrl` + `Shift` + `Home` (_Optional_) | Selects the focused option and all options up to the first option. Optionally, moves focus to the first option. |
-| `ctrl` + `Shift` + `End` (_Optional_) | Selects the focused option and all options down to the last option. Optionally, moves focus to the last option. |
-| `ctrl` + `A` (_Optional_) | Selects all options in the list. Optionally, if all options are selected, it may also unselect all options. |
+| `ctrl` + `Shift` + `End` (_Optional_)  | Selects the focused option and all options down to the last option. Optionally, moves focus to the last option. |
+| `ctrl` + `A` (_Optional_)              | Selects all options in the list. Optionally, if all options are selected, it may also unselect all options.     |
 
 [scroll to top](#composite-roles)
 
 ## 4. menu
 
-The `menu` role offers a list of choices to the user, often a list of common actions or functions that the user can invoke. Appropriate when a list of items is presented in a manner similar tto a menu on a desktop application.
+The `menu` role offers a list of choices to the user, often a list of common actions or functions that the user can invoke. Appropriate when a list of items is presented in a manner similar to a menu on a desktop application.
 
 For keyboard accessibility, authors **should** manage focus of descendants for all instances of this role. Elements within the role menu have an implicit `aria-orientation` value of `vertical`.
+
+### Example
+
+![menu](https://user-images.githubusercontent.com/5023024/166055572-44d789c3-b0eb-40d0-9986-e82f6d1fd701.svg)
 
 ### Code
 
 ```html
-<ul role="menu">
-  <li role="menuitem">New</li>
-  <li role="menuitem">Open</li>
-  <li role="menuitem">Save</li>
-  <li role="menuitem">Close</li>
-</ul>
+<!-- Menu role example -->
+<div class="dropdown">
+  <button type="button" id="dropdown-menu">
+    Actions
+    <span class="caret"></span>
+  </button>
+  <!-- Selection mode: Single -->
+  <ul role="menu">
+    Create
+    <li><a role="menuitemradio" class="dropdown-item">Event</a></li>
+    <li><a role="menuitemradio" class="dropdown-item" aria-checked="true">Survey</a></li>
+    <li><a role="menuitemradio" class="dropdown-item">Poll</a></li>
+  </ul>
+  <ul class="dropdown-separator" role="separator"></ul>
+  <!-- Selection mode: Multi -->
+  <ul role="menu">
+    Save
+    <li><a role="menuitemcheckbox" class="dropdown-item">Save</a></li>
+    <li><a role="menuitemcheckbox" class="dropdown-item">Duplicate</a></li>
+  </ul>
+</div>
 ```
 
 ### Keyboard functionality
@@ -260,17 +242,47 @@ For keyboard accessibility, authors **should** manage focus of descendants for a
 
 The `menubar` role is a presentation of a menu that usually remains visible and usually is presented horizontally. Superclass role of `menu`, and related to `toolbar`.
 
+### Example
+
+![menubar](https://user-images.githubusercontent.com/5023024/166061531-f27ffc8b-14fd-45e2-bc14-04609987e420.svg)
+
 ### Code
 
 ```html
-<div role="menubar">
-  <div role="menuitem" aria-haspopup="true" id="fileMenu">File</div>
-  <div role="menu" aria-labelledby="fileMenu">
-    <div role="menuitem">Open</div>
-    <div role="menuitem">Save</div>
-    <div role="menuitem">Save as ...</div>
-  </div>
-</div>
+<!-- Menubar role example -->
+<nav aria-label="Menubar example">
+  <ul class="menubar-navigation" role="menubar" aria-label="Menubar example">
+    <li role="none">
+      <a role="menuitem" aria-haspopup="true" aria-expanded="true">
+        Create
+        <span class="caret"></span>
+      </a>
+      <!-- Selection mode: Single -->
+      <ul role="menu" aria-label="Create">
+        <li role="none">
+          <a role="menuitemradio" aria-checked="false">Event</a>
+        </li>
+        <li role="none">
+          <a role="menuitemradio" aria-checked="true">Survey</a>
+        </li>
+        <li role="none">
+          <a role="menuitemradio" aria-checked="false">Poll</a>
+        </li>
+      </ul>
+    </li>
+    <li role="none">
+      <a role="menuitem" aria-haspopup="true" aria-expanded="false">
+        Save
+        <span class="caret"></span>
+      </a>
+      <ul role="menu" aria-label="Save">
+        <li role="none">
+          <a role="menuitem">Save As...</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
 ```
 
 ### Keyboard functionality
@@ -294,74 +306,50 @@ The `radiogroup` role is a group of radio buttons.
 
 **Note**: Some situations can be written using semantic HTML, which requires no CSS or JavaScript. Below are two examples, one with the `radiogroup` role, and the other with semantic HTML.
 
-### Demo
+### Example
 
-<fieldset>
-  <legend>Which is the best color?</legend>
-  <p>
-    <input name="colorOption" type="radio" id="purple">
-    <label for="purple">Purple</label>
-  </p>
-  <p>
-    <input name="colorOption" type="radio" id="aubergine">
-    <label for="aubergine">Aubergine</label>
-  </p>
-  <p>
-    <input name="colorOption" type="radio" id="magenta">
-    <label for="magenta">Magenta</label>
-  </p>
-  <p>
-    <input name="colorOption" type="radio" id="all">
-    <label for="all">All of the above</label>
-  </p>
-</fieldset>
+![radiogroup](https://user-images.githubusercontent.com/5023024/166064798-bc85edbe-8e06-4c26-91e8-cc27858e22b5.svg)
 
 ### i. Code: `radiogroup` role
 
 ```html
-<div role="radiogroup" aria-labelledby="question">
-  <div id="question">Which is the best color?</div>
-  <div id="radioGroup">
-    <p>
-      <span id="colorOption_0" tabindex="0" role="radio" aria-checked="false" aria-labelledby="purple"></span>
-      <span id="purple">Purple</span>
-    </p>
-    <p>
-      <span id="colorOption_1" tabindex="-1" role="radio" aria-checked="false" aria-labelledby="aubergine"></span>
-      <span id="aubergine">Aubergine</span>
-    </p>
-    <p>
-      <span id="colorOption_2" tabindex="-1" role="radio" aria-checked="false" aria-labelledby="magenta"></span>
-      <span id="magenta">Magenta</span>
-    </p>
-    <p>
-      <span id="colorOption_3" tabindex="-1" role="radio" aria-checked="false" aria-labelledby="all"></span>
-      <span id="all">All of the above</span>
-    </p>
-  </div>
-</div>
+<!-- Radiogroup role example -->
+<span id="radio-group-label">What is the study of physical features on Earth?</span>
+<ul
+  id="radio-group"
+  class="radiogroup"
+  role="radiogroup"
+  aria-labelledby="radio-group-label"
+  aria-activedescendant="radio-geography"
+  tabindex="0"
+>
+  <li id="radio-maps" role="radio" aria-checked="false">Maps</li>
+  <li id="radio-layer" role="radio" aria-checked="false">Layer</li>
+  <li id="radio-data" role="radio" aria-checked="false">Data</li>
+  <li id="radio-geography" role="radio" aria-checked="true">Geography</li>
+</ul>
 ```
 
 ### ii. Code: Semantic HTML
 
 ```html
 <fieldset>
-  <legend>Which is the best color?</legend>
+  <legend>What is the study of physical features on Earth?</legend>
   <p>
-    <input name="colorOption" type="radio" id="purple" />
-    <label for="purple">Purple</label>
+    <input name="radioOption" type="radio" id="Maps" />
+    <label for="Maps">Maps</label>
   </p>
   <p>
-    <input name="colorOption" type="radio" id="aubergine" />
-    <label for="aubergine">Aubergine</label>
+    <input name="radioOption" type="radio" id="Layer" />
+    <label for="Layer">Layer</label>
   </p>
   <p>
-    <input name="colorOption" type="radio" id="magenta" />
-    <label for="magenta">Magenta</label>
+    <input name="radioOption" type="radio" id="Data" />
+    <label for="Data">Data</label>
   </p>
   <p>
-    <input name="colorOption" type="radio" id="all" />
-    <label for="all">All of the above</label>
+    <input name="radioOption" type="radio" id="Geography" checked />
+    <label for="Geography">Geography</label>
   </p>
 </fieldset>
 ```
@@ -381,41 +369,25 @@ The `tablist` role identifies the element that serves as the container for a set
 
 Each `tab` in a `tablist` serves as a label for one `tabpanel` and can be activated to display that panel. The `tablist` is the containing element for the set of tab elements contained.
 
-### Demo
+### Example
 
-<ul role="tablist">
-  <li class="active" role="tab" aria-selected="true" aria-setsize="3" aria-posinset="1" tabindex="0">Active panel tab</li>
-  <li role="tab" aria-selected="false" aria-setsize="3" aria-posinset="2" tabindex="0">Panel 2 tab</li>
-  <li role="tab" aria-selected="false" aria-setsize="3" aria-posinset="3" tabindex="0">Panel 3 tab</li>
-</ul>
-<div class="panels">
-  <article class="active-panel" role="tabpanel" aria-hidden="false">
-  ..Active panel content..
-  </article>
-  <article role="tabpanel" aria-hidden="true">
-  ..Panel #2 content..
-  </article>
-  <article role="tabpanel" aria-hidden="true">
-  ..Panel #3 content..
-  </article>
-</div>
+![tablist](https://user-images.githubusercontent.com/5023024/166065017-5d961407-f1cc-48f0-90ba-42b03941c586.svg)
 
 ### Code
 
 ```html
+<!-- Tablist role example -->
 <!-- tablist > tab roles -->
 <ul role="tablist">
-  <li class="active" role="tab" aria-selected="true" aria-setsize="3" aria-posinset="1" tabindex="0">
-    Active panel tab
-  </li>
-  <li role="tab" aria-selected="false" aria-setsize="3" aria-posinset="2" tabindex="0">Panel 2 tab</li>
-  <li role="tab" aria-selected="false" aria-setsize="3" aria-posinset="3" tabindex="0">Panel 3 tab</li>
+  <li role="tab" aria-selected="false" aria-setsize="3" aria-posinset="2" tabindex="0">Maps</li>
+  <li class="active" role="tab" aria-selected="true" aria-setsize="3" aria-posinset="1" tabindex="0">Layers</li>
+  <li role="tab" aria-selected="false" aria-setsize="3" aria-posinset="3" tabindex="0">Data</li>
 </ul>
 <!-- Tabpanel roles -->
 <div class="panels">
-  <article class="active-panel" role="tabpanel" aria-hidden="false">..Active panel content..</article>
-  <article role="tabpanel" aria-hidden="true">..Panel #2 content..</article>
-  <article role="tabpanel" aria-hidden="true">..Panel #3 content..</article>
+  <article role="tabpanel" aria-hidden="true">..Maps panel content..</article>
+  <article class="active-panel" role="tabpanel" aria-hidden="false">..Layers panel content..</article>
+  <article role="tabpanel" aria-hidden="true">..Data panel content..</article>
 </div>
 ```
 
@@ -442,19 +414,79 @@ If the `tablist` is horizontal, it does not listen for `↓` or `↑` so those k
 
 A `tree` is a widget that allows the user to select one or more items from a hierarchically organized collection. Any item in the hierarchy may have child tree items, `treeitem`. Tree items can be expanded or collapsed, showing and hiding their children.
 
-### Screenshot
+### Example
 
-![tree example screenshot](https://user-images.githubusercontent.com/5023024/163067614-0c5cc400-28ac-4ff0-bf19-9318b28f79f4.png)
+![tree](https://user-images.githubusercontent.com/5023024/166065082-975ba9a2-2951-4bf5-854d-240dbd9d0fe6.svg)
 
 ### Code
 
 ```html
-<ul role="tree">
-  <li role="presentation">
-    <a role="treeitem" aria-expanded="true">An expanded tree node</a>
-  </li>
-  …
-</ul>
+<!-- Tree role example -->
+<nav aria-label="Tree role example">
+  <ul class="treeview-navigation" role="tree" aria-label="Tree role example">
+    <!-- Maps tree item -->
+    <li role="none">
+      <a role="treeitem">
+        <span class="label">Maps</span>
+      </a>
+    </li>
+    <!-- Layers tree item (parent) -->
+    <li role="none">
+      <a role="treeitem" aria-expanded="true" aria-owns="id-layers-subtree">
+        <span class="label">
+          <span class="caret"></span>
+          Layers
+        </span>
+      </a>
+      <!-- Subtree items (children) -->
+      <ul id="id-layers-subtree" role="group" aria-label="layers">
+        <li role="none">
+          <a role="treeitem">
+            <span class="label">Feature layers</span>
+          </a>
+        </li>
+        <!-- Tile layers subtree item (child), selected via aria-current -->
+        <li role="none">
+          <a role="treeitem" aria-current>
+            <span class="label">Tile layers</span>
+          </a>
+        </li>
+
+        <li role="none">
+          <a role="treeitem">
+            <span class="label">Map image layers</span>
+          </a>
+        </li>
+
+        <li role="none">
+          <a role="treeitem">
+            <span class="label">Scene layers</span>
+          </a>
+        </li>
+      </ul>
+      <!-- end Layers subtree -->
+    </li>
+    <!-- end Layers tree -->
+
+    <li role="none">
+      <a role="treeitem">
+        <span class="label">Scenes</span>
+      </a>
+    </li>
+
+    <li role="none">
+      <a role="treeitem">
+        <span class="label">Apps</span>
+      </a>
+    </li>
+
+    <li role="none">
+      <a role="treeitem">
+        <span class="label">Tools</span>
+      </a>
+    </li>
+  </ul>
+</nav>
 ```
 
 ### Keyboard functionality
@@ -483,66 +515,53 @@ The `treegrid` role identifies an element as being grid whose rows can be expand
 
 It is important for all cells to be able to receive or contain keyboard focus because screen readers are generally in application reading mode, rather than their document reading mode, when users are interacting with the grid. While in application mode, a screen reader user hears only focusable elements and content that labels focusable elements. If content can't receive focus, screen reader users may unknowingly overlook elements contained in the `treegrid`.
 
-### Screenshot
+### Example
 
-![screenshot of treegrid](https://user-images.githubusercontent.com/5023024/163043189-a2dde80c-f37d-4366-93e9-7256f4b1f318.png)
+![treegrid](https://user-images.githubusercontent.com/5023024/166065105-033dce9e-52e0-4a69-b879-849edd1ec711.svg)
 
 #### Code
 
 ```html
-<table id="treegrid" role="treegrid" aria-label="Inbox">
+<!-- Treegrid role example -->
+<table id="treegrid" role="treegrid" aria-label="Project hours">
   <colgroup>
-    <col id="treegrid-col1" />
-    <col id="treegrid-col2" />
-    <col id="treegrid-col3" />
+    <col id="treegrid-column1" />
+    <col id="treegrid-column2" />
   </colgroup>
   <thead>
     <tr>
-      <th scope="col">Subject</th>
-      <th scope="col">Summary</th>
-      <th scope="col">Email</th>
+      <th scope="col">Project Name</th>
+      <th scope="col">Hours Done</th>
     </tr>
   </thead>
   <tbody>
     <tr role="row" aria-level="1" aria-posinset="1" aria-setsize="1" aria-expanded="true">
-      <td role="gridcell">Treegrids are awesome</td>
-      <td role="gridcell">Want to learn how to use them?</td>
-      <td role="gridcell"><a href="mailto:aaron@thegoogle.rocks">aaron@thegoogle.rocks</a></td>
+      <td role="gridcell">All Projects</td>
+      <td role="gridcell">360</td>
     </tr>
-    <tr role="row" aria-level="2" aria-posinset="1" aria-setsize="3">
-      <td role="gridcell">re: Treegrids are awesome</td>
-      <td role="gridcell">I agree with you, they are the shizzle</td>
-      <td role="gridcell"><a href="mailto:joe@blahblahblah.blahblah">joe@blahblahblah.blahblah</a></td>
+    <tr role="row" aria-level="2" aria-posinset="1" aria-setsize="3" aria-expanded="false">
+      <td role="gridcell">Year 2010</td>
+      <td role="gridcell">56</td>
     </tr>
-    <tr role="row" aria-level="2" aria-posinset="2" aria-setsize="3" aria-expanded="false">
-      <td role="gridcell">re: Treegrids are awesome</td>
-      <td role="gridcell">They are great for showing a lot of data, like a grid</td>
-      <td role="gridcell"><a href="mailto:billy@dangerous.fish">billy@dangerous.fish</a></td>
+    <tr role="row" aria-level="2" aria-posinset="1" aria-setsize="3" aria-expanded="true">
+      <td role="gridcell">Year 2011</td>
+      <td role="gridcell">188</td>
     </tr>
-    <tr role="row" aria-level="3" aria-posinset="1" aria-setsize="1" class="hidden">
-      <td role="gridcell">re: Treegrids are awesome</td>
-      <td role="gridcell">Cool, we've been needing an example and documentation</td>
-      <td role="gridcell"><a href="mailto:doris@rufflazydogs.sleep">doris@rufflazydogs.sleep</a></td>
+    <tr role="row" aria-level="3" aria-posinset="1" aria-setsize="3" aria-expanded="false">
+      <td role="gridcell">Q1</td>
+      <td role="gridcell">30</td>
     </tr>
-    <tr role="row" aria-level="2" aria-posinset="3" aria-setsize="3" aria-expanded="false">
-      <td role="gridcell">re: Treegrids are awesome</td>
-      <td role="gridcell">I hear the Fancytree library is going to align with this example!</td>
-      <td role="gridcell"><a href="mailto:someone@please-do-it.company">someone@please-do-it.company</a></td>
+    <tr role="row" aria-level="3" aria-posinset="1" aria-setsize="3" aria-expanded="true">
+      <td role="gridcell">Q2</td>
+      <td role="gridcell">95</td>
     </tr>
-    <tr role="row" aria-level="3" aria-posinset="1" aria-setsize="1" aria-expanded="false" class="hidden">
-      <td role="gridcell">re: Treegrids are awesome</td>
-      <td role="gridcell">Sometimes they are more like trees, others are more like grids</td>
-      <td role="gridcell"><a href="mailto:mari@beingpractical.com">mari@beingpractical.com</a></td>
+    <tr role="row" aria-level="4" aria-posinset="1" aria-setsize="3">
+      <td role="gridcell">Website Re-brand</td>
+      <td role="gridcell">95</td>
     </tr>
-    <tr role="row" aria-level="4" aria-posinset="1" aria-setsize="2" class="hidden">
-      <td role="gridcell">re: Treegrids are awesome</td>
-      <td role="gridcell">Cool, when it's a tree, let's keep left/right to collapse/expand</td>
-      <td role="gridcell"><a href="mailto:issie@imadeadcatsadly.wascute">issie@imadeadcatsadly.wascute</a></td>
-    </tr>
-    <tr role="row" aria-level="4" aria-posinset="2" aria-setsize="2" class="hidden">
-      <td role="gridcell">re: Treegrids are awesome</td>
-      <td role="gridcell">I see, sometimes right arrow moves by column</td>
-      <td role="gridcell"><a href="mailto:kitten@kittenseason.future">kitten@kittenseason.future</a></td>
+    <tr role="row" aria-level="3" aria-posinset="1" aria-setsize="3" aria-expanded="false">
+      <td role="gridcell">Q3</td>
+      <td role="gridcell">42</td>
     </tr>
   </tbody>
 </table>
