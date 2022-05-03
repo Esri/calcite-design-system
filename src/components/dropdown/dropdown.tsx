@@ -142,6 +142,7 @@ export class Dropdown implements InteractiveComponent {
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
+    this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
     this.createPopper();
     this.setFilteredPlacements();
   }
@@ -155,6 +156,7 @@ export class Dropdown implements InteractiveComponent {
   }
 
   disconnectedCallback(): void {
+    this.mutationObserver?.disconnect();
     this.resizeObserver?.disconnect();
     this.destroyPopper();
   }
@@ -192,7 +194,7 @@ export class Dropdown implements InteractiveComponent {
             ref={this.setScrollerEl}
           >
             <div hidden={!this.active}>
-              <slot onSlotchange={this.updateItems} />
+              <slot onSlotchange={this.updateGroups} />
             </div>
           </div>
         </div>
@@ -350,6 +352,8 @@ export class Dropdown implements InteractiveComponent {
 
   private scrollerEl: HTMLDivElement;
 
+  mutationObserver = createObserver("mutation", () => this.updateItems());
+
   resizeObserver = createObserver("resize", () => this.setMaxScrollerHeight());
 
   //--------------------------------------------------------------------------
@@ -374,20 +378,24 @@ export class Dropdown implements InteractiveComponent {
     this.reposition();
   };
 
-  updateItems = (event: Event): void => {
-    const groups = (event.target as HTMLSlotElement)
-      .assignedElements({ flatten: true })
-      .filter((el) => el?.matches("calcite-dropdown-group")) as HTMLCalciteDropdownGroupElement[];
-
-    this.groups = groups;
-
-    this.items = groups
+  updateItems = (): void => {
+    this.items = this.groups
       .map((group) => Array.from(group?.querySelectorAll("calcite-dropdown-item")))
       .reduce((previousValue, currentValue) => [...previousValue, ...currentValue], []);
 
     this.updateSelectedItems();
 
     this.reposition();
+  };
+
+  updateGroups = (event: Event): void => {
+    const groups = (event.target as HTMLSlotElement)
+      .assignedElements({ flatten: true })
+      .filter((el) => el?.matches("calcite-dropdown-group")) as HTMLCalciteDropdownGroupElement[];
+
+    this.groups = groups;
+
+    this.updateItems();
   };
 
   setMaxScrollerHeight = (): void => {
