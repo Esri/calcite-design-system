@@ -249,7 +249,9 @@ export class StepperItem implements InteractiveComponent {
   private getItemContent(): HTMLElement[] | NodeListOf<any> {
     // todo: Remove IE/Edge specific code.
     return this.el.shadowRoot?.querySelector("slot")
-      ? (this.el.shadowRoot.querySelector("slot").assignedNodes({ flatten: true }) as HTMLElement[])
+      ? (this.el.shadowRoot
+          .querySelector("slot")
+          .assignedElements({ flatten: true }) as HTMLElement[])
       : this.el.querySelector(".stepper-item-content")
       ? (this.el.querySelector(".stepper-item-content").childNodes as NodeListOf<any>)
       : null;
