@@ -1370,8 +1370,13 @@ describe("calcite-input", () => {
   });
 
   describe("ArrowUp/ArrowDown function as Home/End within input", () => {
+    let page;
+
+    beforeEach(async () => {
+      page = await newE2EPage();
+    });
+
     it("works for textarea", async () => {
-      const page = await newE2EPage();
       await page.setContent(`<calcite-input id="text-element" type="textarea" ></calcite-input>`);
       const element = await page.find("calcite-input");
 
@@ -1398,6 +1403,37 @@ describe("calcite-input", () => {
           const textarea = element.shadowRoot.querySelector("textarea");
           textarea.focus();
           return textarea.selectionStart === textarea.value.length;
+        })
+      ).toBeTruthy();
+    });
+
+    it("works for text", async () => {
+      await page.setContent(`<calcite-input id="text-element" type="text" ></calcite-input>`);
+      const element = await page.find("calcite-input");
+
+      await element.callMethod("setFocus");
+      await page.keyboard.type("test");
+      await page.waitForChanges();
+
+      await page.keyboard.press("ArrowUp");
+      await page.waitForChanges();
+
+      expect(
+        await page.$eval("calcite-input", (element: HTMLInputElement) => {
+          const input = element.shadowRoot.querySelector("input");
+          input.focus();
+          return input.selectionStart === 0;
+        })
+      ).toBeTruthy();
+
+      await page.keyboard.press("ArrowDown");
+      await page.waitForChanges();
+
+      expect(
+        await page.$eval("calcite-input", (element: HTMLInputElement) => {
+          const input = element.shadowRoot.querySelector("input");
+          input.focus();
+          return input.selectionStart === input.value.length;
         })
       ).toBeTruthy();
     });
