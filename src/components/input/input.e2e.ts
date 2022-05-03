@@ -1382,20 +1382,24 @@ describe("calcite-input", () => {
       await page.keyboard.press("ArrowUp");
       await page.waitForChanges();
 
-      await page.$eval("calcite-input", (element: HTMLInputElement) => {
-        const textarea = element.shadowRoot.querySelector("textarea");
-        textarea.focus();
-        textarea.selectionStart === 0;
-      });
+      expect(
+        await page.$eval("calcite-input", (element: HTMLInputElement) => {
+          const textarea = element.shadowRoot.querySelector("textarea");
+          textarea.focus();
+          return textarea.selectionStart === 0;
+        })
+      ).toBeTruthy();
 
       await page.keyboard.press("ArrowDown");
       await page.waitForChanges();
 
-      await page.$eval("calcite-input", (element: HTMLInputElement) => {
-        const textarea = element.shadowRoot.querySelector("textarea");
-        textarea.focus();
-        textarea.selectionStart === textarea.value.length;
-      });
+      expect(
+        await page.$eval("calcite-input", (element: HTMLInputElement) => {
+          const textarea = element.shadowRoot.querySelector("textarea");
+          textarea.focus();
+          return textarea.selectionStart === textarea.value.length;
+        })
+      ).toBeTruthy();
     });
   });
 
