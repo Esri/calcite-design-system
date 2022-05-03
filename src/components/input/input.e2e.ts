@@ -1369,6 +1369,36 @@ describe("calcite-input", () => {
     expect(await element.getProperty("value")).toBe("-123");
   });
 
+  describe("ArrowUp/ArrowDown function as Home/End within input", () => {
+    it("works for textarea", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`<calcite-input id="text-element" type="textarea" ></calcite-input>`);
+      const element = await page.find("calcite-input");
+
+      await element.callMethod("setFocus");
+      await page.keyboard.type("test");
+      await page.waitForChanges();
+
+      await page.keyboard.press("ArrowUp");
+      await page.waitForChanges();
+
+      await page.$eval("calcite-input", (element: HTMLInputElement) => {
+        const textarea = element.shadowRoot.querySelector("textarea");
+        textarea.focus();
+        textarea.selectionStart === 0;
+      });
+
+      await page.keyboard.press("ArrowDown");
+      await page.waitForChanges();
+
+      await page.$eval("calcite-input", (element: HTMLInputElement) => {
+        const textarea = element.shadowRoot.querySelector("textarea");
+        textarea.focus();
+        textarea.selectionStart === textarea.value.length;
+      });
+    });
+  });
+
   describe("is form-associated", () => {
     it("supports type=text", () => formAssociated("calcite-input", { testValue: "test" }));
     it("supports type=number", () => formAssociated("<calcite-input type='number'></calcite-input>", { testValue: 5 }));

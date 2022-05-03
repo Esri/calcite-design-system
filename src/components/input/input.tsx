@@ -507,6 +507,7 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
       return;
     }
     if (event.key === "ArrowUp") {
+      /* prevent default behavior of moving cursor to the beginning of the input when holding down ArrowUp */
       event.preventDefault();
       this.nudgeNumberValue("up", event);
       return;
