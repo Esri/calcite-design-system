@@ -24,8 +24,8 @@ import {
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 
 /**
- * @slot actions-end - A slot that adds actions or content to the end side of the item.
- * @slot actions-start - A slot that adds actions or content to the start side of the item.
+ * @slot actions-end - A slot for adding actions or content to the end side of the item.
+ * @slot actions-start - A slot for adding actions or content to the start side of the item.
  */
 @Component({
   tag: "calcite-value-list-item",
@@ -86,7 +86,7 @@ export class ValueListItem implements ConditionalSlotComponent, InteractiveCompo
   @Prop({ reflect: true }) removable = false;
 
   /**
-   * When true, pre-select's the list item. Toggles when an item is checked/unchecked.
+   * When true, preselects the list item. Toggles when an item is checked/unchecked.
    */
   @Prop({ reflect: true, mutable: true }) selected = false;
 

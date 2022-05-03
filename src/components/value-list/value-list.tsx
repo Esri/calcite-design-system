@@ -38,8 +38,8 @@ import { createObserver } from "../../utils/observers";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 
 /**
- * @slot - A slot that adds calcite-value-list-item elements. List items are displayed as a vertical list.
- * @slot menu-actions - A slot that adds a button and menu combination for performing actions, such as sorting.
+ * @slot - A slot for adding calcite-value-list-item elements. List items are displayed as a vertical list.
+ * @slot menu-actions - A slot for adding a button and menu combination for performing actions, such as sorting.
  */
 @Component({
   tag: "calcite-value-list",
@@ -57,7 +57,7 @@ export class ValueList<
   // --------------------------------------------------------------------------
 
   /**
-   * When true, prevents user interaction. This state shows list items with lower opacity and grayed out.
+   * When true, prevents user interaction. This state shows list items grayed out and with lower opacity.
    */
   @Prop({ reflect: true }) disabled = false;
 
