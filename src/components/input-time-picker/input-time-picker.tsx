@@ -47,7 +47,10 @@ export class InputTimePicker implements LabelableComponent, FormComponent, Inter
   activeHandler(): void {
     if (this.disabled) {
       this.active = false;
+      return;
     }
+
+    this.reposition();
   }
 
   /** The disabled state of the time input */
@@ -163,6 +166,8 @@ export class InputTimePicker implements LabelableComponent, FormComponent, Inter
 
   private referenceElementId = `input-time-picker-${guid()}`;
 
+  popoverEl: HTMLCalcitePopoverElement;
+
   //--------------------------------------------------------------------------
   //
   //  State
@@ -259,6 +264,12 @@ export class InputTimePicker implements LabelableComponent, FormComponent, Inter
     this.calciteInputEl.setFocus();
   }
 
+  /** Updates the position of the component. */
+  @Method()
+  async reposition(): Promise<void> {
+    this.popoverEl?.reposition();
+  }
+
   // --------------------------------------------------------------------------
   //
   //  Private Methods
@@ -272,6 +283,10 @@ export class InputTimePicker implements LabelableComponent, FormComponent, Inter
   private shouldIncludeSeconds(): boolean {
     return this.step < 60;
   }
+
+  private setCalcitePopoverEl = (el: HTMLCalcitePopoverElement): void => {
+    this.popoverEl = el;
+  };
 
   private setCalciteInputEl = (el: HTMLCalciteInputElement): void => {
     this.calciteInputEl = el;
@@ -404,6 +419,7 @@ export class InputTimePicker implements LabelableComponent, FormComponent, Inter
           label="Time Picker"
           open={this.active}
           placement={this.placement}
+          ref={this.setCalcitePopoverEl}
           referenceElement={this.referenceElementId}
         >
           <calcite-time-picker

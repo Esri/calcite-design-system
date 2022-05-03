@@ -128,7 +128,6 @@ graph TD;
   calcite-value-list --> calcite-filter
   calcite-value-list --> calcite-scrim
   calcite-filter --> calcite-input
-  calcite-filter --> calcite-icon
   calcite-input --> calcite-progress
   calcite-input --> calcite-icon
   calcite-scrim --> calcite-loader

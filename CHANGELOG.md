@@ -21,13 +21,17 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### Features
 
+- **input-time-picker:** Add reposition method. ([#4364](https://github.com/Esri/calcite-components/issues/4364)) ([#4448](https://github.com/Esri/calcite-components/issues/4448)) ([7097b3b](https://github.com/Esri/calcite-components/commit/7097b3bf3efb6a43b5c1d6a8b37534a4060cfb93))
 - **popover:** Simplify popover usage by deprecating popover-manager component ([#4423](https://github.com/Esri/calcite-components/issues/4423)) ([04d5374](https://github.com/Esri/calcite-components/commit/04d537441a890dcbd21a7551b488a9f4683e5a3a))
 - **tooltip:** Simplify tooltip usage by deprecating tooltip-manager component. ([#4422](https://github.com/Esri/calcite-components/issues/4422)) ([6e5d13f](https://github.com/Esri/calcite-components/commit/6e5d13f256b44be9b5367cae7309ae7be55c78d7))
 
 ### Bug Fixes
 
 - **action-pad, action-bar:** toggleChange event emit only on user interaction ([#4275](https://github.com/Esri/calcite-components/issues/4275)) ([32e8cc0](https://github.com/Esri/calcite-components/commit/32e8cc080582f9e26a4cbfe405c47df4f1e9ce9b))
+- **checkbox:** no longer displays focus outline in chrome and FF ([#4472](https://github.com/Esri/calcite-components/issues/4472)) ([9706898](https://github.com/Esri/calcite-components/commit/970689850900c73052661b4690d197c82993e201))
 - **combobox:** input value will now filter correctly as typed in ([#4405](https://github.com/Esri/calcite-components/issues/4405)) ([6fcaa88](https://github.com/Esri/calcite-components/commit/6fcaa88d22239c4bb4b3157871bd7ffd463a180b))
+- **combobox, filter:** only test regex on string properties when filtering ([#4443](https://github.com/Esri/calcite-components/issues/4443)) ([0f57c7a](https://github.com/Esri/calcite-components/commit/0f57c7af0ee5d913f5bff890d20db2e3522ace10))
+- **filter:** fix inconsistent text-clearing UX ([#4456](https://github.com/Esri/calcite-components/issues/4456)) ([3a59aa7](https://github.com/Esri/calcite-components/commit/3a59aa7a35388646df3f84a8b4d136bd5de4c53d)), closes [#4376](https://github.com/Esri/calcite-components/issues/4376)
 - **inline-editable:** will no longer emit unnecessary calciteInlineEditableEditCancel events ([#4432](https://github.com/Esri/calcite-components/issues/4432)) ([84bb7cc](https://github.com/Esri/calcite-components/commit/84bb7cc31365b916fd3308f6ca9d021a32d8ab15))
 - **input:** correctly delocalize numbers with group separators ([#4403](https://github.com/Esri/calcite-components/issues/4403)) ([fd51c93](https://github.com/Esri/calcite-components/commit/fd51c93c474068799bb4351cd68f224f9004be27))
 - **input:** negative numbers delocalize correctly in ar locale ([#4400](https://github.com/Esri/calcite-components/issues/4400)) ([935b859](https://github.com/Esri/calcite-components/commit/935b859ef412d5dd5984cb763ab1a1d07d555c9e))

@@ -14,7 +14,3 @@ jobs:
       - uses: srvaroa/labeler@v0.8
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  milestone:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: benelan/milestone-action@v1.1.1
