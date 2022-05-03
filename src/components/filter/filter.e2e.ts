@@ -1,6 +1,7 @@
 import { E2EPage, newE2EPage } from "@stencil/core/testing";
 import { accessible, defaults, disabled, focusable, hidden, reflects, renders } from "../../tests/commonTests";
-import { CSS, DEBOUNCE_TIMEOUT } from "./resources";
+import { DEBOUNCE_TIMEOUT } from "./resources";
+import { CSS as INPUT_CSS } from "../input/resources";
 
 describe("calcite-filter", () => {
   it("renders", async () => renders("calcite-filter", { display: "flex" }));
@@ -73,23 +74,6 @@ describe("calcite-filter", () => {
       });
     });
 
-    it("should only display when the input has a value", async () => {
-      let button = await page.find(`calcite-filter >>> .${CSS.clearButton}`);
-
-      expect(button).toBeNull();
-
-      const filter = await page.find("calcite-filter");
-      await filter.callMethod("setFocus");
-
-      await page.keyboard.type("developer");
-      await page.waitForChanges();
-
-      button = await page.find(`calcite-filter >>> .${CSS.clearButton}`);
-
-      expect(button).not.toBeNull();
-      expect(await filter.getProperty("value")).toBe("developer");
-    });
-
     describe("clearing value", () => {
       const filterIsFocused = async (): Promise<boolean> =>
         page.evaluate(() => document.querySelector("calcite-filter") === document.activeElement);
@@ -103,9 +87,16 @@ describe("calcite-filter", () => {
 
         expect(await filter.getProperty("value")).toBe("developer");
 
-        const button = await page.find(`calcite-filter >>> .${CSS.clearButton}`);
-
-        await button.click();
+        await page.$eval(
+          "calcite-filter",
+          async (filter: HTMLCalciteFilterElement, buttonSelector: string): Promise<void> => {
+            return filter.shadowRoot
+              .querySelector("calcite-input")
+              .shadowRoot.querySelector<HTMLElement>(buttonSelector)
+              .click();
+          },
+          `.${INPUT_CSS.clearButton}`
+        );
         await page.waitForChanges();
 
         expect(await filter.getProperty("value")).toBe("");
