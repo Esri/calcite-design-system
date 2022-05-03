@@ -1376,7 +1376,7 @@ describe("calcite-input", () => {
       page = await newE2EPage();
     });
 
-    it("works for textarea", async () => {
+    it("works for type textarea", async () => {
       await page.setContent(`<calcite-input id="text-element" type="textarea" ></calcite-input>`);
       const element = await page.find("calcite-input");
 
@@ -1407,7 +1407,7 @@ describe("calcite-input", () => {
       ).toBeTruthy();
     });
 
-    it("works for text", async () => {
+    it("works for type text", async () => {
       await page.setContent(`<calcite-input id="text-element" type="text" ></calcite-input>`);
       const element = await page.find("calcite-input");
 
@@ -1436,6 +1436,37 @@ describe("calcite-input", () => {
           return input.selectionStart === input.value.length;
         })
       ).toBeTruthy();
+    });
+
+    it("does not jump Home while incrementing on ArrowUp held down on input type number", async () => {
+      await page.setContent(html` <calcite-input type="number" value="0"></calcite-input> `);
+      const calciteInputInput = await page.spyOnEvent("calciteInputInput");
+      const input = await page.find("calcite-input");
+      expect(calciteInputInput).toHaveReceivedEventTimes(0);
+      await input.callMethod("setFocus");
+      let cursorHomeCount = 0;
+
+      await page.keyboard.down("ArrowUp");
+      await page.$eval(
+        "calcite-input",
+        (element: HTMLInputElement) => {
+          document.addEventListener("calciteInputInput", async () => {
+            const input = element.shadowRoot.querySelector("input");
+            input.focus();
+            console.log("I run with every nudge");
+            if (input.selectionStart === 0) {
+              cursorHomeCount++;
+            }
+          });
+        },
+        cursorHomeCount
+      );
+      await page.waitForTimeout(delayFor2UpdatesInMs);
+
+      await page.keyboard.up("ArrowUp");
+      await page.waitForChanges();
+
+      expect(cursorHomeCount).toBe(0);
     });
   });
 
