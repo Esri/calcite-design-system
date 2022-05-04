@@ -1381,7 +1381,7 @@ describe("calcite-input", () => {
       expect(changeEventSpy).not.toHaveReceivedEvent();
 
       await input.callMethod("setFocus");
-      await input.setProperty("value", Math.random());
+      await input.setProperty("value", "not a random value");
       await page.keyboard.press("Tab");
       await page.waitForChanges();
 
