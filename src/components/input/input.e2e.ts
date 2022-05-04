@@ -203,8 +203,13 @@ describe("calcite-input", () => {
     }));
 
   describe("input type number increment/decrement functionality", () => {
+    let page;
+
+    beforeEach(async () => {
+      page = await newE2EPage();
+    });
+
     it("correctly increments and decrements decimal value when number buttons are clicked and the step precision matches the precision of the initial value", async () => {
-      const page = await newE2EPage();
       await page.setContent(html` <calcite-input type="number" value="3.123" step="0.001"></calcite-input> `);
 
       const element = await page.find("calcite-input");
@@ -234,7 +239,6 @@ describe("calcite-input", () => {
     });
 
     it("correctly increments and decrements initial decimal value by 1 when number buttons are clicked and step is set to default of 1.", async () => {
-      const page = await newE2EPage();
       await page.setContent(html`<calcite-input type="number" value="3.123"></calcite-input>`);
 
       const element = await page.find("calcite-input");
@@ -264,7 +268,6 @@ describe("calcite-input", () => {
     });
 
     it("correctly increments and decrements value when number buttons are clicked and step is set to an integer", async () => {
-      const page = await newE2EPage();
       await page.setContent(html`<calcite-input type="number" step="10" value="15"></calcite-input>`);
 
       const element = await page.find("calcite-input");
@@ -284,7 +287,6 @@ describe("calcite-input", () => {
     });
 
     it("correctly increments and decrements on long hold on mousedown and step is set to a decimal", async () => {
-      const page = await newE2EPage();
       await page.setContent(html`<calcite-input type="number" value="0" step="0.01"></calcite-input>`);
       const input = await page.find("calcite-input");
       const [buttonUpLocationX, buttonUpLocationY] = await getElementXY(
@@ -319,7 +321,6 @@ describe("calcite-input", () => {
     });
 
     it("correctly increments and decrements value by one when any is set for step", async () => {
-      const page = await newE2EPage();
       await page.setContent(html`<calcite-input type="number" step="any" value="5.5"></calcite-input>`);
 
       const element = await page.find("calcite-input");
@@ -339,7 +340,6 @@ describe("calcite-input", () => {
     });
 
     it("correctly increments and decrements value by one when step is undefined", async () => {
-      const page = await newE2EPage();
       await page.setContent(html`<calcite-input type="number" value="5"></calcite-input>`);
 
       const element = await page.find("calcite-input");
@@ -359,7 +359,6 @@ describe("calcite-input", () => {
     });
 
     it("correctly stops decrementing value when min is set", async () => {
-      const page = await newE2EPage();
       await page.setContent(html` <calcite-input type="number" min="10" value="11"></calcite-input> `);
 
       const element = await page.find("calcite-input");
@@ -374,7 +373,6 @@ describe("calcite-input", () => {
     });
 
     it("correctly stops incrementing value when max is set", async () => {
-      const page = await newE2EPage();
       await page.setContent(html` <calcite-input type="number" max="10" value="9"></calcite-input> `);
 
       const element = await page.find("calcite-input");
@@ -389,7 +387,6 @@ describe("calcite-input", () => {
     });
 
     it("should emit event when up or down clicked on input", async () => {
-      const page = await newE2EPage();
       await page.setContent(html` <calcite-input type="number" max="0" value="-2"></calcite-input> `);
 
       const calciteInputInput = await page.spyOnEvent("calciteInputInput");
@@ -412,7 +409,6 @@ describe("calcite-input", () => {
     });
 
     it("on input type number, should emit an event on an interval when ArrowUp/ArrowDown keys are down and stop on key up", async () => {
-      const page = await newE2EPage();
       await page.setContent(html` <calcite-input type="number" value="0"></calcite-input> `);
       const calciteInputInput = await page.spyOnEvent("calciteInputInput");
       const input = await page.find("calcite-input");
@@ -439,7 +435,6 @@ describe("calcite-input", () => {
     });
 
     it("should emit an event on an interval when up/down buttons are down and stop on mouseup/mouseleave", async () => {
-      const page = await newE2EPage();
       await page.setContent(html` <calcite-input type="number" value="0"></calcite-input> `);
       const input = await page.find("calcite-input");
       const calciteInputInput = await page.spyOnEvent("calciteInputInput");
@@ -499,7 +494,6 @@ describe("calcite-input", () => {
     });
 
     it("on input type number, when both 'ArrowUp' and 'ArrowDown' are pressed at the same time most recently pressed key takes over", async () => {
-      const page = await newE2EPage();
       await page.setContent(html`<calcite-input type="number" value="0"></calcite-input>`);
       const element = await page.find("calcite-input");
       await element.callMethod("setFocus");
@@ -512,7 +506,6 @@ describe("calcite-input", () => {
     });
 
     it("on input type number, should emit event only twice when toggled fast between up/down arrows", async () => {
-      const page = await newE2EPage();
       await page.setContent(html`<calcite-input type="number" value="0"></calcite-input>`);
       const calciteInputInput = await page.spyOnEvent("calciteInputInput");
       const element = await page.find("calcite-input");
@@ -528,7 +521,6 @@ describe("calcite-input", () => {
     });
 
     it("up/down arrow keys increments and decrements correctly when the step is a decimal", async () => {
-      const page = await newE2EPage();
       await page.setContent(html`<calcite-input step="0.1" type="number"></calcite-input> `);
       const input = await page.find("calcite-input");
       await input.callMethod("setFocus");
@@ -554,7 +546,6 @@ describe("calcite-input", () => {
     });
 
     it("up/down arrow keys increments and decrements correctly when the step is an integer and the value is a decimal", async () => {
-      const page = await newE2EPage();
       await page.setContent(html`<calcite-input step="5" type="number" value="1.008"></calcite-input>`);
       const input = await page.find("calcite-input");
       await input.callMethod("setFocus");
@@ -578,7 +569,6 @@ describe("calcite-input", () => {
 
     describe("external/programmatic changes to the value", () => {
       it("incrementing correctly updates the value after focus and blur events", async () => {
-        const page = await newE2EPage();
         await page.setContent(html` <calcite-input type="number" value="1"></calcite-input> `);
         const element = await page.find("calcite-input");
         await element.click();
