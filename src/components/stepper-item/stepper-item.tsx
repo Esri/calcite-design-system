@@ -13,6 +13,7 @@ import {
 import { getElementProp } from "../../utils/dom";
 import { Scale } from "../interfaces";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import { StepperItemEventDetail, StepperItemKeyEventDetail } from "../stepper/interfaces";
 
 /**
  * @slot - A slot for adding custom content.
@@ -87,17 +88,17 @@ export class StepperItem implements InteractiveComponent {
   /**
    * @internal
    */
-  @Event() calciteStepperItemKeyEvent: EventEmitter;
+  @Event() calciteStepperItemKeyEvent: EventEmitter<StepperItemKeyEventDetail>;
 
   /**
    * @internal
    */
-  @Event() calciteStepperItemSelect: EventEmitter;
+  @Event() calciteStepperItemSelect: EventEmitter<StepperItemEventDetail>;
 
   /**
    * @internal
    */
-  @Event() calciteStepperItemRegister: EventEmitter;
+  @Event() calciteStepperItemRegister: EventEmitter<StepperItemEventDetail>;
 
   //--------------------------------------------------------------------------
   //
@@ -165,7 +166,7 @@ export class StepperItem implements InteractiveComponent {
   //--------------------------------------------------------------------------
 
   @Listen("calciteStepperItemChange", { target: "body" })
-  updateActiveItemOnChange(event: CustomEvent): void {
+  updateActiveItemOnChange(event: CustomEvent<StepperItemEventDetail>): void {
     if (
       event.target === this.parentStepperEl ||
       event.composedPath().includes(this.parentStepperEl)
@@ -187,7 +188,7 @@ export class StepperItem implements InteractiveComponent {
   private activePosition: number;
 
   /** the slotted item content */
-  private itemContent: HTMLElement[] | NodeListOf<any>;
+  private itemContent: Node[];
 
   /** the parent stepper component */
   private parentStepperEl: HTMLCalciteStepperElement;
@@ -251,13 +252,8 @@ export class StepperItem implements InteractiveComponent {
     }
   };
 
-  private getItemContent(): HTMLElement[] | NodeListOf<any> {
-    // todo: Remove IE/Edge specific code.
-    return this.el.shadowRoot?.querySelector("slot")
-      ? (this.el.shadowRoot.querySelector("slot").assignedNodes({ flatten: true }) as HTMLElement[])
-      : this.el.querySelector(".stepper-item-content")
-      ? (this.el.querySelector(".stepper-item-content").childNodes as NodeListOf<any>)
-      : null;
+  private getItemContent(): Node[] {
+    return this.el.shadowRoot?.querySelector("slot")?.assignedNodes({ flatten: true });
   }
 
   private getItemPosition(): number {

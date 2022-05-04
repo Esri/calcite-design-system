@@ -12,12 +12,7 @@ import {
 } from "@stencil/core";
 
 import { Layout, Scale } from "../interfaces";
-
-interface StepperItemRegisterDetail {
-  item: HTMLCalciteStepperItemElement;
-  position: number;
-  content: NodeListOf<any>;
-}
+import { StepperItemEventDetail, StepperItemKeyEventDetail, StepperItemLookup } from "./interfaces";
 
 /**
  * @slot - A slot for adding `calcite-stepper-item`s.
@@ -55,7 +50,7 @@ export class Stepper {
   @Prop({ reflect: true }) scale: Scale = "m";
 
   /** @internal */
-  @Prop({ mutable: true }) requestedContent: NodeListOf<any>;
+  @Prop({ mutable: true }) requestedContent: Node[];
 
   // watch for removal of disabled to register step
   @Watch("requestedContent")
@@ -78,7 +73,7 @@ export class Stepper {
    * This event fires when the active stepper item has changed.
    * @internal
    */
-  @Event() calciteStepperItemChange: EventEmitter;
+  @Event() calciteStepperItemChange: EventEmitter<{ position: number }>;
 
   //--------------------------------------------------------------------------
   //
@@ -111,7 +106,7 @@ export class Stepper {
   //--------------------------------------------------------------------------
 
   @Listen("calciteStepperItemKeyEvent")
-  calciteStepperItemKeyEvent(e: CustomEvent): void {
+  calciteStepperItemKeyEvent(e: CustomEvent<StepperItemKeyEventDetail>): void {
     const item = e.detail.item;
     const itemToFocus = e.target as HTMLCalciteStepperItemElement;
     const isFirstItem = this.itemIndex(itemToFocus) === 0;
@@ -143,8 +138,8 @@ export class Stepper {
   }
 
   @Listen("calciteStepperItemRegister")
-  registerItem(event: CustomEvent): void {
-    const item: StepperItemRegisterDetail = {
+  registerItem(event: CustomEvent<StepperItemEventDetail>): void {
+    const item: StepperItemLookup = {
       item: event.target as HTMLCalciteStepperItemElement,
       position: event.detail.position,
       content: event.detail.content
@@ -160,7 +155,7 @@ export class Stepper {
   }
 
   @Listen("calciteStepperItemSelect")
-  updateItem(event: CustomEvent): void {
+  updateItem(event: CustomEvent<StepperItemEventDetail>): void {
     if (event.detail.content) {
       this.requestedContent = event.detail.content;
     }
@@ -246,7 +241,7 @@ export class Stepper {
   //--------------------------------------------------------------------------
 
   /** created list of Stepper items */
-  private items: StepperItemRegisterDetail[] = [];
+  private items: StepperItemLookup[] = [];
 
   /** filtered and sorted list of Stepper items */
   private curatedItems: HTMLCalciteStepperItemElement[] = [];
@@ -318,7 +313,7 @@ export class Stepper {
     item.focus();
   }
 
-  private sortItems(): StepperItemRegisterDetail[] {
+  private sortItems(): StepperItemLookup[] {
     return Array.from(this.items).sort((a, b) => a.position - b.position);
   }
 
@@ -330,8 +325,8 @@ export class Stepper {
     return [...Array.from(new Set(items))];
   }
 
-  private updateContent(content: NodeListOf<any>): void {
+  private updateContent(content: Node[]): void {
     this.stepperContentContainer.innerHTML = "";
-    this.stepperContentContainer.append(...Array.from(content));
+    this.stepperContentContainer.append(...content);
   }
 }
