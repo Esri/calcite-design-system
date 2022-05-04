@@ -90,7 +90,7 @@ describe("calcite-input", () => {
 
   it("renders an icon when explicit Calcite UI is requested, and is a type without a default icon", async () => {
     const page = await newE2EPage();
-    await page.setContent(html` <calcite-input icon="key" type="number"></calcite-input> `);
+    await page.setContent(html`<calcite-input icon="key" type="number"></calcite-input>`);
 
     const icon = await page.find("calcite-input >>> .icon");
     expect(icon).not.toBeNull();
@@ -98,7 +98,7 @@ describe("calcite-input", () => {
 
   it("renders an icon when explicit Calcite UI is requested, and is a type with a default icon", async () => {
     const page = await newE2EPage();
-    await page.setContent(html` <calcite-input icon="key" type="date"></calcite-input> `);
+    await page.setContent(html`<calcite-input icon="key" type="date"></calcite-input>`);
 
     const icon = await page.find("calcite-input >>> .icon");
     expect(icon).not.toBeNull();
@@ -106,7 +106,7 @@ describe("calcite-input", () => {
 
   it("renders an icon when requested without an explicit Calcite UI, and is a type with a default icon", async () => {
     const page = await newE2EPage();
-    await page.setContent(html` <calcite-input icon type="date"></calcite-input> `);
+    await page.setContent(html`<calcite-input icon type="date"></calcite-input>`);
 
     const icon = await page.find("calcite-input >>> .icon");
     expect(icon).not.toBeNull();
@@ -114,7 +114,7 @@ describe("calcite-input", () => {
 
   it("does not render an icon when requested without an explicit Calcite UI, and is a type without a default icon", async () => {
     const page = await newE2EPage();
-    await page.setContent(html` <calcite-input icon type="number"></calcite-input> `);
+    await page.setContent(html`<calcite-input icon type="number"></calcite-input>`);
 
     const icon = await page.find("calcite-input >>> .icon");
     expect(icon).toBeNull();
@@ -122,7 +122,7 @@ describe("calcite-input", () => {
 
   it("renders number buttons in default vertical alignment when type=number", async () => {
     const page = await newE2EPage();
-    await page.setContent(html` <calcite-input type="number"></calcite-input> `);
+    await page.setContent(html`<calcite-input type="number"></calcite-input>`);
 
     const numberVerticalWrapper = await page.find("calcite-input >>> .number-button-wrapper");
     const numberHorizontalItemDown = await page.find(
@@ -139,7 +139,7 @@ describe("calcite-input", () => {
 
   it("renders number buttons in horizontal vertical alignment when type=number and number button type is horizontal", async () => {
     const page = await newE2EPage();
-    await page.setContent(html` <calcite-input type="number" number-button-type="horizontal"></calcite-input> `);
+    await page.setContent(html`<calcite-input type="number" number-button-type="horizontal"></calcite-input>`);
 
     const numberVerticalWrapper = await page.find("calcite-input >>> .number-button-wrapper");
     const numberHorizontalItemDown = await page.find(
@@ -156,7 +156,7 @@ describe("calcite-input", () => {
 
   it("does not render number buttons in default vertical alignment when type=number and read-only", async () => {
     const page = await newE2EPage();
-    await page.setContent(html` <calcite-input type="number" read-only></calcite-input> `);
+    await page.setContent(html`<calcite-input type="number" read-only></calcite-input>`);
 
     const numberVerticalWrapper = await page.find("calcite-input >>> .number-button-wrapper");
 
@@ -166,7 +166,7 @@ describe("calcite-input", () => {
   it("does not render number buttons in horizontal alignment when type=number, number button type is horizontal, and read-only", async () => {
     const page = await newE2EPage();
     await page.setContent(
-      html` <calcite-input type="number" number-button-type="horizontal" read-only></calcite-input> `
+      html`<calcite-input type="number" number-button-type="horizontal" read-only></calcite-input>`
     );
 
     const numberHorizontalItemDown = await page.find(
@@ -182,7 +182,7 @@ describe("calcite-input", () => {
 
   it("renders no buttons in type=number and number button type is none", async () => {
     const page = await newE2EPage();
-    await page.setContent(html` <calcite-input type="number" number-button-type="none"></calcite-input> `);
+    await page.setContent(html`<calcite-input type="number" number-button-type="none"></calcite-input>`);
 
     const numberVerticalWrapper = await page.find("calcite-input >>> .number-button-wrapper");
     const numberHorizontalItemDown = await page.find(
@@ -203,14 +203,13 @@ describe("calcite-input", () => {
     }));
 
   describe("input type number increment/decrement functionality", () => {
-    let page;
-
+    let page: E2EPage;
     beforeEach(async () => {
       page = await newE2EPage();
     });
 
     it("correctly increments and decrements decimal value when number buttons are clicked and the step precision matches the precision of the initial value", async () => {
-      await page.setContent(html` <calcite-input type="number" value="3.123" step="0.001"></calcite-input> `);
+      await page.setContent(html`<calcite-input type="number" value="3.123" step="0.001"></calcite-input>`);
 
       const element = await page.find("calcite-input");
       const numberHorizontalItemDown = await page.find("calcite-input >>> .number-button-item[data-adjustment='down']");
@@ -359,7 +358,7 @@ describe("calcite-input", () => {
     });
 
     it("correctly stops decrementing value when min is set", async () => {
-      await page.setContent(html` <calcite-input type="number" min="10" value="11"></calcite-input> `);
+      await page.setContent(html`<calcite-input type="number" min="10" value="11"></calcite-input>`);
 
       const element = await page.find("calcite-input");
       const numberHorizontalItemDown = await page.find("calcite-input >>> .number-button-item[data-adjustment='down']");
@@ -373,7 +372,7 @@ describe("calcite-input", () => {
     });
 
     it("correctly stops incrementing value when max is set", async () => {
-      await page.setContent(html` <calcite-input type="number" max="10" value="9"></calcite-input> `);
+      await page.setContent(html`<calcite-input type="number" max="10" value="9"></calcite-input>`);
 
       const element = await page.find("calcite-input");
       const numberHorizontalItemUp = await page.find("calcite-input >>> .number-button-item[data-adjustment='up']");
@@ -387,7 +386,7 @@ describe("calcite-input", () => {
     });
 
     it("should emit event when up or down clicked on input", async () => {
-      await page.setContent(html` <calcite-input type="number" max="0" value="-2"></calcite-input> `);
+      await page.setContent(html`<calcite-input type="number" max="0" value="-2"></calcite-input>`);
 
       const calciteInputInput = await page.spyOnEvent("calciteInputInput");
 
@@ -409,7 +408,7 @@ describe("calcite-input", () => {
     });
 
     it("on input type number, should emit an event on an interval when ArrowUp/ArrowDown keys are down and stop on key up", async () => {
-      await page.setContent(html` <calcite-input type="number" value="0"></calcite-input> `);
+      await page.setContent(html`<calcite-input type="number" value="0"></calcite-input>`);
       const calciteInputInput = await page.spyOnEvent("calciteInputInput");
       const input = await page.find("calcite-input");
       expect(calciteInputInput).toHaveReceivedEventTimes(0);
@@ -435,7 +434,7 @@ describe("calcite-input", () => {
     });
 
     it("should emit an event on an interval when up/down buttons are down and stop on mouseup/mouseleave", async () => {
-      await page.setContent(html` <calcite-input type="number" value="0"></calcite-input> `);
+      await page.setContent(html`<calcite-input type="number" value="0"></calcite-input>`);
       const input = await page.find("calcite-input");
       const calciteInputInput = await page.spyOnEvent("calciteInputInput");
       const [buttonUpLocationX, buttonUpLocationY] = await getElementXY(
@@ -569,7 +568,7 @@ describe("calcite-input", () => {
 
     describe("external/programmatic changes to the value", () => {
       it("incrementing correctly updates the value after focus and blur events", async () => {
-        await page.setContent(html` <calcite-input type="number" value="1"></calcite-input> `);
+        await page.setContent(html`<calcite-input type="number" value="1"></calcite-input>`);
         const element = await page.find("calcite-input");
         await element.click();
         await page.waitForChanges;
@@ -635,14 +634,14 @@ describe("calcite-input", () => {
 
   it("renders clear button when clearable is requested and value is populated at load", async () => {
     const page = await newE2EPage();
-    await page.setContent(html` <calcite-input clearable value="John Doe"></calcite-input> `);
+    await page.setContent(html`<calcite-input clearable value="John Doe"></calcite-input>`);
     const clearButton = await page.find("calcite-input >>> .clear-button");
     expect(clearButton).not.toBe(null);
   });
 
   it("does not render clear button when clearable is requested and value is not populated", async () => {
     const page = await newE2EPage();
-    await page.setContent(html` <calcite-input clearable></calcite-input> `);
+    await page.setContent(html`<calcite-input clearable></calcite-input>`);
 
     const clearButton = await page.find("calcite-input >>> .clear-button");
     expect(clearButton).toBe(null);
@@ -650,7 +649,7 @@ describe("calcite-input", () => {
 
   it("does not render clear button when clearable is not requested", async () => {
     const page = await newE2EPage();
-    await page.setContent(html` <calcite-input></calcite-input> `);
+    await page.setContent(html`<calcite-input></calcite-input>`);
 
     const clearButton = await page.find("calcite-input >>> .clear-button");
     expect(clearButton).toBe(null);
@@ -658,7 +657,7 @@ describe("calcite-input", () => {
 
   it("when clearable is requested, value is cleared on escape key press", async () => {
     const page = await newE2EPage();
-    await page.setContent(html` <calcite-input clearable value="John Doe"></calcite-input> `);
+    await page.setContent(html`<calcite-input clearable value="John Doe"></calcite-input>`);
 
     const element = await page.find("calcite-input");
     await element.callMethod("setFocus");
@@ -669,7 +668,7 @@ describe("calcite-input", () => {
 
   it("when clearable is requested, value is cleared on clear button click", async () => {
     const page = await newE2EPage();
-    await page.setContent(html` <calcite-input clearable value="John Doe"></calcite-input> `);
+    await page.setContent(html`<calcite-input clearable value="John Doe"></calcite-input>`);
 
     const element = await page.find("calcite-input");
     const clearButton = await page.find("calcite-input >>> .clear-button");
@@ -680,7 +679,7 @@ describe("calcite-input", () => {
 
   it("when clearable is requested and clear button is clicked, event is received", async () => {
     const page = await newE2EPage();
-    await page.setContent(html` <calcite-input clearable value="John Doe"></calcite-input> `);
+    await page.setContent(html`<calcite-input clearable value="John Doe"></calcite-input>`);
 
     const calciteInputInput = await page.spyOnEvent("calciteInputInput");
     const element = await page.find("calcite-input");
@@ -694,7 +693,7 @@ describe("calcite-input", () => {
 
   it("when clearable is requested and input is cleared via escape key, event is received", async () => {
     const page = await newE2EPage();
-    await page.setContent(html` <calcite-input clearable value="John Doe"></calcite-input> `);
+    await page.setContent(html`<calcite-input clearable value="John Doe"></calcite-input>`);
 
     const calciteInputInput = await page.spyOnEvent("calciteInputInput");
     const element = await page.find("calcite-input");
@@ -709,7 +708,7 @@ describe("calcite-input", () => {
 
   it("when type is search and clear button is clicked, event is received", async () => {
     const page = await newE2EPage();
-    await page.setContent(html` <calcite-input type="search" value="John Doe"></calcite-input> `);
+    await page.setContent(html`<calcite-input type="search" value="John Doe"></calcite-input>`);
 
     const calciteInputInput = await page.spyOnEvent("calciteInputInput");
     const element = await page.find("calcite-input");
@@ -724,7 +723,7 @@ describe("calcite-input", () => {
 
   it("when type is search and input is cleared via escape key, event is received", async () => {
     const page = await newE2EPage();
-    await page.setContent(html` <calcite-input type="search" value="John Doe"></calcite-input> `);
+    await page.setContent(html`<calcite-input type="search" value="John Doe"></calcite-input>`);
 
     const calciteInputInput = await page.spyOnEvent("calciteInputInput");
     const element = await page.find("calcite-input");
@@ -739,7 +738,7 @@ describe("calcite-input", () => {
 
   it("when clearable is not requested and input is cleared via escape key, event is not received", async () => {
     const page = await newE2EPage();
-    await page.setContent(html` <calcite-input value="John Doe"></calcite-input> `);
+    await page.setContent(html`<calcite-input value="John Doe"></calcite-input>`);
 
     const calciteInputInput = await page.spyOnEvent("calciteInputInput");
     const element = await page.find("calcite-input");
@@ -829,7 +828,7 @@ describe("calcite-input", () => {
   describe("number type", () => {
     it("allows typing negative decimal values", async () => {
       const page = await newE2EPage();
-      await page.setContent(html` <calcite-input type="number"></calcite-input> `);
+      await page.setContent(html`<calcite-input type="number"></calcite-input>`);
 
       const element = await page.find("calcite-input");
       await element.callMethod("setFocus");
@@ -966,7 +965,7 @@ describe("calcite-input", () => {
 
     it("allows any valid number", async () => {
       const page = await newE2EPage();
-      await page.setContent(html` <calcite-input type="number"></calcite-input> `);
+      await page.setContent(html`<calcite-input type="number"></calcite-input>`);
       const input = await page.find("calcite-input");
       await input.callMethod("setFocus");
       await typeNumberValue(page, "1.005");
@@ -1249,7 +1248,7 @@ describe("calcite-input", () => {
 
   it("cannot be modified when readOnly is true", async () => {
     const page = await newE2EPage();
-    await page.setContent(html` <calcite-input read-only value="John Doe" clearable></calcite-input> `);
+    await page.setContent(html`<calcite-input read-only value="John Doe" clearable></calcite-input>`);
 
     const calciteInputInput = await page.spyOnEvent("calciteInputInput");
     const element = await page.find("calcite-input");
@@ -1268,7 +1267,7 @@ describe("calcite-input", () => {
 
   it("number cannot be modified when readOnly is true", async () => {
     const page = await newE2EPage();
-    await page.setContent(html` <calcite-input type="number" read-only value="5"></calcite-input> `);
+    await page.setContent(html`<calcite-input type="number" read-only value="5"></calcite-input>`);
 
     const calciteInputInput = await page.spyOnEvent("calciteInputInput");
     const element = await page.find("calcite-input");
@@ -1287,7 +1286,7 @@ describe("calcite-input", () => {
 
   it("sets internals to readOnly or disabled when readOnly is true", async () => {
     const page = await newE2EPage();
-    await page.setContent(html` <calcite-input read-only></calcite-input>`);
+    await page.setContent(html`<calcite-input read-only></calcite-input>`);
 
     const inputs = await page.findAll("calcite-input >>> input");
 
@@ -1360,7 +1359,7 @@ describe("calcite-input", () => {
   });
 
   describe("ArrowUp/ArrowDown function as Home/End within calcite-input", () => {
-    let page;
+    let page: E2EPage;
 
     beforeEach(async () => {
       page = await newE2EPage();
@@ -1398,7 +1397,7 @@ describe("calcite-input", () => {
     });
 
     it("works for type text", async () => {
-      await page.setContent(`<calcite-input id="text-element" type="text" ></calcite-input>`);
+      await page.setContent(`<calcite-input id="text-element" type="text"></calcite-input>`);
       const element = await page.find("calcite-input");
 
       await element.callMethod("setFocus");
@@ -1464,7 +1463,7 @@ describe("calcite-input", () => {
     });
 
     it("does not jump to the beginning of input while incrementing on ArrowUp held down on input type number", async () => {
-      await page.setContent(html` <calcite-input type="number" value="0"></calcite-input> `);
+      await page.setContent(html`<calcite-input type="number" value="0"></calcite-input>`);
       let cursorHomeCount = 0;
 
       await page.keyboard.down("ArrowUp");
