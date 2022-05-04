@@ -60,5 +60,9 @@
   }
 }
 
+.toggle:focus-visible {
+  outline: none;
+}
+
 @include disabled();
 @include hidden-form-input();

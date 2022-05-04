@@ -38,8 +38,8 @@ import { createObserver } from "../../utils/observers";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 
 /**
- * @slot - A slot for adding `calcite-value-list-item` elements. Items are displayed as a vertical list.
- * @slot menu-actions - A slot for adding a button + menu combo for performing actions like sorting.
+ * @slot - A slot for adding calcite-value-list-item elements. List items are displayed as a vertical list.
+ * @slot menu-actions - A slot for adding a button and menu combination for performing actions, such as sorting.
  */
 @Component({
   tag: "calcite-value-list",
@@ -57,22 +57,22 @@ export class ValueList<
   // --------------------------------------------------------------------------
 
   /**
-   * When true, disabled prevents interaction. This state shows items with lower opacity/grayed.
+   * When true, prevents user interaction. This state shows list items grayed out and with lower opacity.
    */
   @Prop({ reflect: true }) disabled = false;
 
   /**
-   * When true, the items will be sortable via drag and drop.
+   * When true, list items are sortable via a draggable button.
    */
   @Prop({ reflect: true }) dragEnabled = false;
 
   /**
-   * When true, an input appears at the top of the list that can be used by end users to filter items in the list.
+   * When true, an input appears at the top of the list that can be used by end users to filter list items.
    */
   @Prop({ reflect: true }) filterEnabled = false;
 
   /**
-   * Placeholder text for the filter input field.
+   * Placeholder text for the filter's input field.
    */
   @Prop({ reflect: true }) filterPlaceholder: string;
 
@@ -89,15 +89,15 @@ export class ValueList<
   @Prop({ reflect: true }) loading = false;
 
   /**
-   * Multiple Works similar to standard radio buttons and checkboxes.
-   * When true, a user can select multiple items at a time.
-   * When false, only a single item can be selected at a time
-   * and selecting a new item will deselect any other selected items.
+   * Similar to standard radio buttons and checkboxes.
+   * When true, a user can select multiple list items at a time.
+   * When false, only a single list item can be selected at a time,
+   * and selecting a new list item will deselect any other selected list items.
    */
   @Prop({ reflect: true }) multiple = false;
 
   /**
-   * When true and single-selection is enabled, the selection will change when navigating items via the keyboard.
+   * When true and single-selection is enabled, the selection changes when navigating list items via the keyboard.
    */
   @Prop() selectionFollowsFocus = false;
 
@@ -156,12 +156,12 @@ export class ValueList<
   // --------------------------------------------------------------------------
 
   /**
-   * Emitted when any of the item selections have changed.
+   * Emits when any of the list item selections have changed.
    */
   @Event() calciteListChange: EventEmitter<Map<string, HTMLCalciteValueListItemElement>>;
 
   /**
-   * Emitted when the order of the list has changed.
+   * Emits when the order of the list has changed.
    */
   @Event() calciteListOrderChange: EventEmitter<any[]>;
 

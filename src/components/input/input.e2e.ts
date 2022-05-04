@@ -5,6 +5,7 @@ import { letterKeys, numberKeys } from "../../utils/key";
 import { getDecimalSeparator, locales, localizeNumberString } from "../../utils/locale";
 import { getElementXY } from "../../tests/utils";
 import { KeyInput } from "puppeteer";
+import { TEXT } from "./resources";
 
 describe("calcite-input", () => {
   const delayFor2UpdatesInMs = 200;
@@ -441,6 +442,7 @@ describe("calcite-input", () => {
     await page.setContent(html` <calcite-input clearable value="John Doe"></calcite-input> `);
     const clearButton = await page.find("calcite-input >>> .clear-button");
     expect(clearButton).not.toBe(null);
+    expect(clearButton.getAttribute("aria-label")).toBe(TEXT.clear);
   });
 
   it("does not render clear button when clearable is requested and value is not populated", async () => {
@@ -1073,6 +1075,18 @@ describe("calcite-input", () => {
           expect(await internalLocaleInput.getProperty("value")).toBe(localizeNumberString(assertedValue, locale));
         });
       });
+  });
+
+  it(`allows negative, decimal numbers for ar locale`, async () => {
+    const value = "-0001.0001";
+    const page = await newE2EPage();
+    await page.setContent(html`<calcite-input locale="ar" type="number"></calcite-input>`);
+    const element = await page.find("calcite-input");
+    await element.callMethod("setFocus");
+    await typeNumberValue(page, value);
+    await page.waitForChanges();
+    await page.keyboard.press("Tab");
+    expect(await element.getProperty("value")).toBe("-1.0001");
   });
 
   it(`allows clearing value for type=number`, async () => {

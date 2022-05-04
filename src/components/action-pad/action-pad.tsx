@@ -49,7 +49,6 @@ export class ActionPad implements ConditionalSlotComponent {
   @Watch("expanded")
   expandedHandler(expanded: boolean): void {
     toggleChildActionText({ parent: this.el, expanded });
-    this.calciteActionPadToggle.emit();
   }
 
   /**
@@ -154,6 +153,7 @@ export class ActionPad implements ConditionalSlotComponent {
 
   toggleExpand = (): void => {
     this.expanded = !this.expanded;
+    this.calciteActionPadToggle.emit();
   };
 
   setExpandToggleRef = (el: HTMLCalciteActionElement): void => {

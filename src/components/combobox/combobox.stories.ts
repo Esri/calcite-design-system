@@ -13,6 +13,8 @@ export default {
   }
 };
 
+const scrollablePageSizeInPx = 2400;
+
 export const Simple = (): string => html`
   <div style="width:400px;max-width:100%;background-color:white;padding:100px">
     <calcite-combobox
@@ -256,7 +258,6 @@ FlipPositioning.parameters = {
   layout: "fullscreen"
 };
 
-
 export const SingleLongLabel = (): string => html`
   <calcite-combobox active selection-mode="single" allow-custom-values>
     <calcite-combobox-item value="Trees" text-label="Trees">
@@ -283,4 +284,3 @@ export const disabled = (): string => html`<calcite-combobox disabled>
     <calcite-combobox-item value="Nasturtium" text-label="Nasturtium"></calcite-combobox-item>
   </calcite-combobox-item>
 </calcite-combobox>`;
-
