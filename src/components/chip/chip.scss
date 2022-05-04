@@ -4,7 +4,7 @@
   @apply text-n2 h-6;
   --calcite-chip-spacing-unit-l: theme("spacing.2");
   --calcite-chip-spacing-unit-s: theme("spacing.1");
-  .chip-image-container {
+  .image-container {
     @apply h-5 w-5;
   }
 }
@@ -12,7 +12,7 @@
   @apply text-n1 h-8;
   --calcite-chip-spacing-unit-l: theme("spacing.3");
   --calcite-chip-spacing-unit-s: 6px;
-  .chip-image-container {
+  .image-container {
     @apply h-6 w-6;
     padding-inline-start: theme("padding.1");
   }
@@ -22,7 +22,7 @@
   @apply text-0 h-11;
   --calcite-chip-spacing-unit-l: theme("spacing.4");
   --calcite-chip-spacing-unit-s: theme("spacing.2");
-  .chip-image-container {
+  .image-container {
     @apply h-8 w-8 pl-1;
   }
 }
@@ -97,7 +97,7 @@
 }
 
 //slotted image
-.chip-image-container {
+.image-container {
   @apply rounded-half inline-flex overflow-hidden;
 }
 
@@ -106,7 +106,7 @@
 }
 
 //icon
-.calcite-chip--icon {
+.chip-icon {
   @apply relative
     my-0
     inline-flex
@@ -150,43 +150,47 @@
   background-color: var(--calcite-ui-foreground-2);
   color: var(--calcite-ui-text-1);
   button,
-  calcite-icon {
+  .close-icon {
     color: var(--calcite-ui-text-3);
+  }
+
+  .chip-icon {
+    color: var(--calcite-ui-icon-color, var(--calcite-ui-text-3));
   }
 }
 
 // clear
 :host([color="blue"][appearance="clear"]) {
   border-color: var(--calcite-ui-info);
-  .calcite-chip--icon {
-    color: var(--calcite-ui-info);
+  .chip-icon {
+    color: var(--calcite-ui-icon-color, var(--calcite-ui-info));
   }
 }
 
 :host([color="red"][appearance="clear"]) {
   border-color: var(--calcite-ui-danger);
-  .calcite-chip--icon {
-    color: var(--calcite-ui-danger);
+  .chip-icon {
+    color: var(--calcite-ui-icon-color, var(--calcite-ui-danger));
   }
 }
 
 :host([color="yellow"][appearance="clear"]) {
   border-color: var(--calcite-ui-warning);
-  .calcite-chip--icon {
-    color: var(--calcite-ui-warning);
+  .chip-icon {
+    color: var(--calcite-ui-icon-color, var(--calcite-ui-warning));
   }
 }
 
 :host([color="green"][appearance="clear"]) {
   border-color: var(--calcite-ui-success);
-  .calcite-chip--icon {
-    color: var(--calcite-ui-success);
+  .chip-icon {
+    color: var(--calcite-ui-icon-color, var(--calcite-ui-success));
   }
 }
 
 :host([color="grey"][appearance="clear"]) {
   border-color: var(--calcite-ui-border-1);
-  .calcite-chip--icon {
-    color: var(--calcite-ui-text-3);
+  .chip-icon {
+    color: var(--calcite-ui-icon-color, var(--calcite-ui-text-3));
   }
 }
