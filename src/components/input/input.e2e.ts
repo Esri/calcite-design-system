@@ -1369,7 +1369,7 @@ describe("calcite-input", () => {
     expect(await element.getProperty("value")).toBe("-123");
   });
 
-  describe("ArrowUp/ArrowDown function as Home/End within input", () => {
+  describe("ArrowUp/ArrowDown function as Home/End within calcite-input", () => {
     let page;
 
     beforeEach(async () => {
@@ -1438,12 +1438,43 @@ describe("calcite-input", () => {
       ).toBeTruthy();
     });
 
-    it("does not jump Home while incrementing on ArrowUp held down on input type number", async () => {
+    it("should not work for type number, but increment instead", async () => {
+      await page.setContent(`<calcite-input id="text-element" type="number" ></calcite-input>`);
+      const element = await page.find("calcite-input");
+
+      await element.callMethod("setFocus");
+      await page.keyboard.type("12345");
+      await page.waitForChanges();
+
+      await page.keyboard.press("ArrowUp");
+      await page.waitForChanges();
+
+      expect(
+        await page.$eval("calcite-input", (element: HTMLInputElement) => {
+          const input = element.shadowRoot.querySelector("input");
+          input.focus();
+          return input.selectionStart === input.value.length;
+        })
+      ).toBeTruthy();
+
+      expect(await element.getProperty("value")).toBe("12346");
+
+      await page.keyboard.press("ArrowDown");
+      await page.waitForChanges();
+
+      expect(
+        await page.$eval("calcite-input", (element: HTMLInputElement) => {
+          const input = element.shadowRoot.querySelector("input");
+          input.focus();
+          return input.selectionStart === input.value.length;
+        })
+      ).toBeTruthy();
+
+      expect(await element.getProperty("value")).toBe("12345");
+    });
+
+    it("does not jump to the beginning of input while incrementing on ArrowUp held down on input type number", async () => {
       await page.setContent(html` <calcite-input type="number" value="0"></calcite-input> `);
-      const calciteInputInput = await page.spyOnEvent("calciteInputInput");
-      const input = await page.find("calcite-input");
-      expect(calciteInputInput).toHaveReceivedEventTimes(0);
-      await input.callMethod("setFocus");
       let cursorHomeCount = 0;
 
       await page.keyboard.down("ArrowUp");
@@ -1453,7 +1484,6 @@ describe("calcite-input", () => {
           document.addEventListener("calciteInputInput", async () => {
             const input = element.shadowRoot.querySelector("input");
             input.focus();
-            console.log("I run with every nudge");
             if (input.selectionStart === 0) {
               cursorHomeCount++;
             }
