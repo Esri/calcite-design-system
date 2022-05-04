@@ -118,21 +118,6 @@ export class StepperItem implements InteractiveComponent {
     this.parentStepperEl = this.el.parentElement as HTMLCalciteStepperElement;
   }
 
-  componentDidLoad(): void {
-    this.itemPosition = this.getItemPosition();
-    this.itemContent = this.getItemContent();
-    this.registerStepperItem();
-    if (this.active) {
-      this.emitRequestedItem();
-    }
-  }
-
-  componentDidUpdate(): void {
-    if (this.active) {
-      this.emitRequestedItem();
-    }
-  }
-
   componentDidRender(): void {
     updateHostInteraction(this, true);
   }
@@ -156,7 +141,7 @@ export class StepperItem implements InteractiveComponent {
             </div>
           </div>
           <div class="stepper-item-content">
-            <slot />
+            <slot onSlotchange={this.setItemContent} />
           </div>
         </div>
       </Host>
@@ -256,9 +241,21 @@ export class StepperItem implements InteractiveComponent {
     }
   };
 
-  private getItemContent(): Node[] {
-    return this.el.shadowRoot?.querySelector("slot")?.assignedNodes({ flatten: true });
-  }
+  private setItemContent = (event: Event): void => {
+    this.itemPosition = this.getItemPosition();
+
+    const itemContent = (event.target as HTMLSlotElement).assignedNodes({ flatten: true });
+
+    if (itemContent.length) {
+      this.itemContent = itemContent;
+    }
+
+    this.registerStepperItem();
+
+    if (this.active) {
+      this.emitRequestedItem();
+    }
+  };
 
   private getItemPosition(): number {
     return Array.prototype.indexOf.call(
