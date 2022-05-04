@@ -283,3 +283,16 @@ HistogramDark.storyName = "Histogram Dark theme";
 HistogramDark.parameters = { themes: themesDarkDefault };
 
 export const disabled = (): string => html`<calcite-slider disabled value="5"></calcite-slider>`;
+
+export const wordBreakDoesNotAffectLabels = (): string =>
+  html`<calcite-slider
+    min="-100"
+    max="100"
+    min-value="-100"
+    max-value="100"
+    step="10"
+    ticks="10"
+    label-handles
+    label-ticks
+    style="word-break: break-all"
+  ></calcite-slider>`;
