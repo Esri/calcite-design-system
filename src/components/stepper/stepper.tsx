@@ -12,6 +12,12 @@ import {
 } from "@stencil/core";
 
 import { Layout, Scale } from "../interfaces";
+import {
+  StepperItemChangeEventDetail,
+  StepperItemEventDetail,
+  StepperItemKeyEventDetail,
+  StepperItemLookup
+} from "./interfaces";
 
 /**
  * @slot - A slot for adding `calcite-stepper-item`s.
@@ -49,10 +55,11 @@ export class Stepper {
   @Prop({ reflect: true }) scale: Scale = "m";
 
   /** @internal */
-  @Prop({ mutable: true }) requestedContent: HTMLElement[] | NodeListOf<any>;
+  @Prop({ mutable: true }) requestedContent: Node[];
 
   // watch for removal of disabled to register step
-  @Watch("requestedContent") contentWatcher(): void {
+  @Watch("requestedContent")
+  contentWatcher(): void {
     if (this.layout === "horizontal") {
       if (!this.stepperContentContainer && this.requestedContent) {
         this.addHorizontalContentContainer();
@@ -71,7 +78,7 @@ export class Stepper {
    * This event fires when the active stepper item has changed.
    * @internal
    */
-  @Event() calciteStepperItemChange: EventEmitter;
+  @Event() calciteStepperItemChange: EventEmitter<StepperItemChangeEventDetail>;
 
   //--------------------------------------------------------------------------
   //
@@ -103,9 +110,10 @@ export class Stepper {
   //
   //--------------------------------------------------------------------------
 
-  @Listen("calciteStepperItemKeyEvent") calciteStepperItemKeyEvent(e: CustomEvent): void {
+  @Listen("calciteStepperItemKeyEvent")
+  calciteStepperItemKeyEvent(e: CustomEvent<StepperItemKeyEventDetail>): void {
     const item = e.detail.item;
-    const itemToFocus = e.target;
+    const itemToFocus = e.target as HTMLCalciteStepperItemElement;
     const isFirstItem = this.itemIndex(itemToFocus) === 0;
     const isLastItem = this.itemIndex(itemToFocus) === this.sortedItems.length - 1;
     switch (item.key) {
@@ -134,8 +142,9 @@ export class Stepper {
     }
   }
 
-  @Listen("calciteStepperItemRegister") registerItem(event: CustomEvent): void {
-    const item = {
+  @Listen("calciteStepperItemRegister")
+  registerItem(event: CustomEvent<StepperItemEventDetail>): void {
+    const item: StepperItemLookup = {
       item: event.target as HTMLCalciteStepperItemElement,
       position: event.detail.position,
       content: event.detail.content
@@ -149,7 +158,8 @@ export class Stepper {
     this.sortedItems = this.sortItems();
   }
 
-  @Listen("calciteStepperItemSelect") updateItem(event: CustomEvent): void {
+  @Listen("calciteStepperItemSelect")
+  updateItem(event: CustomEvent<StepperItemEventDetail>): void {
     if (event.detail.content) {
       this.requestedContent = event.detail.content;
     }
@@ -211,10 +221,9 @@ export class Stepper {
   //--------------------------------------------------------------------------
 
   /** created list of Stepper items */
-  private items = [];
+  private items: StepperItemLookup[] = [];
 
-  /** sorted list of Stepper items */
-  private sortedItems = [];
+  private sortedItems: HTMLCalciteStepperItemElement[] = [];
 
   /** keep track of the currently active item position */
   private currentPosition: number;
@@ -250,25 +259,24 @@ export class Stepper {
     this.focusElement(lastItem);
   }
 
-  private focusNextItem(e): void {
+  private focusNextItem(e: HTMLCalciteStepperItemElement): void {
     const index = this.itemIndex(e);
     const nextItem = this.sortedItems[index + 1] || this.sortedItems[0];
     this.focusElement(nextItem);
   }
 
-  private focusPrevItem(e): void {
+  private focusPrevItem(e: HTMLCalciteStepperItemElement): void {
     const index = this.itemIndex(e);
     const prevItem = this.sortedItems[index - 1] || this.sortedItems[this.sortedItems.length - 1];
     this.focusElement(prevItem);
   }
 
-  private itemIndex(e): number {
+  private itemIndex(e: HTMLCalciteStepperItemElement): number {
     return this.sortedItems.indexOf(e);
   }
 
-  private focusElement(item) {
-    const target = item as HTMLCalciteStepperItemElement;
-    target.focus();
+  private focusElement(item: HTMLCalciteStepperItemElement) {
+    item.focus();
   }
 
   private sortItems() {
@@ -280,7 +288,7 @@ export class Stepper {
     return [...Array.from(new Set(items))];
   }
 
-  private updateContent(content) {
+  private updateContent(content: Node[]): void {
     this.stepperContentContainer.innerHTML = "";
     this.stepperContentContainer.append(...content);
   }
