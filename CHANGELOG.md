@@ -29,6 +29,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 - **action-pad, action-bar:** toggleChange event emit only on user interaction ([#4275](https://github.com/Esri/calcite-components/issues/4275)) ([32e8cc0](https://github.com/Esri/calcite-components/commit/32e8cc080582f9e26a4cbfe405c47df4f1e9ce9b))
 - **checkbox:** no longer displays focus outline in chrome and FF ([#4472](https://github.com/Esri/calcite-components/issues/4472)) ([9706898](https://github.com/Esri/calcite-components/commit/970689850900c73052661b4690d197c82993e201))
+- **chip:** apply --calcite-ui-icon-color to chip icon if defined ([#4450](https://github.com/Esri/calcite-components/issues/4450)) ([73d7335](https://github.com/Esri/calcite-components/commit/73d7335b03fef34856ddc96d4888b71d87cf4223)), closes [#4306](https://github.com/Esri/calcite-components/issues/4306)
 - **combobox:** input value will now filter correctly as typed in ([#4405](https://github.com/Esri/calcite-components/issues/4405)) ([6fcaa88](https://github.com/Esri/calcite-components/commit/6fcaa88d22239c4bb4b3157871bd7ffd463a180b))
 - **combobox, filter:** only test regex on string properties when filtering ([#4443](https://github.com/Esri/calcite-components/issues/4443)) ([0f57c7a](https://github.com/Esri/calcite-components/commit/0f57c7af0ee5d913f5bff890d20db2e3522ace10))
 - **filter:** fix inconsistent text-clearing UX ([#4456](https://github.com/Esri/calcite-components/issues/4456)) ([3a59aa7](https://github.com/Esri/calcite-components/commit/3a59aa7a35388646df3f84a8b4d136bd5de4c53d)), closes [#4376](https://github.com/Esri/calcite-components/issues/4376)
@@ -37,6 +38,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - **input:** negative numbers delocalize correctly in ar locale ([#4400](https://github.com/Esri/calcite-components/issues/4400)) ([935b859](https://github.com/Esri/calcite-components/commit/935b859ef412d5dd5984cb763ab1a1d07d555c9e))
 - **input-date-picker:** emit events when date is cleared ([#4406](https://github.com/Esri/calcite-components/issues/4406)) ([f876e90](https://github.com/Esri/calcite-components/commit/f876e908ac997147d741eef1339417fe792703c3))
 - **label util:** avoid accumulation of event listeners ([#4413](https://github.com/Esri/calcite-components/issues/4413)) ([10c48f9](https://github.com/Esri/calcite-components/commit/10c48f94fede631cf18ffe5baddbc7498ff5a1a5))
+- **slider:** prevent parent word-break from breaking labels ([#4457](https://github.com/Esri/calcite-components/issues/4457)) ([d3a24c6](https://github.com/Esri/calcite-components/commit/d3a24c63aaad876a8484f8c2ef3a1c13ac59a4c6)), closes [#4126](https://github.com/Esri/calcite-components/issues/4126)
 - **tile:** Prevent description from overflowing ([#4433](https://github.com/Esri/calcite-components/issues/4433)) ([220dfdb](https://github.com/Esri/calcite-components/commit/220dfdb51beff2422e87b7bfbac475c777259884)), closes [#4390](https://github.com/Esri/calcite-components/issues/4390)
 <!--@unreleased-section-end-->
 
