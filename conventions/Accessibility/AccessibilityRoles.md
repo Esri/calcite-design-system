@@ -58,7 +58,7 @@ The `grid` role contains one or more rows of cells. The position of each cell is
 
 ### Example
 
-![grid](https://user-images.githubusercontent.com/5023024/166005854-81c5a218-ad46-42fd-9833-3f69b96b4657.svg)
+![grid](https://user-images.githubusercontent.com/5023024/166739351-25082a7f-c7b9-47fe-91bb-353fb554a180.svg)
 
 ### Code
 
@@ -67,7 +67,7 @@ The `grid` role contains one or more rows of cells. The position of each cell is
      Code pen example: https://codepen.io/geospatialem/pen/OJzwWKm 
 -->
 <table role="grid" aria-labelledby="grid-header">
-  <caption id="grid-header" class="sr-only">
+  <caption id="grid-header">
     WCAG Criterion and Versions
   </caption>
   <thead role="rowgroup">
@@ -308,7 +308,7 @@ The `radiogroup` role is a group of radio buttons.
 
 ### Example
 
-![radiogroup](https://user-images.githubusercontent.com/5023024/166064798-bc85edbe-8e06-4c26-91e8-cc27858e22b5.svg)
+![radiogroup-with-text](https://user-images.githubusercontent.com/5023024/166739360-091a7211-e230-46b5-9bdf-01f44d108599.svg)
 
 ### i. Code: `radiogroup` role
 
