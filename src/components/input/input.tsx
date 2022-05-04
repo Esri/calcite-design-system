@@ -202,7 +202,7 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
 
   @Watch("value")
   valueWatcher(newValue: string, previousValue: string): void {
-    if (!this.internalValueChange) {
+    if (!this.userChangedValue) {
       this.setValue({
         origin: "direct",
         previousValue,
@@ -217,7 +217,7 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
       });
       this.warnAboutInvalidNumberValue(newValue);
     }
-    this.internalValueChange = false;
+    this.userChangedValue = false;
   }
 
   @Watch("icon")
@@ -249,9 +249,6 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
   /** number text input element for locale */
   private childNumberEl?: HTMLInputElement;
 
-  /** whether the value of the input was changed as a result of user typing or not */
-  private internalValueChange = false;
-
   get isClearable(): boolean {
     return !this.isTextarea && (this.clearable || this.type === "search") && this.value.length > 0;
   }
@@ -276,6 +273,9 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
   private nudgeNumberValueIntervalId;
 
   mutationObserver = createObserver("mutation", () => this.setDisabledAction());
+
+  /** whether the value of the input was changed as a result of user typing or not */
+  private userChangedValue = false;
 
   //--------------------------------------------------------------------------
   //
@@ -706,7 +706,7 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
         ? localizeNumberString(newValue, this.locale, this.groupSeparator)
         : "";
 
-    this.internalValueChange = origin === "user" && this.value !== newValue;
+    this.userChangedValue = origin === "user" && this.value !== newValue;
     origin !== "direct" && this.setPreviousValue(this.value);
     this.previousValueOrigin = origin;
     this.setPreviousValue(previousValue || newValue);
