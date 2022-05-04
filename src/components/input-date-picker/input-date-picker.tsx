@@ -133,7 +133,9 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
 
   @Watch("min")
   onMinChanged(min: string): void {
-    this.minAsDate = dateFromISO(min);
+    if (min) {
+      this.minAsDate = dateFromISO(min);
+    }
   }
 
   /** Latest allowed date ("yyyy-mm-dd") */
@@ -141,7 +143,9 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
 
   @Watch("max")
   onMaxChanged(max: string): void {
-    this.maxAsDate = dateFromISO(max);
+    if (max) {
+      this.maxAsDate = dateFromISO(max);
+    }
   }
 
   /** Expand or collapse when calendar does not have input */
