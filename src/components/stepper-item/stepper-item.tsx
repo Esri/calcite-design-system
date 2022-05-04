@@ -73,7 +73,8 @@ export class StepperItem implements InteractiveComponent {
   @Prop({ reflect: true, mutable: true }) scale: Scale = "m";
 
   // watch for removal of disabled to register step
-  @Watch("disabled") disabledWatcher(): void {
+  @Watch("disabled")
+  disabledWatcher(): void {
     this.registerStepperItem();
   }
 
@@ -133,7 +134,11 @@ export class StepperItem implements InteractiveComponent {
 
   render(): VNode {
     return (
-      <Host aria-expanded={this.active.toString()} onClick={() => this.emitRequestedItem()}>
+      <Host
+        aria-expanded={this.active.toString()}
+        onClick={this.emitRequestedItem}
+        onKeyDown={this.keyDownHandler}
+      >
         <div class="container">
           <div class="stepper-item-header">
             {this.icon ? this.renderIcon() : null}
@@ -158,27 +163,6 @@ export class StepperItem implements InteractiveComponent {
   //  Event Listeners
   //
   //--------------------------------------------------------------------------
-
-  @Listen("keydown") keyDownHandler(e: KeyboardEvent): void {
-    if (!this.disabled && e.target === this.el) {
-      switch (e.key) {
-        case " ":
-        case "Enter":
-          this.emitRequestedItem();
-          e.preventDefault();
-          break;
-        case "ArrowUp":
-        case "ArrowDown":
-        case "ArrowLeft":
-        case "ArrowRight":
-        case "Home":
-        case "End":
-          this.calciteStepperItemKeyEvent.emit({ item: e });
-          e.preventDefault();
-          break;
-      }
-    }
-  }
 
   @Listen("calciteStepperItemChange", { target: "body" })
   updateActiveItemOnChange(event: CustomEvent): void {
@@ -214,6 +198,27 @@ export class StepperItem implements InteractiveComponent {
   //
   //--------------------------------------------------------------------------
 
+  private keyDownHandler = (e: KeyboardEvent): void => {
+    if (!this.disabled && e.target === this.el) {
+      switch (e.key) {
+        case " ":
+        case "Enter":
+          this.emitRequestedItem();
+          e.preventDefault();
+          break;
+        case "ArrowUp":
+        case "ArrowDown":
+        case "ArrowLeft":
+        case "ArrowRight":
+        case "Home":
+        case "End":
+          this.calciteStepperItemKeyEvent.emit({ item: e });
+          e.preventDefault();
+          break;
+      }
+    }
+  };
+
   private renderIcon(): VNode {
     const path = this.active
       ? "circleF"
@@ -237,14 +242,14 @@ export class StepperItem implements InteractiveComponent {
     });
   }
 
-  private emitRequestedItem(): void {
+  emitRequestedItem = (): void => {
     if (!this.disabled) {
       this.calciteStepperItemSelect.emit({
         position: this.itemPosition,
         content: this.itemContent
       });
     }
-  }
+  };
 
   private getItemContent(): HTMLElement[] | NodeListOf<any> {
     // todo: Remove IE/Edge specific code.
