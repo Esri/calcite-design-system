@@ -706,7 +706,7 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
         ? localizeNumberString(newValue, this.locale, this.groupSeparator)
         : "";
 
-    this.internalValueChange = !!(origin === "user" && this.value !== newValue);
+    this.internalValueChange = origin === "user" && this.value !== newValue;
     origin !== "direct" && this.setPreviousValue(this.value);
     this.previousValueOrigin = origin;
     this.setPreviousValue(previousValue || newValue);
