@@ -12,3 +12,7 @@ export interface StepperItemEventDetail {
 export interface StepperItemKeyEventDetail {
   item: KeyboardEvent;
 }
+
+export interface StepperItemChangeEventDetail {
+  position: number;
+}

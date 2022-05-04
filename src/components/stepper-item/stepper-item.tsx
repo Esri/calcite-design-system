@@ -13,7 +13,11 @@ import {
 import { getElementProp } from "../../utils/dom";
 import { Scale } from "../interfaces";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
-import { StepperItemEventDetail, StepperItemKeyEventDetail } from "../stepper/interfaces";
+import {
+  StepperItemChangeEventDetail,
+  StepperItemEventDetail,
+  StepperItemKeyEventDetail
+} from "../stepper/interfaces";
 
 /**
  * @slot - A slot for adding custom content.
@@ -166,7 +170,7 @@ export class StepperItem implements InteractiveComponent {
   //--------------------------------------------------------------------------
 
   @Listen("calciteStepperItemChange", { target: "body" })
-  updateActiveItemOnChange(event: CustomEvent<StepperItemEventDetail>): void {
+  updateActiveItemOnChange(event: CustomEvent<StepperItemChangeEventDetail>): void {
     if (
       event.target === this.parentStepperEl ||
       event.composedPath().includes(this.parentStepperEl)
@@ -243,7 +247,7 @@ export class StepperItem implements InteractiveComponent {
     });
   }
 
-  emitRequestedItem = (): void => {
+  private emitRequestedItem = (): void => {
     if (!this.disabled) {
       this.calciteStepperItemSelect.emit({
         position: this.itemPosition,

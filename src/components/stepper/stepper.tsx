@@ -12,7 +12,12 @@ import {
 } from "@stencil/core";
 
 import { Layout, Scale } from "../interfaces";
-import { StepperItemEventDetail, StepperItemKeyEventDetail, StepperItemLookup } from "./interfaces";
+import {
+  StepperItemChangeEventDetail,
+  StepperItemEventDetail,
+  StepperItemKeyEventDetail,
+  StepperItemLookup
+} from "./interfaces";
 
 /**
  * @slot - A slot for adding `calcite-stepper-item`s.
@@ -73,7 +78,7 @@ export class Stepper {
    * This event fires when the active stepper item has changed.
    * @internal
    */
-  @Event() calciteStepperItemChange: EventEmitter<{ position: number }>;
+  @Event() calciteStepperItemChange: EventEmitter<StepperItemChangeEventDetail>;
 
   //--------------------------------------------------------------------------
   //
