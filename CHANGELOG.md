@@ -37,6 +37,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - **input:** negative numbers delocalize correctly in ar locale ([#4400](https://github.com/Esri/calcite-components/issues/4400)) ([935b859](https://github.com/Esri/calcite-components/commit/935b859ef412d5dd5984cb763ab1a1d07d555c9e))
 - **input-date-picker:** emit events when date is cleared ([#4406](https://github.com/Esri/calcite-components/issues/4406)) ([f876e90](https://github.com/Esri/calcite-components/commit/f876e908ac997147d741eef1339417fe792703c3))
 - **label util:** avoid accumulation of event listeners ([#4413](https://github.com/Esri/calcite-components/issues/4413)) ([10c48f9](https://github.com/Esri/calcite-components/commit/10c48f94fede631cf18ffe5baddbc7498ff5a1a5))
+- **slider:** prevent parent word-break from breaking labels ([#4457](https://github.com/Esri/calcite-components/issues/4457)) ([d3a24c6](https://github.com/Esri/calcite-components/commit/d3a24c63aaad876a8484f8c2ef3a1c13ac59a4c6)), closes [#4126](https://github.com/Esri/calcite-components/issues/4126)
 - **tile:** Prevent description from overflowing ([#4433](https://github.com/Esri/calcite-components/issues/4433)) ([220dfdb](https://github.com/Esri/calcite-components/commit/220dfdb51beff2422e87b7bfbac475c777259884)), closes [#4390](https://github.com/Esri/calcite-components/issues/4390)
 <!--@unreleased-section-end-->
 
