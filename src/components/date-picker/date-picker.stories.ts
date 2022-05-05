@@ -140,7 +140,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
       {
         name: "minAsDate",
         commit(): Attribute {
-          this.value = date("maxAsDate");
+          this.value = date("minAsDate", new Date(2042, 2, 10));
           delete this.build;
           return this;
         }
