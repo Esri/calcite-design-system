@@ -206,8 +206,13 @@ export const Default = stepStory(
       const datePicker = document.querySelector("calcite-date-picker");
       datePicker.maxAsDate = new Date(2022, 2, 18);
       datePicker.minAsDate = new Date(2022, 2, 10);
-      datePicker.valueAsDate= new Date(2022, 2,15);
     `
+    )
+    .executeScript(
+      setKnobs({
+        story: "components-controls-datepicker--default",
+        knobs: [{ name: "value", value: "2022-02-15" }]
+      })
     )
     .snapshot(" set maxAsDate & minAsDate")
 );
