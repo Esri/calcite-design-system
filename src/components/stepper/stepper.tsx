@@ -179,27 +179,27 @@ export class Stepper {
   /** set the next step as active */
   @Method()
   async nextStep(): Promise<void> {
-    const { currentPosition } = this;
+    const enabledStepIndex = this.getEnabledStepIndex(this.currentPosition + 1, 1);
 
-    const enabledStepIndex = this.getEnabledStepIndex(currentPosition + 1, 1);
-
-    if (typeof enabledStepIndex === "number" && currentPosition !== enabledStepIndex) {
-      this.currentPosition = enabledStepIndex;
-      this.emitChangedItem();
+    if (typeof enabledStepIndex !== "number") {
+      return;
     }
+
+    this.currentPosition = enabledStepIndex;
+    this.emitChangedItem();
   }
 
   /** set the previous step as active */
   @Method()
   async prevStep(): Promise<void> {
-    const { currentPosition } = this;
+    const enabledStepIndex = this.getEnabledStepIndex(this.currentPosition - 1, -1);
 
-    const enabledStepIndex = this.getEnabledStepIndex(currentPosition - 1, -1);
-
-    if (typeof enabledStepIndex === "number" && currentPosition !== enabledStepIndex) {
-      this.currentPosition = enabledStepIndex;
-      this.emitChangedItem();
+    if (typeof enabledStepIndex !== "number") {
+      return;
     }
+
+    this.currentPosition = enabledStepIndex;
+    this.emitChangedItem();
   }
 
   /** set the requested step as active */
@@ -216,27 +216,27 @@ export class Stepper {
   /** set the first step as active */
   @Method()
   async startStep(): Promise<void> {
-    const { currentPosition } = this;
-
     const enabledStepIndex = this.getEnabledStepIndex(0, 1);
 
-    if (typeof enabledStepIndex === "number" && currentPosition !== enabledStepIndex) {
-      this.currentPosition = enabledStepIndex;
-      this.emitChangedItem();
+    if (typeof enabledStepIndex !== "number") {
+      return;
     }
+
+    this.currentPosition = enabledStepIndex;
+    this.emitChangedItem();
   }
 
   /** set the last step as active */
   @Method()
   async endStep(): Promise<void> {
-    const { currentPosition, items } = this;
+    const enabledStepIndex = this.getEnabledStepIndex(this.items.length - 1, -1);
 
-    const enabledStepIndex = this.getEnabledStepIndex(items.length - 1, -1);
-
-    if (typeof enabledStepIndex === "number" && currentPosition !== enabledStepIndex) {
-      this.currentPosition = enabledStepIndex;
-      this.emitChangedItem();
+    if (typeof enabledStepIndex !== "number") {
+      return;
     }
+
+    this.currentPosition = enabledStepIndex;
+    this.emitChangedItem();
   }
 
   //--------------------------------------------------------------------------
@@ -263,16 +263,18 @@ export class Stepper {
   //
   //--------------------------------------------------------------------------
 
-  private getEnabledStepIndex(index: number, offset: number): number | null {
-    const { items } = this;
+  private getEnabledStepIndex(startIndex: number, offset: number): number | null {
+    const { items, currentPosition } = this;
 
-    let newIndex = index;
+    let newIndex = startIndex;
 
     while (items[newIndex]?.item.disabled) {
       newIndex = newIndex + offset;
     }
 
-    return newIndex < items.length && newIndex >= 0 ? newIndex : null;
+    return newIndex !== currentPosition && newIndex < items.length && newIndex >= 0
+      ? newIndex
+      : null;
   }
 
   private addHorizontalContentContainer(): void {
