@@ -1358,15 +1358,30 @@ describe("calcite-input", () => {
     expect(await element.getProperty("value")).toBe("-123");
   });
 
-  describe("ArrowUp/ArrowDown function as Home/End within calcite-input", () => {
+  describe("ArrowUp/ArrowDown function of moving caret to the beginning/end of text within calcite-input", () => {
     let page: E2EPage;
+
+    const determineCaretIndex = (
+      nestedInputTypeSelector: "textarea" | "input",
+      position?: number
+    ): Promise<boolean> => {
+      return page.evaluate(
+        (nestedInputTypeSelector, position) => {
+          const element = document.querySelector("calcite-input") as HTMLCalciteInputElement;
+          const el = element.shadowRoot.querySelector(nestedInputTypeSelector);
+          return el.selectionStart === (position !== undefined ? position : el.value.length);
+        },
+        nestedInputTypeSelector,
+        position
+      );
+    };
 
     beforeEach(async () => {
       page = await newE2EPage();
     });
 
     it("works for type textarea", async () => {
-      await page.setContent(`<calcite-input id="text-element" type="textarea" ></calcite-input>`);
+      await page.setContent(`<calcite-input type="textarea"></calcite-input>`);
       const element = await page.find("calcite-input");
 
       await element.callMethod("setFocus");
@@ -1376,28 +1391,16 @@ describe("calcite-input", () => {
       await page.keyboard.press("ArrowUp");
       await page.waitForChanges();
 
-      expect(
-        await page.$eval("calcite-input", (element: HTMLInputElement) => {
-          const textarea = element.shadowRoot.querySelector("textarea");
-          textarea.focus();
-          return textarea.selectionStart === 0;
-        })
-      ).toBeTruthy();
+      expect(await determineCaretIndex("textarea", 0)).toBeTruthy();
 
       await page.keyboard.press("ArrowDown");
       await page.waitForChanges();
 
-      expect(
-        await page.$eval("calcite-input", (element: HTMLInputElement) => {
-          const textarea = element.shadowRoot.querySelector("textarea");
-          textarea.focus();
-          return textarea.selectionStart === textarea.value.length;
-        })
-      ).toBeTruthy();
+      expect(await determineCaretIndex("textarea")).toBeTruthy();
     });
 
     it("works for type text", async () => {
-      await page.setContent(`<calcite-input id="text-element" type="text"></calcite-input>`);
+      await page.setContent(`<calcite-input type="text"></calcite-input>`);
       const element = await page.find("calcite-input");
 
       await element.callMethod("setFocus");
@@ -1407,28 +1410,16 @@ describe("calcite-input", () => {
       await page.keyboard.press("ArrowUp");
       await page.waitForChanges();
 
-      expect(
-        await page.$eval("calcite-input", (element: HTMLInputElement) => {
-          const input = element.shadowRoot.querySelector("input");
-          input.focus();
-          return input.selectionStart === 0;
-        })
-      ).toBeTruthy();
+      expect(await determineCaretIndex("input", 0)).toBeTruthy();
 
       await page.keyboard.press("ArrowDown");
       await page.waitForChanges();
 
-      expect(
-        await page.$eval("calcite-input", (element: HTMLInputElement) => {
-          const input = element.shadowRoot.querySelector("input");
-          input.focus();
-          return input.selectionStart === input.value.length;
-        })
-      ).toBeTruthy();
+      expect(await determineCaretIndex("input")).toBeTruthy();
     });
 
     it("should not work for type number, but increment instead", async () => {
-      await page.setContent(`<calcite-input id="text-element" type="number" ></calcite-input>`);
+      await page.setContent(`<calcite-input type="number"></calcite-input>`);
       const element = await page.find("calcite-input");
 
       await element.callMethod("setFocus");
@@ -1438,27 +1429,13 @@ describe("calcite-input", () => {
       await page.keyboard.press("ArrowUp");
       await page.waitForChanges();
 
-      expect(
-        await page.$eval("calcite-input", (element: HTMLInputElement) => {
-          const input = element.shadowRoot.querySelector("input");
-          input.focus();
-          return input.selectionStart === input.value.length;
-        })
-      ).toBeTruthy();
-
+      expect(await determineCaretIndex("input")).toBeTruthy();
       expect(await element.getProperty("value")).toBe("12346");
 
       await page.keyboard.press("ArrowDown");
       await page.waitForChanges();
 
-      expect(
-        await page.$eval("calcite-input", (element: HTMLInputElement) => {
-          const input = element.shadowRoot.querySelector("input");
-          input.focus();
-          return input.selectionStart === input.value.length;
-        })
-      ).toBeTruthy();
-
+      expect(await determineCaretIndex("input")).toBeTruthy();
       expect(await element.getProperty("value")).toBe("12345");
     });
 
@@ -1472,7 +1449,6 @@ describe("calcite-input", () => {
         (element: HTMLInputElement) => {
           document.addEventListener("calciteInputInput", async () => {
             const input = element.shadowRoot.querySelector("input");
-            input.focus();
             if (input.selectionStart === 0) {
               cursorHomeCount++;
             }
