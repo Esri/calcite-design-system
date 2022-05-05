@@ -389,10 +389,6 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
   //--------------------------------------------------------------------------
 
   keyDownHandler = (event: KeyboardEvent): void => {
-    /* prevent default behavior for input to move the cursor to the beginning of the input with every ArrowUp press */
-    if (event.key === "ArrowUp") {
-      event.preventDefault();
-    }
     if (this.readOnly || this.disabled) {
       return;
     }
@@ -516,6 +512,8 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
       return;
     }
     if (event.key === "ArrowUp") {
+      /* prevent default behavior of moving cursor to the beginning of the input when holding down ArrowUp */
+      event.preventDefault();
       this.nudgeNumberValue("up", event);
       return;
     }
