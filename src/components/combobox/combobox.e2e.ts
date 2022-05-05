@@ -1,4 +1,4 @@
-import { E2EPage, newE2EPage } from "@stencil/core/testing";
+import { E2EPage, E2EElement, newE2EPage } from "@stencil/core/testing";
 import {
   renders,
   hidden,
@@ -11,7 +11,7 @@ import {
 } from "../../tests/commonTests";
 
 import { html } from "../../../support/formatting";
-import { TEXT } from "./resources";
+import { TEXT, CSS } from "./resources";
 
 describe("calcite-combobox", () => {
   it("renders", async () => renders("calcite-combobox", { display: "block" }));
@@ -812,10 +812,10 @@ describe("calcite-combobox", () => {
 
   describe("calciteComboboxItemChange event correctly updates active item index", () => {
     let page: E2EPage;
-    let element;
-    let lisboxItem;
-    let itemNestedLi;
-    let closeEvent;
+    let element: E2EElement;
+    let comboboxItem: E2EElement;
+    let itemNestedLi: E2EElement;
+    let closeEvent: Promise<void>;
 
     beforeEach(async () => {
       page = await newE2EPage();
@@ -840,8 +840,8 @@ describe("calcite-combobox", () => {
       element = await page.find("calcite-combobox");
       await element.click();
 
-      lisboxItem = await page.find("calcite-combobox-item#PineNested");
-      await lisboxItem.click();
+      comboboxItem = await page.find("calcite-combobox-item#PineNested");
+      await comboboxItem.click();
       await page.waitForChanges();
 
       itemNestedLi = await page.find("calcite-combobox-item#PineNested >>> li");
@@ -849,7 +849,7 @@ describe("calcite-combobox", () => {
     });
 
     it("clicking on Listbox item focuses on the item and closes out of Listbox with tab", async () => {
-      expect(itemNestedLi as any).toHaveClass("label--active");
+      expect(itemNestedLi).toHaveClass(CSS.labelActive);
 
       await element.press("Tab");
       await closeEvent;
@@ -858,15 +858,15 @@ describe("calcite-combobox", () => {
     });
 
     it("after click interaction with listbox, user can transition to using keyboard “enter” to toggle selected on/off", async () => {
-      expect(itemNestedLi as any).toHaveClass("label--active");
+      expect(itemNestedLi).toHaveClass(CSS.labelActive);
 
       await itemNestedLi.press("Enter");
-      expect(itemNestedLi as any).not.toHaveClass("label--selected");
-      expect(itemNestedLi as any).toHaveClass("label--active");
+      expect(itemNestedLi).not.toHaveClass(CSS.labelSelected);
+      expect(itemNestedLi).toHaveClass(CSS.labelActive);
 
       await itemNestedLi.press("Enter");
-      expect(itemNestedLi as any).toHaveClass("label--selected");
-      expect(itemNestedLi as any).toHaveClass("label--active");
+      expect(itemNestedLi).toHaveClass(CSS.labelSelected);
+      expect(itemNestedLi).toHaveClass(CSS.labelActive);
 
       await element.press("Tab");
       await closeEvent;
