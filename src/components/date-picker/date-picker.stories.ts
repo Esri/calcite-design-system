@@ -1,4 +1,4 @@
-import { select, text, boolean } from "@storybook/addon-knobs";
+import { select, text, boolean, date } from "@storybook/addon-knobs";
 
 import {
   Attribute,
@@ -128,6 +128,22 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
           delete this.build;
           return this;
         }
+      },
+      {
+        name: "maxAsDate",
+        commit(): Attribute {
+          this.value = date("maxAsDate");
+          delete this.build;
+          return this;
+        }
+      },
+      {
+        name: "minAsDate",
+        commit(): Attribute {
+          this.value = date("maxAsDate");
+          delete this.build;
+          return this;
+        }
       }
     ],
     exceptions
@@ -184,4 +200,21 @@ export const Default = stepStory(
       })
     )
     .snapshot("Range RTL")
+
+    .executeScript(
+      setKnobs({
+        story: "components-controls-datepicker--default",
+        knobs: [
+          {
+            name: "maxAsDate",
+            value: `${new Date(2042, 2, 18)}`
+          },
+          {
+            name: "value",
+            value: "2042-02-15"
+          }
+        ]
+      })
+    )
+    .snapshot("maxAsDate")
 );
