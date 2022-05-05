@@ -207,7 +207,7 @@ export const Default = stepStory(
         knobs: [
           {
             name: "maxAsDate",
-            value: `${new Date(2042, 2, 18)}`
+            value: new Date(2042, 2, 18)
           },
           {
             name: "value",
