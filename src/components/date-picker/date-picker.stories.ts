@@ -132,7 +132,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
       {
         name: "maxAsDate",
         commit(): Attribute {
-          this.value = date("maxAsDate");
+          this.value = date("maxAsDate", new Date(2042, 2, 18));
           delete this.build;
           return this;
         }
@@ -205,10 +205,6 @@ export const Default = stepStory(
       setKnobs({
         story: "components-controls-datepicker--default",
         knobs: [
-          {
-            name: "maxAsDate",
-            value: new Date(2042, 2, 18)
-          },
           {
             name: "value",
             value: "2042-02-15"
