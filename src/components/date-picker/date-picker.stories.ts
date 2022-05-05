@@ -201,13 +201,13 @@ export const Default = stepStory(
     )
     .snapshot("Range RTL")
 
-    .executeScript(`(document.querySelector("calcite-date-picker")).maxAsDate = ${new Date(2042, 2, 18)}`)
-    .executeScript(`(document.querySelector("calcite-date-picker")).minAsDate = ${new Date(2042, 2, 10)}`)
     .executeScript(
-      setKnobs({
-        story: "components-controls-datepicker--default",
-        knobs: [{ name: "value", value: "2022-03-15" }]
-      })
+      `
+      const datePicker = document.querySelector("calcite-date-picker");
+      datePicker.maxAsDate = new Date(2022, 2, 18);
+      datePicker.minAsDate = new Date(2022, 2, 10);
+      datePicker.valueAsDate= new Date(2022, 2,15);
+    `
     )
-    .snapshot("maxAsDate")
+    .snapshot(" set maxAsDate & minAsDate")
 );
