@@ -191,6 +191,8 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
     }
 
     const target = event.target as HTMLCalciteComboboxItemElement;
+    const newIndex = this.visibleItems.indexOf(target);
+    this.updateActiveItemIndex(newIndex);
     this.toggleSelection(target, target.selected);
   }
 
@@ -677,7 +679,7 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
       item &&
       filteredData.some(({ label, value }) => {
         if (isGroup(item)) {
-          return value === item.label || value === item.label;
+          return value === item.label;
         }
 
         return (
@@ -814,8 +816,7 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
     return this.items.map((item) => ({
       constant: item.constant,
       value: item.value,
-      label: item.textLabel,
-      guid: item.guid
+      label: item.textLabel
     }));
   }
 

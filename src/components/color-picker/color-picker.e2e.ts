@@ -4,27 +4,10 @@ import { CSS, DEFAULT_COLOR, DEFAULT_STORAGE_KEY_PREFIX, DIMENSIONS, TEXT } from
 import { E2EElement, E2EPage, EventSpy, newE2EPage } from "@stencil/core/testing";
 import { ColorValue } from "./interfaces";
 import SpyInstance = jest.SpyInstance;
-import { GlobalTestProps, selectText } from "../../tests/utils";
+import { GlobalTestProps, selectText, getElementXY } from "../../tests/utils";
 
 describe("calcite-color-picker", () => {
   let consoleSpy: SpyInstance;
-
-  async function getElementXY(
-    page: E2EPage,
-    elementSelector: string,
-    shadowSelector?: string
-  ): Promise<[number, number]> {
-    return page.evaluate(
-      ([elementSelector, shadowSelector]): [number, number] => {
-        const element = document.querySelector(elementSelector);
-        const measureTarget = shadowSelector ? element.shadowRoot.querySelector(shadowSelector) : element;
-        const { x, y } = measureTarget.getBoundingClientRect();
-
-        return [x, y];
-      },
-      [elementSelector, shadowSelector]
-    );
-  }
 
   beforeEach(
     () =>

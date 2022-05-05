@@ -16,7 +16,6 @@ export const TEXT = {
 };
 
 export const defaultPopoverPlacement = "auto";
-export const POPOVER_REFERENCE = "data-calcite-popover-reference";
 export const ARIA_CONTROLS = "aria-controls";
 export const ARIA_EXPANDED = "aria-expanded";
 
