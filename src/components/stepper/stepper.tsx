@@ -15,8 +15,7 @@ import { Layout, Scale } from "../interfaces";
 import {
   StepperItemChangeEventDetail,
   StepperItemEventDetail,
-  StepperItemKeyEventDetail,
-  StepperItemLookup
+  StepperItemKeyEventDetail
 } from "./interfaces";
 
 /**
@@ -115,7 +114,7 @@ export class Stepper {
     const item = e.detail.item;
     const itemToFocus = e.target as HTMLCalciteStepperItemElement;
     const isFirstItem = this.itemIndex(itemToFocus) === 0;
-    const isLastItem = this.itemIndex(itemToFocus) === this.curatedItems.length - 1;
+    const isLastItem = this.itemIndex(itemToFocus) === this.enabledItems.length - 1;
     switch (item.key) {
       case "ArrowDown":
       case "ArrowRight":
@@ -144,19 +143,16 @@ export class Stepper {
 
   @Listen("calciteStepperItemRegister")
   registerItem(event: CustomEvent<StepperItemEventDetail>): void {
-    const item: StepperItemLookup = {
-      item: event.target as HTMLCalciteStepperItemElement,
-      position: event.detail.position,
-      content: event.detail.content
-    };
-    if (item.content && item.item.active) {
-      this.requestedContent = item.content;
+    const item = event.target as HTMLCalciteStepperItemElement;
+    const { content, position } = event.detail;
+
+    if (content && item.active) {
+      this.requestedContent = content;
     }
-    if (!this.items.includes(item)) {
-      this.items.push(item);
-    }
+
+    this.itemMap.set(item, position);
     this.items = this.sortItems();
-    this.curatedItems = this.curateItems();
+    this.enabledItems = this.filterItems();
   }
 
   @Listen("calciteStepperItemSelect")
@@ -245,11 +241,14 @@ export class Stepper {
   //
   //--------------------------------------------------------------------------
 
-  /** created list of Stepper items */
-  private items: StepperItemLookup[] = [];
+  /** map of Stepper items */
+  private itemMap = new Map<HTMLCalciteStepperItemElement, number>();
 
-  /** filtered and sorted list of Stepper items */
-  private curatedItems: HTMLCalciteStepperItemElement[] = [];
+  /** list of sorted Stepper items */
+  private items: HTMLCalciteStepperItemElement[] = [];
+
+  /** list of enabled Stepper items */
+  private enabledItems: HTMLCalciteStepperItemElement[] = [];
 
   /** keep track of the currently active item position */
   private currentPosition: number;
@@ -268,7 +267,7 @@ export class Stepper {
 
     let newIndex = startIndex;
 
-    while (items[newIndex]?.item.disabled) {
+    while (items[newIndex]?.disabled) {
       newIndex = newIndex + offset;
     }
 
@@ -290,46 +289,44 @@ export class Stepper {
   }
 
   private focusFirstItem(): void {
-    const firstItem = this.curatedItems[0];
+    const firstItem = this.enabledItems[0];
     this.focusElement(firstItem);
   }
 
   private focusLastItem(): void {
-    const lastItem = this.curatedItems[this.curatedItems.length - 1];
+    const lastItem = this.enabledItems[this.enabledItems.length - 1];
     this.focusElement(lastItem);
   }
 
   private focusNextItem(e: HTMLCalciteStepperItemElement): void {
     const index = this.itemIndex(e);
-    const nextItem = this.curatedItems[index + 1] || this.curatedItems[0];
+    const nextItem = this.enabledItems[index + 1] || this.enabledItems[0];
     this.focusElement(nextItem);
   }
 
   private focusPrevItem(e: HTMLCalciteStepperItemElement): void {
     const index = this.itemIndex(e);
     const prevItem =
-      this.curatedItems[index - 1] || this.curatedItems[this.curatedItems.length - 1];
+      this.enabledItems[index - 1] || this.enabledItems[this.enabledItems.length - 1];
     this.focusElement(prevItem);
   }
 
   private itemIndex(e: HTMLCalciteStepperItemElement): number {
-    return this.curatedItems.indexOf(e);
+    return this.enabledItems.indexOf(e);
   }
 
   private focusElement(item: HTMLCalciteStepperItemElement) {
     item.focus();
   }
 
-  private sortItems(): StepperItemLookup[] {
-    return Array.from(this.items).sort((a, b) => a.position - b.position);
+  private sortItems(): HTMLCalciteStepperItemElement[] {
+    const { itemMap } = this;
+
+    return Array.from(itemMap.keys()).sort((a, b) => itemMap.get(a) - itemMap.get(b));
   }
 
-  private curateItems(): HTMLCalciteStepperItemElement[] {
-    const items = Array.from(this.items)
-      .filter((a) => !a.item.disabled)
-      .map((a) => a.item);
-
-    return [...Array.from(new Set(items))];
+  private filterItems(): HTMLCalciteStepperItemElement[] {
+    return this.items.filter((item) => !item.disabled);
   }
 
   private updateContent(content: Node[]): void {
