@@ -211,7 +211,7 @@ export const Default = stepStory(
     .executeScript(
       setKnobs({
         story: "components-controls-datepicker--default",
-        knobs: [{ name: "value", value: "2022-02-15" }]
+        knobs: [{ name: "value", value: "2022-03-15" }]
       })
     )
     .snapshot(" set maxAsDate & minAsDate")
