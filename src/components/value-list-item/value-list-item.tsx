@@ -40,17 +40,17 @@ export class ValueListItem implements ConditionalSlotComponent, InteractiveCompo
   // --------------------------------------------------------------------------
 
   /**
-   * An optional description for this item. Will appear below the label text.
+   * An optional description for the list item that displays below the label text.
    */
   @Prop({ reflect: true }) description?: string;
 
   /**
-   * When true, the item cannot be clicked and is visually muted
+   * When true, the list item cannot be clicked and is visually muted.
    */
   @Prop({ reflect: true }) disabled = false;
 
   /**
-   * @internal When false, the item cannot be deselected by user interaction.
+   * @internal When false, the list item cannot be deselected by user interaction.
    */
   @Prop() disableDeselect = false;
 
@@ -60,7 +60,7 @@ export class ValueListItem implements ConditionalSlotComponent, InteractiveCompo
   @Prop({ reflect: true }) nonInteractive = false;
 
   /**
-   * @internal - stores the activated state of the drag handle.
+   * @internal - Stores the activated state of the drag handle.
    */
   @Prop({ mutable: true }) handleActivated? = false;
 
@@ -71,27 +71,27 @@ export class ValueListItem implements ConditionalSlotComponent, InteractiveCompo
   @Prop({ reflect: true }) icon?: ICON_TYPES | null = null;
 
   /**
-   * The main label for this item. Appears next to the icon.
+   * The main label for the list item. Appears next to the icon.
    */
   @Prop({ reflect: true }) label!: string;
 
   /**
-   * Used to provide additional metadata to an item, primarily used when the parent list has a filter.
+   * Provides additional metadata to a list item. Primary use is for a filter on the parent list.
    */
   @Prop() metadata?: Record<string, unknown>;
 
   /**
-   * Set this to true to display a remove action that removes the item from the list.
+   * When true, adds an action to remove the list item.
    */
   @Prop({ reflect: true }) removable = false;
 
   /**
-   * Set this to true to pre-select an item. Toggles when an item is checked/unchecked.
+   * When true, preselects the list item. Toggles when an item is checked/unchecked.
    */
   @Prop({ reflect: true, mutable: true }) selected = false;
 
   /**
-   * The item's associated value.
+   * The list item's associated value.
    */
   @Prop() value!: any;
 
@@ -132,7 +132,7 @@ export class ValueListItem implements ConditionalSlotComponent, InteractiveCompo
   // --------------------------------------------------------------------------
 
   /**
-   * Used to toggle the selection state. By default this won't trigger an event.
+   * Toggle the selection state. By default this won't trigger an event.
    * The first argument allows the value to be coerced, rather than swapping values.
    */
   @Method()
@@ -140,7 +140,7 @@ export class ValueListItem implements ConditionalSlotComponent, InteractiveCompo
     this.pickListItem.toggleSelected(coerce);
   }
 
-  /** Sets focus on the component. */
+  /** Set focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
     this.pickListItem?.setFocus();
@@ -153,7 +153,7 @@ export class ValueListItem implements ConditionalSlotComponent, InteractiveCompo
   // --------------------------------------------------------------------------
 
   /**
-   * Emitted whenever the remove button is pressed.
+   * Emits when the remove button is pressed.
    */
   @Event() calciteListItemRemove: EventEmitter<void>; // wrapped pick-list-item emits this
 
