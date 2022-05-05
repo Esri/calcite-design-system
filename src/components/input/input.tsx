@@ -32,7 +32,7 @@ import { createObserver } from "../../utils/observers";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 
 type NumberNudgeDirection = "up" | "down";
-type SetValueOrigin = "initial" | "loading" | "user" | "direct";
+type SetValueOrigin = "initial" | "connected" | "user" | "reset" | "direct";
 
 /**
  * @slot action - A slot for positioning a button next to an input
@@ -274,7 +274,6 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
 
   mutationObserver = createObserver("mutation", () => this.setDisabledAction());
 
-  /** whether the value of the input was changed as a result of user typing or not */
   private userChangedValue = false;
 
   //--------------------------------------------------------------------------
@@ -298,11 +297,12 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
     if (this.inlineEditableEl) {
       this.editingEnabled = this.inlineEditableEl.editingEnabled || false;
     }
+    this.setPreviousEmittedValue(this.value);
     this.setPreviousValue(this.value);
     if (this.type === "number") {
       this.warnAboutInvalidNumberValue(this.value);
       this.setValue({
-        origin: "loading",
+        origin: "connected",
         value: isValidNumber(this.value) ? this.value : ""
       });
     }
@@ -328,6 +328,7 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
   componentShouldUpdate(newValue: string, oldValue: string, property: string): boolean {
     if (this.type === "number" && property === "value" && newValue && !isValidNumber(newValue)) {
       this.setValue({
+        origin: "reset",
         value: oldValue
       });
       return false;
@@ -429,6 +430,7 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
     this.setValue({
       committing: true,
       nativeEvent,
+      origin: "user",
       value: finalValue.toFixed(Math.max(inputValPlaces, inputStepPlaces))
     });
   }
@@ -437,21 +439,19 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
     this.setValue({
       committing: true,
       nativeEvent,
+      origin: "user",
       value: ""
     });
   };
 
   private emitChangeEvent = (): void => {
-    if (this.previousValueOrigin !== "direct" && this.value !== this.previousEmittedValue) {
+    if (this.previousValueOrigin === "user" && this.value !== this.previousEmittedValue) {
       this.calciteInputChange.emit();
     }
     this.previousEmittedValue = this.value;
   };
 
   private inputBlurHandler = () => {
-    if (this.type === "number") {
-      this.setValue({ value: this.value });
-    }
     this.calciteInputBlur.emit({
       element: this.childEl,
       value: this.value
@@ -477,6 +477,7 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
     }
     this.setValue({
       nativeEvent,
+      origin: "user",
       value: (nativeEvent.target as HTMLInputElement).value
     });
   };
@@ -502,12 +503,14 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
       }
       this.setValue({
         nativeEvent,
+        origin: "user",
         value: parseNumberString(delocalizedValue)
       });
       this.childNumberEl.value = this.localizedValue;
     } else {
       this.setValue({
         nativeEvent,
+        origin: "user",
         value: delocalizedValue
       });
     }
@@ -614,6 +617,7 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
 
   onFormReset(): void {
     this.setValue({
+      origin: "reset",
       value: this.defaultValue
     });
   }
@@ -668,6 +672,15 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
     this[`child${this.type === "number" ? "Number" : ""}El`].value = newInputValue;
   };
 
+  private setPreviousEmittedValue = (newPreviousEmittedValue: string): void => {
+    this.previousEmittedValue =
+      this.type === "number"
+        ? isValidNumber(newPreviousEmittedValue)
+          ? newPreviousEmittedValue
+          : ""
+        : newPreviousEmittedValue;
+  };
+
   private setPreviousValue = (newPreviousValue: string): void => {
     this.previousValue =
       this.type === "number"
@@ -680,13 +693,13 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
   private setValue = ({
     committing = false,
     nativeEvent,
-    origin = "user",
+    origin,
     previousValue,
     value
   }: {
     committing?: boolean;
     nativeEvent?: MouseEvent | KeyboardEvent | InputEvent;
-    origin?: SetValueOrigin;
+    origin: SetValueOrigin;
     previousValue?: string;
     value: string;
   }): void => {
@@ -706,10 +719,9 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
         ? localizeNumberString(newValue, this.locale, this.groupSeparator)
         : "";
 
-    this.userChangedValue = origin === "user" && this.value !== newValue;
-    origin !== "direct" && this.setPreviousValue(this.value);
+    this.setPreviousValue(previousValue || this.value);
     this.previousValueOrigin = origin;
-    this.setPreviousValue(previousValue || newValue);
+    this.userChangedValue = origin === "user" && this.value !== newValue;
     this.value = newValue;
 
     if (this.type === "number") {
