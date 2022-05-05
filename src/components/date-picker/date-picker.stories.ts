@@ -128,23 +128,23 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
           delete this.build;
           return this;
         }
-      },
-      {
-        name: "maxAsDate",
-        commit(): Attribute {
-          this.value = date("maxAsDate", new Date(2042, 2, 18));
-          delete this.build;
-          return this;
-        }
-      },
-      {
-        name: "minAsDate",
-        commit(): Attribute {
-          this.value = date("minAsDate", new Date(2042, 2, 10));
-          delete this.build;
-          return this;
-        }
       }
+      // {
+      //   name: "maxAsDate",
+      //   commit(): Attribute {
+      //     this.value = date("maxAsDate", new Date(2042, 2, 18));
+      //     delete this.build;
+      //     return this;
+      //   }
+      // },
+      // {
+      //   name: "minAsDate",
+      //   commit(): Attribute {
+      //     this.value = date("minAsDate", new Date(2042, 2, 10));
+      //     delete this.build;
+      //     return this;
+      //   }
+      // }
     ],
     exceptions
   );
@@ -201,15 +201,12 @@ export const Default = stepStory(
     )
     .snapshot("Range RTL")
 
+    .executeScript(`(document.querySelector("calcite-date-picker")).maxAsDate = ${new Date(2042, 2, 18)}`)
+    .executeScript(`(document.querySelector("calcite-date-picker")).minAsDate = ${new Date(2042, 2, 10)}`)
     .executeScript(
       setKnobs({
         story: "components-controls-datepicker--default",
-        knobs: [
-          {
-            name: "value",
-            value: "2042-02-15"
-          }
-        ]
+        knobs: [{ name: "value", value: "2022-03-15" }]
       })
     )
     .snapshot("maxAsDate")
