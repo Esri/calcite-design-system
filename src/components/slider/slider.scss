@@ -39,7 +39,7 @@
 }
 
 .container {
-  @apply relative block;
+  @apply relative block break-normal;
   padding: calc(var(--calcite-slider-handle-size) * 0.5);
   margin: calc(var(--calcite-slider-handle-size) * 0.5) 0;
   --calcite-slider-full-handle-height: calc(

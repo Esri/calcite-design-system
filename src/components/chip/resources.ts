@@ -1,8 +1,9 @@
 export const CSS = {
   title: "title",
   close: "close",
-  chipImageContainer: "chip-image-container",
-  calciteChipIcon: "calcite-chip--icon"
+  imageContainer: "image-container",
+  chipIcon: "chip-icon",
+  closeIcon: "close-icon"
 };
 
 export const TEXT = {

@@ -13,7 +13,7 @@ import {
 } from "@stencil/core";
 import { ItemKeyboardEvent } from "./interfaces";
 
-import { focusElement, getSlotted } from "../../utils/dom";
+import { focusElement } from "../../utils/dom";
 import {
   ComputedPlacement,
   createPopper,
@@ -144,7 +144,6 @@ export class Dropdown implements InteractiveComponent {
   connectedCallback(): void {
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
     this.createPopper();
-    this.updateItems();
     this.setFilteredPlacements();
   }
 
@@ -177,6 +176,7 @@ export class Dropdown implements InteractiveComponent {
             aria-expanded={active.toString()}
             aria-haspopup="true"
             name={SLOTS.dropdownTrigger}
+            onSlotchange={this.updateTriggers}
           />
         </div>
         <div
@@ -194,7 +194,7 @@ export class Dropdown implements InteractiveComponent {
             ref={this.setScrollerEl}
           >
             <div hidden={!this.active}>
-              <slot />
+              <slot onSlotchange={this.updateGroups} />
             </div>
           </div>
         </div>
@@ -337,6 +337,8 @@ export class Dropdown implements InteractiveComponent {
 
   private items: HTMLCalciteDropdownItemElement[] = [];
 
+  private groups: HTMLCalciteDropdownGroupElement[] = [];
+
   /** trigger elements */
   private triggers: HTMLElement[];
 
@@ -368,16 +370,32 @@ export class Dropdown implements InteractiveComponent {
       : null;
   };
 
-  updateItems = (): void => {
-    this.updateSelectedItems();
-
-    this.triggers = getSlotted(this.el, "dropdown-trigger", { all: true });
-
-    this.items = Array.from(
-      this.el.querySelectorAll<HTMLCalciteDropdownItemElement>("calcite-dropdown-item")
-    );
+  updateTriggers = (event: Event): void => {
+    this.triggers = (event.target as HTMLSlotElement).assignedElements({
+      flatten: true
+    }) as HTMLElement[];
 
     this.reposition();
+  };
+
+  updateItems = (): void => {
+    this.items = this.groups
+      .map((group) => Array.from(group?.querySelectorAll("calcite-dropdown-item")))
+      .reduce((previousValue, currentValue) => [...previousValue, ...currentValue], []);
+
+    this.updateSelectedItems();
+
+    this.reposition();
+  };
+
+  updateGroups = (event: Event): void => {
+    const groups = (event.target as HTMLSlotElement)
+      .assignedElements({ flatten: true })
+      .filter((el) => el?.matches("calcite-dropdown-group")) as HTMLCalciteDropdownGroupElement[];
+
+    this.groups = groups;
+
+    this.updateItems();
   };
 
   setMaxScrollerHeight = (): void => {
@@ -480,23 +498,16 @@ export class Dropdown implements InteractiveComponent {
   };
 
   private updateSelectedItems(): void {
-    const items = Array.from(
-      this.el.querySelectorAll<HTMLCalciteDropdownItemElement>("calcite-dropdown-item")
-    );
-    this.selectedItems = items.filter((item) => item.active);
+    this.selectedItems = this.items.filter((item) => item.active);
   }
 
   private getMaxScrollerHeight(): number {
-    const groups = Array.from(
-      this.el.querySelectorAll<HTMLCalciteDropdownGroupElement>("calcite-dropdown-group")
-    );
-
     const { maxItems } = this;
     let itemsToProcess = 0;
     let maxScrollerHeight = 0;
     let groupHeaderHeight: number;
 
-    groups.forEach((group) => {
+    this.groups.forEach((group) => {
       if (maxItems > 0 && itemsToProcess < maxItems) {
         Array.from(group.children).forEach((item: HTMLCalciteDropdownItemElement, index) => {
           if (index === 0) {
