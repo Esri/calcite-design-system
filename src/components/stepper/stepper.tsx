@@ -183,7 +183,7 @@ export class Stepper {
 
     const enabledStepIndex = this.getEnabledStepIndex(currentPosition + 1, 1);
 
-    if (currentPosition !== enabledStepIndex) {
+    if (typeof enabledStepIndex === "number" && currentPosition !== enabledStepIndex) {
       this.currentPosition = enabledStepIndex;
       this.emitChangedItem();
     }
@@ -196,7 +196,7 @@ export class Stepper {
 
     const enabledStepIndex = this.getEnabledStepIndex(currentPosition - 1, -1);
 
-    if (currentPosition !== enabledStepIndex) {
+    if (typeof enabledStepIndex === "number" && currentPosition !== enabledStepIndex) {
       this.currentPosition = enabledStepIndex;
       this.emitChangedItem();
     }
@@ -220,7 +220,7 @@ export class Stepper {
 
     const enabledStepIndex = this.getEnabledStepIndex(0, 1);
 
-    if (currentPosition !== enabledStepIndex) {
+    if (typeof enabledStepIndex === "number" && currentPosition !== enabledStepIndex) {
       this.currentPosition = enabledStepIndex;
       this.emitChangedItem();
     }
@@ -233,7 +233,7 @@ export class Stepper {
 
     const enabledStepIndex = this.getEnabledStepIndex(items.length - 1, -1);
 
-    if (currentPosition !== enabledStepIndex) {
+    if (typeof enabledStepIndex === "number" && currentPosition !== enabledStepIndex) {
       this.currentPosition = enabledStepIndex;
       this.emitChangedItem();
     }
@@ -263,7 +263,7 @@ export class Stepper {
   //
   //--------------------------------------------------------------------------
 
-  private getEnabledStepIndex(index: number, offset: number): number {
+  private getEnabledStepIndex(index: number, offset: number): number | null {
     const { items } = this;
 
     let newIndex = index;
@@ -272,7 +272,7 @@ export class Stepper {
       newIndex = newIndex + offset;
     }
 
-    return newIndex < items.length && newIndex >= 0 ? newIndex : index;
+    return newIndex < items.length && newIndex >= 0 ? newIndex : null;
   }
 
   private addHorizontalContentContainer(): void {
