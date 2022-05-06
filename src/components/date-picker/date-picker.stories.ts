@@ -202,17 +202,17 @@ export const Default = stepStory(
     .snapshot("Range RTL")
 
     .executeScript(
+      setKnobs({
+        story: "components-controls-datepicker--default",
+        knobs: [{ name: "value", value: "2022-03-15" }]
+      })
+    )
+    .executeScript(
       `
       const datePicker = document.querySelector("calcite-date-picker");
       datePicker.maxAsDate = new Date(2022, 2, 18);
       datePicker.minAsDate = new Date(2022, 2, 10);
     `
-    )
-    .executeScript(
-      setKnobs({
-        story: "components-controls-datepicker--default",
-        knobs: [{ name: "value", value: "2022-03-15" }]
-      })
     )
     .snapshot(" set maxAsDate & minAsDate")
 );
