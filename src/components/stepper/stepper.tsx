@@ -175,7 +175,7 @@ export class Stepper {
   /** set the next step as active */
   @Method()
   async nextStep(): Promise<void> {
-    const enabledStepIndex = this.getEnabledStepIndex(this.currentPosition + 1, 1);
+    const enabledStepIndex = this.getEnabledStepIndex(this.currentPosition + 1, "next");
 
     if (typeof enabledStepIndex !== "number") {
       return;
@@ -188,7 +188,7 @@ export class Stepper {
   /** set the previous step as active */
   @Method()
   async prevStep(): Promise<void> {
-    const enabledStepIndex = this.getEnabledStepIndex(this.currentPosition - 1, -1);
+    const enabledStepIndex = this.getEnabledStepIndex(this.currentPosition - 1, "previous");
 
     if (typeof enabledStepIndex !== "number") {
       return;
@@ -212,7 +212,7 @@ export class Stepper {
   /** set the first step as active */
   @Method()
   async startStep(): Promise<void> {
-    const enabledStepIndex = this.getEnabledStepIndex(0, 1);
+    const enabledStepIndex = this.getEnabledStepIndex(0, "next");
 
     if (typeof enabledStepIndex !== "number") {
       return;
@@ -225,7 +225,7 @@ export class Stepper {
   /** set the last step as active */
   @Method()
   async endStep(): Promise<void> {
-    const enabledStepIndex = this.getEnabledStepIndex(this.items.length - 1, -1);
+    const enabledStepIndex = this.getEnabledStepIndex(this.items.length - 1, "previous");
 
     if (typeof enabledStepIndex !== "number") {
       return;
@@ -262,13 +262,16 @@ export class Stepper {
   //
   //--------------------------------------------------------------------------
 
-  private getEnabledStepIndex(startIndex: number, offset: number): number | null {
+  private getEnabledStepIndex(
+    startIndex: number,
+    direction: "next" | "previous" = "next"
+  ): number | null {
     const { items, currentPosition } = this;
 
     let newIndex = startIndex;
 
     while (items[newIndex]?.disabled) {
-      newIndex = newIndex + offset;
+      newIndex = newIndex + direction === "previous" ? -1 : 1;
     }
 
     return newIndex !== currentPosition && newIndex < items.length && newIndex >= 0
