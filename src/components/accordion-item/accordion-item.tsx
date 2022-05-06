@@ -69,12 +69,12 @@ export class AccordionItem {
   /**
    * @internal
    */
-  @Event() calciteAccordionItemClose: EventEmitter;
+  @Event() calciteInternalAccordionItemClose: EventEmitter;
 
   /**
    * @internal
    */
-  @Event() calciteAccordionItemRegister: EventEmitter;
+  @Event() calciteInternalAccordionItemRegister: EventEmitter;
 
   //--------------------------------------------------------------------------
   //
@@ -91,7 +91,7 @@ export class AccordionItem {
 
   componentDidLoad(): void {
     this.itemPosition = this.getItemPosition();
-    this.calciteAccordionItemRegister.emit({
+    this.calciteInternalAccordionItemRegister.emit({
       parent: this.parent,
       position: this.itemPosition
     });
