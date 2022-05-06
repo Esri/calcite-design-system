@@ -25,7 +25,7 @@ export interface Story {
   parameters?: Parameters;
 }
 
-export const setKnobs = ({ story, knobs }: { story: string; knobs: { name: string; value: string | Date }[] }) => {
+export const setKnobs = ({ story, knobs }: { story: string; knobs: { name: string; value: string }[] }) => {
   return `window.location.href = "?path=/story/${story}${knobs
     .map(({ name, value }) => `&knob-${name}=${value}`)
     .join("")}"`;

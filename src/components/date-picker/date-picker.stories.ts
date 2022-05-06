@@ -1,4 +1,4 @@
-import { select, text, boolean, date } from "@storybook/addon-knobs";
+import { select, text, boolean } from "@storybook/addon-knobs";
 
 import {
   Attribute,
@@ -129,22 +129,6 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
           return this;
         }
       }
-      // {
-      //   name: "maxAsDate",
-      //   commit(): Attribute {
-      //     this.value = date("maxAsDate", new Date(2042, 2, 18));
-      //     delete this.build;
-      //     return this;
-      //   }
-      // },
-      // {
-      //   name: "minAsDate",
-      //   commit(): Attribute {
-      //     this.value = date("minAsDate", new Date(2042, 2, 10));
-      //     delete this.build;
-      //     return this;
-      //   }
-      // }
     ],
     exceptions
   );
