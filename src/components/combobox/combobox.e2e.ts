@@ -104,7 +104,7 @@ describe("calcite-combobox", () => {
     const input = await page.find("calcite-combobox >>> input");
     const items = await page.findAll("calcite-combobox-item");
 
-    const openEvent = await combobox.spyOnEvent("calciteComboboxOpen");
+    const openEvent = await combobox.spyOnEvent("calciteInternalComboboxOpen");
     const filterEventSpy = await combobox.spyOnEvent("calciteComboboxFilterChange");
 
     await combobox.click();
@@ -277,7 +277,7 @@ describe("calcite-combobox", () => {
       `
     );
     const element = await page.find("calcite-combobox");
-    const openEvent = page.waitForEvent("calciteComboboxOpen");
+    const openEvent = page.waitForEvent("calciteInternalComboboxOpen");
     await element.click();
     await openEvent;
 
@@ -306,7 +306,7 @@ describe("calcite-combobox", () => {
         `
       );
       const cbox = await page.find("calcite-combobox");
-      const openEvent = page.waitForEvent("calciteComboboxOpen");
+      const openEvent = page.waitForEvent("calciteInternalComboboxOpen");
       await cbox.click();
       await openEvent;
 
@@ -336,7 +336,7 @@ describe("calcite-combobox", () => {
         `
       );
       const cbox = await page.find("calcite-combobox");
-      const openEvent = page.waitForEvent("calciteComboboxOpen");
+      const openEvent = page.waitForEvent("calciteInternalComboboxOpen");
       await cbox.click();
       await openEvent;
 
@@ -364,7 +364,7 @@ describe("calcite-combobox", () => {
         `
       );
       const cbox = await page.find("calcite-combobox");
-      const openEvent = page.waitForEvent("calciteComboboxOpen");
+      const openEvent = page.waitForEvent("calciteInternalComboboxOpen");
       await cbox.click();
       await openEvent;
 
@@ -397,7 +397,7 @@ describe("calcite-combobox", () => {
         `
       );
       const cbox = await page.find("calcite-combobox");
-      const openEvent = page.waitForEvent("calciteComboboxOpen");
+      const openEvent = page.waitForEvent("calciteInternalComboboxOpen");
       await cbox.click();
       await openEvent;
 
@@ -1044,7 +1044,7 @@ describe("calcite-combobox", () => {
       expect(chip).toBeNull();
 
       const cbox = await page.find("calcite-combobox");
-      const openEvent = page.waitForEvent("calciteComboboxOpen");
+      const openEvent = page.waitForEvent("calciteInternalComboboxOpen");
       await cbox.click();
       await openEvent;
 
