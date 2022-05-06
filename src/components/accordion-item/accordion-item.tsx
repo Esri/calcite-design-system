@@ -184,7 +184,7 @@ export class AccordionItem {
     }
   }
 
-  @Listen("calciteAccordionChange", { target: "body" })
+  @Listen("calciteInternalAccordionChange", { target: "body" })
   updateActiveItemOnChange(event: CustomEvent): void {
     this.requestedAccordionItem = event.detail
       .requestedAccordionItem as HTMLCalciteAccordionItemElement;
@@ -192,6 +192,7 @@ export class AccordionItem {
       return;
     }
     this.determineActiveItem();
+    event.stopPropagation();
   }
 
   //--------------------------------------------------------------------------

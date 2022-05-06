@@ -50,7 +50,7 @@ export class Accordion {
   /**
    * @internal
    */
-  @Event() calciteAccordionChange: EventEmitter;
+  @Event() calciteInternalAccordionChange: EventEmitter;
 
   //--------------------------------------------------------------------------
   //
@@ -129,11 +129,13 @@ export class Accordion {
     }
   }
 
-  @Listen("calciteAccordionItemSelect") updateActiveItemOnChange(event: CustomEvent): void {
+  @Listen("calciteAccordionItemSelect")
+  updateActiveItemOnChange(event: CustomEvent): void {
     this.requestedAccordionItem = event.detail.requestedAccordionItem;
-    this.calciteAccordionChange.emit({
+    this.calciteInternalAccordionChange.emit({
       requestedAccordionItem: this.requestedAccordionItem
     });
+    event.stopPropagation();
   }
 
   //--------------------------------------------------------------------------
