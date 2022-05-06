@@ -53,7 +53,7 @@ export class Alert {
   @Watch("active")
   watchActive(): void {
     if (this.active && !this.queued) {
-      this.calciteAlertRegister.emit();
+      this.calciteInternalAlertRegister.emit();
     }
     if (!this.active) {
       this.queue = this.queue.filter((e) => e !== this.el);
@@ -113,7 +113,7 @@ export class Alert {
 
   connectedCallback(): void {
     if (this.active && !this.queued) {
-      this.calciteAlertRegister.emit();
+      this.calciteInternalAlertRegister.emit();
     }
   }
 
@@ -206,7 +206,7 @@ export class Alert {
    *
    * @internal
    */
-  @Event() calciteAlertRegister: EventEmitter;
+  @Event() calciteInternalAlertRegister: EventEmitter;
 
   // when an alert is opened or closed, update queue and determine active alert
   @Listen("calciteInternalAlertSync", { target: "window" })
@@ -220,7 +220,7 @@ export class Alert {
   }
 
   // when an alert is first registered, trigger a queue sync to get queue
-  @Listen("calciteAlertRegister", { target: "window" })
+  @Listen("calciteInternalAlertRegister", { target: "window" })
   alertRegister(): void {
     if (this.active && !this.queue.includes(this.el as HTMLCalciteAlertElement)) {
       this.queued = true;
