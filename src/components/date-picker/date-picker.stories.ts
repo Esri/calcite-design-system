@@ -202,7 +202,7 @@ export const Default = stepStory(
 
     .executeScript(
       setKnobs({
-        story: "components-controls-datepicker--locale-specific",
+        story: "components-controls-datepicker--default",
         knobs: [{ name: "locale", value: "bg" }]
       })
     )
