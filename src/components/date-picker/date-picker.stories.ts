@@ -199,4 +199,12 @@ export const Default = stepStory(
     `
     )
     .snapshot(" set maxAsDate & minAsDate")
+
+    .executeScript(
+      setKnobs({
+        story: "components-controls-datepicker--default",
+        knobs: [{ name: "locale", value: "bg" }]
+      })
+    )
+    .snapshot("bg locale")
 );
