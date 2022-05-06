@@ -20,20 +20,10 @@ type TagAndPage = {
 
 export const HYDRATED_ATTR = config.hydratedFlag.name;
 
-/**
- *  Helper for determining if a string is a tag or HTML
- * @param {string} tagOrHTML - string that will be parsed
- * @returns {boolean} true if tagOrHTML is a tag or html
- */
 function isHTML(tagOrHTML: string): boolean {
   return tagOrHTML.trim().startsWith("<");
 }
 
-/**
- * Helper for getting a component tag
- * @param {string} tagOrHTML - string that will be parsed
- * @returns {ComponentTag} - a component tag parsed from tagOrHTML
- */
 function getTag(tagOrHTML: string): ComponentTag {
   if (isHTML(tagOrHTML)) {
     const regex = /[>\s]/;
@@ -44,11 +34,6 @@ function getTag(tagOrHTML: string): ComponentTag {
   return tagOrHTML as ComponentTag;
 }
 
-/**
- * Helper for setting up an e2e page
- * @param {string} componentTagOrHTML - the component tag or HTML markup to test against
- * @returns {E2EPage} an e2e page containing the parsed component tag
- */
 async function simplePageSetup(componentTagOrHTML: TagOrHTML): Promise<E2EPage> {
   const componentTag = getTag(componentTagOrHTML);
   const page = await newE2EPage({
@@ -62,6 +47,7 @@ async function simplePageSetup(componentTagOrHTML: TagOrHTML): Promise<E2EPage> 
 
 /**
  * Helper for asserting that a component is accessible.
+ *
  * @param {string} componentTagOrHTML - the component tag or HTML markup to test against
  * @param {E2EPage} [page] - an e2e page
  */
@@ -83,6 +69,7 @@ export async function accessible(componentTagOrHTML: TagOrHTML, page?: E2EPage):
 
 /**
  * Helper for asserting that a component renders and is hydrated
+ *
  * @param {string} componentTagOrHTML - the component tag or HTML markup to test against
  * @param {Object} options - additional options to assert
  * @param {string} employee.visible - is the component visible
@@ -105,6 +92,7 @@ export async function renders(
 
 /**
  * Helper for asserting that a component reflects
+ *
  * @param {string} componentTagOrHTML - the component tag or HTML markup to test against
  * @param {Object[]} propsToTest - the properties to test
  * @param {string} propsToTest.propertyName - the property name
@@ -148,17 +136,13 @@ export async function reflects(
   }
 }
 
-/**
- * Helper for converting a property into an attribute
- * @param {string} name - property name
- * @returns {string} attribute version of the property
- */
 function propToAttr(name: string): string {
   return name.replace(/([a-z0-9])([A-Z])/g, "$1-$2").toLowerCase();
 }
 
 /**
  * Helper for asserting that a property's value is its default
+ *
  * @param {string} componentTagOrHTML - the component tag or HTML markup to test against
  * @param {Object[]} propsToTest - the properties to test
  * @param {string} propsToTest.propertyName - the property name
@@ -183,6 +167,7 @@ export async function defaults(
 
 /**
  * Helper for asserting that a component is not visible when hidden
+ *
  * @param {string} componentTagOrHTML - the component tag or HTML markup to test against
  */
 export async function hidden(componentTagOrHTML: TagOrHTML): Promise<void> {
@@ -212,6 +197,7 @@ interface FocusableOptions {
 
 /**
  * Helper for asserting that a component is focusable
+ *
  * @param {string} componentTagOrHTML - the component tag or HTML markup to test against
  * @param {FocusableOptions} [options] - additional options for asserting focus
  */
@@ -238,6 +224,7 @@ export async function focusable(componentTagOrHTML: TagOrHTML, options?: Focusab
 
 /**
  * Helper for asserting slots.
+ *
  * @param {string} componentTagOrHTML - the component tag or HTML markup to test against
  * @param slots - a component's SLOTS resource object or an array of slot names
  * @param includeDefaultSlot - when true, it will run assertions on the default slot
@@ -298,15 +285,6 @@ export async function slots(
   }
 }
 
-/**
- * Helper for asserting that a component is labelable
- * @param {Object} obj - The destructured object parameter
- * @param {E2EPage} obj.page - the e2e page
- * @param {string} obj.componentTag - the component tag to test
- * @param {string} [obj.propertyToToggle] - the property to test for toggling
- * @param {string} [obj.focusTargetSelector=obj.componentTag] - the focus target's selector
- * @param {string} [obj.shadowFocusTargetSelector] - the shadowRoot focus target's selector
- */
 async function assertLabelable({
   page,
   componentTag,
@@ -370,7 +348,7 @@ interface LabelableOptions extends Pick<FocusableOptions, "focusTargetSelector" 
 
 /**
  * Helper for asserting label clicking functionality works.
- * Use this helper in your component rather than assertLabelable.
+ *
  * @param {string} componentTagOrHtml - the component tag or HTML used to test label support
  * @param {LabelableOptions} [options] - labelable options
  */
@@ -506,6 +484,7 @@ interface FormAssociatedOptions {
 
 /**
  * Helper for testing form-associated components; specifically form submitting and resetting.
+ *
  * @param {string} componentTagOrHtml - the component tag or HTML markup to test against
  * @param {FormAssociatedOptions} options - form associated options
  */
@@ -675,10 +654,6 @@ interface DisabledOptions {
   focusTarget: FocusTarget | TabAndClickTargets;
 }
 
-/** Helper for making sure an e2e page is set up
- * @param {TagOrHTML|TagAndPage} componentSetup - A component tag, html, or an e2e page for setting up a test
- * @returns {Promise<TagAndPage>} the tag and set up e2e page
- */
 async function getTagAndPage(componentSetup: TagOrHTML | TagAndPage): Promise<TagAndPage> {
   if (typeof componentSetup === "string") {
     const page = await simplePageSetup(componentSetup);
@@ -692,6 +667,7 @@ async function getTagAndPage(componentSetup: TagOrHTML | TagAndPage): Promise<Ta
 
 /**
  * Helper to test the disabled prop disabling user interaction.
+ *
  * @param {TagOrHTML|TagAndPage} componentSetup - A component tag, html, or an e2e page for setting up a test
  * @param {DisabledOptions} [options={ focusTarget: "host" }] - disabled options
  */
@@ -816,6 +792,7 @@ export async function disabled(
 /**
  * This helper will test if a popper-owning component has configured the popper correctly.
  * At the moment, this only tests if the scroll event listeners are only active when the popper is displayed.
+ *
  * @param componentTagOrHTML - the component tag or HTML markup to test against
  * @param togglePropName - the component property that toggles the popper
  * @param options - the popper owner test configuration
