@@ -135,7 +135,6 @@ export class Accordion {
     this.calciteInternalAccordionChange.emit({
       requestedAccordionItem: this.requestedAccordionItem
     });
-    event.stopPropagation();
   }
 
   //--------------------------------------------------------------------------
