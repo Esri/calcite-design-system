@@ -206,4 +206,5 @@ export const Default = stepStory(
         knobs: [{ name: "locale", value: "bg" }]
       })
     )
+    .snapshot("bg locale")
 );
