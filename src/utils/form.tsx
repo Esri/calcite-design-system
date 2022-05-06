@@ -147,6 +147,7 @@ export function connectForm<T>(component: FormComponent<T>): void {
 
   const boundOnFormReset = (component.onFormReset || onFormReset).bind(component);
   form.addEventListener("reset", boundOnFormReset);
+  onFormResetMap.set(component.el, boundOnFormReset);
   formComponentSet.add(el);
 }
 
