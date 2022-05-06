@@ -3,7 +3,7 @@ import { JSX } from "../components";
 import { toHaveNoViolations } from "jest-axe";
 import axe from "axe-core";
 import { config } from "../../stencil.config";
-import { GlobalTestProps, waitForAnimationFrame } from "./utils";
+import { GlobalTestProps } from "./utils";
 import { hiddenFormInputSlotName } from "../utils/form";
 import { html } from "../../support/formatting";
 
@@ -769,9 +769,9 @@ export async function popperOwner(
 
   const scrollablePageSizeInPx = 2400;
   await page.addStyleTag({
-    content: `body { 
-      height: ${scrollablePageSizeInPx}px; 
-      width: ${scrollablePageSizeInPx}px; 
+    content: `body {
+      height: ${scrollablePageSizeInPx}px;
+      width: ${scrollablePageSizeInPx}px;
     }`
   });
   await page.waitForChanges();

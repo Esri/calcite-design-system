@@ -13,9 +13,12 @@ jobs:
         with:
           node-version: lts/*
           cache: npm
-      - run: |
+      - name: Deploy storybook
+        run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           npm ci
           npm run build-storybook
-          npx storybook-to-ghpages --existing-output-dir=docs
+          npx storybook-to-ghpages --existing-output-dir=docs --ci
+        env:
+          GH_TOKEN: ${{ github.actor }}:${{ secrets.ADMIN_TOKEN }}

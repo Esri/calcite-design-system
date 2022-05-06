@@ -49,7 +49,6 @@ To use a custom color for the icon fill, you can add a class to the `calcite-ico
 - [calcite-combobox-item](../combobox-item)
 - [calcite-date-picker-month-header](../date-picker-month-header)
 - [calcite-dropdown-item](../dropdown-item)
-- [calcite-filter](../filter)
 - [calcite-handle](../handle)
 - [calcite-input](../input)
 - [calcite-input-date-picker](../input-date-picker)
@@ -87,7 +86,6 @@ graph TD;
   calcite-combobox-item --> calcite-icon
   calcite-date-picker-month-header --> calcite-icon
   calcite-dropdown-item --> calcite-icon
-  calcite-filter --> calcite-icon
   calcite-handle --> calcite-icon
   calcite-input --> calcite-icon
   calcite-input-date-picker --> calcite-icon
