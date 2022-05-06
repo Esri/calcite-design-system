@@ -9,6 +9,18 @@ import { GlobalTestProps, selectText, getElementXY } from "../../tests/utils";
 describe("calcite-color-picker", () => {
   let consoleSpy: SpyInstance;
 
+  async function clickScope(page: E2EPage, scope: "hue" | "color-field"): Promise<void> {
+    // helps workaround puppeteer not being able to click on a 0x0 element
+    // https://github.com/puppeteer/puppeteer/issues/4147#issuecomment-473208182
+    await page.$eval(
+      `calcite-color-picker`,
+      (colorPicker: HTMLCalciteColorPickerElement, scopeSelector: string): void => {
+        colorPicker.shadowRoot.querySelector<HTMLElement>(scopeSelector).click();
+      },
+      `.${scope === "hue" ? CSS.hueScope : CSS.colorFieldScope}`
+    );
+  }
+
   beforeEach(
     () =>
       (consoleSpy = jest.spyOn(console, "warn").mockImplementation(() => {
@@ -184,7 +196,7 @@ describe("calcite-color-picker", () => {
     expect(inputSpy).toHaveReceivedEventTimes(1);
 
     // change by clicking on hue
-    await (await page.find(`calcite-color-picker >>> .${CSS.hueScope}`)).click();
+    await clickScope(page, "hue");
     expect(changeSpy).toHaveReceivedEventTimes(2);
     expect(inputSpy).toHaveReceivedEventTimes(2);
 
@@ -1337,12 +1349,12 @@ describe("calcite-color-picker", () => {
       const page = await newE2EPage({
         html: `<calcite-color-picker value="#000"></calcite-color-picker>`
       });
-      const scope = await page.find(`calcite-color-picker >>> .${CSS.scope}`);
+      const scope = await page.find(`calcite-color-picker >>> .${CSS.colorFieldScope}`);
 
       const initialStyle = await scope.getComputedStyle();
       expect(initialStyle.left).toBe("0px");
 
-      await scope.click();
+      await clickScope(page, "color-field");
 
       let nudgesToTheEdge = 25;
 
@@ -1375,7 +1387,7 @@ describe("calcite-color-picker", () => {
 
       expect(await getScopeLeftOffset()).toBe(0);
 
-      await scope.click();
+      await clickScope(page, "hue");
       await nudgeAThirdOfSlider();
 
       expect(await getScopeLeftOffset()).toBeCloseTo(DIMENSIONS.m.colorField.width / 2);
