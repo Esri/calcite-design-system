@@ -344,6 +344,7 @@ export class DatePickerMonth {
     } else {
       this.calciteDatePickerHover.emit(target.value);
     }
+    e.stopPropagation();
   };
 
   daySelect = (e: CustomEvent): void => {
@@ -382,8 +383,8 @@ export class DatePickerMonth {
         highlighted={this.betweenSelectedRange(date)}
         key={date.toDateString()}
         localeData={this.localeData}
-        onCalciteDayHover={this.dayHover}
         onCalciteDaySelect={this.daySelect}
+        onCalciteInternalDayHover={this.dayHover}
         range={!!this.startDate && !!this.endDate && !sameDate(this.startDate, this.endDate)}
         rangeHover={this.isRangeHover(date)}
         ref={(el: HTMLCalciteDatePickerDayElement) => {
