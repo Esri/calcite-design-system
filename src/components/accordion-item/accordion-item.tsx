@@ -59,7 +59,7 @@ export class AccordionItem {
   /**
    * @internal
    */
-  @Event() calciteAccordionItemKeyEvent: EventEmitter;
+  @Event() calciteInternalAccordionItemKeyEvent: EventEmitter;
 
   /**
    * @internal
@@ -162,7 +162,8 @@ export class AccordionItem {
   //
   //--------------------------------------------------------------------------
 
-  @Listen("keydown") keyDownHandler(e: KeyboardEvent): void {
+  @Listen("keydown")
+  keyDownHandler(e: KeyboardEvent): void {
     if (e.target === this.el) {
       switch (e.key) {
         case " ":
@@ -174,7 +175,7 @@ export class AccordionItem {
         case "ArrowDown":
         case "Home":
         case "End":
-          this.calciteAccordionItemKeyEvent.emit({
+          this.calciteInternalAccordionItemKeyEvent.emit({
             parent: this.parent,
             item: e
           });

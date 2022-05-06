@@ -85,7 +85,8 @@ export class Accordion {
   //
   //--------------------------------------------------------------------------
 
-  @Listen("calciteAccordionItemKeyEvent") calciteAccordionItemKeyEvent(e: CustomEvent): void {
+  @Listen("calciteInternalAccordionItemKeyEvent")
+  calciteInternalAccordionItemKeyEvent(e: CustomEvent): void {
     const item = e.detail.item;
     const parent = e.detail.parent as HTMLCalciteAccordionElement;
     if (this.el === parent) {
@@ -116,6 +117,7 @@ export class Accordion {
           break;
       }
     }
+    e.stopPropagation();
   }
 
   @Listen("calciteAccordionItemRegister") registerCalciteAccordionItem(e: CustomEvent): void {
