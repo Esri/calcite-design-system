@@ -64,7 +64,7 @@ export class AccordionItem {
   /**
    * @internal
    */
-  @Event() calciteAccordionItemSelect: EventEmitter;
+  @Event() calciteInternalAccordionItemSelect: EventEmitter;
 
   /**
    * @internal
@@ -249,7 +249,7 @@ export class AccordionItem {
   }
 
   private emitRequestedItem(): void {
-    this.calciteAccordionItemSelect.emit({
+    this.calciteInternalAccordionItemSelect.emit({
       requestedAccordionItem: this.el as HTMLCalciteAccordionItemElement
     });
   }

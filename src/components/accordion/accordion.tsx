@@ -131,12 +131,13 @@ export class Accordion {
     }
   }
 
-  @Listen("calciteAccordionItemSelect")
+  @Listen("calciteInternalAccordionItemSelect")
   updateActiveItemOnChange(event: CustomEvent): void {
     this.requestedAccordionItem = event.detail.requestedAccordionItem;
     this.calciteInternalAccordionChange.emit({
       requestedAccordionItem: this.requestedAccordionItem
     });
+    event.stopPropagation();
   }
 
   //--------------------------------------------------------------------------
