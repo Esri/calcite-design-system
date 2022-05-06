@@ -92,25 +92,22 @@ function hasAncestorCustomElements(label: HTMLCalciteLabelElement, componentEl: 
 export function connectLabel(component: LabelableComponent): void {
   const labelEl = findLabelForComponent(component.el);
 
-  if (onLabelClickMap.has(labelEl)) {
+  if (onLabelClickMap.has(labelEl) || (!labelEl && unlabeledComponents.has(component))) {
     return;
   }
 
   const boundOnLabelDisconnected = onLabelDisconnected.bind(component);
 
   if (labelEl) {
-    const addClickEventListenerToComponentLabel = () => {
-      component.labelEl = labelEl;
-      const boundOnLabelClick = onLabelClick.bind(component);
-      onLabelClickMap.set(component.labelEl, boundOnLabelClick);
-      component.labelEl.addEventListener(labelClickEvent, boundOnLabelClick);
-    };
-    addClickEventListenerToComponentLabel();
+    component.labelEl = labelEl;
+    const boundOnLabelClick = onLabelClick.bind(component);
+    onLabelClickMap.set(component.labelEl, boundOnLabelClick);
+    component.labelEl.addEventListener(labelClickEvent, boundOnLabelClick);
     unlabeledComponents.delete(component);
     document.removeEventListener(labelConnectedEvent, onLabelConnectedMap.get(component));
     onLabelDisconnectedMap.set(component, boundOnLabelDisconnected);
     document.addEventListener(labelDisconnectedEvent, boundOnLabelDisconnected);
-  } else if (!labelEl && !unlabeledComponents.has(component)) {
+  } else if (!unlabeledComponents.has(component)) {
     boundOnLabelDisconnected();
     document.removeEventListener(labelDisconnectedEvent, onLabelDisconnectedMap.get(component));
   }
@@ -122,6 +119,8 @@ export function disconnectLabel(component: LabelableComponent): void {
   unlabeledComponents.delete(component);
   document.removeEventListener(labelConnectedEvent, onLabelConnectedMap.get(component));
   document.removeEventListener(labelDisconnectedEvent, onLabelDisconnectedMap.get(component));
+  onLabelConnectedMap.delete(component);
+  onLabelDisconnectedMap.delete(component);
 
   if (!component.labelEl) {
     return;
@@ -161,7 +160,7 @@ function onLabelConnected(this: LabelableComponent): void {
 
 function onLabelDisconnected(this: LabelableComponent): void {
   unlabeledComponents.add(this);
-  const boundOnLabelConnected = onLabelConnected.bind(this);
+  const boundOnLabelConnected = onLabelConnectedMap.get(this) || onLabelConnected.bind(this);
   onLabelConnectedMap.set(this, boundOnLabelConnected);
   document.addEventListener(labelConnectedEvent, boundOnLabelConnected);
 }
