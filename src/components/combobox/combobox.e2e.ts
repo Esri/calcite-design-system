@@ -845,7 +845,7 @@ describe("calcite-combobox", () => {
       await page.waitForChanges();
 
       itemNestedLi = await page.find("calcite-combobox-item#PineNested >>> li");
-      closeEvent = page.waitForEvent("calciteComboboxClose");
+      closeEvent = page.waitForEvent("calciteInternalComboboxClose");
     });
 
     it("clicking on Listbox item focuses on the item and closes out of Listbox with tab", async () => {
@@ -1014,7 +1014,7 @@ describe("calcite-combobox", () => {
       expect(items.length).toBe(3);
 
       const item1 = await page.find("calcite-combobox-item[value=one]");
-      const closeEvent = page.waitForEvent("calciteComboboxClose");
+      const closeEvent = page.waitForEvent("calciteInternalComboboxClose");
       await item1.click();
       await closeEvent;
       const label = await page.find("calcite-combobox >>> .label");

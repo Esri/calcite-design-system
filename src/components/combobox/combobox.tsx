@@ -261,7 +261,7 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
    *  Fired when the combobox is closed
    * @internal
    */
-  @Event() calciteComboboxClose: EventEmitter;
+  @Event() calciteInternalComboboxClose: EventEmitter;
 
   // --------------------------------------------------------------------------
   //
@@ -498,7 +498,7 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
 
   private toggleCloseEnd = (): void => {
     this.active = false;
-    this.el.removeEventListener("calciteComboboxClose", this.toggleCloseEnd);
+    this.el.removeEventListener("calciteInternalComboboxClose", this.toggleCloseEnd);
   };
 
   private toggleOpenEnd = (): void => {
@@ -508,7 +508,9 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
 
   transitionEnd = (event: TransitionEvent): void => {
     if (event.propertyName === this.activeTransitionProp) {
-      this.active ? this.calciteInternalComboboxOpen.emit() : this.calciteComboboxClose.emit();
+      this.active
+        ? this.calciteInternalComboboxOpen.emit()
+        : this.calciteInternalComboboxClose.emit();
     }
   };
 
