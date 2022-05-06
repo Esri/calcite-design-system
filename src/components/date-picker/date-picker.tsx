@@ -90,7 +90,9 @@ export class DatePicker {
 
   @Watch("min")
   onMinChanged(min: string): void {
-    this.minAsDate = dateFromISO(min);
+    if (min) {
+      this.minAsDate = dateFromISO(min);
+    }
   }
 
   /** Latest allowed date ("yyyy-mm-dd") */
@@ -98,7 +100,9 @@ export class DatePicker {
 
   @Watch("max")
   onMaxChanged(max: string): void {
-    this.maxAsDate = dateFromISO(max);
+    if (max) {
+      this.maxAsDate = dateFromISO(max);
+    }
   }
 
   /** Localized string for "previous month" (used for aria label)
@@ -246,7 +250,6 @@ export class DatePicker {
           ? endDate || this.maxAsDate
           : this.maxAsDate
         : this.maxAsDate;
-
     return (
       <Host onBlur={this.reset} onKeyUp={this.keyUpHandler} role="application">
         {this.renderCalendar(activeDate, maxDate, minDate, date, endDate)}
