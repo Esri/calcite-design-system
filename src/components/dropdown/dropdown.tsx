@@ -13,7 +13,7 @@ import {
 } from "@stencil/core";
 import { ItemKeyboardEvent } from "./interfaces";
 
-import { focusElement } from "../../utils/dom";
+import { focusElement, toBooleanString } from "../../utils/dom";
 import {
   ComputedPlacement,
   createPopper,
@@ -173,14 +173,14 @@ export class Dropdown implements InteractiveComponent {
           ref={this.setReferenceEl}
         >
           <slot
-            aria-expanded={active.toString()}
+            aria-expanded={toBooleanString(active)}
             aria-haspopup="true"
             name={SLOTS.dropdownTrigger}
             onSlotchange={this.updateTriggers}
           />
         </div>
         <div
-          aria-hidden={(!active).toString()}
+          aria-hidden={toBooleanString(!active)}
           class="calcite-dropdown-wrapper"
           ref={this.setMenuEl}
         >

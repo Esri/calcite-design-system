@@ -274,3 +274,7 @@ export function intersects(rect1: DOMRect, rect2: DOMRect): boolean {
     rect2.bottom < rect1.top
   );
 }
+
+export function toBooleanString(value: boolean): string {
+  return (!!value).toString();
+}

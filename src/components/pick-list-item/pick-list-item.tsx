@@ -12,7 +12,7 @@ import {
 } from "@stencil/core";
 import { CSS, ICONS, SLOTS, TEXT } from "./resources";
 import { ICON_TYPES } from "../pick-list/resources";
-import { getSlotted } from "../../utils/dom";
+import { getSlotted, toBooleanString } from "../../utils/dom";
 import {
   ConditionalSlotComponent,
   connectConditionalSlotComponent,
@@ -318,7 +318,7 @@ export class PickListItem implements ConditionalSlotComponent, InteractiveCompon
           tabIndex={0}
         >
           <div
-            aria-checked={this.selected.toString()}
+            aria-checked={toBooleanString(this.selected)}
             class={CSS.textContainer}
             role="menuitemcheckbox"
           >
