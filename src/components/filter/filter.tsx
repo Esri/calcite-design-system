@@ -11,12 +11,10 @@ import {
   Watch
 } from "@stencil/core";
 import { debounce, forIn } from "lodash-es";
-import { CSS, ICONS, TEXT } from "./resources";
+import { CSS, ICONS, TEXT, DEBOUNCE_TIMEOUT } from "./resources";
 import { Scale } from "../interfaces";
 import { focusElement } from "../../utils/dom";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
-
-const filterDebounceInMs = 250;
 
 @Component({
   tag: "calcite-filter",
@@ -142,18 +140,18 @@ export class Filter implements InteractiveComponent {
   //
   // --------------------------------------------------------------------------
 
-  filter = debounce((value: string): void => {
+  filter = debounce((value: string, emit = false): void => {
     const regex = new RegExp(value, "i");
 
     if (this.items.length === 0) {
-      this.updateFiltered([]);
+      this.updateFiltered([], emit);
       return;
     }
 
     const find = (input: object, RE: RegExp): any => {
       let found = false;
       forIn(input, (val) => {
-        if (typeof val === "function") {
+        if (typeof val === "function" || val == null /* intentional == to catch undefined */) {
           return;
         }
         if (Array.isArray(val) || (typeof val === "object" && val !== null)) {
@@ -172,29 +170,37 @@ export class Filter implements InteractiveComponent {
       return find(item, regex);
     });
 
-    this.updateFiltered(result);
-  }, filterDebounceInMs);
+    this.updateFiltered(result, emit);
+  }, DEBOUNCE_TIMEOUT);
 
   inputHandler = (event: CustomEvent): void => {
     const target = event.target as HTMLCalciteInputElement;
     this.value = target.value;
+    this.filter(target.value, true);
   };
 
-  keyDownHandler = ({ key }: KeyboardEvent): void => {
-    if (key === "Escape") {
+  keyDownHandler = (event: KeyboardEvent): void => {
+    if (event.key === "Escape") {
       this.clear();
+    }
+
+    if (event.key === "Enter") {
+      event.preventDefault();
     }
   };
 
   clear = (): void => {
     this.value = "";
+    this.filter("", true);
     this.setFocus();
   };
 
-  updateFiltered(filtered: any[]): void {
+  updateFiltered(filtered: any[], emit = false): void {
     this.filteredItems.length = 0;
     this.filteredItems = this.filteredItems.concat(filtered);
-    this.calciteFilterChange.emit();
+    if (emit) {
+      this.calciteFilterChange.emit();
+    }
   }
 
   // --------------------------------------------------------------------------
@@ -212,8 +218,10 @@ export class Filter implements InteractiveComponent {
           <label>
             <calcite-input
               aria-label={this.intlLabel || TEXT.filterLabel}
+              clearable={true}
               disabled={disabled}
               icon={ICONS.search}
+              intlClear={this.intlClear || TEXT.clear}
               onCalciteInputInput={this.inputHandler}
               onKeyDown={this.keyDownHandler}
               placeholder={this.placeholder}
@@ -225,16 +233,6 @@ export class Filter implements InteractiveComponent {
               value={this.value}
             />
           </label>
-          {this.value ? (
-            <button
-              aria-label={this.intlClear || TEXT.clear}
-              class={CSS.clearButton}
-              disabled={disabled}
-              onClick={this.clear}
-            >
-              <calcite-icon icon={ICONS.close} scale={scale} />
-            </button>
-          ) : null}
         </div>
       </Fragment>
     );

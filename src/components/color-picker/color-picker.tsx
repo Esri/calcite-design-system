@@ -24,7 +24,7 @@ import {
   RGB_LIMITS,
   TEXT
 } from "./resources";
-import { focusElement } from "../../utils/dom";
+import { Direction, focusElement, getElementDir } from "../../utils/dom";
 import { colorEqual, CSSColorMode, Format, normalizeHex, parseMode, SupportedMode } from "./utils";
 import { throttle } from "lodash-es";
 
@@ -76,14 +76,7 @@ export class ColorPicker implements InteractiveComponent {
   handleColorChange(color: Color | null, oldColor: Color | null): void {
     this.drawColorFieldAndSlider();
     this.updateChannelsFromColor(color);
-
     this.previousColor = oldColor;
-
-    if (this.internalColorUpdateContext) {
-      return;
-    }
-
-    this.value = this.toValue(color);
   }
 
   /**
@@ -102,7 +95,7 @@ export class ColorPicker implements InteractiveComponent {
   @Watch("format")
   handleFormatChange(format: ColorPicker["format"]): void {
     this.setMode(format);
-    this.value = this.toValue(this.color);
+    this.internalColorSet(this.color, false, "internal");
   }
 
   /** When true, hides the hex input */
@@ -258,12 +251,13 @@ export class ColorPicker implements InteractiveComponent {
 
     const dragging = this.sliderThumbState === "drag" || this.hueThumbState === "drag";
 
-    if (this.internalColorUpdateContext) {
-      if (this.internalColorUpdateContext === "initial") {
-        return;
-      }
+    if (this.internalColorUpdateContext === "initial") {
+      return;
+    }
 
+    if (this.internalColorUpdateContext === "user-interaction") {
       this.calciteColorPickerInput.emit();
+
       if (!dragging) {
         this.calciteColorPickerChange.emit();
       }
@@ -274,12 +268,7 @@ export class ColorPicker implements InteractiveComponent {
     const colorChanged = !colorEqual(color, this.color);
 
     if (modeChanged || colorChanged) {
-      this.color = color;
-
-      this.calciteColorPickerInput.emit();
-      if (!dragging) {
-        this.calciteColorPickerChange.emit();
-      }
+      this.internalColorSet(color, true, "internal");
     }
   }
   //--------------------------------------------------------------------------
@@ -304,7 +293,7 @@ export class ColorPicker implements InteractiveComponent {
 
   private hueScopeNode: HTMLDivElement;
 
-  private internalColorUpdateContext: "internal" | "initial" | null = null;
+  private internalColorUpdateContext: "internal" | "initial" | "user-interaction" | null = null;
 
   private previousColor: InternalColor | null;
 
@@ -955,12 +944,21 @@ export class ColorPicker implements InteractiveComponent {
     const channelAriaLabels = isRgb
       ? [intlRed, intlGreen, intlBlue]
       : [intlHue, intlSaturation, intlValue];
+    const direction = getElementDir(this.el);
 
     return (
       <calcite-tab active={active} class={CSS.control} key={channelMode}>
-        <div class={CSS.channels}>
+        {/* channel order should not be mirrored */}
+        <div class={CSS.channels} dir="ltr">
           {channels.map((channel, index) =>
-            this.renderChannel(channel, index, channelLabels[index], channelAriaLabels[index])
+            /* the channel container is ltr, so we apply the host's direction */
+            this.renderChannel(
+              channel,
+              index,
+              channelLabels[index],
+              channelAriaLabels[index],
+              direction
+            )
           )}
         </div>
       </calcite-tab>
@@ -971,15 +969,18 @@ export class ColorPicker implements InteractiveComponent {
     value: number | null,
     index: number,
     label: string,
-    ariaLabel: string
+    ariaLabel: string,
+    direction: Direction
   ): VNode => (
     <calcite-input
       class={CSS.channel}
       data-channel-index={index}
+      dir={direction}
       label={ariaLabel}
       numberButtonType="none"
       onCalciteInputChange={this.handleChannelChange}
       onCalciteInputInput={this.handleChannelInput}
+      onKeyDown={this.handleKeyDown}
       prefixText={label}
       scale={this.scale === "l" ? "m" : "s"}
       type="number"
@@ -992,6 +993,12 @@ export class ColorPicker implements InteractiveComponent {
   //  Private Methods
   //
   //--------------------------------------------------------------------------
+
+  handleKeyDown(event: KeyboardEvent): void {
+    if (event.key === "Enter") {
+      event.preventDefault();
+    }
+  }
 
   private showIncompatibleColorWarning(value: ColorValue, format: Format): void {
     console.warn(
@@ -1036,7 +1043,7 @@ export class ColorPicker implements InteractiveComponent {
   private internalColorSet(
     color: Color | null,
     skipEqual = true,
-    context: ColorPicker["internalColorUpdateContext"] = "internal"
+    context: ColorPicker["internalColorUpdateContext"] = "user-interaction"
   ): void {
     if (skipEqual && colorEqual(color, this.color)) {
       return;

@@ -83,6 +83,34 @@ export const GroupedItems = (): string => html`
   </calcite-list>
 `;
 
+export const StartAndEndContentSlots = (): string => html`<calcite-list>
+  <calcite-list-item>
+    <calcite-action slot="actions-end" icon="ellipsis"> </calcite-action>
+    <calcite-icon icon="layers" scale="m" slot="content-start"></calcite-icon>
+    <span slot="content-start">Some value or something and a <b>thing</b>.</span>
+    <div slot="content-end" style="display: flex; justify-content: flex-end">
+      <calcite-chip class="list-chip" icon="ribbon-rosette" scale="s">Review</calcite-chip>
+      <calcite-chip class="list-chip" icon="globe" scale="s" color="green">Good</calcite-chip>
+    </div>
+  </calcite-list-item>
+  <calcite-list-item>
+    <calcite-action slot="actions-end" icon="ellipsis"> </calcite-action>
+    <calcite-icon icon="user" scale="m" slot="content-start"></calcite-icon>
+    <span slot="content-start">Some value or something and a <b>thing</b>.</span>
+    <div slot="content-end" style="display: flex; justify-content: flex-end">
+      <calcite-chip class="list-chip" icon="globe" scale="s" color="green">Good</calcite-chip>
+    </div>
+  </calcite-list-item>
+  <calcite-list-item>
+    <calcite-action slot="actions-end" icon="ellipsis"> </calcite-action>
+    <calcite-icon icon="user" scale="m" slot="content-start"></calcite-icon>
+    <span slot="content-start">Some value or something and a <b>thing</b>.</span>
+    <div slot="content-end" style="display: flex; justify-content: flex-end">
+      <calcite-chip class="list-chip" icon="bell" color="red" scale="s">Halp!</calcite-chip>
+    </div>
+  </calcite-list-item>
+</calcite-list> `;
+
 export const RichContent = (): string => html`
   <calcite-list>
     <calcite-list-item label="Princess Bubblegum" description="Ruler of The Candy Kingdom">

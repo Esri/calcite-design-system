@@ -26,16 +26,23 @@ import { HeadingLevel } from "../functional/Heading";
 
 import { TEXT } from "../date-picker/resources";
 import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
-import { connectForm, disconnectForm, FormComponent, HiddenFormInputSlot } from "../../utils/form";
+import {
+  connectForm,
+  disconnectForm,
+  FormComponent,
+  HiddenFormInputSlot,
+  submitForm
+} from "../../utils/form";
 import {
   createPopper,
   updatePopper,
   CSS as PopperCSS,
   OverlayPositioning,
-  popperMenuFlipPlacements,
+  popperMenuComputedPlacements,
   ComputedPlacement,
   defaultMenuPlacement,
-  MenuPlacement
+  MenuPlacement,
+  filterComputedPlacements
 } from "../../utils/popper";
 import { StrictModifiers, Instance as Popper } from "@popperjs/core";
 import { DateRangeChange } from "../date-picker/interfaces";
@@ -96,6 +103,11 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
    */
   @Prop() flipPlacements?: ComputedPlacement[];
 
+  @Watch("flipPlacements")
+  flipPlacementsHandler(): void {
+    this.setFilteredPlacements();
+  }
+
   /**
    * Number at which section headings should start for this component.
    */
@@ -127,7 +139,9 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
 
   @Watch("min")
   onMinChanged(min: string): void {
-    this.minAsDate = dateFromISO(min);
+    if (min) {
+      this.minAsDate = dateFromISO(min);
+    }
   }
 
   /** Latest allowed date ("yyyy-mm-dd") */
@@ -135,7 +149,9 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
 
   @Watch("max")
   onMaxChanged(max: string): void {
-    this.maxAsDate = dateFromISO(max);
+    if (max) {
+      this.maxAsDate = dateFromISO(max);
+    }
   }
 
   /** Expand or collapse when calendar does not have input */
@@ -334,6 +350,7 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
     this.createPopper();
     connectLabel(this);
     connectForm(this);
+    this.setFilteredPlacements();
   }
 
   async componentWillLoad(): Promise<void> {
@@ -366,7 +383,12 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
     const formattedDate = date ? date.toLocaleDateString(this.locale) : "";
 
     return (
-      <Host onBlur={this.deactivate} onKeyUp={this.keyUpHandler} role="application">
+      <Host
+        onBlur={this.deactivate}
+        onKeyDown={this.keyDownHandler}
+        onKeyUp={this.keyUpHandler}
+        role="application"
+      >
         {this.localeData && (
           <div aria-expanded={this.active.toString()} class="input-container" role="application">
             {
@@ -475,6 +497,8 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
   //
   //--------------------------------------------------------------------------
 
+  filteredFlipPlacements: ComputedPlacement[];
+
   labelEl: HTMLCalciteLabelElement;
 
   formEl: HTMLFormElement;
@@ -520,6 +544,14 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
   //
   //--------------------------------------------------------------------------
 
+  setFilteredPlacements = (): void => {
+    const { el, flipPlacements } = this;
+
+    this.filteredFlipPlacements = flipPlacements
+      ? filterComputedPlacements(flipPlacements, el)
+      : null;
+  };
+
   onLabelClick(): void {
     this.setFocus();
   }
@@ -542,6 +574,12 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
 
   deactivate = (): void => {
     this.active = false;
+  };
+
+  keyDownHandler = (event: KeyboardEvent): void => {
+    if (event.key === "Enter" && !event.defaultPrevented) {
+      submitForm(this);
+    }
   };
 
   keyUpHandler = (e: KeyboardEvent): void => {
@@ -592,7 +630,7 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
     };
 
     flipModifier.options = {
-      fallbackPlacements: this.flipPlacements || popperMenuFlipPlacements
+      fallbackPlacements: this.filteredFlipPlacements || popperMenuComputedPlacements
     };
 
     const eventListenerModifier: Partial<StrictModifiers> = {
@@ -654,6 +692,9 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
 
   private clearCurrentValue(): void {
     if (!this.range) {
+      if (typeof this.value === "string" && this.value) {
+        this.calciteDatePickerChange.emit();
+      }
       this.value = "";
       return;
     }
@@ -661,9 +702,15 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
     const { focusedInput } = this;
 
     if (focusedInput === "start") {
+      if (this.start) {
+        this.calciteDatePickerRangeChange.emit();
+      }
       this.value = Array.isArray(this.value) ? ["", this.value[1] || ""] : [""];
       this.start = undefined;
     } else if (focusedInput === "end") {
+      if (this.end) {
+        this.calciteDatePickerRangeChange.emit();
+      }
       this.value = Array.isArray(this.value) ? [this.value[0] || "", ""] : ["", ""];
       this.end = undefined;
     }

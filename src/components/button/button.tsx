@@ -7,6 +7,7 @@ import { FlipContext, Scale, Width } from "../interfaces";
 import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
 import { createObserver } from "../../utils/observers";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import { submitForm, resetForm, FormOwner } from "../../utils/form";
 
 /** Passing a 'href' will render an anchor link, instead of a button. Role will be set to link, or button, depending on this. */
 /** It is the consumers responsibility to add aria information, rel, target, for links, and any button attributes for form submission */
@@ -17,7 +18,7 @@ import { InteractiveComponent, updateHostInteraction } from "../../utils/interac
   styleUrl: "button.scss",
   shadow: true
 })
-export class Button implements LabelableComponent, InteractiveComponent {
+export class Button implements LabelableComponent, InteractiveComponent, FormOwner {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -93,7 +94,7 @@ export class Button implements LabelableComponent, InteractiveComponent {
   @Prop() target?: string;
 
   /** The type attribute to apply to the button */
-  @Prop({ mutable: true }) type?: string;
+  @Prop({ mutable: true }) type = "button";
 
   /** specify the width of the button, defaults to auto */
   @Prop({ reflect: true }) width: Width = "auto";
@@ -135,9 +136,6 @@ export class Button implements LabelableComponent, InteractiveComponent {
   componentWillLoad(): void {
     if (Build.isBrowser) {
       this.updateHasContent();
-      if (!this.href && !this.type) {
-        this.type = "submit";
-      }
     }
   }
 
@@ -269,14 +267,17 @@ export class Button implements LabelableComponent, InteractiveComponent {
 
   // act on a requested or nearby form based on type
   private handleClick = (): void => {
-    const { formEl, type } = this;
+    const { type } = this;
+
+    if (this.href) {
+      return;
+    }
+
     // this.type refers to type attribute, not child element type
-    if (!this.href && type !== "button") {
-      if (type === "submit") {
-        formEl?.requestSubmit();
-      } else if (type === "reset") {
-        formEl?.reset();
-      }
+    if (type === "submit") {
+      submitForm(this);
+    } else if (type === "reset") {
+      resetForm(this);
     }
   };
 }

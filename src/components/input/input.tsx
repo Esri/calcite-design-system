@@ -14,11 +14,17 @@ import {
 } from "@stencil/core";
 import { getElementDir, getElementProp, getSlotted, setRequestedIcon } from "../../utils/dom";
 
-import { CSS, INPUT_TYPE_ICONS, SLOTS } from "./resources";
+import { CSS, INPUT_TYPE_ICONS, SLOTS, TEXT } from "./resources";
 import { InputPlacement } from "./interfaces";
 import { Position } from "../interfaces";
 import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
-import { connectForm, disconnectForm, FormComponent, HiddenFormInputSlot } from "../../utils/form";
+import {
+  connectForm,
+  disconnectForm,
+  FormComponent,
+  HiddenFormInputSlot,
+  submitForm
+} from "../../utils/form";
 import {
   getDecimalSeparator,
   delocalizeNumberString,
@@ -26,7 +32,7 @@ import {
 } from "../../utils/locale";
 import { numberKeys } from "../../utils/key";
 import { isValidNumber, parseNumberString, sanitizeNumberString } from "../../utils/number";
-import { CSS_UTILITY, TEXT } from "../../utils/resources";
+import { CSS_UTILITY, TEXT as COMMON_TEXT } from "../../utils/resources";
 import { decimalPlaces } from "../../utils/math";
 import { createObserver } from "../../utils/observers";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
@@ -87,10 +93,15 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
   @Prop({ reflect: true }) icon: string | boolean;
 
   /**
+   * A text label that will appear on the clear button for screen readers.
+   */
+  @Prop() intlClear?: string;
+
+  /**
    * string to override English loading text
    * @default "Loading"
    */
-  @Prop() intlLoading?: string = TEXT.loading;
+  @Prop() intlLoading?: string = COMMON_TEXT.loading;
 
   /** flip the icon in rtl */
   @Prop({ reflect: true }) iconFlipRtl = false;
@@ -384,16 +395,15 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
   //--------------------------------------------------------------------------
 
   keyDownHandler = (event: KeyboardEvent): void => {
-    /* prevent default behavior for input to move the cursor to the beginning of the input with every ArrowUp press */
-    if (event.key === "ArrowUp") {
-      event.preventDefault();
-    }
     if (this.readOnly || this.disabled) {
       return;
     }
     if (this.isClearable && event.key === "Escape") {
       this.clearInputValue(event);
       event.preventDefault();
+    }
+    if (event.key === "Enter" && !event.defaultPrevented) {
+      submitForm(this);
     }
   };
 
@@ -501,7 +511,7 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
     } else {
       this.setValue({
         nativeEvent,
-        value: delocalizeNumberString(value, this.locale)
+        value: delocalizedValue
       });
     }
   };
@@ -511,6 +521,8 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
       return;
     }
     if (event.key === "ArrowUp") {
+      /* prevent default behavior of moving cursor to the beginning of the input when holding down ArrowUp */
+      event.preventDefault();
       this.nudgeNumberValue("up", event);
       return;
     }
@@ -752,6 +764,7 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
 
     const inputClearButton = (
       <button
+        aria-label={this.intlClear || TEXT.clear}
         class={CSS.clearButton}
         disabled={this.disabled || this.readOnly}
         onClick={this.clearInputValue}

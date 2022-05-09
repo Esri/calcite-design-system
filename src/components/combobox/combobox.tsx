@@ -21,8 +21,9 @@ import {
   CSS as PopperCSS,
   OverlayPositioning,
   ComputedPlacement,
-  popperMenuFlipPlacements,
-  defaultMenuPlacement
+  popperMenuComputedPlacements,
+  defaultMenuPlacement,
+  filterComputedPlacements
 } from "../../utils/popper";
 import { StrictModifiers, Instance as Popper } from "@popperjs/core";
 import { guid } from "../../utils/guid";
@@ -36,7 +37,8 @@ import {
   connectForm,
   disconnectForm,
   FormComponent,
-  HiddenFormInputSlot
+  HiddenFormInputSlot,
+  submitForm
 } from "../../utils/form";
 import { createObserver } from "../../utils/observers";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
@@ -167,6 +169,11 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
    */
   @Prop() flipPlacements?: ComputedPlacement[];
 
+  @Watch("flipPlacements")
+  flipPlacementsHandler(): void {
+    this.setFilteredPlacements();
+  }
+
   //--------------------------------------------------------------------------
   //
   //  Event Listeners
@@ -185,6 +192,8 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
     }
 
     const target = event.target as HTMLCalciteComboboxItemElement;
+    const newIndex = this.visibleItems.indexOf(target);
+    this.updateActiveItemIndex(newIndex);
     this.toggleSelection(target, target.selected);
   }
 
@@ -269,6 +278,7 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
     this.createPopper();
     connectLabel(this);
     connectForm(this);
+    this.setFilteredPlacements();
   }
 
   componentWillLoad(): void {
@@ -301,6 +311,8 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
   //  Private State/Props
   //
   //--------------------------------------------------------------------------
+
+  filteredFlipPlacements: ComputedPlacement[];
 
   internalValueChangeFlag = false;
 
@@ -371,6 +383,14 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
   //
   // --------------------------------------------------------------------------
 
+  setFilteredPlacements = (): void => {
+    const { el, flipPlacements } = this;
+
+    this.filteredFlipPlacements = flipPlacements
+      ? filterComputedPlacements(flipPlacements, el)
+      : null;
+  };
+
   getValue = (): string | string[] => {
     const items = this.selectedItems.map((item) => item?.value.toString());
     return items?.length ? (items.length > 1 ? items : items[0]) : "";
@@ -379,6 +399,16 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
   onLabelClick = (): void => {
     this.setFocus();
   };
+
+  private comboboxInViewport(): boolean {
+    const bounding = this.el.getBoundingClientRect();
+    return (
+      bounding.top >= 0 &&
+      bounding.left >= 0 &&
+      bounding.right <= (window.innerWidth || document.documentElement.clientWidth) &&
+      bounding.bottom <= (window.innerHeight || document.documentElement.clientHeight)
+    );
+  }
 
   keydownHandler = (event: KeyboardEvent): void => {
     const { key } = event;
@@ -402,14 +432,20 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
         this.nextChip();
         break;
       case "ArrowUp":
-        event.preventDefault();
-        this.active = true;
         this.shiftActiveItemIndex(-1);
+        if (!this.comboboxInViewport()) {
+          this.el.scrollIntoView();
+        }
         break;
       case "ArrowDown":
-        event.preventDefault();
-        this.active = true;
+        if (!this.active) {
+          event.preventDefault();
+          this.active = true;
+        }
         this.shiftActiveItemIndex(1);
+        if (!this.comboboxInViewport()) {
+          this.el.scrollIntoView();
+        }
         break;
       case " ":
         if (!this.textInput.value) {
@@ -419,14 +455,24 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
         }
         break;
       case "Home":
-        event.preventDefault();
-        this.active = true;
+        if (this.active) {
+          event.preventDefault();
+        }
         this.updateActiveItemIndex(0);
+        this.scrollToActiveItem();
+        if (!this.comboboxInViewport()) {
+          this.el.scrollIntoView();
+        }
         break;
       case "End":
-        event.preventDefault();
-        this.active = true;
+        if (this.active) {
+          event.preventDefault();
+        }
         this.updateActiveItemIndex(this.visibleItems.length - 1);
+        this.scrollToActiveItem();
+        if (!this.comboboxInViewport()) {
+          this.el.scrollIntoView();
+        }
         break;
       case "Escape":
         this.active = false;
@@ -438,6 +484,8 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
           this.removeActiveChip();
         } else if (this.allowCustomValues && this.text) {
           this.addCustomChip(this.text, true);
+        } else if (!event.defaultPrevented) {
+          submitForm(this);
         }
         break;
       case "Delete":
@@ -500,6 +548,7 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
       return;
     }
     this.active = !this.active;
+    this.updateActiveItemIndex(0);
     this.setFocus();
   };
 
@@ -545,7 +594,7 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
     };
 
     flipModifier.options = {
-      fallbackPlacements: this.flipPlacements || popperMenuFlipPlacements
+      fallbackPlacements: this.filteredFlipPlacements || popperMenuComputedPlacements
     };
 
     const eventListenerModifier: Partial<StrictModifiers> = {
@@ -633,7 +682,7 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
       item &&
       filteredData.some(({ label, value }) => {
         if (isGroup(item)) {
-          return value === item.label || value === item.label;
+          return value === item.label;
         }
 
         return (
@@ -770,8 +819,7 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
     return this.items.map((item) => ({
       constant: item.constant,
       value: item.value,
-      label: item.textLabel,
-      guid: item.guid
+      label: item.textLabel
     }));
   }
 
@@ -867,11 +915,7 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
     chip?.setFocus();
   }
 
-  shiftActiveItemIndex(delta: number): void {
-    const length = this.visibleItems.length;
-    const newIndex = (this.activeItemIndex + length + delta) % length;
-    this.updateActiveItemIndex(newIndex);
-    // ensure active item is in view if we have scrolling
+  private scrollToActiveItem = (): void => {
     const activeItem = this.visibleItems[this.activeItemIndex];
     const height = this.calculateSingleItemHeight(activeItem);
     const { offsetHeight, scrollTop } = this.listContainerEl;
@@ -880,6 +924,13 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
     } else if (activeItem.offsetTop < scrollTop) {
       this.listContainerEl.scrollTop = activeItem.offsetTop;
     }
+  };
+
+  shiftActiveItemIndex(delta: number): void {
+    const { length } = this.visibleItems;
+    const newIndex = (this.activeItemIndex + length + delta) % length;
+    this.updateActiveItemIndex(newIndex);
+    this.scrollToActiveItem();
   }
 
   updateActiveItemIndex(index: number): void {

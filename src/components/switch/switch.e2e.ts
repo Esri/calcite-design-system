@@ -37,6 +37,20 @@ describe("calcite-switch", () => {
     expect(await calciteSwitch.getProperty("checked")).toBe(true);
   });
 
+  it("toggles the checked attributes appropriately when click is called", async () => {
+    const page = await newE2EPage();
+    await page.setContent("<calcite-switch></calcite-switch>");
+    const calciteSwitch = await page.find("calcite-switch");
+
+    expect(await calciteSwitch.getProperty("checked")).toBe(false);
+
+    await page.$eval("calcite-switch", (component: HTMLCalciteSwitchElement) => {
+      component.click();
+    });
+
+    expect(await calciteSwitch.getProperty("checked")).toBe(true);
+  });
+
   it("can be checked via the switched property (deprecated)", async () => {
     const page = await newE2EPage();
     await page.setContent("<calcite-switch switched></calcite-switch>");
