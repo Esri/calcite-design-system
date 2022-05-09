@@ -15,8 +15,7 @@ import { Layout, Scale } from "../interfaces";
 import {
   StepperItemChangeEventDetail,
   StepperItemEventDetail,
-  StepperItemKeyEventDetail,
-  StepperItemLookup
+  StepperItemKeyEventDetail
 } from "./interfaces";
 
 /**
@@ -144,7 +143,7 @@ export class Stepper {
 
   @Listen("calciteStepperItemRegister")
   registerItem(event: CustomEvent<StepperItemEventDetail>): void {
-    const item: StepperItemLookup = {
+    const item = {
       item: event.target as HTMLCalciteStepperItemElement,
       position: event.detail.position,
       content: event.detail.content
@@ -221,7 +220,7 @@ export class Stepper {
   //--------------------------------------------------------------------------
 
   /** created list of Stepper items */
-  private items: StepperItemLookup[] = [];
+  private items = [];
 
   private sortedItems: HTMLCalciteStepperItemElement[] = [];
 
