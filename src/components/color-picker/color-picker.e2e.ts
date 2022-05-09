@@ -196,7 +196,8 @@ describe("calcite-color-picker", () => {
     expect(inputSpy).toHaveReceivedEventTimes(1);
 
     // change by clicking on hue
-    await clickScope(page, "hue");
+    let [hueScopeX, hueScopeY] = await getElementXY(page, "calcite-color-picker", `.${CSS.hueScope}`);
+    await page.mouse.click(hueScopeX + 10, hueScopeY);
     expect(changeSpy).toHaveReceivedEventTimes(2);
     expect(inputSpy).toHaveReceivedEventTimes(2);
 
@@ -222,7 +223,6 @@ describe("calcite-color-picker", () => {
     expect(inputSpy).toHaveReceivedEventTimes(5);
 
     // change by dragging color field thumb
-    const thumbRadius = DIMENSIONS.m.thumb.radius;
     const mouseDragSteps = 10;
     const [colorFieldScopeX, colorFieldScopeY] = await getElementXY(
       page,
@@ -230,9 +230,9 @@ describe("calcite-color-picker", () => {
       `.${CSS.colorFieldScope}`
     );
 
-    await page.mouse.move(colorFieldScopeX + thumbRadius, colorFieldScopeY + thumbRadius);
+    await page.mouse.move(colorFieldScopeX, colorFieldScopeY);
     await page.mouse.down();
-    await page.mouse.move(colorFieldScopeX + thumbRadius + 10, colorFieldScopeY + thumbRadius, {
+    await page.mouse.move(colorFieldScopeX + 10, colorFieldScopeY, {
       steps: mouseDragSteps
     });
     await page.mouse.up();
@@ -242,12 +242,12 @@ describe("calcite-color-picker", () => {
     expect(inputSpy.length).toBeGreaterThan(6); // input event fires more than once
 
     // change by dragging hue slider thumb
-    const [hueScopeX, hueScopeY] = await getElementXY(page, "calcite-color-picker", `.${CSS.hueScope}`);
+    [hueScopeX, hueScopeY] = await getElementXY(page, "calcite-color-picker", `.${CSS.hueScope}`);
     let previousInputEventLength = inputSpy.length;
 
-    await page.mouse.move(hueScopeX + thumbRadius, hueScopeY + thumbRadius);
+    await page.mouse.move(hueScopeX, hueScopeY);
     await page.mouse.down();
-    await page.mouse.move(hueScopeX + thumbRadius + 10, hueScopeY + thumbRadius, { steps: mouseDragSteps });
+    await page.mouse.move(hueScopeX + 10, hueScopeY, { steps: mouseDragSteps });
     await page.mouse.up();
     await page.waitForChanges();
 
