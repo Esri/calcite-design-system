@@ -99,7 +99,6 @@
 
 :host textarea,
 :host input {
-  transition: var(--calcite-animation-timing), height 0s;
   -webkit-appearance: none;
   @apply font-inherit
     text-color-1

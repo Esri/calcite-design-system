@@ -217,8 +217,7 @@ export default {
         },
         ".focus-base": {
           "outline-offset": 0,
-          "outline-color": "transparent",
-          transition: "outline-offset 100ms ease-in-out, outline-color 100ms ease-in-out"
+          "outline-color": "transparent"
         },
         ".focus-outset": {
           outline: "2px solid var(--calcite-ui-brand)",
