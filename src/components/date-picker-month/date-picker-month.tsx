@@ -258,7 +258,7 @@ export class DatePickerMonth {
     if (day - 6 === startOfWeek) {
       return days;
     }
-    for (let i = lastDate.getDay(); i >= startOfWeek; i--) {
+    for (let i = Math.abs(lastDate.getDay() - startOfWeek); i >= 0; i--) {
       days.push(date - i);
     }
     return days;
