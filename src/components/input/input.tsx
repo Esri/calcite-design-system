@@ -445,7 +445,7 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
     });
   };
 
-  private emitChangeEvent = (): void => {
+  private emitChangeIfUserModified = (): void => {
     if (this.previousValueOrigin === "user" && this.value !== this.previousEmittedValue) {
       this.calciteInputChange.emit();
     }
@@ -458,7 +458,7 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
       value: this.value
     });
 
-    this.emitChangeEvent();
+    this.emitChangeIfUserModified();
   };
 
   private inputFocusHandler = (event: FocusEvent): void => {
@@ -488,7 +488,7 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
       return;
     }
     if (event.key === "Enter") {
-      this.emitChangeEvent();
+      this.emitChangeIfUserModified();
     }
   };
 
@@ -547,7 +547,7 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
     const isShiftTabEvent = event.shiftKey && event.key === "Tab";
     if (supportedKeys.includes(event.key) && (!event.shiftKey || isShiftTabEvent)) {
       if (event.key === "Enter") {
-        this.emitChangeEvent();
+        this.emitChangeIfUserModified();
       }
       return;
     }
@@ -746,7 +746,7 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
         this.value = this.previousValue;
         this.localizedValue = previousLocalizedValue;
       } else if (committing) {
-        this.emitChangeEvent();
+        this.emitChangeIfUserModified();
       }
     }
   };
