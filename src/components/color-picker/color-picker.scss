@@ -112,20 +112,13 @@ $gap--large: 12px;
   @apply text-n1
     focus-base
     pointer-events-none
-    absolute
-    mb-0
-    mr-0
-    h-2
-    w-2
-    p-0;
+    absolute;
 
-  margin-top: -0.25rem;
-  margin-left: -0.25rem;
-  outline-offset: 10px;
+  outline-offset: 14px;
 
   &:focus {
     @apply focus-outset;
-    outline-offset: 12px;
+    outline-offset: 16px;
   }
 }
 
