@@ -79,7 +79,7 @@ export class DatePickerMonth {
    * Event emitted when user hovers the date.
    * @internal
    */
-  @Event() calciteDatePickerHover: EventEmitter;
+  @Event() calciteInternalDatePickerHover: EventEmitter;
 
   /**
    * Active date for the user keyboard access.
@@ -342,7 +342,7 @@ export class DatePickerMonth {
     if (e.detail.disabled) {
       this.calciteDatePickerMouseOut.emit();
     } else {
-      this.calciteDatePickerHover.emit(target.value);
+      this.calciteInternalDatePickerHover.emit(target.value);
     }
     e.stopPropagation();
   };
