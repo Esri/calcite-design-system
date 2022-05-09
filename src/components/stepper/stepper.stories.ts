@@ -185,9 +185,11 @@ export const disabled = (): string => html`<calcite-stepper>
 
 export const MinHeight = stepStory(
   (): string => html`<calcite-stepper style="min-height: 500px;">
-    <calcite-stepper-item item-title="Title one"> Step one </calcite-stepper-item>
+    <calcite-stepper-item item-title="Title one" id="one"> Step one </calcite-stepper-item>
     <calcite-stepper-item item-title="Title two"> Step two </calcite-stepper-item>
     <calcite-stepper-item item-title="Title three"> Step three </calcite-stepper-item>
   </calcite-stepper>`,
-  createSteps("calcite-stepper").snapshot("stepper with min-height")
+  createSteps("calcite-stepper")
+    .executeScripts(`document.querySelector("calcite-stepper-item").first().setFocus()`)
+    .snapshot("stepper with min-height")
 );
