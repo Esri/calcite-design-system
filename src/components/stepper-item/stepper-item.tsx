@@ -10,7 +10,7 @@ import {
   VNode,
   Watch
 } from "@stencil/core";
-import { getElementProp } from "../../utils/dom";
+import { getElementProp, toAriaBoolean } from "../../utils/dom";
 import { Scale } from "../interfaces";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import {
@@ -125,7 +125,7 @@ export class StepperItem implements InteractiveComponent {
   render(): VNode {
     return (
       <Host
-        aria-expanded={this.active.toString()}
+        aria-expanded={toAriaBoolean(this.active)}
         onClick={this.emitRequestedItem}
         onKeyDown={this.keyDownHandler}
       >

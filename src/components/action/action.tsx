@@ -17,6 +17,7 @@ import { CSS, TEXT } from "./resources";
 
 import { createObserver } from "../../utils/observers";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import { toAriaBoolean } from "../../utils/dom";
 
 /**
  * @slot - A slot for adding a `calcite-icon`.
@@ -215,8 +216,8 @@ export class Action implements InteractiveComponent {
     return (
       <Host onClick={this.calciteActionClickHandler}>
         <button
-          aria-busy={loading.toString()}
-          aria-disabled={disabled.toString()}
+          aria-busy={toAriaBoolean(loading)}
+          aria-disabled={toAriaBoolean(disabled)}
           aria-label={ariaLabel}
           class={buttonClasses}
           disabled={disabled}
