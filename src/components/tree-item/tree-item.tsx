@@ -17,7 +17,7 @@ import {
   getElementDir,
   filterDirectChildren,
   getSlotted,
-  toBooleanString
+  toAriaBoolean
 } from "../../utils/dom";
 
 import { Scale } from "../interfaces";
@@ -215,8 +215,8 @@ export class TreeItem implements ConditionalSlotComponent {
 
     return (
       <Host
-        aria-expanded={this.hasChildren ? toBooleanString(this.expanded) : undefined}
-        aria-hidden={toBooleanString(hidden)}
+        aria-expanded={this.hasChildren ? toAriaBoolean(this.expanded) : undefined}
+        aria-hidden={toAriaBoolean(hidden)}
         aria-selected={this.selected ? "true" : showCheckmark ? "false" : undefined}
         calcite-hydrated-hidden={hidden}
         role="treeitem"

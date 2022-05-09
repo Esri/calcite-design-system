@@ -15,7 +15,7 @@ import {
 } from "@stencil/core";
 import { TabChangeEventDetail } from "../tab/interfaces";
 import { guid } from "../../utils/guid";
-import { getElementDir, getElementProp, toBooleanString } from "../../utils/dom";
+import { getElementDir, getElementProp, toAriaBoolean } from "../../utils/dom";
 import { TabID, TabLayout, TabPosition } from "../tabs/interfaces";
 import { FlipContext, Scale } from "../interfaces";
 import { createObserver } from "../../utils/observers";
@@ -154,7 +154,7 @@ export class TabTitle implements InteractiveComponent {
     return (
       <Host
         aria-controls={this.controls}
-        aria-expanded={toBooleanString(this.active)}
+        aria-expanded={toAriaBoolean(this.active)}
         id={id}
         role="tab"
       >

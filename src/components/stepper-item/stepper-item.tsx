@@ -10,7 +10,7 @@ import {
   VNode,
   Watch
 } from "@stencil/core";
-import { getElementProp, toBooleanString } from "../../utils/dom";
+import { getElementProp, toAriaBoolean } from "../../utils/dom";
 import { Scale } from "../interfaces";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 
@@ -133,7 +133,7 @@ export class StepperItem implements InteractiveComponent {
 
   render(): VNode {
     return (
-      <Host aria-expanded={toBooleanString(this.active)} onClick={() => this.emitRequestedItem()}>
+      <Host aria-expanded={toAriaBoolean(this.active)} onClick={() => this.emitRequestedItem()}>
         <div class="container">
           <div class="stepper-item-header">
             {this.icon ? this.renderIcon() : null}

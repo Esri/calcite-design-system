@@ -47,7 +47,7 @@ import {
 import { StrictModifiers, Instance as Popper } from "@popperjs/core";
 import { DateRangeChange } from "../date-picker/interfaces";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
-import { toBooleanString } from "../../utils/dom";
+import { toAriaBoolean } from "../../utils/dom";
 
 @Component({
   tag: "calcite-input-date-picker",
@@ -392,7 +392,7 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
       >
         {this.localeData && (
           <div
-            aria-expanded={toBooleanString(this.active)}
+            aria-expanded={toAriaBoolean(this.active)}
             class="input-container"
             role="application"
           >
@@ -418,7 +418,7 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
               </div>
             }
             <div
-              aria-hidden={toBooleanString(!this.active)}
+              aria-hidden={toAriaBoolean(!this.active)}
               class={{
                 "menu-container": true,
                 "menu-container--active": this.active

@@ -1,6 +1,6 @@
 import { FunctionalComponent, h, Host, VNode } from "@stencil/core";
 import { JSXBase } from "@stencil/core/internal";
-import { toBooleanString } from "../../utils/dom";
+import { toAriaBoolean } from "../../utils/dom";
 import { CSS, SLOTS } from "./resources";
 import { handleFilter } from "./shared-list-logic";
 import DOMAttributes = JSXBase.DOMAttributes;
@@ -30,7 +30,7 @@ export const List: FunctionalComponent<{ props: ListProps } & DOMAttributes<any>
 }): VNode => {
   const defaultSlot = <slot />;
   return (
-    <Host aria-busy={toBooleanString(loading)} role="menu" {...rest}>
+    <Host aria-busy={toAriaBoolean(loading)} role="menu" {...rest}>
       <section>
         <header class={{ [CSS.sticky]: true }}>
           {filterEnabled ? (

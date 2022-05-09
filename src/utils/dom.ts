@@ -275,6 +275,6 @@ export function intersects(rect1: DOMRect, rect2: DOMRect): boolean {
   );
 }
 
-export function toBooleanString(value: boolean): string {
+export function toAriaBoolean(value: boolean): string {
   return (!!value).toString();
 }

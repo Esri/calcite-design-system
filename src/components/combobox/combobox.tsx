@@ -42,7 +42,7 @@ import {
 } from "../../utils/form";
 import { createObserver } from "../../utils/observers";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
-import { toBooleanString } from "../../utils/dom";
+import { toAriaBoolean } from "../../utils/dom";
 interface ItemData {
   label: string;
   value: string;
@@ -1051,7 +1051,7 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
   renderListBoxOptions(): VNode[] {
     return this.visibleItems.map((item) => (
       <li
-        aria-selected={toBooleanString(item.selected)}
+        aria-selected={toAriaBoolean(item.selected)}
         id={item.guid ? `${itemUidPrefix}${item.guid}` : null}
         role="option"
         tabindex="-1"
@@ -1116,7 +1116,7 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
       <Host onKeyDown={this.keydownHandler}>
         <div
           aria-autocomplete="list"
-          aria-expanded={toBooleanString(active)}
+          aria-expanded={toAriaBoolean(active)}
           aria-haspopup="listbox"
           aria-labelledby={`${labelUidPrefix}${guid}`}
           aria-owns={`${listboxUidPrefix}${guid}`}
