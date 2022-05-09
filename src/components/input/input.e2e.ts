@@ -1468,7 +1468,8 @@ describe("calcite-input", () => {
   });
 
   describe("is form-associated", () => {
-    it("supports type=text", () => formAssociated("calcite-input", { testValue: "test" }));
-    it("supports type=number", () => formAssociated("<calcite-input type='number'></calcite-input>", { testValue: 5 }));
+    it("supports type=text", () => formAssociated("calcite-input", { testValue: "test", submitsOnEnter: true }));
+    it("supports type=number", () =>
+      formAssociated("<calcite-input type='number'></calcite-input>", { testValue: 5, submitsOnEnter: true }));
   });
 });

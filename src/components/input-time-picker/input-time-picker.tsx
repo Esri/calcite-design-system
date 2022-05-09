@@ -17,7 +17,13 @@ import { formatTimeString, isValidTime, localizeTimeString } from "../../utils/t
 import { Scale } from "../interfaces";
 import { PopperPlacement } from "../../utils/popper";
 import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
-import { connectForm, disconnectForm, FormComponent, HiddenFormInputSlot } from "../../utils/form";
+import {
+  connectForm,
+  disconnectForm,
+  FormComponent,
+  HiddenFormInputSlot,
+  submitForm
+} from "../../utils/form";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 
 @Component({
@@ -277,6 +283,12 @@ export class InputTimePicker implements LabelableComponent, FormComponent, Inter
   //
   // --------------------------------------------------------------------------
 
+  keyDownHandler = (event: KeyboardEvent): void => {
+    if (event.key === "Enter" && !event.defaultPrevented) {
+      submitForm(this);
+    }
+  };
+
   onLabelClick(): void {
     this.setFocus();
   }
@@ -394,7 +406,7 @@ export class InputTimePicker implements LabelableComponent, FormComponent, Inter
   render(): VNode {
     const popoverId = `${this.referenceElementId}-popover`;
     return (
-      <Host>
+      <Host onKeyDown={this.keyDownHandler}>
         <div
           aria-controls={popoverId}
           aria-haspopup="dialog"
