@@ -12,7 +12,13 @@ import {
 } from "@stencil/core";
 import { TreeItemSelectDetail } from "./interfaces";
 import { TreeSelectionMode } from "../tree/interfaces";
-import { nodeListToArray, getElementDir, filterDirectChildren, getSlotted } from "../../utils/dom";
+import {
+  nodeListToArray,
+  getElementDir,
+  filterDirectChildren,
+  getSlotted,
+  toAriaBoolean
+} from "../../utils/dom";
 
 import { Scale } from "../interfaces";
 import { CSS, SLOTS, ICONS } from "./resources";
@@ -209,8 +215,8 @@ export class TreeItem implements ConditionalSlotComponent {
 
     return (
       <Host
-        aria-expanded={this.hasChildren ? this.expanded.toString() : undefined}
-        aria-hidden={hidden.toString()}
+        aria-expanded={this.hasChildren ? toAriaBoolean(this.expanded) : undefined}
+        aria-hidden={toAriaBoolean(hidden)}
         aria-selected={this.selected ? "true" : showCheckmark ? "false" : undefined}
         calcite-hydrated-hidden={hidden}
         role="treeitem"

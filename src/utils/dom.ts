@@ -274,3 +274,14 @@ export function intersects(rect1: DOMRect, rect2: DOMRect): boolean {
     rect2.bottom < rect1.top
   );
 }
+
+/**
+ * This helper makes sure that boolean aria attributes are properly converted to a string.
+ *
+ * It should only be used for aria attributes that require a string value of "true" or "false".
+ *
+ * @returns {string} The string conversion of a boolean value ("true" | "false").
+ */
+export function toAriaBoolean(value: boolean): string {
+  return (!!value).toString();
+}

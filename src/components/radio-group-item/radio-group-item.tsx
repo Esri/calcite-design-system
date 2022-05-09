@@ -9,7 +9,7 @@ import {
   Watch,
   VNode
 } from "@stencil/core";
-import { getElementProp } from "../../utils/dom";
+import { getElementProp, toAriaBoolean } from "../../utils/dom";
 import { RadioAppearance } from "../radio-group/interfaces";
 import { Position, Layout, Scale } from "../interfaces";
 import { SLOTS, CSS } from "./resources";
@@ -74,7 +74,7 @@ export class RadioGroupItem {
     );
 
     return (
-      <Host aria-checked={checked.toString()} role="radio">
+      <Host aria-checked={toAriaBoolean(checked)} role="radio">
         <label
           class={{
             "label--scale-s": scale === "s",
