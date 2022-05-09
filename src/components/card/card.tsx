@@ -1,5 +1,5 @@
 import { Component, Element, Event, EventEmitter, h, Prop, VNode } from "@stencil/core";
-import { getSlotted } from "../../utils/dom";
+import { getSlotted, toAriaBoolean } from "../../utils/dom";
 import { CSS, SLOTS, TEXT } from "./resources";
 import { LogicalFlowPosition } from "../interfaces";
 import {
@@ -101,7 +101,7 @@ export class Card implements ConditionalSlotComponent {
           </div>
         ) : null}
         {thumbnailStart && this.renderThumbnail()}
-        <section aria-busy={this.loading.toString()} class={{ [CSS.container]: true }}>
+        <section aria-busy={toAriaBoolean(this.loading)} class={{ [CSS.container]: true }}>
           {this.selectable ? this.renderCheckbox() : null}
           {this.renderHeader()}
           <div class="card-content">

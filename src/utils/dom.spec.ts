@@ -1,4 +1,4 @@
-import { getElementProp, getSlotted, setRequestedIcon, ensureId, getThemeName } from "./dom";
+import { getElementProp, getSlotted, setRequestedIcon, ensureId, getThemeName, toAriaBoolean } from "./dom";
 import { guidPattern } from "./guid.spec";
 import { html } from "../../support/formatting";
 import { ThemeName } from "../../src/components/interfaces";
@@ -348,6 +348,18 @@ describe("dom", () => {
         </div>
       `;
       expect(getTestComponentTheme()).toBe("light");
+    });
+  });
+
+  describe("toAriaBoolean()", () => {
+    it("handles truthy values", () => {
+      expect(toAriaBoolean(true)).toBe("true");
+    });
+
+    it("handles falsy values", () => {
+      expect(toAriaBoolean(false)).toBe("false");
+      expect(toAriaBoolean(null)).toBe("false");
+      expect(toAriaBoolean(undefined)).toBe("false");
     });
   });
 });
