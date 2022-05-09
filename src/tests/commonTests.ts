@@ -480,6 +480,11 @@ interface FormAssociatedOptions {
    * Set this if the expected submit value **is different** from stringifying `testValue`. For example, a component may transform an object to a serializable string.
    */
   expectedSubmitValue?: any;
+
+  /**
+   * Specifies if the component supports submitting the form on Enter key press
+   */
+  submitsOnEnter?: boolean;
 }
 
 /**
@@ -517,10 +522,14 @@ export async function formAssociated(componentTagOrHtml: TagOrHTML, options: For
   const resettablePropName = checkable ? "checked" : "value";
   const initialValue = await component.getProperty(resettablePropName);
 
-  await assertReset();
-  await assertSubmitViaButton();
+  await assertValueResetOnFormReset();
+  await assertValueSubmittedOnFormSubmit();
 
-  async function assertReset(): Promise<void> {
+  if (options.submitsOnEnter) {
+    await assertFormSubmitOnEnter();
+  }
+
+  async function assertValueResetOnFormReset(): Promise<void> {
     component.setProperty(resettablePropName, options.testValue);
     await page.waitForChanges();
 
@@ -530,11 +539,9 @@ export async function formAssociated(componentTagOrHtml: TagOrHTML, options: For
     expect(await component.getProperty(resettablePropName)).toBe(initialValue);
   }
 
-  async function assertSubmitViaButton(): Promise<void> {
+  async function assertValueSubmittedOnFormSubmit(): Promise<void> {
     const inputName = await component.getProperty("name");
-    const stringifiedTestValue = Array.isArray(options.testValue)
-      ? options.testValue.map((value) => value.toString())
-      : options.testValue.toString();
+    const stringifiedTestValue = stringifyTestValue(options.testValue);
 
     if (checkable) {
       component.setProperty("checked", true);
@@ -637,6 +644,32 @@ export async function formAssociated(componentTagOrHtml: TagOrHTML, options: For
         hiddenFormInputSlotName
       );
     }
+  }
+
+  async function assertFormSubmitOnEnter(): Promise<void> {
+    type TestWindow = GlobalTestProps<{
+      called: boolean;
+    }>;
+
+    await page.$eval("form", (form: HTMLFormElement) => {
+      form.addEventListener("submit", (event) => {
+        event.preventDefault();
+        (window as TestWindow).called = true;
+      });
+    });
+
+    const stringifiedTestValue = stringifyTestValue(options.testValue);
+
+    await component.setProperty("value", stringifiedTestValue);
+    await component.callMethod("setFocus");
+    await page.keyboard.press("Enter");
+    const called = await page.evaluate(() => (window as TestWindow).called);
+
+    expect(called).toBe(true);
+  }
+
+  function stringifyTestValue(value: any): string | string[] {
+    return Array.isArray(value) ? value.map((value) => value.toString()) : value.toString();
   }
 }
 
