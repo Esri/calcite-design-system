@@ -15,6 +15,7 @@ import { CheckableFormCompoment, HiddenFormInputSlot } from "../../utils/form";
 import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
 import { connectForm, disconnectForm } from "../../utils/form";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import { toAriaBoolean } from "../../utils/dom";
 
 @Component({
   tag: "calcite-checkbox",
@@ -211,7 +212,7 @@ export class Checkbox implements LabelableComponent, CheckableFormCompoment, Int
     return (
       <Host onClick={this.clickHandler} onKeyDown={this.keyDownHandler}>
         <div
-          aria-checked={this.checked.toString()}
+          aria-checked={toAriaBoolean(this.checked)}
           aria-label={getLabelText(this)}
           class="toggle"
           onBlur={this.onToggleBlur}
