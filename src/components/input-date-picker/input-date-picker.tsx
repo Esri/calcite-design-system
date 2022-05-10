@@ -280,12 +280,12 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
   /**
    * @internal
    */
-  @Event() calciteInputDatePickerOpen: EventEmitter;
+  @Event() calciteInternalInputDatePickerOpen: EventEmitter;
 
   /**
    * @internal
    */
-  @Event() calciteInputDatePickerClose: EventEmitter;
+  @Event() calciteInternalInputDatePickerClose: EventEmitter;
 
   // --------------------------------------------------------------------------
   //
@@ -564,8 +564,8 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
   transitionEnd = (event: TransitionEvent): void => {
     if (event.propertyName === this.activeTransitionProp) {
       this.active
-        ? this.calciteInputDatePickerOpen.emit()
-        : this.calciteInputDatePickerClose.emit();
+        ? this.calciteInternalInputDatePickerOpen.emit()
+        : this.calciteInternalInputDatePickerClose.emit();
     }
   };
 
@@ -595,6 +595,7 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
 
   inputBlur = (e: CustomEvent<any>): void => {
     this.blur(e.detail);
+    e.stopPropagation();
   };
 
   startInputFocus = (): void => {
