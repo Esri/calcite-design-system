@@ -79,7 +79,7 @@ export class DropdownItem {
   @Event() calciteInternalDropdownItemKeyEvent: EventEmitter<ItemKeyboardEvent>;
 
   /** @internal */
-  @Event() calciteDropdownCloseRequest: EventEmitter;
+  @Event() calciteInternalDropdownCloseRequest: EventEmitter;
   //--------------------------------------------------------------------------
   //
   //  Public Methods
@@ -218,7 +218,7 @@ export class DropdownItem {
         }
         break;
       case "Escape":
-        this.calciteDropdownCloseRequest.emit();
+        this.calciteInternalDropdownCloseRequest.emit();
         break;
       case "Tab":
       case "ArrowUp":
