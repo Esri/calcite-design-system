@@ -189,7 +189,5 @@ export const MinHeight = stepStory(
     <calcite-stepper-item item-title="Title two"> Step two </calcite-stepper-item>
     <calcite-stepper-item item-title="Title three"> Step three </calcite-stepper-item>
   </calcite-stepper>`,
-  createSteps("calcite-stepper")
-    .executeScripts(`document.querySelector("calcite-stepper-item").first().setFocus()`)
-    .snapshot("stepper with min-height")
+  createSteps("calcite-stepper").click("calcite-tree-item").snapshot("stepper with min-height")
 );
