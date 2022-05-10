@@ -13,7 +13,7 @@ import {
 } from "@stencil/core";
 import { TabChangeEventDetail } from "./interfaces";
 import { guid } from "../../utils/guid";
-import { nodeListToArray } from "../../utils/dom";
+import { nodeListToArray, toAriaBoolean } from "../../utils/dom";
 import { Scale } from "../interfaces";
 
 /**
@@ -64,7 +64,7 @@ export class Tab {
 
     return (
       <Host
-        aria-expanded={this.active.toString()}
+        aria-expanded={toAriaBoolean(this.active)}
         aria-labelledby={this.labeledBy}
         id={id}
         role="tabpanel"
