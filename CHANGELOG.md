@@ -3,6 +3,15 @@
 This document maintains a list of released versions and changes introduced by them.
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
+<!--@unreleased-section-start-->
+
+## Unreleased
+
+### Bug Fixes
+
+- **stepper-item:** focus outline wraps item title ([#4515](https://github.com/Esri/calcite-components/issues/4515)) ([1e310e2](https://github.com/Esri/calcite-components/commit/1e310e21b994e0316cb6ed254484c27bf7d44755))
+<!--@unreleased-section-end-->
+
 ## [1.0.0-beta.82](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.81...v1.0.0-beta.82) (2022-05-10)
 
 ### Features
