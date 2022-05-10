@@ -141,7 +141,7 @@ describe("calcite-inline-editable", () => {
       const enableEditingButton = await page.find(`calcite-inline-editable >>> .${CSS.enableEditingButton}`);
       await enableEditingButton.click();
       expect(element).toHaveAttribute("editing-enabled");
-      input.triggerEvent("calciteInputBlur");
+      input.triggerEvent("calciteInternalInputBlur");
       await page.waitForChanges();
       expect(element).not.toHaveAttribute("editing-enabled");
     });
@@ -254,7 +254,7 @@ describe("calcite-inline-editable", () => {
 
       // should not emit on hover after editing is cancelled, refers to: https://github.com/Esri/calcite-components/issues/4350
       await element.hover();
-      input.triggerEvent("calciteInputBlur");
+      input.triggerEvent("calciteInternalInputBlur");
       await page.waitForChanges();
 
       await input.click();
@@ -270,7 +270,7 @@ describe("calcite-inline-editable", () => {
       const enableEditingButton = await page.find(`calcite-inline-editable >>> .${CSS.enableEditingButton}`);
       await enableEditingButton.click();
       expect(element).toHaveAttribute("editing-enabled");
-      input.triggerEvent("calciteInputBlur");
+      input.triggerEvent("calciteInternalInputBlur");
       await page.waitForChanges();
       expect(element).toHaveAttribute("editing-enabled");
     });

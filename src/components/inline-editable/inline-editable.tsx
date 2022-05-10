@@ -199,7 +199,7 @@ export class InlineEditable implements InteractiveComponent, LabelableComponent 
   //
   //--------------------------------------------------------------------------
 
-  @Listen("calciteInputBlur")
+  @Listen("calciteInternalInputBlur")
   blurHandler(): void {
     if (!this.controls) {
       this.disableEditing();

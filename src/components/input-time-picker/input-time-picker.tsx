@@ -200,7 +200,7 @@ export class InputTimePicker implements LabelableComponent, FormComponent, Inter
   //
   //--------------------------------------------------------------------------
 
-  private calciteInputBlurHandler = (): void => {
+  private calciteInternalInputBlurHandler = (e: CustomEvent<any>): void => {
     this.active = false;
     const shouldIncludeSeconds = this.shouldIncludeSeconds();
 
@@ -212,6 +212,7 @@ export class InputTimePicker implements LabelableComponent, FormComponent, Inter
     this.setInputValue(
       localizedInputValue || localizeTimeString(this.value, this.locale, shouldIncludeSeconds)
     );
+    e.stopPropagation();
   };
 
   private calciteInternalInputFocusHandler = (event: CustomEvent): void => {
@@ -420,8 +421,8 @@ export class InputTimePicker implements LabelableComponent, FormComponent, Inter
             disabled={this.disabled}
             icon="clock"
             label={getLabelText(this)}
-            onCalciteInputBlur={this.calciteInputBlurHandler}
             onCalciteInputInput={this.calciteInputInputHandler}
+            onCalciteInternalInputBlur={this.calciteInternalInputBlurHandler}
             onCalciteInternalInputFocus={this.calciteInternalInputFocusHandler}
             ref={this.setCalciteInputEl}
             scale={this.scale}

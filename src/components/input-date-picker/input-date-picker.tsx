@@ -406,8 +406,8 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
                   icon="calendar"
                   label={getLabelText(this)}
                   number-button-type="none"
-                  onCalciteInputBlur={this.inputBlur}
                   onCalciteInputInput={this.inputInput}
+                  onCalciteInternalInputBlur={this.inputBlur}
                   onCalciteInternalInputFocus={this.startInputFocus}
                   placeholder={this.localeData?.placeholder}
                   ref={this.setStartInput}
@@ -478,8 +478,8 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
                   disabled={disabled}
                   icon="calendar"
                   number-button-type="none"
-                  onCalciteInputBlur={this.inputBlur}
                   onCalciteInputInput={this.inputInput}
+                  onCalciteInternalInputBlur={this.inputBlur}
                   onCalciteInternalInputFocus={this.endInputFocus}
                   placeholder={this.localeData?.placeholder}
                   ref={this.setEndInput}
