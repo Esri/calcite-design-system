@@ -198,6 +198,7 @@ describe("calcite-color-picker", () => {
     // change by clicking on hue
     let [hueScopeX, hueScopeY] = await getElementXY(page, "calcite-color-picker", `.${CSS.hueScope}`);
     await page.mouse.click(hueScopeX + 10, hueScopeY);
+    await page.waitForChanges();
     expect(changeSpy).toHaveReceivedEventTimes(2);
     expect(inputSpy).toHaveReceivedEventTimes(2);
 
