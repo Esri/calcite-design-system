@@ -3,6 +3,15 @@ import { accessible, defaults, disabled, focusable, hidden, renders, slots } fro
 import { html } from "../../../support/formatting";
 import { CSS, SLOTS } from "./resources";
 
+const panelTemplate = (scrollable = false) => html`<div style="height: 200px; display: flex">
+  <calcite-panel>
+    <div>
+      ${scrollable ? '<p style="height: 400px">Hello world!</p>' : ""}
+      <p>Hello world!</p>
+    </div>
+  </calcite-panel>
+</div>`;
+
 describe("calcite-panel", () => {
   it("renders", async () => renders("calcite-panel", { display: "flex" }));
 
@@ -22,7 +31,7 @@ describe("calcite-panel", () => {
 
   it("has slots", () => slots("calcite-panel", SLOTS));
 
-  it("can be disabled", () => disabled(`<calcite-panel>scrolling content</calcite-panel>`));
+  it("can be disabled", () => disabled(`<calcite-panel dismissible>scrolling content</calcite-panel>`));
 
   it("honors dismissed prop", async () => {
     const page = await newE2EPage();
@@ -315,19 +324,30 @@ describe("calcite-panel", () => {
     expect(width2).toEqual(widthDefault * multipier);
   });
 
+  it("should set tabIndex of -1 on a non-scrollable panel", async () => {
+    const page = await newE2EPage();
+
+    await page.setContent(panelTemplate());
+
+    const scrollEl = await page.find(`calcite-panel >>> .${CSS.contentWrapper}`);
+
+    expect(await scrollEl.getProperty("tabIndex")).toBe(-1);
+  });
+
+  it("should set tabIndex of 0 on a scrollable panel", async () => {
+    const page = await newE2EPage();
+
+    await page.setContent(panelTemplate(true));
+
+    const scrollEl = await page.find(`calcite-panel >>> .${CSS.contentWrapper}`);
+
+    expect(await scrollEl.getProperty("tabIndex")).toBe(0);
+  });
+
   it("handles scrollContentTo method", async () => {
     const page = await newE2EPage();
 
-    await page.setContent(
-      html`<div style="height: 200px; display: flex">
-        <calcite-panel>
-          <div>
-            <p style="height: 400px">Hello world!</p>
-            <p>Hello world!</p>
-          </div>
-        </calcite-panel>
-      </div>`
-    );
+    await page.setContent(panelTemplate(true));
 
     const scrollEl = await page.find(`calcite-panel >>> .${CSS.contentWrapper}`);
 
