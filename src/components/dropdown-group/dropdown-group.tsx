@@ -105,7 +105,7 @@ export class DropdownGroup {
   //
   //--------------------------------------------------------------------------
 
-  @Listen("calciteDropdownItemSelect")
+  @Listen("calciteInternalDropdownItemSelect")
   updateActiveItemOnChange(event: CustomEvent): void {
     this.requestedDropdownGroup = event.detail.requestedDropdownGroup;
     this.requestedDropdownItem = event.detail.requestedDropdownItem;
@@ -113,6 +113,7 @@ export class DropdownGroup {
       requestedDropdownGroup: this.requestedDropdownGroup,
       requestedDropdownItem: this.requestedDropdownItem
     });
+    event.stopPropagation();
   }
 
   //--------------------------------------------------------------------------

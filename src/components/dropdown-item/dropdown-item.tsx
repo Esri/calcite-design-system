@@ -73,7 +73,7 @@ export class DropdownItem {
   /**
    * @internal
    */
-  @Event() calciteDropdownItemSelect: EventEmitter;
+  @Event() calciteInternalDropdownItemSelect: EventEmitter;
 
   /** @internal */
   @Event() calciteDropdownItemKeyEvent: EventEmitter<ItemKeyboardEvent>;
@@ -300,7 +300,7 @@ export class DropdownItem {
   }
 
   private emitRequestedItem(): void {
-    this.calciteDropdownItemSelect.emit({
+    this.calciteInternalDropdownItemSelect.emit({
       requestedDropdownItem: this.el,
       requestedDropdownGroup: this.parentDropdownGroupEl
     });
