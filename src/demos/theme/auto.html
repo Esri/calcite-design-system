@@ -14,8 +14,9 @@
         }
       };
     </script>
-    <link rel="stylesheet" href="https://js.arcgis.com/4.15/esri/themes/light/main.css" />
-    <script src="https://js.arcgis.com/4.15/"></script>
+    <script src="https://js.arcgis.com/4.23/"></script>
+    <link disabled id="jsapi-theme-dark" rel="stylesheet" href="https://js.arcgis.com/4.23/esri/themes/dark/main.css" />
+    <link id="jsapi-theme-light" rel="stylesheet" href="https://js.arcgis.com/4.23/esri/themes/light/main.css" />
     <style>
       html,
       body,
@@ -23,7 +24,7 @@
       .shell-container {
         position: relative;
         width: 100%;
-        height: 100%;
+        height: calc(99vh - 80px);
       }
     </style>
     <style>
@@ -42,15 +43,16 @@
         LayerList,
         Zoom
       ) {
-        const webmap = new WebMap({
+        const customWebMap = new WebMap({
           portalItem: {
             id: "cc316ca9e0824970ad29ac558161d42d"
-          }
+          },
+          basemap: "gray-vector" // Overrides webmap basemap (dark-gray-vector)
         });
 
         const view = new MapView({
           container: "viewDiv",
-          map: webmap
+          map: customWebMap
         });
         view.when(function () {
           const layerList = new LayerList({
@@ -60,11 +62,20 @@
           });
 
           view.ui.move("zoom", "bottom-right");
+
+          // Theme switch
+          document.getElementById("toggle-theme").addEventListener("click", (event) => {
+            const dark = document.getElementById("jsapi-theme-dark");
+            const light = document.getElementById("jsapi-theme-light");
+            dark.toggleAttribute("disabled");
+            light.toggleAttribute("disabled");
+            customWebMap.basemap = dark.hasAttribute("disabled") ? "gray-vector" : "dark-gray-vector";
+          });
         });
       });
     </script>
   </head>
-  <body class="calcite-theme-auto">
+  <body>
     <main>
       <div class="shell-container">
         <calcite-shell>
