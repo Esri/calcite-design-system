@@ -181,8 +181,7 @@ export class Stepper {
       return;
     }
 
-    this.currentPosition = enabledStepIndex;
-    this.emitChangedItem();
+    this.emitChangedItem(enabledStepIndex);
   }
 
   /** set the previous step as active */
@@ -194,8 +193,7 @@ export class Stepper {
       return;
     }
 
-    this.currentPosition = enabledStepIndex;
-    this.emitChangedItem();
+    this.emitChangedItem(enabledStepIndex);
   }
 
   /** set the requested step as active */
@@ -204,8 +202,7 @@ export class Stepper {
     const position = step - 1;
 
     if (this.currentPosition !== position) {
-      this.currentPosition = position;
-      this.emitChangedItem();
+      this.emitChangedItem(position);
     }
   }
 
@@ -218,8 +215,7 @@ export class Stepper {
       return;
     }
 
-    this.currentPosition = enabledStepIndex;
-    this.emitChangedItem();
+    this.emitChangedItem(enabledStepIndex);
   }
 
   /** set the last step as active */
@@ -231,8 +227,7 @@ export class Stepper {
       return;
     }
 
-    this.currentPosition = enabledStepIndex;
-    this.emitChangedItem();
+    this.emitChangedItem(enabledStepIndex);
   }
 
   //--------------------------------------------------------------------------
@@ -241,7 +236,6 @@ export class Stepper {
   //
   //--------------------------------------------------------------------------
 
-  /** map of Stepper items */
   private itemMap = new Map<HTMLCalciteStepperItemElement, number>();
 
   /** list of sorted Stepper items */
@@ -285,9 +279,11 @@ export class Stepper {
     this.el.insertAdjacentElement("beforeend", this.stepperContentContainer);
   }
 
-  private emitChangedItem(): void {
+  private emitChangedItem(position: number): void {
+    this.currentPosition = position;
+
     this.calciteStepperItemChange.emit({
-      position: this.currentPosition
+      position
     });
   }
 
