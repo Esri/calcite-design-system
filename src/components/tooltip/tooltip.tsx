@@ -11,7 +11,7 @@ import {
   LogicalPlacement,
   defaultOffsetDistance
 } from "../../utils/floating-ui";
-import { queryElementRoots } from "../../utils/dom";
+import { queryElementRoots, toAriaBoolean } from "../../utils/dom";
 
 import TooltipManager from "./TooltipManager";
 
@@ -245,7 +245,7 @@ export class Tooltip implements FloatingUIComponent {
 
     return (
       <Host
-        aria-hidden={hidden.toString()}
+        aria-hidden={toAriaBoolean(hidden)}
         aria-label={label}
         calcite-hydrated-hidden={hidden}
         id={this.getId()}

@@ -26,7 +26,13 @@ import { HeadingLevel } from "../functional/Heading";
 
 import { TEXT } from "../date-picker/resources";
 import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
-import { connectForm, disconnectForm, FormComponent, HiddenFormInputSlot } from "../../utils/form";
+import {
+  connectForm,
+  disconnectForm,
+  FormComponent,
+  HiddenFormInputSlot,
+  submitForm
+} from "../../utils/form";
 import {
   positionFloatingUI,
   FloatingCSS,
@@ -41,6 +47,7 @@ import {
 } from "../../utils/floating-ui";
 import { DateRangeChange } from "../date-picker/interfaces";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import { toAriaBoolean } from "../../utils/dom";
 
 @Component({
   tag: "calcite-input-date-picker",
@@ -135,7 +142,9 @@ export class InputDatePicker
 
   @Watch("min")
   onMinChanged(min: string): void {
-    this.minAsDate = dateFromISO(min);
+    if (min) {
+      this.minAsDate = dateFromISO(min);
+    }
   }
 
   /** Latest allowed date ("yyyy-mm-dd") */
@@ -143,7 +152,9 @@ export class InputDatePicker
 
   @Watch("max")
   onMaxChanged(max: string): void {
-    this.maxAsDate = dateFromISO(max);
+    if (max) {
+      this.maxAsDate = dateFromISO(max);
+    }
   }
 
   /** Expand or collapse when calendar does not have input */
@@ -386,9 +397,18 @@ export class InputDatePicker
     const formattedDate = date ? date.toLocaleDateString(this.locale) : "";
 
     return (
-      <Host onBlur={this.deactivate} onKeyUp={this.keyUpHandler} role="application">
+      <Host
+        onBlur={this.deactivate}
+        onKeyDown={this.keyDownHandler}
+        onKeyUp={this.keyUpHandler}
+        role="application"
+      >
         {this.localeData && (
-          <div aria-expanded={this.active.toString()} class="input-container" role="application">
+          <div
+            aria-expanded={toAriaBoolean(this.active)}
+            class="input-container"
+            role="application"
+          >
             {
               <div class="input-wrapper" ref={this.setStartWrapper}>
                 <calcite-input
@@ -411,7 +431,7 @@ export class InputDatePicker
               </div>
             }
             <div
-              aria-hidden={(!this.active).toString()}
+              aria-hidden={toAriaBoolean(!this.active)}
               class={{
                 "menu-container": true,
                 "menu-container--active": this.active
@@ -570,6 +590,12 @@ export class InputDatePicker
 
   deactivate = (): void => {
     this.active = false;
+  };
+
+  keyDownHandler = (event: KeyboardEvent): void => {
+    if (event.key === "Enter" && !event.defaultPrevented) {
+      submitForm(this);
+    }
   };
 
   keyUpHandler = (e: KeyboardEvent): void => {

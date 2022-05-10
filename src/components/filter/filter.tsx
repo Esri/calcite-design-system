@@ -179,9 +179,13 @@ export class Filter implements InteractiveComponent {
     this.filter(target.value, true);
   };
 
-  keyDownHandler = ({ key }: KeyboardEvent): void => {
-    if (key === "Escape") {
+  keyDownHandler = (event: KeyboardEvent): void => {
+    if (event.key === "Escape") {
       this.clear();
+    }
+
+    if (event.key === "Enter") {
+      event.preventDefault();
     }
   };
 

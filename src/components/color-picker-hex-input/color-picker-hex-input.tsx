@@ -207,6 +207,7 @@ export class ColorPickerHexInput {
           maxLength={6}
           onCalciteInputBlur={this.onCalciteInputBlur}
           onCalciteInputChange={this.onInputChange}
+          onKeyDown={this.handleKeyDown}
           prefixText="#"
           ref={this.storeInputRef}
           scale={this.scale}
@@ -283,5 +284,11 @@ export class ColorPickerHexInput {
 
   private nudgeRGBChannels(color: Color, amount: number): Color {
     return Color.rgb(color.array().map((channel) => channel + amount));
+  }
+
+  handleKeyDown(event: KeyboardEvent): void {
+    if (event.key === "Enter") {
+      event.preventDefault();
+    }
   }
 }

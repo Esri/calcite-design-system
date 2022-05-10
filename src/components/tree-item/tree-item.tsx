@@ -12,7 +12,13 @@ import {
 } from "@stencil/core";
 import { TreeItemSelectDetail } from "./interfaces";
 import { TreeSelectionMode } from "../tree/interfaces";
-import { nodeListToArray, getElementDir, filterDirectChildren, getSlotted } from "../../utils/dom";
+import {
+  nodeListToArray,
+  getElementDir,
+  filterDirectChildren,
+  getSlotted,
+  toAriaBoolean
+} from "../../utils/dom";
 
 import { Scale } from "../interfaces";
 import { CSS, SLOTS, ICONS } from "./resources";
@@ -25,7 +31,7 @@ import {
 
 /**
  * @slot - A slot for adding content to the item.
- * @slot children - A slot for adding nested `calcite-tree` elements.
+ * @slot children - A slot for adding nested calcite-tree elements.
  */
 @Component({
   tag: "calcite-tree-item",
@@ -47,10 +53,10 @@ export class TreeItem implements ConditionalSlotComponent {
   //
   //--------------------------------------------------------------------------
 
-  /** Is the item currently selected */
+  /** Selected state of the item. */
   @Prop({ mutable: true, reflect: true }) selected = false;
 
-  /** True if the item is in an expanded state */
+  /** Expanded state of the item. */
   @Prop({ mutable: true, reflect: true }) expanded = false;
 
   @Watch("expanded")
@@ -58,35 +64,35 @@ export class TreeItem implements ConditionalSlotComponent {
     this.updateParentIsExpanded(this.el, newValue);
   }
 
-  /** @internal Is the parent of this item expanded? */
+  /** @internal Expanded state of the parent. */
   @Prop() parentExpanded = false;
 
-  /** @internal What level of depth is this item at? */
+  /** @internal Level of depth of the item. */
   @Prop({ reflect: true, mutable: true }) depth = -1;
 
   /** @internal Does this tree item have a tree inside it? */
   @Prop({ reflect: true, mutable: true }) hasChildren: boolean = null;
 
-  /** @internal Draw lines (set on parent) */
+  /** @internal Draws lines (set on parent). */
   @Prop({ reflect: true, mutable: true }) lines: boolean;
 
-  /** Display checkboxes (set on parent)
+  /** Displays checkboxes (set on parent).
    * @internal
-   * @deprecated set "ancestors" selection-mode on parent tree for checkboxes
+   * @deprecated Use "ancestors" selection-mode on parent for checkbox input.
    */
   @Prop() inputEnabled: boolean;
 
-  /** @internal Scale of the parent tree, defaults to m */
+  /** @internal Scale of the parent tree. */
   @Prop({ reflect: true, mutable: true }) scale: Scale;
 
   /**
    * @internal
    * In ancestor selection mode,
-   * show as indeterminate when only some children are selected
+   * show as indeterminate when only some children are selected.
    **/
   @Prop({ reflect: true }) indeterminate: boolean;
 
-  /** @internal Tree selection-mode (set on parent) */
+  /** @internal Tree selection-mode (set on parent). */
   @Prop({ mutable: true }) selectionMode: TreeSelectionMode;
 
   @Watch("selectionMode")
@@ -209,8 +215,8 @@ export class TreeItem implements ConditionalSlotComponent {
 
     return (
       <Host
-        aria-expanded={this.hasChildren ? this.expanded.toString() : undefined}
-        aria-hidden={hidden.toString()}
+        aria-expanded={this.hasChildren ? toAriaBoolean(this.expanded) : undefined}
+        aria-hidden={toAriaBoolean(hidden)}
         aria-selected={this.selected ? "true" : showCheckmark ? "false" : undefined}
         calcite-hydrated-hidden={hidden}
         role="treeitem"

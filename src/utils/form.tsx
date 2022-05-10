@@ -7,11 +7,23 @@ import { FunctionalComponent, h } from "@stencil/core";
 export const hiddenFormInputSlotName = "hidden-form-input";
 
 /**
+ * Defines interface for form owning components.
+ *
+ * Allows calling submit/reset methods on the form.
+ */
+export interface FormOwner {
+  /**
+   * The form this component is associated with.
+   */
+  formEl: HTMLFormElement;
+}
+
+/**
  * Defines interface for form-associated components.
  *
  * Along with the interface, use the matching form utils to help set up the component behavior.
  */
-export interface FormComponent<T = any> {
+export interface FormComponent<T = any> extends FormOwner {
   /**
    * When true, this component's value will not be submitted in the form.
    */
@@ -28,11 +40,6 @@ export interface FormComponent<T = any> {
    * The host element.
    */
   readonly el: HTMLElement;
-
-  /**
-   * The form this component is associated with.
-   */
-  formEl: HTMLFormElement;
 
   /**
    * The name used to submit the value to the associated form.
@@ -127,6 +134,20 @@ function hasRegisteredFormComponentParent(
 }
 
 /**
+ * Helper to submit a form.
+ */
+export function submitForm(component: FormOwner): void {
+  component.formEl?.requestSubmit();
+}
+
+/**
+ * Helper to reset a form.
+ */
+export function resetForm(component: FormOwner): void {
+  component.formEl?.reset();
+}
+
+/**
  * Helper to set up form interactions on connectedCallback.
  */
 export function connectForm<T>(component: FormComponent<T>): void {
@@ -147,6 +168,7 @@ export function connectForm<T>(component: FormComponent<T>): void {
 
   const boundOnFormReset = (component.onFormReset || onFormReset).bind(component);
   form.addEventListener("reset", boundOnFormReset);
+  onFormResetMap.set(component.el, boundOnFormReset);
   formComponentSet.add(el);
 }
 

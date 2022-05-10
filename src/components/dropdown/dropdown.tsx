@@ -13,7 +13,7 @@ import {
 } from "@stencil/core";
 import { ItemKeyboardEvent } from "./interfaces";
 
-import { focusElement } from "../../utils/dom";
+import { focusElement, toAriaBoolean } from "../../utils/dom";
 import {
   positionFloatingUI,
   FloatingCSS,
@@ -178,14 +178,14 @@ export class Dropdown implements InteractiveComponent, FloatingUIComponent {
           ref={this.setReferenceEl}
         >
           <slot
-            aria-expanded={active.toString()}
+            aria-expanded={toAriaBoolean(active)}
             aria-haspopup="true"
             name={SLOTS.dropdownTrigger}
             onSlotchange={this.updateTriggers}
           />
         </div>
         <div
-          aria-hidden={(!active).toString()}
+          aria-hidden={toAriaBoolean(!active)}
           class="calcite-dropdown-wrapper"
           ref={this.setFloatingEl}
         >

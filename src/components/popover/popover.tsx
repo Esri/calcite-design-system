@@ -33,7 +33,7 @@ import {
   filterComputedPlacements
 } from "../../utils/floating-ui";
 import { guid } from "../../utils/guid";
-import { queryElementRoots } from "../../utils/dom";
+import { queryElementRoots, toAriaBoolean } from "../../utils/dom";
 import { HeadingLevel, Heading } from "../functional/Heading";
 
 import PopoverManager from "./PopoverManager";
@@ -332,7 +332,7 @@ export class Popover implements FloatingUIComponent {
       return;
     }
 
-    effectiveReferenceElement.setAttribute(ARIA_EXPANDED, open.toString());
+    effectiveReferenceElement.setAttribute(ARIA_EXPANDED, toAriaBoolean(open));
   };
 
   addReferences = (): void => {
@@ -433,7 +433,7 @@ export class Popover implements FloatingUIComponent {
 
     return (
       <Host
-        aria-hidden={hidden.toString()}
+        aria-hidden={toAriaBoolean(hidden)}
         aria-label={label}
         calcite-hydrated-hidden={hidden}
         id={this.getId()}

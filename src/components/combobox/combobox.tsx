@@ -38,10 +38,12 @@ import {
   connectForm,
   disconnectForm,
   FormComponent,
-  HiddenFormInputSlot
+  HiddenFormInputSlot,
+  submitForm
 } from "../../utils/form";
 import { createObserver } from "../../utils/observers";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import { toAriaBoolean } from "../../utils/dom";
 interface ItemData {
   label: string;
   value: string;
@@ -199,6 +201,8 @@ export class Combobox
     }
 
     const target = event.target as HTMLCalciteComboboxItemElement;
+    const newIndex = this.visibleItems.indexOf(target);
+    this.updateActiveItemIndex(newIndex);
     this.toggleSelection(target, target.selected);
   }
 
@@ -401,7 +405,7 @@ export class Combobox
   };
 
   getValue = (): string | string[] => {
-    const items = this.selectedItems.map((item) => item?.value.toString());
+    const items = this.selectedItems.map((item) => item?.value?.toString());
     return items?.length ? (items.length > 1 ? items : items[0]) : "";
   };
 
@@ -493,6 +497,8 @@ export class Combobox
           this.removeActiveChip();
         } else if (this.allowCustomValues && this.text) {
           this.addCustomChip(this.text, true);
+        } else if (!event.defaultPrevented) {
+          submitForm(this);
         }
         break;
       case "Delete":
@@ -1017,7 +1023,7 @@ export class Combobox
   renderListBoxOptions(): VNode[] {
     return this.visibleItems.map((item) => (
       <li
-        aria-selected={(!!item.selected).toString()}
+        aria-selected={toAriaBoolean(item.selected)}
         id={item.guid ? `${itemUidPrefix}${item.guid}` : null}
         role="option"
         tabindex="-1"
@@ -1082,7 +1088,7 @@ export class Combobox
       <Host onKeyDown={this.keydownHandler}>
         <div
           aria-autocomplete="list"
-          aria-expanded={active.toString()}
+          aria-expanded={toAriaBoolean(active)}
           aria-haspopup="listbox"
           aria-labelledby={`${labelUidPrefix}${guid}`}
           aria-owns={`${listboxUidPrefix}${guid}`}
