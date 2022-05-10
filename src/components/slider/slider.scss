@@ -229,9 +229,9 @@
 
 .track__range {
   @apply bg-brand
-    absolute
-    top-0
-    h-0.5;
+  absolute
+  top-0
+  h-0.5;
 }
 .container--range {
   .track__range {
@@ -244,6 +244,29 @@
       top: calc(calc(var(--calcite-slider-full-handle-height) * 0.5) * -1);
       height: calc(var(--calcite-slider-handle-size) + var(--calcite-slider-handle-extension-height));
     }
+  }
+}
+
+@media (forced-colors: active) {
+  .thumb {
+    outline-width: 0;
+    outline-offset: 0;
+  }
+  .handle {
+    @apply outline-none;
+  }
+  .thumb:focus .handle,
+  .thumb .handle-extension,
+  .thumb:hover .handle-extension,
+  .thumb:focus .handle-extension,
+  .thumb:active .handle-extension {
+    background-color: canvasText;
+  }
+  .track {
+    background-color: canvasText;
+  }
+  .track__range {
+    background-color: highlight;
   }
 }
 
