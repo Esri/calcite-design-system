@@ -934,7 +934,7 @@ describe("calcite-color-picker", () => {
           expect(await picker.getProperty("value")).toBe("#0b7373");
         });
 
-        it("allows nudging values", async () => {
+        it.skip("allows nudging values", async () => {
           const assertChannelValueNudge = async (page: E2EPage, calciteInput: E2EElement): Promise<void> => {
             await calciteInput.callMethod("setFocus");
             const currentValue = await calciteInput.getProperty("value");
