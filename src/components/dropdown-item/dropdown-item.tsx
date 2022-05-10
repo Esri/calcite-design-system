@@ -230,7 +230,7 @@ export class DropdownItem {
     e.preventDefault();
   }
 
-  @Listen("calciteDropdownItemChange", { target: "body" })
+  @Listen("calciteInternalDropdownItemChange", { target: "body" })
   updateActiveItemOnChange(event: CustomEvent): void {
     const parentEmittedChange = event.composedPath().includes(this.parentDropdownGroupEl);
 
@@ -239,6 +239,7 @@ export class DropdownItem {
       this.requestedDropdownItem = event.detail.requestedDropdownItem;
       this.determineActiveItem();
     }
+    event.stopPropagation();
   }
 
   //--------------------------------------------------------------------------
