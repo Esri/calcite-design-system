@@ -114,7 +114,7 @@ export class Stepper {
     const item = e.detail.item;
     const itemToFocus = e.target as HTMLCalciteStepperItemElement;
     const isFirstItem = this.itemIndex(itemToFocus) === 0;
-    const isLastItem = this.itemIndex(itemToFocus) === this.sortedItems.length - 1;
+    const isLastItem = this.itemIndex(itemToFocus) === this.enabledItems.length - 1;
     switch (item.key) {
       case "ArrowDown":
       case "ArrowRight":
@@ -143,18 +143,16 @@ export class Stepper {
 
   @Listen("calciteStepperItemRegister")
   registerItem(event: CustomEvent<StepperItemEventDetail>): void {
-    const item = {
-      item: event.target as HTMLCalciteStepperItemElement,
-      position: event.detail.position,
-      content: event.detail.content
-    };
-    if (item.content && item.item.active) {
-      this.requestedContent = item.content;
+    const item = event.target as HTMLCalciteStepperItemElement;
+    const { content, position } = event.detail;
+
+    if (content && item.active) {
+      this.requestedContent = content;
     }
-    if (!this.items.includes(item)) {
-      this.items.push(item);
-    }
-    this.sortedItems = this.sortItems();
+
+    this.itemMap.set(item, position);
+    this.items = this.sortItems();
+    this.enabledItems = this.filterItems();
   }
 
   @Listen("calciteStepperItemSelect")
@@ -177,39 +175,63 @@ export class Stepper {
   /** set the next step as active */
   @Method()
   async nextStep(): Promise<void> {
-    this.currentPosition =
-      this.currentPosition + 1 < this.items.length
-        ? this.currentPosition + 1
-        : this.currentPosition;
+    const enabledStepIndex = this.getEnabledStepIndex(this.currentPosition + 1, "next");
+
+    if (typeof enabledStepIndex !== "number") {
+      return;
+    }
+
+    this.currentPosition = enabledStepIndex;
     this.emitChangedItem();
   }
 
   /** set the previous step as active */
   @Method()
   async prevStep(): Promise<void> {
-    this.currentPosition =
-      this.currentPosition - 1 >= 0 ? this.currentPosition - 1 : this.currentPosition;
+    const enabledStepIndex = this.getEnabledStepIndex(this.currentPosition - 1, "previous");
+
+    if (typeof enabledStepIndex !== "number") {
+      return;
+    }
+
+    this.currentPosition = enabledStepIndex;
     this.emitChangedItem();
   }
 
   /** set the requested step as active */
   @Method()
-  async goToStep(num: number): Promise<void> {
-    this.currentPosition = num - 1;
-    this.emitChangedItem();
+  async goToStep(step: number): Promise<void> {
+    const position = step - 1;
+
+    if (this.currentPosition !== position) {
+      this.currentPosition = position;
+      this.emitChangedItem();
+    }
   }
 
   /** set the first step as active */
   @Method()
   async startStep(): Promise<void> {
-    this.currentPosition = 0;
+    const enabledStepIndex = this.getEnabledStepIndex(0, "next");
+
+    if (typeof enabledStepIndex !== "number") {
+      return;
+    }
+
+    this.currentPosition = enabledStepIndex;
     this.emitChangedItem();
   }
 
   /** set the last step as active */
   @Method()
   async endStep(): Promise<void> {
-    this.currentPosition = this.items.length - 1;
+    const enabledStepIndex = this.getEnabledStepIndex(this.items.length - 1, "previous");
+
+    if (typeof enabledStepIndex !== "number") {
+      return;
+    }
+
+    this.currentPosition = enabledStepIndex;
     this.emitChangedItem();
   }
 
@@ -219,10 +241,14 @@ export class Stepper {
   //
   //--------------------------------------------------------------------------
 
-  /** created list of Stepper items */
-  private items = [];
+  /** map of Stepper items */
+  private itemMap = new Map<HTMLCalciteStepperItemElement, number>();
 
-  private sortedItems: HTMLCalciteStepperItemElement[] = [];
+  /** list of sorted Stepper items */
+  private items: HTMLCalciteStepperItemElement[] = [];
+
+  /** list of enabled Stepper items */
+  private enabledItems: HTMLCalciteStepperItemElement[] = [];
 
   /** keep track of the currently active item position */
   private currentPosition: number;
@@ -235,6 +261,23 @@ export class Stepper {
   //  Private Methods
   //
   //--------------------------------------------------------------------------
+
+  private getEnabledStepIndex(
+    startIndex: number,
+    direction: "next" | "previous" = "next"
+  ): number | null {
+    const { items, currentPosition } = this;
+
+    let newIndex = startIndex;
+
+    while (items[newIndex]?.disabled) {
+      newIndex = newIndex + direction === "previous" ? -1 : 1;
+    }
+
+    return newIndex !== currentPosition && newIndex < items.length && newIndex >= 0
+      ? newIndex
+      : null;
+  }
 
   private addHorizontalContentContainer(): void {
     this.stepperContentContainer = document.createElement("div") as HTMLDivElement;
@@ -249,42 +292,44 @@ export class Stepper {
   }
 
   private focusFirstItem(): void {
-    const firstItem = this.sortedItems[0];
+    const firstItem = this.enabledItems[0];
     this.focusElement(firstItem);
   }
 
   private focusLastItem(): void {
-    const lastItem = this.sortedItems[this.sortedItems.length - 1];
+    const lastItem = this.enabledItems[this.enabledItems.length - 1];
     this.focusElement(lastItem);
   }
 
   private focusNextItem(e: HTMLCalciteStepperItemElement): void {
     const index = this.itemIndex(e);
-    const nextItem = this.sortedItems[index + 1] || this.sortedItems[0];
+    const nextItem = this.enabledItems[index + 1] || this.enabledItems[0];
     this.focusElement(nextItem);
   }
 
   private focusPrevItem(e: HTMLCalciteStepperItemElement): void {
     const index = this.itemIndex(e);
-    const prevItem = this.sortedItems[index - 1] || this.sortedItems[this.sortedItems.length - 1];
+    const prevItem =
+      this.enabledItems[index - 1] || this.enabledItems[this.enabledItems.length - 1];
     this.focusElement(prevItem);
   }
 
   private itemIndex(e: HTMLCalciteStepperItemElement): number {
-    return this.sortedItems.indexOf(e);
+    return this.enabledItems.indexOf(e);
   }
 
   private focusElement(item: HTMLCalciteStepperItemElement) {
     item.focus();
   }
 
-  private sortItems() {
-    const items = Array.from(this.items)
-      .filter((a) => !a.item.disabled)
-      .sort((a, b) => a.position - b.position)
-      .map((a) => a.item);
+  private sortItems(): HTMLCalciteStepperItemElement[] {
+    const { itemMap } = this;
 
-    return [...Array.from(new Set(items))];
+    return Array.from(itemMap.keys()).sort((a, b) => itemMap.get(a) - itemMap.get(b));
+  }
+
+  private filterItems(): HTMLCalciteStepperItemElement[] {
+    return this.items.filter((item) => !item.disabled);
   }
 
   private updateContent(content: Node[]): void {
