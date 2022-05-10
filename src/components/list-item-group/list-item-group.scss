@@ -6,10 +6,6 @@
   @apply bg-foreground-2 text-n1 text-color-2 m-0 flex flex-1 p-3 font-sans font-bold;
 }
 
-.container {
-  @apply bg-foreground-1 flex w-full flex-col;
-}
-
 ::slotted(calcite-list-item-group) {
   @apply pl-2;
 }
