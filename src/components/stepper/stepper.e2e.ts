@@ -6,7 +6,7 @@ import { html } from "../../../support/formatting";
 describe("calcite-stepper", () => {
   it("renders", () =>
     renders(
-      html` <calcite-stepper>
+      html`<calcite-stepper>
         <calcite-stepper-item item-title="Step 1" id="step-1">
           <div>Step 1 content</div>
         </calcite-stepper-item>
@@ -25,8 +25,7 @@ describe("calcite-stepper", () => {
 
   it("renders default props when none are provided", async () => {
     const page = await newE2EPage();
-    await page.setContent(`
-    <calcite-stepper>
+    await page.setContent(html`<calcite-stepper>
       <calcite-stepper-item item-title="Step 1" id="step-1">
         <div>Step 1 content</div>
       </calcite-stepper-item>
@@ -49,8 +48,7 @@ describe("calcite-stepper", () => {
 
   it("renders requested props when valid props are provided", async () => {
     const page = await newE2EPage();
-    await page.setContent(`
-    <calcite-stepper layout="vertical" scale="l" numbered icon>
+    await page.setContent(html`<calcite-stepper layout="vertical" scale="l" numbered icon>
       <calcite-stepper-item item-title="Step 1" id="step-1">
         <div>Step 1 content</div>
       </calcite-stepper-item>
@@ -73,8 +71,7 @@ describe("calcite-stepper", () => {
 
   it("adds active attribute to requested item", async () => {
     const page = await newE2EPage();
-    await page.setContent(`
-    <calcite-stepper layout="vertical" scale="l" numbered icon>
+    await page.setContent(html`<calcite-stepper layout="vertical" scale="l" numbered icon>
       <calcite-stepper-item item-title="Step 1" id="step-1">
         <div>Step 1 content</div>
       </calcite-stepper-item>
@@ -100,8 +97,7 @@ describe("calcite-stepper", () => {
 
   it("adds active attribute to first item if none are requested", async () => {
     const page = await newE2EPage();
-    await page.setContent(`
-    <calcite-stepper layout="vertical" scale="l" numbered icon>
+    await page.setContent(html`<calcite-stepper layout="vertical" scale="l" numbered icon>
       <calcite-stepper-item item-title="Step 1" id="step-1">
         <div>Step 1 content</div>
       </calcite-stepper-item>
@@ -127,8 +123,7 @@ describe("calcite-stepper", () => {
 
   it("navigates correctly with nextStep and prevStep methods", async () => {
     const page = await newE2EPage();
-    await page.setContent(`
-    <calcite-stepper>
+    await page.setContent(html`<calcite-stepper>
       <calcite-stepper-item item-title="Step 1" id="step-1">
         <div>Step 1 content</div>
       </calcite-stepper-item>
@@ -167,8 +162,7 @@ describe("calcite-stepper", () => {
 
   it("navigates disabled items correctly with nextStep and prevStep methods", async () => {
     const page = await newE2EPage();
-    await page.setContent(`
-    <calcite-stepper>
+    await page.setContent(html`<calcite-stepper>
       <calcite-stepper-item item-title="Step 1" id="step-1" active>
         <div>Step 1 content</div>
       </calcite-stepper-item>
@@ -200,21 +194,20 @@ describe("calcite-stepper", () => {
 
   it("navigates correctly with startStep and endStep methods", async () => {
     const page = await newE2EPage();
-    await page.setContent(`
-  <calcite-stepper>
-    <calcite-stepper-item item-title="Step 1" id="step-1">
-      <div>Step 1 content</div>
-    </calcite-stepper-item>
-    <calcite-stepper-item item-title="Step 2" id="step-2">
-      <div>Step 2 content</div>
-    </calcite-stepper-item>
-    <calcite-stepper-item item-title="Step 3" id="step-3">
-      <div>Step 3 content</div>
-    </calcite-stepper-item>
-    <calcite-stepper-item item-title="Step 4" id="step-4">
-      <div>Step 4 content</div>
-    </calcite-stepper-item>
-  </calcite-stepper>`);
+    await page.setContent(html`<calcite-stepper>
+      <calcite-stepper-item item-title="Step 1" id="step-1">
+        <div>Step 1 content</div>
+      </calcite-stepper-item>
+      <calcite-stepper-item item-title="Step 2" id="step-2">
+        <div>Step 2 content</div>
+      </calcite-stepper-item>
+      <calcite-stepper-item item-title="Step 3" id="step-3">
+        <div>Step 3 content</div>
+      </calcite-stepper-item>
+      <calcite-stepper-item item-title="Step 4" id="step-4">
+        <div>Step 4 content</div>
+      </calcite-stepper-item>
+    </calcite-stepper>`);
     const element = await page.find("calcite-stepper");
     const step1 = await page.find("#step-1");
     const step2 = await page.find("#step-2");
@@ -240,8 +233,7 @@ describe("calcite-stepper", () => {
 
   it("navigates disabled items correctly with startStep and endStep methods", async () => {
     const page = await newE2EPage();
-    await page.setContent(`
-    <calcite-stepper>
+    await page.setContent(html`<calcite-stepper>
       <calcite-stepper-item item-title="Step 1" id="step-1" disabled>
         <div>Step 1 content</div>
       </calcite-stepper-item>
@@ -280,21 +272,20 @@ describe("calcite-stepper", () => {
 
   it("navigates to requested step with goToStep method", async () => {
     const page = await newE2EPage();
-    await page.setContent(`
-  <calcite-stepper>
-    <calcite-stepper-item item-title="Step 1" id="step-1">
-      <div>Step 1 content</div>
-    </calcite-stepper-item>
-    <calcite-stepper-item item-title="Step 2" id="step-2">
-      <div>Step 2 content</div>
-    </calcite-stepper-item>
-    <calcite-stepper-item item-title="Step 3" id="step-3">
-      <div>Step 3 content</div>
-    </calcite-stepper-item>
-    <calcite-stepper-item item-title="Step 4" id="step-4">
-      <div>Step 4 content</div>
-    </calcite-stepper-item>
-  </calcite-stepper>`);
+    await page.setContent(html`<calcite-stepper>
+      <calcite-stepper-item item-title="Step 1" id="step-1">
+        <div>Step 1 content</div>
+      </calcite-stepper-item>
+      <calcite-stepper-item item-title="Step 2" id="step-2">
+        <div>Step 2 content</div>
+      </calcite-stepper-item>
+      <calcite-stepper-item item-title="Step 3" id="step-3">
+        <div>Step 3 content</div>
+      </calcite-stepper-item>
+      <calcite-stepper-item item-title="Step 4" id="step-4">
+        <div>Step 4 content</div>
+      </calcite-stepper-item>
+    </calcite-stepper>`);
     const element = await page.find("calcite-stepper");
     const step1 = await page.find("#step-1");
     const step2 = await page.find("#step-2");
