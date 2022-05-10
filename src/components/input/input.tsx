@@ -360,7 +360,7 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
   /**
    * @internal
    */
-  @Event() calciteInputFocus: EventEmitter;
+  @Event() calciteInternalInputFocus: EventEmitter;
 
   /**
    * @internal
@@ -475,7 +475,7 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
     if (event.target !== slottedActionEl) {
       this.setFocus();
     }
-    this.calciteInputFocus.emit({
+    this.calciteInternalInputFocus.emit({
       element: this.childEl,
       value: this.value
     });
