@@ -8,8 +8,10 @@
 
     <script src="../_assets/head.js"></script>
 
-    <link rel="stylesheet" href="https://js.arcgis.com/4.15/esri/themes/light/main.css" />
-    <script src="https://js.arcgis.com/4.15/"></script>
+    <script src="https://js.arcgis.com/4.23/"></script>
+    <link disabled id="jsapi-theme-dark" rel="stylesheet" href="https://js.arcgis.com/4.23/esri/themes/dark/main.css" />
+    <link id="jsapi-theme-light" rel="stylesheet" href="https://js.arcgis.com/4.23/esri/themes/light/main.css" />
+
     <style>
       html,
       body,
@@ -17,10 +19,8 @@
       .shell-container {
         position: relative;
         width: 100%;
-        height: 100%;
+        height: calc(99vh - 80px);
       }
-    </style>
-    <style>
       #viewDiv {
         padding: 0;
         margin: 0;
@@ -36,18 +36,31 @@
         LayerList,
         Zoom
       ) {
-        const webmap = new WebMap({
+        const customWebMap = new WebMap({
           portalItem: {
             id: "cc316ca9e0824970ad29ac558161d42d"
-          }
+          },
+          basemap: "gray-vector" // Overrides webmap basemap (dark-gray-vector)
         });
 
         const view = new MapView({
           container: "viewDiv",
-          map: webmap
+          map: customWebMap,
+          padding: {
+            left: 45,
+            right: 330
+          }
         });
         view.when(function () {
           view.ui.move("zoom", "bottom-right");
+        });
+        // Theme switch
+        document.getElementById("toggle-theme").addEventListener("click", (event) => {
+          const dark = document.getElementById("jsapi-theme-dark");
+          const light = document.getElementById("jsapi-theme-light");
+          dark.toggleAttribute("disabled");
+          light.toggleAttribute("disabled");
+          customWebMap.basemap = dark.hasAttribute("disabled") ? "gray-vector" : "dark-gray-vector";
         });
       });
     </script>
@@ -57,7 +70,7 @@
       <div class="shell-container">
         <calcite-shell content-behind>
           <calcite-shell-panel id="primary-panel" slot="primary-panel" position="start" detached>
-            <calcite-action-bar slot="action-bar" class="calcite-theme-dark">
+            <calcite-action-bar slot="action-bar">
               <calcite-action-group>
                 <calcite-action text="Save" icon="save" indicator> </calcite-action>
                 <calcite-action icon="map" text="New"> </calcite-action>
@@ -108,7 +121,7 @@
                 <calcite-action text="Configure pop-ups" icon="popup" active> </calcite-action>
                 <calcite-action text="Configure attributes" icon="feature-details"> </calcite-action>
                 <calcite-action text="Labels" icon="label"> </calcite-action>
-                <calcite-action text="Tablew" icon="table"> </calcite-action>
+                <calcite-action text="Table" icon="table"> </calcite-action>
               </calcite-action-group>
               <calcite-action-group>
                 <calcite-action icon="search" text="Search"></calcite-action>
