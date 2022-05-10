@@ -3,21 +3,7 @@
 This document maintains a list of released versions and changes introduced by them.
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
-<!--@unreleased-section-start-->
-
-## Unreleased
-
-### ⚠ BREAKING CHANGES
-
-- **popover:** autoClose property has been moved from the popover-manager to the popover.
-
-- feat(popover): Simplify popover usage by deprecating popover-manager component
-
-- add observer
-
-- cleanup
-
-- cleanup, add test
+## [1.0.0-beta.82](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.81...v1.0.0-beta.82) (2022-05-10)
 
 ### Features
 
@@ -55,7 +41,6 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - Ensure components set boolean aria values properly ([#4504](https://github.com/Esri/calcite-components/issues/4504)) ([a82cee8](https://github.com/Esri/calcite-components/commit/a82cee885d6c0c15f9afde35db7e5faeee96ac0c)), closes [#4462](https://github.com/Esri/calcite-components/issues/4462)
 - fix potential memory leak for form resetting on form controls ([#4499](https://github.com/Esri/calcite-components/issues/4499)) ([a5a4116](https://github.com/Esri/calcite-components/commit/a5a4116392ac71ab9fd7d941ee7a04846ffda3de)), closes [#4500](https://github.com/Esri/calcite-components/issues/4500)
 - **tile:** Prevent description from overflowing ([#4433](https://github.com/Esri/calcite-components/issues/4433)) ([220dfdb](https://github.com/Esri/calcite-components/commit/220dfdb51beff2422e87b7bfbac475c777259884)), closes [#4390](https://github.com/Esri/calcite-components/issues/4390)
-<!--@unreleased-section-end-->
 
 ## [1.0.0-beta.81](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.80...v1.0.0-beta.81) (2022-04-12)
 
