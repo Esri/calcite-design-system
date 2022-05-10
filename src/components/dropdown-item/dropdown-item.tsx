@@ -10,7 +10,7 @@ import {
   Prop,
   VNode
 } from "@stencil/core";
-import { getElementProp } from "../../utils/dom";
+import { getElementProp, toAriaBoolean } from "../../utils/dom";
 import { ItemKeyboardEvent } from "../dropdown/interfaces";
 
 import { FlipContext } from "../interfaces";
@@ -162,7 +162,7 @@ export class DropdownItem {
       ? "menuitemcheckbox"
       : "menuitem";
 
-    const itemAria = this.selectionMode !== "none" ? this.active.toString() : null;
+    const itemAria = this.selectionMode !== "none" ? toAriaBoolean(this.active) : null;
 
     return (
       <Host aria-checked={itemAria} role={itemRole} tabindex="0">

@@ -10,7 +10,7 @@ import {
   VNode,
   Watch
 } from "@stencil/core";
-import { focusElement } from "../../utils/dom";
+import { focusElement, toAriaBoolean } from "../../utils/dom";
 import { Scale } from "../interfaces";
 import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
 import {
@@ -183,7 +183,7 @@ export class Switch implements LabelableComponent, CheckableFormCompoment, Inter
     return (
       <Host onClick={this.clickHandler} onKeyDown={this.keyDownHandler}>
         <div
-          aria-checked={this.checked.toString()}
+          aria-checked={toAriaBoolean(this.checked)}
           aria-label={getLabelText(this)}
           class="container"
           ref={this.setSwitchEl}

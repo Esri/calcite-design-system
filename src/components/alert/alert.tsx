@@ -12,7 +12,7 @@ import {
   VNode,
   Watch
 } from "@stencil/core";
-import { getSlotted, setRequestedIcon } from "../../utils/dom";
+import { getSlotted, setRequestedIcon, toAriaBoolean } from "../../utils/dom";
 import { DURATIONS, SLOTS, TEXT } from "./resources";
 import { Scale } from "../interfaces";
 import { AlertDuration, AlertPlacement, StatusColor, StatusIcons } from "./interfaces";
@@ -151,7 +151,7 @@ export class Alert {
     const hidden = !active;
     return (
       <Host
-        aria-hidden={hidden.toString()}
+        aria-hidden={toAriaBoolean(hidden)}
         aria-label={label}
         calcite-hydrated-hidden={hidden}
         role={role}

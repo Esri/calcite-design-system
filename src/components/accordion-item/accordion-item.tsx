@@ -9,7 +9,7 @@ import {
   Prop,
   VNode
 } from "@stencil/core";
-import { getElementDir, getElementProp } from "../../utils/dom";
+import { getElementDir, getElementProp, toAriaBoolean } from "../../utils/dom";
 
 import { CSS_UTILITY } from "../../utils/resources";
 import { Position } from "../interfaces";
@@ -143,7 +143,7 @@ export class AccordionItem {
             />
           </div>
           <div
-            aria-expanded={this.active.toString()}
+            aria-expanded={toAriaBoolean(this.active)}
             aria-labelledby={buttonId}
             class="accordion-item-content"
             id={regionId}

@@ -11,7 +11,7 @@ import {
   Fragment
 } from "@stencil/core";
 import { CSS, HEADING_LEVEL, ICONS, SLOTS, TEXT } from "./resources";
-import { getElementDir, getSlotted } from "../../utils/dom";
+import { getElementDir, getSlotted, toAriaBoolean } from "../../utils/dom";
 import { Scale } from "../interfaces";
 import { HeadingLevel, Heading } from "../functional/Heading";
 import { SLOTS as ACTION_MENU_SLOTS } from "../action-menu/resources";
@@ -474,7 +474,7 @@ export class Panel implements ConditionalSlotComponent, InteractiveComponent {
 
     const panelNode = (
       <article
-        aria-busy={loading.toString()}
+        aria-busy={toAriaBoolean(loading)}
         class={CSS.container}
         hidden={dismissible && dismissed}
         onKeyDown={panelKeyDownHandler}
