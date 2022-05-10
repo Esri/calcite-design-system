@@ -10,10 +10,64 @@
 8. [tree](#8-tree)
 9. [treegrid](#9-treegrid)
 
+## Other Roles
+
+More resources can be found on the [W3C WAI-ARIA website](https://www.w3.org/TR/wai-aria-1.1/#usage_intro).
+
+### Abstract Roles
+
+Defining general role concepts, used for existence purposes only. **Authors must not use abstract roles in content.**
+
+| Abstract Role Name                                             | Description                                                                                                                                                                                                                                                                                                                                       |
+| -------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [command](https://www.w3.org/TR/wai-aria-1.1/#command)         | A form of widget that performs an action but does not receive input data.                                                                                                                                                                                                                                                                         |
+| [composite](https://www.w3.org/TR/wai-aria-1.1/#composite)     | A widget that may contain navigable descendants or owned children.                                                                                                                                                                                                                                                                                |
+| [input](https://www.w3.org/TR/wai-aria-1.1/#input)             | A generic type of widget that allows user input.                                                                                                                                                                                                                                                                                                  |
+| [landmark](https://www.w3.org/TR/wai-aria-1.1/#landmark)       | A perceivable section containing content that is relevant to a specific, author-specified purpose and sufficiently important that users will likely want to be able to navigate to the section easily and to have it listed in a summary of the page. Such a page summary could be generated dynamically by a user agent or assistive technology. |
+| [range](https://www.w3.org/TR/wai-aria-1.1/#range)             | An input representing a range of values that can be set by the user.                                                                                                                                                                                                                                                                              |
+| [roletype](https://www.w3.org/TR/wai-aria-1.1/#roletype)       | The base role from which all other roles in this taxonomy inherit.                                                                                                                                                                                                                                                                                |
+| [section](https://www.w3.org/TR/wai-aria-1.1/#section)         | A renderable structural containment unit in a document or application.                                                                                                                                                                                                                                                                            |
+| [sectionhead](https://www.w3.org/TR/wai-aria-1.1/#sectionhead) | A structure that labels or summarizes the topic of its related section.                                                                                                                                                                                                                                                                           |
+| [select](https://www.w3.org/TR/wai-aria-1.1/#select)           | A form widget that allows the user to make selections from a set of choices.                                                                                                                                                                                                                                                                      |
+| [structure](https://www.w3.org/TR/wai-aria-1.1/#structure)     | A document structural element.                                                                                                                                                                                                                                                                                                                    |
+| [widget](https://www.w3.org/TR/wai-aria-1.1/#widget)           | An interactive component of a graphical user interface (GUI).                                                                                                                                                                                                                                                                                     |
+| [window](https://www.w3.org/TR/wai-aria-1.1/#window)           | A browser or application window.                                                                                                                                                                                                                                                                                                                  |
+
+[scroll to top](#composite-roles)
+
+### Widget Roles
+
+Standalone user interface widgets or as part of larger, composite widgets.
+
+| Widget Role Name                                                              | Description                                                                                                                                                                    |
+| ----------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| [button](https://www.w3.org/TR/wai-aria-1.1/#button)                          | An `input` that allows for user-triggered actions when clicked or pressed. Reference related `link` widget role.                                                               |
+| [checkbox](https://www.w3.org/TR/wai-aria-1.1/#checkbox)                      | A checkable `input` that has three possible values: `true`, `false`, or `mixed`.                                                                                               |
+| [gridcell](https://www.w3.org/TR/wai-aria-1.1/#gridcell)                      | A cell in a `grid` or `treegrid`.                                                                                                                                              |
+| [link](https://www.w3.org/TR/wai-aria-1.1/#link)                              | An interactive reference to an internal or external resource that, when activated, causes the user agent to navigate to that resource. Reference related `button` widget role. |
+| [menuitem](https://www.w3.org/TR/wai-aria-1.1/#menuitem)                      | An option in a set of choices contained by a `menu` or `menubar`.                                                                                                              |
+| [menuitemcheckbox](https://www.w3.org/TR/wai-aria-1.1/#menuitemcheckbox)      | A `menuitem` with a checkable state whose possible values are `true`, `false`, or `mixed`.                                                                                     |
+| [menuitemradio](https://www.w3.org/TR/wai-aria-1.1/#menuitemradio)            | A checkable `menuitem` in a set of elements with the same role, only one of which can be checked at a time.                                                                    |
+| [option](https://www.w3.org/TR/wai-aria-1.1/#option)                          | A selectable item in a `select` list.                                                                                                                                          |
+| [progressbar](https://www.w3.org/TR/wai-aria-1.1/#progressbar)                | An element that displays the progress status for tasks that take a long time.                                                                                                  |
+| [radio](https://www.w3.org/TR/wai-aria-1.1/#radio)                            | A checkable input in a group of elements with the same role, only one of which can be checked at a time.                                                                       |
+| [scrollbar](https://www.w3.org/TR/wai-aria-1.1/#scrollbar)                    | A graphical object that controls the scrolling of content within a viewing area, regardless of whether the content is fully displayed within the viewing area.                 |
+| [searchbox](https://www.w3.org/TR/wai-aria-1.1/#searchbox)                    | A type of textbox intended for specifying search criteria. See related `textbox` and `search`.                                                                                 |
+| [separator](https://www.w3.org/TR/wai-aria-1.1/#separator) (_when focusable_) | A divider that separates and distinguishes sections of content or groups of menuitems.                                                                                         |
+| [slider](https://www.w3.org/TR/wai-aria-1.1/#slider)                          | A user input where the user selects a value from within a given range.                                                                                                         |
+| [spinbutton](https://www.w3.org/TR/wai-aria-1.1/#spinbutton)                  | A form of `range` that expects the user to select from among discrete choices.                                                                                                 |
+| [switch](https://www.w3.org/TR/wai-aria-1.1/#switch)                          | A type of checkbox that represents on/off values, as opposed to checked/unchecked values. Reference related `checkbox` widget role.                                            |
+| [tab](https://www.w3.org/TR/wai-aria-1.1/#tab)                                | A grouping label providing a mechanism for selecting the tab content that is to be rendered to the user.                                                                       |
+| [tabpanel](https://www.w3.org/TR/wai-aria-1.1/#tabpanel)                      | A container for the resources associated with a `tab`, where each `tab` is contained in a `tablist`.                                                                           |
+| [textbox](https://www.w3.org/TR/wai-aria-1.1/#textbox)                        | A type of input that allows free-form text as its value.                                                                                                                       |
+| [treeitem](https://www.w3.org/TR/wai-aria-1.1/#treeitem)                      | An option item of a `tree`. This is an element within a tree that may be expanded or collapsed if it contains a sub-level group of tree item elements.                         |
+
+[scroll to top](#composite-roles)
+
 ## 1. combobox
 
 The `combobox` role is for input that controls another element, such as a listbox or grid, that can dynamically pop up to help the user set the value of the input.
-The popup can be a `listbox`, `grid`, `tree`, or `dialog`. Superclass role of `select`.
+The popup can be a `listbox`, `grid`, `tree`, or `dialog`. Superclass role of `select`. [Learn more about the combobox role](https://www.w3.org/TR/wai-aria-1.1/#combobox).
 
 ### Example
 
@@ -54,7 +108,7 @@ The popup can be a `listbox`, `grid`, `tree`, or `dialog`. Superclass role of `s
 
 ## 2. grid
 
-The `grid` role contains one or more rows of cells. The position of each cell is significant and can be focused using keyboard input.
+The `grid` role contains one or more rows of cells. The position of each cell is significant and can be focused using keyboard input. [Learn more about the grid role](https://www.w3.org/TR/wai-aria-1.1/#grid).
 
 ### Example
 
@@ -129,7 +183,7 @@ To activate the interactive component, they will use the `return` and `space` ke
 
 ## 3. listbox
 
-The `listbox` role is used for lists from which a user may select one or more items which are static, unlike HTML `<select>` elements, may contain images.
+The `listbox` role is used for lists from which a user may select one or more items which are static, unlike HTML `<select>` elements, may contain images. [Learn more about the listbox role](https://www.w3.org/TR/wai-aria-1.1/#listbox).
 
 ### Example
 
@@ -194,6 +248,8 @@ The `menu` role offers a list of choices to the user, often a list of common act
 
 For keyboard accessibility, authors **should** manage focus of descendants for all instances of this role. Elements within the role menu have an implicit `aria-orientation` value of `vertical`.
 
+[Learn more about the menu role](https://www.w3.org/TR/wai-aria-1.1/#menu).
+
 ### Example
 
 ![menu](https://user-images.githubusercontent.com/5023024/166055572-44d789c3-b0eb-40d0-9986-e82f6d1fd701.svg)
@@ -240,7 +296,7 @@ For keyboard accessibility, authors **should** manage focus of descendants for a
 
 ## 5. menubar
 
-The `menubar` role is a presentation of a menu that usually remains visible and usually is presented horizontally. Superclass role of `menu`, and related to `toolbar`.
+The `menubar` role is a presentation of a menu that usually remains visible and usually is presented horizontally. Superclass role of `menu`, and related to `toolbar`. [Learn more about the menubar role](https://www.w3.org/TR/wai-aria-1.1/#menubar).
 
 ### Example
 
@@ -306,6 +362,8 @@ The `radiogroup` role is a group of radio buttons.
 
 **Note**: Some situations can be written using semantic HTML, which requires no CSS or JavaScript. Below are two examples, one with the `radiogroup` role, and the other with semantic HTML.
 
+[Learn more about the radiogroup role](https://www.w3.org/TR/wai-aria-1.1/#radiogroup).
+
 ### Example
 
 ![radiogroup-with-text](https://user-images.githubusercontent.com/5023024/166739360-091a7211-e230-46b5-9bdf-01f44d108599.svg)
@@ -369,6 +427,8 @@ The `tablist` role identifies the element that serves as the container for a set
 
 Each `tab` in a `tablist` serves as a label for one `tabpanel` and can be activated to display that panel. The `tablist` is the containing element for the set of tab elements contained.
 
+[Learn more about the tablist role](https://www.w3.org/TR/wai-aria-1.1/#tablist).
+
 ### Example
 
 ![tablist](https://user-images.githubusercontent.com/5023024/166065017-5d961407-f1cc-48f0-90ba-42b03941c586.svg)
@@ -412,7 +472,7 @@ If the `tablist` is horizontal, it does not listen for `↓` or `↑` so those k
 
 ## 8. tree
 
-A `tree` is a widget that allows the user to select one or more items from a hierarchically organized collection. Any item in the hierarchy may have child tree items, `treeitem`. Tree items can be expanded or collapsed, showing and hiding their children.
+A `tree` is a widget that allows the user to select one or more items from a hierarchically organized collection. Any item in the hierarchy may have child tree items, `treeitem`. Tree items can be expanded or collapsed, showing and hiding their children. [Learn more about the tree role](https://www.w3.org/TR/wai-aria-1.1/#tree).
 
 ### Example
 
@@ -514,6 +574,8 @@ For a vertically oriented `tree`, which is the default orientation:
 The `treegrid` role identifies an element as being grid whose rows can be expanded and collapsed in the same manner as for a tree.
 
 It is important for all cells to be able to receive or contain keyboard focus because screen readers are generally in application reading mode, rather than their document reading mode, when users are interacting with the grid. While in application mode, a screen reader user hears only focusable elements and content that labels focusable elements. If content can't receive focus, screen reader users may unknowingly overlook elements contained in the `treegrid`.
+
+[Learn more about the treegrid role](https://www.w3.org/TR/wai-aria-1.1/#treegrid).
 
 ### Example
 
