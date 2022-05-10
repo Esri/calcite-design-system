@@ -1,4 +1,4 @@
-import { Component, Element, Prop, h, VNode, Host, Method } from "@stencil/core";
+import { Component, Element, Prop, h, VNode, Method } from "@stencil/core";
 import { SLOTS, CSS } from "./resources";
 import { getSlotted } from "../../utils/dom";
 import {
@@ -28,11 +28,6 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
   // --------------------------------------------------------------------------
 
   /**
-   * When true, prevents the content of the list item from user interaction.
-   */
-  @Prop({ reflect: true }) nonInteractive = false;
-
-  /**
    * An optional description for this item.  This will appear below the label text.
    */
   @Prop() description: string;
@@ -40,7 +35,7 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
   /**
    * When true, disabled prevents interaction.
    */
-  @Prop({ reflect: true }) disabled = false;
+  @Prop({ reflect: true }) disabled = false; // todo: styling
 
   /**
    * The label text of the list item. This will appear above the description text.
@@ -102,18 +97,18 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
   renderActionsStart(): VNode {
     const { el } = this;
     return getSlotted(el, SLOTS.actionsStart) ? (
-      <div class={CSS.actionsStart}>
+      <td class={CSS.actionsStart} role="gridcell" tabindex="-1">
         <slot name={SLOTS.actionsStart} />
-      </div>
+      </td>
     ) : null;
   }
 
   renderActionsEnd(): VNode {
     const { el } = this;
     return getSlotted(el, SLOTS.actionsEnd) ? (
-      <div class={CSS.actionsEnd}>
+      <td class={CSS.actionsEnd} role="gridcell" tabindex="-1">
         <slot name={SLOTS.actionsEnd} />
-      </div>
+      </td>
     ) : null;
   }
 
@@ -147,44 +142,32 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
   }
 
   renderContentContainer(): VNode {
-    const { description, disabled, label, nonInteractive } = this;
+    const { description, label } = this;
     const hasCenterContent = !!label || !!description;
     const content = [this.renderContentStart(), this.renderContent(), this.renderContentEnd()];
 
-    return !nonInteractive ? (
-      <button
-        class={{
-          [CSS.contentContainer]: true,
-          [CSS.contentContainerButton]: true,
-          [CSS.hasCenterContent]: hasCenterContent
-        }}
-        disabled={disabled}
-        ref={(focusEl) => (this.focusEl = focusEl)}
-      >
-        {content}
-      </button>
-    ) : (
-      <div
+    return (
+      <td
         class={{ [CSS.contentContainer]: true, [CSS.hasCenterContent]: hasCenterContent }}
         ref={() => (this.focusEl = null)}
+        role="gridcell"
+        tabindex="-1"
       >
         {content}
-      </div>
+      </td>
     );
   }
 
   render(): VNode {
     return (
-      <Host role="listitem">
-        <div class={CSS.container}>
-          {this.renderActionsStart()}
-          {this.renderContentContainer()}
-          {this.renderActionsEnd()}
-        </div>
-        <div class={CSS.nestedContainer}>
+      <tr class={CSS.container} role="row">
+        {this.renderActionsStart()}
+        {this.renderContentContainer()}
+        {this.renderActionsEnd()}
+        {/* <div class={CSS.nestedContainer}>
           <slot />
-        </div>
-      </Host>
+        </div> */}
+      </tr>
     );
   }
 }

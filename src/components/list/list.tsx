@@ -1,4 +1,4 @@
-import { Component, Element, h, VNode, Host, Prop, Method } from "@stencil/core";
+import { Component, Element, h, VNode, Prop, Method } from "@stencil/core";
 import { CSS } from "./resources";
 import { HeadingLevel } from "../functional/Heading";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
@@ -70,11 +70,11 @@ export class List implements InteractiveComponent {
 
   render(): VNode {
     return (
-      <Host role="list">
-        <div class={CSS.container}>
+      <table role="treegrid">
+        <tbody class={CSS.container}>
           <slot />
-        </div>
-      </Host>
+        </tbody>
+      </table>
     );
   }
 }
