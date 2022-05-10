@@ -189,7 +189,7 @@ export class Select implements LabelableComponent, FormComponent, InteractiveCom
   };
 
   @Listen("calciteInternalOptionChange")
-  @Listen("calciteOptionGroupChange")
+  @Listen("calciteInternalOptionGroupChange")
   protected handleOptionOrGroupChange(event: CustomEvent): void {
     event.stopPropagation();
 
