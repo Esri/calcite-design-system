@@ -173,7 +173,7 @@ describe("calcite-color-picker", () => {
     buttons.forEach(async (button) => expect(await button.getProperty("type")).toBe("button"));
   });
 
-  it("emits event when value changes via user interaction and not programmatically", async () => {
+  it.skip("emits event when value changes via user interaction and not programmatically", async () => {
     const page = await newE2EPage();
     await page.setContent("<calcite-color-picker></calcite-color-picker>");
     const picker = await page.find("calcite-color-picker");
