@@ -76,7 +76,7 @@ export class DropdownItem {
   @Event() calciteInternalDropdownItemSelect: EventEmitter;
 
   /** @internal */
-  @Event() calciteDropdownItemKeyEvent: EventEmitter<ItemKeyboardEvent>;
+  @Event() calciteInternalDropdownItemKeyEvent: EventEmitter<ItemKeyboardEvent>;
 
   /** @internal */
   @Event() calciteDropdownCloseRequest: EventEmitter;
@@ -201,7 +201,8 @@ export class DropdownItem {
     this.emitRequestedItem();
   }
 
-  @Listen("keydown") keyDownHandler(e: KeyboardEvent): void {
+  @Listen("keydown")
+  keyDownHandler(e: KeyboardEvent): void {
     switch (e.key) {
       case " ":
         this.emitRequestedItem();
@@ -224,7 +225,7 @@ export class DropdownItem {
       case "ArrowDown":
       case "Home":
       case "End":
-        this.calciteDropdownItemKeyEvent.emit({ keyboardEvent: e });
+        this.calciteInternalDropdownItemKeyEvent.emit({ keyboardEvent: e });
         break;
     }
     e.preventDefault();
