@@ -89,7 +89,7 @@ export class DatePickerMonth {
   /**
    * @internal
    */
-  @Event() calciteDatePickerMouseOut: EventEmitter;
+  @Event() calciteInternalDatePickerMouseOut: EventEmitter;
 
   //--------------------------------------------------------------------------
   //
@@ -155,7 +155,7 @@ export class DatePickerMonth {
 
   @Listen("mouseout")
   mouseoutHandler(): void {
-    this.calciteDatePickerMouseOut.emit();
+    this.calciteInternalDatePickerMouseOut.emit();
   }
 
   //--------------------------------------------------------------------------
@@ -340,7 +340,7 @@ export class DatePickerMonth {
   dayHover = (e: CustomEvent): void => {
     const target = e.target as HTMLCalciteDatePickerDayElement;
     if (e.detail.disabled) {
-      this.calciteDatePickerMouseOut.emit();
+      this.calciteInternalDatePickerMouseOut.emit();
     } else {
       this.calciteInternalDatePickerHover.emit(target.value);
     }

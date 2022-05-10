@@ -439,9 +439,9 @@ export class DatePicker {
           max={maxDate}
           min={minDate}
           onCalciteDatePickerActiveDateChange={this.monthActiveDateChange}
-          onCalciteDatePickerMouseOut={this.monthMouseOutChange}
           onCalciteDatePickerSelect={this.monthDateChange}
           onCalciteInternalDatePickerHover={this.monthHoverChange}
+          onCalciteInternalDatePickerMouseOut={this.monthMouseOutChange}
           scale={this.scale}
           selectedDate={this.activeRange === "end" ? endDate : date}
           startDate={this.range ? date : undefined}
