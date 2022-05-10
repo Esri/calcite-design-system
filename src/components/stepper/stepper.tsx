@@ -271,7 +271,7 @@ export class Stepper {
     let newIndex = startIndex;
 
     while (items[newIndex]?.disabled) {
-      newIndex = newIndex + direction === "previous" ? -1 : 1;
+      newIndex = newIndex + (direction === "previous" ? -1 : 1);
     }
 
     return newIndex !== currentPosition && newIndex < items.length && newIndex >= 0
