@@ -109,8 +109,8 @@ export class Stepper {
   //
   //--------------------------------------------------------------------------
 
-  @Listen("calciteStepperItemKeyEvent")
-  calciteStepperItemKeyEvent(e: CustomEvent<StepperItemKeyEventDetail>): void {
+  @Listen("calciteInternalStepperItemKeyEvent")
+  calciteInternalStepperItemKeyEvent(e: CustomEvent<StepperItemKeyEventDetail>): void {
     const item = e.detail.item;
     const itemToFocus = e.target as HTMLCalciteStepperItemElement;
     const isFirstItem = this.itemIndex(itemToFocus) === 0;
@@ -139,6 +139,7 @@ export class Stepper {
         this.focusLastItem();
         break;
     }
+    e.stopPropagation();
   }
 
   @Listen("calciteStepperItemRegister")

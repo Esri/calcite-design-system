@@ -92,7 +92,7 @@ export class StepperItem implements InteractiveComponent {
   /**
    * @internal
    */
-  @Event() calciteStepperItemKeyEvent: EventEmitter<StepperItemKeyEventDetail>;
+  @Event() calciteInternalStepperItemKeyEvent: EventEmitter<StepperItemKeyEventDetail>;
 
   /**
    * @internal
@@ -203,7 +203,7 @@ export class StepperItem implements InteractiveComponent {
         case "ArrowRight":
         case "Home":
         case "End":
-          this.calciteStepperItemKeyEvent.emit({ item: e });
+          this.calciteInternalStepperItemKeyEvent.emit({ item: e });
           e.preventDefault();
           break;
       }
