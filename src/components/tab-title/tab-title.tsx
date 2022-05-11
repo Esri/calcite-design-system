@@ -174,7 +174,7 @@ export class TabTitle implements InteractiveComponent {
   }
 
   async componentDidLoad(): Promise<void> {
-    this.calciteInternalTabTitleRegister.emit(await this.getTabIdentifier());
+    this.calciteTabTitleRegister.emit(await this.getTabIdentifier());
   }
 
   componentDidRender(): void {
@@ -270,7 +270,7 @@ export class TabTitle implements InteractiveComponent {
   /**
    * @internal
    */
-  @Event() calciteInternalTabTitleRegister: EventEmitter<TabID>;
+  @Event() calciteTabTitleRegister: EventEmitter<TabID>;
 
   //--------------------------------------------------------------------------
   //

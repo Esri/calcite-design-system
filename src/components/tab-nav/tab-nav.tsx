@@ -236,12 +236,11 @@ export class TabNav {
   /**
    * Check for active tabs on register and update selected
    */
-  @Listen("calciteInternalTabTitleRegister")
+  @Listen("calciteTabTitleRegister")
   updateTabTitles(e: CustomEvent<TabID>): void {
     if ((e.target as HTMLCalciteTabTitleElement).active) {
       this.selectedTab = e.detail;
     }
-    e.stopPropagation();
   }
 
   @Listen("calciteInternalTabChange", { target: "body" })
