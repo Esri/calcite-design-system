@@ -1,4 +1,4 @@
-import { Component, Element, Prop, h, VNode, Method } from "@stencil/core";
+import { Component, Element, Prop, h, VNode, Method, Host } from "@stencil/core";
 import { SLOTS, CSS } from "./resources";
 import { getSlotted } from "../../utils/dom";
 import {
@@ -6,7 +6,7 @@ import {
   connectConditionalSlotComponent,
   disconnectConditionalSlotComponent
 } from "../../utils/conditionalSlot";
-import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import { InteractiveComponent } from "../../utils/interactive";
 
 /**
  * @slot - A slot for adding `calcite-list-item` and `calcite-list-item-group` elements.
@@ -52,16 +52,6 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
 
   focusEl: HTMLButtonElement;
 
-  //--------------------------------------------------------------------------
-  //
-  //  Lifecycle
-  //
-  //--------------------------------------------------------------------------
-
-  componentDidRender(): void {
-    updateHostInteraction(this);
-  }
-
   // --------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -97,7 +87,7 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
   renderActionsStart(): VNode {
     const { el } = this;
     return getSlotted(el, SLOTS.actionsStart) ? (
-      <td class={CSS.actionsStart} role="gridcell" tabindex="-1">
+      <td class={CSS.actionsStart} role="gridcell" tabIndex={-1}>
         <slot name={SLOTS.actionsStart} />
       </td>
     ) : null;
@@ -106,7 +96,7 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
   renderActionsEnd(): VNode {
     const { el } = this;
     return getSlotted(el, SLOTS.actionsEnd) ? (
-      <td class={CSS.actionsEnd} role="gridcell" tabindex="-1">
+      <td class={CSS.actionsEnd} role="gridcell" tabIndex={-1}>
         <slot name={SLOTS.actionsEnd} />
       </td>
     ) : null;
@@ -151,7 +141,7 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
         class={{ [CSS.contentContainer]: true, [CSS.hasCenterContent]: hasCenterContent }}
         ref={() => (this.focusEl = null)}
         role="gridcell"
-        tabindex="-1"
+        tabIndex={-1}
       >
         {content}
       </td>
@@ -160,14 +150,16 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
 
   render(): VNode {
     return (
-      <tr class={CSS.container} role="row">
-        {this.renderActionsStart()}
-        {this.renderContentContainer()}
-        {this.renderActionsEnd()}
-        {/* <div class={CSS.nestedContainer}>
+      <Host tabIndex={-1}>
+        <tr class={CSS.container} role="row">
+          {this.renderActionsStart()}
+          {this.renderContentContainer()}
+          {this.renderActionsEnd()}
+          {/* <div class={CSS.nestedContainer}>
           <slot />
         </div> */}
-      </tr>
+        </tr>
+      </Host>
     );
   }
 }

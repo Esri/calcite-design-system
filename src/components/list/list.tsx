@@ -1,6 +1,5 @@
 import { Component, Element, h, VNode, Prop, Method } from "@stencil/core";
 import { CSS } from "./resources";
-import { HeadingLevel } from "../functional/Heading";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 
 /**
@@ -23,11 +22,6 @@ export class List implements InteractiveComponent {
    * When true, disabled prevents user interaction.
    */
   @Prop({ reflect: true }) disabled = false;
-
-  /**
-   * Number at which section headings should start for this component.
-   */
-  @Prop() headingLevel: HeadingLevel;
 
   //--------------------------------------------------------------------------
   //
@@ -56,10 +50,7 @@ export class List implements InteractiveComponent {
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    const firstListItem: HTMLCalciteListItemElement = this.el.querySelector(
-      `calcite-list-item:not([non-interactive])`
-    );
-    firstListItem?.setFocus();
+    // todo
   }
 
   // --------------------------------------------------------------------------
