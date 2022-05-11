@@ -3,7 +3,7 @@ import { themesDarkDefault } from "../../../.storybook/utils";
 import readme from "./readme.md";
 
 export default {
-  title: "Components/Graph",
+  title: "Components/Controls/Slider/support/Graph",
 
   parameters: {
     notes: readme
