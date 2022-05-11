@@ -272,8 +272,8 @@ describe("calcite-action-bar", () => {
     const menuOpenChangeEvent = page.waitForEvent("calciteActionMenuOpenChange");
 
     await page.evaluate(() => ((document.getElementById("first") as HTMLCalciteActionGroupElement).menuOpen = true));
-    await page.waitForChanges();
     await menuOpenChangeEvent;
+    await page.waitForChanges();
 
     menuOpenValues = await page.evaluate(() =>
       Array.from(document.querySelectorAll("calcite-action-group")).map((group) => group.menuOpen)
