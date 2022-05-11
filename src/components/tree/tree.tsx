@@ -125,7 +125,7 @@ export class Tree {
     }
   }
 
-  @Listen("calciteTreeItemSelect")
+  @Listen("calciteInternalTreeItemSelect")
   onClick(e: CustomEvent<TreeItemSelectDetail>): void {
     const target = e.target as HTMLCalciteTreeItemElement;
     const childItems = nodeListToArray(
@@ -228,6 +228,8 @@ export class Tree {
         ) as HTMLCalciteTreeItemElement[]
       ).filter((i) => i.selected)
     });
+
+    e.stopPropagation();
   }
 
   @Listen("keydown")

@@ -240,11 +240,12 @@ export class InputTimePicker implements LabelableComponent, FormComponent, Inter
     }
   }
 
-  @Listen("calciteTimePickerBlur")
+  @Listen("calciteInternalTimePickerBlur")
   timePickerBlurHandler(event: CustomEvent): void {
     event.preventDefault();
     event.stopPropagation();
     this.active = false;
+    event.stopPropagation;
   }
 
   private timePickerChangeHandler = (event: CustomEvent): void => {
@@ -252,13 +253,15 @@ export class InputTimePicker implements LabelableComponent, FormComponent, Inter
     const target = event.target as HTMLCalciteTimePickerElement;
     const value = target.value;
     this.setValue({ value, origin: "time-picker" });
+    event.stopPropagation();
   };
 
-  @Listen("calciteTimePickerFocus")
+  @Listen("calciteInternalTimePickerFocus")
   timePickerFocusHandler(event: CustomEvent): void {
     event.preventDefault();
     event.stopPropagation();
     this.active = true;
+    event.stopPropagation;
   }
 
   // --------------------------------------------------------------------------
@@ -451,7 +454,7 @@ export class InputTimePicker implements LabelableComponent, FormComponent, Inter
             intlSecondDown={this.intlSecondDown}
             intlSecondUp={this.intlSecondUp}
             lang={this.locale}
-            onCalciteTimePickerChange={this.timePickerChangeHandler}
+            onCalciteInternalTimePickerChange={this.timePickerChangeHandler}
             ref={this.setCalciteTimePickerEl}
             scale={this.scale}
             step={this.step}
