@@ -97,7 +97,7 @@ export class StepperItem implements InteractiveComponent {
   /**
    * @internal
    */
-  @Event() calciteStepperItemSelect: EventEmitter<StepperItemEventDetail>;
+  @Event() calciteInternalStepperItemSelect: EventEmitter<StepperItemEventDetail>;
 
   /**
    * @internal
@@ -235,7 +235,7 @@ export class StepperItem implements InteractiveComponent {
 
   private emitRequestedItem = (): void => {
     if (!this.disabled) {
-      this.calciteStepperItemSelect.emit({
+      this.calciteInternalStepperItemSelect.emit({
         position: this.itemPosition,
         content: this.itemContent
       });

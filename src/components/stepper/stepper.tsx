@@ -156,7 +156,7 @@ export class Stepper {
     this.enabledItems = this.filterItems();
   }
 
-  @Listen("calciteStepperItemSelect")
+  @Listen("calciteInternalStepperItemSelect")
   updateItem(event: CustomEvent<StepperItemEventDetail>): void {
     if (event.detail.content) {
       this.requestedContent = event.detail.content;
@@ -165,6 +165,7 @@ export class Stepper {
     this.calciteInternalStepperItemChange.emit({
       position: this.currentPosition
     });
+    event.stopPropagation();
   }
 
   //--------------------------------------------------------------------------
