@@ -77,7 +77,7 @@ export class Stepper {
    * This event fires when the active stepper item has changed.
    * @internal
    */
-  @Event() calciteStepperItemChange: EventEmitter<StepperItemChangeEventDetail>;
+  @Event() calciteInternalStepperItemChange: EventEmitter<StepperItemChangeEventDetail>;
 
   //--------------------------------------------------------------------------
   //
@@ -87,7 +87,7 @@ export class Stepper {
   componentDidLoad(): void {
     // if no stepper items are set as active, default to the first one
     if (!this.currentPosition) {
-      this.calciteStepperItemChange.emit({
+      this.calciteInternalStepperItemChange.emit({
         position: 0
       });
     }
@@ -161,7 +161,7 @@ export class Stepper {
       this.requestedContent = event.detail.content;
     }
     this.currentPosition = event.detail.position;
-    this.calciteStepperItemChange.emit({
+    this.calciteInternalStepperItemChange.emit({
       position: this.currentPosition
     });
   }
@@ -282,7 +282,7 @@ export class Stepper {
   private emitChangedItem(position: number): void {
     this.currentPosition = position;
 
-    this.calciteStepperItemChange.emit({
+    this.calciteInternalStepperItemChange.emit({
       position
     });
   }
