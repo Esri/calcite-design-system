@@ -23,10 +23,6 @@ export const Simple = (): string => html`
   />
 `;
 
-Simple.parameters = {
-  chromatic: { disableSnapshot: true }
-};
-
 export const NoPadding = (): string => html`
   <div style="border: 1px solid rgb(192,192,192, 0.5); width: 100px">
     <calcite-loader
@@ -39,10 +35,6 @@ export const NoPadding = (): string => html`
   </div>
 `;
 
-NoPadding.parameters = {
-  chromatic: { disableSnapshot: true }
-};
-
 export const Inline = (): string => html`
 <div style="display: inline-flex;align-items: center;justify-content: center;width: 100%;">
 <calcite-loader
@@ -52,10 +44,6 @@ export const Inline = (): string => html`
 /></calcite-loader><span style="margin:0 10px">Next to some text</span>
 </div>
 `;
-
-Inline.parameters = {
-  chromatic: { disableSnapshot: true }
-};
 
 export const DarkMode = (): string => html`
   <calcite-loader
@@ -70,7 +58,7 @@ export const DarkMode = (): string => html`
 `;
 
 DarkMode.storyName = "Dark mode";
-DarkMode.parameters = { themes: themesDarkDefault, chromatic: { disableSnapshot: true } };
+DarkMode.parameters = { themes: themesDarkDefault };
 
 export const CustomTheme = (): string => html`
   <calcite-loader
@@ -87,6 +75,3 @@ export const CustomTheme = (): string => html`
 `;
 
 CustomTheme.storyName = "Custom theme";
-CustomTheme.parameters = {
-  chromatic: { disableSnapshot: true }
-};
