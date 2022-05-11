@@ -7,6 +7,11 @@
     }
 </style>
 
+<!-- TODO: Chips for future use -->
+
+<calcite-chip appearance="solid" color="blue" icon="palette" scale="s">Design</calcite-chip>
+<calcite-chip appearance="solid" color="yellow" icon="code" scale="s">Development</calcite-chip>
+
 <fieldset>
     <legend># Checklist</legend>
 
