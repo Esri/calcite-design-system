@@ -6,29 +6,29 @@
 
 ## Properties
 
-| Property             | Attribute         | Description                                                                                       | Type                                                        | Default     |
-| -------------------- | ----------------- | ------------------------------------------------------------------------------------------------- | ----------------------------------------------------------- | ----------- |
-| `description`        | `description`     | An optional description for this item. Will appear below the label text.                          | `string`                                                    | `undefined` |
-| `disabled`           | `disabled`        | When true, the item cannot be clicked and is visually muted                                       | `boolean`                                                   | `false`     |
-| `icon`               | `icon`            | Determines the icon SVG symbol that will be shown. Options are circle, square, grip or null.      | `ICON_TYPES.circle \| ICON_TYPES.grip \| ICON_TYPES.square` | `null`      |
-| `label` _(required)_ | `label`           | The main label for this item. Appears next to the icon.                                           | `string`                                                    | `undefined` |
-| `metadata`           | --                | Used to provide additional metadata to an item, primarily used when the parent list has a filter. | `{ [x: string]: unknown; }`                                 | `undefined` |
-| `nonInteractive`     | `non-interactive` | When true, prevents the content of the list item from user interaction.                           | `boolean`                                                   | `false`     |
-| `removable`          | `removable`       | Set this to true to display a remove action that removes the item from the list.                  | `boolean`                                                   | `false`     |
-| `selected`           | `selected`        | Set this to true to pre-select an item. Toggles when an item is checked/unchecked.                | `boolean`                                                   | `false`     |
-| `value` _(required)_ | `value`           | The item's associated value.                                                                      | `any`                                                       | `undefined` |
+| Property             | Attribute         | Description                                                                                  | Type                                                        | Default     |
+| -------------------- | ----------------- | -------------------------------------------------------------------------------------------- | ----------------------------------------------------------- | ----------- |
+| `description`        | `description`     | An optional description for the list item that displays below the label text.                | `string`                                                    | `undefined` |
+| `disabled`           | `disabled`        | When true, the list item cannot be clicked and is visually muted.                            | `boolean`                                                   | `false`     |
+| `icon`               | `icon`            | Determines the icon SVG symbol that will be shown. Options are circle, square, grip or null. | `ICON_TYPES.circle \| ICON_TYPES.grip \| ICON_TYPES.square` | `null`      |
+| `label` _(required)_ | `label`           | The main label for the list item. Appears next to the icon.                                  | `string`                                                    | `undefined` |
+| `metadata`           | --                | Provides additional metadata to a list item. Primary use is for a filter on the parent list. | `{ [x: string]: unknown; }`                                 | `undefined` |
+| `nonInteractive`     | `non-interactive` | When true, prevents the content of the list item from user interaction.                      | `boolean`                                                   | `false`     |
+| `removable`          | `removable`       | When true, adds an action to remove the list item.                                           | `boolean`                                                   | `false`     |
+| `selected`           | `selected`        | When true, preselects the list item. Toggles when an item is checked/unchecked.              | `boolean`                                                   | `false`     |
+| `value` _(required)_ | `value`           | The list item's associated value.                                                            | `any`                                                       | `undefined` |
 
 ## Events
 
-| Event                   | Description                                    | Type                |
-| ----------------------- | ---------------------------------------------- | ------------------- |
-| `calciteListItemRemove` | Emitted whenever the remove button is pressed. | `CustomEvent<void>` |
+| Event                   | Description                              | Type                |
+| ----------------------- | ---------------------------------------- | ------------------- |
+| `calciteListItemRemove` | Emits when the remove button is pressed. | `CustomEvent<void>` |
 
 ## Methods
 
 ### `setFocus() => Promise<void>`
 
-Sets focus on the component.
+Set focus on the component.
 
 #### Returns
 
@@ -36,7 +36,7 @@ Type: `Promise<void>`
 
 ### `toggleSelected(coerce?: boolean) => Promise<void>`
 
-Used to toggle the selection state. By default this won't trigger an event.
+Toggle the selection state. By default this won't trigger an event.
 The first argument allows the value to be coerced, rather than swapping values.
 
 #### Returns

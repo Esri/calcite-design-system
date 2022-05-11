@@ -15,7 +15,7 @@ import {
 } from "@stencil/core";
 import { TabChangeEventDetail } from "../tab/interfaces";
 import { guid } from "../../utils/guid";
-import { getElementDir, getElementProp } from "../../utils/dom";
+import { getElementDir, getElementProp, toAriaBoolean } from "../../utils/dom";
 import { TabID, TabLayout, TabPosition } from "../tabs/interfaces";
 import { FlipContext, Scale } from "../interfaces";
 import { createObserver } from "../../utils/observers";
@@ -152,7 +152,12 @@ export class TabTitle implements InteractiveComponent {
     );
 
     return (
-      <Host aria-controls={this.controls} aria-expanded={this.active.toString()} id={id} role="tab">
+      <Host
+        aria-controls={this.controls}
+        aria-expanded={toAriaBoolean(this.active)}
+        id={id}
+        role="tab"
+      >
         <a
           class={{
             container: true,
@@ -240,7 +245,7 @@ export class TabTitle implements InteractiveComponent {
   //--------------------------------------------------------------------------
 
   /**
-   * Fires when a specific tab is activated (`event.details`)
+   * Fires when a specific tab is activated. Emits the "tab" property or the index position.
    * @see [TabChangeEventDetail](https://github.com/Esri/calcite-components/blob/master/src/components/tab/interfaces.ts#L1)
    */
   @Event() calciteTabsActivate: EventEmitter<TabChangeEventDetail>;

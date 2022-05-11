@@ -35,7 +35,8 @@
   @apply relative
   flex
   flex-grow
-  flex-col;
+  flex-col
+  self-start;
   margin-bottom: var(--calcite-stepper-item-spacing-unit-s);
 }
 

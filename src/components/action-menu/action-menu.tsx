@@ -11,7 +11,7 @@ import {
   State
 } from "@stencil/core";
 import { CSS, SLOTS, ICONS } from "./resources";
-import { focusElement, getSlotted } from "../../utils/dom";
+import { focusElement, getSlotted, toAriaBoolean } from "../../utils/dom";
 import { Fragment, VNode } from "@stencil/core/internal";
 import { getRoundRobinIndex } from "../../utils/array";
 import { PopperPlacement, OverlayPositioning, ComputedPlacement } from "../../utils/popper";
@@ -157,6 +157,8 @@ export class ActionMenu implements ConditionalSlotComponent {
 
   menuButtonId = `${this.guid}-menu-button`;
 
+  tooltipEl: HTMLCalciteTooltipElement;
+
   @State() activeMenuItemIndex = -1;
 
   @Watch("activeMenuItemIndex")
@@ -203,7 +205,7 @@ export class ActionMenu implements ConditionalSlotComponent {
 
     menuButtonEl.active = open;
     menuButtonEl.setAttribute("aria-controls", menuId);
-    menuButtonEl.setAttribute("aria-expanded", open.toString());
+    menuButtonEl.setAttribute("aria-expanded", toAriaBoolean(open));
     menuButtonEl.setAttribute("aria-haspopup", "true");
 
     if (!menuButtonEl.id) {
@@ -308,7 +310,7 @@ export class ActionMenu implements ConditionalSlotComponent {
       <Fragment>
         {this.renderMenuButton()}
         {this.renderMenuItems()}
-        <slot name={SLOTS.tooltip} />
+        <slot name={SLOTS.tooltip} onSlotchange={this.updateTooltip} />
       </Fragment>
     );
   }
@@ -328,15 +330,22 @@ export class ActionMenu implements ConditionalSlotComponent {
     this.toggleOpen();
   };
 
+  updateTooltip = (event: Event): void => {
+    const tooltips = (event.target as HTMLSlotElement)
+      .assignedElements({
+        flatten: true
+      })
+      .filter((el) => el?.matches("calcite-tooltip")) as HTMLCalciteTooltipElement[];
+
+    this.tooltipEl = tooltips[0];
+    this.setTooltipReferenceElement();
+  };
+
   setTooltipReferenceElement = (): void => {
-    const { el, expanded, menuButtonEl } = this;
+    const { tooltipEl, expanded, menuButtonEl } = this;
 
-    const slotted = getSlotted(el, SLOTS.tooltip);
-    const tooltip =
-      slotted?.tagName === "SLOT" ? (slotted as HTMLSlotElement).assignedElements()[0] : slotted;
-
-    if (tooltip?.tagName === "CALCITE-TOOLTIP") {
-      (tooltip as HTMLCalciteTooltipElement).referenceElement = !expanded ? menuButtonEl : null;
+    if (tooltipEl) {
+      tooltipEl.referenceElement = !expanded ? menuButtonEl : null;
     }
   };
 
@@ -357,12 +366,6 @@ export class ActionMenu implements ConditionalSlotComponent {
   updateActions = (actions: HTMLCalciteActionElement[]): void => {
     actions?.forEach(this.updateAction);
   };
-
-  getAssignedElements(): HTMLElement[] {
-    return Array.from(this.el.querySelectorAll("slot"))
-      .map((slot) => slot.assignedElements({ flatten: true }) as HTMLElement[])
-      .reduce((ar, val) => ar.concat(val), []);
-  }
 
   getActions = (): void => {
     const { el } = this;

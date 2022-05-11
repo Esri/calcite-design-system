@@ -1,6 +1,6 @@
 import { Component, Element, Event, EventEmitter, h, Host, Prop, VNode } from "@stencil/core";
 import { CSS, HEADING_LEVEL, ICONS, SLOTS, TEXT } from "./resources";
-import { getSlotted } from "../../utils/dom";
+import { getSlotted, toAriaBoolean } from "../../utils/dom";
 import { Heading, HeadingLevel } from "../functional/Heading";
 import { Status } from "../interfaces";
 import {
@@ -228,7 +228,7 @@ export class Block implements ConditionalSlotComponent, InteractiveComponent {
         {collapsible ? (
           <button
             aria-controls={regionId}
-            aria-expanded={collapsible ? open.toString() : null}
+            aria-expanded={collapsible ? toAriaBoolean(open) : null}
             aria-label={toggleLabel}
             class={CSS.toggle}
             id={buttonId}
@@ -266,14 +266,14 @@ export class Block implements ConditionalSlotComponent, InteractiveComponent {
     return (
       <Host>
         <article
-          aria-busy={loading.toString()}
+          aria-busy={toAriaBoolean(loading)}
           class={{
             [CSS.article]: true
           }}
         >
           {headerNode}
           <section
-            aria-expanded={this.open.toString()}
+            aria-expanded={toAriaBoolean(open)}
             aria-labelledby={buttonId}
             class={CSS.content}
             hidden={!open}

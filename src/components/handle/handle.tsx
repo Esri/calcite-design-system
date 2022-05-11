@@ -1,4 +1,5 @@
 import { Component, Element, Event, EventEmitter, Method, Prop, h, VNode } from "@stencil/core";
+import { toAriaBoolean } from "../../utils/dom";
 import { CSS, ICONS } from "./resources";
 
 @Component({
@@ -92,7 +93,7 @@ export class Handle {
     return (
       // Needs to be a span because of https://github.com/SortableJS/Sortable/issues/1486
       <span
-        aria-pressed={this.activated.toString()}
+        aria-pressed={toAriaBoolean(this.activated)}
         class={{ [CSS.handle]: true, [CSS.handleActivated]: this.activated }}
         onBlur={this.handleBlur}
         onKeyDown={this.handleKeyDown}
