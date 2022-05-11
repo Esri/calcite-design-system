@@ -223,16 +223,16 @@ export class TabTitle implements InteractiveComponent {
         break;
       case "ArrowRight":
         if (getElementDir(this.el) === "ltr") {
-          this.calciteTabsFocusNext.emit();
+          this.calciteInternalTabsFocusNext.emit();
         } else {
-          this.calciteTabsFocusPrevious.emit();
+          this.calciteInternalTabsFocusPrevious.emit();
         }
         break;
       case "ArrowLeft":
         if (getElementDir(this.el) === "ltr") {
-          this.calciteTabsFocusPrevious.emit();
+          this.calciteInternalTabsFocusPrevious.emit();
         } else {
-          this.calciteTabsFocusNext.emit();
+          this.calciteInternalTabsFocusNext.emit();
         }
         break;
     }
@@ -260,12 +260,12 @@ export class TabTitle implements InteractiveComponent {
   /**
    * @internal
    */
-  @Event() calciteTabsFocusNext: EventEmitter;
+  @Event() calciteInternalTabsFocusNext: EventEmitter;
 
   /**
    * @internal
    */
-  @Event() calciteTabsFocusPrevious: EventEmitter;
+  @Event() calciteInternalTabsFocusPrevious: EventEmitter;
 
   /**
    * @internal
