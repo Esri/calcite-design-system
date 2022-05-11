@@ -11,8 +11,10 @@ export interface HoverRange {
  */
 export function inRange(date: Date, min?: Date | string, max?: Date | string): boolean {
   const time = date.getTime();
-  const afterMin = !(min instanceof Date) || time >= min.getTime();
-  const beforeMax = !(max instanceof Date) || time <= max.getTime();
+  min = min instanceof Date ? min : new Date(min);
+  max = max instanceof Date ? max : new Date(max);
+  const afterMin = time >= min.getTime();
+  const beforeMax = time <= max.getTime();
   return afterMin && beforeMax;
 }
 
