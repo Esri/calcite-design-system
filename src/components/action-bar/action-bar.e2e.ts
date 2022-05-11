@@ -239,7 +239,7 @@ describe("calcite-action-bar", () => {
 
   it("has slots", () => slots("calcite-action-bar", SLOTS));
 
-  it.skip("should set other 'calcite-action-group' - 'menuOpen' to false", async () => {
+  it("should set other 'calcite-action-group' - 'menuOpen' to false", async () => {
     const page = await newE2EPage({
       html: html`<calcite-action-bar>
         <calcite-action-group id="first">
@@ -269,8 +269,11 @@ describe("calcite-action-bar", () => {
     expect(menuOpenValues[0]).toEqual(false);
     expect(menuOpenValues[1]).toEqual(true);
 
+    const menuOpenChangeEvent = page.waitForEvent("calciteActionMenuOpenChange");
+
     await page.evaluate(() => ((document.getElementById("first") as HTMLCalciteActionGroupElement).menuOpen = true));
     await page.waitForChanges();
+    await menuOpenChangeEvent;
 
     menuOpenValues = await page.evaluate(() =>
       Array.from(document.querySelectorAll("calcite-action-group")).map((group) => group.menuOpen)
