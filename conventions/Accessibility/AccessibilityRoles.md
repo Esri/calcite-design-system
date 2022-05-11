@@ -65,7 +65,9 @@ Defining general role concepts, used for existence purposes only. **Authors must
 ## 1. combobox
 
 The `combobox` role is for input that controls another element, such as a listbox or grid, that can dynamically pop up to help the user set the value of the input.
-The popup can be a `listbox`, `grid`, `tree`, or `dialog`. Superclass role of `select`. [Learn more about the combobox role](https://www.w3.org/TR/wai-aria-1.1/#combobox).
+The popup can be a `listbox`, `grid`, `tree`, or `dialog`. Superclass role of `select`.
+
+Learn more about the combobox role on [W3C](https://www.w3.org/TR/wai-aria-1.1/#combobox) and [MDN](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/combobox_role).
 
 ### Example
 
@@ -106,7 +108,9 @@ The popup can be a `listbox`, `grid`, `tree`, or `dialog`. Superclass role of `s
 
 ## 2. grid
 
-The `grid` role contains one or more rows of cells. The position of each cell is significant and can be focused using keyboard input. [Learn more about the grid role](https://www.w3.org/TR/wai-aria-1.1/#grid).
+The `grid` role contains one or more rows of cells. The position of each cell is significant and can be focused using keyboard input.
+
+Learn more about the grid role on [W3C](https://www.w3.org/TR/wai-aria-1.1/#grid) and [MDN](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/grid_role).
 
 ### Example
 
@@ -181,7 +185,9 @@ To activate the interactive component, they will use the `return` and `space` ke
 
 ## 3. listbox
 
-The `listbox` role is used for lists from which a user may select one or more items which are static, unlike HTML `<select>` elements, may contain images. [Learn more about the listbox role](https://www.w3.org/TR/wai-aria-1.1/#listbox).
+The `listbox` role is used for lists from which a user may select one or more items which are static, unlike HTML `<select>` elements, may contain images.
+
+Learn more about the listbox role on [W3C](https://www.w3.org/TR/wai-aria-1.1/#listbox) and [MDN](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/listbox_role).
 
 ### Example
 
@@ -246,7 +252,7 @@ The `menu` role offers a list of choices to the user, often a list of common act
 
 For keyboard accessibility, authors **should** manage focus of descendants for all instances of this role. Elements within the role menu have an implicit `aria-orientation` value of `vertical`.
 
-[Learn more about the menu role](https://www.w3.org/TR/wai-aria-1.1/#menu).
+Learn more about the menu role on [W3C](https://www.w3.org/TR/wai-aria-1.1/#menu) and [MDN](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/menu_role).
 
 ### Example
 
@@ -294,7 +300,9 @@ For keyboard accessibility, authors **should** manage focus of descendants for a
 
 ## 5. menubar
 
-The `menubar` role is a presentation of a menu that usually remains visible and usually is presented horizontally. Superclass role of `menu`, and related to `toolbar`. [Learn more about the menubar role](https://www.w3.org/TR/wai-aria-1.1/#menubar).
+The `menubar` role is a presentation of a menu that usually remains visible and usually is presented horizontally. Superclass role of `menu`, and related to `toolbar`.
+
+Learn more about the menubar role on [W3C](https://www.w3.org/TR/wai-aria-1.1/#menubar) and [MDN](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/menubar_role).
 
 ### Example
 
@@ -360,7 +368,7 @@ The `radiogroup` role is a group of radio buttons.
 
 **Note**: Some situations can be written using semantic HTML, which requires no CSS or JavaScript. Below are two examples, one with the `radiogroup` role, and the other with semantic HTML.
 
-[Learn more about the radiogroup role](https://www.w3.org/TR/wai-aria-1.1/#radiogroup).
+Learn more about the radiogroup role on [W3C](https://www.w3.org/TR/wai-aria-1.1/#radiogroup) and [MDN](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/radiogroup_role).
 
 ### Example
 
@@ -425,7 +433,7 @@ The `tablist` role identifies the element that serves as the container for a set
 
 Each `tab` in a `tablist` serves as a label for one `tabpanel` and can be activated to display that panel. The `tablist` is the containing element for the set of tab elements contained.
 
-[Learn more about the tablist role](https://www.w3.org/TR/wai-aria-1.1/#tablist).
+Learn more about the tablist role on [W3C](https://www.w3.org/TR/wai-aria-1.1/#tablist) and [MDN](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/tablist_role).
 
 ### Example
 
@@ -470,7 +478,9 @@ If the `tablist` is horizontal, it does not listen for `↓` or `↑` so those k
 
 ## 8. tree
 
-A `tree` is a widget that allows the user to select one or more items from a hierarchically organized collection. Any item in the hierarchy may have child tree items, `treeitem`. Tree items can be expanded or collapsed, showing and hiding their children. [Learn more about the tree role](https://www.w3.org/TR/wai-aria-1.1/#tree).
+A `tree` is a widget that allows the user to select one or more items from a hierarchically organized collection. Any item in the hierarchy may have child tree items, `treeitem`. Tree items can be expanded or collapsed, showing and hiding their children.
+
+Learn more about the tree role on [W3C](https://www.w3.org/TR/wai-aria-1.1/#tree) and [MDN](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/tree_role).
 
 ### Example
 
@@ -573,7 +583,7 @@ The `treegrid` role identifies an element as being grid whose rows can be expand
 
 It is important for all cells to be able to receive or contain keyboard focus because screen readers are generally in application reading mode, rather than their document reading mode, when users are interacting with the grid. While in application mode, a screen reader user hears only focusable elements and content that labels focusable elements. If content can't receive focus, screen reader users may unknowingly overlook elements contained in the `treegrid`.
 
-[Learn more about the treegrid role](https://www.w3.org/TR/wai-aria-1.1/#treegrid).
+Learn more about the treegrid role on [W3C](https://www.w3.org/TR/wai-aria-1.1/#treegrid) and [MDN](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/treegrid_role).
 
 ### Example
 
