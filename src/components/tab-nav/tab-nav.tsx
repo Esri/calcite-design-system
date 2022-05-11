@@ -241,9 +241,8 @@ export class TabNav {
     }
   }
 
-  @Listen("calciteInternalTabChange", { target: "body" }) globalInternalTabChangeHandler(
-    e: CustomEvent<TabChangeEventDetail>
-  ): void {
+  @Listen("calciteInternalTabChange", { target: "body" })
+  globalInternalTabChangeHandler(e: CustomEvent<TabChangeEventDetail>): void {
     if (
       this.syncId &&
       e.target !== this.el &&
@@ -253,6 +252,7 @@ export class TabNav {
       this.selectedTab = e.detail.tab;
       e.stopPropagation();
     }
+    e.stopPropagation();
   }
 
   //--------------------------------------------------------------------------

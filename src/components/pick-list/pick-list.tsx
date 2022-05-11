@@ -155,8 +155,8 @@ export class PickList<
     calciteListItemChangeHandler.call(this, event);
   }
 
-  @Listen("calciteListItemPropsChange")
-  calciteListItemPropsChangeHandler(event: CustomEvent): void {
+  @Listen("calciteInternalListItemPropsChange")
+  calciteInternalListItemPropsChangeHandler(event: CustomEvent): void {
     event.stopPropagation();
     this.setUpFilter();
   }
