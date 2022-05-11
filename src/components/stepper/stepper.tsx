@@ -142,7 +142,7 @@ export class Stepper {
     e.stopPropagation();
   }
 
-  @Listen("calciteStepperItemRegister")
+  @Listen("calciteInternalStepperItemRegister")
   registerItem(event: CustomEvent<StepperItemEventDetail>): void {
     const item = event.target as HTMLCalciteStepperItemElement;
     const { content, position } = event.detail;
@@ -154,6 +154,7 @@ export class Stepper {
     this.itemMap.set(item, position);
     this.items = this.sortItems();
     this.enabledItems = this.filterItems();
+    event.stopPropagation();
   }
 
   @Listen("calciteInternalStepperItemSelect")

@@ -102,7 +102,7 @@ export class StepperItem implements InteractiveComponent {
   /**
    * @internal
    */
-  @Event() calciteStepperItemRegister: EventEmitter<StepperItemEventDetail>;
+  @Event() calciteInternalStepperItemRegister: EventEmitter<StepperItemEventDetail>;
 
   //--------------------------------------------------------------------------
   //
@@ -227,7 +227,7 @@ export class StepperItem implements InteractiveComponent {
   }
 
   private registerStepperItem(): void {
-    this.calciteStepperItemRegister.emit({
+    this.calciteInternalStepperItemRegister.emit({
       position: this.itemPosition,
       content: this.itemContent
     });
