@@ -20,7 +20,7 @@ export class Loader {
   //  Properties
   //
   //--------------------------------------------------------------------------
-  /** Indicates whether the loader is active. */
+  /** When true, the loader is active. */
   @Prop({ reflect: true }) active = false;
 
   /** When true, displays smaller and appears to the left of the text. */
