@@ -183,7 +183,8 @@ export class TabNav {
   //
   //--------------------------------------------------------------------------
 
-  @Listen("calciteTabsFocusPrevious") focusPreviousTabHandler(e: CustomEvent): void {
+  @Listen("calciteInternalTabsFocusPrevious")
+  focusPreviousTabHandler(e: CustomEvent): void {
     const currentIndex = this.getIndexOfTabTitle(
       e.target as HTMLCalciteTabTitleElement,
       this.enabledTabTitles
@@ -199,7 +200,8 @@ export class TabNav {
     e.preventDefault();
   }
 
-  @Listen("calciteTabsFocusNext") focusNextTabHandler(e: CustomEvent): void {
+  @Listen("calciteInternalTabsFocusNext")
+  focusNextTabHandler(e: CustomEvent): void {
     const currentIndex = this.getIndexOfTabTitle(
       e.target as HTMLCalciteTabTitleElement,
       this.enabledTabTitles
@@ -213,9 +215,8 @@ export class TabNav {
     e.preventDefault();
   }
 
-  @Listen("calciteInternalTabsActivate") internalActivateTabHandler(
-    e: CustomEvent<TabChangeEventDetail>
-  ): void {
+  @Listen("calciteInternalTabsActivate")
+  internalActivateTabHandler(e: CustomEvent<TabChangeEventDetail>): void {
     this.selectedTab = e.detail.tab
       ? e.detail.tab
       : this.getIndexOfTabTitle(e.target as HTMLCalciteTabTitleElement);
@@ -235,15 +236,15 @@ export class TabNav {
   /**
    * Check for active tabs on register and update selected
    */
-  @Listen("calciteTabTitleRegister") updateTabTitles(e: CustomEvent<TabID>): void {
+  @Listen("calciteInternalTabTitleRegister")
+  updateTabTitles(e: CustomEvent<TabID>): void {
     if ((e.target as HTMLCalciteTabTitleElement).active) {
       this.selectedTab = e.detail;
     }
   }
 
-  @Listen("calciteInternalTabChange", { target: "body" }) globalInternalTabChangeHandler(
-    e: CustomEvent<TabChangeEventDetail>
-  ): void {
+  @Listen("calciteInternalTabChange", { target: "body" })
+  globalInternalTabChangeHandler(e: CustomEvent<TabChangeEventDetail>): void {
     if (
       this.syncId &&
       e.target !== this.el &&
@@ -253,6 +254,7 @@ export class TabNav {
       this.selectedTab = e.detail.tab;
       e.stopPropagation();
     }
+    e.stopPropagation();
   }
 
   //--------------------------------------------------------------------------

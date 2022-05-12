@@ -249,9 +249,10 @@ export class Dropdown implements InteractiveComponent {
     this.closeCalciteDropdown(false);
   }
 
-  @Listen("calciteDropdownCloseRequest")
-  closeCalciteDropdownOnEvent(): void {
+  @Listen("calciteInternalDropdownCloseRequest")
+  closeCalciteDropdownOnEvent(e: Event): void {
     this.closeCalciteDropdown();
+    e.stopPropagation();
   }
 
   @Listen("calciteDropdownOpen", { target: "window" })
@@ -277,8 +278,8 @@ export class Dropdown implements InteractiveComponent {
     }
   }
 
-  @Listen("calciteDropdownItemKeyEvent")
-  calciteDropdownItemKeyEvent(e: CustomEvent<ItemKeyboardEvent>): void {
+  @Listen("calciteInternalDropdownItemKeyEvent")
+  calciteInternalDropdownItemKeyEvent(e: CustomEvent<ItemKeyboardEvent>): void {
     const { keyboardEvent } = e.detail;
     // handle edge
     const target = keyboardEvent.target as HTMLCalciteDropdownItemElement;
@@ -314,7 +315,7 @@ export class Dropdown implements InteractiveComponent {
     e.stopPropagation();
   }
 
-  @Listen("calciteDropdownItemSelect")
+  @Listen("calciteInternalDropdownItemSelect")
   handleItemSelect(event: CustomEvent): void {
     this.updateSelectedItems();
     event.stopPropagation();
@@ -325,6 +326,7 @@ export class Dropdown implements InteractiveComponent {
     ) {
       this.closeCalciteDropdown();
     }
+    event.stopPropagation();
   }
 
   //--------------------------------------------------------------------------

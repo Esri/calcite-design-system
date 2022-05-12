@@ -59,22 +59,22 @@ export class AccordionItem {
   /**
    * @internal
    */
-  @Event() calciteAccordionItemKeyEvent: EventEmitter;
+  @Event() calciteInternalAccordionItemKeyEvent: EventEmitter;
 
   /**
    * @internal
    */
-  @Event() calciteAccordionItemSelect: EventEmitter;
+  @Event() calciteInternalAccordionItemSelect: EventEmitter;
 
   /**
    * @internal
    */
-  @Event() calciteAccordionItemClose: EventEmitter;
+  @Event() calciteInternalAccordionItemClose: EventEmitter;
 
   /**
    * @internal
    */
-  @Event() calciteAccordionItemRegister: EventEmitter;
+  @Event() calciteInternalAccordionItemRegister: EventEmitter;
 
   //--------------------------------------------------------------------------
   //
@@ -91,7 +91,7 @@ export class AccordionItem {
 
   componentDidLoad(): void {
     this.itemPosition = this.getItemPosition();
-    this.calciteAccordionItemRegister.emit({
+    this.calciteInternalAccordionItemRegister.emit({
       parent: this.parent,
       position: this.itemPosition
     });
@@ -162,7 +162,8 @@ export class AccordionItem {
   //
   //--------------------------------------------------------------------------
 
-  @Listen("keydown") keyDownHandler(e: KeyboardEvent): void {
+  @Listen("keydown")
+  keyDownHandler(e: KeyboardEvent): void {
     if (e.target === this.el) {
       switch (e.key) {
         case " ":
@@ -174,7 +175,7 @@ export class AccordionItem {
         case "ArrowDown":
         case "Home":
         case "End":
-          this.calciteAccordionItemKeyEvent.emit({
+          this.calciteInternalAccordionItemKeyEvent.emit({
             parent: this.parent,
             item: e
           });
@@ -184,7 +185,7 @@ export class AccordionItem {
     }
   }
 
-  @Listen("calciteAccordionChange", { target: "body" })
+  @Listen("calciteInternalAccordionChange", { target: "body" })
   updateActiveItemOnChange(event: CustomEvent): void {
     this.requestedAccordionItem = event.detail
       .requestedAccordionItem as HTMLCalciteAccordionItemElement;
@@ -192,6 +193,7 @@ export class AccordionItem {
       return;
     }
     this.determineActiveItem();
+    event.stopPropagation();
   }
 
   //--------------------------------------------------------------------------
@@ -247,7 +249,7 @@ export class AccordionItem {
   }
 
   private emitRequestedItem(): void {
-    this.calciteAccordionItemSelect.emit({
+    this.calciteInternalAccordionItemSelect.emit({
       requestedAccordionItem: this.el as HTMLCalciteAccordionItemElement
     });
   }

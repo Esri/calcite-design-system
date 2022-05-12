@@ -32,7 +32,7 @@ export class OptionGroup {
   @Watch("disabled")
   @Watch("label")
   protected handlePropChange(): void {
-    this.calciteOptionGroupChange.emit();
+    this.calciteInternalOptionGroupChange.emit();
   }
 
   //--------------------------------------------------------------------------
@@ -45,7 +45,7 @@ export class OptionGroup {
    * @internal
    */
   @Event()
-  private calciteOptionGroupChange: EventEmitter;
+  private calciteInternalOptionGroupChange: EventEmitter;
 
   //--------------------------------------------------------------------------
   //

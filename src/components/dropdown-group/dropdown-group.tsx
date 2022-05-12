@@ -57,7 +57,7 @@ export class DropdownGroup {
   /**
    * @internal
    */
-  @Event() calciteDropdownItemChange: EventEmitter;
+  @Event() calciteInternalDropdownItemChange: EventEmitter;
 
   //--------------------------------------------------------------------------
   //
@@ -105,10 +105,11 @@ export class DropdownGroup {
   //
   //--------------------------------------------------------------------------
 
-  @Listen("calciteDropdownItemSelect") updateActiveItemOnChange(event: CustomEvent): void {
+  @Listen("calciteInternalDropdownItemSelect")
+  updateActiveItemOnChange(event: CustomEvent): void {
     this.requestedDropdownGroup = event.detail.requestedDropdownGroup;
     this.requestedDropdownItem = event.detail.requestedDropdownItem;
-    this.calciteDropdownItemChange.emit({
+    this.calciteInternalDropdownItemChange.emit({
       requestedDropdownGroup: this.requestedDropdownGroup,
       requestedDropdownItem: this.requestedDropdownItem
     });
