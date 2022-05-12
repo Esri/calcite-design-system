@@ -266,9 +266,7 @@ describe("calcite-action-bar", () => {
     expect(await groups[0].getProperty("menuOpen")).toBe(false);
     expect(await groups[1].getProperty("menuOpen")).toBe(true);
 
-    //const menuOpenChangeEvent = actionBar.waitForEvent("calciteActionMenuOpenChange");
     await page.evaluate(() => ((document.getElementById("first") as HTMLCalciteActionGroupElement).menuOpen = true));
-    //await menuOpenChangeEvent;
     await page.waitForChanges();
 
     groups = await actionBar.findAll("calcite-action-group");
