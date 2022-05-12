@@ -259,8 +259,7 @@ describe("calcite-action-bar", () => {
       </calcite-action-group>
     </calcite-action-bar>`);
 
-    const actionBar = await page.find("calcite-action-bar");
-    let groups = await actionBar.findAll("calcite-action-group");
+    let groups = await page.findAll("calcite-action-group");
 
     expect(groups).toHaveLength(2);
     expect(await groups[0].getProperty("menuOpen")).toBe(false);
@@ -269,7 +268,7 @@ describe("calcite-action-bar", () => {
     await page.evaluate(() => ((document.getElementById("first") as HTMLCalciteActionGroupElement).menuOpen = true));
     await page.waitForChanges();
 
-    groups = await actionBar.findAll("calcite-action-group");
+    groups = await page.findAll("calcite-action-group");
 
     expect(groups).toHaveLength(2);
     expect(await groups[0].getProperty("menuOpen")).toBe(true);

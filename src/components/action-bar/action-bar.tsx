@@ -193,7 +193,7 @@ export class ActionBar implements ConditionalSlotComponent {
     if (event.detail) {
       const composedPath = event.composedPath();
       Array.from(this.el.querySelectorAll("calcite-action-group")).forEach((group) => {
-        if (!composedPath?.includes(group)) {
+        if (!composedPath.includes(group)) {
           group.menuOpen = false;
         }
       });
