@@ -56,11 +56,13 @@ export class Block implements ConditionalSlotComponent, InteractiveComponent {
 
   /**
    * Aria-label for collapsing the toggle and tooltip used for the toggle when expanded.
+   * @default "Collapse"
    */
   @Prop() intlCollapse?: string = TEXT.collapse;
 
   /**
    * Aria-label for expanding the toggle and tooltip used for the toggle when collapsed.
+   * @default "Expand"
    */
   @Prop() intlExpand?: string = TEXT.expand;
 
