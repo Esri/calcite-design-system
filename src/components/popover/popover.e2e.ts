@@ -400,7 +400,7 @@ describe("calcite-popover", () => {
     expect(await popover.getProperty("open")).toBe(false);
   });
 
-  it("should not automatically open popovers with autoOpenDisabled", async () => {
+  it("should not toggle popovers with autoOpenDisabled", async () => {
     const page = await newE2EPage();
 
     await page.setContent(
