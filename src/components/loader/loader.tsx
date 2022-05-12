@@ -41,7 +41,7 @@ export class Loader {
   /** Text that displays under the loading indicator. */
   @Prop() text? = "";
 
-  /** Disable spacing around the loader. */
+  /** Disables spacing around the loader. */
   @Prop() noPadding = false;
 
   //--------------------------------------------------------------------------
