@@ -9,11 +9,11 @@ import {
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 
 /**
- * @slot - A slot for adding `calcite-list-item` and `calcite-list-item-group` elements.
- * @slot actions-start - A slot for adding actionable `calcite-action` elements before the content of the list item.
+ * @slot - A slot for adding calcite-list-item and calcite-list-item-group elements.
+ * @slot actions-start - A slot for adding actionable calcite-action elements before the content of the list item.
  * @slot content-start - A slot for adding non-actionable elements before the label and description of the list item.
  * @slot content-end - A slot for adding non-actionable elements after the label and description of the list item.
- * @slot actions-end - A slot for adding actionable `calcite-action` elements after the content of the list item.
+ * @slot actions-end - A slot for adding actionable calcite-action elements after the content of the list item.
  */
 @Component({
   tag: "calcite-list-item",
@@ -33,17 +33,17 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
   @Prop({ reflect: true }) nonInteractive = false;
 
   /**
-   * An optional description for this item.  This will appear below the label text.
+   * An optional description for the list item. Displays below the label text.
    */
   @Prop() description: string;
 
   /**
-   * When true, disabled prevents interaction.
+   * When true, prevents user interaction.
    */
   @Prop({ reflect: true }) disabled = false;
 
   /**
-   * The label text of the list item. This will appear above the description text.
+   * The label text of the list item. Displays above the description text.
    */
   @Prop() label: string;
 

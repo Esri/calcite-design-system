@@ -4,7 +4,7 @@ import { HEADING_LEVEL } from "./resources";
 import { HeadingLevel, Heading, constrainHeadingLevel } from "../functional/Heading";
 
 /**
- * @slot - A slot for adding `calcite-list-item` and `calcite-list-item-group` elements.
+ * @slot - A slot for adding calcite-list-item and calcite-list-item-group elements.
  */
 @Component({
   tag: "calcite-list-item-group",
@@ -19,13 +19,13 @@ export class ListItemGroup {
   // --------------------------------------------------------------------------
 
   /**
-   * The title used for all nested `calcite-list-item` rows.
+   * The title for all nested calcite-list-item rows.
    *
    */
   @Prop({ reflect: true }) heading: string;
 
   /**
-   * Number at which section headings should start for this component.
+   * Number at which section headings should start for the group.
    */
   @Prop() headingLevel: HeadingLevel;
 
