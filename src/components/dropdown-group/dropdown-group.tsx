@@ -113,7 +113,6 @@ export class DropdownGroup {
       requestedDropdownGroup: this.requestedDropdownGroup,
       requestedDropdownItem: this.requestedDropdownItem
     });
-    // event.stopPropagation();
   }
 
   //--------------------------------------------------------------------------
