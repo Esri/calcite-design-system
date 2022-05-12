@@ -231,7 +231,7 @@ describe("calcite-popover", () => {
     expect(await popover.isVisible()).toBe(false);
   });
 
-  it("should honor space key interaction", async () => {
+  it("should honor Space key interaction", async () => {
     const page = await newE2EPage();
 
     await page.setContent(
