@@ -595,7 +595,6 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
 
   inputBlur = (e: CustomEvent<any>): void => {
     this.blur(e.detail);
-    e.stopPropagation();
   };
 
   startInputFocus = (): void => {

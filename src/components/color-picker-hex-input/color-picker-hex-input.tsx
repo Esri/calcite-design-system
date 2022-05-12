@@ -110,7 +110,7 @@ export class ColorPickerHexInput {
    */
   @Event() calciteColorPickerHexInputChange: EventEmitter;
 
-  private onCalciteInternalInputBlur = (e: CustomEvent<any>): void => {
+  private onCalciteInternalInputBlur = (): void => {
     const node = this.inputNode;
     const inputValue = node.value;
     const hex = `#${inputValue}`;
@@ -125,8 +125,6 @@ export class ColorPickerHexInput {
       this.allowEmpty && !this.internalColor
         ? ""
         : this.formatForInternalInput(rgbToHex(this.internalColor.object() as any as RGB));
-
-    e.stopPropagation();
   };
 
   private onInputChange = (): void => {
