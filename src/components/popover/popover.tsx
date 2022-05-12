@@ -60,6 +60,11 @@ export class Popover {
   @Prop({ reflect: true }) autoClose = false;
 
   /**
+   * Disables automatically toggling popovers when clicking on their referenceElement.
+   */
+  @Prop({ reflect: true }) autoOpenDisabled = false;
+
+  /**
    * Display a close button within the Popover.
    * @deprecated use dismissible instead.
    */
