@@ -311,7 +311,11 @@ export class ValueList<
     return this.selectedValues;
   }
 
-  /** Sets focus on the component. */
+  /**
+   * Sets focus on the component.
+   *
+   * @param focusId
+   */
   @Method()
   async setFocus(focusId?: ListFocusId): Promise<void> {
     return setFocus.call(this, focusId);

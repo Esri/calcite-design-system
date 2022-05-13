@@ -44,6 +44,9 @@ describe("calcite-dropdown", () => {
 
   /**
    * Test helper for selected calcite-dropdown items. Expects items to have IDs to test against.
+   *
+   * @param page
+   * @param expectedItemIds
    */
   async function assertSelectedItems(page: E2EPage, expectedItemIds: string[]): Promise<void> {
     const selectedItemIds = await page.evaluate(() => {

@@ -106,6 +106,8 @@ export class Loader {
 
   /**
    * Return the proper sizes based on the scale property
+   *
+   * @param scale
    */
   private getSize(scale: string) {
     return {

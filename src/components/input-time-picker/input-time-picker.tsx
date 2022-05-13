@@ -107,6 +107,7 @@ export class InputTimePicker implements LabelableComponent, FormComponent, Inter
 
   /**
    * BCP 47 language tag for desired language and country format
+   *
    * @internal
    */
   @Prop({ attribute: "lang", mutable: true }) locale: string =
@@ -132,6 +133,7 @@ export class InputTimePicker implements LabelableComponent, FormComponent, Inter
 
   /**
    * Determines where the popover will be positioned relative to the input.
+   *
    * @see [PopperPlacement](https://github.com/Esri/calcite-components/blob/master/src/utils/popper.ts#L25)
    */
   @Prop({ reflect: true }) placement: PopperPlacement = "auto";

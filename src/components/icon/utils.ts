@@ -10,6 +10,7 @@ export interface FetchIconProps {
 /**
  * Icon data cache.
  * Exported for testing purposes.
+ *
  * @private
  */
 export const iconCache: Record<string, CalciteIconPath> = {};
@@ -17,6 +18,7 @@ export const iconCache: Record<string, CalciteIconPath> = {};
 /**
  * Icon request cache.
  * Exported for testing purposes.
+ *
  * @private
  */
 export const requestCache: Record<string, Promise<CalciteIconPath>> = {};
@@ -55,6 +57,8 @@ export async function fetchIcon({ icon, scale }: FetchIconProps): Promise<Calcit
 /**
  * Normalize the icon name to match the path data module exports.
  * Exported for testing purposes.
+ *
+ * @param name
  * @private
  */
 export function normalizeIconName(name: string): string {

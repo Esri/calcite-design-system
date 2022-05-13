@@ -37,8 +37,10 @@ export class Accordion {
   /** specify the scale of accordion, defaults to m */
   @Prop({ reflect: true }) scale: Scale = "m";
 
-  /** specify the selection mode - multi (allow any number of open items), single (allow one open item),
-   * or single-persist (allow and require one open item), defaults to multi */
+  /**
+   * specify the selection mode - multi (allow any number of open items), single (allow one open item),
+   * or single-persist (allow and require one open item), defaults to multi
+   */
   @Prop({ reflect: true }) selectionMode: "multi" | "single" | "single-persist" = "multi";
 
   //--------------------------------------------------------------------------

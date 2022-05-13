@@ -15,7 +15,7 @@ export class Handle {
   // --------------------------------------------------------------------------
 
   /**
-   * @internal - stores the activated state of the drag handle.
+   * @internal
    */
   @Prop({ mutable: true, reflect: true }) activated = false;
 

@@ -165,6 +165,7 @@ export class ActionBar implements ConditionalSlotComponent {
 
   /**
    * Overflows actions that won't fit into menus.
+   *
    * @internal
    */
   @Method()
@@ -172,7 +173,11 @@ export class ActionBar implements ConditionalSlotComponent {
     this.resize(this.el.clientHeight);
   }
 
-  /** Sets focus on the component. */
+  /**
+   * Sets focus on the component.
+   *
+   * @param focusId
+   */
   @Method()
   async setFocus(focusId?: "expand-toggle"): Promise<void> {
     if (focusId === "expand-toggle") {

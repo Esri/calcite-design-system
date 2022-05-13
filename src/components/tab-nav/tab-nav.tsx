@@ -51,16 +51,24 @@ export class TabNav {
    */
   @Prop() syncId: string;
 
-  /** @internal Parent tabs component scale value */
+  /**
+   * @internal
+   */
   @Prop({ reflect: true, mutable: true }) scale: Scale = "m";
 
-  /** @internal Parent tabs component layout value */
+  /**
+   * @internal
+   */
   @Prop({ reflect: true, mutable: true }) layout: TabLayout = "inline";
 
-  /** @internal Parent tabs component position value */
+  /**
+   * @internal
+   */
   @Prop({ reflect: true, mutable: true }) position: TabPosition = "below";
 
-  /** @internal Parent tabs component bordered value when layout is "inline" */
+  /**
+   * @internal
+   */
   @Prop({ reflect: true, mutable: true }) bordered = false;
 
   /**
@@ -235,6 +243,8 @@ export class TabNav {
 
   /**
    * Check for active tabs on register and update selected
+   *
+   * @param e
    */
   @Listen("calciteInternalTabTitleRegister")
   updateTabTitles(e: CustomEvent<TabID>): void {
@@ -265,6 +275,7 @@ export class TabNav {
 
   /**
    * Emitted when the active tab changes
+   *
    * @see [TabChangeEventDetail](https://github.com/Esri/calcite-components/blob/master/src/components/tab/interfaces.ts#L1)
    */
   @Event() calciteTabChange: EventEmitter<TabChangeEventDetail>;

@@ -62,12 +62,16 @@ export class Rating implements LabelableComponent, FormComponent, InteractiveCom
   /** The name of the rating */
   @Prop({ reflect: true }) name: string;
 
-  /** Localized string for "Rating" (used for aria label)
+  /**
+   * Localized string for "Rating" (used for aria label)
+   *
    * @default "Rating"
    */
   @Prop() intlRating?: string = TEXT.rating;
 
-  /** Localized string for labelling each star, `${num}` in the string will be replaced by the number
+  /**
+   * Localized string for labelling each star, `${num}` in the string will be replaced by the number
+   *
    * @default "Stars: ${num}"
    */
   @Prop() intlStars?: string = TEXT.stars;

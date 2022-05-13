@@ -39,8 +39,10 @@ export class DropdownGroup {
   /** optionally set a group title for display */
   @Prop({ reflect: true }) groupTitle?: string;
 
-  /** specify the selection mode - multi (allow any number of (or no) active items), single (allow and require one active item),
-   none (no active items), defaults to single */
+  /**
+    specify the selection mode - multi (allow any number of (or no) active items), single (allow and require one active item),
+   none (no active items), defaults to single
+   */
   @Prop({ reflect: true }) selectionMode: SelectionMode = "single";
 
   /**

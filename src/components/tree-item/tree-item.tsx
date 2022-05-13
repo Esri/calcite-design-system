@@ -64,35 +64,49 @@ export class TreeItem implements ConditionalSlotComponent {
     this.updateParentIsExpanded(this.el, newValue);
   }
 
-  /** @internal Expanded state of the parent. */
+  /**
+   * @internal
+   */
   @Prop() parentExpanded = false;
 
-  /** @internal Level of depth of the item. */
+  /**
+   * @internal
+   */
   @Prop({ reflect: true, mutable: true }) depth = -1;
 
-  /** @internal Does this tree item have a tree inside it? */
+  /**
+   * @internal
+   */
   @Prop({ reflect: true, mutable: true }) hasChildren: boolean = null;
 
-  /** @internal Draws lines (set on parent). */
+  /**
+   * @internal
+   */
   @Prop({ reflect: true, mutable: true }) lines: boolean;
 
-  /** Displays checkboxes (set on parent).
+  /**
+   * Displays checkboxes (set on parent).
+   *
    * @internal
    * @deprecated Use "ancestors" selection-mode on parent for checkbox input.
    */
   @Prop() inputEnabled: boolean;
 
-  /** @internal Scale of the parent tree. */
+  /**
+   * @internal
+   */
   @Prop({ reflect: true, mutable: true }) scale: Scale;
 
   /**
+   * In ancestor selection mode, show as indeterminate when only some children are selected.
+   *
    * @internal
-   * In ancestor selection mode,
-   * show as indeterminate when only some children are selected.
-   **/
+   */
   @Prop({ reflect: true }) indeterminate: boolean;
 
-  /** @internal Tree selection-mode (set on parent). */
+  /**
+   * @internal
+   */
   @Prop({ mutable: true }) selectionMode: TreeSelectionMode;
 
   @Watch("selectionMode")
