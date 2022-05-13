@@ -10,6 +10,56 @@ To get us started the team uses the [axe-core](https://github.com/dequelabs/axe-
 
 ... placeholder for infographics showcasing recommendations for audiences (e.g., autism, low vision, hearing loss, motor skills, neurological, etc.) ...
 
+## Shadow DOM
+
+Broken associations between the Shadow DOM and global light DOM can break accessibility semantics.
+
+```html
+<!-- Inaccessible example due to the Shadow DOM and global light DOM -->
+<label for="four">four - broken cross boundary</label>
+<ui-input-broken id="four"></ui-input-broken>
+```
+
+In this example, if we were to wrap an input in our web component but want to associate a label to the element, we would break the association. First, the `id` in this template will refer to the `ui-input-broken`, not the input contained within. We could change the attribute not to use `id` and pass it into the inner input `id`.
+
+```ts
+const template = document.createElement("template");
+template.innerHTML = `
+  <style>
+    :host {
+    }
+  </style>
+
+  <div>
+    <input id="" />
+  </div>
+`;
+class UIInputBroken extends HTMLElement {
+  static get observedAttributes() {
+    return ["input-id"];
+  }
+
+  constructor() {
+    super();
+    this.attachShadow({ mode: "open" });
+    this.shadowRoot.appendChild(template.content.cloneNode(true));
+  }
+
+  attributeChangedCallback(attrName, oldValue, newValue) {
+    console.log(newValue);
+    if (attrName === "input-id") {
+      this.shadowRoot.querySelector("input").setAttribute("id", newValue);
+    }
+  }
+}
+
+customElements.define("ui-input-broken", UIInputBroken);
+```
+
+As of today there are no great workarounds for associating elements across the Shadow DOM boundary. Either all the associated elements should exist in the light DOM or Shadow DOM.
+
+However, you _could_ extend the native element to allow an association.
+
 ## Components
 
 Components leverage automated testing with the [axe-core](https://github.com/dequelabs/axe-core) and [jest-axe](https://github.com/nickcolley/jest-axe) accessibility engines.
