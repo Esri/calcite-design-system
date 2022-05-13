@@ -268,6 +268,8 @@ describe("calcite-action-bar", () => {
     await page.evaluate(() => ((document.getElementById("first") as HTMLCalciteActionGroupElement).menuOpen = true));
     await page.waitForChanges();
 
+    await page.waitForTimeout(overflowActionsDebounceInMs);
+
     groups = await page.findAll("calcite-action-group");
 
     expect(groups).toHaveLength(2);
