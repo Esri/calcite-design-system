@@ -55,7 +55,7 @@ export default class PopoverManager {
     const composedPath = event.composedPath();
     const popover = this.queryPopover(composedPath);
 
-    if (popover && !popover.autoOpenDisabled) {
+    if (popover && !popover.autoToggleDisabled) {
       popover.toggle();
       return;
     }
