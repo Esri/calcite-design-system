@@ -174,7 +174,7 @@ export class TabTitle implements InteractiveComponent {
   }
 
   async componentDidLoad(): Promise<void> {
-    this.calciteTabTitleRegister.emit(await this.getTabIdentifier());
+    this.calciteInternalTabTitleRegister.emit(await this.getTabIdentifier());
   }
 
   componentDidRender(): void {
@@ -223,16 +223,16 @@ export class TabTitle implements InteractiveComponent {
         break;
       case "ArrowRight":
         if (getElementDir(this.el) === "ltr") {
-          this.calciteTabsFocusNext.emit();
+          this.calciteInternalTabsFocusNext.emit();
         } else {
-          this.calciteTabsFocusPrevious.emit();
+          this.calciteInternalTabsFocusPrevious.emit();
         }
         break;
       case "ArrowLeft":
         if (getElementDir(this.el) === "ltr") {
-          this.calciteTabsFocusPrevious.emit();
+          this.calciteInternalTabsFocusPrevious.emit();
         } else {
-          this.calciteTabsFocusNext.emit();
+          this.calciteInternalTabsFocusNext.emit();
         }
         break;
     }
@@ -260,17 +260,17 @@ export class TabTitle implements InteractiveComponent {
   /**
    * @internal
    */
-  @Event() calciteTabsFocusNext: EventEmitter;
+  @Event() calciteInternalTabsFocusNext: EventEmitter;
 
   /**
    * @internal
    */
-  @Event() calciteTabsFocusPrevious: EventEmitter;
+  @Event() calciteInternalTabsFocusPrevious: EventEmitter;
 
   /**
    * @internal
    */
-  @Event() calciteTabTitleRegister: EventEmitter<TabID>;
+  @Event() calciteInternalTabTitleRegister: EventEmitter<TabID>;
 
   //--------------------------------------------------------------------------
   //

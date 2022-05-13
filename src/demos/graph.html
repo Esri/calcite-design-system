@@ -50,10 +50,8 @@
     <!-- Inherit Color -->
     <div class="parent">
       <div class="child right-aligned-text">Inherit Color</div>
-      <div class="child">
-        <p style="color: var(--calcite-ui-brand)">
-          <calcite-graph></calcite-graph>
-        </p>
+      <div class="child" style="color: var(--calcite-ui-brand)">
+        <calcite-graph></calcite-graph>
       </div>
     </div>
 
@@ -98,6 +96,8 @@
       ];
       document.querySelectorAll("calcite-graph").forEach(function (graphElement) {
         graphElement.data = data;
+        graphElement.style.width = "300px";
+        graphElement.style.height = "100px";
       });
 
       // Add highlight ranges

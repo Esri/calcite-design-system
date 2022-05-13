@@ -77,7 +77,7 @@ export class Stepper {
    * This event fires when the active stepper item has changed.
    * @internal
    */
-  @Event() calciteStepperItemChange: EventEmitter<StepperItemChangeEventDetail>;
+  @Event() calciteInternalStepperItemChange: EventEmitter<StepperItemChangeEventDetail>;
 
   //--------------------------------------------------------------------------
   //
@@ -87,7 +87,7 @@ export class Stepper {
   componentDidLoad(): void {
     // if no stepper items are set as active, default to the first one
     if (!this.currentPosition) {
-      this.calciteStepperItemChange.emit({
+      this.calciteInternalStepperItemChange.emit({
         position: 0
       });
     }
@@ -109,8 +109,8 @@ export class Stepper {
   //
   //--------------------------------------------------------------------------
 
-  @Listen("calciteStepperItemKeyEvent")
-  calciteStepperItemKeyEvent(e: CustomEvent<StepperItemKeyEventDetail>): void {
+  @Listen("calciteInternalStepperItemKeyEvent")
+  calciteInternalStepperItemKeyEvent(e: CustomEvent<StepperItemKeyEventDetail>): void {
     const item = e.detail.item;
     const itemToFocus = e.target as HTMLCalciteStepperItemElement;
     const isFirstItem = this.itemIndex(itemToFocus) === 0;
@@ -139,9 +139,10 @@ export class Stepper {
         this.focusLastItem();
         break;
     }
+    e.stopPropagation();
   }
 
-  @Listen("calciteStepperItemRegister")
+  @Listen("calciteInternalStepperItemRegister")
   registerItem(event: CustomEvent<StepperItemEventDetail>): void {
     const item = event.target as HTMLCalciteStepperItemElement;
     const { content, position } = event.detail;
@@ -153,17 +154,19 @@ export class Stepper {
     this.itemMap.set(item, position);
     this.items = this.sortItems();
     this.enabledItems = this.filterItems();
+    event.stopPropagation();
   }
 
-  @Listen("calciteStepperItemSelect")
+  @Listen("calciteInternalStepperItemSelect")
   updateItem(event: CustomEvent<StepperItemEventDetail>): void {
     if (event.detail.content) {
       this.requestedContent = event.detail.content;
     }
     this.currentPosition = event.detail.position;
-    this.calciteStepperItemChange.emit({
+    this.calciteInternalStepperItemChange.emit({
       position: this.currentPosition
     });
+    event.stopPropagation();
   }
 
   //--------------------------------------------------------------------------
@@ -282,7 +285,7 @@ export class Stepper {
   private emitChangedItem(position: number): void {
     this.currentPosition = position;
 
-    this.calciteStepperItemChange.emit({
+    this.calciteInternalStepperItemChange.emit({
       position
     });
   }

@@ -202,17 +202,17 @@ export class TimePicker {
   /**
    * @internal
    */
-  @Event() calciteTimePickerBlur: EventEmitter<void>;
+  @Event() calciteInternalTimePickerBlur: EventEmitter<void>;
 
   /**
    * @internal
    */
-  @Event() calciteTimePickerChange: EventEmitter<string>;
+  @Event() calciteInternalTimePickerChange: EventEmitter<string>;
 
   /**
    * @internal
    */
-  @Event() calciteTimePickerFocus: EventEmitter<void>;
+  @Event() calciteInternalTimePickerFocus: EventEmitter<void>;
 
   //--------------------------------------------------------------------------
   //
@@ -222,12 +222,12 @@ export class TimePicker {
 
   @Listen("blur")
   hostBlurHandler(): void {
-    this.calciteTimePickerBlur.emit();
+    this.calciteInternalTimePickerBlur.emit();
   }
 
   @Listen("focus")
   hostFocusHandler(): void {
-    this.calciteTimePickerFocus.emit();
+    this.calciteInternalTimePickerFocus.emit();
   }
 
   @Listen("keydown")
@@ -619,7 +619,7 @@ export class TimePicker {
       this.value = null;
     }
     if (emit) {
-      this.calciteTimePickerChange.emit();
+      this.calciteInternalTimePickerChange.emit();
     }
   };
 
@@ -660,7 +660,7 @@ export class TimePicker {
       ? localizeTimeStringToParts(this.value, this.locale)?.localizedMeridiem || null
       : localizeTimePart(this.meridiem, "meridiem", this.locale);
     if (emit) {
-      this.calciteTimePickerChange.emit();
+      this.calciteInternalTimePickerChange.emit();
     }
   };
 

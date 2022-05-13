@@ -191,7 +191,7 @@ export class InlineEditable implements InteractiveComponent, LabelableComponent 
   /**
    * @internal
    */
-  @Event() calciteInlineEditableEnableEditingChange: EventEmitter;
+  @Event() calciteInternalInlineEditableEnableEditingChange: EventEmitter;
 
   //--------------------------------------------------------------------------
   //
@@ -199,7 +199,7 @@ export class InlineEditable implements InteractiveComponent, LabelableComponent 
   //
   //--------------------------------------------------------------------------
 
-  @Listen("calciteInputBlur")
+  @Listen("calciteInternalInputBlur")
   blurHandler(): void {
     if (!this.controls) {
       this.disableEditing();
@@ -282,7 +282,7 @@ export class InlineEditable implements InteractiveComponent, LabelableComponent 
     this.valuePriorToEditing = this.inputElement?.value;
     this.editingEnabled = true;
     this.inputElement?.setFocus();
-    this.calciteInlineEditableEnableEditingChange.emit();
+    this.calciteInternalInlineEditableEnableEditingChange.emit();
   };
 
   private disableEditing = () => {
