@@ -60,7 +60,7 @@ export class Popover {
   @Prop({ reflect: true }) autoClose = false;
 
   /**
-   * Disables automatically toggling popovers when clicking on their referenceElement.
+   * Disables automatically toggling popovers when triggering their referenceElement.
    */
   @Prop({ reflect: true }) autoToggleDisabled = false;
 
