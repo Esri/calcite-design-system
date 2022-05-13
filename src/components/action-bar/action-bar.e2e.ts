@@ -239,46 +239,40 @@ describe("calcite-action-bar", () => {
 
   it("has slots", () => slots("calcite-action-bar", SLOTS));
 
-  it.skip("should set other 'calcite-action-group' - 'menuOpen' to false", async () => {
-    const page = await newE2EPage({
-      html: html`<calcite-action-bar>
-        <calcite-action-group id="first">
-          <calcite-action text="Add" icon="plus"></calcite-action>
-          <calcite-action text="Add" icon="plus"></calcite-action>
-          <calcite-action text="Add" icon="plus"></calcite-action>
-          <calcite-action text="Add" icon="plus" slot="menu-actions"></calcite-action>
-          <calcite-action text="Add" icon="plus" slot="menu-actions"></calcite-action>
-        </calcite-action-group>
-        <calcite-action-group id="second" menu-open>
-          <calcite-action text="Add" icon="plus"></calcite-action>
-          <calcite-action text="Add" icon="plus"></calcite-action>
-          <calcite-action text="Add" icon="plus"></calcite-action>
-          <calcite-action text="Add" icon="plus"></calcite-action>
-          <calcite-action text="Add" icon="plus" slot="menu-actions"></calcite-action>
-          <calcite-action text="Add" icon="plus" slot="menu-actions"></calcite-action>
-        </calcite-action-group>
-      </calcite-action-bar>`
-    });
-    await page.waitForChanges();
+  it("should set other 'calcite-action-group' - 'menuOpen' to false", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html`<calcite-action-bar>
+      <calcite-action-group id="first">
+        <calcite-action text="Add" icon="plus"></calcite-action>
+        <calcite-action text="Add" icon="plus"></calcite-action>
+        <calcite-action text="Add" icon="plus"></calcite-action>
+        <calcite-action text="Add" icon="plus" slot="menu-actions"></calcite-action>
+        <calcite-action text="Add" icon="plus" slot="menu-actions"></calcite-action>
+      </calcite-action-group>
+      <calcite-action-group id="second" menu-open>
+        <calcite-action text="Add" icon="plus"></calcite-action>
+        <calcite-action text="Add" icon="plus"></calcite-action>
+        <calcite-action text="Add" icon="plus"></calcite-action>
+        <calcite-action text="Add" icon="plus"></calcite-action>
+        <calcite-action text="Add" icon="plus" slot="menu-actions"></calcite-action>
+        <calcite-action text="Add" icon="plus" slot="menu-actions"></calcite-action>
+      </calcite-action-group>
+    </calcite-action-bar>`);
 
-    let menuOpenValues = await page.evaluate(() =>
-      Array.from(document.querySelectorAll("calcite-action-group")).map((group) => group.menuOpen)
-    );
+    let groups = await page.findAll("calcite-action-group");
 
-    expect(menuOpenValues).toHaveLength(2);
-    expect(menuOpenValues[0]).toEqual(false);
-    expect(menuOpenValues[1]).toEqual(true);
+    expect(groups).toHaveLength(2);
+    expect(await groups[0].getProperty("menuOpen")).toBe(false);
+    expect(await groups[1].getProperty("menuOpen")).toBe(true);
 
     await page.evaluate(() => ((document.getElementById("first") as HTMLCalciteActionGroupElement).menuOpen = true));
     await page.waitForChanges();
 
-    menuOpenValues = await page.evaluate(() =>
-      Array.from(document.querySelectorAll("calcite-action-group")).map((group) => group.menuOpen)
-    );
+    groups = await page.findAll("calcite-action-group");
 
-    expect(menuOpenValues).toHaveLength(2);
-    expect(menuOpenValues[0]).toEqual(true);
-    expect(menuOpenValues[1]).toEqual(false);
+    expect(groups).toHaveLength(2);
+    expect(await groups[0].getProperty("menuOpen")).toBe(true);
+    expect(await groups[1].getProperty("menuOpen")).toBe(false);
   });
 
   it("should honor scale of expand icon", async () => {
