@@ -57,6 +57,8 @@
     "curly": "error",
     "jest/expect-expect": "off",
     "jest/no-export": "warn",
+    "jsdoc/require-jsdoc": "off",
+    "jsdoc/check-tag-names": "off",
     "lines-between-class-members": ["error", "always"],
     "no-multiple-empty-lines": ["error", { "max": 1 }],
     "no-unneeded-ternary": "error",
