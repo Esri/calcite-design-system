@@ -39,8 +39,10 @@ export class DropdownGroup {
   /** optionally set a group title for display */
   @Prop({ reflect: true }) groupTitle?: string;
 
-  /** specify the selection mode - multi (allow any number of (or no) active items), single (allow and require one active item),
-   none (no active items), defaults to single */
+  /**
+    specify the selection mode - multi (allow any number of (or no) active items), single (allow and require one active item),
+   none (no active items), defaults to single
+   */
   @Prop({ reflect: true }) selectionMode: SelectionMode = "single";
 
   /**
@@ -57,7 +59,7 @@ export class DropdownGroup {
   /**
    * @internal
    */
-  @Event() calciteDropdownItemChange: EventEmitter;
+  @Event() calciteInternalDropdownItemChange: EventEmitter;
 
   //--------------------------------------------------------------------------
   //
@@ -105,10 +107,11 @@ export class DropdownGroup {
   //
   //--------------------------------------------------------------------------
 
-  @Listen("calciteDropdownItemSelect") updateActiveItemOnChange(event: CustomEvent): void {
+  @Listen("calciteInternalDropdownItemSelect")
+  updateActiveItemOnChange(event: CustomEvent): void {
     this.requestedDropdownGroup = event.detail.requestedDropdownGroup;
     this.requestedDropdownItem = event.detail.requestedDropdownItem;
-    this.calciteDropdownItemChange.emit({
+    this.calciteInternalDropdownItemChange.emit({
       requestedDropdownGroup: this.requestedDropdownGroup,
       requestedDropdownItem: this.requestedDropdownItem
     });

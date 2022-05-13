@@ -29,8 +29,10 @@ export class InputMessage {
   /** Indicates whether the message is displayed. */
   @Prop({ reflect: true }) active = false;
 
-  /** when used as a boolean set to true, show a default icon based on status. You can
-   * also pass a calcite-ui-icon name to this prop to display a custom icon */
+  /**
+   * when used as a boolean set to true, show a default icon based on status. You can
+   * also pass a calcite-ui-icon name to this prop to display a custom icon
+   */
   @Prop({ reflect: true }) icon: boolean | string;
 
   /** specify the scale of the input, defaults to m */
@@ -39,7 +41,9 @@ export class InputMessage {
   /** specify the status of the input field, determines message and icons */
   @Prop({ reflect: true, mutable: true }) status: Status = "idle";
 
-  /** specify the appearance of any slotted message - default (displayed under input), or floating (positioned absolutely under input)
+  /**
+   * specify the appearance of any slotted message - default (displayed under input), or floating (positioned absolutely under input)
+   *
    * @deprecated "floating" type is no longer supported
    */
   @Prop({ reflect: true }) type: "default";

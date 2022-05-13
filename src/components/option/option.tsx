@@ -50,7 +50,7 @@ export class Option {
       this.ensureTextContentDependentProps();
     }
 
-    this.calciteOptionChange.emit();
+    this.calciteInternalOptionChange.emit();
   }
 
   //--------------------------------------------------------------------------
@@ -68,7 +68,7 @@ export class Option {
 
   private mutationObserver: MutationObserver = createObserver("mutation", () => {
     this.ensureTextContentDependentProps();
-    this.calciteOptionChange.emit();
+    this.calciteInternalOptionChange.emit();
   });
 
   //--------------------------------------------------------------------------
@@ -81,7 +81,7 @@ export class Option {
    * @internal
    */
   @Event()
-  private calciteOptionChange: EventEmitter;
+  private calciteInternalOptionChange: EventEmitter;
 
   //--------------------------------------------------------------------------
   //
