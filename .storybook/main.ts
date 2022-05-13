@@ -5,7 +5,8 @@ module.exports = {
     "@storybook/addon-a11y",
     "@whitespace/storybook-addon-html",
     "storybook-rtl-addon",
-    "storybook-addon-themes"
+    "storybook-addon-themes",
+    "@storybook/addon-interactions"
   ],
   stories: ["../src/**/*.stories.@(mdx|ts)"],
   babel: async (options) => {

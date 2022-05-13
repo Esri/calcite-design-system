@@ -3,6 +3,7 @@ import { boolean, iconNames } from "../../../.storybook/helpers";
 import { themesDarkDefault } from "../../../.storybook/utils";
 import readme from "./readme.md";
 import { html } from "../../../support/formatting";
+import { userEvent, within } from "@storybook/testing-library";
 
 export default {
   title: "Components/Controls/Input",
@@ -11,7 +12,7 @@ export default {
   }
 };
 
-export const WithLabel = (): string => html`
+export const WithLabel = ((): string => html`
   <div style="width:300px;max-width:100%;text-align:center;">
     <calcite-label
       status="${select("status", ["idle", "valid", "invalid"], "idle")}"
@@ -20,7 +21,7 @@ export const WithLabel = (): string => html`
     >
       ${text("label text", "My great label")}
       <calcite-input
-        id="input-with-label"
+        data-testid="input-with-label"
         type="${select(
           "type",
           ["text", "textarea", "email", "password", "tel", "number", "search", "file", "time", "date"],
@@ -48,7 +49,14 @@ export const WithLabel = (): string => html`
       >
     </calcite-label>
   </div>
-`;
+`).bind({});
+
+WithLabel.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+
+  const input = canvas.getByTestId("input-with-label");
+  await userEvent.type(input, "foo bar baz");
+};
 
 export const WithLabelAndInputMessage = (): string => html`
   <div style="width:300px;max-width:100%;text-align:center;">
