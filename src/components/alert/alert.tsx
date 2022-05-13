@@ -17,7 +17,8 @@ import { DURATIONS, SLOTS, TEXT } from "./resources";
 import { Scale } from "../interfaces";
 import { AlertDuration, AlertPlacement, StatusColor, StatusIcons } from "./interfaces";
 
-/** Alerts are meant to provide a way to communicate urgent or important information to users, frequently as a result of an action they took in your app. Alerts are positioned
+/**
+ * Alerts are meant to provide a way to communicate urgent or important information to users, frequently as a result of an action they took in your app. Alerts are positioned
  * at the bottom of the page. Multiple opened alerts will be added to a queue, allowing users to dismiss them in the order they are provided.
  */
 
@@ -70,11 +71,15 @@ export class Alert {
   /** Color for the alert (will apply to top border and icon) */
   @Prop({ reflect: true }) color: StatusColor = "blue";
 
-  /** when used as a boolean set to true, show a default recommended icon. You can
-   * also pass a calcite-ui-icon name to this prop to display a requested icon */
+  /**
+   * when used as a boolean set to true, show a default recommended icon. You can
+   * also pass a calcite-ui-icon name to this prop to display a requested icon
+   */
   @Prop({ reflect: true }) icon: string | boolean;
 
-  /** string to override English close text
+  /**
+   * string to override English close text
+   *
    * @default "Close"
    */
   @Prop() intlClose: string = TEXT.intlClose;

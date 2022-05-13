@@ -71,9 +71,11 @@ export async function accessible(componentTagOrHTML: TagOrHTML, page?: E2EPage):
  * Helper for asserting that a component renders and is hydrated
  *
  * @param {string} componentTagOrHTML - the component tag or HTML markup to test against
- * @param {Object} options - additional options to assert
+ * @param {object} options - additional options to assert
  * @param {string} employee.visible - is the component visible
  * @param {string} employee.display - is the component's display "inline"
+ * @param options.visible
+ * @param options.display
  */
 export async function renders(
   componentTagOrHTML: TagOrHTML,
@@ -94,7 +96,7 @@ export async function renders(
  * Helper for asserting that a component reflects
  *
  * @param {string} componentTagOrHTML - the component tag or HTML markup to test against
- * @param {Object[]} propsToTest - the properties to test
+ * @param {object[]} propsToTest - the properties to test
  * @param {string} propsToTest.propertyName - the property name
  * @param {any} propsToTest.value - the property value
  */
@@ -144,7 +146,7 @@ function propToAttr(name: string): string {
  * Helper for asserting that a property's value is its default
  *
  * @param {string} componentTagOrHTML - the component tag or HTML markup to test against
- * @param {Object[]} propsToTest - the properties to test
+ * @param {object[]} propsToTest - the properties to test
  * @param {string} propsToTest.propertyName - the property name
  * @param {any} propsToTest.value - the property value
  */
@@ -181,7 +183,7 @@ export async function hidden(componentTagOrHTML: TagOrHTML): Promise<void> {
 }
 
 interface FocusableOptions {
-  /** use this to pass an ID to setFocus() **/
+  /** use this to pass an ID to setFocus() */
   focusId?: string;
 
   /**
@@ -829,6 +831,7 @@ export async function disabled(
  * @param componentTagOrHTML - the component tag or HTML markup to test against
  * @param togglePropName - the component property that toggles the popper
  * @param options - the popper owner test configuration
+ * @param options.shadowPopperSelector
  */
 export async function popperOwner(
   componentTagOrHTML: TagOrHTML,

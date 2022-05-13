@@ -61,6 +61,7 @@ export class Slider implements LabelableComponent, FormComponent, InteractiveCom
 
   /**
    * List of x,y coordinates within the slider's min and max, displays above the slider track.
+   *
    * @see [DataSeries](https://github.com/Esri/calcite-components/blob/master/src/components/graph/interfaces.ts#L5)
    */
   @Prop() histogram?: DataSeries;
@@ -855,6 +856,7 @@ export class Slider implements LabelableComponent, FormComponent, InteractiveCom
    * :warning: Will be fired frequently during drag. If you are performing any
    * expensive operations consider using a debounce or throttle to avoid
    * locking up the main thread.
+   *
    * @deprecated use calciteSliderInput instead
    */
   @Event() calciteSliderUpdate: EventEmitter;
@@ -1040,6 +1042,7 @@ export class Slider implements LabelableComponent, FormComponent, InteractiveCom
 
   /**
    * Set the prop value if changed at the component level
+   *
    * @param valueProp
    * @param value
    */
@@ -1060,6 +1063,7 @@ export class Slider implements LabelableComponent, FormComponent, InteractiveCom
 
   /**
    * Set the reference of the track Element
+   *
    * @internal
    * @param node
    */
@@ -1069,6 +1073,9 @@ export class Slider implements LabelableComponent, FormComponent, InteractiveCom
 
   /**
    * If number is outside range, constrain to min or max
+   *
+   * @param value
+   * @param prop
    * @internal
    */
   private clamp(value: number, prop?: ActiveSliderProperty): number {
@@ -1086,6 +1093,8 @@ export class Slider implements LabelableComponent, FormComponent, InteractiveCom
 
   /**
    * Translate a pixel position to value along the range
+   *
+   * @param x
    * @internal
    */
   private translate(x: number): number {
@@ -1103,6 +1112,8 @@ export class Slider implements LabelableComponent, FormComponent, InteractiveCom
 
   /**
    * Get closest allowed value along stepped values
+   *
+   * @param num
    * @internal
    */
   private getClosestStep(num: number): number {
@@ -1130,6 +1141,8 @@ export class Slider implements LabelableComponent, FormComponent, InteractiveCom
 
   /**
    * Get position of value along range as fractional value
+   *
+   * @param num
    * @return {number} number in the unit interval [0,1]
    * @internal
    */
@@ -1324,6 +1337,9 @@ export class Slider implements LabelableComponent, FormComponent, InteractiveCom
 
   /**
    * Returns an integer representing the number of pixels to offset on the left or right side based on desired position behavior.
+   *
+   * @param leftBounds
+   * @param rightBounds
    * @internal
    */
   private getHostOffset(leftBounds: number, rightBounds: number): number {
@@ -1344,6 +1360,7 @@ export class Slider implements LabelableComponent, FormComponent, InteractiveCom
   /**
    * Returns an integer representing the number of pixels that the two given span elements are overlapping, taking into account
    * a space in between the two spans equal to the font-size set on them to account for the space needed to render a hyphen.
+   *
    * @param leftLabel
    * @param rightLabel
    */
@@ -1358,6 +1375,7 @@ export class Slider implements LabelableComponent, FormComponent, InteractiveCom
 
   /**
    * Returns a boolean value representing if the minLabel span element is obscured (being overlapped) by the given handle div element.
+   *
    * @param minLabel
    * @param handle
    */
@@ -1369,6 +1387,7 @@ export class Slider implements LabelableComponent, FormComponent, InteractiveCom
 
   /**
    * Returns a boolean value representing if the maxLabel span element is obscured (being overlapped) by the given handle div element.
+   *
    * @param maxLabel
    * @param handle
    */

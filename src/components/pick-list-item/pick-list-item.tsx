@@ -57,12 +57,13 @@ export class PickListItem implements ConditionalSlotComponent, InteractiveCompon
   @Prop() disableDeselect = false;
 
   /**
-   * @internal When true, the item cannot be selected by user interaction.
+   * @internal
    */
   @Prop({ reflect: true }) nonInteractive = false;
 
   /**
    * Determines the icon SVG symbol that will be shown. Options are circle, square, grip or null.
+   *
    * @see [ICON_TYPES](https://github.com/Esri/calcite-components/blob/master/src/components/pick-list/resources.ts#L5)
    */
   @Prop({ reflect: true }) icon?: ICON_TYPES | null = null;
@@ -111,6 +112,7 @@ export class PickListItem implements ConditionalSlotComponent, InteractiveCompon
 
   /**
    * Used as an accessible label (aria-label) for the "remove item" action. Only applicable if removable is true.
+   *
    * @default "Remove"
    */
   @Prop({ reflect: true }) intlRemove = TEXT.remove;
@@ -178,12 +180,14 @@ export class PickListItem implements ConditionalSlotComponent, InteractiveCompon
 
   /**
    * Emitted whenever the the item's label, description, value or metadata properties are modified.
+   *
    * @internal
    */
   @Event() calciteInternalListItemPropsChange: EventEmitter<void>;
 
   /**
    * Emitted whenever the the item's value property is modified.
+   *
    * @internal
    */
   @Event() calciteInternalListItemValueChange: EventEmitter<{
@@ -200,6 +204,8 @@ export class PickListItem implements ConditionalSlotComponent, InteractiveCompon
   /**
    * Used to toggle the selection state. By default this won't trigger an event.
    * The first argument allows the value to be coerced, rather than swapping values.
+   *
+   * @param coerce
    */
   @Method()
   async toggleSelected(coerce?: boolean): Promise<void> {

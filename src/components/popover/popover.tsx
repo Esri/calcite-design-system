@@ -61,6 +61,7 @@ export class Popover {
 
   /**
    * Display a close button within the Popover.
+   *
    * @deprecated use dismissible instead.
    */
   @Prop({ reflect: true }) closeButton = false;
@@ -105,6 +106,7 @@ export class Popover {
 
   /**
    * Offset the position of the popover away from the reference element.
+   *
    * @default 6
    */
   @Prop({ reflect: true }) offsetDistance = defaultOffsetDistance;
@@ -140,6 +142,7 @@ export class Popover {
 
   /**
    * Determines where the component will be positioned relative to the referenceElement.
+   *
    * @see [PopperPlacement](https://github.com/Esri/calcite-components/blob/master/src/utils/popper.ts#L25)
    */
   @Prop({ reflect: true }) placement: PopperPlacement = defaultPopoverPlacement;
@@ -164,7 +167,9 @@ export class Popover {
    */
   @Prop({ reflect: true }) triggerDisabled = false;
 
-  /** Text for close button.
+  /**
+   * Text for close button.
+   *
    * @default "Close"
    */
   @Prop() intlClose = TEXT.close;
@@ -247,7 +252,11 @@ export class Popover {
       : this.createPopper();
   }
 
-  /** Sets focus on the component. */
+  /**
+   * Sets focus on the component.
+   *
+   * @param focusId
+   */
   @Method()
   async setFocus(focusId?: "close-button"): Promise<void> {
     const { closeButtonEl } = this;
@@ -262,7 +271,11 @@ export class Popover {
     this.el?.focus();
   }
 
-  /** Toggles the popover's open property. */
+  /**
+   * Toggles the popover's open property.
+   *
+   * @param value
+   */
   @Method()
   async toggle(value = !this.open): Promise<void> {
     this.open = value;
