@@ -265,7 +265,7 @@ export class TreeItem implements ConditionalSlotComponent {
       const target = link.target === "" ? "_self" : link.target;
       window.open(link.href, target);
     }
-    this.calciteTreeItemSelect.emit({
+    this.calciteInternalTreeItemSelect.emit({
       modifyCurrentSelection:
         this.selectionMode === TreeSelectionMode.Ancestors || this.isSelectionMultiLike,
       forceToggle: false
@@ -279,12 +279,13 @@ export class TreeItem implements ConditionalSlotComponent {
 
   childrenClickHandler = (event: MouseEvent): void => event.stopPropagation();
 
-  @Listen("keydown") keyDownHandler(e: KeyboardEvent): void {
+  @Listen("keydown")
+  keyDownHandler(e: KeyboardEvent): void {
     let root;
 
     switch (e.key) {
       case " ":
-        this.calciteTreeItemSelect.emit({
+        this.calciteInternalTreeItemSelect.emit({
           modifyCurrentSelection: this.isSelectionMultiLike,
           forceToggle: false
         });
@@ -300,7 +301,7 @@ export class TreeItem implements ConditionalSlotComponent {
           link.click();
           this.selected = true;
         } else {
-          this.calciteTreeItemSelect.emit({
+          this.calciteInternalTreeItemSelect.emit({
             modifyCurrentSelection: this.isSelectionMultiLike,
             forceToggle: false
           });
@@ -343,7 +344,7 @@ export class TreeItem implements ConditionalSlotComponent {
   /**
    * @internal
    */
-  @Event() calciteTreeItemSelect: EventEmitter<TreeItemSelectDetail>;
+  @Event() calciteInternalTreeItemSelect: EventEmitter<TreeItemSelectDetail>;
 
   //--------------------------------------------------------------------------
   //

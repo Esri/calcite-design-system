@@ -79,8 +79,8 @@ export class Tabs {
   /**
    * @internal
    */
-  @Listen("calciteTabTitleRegister")
-  calciteTabTitleRegister(e: CustomEvent): void {
+  @Listen("calciteInternalTabTitleRegister")
+  calciteInternalTabTitleRegister(e: CustomEvent): void {
     this.titles = [...this.titles, e.target as HTMLCalciteTabTitleElement];
     this.registryHandler();
     e.stopPropagation();
@@ -99,8 +99,8 @@ export class Tabs {
   /**
    * @internal
    */
-  @Listen("calciteTabRegister")
-  calciteTabRegister(e: CustomEvent): void {
+  @Listen("calciteInternalTabRegister")
+  calciteInternalTabRegister(e: CustomEvent): void {
     this.tabs = [...this.tabs, e.target as HTMLCalciteTabElement];
     this.registryHandler();
     e.stopPropagation();

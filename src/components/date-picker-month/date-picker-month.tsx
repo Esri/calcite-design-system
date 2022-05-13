@@ -79,7 +79,7 @@ export class DatePickerMonth {
    * Event emitted when user hovers the date.
    * @internal
    */
-  @Event() calciteDatePickerHover: EventEmitter;
+  @Event() calciteInternalDatePickerHover: EventEmitter;
 
   /**
    * Active date for the user keyboard access.
@@ -89,7 +89,7 @@ export class DatePickerMonth {
   /**
    * @internal
    */
-  @Event() calciteDatePickerMouseOut: EventEmitter;
+  @Event() calciteInternalDatePickerMouseOut: EventEmitter;
 
   //--------------------------------------------------------------------------
   //
@@ -155,7 +155,7 @@ export class DatePickerMonth {
 
   @Listen("mouseout")
   mouseoutHandler(): void {
-    this.calciteDatePickerMouseOut.emit();
+    this.calciteInternalDatePickerMouseOut.emit();
   }
 
   //--------------------------------------------------------------------------
@@ -340,10 +340,11 @@ export class DatePickerMonth {
   dayHover = (e: CustomEvent): void => {
     const target = e.target as HTMLCalciteDatePickerDayElement;
     if (e.detail.disabled) {
-      this.calciteDatePickerMouseOut.emit();
+      this.calciteInternalDatePickerMouseOut.emit();
     } else {
-      this.calciteDatePickerHover.emit(target.value);
+      this.calciteInternalDatePickerHover.emit(target.value);
     }
+    e.stopPropagation();
   };
 
   daySelect = (e: CustomEvent): void => {
@@ -382,8 +383,8 @@ export class DatePickerMonth {
         highlighted={this.betweenSelectedRange(date)}
         key={date.toDateString()}
         localeData={this.localeData}
-        onCalciteDayHover={this.dayHover}
         onCalciteDaySelect={this.daySelect}
+        onCalciteInternalDayHover={this.dayHover}
         range={!!this.startDate && !!this.endDate && !sameDate(this.startDate, this.endDate)}
         rangeHover={this.isRangeHover(date)}
         ref={(el: HTMLCalciteDatePickerDayElement) => {

@@ -360,12 +360,12 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
   /**
    * @internal
    */
-  @Event() calciteInputFocus: EventEmitter;
+  @Event() calciteInternalInputFocus: EventEmitter;
 
   /**
    * @internal
    */
-  @Event() calciteInputBlur: EventEmitter;
+  @Event() calciteInternalInputBlur: EventEmitter;
 
   /**
    * This event fires each time a new value is typed.
@@ -462,7 +462,7 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
   };
 
   private inputBlurHandler = () => {
-    this.calciteInputBlur.emit({
+    this.calciteInternalInputBlur.emit({
       element: this.childEl,
       value: this.value
     });
@@ -475,7 +475,7 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
     if (event.target !== slottedActionEl) {
       this.setFocus();
     }
-    this.calciteInputFocus.emit({
+    this.calciteInternalInputFocus.emit({
       element: this.childEl,
       value: this.value
     });
