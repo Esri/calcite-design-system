@@ -17,7 +17,9 @@ export class Scrim {
   //
   // --------------------------------------------------------------------------
 
-  /** string to override English loading text
+  /**
+   * string to override English loading text
+   *
    * @default "Loading"
    */
   @Prop() intlLoading?: string = TEXT.loading;

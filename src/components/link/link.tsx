@@ -32,7 +32,8 @@ export class Link implements InteractiveComponent {
   /** is the link disabled  */
   @Prop({ reflect: true }) disabled = false;
 
-  /** Prompts the user to save the linked URL instead of navigating to it. Can be used with or without a value:
+  /**
+   * Prompts the user to save the linked URL instead of navigating to it. Can be used with or without a value:
    * Without a value, the browser will suggest a filename/extension
    * See: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#attr-download
    */

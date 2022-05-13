@@ -56,68 +56,93 @@ export class TimePicker {
   //
   //--------------------------------------------------------------------------
 
-  /** aria-label for the hour input
+  /**
+   * aria-label for the hour input
+   *
    * @default "Hour"
    */
   @Prop() intlHour = TEXT.hour;
 
-  /** aria-label for the hour down button
+  /**
+   * aria-label for the hour down button
+   *
    * @default "Decrease hour"
    */
   @Prop() intlHourDown = TEXT.hourDown;
 
-  /** aria-label for the hour up button
+  /**
+   * aria-label for the hour up button
+   *
    * @default "Increase hour"
    */
   @Prop() intlHourUp = TEXT.hourUp;
 
-  /** aria-label for the meridiem (am/pm) input
+  /**
+   * aria-label for the meridiem (am/pm) input
+   *
    * @default "AM/PM"
    */
   @Prop() intlMeridiem = TEXT.meridiem;
 
-  /** aria-label for the meridiem (am/pm) down button
+  /**
+   * aria-label for the meridiem (am/pm) down button
+   *
    * @default "Decrease AM/PM"
    */
   @Prop() intlMeridiemDown = TEXT.meridiemDown;
 
-  /** aria-label for the meridiem (am/pm) up button
+  /**
+   * aria-label for the meridiem (am/pm) up button
+   *
    * @default "Increase AM/PM"
    */
   @Prop() intlMeridiemUp = TEXT.meridiemUp;
 
-  /** aria-label for the minute input
+  /**
+   * aria-label for the minute input
+   *
    * @default "Minute"
    */
   @Prop() intlMinute = TEXT.minute;
 
-  /** aria-label for the minute down button
+  /**
+   * aria-label for the minute down button
+   *
    * @default "Decrease minute"
    */
   @Prop() intlMinuteDown = TEXT.minuteDown;
 
-  /** aria-label for the minute up button
+  /**
+   * aria-label for the minute up button
+   *
    * @default "Increase minute"
    */
   @Prop() intlMinuteUp = TEXT.minuteUp;
 
-  /** aria-label for the second input
+  /**
+   * aria-label for the second input
+   *
    * @default "Second"
    */
   @Prop() intlSecond = TEXT.second;
 
-  /** aria-label for the second down button
+  /**
+   * aria-label for the second down button
+   *
    * @default "Decrease second"
    */
   @Prop() intlSecondDown = TEXT.secondDown;
 
-  /** aria-label for the second up button
+  /**
+   * aria-label for the second up button
+   *
    * @default "Increase second"
    */
   @Prop() intlSecondUp = TEXT.secondUp;
 
   /**
    * BCP 47 language tag for desired language and country format
+   *
    * @internal
    */
   @Prop({ attribute: "lang", mutable: true }) locale: string =
@@ -285,7 +310,11 @@ export class TimePicker {
   //
   //--------------------------------------------------------------------------
 
-  /** Sets focus on the component. */
+  /**
+   * Sets focus on the component.
+   *
+   * @param target
+   */
   @Method()
   async setFocus(target: TimePart): Promise<void> {
     this[`${target || "hour"}El`]?.focus();

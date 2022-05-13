@@ -75,6 +75,7 @@ export class Stepper {
 
   /**
    * This event fires when the active stepper item has changed.
+   *
    * @internal
    */
   @Event() calciteInternalStepperItemChange: EventEmitter<StepperItemChangeEventDetail>;
@@ -199,7 +200,11 @@ export class Stepper {
     this.emitChangedItem(enabledStepIndex);
   }
 
-  /** set the requested step as active */
+  /**
+   * set the requested step as active
+   *
+   * @param step
+   */
   @Method()
   async goToStep(step: number): Promise<void> {
     const position = step - 1;

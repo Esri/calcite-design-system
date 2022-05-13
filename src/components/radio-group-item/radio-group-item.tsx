@@ -101,6 +101,7 @@ export class RadioGroupItem {
 
   /**
    * Fires when the item has been selected.
+   *
    * @internal
    */
   @Event()

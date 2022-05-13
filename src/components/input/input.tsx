@@ -69,9 +69,11 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
   /** should the input autofocus */
   @Prop() autofocus = false;
 
-  /** optionally display a clear button that displays when field has a value
+  /**
+   * optionally display a clear button that displays when field has a value
    * shows by default for search, time, date
-   * will not display for type="textarea" */
+   * will not display for type="textarea"
+   */
   @Prop({ reflect: true }) clearable = false;
 
   /** is the input disabled  */
@@ -88,9 +90,11 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
   /** when true, the component will not be visible */
   @Prop() hidden = false;
 
-  /** when used as a boolean set to true, show a default recommended icon for certain
+  /**
+   * when used as a boolean set to true, show a default recommended icon for certain
    * input types (tel, password, email, date, time, search). You can also pass a
-   * calcite-ui-icon name to this prop to display a requested icon for any input type */
+   * calcite-ui-icon name to this prop to display a requested icon for any input type
+   */
   @Prop({ reflect: true }) icon: string | boolean;
 
   /**
@@ -100,6 +104,7 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
 
   /**
    * string to override English loading text
+   *
    * @default "Loading"
    */
   @Prop() intlLoading?: string = COMMON_TEXT.loading;
@@ -118,6 +123,7 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
 
   /**
    * Toggles locale formatting for numbers.
+   *
    * @internal
    */
   @Prop() localeFormat = false;
@@ -142,6 +148,7 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
 
   /**
    * Maximum length of text input.
+   *
    * @deprecated use maxLength instead
    */
   @Prop({ reflect: true }) maxlength?: number;
@@ -179,10 +186,12 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
   /** input step */
   @Prop({ reflect: true }) step?: number | "any";
 
-  /** optionally add suffix  **/
+  /** optionally add suffix  */
   @Prop() suffixText?: string;
 
-  /** @internal adds inline styles for text input when slotted in calcite-inline-editable */
+  /**
+   * @internal
+   */
   @Prop({ mutable: true, reflect: true }) editingEnabled = false;
 
   /**

@@ -35,7 +35,9 @@ export class Chip implements ConditionalSlotComponent {
   /** Optionally show a button the user can click to dismiss the chip */
   @Prop({ reflect: true }) dismissible = false;
 
-  /** Aria label for the "x" button
+  /**
+   * Aria label for the "x" button
+   *
    * @default "Close"
    */
   @Prop() dismissLabel?: string = TEXT.close;
