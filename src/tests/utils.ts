@@ -117,6 +117,7 @@ export function selectText(input: E2EElement): Promise<void> {
 
 /**
  * Helper to get an E2EElement's x,y coordinates
+ *
  * @param page
  * @param elementSelector
  * @param shadowSelector
@@ -144,6 +145,8 @@ export async function getElementXY(
  * Note that this util should only be used for test debugging purposes and not be included in a test.
  *
  * Based on https://github.com/puppeteer/puppeteer/issues/4378#issuecomment-499726973
+ *
+ * @param page
  */
 export async function visualizeMouseCursor(page: E2EPage): Promise<void> {
   await page.evaluate(() => {

@@ -29,6 +29,7 @@ export class PopoverManager {
 
   /**
    * CSS Selector to match reference elements for popovers. Reference elements will be identified by this selector in order to open their associated popover.
+   *
    * @default `[data-calcite-popover-reference]`
    */
   @Prop() selector = "[data-calcite-popover-reference]";

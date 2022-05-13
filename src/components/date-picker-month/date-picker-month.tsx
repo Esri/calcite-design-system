@@ -77,9 +77,10 @@ export class DatePickerMonth {
 
   /**
    * Event emitted when user hovers the date.
+   *
    * @internal
    */
-  @Event() calciteDatePickerHover: EventEmitter;
+  @Event() calciteInternalDatePickerHover: EventEmitter;
 
   /**
    * Active date for the user keyboard access.
@@ -89,7 +90,7 @@ export class DatePickerMonth {
   /**
    * @internal
    */
-  @Event() calciteDatePickerMouseOut: EventEmitter;
+  @Event() calciteInternalDatePickerMouseOut: EventEmitter;
 
   //--------------------------------------------------------------------------
   //
@@ -155,7 +156,7 @@ export class DatePickerMonth {
 
   @Listen("mouseout")
   mouseoutHandler(): void {
-    this.calciteDatePickerMouseOut.emit();
+    this.calciteInternalDatePickerMouseOut.emit();
   }
 
   //--------------------------------------------------------------------------
@@ -229,6 +230,8 @@ export class DatePickerMonth {
   //--------------------------------------------------------------------------
   /**
    * Add n months to the current month
+   *
+   * @param step
    */
   private addMonths(step: number) {
     const nextDate = new Date(this.activeDate);
@@ -239,6 +242,8 @@ export class DatePickerMonth {
 
   /**
    * Add n days to the current date
+   *
+   * @param step
    */
   private addDays(step = 0) {
     const nextDate = new Date(this.activeDate);
@@ -249,6 +254,10 @@ export class DatePickerMonth {
 
   /**
    * Get dates for last days of the previous month
+   *
+   * @param month
+   * @param year
+   * @param startOfWeek
    */
   private getPrevMonthdays(month: number, year: number, startOfWeek: number): number[] {
     const lastDate = new Date(year, month, 0);
@@ -266,6 +275,9 @@ export class DatePickerMonth {
 
   /**
    * Get dates for the current month
+   *
+   * @param month
+   * @param year
    */
   private getCurrentMonthDays(month: number, year: number): number[] {
     const num = new Date(year, month + 1, 0).getDate();
@@ -278,6 +290,10 @@ export class DatePickerMonth {
 
   /**
    * Get dates for first days of the next month
+   *
+   * @param month
+   * @param year
+   * @param startOfWeek
    */
   private getNextMonthDays(month: number, year: number, startOfWeek: number): number[] {
     const endDay = new Date(year, month + 1, 0).getDay();
@@ -293,6 +309,8 @@ export class DatePickerMonth {
 
   /**
    * Determine if the date is in between the start and end dates
+   *
+   * @param date
    */
   private betweenSelectedRange(date: Date): boolean {
     return !!(
@@ -306,6 +324,8 @@ export class DatePickerMonth {
 
   /**
    * Determine if the date should be in selected state
+   *
+   * @param date
    */
   private isSelected(date: Date): boolean {
     return !!(
@@ -317,6 +337,8 @@ export class DatePickerMonth {
 
   /**
    * Determine if the date is the start of the date range
+   *
+   * @param date
    */
   private isStartOfRange(date: Date): boolean {
     return !!(
@@ -340,10 +362,11 @@ export class DatePickerMonth {
   dayHover = (e: CustomEvent): void => {
     const target = e.target as HTMLCalciteDatePickerDayElement;
     if (e.detail.disabled) {
-      this.calciteDatePickerMouseOut.emit();
+      this.calciteInternalDatePickerMouseOut.emit();
     } else {
-      this.calciteDatePickerHover.emit(target.value);
+      this.calciteInternalDatePickerHover.emit(target.value);
     }
+    e.stopPropagation();
   };
 
   daySelect = (e: CustomEvent): void => {
@@ -353,6 +376,12 @@ export class DatePickerMonth {
 
   /**
    * Render calcite-date-picker-day
+   *
+   * @param active
+   * @param day
+   * @param date
+   * @param currentMonth
+   * @param ref
    */
   private renderDateDay(
     active: boolean,
@@ -382,8 +411,8 @@ export class DatePickerMonth {
         highlighted={this.betweenSelectedRange(date)}
         key={date.toDateString()}
         localeData={this.localeData}
-        onCalciteDayHover={this.dayHover}
         onCalciteDaySelect={this.daySelect}
+        onCalciteInternalDayHover={this.dayHover}
         range={!!this.startDate && !!this.endDate && !sameDate(this.startDate, this.endDate)}
         rangeHover={this.isRangeHover(date)}
         ref={(el: HTMLCalciteDatePickerDayElement) => {

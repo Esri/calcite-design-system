@@ -40,7 +40,7 @@ export class RadioGroupItem {
 
   @Watch("checked")
   protected handleCheckedChange(): void {
-    this.calciteRadioGroupItemChange.emit();
+    this.calciteInternalRadioGroupItemChange.emit();
   }
 
   /** optionally pass an icon to display - accepts Calcite UI icon names  */
@@ -101,8 +101,9 @@ export class RadioGroupItem {
 
   /**
    * Fires when the item has been selected.
+   *
    * @internal
    */
   @Event()
-  calciteRadioGroupItemChange: EventEmitter;
+  calciteInternalRadioGroupItemChange: EventEmitter;
 }

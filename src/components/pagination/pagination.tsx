@@ -40,12 +40,16 @@ export class Pagination {
   /** total number of items */
   @Prop() total = 0;
 
-  /** Used as an accessible label (aria-label) for the next button
+  /**
+   * Used as an accessible label (aria-label) for the next button
+   *
    * @default "Next"
    */
   @Prop() textLabelNext: string = TEXT.nextLabel;
 
-  /** Used as an accessible label (aria-label) of the previous button
+  /**
+   * Used as an accessible label (aria-label) of the previous button
+   *
    * @default "Previous"
    */
   @Prop() textLabelPrevious: string = TEXT.previousLabel;
@@ -68,12 +72,14 @@ export class Pagination {
 
   /**
    * Emitted whenever the selected page changes.
+   *
    * @deprecated use calcitePaginationChange instead
    */
   @Event() calcitePaginationUpdate: EventEmitter<PaginationDetail>;
 
   /**
    * Emitted whenever the selected page changes.
+   *
    * @see [PaginationDetail](https://github.com/Esri/calcite-components/blob/master/src/components/pagination/calcite-pagination.tsx#L18)
    */
   @Event() calcitePaginationChange: EventEmitter<PaginationDetail>;

@@ -29,6 +29,7 @@ export interface LabelableComponent {
 
 /**
  * Exported for testing purposes only
+ *
  * @internal
  */
 export const labelClickEvent = "calciteInternalLabelClick";
@@ -88,6 +89,8 @@ function hasAncestorCustomElements(label: HTMLCalciteLabelElement, componentEl: 
 
 /**
  * Helper to set up label interactions on connectedCallback.
+ *
+ * @param component
  */
 export function connectLabel(component: LabelableComponent): void {
   const labelEl = findLabelForComponent(component.el);
@@ -114,6 +117,8 @@ export function connectLabel(component: LabelableComponent): void {
 }
 /**
  * Helper to tear down label interactions on disconnectedCallback on labelable components.
+ *
+ * @param component
  */
 export function disconnectLabel(component: LabelableComponent): void {
   unlabeledComponents.delete(component);
@@ -133,6 +138,8 @@ export function disconnectLabel(component: LabelableComponent): void {
 
 /**
  * Helper to get the label text from a component.
+ *
+ * @param component
  */
 export function getLabelText(component: LabelableComponent): string {
   return component.label || component.labelEl?.textContent?.trim() || "";

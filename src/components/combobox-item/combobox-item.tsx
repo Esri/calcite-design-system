@@ -122,6 +122,8 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
   /**
    * Used to toggle the selection state. By default this won't trigger an event.
    * The first argument allows the value to be coerced, rather than swapping values.
+   *
+   * @param coerce
    */
   @Method()
   async toggleSelected(coerce?: boolean): Promise<void> {
