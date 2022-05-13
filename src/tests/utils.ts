@@ -25,7 +25,13 @@ type MouseInitEvent = Pick<
   "bubbles" | "cancelable" | "composed" | "screenX" | "screenY" | "clientX" | "clientY"
 >;
 
-/* based on https://github.com/puppeteer/puppeteer/issues/1366#issuecomment-615887204 */
+/**
+ * Drag and drop utility based on https://github.com/puppeteer/puppeteer/issues/1366#issuecomment-615887204
+ *
+ * @param {E2EPage} page - the e2e page
+ * @param {DragAndDropSelector} dragStartSelector - Selector for the drag's start
+ * @param {DragAndDropSelector} dragEndSelector - Selector for the drag's end
+ */
 export async function dragAndDrop(
   page: E2EPage,
   dragStartSelector: DragAndDropSelector,
@@ -110,17 +116,22 @@ export async function dragAndDrop(
   );
 }
 
+/**
+ *
+ * @param {E2EElement} input - the element to select text from
+ * @returns {Promise<void>}
+ */
 export function selectText(input: E2EElement): Promise<void> {
   // workaround for selecting text based on https://github.com/puppeteer/puppeteer/issues/1313#issuecomment-436932478
   return input.click({ clickCount: 3 });
 }
 
 /**
- * Helper to get an E2EElement's x,y coordinates
+ * Helper to get an E2EElement's x,y coordinates.
  *
- * @param page
- * @param elementSelector
- * @param shadowSelector
+ * @param {E2EPage} page - the e2e page
+ * @param {string} elementSelector - the element selector
+ * @param {string} shadowSelector - the shadowRoot selector
  */
 export async function getElementXY(
   page: E2EPage,
@@ -141,12 +152,10 @@ export async function getElementXY(
 
 /**
  * This util helps visualize mouse movement when running tests in headful mode.
- *
  * Note that this util should only be used for test debugging purposes and not be included in a test.
- *
  * Based on https://github.com/puppeteer/puppeteer/issues/4378#issuecomment-499726973
  *
- * @param page
+ * @param {E2EPage} page - the e2e page
  */
 export async function visualizeMouseCursor(page: E2EPage): Promise<void> {
   await page.evaluate(() => {
@@ -228,12 +237,20 @@ export async function visualizeMouseCursor(page: E2EPage): Promise<void> {
   });
 }
 
+/**
+ * Tells the browser that you wish to perform an animation.
+ * https://developer.mozilla.org/en-US/docs/Web/API/window/requestAnimationFrame
+ *
+ * @returns {Promise<void>}
+ */
 export async function waitForAnimationFrame(): Promise<void> {
   return new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
 }
 
 /**
  * Creates an E2E page for tests that need to create and set up elements programmatically.
+ *
+ * @returns {Promise<E2EPage>} an e2e page
  */
 export async function newProgrammaticE2EPage(): Promise<E2EPage> {
   const page = await newE2EPage();
