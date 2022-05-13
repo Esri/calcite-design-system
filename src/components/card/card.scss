@@ -24,9 +24,6 @@
       z-index: 1;
     }
   }
-  & .calcite-card-container.inline {
-    @apply flex-row;
-  }
 }
 
 .container {
@@ -108,4 +105,19 @@
   @apply absolute m-0 p-0;
   top: theme("spacing.2");
   inset-inline-end: theme("spacing.2");
+}
+
+.calcite-card-container.inline {
+  @apply flex-row;
+
+  & > .container {
+    @apply w-3/5;
+  }
+  & > .thumbnail-wrapper {
+    @apply w-2/5;
+  }
+
+  @include slotted("thumbnail", "img") {
+    @apply w-full;
+  }
 }
