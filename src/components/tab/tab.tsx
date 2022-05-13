@@ -81,7 +81,7 @@ export class Tab {
   }
 
   componentDidLoad(): void {
-    this.calciteTabRegister.emit();
+    this.calciteInternalTabRegister.emit();
   }
 
   componentWillRender(): void {
@@ -106,7 +106,7 @@ export class Tab {
   /**
    * @internal
    */
-  @Event() calciteTabRegister: EventEmitter;
+  @Event() calciteInternalTabRegister: EventEmitter;
 
   //--------------------------------------------------------------------------
   //
@@ -134,6 +134,7 @@ export class Tab {
         this.active = index === event.detail.tab;
       });
     }
+    event.stopPropagation();
   }
 
   //--------------------------------------------------------------------------

@@ -159,11 +159,11 @@ export class RadioGroup implements LabelableComponent, FormComponent, Interactiv
     }
   };
 
-  @Listen("calciteRadioGroupItemChange")
+  @Listen("calciteInternalRadioGroupItemChange")
   protected handleSelected(event: Event): void {
-    event.stopPropagation();
     event.preventDefault();
     this.selectItem(event.target as HTMLCalciteRadioGroupItemElement);
+    event.stopPropagation();
   }
 
   @Listen("keydown")

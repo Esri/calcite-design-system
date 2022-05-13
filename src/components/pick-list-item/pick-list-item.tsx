@@ -43,7 +43,7 @@ export class PickListItem implements ConditionalSlotComponent, InteractiveCompon
 
   @Watch("description")
   descriptionWatchHandler(): void {
-    this.calciteListItemPropsChange.emit();
+    this.calciteInternalListItemPropsChange.emit();
   }
 
   /**
@@ -74,7 +74,7 @@ export class PickListItem implements ConditionalSlotComponent, InteractiveCompon
 
   @Watch("label")
   labelWatchHandler(): void {
-    this.calciteListItemPropsChange.emit();
+    this.calciteInternalListItemPropsChange.emit();
   }
 
   /**
@@ -84,7 +84,7 @@ export class PickListItem implements ConditionalSlotComponent, InteractiveCompon
 
   @Watch("metadata")
   metadataWatchHandler(): void {
-    this.calciteListItemPropsChange.emit();
+    this.calciteInternalListItemPropsChange.emit();
   }
 
   /**
@@ -122,7 +122,7 @@ export class PickListItem implements ConditionalSlotComponent, InteractiveCompon
 
   @Watch("value")
   valueWatchHandler(newValue: any, oldValue: any): void {
-    this.calciteListItemValueChange.emit({ oldValue, newValue });
+    this.calciteInternalListItemValueChange.emit({ oldValue, newValue });
   }
 
   // --------------------------------------------------------------------------
@@ -180,13 +180,13 @@ export class PickListItem implements ConditionalSlotComponent, InteractiveCompon
    * Emitted whenever the the item's label, description, value or metadata properties are modified.
    * @internal
    */
-  @Event() calciteListItemPropsChange: EventEmitter<void>;
+  @Event() calciteInternalListItemPropsChange: EventEmitter<void>;
 
   /**
    * Emitted whenever the the item's value property is modified.
    * @internal
    */
-  @Event() calciteListItemValueChange: EventEmitter<{
+  @Event() calciteInternalListItemValueChange: EventEmitter<{
     oldValue: any;
     newValue: any;
   }>;

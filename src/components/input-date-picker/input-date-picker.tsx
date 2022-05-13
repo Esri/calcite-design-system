@@ -280,12 +280,12 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
   /**
    * @internal
    */
-  @Event() calciteInputDatePickerOpen: EventEmitter;
+  @Event() calciteInternalInputDatePickerOpen: EventEmitter;
 
   /**
    * @internal
    */
-  @Event() calciteInputDatePickerClose: EventEmitter;
+  @Event() calciteInternalInputDatePickerClose: EventEmitter;
 
   // --------------------------------------------------------------------------
   //
@@ -406,9 +406,9 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
                   icon="calendar"
                   label={getLabelText(this)}
                   number-button-type="none"
-                  onCalciteInputBlur={this.inputBlur}
-                  onCalciteInputFocus={this.startInputFocus}
                   onCalciteInputInput={this.inputInput}
+                  onCalciteInternalInputBlur={this.inputBlur}
+                  onCalciteInternalInputFocus={this.startInputFocus}
                   placeholder={this.localeData?.placeholder}
                   ref={this.setStartInput}
                   scale={this.scale}
@@ -478,9 +478,9 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
                   disabled={disabled}
                   icon="calendar"
                   number-button-type="none"
-                  onCalciteInputBlur={this.inputBlur}
-                  onCalciteInputFocus={this.endInputFocus}
                   onCalciteInputInput={this.inputInput}
+                  onCalciteInternalInputBlur={this.inputBlur}
+                  onCalciteInternalInputFocus={this.endInputFocus}
                   placeholder={this.localeData?.placeholder}
                   ref={this.setEndInput}
                   scale={this.scale}
@@ -564,8 +564,8 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
   transitionEnd = (event: TransitionEvent): void => {
     if (event.propertyName === this.activeTransitionProp) {
       this.active
-        ? this.calciteInputDatePickerOpen.emit()
-        : this.calciteInputDatePickerClose.emit();
+        ? this.calciteInternalInputDatePickerOpen.emit()
+        : this.calciteInternalInputDatePickerClose.emit();
     }
   };
 

@@ -16,7 +16,7 @@ import {
   ListFocusId,
   calciteListFocusOutHandler,
   calciteListItemChangeHandler,
-  calciteListItemValueChangeHandler,
+  calciteInternalListItemValueChangeHandler,
   cleanUpObserver,
   deselectSiblingItems,
   deselectRemovedItems,
@@ -180,15 +180,16 @@ export class ValueList<
     calciteListItemChangeHandler.call(this, event);
   }
 
-  @Listen("calciteListItemPropsChange")
-  calciteListItemPropsChangeHandler(event: CustomEvent): void {
+  @Listen("calciteInternalListItemPropsChange")
+  calciteInternalListItemPropsChangeHandler(event: CustomEvent): void {
     event.stopPropagation();
     this.setUpFilter();
   }
 
-  @Listen("calciteListItemValueChange")
-  calciteListItemValueChangeHandler(event: CustomEvent): void {
-    calciteListItemValueChangeHandler.call(this, event);
+  @Listen("calciteInternalListItemValueChange")
+  calciteInternalListItemValueChangeHandler(event: CustomEvent): void {
+    calciteInternalListItemValueChangeHandler.call(this, event);
+    event.stopPropagation();
   }
 
   // --------------------------------------------------------------------------

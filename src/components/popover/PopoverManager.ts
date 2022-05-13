@@ -51,7 +51,7 @@ export default class PopoverManager {
     return registeredElements.get(registeredElement);
   };
 
-  private clickHandler = (event: MouseEvent): void => {
+  private togglePopovers = (event: KeyboardEvent | MouseEvent): void => {
     const composedPath = event.composedPath();
     const popover = this.queryPopover(composedPath);
 
@@ -65,11 +65,25 @@ export default class PopoverManager {
       .forEach((popover) => popover.toggle(false));
   };
 
+  private keyHandler = (event: KeyboardEvent): void => {
+    if (event.key !== "Enter" && event.key !== " ") {
+      return;
+    }
+
+    this.togglePopovers(event);
+  };
+
+  private clickHandler = (event: MouseEvent): void => {
+    this.togglePopovers(event);
+  };
+
   private addListeners(): void {
     document.addEventListener("pointerdown", this.clickHandler, { capture: true });
+    document.addEventListener("keydown", this.keyHandler, { capture: true });
   }
 
   private removeListeners(): void {
     document.removeEventListener("pointerdown", this.clickHandler, { capture: true });
+    document.removeEventListener("keydown", this.keyHandler, { capture: true });
   }
 }

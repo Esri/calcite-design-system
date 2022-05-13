@@ -8,12 +8,12 @@ If you are looking for a list that handles more advanced usage like selection, s
 
 ## Properties
 
-| Property         | Attribute         | Description                                                                   | Type      | Default     |
-| ---------------- | ----------------- | ----------------------------------------------------------------------------- | --------- | ----------- |
-| `description`    | `description`     | An optional description for this item. This will appear below the label text. | `string`  | `undefined` |
-| `disabled`       | `disabled`        | When true, disabled prevents interaction.                                     | `boolean` | `false`     |
-| `label`          | `label`           | The label text of the list item. This will appear above the description text. | `string`  | `undefined` |
-| `nonInteractive` | `non-interactive` | When true, prevents the content of the list item from user interaction.       | `boolean` | `false`     |
+| Property         | Attribute         | Description                                                               | Type      | Default     |
+| ---------------- | ----------------- | ------------------------------------------------------------------------- | --------- | ----------- |
+| `description`    | `description`     | An optional description for the list item. Displays below the label text. | `string`  | `undefined` |
+| `disabled`       | `disabled`        | When true, prevents user interaction.                                     | `boolean` | `false`     |
+| `label`          | `label`           | The label text of the list item. Displays above the description text.     | `string`  | `undefined` |
+| `nonInteractive` | `non-interactive` | When true, prevents the content of the list item from user interaction.   | `boolean` | `false`     |
 
 ## Methods
 
@@ -29,9 +29,9 @@ Type: `Promise<void>`
 
 | Slot              | Description                                                                                  |
 | ----------------- | -------------------------------------------------------------------------------------------- |
-|                   | A slot for adding `calcite-list-item` and `calcite-list-item-group` elements.                |
-| `"actions-end"`   | A slot for adding actionable `calcite-action` elements after the content of the list item.   |
-| `"actions-start"` | A slot for adding actionable `calcite-action` elements before the content of the list item.  |
+|                   | A slot for adding calcite-list-item and calcite-list-item-group elements.                    |
+| `"actions-end"`   | A slot for adding actionable calcite-action elements after the content of the list item.     |
+| `"actions-start"` | A slot for adding actionable calcite-action elements before the content of the list item.    |
 | `"content-end"`   | A slot for adding non-actionable elements after the label and description of the list item.  |
 | `"content-start"` | A slot for adding non-actionable elements before the label and description of the list item. |
 
