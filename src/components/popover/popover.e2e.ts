@@ -460,13 +460,13 @@ describe("calcite-popover", () => {
     expect(await popover.getProperty("open")).toBe(false);
   });
 
-  it("should not toggle popovers with autoToggleDisabled", async () => {
+  it("should not toggle popovers with triggerDisabled", async () => {
     const page = await newE2EPage();
 
     await page.setContent(
       html`
         <div id="outsideNode">Outside node</div>
-        <calcite-popover auto-toggle-disabled reference-element="ref" open> Hello World </calcite-popover>
+        <calcite-popover trigger-disabled reference-element="ref" open> Hello World </calcite-popover>
         <div id="ref">Button</div>
       `
     );
@@ -493,7 +493,7 @@ describe("calcite-popover", () => {
 
     expect(await popover.getProperty("open")).toBe(true);
 
-    popover.setProperty("autoToggleDisabled", false);
+    popover.setProperty("triggerDisabled", false);
 
     await page.waitForChanges();
 
