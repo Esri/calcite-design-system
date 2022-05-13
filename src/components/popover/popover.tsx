@@ -163,6 +163,11 @@ export class Popover {
   }
 
   /**
+   * Disables automatically toggling a popover when its referenceElement has been triggered. This property can be set to true to manage when a popover is open.
+   */
+  @Prop({ reflect: true }) triggerDisabled = false;
+
+  /**
    * Text for close button.
    *
    * @default "Close"
