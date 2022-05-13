@@ -47,8 +47,8 @@
     flex
     cursor-pointer;
   color: theme("borderColor.color.input");
-  transition: var(--calcite-animation-timing);
   transform: scale(1);
+  transition: var(--calcite-animation-timing), outline-offset 0s;
   &:active {
     transform: scale(1.1);
   }
@@ -79,8 +79,8 @@
     absolute
     top-0
     overflow-hidden;
-  transition: var(--calcite-animation-timing);
   inset-inline-start: 0;
+  transition: var(--calcite-animation-timing), outline-offset 0s;
 }
 
 // rating count

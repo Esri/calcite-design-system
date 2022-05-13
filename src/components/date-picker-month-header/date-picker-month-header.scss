@@ -52,6 +52,7 @@
     transition-all
     duration-150
     ease-in-out;
+  transition: outline-offset 0s;
   width: calc(100% / 7);
 
   &:focus {

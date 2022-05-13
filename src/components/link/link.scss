@@ -18,6 +18,7 @@
   line-height: inherit;
   font-size: inherit;
   -webkit-appearance: none;
+  transition: outline-offset 0s;
   &:hover {
     text-decoration: none;
   }
@@ -70,6 +71,7 @@ calcite-icon {
     background-position: 0% 100%, 100% 100%;
     background-repeat: no-repeat, no-repeat;
     background-size: 0% 1px, 100% 1px;
+    transition: outline-offset 0s;
 
     &:hover,
     &:focus {

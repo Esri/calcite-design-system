@@ -176,6 +176,7 @@
   @apply transition-default;
   padding: var(--calcite-alert-spacing-token-small) var(--calcite-alert-spacing-token-large);
   flex: 0 0 auto;
+  transition: outline-offset 0s;
 }
 
 .alert-content {

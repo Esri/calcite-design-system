@@ -116,6 +116,7 @@
   border-start-end-radius: theme("borderRadius.DEFAULT");
   padding: var(--calcite-modal-padding);
   flex: 0 0 auto;
+  transition: outline-offset 0s;
   calcite-icon {
     @apply pointer-events-none;
     vertical-align: -2px;

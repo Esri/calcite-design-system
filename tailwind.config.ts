@@ -216,7 +216,6 @@ export default {
           "word-break": "break-word"
         },
         ".focus-base": {
-          "outline-offset": 0,
           "outline-color": "transparent"
         },
         ".focus-outset": {
