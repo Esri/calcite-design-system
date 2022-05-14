@@ -28,10 +28,9 @@
     justify-center
     rounded-full
     leading-none
-    transition-all;
+    transition-default;
   background: none;
   box-shadow: 0 0 0 2px transparent, 0 0 0 0px transparent;
-  transition: outline-offset 0s;
 }
 
 .text {

@@ -258,7 +258,6 @@ input[type="time"]::-webkit-clear-button {
 
   &:hover {
     @apply bg-foreground-2 transition-default;
-    transition: outline-offset 0s;
     calcite-icon {
       @apply text-color-1 transition-default;
     }
@@ -553,8 +552,6 @@ input[type="time"]::-webkit-clear-button {
 
 :host .inline-child {
   @apply transition-default bg-transparent;
-  transition: outline-offset 0s;
-
   .editing-enabled {
     background-color: inherit;
   }

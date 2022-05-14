@@ -235,10 +235,7 @@ export default {
           "outline-offset": "-2px"
         },
         ".transition-default": {
-          "transition-property": "all",
-          "transition-duration": "var(--calcite-animation-timing)",
-          "transition-timing-function": "ease-in-out",
-          "transition-delay": "0s"
+          transition: "all var(--calcite-animation-timing) ease-in-out 0s, outline 0s, outline-offset 0s"
         }
       };
       addUtilities(newUtilities);

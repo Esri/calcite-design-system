@@ -77,10 +77,10 @@
     box-border
     hidden
     w-full
-    opacity-0;
+    opacity-0
+    transition-default;
   max-height: 0;
   text-align: start;
-  transition: var(--calcite-animation-timing), outline-offset 0s;
   border-inline-start: 0px solid;
   box-shadow: 0 0 0 0 transparent;
 }
@@ -120,7 +120,6 @@
   @apply transition-default box-border;
   padding: var(--calcite-notice-spacing-token-small) var(--calcite-notice-spacing-token-large);
   flex: 0 0 auto;
-  transition: outline-offset 0s;
 }
 
 .notice-content {
