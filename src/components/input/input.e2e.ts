@@ -12,6 +12,9 @@ describe("calcite-input", () => {
 
   /**
    * This helper wraps number typing to work around test instability
+   *
+   * @param page
+   * @param numberAsText
    */
   async function typeNumberValue(page: E2EPage, numberAsText: string): Promise<void> {
     await page.keyboard.type(numberAsText, numberAsText.length > 1 ? { delay: 100 } : undefined);

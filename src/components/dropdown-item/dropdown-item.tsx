@@ -73,13 +73,13 @@ export class DropdownItem {
   /**
    * @internal
    */
-  @Event() calciteDropdownItemSelect: EventEmitter;
+  @Event() calciteInternalDropdownItemSelect: EventEmitter;
 
   /** @internal */
-  @Event() calciteDropdownItemKeyEvent: EventEmitter<ItemKeyboardEvent>;
+  @Event() calciteInternalDropdownItemKeyEvent: EventEmitter<ItemKeyboardEvent>;
 
   /** @internal */
-  @Event() calciteDropdownCloseRequest: EventEmitter;
+  @Event() calciteInternalDropdownCloseRequest: EventEmitter;
   //--------------------------------------------------------------------------
   //
   //  Public Methods
@@ -201,7 +201,8 @@ export class DropdownItem {
     this.emitRequestedItem();
   }
 
-  @Listen("keydown") keyDownHandler(e: KeyboardEvent): void {
+  @Listen("keydown")
+  keyDownHandler(e: KeyboardEvent): void {
     switch (e.key) {
       case " ":
         this.emitRequestedItem();
@@ -217,20 +218,20 @@ export class DropdownItem {
         }
         break;
       case "Escape":
-        this.calciteDropdownCloseRequest.emit();
+        this.calciteInternalDropdownCloseRequest.emit();
         break;
       case "Tab":
       case "ArrowUp":
       case "ArrowDown":
       case "Home":
       case "End":
-        this.calciteDropdownItemKeyEvent.emit({ keyboardEvent: e });
+        this.calciteInternalDropdownItemKeyEvent.emit({ keyboardEvent: e });
         break;
     }
     e.preventDefault();
   }
 
-  @Listen("calciteDropdownItemChange", { target: "body" })
+  @Listen("calciteInternalDropdownItemChange", { target: "body" })
   updateActiveItemOnChange(event: CustomEvent): void {
     const parentEmittedChange = event.composedPath().includes(this.parentDropdownGroupEl);
 
@@ -239,6 +240,7 @@ export class DropdownItem {
       this.requestedDropdownItem = event.detail.requestedDropdownItem;
       this.determineActiveItem();
     }
+    event.stopPropagation();
   }
 
   //--------------------------------------------------------------------------
@@ -299,7 +301,7 @@ export class DropdownItem {
   }
 
   private emitRequestedItem(): void {
-    this.calciteDropdownItemSelect.emit({
+    this.calciteInternalDropdownItemSelect.emit({
       requestedDropdownItem: this.el,
       requestedDropdownGroup: this.parentDropdownGroupEl
     });

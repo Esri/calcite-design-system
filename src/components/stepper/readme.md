@@ -42,7 +42,7 @@ set the last step as active
 
 Type: `Promise<void>`
 
-### `goToStep(num: number) => Promise<void>`
+### `goToStep(step: number) => Promise<void>`
 
 set the requested step as active
 

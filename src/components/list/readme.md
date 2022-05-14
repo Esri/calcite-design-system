@@ -118,10 +118,10 @@
 
 ## Properties
 
-| Property       | Attribute       | Description                                                       | Type                         | Default     |
-| -------------- | --------------- | ----------------------------------------------------------------- | ---------------------------- | ----------- |
-| `disabled`     | `disabled`      | When true, disabled prevents user interaction.                    | `boolean`                    | `false`     |
-| `headingLevel` | `heading-level` | Number at which section headings should start for this component. | `1 \| 2 \| 3 \| 4 \| 5 \| 6` | `undefined` |
+| Property       | Attribute       | Description                                                 | Type                         | Default     |
+| -------------- | --------------- | ----------------------------------------------------------- | ---------------------------- | ----------- |
+| `disabled`     | `disabled`      | When true, prevents user interaction.                       | `boolean`                    | `false`     |
+| `headingLevel` | `heading-level` | Number at which section headings should start for the list. | `1 \| 2 \| 3 \| 4 \| 5 \| 6` | `undefined` |
 
 ## Methods
 
@@ -135,9 +135,9 @@ Type: `Promise<void>`
 
 ## Slots
 
-| Slot | Description                                     |
-| ---- | ----------------------------------------------- |
-|      | A slot for adding `calcite-list-item` elements. |
+| Slot | Description                                   |
+| ---- | --------------------------------------------- |
+|      | A slot for adding calcite-list-item elements. |
 
 ---
 

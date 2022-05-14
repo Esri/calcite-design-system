@@ -17,7 +17,8 @@ import { DURATIONS, SLOTS, TEXT } from "./resources";
 import { Scale } from "../interfaces";
 import { AlertDuration, AlertPlacement, StatusColor, StatusIcons } from "./interfaces";
 
-/** Alerts are meant to provide a way to communicate urgent or important information to users, frequently as a result of an action they took in your app. Alerts are positioned
+/**
+ * Alerts are meant to provide a way to communicate urgent or important information to users, frequently as a result of an action they took in your app. Alerts are positioned
  * at the bottom of the page. Multiple opened alerts will be added to a queue, allowing users to dismiss them in the order they are provided.
  */
 
@@ -53,11 +54,11 @@ export class Alert {
   @Watch("active")
   watchActive(): void {
     if (this.active && !this.queued) {
-      this.calciteAlertRegister.emit();
+      this.calciteInternalAlertRegister.emit();
     }
     if (!this.active) {
       this.queue = this.queue.filter((e) => e !== this.el);
-      this.calciteAlertSync.emit({ queue: this.queue });
+      this.calciteInternalAlertSync.emit({ queue: this.queue });
     }
   }
 
@@ -70,11 +71,15 @@ export class Alert {
   /** Color for the alert (will apply to top border and icon) */
   @Prop({ reflect: true }) color: StatusColor = "blue";
 
-  /** when used as a boolean set to true, show a default recommended icon. You can
-   * also pass a calcite-ui-icon name to this prop to display a requested icon */
+  /**
+   * when used as a boolean set to true, show a default recommended icon. You can
+   * also pass a calcite-ui-icon name to this prop to display a requested icon
+   */
   @Prop({ reflect: true }) icon: string | boolean;
 
-  /** string to override English close text
+  /**
+   * string to override English close text
+   *
    * @default "Close"
    */
   @Prop() intlClose: string = TEXT.intlClose;
@@ -113,7 +118,7 @@ export class Alert {
 
   connectedCallback(): void {
     if (this.active && !this.queued) {
-      this.calciteAlertRegister.emit();
+      this.calciteInternalAlertRegister.emit();
     }
   }
 
@@ -199,33 +204,34 @@ export class Alert {
    *
    * @internal
    */
-  @Event() calciteAlertSync: EventEmitter;
+  @Event() calciteInternalAlertSync: EventEmitter;
 
   /**
    * Fired when an alert is added to dom - used to receive initial queue
    *
    * @internal
    */
-  @Event() calciteAlertRegister: EventEmitter;
+  @Event() calciteInternalAlertRegister: EventEmitter;
 
   // when an alert is opened or closed, update queue and determine active alert
-  @Listen("calciteAlertSync", { target: "window" })
+  @Listen("calciteInternalAlertSync", { target: "window" })
   alertSync(event: CustomEvent): void {
     if (this.queue !== event.detail.queue) {
       this.queue = event.detail.queue;
     }
     this.queueLength = this.queue.length;
     this.determineActiveAlert();
+    event.stopPropagation();
   }
 
   // when an alert is first registered, trigger a queue sync to get queue
-  @Listen("calciteAlertRegister", { target: "window" })
+  @Listen("calciteInternalAlertRegister", { target: "window" })
   alertRegister(): void {
     if (this.active && !this.queue.includes(this.el as HTMLCalciteAlertElement)) {
       this.queued = true;
       this.queue.push(this.el as HTMLCalciteAlertElement);
     }
-    this.calciteAlertSync.emit({ queue: this.queue });
+    this.calciteInternalAlertSync.emit({ queue: this.queue });
     this.determineActiveAlert();
   }
 
@@ -308,7 +314,7 @@ export class Alert {
     this.active = false;
     this.queue = this.queue.filter((e) => e !== this.el);
     this.determineActiveAlert();
-    this.calciteAlertSync.emit({ queue: this.queue });
+    this.calciteInternalAlertSync.emit({ queue: this.queue });
   };
 
   transitionEnd = (event: TransitionEvent): void => {

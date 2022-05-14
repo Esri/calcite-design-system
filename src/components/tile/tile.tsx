@@ -48,6 +48,7 @@ export class Tile implements ConditionalSlotComponent, InteractiveComponent {
 
   /**
    * The focused state of the tile.
+   *
    * @internal
    */
   @Prop({ reflect: true }) focused = false;

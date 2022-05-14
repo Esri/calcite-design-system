@@ -59,16 +59,24 @@ export class TabTitle implements InteractiveComponent {
   /** optionally pass an icon to display at the start of a tab title - accepts calcite ui icon names  */
   @Prop({ reflect: true }) iconStart?: string;
 
-  /** @internal Parent tabs component layout value */
+  /**
+   * @internal
+   */
   @Prop({ reflect: true, mutable: true }) layout: TabLayout;
 
-  /** @internal Parent tabs component or parent tab-nav component's position */
+  /**
+   * @internal
+   */
   @Prop({ reflect: true, mutable: true }) position: TabPosition;
 
-  /** @internal Parent tabs component or parent tab-nav component's scale */
+  /**
+   * @internal
+   */
   @Prop({ reflect: true, mutable: true }) scale: Scale;
 
-  /** @internal Parent tabs component bordered value */
+  /**
+   * @internal
+   */
   @Prop({ reflect: true, mutable: true }) bordered = false;
 
   /**
@@ -174,7 +182,7 @@ export class TabTitle implements InteractiveComponent {
   }
 
   async componentDidLoad(): Promise<void> {
-    this.calciteTabTitleRegister.emit(await this.getTabIdentifier());
+    this.calciteInternalTabTitleRegister.emit(await this.getTabIdentifier());
   }
 
   componentDidRender(): void {
@@ -223,16 +231,16 @@ export class TabTitle implements InteractiveComponent {
         break;
       case "ArrowRight":
         if (getElementDir(this.el) === "ltr") {
-          this.calciteTabsFocusNext.emit();
+          this.calciteInternalTabsFocusNext.emit();
         } else {
-          this.calciteTabsFocusPrevious.emit();
+          this.calciteInternalTabsFocusPrevious.emit();
         }
         break;
       case "ArrowLeft":
         if (getElementDir(this.el) === "ltr") {
-          this.calciteTabsFocusPrevious.emit();
+          this.calciteInternalTabsFocusPrevious.emit();
         } else {
-          this.calciteTabsFocusNext.emit();
+          this.calciteInternalTabsFocusNext.emit();
         }
         break;
     }
@@ -245,13 +253,15 @@ export class TabTitle implements InteractiveComponent {
   //--------------------------------------------------------------------------
 
   /**
-   * Fires when a specific tab is activated (`event.details`)
+   * Fires when a specific tab is activated. Emits the "tab" property or the index position.
+   *
    * @see [TabChangeEventDetail](https://github.com/Esri/calcite-components/blob/master/src/components/tab/interfaces.ts#L1)
    */
   @Event() calciteTabsActivate: EventEmitter<TabChangeEventDetail>;
 
   /**
    * Fires when a specific tab is activated (`event.details`)
+   *
    * @see [TabChangeEventDetail](https://github.com/Esri/calcite-components/blob/master/src/components/tab/interfaces.ts#L1)
    * @internal
    */
@@ -260,17 +270,17 @@ export class TabTitle implements InteractiveComponent {
   /**
    * @internal
    */
-  @Event() calciteTabsFocusNext: EventEmitter;
+  @Event() calciteInternalTabsFocusNext: EventEmitter;
 
   /**
    * @internal
    */
-  @Event() calciteTabsFocusPrevious: EventEmitter;
+  @Event() calciteInternalTabsFocusPrevious: EventEmitter;
 
   /**
    * @internal
    */
-  @Event() calciteTabTitleRegister: EventEmitter<TabID>;
+  @Event() calciteInternalTabTitleRegister: EventEmitter<TabID>;
 
   //--------------------------------------------------------------------------
   //
@@ -298,6 +308,8 @@ export class TabTitle implements InteractiveComponent {
   }
 
   /**
+   * @param tabIds
+   * @param titleIds
    * @internal
    */
   @Method()
@@ -311,7 +323,7 @@ export class TabTitle implements InteractiveComponent {
   //
   //--------------------------------------------------------------------------
 
-  /** watches for changing text content **/
+  /** watches for changing text content */
   mutationObserver: MutationObserver = createObserver("mutation", () => this.updateHasText());
 
   @State() controls: string;
