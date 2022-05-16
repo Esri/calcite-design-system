@@ -190,4 +190,20 @@ span {
   :host(:focus) a {
     outline-color: highlight;
   }
+
+  :host([bordered]) a {
+    border-bottom-style: solid;
+  }
+
+  :host([bordered][position="below"]) a {
+    border-top-style: solid;
+  }
+
+  :host([bordered][active]) a {
+    border-bottom-style: none;
+  }
+
+  :host([bordered][position="below"][active]) a {
+    border-top-style: none;
+  }
 }
