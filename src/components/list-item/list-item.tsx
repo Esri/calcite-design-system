@@ -9,11 +9,11 @@ import {
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 
 /**
- * @slot - A slot for adding calcite-list-item and calcite-list-item-group elements.
- * @slot actions-start - A slot for adding actionable calcite-action elements before the content of the list item.
+ * @slot - A slot for adding `calcite-list-item` and `calcite-list-item-group` elements.
+ * @slot actions-start - A slot for adding actionable `calcite-action` elements before the content of the list item.
  * @slot content-start - A slot for adding non-actionable elements before the label and description of the list item.
  * @slot content-end - A slot for adding non-actionable elements after the label and description of the list item.
- * @slot actions-end - A slot for adding actionable calcite-action elements after the content of the list item.
+ * @slot actions-end - A slot for adding actionable `calcite-action` elements after the content of the list item.
  */
 @Component({
   tag: "calcite-list-item",
