@@ -58,3 +58,14 @@ section {
 :host([position="below"]:not([bordered])) section {
   border-bottom-style: solid;
 }
+
+@media (forced-colors: active) {
+  :host([bordered]) section {
+    @apply border-t-0
+      border-b;
+  }
+  :host([position="below"][bordered]) section {
+    @apply border-t
+      border-b-0;
+  }
+}
