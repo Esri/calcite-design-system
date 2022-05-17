@@ -107,6 +107,10 @@
   inset-inline-end: theme("spacing.2");
 }
 
+.thumbnail-wrapper {
+  @apply flex;
+}
+
 .calcite-card-container.inline {
   @apply flex-row;
 
@@ -114,7 +118,7 @@
     @apply w-3/5;
   }
   & > .thumbnail-wrapper {
-    @apply w-2/5;
+    @apply inline-block w-2/5;
   }
 
   @include slotted("thumbnail", "img") {
