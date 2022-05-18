@@ -9,10 +9,12 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### Features
 
+- **pagination:** format page numbers with localized group seperators ([#4574](https://github.com/Esri/calcite-components/issues/4574)) ([a4658da](https://github.com/Esri/calcite-components/commit/a4658dab1a93a988f2dec45f7a3d67f669bb726b))
 - **popover:** Add triggerDisabled property to disable automatically toggling a popover via mouse or keyboard ([#4540](https://github.com/Esri/calcite-components/issues/4540)) ([338ea86](https://github.com/Esri/calcite-components/commit/338ea866090540b4019aa87f955877fb7a125631)), closes [#4539](https://github.com/Esri/calcite-components/issues/4539)
 
 ### Bug Fixes
 
+- **stepper:** Stepper methods should replace active content correctly ([#4573](https://github.com/Esri/calcite-components/issues/4573)) ([f2fa7ec](https://github.com/Esri/calcite-components/commit/f2fa7ec5b67109fbcf4a2f6bda202c686c4b0a63)), closes [#4567](https://github.com/Esri/calcite-components/issues/4567)
 - patch \_\_spreadArray helper to work around tslib bug ([#4481](https://github.com/Esri/calcite-components/issues/4481)) ([#4575](https://github.com/Esri/calcite-components/issues/4575)) ([756437b](https://github.com/Esri/calcite-components/commit/756437ba550e69140e06cc450f20af5e8f03242e))
 - **date-picker:** display correct day abbreviations when locale='ru' ([#4525](https://github.com/Esri/calcite-components/issues/4525)) ([6046129](https://github.com/Esri/calcite-components/commit/6046129a72320e36c4991ac13df643428c4fc028))
 - **graph:** Set default height to 100% ([#4530](https://github.com/Esri/calcite-components/issues/4530)) ([0b389fd](https://github.com/Esri/calcite-components/commit/0b389fd998cc5ce44199291bfc6b828c78f2dc81)), closes [#4518](https://github.com/Esri/calcite-components/issues/4518)
