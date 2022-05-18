@@ -24,6 +24,8 @@
   margin-top: var(--calcite-input-message-spacing-value);
 }
 
+@include calciteHydratedHidden();
+
 .calcite-input-message-icon {
   @apply transition-default
     pointer-events-none
