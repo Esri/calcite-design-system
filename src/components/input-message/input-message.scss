@@ -50,19 +50,17 @@
 
 // Validation Text
 :host([status][active]) {
-  @apply text-color-1
-    font-medium;
+  @apply text-color-1;
 }
 
-:host([status][active][scale="s"]) {
+:host([status][scale="s"]) {
   @apply text-n3h;
 }
 
-:host([status][active][scale="m"]) {
-  @apply text-n2h
-    mt-1;
+:host([status][scale="m"]) {
+  @apply text-n2h mt-1;
 }
 
-:host([status][active][scale="l"]) {
+:host([status][scale="l"]) {
   @apply text-n1h mt-1;
 }
