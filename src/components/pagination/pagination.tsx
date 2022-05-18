@@ -63,13 +63,6 @@ export class Pagination implements GlobalAttrComponent {
   /** The scale of the pagination */
   @Prop({ reflect: true }) scale: Scale = "m";
 
-  /**
-   * for number values, displays the locale's group separator
-   *
-   * @internal
-   */
-  @Prop() globalAttributes = {};
-
   // --------------------------------------------------------------------------
   //
   //  Private Properties
@@ -83,8 +76,8 @@ export class Pagination implements GlobalAttrComponent {
   //
   //--------------------------------------------------------------------------
 
-  /** Inherited from global attributes */
-  @State() inheritedAttributes = {};
+  /** Inherited global attributes */
+  @State() globalAttributes = {};
 
   //--------------------------------------------------------------------------
   //
@@ -219,7 +212,7 @@ export class Pagination implements GlobalAttrComponent {
   }
 
   renderPage(start: number): VNode {
-    const lang = this.inheritedAttributes["lang"] || document.documentElement.lang || "en";
+    const lang = this.globalAttributes["lang"] || document.documentElement.lang || "en";
     const page = Math.floor(start / this.num) + (this.num === 1 ? 0 : 1);
     return (
       <button
