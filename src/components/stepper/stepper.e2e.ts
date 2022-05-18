@@ -125,7 +125,7 @@ describe("calcite-stepper", () => {
     const page = await newE2EPage();
     await page.setContent(html`<calcite-stepper>
       <calcite-stepper-item item-title="Step 1" id="step-1">
-        <div id="step-1-content">Step 1 content</div>
+        <div>Step 1 content</div>
       </calcite-stepper-item>
       <calcite-stepper-item item-title="Step 2" id="step-2" active>
         <div id="step-2-content">Step 2 content</div>
@@ -134,7 +134,7 @@ describe("calcite-stepper", () => {
         <div id="step-3-content">Step 3 content</div>
       </calcite-stepper-item>
       <calcite-stepper-item item-title="Step 4" id="step-4">
-        <div id="step-4-content">Step 4 content</div>
+        <div>Step 4 content</div>
       </calcite-stepper-item>
     </calcite-stepper>`);
     const element = await page.find("calcite-stepper");
@@ -173,7 +173,7 @@ describe("calcite-stepper", () => {
         <div id="step-1-content">Step 1 content</div>
       </calcite-stepper-item>
       <calcite-stepper-item item-title="Step 2" id="step-2" disabled>
-        <div id="step-2-content">Step 2 content</div>
+        <div>Step 2 content</div>
       </calcite-stepper-item>
       <calcite-stepper-item item-title="Step 3" id="step-3">
         <div id="step-3-content">Step 3 content</div>
@@ -211,10 +211,10 @@ describe("calcite-stepper", () => {
         <div id="step-1-content">Step 1 content</div>
       </calcite-stepper-item>
       <calcite-stepper-item item-title="Step 2" id="step-2">
-        <div id="step-2-content">Step 2 content</div>
+        <div>Step 2 content</div>
       </calcite-stepper-item>
       <calcite-stepper-item item-title="Step 3" id="step-3">
-        <div id="step-3-content">Step 3 content</div>
+        <div>Step 3 content</div>
       </calcite-stepper-item>
       <calcite-stepper-item item-title="Step 4" id="step-4">
         <div id="step-4-content">Step 4 content</div>
@@ -252,7 +252,7 @@ describe("calcite-stepper", () => {
     const page = await newE2EPage();
     await page.setContent(html`<calcite-stepper>
       <calcite-stepper-item item-title="Step 1" id="step-1" disabled>
-        <div id="step-1-content">Step 1 content</div>
+        <div>Step 1 content</div>
       </calcite-stepper-item>
       <calcite-stepper-item item-title="Step 2" id="step-2">
         <div id="step-2-content">Step 2 content</div>
@@ -261,7 +261,7 @@ describe("calcite-stepper", () => {
         <div id="step-3-content">Step 3 content</div>
       </calcite-stepper-item>
       <calcite-stepper-item item-title="Step 4" id="step-4" disabled>
-        <div id="step-4-content">Step 4 content</div>
+        <div>Step 4 content</div>
       </calcite-stepper-item>
     </calcite-stepper>`);
     const element = await page.find("calcite-stepper");
