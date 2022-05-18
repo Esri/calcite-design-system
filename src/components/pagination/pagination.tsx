@@ -75,8 +75,6 @@ export class Pagination implements GlobalAttrComponent {
   //  State
   //
   //--------------------------------------------------------------------------
-
-  /** Inherited global attributes */
   @State() globalAttributes = {};
 
   //--------------------------------------------------------------------------
