@@ -118,7 +118,7 @@
     @apply w-3/5;
   }
   & > .thumbnail-wrapper {
-    @apply inline-block w-2/5;
+    @apply items-start w-2/5;
   }
 
   @include slotted("thumbnail", "img") {
