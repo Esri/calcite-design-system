@@ -13,6 +13,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### Bug Fixes
 
+- patch \_\_spreadArray helper to work around tslib bug ([#4481](https://github.com/Esri/calcite-components/issues/4481)) ([#4575](https://github.com/Esri/calcite-components/issues/4575)) ([756437b](https://github.com/Esri/calcite-components/commit/756437ba550e69140e06cc450f20af5e8f03242e))
 - **date-picker:** display correct day abbreviations when locale='ru' ([#4525](https://github.com/Esri/calcite-components/issues/4525)) ([6046129](https://github.com/Esri/calcite-components/commit/6046129a72320e36c4991ac13df643428c4fc028))
 - **graph:** Set default height to 100% ([#4530](https://github.com/Esri/calcite-components/issues/4530)) ([0b389fd](https://github.com/Esri/calcite-components/commit/0b389fd998cc5ce44199291bfc6b828c78f2dc81)), closes [#4518](https://github.com/Esri/calcite-components/issues/4518)
 - **input-message:** remove the scaling transition effect when displaying an input message ([#4572](https://github.com/Esri/calcite-components/issues/4572)) ([61ef046](https://github.com/Esri/calcite-components/commit/61ef04660ac28c88320cfa92dc66f66e59216954))
