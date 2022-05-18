@@ -383,17 +383,15 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
 
   render(): VNode {
     const { disabled } = this;
-    const date = dateFromRange(
-      this.range ? this.startAsDate : this.valueAsDate,
-      this.minAsDate,
-      this.maxAsDate
-    );
-    const endDate = this.range
-      ? dateFromRange(this.endAsDate, this.minAsDate, this.maxAsDate)
+    const date = this.range
+      ? this.startAsDate
+      : !Array.isArray(this.valueAsDate)
+      ? this.valueAsDate
       : null;
+
+    const endDate = this.range ? this.endAsDate : null;
     const formattedEndDate = endDate ? endDate.toLocaleDateString(this.locale) : "";
     const formattedDate = date ? date.toLocaleDateString(this.locale) : "";
-
     return (
       <Host
         onBlur={this.deactivate}
