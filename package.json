@@ -16,7 +16,7 @@
     "hydrate/"
   ],
   "scripts": {
-    "build": "npm run util:copy-icons && stencil build",
+    "build": "npm run util:copy-icons && stencil build && npm run util:patch-es5-helpers",
     "build:watch": "npm run util:copy-icons && stencil build --watch",
     "build:watch-dev": "npm run util:copy-icons && stencil build --dev --watch",
     "build-storybook": "npm run util:copy-icons && stencil build --config stencil.config.ts && build-storybook --static-dir ./www --output-dir ./docs",
@@ -48,6 +48,7 @@
     "util:copy-icons": "cpy \"./node_modules/@esri/calcite-ui-icons/js/*.json\" \"./src/components/icon/assets/icon/\" --flat",
     "util:deploy-next": "npm run util:prep-next && npm run util:push-tags && npm run util:publish-next",
     "util:deploy-next-from-ci": "ts-node --project ./tsconfig-node-scripts.json support/deployNextFromCI.ts",
+    "util:patch-es5-helpers": "ts-node support/patchES5Helpers.ts",
     "util:prep-next": "ts-node --project ./tsconfig-node-scripts.json support/prepReleaseCommit.ts --next && npm run build",
     "util:publish-next": "npm publish --tag next",
     "util:check-squash-mergeable-branch": "ts-node --project ./tsconfig-node-scripts.json support/checkSquashMergeableBranch.ts",
