@@ -53,6 +53,9 @@
 
 .toggle {
   @apply focus-base;
+
+  &:active,
+  &:focus,
   &:focus-visible {
     @apply focus-outset;
   }
