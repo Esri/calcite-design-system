@@ -14,14 +14,7 @@ import {
   Build
 } from "@stencil/core";
 import { getLocaleData, DateLocaleData } from "../date-picker/utils";
-import {
-  dateFromRange,
-  inRange,
-  dateFromISO,
-  dateToISO,
-  parseDateString,
-  sameDate
-} from "../../utils/date";
+import { inRange, dateFromISO, dateToISO, parseDateString, sameDate } from "../../utils/date";
 import { HeadingLevel } from "../functional/Heading";
 
 import { TEXT } from "../date-picker/resources";
