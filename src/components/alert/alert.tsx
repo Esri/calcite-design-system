@@ -155,12 +155,7 @@ export class Alert {
     const role = autoDismiss ? "alert" : "alertdialog";
     const hidden = !active;
     return (
-      <Host
-        aria-hidden={toAriaBoolean(hidden)}
-        aria-label={label}
-        calcite-hydrated-hidden={hidden}
-        role={role}
-      >
+      <Host aria-hidden={toAriaBoolean(hidden)} aria-label={label} role={role}>
         <div
           class={{
             container: true,

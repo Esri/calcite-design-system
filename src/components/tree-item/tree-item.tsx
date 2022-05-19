@@ -174,6 +174,7 @@ export class TreeItem implements ConditionalSlotComponent {
   private isSelectionMultiLike: boolean;
 
   render(): VNode {
+    const hidden = !(this.parentExpanded || this.depth === 1);
     const rtl = getElementDir(this.el) === "rtl";
     const showBulletPoint =
       this.selectionMode === TreeSelectionMode.Single ||
@@ -193,7 +194,7 @@ export class TreeItem implements ConditionalSlotComponent {
         scale="s"
       />
     ) : null;
-    const defaultSlotNode: VNode = <slot key="default-slot" />;
+    const defaultSlotNode: VNode = !hidden ? <slot key="default-slot" /> : null;
     const checkbox =
       this.selectionMode === TreeSelectionMode.Ancestors ? (
         <label class={CSS.checkboxLabel} key="checkbox-label">
@@ -225,16 +226,13 @@ export class TreeItem implements ConditionalSlotComponent {
       />
     ) : null;
 
-    const hidden = !(this.parentExpanded || this.depth === 1);
-
     return (
       <Host
         aria-expanded={this.hasChildren ? toAriaBoolean(this.expanded) : undefined}
         aria-hidden={toAriaBoolean(hidden)}
         aria-selected={this.selected ? "true" : showCheckmark ? "false" : undefined}
-        calcite-hydrated-hidden={hidden}
         role="treeitem"
-        tabindex={this.parentExpanded || this.depth === 1 ? "0" : "-1"}
+        tabindex={hidden ? null : this.parentExpanded || this.depth === 1 ? "0" : "-1"}
       >
         <div
           class={{

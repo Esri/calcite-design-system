@@ -271,13 +271,7 @@ export class Tooltip {
     const hidden = !displayed;
 
     return (
-      <Host
-        aria-hidden={toAriaBoolean(hidden)}
-        aria-label={label}
-        calcite-hydrated-hidden={hidden}
-        id={this.getId()}
-        role="tooltip"
-      >
+      <Host aria-hidden={toAriaBoolean(hidden)} aria-label={label} id={this.getId()} role="tooltip">
         <div
           class={{
             [PopperCSS.animation]: true,

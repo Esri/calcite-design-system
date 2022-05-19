@@ -76,7 +76,7 @@
 
 :host {
   --calcite-alert-edge-distance: theme("spacing.8");
-  @apply block;
+  @apply block opacity-0;
   .container {
     @apply shadow-2
       bg-foreground-1
@@ -129,7 +129,8 @@
   @apply flex
     w-full
     items-center
-    justify-center;
+    justify-center
+    invisible;
 }
 
 // focus styles
@@ -141,6 +142,10 @@
 }
 
 :host([active]) {
+  @apply opacity-100;
+  .container {
+    @apply visible;
+  }
   .container:not(.queued) {
     @apply max-h-full border-t-2 opacity-100;
     pointer-events: initial;

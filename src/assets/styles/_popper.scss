@@ -17,6 +17,7 @@ $popper-default-z-index: 900;
     transition-property: transform, visibility, opacity;
     opacity: 0;
     box-shadow: $shadow-2;
+    pointer-events: none;
     @apply rounded;
   }
 }
@@ -25,6 +26,7 @@ $popper-default-z-index: 900;
   opacity: 1;
   visibility: visible;
   transform: translate(0);
+  pointer-events: initial;
 }
 
 @mixin popperElemAnim($selector) {

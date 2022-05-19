@@ -1,6 +1,13 @@
 @include popperHost(999);
 @include popperArrow();
 
+:host {
+  @apply opacity-0;
+}
+
+:host([open]) {
+  @apply opacity-100;
+}
 .container {
   @apply bg-foreground-1
     text-color-1

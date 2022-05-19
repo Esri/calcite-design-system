@@ -209,3 +209,7 @@
     color: var(--calcite-ui-brand);
   }
 }
+
+:host([aria-hidden="true"]) {
+  @apply opacity-0 pointer-events-none;
+}

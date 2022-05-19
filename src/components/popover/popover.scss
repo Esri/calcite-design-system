@@ -2,11 +2,12 @@
 @include popperArrow();
 
 :host {
-  @apply pointer-events-none;
+  @apply opacity-0;
 }
 
 :host([open]) {
   pointer-events: initial;
+  @apply opacity-100;
 }
 
 .calcite-popper-anim {

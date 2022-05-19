@@ -489,13 +489,7 @@ export class Popover {
     ) : null;
 
     return (
-      <Host
-        aria-hidden={toAriaBoolean(hidden)}
-        aria-label={label}
-        calcite-hydrated-hidden={hidden}
-        id={this.getId()}
-        role="dialog"
-      >
+      <Host aria-hidden={toAriaBoolean(hidden)} aria-label={label} id={this.getId()} role="dialog">
         <div
           class={{
             [PopperCSS.animation]: true,

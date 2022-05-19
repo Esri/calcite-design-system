@@ -13,10 +13,12 @@
 
 :host {
   @apply text-color-1 transition-default invisible box-border flex h-0 w-full items-center font-medium opacity-0;
+  pointer-events: none;
 }
 
 :host([active]) {
   @apply transition-default visible h-auto opacity-100;
+  pointer-events: initial;
 }
 
 :host([active][scale="m"]),

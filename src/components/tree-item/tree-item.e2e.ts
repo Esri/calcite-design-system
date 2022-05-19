@@ -216,7 +216,6 @@ describe("calcite-tree-item", () => {
 
       const item = await page.find("#newbie");
       expect(item).toEqualAttribute("aria-hidden", "false");
-      expect(item).not.toHaveAttribute("calcite-hydrated-hidden");
       expect(item.tabIndex).toBe(0);
     });
   });

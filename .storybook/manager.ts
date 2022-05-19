@@ -2,7 +2,7 @@ import { addons } from "@storybook/addons";
 import cheerio from "cheerio";
 import theme from "./theme";
 
-const globalInternalAttributes = ["calcite-hydrated", "calcite-hydrated-hidden"];
+const globalInternalAttributes = ["calcite-hydrated"];
 
 addons.register("@whitespace/storybook-addon-html", (api) => {
   // intercept HTML-preview event and remove global internal-attrs
