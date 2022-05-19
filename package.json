@@ -82,7 +82,7 @@
     "@storybook/addon-a11y": "6.4.22",
     "@storybook/addon-docs": "6.4.22",
     "@storybook/addon-knobs": "6.4.0",
-    "@storybook/html": "6.4.22",
+    "@storybook/html": "6.5.0",
     "@storybook/storybook-deployer": "2.8.11",
     "@types/dedent": "0.7.0",
     "@types/git-semver-tags": "4.1.1",
