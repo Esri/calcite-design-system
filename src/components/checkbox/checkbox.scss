@@ -21,6 +21,13 @@
     cursor-pointer
     select-none;
   -webkit-tap-highlight-color: transparent;
+
+  .check-svg,
+  .toggle {
+    width: var(--calcite-checkbox-size);
+    height: var(--calcite-checkbox-size);
+  }
+
   .check-svg {
     @apply bg-foreground-1
       pointer-events-none
@@ -31,8 +38,6 @@
       stroke-current
       stroke-1
       transition-default;
-    width: var(--calcite-checkbox-size);
-    height: var(--calcite-checkbox-size);
     box-shadow: inset 0 0 0 1px var(--calcite-ui-border-input);
     color: theme("backgroundColor.background");
   }
