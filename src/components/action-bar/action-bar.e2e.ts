@@ -275,6 +275,8 @@ describe("calcite-action-bar", () => {
 
     await calciteActionMenuOpenChangeEvent;
 
+    await page.waitForChanges();
+
     groups = await page.findAll("calcite-action-group");
 
     expect(groups).toHaveLength(2);
