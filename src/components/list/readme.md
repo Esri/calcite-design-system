@@ -135,9 +135,9 @@ Type: `Promise<void>`
 
 ## Slots
 
-| Slot | Description                                   |
-| ---- | --------------------------------------------- |
-|      | A slot for adding calcite-list-item elements. |
+| Slot | Description                                     |
+| ---- | ----------------------------------------------- |
+|      | A slot for adding `calcite-list-item` elements. |
 
 ---
 
