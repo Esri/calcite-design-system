@@ -121,7 +121,7 @@ export class ActionMenu implements ConditionalSlotComponent {
   /**
    * Emitted when the open property has changed.
    */
-  @Event() calciteActionMenuOpenChange: EventEmitter;
+  @Event({ bubbles: true, composed: true }) calciteActionMenuOpenChange: EventEmitter;
 
   @Listen("click", { target: "window" })
   closeCalciteActionMenuOnClick(event: Event): void {
