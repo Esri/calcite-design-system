@@ -60,7 +60,7 @@
 // mixin to provide default invisibility and disabling of pointer events for components.
 @mixin calciteHydratedHidden() {
   :host([calcite-hydrated-hidden]) {
-    visibility: hidden;
-    pointer-events: none;
+    visibility: hidden !important;
+    pointer-events: none !important;
   }
 }
