@@ -269,12 +269,9 @@ describe("calcite-action-bar", () => {
 
     const calciteActionMenuOpenChangeEvent = page.waitForEvent("calciteActionMenuOpenChange");
 
-    // await page.$eval("#first", (firstActionGroup: HTMLCalciteActionGroupElement) => {
-    //   firstActionGroup.menuOpen = true;
-    // });
-
-    groups[0].setProperty("menuOpen", true);
-    // await page.evaluate(() => ((document.getElementById("first") as HTMLCalciteActionGroupElement).menuOpen = true));
+    await page.$eval("calcite-action-group", (firstActionGroup: HTMLCalciteActionGroupElement) => {
+      firstActionGroup.menuOpen = true;
+    });
 
     await calciteActionMenuOpenChangeEvent;
 
