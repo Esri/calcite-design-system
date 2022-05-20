@@ -242,14 +242,14 @@ describe("calcite-action-bar", () => {
   it("should set other 'calcite-action-group' - 'menuOpen' to false", async () => {
     const page = await newE2EPage();
     await page.setContent(html`<calcite-action-bar>
-      <calcite-action-group id="first">
+      <calcite-action-group>
         <calcite-action text="Add" icon="plus"></calcite-action>
         <calcite-action text="Add" icon="plus"></calcite-action>
         <calcite-action text="Add" icon="plus"></calcite-action>
         <calcite-action text="Add" icon="plus" slot="menu-actions"></calcite-action>
         <calcite-action text="Add" icon="plus" slot="menu-actions"></calcite-action>
       </calcite-action-group>
-      <calcite-action-group id="second" menu-open>
+      <calcite-action-group menu-open>
         <calcite-action text="Add" icon="plus"></calcite-action>
         <calcite-action text="Add" icon="plus"></calcite-action>
         <calcite-action text="Add" icon="plus"></calcite-action>
@@ -267,12 +267,16 @@ describe("calcite-action-bar", () => {
     expect(await groups[0].getProperty("menuOpen")).toBe(false);
     expect(await groups[1].getProperty("menuOpen")).toBe(true);
 
-    const event = page.waitForEvent("calciteActionMenuOpenChange");
+    const calciteActionMenuOpenChangeEvent = page.waitForEvent("calciteActionMenuOpenChange");
 
-    await page.evaluate(() => ((document.getElementById("first") as HTMLCalciteActionGroupElement).menuOpen = true));
+    // await page.$eval("#first", (firstActionGroup: HTMLCalciteActionGroupElement) => {
+    //   firstActionGroup.menuOpen = true;
+    // });
 
-    await page.waitForChanges();
-    await event;
+    groups[0].setProperty("menuOpen", true);
+    // await page.evaluate(() => ((document.getElementById("first") as HTMLCalciteActionGroupElement).menuOpen = true));
+
+    await calciteActionMenuOpenChangeEvent;
 
     groups = await page.findAll("calcite-action-group");
 
