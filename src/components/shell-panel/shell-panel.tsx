@@ -69,6 +69,7 @@ export class ShellPanel implements ConditionalSlotComponent {
 
   /**
    * Accessible label for resize separator.
+   *
    * @default "Resize"
    */
   @Prop() intlResize = TEXT.resize;
@@ -131,6 +132,7 @@ export class ShellPanel implements ConditionalSlotComponent {
 
   /**
    * Emitted when collapse has been toggled.
+   *
    * @deprecated use a resizeObserver on the shell-panel to listen for changes to its size.
    */
   @Event() calciteShellPanelToggle: EventEmitter;

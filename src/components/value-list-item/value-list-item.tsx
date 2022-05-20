@@ -50,7 +50,7 @@ export class ValueListItem implements ConditionalSlotComponent, InteractiveCompo
   @Prop({ reflect: true }) disabled = false;
 
   /**
-   * @internal When false, the list item cannot be deselected by user interaction.
+   * @internal
    */
   @Prop() disableDeselect = false;
 
@@ -60,12 +60,13 @@ export class ValueListItem implements ConditionalSlotComponent, InteractiveCompo
   @Prop({ reflect: true }) nonInteractive = false;
 
   /**
-   * @internal - Stores the activated state of the drag handle.
+   * @internal
    */
   @Prop({ mutable: true }) handleActivated? = false;
 
   /**
    * Determines the icon SVG symbol that will be shown. Options are circle, square, grip or null.
+   *
    * @see [ICON_TYPES](https://github.com/Esri/calcite-components/blob/master/src/components/pick-list/resources.ts#L5)
    */
   @Prop({ reflect: true }) icon?: ICON_TYPES | null = null;
@@ -134,6 +135,8 @@ export class ValueListItem implements ConditionalSlotComponent, InteractiveCompo
   /**
    * Toggle the selection state. By default this won't trigger an event.
    * The first argument allows the value to be coerced, rather than swapping values.
+   *
+   * @param coerce
    */
   @Method()
   async toggleSelected(coerce?: boolean): Promise<void> {

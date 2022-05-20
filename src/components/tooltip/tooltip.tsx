@@ -37,6 +37,7 @@ export class Tooltip implements FloatingUIComponent {
 
   /**
    * Offset the position of the tooltip away from the reference element.
+   *
    * @default 6
    */
   @Prop({ reflect: true }) offsetDistance = defaultOffsetDistance;
@@ -78,8 +79,7 @@ export class Tooltip implements FloatingUIComponent {
   /**
    * Determines where the component will be positioned relative to the referenceElement.
    *
-   * Possible values: "auto", "auto-start", "auto-end", "top", "top-start", "top-end", "bottom", "bottom-start", "bottom-end", "right", "right-start", "right-end", "left", "left-start", "left-end", "leading-start", "leading", "leading-end", "trailing-end", "trailing", "trailing-start".
-   *
+   * @see [LogicalPlacement](https://github.com/Esri/calcite-components/blob/master/src/utils/floating-ui.ts#L25)
    */
   @Prop({ reflect: true }) placement: LogicalPlacement = "auto";
 

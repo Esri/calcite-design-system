@@ -121,12 +121,14 @@ export class InputDatePicker
 
   /**
    * Selected start date as full date object
+   *
    * @deprecated use valueAsDate instead
    */
   @Prop({ mutable: true }) startAsDate?: Date;
 
   /**
    * Selected end date as full date object
+   *
    * @deprecated use valueAsDate instead
    */
   @Prop({ mutable: true }) endAsDate?: Date;
@@ -175,17 +177,23 @@ export class InputDatePicker
    */
   @Prop() name: string;
 
-  /** Localized string for "previous month" (used for aria label)
+  /**
+   * Localized string for "previous month" (used for aria label)
+   *
    * @default "Previous month"
    */
   @Prop() intlPrevMonth?: string = TEXT.prevMonth;
 
-  /** Localized string for "next month" (used for aria label)
+  /**
+   * Localized string for "next month" (used for aria label)
+   *
    * @default "Next month"
    */
   @Prop() intlNextMonth?: string = TEXT.nextMonth;
 
-  /** Localized string for "year" (used for aria label)
+  /**
+   * Localized string for "year" (used for aria label)
+   *
    * @default "Year"
    */
   @Prop() intlYear?: string = TEXT.year;
@@ -198,6 +206,7 @@ export class InputDatePicker
 
   /**
    * Determines where the date-picker component will be positioned relative to the input.
+   *
    * @default "bottom-start"
    */
   @Prop({ reflect: true }) placement: MenuPlacement = defaultMenuPlacement;
@@ -214,12 +223,14 @@ export class InputDatePicker
 
   /**
    * Selected start date
+   *
    * @deprecated use value instead
    */
   @Prop({ mutable: true }) start?: string;
 
   /**
    * Selected end date
+   *
    * @deprecated use value instead
    */
   @Prop({ mutable: true }) end?: string;
@@ -273,8 +284,8 @@ export class InputDatePicker
 
   /**
    * Trigger calcite date change when a user changes the date range.
-   * @see [DateRangeChange](https://github.com/Esri/calcite-components/blob/master/src/components/calcite-date-picker/interfaces.ts#L1)
    *
+   * @see [DateRangeChange](https://github.com/Esri/calcite-components/blob/master/src/components/calcite-date-picker/interfaces.ts#L1)
    * @deprecated use `calciteInputDatePickerChange` instead.
    */
   @Event() calciteDatePickerRangeChange: EventEmitter<DateRangeChange>;
@@ -287,12 +298,12 @@ export class InputDatePicker
   /**
    * @internal
    */
-  @Event() calciteInputDatePickerOpen: EventEmitter;
+  @Event() calciteInternalInputDatePickerOpen: EventEmitter;
 
   /**
    * @internal
    */
-  @Event() calciteInputDatePickerClose: EventEmitter;
+  @Event() calciteInternalInputDatePickerClose: EventEmitter;
 
   // --------------------------------------------------------------------------
   //
@@ -419,9 +430,9 @@ export class InputDatePicker
                   icon="calendar"
                   label={getLabelText(this)}
                   number-button-type="none"
-                  onCalciteInputBlur={this.inputBlur}
-                  onCalciteInputFocus={this.startInputFocus}
                   onCalciteInputInput={this.inputInput}
+                  onCalciteInternalInputBlur={this.inputBlur}
+                  onCalciteInternalInputFocus={this.startInputFocus}
                   placeholder={this.localeData?.placeholder}
                   ref={this.setStartInput}
                   scale={this.scale}
@@ -491,9 +502,9 @@ export class InputDatePicker
                   disabled={disabled}
                   icon="calendar"
                   number-button-type="none"
-                  onCalciteInputBlur={this.inputBlur}
-                  onCalciteInputFocus={this.endInputFocus}
                   onCalciteInputInput={this.inputInput}
+                  onCalciteInternalInputBlur={this.inputBlur}
+                  onCalciteInternalInputFocus={this.endInputFocus}
                   placeholder={this.localeData?.placeholder}
                   ref={this.setEndInput}
                   scale={this.scale}
@@ -575,8 +586,8 @@ export class InputDatePicker
   transitionEnd = (event: TransitionEvent): void => {
     if (event.propertyName === this.activeTransitionProp) {
       this.active
-        ? this.calciteInputDatePickerOpen.emit()
-        : this.calciteInputDatePickerClose.emit();
+        ? this.calciteInternalInputDatePickerOpen.emit()
+        : this.calciteInternalInputDatePickerClose.emit();
     }
   };
 
@@ -687,6 +698,8 @@ export class InputDatePicker
 
   /**
    * If inputted string is a valid date, update value/active
+   *
+   * @param value
    */
   private input(value: string): void {
     const date = this.getDateFromInput(value);
@@ -733,6 +746,8 @@ export class InputDatePicker
 
   /**
    * Clean up invalid date from input on blur
+   *
+   * @param target
    */
   private blur(target: HTMLCalciteInputElement): void {
     const { locale, focusedInput, endAsDate, range, startAsDate, valueAsDate } = this;
@@ -752,6 +767,8 @@ export class InputDatePicker
 
   /**
    * Event handler for when the selected date changes
+   *
+   * @param event
    */
   handleDateChange = (event: CustomEvent<Date>): void => {
     if (this.range) {
@@ -800,6 +817,8 @@ export class InputDatePicker
   /**
    * Find a date from input string
    * return false if date is invalid, or out of range
+   *
+   * @param value
    */
   private getDateFromInput(value: string): Date | false {
     if (!this.localeData) {

@@ -61,6 +61,9 @@ export interface GlobalAttrComponent {
  *   const lang = this.inheritedAttributes['lang'] ?? 'en';
  *   return <div>My lang is {lang}</div>;
  * }
+ *
+ * @param component
+ * @param attributeFilter
  */
 export function watchGlobalAttributes(component: GlobalAttrComponent, attributeFilter: AllowedGlobalAttribute[]): void {
   const { el } = component;
@@ -79,6 +82,8 @@ export function watchGlobalAttributes(component: GlobalAttrComponent, attributeF
 
 /**
  * Helper remove listening for changes to inherited attributes.
+ *
+ * @param component
  */
 export function unwatchGlobalAttributes(component: GlobalAttrComponent): void {
   elementToComponentAndObserverOptionsMap.delete(component.el);

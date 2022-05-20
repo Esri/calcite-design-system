@@ -5,6 +5,7 @@ import { InteractiveComponent, updateHostInteraction } from "../../utils/interac
 
 /**
  * A general purpose list that enables users to construct list items that conform to Calcite styling.
+ *
  * @slot - A slot for adding `calcite-list-item` elements.
  */
 @Component({
@@ -20,12 +21,12 @@ export class List implements InteractiveComponent {
   // --------------------------------------------------------------------------
 
   /**
-   * When true, disabled prevents user interaction.
+   * When true, prevents user interaction.
    */
   @Prop({ reflect: true }) disabled = false;
 
   /**
-   * Number at which section headings should start for this component.
+   * Number at which section headings should start for the list.
    */
   @Prop() headingLevel: HeadingLevel;
 

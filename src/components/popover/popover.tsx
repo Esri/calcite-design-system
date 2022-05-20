@@ -62,6 +62,7 @@ export class Popover implements FloatingUIComponent {
 
   /**
    * Display a close button within the Popover.
+   *
    * @deprecated use dismissible instead.
    */
   @Prop({ reflect: true }) closeButton = false;
@@ -106,6 +107,7 @@ export class Popover implements FloatingUIComponent {
 
   /**
    * Offset the position of the popover away from the reference element.
+   *
    * @default 6
    */
   @Prop({ reflect: true }) offsetDistance = defaultOffsetDistance;
@@ -148,8 +150,7 @@ export class Popover implements FloatingUIComponent {
   /**
    * Determines where the component will be positioned relative to the referenceElement.
    *
-   * Possible values: "auto", "auto-start", "auto-end", "top", "top-start", "top-end", "bottom", "bottom-start", "bottom-end", "right", "right-start", "right-end", "left", "left-start", "left-end", "leading-start", "leading", "leading-end", "trailing-end", "trailing", "trailing-start".
-   *
+   * @see [LogicalPlacement](https://github.com/Esri/calcite-components/blob/master/src/utils/floating-ui.ts#L25)
    */
   @Prop({ reflect: true }) placement: LogicalPlacement = defaultPopoverPlacement;
 
@@ -169,7 +170,14 @@ export class Popover implements FloatingUIComponent {
     this.reposition();
   }
 
-  /** Text for close button.
+  /**
+   * Disables automatically toggling a popover when its referenceElement has been triggered. This property can be set to true to manage when a popover is open.
+   */
+  @Prop({ reflect: true }) triggerDisabled = false;
+
+  /**
+   * Text for close button.
+   *
    * @default "Close"
    */
   @Prop() intlClose = TEXT.close;
@@ -271,7 +279,11 @@ export class Popover implements FloatingUIComponent {
     });
   }
 
-  /** Sets focus on the component. */
+  /**
+   * Sets focus on the component.
+   *
+   * @param focusId
+   */
   @Method()
   async setFocus(focusId?: "close-button"): Promise<void> {
     const { closeButtonEl } = this;
@@ -286,7 +298,11 @@ export class Popover implements FloatingUIComponent {
     this.el?.focus();
   }
 
-  /** Toggles the popover's open property. */
+  /**
+   * Toggles the popover's open property.
+   *
+   * @param value
+   */
   @Method()
   async toggle(value = !this.open): Promise<void> {
     this.open = value;

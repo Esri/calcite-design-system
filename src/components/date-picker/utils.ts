@@ -3,6 +3,7 @@ import { locales } from "../../utils/locale";
 
 /**
  * Translation resource data structure
+ *
  * @private
  */
 export interface DateLocaleData {
@@ -31,6 +32,8 @@ export interface DateLocaleData {
 /**
  * Get supported locale code from raw user input
  * Exported for testing purposes.
+ *
+ * @param lang
  * @private
  */
 function getSupportedLocale(lang = "") {
@@ -53,6 +56,7 @@ function getSupportedLocale(lang = "") {
 /**
  * CLDR cache.
  * Exported for testing purposes.
+ *
  * @private
  */
 export const translationCache: Record<string, DateLocaleData> = {};
@@ -60,12 +64,15 @@ export const translationCache: Record<string, DateLocaleData> = {};
 /**
  * CLDR request cache.
  * Exported for testing purposes.
+ *
  * @private
  */
 export const requestCache: Record<string, Promise<DateLocaleData>> = {};
 
 /**
  * Fetch calendar data for a given locale from list of supported languages
+ *
+ * @param lang
  * @public
  */
 export async function getLocaleData(lang: string): Promise<DateLocaleData> {

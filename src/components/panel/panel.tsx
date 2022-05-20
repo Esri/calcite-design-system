@@ -181,6 +181,7 @@ export class Panel implements ConditionalSlotComponent, InteractiveComponent {
 
   /**
    * Emitted when the close button has been clicked.
+   *
    * @deprecated use calcitePanelDismiss instead.
    */
   @Event() calcitePanelDismissedChange: EventEmitter;
@@ -252,7 +253,11 @@ export class Panel implements ConditionalSlotComponent, InteractiveComponent {
   //
   // --------------------------------------------------------------------------
 
-  /** Sets focus on the component. */
+  /**
+   * Sets focus on the component.
+   *
+   * @param focusId
+   */
   @Method()
   async setFocus(focusId?: "dismiss-button" | "back-button"): Promise<void> {
     if (focusId === "dismiss-button") {
@@ -268,7 +273,8 @@ export class Panel implements ConditionalSlotComponent, InteractiveComponent {
     this.containerEl?.focus();
   }
 
-  /** Scrolls panel content to a particular set of coordinates.
+  /**
+   * Scrolls panel content to a particular set of coordinates.
    *
    * ```
    *   myCalcitePanel.scrollContentTo({
@@ -277,6 +283,8 @@ export class Panel implements ConditionalSlotComponent, InteractiveComponent {
    *     behavior: "auto" // Specifies whether the scrolling should animate smoothly (smooth), or happen instantly in a single jump (auto, the default value).
    *   });
    * ```
+   *
+   * @param options
    */
   @Method()
   async scrollContentTo(options?: ScrollToOptions): Promise<void> {

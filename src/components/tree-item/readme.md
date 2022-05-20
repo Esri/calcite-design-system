@@ -13,10 +13,10 @@
 
 ## Slots
 
-| Slot         | Description                                     |
-| ------------ | ----------------------------------------------- |
-|              | A slot for adding content to the item.          |
-| `"children"` | A slot for adding nested calcite-tree elements. |
+| Slot         | Description                                       |
+| ------------ | ------------------------------------------------- |
+|              | A slot for adding content to the item.            |
+| `"children"` | A slot for adding nested `calcite-tree` elements. |
 
 ## Dependencies
 

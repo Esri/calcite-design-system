@@ -20,7 +20,8 @@ import {
   disconnectConditionalSlotComponent
 } from "../../utils/conditionalSlot";
 
-/** Notices are intended to be used to present users with important-but-not-crucial contextual tips or copy. Because
+/**
+ * Notices are intended to be used to present users with important-but-not-crucial contextual tips or copy. Because
  * notices are displayed inline, a common use case is displaying them on page-load to present users with short hints or contextual copy.
  * They are optionally dismissible - useful for keeping track of whether or not a user has dismissed the notice. You can also choose not
  * to display a notice on page load and set the "active" attribute as needed to contextually provide inline messaging to users.
@@ -62,11 +63,15 @@ export class Notice implements ConditionalSlotComponent {
   /** Optionally show a button the user can click to dismiss the notice */
   @Prop({ reflect: true }) dismissible = false;
 
-  /** when used as a boolean set to true, show a default recommended icon. You can
-   * also pass a calcite-ui-icon name to this prop to display a requested icon */
+  /**
+   * when used as a boolean set to true, show a default recommended icon. You can
+   * also pass a calcite-ui-icon name to this prop to display a requested icon
+   */
   @Prop({ reflect: true }) icon: string | boolean;
 
-  /** String for the close button.
+  /**
+   * String for the close button.
+   *
    * @default "Close"
    */
   @Prop({ reflect: false }) intlClose: string = TEXT.close;

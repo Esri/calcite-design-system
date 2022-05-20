@@ -140,7 +140,8 @@ export class Combobox
    */
   @Prop() required = false;
 
-  /** specify the selection mode
+  /**
+   * specify the selection mode
    * - multi: allow any number of selected items (default)
    * - single: only one selection)
    * - ancestors: like multi, but show ancestors of selected items as selected, only deepest children shown in chips
@@ -168,7 +169,9 @@ export class Combobox
     }
   }
 
-  /** string to override the English "Remove tag" text for when an item is selected.
+  /**
+   * string to override the English "Remove tag" text for when an item is selected.
+   *
    * @default "Remove tag"
    */
   @Prop({ reflect: false }) intlRemoveTag: string = TEXT.removeTag;
@@ -246,6 +249,7 @@ export class Combobox
 
   /**
    * Called when the selected items set changes
+   *
    * @deprecated use calciteComboboxChange instead
    */
   @Event() calciteLookupChange: EventEmitter<HTMLCalciteComboboxItemElement[]>;
@@ -261,17 +265,19 @@ export class Combobox
     text: string;
   }>;
 
-  /** Called when a selected item in the combobox is dismissed via its chip **/
+  /** Called when a selected item in the combobox is dismissed via its chip */
   @Event() calciteComboboxChipDismiss: EventEmitter;
 
   /**
    * Fired when the combobox is opened
+   *
    * @internal
    */
   @Event() calciteComboboxOpen: EventEmitter;
 
   /**
    *  Fired when the combobox is closed
+   *
    * @internal
    */
   @Event() calciteComboboxClose: EventEmitter;

@@ -34,6 +34,7 @@ export class SplitButton implements InteractiveComponent {
 
   /**
    * Is the dropdown currently active or not
+   *
    * @internal
    */
   @Prop({ mutable: true, reflect: true }) active = false;
@@ -51,8 +52,10 @@ export class SplitButton implements InteractiveComponent {
   /** aria label for overflow button */
   @Prop({ reflect: true }) dropdownLabel?: string;
 
-  /** optionally add a calcite-loader component to the control,
-   disabling interaction. with the primary button */
+  /**
+    optionally add a calcite-loader component to the control,
+   disabling interaction. with the primary button
+   */
   @Prop({ reflect: true }) loading = false;
 
   /** Describes the type of positioning to use for the dropdown. If your element is in a fixed container, use the 'fixed' value. */

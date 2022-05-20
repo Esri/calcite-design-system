@@ -60,7 +60,9 @@ export class Button implements LabelableComponent, InteractiveComponent, FormOwn
   /** optionally pass an icon to display at the start of a button - accepts calcite ui icon names  */
   @Prop({ reflect: true }) iconStart?: string;
 
-  /** string to override English loading text
+  /**
+   * string to override English loading text
+   *
    * @default "Loading"
    */
   @Prop() intlLoading?: string = TEXT.loading;
@@ -230,7 +232,7 @@ export class Button implements LabelableComponent, InteractiveComponent, FormOwn
 
   labelEl: HTMLCalciteLabelElement;
 
-  /** watches for changing text content **/
+  /** watches for changing text content */
   private mutationObserver = createObserver("mutation", () => this.updateHasContent());
 
   /** the rendered child element */
