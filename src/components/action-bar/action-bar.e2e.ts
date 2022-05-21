@@ -242,14 +242,14 @@ describe("calcite-action-bar", () => {
   it("should set other 'calcite-action-group' - 'menuOpen' to false", async () => {
     const page = await newE2EPage();
     await page.setContent(html`<calcite-action-bar>
-      <calcite-action-group id="first">
+      <calcite-action-group>
         <calcite-action text="Add" icon="plus"></calcite-action>
         <calcite-action text="Add" icon="plus"></calcite-action>
         <calcite-action text="Add" icon="plus"></calcite-action>
         <calcite-action text="Add" icon="plus" slot="menu-actions"></calcite-action>
         <calcite-action text="Add" icon="plus" slot="menu-actions"></calcite-action>
       </calcite-action-group>
-      <calcite-action-group id="second" menu-open>
+      <calcite-action-group menu-open>
         <calcite-action text="Add" icon="plus"></calcite-action>
         <calcite-action text="Add" icon="plus"></calcite-action>
         <calcite-action text="Add" icon="plus"></calcite-action>
@@ -259,16 +259,23 @@ describe("calcite-action-bar", () => {
       </calcite-action-group>
     </calcite-action-bar>`);
 
-    let groups = await page.findAll("calcite-action-group");
+    const groups = await page.findAll("calcite-action-group");
 
     expect(groups).toHaveLength(2);
     expect(await groups[0].getProperty("menuOpen")).toBe(false);
     expect(await groups[1].getProperty("menuOpen")).toBe(true);
 
-    await page.evaluate(() => ((document.getElementById("first") as HTMLCalciteActionGroupElement).menuOpen = true));
-    await page.waitForChanges();
+    const calciteActionMenuOpenChangeEvent = page.waitForEvent("calciteActionMenuOpenChange");
 
-    groups = await page.findAll("calcite-action-group");
+    await page.$eval("calcite-action-group", (firstActionGroup: HTMLCalciteActionGroupElement) => {
+      firstActionGroup.menuOpen = true;
+      const event = new CustomEvent("calciteActionMenuOpenChange", { bubbles: true, detail: true });
+      firstActionGroup.dispatchEvent(event);
+    });
+
+    await calciteActionMenuOpenChangeEvent;
+
+    await page.waitForChanges();
 
     expect(groups).toHaveLength(2);
     expect(await groups[0].getProperty("menuOpen")).toBe(true);

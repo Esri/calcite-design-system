@@ -50,7 +50,9 @@ export class Tab {
    */
   @Prop({ reflect: true, mutable: true }) active = false;
 
-  /** @internal Parent tabs component scale value */
+  /**
+   * @internal
+   */
   @Prop({ reflect: true, mutable: true }) scale: Scale = "m";
 
   //--------------------------------------------------------------------------
@@ -173,6 +175,8 @@ export class Tab {
   //--------------------------------------------------------------------------
 
   /**
+   * @param tabIds
+   * @param titleIds
    * @internal
    */
   @Method()

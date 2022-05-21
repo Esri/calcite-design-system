@@ -15,7 +15,7 @@ import { TreeSelectDetail, TreeSelectionMode } from "./interfaces";
 import { Scale } from "../interfaces";
 
 /**
- * @slot - A slot for calcite-tree-item elements.
+ * @slot - A slot for `calcite-tree-item` elements.
  */
 @Component({
   tag: "calcite-tree",
@@ -40,18 +40,24 @@ export class Tree {
   /** Display indentation guide lines. */
   @Prop({ mutable: true, reflect: true }) lines = false;
 
-  /** Display input
+  /**
+   * Display input
+   *
    * @deprecated Use "ancestors" selection-mode for checkbox input.
    */
   @Prop() inputEnabled = false;
 
-  /** @internal If this tree is nested within another tree, set to false. */
+  /**
+   * @internal
+   */
   @Prop({ reflect: true, mutable: true }) child: boolean;
 
   /** Specify the scale of the tree. */
   @Prop({ mutable: true, reflect: true }) scale: Scale = "m";
 
-  /** Customize how tree selection works.
+  /**
+   * Customize how tree selection works.
+   *
    * @default "single"
    * @see [TreeSelectionMode](https://github.com/Esri/calcite-components/blob/master/src/components/tree/interfaces.ts#L5)
    */
@@ -341,6 +347,7 @@ export class Tree {
 
   /**
    * Emits when the user selects/deselects tree items. An object including an array of selected items will be passed in the event's "detail" property.
+   *
    * @see [TreeSelectDetail](https://github.com/Esri/calcite-components/blob/master/src/components/tree/interfaces.ts#L1)
    */
   @Event() calciteTreeSelect: EventEmitter<TreeSelectDetail>;

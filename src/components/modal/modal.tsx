@@ -99,8 +99,10 @@ export class Modal implements ConditionalSlotComponent {
   /** Set the modal to always be fullscreen (overrides width) */
   @Prop({ reflect: true }) fullscreen: boolean;
 
-  /** Adds a color bar at the top for visual impact,
-   * Use color to add importance to destructive/workflow dialogs. */
+  /**
+   * Adds a color bar at the top for visual impact,
+   * Use color to add importance to destructive/workflow dialogs.
+   */
   @Prop({ reflect: true }) color?: "red" | "blue";
 
   /** Background color of modal content */
@@ -284,6 +286,8 @@ export class Modal implements ConditionalSlotComponent {
   //--------------------------------------------------------------------------
   /**
    * Focus first interactive element
+   *
+   * @param el
    * @deprecated use `setFocus` instead.
    */
   @Method()
@@ -300,6 +304,8 @@ export class Modal implements ConditionalSlotComponent {
    *
    * By default, will try to focus on any focusable content. If there is none, it will focus on the close button.
    * If you want to focus on the close button, you can use the `close-button` focus ID.
+   *
+   * @param focusId
    */
   @Method()
   async setFocus(focusId?: "close-button"): Promise<void> {
@@ -310,7 +316,12 @@ export class Modal implements ConditionalSlotComponent {
     );
   }
 
-  /** Set the scroll top of the modal content */
+  /**
+   * Set the scroll top of the modal content
+   *
+   * @param top
+   * @param left
+   */
   @Method()
   async scrollContent(top = 0, left = 0): Promise<void> {
     if (this.modalContent) {

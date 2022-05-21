@@ -77,6 +77,7 @@ export class Tabs {
   //--------------------------------------------------------------------------
 
   /**
+   * @param e
    * @internal
    */
   @Listen("calciteInternalTabTitleRegister")
@@ -87,6 +88,7 @@ export class Tabs {
   }
 
   /**
+   * @param e
    * @internal
    */
   @Listen("calciteTabTitleUnregister", { target: "body" })
@@ -97,6 +99,7 @@ export class Tabs {
   }
 
   /**
+   * @param e
    * @internal
    */
   @Listen("calciteInternalTabRegister")
@@ -107,6 +110,7 @@ export class Tabs {
   }
 
   /**
+   * @param e
    * @internal
    */
   @Listen("calciteTabUnregister", { target: "body" })

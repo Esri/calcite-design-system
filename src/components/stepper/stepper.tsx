@@ -75,6 +75,7 @@ export class Stepper {
 
   /**
    * This event fires when the active stepper item has changed.
+   *
    * @internal
    */
   @Event() calciteInternalStepperItemChange: EventEmitter<StepperItemChangeEventDetail>;
@@ -151,7 +152,7 @@ export class Stepper {
       this.requestedContent = content;
     }
 
-    this.itemMap.set(item, position);
+    this.itemMap.set(item, { position, content });
     this.items = this.sortItems();
     this.enabledItems = this.filterItems();
     event.stopPropagation();
@@ -184,7 +185,7 @@ export class Stepper {
       return;
     }
 
-    this.emitChangedItem(enabledStepIndex);
+    this.updateStep(enabledStepIndex);
   }
 
   /** set the previous step as active */
@@ -196,16 +197,20 @@ export class Stepper {
       return;
     }
 
-    this.emitChangedItem(enabledStepIndex);
+    this.updateStep(enabledStepIndex);
   }
 
-  /** set the requested step as active */
+  /**
+   * set the requested step as active
+   *
+   * @param step
+   */
   @Method()
   async goToStep(step: number): Promise<void> {
     const position = step - 1;
 
     if (this.currentPosition !== position) {
-      this.emitChangedItem(position);
+      this.updateStep(position);
     }
   }
 
@@ -218,7 +223,7 @@ export class Stepper {
       return;
     }
 
-    this.emitChangedItem(enabledStepIndex);
+    this.updateStep(enabledStepIndex);
   }
 
   /** set the last step as active */
@@ -230,7 +235,7 @@ export class Stepper {
       return;
     }
 
-    this.emitChangedItem(enabledStepIndex);
+    this.updateStep(enabledStepIndex);
   }
 
   //--------------------------------------------------------------------------
@@ -239,7 +244,7 @@ export class Stepper {
   //
   //--------------------------------------------------------------------------
 
-  private itemMap = new Map<HTMLCalciteStepperItemElement, number>();
+  private itemMap = new Map<HTMLCalciteStepperItemElement, { position: number; content: Node[] }>();
 
   /** list of sorted Stepper items */
   private items: HTMLCalciteStepperItemElement[] = [];
@@ -282,8 +287,16 @@ export class Stepper {
     this.el.insertAdjacentElement("beforeend", this.stepperContentContainer);
   }
 
-  private emitChangedItem(position: number): void {
+  private updateStep(position: number): void {
+    const { itemMap, items } = this;
+
     this.currentPosition = position;
+
+    const content = itemMap.get(items[position])?.content;
+
+    if (content) {
+      this.requestedContent = content;
+    }
 
     this.calciteInternalStepperItemChange.emit({
       position
@@ -324,7 +337,9 @@ export class Stepper {
   private sortItems(): HTMLCalciteStepperItemElement[] {
     const { itemMap } = this;
 
-    return Array.from(itemMap.keys()).sort((a, b) => itemMap.get(a) - itemMap.get(b));
+    return Array.from(itemMap.keys()).sort(
+      (a, b) => itemMap.get(a).position - itemMap.get(b).position
+    );
   }
 
   private filterItems(): HTMLCalciteStepperItemElement[] {

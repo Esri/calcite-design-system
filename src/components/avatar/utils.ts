@@ -4,6 +4,8 @@ import { hexToRGB } from "../color-picker/utils";
 /**
  * Convert a string to a valid hex by hashing its contents
  * and using the hash as a seed for three distinct color values
+ *
+ * @param str
  */
 export function stringToHex(str: string): string {
   let hash = 0;
@@ -21,6 +23,8 @@ export function stringToHex(str: string): string {
 
 /**
  * Find the hue of a color given the separate RGB color channels
+ *
+ * @param rgb
  */
 export function rgbToHue(rgb: RGB): number {
   let { r, g, b } = rgb;
@@ -53,6 +57,7 @@ export function rgbToHue(rgb: RGB): number {
 
 /**
  * For a hex color, find the hue
+ *
  * @param hex {string} - form of "#------"
  */
 export function hexToHue(hex: string): number {

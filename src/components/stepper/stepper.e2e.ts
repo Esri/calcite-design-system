@@ -128,10 +128,10 @@ describe("calcite-stepper", () => {
         <div>Step 1 content</div>
       </calcite-stepper-item>
       <calcite-stepper-item item-title="Step 2" id="step-2" active>
-        <div>Step 2 content</div>
+        <div id="step-2-content">Step 2 content</div>
       </calcite-stepper-item>
       <calcite-stepper-item item-title="Step 3" id="step-3">
-        <div>Step 3 content</div>
+        <div id="step-3-content">Step 3 content</div>
       </calcite-stepper-item>
       <calcite-stepper-item item-title="Step 4" id="step-4">
         <div>Step 4 content</div>
@@ -142,61 +142,73 @@ describe("calcite-stepper", () => {
     const step2 = await page.find("#step-2");
     const step3 = await page.find("#step-3");
     const step4 = await page.find("#step-4");
+    const step2content = await page.find("#step-2-content");
+    const step3content = await page.find("#step-3-content");
+    const activeContent = await page.find(".calcite-stepper-content");
     expect(step1).not.toHaveAttribute("active");
     expect(step2).toHaveAttribute("active");
     expect(step3).not.toHaveAttribute("active");
     expect(step4).not.toHaveAttribute("active");
+    expect(activeContent.textContent).toEqualHtml(step2content.textContent);
     await element.callMethod("nextStep");
     await page.waitForChanges();
     expect(step1).not.toHaveAttribute("active");
     expect(step2).not.toHaveAttribute("active");
     expect(step3).toHaveAttribute("active");
     expect(step4).not.toHaveAttribute("active");
+    expect(activeContent.textContent).toEqualHtml(step3content.textContent);
     await element.callMethod("prevStep");
     await page.waitForChanges();
     expect(step1).not.toHaveAttribute("active");
     expect(step2).toHaveAttribute("active");
     expect(step3).not.toHaveAttribute("active");
     expect(step4).not.toHaveAttribute("active");
+    expect(activeContent.textContent).toEqualHtml(step2content.textContent);
   });
 
   it("navigates disabled items correctly with nextStep and prevStep methods", async () => {
     const page = await newE2EPage();
     await page.setContent(html`<calcite-stepper>
       <calcite-stepper-item item-title="Step 1" id="step-1" active>
-        <div>Step 1 content</div>
+        <div id="step-1-content">Step 1 content</div>
       </calcite-stepper-item>
       <calcite-stepper-item item-title="Step 2" id="step-2" disabled>
         <div>Step 2 content</div>
       </calcite-stepper-item>
       <calcite-stepper-item item-title="Step 3" id="step-3">
-        <div>Step 3 content</div>
+        <div id="step-3-content">Step 3 content</div>
       </calcite-stepper-item>
     </calcite-stepper>`);
     const element = await page.find("calcite-stepper");
     const step1 = await page.find("#step-1");
     const step2 = await page.find("#step-2");
     const step3 = await page.find("#step-3");
+    const step1content = await page.find("#step-1-content");
+    const step3content = await page.find("#step-3-content");
+    const activeContent = await page.find(".calcite-stepper-content");
     expect(step1).toHaveAttribute("active");
     expect(step2).not.toHaveAttribute("active");
     expect(step3).not.toHaveAttribute("active");
+    expect(activeContent.textContent).toEqualHtml(step1content.textContent);
     await element.callMethod("nextStep");
     await page.waitForChanges();
     expect(step1).not.toHaveAttribute("active");
     expect(step2).not.toHaveAttribute("active");
     expect(step3).toHaveAttribute("active");
+    expect(activeContent.textContent).toEqualHtml(step3content.textContent);
     await element.callMethod("prevStep");
     await page.waitForChanges();
     expect(step1).toHaveAttribute("active");
     expect(step2).not.toHaveAttribute("active");
     expect(step3).not.toHaveAttribute("active");
+    expect(activeContent.textContent).toEqualHtml(step1content.textContent);
   });
 
   it("navigates correctly with startStep and endStep methods", async () => {
     const page = await newE2EPage();
     await page.setContent(html`<calcite-stepper>
       <calcite-stepper-item item-title="Step 1" id="step-1">
-        <div>Step 1 content</div>
+        <div id="step-1-content">Step 1 content</div>
       </calcite-stepper-item>
       <calcite-stepper-item item-title="Step 2" id="step-2">
         <div>Step 2 content</div>
@@ -205,7 +217,7 @@ describe("calcite-stepper", () => {
         <div>Step 3 content</div>
       </calcite-stepper-item>
       <calcite-stepper-item item-title="Step 4" id="step-4">
-        <div>Step 4 content</div>
+        <div id="step-4-content">Step 4 content</div>
       </calcite-stepper-item>
     </calcite-stepper>`);
     const element = await page.find("calcite-stepper");
@@ -213,6 +225,9 @@ describe("calcite-stepper", () => {
     const step2 = await page.find("#step-2");
     const step3 = await page.find("#step-3");
     const step4 = await page.find("#step-4");
+    const step1content = await page.find("#step-1-content");
+    const step4content = await page.find("#step-4-content");
+    const activeContent = await page.find(".calcite-stepper-content");
     expect(step1).toHaveAttribute("active");
     expect(step2).not.toHaveAttribute("active");
     expect(step3).not.toHaveAttribute("active");
@@ -223,12 +238,14 @@ describe("calcite-stepper", () => {
     expect(step2).not.toHaveAttribute("active");
     expect(step3).not.toHaveAttribute("active");
     expect(step4).not.toHaveAttribute("active");
+    expect(activeContent.textContent).toEqualHtml(step1content.textContent);
     await element.callMethod("endStep");
     await page.waitForChanges();
     expect(step1).not.toHaveAttribute("active");
     expect(step2).not.toHaveAttribute("active");
     expect(step3).not.toHaveAttribute("active");
     expect(step4).toHaveAttribute("active");
+    expect(activeContent.textContent).toEqualHtml(step4content.textContent);
   });
 
   it("navigates disabled items correctly with startStep and endStep methods", async () => {
@@ -238,10 +255,10 @@ describe("calcite-stepper", () => {
         <div>Step 1 content</div>
       </calcite-stepper-item>
       <calcite-stepper-item item-title="Step 2" id="step-2">
-        <div>Step 2 content</div>
+        <div id="step-2-content">Step 2 content</div>
       </calcite-stepper-item>
       <calcite-stepper-item item-title="Step 3" id="step-3">
-        <div>Step 3 content</div>
+        <div id="step-3-content">Step 3 content</div>
       </calcite-stepper-item>
       <calcite-stepper-item item-title="Step 4" id="step-4" disabled>
         <div>Step 4 content</div>
@@ -252,6 +269,9 @@ describe("calcite-stepper", () => {
     const step2 = await page.find("#step-2");
     const step3 = await page.find("#step-3");
     const step4 = await page.find("#step-4");
+    const step2content = await page.find("#step-2-content");
+    const step3content = await page.find("#step-3-content");
+    const activeContent = await page.find(".calcite-stepper-content");
     expect(step1).not.toHaveAttribute("active");
     expect(step2).not.toHaveAttribute("active");
     expect(step3).not.toHaveAttribute("active");
@@ -262,12 +282,14 @@ describe("calcite-stepper", () => {
     expect(step2).not.toHaveAttribute("active");
     expect(step3).toHaveAttribute("active");
     expect(step4).not.toHaveAttribute("active");
+    expect(activeContent.textContent).toEqualHtml(step3content.textContent);
     await element.callMethod("startStep");
     await page.waitForChanges();
     expect(step1).not.toHaveAttribute("active");
     expect(step2).toHaveAttribute("active");
     expect(step3).not.toHaveAttribute("active");
     expect(step4).not.toHaveAttribute("active");
+    expect(activeContent.textContent).toEqualHtml(step2content.textContent);
   });
 
   it("navigates to requested step with goToStep method", async () => {

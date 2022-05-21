@@ -74,12 +74,14 @@ export class ColorPickerHexInput {
 
   /**
    * Label used for the hex input.
+   *
    * @default "Hex"
    */
   @Prop() intlHex = TEXT.hex;
 
   /**
    * Label used for the hex input when there is no color selected.
+   *
    * @default "No color"
    */
   @Prop() intlNoColor = TEXT.noColor;
