@@ -101,6 +101,13 @@ export class ValueList<
    */
   @Prop() selectionFollowsFocus = false;
 
+  /**
+   * When true, DOM modifications from sorting will be skipped to be handled externally.
+   *
+   * This is useful when used in frameworks or libraries that manage the DOM.
+   */
+  @Prop() managedSort = false;
+
   // --------------------------------------------------------------------------
   //
   //  Private Properties
@@ -116,6 +123,8 @@ export class ValueList<
   lastSelectedItem: ItemElement = null;
 
   mutationObserver = createObserver("mutation", mutationObserverCallback.bind(this));
+
+  preSortOrder: ItemElement[];
 
   sortable: Sortable;
 
@@ -228,12 +237,36 @@ export class ValueList<
       handle: `.${CSS.handle}`,
       draggable: "calcite-value-list-item",
       group: this.group,
-      onSort: () => {
-        this.items = Array.from(this.el.querySelectorAll<ItemElement>("calcite-value-list-item"));
-        const values = this.items.map((item) => item.value);
-        this.calciteListOrderChange.emit(values);
+      onStart: () => {
+        if (this.managedSort) {
+          this.preSortOrder = this.items.slice();
+        }
+      },
+      onEnd: (event) => {
+        if (this.managedSort) {
+          this.el.replaceChildren(...this.preSortOrder);
+          this.preSortOrder = null;
+        }
+
+        this.items = this.swapItems(
+          this.items,
+          this.items.indexOf(event.item as ItemElement),
+          event.newIndex
+        );
+        this.calciteListOrderChange.emit(this.items.map(({ value }) => value));
       }
     });
+  }
+
+  swapItems(items: ItemElement[], fromIndex: number, toIndex: number): ItemElement[] {
+    const reordered = items.slice();
+    const itemA = reordered[fromIndex];
+    const itemB = reordered[toIndex];
+
+    reordered[toIndex] = itemA;
+    reordered[fromIndex] = itemB;
+
+    return reordered;
   }
 
   cleanUpDragAndDrop(): void {
@@ -281,18 +314,20 @@ export class ValueList<
     const { el } = this;
     const nextIndex = moveItemIndex(this, item, event.key === "ArrowUp" ? "up" : "down");
 
-    if (nextIndex === items.length - 1) {
-      el.appendChild(item);
-    } else {
-      const itemAtNextIndex = el.children[nextIndex];
-      const insertionReferenceItem =
-        itemAtNextIndex === item.nextElementSibling
-          ? itemAtNextIndex.nextElementSibling
-          : itemAtNextIndex;
-      el.insertBefore(item, insertionReferenceItem);
+    if (!this.managedSort) {
+      if (nextIndex === items.length - 1) {
+        el.appendChild(item);
+      } else {
+        const itemAtNextIndex = el.children[nextIndex];
+        const insertionReferenceItem =
+          itemAtNextIndex === item.nextElementSibling
+            ? itemAtNextIndex.nextElementSibling
+            : itemAtNextIndex;
+        el.insertBefore(item, insertionReferenceItem);
+      }
     }
 
-    this.items = this.getItems();
+    this.items = this.swapItems(this.items, this.items.indexOf(item), nextIndex);
     this.calciteListOrderChange.emit(this.items.map(({ value }) => value));
 
     requestAnimationFrame(() => handleElement.focus());
