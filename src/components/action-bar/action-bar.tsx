@@ -8,7 +8,8 @@ import {
   Watch,
   h,
   VNode,
-  Method
+  Method,
+  Listen
 } from "@stencil/core";
 import { Position, Scale } from "../interfaces";
 import { ExpandToggle, toggleChildActionText } from "../functional/ExpandToggle";
@@ -108,13 +109,25 @@ export class ActionBar implements ConditionalSlotComponent {
    */
   @Event() calciteActionBarToggle: EventEmitter;
 
+  @Listen("calciteActionMenuOpenChange", { target: "body" })
+  actionMenuOpenChangeHandler(event: CustomEvent<boolean>): void {
+    if (event.detail) {
+      const composedPath = event.composedPath();
+      Array.from(this.el.querySelectorAll("calcite-action-group")).forEach((group) => {
+        if (!composedPath.includes(group)) {
+          group.menuOpen = false;
+        }
+      });
+    }
+  }
+
   // --------------------------------------------------------------------------
   //
   //  Private Properties
   //
   // --------------------------------------------------------------------------
-
-  @Element() el: HTMLCalciteActionBarElement;
+  @Element()
+  el: HTMLCalciteActionBarElement;
 
   mutationObserver = createObserver("mutation", () => {
     const { el, expanded } = this;
@@ -193,17 +206,6 @@ export class ActionBar implements ConditionalSlotComponent {
   //  Private Methods
   //
   // --------------------------------------------------------------------------
-
-  actionMenuOpenChangeHandler = (event: CustomEvent<boolean>): void => {
-    if (event.detail) {
-      const composedPath = event.composedPath();
-      Array.from(this.el.querySelectorAll("calcite-action-group")).forEach((group) => {
-        if (!composedPath.includes(group)) {
-          group.menuOpen = false;
-        }
-      });
-    }
-  };
 
   resizeHandlerEntries = (entries: ResizeObserverEntry[]): void => {
     entries.forEach(this.resizeHandler);
@@ -305,7 +307,7 @@ export class ActionBar implements ConditionalSlotComponent {
 
   render(): VNode {
     return (
-      <Host onCalciteActionMenuOpenChange={this.actionMenuOpenChangeHandler}>
+      <Host>
         <slot />
         {this.renderBottomActionGroup()}
       </Host>
