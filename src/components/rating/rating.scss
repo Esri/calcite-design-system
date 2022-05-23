@@ -43,15 +43,11 @@
 
 .star {
   @apply focus-base
-    relative
-    flex
-    cursor-pointer;
+  relative
+  flex
+  cursor-pointer
+  transition-default;
   color: theme("borderColor.color.input");
-  transition: var(--calcite-animation-timing);
-  transform: scale(1);
-  &:active {
-    transform: scale(1.1);
-  }
 }
 
 .focused {
@@ -70,16 +66,12 @@
   color: theme("colors.brand");
 }
 
-.hovered:not(.selected) {
-  transform: scale(0.9);
-}
-
 :host .fraction {
   @apply pointer-events-none
     absolute
     top-0
-    overflow-hidden;
-  transition: var(--calcite-animation-timing);
+    overflow-hidden
+    transition-default;
   inset-inline-start: 0;
 }
 

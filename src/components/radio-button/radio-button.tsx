@@ -163,6 +163,7 @@ export class RadioButton
     }
     this.uncheckAllRadioButtonsInGroup();
     this.checked = true;
+    this.focused = true;
     this.calciteRadioButtonChange.emit();
     this.setFocus();
   };
