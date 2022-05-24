@@ -24,13 +24,14 @@
     text-color-3
     opacity-disabled
     flex
+    focus-base
     items-center
     justify-center
     rounded-full
     leading-none
-    transition-all;
+    transition-default;
   background: none;
-  box-shadow: 0 0 0 2px transparent, 0 0 0 0px transparent;
+  box-shadow: 0 0 0 2px transparent;
 }
 
 .text {
@@ -97,7 +98,8 @@
 }
 
 :host(:focus:not([disabled])) .day {
-  box-shadow: 0 0 0 2px var(--calcite-ui-foreground-1), 0 0 0 4px var(--calcite-ui-brand);
+  @apply focus-outset;
+  box-shadow: 0 0 0 2px var(--calcite-ui-foreground-1);
 }
 
 :host([selected]) .day {

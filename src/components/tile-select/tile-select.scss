@@ -13,9 +13,8 @@ $spacing: $baseline * 0.5;
     max-width: 300px;
     padding: $spacing;
     position: relative;
-    transition: var(--calcite-animation-timing);
     vertical-align: top;
-    @apply z-10;
+    @apply transition-default z-10;
 
     &.checked {
       @apply z-30;
@@ -34,11 +33,13 @@ $spacing: $baseline * 0.5;
     }
 
     &.focused {
+      @apply focus-base;
       &:not(.disabled) {
         @apply z-30;
         &:not(.input-enabled) {
-          box-shadow: 0 0 0 1px var(--calcite-ui-brand), inset 0 0 0 2px var(--calcite-ui-foreground-1),
-            inset 0 0 0 5px var(--calcite-ui-brand);
+          @apply focus-inset;
+          outline-offset: -4px;
+          box-shadow: 0 0 0 1px var(--calcite-ui-brand), inset 0 0 0 2px var(--calcite-ui-foreground-1);
         }
       }
     }

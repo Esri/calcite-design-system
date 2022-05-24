@@ -99,7 +99,7 @@
 
 :host textarea,
 :host input {
-  transition: var(--calcite-animation-timing), height 0s;
+  transition: var(--calcite-animation-timing), height 0, outline-offset 0s;
   -webkit-appearance: none;
   @apply font-inherit
     text-color-1
@@ -552,7 +552,6 @@ input[type="time"]::-webkit-clear-button {
 
 :host .inline-child {
   @apply transition-default bg-transparent;
-
   .editing-enabled {
     background-color: inherit;
   }
