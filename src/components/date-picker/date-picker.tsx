@@ -12,7 +12,14 @@ import {
   Build
 } from "@stencil/core";
 import { getLocaleData, DateLocaleData } from "./utils";
-import { dateFromRange, dateFromISO, dateToISO, getDaysDiff, HoverRange } from "../../utils/date";
+import {
+  dateFromRange,
+  dateFromISO,
+  dateToISO,
+  getDaysDiff,
+  HoverRange,
+  inRange
+} from "../../utils/date";
 import { HeadingLevel } from "../functional/Heading";
 
 import { DateRangeChange } from "./interfaces";
@@ -224,14 +231,35 @@ export class DatePicker {
   }
 
   render(): VNode {
-    const date = dateFromRange(
-      this.range ? this.startAsDate : this.valueAsDate,
-      this.minAsDate,
-      this.maxAsDate
+    const date = this.range
+      ? this.startAsDate
+      : !Array.isArray(this.valueAsDate)
+      ? this.valueAsDate
+      : this.valueAsDate[0];
+
+    const isValidDate = inRange(
+      this.range
+        ? this.startAsDate
+        : !Array.isArray(this.valueAsDate)
+        ? this.valueAsDate
+        : this.valueAsDate[0],
+      this.min,
+      this.max
     );
+    console.log(`%c isValidDate ${isValidDate}`, "color:green");
+    // dateFromRange(
+    //   this.range ? this.startAsDate : this.valueAsDate,
+    //   this.minAsDate,
+    //   this.maxAsDate
+    // );
+    // const validDate = inRange(
+    //   !this.range && !Array.isArray(this.valueAsDate) ? this.valueAsDate : this.startAsDate,
+    //   this.minAsDate,
+    //   this.maxAsDate
+    // );
     const activeStartDate = this.range
       ? this.getActiveStartDate(date, this.minAsDate, this.maxAsDate)
-      : this.getActiveDate(date, this.minAsDate, this.maxAsDate);
+      : this.getActiveDate(date, isValidDate, this.minAsDate, this.maxAsDate);
     let activeDate = activeStartDate;
     const endDate = this.range
       ? dateFromRange(this.endAsDate, this.minAsDate, this.maxAsDate)
@@ -247,7 +275,6 @@ export class DatePicker {
     if (this.range && this.mostRecentRangeValue) {
       activeDate = this.mostRecentRangeValue;
     }
-
     const minDate =
       this.range && this.activeRange
         ? this.activeRange === "start"
@@ -263,7 +290,7 @@ export class DatePicker {
         : this.maxAsDate;
     return (
       <Host onBlur={this.reset} onKeyUp={this.keyUpHandler} role="application">
-        {this.renderCalendar(activeDate, maxDate, minDate, date, endDate)}
+        {this.renderCalendar(activeDate, maxDate, minDate, date, endDate, isValidDate)}
       </Host>
     );
   }
@@ -326,6 +353,7 @@ export class DatePicker {
 
   monthHeaderSelectChange = (e: CustomEvent<Date>): void => {
     const date = new Date(e.detail);
+    // console.log(`%c ${e.detail} month header change`, "color: red");
     if (!this.range) {
       this.activeDate = date;
     } else {
@@ -425,13 +453,15 @@ export class DatePicker {
    * @param minDate
    * @param date
    * @param endDate
+   * @param isValidDate
    */
   private renderCalendar(
     activeDate: Date,
     maxDate: Date,
     minDate: Date,
     date: Date,
-    endDate: Date
+    endDate: Date,
+    isValidDate?: boolean
   ) {
     return (
       this.localeData && [
@@ -441,12 +471,14 @@ export class DatePicker {
           intlNextMonth={this.intlNextMonth}
           intlPrevMonth={this.intlPrevMonth}
           intlYear={this.intlYear}
+          isValidDate={isValidDate}
           localeData={this.localeData}
           max={maxDate}
           min={minDate}
           onCalciteDatePickerSelect={this.monthHeaderSelectChange}
           scale={this.scale}
           selectedDate={this.activeRange === "end" ? endDate : date || new Date()}
+          valueAsDate={this.valueAsDate}
         />,
         <calcite-date-picker-month
           activeDate={activeDate}
@@ -591,11 +623,19 @@ export class DatePicker {
    * Get an active date using the value, or current date as default
    *
    * @param value
+   * @param isValidDate
    * @param min
    * @param max
    */
-  private getActiveDate(value: Date | null, min: Date | null, max: Date | null): Date {
-    return dateFromRange(this.activeDate, min, max) || value || dateFromRange(new Date(), min, max);
+  private getActiveDate(
+    value: Date | null,
+    isValidDate = true,
+    min: Date | null,
+    max: Date | null
+  ): Date {
+    return isValidDate
+      ? dateFromRange(this.activeDate, min, max) || value || dateFromRange(new Date(), min, max)
+      : this.activeDate || value;
   }
 
   private getActiveStartDate(value: Date | null, min: Date | null, max: Date | null): Date {

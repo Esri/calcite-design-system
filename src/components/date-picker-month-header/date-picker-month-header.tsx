@@ -47,7 +47,7 @@ export class DatePickerMonthHeader {
   @Prop() selectedDate: Date;
 
   /** Focused date with indicator (will become selected date if user proceeds) */
-  @Prop() activeDate: Date;
+  @Prop() activeDate?: Date;
 
   /**
    * Number at which section headings should start for this component.
@@ -78,6 +78,14 @@ export class DatePickerMonthHeader {
   /** CLDR locale data for translated calendar info */
   @Prop() localeData: DateLocaleData;
 
+  /** test prop */
+  @Prop({ reflect: true }) valueAsDate?: Date | Date[];
+
+  /** test prop */
+  @Prop({ reflect: true }) isValidDate: boolean;
+
+  @State() minMonth: number;
+
   //--------------------------------------------------------------------------
   //
   //  Events
@@ -96,6 +104,11 @@ export class DatePickerMonthHeader {
 
   connectedCallback(): void {
     this.setNextPrevMonthDates();
+    if (this.valueAsDate) {
+      if (!Array.isArray(this.valueAsDate)) {
+        this.minMonth = this.valueAsDate.getMonth();
+      }
+    }
   }
 
   render(): VNode {
@@ -116,11 +129,10 @@ export class DatePickerMonthHeader {
     const order = getOrder(unitOrder);
     const reverse = order.indexOf("y") < order.indexOf("m");
     const suffix = this.localeData.year?.suffix;
-
     return (
       <Fragment>
         <a
-          aria-disabled={(this.prevMonthDate.getMonth() === activeMonth).toString()}
+          aria-disabled={(this.prevMonthDate.getMonth() === this.minMonth).toString()}
           aria-label={this.intlPrevMonth}
           class="chevron"
           href="#"
@@ -164,7 +176,7 @@ export class DatePickerMonthHeader {
           </span>
         </div>
         <a
-          aria-disabled={(this.nextMonthDate.getMonth() === activeMonth).toString()}
+          aria-disabled={(this.nextMonthDate.getMonth() === this.minMonth).toString()}
           aria-label={this.intlNextMonth}
           class="chevron"
           href="#"
@@ -199,8 +211,21 @@ export class DatePickerMonthHeader {
       return;
     }
 
-    this.nextMonthDate = dateFromRange(nextMonth(this.activeDate), this.min, this.max);
-    this.prevMonthDate = dateFromRange(prevMonth(this.activeDate), this.min, this.max);
+    if (this.isValidDate) {
+      this.nextMonthDate = dateFromRange(nextMonth(this.activeDate), this.min, this.max);
+      this.prevMonthDate = dateFromRange(prevMonth(this.activeDate), this.min, this.max);
+    } else {
+      this.nextMonthDate = this.getNextMonthDate(nextMonth(this.valueAsDate), this.max);
+      this.prevMonthDate = this.getPrevMonthDate(prevMonth(this.valueAsDate), this.min);
+    }
+    // console.log(
+    //   `%c prevMonth
+    //   ${this.prevMonthDate},
+    //   ${this.prevMonthDate.getMonth()},
+    //   ${prevMonth(this.valueAsDate)}  `,
+    //   "color:blue"
+    // );
+    console.log("next month", this.nextMonthDate, this.nextMonthDate.getMonth());
   }
 
   //--------------------------------------------------------------------------
@@ -225,6 +250,24 @@ export class DatePickerMonthHeader {
         this.setYear({ localizedYear, offset: 1 });
         break;
     }
+  };
+
+  private getPrevMonthDate = (date?: any, min?: Date | string): Date | null => {
+    if (!(date instanceof Date)) {
+      return null;
+    }
+    const time = date.getTime();
+    const beforeMin = min instanceof Date && time < min.getTime();
+    return beforeMin ? (this.valueAsDate as Date) : date;
+  };
+
+  private getNextMonthDate = (date?: any, max?: Date | string): Date | null => {
+    if (!(date instanceof Date)) {
+      return null;
+    }
+    const time = date.getTime();
+    const afterMax = max instanceof Date && time > max.getTime();
+    return afterMax ? (this.valueAsDate as Date) : date;
   };
 
   private onYearChange = (event: Event): void => {

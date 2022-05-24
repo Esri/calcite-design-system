@@ -15,8 +15,12 @@ export interface HoverRange {
  */
 export function inRange(date: Date, min?: Date | string, max?: Date | string): boolean {
   const time = date.getTime();
-  const afterMin = !(min instanceof Date) || time >= min.getTime();
-  const beforeMax = !(max instanceof Date) || time <= max.getTime();
+  min = min instanceof Date ? min : new Date(min);
+  max = max instanceof Date ? max : new Date(max);
+  const afterMin = time >= min.getTime();
+  const beforeMax = time <= max.getTime();
+  // const afterMin = !(min instanceof Date) || time >= min.getTime();
+  // const beforeMax = !(max instanceof Date) || time <= max.getTime();
   return afterMin && beforeMax;
 }
 
@@ -102,7 +106,7 @@ export function sameDate(d1: Date, d2: Date): boolean {
  *
  * @param date
  */
-export function prevMonth(date: Date): Date {
+export function prevMonth(date: any): Date {
   const month = date.getMonth();
   const nextDate = new Date(date);
   nextDate.setMonth(month - 1);
@@ -118,7 +122,7 @@ export function prevMonth(date: Date): Date {
  *
  * @param date
  */
-export function nextMonth(date: Date): Date {
+export function nextMonth(date: any): Date {
   const month = date.getMonth();
   const nextDate = new Date(date);
   nextDate.setMonth(month + 1);
