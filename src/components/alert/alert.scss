@@ -125,6 +125,8 @@
   }
 }
 
+@include calciteHydratedHidden();
+
 .container {
   @apply flex
     w-full
