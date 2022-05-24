@@ -8,7 +8,7 @@ import {
   Attributes,
   createComponentHTML as create
 } from "../../../.storybook/utils";
-import { createSteps, stepStory } from "../../../.storybook/helpers";
+import { createSteps, stepStory, setTheme, setKnobs } from "../../../.storybook/helpers";
 import { TEXT } from "./resources";
 
 export default {
@@ -90,15 +90,15 @@ const footerLinksHtml = html`
   <calcite-link class="calcite-theme-dark" slot="footer-trailing">Trail footer</calcite-link>
 `;
 
-const footerThumbnailHtml = html`<img
-  alt="footer thumbnail"
+const thumbnailHtml = html`<img
+  alt="thumbnail"
   slot="thumbnail"
   src="${placeholderImage({
     width: 380,
     height: 180
   })}"
   style="width: 380px;"
-/>`;
+/> `;
 
 const footerTrailingButtonsHtml = html`
   <div slot="footer-trailing">
@@ -150,22 +150,14 @@ export const SimpleWithFooterTextButtonTooltip = stepStory(
     .snapshot("Simple With Footer Text, Buttons and Tooltips RTL")
 );
 
-export const FooterButtonsTooltipsDropdown = stepStory(
+export const ThumbnailAppCard = stepStory(
   (): string => html`
     <div style="width:260px">
       ${create(
         "calcite-card",
         createAttributes(),
         html`
-          <img
-            alt=""
-            slot="thumbnail"
-            src="${placeholderImage({
-              width: 260,
-              height: 160
-            })}"
-            style="width:260px;height:160px"
-          />
+          ${thumbnailHtml}
           <h3 slot="title">Portland Businesses</h3>
           <span slot="subtitle"
             >by
@@ -214,7 +206,50 @@ export const FooterButtonsTooltipsDropdown = stepStory(
     </div>
   `,
   createSteps("calcite-card")
-    .snapshot("Simple With Footer Text, Buttons, Tooltips, Dropdown")
+    .snapshot("Thumbnail Block Start")
     .rtl()
-    .snapshot("Simple With Footer Text, Buttons, Tooltips, Dropdown RTL")
+    .snapshot("Thumbnail Block Start RTL")
+    .executeScript(setTheme("dark"))
+    .snapshot("Thumbnail Block Start RTL Dark")
+    .ltr()
+    .snapshot("Thumbnail Block Start Dark")
+    .executeScript(
+      setKnobs({
+        story: "components-card--thumbnail-app-card",
+        knobs: [{ name: "thumbnail-position", value: "block-end" }]
+      })
+    )
+    .snapshot("Thumbnail Block End")
+    .rtl()
+    .snapshot("Thumbnail Block End RTL")
+    .executeScript(setTheme("dark"))
+    .snapshot("Thumbnail Block End RTL Dark")
+    .ltr()
+    .snapshot("Thumbnail Block End Dark")
+    .executeScript(
+      setKnobs({
+        story: "components-card--thumbnail-app-card",
+        knobs: [{ name: "thumbnail-position", value: "inline-start" }]
+      })
+    )
+    .snapshot("Thumbnail Inline Start")
+    .rtl()
+    .snapshot("Thumbnail Inline Start RTL")
+    .executeScript(setTheme("dark"))
+    .snapshot("Thumbnail Inline Start RTL Dark")
+    .ltr()
+    .snapshot("Thumbnail Inline Start Dark")
+    .executeScript(
+      setKnobs({
+        story: "components-card--thumbnail-app-card",
+        knobs: [{ name: "thumbnail-position", value: "inline-end" }]
+      })
+    )
+    .snapshot("Thumbnail Inline End")
+    .rtl()
+    .snapshot("Thumbnail Inline End RTL")
+    .executeScript(setTheme("dark"))
+    .snapshot("Thumbnail Inline End RTL Dark")
+    .ltr()
+    .snapshot("Thumbnail Inline End Dark")
 );
