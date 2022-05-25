@@ -1,5 +1,5 @@
-import { boolean, text } from "@storybook/addon-knobs";
-import { placeholderImage, themesDarkDefault } from "../../../.storybook/utils";
+import { boolean, select, text } from "@storybook/addon-knobs";
+import { placeholderImage } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import readme from "./readme.md";
 import {
@@ -10,6 +10,7 @@ import {
 } from "../../../.storybook/utils";
 import { createSteps, stepStory, setTheme, setKnobs } from "../../../.storybook/helpers";
 import { TEXT } from "./resources";
+import { ATTRIBUTES } from "../../../.storybook/resources";
 
 export default {
   title: "Components/Card",
@@ -19,6 +20,7 @@ export default {
 };
 
 const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ exceptions } = { exceptions: [] }) => {
+  const { logicalFlowPosition } = ATTRIBUTES;
   return filterComponentAttributes(
     [
       {
@@ -65,6 +67,14 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
         name: "intl-deselect",
         commit(): Attribute {
           this.value = text("intl-deselect", TEXT.deselect);
+          delete this.build;
+          return this;
+        }
+      },
+      {
+        name: "thumbnail-position",
+        commit(): Attribute {
+          this.value = select("thumbnail-position", logicalFlowPosition.values, logicalFlowPosition.defaultValue);
           delete this.build;
           return this;
         }
