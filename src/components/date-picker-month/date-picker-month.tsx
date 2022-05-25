@@ -182,7 +182,7 @@ export class DatePickerMonth {
       }),
       ...curMonDays.map((day) => {
         const date = new Date(year, month, day);
-        const active = sameDate(date, this.activeDate);
+        const active = sameDate(date, this.selectedDate);
         return this.renderDateDay(active, day, date, true, true);
       }),
       ...nextMonDays.map((day) => {

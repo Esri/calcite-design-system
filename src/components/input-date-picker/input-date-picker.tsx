@@ -381,12 +381,6 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
       : !Array.isArray(this.valueAsDate)
       ? this.valueAsDate
       : null;
-
-    // const inrange = inRange(
-    //   this.range ? this.startAsDate : !Array.isArray(this.valueAsDate) ? this.valueAsDate : null,
-    //   this.min,
-    //   this.max
-    // );
     const endDate = this.range ? this.endAsDate : null;
     const formattedEndDate = endDate ? endDate.toLocaleDateString(this.locale) : "";
     const formattedDate = date ? date.toLocaleDateString(this.locale) : "";

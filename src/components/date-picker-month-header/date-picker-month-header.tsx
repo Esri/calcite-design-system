@@ -52,7 +52,8 @@ export class DatePickerMonthHeader {
   /**
    * Number at which section headings should start for this component.
    */
-  @Prop() headingLevel: HeadingLevel;
+  @Prop()
+  headingLevel: HeadingLevel;
 
   /** Minimum date of the calendar below which is disabled. */
   @Prop() min: Date;
@@ -81,10 +82,15 @@ export class DatePickerMonthHeader {
   /** test prop */
   @Prop({ reflect: true }) valueAsDate?: Date | Date[];
 
+  @Watch("valueAsDate")
+  handleValueAsDateChange(newDate: Date): void {
+    this.currentMonth = newDate.getMonth();
+  }
+
   /** test prop */
   @Prop({ reflect: true }) isValidDate: boolean;
 
-  @State() minMonth: number;
+  @State() currentMonth: number;
 
   //--------------------------------------------------------------------------
   //
@@ -106,7 +112,7 @@ export class DatePickerMonthHeader {
     this.setNextPrevMonthDates();
     if (this.valueAsDate) {
       if (!Array.isArray(this.valueAsDate)) {
-        this.minMonth = this.valueAsDate.getMonth();
+        this.currentMonth = this.valueAsDate.getMonth();
       }
     }
   }
@@ -119,7 +125,6 @@ export class DatePickerMonthHeader {
     if (!this.activeDate || !this.localeData) {
       return null;
     }
-
     const activeMonth = this.activeDate.getMonth();
     const { months, unitOrder } = this.localeData;
     const localizedMonth = (months.wide || months.narrow || months.abbreviated)[activeMonth];
@@ -132,7 +137,7 @@ export class DatePickerMonthHeader {
     return (
       <Fragment>
         <a
-          aria-disabled={(this.prevMonthDate.getMonth() === this.minMonth).toString()}
+          aria-disabled={(this.prevMonthDate.getMonth() === this.currentMonth).toString()}
           aria-label={this.intlPrevMonth}
           class="chevron"
           href="#"
@@ -176,7 +181,7 @@ export class DatePickerMonthHeader {
           </span>
         </div>
         <a
-          aria-disabled={(this.nextMonthDate.getMonth() === this.minMonth).toString()}
+          aria-disabled={(this.nextMonthDate.getMonth() === this.currentMonth).toString()}
           aria-label={this.intlNextMonth}
           class="chevron"
           href="#"
@@ -215,17 +220,9 @@ export class DatePickerMonthHeader {
       this.nextMonthDate = dateFromRange(nextMonth(this.activeDate), this.min, this.max);
       this.prevMonthDate = dateFromRange(prevMonth(this.activeDate), this.min, this.max);
     } else {
-      this.nextMonthDate = this.getNextMonthDate(nextMonth(this.valueAsDate), this.max);
-      this.prevMonthDate = this.getPrevMonthDate(prevMonth(this.valueAsDate), this.min);
+      this.nextMonthDate = this.getNextMonthDate(nextMonth(this.activeDate), this.max);
+      this.prevMonthDate = this.getPrevMonthDate(prevMonth(this.activeDate), this.min);
     }
-    // console.log(
-    //   `%c prevMonth
-    //   ${this.prevMonthDate},
-    //   ${this.prevMonthDate.getMonth()},
-    //   ${prevMonth(this.valueAsDate)}  `,
-    //   "color:blue"
-    // );
-    console.log("next month", this.nextMonthDate, this.nextMonthDate.getMonth());
   }
 
   //--------------------------------------------------------------------------

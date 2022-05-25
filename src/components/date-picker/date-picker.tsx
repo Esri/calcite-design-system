@@ -237,26 +237,18 @@ export class DatePicker {
       ? this.valueAsDate
       : this.valueAsDate[0];
 
-    const isValidDate = inRange(
-      this.range
-        ? this.startAsDate
-        : !Array.isArray(this.valueAsDate)
-        ? this.valueAsDate
-        : this.valueAsDate[0],
-      this.min,
-      this.max
-    );
-    console.log(`%c isValidDate ${isValidDate}`, "color:green");
-    // dateFromRange(
-    //   this.range ? this.startAsDate : this.valueAsDate,
-    //   this.minAsDate,
-    //   this.maxAsDate
-    // );
-    // const validDate = inRange(
-    //   !this.range && !Array.isArray(this.valueAsDate) ? this.valueAsDate : this.startAsDate,
-    //   this.minAsDate,
-    //   this.maxAsDate
-    // );
+    const isValidDate =
+      this.valueAsDate && (this.min || this.max)
+        ? inRange(
+            this.range
+              ? this.startAsDate
+              : !Array.isArray(this.valueAsDate)
+              ? this.valueAsDate
+              : this.valueAsDate[0],
+            this.min,
+            this.max
+          )
+        : true;
     const activeStartDate = this.range
       ? this.getActiveStartDate(date, this.minAsDate, this.maxAsDate)
       : this.getActiveDate(date, isValidDate, this.minAsDate, this.maxAsDate);
@@ -353,7 +345,6 @@ export class DatePicker {
 
   monthHeaderSelectChange = (e: CustomEvent<Date>): void => {
     const date = new Date(e.detail);
-    // console.log(`%c ${e.detail} month header change`, "color: red");
     if (!this.range) {
       this.activeDate = date;
     } else {
