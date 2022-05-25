@@ -216,7 +216,7 @@ export const ThumbnailAppCard = stepStory(
     .executeScript(
       setKnobs({
         story: "components-card--thumbnail-app-card",
-        knobs: [{ name: "thumbnail-position", value: "block-end" }]
+        knobs: [{ name: "thumbnailPosition", value: "block-end" }]
       })
     )
     .snapshot("Thumbnail Block End")
@@ -229,7 +229,7 @@ export const ThumbnailAppCard = stepStory(
     .executeScript(
       setKnobs({
         story: "components-card--thumbnail-app-card",
-        knobs: [{ name: "thumbnail-position", value: "inline-start" }]
+        knobs: [{ name: "thumbnailPosition", value: "inline-start" }]
       })
     )
     .snapshot("Thumbnail Inline Start")
@@ -242,7 +242,7 @@ export const ThumbnailAppCard = stepStory(
     .executeScript(
       setKnobs({
         story: "components-card--thumbnail-app-card",
-        knobs: [{ name: "thumbnail-position", value: "inline-end" }]
+        knobs: [{ name: "thumbnailPosition", value: "inline-end" }]
       })
     )
     .snapshot("Thumbnail Inline End")
