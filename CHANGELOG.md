@@ -16,6 +16,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ### Bug Fixes
 
 - **date-picker:** display correct day abbreviations when locale='ru' ([#4525](https://github.com/Esri/calcite-components/issues/4525)) ([6046129](https://github.com/Esri/calcite-components/commit/6046129a72320e36c4991ac13df643428c4fc028))
+- **dropdown-item, dropdown-group:** text align to "start" by default. ([#4615](https://github.com/Esri/calcite-components/issues/4615)) ([5a1cd3e](https://github.com/Esri/calcite-components/commit/5a1cd3ebf9d0f9cfc0f4ee874205c96e4fcecc29)), closes [#4220](https://github.com/Esri/calcite-components/issues/4220)
 - **graph:** Set default height to 100% ([#4530](https://github.com/Esri/calcite-components/issues/4530)) ([0b389fd](https://github.com/Esri/calcite-components/commit/0b389fd998cc5ce44199291bfc6b828c78f2dc81)), closes [#4518](https://github.com/Esri/calcite-components/issues/4518)
 - **input:** Align type="time" correctly in Firefox ([#4601](https://github.com/Esri/calcite-components/issues/4601)) ([cc6dd2c](https://github.com/Esri/calcite-components/commit/cc6dd2ca5f8648fb0b29b1d72cc05722db03f7ae)), closes [#4591](https://github.com/Esri/calcite-components/issues/4591)
 - **input-message:** remove the scaling transition effect when displaying an input message ([#4572](https://github.com/Esri/calcite-components/issues/4572)) ([61ef046](https://github.com/Esri/calcite-components/commit/61ef04660ac28c88320cfa92dc66f66e59216954))
