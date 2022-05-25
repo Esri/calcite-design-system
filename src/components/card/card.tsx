@@ -153,7 +153,7 @@ export class Card implements ConditionalSlotComponent {
 
   private renderThumbnail(): VNode {
     return getSlotted(this.el, SLOTS.thumbnail) ? (
-      <section class={`${SLOTS.thumbnail}-wrapper`}>
+      <section class={CSS.thumbnailWrapper}>
         <slot name={SLOTS.thumbnail} />
       </section>
     ) : null;
