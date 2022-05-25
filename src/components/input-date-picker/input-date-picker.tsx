@@ -729,7 +729,6 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
    */
   private input(value: string): void {
     const date = this.getDateFromInput(value);
-
     if (!date) {
       this.clearCurrentValue();
       return;
@@ -859,14 +858,7 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
     const validDate = !isNaN(date.getTime());
     const validLength = value.split(separator).filter((c) => c).length > 2;
     const validYear = year.toString().length > 0;
-    if (
-      validDay &&
-      validMonth &&
-      validDate &&
-      validLength &&
-      validYear &&
-      inRange(date, this.min, this.max)
-    ) {
+    if (validDay && validMonth && validDate && validLength && validYear) {
       return date;
     }
     return false;

@@ -84,7 +84,9 @@ export class DatePickerMonthHeader {
 
   @Watch("valueAsDate")
   handleValueAsDateChange(newDate: Date): void {
-    this.currentMonth = newDate.getMonth();
+    if (newDate) {
+      this.currentMonth = newDate.getMonth();
+    }
   }
 
   /** test prop */
