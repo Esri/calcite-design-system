@@ -182,7 +182,7 @@ export class DatePickerMonth {
       }),
       ...curMonDays.map((day) => {
         const date = new Date(year, month, day);
-        const active = sameDate(date, this.selectedDate);
+        const active = sameDate(date, this.activeDate);
         return this.renderDateDay(active, day, date, true, true);
       }),
       ...nextMonDays.map((day) => {
@@ -394,7 +394,6 @@ export class DatePickerMonth {
     const isHoverInRange =
       this.isHoverInRange() ||
       (!this.endDate && this.hoverRange && sameDate(this.hoverRange?.end, this.startDate));
-
     return (
       <calcite-date-picker-day
         active={active}

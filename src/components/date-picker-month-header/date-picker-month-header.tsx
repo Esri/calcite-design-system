@@ -22,7 +22,6 @@ import {
 import { DateLocaleData } from "../date-picker/utils";
 import { Scale } from "../interfaces";
 import { HeadingLevel, Heading } from "../functional/Heading";
-
 @Component({
   tag: "calcite-date-picker-month-header",
   styleUrl: "date-picker-month-header.scss",
@@ -49,6 +48,10 @@ export class DatePickerMonthHeader {
   /** Focused date with indicator (will become selected date if user proceeds) */
   @Prop() activeDate?: Date;
 
+  // @Watch('activeDate')
+  // handleActiveDateChange(newDate: Date): void {
+  //   if (status) this.currentMonth = this.new;
+  // }
   /**
    * Number at which section headings should start for this component.
    */
@@ -82,15 +85,19 @@ export class DatePickerMonthHeader {
   /** test prop */
   @Prop({ reflect: true }) valueAsDate?: Date | Date[];
 
-  @Watch("valueAsDate")
-  handleValueAsDateChange(newDate: Date): void {
-    if (newDate) {
-      this.currentMonth = newDate.getMonth();
-    }
-  }
+  // @Watch("valueAsDate")
+  // handleValueAsDateChange(newDate: Date): void {
+  //   if (newDate) {
+  //     this.currentMonth = newDate.getMonth();
+  //   }
+  // }
 
   /** test prop */
   @Prop({ reflect: true }) isValidDate: boolean;
+  // @Watch("isValidDate")
+  // handleValidStatusChange(status: boolean): void {
+  //   if (status) this.valueAsDate = this.activeDate;
+  // }
 
   @State() currentMonth: number;
 
@@ -111,12 +118,14 @@ export class DatePickerMonthHeader {
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
-    this.setNextPrevMonthDates();
     if (this.valueAsDate) {
       if (!Array.isArray(this.valueAsDate)) {
         this.currentMonth = this.valueAsDate.getMonth();
       }
+    } else {
+      this.currentMonth = this.activeDate.getMonth();
     }
+    this.setNextPrevMonthDates();
   }
 
   render(): VNode {
@@ -124,10 +133,16 @@ export class DatePickerMonthHeader {
   }
 
   renderContent(): VNode {
+    console.log(
+      `%c valUE as Date ${this.valueAsDate}  activeDate${this.activeDate}`,
+      "color:green"
+    );
     if (!this.activeDate || !this.localeData) {
       return null;
     }
+
     const activeMonth = this.activeDate.getMonth();
+    console.log(`%c ${this.isValidDate}`, "color:blue", activeMonth, this.currentMonth);
     const { months, unitOrder } = this.localeData;
     const localizedMonth = (months.wide || months.narrow || months.abbreviated)[activeMonth];
     const localizedYear = localizeNumber(this.activeDate.getFullYear(), this.localeData);
@@ -139,7 +154,11 @@ export class DatePickerMonthHeader {
     return (
       <Fragment>
         <a
-          aria-disabled={(this.prevMonthDate.getMonth() === this.currentMonth).toString()}
+          aria-disabled={(
+            this.prevMonthDate.getMonth() ===
+              (this.isValidDate ? activeMonth : this.currentMonth) &&
+            this.prevMonthDate.getFullYear() <= this.min.getFullYear()
+          ).toString()}
           aria-label={this.intlPrevMonth}
           class="chevron"
           href="#"
@@ -183,7 +202,11 @@ export class DatePickerMonthHeader {
           </span>
         </div>
         <a
-          aria-disabled={(this.nextMonthDate.getMonth() === this.currentMonth).toString()}
+          aria-disabled={(
+            this.nextMonthDate.getMonth() ===
+              (this.isValidDate ? activeMonth : this.currentMonth) &&
+            this.nextMonthDate.getFullYear() >= this.max.getFullYear()
+          ).toString()}
           aria-label={this.intlNextMonth}
           class="chevron"
           href="#"
@@ -225,6 +248,8 @@ export class DatePickerMonthHeader {
       this.nextMonthDate = this.getNextMonthDate(nextMonth(this.activeDate), this.max);
       this.prevMonthDate = this.getPrevMonthDate(prevMonth(this.activeDate), this.min);
     }
+
+    console.log(this.nextMonthDate, this.prevMonthDate, this.currentMonth);
   }
 
   //--------------------------------------------------------------------------
@@ -268,6 +293,22 @@ export class DatePickerMonthHeader {
     const afterMax = max instanceof Date && time > max.getTime();
     return afterMax ? (this.valueAsDate as Date) : date;
   };
+
+  // private isBeforeMin = (date?: any, min?: Date | string): boolean => {
+  //   if (!(date instanceof Date)) {
+  //     return null;
+  //   }
+  //   const time = date.getTime();
+  //   return min instanceof Date && time <= min.getTime();
+  // };
+
+  // private isAfterMax = (date?: any, max?: Date | string): boolean => {
+  //   if (!(date instanceof Date)) {
+  //     return null;
+  //   }
+  //   const time = date.getTime();
+  //   return max instanceof Date && time >= max.getTime();
+  // };
 
   private onYearChange = (event: Event): void => {
     this.setYear({ localizedYear: (event.target as HTMLInputElement).value });

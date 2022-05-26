@@ -238,17 +238,18 @@ export class DatePicker {
       : this.valueAsDate[0];
 
     const isValidDate =
-      this.valueAsDate && (this.min || this.max)
+      this.valueAsDate && (this.minAsDate || this.maxAsDate)
         ? inRange(
             this.range
               ? this.startAsDate
               : !Array.isArray(this.valueAsDate)
-              ? this.valueAsDate
+              ? (this.valueAsDate as Date)
               : this.valueAsDate[0],
-            this.min,
-            this.max
+            this.minAsDate,
+            this.maxAsDate
           )
         : true;
+
     const activeStartDate = this.range
       ? this.getActiveStartDate(date, this.minAsDate, this.maxAsDate)
       : this.getActiveDate(date, isValidDate, this.minAsDate, this.maxAsDate);
