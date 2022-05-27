@@ -102,7 +102,7 @@ export function sameDate(d1: Date, d2: Date): boolean {
  *
  * @param date
  */
-export function prevMonth(date: any): Date {
+export function prevMonth(date: Date): Date {
   const month = date.getMonth();
   const nextDate = new Date(date);
   nextDate.setMonth(month - 1);
@@ -118,7 +118,7 @@ export function prevMonth(date: any): Date {
  *
  * @param date
  */
-export function nextMonth(date: any): Date {
+export function nextMonth(date: Date): Date {
   const month = date.getMonth();
   const nextDate = new Date(date);
   nextDate.setMonth(month + 1);

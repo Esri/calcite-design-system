@@ -394,6 +394,7 @@ export class DatePickerMonth {
     const isHoverInRange =
       this.isHoverInRange() ||
       (!this.endDate && this.hoverRange && sameDate(this.hoverRange?.end, this.startDate));
+
     return (
       <calcite-date-picker-day
         active={active}
