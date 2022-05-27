@@ -470,7 +470,6 @@ export class DatePicker {
           onCalciteDatePickerSelect={this.monthHeaderSelectChange}
           scale={this.scale}
           selectedDate={this.activeRange === "end" ? endDate : date || new Date()}
-          valueAsDate={this.valueAsDate}
         />,
         <calcite-date-picker-month
           activeDate={activeDate}

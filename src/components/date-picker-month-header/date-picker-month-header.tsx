@@ -46,13 +46,12 @@ export class DatePickerMonthHeader {
   @Prop() selectedDate: Date;
 
   /** Focused date with indicator (will become selected date if user proceeds) */
-  @Prop() activeDate?: Date;
+  @Prop() activeDate: Date;
 
   /**
    * Number at which section headings should start for this component.
    */
-  @Prop()
-  headingLevel: HeadingLevel;
+  @Prop() headingLevel: HeadingLevel;
 
   /** Minimum date of the calendar below which is disabled. */
   @Prop() min: Date;
@@ -79,16 +78,7 @@ export class DatePickerMonthHeader {
   @Prop() localeData: DateLocaleData;
 
   /** test prop */
-  @Prop({ reflect: true, mutable: true }) valueAsDate?: Date | Date[];
-
-  /** test prop */
   @Prop({ reflect: true }) isValidDate: boolean;
-  // @Watch("isValidDate")
-  // handleValidStatusChange(status: boolean): void {
-  //   if (status) this.valueAsDate = this.activeDate;
-  // }
-
-  @State() currentMonth: number;
 
   //--------------------------------------------------------------------------
   //
@@ -108,13 +98,6 @@ export class DatePickerMonthHeader {
 
   connectedCallback(): void {
     this.setNextPrevMonthDates();
-    if (this.valueAsDate) {
-      if (!Array.isArray(this.valueAsDate)) {
-        this.currentMonth = this.valueAsDate.getMonth();
-      }
-    } else {
-      this.currentMonth = this.activeDate.getMonth();
-    }
   }
 
   render(): VNode {
@@ -122,15 +105,14 @@ export class DatePickerMonthHeader {
   }
 
   renderContent(): VNode {
-    console.log(`%c valueAsDate ${this.valueAsDate}  activeDate${this.activeDate}`, "color:green");
     if (!this.activeDate || !this.localeData) {
       return null;
     }
 
     const activeMonth = this.activeDate.getMonth();
-    // console.log(`%c ${this.isValidDate}`, "color:blue", activeMonth, this.currentMonth);
+    // console.log(`%c ${this.isValidDate}`, "color:blue", activeMonth);
     // console.log(`%c ${this.prevMonthDate.getFullYear() <= this.min.getFullYear()}`, "color: red");
-    console.log(`%c ${this.isValidDate}`, "color: red");
+    // console.log(`%c ${this.isValidDate}`, "color: red");
     const { months, unitOrder } = this.localeData;
     const localizedMonth = (months.wide || months.narrow || months.abbreviated)[activeMonth];
     const localizedYear = localizeNumber(this.activeDate.getFullYear(), this.localeData);
@@ -142,11 +124,7 @@ export class DatePickerMonthHeader {
     return (
       <Fragment>
         <a
-          aria-disabled={(this.prevMonthDate.getMonth() === activeMonth)
-
-            //    &&
-            // this.prevMonthDate.getFullYear() <= this.min.getFullYear()
-            .toString()}
+          aria-disabled={(this.prevMonthDate.getMonth() === activeMonth).toString()}
           aria-label={this.intlPrevMonth}
           class="chevron"
           href="#"
@@ -190,10 +168,7 @@ export class DatePickerMonthHeader {
           </span>
         </div>
         <a
-          aria-disabled={(this.nextMonthDate.getMonth() === activeMonth)
-            //   &&
-            // this.nextMonthDate.getFullYear() >= this.max.getFullYear()
-            .toString()}
+          aria-disabled={(this.nextMonthDate.getMonth() === activeMonth).toString()}
           aria-label={this.intlNextMonth}
           class="chevron"
           href="#"
@@ -236,8 +211,8 @@ export class DatePickerMonthHeader {
       this.prevMonthDate = this.getPrevMonthDate(prevMonth(this.activeDate), this.min);
     }
 
-    console.log(`%c ${this.nextMonthDate} ${nextMonth(this.activeDate)}`, "color:pink");
-    console.log(`%c  ${this.prevMonthDate} ${prevMonth(this.activeDate)}`, "color:pink");
+    // console.log(`%c ${this.nextMonthDate} ${nextMonth(this.activeDate)}`, "color:pink");
+    // console.log(`%c  ${this.prevMonthDate} ${prevMonth(this.activeDate)}`, "color:pink");
   }
 
   //--------------------------------------------------------------------------
