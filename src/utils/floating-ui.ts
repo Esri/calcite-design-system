@@ -16,6 +16,7 @@ import { getElementDir } from "./dom";
 type UIType = "menu" | "tooltip" | "popover";
 export type OverlayPositioning = Strategy;
 
+// see: https://github.com/floating-ui/floating-ui/issues/1563
 type VariationPlacement = "leading-start" | "leading" | "leading-end" | "trailing-end" | "trailing" | "trailing-start";
 
 type AutoPlacement = "auto" | "auto-start" | "auto-end";
@@ -221,6 +222,18 @@ export function getEffectivePlacement(floatingEl: HTMLElement, placement: Logica
 
 /**
  * Positions the floating element relative to the reference element.
+ *
+ * @param root0
+ * @param root0.referenceEl
+ * @param root0.floatingEl
+ * @param root0.overlayPositioning
+ * @param root0.placement
+ * @param root0.disableFlip
+ * @param root0.flipPlacements
+ * @param root0.offsetDistance
+ * @param root0.offsetSkidding
+ * @param root0.arrowEl
+ * @param root0.type
  */
 export async function positionFloatingUI({
   referenceEl,
@@ -303,6 +316,10 @@ const cleanupMap = new WeakMap<FloatingUIComponent, () => void>();
 
 /**
  * Helper to set up floating element interactions on connectedCallback.
+ *
+ * @param component
+ * @param referenceEl
+ * @param floatingEl
  */
 export function connectFloatingUI(
   component: FloatingUIComponent,
@@ -327,6 +344,10 @@ export function connectFloatingUI(
 
 /**
  * Helper to tear down floating element interactions on disconnectedCallback.
+ *
+ * @param component
+ * @param referenceEl
+ * @param floatingEl
  */
 export function disconnectFloatingUI(
   component: FloatingUIComponent,
@@ -354,6 +375,7 @@ const visiblePointerSize = 4;
 
 /**
  * Default offset the position of the floating element away from the reference element.
+ *
  * @default 6
  */
 export const defaultOffsetDistance = Math.ceil(hypotenuse(visiblePointerSize, visiblePointerSize));
