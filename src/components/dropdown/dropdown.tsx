@@ -403,9 +403,10 @@ export class Dropdown implements InteractiveComponent {
 
   resizeObserverCallback = (entries: ResizeObserverEntry[]): void => {
     entries.forEach((entry) => {
-      if (entry.target === this.referenceEl) {
+      const { target } = entry;
+      if (target === this.referenceEl) {
         this.setDrodownMinWidth();
-      } else if (entry.target === this.scrollerEl) {
+      } else if (target === this.scrollerEl) {
         this.setMaxScrollerHeight();
       }
     });
@@ -413,12 +414,13 @@ export class Dropdown implements InteractiveComponent {
 
   setDrodownMinWidth = (): void => {
     const { referenceEl, scrollerEl } = this;
+    const minWidth = referenceEl?.clientWidth;
 
-    if (!referenceEl || !scrollerEl) {
+    if (!minWidth || !scrollerEl) {
       return;
     }
 
-    scrollerEl.style.minWidth = `${referenceEl.clientWidth}px`;
+    scrollerEl.style.minWidth = `${minWidth}px`;
   };
 
   setMaxScrollerHeight = (): void => {
