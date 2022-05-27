@@ -60,6 +60,7 @@
 
 .container {
   @include itemStyling;
+  text-align: start;
 }
 
 .dropdown-item-content {
