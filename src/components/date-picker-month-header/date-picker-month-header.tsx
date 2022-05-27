@@ -48,10 +48,6 @@ export class DatePickerMonthHeader {
   /** Focused date with indicator (will become selected date if user proceeds) */
   @Prop() activeDate?: Date;
 
-  // @Watch('activeDate')
-  // handleActiveDateChange(newDate: Date): void {
-  //   if (status) this.currentMonth = this.new;
-  // }
   /**
    * Number at which section headings should start for this component.
    */
@@ -83,14 +79,7 @@ export class DatePickerMonthHeader {
   @Prop() localeData: DateLocaleData;
 
   /** test prop */
-  @Prop({ reflect: true }) valueAsDate?: Date | Date[];
-
-  // @Watch("valueAsDate")
-  // handleValueAsDateChange(newDate: Date): void {
-  //   if (newDate) {
-  //     this.currentMonth = newDate.getMonth();
-  //   }
-  // }
+  @Prop({ reflect: true, mutable: true }) valueAsDate?: Date | Date[];
 
   /** test prop */
   @Prop({ reflect: true }) isValidDate: boolean;
@@ -118,6 +107,7 @@ export class DatePickerMonthHeader {
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
+    this.setNextPrevMonthDates();
     if (this.valueAsDate) {
       if (!Array.isArray(this.valueAsDate)) {
         this.currentMonth = this.valueAsDate.getMonth();
@@ -125,7 +115,6 @@ export class DatePickerMonthHeader {
     } else {
       this.currentMonth = this.activeDate.getMonth();
     }
-    this.setNextPrevMonthDates();
   }
 
   render(): VNode {
@@ -133,16 +122,15 @@ export class DatePickerMonthHeader {
   }
 
   renderContent(): VNode {
-    console.log(
-      `%c valUE as Date ${this.valueAsDate}  activeDate${this.activeDate}`,
-      "color:green"
-    );
+    console.log(`%c valueAsDate ${this.valueAsDate}  activeDate${this.activeDate}`, "color:green");
     if (!this.activeDate || !this.localeData) {
       return null;
     }
 
     const activeMonth = this.activeDate.getMonth();
-    console.log(`%c ${this.isValidDate}`, "color:blue", activeMonth, this.currentMonth);
+    // console.log(`%c ${this.isValidDate}`, "color:blue", activeMonth, this.currentMonth);
+    // console.log(`%c ${this.prevMonthDate.getFullYear() <= this.min.getFullYear()}`, "color: red");
+    console.log(`%c ${this.isValidDate}`, "color: red");
     const { months, unitOrder } = this.localeData;
     const localizedMonth = (months.wide || months.narrow || months.abbreviated)[activeMonth];
     const localizedYear = localizeNumber(this.activeDate.getFullYear(), this.localeData);
@@ -154,11 +142,11 @@ export class DatePickerMonthHeader {
     return (
       <Fragment>
         <a
-          aria-disabled={(
-            this.prevMonthDate.getMonth() ===
-              (this.isValidDate ? activeMonth : this.currentMonth) &&
-            this.prevMonthDate.getFullYear() <= this.min.getFullYear()
-          ).toString()}
+          aria-disabled={(this.prevMonthDate.getMonth() === activeMonth)
+
+            //    &&
+            // this.prevMonthDate.getFullYear() <= this.min.getFullYear()
+            .toString()}
           aria-label={this.intlPrevMonth}
           class="chevron"
           href="#"
@@ -202,11 +190,10 @@ export class DatePickerMonthHeader {
           </span>
         </div>
         <a
-          aria-disabled={(
-            this.nextMonthDate.getMonth() ===
-              (this.isValidDate ? activeMonth : this.currentMonth) &&
-            this.nextMonthDate.getFullYear() >= this.max.getFullYear()
-          ).toString()}
+          aria-disabled={(this.nextMonthDate.getMonth() === activeMonth)
+            //   &&
+            // this.nextMonthDate.getFullYear() >= this.max.getFullYear()
+            .toString()}
           aria-label={this.intlNextMonth}
           class="chevron"
           href="#"
@@ -249,7 +236,8 @@ export class DatePickerMonthHeader {
       this.prevMonthDate = this.getPrevMonthDate(prevMonth(this.activeDate), this.min);
     }
 
-    console.log(this.nextMonthDate, this.prevMonthDate, this.currentMonth);
+    console.log(`%c ${this.nextMonthDate} ${nextMonth(this.activeDate)}`, "color:pink");
+    console.log(`%c  ${this.prevMonthDate} ${prevMonth(this.activeDate)}`, "color:pink");
   }
 
   //--------------------------------------------------------------------------
@@ -276,39 +264,29 @@ export class DatePickerMonthHeader {
     }
   };
 
-  private getPrevMonthDate = (date?: any, min?: Date | string): Date | null => {
+  private getPrevMonthDate = (date?: any, min?: Date): Date | null => {
     if (!(date instanceof Date)) {
       return null;
     }
     const time = date.getTime();
-    const beforeMin = min instanceof Date && time < min.getTime();
-    return beforeMin ? (this.valueAsDate as Date) : date;
+    const beforeMin =
+      min instanceof Date &&
+      time < min.getTime() &&
+      (min.getMonth() !== date.getMonth() || min.getFullYear() !== date.getFullYear());
+    return beforeMin ? (this.activeDate as Date) : date;
   };
 
-  private getNextMonthDate = (date?: any, max?: Date | string): Date | null => {
+  private getNextMonthDate = (date?: any, max?: Date): Date | null => {
     if (!(date instanceof Date)) {
       return null;
     }
     const time = date.getTime();
-    const afterMax = max instanceof Date && time > max.getTime();
-    return afterMax ? (this.valueAsDate as Date) : date;
+    const afterMax =
+      max instanceof Date &&
+      time > max.getTime() &&
+      (max.getMonth() !== date.getMonth() || max.getFullYear() !== date.getFullYear());
+    return afterMax ? (this.activeDate as Date) : date;
   };
-
-  // private isBeforeMin = (date?: any, min?: Date | string): boolean => {
-  //   if (!(date instanceof Date)) {
-  //     return null;
-  //   }
-  //   const time = date.getTime();
-  //   return min instanceof Date && time <= min.getTime();
-  // };
-
-  // private isAfterMax = (date?: any, max?: Date | string): boolean => {
-  //   if (!(date instanceof Date)) {
-  //     return null;
-  //   }
-  //   const time = date.getTime();
-  //   return max instanceof Date && time >= max.getTime();
-  // };
 
   private onYearChange = (event: Event): void => {
     this.setYear({ localizedYear: (event.target as HTMLInputElement).value });
