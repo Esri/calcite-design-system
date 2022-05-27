@@ -222,8 +222,8 @@ export function getEffectivePlacement(floatingEl: HTMLElement, placement: Logica
   }
 
   return placement
-    .replace(/-leading/gi, "-start") // todo: remove in future.
-    .replace(/-trailing/gi, "-end") // todo: remove in future.
+    .replace(/-leading/gi, "-start") // todo: remove. Has already been removed in typings.
+    .replace(/-trailing/gi, "-end") // todo: remove. Has already been removed in typings.
     .replace(/leading/gi, placements[0])
     .replace(/trailing/gi, placements[1]) as EffectivePlacement;
 }
