@@ -16,7 +16,15 @@ import { getElementDir } from "./dom";
 type UIType = "menu" | "tooltip" | "popover";
 export type OverlayPositioning = Strategy;
 
-// see: https://github.com/floating-ui/floating-ui/issues/1563
+/**
+ * Placements that change based on element direction.
+ *
+ * These variation placements will automatically flip "left"/"right" depending on LTR/RTL direction.
+ *
+ * Floating-ui has no plans to offer this functionality out of the box at this time.
+ *
+ * see: https://github.com/floating-ui/floating-ui/issues/1563 and https://github.com/floating-ui/floating-ui/discussions/1549
+ */
 type VariationPlacement = "leading-start" | "leading" | "leading-end" | "trailing-end" | "trailing" | "trailing-start";
 
 type AutoPlacement = "auto" | "auto-start" | "auto-end";
