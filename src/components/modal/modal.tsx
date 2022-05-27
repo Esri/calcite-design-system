@@ -85,7 +85,7 @@ export class Modal implements ConditionalSlotComponent {
   @Prop({ reflect: true }) docked: boolean;
 
   /** Specify the initial focus when the `calcite-modal` is first opened. */
-  @Prop() firstFocus?: HTMLElement;
+  @Prop() firstFocus: HTMLElement;
 
   /** When true, disables the default close on escape behavior. */
   @Prop() disableEscape = false;
