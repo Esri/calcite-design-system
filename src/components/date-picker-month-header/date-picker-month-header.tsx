@@ -77,7 +77,11 @@ export class DatePickerMonthHeader {
   /** CLDR locale data for translated calendar info */
   @Prop() localeData: DateLocaleData;
 
-  /** test prop */
+  /**
+   * Check if the parsed date is valid or not
+   *
+   *  @internal
+   */
   @Prop({ reflect: true }) isValidDate: boolean;
 
   //--------------------------------------------------------------------------
@@ -110,9 +114,7 @@ export class DatePickerMonthHeader {
     }
 
     const activeMonth = this.activeDate.getMonth();
-    // console.log(`%c ${this.isValidDate}`, "color:blue", activeMonth);
-    // console.log(`%c ${this.prevMonthDate.getFullYear() <= this.min.getFullYear()}`, "color: red");
-    // console.log(`%c ${this.isValidDate}`, "color: red");
+
     const { months, unitOrder } = this.localeData;
     const localizedMonth = (months.wide || months.narrow || months.abbreviated)[activeMonth];
     const localizedYear = localizeNumber(this.activeDate.getFullYear(), this.localeData);
@@ -198,6 +200,7 @@ export class DatePickerMonthHeader {
   @Watch("min")
   @Watch("max")
   @Watch("activeDate")
+  @Watch("isValidDate")
   setNextPrevMonthDates(): void {
     if (!this.activeDate) {
       return;
@@ -210,9 +213,6 @@ export class DatePickerMonthHeader {
       this.nextMonthDate = this.getNextMonthDate(nextMonth(this.activeDate), this.max);
       this.prevMonthDate = this.getPrevMonthDate(prevMonth(this.activeDate), this.min);
     }
-
-    // console.log(`%c ${this.nextMonthDate} ${nextMonth(this.activeDate)}`, "color:pink");
-    // console.log(`%c  ${this.prevMonthDate} ${prevMonth(this.activeDate)}`, "color:pink");
   }
 
   //--------------------------------------------------------------------------
@@ -239,25 +239,29 @@ export class DatePickerMonthHeader {
     }
   };
 
-  private getPrevMonthDate = (date?: any, min?: Date): Date | null => {
+  private getPrevMonthDate = (date: Date, min?: any): Date | null => {
     if (!(date instanceof Date)) {
       return null;
     }
+    if (!min) {
+      return date;
+    }
     const time = date.getTime();
     const beforeMin =
-      min instanceof Date &&
       time < min.getTime() &&
       (min.getMonth() !== date.getMonth() || min.getFullYear() !== date.getFullYear());
     return beforeMin ? (this.activeDate as Date) : date;
   };
 
-  private getNextMonthDate = (date?: any, max?: Date): Date | null => {
+  private getNextMonthDate = (date: Date, max?: any): Date | null => {
     if (!(date instanceof Date)) {
       return null;
     }
+    if (!max) {
+      return date;
+    }
     const time = date.getTime();
     const afterMax =
-      max instanceof Date &&
       time > max.getTime() &&
       (max.getMonth() !== date.getMonth() || max.getFullYear() !== date.getFullYear());
     return afterMax ? (this.activeDate as Date) : date;
