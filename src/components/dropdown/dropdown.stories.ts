@@ -396,7 +396,7 @@ export const AlignedCenter = (): string => html`
   <div style="text-align:center">
     <calcite-dropdown
       active
-      placement="${select("placement", popperMenuPlacements, defaultMenuPlacement)}"
+      placement="${select("placement", menuPlacements, defaultMenuPlacement)}"
       scale="${select("scale", ["s", "m", "l"], "m")}"
       width="${select("width", ["s", "m", "l"], "m")}"
       type="${select("type", ["click", "hover"], "click")}"
@@ -420,7 +420,7 @@ export const AlignedCenterRTL = (): string => html`
   <div dir="rtl" style="text-align:center">
     <calcite-dropdown
       active
-      placement="${select("placement", popperMenuPlacements, defaultMenuPlacement)}"
+      placement="${select("placement", menuPlacements, defaultMenuPlacement)}"
       scale="${select("scale", ["s", "m", "l"], "m")}"
       width="${select("width", ["s", "m", "l"], "m")}"
       type="${select("type", ["click", "hover"], "click")}"
