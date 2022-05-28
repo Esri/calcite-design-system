@@ -308,7 +308,7 @@ The [`globalAttributes`](https://github.com/Esri/calcite-components/blob/master/
    }
 
    disconnectedCallback(): void {
-     unwatchGlobalAttributes(this);
+       unwatchGlobalAttributes(this);
    }
    ```
 
