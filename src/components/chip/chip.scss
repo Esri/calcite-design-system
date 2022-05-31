@@ -23,7 +23,8 @@
   --calcite-chip-spacing-unit-l: theme("spacing.4");
   --calcite-chip-spacing-unit-s: theme("spacing.2");
   .image-container {
-    @apply h-8 w-8 pl-1;
+    @apply h-8 w-8;
+    padding-inline-start: theme("spacing.1");
   }
 }
 

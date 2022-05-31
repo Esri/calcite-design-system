@@ -103,7 +103,7 @@
   }
 }
 .next {
-  @apply mr-0;
+  margin-inline-end: theme("spacing.0");
 }
 .page,
 .ellipsis {
