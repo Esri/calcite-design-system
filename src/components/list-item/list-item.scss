@@ -123,5 +123,5 @@
 
 ::slotted(calcite-list-item-group),
 ::slotted(calcite-list-item) {
-  padding-inline-start: 0.5rem;
+  padding-inline-start: theme("spacing.2");
 }

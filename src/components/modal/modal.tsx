@@ -78,7 +78,7 @@ export class Modal implements ConditionalSlotComponent {
   /** When true, disables the closing of the `calcite-modal` when clicked outside. */
   @Prop() disableOutsideClose = false;
 
-  /** Aria label for the close button. */
+  /** Accessible label for the close button. */
   @Prop() intlClose = TEXT.close;
 
   /** When true, prevents the `calcite-modal` from expanding to the entire screen on mobile devices. */
