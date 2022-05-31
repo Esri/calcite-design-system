@@ -170,7 +170,8 @@
 }
 
 :host([loading]) calcite-loader[inline] {
-  @apply text-color-3 mr-0;
+  @apply text-color-3;
+  margin-inline-end: theme("spacing.0");
 }
 
 :host([disabled]) .button,
