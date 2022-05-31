@@ -1,4 +1,4 @@
-import { Component, Element, Prop, h, VNode, Method, Host } from "@stencil/core";
+import { Component, Element, Prop, h, VNode, Host, Method } from "@stencil/core";
 import { SLOTS, CSS } from "./resources";
 import { getSlotted } from "../../utils/dom";
 import {
@@ -35,7 +35,7 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
   /**
    * When true, prevents user interaction.
    */
-  @Prop({ reflect: true }) disabled = false; // todo: styling
+  @Prop({ reflect: true }) disabled = false;
 
   /**
    * The label text of the list item. Displays above the description text.
@@ -58,16 +58,16 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
   //
   // --------------------------------------------------------------------------
 
+  componentDidRender(): void {
+    updateHostInteraction(this, "managed");
+  }
+
   connectedCallback(): void {
     connectConditionalSlotComponent(this);
   }
 
   disconnectedCallback(): void {
     disconnectConditionalSlotComponent(this);
-  }
-
-  componentDidRender(): void {
-    updateHostInteraction(this, "managed");
   }
 
   // --------------------------------------------------------------------------
@@ -136,13 +136,17 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
   }
 
   renderContentContainer(): VNode {
-    const { description, label } = this;
+    const { description, disabled, label } = this;
     const hasCenterContent = !!label || !!description;
     const content = [this.renderContentStart(), this.renderContent(), this.renderContentEnd()];
 
     return (
       <td
-        class={{ [CSS.contentContainer]: true, [CSS.hasCenterContent]: hasCenterContent }}
+        class={{
+          [CSS.contentContainer]: true,
+          [CSS.hasCenterContent]: hasCenterContent,
+          [CSS.contentContainerDisabled]: disabled // todo: styling
+        }}
         ref={(el) => (this.focusEl = el)}
         role="gridcell"
         tabIndex={-1}
@@ -159,10 +163,10 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
           {this.renderActionsStart()}
           {this.renderContentContainer()}
           {this.renderActionsEnd()}
-          {/* // todo <div class={CSS.nestedContainer}>
-          <slot />
-        </div> */}
         </tr>
+        <div class={CSS.nestedContainer}>
+          <slot />
+        </div>
       </Host>
     );
   }

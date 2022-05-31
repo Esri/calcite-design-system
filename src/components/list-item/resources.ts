@@ -1,6 +1,7 @@
 export const CSS = {
   container: "container",
   contentContainer: "content-container",
+  contentContainerDisabled: "content-container--disabled",
   nestedContainer: "nested-container",
   contentContainerButton: "content-container--button",
   content: "content",
