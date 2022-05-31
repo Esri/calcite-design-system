@@ -711,13 +711,13 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
       if (this.start) {
         this.calciteDatePickerRangeChange.emit();
       }
-      this.value = Array.isArray(this.value) ? ["", this.value[1] || ""] : [""];
+      this.value = Array.isArray(this.value) ? ["", this.value[1] || ""] : undefined;
       this.start = undefined;
     } else if (focusedInput === "end") {
       if (this.end) {
         this.calciteDatePickerRangeChange.emit();
       }
-      this.value = Array.isArray(this.value) ? [this.value[0] || "", ""] : ["", ""];
+      this.value = Array.isArray(this.value) ? [this.value[0] || "", ""] : undefined;
       this.end = undefined;
     }
   }
