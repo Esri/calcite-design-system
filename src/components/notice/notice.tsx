@@ -70,7 +70,7 @@ export class Notice implements ConditionalSlotComponent {
   @Prop({ reflect: true }) icon: string | boolean;
 
   /**
-   * Aria label for the close button.
+   * Accessible label for the close button.
    *
    * @default "Close"
    */
