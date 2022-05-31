@@ -41,11 +41,11 @@ const getFocusableElements = (el: HTMLElement | ShadowRoot): HTMLElement[] => {
 };
 
 /**
- * @slot header - a slot for adding a modal header
- * @slot content - a slot for adding modal content
- * @slot primary - a slot for adding a primary button
- * @slot secondary - a slot for adding a secondary button
- * @slot back - a slot for adding a back button
+ * @slot header - A slot for adding a `calcite-modal` header.
+ * @slot content - A slot for adding `calcite-modal` content.
+ * @slot primary - A slot for adding a primary button.
+ * @slot secondary - A slot for adding a secondary button.
+ * @slot back - A slot for adding a back button.
  */
 
 @Component({
@@ -66,49 +66,49 @@ export class Modal implements ConditionalSlotComponent {
   //  Properties
   //
   //--------------------------------------------------------------------------
-  /** Add the active attribute to open the modal */
+  /** When true, the `calcite-modal` is active. */
   @Prop({ mutable: true, reflect: true }) active = false;
 
-  /** Optionally pass a function to run before close */
-  @Prop() beforeClose: (el: HTMLElement) => Promise<void> = () => Promise.resolve();
+  /** Passes a function to run before the `calcite-modal` closes. */
+  @Prop() beforeClose?: (el: HTMLElement) => Promise<void> = () => Promise.resolve();
 
-  /** Disables the display a close button within the Modal */
+  /** When true, disables the close button within the `calcite-modal`. */
   @Prop() disableCloseButton = false;
 
-  /** Disables the closing of the Modal when clicked outside. */
+  /** When true, disables the closing of the `calcite-modal` when clicked outside. */
   @Prop() disableOutsideClose = false;
 
-  /** Aria label for the close button */
+  /** Aria label for the close button. */
   @Prop() intlClose = TEXT.close;
 
-  /** Prevent the modal from taking up the entire screen on mobile */
+  /** When true, prevents the `calcite-modal` from expanding to the entire screen on mobile devices. */
   @Prop({ reflect: true }) docked: boolean;
 
-  /** Specify an element to focus when the modal is first opened */
-  @Prop() firstFocus?: HTMLElement;
+  /** Specify the initial focus when the `calcite-modal` is first opened. */
+  @Prop() firstFocus: HTMLElement;
 
-  /** Flag to disable the default close on escape behavior */
+  /** When true, disables the default close on escape behavior. */
   @Prop() disableEscape = false;
 
-  /** specify the scale of modal, defaults to m */
+  /** Specify the scale of `calcite-modal`. */
   @Prop({ reflect: true }) scale: Scale = "m";
 
-  /** Set the width of the modal. Can use stock sizes or pass a number (in pixels) */
+  /** Set the width of the `calcite-modal`. Can use scale sizes or pass a number (displays in pixels). */
   @Prop({ reflect: true }) width: Scale | number = "m";
 
-  /** Set the modal to always be fullscreen (overrides width) */
+  /** Set the `calcite-modal` to always be fullscreen (overrides width). */
   @Prop({ reflect: true }) fullscreen: boolean;
 
   /**
-   * Adds a color bar at the top for visual impact,
-   * Use color to add importance to destructive/workflow dialogs.
+   * Adds a color bar to the top of `calcite-modal` for visual impact.
+   * Use color to add importance to destructive or workflow dialogs.
    */
   @Prop({ reflect: true }) color?: "red" | "blue";
 
-  /** Background color of modal content */
+  /** Sets the background color of `calcite-modal` content. */
   @Prop({ reflect: true }) backgroundColor: ModalBackgroundColor = "white";
 
-  /** Turn off spacing around the content area slot */
+  /** When true, disables spacing to the content area slot. */
   @Prop() noPadding = false;
 
   //--------------------------------------------------------------------------
@@ -273,10 +273,10 @@ export class Modal implements ConditionalSlotComponent {
   //  Events
   //
   //--------------------------------------------------------------------------
-  /** Fired when the modal finishes the open animation */
+  /** Emits when `calcite-modal` finishes the open animation. */
   @Event() calciteModalOpen: EventEmitter;
 
-  /** Fired when the modal finishes the close animation */
+  /** Emits when `calcite-modal` finishes the close animation. */
   @Event() calciteModalClose: EventEmitter;
 
   //--------------------------------------------------------------------------
@@ -285,7 +285,7 @@ export class Modal implements ConditionalSlotComponent {
   //
   //--------------------------------------------------------------------------
   /**
-   * Focus first interactive element
+   * Focus the first interactive element.
    *
    * @param el
    * @deprecated use `setFocus` instead.
@@ -302,8 +302,8 @@ export class Modal implements ConditionalSlotComponent {
   /**
    * Sets focus on the component.
    *
-   * By default, will try to focus on any focusable content. If there is none, it will focus on the close button.
-   * If you want to focus on the close button, you can use the `close-button` focus ID.
+   * By default, tries to focus on focusable content. If there is none, it will focus on the close button.
+   * To focus on the close button, use the `close-button` focus ID.
    *
    * @param focusId
    */
@@ -317,7 +317,7 @@ export class Modal implements ConditionalSlotComponent {
   }
 
   /**
-   * Set the scroll top of the modal content
+   * Set the scroll top of the `calcite-modal` content.
    *
    * @param top
    * @param left

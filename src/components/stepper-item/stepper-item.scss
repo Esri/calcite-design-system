@@ -244,3 +244,29 @@
 :host([layout="vertical"][error]:focus:not([disabled]):not([active])) .container {
   @apply border-color-danger-hover;
 }
+
+@media (forced-colors: active) {
+  :host .container {
+    outline-width: 0;
+    outline-offset: 0;
+  }
+
+  :host(:focus),
+  :host(:focus-visible) {
+    outline-color: canvasText;
+  }
+
+  :host([active]) .container {
+    border-top-color: highlight;
+    & .stepper-item-number {
+      color: highlight;
+    }
+    & .stepper-item-icon {
+      color: highlight;
+    }
+  }
+
+  :host([layout="vertical"][active]) .container {
+    border-color: highlight;
+  }
+}

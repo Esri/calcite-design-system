@@ -6,6 +6,8 @@
     outline-none;
 }
 
+@include calciteHydratedHidden();
+
 :host([scale="s"]) {
   @apply text-n2h;
 

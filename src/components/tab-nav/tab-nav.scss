@@ -63,3 +63,9 @@
   bottom: 0; // display active blue line below instead of above
   top: unset;
 }
+
+@media (forced-colors: active) {
+  .tab-nav-active-indicator {
+    background-color: highlight;
+  }
+}
