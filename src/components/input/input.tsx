@@ -124,7 +124,7 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
   /**
    * standard UniCode numeral system tag for localization
    */
-  @Prop() numberingSystem?: string = new Intl.NumberFormat().resolvedOptions().numberingSystem;
+  @Prop() numberingSystem?: string;
 
   /**
    * Toggles locale formatting for numbers.
