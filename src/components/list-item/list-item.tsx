@@ -58,16 +58,16 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
   //
   // --------------------------------------------------------------------------
 
-  componentDidRender(): void {
-    updateHostInteraction(this, "managed");
-  }
-
   connectedCallback(): void {
     connectConditionalSlotComponent(this);
   }
 
   disconnectedCallback(): void {
     disconnectConditionalSlotComponent(this);
+  }
+
+  componentDidRender(): void {
+    updateHostInteraction(this, "managed");
   }
 
   // --------------------------------------------------------------------------
