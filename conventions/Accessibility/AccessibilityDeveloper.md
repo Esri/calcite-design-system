@@ -1,9 +1,5 @@
 # Developer Quick Start Guide
 
-To get us started the team uses the [axe-core](https://github.com/dequelabs/axe-core) accessibility engine throughout its components. `axe-core` contains a number of best practices to help identify accessibility practices, such as ensuring every page has an h1 heading, and to help avoid "gotchas" in ARIA like where an ARIA attribute you used will get ignored.
-
-`axe-core` can mitigate over half of WCAG issues automatically. Additionally, it will return elements as "incomplete" where it's not certain, and manual review is needed. However **the best tools only find 30% of known issues**, so they can't be relied upon. But they can be the first step towards accessibility.
-
 1. **[Shadow DOM](#1-shadow-dom)**
 2. **[Testing](#2-testing)**: [Adding a test](#adding-a-test) | [Failed test example](#failed-test-example) | [How to test](#how-to-test)
 3. **[Storybook](#3-storybook)**: [Adding a new story](#add-a-new-story)
@@ -62,9 +58,11 @@ However, you _could_ extend the native element to allow an association.
 
 ## 2. Testing
 
-Components leverage automated testing with the [axe-core](https://github.com/dequelabs/axe-core) and [jest-axe](https://github.com/nickcolley/jest-axe) accessibility engines.
+**The best tools only find 30% of known issues**, so they can't be relied upon. But they can be the first step towards accessibility.
 
-When a new component is added, breaking changes are introduced, and/or as new functionality is added - accessibility tests must take place. **All components should have automated tests pertaining to accessibility.**
+Calcite Components uses the [axe-core](https://github.com/dequelabs/axe-core) and [jest-axe](https://github.com/nickcolley/jest-axe) accessibility engines throughout its components. `axe-core` contains a number of best practices to help identify accessibility practices, such as ensuring every page has an h1 heading, and to help avoid "gotchas" in ARIA like where an ARIA attribute you used will get ignored. `axe-core` can mitigate over half of WCAG issues automatically. Additionally, it will return elements as "incomplete" where it's not certain, and manual review is needed.
+
+When a new component is added, breaking changes are introduced, and/or as new functionality is added, accessibility tests must take place. **All components should have automated tests pertaining to accessibility.**
 
 ### Adding a test
 
