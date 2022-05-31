@@ -26,20 +26,28 @@ import { HeadingLevel } from "../functional/Heading";
 
 import { TEXT } from "../date-picker/resources";
 import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
-import { connectForm, disconnectForm, FormComponent, HiddenFormInputSlot } from "../../utils/form";
+import {
+  connectForm,
+  disconnectForm,
+  FormComponent,
+  HiddenFormInputSlot,
+  submitForm
+} from "../../utils/form";
 import {
   createPopper,
   updatePopper,
   CSS as PopperCSS,
   OverlayPositioning,
-  popperMenuFlipPlacements,
+  popperMenuComputedPlacements,
   ComputedPlacement,
   defaultMenuPlacement,
-  MenuPlacement
+  MenuPlacement,
+  filterComputedPlacements
 } from "../../utils/popper";
 import { StrictModifiers, Instance as Popper } from "@popperjs/core";
 import { DateRangeChange } from "../date-picker/interfaces";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import { toAriaBoolean } from "../../utils/dom";
 
 @Component({
   tag: "calcite-input-date-picker",
@@ -96,6 +104,11 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
    */
   @Prop() flipPlacements?: ComputedPlacement[];
 
+  @Watch("flipPlacements")
+  flipPlacementsHandler(): void {
+    this.setFilteredPlacements();
+  }
+
   /**
    * Number at which section headings should start for this component.
    */
@@ -106,12 +119,14 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
 
   /**
    * Selected start date as full date object
+   *
    * @deprecated use valueAsDate instead
    */
   @Prop({ mutable: true }) startAsDate?: Date;
 
   /**
    * Selected end date as full date object
+   *
    * @deprecated use valueAsDate instead
    */
   @Prop({ mutable: true }) endAsDate?: Date;
@@ -127,7 +142,9 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
 
   @Watch("min")
   onMinChanged(min: string): void {
-    this.minAsDate = dateFromISO(min);
+    if (min) {
+      this.minAsDate = dateFromISO(min);
+    }
   }
 
   /** Latest allowed date ("yyyy-mm-dd") */
@@ -135,7 +152,9 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
 
   @Watch("max")
   onMaxChanged(max: string): void {
-    this.maxAsDate = dateFromISO(max);
+    if (max) {
+      this.maxAsDate = dateFromISO(max);
+    }
   }
 
   /** Expand or collapse when calendar does not have input */
@@ -156,17 +175,23 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
    */
   @Prop() name: string;
 
-  /** Localized string for "previous month" (used for aria label)
+  /**
+   * Localized string for "previous month" (used for aria label)
+   *
    * @default "Previous month"
    */
   @Prop() intlPrevMonth?: string = TEXT.prevMonth;
 
-  /** Localized string for "next month" (used for aria label)
+  /**
+   * Localized string for "next month" (used for aria label)
+   *
    * @default "Next month"
    */
   @Prop() intlNextMonth?: string = TEXT.nextMonth;
 
-  /** Localized string for "year" (used for aria label)
+  /**
+   * Localized string for "year" (used for aria label)
+   *
    * @default "Year"
    */
   @Prop() intlYear?: string = TEXT.year;
@@ -179,6 +204,7 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
 
   /**
    * Determines where the date-picker component will be positioned relative to the input.
+   *
    * @default "bottom-leading"
    */
   @Prop({ reflect: true }) placement: MenuPlacement = defaultMenuPlacement;
@@ -195,12 +221,14 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
 
   /**
    * Selected start date
+   *
    * @deprecated use value instead
    */
   @Prop({ mutable: true }) start?: string;
 
   /**
    * Selected end date
+   *
    * @deprecated use value instead
    */
   @Prop({ mutable: true }) end?: string;
@@ -249,8 +277,8 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
 
   /**
    * Trigger calcite date change when a user changes the date range.
-   * @see [DateRangeChange](https://github.com/Esri/calcite-components/blob/master/src/components/calcite-date-picker/interfaces.ts#L1)
    *
+   * @see [DateRangeChange](https://github.com/Esri/calcite-components/blob/master/src/components/calcite-date-picker/interfaces.ts#L1)
    * @deprecated use `calciteInputDatePickerChange` instead.
    */
   @Event() calciteDatePickerRangeChange: EventEmitter<DateRangeChange>;
@@ -263,12 +291,12 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
   /**
    * @internal
    */
-  @Event() calciteInputDatePickerOpen: EventEmitter;
+  @Event() calciteInternalInputDatePickerOpen: EventEmitter;
 
   /**
    * @internal
    */
-  @Event() calciteInputDatePickerClose: EventEmitter;
+  @Event() calciteInternalInputDatePickerClose: EventEmitter;
 
   // --------------------------------------------------------------------------
   //
@@ -334,6 +362,7 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
     this.createPopper();
     connectLabel(this);
     connectForm(this);
+    this.setFilteredPlacements();
   }
 
   async componentWillLoad(): Promise<void> {
@@ -366,9 +395,18 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
     const formattedDate = date ? date.toLocaleDateString(this.locale) : "";
 
     return (
-      <Host onBlur={this.deactivate} onKeyUp={this.keyUpHandler} role="application">
+      <Host
+        onBlur={this.deactivate}
+        onKeyDown={this.keyDownHandler}
+        onKeyUp={this.keyUpHandler}
+        role="application"
+      >
         {this.localeData && (
-          <div aria-expanded={this.active.toString()} class="input-container" role="application">
+          <div
+            aria-expanded={toAriaBoolean(this.active)}
+            class="input-container"
+            role="application"
+          >
             {
               <div class="input-wrapper" ref={this.setStartWrapper}>
                 <calcite-input
@@ -379,9 +417,9 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
                   icon="calendar"
                   label={getLabelText(this)}
                   number-button-type="none"
-                  onCalciteInputBlur={this.inputBlur}
-                  onCalciteInputFocus={this.startInputFocus}
                   onCalciteInputInput={this.inputInput}
+                  onCalciteInternalInputBlur={this.inputBlur}
+                  onCalciteInternalInputFocus={this.startInputFocus}
                   placeholder={this.localeData?.placeholder}
                   ref={this.setStartInput}
                   scale={this.scale}
@@ -391,7 +429,7 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
               </div>
             }
             <div
-              aria-hidden={(!this.active).toString()}
+              aria-hidden={toAriaBoolean(!this.active)}
               class={{
                 "menu-container": true,
                 "menu-container--active": this.active
@@ -451,9 +489,9 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
                   disabled={disabled}
                   icon="calendar"
                   number-button-type="none"
-                  onCalciteInputBlur={this.inputBlur}
-                  onCalciteInputFocus={this.endInputFocus}
                   onCalciteInputInput={this.inputInput}
+                  onCalciteInternalInputBlur={this.inputBlur}
+                  onCalciteInternalInputFocus={this.endInputFocus}
                   placeholder={this.localeData?.placeholder}
                   ref={this.setEndInput}
                   scale={this.scale}
@@ -474,6 +512,8 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
   //  Private State/Props
   //
   //--------------------------------------------------------------------------
+
+  filteredFlipPlacements: ComputedPlacement[];
 
   labelEl: HTMLCalciteLabelElement;
 
@@ -520,6 +560,14 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
   //
   //--------------------------------------------------------------------------
 
+  setFilteredPlacements = (): void => {
+    const { el, flipPlacements } = this;
+
+    this.filteredFlipPlacements = flipPlacements
+      ? filterComputedPlacements(flipPlacements, el)
+      : null;
+  };
+
   onLabelClick(): void {
     this.setFocus();
   }
@@ -527,8 +575,8 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
   transitionEnd = (event: TransitionEvent): void => {
     if (event.propertyName === this.activeTransitionProp) {
       this.active
-        ? this.calciteInputDatePickerOpen.emit()
-        : this.calciteInputDatePickerClose.emit();
+        ? this.calciteInternalInputDatePickerOpen.emit()
+        : this.calciteInternalInputDatePickerClose.emit();
     }
   };
 
@@ -542,6 +590,12 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
 
   deactivate = (): void => {
     this.active = false;
+  };
+
+  keyDownHandler = (event: KeyboardEvent): void => {
+    if (event.key === "Enter" && !event.defaultPrevented) {
+      submitForm(this);
+    }
   };
 
   keyUpHandler = (e: KeyboardEvent): void => {
@@ -592,7 +646,7 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
     };
 
     flipModifier.options = {
-      fallbackPlacements: this.flipPlacements || popperMenuFlipPlacements
+      fallbackPlacements: this.filteredFlipPlacements || popperMenuComputedPlacements
     };
 
     const eventListenerModifier: Partial<StrictModifiers> = {
@@ -654,6 +708,9 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
 
   private clearCurrentValue(): void {
     if (!this.range) {
+      if (typeof this.value === "string" && this.value) {
+        this.calciteDatePickerChange.emit();
+      }
       this.value = "";
       return;
     }
@@ -661,9 +718,15 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
     const { focusedInput } = this;
 
     if (focusedInput === "start") {
+      if (this.start) {
+        this.calciteDatePickerRangeChange.emit();
+      }
       this.value = Array.isArray(this.value) ? ["", this.value[1] || ""] : [""];
       this.start = undefined;
     } else if (focusedInput === "end") {
+      if (this.end) {
+        this.calciteDatePickerRangeChange.emit();
+      }
       this.value = Array.isArray(this.value) ? [this.value[0] || "", ""] : ["", ""];
       this.end = undefined;
     }
@@ -671,6 +734,8 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
 
   /**
    * If inputted string is a valid date, update value/active
+   *
+   * @param value
    */
   private input(value: string): void {
     const date = this.getDateFromInput(value);
@@ -717,6 +782,8 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
 
   /**
    * Clean up invalid date from input on blur
+   *
+   * @param target
    */
   private blur(target: HTMLCalciteInputElement): void {
     const { locale, focusedInput, endAsDate, range, startAsDate, valueAsDate } = this;
@@ -736,6 +803,8 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
 
   /**
    * Event handler for when the selected date changes
+   *
+   * @param event
    */
   handleDateChange = (event: CustomEvent<Date>): void => {
     if (this.range) {
@@ -784,6 +853,8 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
   /**
    * Find a date from input string
    * return false if date is invalid, or out of range
+   *
+   * @param value
    */
   private getDateFromInput(value: string): Date | false {
     if (!this.localeData) {

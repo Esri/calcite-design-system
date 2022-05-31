@@ -1,6 +1,6 @@
 import { Component, Element, Event, EventEmitter, Prop, h, VNode, Host } from "@stencil/core";
 
-import { getElementDir } from "../../utils/dom";
+import { getElementDir, toAriaBoolean } from "../../utils/dom";
 import { CSS, ICONS, TEXT } from "./resources";
 import { BlockSectionToggleDisplay } from "./interfaces";
 import { Status } from "../interfaces";
@@ -170,7 +170,7 @@ export class BlockSection {
       <Host>
         {headerNode}
         <section
-          aria-expanded={open.toString()}
+          aria-expanded={toAriaBoolean(open)}
           aria-labelledby={buttonId}
           class={CSS.content}
           hidden={!open}

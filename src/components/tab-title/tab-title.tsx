@@ -1,21 +1,21 @@
 import {
+  Build,
   Component,
-  Prop,
+  Element,
   Event,
   EventEmitter,
-  Listen,
-  Element,
-  Method,
   h,
   Host,
+  Listen,
+  Method,
+  Prop,
   State,
-  Build,
   VNode,
   Watch
 } from "@stencil/core";
 import { TabChangeEventDetail } from "../tab/interfaces";
 import { guid } from "../../utils/guid";
-import { getElementProp, getElementDir } from "../../utils/dom";
+import { getElementDir, getElementProp, toAriaBoolean } from "../../utils/dom";
 import { TabID, TabLayout, TabPosition } from "../tabs/interfaces";
 import { FlipContext, Scale } from "../interfaces";
 import { createObserver } from "../../utils/observers";
@@ -59,16 +59,24 @@ export class TabTitle implements InteractiveComponent {
   /** optionally pass an icon to display at the start of a tab title - accepts calcite ui icon names  */
   @Prop({ reflect: true }) iconStart?: string;
 
-  /** @internal Parent tabs component layout value */
+  /**
+   * @internal
+   */
   @Prop({ reflect: true, mutable: true }) layout: TabLayout;
 
-  /** @internal Parent tabs component or parent tab-nav component's position */
+  /**
+   * @internal
+   */
   @Prop({ reflect: true, mutable: true }) position: TabPosition;
 
-  /** @internal Parent tabs component or parent tab-nav component's scale */
+  /**
+   * @internal
+   */
   @Prop({ reflect: true, mutable: true }) scale: Scale;
 
-  /** @internal Parent tabs component bordered value */
+  /**
+   * @internal
+   */
   @Prop({ reflect: true, mutable: true }) bordered = false;
 
   /**
@@ -80,7 +88,7 @@ export class TabTitle implements InteractiveComponent {
   @Watch("active")
   activeTabChanged(): void {
     if (this.active) {
-      this.emitActiveTab();
+      this.emitActiveTab(false);
     }
   }
 
@@ -111,7 +119,7 @@ export class TabTitle implements InteractiveComponent {
       this.updateHasText();
     }
     if (this.tab && this.active) {
-      this.emitActiveTab();
+      this.emitActiveTab(false);
     }
   }
 
@@ -152,7 +160,12 @@ export class TabTitle implements InteractiveComponent {
     );
 
     return (
-      <Host aria-controls={this.controls} aria-expanded={this.active.toString()} id={id} role="tab">
+      <Host
+        aria-controls={this.controls}
+        aria-expanded={toAriaBoolean(this.active)}
+        id={id}
+        role="tab"
+      >
         <a
           class={{
             container: true,
@@ -169,7 +182,7 @@ export class TabTitle implements InteractiveComponent {
   }
 
   async componentDidLoad(): Promise<void> {
-    this.calciteTabTitleRegister.emit(await this.getTabIdentifier());
+    this.calciteInternalTabTitleRegister.emit(await this.getTabIdentifier());
   }
 
   componentDidRender(): void {
@@ -182,8 +195,8 @@ export class TabTitle implements InteractiveComponent {
   //
   //--------------------------------------------------------------------------
 
-  @Listen("calciteTabChange", { target: "body" })
-  tabChangeHandler(event: CustomEvent<TabChangeEventDetail>): void {
+  @Listen("calciteInternalTabChange", { target: "body" })
+  internalTabChangeHandler(event: CustomEvent<TabChangeEventDetail>): void {
     const targetTabsEl = event
       .composedPath()
       .find((el: HTMLElement) => el.tagName === "CALCITE-TABS");
@@ -199,6 +212,8 @@ export class TabTitle implements InteractiveComponent {
         this.active = index === event.detail.tab;
       });
     }
+
+    event.stopPropagation();
   }
 
   @Listen("click")
@@ -216,16 +231,16 @@ export class TabTitle implements InteractiveComponent {
         break;
       case "ArrowRight":
         if (getElementDir(this.el) === "ltr") {
-          this.calciteTabsFocusNext.emit();
+          this.calciteInternalTabsFocusNext.emit();
         } else {
-          this.calciteTabsFocusPrevious.emit();
+          this.calciteInternalTabsFocusPrevious.emit();
         }
         break;
       case "ArrowLeft":
         if (getElementDir(this.el) === "ltr") {
-          this.calciteTabsFocusPrevious.emit();
+          this.calciteInternalTabsFocusPrevious.emit();
         } else {
-          this.calciteTabsFocusNext.emit();
+          this.calciteInternalTabsFocusNext.emit();
         }
         break;
     }
@@ -238,25 +253,34 @@ export class TabTitle implements InteractiveComponent {
   //--------------------------------------------------------------------------
 
   /**
-   * Fires when a specific tab is activated (`event.details`)
+   * Fires when a specific tab is activated. Emits the "tab" property or the index position.
+   *
    * @see [TabChangeEventDetail](https://github.com/Esri/calcite-components/blob/master/src/components/tab/interfaces.ts#L1)
    */
   @Event() calciteTabsActivate: EventEmitter<TabChangeEventDetail>;
 
   /**
+   * Fires when a specific tab is activated (`event.details`)
+   *
+   * @see [TabChangeEventDetail](https://github.com/Esri/calcite-components/blob/master/src/components/tab/interfaces.ts#L1)
    * @internal
    */
-  @Event() calciteTabsFocusNext: EventEmitter;
+  @Event() calciteInternalTabsActivate: EventEmitter<TabChangeEventDetail>;
 
   /**
    * @internal
    */
-  @Event() calciteTabsFocusPrevious: EventEmitter;
+  @Event() calciteInternalTabsFocusNext: EventEmitter;
 
   /**
    * @internal
    */
-  @Event() calciteTabTitleRegister: EventEmitter<TabID>;
+  @Event() calciteInternalTabsFocusPrevious: EventEmitter;
+
+  /**
+   * @internal
+   */
+  @Event() calciteInternalTabTitleRegister: EventEmitter<TabID>;
 
   //--------------------------------------------------------------------------
   //
@@ -284,6 +308,8 @@ export class TabTitle implements InteractiveComponent {
   }
 
   /**
+   * @param tabIds
+   * @param titleIds
    * @internal
    */
   @Method()
@@ -297,7 +323,7 @@ export class TabTitle implements InteractiveComponent {
   //
   //--------------------------------------------------------------------------
 
-  /** watches for changing text content **/
+  /** watches for changing text content */
   mutationObserver: MutationObserver = createObserver("mutation", () => this.updateHasText());
 
   @State() controls: string;
@@ -317,11 +343,17 @@ export class TabTitle implements InteractiveComponent {
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
   }
 
-  emitActiveTab(): void {
-    if (!this.disabled) {
-      this.calciteTabsActivate.emit({
-        tab: this.tab
-      });
+  emitActiveTab(userTriggered = true): void {
+    if (this.disabled) {
+      return;
+    }
+
+    const payload = { tab: this.tab };
+
+    this.calciteInternalTabsActivate.emit(payload);
+
+    if (userTriggered) {
+      this.calciteTabsActivate.emit(payload);
     }
   }
 

@@ -1,5 +1,5 @@
 import { Component, Element, Host, Method, Prop, State, Watch, h, VNode } from "@stencil/core";
-import { CSS, TOOLTIP_REFERENCE, ARIA_DESCRIBED_BY } from "./resources";
+import { CSS, ARIA_DESCRIBED_BY } from "./resources";
 import { StrictModifiers, Instance as Popper } from "@popperjs/core";
 import { guid } from "../../utils/guid";
 import {
@@ -10,7 +10,11 @@ import {
   CSS as PopperCSS,
   OverlayPositioning
 } from "../../utils/popper";
-import { queryElementRoots } from "../../utils/dom";
+import { queryElementRoots, toAriaBoolean } from "../../utils/dom";
+
+import TooltipManager from "./TooltipManager";
+
+const manager = new TooltipManager();
 
 /**
  * @slot - A slot for adding text.
@@ -32,6 +36,7 @@ export class Tooltip {
 
   /**
    * Offset the position of the tooltip away from the reference element.
+   *
    * @default 6
    */
   @Prop({ reflect: true }) offsetDistance = defaultOffsetDistance;
@@ -66,6 +71,7 @@ export class Tooltip {
 
   /**
    * Determines where the component will be positioned relative to the referenceElement.
+   *
    * @see [PopperPlacement](https://github.com/Esri/calcite-components/blob/master/src/utils/popper.ts#L25)
    */
   @Prop({ reflect: true }) placement: PopperPlacement = "auto";
@@ -176,8 +182,8 @@ export class Tooltip {
 
     const id = this.getId();
 
-    effectiveReferenceElement.setAttribute(TOOLTIP_REFERENCE, id);
     effectiveReferenceElement.setAttribute(ARIA_DESCRIBED_BY, id);
+    manager.registerElement(effectiveReferenceElement, this.el);
   };
 
   removeReferences = (): void => {
@@ -187,16 +193,8 @@ export class Tooltip {
       return;
     }
 
-    effectiveReferenceElement.removeAttribute(TOOLTIP_REFERENCE);
     effectiveReferenceElement.removeAttribute(ARIA_DESCRIBED_BY);
-  };
-
-  show = (): void => {
-    this.open = true;
-  };
-
-  hide = (): void => {
-    this.open = false;
+    manager.unregisterElement(effectiveReferenceElement);
   };
 
   getReferenceElement(): HTMLElement {
@@ -274,7 +272,7 @@ export class Tooltip {
 
     return (
       <Host
-        aria-hidden={hidden.toString()}
+        aria-hidden={toAriaBoolean(hidden)}
         aria-label={label}
         calcite-hydrated-hidden={hidden}
         id={this.getId()}

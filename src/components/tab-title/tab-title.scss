@@ -1,5 +1,5 @@
 :host {
-  @apply mr-5 block flex-initial outline-none;
+  @apply block flex-initial outline-none;
   margin-inline-start: theme("margin.0");
   margin-inline-end: theme("margin.5");
 }
@@ -163,20 +163,47 @@ span {
 :host([bordered]) {
   a,
   span {
-    @apply pl-3 pr-3;
+    @apply px-3;
   }
 }
 
 :host([bordered][scale="s"]) {
   a,
   span {
-    @apply pl-2 pr-2;
+    @apply px-2;
   }
 }
 
 :host([bordered][scale="l"]) {
   a,
   span {
-    @apply pl-4 pr-4;
+    @apply px-4;
+  }
+}
+
+@media (forced-colors: active) {
+  :host {
+    outline-width: 0;
+    outline-offset: 0;
+  }
+
+  :host(:focus) a {
+    outline-color: highlight;
+  }
+
+  :host([bordered]) a {
+    border-bottom-style: solid;
+  }
+
+  :host([bordered][position="below"]) a {
+    border-top-style: solid;
+  }
+
+  :host([bordered][active]) a {
+    border-bottom-style: none;
+  }
+
+  :host([bordered][position="below"][active]) a {
+    border-top-style: none;
   }
 }

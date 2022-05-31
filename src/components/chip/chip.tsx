@@ -35,7 +35,9 @@ export class Chip implements ConditionalSlotComponent {
   /** Optionally show a button the user can click to dismiss the chip */
   @Prop({ reflect: true }) dismissible = false;
 
-  /** Aria label for the "x" button
+  /**
+   * Aria label for the "x" button
+   *
    * @default "Close"
    */
   @Prop() dismissLabel?: string = TEXT.close;
@@ -121,7 +123,7 @@ export class Chip implements ConditionalSlotComponent {
     const hasChipImage = getSlotted(el, SLOTS.image);
 
     return hasChipImage ? (
-      <div class={CSS.chipImageContainer} key="image">
+      <div class={CSS.imageContainer} key="image">
         <slot name={SLOTS.image} />
       </div>
     ) : null;
@@ -129,12 +131,7 @@ export class Chip implements ConditionalSlotComponent {
 
   render(): VNode {
     const iconEl = (
-      <calcite-icon
-        class={CSS.calciteChipIcon}
-        flipRtl={this.iconFlipRtl}
-        icon={this.icon}
-        scale="s"
-      />
+      <calcite-icon class={CSS.chipIcon} flipRtl={this.iconFlipRtl} icon={this.icon} scale="s" />
     );
 
     const closeButton = (
@@ -145,7 +142,7 @@ export class Chip implements ConditionalSlotComponent {
         onClick={this.closeClickHandler}
         ref={(el) => (this.closeButton = el)}
       >
-        <calcite-icon icon={ICONS.close} scale="s" />
+        <calcite-icon class={CSS.closeIcon} icon={ICONS.close} scale="s" />
       </button>
     );
 

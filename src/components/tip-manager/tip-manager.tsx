@@ -11,7 +11,7 @@ import {
   VNode
 } from "@stencil/core";
 import { CSS, ICONS, TEXT, HEADING_LEVEL } from "./resources";
-import { getElementDir } from "../../utils/dom";
+import { getElementDir, toAriaBoolean } from "../../utils/dom";
 import { HeadingLevel, Heading } from "../functional/Heading";
 import { createObserver } from "../../utils/observers";
 
@@ -143,8 +143,15 @@ export class TipManager {
 
   /**
    * Emitted when the `calcite-tip-manager` has been toggled open or closed.
+   *
+   * @deprecated use calciteTipManagerClose instead.
    */
   @Event() calciteTipManagerToggle: EventEmitter;
+
+  /**
+   * Emitted when the `calcite-tip-manager` has been closed.
+   */
+  @Event() calciteTipManagerClose: EventEmitter;
 
   // --------------------------------------------------------------------------
   //
@@ -173,6 +180,7 @@ export class TipManager {
   hideTipManager = (): void => {
     this.closed = true;
     this.calciteTipManagerToggle.emit();
+    this.calciteTipManagerClose.emit();
   };
 
   showSelectedTip(): void {
@@ -272,7 +280,7 @@ export class TipManager {
 
     return (
       <section
-        aria-hidden={closed.toString()}
+        aria-hidden={toAriaBoolean(closed)}
         class={CSS.container}
         hidden={closed}
         onKeyUp={this.tipManagerKeyUpHandler}

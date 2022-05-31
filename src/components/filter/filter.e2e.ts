@@ -1,6 +1,7 @@
 import { E2EPage, newE2EPage } from "@stencil/core/testing";
 import { accessible, defaults, disabled, focusable, hidden, reflects, renders } from "../../tests/commonTests";
-import { CSS } from "./resources";
+import { DEBOUNCE_TIMEOUT } from "./resources";
+import { CSS as INPUT_CSS } from "../input/resources";
 
 describe("calcite-filter", () => {
   it("renders", async () => renders("calcite-filter", { display: "flex" }));
@@ -73,23 +74,6 @@ describe("calcite-filter", () => {
       });
     });
 
-    it("should only display when the input has a value", async () => {
-      let button = await page.find(`calcite-filter >>> .${CSS.clearButton}`);
-
-      expect(button).toBeNull();
-
-      const filter = await page.find("calcite-filter");
-      await filter.callMethod("setFocus");
-
-      await page.keyboard.type("developer");
-      await page.waitForChanges();
-
-      button = await page.find(`calcite-filter >>> .${CSS.clearButton}`);
-
-      expect(button).not.toBeNull();
-      expect(await filter.getProperty("value")).toBe("developer");
-    });
-
     describe("clearing value", () => {
       const filterIsFocused = async (): Promise<boolean> =>
         page.evaluate(() => document.querySelector("calcite-filter") === document.activeElement);
@@ -103,9 +87,16 @@ describe("calcite-filter", () => {
 
         expect(await filter.getProperty("value")).toBe("developer");
 
-        const button = await page.find(`calcite-filter >>> .${CSS.clearButton}`);
-
-        await button.click();
+        await page.$eval(
+          "calcite-filter",
+          async (filter: HTMLCalciteFilterElement, buttonSelector: string): Promise<void> => {
+            return filter.shadowRoot
+              .querySelector("calcite-input")
+              .shadowRoot.querySelector<HTMLElement>(buttonSelector)
+              .click();
+          },
+          `.${INPUT_CSS.clearButton}`
+        );
         await page.waitForChanges();
 
         expect(await filter.getProperty("value")).toBe("");
@@ -184,7 +175,7 @@ describe("calcite-filter", () => {
 
     it("updates filtered items after filtering", async () => {
       const filterChangeSpy = await page.spyOnEvent("calciteFilterChange");
-      let waitForEvent = page.waitForEvent("calciteFilterChange");
+      const waitForEvent = page.waitForEvent("calciteFilterChange");
       const filter = await page.find("calcite-filter");
       await filter.callMethod("setFocus");
       await filter.type("developer");
@@ -194,16 +185,14 @@ describe("calcite-filter", () => {
 
       assertMatchingItems(await filter.getProperty("filteredItems"), ["harry", "matt", "franco", "jon"]);
 
-      waitForEvent = page.waitForEvent("calciteFilterChange");
       await page.evaluate(() => {
         const filter = document.querySelector("calcite-filter");
         filter.items = filter.items.slice(3);
       });
-      await waitForEvent;
 
-      expect(filterChangeSpy).toHaveReceivedEventTimes(2);
-
+      await page.waitForTimeout(DEBOUNCE_TIMEOUT);
       assertMatchingItems(await filter.getProperty("filteredItems"), ["jon"]);
+      expect(filterChangeSpy).toHaveReceivedEventTimes(1);
     });
 
     it("searches recursively in items and works and matches on a partial string ignoring case", async () => {
@@ -255,13 +244,8 @@ describe("calcite-filter", () => {
     });
 
     it("should return matching value", async () => {
-      const filterChangeSpy = await page.spyOnEvent("calciteFilterChange");
       const filter = await page.find("calcite-filter");
-      await page.waitForEvent("calciteFilterChange");
-
-      expect(filterChangeSpy).toHaveReceivedEventTimes(1);
-
-      await filter;
+      await page.waitForTimeout(DEBOUNCE_TIMEOUT);
       assertMatchingItems(await filter.getProperty("filteredItems"), ["harry"]);
     });
   });

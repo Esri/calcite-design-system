@@ -17,7 +17,6 @@ import {
   ARIA_CONTROLS,
   ARIA_EXPANDED,
   HEADING_LEVEL,
-  POPOVER_REFERENCE,
   TEXT,
   defaultPopoverPlacement
 } from "./resources";
@@ -28,12 +27,17 @@ import {
   updatePopper,
   CSS as PopperCSS,
   OverlayPositioning,
-  ComputedPlacement
+  ComputedPlacement,
+  filterComputedPlacements
 } from "../../utils/popper";
 import { StrictModifiers, Instance as Popper } from "@popperjs/core";
 import { guid } from "../../utils/guid";
-import { queryElementRoots } from "../../utils/dom";
+import { queryElementRoots, toAriaBoolean } from "../../utils/dom";
 import { HeadingLevel, Heading } from "../functional/Heading";
+
+import PopoverManager from "./PopoverManager";
+
+const manager = new PopoverManager();
 
 /**
  * @slot - A slot for adding custom content.
@@ -51,7 +55,13 @@ export class Popover {
   // --------------------------------------------------------------------------
 
   /**
+   * Automatically closes any currently open popovers when clicking outside of a popover.
+   */
+  @Prop({ reflect: true }) autoClose = false;
+
+  /**
    * Display a close button within the Popover.
+   *
    * @deprecated use dismissible instead.
    */
   @Prop({ reflect: true }) closeButton = false;
@@ -76,6 +86,11 @@ export class Popover {
    */
   @Prop() flipPlacements?: ComputedPlacement[];
 
+  @Watch("flipPlacements")
+  flipPlacementsHandler(): void {
+    this.setFilteredPlacements();
+  }
+
   /**
    * Heading text.
    */
@@ -91,6 +106,7 @@ export class Popover {
 
   /**
    * Offset the position of the popover away from the reference element.
+   *
    * @default 6
    */
   @Prop({ reflect: true }) offsetDistance = defaultOffsetDistance;
@@ -126,6 +142,7 @@ export class Popover {
 
   /**
    * Determines where the component will be positioned relative to the referenceElement.
+   *
    * @see [PopperPlacement](https://github.com/Esri/calcite-components/blob/master/src/utils/popper.ts#L25)
    */
   @Prop({ reflect: true }) placement: PopperPlacement = defaultPopoverPlacement;
@@ -145,7 +162,14 @@ export class Popover {
     this.setUpReferenceElement();
   }
 
-  /** Text for close button.
+  /**
+   * Disables automatically toggling a popover when its referenceElement has been triggered. This property can be set to true to manage when a popover is open.
+   */
+  @Prop({ reflect: true }) triggerDisabled = false;
+
+  /**
+   * Text for close button.
+   *
    * @default "Close"
    */
   @Prop() intlClose = TEXT.close;
@@ -155,6 +179,8 @@ export class Popover {
   //  Private Properties
   //
   // --------------------------------------------------------------------------
+
+  filteredFlipPlacements: ComputedPlacement[];
 
   @Element() el: HTMLCalcitePopoverElement;
 
@@ -175,6 +201,10 @@ export class Popover {
   //  Lifecycle
   //
   // --------------------------------------------------------------------------
+
+  connectedCallback(): void {
+    this.setFilteredPlacements();
+  }
 
   componentWillLoad(): void {
     this.setUpReferenceElement();
@@ -222,7 +252,11 @@ export class Popover {
       : this.createPopper();
   }
 
-  /** Sets focus on the component. */
+  /**
+   * Sets focus on the component.
+   *
+   * @param focusId
+   */
   @Method()
   async setFocus(focusId?: "close-button"): Promise<void> {
     const { closeButtonEl } = this;
@@ -237,7 +271,11 @@ export class Popover {
     this.el?.focus();
   }
 
-  /** Toggles the popover's open property. */
+  /**
+   * Toggles the popover's open property.
+   *
+   * @param value
+   */
   @Method()
   async toggle(value = !this.open): Promise<void> {
     this.open = value;
@@ -248,6 +286,14 @@ export class Popover {
   //  Private Methods
   //
   // --------------------------------------------------------------------------
+
+  setFilteredPlacements = (): void => {
+    const { el, flipPlacements } = this;
+
+    this.filteredFlipPlacements = flipPlacements
+      ? filterComputedPlacements(flipPlacements, el)
+      : null;
+  };
 
   setUpReferenceElement = (): void => {
     this.removeReferences();
@@ -275,7 +321,7 @@ export class Popover {
       return;
     }
 
-    effectiveReferenceElement.setAttribute(ARIA_EXPANDED, open.toString());
+    effectiveReferenceElement.setAttribute(ARIA_EXPANDED, toAriaBoolean(open));
   };
 
   addReferences = (): void => {
@@ -287,8 +333,8 @@ export class Popover {
 
     const id = this.getId();
 
-    effectiveReferenceElement.setAttribute(POPOVER_REFERENCE, id);
     effectiveReferenceElement.setAttribute(ARIA_CONTROLS, id);
+    manager.registerElement(effectiveReferenceElement, this.el);
     this.setExpandedAttr();
   };
 
@@ -299,9 +345,9 @@ export class Popover {
       return;
     }
 
-    effectiveReferenceElement.removeAttribute(POPOVER_REFERENCE);
     effectiveReferenceElement.removeAttribute(ARIA_CONTROLS);
     effectiveReferenceElement.removeAttribute(ARIA_EXPANDED);
+    manager.unregisterElement(effectiveReferenceElement);
   };
 
   getReferenceElement(): HTMLElement {
@@ -315,16 +361,22 @@ export class Popover {
   }
 
   getModifiers(): Partial<StrictModifiers>[] {
-    const { arrowEl, flipPlacements, disableFlip, disablePointer, offsetDistance, offsetSkidding } =
-      this;
+    const {
+      arrowEl,
+      disableFlip,
+      disablePointer,
+      offsetDistance,
+      offsetSkidding,
+      filteredFlipPlacements
+    } = this;
     const flipModifier: Partial<StrictModifiers> = {
       name: "flip",
       enabled: !disableFlip
     };
 
-    if (flipPlacements) {
+    if (filteredFlipPlacements) {
       flipModifier.options = {
-        fallbackPlacements: flipPlacements
+        fallbackPlacements: filteredFlipPlacements
       };
     }
 
@@ -438,7 +490,7 @@ export class Popover {
 
     return (
       <Host
-        aria-hidden={hidden.toString()}
+        aria-hidden={toAriaBoolean(hidden)}
         aria-label={label}
         calcite-hydrated-hidden={hidden}
         id={this.getId()}

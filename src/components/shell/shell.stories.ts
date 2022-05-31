@@ -345,3 +345,30 @@ export const advancedRTL = (): string =>
       ${footerHTML}
     `
   );
+
+export const dismissedPanels = (): string => html`<calcite-shell content-behind>
+  <calcite-shell-panel slot="primary-panel" detached>
+    <calcite-action-bar slot="action-bar">
+      <calcite-action data-action-id="layers" icon="layers" text="Layers"></calcite-action>
+      <calcite-action data-action-id="basemaps" icon="basemap" text="Basemaps"></calcite-action>
+      <calcite-action data-action-id="legend" icon="legend" text="Legend"></calcite-action>
+      <calcite-action data-action-id="bookmarks" icon="bookmark" text="Bookmarks"></calcite-action>
+      <calcite-action data-action-id="print" icon="print" text="Print"></calcite-action>
+    </calcite-action-bar>
+    <calcite-panel heading="Layers" height-scale="l" data-panel-id="layers" dismissible dismissed>
+      <div id="layers-container"></div>
+    </calcite-panel>
+    <calcite-panel heading="Basemaps" height-scale="l" data-panel-id="basemaps" dismissible dismissed>
+      <div id="basemaps-container"></div>
+    </calcite-panel>
+    <calcite-panel heading="Legend" height-scale="l" data-panel-id="legend" dismissible dismissed>
+      <div id="legend-container"></div>
+    </calcite-panel>
+    <calcite-panel heading="Bookmarks" height-scale="l" data-panel-id="bookmarks" dismissible dismissed>
+      <div id="bookmarks-container"></div>
+    </calcite-panel>
+    <calcite-panel heading="Print" height-scale="l" data-panel-id="print" dismissible dismissed>
+      <div id="print-container"></div>
+    </calcite-panel>
+  </calcite-shell-panel>
+</calcite-shell>`;

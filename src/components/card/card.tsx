@@ -1,5 +1,5 @@
 import { Component, Element, Event, EventEmitter, h, Prop, VNode } from "@stencil/core";
-import { getSlotted } from "../../utils/dom";
+import { getSlotted, toAriaBoolean } from "../../utils/dom";
 import { CSS, SLOTS, TEXT } from "./resources";
 import {
   connectConditionalSlotComponent,
@@ -7,7 +7,8 @@ import {
   ConditionalSlotComponent
 } from "../../utils/conditionalSlot";
 
-/** Cards do not include a grid or bounding container
+/**
+ * Cards do not include a grid or bounding container
  * - cards will expand to fit the width of their container
  */
 
@@ -49,17 +50,23 @@ export class Card implements ConditionalSlotComponent {
   /** Indicates whether the card is selectable. */
   @Prop({ reflect: true }) selectable = false;
 
-  /** string to override English loading text
+  /**
+   * string to override English loading text
+   *
    * @default "Loading"
    */
   @Prop() intlLoading?: string = TEXT.loading;
 
-  /** string to override English select text for checkbox when selectable is true
+  /**
+   * string to override English select text for checkbox when selectable is true
+   *
    * @default "Select"
    */
   @Prop({ reflect: false }) intlSelect: string = TEXT.select;
 
-  /** string to override English deselect text for checkbox when selectable is true
+  /**
+   * string to override English deselect text for checkbox when selectable is true
+   *
    * @default "Deselect"
    */
   @Prop({ reflect: false }) intlDeselect: string = TEXT.deselect;
@@ -95,7 +102,7 @@ export class Card implements ConditionalSlotComponent {
             <calcite-loader active label={this.intlLoading} />
           </div>
         ) : null}
-        <section aria-busy={this.loading.toString()} class={{ [CSS.container]: true }}>
+        <section aria-busy={toAriaBoolean(this.loading)} class={{ [CSS.container]: true }}>
           {this.selectable ? this.renderCheckbox() : null}
           {this.renderThumbnail()}
           {this.renderHeader()}

@@ -16,6 +16,7 @@ import { getElementDir, filterDirectChildren } from "../../utils/dom";
 import { TabID, TabLayout } from "../tabs/interfaces";
 import { TabPosition } from "../tabs/interfaces";
 import { Scale } from "../interfaces";
+import { createObserver } from "../../utils/observers";
 
 /**
  * @slot - A slot for adding `calcite-tab-title`s.
@@ -50,16 +51,24 @@ export class TabNav {
    */
   @Prop() syncId: string;
 
-  /** @internal Parent tabs component scale value */
+  /**
+   * @internal
+   */
   @Prop({ reflect: true, mutable: true }) scale: Scale = "m";
 
-  /** @internal Parent tabs component layout value */
+  /**
+   * @internal
+   */
   @Prop({ reflect: true, mutable: true }) layout: TabLayout = "inline";
 
-  /** @internal Parent tabs component position value */
+  /**
+   * @internal
+   */
   @Prop({ reflect: true, mutable: true }) position: TabPosition = "below";
 
-  /** @internal Parent tabs component bordered value when layout is "inline" */
+  /**
+   * @internal
+   */
   @Prop({ reflect: true, mutable: true }) bordered = false;
 
   /**
@@ -83,7 +92,7 @@ export class TabNav {
       localStorage.setItem(`calcite-tab-nav-${this.storageId}`, JSON.stringify(this.selectedTab));
     }
 
-    this.calciteTabChange.emit({
+    this.calciteInternalTabChange.emit({
       tab: this.selectedTab
     });
 
@@ -105,6 +114,11 @@ export class TabNav {
 
   connectedCallback(): void {
     this.parentTabsEl = this.el.closest("calcite-tabs");
+    this.resizeObserver?.observe(this.el);
+  }
+
+  disconnectedCallback(): void {
+    this.resizeObserver?.disconnect();
   }
 
   componentWillLoad(): void {
@@ -112,9 +126,6 @@ export class TabNav {
     if (localStorage && this.storageId && localStorage.getItem(storageKey)) {
       const storedTab = JSON.parse(localStorage.getItem(storageKey));
       this.selectedTab = storedTab;
-      this.calciteTabChange.emit({
-        tab: this.selectedTab
-      });
     }
   }
 
@@ -139,7 +150,7 @@ export class TabNav {
       !this.selectedTab
     ) {
       this.tabTitles[0].getTabIdentifier().then((tab) => {
-        this.calciteTabChange.emit({
+        this.calciteInternalTabChange.emit({
           tab
         });
       });
@@ -180,14 +191,8 @@ export class TabNav {
   //
   //--------------------------------------------------------------------------
 
-  @Listen("resize", { target: "window" }) resizeHandler(): void {
-    // remove active indicator transition duration during resize to prevent wobble
-    this.activeIndicatorEl.style.transitionDuration = "0s";
-    this.updateActiveWidth();
-    this.updateOffsetPosition();
-  }
-
-  @Listen("calciteTabsFocusPrevious") focusPreviousTabHandler(e: CustomEvent): void {
+  @Listen("calciteInternalTabsFocusPrevious")
+  focusPreviousTabHandler(e: CustomEvent): void {
     const currentIndex = this.getIndexOfTabTitle(
       e.target as HTMLCalciteTabTitleElement,
       this.enabledTabTitles
@@ -203,7 +208,8 @@ export class TabNav {
     e.preventDefault();
   }
 
-  @Listen("calciteTabsFocusNext") focusNextTabHandler(e: CustomEvent): void {
+  @Listen("calciteInternalTabsFocusNext")
+  focusNextTabHandler(e: CustomEvent): void {
     const currentIndex = this.getIndexOfTabTitle(
       e.target as HTMLCalciteTabTitleElement,
       this.enabledTabTitles
@@ -217,7 +223,8 @@ export class TabNav {
     e.preventDefault();
   }
 
-  @Listen("calciteTabsActivate") activateTabHandler(e: CustomEvent<TabChangeEventDetail>): void {
+  @Listen("calciteInternalTabsActivate")
+  internalActivateTabHandler(e: CustomEvent<TabChangeEventDetail>): void {
     this.selectedTab = e.detail.tab
       ? e.detail.tab
       : this.getIndexOfTabTitle(e.target as HTMLCalciteTabTitleElement);
@@ -225,18 +232,29 @@ export class TabNav {
     e.preventDefault();
   }
 
+  @Listen("calciteTabsActivate") activateTabHandler(e: CustomEvent<TabChangeEventDetail>): void {
+    this.calciteTabChange.emit({
+      tab: this.selectedTab
+    });
+
+    e.stopPropagation();
+    e.preventDefault();
+  }
+
   /**
    * Check for active tabs on register and update selected
+   *
+   * @param e
    */
-  @Listen("calciteTabTitleRegister") updateTabTitles(e: CustomEvent<TabID>): void {
+  @Listen("calciteInternalTabTitleRegister")
+  updateTabTitles(e: CustomEvent<TabID>): void {
     if ((e.target as HTMLCalciteTabTitleElement).active) {
       this.selectedTab = e.detail;
     }
   }
 
-  @Listen("calciteTabChange", { target: "body" }) globalTabChangeHandler(
-    e: CustomEvent<TabChangeEventDetail>
-  ): void {
+  @Listen("calciteInternalTabChange", { target: "body" })
+  globalInternalTabChangeHandler(e: CustomEvent<TabChangeEventDetail>): void {
     if (
       this.syncId &&
       e.target !== this.el &&
@@ -244,7 +262,9 @@ export class TabNav {
       this.selectedTab !== e.detail.tab
     ) {
       this.selectedTab = e.detail.tab;
+      e.stopPropagation();
     }
+    e.stopPropagation();
   }
 
   //--------------------------------------------------------------------------
@@ -255,9 +275,15 @@ export class TabNav {
 
   /**
    * Emitted when the active tab changes
+   *
    * @see [TabChangeEventDetail](https://github.com/Esri/calcite-components/blob/master/src/components/tab/interfaces.ts#L1)
    */
   @Event() calciteTabChange: EventEmitter<TabChangeEventDetail>;
+
+  /**
+   * @internal
+   */
+  @Event() calciteInternalTabChange: EventEmitter<TabChangeEventDetail>;
 
   //--------------------------------------------------------------------------
   //
@@ -278,6 +304,13 @@ export class TabNav {
   activeIndicatorContainerEl: HTMLDivElement;
 
   animationActiveDuration = 0.3;
+
+  resizeObserver = createObserver("resize", () => {
+    // remove active indicator transition duration during resize to prevent wobble
+    this.activeIndicatorEl.style.transitionDuration = "0s";
+    this.updateActiveWidth();
+    this.updateOffsetPosition();
+  });
 
   //--------------------------------------------------------------------------
   //

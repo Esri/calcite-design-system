@@ -33,17 +33,17 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
   @Prop({ reflect: true }) nonInteractive = false;
 
   /**
-   * An optional description for this item.  This will appear below the label text.
+   * An optional description for the list item. Displays below the label text.
    */
   @Prop() description: string;
 
   /**
-   * When true, disabled prevents interaction.
+   * When true, prevents user interaction.
    */
   @Prop({ reflect: true }) disabled = false;
 
   /**
-   * The label text of the list item. This will appear above the description text.
+   * The label text of the list item. Displays above the description text.
    */
   @Prop() label: string;
 
@@ -147,20 +147,27 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
   }
 
   renderContentContainer(): VNode {
-    const { disabled, nonInteractive } = this;
-
+    const { description, disabled, label, nonInteractive } = this;
+    const hasCenterContent = !!label || !!description;
     const content = [this.renderContentStart(), this.renderContent(), this.renderContentEnd()];
 
     return !nonInteractive ? (
       <button
-        class={{ [CSS.contentContainer]: true, [CSS.contentContainerButton]: true }}
+        class={{
+          [CSS.contentContainer]: true,
+          [CSS.contentContainerButton]: true,
+          [CSS.hasCenterContent]: hasCenterContent
+        }}
         disabled={disabled}
         ref={(focusEl) => (this.focusEl = focusEl)}
       >
         {content}
       </button>
     ) : (
-      <div class={CSS.contentContainer} ref={() => (this.focusEl = null)}>
+      <div
+        class={{ [CSS.contentContainer]: true, [CSS.hasCenterContent]: hasCenterContent }}
+        ref={() => (this.focusEl = null)}
+      >
         {content}
       </div>
     );

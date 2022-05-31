@@ -10,7 +10,7 @@ import {
   VNode,
   Watch
 } from "@stencil/core";
-import { focusElement } from "../../utils/dom";
+import { focusElement, toAriaBoolean } from "../../utils/dom";
 import { Scale } from "../interfaces";
 import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
 import {
@@ -53,7 +53,9 @@ export class Switch implements LabelableComponent, CheckableFormCompoment, Inter
   /** The scale of the switch */
   @Prop({ reflect: true }) scale: Scale = "m";
 
-  /** True if the switch is initially on
+  /**
+   * True if the switch is initially on
+   *
    * @deprecated use 'checked' instead.
    */
   @Prop({ mutable: true }) switched = false;
@@ -107,6 +109,7 @@ export class Switch implements LabelableComponent, CheckableFormCompoment, Inter
     const key = e.key;
     if (!this.disabled && (key === " " || key === "Enter")) {
       this.toggle();
+      e.preventDefault();
     }
   };
 
@@ -180,12 +183,11 @@ export class Switch implements LabelableComponent, CheckableFormCompoment, Inter
 
   render(): VNode {
     return (
-      <Host onKeyDown={this.keyDownHandler}>
+      <Host onClick={this.clickHandler} onKeyDown={this.keyDownHandler}>
         <div
-          aria-checked={this.checked.toString()}
+          aria-checked={toAriaBoolean(this.checked)}
           aria-label={getLabelText(this)}
           class="container"
-          onClick={this.clickHandler}
           ref={this.setSwitchEl}
           role="switch"
           tabIndex={0}
