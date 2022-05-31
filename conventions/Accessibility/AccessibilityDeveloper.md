@@ -4,11 +4,11 @@ To get us started the team uses the [axe-core](https://github.com/dequelabs/axe-
 
 `axe-core` can mitigate over half of WCAG issues automatically. Additionally, it will return elements as "incomplete" where it's not certain, and manual review is needed. However **the best tools only find 30% of known issues**, so they can't be relied upon. But they can be the first step towards accessibility.
 
-1. **[Shadow DOM](#shadow-dom)**
-2. **[Testing](#testing)**: [Adding a test](#adding-a-test) | [Failed test example](#failed-test-example) | [How to test](#how-to-test)
-3. **[Storybook](#storybook)**: [Adding a new story](#add-a-new-story)
+1. **[Shadow DOM](#1-shadow-dom)**
+2. **[Testing](#2-testing)**: [Adding a test](#adding-a-test) | [Failed test example](#failed-test-example) | [How to test](#how-to-test)
+3. **[Storybook](#3-storybook)**: [Adding a new story](#add-a-new-story)
 
-## Shadow DOM
+## 1. Shadow DOM
 
 Broken associations between the Shadow DOM and global light DOM can break accessibility semantics.
 
@@ -58,7 +58,9 @@ As of today there are no great workarounds for associating elements across the S
 
 However, you _could_ extend the native element to allow an association.
 
-## Testing
+[scroll to top](#developer-quick-start-guide)
+
+## 2. Testing
 
 Components leverage automated testing with the [axe-core](https://github.com/dequelabs/axe-core) and [jest-axe](https://github.com/nickcolley/jest-axe) accessibility engines.
 
@@ -138,7 +140,9 @@ FAIL src/components/tree/tree.e2e.ts (23.34 s)
 - `npm run test:watch` will retest on file changes
 - [Learn more on testing](https://github.com/Esri/calcite-components/blob/master/CONTRIBUTING.md#running-the-tests) from our contributing docs
 
-## Storybook
+[scroll to top](#developer-quick-start-guide)
+
+## 3. Storybook
 
 We've already added the a11y add on, [storybook-addon-a11y](https://storybook.js.org/addons/@storybook/addon-a11y) which uses `axe-core`, the same accessibility engine used for automated testing in CC. As new components and enhancements are added, **ensure stories are updated to test accessibility**. This includes as properties are added to components, to ensure we're upholding high standards to fit our audience's needs.
 
@@ -163,3 +167,5 @@ Each story will showcase violations (if found), passes, and incomplete checks (r
 For instance, when the `inaccessibleExample` from above is depicted in a story Storybook's accessibility add-on will indicate contrast issues are present. Storybook will identify, but also recommend what is needed to pass the violation. In this example we must ensure there is sufficient contrast between the foreground and background colors to meet WCAG 2.0 AA contrast ratio thresholds of 4.5 to 1.
 
 ![Storybook inaccessible example with accessibility contrast issue error depicted](https://user-images.githubusercontent.com/5023024/165529845-bbcbb139-f642-49d4-80a7-e8916e808278.png)
+
+[scroll to top](#developer-quick-start-guide)

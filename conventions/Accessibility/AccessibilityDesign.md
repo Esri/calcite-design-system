@@ -1,14 +1,14 @@
 # Design Quick Start Guide
 
-1. **[Color](#color)**: [Color contrast](#color-contrast) | [Color and state](#color--state)
-2. **[Typography](#typography)**: [Text styling](#text-styling) | [Text resizing](#text-resizing)
-3. **[Information hierarchy](#information-hierarchy)**: [Semantic structure](#semantic-structure) | [Headings](#headings) | [Links](#links) | [Navigation](#navigation) | [Focus order](#focus-order)
-4. **[Forms](#forms)**: [Labels](#labels) | [Grouping controls](#grouping-controls) | [Form fields](#form-fields) | [Buttons and disabled buttons](#buttons) | [User notifications](#user-notifications) | [Touch zones](#touch-zones)
-5. **[Images](#images)**: [Background images](#background-images) | [Icons](#icons)
-6. **[Animation](#animation)**
-7. **[Writing and labels](#writing--labels)**: [Error messaging](#error-messaging)
+1. **[Color](#1-color)**: [Color contrast](#color-contrast) | [Color and state](#color--state)
+2. **[Typography](#2-typography)**: [Text styling](#text-styling) | [Text resizing](#text-resizing)
+3. **[Information hierarchy](#3-information-hierarchy)**: [Semantic structure](#semantic-structure) | [Headings](#headings) | [Links](#links) | [Navigation](#navigation) | [Focus order](#focus-order)
+4. **[Forms](#4-forms)**: [Labels](#labels) | [Grouping controls](#grouping-controls) | [Form fields](#form-fields) | [Buttons and disabled buttons](#buttons) | [User notifications](#user-notifications) | [Touch zones](#touch-zones)
+5. **[Images](#5-images)**: [Background images](#background-images) | [Icons](#icons)
+6. **[Animation](#6-animation)**
+7. **[Writing and labels](#7-writing-and-labels)**: [Error messaging](#error-messaging)
 
-## Color
+## 1. Color
 
 ### Color contrast
 
@@ -38,7 +38,9 @@ Approximately 300 million people in the world have some type of color vision def
 - [1.4.3 Contrast (Minimum)](https://www.w3.org/TR/WCAG21/#contrast-minimum)
 - [1.4.11 Non-Text Contrast](https://www.w3.org/TR/WCAG21/#non-text-contrast)
 
-## Typography
+[scroll to top](#design-quick-start-guide)
+
+## 2. Typography
 
 ### Text styling
 
@@ -58,7 +60,9 @@ Smart typography choices can improve readability for individuals with dyslexia, 
 - [Magnifier](https://support.microsoft.com/en-us/windows/use-magnifier-to-make-things-on-the-screen-easier-to-see-414948ba-8b1c-d3bd-8615-0e5e32204198)
 - Zoom: [Firefox](https://support.mozilla.org/en-US/kb/font-size-and-zoom-increase-size-of-web-pages) | [Chrome](https://support.google.com/chrome/answer/96810) | [Edge](https://support.microsoft.com/en-us/microsoft-edge/accessibility-features-in-microsoft-edge-4c696192-338e-9465-b2cd-bd9b698ad19a) | [Safari](https://support.apple.com/guide/safari/zoom-in-on-webpages-ibrw1068/mac)
 
-## Information hierarchy
+[scroll to top](#design-quick-start-guide)
+
+## 3. Information hierarchy
 
 ### Semantic structure
 
@@ -102,7 +106,9 @@ A well thought out page structure helps all users, especially those who navigate
 - [3.2.4 Consistent Identification](https://www.w3.org/TR/WCAG21/#consistent-identification)
 - [3.3.2 Labels or Instructions](https://www.w3.org/TR/WCAG21/#labels-or-instructions)
 
-## Forms
+[scroll to top](#design-quick-start-guide)
+
+## 4. Forms
 
 ### Labels
 
@@ -163,7 +169,9 @@ A well-designed form can be helpful to all users. Whereas poorly designed forms 
 - [3.3 Input Assistance](https://www.w3.org/TR/WCAG21/#input-assistance)
 - [4.1.2 Name, Role, Value](https://www.w3.org/TR/WCAG21/#name-role-value)
 
-## Images
+[scroll to top](#design-quick-start-guide)
+
+## 5. Images
 
 When adding images to content, use alt text to provide a succinct description that can be read by screen readers. Avoid alt text that would be redundant to surrounding content. If no new information is conveyed, consider marking the image as decorative.
 
@@ -195,7 +203,9 @@ Adding alternative text to graphics benefits anyone who may be using a screen re
 - [1.4.5 Images of Text](https://www.w3.org/TR/WCAG21/#images-of-text)
 - [1.4.11 Non-Text Content](https://www.w3.org/TR/WCAG21/#non-text-contrast)
 
-## Animation
+[scroll to top](#design-quick-start-guide)
+
+## 6. Animation
 
 - Auto-playing content is often considered distracting, especially if audio is involved.
 - Content should not flash or blink more than three times per second to avoid triggering photo-epileptic seizures.
@@ -212,7 +222,9 @@ For individuals who have motion sensitivities, whether that rooted in a vestibul
 - [2.3.1 Three Flashes or Below Threshold](https://www.w3.org/TR/WCAG21/#three-flashes-or-below-threshold)
 - [2.5.4 Motion Actuation](https://www.w3.org/TR/WCAG21/#motion-actuation)
 
-## Writing and labels
+[scroll to top](#design-quick-start-guide)
+
+## 7. Writing and labels
 
 Instructions for understanding and interacting with an interface should not rely on any sensory characteristics such as shape, size, visual location, orientation, or sound. Contextual descriptors such as those are often lost by non-sighted or low-vision individuals who may be using a screen-reader and keyboard shortcuts to navigate.
 
@@ -236,3 +248,5 @@ Providing clear and unambiguous content, instructions and/or labels benefits eve
 - [3.3.3 Error Suggestion](https://www.w3.org/TR/WCAG21/#error-suggestion)
 - [3.3.4 Error Prevention (Legal, Financial, Data)](https://www.w3.org/TR/WCAG21/#error-suggestion)
 - [3.3.5 Help](https://www.w3.org/TR/WCAG21/#help)
+
+[scroll to top](#design-quick-start-guide)

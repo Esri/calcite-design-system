@@ -1,18 +1,21 @@
 # Composite Roles
 
-1. [combobox](#1-combobox)
-2. [grid](#2-grid)
-3. [listbox](#3-listbox)
-4. [menu](#4-menu)
-5. [menubar](#5-menubar)
-6. [radiogroup](#6-radiogroup)
-7. [tablist](#7-tablist)
-8. [tree](#8-tree)
-9. [treegrid](#9-treegrid)
+1. [Other Roles](#1-other-roles)
+   - [Widget Roles](#1a-widget-roles)
+   - [Abstract Roles](#1b-abstract-roles)
+2. [combobox](#2-combobox)
+3. [grid](#3-grid)
+4. [listbox](#4-listbox)
+5. [menu](#5-menu)
+6. [menubar](#6-menubar)
+7. [radiogroup](#7-radiogroup)
+8. [tablist](#8-tablist)
+9. [tree](#9-tree)
+10. [treegrid](#10-treegrid)
 
-## Other Roles
+## 1. Other Roles
 
-### Widget Roles
+### 1a. Widget Roles
 
 Standalone user interface widgets or as part of larger, composite widgets.
 
@@ -41,7 +44,7 @@ Standalone user interface widgets or as part of larger, composite widgets.
 
 [scroll to top](#composite-roles)
 
-### Abstract Roles
+### 1b. Abstract Roles
 
 Defining general role concepts, used for existence purposes only. **Authors must not use abstract roles in content.**
 
@@ -62,7 +65,7 @@ Defining general role concepts, used for existence purposes only. **Authors must
 
 [scroll to top](#composite-roles)
 
-## 1. combobox
+## 2. combobox
 
 The `combobox` role is for input that controls another element, such as a listbox or grid, that can dynamically pop up to help the user set the value of the input.
 The popup can be a `listbox`, `grid`, `tree`, or `dialog`. Superclass role of `select`.
@@ -106,7 +109,7 @@ Learn more about the combobox role on [W3C](https://www.w3.org/TR/wai-aria-1.1/#
 
 [scroll to top](#composite-roles)
 
-## 2. grid
+## 3. grid
 
 The `grid` role contains one or more rows of cells. The position of each cell is significant and can be focused using keyboard input.
 
@@ -183,7 +186,7 @@ To activate the interactive component, they will use the `return` and `space` ke
 
 [scroll to top](#composite-roles)
 
-## 3. listbox
+## 4. listbox
 
 The `listbox` role is used for lists from which a user may select one or more items which are static, unlike HTML `<select>` elements, may contain images.
 
@@ -246,7 +249,7 @@ Recommended selection model, holding modifier keys, such as `Shift` or `ctrl`, i
 
 [scroll to top](#composite-roles)
 
-## 4. menu
+## 5. menu
 
 The `menu` role offers a list of choices to the user, often a list of common actions or functions that the user can invoke. Appropriate when a list of items is presented in a manner similar to a menu on a desktop application.
 
@@ -298,7 +301,7 @@ Learn more about the menu role on [W3C](https://www.w3.org/TR/wai-aria-1.1/#menu
 
 [scroll to top](#composite-roles)
 
-## 5. menubar
+## 6. menubar
 
 The `menubar` role is a presentation of a menu that usually remains visible and usually is presented horizontally. Superclass role of `menu`, and related to `toolbar`.
 
@@ -362,7 +365,7 @@ Learn more about the menubar role on [W3C](https://www.w3.org/TR/wai-aria-1.1/#m
 
 [scroll to top](#composite-roles)
 
-## 6. radiogroup
+## 7. radiogroup
 
 The `radiogroup` role is a group of radio buttons.
 
@@ -427,7 +430,7 @@ Learn more about the radiogroup role on [W3C](https://www.w3.org/TR/wai-aria-1.1
 
 [scroll to top](#composite-roles)
 
-## 7. tablist
+## 8. tablist
 
 The `tablist` role identifies the element that serves as the container for a set of `tabs`. The tab content are referred to as `tabpanel` elements.
 
@@ -476,7 +479,7 @@ If the `tablist` is horizontal, it does not listen for `↓` or `↑` so those k
 
 [scroll to top](#composite-roles)
 
-## 8. tree
+## 9. tree
 
 A `tree` is a widget that allows the user to select one or more items from a hierarchically organized collection. Any item in the hierarchy may have child tree items, `treeitem`. Tree items can be expanded or collapsed, showing and hiding their children.
 
@@ -577,7 +580,7 @@ For a vertically oriented `tree`, which is the default orientation:
 
 [scroll to top](#composite-roles)
 
-## 9. treegrid
+## 10. treegrid
 
 The `treegrid` role identifies an element as being grid whose rows can be expanded and collapsed in the same manner as for a tree.
 
