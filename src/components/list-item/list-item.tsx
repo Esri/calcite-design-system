@@ -155,7 +155,7 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
           {this.renderActionsStart()}
           {this.renderContentContainer()}
           {this.renderActionsEnd()}
-          {/* <div class={CSS.nestedContainer}>
+          {/* // todo <div class={CSS.nestedContainer}>
           <slot />
         </div> */}
         </tr>
