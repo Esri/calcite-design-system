@@ -57,7 +57,7 @@ export class Notice implements ConditionalSlotComponent {
   /** When true, the `calcite-notice` is active. */
   @Prop({ reflect: true, mutable: true }) active = false;
 
-  /** The color for the `calcite-notice` (will apply to top border and icon). */
+  /** The color for the `calcite-notice`. Color will apply to top border and icon. */
   @Prop({ reflect: true }) color: StatusColor = "blue";
 
   /** Shows a button the user can click to dismiss the `calcite-notice`. */
