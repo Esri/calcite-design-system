@@ -448,7 +448,7 @@ export class Popover {
   // --------------------------------------------------------------------------
 
   renderCloseButton(): VNode {
-    const { dismissible, closeButton, intlClose } = this;
+    const { dismissible, closeButton, intlClose, heading } = this;
 
     return dismissible || closeButton ? (
       <div class={CSS.closeButtonContainer}>
@@ -456,10 +456,10 @@ export class Popover {
           class={CSS.closeButton}
           onClick={this.hide}
           ref={(closeButtonEl) => (this.closeButtonEl = closeButtonEl)}
-          scale="s"
+          scale={heading ? "s" : "m"}
           text={intlClose}
         >
-          <calcite-icon icon="x" scale="s" />
+          <calcite-icon icon="x" scale={heading ? "s" : "m"} />
         </calcite-action>
       </div>
     ) : null;
