@@ -1,5 +1,6 @@
 import { sanitizeDecimalString, sanitizeExponentialNumberString } from "./number";
 import { isValidNumber } from "./number";
+
 export const locales = [
   "ar",
   "bg",
@@ -52,6 +53,9 @@ export const locales = [
   "zh-TW"
 ];
 
+const allDecimalsExceptLast = new RegExp(`[.](?=.*[.])`, "g");
+const everythingExceptNumbersDecimalsAndMinusSigns = new RegExp("[^0-9-.]", "g");
+const defaultGroupSeparator = new RegExp(",", "g");
 
 function createLocaleNumberFormatter(locale: string, numberingSystem = "latn"): Intl.NumberFormat {
   return new Intl.NumberFormat(locale, {
