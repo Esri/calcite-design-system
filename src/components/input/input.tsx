@@ -119,7 +119,7 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
   @Prop({ reflect: true }) loading = false;
 
   /** BCP 47 language tag for desired language and country format */
-  @Prop() locale?: string = document.documentElement.lang || "en";
+  @Prop() locale: string = document.documentElement.lang || "en";
 
   /**
    * standard UniCode numeral system tag for localization
