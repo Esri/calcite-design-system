@@ -62,7 +62,7 @@ function createLocaleNumberFormatter(locale: string, numberingSystem = defaultNu
   return new Intl.NumberFormat(locale, {
     minimumFractionDigits: 0,
     maximumFractionDigits: 20,
-    numberingSystem: numberingSystem
+    numberingSystem
   } as Intl.ResolvedNumberFormatOptions);
 }
 
