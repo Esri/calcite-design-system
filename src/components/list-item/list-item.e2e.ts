@@ -16,10 +16,6 @@ describe("calcite-list-item", () => {
   it("has property defaults", async () =>
     defaults("calcite-list-item", [
       {
-        propertyName: "nonInteractive",
-        defaultValue: false
-      },
-      {
         propertyName: "description",
         defaultValue: undefined
       },

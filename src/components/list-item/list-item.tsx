@@ -6,7 +6,7 @@ import {
   connectConditionalSlotComponent,
   disconnectConditionalSlotComponent
 } from "../../utils/conditionalSlot";
-import { InteractiveComponent } from "../../utils/interactive";
+import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 
 /**
  * @slot - A slot for adding `calcite-list-item` and `calcite-list-item-group` elements.
@@ -50,7 +50,7 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
 
   @Element() el: HTMLCalciteListItemElement;
 
-  focusEl: HTMLButtonElement;
+  focusEl: HTMLTableCellElement;
 
   // --------------------------------------------------------------------------
   //
@@ -64,6 +64,10 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
 
   disconnectedCallback(): void {
     disconnectConditionalSlotComponent(this);
+  }
+
+  componentDidRender(): void {
+    updateHostInteraction(this, "managed");
   }
 
   // --------------------------------------------------------------------------
@@ -139,7 +143,7 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
     return (
       <td
         class={{ [CSS.contentContainer]: true, [CSS.hasCenterContent]: hasCenterContent }}
-        ref={() => (this.focusEl = null)}
+        ref={(el) => (this.focusEl = el)}
         role="gridcell"
         tabIndex={-1}
       >
