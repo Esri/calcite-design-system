@@ -97,6 +97,7 @@ export const DismissibleWithHeader = stepStory(
         text-close="${text("text-close", "Close")}"
         heading="heading"
       >
+        ${contentHTML}
       </calcite-popover>
     </div>
   `,
