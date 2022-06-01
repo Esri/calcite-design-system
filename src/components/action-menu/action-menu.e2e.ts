@@ -2,6 +2,7 @@ import { accessible, hidden, renders, defaults, reflects, focusable, slots } fro
 import { newE2EPage } from "@stencil/core/testing";
 import { SLOTS, CSS } from "./resources";
 import { html } from "../../../support/formatting";
+import { TOOLTIP_DELAY_MS } from "../tooltip/resources";
 
 describe("calcite-action-menu", () => {
   it("renders", async () => renders("calcite-action-menu", { display: "flex" }));
@@ -184,5 +185,33 @@ describe("calcite-action-menu", () => {
     const trigger = await page.find(`calcite-action-menu >>> .${CSS.defaultTrigger}`);
 
     expect(await trigger.getProperty("scale")).toBe("l");
+  });
+
+  it("should close tooltip when open", async () => {
+    const page = await newE2EPage({
+      html: `
+    <calcite-action-menu label="test">
+    <calcite-action id="trigger" slot="${SLOTS.trigger}" text="Add" icon="plus"></calcite-action>
+      <calcite-tooltip slot="${SLOTS.tooltip}">Bits and bobs.</calcite-tooltip>
+      <calcite-action text="Add" icon="plus"></calcite-action>
+    </calcite-action-menu>
+    `
+    });
+
+    const actionMenu = await page.find("calcite-action-menu");
+    const tooltip = await page.find("calcite-tooltip");
+    const trigger = await page.find("#trigger");
+
+    expect(await tooltip.isVisible()).toBe(false);
+
+    await trigger.hover();
+    await page.waitForTimeout(TOOLTIP_DELAY_MS);
+
+    expect(await tooltip.isVisible()).toBe(true);
+
+    actionMenu.setProperty("open", true);
+    await page.waitForChanges();
+
+    expect(await tooltip.isVisible()).toBe(false);
   });
 });
