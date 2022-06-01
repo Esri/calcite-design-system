@@ -56,12 +56,14 @@ export const locales = [
 const allDecimalsExceptLast = new RegExp(`[.](?=.*[.])`, "g");
 const everythingExceptNumbersDecimalsAndMinusSigns = new RegExp("[^0-9-.]", "g");
 const defaultGroupSeparator = new RegExp(",", "g");
+const defaultNumberingSystem = new Intl.NumberFormat().resolvedOptions().numberingSystem;
 
-function createLocaleNumberFormatter(locale: string): Intl.NumberFormat {
+function createLocaleNumberFormatter(locale: string, numberingSystem = defaultNumberingSystem): Intl.NumberFormat {
   return new Intl.NumberFormat(locale, {
     minimumFractionDigits: 0,
-    maximumFractionDigits: 20
-  });
+    maximumFractionDigits: 20,
+    numberingSystem
+  } as Intl.ResolvedNumberFormatOptions);
 }
 
 export function delocalizeNumberString(numberString: string, locale: string): string {
@@ -97,12 +99,17 @@ export function getMinusSign(locale: string): string {
   return parts.find((part) => part.type === "minusSign").value;
 }
 
-export function localizeNumberString(numberString: string, locale: string, displayGroupSeparator = false): string {
+export function localizeNumberString(
+  numberString: string,
+  locale: string,
+  displayGroupSeparator = false,
+  numberingSystem?: string
+): string {
   return sanitizeExponentialNumberString(numberString, (nonExpoNumString: string): string => {
     if (nonExpoNumString) {
       const number = Number(sanitizeDecimalString(nonExpoNumString.replace(defaultGroupSeparator, "")));
       if (!isNaN(number)) {
-        const formatter = createLocaleNumberFormatter(locale);
+        const formatter = createLocaleNumberFormatter(locale, numberingSystem);
         const parts = formatter.formatToParts(number);
         const localizedNumberString = parts
           .map(({ type, value }) => {
