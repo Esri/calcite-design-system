@@ -116,7 +116,6 @@ export class Flow {
     if (oldPanelCount !== newPanelCount) {
       const flowDirection = this.getFlowDirection(oldPanelCount, newPanelCount);
       this.panelCount = newPanelCount;
-
       this.flowDirection = flowDirection;
     }
   };
