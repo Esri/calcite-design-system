@@ -19,11 +19,31 @@
 
 # Accessibility
 
-Calcite Components leverages the [W3C Accessibility Standards](https://www.w3.org/WAI/standards-guidelines) to ensure the applications and experiences are usable by a wide range of audiences.
+Calcite Components leverages the [W3C Accessibility Standards](https://www.w3.org/WAI/standards-guidelines) to ensure the applications and experiences are usable by a wide range of audiences, including:
 
-## Audiences
+## Autistic Spectrum
 
-... placeholder for infographics showcasing recommendations for audiences (e.g., autism, low vision, hearing loss, motor skills, neurological, etc.) ...
+Placeholder text
+
+## Dyslexia
+
+Placeholder text
+
+## Physical or Motor disabilities
+
+Placeholder text
+
+## Low Vision
+
+Placeholder text
+
+## Screen Readers
+
+Placeholder text
+
+## Deaf or Hard of Hearing
+
+This audience is not in scope for the Calcite Components team of designers and developers. Calcite Components users performing web development need to accommodate for users that are deaf or hard of hearing in their solutions.
 
 <fieldset>
     <legend># Checklist</legend>
@@ -171,7 +191,7 @@ Calcite Components leverages the [W3C Accessibility Standards](https://www.w3.or
 </div>
 <div class="check-div">
     <input type="checkbox" name="23" id="23">
-    <label for="23">Set focus on modals, popovers, alerts etc.
+    <label for="23">Set focus on modals, popovers, alerts, etc.
     <calcite-chip appearance="solid" color="yellow" icon="code" scale="s">Development</calcite-chip>
     </label>
 </div>
@@ -219,7 +239,7 @@ Calcite Components leverages the [W3C Accessibility Standards](https://www.w3.or
 </div>
 <div class="check-div">
     <input type="checkbox" name="31" id="31">
-    <label for="31">Make data available for graphs, charts, maps, SVGs etc. through assistive technology
+    <label for="31">Make data available for graphs, charts, maps, SVGs, etc. through assistive technology
     <calcite-chip appearance="solid" color="blue" icon="palette" scale="s">Design</calcite-chip>
     <calcite-chip appearance="solid" color="yellow" icon="code" scale="s">Development</calcite-chip>
     </label>
