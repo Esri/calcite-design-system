@@ -24,7 +24,9 @@ export class Flow {
    */
   @Method()
   async back(): Promise<HTMLCalcitePanelElement> {
-    const lastItem = this.el.querySelector("calcite-panel:last-child") as HTMLCalcitePanelElement;
+    const { panels } = this;
+
+    const lastItem = panels[panels.length - 1];
 
     if (!lastItem) {
       return;
@@ -55,8 +57,6 @@ export class Flow {
 
   @State() panels: HTMLCalcitePanelElement[] = [];
 
-  firstRunFlag = false;
-
   // --------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -86,7 +86,7 @@ export class Flow {
   };
 
   updateFlowProps = (event: Event): void => {
-    const { panels, firstRunFlag } = this;
+    const { panels } = this;
 
     const newPanels = (event.target as HTMLSlotElement)
       .assignedElements({
@@ -113,14 +113,12 @@ export class Flow {
 
     this.panels = newPanels;
 
-    if (firstRunFlag && oldPanelCount !== newPanelCount) {
+    if (oldPanelCount !== newPanelCount) {
       const flowDirection = this.getFlowDirection(oldPanelCount, newPanelCount);
       this.panelCount = newPanelCount;
 
       this.flowDirection = flowDirection;
     }
-
-    this.firstRunFlag = true;
   };
 
   // --------------------------------------------------------------------------
@@ -130,7 +128,7 @@ export class Flow {
   // --------------------------------------------------------------------------
 
   render(): VNode {
-    const { flowDirection, panelCount } = this;
+    const { flowDirection } = this;
 
     const frameDirectionClasses = {
       [CSS.frame]: true,
@@ -139,7 +137,7 @@ export class Flow {
     };
 
     return (
-      <div class={frameDirectionClasses} key={panelCount}>
+      <div class={frameDirectionClasses}>
         <slot onSlotchange={this.updateFlowProps} />
       </div>
     );
