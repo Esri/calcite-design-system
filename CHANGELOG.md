@@ -16,6 +16,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### Bug Fixes
 
+- **action-menu:** Hide tooltip when open. ([#4609](https://github.com/Esri/calcite-components/issues/4609)) ([#4668](https://github.com/Esri/calcite-components/issues/4668)) ([c570b8a](https://github.com/Esri/calcite-components/commit/c570b8aeeffc3a04d7bfd91a62b4b6252791c52a))
 - Ensure components are using logical css properties for margin and padding. ([#4663](https://github.com/Esri/calcite-components/issues/4663)) ([4169f30](https://github.com/Esri/calcite-components/commit/4169f30984f92f5146d1b3709a99fbe9062d6b68))
 - **date-picker:** display correct day abbreviations when locale='ru' ([#4525](https://github.com/Esri/calcite-components/issues/4525)) ([6046129](https://github.com/Esri/calcite-components/commit/6046129a72320e36c4991ac13df643428c4fc028))
 - **dropdown-item:** Only prevent default event for specific keys. ([#4625](https://github.com/Esri/calcite-components/issues/4625)) ([051c765](https://github.com/Esri/calcite-components/commit/051c76505150bc6370975edb833615ac27584322)), closes [#4614](https://github.com/Esri/calcite-components/issues/4614)
