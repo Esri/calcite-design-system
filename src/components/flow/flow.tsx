@@ -3,7 +3,6 @@ import { Component, Element, Listen, Method, State, h, VNode } from "@stencil/co
 import { CSS } from "./resources";
 
 import { FlowDirection } from "./interfaces";
-import { createObserver } from "../../utils/observers";
 
 /**
  * @slot - A slot for adding `calcite-panel`s to the flow.
@@ -56,20 +55,13 @@ export class Flow {
 
   @State() panels: HTMLCalcitePanelElement[] = [];
 
+  firstRunFlag = false;
+
   // --------------------------------------------------------------------------
   //
   //  Lifecycle
   //
   // --------------------------------------------------------------------------
-
-  connectedCallback(): void {
-    this.panelItemMutationObserver?.observe(this.el, { childList: true, subtree: true });
-    this.updateFlowProps();
-  }
-
-  disconnectedCallback(): void {
-    this.panelItemMutationObserver?.disconnect();
-  }
 
   // --------------------------------------------------------------------------
   //
@@ -93,12 +85,14 @@ export class Flow {
     return newPanelCount < oldPanelCount ? "retreating" : "advancing";
   };
 
-  updateFlowProps = (): void => {
-    const { panels } = this;
+  updateFlowProps = (event: Event): void => {
+    const { panels, firstRunFlag } = this;
 
-    const newPanels: HTMLCalcitePanelElement[] = Array.from(
-      this.el.querySelectorAll("calcite-panel")
-    );
+    const newPanels = (event.target as HTMLSlotElement)
+      .assignedElements({
+        flatten: true
+      })
+      .filter((el) => el?.matches("calcite-panel")) as HTMLCalcitePanelElement[];
 
     const oldPanelCount = panels.length;
     const newPanelCount = newPanels.length;
@@ -119,14 +113,15 @@ export class Flow {
 
     this.panels = newPanels;
 
-    if (oldPanelCount !== newPanelCount) {
+    if (firstRunFlag && oldPanelCount !== newPanelCount) {
       const flowDirection = this.getFlowDirection(oldPanelCount, newPanelCount);
       this.panelCount = newPanelCount;
+
       this.flowDirection = flowDirection;
     }
-  };
 
-  panelItemMutationObserver: MutationObserver = createObserver("mutation", this.updateFlowProps);
+    this.firstRunFlag = true;
+  };
 
   // --------------------------------------------------------------------------
   //
@@ -145,7 +140,7 @@ export class Flow {
 
     return (
       <div class={frameDirectionClasses} key={panelCount}>
-        <slot />
+        <slot onSlotchange={this.updateFlowProps} />
       </div>
     );
   }
