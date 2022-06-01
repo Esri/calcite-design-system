@@ -55,35 +55,35 @@ modal.beforeClose = beforeClose;
 
 ## Properties
 
-| Property              | Attribute               | Description                                                                                                 | Type                                 | Default                   |
-| --------------------- | ----------------------- | ----------------------------------------------------------------------------------------------------------- | ------------------------------------ | ------------------------- |
-| `active`              | `active`                | Add the active attribute to open the modal                                                                  | `boolean`                            | `false`                   |
-| `backgroundColor`     | `background-color`      | Background color of modal content                                                                           | `"grey" \| "white"`                  | `"white"`                 |
-| `beforeClose`         | --                      | Optionally pass a function to run before close                                                              | `(el: HTMLElement) => Promise<void>` | `() => Promise.resolve()` |
-| `color`               | `color`                 | Adds a color bar at the top for visual impact, Use color to add importance to destructive/workflow dialogs. | `"blue" \| "red"`                    | `undefined`               |
-| `disableCloseButton`  | `disable-close-button`  | Disables the display a close button within the Modal                                                        | `boolean`                            | `false`                   |
-| `disableEscape`       | `disable-escape`        | Flag to disable the default close on escape behavior                                                        | `boolean`                            | `false`                   |
-| `disableOutsideClose` | `disable-outside-close` | Disables the closing of the Modal when clicked outside.                                                     | `boolean`                            | `false`                   |
-| `docked`              | `docked`                | Prevent the modal from taking up the entire screen on mobile                                                | `boolean`                            | `undefined`               |
-| `firstFocus`          | --                      | Specify an element to focus when the modal is first opened                                                  | `HTMLElement`                        | `undefined`               |
-| `fullscreen`          | `fullscreen`            | Set the modal to always be fullscreen (overrides width)                                                     | `boolean`                            | `undefined`               |
-| `intlClose`           | `intl-close`            | Aria label for the close button                                                                             | `string`                             | `TEXT.close`              |
-| `noPadding`           | `no-padding`            | Turn off spacing around the content area slot                                                               | `boolean`                            | `false`                   |
-| `scale`               | `scale`                 | specify the scale of modal, defaults to m                                                                   | `"l" \| "m" \| "s"`                  | `"m"`                     |
-| `width`               | `width`                 | Set the width of the modal. Can use stock sizes or pass a number (in pixels)                                | `"l" \| "m" \| "s" \| number`        | `"m"`                     |
+| Property              | Attribute               | Description                                                                                                                       | Type                                 | Default                   |
+| --------------------- | ----------------------- | --------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------ | ------------------------- |
+| `active`              | `active`                | When true, the `calcite-modal` is active.                                                                                         | `boolean`                            | `false`                   |
+| `backgroundColor`     | `background-color`      | Sets the background color of `calcite-modal` content.                                                                             | `"grey" \| "white"`                  | `"white"`                 |
+| `beforeClose`         | --                      | Passes a function to run before the `calcite-modal` closes.                                                                       | `(el: HTMLElement) => Promise<void>` | `() => Promise.resolve()` |
+| `color`               | `color`                 | Adds a color bar to the top of `calcite-modal` for visual impact. Use color to add importance to destructive or workflow dialogs. | `"blue" \| "red"`                    | `undefined`               |
+| `disableCloseButton`  | `disable-close-button`  | When true, disables the close button within the `calcite-modal`.                                                                  | `boolean`                            | `false`                   |
+| `disableEscape`       | `disable-escape`        | When true, disables the default close on escape behavior.                                                                         | `boolean`                            | `false`                   |
+| `disableOutsideClose` | `disable-outside-close` | When true, disables the closing of the `calcite-modal` when clicked outside.                                                      | `boolean`                            | `false`                   |
+| `docked`              | `docked`                | When true, prevents the `calcite-modal` from expanding to the entire screen on mobile devices.                                    | `boolean`                            | `undefined`               |
+| `firstFocus`          | --                      | Specify the initial focus when the `calcite-modal` is first opened.                                                               | `HTMLElement`                        | `undefined`               |
+| `fullscreen`          | `fullscreen`            | Set the `calcite-modal` to always be fullscreen (overrides width).                                                                | `boolean`                            | `undefined`               |
+| `intlClose`           | `intl-close`            | Aria label for the close button.                                                                                                  | `string`                             | `TEXT.close`              |
+| `noPadding`           | `no-padding`            | When true, disables spacing to the content area slot.                                                                             | `boolean`                            | `false`                   |
+| `scale`               | `scale`                 | Specify the scale of `calcite-modal`.                                                                                             | `"l" \| "m" \| "s"`                  | `"m"`                     |
+| `width`               | `width`                 | Set the width of the `calcite-modal`. Can use scale sizes or pass a number (displays in pixels).                                  | `"l" \| "m" \| "s" \| number`        | `"m"`                     |
 
 ## Events
 
-| Event               | Description                                       | Type               |
-| ------------------- | ------------------------------------------------- | ------------------ |
-| `calciteModalClose` | Fired when the modal finishes the close animation | `CustomEvent<any>` |
-| `calciteModalOpen`  | Fired when the modal finishes the open animation  | `CustomEvent<any>` |
+| Event               | Description                                              | Type               |
+| ------------------- | -------------------------------------------------------- | ------------------ |
+| `calciteModalClose` | Emits when `calcite-modal` finishes the close animation. | `CustomEvent<any>` |
+| `calciteModalOpen`  | Emits when `calcite-modal` finishes the open animation.  | `CustomEvent<any>` |
 
 ## Methods
 
 ### `focusElement(el?: HTMLElement) => Promise<void>`
 
-<span style="color:red">**[DEPRECATED]**</span> use `setFocus` instead.<br/><br/>Focus first interactive element
+<span style="color:red">**[DEPRECATED]**</span> use `setFocus` instead.<br/><br/>Focus the first interactive element.
 
 #### Returns
 
@@ -91,7 +91,7 @@ Type: `Promise<void>`
 
 ### `scrollContent(top?: number, left?: number) => Promise<void>`
 
-Set the scroll top of the modal content
+Set the scroll top of the `calcite-modal` content.
 
 #### Returns
 
@@ -101,8 +101,8 @@ Type: `Promise<void>`
 
 Sets focus on the component.
 
-By default, will try to focus on any focusable content. If there is none, it will focus on the close button.
-If you want to focus on the close button, you can use the `close-button` focus ID.
+By default, tries to focus on focusable content. If there is none, it will focus on the close button.
+To focus on the close button, use the `close-button` focus ID.
 
 #### Returns
 
@@ -110,23 +110,23 @@ Type: `Promise<void>`
 
 ## Slots
 
-| Slot          | Description                          |
-| ------------- | ------------------------------------ |
-| `"back"`      | a slot for adding a back button      |
-| `"content"`   | a slot for adding modal content      |
-| `"header"`    | a slot for adding a modal header     |
-| `"primary"`   | a slot for adding a primary button   |
-| `"secondary"` | a slot for adding a secondary button |
+| Slot          | Description                                 |
+| ------------- | ------------------------------------------- |
+| `"back"`      | A slot for adding a back button.            |
+| `"content"`   | A slot for adding `calcite-modal` content.  |
+| `"header"`    | A slot for adding a `calcite-modal` header. |
+| `"primary"`   | A slot for adding a primary button.         |
+| `"secondary"` | A slot for adding a secondary button.       |
 
 ## CSS Custom Properties
 
-| Name                            | Description                                        |
-| ------------------------------- | -------------------------------------------------- |
-| `--calcite-modal-content-text`  | the font-size of the modal content                 |
-| `--calcite-modal-padding`       | the top/bottom padding around items in the modal   |
-| `--calcite-modal-padding-large` | the left/right padding around items in the modal   |
-| `--calcite-modal-title-text`    | the font-size of the modal title                   |
-| `--calcite-scrim-background`    | the semi-transparent background color behind modal |
+| Name                            | Description                                                       |
+| ------------------------------- | ----------------------------------------------------------------- |
+| `--calcite-modal-content-text`  | The `calcite-modal` content font size.                            |
+| `--calcite-modal-padding`       | The top/bottom padding around items in the `calcite-modal`.       |
+| `--calcite-modal-padding-large` | The left/right padding around items in the `calcite-modal`.       |
+| `--calcite-modal-title-text`    | The `calcite-modal` title font size.                              |
+| `--calcite-scrim-background`    | The semi-transparent background color behind the `calcite-modal`. |
 
 ## Dependencies
 
