@@ -9,12 +9,14 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### Features
 
+- **input:** allow customizing numbering system ([#4195](https://github.com/Esri/calcite-components/issues/4195)) ([3dc2268](https://github.com/Esri/calcite-components/commit/3dc226846c2e7527dbc76bab5ab363c6d25bcd56))
 - drop focus transitions to look snappier ([#4516](https://github.com/Esri/calcite-components/issues/4516)) ([4e95337](https://github.com/Esri/calcite-components/commit/4e9533794befd95161d8386c951adc0d97f36a59)), closes [#4036](https://github.com/Esri/calcite-components/issues/4036)
 - **pagination:** format page numbers with localized group seperators ([#4574](https://github.com/Esri/calcite-components/issues/4574)) ([a4658da](https://github.com/Esri/calcite-components/commit/a4658dab1a93a988f2dec45f7a3d67f669bb726b))
 - **popover:** Add triggerDisabled property to disable automatically toggling a popover via mouse or keyboard ([#4540](https://github.com/Esri/calcite-components/issues/4540)) ([338ea86](https://github.com/Esri/calcite-components/commit/338ea866090540b4019aa87f955877fb7a125631)), closes [#4539](https://github.com/Esri/calcite-components/issues/4539)
 
 ### Bug Fixes
 
+- Ensure components are using logical css properties for margin and padding. ([#4663](https://github.com/Esri/calcite-components/issues/4663)) ([4169f30](https://github.com/Esri/calcite-components/commit/4169f30984f92f5146d1b3709a99fbe9062d6b68))
 - **date-picker:** display correct day abbreviations when locale='ru' ([#4525](https://github.com/Esri/calcite-components/issues/4525)) ([6046129](https://github.com/Esri/calcite-components/commit/6046129a72320e36c4991ac13df643428c4fc028))
 - **dropdown-item:** Only prevent default event for specific keys. ([#4625](https://github.com/Esri/calcite-components/issues/4625)) ([051c765](https://github.com/Esri/calcite-components/commit/051c76505150bc6370975edb833615ac27584322)), closes [#4614](https://github.com/Esri/calcite-components/issues/4614)
 - **dropdown-item, dropdown-group:** text align to "start" by default. ([#4615](https://github.com/Esri/calcite-components/issues/4615)) ([5a1cd3e](https://github.com/Esri/calcite-components/commit/5a1cd3ebf9d0f9cfc0f4ee874205c96e4fcecc29)), closes [#4220](https://github.com/Esri/calcite-components/issues/4220)

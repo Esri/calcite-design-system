@@ -35,7 +35,9 @@
 }
 
 .text {
-  @apply mt-px mr-0 mb-0 ml-px;
+  @apply mt-px mb-0;
+  margin-inline-start: theme("spacing.px");
+  margin-inline-start: theme("spacing.0");
 }
 
 :host([scale="s"]) {
