@@ -160,7 +160,7 @@ export const SimpleWithFooterTextButtonTooltip = stepStory(
     .snapshot("Simple With Footer Text, Buttons and Tooltips RTL")
 );
 
-export const ThumbnailAppCard = stepStory(
+export const Thumbnail = stepStory(
   (): string => html`
     <div style="width:260px">
       ${create(
@@ -225,8 +225,8 @@ export const ThumbnailAppCard = stepStory(
     .snapshot("Thumbnail Block Start Dark")
     .executeScript(
       setKnobs({
-        story: "components-card--thumbnail-app-card",
-        knobs: [{ name: "thumbnailPosition", value: "block-end" }]
+        story: "components-card--thumbnail",
+        knobs: [{ name: "thumbnail-position", value: "block-end" }]
       })
     )
     .snapshot("Thumbnail Block End")
@@ -238,8 +238,8 @@ export const ThumbnailAppCard = stepStory(
     .snapshot("Thumbnail Block End Dark")
     .executeScript(
       setKnobs({
-        story: "components-card--thumbnail-app-card",
-        knobs: [{ name: "thumbnailPosition", value: "inline-start" }]
+        story: "components-card--thumbnail",
+        knobs: [{ name: "thumbnail-position", value: "inline-start" }]
       })
     )
     .snapshot("Thumbnail Inline Start")
@@ -251,8 +251,8 @@ export const ThumbnailAppCard = stepStory(
     .snapshot("Thumbnail Inline Start Dark")
     .executeScript(
       setKnobs({
-        story: "components-card--thumbnail-app-card",
-        knobs: [{ name: "thumbnailPosition", value: "inline-end" }]
+        story: "components-card--thumbnail",
+        knobs: [{ name: "thumbnail-position", value: "inline-end" }]
       })
     )
     .snapshot("Thumbnail Inline End")
