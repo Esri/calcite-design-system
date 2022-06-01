@@ -94,6 +94,7 @@ export const DismissibleWithHeader = stepStory(
         reference-element="reference-element"
         placement="${select("placement", popperPlacements, defaultPopoverPlacement)}"
         ${boolean("open", false)}
+        text-close="${text("text-close", "Close")}"
         heading="heading"
       >
       </calcite-popover>
