@@ -30,7 +30,8 @@ import {
   LogicalPlacement,
   EffectivePlacement,
   defaultOffsetDistance,
-  filterComputedPlacements
+  filterComputedPlacements,
+  ReferenceElement
 } from "../../utils/floating-ui";
 import { guid } from "../../utils/guid";
 import { queryElementRoots, toAriaBoolean } from "../../utils/dom";
@@ -162,7 +163,7 @@ export class Popover implements FloatingUIComponent {
   /**
    * Reference HTMLElement used to position this component according to the placement property. As a convenience, a string ID of the reference element can be used. However, setting this property to use an HTMLElement is preferred so that the component does not need to query the DOM for the referenceElement.
    */
-  @Prop() referenceElement!: HTMLElement | string;
+  @Prop() referenceElement!: ReferenceElement | string;
 
   @Watch("referenceElement")
   referenceElementHandler(): void {
@@ -192,7 +193,7 @@ export class Popover implements FloatingUIComponent {
 
   @Element() el: HTMLCalcitePopoverElement;
 
-  @State() effectiveReferenceElement: HTMLElement;
+  @State() effectiveReferenceElement: ReferenceElement;
 
   active: boolean;
 
@@ -348,7 +349,9 @@ export class Popover implements FloatingUIComponent {
       return;
     }
 
-    effectiveReferenceElement.setAttribute(ARIA_EXPANDED, toAriaBoolean(open));
+    if ("setAttribute" in effectiveReferenceElement) {
+      effectiveReferenceElement.setAttribute(ARIA_EXPANDED, toAriaBoolean(open));
+    }
   };
 
   addReferences = (): void => {
@@ -360,7 +363,10 @@ export class Popover implements FloatingUIComponent {
 
     const id = this.getId();
 
-    effectiveReferenceElement.setAttribute(ARIA_CONTROLS, id);
+    if ("setAttribute" in effectiveReferenceElement) {
+      effectiveReferenceElement.setAttribute(ARIA_CONTROLS, id);
+    }
+
     manager.registerElement(effectiveReferenceElement, this.el);
     this.setExpandedAttr();
   };
@@ -372,12 +378,15 @@ export class Popover implements FloatingUIComponent {
       return;
     }
 
-    effectiveReferenceElement.removeAttribute(ARIA_CONTROLS);
-    effectiveReferenceElement.removeAttribute(ARIA_EXPANDED);
+    if ("removeAttribute" in effectiveReferenceElement) {
+      effectiveReferenceElement.removeAttribute(ARIA_CONTROLS);
+      effectiveReferenceElement.removeAttribute(ARIA_EXPANDED);
+    }
+
     manager.unregisterElement(effectiveReferenceElement);
   };
 
-  getReferenceElement(): HTMLElement {
+  getReferenceElement(): ReferenceElement {
     const { referenceElement, el } = this;
 
     return (

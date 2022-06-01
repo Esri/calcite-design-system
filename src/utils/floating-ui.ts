@@ -9,9 +9,12 @@ import {
   offset,
   autoPlacement,
   autoUpdate,
-  Middleware
+  Middleware,
+  VirtualElement
 } from "@floating-ui/dom";
 import { getElementDir } from "./dom";
+
+export type ReferenceElement = VirtualElement | Element;
 
 type UIType = "menu" | "tooltip" | "popover";
 export type OverlayPositioning = Strategy;
@@ -255,7 +258,7 @@ export async function positionFloatingUI({
   arrowEl,
   type
 }: {
-  referenceEl: HTMLElement;
+  referenceEl: ReferenceElement;
   floatingEl: HTMLElement;
   overlayPositioning: Strategy;
   placement: LogicalPlacement;
@@ -331,7 +334,7 @@ const cleanupMap = new WeakMap<FloatingUIComponent, () => void>();
  */
 export function connectFloatingUI(
   component: FloatingUIComponent,
-  referenceEl: HTMLElement,
+  referenceEl: ReferenceElement,
   floatingEl: HTMLElement
 ): void {
   if (!floatingEl || !referenceEl) {
@@ -359,7 +362,7 @@ export function connectFloatingUI(
  */
 export function disconnectFloatingUI(
   component: FloatingUIComponent,
-  referenceEl: HTMLElement,
+  referenceEl: ReferenceElement,
   floatingEl: HTMLElement
 ): void {
   if (!floatingEl || !referenceEl) {

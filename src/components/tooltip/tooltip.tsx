@@ -9,7 +9,8 @@ import {
   connectFloatingUI,
   disconnectFloatingUI,
   LogicalPlacement,
-  defaultOffsetDistance
+  defaultOffsetDistance,
+  ReferenceElement
 } from "../../utils/floating-ui";
 import { queryElementRoots, toAriaBoolean } from "../../utils/dom";
 
@@ -91,7 +92,7 @@ export class Tooltip implements FloatingUIComponent {
   /**
    * Reference HTMLElement used to position this component according to the placement property. As a convenience, a string ID of the reference element can be used. However, setting this property to use an HTMLElement is preferred so that the component does not need to query the DOM for the referenceElement.
    */
-  @Prop() referenceElement: HTMLElement | string;
+  @Prop() referenceElement: ReferenceElement | string;
 
   @Watch("referenceElement")
   referenceElementHandler(): void {
@@ -106,7 +107,7 @@ export class Tooltip implements FloatingUIComponent {
 
   @Element() el: HTMLCalciteTooltipElement;
 
-  @State() effectiveReferenceElement: HTMLElement;
+  @State() effectiveReferenceElement: ReferenceElement;
 
   active: boolean;
 
@@ -207,7 +208,10 @@ export class Tooltip implements FloatingUIComponent {
 
     const id = this.getId();
 
-    effectiveReferenceElement.setAttribute(ARIA_DESCRIBED_BY, id);
+    if ("setAttribute" in effectiveReferenceElement) {
+      effectiveReferenceElement.setAttribute(ARIA_DESCRIBED_BY, id);
+    }
+
     manager.registerElement(effectiveReferenceElement, this.el);
   };
 
@@ -218,11 +222,14 @@ export class Tooltip implements FloatingUIComponent {
       return;
     }
 
-    effectiveReferenceElement.removeAttribute(ARIA_DESCRIBED_BY);
+    if ("removeAttribute" in effectiveReferenceElement) {
+      effectiveReferenceElement.removeAttribute(ARIA_DESCRIBED_BY);
+    }
+
     manager.unregisterElement(effectiveReferenceElement);
   };
 
-  getReferenceElement(): HTMLElement {
+  getReferenceElement(): ReferenceElement {
     const { referenceElement, el } = this;
 
     return (
