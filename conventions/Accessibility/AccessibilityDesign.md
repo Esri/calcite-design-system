@@ -78,6 +78,8 @@ Link text should be meaningful and inform the individual where the link will tak
 
 Body links should be denoted with a style other than color and should either avoid opening in a new tab or display an indicator, such as an icon or supporting text, that communicates it as such.
 
+![link-new-tab](https://user-images.githubusercontent.com/5023024/171473221-4d0bfe41-c7cb-47e8-99c5-12ebbe872199.svg)
+
 ### Navigation
 
 Navigation should remain consistent when moving linearly on a page; nothing should move or disappear. Primary navigation should also remain consistent between related web pages, so that high-level links and components, like search or sign in, show up in the same places.
@@ -120,6 +122,8 @@ Placeholder text should not be used as a replacement for labels as it vanishes u
 
 Elements that are grouped need to be associated with related form controls, such as `<fieldset>` and `<legend>`. Examples include radio button groups, grouped checkboxes, and related form fields.
 
+![fieldset-form](https://user-images.githubusercontent.com/5023024/171473214-3b1824dc-553e-4d6d-8ce5-57a2d68e1d23.svg)
+
 ### Form fields
 
 - Always indicate required vs optional fields.
@@ -143,9 +147,13 @@ Displaying form validation errors next to the field, which has triggered the mes
 - Including a count of errors in the summary helps all users, in particular those with cognitive disabilities.
 - After establishing an error pattern, it should be used consistently throughout the interface. Icons and styling need to mean the same thing, no matter where the pattern is surfaced.
 
+![error-handling](https://user-images.githubusercontent.com/5023024/171473203-9a60e718-d5dd-4e31-9a34-03cd1580fe40.svg)
+
 ### Touch zones
 
-Being able to use mobile and touchscreen devices is valuable for individuals with physical or motor disabilities. Interactive elements should not require precise touch points and a best practice within mobile to use 44x44 pt touch zones.
+Being able to use mobile and touchscreen devices is valuable for individuals with physical or motor disabilities. Interactive elements should not require precise touch points and a best practice within mobile to use 44x44 px touch zones.
+
+![touch-zones](https://user-images.githubusercontent.com/5023024/171473228-345c2b4d-c5d3-44fa-b9bb-04440d621990.svg)
 
 ### Who does this help?
 
