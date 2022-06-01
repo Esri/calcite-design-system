@@ -119,7 +119,12 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
   @Prop({ reflect: true }) loading = false;
 
   /** BCP 47 language tag for desired language and country format */
-  @Prop() locale?: string = document.documentElement.lang || "en";
+  @Prop() locale: string = document.documentElement.lang || "en";
+
+  /**
+   * standard UniCode numeral system tag for localization
+   */
+  @Prop() numberingSystem?: string;
 
   /**
    * Toggles locale formatting for numbers.
@@ -726,7 +731,12 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
   }): void => {
     const previousLocalizedValue =
       this.type === "number"
-        ? localizeNumberString(this.previousValue, this.locale, this.groupSeparator)
+        ? localizeNumberString(
+            this.previousValue,
+            this.locale,
+            this.groupSeparator,
+            this.numberingSystem
+          )
         : "";
     const sanitizedValue = this.type === "number" ? sanitizeNumberString(value) : value;
     const newValue =
@@ -737,7 +747,7 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
         : sanitizedValue;
     const newLocalizedValue =
       this.type === "number"
-        ? localizeNumberString(newValue, this.locale, this.groupSeparator)
+        ? localizeNumberString(newValue, this.locale, this.groupSeparator, this.numberingSystem)
         : "";
 
     this.setPreviousValue(previousValue || this.value);
@@ -787,7 +797,6 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
 
   render(): VNode {
     const dir = getElementDir(this.el);
-
     const loader = (
       <div class={CSS.loader}>
         <calcite-progress label={this.intlLoading} type="indeterminate" />
