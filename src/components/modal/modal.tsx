@@ -84,9 +84,6 @@ export class Modal implements ConditionalSlotComponent {
   /** When true, prevents the `calcite-modal` from expanding to the entire screen on mobile devices. */
   @Prop({ reflect: true }) docked: boolean;
 
-  /** Specify the initial focus when the `calcite-modal` is first opened. */
-  @Prop() firstFocus: HTMLElement;
-
   /** When true, disables the default close on escape behavior. */
   @Prop() disableEscape = false;
 
