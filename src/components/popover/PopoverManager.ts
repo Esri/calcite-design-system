@@ -1,4 +1,5 @@
 import { queryElementsRoots } from "../../utils/dom";
+import { ReferenceElement } from "../../utils/popper";
 
 export default class PopoverManager {
   // --------------------------------------------------------------------------
@@ -7,7 +8,7 @@ export default class PopoverManager {
   //
   // --------------------------------------------------------------------------
 
-  private registeredElements = new WeakMap<HTMLElement, HTMLCalcitePopoverElement>();
+  private registeredElements = new WeakMap<ReferenceElement, HTMLCalcitePopoverElement>();
 
   private registeredElementCount = 0;
 
@@ -17,7 +18,7 @@ export default class PopoverManager {
   //
   // --------------------------------------------------------------------------
 
-  registerElement(referenceEl: HTMLElement, popover: HTMLCalcitePopoverElement): void {
+  registerElement(referenceEl: ReferenceElement, popover: HTMLCalcitePopoverElement): void {
     this.registeredElementCount++;
 
     this.registeredElements.set(referenceEl, popover);
@@ -27,7 +28,7 @@ export default class PopoverManager {
     }
   }
 
-  unregisterElement(referenceEl: HTMLElement): void {
+  unregisterElement(referenceEl: ReferenceElement): void {
     if (this.registeredElements.delete(referenceEl)) {
       this.registeredElementCount--;
     }
