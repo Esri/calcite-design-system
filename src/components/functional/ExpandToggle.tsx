@@ -35,7 +35,11 @@ export function toggleChildActionText({
   queryActions(parent)
     .filter((el) => el.slot !== ACTION_GROUP_SLOTS.menuActions)
     .forEach((action) => (action.textEnabled = expanded));
-  parent.querySelectorAll("calcite-action-group").forEach((group) => (group.expanded = expanded));
+  parent
+    .querySelectorAll("calcite-action-group, calcite-action-menu")
+    .forEach(
+      (el: HTMLCalciteActionMenuElement | HTMLCalciteActionGroupElement) => (el.expanded = expanded)
+    );
 }
 
 const setTooltipReference = ({
