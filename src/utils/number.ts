@@ -1,4 +1,73 @@
 import { numberKeys } from "./key";
+import { createLocaleNumberFormatter, getDecimalSeparator } from "./locale";
+
+// https://stackoverflow.com/a/66939244
+export class BigDecimal {
+  _n: bigint;
+
+  // Configuration: constants
+  static DECIMALS = 20; // number of decimals on all instances
+
+  static ROUNDED = false; // numbers are truncated (false) or rounded (true)
+
+  static SHIFT = BigInt("1" + "0".repeat(BigDecimal.DECIMALS)); // derived constant
+
+  constructor(value: string | BigDecimal) {
+    if (value instanceof BigDecimal) {
+      return value;
+    }
+    const [ints, decis] = String(value).split(".").concat("");
+    this._n =
+      BigInt(ints + decis.padEnd(BigDecimal.DECIMALS, "0").slice(0, BigDecimal.DECIMALS)) +
+      BigInt(BigDecimal.ROUNDED && decis[BigDecimal.DECIMALS] >= "5");
+  }
+
+  static _divRound(dividend: bigint, divisor: bigint): bigint {
+    return BigDecimal.fromBigInt(
+      dividend / divisor + (BigDecimal.ROUNDED ? ((dividend * BigInt(2)) / divisor) % BigInt(2) : BigInt(0))
+    );
+  }
+
+  static fromBigInt(bigint: bigint): bigint {
+    return Object.assign(Object.create(BigDecimal.prototype), { _n: bigint });
+  }
+
+  toString(): string {
+    const s = this._n.toString().padStart(BigDecimal.DECIMALS + 1, "0");
+    const d = s.slice(-BigDecimal.DECIMALS).replace(/\.?0+$/, "");
+    return s.slice(0, -BigDecimal.DECIMALS) + (d.length ? "." + d : "");
+  }
+
+  formatToParts(locale: string, numberingSystem: string): Intl.NumberFormatPart[] {
+    const formatter = createLocaleNumberFormatter(locale, numberingSystem);
+
+    const s = this._n.toString().padStart(BigDecimal.DECIMALS + 1, "0");
+    const d = s.slice(-BigDecimal.DECIMALS).replace(/\.?0+$/, "");
+
+    const parts = formatter.formatToParts(BigInt(s.slice(0, -BigDecimal.DECIMALS)));
+    if (d.length) {
+      parts.push({ type: "decimal", value: getDecimalSeparator(locale) });
+      d.split("").forEach((char: string) => parts.push({ type: "fraction", value: char }));
+    }
+    return parts;
+  }
+
+  add(num: string): bigint {
+    return BigDecimal.fromBigInt(this._n + new BigDecimal(num)._n);
+  }
+
+  subtract(num: string): bigint {
+    return BigDecimal.fromBigInt(this._n - new BigDecimal(num)._n);
+  }
+
+  multiply(num: string): bigint {
+    return BigDecimal._divRound(this._n * new BigDecimal(num)._n, BigDecimal.SHIFT);
+  }
+
+  divide(num: string): bigint {
+    return BigDecimal._divRound(this._n * BigDecimal.SHIFT, new BigDecimal(num)._n);
+  }
+}
 
 export function isValidNumber(numberString: string): boolean {
   return !(!numberString || isNaN(Number(numberString)));
@@ -24,7 +93,8 @@ export function parseNumberString(numberString?: string): string {
         return numberKeys.includes(value);
       })
       .reduce((string, part) => string + part);
-    return isValidNumber(result) ? Number(result).toString() : "";
+
+    return isValidNumber(result) ? new BigDecimal(result).toString() : "";
   });
 }
 
@@ -51,7 +121,7 @@ export function sanitizeNumberString(numberString: string): string {
     return isValidNumber(sanitizedValue)
       ? isNegativeDecimalOnlyZeros.test(sanitizedValue)
         ? sanitizedValue
-        : Number(sanitizedValue).toString()
+        : new BigDecimal(sanitizedValue).toString()
       : nonExpoNumString;
   });
 }
