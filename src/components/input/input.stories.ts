@@ -271,4 +271,10 @@ export const WithLabelAndInputMessageRTL = (): string => html`
   </div>
 `;
 
+export const HebrewNumberingSystem = (): string =>
+  html` <calcite-input type="number" locale="ar-EG" numbering-system="hebr" value="123456"></calcite-input>`;
+
+export const ArabicLocaleWithLatinNumberingSystem = (): string =>
+  html` <calcite-input type="number" locale="ar-EG" numbering-system="latn" value="123456"></calcite-input>`;
+
 export const disabled = (): string => html`<calcite-input disabled value="disabled"></calcite-input>`;
