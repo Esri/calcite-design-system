@@ -85,7 +85,7 @@ export const Nested = stepStory(
     .snapshot("Multiple popovers open")
 );
 
-export const DismissibleWithHeader = stepStory(
+export const Heading = stepStory(
   (): string => html`
     <div style="width: 400px;">
       ${referenceElementHTML}
@@ -102,12 +102,9 @@ export const DismissibleWithHeader = stepStory(
     </div>
   `,
   createSteps("calcite-popover")
-    .snapshot("default with heading")
     .click("#reference-element")
-    .snapshot("Open")
-    .executeScript(
-      setKnobs({ story: "components-popover--dismissibleWithHeader", knobs: [{ name: "dismissible", value: "true" }] })
-    )
+    .snapshot("default")
+    .executeScript(setKnobs({ story: "components-popover--heading", knobs: [{ name: "dismissible", value: "true" }] }))
     .click("#reference-element")
-    .snapshot("dismissible with heading")
+    .snapshot("dismissible")
 );
