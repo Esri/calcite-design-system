@@ -211,29 +211,5 @@
         </calcite-tabs>
       </div>
     </div>
-
-    <!-- virtual el popover -->
-    <calcite-popover id="virtual-popover" open label="right start popover" placement="right" id="popover-right" open>
-      <div style="padding: 12px 16px">Hello! I am some virtual popover content!</div>
-    </calcite-popover>
-    <script>
-      function generateGetBoundingClientRect() {
-        return () => ({
-          width: 0,
-          height: 0,
-          top: 100,
-          right: 100,
-          bottom: 100,
-          left: 600
-        });
-      }
-
-      const virtualElement = {
-        getBoundingClientRect: generateGetBoundingClientRect()
-      };
-
-      const popover = document.getElementById("virtual-popover");
-      popover.referenceElement = virtualElement;
-    </script>
   </body>
 </html>
