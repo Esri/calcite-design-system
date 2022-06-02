@@ -38,7 +38,7 @@ export class BigDecimal {
     return s.slice(0, -BigDecimal.DECIMALS) + (d.length ? "." + d : "");
   }
 
-  formatToParts(locale: string, numberingSystem: string): Intl.NumberFormatPart[] {
+  formatToParts(locale: string, numberingSystem?: string): Intl.NumberFormatPart[] {
     const formatter = createLocaleNumberFormatter(locale, numberingSystem);
 
     const s = this._n.toString().padStart(BigDecimal.DECIMALS + 1, "0");
