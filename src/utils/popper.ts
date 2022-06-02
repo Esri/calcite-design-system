@@ -4,9 +4,12 @@ import {
   Instance as Popper,
   createPopper as setupPopper,
   StrictModifiers,
-  PositioningStrategy
+  PositioningStrategy,
+  VirtualElement
 } from "@popperjs/core";
 import { getElementDir } from "./dom";
+
+export type ReferenceElement = Element | VirtualElement;
 
 type PlacementRtl = "leading-start" | "leading" | "leading-end" | "trailing-end" | "trailing" | "trailing-start";
 type VariationRtl =
@@ -167,7 +170,7 @@ export function createPopper({
   modifiers: Partial<StrictModifiers>[];
   overlayPositioning: PositioningStrategy;
   placement: PopperPlacement;
-  referenceEl: HTMLElement;
+  referenceEl: ReferenceElement;
 }): Popper | null {
   if (!referenceEl) {
     return null;
