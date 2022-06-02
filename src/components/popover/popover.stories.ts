@@ -103,8 +103,8 @@ export const Heading = stepStory(
   `,
   createSteps("calcite-popover")
     .click("#reference-element")
-    .snapshot("default")
+    .snapshot("Open Popover with Heading")
     .executeScript(setKnobs({ story: "components-popover--heading", knobs: [{ name: "dismissible", value: "true" }] }))
     .click("#reference-element")
-    .snapshot("dismissible")
+    .snapshot("Open Popover with Dismissible Heading")
 );
