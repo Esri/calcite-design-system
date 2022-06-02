@@ -95,7 +95,7 @@ export const Heading = stepStory(
         placement="${select("placement", popperPlacements, defaultPopoverPlacement)}"
         ${boolean("open", false)}
         text-close="${text("text-close", "Close")}"
-        heading="heading"
+        heading="Heading"
       >
         ${contentHTML}
       </calcite-popover>
