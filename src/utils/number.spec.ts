@@ -101,15 +101,12 @@ describe("sanitizeNumberString", () => {
 
 describe("BigDecimal", () => {
   it("handles precise/large numbers and arbitrary-precision arithmetic", () => {
-    // https://0.30000000000000004.com/
     const subtract = new BigDecimal("0.3").subtract("0.1").toString();
     expect(subtract).toBe("0.2");
 
-    // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/MAX_SAFE_INTEGER
     const add = new BigDecimal(Number.MAX_SAFE_INTEGER.toString()).add("1").toString();
     expect(add).not.toBe(Number.MAX_SAFE_INTEGER.toString());
 
-    // https://forum.kirupa.com/t/js-tip-of-the-day-negative-zero/643094
     const negativeZero = new BigDecimal("-0").toString();
     expect(negativeZero).toBe("-0");
   });

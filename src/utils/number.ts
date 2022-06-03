@@ -7,12 +7,11 @@ const decimalAtEndOfStringButNotStart = /(?!^\.)\.$/;
 const allHyphensExceptTheStart = /(?!^-)-/g;
 const isNegativeDecimalOnlyZeros = /^-\b0\b\.?0*$/;
 
-// adopted BigInt solution from https://stackoverflow.com/a/66939244
+// adopted from https://stackoverflow.com/a/66939244
 export class BigDecimal {
   value: bigint;
 
-  // BigInt("0") === BigInt("-0") which strips the minus sign when typing numbers like -0.1
-  // https://forum.kirupa.com/t/js-tip-of-the-day-negative-zero/643094
+  // BigInt("-0").toString() === "0" which removes the minus sign when typing numbers like -0.1
   isNegative: boolean;
 
   // Configuration: constants
@@ -68,11 +67,13 @@ export class BigDecimal {
     const d = s.slice(-BigDecimal.DECIMALS).replace(/\.?0+$/, "");
 
     const parts = formatter.formatToParts(BigInt(i));
+    this.isNegative && parts.unshift({ type: "minusSign", value: getMinusSign(locale) });
+
     if (d.length) {
       parts.push({ type: "decimal", value: getDecimalSeparator(locale) });
       d.split("").forEach((char: string) => parts.push({ type: "fraction", value: char }));
     }
-    this.isNegative && parts.unshift({ type: "minusSign", value: getMinusSign(locale) });
+
     return parts;
   }
 
