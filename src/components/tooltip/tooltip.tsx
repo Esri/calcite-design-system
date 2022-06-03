@@ -32,7 +32,7 @@ export class Tooltip {
   //
   // --------------------------------------------------------------------------
 
-  /** Closes the tooltip when the referenceElement is clicked */
+  /** Closes the calcite-tooltip when the referenceElement is clicked. */
   @Prop() closeOnClick = false;
 
   /** Accessible name for the component */
