@@ -33,6 +33,7 @@ import {
   filterComputedPlacements,
   ReferenceElement
 } from "../../utils/floating-ui";
+
 import { guid } from "../../utils/guid";
 import { queryElementRoots, toAriaBoolean } from "../../utils/dom";
 import { HeadingLevel, Heading } from "../functional/Heading";
@@ -418,7 +419,7 @@ export class Popover implements FloatingUIComponent {
   // --------------------------------------------------------------------------
 
   renderCloseButton(): VNode {
-    const { dismissible, closeButton, intlClose } = this;
+    const { dismissible, closeButton, intlClose, heading } = this;
 
     return dismissible || closeButton ? (
       <div class={CSS.closeButtonContainer}>
@@ -426,9 +427,10 @@ export class Popover implements FloatingUIComponent {
           class={CSS.closeButton}
           onClick={this.hide}
           ref={(closeButtonEl) => (this.closeButtonEl = closeButtonEl)}
+          scale={heading ? "s" : "m"}
           text={intlClose}
         >
-          <calcite-icon icon="x" scale="m" />
+          <calcite-icon icon="x" scale={heading ? "s" : "m"} />
         </calcite-action>
       </div>
     ) : null;

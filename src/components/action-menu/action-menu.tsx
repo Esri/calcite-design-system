@@ -95,6 +95,8 @@ export class ActionMenu implements ConditionalSlotComponent {
       this.menuButtonEl.active = open;
     }
     this.calciteActionMenuOpenChange.emit(open);
+
+    this.setTooltipReferenceElement();
   }
 
   /** Describes the type of positioning to use for the overlaid content. If your element is in a fixed container, use the 'fixed' value. */
@@ -244,7 +246,7 @@ export class ActionMenu implements ConditionalSlotComponent {
   };
 
   renderMenuButton(): VNode {
-    const { label, scale } = this;
+    const { label, scale, expanded } = this;
 
     const menuButtonSlot = (
       <slot name={SLOTS.trigger}>
@@ -254,6 +256,7 @@ export class ActionMenu implements ConditionalSlotComponent {
           ref={this.setDefaultMenuButtonEl}
           scale={scale}
           text={label}
+          textEnabled={expanded}
         />
       </slot>
     );
@@ -343,10 +346,10 @@ export class ActionMenu implements ConditionalSlotComponent {
   };
 
   setTooltipReferenceElement = (): void => {
-    const { tooltipEl, expanded, menuButtonEl } = this;
+    const { tooltipEl, expanded, menuButtonEl, open } = this;
 
     if (tooltipEl) {
-      tooltipEl.referenceElement = !expanded ? menuButtonEl : null;
+      tooltipEl.referenceElement = !expanded && !open ? menuButtonEl : null;
     }
   };
 

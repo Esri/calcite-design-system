@@ -33,6 +33,9 @@ export class Tooltip implements FloatingUIComponent {
   //
   // --------------------------------------------------------------------------
 
+  /** Closes the calcite-tooltip when the referenceElement is clicked. */
+  @Prop() closeOnClick = false;
+
   /** Accessible name for the component */
   @Prop() label!: string;
 

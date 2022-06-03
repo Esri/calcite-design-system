@@ -84,3 +84,27 @@ export const Nested = stepStory(
     .click("#reference-element-nested")
     .snapshot("Multiple popovers open")
 );
+
+export const Heading = stepStory(
+  (): string => html`
+    <div style="width: 400px;">
+      ${referenceElementHTML}
+      <calcite-popover
+        ${boolean("dismissible", false)}
+        reference-element="reference-element"
+        placement="${select("placement", popperPlacements, defaultPopoverPlacement)}"
+        ${boolean("open", false)}
+        text-close="${text("text-close", "Close")}"
+        heading="Heading"
+      >
+        ${contentHTML}
+      </calcite-popover>
+    </div>
+  `,
+  createSteps("calcite-popover")
+    .click("#reference-element")
+    .snapshot("Open Popover with Heading")
+    .executeScript(setKnobs({ story: "components-popover--heading", knobs: [{ name: "dismissible", value: "true" }] }))
+    .click("#reference-element")
+    .snapshot("Open Popover with Dismissible Heading")
+);

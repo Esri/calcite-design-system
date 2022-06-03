@@ -486,4 +486,47 @@ describe("calcite-tooltip", () => {
 
     expect(await hoverTip.getProperty("open")).toBe(true);
   });
+
+  it("should close tooltip when closeOnClick is true and referenceElement is clicked", async () => {
+    const page = await newE2EPage();
+
+    await page.setContent(
+      html`
+        <calcite-tooltip reference-element="ref">Content</calcite-tooltip>
+        <button id="ref">Button</button>
+      `
+    );
+
+    await page.waitForChanges();
+
+    const tooltip = await page.find("calcite-tooltip");
+
+    expect(await tooltip.getProperty("open")).toBe(false);
+
+    const referenceElement = await page.find("#ref");
+
+    await referenceElement.hover();
+
+    await page.waitForTimeout(TOOLTIP_DELAY_MS);
+
+    await page.waitForChanges();
+
+    expect(await tooltip.getProperty("open")).toBe(true);
+
+    await referenceElement.click();
+
+    await page.waitForChanges();
+
+    expect(await tooltip.getProperty("open")).toBe(true);
+
+    tooltip.setProperty("closeOnClick", true);
+
+    await page.waitForChanges();
+
+    await referenceElement.click();
+
+    await page.waitForChanges();
+
+    expect(await tooltip.getProperty("open")).toBe(false);
+  });
 });
