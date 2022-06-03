@@ -13,6 +13,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - **pagination:** format page numbers with localized group seperators ([#4574](https://github.com/Esri/calcite-components/issues/4574)) ([a4658da](https://github.com/Esri/calcite-components/commit/a4658dab1a93a988f2dec45f7a3d67f669bb726b))
 - **popover:** Add triggerDisabled property to disable automatically toggling a popover via mouse or keyboard ([#4540](https://github.com/Esri/calcite-components/issues/4540)) ([338ea86](https://github.com/Esri/calcite-components/commit/338ea866090540b4019aa87f955877fb7a125631)), closes [#4539](https://github.com/Esri/calcite-components/issues/4539)
 - **popover, tooltip:** Support virtual elements for positioning. ([#4665](https://github.com/Esri/calcite-components/issues/4665)) ([bd18b76](https://github.com/Esri/calcite-components/commit/bd18b76003142a35de301b8dd80d69805589b6c7))
+- **tooltip:** Add property to close tooltip when referenceElement is clicked ([#4680](https://github.com/Esri/calcite-components/issues/4680)) ([8d87772](https://github.com/Esri/calcite-components/commit/8d877728c2b11fb8ab9d4b3dca85f055ad2e917b)), closes [#4399](https://github.com/Esri/calcite-components/issues/4399)
 - drop focus transitions to look snappier ([#4516](https://github.com/Esri/calcite-components/issues/4516)) ([4e95337](https://github.com/Esri/calcite-components/commit/4e9533794befd95161d8386c951adc0d97f36a59)), closes [#4036](https://github.com/Esri/calcite-components/issues/4036)
 
 ### Bug Fixes
