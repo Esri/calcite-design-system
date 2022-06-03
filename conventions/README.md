@@ -271,3 +271,49 @@ focusMenu(): void => {
   this.menuFocusTimeout = window.setTimeout(() => focusElement(this.menuEl), 100);
 }
 ```
+
+## Utils
+
+There are utilities for common workflows in [`src/utils`](https://github.com/Esri/calcite-components/tree/master/src/utils).
+
+### Global attributes
+
+The [`globalAttributes`](https://github.com/Esri/calcite-components/blob/master/src/utils/globalAttributes.ts) util was specifically made to access the `lang` global attribute when set on a Calcite component. However, it can be extended to allow additional [global attributes](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes#list_of_global_attributes) by adding to the [`allowedGlobalAttributes`](https://github.com/Esri/calcite-components/blob/a33aa0df0c5bf103f91187826e6b12b8ff266d90/src/utils/globalAttributes.ts#L4-L5) array. The util is used in [`calcite-pagination`](https://github.com/Esri/calcite-components/blob/master/src/components/pagination/pagination.tsx), which you can use as a reference.
+
+#### Usage steps
+
+1. Import the interface and watch/unwatch methods
+
+   ```js
+   import { GlobalAttrComponent, watchGlobalAttributes, unwatchGlobalAttributes } from "../../utils/globalAttributes";
+   ```
+
+2. Implement the interface
+
+   ```js
+   export class ComponentName implements GlobalAttrComponent {
+   ```
+
+3. Add `globalAttributes` state
+
+   ```js
+   @State() globalAttributes = {};
+   ```
+
+4. Add connect/disconnect callbacks
+
+   ```js
+   connectedCallback(): void {
+       watchGlobalAttributes(this, ["lang"]);
+   }
+
+   disconnectedCallback(): void {
+       unwatchGlobalAttributes(this);
+   }
+   ```
+
+5. Use the state to access `lang` (or another global attribute that may be allowed in the future).
+
+   ```js
+   const lang = this.globalAttributes["lang"] || document.documentElement.lang || "en";
+   ```
