@@ -16,7 +16,7 @@ export class BigDecimal {
   isNegative: boolean;
 
   // Configuration: constants
-  static DECIMALS = 20; // number of decimals on all instances
+  static DECIMALS = 100; // number of decimals on all instances
 
   static ROUNDED = true; // numbers are truncated (false) or rounded (true)
 
