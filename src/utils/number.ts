@@ -1,14 +1,23 @@
 import { numberKeys } from "./key";
-import { createLocaleNumberFormatter, getDecimalSeparator } from "./locale";
+import { createLocaleNumberFormatter, getDecimalSeparator, getMinusSign } from "./locale";
 
-// https://stackoverflow.com/a/66939244
+// regex for number sanitization
+const allLeadingZerosOptionallyNegative = /^([-0])0+(?=\d)/;
+const decimalAtEndOfStringButNotStart = /(?!^\.)\.$/;
+const allHyphensExceptTheStart = /(?!^-)-/g;
+const isNegativeDecimalOnlyZeros = /^-\b0\b\.?0*$/;
+
+// BigInt based solution borrowed from: https://stackoverflow.com/a/66939244
+// BigInt limitations for  0 > n > -1 (e.g. -0.01): https://forum.kirupa.com/t/js-tip-of-the-day-negative-zero/643094
 export class BigDecimal {
   _n: bigint;
+
+  _isNegative: boolean;
 
   // Configuration: constants
   static DECIMALS = 20; // number of decimals on all instances
 
-  static ROUNDED = false; // numbers are truncated (false) or rounded (true)
+  static ROUNDED = true; // numbers are truncated (false) or rounded (true)
 
   static SHIFT = BigInt("1" + "0".repeat(BigDecimal.DECIMALS)); // derived constant
 
@@ -20,6 +29,8 @@ export class BigDecimal {
     this._n =
       BigInt(ints + decis.padEnd(BigDecimal.DECIMALS, "0").slice(0, BigDecimal.DECIMALS)) +
       BigInt(BigDecimal.ROUNDED && decis[BigDecimal.DECIMALS] >= "5");
+
+    this._isNegative = value.charAt(0) === "-";
   }
 
   static _divRound(dividend: bigint, divisor: bigint): bigint {
@@ -34,20 +45,27 @@ export class BigDecimal {
 
   toString(): string {
     const s = this._n.toString().padStart(BigDecimal.DECIMALS + 1, "0");
+    const i = s.slice(0, -BigDecimal.DECIMALS);
     const d = s.slice(-BigDecimal.DECIMALS).replace(/\.?0+$/, "");
-    return s.slice(0, -BigDecimal.DECIMALS) + (d.length ? "." + d : "");
+    const value = i.concat(d.length ? "." + d : "");
+    const isMinusSignMissing = this._isNegative && value.charAt(0) !== "-";
+    return (isMinusSignMissing ? "-" : "").concat(value);
   }
 
   formatToParts(locale: string, numberingSystem?: string): Intl.NumberFormatPart[] {
     const formatter = createLocaleNumberFormatter(locale, numberingSystem);
 
     const s = this._n.toString().padStart(BigDecimal.DECIMALS + 1, "0");
+    const i = s.slice(0, -BigDecimal.DECIMALS);
     const d = s.slice(-BigDecimal.DECIMALS).replace(/\.?0+$/, "");
 
-    const parts = formatter.formatToParts(BigInt(s.slice(0, -BigDecimal.DECIMALS)));
+    const parts = formatter.formatToParts(BigInt(i.replace(/^-/, "")));
     if (d.length) {
       parts.push({ type: "decimal", value: getDecimalSeparator(locale) });
       d.split("").forEach((char: string) => parts.push({ type: "fraction", value: char }));
+    }
+    if (this._isNegative && !parts.find((part) => part.type === "minusSign")) {
+      parts.unshift({ type: "minusSign", value: getMinusSign(locale) });
     }
     return parts;
   }
@@ -99,29 +117,26 @@ export function parseNumberString(numberString?: string): string {
 }
 
 export function sanitizeDecimalString(decimalString: string): string {
-  const decimalAtEndOfStringButNotStart = /(?!^\.)\.$/;
   return decimalString.replace(decimalAtEndOfStringButNotStart, "");
 }
 
 export function sanitizeNegativeString(negativeString: string): string {
-  const allHyphensExceptTheStart = /(?!^-)-/g;
   return negativeString.replace(allHyphensExceptTheStart, "");
 }
 
 export function sanitizeLeadingZeroString(zeroString: string): string {
-  const allLeadingZerosOptionallyNegative = /^([-0])0+(?=\d)/;
   return zeroString.replace(allLeadingZerosOptionallyNegative, "$1");
 }
 
 export function sanitizeNumberString(numberString: string): string {
   return sanitizeExponentialNumberString(numberString, (nonExpoNumString) => {
     const sanitizedValue = sanitizeNegativeString(sanitizeDecimalString(sanitizeLeadingZeroString(nonExpoNumString)));
-    const isNegativeDecimalOnlyZeros = /^-\b0\b\.?0*$/;
+    const bigDecimalString = new BigDecimal(sanitizedValue).toString();
 
     return isValidNumber(sanitizedValue)
       ? isNegativeDecimalOnlyZeros.test(sanitizedValue)
         ? sanitizedValue
-        : new BigDecimal(sanitizedValue).toString()
+        : bigDecimalString
       : nonExpoNumString;
   });
 }
