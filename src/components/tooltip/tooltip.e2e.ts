@@ -487,7 +487,7 @@ describe("calcite-tooltip", () => {
     expect(await hoverTip.getProperty("open")).toBe(true);
   });
 
-  it("should close tooltip when closeOnClick is true and referenceElement  is clicked", async () => {
+  it("should close tooltip when closeOnClick is true and referenceElement is clicked", async () => {
     const page = await newE2EPage();
 
     await page.setContent(
