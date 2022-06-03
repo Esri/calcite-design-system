@@ -133,7 +133,7 @@ export class Dropdown implements InteractiveComponent {
   /** specify whether the dropdown is opened by hover or click of a trigger element */
   @Prop({ reflect: true }) type: "hover" | "click" = "click";
 
-  /** specify the width of dropdown*/
+  /** specify the width of dropdown */
   @Prop({ reflect: true }) width?: Scale;
 
   //--------------------------------------------------------------------------
