@@ -44,29 +44,34 @@ export class BigDecimal {
   }
 
   toString(): string {
-    const s = this._n.toString().padStart(BigDecimal.DECIMALS + 1, "0");
+    const s = this._n
+      .toString()
+      .replace(new RegExp("-", "g"), "")
+      .padStart(BigDecimal.DECIMALS + 1, "0");
+
     const i = s.slice(0, -BigDecimal.DECIMALS);
     const d = s.slice(-BigDecimal.DECIMALS).replace(/\.?0+$/, "");
     const value = i.concat(d.length ? "." + d : "");
-    const isMinusSignMissing = this._isNegative && value.charAt(0) !== "-";
-    return (isMinusSignMissing ? "-" : "").concat(value);
+    return (this._isNegative ? "-" : "").concat(value);
   }
 
   formatToParts(locale: string, numberingSystem?: string): Intl.NumberFormatPart[] {
     const formatter = createLocaleNumberFormatter(locale, numberingSystem);
 
-    const s = this._n.toString().padStart(BigDecimal.DECIMALS + 1, "0");
+    const s = this._n
+      .toString()
+      .replace(new RegExp("-", "g"), "")
+      .padStart(BigDecimal.DECIMALS + 1, "0");
+
     const i = s.slice(0, -BigDecimal.DECIMALS);
     const d = s.slice(-BigDecimal.DECIMALS).replace(/\.?0+$/, "");
 
-    const parts = formatter.formatToParts(BigInt(i.replace(/^-/, "")));
+    const parts = formatter.formatToParts(BigInt(i));
     if (d.length) {
       parts.push({ type: "decimal", value: getDecimalSeparator(locale) });
       d.split("").forEach((char: string) => parts.push({ type: "fraction", value: char }));
     }
-    if (this._isNegative && !parts.find((part) => part.type === "minusSign")) {
-      parts.unshift({ type: "minusSign", value: getMinusSign(locale) });
-    }
+    this._isNegative && parts.unshift({ type: "minusSign", value: getMinusSign(locale) });
     return parts;
   }
 
