@@ -405,22 +405,22 @@ export class Dropdown implements InteractiveComponent {
     entries.forEach((entry) => {
       const { target } = entry;
       if (target === this.referenceEl) {
-        this.setDrodownMinWidth();
+        this.setDropdownWidth();
       } else if (target === this.scrollerEl) {
         this.setMaxScrollerHeight();
       }
     });
   };
 
-  setDrodownMinWidth = (): void => {
+  setDropdownWidth = (): void => {
     const { referenceEl, scrollerEl } = this;
-    const minWidth = referenceEl?.clientWidth;
+    const referenceElWidth = referenceEl?.clientWidth;
 
-    if (!minWidth || !scrollerEl) {
+    if (!referenceElWidth || !scrollerEl) {
       return;
     }
 
-    scrollerEl.style.minWidth = `${minWidth}px`;
+    scrollerEl.style.minWidth = `${referenceElWidth}px`;
   };
 
   setMaxScrollerHeight = (): void => {
