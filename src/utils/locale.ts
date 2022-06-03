@@ -1,4 +1,4 @@
-import { sanitizeNumberString, sanitizeExponentialNumberString, isValidNumber, BigDecimal } from "./number";
+import { sanitizeDecimalString, sanitizeExponentialNumberString, isValidNumber, BigDecimal } from "./number";
 
 export const locales = [
   "ar",
@@ -109,10 +109,9 @@ export function localizeNumberString(
 ): string {
   return sanitizeExponentialNumberString(numberString, (nonExpoNumString: string): string => {
     if (nonExpoNumString) {
-      const sanitizedNumberString = sanitizeNumberString(nonExpoNumString.replace(defaultGroupSeparator, ""));
+      const sanitizedNumberString = sanitizeDecimalString(nonExpoNumString.replace(defaultGroupSeparator, ""));
       if (isValidNumber(sanitizedNumberString)) {
-        const bigDecimalNumber = new BigDecimal(sanitizedNumberString);
-        const parts = bigDecimalNumber.formatToParts(locale, numberingSystem);
+        const parts = new BigDecimal(sanitizedNumberString).formatToParts(locale, numberingSystem);
 
         const localizedNumberString = parts
           .map(({ type, value }) => {
