@@ -7,12 +7,13 @@ const decimalAtEndOfStringButNotStart = /(?!^\.)\.$/;
 const allHyphensExceptTheStart = /(?!^-)-/g;
 const isNegativeDecimalOnlyZeros = /^-\b0\b\.?0*$/;
 
-// BigInt based solution borrowed from: https://stackoverflow.com/a/66939244
-// BigInt limitations for  0 > n > -1 (e.g. -0.01): https://forum.kirupa.com/t/js-tip-of-the-day-negative-zero/643094
+// adopted BigInt solution from https://stackoverflow.com/a/66939244
 export class BigDecimal {
-  _n: bigint;
+  value: bigint;
 
-  _isNegative: boolean;
+  // BigInt("0") === BigInt("-0") which strips the minus sign when typing numbers like -0.1
+  // https://forum.kirupa.com/t/js-tip-of-the-day-negative-zero/643094
+  isNegative: boolean;
 
   // Configuration: constants
   static DECIMALS = 20; // number of decimals on all instances
@@ -21,16 +22,16 @@ export class BigDecimal {
 
   static SHIFT = BigInt("1" + "0".repeat(BigDecimal.DECIMALS)); // derived constant
 
-  constructor(value: string | BigDecimal) {
-    if (value instanceof BigDecimal) {
-      return value;
+  constructor(input: string | BigDecimal) {
+    if (input instanceof BigDecimal) {
+      return input;
     }
-    const [ints, decis] = String(value).split(".").concat("");
-    this._n =
+    const [ints, decis] = String(input).split(".").concat("");
+    this.value =
       BigInt(ints + decis.padEnd(BigDecimal.DECIMALS, "0").slice(0, BigDecimal.DECIMALS)) +
       BigInt(BigDecimal.ROUNDED && decis[BigDecimal.DECIMALS] >= "5");
 
-    this._isNegative = value.charAt(0) === "-";
+    this.isNegative = input.charAt(0) === "-";
   }
 
   static _divRound(dividend: bigint, divisor: bigint): bigint {
@@ -40,11 +41,11 @@ export class BigDecimal {
   }
 
   static fromBigInt(bigint: bigint): bigint {
-    return Object.assign(Object.create(BigDecimal.prototype), { _n: bigint });
+    return Object.assign(Object.create(BigDecimal.prototype), { value: bigint });
   }
 
   toString(): string {
-    const s = this._n
+    const s = this.value
       .toString()
       .replace(new RegExp("-", "g"), "")
       .padStart(BigDecimal.DECIMALS + 1, "0");
@@ -52,13 +53,13 @@ export class BigDecimal {
     const i = s.slice(0, -BigDecimal.DECIMALS);
     const d = s.slice(-BigDecimal.DECIMALS).replace(/\.?0+$/, "");
     const value = i.concat(d.length ? "." + d : "");
-    return (this._isNegative ? "-" : "").concat(value);
+    return (this.isNegative ? "-" : "").concat(value);
   }
 
   formatToParts(locale: string, numberingSystem?: string): Intl.NumberFormatPart[] {
     const formatter = createLocaleNumberFormatter(locale, numberingSystem);
 
-    const s = this._n
+    const s = this.value
       .toString()
       .replace(new RegExp("-", "g"), "")
       .padStart(BigDecimal.DECIMALS + 1, "0");
@@ -71,24 +72,24 @@ export class BigDecimal {
       parts.push({ type: "decimal", value: getDecimalSeparator(locale) });
       d.split("").forEach((char: string) => parts.push({ type: "fraction", value: char }));
     }
-    this._isNegative && parts.unshift({ type: "minusSign", value: getMinusSign(locale) });
+    this.isNegative && parts.unshift({ type: "minusSign", value: getMinusSign(locale) });
     return parts;
   }
 
   add(num: string): bigint {
-    return BigDecimal.fromBigInt(this._n + new BigDecimal(num)._n);
+    return BigDecimal.fromBigInt(this.value + new BigDecimal(num).value);
   }
 
   subtract(num: string): bigint {
-    return BigDecimal.fromBigInt(this._n - new BigDecimal(num)._n);
+    return BigDecimal.fromBigInt(this.value - new BigDecimal(num).value);
   }
 
   multiply(num: string): bigint {
-    return BigDecimal._divRound(this._n * new BigDecimal(num)._n, BigDecimal.SHIFT);
+    return BigDecimal._divRound(this.value * new BigDecimal(num).value, BigDecimal.SHIFT);
   }
 
   divide(num: string): bigint {
-    return BigDecimal._divRound(this._n * BigDecimal.SHIFT, new BigDecimal(num)._n);
+    return BigDecimal._divRound(this.value * BigDecimal.SHIFT, new BigDecimal(num).value);
   }
 }
 

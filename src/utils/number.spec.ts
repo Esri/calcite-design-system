@@ -1,4 +1,5 @@
-import { isValidNumber, parseNumberString, sanitizeNumberString } from "./number";
+import { BigDecimal, isValidNumber, parseNumberString, sanitizeNumberString } from "./number";
+import { getDecimalSeparator, getGroupSeparator, getMinusSign, locales } from "./locale";
 
 describe("isValidNumber", () => {
   it("returns false for string values that can't compute to a number", () => {
@@ -95,5 +96,37 @@ describe("sanitizeNumberString", () => {
     expect(sanitizeNumberString(nonLeadingZeroExponentialString)).toBe("500000e600");
     expect(sanitizeNumberString(multiDecimalExponentialString)).toBe("1.2e21");
     expect(sanitizeNumberString(crazyExponentialString)).toBe("-2.1e53109");
+  });
+});
+
+describe("BigDecimal", () => {
+  it("handles precise/large numbers and arbitrary-precision arithmetic", () => {
+    // https://0.30000000000000004.com/
+    const subtract = new BigDecimal("0.3").subtract("0.1").toString();
+    expect(subtract).toBe("0.2");
+
+    // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/MAX_SAFE_INTEGER
+    const add = new BigDecimal(Number.MAX_SAFE_INTEGER.toString()).add("1").toString();
+    expect(add).not.toBe(Number.MAX_SAFE_INTEGER.toString());
+
+    // https://forum.kirupa.com/t/js-tip-of-the-day-negative-zero/643094
+    const negativeZero = new BigDecimal("-0").toString();
+    expect(negativeZero).toBe("-0");
+  });
+
+  locales.forEach((locale) => {
+    it(`correctly localizes number parts - ${locale}`, () => {
+      const parts = new BigDecimal("-12345678.9").formatToParts(locale);
+
+      const group = getGroupSeparator(locale);
+      const groupPart = parts.find((part) => part.type === "group").value;
+      expect(groupPart.trim().length === 0 ? " " : groupPart).toBe(group);
+
+      const decimal = getDecimalSeparator(locale);
+      expect(parts.find((part) => part.type === "decimal").value).toBe(decimal);
+
+      const minusSign = getMinusSign(locale);
+      expect(parts.find((part) => part.type === "minusSign").value).toBe(minusSign);
+    });
   });
 });
