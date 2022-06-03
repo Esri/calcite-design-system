@@ -117,7 +117,6 @@ export function parseNumberString(numberString?: string): string {
         return numberKeys.includes(value);
       })
       .reduce((string, part) => string + part);
-
     return isValidNumber(result) ? new BigDecimal(result).toString() : "";
   });
 }
@@ -137,12 +136,11 @@ export function sanitizeLeadingZeroString(zeroString: string): string {
 export function sanitizeNumberString(numberString: string): string {
   return sanitizeExponentialNumberString(numberString, (nonExpoNumString) => {
     const sanitizedValue = sanitizeNegativeString(sanitizeDecimalString(sanitizeLeadingZeroString(nonExpoNumString)));
-    const bigDecimalString = new BigDecimal(sanitizedValue).toString();
 
     return isValidNumber(sanitizedValue)
       ? isNegativeDecimalOnlyZeros.test(sanitizedValue)
         ? sanitizedValue
-        : bigDecimalString
+        : new BigDecimal(sanitizedValue).toString()
       : nonExpoNumString;
   });
 }

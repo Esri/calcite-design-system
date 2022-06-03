@@ -112,27 +112,22 @@ export function localizeNumberString(
       const sanitizedNumberString = sanitizeNumberString(nonExpoNumString.replace(defaultGroupSeparator, ""));
       if (isValidNumber(sanitizedNumberString)) {
         const bigDecimalNumber = new BigDecimal(sanitizedNumberString);
-
         const parts = bigDecimalNumber.formatToParts(locale, numberingSystem);
-        const group = getGroupSeparator(locale);
-        const decimal = getDecimalSeparator(locale);
-        const minusSign = getMinusSign(locale);
 
         const localizedNumberString = parts
           .map(({ type, value }) => {
             switch (type) {
               case "group":
-                return displayGroupSeparator ? group : "";
+                return displayGroupSeparator ? getGroupSeparator(locale) : "";
               case "decimal":
-                return decimal;
+                return getDecimalSeparator(locale);
               case "minusSign":
-                return minusSign;
+                return getMinusSign(locale);
               default:
                 return value;
             }
           })
           .reduce((string, part) => string + part);
-
         return localizedNumberString;
       }
     }
