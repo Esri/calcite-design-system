@@ -52,7 +52,7 @@ export const SimpleAutoWidth = (): string => html`
       group-title="Sort by"
     >
       <calcite-dropdown-item>Relevance</calcite-dropdown-item>
-      <calcite-dropdown-item active>Date modified</calcite-dropdown-item>
+      <calcite-dropdown-item active>Date</calcite-dropdown-item>
       <calcite-dropdown-item>Title</calcite-dropdown-item>
     </calcite-dropdown-group>
   </calcite-dropdown>
