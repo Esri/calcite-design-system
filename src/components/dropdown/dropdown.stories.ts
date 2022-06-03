@@ -37,6 +37,27 @@ export const Simple = (): string => html`
   </calcite-dropdown>
 `;
 
+export const SimpleAutoWidth = (): string => html`
+  <calcite-dropdown
+    active
+    placement="${select("placement", popperMenuPlacements, defaultMenuPlacement)}"
+    scale="${select("scale", ["s", "m", "l"], "m")}"
+    type="${select("type", ["click", "hover"], "click")}"
+    ${boolean("disable-close-on-select", false)}
+    ${boolean("disabled", false)}
+  >
+    <calcite-button slot="dropdown-trigger">Open Dropdown</calcite-button>
+    <calcite-dropdown-group
+      selection-mode="${select("group selection mode", ["single", "multi", "none"], "single")}"
+      group-title="Sort by"
+    >
+      <calcite-dropdown-item>Relevance</calcite-dropdown-item>
+      <calcite-dropdown-item active>Date</calcite-dropdown-item>
+      <calcite-dropdown-item>Title</calcite-dropdown-item>
+    </calcite-dropdown-group>
+  </calcite-dropdown>
+`;
+
 export const WithIcons = (): string => html`
   <calcite-dropdown
     active
@@ -358,7 +379,7 @@ ScrollingAfterCertainItems.storyName = "Scrolling after certain items";
 export const FlipPositioning = stepStory(
   (): string => html`
     <div style="margin:10px;">
-      <calcite-dropdown placement="${select("placement", popperMenuPlacements, "top")}">
+      <calcite-dropdown width="m" placement="${select("placement", popperMenuPlacements, "top")}">
         <calcite-button slot="dropdown-trigger">Open Dropdown</calcite-button>
         <calcite-dropdown-item>1</calcite-dropdown-item>
         <calcite-dropdown-item>2</calcite-dropdown-item>
