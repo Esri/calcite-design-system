@@ -78,7 +78,13 @@ export default class TooltipManager {
   };
 
   private clickHandler = (event: MouseEvent): void => {
-    this.clickedTooltip = this.queryTooltip(event.composedPath());
+    const clickedTooltip = this.queryTooltip(event.composedPath());
+
+    this.clickedTooltip = clickedTooltip;
+
+    if (clickedTooltip?.closeOnClick) {
+      this.toggleTooltip(clickedTooltip, false);
+    }
   };
 
   private focusShow = (event: FocusEvent): void => {
