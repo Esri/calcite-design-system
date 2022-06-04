@@ -28,7 +28,8 @@ import {
   CSS as PopperCSS,
   OverlayPositioning,
   ComputedPlacement,
-  filterComputedPlacements
+  filterComputedPlacements,
+  ReferenceElement
 } from "../../utils/popper";
 import { StrictModifiers, Instance as Popper } from "@popperjs/core";
 import { guid } from "../../utils/guid";
@@ -155,7 +156,7 @@ export class Popover {
   /**
    * Reference HTMLElement used to position this component according to the placement property. As a convenience, a string ID of the reference element can be used. However, setting this property to use an HTMLElement is preferred so that the component does not need to query the DOM for the referenceElement.
    */
-  @Prop() referenceElement!: HTMLElement | string;
+  @Prop() referenceElement!: ReferenceElement | string;
 
   @Watch("referenceElement")
   referenceElementHandler(): void {
@@ -184,7 +185,7 @@ export class Popover {
 
   @Element() el: HTMLCalcitePopoverElement;
 
-  @State() effectiveReferenceElement: HTMLElement;
+  @State() effectiveReferenceElement: ReferenceElement;
 
   popper: Popper;
 
@@ -321,7 +322,9 @@ export class Popover {
       return;
     }
 
-    effectiveReferenceElement.setAttribute(ARIA_EXPANDED, toAriaBoolean(open));
+    if ("setAttribute" in effectiveReferenceElement) {
+      effectiveReferenceElement.setAttribute(ARIA_EXPANDED, toAriaBoolean(open));
+    }
   };
 
   addReferences = (): void => {
@@ -333,7 +336,9 @@ export class Popover {
 
     const id = this.getId();
 
-    effectiveReferenceElement.setAttribute(ARIA_CONTROLS, id);
+    if ("setAttribute" in effectiveReferenceElement) {
+      effectiveReferenceElement.setAttribute(ARIA_CONTROLS, id);
+    }
     manager.registerElement(effectiveReferenceElement, this.el);
     this.setExpandedAttr();
   };
@@ -345,12 +350,14 @@ export class Popover {
       return;
     }
 
-    effectiveReferenceElement.removeAttribute(ARIA_CONTROLS);
-    effectiveReferenceElement.removeAttribute(ARIA_EXPANDED);
+    if ("removeAttribute" in effectiveReferenceElement) {
+      effectiveReferenceElement.removeAttribute(ARIA_CONTROLS);
+      effectiveReferenceElement.removeAttribute(ARIA_EXPANDED);
+    }
     manager.unregisterElement(effectiveReferenceElement);
   };
 
-  getReferenceElement(): HTMLElement {
+  getReferenceElement(): ReferenceElement {
     const { referenceElement, el } = this;
 
     return (
@@ -448,7 +455,7 @@ export class Popover {
   // --------------------------------------------------------------------------
 
   renderCloseButton(): VNode {
-    const { dismissible, closeButton, intlClose } = this;
+    const { dismissible, closeButton, intlClose, heading } = this;
 
     return dismissible || closeButton ? (
       <div class={CSS.closeButtonContainer}>
@@ -456,9 +463,10 @@ export class Popover {
           class={CSS.closeButton}
           onClick={this.hide}
           ref={(closeButtonEl) => (this.closeButtonEl = closeButtonEl)}
+          scale={heading ? "s" : "m"}
           text={intlClose}
         >
-          <calcite-icon icon="x" scale="m" />
+          <calcite-icon icon="x" scale={heading ? "s" : "m"} />
         </calcite-action>
       </div>
     ) : null;
