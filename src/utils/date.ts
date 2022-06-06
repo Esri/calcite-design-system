@@ -212,3 +212,29 @@ export function getDaysDiff(date1: Date, date2: Date): number {
   const ts2 = date2.getTime();
   return (ts1 - ts2) / (1000 * 3600 * 24);
 }
+
+/**
+ * Check if the date is before allowed min date
+ *
+ * @param date
+ * @param min
+ */
+export function isBeforeMinDate(date: Date, min: Date): boolean {
+  if (!(date instanceof Date) || !min) {
+    return false;
+  }
+  return date.getTime() < min.getTime();
+}
+
+/**
+ * Check if the date is after allowed max date
+ *
+ * @param date
+ * @param max
+ */
+export function isAfterMaxDate(date: Date, max: Date): boolean {
+  if (!(date instanceof Date) || !max) {
+    return false;
+  }
+  return date.getTime() > max.getTime();
+}

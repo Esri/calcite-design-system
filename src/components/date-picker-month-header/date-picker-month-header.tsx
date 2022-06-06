@@ -16,7 +16,9 @@ import {
   prevMonth,
   localizeNumber,
   parseNumber,
-  getOrder
+  getOrder,
+  isBeforeMinDate,
+  isAfterMaxDate
 } from "../../utils/date";
 
 import { DateLocaleData } from "../date-picker/utils";
@@ -210,8 +212,8 @@ export class DatePickerMonthHeader {
       this.nextMonthDate = dateFromRange(nextMonth(this.activeDate), this.min, this.max);
       this.prevMonthDate = dateFromRange(prevMonth(this.activeDate), this.min, this.max);
     } else {
-      this.nextMonthDate = this.getNextMonthDate(nextMonth(this.activeDate), this.max);
-      this.prevMonthDate = this.getPrevMonthDate(prevMonth(this.activeDate), this.min);
+      this.nextMonthDate = this.getNextMonthDate(nextMonth(this.activeDate));
+      this.prevMonthDate = this.getPrevMonthDate(prevMonth(this.activeDate));
     }
   }
 
@@ -239,32 +241,12 @@ export class DatePickerMonthHeader {
     }
   };
 
-  private getPrevMonthDate = (date: Date, min?: any): Date | null => {
-    if (!(date instanceof Date)) {
-      return null;
-    }
-    if (!min) {
-      return date;
-    }
-    const time = date.getTime();
-    const beforeMin =
-      time < min.getTime() &&
-      (min.getMonth() !== date.getMonth() || min.getFullYear() !== date.getFullYear());
-    return beforeMin ? (this.activeDate as Date) : date;
+  private getPrevMonthDate = (date: Date): Date | null => {
+    return isBeforeMinDate(date, this.min) ? (this.activeDate as Date) : date || null;
   };
 
-  private getNextMonthDate = (date: Date, max?: any): Date | null => {
-    if (!(date instanceof Date)) {
-      return null;
-    }
-    if (!max) {
-      return date;
-    }
-    const time = date.getTime();
-    const afterMax =
-      time > max.getTime() &&
-      (max.getMonth() !== date.getMonth() || max.getFullYear() !== date.getFullYear());
-    return afterMax ? (this.activeDate as Date) : date;
+  private getNextMonthDate = (date: Date): Date | null => {
+    return isAfterMaxDate(date, this.min) ? (this.activeDate as Date) : date || null;
   };
 
   private onYearChange = (event: Event): void => {
