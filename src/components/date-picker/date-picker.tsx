@@ -250,7 +250,7 @@ export class DatePicker {
           )
         : true;
     const activeStartDate = this.range
-      ? this.getActiveStartDate(date, isValidDate, this.minAsDate, this.maxAsDate)
+      ? this.getActiveStartDate(this.startAsDate, isValidDate, this.minAsDate, this.maxAsDate)
       : this.getActiveDate(date, isValidDate, this.minAsDate, this.maxAsDate);
     let activeDate = activeStartDate;
     const endDate = this.range ? this.endAsDate : null;
@@ -268,10 +268,6 @@ export class DatePicker {
     ) {
       activeDate = activeEndDate;
     }
-    if (this.range && this.mostRecentRangeValue && this.activeRange === "start") {
-      activeDate = this.mostRecentRangeValue;
-    }
-
     return (
       <Host onBlur={this.reset} onKeyUp={this.keyUpHandler} role="application">
         {this.renderCalendar(
@@ -634,8 +630,10 @@ export class DatePicker {
     max: Date | null
   ): Date {
     return isValidDate
-      ? dateFromRange(this.activeDate, min, max) || value || dateFromRange(new Date(), min, max)
-      : this.activeDate || value;
+      ? dateFromRange(this.activeStartDate, min, max) ||
+          value ||
+          dateFromRange(new Date(), min, max)
+      : this.activeStartDate || value;
   }
 
   private getActiveEndDate(
@@ -647,8 +645,5 @@ export class DatePicker {
     return isValidDate
       ? dateFromRange(this.activeEndDate, min, max) || value || dateFromRange(new Date(), min, max)
       : this.activeEndDate || value;
-    // return (
-    //   dateFromRange(this.activeEndDate, min, max) || value || dateFromRange(new Date(), min, max)
-    // );
   }
 }

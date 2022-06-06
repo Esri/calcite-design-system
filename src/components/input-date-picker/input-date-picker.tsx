@@ -746,7 +746,6 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
     if (focusedInput === "start") {
       if (!this.startAsDate || !sameDate(date, this.startAsDate)) {
         const startDateISO = dateToISO(date);
-        console.log(Array.isArray(this.value), "yupp", this.value);
         this.value = Array.isArray(this.value)
           ? [startDateISO, this.value[1] || ""]
           : [startDateISO];
