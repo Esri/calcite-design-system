@@ -32,14 +32,14 @@ export class Tooltip {
   //
   // --------------------------------------------------------------------------
 
-  /** Closes the calcite-tooltip when the referenceElement is clicked. */
+  /** Closes the `calcite-tooltip` when the `referenceElement` is clicked. */
   @Prop() closeOnClick = false;
 
-  /** Accessible name for the component */
+  /** Accessible name for the `calcite-tooltip`. */
   @Prop() label!: string;
 
   /**
-   * Offset the position of the tooltip away from the reference element.
+   * Offset the position of the `calcite-tooltip` away from the `referenceElement`.
    *
    * @default 6
    */
@@ -51,7 +51,7 @@ export class Tooltip {
   }
 
   /**
-   * Offset the position of the tooltip along the reference element.
+   * Offset the position of the `calcite-tooltip` along the `referenceElement`.
    */
   @Prop({ reflect: true }) offsetSkidding = 0;
 
@@ -61,7 +61,7 @@ export class Tooltip {
   }
 
   /**
-   * Display and position the component.
+   * When true, the `calcite-tooltip` is open.
    */
   @Prop({ reflect: true }) open = false;
 
@@ -70,11 +70,11 @@ export class Tooltip {
     this.reposition();
   }
 
-  /** Describes the type of positioning to use for the overlaid content. If your element is in a fixed container, use the 'fixed' value. */
+  /** Describes the positioning type to use for the overlaid content. If the `referenceElement` is in a fixed container, use the "fixed" value. */
   @Prop() overlayPositioning: OverlayPositioning = "absolute";
 
   /**
-   * Determines where the component will be positioned relative to the referenceElement.
+   * Determines where the component will be positioned relative to the `referenceElement`.
    *
    * @see [PopperPlacement](https://github.com/Esri/calcite-components/blob/master/src/utils/popper.ts#L25)
    */
@@ -86,7 +86,7 @@ export class Tooltip {
   }
 
   /**
-   * Reference HTMLElement used to position this component according to the placement property. As a convenience, a string ID of the reference element can be used. However, setting this property to use an HTMLElement is preferred so that the component does not need to query the DOM for the referenceElement.
+   * The `referenceElement` to position `calcite-tooltip` according to its "placement" value. Setting to the `HTMLElement` is preferred so `calcite-tooltip` does not need to query the DOM for the `referenceElement`. However, a string ID of the reference element can be used.
    */
   @Prop() referenceElement: ReferenceElement | string;
 
