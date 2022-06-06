@@ -9,6 +9,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### Features
 
+- **card:** horizontal thumbnail layout ([#4607](https://github.com/Esri/calcite-components/issues/4607)) ([2afc3b2](https://github.com/Esri/calcite-components/commit/2afc3b2a6f83a5dc6adce8b90ab0e51805748118))
 - **dropdown:** Set dropdown minimum width to width of the trigger ([#4635](https://github.com/Esri/calcite-components/issues/4635)) ([7ad58ac](https://github.com/Esri/calcite-components/commit/7ad58acd9e26ebcd8dfdb79f4ab99b3c559e6d13)), closes [#404](https://github.com/Esri/calcite-components/issues/404)
 - **input:** allow customizing numbering system ([#4195](https://github.com/Esri/calcite-components/issues/4195)) ([3dc2268](https://github.com/Esri/calcite-components/commit/3dc226846c2e7527dbc76bab5ab363c6d25bcd56))
 - **pagination:** format page numbers with localized group seperators ([#4574](https://github.com/Esri/calcite-components/issues/4574)) ([a4658da](https://github.com/Esri/calcite-components/commit/a4658dab1a93a988f2dec45f7a3d67f669bb726b))
