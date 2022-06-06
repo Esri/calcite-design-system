@@ -29,7 +29,7 @@
   width: var(--calcite-dropdown-width);
 }
 .calcite-dropdown-trigger-container {
-  @apply relative flex flex-auto;
+  @apply relative flex;
 }
 // width
 :host([width="s"]) {

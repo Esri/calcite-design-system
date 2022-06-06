@@ -2,18 +2,18 @@
   @apply block max-w-full;
   & .calcite-card-container {
     @apply bg-foreground-1
-      border-color-2
-      text-color-3
-      relative
-      flex
-      h-full
-      flex-col
-      justify-between
-      border
-      border-solid
-      shadow-none
-      duration-150
-      ease-in-out;
+    border-color-2
+    text-color-3
+    relative
+    flex
+    h-full
+    flex-col
+    justify-between
+    border
+    border-solid
+    shadow-none
+    duration-150
+    ease-in-out;
     border-radius: var(--calcite-border-radius-base);
     &:hover {
       @apply shadow-1-lg;
@@ -27,7 +27,7 @@
 }
 
 .container {
-  @apply flex flex-auto flex-col;
+  @apply relative flex flex-auto flex-col;
 }
 
 :host([loading]) .calcite-card-container *:not(calcite-loader):not(.calcite-card-loader-container) {
@@ -101,12 +101,27 @@
   @apply text-n2-wrap self-center;
 }
 
-.thumbnail-wrapper {
-  @apply text-0-wrap;
-}
-
 .checkbox-wrapper {
   @apply absolute m-0 p-0;
   top: theme("spacing.2");
   inset-inline-end: theme("spacing.2");
+}
+
+.thumbnail-wrapper {
+  @apply flex;
+}
+
+.calcite-card-container.inline {
+  @apply flex-row;
+
+  & > .container {
+    @apply w-3/5;
+  }
+  & > .thumbnail-wrapper {
+    @apply items-start w-2/5;
+  }
+
+  @include slotted("thumbnail", "img") {
+    @apply w-full;
+  }
 }
