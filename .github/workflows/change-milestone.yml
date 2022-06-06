@@ -1,7 +1,7 @@
-# Action that moves open, non-installed issues from the previous, past-due milestone to the current one
+# Moves open, non-installed issues from the previous, past-due milestone to the current one.
 # This action only retrieves up to 100 issues per issue lifecycle label because of the per_page max.
-# The max page count is not a problem for our 2 week sprints, but if we change to monthly
-# we need to iterate through issue list pages using the `page` .
+# The max per_page is not a problem for our 2 week sprints, but if we change to monthly
+# we need to iterate through the issue list's pages using the `page` parameter.
 # https://octokit.github.io/rest.js/v18#issues-list-for-repo
 name: Move Issues To Current Milestone
 on:
