@@ -38,6 +38,7 @@
 .chevron {
   @apply text-color-3
     bg-foreground-1
+    text-color-1
     focus-base
     -mx-1
     box-content
@@ -58,7 +59,7 @@
 
   &:hover,
   &:focus {
-    @apply text-color-1 bg-foreground-2 fill-color-1;
+    @apply bg-foreground-2 fill-color-1;
   }
 
   &:active {
@@ -66,7 +67,7 @@
   }
 
   &[aria-disabled="true"] {
-    @apply pointer-events-none;
+    @apply pointer-events-none text-color-3;
   }
 }
 
