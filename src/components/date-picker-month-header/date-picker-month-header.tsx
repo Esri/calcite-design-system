@@ -116,7 +116,6 @@ export class DatePickerMonthHeader {
     }
 
     const activeMonth = this.activeDate.getMonth();
-
     const { months, unitOrder } = this.localeData;
     const localizedMonth = (months.wide || months.narrow || months.abbreviated)[activeMonth];
     const localizedYear = localizeNumber(this.activeDate.getFullYear(), this.localeData);
@@ -125,6 +124,7 @@ export class DatePickerMonthHeader {
     const order = getOrder(unitOrder);
     const reverse = order.indexOf("y") < order.indexOf("m");
     const suffix = this.localeData.year?.suffix;
+
     return (
       <Fragment>
         <a
@@ -241,12 +241,12 @@ export class DatePickerMonthHeader {
     }
   };
 
-  private getPrevMonthDate = (date: Date): Date | null => {
-    return isBeforeMinDate(date, this.min) ? (this.activeDate as Date) : date || null;
+  private getPrevMonthDate = (date: Date): Date => {
+    return isBeforeMinDate(date, this.min) ? (this.activeDate as Date) : date;
   };
 
-  private getNextMonthDate = (date: Date): Date | null => {
-    return isAfterMaxDate(date, this.min) ? (this.activeDate as Date) : date || null;
+  private getNextMonthDate = (date: Date): Date => {
+    return isAfterMaxDate(date, this.max) ? (this.activeDate as Date) : date;
   };
 
   private onYearChange = (event: Event): void => {

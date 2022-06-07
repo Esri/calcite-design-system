@@ -729,7 +729,6 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
    */
   private input(value: string): void {
     const date = this.getDateFromInput(value);
-    console.log(date);
     if (!date) {
       this.clearCurrentValue();
       return;

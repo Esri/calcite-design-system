@@ -239,15 +239,7 @@ export class DatePicker {
 
     const isValidDate =
       this.valueAsDate && (this.minAsDate || this.maxAsDate)
-        ? inRange(
-            this.range
-              ? this.startAsDate
-              : !Array.isArray(this.valueAsDate)
-              ? (this.valueAsDate as Date)
-              : this.valueAsDate[0],
-            this.minAsDate,
-            this.maxAsDate
-          )
+        ? inRange(date, this.minAsDate, this.maxAsDate)
         : true;
     const activeStartDate = this.range
       ? this.getActiveStartDate(this.startAsDate, isValidDate, this.minAsDate, this.maxAsDate)
@@ -290,8 +282,6 @@ export class DatePicker {
   @State() private localeData: DateLocaleData;
 
   @State() private hoverRange: HoverRange;
-
-  private mostRecentRangeValue?: Date;
 
   //--------------------------------------------------------------------------
   //
@@ -348,7 +338,6 @@ export class DatePicker {
       } else {
         this.activeStartDate = date;
       }
-      this.mostRecentRangeValue = date;
     }
   };
 
@@ -362,7 +351,6 @@ export class DatePicker {
       } else {
         this.activeStartDate = date;
       }
-      this.mostRecentRangeValue = date;
     }
   };
 
@@ -492,7 +480,6 @@ export class DatePicker {
    */
   private setStartAsDate(startDate: Date, emit?: boolean): void {
     this.startAsDate = startDate;
-    this.mostRecentRangeValue = this.startAsDate;
     if (emit) {
       this.calciteDatePickerRangeChange.emit({
         startDate,
@@ -509,7 +496,6 @@ export class DatePicker {
    */
   private setEndAsDate(endDate: Date, emit?: boolean): void {
     this.endAsDate = endDate;
-    this.mostRecentRangeValue = this.endAsDate;
     if (emit) {
       this.calciteDatePickerRangeChange.emit({
         startDate: this.startAsDate,
