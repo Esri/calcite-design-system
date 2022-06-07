@@ -133,8 +133,8 @@ export class Dropdown implements InteractiveComponent {
   /** specify whether the dropdown is opened by hover or click of a trigger element */
   @Prop({ reflect: true }) type: "hover" | "click" = "click";
 
-  /** specify the width of dropdown, defaults to m */
-  @Prop({ reflect: true }) width: Scale = "m";
+  /** specify the width of dropdown */
+  @Prop({ reflect: true }) width?: Scale;
 
   //--------------------------------------------------------------------------
   //
@@ -357,7 +357,7 @@ export class Dropdown implements InteractiveComponent {
 
   mutationObserver = createObserver("mutation", () => this.updateItems());
 
-  resizeObserver = createObserver("resize", () => this.setMaxScrollerHeight());
+  resizeObserver = createObserver("resize", (entries) => this.resizeObserverCallback(entries));
 
   //--------------------------------------------------------------------------
   //
@@ -401,6 +401,28 @@ export class Dropdown implements InteractiveComponent {
     this.updateItems();
   };
 
+  resizeObserverCallback = (entries: ResizeObserverEntry[]): void => {
+    entries.forEach((entry) => {
+      const { target } = entry;
+      if (target === this.referenceEl) {
+        this.setDropdownWidth();
+      } else if (target === this.scrollerEl) {
+        this.setMaxScrollerHeight();
+      }
+    });
+  };
+
+  setDropdownWidth = (): void => {
+    const { referenceEl, scrollerEl } = this;
+    const referenceElWidth = referenceEl?.clientWidth;
+
+    if (!referenceElWidth || !scrollerEl) {
+      return;
+    }
+
+    scrollerEl.style.minWidth = `${referenceElWidth}px`;
+  };
+
   setMaxScrollerHeight = (): void => {
     const { active, scrollerEl } = this;
 
@@ -427,6 +449,7 @@ export class Dropdown implements InteractiveComponent {
 
   setReferenceEl = (el: HTMLDivElement): void => {
     this.referenceEl = el;
+    this.resizeObserver.observe(el);
   };
 
   setMenuEl = (el: HTMLDivElement): void => {
