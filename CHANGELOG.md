@@ -3,14 +3,14 @@
 This document maintains a list of released versions and changes introduced by them.
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
-<!--@unreleased-section-start-->
-
-## Unreleased
+## [1.0.0-beta.83](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.82...v1.0.0-beta.83) (2022-06-07)
 
 ### Features
 
+- **card:** horizontal thumbnail layout ([#4607](https://github.com/Esri/calcite-components/issues/4607)) ([2afc3b2](https://github.com/Esri/calcite-components/commit/2afc3b2a6f83a5dc6adce8b90ab0e51805748118))
+- **dropdown:** Set dropdown minimum width to width of the trigger ([#4635](https://github.com/Esri/calcite-components/issues/4635)) ([7ad58ac](https://github.com/Esri/calcite-components/commit/7ad58acd9e26ebcd8dfdb79f4ab99b3c559e6d13)), closes [#404](https://github.com/Esri/calcite-components/issues/404)
 - **input:** allow customizing numbering system ([#4195](https://github.com/Esri/calcite-components/issues/4195)) ([3dc2268](https://github.com/Esri/calcite-components/commit/3dc226846c2e7527dbc76bab5ab363c6d25bcd56))
-- **pagination:** format page numbers with localized group seperators ([#4574](https://github.com/Esri/calcite-components/issues/4574)) ([a4658da](https://github.com/Esri/calcite-components/commit/a4658dab1a93a988f2dec45f7a3d67f669bb726b))
+- **pagination:** format page numbers with localized group separators ([#4574](https://github.com/Esri/calcite-components/issues/4574)) ([a4658da](https://github.com/Esri/calcite-components/commit/a4658dab1a93a988f2dec45f7a3d67f669bb726b))
 - **popover:** Add triggerDisabled property to disable automatically toggling a popover via mouse or keyboard ([#4540](https://github.com/Esri/calcite-components/issues/4540)) ([338ea86](https://github.com/Esri/calcite-components/commit/338ea866090540b4019aa87f955877fb7a125631)), closes [#4539](https://github.com/Esri/calcite-components/issues/4539)
 - **popover, tooltip:** Support virtual elements for positioning. ([#4665](https://github.com/Esri/calcite-components/issues/4665)) ([bd18b76](https://github.com/Esri/calcite-components/commit/bd18b76003142a35de301b8dd80d69805589b6c7))
 - **tooltip:** Add property to close tooltip when referenceElement is clicked ([#4680](https://github.com/Esri/calcite-components/issues/4680)) ([8d87772](https://github.com/Esri/calcite-components/commit/8d877728c2b11fb8ab9d4b3dca85f055ad2e917b)), closes [#4399](https://github.com/Esri/calcite-components/issues/4399)
@@ -27,16 +27,17 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - **input:** Align type="time" correctly in Firefox ([#4601](https://github.com/Esri/calcite-components/issues/4601)) ([cc6dd2c](https://github.com/Esri/calcite-components/commit/cc6dd2ca5f8648fb0b29b1d72cc05722db03f7ae)), closes [#4591](https://github.com/Esri/calcite-components/issues/4591)
 - **input-message:** remove the scaling transition effect when displaying an input message ([#4572](https://github.com/Esri/calcite-components/issues/4572)) ([61ef046](https://github.com/Esri/calcite-components/commit/61ef04660ac28c88320cfa92dc66f66e59216954))
 - **modal:** Remove unused 'firstFocus' property. ([#4613](https://github.com/Esri/calcite-components/issues/4613)) ([#4671](https://github.com/Esri/calcite-components/issues/4671)) ([b484e3d](https://github.com/Esri/calcite-components/commit/b484e3d02bf877c748493ef8693b8201597b2a4e))
-- **popover:** height is no longer inconsistent when dismissable enabled ([#4627](https://github.com/Esri/calcite-components/issues/4627)) ([fed3e38](https://github.com/Esri/calcite-components/commit/fed3e38e84e1fc646fc27f3fa7300368db917ead))
-- Ensure components are using logical css properties for margin and padding. ([#4663](https://github.com/Esri/calcite-components/issues/4663)) ([4169f30](https://github.com/Esri/calcite-components/commit/4169f30984f92f5146d1b3709a99fbe9062d6b68))
+- **panel:** Add back z-index usage for internal component styles ([#4683](https://github.com/Esri/calcite-components/issues/4683)) ([438e7bc](https://github.com/Esri/calcite-components/commit/438e7bce7ca0c9b4856783cfd4db3789ffa37a92)), closes [#4682](https://github.com/Esri/calcite-components/issues/4682)
 - **popover:** Fix toggling popover via keyboard ([#4541](https://github.com/Esri/calcite-components/issues/4541)) ([e621644](https://github.com/Esri/calcite-components/commit/e6216449402aaa5878c0b790267b19c925b05097)), closes [#4538](https://github.com/Esri/calcite-components/issues/4538)
+- **popover:** height is no longer inconsistent when dismissable enabled ([#4627](https://github.com/Esri/calcite-components/issues/4627)) ([fed3e38](https://github.com/Esri/calcite-components/commit/fed3e38e84e1fc646fc27f3fa7300368db917ead))
 - **popover, tooltip, alert, tree-item:** Make component invisible and have no pointer events by default ([#4581](https://github.com/Esri/calcite-components/issues/4581)) ([4fe3f25](https://github.com/Esri/calcite-components/commit/4fe3f2517f9bb08f74e49c2afefa0f23e7c00c16)), closes [#4577](https://github.com/Esri/calcite-components/issues/4577)
+- **tooltip:** Remove internal flex display. ([#4631](https://github.com/Esri/calcite-components/issues/4631)) ([#4684](https://github.com/Esri/calcite-components/issues/4684)) ([35f30b3](https://github.com/Esri/calcite-components/commit/35f30b3dea4e11392d4f48856b5ece0d3980d8a9))
+- Ensure components are using logical css properties for margin and padding. ([#4663](https://github.com/Esri/calcite-components/issues/4663)) ([4169f30](https://github.com/Esri/calcite-components/commit/4169f30984f92f5146d1b3709a99fbe9062d6b68))
 - **stepper:** Stepper methods should replace active content correctly ([#4573](https://github.com/Esri/calcite-components/issues/4573)) ([f2fa7ec](https://github.com/Esri/calcite-components/commit/f2fa7ec5b67109fbcf4a2f6bda202c686c4b0a63)), closes [#4567](https://github.com/Esri/calcite-components/issues/4567)
 - patch \_\_spreadArray helper to work around tslib bug ([#4481](https://github.com/Esri/calcite-components/issues/4481)) ([#4575](https://github.com/Esri/calcite-components/issues/4575)) ([756437b](https://github.com/Esri/calcite-components/commit/756437ba550e69140e06cc450f20af5e8f03242e))
 - **stepper:** Add high contrast specific styles to stepper ([#4565](https://github.com/Esri/calcite-components/issues/4565)) ([0874e95](https://github.com/Esri/calcite-components/commit/0874e953d15ef5502773df76fe14710a17a24916))
 - **stepper-item:** focus outline wraps item title ([#4515](https://github.com/Esri/calcite-components/issues/4515)) ([1e310e2](https://github.com/Esri/calcite-components/commit/1e310e21b994e0316cb6ed254484c27bf7d44755))
 - **tabs:** a11y - apply forced colors styles where needed ([#4559](https://github.com/Esri/calcite-components/issues/4559)) ([84b2e52](https://github.com/Esri/calcite-components/commit/84b2e52def62caec2d7483cea03b83e23eef1e09))
-<!--@unreleased-section-end-->
 
 ## [1.0.0-beta.82](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.81...v1.0.0-beta.82) (2022-05-10)
 
