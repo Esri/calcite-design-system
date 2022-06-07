@@ -3,7 +3,7 @@ import { createLocaleNumberFormatter, getDecimalSeparator, getMinusSign } from "
 
 // regex for number sanitization
 const allLeadingZerosOptionallyNegative = /^([-0])0+(?=\d)/;
-const decimalAtEndOfStringButNotStart = /(?!^\.)\.$/;
+const decimalOnlyAtEndOfString = /(?!^\.)\.$/;
 const allHyphensExceptTheStart = /(?!^-)-/g;
 const isNegativeDecimalOnlyZeros = /^-\b0\b\.?0*$/;
 
@@ -25,10 +25,10 @@ export class BigDecimal {
     if (input instanceof BigDecimal) {
       return input;
     }
-    const [ints, decis] = String(input).split(".").concat("");
+    const [integers, decimals] = String(input).split(".").concat("");
     this.value =
-      BigInt(ints + decis.padEnd(BigDecimal.DECIMALS, "0").slice(0, BigDecimal.DECIMALS)) +
-      BigInt(BigDecimal.ROUNDED && decis[BigDecimal.DECIMALS] >= "5");
+      BigInt(integers + decimals.padEnd(BigDecimal.DECIMALS, "0").slice(0, BigDecimal.DECIMALS)) +
+      BigInt(BigDecimal.ROUNDED && decimals[BigDecimal.DECIMALS] >= "5");
 
     this.isNegative = input.charAt(0) === "-";
   }
@@ -123,7 +123,7 @@ export function parseNumberString(numberString?: string): string {
 }
 
 export function sanitizeDecimalString(decimalString: string): string {
-  return decimalString.replace(decimalAtEndOfStringButNotStart, "");
+  return decimalString.replace(decimalOnlyAtEndOfString, "");
 }
 
 export function sanitizeNegativeString(negativeString: string): string {

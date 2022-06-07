@@ -105,7 +105,7 @@ describe("BigDecimal", () => {
     expect(subtract).toBe("0.2");
 
     const add = new BigDecimal(Number.MAX_SAFE_INTEGER.toString()).add("1").toString();
-    expect(add).not.toBe(Number.MAX_SAFE_INTEGER.toString());
+    expect(Number(add)).toBeGreaterThan(Number.MAX_SAFE_INTEGER);
 
     const negativeZero = new BigDecimal("-0").toString();
     expect(negativeZero).toBe("-0");
