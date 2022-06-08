@@ -1,5 +1,4 @@
-import { sanitizeDecimalString, sanitizeExponentialNumberString } from "./number";
-import { isValidNumber } from "./number";
+import { sanitizeDecimalString, sanitizeExponentialNumberString, isValidNumber, BigDecimal } from "./number";
 
 export const locales = [
   "ar",
@@ -58,7 +57,10 @@ const everythingExceptNumbersDecimalsAndMinusSigns = new RegExp("[^0-9-.]", "g")
 const defaultGroupSeparator = new RegExp(",", "g");
 const defaultNumberingSystem = new Intl.NumberFormat().resolvedOptions().numberingSystem;
 
-function createLocaleNumberFormatter(locale: string, numberingSystem = defaultNumberingSystem): Intl.NumberFormat {
+export function createLocaleNumberFormatter(
+  locale: string,
+  numberingSystem = defaultNumberingSystem
+): Intl.NumberFormat {
   return new Intl.NumberFormat(locale, {
     minimumFractionDigits: 0,
     maximumFractionDigits: 20,
@@ -107,10 +109,10 @@ export function localizeNumberString(
 ): string {
   return sanitizeExponentialNumberString(numberString, (nonExpoNumString: string): string => {
     if (nonExpoNumString) {
-      const number = Number(sanitizeDecimalString(nonExpoNumString.replace(defaultGroupSeparator, "")));
-      if (!isNaN(number)) {
-        const formatter = createLocaleNumberFormatter(locale, numberingSystem);
-        const parts = formatter.formatToParts(number);
+      const sanitizedNumberString = sanitizeDecimalString(nonExpoNumString.replace(defaultGroupSeparator, ""));
+      if (isValidNumber(sanitizedNumberString)) {
+        const parts = new BigDecimal(sanitizedNumberString).formatToParts(locale, numberingSystem);
+
         const localizedNumberString = parts
           .map(({ type, value }) => {
             switch (type) {
