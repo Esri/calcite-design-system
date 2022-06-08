@@ -103,7 +103,6 @@ export class Alert {
   updateDuration(): void {
     if (this.autoDismiss && this.autoDismissTimeoutId) {
       window.clearTimeout(this.autoDismissTimeoutId);
-      this.openCloseEventEmitter("beforeClose");
       this.autoDismissTimeoutId = window.setTimeout(
         () => this.closeAlert(),
         DURATIONS[this.autoDismissDuration] - (Date.now() - this.trackTimer)
@@ -160,6 +159,7 @@ export class Alert {
         aria-hidden={toAriaBoolean(hidden)}
         aria-label={label}
         calcite-hydrated-hidden={hidden}
+        onTransitionRun={this.transitionRun}
         role={role}
       >
         <div
@@ -231,7 +231,7 @@ export class Alert {
     event.stopPropagation();
   }
 
-  // when an alert is first registered, trigger a queue sync to get queue
+  // when an alert is first registered, trigger a queue sync
   @Listen("calciteInternalAlertRegister", { target: "window" })
   alertRegister(): void {
     if (this.active && !this.queue.includes(this.el as HTMLCalciteAlertElement)) {
@@ -301,11 +301,9 @@ export class Alert {
   /** determine which alert is active */
   private determineActiveAlert(): void {
     if (this.queue?.[0] === this.el) {
-      this.openCloseEventEmitter("beforeOpen");
       this.openAlert();
       if (this.autoDismiss && !this.autoDismissTimeoutId) {
         this.trackTimer = Date.now();
-        this.openCloseEventEmitter("beforeClose");
         this.autoDismissTimeoutId = window.setTimeout(
           () => this.closeAlert(),
           DURATIONS[this.autoDismissDuration]
@@ -332,23 +330,35 @@ export class Alert {
     }
   };
 
+  /* Transition is running but hasn't necessarily started transitioning yet */
+  transitionRun = (event: TransitionEvent): void => {
+    if (event.propertyName === this.activeTransitionProp) {
+      this.active
+        ? this.openCloseEventEmitter("beforeOpen")
+        : this.openCloseEventEmitter("beforeClose");
+    }
+  };
+
   /** remove queued class after animation completes */
   private openAlert(): void {
     window.clearTimeout(this.queueTimeout);
     this.queueTimeout = window.setTimeout(() => (this.queued = false), 300);
   }
 
-  private openCloseEventEmitter(componentState) {
+  private openCloseEventEmitter(componentVisibilityState: string) {
     const payload = {
       el: this.el,
       queue: this.queue
     };
-    const emitComponentState =
-      {
-        beforeOpen: () => this.calciteAlertBeforeOpen.emit(payload),
-        open: () => this.calciteAlertOpen.emit(payload),
-        beforeClose: () => this.calciteAlertBeforeClose.emit(payload),
-        close: () => this.calciteAlertClose.emit(payload)
-      }[componentState] || "The component state is unknown.";
+    const emitComponentState = {
+      beforeOpen: () => this.calciteAlertBeforeOpen.emit(payload),
+      open: () => this.calciteAlertOpen.emit(payload),
+      beforeClose: () => this.calciteAlertBeforeClose.emit(payload),
+      close: () => this.calciteAlertClose.emit(payload)
+    };
+    (
+      emitComponentState[componentVisibilityState] ||
+      emitComponentState["The component state is unknown."]
+    )();
   }
 }

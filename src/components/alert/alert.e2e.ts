@@ -269,25 +269,29 @@ describe("calcite-alert", () => {
     });
   });
 
-  it("should emit proper 'calciteAlertOpen' and 'calciteAlertClose' events on animation end", async () => {
+  it("should emit component status for transition-chained events: 'calciteAlertBeforeOpen', 'calciteAlertOpen', 'calciteAlertBeforeClose', 'calciteAlertClose'", async () => {
     const page = await newE2EPage();
-    await page.setContent(`<calcite-alert>
-    ${alertContent}
-    </calcite-alert>`);
+    await page.setContent(html` <calcite-alert> ${alertContent} </calcite-alert>`);
 
     const element = await page.find("calcite-alert");
     const container = await page.find(`calcite-alert >>> .container`);
 
+    expect(await container.isVisible()).toBe(false);
+
+    const beforeOpenEvent = page.waitForEvent("calciteAlertBeforeOpen");
     const openEvent = page.waitForEvent("calciteAlertOpen");
     element.setAttribute("active", "");
     await page.waitForChanges();
+    await beforeOpenEvent;
     await openEvent;
 
     expect(await container.isVisible()).toBe(true);
 
+    const beforeCloseEvent = page.waitForEvent("calciteAlertBeforeClose");
     const closeEvent = page.waitForEvent("calciteAlertClose");
     element.removeAttribute("active");
     await page.waitForChanges();
+    await beforeCloseEvent;
     await closeEvent;
 
     expect(await container.isVisible()).toBe(false);

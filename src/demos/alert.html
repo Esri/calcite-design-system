@@ -1273,13 +1273,4 @@
       </calcite-alert>
     </div>
   </body>
-  <script>
-    // listener on the document for when alert acquires prop active
-    document.addEventListener("calciteAlertBeforeOpen", (event) => {
-      console.log("calciteAlertBeforeOpen", event.detail.el);
-    });
-    document.addEventListener("calciteAlertOpen", (event) => {
-      console.log("calciteAlertOpen");
-    });
-  </script>
 </html>
