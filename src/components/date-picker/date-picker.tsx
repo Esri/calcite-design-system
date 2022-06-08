@@ -366,49 +366,86 @@ export class DatePicker {
       end: this.endAsDate
     };
     if (!this.proximitySelectionDisabled) {
-      if (this.endAsDate) {
-        const startDiff = getDaysDiff(date, this.startAsDate);
-        const endDiff = getDaysDiff(date, this.endAsDate);
-        if (endDiff > 0) {
-          this.hoverRange.end = date;
-          this.hoverRange.focused = "end";
-        } else if (startDiff < 0) {
+      const startDiff = getDaysDiff(date, this.startAsDate);
+      const endDiff = getDaysDiff(date, this.endAsDate);
+      if (this.activeRange === "start") {
+        console.log("active range", this.activeRange);
+        this.hoverRange.focused = "start";
+        if (startDiff < 0 || !this.endAsDate) {
           this.hoverRange.start = date;
-          this.hoverRange.focused = "start";
-        } else if (startDiff > endDiff) {
+        } else if (startDiff > 0 && date.getTime() < this.endAsDate.getTime()) {
           this.hoverRange.start = date;
-          this.hoverRange.focused = "start";
-        } else {
-          this.hoverRange.end = date;
-          this.hoverRange.focused = "end";
+        } else if (date.getTime() > this.endAsDate.getTime()) {
+          this.hoverRange.start = date;
+          this.hoverRange.end = null;
         }
       } else {
-        if (date < this.startAsDate) {
-          this.hoverRange = {
-            focused: "start",
-            start: date,
-            end: this.startAsDate
-          };
-        } else {
+        this.hoverRange.focused = "end";
+        if (endDiff > 0 || !this.startAsDate) {
           this.hoverRange.end = date;
-          this.hoverRange.focused = "end";
+        } else if (endDiff < 0 && date.getTime() > this.startAsDate.getTime()) {
+          this.hoverRange.end = date;
+        } else if (endDiff < 0 && date.getTime() < this.startAsDate.getTime()) {
+          this.hoverRange.end = date;
+          this.hoverRange.start = null;
         }
       }
+
+      // if (this.endAsDate) {
+      // if (endDiff > 0) {
+      //   this.hoverRange.end = date;
+      //   this.hoverRange.focused = "end";
+      // } else if (startDiff < 0) {
+      //   this.hoverRange.start = date;
+      //   this.hoverRange.focused = "start";
+      // } else if (startDiff > endDiff) {
+      //   this.hoverRange.start = date;
+      //   this.hoverRange.focused = "start";
+      // } else {
+      //   this.hoverRange.end = date;
+      //   this.hoverRange.focused = "end";
+      // }
+      // }
+      // else {
+      // if (date < this.startAsDate) {
+      //   this.hoverRange = {
+      //     focused: "start",
+      //     start: date,
+      //     end: this.startAsDate
+      //   };
+      // } else {
+      //   this.hoverRange.end = date;
+      //   this.hoverRange.focused = "end";
+      // }
     } else {
-      if (!this.endAsDate) {
-        if (date < this.startAsDate) {
-          this.hoverRange = {
-            focused: "start",
-            start: date,
-            end: this.startAsDate
-          };
-        } else {
-          this.hoverRange.end = date;
-          this.hoverRange.focused = "end";
-        }
-      } else {
-        this.hoverRange = undefined;
-      }
+      // if (this.activeRange === "start") {
+      //   this.hoverRange = {
+      //     focused: "start",
+      //     start: date,
+      //     end: this.endAsDate > date ? this.endAsDate : undefined
+      //   };
+      // } else {
+      //   this.hoverRange = {
+      //     focused: "start",
+      //     start: date < this.startAsDate ? undefined : this.startAsDate,
+      //     end: date
+      //   };
+      // }
+      // if (!this.endAsDate) {
+      //   console.log("yup");
+      //   if (date < this.startAsDate) {
+      //     this.hoverRange = {
+      //       focused: "start",
+      //       start: date,
+      //       end: this.startAsDate
+      //     };
+      //   } else {
+      //     this.hoverRange.end = date;
+      //     this.hoverRange.focused = "end";
+      //   }
+      // } else {
+      //   this.hoverRange = undefined;
+      // }
     }
     e.stopPropagation();
   };
@@ -437,6 +474,7 @@ export class DatePicker {
     endDate: Date,
     isValidDate?: boolean
   ) {
+    // console.log("active date", activeDate, "startDate", date, "enddATE", endDate);
     return (
       this.localeData && [
         <calcite-date-picker-month-header
@@ -555,8 +593,14 @@ export class DatePicker {
         this.setEndDate(new Date(this.startAsDate));
       }
       if (this.activeRange == "end") {
+        if (date < this.startAsDate) {
+          this.startAsDate = undefined;
+        }
         this.setEndDate(date);
       } else {
+        if (date > this.endAsDate) {
+          this.endAsDate = undefined;
+        }
         this.setStartDate(date);
       }
     } else if (!this.endAsDate) {
@@ -565,8 +609,14 @@ export class DatePicker {
       if (!this.proximitySelectionDisabled) {
         if (this.activeRange) {
           if (this.activeRange == "end") {
+            if (date < this.startAsDate) {
+              this.startAsDate = undefined;
+            }
             this.setEndDate(date);
           } else {
+            if (date > this.endAsDate) {
+              this.endAsDate = undefined;
+            }
             this.setStartDate(date);
           }
         } else {
