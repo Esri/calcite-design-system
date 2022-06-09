@@ -132,6 +132,11 @@ export class Alert {
 
   disconnectedCallback(): void {
     window.clearTimeout(this.autoDismissTimeoutId);
+
+    document
+      .querySelector("calcite-alert")
+      .shadowRoot.querySelector(".container")
+      .removeEventListener("transitionrun", this.transitionRunEvent);
   }
 
   render(): VNode {

@@ -1,6 +1,7 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { renders, accessible, HYDRATED_ATTR } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
+import { CSS } from "./resources";
 
 describe("calcite-alert", () => {
   const alertContent = `
@@ -271,15 +272,16 @@ describe("calcite-alert", () => {
 
   it("should emit component status for transition-chained events: 'calciteAlertBeforeOpen', 'calciteAlertOpen', 'calciteAlertBeforeClose', 'calciteAlertClose'", async () => {
     const page = await newE2EPage();
-    await page.setContent(html` <calcite-alert> ${alertContent} </calcite-alert>`);
+    await page.setContent(html`<calcite-alert> ${alertContent} </calcite-alert>`);
 
     const element = await page.find("calcite-alert");
-    const container = await page.find(`calcite-alert >>> .container`);
+    const container = await page.find(`calcite-alert >>> .${CSS.container}`);
 
     expect(await container.isVisible()).toBe(false);
 
     const beforeOpenEvent = page.waitForEvent("calciteAlertBeforeOpen");
     const openEvent = page.waitForEvent("calciteAlertOpen");
+
     element.setAttribute("active", "");
     await page.waitForChanges();
     await beforeOpenEvent;
@@ -289,6 +291,7 @@ describe("calcite-alert", () => {
 
     const beforeCloseEvent = page.waitForEvent("calciteAlertBeforeClose");
     const closeEvent = page.waitForEvent("calciteAlertClose");
+
     element.removeAttribute("active");
     await page.waitForChanges();
     await beforeCloseEvent;
