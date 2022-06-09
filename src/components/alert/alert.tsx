@@ -126,6 +126,10 @@ export class Alert {
     this.requestedIcon = setRequestedIcon(StatusIcons, this.icon, this.color);
   }
 
+  componentDidLoad(): void {
+    this.transitionRunEvent();
+  }
+
   disconnectedCallback(): void {
     window.clearTimeout(this.autoDismissTimeoutId);
   }
@@ -159,7 +163,6 @@ export class Alert {
         aria-hidden={toAriaBoolean(hidden)}
         aria-label={label}
         calcite-hydrated-hidden={hidden}
-        onTransitionRun={this.transitionRun}
         role={role}
       >
         <div
@@ -330,13 +333,23 @@ export class Alert {
     }
   };
 
-  /* Transition is running but hasn't necessarily started transitioning yet */
-  transitionRun = (event: TransitionEvent): void => {
-    if (event.propertyName === this.activeTransitionProp) {
-      this.active
-        ? this.openCloseEventEmitter("beforeOpen")
-        : this.openCloseEventEmitter("beforeClose");
-    }
+  /* * 
+  transitionrun fires when the transition is created (i.e. at the start of any delay).
+  transitionstart fires when the actual animation has begun (i.e. at the end of any delay).
+  The transitionrun will occur even if the transition is canceled before the delay expires. 
+  If there is no transition delay or if transition-delay is negative, both transitionrun and transitionstart are fired.
+  */
+  private transitionRunEvent = (): void => {
+    document
+      .querySelector("calcite-alert")
+      .shadowRoot.querySelector(".container")
+      .addEventListener("transitionrun", (event: TransitionEvent) => {
+        if (event.propertyName === this.activeTransitionProp) {
+          this.active
+            ? this.openCloseEventEmitter("beforeOpen")
+            : this.openCloseEventEmitter("beforeClose");
+        }
+      });
   };
 
   /** remove queued class after animation completes */
@@ -345,7 +358,7 @@ export class Alert {
     this.queueTimeout = window.setTimeout(() => (this.queued = false), 300);
   }
 
-  private openCloseEventEmitter(componentVisibilityState: string) {
+  private openCloseEventEmitter(componentVisibilityState: string): void {
     const payload = {
       el: this.el,
       queue: this.queue
