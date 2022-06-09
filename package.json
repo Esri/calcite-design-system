@@ -122,7 +122,7 @@
     "jest": "26.6.3",
     "jest-axe": "6.0.0",
     "jest-cli": "26.6.3",
-    "lint-staged": "13.0.0",
+    "lint-staged": "13.0.1",
     "pify": "5.0.0",
     "postcss": "8.4.14",
     "prettier": "2.6.2",
