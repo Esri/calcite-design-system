@@ -15,7 +15,7 @@ jobs:
       - name: run dependency-updating script
         shell: 'script --return --quiet --command "bash {0}"'
         run: |
-          npm ci
+          npm install --legacy-peer-deps
           for i in {1..10}; do npm run deps:update && break || sleep 15; done
       - name: submit pull request
         uses: peter-evans/create-pull-request@v3
