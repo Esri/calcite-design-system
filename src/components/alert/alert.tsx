@@ -338,22 +338,26 @@ export class Alert {
     }
   };
 
+  transitionRun = (event: TransitionEvent): void => {
+    if (event.propertyName === this.activeTransitionProp) {
+      this.active
+        ? this.openCloseEventEmitter("beforeOpen")
+        : this.openCloseEventEmitter("beforeClose");
+    }
+  };
+
   /* * 
-  transitionrun fires when the transition is created (i.e. at the start of any delay).
-  transitionstart fires when the actual animation has begun (i.e. at the end of any delay).
-  The transitionrun will occur even if the transition is canceled before the delay expires. 
-  If there is no transition delay or if transition-delay is negative, both transitionrun and transitionstart are fired.
+  - `transitionrun` fires when the transition is created (i.e. at the start of any delay).
+  - `transitionstart` fires when the actual animation has begun (i.e. at the end of any delay).
+  - `transitionrun` will occur even if the transition is canceled before the delay expires. 
+  - if there is no transition delay or if `transition-delay` is negative, both `transitionrun` and `transitionstart` are fired.
   */
   private transitionRunEvent = (): void => {
     document
       .querySelector("calcite-alert")
       .shadowRoot.querySelector(".container")
       .addEventListener("transitionrun", (event: TransitionEvent) => {
-        if (event.propertyName === this.activeTransitionProp) {
-          this.active
-            ? this.openCloseEventEmitter("beforeOpen")
-            : this.openCloseEventEmitter("beforeClose");
-        }
+        this.transitionRun(event);
       });
   };
 
