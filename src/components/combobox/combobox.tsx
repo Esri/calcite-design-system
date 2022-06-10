@@ -257,18 +257,16 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
   /** Called when a selected item in the combobox is dismissed via its chip */
   @Event() calciteComboboxChipDismiss: EventEmitter;
 
-  /**
-   * Fired when the combobox is opened
-   *
-   * @internal
-   */
+  /* Fired while a combobox is still invisible but was added to the DOM, and before the transition starts. */
+  @Event() calciteComboboxBeforeOpen: EventEmitter;
+
+  /* Fired when a combobox is opened */
   @Event() calciteComboboxOpen: EventEmitter;
 
-  /**
-   *  Fired when the combobox is closed
-   *
-   * @internal
-   */
+  /* Fired when a combobox is going to be closed and before the transition starts. */
+  @Event() calciteComboboxBeforeClose: EventEmitter;
+
+  /* Fired when a combobox is closed */
   @Event() calciteComboboxClose: EventEmitter;
 
   // --------------------------------------------------------------------------
@@ -294,6 +292,7 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
 
   componentDidLoad(): void {
     afterConnectDefaultValueSet(this, this.getValue());
+    this.transitionRunEvent();
   }
 
   componentDidRender(): void {
@@ -311,6 +310,11 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
     this.destroyPopper();
     disconnectLabel(this);
     disconnectForm(this);
+
+    document
+      .querySelector("calcite-combobox")
+      .shadowRoot.querySelector(".list-container")
+      .removeEventListener("transitionrun", this.transitionRunEvent);
   }
 
   //--------------------------------------------------------------------------
@@ -518,8 +522,38 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
 
   transitionEnd = (event: TransitionEvent): void => {
     if (event.propertyName === this.activeTransitionProp) {
-      this.active ? this.calciteComboboxOpen.emit() : this.calciteComboboxClose.emit();
+      this.active ? this.openCloseEventEmitter("open") : this.openCloseEventEmitter("close");
     }
+  };
+
+  transitionRun = (event: TransitionEvent): void => {
+    if (event.propertyName === this.activeTransitionProp) {
+      this.active
+        ? this.openCloseEventEmitter("beforeOpen")
+        : this.openCloseEventEmitter("beforeClose");
+    }
+  };
+
+  private openCloseEventEmitter(componentVisibilityState: string): void {
+    const emitComponentState = {
+      beforeOpen: () => this.calciteComboboxBeforeOpen.emit(),
+      open: () => this.calciteComboboxOpen.emit(),
+      beforeClose: () => this.calciteComboboxBeforeClose.emit(),
+      close: () => this.calciteComboboxClose.emit()
+    };
+    (
+      emitComponentState[componentVisibilityState] ||
+      emitComponentState["The component state is unknown."]
+    )();
+  }
+
+  private transitionRunEvent = (): void => {
+    document
+      .querySelector("calcite-combobox")
+      .shadowRoot.querySelector(".list-container")
+      .addEventListener("transitionrun", (event: TransitionEvent) => {
+        this.transitionRun(event);
+      });
   };
 
   setMaxScrollerHeight = (): void => {
