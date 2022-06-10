@@ -14,5 +14,5 @@ requiredItems:
       - "developers.arcgis.com/calcite-design-system/components/"
       - "ember-twiddle.com/"
       - "jsfiddle.net/"
-commentFooter: "This issue will be automatically closed in five days if the information is not provided. Thanks for your understanding."
+commentFooter: "Issues without reproduction samples may not be prioritized. If you were unable to create a sample, please try to answer any questions that arise once development begins. Thanks for your understanding."
 excludeComments: true
