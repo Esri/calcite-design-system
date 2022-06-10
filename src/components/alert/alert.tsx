@@ -120,7 +120,7 @@ export class Alert {
     if (this.active && !this.queued) {
       this.calciteInternalAlertRegister.emit();
     }
-    this.transitionRunEvent();
+    this.onTransitionRun();
   }
 
   componentWillLoad(): void {
@@ -132,7 +132,7 @@ export class Alert {
 
     this.el.shadowRoot
       .querySelector(".container")
-      .removeEventListener("transitionrun", this.transitionRunEvent);
+      .removeEventListener("transitionrun", this.onTransitionRun);
   }
 
   render(): VNode {
@@ -348,7 +348,7 @@ export class Alert {
   - `transitionrun` will occur even if the transition is canceled before the delay expires. 
   - if there is no transition delay or if `transition-delay` is negative, both `transitionrun` and `transitionstart` are fired.
   */
-  private transitionRunEvent = (): void => {
+  private onTransitionRun = (): void => {
     this.el.shadowRoot
       .querySelector(".container")
       .addEventListener("transitionrun", (event: TransitionEvent) => {
@@ -368,10 +368,10 @@ export class Alert {
       queue: this.queue
     };
     const emitComponentState = {
-      beforeOpen: () => this.calciteAlertBeforeOpen.emit(payload),
-      open: () => this.calciteAlertOpen.emit(payload),
-      beforeClose: () => this.calciteAlertBeforeClose.emit(payload),
-      close: () => this.calciteAlertClose.emit(payload)
+      beforeOpen: () => this.calciteAlertBeforeOpening.emit(payload),
+      open: () => this.calciteAlertIsOpen.emit(payload),
+      beforeClose: () => this.calciteAlertBeforeClosing.emit(payload),
+      close: () => this.calciteAlertIsClosed.emit(payload)
     };
     (
       emitComponentState[componentVisibilityState] ||
