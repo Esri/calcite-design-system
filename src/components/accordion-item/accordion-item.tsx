@@ -38,16 +38,16 @@ export class AccordionItem {
   //
   //--------------------------------------------------------------------------
 
-  /** Indicates whether the item is active. */
+  /** Indicates whether the component is active. */
   @Prop({ reflect: true, mutable: true }) active = false;
 
-  /** pass a title for the accordion item */
+  /** Specifies a title for the component. */
   @Prop() itemTitle?: string;
 
-  /** pass a title for the accordion item */
+  /** Specifies a subtitle for the component. */
   @Prop() itemSubtitle?: string;
 
-  /** optionally pass an icon to display - accepts Calcite UI icon names  */
+  /** Specifies an icon to display - accepts Calcite UI icon names.  */
   @Prop({ reflect: true }) icon?: string;
 
   //--------------------------------------------------------------------------
