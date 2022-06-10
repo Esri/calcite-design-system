@@ -10,6 +10,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ### Bug Fixes
 
 - **input:** support larger than 64-bit floating point numbers without losing precision ([#4679](https://github.com/Esri/calcite-components/issues/4679)) ([b81dd82](https://github.com/Esri/calcite-components/commit/b81dd82071810476c414372e6faa3e450bbf3a39))
+- **tooltip:** Fix syntax typo in `TooltipManager` ([#4711](https://github.com/Esri/calcite-components/issues/4711)) ([c8eed66](https://github.com/Esri/calcite-components/commit/c8eed66bfc0d0481adc775eee5ab19ef06f6c880))
 <!--@unreleased-section-end-->
 
 ## [1.0.0-beta.83](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.82...v1.0.0-beta.83) (2022-06-07)
