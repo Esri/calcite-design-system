@@ -120,22 +120,18 @@ export class Alert {
     if (this.active && !this.queued) {
       this.calciteInternalAlertRegister.emit();
     }
+    this.transitionRunEvent();
   }
 
   componentWillLoad(): void {
     this.requestedIcon = setRequestedIcon(StatusIcons, this.icon, this.color);
   }
 
-  componentDidLoad(): void {
-    this.transitionRunEvent();
-  }
-
   disconnectedCallback(): void {
     window.clearTimeout(this.autoDismissTimeoutId);
 
-    document
-      .querySelector("calcite-alert")
-      .shadowRoot.querySelector(".container")
+    this.el.shadowRoot
+      .querySelector(".container")
       .removeEventListener("transitionrun", this.transitionRunEvent);
   }
 
@@ -202,17 +198,17 @@ export class Alert {
   //
   //--------------------------------------------------------------------------
 
-  /* Fired when an alert is going to be closed and before the transition starts. */
-  @Event() calciteAlertBeforeClose: EventEmitter;
+  /* Fired when an alert is requested to be closed and before the closing transition begins. */
+  @Event() calciteAlertBeforeClosing: EventEmitter;
 
-  /* Fired when an alert is closed */
-  @Event() calciteAlertClose: EventEmitter;
+  /* Fired when an alert has been closed and animation is complete */
+  @Event() calciteAlertIsClosed: EventEmitter;
 
-  /* Fired while alert is still invisible but was added to the DOM, and before the transition starts. */
-  @Event() calciteAlertBeforeOpen: EventEmitter;
+  /* Fired while alert is still invisible but was added to the DOM, and before the opening transition begins. */
+  @Event() calciteAlertBeforeOpening: EventEmitter;
 
-  /* Fired when an alert is opened */
-  @Event() calciteAlertOpen: EventEmitter;
+  /* Fired when an alert has been opened and animation is complete */
+  @Event() calciteAlertIsOpen: EventEmitter;
 
   /**
    * Fired to sync queue when opened or closed
@@ -353,9 +349,8 @@ export class Alert {
   - if there is no transition delay or if `transition-delay` is negative, both `transitionrun` and `transitionstart` are fired.
   */
   private transitionRunEvent = (): void => {
-    document
-      .querySelector("calcite-alert")
-      .shadowRoot.querySelector(".container")
+    this.el.shadowRoot
+      .querySelector(".container")
       .addEventListener("transitionrun", (event: TransitionEvent) => {
         this.transitionRun(event);
       });
