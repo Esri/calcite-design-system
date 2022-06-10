@@ -120,7 +120,6 @@ export class Alert {
     if (this.active && !this.queued) {
       this.calciteInternalAlertRegister.emit();
     }
-    this.onTransitionRun();
   }
 
   componentWillLoad(): void {
@@ -129,10 +128,7 @@ export class Alert {
 
   disconnectedCallback(): void {
     window.clearTimeout(this.autoDismissTimeoutId);
-
-    this.el.shadowRoot
-      .querySelector(".container")
-      .removeEventListener("transitionrun", this.onTransitionRun);
+    this.containerDiv.removeEventListener("transitionrun", this.onTransitionRun);
   }
 
   render(): VNode {
@@ -173,6 +169,7 @@ export class Alert {
             [placement]: true
           }}
           onTransitionEnd={this.transitionEnd}
+          ref={this.setContainerDiv}
         >
           {requestedIcon ? (
             <div class="alert-icon">
@@ -281,6 +278,13 @@ export class Alert {
   /** is the alert queued */
   @State() queued = false;
 
+  private containerDiv: HTMLDivElement;
+
+  private setContainerDiv = (el): void => {
+    this.containerDiv = el;
+    this.containerDiv.addEventListener("transitionrun", this.onTransitionRun);
+  };
+
   /** the close button element */
   private closeButton?: HTMLButtonElement;
 
@@ -328,13 +332,13 @@ export class Alert {
     this.calciteInternalAlertSync.emit({ queue: this.queue });
   };
 
-  transitionEnd = (event: TransitionEvent): void => {
-    if (event.propertyName === this.activeTransitionProp) {
-      this.active ? this.openCloseEventEmitter("open") : this.openCloseEventEmitter("close");
-    }
-  };
-
-  transitionRun = (event: TransitionEvent): void => {
+  /* *
+  - `transitionrun` fires when the transition is created (i.e. at the start of any delay).
+  - `transitionstart` fires when the actual animation has begun (i.e. at the end of any delay).
+  - `transitionrun` will occur even if the transition is canceled before the delay expires.
+  - if there is no transition delay or if `transition-delay` is negative, both `transitionrun` and `transitionstart` are fired.
+  */
+  onTransitionRun = (event: TransitionEvent): void => {
     if (event.propertyName === this.activeTransitionProp) {
       this.active
         ? this.openCloseEventEmitter("beforeOpen")
@@ -342,18 +346,10 @@ export class Alert {
     }
   };
 
-  /* * 
-  - `transitionrun` fires when the transition is created (i.e. at the start of any delay).
-  - `transitionstart` fires when the actual animation has begun (i.e. at the end of any delay).
-  - `transitionrun` will occur even if the transition is canceled before the delay expires. 
-  - if there is no transition delay or if `transition-delay` is negative, both `transitionrun` and `transitionstart` are fired.
-  */
-  private onTransitionRun = (): void => {
-    this.el.shadowRoot
-      .querySelector(".container")
-      .addEventListener("transitionrun", (event: TransitionEvent) => {
-        this.transitionRun(event);
-      });
+  transitionEnd = (event: TransitionEvent): void => {
+    if (event.propertyName === this.activeTransitionProp) {
+      this.active ? this.openCloseEventEmitter("open") : this.openCloseEventEmitter("close");
+    }
   };
 
   /** remove queued class after animation completes */
