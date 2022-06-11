@@ -341,14 +341,14 @@ export class Alert {
   onTransitionRun = (event: TransitionEvent): void => {
     if (event.propertyName === this.activeTransitionProp) {
       this.active
-        ? this.openCloseEventEmitter("beforeOpen")
-        : this.openCloseEventEmitter("beforeClose");
+        ? this.openCloseEventEmitter("beforeOpening")
+        : this.openCloseEventEmitter("beforeClosing");
     }
   };
 
   transitionEnd = (event: TransitionEvent): void => {
     if (event.propertyName === this.activeTransitionProp) {
-      this.active ? this.openCloseEventEmitter("open") : this.openCloseEventEmitter("close");
+      this.active ? this.openCloseEventEmitter("isOpen") : this.openCloseEventEmitter("isClosed");
     }
   };
 
@@ -364,10 +364,10 @@ export class Alert {
       queue: this.queue
     };
     const emitComponentState = {
-      beforeOpen: () => this.calciteAlertBeforeOpening.emit(payload),
-      open: () => this.calciteAlertIsOpen.emit(payload),
-      beforeClose: () => this.calciteAlertBeforeClosing.emit(payload),
-      close: () => this.calciteAlertIsClosed.emit(payload)
+      beforeOpening: () => this.calciteAlertBeforeOpening.emit(payload),
+      isOpen: () => this.calciteAlertIsOpen.emit(payload),
+      beforeClosing: () => this.calciteAlertBeforeClosing.emit(payload),
+      isClosed: () => this.calciteAlertIsClosed.emit(payload)
     };
     (
       emitComponentState[componentVisibilityState] ||
