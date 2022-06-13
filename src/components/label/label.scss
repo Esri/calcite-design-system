@@ -23,7 +23,7 @@
 }
 
 :host([scale="s"]) {
-  --calcite-label-margin-bottom: theme("spacing.2");
+  --calcite-label-margin-bottom: theme("spacing.1");
   .container {
     @apply text-n2h gap-1;
     margin-bottom: var(--calcite-label-margin-bottom);
