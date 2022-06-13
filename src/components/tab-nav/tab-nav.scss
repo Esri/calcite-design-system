@@ -45,12 +45,12 @@
     ease-out;
 }
 
-:host([position="below"]) .tab-nav-active-indicator {
+:host([position="below"] [position="bottom"]) .tab-nav-active-indicator {
   bottom: unset;
   @apply top-0;
 }
 
-:host([position="below"]) .tab-nav-active-indicator-container {
+:host([position="below"] [position="bottom"]) .tab-nav-active-indicator-container {
   bottom: unset;
   @apply top-0;
 }
@@ -59,7 +59,7 @@
   bottom: unset; // display active blue line above instead of below
 }
 
-:host([bordered][position="below"]) .tab-nav-active-indicator-container {
+:host([bordered][position="below"] [position="bottom"]) .tab-nav-active-indicator-container {
   bottom: 0; // display active blue line below instead of above
   top: unset;
 }
