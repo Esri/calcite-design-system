@@ -140,9 +140,7 @@ describe("calcite-tooltip", () => {
   it("should accept referenceElement as virtual element", async () => {
     const page = await newE2EPage();
 
-    await page.setContent(`<calcite-tooltip open>content</calcite-tooltip><div id="ref">referenceElement</div>`);
-
-    await page.waitForChanges();
+    await page.setContent(`<calcite-tooltip open>content</calcite-tooltip>`);
 
     await page.$eval("calcite-tooltip", (tooltip: HTMLCalciteTooltipElement) => {
       const virtualElement = {
