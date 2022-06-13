@@ -166,8 +166,6 @@ describe("calcite-popover", () => {
 
     await page.waitForChanges();
 
-    const popover = await page.find(`calcite-popover`);
-
     await page.$eval("calcite-popover", (popover: HTMLCalcitePopoverElement) => {
       const virtualElement = {
         getBoundingClientRect: () =>
@@ -186,11 +184,11 @@ describe("calcite-popover", () => {
 
     await page.waitForChanges();
 
+    const popover = await page.find(`calcite-popover`);
+
     expect(await popover.isVisible()).toBe(true);
 
-    const element = await page.find("calcite-popover");
-
-    const computedStyle = await element.getComputedStyle();
+    const computedStyle = await popover.getComputedStyle();
 
     expect(computedStyle.transform).not.toBe("matrix(0, 0, 0, 0, 0, 0)");
   });

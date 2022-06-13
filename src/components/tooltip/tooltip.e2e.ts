@@ -144,8 +144,6 @@ describe("calcite-tooltip", () => {
 
     await page.waitForChanges();
 
-    const tooltip = await page.find(`calcite-tooltip`);
-
     await page.$eval("calcite-tooltip", (tooltip: HTMLCalciteTooltipElement) => {
       const virtualElement = {
         getBoundingClientRect: () =>
@@ -164,11 +162,11 @@ describe("calcite-tooltip", () => {
 
     await page.waitForChanges();
 
+    const tooltip = await page.find(`calcite-tooltip`);
+
     expect(await tooltip.isVisible()).toBe(true);
 
-    const element = await page.find("calcite-tooltip");
-
-    const computedStyle = await element.getComputedStyle();
+    const computedStyle = await tooltip.getComputedStyle();
 
     expect(computedStyle.transform).not.toBe("matrix(0, 0, 0, 0, 0, 0)");
   });
