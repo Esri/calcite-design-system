@@ -481,6 +481,7 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
       value: this.value
     });
 
+    this.childEl.setSelectionRange(0, 0);
     this.emitChangeIfUserModified();
   };
 
