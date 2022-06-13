@@ -137,6 +137,42 @@ describe("calcite-tooltip", () => {
     expect(computedStyle.transform).not.toBe("matrix(0, 0, 0, 0, 0, 0)");
   });
 
+  it("should accept referenceElement as virtual element", async () => {
+    const page = await newE2EPage();
+
+    await page.setContent(`<calcite-tooltip open>content</calcite-tooltip><div id="ref">referenceElement</div>`);
+
+    await page.waitForChanges();
+
+    const tooltip = await page.find(`calcite-tooltip`);
+
+    await page.$eval("calcite-tooltip", (tooltip: HTMLCalciteTooltipElement) => {
+      const virtualElement = {
+        getBoundingClientRect: () =>
+          ({
+            width: 0,
+            height: 0,
+            top: 100,
+            right: 100,
+            bottom: 100,
+            left: 600
+          } as DOMRect)
+      };
+
+      tooltip.referenceElement = virtualElement;
+    });
+
+    await page.waitForChanges();
+
+    expect(await tooltip.isVisible()).toBe(true);
+
+    const element = await page.find("calcite-tooltip");
+
+    const computedStyle = await element.getComputedStyle();
+
+    expect(computedStyle.transform).not.toBe("matrix(0, 0, 0, 0, 0, 0)");
+  });
+
   it("should honor hover interaction", async () => {
     const page = await newE2EPage();
 

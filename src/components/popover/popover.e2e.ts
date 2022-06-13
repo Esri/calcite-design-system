@@ -157,6 +157,44 @@ describe("calcite-popover", () => {
     expect(computedStyle.transform).not.toBe("matrix(0, 0, 0, 0, 0, 0)");
   });
 
+  it("should accept referenceElement as a virtual element", async () => {
+    const page = await newE2EPage();
+
+    await page.setContent(
+      `<calcite-popover placement="auto" open>content</calcite-popover><div id="ref">referenceElement</div>`
+    );
+
+    await page.waitForChanges();
+
+    const popover = await page.find(`calcite-popover`);
+
+    await page.$eval("calcite-popover", (popover: HTMLCalcitePopoverElement) => {
+      const virtualElement = {
+        getBoundingClientRect: () =>
+          ({
+            width: 0,
+            height: 0,
+            top: 100,
+            right: 100,
+            bottom: 100,
+            left: 600
+          } as DOMRect)
+      };
+
+      popover.referenceElement = virtualElement;
+    });
+
+    await page.waitForChanges();
+
+    expect(await popover.isVisible()).toBe(true);
+
+    const element = await page.find("calcite-popover");
+
+    const computedStyle = await element.getComputedStyle();
+
+    expect(computedStyle.transform).not.toBe("matrix(0, 0, 0, 0, 0, 0)");
+  });
+
   it("should show closeButton when enabled", async () => {
     const page = await newE2EPage();
 
