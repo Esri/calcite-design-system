@@ -55,7 +55,7 @@ section {
     border-b;
 }
 
-:host(([position="below"][position="bottom"]):not([bordered])) section {
+:host([position="below"][position="bottom"]:not([bordered])) section {
   border-bottom-style: solid;
 }
 
