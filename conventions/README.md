@@ -274,11 +274,11 @@ focusMenu(): void => {
 
 ## Utils
 
-There are utilities for common workflows in [`src/utils`](https://github.com/Esri/calcite-components/tree/master/src/utils).
+There are utilities for common workflows in [`src/utils`](../src/utils).
 
 ### Global attributes
 
-The [`globalAttributes`](https://github.com/Esri/calcite-components/blob/master/src/utils/globalAttributes.ts) util was specifically made to access the `lang` global attribute when set on a Calcite component. However, it can be extended to allow additional [global attributes](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes#list_of_global_attributes) by adding to the [`allowedGlobalAttributes`](https://github.com/Esri/calcite-components/blob/a33aa0df0c5bf103f91187826e6b12b8ff266d90/src/utils/globalAttributes.ts#L4-L5) array. The util is used in [`calcite-pagination`](https://github.com/Esri/calcite-components/blob/master/src/components/pagination/pagination.tsx), which you can use as a reference.
+The [`globalAttributes`](../src/utils/globalAttributes.ts) util was specifically made to access the `lang` global attribute when set on a Calcite component. However, it can be extended to allow additional [global attributes](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes#list_of_global_attributes) by adding to the [`allowedGlobalAttributes`](https://github.com/Esri/calcite-components/blob/a33aa0df0c5bf103f91187826e6b12b8ff266d90/src/utils/globalAttributes.ts#L4-L5) array. The util is used in [`calcite-pagination`](../src/components/pagination/pagination.tsx), which you can use as a reference.
 
 #### Usage steps
 
@@ -317,3 +317,7 @@ The [`globalAttributes`](https://github.com/Esri/calcite-components/blob/master/
    ```js
    const lang = this.globalAttributes["lang"] || document.documentElement.lang || "en";
    ```
+
+### BigDecimal
+
+`BigDecimal` is a [number util](https://github.com/Esri/calcite-components/blob/master/src/utils/number.ts) that helps with [arbitrary precision arithmetic](https://en.wikipedia.org/wiki/Arbitrary-precision_arithmetic). The util is adopted from a [Stack Overflow answer](https://stackoverflow.com/a/66939244) with some small changes. There are some usage examples in [`number.spec.ts`](../src/utils/number.spec.ts).

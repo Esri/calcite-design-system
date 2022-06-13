@@ -1133,6 +1133,29 @@ describe("calcite-combobox", () => {
     expect(three).toBeFalsy();
   });
 
+  it("respects the filterDisabled item property", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+      <calcite-combobox selection-mode="single">
+        <calcite-combobox-item id="one" value="one" text-label="One"></calcite-combobox-item>
+        <calcite-combobox-item id="two" value="two" text-label="Two" ></calcite-combobox-item>
+        <calcite-combobox-item id="three" value="three" text-label="Three" filter-disabled></calcite-combobox-item>
+      </calcite-combobox>
+    `);
+
+    await page.waitForChanges();
+    const input = await page.find("calcite-combobox >>> .wrapper");
+    await input.click();
+    await page.keyboard.type("two");
+    await page.waitForChanges();
+    const one = await (await page.find("#one")).isVisible();
+    const two = await (await page.find("#two")).isVisible();
+    const three = await (await page.find("#three")).isVisible();
+    expect(one).toBeFalsy();
+    expect(two).toBeTruthy();
+    expect(three).toBeTruthy();
+  });
+
   it("works correctly inside a shadowRoot", async () => {
     const page = await newE2EPage();
     await page.setContent(`

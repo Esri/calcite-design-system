@@ -865,6 +865,14 @@ describe("calcite-input", () => {
   });
 
   describe("number type", () => {
+    it("doesn't round numbers larger than double-precision floating-point", async () => {
+      const preciseNumber = "4.9999999999999999";
+      const page = await newE2EPage();
+      await page.setContent(html`<calcite-input type="number" value=${preciseNumber}></calcite-input>`);
+      const element = await page.find("calcite-input");
+      expect(await element.getProperty("value")).toBe(preciseNumber);
+    });
+
     it("allows typing negative decimal values", async () => {
       const page = await newE2EPage();
       await page.setContent(html`<calcite-input type="number"></calcite-input>`);

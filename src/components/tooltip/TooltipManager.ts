@@ -100,7 +100,7 @@ export default class TooltipManager {
     document.addEventListener("mouseover", this.mouseEnterShow, { capture: true });
     document.addEventListener("mouseout", this.mouseLeaveHide, { capture: true });
     document.addEventListener("pointerdown", this.clickHandler, { capture: true });
-    document.addEventListener("focusin", this.focusShow), { capture: true };
+    document.addEventListener("focusin", this.focusShow, { capture: true });
     document.addEventListener("focusout", this.blurHide, { capture: true });
   }
 
