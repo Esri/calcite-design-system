@@ -113,11 +113,11 @@
   margin-inline-end: auto;
 }
 
-:host .stepper-item-title,
+:host .stepper-item-heading,
 :host .stepper-item-subtitle {
   @apply flex w-full;
 }
-:host .stepper-item-title {
+:host .stepper-item-heading {
   @apply text-color-2 mb-1 font-medium;
 }
 :host .stepper-item-subtitle {
@@ -157,7 +157,7 @@
 :host(:focus:not([disabled]):not([active])) .container {
   @apply border-t-color-brand;
 
-  & .stepper-item-title {
+  & .stepper-item-heading {
     @apply text-color-1;
   }
   & .stepper-item-subtitle {
@@ -172,7 +172,7 @@
 
 :host([active]) .container {
   border-top-color: theme("backgroundColor.brand");
-  & .stepper-item-title {
+  & .stepper-item-heading {
     @apply text-color-1;
   }
   & .stepper-item-subtitle {

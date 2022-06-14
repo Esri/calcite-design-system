@@ -41,8 +41,15 @@ export class AccordionItem {
   /** Indicates whether the item is active. */
   @Prop({ reflect: true, mutable: true }) active = false;
 
-  /** pass a title for the accordion item */
+  /**
+   * pass a title for the accordion item
+   *
+   * @deprecated use heading instead
+   */
   @Prop() itemTitle?: string;
+
+  /** accordion item heading */
+  @Prop() heading?: string;
 
   /** pass a title for the accordion item */
   @Prop() itemSubtitle?: string;
@@ -123,7 +130,7 @@ export class AccordionItem {
           >
             {this.icon ? iconEl : null}
             <div class="accordion-item-header-text">
-              <span class="accordion-item-title">{this.itemTitle}</span>
+              <span class="accordion-item-title">{this.heading || this.itemTitle}</span>
               {this.itemSubtitle ? (
                 <span class="accordion-item-subtitle">{this.itemSubtitle}</span>
               ) : null}

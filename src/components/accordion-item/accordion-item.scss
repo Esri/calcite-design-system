@@ -119,12 +119,12 @@
   margin-inline-end: theme("margin.auto");
 }
 
-:host .accordion-item-title,
+:host .accordion-item-heading,
 :host .accordion-item-subtitle {
   @apply flex w-full;
 }
 
-:host .accordion-item-title {
+:host .accordion-item-heading {
   @apply text-color-2 font-medium;
 }
 :host .accordion-item-subtitle {
@@ -133,7 +133,7 @@
 
 :host(:focus),
 :host(:hover) {
-  & .accordion-item-title {
+  & .accordion-item-heading {
     @apply text-color-1;
   }
   & .accordion-item-icon {
@@ -151,7 +151,7 @@
 :host(:focus),
 :host(:active),
 :host([active]) {
-  & .accordion-item-title {
+  & .accordion-item-heading {
     @apply text-color-1;
   }
   & .accordion-item-icon {
