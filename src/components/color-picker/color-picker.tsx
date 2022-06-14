@@ -613,7 +613,7 @@ export class ColorPicker implements InteractiveComponent {
       } else if (clientX < colorFieldAndSliderRect.x) {
         samplingX = 0;
       } else {
-        samplingX = colorFieldWidth;
+        samplingX = colorFieldWidth - 1;
       }
 
       if (
