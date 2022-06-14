@@ -481,8 +481,10 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
       value: this.value
     });
 
-    this.childEl.setSelectionRange(0, 0);
     this.emitChangeIfUserModified();
+    this.type === "number"
+      ? this.childNumberEl.setSelectionRange(0, 0)
+      : this.childEl.setSelectionRange(0, 0);
   };
 
   private inputFocusHandler = (event: FocusEvent): void => {
