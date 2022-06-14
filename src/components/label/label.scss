@@ -1,3 +1,11 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-label-margin-bottom: The bottom margin of `calcite-label`.
+ */
+
 :host {
   @apply inline;
 }
@@ -15,18 +23,24 @@
 }
 
 :host([scale="s"]) {
+  --calcite-label-margin-bottom: theme("spacing.2");
   .container {
-    @apply text-n2h mb-2;
+    @apply text-n2h gap-1;
+    margin-bottom: var(--calcite-label-margin-bottom);
   }
 }
 :host([scale="m"]) {
+  --calcite-label-margin-bottom: theme("spacing.3");
   .container {
-    @apply text-n1h mb-3;
+    @apply text-n1h gap-2;
+    margin-bottom: var(--calcite-label-margin-bottom);
   }
 }
 :host([scale="l"]) {
+  --calcite-label-margin-bottom: theme("spacing.4");
   .container {
-    @apply text-0h mb-4;
+    @apply text-0h gap-2;
+    margin-bottom: var(--calcite-label-margin-bottom);
   }
 }
 
@@ -40,7 +54,7 @@
 
 :host([layout="default"]) {
   .container {
-    @apply flex flex-col gap-1;
+    @apply flex flex-col;
   }
 }
 
@@ -76,11 +90,5 @@
   }
   ::slotted(calcite-input-message:not([active])) {
     @apply bg-opacity-0;
-  }
-}
-
-:host([disable-spacing]) {
-  .container {
-    @apply m-0 gap-0;
   }
 }

@@ -1,6 +1,15 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-action-indicator-color: optionally specify the color of the action indicator
+ */
+
 :host {
   @extend %component-host;
   @apply flex bg-transparent;
+  --calcite-action-indicator-color: theme("colors.brand");
 }
 
 @include disabled();
@@ -189,13 +198,14 @@
 :host([indicator]) {
   .button::after {
     content: "";
-    @apply bg-brand
-      absolute
+    @apply absolute
       z-10
       h-2
       w-2
       rounded-full
       border-2;
+
+    background-color: var(--calcite-action-indicator-color);
     border-color: theme("colors.background.foreground.1");
     inset-block-end: theme("spacing.3");
     inset-inline-end: theme("spacing.3");

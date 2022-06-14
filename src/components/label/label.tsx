@@ -45,9 +45,6 @@ export class Label {
   /** is the wrapped element positioned inline with the label slotted text */
   @Prop({ reflect: true }) layout: "inline" | "inline-space-between" | "default" = "default";
 
-  /** eliminates any space around the label */
-  @Prop() disableSpacing = false;
-
   /**
    * is the label disabled
    *
