@@ -120,14 +120,14 @@
 }
 
 :host .accordion-item-heading,
-:host .accordion-item-subtitle {
+:host .accordion-item-description {
   @apply flex w-full;
 }
 
 :host .accordion-item-heading {
   @apply text-color-2 font-medium;
 }
-:host .accordion-item-subtitle {
+:host .accordion-item-description {
   @apply text-color-3 mt-1;
 }
 
@@ -143,7 +143,7 @@
   & .accordion-item-expand-icon {
     @apply text-color-1;
   }
-  & .accordion-item-subtitle {
+  & .accordion-item-description {
     @apply text-color-2;
   }
 }
@@ -160,7 +160,7 @@
   & .accordion-item-expand-icon {
     @apply text-color-1;
   }
-  & .accordion-item-subtitle {
+  & .accordion-item-description {
     @apply text-color-2;
   }
 }
