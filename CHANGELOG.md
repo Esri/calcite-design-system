@@ -11,6 +11,10 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 - **label:** the label's `disable-spacing` property has been removed. Use the new `--calcite-label-margin-bottom` css variable to control the spacing instead.
 
+### Features
+
+- **action:** Add css variable to override indicator color ([#4717](https://github.com/Esri/calcite-components/issues/4717)) ([abdbc7d](https://github.com/Esri/calcite-components/commit/abdbc7dbf7a0b87b464f8e8536fcc30879427449))
+
 ### Bug Fixes
 
 - **input:** support larger than 64-bit floating point numbers without losing precision ([#4679](https://github.com/Esri/calcite-components/issues/4679)) ([b81dd82](https://github.com/Esri/calcite-components/commit/b81dd82071810476c414372e6faa3e450bbf3a39))
