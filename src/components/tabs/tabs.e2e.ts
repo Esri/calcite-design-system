@@ -22,7 +22,7 @@ describe("calcite-tabs", () => {
   it("has defaults", async () =>
     defaults("calcite-tabs", [
       { propertyName: "layout", defaultValue: "inline" },
-      { propertyName: "position", defaultValue: "above" },
+      { propertyName: "position", defaultValue: "top" },
       { propertyName: "scale", defaultValue: "m" }
     ]));
 
