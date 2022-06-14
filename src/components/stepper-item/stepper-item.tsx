@@ -145,7 +145,7 @@ export class StepperItem implements InteractiveComponent {
               <div class="stepper-item-number">{this.getItemPosition() + 1}.</div>
             ) : null}
             <div class="stepper-item-header-text">
-              <span class="stepper-item-title">{this.heading || this.itemTitle}</span>
+              <span class="stepper-item-heading">{this.heading || this.itemTitle}</span>
               <span class="stepper-item-subtitle">{this.itemSubtitle}</span>
             </div>
           </div>

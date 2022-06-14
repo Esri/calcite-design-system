@@ -130,7 +130,7 @@ export class AccordionItem {
           >
             {this.icon ? iconEl : null}
             <div class="accordion-item-header-text">
-              <span class="accordion-item-title">{this.heading || this.itemTitle}</span>
+              <span class="accordion-item-heading">{this.heading || this.itemTitle}</span>
               {this.itemSubtitle ? (
                 <span class="accordion-item-subtitle">{this.itemSubtitle}</span>
               ) : null}
