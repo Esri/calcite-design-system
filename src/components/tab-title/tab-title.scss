@@ -16,6 +16,13 @@
   border-top-style: solid;
 }
 
+:host([position="bottom"]) a {
+  @apply border-t-color-transparent
+    border-b-0
+    border-t-2;
+  border-top-style: solid;
+}
+
 :host a {
   @apply focus-base;
 }
@@ -132,6 +139,10 @@ span {
   box-shadow: inset 0 2px 0 var(--calcite-ui-foreground-1);
 }
 
+:host([bordered][active][position="bottom"]) {
+  box-shadow: inset 0 2px 0 var(--calcite-ui-foreground-1);
+}
+
 :host([bordered]:hover),
 :host([bordered]:focus),
 :host([bordered]:active) {
@@ -152,6 +163,10 @@ span {
 }
 
 :host([bordered][position="below"]) a {
+  border-top-style: unset;
+}
+
+:host([bordered][position="bottom"]) a {
   border-top-style: unset;
 }
 
@@ -199,11 +214,19 @@ span {
     border-top-style: solid;
   }
 
+  :host([bordered][position="bottom"]) a {
+    border-top-style: solid;
+  }
+
   :host([bordered][active]) a {
     border-bottom-style: none;
   }
 
   :host([bordered][position="below"][active]) a {
+    border-top-style: none;
+  }
+
+  :host([bordered][position="bottom"][active]) a {
     border-top-style: none;
   }
 }

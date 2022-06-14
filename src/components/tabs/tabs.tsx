@@ -33,9 +33,10 @@ export class Tabs {
   @Prop({ reflect: true }) layout: TabLayout = "inline";
 
   /**
-   * Display the tabs above (default) or below the tab content
+   * Display the tabs top (default) or bottom of the tab content. above and below are deprecated.
+   *
    */
-  @Prop({ reflect: true }) position: TabPosition = "above";
+  @Prop({ reflect: true }) position: TabPosition = "top";
 
   /**
    * Specify the scale of the tabs component, defaults to m
