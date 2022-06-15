@@ -184,9 +184,7 @@ export class Stepper {
   }
 
   @Listen("calciteInternalUserRequestedStepperItemSelect")
-  handlecalciteInternalUserRequestedStepperItemSelect(
-    event: CustomEvent<StepperItemChangeEventDetail>
-  ): void {
+  handleUserRequestedStepperItemSelect(event: CustomEvent<StepperItemChangeEventDetail>): void {
     const { position } = event.detail;
 
     this.calciteStepperItemChange.emit({
