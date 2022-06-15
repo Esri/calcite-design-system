@@ -11,7 +11,7 @@ import {
   State
 } from "@stencil/core";
 import { SLOTS, CSS } from "./resources";
-import { getSlotted } from "../../utils/dom";
+import { getSlotted, toAriaBoolean } from "../../utils/dom";
 import {
   ConditionalSlotComponent,
   connectConditionalSlotComponent,
@@ -208,6 +208,10 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
     return (
       <Host>
         <tr
+          aria-expanded={this.expandable ? toAriaBoolean(this.expanded) : null}
+          aria-level={1} // todo
+          aria-posinset={1} // todo
+          aria-setsize={1} // todo
           class={CSS.container}
           onClick={this.handleItemClick}
           onKeyDown={this.handleItemKeyDown}
@@ -233,7 +237,7 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
   // --------------------------------------------------------------------------
 
   handleItemKeyDown = (event: KeyboardEvent): void => {
-    const { key } = event;
+    const { key, ctrlKey } = event;
     const composedPath = event.composedPath();
     const { containerEl, contentEl, actionsStartEl, actionsEndEl, expanded, expandable } = this;
 
@@ -270,12 +274,22 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
         containerEl.focus();
       }
     } else if (key === "ArrowDown") {
+      // todo: get working
       event.preventDefault();
     } else if (key === "ArrowDown") {
+      // todo: get working
       event.preventDefault();
     } else if (key === " " || key === "Enter") {
       event.preventDefault();
       this.emitListItemClick();
+    } else if (key === "Home") {
+      // todo: get working
+      console.log({ ctrlKey });
+      event.preventDefault();
+    } else if (key === "End") {
+      // todo: get working
+      console.log({ ctrlKey });
+      event.preventDefault();
     }
   };
 

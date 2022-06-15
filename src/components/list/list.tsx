@@ -24,6 +24,11 @@ export class List implements InteractiveComponent {
    */
   @Prop({ reflect: true }) disabled = false;
 
+  /**
+   * todo: label
+   */
+  @Prop() label = "";
+
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -62,7 +67,7 @@ export class List implements InteractiveComponent {
 
   render(): VNode {
     return (
-      <table role="treegrid">
+      <table aria-label={this.label} role="treegrid">
         <tbody class={CSS.container}>
           <slot />
         </tbody>
