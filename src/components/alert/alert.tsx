@@ -333,10 +333,8 @@ export class Alert {
   };
 
   /* *
-  - `transitionrun` fires when the transition is created (i.e. at the start of any delay).
-  - `transitionstart` fires when the actual animation has begun (i.e. at the end of any delay).
-  - `transitionrun` will occur even if the transition is canceled before the delay expires.
-  - if there is no transition delay or if `transition-delay` is negative, both `transitionrun` and `transitionstart` are fired.
+  - `transitionrun` fires when the transition is created at the start of any delay and is not cancellable once started.
+  - if there is no transition delay, both `transitionrun` and `transitionstart` are fired at the same time.
   */
   onTransitionRun = (event: TransitionEvent): void => {
     if (event.propertyName === this.activeTransitionProp) {
