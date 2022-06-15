@@ -248,7 +248,7 @@ describe("calcite-panel", () => {
     const page = await newE2EPage();
 
     await page.setContent(
-      `<calcite-panel heading="test heading" description="test description>
+      `<calcite-panel heading="test heading" description="test description">
         <div slot=${SLOTS.headerContent}>custom header content</div>
       </calcite-panel>`
     );
