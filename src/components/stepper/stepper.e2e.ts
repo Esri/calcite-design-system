@@ -436,5 +436,15 @@ describe("calcite-stepper", () => {
     expect(await items[3].getProperty("active")).toBe(true);
     expect(eventSpy).toHaveReceivedEventTimes(2);
     expect(eventSpy.lastEvent.detail.position).toBe(3);
+
+    await element.callMethod("prevStep");
+    await page.waitForChanges();
+    expect(await items[1].getProperty("active")).toBe(true);
+    expect(eventSpy).toHaveReceivedEventTimes(2);
+
+    await element.callMethod("nextStep");
+    await page.waitForChanges();
+    expect(await items[3].getProperty("active")).toBe(true);
+    expect(eventSpy).toHaveReceivedEventTimes(2);
   });
 });
