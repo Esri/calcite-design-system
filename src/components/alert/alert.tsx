@@ -128,7 +128,9 @@ export class Alert {
 
   disconnectedCallback(): void {
     window.clearTimeout(this.autoDismissTimeoutId);
-    this.containerDiv.removeEventListener("transitionrun", this.onTransitionRun);
+    if (this.containerDiv) {
+      this.containerDiv.removeEventListener("transitionrun", this.onTransitionRun);
+    }
   }
 
   render(): VNode {
