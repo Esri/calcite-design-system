@@ -64,7 +64,7 @@ export class TabNav {
   /**
    * @internal
    */
-  @Prop({ reflect: true, mutable: true }) position: TabPosition = "below";
+  @Prop({ reflect: true, mutable: true }) position: TabPosition = "bottom";
 
   /**
    * @internal
