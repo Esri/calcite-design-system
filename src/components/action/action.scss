@@ -152,6 +152,13 @@
     ease-in-out;
 }
 
+:host([appearance="transparent"]) .button {
+  @apply bg-transparent
+    transition-shadow
+    duration-150
+    ease-in-out;
+}
+
 :host([appearance="clear"]) .button:hover,
 :host([appearance="clear"]) .button:focus {
   @apply bg-transparent;
@@ -166,6 +173,23 @@
 
 :host([appearance="clear"][loading]) .button,
 :host([appearance="clear"][disabled]) .button {
+  @apply bg-transparent;
+}
+
+:host([appearance="transparent"]) .button:hover,
+:host([appearance="transparent"]) .button:focus {
+  @apply bg-transparent;
+  box-shadow: 0 0 0 2px theme("borderColor.color.1") inset;
+}
+
+:host([active][appearance="transparent"]) .button,
+:host([active][appearance="transparent"]) .button:hover,
+:host([active][appearance="transparent"]) .button:focus {
+  @apply text-color-1 fill-color-1 bg-foreground-3;
+}
+
+:host([appearance="transparent"][loading]) .button,
+:host([appearance="transparent"][disabled]) .button {
   @apply bg-transparent;
 }
 

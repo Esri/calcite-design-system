@@ -37,7 +37,7 @@ export class Button implements LabelableComponent, InteractiveComponent, FormOwn
   @Prop({ reflect: true }) alignment?: ButtonAlignment = "center";
 
   /** specify the appearance style of the button, defaults to solid. */
-  @Prop({ reflect: true }) appearance: ButtonAppearance = "solid";
+  @Prop({ reflect: true }) appearance: ButtonAppearance;
 
   /** Applies to the aria-label attribute on the button or hyperlink */
   @Prop() label?: string;

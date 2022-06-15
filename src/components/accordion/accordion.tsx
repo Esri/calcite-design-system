@@ -25,8 +25,8 @@ export class Accordion {
   //
   //--------------------------------------------------------------------------
 
-  /** specify the appearance - default (containing border), or minimal (no containing border), defaults to default */
-  @Prop({ reflect: true }) appearance: AccordionAppearance = "default";
+  /** specify the appearance - minimal (no containing border) or transparent. default is deprecated*/
+  @Prop({ reflect: true }) appearance: AccordionAppearance;
 
   /** specify the placement of the icon in the header, defaults to end */
   @Prop({ reflect: true }) iconPosition: Position = "end";
@@ -68,12 +68,14 @@ export class Accordion {
   }
 
   render(): VNode {
+    const transparent = this.appearance === "transparent";
+    const minimal = this.appearance === "minimal";
     return (
       <div
         class={{
-          "accordion--transparent": this.appearance === "transparent",
-          "accordion--minimal": this.appearance === "minimal",
-          accordion: this.appearance === "default"
+          "accordion--transparent": transparent,
+          "accordion--minimal": minimal,
+          accordion: !transparent && !minimal
         }}
       >
         <slot />
