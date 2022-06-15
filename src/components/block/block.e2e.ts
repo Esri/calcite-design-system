@@ -149,7 +149,7 @@ describe("calcite-block", () => {
       const heading = await page.find(`calcite-block >>> .${CSS.heading}`);
       expect(heading).toBeTruthy();
 
-      const summary = await page.find(`calcite-block >>> .${CSS.summary}`);
+      const summary = await page.find(`calcite-block >>> .${CSS.description}`);
       expect(summary.innerText).toBe("test-summary");
     });
 
