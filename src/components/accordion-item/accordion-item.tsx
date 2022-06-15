@@ -38,7 +38,7 @@ export class AccordionItem {
   //
   //--------------------------------------------------------------------------
 
-  /** Indicates whether the component is active. */
+  /** When true, the component is active. */
   @Prop({ reflect: true, mutable: true }) active = false;
 
   /** Specifies a title for the component. */

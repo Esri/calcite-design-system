@@ -48,7 +48,7 @@ export class Alert {
   //
   //---------------------------------------------------------------------------
 
-  /** Indicates whether the component is active. */
+  /** When true, the component is active. */
   @Prop({ reflect: true, mutable: true }) active = false;
 
   @Watch("active")
@@ -78,7 +78,7 @@ export class Alert {
   @Prop({ reflect: true }) icon: string | boolean;
 
   /**
-   * Specifies a string to override English close text.
+   * Specifies the text label for the close button.
    *
    * @default "Close"
    */
@@ -90,7 +90,7 @@ export class Alert {
   /** Specifies the placement of the component */
   @Prop() placement: AlertPlacement = "bottom";
 
-  /** Specifies the scale of the component. */
+  /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
 
   @Watch("icon")

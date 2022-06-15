@@ -35,7 +35,7 @@ export class Action implements InteractiveComponent {
   // --------------------------------------------------------------------------
 
   /**
-   * Indicates whether the component is active.
+   * When true, the component is highlighted.
    */
   @Prop({ reflect: true }) active = false;
 
@@ -48,12 +48,12 @@ export class Action implements InteractiveComponent {
   @Prop({ reflect: true }) appearance: Extract<"solid" | "clear", Appearance> = "solid";
 
   /**
-   * Compact mode is used internally by components to reduce side padding, e.g. `calcite-block-section`.
+   * When true, the side padding of the component is reduced. Compact mode is used internally by components, e.g. `calcite-block-section`.
    */
   @Prop({ reflect: true }) compact = false;
 
   /**
-   * When true, prevents interaction. This state shows items with lower opacity.
+   * When true, interaction is prevented and the component is displayed with lower opacity.
    */
   @Prop({ reflect: true }) disabled = false;
 
@@ -66,7 +66,7 @@ export class Action implements InteractiveComponent {
   @Prop({ reflect: true }) indicator = false;
 
   /**
-   * Specifies string to override English loading text.
+   * Specifies the text label to display while loading.
    *
    * @default "Loading"
    */
@@ -78,7 +78,7 @@ export class Action implements InteractiveComponent {
   @Prop() label?: string;
 
   /**
-   * When true, content is waiting to be loaded. This state shows a busy indicator.
+   * When true, a busy indicator is displayed.
    */
   @Prop({ reflect: true }) loading = false;
 
@@ -88,7 +88,7 @@ export class Action implements InteractiveComponent {
   @Prop({ reflect: true }) scale: Scale = "m";
 
   /**
-   * Text that accompanies the icon.
+   * Specifies text that accompanies the icon.
    */
   @Prop() text!: string;
 

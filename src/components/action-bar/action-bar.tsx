@@ -56,7 +56,7 @@ export class ActionBar implements ConditionalSlotComponent {
   }
 
   /**
-   * Indicates whether the component is expanded.
+   * When true, the component is expanded.
    */
   @Prop({ reflect: true, mutable: true }) expanded = false;
 

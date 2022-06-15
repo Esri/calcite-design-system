@@ -24,7 +24,7 @@ export class Avatar {
   //
   //--------------------------------------------------------------------------
 
-  /** Specifies the scale of the component. */
+  /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
 
   /** Specifies the `src` to an image (remember to add a token if the user is private). */

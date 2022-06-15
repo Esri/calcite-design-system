@@ -28,7 +28,7 @@ export class ActionGroup implements ConditionalSlotComponent {
   // --------------------------------------------------------------------------
 
   /**
-   * Indicates whether the component is expanded.
+   * When true, the component is expanded.
    */
   @Prop({ reflect: true }) expanded = false;
 

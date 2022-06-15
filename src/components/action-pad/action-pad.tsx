@@ -42,7 +42,7 @@ export class ActionPad implements ConditionalSlotComponent {
   @Prop({ reflect: true }) expandDisabled = false;
 
   /**
-   * Indicates whether the component is expanded.
+   * When true, the component is expanded.
    */
   @Prop({ reflect: true, mutable: true }) expanded = false;
 
@@ -57,7 +57,7 @@ export class ActionPad implements ConditionalSlotComponent {
   @Prop({ reflect: true }) layout: Layout = "vertical";
 
   /**
-   * Specifies the label of the expand icon when the component is not expanded.
+   * Specifies the label of the expand icon when the component is collapsed.
    */
   @Prop() intlExpand?: string;
 
@@ -67,7 +67,7 @@ export class ActionPad implements ConditionalSlotComponent {
   @Prop() intlCollapse?: string;
 
   /**
-   * Arranges the component depending on the elements `dir` property.
+   * Arranges the component depending on the element's `dir` property.
    */
   @Prop({ reflect: true }) position: Position;
 

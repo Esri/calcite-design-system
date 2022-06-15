@@ -34,7 +34,7 @@ export class Accordion {
   /** Specifies the type of the icon in the header. */
   @Prop({ reflect: true }) iconType: "chevron" | "caret" | "plus-minus" = "chevron";
 
-  /** Specifies the scale of the component. */
+  /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
 
   /**
