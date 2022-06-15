@@ -196,16 +196,16 @@ export class Alert {
   //--------------------------------------------------------------------------
 
   /* Fired when an alert is requested to be closed and before the closing transition begins. */
-  @Event() calciteAlertBeforeClosing: EventEmitter;
+  @Event() calciteAlertBeforeClose: EventEmitter;
 
   /* Fired when an alert has been closed and animation is complete */
-  @Event() calciteAlertIsClosed: EventEmitter;
+  @Event() calciteAlertClose: EventEmitter;
 
   /* Fired while alert is still invisible but was added to the DOM, and before the opening transition begins. */
-  @Event() calciteAlertBeforeOpening: EventEmitter;
+  @Event() calciteAlertBeforeOpen: EventEmitter;
 
   /* Fired when an alert has been opened and animation is complete */
-  @Event() calciteAlertIsOpen: EventEmitter;
+  @Event() calciteAlertOpen: EventEmitter;
 
   /**
    * Fired to sync queue when opened or closed
@@ -364,10 +364,10 @@ export class Alert {
       queue: this.queue
     };
     const emitComponentState = {
-      beforeOpening: () => this.calciteAlertBeforeOpening.emit(payload),
-      isOpen: () => this.calciteAlertIsOpen.emit(payload),
-      beforeClosing: () => this.calciteAlertBeforeClosing.emit(payload),
-      isClosed: () => this.calciteAlertIsClosed.emit(payload)
+      beforeOpening: () => this.calciteAlertBeforeOpen.emit(payload),
+      isOpen: () => this.calciteAlertOpen.emit(payload),
+      beforeClosing: () => this.calciteAlertBeforeClose.emit(payload),
+      isClosed: () => this.calciteAlertClose.emit(payload)
     };
     (
       emitComponentState[componentVisibilityState] ||
