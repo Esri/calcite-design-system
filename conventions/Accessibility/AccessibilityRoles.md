@@ -72,11 +72,11 @@ The popup can be a `listbox`, `grid`, `tree`, or `dialog`. Superclass role of `s
 
 Learn more about the combobox role on [W3C](https://www.w3.org/TR/wai-aria-1.1/#combobox) and [MDN](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/combobox_role).
 
-#### Example
+#### Combobox example
 
-![combobox](https://user-images.githubusercontent.com/5023024/165993726-b047c80a-9a7c-443b-b1b0-7a9ddf6498b2.svg)
+<img src="https://user-images.githubusercontent.com/5023024/165993726-b047c80a-9a7c-443b-b1b0-7a9ddf6498b2.svg" alt="" />
 
-#### Code
+#### Combobox code
 
 ```html
 <!-- Combobox role example -->
@@ -97,7 +97,7 @@ Learn more about the combobox role on [W3C](https://www.w3.org/TR/wai-aria-1.1/#
 </ul>
 ```
 
-#### Keyboard functionality
+#### Keyboard functionality for Combobox
 
 | Key                      | Function                                                                                                                                                                                                                                                                                                                                                                                                                                        |
 | ------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -115,11 +115,11 @@ The `grid` role contains one or more rows of cells. The position of each cell is
 
 Learn more about the grid role on [W3C](https://www.w3.org/TR/wai-aria-1.1/#grid) and [MDN](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/grid_role).
 
-#### Example
+#### Grid Example
 
-![grid](https://user-images.githubusercontent.com/5023024/166739351-25082a7f-c7b9-47fe-91bb-353fb554a180.svg)
+<img src="https://user-images.githubusercontent.com/5023024/166739351-25082a7f-c7b9-47fe-91bb-353fb554a180.svg" alt="" />
 
-#### Code
+#### Grid Code
 
 ```html
 <!-- Grid role example 
@@ -165,7 +165,7 @@ Learn more about the grid role on [W3C](https://www.w3.org/TR/wai-aria-1.1/#grid
 </table>
 ```
 
-#### Keyboard functionality
+#### Keyboard functionality for Grid
 
 When a keyboard user encounters a `grid`, they navigate the rows and columns using the `←`, `→`, `↑` and `↓` keys.
 
@@ -192,11 +192,11 @@ The `listbox` role is used for lists from which a user may select one or more it
 
 Learn more about the listbox role on [W3C](https://www.w3.org/TR/wai-aria-1.1/#listbox) and [MDN](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/listbox_role).
 
-#### Example
+#### Listbox Example
 
-![listbox](https://user-images.githubusercontent.com/5023024/166012949-d4e16d17-48c2-40a1-a856-35676eb9c884.svg)
+<img src="https://user-images.githubusercontent.com/5023024/166012949-d4e16d17-48c2-40a1-a856-35676eb9c884.svg" alt="" />
 
-#### Code
+#### Listbox Code
 
 ```html
 <!-- Listbox role example -->
@@ -218,7 +218,7 @@ Learn more about the listbox role on [W3C](https://www.w3.org/TR/wai-aria-1.1/#l
 </ul>
 ```
 
-#### Keyboard functionality
+#### Keyboard functionality for Listbox
 
 _Single selection_:
 
@@ -257,11 +257,11 @@ For keyboard accessibility, authors **should** manage focus of descendants for a
 
 Learn more about the menu role on [W3C](https://www.w3.org/TR/wai-aria-1.1/#menu) and [MDN](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/menu_role).
 
-#### Example
+#### Menu Example
 
-![menu](https://user-images.githubusercontent.com/5023024/166055572-44d789c3-b0eb-40d0-9986-e82f6d1fd701.svg)
+<img src="https://user-images.githubusercontent.com/5023024/166055572-44d789c3-b0eb-40d0-9986-e82f6d1fd701.svg" alt="" />
 
-#### Code
+#### Menu Code
 
 ```html
 <!-- Menu role example -->
@@ -287,7 +287,7 @@ Learn more about the menu role on [W3C](https://www.w3.org/TR/wai-aria-1.1/#menu
 </div>
 ```
 
-#### Keyboard functionality
+#### Keyboard functionality for Menu
 
 | Key                   | Function                                                                                                                                                   |
 | --------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -307,11 +307,11 @@ The `menubar` role is a presentation of a menu that usually remains visible and 
 
 Learn more about the menubar role on [W3C](https://www.w3.org/TR/wai-aria-1.1/#menubar) and [MDN](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/menubar_role).
 
-#### Example
+#### Menubar Example
 
-![menubar](https://user-images.githubusercontent.com/5023024/166061531-f27ffc8b-14fd-45e2-bc14-04609987e420.svg)
+<img src="https://user-images.githubusercontent.com/5023024/166061531-f27ffc8b-14fd-45e2-bc14-04609987e420.svg" alt="" />
 
-#### Code
+#### Menubar Code
 
 ```html
 <!-- Menubar role example -->
@@ -350,7 +350,7 @@ Learn more about the menubar role on [W3C](https://www.w3.org/TR/wai-aria-1.1/#m
 </nav>
 ```
 
-#### Keyboard functionality
+#### Keyboard functionality for Menubar
 
 | Key                   | Function                                                                                                                                                                                                                      |
 | --------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -373,11 +373,11 @@ The `radiogroup` role is a group of radio buttons.
 
 Learn more about the radiogroup role on [W3C](https://www.w3.org/TR/wai-aria-1.1/#radiogroup) and [MDN](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/radiogroup_role).
 
-#### Example
+#### Radiogroup Example
 
-![radiogroup-with-text](https://user-images.githubusercontent.com/5023024/166739360-091a7211-e230-46b5-9bdf-01f44d108599.svg)
+<img src="https://user-images.githubusercontent.com/5023024/166739360-091a7211-e230-46b5-9bdf-01f44d108599.svg" alt="" />
 
-#### a. Code: `radiogroup` role
+#### a. Radiogroup Code
 
 ```html
 <!-- Radiogroup role example -->
@@ -397,7 +397,7 @@ Learn more about the radiogroup role on [W3C](https://www.w3.org/TR/wai-aria-1.1
 </ul>
 ```
 
-#### b. Code: Semantic HTML
+#### b. Radiogroup Code in Semantic HTML
 
 ```html
 <fieldset>
@@ -421,7 +421,7 @@ Learn more about the radiogroup role on [W3C](https://www.w3.org/TR/wai-aria-1.1
 </fieldset>
 ```
 
-#### Keyboard functionality
+#### Keyboard functionality for Radiogroup
 
 | Key             | Function                            |
 | --------------- | ----------------------------------- |
@@ -438,11 +438,11 @@ Each `tab` in a `tablist` serves as a label for one `tabpanel` and can be activa
 
 Learn more about the tablist role on [W3C](https://www.w3.org/TR/wai-aria-1.1/#tablist) and [MDN](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/tablist_role).
 
-#### Example
+#### Tablist Example
 
-![tablist](https://user-images.githubusercontent.com/5023024/166065017-5d961407-f1cc-48f0-90ba-42b03941c586.svg)
+<img src="https://user-images.githubusercontent.com/5023024/166065017-5d961407-f1cc-48f0-90ba-42b03941c586.svg" alt="" />
 
-#### Code
+#### Tablist Code
 
 ```html
 <!-- Tablist role example -->
@@ -460,7 +460,7 @@ Learn more about the tablist role on [W3C](https://www.w3.org/TR/wai-aria-1.1/#t
 </div>
 ```
 
-#### Keyboard functionality
+#### Keyboard functionality for Tablist
 
 If the `tablist` is horizontal, it does not listen for `↓` or `↑` so those keys can provide their normal browser scrolling functions even when focus is inside the `tablist`.
 
@@ -485,11 +485,11 @@ A `tree` is a widget that allows the user to select one or more items from a hie
 
 Learn more about the tree role on [W3C](https://www.w3.org/TR/wai-aria-1.1/#tree) and [MDN](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/tree_role).
 
-#### Example
+#### Tree Example
 
-![tree](https://user-images.githubusercontent.com/5023024/166065082-975ba9a2-2951-4bf5-854d-240dbd9d0fe6.svg)
+<img src="https://user-images.githubusercontent.com/5023024/166065082-975ba9a2-2951-4bf5-854d-240dbd9d0fe6.svg" alt="" />
 
-#### Code
+#### Tree Code
 
 ```html
 <!-- Tree role example -->
@@ -560,7 +560,7 @@ Learn more about the tree role on [W3C](https://www.w3.org/TR/wai-aria-1.1/#tree
 </nav>
 ```
 
-#### Keyboard functionality
+#### Keyboard functionality for Tree
 
 For a vertically oriented `tree`, which is the default orientation:
 
@@ -588,11 +588,11 @@ It is important for all cells to be able to receive or contain keyboard focus be
 
 Learn more about the treegrid role on [W3C](https://www.w3.org/TR/wai-aria-1.1/#treegrid) and [MDN](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/treegrid_role).
 
-#### Example
+#### Treegrid Example
 
-![treegrid](https://user-images.githubusercontent.com/5023024/166065105-033dce9e-52e0-4a69-b879-849edd1ec711.svg)
+<img src="https://user-images.githubusercontent.com/5023024/166065105-033dce9e-52e0-4a69-b879-849edd1ec711.svg" alt="" />
 
-##### Code
+##### Treegrid Code
 
 ```html
 <!-- Treegrid role example -->
@@ -640,7 +640,7 @@ Learn more about the treegrid role on [W3C](https://www.w3.org/TR/wai-aria-1.1/#
 </table>
 ```
 
-#### Keyboard functionality
+#### Keyboard functionality for Treegrid
 
 Recommended selection model, holding modifier keys, such as `Shift` or `ctrl`, is not necessary:
 

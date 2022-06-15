@@ -22,17 +22,17 @@ Large text equates 18pt or 14pt bold and greater. Regular sized text is anything
 
 When designing components, it is important to use a combination of color, shapes, and text to indicate states and statuses, such as keyboard focus, form validation, and alerts. Using these other elements provides a secondary indicator in the event a color cannot be seen.
 
-### Who does this help?
+### Who does color help?
 
 Approximately 300 million people in the world have some type of color vision deficiency. Color vision deficiency diminishes an individual's ability to distinguish between certain colors and may prevent them from seeing certain colors all together.
 
-### Resources
+### Color resources
 
 - [Color Contrast Checker](https://coolors.co/contrast-checker/000000-73777d)
 - [Adobe Color](https://coolors.co/contrast-checker/000000-73777d)
 - [Color Oracle](https://colororacle.org/)
 
-### Relevant WCAG Success Criteria
+### WCAG Success Criteria for Color
 
 - [1.4.1 Use of Color](https://www.w3.org/TR/WCAG21/#use-of-color)
 - [1.4.3 Contrast (Minimum)](https://www.w3.org/TR/WCAG21/#contrast-minimum)
@@ -50,11 +50,11 @@ Keeping text aligned to the left (or right in certain languages) and limiting th
 
 Consider how text will reflow within components if the words become longer in translations or get bigger because an individual has changed their browser or operating system base font size. Within WCAG it's expected that text should be able to scale up to 200% without loss of content or functionality.
 
-### Who does this help?
+### Who does typography help?
 
 Smart typography choices can improve readability for individuals with dyslexia, cognitive disabilities, or those who have low vision and may be using zoom tools to navigate an app or web page.
 
-### Resources
+### Typography resources
 
 - [Zoom Magnifier (Mac)](https://support.apple.com/en-us/HT210978)
 - [Magnifier](https://support.microsoft.com/en-us/windows/use-magnifier-to-make-things-on-the-screen-easier-to-see-414948ba-8b1c-d3bd-8615-0e5e32204198)
@@ -78,7 +78,7 @@ Link text should be meaningful and inform the individual where the link will tak
 
 Body links should be denoted with a style other than color and should either avoid opening in a new tab or display an indicator, such as an icon or supporting text, that communicates it as such.
 
-![link-new-tab](https://user-images.githubusercontent.com/5023024/171473221-4d0bfe41-c7cb-47e8-99c5-12ebbe872199.svg)
+<img src="https://user-images.githubusercontent.com/5023024/171473221-4d0bfe41-c7cb-47e8-99c5-12ebbe872199.svg" alt="" />
 
 ### Navigation
 
@@ -88,15 +88,15 @@ Navigation should remain consistent when moving linearly on a page; nothing shou
 
 When navigating via keyboard, focus order should be logical and generally follow the visual order of the page.
 
-### Who does this help?
+### Who does information hierarchy help?
 
 A well thought out page structure helps all users, especially those who navigate with assistive technologies to better understand the content and what native shortcuts are available within their tools.
 
-### Resources
+### Information hierarchy resources
 
 - [The Accessibility Tree](https://web.dev/the-accessibility-tree/)
 
-### Relevant WCAG Success Criteria
+### WCAG Success Criteria for Information hierarchy
 
 - [1.3.1 Info and Relationships](https://www.w3.org/TR/WCAG21/#info-and-relationships)
 - [1.3.2 Meaningful Sequence](https://www.w3.org/TR/WCAG21/#meaningful-sequence)
@@ -122,7 +122,7 @@ Placeholder text should not be used as a replacement for labels as it vanishes u
 
 Elements that are grouped need to be associated with related form controls, such as `<fieldset>` and `<legend>`. Examples include radio button groups, grouped checkboxes, and related form fields.
 
-![fieldset-form](https://user-images.githubusercontent.com/5023024/171473214-3b1824dc-553e-4d6d-8ce5-57a2d68e1d23.svg)
+<img src="https://user-images.githubusercontent.com/5023024/171473214-3b1824dc-553e-4d6d-8ce5-57a2d68e1d23.svg" alt="" />
 
 ### Form fields
 
@@ -147,19 +147,19 @@ Displaying form validation errors next to the field, which has triggered the mes
 - Including a count of errors in the summary helps all users, in particular those with cognitive disabilities.
 - After establishing an error pattern, it should be used consistently throughout the interface. Icons and styling need to mean the same thing, no matter where the pattern is surfaced.
 
-![error-handling](https://user-images.githubusercontent.com/5023024/171473203-9a60e718-d5dd-4e31-9a34-03cd1580fe40.svg)
+<img src="https://user-images.githubusercontent.com/5023024/171473203-9a60e718-d5dd-4e31-9a34-03cd1580fe40.svg" alt="" />
 
 ### Touch zones
 
 Being able to use mobile and touchscreen devices is valuable for individuals with physical or motor disabilities. Interactive elements should not require precise touch points and a best practice within mobile to use 44x44 px touch zones.
 
-![touch-zones](https://user-images.githubusercontent.com/5023024/171473228-345c2b4d-c5d3-44fa-b9bb-04440d621990.svg)
+<img src="https://user-images.githubusercontent.com/5023024/171473228-345c2b4d-c5d3-44fa-b9bb-04440d621990.svg" alt="" />
 
-### Who does this help?
+### Who does form accessibility help?
 
 A well-designed form can be helpful to all users. Whereas poorly designed forms can add hurdles for those with cognitive disabilities or those who need to navigate by keyboard.
 
-### Relevant WCAG Success Criteria
+### WCAG Success Criteria for Forms
 
 - [1.3.1 Info and Relationships](https://www.w3.org/TR/WCAG21/#info-and-relationships)
 - [1.3.2 Meaningful Sequence](https://www.w3.org/TR/WCAG21/#meaningful-sequence)
@@ -199,11 +199,11 @@ If the icon is decorative and describing it would be redundant to surrounding co
 
 While not always possible due to mobile or internationalization, it is best practice to include a visible label with icons in buttons as this reduces the guesswork of an icon's label when using voice dictation software.
 
-### Who does this help?
+### Who does image accessibility help?
 
 Adding alternative text to graphics benefits anyone who may be using a screen reader or voice dictation software to navigate and interact with content.
 
-### Relevant WCAG Success Criteria
+### WCAG Success Criteria for Images
 
 - [1.1.1 Non-Text content](https://www.w3.org/TR/WCAG21/#non-text-content)
 - [1.3.1 Info and Relationships](https://www.w3.org/TR/WCAG21/#info-and-relationships)
@@ -218,11 +218,11 @@ Adding alternative text to graphics benefits anyone who may be using a screen re
 - Auto-playing content is often considered distracting, especially if audio is involved.
 - Content should not flash or blink more than three times per second to avoid triggering photo-epileptic seizures.
 
-### Who does it help?
+### Who does animation help?
 
 For individuals who have motion sensitivities, whether that rooted in a vestibular disorder, migraines, or other factors, moving interfaces may cause dizziness, headaches, nausea, or even seizures.
 
-### Relevant Success Criteria
+### WCAG Success Criteria for Animation
 
 - [1.3.3 Sensory Characteristics](https://www.w3.org/TR/WCAG21/#sensory-characteristics)
 - [1.4.2 Audio Control](https://www.w3.org/TR/WCAG21/#audio-control)
@@ -240,11 +240,11 @@ Instructions for understanding and interacting with an interface should not rely
 
 Error text should be descriptive and should not remove any visible instruction. If a form field has help text and form validation, they should both be able to be viewed at the same time.
 
-### Who does it help?
+### Who does writing and labels help?
 
 Providing clear and unambiguous content, instructions and/or labels benefits everyone in better understanding an interface, but it can be particularly useful to those with cognitive, language, or learning disabilities, or those navigating an interface in a non-linear way.
 
-### Relevant WCAG Success Criteria
+### WCAG Success Criteria for Writing and labels
 
 - [1.3.1 Info and Relationships](https://www.w3.org/TR/WCAG21/#info-and-relationships)
 - [1.3.2 Meaningful Sequence](https://www.w3.org/TR/WCAG21/#meaningful-sequence)

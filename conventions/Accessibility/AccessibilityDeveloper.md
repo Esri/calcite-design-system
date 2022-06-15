@@ -1,7 +1,7 @@
 # Developer Quick Start Guide
 
 1. **[Shadow DOM](#1-shadow-dom)**
-2. **[Testing](#2-testing)**: [Adding a test](#adding-a-test) | [Failed test example](#failed-test-example) | [How to test](#how-to-test)
+2. **[Tests](#2-tests)**: [Adding a test](#adding-a-test) | [Failed test example](#failed-test-example) | [How to test](#how-to-test)
 3. **[Storybook](#3-storybook)**: [Adding a new story](#add-a-new-story)
 
 ## 1. Shadow DOM
@@ -56,7 +56,7 @@ However, you _could_ extend the native element to allow an association.
 
 [scroll to top](#developer-quick-start-guide)
 
-## 2. Testing
+## 2. Tests
 
 **The best tools only find 30% of known issues**, so they can't be relied upon. But they can be the first step towards accessibility.
 
