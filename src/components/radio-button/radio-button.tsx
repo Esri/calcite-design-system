@@ -12,7 +12,7 @@ import {
   Watch
 } from "@stencil/core";
 import { guid } from "../../utils/guid";
-import { focusElement, getElementDir } from "../../utils/dom";
+import { focusElement, getElementDir, toAriaBoolean } from "../../utils/dom";
 import { Scale } from "../interfaces";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import {
@@ -64,6 +64,7 @@ export class RadioButton
 
   /**
    * The focused state of the radio button.
+   *
    * @internal
    */
   @Prop({ mutable: true, reflect: true }) focused = false;
@@ -76,12 +77,14 @@ export class RadioButton
 
   /**
    * The hovered state of the radio button.
+   *
    * @internal
    */
   @Prop({ reflect: true, mutable: true }) hovered = false;
 
   /**
    * The label of the radio input
+   *
    * @internal
    */
   @Prop() label?: string;
@@ -160,6 +163,7 @@ export class RadioButton
     }
     this.uncheckAllRadioButtonsInGroup();
     this.checked = true;
+    this.focused = true;
     this.calciteRadioButtonChange.emit();
     this.setFocus();
   };
@@ -251,6 +255,7 @@ export class RadioButton
 
   /**
    * Fires when the radio button is blurred.
+   *
    * @internal
    */
   @Event() calciteInternalRadioButtonBlur: EventEmitter;
@@ -266,12 +271,14 @@ export class RadioButton
   /**
    * Fires when the checked property changes.  This is an internal event used for styling purposes only.
    * Use calciteRadioButtonChange or calciteRadioButtonGroupChange for responding to changes in the checked value for forms.
+   *
    * @internal
    */
   @Event() calciteInternalRadioButtonCheckedChange: EventEmitter;
 
   /**
    * Fires when the radio button is focused.
+   *
    * @internal
    */
   @Event() calciteInternalRadioButtonFocus: EventEmitter;
@@ -406,7 +413,7 @@ export class RadioButton
     return (
       <Host onClick={this.clickHandler} onKeyDown={this.handleKeyDown}>
         <div
-          aria-checked={this.checked.toString()}
+          aria-checked={toAriaBoolean(this.checked)}
           aria-label={getLabelText(this)}
           class={CSS.container}
           onBlur={this.onContainerBlur}

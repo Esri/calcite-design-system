@@ -1,5 +1,5 @@
 import { Component, Element, Host, Method, Prop, State, Watch, h, VNode } from "@stencil/core";
-import { CSS, TOOLTIP_REFERENCE, ARIA_DESCRIBED_BY } from "./resources";
+import { CSS, ARIA_DESCRIBED_BY } from "./resources";
 import { StrictModifiers, Instance as Popper } from "@popperjs/core";
 import { guid } from "../../utils/guid";
 import {
@@ -8,9 +8,14 @@ import {
   createPopper,
   updatePopper,
   CSS as PopperCSS,
-  OverlayPositioning
+  OverlayPositioning,
+  ReferenceElement
 } from "../../utils/popper";
-import { queryElementRoots } from "../../utils/dom";
+import { queryElementRoots, toAriaBoolean } from "../../utils/dom";
+
+import TooltipManager from "./TooltipManager";
+
+const manager = new TooltipManager();
 
 /**
  * @slot - A slot for adding text.
@@ -27,11 +32,15 @@ export class Tooltip {
   //
   // --------------------------------------------------------------------------
 
-  /** Accessible name for the component */
+  /** Closes the `calcite-tooltip` when the `referenceElement` is clicked. */
+  @Prop() closeOnClick = false;
+
+  /** Accessible name for the `calcite-tooltip`. */
   @Prop() label!: string;
 
   /**
-   * Offset the position of the tooltip away from the reference element.
+   * Offset the position of the `calcite-tooltip` away from the `referenceElement`.
+   *
    * @default 6
    */
   @Prop({ reflect: true }) offsetDistance = defaultOffsetDistance;
@@ -42,7 +51,7 @@ export class Tooltip {
   }
 
   /**
-   * Offset the position of the tooltip along the reference element.
+   * Offset the position of the `calcite-tooltip` along the `referenceElement`.
    */
   @Prop({ reflect: true }) offsetSkidding = 0;
 
@@ -52,7 +61,7 @@ export class Tooltip {
   }
 
   /**
-   * Display and position the component.
+   * When true, the `calcite-tooltip` is open.
    */
   @Prop({ reflect: true }) open = false;
 
@@ -61,11 +70,12 @@ export class Tooltip {
     this.reposition();
   }
 
-  /** Describes the type of positioning to use for the overlaid content. If your element is in a fixed container, use the 'fixed' value. */
+  /** Describes the positioning type to use for the overlaid content. If the `referenceElement` is in a fixed container, use the "fixed" value. */
   @Prop() overlayPositioning: OverlayPositioning = "absolute";
 
   /**
-   * Determines where the component will be positioned relative to the referenceElement.
+   * Determines where the component will be positioned relative to the `referenceElement`.
+   *
    * @see [PopperPlacement](https://github.com/Esri/calcite-components/blob/master/src/utils/popper.ts#L25)
    */
   @Prop({ reflect: true }) placement: PopperPlacement = "auto";
@@ -76,9 +86,9 @@ export class Tooltip {
   }
 
   /**
-   * Reference HTMLElement used to position this component according to the placement property. As a convenience, a string ID of the reference element can be used. However, setting this property to use an HTMLElement is preferred so that the component does not need to query the DOM for the referenceElement.
+   * The `referenceElement` to position `calcite-tooltip` according to its "placement" value. Setting to the `HTMLElement` is preferred so `calcite-tooltip` does not need to query the DOM for the `referenceElement`. However, a string ID of the reference element can be used.
    */
-  @Prop() referenceElement: HTMLElement | string;
+  @Prop() referenceElement: ReferenceElement | string;
 
   @Watch("referenceElement")
   referenceElementHandler(): void {
@@ -93,7 +103,7 @@ export class Tooltip {
 
   @Element() el: HTMLCalciteTooltipElement;
 
-  @State() effectiveReferenceElement: HTMLElement;
+  @State() effectiveReferenceElement: ReferenceElement;
 
   arrowEl: HTMLDivElement;
 
@@ -176,8 +186,10 @@ export class Tooltip {
 
     const id = this.getId();
 
-    effectiveReferenceElement.setAttribute(TOOLTIP_REFERENCE, id);
-    effectiveReferenceElement.setAttribute(ARIA_DESCRIBED_BY, id);
+    if ("setAttribute" in effectiveReferenceElement) {
+      effectiveReferenceElement.setAttribute(ARIA_DESCRIBED_BY, id);
+    }
+    manager.registerElement(effectiveReferenceElement, this.el);
   };
 
   removeReferences = (): void => {
@@ -187,19 +199,13 @@ export class Tooltip {
       return;
     }
 
-    effectiveReferenceElement.removeAttribute(TOOLTIP_REFERENCE);
-    effectiveReferenceElement.removeAttribute(ARIA_DESCRIBED_BY);
+    if ("removeAttribute" in effectiveReferenceElement) {
+      effectiveReferenceElement.removeAttribute(ARIA_DESCRIBED_BY);
+    }
+    manager.unregisterElement(effectiveReferenceElement);
   };
 
-  show = (): void => {
-    this.open = true;
-  };
-
-  hide = (): void => {
-    this.open = false;
-  };
-
-  getReferenceElement(): HTMLElement {
+  getReferenceElement(): ReferenceElement {
     const { referenceElement, el } = this;
 
     return (
@@ -274,7 +280,7 @@ export class Tooltip {
 
     return (
       <Host
-        aria-hidden={hidden.toString()}
+        aria-hidden={toAriaBoolean(hidden)}
         aria-label={label}
         calcite-hydrated-hidden={hidden}
         id={this.getId()}

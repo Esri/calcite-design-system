@@ -63,6 +63,49 @@ describe("calcite-input-date-picker", () => {
       const element = await page.find("calcite-input-date-picker");
       expect(await element.getProperty("value")).toBe("2020-03-07");
       expect(await element.getProperty("valueAsDate")).toBeDefined();
+
+      // emit when date cleared
+      await input.press("Backspace");
+      await input.press("Backspace");
+      await input.press("Backspace");
+      await input.press("Backspace");
+      await page.waitForChanges();
+      expect(changeEvent).toHaveReceivedEventTimes(8);
+      expect(deprecatedChangeEvent).toHaveReceivedEventTimes(8);
+
+      expect(await element.getProperty("value")).toBe("");
+      expect(await element.getProperty("valueAsDate")).toBeUndefined();
+    });
+
+    it("doesn't emit when cleared programmatically for single date", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`<calcite-input-date-picker value="2023-03-07"></calcite-input-date-picker>`);
+      const element = await page.find("calcite-input-date-picker");
+      element.setProperty("value", "");
+      await page.waitForChanges();
+      const changeEvent = await page.spyOnEvent("calciteInputDatePickerChange");
+      const deprecatedChangeEvent = await page.spyOnEvent("calciteDatePickerChange");
+
+      expect(changeEvent).toHaveReceivedEventTimes(0);
+      expect(deprecatedChangeEvent).toHaveReceivedEventTimes(0);
+      expect(await element.getProperty("value")).toBe("");
+      expect(await element.getProperty("valueAsDate")).toBeUndefined();
+    });
+
+    it("doesn't emit when cleared programmatically for date range", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`<calcite-input-date-picker range></calcite-input-date-picker>`);
+      const element = await page.find("calcite-input-date-picker");
+      const changeEvent = await page.spyOnEvent("calciteInputDatePickerChange");
+      const deprecatedChangeEvent = await page.spyOnEvent("calciteDatePickerRangeChange");
+      element.setProperty("value", ["2023-03-07", "2023-03-08"]);
+      await page.waitForChanges();
+      expect(changeEvent).toHaveReceivedEventTimes(0);
+      expect(deprecatedChangeEvent).toHaveReceivedEventTimes(0);
+      element.setProperty("value", ["", ""]);
+      await page.waitForChanges();
+      expect(changeEvent).toHaveReceivedEventTimes(0);
+      expect(deprecatedChangeEvent).toHaveReceivedEventTimes(0);
     });
 
     it("emits when configured for date range", async () => {
@@ -106,6 +149,17 @@ describe("calcite-input-date-picker", () => {
       await page.waitForChanges();
       expect(await element.getProperty("start")).toBe("2020-03-07");
       expect(await element.getProperty("startAsDate")).toBeDefined();
+
+      // emit when date cleared
+      await input.press("Backspace");
+      await input.press("Backspace");
+      await input.press("Backspace");
+      await input.press("Backspace");
+      await page.waitForChanges();
+      expect(changeEvent).toHaveReceivedEventTimes(8);
+      expect(deprecatedChangeEvent).toHaveReceivedEventTimes(8);
+      expect(await element.getProperty("start")).toBeUndefined();
+      expect(await element.getProperty("startAsDate")).toBeNull();
     });
   });
 
@@ -148,10 +202,12 @@ describe("calcite-input-date-picker", () => {
   });
 
   describe("is form-associated", () => {
-    it("supports single value", () => formAssociated("calcite-input-date-picker", { testValue: "1985-03-23" }));
+    it("supports single value", () =>
+      formAssociated("calcite-input-date-picker", { testValue: "1985-03-23", submitsOnEnter: true }));
     it("supports range", () =>
       formAssociated(`<calcite-input-date-picker range name="calcite-input-date-picker"></calcite-input-date-picker>`, {
-        testValue: ["1985-03-23", "1985-10-30"]
+        testValue: ["1985-03-23", "1985-10-30"],
+        submitsOnEnter: true
       }));
   });
 

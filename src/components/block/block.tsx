@@ -1,6 +1,6 @@
 import { Component, Element, Event, EventEmitter, h, Host, Prop, VNode } from "@stencil/core";
 import { CSS, HEADING_LEVEL, ICONS, SLOTS, TEXT } from "./resources";
-import { getSlotted } from "../../utils/dom";
+import { getSlotted, toAriaBoolean } from "../../utils/dom";
 import { Heading, HeadingLevel } from "../functional/Heading";
 import { Status } from "../interfaces";
 import {
@@ -55,21 +55,29 @@ export class Block implements ConditionalSlotComponent, InteractiveComponent {
   @Prop() headingLevel: HeadingLevel;
 
   /**
-   * Tooltip used for the toggle when expanded.
+   * Aria-label for collapsing the toggle and tooltip used for the toggle when expanded.
+   *
+   * @default "Collapse"
    */
-  @Prop() intlCollapse?: string;
+  @Prop() intlCollapse?: string = TEXT.collapse;
 
   /**
-   * Tooltip used for the toggle when collapsed.
+   * Aria-label for expanding the toggle and tooltip used for the toggle when collapsed.
+   *
+   * @default "Expand"
    */
-  @Prop() intlExpand?: string;
+  @Prop() intlExpand?: string = TEXT.expand;
 
-  /** string to override English loading text
+  /**
+   * string to override English loading text
+   *
    * @default "Loading"
    */
   @Prop() intlLoading?: string = TEXT.loading;
 
-  /** Text string used for the actions menu
+  /**
+   * Text string used for the actions menu
+   *
    * @default "Options"
    */
   @Prop() intlOptions?: string = TEXT.options;
@@ -228,7 +236,7 @@ export class Block implements ConditionalSlotComponent, InteractiveComponent {
         {collapsible ? (
           <button
             aria-controls={regionId}
-            aria-expanded={collapsible ? open.toString() : null}
+            aria-expanded={collapsible ? toAriaBoolean(open) : null}
             aria-label={toggleLabel}
             class={CSS.toggle}
             id={buttonId}
@@ -266,14 +274,14 @@ export class Block implements ConditionalSlotComponent, InteractiveComponent {
     return (
       <Host>
         <article
-          aria-busy={loading.toString()}
+          aria-busy={toAriaBoolean(loading)}
           class={{
             [CSS.article]: true
           }}
         >
           {headerNode}
           <section
-            aria-expanded={this.open.toString()}
+            aria-expanded={toAriaBoolean(open)}
             aria-labelledby={buttonId}
             class={CSS.content}
             hidden={!open}

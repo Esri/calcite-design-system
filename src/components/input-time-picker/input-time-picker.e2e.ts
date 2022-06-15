@@ -295,5 +295,6 @@ describe("calcite-input-time-picker", () => {
     expect(await inputTimePicker.getProperty("value")).toBeUndefined();
   });
 
-  it("is form-associated", () => formAssociated("calcite-input-time-picker", { testValue: "03:23" }));
+  it("is form-associated", () =>
+    formAssociated("calcite-input-time-picker", { testValue: "03:23", submitsOnEnter: true }));
 });

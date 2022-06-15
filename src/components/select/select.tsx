@@ -188,8 +188,8 @@ export class Select implements LabelableComponent, FormComponent, InteractiveCom
     requestAnimationFrame(() => this.emitChangeEvent());
   };
 
-  @Listen("calciteOptionChange")
-  @Listen("calciteOptionGroupChange")
+  @Listen("calciteInternalOptionChange")
+  @Listen("calciteInternalOptionGroupChange")
   protected handleOptionOrGroupChange(event: CustomEvent): void {
     event.stopPropagation();
 

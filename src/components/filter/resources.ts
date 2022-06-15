@@ -1,7 +1,6 @@
 export const CSS = {
   container: "container",
-  searchIcon: "search-icon",
-  clearButton: "clear-button"
+  searchIcon: "search-icon"
 };
 
 export const TEXT = {

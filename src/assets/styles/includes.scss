@@ -56,3 +56,11 @@
     }
   }
 }
+
+// mixin to provide default invisibility and disabling of pointer events for components.
+@mixin calciteHydratedHidden() {
+  :host([calcite-hydrated-hidden]) {
+    visibility: hidden !important; // 'important' is being used here to temporarily handle precendence of visibility set with calcite-hydrated. Do not follow this pattern. See #991.
+    pointer-events: none;
+  }
+}

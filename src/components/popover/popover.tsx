@@ -17,7 +17,6 @@ import {
   ARIA_CONTROLS,
   ARIA_EXPANDED,
   HEADING_LEVEL,
-  POPOVER_REFERENCE,
   TEXT,
   defaultPopoverPlacement
 } from "./resources";
@@ -29,12 +28,17 @@ import {
   CSS as PopperCSS,
   OverlayPositioning,
   ComputedPlacement,
-  filterComputedPlacements
+  filterComputedPlacements,
+  ReferenceElement
 } from "../../utils/popper";
 import { StrictModifiers, Instance as Popper } from "@popperjs/core";
 import { guid } from "../../utils/guid";
-import { queryElementRoots } from "../../utils/dom";
+import { queryElementRoots, toAriaBoolean } from "../../utils/dom";
 import { HeadingLevel, Heading } from "../functional/Heading";
+
+import PopoverManager from "./PopoverManager";
+
+const manager = new PopoverManager();
 
 /**
  * @slot - A slot for adding custom content.
@@ -52,7 +56,13 @@ export class Popover {
   // --------------------------------------------------------------------------
 
   /**
+   * Automatically closes any currently open popovers when clicking outside of a popover.
+   */
+  @Prop({ reflect: true }) autoClose = false;
+
+  /**
    * Display a close button within the Popover.
+   *
    * @deprecated use dismissible instead.
    */
   @Prop({ reflect: true }) closeButton = false;
@@ -97,6 +107,7 @@ export class Popover {
 
   /**
    * Offset the position of the popover away from the reference element.
+   *
    * @default 6
    */
   @Prop({ reflect: true }) offsetDistance = defaultOffsetDistance;
@@ -132,6 +143,7 @@ export class Popover {
 
   /**
    * Determines where the component will be positioned relative to the referenceElement.
+   *
    * @see [PopperPlacement](https://github.com/Esri/calcite-components/blob/master/src/utils/popper.ts#L25)
    */
   @Prop({ reflect: true }) placement: PopperPlacement = defaultPopoverPlacement;
@@ -144,14 +156,21 @@ export class Popover {
   /**
    * Reference HTMLElement used to position this component according to the placement property. As a convenience, a string ID of the reference element can be used. However, setting this property to use an HTMLElement is preferred so that the component does not need to query the DOM for the referenceElement.
    */
-  @Prop() referenceElement!: HTMLElement | string;
+  @Prop() referenceElement!: ReferenceElement | string;
 
   @Watch("referenceElement")
   referenceElementHandler(): void {
     this.setUpReferenceElement();
   }
 
-  /** Text for close button.
+  /**
+   * Disables automatically toggling a popover when its referenceElement has been triggered. This property can be set to true to manage when a popover is open.
+   */
+  @Prop({ reflect: true }) triggerDisabled = false;
+
+  /**
+   * Text for close button.
+   *
    * @default "Close"
    */
   @Prop() intlClose = TEXT.close;
@@ -166,7 +185,7 @@ export class Popover {
 
   @Element() el: HTMLCalcitePopoverElement;
 
-  @State() effectiveReferenceElement: HTMLElement;
+  @State() effectiveReferenceElement: ReferenceElement;
 
   popper: Popper;
 
@@ -234,7 +253,11 @@ export class Popover {
       : this.createPopper();
   }
 
-  /** Sets focus on the component. */
+  /**
+   * Sets focus on the component.
+   *
+   * @param focusId
+   */
   @Method()
   async setFocus(focusId?: "close-button"): Promise<void> {
     const { closeButtonEl } = this;
@@ -249,7 +272,11 @@ export class Popover {
     this.el?.focus();
   }
 
-  /** Toggles the popover's open property. */
+  /**
+   * Toggles the popover's open property.
+   *
+   * @param value
+   */
   @Method()
   async toggle(value = !this.open): Promise<void> {
     this.open = value;
@@ -295,7 +322,9 @@ export class Popover {
       return;
     }
 
-    effectiveReferenceElement.setAttribute(ARIA_EXPANDED, open.toString());
+    if ("setAttribute" in effectiveReferenceElement) {
+      effectiveReferenceElement.setAttribute(ARIA_EXPANDED, toAriaBoolean(open));
+    }
   };
 
   addReferences = (): void => {
@@ -307,8 +336,10 @@ export class Popover {
 
     const id = this.getId();
 
-    effectiveReferenceElement.setAttribute(POPOVER_REFERENCE, id);
-    effectiveReferenceElement.setAttribute(ARIA_CONTROLS, id);
+    if ("setAttribute" in effectiveReferenceElement) {
+      effectiveReferenceElement.setAttribute(ARIA_CONTROLS, id);
+    }
+    manager.registerElement(effectiveReferenceElement, this.el);
     this.setExpandedAttr();
   };
 
@@ -319,12 +350,14 @@ export class Popover {
       return;
     }
 
-    effectiveReferenceElement.removeAttribute(POPOVER_REFERENCE);
-    effectiveReferenceElement.removeAttribute(ARIA_CONTROLS);
-    effectiveReferenceElement.removeAttribute(ARIA_EXPANDED);
+    if ("removeAttribute" in effectiveReferenceElement) {
+      effectiveReferenceElement.removeAttribute(ARIA_CONTROLS);
+      effectiveReferenceElement.removeAttribute(ARIA_EXPANDED);
+    }
+    manager.unregisterElement(effectiveReferenceElement);
   };
 
-  getReferenceElement(): HTMLElement {
+  getReferenceElement(): ReferenceElement {
     const { referenceElement, el } = this;
 
     return (
@@ -422,7 +455,7 @@ export class Popover {
   // --------------------------------------------------------------------------
 
   renderCloseButton(): VNode {
-    const { dismissible, closeButton, intlClose } = this;
+    const { dismissible, closeButton, intlClose, heading } = this;
 
     return dismissible || closeButton ? (
       <div class={CSS.closeButtonContainer}>
@@ -430,9 +463,10 @@ export class Popover {
           class={CSS.closeButton}
           onClick={this.hide}
           ref={(closeButtonEl) => (this.closeButtonEl = closeButtonEl)}
+          scale={heading ? "s" : "m"}
           text={intlClose}
         >
-          <calcite-icon icon="x" scale="m" />
+          <calcite-icon icon="x" scale={heading ? "s" : "m"} />
         </calcite-action>
       </div>
     ) : null;
@@ -464,7 +498,7 @@ export class Popover {
 
     return (
       <Host
-        aria-hidden={hidden.toString()}
+        aria-hidden={toAriaBoolean(hidden)}
         aria-label={label}
         calcite-hydrated-hidden={hidden}
         id={this.getId()}

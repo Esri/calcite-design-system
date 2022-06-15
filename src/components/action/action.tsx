@@ -17,6 +17,7 @@ import { CSS, TEXT } from "./resources";
 
 import { createObserver } from "../../utils/observers";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import { toAriaBoolean } from "../../utils/dom";
 
 /**
  * @slot - A slot for adding a `calcite-icon`.
@@ -66,7 +67,9 @@ export class Action implements InteractiveComponent {
    */
   @Prop({ reflect: true }) indicator = false;
 
-  /** string to override English loading text
+  /**
+   * string to override English loading text
+   *
    * @default "Loading"
    */
   @Prop() intlLoading?: string = TEXT.loading;
@@ -104,6 +107,7 @@ export class Action implements InteractiveComponent {
 
   /**
    * Emitted when the action has been clicked.
+   *
    * @deprecated use onClick instead.
    */
   @Event() calciteActionClick: EventEmitter;
@@ -215,8 +219,8 @@ export class Action implements InteractiveComponent {
     return (
       <Host onClick={this.calciteActionClickHandler}>
         <button
-          aria-busy={loading.toString()}
-          aria-disabled={disabled.toString()}
+          aria-busy={toAriaBoolean(loading)}
+          aria-disabled={toAriaBoolean(disabled)}
           aria-label={ariaLabel}
           class={buttonClasses}
           disabled={disabled}

@@ -6,6 +6,7 @@ import { guid } from "./guid";
  *
  * If it already has an ID, it will be preserved, otherwise a unique one will be generated and assigned.
  *
+ * @param el
  * @returns {string} The element's ID.
  */
 export function ensureId(el: Element): string {
@@ -54,6 +55,8 @@ export function getHost(root: Document | ShadowRoot): Element | null {
 /**
  * This helper queries an element's rootNodes and any ancestor rootNodes.
  *
+ * @param element
+ * @param selector
  * @returns {Element[]} The elements.
  */
 export function queryElementsRoots<T extends Element = Element>(element: Element, selector: string): T[] {
@@ -89,6 +92,10 @@ export function queryElementsRoots<T extends Element = Element>(element: Element
  *
  * If both an 'id' and 'selector' are supplied, 'id' will take precedence over 'selector'.
  *
+ * @param element
+ * @param root0
+ * @param root0.selector
+ * @param root0.id
  * @returns {Element} The element.
  */
 export function queryElementRoots<T extends Element = Element>(
@@ -273,4 +280,16 @@ export function intersects(rect1: DOMRect, rect2: DOMRect): boolean {
     rect2.top > rect1.bottom ||
     rect2.bottom < rect1.top
   );
+}
+
+/**
+ * This helper makes sure that boolean aria attributes are properly converted to a string.
+ *
+ * It should only be used for aria attributes that require a string value of "true" or "false".
+ *
+ * @param value
+ * @returns {string} The string conversion of a boolean value ("true" | "false").
+ */
+export function toAriaBoolean(value: boolean): string {
+  return (!!value).toString();
 }

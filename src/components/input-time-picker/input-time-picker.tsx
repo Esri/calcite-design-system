@@ -17,7 +17,13 @@ import { formatTimeString, isValidTime, localizeTimeString } from "../../utils/t
 import { Scale } from "../interfaces";
 import { PopperPlacement } from "../../utils/popper";
 import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
-import { connectForm, disconnectForm, FormComponent, HiddenFormInputSlot } from "../../utils/form";
+import {
+  connectForm,
+  disconnectForm,
+  FormComponent,
+  HiddenFormInputSlot,
+  submitForm
+} from "../../utils/form";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 
 @Component({
@@ -47,7 +53,10 @@ export class InputTimePicker implements LabelableComponent, FormComponent, Inter
   activeHandler(): void {
     if (this.disabled) {
       this.active = false;
+      return;
     }
+
+    this.reposition();
   }
 
   /** The disabled state of the time input */
@@ -98,6 +107,7 @@ export class InputTimePicker implements LabelableComponent, FormComponent, Inter
 
   /**
    * BCP 47 language tag for desired language and country format
+   *
    * @internal
    */
   @Prop({ attribute: "lang", mutable: true }) locale: string =
@@ -123,6 +133,7 @@ export class InputTimePicker implements LabelableComponent, FormComponent, Inter
 
   /**
    * Determines where the popover will be positioned relative to the input.
+   *
    * @see [PopperPlacement](https://github.com/Esri/calcite-components/blob/master/src/utils/popper.ts#L25)
    */
   @Prop({ reflect: true }) placement: PopperPlacement = "auto";
@@ -164,6 +175,8 @@ export class InputTimePicker implements LabelableComponent, FormComponent, Inter
 
   private referenceElementId = `input-time-picker-${guid()}`;
 
+  popoverEl: HTMLCalcitePopoverElement;
+
   //--------------------------------------------------------------------------
   //
   //  State
@@ -189,7 +202,7 @@ export class InputTimePicker implements LabelableComponent, FormComponent, Inter
   //
   //--------------------------------------------------------------------------
 
-  private calciteInputBlurHandler = (): void => {
+  private calciteInternalInputBlurHandler = (): void => {
     this.active = false;
     const shouldIncludeSeconds = this.shouldIncludeSeconds();
 
@@ -203,8 +216,9 @@ export class InputTimePicker implements LabelableComponent, FormComponent, Inter
     );
   };
 
-  private calciteInputFocusHandler = (): void => {
+  private calciteInternalInputFocusHandler = (event: CustomEvent): void => {
     this.active = true;
+    event.stopPropagation();
   };
 
   private calciteInputInputHandler = (event: CustomEvent): void => {
@@ -227,11 +241,12 @@ export class InputTimePicker implements LabelableComponent, FormComponent, Inter
     }
   }
 
-  @Listen("calciteTimePickerBlur")
+  @Listen("calciteInternalTimePickerBlur")
   timePickerBlurHandler(event: CustomEvent): void {
     event.preventDefault();
     event.stopPropagation();
     this.active = false;
+    event.stopPropagation;
   }
 
   private timePickerChangeHandler = (event: CustomEvent): void => {
@@ -239,13 +254,15 @@ export class InputTimePicker implements LabelableComponent, FormComponent, Inter
     const target = event.target as HTMLCalciteTimePickerElement;
     const value = target.value;
     this.setValue({ value, origin: "time-picker" });
+    event.stopPropagation();
   };
 
-  @Listen("calciteTimePickerFocus")
+  @Listen("calciteInternalTimePickerFocus")
   timePickerFocusHandler(event: CustomEvent): void {
     event.preventDefault();
     event.stopPropagation();
     this.active = true;
+    event.stopPropagation;
   }
 
   // --------------------------------------------------------------------------
@@ -260,11 +277,23 @@ export class InputTimePicker implements LabelableComponent, FormComponent, Inter
     this.calciteInputEl.setFocus();
   }
 
+  /** Updates the position of the component. */
+  @Method()
+  async reposition(): Promise<void> {
+    this.popoverEl?.reposition();
+  }
+
   // --------------------------------------------------------------------------
   //
   //  Private Methods
   //
   // --------------------------------------------------------------------------
+
+  keyDownHandler = (event: KeyboardEvent): void => {
+    if (event.key === "Enter" && !event.defaultPrevented) {
+      submitForm(this);
+    }
+  };
 
   onLabelClick(): void {
     this.setFocus();
@@ -273,6 +302,10 @@ export class InputTimePicker implements LabelableComponent, FormComponent, Inter
   private shouldIncludeSeconds(): boolean {
     return this.step < 60;
   }
+
+  private setCalcitePopoverEl = (el: HTMLCalcitePopoverElement): void => {
+    this.popoverEl = el;
+  };
 
   private setCalciteInputEl = (el: HTMLCalciteInputElement): void => {
     this.calciteInputEl = el;
@@ -379,7 +412,7 @@ export class InputTimePicker implements LabelableComponent, FormComponent, Inter
   render(): VNode {
     const popoverId = `${this.referenceElementId}-popover`;
     return (
-      <Host>
+      <Host onKeyDown={this.keyDownHandler}>
         <div
           aria-controls={popoverId}
           aria-haspopup="dialog"
@@ -392,9 +425,9 @@ export class InputTimePicker implements LabelableComponent, FormComponent, Inter
             disabled={this.disabled}
             icon="clock"
             label={getLabelText(this)}
-            onCalciteInputBlur={this.calciteInputBlurHandler}
-            onCalciteInputFocus={this.calciteInputFocusHandler}
             onCalciteInputInput={this.calciteInputInputHandler}
+            onCalciteInternalInputBlur={this.calciteInternalInputBlurHandler}
+            onCalciteInternalInputFocus={this.calciteInternalInputFocusHandler}
             ref={this.setCalciteInputEl}
             scale={this.scale}
             step={this.step}
@@ -405,6 +438,7 @@ export class InputTimePicker implements LabelableComponent, FormComponent, Inter
           label="Time Picker"
           open={this.active}
           placement={this.placement}
+          ref={this.setCalcitePopoverEl}
           referenceElement={this.referenceElementId}
         >
           <calcite-time-picker
@@ -421,7 +455,7 @@ export class InputTimePicker implements LabelableComponent, FormComponent, Inter
             intlSecondDown={this.intlSecondDown}
             intlSecondUp={this.intlSecondUp}
             lang={this.locale}
-            onCalciteTimePickerChange={this.timePickerChangeHandler}
+            onCalciteInternalTimePickerChange={this.timePickerChangeHandler}
             ref={this.setCalciteTimePickerEl}
             scale={this.scale}
             step={this.step}

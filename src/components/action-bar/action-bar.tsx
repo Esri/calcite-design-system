@@ -63,7 +63,6 @@ export class ActionBar implements ConditionalSlotComponent {
   @Watch("expanded")
   expandedHandler(expanded: boolean): void {
     toggleChildActionText({ parent: this.el, expanded });
-    this.calciteActionBarToggle.emit();
   }
 
   /**
@@ -166,6 +165,7 @@ export class ActionBar implements ConditionalSlotComponent {
 
   /**
    * Overflows actions that won't fit into menus.
+   *
    * @internal
    */
   @Method()
@@ -173,7 +173,11 @@ export class ActionBar implements ConditionalSlotComponent {
     this.resize(this.el.clientHeight);
   }
 
-  /** Sets focus on the component. */
+  /**
+   * Sets focus on the component.
+   *
+   * @param focusId
+   */
   @Method()
   async setFocus(focusId?: "expand-toggle"): Promise<void> {
     if (focusId === "expand-toggle") {
@@ -247,6 +251,7 @@ export class ActionBar implements ConditionalSlotComponent {
 
   toggleExpand = (): void => {
     this.expanded = !this.expanded;
+    this.calciteActionBarToggle.emit();
   };
 
   setExpandToggleRef = (el: HTMLCalciteActionElement): void => {

@@ -108,7 +108,7 @@
 
 :host([range][layout="vertical"][scale="m"]) .vertical-arrow-container {
   top: theme("spacing.6");
-  @apply pl-3;
+  padding-inline-start: theme("spacing.3");
 
   calcite-icon {
     @apply h-3

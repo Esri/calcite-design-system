@@ -44,6 +44,9 @@ describe("calcite-dropdown", () => {
 
   /**
    * Test helper for selected calcite-dropdown items. Expects items to have IDs to test against.
+   *
+   * @param page
+   * @param expectedItemIds
    */
   async function assertSelectedItems(page: E2EPage, expectedItemIds: string[]): Promise<void> {
     const selectedItemIds = await page.evaluate(() => {
@@ -89,7 +92,6 @@ describe("calcite-dropdown", () => {
     const element = await page.find("calcite-dropdown");
     const group1 = await element.find("calcite-dropdown-group[id='group-1']");
     expect(element).toEqualAttribute("scale", "m");
-    expect(element).toEqualAttribute("width", "m");
     expect(element).toEqualAttribute("placement", "bottom-leading");
     expect(group1).toEqualAttribute("selection-mode", "single");
   });

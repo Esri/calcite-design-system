@@ -19,13 +19,13 @@ export class ListItemGroup {
   // --------------------------------------------------------------------------
 
   /**
-   * The title used for all nested `calcite-list-item` rows.
+   * The title for all nested `calcite-list-item` rows.
    *
    */
   @Prop({ reflect: true }) heading: string;
 
   /**
-   * Number at which section headings should start for this component.
+   * Number at which section headings should start for the group.
    */
   @Prop() headingLevel: HeadingLevel;
 

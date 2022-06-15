@@ -210,6 +210,8 @@ export class DatePickerMonthHeader {
   //--------------------------------------------------------------------------
   /**
    * Increment year on UP/DOWN keys
+   *
+   * @param e
    */
   private onYearKey = (e: KeyboardEvent): void => {
     const localizedYear = (e.target as HTMLInputElement).value;
@@ -288,6 +290,11 @@ export class DatePickerMonthHeader {
   /**
    * Parse localized year string from input,
    * set to active if in range
+   *
+   * @param root0
+   * @param root0.localizedYear
+   * @param root0.commit
+   * @param root0.offset
    */
   private setYear({
     localizedYear,
