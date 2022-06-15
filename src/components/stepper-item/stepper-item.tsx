@@ -242,17 +242,22 @@ export class StepperItem implements InteractiveComponent {
   private emitUserRequestedItem = (): void => {
     this.emitRequestedItem();
     if (!this.disabled) {
+      const position = this.itemPosition;
+
       this.calciteInternalUserRequestedStepperItemSelect.emit({
-        position: this.itemPosition
+        position
       });
     }
   };
 
   private emitRequestedItem = (): void => {
     if (!this.disabled) {
+      const position = this.itemPosition;
+      const content = this.itemContent;
+
       this.calciteInternalStepperItemSelect.emit({
-        position: this.itemPosition,
-        content: this.itemContent
+        position,
+        content
       });
     }
   };

@@ -401,7 +401,7 @@ describe("calcite-stepper", () => {
         <calcite-stepper-item item-title="Step 2" id="step-2">
           <div>Step 2 content</div>
         </calcite-stepper-item>
-        <calcite-stepper-item item-title="Step 3" id="step-3">
+        <calcite-stepper-item item-title="Step 3" id="step-3" disabled>
           <div>Step 3 content</div>
         </calcite-stepper-item>
         <calcite-stepper-item item-title="Step 4" id="step-4">
@@ -416,6 +416,7 @@ describe("calcite-stepper", () => {
     const eventSpy = await element.spyOnEvent("calciteStepperItemChange");
     const items = await page.findAll("calcite-stepper-item");
 
+    // non user interaction
     items[0].setProperty("active", true);
     items[0].innerHTML = "<div>New content</div>";
     await page.waitForChanges();
@@ -425,6 +426,11 @@ describe("calcite-stepper", () => {
     expect(await items[1].getProperty("active")).toBe(true);
     expect(eventSpy).toHaveReceivedEventTimes(1);
     expect(eventSpy.lastEvent.detail.position).toBe(1);
+
+    // disabled item
+    await items[2].click();
+    expect(await items[3].getProperty("active")).toBe(false);
+    expect(eventSpy).toHaveReceivedEventTimes(1);
 
     await items[3].click();
     expect(await items[3].getProperty("active")).toBe(true);
