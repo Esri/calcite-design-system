@@ -106,5 +106,5 @@ export const thumbsOnEdgeDoNotOverflowContainer = (): string => html`<div style=
 </div>`;
 
 export const thumbsOnEdgeDoNotSnapToFrontOfContainer = (): string => html`<div style="overflow: auto; width: 272px;">
-  <calcite-color-picker value="#824141"></calcite-color-picker>
+  <calcite-color-picker value="#824142"></calcite-color-picker>
 </div>`;
