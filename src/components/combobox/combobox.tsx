@@ -388,11 +388,6 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
 
   private containerDiv: HTMLDivElement;
 
-  private setContainerDiv = (el): void => {
-    this.containerDiv = el;
-    this.containerDiv.addEventListener("transitionrun", this.onTransitionRun);
-  };
-
   // --------------------------------------------------------------------------
   //
   //  Private Methods
@@ -625,6 +620,7 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
   setListContainerEl = (el: HTMLDivElement): void => {
     this.resizeObserver.observe(el);
     this.listContainerEl = el;
+    this.listContainerEl.addEventListener("transitionrun", this.onTransitionRun);
   };
 
   setReferenceEl = (el: HTMLDivElement): void => {
@@ -1119,11 +1115,7 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
         class={{ "popper-container": true, "popper-container--active": active }}
         ref={setMenuEl}
       >
-        <div
-          class={classes}
-          onTransitionEnd={this.transitionEnd}
-          ref={[setListContainerEl, this.setContainerDiv]}
-        >
+        <div class={classes} onTransitionEnd={this.transitionEnd} ref={setListContainerEl}>
           <ul class={{ list: true, "list--hide": !active }}>
             <slot />
           </ul>
