@@ -4,6 +4,7 @@ export const CSS = {
   header: "header",
   heading: "heading",
   summary: "summary",
+  description: "description",
   headerContent: "header-content",
   headerActions: "header-actions",
   headerActionsEnd: "header-actions--end",

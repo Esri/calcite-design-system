@@ -139,14 +139,24 @@ describe("calcite-panel", () => {
     expect(element).toEqualText("test heading");
   });
 
-  it("should have default summary", async () => {
+  it("should have default summary (deprecated)", async () => {
     const page = await newE2EPage();
 
     await page.setContent('<calcite-panel summary="test summary"></calcite-panel>');
 
-    const element = await page.find(`calcite-panel >>> .${CSS.summary}`);
+    const element = await page.find(`calcite-panel >>> .${CSS.description}`);
 
     expect(element).toEqualText("test summary");
+  });
+
+  it("should have default description", async () => {
+    const page = await newE2EPage();
+
+    await page.setContent('<calcite-panel description="test description"></calcite-panel>');
+
+    const element = await page.find(`calcite-panel >>> .${CSS.description}`);
+
+    expect(element).toEqualText("test description");
   });
 
   it("should not render a header if there are no actions or content", async () => {
@@ -216,7 +226,7 @@ describe("calcite-panel", () => {
     expect(actionsContainerEnd).toBeNull();
   });
 
-  it("header-content should override heading and summary properties", async () => {
+  it("header-content should override heading and summary properties (deprecated)", async () => {
     const page = await newE2EPage();
 
     await page.setContent(
@@ -226,11 +236,29 @@ describe("calcite-panel", () => {
     );
 
     const heading = await page.find(`calcite-panel >>> ${CSS.heading}`);
-    const summary = await page.find(`calcite-panel >>> ${CSS.summary}`);
+    const summary = await page.find(`calcite-panel >>> ${CSS.description}`);
     const header = await page.find(`calcite-panel >>> ${CSS.header}`);
 
     expect(heading).toBeNull();
     expect(summary).toBeNull();
+    expect(header).not.toBeNull();
+  });
+
+  it("header-content should override heading and description properties", async () => {
+    const page = await newE2EPage();
+
+    await page.setContent(
+      `<calcite-panel heading="test heading" description="test description">
+        <div slot=${SLOTS.headerContent}>custom header content</div>
+      </calcite-panel>`
+    );
+
+    const heading = await page.find(`calcite-panel >>> ${CSS.heading}`);
+    const description = await page.find(`calcite-panel >>> ${CSS.description}`);
+    const header = await page.find(`calcite-panel >>> ${CSS.header}`);
+
+    expect(heading).toBeNull();
+    expect(description).toBeNull();
     expect(header).not.toBeNull();
   });
 
