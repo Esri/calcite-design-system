@@ -53,11 +53,25 @@ export class StepperItem implements InteractiveComponent {
   /** is the step disabled and not navigable to by a user */
   @Prop({ reflect: true }) disabled = false;
 
-  /** pass a title for the stepper item */
+  /**
+   * pass a title for the stepper item
+   *
+   * @deprecated use heading instead
+   */
   @Prop() itemTitle?: string;
 
-  /** pass a title for the stepper item */
+  /** stepper item heading */
+  @Prop() heading?: string;
+
+  /**
+   * pass a title for the stepper item
+   *
+   * @deprecated use description instead
+   */
   @Prop() itemSubtitle?: string;
+
+  /** stepper item description */
+  @Prop() description: string;
 
   // internal props inherited from wrapping calcite-stepper
   /** pass a title for the stepper item */
@@ -136,8 +150,8 @@ export class StepperItem implements InteractiveComponent {
               <div class="stepper-item-number">{this.getItemPosition() + 1}.</div>
             ) : null}
             <div class="stepper-item-header-text">
-              <span class="stepper-item-title">{this.itemTitle}</span>
-              <span class="stepper-item-subtitle">{this.itemSubtitle}</span>
+              <span class="stepper-item-heading">{this.heading || this.itemTitle}</span>
+              <span class="stepper-item-description">{this.description || this.itemSubtitle}</span>
             </div>
           </div>
           <div class="stepper-item-content">

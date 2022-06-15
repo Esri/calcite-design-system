@@ -16,17 +16,45 @@
 </p>
 ```
 
+### Virtual
+
+```html
+<!-- virtually positioned tooltip -->
+<calcite-tooltip id="virtual-tooltip" open>This is the message of the tooltip</calcite-tooltip>
+
+<script>
+  function generateGetBoundingClientRect() {
+    return () => ({
+      width: 0,
+      height: 0,
+      top: 100,
+      right: 100,
+      bottom: 100,
+      left: 600
+    });
+  }
+
+  const virtualElement = {
+    getBoundingClientRect: generateGetBoundingClientRect()
+  };
+
+  const tooltip = document.getElementById("virtual-tooltip");
+  tooltip.referenceElement = virtualElement;
+</script>
+```
+
 ## Properties
 
-| Property             | Attribute             | Description                                                                                                                                                                                                                                                                                                     | Type                                        | Default                 |
-| -------------------- | --------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------- | ----------------------- |
-| `label` _(required)_ | `label`               | Accessible name for the component                                                                                                                                                                                                                                                                               | `string`                                    | `undefined`             |
-| `offsetDistance`     | `offset-distance`     | Offset the position of the tooltip away from the reference element.                                                                                                                                                                                                                                             | `number`                                    | `defaultOffsetDistance` |
-| `offsetSkidding`     | `offset-skidding`     | Offset the position of the tooltip along the reference element.                                                                                                                                                                                                                                                 | `number`                                    | `0`                     |
-| `open`               | `open`                | Display and position the component.                                                                                                                                                                                                                                                                             | `boolean`                                   | `false`                 |
-| `overlayPositioning` | `overlay-positioning` | Describes the type of positioning to use for the overlaid content. If your element is in a fixed container, use the 'fixed' value.                                                                                                                                                                              | `"absolute" \| "fixed"`                     | `"absolute"`            |
-| `placement`          | `placement`           | Determines where the component will be positioned relative to the referenceElement.                                                                                                                                                                                                                             | `Placement \| PlacementRtl \| VariationRtl` | `"auto"`                |
-| `referenceElement`   | `reference-element`   | Reference HTMLElement used to position this component according to the placement property. As a convenience, a string ID of the reference element can be used. However, setting this property to use an HTMLElement is preferred so that the component does not need to query the DOM for the referenceElement. | `HTMLElement \| string`                     | `undefined`             |
+| Property             | Attribute             | Description                                                                                                                                                                                                                                                                   | Type                                                                                                       | Default                 |
+| -------------------- | --------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- | ----------------------- |
+| `closeOnClick`       | `close-on-click`      | Closes the `calcite-tooltip` when the `referenceElement` is clicked.                                                                                                                                                                                                          | `boolean`                                                                                                  | `false`                 |
+| `label` _(required)_ | `label`               | Accessible name for the `calcite-tooltip`.                                                                                                                                                                                                                                    | `string`                                                                                                   | `undefined`             |
+| `offsetDistance`     | `offset-distance`     | Offset the position of the `calcite-tooltip` away from the `referenceElement`.                                                                                                                                                                                                | `number`                                                                                                   | `defaultOffsetDistance` |
+| `offsetSkidding`     | `offset-skidding`     | Offset the position of the `calcite-tooltip` along the `referenceElement`.                                                                                                                                                                                                    | `number`                                                                                                   | `0`                     |
+| `open`               | `open`                | When true, the `calcite-tooltip` is open.                                                                                                                                                                                                                                     | `boolean`                                                                                                  | `false`                 |
+| `overlayPositioning` | `overlay-positioning` | Describes the positioning type to use for the overlaid content. If the `referenceElement` is in a fixed container, use the "fixed" value.                                                                                                                                     | `"absolute" \| "fixed"`                                                                                    | `"absolute"`            |
+| `placement`          | `placement`           | Determines where the component will be positioned relative to the `referenceElement`.                                                                                                                                                                                         | `Placement \| PlacementRtl \| VariationRtl`                                                                | `"auto"`                |
+| `referenceElement`   | `reference-element`   | The `referenceElement` to position `calcite-tooltip` according to its "placement" value. Setting to the `HTMLElement` is preferred so `calcite-tooltip` does not need to query the DOM for the `referenceElement`. However, a string ID of the reference element can be used. | `Element \| string \| ({ getBoundingClientRect: () => ClientRect \| DOMRect; contextElement?: Element; })` | `undefined`             |
 
 ## Methods
 

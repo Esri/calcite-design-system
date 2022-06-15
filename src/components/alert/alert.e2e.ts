@@ -1,6 +1,7 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { renders, accessible, HYDRATED_ATTR } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
+import { CSS } from "./resources";
 
 describe("calcite-alert", () => {
   const alertContent = `
@@ -269,26 +270,46 @@ describe("calcite-alert", () => {
     });
   });
 
-  it("should emit proper 'calciteAlertOpen' and 'calciteAlertClose' events on animation end", async () => {
+  it("should emit component status for transition-chained events: 'calciteAlertBeforeOpening', 'calciteAlertIsOpen', 'calciteAlertBeforeClosing', 'calciteAlertIsClosed'", async () => {
     const page = await newE2EPage();
-    await page.setContent(`<calcite-alert>
-    ${alertContent}
-    </calcite-alert>`);
+    await page.setContent(html`<calcite-alert> ${alertContent} </calcite-alert>`);
 
     const element = await page.find("calcite-alert");
-    const container = await page.find(`calcite-alert >>> .container`);
+    const container = await page.find(`calcite-alert >>> .${CSS.container}`);
 
-    const openEvent = page.waitForEvent("calciteAlertOpen");
-    element.setAttribute("active", "");
+    expect(await container.isVisible()).toBe(false);
+
+    const calciteAlertBeforeOpeningEvent = page.waitForEvent("calciteAlertBeforeOpen");
+    const calciteAlertIsOpenEvent = page.waitForEvent("calciteAlertOpen");
+
+    const calciteAlertBeforeOpeningSpy = await element.spyOnEvent("calciteAlertBeforeOpen");
+    const calciteAlertIsOpenSpy = await element.spyOnEvent("calciteAlertOpen");
+
+    await element.setProperty("active", true);
     await page.waitForChanges();
-    await openEvent;
+
+    await calciteAlertBeforeOpeningEvent;
+    await calciteAlertIsOpenEvent;
+
+    expect(calciteAlertBeforeOpeningSpy).toHaveReceivedEventTimes(1);
+    expect(calciteAlertIsOpenSpy).toHaveReceivedEventTimes(1);
 
     expect(await container.isVisible()).toBe(true);
 
-    const closeEvent = page.waitForEvent("calciteAlertClose");
-    element.removeAttribute("active");
+    const calciteAlertBeforeClosingEvent = page.waitForEvent("calciteAlertBeforeClose");
+    const calciteAlertIsClosedEvent = page.waitForEvent("calciteAlertClose");
+
+    const calciteAlertBeforeClosingSpy = await element.spyOnEvent("calciteAlertBeforeClose");
+    const calciteAlertIsClosed = await element.spyOnEvent("calciteAlertClose");
+
+    await element.setProperty("active", false);
     await page.waitForChanges();
-    await closeEvent;
+
+    await calciteAlertBeforeClosingEvent;
+    await calciteAlertIsClosedEvent;
+
+    expect(calciteAlertBeforeClosingSpy).toHaveReceivedEventTimes(1);
+    expect(calciteAlertIsClosed).toHaveReceivedEventTimes(1);
 
     expect(await container.isVisible()).toBe(false);
   });

@@ -859,6 +859,7 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
   getData(): ItemData[] {
     return this.items.map((item) => ({
       constant: item.constant,
+      filterDisabled: item.filterDisabled,
       value: item.value,
       label: item.textLabel
     }));
