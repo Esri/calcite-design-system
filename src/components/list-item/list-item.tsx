@@ -92,6 +92,10 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
 
   actionsEndEl: HTMLTableCellElement;
 
+  parentListEl: HTMLCalciteListElement;
+
+  parentListItemEl: HTMLCalciteListItemElement;
+
   // --------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -100,6 +104,11 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
 
   connectedCallback(): void {
     connectConditionalSlotComponent(this);
+    const { el } = this;
+    const parent = el.parentElement;
+    this.parentListEl = parent?.closest("calcite-list");
+    this.parentListItemEl = parent?.closest("calcite-list-item");
+    this.expandable = !!this.parentListItemEl;
   }
 
   disconnectedCallback(): void {
@@ -228,39 +237,37 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
     const composedPath = event.composedPath();
     const { containerEl, contentEl, actionsStartEl, actionsEndEl, expanded, expandable } = this;
 
+    const cells = [actionsStartEl, contentEl, actionsEndEl].filter(Boolean);
+    const currentIndex = cells.findIndex((cell) => composedPath.includes(cell));
+
     if (key === "ArrowRight") {
       event.preventDefault();
-      if (composedPath.includes(actionsStartEl)) {
-        this.focusCell(contentEl);
-      } else if (composedPath.includes(contentEl)) {
-        this.focusCell(actionsEndEl);
-      } else if (composedPath.includes(actionsEndEl)) {
-        // noop do nothing
-      } else if (composedPath.includes(containerEl)) {
+      const nextIndex = currentIndex + 1;
+      if (currentIndex === -1) {
         if (!expanded && expandable) {
           this.expanded = true;
           this.focusCell(null);
-        } else {
-          this.focusCell(actionsStartEl);
+        } else if (cells[0]) {
+          this.focusCell(cells[0]);
         }
+      } else if (cells[currentIndex] && cells[nextIndex]) {
+        this.focusCell(cells[nextIndex]);
       }
     } else if (key === "ArrowLeft") {
       event.preventDefault();
-      if (composedPath.includes(actionsStartEl)) {
+      const prevIndex = currentIndex - 1;
+      if (currentIndex === -1) {
         this.focusCell(null);
-        containerEl.focus();
-      } else if (composedPath.includes(contentEl)) {
-        this.focusCell(actionsStartEl);
-      } else if (composedPath.includes(actionsEndEl)) {
-        this.focusCell(contentEl);
-      } else if (composedPath.includes(containerEl)) {
-        this.focusCell(null);
-        // todo: expandable state
         if (expanded && expandable) {
           this.expanded = false;
         } else {
-          // todo: focus parent row if available.
+          this.parentListItemEl?.setFocus();
         }
+      } else if (cells[currentIndex] && cells[prevIndex]) {
+        this.focusCell(cells[prevIndex]);
+      } else {
+        this.focusCell(null);
+        containerEl.focus();
       }
     } else if (key === "ArrowDown") {
       event.preventDefault();
@@ -293,7 +300,7 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
   focusCell = (focusEl: HTMLTableCellElement): void => {
     const { contentEl, actionsStartEl, actionsEndEl } = this;
 
-    [contentEl, actionsStartEl, actionsEndEl].forEach((tableCell) => {
+    [contentEl, actionsStartEl, actionsEndEl].filter(Boolean).forEach((tableCell) => {
       tableCell.tabIndex = tableCell === focusEl ? 0 : null;
     });
 
