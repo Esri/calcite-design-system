@@ -89,7 +89,7 @@ export class DropdownItem {
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    this.el.focus();
+    this.el?.focus();
   }
 
   //--------------------------------------------------------------------------

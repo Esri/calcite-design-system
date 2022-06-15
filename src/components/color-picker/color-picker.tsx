@@ -556,7 +556,7 @@ export class ColorPicker implements InteractiveComponent {
     } else if (region === "slider") {
       this.sliderThumbState = "drag";
       this.captureHueSliderColor(offsetX);
-      this.hueScopeNode.focus();
+      this.hueScopeNode?.focus();
     }
 
     // prevent text selection outside of color field & slider area
