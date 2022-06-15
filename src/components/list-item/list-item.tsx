@@ -297,17 +297,7 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
     this.calciteListItemClick.emit();
   };
 
-  handleItemClick = (event: PointerEvent): void => {
-    event.stopPropagation();
-    const composedPath = event.composedPath();
-
-    console.log({ composedPath, currentTarget: event.currentTarget, target: event.target });
-
-    // todo?
-    if (document.activeElement === document.body) {
-      this.containerEl.focus();
-    }
-
+  handleItemClick = (): void => {
     this.emitListItemClick();
   };
 
