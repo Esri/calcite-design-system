@@ -54,7 +54,7 @@ export class AccordionItem {
   /**
    * pass a title for the accordion item
    *
-   * deprecated use description instead
+   * @deprecated use description instead
    */
   @Prop() itemSubtitle?: string;
 
