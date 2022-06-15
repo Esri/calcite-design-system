@@ -257,17 +257,17 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
   /** Called when a selected item in the combobox is dismissed via its chip */
   @Event() calciteComboboxChipDismiss: EventEmitter;
 
-  /* Fired while a combobox is still invisible but was added to the DOM, and before the transition starts. */
-  @Event() calciteComboboxBeforeOpen: EventEmitter;
-
-  /* Fired when a combobox is opened */
-  @Event() calciteComboboxOpen: EventEmitter;
-
-  /* Fired when a combobox is going to be closed and before the transition starts. */
+  /* Fired when an alert is requested to be closed and before the closing transition begins. */
   @Event() calciteComboboxBeforeClose: EventEmitter;
 
-  /* Fired when a combobox is closed */
+  /* Fired when an alert has been closed and animation is complete */
   @Event() calciteComboboxClose: EventEmitter;
+
+  /* Fired while alert is still invisible but was added to the DOM, and before the opening transition begins. */
+  @Event() calciteComboboxBeforeOpen: EventEmitter;
+
+  /* Fired when an alert has been opened and animation is complete */
+  @Event() calciteComboboxOpen: EventEmitter;
 
   // --------------------------------------------------------------------------
   //
@@ -292,7 +292,6 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
 
   componentDidLoad(): void {
     afterConnectDefaultValueSet(this, this.getValue());
-    this.transitionRunEvent();
   }
 
   componentDidRender(): void {
@@ -311,10 +310,9 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
     disconnectLabel(this);
     disconnectForm(this);
 
-    document
-      .querySelector("calcite-combobox")
-      .shadowRoot.querySelector(".list-container")
-      .removeEventListener("transitionrun", this.transitionRunEvent);
+    if (this.containerDiv) {
+      this.containerDiv.removeEventListener("transitionrun", this.onTransitionRun);
+    }
   }
 
   //--------------------------------------------------------------------------
@@ -387,6 +385,13 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
   private ignoreSelectedEventsFlag = false;
 
   private activeTransitionProp = "opacity";
+
+  private containerDiv: HTMLDivElement;
+
+  private setContainerDiv = (el): void => {
+    this.containerDiv = el;
+    this.containerDiv.addEventListener("transitionrun", this.onTransitionRun);
+  };
 
   // --------------------------------------------------------------------------
   //
@@ -526,7 +531,11 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
     }
   };
 
-  transitionRun = (event: TransitionEvent): void => {
+  /* *
+  - `transitionrun` fires when the transition is created at the start of any delay and is not cancellable once started.
+  - if there is no transition delay, both `transitionrun` and `transitionstart` are fired at the same time.
+  */
+  onTransitionRun = (event: TransitionEvent): void => {
     if (event.propertyName === this.activeTransitionProp) {
       this.active
         ? this.openCloseEventEmitter("beforeOpen")
@@ -535,26 +544,20 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
   };
 
   private openCloseEventEmitter(componentVisibilityState: string): void {
+    const payload = {
+      el: this.el
+    };
     const emitComponentState = {
-      beforeOpen: () => this.calciteComboboxBeforeOpen.emit(),
-      open: () => this.calciteComboboxOpen.emit(),
-      beforeClose: () => this.calciteComboboxBeforeClose.emit(),
-      close: () => this.calciteComboboxClose.emit()
+      beforeOpen: () => this.calciteComboboxBeforeOpen.emit(payload),
+      open: () => this.calciteComboboxOpen.emit(payload),
+      beforeClose: () => this.calciteComboboxBeforeClose.emit(payload),
+      close: () => this.calciteComboboxClose.emit(payload)
     };
     (
       emitComponentState[componentVisibilityState] ||
       emitComponentState["The component state is unknown."]
     )();
   }
-
-  private transitionRunEvent = (): void => {
-    document
-      .querySelector("calcite-combobox")
-      .shadowRoot.querySelector(".list-container")
-      .addEventListener("transitionrun", (event: TransitionEvent) => {
-        this.transitionRun(event);
-      });
-  };
 
   setMaxScrollerHeight = (): void => {
     const { active, listContainerEl } = this;
@@ -1116,7 +1119,11 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
         class={{ "popper-container": true, "popper-container--active": active }}
         ref={setMenuEl}
       >
-        <div class={classes} onTransitionEnd={this.transitionEnd} ref={setListContainerEl}>
+        <div
+          class={classes}
+          onTransitionEnd={this.transitionEnd}
+          ref={[setListContainerEl, this.setContainerDiv]}
+        >
           <ul class={{ list: true, "list--hide": !active }}>
             <slot />
           </ul>
