@@ -29,6 +29,11 @@
     p-0;
 }
 
+tr:focus,
+td:focus {
+  outline: 2px solid hsl(216deg 94% 70%);
+}
+
 .content-container--button {
   @apply bg-foreground-1
     focus-base

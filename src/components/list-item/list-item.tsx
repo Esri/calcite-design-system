@@ -1,4 +1,15 @@
-import { Component, Element, Prop, h, VNode, Host, Method } from "@stencil/core";
+import {
+  Component,
+  Element,
+  Prop,
+  h,
+  VNode,
+  Host,
+  Method,
+  Event,
+  EventEmitter,
+  State
+} from "@stencil/core";
 import { SLOTS, CSS } from "./resources";
 import { getSlotted } from "../../utils/dom";
 import {
@@ -28,9 +39,19 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
   // --------------------------------------------------------------------------
 
   /**
+   * todo
+   */
+  @Prop({ reflect: true }) active = false;
+
+  /**
    * An optional description for this item.  This will appear below the label text.
    */
   @Prop() description: string;
+
+  /**
+   * todo
+   */
+  @Prop({ mutable: true, reflect: true }) expanded = false;
 
   /**
    * When true, prevents user interaction.
@@ -42,6 +63,17 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
    */
   @Prop() label: string;
 
+  //--------------------------------------------------------------------------
+  //
+  //  Events
+  //
+  //--------------------------------------------------------------------------
+
+  /**
+   * Emitted whenever the list item content is clicked.
+   */
+  @Event({ bubbles: true }) calciteListItemClick: EventEmitter<void>;
+
   // --------------------------------------------------------------------------
   //
   //  Private Properties
@@ -50,7 +82,15 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
 
   @Element() el: HTMLCalciteListItemElement;
 
-  focusEl: HTMLTableCellElement;
+  @State() expandable = false;
+
+  containerEl: HTMLTableRowElement;
+
+  contentEl: HTMLTableCellElement;
+
+  actionsStartEl: HTMLTableCellElement;
+
+  actionsEndEl: HTMLTableCellElement;
 
   // --------------------------------------------------------------------------
   //
@@ -79,7 +119,7 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    this.focusEl?.focus();
+    this.containerEl?.focus();
   }
 
   // --------------------------------------------------------------------------
@@ -91,7 +131,7 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
   renderActionsStart(): VNode {
     const { el } = this;
     return getSlotted(el, SLOTS.actionsStart) ? (
-      <td class={CSS.actionsStart} role="gridcell" tabIndex={-1}>
+      <td class={CSS.actionsStart} ref={(el) => (this.actionsStartEl = el)} role="gridcell">
         <slot name={SLOTS.actionsStart} />
       </td>
     ) : null;
@@ -100,7 +140,7 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
   renderActionsEnd(): VNode {
     const { el } = this;
     return getSlotted(el, SLOTS.actionsEnd) ? (
-      <td class={CSS.actionsEnd} role="gridcell" tabIndex={-1}>
+      <td class={CSS.actionsEnd} ref={(el) => (this.actionsEndEl = el)} role="gridcell">
         <slot name={SLOTS.actionsEnd} />
       </td>
     ) : null;
@@ -147,9 +187,8 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
           [CSS.hasCenterContent]: hasCenterContent,
           [CSS.contentContainerDisabled]: disabled // todo: styling
         }}
-        ref={(el) => (this.focusEl = el)}
+        ref={(el) => (this.contentEl = el)}
         role="gridcell"
-        tabIndex={-1}
       >
         {content}
       </td>
@@ -158,8 +197,15 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
 
   render(): VNode {
     return (
-      <Host tabIndex={-1}>
-        <tr class={CSS.container} role="row">
+      <Host>
+        <tr
+          class={CSS.container}
+          onClick={this.handleItemClick}
+          onKeyDown={this.handleItemKeyDown}
+          ref={(el) => (this.containerEl = el)}
+          role="row"
+          tabIndex={this.active ? 0 : -1}
+        >
           {this.renderActionsStart()}
           {this.renderContentContainer()}
           {this.renderActionsEnd()}
@@ -170,4 +216,87 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
       </Host>
     );
   }
+
+  // --------------------------------------------------------------------------
+  //
+  //  Private Methods
+  //
+  // --------------------------------------------------------------------------
+
+  handleItemKeyDown = (event: KeyboardEvent): void => {
+    const { key } = event;
+    const composedPath = event.composedPath();
+    const { containerEl, contentEl, actionsStartEl, actionsEndEl, expanded, expandable } = this;
+
+    if (key === "ArrowRight") {
+      event.preventDefault();
+      if (composedPath.includes(actionsStartEl)) {
+        this.focusCell(contentEl);
+      } else if (composedPath.includes(contentEl)) {
+        this.focusCell(actionsEndEl);
+      } else if (composedPath.includes(actionsEndEl)) {
+        // noop do nothing
+      } else if (composedPath.includes(containerEl)) {
+        if (!expanded && expandable) {
+          this.expanded = true;
+          this.focusCell(null);
+        } else {
+          this.focusCell(actionsStartEl);
+        }
+      }
+    } else if (key === "ArrowLeft") {
+      event.preventDefault();
+      if (composedPath.includes(actionsStartEl)) {
+        this.focusCell(null);
+        containerEl.focus();
+      } else if (composedPath.includes(contentEl)) {
+        this.focusCell(actionsStartEl);
+      } else if (composedPath.includes(actionsEndEl)) {
+        this.focusCell(contentEl);
+      } else if (composedPath.includes(containerEl)) {
+        this.focusCell(null);
+        // todo: expandable state
+        if (expanded && expandable) {
+          this.expanded = false;
+        } else {
+          // todo: focus parent row if available.
+        }
+      }
+    } else if (key === "ArrowDown") {
+      event.preventDefault();
+    } else if (key === "ArrowDown") {
+      event.preventDefault();
+    } else if (key === " " || key === "Enter") {
+      event.preventDefault();
+      this.emitListItemClick();
+    }
+  };
+
+  emitListItemClick = (): void => {
+    this.calciteListItemClick.emit();
+  };
+
+  handleItemClick = (event: PointerEvent): void => {
+    event.stopPropagation();
+    const composedPath = event.composedPath();
+
+    console.log({ composedPath, currentTarget: event.currentTarget, target: event.target });
+
+    // todo?
+    if (document.activeElement === document.body) {
+      this.containerEl.focus();
+    }
+
+    this.emitListItemClick();
+  };
+
+  focusCell = (focusEl: HTMLTableCellElement): void => {
+    const { contentEl, actionsStartEl, actionsEndEl } = this;
+
+    [contentEl, actionsStartEl, actionsEndEl].forEach((tableCell) => {
+      tableCell.tabIndex = tableCell === focusEl ? 0 : null;
+    });
+
+    focusEl?.focus();
+  };
 }
