@@ -20,6 +20,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### Bug Fixes
 
+- **stepper:** setting active property should update content ([#4745](https://github.com/Esri/calcite-components/issues/4745)) ([060a757](https://github.com/Esri/calcite-components/commit/060a757a88af864376f9cd26c9b7fe894a95004e)), closes [#4743](https://github.com/Esri/calcite-components/issues/4743)
 - Make sure component setFocus methods do not throw error ([#4739](https://github.com/Esri/calcite-components/issues/4739)) ([c07dd56](https://github.com/Esri/calcite-components/commit/c07dd561d1e78601b3b2f92154d448c36c1c9c06)), closes [#4731](https://github.com/Esri/calcite-components/issues/4731)
 - **color-picker:** fixed hue bar click and drag interaction ([#4734](https://github.com/Esri/calcite-components/issues/4734)) ([78d9e64](https://github.com/Esri/calcite-components/commit/78d9e6430bc6200fab54b721cb2f615805a745fb))
 - **input:** support larger than 64-bit floating point numbers without losing precision ([#4679](https://github.com/Esri/calcite-components/issues/4679)) ([b81dd82](https://github.com/Esri/calcite-components/commit/b81dd82071810476c414372e6faa3e450bbf3a39))
