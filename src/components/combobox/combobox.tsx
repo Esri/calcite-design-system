@@ -257,16 +257,16 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
   /** Called when a selected item in the combobox is dismissed via its chip */
   @Event() calciteComboboxChipDismiss: EventEmitter;
 
-  /* Fired when an alert is requested to be closed and before the closing transition begins. */
+  /* Fired when a combobox is requested to be closed and before the closing transition begins. */
   @Event() calciteComboboxBeforeClose: EventEmitter<{ el: HTMLCalciteComboboxElement }>;
 
-  /* Fired when an alert has been closed and animation is complete */
+  /* Fired when a combobox has been closed and animation is complete */
   @Event() calciteComboboxClose: EventEmitter<{ el: HTMLCalciteComboboxElement }>;
 
-  /* Fired while alert is still invisible but was added to the DOM, and before the opening transition begins. */
+  /* Fired while a combobox is still invisible but was added to the DOM, and before the opening transition begins. */
   @Event() calciteComboboxBeforeOpen: EventEmitter<{ el: HTMLCalciteComboboxElement }>;
 
-  /* Fired when an alert has been opened and animation is complete */
+  /* Fired when a combobox has been opened and animation is complete */
   @Event() calciteComboboxOpen: EventEmitter<{ el: HTMLCalciteComboboxElement }>;
 
   // --------------------------------------------------------------------------
@@ -310,8 +310,8 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
     disconnectLabel(this);
     disconnectForm(this);
 
-    if (this.containerDiv) {
-      this.containerDiv.removeEventListener("transitionrun", this.onTransitionRun);
+    if (this.listContainerEl) {
+      this.listContainerEl.removeEventListener("transitionrun", this.onTransitionRun);
     }
   }
 
@@ -385,8 +385,6 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
   private ignoreSelectedEventsFlag = false;
 
   private activeTransitionProp = "opacity";
-
-  private containerDiv: HTMLDivElement;
 
   // --------------------------------------------------------------------------
   //
