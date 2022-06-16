@@ -97,6 +97,13 @@ export class StepperItem implements InteractiveComponent {
     this.registerStepperItem();
   }
 
+  @Watch("active")
+  activeWatcher(active: boolean): void {
+    if (active) {
+      this.emitRequestedItem();
+    }
+  }
+
   //--------------------------------------------------------------------------
   //
   //  Events
