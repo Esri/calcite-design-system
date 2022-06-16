@@ -219,7 +219,7 @@ export class Button implements LabelableComponent, InteractiveComponent, FormOwn
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    this.childEl.focus();
+    this.childEl?.focus();
   }
 
   //--------------------------------------------------------------------------

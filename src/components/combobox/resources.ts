@@ -8,5 +8,6 @@ export const TEXT = {
 
 export const CSS = {
   labelActive: "label--active",
-  labelSelected: "label--selected"
+  labelSelected: "label--selected",
+  listContainer: "list-container"
 };

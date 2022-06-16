@@ -257,19 +257,17 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
   /** Called when a selected item in the combobox is dismissed via its chip */
   @Event() calciteComboboxChipDismiss: EventEmitter;
 
-  /**
-   * Fired when the combobox is opened
-   *
-   * @internal
-   */
-  @Event() calciteComboboxOpen: EventEmitter;
+  /* Fired when a combobox is requested to be closed and before the closing transition begins. */
+  @Event() calciteComboboxBeforeClose: EventEmitter<{ el: HTMLCalciteComboboxElement }>;
 
-  /**
-   *  Fired when the combobox is closed
-   *
-   * @internal
-   */
-  @Event() calciteComboboxClose: EventEmitter;
+  /* Fired when a combobox has been closed and animation is complete */
+  @Event() calciteComboboxClose: EventEmitter<{ el: HTMLCalciteComboboxElement }>;
+
+  /* Fired while a combobox is still invisible but was added to the DOM, and before the opening transition begins. */
+  @Event() calciteComboboxBeforeOpen: EventEmitter<{ el: HTMLCalciteComboboxElement }>;
+
+  /* Fired when a combobox has been opened and animation is complete */
+  @Event() calciteComboboxOpen: EventEmitter<{ el: HTMLCalciteComboboxElement }>;
 
   // --------------------------------------------------------------------------
   //
@@ -311,6 +309,10 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
     this.destroyPopper();
     disconnectLabel(this);
     disconnectForm(this);
+
+    if (this.listContainerEl) {
+      this.listContainerEl.removeEventListener("transitionrun", this.onTransitionRun);
+    }
   }
 
   //--------------------------------------------------------------------------
@@ -518,9 +520,37 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
 
   transitionEnd = (event: TransitionEvent): void => {
     if (event.propertyName === this.activeTransitionProp) {
-      this.active ? this.calciteComboboxOpen.emit() : this.calciteComboboxClose.emit();
+      this.active ? this.openCloseEventEmitter("open") : this.openCloseEventEmitter("close");
     }
   };
+
+  /* *
+  - `transitionrun` fires when the transition is created at the start of any delay and is not cancellable once started.
+  - if there is no transition delay, both `transitionrun` and `transitionstart` are fired at the same time.
+  */
+  onTransitionRun = (event: TransitionEvent): void => {
+    if (event.propertyName === this.activeTransitionProp) {
+      this.active
+        ? this.openCloseEventEmitter("beforeOpen")
+        : this.openCloseEventEmitter("beforeClose");
+    }
+  };
+
+  private openCloseEventEmitter(componentVisibilityState: string): void {
+    const payload = {
+      el: this.el
+    };
+    const emitComponentState = {
+      beforeOpen: () => this.calciteComboboxBeforeOpen.emit(payload),
+      open: () => this.calciteComboboxOpen.emit(payload),
+      beforeClose: () => this.calciteComboboxBeforeClose.emit(payload),
+      close: () => this.calciteComboboxClose.emit(payload)
+    };
+    (
+      emitComponentState[componentVisibilityState] ||
+      emitComponentState["The component state is unknown."]
+    )();
+  }
 
   setMaxScrollerHeight = (): void => {
     const { active, listContainerEl } = this;
@@ -588,6 +618,7 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
   setListContainerEl = (el: HTMLDivElement): void => {
     this.resizeObserver.observe(el);
     this.listContainerEl = el;
+    this.listContainerEl.addEventListener("transitionrun", this.onTransitionRun);
   };
 
   setReferenceEl = (el: HTMLDivElement): void => {
