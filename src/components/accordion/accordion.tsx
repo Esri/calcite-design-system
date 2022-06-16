@@ -25,7 +25,7 @@ export class Accordion {
   //
   //--------------------------------------------------------------------------
 
-  /** specify the appearance - minimal (no containing border) or transparent. default is deprecated*/
+  /** specify the appearance - minimal (no containing border) or transparent*/
   @Prop({ reflect: true }) appearance: AccordionAppearance;
 
   /** specify the placement of the icon in the header, defaults to end */

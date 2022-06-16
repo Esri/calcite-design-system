@@ -44,11 +44,7 @@ export class Action implements InteractiveComponent {
    */
   @Prop({ reflect: true }) alignment?: Alignment;
 
-  /**
-   * Specify the appearance style of the action
-   *
-   * solid & clear values are deprecated.
-   */
+  /** Specify the appearance style of the action. */
   @Prop({ reflect: true }) appearance: Extract<"solid" | "clear" | "transparent", Appearance>;
 
   /**
