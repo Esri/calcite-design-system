@@ -355,7 +355,7 @@ export class Stepper {
   }
 
   private focusElement(item: HTMLCalciteStepperItemElement) {
-    item.focus();
+    item?.focus();
   }
 
   private sortItems(): HTMLCalciteStepperItemElement[] {

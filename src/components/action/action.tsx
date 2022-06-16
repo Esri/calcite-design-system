@@ -151,7 +151,7 @@ export class Action implements InteractiveComponent {
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    this.buttonEl.focus();
+    this.buttonEl?.focus();
   }
 
   // --------------------------------------------------------------------------
