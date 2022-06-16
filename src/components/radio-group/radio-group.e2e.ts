@@ -276,7 +276,6 @@ describe("calcite-radio-group", () => {
     const element = await page.find("calcite-radio-group");
     expect(element).toEqualAttribute("scale", "m");
     expect(element).toEqualAttribute("layout", "horizontal");
-    expect(element).toEqualAttribute("appearance", "solid");
     expect(element).toEqualAttribute("width", "auto");
   });
 

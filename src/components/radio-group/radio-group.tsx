@@ -43,7 +43,11 @@ export class RadioGroup implements LabelableComponent, FormComponent, Interactiv
   //
   //--------------------------------------------------------------------------
 
-  /** specify the appearance style of the radio group, defaults to solid. */
+  /**
+   * specify the appearance style of the radio group.
+   *
+   * 'solid' is deprecated.
+   */
   @Prop({ reflect: true }) appearance: RadioAppearance;
 
   /** is the radio group disabled  */

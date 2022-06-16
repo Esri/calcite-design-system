@@ -16,8 +16,12 @@ import { InteractiveComponent, updateHostInteraction } from "../../utils/interac
 export class SplitButton implements InteractiveComponent {
   @Element() el: HTMLCalciteSplitButtonElement;
 
-  /** specify the appearance style of the button, defaults to solid. */
-  @Prop({ reflect: true }) appearance: ButtonAppearance = "solid";
+  /**
+   * specify the appearance style of the button.
+   *
+   * solid & clear values are deprecated . use minimal instead of clear
+   */
+  @Prop({ reflect: true }) appearance: ButtonAppearance;
 
   /** specify the color of the control, defaults to blue */
   @Prop({ reflect: true }) color: ButtonColor = "blue";

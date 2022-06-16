@@ -160,7 +160,6 @@ export class InlineEditable implements InteractiveComponent, LabelableComponent 
               />
             </div>,
             <calcite-button
-              appearance="solid"
               class={CSS.confirmChangesButton}
               color="blue"
               disabled={this.disabled}

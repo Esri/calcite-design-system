@@ -101,14 +101,6 @@ describe("calcite-action", () => {
     expect(button.getAttribute("aria-label")).toBe("hi");
   });
 
-  it("should have appearance=solid", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-action text="hello world"></calcite-action>`);
-
-    const action = await page.find("calcite-action");
-    expect(action.getAttribute("appearance")).toBe("solid");
-  });
-
   it("should be accessible", async () => {
     await accessible(`<calcite-action text="hello world"></calcite-action>`);
     await accessible(`<calcite-action text="hello world" disabled text-enabled></calcite-action>`);

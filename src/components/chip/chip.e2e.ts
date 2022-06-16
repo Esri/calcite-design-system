@@ -28,7 +28,6 @@ describe("calcite-chip", () => {
     await page.setContent(`<calcite-chip>Chip content</calcite-chip>`);
 
     const element = await page.find("calcite-chip");
-    expect(element).toEqualAttribute("appearance", "solid");
     expect(element).toEqualAttribute("color", "grey");
     expect(element).toEqualAttribute("scale", "m");
   });
@@ -39,6 +38,16 @@ describe("calcite-chip", () => {
 
     const element = await page.find("calcite-chip");
     expect(element).toEqualAttribute("appearance", "clear");
+    expect(element).toEqualAttribute("color", "blue");
+    expect(element).toEqualAttribute("scale", "l");
+  });
+
+  it("renders transparent chip when appearance='transparent'", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<calcite-chip appearance="transparent" color="blue" scale="l">Chip content</calcite-chip>`);
+
+    const element = await page.find("calcite-chip");
+    expect(element).toEqualAttribute("appearance", "transparent");
     expect(element).toEqualAttribute("color", "blue");
     expect(element).toEqualAttribute("scale", "l");
   });

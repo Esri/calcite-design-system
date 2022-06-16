@@ -27,7 +27,7 @@ export class Chip implements ConditionalSlotComponent {
   //--------------------------------------------------------------------------
 
   /** specify the appearance style of the button, defaults to solid. */
-  @Prop({ reflect: true }) appearance: Extract<"solid" | "clear", Appearance> = "solid";
+  @Prop({ reflect: true }) appearance: Extract<"solid" | "clear" | "transparent", Appearance>;
 
   /** specify the color of the button, defaults to blue */
   @Prop({ reflect: true }) color: ChipColor = "grey";

@@ -161,49 +161,15 @@
 }
 
 // clear (deprecated : use transparent instead)
-:host([color="blue"][appearance="clear"]) {
+:host([color="blue"][appearance="clear"]),
+:host([color="blue"][appearance="transparent"]) {
   border-color: var(--calcite-ui-info);
   .chip-icon {
     color: var(--calcite-ui-icon-color, var(--calcite-ui-info));
   }
 }
 
-:host([color="red"][appearance="clear"]) {
-  border-color: var(--calcite-ui-danger);
-  .chip-icon {
-    color: var(--calcite-ui-icon-color, var(--calcite-ui-danger));
-  }
-}
-
-:host([color="yellow"][appearance="clear"]) {
-  border-color: var(--calcite-ui-warning);
-  .chip-icon {
-    color: var(--calcite-ui-icon-color, var(--calcite-ui-warning));
-  }
-}
-
-:host([color="green"][appearance="clear"]) {
-  border-color: var(--calcite-ui-success);
-  .chip-icon {
-    color: var(--calcite-ui-icon-color, var(--calcite-ui-success));
-  }
-}
-
-:host([color="grey"][appearance="clear"]) {
-  border-color: var(--calcite-ui-border-1);
-  .chip-icon {
-    color: var(--calcite-ui-icon-color, var(--calcite-ui-text-3));
-  }
-}
-
-//transparent
-host([color="blue"][appearance="transparent"]) {
-  border-color: var(--calcite-ui-info);
-  .chip-icon {
-    color: var(--calcite-ui-icon-color, var(--calcite-ui-info));
-  }
-}
-
+:host([color="red"][appearance="clear"]),
 :host([color="red"][appearance="transparent"]) {
   border-color: var(--calcite-ui-danger);
   .chip-icon {
@@ -211,6 +177,7 @@ host([color="blue"][appearance="transparent"]) {
   }
 }
 
+:host([color="yellow"][appearance="clear"]),
 :host([color="yellow"][appearance="transparent"]) {
   border-color: var(--calcite-ui-warning);
   .chip-icon {
@@ -218,6 +185,7 @@ host([color="blue"][appearance="transparent"]) {
   }
 }
 
+:host([color="green"][appearance="clear"]),
 :host([color="green"][appearance="transparent"]) {
   border-color: var(--calcite-ui-success);
   .chip-icon {
@@ -225,6 +193,7 @@ host([color="blue"][appearance="transparent"]) {
   }
 }
 
+:host([color="grey"][appearance="clear"]),
 :host([color="grey"][appearance="transparent"]) {
   border-color: var(--calcite-ui-border-1);
   .chip-icon {

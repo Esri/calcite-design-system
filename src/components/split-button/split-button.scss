@@ -11,23 +11,21 @@
   }
 }
 
-:host([appearance="solid"]) {
-  &:host([color="blue"]) {
-    --calcite-split-button-background: theme("colors.brand");
-    --calcite-split-button-divider: theme("colors.background.foreground.1");
-  }
-  &:host([color="red"]) {
-    --calcite-split-button-background: theme("colors.danger");
-    --calcite-split-button-divider: theme("colors.background.foreground.1");
-  }
-  &:host([color="neutral"]) {
-    --calcite-split-button-background: theme("colors.background.foreground.3");
-    --calcite-split-button-divider: theme("colors.color.1");
-  }
-  &:host([color="inverse"]) {
-    --calcite-split-button-background: var(--calcite-ui-inverse);
-    --calcite-split-button-divider: theme("colors.background.foreground.1");
-  }
+:host([color="blue"]) {
+  --calcite-split-button-background: theme("colors.brand");
+  --calcite-split-button-divider: theme("colors.background.foreground.1");
+}
+:host([color="red"]) {
+  --calcite-split-button-background: theme("colors.danger");
+  --calcite-split-button-divider: theme("colors.background.foreground.1");
+}
+:host([color="neutral"]) {
+  --calcite-split-button-background: theme("colors.background.foreground.3");
+  --calcite-split-button-divider: theme("colors.color.1");
+}
+:host([color="inverse"]) {
+  --calcite-split-button-background: var(--calcite-ui-inverse);
+  --calcite-split-button-divider: theme("colors.background.foreground.1");
 }
 
 :host([appearance="transparent"]) {
@@ -93,7 +91,8 @@
 }
 
 :host([appearance="outline"]),
-:host([appearance="clear"]) {
+:host([appearance="clear"]),
+:host([appearance="minimal"]) {
   .split-button__divider-container {
     border-top: 1px solid var(--calcite-split-button-divider);
     border-bottom: 1px solid var(--calcite-split-button-divider);
@@ -104,14 +103,16 @@
 }
 
 :host([appearance="outline"]:hover),
-:host([appearance="clear"]:hover) {
+:host([appearance="clear"]:hover),
+:host([appearance="minimal"]):hover {
   .split-button__divider-container {
     background-color: var(--calcite-split-button-divider);
   }
 }
 
 :host([appearance="outline"]:focus-within),
-:host([appearance="clear"]:focus-within) {
+:host([appearance="clear"]:focus-within),
+:host([appearance="minimal"]:focus-within) {
   &:host([color="blue"]) {
     --calcite-split-button-divider: theme("colors.brand-press");
   }
