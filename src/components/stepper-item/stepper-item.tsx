@@ -116,6 +116,12 @@ export class StepperItem implements InteractiveComponent {
   /**
    * @internal
    */
+  @Event()
+  calciteInternalUserRequestedStepperItemSelect: EventEmitter<StepperItemChangeEventDetail>;
+
+  /**
+   * @internal
+   */
   @Event() calciteInternalStepperItemRegister: EventEmitter<StepperItemEventDetail>;
 
   //--------------------------------------------------------------------------
@@ -140,7 +146,7 @@ export class StepperItem implements InteractiveComponent {
     return (
       <Host
         aria-expanded={toAriaBoolean(this.active)}
-        onClick={this.emitRequestedItem}
+        onClick={this.emitUserRequestedItem}
         onKeyDown={this.keyDownHandler}
       >
         <div class="container">
@@ -208,7 +214,7 @@ export class StepperItem implements InteractiveComponent {
       switch (e.key) {
         case " ":
         case "Enter":
-          this.emitRequestedItem();
+          this.emitUserRequestedItem();
           e.preventDefault();
           break;
         case "ArrowUp":
@@ -247,11 +253,25 @@ export class StepperItem implements InteractiveComponent {
     });
   }
 
+  private emitUserRequestedItem = (): void => {
+    this.emitRequestedItem();
+    if (!this.disabled) {
+      const position = this.itemPosition;
+
+      this.calciteInternalUserRequestedStepperItemSelect.emit({
+        position
+      });
+    }
+  };
+
   private emitRequestedItem = (): void => {
     if (!this.disabled) {
+      const position = this.itemPosition;
+      const content = this.itemContent;
+
       this.calciteInternalStepperItemSelect.emit({
-        position: this.itemPosition,
-        content: this.itemContent
+        position,
+        content
       });
     }
   };

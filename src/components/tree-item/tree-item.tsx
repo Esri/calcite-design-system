@@ -328,7 +328,7 @@ export class TreeItem implements ConditionalSlotComponent {
 
         const firstNode = root.querySelector("calcite-tree-item");
 
-        firstNode.focus();
+        firstNode?.focus();
 
         break;
       case "End":
@@ -344,7 +344,7 @@ export class TreeItem implements ConditionalSlotComponent {
             e.matches("calcite-tree")
           );
         }
-        currentNode.focus();
+        currentNode?.focus();
         break;
     }
   }

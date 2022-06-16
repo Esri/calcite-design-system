@@ -202,7 +202,7 @@ export class TabNav {
       this.enabledTabTitles[currentIndex - 1] ||
       this.enabledTabTitles[this.enabledTabTitles.length - 1];
 
-    previousTab.focus();
+    previousTab?.focus();
 
     e.stopPropagation();
     e.preventDefault();
@@ -217,7 +217,7 @@ export class TabNav {
 
     const nextTab = this.enabledTabTitles[currentIndex + 1] || this.enabledTabTitles[0];
 
-    nextTab.focus();
+    nextTab?.focus();
 
     e.stopPropagation();
     e.preventDefault();

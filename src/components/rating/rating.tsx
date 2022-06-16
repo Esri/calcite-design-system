@@ -236,7 +236,7 @@ export class Rating implements LabelableComponent, FormComponent, InteractiveCom
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    this.inputFocusRef.focus();
+    this.inputFocusRef?.focus();
   }
 
   // --------------------------------------------------------------------------

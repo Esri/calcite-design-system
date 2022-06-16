@@ -291,5 +291,5 @@ export function intersects(rect1: DOMRect, rect2: DOMRect): boolean {
  * @returns {string} The string conversion of a boolean value ("true" | "false").
  */
 export function toAriaBoolean(value: boolean): string {
-  return (!!value).toString();
+  return Boolean(value).toString();
 }

@@ -185,7 +185,7 @@ export class ActionBar implements ConditionalSlotComponent {
       return;
     }
 
-    this.el.focus();
+    this.el?.focus();
   }
 
   // --------------------------------------------------------------------------
