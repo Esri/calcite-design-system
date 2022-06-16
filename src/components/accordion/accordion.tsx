@@ -193,7 +193,7 @@ export class Accordion {
 
   private focusElement(item) {
     const target = item as HTMLCalciteAccordionItemElement;
-    target.focus();
+    target?.focus();
   }
 
   private sortItems = (items: any[]): any[] =>

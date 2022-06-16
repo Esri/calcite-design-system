@@ -295,7 +295,7 @@ export class ValueList<
     this.items = this.getItems();
     this.calciteListOrderChange.emit(this.items.map(({ value }) => value));
 
-    requestAnimationFrame(() => handleElement.focus());
+    requestAnimationFrame(() => handleElement?.focus());
     item.handleActivated = true;
   };
 
