@@ -415,12 +415,15 @@ describe("calcite-stepper", () => {
     const element = await page.find("calcite-stepper");
     const eventSpy = await element.spyOnEvent("calciteStepperItemChange");
     const items = await page.findAll("calcite-stepper-item");
+    const activeContent = await page.find(".calcite-stepper-content");
 
     // non user interaction
+    const newTextContent = "New stepper content";
     items[0].setProperty("active", true);
-    items[0].innerHTML = "<div>New content</div>";
+    items[0].innerHTML = `<div>${newTextContent}</div>`;
     await page.waitForChanges();
     expect(eventSpy).toHaveReceivedEventTimes(0);
+    expect(activeContent.textContent).toEqualHtml(newTextContent);
 
     await items[1].click();
     expect(await items[1].getProperty("active")).toBe(true);
