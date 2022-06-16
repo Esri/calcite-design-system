@@ -96,6 +96,9 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
 
   parentListItemEl: HTMLCalciteListItemElement;
 
+  // todo: use map instead. Map using list element
+  private static focusIndex: number = null;
+
   // --------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -128,7 +131,16 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    this.containerEl?.focus();
+    const { containerEl, contentEl, actionsStartEl, actionsEndEl } = this;
+    const { focusIndex } = ListItem;
+
+    if (typeof focusIndex === "number") {
+      const cells = [actionsStartEl, contentEl, actionsEndEl].filter(Boolean);
+      this.focusCell(cells[focusIndex]);
+      return;
+    }
+
+    containerEl?.focus();
   }
 
   // --------------------------------------------------------------------------
@@ -237,7 +249,7 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
   // --------------------------------------------------------------------------
 
   handleItemKeyDown = (event: KeyboardEvent): void => {
-    const { key, ctrlKey } = event;
+    const { key } = event;
     const composedPath = event.composedPath();
     const { containerEl, contentEl, actionsStartEl, actionsEndEl, expanded, expandable } = this;
 
@@ -273,23 +285,9 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
         this.focusCell(null);
         containerEl.focus();
       }
-    } else if (key === "ArrowDown") {
-      // todo: get working
-      event.preventDefault();
-    } else if (key === "ArrowDown") {
-      // todo: get working
-      event.preventDefault();
     } else if (key === " " || key === "Enter") {
       event.preventDefault();
       this.emitListItemClick();
-    } else if (key === "Home") {
-      // todo: get working
-      console.log({ ctrlKey });
-      event.preventDefault();
-    } else if (key === "End") {
-      // todo: get working
-      console.log({ ctrlKey });
-      event.preventDefault();
     }
   };
 
@@ -304,8 +302,14 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
   focusCell = (focusEl: HTMLTableCellElement): void => {
     const { contentEl, actionsStartEl, actionsEndEl } = this;
 
-    [contentEl, actionsStartEl, actionsEndEl].filter(Boolean).forEach((tableCell) => {
+    ListItem.focusIndex = null;
+
+    [actionsStartEl, contentEl, actionsEndEl].filter(Boolean).forEach((tableCell, cellIndex) => {
       tableCell.tabIndex = tableCell === focusEl ? 0 : null;
+
+      if (tableCell === focusEl) {
+        ListItem.focusIndex = cellIndex;
+      }
     });
 
     focusEl?.focus();
