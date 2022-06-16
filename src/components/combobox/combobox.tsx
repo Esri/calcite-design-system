@@ -258,16 +258,16 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
   @Event() calciteComboboxChipDismiss: EventEmitter;
 
   /* Fired when an alert is requested to be closed and before the closing transition begins. */
-  @Event() calciteComboboxBeforeClose: EventEmitter;
+  @Event() calciteComboboxBeforeClose: EventEmitter<{ el: HTMLCalciteComboboxElement }>;
 
   /* Fired when an alert has been closed and animation is complete */
-  @Event() calciteComboboxClose: EventEmitter;
+  @Event() calciteComboboxClose: EventEmitter<{ el: HTMLCalciteComboboxElement }>;
 
   /* Fired while alert is still invisible but was added to the DOM, and before the opening transition begins. */
-  @Event() calciteComboboxBeforeOpen: EventEmitter;
+  @Event() calciteComboboxBeforeOpen: EventEmitter<{ el: HTMLCalciteComboboxElement }>;
 
   /* Fired when an alert has been opened and animation is complete */
-  @Event() calciteComboboxOpen: EventEmitter;
+  @Event() calciteComboboxOpen: EventEmitter<{ el: HTMLCalciteComboboxElement }>;
 
   // --------------------------------------------------------------------------
   //
