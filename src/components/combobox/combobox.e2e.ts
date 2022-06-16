@@ -1203,4 +1203,54 @@ describe("calcite-combobox", () => {
       "active",
       { shadowPopperSelector: ".popper-container" }
     ));
+
+  it("should emit component status for transition-chained events: 'calciteComoboxBeforeOpen', 'calciteComboboxOpen', 'calciteComboboxBeforeClose', 'calciteComboboxClose'", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html`
+      <calcite-combobox id="myCombobox">
+        <calcite-combobox-item value="Raising Arizona" text-label="Raising Arizona"></calcite-combobox-item>
+        <calcite-combobox-item value="Miller's Crossing" text-label="Miller's Crossing"></calcite-combobox-item>
+        <calcite-combobox-item value="The Hudsucker Proxy" text-label="The Hudsucker Proxy"></calcite-combobox-item>
+        <calcite-combobox-item value="Inside Llewyn Davis" text-label="Inside Llewyn Davis"></calcite-combobox-item>
+      </calcite-combobox>
+    `);
+    const element = await page.find("calcite-combobox");
+    const container = await page.find(`calcite-combobox >>> .${CSS.listContainer}`);
+
+    expect(await container.isVisible()).toBe(false);
+
+    const calciteAlertBeforeOpeningEvent = page.waitForEvent("calciteComboboxBeforeOpen");
+    const calciteAlertIsOpenEvent = page.waitForEvent("calciteComboboxOpen");
+
+    const calciteAlertBeforeOpeningSpy = await element.spyOnEvent("calciteComboboxBeforeOpen");
+    const calciteAlertIsOpenSpy = await element.spyOnEvent("calciteComboboxOpen");
+
+    await element.setProperty("active", true);
+    await page.waitForChanges();
+
+    await calciteAlertBeforeOpeningEvent;
+    await calciteAlertIsOpenEvent;
+
+    expect(calciteAlertBeforeOpeningSpy).toHaveReceivedEventTimes(1);
+    expect(calciteAlertIsOpenSpy).toHaveReceivedEventTimes(1);
+
+    expect(await container.isVisible()).toBe(true);
+
+    const calciteAlertBeforeClosingEvent = page.waitForEvent("calciteComboboxBeforeClose");
+    const calciteAlertIsClosedEvent = page.waitForEvent("calciteComboboxClose");
+
+    const calciteAlertBeforeClosingSpy = await element.spyOnEvent("calciteComboboxBeforeClose");
+    const calciteAlertIsClosed = await element.spyOnEvent("calciteComboboxClose");
+
+    await element.setProperty("active", false);
+    await page.waitForChanges();
+
+    await calciteAlertBeforeClosingEvent;
+    await calciteAlertIsClosedEvent;
+
+    expect(calciteAlertBeforeClosingSpy).toHaveReceivedEventTimes(1);
+    expect(calciteAlertIsClosed).toHaveReceivedEventTimes(1);
+
+    expect(await container.isVisible()).toBe(false);
+  });
 });
