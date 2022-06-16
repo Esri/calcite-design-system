@@ -41,11 +41,27 @@ export class AccordionItem {
   /** Indicates whether the item is active. */
   @Prop({ reflect: true, mutable: true }) active = false;
 
-  /** pass a title for the accordion item */
+  /**
+   * pass a title for the accordion item
+   *
+   * @deprecated use heading instead
+   */
   @Prop() itemTitle?: string;
 
-  /** pass a title for the accordion item */
+  /** accordion item heading */
+  @Prop() heading?: string;
+
+  /**
+   * pass a title for the accordion item
+   *
+   * @deprecated use description instead
+   */
   @Prop() itemSubtitle?: string;
+
+  /**
+   * accordion item description
+   */
+  @Prop() description: string;
 
   /** optionally pass an icon to display - accepts Calcite UI icon names  */
   @Prop({ reflect: true }) icon?: string;
@@ -123,9 +139,11 @@ export class AccordionItem {
           >
             {this.icon ? iconEl : null}
             <div class="accordion-item-header-text">
-              <span class="accordion-item-title">{this.itemTitle}</span>
+              <span class="accordion-item-heading">{this.heading || this.itemTitle}</span>
               {this.itemSubtitle ? (
-                <span class="accordion-item-subtitle">{this.itemSubtitle}</span>
+                <span class="accordion-item-description">
+                  {this.description || this.itemSubtitle}
+                </span>
               ) : null}
             </div>
             <calcite-icon

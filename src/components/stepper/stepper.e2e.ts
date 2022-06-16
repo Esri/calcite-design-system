@@ -391,4 +391,60 @@ describe("calcite-stepper", () => {
 
     expect(finalSelectedItem).toBe("item-3");
   });
+
+  it("should emit calciteStepperItemChange on user interaction", async () => {
+    const page = await newE2EPage({
+      html: html`<calcite-stepper>
+        <calcite-stepper-item item-title="Step 1" id="step-1">
+          <div>Step 1 content</div>
+        </calcite-stepper-item>
+        <calcite-stepper-item item-title="Step 2" id="step-2">
+          <div>Step 2 content</div>
+        </calcite-stepper-item>
+        <calcite-stepper-item item-title="Step 3" id="step-3" disabled>
+          <div>Step 3 content</div>
+        </calcite-stepper-item>
+        <calcite-stepper-item item-title="Step 4" id="step-4">
+          <div>Step 4 content</div>
+        </calcite-stepper-item>
+      </calcite-stepper>`
+    });
+
+    await page.waitForChanges();
+
+    const element = await page.find("calcite-stepper");
+    const eventSpy = await element.spyOnEvent("calciteStepperItemChange");
+    const items = await page.findAll("calcite-stepper-item");
+
+    // non user interaction
+    items[0].setProperty("active", true);
+    items[0].innerHTML = "<div>New content</div>";
+    await page.waitForChanges();
+    expect(eventSpy).toHaveReceivedEventTimes(0);
+
+    await items[1].click();
+    expect(await items[1].getProperty("active")).toBe(true);
+    expect(eventSpy).toHaveReceivedEventTimes(1);
+    expect(eventSpy.lastEvent.detail.position).toBe(1);
+
+    // disabled item
+    await items[2].click();
+    expect(await items[3].getProperty("active")).toBe(false);
+    expect(eventSpy).toHaveReceivedEventTimes(1);
+
+    await items[3].click();
+    expect(await items[3].getProperty("active")).toBe(true);
+    expect(eventSpy).toHaveReceivedEventTimes(2);
+    expect(eventSpy.lastEvent.detail.position).toBe(3);
+
+    await element.callMethod("prevStep");
+    await page.waitForChanges();
+    expect(await items[1].getProperty("active")).toBe(true);
+    expect(eventSpy).toHaveReceivedEventTimes(2);
+
+    await element.callMethod("nextStep");
+    await page.waitForChanges();
+    expect(await items[3].getProperty("active")).toBe(true);
+    expect(eventSpy).toHaveReceivedEventTimes(2);
+  });
 });
