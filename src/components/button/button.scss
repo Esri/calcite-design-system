@@ -231,7 +231,7 @@
 
 // button styles
 // solid
-:host() {
+:host {
   button,
   a {
     @apply border-color-transparent
