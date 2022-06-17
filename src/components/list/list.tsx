@@ -2,6 +2,7 @@ import { Component, Element, h, VNode, Prop, Method, Listen } from "@stencil/cor
 import { CSS } from "./resources";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { createObserver } from "../../utils/observers";
+import { getDepth } from "./utils";
 
 /**
  * A general purpose list that enables users to construct list items that conform to Calcite styling.
@@ -136,9 +137,21 @@ export class List implements InteractiveComponent {
   };
 
   queryListItems = (): HTMLCalciteListItemElement[] => {
-    return Array.from(this.el.querySelectorAll("calcite-list-item")).filter(
-      (item) => !item.disabled
-    );
+    const listItems = Array.from(this.el.querySelectorAll("calcite-list-item"));
+
+    listItems.forEach((listItem) => {
+      const set = Array.from(listItem.parentElement.children).filter((e) =>
+        e.matches("calcite-list-item")
+      );
+      const level = getDepth(listItem) + 1;
+      listItem.parentListEl = this.el;
+      listItem.level = level;
+      listItem.posInSet = set.indexOf(listItem) + 1;
+      listItem.setSize = set.length;
+      listItem.expandable = level > 1; // todo fix
+    });
+
+    return listItems.filter((item) => !item.disabled);
   };
 
   focusRow = (focusEl: HTMLCalciteListItemElement): void => {

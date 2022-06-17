@@ -8,11 +8,10 @@ import {
   Method,
   Event,
   EventEmitter,
-  State,
   Watch
 } from "@stencil/core";
 import { SLOTS, CSS } from "./resources";
-import { getSlotted, toAriaBoolean } from "../../utils/dom";
+import { getElementDir, getSlotted, toAriaBoolean } from "../../utils/dom";
 import {
   ConditionalSlotComponent,
   connectConditionalSlotComponent,
@@ -46,6 +45,36 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
    * @internal
    */
   @Prop() active = false;
+
+  /**
+   *
+   * @internal
+   */
+  @Prop() level: number = null;
+
+  /**
+   *
+   * @internal
+   */
+  @Prop() setSize: number = null;
+
+  /**
+   *
+   * @internal
+   */
+  @Prop() posInSet: number = null;
+
+  /**
+   *
+   * @internal
+   */
+  @Prop() parentListEl: HTMLCalciteListElement;
+
+  /**
+   *
+   * @internal
+   */
+  @Prop() expandable = false;
 
   /**
    * An optional description for this item.  This will appear below the label text.
@@ -91,8 +120,6 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
 
   @Element() el: HTMLCalciteListItemElement;
 
-  @State() expandable = false;
-
   containerEl: HTMLTableRowElement;
 
   contentEl: HTMLTableCellElement;
@@ -100,10 +127,6 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
   actionsStartEl: HTMLTableCellElement;
 
   actionsEndEl: HTMLTableCellElement;
-
-  parentListEl: HTMLCalciteListElement;
-
-  parentListItemEl: HTMLCalciteListItemElement;
 
   @Watch("active")
   activeHandler(active: boolean): void {
@@ -120,11 +143,6 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
 
   connectedCallback(): void {
     connectConditionalSlotComponent(this);
-    const { el } = this;
-    const parent = el.parentElement;
-    this.parentListEl = parent?.closest("calcite-list");
-    this.parentListItemEl = parent?.closest("calcite-list-item");
-    this.expandable = !!this.parentListItemEl;
   }
 
   disconnectedCallback(): void {
@@ -162,10 +180,22 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
   //
   // --------------------------------------------------------------------------
 
+  renderExpand(): VNode {
+    const dir = getElementDir(this.el);
+
+    return this.expandable ? (
+      <calcite-action
+        icon={this.expanded ? "caret-down" : dir === "rtl" ? "caret-left" : "caret-right"}
+        text="expand"
+      />
+    ) : null;
+  }
+
   renderActionsStart(): VNode {
     const { el } = this;
-    return getSlotted(el, SLOTS.actionsStart) ? (
+    return getSlotted(el, SLOTS.actionsStart) || this.expandable ? (
       <td class={CSS.actionsStart} ref={(el) => (this.actionsStartEl = el)} role="gridcell">
+        {this.renderExpand()}
         <slot name={SLOTS.actionsStart} />
       </td>
     ) : null;
@@ -234,9 +264,9 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
       <Host>
         <tr
           aria-expanded={this.expandable ? toAriaBoolean(this.expanded) : null}
-          aria-level={1} // todo
-          aria-posinset={1} // todo
-          aria-setsize={1} // todo
+          aria-level={this.level}
+          aria-posinset={this.posInSet}
+          aria-setsize={this.setSize}
           class={CSS.container}
           onClick={this.handleItemClick}
           onKeyDown={this.handleItemKeyDown}
