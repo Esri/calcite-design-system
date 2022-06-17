@@ -42,7 +42,6 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
   // --------------------------------------------------------------------------
 
   /**
-   * todo
    *
    * @internal
    */
@@ -78,6 +77,11 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
    * Emitted whenever the list item content is clicked.
    */
   @Event({ bubbles: true }) calciteListItemClick: EventEmitter<void>;
+
+  /**
+   * todo
+   */
+  @Event() calciteInternalFocusPreviousItem: EventEmitter<void>;
 
   // --------------------------------------------------------------------------
   //
@@ -215,7 +219,7 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
         class={{
           [CSS.contentContainer]: true,
           [CSS.hasCenterContent]: hasCenterContent,
-          [CSS.contentContainerDisabled]: disabled // todo: styling
+          [CSS.contentContainerDisabled]: disabled // todo: Needs styling
         }}
         ref={(el) => (this.contentEl = el)}
         role="gridcell"
@@ -286,7 +290,7 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
         if (expanded && expandable) {
           this.expanded = false;
         } else {
-          this.parentListItemEl?.setFocus();
+          this.calciteInternalFocusPreviousItem.emit();
         }
       } else if (currentIndex === 0) {
         this.focusCell(null);

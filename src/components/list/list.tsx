@@ -1,4 +1,4 @@
-import { Component, Element, h, VNode, Prop, Method } from "@stencil/core";
+import { Component, Element, h, VNode, Prop, Method, Listen } from "@stencil/core";
 import { CSS } from "./resources";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { createObserver } from "../../utils/observers";
@@ -29,6 +29,26 @@ export class List implements InteractiveComponent {
    * todo: document label
    */
   @Prop() label = "";
+
+  //--------------------------------------------------------------------------
+  //
+  //  Events
+  //
+  //--------------------------------------------------------------------------
+
+  @Listen("calciteInternalFocusPreviousItem")
+  handleCalciteInternalFocusPreviousItem(event: CustomEvent): void {
+    event.stopPropagation();
+
+    const { listItems } = this;
+    const currentIndex = listItems.findIndex((listItem) => listItem.active);
+
+    const prevIndex = currentIndex - 1;
+
+    if (listItems[prevIndex]) {
+      this.focusRow(listItems[prevIndex]);
+    }
+  }
 
   //--------------------------------------------------------------------------
   //
@@ -81,8 +101,13 @@ export class List implements InteractiveComponent {
 
   render(): VNode {
     return (
-      <table aria-label={this.label} onKeyDown={this.handleListKeydown} role="treegrid">
-        <tbody class={CSS.container} onFocusin={this.handleFocusIn}>
+      <table
+        aria-label={this.label}
+        onClick={this.handleClick}
+        onKeyDown={this.handleListKeydown}
+        role="treegrid"
+      >
+        <tbody class={CSS.container}>
           <slot />
         </tbody>
       </table>
@@ -128,12 +153,13 @@ export class List implements InteractiveComponent {
     focusEl.setFocus();
   };
 
-  handleFocusIn = (event: FocusEvent): void => {
+  handleClick = (event: PointerEvent): void => {
     const composedPath = event.composedPath();
     const { listItems } = this;
-    const reversedItems = [...listItems].reverse();
 
-    const firstActiveItem = reversedItems.find((listItem) => composedPath.includes(listItem));
+    const firstActiveItem = composedPath.find((path) =>
+      listItems.includes(path as HTMLCalciteListItemElement)
+    );
 
     listItems.forEach((listItem) => (listItem.active = listItem === firstActiveItem));
   };
