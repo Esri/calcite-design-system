@@ -314,12 +314,9 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
     [actionsStartEl, contentEl, actionsEndEl].filter(Boolean).forEach((tableCell, cellIndex) => {
       if (tableCell === focusEl) {
         tableCell.setAttribute("tabIndex", "0");
+        saveFocusIndex && focusMap.set(parentListEl, cellIndex);
       } else {
         tableCell.removeAttribute("tabIndex");
-      }
-
-      if (tableCell === focusEl && saveFocusIndex) {
-        focusMap.set(parentListEl, cellIndex);
       }
     });
 
