@@ -154,12 +154,13 @@ span {
 :host([bordered]:hover) {
   a {
     background-color: var(--calcite-button-transparent-hover);
-    @apply transition-default;
   }
 }
 
 :host([bordered]) a {
   border-bottom-style: unset;
+  border-inline-start: 1px solid transparent;
+  border-inline-end: 1px solid transparent;
 }
 
 :host([bordered][position="below"]) a {
@@ -171,8 +172,8 @@ span {
 }
 
 :host([active][bordered]) a {
-  border-left: 1px solid var(--calcite-ui-border-1);
-  border-right: 1px solid var(--calcite-ui-border-1);
+  border-inline-start-color: var(--calcite-ui-border-1);
+  border-inline-end-color: var(--calcite-ui-border-1);
 }
 
 :host([bordered]) {
