@@ -285,7 +285,6 @@ export class ValueList<
 
   keyDownHandler = (event: KeyboardEvent): void => {
     const { handleElement, item } = this.getHandleAndItemElement(event);
-
     if (handleElement && !item.handleActivated && event.key === " ") {
       this.updateScreenReaderText(
         this.intlDragHandleCurrentPosition
@@ -339,6 +338,7 @@ export class ValueList<
         ? this.intlDragHandleNewPosition
         : this.getScreenReaderText(item, "newPosition")
     );
+    this.updateHandleAriaLabel(handleElement, this.getScreenReaderText(item, "newPosition"));
   };
 
   focusInHandler = (event: FocusEvent): void => {
@@ -352,6 +352,7 @@ export class ValueList<
           ? this.intlDragHandleStart
           : this.getScreenReaderText(item, "start")
       );
+      this.updateHandleAriaLabel(handleElement, this.getScreenReaderText(item, "start"));
     }
   };
 
@@ -414,6 +415,10 @@ export class ValueList<
     //code to update text to our aria-live span element
     const screenReaderElement = this.el.shadowRoot.querySelector(".assistive-text");
     screenReaderElement.textContent = assertiveText;
+  }
+
+  updateHandleAriaLabel(handleElement: HTMLSpanElement, assertiveText: string): void {
+    handleElement.ariaLabel = assertiveText;
   }
 
   getScreenReaderText(item: HTMLCalciteValueListItemElement, status: DragStatus): string {

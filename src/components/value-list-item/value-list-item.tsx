@@ -15,7 +15,7 @@ import { guid } from "../../utils/guid";
 import { CSS } from "../pick-list-item/resources";
 import { ICONS, SLOTS } from "./resources";
 import { SLOTS as PICK_LIST_SLOTS } from "../pick-list-item/resources";
-import { getSlotted, toAriaBoolean } from "../../utils/dom";
+import { getSlotted } from "../../utils/dom";
 import {
   ConditionalSlotComponent,
   connectConditionalSlotComponent,
@@ -104,6 +104,8 @@ export class ValueListItem implements ConditionalSlotComponent, InteractiveCompo
 
   @Element() el: HTMLCalciteValueListItemElement;
 
+  handleEl: HTMLSpanElement;
+
   pickListItem: HTMLCalcitePickListItemElement = null;
 
   guid = `calcite-value-list-item-${guid()}`;
@@ -183,6 +185,7 @@ export class ValueListItem implements ConditionalSlotComponent, InteractiveCompo
 
   handleBlur = (): void => {
     this.handleActivated = false;
+    this.handleEl.ariaLabel = "";
   };
 
   handleSelectChange = (event: CustomEvent): void => {
@@ -226,6 +229,7 @@ export class ValueListItem implements ConditionalSlotComponent, InteractiveCompo
           data-js-handle
           onBlur={this.handleBlur}
           onKeyDown={this.handleKeyDown}
+          ref={(el) => (this.handleEl = el as HTMLSpanElement)}
           role="button"
           tabindex="0"
         >
