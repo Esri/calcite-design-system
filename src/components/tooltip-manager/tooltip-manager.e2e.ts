@@ -1,5 +1,4 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { TOOLTIP_DELAY_MS } from "../tooltip/resources";
 import { accessible, hidden, renders } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 

@@ -38,24 +38,6 @@ describe("calcite-modal properties", () => {
     expect(style).toEqual("400px");
   });
 
-  it("focuses the firstFocus element on load", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
-      <calcite-modal active>
-        <h3 slot="header">Title</h3>
-        <p slot="content">This is the content <button class="test">test</button></p>
-      </calcite-modal>
-    `);
-    const modal = await page.find("calcite-modal");
-    let $button;
-    await page.$eval(".test", (elm: any) => {
-      $button = elm.querySelector(".test");
-    });
-    modal.setProperty("firstFocus", $button);
-    await page.waitForChanges();
-    expect(document.activeElement).toEqual($button);
-  });
-
   it("calls the beforeClose method prior to closing", async () => {
     const page = await newE2EPage();
     const mockCallBack = jest.fn();

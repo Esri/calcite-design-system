@@ -69,17 +69,23 @@ export class InlineEditable implements InteractiveComponent, LabelableComponent 
   /** specify whether save/cancel controls should be displayed when editingEnabled is true, defaults to false */
   @Prop({ reflect: true }) controls = false;
 
-  /** specify text to be user for the enable editing button's aria-label, defaults to `Click to edit`
+  /**
+   * specify text to be user for the enable editing button's aria-label, defaults to `Click to edit`
+   *
    * @default "Click to edit"
    */
   @Prop({ reflect: true }) intlEnableEditing = TEXT.intlEnablingEditing;
 
-  /** specify text to be user for the cancel editing button's aria-label, defaults to `Cancel`
+  /**
+   * specify text to be user for the cancel editing button's aria-label, defaults to `Cancel`
+   *
    * @default "Cancel"
    */
   @Prop({ reflect: true }) intlCancelEditing = TEXT.intlCancelEditing;
 
-  /** specify text to be user for the confirm changes button's aria-label, defaults to `Save`
+  /**
+   * specify text to be user for the confirm changes button's aria-label, defaults to `Save`
+   *
    * @default "Save"
    */
   @Prop({ reflect: true }) intlConfirmChanges = TEXT.intlConfirmChanges;
@@ -191,7 +197,7 @@ export class InlineEditable implements InteractiveComponent, LabelableComponent 
   /**
    * @internal
    */
-  @Event() calciteInlineEditableEnableEditingChange: EventEmitter;
+  @Event() calciteInternalInlineEditableEnableEditingChange: EventEmitter;
 
   //--------------------------------------------------------------------------
   //
@@ -199,7 +205,7 @@ export class InlineEditable implements InteractiveComponent, LabelableComponent 
   //
   //--------------------------------------------------------------------------
 
-  @Listen("calciteInputBlur")
+  @Listen("calciteInternalInputBlur")
   blurHandler(): void {
     if (!this.controls) {
       this.disableEditing();
@@ -282,7 +288,7 @@ export class InlineEditable implements InteractiveComponent, LabelableComponent 
     this.valuePriorToEditing = this.inputElement?.value;
     this.editingEnabled = true;
     this.inputElement?.setFocus();
-    this.calciteInlineEditableEnableEditingChange.emit();
+    this.calciteInternalInlineEditableEnableEditingChange.emit();
   };
 
   private disableEditing = () => {

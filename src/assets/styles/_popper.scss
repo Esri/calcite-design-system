@@ -104,6 +104,8 @@ $popper-default-z-index: 900;
   }
 
   @include popperHostAnim();
+
+  @include calciteHydratedHidden();
 }
 
 $pointer_size: 8px;

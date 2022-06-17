@@ -79,8 +79,7 @@ export function calciteListItemChangeHandler<T extends Lists>(this: List<T>, eve
   this.emitCalciteListChange();
 }
 
-export function calciteListItemValueChangeHandler<T extends Lists>(this: List<T>, event: CustomEvent): void {
-  event.stopPropagation();
+export function calciteInternalListItemValueChangeHandler<T extends Lists>(this: List<T>, event: CustomEvent): void {
   const oldValue = event.detail.oldValue;
   const selectedValues = this.selectedValues as Map<string, ListItemElement<T>>;
 
@@ -89,6 +88,7 @@ export function calciteListItemValueChangeHandler<T extends Lists>(this: List<T>
     selectedValues.delete(oldValue);
     selectedValues.set(event.detail.newValue, item);
   }
+  event.stopPropagation();
 }
 
 // --------------------------------------------------------------------------

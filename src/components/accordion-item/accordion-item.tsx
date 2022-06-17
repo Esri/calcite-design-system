@@ -9,7 +9,7 @@ import {
   Prop,
   VNode
 } from "@stencil/core";
-import { getElementDir, getElementProp } from "../../utils/dom";
+import { getElementDir, getElementProp, toAriaBoolean } from "../../utils/dom";
 
 import { CSS_UTILITY } from "../../utils/resources";
 import { Position } from "../interfaces";
@@ -41,11 +41,27 @@ export class AccordionItem {
   /** Indicates whether the item is active. */
   @Prop({ reflect: true, mutable: true }) active = false;
 
-  /** pass a title for the accordion item */
+  /**
+   * pass a title for the accordion item
+   *
+   * @deprecated use heading instead
+   */
   @Prop() itemTitle?: string;
 
-  /** pass a title for the accordion item */
+  /** accordion item heading */
+  @Prop() heading?: string;
+
+  /**
+   * pass a title for the accordion item
+   *
+   * @deprecated use description instead
+   */
   @Prop() itemSubtitle?: string;
+
+  /**
+   * accordion item description
+   */
+  @Prop() description: string;
 
   /** optionally pass an icon to display - accepts Calcite UI icon names  */
   @Prop({ reflect: true }) icon?: string;
@@ -59,22 +75,22 @@ export class AccordionItem {
   /**
    * @internal
    */
-  @Event() calciteAccordionItemKeyEvent: EventEmitter;
+  @Event() calciteInternalAccordionItemKeyEvent: EventEmitter;
 
   /**
    * @internal
    */
-  @Event() calciteAccordionItemSelect: EventEmitter;
+  @Event() calciteInternalAccordionItemSelect: EventEmitter;
 
   /**
    * @internal
    */
-  @Event() calciteAccordionItemClose: EventEmitter;
+  @Event() calciteInternalAccordionItemClose: EventEmitter;
 
   /**
    * @internal
    */
-  @Event() calciteAccordionItemRegister: EventEmitter;
+  @Event() calciteInternalAccordionItemRegister: EventEmitter;
 
   //--------------------------------------------------------------------------
   //
@@ -91,7 +107,7 @@ export class AccordionItem {
 
   componentDidLoad(): void {
     this.itemPosition = this.getItemPosition();
-    this.calciteAccordionItemRegister.emit({
+    this.calciteInternalAccordionItemRegister.emit({
       parent: this.parent,
       position: this.itemPosition
     });
@@ -123,9 +139,11 @@ export class AccordionItem {
           >
             {this.icon ? iconEl : null}
             <div class="accordion-item-header-text">
-              <span class="accordion-item-title">{this.itemTitle}</span>
+              <span class="accordion-item-heading">{this.heading || this.itemTitle}</span>
               {this.itemSubtitle ? (
-                <span class="accordion-item-subtitle">{this.itemSubtitle}</span>
+                <span class="accordion-item-description">
+                  {this.description || this.itemSubtitle}
+                </span>
               ) : null}
             </div>
             <calcite-icon
@@ -143,7 +161,7 @@ export class AccordionItem {
             />
           </div>
           <div
-            aria-expanded={this.active.toString()}
+            aria-expanded={toAriaBoolean(this.active)}
             aria-labelledby={buttonId}
             class="accordion-item-content"
             id={regionId}
@@ -162,7 +180,8 @@ export class AccordionItem {
   //
   //--------------------------------------------------------------------------
 
-  @Listen("keydown") keyDownHandler(e: KeyboardEvent): void {
+  @Listen("keydown")
+  keyDownHandler(e: KeyboardEvent): void {
     if (e.target === this.el) {
       switch (e.key) {
         case " ":
@@ -174,7 +193,7 @@ export class AccordionItem {
         case "ArrowDown":
         case "Home":
         case "End":
-          this.calciteAccordionItemKeyEvent.emit({
+          this.calciteInternalAccordionItemKeyEvent.emit({
             parent: this.parent,
             item: e
           });
@@ -184,7 +203,7 @@ export class AccordionItem {
     }
   }
 
-  @Listen("calciteAccordionChange", { target: "body" })
+  @Listen("calciteInternalAccordionChange", { target: "body" })
   updateActiveItemOnChange(event: CustomEvent): void {
     this.requestedAccordionItem = event.detail
       .requestedAccordionItem as HTMLCalciteAccordionItemElement;
@@ -192,6 +211,7 @@ export class AccordionItem {
       return;
     }
     this.determineActiveItem();
+    event.stopPropagation();
   }
 
   //--------------------------------------------------------------------------
@@ -247,7 +267,7 @@ export class AccordionItem {
   }
 
   private emitRequestedItem(): void {
-    this.calciteAccordionItemSelect.emit({
+    this.calciteInternalAccordionItemSelect.emit({
       requestedAccordionItem: this.el as HTMLCalciteAccordionItemElement
     });
   }

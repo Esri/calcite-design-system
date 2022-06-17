@@ -49,9 +49,7 @@
     border-none
     px-1
     outline-none
-    transition-all
-    duration-150
-    ease-in-out;
+    transition-default;
   width: calc(100% / 7);
 
   &:focus {

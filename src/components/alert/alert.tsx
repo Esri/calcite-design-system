@@ -12,12 +12,13 @@ import {
   VNode,
   Watch
 } from "@stencil/core";
-import { getSlotted, setRequestedIcon } from "../../utils/dom";
+import { getSlotted, setRequestedIcon, toAriaBoolean } from "../../utils/dom";
 import { DURATIONS, SLOTS, TEXT } from "./resources";
 import { Scale } from "../interfaces";
 import { AlertDuration, AlertPlacement, StatusColor, StatusIcons } from "./interfaces";
 
-/** Alerts are meant to provide a way to communicate urgent or important information to users, frequently as a result of an action they took in your app. Alerts are positioned
+/**
+ * Alerts are meant to provide a way to communicate urgent or important information to users, frequently as a result of an action they took in your app. Alerts are positioned
  * at the bottom of the page. Multiple opened alerts will be added to a queue, allowing users to dismiss them in the order they are provided.
  */
 
@@ -53,11 +54,11 @@ export class Alert {
   @Watch("active")
   watchActive(): void {
     if (this.active && !this.queued) {
-      this.calciteAlertRegister.emit();
+      this.calciteInternalAlertRegister.emit();
     }
     if (!this.active) {
       this.queue = this.queue.filter((e) => e !== this.el);
-      this.calciteAlertSync.emit({ queue: this.queue });
+      this.calciteInternalAlertSync.emit({ queue: this.queue });
     }
   }
 
@@ -70,11 +71,15 @@ export class Alert {
   /** Color for the alert (will apply to top border and icon) */
   @Prop({ reflect: true }) color: StatusColor = "blue";
 
-  /** when used as a boolean set to true, show a default recommended icon. You can
-   * also pass a calcite-ui-icon name to this prop to display a requested icon */
+  /**
+   * when used as a boolean set to true, show a default recommended icon. You can
+   * also pass a calcite-ui-icon name to this prop to display a requested icon
+   */
   @Prop({ reflect: true }) icon: string | boolean;
 
-  /** string to override English close text
+  /**
+   * string to override English close text
+   *
    * @default "Close"
    */
   @Prop() intlClose: string = TEXT.intlClose;
@@ -113,7 +118,7 @@ export class Alert {
 
   connectedCallback(): void {
     if (this.active && !this.queued) {
-      this.calciteAlertRegister.emit();
+      this.calciteInternalAlertRegister.emit();
     }
   }
 
@@ -123,6 +128,9 @@ export class Alert {
 
   disconnectedCallback(): void {
     window.clearTimeout(this.autoDismissTimeoutId);
+    if (this.containerDiv) {
+      this.containerDiv.removeEventListener("transitionrun", this.onTransitionRun);
+    }
   }
 
   render(): VNode {
@@ -151,7 +159,7 @@ export class Alert {
     const hidden = !active;
     return (
       <Host
-        aria-hidden={hidden.toString()}
+        aria-hidden={toAriaBoolean(hidden)}
         aria-label={label}
         calcite-hydrated-hidden={hidden}
         role={role}
@@ -163,6 +171,7 @@ export class Alert {
             [placement]: true
           }}
           onTransitionEnd={this.transitionEnd}
+          ref={this.setContainerDiv}
         >
           {requestedIcon ? (
             <div class="alert-icon">
@@ -188,10 +197,16 @@ export class Alert {
   //
   //--------------------------------------------------------------------------
 
-  /** Fired when an alert is closed */
+  /* Fired when an alert is requested to be closed and before the closing transition begins. */
+  @Event() calciteAlertBeforeClose: EventEmitter;
+
+  /* Fired when an alert has been closed and animation is complete */
   @Event() calciteAlertClose: EventEmitter;
 
-  /** Fired when an alert is opened */
+  /* Fired while alert is still invisible but was added to the DOM, and before the opening transition begins. */
+  @Event() calciteAlertBeforeOpen: EventEmitter;
+
+  /* Fired when an alert has been opened and animation is complete */
   @Event() calciteAlertOpen: EventEmitter;
 
   /**
@@ -199,33 +214,34 @@ export class Alert {
    *
    * @internal
    */
-  @Event() calciteAlertSync: EventEmitter;
+  @Event() calciteInternalAlertSync: EventEmitter;
 
   /**
    * Fired when an alert is added to dom - used to receive initial queue
    *
    * @internal
    */
-  @Event() calciteAlertRegister: EventEmitter;
+  @Event() calciteInternalAlertRegister: EventEmitter;
 
   // when an alert is opened or closed, update queue and determine active alert
-  @Listen("calciteAlertSync", { target: "window" })
+  @Listen("calciteInternalAlertSync", { target: "window" })
   alertSync(event: CustomEvent): void {
     if (this.queue !== event.detail.queue) {
       this.queue = event.detail.queue;
     }
     this.queueLength = this.queue.length;
     this.determineActiveAlert();
+    event.stopPropagation();
   }
 
-  // when an alert is first registered, trigger a queue sync to get queue
-  @Listen("calciteAlertRegister", { target: "window" })
+  // when an alert is first registered, trigger a queue sync
+  @Listen("calciteInternalAlertRegister", { target: "window" })
   alertRegister(): void {
     if (this.active && !this.queue.includes(this.el as HTMLCalciteAlertElement)) {
       this.queued = true;
       this.queue.push(this.el as HTMLCalciteAlertElement);
     }
-    this.calciteAlertSync.emit({ queue: this.queue });
+    this.calciteInternalAlertSync.emit({ queue: this.queue });
     this.determineActiveAlert();
   }
 
@@ -264,6 +280,13 @@ export class Alert {
   /** is the alert queued */
   @State() queued = false;
 
+  private containerDiv: HTMLDivElement;
+
+  private setContainerDiv = (el): void => {
+    this.containerDiv = el;
+    this.containerDiv.addEventListener("transitionrun", this.onTransitionRun);
+  };
+
   /** the close button element */
   private closeButton?: HTMLButtonElement;
 
@@ -301,33 +324,54 @@ export class Alert {
     }
   }
 
-  /** close and emit the closed alert and the queue */
+  /** close and emit calciteInternalAlertSync event with the updated queue payload */
   private closeAlert = (): void => {
     this.autoDismissTimeoutId = null;
     this.queued = false;
     this.active = false;
     this.queue = this.queue.filter((e) => e !== this.el);
     this.determineActiveAlert();
-    this.calciteAlertSync.emit({ queue: this.queue });
+    this.calciteInternalAlertSync.emit({ queue: this.queue });
+  };
+
+  /* *
+  - `transitionrun` fires when the transition is created at the start of any delay and is not cancellable once started.
+  - if there is no transition delay, both `transitionrun` and `transitionstart` are fired at the same time.
+  */
+  onTransitionRun = (event: TransitionEvent): void => {
+    if (event.propertyName === this.activeTransitionProp) {
+      this.active
+        ? this.openCloseEventEmitter("beforeOpening")
+        : this.openCloseEventEmitter("beforeClosing");
+    }
   };
 
   transitionEnd = (event: TransitionEvent): void => {
     if (event.propertyName === this.activeTransitionProp) {
-      this.active
-        ? this.calciteAlertOpen.emit({
-            el: this.el,
-            queue: this.queue
-          })
-        : this.calciteAlertClose.emit({
-            el: this.el,
-            queue: this.queue
-          });
+      this.active ? this.openCloseEventEmitter("isOpen") : this.openCloseEventEmitter("isClosed");
     }
   };
 
-  /** emit the opened alert and the queue */
+  /** remove queued class after animation completes */
   private openAlert(): void {
     window.clearTimeout(this.queueTimeout);
     this.queueTimeout = window.setTimeout(() => (this.queued = false), 300);
+  }
+
+  private openCloseEventEmitter(componentVisibilityState: string): void {
+    const payload = {
+      el: this.el,
+      queue: this.queue
+    };
+    const emitComponentState = {
+      beforeOpening: () => this.calciteAlertBeforeOpen.emit(payload),
+      isOpen: () => this.calciteAlertOpen.emit(payload),
+      beforeClosing: () => this.calciteAlertBeforeClose.emit(payload),
+      isClosed: () => this.calciteAlertClose.emit(payload)
+    };
+    (
+      emitComponentState[componentVisibilityState] ||
+      emitComponentState["The component state is unknown."]
+    )();
   }
 }

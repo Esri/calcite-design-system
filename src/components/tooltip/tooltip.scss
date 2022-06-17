@@ -6,9 +6,6 @@
     text-color-1
     text-n2-wrap
     relative
-    flex
-    flex-col
-    justify-start
     overflow-hidden
     rounded
     py-3
@@ -16,6 +13,7 @@
     font-medium;
   max-width: 20rem;
   max-height: 20rem;
+  text-align: start;
 }
 
 .calcite-popper-anim {

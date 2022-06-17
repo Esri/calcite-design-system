@@ -1,5 +1,5 @@
 :host {
-  @apply mr-5 block flex-initial outline-none;
+  @apply block flex-initial outline-none;
   margin-inline-start: theme("margin.0");
   margin-inline-end: theme("margin.5");
 }
@@ -10,6 +10,13 @@
 }
 
 :host([position="below"]) a {
+  @apply border-t-color-transparent
+    border-b-0
+    border-t-2;
+  border-top-style: solid;
+}
+
+:host([position="bottom"]) a {
   @apply border-t-color-transparent
     border-b-0
     border-t-2;
@@ -132,6 +139,10 @@ span {
   box-shadow: inset 0 2px 0 var(--calcite-ui-foreground-1);
 }
 
+:host([bordered][active][position="bottom"]) {
+  box-shadow: inset 0 2px 0 var(--calcite-ui-foreground-1);
+}
+
 :host([bordered]:hover),
 :host([bordered]:focus),
 :host([bordered]:active) {
@@ -155,6 +166,10 @@ span {
   border-top-style: unset;
 }
 
+:host([bordered][position="bottom"]) a {
+  border-top-style: unset;
+}
+
 :host([active][bordered]) a {
   border-left: 1px solid var(--calcite-ui-border-1);
   border-right: 1px solid var(--calcite-ui-border-1);
@@ -163,20 +178,55 @@ span {
 :host([bordered]) {
   a,
   span {
-    @apply pl-3 pr-3;
+    @apply px-3;
   }
 }
 
 :host([bordered][scale="s"]) {
   a,
   span {
-    @apply pl-2 pr-2;
+    @apply px-2;
   }
 }
 
 :host([bordered][scale="l"]) {
   a,
   span {
-    @apply pl-4 pr-4;
+    @apply px-4;
+  }
+}
+
+@media (forced-colors: active) {
+  :host {
+    outline-width: 0;
+    outline-offset: 0;
+  }
+
+  :host(:focus) a {
+    outline-color: highlight;
+  }
+
+  :host([bordered]) a {
+    border-bottom-style: solid;
+  }
+
+  :host([bordered][position="below"]) a {
+    border-top-style: solid;
+  }
+
+  :host([bordered][position="bottom"]) a {
+    border-top-style: solid;
+  }
+
+  :host([bordered][active]) a {
+    border-bottom-style: none;
+  }
+
+  :host([bordered][position="below"][active]) a {
+    border-top-style: none;
+  }
+
+  :host([bordered][position="bottom"][active]) a {
+    border-top-style: none;
   }
 }

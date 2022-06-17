@@ -2,6 +2,10 @@
   @apply block;
 }
 
+.container {
+  text-align: start;
+}
+
 .container--s {
   @apply text-n2h;
   .dropdown-title {

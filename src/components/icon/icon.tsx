@@ -1,6 +1,6 @@
 import { Build, Component, Element, h, Host, Prop, State, VNode, Watch } from "@stencil/core";
 import { CSS } from "./resources";
-import { getElementDir } from "../../utils/dom";
+import { getElementDir, toAriaBoolean } from "../../utils/dom";
 import { fetchIcon, scaleToPx } from "./utils";
 import { Scale } from "../interfaces";
 import { CalciteIconPath, CalciteMultiPathEntry } from "@esri/calcite-ui-icons";
@@ -90,7 +90,7 @@ export class Icon {
     const paths = [].concat(pathData || "");
     return (
       <Host
-        aria-hidden={(!semantic).toString()}
+        aria-hidden={toAriaBoolean(!semantic)}
         aria-label={semantic ? textLabel : null}
         role={semantic ? "img" : null}
       >

@@ -60,12 +60,14 @@ export class DatePicker {
 
   /**
    * Selected start date as full date object
+   *
    * @deprecated use valueAsDate instead
    */
   @Prop({ mutable: true }) startAsDate?: Date;
 
   /**
    * Selected end date as full date object
+   *
    * @deprecated use valueAsDate instead
    */
   @Prop({ mutable: true }) endAsDate?: Date;
@@ -90,7 +92,9 @@ export class DatePicker {
 
   @Watch("min")
   onMinChanged(min: string): void {
-    this.minAsDate = dateFromISO(min);
+    if (min) {
+      this.minAsDate = dateFromISO(min);
+    }
   }
 
   /** Latest allowed date ("yyyy-mm-dd") */
@@ -98,20 +102,28 @@ export class DatePicker {
 
   @Watch("max")
   onMaxChanged(max: string): void {
-    this.maxAsDate = dateFromISO(max);
+    if (max) {
+      this.maxAsDate = dateFromISO(max);
+    }
   }
 
-  /** Localized string for "previous month" (used for aria label)
+  /**
+   * Localized string for "previous month" (used for aria label)
+   *
    * @default "Previous month"
    */
   @Prop() intlPrevMonth?: string = TEXT.prevMonth;
 
-  /** Localized string for "next month" (used for aria label)
+  /**
+   * Localized string for "next month" (used for aria label)
+   *
    * @default "Next month"
    */
   @Prop() intlNextMonth?: string = TEXT.nextMonth;
 
-  /** Localized string for "year" (used for aria label)
+  /**
+   * Localized string for "year" (used for aria label)
+   *
    * @default "Year"
    */
   @Prop() intlYear?: string = TEXT.year;
@@ -127,12 +139,14 @@ export class DatePicker {
 
   /**
    * Selected start date
+   *
    * @deprecated use value instead
    */
   @Prop({ mutable: true }) start?: string;
 
   /**
    * Selected end date
+   *
    * @deprecated use value instead
    */
   @Prop({ mutable: true }) end?: string;
@@ -152,6 +166,7 @@ export class DatePicker {
 
   /**
    * Trigger calcite date change when a user changes the date range.
+   *
    * @see [DateRangeChange](https://github.com/Esri/calcite-components/blob/master/src/components/date-picker/interfaces.ts#L1)
    */
   @Event() calciteDatePickerRangeChange: EventEmitter<DateRangeChange>;
@@ -246,7 +261,6 @@ export class DatePicker {
           ? endDate || this.maxAsDate
           : this.maxAsDate
         : this.maxAsDate;
-
     return (
       <Host onBlur={this.reset} onKeyUp={this.keyUpHandler} role="application">
         {this.renderCalendar(activeDate, maxDate, minDate, date, endDate)}
@@ -394,6 +408,7 @@ export class DatePicker {
         this.hoverRange = undefined;
       }
     }
+    e.stopPropagation();
   };
 
   monthMouseOutChange = (): void => {
@@ -404,6 +419,12 @@ export class DatePicker {
 
   /**
    * Render calcite-date-picker-month-header and calcite-date-picker-month
+   *
+   * @param activeDate
+   * @param maxDate
+   * @param minDate
+   * @param date
+   * @param endDate
    */
   private renderCalendar(
     activeDate: Date,
@@ -435,9 +456,9 @@ export class DatePicker {
           max={maxDate}
           min={minDate}
           onCalciteDatePickerActiveDateChange={this.monthActiveDateChange}
-          onCalciteDatePickerHover={this.monthHoverChange}
-          onCalciteDatePickerMouseOut={this.monthMouseOutChange}
           onCalciteDatePickerSelect={this.monthDateChange}
+          onCalciteInternalDatePickerHover={this.monthHoverChange}
+          onCalciteInternalDatePickerMouseOut={this.monthMouseOutChange}
           scale={this.scale}
           selectedDate={this.activeRange === "end" ? endDate : date}
           startDate={this.range ? date : undefined}
@@ -448,6 +469,9 @@ export class DatePicker {
 
   /**
    * Update date instance of start if valid
+   *
+   * @param startDate
+   * @param emit
    */
   private setStartAsDate(startDate: Date, emit?: boolean): void {
     this.startAsDate = startDate;
@@ -462,6 +486,9 @@ export class DatePicker {
 
   /**
    * Update date instance of end if valid
+   *
+   * @param endDate
+   * @param emit
    */
   private setEndAsDate(endDate: Date, emit?: boolean): void {
     this.endAsDate = endDate;
@@ -507,6 +534,8 @@ export class DatePicker {
 
   /**
    * Event handler for when the selected date changes
+   *
+   * @param e
    */
   private monthDateChange = (e: CustomEvent<Date>): void => {
     const date = new Date(e.detail);
@@ -560,6 +589,10 @@ export class DatePicker {
 
   /**
    * Get an active date using the value, or current date as default
+   *
+   * @param value
+   * @param min
+   * @param max
    */
   private getActiveDate(value: Date | null, min: Date | null, max: Date | null): Date {
     return dateFromRange(this.activeDate, min, max) || value || dateFromRange(new Date(), min, max);

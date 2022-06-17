@@ -51,16 +51,24 @@ export class TabNav {
    */
   @Prop() syncId: string;
 
-  /** @internal Parent tabs component scale value */
+  /**
+   * @internal
+   */
   @Prop({ reflect: true, mutable: true }) scale: Scale = "m";
 
-  /** @internal Parent tabs component layout value */
+  /**
+   * @internal
+   */
   @Prop({ reflect: true, mutable: true }) layout: TabLayout = "inline";
 
-  /** @internal Parent tabs component position value */
-  @Prop({ reflect: true, mutable: true }) position: TabPosition = "below";
+  /**
+   * @internal
+   */
+  @Prop({ reflect: true, mutable: true }) position: TabPosition = "bottom";
 
-  /** @internal Parent tabs component bordered value when layout is "inline" */
+  /**
+   * @internal
+   */
   @Prop({ reflect: true, mutable: true }) bordered = false;
 
   /**
@@ -183,7 +191,8 @@ export class TabNav {
   //
   //--------------------------------------------------------------------------
 
-  @Listen("calciteTabsFocusPrevious") focusPreviousTabHandler(e: CustomEvent): void {
+  @Listen("calciteInternalTabsFocusPrevious")
+  focusPreviousTabHandler(e: CustomEvent): void {
     const currentIndex = this.getIndexOfTabTitle(
       e.target as HTMLCalciteTabTitleElement,
       this.enabledTabTitles
@@ -193,13 +202,14 @@ export class TabNav {
       this.enabledTabTitles[currentIndex - 1] ||
       this.enabledTabTitles[this.enabledTabTitles.length - 1];
 
-    previousTab.focus();
+    previousTab?.focus();
 
     e.stopPropagation();
     e.preventDefault();
   }
 
-  @Listen("calciteTabsFocusNext") focusNextTabHandler(e: CustomEvent): void {
+  @Listen("calciteInternalTabsFocusNext")
+  focusNextTabHandler(e: CustomEvent): void {
     const currentIndex = this.getIndexOfTabTitle(
       e.target as HTMLCalciteTabTitleElement,
       this.enabledTabTitles
@@ -207,15 +217,14 @@ export class TabNav {
 
     const nextTab = this.enabledTabTitles[currentIndex + 1] || this.enabledTabTitles[0];
 
-    nextTab.focus();
+    nextTab?.focus();
 
     e.stopPropagation();
     e.preventDefault();
   }
 
-  @Listen("calciteInternalTabsActivate") internalActivateTabHandler(
-    e: CustomEvent<TabChangeEventDetail>
-  ): void {
+  @Listen("calciteInternalTabsActivate")
+  internalActivateTabHandler(e: CustomEvent<TabChangeEventDetail>): void {
     this.selectedTab = e.detail.tab
       ? e.detail.tab
       : this.getIndexOfTabTitle(e.target as HTMLCalciteTabTitleElement);
@@ -234,16 +243,18 @@ export class TabNav {
 
   /**
    * Check for active tabs on register and update selected
+   *
+   * @param e
    */
-  @Listen("calciteTabTitleRegister") updateTabTitles(e: CustomEvent<TabID>): void {
+  @Listen("calciteInternalTabTitleRegister")
+  updateTabTitles(e: CustomEvent<TabID>): void {
     if ((e.target as HTMLCalciteTabTitleElement).active) {
       this.selectedTab = e.detail;
     }
   }
 
-  @Listen("calciteInternalTabChange", { target: "body" }) globalInternalTabChangeHandler(
-    e: CustomEvent<TabChangeEventDetail>
-  ): void {
+  @Listen("calciteInternalTabChange", { target: "body" })
+  globalInternalTabChangeHandler(e: CustomEvent<TabChangeEventDetail>): void {
     if (
       this.syncId &&
       e.target !== this.el &&
@@ -253,6 +264,7 @@ export class TabNav {
       this.selectedTab = e.detail.tab;
       e.stopPropagation();
     }
+    e.stopPropagation();
   }
 
   //--------------------------------------------------------------------------
@@ -263,6 +275,7 @@ export class TabNav {
 
   /**
    * Emitted when the active tab changes
+   *
    * @see [TabChangeEventDetail](https://github.com/Esri/calcite-components/blob/master/src/components/tab/interfaces.ts#L1)
    */
   @Event() calciteTabChange: EventEmitter<TabChangeEventDetail>;

@@ -37,8 +37,10 @@ export class Accordion {
   /** specify the scale of accordion, defaults to m */
   @Prop({ reflect: true }) scale: Scale = "m";
 
-  /** specify the selection mode - multi (allow any number of open items), single (allow one open item),
-   * or single-persist (allow and require one open item), defaults to multi */
+  /**
+   * specify the selection mode - multi (allow any number of open items), single (allow one open item),
+   * or single-persist (allow and require one open item), defaults to multi
+   */
   @Prop({ reflect: true }) selectionMode: "multi" | "single" | "single-persist" = "multi";
 
   //--------------------------------------------------------------------------
@@ -50,7 +52,7 @@ export class Accordion {
   /**
    * @internal
    */
-  @Event() calciteAccordionChange: EventEmitter;
+  @Event() calciteInternalAccordionChange: EventEmitter;
 
   //--------------------------------------------------------------------------
   //
@@ -85,7 +87,8 @@ export class Accordion {
   //
   //--------------------------------------------------------------------------
 
-  @Listen("calciteAccordionItemKeyEvent") calciteAccordionItemKeyEvent(e: CustomEvent): void {
+  @Listen("calciteInternalAccordionItemKeyEvent")
+  calciteInternalAccordionItemKeyEvent(e: CustomEvent): void {
     const item = e.detail.item;
     const parent = e.detail.parent as HTMLCalciteAccordionElement;
     if (this.el === parent) {
@@ -116,9 +119,11 @@ export class Accordion {
           break;
       }
     }
+    e.stopPropagation();
   }
 
-  @Listen("calciteAccordionItemRegister") registerCalciteAccordionItem(e: CustomEvent): void {
+  @Listen("calciteInternalAccordionItemRegister")
+  registerCalciteAccordionItem(e: CustomEvent): void {
     const item = {
       item: e.target as HTMLCalciteAccordionItemElement,
       parent: e.detail.parent as HTMLCalciteAccordionElement,
@@ -127,13 +132,16 @@ export class Accordion {
     if (this.el === item.parent) {
       this.items.push(item);
     }
+    e.stopPropagation();
   }
 
-  @Listen("calciteAccordionItemSelect") updateActiveItemOnChange(event: CustomEvent): void {
+  @Listen("calciteInternalAccordionItemSelect")
+  updateActiveItemOnChange(event: CustomEvent): void {
     this.requestedAccordionItem = event.detail.requestedAccordionItem;
-    this.calciteAccordionChange.emit({
+    this.calciteInternalAccordionChange.emit({
       requestedAccordionItem: this.requestedAccordionItem
     });
+    event.stopPropagation();
   }
 
   //--------------------------------------------------------------------------
@@ -185,7 +193,7 @@ export class Accordion {
 
   private focusElement(item) {
     const target = item as HTMLCalciteAccordionItemElement;
-    target.focus();
+    target?.focus();
   }
 
   private sortItems = (items: any[]): any[] =>

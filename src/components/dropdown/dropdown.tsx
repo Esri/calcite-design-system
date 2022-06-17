@@ -13,7 +13,7 @@ import {
 } from "@stencil/core";
 import { ItemKeyboardEvent } from "./interfaces";
 
-import { focusElement } from "../../utils/dom";
+import { focusElement, toAriaBoolean } from "../../utils/dom";
 import {
   ComputedPlacement,
   createPopper,
@@ -97,7 +97,7 @@ export class Dropdown implements InteractiveComponent {
   /**
    specify the maximum number of calcite-dropdown-items to display before showing the scroller, must be greater than 0 -
    this value does not include groupTitles passed to calcite-dropdown-group
-  */
+   */
   @Prop() maxItems = 0;
 
   @Watch("maxItems")
@@ -110,6 +110,7 @@ export class Dropdown implements InteractiveComponent {
 
   /**
    * Determines where the dropdown will be positioned relative to the button.
+   *
    * @default "bottom-leading"
    */
   @Prop({ reflect: true }) placement: MenuPlacement = defaultMenuPlacement;
@@ -132,8 +133,8 @@ export class Dropdown implements InteractiveComponent {
   /** specify whether the dropdown is opened by hover or click of a trigger element */
   @Prop({ reflect: true }) type: "hover" | "click" = "click";
 
-  /** specify the width of dropdown, defaults to m */
-  @Prop({ reflect: true }) width: Scale = "m";
+  /** specify the width of dropdown */
+  @Prop({ reflect: true }) width?: Scale;
 
   //--------------------------------------------------------------------------
   //
@@ -173,14 +174,14 @@ export class Dropdown implements InteractiveComponent {
           ref={this.setReferenceEl}
         >
           <slot
-            aria-expanded={active.toString()}
+            aria-expanded={toAriaBoolean(active)}
             aria-haspopup="true"
             name={SLOTS.dropdownTrigger}
             onSlotchange={this.updateTriggers}
           />
         </div>
         <div
-          aria-hidden={(!active).toString()}
+          aria-hidden={toAriaBoolean(!active)}
           class="calcite-dropdown-wrapper"
           ref={this.setMenuEl}
         >
@@ -231,13 +232,13 @@ export class Dropdown implements InteractiveComponent {
   //
   //--------------------------------------------------------------------------
 
-  /** fires when a dropdown item has been selected or deselected **/
+  /** fires when a dropdown item has been selected or deselected */
   @Event() calciteDropdownSelect: EventEmitter<void>;
 
-  /** fires when a dropdown has been opened **/
+  /** fires when a dropdown has been opened */
   @Event() calciteDropdownOpen: EventEmitter<void>;
 
-  /** fires when a dropdown has been closed **/
+  /** fires when a dropdown has been closed */
   @Event() calciteDropdownClose: EventEmitter<void>;
 
   @Listen("click", { target: "window" })
@@ -249,9 +250,10 @@ export class Dropdown implements InteractiveComponent {
     this.closeCalciteDropdown(false);
   }
 
-  @Listen("calciteDropdownCloseRequest")
-  closeCalciteDropdownOnEvent(): void {
+  @Listen("calciteInternalDropdownCloseRequest")
+  closeCalciteDropdownOnEvent(e: Event): void {
     this.closeCalciteDropdown();
+    e.stopPropagation();
   }
 
   @Listen("calciteDropdownOpen", { target: "window" })
@@ -277,8 +279,8 @@ export class Dropdown implements InteractiveComponent {
     }
   }
 
-  @Listen("calciteDropdownItemKeyEvent")
-  calciteDropdownItemKeyEvent(e: CustomEvent<ItemKeyboardEvent>): void {
+  @Listen("calciteInternalDropdownItemKeyEvent")
+  calciteInternalDropdownItemKeyEvent(e: CustomEvent<ItemKeyboardEvent>): void {
     const { keyboardEvent } = e.detail;
     // handle edge
     const target = keyboardEvent.target as HTMLCalciteDropdownItemElement;
@@ -314,7 +316,7 @@ export class Dropdown implements InteractiveComponent {
     e.stopPropagation();
   }
 
-  @Listen("calciteDropdownItemSelect")
+  @Listen("calciteInternalDropdownItemSelect")
   handleItemSelect(event: CustomEvent): void {
     this.updateSelectedItems();
     event.stopPropagation();
@@ -325,6 +327,7 @@ export class Dropdown implements InteractiveComponent {
     ) {
       this.closeCalciteDropdown();
     }
+    event.stopPropagation();
   }
 
   //--------------------------------------------------------------------------
@@ -354,7 +357,7 @@ export class Dropdown implements InteractiveComponent {
 
   mutationObserver = createObserver("mutation", () => this.updateItems());
 
-  resizeObserver = createObserver("resize", () => this.setMaxScrollerHeight());
+  resizeObserver = createObserver("resize", (entries) => this.resizeObserverCallback(entries));
 
   //--------------------------------------------------------------------------
   //
@@ -398,6 +401,28 @@ export class Dropdown implements InteractiveComponent {
     this.updateItems();
   };
 
+  resizeObserverCallback = (entries: ResizeObserverEntry[]): void => {
+    entries.forEach((entry) => {
+      const { target } = entry;
+      if (target === this.referenceEl) {
+        this.setDropdownWidth();
+      } else if (target === this.scrollerEl) {
+        this.setMaxScrollerHeight();
+      }
+    });
+  };
+
+  setDropdownWidth = (): void => {
+    const { referenceEl, scrollerEl } = this;
+    const referenceElWidth = referenceEl?.clientWidth;
+
+    if (!referenceElWidth || !scrollerEl) {
+      return;
+    }
+
+    scrollerEl.style.minWidth = `${referenceElWidth}px`;
+  };
+
   setMaxScrollerHeight = (): void => {
     const { active, scrollerEl } = this;
 
@@ -424,6 +449,7 @@ export class Dropdown implements InteractiveComponent {
 
   setReferenceEl = (el: HTMLDivElement): void => {
     this.referenceEl = el;
+    this.resizeObserver.observe(el);
   };
 
   setMenuEl = (el: HTMLDivElement): void => {

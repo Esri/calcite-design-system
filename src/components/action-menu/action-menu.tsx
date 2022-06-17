@@ -11,7 +11,7 @@ import {
   State
 } from "@stencil/core";
 import { CSS, SLOTS, ICONS } from "./resources";
-import { focusElement, getSlotted } from "../../utils/dom";
+import { focusElement, getSlotted, toAriaBoolean } from "../../utils/dom";
 import { Fragment, VNode } from "@stencil/core/internal";
 import { getRoundRobinIndex } from "../../utils/array";
 import { PopperPlacement, OverlayPositioning, ComputedPlacement } from "../../utils/popper";
@@ -95,6 +95,8 @@ export class ActionMenu implements ConditionalSlotComponent {
       this.menuButtonEl.active = open;
     }
     this.calciteActionMenuOpenChange.emit(open);
+
+    this.setTooltipReferenceElement();
   }
 
   /** Describes the type of positioning to use for the overlaid content. If your element is in a fixed container, use the 'fixed' value. */
@@ -102,6 +104,7 @@ export class ActionMenu implements ConditionalSlotComponent {
 
   /**
    * Determines where the component will be positioned relative to the referenceElement.
+   *
    * @see [PopperPlacement](https://github.com/Esri/calcite-components/blob/master/src/utils/popper.ts#L25)
    */
   @Prop({ reflect: true }) placement: PopperPlacement = "auto";
@@ -205,7 +208,7 @@ export class ActionMenu implements ConditionalSlotComponent {
 
     menuButtonEl.active = open;
     menuButtonEl.setAttribute("aria-controls", menuId);
-    menuButtonEl.setAttribute("aria-expanded", open.toString());
+    menuButtonEl.setAttribute("aria-expanded", toAriaBoolean(open));
     menuButtonEl.setAttribute("aria-haspopup", "true");
 
     if (!menuButtonEl.id) {
@@ -243,7 +246,7 @@ export class ActionMenu implements ConditionalSlotComponent {
   };
 
   renderMenuButton(): VNode {
-    const { label, scale } = this;
+    const { label, scale, expanded } = this;
 
     const menuButtonSlot = (
       <slot name={SLOTS.trigger}>
@@ -253,6 +256,7 @@ export class ActionMenu implements ConditionalSlotComponent {
           ref={this.setDefaultMenuButtonEl}
           scale={scale}
           text={label}
+          textEnabled={expanded}
         />
       </slot>
     );
@@ -342,10 +346,10 @@ export class ActionMenu implements ConditionalSlotComponent {
   };
 
   setTooltipReferenceElement = (): void => {
-    const { tooltipEl, expanded, menuButtonEl } = this;
+    const { tooltipEl, expanded, menuButtonEl, open } = this;
 
     if (tooltipEl) {
-      tooltipEl.referenceElement = !expanded ? menuButtonEl : null;
+      tooltipEl.referenceElement = !expanded && !open ? menuButtonEl : null;
     }
   };
 

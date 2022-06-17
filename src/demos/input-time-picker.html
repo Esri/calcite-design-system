@@ -107,9 +107,6 @@
         document.addEventListener("calciteInputTimePickerChange", (event) => {
           console.log("calciteInputTimePickerChange", event.target.value);
         });
-        document.addEventListener("calciteTimePickerChange", (event) => {
-          console.log("calciteTimePickerChange", event.target.value);
-        });
         document.addEventListener("calciteTileSelectChange", (event) => {
           inputTimePickerEls.forEach((inputTimePickerEl) => (inputTimePickerEl.locale = event.target.value));
           timePickerEls.forEach((timePickerEl) => (timePickerEl.locale = event.target.value));

@@ -16,7 +16,7 @@ import {
   ListFocusId,
   calciteListFocusOutHandler,
   calciteListItemChangeHandler,
-  calciteListItemValueChangeHandler,
+  calciteInternalListItemValueChangeHandler,
   cleanUpObserver,
   deselectSiblingItems,
   deselectRemovedItems,
@@ -40,7 +40,7 @@ import { InteractiveComponent, updateHostInteraction } from "../../utils/interac
 import { DragStatus } from "./interfaces";
 
 /**
- * @slot - A slot for adding calcite-value-list-item elements. List items are displayed as a vertical list.
+ * @slot - A slot for adding `calcite-value-list-item` elements. List items are displayed as a vertical list.
  * @slot menu-actions - A slot for adding a button and menu combination for performing actions, such as sorting.
  */
 @Component({
@@ -210,15 +210,16 @@ export class ValueList<
     calciteListItemChangeHandler.call(this, event);
   }
 
-  @Listen("calciteListItemPropsChange")
-  calciteListItemPropsChangeHandler(event: CustomEvent): void {
+  @Listen("calciteInternalListItemPropsChange")
+  calciteInternalListItemPropsChangeHandler(event: CustomEvent): void {
     event.stopPropagation();
     this.setUpFilter();
   }
 
-  @Listen("calciteListItemValueChange")
-  calciteListItemValueChangeHandler(event: CustomEvent): void {
-    calciteListItemValueChangeHandler.call(this, event);
+  @Listen("calciteInternalListItemValueChange")
+  calciteInternalListItemValueChangeHandler(event: CustomEvent): void {
+    calciteInternalListItemValueChangeHandler.call(this, event);
+    event.stopPropagation();
   }
 
   // --------------------------------------------------------------------------
@@ -330,7 +331,7 @@ export class ValueList<
     this.items = this.getItems();
     this.calciteListOrderChange.emit(this.items.map(({ value }) => value));
 
-    requestAnimationFrame(() => handleElement.focus());
+    requestAnimationFrame(() => handleElement?.focus());
     item.handleActivated = true;
 
     this.updateScreenReaderText(
@@ -385,7 +386,11 @@ export class ValueList<
     return this.selectedValues;
   }
 
-  /** Sets focus on the component. */
+  /**
+   * Sets focus on the component.
+   *
+   * @param focusId
+   */
   @Method()
   async setFocus(focusId?: ListFocusId): Promise<void> {
     return setFocus.call(this, focusId);

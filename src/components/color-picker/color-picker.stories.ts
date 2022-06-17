@@ -100,3 +100,11 @@ export const AllowingEmpty = (): string =>
   ]);
 
 export const disabled = (): string => html`<calcite-color-picker disabled></calcite-color-picker>`;
+
+export const thumbsOnEdgeDoNotOverflowContainer = (): string => html`<div style="overflow: auto; width: 274px;">
+  <calcite-color-picker value="#04006e"></calcite-color-picker>
+</div>`;
+
+export const thumbsOnEdgeDoNotSnapToFrontOfContainer = (): string => html`<div style="overflow: auto; width: 272px;">
+  <calcite-color-picker value="#824142"></calcite-color-picker>
+</div>`;

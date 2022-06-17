@@ -7,6 +7,7 @@ import { FlipContext, Scale, Width } from "../interfaces";
 import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
 import { createObserver } from "../../utils/observers";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import { submitForm, resetForm, FormOwner } from "../../utils/form";
 
 /** Passing a 'href' will render an anchor link, instead of a button. Role will be set to link, or button, depending on this. */
 /** It is the consumers responsibility to add aria information, rel, target, for links, and any button attributes for form submission */
@@ -17,7 +18,7 @@ import { InteractiveComponent, updateHostInteraction } from "../../utils/interac
   styleUrl: "button.scss",
   shadow: true
 })
-export class Button implements LabelableComponent, InteractiveComponent {
+export class Button implements LabelableComponent, InteractiveComponent, FormOwner {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -59,7 +60,9 @@ export class Button implements LabelableComponent, InteractiveComponent {
   /** optionally pass an icon to display at the start of a button - accepts calcite ui icon names  */
   @Prop({ reflect: true }) iconStart?: string;
 
-  /** string to override English loading text
+  /**
+   * string to override English loading text
+   *
    * @default "Loading"
    */
   @Prop() intlLoading?: string = TEXT.loading;
@@ -216,7 +219,7 @@ export class Button implements LabelableComponent, InteractiveComponent {
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    this.childEl.focus();
+    this.childEl?.focus();
   }
 
   //--------------------------------------------------------------------------
@@ -229,7 +232,7 @@ export class Button implements LabelableComponent, InteractiveComponent {
 
   labelEl: HTMLCalciteLabelElement;
 
-  /** watches for changing text content **/
+  /** watches for changing text content */
   private mutationObserver = createObserver("mutation", () => this.updateHasContent());
 
   /** the rendered child element */
@@ -266,7 +269,7 @@ export class Button implements LabelableComponent, InteractiveComponent {
 
   // act on a requested or nearby form based on type
   private handleClick = (): void => {
-    const { formEl, type } = this;
+    const { type } = this;
 
     if (this.href) {
       return;
@@ -274,9 +277,9 @@ export class Button implements LabelableComponent, InteractiveComponent {
 
     // this.type refers to type attribute, not child element type
     if (type === "submit") {
-      formEl?.requestSubmit();
+      submitForm(this);
     } else if (type === "reset") {
-      formEl?.reset();
+      resetForm(this);
     }
   };
 }

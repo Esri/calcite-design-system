@@ -11,7 +11,7 @@ import {
   Fragment
 } from "@stencil/core";
 import { CSS, HEADING_LEVEL, ICONS, SLOTS, TEXT } from "./resources";
-import { getElementDir, getSlotted } from "../../utils/dom";
+import { getElementDir, getSlotted, toAriaBoolean } from "../../utils/dom";
 import { Scale } from "../interfaces";
 import { HeadingLevel, Heading } from "../functional/Heading";
 import { SLOTS as ACTION_MENU_SLOTS } from "../action-menu/resources";
@@ -21,6 +21,7 @@ import {
   disconnectConditionalSlotComponent
 } from "../../utils/conditionalSlot";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import { createObserver } from "../../utils/observers";
 
 /**
  * @slot - A slot for adding custom content.
@@ -116,8 +117,13 @@ export class Panel implements ConditionalSlotComponent, InteractiveComponent {
 
   /**
    * Summary text. A description displayed underneath the heading.
+   *
+   * @deprecated use description instead
    */
   @Prop() summary?: string;
+
+  /** Panel description */
+  @Prop() description: string;
 
   /**
    * Opens the action menu.
@@ -150,6 +156,8 @@ export class Panel implements ConditionalSlotComponent, InteractiveComponent {
 
   panelScrollEl: HTMLElement;
 
+  resizeObserver = createObserver("resize", () => this.resizeHandler());
+
   // --------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -162,6 +170,7 @@ export class Panel implements ConditionalSlotComponent, InteractiveComponent {
 
   disconnectedCallback(): void {
     disconnectConditionalSlotComponent(this);
+    this.resizeObserver?.disconnect();
   }
 
   // --------------------------------------------------------------------------
@@ -177,6 +186,7 @@ export class Panel implements ConditionalSlotComponent, InteractiveComponent {
 
   /**
    * Emitted when the close button has been clicked.
+   *
    * @deprecated use calcitePanelDismiss instead.
    */
   @Event() calcitePanelDismissedChange: EventEmitter;
@@ -196,6 +206,20 @@ export class Panel implements ConditionalSlotComponent, InteractiveComponent {
   //  Private Methods
   //
   // --------------------------------------------------------------------------
+
+  resizeHandler = (): void => {
+    const { panelScrollEl } = this;
+
+    if (
+      !panelScrollEl ||
+      typeof panelScrollEl.scrollHeight !== "number" ||
+      typeof panelScrollEl.offsetHeight !== "number"
+    ) {
+      return;
+    }
+
+    panelScrollEl.tabIndex = panelScrollEl.scrollHeight > panelScrollEl.offsetHeight ? 0 : -1;
+  };
 
   setContainerRef = (node: HTMLElement): void => {
     this.containerEl = node;
@@ -234,7 +258,11 @@ export class Panel implements ConditionalSlotComponent, InteractiveComponent {
   //
   // --------------------------------------------------------------------------
 
-  /** Sets focus on the component. */
+  /**
+   * Sets focus on the component.
+   *
+   * @param focusId
+   */
   @Method()
   async setFocus(focusId?: "dismiss-button" | "back-button"): Promise<void> {
     if (focusId === "dismiss-button") {
@@ -250,7 +278,8 @@ export class Panel implements ConditionalSlotComponent, InteractiveComponent {
     this.containerEl?.focus();
   }
 
-  /** Scrolls panel content to a particular set of coordinates.
+  /**
+   * Scrolls panel content to a particular set of coordinates.
    *
    * ```
    *   myCalcitePanel.scrollContentTo({
@@ -259,6 +288,8 @@ export class Panel implements ConditionalSlotComponent, InteractiveComponent {
    *     behavior: "auto" // Specifies whether the scrolling should animate smoothly (smooth), or happen instantly in a single jump (auto, the default value).
    *   });
    * ```
+   *
+   * @param options
    */
   @Method()
   async scrollContentTo(options?: ScrollToOptions): Promise<void> {
@@ -295,19 +326,20 @@ export class Panel implements ConditionalSlotComponent, InteractiveComponent {
   }
 
   renderHeaderContent(): VNode {
-    const { heading, headingLevel, summary } = this;
+    const { heading, headingLevel, summary, description } = this;
     const headingNode = heading ? (
       <Heading class={CSS.heading} level={headingLevel || HEADING_LEVEL}>
         {heading}
       </Heading>
     ) : null;
 
-    const summaryNode = summary ? <span class={CSS.summary}>{summary}</span> : null;
+    const descriptionNode =
+      description || summary ? <span class={CSS.description}>{description || summary}</span> : null;
 
-    return headingNode || summaryNode ? (
+    return headingNode || descriptionNode ? (
       <div class={CSS.headerContent} key="header-content">
         {headingNode}
-        {summaryNode}
+        {descriptionNode}
       </div>
     ) : null;
   }
@@ -430,6 +462,16 @@ export class Panel implements ConditionalSlotComponent, InteractiveComponent {
     ) : null;
   }
 
+  setPanelScrollEl = (el: HTMLElement): void => {
+    this.panelScrollEl = el;
+    this.resizeObserver?.disconnect();
+
+    if (el) {
+      this.resizeObserver?.observe(el);
+      this.resizeHandler();
+    }
+  };
+
   renderContent(): VNode {
     const { el } = this;
     const hasFab = getSlotted(el, SLOTS.fab);
@@ -442,8 +484,7 @@ export class Panel implements ConditionalSlotComponent, InteractiveComponent {
         class={{ [CSS.contentWrapper]: true, [CSS.contentHeight]: true }}
         key={contentWrapperKey}
         onScroll={this.panelScrollHandler}
-        ref={(el) => (this.panelScrollEl = el)}
-        tabIndex={0}
+        ref={this.setPanelScrollEl}
       >
         <section class={CSS.contentContainer}>{defaultSlotNode}</section>
         {this.renderFab()}
@@ -453,8 +494,7 @@ export class Panel implements ConditionalSlotComponent, InteractiveComponent {
         class={{ [CSS.contentWrapper]: true, [CSS.contentContainer]: true }}
         key={contentWrapperKey}
         onScroll={this.panelScrollHandler}
-        ref={(el) => (this.panelScrollEl = el)}
-        tabIndex={0}
+        ref={this.setPanelScrollEl}
       >
         {defaultSlotNode}
       </section>
@@ -474,7 +514,7 @@ export class Panel implements ConditionalSlotComponent, InteractiveComponent {
 
     const panelNode = (
       <article
-        aria-busy={loading.toString()}
+        aria-busy={toAriaBoolean(loading)}
         class={CSS.container}
         hidden={dismissible && dismissed}
         onKeyDown={panelKeyDownHandler}

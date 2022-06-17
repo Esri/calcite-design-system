@@ -74,12 +74,14 @@ export class ColorPickerHexInput {
 
   /**
    * Label used for the hex input.
+   *
    * @default "Hex"
    */
   @Prop() intlHex = TEXT.hex;
 
   /**
    * Label used for the hex input when there is no color selected.
+   *
    * @default "No color"
    */
   @Prop() intlNoColor = TEXT.noColor;
@@ -110,7 +112,7 @@ export class ColorPickerHexInput {
    */
   @Event() calciteColorPickerHexInputChange: EventEmitter;
 
-  private onCalciteInputBlur = (): void => {
+  private onCalciteInternalInputBlur = (): void => {
     const node = this.inputNode;
     const inputValue = node.value;
     const hex = `#${inputValue}`;
@@ -205,8 +207,9 @@ export class ColorPickerHexInput {
           class={CSS.input}
           label={intlHex}
           maxLength={6}
-          onCalciteInputBlur={this.onCalciteInputBlur}
           onCalciteInputChange={this.onInputChange}
+          onCalciteInternalInputBlur={this.onCalciteInternalInputBlur}
+          onKeyDown={this.handleKeyDown}
           prefixText="#"
           ref={this.storeInputRef}
           scale={this.scale}
@@ -242,11 +245,7 @@ export class ColorPickerHexInput {
   //
   //--------------------------------------------------------------------------
 
-  private internalSetValue(
-    value: string | null,
-    oldValue: string | null,
-    emit = true
-  ): void {
+  private internalSetValue(value: string | null, oldValue: string | null, emit = true): void {
     if (value) {
       const normalized = normalizeHex(value);
 
@@ -287,5 +286,11 @@ export class ColorPickerHexInput {
 
   private nudgeRGBChannels(color: Color, amount: number): Color {
     return Color.rgb(color.array().map((channel) => channel + amount));
+  }
+
+  handleKeyDown(event: KeyboardEvent): void {
+    if (event.key === "Enter") {
+      event.preventDefault();
+    }
   }
 }
