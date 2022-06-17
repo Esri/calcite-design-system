@@ -139,7 +139,6 @@ export class TabTitle implements InteractiveComponent {
 
   render(): VNode {
     const id = this.el.id || this.guid;
-    const showSideBorders = this.bordered && !this.disabled && this.layout !== "center";
 
     const iconStartEl = (
       <calcite-icon
@@ -171,7 +170,6 @@ export class TabTitle implements InteractiveComponent {
             container: true,
             "container--has-text": this.hasText
           }}
-          style={showSideBorders && { width: `${this.parentTabNavEl.indicatorWidth}px` }}
         >
           {this.iconStart ? iconStartEl : null}
           <slot />
