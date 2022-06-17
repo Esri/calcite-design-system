@@ -160,7 +160,7 @@
   }
 }
 
-// clear (deprecated : use transparent instead)
+// clear is deprecated. use transparent instead.
 :host([color="blue"][appearance="clear"]),
 :host([color="blue"][appearance="transparent"]) {
   border-color: var(--calcite-ui-info);
