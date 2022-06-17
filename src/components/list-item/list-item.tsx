@@ -43,8 +43,10 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
 
   /**
    * todo
+   *
+   * @internal
    */
-  @Prop({ reflect: true }) active = false;
+  @Prop() active = false;
 
   /**
    * An optional description for this item.  This will appear below the label text.
