@@ -37,7 +37,7 @@
       <div class="child right-aligned-text">simple list</div>
 
       <div class="child">
-        <calcite-list>
+        <calcite-list label="test">
           <calcite-list-item label="test" description="hello world">
             <calcite-icon icon="check" slot="content-start" style="color: var(--calcite-ui-success)"></calcite-icon>
           </calcite-list-item>
@@ -53,7 +53,7 @@
       <div class="child right-aligned-text">rich content</div>
 
       <div class="child">
-        <calcite-list>
+        <calcite-list label="test">
           <calcite-list-item label="Princess Bubblegum" description="Ruler of The Candy Kingdom">
             <calcite-action icon="drag" label="drag" scale="s" slot="actions-start"></calcite-action>
             <calcite-icon scale="l" icon="effects" slot="content-start"></calcite-icon>
@@ -106,7 +106,7 @@
       <div class="child right-aligned-text">non-interactive</div>
 
       <div class="child">
-        <calcite-list>
+        <calcite-list label="test">
           <calcite-list-item non-interactive label="Princess Bubblegum" description="Ruler of The Candy Kingdom">
             <calcite-action icon="drag" label="drag" scale="s" slot="actions-start"></calcite-action>
             <calcite-icon scale="l" icon="effects" slot="content-start"></calcite-icon>
@@ -157,7 +157,7 @@
       <div class="child right-aligned-text">nested</div>
 
       <div class="child">
-        <calcite-list>
+        <calcite-list label="test">
           <calcite-list-item label="Hi!" description="hello world">
             <calcite-list-item label="Hi!" description="hello world">
               <calcite-list-item label="Hi!" description="hello world"></calcite-list-item>
@@ -253,7 +253,7 @@
       </style>
       <div class="child right-aligned-text">start/end content slots</div>
       <div class="child">
-        <calcite-list>
+        <calcite-list label="test">
           <calcite-list-item>
             <calcite-action slot="actions-end" icon="ellipsis"> </calcite-action>
             <calcite-icon icon="layers" scale="m" slot="content-start"></calcite-icon>
@@ -285,7 +285,9 @@
       </div>
     </div>
     <script>
-      document.addEventListener("calciteListItemClick", console.log);
+      document.addEventListener("calciteListItemClick", (event) => {
+        console.log("calciteListItemClick", event);
+      });
     </script>
   </body>
 </html>
