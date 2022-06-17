@@ -26,7 +26,7 @@ export class List implements InteractiveComponent {
   @Prop({ reflect: true }) disabled = false;
 
   /**
-   * todo: label
+   * todo: document label
    */
   @Prop() label = "";
 
@@ -82,7 +82,7 @@ export class List implements InteractiveComponent {
   render(): VNode {
     return (
       <table aria-label={this.label} onKeyDown={this.handleListKeydown} role="treegrid">
-        <tbody class={CSS.container}>
+        <tbody class={CSS.container} onFocusin={this.handleFocusIn}>
           <slot />
         </tbody>
       </table>
@@ -128,24 +128,50 @@ export class List implements InteractiveComponent {
     focusEl.setFocus();
   };
 
+  handleFocusIn = (event: FocusEvent): void => {
+    const composedPath = event.composedPath();
+    const { listItems } = this;
+    const reversedItems = [...listItems].reverse();
+
+    const firstActiveItem = reversedItems.find((listItem) => composedPath.includes(listItem));
+
+    listItems.forEach((listItem) => (listItem.active = listItem === firstActiveItem));
+  };
+
   handleListKeydown = (event: KeyboardEvent): void => {
     const { key } = event;
     const { listItems } = this;
 
-    const activeIndex = listItems.findIndex((listItem) => listItem.active);
+    const currentIndex = listItems.findIndex((listItem) => listItem.active);
 
     if (key === "ArrowDown") {
-      this.focusRow(listItems[activeIndex + 1]);
       event.preventDefault();
+      const nextIndex = currentIndex + 1;
+
+      if (listItems[nextIndex]) {
+        this.focusRow(listItems[nextIndex]);
+      }
     } else if (key === "ArrowUp") {
-      this.focusRow(listItems[activeIndex - 1]);
       event.preventDefault();
+      const prevIndex = currentIndex - 1;
+
+      if (listItems[prevIndex]) {
+        this.focusRow(listItems[prevIndex]);
+      }
     } else if (key === "Home") {
-      this.focusRow(listItems[0]);
       event.preventDefault();
+      const homeItem = listItems[0];
+
+      if (homeItem) {
+        this.focusRow(homeItem);
+      }
     } else if (key === "End") {
-      this.focusRow(listItems[listItems.length - 1]);
       event.preventDefault();
+      const endItem = listItems[listItems.length - 1];
+
+      if (endItem) {
+        this.focusRow(endItem);
+      }
     }
   };
 }

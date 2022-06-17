@@ -266,7 +266,7 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
     if (key === "ArrowRight") {
       event.preventDefault();
       const nextIndex = currentIndex + 1;
-      if (currentIndex <= -1) {
+      if (currentIndex === -1) {
         if (!expanded && expandable) {
           this.expanded = true;
           this.focusCell(null);
@@ -279,18 +279,18 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
     } else if (key === "ArrowLeft") {
       event.preventDefault();
       const prevIndex = currentIndex - 1;
-      if (currentIndex <= -1) {
+      if (currentIndex === -1) {
         this.focusCell(null);
         if (expanded && expandable) {
           this.expanded = false;
         } else {
           this.parentListItemEl?.setFocus();
         }
-      } else if (cells[currentIndex] && cells[prevIndex]) {
-        this.focusCell(cells[prevIndex]);
-      } else {
+      } else if (currentIndex === 0) {
         this.focusCell(null);
         containerEl.focus();
+      } else if (cells[currentIndex] && cells[prevIndex]) {
+        this.focusCell(cells[prevIndex]);
       }
     } else if (key === " " || key === "Enter") {
       event.preventDefault();
