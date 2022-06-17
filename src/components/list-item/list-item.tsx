@@ -173,7 +173,11 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
 
     if (typeof focusIndex === "number") {
       const cells = [actionsStartEl, contentEl, actionsEndEl].filter(Boolean);
-      this.focusCell(cells[focusIndex]);
+      if (cells[focusIndex]) {
+        this.focusCell(cells[focusIndex]);
+      } else {
+        containerEl?.focus();
+      }
       return;
     }
 
