@@ -8,7 +8,8 @@ import {
   Method,
   Event,
   EventEmitter,
-  State
+  State,
+  Watch
 } from "@stencil/core";
 import { SLOTS, CSS } from "./resources";
 import { getSlotted, toAriaBoolean } from "../../utils/dom";
@@ -18,6 +19,8 @@ import {
   disconnectConditionalSlotComponent
 } from "../../utils/conditionalSlot";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+
+const focusMap = new Map<HTMLCalciteListElement, number>();
 
 /**
  * @slot - A slot for adding `calcite-list-item` and `calcite-list-item-group` elements.
@@ -96,8 +99,12 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
 
   parentListItemEl: HTMLCalciteListItemElement;
 
-  // todo: use map instead. Map using list element
-  private static focusIndex: number = null;
+  @Watch("active")
+  activeHandler(active: boolean): void {
+    if (!active) {
+      this.focusCell(null, false);
+    }
+  }
 
   // --------------------------------------------------------------------------
   //
@@ -131,8 +138,8 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    const { containerEl, contentEl, actionsStartEl, actionsEndEl } = this;
-    const { focusIndex } = ListItem;
+    const { containerEl, contentEl, actionsStartEl, actionsEndEl, parentListEl } = this;
+    const focusIndex = focusMap.get(parentListEl);
 
     if (typeof focusIndex === "number") {
       const cells = [actionsStartEl, contentEl, actionsEndEl].filter(Boolean);
@@ -259,7 +266,7 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
     if (key === "ArrowRight") {
       event.preventDefault();
       const nextIndex = currentIndex + 1;
-      if (currentIndex === -1) {
+      if (currentIndex <= -1) {
         if (!expanded && expandable) {
           this.expanded = true;
           this.focusCell(null);
@@ -272,7 +279,7 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
     } else if (key === "ArrowLeft") {
       event.preventDefault();
       const prevIndex = currentIndex - 1;
-      if (currentIndex === -1) {
+      if (currentIndex <= -1) {
         this.focusCell(null);
         if (expanded && expandable) {
           this.expanded = false;
@@ -299,16 +306,20 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
     this.emitListItemClick();
   };
 
-  focusCell = (focusEl: HTMLTableCellElement): void => {
-    const { contentEl, actionsStartEl, actionsEndEl } = this;
+  focusCell = (focusEl: HTMLTableCellElement, saveFocusIndex = true): void => {
+    const { contentEl, actionsStartEl, actionsEndEl, parentListEl } = this;
 
-    ListItem.focusIndex = null;
+    saveFocusIndex && focusMap.set(parentListEl, null);
 
     [actionsStartEl, contentEl, actionsEndEl].filter(Boolean).forEach((tableCell, cellIndex) => {
-      tableCell.tabIndex = tableCell === focusEl ? 0 : null;
-
       if (tableCell === focusEl) {
-        ListItem.focusIndex = cellIndex;
+        tableCell.setAttribute("tabIndex", "0");
+      } else {
+        tableCell.removeAttribute("tabIndex");
+      }
+
+      if (tableCell === focusEl && saveFocusIndex) {
+        focusMap.set(parentListEl, cellIndex);
       }
     });
 
