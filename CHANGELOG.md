@@ -20,11 +20,13 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### Bug Fixes
 
-- **stepper:** setting active property should update content ([#4745](https://github.com/Esri/calcite-components/issues/4745)) ([060a757](https://github.com/Esri/calcite-components/commit/060a757a88af864376f9cd26c9b7fe894a95004e)), closes [#4743](https://github.com/Esri/calcite-components/issues/4743)
-- Make sure component setFocus methods do not throw error ([#4739](https://github.com/Esri/calcite-components/issues/4739)) ([c07dd56](https://github.com/Esri/calcite-components/commit/c07dd561d1e78601b3b2f92154d448c36c1c9c06)), closes [#4731](https://github.com/Esri/calcite-components/issues/4731)
 - **color-picker:** fixed hue bar click and drag interaction ([#4734](https://github.com/Esri/calcite-components/issues/4734)) ([78d9e64](https://github.com/Esri/calcite-components/commit/78d9e6430bc6200fab54b721cb2f615805a745fb))
 - **input:** support larger than 64-bit floating point numbers without losing precision ([#4679](https://github.com/Esri/calcite-components/issues/4679)) ([b81dd82](https://github.com/Esri/calcite-components/commit/b81dd82071810476c414372e6faa3e450bbf3a39))
 - **label:** expose bottom margin value and remove the disable-spacing property ([#4694](https://github.com/Esri/calcite-components/issues/4694)) ([6976d12](https://github.com/Esri/calcite-components/commit/6976d12646567f026490dac9018d687346a0e5f8))
+- **stepper:** remove invalid layout value ([#4766](https://github.com/Esri/calcite-components/issues/4766)) ([#4767](https://github.com/Esri/calcite-components/issues/4767)) ([2a3b777](https://github.com/Esri/calcite-components/commit/2a3b77759abd9b5f0ada39f9f7ac787f7a6a2fae))
+- **stepper:** setting active property should update content ([#4745](https://github.com/Esri/calcite-components/issues/4745)) ([060a757](https://github.com/Esri/calcite-components/commit/060a757a88af864376f9cd26c9b7fe894a95004e)), closes [#4743](https://github.com/Esri/calcite-components/issues/4743)
+- **tabs:** update style for centered and bordered tab titles ([#4714](https://github.com/Esri/calcite-components/issues/4714)) ([e4aa3f5](https://github.com/Esri/calcite-components/commit/e4aa3f5c4ab79236fe695e1aaeedb1b51ebfe79c))
+- Make sure component setFocus methods do not throw error ([#4739](https://github.com/Esri/calcite-components/issues/4739)) ([c07dd56](https://github.com/Esri/calcite-components/commit/c07dd561d1e78601b3b2f92154d448c36c1c9c06)), closes [#4731](https://github.com/Esri/calcite-components/issues/4731)
 - **tooltip:** Fix syntax typo in `TooltipManager` ([#4711](https://github.com/Esri/calcite-components/issues/4711)) ([c8eed66](https://github.com/Esri/calcite-components/commit/c8eed66bfc0d0481adc775eee5ab19ef06f6c880))
 <!--@unreleased-section-end-->
 
