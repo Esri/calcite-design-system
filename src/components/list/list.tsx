@@ -140,15 +140,19 @@ export class List implements InteractiveComponent {
     const listItems = Array.from(this.el.querySelectorAll("calcite-list-item"));
 
     listItems.forEach((listItem) => {
+      const level = getDepth(listItem) + 1;
+      const { parentElement } = listItem;
+      // todo: cleeanup
+      const parentListItem = parentElement?.closest("calcite-list-item");
       const set = Array.from(listItem.parentElement.children).filter((e) =>
         e.matches("calcite-list-item")
       );
-      const level = getDepth(listItem) + 1;
       listItem.parentListEl = this.el;
+      listItem.parentListItemEl = parentListItem;
       listItem.level = level;
       listItem.posInSet = set.indexOf(listItem) + 1;
       listItem.setSize = set.length;
-      listItem.expandable = level > 1; // todo fix
+      listItem.expandable = !!listItem.querySelector("calcite-list-item");
     });
 
     return listItems.filter((item) => !item.disabled);
@@ -177,36 +181,47 @@ export class List implements InteractiveComponent {
     listItems.forEach((listItem) => (listItem.active = listItem === firstActiveItem));
   };
 
+  isNavigable = (listItem: HTMLCalciteListItemElement): boolean => {
+    const { parentListItemEl } = listItem;
+
+    if (!parentListItemEl) {
+      return true;
+    }
+
+    return (
+      parentListItemEl.expandable && parentListItemEl.expanded && this.isNavigable(parentListItemEl)
+    );
+  };
+
   handleListKeydown = (event: KeyboardEvent): void => {
     const { key } = event;
-    const { listItems } = this;
-
-    const currentIndex = listItems.findIndex((listItem) => listItem.active);
+    const filteredItems = this.listItems.filter((listItem) => this.isNavigable(listItem));
+    const currentIndex = filteredItems.findIndex((listItem) => listItem.active);
 
     if (key === "ArrowDown") {
       event.preventDefault();
       const nextIndex = currentIndex + 1;
 
-      if (listItems[nextIndex]) {
-        this.focusRow(listItems[nextIndex]);
+      if (filteredItems[nextIndex]) {
+        this.focusRow(filteredItems[nextIndex]);
       }
     } else if (key === "ArrowUp") {
       event.preventDefault();
       const prevIndex = currentIndex - 1;
 
-      if (listItems[prevIndex]) {
-        this.focusRow(listItems[prevIndex]);
+      if (filteredItems[prevIndex]) {
+        this.focusRow(filteredItems[prevIndex]);
       }
     } else if (key === "Home") {
       event.preventDefault();
-      const homeItem = listItems[0];
+      const homeItem = filteredItems[0];
 
       if (homeItem) {
         this.focusRow(homeItem);
       }
     } else if (key === "End") {
       event.preventDefault();
-      const endItem = listItems[listItems.length - 1];
+      const endItem = filteredItems[filteredItems.length - 1];
 
       if (endItem) {
         this.focusRow(endItem);

@@ -74,6 +74,12 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
    *
    * @internal
    */
+  @Prop() parentListItemEl: HTMLCalciteListItemElement;
+
+  /**
+   *
+   * @internal
+   */
   @Prop() expandable = false;
 
   /**
@@ -186,6 +192,8 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
     return this.expandable ? (
       <calcite-action
         icon={this.expanded ? "caret-down" : dir === "rtl" ? "caret-left" : "caret-right"}
+        onClick={this.toggleExpanded}
+        scale="s"
         text="expand"
       />
     ) : null;
@@ -278,7 +286,12 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
           {this.renderContentContainer()}
           {this.renderActionsEnd()}
         </tr>
-        <div class={CSS.nestedContainer}>
+        <div
+          class={{
+            [CSS.nestedContainer]: true,
+            [CSS.nestedContainerHidden]: this.expandable ? !this.expanded : false
+          }}
+        >
           <slot />
         </div>
       </Host>
@@ -290,6 +303,10 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
   //  Private Methods
   //
   // --------------------------------------------------------------------------
+
+  toggleExpanded = (): void => {
+    this.expanded = !this.expanded;
+  };
 
   handleItemKeyDown = (event: KeyboardEvent): void => {
     const { key } = event;
