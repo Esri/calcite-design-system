@@ -38,15 +38,23 @@ export class AccordionItem {
   //
   //--------------------------------------------------------------------------
 
-  /** Indicates whether the item is active. */
+  /**
+   * Indicates whether the item is active.
+   *
+   * @deprecated use expanded instead
+   */
   @Prop({ reflect: true, mutable: true }) active = false;
+
+  /** When true, item is expanded */
+  @Prop({ mutable: true }) expanded = false;
 
   /**
    * pass a title for the accordion item
    *
    * @deprecated use heading instead
    */
-  @Prop() itemTitle?: string;
+  @Prop()
+  itemTitle?: string;
 
   /** accordion item heading */
   @Prop() heading?: string;
@@ -153,7 +161,7 @@ export class AccordionItem {
                   ? "chevronDown"
                   : this.iconType === "caret"
                   ? "caretDown"
-                  : this.active
+                  : this.expanded || this.active
                   ? "minus"
                   : "plus"
               }
@@ -161,7 +169,7 @@ export class AccordionItem {
             />
           </div>
           <div
-            aria-expanded={toAriaBoolean(this.active)}
+            aria-expanded={toAriaBoolean(this.expanded || this.active)}
             aria-labelledby={buttonId}
             class="accordion-item-content"
             id={regionId}
@@ -253,15 +261,18 @@ export class AccordionItem {
       case "multi":
         if (this.el === this.requestedAccordionItem) {
           this.active = !this.active;
+          this.expanded = !this.expanded;
         }
         break;
 
       case "single":
         this.active = this.el === this.requestedAccordionItem ? !this.active : false;
+        this.expanded = this.el === this.requestedAccordionItem ? !this.expanded : false;
         break;
 
       case "single-persist":
         this.active = this.el === this.requestedAccordionItem;
+        this.expanded = this.el === this.requestedAccordionItem;
         break;
     }
   }

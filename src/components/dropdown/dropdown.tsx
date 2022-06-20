@@ -55,10 +55,18 @@ export class Dropdown implements InteractiveComponent {
   //
   //--------------------------------------------------------------------------
 
-  /** Opens or closes the dropdown */
+  /**
+   * Opens or closes the dropdown
+   *
+   * @deprecated use open instead.
+   */
   @Prop({ reflect: true, mutable: true }) active = false;
 
+  /** When true, opens the dropdown */
+  @Prop({ mutable: true }) open = false;
+
   @Watch("active")
+  @Watch("open")
   activeHandler(): void {
     if (!this.disabled) {
       this.reposition();
@@ -66,6 +74,7 @@ export class Dropdown implements InteractiveComponent {
     }
 
     this.active = false;
+    this.open = false;
   }
 
   /**
@@ -81,6 +90,7 @@ export class Dropdown implements InteractiveComponent {
   handleDisabledChange(value: boolean): void {
     if (!value) {
       this.active = false;
+      this.open = false;
     }
   }
 
@@ -194,7 +204,7 @@ export class Dropdown implements InteractiveComponent {
             onTransitionEnd={this.transitionEnd}
             ref={this.setScrollerEl}
           >
-            <div hidden={!this.active}>
+            <div hidden={!this.open || !this.active}>
               <slot onSlotchange={this.updateGroups} />
             </div>
           </div>
@@ -243,7 +253,7 @@ export class Dropdown implements InteractiveComponent {
 
   @Listen("click", { target: "window" })
   closeCalciteDropdownOnClick(e: Event): void {
-    if (!this.active || e.composedPath().includes(this.el)) {
+    if (!this.open || !this.active || e.composedPath().includes(this.el)) {
       return;
     }
 
@@ -263,6 +273,7 @@ export class Dropdown implements InteractiveComponent {
     }
 
     this.active = false;
+    this.open = false;
   }
 
   @Listen("mouseenter")
@@ -424,9 +435,9 @@ export class Dropdown implements InteractiveComponent {
   };
 
   setMaxScrollerHeight = (): void => {
-    const { active, scrollerEl } = this;
+    const { active, scrollerEl, open } = this;
 
-    if (!scrollerEl || !active) {
+    if (!scrollerEl || !active || !open) {
       return;
     }
 
@@ -443,7 +454,7 @@ export class Dropdown implements InteractiveComponent {
 
   transitionEnd = (event: TransitionEvent): void => {
     if (event.propertyName === this.activeTransitionProp) {
-      this.active ? this.calciteDropdownOpen.emit() : this.calciteDropdownClose.emit();
+      this.open || this.active ? this.calciteDropdownOpen.emit() : this.calciteDropdownClose.emit();
     }
   };
 
@@ -468,7 +479,7 @@ export class Dropdown implements InteractiveComponent {
 
     const eventListenerModifier: Partial<StrictModifiers> = {
       name: "eventListeners",
-      enabled: this.active
+      enabled: this.open || this.active
     };
 
     return [flipModifier, eventListenerModifier];
@@ -507,7 +518,7 @@ export class Dropdown implements InteractiveComponent {
 
     const key = e.key;
 
-    if (this.active && (key === "Escape" || (e.shiftKey && key === "Tab"))) {
+    if ((this.open || this.active) && (key === "Escape" || (e.shiftKey && key === "Tab"))) {
       this.closeCalciteDropdown();
       return;
     }
@@ -557,6 +568,7 @@ export class Dropdown implements InteractiveComponent {
 
   private closeCalciteDropdown(focusTrigger = true) {
     this.active = false;
+    this.open = false;
 
     if (focusTrigger) {
       focusElement(this.triggers[0]);
@@ -612,8 +624,8 @@ export class Dropdown implements InteractiveComponent {
 
   private openCalciteDropdown = () => {
     this.active = !this.active;
-
-    if (this.active) {
+    this.open = !this.open;
+    if (this.open || this.active) {
       this.el.addEventListener("calciteDropdownOpen", this.toggleOpenEnd);
     }
   };
