@@ -871,7 +871,7 @@ export class Slider implements LabelableComponent, FormComponent, InteractiveCom
   @Method()
   async setFocus(): Promise<void> {
     const handle = this.minHandle ? this.minHandle : this.maxHandle;
-    handle.focus();
+    handle?.focus();
   }
 
   //--------------------------------------------------------------------------

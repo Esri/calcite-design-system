@@ -24,19 +24,19 @@ export class Avatar {
   //
   //--------------------------------------------------------------------------
 
-  /** specify the scale of the avatar, defaults to m */
+  /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
 
-  /** src to an image (remember to add a token if the user is private) */
+  /** Specifies the `src` to an image (remember to add a token if the user is private). */
   @Prop() thumbnail: string;
 
-  /** full name of the user */
+  /** Specifies the full name of the user. */
   @Prop() fullName: string;
 
-  /** user name */
+  /** Specifies the username of the user. */
   @Prop() username: string;
 
-  /** unique id for user */
+  /** Specifies the unique id of the user. */
   @Prop() userId: string;
 
   //--------------------------------------------------------------------------
