@@ -78,11 +78,31 @@ describe("calcite-tab-title", () => {
       });
     });
 
-    describe("when position is below", () => {
+    describe("when position is below (deprecated)", () => {
       it("should render with top border on hover", async () => {
         const page = await newE2EPage({
           html: `
           <calcite-tab-nav position="below">
+            <calcite-tab-title active>Tab 1 Title</calcite-tab-title>
+            <calcite-tab-title id="for-hover">Tab 2 Title</calcite-tab-title>
+          </calcite-tab-nav>
+          `
+        });
+        const element = await page.find("#for-hover");
+        await element.hover();
+
+        const linkTag = await page.find("#for-hover >>> a");
+        const linkStyles = await linkTag.getComputedStyle();
+        expect(linkStyles["border-top-width"]).not.toEqual("0px");
+        expect(linkStyles["border-bottom-width"]).toEqual("0px");
+      });
+    });
+
+    describe("when position is bottom", () => {
+      it("should render with top border on hover", async () => {
+        const page = await newE2EPage({
+          html: `
+          <calcite-tab-nav position="bottom">
             <calcite-tab-title active>Tab 1 Title</calcite-tab-title>
             <calcite-tab-title id="for-hover">Tab 2 Title</calcite-tab-title>
           </calcite-tab-nav>

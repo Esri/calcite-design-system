@@ -45,7 +45,7 @@ export class Stepper {
   @Prop({ reflect: true }) icon = false;
 
   /** specify the layout of stepper, defaults to horizontal */
-  @Prop({ reflect: true }) layout: Layout = "horizontal";
+  @Prop({ reflect: true }) layout: Extract<"horizontal" | "vertical", Layout> = "horizontal";
 
   /** optionally display the number next to the step title */
   @Prop({ reflect: true }) numbered = false;
@@ -76,6 +76,12 @@ export class Stepper {
   /**
    * This event fires when the active stepper item has changed.
    *
+   */
+  @Event() calciteStepperItemChange: EventEmitter<StepperItemChangeEventDetail>;
+
+  /**
+   * This event fires when the active stepper item has changed.
+   *
    * @internal
    */
   @Event() calciteInternalStepperItemChange: EventEmitter<StepperItemChangeEventDetail>;
@@ -87,7 +93,7 @@ export class Stepper {
   //--------------------------------------------------------------------------
   componentDidLoad(): void {
     // if no stepper items are set as active, default to the first one
-    if (!this.currentPosition) {
+    if (typeof this.currentPosition !== "number") {
       this.calciteInternalStepperItemChange.emit({
         position: 0
       });
@@ -160,13 +166,31 @@ export class Stepper {
 
   @Listen("calciteInternalStepperItemSelect")
   updateItem(event: CustomEvent<StepperItemEventDetail>): void {
-    if (event.detail.content) {
-      this.requestedContent = event.detail.content;
+    const { content, position } = event.detail;
+
+    if (content) {
+      this.requestedContent = content;
     }
-    this.currentPosition = event.detail.position;
+
+    if (typeof position === "number") {
+      this.currentPosition = position;
+    }
+
     this.calciteInternalStepperItemChange.emit({
-      position: this.currentPosition
+      position
     });
+
+    event.stopPropagation();
+  }
+
+  @Listen("calciteInternalUserRequestedStepperItemSelect")
+  handleUserRequestedStepperItemSelect(event: CustomEvent<StepperItemChangeEventDetail>): void {
+    const { position } = event.detail;
+
+    this.calciteStepperItemChange.emit({
+      position
+    });
+
     event.stopPropagation();
   }
 
@@ -331,7 +355,7 @@ export class Stepper {
   }
 
   private focusElement(item: HTMLCalciteStepperItemElement) {
-    item.focus();
+    item?.focus();
   }
 
   private sortItems(): HTMLCalciteStepperItemElement[] {

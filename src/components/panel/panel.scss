@@ -94,7 +94,7 @@
     py-3.5;
   margin-inline-end: auto;
   .heading,
-  .summary {
+  .description {
     @apply block
       break-words
       p-0;
@@ -105,7 +105,7 @@
       @apply mb-0;
     }
   }
-  .summary {
+  .description {
     @apply text-color-2 text-n1h;
   }
 }

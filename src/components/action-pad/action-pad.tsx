@@ -135,7 +135,7 @@ export class ActionPad implements ConditionalSlotComponent {
       return;
     }
 
-    this.el.focus();
+    this.el?.focus();
   }
 
   // --------------------------------------------------------------------------
