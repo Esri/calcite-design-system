@@ -69,8 +69,13 @@ export class Popover {
 
   /**
    * Display a close button within the Popover.
+   *
+   * @deprecated use closable instead
    */
   @Prop({ reflect: true }) dismissible = false;
+
+  /** When true, display a close button within the Popover */
+  @Prop({ reflect: true }) closable = false;
 
   /**
    * Prevents flipping the popover's placement when it starts to overlap its reference element.
@@ -455,9 +460,9 @@ export class Popover {
   // --------------------------------------------------------------------------
 
   renderCloseButton(): VNode {
-    const { dismissible, closeButton, intlClose, heading } = this;
+    const { dismissible, closeButton, intlClose, heading, closable } = this;
 
-    return dismissible || closeButton ? (
+    return closable || dismissible || closeButton ? (
       <div class={CSS.closeButtonContainer}>
         <calcite-action
           class={CSS.closeButton}

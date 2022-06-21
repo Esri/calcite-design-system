@@ -60,8 +60,15 @@ export class Notice implements ConditionalSlotComponent {
   /** The color for the `calcite-notice`. Color will apply to top border and icon. */
   @Prop({ reflect: true }) color: StatusColor = "blue";
 
-  /** Shows a button the user can click to dismiss the `calcite-notice`. */
+  /**
+   * Shows a button the user can click to dismiss the `calcite-notice`.
+   *
+   * @deprecated use closable instead
+   */
   @Prop({ reflect: true }) dismissible? = false;
+
+  /** When true, displays a button user can click to dismiss the `calcite-notice` */
+  @Prop({ reflect: true }) closable? = false;
 
   /**
    * When present, shows a default recommended icon. You can
@@ -138,7 +145,7 @@ export class Notice implements ConditionalSlotComponent {
             <slot name={SLOTS.actionsEnd} />
           </div>
         ) : null}
-        {this.dismissible ? closeButton : null}
+        {this.closable || this.dismissible ? closeButton : null}
       </div>
     );
   }
