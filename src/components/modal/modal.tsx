@@ -31,7 +31,6 @@ import {
   connectConditionalSlotComponent,
   disconnectConditionalSlotComponent
 } from "../../utils/conditionalSlot";
-import { property } from "lodash-es";
 
 const isFocusableExtended = (el: FocusableElement): boolean => {
   return isCalciteFocusable(el) || isFocusable(el);
