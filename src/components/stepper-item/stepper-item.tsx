@@ -11,7 +11,7 @@ import {
   Watch
 } from "@stencil/core";
 import { getElementProp, toAriaBoolean } from "../../utils/dom";
-import { Scale } from "../interfaces";
+import { Layout, Scale } from "../interfaces";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import {
   StepperItemChangeEventDetail,
@@ -77,7 +77,8 @@ export class StepperItem implements InteractiveComponent {
   /** pass a title for the stepper item */
   /** @internal */
 
-  @Prop({ reflect: true, mutable: true }) layout?: string;
+  @Prop({ reflect: true, mutable: true }) layout?: Extract<"horizontal" | "vertical", Layout> =
+    "horizontal";
 
   /** should the items display an icon based on status */
   /** @internal */
@@ -95,6 +96,13 @@ export class StepperItem implements InteractiveComponent {
   @Watch("disabled")
   disabledWatcher(): void {
     this.registerStepperItem();
+  }
+
+  @Watch("active")
+  activeWatcher(active: boolean): void {
+    if (active) {
+      this.emitRequestedItem();
+    }
   }
 
   //--------------------------------------------------------------------------

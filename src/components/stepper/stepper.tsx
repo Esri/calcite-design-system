@@ -45,7 +45,7 @@ export class Stepper {
   @Prop({ reflect: true }) icon = false;
 
   /** specify the layout of stepper, defaults to horizontal */
-  @Prop({ reflect: true }) layout: Layout = "horizontal";
+  @Prop({ reflect: true }) layout: Extract<"horizontal" | "vertical", Layout> = "horizontal";
 
   /** optionally display the number next to the step title */
   @Prop({ reflect: true }) numbered = false;
@@ -93,7 +93,7 @@ export class Stepper {
   //--------------------------------------------------------------------------
   componentDidLoad(): void {
     // if no stepper items are set as active, default to the first one
-    if (!this.currentPosition) {
+    if (typeof this.currentPosition !== "number") {
       this.calciteInternalStepperItemChange.emit({
         position: 0
       });
