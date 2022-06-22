@@ -108,7 +108,7 @@ export class Block implements ConditionalSlotComponent, InteractiveComponent {
   @Prop() description: string;
 
   /** When true, removes padding for the slotted content */
-  @Prop() noPadding: string;
+  @Prop() noPadding = false;
 
   //--------------------------------------------------------------------------
   //
