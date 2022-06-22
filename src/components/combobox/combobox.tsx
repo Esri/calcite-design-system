@@ -43,6 +43,7 @@ import {
 import { createObserver } from "../../utils/observers";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { toAriaBoolean } from "../../utils/dom";
+import { OpenCloseState, OpenCloseComponent } from "../../utils/emitter";
 interface ItemData {
   label: string;
   value: string;
@@ -65,7 +66,9 @@ const inputUidPrefix = "combobox-input-";
   styleUrl: "combobox.scss",
   shadow: true
 })
-export class Combobox implements LabelableComponent, FormComponent, InteractiveComponent {
+export class Combobox
+  implements LabelableComponent, FormComponent, InteractiveComponent, OpenCloseComponent
+{
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -386,6 +389,17 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
 
   private activeTransitionProp = "opacity";
 
+  private OpenCloseState: OpenCloseState = {
+    beforeOpen: () => this.calciteComboboxBeforeOpen.emit(this.publicEmitPayload),
+    open: () => this.calciteComboboxOpen.emit(this.publicEmitPayload),
+    beforeClose: () => this.calciteComboboxBeforeClose.emit(this.publicEmitPayload),
+    close: () => this.calciteComboboxClose.emit(this.publicEmitPayload)
+  };
+
+  private publicEmitPayload: any = {
+    element: this
+  };
+
   // --------------------------------------------------------------------------
   //
   //  Private Methods
@@ -535,22 +549,6 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
         : this.openCloseEventEmitter("beforeClose");
     }
   };
-
-  private openCloseEventEmitter(componentVisibilityState: string): void {
-    const payload = {
-      el: this.el
-    };
-    const emitComponentState = {
-      beforeOpen: () => this.calciteComboboxBeforeOpen.emit(payload),
-      open: () => this.calciteComboboxOpen.emit(payload),
-      beforeClose: () => this.calciteComboboxBeforeClose.emit(payload),
-      close: () => this.calciteComboboxClose.emit(payload)
-    };
-    (
-      emitComponentState[componentVisibilityState] ||
-      emitComponentState["The component state is unknown."]
-    )();
-  }
 
   setMaxScrollerHeight = (): void => {
     const { active, listContainerEl } = this;
@@ -1001,6 +999,13 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
   comboboxBlurHandler = (event: FocusEvent): void => {
     this.setInactiveIfNotContained(event);
   };
+
+  private openCloseEventEmitter(componentVisibilityState: string): void {
+    (
+      this.OpenCloseState[componentVisibilityState] ||
+      this.OpenCloseState["The component state is unknown."]
+    )();
+  }
 
   //--------------------------------------------------------------------------
   //
