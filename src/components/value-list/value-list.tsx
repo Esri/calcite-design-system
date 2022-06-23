@@ -222,6 +222,17 @@ export class ValueList<
     event.stopPropagation();
   }
 
+  @Listen("calciteInternalListItemDragHandleFocused")
+  handleFocusonButton(event: any): void {
+    const { handleElement, item } = this.getHandleAndItemElement(event.detail);
+    if (!item) {
+      const newItem = this.getHandleAndItemElement(event);
+      this.updateHandleAriaLabel(handleElement, this.getScreenReaderText(newItem.item, "start"));
+    } else if (!item.handleActivated) {
+      this.updateHandleAriaLabel(handleElement, this.getScreenReaderText(item, "start"));
+    }
+  }
+
   // --------------------------------------------------------------------------
   //
   //  Private Methods
@@ -341,21 +352,6 @@ export class ValueList<
     this.updateHandleAriaLabel(handleElement, this.getScreenReaderText(item, "newPosition"));
   };
 
-  focusInHandler = (event: FocusEvent): void => {
-    const { handleElement, item } = this.getHandleAndItemElement(event);
-    if (!handleElement) {
-      return;
-    }
-    if (!item.handleActivated) {
-      this.updateScreenReaderText(
-        this.intlDragHandleStart
-          ? this.intlDragHandleStart
-          : this.getScreenReaderText(item, "start")
-      );
-      this.updateHandleAriaLabel(handleElement, this.getScreenReaderText(item, "start"));
-    }
-  };
-
   getHandleAndItemElement(event: KeyboardEvent | FocusEvent): {
     handleElement: HTMLCalciteHandleElement;
     item: HTMLCalciteValueListItemElement;
@@ -441,6 +437,6 @@ export class ValueList<
   }
 
   render(): VNode {
-    return <List onFocusin={this.focusInHandler} onKeyDown={this.keyDownHandler} props={this} />;
+    return <List onKeyDown={this.keyDownHandler} props={this} />;
   }
 }

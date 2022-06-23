@@ -168,6 +168,8 @@ export class ValueListItem implements ConditionalSlotComponent, InteractiveCompo
     event.detail.item = this.el;
   }
 
+  @Event() calciteInternalListItemDragHandleFocused: EventEmitter<FocusEvent>;
+
   // --------------------------------------------------------------------------
   //
   //  Private Methods
@@ -190,6 +192,10 @@ export class ValueListItem implements ConditionalSlotComponent, InteractiveCompo
 
   handleSelectChange = (event: CustomEvent): void => {
     this.selected = event.detail.selected;
+  };
+
+  handleFocus = (event: FocusEvent): void => {
+    this.calciteInternalListItemDragHandleFocused.emit(event);
   };
 
   // --------------------------------------------------------------------------
@@ -228,6 +234,7 @@ export class ValueListItem implements ConditionalSlotComponent, InteractiveCompo
           }}
           data-js-handle
           onBlur={this.handleBlur}
+          onFocus={this.handleFocus}
           onKeyDown={this.handleKeyDown}
           ref={(el) => (this.handleEl = el as HTMLSpanElement)}
           role="button"
