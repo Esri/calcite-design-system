@@ -104,8 +104,6 @@ export class ValueListItem implements ConditionalSlotComponent, InteractiveCompo
 
   @Element() el: HTMLCalciteValueListItemElement;
 
-  handleEl: HTMLSpanElement;
-
   pickListItem: HTMLCalcitePickListItemElement = null;
 
   guid = `calcite-value-list-item-${guid()}`;
@@ -187,7 +185,6 @@ export class ValueListItem implements ConditionalSlotComponent, InteractiveCompo
 
   handleBlur = (): void => {
     this.handleActivated = false;
-    this.handleEl.ariaLabel = "";
   };
 
   handleSelectChange = (event: CustomEvent): void => {
@@ -235,7 +232,6 @@ export class ValueListItem implements ConditionalSlotComponent, InteractiveCompo
           onBlur={this.handleBlur}
           onFocus={this.handleFocus}
           onKeyDown={this.handleKeyDown}
-          ref={(el) => (this.handleEl = el as HTMLSpanElement)}
           role="button"
           tabindex="0"
         >

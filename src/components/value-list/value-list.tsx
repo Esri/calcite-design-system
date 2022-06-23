@@ -290,8 +290,6 @@ export class ValueList<
 
   handleFilter = handleFilter.bind(this);
 
-  role = "list";
-
   getItemData = getItemData.bind(this);
 
   keyDownHandler = (event: KeyboardEvent): void => {
