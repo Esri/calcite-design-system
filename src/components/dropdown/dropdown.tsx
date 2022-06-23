@@ -160,6 +160,9 @@ export class Dropdown implements InteractiveComponent {
     this.mutationObserver?.disconnect();
     this.resizeObserver?.disconnect();
     this.destroyPopper();
+    if (this.scrollerEl) {
+      this.scrollerEl.removeEventListener("transitionrun", this.onTransitionRun);
+    }
   }
 
   render(): VNode {
@@ -445,13 +448,38 @@ export class Dropdown implements InteractiveComponent {
   setScrollerEl = (scrollerEl: HTMLDivElement): void => {
     this.resizeObserver.observe(scrollerEl);
     this.scrollerEl = scrollerEl;
+    this.scrollerEl.addEventListener("transitionrun", this.onTransitionRun);
   };
 
   transitionEnd = (event: TransitionEvent): void => {
     if (event.propertyName === this.activeTransitionProp) {
-      this.active ? this.calciteDropdownOpen.emit() : this.calciteDropdownClose.emit();
+      this.active ? this.openCloseEventEmitter("open") : this.openCloseEventEmitter("close");
     }
   };
+
+  onTransitionRun = (event: TransitionEvent): void => {
+    if (event.propertyName === this.activeTransitionProp) {
+      this.active
+        ? this.openCloseEventEmitter("beforeOpen")
+        : this.openCloseEventEmitter("beforeClose");
+    }
+  };
+
+  private openCloseEventEmitter(componentVisibilityState: string): void {
+    const payload = {
+      el: this.el
+    };
+    const emitComponentState = {
+      beforeOpen: () => this.calciteDropdownBeforeOpen.emit(payload),
+      open: () => this.calciteDropdownOpen.emit(payload),
+      beforeClose: () => this.calciteDropdownBeforeClose.emit(payload),
+      close: () => this.calciteDropdownClose.emit(payload)
+    };
+    (
+      emitComponentState[componentVisibilityState] ||
+      emitComponentState["The component state is unknown."]
+    )();
+  }
 
   setReferenceEl = (el: HTMLDivElement): void => {
     this.referenceEl = el;
