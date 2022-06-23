@@ -235,11 +235,17 @@ export class Dropdown implements InteractiveComponent {
   /** fires when a dropdown item has been selected or deselected */
   @Event() calciteDropdownSelect: EventEmitter<void>;
 
-  /** fires when a dropdown has been opened */
-  @Event() calciteDropdownOpen: EventEmitter<void>;
+  /* Fired while a dropdown is still invisible but was added to the DOM, and before the opening transition begins. */
+  @Event() calciteDropdownBeforeOpen: EventEmitter<{ el: HTMLCalciteDropdownElement }>;
 
-  /** fires when a dropdown has been closed */
-  @Event() calciteDropdownClose: EventEmitter<void>;
+  /* Fired when a dropdown has been opened and animation is complete */
+  @Event() calciteDropdownOpen: EventEmitter<{ el: HTMLCalciteDropdownElement }>;
+
+  /* Fired when a dropdown is requested to be closed and before the closing transition begins. */
+  @Event() calciteDropdownBeforeClose: EventEmitter<{ el: HTMLCalciteDropdownElement }>;
+
+  /* Fired when a dropdown has been closed and animation is complete */
+  @Event() calciteDropdownClose: EventEmitter<{ el: HTMLCalciteDropdownElement }>;
 
   @Listen("click", { target: "window" })
   closeCalciteDropdownOnClick(e: Event): void {
