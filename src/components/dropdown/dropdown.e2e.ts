@@ -2,6 +2,7 @@ import { E2EPage, newE2EPage } from "@stencil/core/testing";
 import { accessible, defaults, disabled, popperOwner, renders } from "../../tests/commonTests";
 import dedent from "dedent";
 import { html } from "../../../support/formatting";
+import { CSS } from "./resources";
 
 describe("calcite-dropdown", () => {
   it("renders", () =>
@@ -1037,8 +1038,8 @@ describe("calcite-dropdown", () => {
         </calcite-dropdown-group>
       </calcite-dropdown>
     `);
-    const element = await page.find("calcite-dropdown");
-    const group = await page.find(`calcite-dropdown-group`);
+    const element = await page.find(`calcite-dropdown`);
+    const group = await page.find(`calcite-dropdown >>> .${CSS.calciteDropdownContent}`);
 
     expect(await group.isVisible()).toBe(false);
 
@@ -1046,7 +1047,7 @@ describe("calcite-dropdown", () => {
     const calciteDropdownOpenEvent = page.waitForEvent("calciteDropdownOpen");
 
     const calciteDropdownBeforeOpenSpy = await element.spyOnEvent("calciteDropdownBeforeOpen");
-    const calciteDropdownOpenSpy = await element.spyOnEvent("calciteDropdownxOpen");
+    const calciteDropdownOpenSpy = await element.spyOnEvent("calciteDropdownOpen");
 
     await element.setProperty("active", true);
     await page.waitForChanges();
