@@ -297,11 +297,7 @@ export class ValueList<
   keyDownHandler = (event: KeyboardEvent): void => {
     const { handleElement, item } = this.getHandleAndItemElement(event);
     if (handleElement && !item.handleActivated && event.key === " ") {
-      this.updateScreenReaderText(
-        this.intlDragHandleCurrentPosition
-          ? this.intlDragHandleCurrentPosition
-          : this.getScreenReaderText(item, "currentPosition")
-      );
+      this.updateScreenReaderText(this.getScreenReaderText(item, "currentPosition"));
     }
 
     if (!handleElement || !item.handleActivated) {
@@ -312,11 +308,7 @@ export class ValueList<
     const { items } = this;
 
     if (event.key === " ") {
-      this.updateScreenReaderText(
-        this.intlDragHandleActivated
-          ? this.intlDragHandleActivated
-          : this.getScreenReaderText(item, "activated")
-      );
+      this.updateScreenReaderText(this.getScreenReaderText(item, "activated"));
     }
 
     if ((event.key !== "ArrowUp" && event.key !== "ArrowDown") || items.length <= 1) {
@@ -344,11 +336,7 @@ export class ValueList<
     requestAnimationFrame(() => handleElement?.focus());
     item.handleActivated = true;
 
-    this.updateScreenReaderText(
-      this.intlDragHandleNewPosition
-        ? this.intlDragHandleNewPosition
-        : this.getScreenReaderText(item, "newPosition")
-    );
+    this.updateScreenReaderText(this.getScreenReaderText(item, "newPosition"));
     this.updateHandleAriaLabel(handleElement, this.getScreenReaderText(item, "newPosition"));
   };
 
@@ -424,13 +412,21 @@ export class ValueList<
 
     switch (status) {
       case "start":
-        return `press space and use arrow keys to re-order content. current position ${position} of ${total}`;
+        return this.intlDragHandleStart
+          ? this.intlDragHandleStart
+          : `press space and use arrow keys to re-order content. current position ${position} of ${total}`;
       case "activated":
-        return `Reordering.current position ${position} of ${total}`;
+        return this.intlDragHandleActivated
+          ? this.intlDragHandleActivated
+          : `Reordering.current position ${position} of ${total}`;
       case "newPosition":
-        return `new position ${position} of ${total}. press space to confirm`;
+        return this.intlDragHandleNewPosition
+          ? this.intlDragHandleNewPosition
+          : `new position ${position} of ${total}. press space to confirm`;
       case "currentPosition":
-        return `current position ${position} of ${total}`;
+        return this.intlDragHandleCurrentPosition
+          ? this.intlDragHandleCurrentPosition
+          : `current position ${position} of ${total}`;
       default:
         break;
     }
