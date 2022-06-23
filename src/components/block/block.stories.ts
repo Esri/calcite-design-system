@@ -174,3 +174,9 @@ export const disabled = (): string => html`<calcite-block heading="heading" summ
     <img alt="demo" src="${placeholderImage({ width: 320, height: 240 })}" />
   </calcite-block-section>
 </calcite-block>`;
+
+export const noPadding = (): string => html` <calcite-panel heading="Properties">
+  <calcite-block heading="Example block heading" summary="example summary heading" collapsible open no-padding>
+    <div>calcite components ninja</div>
+  </calcite-block>
+</calcite-panel>`;
