@@ -35,62 +35,60 @@ export class Action implements InteractiveComponent {
   // --------------------------------------------------------------------------
 
   /**
-   * Indicates whether the action is highlighted.
+   * When true, the component is highlighted.
    */
   @Prop({ reflect: true }) active = false;
 
   /**
-   * Optionally specify the horizontal alignment of button elements with text content.
+   * Specifies the horizontal alignment of button elements with text content.
    */
   @Prop({ reflect: true }) alignment?: Alignment;
 
-  /** Specify the appearance style of the action, defaults to solid. */
+  /** Specifies the appearance of the component. */
   @Prop({ reflect: true }) appearance: Extract<"solid" | "clear", Appearance> = "solid";
 
   /**
-   * Compact mode is used internally by components to reduce side padding, e.g. calcite-block-section.
+   * When true, the side padding of the component is reduced. Compact mode is used internally by components, e.g. `calcite-block-section`.
    */
   @Prop({ reflect: true }) compact = false;
 
   /**
-   * When true, disabled prevents interaction. This state shows items with lower opacity/grayed.
+   * When true, interaction is prevented and the component is displayed with lower opacity.
    */
   @Prop({ reflect: true }) disabled = false;
 
-  /**
-   * The name of the icon to display. The value of this property must match the icon name from https://esri.github.io/calcite-ui-icons/.
-   */
+  /** Specifies an icon to display - accepts Calcite UI icon names.  */
   @Prop() icon?: string;
 
   /**
-   * Indicates unread changes.
+   * When true, indicates unread changes.
    */
   @Prop({ reflect: true }) indicator = false;
 
   /**
-   * string to override English loading text
+   * Specifies the text label to display while loading.
    *
    * @default "Loading"
    */
   @Prop() intlLoading?: string = TEXT.loading;
 
   /**
-   * The label of the action. If no label is provided, the label inherits what's provided for the `text` prop.
+   * Specifies the label of the component. If no label is provided, the label inherits what's provided for the `text` prop.
    */
   @Prop() label?: string;
 
   /**
-   * When true, content is waiting to be loaded. This state shows a busy indicator.
+   * When true, a busy indicator is displayed.
    */
   @Prop({ reflect: true }) loading = false;
 
   /**
-   * Specifies the size of the action.
+   * Specifies the size of the component.
    */
   @Prop({ reflect: true }) scale: Scale = "m";
 
   /**
-   * Text that accompanies the action icon.
+   * Specifies text that accompanies the icon.
    */
   @Prop() text!: string;
 
@@ -106,7 +104,7 @@ export class Action implements InteractiveComponent {
   // --------------------------------------------------------------------------
 
   /**
-   * Emitted when the action has been clicked.
+   * Emits when the component has been clicked.
    *
    * @deprecated use onClick instead.
    */
