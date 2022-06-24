@@ -161,7 +161,7 @@ export class Dropdown implements InteractiveComponent {
     this.resizeObserver?.disconnect();
     this.destroyPopper();
     if (this.scrollerEl) {
-      this.scrollerEl.removeEventListener("transitionrun", this.onTransitionRun);
+      this.scrollerEl.removeEventListener("transitionrun", this.transitionRunHandler);
     }
   }
 
@@ -448,24 +448,22 @@ export class Dropdown implements InteractiveComponent {
   setScrollerEl = (scrollerEl: HTMLDivElement): void => {
     this.resizeObserver.observe(scrollerEl);
     this.scrollerEl = scrollerEl;
-    this.scrollerEl.addEventListener("transitionrun", this.onTransitionRun);
+    this.scrollerEl.addEventListener("transitionrun", this.transitionRunHandler);
   };
 
   transitionEnd = (event: TransitionEvent): void => {
     if (event.propertyName === this.activeTransitionProp) {
-      this.active ? this.openCloseEventEmitter("open") : this.openCloseEventEmitter("close");
+      this.active ? this.emitOpenCloseEvent("open") : this.emitOpenCloseEvent("close");
     }
   };
 
-  onTransitionRun = (event: TransitionEvent): void => {
+  transitionRunHandler = (event: TransitionEvent): void => {
     if (event.propertyName === this.activeTransitionProp) {
-      this.active
-        ? this.openCloseEventEmitter("beforeOpen")
-        : this.openCloseEventEmitter("beforeClose");
+      this.active ? this.emitOpenCloseEvent("beforeOpen") : this.emitOpenCloseEvent("beforeClose");
     }
   };
 
-  private openCloseEventEmitter(componentVisibilityState: string): void {
+  private emitOpenCloseEvent(componentVisibilityState: string): void {
     const payload = {
       el: this.el
     };
