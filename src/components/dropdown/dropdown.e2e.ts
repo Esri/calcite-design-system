@@ -2,6 +2,7 @@ import { E2EPage, newE2EPage } from "@stencil/core/testing";
 import { accessible, defaults, disabled, popperOwner, renders } from "../../tests/commonTests";
 import dedent from "dedent";
 import { html } from "../../../support/formatting";
+import { CSS } from "./resources";
 
 describe("calcite-dropdown", () => {
   it("renders", () =>
@@ -1024,4 +1025,56 @@ describe("calcite-dropdown", () => {
         shadowPopperSelector: ".calcite-dropdown-wrapper"
       }
     ));
+
+  it("should emit component status for transition-chained events: 'calciteDropdownBeforeOpen', 'calciteDropdownOpen', 'calciteDropdownBeforeClose', 'calciteDropdownClose'", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html`
+      <calcite-dropdown>
+        <calcite-button slot="dropdown-trigger">Open dropdown</calcite-button>
+        <calcite-dropdown-group id="group-1">
+          <calcite-dropdown-item id="item-1"> Dropdown Item Content </calcite-dropdown-item>
+          <calcite-dropdown-item id="item-2" active> Dropdown Item Content </calcite-dropdown-item>
+          <calcite-dropdown-item id="item-3"> Dropdown Item Content </calcite-dropdown-item>
+        </calcite-dropdown-group>
+      </calcite-dropdown>
+    `);
+    const element = await page.find(`calcite-dropdown`);
+    const group = await page.find(`calcite-dropdown >>> .${CSS.calciteDropdownContent}`);
+
+    expect(await group.isVisible()).toBe(false);
+
+    const calciteDropdownBeforeOpenEvent = page.waitForEvent("calciteDropdownBeforeOpen");
+    const calciteDropdownOpenEvent = page.waitForEvent("calciteDropdownOpen");
+
+    const calciteDropdownBeforeOpenSpy = await element.spyOnEvent("calciteDropdownBeforeOpen");
+    const calciteDropdownOpenSpy = await element.spyOnEvent("calciteDropdownOpen");
+
+    await element.setProperty("active", true);
+    await page.waitForChanges();
+
+    await calciteDropdownBeforeOpenEvent;
+    await calciteDropdownOpenEvent;
+
+    expect(calciteDropdownBeforeOpenSpy).toHaveReceivedEventTimes(1);
+    expect(calciteDropdownOpenSpy).toHaveReceivedEventTimes(1);
+
+    expect(await group.isVisible()).toBe(true);
+
+    const calciteDropdownBeforeCloseEvent = page.waitForEvent("calciteDropdownBeforeClose");
+    const calciteDropdownCloseEvent = page.waitForEvent("calciteDropdownClose");
+
+    const calciteDropdownBeforeCloseSpy = await element.spyOnEvent("calciteDropdownBeforeClose");
+    const calciteDropdownCloseSpy = await element.spyOnEvent("calciteDropdownClose");
+
+    await element.setProperty("active", false);
+    await page.waitForChanges();
+
+    await calciteDropdownBeforeCloseEvent;
+    await calciteDropdownCloseEvent;
+
+    expect(calciteDropdownBeforeCloseSpy).toHaveReceivedEventTimes(1);
+    expect(calciteDropdownCloseSpy).toHaveReceivedEventTimes(1);
+
+    expect(await group.isVisible()).toBe(false);
+  });
 });
