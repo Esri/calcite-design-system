@@ -668,7 +668,7 @@ describe("calcite-combobox", () => {
       ).toBeTruthy();
     });
 
-    it("should cycle through items on ArrowUp/ArrowDown and toggle selection on/off on Ente", async () => {
+    it("should cycle through items on ArrowUp/ArrowDown and toggle selection on/off on Enter", async () => {
       const eventSpy = await page.spyOnEvent("calciteComboboxChange", "window");
       const item1 = await page.find("calcite-combobox-item#one");
       const item2 = await page.find("calcite-combobox-item#two");
