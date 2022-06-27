@@ -538,7 +538,7 @@ describe("calcite-dropdown", () => {
       expect(await item.isIntersectingViewport()).toBe(true);
     });
 
-    it("control max items displayed", async () => {
+    it.skip("control max items displayed", async () => {
       const maxItems = 7;
       const page = await newE2EPage({
         html: html`<calcite-dropdown max-items="${maxItems}">
