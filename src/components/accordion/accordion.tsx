@@ -28,8 +28,15 @@ export class Accordion {
   /** Specifies the appearance of the component. */
   @Prop({ reflect: true }) appearance: AccordionAppearance = "default";
 
-  /** Specifies the placement of the icon in the header. */
+  /**
+   * Specifies the placement of the icon in the header.
+   *
+   * @deprecated use alignment instead
+   */
   @Prop({ reflect: true }) iconPosition: Position = "end";
+
+  /** Specified the placement of the icon in the header */
+  @Prop({ reflect: true }) alignment: Position = "end";
 
   /** Specifies the type of the icon in the header. */
   @Prop({ reflect: true }) iconType: "chevron" | "caret" | "plus-minus" = "chevron";

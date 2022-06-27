@@ -101,6 +101,7 @@ export class AccordionItem {
     this.selectionMode = getElementProp(this.el, "selection-mode", "multi");
     this.iconType = getElementProp(this.el, "icon-type", "chevron");
     this.iconPosition = getElementProp(this.el, "icon-position", this.iconPosition);
+    this.alignment = getElementProp(this.el, "alignment", this.alignment);
   }
 
   componentDidLoad(): void {
@@ -115,16 +116,14 @@ export class AccordionItem {
     const dir = getElementDir(this.el);
 
     const iconEl = <calcite-icon class="accordion-item-icon" icon={this.icon} scale="s" />;
-
     const { guid } = this;
     const regionId = `${guid}-region`;
     const buttonId = `${guid}-button`;
-
     return (
       <Host tabindex="0">
         <div
           class={{
-            [`icon-position--${this.iconPosition}`]: true,
+            [`icon-position--${this.alignment || this.iconPosition}`]: true,
             [`icon-type--${this.iconType}`]: true
           }}
         >
@@ -232,8 +231,15 @@ export class AccordionItem {
   /** what selection mode is the parent accordion in */
   private selectionMode: string;
 
-  /** what icon position does the parent accordion specify */
+  /**
+   * what icon position does the parent accordion specify
+   *
+   * @deprecated use alignment instead
+   */
   private iconPosition: Position = "end";
+
+  /** what icon position does the parent accordion specify */
+  private alignment: Position = "end";
 
   /** what icon type does the parent accordion specify */
   private iconType: string;
