@@ -43,14 +43,28 @@ export class RadioGroupItem {
     this.calciteInternalRadioGroupItemChange.emit();
   }
 
-  /** optionally pass an icon to display - accepts Calcite UI icon names  */
+  /**
+   * optionally pass an icon to display - accepts Calcite UI icon names
+   *
+   * @deprecated use iconStart and iconEnd
+   */
   @Prop({ reflect: true }) icon?: string;
 
   /** flip the icon in rtl */
   @Prop({ reflect: true }) iconFlipRtl = false;
 
-  /** optionally used with icon, select where to position the icon */
+  /**
+   * optionally used with icon, select where to position the icon
+   *
+   * @deprecated use iconStart and iconEnd
+   */
   @Prop({ reflect: true }) iconPosition?: Position = "start";
+
+  /** Optionally pass an icon to display at the start - accepts Calcite UI icon names */
+  @Prop({ reflect: true }) iconStart?: string;
+
+  /** Optionally pass an icon to display at the end - accepts Calcite UI icon names */
+  @Prop({ reflect: true }) iconEnd?: string;
 
   /**
    * The control's value.
@@ -73,6 +87,24 @@ export class RadioGroupItem {
       />
     );
 
+    const iconStartEl = (
+      <calcite-icon
+        class={CSS.radioGroupItemIcon}
+        flipRtl={this.iconFlipRtl}
+        icon={this.iconStart}
+        scale="s"
+      />
+    );
+
+    const iconEndEl = (
+      <calcite-icon
+        class={CSS.radioGroupItemIcon}
+        flipRtl={this.iconFlipRtl}
+        icon={this.iconEnd}
+        scale="s"
+      />
+    );
+
     return (
       <Host aria-checked={toAriaBoolean(checked)} role="radio">
         <label
@@ -85,9 +117,11 @@ export class RadioGroupItem {
           }}
         >
           {this.icon && this.iconPosition === "start" ? iconEl : null}
+          {this.iconStart ? iconStartEl : null}
           <slot>{value}</slot>
           <slot name={SLOTS.input} />
           {this.icon && this.iconPosition === "end" ? iconEl : null}
+          {this.iconEnd ? iconEndEl : null}
         </label>
       </Host>
     );

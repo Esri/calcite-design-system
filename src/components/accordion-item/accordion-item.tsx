@@ -61,8 +61,18 @@ export class AccordionItem {
   /** Specifies a description for the component. */
   @Prop() description: string;
 
-  /** Specifies an icon to display - accepts Calcite UI icon names. */
+  /**
+   * Specifies an icon to display - accepts Calcite UI icon names.
+   *
+   * @deprecated use iconStart or iconEnd instead
+   */
   @Prop({ reflect: true }) icon?: string;
+
+  /**Specified an icon to display at the start - accepts Calcite UI icon names. */
+  @Prop({ reflect: true }) iconStart?: string;
+
+  /**Specified an icon to display at the end - accepts Calcite UI icon names. */
+  @Prop({ reflect: true }) iconEnd?: string;
 
   //--------------------------------------------------------------------------
   //
@@ -115,11 +125,13 @@ export class AccordionItem {
     const dir = getElementDir(this.el);
 
     const iconEl = <calcite-icon class="accordion-item-icon" icon={this.icon} scale="s" />;
-
+    const iconStartEl = (
+      <calcite-icon class="accordion-item-icon" icon={this.iconStart} scale="s" />
+    );
+    const iconEndEl = <calcite-icon class="accordion-item-icon" icon={this.iconEnd} scale="s" />;
     const { guid } = this;
     const regionId = `${guid}-region`;
     const buttonId = `${guid}-button`;
-
     return (
       <Host tabindex="0">
         <div
@@ -136,6 +148,7 @@ export class AccordionItem {
             role="button"
           >
             {this.icon ? iconEl : null}
+            {this.iconStart ? iconStartEl : null}
             <div class="accordion-item-header-text">
               <span class="accordion-item-heading">{this.heading || this.itemTitle}</span>
               {this.itemSubtitle ? (
@@ -144,6 +157,7 @@ export class AccordionItem {
                 </span>
               ) : null}
             </div>
+            {this.iconEnd ? iconEndEl : null}
             <calcite-icon
               class="accordion-item-expand-icon"
               icon={
