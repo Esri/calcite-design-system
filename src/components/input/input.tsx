@@ -96,7 +96,7 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
   @Prop() groupSeparator = false;
 
   /**
-   * when true, the component will not be visible.
+   * When true, the component will not be visible.
    *
    * @mdn [hidden](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/hidden)
    */
@@ -113,7 +113,7 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
   @Prop() intlClear?: string;
 
   /**
-   * A text label that will appear while loading for screen readers.
+   * Accessible name that will appear while loading.
    *
    * @default "Loading"
    */
@@ -122,7 +122,7 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
   /** When true, the icon is flipped in RTL. */
   @Prop({ reflect: true }) iconFlipRtl = false;
 
-  /** Specifies the aria-label attribute on the button or hyperlink. */
+  /** Accessible name for the component's button or hyperlink. */
   @Prop() label?: string;
 
   /** When true, the component is in the loading state and `calcite-progress` is displayed. */
@@ -209,13 +209,13 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
    */
   @Prop() placeholder: string;
 
-  /** Adds text to the start of the component.  */
+  /** Adds text to the start of the component. */
   @Prop() prefixText?: string;
 
   /**
-   * When true, the field cannot be modified.
+   * When true, the value cannot be modified.
    *
-   * @mdn [readOnly](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#readonly)
+   * @mdn [readOnly](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/readonly)
    */
   @Prop() readOnly = false;
 
@@ -231,7 +231,7 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
   /**
    * Specifies the granularity that the component's value must adhere to.
    *
-   * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#step)
+   * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/step)
    */
   @Prop({ reflect: true }) step?: number | "any";
 
@@ -244,7 +244,7 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
   @Prop({ mutable: true, reflect: true }) editingEnabled = false;
 
   /**
-   * Specifies the input type.
+   * Specifies the component type.
    *
    * Note that the following types add type-specific icons by default: "date", "email", "password", "search", "tel", "time".
    */
