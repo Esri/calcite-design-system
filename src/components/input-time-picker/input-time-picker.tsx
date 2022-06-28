@@ -274,7 +274,7 @@ export class InputTimePicker implements LabelableComponent, FormComponent, Inter
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    this.calciteInputEl.setFocus();
+    this.calciteInputEl?.setFocus();
   }
 
   /** Updates the position of the component. */

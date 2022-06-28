@@ -12,8 +12,8 @@ import {
 
 /**
  * @slot - A slot for adding a group of `calcite-action`s.
- * @slot menu-actions - a slot for adding an overflow menu with actions inside a dropdown.
- * @slot menu-tooltip - a slot for adding an tooltip for the menu.
+ * @slot menu-actions - A slot for adding an overflow menu with `calcite-action`s inside a `calcite-dropdown`.
+ * @slot menu-tooltip - A slot for adding a `calcite-tooltip` for the menu.
  */
 @Component({
   tag: "calcite-action-group",
@@ -28,7 +28,7 @@ export class ActionGroup implements ConditionalSlotComponent {
   // --------------------------------------------------------------------------
 
   /**
-   * Indicates whether widget is expanded.
+   * When true, the component is expanded.
    */
   @Prop({ reflect: true }) expanded = false;
 
@@ -38,7 +38,7 @@ export class ActionGroup implements ConditionalSlotComponent {
   }
 
   /**
-   * Indicates the horizontal, vertical, or grid layout of the component.
+   * Indicates the layout of the component.
    */
   @Prop({ reflect: true }) layout: Layout = "vertical";
 
@@ -48,17 +48,17 @@ export class ActionGroup implements ConditionalSlotComponent {
   @Prop({ reflect: true }) columns?: Columns;
 
   /**
-   * Text string for the actions menu.
+   * Specifies a text string for the `calcite-action-menu`.
    */
   @Prop() intlMore?: string;
 
   /**
-   * Opens the action menu.
+   * When true, the `calcite-action-menu` is open.
    */
   @Prop({ reflect: true, mutable: true }) menuOpen = false;
 
   /**
-   * Specifies the size of the action-menu.
+   * Specifies the size of the `calcite-action-menu`.
    */
   @Prop({ reflect: true }) scale: Scale;
 

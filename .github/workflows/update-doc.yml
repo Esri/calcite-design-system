@@ -13,10 +13,9 @@ jobs:
           cache: npm
       - name: generate doc
         run: |
-          npm install
+          npm ci --legacy-peer-deps
           npx stencil build --docs
           npm run lint:md
-
       - name: commit readme files/create pull request
         uses: peter-evans/create-pull-request@v3
         with:

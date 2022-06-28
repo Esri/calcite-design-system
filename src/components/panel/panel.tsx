@@ -117,8 +117,13 @@ export class Panel implements ConditionalSlotComponent, InteractiveComponent {
 
   /**
    * Summary text. A description displayed underneath the heading.
+   *
+   * @deprecated use description instead
    */
   @Prop() summary?: string;
+
+  /** Panel description */
+  @Prop() description: string;
 
   /**
    * Opens the action menu.
@@ -321,19 +326,20 @@ export class Panel implements ConditionalSlotComponent, InteractiveComponent {
   }
 
   renderHeaderContent(): VNode {
-    const { heading, headingLevel, summary } = this;
+    const { heading, headingLevel, summary, description } = this;
     const headingNode = heading ? (
       <Heading class={CSS.heading} level={headingLevel || HEADING_LEVEL}>
         {heading}
       </Heading>
     ) : null;
 
-    const summaryNode = summary ? <span class={CSS.summary}>{summary}</span> : null;
+    const descriptionNode =
+      description || summary ? <span class={CSS.description}>{description || summary}</span> : null;
 
-    return headingNode || summaryNode ? (
+    return headingNode || descriptionNode ? (
       <div class={CSS.headerContent} key="header-content">
         {headingNode}
-        {summaryNode}
+        {descriptionNode}
       </div>
     ) : null;
   }
