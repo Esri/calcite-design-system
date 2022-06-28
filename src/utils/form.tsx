@@ -139,7 +139,13 @@ function hasRegisteredFormComponentParent(
  * @param component
  */
 export function submitForm(component: FormOwner): void {
-  component.formEl?.requestSubmit();
+  const { formEl } = component;
+
+  if (!formEl) {
+    return;
+  }
+
+  "requestSubmit" in formEl ? formEl.requestSubmit() : formEl.submit();
 }
 
 /**
