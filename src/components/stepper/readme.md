@@ -25,12 +25,18 @@ Calcite stepper can be used to present a stepper workflow to a user. It has conf
 
 ## Properties
 
-| Property   | Attribute  | Description                                             | Type                                   | Default        |
-| ---------- | ---------- | ------------------------------------------------------- | -------------------------------------- | -------------- |
-| `icon`     | `icon`     | optionally display a status icon next to the step title | `boolean`                              | `false`        |
-| `layout`   | `layout`   | specify the layout of stepper, defaults to horizontal   | `"grid" \| "horizontal" \| "vertical"` | `"horizontal"` |
-| `numbered` | `numbered` | optionally display the number next to the step title    | `boolean`                              | `false`        |
-| `scale`    | `scale`    | specify the scale of stepper, defaults to m             | `"l" \| "m" \| "s"`                    | `"m"`          |
+| Property   | Attribute  | Description                                             | Type                         | Default        |
+| ---------- | ---------- | ------------------------------------------------------- | ---------------------------- | -------------- |
+| `icon`     | `icon`     | optionally display a status icon next to the step title | `boolean`                    | `false`        |
+| `layout`   | `layout`   | specify the layout of stepper, defaults to horizontal   | `"horizontal" \| "vertical"` | `"horizontal"` |
+| `numbered` | `numbered` | optionally display the number next to the step title    | `boolean`                    | `false`        |
+| `scale`    | `scale`    | specify the scale of stepper, defaults to m             | `"l" \| "m" \| "s"`          | `"m"`          |
+
+## Events
+
+| Event                      | Description                                                | Type                                        |
+| -------------------------- | ---------------------------------------------------------- | ------------------------------------------- |
+| `calciteStepperItemChange` | This event fires when the active stepper item has changed. | `CustomEvent<StepperItemChangeEventDetail>` |
 
 ## Methods
 
