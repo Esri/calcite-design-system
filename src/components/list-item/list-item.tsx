@@ -191,14 +191,14 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
   // --------------------------------------------------------------------------
 
   renderExpand(): VNode {
-    const dir = getElementDir(this.el);
+    const { el, expanded } = this;
+    const dir = getElementDir(el);
 
     return this.expandable ? (
-      <calcite-action
-        icon={this.expanded ? "caret-down" : dir === "rtl" ? "caret-left" : "caret-right"}
+      <calcite-icon
+        icon={expanded ? "caret-down" : dir === "rtl" ? "caret-left" : "caret-right"}
         onClick={this.toggleExpanded}
         scale="s"
-        text="expand"
       />
     ) : null;
   }
