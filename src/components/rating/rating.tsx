@@ -17,6 +17,7 @@ import { LabelableComponent, connectLabel, disconnectLabel } from "../../utils/l
 import { connectForm, disconnectForm, FormComponent, HiddenFormInputSlot } from "../../utils/form";
 import { TEXT } from "./resources";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+// import { autobind } from "../../utils/decorators";
 
 @Component({
   tag: "calcite-rating",
@@ -171,10 +172,9 @@ export class Rating implements LabelableComponent, FormComponent, InteractiveCom
               // click is fired from the the component's label, so we treat this as an internal event
               event.stopPropagation()
             }
-            onFocus={() => {
-              this.hasFocus = true;
-              this.focusValue = i;
-            }}
+            onFocus={() => this.onFocusChange(i)}
+            onKeyPress={this.onKeyboardPressed.bind(this)}
+            onKeyUp={this.onKeyboardPressed.bind(this)}
             ref={(el) =>
               (i === 1 || i === this.value) && (this.inputFocusRef = el as HTMLInputElement)
             }
@@ -222,9 +222,46 @@ export class Rating implements LabelableComponent, FormComponent, InteractiveCom
     this.setFocus();
   }
 
+  /**
+   * update `value` property of the rating component
+   *
+   * @param value value used to update `value` property
+   * @internal
+   */
   private updateValue(value: number) {
     this.value = value;
     this.calciteRatingChange.emit({ value });
+  }
+
+  /**
+   * register keyboard input and reset `value` property to `0` if user enters 'Space' or 'Enter'
+   *
+   * @param event keyboard event
+   * @internal
+   */
+  private onKeyboardPressed(event: KeyboardEvent): void {
+    // click is fired from the the component's input, so we treat this as an internal event
+    event.stopPropagation();
+    event.preventDefault();
+    if (event.key === "Enter" || event.code === "Space") {
+      this.updateValue(0);
+    }
+  }
+
+  /**
+   * handle focus change
+   *
+   * @param index index of the star input element in the component
+   * @internal
+   */
+  private onFocusChange(index: number): void {
+    this.hasFocus = true;
+    // reset input values when the user re-clicks on the input with the focus
+    if (this.focusValue === index) {
+      this.updateValue(0);
+    } else {
+      this.focusValue = index;
+    }
   }
 
   //--------------------------------------------------------------------------
