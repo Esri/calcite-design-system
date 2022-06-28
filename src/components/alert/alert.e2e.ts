@@ -270,7 +270,7 @@ describe("calcite-alert", () => {
     });
   });
 
-  it("should emit component status for transition-chained events: 'calciteAlertBeforeOpening', 'calciteAlertIsOpen', 'calciteAlertBeforeClosing', 'calciteAlertIsClosed'", async () => {
+  it("should emit component status for transition-chained events: 'calciteAlertBeforeOpen', 'calciteAlertOpen', 'calciteAlertBeforeClose', 'calciteAlertClose'", async () => {
     const page = await newE2EPage();
     await page.setContent(html`<calcite-alert> ${alertContent} </calcite-alert>`);
 

@@ -18,24 +18,26 @@ A single instance of an alert. Multiple alerts will aggregate in a queue.
 
 ## Properties
 
-| Property              | Attribute               | Description                                                                                                                                            | Type                                                                              | Default                              |
-| --------------------- | ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------- | ------------------------------------ |
-| `active`              | `active`                | Is the alert currently active or not                                                                                                                   | `boolean`                                                                         | `false`                              |
-| `autoDismiss`         | `auto-dismiss`          | Close the alert automatically (recommended for passive, non-blocking alerts)                                                                           | `boolean`                                                                         | `false`                              |
-| `autoDismissDuration` | `auto-dismiss-duration` | Duration of autoDismiss (only used with `autoDismiss`)                                                                                                 | `"fast" \| "medium" \| "slow"`                                                    | `this.autoDismiss ? "medium" : null` |
-| `color`               | `color`                 | Color for the alert (will apply to top border and icon)                                                                                                | `"blue" \| "green" \| "red" \| "yellow"`                                          | `"blue"`                             |
-| `icon`                | `icon`                  | when used as a boolean set to true, show a default recommended icon. You can also pass a calcite-ui-icon name to this prop to display a requested icon | `boolean \| string`                                                               | `undefined`                          |
-| `intlClose`           | `intl-close`            | string to override English close text                                                                                                                  | `string`                                                                          | `TEXT.intlClose`                     |
-| `label` _(required)_  | `label`                 | Accessible name for the component                                                                                                                      | `string`                                                                          | `undefined`                          |
-| `placement`           | `placement`             | specify the placement of the alert                                                                                                                     | `"bottom" \| "bottom-end" \| "bottom-start" \| "top" \| "top-end" \| "top-start"` | `"bottom"`                           |
-| `scale`               | `scale`                 | specify the scale of the alert, defaults to m                                                                                                          | `"l" \| "m" \| "s"`                                                               | `"m"`                                |
+| Property              | Attribute               | Description                                                                                                         | Type                                                                              | Default                              |
+| --------------------- | ----------------------- | ------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------- | ------------------------------------ |
+| `active`              | `active`                | When true, the component is active.                                                                                 | `boolean`                                                                         | `false`                              |
+| `autoDismiss`         | `auto-dismiss`          | When true, the component closes automatically (recommended for passive, non-blocking alerts).                       | `boolean`                                                                         | `false`                              |
+| `autoDismissDuration` | `auto-dismiss-duration` | Specifies the duration before the component automatically closes (only use with `autoDismiss`).                     | `"fast" \| "medium" \| "slow"`                                                    | `this.autoDismiss ? "medium" : null` |
+| `color`               | `color`                 | Specifies the color for the component (will apply to top border and icon).                                          | `"blue" \| "green" \| "red" \| "yellow"`                                          | `"blue"`                             |
+| `icon`                | `icon`                  | When true, shows a default recommended icon. Alternatively, pass a Calcite UI Icon name to display a specific icon. | `boolean \| string`                                                               | `undefined`                          |
+| `intlClose`           | `intl-close`            | Specifies the text label for the close button.                                                                      | `string`                                                                          | `TEXT.intlClose`                     |
+| `label` _(required)_  | `label`                 | Specifies an accessible name for the component.                                                                     | `string`                                                                          | `undefined`                          |
+| `placement`           | `placement`             | Specifies the placement of the component                                                                            | `"bottom" \| "bottom-end" \| "bottom-start" \| "top" \| "top-end" \| "top-start"` | `"bottom"`                           |
+| `scale`               | `scale`                 | Specifies the size of the component.                                                                                | `"l" \| "m" \| "s"`                                                               | `"m"`                                |
 
 ## Events
 
-| Event               | Description                   | Type               |
-| ------------------- | ----------------------------- | ------------------ |
-| `calciteAlertClose` | Fired when an alert is closed | `CustomEvent<any>` |
-| `calciteAlertOpen`  | Fired when an alert is opened | `CustomEvent<any>` |
+| Event                     | Description | Type                                                                              |
+| ------------------------- | ----------- | --------------------------------------------------------------------------------- |
+| `calciteAlertBeforeClose` |             | `CustomEvent<{ el: HTMLCalciteAlertElement; queue: HTMLCalciteAlertElement[]; }>` |
+| `calciteAlertBeforeOpen`  |             | `CustomEvent<{ el: HTMLCalciteAlertElement; queue: HTMLCalciteAlertElement[]; }>` |
+| `calciteAlertClose`       |             | `CustomEvent<{ el: HTMLCalciteAlertElement; queue: HTMLCalciteAlertElement[]; }>` |
+| `calciteAlertOpen`        |             | `CustomEvent<{ el: HTMLCalciteAlertElement; queue: HTMLCalciteAlertElement[]; }>` |
 
 ## Methods
 
@@ -49,17 +51,17 @@ Type: `Promise<void>`
 
 ## Slots
 
-| Slot        | Description                                                                  |
-| ----------- | ---------------------------------------------------------------------------- |
-| `"link"`    | Optional action to take from the alert (undo, try again, link to page, etc.) |
-| `"message"` | Main text of the alert                                                       |
-| `"title"`   | Title of the alert (optional)                                                |
+| Slot        | Description                                                                                         |
+| ----------- | --------------------------------------------------------------------------------------------------- |
+| `"link"`    | A slot for optionally adding an action to take from the alert (undo, try again, link to page, etc.) |
+| `"message"` | A slot for adding main text to the component.                                                       |
+| `"title"`   | A slot for optionally adding a title to the component.                                              |
 
 ## CSS Custom Properties
 
-| Name                    | Description            |
-| ----------------------- | ---------------------- |
-| `--calcite-alert-width` | the width of the alert |
+| Name                    | Description                           |
+| ----------------------- | ------------------------------------- |
+| `--calcite-alert-width` | Specifies the width of the component. |
 
 ## Dependencies
 
