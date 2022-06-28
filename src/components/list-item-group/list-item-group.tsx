@@ -34,7 +34,7 @@ export class ListItemGroup {
     return (
       <Host>
         <tr class={CSS.heading}>
-          <td colSpan={3}>{heading}</td>
+          <td colSpan={4}>{heading}</td>
         </tr>
         <slot />
       </Host>

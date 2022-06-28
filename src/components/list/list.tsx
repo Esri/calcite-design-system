@@ -3,6 +3,7 @@ import { CSS } from "./resources";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { createObserver } from "../../utils/observers";
 import { getListItemChildren, updateListItemChildren } from "../list-item/utils";
+import { toAriaBoolean } from "../../utils/dom";
 
 const listItemSelector = "calcite-list-item";
 
@@ -32,6 +33,11 @@ export class List implements InteractiveComponent {
    * todo: document
    */
   @Prop() label = "";
+
+  /**
+   * When true, content is waiting to be loaded. This state shows a busy indicator.
+   */
+  @Prop({ reflect: true }) loading = false;
 
   //--------------------------------------------------------------------------
   //
@@ -102,18 +108,22 @@ export class List implements InteractiveComponent {
   //
   // --------------------------------------------------------------------------
 
-  render(): VNode {
+  render(): VNode[] {
     return (
-      <table
-        aria-label={this.label}
-        onClick={this.handleClick}
-        onKeyDown={this.handleListKeydown}
-        role="treegrid"
-      >
-        <tbody class={CSS.container}>
-          <slot onSlotchange={this.handleDefaultSlotChange} />
-        </tbody>
-      </table>
+      <div class={CSS.container}>
+        {this.loading ? <calcite-scrim loading={this.loading} /> : null}
+        <table
+          aria-busy={toAriaBoolean(this.loading)}
+          aria-label={this.label}
+          onClick={this.handleClick}
+          onKeyDown={this.handleListKeydown}
+          role="treegrid"
+        >
+          <tbody class={CSS.tableContainer}>
+            <slot onSlotchange={this.handleDefaultSlotChange} />
+          </tbody>
+        </table>
+      </div>
     );
   }
 

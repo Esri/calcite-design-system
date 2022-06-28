@@ -5,6 +5,10 @@
 @include disabled();
 
 .container {
+  position: relative;
+}
+
+.table-container {
   @apply box-border
   flex
   w-full

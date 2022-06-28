@@ -118,7 +118,8 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
   @Event({ bubbles: true }) calciteListItemClick: EventEmitter<void>;
 
   /**
-   * todo: document
+   *
+   * @internal
    */
   @Event() calciteInternalFocusPreviousItem: EventEmitter<void>;
 
