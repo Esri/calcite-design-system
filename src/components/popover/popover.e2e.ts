@@ -543,7 +543,7 @@ describe("calcite-popover", () => {
       html`
         <div id="host"></div>
         <div id="outsideNode">Outside node</div>
-        <calcite-popover id="dummy" auto-close reference-element="ref" open>dummy popover</calcite-popover>
+        <calcite-popover id="dummy" reference-element="ref">dummy popover</calcite-popover>
         <div id="ref">Button</div>
       `
     );
@@ -567,11 +567,9 @@ describe("calcite-popover", () => {
       shadow.appendChild(shadowButton);
     });
 
-    const popover = await page.find("calcite-popover");
+    await page.waitForChanges();
 
     const shadowPopover = await page.find("#host >>> calcite-popover");
-
-    expect(await popover.getProperty("open")).toBe(true);
 
     expect(await shadowPopover.getProperty("open")).toBe(true);
 
@@ -580,8 +578,6 @@ describe("calcite-popover", () => {
     await outsideNode.click();
 
     await page.waitForChanges();
-
-    expect(await popover.getProperty("open")).toBe(false);
 
     expect(await shadowPopover.getProperty("open")).toBe(false);
   });
