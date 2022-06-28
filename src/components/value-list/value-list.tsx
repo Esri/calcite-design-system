@@ -155,6 +155,8 @@ export class ValueList<
 
   filterEl: HTMLCalciteFilterElement;
 
+  assitiveTextEl: HTMLSpanElement;
+
   // --------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -164,6 +166,9 @@ export class ValueList<
   connectedCallback(): void {
     initialize.call(this);
     initializeObserver.call(this);
+    if (this.dragEnabled) {
+      this.assitiveTextEl = this.el.shadowRoot.querySelector(".assistive-text");
+    }
   }
 
   componentDidLoad(): void {
