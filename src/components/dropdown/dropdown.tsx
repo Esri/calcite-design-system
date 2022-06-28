@@ -160,6 +160,9 @@ export class Dropdown implements InteractiveComponent {
     this.mutationObserver?.disconnect();
     this.resizeObserver?.disconnect();
     this.destroyPopper();
+    if (this.scrollerEl) {
+      this.scrollerEl.removeEventListener("transitionrun", this.transitionRunHandler);
+    }
   }
 
   render(): VNode {
@@ -235,11 +238,17 @@ export class Dropdown implements InteractiveComponent {
   /** fires when a dropdown item has been selected or deselected */
   @Event() calciteDropdownSelect: EventEmitter<void>;
 
-  /** fires when a dropdown has been opened */
-  @Event() calciteDropdownOpen: EventEmitter<void>;
+  /* Fired while a dropdown is still invisible but was added to the DOM, and before the opening transition begins. */
+  @Event() calciteDropdownBeforeOpen: EventEmitter<{ el: HTMLCalciteDropdownElement }>;
 
-  /** fires when a dropdown has been closed */
-  @Event() calciteDropdownClose: EventEmitter<void>;
+  /* Fired when a dropdown has been opened and animation is complete */
+  @Event() calciteDropdownOpen: EventEmitter<{ el: HTMLCalciteDropdownElement }>;
+
+  /* Fired when a dropdown is requested to be closed and before the closing transition begins. */
+  @Event() calciteDropdownBeforeClose: EventEmitter<{ el: HTMLCalciteDropdownElement }>;
+
+  /* Fired when a dropdown has been closed and animation is complete */
+  @Event() calciteDropdownClose: EventEmitter<{ el: HTMLCalciteDropdownElement }>;
 
   @Listen("click", { target: "window" })
   closeCalciteDropdownOnClick(e: Event): void {
@@ -439,13 +448,36 @@ export class Dropdown implements InteractiveComponent {
   setScrollerEl = (scrollerEl: HTMLDivElement): void => {
     this.resizeObserver.observe(scrollerEl);
     this.scrollerEl = scrollerEl;
+    this.scrollerEl.addEventListener("transitionrun", this.transitionRunHandler);
   };
 
   transitionEnd = (event: TransitionEvent): void => {
     if (event.propertyName === this.activeTransitionProp) {
-      this.active ? this.calciteDropdownOpen.emit() : this.calciteDropdownClose.emit();
+      this.active ? this.emitOpenCloseEvent("open") : this.emitOpenCloseEvent("close");
     }
   };
+
+  transitionRunHandler = (event: TransitionEvent): void => {
+    if (event.propertyName === this.activeTransitionProp) {
+      this.active ? this.emitOpenCloseEvent("beforeOpen") : this.emitOpenCloseEvent("beforeClose");
+    }
+  };
+
+  private emitOpenCloseEvent(componentVisibilityState: string): void {
+    const payload = {
+      el: this.el
+    };
+    const emitComponentState = {
+      beforeOpen: () => this.calciteDropdownBeforeOpen.emit(payload),
+      open: () => this.calciteDropdownOpen.emit(payload),
+      beforeClose: () => this.calciteDropdownBeforeClose.emit(payload),
+      close: () => this.calciteDropdownClose.emit(payload)
+    };
+    (
+      emitComponentState[componentVisibilityState] ||
+      emitComponentState["The component state is unknown."]
+    )();
+  }
 
   setReferenceEl = (el: HTMLDivElement): void => {
     this.referenceEl = el;

@@ -54,7 +54,7 @@ export class Handle {
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    this.handleButton.focus();
+    this.handleButton?.focus();
   }
 
   // --------------------------------------------------------------------------

@@ -63,7 +63,7 @@ export class ActionMenu implements ConditionalSlotComponent {
   // --------------------------------------------------------------------------
 
   /**
-   * Indicates whether widget is expanded.
+   * When true, the component is expanded.
    */
   @Prop({ reflect: true }) expanded = false;
 
@@ -79,12 +79,12 @@ export class ActionMenu implements ConditionalSlotComponent {
   @Prop() flipPlacements?: ComputedPlacement[];
 
   /**
-   *  Text string for the actions menu.
+   *  Specifies the text string for the component.
    */
   @Prop() label!: string;
 
   /**
-   * Opens the action menu.
+   * When true, the component is open.
    */
   @Prop({ reflect: true, mutable: true }) open = false;
 
@@ -99,18 +99,18 @@ export class ActionMenu implements ConditionalSlotComponent {
     this.setTooltipReferenceElement();
   }
 
-  /** Describes the type of positioning to use for the overlaid content. If your element is in a fixed container, use the 'fixed' value. */
+  /** Determines the type of positioning to use for the overlaid content. If your element is in a fixed container, use the "fixed" value. */
   @Prop() overlayPositioning: OverlayPositioning = "absolute";
 
   /**
-   * Determines where the component will be positioned relative to the referenceElement.
+   * Determines where the component will be positioned relative to the `referenceElement`.
    *
    * @see [PopperPlacement](https://github.com/Esri/calcite-components/blob/master/src/utils/popper.ts#L25)
    */
   @Prop({ reflect: true }) placement: PopperPlacement = "auto";
 
   /**
-   * Specifies the size of the menu trigger action.
+   * Specifies the size of the component's trigger `calcite-action`.
    */
   @Prop({ reflect: true }) scale: Scale;
 
@@ -121,7 +121,7 @@ export class ActionMenu implements ConditionalSlotComponent {
   // --------------------------------------------------------------------------
 
   /**
-   * Emitted when the open property has changed.
+   * Emits when the `open` property has changed.
    */
   @Event() calciteActionMenuOpenChange: EventEmitter;
 
