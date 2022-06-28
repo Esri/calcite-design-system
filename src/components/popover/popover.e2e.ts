@@ -579,6 +579,8 @@ describe("calcite-popover", () => {
 
     await outsideNode.click();
 
+    await page.waitForChanges();
+
     expect(await popover.getProperty("open")).toBe(false);
 
     expect(await shadowPopover.getProperty("open")).toBe(false);
