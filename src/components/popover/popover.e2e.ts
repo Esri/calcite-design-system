@@ -558,8 +558,8 @@ describe("calcite-popover", () => {
       shadowButton.textContent = "Shadow Popover";
 
       const shadowPopover = document.createElement("calcite-popover");
-      shadowPopover.setAttribute("reference-element", "popover-button-close-shadow");
-      shadowPopover.setAttribute("auto-close", "");
+      shadowPopover.referenceElement = "popover-button-close-shadow";
+      shadowPopover.autoClose = true;
       shadowPopover.textContent = "Click outside me";
       shadowPopover.open = true;
 
