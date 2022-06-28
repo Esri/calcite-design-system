@@ -40,7 +40,7 @@ export const Simple = (): string => html`
 export const SimpleAutoWidth = (): string => html`
   <calcite-dropdown
     active
-    placement="${select("placement", popperMenuPlacements, defaultMenuPlacement)}"
+    placement="${select("placement", menuPlacements, defaultMenuPlacement)}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
     type="${select("type", ["click", "hover"], "click")}"
     ${boolean("disable-close-on-select", false)}

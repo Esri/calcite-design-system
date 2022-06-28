@@ -92,7 +92,7 @@ export const Heading = stepStory(
       <calcite-popover
         ${boolean("dismissible", false)}
         reference-element="reference-element"
-        placement="${select("placement", popperPlacements, defaultPopoverPlacement)}"
+        placement="${select("placement", placements, defaultPopoverPlacement)}"
         ${boolean("open", false)}
         text-close="${text("text-close", "Close")}"
         heading="Heading"
