@@ -12,6 +12,7 @@ export const CSS = {
   description: "description",
   contentEnd: "content-end",
   actionsEnd: "actions-end",
+  expandContainer: "expand-container",
   hasCenterContent: "has-center-content"
 };
 

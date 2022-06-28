@@ -18,8 +18,12 @@ import {
   disconnectConditionalSlotComponent
 } from "../../utils/conditionalSlot";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import { getDepth, getListItemChildren, updateListItemChildren } from "./utils";
 
 const focusMap = new Map<HTMLCalciteListElement, number>();
+
+const listSelector = "calcite-list";
+const listItemSelector = "calcite-list-item";
 
 /**
  * @slot - A slot for adding `calcite-list-item` and `calcite-list-item-group` elements.
@@ -88,7 +92,7 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
   @Prop() description: string;
 
   /**
-   * todo
+   * todo: document
    */
   @Prop({ mutable: true, reflect: true }) expanded = false;
 
@@ -114,7 +118,7 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
   @Event({ bubbles: true }) calciteListItemClick: EventEmitter<void>;
 
   /**
-   * todo
+   * todo: document
    */
   @Event() calciteInternalFocusPreviousItem: EventEmitter<void>;
 
@@ -149,6 +153,10 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
 
   connectedCallback(): void {
     connectConditionalSlotComponent(this);
+    const { el } = this;
+    this.parentListEl = el.closest(listSelector);
+    this.parentListItemEl = el.parentElement?.closest(listItemSelector);
+    this.level = getDepth(el) + 1;
   }
 
   disconnectedCallback(): void {
@@ -191,23 +199,23 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
   // --------------------------------------------------------------------------
 
   renderExpand(): VNode {
-    const { el, expanded } = this;
+    const { el, expanded, expandable } = this;
     const dir = getElementDir(el);
 
-    return this.expandable ? (
-      <calcite-icon
-        icon={expanded ? "caret-down" : dir === "rtl" ? "caret-left" : "caret-right"}
-        onClick={this.toggleExpanded}
-        scale="s"
-      />
+    return expandable ? (
+      <td class={CSS.expandContainer} onClick={this.toggleExpanded}>
+        <calcite-icon
+          icon={expanded ? "caret-down" : dir === "rtl" ? "caret-left" : "caret-right"}
+          scale="s"
+        />
+      </td>
     ) : null;
   }
 
   renderActionsStart(): VNode {
     const { el } = this;
-    return getSlotted(el, SLOTS.actionsStart) || this.expandable ? (
+    return getSlotted(el, SLOTS.actionsStart) ? (
       <td class={CSS.actionsStart} ref={(el) => (this.actionsStartEl = el)} role="gridcell">
-        {this.renderExpand()}
         <slot name={SLOTS.actionsStart} />
       </td>
     ) : null;
@@ -272,20 +280,22 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
   }
 
   render(): VNode {
+    const { expandable, expanded, level, posInSet, setSize, active } = this;
     return (
       <Host>
         <tr
-          aria-expanded={this.expandable ? toAriaBoolean(this.expanded) : null}
-          aria-level={this.level}
-          aria-posinset={this.posInSet}
-          aria-setsize={this.setSize}
+          aria-expanded={expandable ? toAriaBoolean(expanded) : null}
+          aria-level={level}
+          aria-posinset={posInSet}
+          aria-setsize={setSize}
           class={CSS.container}
           onClick={this.handleItemClick}
           onKeyDown={this.handleItemKeyDown}
           ref={(el) => (this.containerEl = el)}
           role="row"
-          tabIndex={this.active ? 0 : -1}
+          tabIndex={active ? 0 : -1}
         >
+          {this.renderExpand()}
           {this.renderActionsStart()}
           {this.renderContentContainer()}
           {this.renderActionsEnd()}
@@ -293,10 +303,10 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
         <div
           class={{
             [CSS.nestedContainer]: true,
-            [CSS.nestedContainerHidden]: this.expandable ? !this.expanded : false
+            [CSS.nestedContainerHidden]: expandable ? !expanded : false
           }}
         >
-          <slot />
+          <slot onSlotchange={this.handleDefaultSlotChange} />
         </div>
       </Host>
     );
@@ -307,6 +317,12 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
   //  Private Methods
   //
   // --------------------------------------------------------------------------
+
+  handleDefaultSlotChange = (event: Event): void => {
+    const listItemChildren = getListItemChildren(event);
+    updateListItemChildren(listItemChildren);
+    this.expandable = !!listItemChildren.length;
+  };
 
   toggleExpanded = (): void => {
     this.expanded = !this.expanded;

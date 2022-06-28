@@ -110,7 +110,8 @@ td:focus {
 .actions-start,
 .actions-end,
 .content-start,
-.content-end {
+.content-end,
+.expand-container {
   @apply flex items-center;
 }
 

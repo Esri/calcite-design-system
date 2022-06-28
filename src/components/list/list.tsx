@@ -2,7 +2,9 @@ import { Component, Element, h, VNode, Prop, Method, Listen } from "@stencil/cor
 import { CSS } from "./resources";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { createObserver } from "../../utils/observers";
-import { getDepth } from "./utils";
+import { getListItemChildren, updateListItemChildren } from "../list-item/utils";
+
+const listItemSelector = "calcite-list-item";
 
 /**
  * A general purpose list that enables users to construct list items that conform to Calcite styling.
@@ -27,7 +29,7 @@ export class List implements InteractiveComponent {
   @Prop({ reflect: true }) disabled = false;
 
   /**
-   * todo: document label
+   * todo: document
    */
   @Prop() label = "";
 
@@ -91,7 +93,7 @@ export class List implements InteractiveComponent {
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    this.el.querySelector("calcite-list-item")?.setFocus();
+    this.el.querySelector(listItemSelector)?.setFocus();
   }
 
   // --------------------------------------------------------------------------
@@ -109,7 +111,7 @@ export class List implements InteractiveComponent {
         role="treegrid"
       >
         <tbody class={CSS.container}>
-          <slot />
+          <slot onSlotchange={this.handleDefaultSlotChange} />
         </tbody>
       </table>
     );
@@ -120,6 +122,10 @@ export class List implements InteractiveComponent {
   //  Private Methods
   //
   // --------------------------------------------------------------------------
+
+  handleDefaultSlotChange = (event: Event): void => {
+    updateListItemChildren(getListItemChildren(event));
+  };
 
   setActiveListItem = (): void => {
     const { listItems } = this;
@@ -137,25 +143,7 @@ export class List implements InteractiveComponent {
   };
 
   queryListItems = (): HTMLCalciteListItemElement[] => {
-    const listItems = Array.from(this.el.querySelectorAll("calcite-list-item"));
-
-    listItems.forEach((listItem) => {
-      const level = getDepth(listItem) + 1;
-      const { parentElement } = listItem;
-      // todo: cleeanup
-      const parentListItem = parentElement?.closest("calcite-list-item");
-      const set = Array.from(listItem.parentElement.children).filter((e) =>
-        e.matches("calcite-list-item")
-      );
-      listItem.parentListEl = this.el;
-      listItem.parentListItemEl = parentListItem;
-      listItem.level = level;
-      listItem.posInSet = set.indexOf(listItem) + 1;
-      listItem.setSize = set.length;
-      listItem.expandable = !!listItem.querySelector("calcite-list-item");
-    });
-
-    return listItems.filter((item) => !item.disabled);
+    return Array.from(this.el.querySelectorAll(listItemSelector)).filter((item) => !item.disabled);
   };
 
   focusRow = (focusEl: HTMLCalciteListItemElement): void => {
