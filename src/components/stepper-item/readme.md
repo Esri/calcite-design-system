@@ -6,14 +6,16 @@ individual `calcite-stepper-item` item
 
 ## Properties
 
-| Property       | Attribute       | Description                                                          | Type      | Default     |
-| -------------- | --------------- | -------------------------------------------------------------------- | --------- | ----------- |
-| `active`       | `active`        | is the step active                                                   | `boolean` | `false`     |
-| `complete`     | `complete`      | has the step been completed                                          | `boolean` | `false`     |
-| `disabled`     | `disabled`      | is the step disabled and not navigable to by a user                  | `boolean` | `false`     |
-| `error`        | `error`         | does the step contain an error that needs to be resolved by the user | `boolean` | `false`     |
-| `itemSubtitle` | `item-subtitle` | pass a title for the stepper item                                    | `string`  | `undefined` |
-| `itemTitle`    | `item-title`    | pass a title for the stepper item                                    | `string`  | `undefined` |
+| Property       | Attribute       | Description                                                                                                        | Type      | Default     |
+| -------------- | --------------- | ------------------------------------------------------------------------------------------------------------------ | --------- | ----------- |
+| `active`       | `active`        | is the step active                                                                                                 | `boolean` | `false`     |
+| `complete`     | `complete`      | has the step been completed                                                                                        | `boolean` | `false`     |
+| `description`  | `description`   | stepper item description                                                                                           | `string`  | `undefined` |
+| `disabled`     | `disabled`      | is the step disabled and not navigable to by a user                                                                | `boolean` | `false`     |
+| `error`        | `error`         | does the step contain an error that needs to be resolved by the user                                               | `boolean` | `false`     |
+| `heading`      | `heading`       | stepper item heading                                                                                               | `string`  | `undefined` |
+| `itemSubtitle` | `item-subtitle` | <span style="color:red">**[DEPRECATED]**</span> use description instead<br/><br/>pass a title for the stepper item | `string`  | `undefined` |
+| `itemTitle`    | `item-title`    | <span style="color:red">**[DEPRECATED]**</span> use heading instead<br/><br/>pass a title for the stepper item     | `string`  | `undefined` |
 
 ## Slots
 

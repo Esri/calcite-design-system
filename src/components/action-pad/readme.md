@@ -52,19 +52,19 @@ Renders a group of `calcite-action`s contained in a `calcite-action-group`. Acti
 
 | Property         | Attribute         | Description                                                              | Type                                   | Default      |
 | ---------------- | ----------------- | ------------------------------------------------------------------------ | -------------------------------------- | ------------ |
-| `expandDisabled` | `expand-disabled` | When set to true, the expand-toggling behavior will be disabled.         | `boolean`                              | `false`      |
-| `expanded`       | `expanded`        | Indicates whether widget is expanded.                                    | `boolean`                              | `false`      |
-| `intlCollapse`   | `intl-collapse`   | Updates the label of the collapse icon when the component is expanded.   | `string`                               | `undefined`  |
-| `intlExpand`     | `intl-expand`     | Updates the label of the expand icon when the component is not expanded. | `string`                               | `undefined`  |
-| `layout`         | `layout`          | Indicates the horizontal or vertical layout of the component.            | `"grid" \| "horizontal" \| "vertical"` | `"vertical"` |
-| `position`       | `position`        | Arranges the component depending on the elements 'dir' property.         | `"end" \| "start"`                     | `undefined`  |
-| `scale`          | `scale`           | Specifies the size of the expand action.                                 | `"l" \| "m" \| "s"`                    | `undefined`  |
+| `expandDisabled` | `expand-disabled` | When true, the expand-toggling behavior is disabled.                     | `boolean`                              | `false`      |
+| `expanded`       | `expanded`        | When true, the component is expanded.                                    | `boolean`                              | `false`      |
+| `intlCollapse`   | `intl-collapse`   | Specifies the label of the collapse icon when the component is expanded. | `string`                               | `undefined`  |
+| `intlExpand`     | `intl-expand`     | Specifies the label of the expand icon when the component is collapsed.  | `string`                               | `undefined`  |
+| `layout`         | `layout`          | Indicates the layout of the component.                                   | `"grid" \| "horizontal" \| "vertical"` | `"vertical"` |
+| `position`       | `position`        | Arranges the component depending on the element's `dir` property.        | `"end" \| "start"`                     | `undefined`  |
+| `scale`          | `scale`           | Specifies the size of the expand `calcite-action`.                       | `"l" \| "m" \| "s"`                    | `undefined`  |
 
 ## Events
 
-| Event                    | Description                             | Type               |
-| ------------------------ | --------------------------------------- | ------------------ |
-| `calciteActionPadToggle` | Emitted when expanded has been toggled. | `CustomEvent<any>` |
+| Event                    | Description                                    | Type               |
+| ------------------------ | ---------------------------------------------- | ------------------ |
+| `calciteActionPadToggle` | Emits when the `expanded` property is toggled. | `CustomEvent<any>` |
 
 ## Methods
 
@@ -78,10 +78,10 @@ Type: `Promise<void>`
 
 ## Slots
 
-| Slot               | Description                                            |
-| ------------------ | ------------------------------------------------------ |
-|                    | A slot for adding `calcite-action`s to the action pad. |
-| `"expand-tooltip"` | Used to set the tooltip for the expand toggle.         |
+| Slot               | Description                                              |
+| ------------------ | -------------------------------------------------------- |
+|                    | A slot for adding `calcite-action`s to the component.    |
+| `"expand-tooltip"` | Used to set the `calcite-tooltip` for the expand toggle. |
 
 ## Dependencies
 
