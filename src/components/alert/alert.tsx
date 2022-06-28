@@ -129,7 +129,7 @@ export class Alert {
   disconnectedCallback(): void {
     window.clearTimeout(this.autoDismissTimeoutId);
     if (this.containerDiv) {
-      this.containerDiv.removeEventListener("transitionrun", this.onTransitionRun);
+      this.containerDiv.removeEventListener("transitionrun", this.transitionRunHandler);
     }
   }
 
@@ -198,16 +198,28 @@ export class Alert {
   //--------------------------------------------------------------------------
 
   /* Fires when the component is requested to be closed and before the closing transition begins. */
-  @Event() calciteAlertBeforeClose: EventEmitter;
+  @Event() calciteAlertBeforeClose: EventEmitter<{
+    el: HTMLCalciteAlertElement;
+    queue: HTMLCalciteAlertElement[];
+  }>;
 
   /* Fires when the component is closed and animation is complete. */
-  @Event() calciteAlertClose: EventEmitter;
+  @Event() calciteAlertClose: EventEmitter<{
+    el: HTMLCalciteAlertElement;
+    queue: HTMLCalciteAlertElement[];
+  }>;
 
   /* Fires when the component is added to the DOM but not rendered, and before the opening transition begins. */
-  @Event() calciteAlertBeforeOpen: EventEmitter;
+  @Event() calciteAlertBeforeOpen: EventEmitter<{
+    el: HTMLCalciteAlertElement;
+    queue: HTMLCalciteAlertElement[];
+  }>;
 
   /* Fires when the component is open and animation is complete. */
-  @Event() calciteAlertOpen: EventEmitter;
+  @Event() calciteAlertOpen: EventEmitter<{
+    el: HTMLCalciteAlertElement;
+    queue: HTMLCalciteAlertElement[];
+  }>;
 
   /**
    * Fires to sync queue when opened or closed.
@@ -284,7 +296,7 @@ export class Alert {
 
   private setContainerDiv = (el): void => {
     this.containerDiv = el;
-    this.containerDiv.addEventListener("transitionrun", this.onTransitionRun);
+    this.containerDiv.addEventListener("transitionrun", this.transitionRunHandler);
   };
 
   /** the close button element */
@@ -338,17 +350,15 @@ export class Alert {
   - `transitionrun` fires when the transition is created at the start of any delay and is not cancellable once started.
   - if there is no transition delay, both `transitionrun` and `transitionstart` are fired at the same time.
   */
-  onTransitionRun = (event: TransitionEvent): void => {
+  transitionRunHandler = (event: TransitionEvent): void => {
     if (event.propertyName === this.activeTransitionProp) {
-      this.active
-        ? this.openCloseEventEmitter("beforeOpening")
-        : this.openCloseEventEmitter("beforeClosing");
+      this.active ? this.emitOpenCloseEvent("beforeOpen") : this.emitOpenCloseEvent("beforeClose");
     }
   };
 
   transitionEnd = (event: TransitionEvent): void => {
     if (event.propertyName === this.activeTransitionProp) {
-      this.active ? this.openCloseEventEmitter("isOpen") : this.openCloseEventEmitter("isClosed");
+      this.active ? this.emitOpenCloseEvent("open") : this.emitOpenCloseEvent("close");
     }
   };
 
@@ -358,16 +368,16 @@ export class Alert {
     this.queueTimeout = window.setTimeout(() => (this.queued = false), 300);
   }
 
-  private openCloseEventEmitter(componentVisibilityState: string): void {
+  private emitOpenCloseEvent(componentVisibilityState: string): void {
     const payload = {
       el: this.el,
       queue: this.queue
     };
     const emitComponentState = {
-      beforeOpening: () => this.calciteAlertBeforeOpen.emit(payload),
-      isOpen: () => this.calciteAlertOpen.emit(payload),
-      beforeClosing: () => this.calciteAlertBeforeClose.emit(payload),
-      isClosed: () => this.calciteAlertClose.emit(payload)
+      beforeOpen: () => this.calciteAlertBeforeOpen.emit(payload),
+      open: () => this.calciteAlertOpen.emit(payload),
+      beforeClose: () => this.calciteAlertBeforeClose.emit(payload),
+      close: () => this.calciteAlertClose.emit(payload)
     };
     (
       emitComponentState[componentVisibilityState] ||
