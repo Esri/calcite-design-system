@@ -1135,7 +1135,7 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
         <span class="icon-start">
           <calcite-icon
             class="selected-icon"
-            icon={selectedItem?.icon ? selectedItem.icon : placeholderIcon}
+            icon={selectedItem?.icon ?? placeholderIcon}
             scale="s"
           />
         </span>
