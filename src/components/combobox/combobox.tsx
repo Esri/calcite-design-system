@@ -108,6 +108,9 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
   /** Placeholder text for input */
   @Prop() placeholder?: string;
 
+  /** Placeholder icon for input  */
+  @Prop() placeholderIcon?: string;
+
   /** Specify the maximum number of combobox items (including nested children) to display before showing the scroller */
   @Prop() maxItems = 0;
 
@@ -1121,15 +1124,18 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
   }
 
   renderIconStart(): VNode {
-    const { selectionMode, needsIcon, selectedItems } = this;
+    const { selectionMode, needsIcon, selectedItems, placeholderIcon } = this;
     const selectedItem = selectedItems[0];
     return (
       selectionMode === "single" &&
-      needsIcon && (
+      needsIcon &&
+      (selectedItem?.icon || placeholderIcon) && (
         <span class="icon-start">
-          {selectedItem?.icon && (
-            <calcite-icon class="selected-icon" icon={selectedItem.icon} scale="s" />
-          )}
+          <calcite-icon
+            class="selected-icon"
+            icon={selectedItem?.icon ?? placeholderIcon}
+            scale="s"
+          />
         </span>
       )
     );
