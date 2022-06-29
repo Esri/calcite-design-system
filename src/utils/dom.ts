@@ -53,41 +53,6 @@ export function getHost(root: Document | ShadowRoot): Element | null {
 }
 
 /**
- * This helper queries an element's rootNodes and any ancestor rootNodes.
- *
- * @param element
- * @param selector
- * @returns {Element[]} The elements.
- */
-export function queryElementsRoots<T extends Element = Element>(element: Element, selector: string): T[] {
-  // Gets the rootNode and any ancestor rootNodes (shadowRoot or document) of an element and queries them for a selector.
-  // Based on: https://stackoverflow.com/q/54520554/194216
-  function queryFromAll<T extends Element = Element>(el: Element, allResults: T[]): T[] {
-    if (!el) {
-      return allResults;
-    }
-
-    if ((el as Slottable).assignedSlot) {
-      el = (el as Slottable).assignedSlot;
-    }
-
-    const rootNode = getRootNode(el);
-
-    const results = Array.from(rootNode.querySelectorAll(selector)) as T[];
-
-    const uniqueResults = results.filter((result) => !allResults.includes(result));
-
-    allResults = [...allResults, ...uniqueResults];
-
-    const host = getHost(rootNode);
-
-    return host ? queryFromAll(host, allResults) : allResults;
-  }
-
-  return queryFromAll(element, []);
-}
-
-/**
  * This helper queries an element's rootNode and any ancestor rootNodes.
  *
  * If both an 'id' and 'selector' are supplied, 'id' will take precedence over 'selector'.
