@@ -535,4 +535,50 @@ describe("calcite-popover", () => {
 
     expect(await popover.getProperty("open")).toBe(false);
   });
+
+  it("should autoClose shadow popovers when clicked outside", async () => {
+    const page = await newE2EPage();
+
+    await page.setContent(
+      html`
+        <div id="host"></div>
+        <div id="outsideNode">Outside node</div>
+        <calcite-popover id="dummy" reference-element="ref">dummy popover</calcite-popover>
+        <div id="ref">Button</div>
+      `
+    );
+
+    await page.waitForChanges();
+
+    await page.evaluate(() => {
+      const shadow = document.getElementById("host").attachShadow({ mode: "open" });
+
+      const shadowButton = document.createElement("calcite-button");
+      shadowButton.id = "popover-button-close-shadow";
+      shadowButton.textContent = "Shadow Popover";
+
+      const shadowPopover = document.createElement("calcite-popover");
+      shadowPopover.referenceElement = "popover-button-close-shadow";
+      shadowPopover.autoClose = true;
+      shadowPopover.textContent = "Click outside me";
+      shadowPopover.open = true;
+
+      shadow.appendChild(shadowPopover);
+      shadow.appendChild(shadowButton);
+    });
+
+    await page.waitForChanges();
+
+    const shadowPopover = await page.find("#host >>> calcite-popover");
+
+    expect(await shadowPopover.getProperty("open")).toBe(true);
+
+    const outsideNode = await page.find("#outsideNode");
+
+    await outsideNode.click();
+
+    await page.waitForChanges();
+
+    expect(await shadowPopover.getProperty("open")).toBe(false);
+  });
 });
