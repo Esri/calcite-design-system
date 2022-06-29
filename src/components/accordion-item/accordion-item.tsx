@@ -142,6 +142,7 @@ export class AccordionItem {
         >
           <div
             aria-controls={regionId}
+            aria-expanded={toAriaBoolean(this.active)}
             class={{ "accordion-item-header": true, [CSS_UTILITY.rtl]: dir === "rtl" }}
             id={buttonId}
             onClick={this.itemHeaderClickHandler}
