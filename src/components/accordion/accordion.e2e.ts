@@ -26,6 +26,7 @@ describe("calcite-accordion", () => {
     expect(element).toEqualAttribute("icon-position", "end");
     expect(element).toEqualAttribute("scale", "m");
     expect(element).toEqualAttribute("selection-mode", "multi");
+    expect(element).toEqualAttribute("alignment", "end");
     expect(element).toEqualAttribute("icon-type", "chevron");
   });
 
