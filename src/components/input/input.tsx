@@ -407,6 +407,15 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
     }
   }
 
+  /** Selects all text of the component's `value`. */
+  @Method()
+  async selectText(): Promise<void> {
+    if (this.type === "number") {
+      this.childNumberEl?.select();
+    } else {
+      this.childEl?.select();
+    }
+  }
   //--------------------------------------------------------------------------
   //
   //  Private Methods
