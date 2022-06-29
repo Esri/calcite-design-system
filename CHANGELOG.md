@@ -23,7 +23,10 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### Bug Fixes
 
+- Enter key should submit forms in Safari ([#4815](https://github.com/Esri/calcite-components/issues/4815)) ([ae432dd](https://github.com/Esri/calcite-components/commit/ae432ddd570cf8ca22ed74aa152c320152d5a989)), closes [#4793](https://github.com/Esri/calcite-components/issues/4793)
+- **accordion-item:** Indicate whether accordion is expanded to screen readers. ([#4822](https://github.com/Esri/calcite-components/issues/4822)) ([9b36a90](https://github.com/Esri/calcite-components/commit/9b36a90c262b0aa0ea2ee3eb3f9c98026ae85c68)), closes [#4691](https://github.com/Esri/calcite-components/issues/4691)
 - **color-picker:** fixed hue bar click and drag interaction ([#4734](https://github.com/Esri/calcite-components/issues/4734)) ([78d9e64](https://github.com/Esri/calcite-components/commit/78d9e6430bc6200fab54b721cb2f615805a745fb))
+- **dropdown:** Restore trigger container to flex-auto ([#4823](https://github.com/Esri/calcite-components/issues/4823)) ([74d1a22](https://github.com/Esri/calcite-components/commit/74d1a222b5b553ce07b3f061e2a9308710d41ae6)), closes [#404](https://github.com/Esri/calcite-components/issues/404)
 - **input:** support larger than 64-bit floating point numbers without losing precision ([#4679](https://github.com/Esri/calcite-components/issues/4679)) ([b81dd82](https://github.com/Esri/calcite-components/commit/b81dd82071810476c414372e6faa3e450bbf3a39))
 - **label:** expose bottom margin value and remove the disable-spacing property ([#4694](https://github.com/Esri/calcite-components/issues/4694)) ([6976d12](https://github.com/Esri/calcite-components/commit/6976d12646567f026490dac9018d687346a0e5f8))
 - **popover:** autoClose property should work in Shadow DOM ([#4810](https://github.com/Esri/calcite-components/issues/4810)) ([e18e71d](https://github.com/Esri/calcite-components/commit/e18e71d2d73fcb8caf3fd5d1a2389cff067cc84e)), closes [#4792](https://github.com/Esri/calcite-components/issues/4792)
