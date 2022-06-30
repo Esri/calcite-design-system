@@ -106,6 +106,7 @@ export class Chip implements ConditionalSlotComponent {
   closeClickHandler = (event: MouseEvent): void => {
     event.preventDefault();
     this.calciteChipDismiss.emit(this.el);
+    this.el.remove();
   };
 
   private closeButton: HTMLButtonElement;
