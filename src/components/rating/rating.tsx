@@ -17,7 +17,6 @@ import { LabelableComponent, connectLabel, disconnectLabel } from "../../utils/l
 import { connectForm, disconnectForm, FormComponent, HiddenFormInputSlot } from "../../utils/form";
 import { TEXT } from "./resources";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
-import { autobind } from "../../utils/decorators";
 
 @Component({
   tag: "calcite-rating",
@@ -228,7 +227,6 @@ export class Rating implements LabelableComponent, FormComponent, InteractiveCom
    * @param value value used to update `value` property
    * @internal
    */
-  @autobind
   private updateValue(value: number) {
     this.value = value;
     this.calciteRatingChange.emit({ value });
@@ -240,7 +238,6 @@ export class Rating implements LabelableComponent, FormComponent, InteractiveCom
    * @param event keyboard event
    * @internal
    */
-  @autobind
   private onKeyboardPressed(event: KeyboardEvent): void {
     // click is fired from the the component's input, so we treat this as an internal event
     event.stopPropagation();
@@ -256,7 +253,6 @@ export class Rating implements LabelableComponent, FormComponent, InteractiveCom
    * @param index index of the star input element in the component
    * @internal
    */
-  @autobind
   private onFocusChange(index: number): void {
     this.hasFocus = true;
     // reset input values when the user re-clicks on the input with the focus
