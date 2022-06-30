@@ -89,7 +89,7 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
       return;
     }
 
-    this.reposition();
+    this.setMaxScrollerHeight();
   }
 
   /** Disable combobox input */
@@ -553,17 +553,17 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
     )();
   }
 
-  setMaxScrollerHeight = (): void => {
+  setMaxScrollerHeight = async (): Promise<void> => {
     const { active, listContainerEl } = this;
 
     if (!listContainerEl || !active) {
       return;
     }
 
-    this.reposition();
+    await this.reposition();
     const maxScrollerHeight = this.getMaxScrollerHeight();
     listContainerEl.style.maxHeight = maxScrollerHeight > 0 ? `${maxScrollerHeight}px` : "";
-    this.reposition();
+    await this.reposition();
   };
 
   calciteChipDismissHandler = (
