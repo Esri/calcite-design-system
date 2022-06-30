@@ -41,7 +41,7 @@ type NumberNudgeDirection = "up" | "down";
 type SetValueOrigin = "initial" | "connected" | "user" | "reset" | "direct";
 
 /**
- * @slot action - A slot for positioning a button next to an input
+ * @slot action - A slot for positioning a button next to the component.
  */
 @Component({
   tag: "calcite-input",
@@ -63,20 +63,26 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
   //
   //--------------------------------------------------------------------------
 
-  /** specify the alignment of the value of the input */
+  /** Specifies the text alignment of the component's value. */
   @Prop({ reflect: true }) alignment: Position = "start";
 
-  /** should the input autofocus */
+  /**
+   * When true, the component is focused on page load.
+   *
+   * @mdn [autofocus](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/autofocus)
+   */
   @Prop() autofocus = false;
 
   /**
-   * optionally display a clear button that displays when field has a value
-   * shows by default for search, time, date
-   * will not display for type="textarea"
+   * When true, a clear button is displayed when the component has a value. The clear button shows by default for "search", "time", and "date" types, and will not display for the "textarea" type.
    */
   @Prop({ reflect: true }) clearable = false;
 
-  /** is the input disabled  */
+  /**
+   * When true, interaction is prevented and the component is displayed with lower opacity.
+   *
+   * @mdn [disabled](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/disabled)
+   */
   @Prop({ reflect: true }) disabled = false;
 
   @Watch("disabled")
@@ -84,16 +90,20 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
     this.setDisabledAction();
   }
 
-  /** for number values, displays the locale's group separator */
+  /**
+   * When true, number values are displayed with the locale's group separator.
+   */
   @Prop() groupSeparator = false;
 
-  /** when true, the component will not be visible */
+  /**
+   * When true, the component will not be visible.
+   *
+   * @mdn [hidden](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/hidden)
+   */
   @Prop() hidden = false;
 
   /**
-   * when used as a boolean set to true, show a default recommended icon for certain
-   * input types (tel, password, email, date, time, search). You can also pass a
-   * calcite-ui-icon name to this prop to display a requested icon for any input type
+   * When true, shows a default recommended icon. Alternatively, pass a Calcite UI Icon name to display a specific icon.
    */
   @Prop({ reflect: true }) icon: string | boolean;
 
@@ -103,26 +113,28 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
   @Prop() intlClear?: string;
 
   /**
-   * string to override English loading text
+   * Accessible name that will appear while loading.
    *
    * @default "Loading"
    */
   @Prop() intlLoading?: string = COMMON_TEXT.loading;
 
-  /** flip the icon in rtl */
+  /** When true, the icon is flipped in RTL. */
   @Prop({ reflect: true }) iconFlipRtl = false;
 
-  /** Applies to the aria-label attribute on the button or hyperlink */
+  /** Accessible name for the component's button or hyperlink. */
   @Prop() label?: string;
 
-  /** specify if the input is in loading state */
+  /** When true, the component is in the loading state and `calcite-progress` is displayed. */
   @Prop({ reflect: true }) loading = false;
 
-  /** BCP 47 language tag for desired language and country format */
+  /** Specifies the BCP 47 language tag for the desired language and country format. */
   @Prop() locale: string = document.documentElement.lang || "en";
 
   /**
-   * standard UniCode numeral system tag for localization
+   * Specifies the Unicode numeral system used by the component for localization.
+   *
+   * @mdn [numberingSystem](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/Locale/numberingSystem)
    */
   @Prop() numberingSystem?: string;
 
@@ -133,7 +145,11 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
    */
   @Prop() localeFormat = false;
 
-  /** input max */
+  /**
+   * Specifies the maximum value for type "number".
+   *
+   * @mdn [max](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#max)
+   */
   @Prop({ reflect: true }) max?: number;
 
   /** watcher to update number-to-string for max */
@@ -142,7 +158,11 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
     this.maxString = this.max?.toString() || null;
   }
 
-  /** input min */
+  /**
+   * Specifies the minimum value for type "number".
+   *
+   * @mdn [min](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#min)
+   */
   @Prop({ reflect: true }) min?: number;
 
   /** watcher to update number-to-string for min */
@@ -152,46 +172,70 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
   }
 
   /**
-   * Maximum length of text input.
+   * Specifies the maximum length of text for the component's value.
    *
    * @deprecated use maxLength instead
    */
   @Prop({ reflect: true }) maxlength?: number;
 
-  /** Maximum length of the input value */
+  /**
+   * Specifies the maximum length of text for the component's value.
+   *
+   * @mdn [maxlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#maxlength)
+   */
   @Prop({ reflect: true }) maxLength?: number;
 
-  /** Minimum length of the text input */
+  /**
+   * Specifies the minimum length of text for the component's value.
+   *
+   * @mdn [minlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#minlength)
+   */
   @Prop({ reflect: true }) minLength?: number;
 
-  /** The name of the input */
+  /**
+   * Specifies the name of the component.
+   *
+   * @mdn [name](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#name)
+   */
   @Prop({ reflect: true }) name: string;
 
-  /** specify the placement of the number buttons */
+  /** Specifies the placement of the buttons for type "number". */
   @Prop({ reflect: true }) numberButtonType?: InputPlacement = "vertical";
 
-  /** explicitly whitelist placeholder attribute */
+  /**
+   * Specifies placeholder text for the component.
+   *
+   * @mdn [placeholder](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#placeholder)
+   */
   @Prop() placeholder: string;
 
-  /** optionally add prefix  */
+  /** Adds text to the start of the component. */
   @Prop() prefixText?: string;
 
-  /** When true, a field cannot be modified. */
+  /**
+   * When true, the value cannot be modified.
+   *
+   * @mdn [readOnly](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/readonly)
+   */
   @Prop() readOnly = false;
 
-  /** is the input required */
+  /** When true, the component must have a value in order for the form to submit. */
   @Prop() required = false;
 
-  /** specify the scale of the input, defaults to m */
+  /** Specifies the size of the component. */
   @Prop({ mutable: true, reflect: true }) scale: Scale = "m";
 
-  /** specify the status of the input field, determines message and icons */
+  /** Specifies the status of the input field, which determines message and icons. */
   @Prop({ mutable: true, reflect: true }) status: Status = "idle";
 
-  /** input step */
+  /**
+   * Specifies the granularity that the component's value must adhere to.
+   *
+   * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/step)
+   */
   @Prop({ reflect: true }) step?: number | "any";
 
-  /** optionally add suffix  */
+  /** Adds text to the end of the component.  */
   @Prop() suffixText?: string;
 
   /**
@@ -200,9 +244,9 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
   @Prop({ mutable: true, reflect: true }) editingEnabled = false;
 
   /**
-   * specify the input type
+   * Specifies the component type.
    *
-   * Note that the following types add type-specific icons by default: `date`, `email`, `password`, `search`, `tel`, `time`
+   * Note that the following types add type-specific icons by default: "date", "email", "password", "search", "tel", "time".
    */
   @Prop({ reflect: true }) type:
     | "color"
@@ -222,7 +266,7 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
     | "url"
     | "week" = "text";
 
-  /** input value */
+  /** The component's value. */
   @Prop({ mutable: true }) value = "";
 
   @Watch("value")
@@ -382,12 +426,12 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
   @Event() calciteInternalInputBlur: EventEmitter;
 
   /**
-   * This event fires each time a new value is typed.
+   * Fires each time a new value is typed.
    */
   @Event({ cancelable: true }) calciteInputInput: EventEmitter;
 
   /**
-   * This event fires each time a new value is typed and committed.
+   * Fires each time a new value is typed and committed.
    */
   @Event() calciteInputChange: EventEmitter<void>;
 
