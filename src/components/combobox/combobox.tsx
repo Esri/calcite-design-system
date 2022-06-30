@@ -43,7 +43,7 @@ import {
 import { createObserver } from "../../utils/observers";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { toAriaBoolean } from "../../utils/dom";
-import { OpenCloseState, OpenCloseComponent } from "../../utils/emitter";
+import { OpenCloseComponent } from "../../utils/emitter";
 interface ItemData {
   label: string;
   value: string;
@@ -389,17 +389,6 @@ export class Combobox
 
   private activeTransitionProp = "opacity";
 
-  private OpenCloseState: OpenCloseState = {
-    beforeOpen: () => this.calciteComboboxBeforeOpen.emit(this.publicEmitPayload),
-    open: () => this.calciteComboboxOpen.emit(this.publicEmitPayload),
-    beforeClose: () => this.calciteComboboxBeforeClose.emit(this.publicEmitPayload),
-    close: () => this.calciteComboboxClose.emit(this.publicEmitPayload)
-  };
-
-  private publicEmitPayload: any = {
-    element: this
-  };
-
   // --------------------------------------------------------------------------
   //
   //  Private Methods
@@ -532,9 +521,25 @@ export class Combobox
     this.el.removeEventListener("calciteComboboxOpen", this.toggleOpenEnd);
   };
 
+  onBeforeOpen(): void {
+    this.calciteComboboxBeforeOpen.emit();
+  }
+
+  onOpen(): void {
+    this.calciteComboboxOpen.emit();
+  }
+
+  onBeforeClose(): void {
+    this.calciteComboboxBeforeClose.emit();
+  }
+
+  onClose(): void {
+    this.calciteComboboxClose.emit();
+  }
+
   transitionEnd = (event: TransitionEvent): void => {
     if (event.propertyName === this.activeTransitionProp) {
-      this.active ? this.openCloseEventEmitter("open") : this.openCloseEventEmitter("close");
+      this.active ? this.onOpen() : this.onClose();
     }
   };
 
@@ -544,9 +549,7 @@ export class Combobox
   */
   onTransitionRun = (event: TransitionEvent): void => {
     if (event.propertyName === this.activeTransitionProp) {
-      this.active
-        ? this.openCloseEventEmitter("beforeOpen")
-        : this.openCloseEventEmitter("beforeClose");
+      this.active ? this.onBeforeOpen() : this.onBeforeClose();
     }
   };
 
@@ -999,13 +1002,6 @@ export class Combobox
   comboboxBlurHandler = (event: FocusEvent): void => {
     this.setInactiveIfNotContained(event);
   };
-
-  private openCloseEventEmitter(componentVisibilityState: string): void {
-    (
-      this.OpenCloseState[componentVisibilityState] ||
-      this.OpenCloseState["The component state is unknown."]
-    )();
-  }
 
   //--------------------------------------------------------------------------
   //
