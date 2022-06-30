@@ -19,11 +19,13 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - **block:** support noPadding property ([#4790](https://github.com/Esri/calcite-components/issues/4790)) ([44cbb25](https://github.com/Esri/calcite-components/commit/44cbb2567df9671cbde05b643775b3b68115855e))
 - **color-picker:** support customizing numbering system for locale ([#4801](https://github.com/Esri/calcite-components/issues/4801)) ([aef3839](https://github.com/Esri/calcite-components/commit/aef38397e4da2a82d43acdcbeefd22ff6840e471))
 - **combobox:** add support for placeholder icon & no longer display leading space for placeholder text ([#4784](https://github.com/Esri/calcite-components/issues/4784)) ([2c9f5e8](https://github.com/Esri/calcite-components/commit/2c9f5e81b4f2bef4a39eb8d1eb113dfeece7f503))
+- **input:** add selectText method ([#4827](https://github.com/Esri/calcite-components/issues/4827)) ([137c98e](https://github.com/Esri/calcite-components/commit/137c98e15ed6a72676999be0b08c9bc88a902eb7))
 - **stepper:** Add calciteStepperItemChange event ([#4737](https://github.com/Esri/calcite-components/issues/4737)) ([7b899e5](https://github.com/Esri/calcite-components/commit/7b899e58d517825b217751d71c7800a4fdbd64f5)), closes [#4595](https://github.com/Esri/calcite-components/issues/4595)
 - **tabs,tab-nav,tab-title:** add top,bottom values for position prop ([#4729](https://github.com/Esri/calcite-components/issues/4729)) ([7e3891b](https://github.com/Esri/calcite-components/commit/7e3891b00431b8da776db6a26e33196f707b3ef3))
 
 ### Bug Fixes
 
+- **combobox:** Correctly honor max-items ([#4816](https://github.com/Esri/calcite-components/issues/4816)) ([74f85c2](https://github.com/Esri/calcite-components/commit/74f85c279f283949b9ab1a9cc4944c328bdda733)), closes [#4773](https://github.com/Esri/calcite-components/issues/4773)
 - Enter key should submit forms in Safari ([#4815](https://github.com/Esri/calcite-components/issues/4815)) ([ae432dd](https://github.com/Esri/calcite-components/commit/ae432ddd570cf8ca22ed74aa152c320152d5a989)), closes [#4793](https://github.com/Esri/calcite-components/issues/4793)
 - **accordion-item:** Indicate whether accordion is expanded to screen readers. ([#4822](https://github.com/Esri/calcite-components/issues/4822)) ([9b36a90](https://github.com/Esri/calcite-components/commit/9b36a90c262b0aa0ea2ee3eb3f9c98026ae85c68)), closes [#4691](https://github.com/Esri/calcite-components/issues/4691)
 - **color-picker:** fixed hue bar click and drag interaction ([#4734](https://github.com/Esri/calcite-components/issues/4734)) ([78d9e64](https://github.com/Esri/calcite-components/commit/78d9e6430bc6200fab54b721cb2f615805a745fb))
