@@ -39,12 +39,12 @@
 
 ## Properties
 
-| Property   | Attribute  | Description                                                                           | Type                   | Default    |
-| ---------- | ---------- | ------------------------------------------------------------------------------------- | ---------------------- | ---------- |
-| `bordered` | `bordered` | Optionally enable tabs to appear like a folder-style menu when its layout is "inline" | `boolean`              | `false`    |
-| `layout`   | `layout`   | Align tab titles to the edge or fully justify them across the tab nav ("center")      | `"center" \| "inline"` | `"inline"` |
-| `position` | `position` | Display the tabs above (default) or below the tab content                             | `"above" \| "below"`   | `"above"`  |
-| `scale`    | `scale`    | Specify the scale of the tabs component, defaults to m                                | `"l" \| "m" \| "s"`    | `"m"`      |
+| Property   | Attribute  | Description                                                                                  | Type                                      | Default    |
+| ---------- | ---------- | -------------------------------------------------------------------------------------------- | ----------------------------------------- | ---------- |
+| `bordered` | `bordered` | Optionally enable tabs to appear like a folder-style menu when its layout is "inline"        | `boolean`                                 | `false`    |
+| `layout`   | `layout`   | Align tab titles to the edge or fully justify them across the tab nav ("center")             | `"center" \| "inline"`                    | `"inline"` |
+| `position` | `position` | Display the tabs top (default) or bottom of the tab content. above and below are deprecated. | `"above" \| "below" \| "bottom" \| "top"` | `"top"`    |
+| `scale`    | `scale`    | Specify the scale of the tabs component, defaults to m                                       | `"l" \| "m" \| "s"`                       | `"m"`      |
 
 ## Slots
 
