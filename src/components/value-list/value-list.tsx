@@ -37,7 +37,7 @@ import {
 import List from "../pick-list/shared-list-render";
 import { createObserver } from "../../utils/observers";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
-import { DragStatus } from "./interfaces";
+import { getScreenReaderText } from "./utils";
 
 /**
  * @slot - A slot for adding `calcite-value-list-item` elements. List items are displayed as a vertical list.
@@ -232,9 +232,9 @@ export class ValueList<
     const { handleElement, item } = this.getHandleAndItemElement(event.detail);
     if (!item) {
       const newItem = this.getHandleAndItemElement(event);
-      this.updateHandleAriaLabel(handleElement, this.getScreenReaderText(newItem.item, "start"));
+      this.updateHandleAriaLabel(handleElement, getScreenReaderText(newItem.item, "start"));
     } else if (!item.handleActivated) {
-      this.updateHandleAriaLabel(handleElement, this.getScreenReaderText(item, "start"));
+      this.updateHandleAriaLabel(handleElement, getScreenReaderText(item, "start"));
     }
   }
 
@@ -300,7 +300,7 @@ export class ValueList<
   keyDownHandler = (event: KeyboardEvent): void => {
     const { handleElement, item } = this.getHandleAndItemElement(event);
     if (handleElement && !item.handleActivated && event.key === " ") {
-      this.updateScreenReaderText(this.getScreenReaderText(item, "currentPosition"));
+      this.updateScreenReaderText(getScreenReaderText(item, "currentPosition"));
     }
 
     if (!handleElement || !item.handleActivated) {
@@ -311,7 +311,7 @@ export class ValueList<
     const { items } = this;
 
     if (event.key === " ") {
-      this.updateScreenReaderText(this.getScreenReaderText(item, "activated"));
+      this.updateScreenReaderText(getScreenReaderText(item, "activated"));
     }
 
     if ((event.key !== "ArrowUp" && event.key !== "ArrowDown") || items.length <= 1) {
@@ -339,8 +339,8 @@ export class ValueList<
     requestAnimationFrame(() => handleElement?.focus());
     item.handleActivated = true;
 
-    this.updateScreenReaderText(this.getScreenReaderText(item, "newPosition"));
-    this.updateHandleAriaLabel(handleElement, this.getScreenReaderText(item, "newPosition"));
+    this.updateScreenReaderText(getScreenReaderText(item, "newPosition"));
+    this.updateHandleAriaLabel(handleElement, getScreenReaderText(item, "newPosition"));
   };
 
   getHandleAndItemElement(event: KeyboardEvent | FocusEvent): {
@@ -406,33 +406,6 @@ export class ValueList<
 
   updateHandleAriaLabel(handleElement: HTMLSpanElement, assertiveText: string): void {
     handleElement.ariaLabel = assertiveText;
-  }
-
-  getScreenReaderText(item: HTMLCalciteValueListItemElement, status: DragStatus): string {
-    const { items } = this;
-    const total = items.length;
-    const position = getItemIndex(this, item) + 1;
-
-    switch (status) {
-      case "start":
-        return this.intlDragHandleStart
-          ? this.intlDragHandleStart
-          : `press space and use arrow keys to re-order content. current position ${position} of ${total}`;
-      case "activated":
-        return this.intlDragHandleActivated
-          ? this.intlDragHandleActivated
-          : `Reordering.current position ${position} of ${total}`;
-      case "newPosition":
-        return this.intlDragHandleNewPosition
-          ? this.intlDragHandleNewPosition
-          : `new position ${position} of ${total}. press space to confirm`;
-      case "currentPosition":
-        return this.intlDragHandleCurrentPosition
-          ? this.intlDragHandleCurrentPosition
-          : `current position ${position} of ${total}`;
-      default:
-        break;
-    }
   }
 
   render(): VNode {
