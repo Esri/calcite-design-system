@@ -115,6 +115,10 @@ td:focus {
   @apply flex items-center;
 }
 
+.expand-container {
+  @apply cursor-pointer;
+}
+
 .content-start,
 .content-end {
   ::slotted(calcite-icon) {
