@@ -79,7 +79,7 @@ export class ActionBar implements ConditionalSlotComponent {
   /**
    *  The layout direction of the actions.
    */
-  @Prop() layout: Extract<"horizontal" | "vertical", Layout> = "vertical";
+  @Prop({ reflect: true }) layout: Extract<"horizontal" | "vertical", Layout> = "vertical";
 
   /**
    * Disables automatically overflowing `calcite-action`s that won't fit into menus.

@@ -11,9 +11,10 @@ const arrayMax = (array: number[]) => array.reduce((a, b) => Math.max(a, b));
 export const geActionDimensions = (
   actions: HTMLCalciteActionElement[]
 ): { actionWidth: number; actionHeight: number } => {
+  const actionLen = actions?.length;
   return {
-    actionWidth: arrayMax(actions.map((action) => action.clientWidth)),
-    actionHeight: arrayMax(actions.map((action) => action.clientHeight))
+    actionWidth: actionLen ? arrayMax(actions.map((action) => action.clientWidth || 0)) : 0,
+    actionHeight: actionLen ? arrayMax(actions.map((action) => action.clientHeight || 0)) : 0
   };
 };
 
@@ -32,9 +33,9 @@ const getMaxActionCount = ({
   actionHeight: number;
   groupCount: number;
 }): number => {
-  const maxPx = layout === "horizontal" ? width : height;
-  const itemPx = layout === "horizontal" ? actionWidth : actionHeight;
-  return Math.floor((maxPx - groupCount * groupBufferPx) / itemPx);
+  const maxContainerPx = layout === "horizontal" ? width : height;
+  const maxItemPx = layout === "horizontal" ? actionWidth : actionHeight;
+  return Math.floor((maxContainerPx - groupCount * groupBufferPx) / maxItemPx);
 };
 
 export const getOverflowCount = ({
