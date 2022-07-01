@@ -6,15 +6,15 @@ import { Layout } from "../interfaces";
 export const overflowActionsDebounceInMs = 150;
 const groupBufferPx = 2;
 
-const arrayMax = (array: number[]) => array.reduce((a, b) => Math.max(a, b));
+const getAverage = (arr: number[]) => arr.reduce((p, c) => p + c, 0) / arr.length;
 
 export const geActionDimensions = (
   actions: HTMLCalciteActionElement[]
 ): { actionWidth: number; actionHeight: number } => {
   const actionLen = actions?.length;
   return {
-    actionWidth: actionLen ? arrayMax(actions.map((action) => action.clientWidth || 0)) : 0,
-    actionHeight: actionLen ? arrayMax(actions.map((action) => action.clientHeight || 0)) : 0
+    actionWidth: actionLen ? getAverage(actions.map((action) => action.clientWidth || 0)) : 0,
+    actionHeight: actionLen ? getAverage(actions.map((action) => action.clientHeight || 0)) : 0
   };
 };
 
@@ -34,8 +34,8 @@ const getMaxActionCount = ({
   groupCount: number;
 }): number => {
   const maxContainerPx = layout === "horizontal" ? width : height;
-  const maxItemPx = layout === "horizontal" ? actionWidth : actionHeight;
-  return Math.floor((maxContainerPx - groupCount * groupBufferPx) / maxItemPx);
+  const avgItemPx = layout === "horizontal" ? actionWidth : actionHeight;
+  return Math.floor((maxContainerPx - groupCount * groupBufferPx) / avgItemPx);
 };
 
 export const getOverflowCount = ({

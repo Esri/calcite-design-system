@@ -22,6 +22,10 @@ describe("calcite-action-bar", () => {
       {
         propertyName: "scale",
         defaultValue: undefined
+      },
+      {
+        propertyName: "layout",
+        defaultValue: "vertical"
       }
     ]));
 
