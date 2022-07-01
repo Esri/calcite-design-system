@@ -1,8 +1,7 @@
-import { Component, Element, Listen, Method, State, h, VNode } from "@stencil/core";
-
+import { Component, Element, Listen, Method, State, h, VNode, Prop, Watch } from "@stencil/core";
 import { CSS } from "./resources";
-
 import { FlowDirection } from "./interfaces";
+import { createObserver } from "../../utils/observers";
 
 /**
  * @slot - A slot for adding `calcite-panel`s to the flow.
@@ -13,6 +12,26 @@ import { FlowDirection } from "./interfaces";
   shadow: true
 })
 export class Flow {
+  // --------------------------------------------------------------------------
+  //
+  //  Properties
+  //
+  // --------------------------------------------------------------------------
+
+  /**
+   * todo: document and finalize property name.
+   *
+   * @internal
+   */
+  @Prop() allowSubtreePanels = false;
+
+  @Watch("allowSubtreePanels")
+  handleAllowSubtreePanelsChange(): void {
+    this.allowSubtreePanels
+      ? this.panelItemMutationObserver?.observe(this.el, { childList: true, subtree: true })
+      : this.panelItemMutationObserver?.disconnect();
+  }
+
   // --------------------------------------------------------------------------
   //
   //  Public Methods
@@ -57,11 +76,24 @@ export class Flow {
 
   @State() panels: HTMLCalcitePanelElement[] = [];
 
+  panelItemMutationObserver: MutationObserver = createObserver("mutation", () =>
+    this.handleMutationObserverChange()
+  );
+
   // --------------------------------------------------------------------------
   //
   //  Lifecycle
   //
   // --------------------------------------------------------------------------
+
+  connectedCallback(): void {
+    this.handleAllowSubtreePanelsChange();
+    this.handleMutationObserverChange();
+  }
+
+  disconnectedCallback(): void {
+    this.panelItemMutationObserver?.disconnect();
+  }
 
   // --------------------------------------------------------------------------
   //
@@ -85,8 +117,22 @@ export class Flow {
     return newPanelCount < oldPanelCount ? "retreating" : "advancing";
   };
 
-  updateFlowProps = (event: Event): void => {
-    const { panels } = this;
+  handleMutationObserverChange = (): void => {
+    if (!this.allowSubtreePanels) {
+      return;
+    }
+
+    const newPanels: HTMLCalcitePanelElement[] = Array.from(
+      this.el.querySelectorAll("calcite-panel")
+    );
+
+    this.updateFlowProps(newPanels);
+  };
+
+  handleDefaultSlotChange = (event: Event): void => {
+    if (this.allowSubtreePanels) {
+      return;
+    }
 
     const newPanels = (event.target as HTMLSlotElement)
       .assignedElements({
@@ -94,9 +140,13 @@ export class Flow {
       })
       .filter((el) => el?.matches("calcite-panel")) as HTMLCalcitePanelElement[];
 
+    this.updateFlowProps(newPanels);
+  };
+
+  updateFlowProps = (newPanels: HTMLCalcitePanelElement[]): void => {
+    const { panels } = this;
     const oldPanelCount = panels.length;
     const newPanelCount = newPanels.length;
-
     const activePanel = newPanels[newPanelCount - 1];
     const previousPanel = newPanels[newPanelCount - 2];
 
@@ -137,7 +187,7 @@ export class Flow {
 
     return (
       <div class={frameDirectionClasses}>
-        <slot onSlotchange={this.updateFlowProps} />
+        <slot onSlotchange={this.handleDefaultSlotChange} />
       </div>
     );
   }
