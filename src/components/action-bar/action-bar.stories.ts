@@ -85,19 +85,19 @@ export const basic = (): string =>
 
 export const horizontal = (): string => html`
   <div style="width: 500px;">
-  <calcite-action-bar layout="horizontal">
-  <calcite-action-group layout="horizontal">
-    <calcite-action text="Add" icon="plus"> </calcite-action>
-    <calcite-action text="Save" icon="save"> </calcite-action>
-    <calcite-action text="Layers" icon="layers"> </calcite-action>
-  </calcite-action-group>
-  <calcite-action-group layout="horizontal">
-    <calcite-action text="Add" icon="plus"> </calcite-action>
-    <calcite-action text="Save" active icon="save"> </calcite-action>
-    <calcite-action text="Layers" icon="layers"> </calcite-action>
-  </calcite-action-group layout="horizontal">
-  <calcite-action slot="bottom-actions" text="hello world" icon="layers"> </calcite-action>
-</calcite-action-bar>
+    <calcite-action-bar layout="horizontal">
+      <calcite-action-group layout="horizontal">
+        <calcite-action text="Add" icon="plus"> </calcite-action>
+        <calcite-action text="Save" icon="save"> </calcite-action>
+        <calcite-action text="Layers" icon="layers"> </calcite-action>
+      </calcite-action-group>
+      <calcite-action-group layout="horizontal">
+        <calcite-action text="Add" icon="plus"> </calcite-action>
+        <calcite-action text="Save" active icon="save"> </calcite-action>
+        <calcite-action text="Layers" icon="layers"> </calcite-action>
+      </calcite-action-group>
+      <calcite-action slot="bottom-actions" text="hello world" icon="layers"> </calcite-action>
+    </calcite-action-bar>
   </div>
 `;
 

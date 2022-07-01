@@ -2,8 +2,11 @@
   @extend %component-host;
   @apply pointer-events-auto
     inline-flex
-    flex-col
     self-stretch;
+}
+
+:host([layout="vertical"]) {
+  @apply flex-col;
   max-width: 15vw;
 }
 
@@ -11,11 +14,15 @@
   @apply flex-row;
 }
 
-:host([overflow-actions-disabled]) {
+:host([layout="vertical"][overflow-actions-disabled]) {
   overflow-y: auto;
 }
 
-:host([expanded]) {
+:host([layout="horizontal"][overflow-actions-disabled]) {
+  overflow-x: auto;
+}
+
+:host([layout="vertical"][expanded]) {
   max-width: 20vw;
 }
 
@@ -39,5 +46,5 @@
 }
 
 .action-group--bottom {
-  @apply flex-grow justify-end pb-0;
+  @apply flex-grow justify-end pb-0 pr-0;
 }
