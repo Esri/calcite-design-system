@@ -256,6 +256,9 @@ export class ColorPicker implements InteractiveComponent {
    */
   @Prop() storageId: string;
 
+  /** standard UniCode numeral system tag for localization */
+  @Prop() numberingSystem?: string;
+
   /**
    * The color value.
    *
@@ -856,6 +859,7 @@ export class ColorPicker implements InteractiveComponent {
                 <calcite-color-picker-hex-input
                   allowEmpty={allowEmpty}
                   class={CSS.control}
+                  numberingSystem={this.numberingSystem}
                   onCalciteColorPickerHexInputChange={this.handleHexInputChange}
                   scale={hexInputScale}
                   value={selectedColorInHex}
@@ -1017,6 +1021,7 @@ export class ColorPicker implements InteractiveComponent {
       dir={direction}
       label={ariaLabel}
       numberButtonType="none"
+      numberingSystem={this.numberingSystem}
       onCalciteInputChange={this.handleChannelChange}
       onCalciteInputInput={this.handleChannelInput}
       onKeyDown={this.handleKeyDown}
