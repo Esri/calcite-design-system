@@ -7,8 +7,8 @@ describe("calcite-list-item", () => {
   it("renders", async () => renders("calcite-list-item", { display: "flex" }));
 
   it("is focusable", () =>
-    focusable("calcite-list-item", {
-      shadowFocusTargetSelector: `.${CSS.contentContainerButton}`
+    focusable("<calcite-list-item active></calcite-list-item>", {
+      shadowFocusTargetSelector: `.${CSS.container}`
     }));
 
   it("honors hidden attribute", async () => hidden("calcite-list-item"));
@@ -31,7 +31,7 @@ describe("calcite-list-item", () => {
 
   it("has slots", () => slots("calcite-list-item", SLOTS));
 
-  it("can be disabled", () => disabled(`<calcite-list-item label="test"></calcite-list-item>`));
+  it("can be disabled", () => disabled(`<calcite-list-item label="test" active></calcite-list-item>`));
 
   it("renders content node when label is provided", async () => {
     const page = await newE2EPage({ html: `<calcite-list-item label="test"></calcite-list-item>` });

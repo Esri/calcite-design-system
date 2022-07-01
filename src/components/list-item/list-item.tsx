@@ -373,10 +373,18 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
   };
 
   emitListItemClick = (): void => {
+    if (this.disabled) {
+      return;
+    }
+
     this.calciteListItemClick.emit();
   };
 
   handleItemClick = (): void => {
+    if (this.disabled) {
+      return;
+    }
+
     this.emitListItemClick();
   };
 

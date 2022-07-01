@@ -108,7 +108,7 @@ export class List implements InteractiveComponent {
   //
   // --------------------------------------------------------------------------
 
-  render(): VNode[] {
+  render(): VNode {
     return (
       <div class={CSS.container}>
         {this.loading ? <calcite-scrim loading={this.loading} /> : null}
