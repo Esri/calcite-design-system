@@ -556,7 +556,7 @@ export class Combobox
     }
   };
 
-  setMaxScrollerHeight = (): void => {
+  setMaxScrollerHeight = async (): Promise<void> => {
     const { active, listContainerEl } = this;
 
     if (!listContainerEl || !active) {
@@ -567,7 +567,6 @@ export class Combobox
     const maxScrollerHeight = this.getMaxScrollerHeight();
     listContainerEl.style.maxHeight = maxScrollerHeight > 0 ? `${maxScrollerHeight}px` : "";
     await this.reposition();
-    this.reposition();
   };
 
   calciteChipDismissHandler = (
