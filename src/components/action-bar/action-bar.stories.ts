@@ -85,7 +85,7 @@ export const basic = (): string =>
 
 export const horizontal = (): string => html`
   <div style="width: 500px;">
-    <calcite-action-bar layout="horizontal">
+    <calcite-action-bar layout="horizontal" style="width:100%">
       <calcite-action-group layout="horizontal">
         <calcite-action text="Add" icon="plus"> </calcite-action>
         <calcite-action text="Save" icon="save"> </calcite-action>
