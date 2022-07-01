@@ -64,6 +64,7 @@ export class ActionBar implements ConditionalSlotComponent {
   @Watch("expanded")
   expandedHandler(expanded: boolean): void {
     toggleChildActionText({ parent: this.el, expanded });
+    this.conditionallyOverflowActions();
   }
 
   /**
