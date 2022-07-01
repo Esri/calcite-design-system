@@ -314,7 +314,7 @@ export class Combobox
     disconnectForm(this);
 
     if (this.listContainerEl) {
-      this.listContainerEl.removeEventListener("transitionrun", this.onTransitionRun);
+      this.listContainerEl.removeEventListener("transitionrun", this.transitionRunHandler);
     }
   }
 
@@ -547,7 +547,7 @@ export class Combobox
   - `transitionrun` fires when the transition is created at the start of any delay and is not cancellable once started.
   - if there is no transition delay, both `transitionrun` and `transitionstart` are fired at the same time.
   */
-  onTransitionRun = (event: TransitionEvent): void => {
+  transitionRunHandler = (event: TransitionEvent): void => {
     if (event.propertyName === this.activeTransitionProp) {
       this.active ? this.onBeforeOpen() : this.onBeforeClose();
     }
