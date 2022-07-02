@@ -46,6 +46,16 @@ export class Panel implements ConditionalSlotComponent, InteractiveComponent {
   // --------------------------------------------------------------------------
 
   /**
+   * todo: document
+   */
+  @Prop({ reflect: true }) active = false;
+
+  @Watch("active")
+  activeHandler(): void {
+    this.calciteInternalPanelActiveChange.emit();
+  }
+
+  /**
    * Hides the panel.
    */
   @Prop({ mutable: true, reflect: true }) dismissed = false;
@@ -200,6 +210,11 @@ export class Panel implements ConditionalSlotComponent, InteractiveComponent {
    * Emitted when the back button has been clicked.
    */
   @Event() calcitePanelBackClick: EventEmitter;
+
+  /**
+   * @internal
+   */
+  @Event() calciteInternalPanelActiveChange: EventEmitter;
 
   // --------------------------------------------------------------------------
   //

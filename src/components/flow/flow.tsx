@@ -1,8 +1,7 @@
 import { Component, Element, Listen, Method, State, h, VNode } from "@stencil/core";
-
 import { CSS } from "./resources";
-
 import { FlowDirection } from "./interfaces";
+import { debounce } from "lodash-es";
 
 /**
  * @slot - A slot for adding `calcite-panel`s to the flow.
@@ -24,22 +23,23 @@ export class Flow {
    */
   @Method()
   async back(): Promise<HTMLCalcitePanelElement> {
-    const { panels } = this;
+    const { panels, activeIndex } = this;
 
-    const lastItem = panels[panels.length - 1];
+    const activePanel = panels[activeIndex];
+    const nextActivePanel = panels[activeIndex - 1];
 
-    if (!lastItem) {
+    if (!activePanel || !nextActivePanel) {
       return;
     }
 
-    const beforeBack = lastItem.beforeBack
-      ? lastItem.beforeBack
+    const beforeBack = activePanel.beforeBack
+      ? activePanel.beforeBack
       : (): Promise<void> => Promise.resolve();
 
-    return beforeBack.call(lastItem).then(() => {
-      lastItem.remove();
-
-      return lastItem;
+    return beforeBack.call(activePanel).then(() => {
+      activePanel.active = false;
+      nextActivePanel.active = true;
+      return nextActivePanel;
     });
   }
 
@@ -51,11 +51,11 @@ export class Flow {
 
   @Element() el: HTMLCalciteFlowElement;
 
-  @State() panelCount = 0;
-
   @State() flowDirection: FlowDirection = null;
 
   @State() panels: HTMLCalcitePanelElement[] = [];
+
+  activeIndex = -1;
 
   // --------------------------------------------------------------------------
   //
@@ -74,51 +74,66 @@ export class Flow {
     this.back();
   }
 
-  getFlowDirection = (oldPanelCount: number, newPanelCount: number): FlowDirection | null => {
-    const allowRetreatingDirection = oldPanelCount > 1;
-    const allowAdvancingDirection = oldPanelCount && newPanelCount > 1;
+  @Listen("calciteInternalPanelActiveChange")
+  handleCalciteInternalPanelActiveChange(event: CustomEvent): void {
+    event.stopPropagation();
+    this.updateFlowProps();
+  }
+
+  getFlowDirection = (oldActiveIndex: number, newActiveIndex: number): FlowDirection | null => {
+    const allowRetreatingDirection = oldActiveIndex > 0;
+    const allowAdvancingDirection = oldActiveIndex > -1 && newActiveIndex > 0;
 
     if (!allowAdvancingDirection && !allowRetreatingDirection) {
       return null;
     }
 
-    return newPanelCount < oldPanelCount ? "retreating" : "advancing";
+    return newActiveIndex < oldActiveIndex ? "retreating" : "advancing";
   };
 
-  updateFlowProps = (event: Event): void => {
-    const { panels } = this;
+  findActivePanelIndex = (panels: HTMLCalcitePanelElement[]): number => {
+    const activePanel = panels
+      .slice(0)
+      .reverse()
+      .find((panel) => !!panel.active);
 
-    const newPanels = (event.target as HTMLSlotElement)
-      .assignedElements({
+    return panels.indexOf(activePanel);
+  };
+
+  handleDefaultSlotChange = (event: Event): void => {
+    const newPanels = (
+      (event.target as HTMLSlotElement).assignedElements({
         flatten: true
-      })
-      .filter((el) => el?.matches("calcite-panel")) as HTMLCalcitePanelElement[];
-
-    const oldPanelCount = panels.length;
-    const newPanelCount = newPanels.length;
-
-    const activePanel = newPanels[newPanelCount - 1];
-    const previousPanel = newPanels[newPanelCount - 2];
-
-    if (newPanelCount && activePanel) {
-      newPanels.forEach((panelNode) => {
-        panelNode.showBackButton = newPanelCount > 1;
-        panelNode.hidden = panelNode !== activePanel;
-      });
-    }
-
-    if (previousPanel) {
-      previousPanel.menuOpen = false;
-    }
+      }) as HTMLCalcitePanelElement[]
+    ).filter((el) => el?.matches("calcite-panel"));
 
     this.panels = newPanels;
 
-    if (oldPanelCount !== newPanelCount) {
-      const flowDirection = this.getFlowDirection(oldPanelCount, newPanelCount);
-      this.panelCount = newPanelCount;
-      this.flowDirection = flowDirection;
-    }
+    this.updateFlowProps();
   };
+
+  updateFlowProps = debounce((): void => {
+    const { activeIndex, panels } = this;
+
+    const foundActiveIndex = this.findActivePanelIndex(panels);
+    const newActiveIndex = foundActiveIndex === -1 ? panels.length - 1 : foundActiveIndex;
+
+    panels.forEach((panel, index) => {
+      panel.active = index === newActiveIndex;
+
+      if (index !== newActiveIndex) {
+        panel.menuOpen = false;
+      }
+
+      panel.showBackButton = index === newActiveIndex && newActiveIndex > 0;
+    });
+
+    if (activeIndex !== newActiveIndex) {
+      this.flowDirection = this.getFlowDirection(activeIndex, newActiveIndex);
+    }
+
+    this.activeIndex = newActiveIndex;
+  });
 
   // --------------------------------------------------------------------------
   //
@@ -137,7 +152,7 @@ export class Flow {
 
     return (
       <div class={frameDirectionClasses}>
-        <slot onSlotchange={this.updateFlowProps} />
+        <slot onSlotchange={this.handleDefaultSlotChange} />
       </div>
     );
   }
