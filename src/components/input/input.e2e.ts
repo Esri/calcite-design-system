@@ -1142,6 +1142,19 @@ describe("calcite-input", () => {
     expect(await element.getProperty("value")).toBe("-1.0001");
   });
 
+  it(`Using the select method selects all text`, async () => {
+    const value = "-98.76";
+    const page = await newE2EPage();
+    await page.setContent(html`<calcite-input type="number" value="123.45"></calcite-input>`);
+    const element = await page.find("calcite-input");
+    // overwrite initial value by selecting and typing
+    await element.callMethod("selectText");
+    await element.callMethod("setFocus");
+    await typeNumberValue(page, value);
+    await page.waitForChanges();
+    expect(await element.getProperty("value")).toBe(value);
+  });
+
   it(`allows clearing value for type=number`, async () => {
     const page = await newE2EPage();
     await page.setContent(html`<calcite-input type="number" value="1"></calcite-input>`);

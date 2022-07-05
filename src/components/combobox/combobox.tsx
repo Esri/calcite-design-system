@@ -95,7 +95,7 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
       return;
     }
 
-    this.reposition();
+    this.setMaxScrollerHeight();
   }
 
   /**When true, opens the combobox */
@@ -117,6 +117,9 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
 
   /** Placeholder text for input */
   @Prop() placeholder?: string;
+
+  /** Placeholder icon for input  */
+  @Prop() placeholderIcon?: string;
 
   /** Specify the maximum number of combobox items (including nested children) to display before showing the scroller */
   @Prop() maxItems = 0;
@@ -321,7 +324,7 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
     disconnectForm(this);
 
     if (this.listContainerEl) {
-      this.listContainerEl.removeEventListener("transitionrun", this.onTransitionRun);
+      this.listContainerEl.removeEventListener("transitionrun", this.transitionRunHandler);
     }
   }
 
@@ -546,7 +549,7 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
   - `transitionrun` fires when the transition is created at the start of any delay and is not cancellable once started.
   - if there is no transition delay, both `transitionrun` and `transitionstart` are fired at the same time.
   */
-  onTransitionRun = (event: TransitionEvent): void => {
+  transitionRunHandler = (event: TransitionEvent): void => {
     if (event.propertyName === this.activeTransitionProp) {
       this.open || this.active
         ? this.openCloseEventEmitter("beforeOpen")
@@ -554,7 +557,7 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
     }
   };
 
-  private openCloseEventEmitter(componentVisibilityState: string): void {
+  private emitOpenCloseEvent(componentVisibilityState: string): void {
     const payload = {
       el: this.el
     };
@@ -577,10 +580,10 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
       return;
     }
 
-    this.reposition();
+    await this.reposition();
     const maxScrollerHeight = this.getMaxScrollerHeight();
     listContainerEl.style.maxHeight = maxScrollerHeight > 0 ? `${maxScrollerHeight}px` : "";
-    this.reposition();
+    await this.reposition();
   };
 
   calciteChipDismissHandler = (
@@ -640,7 +643,7 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
   setListContainerEl = (el: HTMLDivElement): void => {
     this.resizeObserver.observe(el);
     this.listContainerEl = el;
-    this.listContainerEl.addEventListener("transitionrun", this.onTransitionRun);
+    this.listContainerEl.addEventListener("transitionrun", this.transitionRunHandler);
   };
 
   setReferenceEl = (el: HTMLDivElement): void => {
@@ -1147,15 +1150,18 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
   }
 
   renderIconStart(): VNode {
-    const { selectionMode, needsIcon, selectedItems } = this;
+    const { selectionMode, needsIcon, selectedItems, placeholderIcon } = this;
     const selectedItem = selectedItems[0];
     return (
       selectionMode === "single" &&
-      needsIcon && (
+      needsIcon &&
+      (selectedItem?.icon || placeholderIcon) && (
         <span class="icon-start">
-          {selectedItem?.icon && (
-            <calcite-icon class="selected-icon" icon={selectedItem.icon} scale="s" />
-          )}
+          <calcite-icon
+            class="selected-icon"
+            icon={selectedItem?.icon ?? placeholderIcon}
+            scale="s"
+          />
         </span>
       )
     );
