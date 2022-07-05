@@ -461,7 +461,7 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
         }
         break;
       case "ArrowDown":
-        if (!this.open || !this.active) {
+        if (!(this.open || !this.active)) {
           event.preventDefault();
           this.active = true;
           this.open = true;
@@ -573,7 +573,7 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
 
   setMaxScrollerHeight = async (): Promise<void> => {
     const { active, listContainerEl, open } = this;
-
+    const isOpen = !(active || open);
     if (!listContainerEl || !active || !open) {
       return;
     }
@@ -612,7 +612,7 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
 
   setInactiveIfNotContained = (event: Event): void => {
     const composedPath = event.composedPath();
-    const isOpen = !this.open || !this.active;
+    const isOpen = !(this.open || this.active);
     if (isOpen || composedPath.includes(this.el) || composedPath.includes(this.referenceEl)) {
       return;
     }
@@ -1066,7 +1066,7 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
       this;
     const single = selectionMode === "single";
     const selectedItem = selectedItems[0];
-    const showLabel = (!open || !active) && single && !!selectedItem;
+    const showLabel = !(open || active) && single && !!selectedItem;
     return (
       <span
         class={{
@@ -1139,7 +1139,7 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
         ref={setMenuEl}
       >
         <div class={classes} onTransitionEnd={this.transitionEnd} ref={setListContainerEl}>
-          <ul class={{ list: true, "list--hide": !open || !active }}>
+          <ul class={{ list: true, "list--hide": !(open || active) }}>
             <slot />
           </ul>
         </div>

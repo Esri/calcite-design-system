@@ -176,8 +176,8 @@ export class Dropdown implements InteractiveComponent {
   }
 
   render(): VNode {
-    const { active } = this;
-
+    const { active, open } = this;
+    console.log(!active || !open);
     return (
       <Host>
         <div
@@ -207,7 +207,7 @@ export class Dropdown implements InteractiveComponent {
             onTransitionEnd={this.transitionEnd}
             ref={this.setScrollerEl}
           >
-            <div hidden={!this.open || !this.active}>
+            <div hidden={!(this.open || this.active)}>
               <slot onSlotchange={this.updateGroups} />
             </div>
           </div>
@@ -262,7 +262,7 @@ export class Dropdown implements InteractiveComponent {
 
   @Listen("click", { target: "window" })
   closeCalciteDropdownOnClick(e: Event): void {
-    const isOpen = !this.open || !this.active;
+    const isOpen = !(this.open || this.active);
     if (isOpen || e.composedPath().includes(this.el)) {
       return;
     }
@@ -446,8 +446,8 @@ export class Dropdown implements InteractiveComponent {
 
   setMaxScrollerHeight = (): void => {
     const { active, scrollerEl, open } = this;
-
-    if (!scrollerEl || !active || !open) {
+    const isOpen = !(active || open);
+    if (!scrollerEl || isOpen) {
       return;
     }
 
