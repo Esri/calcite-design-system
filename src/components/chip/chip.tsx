@@ -1,4 +1,14 @@
-import { Component, h, Prop, Event, EventEmitter, Element, VNode, Method } from "@stencil/core";
+import {
+  Component,
+  h,
+  Prop,
+  Event,
+  EventEmitter,
+  Element,
+  VNode,
+  Method,
+  Host
+} from "@stencil/core";
 import { getSlotted } from "../../utils/dom";
 import { guid } from "../../utils/guid";
 import { CSS, TEXT, SLOTS, ICONS } from "./resources";
@@ -54,6 +64,9 @@ export class Chip implements ConditionalSlotComponent {
   /** The assigned value for the chip */
   @Prop() value!: any;
 
+  /** When true, hides the chip  */
+  @Prop({ reflect: true, mutable: true }) closed = false;
+
   // --------------------------------------------------------------------------
   //
   //  Private Properties
@@ -106,7 +119,7 @@ export class Chip implements ConditionalSlotComponent {
   closeClickHandler = (event: MouseEvent): void => {
     event.preventDefault();
     this.calciteChipDismiss.emit(this.el);
-    this.el.remove();
+    this.closed = true;
   };
 
   private closeButton: HTMLButtonElement;
@@ -146,16 +159,19 @@ export class Chip implements ConditionalSlotComponent {
         <calcite-icon class={CSS.closeIcon} icon={ICONS.close} scale="s" />
       </button>
     );
-
     return (
-      <div class="container">
-        {this.renderChipImage()}
-        {this.icon ? iconEl : null}
-        <span class={CSS.title} id={this.guid}>
-          <slot />
-        </span>
-        {this.dismissible ? closeButton : null}
-      </div>
+      <Host>
+        {!this.closed ? (
+          <div class="container">
+            {this.renderChipImage()}
+            {this.icon ? iconEl : null}
+            <span class={CSS.title} id={this.guid}>
+              <slot />
+            </span>
+            {this.dismissible ? closeButton : null}
+          </div>
+        ) : null}
+      </Host>
     );
   }
 }
