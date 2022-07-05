@@ -281,11 +281,13 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
   }
 
   render(): VNode {
-    const { expandable, expanded, level, posInSet, setSize, active } = this;
+    const { expandable, expanded, level, posInSet, setSize, active, label, description } = this;
     return (
       <Host>
         <tr
+          aria-description={description}
           aria-expanded={expandable ? toAriaBoolean(expanded) : null}
+          aria-label={label}
           aria-level={level}
           aria-posinset={posInSet}
           aria-setsize={setSize}
