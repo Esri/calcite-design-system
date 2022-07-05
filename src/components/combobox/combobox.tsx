@@ -461,7 +461,7 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
         }
         break;
       case "ArrowDown":
-        if (!(this.open || !this.active)) {
+        if (!(this.open || this.active)) {
           event.preventDefault();
           this.active = true;
           this.open = true;

@@ -177,7 +177,6 @@ export class Dropdown implements InteractiveComponent {
 
   render(): VNode {
     const { active, open } = this;
-    console.log(!active || !open);
     return (
       <Host>
         <div
@@ -207,7 +206,7 @@ export class Dropdown implements InteractiveComponent {
             onTransitionEnd={this.transitionEnd}
             ref={this.setScrollerEl}
           >
-            <div hidden={!(this.open || this.active)}>
+            <div hidden={!(open || active)}>
               <slot onSlotchange={this.updateGroups} />
             </div>
           </div>
@@ -658,7 +657,8 @@ export class Dropdown implements InteractiveComponent {
   private openCalciteDropdown = () => {
     this.active = !this.active;
     this.open = !this.open;
-    if (this.open || this.active) {
+    const isOpen = !(this.active || this.open);
+    if (isOpen) {
       this.el.addEventListener("calciteDropdownOpen", this.toggleOpenEnd);
     }
   };
