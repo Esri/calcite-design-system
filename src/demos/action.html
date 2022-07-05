@@ -529,6 +529,25 @@
       </div>
     </div>
 
+    <div class="parent-action-bar">
+      <div class="child-action-bar" style="flex: 1">
+        <div>Full width</div>
+        <calcite-action-bar layout="horizontal" style="width: 100%">
+          <calcite-action-group layout="horizontal">
+            <calcite-action text="Add" icon="plus"> </calcite-action>
+            <calcite-action text="Save" icon="save"> </calcite-action>
+            <calcite-action text="Layers" icon="layers"> </calcite-action>
+          </calcite-action-group>
+          <calcite-action-group layout="horizontal">
+            <calcite-action text="Add" icon="plus"> </calcite-action>
+            <calcite-action text="Save" active icon="save"> </calcite-action>
+            <calcite-action text="Layers" icon="layers"> </calcite-action>
+          </calcite-action-group>
+          <calcite-action slot="bottom-actions" text="hello world" icon="layers"> </calcite-action>
+        </calcite-action-bar>
+      </div>
+    </div>
+
     <hr />
 
     <!--
