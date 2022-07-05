@@ -285,7 +285,6 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
     return (
       <Host>
         <tr
-          aria-description={description}
           aria-expanded={expandable ? toAriaBoolean(expanded) : null}
           aria-label={label}
           aria-level={level}
@@ -309,7 +308,7 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
             [CSS.nestedContainerHidden]: expandable ? !expanded : false
           }}
         >
-          <slot onSlotchange={this.handleDefaultSlotChange} />
+          <slot aria-description={description} onSlotchange={this.handleDefaultSlotChange} />
         </div>
       </Host>
     );
