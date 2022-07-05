@@ -270,10 +270,10 @@ export class Modal implements ConditionalSlotComponent {
   //  Events
   //
   //--------------------------------------------------------------------------
-  /** Emits when `calcite-modal` finishes the open animation. */
+  /** Emits when the component finishes the open animation. */
   @Event() calciteModalOpen: EventEmitter;
 
-  /** Emits when `calcite-modal` finishes the close animation. */
+  /** Emits when the component finishes the close animation. */
   @Event() calciteModalClose: EventEmitter;
 
   //--------------------------------------------------------------------------
@@ -314,7 +314,7 @@ export class Modal implements ConditionalSlotComponent {
   }
 
   /**
-   * Set the scroll top of the `calcite-modal` content.
+   * Sets the scroll top of the component's content.
    *
    * @param top
    * @param left

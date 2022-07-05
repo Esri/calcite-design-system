@@ -1,7 +1,7 @@
 import { Component, h, Prop, VNode, Watch, Event, EventEmitter, Fragment } from "@stencil/core";
 
 /**
- * @slot - A slot for adding `calcite-option`s.
+ * @slot - A slot for adding `calcite-option` elements.
  */
 @Component({
   tag: "calcite-option-group",
@@ -16,7 +16,7 @@ export class OptionGroup {
   //--------------------------------------------------------------------------
 
   /**
-   * When true, it prevents selection from any of its associated options.
+   * When true, interaction is prevented and the component is displayed with lower opacity.
    */
   @Prop({
     reflect: true
@@ -24,7 +24,7 @@ export class OptionGroup {
   disabled = false;
 
   /**
-   * The group label. This property is required.
+   * Accessible name for the component.
    */
   @Prop()
   label!: string;

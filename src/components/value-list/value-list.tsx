@@ -62,7 +62,7 @@ export class ValueList<
   @Prop({ reflect: true }) disabled = false;
 
   /**
-   * When true, `value-list-item`'s are sortable via a draggable button.
+   * When true, `calcite-value-list-item`s are sortable via a draggable button.
    */
   @Prop({ reflect: true }) dragEnabled = false;
 
@@ -90,14 +90,14 @@ export class ValueList<
 
   /**
    * Similar to standard radio buttons and checkboxes.
-   * When true, a user can select multiple `value-list-item`s at a time.
-   * When false, only a single `value-list-item` can be selected at a time,
+   * When true, a user can select multiple `calcite-value-list-item`s at a time.
+   * When false, only a single `calcite-value-list-item` can be selected at a time,
    * and a new selection will deselect previous selections.
    */
   @Prop({ reflect: true }) multiple = false;
 
   /**
-   * When true and single-selection is enabled, the selection changes when navigating `value-list-item`'s via keyboard.
+   * When true and single-selection is enabled, the selection changes when navigating `calcite-value-list-item`s via keyboard.
    */
   @Prop() selectionFollowsFocus = false;
 
