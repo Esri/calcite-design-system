@@ -537,7 +537,7 @@ export class ColorPicker implements InteractiveComponent {
     }
   };
 
-  private handleColorFieldAndSliderMouseLeave = (): void => {
+  private handleColorFieldAndSliderPointerLeave = (): void => {
     this.colorFieldAndSliderInteractive = false;
     this.colorFieldAndSliderHovered = false;
 
@@ -548,7 +548,7 @@ export class ColorPicker implements InteractiveComponent {
     }
   };
 
-  private handleColorFieldAndSliderMouseDown = (event: MouseEvent): void => {
+  private handleColorFieldAndSliderPointerDown = (event: PointerEvent): void => {
     const { offsetX, offsetY } = event;
     const region = this.getCanvasRegion(offsetY);
 
@@ -565,14 +565,14 @@ export class ColorPicker implements InteractiveComponent {
     // prevent text selection outside of color field & slider area
     event.preventDefault();
 
-    document.addEventListener("mousemove", this.globalMouseMoveHandler);
-    document.addEventListener("mouseup", this.globalMouseUpHandler, { once: true });
+    document.addEventListener("pointermove", this.globalPointerMoveHandler);
+    document.addEventListener("pointerup", this.globalPointerUpHandler, { once: true });
 
     this.activeColorFieldAndSliderRect =
       this.fieldAndSliderRenderingContext.canvas.getBoundingClientRect();
   };
 
-  private globalMouseUpHandler = (): void => {
+  private globalPointerUpHandler = (): void => {
     const previouslyDragging = this.sliderThumbState === "drag" || this.hueThumbState === "drag";
 
     this.hueThumbState = "idle";
@@ -585,7 +585,7 @@ export class ColorPicker implements InteractiveComponent {
     }
   };
 
-  private globalMouseMoveHandler = (event: MouseEvent): void => {
+  private globalPointerMoveHandler = (event: PointerEvent): void => {
     const { el, dimensions } = this;
     const sliderThumbDragging = this.sliderThumbState === "drag";
     const hueThumbDragging = this.hueThumbState === "drag";
@@ -638,7 +638,10 @@ export class ColorPicker implements InteractiveComponent {
     }
   };
 
-  private handleColorFieldAndSliderMouseEnterOrMove = ({ offsetX, offsetY }: MouseEvent): void => {
+  private handleColorFieldAndSliderPointerEnterOrMove = ({
+    offsetX,
+    offsetY
+  }: PointerEvent): void => {
     const {
       dimensions: { colorField, slider, thumb }
     } = this;
@@ -754,8 +757,8 @@ export class ColorPicker implements InteractiveComponent {
   }
 
   disconnectedCallback(): void {
-    document.removeEventListener("mousemove", this.globalMouseMoveHandler);
-    document.removeEventListener("mouseup", this.globalMouseUpHandler);
+    document.removeEventListener("pointermove", this.globalPointerMoveHandler);
+    document.removeEventListener("pointerup", this.globalPointerUpHandler);
   }
 
   componentDidRender(): void {
@@ -808,10 +811,10 @@ export class ColorPicker implements InteractiveComponent {
               [CSS.colorFieldAndSlider]: true,
               [CSS.colorFieldAndSliderInteractive]: colorFieldAndSliderInteractive
             }}
-            onMouseDown={this.handleColorFieldAndSliderMouseDown}
-            onMouseEnter={this.handleColorFieldAndSliderMouseEnterOrMove}
-            onMouseLeave={this.handleColorFieldAndSliderMouseLeave}
-            onMouseMove={this.handleColorFieldAndSliderMouseEnterOrMove}
+            onPointerDown={this.handleColorFieldAndSliderPointerDown}
+            onPointerEnter={this.handleColorFieldAndSliderPointerEnterOrMove}
+            onPointerLeave={this.handleColorFieldAndSliderPointerLeave}
+            onPointerMove={this.handleColorFieldAndSliderPointerEnterOrMove}
             ref={this.initColorFieldAndSlider}
           />
           <div
