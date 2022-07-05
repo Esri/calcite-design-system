@@ -539,9 +539,7 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
 
   transitionEnd = (event: TransitionEvent): void => {
     if (event.propertyName === this.activeTransitionProp) {
-      this.open || this.active
-        ? this.openCloseEventEmitter("open")
-        : this.openCloseEventEmitter("close");
+      this.open || this.active ? this.emitOpenCloseEvent("open") : this.emitOpenCloseEvent("close");
     }
   };
 
@@ -552,8 +550,8 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
   transitionRunHandler = (event: TransitionEvent): void => {
     if (event.propertyName === this.activeTransitionProp) {
       this.open || this.active
-        ? this.openCloseEventEmitter("beforeOpen")
-        : this.openCloseEventEmitter("beforeClose");
+        ? this.emitOpenCloseEvent("beforeOpen")
+        : this.emitOpenCloseEvent("beforeClose");
     }
   };
 
@@ -573,7 +571,7 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
     )();
   }
 
-  setMaxScrollerHeight = (): void => {
+  setMaxScrollerHeight = async (): Promise<void> => {
     const { active, listContainerEl, open } = this;
 
     if (!listContainerEl || !active || !open) {
