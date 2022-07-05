@@ -78,6 +78,8 @@ export class RadioGroup implements LabelableComponent, FormComponent, Interactiv
 
   /**
    * The group's selected item.
+   *
+   * @readonly
    */
   @Prop({ mutable: true }) selectedItem: HTMLCalciteRadioGroupItemElement;
 
