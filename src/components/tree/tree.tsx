@@ -52,11 +52,11 @@ export class Tree {
    */
   @Prop({ reflect: true, mutable: true }) child: boolean;
 
-  /** Specify the scale of the tree. */
+  /** Specifies the size of the component. */
   @Prop({ mutable: true, reflect: true }) scale: Scale = "m";
 
   /**
-   * Customize how tree selection works.
+   * Customize how the component's selection works.
    *
    * @default "single"
    * @see [TreeSelectionMode](https://github.com/Esri/calcite-components/blob/master/src/components/tree/interfaces.ts#L5)
