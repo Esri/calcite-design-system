@@ -253,7 +253,8 @@ export class Dropdown implements InteractiveComponent {
 
   @Listen("click", { target: "window" })
   closeCalciteDropdownOnClick(e: Event): void {
-    if (!this.open || !this.active || e.composedPath().includes(this.el)) {
+    const isOpen = !this.open || !this.active;
+    if (isOpen || e.composedPath().includes(this.el)) {
       return;
     }
 

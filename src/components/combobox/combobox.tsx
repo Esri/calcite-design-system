@@ -611,12 +611,8 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
 
   setInactiveIfNotContained = (event: Event): void => {
     const composedPath = event.composedPath();
-    if (
-      !this.open ||
-      !this.active ||
-      composedPath.includes(this.el) ||
-      composedPath.includes(this.referenceEl)
-    ) {
+    const isOpen = !this.open || !this.active;
+    if (isOpen || composedPath.includes(this.el) || composedPath.includes(this.referenceEl)) {
       return;
     }
 
