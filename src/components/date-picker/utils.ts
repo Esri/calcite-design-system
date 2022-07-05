@@ -7,7 +7,7 @@ import { locales } from "../../utils/locale";
  * @private
  */
 export interface DateLocaleData {
-  "default-calendar": "gregorian";
+  "default-calendar": "gregorian" | "buddhist";
   separator: string;
   unitOrder: string;
   weekStart: number;
