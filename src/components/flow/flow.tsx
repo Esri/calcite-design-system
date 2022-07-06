@@ -109,30 +109,49 @@ export class Flow {
 
     this.panels = newPanels;
 
+    this.ensureActivePanelExists();
+
     this.updateFlowProps();
   };
 
+  ensureActivePanelExists(): void {
+    const { panels } = this;
+    const foundActiveIndex = this.findActivePanelIndex(panels);
+
+    if (foundActiveIndex !== -1) {
+      return;
+    }
+
+    const lastPanel = panels[panels.length - 1];
+
+    if (lastPanel) {
+      lastPanel.active = true;
+    }
+  }
+
   updateFlowProps = debounce((): void => {
     const { activeIndex, panels } = this;
-
     const foundActiveIndex = this.findActivePanelIndex(panels);
-    const newActiveIndex = foundActiveIndex === -1 ? panels.length - 1 : foundActiveIndex;
 
     panels.forEach((panel, index) => {
-      panel.active = index === newActiveIndex;
+      panel.active = index === foundActiveIndex;
 
-      if (index !== newActiveIndex) {
+      if (index !== foundActiveIndex) {
         panel.menuOpen = false;
       }
 
-      panel.showBackButton = index === newActiveIndex && newActiveIndex > 0;
+      panel.showBackButton = index === foundActiveIndex && foundActiveIndex > 0;
     });
 
-    if (activeIndex !== newActiveIndex) {
-      this.flowDirection = this.getFlowDirection(activeIndex, newActiveIndex);
+    if (foundActiveIndex === -1) {
+      return;
     }
 
-    this.activeIndex = newActiveIndex;
+    if (activeIndex !== foundActiveIndex) {
+      this.flowDirection = this.getFlowDirection(activeIndex, foundActiveIndex);
+    }
+
+    this.activeIndex = foundActiveIndex;
   });
 
   // --------------------------------------------------------------------------
