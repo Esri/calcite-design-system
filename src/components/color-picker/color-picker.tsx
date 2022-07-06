@@ -249,6 +249,7 @@ export class ColorPicker implements InteractiveComponent {
   @Watch("scale")
   handleScaleChange(scale: Scale = "m"): void {
     this.updateDimensions(scale);
+    this.updateCanvasSize(this.fieldAndSliderRenderingContext?.canvas);
   }
 
   /**
@@ -1245,6 +1246,14 @@ export class ColorPicker implements InteractiveComponent {
 
   private initColorFieldAndSlider = (canvas: HTMLCanvasElement): void => {
     this.fieldAndSliderRenderingContext = canvas.getContext("2d");
+    this.updateCanvasSize(canvas);
+  };
+
+  private updateCanvasSize(canvas: HTMLCanvasElement) {
+    if (!canvas) {
+      return;
+    }
+
     this.setCanvasContextSize(canvas, {
       width: this.dimensions.colorField.width,
       height:
@@ -1254,7 +1263,7 @@ export class ColorPicker implements InteractiveComponent {
     });
 
     this.drawColorFieldAndSlider();
-  };
+  }
 
   private containsPoint(
     testPointX: number,

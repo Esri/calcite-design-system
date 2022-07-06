@@ -911,13 +911,12 @@ describe("calcite-dropdown", () => {
       // so they're available in the browser-evaluated fn below
       html: wrappedDropdownTemplateHTML
     });
-
     await page.waitForChanges();
 
-    const finalSelectedItem = await page.evaluate(
-      async (templateHTML: string): Promise<string> => {
-        const wrapperName = "dropdown-wrapping-component";
+    const wrapperName = "dropdown-wrapping-component";
 
+    await page.evaluate(
+      async (templateHTML: string, wrapperName: string): Promise<void> => {
         customElements.define(
           wrapperName,
           class extends HTMLElement {
@@ -934,16 +933,20 @@ describe("calcite-dropdown", () => {
         document.body.innerHTML = `<${wrapperName}></${wrapperName}>`;
 
         const wrapper = document.querySelector(wrapperName);
-        wrapper.shadowRoot.querySelector<HTMLElement>("#item-3").click();
-        await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
-        await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
-
-        return wrapper.shadowRoot.querySelector("calcite-dropdown-item[active]").id;
+        wrapper.shadowRoot.querySelector<HTMLCalciteDropdownItemElement>("#item-3").click();
       },
-      [wrappedDropdownTemplateHTML]
+      wrappedDropdownTemplateHTML,
+      wrapperName
     );
 
-    expect(finalSelectedItem).toBe("item-3");
+    await page.waitForChanges();
+
+    const finalSelectedItem = await page.evaluate(async (wrapperName: string): Promise<string> => {
+      const wrapper = document.querySelector(wrapperName);
+      return wrapper.shadowRoot.querySelector("calcite-dropdown-item[active]").id;
+    }, wrapperName);
+
+    await expect(finalSelectedItem).toBe("item-3");
   });
 
   it("dropdown should not overflow when wrapped inside a tab #3007", async () => {
