@@ -214,37 +214,37 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
   }
 
   renderActionsStart(): VNode {
-    const { el } = this;
+    const { el, description, label } = this;
     return getSlotted(el, SLOTS.actionsStart) ? (
       <td class={CSS.actionsStart} ref={(el) => (this.actionsStartEl = el)} role="gridcell">
-        <slot name={SLOTS.actionsStart} />
+        <slot aria-description={description} aria-label={label} name={SLOTS.actionsStart} />
       </td>
     ) : null;
   }
 
   renderActionsEnd(): VNode {
-    const { el } = this;
+    const { el, description, label } = this;
     return getSlotted(el, SLOTS.actionsEnd) ? (
       <td class={CSS.actionsEnd} ref={(el) => (this.actionsEndEl = el)} role="gridcell">
-        <slot name={SLOTS.actionsEnd} />
+        <slot aria-description={description} aria-label={label} name={SLOTS.actionsEnd} />
       </td>
     ) : null;
   }
 
   renderContentStart(): VNode {
-    const { el } = this;
+    const { el, description, label } = this;
     return getSlotted(el, SLOTS.contentStart) ? (
       <div class={CSS.contentStart}>
-        <slot name={SLOTS.contentStart} />
+        <slot aria-description={description} aria-label={label} name={SLOTS.contentStart} />
       </div>
     ) : null;
   }
 
   renderContentEnd(): VNode {
-    const { el } = this;
+    const { el, description, label } = this;
     return getSlotted(el, SLOTS.contentEnd) ? (
       <div class={CSS.contentEnd}>
-        <slot name={SLOTS.contentEnd} />
+        <slot aria-description={description} aria-label={label} name={SLOTS.contentEnd} />
       </div>
     ) : null;
   }
@@ -281,12 +281,11 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
   }
 
   render(): VNode {
-    const { expandable, expanded, level, posInSet, setSize, active, label, description } = this;
+    const { expandable, expanded, level, posInSet, setSize, active } = this;
     return (
       <Host>
         <tr
           aria-expanded={expandable ? toAriaBoolean(expanded) : null}
-          aria-label={label}
           aria-level={level}
           aria-posinset={posInSet}
           aria-setsize={setSize}
@@ -308,7 +307,7 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
             [CSS.nestedContainerHidden]: expandable ? !expanded : false
           }}
         >
-          <slot aria-description={description} onSlotchange={this.handleDefaultSlotChange} />
+          <slot onSlotchange={this.handleDefaultSlotChange} />
         </div>
       </Host>
     );
