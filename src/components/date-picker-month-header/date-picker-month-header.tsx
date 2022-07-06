@@ -22,6 +22,7 @@ import {
 import { DateLocaleData } from "../date-picker/utils";
 import { Scale } from "../interfaces";
 import { HeadingLevel, Heading } from "../functional/Heading";
+import { BUDDHIST_CALENDAR_YEAR_OFFSET } from "./resources";
 
 @Component({
   tag: "calcite-date-picker-month-header",
@@ -110,7 +111,7 @@ export class DatePickerMonthHeader {
     const activeMonth = this.activeDate.getMonth();
     const { months, unitOrder } = this.localeData;
     const localizedMonth = (months.wide || months.narrow || months.abbreviated)[activeMonth];
-    const localizedYear = localizeNumber(this.activeDate.getFullYear(), this.localeData);
+    const localizedYear = this.formatCalendarYear(this.activeDate.getFullYear().toString());
     const iconScale = this.scale === "l" ? "m" : "s";
 
     const order = getOrder(unitOrder);
@@ -214,7 +215,7 @@ export class DatePickerMonthHeader {
    * @param e
    */
   private onYearKey = (e: KeyboardEvent): void => {
-    const localizedYear = (e.target as HTMLInputElement).value;
+    const localizedYear = this.parseCalendarYear((e.target as HTMLInputElement).value);
     switch (e.key) {
       case "ArrowDown":
         e.preventDefault();
@@ -227,12 +228,33 @@ export class DatePickerMonthHeader {
     }
   };
 
+  private formatCalendarYear(year: string): string {
+    const { localeData } = this;
+    const buddhistCalendar = localeData["default-calendar"] === "buddhist";
+    const yearOffset = buddhistCalendar ? BUDDHIST_CALENDAR_YEAR_OFFSET : 0;
+
+    return localizeNumber(parseNumber(year, localeData) + yearOffset, localeData);
+  }
+
+  private parseCalendarYear(year: string): string {
+    const { localeData } = this;
+    const buddhistCalendar = localeData["default-calendar"] === "buddhist";
+    const yearOffset = buddhistCalendar ? BUDDHIST_CALENDAR_YEAR_OFFSET : 0;
+
+    return localizeNumber(parseNumber(year, localeData) - yearOffset, localeData);
+  }
+
   private onYearChange = (event: Event): void => {
-    this.setYear({ localizedYear: (event.target as HTMLInputElement).value });
+    this.setYear({
+      localizedYear: this.parseCalendarYear((event.target as HTMLInputElement).value)
+    });
   };
 
   private onYearInput = (event: Event): void => {
-    this.setYear({ localizedYear: (event.target as HTMLInputElement).value, commit: false });
+    this.setYear({
+      localizedYear: this.parseCalendarYear((event.target as HTMLInputElement).value),
+      commit: false
+    });
   };
 
   private prevMonthClick = (e: Event): void => {
@@ -305,7 +327,7 @@ export class DatePickerMonthHeader {
     commit?: boolean;
     offset?: number;
   }): void {
-    const { yearInput, activeDate, localeData } = this;
+    const { yearInput, activeDate } = this;
     const inRangeDate = this.getInRangeDate({ localizedYear, offset });
 
     // if you've supplied a year and it's in range, update active date
@@ -314,7 +336,9 @@ export class DatePickerMonthHeader {
     }
 
     if (commit) {
-      yearInput.value = localizeNumber((inRangeDate || activeDate).getFullYear(), localeData);
+      yearInput.value = this.formatCalendarYear(
+        (inRangeDate || activeDate).getFullYear().toString()
+      );
     }
   }
 }
