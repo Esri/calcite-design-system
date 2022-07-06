@@ -20,7 +20,7 @@
   }
 
   ::slotted(calcite-panel) {
-    @apply flex h-full;
+    @apply h-full;
   }
 
   ::slotted(.calcite-match-height:last-child) {
