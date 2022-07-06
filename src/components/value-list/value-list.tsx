@@ -229,7 +229,7 @@ export class ValueList<
 
   @Listen("calciteInternalListItemDragHandleFocused")
   handleDragHandleFocus(event: any): void {
-    const { handleElement, item } = getHandleAndItemElement(event.details);
+    const { handleElement, item } = getHandleAndItemElement(event.detail);
     if (!item) {
       const newItem = getHandleAndItemElement(event);
       this.updateHandleAriaLabel(handleElement, getScreenReaderText(newItem.item, "start", this));
