@@ -684,11 +684,11 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
     }, valueNudgeDelayInMs);
   };
 
-  private numberButtonMouseUpAndMouseOutHandler = (): void => {
+  private numberButtonPointerUpAndOutHandler = (): void => {
     window.clearInterval(this.nudgeNumberValueIntervalId);
   };
 
-  private numberButtonMouseDownHandler = (event: MouseEvent): void => {
+  private numberButtonPointerDownHandler = (event: PointerEvent): void => {
     event.preventDefault();
     const direction = (event.target as HTMLDivElement).dataset.adjustment as NumberNudgeDirection;
     this.nudgeNumberValue(direction, event);
@@ -887,9 +887,9 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
         }}
         data-adjustment="up"
         disabled={this.disabled || this.readOnly}
-        onMouseDown={this.numberButtonMouseDownHandler}
-        onMouseOut={this.numberButtonMouseUpAndMouseOutHandler}
-        onMouseUp={this.numberButtonMouseUpAndMouseOutHandler}
+        onPointerDown={this.numberButtonPointerDownHandler}
+        onPointerOut={this.numberButtonPointerUpAndOutHandler}
+        onPointerUp={this.numberButtonPointerUpAndOutHandler}
         tabIndex={-1}
         type="button"
       >
@@ -905,9 +905,9 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
         }}
         data-adjustment="down"
         disabled={this.disabled || this.readOnly}
-        onMouseDown={this.numberButtonMouseDownHandler}
-        onMouseOut={this.numberButtonMouseUpAndMouseOutHandler}
-        onMouseUp={this.numberButtonMouseUpAndMouseOutHandler}
+        onPointerDown={this.numberButtonPointerDownHandler}
+        onPointerOut={this.numberButtonPointerUpAndOutHandler}
+        onPointerUp={this.numberButtonPointerUpAndOutHandler}
         tabIndex={-1}
         type="button"
       >
