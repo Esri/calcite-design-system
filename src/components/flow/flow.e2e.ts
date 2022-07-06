@@ -85,7 +85,7 @@ describe("calcite-flow", () => {
 
     const element = await page.find("calcite-flow");
 
-    element.innerHTML = "<calcite-panel>test</calcite-panel><calcite-panel>test</calcite-panel>";
+    element.innerHTML = html`<calcite-panel>test</calcite-panel><calcite-panel>test</calcite-panel>`;
 
     await page.waitForChanges();
 
@@ -105,7 +105,7 @@ describe("calcite-flow", () => {
 
     const element = await page.find("calcite-flow");
 
-    element.innerHTML = `<calcite-panel>flow1</calcite-panel><calcite-panel id="flow2">flow2</calcite-panel>`;
+    element.innerHTML = html`<calcite-panel>flow1</calcite-panel><calcite-panel id="flow2">flow2</calcite-panel>`;
 
     await page.waitForChanges();
 
@@ -125,13 +125,19 @@ describe("calcite-flow", () => {
 
     await page.setContent("<calcite-flow></calcite-flow>");
 
-    await page.$eval("calcite-flow", (elm: HTMLElement) => {
-      elm.innerHTML = `
-      <calcite-panel></calcite-panel>
-      <calcite-panel></calcite-panel>
-      <calcite-panel></calcite-panel>
-      `;
-    });
+    const newPanelsHTML = html`
+      <calcite-panel>Hello World</calcite-panel>
+      <calcite-panel>Hello World</calcite-panel>
+      <calcite-panel>Hello World</calcite-panel>
+    `;
+
+    await page.$eval(
+      "calcite-flow",
+      (elm: HTMLElement, newPanelsHTML: string) => {
+        elm.innerHTML = newPanelsHTML;
+      },
+      newPanelsHTML
+    );
 
     await page.waitForChanges();
 
@@ -172,7 +178,7 @@ describe("calcite-flow", () => {
 
     const element = await page.find("calcite-flow");
 
-    element.innerHTML = "<calcite-panel>test</calcite-panel><calcite-panel>test</calcite-panel>";
+    element.innerHTML = html`<calcite-panel>test</calcite-panel><calcite-panel>test</calcite-panel>`;
 
     await page.waitForChanges();
 
@@ -185,13 +191,19 @@ describe("calcite-flow", () => {
 
     await page.setContent("<calcite-flow></calcite-flow>");
 
-    await page.$eval("calcite-flow", (elm: HTMLElement) => {
-      elm.innerHTML = `
-        <calcite-panel>Hello World</calcite-panel>
-        <calcite-panel>Hello World</calcite-panel>
-        <calcite-panel>Hello World</calcite-panel>
-      `;
-    });
+    const newPanelsHTML = html`
+      <calcite-panel>Hello World</calcite-panel>
+      <calcite-panel>Hello World</calcite-panel>
+      <calcite-panel>Hello World</calcite-panel>
+    `;
+
+    await page.$eval(
+      "calcite-flow",
+      (elm: HTMLElement, newPanelsHTML: string) => {
+        elm.innerHTML = newPanelsHTML;
+      },
+      newPanelsHTML
+    );
 
     const items = await page.findAll("calcite-panel");
 
@@ -211,15 +223,12 @@ describe("calcite-flow", () => {
   });
 
   it("should be accessible", async () =>
-    accessible(`
-    <calcite-flow>
-      <calcite-panel>
-      </calcite-panel>
-      <calcite-panel>
-      </calcite-panel>
-      <calcite-panel>
-      </calcite-panel>
-    </calcite-flow>
+    accessible(html`
+      <calcite-flow>
+        <calcite-panel> </calcite-panel>
+        <calcite-panel> </calcite-panel>
+        <calcite-panel> </calcite-panel>
+      </calcite-flow>
     `));
 
   it("should only work with slotted panels", async () => {
