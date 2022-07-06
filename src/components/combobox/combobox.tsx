@@ -44,6 +44,7 @@ import {
 import { createObserver } from "../../utils/observers";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { toAriaBoolean } from "../../utils/dom";
+import { OpenCloseComponent } from "../../utils/openCloseComponent";
 interface ItemData {
   label: string;
   value: string;
@@ -67,7 +68,12 @@ const inputUidPrefix = "combobox-input-";
   shadow: true
 })
 export class Combobox
-  implements LabelableComponent, FormComponent, InteractiveComponent, FloatingUIComponent
+  implements
+    LabelableComponent,
+    FormComponent,
+    InteractiveComponent,
+    OpenCloseComponent,
+    FloatingUIComponent
 {
   //--------------------------------------------------------------------------
   //
@@ -92,7 +98,7 @@ export class Combobox
       return;
     }
 
-    this.reposition();
+    this.setMaxScrollerHeight();
   }
 
   /** Disable combobox input */
@@ -110,6 +116,9 @@ export class Combobox
 
   /** Placeholder text for input */
   @Prop() placeholder?: string;
+
+  /** Placeholder icon for input  */
+  @Prop() placeholderIcon?: string;
 
   /** Specify the maximum number of combobox items (including nested children) to display before showing the scroller */
   @Prop() maxItems = 0;
@@ -530,9 +539,25 @@ export class Combobox
     this.el.removeEventListener("calciteComboboxOpen", this.toggleOpenEnd);
   };
 
+  onBeforeOpen(): void {
+    this.calciteComboboxBeforeOpen.emit();
+  }
+
+  onOpen(): void {
+    this.calciteComboboxOpen.emit();
+  }
+
+  onBeforeClose(): void {
+    this.calciteComboboxBeforeClose.emit();
+  }
+
+  onClose(): void {
+    this.calciteComboboxClose.emit();
+  }
+
   transitionEnd = (event: TransitionEvent): void => {
     if (event.propertyName === this.activeTransitionProp) {
-      this.active ? this.emitOpenCloseEvent("open") : this.emitOpenCloseEvent("close");
+      this.active ? this.onOpen() : this.onClose();
     }
   };
 
@@ -542,37 +567,21 @@ export class Combobox
   */
   transitionRunHandler = (event: TransitionEvent): void => {
     if (event.propertyName === this.activeTransitionProp) {
-      this.active ? this.emitOpenCloseEvent("beforeOpen") : this.emitOpenCloseEvent("beforeClose");
+      this.active ? this.onBeforeOpen() : this.onBeforeClose();
     }
   };
 
-  private emitOpenCloseEvent(componentVisibilityState: string): void {
-    const payload = {
-      el: this.el
-    };
-    const emitComponentState = {
-      beforeOpen: () => this.calciteComboboxBeforeOpen.emit(payload),
-      open: () => this.calciteComboboxOpen.emit(payload),
-      beforeClose: () => this.calciteComboboxBeforeClose.emit(payload),
-      close: () => this.calciteComboboxClose.emit(payload)
-    };
-    (
-      emitComponentState[componentVisibilityState] ||
-      emitComponentState["The component state is unknown."]
-    )();
-  }
-
-  setMaxScrollerHeight = (): void => {
+  setMaxScrollerHeight = async (): Promise<void> => {
     const { active, listContainerEl } = this;
 
     if (!listContainerEl || !active) {
       return;
     }
 
-    this.reposition();
+    await this.reposition();
     const maxScrollerHeight = this.getMaxScrollerHeight();
     listContainerEl.style.maxHeight = maxScrollerHeight > 0 ? `${maxScrollerHeight}px` : "";
-    this.reposition();
+    await this.reposition();
   };
 
   calciteChipDismissHandler = (
@@ -1093,15 +1102,18 @@ export class Combobox
   }
 
   renderIconStart(): VNode {
-    const { selectionMode, needsIcon, selectedItems } = this;
+    const { selectionMode, needsIcon, selectedItems, placeholderIcon } = this;
     const selectedItem = selectedItems[0];
     return (
       selectionMode === "single" &&
-      needsIcon && (
+      needsIcon &&
+      (selectedItem?.icon || placeholderIcon) && (
         <span class="icon-start">
-          {selectedItem?.icon && (
-            <calcite-icon class="selected-icon" icon={selectedItem.icon} scale="s" />
-          )}
+          <calcite-icon
+            class="selected-icon"
+            icon={selectedItem?.icon ?? placeholderIcon}
+            scale="s"
+          />
         </span>
       )
     );
