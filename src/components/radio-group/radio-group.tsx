@@ -1,22 +1,28 @@
 import {
-  Component,
-  Event,
-  h,
-  EventEmitter,
-  Listen,
-  Element,
-  Prop,
-  Watch,
-  Host,
   Build,
+  Component,
+  Element,
+  Event,
+  EventEmitter,
+  h,
+  Host,
+  Listen,
   Method,
-  VNode
+  Prop,
+  VNode,
+  Watch
 } from "@stencil/core";
 
 import { getElementDir } from "../../utils/dom";
 import { Layout, Scale, Width } from "../interfaces";
-import { LabelableComponent, connectLabel, disconnectLabel } from "../../utils/label";
-import { connectForm, disconnectForm, FormComponent, HiddenFormInputSlot } from "../../utils/form";
+import { connectLabel, disconnectLabel, LabelableComponent } from "../../utils/label";
+import {
+  afterConnectDefaultValueSet,
+  connectForm,
+  disconnectForm,
+  FormComponent,
+  HiddenFormInputSlot
+} from "../../utils/form";
 import { RadioAppearance } from "./interfaces";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 
@@ -122,6 +128,10 @@ export class RadioGroup implements LabelableComponent, FormComponent, Interactiv
     } else if (items[0]) {
       items[0].tabIndex = 0;
     }
+  }
+
+  componentDidLoad(): void {
+    afterConnectDefaultValueSet(this, this.value);
   }
 
   connectedCallback(): void {
