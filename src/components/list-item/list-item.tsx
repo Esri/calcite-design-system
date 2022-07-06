@@ -216,8 +216,14 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
   renderActionsStart(): VNode {
     const { el, description, label } = this;
     return getSlotted(el, SLOTS.actionsStart) ? (
-      <td class={CSS.actionsStart} ref={(el) => (this.actionsStartEl = el)} role="gridcell">
-        <slot aria-description={description} aria-label={label} name={SLOTS.actionsStart} />
+      <td
+        aria-description={description}
+        aria-label={label}
+        class={CSS.actionsStart}
+        ref={(el) => (this.actionsStartEl = el)}
+        role="gridcell"
+      >
+        <slot name={SLOTS.actionsStart} />
       </td>
     ) : null;
   }
@@ -225,26 +231,32 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
   renderActionsEnd(): VNode {
     const { el, description, label } = this;
     return getSlotted(el, SLOTS.actionsEnd) ? (
-      <td class={CSS.actionsEnd} ref={(el) => (this.actionsEndEl = el)} role="gridcell">
-        <slot aria-description={description} aria-label={label} name={SLOTS.actionsEnd} />
+      <td
+        aria-description={description}
+        aria-label={label}
+        class={CSS.actionsEnd}
+        ref={(el) => (this.actionsEndEl = el)}
+        role="gridcell"
+      >
+        <slot name={SLOTS.actionsEnd} />
       </td>
     ) : null;
   }
 
   renderContentStart(): VNode {
-    const { el, description, label } = this;
+    const { el } = this;
     return getSlotted(el, SLOTS.contentStart) ? (
       <div class={CSS.contentStart}>
-        <slot aria-description={description} aria-label={label} name={SLOTS.contentStart} />
+        <slot name={SLOTS.contentStart} />
       </div>
     ) : null;
   }
 
   renderContentEnd(): VNode {
-    const { el, description, label } = this;
+    const { el } = this;
     return getSlotted(el, SLOTS.contentEnd) ? (
       <div class={CSS.contentEnd}>
-        <slot aria-description={description} aria-label={label} name={SLOTS.contentEnd} />
+        <slot name={SLOTS.contentEnd} />
       </div>
     ) : null;
   }
@@ -267,6 +279,8 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
 
     return (
       <td
+        aria-description={description}
+        aria-label={label}
         class={{
           [CSS.contentContainer]: true,
           [CSS.hasCenterContent]: hasCenterContent,
@@ -281,11 +295,12 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
   }
 
   render(): VNode {
-    const { expandable, expanded, level, posInSet, setSize, active } = this;
+    const { expandable, expanded, level, posInSet, setSize, active, label } = this;
     return (
       <Host>
         <tr
           aria-expanded={expandable ? toAriaBoolean(expanded) : null}
+          aria-label={label}
           aria-level={level}
           aria-posinset={posInSet}
           aria-setsize={setSize}
