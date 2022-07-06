@@ -214,10 +214,9 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
   }
 
   renderActionsStart(): VNode {
-    const { el, description, label } = this;
+    const { el, label } = this;
     return getSlotted(el, SLOTS.actionsStart) ? (
       <td
-        aria-description={description}
         aria-label={label}
         class={CSS.actionsStart}
         ref={(el) => (this.actionsStartEl = el)}
@@ -229,10 +228,9 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
   }
 
   renderActionsEnd(): VNode {
-    const { el, description, label } = this;
+    const { el, label } = this;
     return getSlotted(el, SLOTS.actionsEnd) ? (
       <td
-        aria-description={description}
         aria-label={label}
         class={CSS.actionsEnd}
         ref={(el) => (this.actionsEndEl = el)}
@@ -279,7 +277,6 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
 
     return (
       <td
-        aria-description={description}
         aria-label={label}
         class={{
           [CSS.contentContainer]: true,
