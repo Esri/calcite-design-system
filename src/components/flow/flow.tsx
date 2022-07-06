@@ -101,11 +101,11 @@ export class Flow {
   };
 
   handleDefaultSlotChange = (event: Event): void => {
-    const newPanels = (
-      (event.target as HTMLSlotElement).assignedElements({
+    const newPanels = (event.target as HTMLSlotElement)
+      .assignedElements({
         flatten: true
-      }) as HTMLCalcitePanelElement[]
-    ).filter((el) => el?.matches("calcite-panel"));
+      })
+      .filter((el) => el?.matches("calcite-panel")) as HTMLCalcitePanelElement[];
 
     this.panels = newPanels;
 
