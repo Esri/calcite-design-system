@@ -33,7 +33,9 @@ describe("calcite-flow", () => {
 
     expect(panels).toHaveLength(2);
     expect(await panels[0].getProperty("active")).toBe(false);
+    expect(await panels[0].isVisible()).toBe(false);
     expect(await panels[1].getProperty("active")).toBe(true);
+    expect(await panels[1].isVisible()).toBe(true);
 
     await flow.callMethod("back");
 
@@ -41,7 +43,9 @@ describe("calcite-flow", () => {
 
     expect(panels).toHaveLength(2);
     expect(await panels[0].getProperty("active")).toBe(true);
+    expect(await panels[0].isVisible()).toBe(true);
     expect(await panels[1].getProperty("active")).toBe(false);
+    expect(await panels[1].isVisible()).toBe(false);
   });
 
   it("setting 'beforeBack' should be called in 'back()'", async () => {
@@ -193,12 +197,15 @@ describe("calcite-flow", () => {
 
     expect(await items[0].getProperty("active")).toBe(false);
     expect(await items[0].getProperty("showBackButton")).toBe(false);
+    expect(await items[0].isVisible()).toBe(false);
 
     expect(await items[1].getProperty("active")).toBe(false);
     expect(await items[1].getProperty("showBackButton")).toBe(false);
+    expect(await items[1].isVisible()).toBe(false);
 
     expect(await items[2].getProperty("active")).toBe(true);
     expect(await items[2].getProperty("showBackButton")).toBe(true);
+    expect(await items[2].isVisible()).toBe(true);
   });
 
   it("should be accessible", async () =>
@@ -230,11 +237,14 @@ describe("calcite-flow", () => {
 
     expect(await items[0].getProperty("active")).toBe(false);
     expect(await items[0].getProperty("showBackButton")).toBe(false);
+    expect(await items[0].isVisible()).toBe(false);
 
     expect(await items[1].getProperty("active")).toBe(true);
     expect(await items[1].getProperty("showBackButton")).toBe(true);
+    expect(await items[1].isVisible()).toBe(true);
 
     expect(await items[2].getProperty("active")).toBe(false);
     expect(await items[2].getProperty("showBackButton")).toBe(false);
+    expect(await items[2].isVisible()).toBe(false);
   });
 });
