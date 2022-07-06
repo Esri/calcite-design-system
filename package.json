@@ -16,10 +16,10 @@
     "hydrate/"
   ],
   "scripts": {
-    "build": "npm run util:copy-icons && stencil build && npm run util:patch-es5-helpers",
-    "build:watch": "npm run util:copy-icons && stencil build --watch",
-    "build:watch-dev": "npm run util:copy-icons && stencil build --dev --watch",
-    "build-storybook": "npm run util:copy-icons && stencil build --config stencil.config.ts && build-storybook --static-dir ./www --output-dir ./docs",
+    "build": "npm run util:hydration-styles && npm run util:copy-icons && stencil build && npm run util:patch-es5-helpers",
+    "build:watch": "npm run util:hydration-styles && npm run util:copy-icons && stencil build --watch",
+    "build:watch-dev": "npm run util:hydration-styles && npm run util:copy-icons && stencil build --dev --watch",
+    "build-storybook": "npm run util:hydration-styles && npm run util:copy-icons && stencil build --config stencil.config.ts && build-storybook --static-dir ./www --output-dir ./docs",
     "deps:update": "updtr --exclude chalk cheerio typescript @types/jest jest jest-cli ts-jest puppeteer && npm audit fix",
     "docs": "concurrently --kill-others --raw \"npm:util:build-docs && build-storybook --static-dir ./__docs-temp__ --output-dir ./docs\"  \"ts-node ./support/cleanOnProcessExit.ts --path ./__docs-temp__\"",
     "docs:preview": "concurrently --raw \"npm:util:build-docs && start-storybook --static-dir ./__docs-temp__\" \"ts-node ./support/cleanOnProcessExit.ts --path ./__docs-temp__\"",
@@ -48,6 +48,7 @@
     "util:copy-icons": "cpy \"./node_modules/@esri/calcite-ui-icons/js/*.json\" \"./src/components/icon/assets/icon/\" --flat",
     "util:deploy-next": "npm run util:prep-next && npm run util:push-tags && npm run util:publish-next",
     "util:deploy-next-from-ci": "ts-node --project ./tsconfig-node-scripts.json support/deployNextFromCI.ts",
+    "util:hydration-styles": "ts-node support/hydrationStyles.ts",
     "util:patch-es5-helpers": "ts-node support/patchES5Helpers.ts",
     "util:prep-next": "ts-node --project ./tsconfig-node-scripts.json support/prepReleaseCommit.ts --next && npm run build",
     "util:publish-next": "npm publish --tag next",
