@@ -27,9 +27,11 @@ export class Flow {
 
   @Watch("allowSubtreePanels")
   handleAllowSubtreePanelsChange(): void {
-    this.allowSubtreePanels
-      ? this.panelItemMutationObserver?.observe(this.el, { childList: true, subtree: true })
-      : this.panelItemMutationObserver?.disconnect();
+    const { allowSubtreePanels, el, panelItemMutationObserver } = this;
+
+    allowSubtreePanels
+      ? panelItemMutationObserver?.observe(el, { childList: true, subtree: true })
+      : panelItemMutationObserver?.disconnect();
   }
 
   // --------------------------------------------------------------------------
@@ -118,13 +120,13 @@ export class Flow {
   };
 
   handleMutationObserverChange = (): void => {
-    if (!this.allowSubtreePanels) {
+    const { el, allowSubtreePanels } = this;
+
+    if (!allowSubtreePanels) {
       return;
     }
 
-    const newPanels: HTMLCalcitePanelElement[] = Array.from(
-      this.el.querySelectorAll("calcite-panel")
-    );
+    const newPanels: HTMLCalcitePanelElement[] = Array.from(el.querySelectorAll("calcite-panel"));
 
     this.updateFlowProps(newPanels);
   };
