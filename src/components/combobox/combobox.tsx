@@ -43,6 +43,7 @@ import {
 import { createObserver } from "../../utils/observers";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { toAriaBoolean } from "../../utils/dom";
+import { OpenCloseComponent } from "../../utils/openCloseComponent";
 interface ItemData {
   label: string;
   value: string;
@@ -65,7 +66,9 @@ const inputUidPrefix = "combobox-input-";
   styleUrl: "combobox.scss",
   shadow: true
 })
-export class Combobox implements LabelableComponent, FormComponent, InteractiveComponent {
+export class Combobox
+  implements LabelableComponent, FormComponent, InteractiveComponent, OpenCloseComponent
+{
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -521,9 +524,25 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
     this.el.removeEventListener("calciteComboboxOpen", this.toggleOpenEnd);
   };
 
+  onBeforeOpen(): void {
+    this.calciteComboboxBeforeOpen.emit();
+  }
+
+  onOpen(): void {
+    this.calciteComboboxOpen.emit();
+  }
+
+  onBeforeClose(): void {
+    this.calciteComboboxBeforeClose.emit();
+  }
+
+  onClose(): void {
+    this.calciteComboboxClose.emit();
+  }
+
   transitionEnd = (event: TransitionEvent): void => {
     if (event.propertyName === this.activeTransitionProp) {
-      this.active ? this.emitOpenCloseEvent("open") : this.emitOpenCloseEvent("close");
+      this.active ? this.onOpen() : this.onClose();
     }
   };
 
@@ -533,25 +552,9 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
   */
   transitionRunHandler = (event: TransitionEvent): void => {
     if (event.propertyName === this.activeTransitionProp) {
-      this.active ? this.emitOpenCloseEvent("beforeOpen") : this.emitOpenCloseEvent("beforeClose");
+      this.active ? this.onBeforeOpen() : this.onBeforeClose();
     }
   };
-
-  private emitOpenCloseEvent(componentVisibilityState: string): void {
-    const payload = {
-      el: this.el
-    };
-    const emitComponentState = {
-      beforeOpen: () => this.calciteComboboxBeforeOpen.emit(payload),
-      open: () => this.calciteComboboxOpen.emit(payload),
-      beforeClose: () => this.calciteComboboxBeforeClose.emit(payload),
-      close: () => this.calciteComboboxClose.emit(payload)
-    };
-    (
-      emitComponentState[componentVisibilityState] ||
-      emitComponentState["The component state is unknown."]
-    )();
-  }
 
   setMaxScrollerHeight = async (): Promise<void> => {
     const { active, listContainerEl } = this;
