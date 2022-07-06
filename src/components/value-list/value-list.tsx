@@ -31,13 +31,12 @@ import {
   selectSiblings,
   setFocus,
   setUpItems,
-  moveItemIndex,
-  getItemIndex
+  moveItemIndex
 } from "../pick-list/shared-list-logic";
 import List from "../pick-list/shared-list-render";
 import { createObserver } from "../../utils/observers";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
-import { getScreenReaderText } from "./utils";
+import { getHandleAndItemElement, getScreenReaderText } from "./utils";
 
 /**
  * @slot - A slot for adding `calcite-value-list-item` elements. List items are displayed as a vertical list.
@@ -202,6 +201,7 @@ export class ValueList<
 
   @Listen("focusout")
   calciteListFocusOutHandler(event: FocusEvent): void {
+    console.log("focus out", event);
     calciteListFocusOutHandler.call(this, event);
   }
 
@@ -228,13 +228,13 @@ export class ValueList<
   }
 
   @Listen("calciteInternalListItemDragHandleFocused")
-  handleFocusonButton(event: any): void {
-    const { handleElement, item } = this.getHandleAndItemElement(event.detail);
+  handleDragHandleFocus(event: any): void {
+    const { handleElement, item } = getHandleAndItemElement(event.details);
     if (!item) {
-      const newItem = this.getHandleAndItemElement(event);
-      this.updateHandleAriaLabel(handleElement, getScreenReaderText(newItem.item, "start"));
+      const newItem = getHandleAndItemElement(event);
+      this.updateHandleAriaLabel(handleElement, getScreenReaderText(newItem.item, "start", this));
     } else if (!item.handleActivated) {
-      this.updateHandleAriaLabel(handleElement, getScreenReaderText(item, "start"));
+      this.updateHandleAriaLabel(handleElement, getScreenReaderText(item, "start", this));
     }
   }
 
@@ -298,9 +298,9 @@ export class ValueList<
   getItemData = getItemData.bind(this);
 
   keyDownHandler = (event: KeyboardEvent): void => {
-    const { handleElement, item } = this.getHandleAndItemElement(event);
+    const { handleElement, item } = getHandleAndItemElement(event);
     if (handleElement && !item.handleActivated && event.key === " ") {
-      this.updateScreenReaderText(getScreenReaderText(item, "currentPosition"));
+      this.updateScreenReaderText(getScreenReaderText(item, "currentPosition", this));
     }
 
     if (!handleElement || !item.handleActivated) {
@@ -311,7 +311,7 @@ export class ValueList<
     const { items } = this;
 
     if (event.key === " ") {
-      this.updateScreenReaderText(getScreenReaderText(item, "activated"));
+      this.updateScreenReaderText(getScreenReaderText(item, "activated", this));
     }
 
     if ((event.key !== "ArrowUp" && event.key !== "ArrowDown") || items.length <= 1) {
@@ -339,27 +339,13 @@ export class ValueList<
     requestAnimationFrame(() => handleElement?.focus());
     item.handleActivated = true;
 
-    this.updateScreenReaderText(getScreenReaderText(item, "newPosition"));
-    this.updateHandleAriaLabel(handleElement, getScreenReaderText(item, "newPosition"));
+    this.updateHandleAriaLabel(handleElement, getScreenReaderText(item, "newPosition", this));
   };
 
-  getHandleAndItemElement(event: KeyboardEvent | FocusEvent): {
-    handleElement: HTMLCalciteHandleElement;
-    item: HTMLCalciteValueListItemElement;
-  } {
-    const handleElement = event
-      .composedPath()
-      .find(
-        (item: HTMLElement) => item.dataset?.jsHandle !== undefined
-      ) as HTMLCalciteHandleElement;
-
-    const item = event
-      .composedPath()
-      .find(
-        (item: HTMLElement) => item.tagName?.toLowerCase() === "calcite-value-list-item"
-      ) as ItemElement;
-
-    return { handleElement, item };
+  handleBlur(): void {
+    if (this.dragEnabled) {
+      this.updateScreenReaderText("");
+    }
   }
 
   // --------------------------------------------------------------------------
@@ -409,6 +395,6 @@ export class ValueList<
   }
 
   render(): VNode {
-    return <List onKeyDown={this.keyDownHandler} props={this} />;
+    return <List onBlur={this.handleBlur} onKeyDown={this.keyDownHandler} props={this} />;
   }
 }
