@@ -134,9 +134,11 @@ export class Flow {
     const foundActiveIndex = this.findActivePanelIndex(panels);
 
     panels.forEach((panel, index) => {
-      panel.active = index === foundActiveIndex;
+      const active = index === foundActiveIndex;
+      panel.active = active;
+      panel.hidden = !active;
 
-      if (index !== foundActiveIndex) {
+      if (!active) {
         panel.menuOpen = false;
       }
 
