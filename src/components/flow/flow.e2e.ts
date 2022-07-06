@@ -24,17 +24,24 @@ describe("calcite-flow", () => {
   it("back() method should remove item", async () => {
     const page = await newE2EPage();
 
-    await page.setContent("<calcite-flow><calcite-panel></calcite-panel></calcite-flow>");
+    await page.setContent(
+      "<calcite-flow><calcite-panel></calcite-panel><calcite-panel></calcite-panel></calcite-flow>"
+    );
 
     const flow = await page.find("calcite-flow");
+    const panels = await page.findAll("calcite-panel");
+
+    expect(panels).toHaveLength(2);
+    expect(await panels[0].getProperty("active")).toBe(false);
+    expect(await panels[1].getProperty("active")).toBe(true);
 
     await flow.callMethod("back");
 
     await page.waitForChanges();
 
-    const flowItem = await page.find("calcite-panel");
-
-    expect(flowItem).toBeNull();
+    expect(panels).toHaveLength(2);
+    expect(await panels[0].getProperty("active")).toBe(true);
+    expect(await panels[1].getProperty("active")).toBe(false);
   });
 
   it("setting 'beforeBack' should be called in 'back()'", async () => {
@@ -43,7 +50,9 @@ describe("calcite-flow", () => {
     const mockCallBack = jest.fn().mockReturnValue(Promise.resolve());
     await page.exposeFunction("beforeBack", mockCallBack);
 
-    await page.setContent("<calcite-flow><calcite-panel></calcite-panel></calcite-flow>");
+    await page.setContent(
+      "<calcite-flow><calcite-panel></calcite-panel><calcite-panel></calcite-panel></calcite-flow>"
+    );
 
     await page.$eval(
       "calcite-panel",
@@ -135,7 +144,7 @@ describe("calcite-flow", () => {
 
     const items2 = await page.findAll("calcite-panel");
 
-    expect(items2).toHaveLength(2);
+    expect(items2).toHaveLength(3);
 
     const frame2 = await page.find(`calcite-flow >>> .${CSS.frame}`);
 
@@ -182,14 +191,14 @@ describe("calcite-flow", () => {
 
     expect(items).toHaveLength(3);
 
-    const showBackButton0 = await items[0].getProperty("showBackButton");
-    const showBackButton2 = await items[2].getProperty("showBackButton");
+    expect(await items[0].getProperty("active")).toBe(false);
+    expect(await items[0].getProperty("showBackButton")).toBe(false);
 
-    expect(items[0].getAttribute("hidden")).not.toBe(null);
-    expect(showBackButton0).not.toBe(null);
+    expect(await items[1].getProperty("active")).toBe(false);
+    expect(await items[1].getProperty("showBackButton")).toBe(false);
 
-    expect(items[2].getAttribute("hidden")).toBe(null);
-    expect(showBackButton2).not.toBe(null);
+    expect(await items[2].getProperty("active")).toBe(true);
+    expect(await items[2].getProperty("showBackButton")).toBe(true);
   });
 
   it("should be accessible", async () =>
@@ -219,13 +228,13 @@ describe("calcite-flow", () => {
 
     expect(items).toHaveLength(3);
 
-    expect(items[0].getAttribute("hidden")).toBe("");
-    expect(await items[0].getProperty("showBackButton")).toBe(true);
+    expect(await items[0].getProperty("active")).toBe(false);
+    expect(await items[0].getProperty("showBackButton")).toBe(false);
 
-    expect(items[1].getAttribute("hidden")).toBe(null);
+    expect(await items[1].getProperty("active")).toBe(true);
     expect(await items[1].getProperty("showBackButton")).toBe(true);
 
-    expect(items[2].getAttribute("hidden")).toBe(null);
+    expect(await items[2].getProperty("active")).toBe(false);
     expect(await items[2].getProperty("showBackButton")).toBe(false);
   });
 });

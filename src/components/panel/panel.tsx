@@ -46,7 +46,7 @@ export class Panel implements ConditionalSlotComponent, InteractiveComponent {
   // --------------------------------------------------------------------------
 
   /**
-   * todo: document
+   * When true, panel is displayed within a parent flow.
    */
   @Prop({ reflect: true }) active = false;
 
