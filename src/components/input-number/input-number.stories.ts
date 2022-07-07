@@ -5,7 +5,7 @@ import readme from "./readme.md";
 import { html } from "../../../support/formatting";
 
 export default {
-  title: "Components/Controls/Input",
+  title: "Components/Controls/Input Number",
   parameters: {
     notes: readme
   }
