@@ -48,9 +48,9 @@
       <div class="child-flex font">Large</div>
     </div>
 
-    <!-- Standard -->
+    <!-- Standard: Text Area -->
     <div class="parent-flex">
-      <div class="child-flex font right-aligned-text">Standard</div>
+      <div class="child-flex font right-aligned-text">Standard: Text Area</div>
       <div class="child-flex">
         <calcite-label>
           Input Date Picker Label
@@ -77,24 +77,148 @@
     <div class="parent-flex">
       <div class="child-flex font right-aligned-text">Range</div>
       <div class="child-flex">
-        <calcite-label>
-          Input Date Picker Label
-          <calcite-input-date-picker range scale="s"></calcite-input-date-picker>
-        </calcite-label>
+        <calcite-input-date-picker
+          scale="s"
+          start="2020-12-12"
+          end="2020-12-16"
+          min="2016-08-09"
+          max="2023-12-18"
+          locale="en"
+          next-month-label="Next month"
+          prev-month-label="Previous month"
+          range=""
+          layout="horizontal"
+          role="application"
+        ></calcite-input-date-picker>
       </div>
 
       <div class="child-flex">
-        <calcite-label>
-          Input Date Picker Label
-          <calcite-input-date-picker range scale="m"></calcite-input-date-picker>
-        </calcite-label>
+        <calcite-input-date-picker
+          scale="m"
+          start="2020-12-12"
+          end="2020-12-16"
+          min="2016-08-09"
+          max="2023-12-18"
+          locale="en"
+          next-month-label="Next month"
+          prev-month-label="Previous month"
+          range=""
+          layout="horizontal"
+          role="application"
+        ></calcite-input-date-picker>
       </div>
 
       <div class="child-flex">
-        <calcite-label>
-          Input Date Picker Label
-          <calcite-input-date-picker range scale="l"></calcite-input-date-picker>
-        </calcite-label>
+        <calcite-input-date-picker
+          scale="l"
+          start="2020-12-12"
+          end="2020-12-16"
+          min="2016-08-09"
+          max="2023-12-18"
+          locale="en"
+          next-month-label="Next month"
+          prev-month-label="Previous month"
+          range=""
+          layout="horizontal"
+          role="application"
+        ></calcite-input-date-picker>
+      </div>
+    </div>
+
+    <!-- Range Vertical -->
+    <div class="parent-flex">
+      <div class="child-flex font right-aligned-text">Range Vertical Look Here Now!!!</div>
+      <div class="child-flex">
+        <calcite-input-date-picker
+          read-only
+          scale="s"
+          start="2020-12-12"
+          end="2020-12-16"
+          min="2016-08-09"
+          max="2023-12-18"
+          locale="en"
+          next-month-label="Next month"
+          prev-month-label="Previous month"
+          range=""
+          layout="vertical"
+          role="application"
+        ></calcite-input-date-picker>
+      </div>
+
+      <div class="child-flex">
+        <calcite-input-date-picker
+          scale="m"
+          start="2020-12-12"
+          end="2020-12-16"
+          min="2016-08-09"
+          max="2023-12-18"
+          locale="en"
+          next-month-label="Next month"
+          prev-month-label="Previous month"
+          range=""
+          layout="vertical"
+          role="application"
+        ></calcite-input-date-picker>
+      </div>
+
+      <div class="child-flex">
+        <calcite-input-date-picker
+          scale="l"
+          start="2020-12-12"
+          end="2020-12-16"
+          min="2016-08-09"
+          max="2023-12-18"
+          locale="en"
+          next-month-label="Next month"
+          prev-month-label="Previous month"
+          range=""
+          layout="vertical"
+          role="application"
+        ></calcite-input-date-picker>
+      </div>
+    </div>
+
+    <!-- Start day of locale -->
+
+    <div class="parent-flex">
+      <div class="child-flex font right-aligned-text">Start day of locale</div>
+      <div class="child-flex">
+        <calcite-input-date-picker
+          icon="calendar"
+          type="date"
+          value=""
+          min="2016-08-09"
+          max="2023-12-18"
+          intl-next-month="Next month"
+          intl-prev-month="Previous month"
+          scale="s"
+        ></calcite-input-date-picker>
+      </div>
+
+      <div class="child-flex">
+        <calcite-input-date-picker
+          icon="calendar"
+          type="date"
+          value=""
+          min="2016-08-09"
+          max="2023-12-18"
+          intl-next-month="Next month"
+          intl-prev-month="Previous month"
+          scale="m"
+        ></calcite-input-date-picker>
+      </div>
+
+      <div class="child-flex">
+        <calcite-input-date-picker
+          icon="calendar"
+          type="date"
+          value=""
+          min="2016-08-09"
+          max="2023-12-18"
+          intl-next-month="Next month"
+          intl-prev-month="Previous month"
+          scale="l"
+        ></calcite-input-date-picker>
       </div>
     </div>
   </body>
