@@ -1,4 +1,4 @@
-# calcite-input
+# calcite-input-number
 
 <!-- Auto Generated Below -->
 
