@@ -76,7 +76,74 @@ describe("calcite-input", () => {
       }
     ]));
 
-  it("can be disabled", () => disabled("calcite-input"));
+  describe("calcite-input when disabled", () => {
+    it("can be disabled", () => disabled("calcite-input"));
+  });
+
+  describe("calcite-input when readOnly", () => {
+    it("sets internals to readOnly or disabled when readOnly is true", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html`<calcite-input read-only></calcite-input>`);
+      const inputs = await page.findAll("calcite-input >>> input");
+      for (const input of inputs) {
+        expect(await input.getProperty("readOnly")).toBe(true);
+      }
+      const buttons = await page.findAll("calcite-input button");
+      for (const button of buttons) {
+        expect(await button.getProperty("disabled")).toBe(true);
+      }
+    });
+    it("cannot be modified when readOnly is true", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html`<calcite-input read-only value="John Doe" clearable></calcite-input>`);
+      const calciteInputInput = await page.spyOnEvent("calciteInputInput");
+      const element = await page.find("calcite-input");
+      expect(await element.getProperty("value")).toBe("John Doe");
+      await element.callMethod("setFocus");
+      await page.keyboard.press("a");
+      await page.waitForChanges();
+      expect(await element.getProperty("value")).toBe("John Doe");
+      await page.keyboard.press("Escape");
+      await page.waitForChanges();
+      expect(await element.getProperty("value")).toBe("John Doe");
+      expect(calciteInputInput).toHaveReceivedEventTimes(0);
+    });
+    it("number cannot be modified when readOnly is true", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html`<calcite-input type="number" read-only value="5"></calcite-input>`);
+      const calciteInputInput = await page.spyOnEvent("calciteInputInput");
+      const element = await page.find("calcite-input");
+      expect(await element.getProperty("value")).toBe("5");
+      await element.callMethod("setFocus");
+      await page.keyboard.press("ArrowUp");
+      await page.waitForChanges();
+      expect(await element.getProperty("value")).toBe("5");
+      await page.keyboard.press("Escape");
+      await page.waitForChanges();
+      expect(await element.getProperty("value")).toBe("5");
+      expect(calciteInputInput).toHaveReceivedEventTimes(0);
+    });
+    it("does not render number buttons in default vertical alignment when type=number and read-only", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html`<calcite-input type="number" read-only></calcite-input>`);
+      const numberVerticalWrapper = await page.find("calcite-input >>> .number-button-wrapper");
+      expect(numberVerticalWrapper).toBeNull();
+    });
+    it("does not render number buttons in horizontal alignment when type=number, number button type is horizontal, and read-only", async () => {
+      const page = await newE2EPage();
+      await page.setContent(
+        html`<calcite-input type="number" number-button-type="horizontal" read-only></calcite-input>`
+      );
+      const numberHorizontalItemDown = await page.find(
+        "calcite-input >>> .number-button-item--horizontal[data-adjustment='down']"
+      );
+      const numberHorizontalItemUp = await page.find(
+        "calcite-input >>> .number-button-item--horizontal[data-adjustment='up']"
+      );
+      expect(numberHorizontalItemDown).toBeNull();
+      expect(numberHorizontalItemUp).toBeNull();
+    });
+  });
 
   it("inherits requested props when from wrapping calcite-label when props are provided", async () => {
     const page = await newE2EPage();
@@ -156,32 +223,6 @@ describe("calcite-input", () => {
     expect(numberVerticalWrapper).toBeNull();
     expect(numberHorizontalItemDown).not.toBeNull();
     expect(numberHorizontalItemUp).not.toBeNull();
-  });
-
-  it("does not render number buttons in default vertical alignment when type=number and read-only", async () => {
-    const page = await newE2EPage();
-    await page.setContent(html`<calcite-input type="number" read-only></calcite-input>`);
-
-    const numberVerticalWrapper = await page.find("calcite-input >>> .number-button-wrapper");
-
-    expect(numberVerticalWrapper).toBeNull();
-  });
-
-  it("does not render number buttons in horizontal alignment when type=number, number button type is horizontal, and read-only", async () => {
-    const page = await newE2EPage();
-    await page.setContent(
-      html`<calcite-input type="number" number-button-type="horizontal" read-only></calcite-input>`
-    );
-
-    const numberHorizontalItemDown = await page.find(
-      "calcite-input >>> .number-button-item--horizontal[data-adjustment='down']"
-    );
-    const numberHorizontalItemUp = await page.find(
-      "calcite-input >>> .number-button-item--horizontal[data-adjustment='up']"
-    );
-
-    expect(numberHorizontalItemDown).toBeNull();
-    expect(numberHorizontalItemUp).toBeNull();
   });
 
   it("renders no buttons in type=number and number button type is none", async () => {
@@ -1304,61 +1345,6 @@ describe("calcite-input", () => {
 
     expect(await calciteInput.getProperty("value")).toBe(initialValue);
     expect(await input.getProperty("value")).toBe(localizeNumberString(initialValue, "en-US", true));
-  });
-
-  it("cannot be modified when readOnly is true", async () => {
-    const page = await newE2EPage();
-    await page.setContent(html`<calcite-input read-only value="John Doe" clearable></calcite-input>`);
-
-    const calciteInputInput = await page.spyOnEvent("calciteInputInput");
-    const element = await page.find("calcite-input");
-    expect(await element.getProperty("value")).toBe("John Doe");
-    await element.callMethod("setFocus");
-
-    await page.keyboard.press("a");
-    await page.waitForChanges();
-    expect(await element.getProperty("value")).toBe("John Doe");
-
-    await page.keyboard.press("Escape");
-    await page.waitForChanges();
-    expect(await element.getProperty("value")).toBe("John Doe");
-    expect(calciteInputInput).toHaveReceivedEventTimes(0);
-  });
-
-  it("number cannot be modified when readOnly is true", async () => {
-    const page = await newE2EPage();
-    await page.setContent(html`<calcite-input type="number" read-only value="5"></calcite-input>`);
-
-    const calciteInputInput = await page.spyOnEvent("calciteInputInput");
-    const element = await page.find("calcite-input");
-    expect(await element.getProperty("value")).toBe("5");
-    await element.callMethod("setFocus");
-
-    await page.keyboard.press("ArrowUp");
-    await page.waitForChanges();
-    expect(await element.getProperty("value")).toBe("5");
-
-    await page.keyboard.press("Escape");
-    await page.waitForChanges();
-    expect(await element.getProperty("value")).toBe("5");
-    expect(calciteInputInput).toHaveReceivedEventTimes(0);
-  });
-
-  it("sets internals to readOnly or disabled when readOnly is true", async () => {
-    const page = await newE2EPage();
-    await page.setContent(html`<calcite-input read-only></calcite-input>`);
-
-    const inputs = await page.findAll("calcite-input >>> input");
-
-    for (const input of inputs) {
-      expect(await input.getProperty("readOnly")).toBe(true);
-    }
-
-    const buttons = await page.findAll("calcite-input button");
-
-    for (const button of buttons) {
-      expect(await button.getProperty("disabled")).toBe(true);
-    }
   });
 
   it("input event fires when number ends with a decimal", async () => {
