@@ -174,13 +174,6 @@ export class InputNumber implements LabelableComponent, FormComponent, Interacti
   /**
    * Specifies the maximum length of text for the component's value.
    *
-   * @deprecated use maxLength instead
-   */
-  @Prop({ reflect: true }) maxlength?: number;
-
-  /**
-   * Specifies the maximum length of text for the component's value.
-   *
    * @mdn [maxlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#maxlength)
    */
   @Prop({ reflect: true }) maxLength?: number;
