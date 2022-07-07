@@ -195,3 +195,7 @@
     color: var(--calcite-ui-icon-color, var(--calcite-ui-text-3));
   }
 }
+
+:host([closed]) {
+  display: none;
+}

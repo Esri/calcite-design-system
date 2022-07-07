@@ -159,19 +159,16 @@ export class Chip implements ConditionalSlotComponent {
         <calcite-icon class={CSS.closeIcon} icon={ICONS.close} scale="s" />
       </button>
     );
+
     return (
-      <Host>
-        {!this.closed ? (
-          <div class="container">
-            {this.renderChipImage()}
-            {this.icon ? iconEl : null}
-            <span class={CSS.title} id={this.guid}>
-              <slot />
-            </span>
-            {this.dismissible ? closeButton : null}
-          </div>
-        ) : null}
-      </Host>
+      <div class="container">
+        {this.renderChipImage()}
+        {this.icon ? iconEl : null}
+        <span class={CSS.title} id={this.guid}>
+          <slot />
+        </span>
+        {this.dismissible ? closeButton : null}
+      </div>
     );
   }
 }
