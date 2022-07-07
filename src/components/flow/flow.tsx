@@ -23,13 +23,13 @@ export class Flow {
    *
    * @internal
    */
-  @Prop() allowSubtreePanels = false;
+  @Prop() allowDescendantPanels = false;
 
-  @Watch("allowSubtreePanels")
-  handleAllowSubtreePanelsChange(): void {
-    const { allowSubtreePanels, el, panelItemMutationObserver } = this;
+  @Watch("allowDescendantPanels")
+  handleallowDescendantPanelsChange(): void {
+    const { allowDescendantPanels, el, panelItemMutationObserver } = this;
 
-    allowSubtreePanels
+    allowDescendantPanels
       ? panelItemMutationObserver?.observe(el, { childList: true, subtree: true })
       : panelItemMutationObserver?.disconnect();
   }
@@ -89,7 +89,7 @@ export class Flow {
   // --------------------------------------------------------------------------
 
   connectedCallback(): void {
-    this.handleAllowSubtreePanelsChange();
+    this.handleallowDescendantPanelsChange();
     this.handleMutationObserverChange();
   }
 
@@ -120,9 +120,9 @@ export class Flow {
   };
 
   handleMutationObserverChange = (): void => {
-    const { el, allowSubtreePanels } = this;
+    const { el, allowDescendantPanels } = this;
 
-    if (!allowSubtreePanels) {
+    if (!allowDescendantPanels) {
       return;
     }
 
@@ -132,7 +132,7 @@ export class Flow {
   };
 
   handleDefaultSlotChange = (event: Event): void => {
-    if (this.allowSubtreePanels) {
+    if (this.allowDescendantPanels) {
       return;
     }
 
