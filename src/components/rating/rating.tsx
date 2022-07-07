@@ -221,12 +221,6 @@ export class Rating implements LabelableComponent, FormComponent, InteractiveCom
     this.setFocus();
   }
 
-  /**
-   * update `value` property of the rating component
-   *
-   * @param value value used to update `value` property
-   * @internal
-   */
   private updateValue(value: number) {
     this.value = value;
     this.calciteRatingChange.emit({ value });
