@@ -79,7 +79,7 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
   @Prop({ reflect: true }) clearable = false;
 
   /**
-   * When true, interaction is prevented and the component is displayed with lower opacity.
+   * When true, controls can not receive focus, interaction is prevented, and the component is displayed with lower opacity.
    *
    * @mdn [disabled](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/disabled)
    */
@@ -213,7 +213,7 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
   @Prop() prefixText?: string;
 
   /**
-   * When true, the value cannot be modified.
+   * When true, controls can still function and are still focusable, but the value cannot be modified.
    *
    * @mdn [readOnly](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/readonly)
    */
