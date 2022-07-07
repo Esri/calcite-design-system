@@ -93,7 +93,7 @@
 
 :host([scale="l"]) {
   .button {
-    @apply text-0h px-5 py-4 font-normal;
+    @apply text-0h p-5 font-normal;
   }
   .button--text-visible .icon-container {
     margin-inline-end: theme("spacing.4");
