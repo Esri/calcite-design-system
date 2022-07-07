@@ -691,7 +691,9 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
   private numberButtonPointerDownHandler = (event: PointerEvent): void => {
     event.preventDefault();
     const direction = (event.target as HTMLDivElement).dataset.adjustment as NumberNudgeDirection;
-    this.nudgeNumberValue(direction, event);
+    if (!this.disabled || this.readOnly) {
+      this.nudgeNumberValue(direction, event);
+    }
   };
 
   onFormReset(): void {
@@ -849,6 +851,7 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
   // --------------------------------------------------------------------------
 
   render(): VNode {
+    const { disabled, readOnly } = this;
     const dir = getElementDir(this.el);
     const loader = (
       <div class={CSS.loader}>
@@ -860,9 +863,9 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
       <button
         aria-label={this.intlClear || TEXT.clear}
         class={CSS.clearButton}
-        disabled={this.disabled || this.readOnly}
+        disabled={disabled}
         onClick={this.clearInputValue}
-        tabIndex={this.disabled ? -1 : 0}
+        tabIndex={disabled ? -1 : 0}
         type="button"
       >
         <calcite-icon icon="x" scale="s" />
@@ -886,7 +889,7 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
           [CSS.buttonItemHorizontal]: isHorizontalNumberButton
         }}
         data-adjustment="up"
-        disabled={this.disabled || this.readOnly}
+        disabled={disabled}
         onPointerDown={this.numberButtonPointerDownHandler}
         onPointerOut={this.numberButtonPointerUpAndOutHandler}
         onPointerUp={this.numberButtonPointerUpAndOutHandler}
@@ -904,7 +907,7 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
           [CSS.buttonItemHorizontal]: isHorizontalNumberButton
         }}
         data-adjustment="down"
-        disabled={this.disabled || this.readOnly}
+        disabled={disabled}
         onPointerDown={this.numberButtonPointerDownHandler}
         onPointerOut={this.numberButtonPointerUpAndOutHandler}
         onPointerUp={this.numberButtonPointerUpAndOutHandler}
@@ -932,7 +935,7 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
           aria-label={getLabelText(this)}
           autofocus={this.autofocus ? true : null}
           defaultValue={this.defaultValue}
-          disabled={this.disabled ? true : null}
+          disabled={disabled ? true : null}
           enterKeyHint={this.el.enterKeyHint}
           inputMode={this.el.inputMode}
           key="localized-input"
@@ -945,7 +948,7 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
           onKeyDown={this.inputNumberKeyDownHandler}
           onKeyUp={this.inputKeyUpHandler}
           placeholder={this.placeholder || ""}
-          readOnly={this.readOnly}
+          readOnly={readOnly}
           ref={this.setChildNumberElRef}
           type="text"
           value={this.localizedValue}
@@ -963,7 +966,7 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
                 [CSS.inlineChild]: !!this.inlineEditableEl
               }}
               defaultValue={this.defaultValue}
-              disabled={this.disabled ? true : null}
+              disabled={disabled ? true : null}
               enterKeyHint={this.el.enterKeyHint}
               inputMode={this.el.inputMode}
               max={this.maxString}
@@ -977,13 +980,11 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
               onKeyDown={this.inputKeyDownHandler}
               onKeyUp={this.inputKeyUpHandler}
               placeholder={this.placeholder || ""}
-              readOnly={this.readOnly}
+              readOnly={readOnly}
               ref={this.setChildElRef}
               required={this.required ? true : null}
               step={this.step}
-              tabIndex={
-                this.disabled || (this.inlineEditableEl && !this.editingEnabled) ? -1 : null
-              }
+              tabIndex={disabled || (this.inlineEditableEl && !this.editingEnabled) ? -1 : null}
               type={this.type}
               value={this.value}
             />,
