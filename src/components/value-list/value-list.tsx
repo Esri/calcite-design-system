@@ -36,7 +36,7 @@ import {
 import List from "../pick-list/shared-list-render";
 import { createObserver } from "../../utils/observers";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
-import { getHandleAndItemElement, getScreenReaderText } from "./utils";
+import { getHandleElement, getItemElement, getScreenReaderText } from "./utils";
 
 /**
  * @slot - A slot for adding `calcite-value-list-item` elements. List items are displayed as a vertical list.
@@ -201,7 +201,6 @@ export class ValueList<
 
   @Listen("focusout")
   calciteListFocusOutHandler(event: FocusEvent): void {
-    console.log("focus out", event);
     calciteListFocusOutHandler.call(this, event);
   }
 
@@ -228,14 +227,10 @@ export class ValueList<
   }
 
   @Listen("calciteInternalListItemDragHandleFocused")
-  handleDragHandleFocus(event: any): void {
-    const { handleElement, item } = getHandleAndItemElement(event.detail);
-    if (!item) {
-      const newItem = getHandleAndItemElement(event);
-      this.updateHandleAriaLabel(handleElement, getScreenReaderText(newItem.item, "start", this));
-    } else if (!item.handleActivated) {
-      this.updateHandleAriaLabel(handleElement, getScreenReaderText(item, "start", this));
-    }
+  handleDragHandleFocus(event: FocusEvent): void {
+    const item = getItemElement(event);
+    const handleElement = getHandleElement(event.detail as any);
+    this.updateHandleAriaLabel(handleElement, getScreenReaderText(item, "start", this));
   }
 
   // --------------------------------------------------------------------------
@@ -298,7 +293,8 @@ export class ValueList<
   getItemData = getItemData.bind(this);
 
   keyDownHandler = (event: KeyboardEvent): void => {
-    const { handleElement, item } = getHandleAndItemElement(event);
+    const item = getItemElement(event);
+    const handleElement = getHandleElement(event);
     if (handleElement && !item.handleActivated && event.key === " ") {
       this.updateScreenReaderText(getScreenReaderText(item, "currentPosition", this));
     }
