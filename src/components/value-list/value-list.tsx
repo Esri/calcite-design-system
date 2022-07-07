@@ -230,7 +230,9 @@ export class ValueList<
   handleDragHandleFocus(event: FocusEvent): void {
     const item = getItemElement(event);
     const handleElement = getHandleElement(event.detail as any);
-    this.updateHandleAriaLabel(handleElement, getScreenReaderText(item, "start", this));
+    if (!item.handleActivated) {
+      this.updateHandleAriaLabel(handleElement, getScreenReaderText(item, "start", this));
+    }
   }
 
   // --------------------------------------------------------------------------
