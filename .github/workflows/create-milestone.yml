@@ -11,6 +11,8 @@ jobs:
       - uses: actions/github-script@v4
         with:
           script: |
+            const DAYS_PER_SPRINT = 14;
+            const DAYS_BETWEEN_SPRINTS = 3;
             const MILLISECONDS_PER_DAY = 1000 * 60 * 60 * 24;
 
             const { data: milestones } = await github.issues.listMilestones({
@@ -29,10 +31,10 @@ jobs:
 
             const lastDueDate = new Date(milestones[0].due_on);
             const newMilestoneStartDate = new Date(
-              lastDueDate.getTime() + MILLISECONDS_PER_DAY * 3
+              lastDueDate.getTime() + MILLISECONDS_PER_DAY * DAYS_BETWEEN_SPRINTS
             );
             const newMilestoneDueDate = new Date(
-              lastDueDate.getTime() + MILLISECONDS_PER_DAY * 14
+              lastDueDate.getTime() + MILLISECONDS_PER_DAY * DAYS_PER_SPRINT
             );
 
             const title =
