@@ -1,8 +1,8 @@
-import { Component, Element, Listen, Method, State, h, VNode } from "@stencil/core";
+import { Component, Element, Listen, Method, State, h, VNode, Prop, Watch } from "@stencil/core";
 import { CSS } from "./resources";
 import { FlowDirection } from "./interfaces";
 import { debounce } from "lodash-es";
-
+import { createObserver } from "../../utils/observers";
 /**
  * @slot - A slot for adding `calcite-panel`s to the flow.
  */
@@ -12,6 +12,28 @@ import { debounce } from "lodash-es";
   shadow: true
 })
 export class Flow {
+  // --------------------------------------------------------------------------
+  //
+  //  Properties
+  //
+  // --------------------------------------------------------------------------
+
+  /**
+   * todo: document and finalize property name.
+   *
+   * @internal
+   */
+  @Prop() allowDescendantPanels = false;
+
+  @Watch("allowDescendantPanels")
+  handleallowDescendantPanelsChange(): void {
+    const { allowDescendantPanels, el, panelItemMutationObserver } = this;
+
+    allowDescendantPanels
+      ? panelItemMutationObserver?.observe(el, { childList: true, subtree: true })
+      : panelItemMutationObserver?.disconnect();
+  }
+
   // --------------------------------------------------------------------------
   //
   //  Public Methods
@@ -57,11 +79,24 @@ export class Flow {
 
   activeIndex = -1;
 
+  panelItemMutationObserver: MutationObserver = createObserver("mutation", () =>
+    this.handleMutationObserverChange()
+  );
+
   // --------------------------------------------------------------------------
   //
   //  Lifecycle
   //
   // --------------------------------------------------------------------------
+
+  connectedCallback(): void {
+    this.handleallowDescendantPanelsChange();
+    this.handleMutationObserverChange();
+  }
+
+  disconnectedCallback(): void {
+    this.panelItemMutationObserver?.disconnect();
+  }
 
   // --------------------------------------------------------------------------
   //
@@ -91,6 +126,22 @@ export class Flow {
     return newActiveIndex < oldActiveIndex ? "retreating" : "advancing";
   };
 
+  handleMutationObserverChange = (): void => {
+    const { el, allowDescendantPanels } = this;
+
+    if (!allowDescendantPanels) {
+      return;
+    }
+
+    const newPanels: HTMLCalcitePanelElement[] = Array.from(el.querySelectorAll("calcite-panel"));
+
+    this.panels = newPanels;
+
+    this.ensureActivePanelExists();
+
+    this.updateFlowProps();
+  };
+
   findActivePanelIndex = (panels: HTMLCalcitePanelElement[]): number => {
     const activePanel = panels
       .slice(0)
@@ -101,6 +152,10 @@ export class Flow {
   };
 
   handleDefaultSlotChange = (event: Event): void => {
+    if (this.allowDescendantPanels) {
+      return;
+    }
+
     const newPanels = (event.target as HTMLSlotElement)
       .assignedElements({
         flatten: true
