@@ -25,6 +25,22 @@ describe("calcite-radio-group", () => {
       { focusTarget: "child" }
     ));
 
+  it("sets value from selected item", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html`
+      <calcite-radio-group>
+        <calcite-radio-group-item id="child-1" value="1" checked>one</calcite-radio-group-item>
+        <calcite-radio-group-item id="child-2" value="2">two</calcite-radio-group-item>
+        <calcite-radio-group-item id="child-3" value="3">three</calcite-radio-group-item>
+      </calcite-radio-group>
+    `);
+
+    const element = await page.find("calcite-radio-group");
+    const value = await element.getProperty("value");
+
+    expect(value).toBe("1");
+  });
+
   it("does not require an item to be checked", async () => {
     const page = await newE2EPage();
     await page.setContent(
@@ -310,15 +326,31 @@ describe("calcite-radio-group", () => {
       ));
   });
 
-  it("is form-associated", () =>
-    formAssociated(
-      html`
-        <calcite-radio-group>
-          <calcite-radio-group-item id="child-1" value="1">one</calcite-radio-group-item>
-          <calcite-radio-group-item id="child-2" value="2">two</calcite-radio-group-item>
-          <calcite-radio-group-item id="child-3" value="3">three</calcite-radio-group-item>
-        </calcite-radio-group>
-      `,
-      { testValue: "2" }
-    ));
+  describe("is form-associated", () => {
+    const formAssociatedOptions = { testValue: "2" };
+
+    it("unselected value", () =>
+      formAssociated(
+        html`
+          <calcite-radio-group>
+            <calcite-radio-group-item id="child-1" value="1">one</calcite-radio-group-item>
+            <calcite-radio-group-item id="child-2" value="2">two</calcite-radio-group-item>
+            <calcite-radio-group-item id="child-3" value="3">three</calcite-radio-group-item>
+          </calcite-radio-group>
+        `,
+        formAssociatedOptions
+      ));
+
+    it("selected-value", () =>
+      formAssociated(
+        html`
+          <calcite-radio-group>
+            <calcite-radio-group-item id="child-1" value="1">one</calcite-radio-group-item>
+            <calcite-radio-group-item id="child-2" value="2" checked>two</calcite-radio-group-item>
+            <calcite-radio-group-item id="child-3" value="3">three</calcite-radio-group-item>
+          </calcite-radio-group>
+        `,
+        formAssociatedOptions
+      ));
+  });
 });
