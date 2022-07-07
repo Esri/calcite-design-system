@@ -68,16 +68,11 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
   //
   //--------------------------------------------------------------------------
   /**
-   * When false, the component won't be interactive.
+   * When true, interaction is prevented, controls can not receive focus, and the component is displayed with lower opacity.
+   *
+   * @mdn [disabled](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/disabled)
    */
   @Prop({ reflect: true }) disabled = false;
-
-  @Watch("disabled")
-  handleDisabledChange(value: boolean): void {
-    if (!value) {
-      this.active = false;
-    }
-  }
 
   /** Selected date */
   @Prop({ mutable: true }) value: string | string[];
@@ -162,7 +157,7 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
 
   @Watch("active")
   activeHandler(): void {
-    if (!this.disabled) {
+    if (!this.disabled || !this.readOnly) {
       this.reposition();
       return;
     }
@@ -241,6 +236,22 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
 
   /** Layout */
   @Prop({ reflect: true }) layout: "horizontal" | "vertical" = "horizontal";
+
+  /**
+   * When true, still focusable but controls are gone and the value cannot be modified.
+   * The correct format for this attribute is `read-only`.
+   *
+   * @mdn [readOnly](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/readonly)
+   */
+  @Prop({ reflect: true }) readOnly = false;
+
+  @Watch("disabled")
+  @Watch("readOnly")
+  handleDisabledChange(value: boolean): void {
+    if (!value) {
+      this.active = false;
+    }
+  }
 
   //--------------------------------------------------------------------------
   //
@@ -382,7 +393,7 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
   }
 
   render(): VNode {
-    const { disabled } = this;
+    const { disabled, readOnly } = this;
     const date = dateFromRange(
       this.range ? this.startAsDate : this.valueAsDate,
       this.minAsDate,
@@ -414,13 +425,14 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
                     this.layout === "vertical" && this.range ? `no-bottom-border` : ``
                   }`}
                   disabled={disabled}
-                  icon="calendar"
+                  icon={readOnly ? null : "calendar"}
                   label={getLabelText(this)}
                   number-button-type="none"
                   onCalciteInputInput={this.inputInput}
                   onCalciteInternalInputBlur={this.inputBlur}
                   onCalciteInternalInputFocus={this.startInputFocus}
                   placeholder={this.localeData?.placeholder}
+                  readOnly={readOnly}
                   ref={this.setStartInput}
                   scale={this.scale}
                   type="text"
@@ -487,12 +499,13 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
                     "border-top-color-one": this.layout === "vertical" && this.range
                   }}
                   disabled={disabled}
-                  icon="calendar"
+                  icon={readOnly ? null : "calendar"}
                   number-button-type="none"
                   onCalciteInputInput={this.inputInput}
                   onCalciteInternalInputBlur={this.inputBlur}
                   onCalciteInternalInputFocus={this.endInputFocus}
                   placeholder={this.localeData?.placeholder}
+                  readOnly={readOnly}
                   ref={this.setEndInput}
                   scale={this.scale}
                   type="text"
@@ -593,12 +606,18 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
   };
 
   keyDownHandler = (event: KeyboardEvent): void => {
+    if (this.disabled || this.readOnly) {
+      return;
+    }
     if (event.key === "Enter" && !event.defaultPrevented) {
       submitForm(this);
     }
   };
 
   keyUpHandler = (e: KeyboardEvent): void => {
+    if (this.disabled || this.readOnly) {
+      return;
+    }
     if (e.key === "Escape") {
       this.active = false;
     }
@@ -609,12 +628,17 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
   };
 
   startInputFocus = (): void => {
-    this.active = true;
+    if (!this.readOnly) {
+      this.active = true;
+    }
+
     this.focusedInput = "start";
   };
 
   endInputFocus = (): void => {
-    this.active = true;
+    if (!this.readOnly) {
+      this.active = true;
+    }
     this.focusedInput = "end";
   };
 
