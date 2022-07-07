@@ -214,10 +214,11 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
 
   /**
    * When true, controls can still function and are still focusable, but the value cannot be modified.
+   * The correct format for this attribute is `read-only`.
    *
    * @mdn [readOnly](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/readonly)
    */
-  @Prop() readOnly = false;
+  @Prop({ reflect: true }) readOnly = false;
 
   /** When true, the component must have a value in order for the form to submit. */
   @Prop() required = false;
@@ -594,7 +595,8 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
   };
 
   private inputNumberKeyDownHandler = (event: KeyboardEvent): void => {
-    if (this.type !== "number" || this.disabled || this.readOnly) {
+    const { disabled, readOnly } = this;
+    if (this.type !== "number" || disabled || readOnly) {
       return;
     }
     if (event.key === "ArrowUp") {
