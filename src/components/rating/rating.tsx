@@ -120,7 +120,8 @@ export class Rating implements LabelableComponent, FormComponent, InteractiveCom
   //
   //--------------------------------------------------------------------------
 
-  @Listen("blur") blurHandler(): void {
+  @Listen("blur")
+  blurHandler(): void {
     this.hasFocus = false;
   }
 
@@ -172,8 +173,7 @@ export class Rating implements LabelableComponent, FormComponent, InteractiveCom
               event.stopPropagation()
             }
             onFocus={() => this.onFocusChange(i)}
-            onKeyPress={this.onKeyboardPressed.bind(this)}
-            onKeyUp={this.onKeyboardPressed.bind(this)}
+            onKeyDown={this.onKeyboardPressed}
             ref={(el) =>
               (i === 1 || i === this.value) && (this.inputFocusRef = el as HTMLInputElement)
             }
@@ -232,28 +232,15 @@ export class Rating implements LabelableComponent, FormComponent, InteractiveCom
     this.calciteRatingChange.emit({ value });
   }
 
-  /**
-   * register keyboard input and reset `value` property to `0` if user enters 'Space' or 'Enter'
-   *
-   * @param event keyboard event
-   * @internal
-   */
-  private onKeyboardPressed(event: KeyboardEvent): void {
-    // click is fired from the the component's input, so we treat this as an internal event
-    event.stopPropagation();
-    event.preventDefault();
-    if (event.key === "Enter" || event.code === "Space") {
+  private onKeyboardPressed = (event: KeyboardEvent): void => {
+    if (event.key === "Enter" || event.key === " ") {
+      //* prevent default event handling only for 'Enter' and 'Space' keys
+      event.preventDefault();
       this.updateValue(0);
     }
-  }
+  };
 
-  /**
-   * handle focus change
-   *
-   * @param index index of the star input element in the component
-   * @internal
-   */
-  private onFocusChange(index: number): void {
+  private onFocusChange = (index: number): void => {
     this.hasFocus = true;
     // reset input values when the user re-clicks on the input with the focus
     if (this.focusValue === index) {
@@ -261,7 +248,7 @@ export class Rating implements LabelableComponent, FormComponent, InteractiveCom
     } else {
       this.focusValue = index;
     }
-  }
+  };
 
   //--------------------------------------------------------------------------
   //

@@ -339,7 +339,7 @@ describe("calcite-rating", () => {
     await element.press(" ");
     expect(changeEvent).toHaveReceivedEventTimes(1);
     expect(changeEvent).toHaveReceivedEventDetail({
-      value: 1
+      value: 0
     });
     await page.keyboard.press("ArrowRight");
     expect(changeEvent).toHaveReceivedEventTimes(2);
