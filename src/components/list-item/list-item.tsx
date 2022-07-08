@@ -27,10 +27,10 @@ const listItemSelector = "calcite-list-item";
 
 /**
  * @slot - A slot for adding `calcite-list-item` and `calcite-list-item-group` elements.
- * @slot actions-start - A slot for adding actionable `calcite-action` elements before the content of the list item.
- * @slot content-start - A slot for adding non-actionable elements before the label and description of the list item.
- * @slot content-end - A slot for adding non-actionable elements after the label and description of the list item.
- * @slot actions-end - A slot for adding actionable `calcite-action` elements after the content of the list item.
+ * @slot actions-start - A slot for adding actionable `calcite-action` elements before the content of the component.
+ * @slot content-start - A slot for adding non-actionable elements before the label and description of the component.
+ * @slot content-end - A slot for adding non-actionable elements after the label and description of the component.
+ * @slot actions-end - A slot for adding actionable `calcite-action` elements after the content of the component.
  */
 @Component({
   tag: "calcite-list-item",
@@ -46,7 +46,7 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
 
   /**
    *
-   * @internal
+   * @internaler
    */
   @Prop() active = false;
 
@@ -87,9 +87,9 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
   @Prop() expandable = false;
 
   /**
-   * An optional description for this item.  This will appear below the label text.
+   * A description for the component. Displays below the label text.
    */
-  @Prop() description: string;
+  @Prop() description?: string;
 
   /**
    * todo: document
@@ -97,12 +97,12 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
   @Prop({ mutable: true, reflect: true }) expanded = false;
 
   /**
-   * When true, prevents user interaction.
+   * When true, interaction is prevented and the component is displayed with lower opacity.
    */
   @Prop({ reflect: true }) disabled = false;
 
   /**
-   * The label text of the list item. Displays above the description text.
+   * The label text of the component. Displays above the description text.
    */
   @Prop() label: string;
 

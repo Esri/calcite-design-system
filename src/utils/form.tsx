@@ -90,10 +90,8 @@ export interface CheckableFormCompoment<T = any> extends FormComponent<T> {
    * The initial checked value for this form component.
    *
    * When the form is reset, the checked property will be set to this value.
-   *
-   * @todo remove optional in follow-up PR
    */
-  defaultChecked?: boolean;
+  defaultChecked: boolean;
 }
 
 function isCheckable(component: FormComponent): component is CheckableFormCompoment {

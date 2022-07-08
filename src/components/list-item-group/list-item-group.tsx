@@ -17,7 +17,7 @@ export class ListItemGroup {
   // --------------------------------------------------------------------------
 
   /**
-   * The title for all nested `calcite-list-item` rows.
+   * The header text for all nested `calcite-list-item` rows.
    *
    */
   @Prop({ reflect: true }) heading: string;

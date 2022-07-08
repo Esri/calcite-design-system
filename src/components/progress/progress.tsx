@@ -7,19 +7,19 @@ import { Component, Element, h, Prop, VNode } from "@stencil/core";
 export class Progress {
   @Element() el: HTMLCalciteProgressElement;
 
-  /** Use indeterminate if finding actual progress value is impossible */
+  /** Use indeterminate if finding actual progress value is impossible. */
   @Prop() type: "indeterminate" | "determinate" = "determinate";
 
-  /** Fraction completed, in the range of 0 - 1.0 */
+  /** The component's progress value, with a range of 0.0 - 1.0. */
   @Prop() value = 0;
 
-  /** Label for the progress indicator */
+  /** Accessible name for the component. */
   @Prop() label: string;
 
-  /** Text to display for the progress indicator */
+  /** Text that displays under the component's indicator. */
   @Prop() text: string;
 
-  /** For indeterminate progress bars, reverse the animation direction */
+  /** When true and for indeterminate progress bars, reverses the animation direction. */
   @Prop() reversed = false;
 
   render(): VNode {
