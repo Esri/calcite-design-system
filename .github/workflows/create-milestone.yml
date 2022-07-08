@@ -2,8 +2,6 @@ name: Create New Milestone
 on:
   schedule:
     - cron: "0 9 1,15 * *"
-  issues:
-    types: [labeled, unlabeled]
 jobs:
   create-milestone:
     runs-on: ubuntu-latest
