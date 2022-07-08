@@ -227,7 +227,7 @@ export class Rating implements LabelableComponent, FormComponent, InteractiveCom
   }
 
   private onKeyboardPressed = (event: KeyboardEvent): void => {
-    if (event.key === "Enter" || event.key === " ") {
+    if (!this.required && (event.key === "Enter" || event.key === " ")) {
       //* prevent default event handling only for 'Enter' and 'Space' keys
       event.preventDefault();
       this.updateValue(0);
@@ -237,7 +237,7 @@ export class Rating implements LabelableComponent, FormComponent, InteractiveCom
   private onFocusChange = (index: number): void => {
     this.hasFocus = true;
     // reset input values when the user re-clicks on the input with the focus
-    if (this.focusValue === index) {
+    if (!this.required && this.focusValue === index) {
       this.updateValue(0);
     } else {
       this.focusValue = index;
