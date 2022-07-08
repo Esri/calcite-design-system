@@ -55,7 +55,9 @@ export const locales = [
 const allDecimalsExceptLast = new RegExp(`[.](?=.*[.])`, "g");
 const everythingExceptNumbersDecimalsAndMinusSigns = new RegExp("[^0-9-.]", "g");
 const defaultGroupSeparator = new RegExp(",", "g");
-const defaultNumberingSystem = new Intl.NumberFormat().resolvedOptions().numberingSystem;
+
+const browserNumberingSystem = new Intl.NumberFormat().resolvedOptions().numberingSystem;
+const defaultNumberingSystem = browserNumberingSystem === "arab" ? "latn" : browserNumberingSystem;
 
 export function createLocaleNumberFormatter(
   locale: string,
