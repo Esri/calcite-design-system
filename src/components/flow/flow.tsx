@@ -139,7 +139,7 @@ export class Flow {
   // --------------------------------------------------------------------------
 
   render(): VNode {
-    const { flowDirection } = this;
+    const { flowDirection, panelCount } = this;
 
     const frameDirectionClasses = {
       [CSS.frame]: true,
