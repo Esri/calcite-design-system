@@ -115,6 +115,14 @@ const loader = document.querySelector(".my-loader-element") as HTMLCalciteLoader
 loader.active = true;
 ```
 
+## `@stencil/core` Version
+
+When using Stencil, make sure the `@stencil/core` version in your project matches the one used by Calcite Components. You may run into type errors if the `@stencil/core` versions are different. You can install the same Stencil version used by `@esri/calcite-components`:
+
+```bash
+npm install @stencil/core@$(npm view @esri/calcite-components dependencies["@stencil/core"])
+```
+
 ## Browser Support
 
 <table>

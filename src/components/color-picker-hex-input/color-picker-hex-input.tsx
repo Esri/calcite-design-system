@@ -96,6 +96,9 @@ export class ColorPickerHexInput {
    */
   @Prop({ mutable: true, reflect: true }) value: string = normalizeHex(DEFAULT_COLOR.hex());
 
+  /** standard UniCode numeral system tag for localization */
+  @Prop() numberingSystem?: string;
+
   @Watch("value")
   handleValueChange(value: string, oldValue: string): void {
     this.internalSetValue(value, oldValue, false);
@@ -207,6 +210,7 @@ export class ColorPickerHexInput {
           class={CSS.input}
           label={intlHex}
           maxLength={6}
+          numberingSystem={this.numberingSystem}
           onCalciteInputChange={this.onInputChange}
           onCalciteInternalInputBlur={this.onCalciteInternalInputBlur}
           onKeyDown={this.handleKeyDown}

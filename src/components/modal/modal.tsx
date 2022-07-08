@@ -41,8 +41,8 @@ const getFocusableElements = (el: HTMLElement | ShadowRoot): HTMLElement[] => {
 };
 
 /**
- * @slot header - A slot for adding a `calcite-modal` header.
- * @slot content - A slot for adding `calcite-modal` content.
+ * @slot header - A slot for adding header text.
+ * @slot content - A slot for adding the component's content.
  * @slot primary - A slot for adding a primary button.
  * @slot secondary - A slot for adding a secondary button.
  * @slot back - A slot for adding a back button.
@@ -66,43 +66,43 @@ export class Modal implements ConditionalSlotComponent {
   //  Properties
   //
   //--------------------------------------------------------------------------
-  /** When true, the `calcite-modal` is active. */
+  /** When true, the component is active. */
   @Prop({ mutable: true, reflect: true }) active = false;
 
-  /** Passes a function to run before the `calcite-modal` closes. */
+  /** Passes a function to run before the component closes. */
   @Prop() beforeClose?: (el: HTMLElement) => Promise<void> = () => Promise.resolve();
 
-  /** When true, disables the close button within the `calcite-modal`. */
+  /** When true, disables the component's close button. */
   @Prop() disableCloseButton = false;
 
-  /** When true, disables the closing of the `calcite-modal` when clicked outside. */
+  /** When true, disables the closing of the component when clicked outside. */
   @Prop() disableOutsideClose = false;
 
-  /** Accessible label for the close button. */
+  /** Accessible name for the component's close button. */
   @Prop() intlClose = TEXT.close;
 
-  /** When true, prevents the `calcite-modal` from expanding to the entire screen on mobile devices. */
+  /** When true, prevents the component from expanding to the entire screen on mobile devices. */
   @Prop({ reflect: true }) docked: boolean;
 
   /** When true, disables the default close on escape behavior. */
   @Prop() disableEscape = false;
 
-  /** Specify the scale of `calcite-modal`. */
+  /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
 
-  /** Set the width of the `calcite-modal`. Can use scale sizes or pass a number (displays in pixels). */
+  /** Specifies the width of the component. Can use scale sizes or pass a number (displays in pixels). */
   @Prop({ reflect: true }) width: Scale | number = "m";
 
-  /** Set the `calcite-modal` to always be fullscreen (overrides width). */
+  /** Sets the component to always be fullscreen (overrides width). */
   @Prop({ reflect: true }) fullscreen: boolean;
 
   /**
-   * Adds a color bar to the top of `calcite-modal` for visual impact.
+   * Adds a color bar to the top of component for visual impact.
    * Use color to add importance to destructive or workflow dialogs.
    */
   @Prop({ reflect: true }) color?: "red" | "blue";
 
-  /** Sets the background color of `calcite-modal` content. */
+  /** Sets the background color of the component's content. */
   @Prop({ reflect: true }) backgroundColor: ModalBackgroundColor = "white";
 
   /** When true, disables spacing to the content area slot. */
@@ -270,10 +270,10 @@ export class Modal implements ConditionalSlotComponent {
   //  Events
   //
   //--------------------------------------------------------------------------
-  /** Emits when `calcite-modal` finishes the open animation. */
+  /** Emits when the component finishes the open animation. */
   @Event() calciteModalOpen: EventEmitter;
 
-  /** Emits when `calcite-modal` finishes the close animation. */
+  /** Emits when the component finishes the close animation. */
   @Event() calciteModalClose: EventEmitter;
 
   //--------------------------------------------------------------------------
@@ -314,7 +314,7 @@ export class Modal implements ConditionalSlotComponent {
   }
 
   /**
-   * Set the scroll top of the `calcite-modal` content.
+   * Sets the scroll top of the component's content.
    *
    * @param top
    * @param left

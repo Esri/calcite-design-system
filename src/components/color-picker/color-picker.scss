@@ -124,6 +124,7 @@ $gap--large: 12px;
 
 .color-field-and-slider {
   margin-bottom: -16px;
+  touch-action: none;
 
   &--interactive {
     cursor: pointer;
