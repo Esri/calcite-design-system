@@ -32,14 +32,14 @@ export class Tooltip {
   //
   // --------------------------------------------------------------------------
 
-  /** Closes the `calcite-tooltip` when the `referenceElement` is clicked. */
+  /** Closes the component when the `referenceElement` is clicked. */
   @Prop() closeOnClick = false;
 
-  /** Accessible name for the `calcite-tooltip`. */
+  /** Accessible name for the component. */
   @Prop() label!: string;
 
   /**
-   * Offset the position of the `calcite-tooltip` away from the `referenceElement`.
+   * Offset the position of the component away from the `referenceElement`.
    *
    * @default 6
    */
@@ -51,7 +51,7 @@ export class Tooltip {
   }
 
   /**
-   * Offset the position of the `calcite-tooltip` along the `referenceElement`.
+   * Offset the position of the component along the `referenceElement`.
    */
   @Prop({ reflect: true }) offsetSkidding = 0;
 
@@ -61,7 +61,7 @@ export class Tooltip {
   }
 
   /**
-   * When true, the `calcite-tooltip` is open.
+   * When true, the component is open.
    */
   @Prop({ reflect: true }) open = false;
 
@@ -86,7 +86,7 @@ export class Tooltip {
   }
 
   /**
-   * The `referenceElement` to position `calcite-tooltip` according to its "placement" value. Setting to the `HTMLElement` is preferred so `calcite-tooltip` does not need to query the DOM for the `referenceElement`. However, a string ID of the reference element can be used.
+   * The `referenceElement` to position the component according to its "placement" value. Setting to the `HTMLElement` is preferred so the component does not need to query the DOM for the `referenceElement`. However, a string ID of the reference element can be used.
    */
   @Prop() referenceElement: ReferenceElement | string;
 

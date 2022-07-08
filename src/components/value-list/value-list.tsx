@@ -57,17 +57,17 @@ export class ValueList<
   // --------------------------------------------------------------------------
 
   /**
-   * When true, prevents user interaction. This state shows list items grayed out and with lower opacity.
+   * When true, interaction is prevented and the component is displayed with lower opacity.
    */
   @Prop({ reflect: true }) disabled = false;
 
   /**
-   * When true, list items are sortable via a draggable button.
+   * When true, `calcite-value-list-item`s are sortable via a draggable button.
    */
   @Prop({ reflect: true }) dragEnabled = false;
 
   /**
-   * When true, an input appears at the top of the list that can be used by end users to filter list items.
+   * When true, an input appears at the top of the component that can be used by end users to filter list items.
    */
   @Prop({ reflect: true }) filterEnabled = false;
 
@@ -77,27 +77,27 @@ export class ValueList<
   @Prop({ reflect: true }) filterPlaceholder: string;
 
   /**
-   * The list's group identifier.
+   * The component's group identifier.
    *
    * To drag elements from one list into another, both lists must have the same group value.
    */
   @Prop() group?: string;
 
   /**
-   * When true, content is waiting to be loaded. This state shows a busy indicator.
+   * When true, a busy indicator is displayed.
    */
   @Prop({ reflect: true }) loading = false;
 
   /**
    * Similar to standard radio buttons and checkboxes.
-   * When true, a user can select multiple list items at a time.
-   * When false, only a single list item can be selected at a time,
-   * and selecting a new list item will deselect any other selected list items.
+   * When true, a user can select multiple `calcite-value-list-item`s at a time.
+   * When false, only a single `calcite-value-list-item` can be selected at a time,
+   * and a new selection will deselect previous selections.
    */
   @Prop({ reflect: true }) multiple = false;
 
   /**
-   * When true and single-selection is enabled, the selection changes when navigating list items via the keyboard.
+   * When true and single-selection is enabled, the selection changes when navigating `calcite-value-list-item`s via keyboard.
    */
   @Prop() selectionFollowsFocus = false;
 
