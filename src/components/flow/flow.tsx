@@ -126,7 +126,9 @@ export class Flow {
       return;
     }
 
-    const newPanels: HTMLCalcitePanelElement[] = Array.from(el.querySelectorAll("calcite-panel"));
+    const newPanels: HTMLCalcitePanelElement[] = Array.from(
+      el.querySelectorAll("calcite-panel:not(calcite-panel calcite-panel)")
+    );
 
     this.updateFlowProps(newPanels);
   };
