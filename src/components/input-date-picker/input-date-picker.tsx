@@ -67,12 +67,24 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
   //  Public Properties
   //
   //--------------------------------------------------------------------------
+
   /**
-   * When false, the component won't be interactive.
+   * When true, interaction is prevented, controls can not receive focus, and the component is displayed with lower opacity.
+   *
+   * @mdn [disabled](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/disabled)
    */
   @Prop({ reflect: true }) disabled = false;
 
+  /**
+   * When true, still focusable but controls are gone and the value cannot be modified.
+   * The correct format for this attribute is `read-only` and not `readonly`.
+   *
+   * @mdn [readOnly](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/readonly)
+   */
+  @Prop() readOnly = false;
+
   @Watch("disabled")
+  @Watch("readOnly")
   handleDisabledChange(value: boolean): void {
     if (!value) {
       this.active = false;
@@ -162,7 +174,7 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
 
   @Watch("active")
   activeHandler(): void {
-    if (!this.disabled) {
+    if (!this.disabled || !this.readOnly) {
       this.reposition();
       return;
     }
@@ -382,7 +394,7 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
   }
 
   render(): VNode {
-    const { disabled } = this;
+    const { disabled, readOnly } = this;
     const date = dateFromRange(
       this.range ? this.startAsDate : this.valueAsDate,
       this.minAsDate,
@@ -421,6 +433,7 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
                   onCalciteInternalInputBlur={this.inputBlur}
                   onCalciteInternalInputFocus={this.startInputFocus}
                   placeholder={this.localeData?.placeholder}
+                  readOnly={readOnly}
                   ref={this.setStartInput}
                   scale={this.scale}
                   type="text"
@@ -493,6 +506,7 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
                   onCalciteInternalInputBlur={this.inputBlur}
                   onCalciteInternalInputFocus={this.endInputFocus}
                   placeholder={this.localeData?.placeholder}
+                  readOnly={readOnly}
                   ref={this.setEndInput}
                   scale={this.scale}
                   type="text"
@@ -609,12 +623,16 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
   };
 
   startInputFocus = (): void => {
-    this.active = true;
+    if (!this.readOnly) {
+      this.active = true;
+    }
     this.focusedInput = "start";
   };
 
   endInputFocus = (): void => {
-    this.active = true;
+    if (!this.readOnly) {
+      this.active = true;
+    }
     this.focusedInput = "end";
   };
 
