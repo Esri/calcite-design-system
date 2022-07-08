@@ -2,7 +2,6 @@ import { Component, Element, Listen, Method, State, h, VNode } from "@stencil/co
 import { CSS } from "./resources";
 import { FlowDirection } from "./interfaces";
 import { createObserver } from "../../utils/observers";
-import { debounce } from "lodash-es";
 
 /**
  * @slot - A slot for adding `calcite-panel`s to the flow.
@@ -68,8 +67,8 @@ export class Flow {
   // --------------------------------------------------------------------------
 
   connectedCallback(): void {
-    this.updateFlowProps();
     this.panelItemMutationObserver?.observe(this.el, { childList: true, subtree: true });
+    this.updateFlowProps();
   }
 
   disconnectedCallback(): void {
@@ -98,7 +97,7 @@ export class Flow {
     return newPanelCount < oldPanelCount ? "retreating" : "advancing";
   };
 
-  updateFlowProps = debounce((): void => {
+  updateFlowProps = (): void => {
     const { el, panels } = this;
 
     const newPanels: HTMLCalcitePanelElement[] = Array.from(
@@ -128,7 +127,7 @@ export class Flow {
       this.panelCount = newPanelCount;
       this.flowDirection = flowDirection;
     }
-  });
+  };
 
   // --------------------------------------------------------------------------
   //
