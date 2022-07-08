@@ -26,6 +26,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### Bug Fixes
 
+- **Input:** type number spinner buttons will no longer interact when disabled ([#4884](https://github.com/Esri/calcite-components/issues/4884)) ([645e812](https://github.com/Esri/calcite-components/commit/645e81216998e404c5275f2a8ab2997d1a895a91))
 - (radio group) - apply forced-colors styles ([#4877](https://github.com/Esri/calcite-components/issues/4877)) ([1af345e](https://github.com/Esri/calcite-components/commit/1af345e23d3475b34ce0cb983f7ee01a19a7bd66))
 - **accordion-item:** Indicate whether accordion is expanded to screen readers. ([#4822](https://github.com/Esri/calcite-components/issues/4822)) ([9b36a90](https://github.com/Esri/calcite-components/commit/9b36a90c262b0aa0ea2ee3eb3f9c98026ae85c68)), closes [#4691](https://github.com/Esri/calcite-components/issues/4691)
 - **color-picker:** fixed hue bar click and drag interaction ([#4734](https://github.com/Esri/calcite-components/issues/4734)) ([78d9e64](https://github.com/Esri/calcite-components/commit/78d9e6430bc6200fab54b721cb2f615805a745fb))
