@@ -12,44 +12,47 @@ export default {
   }
 };
 
-export const WithLabel = ((): string => html`
-  <div style="width:300px;max-width:100%;text-align:center;">
-    <calcite-label
-      status="${select("status", ["idle", "valid", "invalid"], "idle")}"
-      scale="${select("scale", ["s", "m", "l"], "m")}"
-      for="input-with-label"
-    >
-      ${text("label text", "My great label")}
-      <calcite-input
-        data-testid="input-with-label"
-        type="${select(
-          "type",
-          ["text", "textarea", "email", "password", "tel", "number", "search", "file", "time", "date"],
-          "text"
-        )}"
-        status="${select("status", ["idle", "invalid", "valid"], "idle")}"
-        alignment="${select("alignment", ["start", "end"], "start")}"
-        number-button-type="${select("number-button-type", ["none", "horizontal", "vertical"], "horizontal")}"
-        min="${number("min", 0)}"
-        max="${number("max", 100)}"
-        step="${number("step", 1)}"
-        prefix-text="${text("prefix-text", "")}"
-        suffix-text="${text("suffix-text", "")}"
-        ${boolean("loading", false)}
-        ${boolean("clearable", false)}
-        ${boolean("disabled", false)}
-        value="${text("value", "")}"
-        placeholder="${text("placeholder", "Placeholder text")}"
+const WithLabelTemplate = (): string =>
+  html`
+    <div style="width:300px;max-width:100%;text-align:center;">
+      <calcite-label
+        status="${select("status", ["idle", "valid", "invalid"], "idle")}"
+        scale="${select("scale", ["s", "m", "l"], "m")}"
+        for="input-with-label"
       >
-      </calcite-input>
-      <calcite-input-message
-        ${boolean("input-message-active", false)}
-        status="${select("input message status", ["idle", "valid", "invalid"], "idle")}"
-        >${text("input message text", "My great input message")}</calcite-input-message
-      >
-    </calcite-label>
-  </div>
-`).bind({});
+        ${text("label text", "My great label")}
+        <calcite-input
+          data-testid="input-with-label"
+          type="${select(
+            "type",
+            ["text", "textarea", "email", "password", "tel", "number", "search", "file", "time", "date"],
+            "text"
+          )}"
+          status="${select("status", ["idle", "invalid", "valid"], "idle")}"
+          alignment="${select("alignment", ["start", "end"], "start")}"
+          number-button-type="${select("number-button-type", ["none", "horizontal", "vertical"], "horizontal")}"
+          min="${number("min", 0)}"
+          max="${number("max", 100)}"
+          step="${number("step", 1)}"
+          prefix-text="${text("prefix-text", "")}"
+          suffix-text="${text("suffix-text", "")}"
+          ${boolean("loading", false)}
+          ${boolean("clearable", false)}
+          ${boolean("disabled", false)}
+          value="${text("value", "")}"
+          placeholder="${text("placeholder", "Placeholder text")}"
+        >
+        </calcite-input>
+        <calcite-input-message
+          ${boolean("input-message-active", false)}
+          status="${select("input message status", ["idle", "valid", "invalid"], "idle")}"
+          >${text("input message text", "My great input message")}</calcite-input-message
+        >
+      </calcite-label>
+    </div>
+  `;
+
+export const WithLabel = WithLabelTemplate.bind({});
 
 WithLabel.play = async ({ canvasElement }) => {
   const canvas = within(canvasElement);
