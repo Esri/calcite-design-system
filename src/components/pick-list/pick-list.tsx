@@ -210,7 +210,7 @@ export class PickList<
   //
   // --------------------------------------------------------------------------
 
-  /** Returns the component's selected item(s). */
+  /** Returns the component's selected `calcite-pick-list-item`s. */
   @Method()
   async getSelectedItems(): Promise<Map<string, HTMLCalcitePickListItemElement>> {
     return this.selectedValues;

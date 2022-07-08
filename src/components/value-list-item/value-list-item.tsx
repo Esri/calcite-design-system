@@ -156,7 +156,7 @@ export class ValueListItem implements ConditionalSlotComponent, InteractiveCompo
   // --------------------------------------------------------------------------
 
   /**
-   * Emits when the remove button is pressed.
+   * Fires when the remove button is pressed.
    */
   @Event() calciteListItemRemove: EventEmitter<void>; // wrapped pick-list-item emits this
 

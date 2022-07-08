@@ -118,7 +118,7 @@ export class PickListItem implements ConditionalSlotComponent, InteractiveCompon
   @Prop({ reflect: true }) intlRemove = TEXT.remove;
 
   /**
-   *  The component's value.
+   * The component's value.
    */
   @Prop() value!: any;
 
@@ -164,7 +164,7 @@ export class PickListItem implements ConditionalSlotComponent, InteractiveCompon
   // --------------------------------------------------------------------------
 
   /**
-   * Emits when the component is selected or unselected.
+   * Fires when the component is selected or unselected.
    */
   @Event() calciteListItemChange: EventEmitter<{
     item: HTMLCalcitePickListItemElement;
@@ -174,7 +174,7 @@ export class PickListItem implements ConditionalSlotComponent, InteractiveCompon
   }>;
 
   /**
-   * Emits when the remove button is pressed.
+   * Fires when the remove button is pressed.
    */
   @Event() calciteListItemRemove: EventEmitter<void>;
 
@@ -202,7 +202,7 @@ export class PickListItem implements ConditionalSlotComponent, InteractiveCompon
   // --------------------------------------------------------------------------
 
   /**
-   * Toggle's the selection state. By default this won't trigger an event.
+   * Toggles the selection state. By default this won't trigger an event.
    * The first argument allows the value to be coerced, rather than swapping values.
    *
    * @param coerce
