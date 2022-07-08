@@ -148,7 +148,7 @@ export class Flow {
     };
 
     return (
-      <div class={frameDirectionClasses}>
+      <div class={frameDirectionClasses} key={panelCount}>
         <slot />
       </div>
     );
