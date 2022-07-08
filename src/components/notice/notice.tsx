@@ -28,10 +28,10 @@ import {
  */
 
 /**
- * @slot title - A slot for adding the title (optional).
+ * @slot title - A slot for adding the title.
  * @slot message - A slot for adding the message.
- * @slot link - A slot for adding actions to take, such as: undo, try again, link to page, etc. (optional).
- * @slot actions-end - A slot for adding actions to the end of the `calcite-notice` (optional). It is recommended to use two or less actions.
+ * @slot link - A slot for adding actions to take, such as: undo, try again, link to page, etc.
+ * @slot actions-end - A slot for adding actions to the end of the component. It is recommended to use two or less actions.
  */
 
 @Component({
@@ -54,32 +54,29 @@ export class Notice implements ConditionalSlotComponent {
   //
   //---------------------------------------------------------------------------
 
-  /** When true, the `calcite-notice` is active. */
+  /** When true, the component is active. */
   @Prop({ reflect: true, mutable: true }) active = false;
 
-  /** The color for the `calcite-notice`. Color will apply to top border and icon. */
+  /** The color for the component's top border and icon. */
   @Prop({ reflect: true }) color: StatusColor = "blue";
 
-  /** Shows a button the user can click to dismiss the `calcite-notice`. */
+  /** When true, a close button is added to the component. */
   @Prop({ reflect: true }) dismissible? = false;
 
-  /**
-   * When present, shows a default recommended icon. You can
-   * also pass a calcite-ui-icon name to display a requested icon.
-   */
+  /** Specifies an icon to display - accepts Calcite UI icon names. */
   @Prop({ reflect: true }) icon: string | boolean;
 
   /**
-   * Accessible label for the close button.
+   * Accessible name for the close button.
    *
    * @default "Close"
    */
   @Prop({ reflect: false }) intlClose: string = TEXT.close;
 
-  /** Specify the scale of `calcite-notice`. */
+  /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
 
-  /** Specify the width of the `calcite-notice`. */
+  /** Specifies the width of the component. */
   @Prop({ reflect: true }) width: Width = "auto";
 
   @Watch("icon")
@@ -149,10 +146,10 @@ export class Notice implements ConditionalSlotComponent {
   //
   //--------------------------------------------------------------------------
 
-  /** Fired when `calcite-notice` is closed. */
+  /** Fired when the component is closed. */
   @Event() calciteNoticeClose: EventEmitter;
 
-  /** Fired when `calcite-notice` is opened. */
+  /** Fired when the component is opened. */
   @Event() calciteNoticeOpen: EventEmitter;
 
   //--------------------------------------------------------------------------
@@ -161,7 +158,7 @@ export class Notice implements ConditionalSlotComponent {
   //
   //--------------------------------------------------------------------------
 
-  /** Sets focus on the `calcite-notice`. */
+  /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
     const noticeLinkEl = this.el.querySelector("calcite-link");
