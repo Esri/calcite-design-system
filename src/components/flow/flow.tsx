@@ -100,7 +100,9 @@ export class Flow {
   updateFlowProps = (): void => {
     const { el, panels } = this;
 
-    const newPanels: HTMLCalcitePanelElement[] = Array.from(el.querySelectorAll("calcite-panel"));
+    const newPanels: HTMLCalcitePanelElement[] = Array.from(
+      el.querySelectorAll("calcite-panel")
+    ).filter((panel) => !panel.closest("calcite-panel")) as HTMLCalcitePanelElement[];
 
     const oldPanelCount = panels.length;
     const newPanelCount = newPanels.length;
