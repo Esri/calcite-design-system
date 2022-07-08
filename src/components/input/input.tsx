@@ -693,7 +693,7 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
   private numberButtonPointerDownHandler = (event: PointerEvent): void => {
     event.preventDefault();
     const direction = (event.target as HTMLDivElement).dataset.adjustment as NumberNudgeDirection;
-    if (!this.disabled || this.readOnly) {
+    if (!this.disabled || !this.readOnly) {
       this.nudgeNumberValue(direction, event);
     }
   };
