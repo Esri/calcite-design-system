@@ -1,6 +1,6 @@
 {
   "name": "@esri/calcite-components",
-  "version": "1.0.0-next.508",
+  "version": "1.0.0-next.510",
   "description": "Web Components for Esri's Calcite Design System.",
   "main": "dist/index.cjs.js",
   "module": "dist/index.js",
@@ -97,7 +97,7 @@
     "@types/standard-version": "7.0.1",
     "@types/yargs": "17.0.10",
     "@typescript-eslint/eslint-plugin": "5.30.5",
-    "@typescript-eslint/parser": "5.29.0",
+    "@typescript-eslint/parser": "5.30.5",
     "@whitespace/storybook-addon-html": "5.0.0",
     "autoprefixer": "10.4.7",
     "axe-core": "4.4.2",
