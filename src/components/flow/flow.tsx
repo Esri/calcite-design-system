@@ -104,30 +104,6 @@ export class Flow {
     return newActiveIndex < oldActiveIndex ? "retreating" : "advancing";
   };
 
-  findActivePanelIndex = (panels: HTMLCalcitePanelElement[]): number => {
-    const activePanel = panels
-      .slice(0)
-      .reverse()
-      .find((panel) => !!panel.active);
-
-    return panels.indexOf(activePanel);
-  };
-
-  ensureActivePanelExists(): void {
-    const { panels } = this;
-    const foundActiveIndex = this.findActivePanelIndex(panels);
-
-    if (foundActiveIndex !== -1) {
-      return;
-    }
-
-    const lastPanel = panels[panels.length - 1];
-
-    if (lastPanel) {
-      lastPanel.active = true;
-    }
-  }
-
   handleMutationObserverChange = (): void => {
     const newPanels: HTMLCalcitePanelElement[] = Array.from(
       this.el.querySelectorAll("calcite-panel")
@@ -166,6 +142,30 @@ export class Flow {
 
     this.activeIndex = foundActiveIndex;
   };
+
+  findActivePanelIndex = (panels: HTMLCalcitePanelElement[]): number => {
+    const activePanel = panels
+      .slice(0)
+      .reverse()
+      .find((panel) => !!panel.active);
+
+    return panels.indexOf(activePanel);
+  };
+
+  ensureActivePanelExists(): void {
+    const { panels } = this;
+    const foundActiveIndex = this.findActivePanelIndex(panels);
+
+    if (foundActiveIndex !== -1) {
+      return;
+    }
+
+    const lastPanel = panels[panels.length - 1];
+
+    if (lastPanel) {
+      lastPanel.active = true;
+    }
+  }
 
   // --------------------------------------------------------------------------
   //
