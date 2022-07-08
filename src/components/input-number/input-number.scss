@@ -263,17 +263,6 @@
   }
 }
 
-:host input {
-  -moz-appearance: textfield;
-
-  &::-webkit-inner-spin-button,
-  &::-webkit-outer-spin-button {
-    -webkit-appearance: none;
-    -moz-appearance: textfield;
-    @apply m-0;
-  }
-}
-
 .number-button-wrapper {
   @apply transition-default
     pointer-events-none

@@ -38,7 +38,7 @@ import { createObserver } from "../../utils/observers";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 
 type NumberNudgeDirection = "up" | "down";
-type SetValueOrigin = "initial" | "connected" | "user" | "reset" | "direct";
+type setNumberValueOrigin = "initial" | "connected" | "user" | "reset" | "direct";
 
 /**
  * @slot action - A slot for positioning a button next to the component.
@@ -242,7 +242,7 @@ export class InputNumber implements LabelableComponent, FormComponent, Interacti
   @Watch("value")
   valueWatcher(newValue: string, previousValue: string): void {
     if (!this.userChangedValue) {
-      this.setValue({
+      this.setNumberValue({
         origin: "direct",
         previousValue,
         value:
@@ -291,7 +291,7 @@ export class InputNumber implements LabelableComponent, FormComponent, Interacti
 
   private previousValue: string;
 
-  private previousValueOrigin: SetValueOrigin = "initial";
+  private previousValueOrigin: setNumberValueOrigin = "initial";
 
   /** the computed icon to render */
   private requestedIcon?: string;
@@ -323,11 +323,11 @@ export class InputNumber implements LabelableComponent, FormComponent, Interacti
     if (this.inlineEditableEl) {
       this.editingEnabled = this.inlineEditableEl.editingEnabled || false;
     }
-    this.setPreviousEmittedValue(this.value);
-    this.setPreviousValue(this.value);
+    this.setPreviousEmittedNumberValue(this.value);
+    this.setPreviousNumberValue(this.value);
 
     this.warnAboutInvalidNumberValue(this.value);
-    this.setValue({
+    this.setNumberValue({
       origin: "connected",
       value: isValidNumber(this.value) ? this.value : ""
     });
@@ -351,7 +351,7 @@ export class InputNumber implements LabelableComponent, FormComponent, Interacti
 
   componentShouldUpdate(newValue: string, oldValue: string, property: string): boolean {
     if (property === "value" && newValue && !isValidNumber(newValue)) {
-      this.setValue({
+      this.setNumberValue({
         origin: "reset",
         value: oldValue
       });
@@ -451,7 +451,7 @@ export class InputNumber implements LabelableComponent, FormComponent, Interacti
     const inputValPlaces = decimalPlaces(inputVal);
     const inputStepPlaces = decimalPlaces(inputStep);
 
-    this.setValue({
+    this.setNumberValue({
       committing: true,
       nativeEvent,
       origin: "user",
@@ -460,7 +460,7 @@ export class InputNumber implements LabelableComponent, FormComponent, Interacti
   }
 
   private clearInputValue = (nativeEvent: KeyboardEvent | MouseEvent): void => {
-    this.setValue({
+    this.setNumberValue({
       committing: true,
       nativeEvent,
       origin: "user",
@@ -475,7 +475,7 @@ export class InputNumber implements LabelableComponent, FormComponent, Interacti
     this.previousEmittedValue = this.value;
   };
 
-  private inputBlurHandler = () => {
+  private inputNumberBlurHandler = () => {
     this.calciteInternalInputNumberBlur.emit({
       element: this.childNumberEl,
       value: this.value
@@ -484,7 +484,7 @@ export class InputNumber implements LabelableComponent, FormComponent, Interacti
     this.emitChangeIfUserModified();
   };
 
-  private inputFocusHandler = (event: FocusEvent): void => {
+  private inputNumberFocusHandler = (event: FocusEvent): void => {
     const slottedActionEl = getSlotted(this.el, "action");
     if (event.target !== slottedActionEl) {
       this.setFocus();
@@ -505,14 +505,14 @@ export class InputNumber implements LabelableComponent, FormComponent, Interacti
       if (!isValidNumber(delocalizedValue)) {
         nativeEvent.preventDefault();
       }
-      this.setValue({
+      this.setNumberValue({
         nativeEvent,
         origin: "user",
         value: parseNumberString(delocalizedValue)
       });
       this.childNumberEl.value = this.localizedValue;
     } else {
-      this.setValue({
+      this.setNumberValue({
         nativeEvent,
         origin: "user",
         value: delocalizedValue
@@ -611,18 +611,18 @@ export class InputNumber implements LabelableComponent, FormComponent, Interacti
     }, valueNudgeDelayInMs);
   };
 
-  private numberButtonPointerUpAndOutHandler = (): void => {
+  private nudgeButtonPointerUpAndOutHandler = (): void => {
     window.clearInterval(this.nudgeNumberValueIntervalId);
   };
 
-  private numberButtonPointerDownHandler = (event: PointerEvent): void => {
+  private nudgeButtonPointerDownHandler = (event: PointerEvent): void => {
     event.preventDefault();
     const direction = (event.target as HTMLDivElement).dataset.adjustment as NumberNudgeDirection;
     this.nudgeNumberValue(direction, event);
   };
 
   onFormReset(): void {
-    this.setValue({
+    this.setNumberValue({
       origin: "reset",
       value: this.defaultValue
     });
@@ -650,24 +650,24 @@ export class InputNumber implements LabelableComponent, FormComponent, Interacti
       : slottedActionEl.removeAttribute("disabled");
   }
 
-  private setInputValue = (newInputValue: string): void => {
+  private setInputNumberValue = (newInputValue: string): void => {
     if (!this.childNumberEl) {
       return;
     }
     this.childNumberEl.value = newInputValue;
   };
 
-  private setPreviousEmittedValue = (newPreviousEmittedValue: string): void => {
+  private setPreviousEmittedNumberValue = (newPreviousEmittedValue: string): void => {
     this.previousEmittedValue = isValidNumber(newPreviousEmittedValue)
       ? newPreviousEmittedValue
       : "";
   };
 
-  private setPreviousValue = (newPreviousValue: string): void => {
+  private setPreviousNumberValue = (newPreviousValue: string): void => {
     this.previousValue = isValidNumber(newPreviousValue) ? newPreviousValue : "";
   };
 
-  private setValue = ({
+  private setNumberValue = ({
     committing = false,
     nativeEvent,
     origin,
@@ -676,7 +676,7 @@ export class InputNumber implements LabelableComponent, FormComponent, Interacti
   }: {
     committing?: boolean;
     nativeEvent?: MouseEvent | KeyboardEvent | InputEvent;
-    origin: SetValueOrigin;
+    origin: setNumberValueOrigin;
     previousValue?: string;
     value: string;
   }): void => {
@@ -702,7 +702,7 @@ export class InputNumber implements LabelableComponent, FormComponent, Interacti
       this.numberingSystem
     );
 
-    this.setPreviousValue(previousValue || this.value);
+    this.setPreviousNumberValue(previousValue || this.value);
     this.previousValueOrigin = origin;
     this.userChangedValue = origin === "user" && this.value !== newValue;
     this.value = newValue;
@@ -710,7 +710,7 @@ export class InputNumber implements LabelableComponent, FormComponent, Interacti
     this.localizedValue = newLocalizedValue;
 
     if (origin === "direct") {
-      this.setInputValue(newLocalizedValue);
+      this.setInputNumberValue(newLocalizedValue);
     }
 
     if (nativeEvent) {
@@ -729,7 +729,7 @@ export class InputNumber implements LabelableComponent, FormComponent, Interacti
     }
   };
 
-  private inputKeyUpHandler = (): void => {
+  private inputNumberKeyUpHandler = (): void => {
     window.clearInterval(this.nudgeNumberValueIntervalId);
   };
 
@@ -784,9 +784,9 @@ export class InputNumber implements LabelableComponent, FormComponent, Interacti
         }}
         data-adjustment="up"
         disabled={this.disabled || this.readOnly}
-        onPointerDown={this.numberButtonPointerDownHandler}
-        onPointerOut={this.numberButtonPointerUpAndOutHandler}
-        onPointerUp={this.numberButtonPointerUpAndOutHandler}
+        onPointerDown={this.nudgeButtonPointerDownHandler}
+        onPointerOut={this.nudgeButtonPointerUpAndOutHandler}
+        onPointerUp={this.nudgeButtonPointerUpAndOutHandler}
         tabIndex={-1}
         type="button"
       >
@@ -802,9 +802,9 @@ export class InputNumber implements LabelableComponent, FormComponent, Interacti
         }}
         data-adjustment="down"
         disabled={this.disabled || this.readOnly}
-        onPointerDown={this.numberButtonPointerDownHandler}
-        onPointerOut={this.numberButtonPointerUpAndOutHandler}
-        onPointerUp={this.numberButtonPointerUpAndOutHandler}
+        onPointerDown={this.nudgeButtonPointerDownHandler}
+        onPointerOut={this.nudgeButtonPointerUpAndOutHandler}
+        onPointerUp={this.nudgeButtonPointerUpAndOutHandler}
         tabIndex={-1}
         type="button"
       >
@@ -835,11 +835,11 @@ export class InputNumber implements LabelableComponent, FormComponent, Interacti
         maxLength={this.maxLength}
         minLength={this.minLength}
         name={undefined}
-        onBlur={this.inputBlurHandler}
-        onFocus={this.inputFocusHandler}
+        onBlur={this.inputNumberBlurHandler}
+        onFocus={this.inputNumberFocusHandler}
         onInput={this.inputNumberInputHandler}
         onKeyDown={this.inputNumberKeyDownHandler}
-        onKeyUp={this.inputKeyUpHandler}
+        onKeyUp={this.inputNumberKeyUpHandler}
         placeholder={this.placeholder || ""}
         readOnly={this.readOnly}
         ref={this.setChildNumberElRef}
@@ -849,7 +849,7 @@ export class InputNumber implements LabelableComponent, FormComponent, Interacti
     );
 
     return (
-      <Host onClick={this.inputFocusHandler} onKeyDown={this.keyDownHandler}>
+      <Host onClick={this.inputNumberFocusHandler} onKeyDown={this.keyDownHandler}>
         <div class={{ [CSS.inputWrapper]: true, [CSS_UTILITY.rtl]: dir === "rtl" }}>
           {this.numberButtonType === "horizontal" && !this.readOnly
             ? numberButtonsHorizontalDown
