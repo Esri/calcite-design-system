@@ -1,7 +1,4 @@
-const childProcess = require("child_process");
-const pify = require("pify");
-
-const exec = pify(childProcess.exec);
+import pify from "pify";
 
 /*
  * This script is meant to be run by a CI environment during the deploy phase.
@@ -9,8 +6,10 @@ const exec = pify(childProcess.exec);
  *
  * Based on https://github.com/conventional-changelog/standard-version/issues/192#issuecomment-610494804
  */
-
 (async function runner(): Promise<void> {
+  const childProcess = await import("child_process");
+  const exec = pify(childProcess.exec);
+
   async function deployNextFromCI(): Promise<void> {
     console.log("Determining @next deployability 🔍");
 
