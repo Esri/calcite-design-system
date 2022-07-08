@@ -78,6 +78,18 @@ describe("calcite-input", () => {
 
   it("can be disabled", () => disabled("calcite-input"));
 
+  it("spinner buttons on disabled number input should not be interactive/should not nudge the number", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html`<calcite-input type="number" disabled></calcite-input>`);
+
+    const numberButtonItem = await page.find("calcite-input >>> .number-button-item");
+    const calciteInputInput = await page.spyOnEvent("calciteInputInput");
+
+    await numberButtonItem.click();
+    await page.waitForChanges();
+    expect(calciteInputInput).not.toHaveReceivedEvent();
+  });
+
   it("inherits requested props when from wrapping calcite-label when props are provided", async () => {
     const page = await newE2EPage();
     await page.setContent(html`
