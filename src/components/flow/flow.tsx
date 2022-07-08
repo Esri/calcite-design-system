@@ -98,10 +98,8 @@ export class Flow {
   };
 
   handleMutationObserverChange = (): void => {
-    const { el } = this;
-
     const newPanels: HTMLCalcitePanelElement[] = Array.from(
-      el.querySelectorAll("calcite-panel:not(calcite-panel calcite-panel)")
+      this.el.querySelectorAll("calcite-panel:not(calcite-panel calcite-panel)")
     );
 
     this.updateFlowProps(newPanels);
