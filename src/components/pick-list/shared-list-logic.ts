@@ -178,8 +178,7 @@ export function moveItemIndex<T extends Lists>(
 
 export function getItemIndex<T extends Lists>(list: List<T>, item: ListItemElement<T>): number {
   const { items } = list;
-  const currentIndex = (items as ListItemElement<T>[]).indexOf(item);
-  return currentIndex;
+  return (items as ListItemElement<T>[]).indexOf(item);
 }
 
 function filterOutDisabled<T extends Lists>(items: ListItemElement<T>[]): ListItemElement<T>[] {

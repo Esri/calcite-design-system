@@ -384,8 +384,7 @@ export class ValueList<
 
   updateScreenReaderText(assertiveText: string): void {
     //code to update text to our aria-live span element
-    const screenReaderElement = this.el.shadowRoot.querySelector(".assistive-text");
-    screenReaderElement.textContent = assertiveText;
+    this.assitiveTextEl.textContent = assertiveText;
   }
 
   updateHandleAriaLabel(handleElement: HTMLSpanElement, assertiveText: string): void {
