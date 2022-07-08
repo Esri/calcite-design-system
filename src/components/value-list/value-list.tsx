@@ -286,12 +286,12 @@ export class ValueList<
   getItemData = getItemData.bind(this);
 
   keyDownHandler = (event: KeyboardEvent): void => {
-    const { handle, item } = getHandleAndItemElement(event);
-    if (handle && !item.handleActivated && event.key === " ") {
+    const { handleElement, item } = getHandleAndItemElement(event);
+    if (handleElement && !item.handleActivated && event.key === " ") {
       this.updateScreenReaderText(getScreenReaderText(item, "currentPosition", this));
     }
 
-    if (!handle || !item.handleActivated) {
+    if (!handleElement || !item.handleActivated) {
       keyDownHandler.call(this, event);
       return;
     }
@@ -324,10 +324,10 @@ export class ValueList<
     this.items = this.getItems();
     this.calciteListOrderChange.emit(this.items.map(({ value }) => value));
 
-    requestAnimationFrame(() => handle?.focus());
+    requestAnimationFrame(() => handleElement?.focus());
     item.handleActivated = true;
 
-    this.updateHandleAriaLabel(handle, getScreenReaderText(item, "newPosition", this));
+    this.updateHandleAriaLabel(handleElement, getScreenReaderText(item, "newPosition", this));
   };
 
   handleBlur(): void {
@@ -386,9 +386,9 @@ export class ValueList<
   };
 
   handleFocusIn = (event: FocusEvent): void => {
-    const { handle, item } = getHandleAndItemElement(event);
-    if (!item.handleActivated && item && handle) {
-      this.updateHandleAriaLabel(handle, getScreenReaderText(item, "start", this));
+    const { handleElement, item } = getHandleAndItemElement(event);
+    if (!item.handleActivated && item && handleElement) {
+      this.updateHandleAriaLabel(handleElement, getScreenReaderText(item, "start", this));
     }
   };
 

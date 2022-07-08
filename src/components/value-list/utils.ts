@@ -39,10 +39,10 @@ export function getScreenReaderText(
 }
 
 export function getHandleAndItemElement(event: KeyboardEvent | FocusEvent): {
-  handle: HTMLCalciteHandleElement;
+  handleElement: HTMLCalciteHandleElement;
   item: HTMLCalciteValueListItemElement;
 } {
-  const handle = event
+  const handleElement = event
     .composedPath()
     .find((item: HTMLElement) => item.dataset?.jsHandle !== undefined) as HTMLCalciteHandleElement;
 
@@ -52,5 +52,5 @@ export function getHandleAndItemElement(event: KeyboardEvent | FocusEvent): {
       (item: HTMLElement) => item.tagName?.toLowerCase() === "calcite-value-list-item"
     ) as HTMLCalciteValueListItemElement;
 
-  return { handle, item };
+  return { handleElement, item };
 }
