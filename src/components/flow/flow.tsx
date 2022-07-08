@@ -114,7 +114,7 @@ export class Flow {
 
     if (newPanelCount && activePanel) {
       newPanels.forEach((panelNode) => {
-        panelNode.showBackButton = newPanelCount > 1;
+        panelNode.showBackButton = panelNode === activePanel && newPanelCount > 1;
         panelNode.hidden = panelNode !== activePanel;
       });
     }
