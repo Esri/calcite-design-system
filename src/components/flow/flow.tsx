@@ -2,6 +2,7 @@ import { Component, Element, Listen, Method, State, h, VNode } from "@stencil/co
 import { CSS } from "./resources";
 import { FlowDirection } from "./interfaces";
 import { createObserver } from "../../utils/observers";
+
 /**
  * @slot - A slot for adding `calcite-panel`s to the flow.
  */
@@ -81,15 +82,15 @@ export class Flow {
   //
   // --------------------------------------------------------------------------
 
-  @Listen("calcitePanelBackClick")
-  handleCalcitePanelBackClick(): void {
-    this.back();
-  }
-
   @Listen("calciteInternalPanelActiveChange")
   handleCalciteInternalPanelActiveChange(event: CustomEvent): void {
     event.stopPropagation();
     this.updateFlowProps();
+  }
+
+  @Listen("calcitePanelBackClick")
+  handleCalcitePanelBackClick(): void {
+    this.back();
   }
 
   getFlowDirection = (oldActiveIndex: number, newActiveIndex: number): FlowDirection | null => {
