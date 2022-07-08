@@ -101,8 +101,8 @@ export class Flow {
     const { el, panels } = this;
 
     const newPanels: HTMLCalcitePanelElement[] = Array.from(
-      el.querySelectorAll("calcite-panel:not(calcite-panel calcite-panel)")
-    );
+      el.querySelectorAll("calcite-panel")
+    ).filter((panel) => !panel.matches("calcite-panel calcite-panel")) as HTMLCalcitePanelElement[];
 
     const oldPanelCount = panels.length;
     const newPanelCount = newPanels.length;
