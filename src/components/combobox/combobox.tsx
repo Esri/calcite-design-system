@@ -574,7 +574,7 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
   setMaxScrollerHeight = async (): Promise<void> => {
     const { active, listContainerEl, open } = this;
     const isOpen = !(active || open);
-    if (!listContainerEl || !active || !open) {
+    if (!listContainerEl || isOpen) {
       return;
     }
 

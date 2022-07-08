@@ -657,8 +657,7 @@ export class Dropdown implements InteractiveComponent {
   private openCalciteDropdown = () => {
     this.active = !this.active;
     this.open = !this.open;
-    const isOpen = !(this.active || this.open);
-    if (isOpen) {
+    if (this.active || this.open) {
       this.el.addEventListener("calciteDropdownOpen", this.toggleOpenEnd);
     }
   };
