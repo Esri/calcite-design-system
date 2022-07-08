@@ -453,9 +453,8 @@ describe("calcite-color-picker", () => {
   });
 
   it("allows selecting colors via color field/slider", async () => {
-    const page = await newE2EPage({
-      html: "<calcite-color-picker value='#000' scale='m'></calcite-color-picker>"
-    });
+    const page = await newE2EPage();
+    await page.setContent("<calcite-color-picker value='#000' scale='m'></calcite-color-picker>");
     const picker = await page.find(`calcite-color-picker`);
     const spy = await picker.spyOnEvent("calciteColorPickerChange");
     let changes = 0;
@@ -498,13 +497,13 @@ describe("calcite-color-picker", () => {
 
     const expectedColorSamples = [
       "#ff0000",
-      "#ffdd00",
+      "#ffd900",
       "#48ff00",
       "#00ff91",
       "#0095ff",
       "#4800ff",
       "#ff00dd",
-      "#ff0000"
+      "#ff0004"
     ];
 
     for (let i = 0; i < expectedColorSamples.length; i++) {

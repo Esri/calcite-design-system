@@ -461,6 +461,9 @@ input[type="time"]::-webkit-clear-button {
   &:active {
     @apply bg-foreground-3;
   }
+  &:disabled {
+    @apply pointer-events-none;
+  }
 }
 
 .wrapper {
