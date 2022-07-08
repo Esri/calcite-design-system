@@ -7,7 +7,6 @@
 @import "host";
 @import "spacing";
 @import "popper";
-@import "hydration";
 
 @mixin slotted($selector, $tag, $scope: "") {
   #{$scope} slot[name="#{$selector}"]::slotted(#{$tag}),
