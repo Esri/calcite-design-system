@@ -36,7 +36,7 @@ import {
 import List from "../pick-list/shared-list-render";
 import { createObserver } from "../../utils/observers";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
-import { getHandleElement, getItemElement, getScreenReaderText } from "./utils";
+import { getHandleAndItemElement, getScreenReaderText } from "./utils";
 
 /**
  * @slot - A slot for adding `calcite-value-list-item` elements. List items are displayed as a vertical list.
@@ -226,15 +226,6 @@ export class ValueList<
     event.stopPropagation();
   }
 
-  @Listen("calciteInternalListItemDragHandleFocused")
-  handleDragHandleFocus(event: FocusEvent): void {
-    const item = getItemElement(event);
-    const handleElement = getHandleElement(event.detail as any);
-    if (!item.handleActivated) {
-      this.updateHandleAriaLabel(handleElement, getScreenReaderText(item, "start", this));
-    }
-  }
-
   // --------------------------------------------------------------------------
   //
   //  Private Methods
@@ -295,13 +286,12 @@ export class ValueList<
   getItemData = getItemData.bind(this);
 
   keyDownHandler = (event: KeyboardEvent): void => {
-    const item = getItemElement(event);
-    const handleElement = getHandleElement(event);
-    if (handleElement && !item.handleActivated && event.key === " ") {
+    const { handle, item } = getHandleAndItemElement(event);
+    if (handle && !item.handleActivated && event.key === " ") {
       this.updateScreenReaderText(getScreenReaderText(item, "currentPosition", this));
     }
 
-    if (!handleElement || !item.handleActivated) {
+    if (!handle || !item.handleActivated) {
       keyDownHandler.call(this, event);
       return;
     }
@@ -334,10 +324,10 @@ export class ValueList<
     this.items = this.getItems();
     this.calciteListOrderChange.emit(this.items.map(({ value }) => value));
 
-    requestAnimationFrame(() => handleElement?.focus());
+    requestAnimationFrame(() => handle?.focus());
     item.handleActivated = true;
 
-    this.updateHandleAriaLabel(handleElement, getScreenReaderText(item, "newPosition", this));
+    this.updateHandleAriaLabel(handle, getScreenReaderText(item, "newPosition", this));
   };
 
   handleBlur(): void {
@@ -391,7 +381,25 @@ export class ValueList<
     handleElement.ariaLabel = assertiveText;
   }
 
+  storeAssistiveEl = (el: HTMLSpanElement): void => {
+    this.assitiveTextEl = el;
+  };
+
+  handleFocusIn = (event: FocusEvent): void => {
+    const { handle, item } = getHandleAndItemElement(event);
+    if (!item.handleActivated && item && handle) {
+      this.updateHandleAriaLabel(handle, getScreenReaderText(item, "start", this));
+    }
+  };
+
   render(): VNode {
-    return <List onBlur={this.handleBlur} onKeyDown={this.keyDownHandler} props={this} />;
+    return (
+      <List
+        onBlur={this.handleBlur}
+        onFocusin={this.handleFocusIn}
+        onKeyDown={this.keyDownHandler}
+        props={this}
+      />
+    );
   }
 }

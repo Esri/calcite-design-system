@@ -38,16 +38,19 @@ export function getScreenReaderText(
   }
 }
 
-export function getItemElement(event: KeyboardEvent | FocusEvent): HTMLCalciteValueListItemElement {
-  return event
+export function getHandleAndItemElement(event: KeyboardEvent | FocusEvent): {
+  handle: HTMLCalciteHandleElement;
+  item: HTMLCalciteValueListItemElement;
+} {
+  const handle = event
+    .composedPath()
+    .find((item: HTMLElement) => item.dataset?.jsHandle !== undefined) as HTMLCalciteHandleElement;
+
+  const item = event
     .composedPath()
     .find(
       (item: HTMLElement) => item.tagName?.toLowerCase() === "calcite-value-list-item"
     ) as HTMLCalciteValueListItemElement;
-}
 
-export function getHandleElement(event: KeyboardEvent | FocusEvent): HTMLCalciteHandleElement {
-  return event
-    .composedPath()
-    .find((item: HTMLElement) => item.dataset?.jsHandle !== undefined) as HTMLCalciteHandleElement;
+  return { handle, item };
 }

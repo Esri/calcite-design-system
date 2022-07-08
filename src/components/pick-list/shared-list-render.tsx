@@ -15,6 +15,7 @@ interface ListProps extends DOMAttributes<any> {
   el: HTMLCalcitePickListElement | HTMLCalciteValueListElement;
   setFilterEl: (el: HTMLCalciteFilterElement) => void;
   dragEnabled?: boolean;
+  storeAssistiveEl?: (el: HTMLSpanElement) => void;
 }
 
 export const List: FunctionalComponent<{ props: ListProps } & DOMAttributes<any>> = ({
@@ -26,7 +27,8 @@ export const List: FunctionalComponent<{ props: ListProps } & DOMAttributes<any>
     handleFilter,
     filterPlaceholder,
     setFilterEl,
-    dragEnabled
+    dragEnabled,
+    storeAssistiveEl
   },
   ...rest
 }): VNode => {
@@ -34,7 +36,9 @@ export const List: FunctionalComponent<{ props: ListProps } & DOMAttributes<any>
   return (
     <Host aria-busy={toAriaBoolean(loading)} role="menu" {...rest}>
       <section>
-        {dragEnabled ? <span aria-live="assertive" class="assistive-text" tabindex="-1" /> : null}
+        {dragEnabled ? (
+          <span aria-live="assertive" class="assistive-text" ref={storeAssistiveEl} tabindex="-1" />
+        ) : null}
         <header class={{ [CSS.sticky]: true }}>
           {filterEnabled ? (
             <calcite-filter
