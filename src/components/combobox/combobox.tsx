@@ -558,7 +558,7 @@ export class Combobox
 
   transitionEnd = (event: TransitionEvent): void => {
     if (event.propertyName === this.activeTransitionProp) {
-      this.open || this.active ? this.emitOpenCloseEvent("open") : this.emitOpenCloseEvent("close");
+      this.open || this.active ? this.onOpen() : this.onClose();
     }
   };
 
@@ -568,9 +568,7 @@ export class Combobox
   */
   transitionRunHandler = (event: TransitionEvent): void => {
     if (event.propertyName === this.activeTransitionProp) {
-      this.open || this.active
-        ? this.emitOpenCloseEvent("beforeOpen")
-        : this.emitOpenCloseEvent("beforeClose");
+      this.open || this.active ? this.onBeforeOpen() : this.onBeforeClose();
     }
   };
 
