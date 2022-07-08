@@ -204,35 +204,10 @@ describe("calcite-flow", () => {
     </calcite-flow>
     `));
 
-  it("should only work with slotted panels", async () => {
-    const page = await newE2EPage();
-
-    await page.setContent(html`<calcite-flow>
-      <calcite-panel>Valid panel</calcite-panel>
-      <calcite-panel>Valid panel</calcite-panel>
-      <div>
-        <calcite-panel>Ignored panel</calcite-panel>
-      </div>
-    </calcite-flow>`);
-
-    const items = await page.findAll("calcite-panel");
-
-    expect(items).toHaveLength(3);
-
-    expect(items[0].getAttribute("hidden")).toBe("");
-    expect(await items[0].getProperty("showBackButton")).toBe(true);
-
-    expect(items[1].getAttribute("hidden")).toBe(null);
-    expect(await items[1].getProperty("showBackButton")).toBe(true);
-
-    expect(items[2].getAttribute("hidden")).toBe(null);
-    expect(await items[2].getProperty("showBackButton")).toBe(false);
-  });
-
   it("should also work with descendant slotted panels", async () => {
     const page = await newE2EPage();
 
-    await page.setContent(html`<calcite-flow allow-descendant-panels>
+    await page.setContent(html`<calcite-flow>
       <calcite-panel>Valid panel</calcite-panel>
       <calcite-panel>Valid panel</calcite-panel>
       <div>
