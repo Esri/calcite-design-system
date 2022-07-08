@@ -57,7 +57,7 @@ export class Flow {
   @State() panels: HTMLCalcitePanelElement[] = [];
 
   panelItemMutationObserver: MutationObserver = createObserver("mutation", () =>
-    this.handleMutationObserverChange()
+    this.updateFlowProps()
   );
 
   // --------------------------------------------------------------------------
@@ -68,7 +68,7 @@ export class Flow {
 
   connectedCallback(): void {
     this.panelItemMutationObserver?.observe(this.el, { childList: true, subtree: true });
-    this.handleMutationObserverChange();
+    this.updateFlowProps();
   }
 
   disconnectedCallback(): void {
@@ -97,16 +97,13 @@ export class Flow {
     return newPanelCount < oldPanelCount ? "retreating" : "advancing";
   };
 
-  handleMutationObserverChange = (): void => {
+  updateFlowProps = (): void => {
+    const { el, panels } = this;
+
     const newPanels: HTMLCalcitePanelElement[] = Array.from(
-      this.el.querySelectorAll("calcite-panel:not(calcite-panel calcite-panel)")
+      el.querySelectorAll("calcite-panel:not(calcite-panel calcite-panel)")
     );
 
-    this.updateFlowProps(newPanels);
-  };
-
-  updateFlowProps = (newPanels: HTMLCalcitePanelElement[]): void => {
-    const { panels } = this;
     const oldPanelCount = panels.length;
     const newPanelCount = newPanels.length;
     const activePanel = newPanels[newPanelCount - 1];

@@ -63,10 +63,6 @@
   --calcite-panel-min-width: calc(var(--calcite-panel-width-multiplier) * 340px);
 }
 
-:host([hidden]) {
-  display: none;
-}
-
 .container[hidden] {
   @apply hidden;
 }
