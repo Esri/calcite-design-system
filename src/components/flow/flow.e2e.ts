@@ -34,9 +34,9 @@ describe("calcite-flow", () => {
     const panels = await page.findAll("calcite-panel");
 
     expect(panels).toHaveLength(2);
-    expect(await panels[0].getProperty("active")).toBe(false);
+    expect(await panels[0].getProperty("open")).toBe(false);
     expect(panels[0].getAttribute("hidden")).toBe("");
-    expect(await panels[1].getProperty("active")).toBe(true);
+    expect(await panels[1].getProperty("open")).toBe(true);
     expect(panels[1].getAttribute("hidden")).toBe(null);
 
     await flow.callMethod("back");
@@ -44,9 +44,9 @@ describe("calcite-flow", () => {
     await page.waitForChanges();
 
     expect(panels).toHaveLength(2);
-    expect(await panels[0].getProperty("active")).toBe(true);
+    expect(await panels[0].getProperty("open")).toBe(true);
     expect(panels[0].getAttribute("hidden")).toBe(null);
-    expect(await panels[1].getProperty("active")).toBe(false);
+    expect(await panels[1].getProperty("open")).toBe(false);
     expect(panels[1].getAttribute("hidden")).toBe("");
   });
 
@@ -209,15 +209,15 @@ describe("calcite-flow", () => {
 
     expect(items).toHaveLength(3);
 
-    expect(await items[0].getProperty("active")).toBe(false);
+    expect(await items[0].getProperty("open")).toBe(false);
     expect(await items[0].getProperty("showBackButton")).toBe(false);
     expect(items[0].getAttribute("hidden")).toBe("");
 
-    expect(await items[1].getProperty("active")).toBe(false);
+    expect(await items[1].getProperty("open")).toBe(false);
     expect(await items[1].getProperty("showBackButton")).toBe(false);
     expect(items[1].getAttribute("hidden")).toBe("");
 
-    expect(await items[2].getProperty("active")).toBe(true);
+    expect(await items[2].getProperty("open")).toBe(true);
     expect(await items[2].getProperty("showBackButton")).toBe(true);
     expect(items[2].getAttribute("hidden")).toBe(null);
   });
@@ -246,19 +246,19 @@ describe("calcite-flow", () => {
 
     expect(items).toHaveLength(4);
 
-    expect(await items[0].getProperty("active")).toBe(false);
+    expect(await items[0].getProperty("open")).toBe(false);
     expect(await items[0].getProperty("showBackButton")).toBe(false);
     expect(items[0].getAttribute("hidden")).toBe("");
 
-    expect(await items[1].getProperty("active")).toBe(false);
+    expect(await items[1].getProperty("open")).toBe(false);
     expect(await items[1].getProperty("showBackButton")).toBe(false);
     expect(items[1].getAttribute("hidden")).toBe("");
 
-    expect(await items[2].getProperty("active")).toBe(true);
+    expect(await items[2].getProperty("open")).toBe(true);
     expect(await items[2].getProperty("showBackButton")).toBe(true);
     expect(items[2].getAttribute("hidden")).toBe(null);
 
-    expect(await items[3].getProperty("active")).toBe(false);
+    expect(await items[3].getProperty("open")).toBe(false);
     expect(items[3].getAttribute("hidden")).toBe(null);
     expect(await items[3].getProperty("showBackButton")).toBe(false);
   });

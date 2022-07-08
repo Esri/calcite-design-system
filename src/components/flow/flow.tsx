@@ -19,27 +19,27 @@ export class Flow {
   // --------------------------------------------------------------------------
 
   /**
-   * Removes the currently active `calcite-panel`.
+   * Removes the currently open `calcite-panel`.
    */
   @Method()
   async back(): Promise<HTMLCalcitePanelElement> {
-    const { panels, activeIndex } = this;
+    const { panels, openIndex } = this;
 
-    const activePanel = panels[activeIndex];
-    const nextActivePanel = panels[activeIndex - 1];
+    const openPanel = panels[openIndex];
+    const nextOpenPanel = panels[openIndex - 1];
 
-    if (!activePanel || !nextActivePanel) {
+    if (!openPanel || !nextOpenPanel) {
       return;
     }
 
-    const beforeBack = activePanel.beforeBack
-      ? activePanel.beforeBack
+    const beforeBack = openPanel.beforeBack
+      ? openPanel.beforeBack
       : (): Promise<void> => Promise.resolve();
 
-    return beforeBack.call(activePanel).then(() => {
-      activePanel.active = false;
-      nextActivePanel.active = true;
-      return nextActivePanel;
+    return beforeBack.call(openPanel).then(() => {
+      openPanel.open = false;
+      nextOpenPanel.open = true;
+      return nextOpenPanel;
     });
   }
 
@@ -55,7 +55,7 @@ export class Flow {
 
   @State() panels: HTMLCalcitePanelElement[] = [];
 
-  activeIndex = -1;
+  openIndex = -1;
 
   panelItemMutationObserver: MutationObserver = createObserver("mutation", () =>
     this.handleMutationObserverChange()
@@ -82,8 +82,8 @@ export class Flow {
   //
   // --------------------------------------------------------------------------
 
-  @Listen("calciteInternalPanelActiveChange")
-  handleCalciteInternalPanelActiveChange(event: CustomEvent): void {
+  @Listen("calciteInternalPanelOpenChange")
+  handleCalciteInternalPanelOpenChange(event: CustomEvent): void {
     event.stopPropagation();
     this.updateFlowProps();
   }
@@ -93,15 +93,15 @@ export class Flow {
     this.back();
   }
 
-  getFlowDirection = (oldActiveIndex: number, newActiveIndex: number): FlowDirection | null => {
-    const allowRetreatingDirection = oldActiveIndex > 0;
-    const allowAdvancingDirection = oldActiveIndex > -1 && newActiveIndex > 0;
+  getFlowDirection = (oldOpenIndex: number, newOpenIndex: number): FlowDirection | null => {
+    const allowRetreatingDirection = oldOpenIndex > 0;
+    const allowAdvancingDirection = oldOpenIndex > -1 && newOpenIndex > 0;
 
     if (!allowAdvancingDirection && !allowRetreatingDirection) {
       return null;
     }
 
-    return newActiveIndex < oldActiveIndex ? "retreating" : "advancing";
+    return newOpenIndex < oldOpenIndex ? "retreating" : "advancing";
   };
 
   handleMutationObserverChange = (): void => {
@@ -111,59 +111,59 @@ export class Flow {
 
     this.panels = newPanels;
 
-    this.ensureActivePanelExists();
+    this.ensureOpenPanelExists();
 
     this.updateFlowProps();
   };
 
   updateFlowProps = (): void => {
-    const { activeIndex, panels } = this;
-    const foundActiveIndex = this.findActivePanelIndex(panels);
+    const { openIndex, panels } = this;
+    const foundOpenIndex = this.findOpenPanelIndex(panels);
 
     panels.forEach((panel, index) => {
-      const active = index === foundActiveIndex;
-      panel.active = active;
-      panel.hidden = !active;
+      const open = index === foundOpenIndex;
+      panel.open = open;
+      panel.hidden = !open;
 
-      if (!active) {
+      if (!open) {
         panel.menuOpen = false;
       }
 
-      panel.showBackButton = index === foundActiveIndex && foundActiveIndex > 0;
+      panel.showBackButton = index === foundOpenIndex && foundOpenIndex > 0;
     });
 
-    if (foundActiveIndex === -1) {
+    if (foundOpenIndex === -1) {
       return;
     }
 
-    if (activeIndex !== foundActiveIndex) {
-      this.flowDirection = this.getFlowDirection(activeIndex, foundActiveIndex);
+    if (openIndex !== foundOpenIndex) {
+      this.flowDirection = this.getFlowDirection(openIndex, foundOpenIndex);
     }
 
-    this.activeIndex = foundActiveIndex;
+    this.openIndex = foundOpenIndex;
   };
 
-  findActivePanelIndex = (panels: HTMLCalcitePanelElement[]): number => {
-    const activePanel = panels
+  findOpenPanelIndex = (panels: HTMLCalcitePanelElement[]): number => {
+    const openPanel = panels
       .slice(0)
       .reverse()
-      .find((panel) => !!panel.active);
+      .find((panel) => !!panel.open);
 
-    return panels.indexOf(activePanel);
+    return panels.indexOf(openPanel);
   };
 
-  ensureActivePanelExists(): void {
+  ensureOpenPanelExists(): void {
     const { panels } = this;
-    const foundActiveIndex = this.findActivePanelIndex(panels);
+    const foundOpenIndex = this.findOpenPanelIndex(panels);
 
-    if (foundActiveIndex !== -1) {
+    if (foundOpenIndex !== -1) {
       return;
     }
 
     const lastPanel = panels[panels.length - 1];
 
     if (lastPanel) {
-      lastPanel.active = true;
+      lastPanel.open = true;
     }
   }
 

@@ -48,11 +48,11 @@ export class Panel implements ConditionalSlotComponent, InteractiveComponent {
   /**
    * When true, panel is displayed within a parent flow.
    */
-  @Prop({ reflect: true }) active = false;
+  @Prop({ reflect: true }) open = false;
 
-  @Watch("active")
-  activeHandler(): void {
-    this.calciteInternalPanelActiveChange.emit();
+  @Watch("open")
+  openHandler(): void {
+    this.calciteInternalPanelOpenChange.emit();
   }
 
   /**
@@ -214,7 +214,7 @@ export class Panel implements ConditionalSlotComponent, InteractiveComponent {
   /**
    * @internal
    */
-  @Event() calciteInternalPanelActiveChange: EventEmitter;
+  @Event() calciteInternalPanelOpenChange: EventEmitter;
 
   // --------------------------------------------------------------------------
   //
