@@ -1133,6 +1133,29 @@ describe("calcite-combobox", () => {
     expect(three).toBeFalsy();
   });
 
+  it("respects the filterDisabled item property", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+      <calcite-combobox selection-mode="single">
+        <calcite-combobox-item id="one" value="one" text-label="One"></calcite-combobox-item>
+        <calcite-combobox-item id="two" value="two" text-label="Two" ></calcite-combobox-item>
+        <calcite-combobox-item id="three" value="three" text-label="Three" filter-disabled></calcite-combobox-item>
+      </calcite-combobox>
+    `);
+
+    await page.waitForChanges();
+    const input = await page.find("calcite-combobox >>> .wrapper");
+    await input.click();
+    await page.keyboard.type("two");
+    await page.waitForChanges();
+    const one = await (await page.find("#one")).isVisible();
+    const two = await (await page.find("#two")).isVisible();
+    const three = await (await page.find("#three")).isVisible();
+    expect(one).toBeFalsy();
+    expect(two).toBeTruthy();
+    expect(three).toBeTruthy();
+  });
+
   it("works correctly inside a shadowRoot", async () => {
     const page = await newE2EPage();
     await page.setContent(`
@@ -1180,4 +1203,54 @@ describe("calcite-combobox", () => {
       "active",
       { shadowPopperSelector: ".popper-container" }
     ));
+
+  it("should emit component status for transition-chained events: 'calciteComoboxBeforeOpen', 'calciteComboboxOpen', 'calciteComboboxBeforeClose', 'calciteComboboxClose'", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html`
+      <calcite-combobox id="myCombobox">
+        <calcite-combobox-item value="Raising Arizona" text-label="Raising Arizona"></calcite-combobox-item>
+        <calcite-combobox-item value="Miller's Crossing" text-label="Miller's Crossing"></calcite-combobox-item>
+        <calcite-combobox-item value="The Hudsucker Proxy" text-label="The Hudsucker Proxy"></calcite-combobox-item>
+        <calcite-combobox-item value="Inside Llewyn Davis" text-label="Inside Llewyn Davis"></calcite-combobox-item>
+      </calcite-combobox>
+    `);
+    const element = await page.find("calcite-combobox");
+    const container = await page.find(`calcite-combobox >>> .${CSS.listContainer}`);
+
+    expect(await container.isVisible()).toBe(false);
+
+    const calciteComboboxBeforeOpenEvent = page.waitForEvent("calciteComboboxBeforeOpen");
+    const calciteComboboxOpenEvent = page.waitForEvent("calciteComboboxOpen");
+
+    const calciteComboboxBeforeOpenSpy = await element.spyOnEvent("calciteComboboxBeforeOpen");
+    const calciteComboboxOpenSpy = await element.spyOnEvent("calciteComboboxOpen");
+
+    await element.setProperty("active", true);
+    await page.waitForChanges();
+
+    await calciteComboboxBeforeOpenEvent;
+    await calciteComboboxOpenEvent;
+
+    expect(calciteComboboxBeforeOpenSpy).toHaveReceivedEventTimes(1);
+    expect(calciteComboboxOpenSpy).toHaveReceivedEventTimes(1);
+
+    expect(await container.isVisible()).toBe(true);
+
+    const calciteComboboxBeforeCloseEvent = page.waitForEvent("calciteComboboxBeforeClose");
+    const calciteComboboxCloseEvent = page.waitForEvent("calciteComboboxClose");
+
+    const calciteComboboxBeforeCloseSpy = await element.spyOnEvent("calciteComboboxBeforeClose");
+    const calciteComboboxClose = await element.spyOnEvent("calciteComboboxClose");
+
+    await element.setProperty("active", false);
+    await page.waitForChanges();
+
+    await calciteComboboxBeforeCloseEvent;
+    await calciteComboboxCloseEvent;
+
+    expect(calciteComboboxBeforeCloseSpy).toHaveReceivedEventTimes(1);
+    expect(calciteComboboxClose).toHaveReceivedEventTimes(1);
+
+    expect(await container.isVisible()).toBe(false);
+  });
 });

@@ -73,13 +73,13 @@ export class DropdownItem {
   /**
    * @internal
    */
-  @Event() calciteDropdownItemSelect: EventEmitter;
+  @Event() calciteInternalDropdownItemSelect: EventEmitter;
 
   /** @internal */
-  @Event() calciteDropdownItemKeyEvent: EventEmitter<ItemKeyboardEvent>;
+  @Event() calciteInternalDropdownItemKeyEvent: EventEmitter<ItemKeyboardEvent>;
 
   /** @internal */
-  @Event() calciteDropdownCloseRequest: EventEmitter;
+  @Event() calciteInternalDropdownCloseRequest: EventEmitter;
   //--------------------------------------------------------------------------
   //
   //  Public Methods
@@ -89,7 +89,7 @@ export class DropdownItem {
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    this.el.focus();
+    this.el?.focus();
   }
 
   //--------------------------------------------------------------------------
@@ -201,36 +201,35 @@ export class DropdownItem {
     this.emitRequestedItem();
   }
 
-  @Listen("keydown") keyDownHandler(e: KeyboardEvent): void {
+  @Listen("keydown")
+  keyDownHandler(e: KeyboardEvent): void {
     switch (e.key) {
       case " ":
-        this.emitRequestedItem();
-        if (this.href) {
-          e.preventDefault();
-          this.childLink.click();
-        }
-        break;
       case "Enter":
         this.emitRequestedItem();
         if (this.href) {
           this.childLink.click();
         }
+        e.preventDefault();
         break;
       case "Escape":
-        this.calciteDropdownCloseRequest.emit();
+        this.calciteInternalDropdownCloseRequest.emit();
+        e.preventDefault();
         break;
       case "Tab":
+        this.calciteInternalDropdownItemKeyEvent.emit({ keyboardEvent: e });
+        break;
       case "ArrowUp":
       case "ArrowDown":
       case "Home":
       case "End":
-        this.calciteDropdownItemKeyEvent.emit({ keyboardEvent: e });
+        e.preventDefault();
+        this.calciteInternalDropdownItemKeyEvent.emit({ keyboardEvent: e });
         break;
     }
-    e.preventDefault();
   }
 
-  @Listen("calciteDropdownItemChange", { target: "body" })
+  @Listen("calciteInternalDropdownItemChange", { target: "body" })
   updateActiveItemOnChange(event: CustomEvent): void {
     const parentEmittedChange = event.composedPath().includes(this.parentDropdownGroupEl);
 
@@ -239,6 +238,7 @@ export class DropdownItem {
       this.requestedDropdownItem = event.detail.requestedDropdownItem;
       this.determineActiveItem();
     }
+    event.stopPropagation();
   }
 
   //--------------------------------------------------------------------------
@@ -299,7 +299,7 @@ export class DropdownItem {
   }
 
   private emitRequestedItem(): void {
-    this.calciteDropdownItemSelect.emit({
+    this.calciteInternalDropdownItemSelect.emit({
       requestedDropdownItem: this.el,
       requestedDropdownGroup: this.parentDropdownGroupEl
     });

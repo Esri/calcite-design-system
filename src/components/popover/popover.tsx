@@ -28,7 +28,8 @@ import {
   CSS as PopperCSS,
   OverlayPositioning,
   ComputedPlacement,
-  filterComputedPlacements
+  filterComputedPlacements,
+  ReferenceElement
 } from "../../utils/popper";
 import { StrictModifiers, Instance as Popper } from "@popperjs/core";
 import { guid } from "../../utils/guid";
@@ -55,28 +56,29 @@ export class Popover {
   // --------------------------------------------------------------------------
 
   /**
-   * Automatically closes any currently open popovers when clicking outside of a popover.
+   * When true and clicking outside of the component, automatically closes open `calcite-popover`s.
    */
   @Prop({ reflect: true }) autoClose = false;
 
   /**
-   * Display a close button within the Popover.
+   * When true, a close button is added to the component.
+   *
    * @deprecated use dismissible instead.
    */
   @Prop({ reflect: true }) closeButton = false;
 
   /**
-   * Display a close button within the Popover.
+   * When true, a close button is added to the component.
    */
   @Prop({ reflect: true }) dismissible = false;
 
   /**
-   * Prevents flipping the popover's placement when it starts to overlap its reference element.
+   * When true, prevents flipping the component's placement when overlapping its `referenceElement`.
    */
   @Prop({ reflect: true }) disableFlip = false;
 
   /**
-   * Removes the caret pointer.
+   * When true, removes the caret pointer.
    */
   @Prop({ reflect: true }) disablePointer = false;
 
@@ -91,20 +93,21 @@ export class Popover {
   }
 
   /**
-   * Heading text.
+   * The component header text.
    */
   @Prop() heading?: string;
 
   /**
-   * Number at which section headings should start for this component.
+   * Specifies the number at which section headings should start.
    */
   @Prop() headingLevel: HeadingLevel;
 
-  /** Accessible name for the component */
+  /** Accessible name for the component. */
   @Prop() label!: string;
 
   /**
-   * Offset the position of the popover away from the reference element.
+   * Offsets the position of the popover away from the `referenceElement`.
+   *
    * @default 6
    */
   @Prop({ reflect: true }) offsetDistance = defaultOffsetDistance;
@@ -115,7 +118,7 @@ export class Popover {
   }
 
   /**
-   * Offset the position of the popover along the reference element.
+   * Offsets the position of the popover along the `referenceElement`.
    */
   @Prop({ reflect: true }) offsetSkidding = 0;
 
@@ -125,7 +128,7 @@ export class Popover {
   }
 
   /**
-   * Display and position the component.
+   * When true, displays and positions the component.
    */
   @Prop({ reflect: true, mutable: true }) open = false;
 
@@ -135,11 +138,12 @@ export class Popover {
     this.setExpandedAttr();
   }
 
-  /** Describes the type of positioning to use for the overlaid content. If your element is in a fixed container, use the 'fixed' value. */
+  /** Describes the positioning type to use for the overlaid content. If the element is in a fixed container, use the "fixed" value. */
   @Prop() overlayPositioning: OverlayPositioning = "absolute";
 
   /**
-   * Determines where the component will be positioned relative to the referenceElement.
+   * Determines where the component will be positioned relative to the `referenceElement`.
+   *
    * @see [PopperPlacement](https://github.com/Esri/calcite-components/blob/master/src/utils/popper.ts#L25)
    */
   @Prop({ reflect: true }) placement: PopperPlacement = defaultPopoverPlacement;
@@ -150,16 +154,23 @@ export class Popover {
   }
 
   /**
-   * Reference HTMLElement used to position this component according to the placement property. As a convenience, a string ID of the reference element can be used. However, setting this property to use an HTMLElement is preferred so that the component does not need to query the DOM for the referenceElement.
+   *  The `referenceElement` used to position the component according to its "placement" value. Setting to an `HTMLElement` is preferred so the component does not need to query the DOM. However, a string `id` of the reference element can also be used.
    */
-  @Prop() referenceElement!: HTMLElement | string;
+  @Prop() referenceElement!: ReferenceElement | string;
 
   @Watch("referenceElement")
   referenceElementHandler(): void {
     this.setUpReferenceElement();
   }
 
-  /** Text for close button.
+  /**
+   * When true, disables automatically toggling the component when its `referenceElement` has been triggered. This property can be set to "true" to manage when a popover is open.
+   */
+  @Prop({ reflect: true }) triggerDisabled = false;
+
+  /**
+   * Accessible name for the component's close button.
+   *
    * @default "Close"
    */
   @Prop() intlClose = TEXT.close;
@@ -174,7 +185,7 @@ export class Popover {
 
   @Element() el: HTMLCalcitePopoverElement;
 
-  @State() effectiveReferenceElement: HTMLElement;
+  @State() effectiveReferenceElement: ReferenceElement;
 
   popper: Popper;
 
@@ -214,10 +225,10 @@ export class Popover {
   //  Events
   //
   //--------------------------------------------------------------------------
-  /** Fired when the popover is closed */
+  /** Fired when the component is closed. */
   @Event() calcitePopoverClose: EventEmitter;
 
-  /** Fired when the popover is opened */
+  /** Fired when the component is opened. */
   @Event() calcitePopoverOpen: EventEmitter;
 
   // --------------------------------------------------------------------------
@@ -242,7 +253,11 @@ export class Popover {
       : this.createPopper();
   }
 
-  /** Sets focus on the component. */
+  /**
+   * Sets focus on the component.
+   *
+   * @param focusId
+   */
   @Method()
   async setFocus(focusId?: "close-button"): Promise<void> {
     const { closeButtonEl } = this;
@@ -257,7 +272,11 @@ export class Popover {
     this.el?.focus();
   }
 
-  /** Toggles the popover's open property. */
+  /**
+   * Toggles the component's open property.
+   *
+   * @param value
+   */
   @Method()
   async toggle(value = !this.open): Promise<void> {
     this.open = value;
@@ -303,7 +322,9 @@ export class Popover {
       return;
     }
 
-    effectiveReferenceElement.setAttribute(ARIA_EXPANDED, toAriaBoolean(open));
+    if ("setAttribute" in effectiveReferenceElement) {
+      effectiveReferenceElement.setAttribute(ARIA_EXPANDED, toAriaBoolean(open));
+    }
   };
 
   addReferences = (): void => {
@@ -315,7 +336,9 @@ export class Popover {
 
     const id = this.getId();
 
-    effectiveReferenceElement.setAttribute(ARIA_CONTROLS, id);
+    if ("setAttribute" in effectiveReferenceElement) {
+      effectiveReferenceElement.setAttribute(ARIA_CONTROLS, id);
+    }
     manager.registerElement(effectiveReferenceElement, this.el);
     this.setExpandedAttr();
   };
@@ -327,12 +350,14 @@ export class Popover {
       return;
     }
 
-    effectiveReferenceElement.removeAttribute(ARIA_CONTROLS);
-    effectiveReferenceElement.removeAttribute(ARIA_EXPANDED);
+    if ("removeAttribute" in effectiveReferenceElement) {
+      effectiveReferenceElement.removeAttribute(ARIA_CONTROLS);
+      effectiveReferenceElement.removeAttribute(ARIA_EXPANDED);
+    }
     manager.unregisterElement(effectiveReferenceElement);
   };
 
-  getReferenceElement(): HTMLElement {
+  getReferenceElement(): ReferenceElement {
     const { referenceElement, el } = this;
 
     return (
@@ -430,7 +455,7 @@ export class Popover {
   // --------------------------------------------------------------------------
 
   renderCloseButton(): VNode {
-    const { dismissible, closeButton, intlClose } = this;
+    const { dismissible, closeButton, intlClose, heading } = this;
 
     return dismissible || closeButton ? (
       <div class={CSS.closeButtonContainer}>
@@ -438,9 +463,10 @@ export class Popover {
           class={CSS.closeButton}
           onClick={this.hide}
           ref={(closeButtonEl) => (this.closeButtonEl = closeButtonEl)}
+          scale={heading ? "s" : "m"}
           text={intlClose}
         >
-          <calcite-icon icon="x" scale="m" />
+          <calcite-icon icon="x" scale={heading ? "s" : "m"} />
         </calcite-action>
       </div>
     ) : null;

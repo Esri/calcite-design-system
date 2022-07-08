@@ -53,7 +53,9 @@ export class Switch implements LabelableComponent, CheckableFormCompoment, Inter
   /** The scale of the switch */
   @Prop({ reflect: true }) scale: Scale = "m";
 
-  /** True if the switch is initially on
+  /**
+   * True if the switch is initially on
+   *
    * @deprecated use 'checked' instead.
    */
   @Prop({ mutable: true }) switched = false;

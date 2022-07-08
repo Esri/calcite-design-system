@@ -72,6 +72,18 @@
   @apply hidden;
 }
 
+@media (forced-colors: active) {
+  :host([checked]) label {
+    background-color: highlight;
+  }
+  :host([checked]) .label--outline {
+    @apply outline-none;
+  }
+  :host([checked]) label:not([class~="label--outline"]) .radio-group-item-icon {
+    color: highlightText;
+  }
+}
+
 // icon
 .radio-group-item-icon {
   @apply relative

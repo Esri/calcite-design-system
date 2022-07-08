@@ -1,7 +1,5 @@
 import { Component, Element, Listen, Method, State, h, VNode } from "@stencil/core";
-
 import { CSS } from "./resources";
-
 import { FlowDirection } from "./interfaces";
 import { createObserver } from "../../utils/observers";
 
@@ -25,7 +23,9 @@ export class Flow {
    */
   @Method()
   async back(): Promise<HTMLCalcitePanelElement> {
-    const lastItem = this.el.querySelector("calcite-panel:last-child") as HTMLCalcitePanelElement;
+    const { panels } = this;
+
+    const lastItem = panels[panels.length - 1];
 
     if (!lastItem) {
       return;
@@ -55,6 +55,10 @@ export class Flow {
   @State() flowDirection: FlowDirection = null;
 
   @State() panels: HTMLCalcitePanelElement[] = [];
+
+  panelItemMutationObserver: MutationObserver = createObserver("mutation", () =>
+    this.updateFlowProps()
+  );
 
   // --------------------------------------------------------------------------
   //
@@ -94,21 +98,20 @@ export class Flow {
   };
 
   updateFlowProps = (): void => {
-    const { panels } = this;
+    const { el, panels } = this;
 
     const newPanels: HTMLCalcitePanelElement[] = Array.from(
-      this.el.querySelectorAll("calcite-panel")
-    );
+      el.querySelectorAll("calcite-panel")
+    ).filter((panel) => !panel.matches("calcite-panel calcite-panel")) as HTMLCalcitePanelElement[];
 
     const oldPanelCount = panels.length;
     const newPanelCount = newPanels.length;
-
     const activePanel = newPanels[newPanelCount - 1];
     const previousPanel = newPanels[newPanelCount - 2];
 
     if (newPanelCount && activePanel) {
       newPanels.forEach((panelNode) => {
-        panelNode.showBackButton = newPanelCount > 1;
+        panelNode.showBackButton = panelNode === activePanel && newPanelCount > 1;
         panelNode.hidden = panelNode !== activePanel;
       });
     }
@@ -126,8 +129,6 @@ export class Flow {
     }
   };
 
-  panelItemMutationObserver: MutationObserver = createObserver("mutation", this.updateFlowProps);
-
   // --------------------------------------------------------------------------
   //
   //  Render Methods
@@ -135,7 +136,7 @@ export class Flow {
   // --------------------------------------------------------------------------
 
   render(): VNode {
-    const { flowDirection, panelCount } = this;
+    const { flowDirection } = this;
 
     const frameDirectionClasses = {
       [CSS.frame]: true,
@@ -144,7 +145,7 @@ export class Flow {
     };
 
     return (
-      <div class={frameDirectionClasses} key={panelCount}>
+      <div class={frameDirectionClasses}>
         <slot />
       </div>
     );

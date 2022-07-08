@@ -41,9 +41,9 @@
 
 ## Slots
 
-| Slot | Description                            |
-| ---- | -------------------------------------- |
-|      | A slot for calcite-tree-item elements. |
+| Slot | Description                              |
+| ---- | ---------------------------------------- |
+|      | A slot for `calcite-tree-item` elements. |
 
 ---
 

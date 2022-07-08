@@ -16,7 +16,7 @@ export class OptionGroup {
   //--------------------------------------------------------------------------
 
   /**
-   * When true, it prevents selection from any of its associated options.
+   * When true, interaction is prevented and the component is displayed with lower opacity.
    */
   @Prop({
     reflect: true
@@ -24,7 +24,7 @@ export class OptionGroup {
   disabled = false;
 
   /**
-   * The group label. This property is required.
+   * Accessible name for the component.
    */
   @Prop()
   label!: string;
@@ -32,7 +32,7 @@ export class OptionGroup {
   @Watch("disabled")
   @Watch("label")
   protected handlePropChange(): void {
-    this.calciteOptionGroupChange.emit();
+    this.calciteInternalOptionGroupChange.emit();
   }
 
   //--------------------------------------------------------------------------
@@ -45,7 +45,7 @@ export class OptionGroup {
    * @internal
    */
   @Event()
-  private calciteOptionGroupChange: EventEmitter;
+  private calciteInternalOptionGroupChange: EventEmitter;
 
   //--------------------------------------------------------------------------
   //

@@ -1,5 +1,4 @@
-import { sanitizeDecimalString, sanitizeExponentialNumberString } from "./number";
-import { isValidNumber } from "./number";
+import { sanitizeDecimalString, sanitizeExponentialNumberString, isValidNumber, BigDecimal } from "./number";
 
 export const locales = [
   "ar",
@@ -57,11 +56,18 @@ const allDecimalsExceptLast = new RegExp(`[.](?=.*[.])`, "g");
 const everythingExceptNumbersDecimalsAndMinusSigns = new RegExp("[^0-9-.]", "g");
 const defaultGroupSeparator = new RegExp(",", "g");
 
-function createLocaleNumberFormatter(locale: string): Intl.NumberFormat {
+const browserNumberingSystem = new Intl.NumberFormat().resolvedOptions().numberingSystem;
+const defaultNumberingSystem = browserNumberingSystem === "arab" ? "latn" : browserNumberingSystem;
+
+export function createLocaleNumberFormatter(
+  locale: string,
+  numberingSystem = defaultNumberingSystem
+): Intl.NumberFormat {
   return new Intl.NumberFormat(locale, {
     minimumFractionDigits: 0,
-    maximumFractionDigits: 20
-  });
+    maximumFractionDigits: 20,
+    numberingSystem
+  } as Intl.ResolvedNumberFormatOptions);
 }
 
 export function delocalizeNumberString(numberString: string, locale: string): string {
@@ -97,13 +103,18 @@ export function getMinusSign(locale: string): string {
   return parts.find((part) => part.type === "minusSign").value;
 }
 
-export function localizeNumberString(numberString: string, locale: string, displayGroupSeparator = false): string {
+export function localizeNumberString(
+  numberString: string,
+  locale: string,
+  displayGroupSeparator = false,
+  numberingSystem?: string
+): string {
   return sanitizeExponentialNumberString(numberString, (nonExpoNumString: string): string => {
     if (nonExpoNumString) {
-      const number = Number(sanitizeDecimalString(nonExpoNumString.replace(defaultGroupSeparator, "")));
-      if (!isNaN(number)) {
-        const formatter = createLocaleNumberFormatter(locale);
-        const parts = formatter.formatToParts(number);
+      const sanitizedNumberString = sanitizeDecimalString(nonExpoNumString.replace(defaultGroupSeparator, ""));
+      if (isValidNumber(sanitizedNumberString)) {
+        const parts = new BigDecimal(sanitizedNumberString).formatToParts(locale, numberingSystem);
+
         const localizedNumberString = parts
           .map(({ type, value }) => {
             switch (type) {

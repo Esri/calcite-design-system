@@ -72,15 +72,17 @@ You can combine groups in a single dropdown, with varying selection modes:
 | `scale`                | `scale`                   | specify the scale of dropdown, defaults to m                                                                                                                                                   | `"l" \| "m" \| "s"`                                                                                                                                           | `"m"`                  |
 | `selectedItems`        | --                        | **read-only** The currently selected items                                                                                                                                                     | `HTMLCalciteDropdownItemElement[]`                                                                                                                            | `[]`                   |
 | `type`                 | `type`                    | specify whether the dropdown is opened by hover or click of a trigger element                                                                                                                  | `"click" \| "hover"`                                                                                                                                          | `"click"`              |
-| `width`                | `width`                   | specify the width of dropdown, defaults to m                                                                                                                                                   | `"l" \| "m" \| "s"`                                                                                                                                           | `"m"`                  |
+| `width`                | `width`                   | specify the width of dropdown                                                                                                                                                                  | `"l" \| "m" \| "s"`                                                                                                                                           | `undefined`            |
 
 ## Events
 
-| Event                   | Description                                                   | Type                |
-| ----------------------- | ------------------------------------------------------------- | ------------------- |
-| `calciteDropdownClose`  | fires when a dropdown has been closed \*                      | `CustomEvent<void>` |
-| `calciteDropdownOpen`   | fires when a dropdown has been opened \*                      | `CustomEvent<void>` |
-| `calciteDropdownSelect` | fires when a dropdown item has been selected or deselected \* | `CustomEvent<void>` |
+| Event                        | Description                                                | Type                                               |
+| ---------------------------- | ---------------------------------------------------------- | -------------------------------------------------- |
+| `calciteDropdownBeforeClose` |                                                            | `CustomEvent<{ el: HTMLCalciteDropdownElement; }>` |
+| `calciteDropdownBeforeOpen`  |                                                            | `CustomEvent<{ el: HTMLCalciteDropdownElement; }>` |
+| `calciteDropdownClose`       |                                                            | `CustomEvent<{ el: HTMLCalciteDropdownElement; }>` |
+| `calciteDropdownOpen`        |                                                            | `CustomEvent<{ el: HTMLCalciteDropdownElement; }>` |
+| `calciteDropdownSelect`      | fires when a dropdown item has been selected or deselected | `CustomEvent<void>`                                |
 
 ## Methods
 

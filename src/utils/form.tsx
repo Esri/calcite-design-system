@@ -90,10 +90,8 @@ export interface CheckableFormCompoment<T = any> extends FormComponent<T> {
    * The initial checked value for this form component.
    *
    * When the form is reset, the checked property will be set to this value.
-   *
-   * @todo remove optional in follow-up PR
    */
-  defaultChecked?: boolean;
+  defaultChecked: boolean;
 }
 
 function isCheckable(component: FormComponent): component is CheckableFormCompoment {
@@ -135,13 +133,23 @@ function hasRegisteredFormComponentParent(
 
 /**
  * Helper to submit a form.
+ *
+ * @param component
  */
 export function submitForm(component: FormOwner): void {
-  component.formEl?.requestSubmit();
+  const { formEl } = component;
+
+  if (!formEl) {
+    return;
+  }
+
+  "requestSubmit" in formEl ? formEl.requestSubmit() : formEl.submit();
 }
 
 /**
  * Helper to reset a form.
+ *
+ * @param component
  */
 export function resetForm(component: FormOwner): void {
   component.formEl?.reset();
@@ -149,6 +157,8 @@ export function resetForm(component: FormOwner): void {
 
 /**
  * Helper to set up form interactions on connectedCallback.
+ *
+ * @param component
  */
 export function connectForm<T>(component: FormComponent<T>): void {
   const { el, value } = component;
@@ -183,6 +193,8 @@ function onFormReset<T>(this: FormComponent<T>): void {
 
 /**
  * Helper to tear down form interactions on disconnectedCallback.
+ *
+ * @param component
  */
 export function disconnectForm<T>(component: FormComponent<T>): void {
   const { el, formEl } = component;
@@ -202,6 +214,9 @@ export function disconnectForm<T>(component: FormComponent<T>): void {
  * Helper for setting the default value on initialization after connectedCallback.
  *
  * Note that this is only needed if the default value cannot be determined on connectedCallback.
+ *
+ * @param component
+ * @param value
  */
 export function afterConnectDefaultValueSet<T>(component: FormComponent<T>, value: any): void {
   component.defaultValue = value;
@@ -211,6 +226,8 @@ export function afterConnectDefaultValueSet<T>(component: FormComponent<T>, valu
  * Helper for maintaining a form-associated's hidden input in sync with the component.
  *
  * Based on Ionic's approach: https://github.com/ionic-team/ionic-framework/blob/e4bf052794af9aac07f887013b9250d2a045eba3/core/src/utils/helpers.ts#L198
+ *
+ * @param component
  */
 function syncHiddenFormInput(component: FormComponent): void {
   const { el, formEl, name, value } = component;
@@ -321,6 +338,9 @@ interface HiddenFormInputSlotProps {
  * }
  *
  * Note that the hidden-form-input Sass mixin must be added to the component's style to apply specific styles.
+ *
+ * @param root0
+ * @param root0.component
  */
 export const HiddenFormInputSlot: FunctionalComponent<HiddenFormInputSlotProps> = ({
   component

@@ -8,7 +8,8 @@ import {
   createPopper,
   updatePopper,
   CSS as PopperCSS,
-  OverlayPositioning
+  OverlayPositioning,
+  ReferenceElement
 } from "../../utils/popper";
 import { queryElementRoots, toAriaBoolean } from "../../utils/dom";
 
@@ -31,11 +32,15 @@ export class Tooltip {
   //
   // --------------------------------------------------------------------------
 
-  /** Accessible name for the component */
+  /** Closes the component when the `referenceElement` is clicked. */
+  @Prop() closeOnClick = false;
+
+  /** Accessible name for the component. */
   @Prop() label!: string;
 
   /**
-   * Offset the position of the tooltip away from the reference element.
+   * Offset the position of the component away from the `referenceElement`.
+   *
    * @default 6
    */
   @Prop({ reflect: true }) offsetDistance = defaultOffsetDistance;
@@ -46,7 +51,7 @@ export class Tooltip {
   }
 
   /**
-   * Offset the position of the tooltip along the reference element.
+   * Offset the position of the component along the `referenceElement`.
    */
   @Prop({ reflect: true }) offsetSkidding = 0;
 
@@ -56,7 +61,7 @@ export class Tooltip {
   }
 
   /**
-   * Display and position the component.
+   * When true, the component is open.
    */
   @Prop({ reflect: true }) open = false;
 
@@ -65,11 +70,12 @@ export class Tooltip {
     this.reposition();
   }
 
-  /** Describes the type of positioning to use for the overlaid content. If your element is in a fixed container, use the 'fixed' value. */
+  /** Describes the positioning type to use for the overlaid content. If the `referenceElement` is in a fixed container, use the "fixed" value. */
   @Prop() overlayPositioning: OverlayPositioning = "absolute";
 
   /**
-   * Determines where the component will be positioned relative to the referenceElement.
+   * Determines where the component will be positioned relative to the `referenceElement`.
+   *
    * @see [PopperPlacement](https://github.com/Esri/calcite-components/blob/master/src/utils/popper.ts#L25)
    */
   @Prop({ reflect: true }) placement: PopperPlacement = "auto";
@@ -80,9 +86,9 @@ export class Tooltip {
   }
 
   /**
-   * Reference HTMLElement used to position this component according to the placement property. As a convenience, a string ID of the reference element can be used. However, setting this property to use an HTMLElement is preferred so that the component does not need to query the DOM for the referenceElement.
+   * The `referenceElement` to position the component according to its "placement" value. Setting to the `HTMLElement` is preferred so the component does not need to query the DOM for the `referenceElement`. However, a string ID of the reference element can be used.
    */
-  @Prop() referenceElement: HTMLElement | string;
+  @Prop() referenceElement: ReferenceElement | string;
 
   @Watch("referenceElement")
   referenceElementHandler(): void {
@@ -97,7 +103,7 @@ export class Tooltip {
 
   @Element() el: HTMLCalciteTooltipElement;
 
-  @State() effectiveReferenceElement: HTMLElement;
+  @State() effectiveReferenceElement: ReferenceElement;
 
   arrowEl: HTMLDivElement;
 
@@ -180,7 +186,9 @@ export class Tooltip {
 
     const id = this.getId();
 
-    effectiveReferenceElement.setAttribute(ARIA_DESCRIBED_BY, id);
+    if ("setAttribute" in effectiveReferenceElement) {
+      effectiveReferenceElement.setAttribute(ARIA_DESCRIBED_BY, id);
+    }
     manager.registerElement(effectiveReferenceElement, this.el);
   };
 
@@ -191,11 +199,13 @@ export class Tooltip {
       return;
     }
 
-    effectiveReferenceElement.removeAttribute(ARIA_DESCRIBED_BY);
+    if ("removeAttribute" in effectiveReferenceElement) {
+      effectiveReferenceElement.removeAttribute(ARIA_DESCRIBED_BY);
+    }
     manager.unregisterElement(effectiveReferenceElement);
   };
 
-  getReferenceElement(): HTMLElement {
+  getReferenceElement(): ReferenceElement {
     const { referenceElement, el } = this;
 
     return (
@@ -272,6 +282,7 @@ export class Tooltip {
       <Host
         aria-hidden={toAriaBoolean(hidden)}
         aria-label={label}
+        aria-live="polite"
         calcite-hydrated-hidden={hidden}
         id={this.getId()}
         role="tooltip"

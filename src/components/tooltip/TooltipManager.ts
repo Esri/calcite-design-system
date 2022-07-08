@@ -1,3 +1,4 @@
+import { ReferenceElement } from "../../utils/popper";
 import { TOOLTIP_DELAY_MS } from "./resources";
 
 export default class TooltipManager {
@@ -7,7 +8,7 @@ export default class TooltipManager {
   //
   // --------------------------------------------------------------------------
 
-  private registeredElements = new WeakMap<HTMLElement, HTMLCalciteTooltipElement>();
+  private registeredElements = new WeakMap<ReferenceElement, HTMLCalciteTooltipElement>();
 
   private hoverTimeouts: WeakMap<HTMLCalciteTooltipElement, number> = new WeakMap();
 
@@ -23,7 +24,7 @@ export default class TooltipManager {
   //
   // --------------------------------------------------------------------------
 
-  registerElement(referenceEl: HTMLElement, tooltip: HTMLCalciteTooltipElement): void {
+  registerElement(referenceEl: ReferenceElement, tooltip: HTMLCalciteTooltipElement): void {
     this.registeredElementCount++;
 
     this.registeredElements.set(referenceEl, tooltip);
@@ -33,7 +34,7 @@ export default class TooltipManager {
     }
   }
 
-  unregisterElement(referenceEl: HTMLElement): void {
+  unregisterElement(referenceEl: ReferenceElement): void {
     if (this.registeredElements.delete(referenceEl)) {
       this.registeredElementCount--;
     }
@@ -77,7 +78,13 @@ export default class TooltipManager {
   };
 
   private clickHandler = (event: MouseEvent): void => {
-    this.clickedTooltip = this.queryTooltip(event.composedPath());
+    const clickedTooltip = this.queryTooltip(event.composedPath());
+
+    this.clickedTooltip = clickedTooltip;
+
+    if (clickedTooltip?.closeOnClick) {
+      this.toggleTooltip(clickedTooltip, false);
+    }
   };
 
   private focusShow = (event: FocusEvent): void => {
@@ -93,7 +100,7 @@ export default class TooltipManager {
     document.addEventListener("mouseover", this.mouseEnterShow, { capture: true });
     document.addEventListener("mouseout", this.mouseLeaveHide, { capture: true });
     document.addEventListener("pointerdown", this.clickHandler, { capture: true });
-    document.addEventListener("focusin", this.focusShow), { capture: true };
+    document.addEventListener("focusin", this.focusShow, { capture: true });
     document.addEventListener("focusout", this.blurHide, { capture: true });
   }
 

@@ -12,6 +12,9 @@ describe("calcite-input", () => {
 
   /**
    * This helper wraps number typing to work around test instability
+   *
+   * @param page
+   * @param numberAsText
    */
   async function typeNumberValue(page: E2EPage, numberAsText: string): Promise<void> {
     await page.keyboard.type(numberAsText, numberAsText.length > 1 ? { delay: 100 } : undefined);
@@ -74,6 +77,18 @@ describe("calcite-input", () => {
     ]));
 
   it("can be disabled", () => disabled("calcite-input"));
+
+  it("spinner buttons on disabled number input should not be interactive/should not nudge the number", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html`<calcite-input type="number" disabled></calcite-input>`);
+
+    const numberButtonItem = await page.find("calcite-input >>> .number-button-item");
+    const calciteInputInput = await page.spyOnEvent("calciteInputInput");
+
+    await numberButtonItem.click();
+    await page.waitForChanges();
+    expect(calciteInputInput).not.toHaveReceivedEvent();
+  });
 
   it("inherits requested props when from wrapping calcite-label when props are provided", async () => {
     const page = await newE2EPage();
@@ -862,6 +877,14 @@ describe("calcite-input", () => {
   });
 
   describe("number type", () => {
+    it("doesn't round numbers larger than double-precision floating-point", async () => {
+      const preciseNumber = "4.9999999999999999";
+      const page = await newE2EPage();
+      await page.setContent(html`<calcite-input type="number" value=${preciseNumber}></calcite-input>`);
+      const element = await page.find("calcite-input");
+      expect(await element.getProperty("value")).toBe(preciseNumber);
+    });
+
     it("allows typing negative decimal values", async () => {
       const page = await newE2EPage();
       await page.setContent(html`<calcite-input type="number"></calcite-input>`);
@@ -1129,6 +1152,19 @@ describe("calcite-input", () => {
     await page.waitForChanges();
     await page.keyboard.press("Tab");
     expect(await element.getProperty("value")).toBe("-1.0001");
+  });
+
+  it(`Using the select method selects all text`, async () => {
+    const value = "-98.76";
+    const page = await newE2EPage();
+    await page.setContent(html`<calcite-input type="number" value="123.45"></calcite-input>`);
+    const element = await page.find("calcite-input");
+    // overwrite initial value by selecting and typing
+    await element.callMethod("selectText");
+    await element.callMethod("setFocus");
+    await typeNumberValue(page, value);
+    await page.waitForChanges();
+    expect(await element.getProperty("value")).toBe(value);
   });
 
   it(`allows clearing value for type=number`, async () => {

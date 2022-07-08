@@ -67,8 +67,17 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
   /** The item's associated value */
   @Prop() value!: any;
 
-  /** Don't filter this item based on the search text */
+  /**
+   * Don't filter this item based on the search text
+   *
+   * @deprecated use filterDisabled instead
+   */
   @Prop({ reflect: true }) constant: boolean;
+
+  /**
+   * Do not filter this item based on the search text
+   */
+  @Prop() filterDisabled: boolean;
 
   // --------------------------------------------------------------------------
   //
@@ -122,6 +131,8 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
   /**
    * Used to toggle the selection state. By default this won't trigger an event.
    * The first argument allows the value to be coerced, rather than swapping values.
+   *
+   * @param coerce
    */
   @Method()
   async toggleSelected(coerce?: boolean): Promise<void> {

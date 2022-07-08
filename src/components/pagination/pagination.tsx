@@ -7,10 +7,16 @@ import {
   Prop,
   Method,
   VNode,
-  Fragment
+  Fragment,
+  State
 } from "@stencil/core";
 import { Scale } from "../interfaces";
-
+import {
+  GlobalAttrComponent,
+  unwatchGlobalAttributes,
+  watchGlobalAttributes
+} from "../../utils/globalAttributes";
+import { localizeNumberString } from "../../utils/locale";
 import { CSS, TEXT } from "./resources";
 
 const maxPagesDisplayed = 5;
@@ -25,32 +31,36 @@ export interface PaginationDetail {
   styleUrl: "pagination.scss",
   shadow: true
 })
-export class Pagination {
+export class Pagination implements GlobalAttrComponent {
   //--------------------------------------------------------------------------
   //
   //  Public Properties
   //
   //--------------------------------------------------------------------------
-  /** number of items per page */
+  /** Specifies the number of items per page. */
   @Prop() num = 20;
 
-  /** index of item that should begin the page */
+  /** Specifies the starting item number. */
   @Prop({ mutable: true }) start = 1;
 
-  /** total number of items */
+  /** Specifies the total number of items. */
   @Prop() total = 0;
 
-  /** Used as an accessible label (aria-label) for the next button
+  /**
+   * Accessible name for the component's next button.
+   *
    * @default "Next"
    */
   @Prop() textLabelNext: string = TEXT.nextLabel;
 
-  /** Used as an accessible label (aria-label) of the previous button
+  /**
+   * Accessible name for the component's previous button.
+   *
    * @default "Previous"
    */
   @Prop() textLabelPrevious: string = TEXT.previousLabel;
 
-  /** The scale of the pagination */
+  /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
 
   // --------------------------------------------------------------------------
@@ -62,21 +72,44 @@ export class Pagination {
 
   //--------------------------------------------------------------------------
   //
+  //  State
+  //
+  //--------------------------------------------------------------------------
+  @State() globalAttributes = {};
+
+  //--------------------------------------------------------------------------
+  //
   //  Events
   //
   //--------------------------------------------------------------------------
 
   /**
-   * Emitted whenever the selected page changes.
+   * Emits when the selected page changes.
+   *
    * @deprecated use calcitePaginationChange instead
    */
   @Event() calcitePaginationUpdate: EventEmitter<PaginationDetail>;
 
   /**
-   * Emitted whenever the selected page changes.
-   * @see [PaginationDetail](https://github.com/Esri/calcite-components/blob/master/src/components/pagination/calcite-pagination.tsx#L18)
+   * Emits when the selected page changes.
+   *
+   * @see [PaginationDetail](https://github.com/Esri/calcite-components/blob/master/src/components/pagination/pagination.tsx#L23)
    */
   @Event() calcitePaginationChange: EventEmitter<PaginationDetail>;
+
+  // --------------------------------------------------------------------------
+  //
+  //  Lifecycle
+  //
+  // --------------------------------------------------------------------------
+
+  connectedCallback(): void {
+    watchGlobalAttributes(this, ["lang"]);
+  }
+
+  disconnectedCallback(): void {
+    unwatchGlobalAttributes(this);
+  }
 
   // --------------------------------------------------------------------------
   //
@@ -84,12 +117,12 @@ export class Pagination {
   //
   // --------------------------------------------------------------------------
 
-  /** Go to the next page of results */
+  /** Go to the next page of results. */
   @Method() async nextPage(): Promise<void> {
     this.start = Math.min(this.getLastStart(), this.start + this.num);
   }
 
-  /** Go to the previous page of results */
+  /** Go to the previous page of results. */
   @Method() async previousPage(): Promise<void> {
     this.start = Math.max(1, this.start - this.num);
   }
@@ -143,8 +176,8 @@ export class Pagination {
 
   renderPages(): VNode[] {
     const lastStart = this.getLastStart();
-    let end;
-    let nextStart;
+    let end: number;
+    let nextStart: number;
 
     // if we don't need ellipses render the whole set
     if (this.total / this.num <= maxPagesDisplayed) {
@@ -177,6 +210,7 @@ export class Pagination {
   }
 
   renderPage(start: number): VNode {
+    const lang = this.globalAttributes["lang"] || document.documentElement.lang || "en";
     const page = Math.floor(start / this.num) + (this.num === 1 ? 0 : 1);
     return (
       <button
@@ -189,7 +223,7 @@ export class Pagination {
           this.emitUpdate();
         }}
       >
-        {page}
+        {localizeNumberString(page.toString(), lang, true)}
       </button>
     );
   }

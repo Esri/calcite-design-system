@@ -4,6 +4,7 @@ export type Appearance = "solid" | "clear" | "outline";
 export type Columns = 1 | 2 | 3 | 4 | 5 | 6;
 export type FlipContext = "both" | "start" | "end";
 export type Layout = "horizontal" | "vertical" | "grid";
+export type LogicalFlowPosition = "inline-start" | "inline-end" | "block-start" | "block-end";
 export type Position = "start" | "end";
 export type Scale = "s" | "m" | "l";
 export type Status = "invalid" | "valid" | "idle";

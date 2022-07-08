@@ -15,7 +15,7 @@ export class Handle {
   // --------------------------------------------------------------------------
 
   /**
-   * @internal - stores the activated state of the drag handle.
+   * @internal
    */
   @Prop({ mutable: true, reflect: true }) activated = false;
 
@@ -54,7 +54,7 @@ export class Handle {
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    this.handleButton.focus();
+    this.handleButton?.focus();
   }
 
   // --------------------------------------------------------------------------
