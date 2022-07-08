@@ -3,11 +3,11 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-modal-content-text: The `calcite-modal` content font size.
- * @prop --calcite-modal-padding: The top/bottom padding around items in the `calcite-modal`.
- * @prop --calcite-modal-padding-large: The left/right padding around items in the `calcite-modal`.
- * @prop --calcite-modal-title-text: The `calcite-modal` title font size.
- * @prop --calcite-scrim-background: The semi-transparent background color behind the `calcite-modal`.
+ * @prop --calcite-modal-content-text: The component content's font size.
+ * @prop --calcite-modal-padding: The top/bottom padding around items within the component.
+ * @prop --calcite-modal-padding-large: The left/right padding around items within the component.
+ * @prop --calcite-modal-title-text: The component title's font size.
+ * @prop --calcite-scrim-background: The component's semi-transparent background color.
  */
 
 :host {

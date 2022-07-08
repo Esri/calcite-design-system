@@ -116,6 +116,8 @@ export class RadioButton
 
   formEl: HTMLFormElement;
 
+  defaultChecked: boolean;
+
   defaultValue: RadioButton["value"];
 
   rootNode: HTMLElement;
