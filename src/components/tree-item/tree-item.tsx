@@ -30,7 +30,7 @@ import {
 } from "../../utils/conditionalSlot";
 
 /**
- * @slot - A slot for adding content to the item.
+ * @slot - A slot for adding the component's content.
  * @slot children - A slot for adding nested `calcite-tree` elements.
  */
 @Component({
@@ -53,10 +53,10 @@ export class TreeItem implements ConditionalSlotComponent {
   //
   //--------------------------------------------------------------------------
 
-  /** Selected state of the item. */
+  /** When true, the component is selected. */
   @Prop({ mutable: true, reflect: true }) selected = false;
 
-  /** Expanded state of the item. */
+  /** When true, the component is expanded. */
   @Prop({ mutable: true, reflect: true }) expanded = false;
 
   @Watch("expanded")
