@@ -43,7 +43,7 @@
     "test:prerender": "stencil build --no-docs --prerender",
     "test:storybook": "concurrently --raw \"npm:util:build-docs && screener-storybook --conf screener.config.js\"",
     "test:watch": "npm run util:run-tests -- --watchAll",
-    "util:build-docs": "npm run util:copy-icons && stencil build --config stencil.storybook.config.ts",
+    "util:build-docs": "npm run util:hydration-styles && npm run util:copy-icons && stencil build --config stencil.storybook.config.ts",
     "util:clean-tested-build": "npm ci && npm test && npm run build",
     "util:copy-icons": "cpy \"./node_modules/@esri/calcite-ui-icons/js/*.json\" \"./src/components/icon/assets/icon/\" --flat",
     "util:deploy-next": "npm run util:prep-next && npm run util:push-tags && npm run util:publish-next",
