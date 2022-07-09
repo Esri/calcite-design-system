@@ -54,7 +54,7 @@
     "util:publish-next": "npm publish --tag next",
     "util:check-squash-mergeable-branch": "ts-node --project ./tsconfig-node-scripts.json support/checkSquashMergeableBranch.ts",
     "util:push-tags": "git push --atomic --follow-tags origin master",
-    "util:run-tests": "npm run util:copy-icons && stencil test --no-docs --spec --e2e"
+    "util:run-tests": "npm run util:hydration-styles && npm run util:copy-icons && stencil test --no-docs --spec --e2e"
   },
   "repository": {
     "type": "git",
