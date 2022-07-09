@@ -165,7 +165,7 @@ export class StepperItem implements InteractiveComponent {
             ref={(el) => (this.headerEl = el)}
             tabIndex={
               /* additional tab index logic needed because of display: contents */
-              this.layout === "horizontal" && !this.disabled ? 0 : -1
+              this.layout === "horizontal" && !this.disabled ? 0 : null
             }
           >
             {this.icon ? this.renderIcon() : null}
