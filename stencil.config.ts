@@ -94,6 +94,7 @@ export const create: () => Config = () => ({
       }
     }
   ],
+  invisiblePrehydration: false,
   globalStyle: "src/assets/styles/global.scss",
   plugins: [
     sass({
