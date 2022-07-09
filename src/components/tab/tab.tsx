@@ -13,7 +13,7 @@ import {
 } from "@stencil/core";
 import { TabChangeEventDetail } from "./interfaces";
 import { guid } from "../../utils/guid";
-import { nodeListToArray } from "../../utils/dom";
+import { nodeListToArray, toAriaBoolean } from "../../utils/dom";
 import { Scale } from "../interfaces";
 
 /**
@@ -50,7 +50,9 @@ export class Tab {
    */
   @Prop({ reflect: true, mutable: true }) active = false;
 
-  /** @internal Parent tabs component scale value */
+  /**
+   * @internal
+   */
   @Prop({ reflect: true, mutable: true }) scale: Scale = "m";
 
   //--------------------------------------------------------------------------
@@ -64,7 +66,7 @@ export class Tab {
 
     return (
       <Host
-        aria-expanded={this.active.toString()}
+        aria-expanded={toAriaBoolean(this.active)}
         aria-labelledby={this.labeledBy}
         id={id}
         role="tabpanel"
@@ -81,7 +83,7 @@ export class Tab {
   }
 
   componentDidLoad(): void {
-    this.calciteTabRegister.emit();
+    this.calciteInternalTabRegister.emit();
   }
 
   componentWillRender(): void {
@@ -106,7 +108,7 @@ export class Tab {
   /**
    * @internal
    */
-  @Event() calciteTabRegister: EventEmitter;
+  @Event() calciteInternalTabRegister: EventEmitter;
 
   //--------------------------------------------------------------------------
   //
@@ -134,6 +136,7 @@ export class Tab {
         this.active = index === event.detail.tab;
       });
     }
+    event.stopPropagation();
   }
 
   //--------------------------------------------------------------------------
@@ -172,6 +175,8 @@ export class Tab {
   //--------------------------------------------------------------------------
 
   /**
+   * @param tabIds
+   * @param titleIds
    * @internal
    */
   @Method()

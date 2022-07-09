@@ -11,7 +11,7 @@ import {
   State
 } from "@stencil/core";
 import { CSS, SLOTS, ICONS } from "./resources";
-import { focusElement, getSlotted } from "../../utils/dom";
+import { focusElement, getSlotted, toAriaBoolean } from "../../utils/dom";
 import { Fragment, VNode } from "@stencil/core/internal";
 import { getRoundRobinIndex } from "../../utils/array";
 import { PopperPlacement, OverlayPositioning, ComputedPlacement } from "../../utils/popper";
@@ -63,7 +63,7 @@ export class ActionMenu implements ConditionalSlotComponent {
   // --------------------------------------------------------------------------
 
   /**
-   * Indicates whether widget is expanded.
+   * When true, the component is expanded.
    */
   @Prop({ reflect: true }) expanded = false;
 
@@ -79,12 +79,12 @@ export class ActionMenu implements ConditionalSlotComponent {
   @Prop() flipPlacements?: ComputedPlacement[];
 
   /**
-   *  Text string for the actions menu.
+   *  Specifies the text string for the component.
    */
   @Prop() label!: string;
 
   /**
-   * Opens the action menu.
+   * When true, the component is open.
    */
   @Prop({ reflect: true, mutable: true }) open = false;
 
@@ -95,19 +95,22 @@ export class ActionMenu implements ConditionalSlotComponent {
       this.menuButtonEl.active = open;
     }
     this.calciteActionMenuOpenChange.emit(open);
+
+    this.setTooltipReferenceElement();
   }
 
-  /** Describes the type of positioning to use for the overlaid content. If your element is in a fixed container, use the 'fixed' value. */
+  /** Determines the type of positioning to use for the overlaid content. If your element is in a fixed container, use the "fixed" value. */
   @Prop() overlayPositioning: OverlayPositioning = "absolute";
 
   /**
-   * Determines where the component will be positioned relative to the referenceElement.
+   * Determines where the component will be positioned relative to the `referenceElement`.
+   *
    * @see [PopperPlacement](https://github.com/Esri/calcite-components/blob/master/src/utils/popper.ts#L25)
    */
   @Prop({ reflect: true }) placement: PopperPlacement = "auto";
 
   /**
-   * Specifies the size of the menu trigger action.
+   * Specifies the size of the component's trigger `calcite-action`.
    */
   @Prop({ reflect: true }) scale: Scale;
 
@@ -118,7 +121,7 @@ export class ActionMenu implements ConditionalSlotComponent {
   // --------------------------------------------------------------------------
 
   /**
-   * Emitted when the open property has changed.
+   * Emits when the `open` property has changed.
    */
   @Event() calciteActionMenuOpenChange: EventEmitter;
 
@@ -156,6 +159,8 @@ export class ActionMenu implements ConditionalSlotComponent {
   menuId = `${this.guid}-menu`;
 
   menuButtonId = `${this.guid}-menu-button`;
+
+  tooltipEl: HTMLCalciteTooltipElement;
 
   @State() activeMenuItemIndex = -1;
 
@@ -203,7 +208,7 @@ export class ActionMenu implements ConditionalSlotComponent {
 
     menuButtonEl.active = open;
     menuButtonEl.setAttribute("aria-controls", menuId);
-    menuButtonEl.setAttribute("aria-expanded", open.toString());
+    menuButtonEl.setAttribute("aria-expanded", toAriaBoolean(open));
     menuButtonEl.setAttribute("aria-haspopup", "true");
 
     if (!menuButtonEl.id) {
@@ -241,7 +246,7 @@ export class ActionMenu implements ConditionalSlotComponent {
   };
 
   renderMenuButton(): VNode {
-    const { label, scale } = this;
+    const { label, scale, expanded } = this;
 
     const menuButtonSlot = (
       <slot name={SLOTS.trigger}>
@@ -251,6 +256,7 @@ export class ActionMenu implements ConditionalSlotComponent {
           ref={this.setDefaultMenuButtonEl}
           scale={scale}
           text={label}
+          textEnabled={expanded}
         />
       </slot>
     );
@@ -308,7 +314,7 @@ export class ActionMenu implements ConditionalSlotComponent {
       <Fragment>
         {this.renderMenuButton()}
         {this.renderMenuItems()}
-        <slot name={SLOTS.tooltip} />
+        <slot name={SLOTS.tooltip} onSlotchange={this.updateTooltip} />
       </Fragment>
     );
   }
@@ -328,15 +334,22 @@ export class ActionMenu implements ConditionalSlotComponent {
     this.toggleOpen();
   };
 
+  updateTooltip = (event: Event): void => {
+    const tooltips = (event.target as HTMLSlotElement)
+      .assignedElements({
+        flatten: true
+      })
+      .filter((el) => el?.matches("calcite-tooltip")) as HTMLCalciteTooltipElement[];
+
+    this.tooltipEl = tooltips[0];
+    this.setTooltipReferenceElement();
+  };
+
   setTooltipReferenceElement = (): void => {
-    const { el, expanded, menuButtonEl } = this;
+    const { tooltipEl, expanded, menuButtonEl, open } = this;
 
-    const slotted = getSlotted(el, SLOTS.tooltip);
-    const tooltip =
-      slotted?.tagName === "SLOT" ? (slotted as HTMLSlotElement).assignedElements()[0] : slotted;
-
-    if (tooltip?.tagName === "CALCITE-TOOLTIP") {
-      (tooltip as HTMLCalciteTooltipElement).referenceElement = !expanded ? menuButtonEl : null;
+    if (tooltipEl) {
+      tooltipEl.referenceElement = !expanded && !open ? menuButtonEl : null;
     }
   };
 
@@ -357,12 +370,6 @@ export class ActionMenu implements ConditionalSlotComponent {
   updateActions = (actions: HTMLCalciteActionElement[]): void => {
     actions?.forEach(this.updateAction);
   };
-
-  getAssignedElements(): HTMLElement[] {
-    return Array.from(this.el.querySelectorAll("slot"))
-      .map((slot) => slot.assignedElements({ flatten: true }) as HTMLElement[])
-      .reduce((ar, val) => ar.concat(val), []);
-  }
 
   getActions = (): void => {
     const { el } = this;

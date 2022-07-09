@@ -1,6 +1,6 @@
 import { Component, Element, Event, EventEmitter, h, Host, Prop, VNode } from "@stencil/core";
 import { CSS, HEADING_LEVEL, ICONS, SLOTS, TEXT } from "./resources";
-import { getSlotted } from "../../utils/dom";
+import { getSlotted, toAriaBoolean } from "../../utils/dom";
 import { Heading, HeadingLevel } from "../functional/Heading";
 import { Status } from "../interfaces";
 import {
@@ -56,20 +56,28 @@ export class Block implements ConditionalSlotComponent, InteractiveComponent {
 
   /**
    * Aria-label for collapsing the toggle and tooltip used for the toggle when expanded.
+   *
+   * @default "Collapse"
    */
   @Prop() intlCollapse?: string = TEXT.collapse;
 
   /**
    * Aria-label for expanding the toggle and tooltip used for the toggle when collapsed.
+   *
+   * @default "Expand"
    */
   @Prop() intlExpand?: string = TEXT.expand;
 
-  /** string to override English loading text
+  /**
+   * string to override English loading text
+   *
    * @default "Loading"
    */
   @Prop() intlLoading?: string = TEXT.loading;
 
-  /** Text string used for the actions menu
+  /**
+   * Text string used for the actions menu
+   *
    * @default "Options"
    */
   @Prop() intlOptions?: string = TEXT.options;
@@ -91,8 +99,16 @@ export class Block implements ConditionalSlotComponent, InteractiveComponent {
 
   /**
    * Block summary.
+   *
+   * @deprecated use description instead
    */
   @Prop() summary: string;
+
+  /**Block description */
+  @Prop() description: string;
+
+  /** When true, removes padding for the slotted content */
+  @Prop() disablePadding = false;
 
   //--------------------------------------------------------------------------
   //
@@ -191,13 +207,15 @@ export class Block implements ConditionalSlotComponent, InteractiveComponent {
   }
 
   renderTitle(): VNode {
-    const { heading, headingLevel, summary } = this;
-    return heading || summary ? (
+    const { heading, headingLevel, summary, description } = this;
+    return heading || summary || description ? (
       <div class={CSS.title}>
         <Heading class={CSS.heading} level={headingLevel || HEADING_LEVEL}>
           {heading}
         </Heading>
-        {summary ? <div class={CSS.summary}>{summary}</div> : null}
+        {summary || description ? (
+          <div class={CSS.description}>{summary || description}</div>
+        ) : null}
       </div>
     ) : null;
   }
@@ -228,7 +246,7 @@ export class Block implements ConditionalSlotComponent, InteractiveComponent {
         {collapsible ? (
           <button
             aria-controls={regionId}
-            aria-expanded={collapsible ? open.toString() : null}
+            aria-expanded={collapsible ? toAriaBoolean(open) : null}
             aria-label={toggleLabel}
             class={CSS.toggle}
             id={buttonId}
@@ -266,16 +284,19 @@ export class Block implements ConditionalSlotComponent, InteractiveComponent {
     return (
       <Host>
         <article
-          aria-busy={loading.toString()}
+          aria-busy={toAriaBoolean(loading)}
           class={{
             [CSS.article]: true
           }}
         >
           {headerNode}
           <section
-            aria-expanded={this.open.toString()}
+            aria-expanded={toAriaBoolean(open)}
             aria-labelledby={buttonId}
-            class={CSS.content}
+            class={{
+              content: true,
+              "content--spaced": !this.disablePadding
+            }}
             hidden={!open}
             id={regionId}
           >

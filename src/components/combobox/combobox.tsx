@@ -37,10 +37,13 @@ import {
   connectForm,
   disconnectForm,
   FormComponent,
-  HiddenFormInputSlot
+  HiddenFormInputSlot,
+  submitForm
 } from "../../utils/form";
 import { createObserver } from "../../utils/observers";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import { toAriaBoolean } from "../../utils/dom";
+import { OpenCloseComponent } from "../../utils/openCloseComponent";
 interface ItemData {
   label: string;
   value: string;
@@ -63,7 +66,9 @@ const inputUidPrefix = "combobox-input-";
   styleUrl: "combobox.scss",
   shadow: true
 })
-export class Combobox implements LabelableComponent, FormComponent, InteractiveComponent {
+export class Combobox
+  implements LabelableComponent, FormComponent, InteractiveComponent, OpenCloseComponent
+{
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -87,7 +92,7 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
       return;
     }
 
-    this.reposition();
+    this.setMaxScrollerHeight();
   }
 
   /** Disable combobox input */
@@ -105,6 +110,9 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
 
   /** Placeholder text for input */
   @Prop() placeholder?: string;
+
+  /** Placeholder icon for input  */
+  @Prop() placeholderIcon?: string;
 
   /** Specify the maximum number of combobox items (including nested children) to display before showing the scroller */
   @Prop() maxItems = 0;
@@ -130,7 +138,8 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
    */
   @Prop() required = false;
 
-  /** specify the selection mode
+  /**
+   * specify the selection mode
    * - multi: allow any number of selected items (default)
    * - single: only one selection)
    * - ancestors: like multi, but show ancestors of selected items as selected, only deepest children shown in chips
@@ -158,7 +167,9 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
     }
   }
 
-  /** string to override the English "Remove tag" text for when an item is selected.
+  /**
+   * string to override the English "Remove tag" text for when an item is selected.
+   *
    * @default "Remove tag"
    */
   @Prop({ reflect: false }) intlRemoveTag: string = TEXT.removeTag;
@@ -191,6 +202,8 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
     }
 
     const target = event.target as HTMLCalciteComboboxItemElement;
+    const newIndex = this.visibleItems.indexOf(target);
+    this.updateActiveItemIndex(newIndex);
     this.toggleSelection(target, target.selected);
   }
 
@@ -231,6 +244,7 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
 
   /**
    * Called when the selected items set changes
+   *
    * @deprecated use calciteComboboxChange instead
    */
   @Event() calciteLookupChange: EventEmitter<HTMLCalciteComboboxItemElement[]>;
@@ -246,20 +260,20 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
     text: string;
   }>;
 
-  /** Called when a selected item in the combobox is dismissed via its chip **/
+  /** Called when a selected item in the combobox is dismissed via its chip */
   @Event() calciteComboboxChipDismiss: EventEmitter;
 
-  /**
-   * Fired when the combobox is opened
-   * @internal
-   */
-  @Event() calciteComboboxOpen: EventEmitter;
+  /* Fired when a combobox is requested to be closed and before the closing transition begins. */
+  @Event() calciteComboboxBeforeClose: EventEmitter<{ el: HTMLCalciteComboboxElement }>;
 
-  /**
-   *  Fired when the combobox is closed
-   * @internal
-   */
-  @Event() calciteComboboxClose: EventEmitter;
+  /* Fired when a combobox has been closed and animation is complete */
+  @Event() calciteComboboxClose: EventEmitter<{ el: HTMLCalciteComboboxElement }>;
+
+  /* Fired while a combobox is still invisible but was added to the DOM, and before the opening transition begins. */
+  @Event() calciteComboboxBeforeOpen: EventEmitter<{ el: HTMLCalciteComboboxElement }>;
+
+  /* Fired when a combobox has been opened and animation is complete */
+  @Event() calciteComboboxOpen: EventEmitter<{ el: HTMLCalciteComboboxElement }>;
 
   // --------------------------------------------------------------------------
   //
@@ -301,6 +315,10 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
     this.destroyPopper();
     disconnectLabel(this);
     disconnectForm(this);
+
+    if (this.listContainerEl) {
+      this.listContainerEl.removeEventListener("transitionrun", this.transitionRunHandler);
+    }
   }
 
   //--------------------------------------------------------------------------
@@ -389,7 +407,7 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
   };
 
   getValue = (): string | string[] => {
-    const items = this.selectedItems.map((item) => item?.value.toString());
+    const items = this.selectedItems.map((item) => item?.value?.toString());
     return items?.length ? (items.length > 1 ? items : items[0]) : "";
   };
 
@@ -481,6 +499,8 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
           this.removeActiveChip();
         } else if (this.allowCustomValues && this.text) {
           this.addCustomChip(this.text, true);
+        } else if (!event.defaultPrevented) {
+          submitForm(this);
         }
         break;
       case "Delete":
@@ -504,23 +524,49 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
     this.el.removeEventListener("calciteComboboxOpen", this.toggleOpenEnd);
   };
 
+  onBeforeOpen(): void {
+    this.calciteComboboxBeforeOpen.emit();
+  }
+
+  onOpen(): void {
+    this.calciteComboboxOpen.emit();
+  }
+
+  onBeforeClose(): void {
+    this.calciteComboboxBeforeClose.emit();
+  }
+
+  onClose(): void {
+    this.calciteComboboxClose.emit();
+  }
+
   transitionEnd = (event: TransitionEvent): void => {
     if (event.propertyName === this.activeTransitionProp) {
-      this.active ? this.calciteComboboxOpen.emit() : this.calciteComboboxClose.emit();
+      this.active ? this.onOpen() : this.onClose();
     }
   };
 
-  setMaxScrollerHeight = (): void => {
+  /* *
+  - `transitionrun` fires when the transition is created at the start of any delay and is not cancellable once started.
+  - if there is no transition delay, both `transitionrun` and `transitionstart` are fired at the same time.
+  */
+  transitionRunHandler = (event: TransitionEvent): void => {
+    if (event.propertyName === this.activeTransitionProp) {
+      this.active ? this.onBeforeOpen() : this.onBeforeClose();
+    }
+  };
+
+  setMaxScrollerHeight = async (): Promise<void> => {
     const { active, listContainerEl } = this;
 
     if (!listContainerEl || !active) {
       return;
     }
 
-    this.reposition();
+    await this.reposition();
     const maxScrollerHeight = this.getMaxScrollerHeight();
     listContainerEl.style.maxHeight = maxScrollerHeight > 0 ? `${maxScrollerHeight}px` : "";
-    this.reposition();
+    await this.reposition();
   };
 
   calciteChipDismissHandler = (
@@ -576,6 +622,7 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
   setListContainerEl = (el: HTMLDivElement): void => {
     this.resizeObserver.observe(el);
     this.listContainerEl = el;
+    this.listContainerEl.addEventListener("transitionrun", this.transitionRunHandler);
   };
 
   setReferenceEl = (el: HTMLDivElement): void => {
@@ -813,6 +860,7 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
   getData(): ItemData[] {
     return this.items.map((item) => ({
       constant: item.constant,
+      filterDisabled: item.filterDisabled,
       value: item.value,
       label: item.textLabel
     }));
@@ -1045,7 +1093,7 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
   renderListBoxOptions(): VNode[] {
     return this.visibleItems.map((item) => (
       <li
-        aria-selected={(!!item.selected).toString()}
+        aria-selected={toAriaBoolean(item.selected)}
         id={item.guid ? `${itemUidPrefix}${item.guid}` : null}
         role="option"
         tabindex="-1"
@@ -1079,15 +1127,18 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
   }
 
   renderIconStart(): VNode {
-    const { selectionMode, needsIcon, selectedItems } = this;
+    const { selectionMode, needsIcon, selectedItems, placeholderIcon } = this;
     const selectedItem = selectedItems[0];
     return (
       selectionMode === "single" &&
-      needsIcon && (
+      needsIcon &&
+      (selectedItem?.icon || placeholderIcon) && (
         <span class="icon-start">
-          {selectedItem?.icon && (
-            <calcite-icon class="selected-icon" icon={selectedItem.icon} scale="s" />
-          )}
+          <calcite-icon
+            class="selected-icon"
+            icon={selectedItem?.icon ?? placeholderIcon}
+            scale="s"
+          />
         </span>
       )
     );
@@ -1110,7 +1161,7 @@ export class Combobox implements LabelableComponent, FormComponent, InteractiveC
       <Host onKeyDown={this.keydownHandler}>
         <div
           aria-autocomplete="list"
-          aria-expanded={active.toString()}
+          aria-expanded={toAriaBoolean(active)}
           aria-haspopup="listbox"
           aria-labelledby={`${labelUidPrefix}${guid}`}
           aria-owns={`${listboxUidPrefix}${guid}`}

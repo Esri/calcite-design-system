@@ -6,10 +6,10 @@
 
 ## Properties
 
-| Property   | Attribute  | Description                              | Type      | Default |
-| ---------- | ---------- | ---------------------------------------- | --------- | ------- |
-| `expanded` | `expanded` | True if the item is in an expanded state | `boolean` | `false` |
-| `selected` | `selected` | Is the item currently selected           | `boolean` | `false` |
+| Property   | Attribute  | Description                 | Type      | Default |
+| ---------- | ---------- | --------------------------- | --------- | ------- |
+| `expanded` | `expanded` | Expanded state of the item. | `boolean` | `false` |
+| `selected` | `selected` | Selected state of the item. | `boolean` | `false` |
 
 ## Slots
 

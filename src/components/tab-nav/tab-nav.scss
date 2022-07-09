@@ -21,10 +21,6 @@
     overflow-auto;
 }
 
-:host([layout="center"]) .tab-nav {
-  @apply justify-center;
-}
-
 // prevent indicator overflow in horizontal scrolling situations
 .tab-nav-active-indicator-container {
   @apply absolute
@@ -50,7 +46,17 @@
   @apply top-0;
 }
 
+:host([position="bottom"]) .tab-nav-active-indicator {
+  bottom: unset;
+  @apply top-0;
+}
+
 :host([position="below"]) .tab-nav-active-indicator-container {
+  bottom: unset;
+  @apply top-0;
+}
+
+:host([position="bottom"]) .tab-nav-active-indicator-container {
   bottom: unset;
   @apply top-0;
 }
@@ -62,4 +68,15 @@
 :host([bordered][position="below"]) .tab-nav-active-indicator-container {
   bottom: 0; // display active blue line below instead of above
   top: unset;
+}
+
+:host([bordered][position="bottom"]) .tab-nav-active-indicator-container {
+  bottom: 0; // display active blue line below instead of above
+  top: unset;
+}
+
+@media (forced-colors: active) {
+  .tab-nav-active-indicator {
+    background-color: highlight;
+  }
 }

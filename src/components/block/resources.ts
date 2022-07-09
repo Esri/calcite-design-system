@@ -11,6 +11,7 @@ export const CSS = {
   header: "header",
   button: "button",
   summary: "summary",
+  description: "description",
   controlContainer: "control-container",
   valid: "valid",
   invalid: "invalid",

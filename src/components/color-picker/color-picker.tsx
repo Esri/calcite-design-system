@@ -88,6 +88,7 @@ export class ColorPicker implements InteractiveComponent {
    * The format of the value property.
    *
    * When "auto", the format will be inferred from `value` when set.
+   *
    * @default "auto"
    */
   @Prop() format: Format = defaultFormat;
@@ -107,98 +108,135 @@ export class ColorPicker implements InteractiveComponent {
   /** When true, hides the saved colors section */
   @Prop() hideSaved = false;
 
-  /** Label used for the blue channel
+  /**
+   * Label used for the blue channel
+   *
    * @default "B"
    */
   @Prop() intlB = TEXT.b;
 
-  /** Label used for the blue channel description
+  /**
+   * Label used for the blue channel description
+   *
    * @default "Blue"
    */
   @Prop() intlBlue = TEXT.blue;
 
-  /** Label used for the delete color button.
+  /**
+   * Label used for the delete color button.
+   *
    * @default "Delete color"
    */
   @Prop() intlDeleteColor = TEXT.deleteColor;
 
-  /** Label used for the green channel
+  /**
+   * Label used for the green channel
+   *
    * @default "G"
    */
   @Prop() intlG = TEXT.g;
 
-  /** Label used for the green channel description
+  /**
+   * Label used for the green channel description
+   *
    * @default "Green"
    */
   @Prop() intlGreen = TEXT.green;
 
-  /** Label used for the hue channel
+  /**
+   * Label used for the hue channel
+   *
    * @default "H"
    */
   @Prop() intlH = TEXT.h;
 
-  /** Label used for the HSV mode
+  /**
+   * Label used for the HSV mode
+   *
    * @default "HSV"
    */
   @Prop() intlHsv = TEXT.hsv;
 
-  /** Label used for the hex input
+  /**
+   * Label used for the hex input
+   *
    * @default "Hex"
    */
   @Prop() intlHex = TEXT.hex;
 
-  /** Label used for the hue channel description
+  /**
+   * Label used for the hue channel description
+   *
    * @default "Hue"
    */
   @Prop() intlHue = TEXT.hue;
 
   /**
    * Label used for the hex input when there is no color selected.
+   *
    * @default "No color"
    */
   @Prop() intlNoColor = TEXT.noColor;
 
-  /** Label used for the red channel
+  /**
+   * Label used for the red channel
+   *
    * @default "R"
    */
   @Prop() intlR = TEXT.r;
 
-  /** Label used for the red channel description
+  /**
+   * Label used for the red channel description
+   *
    * @default "Red"
    */
   @Prop() intlRed = TEXT.red;
 
-  /** Label used for the RGB mode
+  /**
+   * Label used for the RGB mode
+   *
    * @default "RGB"
    */
   @Prop() intlRgb = TEXT.rgb;
 
-  /** Label used for the saturation channel
+  /**
+   * Label used for the saturation channel
+   *
    * @default "S"
    */
   @Prop() intlS = TEXT.s;
 
-  /** Label used for the saturation channel description
+  /**
+   * Label used for the saturation channel description
+   *
    * @default "Saturation"
    */
   @Prop() intlSaturation = TEXT.saturation;
 
-  /** Label used for the save color button.
+  /**
+   * Label used for the save color button.
+   *
    * @default "Save color"
    */
   @Prop() intlSaveColor = TEXT.saveColor;
 
-  /** Label used for the saved colors section
+  /**
+   * Label used for the saved colors section
+   *
    * @default "Saved"
    */
   @Prop() intlSaved = TEXT.saved;
 
-  /** Label used for the value channel
+  /**
+   * Label used for the value channel
+   *
    * @default "V"
    */
   @Prop() intlV = TEXT.v;
 
-  /** Label used for the
+  /**
+   * Label used for the
+   *
    * @default "Value"
    */
   @Prop() intlValue = TEXT.value;
@@ -211,12 +249,16 @@ export class ColorPicker implements InteractiveComponent {
   @Watch("scale")
   handleScaleChange(scale: Scale = "m"): void {
     this.updateDimensions(scale);
+    this.updateCanvasSize(this.fieldAndSliderRenderingContext?.canvas);
   }
 
   /**
    * Storage ID for colors.
    */
   @Prop() storageId: string;
+
+  /** standard UniCode numeral system tag for localization */
+  @Prop() numberingSystem?: string;
 
   /**
    * The color value.
@@ -225,6 +267,7 @@ export class ColorPicker implements InteractiveComponent {
    * a RGB, HSL or HSV object.
    *
    * The type will be preserved as the color is updated.
+   *
    * @default "#007ac2"
    * @see [ColorValue](https://github.com/Esri/calcite-components/blob/master/src/components/color-picker/interfaces.ts#L10)
    */
@@ -495,7 +538,7 @@ export class ColorPicker implements InteractiveComponent {
     }
   };
 
-  private handleColorFieldAndSliderMouseLeave = (): void => {
+  private handleColorFieldAndSliderPointerLeave = (): void => {
     this.colorFieldAndSliderInteractive = false;
     this.colorFieldAndSliderHovered = false;
 
@@ -506,31 +549,31 @@ export class ColorPicker implements InteractiveComponent {
     }
   };
 
-  private handleColorFieldAndSliderMouseDown = (event: MouseEvent): void => {
+  private handleColorFieldAndSliderPointerDown = (event: PointerEvent): void => {
     const { offsetX, offsetY } = event;
     const region = this.getCanvasRegion(offsetY);
 
     if (region === "color-field") {
       this.hueThumbState = "drag";
       this.captureColorFieldColor(offsetX, offsetY);
-      this.colorFieldScopeNode.focus();
+      this.colorFieldScopeNode?.focus();
     } else if (region === "slider") {
       this.sliderThumbState = "drag";
       this.captureHueSliderColor(offsetX);
-      this.hueScopeNode.focus();
+      this.hueScopeNode?.focus();
     }
 
     // prevent text selection outside of color field & slider area
     event.preventDefault();
 
-    document.addEventListener("mousemove", this.globalMouseMoveHandler);
-    document.addEventListener("mouseup", this.globalMouseUpHandler, { once: true });
+    document.addEventListener("pointermove", this.globalPointerMoveHandler);
+    document.addEventListener("pointerup", this.globalPointerUpHandler, { once: true });
 
     this.activeColorFieldAndSliderRect =
       this.fieldAndSliderRenderingContext.canvas.getBoundingClientRect();
   };
 
-  private globalMouseUpHandler = (): void => {
+  private globalPointerUpHandler = (): void => {
     const previouslyDragging = this.sliderThumbState === "drag" || this.hueThumbState === "drag";
 
     this.hueThumbState = "idle";
@@ -543,7 +586,7 @@ export class ColorPicker implements InteractiveComponent {
     }
   };
 
-  private globalMouseMoveHandler = (event: MouseEvent): void => {
+  private globalPointerMoveHandler = (event: PointerEvent): void => {
     const { el, dimensions } = this;
     const sliderThumbDragging = this.sliderThumbState === "drag";
     const hueThumbDragging = this.hueThumbState === "drag";
@@ -574,7 +617,7 @@ export class ColorPicker implements InteractiveComponent {
       } else if (clientX < colorFieldAndSliderRect.x) {
         samplingX = 0;
       } else {
-        samplingX = colorFieldWidth;
+        samplingX = colorFieldWidth - 1;
       }
 
       if (
@@ -596,7 +639,10 @@ export class ColorPicker implements InteractiveComponent {
     }
   };
 
-  private handleColorFieldAndSliderMouseEnterOrMove = ({ offsetX, offsetY }: MouseEvent): void => {
+  private handleColorFieldAndSliderPointerEnterOrMove = ({
+    offsetX,
+    offsetY
+  }: PointerEvent): void => {
     const {
       dimensions: { colorField, slider, thumb }
     } = this;
@@ -712,8 +758,8 @@ export class ColorPicker implements InteractiveComponent {
   }
 
   disconnectedCallback(): void {
-    document.removeEventListener("mousemove", this.globalMouseMoveHandler);
-    document.removeEventListener("mouseup", this.globalMouseUpHandler);
+    document.removeEventListener("pointermove", this.globalPointerMoveHandler);
+    document.removeEventListener("pointerup", this.globalPointerUpHandler);
   }
 
   componentDidRender(): void {
@@ -766,10 +812,10 @@ export class ColorPicker implements InteractiveComponent {
               [CSS.colorFieldAndSlider]: true,
               [CSS.colorFieldAndSliderInteractive]: colorFieldAndSliderInteractive
             }}
-            onMouseDown={this.handleColorFieldAndSliderMouseDown}
-            onMouseEnter={this.handleColorFieldAndSliderMouseEnterOrMove}
-            onMouseLeave={this.handleColorFieldAndSliderMouseLeave}
-            onMouseMove={this.handleColorFieldAndSliderMouseEnterOrMove}
+            onPointerDown={this.handleColorFieldAndSliderPointerDown}
+            onPointerEnter={this.handleColorFieldAndSliderPointerEnterOrMove}
+            onPointerLeave={this.handleColorFieldAndSliderPointerLeave}
+            onPointerMove={this.handleColorFieldAndSliderPointerEnterOrMove}
             ref={this.initColorFieldAndSlider}
           />
           <div
@@ -817,6 +863,7 @@ export class ColorPicker implements InteractiveComponent {
                 <calcite-color-picker-hex-input
                   allowEmpty={allowEmpty}
                   class={CSS.control}
+                  numberingSystem={this.numberingSystem}
                   onCalciteColorPickerHexInputChange={this.handleHexInputChange}
                   scale={hexInputScale}
                   value={selectedColorInHex}
@@ -978,8 +1025,10 @@ export class ColorPicker implements InteractiveComponent {
       dir={direction}
       label={ariaLabel}
       numberButtonType="none"
+      numberingSystem={this.numberingSystem}
       onCalciteInputChange={this.handleChannelChange}
       onCalciteInputInput={this.handleChannelInput}
+      onKeyDown={this.handleKeyDown}
       prefixText={label}
       scale={this.scale === "l" ? "m" : "s"}
       type="number"
@@ -992,6 +1041,12 @@ export class ColorPicker implements InteractiveComponent {
   //  Private Methods
   //
   //--------------------------------------------------------------------------
+
+  handleKeyDown(event: KeyboardEvent): void {
+    if (event.key === "Enter") {
+      event.preventDefault();
+    }
+  }
 
   private showIncompatibleColorWarning(value: ColorValue, format: Format): void {
     console.warn(
@@ -1194,6 +1249,14 @@ export class ColorPicker implements InteractiveComponent {
 
   private initColorFieldAndSlider = (canvas: HTMLCanvasElement): void => {
     this.fieldAndSliderRenderingContext = canvas.getContext("2d");
+    this.updateCanvasSize(canvas);
+  };
+
+  private updateCanvasSize(canvas: HTMLCanvasElement) {
+    if (!canvas) {
+      return;
+    }
+
     this.setCanvasContextSize(canvas, {
       width: this.dimensions.colorField.width,
       height:
@@ -1203,7 +1266,7 @@ export class ColorPicker implements InteractiveComponent {
     });
 
     this.drawColorFieldAndSlider();
-  };
+  }
 
   private containsPoint(
     testPointX: number,
