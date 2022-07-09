@@ -17,6 +17,7 @@ import { LabelableComponent, connectLabel, disconnectLabel } from "../../utils/l
 import { connectForm, disconnectForm, FormComponent, HiddenFormInputSlot } from "../../utils/form";
 import { TEXT } from "./resources";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import { isActivationKey } from "../../utils/key";
 
 @Component({
   tag: "calcite-rating",
@@ -227,20 +228,18 @@ export class Rating implements LabelableComponent, FormComponent, InteractiveCom
   }
 
   private onKeyboardPressed = (event: KeyboardEvent): void => {
-    if (!this.required && (event.key === "Enter" || event.key === " ")) {
-      //* prevent default event handling only for 'Enter' and 'Space' keys
+    if (!this.required && isActivationKey(event.key)) {
       event.preventDefault();
       this.updateValue(0);
     }
   };
 
-  private onFocusChange = (index: number): void => {
+  private onFocusChange = (selectedRatingValue: number): void => {
     this.hasFocus = true;
-    // reset input values when the user re-clicks on the input with the focus
-    if (!this.required && this.focusValue === index) {
+    if (!this.required && this.focusValue === selectedRatingValue) {
       this.updateValue(0);
     } else {
-      this.focusValue = index;
+      this.focusValue = selectedRatingValue;
     }
   };
 
