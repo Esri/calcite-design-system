@@ -8,6 +8,7 @@ module.exports = {
     "storybook-addon-themes",
     "@storybook/addon-interactions"
   ],
+  staticDirs: ["../__docs-temp__"],
   stories: ["../src/**/*.stories.@(mdx|ts)"],
   babel: async (options) => {
     return {
