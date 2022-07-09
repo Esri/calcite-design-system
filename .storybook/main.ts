@@ -6,7 +6,8 @@ module.exports = {
     "@whitespace/storybook-addon-html",
     "storybook-rtl-addon",
     "storybook-addon-themes",
-    "@storybook/addon-interactions"
+    "@storybook/addon-interactions",
+    "@storybook/testing-library"
   ],
   staticDirs: ["../__docs-temp__"],
   stories: ["../src/**/*.stories.@(mdx|ts)"],
