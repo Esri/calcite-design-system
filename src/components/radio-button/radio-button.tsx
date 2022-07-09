@@ -64,6 +64,7 @@ export class RadioButton
 
   /**
    * The focused state of the radio button.
+   *
    * @internal
    */
   @Prop({ mutable: true, reflect: true }) focused = false;
@@ -76,12 +77,14 @@ export class RadioButton
 
   /**
    * The hovered state of the radio button.
+   *
    * @internal
    */
   @Prop({ reflect: true, mutable: true }) hovered = false;
 
   /**
    * The label of the radio input
+   *
    * @internal
    */
   @Prop() label?: string;
@@ -112,6 +115,8 @@ export class RadioButton
   labelEl: HTMLCalciteLabelElement;
 
   formEl: HTMLFormElement;
+
+  defaultChecked: boolean;
 
   defaultValue: RadioButton["value"];
 
@@ -160,6 +165,7 @@ export class RadioButton
     }
     this.uncheckAllRadioButtonsInGroup();
     this.checked = true;
+    this.focused = true;
     this.calciteRadioButtonChange.emit();
     this.setFocus();
   };
@@ -251,6 +257,7 @@ export class RadioButton
 
   /**
    * Fires when the radio button is blurred.
+   *
    * @internal
    */
   @Event() calciteInternalRadioButtonBlur: EventEmitter;
@@ -266,12 +273,14 @@ export class RadioButton
   /**
    * Fires when the checked property changes.  This is an internal event used for styling purposes only.
    * Use calciteRadioButtonChange or calciteRadioButtonGroupChange for responding to changes in the checked value for forms.
+   *
    * @internal
    */
   @Event() calciteInternalRadioButtonCheckedChange: EventEmitter;
 
   /**
    * Fires when the radio button is focused.
+   *
    * @internal
    */
   @Event() calciteInternalRadioButtonFocus: EventEmitter;

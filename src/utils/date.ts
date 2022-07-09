@@ -8,6 +8,10 @@ export interface HoverRange {
 
 /**
  * Check if date is within a min and max
+ *
+ * @param date
+ * @param min
+ * @param max
  */
 export function inRange(date: Date, min?: Date | string, max?: Date | string): boolean {
   const time = date.getTime();
@@ -19,6 +23,10 @@ export function inRange(date: Date, min?: Date | string, max?: Date | string): b
 /**
  * Ensures date is within range,
  * returns min or max if out of bounds
+ *
+ * @param date
+ * @param min
+ * @param max
  */
 export function dateFromRange(date?: any, min?: Date | string, max?: Date | string): Date | null {
   if (!(date instanceof Date)) {
@@ -39,6 +47,8 @@ export function dateFromRange(date?: any, min?: Date | string, max?: Date | stri
 /**
  * Parse an iso8601 string (YYYY-mm-dd) into a valid date.
  * TODO: handle time when time of day UI is added
+ *
+ * @param iso8601
  */
 export function dateFromISO(iso8601: string | Date): Date | null {
   if (iso8601 instanceof Date) {
@@ -58,6 +68,8 @@ export function dateFromISO(iso8601: string | Date): Date | null {
 
 /**
  * Return first portion of ISO string (YYYY-mm-dd)
+ *
+ * @param date
  */
 export function dateToISO(date?: Date | string): string {
   if (typeof date === "string") {
@@ -71,6 +83,9 @@ export function dateToISO(date?: Date | string): string {
 
 /**
  * Check if two dates are the same day, month, year
+ *
+ * @param d1
+ * @param d2
  */
 export function sameDate(d1: Date, d2: Date): boolean {
   return (
@@ -84,6 +99,8 @@ export function sameDate(d1: Date, d2: Date): boolean {
 
 /**
  * Get a date one month in the past
+ *
+ * @param date
  */
 export function prevMonth(date: Date): Date {
   const month = date.getMonth();
@@ -98,6 +115,8 @@ export function prevMonth(date: Date): Date {
 
 /**
  * Get a date one month in the future
+ *
+ * @param date
  */
 export function nextMonth(date: Date): Date {
   const month = date.getMonth();
@@ -112,6 +131,9 @@ export function nextMonth(date: Date): Date {
 
 /**
  * Translate a number into a given locals numeral system
+ *
+ * @param num
+ * @param localeData
  */
 export function localizeNumber(num: number, localeData: DateLocaleData): string {
   return String(num)
@@ -122,6 +144,9 @@ export function localizeNumber(num: number, localeData: DateLocaleData): string 
 
 /**
  * Calculate actual number from localized string
+ *
+ * @param str
+ * @param localeData
  */
 export function parseNumber(str: string, localeData: DateLocaleData): number {
   const numerals = "0123456789";
@@ -137,6 +162,9 @@ export function parseNumber(str: string, localeData: DateLocaleData): number {
 /**
  * Parse numeric units for day, month, and year from a localized string
  * month starts at 0 (can pass to date constructor)
+ *
+ * @param str
+ * @param localeData
  */
 export function parseDateString(str: string, localeData: DateLocaleData): { day: number; month: number; year: number } {
   const { separator, unitOrder } = localeData;
@@ -151,6 +179,8 @@ export function parseDateString(str: string, localeData: DateLocaleData): { day:
 
 /**
  * Convert eastern arbic numerals
+ *
+ * @param str
  */
 export function replaceArabicNumerals(str = ""): string {
   return str
@@ -162,6 +192,8 @@ type unitOrderSignifier = "m" | "d" | "y";
 
 /**
  * Based on the unitOrder string, find order of month, day, and year for locale
+ *
+ * @param unitOrder
  */
 export function getOrder(unitOrder: string): unitOrderSignifier[] {
   const signifiers: unitOrderSignifier[] = ["d", "m", "y"];
@@ -171,6 +203,9 @@ export function getOrder(unitOrder: string): unitOrderSignifier[] {
 
 /**
  * Get number of days between two dates
+ *
+ * @param date1
+ * @param date2
  */
 export function getDaysDiff(date1: Date, date2: Date): number {
   const ts1 = date1.getTime();

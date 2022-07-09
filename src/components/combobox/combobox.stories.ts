@@ -284,3 +284,17 @@ export const disabled = (): string => html`<calcite-combobox disabled>
     <calcite-combobox-item value="Nasturtium" text-label="Nasturtium"></calcite-combobox-item>
   </calcite-combobox-item>
 </calcite-combobox>`;
+
+export const WithPlaceHolderIcon = (): string => html` <calcite-combobox
+  id="labelFour"
+  label="test"
+  placeholder="${text("placeholder", "select folder")}"
+  placeholder-icon="${text("placeholder-icon", "select")}"
+  max-items="6"
+  selection-mode="single"
+  scale="s"
+>
+  <calcite-combobox-item value="root" text-label="username" icon="home"></calcite-combobox-item>
+  <calcite-combobox-item value="1" text-label="Folder 1" icon="folder"></calcite-combobox-item>
+  <calcite-combobox-item value="2" text-label="Folder 2" icon="folder"></calcite-combobox-item>
+</calcite-combobox>`;

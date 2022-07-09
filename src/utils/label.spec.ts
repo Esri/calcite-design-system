@@ -17,6 +17,8 @@ describe("label", () => {
     describe("wires up the associated label", () => {
       /**
        * This util helps simulate calcite-label's behavior since we cannot use the component here
+       *
+       * @param label
        */
       function wireUpFakeLabel(label: HTMLElement): void {
         label.addEventListener("click", (event: MouseEvent) => {

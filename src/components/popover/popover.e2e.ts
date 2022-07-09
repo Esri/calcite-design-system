@@ -157,6 +157,38 @@ describe("calcite-popover", () => {
     expect(computedStyle.transform).not.toBe("matrix(0, 0, 0, 0, 0, 0)");
   });
 
+  it("should accept referenceElement as a virtual element", async () => {
+    const page = await newE2EPage();
+
+    await page.setContent(`<calcite-popover placement="auto" open>content</calcite-popover>`);
+
+    await page.$eval("calcite-popover", (popover: HTMLCalcitePopoverElement) => {
+      const virtualElement = {
+        getBoundingClientRect: () =>
+          ({
+            width: 0,
+            height: 0,
+            top: 100,
+            right: 100,
+            bottom: 100,
+            left: 600
+          } as DOMRect)
+      };
+
+      popover.referenceElement = virtualElement;
+    });
+
+    await page.waitForChanges();
+
+    const popover = await page.find(`calcite-popover`);
+
+    expect(await popover.isVisible()).toBe(true);
+
+    const computedStyle = await popover.getComputedStyle();
+
+    expect(computedStyle.transform).not.toBe("matrix(0, 0, 0, 0, 0, 0)");
+  });
+
   it("should show closeButton when enabled", async () => {
     const page = await newE2EPage();
 
@@ -199,6 +231,66 @@ describe("calcite-popover", () => {
     await ref.click();
 
     expect(await popover.isVisible()).toBe(true);
+  });
+
+  it("should honor Enter key interaction", async () => {
+    const page = await newE2EPage();
+
+    await page.setContent(
+      `<calcite-popover placement="auto" reference-element="ref">content</calcite-popover><div id="ref">referenceElement</div>`
+    );
+
+    await page.waitForChanges();
+
+    const popover = await page.find(`calcite-popover`);
+
+    expect(await popover.isVisible()).toBe(false);
+
+    await page.evaluate(() => {
+      document.getElementById("ref").dispatchEvent(new KeyboardEvent("keydown", { key: "Enter" }));
+    });
+
+    await page.waitForChanges();
+
+    expect(await popover.isVisible()).toBe(true);
+
+    await page.evaluate(() => {
+      document.getElementById("ref").dispatchEvent(new KeyboardEvent("keydown", { key: "Enter" }));
+    });
+
+    await page.waitForChanges();
+
+    expect(await popover.isVisible()).toBe(false);
+  });
+
+  it("should honor Space key interaction", async () => {
+    const page = await newE2EPage();
+
+    await page.setContent(
+      `<calcite-popover placement="auto" reference-element="ref">content</calcite-popover><div id="ref">referenceElement</div>`
+    );
+
+    await page.waitForChanges();
+
+    const popover = await page.find(`calcite-popover`);
+
+    expect(await popover.isVisible()).toBe(false);
+
+    await page.evaluate(() => {
+      document.getElementById("ref").dispatchEvent(new KeyboardEvent("keydown", { key: " " }));
+    });
+
+    await page.waitForChanges();
+
+    expect(await popover.isVisible()).toBe(true);
+
+    await page.evaluate(() => {
+      document.getElementById("ref").dispatchEvent(new KeyboardEvent("keydown", { key: " " }));
+    });
+
+    await page.waitForChanges();
+
+    expect(await popover.isVisible()).toBe(false);
   });
 
   it("should emit open event", async () => {
@@ -398,5 +490,95 @@ describe("calcite-popover", () => {
     await page.waitForChanges();
 
     expect(await popover.getProperty("open")).toBe(false);
+  });
+
+  it("should not toggle popovers with triggerDisabled", async () => {
+    const page = await newE2EPage();
+
+    await page.setContent(
+      html`
+        <div id="outsideNode">Outside node</div>
+        <calcite-popover trigger-disabled reference-element="ref" open> Hello World </calcite-popover>
+        <div id="ref">Button</div>
+      `
+    );
+
+    await page.waitForChanges();
+
+    const popover = await page.find("calcite-popover");
+
+    expect(await popover.getProperty("open")).toBe(true);
+
+    const ref = await page.find("#ref");
+
+    await ref.click();
+
+    await page.waitForChanges();
+
+    expect(await popover.getProperty("open")).toBe(true);
+
+    const outsideNode = await page.find("#outsideNode");
+
+    await outsideNode.click();
+
+    await page.waitForChanges();
+
+    expect(await popover.getProperty("open")).toBe(true);
+
+    popover.setProperty("triggerDisabled", false);
+
+    await page.waitForChanges();
+
+    await ref.click();
+
+    await page.waitForChanges();
+
+    expect(await popover.getProperty("open")).toBe(false);
+  });
+
+  it("should autoClose shadow popovers when clicked outside", async () => {
+    const page = await newE2EPage();
+
+    await page.setContent(
+      html`
+        <div id="host"></div>
+        <div id="outsideNode">Outside node</div>
+        <calcite-popover id="dummy" reference-element="ref">dummy popover</calcite-popover>
+        <div id="ref">Button</div>
+      `
+    );
+
+    await page.waitForChanges();
+
+    await page.evaluate(() => {
+      const shadow = document.getElementById("host").attachShadow({ mode: "open" });
+
+      const shadowButton = document.createElement("calcite-button");
+      shadowButton.id = "popover-button-close-shadow";
+      shadowButton.textContent = "Shadow Popover";
+
+      const shadowPopover = document.createElement("calcite-popover");
+      shadowPopover.referenceElement = "popover-button-close-shadow";
+      shadowPopover.autoClose = true;
+      shadowPopover.textContent = "Click outside me";
+      shadowPopover.open = true;
+
+      shadow.appendChild(shadowPopover);
+      shadow.appendChild(shadowButton);
+    });
+
+    await page.waitForChanges();
+
+    const shadowPopover = await page.find("#host >>> calcite-popover");
+
+    expect(await shadowPopover.getProperty("open")).toBe(true);
+
+    const outsideNode = await page.find("#outsideNode");
+
+    await outsideNode.click();
+
+    await page.waitForChanges();
+
+    expect(await shadowPopover.getProperty("open")).toBe(false);
   });
 });

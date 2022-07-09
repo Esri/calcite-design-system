@@ -207,4 +207,20 @@ export const Default = stepStory(
       })
     )
     .snapshot("bg locale")
+
+    .executeScript(
+      setKnobs({
+        story: "components-controls-datepicker--default",
+        knobs: [{ name: "locale", value: "ru" }]
+      })
+    )
+    .snapshot("ru locale")
+
+    .executeScript(
+      setKnobs({
+        story: "components-controls-datepicker--default",
+        knobs: [{ name: "locale", value: "th" }]
+      })
+    )
+    .snapshot("th locale (Buddhist calendar)")
 );

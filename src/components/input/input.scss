@@ -7,7 +7,7 @@
   & input,
   & .prefix,
   & .suffix {
-    @apply text-n2h h-6 p-2;
+    @apply text-n2h h-6 px-2;
   }
   & textarea {
     @apply h-6;
@@ -37,7 +37,7 @@
   & input,
   & .prefix,
   & .suffix {
-    @apply text-n1h h-8 p-3;
+    @apply text-n1h h-8 px-3;
   }
   & textarea {
     min-height: theme("spacing.8");
@@ -66,7 +66,7 @@
   & input,
   & .prefix,
   & .suffix {
-    @apply text-0h h-11 p-4;
+    @apply text-0h h-11 px-4;
   }
   & textarea {
     min-height: theme("spacing.11");
@@ -99,7 +99,7 @@
 
 :host textarea,
 :host input {
-  transition: var(--calcite-animation-timing), height 0s;
+  transition: var(--calcite-animation-timing), height 0, outline-offset 0s;
   -webkit-appearance: none;
   @apply font-inherit
     text-color-1
@@ -461,6 +461,9 @@ input[type="time"]::-webkit-clear-button {
   &:active {
     @apply bg-foreground-3;
   }
+  &:disabled {
+    @apply pointer-events-none;
+  }
 }
 
 .wrapper {
@@ -552,7 +555,6 @@ input[type="time"]::-webkit-clear-button {
 
 :host .inline-child {
   @apply transition-default bg-transparent;
-
   .editing-enabled {
     background-color: inherit;
   }
