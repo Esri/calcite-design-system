@@ -464,7 +464,7 @@ export class Dropdown implements InteractiveComponent {
 
   transitionEnd = (event: TransitionEvent): void => {
     if (event.propertyName === this.activeTransitionProp) {
-      this.open || this.active ? this.calciteDropdownOpen.emit() : this.calciteDropdownClose.emit();
+      this.open || this.active ? this.emitOpenCloseEvent("open") : this.emitOpenCloseEvent("close");
     }
   };
 

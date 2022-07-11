@@ -57,7 +57,7 @@ describe("calcite-combobox", () => {
       </calcite-combobox>
   `));
 
-  it("is accessible with open selected items (deprecated)", async () =>
+  it("is accessible with open selected items", async () =>
     accessible(`
     <calcite-combobox open label="Trees" value="Trees">
       <calcite-combobox-item-group label="Conifers">
