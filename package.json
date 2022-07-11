@@ -42,7 +42,7 @@
     "start": "concurrently --kill-others --raw \"tsc --project ./tsconfig-demos.json --watch\" \"npm run build:watch-dev -- --serve\" \"ts-node --esm ./support/cleanOnProcessExit.ts --path ./src/demos/**/*.js \"",
     "test": "npm run util:run-tests",
     "test:prerender": "stencil build --no-docs --prerender",
-    "test:storybook": "concurrently --raw \"npm:util:build-docs && screener-storybook --conf screener.config.js\"",
+    "test:storybook": "concurrently --raw \"npm:util:build-docs && screener-storybook --conf .storybook/screener.config.js\"",
     "test:watch": "npm run util:run-tests -- --watchAll",
     "util:build-docs": "npm run util:hydration-styles && npm run util:copy-icons && stencil build --config stencil.storybook.config.ts",
     "util:clean-tested-build": "npm ci && npm test && npm run build",
