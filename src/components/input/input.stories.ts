@@ -57,13 +57,10 @@ export const WithLabel = WithLabelTemplate.bind({});
 WithLabel.play = async ({ canvasElement }) => {
   const canvas = within(canvasElement);
   const input = canvas.getByTestId("input-with-label") as any;
-  customElements
-    .whenDefined("calcite-input")
-    .then(() => input.componentOnReady())
-    .then(async () => {
-      input.setFocus();
-      await userEvent.type(input, "foo bar baz");
-    });
+  await customElements.whenDefined("calcite-input");
+  await input.componentOnReady();
+  input.setFocus();
+  await userEvent.type(input, "foo bar baz");
 };
 
 export const WithLabelAndInputMessage = (): string => html`
