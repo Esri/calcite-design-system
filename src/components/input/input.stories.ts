@@ -59,8 +59,10 @@ WithLabel.play = async ({ canvasElement }) => {
   const input = canvas.getByTestId("input-with-label") as any;
   await customElements.whenDefined("calcite-input");
   await input.componentOnReady();
-  input.setFocus();
-  await userEvent.type(input, "foo bar baz");
+  // input.setFocus();
+  const nativeInput = input.shadowRoot.querySelector("input");
+  nativeInput.focus();
+  await userEvent.type(nativeInput, "foo bar baz");
 };
 
 export const WithLabelAndInputMessage = (): string => html`
