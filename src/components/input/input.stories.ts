@@ -57,9 +57,11 @@ export const WithLabel = WithLabelTemplate.bind({});
 WithLabel.play = async ({ canvasElement }) => {
   const canvas = within(canvasElement);
 
-  const input = canvas.getByTestId("input-with-label");
-  await userEvent.click(input);
-  await userEvent.type(input, "foo bar baz");
+  const input = canvas.getByTestId("input-with-label").shadowRoot?.querySelector("input");
+  if (input) {
+    await userEvent.click(input);
+    await userEvent.type(input, "foo bar baz");
+  }
 };
 
 export const WithLabelAndInputMessage = (): string => html`
