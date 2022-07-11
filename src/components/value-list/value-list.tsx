@@ -384,7 +384,7 @@ export class ValueList<
 
   handleFocusIn = (event: FocusEvent): void => {
     const { handleElement, item } = getHandleAndItemElement(event);
-    if (!item.handleActivated && item && handleElement) {
+    if (!item?.handleActivated && item && handleElement) {
       this.updateHandleAriaLabel(handleElement, getScreenReaderText(item, "start", this));
     }
   };
