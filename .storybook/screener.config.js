@@ -1,6 +1,6 @@
 module.exports = {
   projectRepo: "Esri/calcite-components",
-  storybookStaticDir: "../__docs-temp__",
+  storybookConfigDir: ".storybook",
   apiKey: process.env.SCREENER_API_KEY,
   commit: process.env.COMMIT_SHA,
   resolution: "1024x768",
