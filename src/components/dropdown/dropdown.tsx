@@ -63,7 +63,7 @@ export class Dropdown implements InteractiveComponent {
   @Prop({ reflect: true, mutable: true }) active = false;
 
   /** When true, opens the dropdown */
-  @Prop({ mutable: true }) open = false;
+  @Prop({ reflect: true, mutable: true }) open = false;
 
   @Watch("active")
   @Watch("open")
@@ -186,14 +186,14 @@ export class Dropdown implements InteractiveComponent {
           ref={this.setReferenceEl}
         >
           <slot
-            aria-expanded={toAriaBoolean(active)}
+            aria-expanded={toAriaBoolean(active || open)}
             aria-haspopup="true"
             name={SLOTS.dropdownTrigger}
             onSlotchange={this.updateTriggers}
           />
         </div>
         <div
-          aria-hidden={toAriaBoolean(!active)}
+          aria-hidden={toAriaBoolean(!(active || open))}
           class="calcite-dropdown-wrapper"
           ref={this.setMenuEl}
         >
@@ -201,7 +201,7 @@ export class Dropdown implements InteractiveComponent {
             class={{
               ["calcite-dropdown-content"]: true,
               [PopperCSS.animation]: true,
-              [PopperCSS.animationActive]: active
+              [PopperCSS.animationActive]: active || open
             }}
             onTransitionEnd={this.transitionEnd}
             ref={this.setScrollerEl}
@@ -470,7 +470,9 @@ export class Dropdown implements InteractiveComponent {
 
   transitionRunHandler = (event: TransitionEvent): void => {
     if (event.propertyName === this.activeTransitionProp) {
-      this.active ? this.emitOpenCloseEvent("beforeOpen") : this.emitOpenCloseEvent("beforeClose");
+      this.active || this.open
+        ? this.emitOpenCloseEvent("beforeOpen")
+        : this.emitOpenCloseEvent("beforeClose");
     }
   };
 
