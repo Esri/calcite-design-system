@@ -102,7 +102,7 @@ export class Combobox
   }
 
   /**When true, opens the combobox */
-  @Prop({ mutable: true }) open = false;
+  @Prop({ reflect: true, mutable: true }) open = false;
 
   /** Disable combobox input */
   @Prop({ reflect: true }) disabled = false;

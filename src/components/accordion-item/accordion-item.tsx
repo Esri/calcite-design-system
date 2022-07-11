@@ -38,7 +38,8 @@ export class AccordionItem {
   //
   //--------------------------------------------------------------------------
 
-  /** When true, the component is active.
+  /**
+   * When true, the component is active.
    *
    * @deprecated use expanded instead
    */
@@ -46,7 +47,7 @@ export class AccordionItem {
   @Prop({ reflect: true, mutable: true }) active = false;
 
   /** When true, item is expanded */
-  @Prop({ mutable: true }) expanded = false;
+  @Prop({ reflect: true, mutable: true }) expanded = false;
 
   /**
    * Specifies a title for the component.
