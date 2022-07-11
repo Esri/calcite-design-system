@@ -26,6 +26,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### Bug Fixes
 
+- **popover:** Add aria-live="polite" for screen readers ([#4894](https://github.com/Esri/calcite-components/issues/4894)) ([87da60c](https://github.com/Esri/calcite-components/commit/87da60caed17dd23868aa3b6bc26e489cd672193))
 - css-only hydration to prevent FOUC ([#991](https://github.com/Esri/calcite-components/issues/991)) ([#4856](https://github.com/Esri/calcite-components/issues/4856)) ([dae9586](https://github.com/Esri/calcite-components/commit/dae95865110c191b1135ebe0af2abb088d983cc8))
 - **accordion-item:** Indicate whether accordion is expanded to screen readers. ([#4822](https://github.com/Esri/calcite-components/issues/4822)) ([9b36a90](https://github.com/Esri/calcite-components/commit/9b36a90c262b0aa0ea2ee3eb3f9c98026ae85c68)), closes [#4691](https://github.com/Esri/calcite-components/issues/4691)
 - **color-picker:** fixed hue bar click and drag interaction ([#4734](https://github.com/Esri/calcite-components/issues/4734)) ([78d9e64](https://github.com/Esri/calcite-components/commit/78d9e6430bc6200fab54b721cb2f615805a745fb))
