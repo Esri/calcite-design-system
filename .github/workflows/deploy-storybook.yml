@@ -18,7 +18,7 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           npm ci --legacy-peer-deps
-          npm run build-storybook
+          npm run docs
           npx storybook-to-ghpages --existing-output-dir=docs --ci
         env:
           GH_TOKEN: ${{ github.actor }}:${{ secrets.ADMIN_TOKEN }}
