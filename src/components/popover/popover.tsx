@@ -500,6 +500,7 @@ export class Popover {
       <Host
         aria-hidden={toAriaBoolean(hidden)}
         aria-label={label}
+        aria-live="polite"
         calcite-hydrated-hidden={hidden}
         id={this.getId()}
         role="dialog"
