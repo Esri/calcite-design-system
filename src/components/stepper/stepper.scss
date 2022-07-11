@@ -23,11 +23,3 @@
     "content content content content"
     ". . . .";
 }
-
-:host ::slotted(.calcite-stepper-content) {
-  @apply flex
-    w-full
-    min-w-full
-    flex-col
-    flex-wrap;
-}
