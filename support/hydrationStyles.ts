@@ -1,17 +1,20 @@
-const fs = require("fs");
-const path = require("path");
-
-const basePath = path.normalize(`${__dirname}/../src/components/`);
-
-async function isCalciteComponent(entry): Promise<boolean> {
-  if (!entry.isDirectory()) {
-    return false;
-  }
-  const files = await fs.promises.readdir(path.join(basePath, entry.name));
-  return files?.includes(`${entry.name}.tsx`);
-}
-
 (async function () {
+  const fs = await import("fs");
+  const path = await import("path");
+  const { fileURLToPath } = await import("url");
+
+  const __filename = fileURLToPath(import.meta.url);
+  const __dirname = path.dirname(__filename);
+  const basePath = path.normalize(`${__dirname}/../src/components/`);
+
+  async function isCalciteComponent(entry): Promise<boolean> {
+    if (!entry.isDirectory()) {
+      return false;
+    }
+    const files = await fs.promises.readdir(path.join(basePath, entry.name));
+    return files?.includes(`${entry.name}.tsx`);
+  }
+
   const stylePath = path.normalize(`${__dirname}/../src/assets/styles/_hydration.scss`);
   const components = await fs.promises.readdir(basePath, { withFileTypes: true });
   const selectors = components.filter(isCalciteComponent).map(({ name }) => `calcite-${name}:not([calcite-hydrated])`);
