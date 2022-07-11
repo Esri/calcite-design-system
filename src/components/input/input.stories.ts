@@ -58,6 +58,7 @@ WithLabel.play = async ({ canvasElement }) => {
   const canvas = within(canvasElement);
 
   const input = canvas.getByTestId("input-with-label");
+  await userEvent.click(input);
   await userEvent.type(input, "foo bar baz");
 };
 
