@@ -7,7 +7,6 @@ const basePath = path.normalize(`${__dirname}/../src/components/`);
 
 async function filter<T>(array: T[], predicate: (item: T) => Promise<boolean>): Promise<T[]> {
   const results = await Promise.all(array.map((item) => predicate(item)));
-
   return array.filter((_item, index) => results[index]);
 }
 
