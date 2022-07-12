@@ -3,9 +3,7 @@
 This document maintains a list of released versions and changes introduced by them.
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
-<!--@unreleased-section-start-->
-
-## Unreleased
+## [1.0.0-beta.84](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.83...v1.0.0-beta.84) (2022-07-12)
 
 ### ⚠ BREAKING CHANGES
 
@@ -17,7 +15,6 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - **accordion-item,stepper-item,block,panel:** add heading & description prop ([#4732](https://github.com/Esri/calcite-components/issues/4732)) ([33cbffe](https://github.com/Esri/calcite-components/commit/33cbffe3d213ed0d9b362b8631a3d22cc5bda846))
 - **action:** Add css variable to override indicator color ([#4717](https://github.com/Esri/calcite-components/issues/4717)) ([abdbc7d](https://github.com/Esri/calcite-components/commit/abdbc7dbf7a0b87b464f8e8536fcc30879427449))
 - **block:** support disable-padding property ([#4812](https://github.com/Esri/calcite-components/issues/4812)) ([f117ca3](https://github.com/Esri/calcite-components/commit/f117ca3075835282c9c0fddd16b6954285d4549e))
-- **block:** support noPadding property ([#4790](https://github.com/Esri/calcite-components/issues/4790)) ([44cbb25](https://github.com/Esri/calcite-components/commit/44cbb2567df9671cbde05b643775b3b68115855e))
 - **chip:** add support for closed prop ([#4836](https://github.com/Esri/calcite-components/issues/4836)) ([6f58d7b](https://github.com/Esri/calcite-components/commit/6f58d7b756f3760a82c819f0f7e93d40828e4fb4))
 - **color-picker:** support customizing numbering system for locale ([#4801](https://github.com/Esri/calcite-components/issues/4801)) ([aef3839](https://github.com/Esri/calcite-components/commit/aef38397e4da2a82d43acdcbeefd22ff6840e471))
 - **combobox:** add support for placeholder icon & no longer display leading space for placeholder text ([#4784](https://github.com/Esri/calcite-components/issues/4784)) ([2c9f5e8](https://github.com/Esri/calcite-components/commit/2c9f5e81b4f2bef4a39eb8d1eb113dfeece7f503))
@@ -57,7 +54,6 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - Enter key should submit forms in Safari ([#4815](https://github.com/Esri/calcite-components/issues/4815)) ([ae432dd](https://github.com/Esri/calcite-components/commit/ae432ddd570cf8ca22ed74aa152c320152d5a989)), closes [#4793](https://github.com/Esri/calcite-components/issues/4793)
 - Make sure component setFocus methods do not throw error ([#4739](https://github.com/Esri/calcite-components/issues/4739)) ([c07dd56](https://github.com/Esri/calcite-components/commit/c07dd561d1e78601b3b2f92154d448c36c1c9c06)), closes [#4731](https://github.com/Esri/calcite-components/issues/4731)
 - **tooltip:** Fix syntax typo in `TooltipManager` ([#4711](https://github.com/Esri/calcite-components/issues/4711)) ([c8eed66](https://github.com/Esri/calcite-components/commit/c8eed66bfc0d0481adc775eee5ab19ef06f6c880))
-<!--@unreleased-section-end-->
 
 ## [1.0.0-beta.83](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.82...v1.0.0-beta.83) (2022-06-07)
 
