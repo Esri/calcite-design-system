@@ -68,11 +68,8 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
   //  Public Properties
   //
   //--------------------------------------------------------------------------
-
   /**
    * When false, the component won't be interactive.
-   *
-   * @mdn [disabled](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/disabled)
    */
   @Prop({ reflect: true }) disabled = false;
 
