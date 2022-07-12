@@ -618,7 +618,9 @@ export class InputNumber implements LabelableComponent, FormComponent, Interacti
   private nudgeButtonPointerDownHandler = (event: PointerEvent): void => {
     event.preventDefault();
     const direction = (event.target as HTMLDivElement).dataset.adjustment as NumberNudgeDirection;
-    this.nudgeNumberValue(direction, event);
+    if (!this.disabled) {
+      this.nudgeNumberValue(direction, event);
+    }
   };
 
   onFormReset(): void {

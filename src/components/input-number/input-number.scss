@@ -376,6 +376,9 @@
   &:active {
     @apply bg-foreground-3;
   }
+  &:disabled {
+    @apply pointer-events-none;
+  }
 }
 
 .wrapper {
