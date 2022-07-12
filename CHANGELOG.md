@@ -14,6 +14,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ### Bug Fixes
 
 - **action-bar, action-pad:** Background color should be transparent on host. ([#4904](https://github.com/Esri/calcite-components/issues/4904)) ([0a5b207](https://github.com/Esri/calcite-components/commit/0a5b20784ee0fd6f8c5d2d4cf431b85df85f37ec))
+- **input-date-picker:** added readOnly prop support ([#4888](https://github.com/Esri/calcite-components/issues/4888)) ([efdd450](https://github.com/Esri/calcite-components/commit/efdd450da910daeff726f868cbec5dceb99d4f5b))
 <!--@unreleased-section-end-->
 
 ## [1.0.0-beta.84](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.83...v1.0.0-beta.84) (2022-07-12)
