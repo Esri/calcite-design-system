@@ -6,6 +6,7 @@ import { guid } from "./guid";
  *
  * If it already has an ID, it will be preserved, otherwise a unique one will be generated and assigned.
  *
+ * @param el
  * @returns {string} The element's ID.
  */
 export function ensureId(el: Element): string {
@@ -43,45 +44,12 @@ export function getElementProp(el: Element, prop: string, fallbackValue: any): a
   return closest ? closest.getAttribute(prop) : fallbackValue;
 }
 
-export function getRootNode(el: Element): HTMLDocument | ShadowRoot {
-  return el.getRootNode() as HTMLDocument | ShadowRoot;
+export function getRootNode(el: Element): Document | ShadowRoot {
+  return el.getRootNode() as Document | ShadowRoot;
 }
 
-export function getHost(root: HTMLDocument | ShadowRoot): Element | null {
+export function getHost(root: Document | ShadowRoot): Element | null {
   return (root as ShadowRoot).host || null;
-}
-
-/**
- * This helper queries an element's rootNodes and any ancestor rootNodes.
- *
- * @returns {Element[]} The elements.
- */
-export function queryElementsRoots<T extends Element = Element>(element: Element, selector: string): T[] {
-  // Gets the rootNode and any ancestor rootNodes (shadowRoot or document) of an element and queries them for a selector.
-  // Based on: https://stackoverflow.com/q/54520554/194216
-  function queryFromAll<T extends Element = Element>(el: Element, allResults: T[]): T[] {
-    if (!el) {
-      return allResults;
-    }
-
-    if ((el as Slottable).assignedSlot) {
-      el = (el as Slottable).assignedSlot;
-    }
-
-    const rootNode = getRootNode(el);
-
-    const results = Array.from(rootNode.querySelectorAll(selector)) as T[];
-
-    const uniqueResults = results.filter((result) => !allResults.includes(result));
-
-    allResults = [...allResults, ...uniqueResults];
-
-    const host = getHost(rootNode);
-
-    return host ? queryFromAll(host, allResults) : allResults;
-  }
-
-  return queryFromAll(element, []);
 }
 
 /**
@@ -89,6 +57,10 @@ export function queryElementsRoots<T extends Element = Element>(element: Element
  *
  * If both an 'id' and 'selector' are supplied, 'id' will take precedence over 'selector'.
  *
+ * @param element
+ * @param root0
+ * @param root0.selector
+ * @param root0.id
  * @returns {Element} The element.
  */
 export function queryElementRoots<T extends Element = Element>(
@@ -115,7 +87,13 @@ export function queryElementRoots<T extends Element = Element>(
     const rootNode = getRootNode(el);
 
     const found = id
-      ? (rootNode.getElementById(id) as Element as T)
+      ? "getElementById" in rootNode
+        ? /*
+          Check to make sure 'getElementById' exists in cases where element is no longer connected to the DOM and getRootNode() returns the element.
+          https://github.com/Esri/calcite-components/pull/4280
+           */
+          (rootNode.getElementById(id) as Element as T)
+        : null
       : selector
       ? (rootNode.querySelector(selector) as T)
       : null;
@@ -140,15 +118,15 @@ export function closestElementCrossShadowBoundary<T extends Element = Element>(
   return closestFrom(element);
 }
 
-export interface CalciteFocusableElement extends HTMLElement {
+export interface FocusableElement extends HTMLElement {
   setFocus?: () => Promise<void>;
 }
 
-export function isCalciteFocusable(el: CalciteFocusableElement): boolean {
+export function isCalciteFocusable(el: FocusableElement): boolean {
   return typeof el?.setFocus === "function";
 }
 
-export async function focusElement(el: CalciteFocusableElement): Promise<void> {
+export async function focusElement(el: FocusableElement): Promise<void> {
   if (!el) {
     return;
   }
@@ -267,4 +245,16 @@ export function intersects(rect1: DOMRect, rect2: DOMRect): boolean {
     rect2.top > rect1.bottom ||
     rect2.bottom < rect1.top
   );
+}
+
+/**
+ * This helper makes sure that boolean aria attributes are properly converted to a string.
+ *
+ * It should only be used for aria attributes that require a string value of "true" or "false".
+ *
+ * @param value
+ * @returns {string} The string conversion of a boolean value ("true" | "false").
+ */
+export function toAriaBoolean(value: boolean): string {
+  return Boolean(value).toString();
 }

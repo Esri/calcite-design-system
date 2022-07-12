@@ -7,6 +7,7 @@ module.exports = {
     "storybook-rtl-addon",
     "storybook-addon-themes"
   ],
+  staticDirs: ["../__docs-temp__"],
   stories: ["../src/**/*.stories.@(mdx|ts)"],
   babel: async (options) => {
     return {

@@ -1,6 +1,5 @@
-import { E2EElement, E2EPage } from "@stencil/core/testing";
+import { E2EElement, E2EPage, newE2EPage } from "@stencil/core/testing";
 import { BoundingBox, JSONObject } from "puppeteer";
-import dedent from "dedent";
 
 /**
  * Util to help type global props for testing.
@@ -26,7 +25,13 @@ type MouseInitEvent = Pick<
   "bubbles" | "cancelable" | "composed" | "screenX" | "screenY" | "clientX" | "clientY"
 >;
 
-/* based on https://github.com/puppeteer/puppeteer/issues/1366#issuecomment-615887204 */
+/**
+ * Drag and drop utility based on https://github.com/puppeteer/puppeteer/issues/1366#issuecomment-615887204
+ *
+ * @param {E2EPage} page - the e2e page
+ * @param {DragAndDropSelector} dragStartSelector - Selector for the drag's start
+ * @param {DragAndDropSelector} dragEndSelector - Selector for the drag's end
+ */
 export async function dragAndDrop(
   page: E2EPage,
   dragStartSelector: DragAndDropSelector,
@@ -111,115 +116,22 @@ export async function dragAndDrop(
   );
 }
 
+/**
+ *
+ * @param {E2EElement} input - the element to select text from
+ * @returns {Promise<void>}
+ */
 export function selectText(input: E2EElement): Promise<void> {
   // workaround for selecting text based on https://github.com/puppeteer/puppeteer/issues/1313#issuecomment-436932478
   return input.click({ clickCount: 3 });
 }
 
 /**
- * Use this tagged template to help Prettier format any HTML template literals.
- * @param strings the
+ * Helper to get an E2EElement's x,y coordinates.
  *
- * @example
- *
- * ```ts
- * const page = await newE2EPage({
- *   html: html`
- *     <calcite-select>
- *       <calcite-option id="1">uno</calcite-option>
- *       <calcite-option id="2">dos</calcite-option>
- *       <calcite-option id="3">tres</calcite-option>
- *     </calcite-select>
- *   `
- * });
- * ```
- */
-export function html(strings: string): string;
-export function html(strings: TemplateStringsArray, ...placeholders: any[]): string;
-export function html(strings: any, ...placeholders: any[]): string {
-  return dedent(strings, ...placeholders);
-}
-
-/*
-MIT License
-
-Copyright (c) 2020 Cloud Four
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-
-https://github.com/cloudfour/simple-svg-placeholder
-*/
-
-interface SimpleSvgPlaceholderParams {
-  width?: number;
-  height?: number;
-  text?: string;
-  fontFamily?: string;
-  fontWeight?: string;
-  fontSize?: number;
-  dy?: number;
-  bgColor?: string;
-  textColor?: string;
-  dataUri?: boolean;
-  charset?: string;
-}
-
-export function placeholderImage({
-  width = 300,
-  height = 150,
-  text = `${width}×${height}`,
-  fontFamily = "sans-serif",
-  fontWeight = "bold",
-  fontSize = Math.floor(Math.min(width, height) * 0.2),
-  dy = fontSize * 0.35,
-  bgColor = "#ddd",
-  textColor = "rgba(0,0,0,0.5)",
-  dataUri = true,
-  charset = "UTF-8"
-}: SimpleSvgPlaceholderParams): string {
-  const str = `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}">
-    <rect fill="${bgColor}" width="${width}" height="${height}"/>
-    <text fill="${textColor}" font-family="${fontFamily}" font-size="${fontSize}" dy="${dy}" font-weight="${fontWeight}" x="50%" y="50%" text-anchor="middle">${text}</text>
-  </svg>`;
-
-  // Thanks to: filamentgroup/directory-encoder
-  const cleaned = str
-    .replace(/[\t\n\r]/gim, "") // Strip newlines and tabs
-    .replace(/\s\s+/g, " ") // Condense multiple spaces
-    .replace(/'/gim, "\\i"); // Normalize quotes
-
-  if (dataUri) {
-    const encoded = encodeURIComponent(cleaned)
-      .replace(/\(/g, "%28") // Encode brackets
-      .replace(/\)/g, "%29");
-
-    return `data:image/svg+xml;charset=${charset},${encoded}`;
-  }
-
-  return cleaned;
-}
-
-/**
- * Helper to get an E2EElement's x,y coordinates
- * @param page
- * @param elementSelector
- * @param shadowSelector
+ * @param {E2EPage} page - the e2e page
+ * @param {string} elementSelector - the element selector
+ * @param {string} shadowSelector - the shadowRoot selector
  */
 export async function getElementXY(
   page: E2EPage,
@@ -240,10 +152,10 @@ export async function getElementXY(
 
 /**
  * This util helps visualize mouse movement when running tests in headful mode.
- *
  * Note that this util should only be used for test debugging purposes and not be included in a test.
- *
  * Based on https://github.com/puppeteer/puppeteer/issues/4378#issuecomment-499726973
+ *
+ * @param {E2EPage} page - the e2e page
  */
 export async function visualizeMouseCursor(page: E2EPage): Promise<void> {
   await page.evaluate(() => {
@@ -325,6 +237,26 @@ export async function visualizeMouseCursor(page: E2EPage): Promise<void> {
   });
 }
 
+/**
+ * Tells the browser that you wish to perform an animation.
+ * https://developer.mozilla.org/en-US/docs/Web/API/window/requestAnimationFrame
+ *
+ * @returns {Promise<void>}
+ */
 export async function waitForAnimationFrame(): Promise<void> {
   return new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+}
+
+/**
+ * Creates an E2E page for tests that need to create and set up elements programmatically.
+ *
+ * @returns {Promise<E2EPage>} an e2e page
+ */
+export async function newProgrammaticE2EPage(): Promise<E2EPage> {
+  const page = await newE2EPage();
+  // we need to initialize the page with any component to ensure they are available in the browser context
+  await page.setContent("<calcite-icon></calcite-icon>");
+  await page.evaluate(() => document.querySelector("calcite-icon").remove());
+
+  return page;
 }

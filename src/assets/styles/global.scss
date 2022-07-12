@@ -4,6 +4,9 @@
 /* CSS vars (@include in global) */
 @import "type";
 
+/* Hydration styles to hide non-hydrated components */
+@import "hydration";
+
 @mixin calcite-theme-light-extended {
   @include calcite-theme-light();
   --calcite-theme-name: "light";
@@ -41,6 +44,7 @@
   -moz-osx-font-smoothing: grayscale;
 
   --calcite-border-radius: 4px;
+  --calcite-border-radius-base: 0;
   --calcite-ui-opacity-disabled: 0.5;
   --calcite-panel-width-multiplier: 1;
   --calcite-ui-icon-color: currentColor;
@@ -68,9 +72,4 @@
 
 .overflow-hidden {
   overflow: hidden;
-}
-
-[calcite-hydrated-hidden] {
-  visibility: hidden;
-  pointer-events: none;
 }

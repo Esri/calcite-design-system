@@ -15,27 +15,10 @@ describe("label", () => {
 
   describe("connectLabel/disconnectLabel", () => {
     describe("wires up the associated label", () => {
-      beforeEach(() => {
-        // we polyfill composedPath since Stencil's MockEvent does not support it: https://github.com/ionic-team/stencil/blob/main/src/mock-doc/event.ts#L5-L40
-        CustomEvent.prototype.composedPath = function () {
-          // based on https://gist.github.com/rockinghelvetica/00b9f7b5c97a16d3de75ba99192ff05c
-          if (this.path) {
-            return this.path;
-          }
-          let target = this.target;
-
-          this.path = [];
-          while (target.parentNode !== null) {
-            this.path.push(target);
-            target = target.parentNode;
-          }
-          this.path.push(document, window);
-          return this.path;
-        };
-      });
-
       /**
        * This util helps simulate calcite-label's behavior since we cannot use the component here
+       *
+       * @param label
        */
       function wireUpFakeLabel(label: HTMLElement): void {
         label.addEventListener("click", (event: MouseEvent) => {
@@ -127,6 +110,78 @@ describe("label", () => {
           <fake-labelable></fake-labelable>
         </calcite-label>
       `;
+
+        const labelEl = document.querySelector<HTMLElement>("calcite-label");
+        const fakeLabelableEl = document.querySelector<HTMLElement>("fake-labelable");
+
+        wireUpFakeLabel(labelEl);
+
+        const labelable = createFakeLabelable({
+          el: fakeLabelableEl
+        });
+
+        connectLabel(labelable);
+
+        expect(labelable.labelEl).toBe(labelEl);
+
+        labelEl.click();
+
+        expect(labelable.onLabelClick).toHaveBeenCalledTimes(1);
+
+        disconnectLabel(labelable);
+
+        expect(labelable.labelEl).toBe(labelEl);
+
+        labelEl.click();
+
+        expect(labelable.onLabelClick).toHaveBeenCalledTimes(1);
+      });
+
+      it("supports being rendered after labelable", () => {
+        document.body.innerHTML = `
+          <fake-labelable id="renderedFirst"></fake-labelable>
+        `;
+
+        const label = document.createElement("calcite-label");
+        label.setAttribute("for", "renderedFirst");
+        document.body.appendChild(label);
+
+        const labelEl = document.querySelector<HTMLElement>("calcite-label");
+        const fakeLabelableEl = document.querySelector<HTMLElement>("fake-labelable");
+
+        wireUpFakeLabel(labelEl);
+
+        const labelable = createFakeLabelable({
+          el: fakeLabelableEl
+        });
+
+        connectLabel(labelable);
+
+        expect(labelable.labelEl).toBe(labelEl);
+
+        labelEl.click();
+
+        expect(labelable.onLabelClick).toHaveBeenCalledTimes(1);
+
+        disconnectLabel(labelable);
+
+        expect(labelable.labelEl).toBe(labelEl);
+
+        labelEl.click();
+
+        expect(labelable.onLabelClick).toHaveBeenCalledTimes(1);
+      });
+
+      it("works if reattached to labelable", () => {
+        document.body.innerHTML = `
+          <calcite-label for="for"></calcite-label>
+          <fake-labelable id="for"></fake-labelable>
+        `;
+        document.querySelector("calcite-label").remove();
+
+        const label = document.createElement("calcite-label");
+        label.setAttribute("for", "for");
+        document.body.appendChild(label);
 
         const labelEl = document.querySelector<HTMLElement>("calcite-label");
         const fakeLabelableEl = document.querySelector<HTMLElement>("fake-labelable");

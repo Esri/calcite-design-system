@@ -1,0 +1,85 @@
+# calcite-alert
+
+<!-- Auto Generated Below -->
+
+## Usage
+
+### Basic
+
+A single instance of an alert. Multiple alerts will aggregate in a queue.
+
+```html
+<calcite-alert active>
+  <div slot="title">Title of alert</div>
+  <div slot="message">Message text of the alert</div>
+  <a slot="link" href="#">Retry</a>
+</calcite-alert>
+```
+
+## Properties
+
+| Property              | Attribute               | Description                                                                                                         | Type                                                                              | Default                              |
+| --------------------- | ----------------------- | ------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------- | ------------------------------------ |
+| `active`              | `active`                | When true, the component is active.                                                                                 | `boolean`                                                                         | `false`                              |
+| `autoDismiss`         | `auto-dismiss`          | When true, the component closes automatically (recommended for passive, non-blocking alerts).                       | `boolean`                                                                         | `false`                              |
+| `autoDismissDuration` | `auto-dismiss-duration` | Specifies the duration before the component automatically closes (only use with `autoDismiss`).                     | `"fast" \| "medium" \| "slow"`                                                    | `this.autoDismiss ? "medium" : null` |
+| `color`               | `color`                 | Specifies the color for the component (will apply to top border and icon).                                          | `"blue" \| "green" \| "red" \| "yellow"`                                          | `"blue"`                             |
+| `icon`                | `icon`                  | When true, shows a default recommended icon. Alternatively, pass a Calcite UI Icon name to display a specific icon. | `boolean \| string`                                                               | `undefined`                          |
+| `intlClose`           | `intl-close`            | Specifies the text label for the close button.                                                                      | `string`                                                                          | `TEXT.intlClose`                     |
+| `label` _(required)_  | `label`                 | Specifies an accessible name for the component.                                                                     | `string`                                                                          | `undefined`                          |
+| `placement`           | `placement`             | Specifies the placement of the component                                                                            | `"bottom" \| "bottom-end" \| "bottom-start" \| "top" \| "top-end" \| "top-start"` | `"bottom"`                           |
+| `scale`               | `scale`                 | Specifies the size of the component.                                                                                | `"l" \| "m" \| "s"`                                                               | `"m"`                                |
+
+## Events
+
+| Event                     | Description | Type                                                                              |
+| ------------------------- | ----------- | --------------------------------------------------------------------------------- |
+| `calciteAlertBeforeClose` |             | `CustomEvent<{ el: HTMLCalciteAlertElement; queue: HTMLCalciteAlertElement[]; }>` |
+| `calciteAlertBeforeOpen`  |             | `CustomEvent<{ el: HTMLCalciteAlertElement; queue: HTMLCalciteAlertElement[]; }>` |
+| `calciteAlertClose`       |             | `CustomEvent<{ el: HTMLCalciteAlertElement; queue: HTMLCalciteAlertElement[]; }>` |
+| `calciteAlertOpen`        |             | `CustomEvent<{ el: HTMLCalciteAlertElement; queue: HTMLCalciteAlertElement[]; }>` |
+
+## Methods
+
+### `setFocus() => Promise<void>`
+
+Sets focus on the component.
+
+#### Returns
+
+Type: `Promise<void>`
+
+## Slots
+
+| Slot        | Description                                                                                         |
+| ----------- | --------------------------------------------------------------------------------------------------- |
+| `"link"`    | A slot for optionally adding an action to take from the alert (undo, try again, link to page, etc.) |
+| `"message"` | A slot for adding main text to the component.                                                       |
+| `"title"`   | A slot for optionally adding a title to the component.                                              |
+
+## CSS Custom Properties
+
+| Name                    | Description                           |
+| ----------------------- | ------------------------------------- |
+| `--calcite-alert-width` | Specifies the width of the component. |
+
+## Dependencies
+
+### Depends on
+
+- [calcite-icon](../icon)
+- [calcite-chip](../chip)
+
+### Graph
+
+```mermaid
+graph TD;
+  calcite-alert --> calcite-icon
+  calcite-alert --> calcite-chip
+  calcite-chip --> calcite-icon
+  style calcite-alert fill:#f9f,stroke:#333,stroke-width:4px
+```
+
+---
+
+_Built with [StencilJS](https://stenciljs.com/)_
