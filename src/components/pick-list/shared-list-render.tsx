@@ -37,7 +37,7 @@ export const List: FunctionalComponent<{ props: ListProps } & DOMAttributes<any>
     <Host aria-busy={toAriaBoolean(loading)} role="menu" {...rest}>
       <section>
         {dragEnabled ? (
-          <span aria-live="assertive" class="assistive-text" ref={storeAssistiveEl} tabindex="-1" />
+          <span aria-live="assertive" class="assistive-text" ref={storeAssistiveEl} />
         ) : null}
         <header class={{ [CSS.sticky]: true }}>
           {filterEnabled ? (
