@@ -105,28 +105,28 @@ export class ValueList<
   /**
    * When "drag-enabled" is true and active, specifies accessible context to the `calcite-value-list-item`'s initial position.
    *
-   * use ${position} of ${total} as placeholder for displaying indices.
+   * Use ${position} of ${total} as placeholder for displaying indices.
    */
   @Prop() intlDragHandleStart?: string;
 
   /**
    * When "drag-enabled" is true and active, specifies accessible context to the component.
    *
-   * use ${position} of ${total} as placeholder for displaying indices.
+   * Use ${position} of ${total} as placeholder for displaying indices.
    */
   @Prop() intlDragHandleActivated?: string;
 
   /**
    * When "drag-enabled" is true and active, specifies accessible context to the `calcite-value-list-item`'s new position.
    *
-   * use ${position} of ${total} as placeholder for displaying indices.
+   * Use ${position} of ${total} as placeholder for displaying indices.
    */
   @Prop() intlDragHandleNewPosition?: string;
 
   /**
    * When "drag-enabled" is true and active, specifies accessible context to the `calcite-value-list-item`'s current position.
    *
-   * use ${position} of ${total} as placeholder for displaying indices.
+   * Use ${position} of ${total} as placeholder for displaying indices.
    */
   @Prop() intlDragHandleCurrentPosition?: string;
 
