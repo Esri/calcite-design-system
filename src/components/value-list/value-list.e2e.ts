@@ -243,7 +243,7 @@ describe("calcite-value-list", () => {
       const itemLabel = await item.getProperty("label");
 
       expect(handleAriaLabel).toBe(
-        `${itemLabel} ,press space and use arrow keys to re-order content. Current position ${startIndex + 1} of ${
+        `${itemLabel}, press space and use arrow keys to reorder content. Current position ${startIndex + 1} of ${
           items.length
         }.`
       );
@@ -252,7 +252,7 @@ describe("calcite-value-list", () => {
       await page.waitForChanges();
 
       expect(assistiveTextElement.textContent).toBe(
-        `Reordering ${itemLabel} ,current position ${startIndex + 1} of ${items.length}.`
+        `Reordering ${itemLabel}, current position ${startIndex + 1} of ${items.length}.`
       );
 
       await page.keyboard.press("ArrowDown");
@@ -262,13 +262,13 @@ describe("calcite-value-list", () => {
       const changeHandleLabel = handle.getAttribute("aria-label");
 
       expect(changeHandleLabel).toBe(
-        `${itemLabel} , new position ${startIndex + 1} of ${items.length}. Press space to confirm.`
+        `${itemLabel}, new position ${startIndex + 1} of ${items.length}. Press space to confirm.`
       );
       await page.keyboard.press("Space");
       await page.waitForChanges();
 
       expect(assistiveTextElement.textContent).toBe(
-        `${itemLabel} ,current position ${startIndex + 1} of ${items.length}.`
+        `${itemLabel}, current position ${startIndex + 1} of ${items.length}.`
       );
 
       await page.keyboard.press("Space");
@@ -281,7 +281,7 @@ describe("calcite-value-list", () => {
       const idleHandleLabel = handle.getAttribute("aria-label");
 
       expect(idleHandleLabel).toBe(
-        `${itemLabel} , new position ${startIndex + 1} of ${items.length}. Press space to confirm.`
+        `${itemLabel}, new position ${startIndex + 1} of ${items.length}. Press space to confirm.`
       );
     });
   });

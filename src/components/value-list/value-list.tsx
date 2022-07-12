@@ -105,30 +105,30 @@ export class ValueList<
   /**
    * When "drag-enabled" is true and active, specifies accessible context to the `calcite-value-list-item`'s initial position.
    *
-   * Use ${position} of ${total} as placeholder for displaying indices.
+   * Use ${position} of ${total} as placeholder for displaying indices and ${item.label} as placeholder for displaying label of `calcite-value-list-item`.
    */
-  @Prop() intlDragHandleStart?: string;
+  @Prop() intlDragHandleIdle?: string;
 
   /**
    * When "drag-enabled" is true and active, specifies accessible context to the component.
    *
-   * Use ${position} of ${total} as placeholder for displaying indices.
+   * Use ${position} of ${total} as placeholder for displaying indices and ${item.label} as placeholder for displaying label of `calcite-value-list-item`.
    */
-  @Prop() intlDragHandleActivated?: string;
+  @Prop() intlDragHandleActive?: string;
 
   /**
    * When "drag-enabled" is true and active, specifies accessible context to the `calcite-value-list-item`'s new position.
    *
-   * Use ${position} of ${total} as placeholder for displaying indices.
+   * Use ${position} of ${total} as placeholder for displaying indices and ${item.label} as placeholder for displaying label of `calcite-value-list-item`.
    */
-  @Prop() intlDragHandleNewPosition?: string;
+  @Prop() intlDragHandleChange?: string;
 
   /**
-   * When "drag-enabled" is true and active, specifies accessible context to the `calcite-value-list-item`'s current position.
+   * When "drag-enabled" is true and active, specifies accessible context to the `calcite-value-list-item`'s current position after commit.
    *
-   * Use ${position} of ${total} as placeholder for displaying indices.
+   * Use ${position} of ${total} as placeholder for displaying indices and ${item.label} as placeholder for displaying label of `calcite-value-list-item`.
    */
-  @Prop() intlDragHandleCurrentPosition?: string;
+  @Prop() intlDragHandleCommit?: string;
 
   // --------------------------------------------------------------------------
   //
@@ -373,8 +373,8 @@ export class ValueList<
     this.assistiveTextEl.textContent = text;
   }
 
-  updateHandleAriaLabel(handleElement: HTMLSpanElement, assertiveText: string): void {
-    handleElement.ariaLabel = assertiveText;
+  updateHandleAriaLabel(handleElement: HTMLSpanElement, text: string): void {
+    handleElement.ariaLabel = text;
   }
 
   storeAssistiveEl = (el: HTMLSpanElement): void => {

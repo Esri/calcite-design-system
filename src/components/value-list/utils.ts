@@ -7,39 +7,33 @@ export function getScreenReaderText(
   status: DragStatus,
   valueList: ValueList<HTMLCalciteValueListItemElement>
 ): string {
-  const {
-    items,
-    intlDragHandleStart,
-    intlDragHandleActivated,
-    intlDragHandleNewPosition,
-    intlDragHandleCurrentPosition
-  } = valueList;
+  const { items, intlDragHandleIdle, intlDragHandleActive, intlDragHandleChange, intlDragHandleCommit } = valueList;
 
   const total = items.length;
   const position = getItemIndex(valueList, item) + 1;
 
   if (status === "idle") {
-    const idleText = intlDragHandleStart
-      ? intlDragHandleStart
-      : `${item.label} ,press space and use arrow keys to re-order content. Current position ${position} of ${total}.`;
+    const idleText = intlDragHandleIdle
+      ? replacePlaceholders(intlDragHandleIdle, item.label, position, total)
+      : `${item.label}, press space and use arrow keys to reorder content. Current position ${position} of ${total}.`;
 
     return idleText;
   } else if (status === "active") {
-    const activeText = intlDragHandleActivated
-      ? intlDragHandleActivated
-      : `Reordering ${item.label} ,current position ${position} of ${total}.`;
+    const activeText = intlDragHandleActive
+      ? replacePlaceholders(intlDragHandleActive, item.label, position, total)
+      : `Reordering ${item.label}, current position ${position} of ${total}.`;
 
     return activeText;
   } else if (status === "change") {
-    const changeText = intlDragHandleNewPosition
-      ? intlDragHandleNewPosition
-      : `${item.label} , new position ${position} of ${total}. Press space to confirm.`;
+    const changeText = intlDragHandleChange
+      ? replacePlaceholders(intlDragHandleChange, item.label, position, total)
+      : `${item.label}, new position ${position} of ${total}. Press space to confirm.`;
 
     return changeText;
   } else {
-    const commitText = intlDragHandleCurrentPosition
-      ? intlDragHandleCurrentPosition
-      : `${item.label} ,current position ${position} of ${total}.`;
+    const commitText = intlDragHandleCommit
+      ? replacePlaceholders(intlDragHandleCommit, item.label, position, total)
+      : `${item.label}, current position ${position} of ${total}.`;
 
     return commitText;
   }
@@ -60,4 +54,10 @@ export function getHandleAndItemElement(event: KeyboardEvent | FocusEvent): {
     ) as HTMLCalciteValueListItemElement;
 
   return { handle, item };
+}
+
+export function replacePlaceholders(text: string, label: string, position: number, total: number): string {
+  const replacePosition = text.replace("${position}", position.toString());
+  const replaceLabel = replacePosition.replace("${item.label}", label);
+  return replaceLabel.replace("${total}", total.toString());
 }
