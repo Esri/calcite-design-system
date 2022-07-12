@@ -1,4 +1,5 @@
-import { isValidNumber, parseNumberString, sanitizeNumberString } from "./number";
+import { BigDecimal, isValidNumber, parseNumberString, sanitizeNumberString } from "./number";
+import { getDecimalSeparator, getGroupSeparator, getMinusSign, locales } from "./locale";
 
 describe("isValidNumber", () => {
   it("returns false for string values that can't compute to a number", () => {
@@ -19,18 +20,18 @@ describe("isValidNumber", () => {
 });
 
 describe("parseNumberString", () => {
-  it("returns null for string values that can't compute to a number", () => {
-    expect(parseNumberString()).toBe(null);
-    expect(parseNumberString("")).toBe(null);
-    expect(parseNumberString(undefined)).toBe(null);
-    expect(parseNumberString(null)).toBe(null);
-    expect(parseNumberString("text only")).toBe(null);
+  it("returns empty string for string values that can't compute to a number", () => {
+    expect(parseNumberString()).toBe("");
+    expect(parseNumberString(null)).toBe("");
+    expect(parseNumberString(undefined)).toBe("");
+    expect(parseNumberString("")).toBe("");
+    expect(parseNumberString("only nums")).toBe("");
 
-    const lettersAndSymbols = "kjas;lkjwo;aiej(*&,asd;flkj-";
+    const lettersAndSymbols = "kjas;lkjwo;aij(*&,asd;flkj-";
     const lettersAndSymbolsWithLeadingNegativeSign = "-ASDF(*^LKJihsdf*&^";
 
-    expect(parseNumberString(lettersAndSymbols)).toBe(null);
-    expect(parseNumberString(lettersAndSymbolsWithLeadingNegativeSign)).toBe(null);
+    expect(parseNumberString(lettersAndSymbols)).toBe("");
+    expect(parseNumberString(lettersAndSymbolsWithLeadingNegativeSign)).toBe("");
   });
 
   it("returns valid number string for string values that compute to a valid number", () => {
@@ -55,19 +56,74 @@ describe("parseNumberString", () => {
 });
 
 describe("sanitizeNumberString", () => {
-  it("sanitizes leading zeros, multiple dashes, and trailing decimals", () => {
+  it("sanitizes exponential numbers, leading zeros, multiple dashes, and trailing decimals", () => {
     const stringWithMultipleDashes = "1--2-34----";
     const negativeStringWithMultipleDashes = "---1--23--4---";
-    const stringWithLeadingZeros = "0000000";
+    const stringWithOnlyZeros = "0000000";
+    const stringWithLeadingZeros = "00000001";
+    const negativeStringWithLeadingZeros = "-00001";
+    const negativeDecimalStringWithLeadingZeros = "-00001.0001";
     const stringWithoutLeadingZeros = "10000000";
     const stringWithTrailingDecimal = "123.";
     const stringWithDecimal = "123.45";
+    const exponentialString = "2.5e123";
+    const negativeExponentialString = "-2.5e-1--2--3";
+    const multipleEString = "2e4ee2421e";
+    const singleEString = "E";
+    const leadingEString = "E5";
+    const trailingEString = "12E";
+    const leadingZeroExponentialString = "000005e00006";
+    const nonLeadingZeroExponentialString = "500000e00600";
+    const multiDecimalExponentialString = "1.2e2.1";
+    const crazyExponentialString = "-2-.-1ee.5-3e.1..e--09";
 
     expect(sanitizeNumberString(stringWithMultipleDashes)).toBe("1234");
     expect(sanitizeNumberString(negativeStringWithMultipleDashes)).toBe("-1234");
-    expect(sanitizeNumberString(stringWithLeadingZeros)).toBe("0");
+    expect(sanitizeNumberString(stringWithOnlyZeros)).toBe("0");
+    expect(sanitizeNumberString(stringWithLeadingZeros)).toBe("1");
+    expect(sanitizeNumberString(negativeStringWithLeadingZeros)).toBe("-1");
+    expect(sanitizeNumberString(negativeDecimalStringWithLeadingZeros)).toBe("-1.0001");
     expect(sanitizeNumberString(stringWithoutLeadingZeros)).toBe("10000000");
     expect(sanitizeNumberString(stringWithTrailingDecimal)).toBe("123");
     expect(sanitizeNumberString(stringWithDecimal)).toBe("123.45");
+    expect(sanitizeNumberString(exponentialString)).toBe("2.5e123");
+    expect(sanitizeNumberString(negativeExponentialString)).toBe("-2.5e-123");
+    expect(sanitizeNumberString(multipleEString)).toBe("2e42421");
+    expect(sanitizeNumberString(singleEString)).toBe("");
+    expect(sanitizeNumberString(leadingEString)).toBe("1e5");
+    expect(sanitizeNumberString(trailingEString)).toBe("12");
+    expect(sanitizeNumberString(leadingZeroExponentialString)).toBe("5e6");
+    expect(sanitizeNumberString(nonLeadingZeroExponentialString)).toBe("500000e600");
+    expect(sanitizeNumberString(multiDecimalExponentialString)).toBe("1.2e21");
+    expect(sanitizeNumberString(crazyExponentialString)).toBe("-2.1e53109");
+  });
+});
+
+describe("BigDecimal", () => {
+  it("handles precise/large numbers and arbitrary-precision arithmetic", () => {
+    const subtract = new BigDecimal("0.3").subtract("0.1").toString();
+    expect(subtract).toBe("0.2");
+
+    const add = new BigDecimal(Number.MAX_SAFE_INTEGER.toString()).add("1").toString();
+    expect(Number(add)).toBeGreaterThan(Number.MAX_SAFE_INTEGER);
+
+    const negativeZero = new BigDecimal("-0").toString();
+    expect(negativeZero).toBe("-0");
+  });
+
+  locales.forEach((locale) => {
+    it(`correctly localizes number parts - ${locale}`, () => {
+      const parts = new BigDecimal("-12345678.9").formatToParts(locale);
+
+      const group = getGroupSeparator(locale);
+      const groupPart = parts.find((part) => part.type === "group").value;
+      expect(groupPart.trim().length === 0 ? " " : groupPart).toBe(group);
+
+      const decimal = getDecimalSeparator(locale);
+      expect(parts.find((part) => part.type === "decimal").value).toBe(decimal);
+
+      const minusSign = getMinusSign(locale);
+      expect(parts.find((part) => part.type === "minusSign").value).toBe(minusSign);
+    });
   });
 });

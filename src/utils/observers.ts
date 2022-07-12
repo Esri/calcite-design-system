@@ -52,6 +52,10 @@ export function createObserver<T extends ObserverType>(
 
 function getObserver<T extends ObserverType>(type: T): ObserverClassType<T> {
   return (
-    type === "intersection" ? IntersectionObserver : type === "mutation" ? MutationObserver : ResizeObserver
+    type === "intersection"
+      ? window.IntersectionObserver
+      : type === "mutation"
+      ? window.MutationObserver
+      : window.ResizeObserver
   ) as any;
 }

@@ -17,11 +17,12 @@ jobs:
         with:
           node-version: lts/*
           registry-url: https://registry.npmjs.org/
+          cache: npm
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       - name: e2e test
         run: |
-          npm ci
+          npm ci --legacy-peer-deps
           npm test
       - name: next deployment
         env:

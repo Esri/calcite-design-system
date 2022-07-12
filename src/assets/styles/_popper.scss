@@ -5,7 +5,7 @@ $popper-transform-right: translateX(-5px);
 $popper-default-z-index: 900;
 
 :root {
-  --calcite-popper-transition: #{$transition};
+  --calcite-popper-transition: var(--calcite-animation-timing);
 }
 
 @mixin popperAnim {
@@ -75,6 +75,10 @@ $popper-default-z-index: 900;
   :host([data-popper-placement]) .calcite-popper-anim--active {
     @include popperAnimActive();
   }
+
+  :host([data-popper-placement][data-popper-reference-hidden]) {
+    @apply opacity-0 pointer-events-none;
+  }
 }
 
 @mixin popperContainer($zIndex: $popper-default-z-index) {
@@ -100,6 +104,8 @@ $popper-default-z-index: 900;
   }
 
   @include popperHostAnim();
+
+  @include calciteHydratedHidden();
 }
 
 $pointer_size: 8px;

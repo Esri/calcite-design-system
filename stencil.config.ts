@@ -1,12 +1,12 @@
 import { Config } from "@stencil/core";
 import { postcss } from "@stencil/postcss";
 import { sass } from "@stencil/sass";
-import babel from "@rollup/plugin-babel";
 import autoprefixer from "autoprefixer";
 import tailwindcss from "tailwindcss";
 import tailwindConfig from "./tailwind.config";
 import { generatePreactTypes } from "./support/preact";
 import stylelint from "stylelint";
+import { version } from "./package.json";
 
 export const create: () => Config = () => ({
   buildEs5: "prod",
@@ -95,6 +95,7 @@ export const create: () => Config = () => ({
       }
     }
   ],
+  invisiblePrehydration: false,
   globalStyle: "src/assets/styles/global.scss",
   plugins: [
     sass({
@@ -111,15 +112,6 @@ export const create: () => Config = () => ({
       ]
     })
   ],
-  rollupPlugins: {
-    after: [
-      babel({
-        babelHelpers: "bundled",
-        include: [/\/color\//],
-        plugins: ["@babel/plugin-proposal-numeric-separator"]
-      })
-    ]
-  },
   testing: {
     moduleNameMapper: {
       "^/assets/(.*)$": "<rootDir>/src/tests/iconPathDataStub.ts"
@@ -130,7 +122,7 @@ export const create: () => Config = () => ({
     selector: "attribute",
     name: "calcite-hydrated"
   },
-  preamble: `All material copyright ESRI, All Rights Reserved, unless otherwise specified.\nSee https://github.com/Esri/calcite-components/blob/master/LICENSE.md for details.`,
+  preamble: `All material copyright ESRI, All Rights Reserved, unless otherwise specified.\nSee https://github.com/Esri/calcite-components/blob/master/LICENSE.md for details.\nv${version}`,
   extras: {
     scriptDataOpts: true
   }
