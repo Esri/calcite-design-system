@@ -13,7 +13,8 @@
     border-solid
     shadow-none
     duration-150
-    ease-in-out;
+    ease-in-out
+    overflow-hidden;
     border-radius: var(--calcite-border-radius-base);
     &:hover {
       @apply shadow-1-lg;
