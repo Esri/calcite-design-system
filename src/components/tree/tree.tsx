@@ -37,7 +37,7 @@ export class Tree {
   //
   //--------------------------------------------------------------------------
 
-  /** Display indentation guide lines. */
+  /** Displays indentation guide lines. */
   @Prop({ mutable: true, reflect: true }) lines = false;
 
   /**
@@ -52,11 +52,11 @@ export class Tree {
    */
   @Prop({ reflect: true, mutable: true }) child: boolean;
 
-  /** Specify the scale of the tree. */
+  /** Specifies the size of the component. */
   @Prop({ mutable: true, reflect: true }) scale: Scale = "m";
 
   /**
-   * Customize how tree selection works.
+   * Customize how the component's selection works.
    *
    * @default "single"
    * @see [TreeSelectionMode](https://github.com/Esri/calcite-components/blob/master/src/components/tree/interfaces.ts#L5)
@@ -346,7 +346,7 @@ export class Tree {
   //--------------------------------------------------------------------------
 
   /**
-   * Emits when the user selects/deselects tree items. An object including an array of selected items will be passed in the event's "detail" property.
+   * Fires when the user selects/deselects `calcite-tree-items`. An object including an array of selected items will be passed in the event's "detail" property.
    *
    * @see [TreeSelectDetail](https://github.com/Esri/calcite-components/blob/master/src/components/tree/interfaces.ts#L1)
    */

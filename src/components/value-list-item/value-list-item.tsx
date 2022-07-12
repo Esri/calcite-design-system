@@ -24,8 +24,8 @@ import {
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 
 /**
- * @slot actions-end - A slot for adding actions or content to the end side of the item.
- * @slot actions-start - A slot for adding actions or content to the start side of the item.
+ * @slot actions-end - A slot for adding actions or content to the end side of the component.
+ * @slot actions-start - A slot for adding actions or content to the start side of the component.
  */
 @Component({
   tag: "calcite-value-list-item",
@@ -40,12 +40,12 @@ export class ValueListItem implements ConditionalSlotComponent, InteractiveCompo
   // --------------------------------------------------------------------------
 
   /**
-   * An optional description for the list item that displays below the label text.
+   * A description for the component that displays below the label text.
    */
   @Prop({ reflect: true }) description?: string;
 
   /**
-   * When true, the list item cannot be clicked and is visually muted.
+   * When true, interaction is prevented and the component is displayed with lower opacity.
    */
   @Prop({ reflect: true }) disabled = false;
 
@@ -55,7 +55,7 @@ export class ValueListItem implements ConditionalSlotComponent, InteractiveCompo
   @Prop() disableDeselect = false;
 
   /**
-   * When true, prevents the content of the list item from user interaction.
+   * When true, prevents the content of the component from user interaction.
    */
   @Prop({ reflect: true }) nonInteractive = false;
 
@@ -72,27 +72,27 @@ export class ValueListItem implements ConditionalSlotComponent, InteractiveCompo
   @Prop({ reflect: true }) icon?: ICON_TYPES | null = null;
 
   /**
-   * The main label for the list item. Appears next to the icon.
+   * Label and accessible name for the component. Appears next to the icon.
    */
   @Prop({ reflect: true }) label!: string;
 
   /**
-   * Provides additional metadata to a list item. Primary use is for a filter on the parent list.
+   * Provides additional metadata to the component. Primary use is for a filter on the parent list.
    */
   @Prop() metadata?: Record<string, unknown>;
 
   /**
-   * When true, adds an action to remove the list item.
+   * When true, adds an action to remove the component.
    */
   @Prop({ reflect: true }) removable = false;
 
   /**
-   * When true, preselects the list item. Toggles when an item is checked/unchecked.
+   * When true, the component is selected.
    */
   @Prop({ reflect: true, mutable: true }) selected = false;
 
   /**
-   * The list item's associated value.
+   * The component's value.
    */
   @Prop() value!: any;
 
@@ -156,7 +156,7 @@ export class ValueListItem implements ConditionalSlotComponent, InteractiveCompo
   // --------------------------------------------------------------------------
 
   /**
-   * Emits when the remove button is pressed.
+   * Fires when the remove button is pressed.
    */
   @Event() calciteListItemRemove: EventEmitter<void>; // wrapped pick-list-item emits this
 

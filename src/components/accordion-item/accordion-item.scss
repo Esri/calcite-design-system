@@ -47,7 +47,8 @@
   @apply focus-inset;
 }
 
-:host([active]) {
+:host([active]),
+:host([expanded]) {
   @apply text-color-1;
   & .accordion-item-content {
     @apply text-color-1 block;
@@ -104,11 +105,13 @@
   transform: rotate(var(--calcite-accordion-item-icon-rotation-rtl));
 }
 
-:host([active]) .accordion-item-expand-icon {
+:host([active]) .accordion-item-expand-icon,
+:host([expanded]) .accordion-item-expand-icon {
   @apply text-color-1;
   transform: rotate(var(--calcite-accordion-item-active-icon-rotation));
 }
-:host([active]) .calcite--rtl .accordion-item-expand-icon {
+:host([active]) .calcite--rtl .accordion-item-expand-icon,
+:host([expanded]) .calcite--rtl .accordion-item-expand-icon {
   transform: rotate(var(--calcite-accordion-item-active-icon-rotation-rtl));
 }
 
@@ -150,7 +153,8 @@
 
 :host(:focus),
 :host(:active),
-:host([active]) {
+:host([active]),
+:host([expanded]) {
   & .accordion-item-heading {
     @apply text-color-1;
   }

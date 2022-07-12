@@ -20,28 +20,28 @@ export class Loader {
   //  Properties
   //
   //--------------------------------------------------------------------------
-  /** When true, the loader is active. */
+  /** When true, the component is active. */
   @Prop({ reflect: true }) active = false;
 
   /** When true, displays smaller and appears to the left of the text. */
   @Prop({ reflect: true }) inline = false;
 
-  /** Accessible name for the loader. */
+  /** Accessible name for the component. */
   @Prop() label!: string;
 
-  /** Specify the scale of the loader. */
+  /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
 
   /** Use indeterminate if finding actual progress value is impossible. */
   @Prop({ reflect: true }) type: "indeterminate" | "determinate";
 
-  /** Valid only for determinate indicators. Percent complete of 100. */
+  /** The component's value. Valid only for determinate indicators. Percent complete of 100. */
   @Prop() value = 0;
 
-  /** Text that displays under the loading indicator. */
+  /** Text that displays under the component's indicator. */
   @Prop() text? = "";
 
-  /** Disables spacing around the loader. */
+  /** Disables spacing around the component. */
   @Prop() noPadding = false;
 
   //--------------------------------------------------------------------------

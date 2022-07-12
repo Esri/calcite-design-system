@@ -54,6 +54,9 @@ export class Chip implements ConditionalSlotComponent {
   /** The assigned value for the chip */
   @Prop() value!: any;
 
+  /** When true, hides the chip  */
+  @Prop({ reflect: true, mutable: true }) closed = false;
+
   // --------------------------------------------------------------------------
   //
   //  Private Properties
@@ -106,6 +109,7 @@ export class Chip implements ConditionalSlotComponent {
   closeClickHandler = (event: MouseEvent): void => {
     event.preventDefault();
     this.calciteChipDismiss.emit(this.el);
+    this.closed = true;
   };
 
   private closeButton: HTMLButtonElement;
