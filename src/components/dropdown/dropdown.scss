@@ -17,7 +17,8 @@
   @include popperWrapper();
 }
 @include popperElemAnim(".calcite-dropdown-wrapper");
-:host([active]) .calcite-dropdown-wrapper {
+:host([active]) .calcite-dropdown-wrapper,
+:host([open]) .calcite-dropdown-wrapper {
   @include popperWrapperActive();
 }
 :host .calcite-dropdown-content {

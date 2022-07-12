@@ -37,30 +37,30 @@ export class Pagination implements GlobalAttrComponent {
   //  Public Properties
   //
   //--------------------------------------------------------------------------
-  /** number of items per page */
+  /** Specifies the number of items per page. */
   @Prop() num = 20;
 
-  /** index of item that should begin the page */
+  /** Specifies the starting item number. */
   @Prop({ mutable: true }) start = 1;
 
-  /** total number of items */
+  /** Specifies the total number of items. */
   @Prop() total = 0;
 
   /**
-   * Used as an accessible label (aria-label) for the next button
+   * Accessible name for the component's next button.
    *
    * @default "Next"
    */
   @Prop() textLabelNext: string = TEXT.nextLabel;
 
   /**
-   * Used as an accessible label (aria-label) of the previous button
+   * Accessible name for the component's previous button.
    *
    * @default "Previous"
    */
   @Prop() textLabelPrevious: string = TEXT.previousLabel;
 
-  /** The scale of the pagination */
+  /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
 
   // --------------------------------------------------------------------------
@@ -84,16 +84,16 @@ export class Pagination implements GlobalAttrComponent {
   //--------------------------------------------------------------------------
 
   /**
-   * Emitted whenever the selected page changes.
+   * Emits when the selected page changes.
    *
    * @deprecated use calcitePaginationChange instead
    */
   @Event() calcitePaginationUpdate: EventEmitter<PaginationDetail>;
 
   /**
-   * Emitted whenever the selected page changes.
+   * Emits when the selected page changes.
    *
-   * @see [PaginationDetail](https://github.com/Esri/calcite-components/blob/master/src/components/pagination/calcite-pagination.tsx#L18)
+   * @see [PaginationDetail](https://github.com/Esri/calcite-components/blob/master/src/components/pagination/pagination.tsx#L23)
    */
   @Event() calcitePaginationChange: EventEmitter<PaginationDetail>;
 
@@ -117,12 +117,12 @@ export class Pagination implements GlobalAttrComponent {
   //
   // --------------------------------------------------------------------------
 
-  /** Go to the next page of results */
+  /** Go to the next page of results. */
   @Method() async nextPage(): Promise<void> {
     this.start = Math.min(this.getLastStart(), this.start + this.num);
   }
 
-  /** Go to the previous page of results */
+  /** Go to the previous page of results. */
   @Method() async previousPage(): Promise<void> {
     this.start = Math.max(1, this.start - this.num);
   }
