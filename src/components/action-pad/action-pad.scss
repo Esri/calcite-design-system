@@ -5,6 +5,7 @@
 
 :host([expanded]) {
   max-width: 20vw;
+  background: transparent;
 }
 
 ::slotted(calcite-action-group) {
