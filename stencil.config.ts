@@ -37,6 +37,7 @@ export const create: () => Config = () => ({
     { components: ["calcite-icon"] },
     { components: ["calcite-inline-editable"] },
     { components: ["calcite-input"] },
+    { components: ["calcite-input-number"] },
     { components: ["calcite-input-date-picker"] },
     { components: ["calcite-input-message"] },
     { components: ["calcite-input-time-picker", "calcite-time-picker"] },
