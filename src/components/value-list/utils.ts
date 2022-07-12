@@ -14,35 +14,42 @@ export function getScreenReaderText(
     intlDragHandleNewPosition,
     intlDragHandleCurrentPosition
   } = valueList;
+
   const total = items.length;
   const position = getItemIndex(valueList, item) + 1;
-  switch (status) {
-    case "start":
-      return intlDragHandleStart
-        ? intlDragHandleStart
-        : `${item.label} ,press space and use arrow keys to re-order content. current position ${position} of ${total}`;
-    case "activated":
-      return intlDragHandleActivated
-        ? intlDragHandleActivated
-        : `Reordering ${item.label} ,current position ${position} of ${total}`;
-    case "newPosition":
-      return intlDragHandleNewPosition
-        ? intlDragHandleNewPosition
-        : `${item.label} , new position ${position} of ${total}. press space to confirm`;
-    case "currentPosition":
-      return intlDragHandleCurrentPosition
-        ? intlDragHandleCurrentPosition
-        : `${item.label} ,current position ${position} of ${total}`;
-    default:
-      break;
+
+  if (status === "idle") {
+    const idleText = intlDragHandleStart
+      ? intlDragHandleStart
+      : `${item.label} ,press space and use arrow keys to re-order content. Current position ${position} of ${total}.`;
+
+    return idleText;
+  } else if (status === "active") {
+    const activeText = intlDragHandleActivated
+      ? intlDragHandleActivated
+      : `Reordering ${item.label} ,current position ${position} of ${total}.`;
+
+    return activeText;
+  } else if (status === "change") {
+    const changeText = intlDragHandleNewPosition
+      ? intlDragHandleNewPosition
+      : `${item.label} , new position ${position} of ${total}. Press space to confirm.`;
+
+    return changeText;
+  } else {
+    const commitText = intlDragHandleCurrentPosition
+      ? intlDragHandleCurrentPosition
+      : `${item.label} ,current position ${position} of ${total}.`;
+
+    return commitText;
   }
 }
 
 export function getHandleAndItemElement(event: KeyboardEvent | FocusEvent): {
-  handleElement: HTMLCalciteHandleElement;
+  handle: HTMLCalciteHandleElement;
   item: HTMLCalciteValueListItemElement;
 } {
-  const handleElement = event
+  const handle = event
     .composedPath()
     .find((item: HTMLElement) => item.dataset?.jsHandle !== undefined) as HTMLCalciteHandleElement;
 
@@ -52,5 +59,5 @@ export function getHandleAndItemElement(event: KeyboardEvent | FocusEvent): {
       (item: HTMLElement) => item.tagName?.toLowerCase() === "calcite-value-list-item"
     ) as HTMLCalciteValueListItemElement;
 
-  return { handleElement, item };
+  return { handle, item };
 }

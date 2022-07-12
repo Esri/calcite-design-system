@@ -103,30 +103,30 @@ export class ValueList<
   @Prop() selectionFollowsFocus = false;
 
   /**
-   * localize the screen reader text when drag button is focused
+   * When "drag-enabled" is true and active, specifies accessible context to the `calcite-value-list-item's` initial position.
    *
-   * use ${itemposition} of ${totalitems} as place holder for indexes.
+   * use ${position} of ${total} as placeholder for indexes.
    */
   @Prop() intlDragHandleStart?: string;
 
   /**
-   * localize the screen reader text when drag button is activated
+   * When "drag-enabled" is true and active, specifies accessible context to the component.
    *
-   * use ${itemposition} of ${totalitems} as place holder for displaying index.
+   * use ${position} of ${total} as placeholder for displaying indexes.
    */
   @Prop() intlDragHandleActivated?: string;
 
   /**
-   * localize the screen reader text when the item is moved to a new position
+   * When "drag-enabled" is true and active, specifies accessible context to the `calcite-value-list-item's` new position.
    *
-   * use ${newPosition} of ${totalItems} as place holder for displaying index
+   * use ${position} of ${total} as placeholder for displaying indexes.
    */
   @Prop() intlDragHandleNewPosition?: string;
 
   /**
-   * localize the screen reader text after the item is moved to a new position and handle is deactivated.
+   * When "drag-enabled" is true and active, specifies accessible context to the `calcite-value-list-item's` current position.
    *
-   * use ${itemposition} of ${totalitems} as place holder for displaying indexes.
+   * use ${position} of ${total} as placeholder for displaying indexes.
    */
   @Prop() intlDragHandleCurrentPosition?: string;
 
@@ -154,7 +154,7 @@ export class ValueList<
 
   filterEl: HTMLCalciteFilterElement;
 
-  assitiveTextEl: HTMLSpanElement;
+  assistiveTextEl: HTMLSpanElement;
 
   // --------------------------------------------------------------------------
   //
@@ -283,12 +283,12 @@ export class ValueList<
   getItemData = getItemData.bind(this);
 
   keyDownHandler = (event: KeyboardEvent): void => {
-    const { handleElement, item } = getHandleAndItemElement(event);
-    if (handleElement && !item.handleActivated && event.key === " ") {
-      this.updateScreenReaderText(getScreenReaderText(item, "currentPosition", this));
+    const { handle, item } = getHandleAndItemElement(event);
+    if (handle && !item.handleActivated && event.key === " ") {
+      this.updateScreenReaderText(getScreenReaderText(item, "commit", this));
     }
 
-    if (!handleElement || !item.handleActivated) {
+    if (!handle || !item.handleActivated) {
       keyDownHandler.call(this, event);
       return;
     }
@@ -296,7 +296,7 @@ export class ValueList<
     const { items } = this;
 
     if (event.key === " ") {
-      this.updateScreenReaderText(getScreenReaderText(item, "activated", this));
+      this.updateScreenReaderText(getScreenReaderText(item, "active", this));
     }
 
     if ((event.key !== "ArrowUp" && event.key !== "ArrowDown") || items.length <= 1) {
@@ -321,10 +321,10 @@ export class ValueList<
     this.items = this.getItems();
     this.calciteListOrderChange.emit(this.items.map(({ value }) => value));
 
-    requestAnimationFrame(() => handleElement?.focus());
+    requestAnimationFrame(() => handle?.focus());
     item.handleActivated = true;
 
-    this.updateHandleAriaLabel(handleElement, getScreenReaderText(item, "newPosition", this));
+    this.updateHandleAriaLabel(handle, getScreenReaderText(item, "change", this));
   };
 
   handleBlur(): void {
@@ -369,9 +369,8 @@ export class ValueList<
     return type;
   }
 
-  updateScreenReaderText(assertiveText: string): void {
-    //code to update text to our aria-live span element
-    this.assitiveTextEl.textContent = assertiveText;
+  updateScreenReaderText(text: string): void {
+    this.assistiveTextEl.textContent = text;
   }
 
   updateHandleAriaLabel(handleElement: HTMLSpanElement, assertiveText: string): void {
@@ -379,13 +378,13 @@ export class ValueList<
   }
 
   storeAssistiveEl = (el: HTMLSpanElement): void => {
-    this.assitiveTextEl = el;
+    this.assistiveTextEl = el;
   };
 
   handleFocusIn = (event: FocusEvent): void => {
-    const { handleElement, item } = getHandleAndItemElement(event);
-    if (!item?.handleActivated && item && handleElement) {
-      this.updateHandleAriaLabel(handleElement, getScreenReaderText(item, "start", this));
+    const { handle, item } = getHandleAndItemElement(event);
+    if (!item?.handleActivated && item && handle) {
+      this.updateHandleAriaLabel(handle, getScreenReaderText(item, "idle", this));
     }
   };
 

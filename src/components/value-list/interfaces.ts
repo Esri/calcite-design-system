@@ -1,1 +1,1 @@
-export type DragStatus = "start" | "activated" | "newPosition" | "currentPosition";
+export type DragStatus = "idle" | "active" | "change" | "commit";
