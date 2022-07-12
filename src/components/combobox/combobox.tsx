@@ -1003,7 +1003,7 @@ export class Combobox
     this.visibleItems.forEach((el, i) => {
       if (i === index) {
         el.active = true;
-        activeDescendant = `${itemUidPrefix}${el.guid}`;
+        activeDescendant = el.guid;
       } else {
         el.active = false;
       }
