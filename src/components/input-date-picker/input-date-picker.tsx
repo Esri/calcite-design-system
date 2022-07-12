@@ -48,6 +48,7 @@ import { StrictModifiers, Instance as Popper } from "@popperjs/core";
 import { DateRangeChange } from "../date-picker/interfaces";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { toAriaBoolean } from "../../utils/dom";
+import { CSS } from "./resources";
 
 @Component({
   tag: "calcite-input-date-picker",
@@ -69,7 +70,7 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
   //--------------------------------------------------------------------------
 
   /**
-   * When true, interaction is prevented, controls can not receive focus, and the component is displayed with lower opacity.
+   * When false, the component won't be interactive.
    *
    * @mdn [disabled](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/disabled)
    */
@@ -77,7 +78,6 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
 
   /**
    * When true, still focusable but controls are gone and the value cannot be modified.
-   * The correct format for this attribute is `read-only` and not `readonly`.
    *
    * @mdn [readOnly](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/readonly)
    */
@@ -85,7 +85,7 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
 
   @Watch("disabled")
   @Watch("readOnly")
-  handleDisabledChange(value: boolean): void {
+  handleDisabledAndReadonlyChange(value: boolean): void {
     if (!value) {
       this.active = false;
     }
@@ -444,8 +444,8 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
             <div
               aria-hidden={toAriaBoolean(!this.active)}
               class={{
-                "menu-container": true,
-                "menu-container--active": this.active
+                [CSS.menu]: true,
+                [CSS.menuActive]: this.active
               }}
               ref={this.setMenuEl}
             >

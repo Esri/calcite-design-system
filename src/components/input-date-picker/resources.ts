@@ -1,4 +1,4 @@
 export const CSS = {
-  calendar: ".menu-container",
-  calendarActive: ".menu-container--active"
+  menu: ".menu-container",
+  menuActive: ".menu-container--active"
 };
