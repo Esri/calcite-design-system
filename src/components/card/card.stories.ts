@@ -263,35 +263,3 @@ export const Thumbnail = stepStory(
     .ltr()
     .snapshot("Thumbnail Inline End Dark")
 );
-
-export const ThumbnailRounded = (): string => html`
-  <div id="card-container" style="width:260px;">
-    <style>
-      calcite-card {
-        --calcite-border-radius-base: 12px;
-      }
-    </style>
-    <calcite-card>
-      ${thumbnailHtml}
-      <h3 slot="title">Portland Businesses</h3>
-      <span slot="subtitle"
-        >by
-        <calcite-link href="">example_user</calcite-link>
-      </span>
-      <div>
-        Created: Apr 22, 2019
-        <br />
-        Updated: Dec 9, 2019
-        <br />
-        View Count: 0
-      </div>
-      <calcite-button
-        slot="footer-leading"
-        color="neutral"
-        scale="s"
-        id="card-icon-test-1"
-        icon-start="circle"
-      ></calcite-button>
-    </calcite-card>
-  </div>
-`;
