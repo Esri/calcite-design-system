@@ -13,6 +13,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### Features
 
+- **accordion-item,combobox,dropdown,modal:** deprecate active prop for open in collapsible components ([#4775](https://github.com/Esri/calcite-components/issues/4775)) ([efe7cb4](https://github.com/Esri/calcite-components/commit/efe7cb4cfa715ca245964948fc6fde11ec96ecec))
 - **accordion-item,stepper-item,block,panel:** add heading & description prop ([#4732](https://github.com/Esri/calcite-components/issues/4732)) ([33cbffe](https://github.com/Esri/calcite-components/commit/33cbffe3d213ed0d9b362b8631a3d22cc5bda846))
 - **action:** Add css variable to override indicator color ([#4717](https://github.com/Esri/calcite-components/issues/4717)) ([abdbc7d](https://github.com/Esri/calcite-components/commit/abdbc7dbf7a0b87b464f8e8536fcc30879427449))
 - **block:** support disable-padding property ([#4812](https://github.com/Esri/calcite-components/issues/4812)) ([f117ca3](https://github.com/Esri/calcite-components/commit/f117ca3075835282c9c0fddd16b6954285d4549e))
