@@ -237,7 +237,7 @@ describe("calcite-input-date-picker", () => {
       { shadowPopperSelector: ".menu-container" }
     ));
 
-  it("when set to readOnly, element still focusable but won’t display the controls or allow for changing the value", async () => {
+  it("when set to readOnly, element still focusable but won't display the controls or allow for changing the value", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-input-date-picker read-only id="canReadOnly"></calcite-input-date-picker>`);
 
@@ -248,7 +248,7 @@ describe("calcite-input-date-picker", () => {
 
     await component.callMethod("setFocus");
     await page.waitForChanges();
-    const calendar = await page.find(`#canReadOnly >>> ${CSS.menu}`);
+    const calendar = await page.find(`#canReadOnly >>> .${CSS.menu}`);
 
     expect(await page.evaluate(() => document.activeElement.id)).toBe("canReadOnly");
     expect(calendar).not.toHaveClass(CSS.menuActive);

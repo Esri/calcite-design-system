@@ -1,4 +1,4 @@
 export const CSS = {
-  menu: ".menu-container",
-  menuActive: ".menu-container--active"
+  menu: "menu-container",
+  menuActive: "menu-container--active"
 };

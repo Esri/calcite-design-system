@@ -25,6 +25,7 @@ import {
 import { HeadingLevel } from "../functional/Heading";
 
 import { TEXT } from "../date-picker/resources";
+import { CSS } from "./resources";
 import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
 import {
   connectForm,
@@ -48,7 +49,6 @@ import { StrictModifiers, Instance as Popper } from "@popperjs/core";
 import { DateRangeChange } from "../date-picker/interfaces";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { toAriaBoolean } from "../../utils/dom";
-import { CSS } from "./resources";
 
 @Component({
   tag: "calcite-input-date-picker",
@@ -85,7 +85,7 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
 
   @Watch("disabled")
   @Watch("readOnly")
-  handleDisabledAndReadonlyChange(value: boolean): void {
+  handleDisabledAndReadOnlyChange(value: boolean): void {
     if (!value) {
       this.active = false;
     }
