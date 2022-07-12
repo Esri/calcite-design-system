@@ -15,11 +15,9 @@
 
 :host([layout="horizontal"]) {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
-  grid-template-rows: 1fr 1fr 1fr 1fr;
-  gap: 0px 0px;
+  // grid-templates-columns are dynamically generated
+  // grid-templates-rows are dynamically generated
   grid-template-areas:
-    "items items items items"
-    "content content content content"
-    ". . . .";
+    "items"
+    "content";
 }

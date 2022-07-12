@@ -251,7 +251,7 @@
 
 :host([layout="horizontal"][active]) {
   .stepper-item-content {
-    grid-area: content;
+    grid-area: 2 / 1 / 2 / -1;
   }
 }
 
