@@ -126,16 +126,16 @@ describe("calcite-stepper", () => {
       const page = await newE2EPage();
       await page.setContent(html`<calcite-stepper>
         <calcite-stepper-item item-title="Step 1" id="step-1">
-          <div id="step-1-content">Step 1 content</div>
+          <div>Step 1 content</div>
         </calcite-stepper-item>
         <calcite-stepper-item item-title="Step 2" id="step-2" active>
-          <div id="step-2-content">Step 2 content</div>
+          <div>Step 2 content</div>
         </calcite-stepper-item>
         <calcite-stepper-item item-title="Step 3" id="step-3">
-          <div id="step-3-content">Step 3 content</div>
+          <div>Step 3 content</div>
         </calcite-stepper-item>
         <calcite-stepper-item item-title="Step 4" id="step-4">
-          <div id="step-4-content">Step 4 content</div>
+          <div>Step 4 content</div>
         </calcite-stepper-item>
       </calcite-stepper>`);
       const element = await page.find("calcite-stepper");
@@ -143,10 +143,10 @@ describe("calcite-stepper", () => {
       const step2 = await page.find("#step-2");
       const step3 = await page.find("#step-3");
       const step4 = await page.find("#step-4");
-      const step1Content = await page.find("#step-1-content");
-      const step2Content = await page.find("#step-2-content");
-      const step3Content = await page.find("#step-3-content");
-      const step4Content = await page.find("#step-4-content");
+      const step1Content = await page.find("#step-1 >>> .stepper-item-content");
+      const step2Content = await page.find("#step-2 >>> .stepper-item-content");
+      const step3Content = await page.find("#step-3 >>> .stepper-item-content");
+      const step4Content = await page.find("#step-4 >>> .stepper-item-content");
       expect(step1).not.toHaveAttribute("active");
       expect(step2).toHaveAttribute("active");
       expect(step3).not.toHaveAttribute("active");
@@ -181,24 +181,24 @@ describe("calcite-stepper", () => {
       const page = await newE2EPage();
       await page.setContent(html`<calcite-stepper>
         <calcite-stepper-item item-title="Step 1" id="step-1" active>
-          <div id="step-1-content">Step 1 content</div>
+          <div>Step 1 content</div>
         </calcite-stepper-item>
         <calcite-stepper-item item-title="Step 2" id="step-2" disabled>
           <div>Step 2 content</div>
         </calcite-stepper-item>
         <calcite-stepper-item item-title="Step 3" id="step-3">
-          <div id="step-3-content">Step 3 content</div>
+          <div>Step 3 content</div>
         </calcite-stepper-item>
       </calcite-stepper>`);
       const element = await page.find("calcite-stepper");
       const step1 = await page.find("#step-1");
       const step2 = await page.find("#step-2");
       const step3 = await page.find("#step-3");
-      const step1Content = await page.find("#step-1-content");
-      const step2Content = await page.find("#step-2-content");
-      const step3Content = await page.find("#step-3-content");
-      expect(step1).not.toHaveAttribute("active");
-      expect(step2).toHaveAttribute("active");
+      const step1Content = await page.find("#step-1 >>> .stepper-item-content");
+      const step2Content = await page.find("#step-2 >>> .stepper-item-content");
+      const step3Content = await page.find("#step-3 >>> .stepper-item-content");
+      expect(step1).toHaveAttribute("active");
+      expect(step2).not.toHaveAttribute("active");
       expect(step3).not.toHaveAttribute("active");
       expect(await step1Content.isVisible()).toBe(true);
       expect(await step2Content.isVisible()).toBe(false);
@@ -225,16 +225,16 @@ describe("calcite-stepper", () => {
       const page = await newE2EPage();
       await page.setContent(html`<calcite-stepper>
         <calcite-stepper-item item-title="Step 1" id="step-1">
-          <div id="step-1-content">Step 1 content</div>
+          <div>Step 1 content</div>
         </calcite-stepper-item>
         <calcite-stepper-item item-title="Step 2" id="step-2">
-          <div id="step-2-content">Step 2 content</div>
+          <div>Step 2 content</div>
         </calcite-stepper-item>
         <calcite-stepper-item item-title="Step 3" id="step-3">
-          <div id="step-3-content">Step 3 content</div>
+          <div>Step 3 content</div>
         </calcite-stepper-item>
         <calcite-stepper-item item-title="Step 4" id="step-4">
-          <div id="step-4-content">Step 4 content</div>
+          <div>Step 4 content</div>
         </calcite-stepper-item>
       </calcite-stepper>`);
       const element = await page.find("calcite-stepper");
@@ -242,10 +242,10 @@ describe("calcite-stepper", () => {
       const step2 = await page.find("#step-2");
       const step3 = await page.find("#step-3");
       const step4 = await page.find("#step-4");
-      const step1Content = await page.find("#step-1-content");
-      const step2Content = await page.find("#step-2-content");
-      const step3Content = await page.find("#step-3-content");
-      const step4Content = await page.find("#step-4-content");
+      const step1Content = await page.find("#step-1 >>> .stepper-item-content");
+      const step2Content = await page.find("#step-2 >>> .stepper-item-content");
+      const step3Content = await page.find("#step-3 >>> .stepper-item-content");
+      const step4Content = await page.find("#step-4 >>> .stepper-item-content");
       await element.callMethod("startStep");
       await page.waitForChanges();
       expect(step1).toHaveAttribute("active");
@@ -275,10 +275,10 @@ describe("calcite-stepper", () => {
           <div>Step 1 content</div>
         </calcite-stepper-item>
         <calcite-stepper-item item-title="Step 2" id="step-2">
-          <div id="step-2-content">Step 2 content</div>
+          <div>Step 2 content</div>
         </calcite-stepper-item>
         <calcite-stepper-item item-title="Step 3" id="step-3">
-          <div id="step-3-content">Step 3 content</div>
+          <div id="step-3 >>> .stepper-item-content">Step 3 content</div>
         </calcite-stepper-item>
         <calcite-stepper-item item-title="Step 4" id="step-4" disabled>
           <div>Step 4 content</div>
@@ -289,10 +289,10 @@ describe("calcite-stepper", () => {
       const step2 = await page.find("#step-2");
       const step3 = await page.find("#step-3");
       const step4 = await page.find("#step-4");
-      const step1Content = await page.find("#step-1-content");
-      const step2Content = await page.find("#step-2-content");
-      const step3Content = await page.find("#step-3-content");
-      const step4Content = await page.find("#step-4-content");
+      const step1Content = await page.find("#step-1 >>> .stepper-item-content");
+      const step2Content = await page.find("#step-2 >>> .stepper-item-content");
+      const step3Content = await page.find("#step-3 >>> .stepper-item-content");
+      const step4Content = await page.find("#step-4 >>> .stepper-item-content");
       await element.callMethod("endStep");
       await page.waitForChanges();
       expect(step1).not.toHaveAttribute("active");
@@ -319,16 +319,16 @@ describe("calcite-stepper", () => {
       const page = await newE2EPage();
       await page.setContent(html`<calcite-stepper>
         <calcite-stepper-item item-title="Step 1" id="step-1">
-          <div id="step-1-content">Step 1 content</div>
+          <div>Step 1 content</div>
         </calcite-stepper-item>
         <calcite-stepper-item item-title="Step 2" id="step-2">
-          <div id="step-2-content">Step 2 content</div>
+          <div>Step 2 content</div>
         </calcite-stepper-item>
         <calcite-stepper-item item-title="Step 3" id="step-3">
-          <div id="step-3-content">Step 3 content</div>
+          <div>Step 3 content</div>
         </calcite-stepper-item>
         <calcite-stepper-item item-title="Step 4" id="step-4">
-          <div id="step-4-content">Step 4 content</div>
+          <div>Step 4 content</div>
         </calcite-stepper-item>
       </calcite-stepper>`);
       const element = await page.find("calcite-stepper");
@@ -336,10 +336,10 @@ describe("calcite-stepper", () => {
       const step2 = await page.find("#step-2");
       const step3 = await page.find("#step-3");
       const step4 = await page.find("#step-4");
-      const step1Content = await page.find("#step-1-content");
-      const step2Content = await page.find("#step-2-content");
-      const step3Content = await page.find("#step-3-content");
-      const step4Content = await page.find("#step-4-content");
+      const step1Content = await page.find("#step-1 >>> .stepper-item-content");
+      const step2Content = await page.find("#step-2 >>> .stepper-item-content");
+      const step3Content = await page.find("#step-3 >>> .stepper-item-content");
+      const step4Content = await page.find("#step-4 >>> .stepper-item-content");
       await element.callMethod("goToStep", 4);
       await page.waitForChanges();
       expect(step1).not.toHaveAttribute("active");
@@ -425,8 +425,9 @@ describe("calcite-stepper", () => {
   });
 
   it("should emit calciteStepperItemChange on user interaction", async () => {
-    const page = await newE2EPage({
-      html: html`<calcite-stepper>
+    const page = await newE2EPage();
+    await page.setContent(
+      html`<calcite-stepper>
         <calcite-stepper-item item-title="Step 1" id="step-1">
           <div>Step 1 content</div>
         </calcite-stepper-item>
@@ -440,30 +441,31 @@ describe("calcite-stepper", () => {
           <div>Step 4 content</div>
         </calcite-stepper-item>
       </calcite-stepper>`
-    });
-
-    await page.waitForChanges();
+    );
 
     const element = await page.find("calcite-stepper");
     const eventSpy = await element.spyOnEvent("calciteStepperItemChange");
-    const items = await page.findAll("calcite-stepper-item");
+    const firstItem = await page.find("#step-1");
 
     // non user interaction
-    const newTextContent = "New stepper content";
-    items[0].setProperty("active", true);
-    items[0].innerHTML = `<div>${newTextContent}</div>`;
+    firstItem.setProperty("active", true);
     await page.waitForChanges();
     expect(eventSpy).toHaveReceivedEventTimes(0);
 
-    await items[1].click();
+    // we use browser-context function to click on items to workaround `E2EElement#click` error
+    async function itemClicker(item: HTMLCalciteStepperItemElement) {
+      item.click();
+    }
+
+    await page.$eval("#step-2", itemClicker);
     expect(eventSpy).toHaveReceivedEventTimes(1);
     expect(eventSpy.lastEvent.detail.position).toBe(1);
 
     // disabled item
-    await items[2].click();
+    await page.$eval("#step-3", itemClicker);
     expect(eventSpy).toHaveReceivedEventTimes(1);
 
-    await items[3].click();
+    await page.$eval("#step-4", itemClicker);
     expect(eventSpy).toHaveReceivedEventTimes(2);
     expect(eventSpy.lastEvent.detail.position).toBe(3);
 
