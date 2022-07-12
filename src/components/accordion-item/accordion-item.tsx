@@ -38,15 +38,24 @@ export class AccordionItem {
   //
   //--------------------------------------------------------------------------
 
-  /** When true, the component is active. */
+  /**
+   * When true, the component is active.
+   *
+   * @deprecated use expanded instead
+   */
+
   @Prop({ reflect: true, mutable: true }) active = false;
+
+  /** When true, item is expanded */
+  @Prop({ reflect: true, mutable: true }) expanded = false;
 
   /**
    * Specifies a title for the component.
    *
    * @deprecated Use `heading` instead.
    */
-  @Prop() itemTitle?: string;
+  @Prop()
+  itemTitle?: string;
 
   /**
    * Specifies a subtitle for the component.
@@ -130,6 +139,7 @@ export class AccordionItem {
         >
           <div
             aria-controls={regionId}
+            aria-expanded={toAriaBoolean(this.active)}
             class={{ "accordion-item-header": true, [CSS_UTILITY.rtl]: dir === "rtl" }}
             id={buttonId}
             onClick={this.itemHeaderClickHandler}
@@ -151,7 +161,7 @@ export class AccordionItem {
                   ? "chevronDown"
                   : this.iconType === "caret"
                   ? "caretDown"
-                  : this.active
+                  : this.expanded || this.active
                   ? "minus"
                   : "plus"
               }
@@ -159,7 +169,7 @@ export class AccordionItem {
             />
           </div>
           <div
-            aria-expanded={toAriaBoolean(this.active)}
+            aria-expanded={toAriaBoolean(this.expanded || this.active)}
             aria-labelledby={buttonId}
             class="accordion-item-content"
             id={regionId}
@@ -251,15 +261,18 @@ export class AccordionItem {
       case "multi":
         if (this.el === this.requestedAccordionItem) {
           this.active = !this.active;
+          this.expanded = !this.expanded;
         }
         break;
 
       case "single":
         this.active = this.el === this.requestedAccordionItem ? !this.active : false;
+        this.expanded = this.el === this.requestedAccordionItem ? !this.expanded : false;
         break;
 
       case "single-persist":
         this.active = this.el === this.requestedAccordionItem;
+        this.expanded = this.el === this.requestedAccordionItem;
         break;
     }
   }

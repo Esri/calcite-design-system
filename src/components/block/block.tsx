@@ -107,6 +107,9 @@ export class Block implements ConditionalSlotComponent, InteractiveComponent {
   /**Block description */
   @Prop() description: string;
 
+  /** When true, removes padding for the slotted content */
+  @Prop() disablePadding = false;
+
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -290,7 +293,10 @@ export class Block implements ConditionalSlotComponent, InteractiveComponent {
           <section
             aria-expanded={toAriaBoolean(open)}
             aria-labelledby={buttonId}
-            class={CSS.content}
+            class={{
+              content: true,
+              "content--spaced": !this.disablePadding
+            }}
             hidden={!open}
             id={regionId}
           >

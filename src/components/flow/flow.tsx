@@ -1,8 +1,7 @@
 import { Component, Element, Listen, Method, State, h, VNode } from "@stencil/core";
-
 import { CSS } from "./resources";
-
 import { FlowDirection } from "./interfaces";
+import { createObserver } from "../../utils/observers";
 
 /**
  * @slot - A slot for adding `calcite-panel`s to the flow.
@@ -57,11 +56,24 @@ export class Flow {
 
   @State() panels: HTMLCalcitePanelElement[] = [];
 
+  panelItemMutationObserver: MutationObserver = createObserver("mutation", () =>
+    this.updateFlowProps()
+  );
+
   // --------------------------------------------------------------------------
   //
   //  Lifecycle
   //
   // --------------------------------------------------------------------------
+
+  connectedCallback(): void {
+    this.panelItemMutationObserver?.observe(this.el, { childList: true, subtree: true });
+    this.updateFlowProps();
+  }
+
+  disconnectedCallback(): void {
+    this.panelItemMutationObserver?.disconnect();
+  }
 
   // --------------------------------------------------------------------------
   //
@@ -85,24 +97,21 @@ export class Flow {
     return newPanelCount < oldPanelCount ? "retreating" : "advancing";
   };
 
-  updateFlowProps = (event: Event): void => {
-    const { panels } = this;
+  updateFlowProps = (): void => {
+    const { el, panels } = this;
 
-    const newPanels = (event.target as HTMLSlotElement)
-      .assignedElements({
-        flatten: true
-      })
-      .filter((el) => el?.matches("calcite-panel")) as HTMLCalcitePanelElement[];
+    const newPanels: HTMLCalcitePanelElement[] = Array.from(
+      el.querySelectorAll("calcite-panel")
+    ).filter((panel) => !panel.matches("calcite-panel calcite-panel")) as HTMLCalcitePanelElement[];
 
     const oldPanelCount = panels.length;
     const newPanelCount = newPanels.length;
-
     const activePanel = newPanels[newPanelCount - 1];
     const previousPanel = newPanels[newPanelCount - 2];
 
     if (newPanelCount && activePanel) {
       newPanels.forEach((panelNode) => {
-        panelNode.showBackButton = newPanelCount > 1;
+        panelNode.showBackButton = panelNode === activePanel && newPanelCount > 1;
         panelNode.hidden = panelNode !== activePanel;
       });
     }
@@ -137,7 +146,7 @@ export class Flow {
 
     return (
       <div class={frameDirectionClasses}>
-        <slot onSlotchange={this.updateFlowProps} />
+        <slot />
       </div>
     );
   }
