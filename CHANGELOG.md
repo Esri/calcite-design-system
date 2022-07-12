@@ -10,6 +10,10 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ### Features
 
 - **input-number:** create separate component for input type number ([#4870](https://github.com/Esri/calcite-components/issues/4870)) ([fb2428c](https://github.com/Esri/calcite-components/commit/fb2428c168cbfc23d45ee5ccb19124c82067af4e)), closes [#4884](https://github.com/Esri/calcite-components/issues/4884)
+
+### Bug Fixes
+
+- **action-bar, action-pad:** Background color should be transparent on host. ([#4904](https://github.com/Esri/calcite-components/issues/4904)) ([0a5b207](https://github.com/Esri/calcite-components/commit/0a5b20784ee0fd6f8c5d2d4cf431b85df85f37ec))
 <!--@unreleased-section-end-->
 
 ## [1.0.0-beta.84](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.83...v1.0.0-beta.84) (2022-07-12)
