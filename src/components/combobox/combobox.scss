@@ -39,7 +39,8 @@
     focus-base
     flex;
   box-shadow: inset 0 0 0 1px var(--calcite-ui-border-input);
-  padding: calc(var(--calcite-combobox-item-spacing-unit-s) / 4) var(--calcite-combobox-item-spacing-unit-l);
+  padding-block: calc(var(--calcite-combobox-item-spacing-unit-s) / 4);
+  padding-inline: var(--calcite-combobox-item-spacing-unit-l);
 }
 
 :host(:focus-within) .wrapper,
