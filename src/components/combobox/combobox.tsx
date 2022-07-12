@@ -82,18 +82,27 @@ export class Combobox
   //
   //--------------------------------------------------------------------------
 
-  /** Opens or closes the combobox */
+  /**
+   * When true, opens the combobox
+   *
+   * @deprecated use open instead
+   */
   @Prop({ reflect: true, mutable: true }) active = false;
 
   @Watch("active")
+  @Watch("open")
   activeHandler(): void {
     if (this.disabled) {
       this.active = false;
+      this.open = false;
       return;
     }
 
     this.setMaxScrollerHeight();
   }
+
+  /**When true, opens the combobox */
+  @Prop({ reflect: true, mutable: true }) open = false;
 
   /** Disable combobox input */
   @Prop({ reflect: true }) disabled = false;
@@ -102,6 +111,7 @@ export class Combobox
   handleDisabledChange(value: boolean): void {
     if (!value) {
       this.active = false;
+      this.open = false;
     }
   }
 
@@ -435,8 +445,9 @@ export class Combobox
         if (this.allowCustomValues && this.text) {
           this.addCustomChip(this.text, true);
           event.preventDefault();
-        } else if (this.active) {
+        } else if (this.open || this.active) {
           this.active = false;
+          this.open = false;
           event.preventDefault();
         }
         break;
@@ -453,9 +464,10 @@ export class Combobox
         }
         break;
       case "ArrowDown":
-        if (!this.active) {
+        if (!(this.open || this.active)) {
           event.preventDefault();
           this.active = true;
+          this.open = true;
         }
         this.shiftActiveItemIndex(1);
         if (!this.comboboxInViewport()) {
@@ -466,11 +478,12 @@ export class Combobox
         if (!this.textInput.value) {
           event.preventDefault();
           this.active = true;
+          this.open = true;
           this.shiftActiveItemIndex(1);
         }
         break;
       case "Home":
-        if (this.active) {
+        if (this.open || this.active) {
           event.preventDefault();
         }
         this.updateActiveItemIndex(0);
@@ -480,7 +493,7 @@ export class Combobox
         }
         break;
       case "End":
-        if (this.active) {
+        if (this.open || this.active) {
           event.preventDefault();
         }
         this.updateActiveItemIndex(this.visibleItems.length - 1);
@@ -491,6 +504,7 @@ export class Combobox
         break;
       case "Escape":
         this.active = false;
+        this.open = false;
         break;
       case "Enter":
         if (this.activeItemIndex > -1) {
@@ -516,11 +530,13 @@ export class Combobox
 
   private toggleCloseEnd = (): void => {
     this.active = false;
+    this.open = false;
     this.el.removeEventListener("calciteComboboxClose", this.toggleCloseEnd);
   };
 
   private toggleOpenEnd = (): void => {
     this.active = true;
+    this.open = false;
     this.el.removeEventListener("calciteComboboxOpen", this.toggleOpenEnd);
   };
 
@@ -542,7 +558,7 @@ export class Combobox
 
   transitionEnd = (event: TransitionEvent): void => {
     if (event.propertyName === this.activeTransitionProp) {
-      this.active ? this.onOpen() : this.onClose();
+      this.open || this.active ? this.onOpen() : this.onClose();
     }
   };
 
@@ -552,14 +568,14 @@ export class Combobox
   */
   transitionRunHandler = (event: TransitionEvent): void => {
     if (event.propertyName === this.activeTransitionProp) {
-      this.active ? this.onBeforeOpen() : this.onBeforeClose();
+      this.open || this.active ? this.onBeforeOpen() : this.onBeforeClose();
     }
   };
 
   setMaxScrollerHeight = async (): Promise<void> => {
-    const { active, listContainerEl } = this;
-
-    if (!listContainerEl || !active) {
+    const { active, listContainerEl, open } = this;
+    const isOpen = !(active || open);
+    if (!listContainerEl || isOpen) {
       return;
     }
 
@@ -574,6 +590,7 @@ export class Combobox
     comboboxItem: HTMLCalciteComboboxItemElement
   ): void => {
     this.active = false;
+    this.open = false;
 
     const selection = this.items.find((item) => item === comboboxItem);
 
@@ -589,13 +606,15 @@ export class Combobox
       return;
     }
     this.active = !this.active;
+    this.open = !this.open;
     this.updateActiveItemIndex(0);
     this.setFocus();
   };
 
   setInactiveIfNotContained = (event: Event): void => {
     const composedPath = event.composedPath();
-    if (!this.active || composedPath.includes(this.el) || composedPath.includes(this.referenceEl)) {
+    const isOpen = !(this.open || this.active);
+    if (isOpen || composedPath.includes(this.el) || composedPath.includes(this.referenceEl)) {
       return;
     }
 
@@ -613,6 +632,7 @@ export class Combobox
     }
 
     this.active = false;
+    this.open = false;
   };
 
   setMenuEl = (el: HTMLDivElement): void => {
@@ -641,7 +661,7 @@ export class Combobox
 
     const eventListenerModifier: Partial<StrictModifiers> = {
       name: "eventListeners",
-      enabled: this.active
+      enabled: this.open || this.active
     };
 
     return [flipModifier, eventListenerModifier];
@@ -791,6 +811,7 @@ export class Combobox
         this.textInput.value = item.textLabel;
       }
       this.active = false;
+      this.open = false;
       this.updateActiveItemIndex(-1);
       this.resetText();
       this.filterItems("");
@@ -1042,10 +1063,11 @@ export class Combobox
   }
 
   renderInput(): VNode {
-    const { guid, active, disabled, placeholder, selectionMode, needsIcon, selectedItems } = this;
+    const { guid, active, disabled, placeholder, selectionMode, needsIcon, selectedItems, open } =
+      this;
     const single = selectionMode === "single";
     const selectedItem = selectedItems[0];
-    const showLabel = !active && single && !!selectedItem;
+    const showLabel = !(open || active) && single && !!selectedItem;
     return (
       <span
         class={{
@@ -1104,21 +1126,21 @@ export class Combobox
   }
 
   renderPopperContainer(): VNode {
-    const { active, setMenuEl, setListContainerEl } = this;
+    const { active, setMenuEl, setListContainerEl, open } = this;
     const classes = {
       "list-container": true,
       [PopperCSS.animation]: true,
-      [PopperCSS.animationActive]: active
+      [PopperCSS.animationActive]: open || active
     };
 
     return (
       <div
         aria-hidden="true"
-        class={{ "popper-container": true, "popper-container--active": active }}
+        class={{ "popper-container": true, "popper-container--active": open || active }}
         ref={setMenuEl}
       >
         <div class={classes} onTransitionEnd={this.transitionEnd} ref={setListContainerEl}>
-          <ul class={{ list: true, "list--hide": !active }}>
+          <ul class={{ list: true, "list--hide": !(open || active) }}>
             <slot />
           </ul>
         </div>
@@ -1145,30 +1167,30 @@ export class Combobox
   }
 
   renderIconEnd(): VNode {
-    const { active } = this;
+    const { active, open } = this;
     return (
       <span class="icon-end">
-        <calcite-icon icon={active ? "chevron-up" : "chevron-down"} scale="s" />
+        <calcite-icon icon={active || open ? "chevron-up" : "chevron-down"} scale="s" />
       </span>
     );
   }
 
   render(): VNode {
-    const { active, guid, label } = this;
+    const { active, guid, label, open } = this;
     const single = this.selectionMode === "single";
 
     return (
       <Host onKeyDown={this.keydownHandler}>
         <div
           aria-autocomplete="list"
-          aria-expanded={toAriaBoolean(active)}
+          aria-expanded={toAriaBoolean(open || active)}
           aria-haspopup="listbox"
           aria-labelledby={`${labelUidPrefix}${guid}`}
           aria-owns={`${listboxUidPrefix}${guid}`}
           class={{
             wrapper: true,
             "wrapper--single": single || !this.selectedItems.length,
-            "wrapper--active": active
+            "wrapper--active": open || active
           }}
           onClick={this.clickHandler}
           ref={this.setReferenceEl}

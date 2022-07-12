@@ -1,6 +1,6 @@
 {
   "name": "@esri/calcite-components",
-  "version": "1.0.0-next.513",
+  "version": "1.0.0-next.523",
   "description": "Web Components for Esri's Calcite Design System.",
   "main": "dist/index.cjs.js",
   "module": "dist/index.js",
@@ -16,13 +16,12 @@
     "hydrate/"
   ],
   "scripts": {
-    "build": "npm run util:copy-icons && stencil build && npm run util:patch-es5-helpers",
-    "build:watch": "npm run util:copy-icons && stencil build --watch",
-    "build:watch-dev": "npm run util:copy-icons && stencil build --dev --watch",
-    "build-storybook": "npm run util:copy-icons && stencil build --config stencil.config.ts && build-storybook --static-dir ./www --output-dir ./docs",
+    "build": "npm run util:hydration-styles && npm run util:copy-icons && stencil build && npm run util:patch-es5-helpers",
+    "build:watch": "npm run util:hydration-styles && npm run util:copy-icons && stencil build --watch",
+    "build:watch-dev": "npm run util:hydration-styles && npm run util:copy-icons && stencil build --dev --watch",
     "deps:update": "updtr --exclude chalk cheerio typescript @types/jest jest jest-cli ts-jest puppeteer && npm audit fix",
-    "docs": "concurrently --kill-others --raw \"npm:util:build-docs && build-storybook --static-dir ./__docs-temp__ --output-dir ./docs\"  \"ts-node ./support/cleanOnProcessExit.ts --path ./__docs-temp__\"",
-    "docs:preview": "concurrently --raw \"npm:util:build-docs && start-storybook --static-dir ./__docs-temp__\" \"ts-node ./support/cleanOnProcessExit.ts --path ./__docs-temp__\"",
+    "docs": "concurrently --kill-others --raw \"npm:util:build-docs && build-storybook --output-dir ./docs\"  \"ts-node ./support/cleanOnProcessExit.ts --path ./__docs-temp__\"",
+    "docs:preview": "concurrently --raw \"npm:util:build-docs && start-storybook\" \"ts-node ./support/cleanOnProcessExit.ts --path ./__docs-temp__\"",
     "lint": "concurrently npm:lint:*",
     "lint:html": "prettier --write \"**/*.html\"",
     "lint:js": "eslint --ext .js --fix . && prettier --write \"**/*.js\"",
@@ -43,17 +42,18 @@
     "test:prerender": "stencil build --no-docs --prerender",
     "test:storybook": "concurrently --raw \"npm:util:build-docs && screener-storybook --conf screener.config.js\"",
     "test:watch": "npm run util:run-tests -- --watchAll",
-    "util:build-docs": "npm run util:copy-icons && stencil build --config stencil.storybook.config.ts",
+    "util:build-docs": "npm run util:hydration-styles && npm run util:copy-icons && stencil build --config stencil.storybook.config.ts",
     "util:clean-tested-build": "npm ci && npm test && npm run build",
     "util:copy-icons": "cpy \"./node_modules/@esri/calcite-ui-icons/js/*.json\" \"./src/components/icon/assets/icon/\" --flat",
     "util:deploy-next": "npm run util:prep-next && npm run util:push-tags && npm run util:publish-next",
     "util:deploy-next-from-ci": "ts-node --project ./tsconfig-node-scripts.json support/deployNextFromCI.ts",
+    "util:hydration-styles": "ts-node support/hydrationStyles.ts",
     "util:patch-es5-helpers": "ts-node support/patchES5Helpers.ts",
     "util:prep-next": "ts-node --project ./tsconfig-node-scripts.json support/prepReleaseCommit.ts --next && npm run build",
     "util:publish-next": "npm publish --tag next",
     "util:check-squash-mergeable-branch": "ts-node --project ./tsconfig-node-scripts.json support/checkSquashMergeableBranch.ts",
     "util:push-tags": "git push --atomic --follow-tags origin master",
-    "util:run-tests": "npm run util:copy-icons && stencil test --no-docs --spec --e2e"
+    "util:run-tests": "npm run util:hydration-styles && npm run util:copy-icons && stencil test --no-docs --spec --e2e"
   },
   "repository": {
     "type": "git",
@@ -62,7 +62,7 @@
   "dependencies": {
     "@a11y/focus-trap": "1.0.5",
     "@popperjs/core": "2.11.5",
-    "@stencil/core": "2.17.0",
+    "@stencil/core": "2.16.1",
     "@types/color": "3.0.3",
     "color": "4.2.3",
     "form-request-submit-polyfill": "2.0.0",

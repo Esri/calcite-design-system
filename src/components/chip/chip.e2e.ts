@@ -147,5 +147,16 @@ describe("calcite-chip", () => {
       chipCloseButtonHoverStyle = await chipCloseButton.getComputedStyle(":hover");
       expect(chipCloseButtonHoverStyle.getPropertyValue("background-color")).toEqual(overrideStyle);
     });
+
+    it("should not render chip when closed set to true", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`<div class="calcite-theme-dark">${chipSnippet}</div>`);
+
+      const chipEl = await page.find(`calcite-chip`);
+      chipEl.setAttribute("closed", true);
+      await page.waitForChanges();
+
+      expect(await chipEl.isVisible()).toBe(false);
+    });
   });
 });

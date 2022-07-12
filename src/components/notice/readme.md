@@ -25,28 +25,28 @@ You can programmatically focus the close button of a `dismissible` `calcite-noti
 
 ## Properties
 
-| Property      | Attribute     | Description                                                                                                           | Type                                     | Default      |
-| ------------- | ------------- | --------------------------------------------------------------------------------------------------------------------- | ---------------------------------------- | ------------ |
-| `active`      | `active`      | When true, the `calcite-notice` is active.                                                                            | `boolean`                                | `false`      |
-| `color`       | `color`       | The color for the `calcite-notice`. Color will apply to top border and icon.                                          | `"blue" \| "green" \| "red" \| "yellow"` | `"blue"`     |
-| `dismissible` | `dismissible` | Shows a button the user can click to dismiss the `calcite-notice`.                                                    | `boolean`                                | `false`      |
-| `icon`        | `icon`        | When present, shows a default recommended icon. You can also pass a calcite-ui-icon name to display a requested icon. | `boolean \| string`                      | `undefined`  |
-| `intlClose`   | `intl-close`  | Accessible label for the close button.                                                                                | `string`                                 | `TEXT.close` |
-| `scale`       | `scale`       | Specify the scale of `calcite-notice`.                                                                                | `"l" \| "m" \| "s"`                      | `"m"`        |
-| `width`       | `width`       | Specify the width of the `calcite-notice`.                                                                            | `"auto" \| "full" \| "half"`             | `"auto"`     |
+| Property      | Attribute     | Description                                                   | Type                                     | Default      |
+| ------------- | ------------- | ------------------------------------------------------------- | ---------------------------------------- | ------------ |
+| `active`      | `active`      | When true, the component is active.                           | `boolean`                                | `false`      |
+| `color`       | `color`       | The color for the component's top border and icon.            | `"blue" \| "green" \| "red" \| "yellow"` | `"blue"`     |
+| `dismissible` | `dismissible` | When true, a close button is added to the component.          | `boolean`                                | `false`      |
+| `icon`        | `icon`        | Specifies an icon to display - accepts Calcite UI icon names. | `boolean \| string`                      | `undefined`  |
+| `intlClose`   | `intl-close`  | Accessible name for the close button.                         | `string`                                 | `TEXT.close` |
+| `scale`       | `scale`       | Specifies the size of the component.                          | `"l" \| "m" \| "s"`                      | `"m"`        |
+| `width`       | `width`       | Specifies the width of the component.                         | `"auto" \| "full" \| "half"`             | `"auto"`     |
 
 ## Events
 
-| Event                | Description                            | Type               |
-| -------------------- | -------------------------------------- | ------------------ |
-| `calciteNoticeClose` | Fired when `calcite-notice` is closed. | `CustomEvent<any>` |
-| `calciteNoticeOpen`  | Fired when `calcite-notice` is opened. | `CustomEvent<any>` |
+| Event                | Description                         | Type               |
+| -------------------- | ----------------------------------- | ------------------ |
+| `calciteNoticeClose` | Fired when the component is closed. | `CustomEvent<any>` |
+| `calciteNoticeOpen`  | Fired when the component is opened. | `CustomEvent<any>` |
 
 ## Methods
 
 ### `setFocus() => Promise<void>`
 
-Sets focus on the `calcite-notice`.
+Sets focus on the component.
 
 #### Returns
 
@@ -54,18 +54,18 @@ Type: `Promise<void>`
 
 ## Slots
 
-| Slot            | Description                                                                                                            |
-| --------------- | ---------------------------------------------------------------------------------------------------------------------- |
-| `"actions-end"` | A slot for adding actions to the end of the `calcite-notice` (optional). It is recommended to use two or less actions. |
-| `"link"`        | A slot for adding actions to take, such as: undo, try again, link to page, etc. (optional).                            |
-| `"message"`     | A slot for adding the message.                                                                                         |
-| `"title"`       | A slot for adding the title (optional).                                                                                |
+| Slot            | Description                                                                                          |
+| --------------- | ---------------------------------------------------------------------------------------------------- |
+| `"actions-end"` | A slot for adding actions to the end of the component. It is recommended to use two or less actions. |
+| `"link"`        | A slot for adding actions to take, such as: undo, try again, link to page, etc.                      |
+| `"message"`     | A slot for adding the message.                                                                       |
+| `"title"`       | A slot for adding the title.                                                                         |
 
 ## CSS Custom Properties
 
-| Name                     | Description                    |
-| ------------------------ | ------------------------------ |
-| `--calcite-notice-width` | The width of `calcite-notice`. |
+| Name                     | Description                 |
+| ------------------------ | --------------------------- |
+| `--calcite-notice-width` | The width of the component. |
 
 ## Dependencies
 

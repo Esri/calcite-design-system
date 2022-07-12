@@ -27,27 +27,27 @@ For example, after querying the search API, you'll get back a response similar t
 
 ## Properties
 
-| Property            | Attribute             | Description                                                     | Type                | Default              |
-| ------------------- | --------------------- | --------------------------------------------------------------- | ------------------- | -------------------- |
-| `num`               | `num`                 | number of items per page                                        | `number`            | `20`                 |
-| `scale`             | `scale`               | The scale of the pagination                                     | `"l" \| "m" \| "s"` | `"m"`                |
-| `start`             | `start`               | index of item that should begin the page                        | `number`            | `1`                  |
-| `textLabelNext`     | `text-label-next`     | Used as an accessible label (aria-label) for the next button    | `string`            | `TEXT.nextLabel`     |
-| `textLabelPrevious` | `text-label-previous` | Used as an accessible label (aria-label) of the previous button | `string`            | `TEXT.previousLabel` |
-| `total`             | `total`               | total number of items                                           | `number`            | `0`                  |
+| Property            | Attribute             | Description                                          | Type                | Default              |
+| ------------------- | --------------------- | ---------------------------------------------------- | ------------------- | -------------------- |
+| `num`               | `num`                 | Specifies the number of items per page.              | `number`            | `20`                 |
+| `scale`             | `scale`               | Specifies the size of the component.                 | `"l" \| "m" \| "s"` | `"m"`                |
+| `start`             | `start`               | Specifies the starting item number.                  | `number`            | `1`                  |
+| `textLabelNext`     | `text-label-next`     | Accessible name for the component's next button.     | `string`            | `TEXT.nextLabel`     |
+| `textLabelPrevious` | `text-label-previous` | Accessible name for the component's previous button. | `string`            | `TEXT.previousLabel` |
+| `total`             | `total`               | Specifies the total number of items.                 | `number`            | `0`                  |
 
 ## Events
 
-| Event                     | Description                                                                                                                              | Type                            |
-| ------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------- |
-| `calcitePaginationChange` | Emitted whenever the selected page changes.                                                                                              | `CustomEvent<PaginationDetail>` |
-| `calcitePaginationUpdate` | <span style="color:red">**[DEPRECATED]**</span> use calcitePaginationChange instead<br/><br/>Emitted whenever the selected page changes. | `CustomEvent<PaginationDetail>` |
+| Event                     | Description                                                                                                                        | Type                            |
+| ------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- | ------------------------------- |
+| `calcitePaginationChange` | Emits when the selected page changes.                                                                                              | `CustomEvent<PaginationDetail>` |
+| `calcitePaginationUpdate` | <span style="color:red">**[DEPRECATED]**</span> use calcitePaginationChange instead<br/><br/>Emits when the selected page changes. | `CustomEvent<PaginationDetail>` |
 
 ## Methods
 
 ### `nextPage() => Promise<void>`
 
-Go to the next page of results
+Go to the next page of results.
 
 #### Returns
 
@@ -55,7 +55,7 @@ Type: `Promise<void>`
 
 ### `previousPage() => Promise<void>`
 
-Go to the previous page of results
+Go to the previous page of results.
 
 #### Returns
 
@@ -63,9 +63,9 @@ Type: `Promise<void>`
 
 ## CSS Custom Properties
 
-| Name                           | Description                                       |
-| ------------------------------ | ------------------------------------------------- |
-| `--calcite-pagination-spacing` | the amount of padding around each pagination item |
+| Name                           | Description                                        |
+| ------------------------------ | -------------------------------------------------- |
+| `--calcite-pagination-spacing` | The amount of padding around each pagination item. |
 
 ## Dependencies
 
