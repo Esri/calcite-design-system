@@ -7,6 +7,10 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## Unreleased
 
+### ⚠ BREAKING CHANGES
+
+- **label:** the label's `disable-spacing` property has been removed. Use the new `--calcite-label-margin-bottom` css variable to control the spacing instead.
+
 ### Features
 
 - **accordion-item,combobox,dropdown,modal:** deprecate active prop for open in collapsible components ([#4775](https://github.com/Esri/calcite-components/issues/4775)) ([efe7cb4](https://github.com/Esri/calcite-components/commit/efe7cb4cfa715ca245964948fc6fde11ec96ecec))
@@ -19,7 +23,6 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - **combobox:** add support for placeholder icon & no longer display leading space for placeholder text ([#4784](https://github.com/Esri/calcite-components/issues/4784)) ([2c9f5e8](https://github.com/Esri/calcite-components/commit/2c9f5e81b4f2bef4a39eb8d1eb113dfeece7f503))
 - **flow:** Allow panels to be descendants of child elements within a flow ([#4842](https://github.com/Esri/calcite-components/issues/4842)) ([a991086](https://github.com/Esri/calcite-components/commit/a991086f921e4d2057f8424085e08f75a686af5b))
 - **input:** add selectText method ([#4827](https://github.com/Esri/calcite-components/issues/4827)) ([137c98e](https://github.com/Esri/calcite-components/commit/137c98e15ed6a72676999be0b08c9bc88a902eb7))
-- **label:** the label's `disable-spacing` property has been deprecated. Use the new `--calcite-label-margin-bottom` css variable to control the spacing instead.
 - **rating:** Add ability to clear a user-set rating ([#4833](https://github.com/Esri/calcite-components/issues/4833)) ([ce6ab22](https://github.com/Esri/calcite-components/commit/ce6ab22207ff8a7fb81452abc435601f3e83d05e))
 - **stepper:** Add calciteStepperItemChange event ([#4737](https://github.com/Esri/calcite-components/issues/4737)) ([7b899e5](https://github.com/Esri/calcite-components/commit/7b899e58d517825b217751d71c7800a4fdbd64f5)), closes [#4595](https://github.com/Esri/calcite-components/issues/4595)
 - **tabs,tab-nav,tab-title:** add top,bottom values for position prop ([#4729](https://github.com/Esri/calcite-components/issues/4729)) ([7e3891b](https://github.com/Esri/calcite-components/commit/7e3891b00431b8da776db6a26e33196f707b3ef3))
@@ -39,11 +42,12 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - **input:** support larger than 64-bit floating point numbers without losing precision ([#4679](https://github.com/Esri/calcite-components/issues/4679)) ([b81dd82](https://github.com/Esri/calcite-components/commit/b81dd82071810476c414372e6faa3e450bbf3a39))
 - **input:** update number stepper buttons to work with both mouse/touch inputs ([#4846](https://github.com/Esri/calcite-components/issues/4846)) ([c8b33f5](https://github.com/Esri/calcite-components/commit/c8b33f5415191ede41b6fbe30601c173d2f8704d)), closes [#4172](https://github.com/Esri/calcite-components/issues/4172)
 - **Input:** type number spinner buttons will no longer interact when disabled ([#4884](https://github.com/Esri/calcite-components/issues/4884)) ([645e812](https://github.com/Esri/calcite-components/commit/645e81216998e404c5275f2a8ab2997d1a895a91))
-- **label:** expose bottom margin value and remove the disable-spacing property ([#4694](https://github.com/Esri/calcite-components/issues/4694)) ([6976d12](https://github.com/Esri/calcite-components/commit/6976d12646567f026490dac9018d687346a0e5f8))
+- **label:** deprecate disable-spacing property by allowing a css variable to override the bottom margin ([#4889](https://github.com/Esri/calcite-components/issues/4889)) ([9b112ba](https://github.com/Esri/calcite-components/commit/9b112bae26de9d96c0376603438438678f1d7a52))
 - **popover:** Add aria-live="polite" for screen readers ([#4894](https://github.com/Esri/calcite-components/issues/4894)) ([87da60c](https://github.com/Esri/calcite-components/commit/87da60caed17dd23868aa3b6bc26e489cd672193))
 - **radio-group-item:** Add aria-label providing context to users ([#4899](https://github.com/Esri/calcite-components/issues/4899)) ([2efe19b](https://github.com/Esri/calcite-components/commit/2efe19b331acaca19a1928732591e75ce51228c9))
 - (radio group) - apply forced-colors styles ([#4877](https://github.com/Esri/calcite-components/issues/4877)) ([1af345e](https://github.com/Esri/calcite-components/commit/1af345e23d3475b34ce0cb983f7ee01a19a7bd66))
 - css-only hydration to prevent FOUC ([#991](https://github.com/Esri/calcite-components/issues/991)) ([#4856](https://github.com/Esri/calcite-components/issues/4856)) ([dae9586](https://github.com/Esri/calcite-components/commit/dae95865110c191b1135ebe0af2abb088d983cc8))
+- **label:** expose bottom margin value and remove the disable-spacing property ([#4694](https://github.com/Esri/calcite-components/issues/4694)) ([6976d12](https://github.com/Esri/calcite-components/commit/6976d12646567f026490dac9018d687346a0e5f8))
 - **popover:** autoClose property should work in Shadow DOM ([#4810](https://github.com/Esri/calcite-components/issues/4810)) ([e18e71d](https://github.com/Esri/calcite-components/commit/e18e71d2d73fcb8caf3fd5d1a2389cff067cc84e)), closes [#4792](https://github.com/Esri/calcite-components/issues/4792)
 - **radio-group:** fix form reset for radio groups with initial selected item ([#4848](https://github.com/Esri/calcite-components/issues/4848)) ([8fcdb76](https://github.com/Esri/calcite-components/commit/8fcdb76df83b308c42e9d5348374d41ce65f48e8)), closes [#4662](https://github.com/Esri/calcite-components/issues/4662)
 - **stepper:** remove invalid layout value ([#4766](https://github.com/Esri/calcite-components/issues/4766)) ([#4767](https://github.com/Esri/calcite-components/issues/4767)) ([2a3b777](https://github.com/Esri/calcite-components/commit/2a3b77759abd9b5f0ada39f9f7ac787f7a6a2fae))
