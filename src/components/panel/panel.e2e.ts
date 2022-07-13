@@ -33,7 +33,7 @@ describe("calcite-panel", () => {
 
   it("can be disabled", () => disabled(`<calcite-panel dismissible>scrolling content</calcite-panel>`));
 
-  it("honors dismissed prop", async () => {
+  it("honors dismissed prop (deprecated)", async () => {
     const page = await newE2EPage();
 
     await page.setContent("<calcite-panel dismissible>test</calcite-panel>");
@@ -46,6 +46,25 @@ describe("calcite-panel", () => {
     expect(await container.isVisible()).toBe(true);
 
     element.setProperty("dismissed", true);
+
+    await page.waitForChanges();
+
+    expect(await container.isVisible()).toBe(false);
+  });
+
+  it("honors closed prop", async () => {
+    const page = await newE2EPage();
+
+    await page.setContent("<calcite-panel closable>test</calcite-panel>");
+
+    const element = await page.find("calcite-panel");
+    const container = await page.find(`calcite-panel >>> .${CSS.container}`);
+
+    await page.waitForChanges();
+
+    expect(await container.isVisible()).toBe(true);
+
+    element.setProperty("closed", true);
 
     await page.waitForChanges();
 
@@ -92,8 +111,14 @@ describe("calcite-panel", () => {
     </calcite-panel>
     `));
 
-  it("should focus on close button", async () =>
+  it("should focus on close button (deprecated)", async () =>
     focusable(`<calcite-panel dismissible>test</calcite-panel>`, {
+      focusId: "dismiss-button",
+      shadowFocusTargetSelector: "calcite-action"
+    }));
+
+  it("should focus on close button )", async () =>
+    focusable(`<calcite-panel closable>test</calcite-panel>`, {
       focusId: "dismiss-button",
       shadowFocusTargetSelector: "calcite-action"
     }));
