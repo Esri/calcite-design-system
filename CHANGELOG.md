@@ -10,6 +10,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ### Features
 
 - **input-number:** create separate component for input type number ([#4870](https://github.com/Esri/calcite-components/issues/4870)) ([fb2428c](https://github.com/Esri/calcite-components/commit/fb2428c168cbfc23d45ee5ccb19124c82067af4e)), closes [#4884](https://github.com/Esri/calcite-components/issues/4884)
+- **input-time-picker:** add readOnly prop support ([#4910](https://github.com/Esri/calcite-components/issues/4910)) ([3188538](https://github.com/Esri/calcite-components/commit/31885384f47589919b45fb3a1ccd828b8c114fdd))
 
 ### Bug Fixes
 
