@@ -1,10 +1,11 @@
 import { Config } from "@stencil/core";
 import { postcss } from "@stencil/postcss";
 import { sass } from "@stencil/sass";
-import babel from "@rollup/plugin-babel";
 import autoprefixer from "autoprefixer";
-import tailwind from "tailwindcss";
+import tailwindcss from "tailwindcss";
+import tailwindConfig from "./tailwind.config";
 import { generatePreactTypes } from "./support/preact";
+import { version } from "./package.json";
 
 export const create: () => Config = () => ({
   buildEs5: "prod",
@@ -36,6 +37,7 @@ export const create: () => Config = () => ({
     { components: ["calcite-icon"] },
     { components: ["calcite-inline-editable"] },
     { components: ["calcite-input"] },
+    { components: ["calcite-input-number"] },
     { components: ["calcite-input-date-picker"] },
     { components: ["calcite-input-message"] },
     { components: ["calcite-input-time-picker", "calcite-time-picker"] },
@@ -52,7 +54,7 @@ export const create: () => Config = () => ({
     { components: ["calcite-popover", "calcite-popover-manager"] },
     { components: ["calcite-progress"] },
     { components: ["calcite-pick-list", "calcite-pick-list-group", "calcite-pick-list-item"] },
-    { components: ["calcite-radio-button", "calcite-radio"] },
+    { components: ["calcite-radio-button"] },
     { components: ["calcite-radio-button-group"] },
     { components: ["calcite-radio-group", "calcite-radio-group-item"] },
     { components: ["calcite-rating"] },
@@ -93,24 +95,16 @@ export const create: () => Config = () => ({
       }
     }
   ],
+  invisiblePrehydration: false,
   globalStyle: "src/assets/styles/global.scss",
   plugins: [
     sass({
       injectGlobalPaths: ["src/assets/styles/includes.scss"]
     }),
     postcss({
-      plugins: [tailwind(), autoprefixer()]
+      plugins: [tailwindcss(tailwindConfig), autoprefixer()]
     })
   ],
-  rollupPlugins: {
-    after: [
-      babel({
-        babelHelpers: "bundled",
-        include: [/\/color\//],
-        plugins: ["@babel/plugin-proposal-numeric-separator"]
-      })
-    ]
-  },
   testing: {
     moduleNameMapper: {
       "^/assets/(.*)$": "<rootDir>/src/tests/iconPathDataStub.ts"
@@ -121,7 +115,7 @@ export const create: () => Config = () => ({
     selector: "attribute",
     name: "calcite-hydrated"
   },
-  preamble: `All material copyright ESRI, All Rights Reserved, unless otherwise specified.\nSee https://github.com/Esri/calcite-components/blob/master/LICENSE.md for details.`,
+  preamble: `All material copyright ESRI, All Rights Reserved, unless otherwise specified.\nSee https://github.com/Esri/calcite-components/blob/master/LICENSE.md for details.\nv${version}`,
   extras: {
     scriptDataOpts: true
   }

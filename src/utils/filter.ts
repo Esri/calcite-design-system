@@ -10,12 +10,13 @@ export const filter = (data: Array<object>, value: string): Array<any> => {
   }
 
   const find = (input: object, RE: RegExp) => {
-    if ((input as any)?.constant) {
+    if ((input as any)?.constant || (input as any)?.filterDisabled) {
       return true;
     }
     let found = false;
+
     forIn(input, (val) => {
-      if (typeof val === "function") {
+      if (typeof val === "function" || val == null /* intentional == to catch undefined */) {
         return;
       }
       if (Array.isArray(val) || (typeof val === "object" && val !== null)) {

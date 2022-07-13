@@ -10,19 +10,20 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
       - name: skip for markdown only prs
         id: one
         run: |
-          git fetch --deepen=100
           current_branch=$(git rev-parse --abbrev-ref HEAD)
           echo "branch: $current_branch"
           if [ "$current_branch" == "master" ]; then
             # diff of last commit excluding md (assumes squash merge)
-            screenable_changes=$(git diff --name-only @~..@ -- . ':(exclude)*.md')
+            screenable_changes=$(git diff --name-only @~..@ -- . ':(exclude)*.md*')
             echo "push run"
           else
             # diff of branch excluding md
-            screenable_changes=$(git diff --name-only "$current_branch" $(git merge-base "$current_branch" origin/master) -- . ':(exclude)*.md')
+            screenable_changes=$(git diff --name-only "$current_branch" $(git merge-base "$current_branch" origin/master) -- . ':(exclude)*.md*')
             echo "pr run"
           fi
           echo "changed files: $screenable_changes"
@@ -37,14 +38,16 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: lts/*
+          cache: npm
+      - run: npm ci --legacy-peer-deps
       - if: steps.one.outputs.skip == 'screen'
         name: run screener check
         env:
           SCREENER_API_KEY: ${{ secrets.SCREENER_API_KEY }}
           COMMIT_SHA: ${{github.event.pull_request.head.sha || github.sha}}
-        run: |
-          npm install
-          npm run test:storybook || true
+          SAUCE_ACCESS_NAME: ${{ secrets.SAUCE_ACCESS_NAME}}
+          SAUCE_ACCESS_KEY: ${{ secrets.SAUCE_ACCESS_KEY }}
+        run: npm run test:storybook || true
       - if: steps.one.outputs.skip == 'skip'
         name: skip screener
         uses: Sibz/github-status-action@v1

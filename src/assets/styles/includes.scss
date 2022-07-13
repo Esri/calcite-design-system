@@ -41,3 +41,26 @@
     z-index: -1 !important;
   }
 }
+
+// mixin to provide base disabled styles for interactive components
+// additional styling can be passed via @content
+@mixin disabled() {
+  :host([disabled]) {
+    @apply opacity-disabled pointer-events-none cursor-default select-none;
+    @content;
+
+    ::slotted([calcite-hydrated][disabled]),
+    [calcite-hydrated][disabled] {
+      /* prevent opacity stacking */
+      @apply opacity-100;
+    }
+  }
+}
+
+// mixin to provide default invisibility and disabling of pointer events for components.
+@mixin calciteHydratedHidden() {
+  :host([calcite-hydrated-hidden]) {
+    visibility: hidden !important; // 'important' is being used here to temporarily handle precendence of visibility set with calcite-hydrated. Do not follow this pattern. See #991.
+    pointer-events: none;
+  }
+}
