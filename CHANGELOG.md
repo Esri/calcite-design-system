@@ -13,6 +13,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### Bug Fixes
 
+- **accordion, combobox, dropdown, tree:** remove excessive borders in high contrast mode ([#4913](https://github.com/Esri/calcite-components/issues/4913)) ([a5c9206](https://github.com/Esri/calcite-components/commit/a5c9206e54e2f9fecc4164cf09001a710d781887)), closes [#4912](https://github.com/Esri/calcite-components/issues/4912) [#4912](https://github.com/Esri/calcite-components/issues/4912) [#4912](https://github.com/Esri/calcite-components/issues/4912) [#4912](https://github.com/Esri/calcite-components/issues/4912) [#4912](https://github.com/Esri/calcite-components/issues/4912)
 - **card:** Prevent content from overflowing when corners are rounded ([#4908](https://github.com/Esri/calcite-components/issues/4908)) ([c5144b3](https://github.com/Esri/calcite-components/commit/c5144b37a0e04edd93987487a833ff42a70628c1)), closes [#4895](https://github.com/Esri/calcite-components/issues/4895)
 - **combobox:** Correctly read back items in voiceover ([#4905](https://github.com/Esri/calcite-components/issues/4905)) ([30807e6](https://github.com/Esri/calcite-components/commit/30807e6a1d1e1b2b7d05e9b9d21781ecbfa3568f)), closes [#4388](https://github.com/Esri/calcite-components/issues/4388)
 <!--@unreleased-section-end-->
