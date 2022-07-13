@@ -453,6 +453,7 @@ export class InputTimePicker implements LabelableComponent, FormComponent, Inter
           placement={this.placement}
           ref={this.setCalcitePopoverEl}
           referenceElement={this.referenceElementId}
+          triggerDisabled={true}
         >
           <calcite-time-picker
             intlHour={this.intlHour}
