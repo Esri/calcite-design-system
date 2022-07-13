@@ -52,6 +52,12 @@
   @apply cursor-pointer flex-nowrap;
 }
 
+@media (forced-colors: active) {
+  .wrapper {
+    border: 1px solid canvasText;
+  }
+}
+
 .grid-input {
   @apply flex
     flex-grow
