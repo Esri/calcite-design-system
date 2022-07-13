@@ -130,7 +130,14 @@ export class AccordionItem {
     const buttonId = `${guid}-button`;
 
     return (
-      <Host tabindex="0">
+      <Host
+        aria-controls={regionId}
+        aria-expanded={toAriaBoolean(this.active)}
+        aria-live="polite"
+        onClick={this.itemHeaderClickHandler}
+        role="button"
+        tabindex="0"
+      >
         <div
           class={{
             [`icon-position--${this.iconPosition}`]: true,
@@ -138,12 +145,8 @@ export class AccordionItem {
           }}
         >
           <div
-            aria-controls={regionId}
-            aria-expanded={toAriaBoolean(this.active)}
             class={{ "accordion-item-header": true, [CSS_UTILITY.rtl]: dir === "rtl" }}
             id={buttonId}
-            onClick={this.itemHeaderClickHandler}
-            role="button"
           >
             {this.icon ? iconEl : null}
             <div class="accordion-item-header-text">
