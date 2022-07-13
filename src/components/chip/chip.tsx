@@ -32,8 +32,15 @@ export class Chip implements ConditionalSlotComponent {
   /** specify the color of the button, defaults to blue */
   @Prop({ reflect: true }) color: ChipColor = "grey";
 
-  /** Optionally show a button the user can click to dismiss the chip */
+  /**
+   * Optionally show a button the user can click to dismiss the chip
+   *
+   * @deprecated use closable instead
+   */
   @Prop({ reflect: true }) dismissible = false;
+
+  /** When true, show abutton user can click to dismiss the chip. */
+  @Prop({ reflect: true }) closable = false;
 
   /**
    * Aria label for the "x" button
@@ -157,7 +164,7 @@ export class Chip implements ConditionalSlotComponent {
         <span class={CSS.title} id={this.guid}>
           <slot />
         </span>
-        {this.dismissible ? closeButton : null}
+        {this.closable || this.dismissible ? closeButton : null}
       </div>
     );
   }

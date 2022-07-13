@@ -2,8 +2,7 @@
   @apply text-color-3
     block
     max-w-full
-    cursor-pointer
-    outline-none;
+    cursor-pointer;
 }
 
 @include calciteHydratedHidden();
@@ -87,16 +86,19 @@
   @apply focus-base;
 }
 :host(:focus) {
-  @apply focus-inset;
+  @apply focus-inset outline-none;
 }
 
 .checkbox {
-  @apply outline-none;
   line-height: 0;
 }
 
 .checkbox-label {
   @apply pointer-events-none flex items-center;
+}
+
+.checkbox:focus {
+  @apply outline-none;
 }
 
 .children-container {

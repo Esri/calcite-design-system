@@ -151,6 +151,13 @@
   @include popperWrapperActive();
 }
 
+@media (forced-colors: active) {
+  .wrapper,
+  .popper-container--active {
+    border: 1px solid canvasText;
+  }
+}
+
 .screen-readers-only {
   @apply sr-only;
 }

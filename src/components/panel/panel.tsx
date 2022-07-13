@@ -47,10 +47,16 @@ export class Panel implements ConditionalSlotComponent, InteractiveComponent {
 
   /**
    * When true, hides the component.
+   *
+   * @deprecated use closed instead
    */
   @Prop({ mutable: true, reflect: true }) dismissed = false;
 
+  /** When true, panel will be hidden */
+  @Prop({ mutable: true, reflect: true }) closed = false;
+
   @Watch("dismissed")
+  @Watch("closed")
   dismissedHandler(): void {
     this.calcitePanelDismissedChange.emit();
   }
@@ -67,8 +73,13 @@ export class Panel implements ConditionalSlotComponent, InteractiveComponent {
 
   /**
    * When true, a close button is added to the component.
+   *
+   * @deprecated use closable instead
    */
   @Prop({ reflect: true }) dismissible = false;
+
+  /** When true, displays a close button in the trailing side of the header */
+  @Prop({ reflect: true }) closable = false;
 
   /**
    * Specifies the number at which section headings should start.
@@ -241,6 +252,7 @@ export class Panel implements ConditionalSlotComponent, InteractiveComponent {
 
   dismiss = (): void => {
     this.dismissed = true;
+    this.closed = true;
     this.calcitePanelDismiss.emit();
   };
 
@@ -369,18 +381,19 @@ export class Panel implements ConditionalSlotComponent, InteractiveComponent {
   }
 
   renderHeaderActionsEnd(): VNode {
-    const { dismiss, dismissible, el, intlClose } = this;
+    const { dismiss, dismissible, el, intlClose, closable } = this;
     const text = intlClose || TEXT.close;
 
-    const dismissibleNode = dismissible ? (
-      <calcite-action
-        aria-label={text}
-        icon={ICONS.close}
-        onClick={dismiss}
-        ref={this.setDismissRef}
-        text={text}
-      />
-    ) : null;
+    const dismissibleNode =
+      closable || dismissible ? (
+        <calcite-action
+          aria-label={text}
+          icon={ICONS.close}
+          onClick={dismiss}
+          ref={this.setDismissRef}
+          text={text}
+        />
+      ) : null;
 
     const slotNode = <slot name={SLOTS.headerActionsEnd} />;
     const hasEndActions = getSlotted(el, SLOTS.headerActionsEnd);
@@ -510,16 +523,16 @@ export class Panel implements ConditionalSlotComponent, InteractiveComponent {
   }
 
   render(): VNode {
-    const { dismissed, dismissible, loading, panelKeyDownHandler } = this;
+    const { dismissed, dismissible, loading, panelKeyDownHandler, closed, closable } = this;
 
     const panelNode = (
       <article
         aria-busy={toAriaBoolean(loading)}
         class={CSS.container}
-        hidden={dismissible && dismissed}
+        hidden={(closable || dismissible) && (closed || dismissed)}
         onKeyDown={panelKeyDownHandler}
         ref={this.setContainerRef}
-        tabIndex={dismissible ? 0 : -1}
+        tabIndex={closable || dismissible ? 0 : -1}
       >
         {this.renderHeaderNode()}
         {this.renderContent()}
