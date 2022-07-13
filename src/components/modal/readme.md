@@ -55,28 +55,28 @@ modal.beforeClose = beforeClose;
 
 ## Properties
 
-| Property              | Attribute               | Description                                                                                                                       | Type                                 | Default                   |
-| --------------------- | ----------------------- | --------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------ | ------------------------- |
-| `active`              | `active`                | When true, the `calcite-modal` is active.                                                                                         | `boolean`                            | `false`                   |
-| `backgroundColor`     | `background-color`      | Sets the background color of `calcite-modal` content.                                                                             | `"grey" \| "white"`                  | `"white"`                 |
-| `beforeClose`         | --                      | Passes a function to run before the `calcite-modal` closes.                                                                       | `(el: HTMLElement) => Promise<void>` | `() => Promise.resolve()` |
-| `color`               | `color`                 | Adds a color bar to the top of `calcite-modal` for visual impact. Use color to add importance to destructive or workflow dialogs. | `"blue" \| "red"`                    | `undefined`               |
-| `disableCloseButton`  | `disable-close-button`  | When true, disables the close button within the `calcite-modal`.                                                                  | `boolean`                            | `false`                   |
-| `disableEscape`       | `disable-escape`        | When true, disables the default close on escape behavior.                                                                         | `boolean`                            | `false`                   |
-| `disableOutsideClose` | `disable-outside-close` | When true, disables the closing of the `calcite-modal` when clicked outside.                                                      | `boolean`                            | `false`                   |
-| `docked`              | `docked`                | When true, prevents the `calcite-modal` from expanding to the entire screen on mobile devices.                                    | `boolean`                            | `undefined`               |
-| `fullscreen`          | `fullscreen`            | Set the `calcite-modal` to always be fullscreen (overrides width).                                                                | `boolean`                            | `undefined`               |
-| `intlClose`           | `intl-close`            | Accessible label for the close button.                                                                                            | `string`                             | `TEXT.close`              |
-| `noPadding`           | `no-padding`            | When true, disables spacing to the content area slot.                                                                             | `boolean`                            | `false`                   |
-| `scale`               | `scale`                 | Specify the scale of `calcite-modal`.                                                                                             | `"l" \| "m" \| "s"`                  | `"m"`                     |
-| `width`               | `width`                 | Set the width of the `calcite-modal`. Can use scale sizes or pass a number (displays in pixels).                                  | `"l" \| "m" \| "s" \| number`        | `"m"`                     |
+| Property              | Attribute               | Description                                                                                                                 | Type                                 | Default                   |
+| --------------------- | ----------------------- | --------------------------------------------------------------------------------------------------------------------------- | ------------------------------------ | ------------------------- |
+| `active`              | `active`                | When true, the component is active.                                                                                         | `boolean`                            | `false`                   |
+| `backgroundColor`     | `background-color`      | Sets the background color of the component's content.                                                                       | `"grey" \| "white"`                  | `"white"`                 |
+| `beforeClose`         | --                      | Passes a function to run before the component closes.                                                                       | `(el: HTMLElement) => Promise<void>` | `() => Promise.resolve()` |
+| `color`               | `color`                 | Adds a color bar to the top of component for visual impact. Use color to add importance to destructive or workflow dialogs. | `"blue" \| "red"`                    | `undefined`               |
+| `disableCloseButton`  | `disable-close-button`  | When true, disables the component's close button.                                                                           | `boolean`                            | `false`                   |
+| `disableEscape`       | `disable-escape`        | When true, disables the default close on escape behavior.                                                                   | `boolean`                            | `false`                   |
+| `disableOutsideClose` | `disable-outside-close` | When true, disables the closing of the component when clicked outside.                                                      | `boolean`                            | `false`                   |
+| `docked`              | `docked`                | When true, prevents the component from expanding to the entire screen on mobile devices.                                    | `boolean`                            | `undefined`               |
+| `fullscreen`          | `fullscreen`            | Sets the component to always be fullscreen (overrides width).                                                               | `boolean`                            | `undefined`               |
+| `intlClose`           | `intl-close`            | Accessible name for the component's close button.                                                                           | `string`                             | `TEXT.close`              |
+| `noPadding`           | `no-padding`            | When true, disables spacing to the content area slot.                                                                       | `boolean`                            | `false`                   |
+| `scale`               | `scale`                 | Specifies the size of the component.                                                                                        | `"l" \| "m" \| "s"`                  | `"m"`                     |
+| `width`               | `width`                 | Specifies the width of the component. Can use scale sizes or pass a number (displays in pixels).                            | `"l" \| "m" \| "s" \| number`        | `"m"`                     |
 
 ## Events
 
-| Event               | Description                                              | Type               |
-| ------------------- | -------------------------------------------------------- | ------------------ |
-| `calciteModalClose` | Emits when `calcite-modal` finishes the close animation. | `CustomEvent<any>` |
-| `calciteModalOpen`  | Emits when `calcite-modal` finishes the open animation.  | `CustomEvent<any>` |
+| Event               | Description                                            | Type               |
+| ------------------- | ------------------------------------------------------ | ------------------ |
+| `calciteModalClose` | Emits when the component finishes the close animation. | `CustomEvent<any>` |
+| `calciteModalOpen`  | Emits when the component finishes the open animation.  | `CustomEvent<any>` |
 
 ## Methods
 
@@ -90,7 +90,7 @@ Type: `Promise<void>`
 
 ### `scrollContent(top?: number, left?: number) => Promise<void>`
 
-Set the scroll top of the `calcite-modal` content.
+Sets the scroll top of the component's content.
 
 #### Returns
 
@@ -109,23 +109,23 @@ Type: `Promise<void>`
 
 ## Slots
 
-| Slot          | Description                                 |
-| ------------- | ------------------------------------------- |
-| `"back"`      | A slot for adding a back button.            |
-| `"content"`   | A slot for adding `calcite-modal` content.  |
-| `"header"`    | A slot for adding a `calcite-modal` header. |
-| `"primary"`   | A slot for adding a primary button.         |
-| `"secondary"` | A slot for adding a secondary button.       |
+| Slot          | Description                                |
+| ------------- | ------------------------------------------ |
+| `"back"`      | A slot for adding a back button.           |
+| `"content"`   | A slot for adding the component's content. |
+| `"header"`    | A slot for adding header text.             |
+| `"primary"`   | A slot for adding a primary button.        |
+| `"secondary"` | A slot for adding a secondary button.      |
 
 ## CSS Custom Properties
 
-| Name                            | Description                                                       |
-| ------------------------------- | ----------------------------------------------------------------- |
-| `--calcite-modal-content-text`  | The `calcite-modal` content font size.                            |
-| `--calcite-modal-padding`       | The top/bottom padding around items in the `calcite-modal`.       |
-| `--calcite-modal-padding-large` | The left/right padding around items in the `calcite-modal`.       |
-| `--calcite-modal-title-text`    | The `calcite-modal` title font size.                              |
-| `--calcite-scrim-background`    | The semi-transparent background color behind the `calcite-modal`. |
+| Name                            | Description                                               |
+| ------------------------------- | --------------------------------------------------------- |
+| `--calcite-modal-content-text`  | The component content's font size.                        |
+| `--calcite-modal-padding`       | The top/bottom padding around items within the component. |
+| `--calcite-modal-padding-large` | The left/right padding around items within the component. |
+| `--calcite-modal-title-text`    | The component title's font size.                          |
+| `--calcite-scrim-background`    | The component's semi-transparent background color.        |
 
 ## Dependencies
 

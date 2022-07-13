@@ -4,6 +4,9 @@
 /* CSS vars (@include in global) */
 @import "type";
 
+/* Hydration styles to hide non-hydrated components */
+@import "hydration";
+
 @mixin calcite-theme-light-extended {
   @include calcite-theme-light();
   --calcite-theme-name: "light";

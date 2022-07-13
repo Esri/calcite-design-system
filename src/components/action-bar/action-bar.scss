@@ -5,6 +5,7 @@
     flex-col
     self-stretch;
   max-width: 15vw;
+  background: transparent;
 }
 
 :host([overflow-actions-disabled]) {
