@@ -33,8 +33,7 @@
     relative
     flex
     flex-col
-    no-underline
-    outline-none;
+    no-underline;
   background-color: var(--calcite-accordion-item-background, theme("backgroundColor.foreground.1"));
 }
 
@@ -44,7 +43,8 @@
 }
 
 :host(:focus) .accordion-item-header {
-  @apply focus-inset;
+  @apply focus-inset
+  outline-none;
 }
 
 :host([active]),
@@ -166,5 +166,24 @@
   }
   & .accordion-item-description {
     @apply text-color-2;
+  }
+}
+
+@media (forced-colors: active) {
+  :host([expanded]) {
+    & .accordion-item-header {
+      border-bottom: none;
+    }
+    & .accordion-item-heading {
+      /** give visual indicator of expanded state since subtle color changes can't be done **/
+      font-weight: bolder;
+    }
+  }
+  :host(:hover),
+  :host(:focus) {
+    & .accordion-item-heading {
+      /** give visual indicator of expandability/click-ability since subtle color changes can't be done **/
+      text-decoration: underline;
+    }
   }
 }
