@@ -16,9 +16,9 @@
     "hydrate/"
   ],
   "scripts": {
-    "build": "npm run util:hydration-styles && npm run util:copy-icons && stencil build && npm run util:patch-es5-helpers",
-    "build:watch": "npm run util:hydration-styles && npm run util:copy-icons && stencil build --watch",
-    "build:watch-dev": "npm run util:hydration-styles && npm run util:copy-icons && stencil build --dev --watch",
+    "build": "npm run util:copy-icons && stencil build && npm run util:patch-es5-helpers",
+    "build:watch": "npm run util:copy-icons && stencil build --watch",
+    "build:watch-dev": "npm run util:copy-icons && stencil build --dev --watch",
     "deps:update": "updtr --exclude chalk cheerio typescript @types/jest jest jest-cli ts-jest puppeteer && npm audit fix",
     "docs": "concurrently --kill-others --raw \"npm:util:build-docs && build-storybook --output-dir ./docs\"  \"ts-node ./support/cleanOnProcessExit.ts --path ./__docs-temp__\"",
     "docs:preview": "concurrently --raw \"npm:util:build-docs && start-storybook\" \"ts-node ./support/cleanOnProcessExit.ts --path ./__docs-temp__\"",
@@ -42,18 +42,17 @@
     "test:prerender": "stencil build --no-docs --prerender",
     "test:storybook": "concurrently --raw \"npm:util:build-docs && screener-storybook --conf screener.config.js\"",
     "test:watch": "npm run util:run-tests -- --watchAll",
-    "util:build-docs": "npm run util:hydration-styles && npm run util:copy-icons && stencil build --config stencil.storybook.config.ts",
+    "util:build-docs": "npm run util:copy-icons && stencil build --config stencil.storybook.config.ts",
     "util:clean-tested-build": "npm ci && npm test && npm run build",
     "util:copy-icons": "cpy \"./node_modules/@esri/calcite-ui-icons/js/*.json\" \"./src/components/icon/assets/icon/\" --flat",
     "util:deploy-next": "npm run util:prep-next && npm run util:push-tags && npm run util:publish-next",
     "util:deploy-next-from-ci": "ts-node --project ./tsconfig-node-scripts.json support/deployNextFromCI.ts",
-    "util:hydration-styles": "ts-node support/hydrationStyles.ts",
     "util:patch-es5-helpers": "ts-node support/patchES5Helpers.ts",
     "util:prep-next": "ts-node --project ./tsconfig-node-scripts.json support/prepReleaseCommit.ts --next && npm run build",
     "util:publish-next": "npm publish --tag next",
     "util:check-squash-mergeable-branch": "ts-node --project ./tsconfig-node-scripts.json support/checkSquashMergeableBranch.ts",
     "util:push-tags": "git push --atomic --follow-tags origin master",
-    "util:run-tests": "npm run util:hydration-styles && npm run util:copy-icons && stencil test --no-docs --spec --e2e"
+    "util:run-tests": "npm run util:copy-icons && stencil test --no-docs --spec --e2e"
   },
   "repository": {
     "type": "git",
