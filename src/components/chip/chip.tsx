@@ -39,7 +39,7 @@ export class Chip implements ConditionalSlotComponent {
    */
   @Prop({ reflect: true }) dismissible = false;
 
-  /** when true, show abutton user can click to dismiss the chip */
+  /** When true, show abutton user can click to dismiss the chip. */
   @Prop({ reflect: true }) closable = false;
 
   /**
