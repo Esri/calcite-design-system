@@ -38,8 +38,8 @@ const createFlowItemAttributes: (group: string) => Attributes = (group) => {
       value: boolean("menuOpen", false, group)
     },
     {
-      name: "summary",
-      value: text("summary", "Summary", group)
+      name: "description",
+      value: text("description", "Description", group)
     },
     {
       name: "intl-back",

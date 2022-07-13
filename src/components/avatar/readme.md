@@ -39,13 +39,13 @@ When no thumbnail is provided, the avatar component will construct a useful plac
 
 ## Properties
 
-| Property    | Attribute   | Description                                                      | Type                | Default     |
-| ----------- | ----------- | ---------------------------------------------------------------- | ------------------- | ----------- |
-| `fullName`  | `full-name` | full name of the user                                            | `string`            | `undefined` |
-| `scale`     | `scale`     | specify the scale of the avatar, defaults to m                   | `"l" \| "m" \| "s"` | `"m"`       |
-| `thumbnail` | `thumbnail` | src to an image (remember to add a token if the user is private) | `string`            | `undefined` |
-| `userId`    | `user-id`   | unique id for user                                               | `string`            | `undefined` |
-| `username`  | `username`  | user name                                                        | `string`            | `undefined` |
+| Property    | Attribute   | Description                                                                       | Type                | Default     |
+| ----------- | ----------- | --------------------------------------------------------------------------------- | ------------------- | ----------- |
+| `fullName`  | `full-name` | Specifies the full name of the user.                                              | `string`            | `undefined` |
+| `scale`     | `scale`     | Specifies the size of the component.                                              | `"l" \| "m" \| "s"` | `"m"`       |
+| `thumbnail` | `thumbnail` | Specifies the `src` to an image (remember to add a token if the user is private). | `string`            | `undefined` |
+| `userId`    | `user-id`   | Specifies the unique id of the user.                                              | `string`            | `undefined` |
+| `username`  | `username`  | Specifies the username of the user.                                               | `string`            | `undefined` |
 
 ## Dependencies
 
