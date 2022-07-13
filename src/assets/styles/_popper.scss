@@ -136,10 +136,12 @@ $pointer_offset: -$pointer_size * 0.5;
   }
 
   :host([data-popper-placement^="left"]) .arrow {
-    right: $pointer_offset;
+    direction: ltr;
+    inset-inline-end: $pointer_offset;
   }
 
   :host([data-popper-placement^="right"]) .arrow {
-    left: $pointer_offset;
+    direction: ltr;
+    inset-inline-start: $pointer_offset;
   }
 }
