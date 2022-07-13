@@ -25,6 +25,7 @@ import {
 import { HeadingLevel } from "../functional/Heading";
 
 import { TEXT } from "../date-picker/resources";
+import { CSS } from "./resources";
 import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
 import {
   connectForm,
@@ -74,8 +75,16 @@ export class InputDatePicker
    */
   @Prop({ reflect: true }) disabled = false;
 
+  /**
+   * When true, still focusable but controls are gone and the value cannot be modified.
+   *
+   * @mdn [readOnly](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/readonly)
+   */
+  @Prop() readOnly = false;
+
   @Watch("disabled")
-  handleDisabledChange(value: boolean): void {
+  @Watch("readOnly")
+  handleDisabledAndReadOnlyChange(value: boolean): void {
     if (!value) {
       this.active = false;
     }
@@ -164,7 +173,7 @@ export class InputDatePicker
 
   @Watch("active")
   activeHandler(): void {
-    if (!this.disabled) {
+    if (!this.disabled || !this.readOnly) {
       this.reposition();
       return;
     }
@@ -395,7 +404,7 @@ export class InputDatePicker
   }
 
   render(): VNode {
-    const { disabled } = this;
+    const { disabled, readOnly } = this;
     const date = dateFromRange(
       this.range ? this.startAsDate : this.valueAsDate,
       this.minAsDate,
@@ -434,6 +443,7 @@ export class InputDatePicker
                   onCalciteInternalInputBlur={this.inputBlur}
                   onCalciteInternalInputFocus={this.startInputFocus}
                   placeholder={this.localeData?.placeholder}
+                  readOnly={readOnly}
                   ref={this.setStartInput}
                   scale={this.scale}
                   type="text"
@@ -444,8 +454,8 @@ export class InputDatePicker
             <div
               aria-hidden={toAriaBoolean(!this.active)}
               class={{
-                "menu-container": true,
-                "menu-container--active": this.active
+                [CSS.menu]: true,
+                [CSS.menuActive]: this.active
               }}
               ref={this.setFloatingEl}
             >
@@ -506,6 +516,7 @@ export class InputDatePicker
                   onCalciteInternalInputBlur={this.inputBlur}
                   onCalciteInternalInputFocus={this.endInputFocus}
                   placeholder={this.localeData?.placeholder}
+                  readOnly={readOnly}
                   ref={this.setEndInput}
                   scale={this.scale}
                   type="text"
@@ -620,12 +631,16 @@ export class InputDatePicker
   };
 
   startInputFocus = (): void => {
-    this.active = true;
+    if (!this.readOnly) {
+      this.active = true;
+    }
     this.focusedInput = "start";
   };
 
   endInputFocus = (): void => {
-    this.active = true;
+    if (!this.readOnly) {
+      this.active = true;
+    }
     this.focusedInput = "end";
   };
 

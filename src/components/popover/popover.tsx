@@ -71,8 +71,13 @@ export class Popover implements FloatingUIComponent {
 
   /**
    * When true, a close button is added to the component.
+   *
+   * @deprecated use closable instead
    */
   @Prop({ reflect: true }) dismissible = false;
+
+  /** When true, display a close button within the Popover */
+  @Prop({ reflect: true }) closable = false;
 
   /**
    * When true, prevents flipping the component's placement when overlapping its `referenceElement`.
@@ -419,9 +424,9 @@ export class Popover implements FloatingUIComponent {
   // --------------------------------------------------------------------------
 
   renderCloseButton(): VNode {
-    const { dismissible, closeButton, intlClose, heading } = this;
+    const { dismissible, closeButton, intlClose, heading, closable } = this;
 
-    return dismissible || closeButton ? (
+    return closable || dismissible || closeButton ? (
       <div class={CSS.closeButtonContainer}>
         <calcite-action
           class={CSS.closeButton}
