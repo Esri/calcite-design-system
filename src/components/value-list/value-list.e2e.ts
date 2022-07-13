@@ -226,5 +226,63 @@ describe("calcite-value-list", () => {
       expect(await eight.getProperty("value")).toBe("e");
       expect(await ninth.getProperty("value")).toBe("f");
     });
+
+    it("is drag and drop list accessible", async () => {
+      const page = await createSimpleValueList();
+      let startIndex = 0;
+
+      await page.keyboard.press("Tab");
+      await page.waitForChanges();
+
+      const items = await page.findAll("calcite-value-list-item");
+      const item = await page.find('calcite-value-list-item[value="one"]');
+      const handle = await page.find('calcite-value-list-item[value="one"] >>> .handle');
+      const assistiveTextElement = await page.find("calcite-value-list >>> .assistive-text");
+
+      const handleAriaLabel = handle.getAttribute("aria-label");
+      const itemLabel = await item.getProperty("label");
+
+      expect(handleAriaLabel).toBe(
+        `${itemLabel}, press space and use arrow keys to reorder content. Current position ${startIndex + 1} of ${
+          items.length
+        }.`
+      );
+
+      await page.keyboard.press("Space");
+      await page.waitForChanges();
+
+      expect(assistiveTextElement.textContent).toBe(
+        `Reordering ${itemLabel}, current position ${startIndex + 1} of ${items.length}.`
+      );
+
+      await page.keyboard.press("ArrowDown");
+      await page.waitForChanges();
+
+      startIndex += 1;
+      const changeHandleLabel = handle.getAttribute("aria-label");
+
+      expect(changeHandleLabel).toBe(
+        `${itemLabel}, new position ${startIndex + 1} of ${items.length}. Press space to confirm.`
+      );
+      await page.keyboard.press("Space");
+      await page.waitForChanges();
+
+      expect(assistiveTextElement.textContent).toBe(
+        `${itemLabel}, current position ${startIndex + 1} of ${items.length}.`
+      );
+
+      await page.keyboard.press("Space");
+      await page.waitForChanges();
+      await page.keyboard.press("ArrowUp");
+      await page.keyboard.press("Space");
+      await page.waitForChanges();
+
+      startIndex -= 1;
+      const idleHandleLabel = handle.getAttribute("aria-label");
+
+      expect(idleHandleLabel).toBe(
+        `${itemLabel}, new position ${startIndex + 1} of ${items.length}. Press space to confirm.`
+      );
+    });
   });
 });
