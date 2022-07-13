@@ -3,21 +3,19 @@
 This document maintains a list of released versions and changes introduced by them.
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
-<!--@unreleased-section-start-->
-
-## Unreleased
+## [1.0.0-beta.85](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.84...v1.0.0-beta.85) (2022-07-13)
 
 ### Features
 
-- **input-number:** create separate component for input type number ([#4870](https://github.com/Esri/calcite-components/issues/4870)) ([fb2428c](https://github.com/Esri/calcite-components/commit/fb2428c168cbfc23d45ee5ccb19124c82067af4e)), closes [#4884](https://github.com/Esri/calcite-components/issues/4884)
+- **input-number:** create new, separate component for input type number ([#4870](https://github.com/Esri/calcite-components/issues/4870)) ([fb2428c](https://github.com/Esri/calcite-components/commit/fb2428c168cbfc23d45ee5ccb19124c82067af4e)), closes [#4884](https://github.com/Esri/calcite-components/issues/4884)
 - **input-time-picker:** add readOnly prop support ([#4910](https://github.com/Esri/calcite-components/issues/4910)) ([3188538](https://github.com/Esri/calcite-components/commit/31885384f47589919b45fb3a1ccd828b8c114fdd))
+- **input-date-picker:** added readOnly prop support ([#4888](https://github.com/Esri/calcite-components/issues/4888)) ([efdd450](https://github.com/Esri/calcite-components/commit/efdd450da910daeff726f868cbec5dceb99d4f5b))
 
 ### Bug Fixes
 
 - **action-bar, action-pad:** Background color should be transparent on host. ([#4904](https://github.com/Esri/calcite-components/issues/4904)) ([0a5b207](https://github.com/Esri/calcite-components/commit/0a5b20784ee0fd6f8c5d2d4cf431b85df85f37ec))
-- **input-date-picker:** added readOnly prop support ([#4888](https://github.com/Esri/calcite-components/issues/4888)) ([efdd450](https://github.com/Esri/calcite-components/commit/efdd450da910daeff726f868cbec5dceb99d4f5b))
+- **card:** Prevent content from overflowing when corners are rounded. ([#4895](https://github.com/Esri/calcite-components/issues/4895)) ([25ed4df](https://github.com/Esri/calcite-components/commit/25ed4df0dfd94ccd44dddb6ea0171710351b1240))
 - **value-list:** enable auditory reordering of items when dragEnabled ([#4228](https://github.com/Esri/calcite-components/issues/4228)) ([ed9108a](https://github.com/Esri/calcite-components/commit/ed9108aad636b82937ecb2589e08c1f3dec88ab3))
-<!--@unreleased-section-end-->
 
 ## [1.0.0-beta.84](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.83...v1.0.0-beta.84) (2022-07-12)
 
@@ -53,7 +51,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - **input:** set the default numbering system for arab languages to latin ([#4809](https://github.com/Esri/calcite-components/issues/4809)) ([265cbe7](https://github.com/Esri/calcite-components/commit/265cbe77cf4b7c55d21d894d3b7a2f7fa3423160))
 - **input:** support larger than 64-bit floating point numbers without losing precision ([#4679](https://github.com/Esri/calcite-components/issues/4679)) ([b81dd82](https://github.com/Esri/calcite-components/commit/b81dd82071810476c414372e6faa3e450bbf3a39))
 - **input:** update number stepper buttons to work with both mouse/touch inputs ([#4846](https://github.com/Esri/calcite-components/issues/4846)) ([c8b33f5](https://github.com/Esri/calcite-components/commit/c8b33f5415191ede41b6fbe30601c173d2f8704d)), closes [#4172](https://github.com/Esri/calcite-components/issues/4172)
-- **Input:** type number spinner buttons will no longer interact when disabled ([#4884](https://github.com/Esri/calcite-components/issues/4884)) ([645e812](https://github.com/Esri/calcite-components/commit/645e81216998e404c5275f2a8ab2997d1a895a91))
+- **input:** type number spinner buttons will no longer interact when disabled ([#4884](https://github.com/Esri/calcite-components/issues/4884)) ([645e812](https://github.com/Esri/calcite-components/commit/645e81216998e404c5275f2a8ab2997d1a895a91))
 - **label:** deprecate disable-spacing property by allowing a css variable to override the bottom margin ([#4889](https://github.com/Esri/calcite-components/issues/4889)) ([9b112ba](https://github.com/Esri/calcite-components/commit/9b112bae26de9d96c0376603438438678f1d7a52))
 - **popover:** Add aria-live="polite" for screen readers ([#4894](https://github.com/Esri/calcite-components/issues/4894)) ([87da60c](https://github.com/Esri/calcite-components/commit/87da60caed17dd23868aa3b6bc26e489cd672193))
 - **radio-group-item:** Add aria-label providing context to users ([#4899](https://github.com/Esri/calcite-components/issues/4899)) ([2efe19b](https://github.com/Esri/calcite-components/commit/2efe19b331acaca19a1928732591e75ce51228c9))
