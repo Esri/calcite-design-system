@@ -387,7 +387,7 @@ export class InputDatePicker
 
   disconnectedCallback(): void {
     if (this.containerDiv) {
-      this.containerDiv.removeEventListener("transitionrun", this.transitionRunHandler);
+      this.containerDiv.removeEventListener("transitionstart", this.transitionStartHandler);
     }
     this.destroyPopper();
     disconnectLabel(this);
@@ -565,7 +565,7 @@ export class InputDatePicker
 
   private setContainerDiv = (el): void => {
     this.containerDiv = el;
-    this.containerDiv.addEventListener("transitionrun", this.transitionRunHandler);
+    this.containerDiv.addEventListener("transitionstart", this.transitionStartHandler);
   };
 
   @Watch("layout")
@@ -615,7 +615,7 @@ export class InputDatePicker
     this.calciteInputDatePickerClose.emit();
   }
 
-  transitionRunHandler = (event: TransitionEvent): void => {
+  transitionStartHandler = (event: TransitionEvent): void => {
     if (event.propertyName === this.activeTransitionProp) {
       this.active ? this.onBeforeOpen() : this.onBeforeClose();
     }
