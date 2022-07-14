@@ -99,7 +99,7 @@
     "@typescript-eslint/parser": "5.30.6",
     "@whitespace/storybook-addon-html": "5.0.0",
     "autoprefixer": "10.4.7",
-    "axe-core": "4.4.2",
+    "axe-core": "4.4.3",
     "babel-loader": "8.2.5",
     "chalk": "4.1.2",
     "cheerio": "1.0.0-rc.10",
