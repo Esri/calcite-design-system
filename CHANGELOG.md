@@ -10,6 +10,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ### Bug Fixes
 
 - **accordion-item:** add on-demand screen reader feedback to collapsed and expansion interaction ([#4931](https://github.com/Esri/calcite-components/issues/4931)) ([296b4d3](https://github.com/Esri/calcite-components/commit/296b4d3e3c141e2d6d2ca736580499bd050969ab))
+- **card:** align footer leading and trailing slots vertically. ([#4920](https://github.com/Esri/calcite-components/issues/4920)) ([6dc346b](https://github.com/Esri/calcite-components/commit/6dc346b828b6613599c9eff602bd62a55eecbfa2))
 <!--@unreleased-section-end-->
 
 ## [1.0.0-beta.86](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.85...v1.0.0-beta.86) (2022-07-13)
