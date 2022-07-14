@@ -40,8 +40,10 @@
 
 .container {
   @apply relative block break-normal;
-  padding: calc(var(--calcite-slider-handle-size) * 0.5);
-  margin: calc(var(--calcite-slider-handle-size) * 0.5) 0;
+  padding-inline: calc(var(--calcite-slider-handle-size) * 0.5);
+  padding-block: calc(var(--calcite-slider-handle-size) * 0.5);
+  margin-block: calc(var(--calcite-slider-handle-size) * 0.5);
+  margin-inline: 0;
   --calcite-slider-full-handle-height: calc(
     var(--calcite-slider-handle-size) + var(--calcite-slider-handle-extension-height)
   );
