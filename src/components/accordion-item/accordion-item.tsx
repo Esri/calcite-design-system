@@ -133,7 +133,6 @@ export class AccordionItem {
       <Host
         aria-controls={regionId}
         aria-expanded={toAriaBoolean(this.active)}
-        aria-live="polite"
         onClick={this.itemHeaderClickHandler}
         role="button"
         tabindex="0"
@@ -173,7 +172,6 @@ export class AccordionItem {
           </div>
           <div
             aria-expanded={toAriaBoolean(this.expanded || this.active)}
-            aria-labelledby={buttonId}
             class="accordion-item-content"
             id={regionId}
             role="region"
