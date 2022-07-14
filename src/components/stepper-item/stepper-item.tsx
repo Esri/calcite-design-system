@@ -210,7 +210,7 @@ export class StepperItem implements InteractiveComponent {
 
   @Method()
   async setFocus(): Promise<void> {
-    (this.layout === "vertical" ? this.el : this.headerEl).focus();
+    (this.layout === "vertical" ? this.el : this.headerEl)?.focus();
   }
 
   //--------------------------------------------------------------------------
