@@ -129,17 +129,16 @@ export class AccordionItem {
     const regionId = `${guid}-region`;
 
     return (
-      <Host
-        aria-expanded={toAriaBoolean(this.active)}
-        onClick={this.itemHeaderClickHandler}
-        role="button"
-        tabindex="0"
-      >
+      <Host>
         <div
+          aria-expanded={toAriaBoolean(this.active)}
           class={{
             [`icon-position--${this.iconPosition}`]: true,
             [`icon-type--${this.iconType}`]: true
           }}
+          onClick={this.itemHeaderClickHandler}
+          role="button"
+          tabindex="0"
         >
           <div
             aria-controls={regionId}
