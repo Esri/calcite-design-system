@@ -15,7 +15,7 @@ import { guid } from "../../utils/guid";
 import { CSS } from "../pick-list-item/resources";
 import { ICONS, SLOTS } from "./resources";
 import { SLOTS as PICK_LIST_SLOTS } from "../pick-list-item/resources";
-import { getSlotted, toAriaBoolean } from "../../utils/dom";
+import { getSlotted } from "../../utils/dom";
 import {
   ConditionalSlotComponent,
   connectConditionalSlotComponent,
@@ -218,7 +218,6 @@ export class ValueListItem implements ConditionalSlotComponent, InteractiveCompo
     if (icon === ICON_TYPES.grip) {
       return (
         <span
-          aria-pressed={toAriaBoolean(this.handleActivated)}
           class={{
             [CSS.handle]: true,
             [CSS.handleActivated]: this.handleActivated
