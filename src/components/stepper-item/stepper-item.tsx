@@ -107,6 +107,14 @@ export class StepperItem implements InteractiveComponent {
 
   //--------------------------------------------------------------------------
   //
+  //  Internal State/Props
+  //
+  //--------------------------------------------------------------------------
+
+  headerEl: HTMLDivElement;
+
+  //--------------------------------------------------------------------------
+  //
   //  Events
   //
   //--------------------------------------------------------------------------
@@ -145,8 +153,6 @@ export class StepperItem implements InteractiveComponent {
     this.scale = getElementProp(this.el, "scale", "m");
     this.parentStepperEl = this.el.parentElement as HTMLCalciteStepperElement;
   }
-
-  headerEl: HTMLDivElement;
 
   componentDidRender(): void {
     updateHostInteraction(this, true);
