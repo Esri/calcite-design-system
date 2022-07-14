@@ -114,7 +114,11 @@ export class Modal implements ConditionalSlotComponent {
   /** Sets the background color of the component's content. */
   @Prop({ reflect: true }) backgroundColor: ModalBackgroundColor = "white";
 
-  /** When true, disables spacing to the content area slot. */
+  /**
+   * When true, disables spacing to the content area slot.
+   *
+   * @deprecated  Use `--calcite-modal-padding` & `--calcite-modal-padding-large` CSS variables instead.
+   */
   @Prop() noPadding = false;
 
   //--------------------------------------------------------------------------
