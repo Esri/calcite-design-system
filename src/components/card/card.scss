@@ -127,10 +127,7 @@
   }
 }
 
-slot[name="footer-leading"]::slotted(*) {
-  @apply flex gap-1;
-}
-
+slot[name="footer-leading"]::slotted(*),
 slot[name="footer-trailing"]::slotted(*) {
   @apply flex gap-1;
 }
