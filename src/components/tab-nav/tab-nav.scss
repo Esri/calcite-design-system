@@ -42,36 +42,36 @@
 }
 
 :host([position="below"]) .tab-nav-active-indicator {
-  bottom: unset;
+  inset-block-end: unset;
   @apply top-0;
 }
 
 :host([position="bottom"]) .tab-nav-active-indicator {
-  bottom: unset;
+  inset-block-end: unset;
   @apply top-0;
 }
 
 :host([position="below"]) .tab-nav-active-indicator-container {
-  bottom: unset;
   @apply top-0;
+  inset-block-end: unset;
 }
 
 :host([position="bottom"]) .tab-nav-active-indicator-container {
-  bottom: unset;
+  inset-block-end: unset;
   @apply top-0;
 }
 
 :host([bordered]) .tab-nav-active-indicator-container {
-  bottom: unset; // display active blue line above instead of below
+  inset-block-end: unset; // display active blue line above instead of below
 }
 
 :host([bordered][position="below"]) .tab-nav-active-indicator-container {
-  bottom: 0; // display active blue line below instead of above
+  inset-block-end: 0; // display active blue line below instead of above
   top: unset;
 }
 
 :host([bordered][position="bottom"]) .tab-nav-active-indicator-container {
-  bottom: 0; // display active blue line below instead of above
+  inset-block-end: 0; // display active blue line below instead of above
   top: unset;
 }
 
