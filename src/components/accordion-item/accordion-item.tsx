@@ -13,7 +13,6 @@ import { getElementDir, getElementProp, toAriaBoolean } from "../../utils/dom";
 
 import { CSS_UTILITY } from "../../utils/resources";
 import { Position } from "../interfaces";
-import { guid } from "../../utils/guid";
 
 /**
  * @slot - A slot for adding custom content, including nested `calcite-accordion-item`s.
@@ -125,9 +124,6 @@ export class AccordionItem {
 
     const iconEl = <calcite-icon class="accordion-item-icon" icon={this.icon} scale="s" />;
 
-    const { guid } = this;
-    const regionId = `${guid}-region`;
-
     return (
       <Host>
         <div
@@ -140,10 +136,7 @@ export class AccordionItem {
           role="button"
           tabindex="0"
         >
-          <div
-            aria-controls={regionId}
-            class={{ "accordion-item-header": true, [CSS_UTILITY.rtl]: dir === "rtl" }}
-          >
+          <div class={{ "accordion-item-header": true, [CSS_UTILITY.rtl]: dir === "rtl" }}>
             {this.icon ? iconEl : null}
             <div class="accordion-item-header-text">
               <span class="accordion-item-heading">{this.heading || this.itemTitle}</span>
@@ -167,12 +160,7 @@ export class AccordionItem {
               scale="s"
             />
           </div>
-          <div
-            aria-expanded={toAriaBoolean(this.expanded || this.active)}
-            class="accordion-item-content"
-            id={regionId}
-            role="region"
-          >
+          <div class="accordion-item-content">
             <slot />
           </div>
         </div>
@@ -225,8 +213,6 @@ export class AccordionItem {
   //  Private State/Props
   //
   //--------------------------------------------------------------------------
-
-  private guid = guid();
 
   /** the containing accordion element */
   private parent: HTMLCalciteAccordionElement;
