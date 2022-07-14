@@ -615,10 +615,6 @@ export class InputDatePicker
     this.calciteInputDatePickerClose.emit();
   }
 
-  /* *
-  - `transitionrun` fires when the transition is created at the start of any delay and is not cancellable once started.
-  - if there is no transition delay, both `transitionrun` and `transitionstart` are fired at the same time.
-  */
   transitionRunHandler = (event: TransitionEvent): void => {
     if (event.propertyName === this.activeTransitionProp) {
       this.active ? this.onBeforeOpen() : this.onBeforeClose();
