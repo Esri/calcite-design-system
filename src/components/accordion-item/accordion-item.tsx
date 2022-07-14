@@ -131,7 +131,6 @@ export class AccordionItem {
 
     return (
       <Host
-        aria-controls={regionId}
         aria-expanded={toAriaBoolean(this.active)}
         onClick={this.itemHeaderClickHandler}
         role="button"
@@ -144,6 +143,7 @@ export class AccordionItem {
           }}
         >
           <div
+            aria-controls={regionId}
             class={{ "accordion-item-header": true, [CSS_UTILITY.rtl]: dir === "rtl" }}
             id={buttonId}
           >
