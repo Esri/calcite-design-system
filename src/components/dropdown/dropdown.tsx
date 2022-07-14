@@ -249,16 +249,16 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent {
   @Event() calciteDropdownSelect: EventEmitter<void>;
 
   /* Fires when the component is requested to be closed and before the closing transition begins. */
-  @Event() calciteDropdownBeforeClose: EventEmitter;
+  @Event() calciteDropdownBeforeClose: EventEmitter<void>;
 
   /* Fires when the component is closed and animation is complete. */
-  @Event() calciteDropdownClose: EventEmitter;
+  @Event() calciteDropdownClose: EventEmitter<void>;
 
   /* Fires when the component is added to the DOM but not rendered, and before the opening transition begins. */
-  @Event() calciteDropdownBeforeOpen: EventEmitter;
+  @Event() calciteDropdownBeforeOpen: EventEmitter<void>;
 
   /* Fires when the component is open and animation is complete. */
-  @Event() calciteDropdownOpen: EventEmitter;
+  @Event() calciteDropdownOpen: EventEmitter<void>;
 
   @Listen("click", { target: "window" })
   closeCalciteDropdownOnClick(e: Event): void {
