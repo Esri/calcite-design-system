@@ -68,11 +68,11 @@
         "forbid": [
           {
             "propName": "onKeyPress",
-            "message": "Use onKeyDown instead"
+            "message": "For dismissing/closing behavior, please use onKeyDown instead."
           },
           {
             "propName": "onKeyUp",
-            "message": "Use onKeyDown instead"
+            "message": "For dismissing/closing behavior, please use onKeyDown instead."
           }
         ]
       }
@@ -83,11 +83,11 @@
         "forbid": [
           {
             "propName": "onKeyPress",
-            "message": "Use onKeyDown instead"
+            "message": "For dismissing/closing behavior, please use onKeyDown instead."
           },
           {
             "propName": "onKeyUp",
-            "message": "Use onKeyDown instead"
+            "message": "For dismissing/closing behavior, please use onKeyDown instead."
           }
         ]
       }
