@@ -68,11 +68,11 @@
         "forbid": [
           {
             "propName": "onKeyPress",
-            "message": "For dismissing/closing behavior, please use onKeyDown instead."
+            "message": "Use onKeyDown instead for consistent interaction behavior (e.g., closing, moving focus, etc.)."
           },
           {
             "propName": "onKeyUp",
-            "message": "For dismissing/closing behavior, please use onKeyDown instead."
+            "message": "Use onKeyDown instead for consistent interaction behavior (e.g., closing, moving focus, etc.)."
           }
         ]
       }
@@ -83,11 +83,11 @@
         "forbid": [
           {
             "propName": "onKeyPress",
-            "message": "For dismissing/closing behavior, please use onKeyDown instead."
+            "message": "Use onKeyDown instead for consistent interaction behavior (e.g., closing, moving focus, etc.)."
           },
           {
             "propName": "onKeyUp",
-            "message": "For dismissing/closing behavior, please use onKeyDown instead."
+            "message": "Use onKeyDown instead for consistent interaction behavior (e.g., closing, moving focus, etc)."
           }
         ]
       }
