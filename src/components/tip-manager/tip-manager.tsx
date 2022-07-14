@@ -205,7 +205,7 @@ export class TipManager {
     this.nextTip();
   };
 
-  tipManagerKeyUpHandler = (event: KeyboardEvent): void => {
+  tipManagerKeyDownHandler = (event: KeyboardEvent): void => {
     if (event.target !== this.container) {
       return;
     }
@@ -283,7 +283,7 @@ export class TipManager {
         aria-hidden={toAriaBoolean(closed)}
         class={CSS.container}
         hidden={closed}
-        onKeyUp={this.tipManagerKeyUpHandler}
+        onKeyDown={this.tipManagerKeyDownHandler}
         ref={this.storeContainerRef}
         tabIndex={0}
       >

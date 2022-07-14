@@ -404,12 +404,7 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
     const formattedDate = date ? date.toLocaleDateString(this.locale) : "";
 
     return (
-      <Host
-        onBlur={this.deactivate}
-        onKeyDown={this.keyDownHandler}
-        onKeyUp={this.keyUpHandler}
-        role="application"
-      >
+      <Host onBlur={this.deactivate} onKeyDown={this.keyDownHandler} role="application">
         {this.localeData && (
           <div
             aria-expanded={toAriaBoolean(this.active)}
@@ -603,14 +598,10 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
     this.active = false;
   };
 
-  keyDownHandler = (event: KeyboardEvent): void => {
-    if (event.key === "Enter" && !event.defaultPrevented) {
+  keyDownHandler = ({ defaultPrevented, key }: KeyboardEvent): void => {
+    if (key === "Enter" && !defaultPrevented) {
       submitForm(this);
-    }
-  };
-
-  keyUpHandler = (e: KeyboardEvent): void => {
-    if (e.key === "Escape") {
+    } else if (key === "Escape") {
       this.active = false;
     }
   };

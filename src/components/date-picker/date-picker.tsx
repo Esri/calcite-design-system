@@ -262,7 +262,7 @@ export class DatePicker {
           : this.maxAsDate
         : this.maxAsDate;
     return (
-      <Host onBlur={this.reset} onKeyUp={this.keyUpHandler} role="application">
+      <Host onBlur={this.reset} onKeyDown={this.keyDownHandler} role="application">
         {this.renderCalendar(activeDate, maxDate, minDate, date, endDate)}
       </Host>
     );
@@ -285,7 +285,7 @@ export class DatePicker {
   //
   //--------------------------------------------------------------------------
 
-  keyUpHandler = (e: KeyboardEvent): void => {
+  keyDownHandler = (e: KeyboardEvent): void => {
     if (e.key === "Escape") {
       this.reset();
     }
