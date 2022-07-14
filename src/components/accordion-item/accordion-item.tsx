@@ -13,7 +13,6 @@ import { getElementDir, getElementProp, toAriaBoolean } from "../../utils/dom";
 
 import { CSS_UTILITY } from "../../utils/resources";
 import { Position } from "../interfaces";
-import { guid } from "../../utils/guid";
 
 /**
  * @slot - A slot for adding custom content, including nested `calcite-accordion-item`s.
@@ -125,26 +124,19 @@ export class AccordionItem {
 
     const iconEl = <calcite-icon class="accordion-item-icon" icon={this.icon} scale="s" />;
 
-    const { guid } = this;
-    const regionId = `${guid}-region`;
-    const buttonId = `${guid}-button`;
-
     return (
-      <Host tabindex="0">
+      <Host>
         <div
+          aria-expanded={toAriaBoolean(this.active)}
           class={{
             [`icon-position--${this.iconPosition}`]: true,
             [`icon-type--${this.iconType}`]: true
           }}
+          onClick={this.itemHeaderClickHandler}
+          role="button"
+          tabindex="0"
         >
-          <div
-            aria-controls={regionId}
-            aria-expanded={toAriaBoolean(this.active)}
-            class={{ "accordion-item-header": true, [CSS_UTILITY.rtl]: dir === "rtl" }}
-            id={buttonId}
-            onClick={this.itemHeaderClickHandler}
-            role="button"
-          >
+          <div class={{ "accordion-item-header": true, [CSS_UTILITY.rtl]: dir === "rtl" }}>
             {this.icon ? iconEl : null}
             <div class="accordion-item-header-text">
               <span class="accordion-item-heading">{this.heading || this.itemTitle}</span>
@@ -168,13 +160,7 @@ export class AccordionItem {
               scale="s"
             />
           </div>
-          <div
-            aria-expanded={toAriaBoolean(this.expanded || this.active)}
-            aria-labelledby={buttonId}
-            class="accordion-item-content"
-            id={regionId}
-            role="region"
-          >
+          <div class="accordion-item-content">
             <slot />
           </div>
         </div>
@@ -227,8 +213,6 @@ export class AccordionItem {
   //  Private State/Props
   //
   //--------------------------------------------------------------------------
-
-  private guid = guid();
 
   /** the containing accordion element */
   private parent: HTMLCalciteAccordionElement;
