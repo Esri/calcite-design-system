@@ -49,13 +49,16 @@ import { StrictModifiers, Instance as Popper } from "@popperjs/core";
 import { DateRangeChange } from "../date-picker/interfaces";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { toAriaBoolean } from "../../utils/dom";
+import { OpenCloseComponent } from "../../utils/openCloseComponent";
 
 @Component({
   tag: "calcite-input-date-picker",
   styleUrl: "input-date-picker.scss",
   shadow: true
 })
-export class InputDatePicker implements LabelableComponent, FormComponent, InteractiveComponent {
+export class InputDatePicker
+  implements LabelableComponent, FormComponent, InteractiveComponent, OpenCloseComponent
+{
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -297,15 +300,17 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
    */
   @Event() calciteInputDatePickerChange: EventEmitter<void>;
 
-  /**
-   * @internal
-   */
-  @Event() calciteInternalInputDatePickerOpen: EventEmitter;
+  /* Fires when the component is requested to be closed and before the closing transition begins. */
+  @Event() calciteInputDatePickerBeforeClose: EventEmitter<void>;
 
-  /**
-   * @internal
-   */
-  @Event() calciteInternalInputDatePickerClose: EventEmitter;
+  /* Fires when the component is closed and animation is complete. */
+  @Event() calciteInputDatePickerClose: EventEmitter<void>;
+
+  /* Fires when the component is added to the DOM but not rendered, and before the opening transition begins. */
+  @Event() calciteInputDatePickerBeforeOpen: EventEmitter<void>;
+
+  /* Fires when the component is open and animation is complete. */
+  @Event() calciteInputDatePickerOpen: EventEmitter<void>;
 
   // --------------------------------------------------------------------------
   //
@@ -381,6 +386,9 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
   }
 
   disconnectedCallback(): void {
+    if (this.containerDiv) {
+      this.containerDiv.removeEventListener("transitionrun", this.transitionRunHandler);
+    }
     this.destroyPopper();
     disconnectLabel(this);
     disconnectForm(this);
@@ -454,6 +462,7 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
                   [PopperCSS.animationActive]: this.active
                 }}
                 onTransitionEnd={this.transitionEnd}
+                ref={this.setContainerDiv}
               >
                 <calcite-date-picker
                   activeRange={this.focusedInput}
@@ -552,6 +561,13 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
 
   private activeTransitionProp = "opacity";
 
+  private containerDiv: HTMLDivElement;
+
+  private setContainerDiv = (el): void => {
+    this.containerDiv = el;
+    this.containerDiv.addEventListener("transitionrun", this.transitionRunHandler);
+  };
+
   @Watch("layout")
   @Watch("focusedInput")
   setReferenceEl(): void {
@@ -583,11 +599,35 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
     this.setFocus();
   }
 
+  onBeforeOpen(): void {
+    this.calciteInputDatePickerBeforeOpen.emit();
+  }
+
+  onOpen(): void {
+    this.calciteInputDatePickerOpen.emit();
+  }
+
+  onBeforeClose(): void {
+    this.calciteInputDatePickerBeforeClose.emit();
+  }
+
+  onClose(): void {
+    this.calciteInputDatePickerClose.emit();
+  }
+
+  /* *
+  - `transitionrun` fires when the transition is created at the start of any delay and is not cancellable once started.
+  - if there is no transition delay, both `transitionrun` and `transitionstart` are fired at the same time.
+  */
+  transitionRunHandler = (event: TransitionEvent): void => {
+    if (event.propertyName === this.activeTransitionProp) {
+      this.active ? this.onBeforeOpen() : this.onBeforeClose();
+    }
+  };
+
   transitionEnd = (event: TransitionEvent): void => {
     if (event.propertyName === this.activeTransitionProp) {
-      this.active
-        ? this.calciteInternalInputDatePickerOpen.emit()
-        : this.calciteInternalInputDatePickerClose.emit();
+      this.active ? this.onOpen() : this.onClose();
     }
   };
 
