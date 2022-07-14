@@ -3,6 +3,15 @@
 This document maintains a list of released versions and changes introduced by them.
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
+<!--@unreleased-section-start-->
+
+## Unreleased
+
+### Bug Fixes
+
+- **accordion-item:** add on-demand screen reader feedback to collapsed and expansion interaction ([#4931](https://github.com/Esri/calcite-components/issues/4931)) ([296b4d3](https://github.com/Esri/calcite-components/commit/296b4d3e3c141e2d6d2ca736580499bd050969ab))
+<!--@unreleased-section-end-->
+
 ## [1.0.0-beta.86](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.85...v1.0.0-beta.86) (2022-07-13)
 
 ### Features
