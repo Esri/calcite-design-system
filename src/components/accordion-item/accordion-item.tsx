@@ -127,7 +127,6 @@ export class AccordionItem {
 
     const { guid } = this;
     const regionId = `${guid}-region`;
-    const buttonId = `${guid}-button`;
 
     return (
       <Host
@@ -145,7 +144,6 @@ export class AccordionItem {
           <div
             aria-controls={regionId}
             class={{ "accordion-item-header": true, [CSS_UTILITY.rtl]: dir === "rtl" }}
-            id={buttonId}
           >
             {this.icon ? iconEl : null}
             <div class="accordion-item-header-text">
