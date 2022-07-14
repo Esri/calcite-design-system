@@ -145,6 +145,11 @@ export class StepperItem implements InteractiveComponent {
     this.scale = getElementProp(this.el, "scale", "m");
     this.parentStepperEl = this.el.parentElement as HTMLCalciteStepperElement;
     this.itemPosition = this.getItemPosition();
+    this.registerStepperItem();
+
+    if (this.active) {
+      this.emitRequestedItem();
+    }
   }
 
   componentDidRender(): void {
