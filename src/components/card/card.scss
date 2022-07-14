@@ -126,3 +126,8 @@
     @apply w-full;
   }
 }
+
+slot[name="footer-leading"]::slotted(*),
+slot[name="footer-trailing"]::slotted(*) {
+  @apply flex gap-1;
+}
