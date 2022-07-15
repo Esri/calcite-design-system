@@ -37,16 +37,16 @@
       @apply bg-foreground-3;
     }
     &.top-left {
-      border-top-left-radius: var(--calcite-border-radius);
+      border-start-start-radius: var(--calcite-border-radius);
     }
     &.bottom-left {
-      border-bottom-left-radius: var(--calcite-border-radius);
+      border-end-start-radius: var(--calcite-border-radius);
     }
     &.top-right {
-      border-top-right-radius: var(--calcite-border-radius);
+      border-start-end-radius: var(--calcite-border-radius);
     }
     &.bottom-right {
-      border-bottom-right-radius: var(--calcite-border-radius);
+      border-end-end-radius: var(--calcite-border-radius);
     }
     calcite-icon {
       @apply text-color-3;

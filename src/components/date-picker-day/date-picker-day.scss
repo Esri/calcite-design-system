@@ -4,7 +4,7 @@
     min-w-0
     cursor-pointer
     justify-center;
-  width: calc(100% / 7);
+  inline-size: calc(100% / 7);
 }
 
 @include disabled();
@@ -48,8 +48,8 @@
     @apply p-0;
   }
   .day {
-    height: 27px;
-    width: 27px;
+    block-size: 27px;
+    inline-size: 27px;
     @apply text-n2;
   }
 }
@@ -62,8 +62,8 @@
     @apply px-1;
   }
   .day {
-    height: 33px;
-    width: 33px;
+    block-size: 33px;
+    inline-size: 33px;
     @apply text-n1;
   }
 }
@@ -76,8 +76,8 @@
     @apply px-1;
   }
   .day {
-    height: 43px;
-    width: 43px;
+    block-size: 43px;
+    inline-size: 43px;
     @apply text-0;
   }
 }
