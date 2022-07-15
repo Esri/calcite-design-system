@@ -135,7 +135,8 @@ calcite-handle {
 }
 
 .content--spaced {
-  padding-block: var(--calcite-block-padding, ; padding-inline: 0.5rem);
+  padding-block: var(--calcite-block-padding, 0.5rem);
+  padding-inline: var(--calcite-block-padding, 0.5rem);
 }
 
 .control-container {
