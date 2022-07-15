@@ -12,16 +12,18 @@
 
 ## Properties
 
-| Property             | Attribute       | Description                                                        | Type                                               | Default      |
-| -------------------- | --------------- | ------------------------------------------------------------------ | -------------------------------------------------- | ------------ |
-| `appearance`         | `appearance`    | specify the appearance style of the button, defaults to solid.     | `"clear" \| "solid"`                               | `"solid"`    |
-| `color`              | `color`         | specify the color of the button, defaults to blue                  | `"blue" \| "green" \| "grey" \| "red" \| "yellow"` | `"grey"`     |
-| `dismissLabel`       | `dismiss-label` | Aria label for the "x" button                                      | `string`                                           | `TEXT.close` |
-| `dismissible`        | `dismissible`   | Optionally show a button the user can click to dismiss the chip    | `boolean`                                          | `false`      |
-| `icon`               | `icon`          | optionally pass an icon to display - accepts Calcite UI icon names | `string`                                           | `undefined`  |
-| `iconFlipRtl`        | `icon-flip-rtl` | flip the icon in rtl                                               | `boolean`                                          | `false`      |
-| `scale`              | `scale`         | specify the scale of the chip, defaults to m                       | `"l" \| "m" \| "s"`                                | `"m"`        |
-| `value` _(required)_ | `value`         | The assigned value for the chip                                    | `any`                                              | `undefined`  |
+| Property             | Attribute       | Description                                                                                                                                   | Type                                               | Default      |
+| -------------------- | --------------- | --------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------- | ------------ |
+| `appearance`         | `appearance`    | specify the appearance style of the button, defaults to solid.                                                                                | `"clear" \| "solid"`                               | `"solid"`    |
+| `closable`           | `closable`      | When true, show abutton user can click to dismiss the chip.                                                                                   | `boolean`                                          | `false`      |
+| `closed`             | `closed`        | When true, hides the chip                                                                                                                     | `boolean`                                          | `false`      |
+| `color`              | `color`         | specify the color of the button, defaults to blue                                                                                             | `"blue" \| "green" \| "grey" \| "red" \| "yellow"` | `"grey"`     |
+| `dismissLabel`       | `dismiss-label` | Aria label for the "x" button                                                                                                                 | `string`                                           | `TEXT.close` |
+| `dismissible`        | `dismissible`   | <span style="color:red">**[DEPRECATED]**</span> use closable instead<br/><br/>Optionally show a button the user can click to dismiss the chip | `boolean`                                          | `false`      |
+| `icon`               | `icon`          | optionally pass an icon to display - accepts Calcite UI icon names                                                                            | `string`                                           | `undefined`  |
+| `iconFlipRtl`        | `icon-flip-rtl` | flip the icon in rtl                                                                                                                          | `boolean`                                          | `false`      |
+| `scale`              | `scale`         | specify the scale of the chip, defaults to m                                                                                                  | `"l" \| "m" \| "s"`                                | `"m"`        |
+| `value` _(required)_ | `value`         | The assigned value for the chip                                                                                                               | `any`                                              | `undefined`  |
 
 ## Events
 

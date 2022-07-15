@@ -1,6 +1,7 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { defaults, disabled, formAssociated, labelable, popperOwner, renders } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
+import { CSS } from "./resources";
 
 const animationDurationInMs = 200;
 
@@ -235,4 +236,30 @@ describe("calcite-input-date-picker", () => {
       "active",
       { shadowPopperSelector: ".menu-container" }
     ));
+
+  it("when set to readOnly, element still focusable but won't display the controls or allow for changing the value", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<calcite-input-date-picker read-only id="canReadOnly"></calcite-input-date-picker>`);
+
+    const component = await page.find("#canReadOnly");
+    const input = await page.find("#canReadOnly >>> calcite-input");
+
+    expect(await input.getProperty("value")).toBe("");
+
+    await component.callMethod("setFocus");
+    await page.waitForChanges();
+    const calendar = await page.find(`#canReadOnly >>> .${CSS.menu}`);
+
+    expect(await page.evaluate(() => document.activeElement.id)).toBe("canReadOnly");
+    expect(calendar).not.toHaveClass(CSS.menuActive);
+
+    await component.click();
+    await page.waitForChanges();
+    expect(calendar).not.toHaveClass(CSS.menuActive);
+
+    await component.type("atención atención");
+    await page.waitForChanges();
+
+    expect(await input.getProperty("value")).toBe("");
+  });
 });
