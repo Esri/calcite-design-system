@@ -273,17 +273,17 @@ export class Combobox
   /** Called when a selected item in the combobox is dismissed via its chip */
   @Event() calciteComboboxChipDismiss: EventEmitter;
 
-  /* Fired when a combobox is requested to be closed and before the closing transition begins. */
-  @Event() calciteComboboxBeforeClose: EventEmitter<{ el: HTMLCalciteComboboxElement }>;
+  /* Fires when the component is requested to be closed and before the closing transition begins. */
+  @Event() calciteComboboxBeforeClose: EventEmitter<void>;
 
-  /* Fired when a combobox has been closed and animation is complete */
-  @Event() calciteComboboxClose: EventEmitter<{ el: HTMLCalciteComboboxElement }>;
+  /* Fires when the component is closed and animation is complete. */
+  @Event() calciteComboboxClose: EventEmitter<void>;
 
-  /* Fired while a combobox is still invisible but was added to the DOM, and before the opening transition begins. */
-  @Event() calciteComboboxBeforeOpen: EventEmitter<{ el: HTMLCalciteComboboxElement }>;
+  /* Fires when the component is added to the DOM but not rendered, and before the opening transition begins. */
+  @Event() calciteComboboxBeforeOpen: EventEmitter<void>;
 
-  /* Fired when a combobox has been opened and animation is complete */
-  @Event() calciteComboboxOpen: EventEmitter<{ el: HTMLCalciteComboboxElement }>;
+  /* Fires when the component is open and animation is complete. */
+  @Event() calciteComboboxOpen: EventEmitter<void>;
 
   // --------------------------------------------------------------------------
   //
@@ -325,10 +325,7 @@ export class Combobox
     this.destroyPopper();
     disconnectLabel(this);
     disconnectForm(this);
-
-    if (this.listContainerEl) {
-      this.listContainerEl.removeEventListener("transitionrun", this.transitionRunHandler);
-    }
+    this.listContainerEl?.removeEventListener("transitionstart", this.transitionStartHandler);
   }
 
   //--------------------------------------------------------------------------
@@ -562,11 +559,7 @@ export class Combobox
     }
   };
 
-  /* *
-  - `transitionrun` fires when the transition is created at the start of any delay and is not cancellable once started.
-  - if there is no transition delay, both `transitionrun` and `transitionstart` are fired at the same time.
-  */
-  transitionRunHandler = (event: TransitionEvent): void => {
+  transitionStartHandler = (event: TransitionEvent): void => {
     if (event.propertyName === this.activeTransitionProp) {
       this.open || this.active ? this.onBeforeOpen() : this.onBeforeClose();
     }
@@ -642,7 +635,7 @@ export class Combobox
   setListContainerEl = (el: HTMLDivElement): void => {
     this.resizeObserver.observe(el);
     this.listContainerEl = el;
-    this.listContainerEl.addEventListener("transitionrun", this.transitionRunHandler);
+    this.listContainerEl.addEventListener("transitionstart", this.transitionStartHandler);
   };
 
   setReferenceEl = (el: HTMLDivElement): void => {
