@@ -95,8 +95,8 @@
 :host([appearance="outline"]),
 :host([appearance="clear"]) {
   .split-button__divider-container {
-    border-top: 1px solid var(--calcite-split-button-divider);
-    border-bottom: 1px solid var(--calcite-split-button-divider);
+    border-block-start: 1px solid var(--calcite-split-button-divider);
+    border-block-end: 1px solid var(--calcite-split-button-divider);
   }
   &:hover .split-button__divider-container {
     background-color: var(--calcite-split-button-divider);

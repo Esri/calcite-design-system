@@ -21,7 +21,7 @@
 
 :host([active][scale="m"]),
 :host([active][scale="l"]) {
-  margin-top: var(--calcite-input-message-spacing-value);
+  margin-block-start: var(--calcite-input-message-spacing-value);
 }
 
 @include calciteHydratedHidden();

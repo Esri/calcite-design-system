@@ -108,7 +108,7 @@
     &.hyphen::after {
       content: "\2014";
       display: inline-block;
-      width: 1em;
+      inline-size: 1em;
     }
     &.hyphen--wrap {
       display: flex;
@@ -120,8 +120,8 @@
       bg-foreground-1
       box-border
       rounded-full;
-    height: var(--calcite-slider-handle-size);
-    width: var(--calcite-slider-handle-size);
+    block-size: var(--calcite-slider-handle-size);
+    inline-size: var(--calcite-slider-handle-size);
     box-shadow: 0 0 0 2px var(--calcite-ui-text-3) inset;
     transition: border var(--calcite-internal-animation-timing-medium) ease,
       background-color var(--calcite-internal-animation-timing-medium) ease,
@@ -130,7 +130,7 @@
 
   .handle-extension {
     @apply w-0.5;
-    height: var(--calcite-slider-handle-extension-height);
+    block-size: var(--calcite-slider-handle-extension-height);
     background-color: var(--calcite-ui-text-3);
   }
 
@@ -187,13 +187,13 @@
 :host([has-histogram][label-handles]),
 :host([label-handles]:not([has-histogram])) .thumb--minValue.thumb--precise {
   .handle__label {
-    margin-top: 0.5em;
+    margin-block-start: 0.5em;
   }
 }
 :host(:not([has-histogram]):not([precise])),
 :host([label-handles]:not([has-histogram])) .thumb--value {
   .handle__label {
-    margin-bottom: 0.5em;
+    margin-block-end: 0.5em;
   }
 }
 
@@ -243,8 +243,8 @@
     &:after {
       @apply absolute w-full;
       content: "";
-      top: calc(calc(var(--calcite-slider-full-handle-height) * 0.5) * -1);
-      height: calc(var(--calcite-slider-handle-size) + var(--calcite-slider-handle-extension-height));
+      inset-block-start: calc(calc(var(--calcite-slider-full-handle-height) * 0.5) * -1);
+      block-size: calc(var(--calcite-slider-handle-size) + var(--calcite-slider-handle-extension-height));
     }
   }
 }
@@ -280,7 +280,7 @@
     border-solid;
   background-color: var(--calcite-ui-border-input);
   border-color: var(--calcite-ui-foreground-1);
-  top: -2px;
+  inset-block-start: -2px;
   pointer-events: none;
   margin-inline-start: calc(-1 * theme("margin[0.5]"));
 }
@@ -314,53 +314,57 @@
 
 .graph {
   color: var(--calcite-ui-foreground-3);
-  height: 48px;
+  block-size: 48px;
 }
 
 // Ensure we have enough space on variants with text elements to prevent overlap
 :host([label-ticks][ticks]) {
   .container {
     // match tick__label top margin + font-size
-    padding-bottom: calc(theme("margin[3.5]") + var(--calcite-slider-container-font-size));
+    padding-block-end: calc(theme("margin[3.5]") + var(--calcite-slider-container-font-size));
   }
 }
 :host([has-histogram]) {
   &:host([precise][label-handles]) {
     .container {
-      padding-bottom: calc(var(--calcite-slider-full-handle-height) + 1em);
+      padding-block-end: calc(var(--calcite-slider-full-handle-height) + 1em);
     }
   }
   &:host([label-handles]:not([precise])) {
     .container {
-      padding-bottom: calc(calc(var(--calcite-slider-handle-size) * 0.5) + 1em);
+      padding-block-end: calc(calc(var(--calcite-slider-handle-size) * 0.5) + 1em);
     }
   }
   &:host([precise]:not([label-handles])) {
     .container {
-      padding-bottom: var(--calcite-slider-full-handle-height);
+      padding-block-end: var(--calcite-slider-full-handle-height);
     }
   }
 }
 :host(:not([has-histogram])) {
   &:host([precise]:not([label-handles])) {
     .container {
-      padding-top: var(--calcite-slider-full-handle-height);
+      padding-block-start: var(--calcite-slider-full-handle-height);
     }
     .container--range {
-      padding-bottom: var(--calcite-slider-full-handle-height);
+      padding-block-end: var(--calcite-slider-full-handle-height);
     }
   }
   &:host([label-handles]:not([precise])) {
     .container {
-      padding-top: calc(var(--calcite-slider-full-handle-height) + 4px);
+      padding-block-start: calc(var(--calcite-slider-full-handle-height) + 4px);
     }
   }
   &:host([label-handles][precise]) {
     .container {
-      padding-top: calc(var(--calcite-slider-full-handle-height) + var(--calcite-slider-container-font-size) + 4px);
+      padding-block-start: calc(
+        var(--calcite-slider-full-handle-height) + var(--calcite-slider-container-font-size) + 4px
+      );
     }
     .container--range {
-      padding-bottom: calc(var(--calcite-slider-full-handle-height) + var(--calcite-slider-container-font-size) + 4px);
+      padding-block-end: calc(
+        var(--calcite-slider-full-handle-height) + var(--calcite-slider-container-font-size) + 4px
+      );
     }
   }
 }

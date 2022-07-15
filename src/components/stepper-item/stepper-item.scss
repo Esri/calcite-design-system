@@ -37,7 +37,7 @@
   flex-grow
   flex-col
   self-start;
-  margin-bottom: var(--calcite-stepper-item-spacing-unit-s);
+  margin-block-end: var(--calcite-stepper-item-spacing-unit-s);
 }
 
 :host .container {
@@ -171,7 +171,7 @@
 }
 
 :host([active]) .container {
-  border-top-color: theme("backgroundColor.brand");
+  border-block-start-color: theme("backgroundColor.brand");
   & .stepper-item-heading {
     @apply text-color-1;
   }
@@ -218,7 +218,7 @@
   & .stepper-item-content {
     @apply flex;
     & ::slotted(:last-child) {
-      margin-bottom: var(--calcite-stepper-item-spacing-unit-l);
+      margin-block-end: var(--calcite-stepper-item-spacing-unit-l);
     }
   }
 }
@@ -257,7 +257,7 @@
   }
 
   :host([active]) .container {
-    border-top-color: highlight;
+    border-block-start-color: highlight;
     & .stepper-item-number {
       color: highlight;
     }

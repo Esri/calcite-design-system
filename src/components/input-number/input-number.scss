@@ -15,8 +15,8 @@
     @apply h-6;
   }
   & .clear-button {
-    min-height: theme("spacing.6");
-    min-width: theme("spacing.6");
+    min-block-size: theme("spacing.6");
+    min-inline-size: theme("spacing.6");
   }
 }
 
@@ -32,8 +32,8 @@
     @apply h-8;
   }
   & .clear-button {
-    min-height: theme("spacing.8");
-    min-width: theme("spacing.8");
+    min-block-size: theme("spacing.8");
+    min-inline-size: theme("spacing.8");
   }
 }
 
@@ -49,15 +49,15 @@
     @apply h-11;
   }
   & .clear-button {
-    min-height: theme("spacing.11");
-    min-width: theme("spacing.11");
+    min-block-size: theme("spacing.11");
+    min-inline-size: theme("spacing.11");
   }
 }
 
 @include disabled();
 
 :host input {
-  transition: var(--calcite-animation-timing), height 0, outline-offset 0s;
+  transition: var(--calcite-animation-timing), block-size 0, outline-offset 0s;
   -webkit-appearance: none;
   @apply font-inherit
     text-color-1
@@ -208,9 +208,8 @@
 
 // loading
 .loader {
-  top: 1px;
-  left: 1px;
-  right: 1px;
+  inset-block-start: 1px;
+  inset-inline: 1px;
   @apply pointer-events-none
     absolute
     block;
@@ -347,8 +346,8 @@
 }
 
 .number-button-item {
-  max-height: 50%;
-  min-height: 50%;
+  max-block-size: 50%;
+  min-block-size: 50%;
   pointer-events: initial;
   @apply border-color-input
     bg-foreground-1
@@ -389,7 +388,7 @@
 }
 
 .resize-icon-wrapper {
-  bottom: 2px;
+  inset-block-end: 2px;
   inset-inline-end: 2px;
 
   @apply bg-foreground-1
@@ -401,7 +400,7 @@
     w-3;
 
   & calcite-icon {
-    bottom: theme("spacing.1");
+    inset-block-end: theme("spacing.1");
     inset-inline-end: theme("spacing.1");
     transform: rotate(-45deg);
   }
