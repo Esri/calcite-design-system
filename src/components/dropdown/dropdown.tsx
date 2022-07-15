@@ -171,9 +171,7 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent {
     this.mutationObserver?.disconnect();
     this.resizeObserver?.disconnect();
     this.destroyPopper();
-    if (this.scrollerEl) {
-      this.scrollerEl.removeEventListener("transitionrun", this.transitionRunHandler);
-    }
+    this.scrollerEl?.removeEventListener("transitionstart", this.transitionStartHandler);
   }
 
   render(): VNode {
@@ -460,7 +458,7 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent {
   setScrollerEl = (scrollerEl: HTMLDivElement): void => {
     this.resizeObserver.observe(scrollerEl);
     this.scrollerEl = scrollerEl;
-    this.scrollerEl.addEventListener("transitionrun", this.transitionRunHandler);
+    this.scrollerEl.addEventListener("transitionstart", this.transitionStartHandler);
   };
 
   transitionEnd = (event: TransitionEvent): void => {
@@ -469,11 +467,7 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent {
     }
   };
 
-  /* *
-  - `transitionrun` fires when the transition is created at the start of any delay and is not cancellable once started.
-  - if there is no transition delay, both `transitionrun` and `transitionstart` are fired at the same time.
-  */
-  transitionRunHandler = (event: TransitionEvent): void => {
+  transitionStartHandler = (event: TransitionEvent): void => {
     if (event.propertyName === this.activeTransitionProp) {
       this.open || this.active ? this.onBeforeOpen() : this.onBeforeClose();
     }
