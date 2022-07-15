@@ -117,7 +117,7 @@ export class Modal implements ConditionalSlotComponent {
   /**
    * When true, disables spacing to the content area slot.
    *
-   * @deprecated  Use `--calcite-modal-padding-x` & `--calcite-modal-padding-y` CSS variables instead.
+   * @deprecated  Use `--calcite-modal-padding`  CSS variable instead.
    */
   @Prop() noPadding = false;
 

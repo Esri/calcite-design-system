@@ -27,7 +27,6 @@
 :host([scale="s"]) {
   --calcite-modal-padding: theme("spacing.3");
   --calcite-modal-padding-large: theme("spacing.4");
-  --calcite-modal-padding-internal: theme("spacing.3");
   --calcite-modal-title-text: theme("fontSize.1h");
   --calcite-modal-content-text: theme("fontSize.n1");
 }
@@ -35,7 +34,6 @@
 :host([scale="m"]) {
   --calcite-modal-padding: theme("spacing.4");
   --calcite-modal-padding-large: theme("spacing.5");
-  --calcite-modal-padding-internal: theme("spacing.4");
   --calcite-modal-title-text: theme("fontSize.2h");
   --calcite-modal-content-text: theme("fontSize.0");
 }
@@ -43,7 +41,6 @@
 :host([scale="l"]) {
   --calcite-modal-padding: theme("spacing.5");
   --calcite-modal-padding-large: theme("spacing.6");
-  --calcite-modal-padding-internal: theme("spacing.5");
   --calcite-modal-title-text: theme("fontSize.3h");
   --calcite-modal-content-text: theme("fontSize.1");
 }
@@ -118,7 +115,7 @@
     border-none
     bg-transparent;
   border-start-end-radius: theme("borderRadius.DEFAULT");
-  padding: var(--calcite-modal-padding-internal);
+  padding: var(--calcite-modal-padding);
   flex: 0 0 auto;
   calcite-icon {
     @apply pointer-events-none;
@@ -137,7 +134,7 @@
 .title {
   @apply order-1 flex min-w-0 items-center;
   flex: 1 1 auto;
-  padding-block: var(--calcite-modal-padding-internal);
+  padding-block: var(--calcite-modal-padding);
   padding-inline: var(--calcite-modal-padding-large);
 }
 
@@ -189,7 +186,7 @@
     border-t
     border-solid;
   flex: 0 0 auto;
-  padding-block: var(--calcite-modal-padding-internal);
+  padding-block: var(--calcite-modal-padding);
   padding-inline: var(--calcite-modal-padding-large);
   z-index: 2;
 }
