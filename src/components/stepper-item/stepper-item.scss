@@ -37,7 +37,7 @@
   flex-grow
   flex-col
   self-start;
-  margin-bottom: var(--calcite-stepper-item-spacing-unit-s);
+  margin-block-end: var(--calcite-stepper-item-spacing-unit-s);
 }
 
 :host .container {
@@ -171,7 +171,7 @@
 }
 
 :host([active]) .container {
-  border-top-color: theme("backgroundColor.brand");
+  border-block-start-color: theme("backgroundColor.brand");
   & .stepper-item-heading {
     @apply text-color-1;
   }
@@ -192,7 +192,7 @@
   & .stepper-item-content {
     @apply flex;
     & ::slotted(:last-child) {
-      margin-bottom: var(--calcite-stepper-item-spacing-unit-l);
+      margin-block-end: var(--calcite-stepper-item-spacing-unit-l);
     }
   }
 }
@@ -259,7 +259,7 @@
 
     grid-row: items;
     margin-inline-end: theme("margin.2");
-    margin-bottom: var(--calcite-stepper-item-spacing-unit-s);
+    margin-block-end: var(--calcite-stepper-item-spacing-unit-s);
 
     &:focus {
       @apply focus-outset;
@@ -283,13 +283,13 @@
 :host([layout="horizontal"][scale="s"]) {
   .stepper-item-header {
     margin-inline-end: theme("margin.1");
-    margin-bottom: var(--calcite-stepper-item-spacing-unit-s);
+    margin-block-end: var(--calcite-stepper-item-spacing-unit-s);
   }
 }
 :host([layout="horizontal"][scale="l"]) {
   .stepper-item-header {
     margin-inline-end: theme("margin.3");
-    margin-bottom: var(--calcite-stepper-item-spacing-unit-s);
+    margin-block-end: var(--calcite-stepper-item-spacing-unit-s);
   }
 }
 
@@ -327,7 +327,7 @@
   }
 
   :host([active]) .container {
-    border-top-color: highlight;
+    border-block-start-color: highlight;
     & .stepper-item-number {
       color: highlight;
     }
