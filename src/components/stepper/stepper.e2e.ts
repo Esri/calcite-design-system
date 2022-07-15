@@ -477,4 +477,50 @@ describe("calcite-stepper", () => {
     await page.waitForChanges();
     expect(eventSpy).toHaveReceivedEventTimes(2);
   });
+
+  it("should emit calciteStepperItemChange on user interaction without content", async () => {
+    const page = await newE2EPage();
+    await page.setContent(
+      html`<calcite-stepper>
+        <calcite-stepper-item item-title="Step 1" id="step-1"></calcite-stepper-item>
+        <calcite-stepper-item item-title="Step 2" id="step-2"></calcite-stepper-item>
+        <calcite-stepper-item item-title="Step 3" id="step-3" disabled></calcite-stepper-item>
+        <calcite-stepper-item item-title="Step 4" id="step-4"></calcite-stepper-item>
+      </calcite-stepper>`
+    );
+
+    const element = await page.find("calcite-stepper");
+    const eventSpy = await element.spyOnEvent("calciteStepperItemChange");
+    const firstItem = await page.find("#step-1");
+
+    // non user interaction
+    firstItem.setProperty("active", true);
+    await page.waitForChanges();
+    expect(eventSpy).toHaveReceivedEventTimes(0);
+
+    // we use browser-context function to click on items to workaround `E2EElement#click` error
+    async function itemClicker(item: HTMLCalciteStepperItemElement) {
+      item.click();
+    }
+
+    await page.$eval("#step-2", itemClicker);
+    expect(eventSpy).toHaveReceivedEventTimes(1);
+    expect(eventSpy.lastEvent.detail.position).toBe(1);
+
+    // disabled item
+    await page.$eval("#step-3", itemClicker);
+    expect(eventSpy).toHaveReceivedEventTimes(1);
+
+    await page.$eval("#step-4", itemClicker);
+    expect(eventSpy).toHaveReceivedEventTimes(2);
+    expect(eventSpy.lastEvent.detail.position).toBe(3);
+
+    await element.callMethod("prevStep");
+    await page.waitForChanges();
+    expect(eventSpy).toHaveReceivedEventTimes(2);
+
+    await element.callMethod("nextStep");
+    await page.waitForChanges();
+    expect(eventSpy).toHaveReceivedEventTimes(2);
+  });
 });
