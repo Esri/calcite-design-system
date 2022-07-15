@@ -27,8 +27,6 @@
 :host([scale="s"]) {
   --calcite-modal-padding: theme("spacing.3");
   --calcite-modal-padding-large: theme("spacing.4");
-  --calcite-modal-padding-x: theme("spacing.3");
-  --calcite-modal-padding-y: theme("spacing.4");
   --calcite-modal-title-text: theme("fontSize.1h");
   --calcite-modal-content-text: theme("fontSize.n1");
 }
@@ -36,8 +34,6 @@
 :host([scale="m"]) {
   --calcite-modal-padding: theme("spacing.4");
   --calcite-modal-padding-large: theme("spacing.5");
-  --calcite-modal-padding-x: theme("spacing.4");
-  --calcite-modal-padding-y: theme("spacing.5");
   --calcite-modal-title-text: theme("fontSize.2h");
   --calcite-modal-content-text: theme("fontSize.0");
 }
@@ -45,8 +41,6 @@
 :host([scale="l"]) {
   --calcite-modal-padding: theme("spacing.5");
   --calcite-modal-padding-large: theme("spacing.6");
-  --calcite-modal-padding-x: theme("spacing.5");
-  --calcite-modal-padding-y: theme("spacing.6");
   --calcite-modal-title-text: theme("fontSize.3h");
   --calcite-modal-content-text: theme("fontSize.1");
 }
@@ -159,8 +153,7 @@
 }
 
 .content--spaced {
-  padding-block: var(--calcite-modal-padding-x);
-  padding-inline: var(--calcite-modal-padding-y);
+  padding: var(--calcite-modal-padding);
 }
 
 .content--no-footer {
