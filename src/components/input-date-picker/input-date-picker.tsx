@@ -386,9 +386,7 @@ export class InputDatePicker
   }
 
   disconnectedCallback(): void {
-    if (this.containerDiv) {
-      this.containerDiv.removeEventListener("transitionstart", this.transitionStartHandler);
-    }
+    this.containerEl?.removeEventListener("transitionstart", this.transitionStartHandler);
     this.destroyPopper();
     disconnectLabel(this);
     disconnectForm(this);
@@ -462,7 +460,7 @@ export class InputDatePicker
                   [PopperCSS.animationActive]: this.active
                 }}
                 onTransitionEnd={this.transitionEnd}
-                ref={this.setContainerDiv}
+                ref={this.setContainerEl}
               >
                 <calcite-date-picker
                   activeRange={this.focusedInput}
@@ -561,11 +559,11 @@ export class InputDatePicker
 
   private activeTransitionProp = "opacity";
 
-  private containerDiv: HTMLDivElement;
+  private containerEl: HTMLDivElement;
 
-  private setContainerDiv = (el): void => {
-    this.containerDiv = el;
-    this.containerDiv.addEventListener("transitionstart", this.transitionStartHandler);
+  private setContainerEl = (el): void => {
+    this.containerEl = el;
+    this.containerEl.addEventListener("transitionstart", this.transitionStartHandler);
   };
 
   @Watch("layout")
