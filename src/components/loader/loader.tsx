@@ -44,7 +44,7 @@ export class Loader {
   /**
    * Disables spacing around the component.
    *
-   * @deprecated Use --calcite-loader-padding CSS variable instead.
+   * @deprecated Use `--calcite-loader-padding` CSS variable instead.
    */
   @Prop() noPadding = false;
 
