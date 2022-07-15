@@ -64,7 +64,7 @@ export class InputText implements LabelableComponent, FormComponent, Interactive
   @Prop() autofocus = false;
 
   /**
-   * When true, a clear button is displayed when the component has a value. The clear button shows by default for "search", "time", and "date" types, and will not display for the "textarea" type.
+   * When true, a clear button is displayed when the component has a value.
    */
   @Prop({ reflect: true }) clearable = false;
 
@@ -112,9 +112,6 @@ export class InputText implements LabelableComponent, FormComponent, Interactive
 
   /** When true, the component is in the loading state and `calcite-progress` is displayed. */
   @Prop({ reflect: true }) loading = false;
-
-  /** Specifies the BCP 47 language tag for the desired language and country format. */
-  @Prop() locale: string = document.documentElement.lang || "en";
 
   /**
    * Specifies the maximum length of text for the component's value.
@@ -212,10 +209,6 @@ export class InputText implements LabelableComponent, FormComponent, Interactive
     return this.clearable && this.value.length > 0;
   }
 
-  private minString?: string;
-
-  private maxString?: string;
-
   private previousEmittedValue: string;
 
   private previousValue: string;
@@ -274,22 +267,22 @@ export class InputText implements LabelableComponent, FormComponent, Interactive
   /**
    * @internal
    */
-  @Event() calciteInternalInputFocus: EventEmitter;
+  @Event() calciteInternalInputTextFocus: EventEmitter;
 
   /**
    * @internal
    */
-  @Event() calciteInternalInputBlur: EventEmitter;
+  @Event() calciteInternalInputTextBlur: EventEmitter;
 
   /**
    * Fires each time a new value is typed.
    */
-  @Event({ cancelable: true }) calciteInputInput: EventEmitter;
+  @Event({ cancelable: true }) calciteInputTextInput: EventEmitter;
 
   /**
    * Fires each time a new value is typed and committed.
    */
-  @Event() calciteInputChange: EventEmitter<void>;
+  @Event() calciteInputTextChange: EventEmitter<void>;
 
   //--------------------------------------------------------------------------
   //
@@ -342,13 +335,13 @@ export class InputText implements LabelableComponent, FormComponent, Interactive
 
   private emitChangeIfUserModified = (): void => {
     if (this.previousValueOrigin === "user" && this.value !== this.previousEmittedValue) {
-      this.calciteInputChange.emit();
+      this.calciteInputTextChange.emit();
     }
     this.previousEmittedValue = this.value;
   };
 
   private inputBlurHandler = () => {
-    this.calciteInternalInputBlur.emit({
+    this.calciteInternalInputTextBlur.emit({
       element: this.childEl,
       value: this.value
     });
@@ -361,7 +354,7 @@ export class InputText implements LabelableComponent, FormComponent, Interactive
     if (event.target !== slottedActionEl) {
       this.setFocus();
     }
-    this.calciteInternalInputFocus.emit({
+    this.calciteInternalInputTextFocus.emit({
       element: this.childEl,
       value: this.value
     });
@@ -458,13 +451,13 @@ export class InputText implements LabelableComponent, FormComponent, Interactive
     }
 
     if (nativeEvent) {
-      const calciteInputInputEvent = this.calciteInputInput.emit({
+      const calciteInputTextInputEvent = this.calciteInputTextInput.emit({
         element: this.childEl,
         nativeEvent,
         value: this.value
       });
 
-      if (calciteInputInputEvent.defaultPrevented) {
+      if (calciteInputTextInputEvent.defaultPrevented) {
         this.value = this.previousValue;
       } else if (committing) {
         this.emitChangeIfUserModified();
@@ -522,9 +515,7 @@ export class InputText implements LabelableComponent, FormComponent, Interactive
         disabled={this.disabled ? true : null}
         enterKeyHint={this.el.enterKeyHint}
         inputMode={this.el.inputMode}
-        max={this.maxString}
         maxLength={this.maxLength}
-        min={this.minString}
         minLength={this.minLength}
         name={this.name}
         onBlur={this.inputBlurHandler}
