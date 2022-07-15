@@ -38,9 +38,13 @@ describe("calcite-popover", () => {
   it("is accessible when open", async () =>
     accessible(`<calcite-popover label="test" open reference-element="ref"></calcite-popover><div id="ref">😄</div>`));
 
-  it("is accessible with close button", async () =>
+  it("is accessible with close button (deprecated)", async () =>
     accessible(
       `<calcite-popover label="test" open dismissible reference-element="ref"></calcite-popover><div id="ref">😄</div>`
+    ));
+  it("is accessible with close button", async () =>
+    accessible(
+      `<calcite-popover label="test" open closable reference-element="ref"></calcite-popover><div id="ref">😄</div>`
     ));
 
   it("honors hidden attribute", async () => hidden("calcite-popover"));
@@ -69,6 +73,10 @@ describe("calcite-popover", () => {
       },
       {
         propertyName: "dismissible",
+        defaultValue: false
+      },
+      {
+        propertyName: "closable",
         defaultValue: false
       },
       {
@@ -189,7 +197,7 @@ describe("calcite-popover", () => {
     expect(computedStyle.transform).not.toBe("matrix(0, 0, 0, 0, 0, 0)");
   });
 
-  it("should show closeButton when enabled", async () => {
+  it("should show closeButton when enabled (deprecated)", async () => {
     const page = await newE2EPage();
 
     await page.setContent(
@@ -209,8 +217,28 @@ describe("calcite-popover", () => {
     await page.waitForChanges();
 
     closeButton = await page.find(`calcite-popover >>> .${CSS.closeButton}`);
+  });
 
-    expect(await closeButton.isVisible()).toBe(true);
+  it("should show closeButton when enabled with closable prop", async () => {
+    const page = await newE2EPage();
+
+    await page.setContent(
+      `<calcite-popover placement="auto" reference-element="ref" open>content</calcite-popover><div id="ref">referenceElement</div>`
+    );
+
+    await page.waitForChanges();
+
+    let closeButton = await page.find(`calcite-popover >>> .${CSS.closeButton}`);
+
+    expect(closeButton).toBe(null);
+
+    const element = await page.find("calcite-popover");
+
+    element.setProperty("closable", true);
+
+    await page.waitForChanges();
+
+    closeButton = await page.find(`calcite-popover >>> .${CSS.closeButton}`);
   });
 
   it("should honor click interaction", async () => {
@@ -534,5 +562,51 @@ describe("calcite-popover", () => {
     await page.waitForChanges();
 
     expect(await popover.getProperty("open")).toBe(false);
+  });
+
+  it("should autoClose shadow popovers when clicked outside", async () => {
+    const page = await newE2EPage();
+
+    await page.setContent(
+      html`
+        <div id="host"></div>
+        <div id="outsideNode">Outside node</div>
+        <calcite-popover id="dummy" reference-element="ref">dummy popover</calcite-popover>
+        <div id="ref">Button</div>
+      `
+    );
+
+    await page.waitForChanges();
+
+    await page.evaluate(() => {
+      const shadow = document.getElementById("host").attachShadow({ mode: "open" });
+
+      const shadowButton = document.createElement("calcite-button");
+      shadowButton.id = "popover-button-close-shadow";
+      shadowButton.textContent = "Shadow Popover";
+
+      const shadowPopover = document.createElement("calcite-popover");
+      shadowPopover.referenceElement = "popover-button-close-shadow";
+      shadowPopover.autoClose = true;
+      shadowPopover.textContent = "Click outside me";
+      shadowPopover.open = true;
+
+      shadow.appendChild(shadowPopover);
+      shadow.appendChild(shadowButton);
+    });
+
+    await page.waitForChanges();
+
+    const shadowPopover = await page.find("#host >>> calcite-popover");
+
+    expect(await shadowPopover.getProperty("open")).toBe(true);
+
+    const outsideNode = await page.find("#outsideNode");
+
+    await outsideNode.click();
+
+    await page.waitForChanges();
+
+    expect(await shadowPopover.getProperty("open")).toBe(false);
   });
 });

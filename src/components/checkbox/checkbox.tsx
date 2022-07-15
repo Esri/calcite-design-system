@@ -97,6 +97,8 @@ export class Checkbox implements LabelableComponent, CheckableFormCompoment, Int
 
   formEl: HTMLFormElement;
 
+  defaultChecked: boolean;
+
   defaultValue: Checkbox["checked"];
 
   toggleEl: HTMLDivElement;

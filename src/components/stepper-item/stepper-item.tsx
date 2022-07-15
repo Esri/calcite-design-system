@@ -6,6 +6,7 @@ import {
   h,
   Host,
   Listen,
+  Method,
   Prop,
   VNode,
   Watch
@@ -76,7 +77,6 @@ export class StepperItem implements InteractiveComponent {
   // internal props inherited from wrapping calcite-stepper
   /** pass a title for the stepper item */
   /** @internal */
-
   @Prop({ reflect: true, mutable: true }) layout?: Extract<"horizontal" | "vertical", Layout> =
     "horizontal";
 
@@ -104,6 +104,14 @@ export class StepperItem implements InteractiveComponent {
       this.emitRequestedItem();
     }
   }
+
+  //--------------------------------------------------------------------------
+  //
+  //  Internal State/Props
+  //
+  //--------------------------------------------------------------------------
+
+  headerEl: HTMLDivElement;
 
   //--------------------------------------------------------------------------
   //
@@ -158,7 +166,14 @@ export class StepperItem implements InteractiveComponent {
         onKeyDown={this.keyDownHandler}
       >
         <div class="container">
-          <div class="stepper-item-header">
+          <div
+            class="stepper-item-header"
+            ref={(el) => (this.headerEl = el)}
+            tabIndex={
+              /* additional tab index logic needed because of display: contents */
+              this.layout === "horizontal" && !this.disabled ? 0 : null
+            }
+          >
             {this.icon ? this.renderIcon() : null}
             {this.numbered ? (
               <div class="stepper-item-number">{this.getItemPosition() + 1}.</div>
@@ -191,7 +206,17 @@ export class StepperItem implements InteractiveComponent {
       this.activePosition = event.detail.position;
       this.determineActiveItem();
     }
-    event.stopPropagation();
+  }
+
+  //--------------------------------------------------------------------------
+  //
+  //  Public Methods
+  //
+  //--------------------------------------------------------------------------
+
+  @Method()
+  async setFocus(): Promise<void> {
+    (this.layout === "vertical" ? this.el : this.headerEl)?.focus();
   }
 
   //--------------------------------------------------------------------------
@@ -204,9 +229,6 @@ export class StepperItem implements InteractiveComponent {
 
   /** the latest requested item position*/
   private activePosition: number;
-
-  /** the slotted item content */
-  private itemContent: Node[];
 
   /** the parent stepper component */
   private parentStepperEl: HTMLCalciteStepperElement;
@@ -256,8 +278,7 @@ export class StepperItem implements InteractiveComponent {
 
   private registerStepperItem(): void {
     this.calciteInternalStepperItemRegister.emit({
-      position: this.itemPosition,
-      content: this.itemContent
+      position: this.itemPosition
     });
   }
 
@@ -275,24 +296,15 @@ export class StepperItem implements InteractiveComponent {
   private emitRequestedItem = (): void => {
     if (!this.disabled) {
       const position = this.itemPosition;
-      const content = this.itemContent;
 
       this.calciteInternalStepperItemSelect.emit({
-        position,
-        content
+        position
       });
     }
   };
 
-  private setItemContent = (event: Event): void => {
+  private setItemContent = (): void => {
     this.itemPosition = this.getItemPosition();
-
-    const itemContent = (event.target as HTMLSlotElement).assignedNodes({ flatten: true });
-
-    if (itemContent.length) {
-      this.itemContent = itemContent;
-    }
-
     this.registerStepperItem();
 
     if (this.active) {

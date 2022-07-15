@@ -74,7 +74,7 @@ export class RadioGroupItem {
     );
 
     return (
-      <Host aria-checked={toAriaBoolean(checked)} role="radio">
+      <Host aria-checked={toAriaBoolean(checked)} aria-label={value} role="radio">
         <label
           class={{
             "label--scale-s": scale === "s",

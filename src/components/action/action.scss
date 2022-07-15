@@ -51,8 +51,8 @@
       flex
       items-center
       justify-center;
-    min-width: theme("spacing.4");
-    min-height: theme("spacing.4");
+    min-inline-size: theme("spacing.4");
+    min-block-size: theme("spacing.4");
   }
 
   .text-container {
@@ -65,7 +65,7 @@
       duration-150
       ease-in-out;
     transition-property: margin;
-    transition-property: width;
+    transition-property: inline-size;
   }
 
   .text-container--visible {

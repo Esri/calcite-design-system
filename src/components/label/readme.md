@@ -34,7 +34,7 @@ When using the `default`, `inline` or `inline-space-between` layout option with 
 | Property         | Attribute         | Description                                                                                                                                                         | Type                                              | Default     |
 | ---------------- | ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------- | ----------- |
 | `alignment`      | `alignment`       | specify the text alignment of the label                                                                                                                             | `"center" \| "end" \| "start"`                    | `"start"`   |
-| `disableSpacing` | `disable-spacing` | eliminates any space around the label                                                                                                                               | `boolean`                                         | `false`     |
+| `disableSpacing` | `disable-spacing` | <span style="color:red">**[DEPRECATED]**</span> set the --calcite-label-margin-bottom css variable to 0 instead<br/><br/>eliminates any space around the label      | `boolean`                                         | `false`     |
 | `disabled`       | `disabled`        | <span style="color:red">**[DEPRECATED]**</span> use the `disabled` property on the interactive components instead<br/><br/>is the label disabled                    | `boolean`                                         | `false`     |
 | `for`            | `for`             | The id of the input associated with the label                                                                                                                       | `string`                                          | `undefined` |
 | `layout`         | `layout`          | is the wrapped element positioned inline with the label slotted text                                                                                                | `"default" \| "inline" \| "inline-space-between"` | `"default"` |
@@ -46,6 +46,12 @@ When using the `default`, `inline` or `inline-space-between` layout option with 
 | Slot | Description                                                 |
 | ---- | ----------------------------------------------------------- |
 |      | A slot for adding text and a component that can be labeled. |
+
+## CSS Custom Properties
+
+| Name                            | Description                           |
+| ------------------------------- | ------------------------------------- |
+| `--calcite-label-margin-bottom` | The bottom margin of `calcite-label`. |
 
 ## Dependencies
 

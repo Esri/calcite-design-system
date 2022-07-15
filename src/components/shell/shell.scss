@@ -46,7 +46,7 @@
 .content ::slotted(calcite-panel),
 .content ::slotted(calcite-flow) {
   @apply flex-auto self-stretch;
-  max-height: unset;
+  max-block-size: unset;
 }
 
 .content--behind {
@@ -58,7 +58,7 @@
 }
 
 ::slotted(calcite-shell-center-row) {
-  width: unset;
+  inline-size: unset;
 }
 
 ::slotted(.header .heading) {
@@ -90,8 +90,7 @@ slot[name="center-row"]::slotted(calcite-shell-center-row:not([detached])) {
   absolute
   box-border
   rounded;
-  bottom: theme("spacing.2");
-  left: var(--calcite-shell-tip-spacing);
-  right: var(--calcite-shell-tip-spacing);
+  inset-block-end: theme("spacing.2");
+  inset-inline: var(--calcite-shell-tip-spacing);
   z-index: 2;
 }

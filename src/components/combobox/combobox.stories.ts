@@ -107,7 +107,7 @@ export const Multiple = (): string => html`
 export const NestedItems = (): string => html`
   <div style="width:400px;max-width:100%;background-color:white;padding:100px">
     <calcite-combobox
-      active
+      open
       label="demo combobox"
       selection-mode="${select("selection-mode", ["multi", "single", "ancestors"], "multi")}"
       placeholder="${text("placeholder", "placeholder")}"
@@ -259,7 +259,7 @@ FlipPositioning.parameters = {
 };
 
 export const SingleLongLabel = (): string => html`
-  <calcite-combobox active selection-mode="single" allow-custom-values>
+  <calcite-combobox open selection-mode="single" allow-custom-values>
     <calcite-combobox-item value="Trees" text-label="Trees">
       <calcite-combobox-item
         value="CommercialDamageAssessment - Damage to Commercial Buildings"
@@ -283,4 +283,18 @@ export const disabled = (): string => html`<calcite-combobox disabled>
     <calcite-combobox-item value="Black Eyed Susan" text-label="Black Eyed Susan"></calcite-combobox-item>
     <calcite-combobox-item value="Nasturtium" text-label="Nasturtium"></calcite-combobox-item>
   </calcite-combobox-item>
+</calcite-combobox>`;
+
+export const WithPlaceHolderIcon = (): string => html` <calcite-combobox
+  id="labelFour"
+  label="test"
+  placeholder="${text("placeholder", "select folder")}"
+  placeholder-icon="${text("placeholder-icon", "select")}"
+  max-items="6"
+  selection-mode="single"
+  scale="s"
+>
+  <calcite-combobox-item value="root" text-label="username" icon="home"></calcite-combobox-item>
+  <calcite-combobox-item value="1" text-label="Folder 1" icon="folder"></calcite-combobox-item>
+  <calcite-combobox-item value="2" text-label="Folder 2" icon="folder"></calcite-combobox-item>
 </calcite-combobox>`;

@@ -16,6 +16,7 @@ import { getSlotted, setRequestedIcon, toAriaBoolean } from "../../utils/dom";
 import { DURATIONS, SLOTS, TEXT } from "./resources";
 import { Scale } from "../interfaces";
 import { AlertDuration, AlertPlacement, StatusColor, StatusIcons } from "./interfaces";
+import { OpenCloseComponent } from "../../utils/openCloseComponent";
 
 /**
  * Alerts are meant to provide a way to communicate urgent or important information to users, frequently as a result of an action they took in your app. Alerts are positioned
@@ -23,9 +24,9 @@ import { AlertDuration, AlertPlacement, StatusColor, StatusIcons } from "./inter
  */
 
 /**
- * @slot title - Title of the alert (optional)
- * @slot message - Main text of the alert
- * @slot link - Optional action to take from the alert (undo, try again, link to page, etc.)
+ * @slot title - A slot for optionally adding a title to the component.
+ * @slot message - A slot for adding main text to the component.
+ * @slot link - A slot for optionally adding an action to take from the alert (undo, try again, link to page, etc.)
  */
 
 @Component({
@@ -33,7 +34,7 @@ import { AlertDuration, AlertPlacement, StatusColor, StatusIcons } from "./inter
   styleUrl: "alert.scss",
   shadow: true
 })
-export class Alert {
+export class Alert implements OpenCloseComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -48,7 +49,7 @@ export class Alert {
   //
   //---------------------------------------------------------------------------
 
-  /** Is the alert currently active or not */
+  /** When true, the component is active. */
   @Prop({ reflect: true, mutable: true }) active = false;
 
   @Watch("active")
@@ -62,35 +63,35 @@ export class Alert {
     }
   }
 
-  /** Close the alert automatically (recommended for passive, non-blocking alerts) */
+  /** When true, the component closes automatically (recommended for passive, non-blocking alerts). */
   @Prop() autoDismiss = false;
 
-  /** Duration of autoDismiss (only used with `autoDismiss`) */
+  /** Specifies the duration before the component automatically closes (only use with `autoDismiss`). */
   @Prop({ reflect: true }) autoDismissDuration: AlertDuration = this.autoDismiss ? "medium" : null;
 
-  /** Color for the alert (will apply to top border and icon) */
+  /** Specifies the color for the component (will apply to top border and icon). */
   @Prop({ reflect: true }) color: StatusColor = "blue";
 
   /**
-   * when used as a boolean set to true, show a default recommended icon. You can
-   * also pass a calcite-ui-icon name to this prop to display a requested icon
+   * When true, shows a default recommended icon. Alternatively,
+   * pass a Calcite UI Icon name to display a specific icon.
    */
   @Prop({ reflect: true }) icon: string | boolean;
 
   /**
-   * string to override English close text
+   * Specifies the text label for the close button.
    *
    * @default "Close"
    */
   @Prop() intlClose: string = TEXT.intlClose;
 
-  /** Accessible name for the component */
+  /** Specifies an accessible name for the component. */
   @Prop() label!: string;
 
-  /** specify the placement of the alert */
+  /** Specifies the placement of the component */
   @Prop() placement: AlertPlacement = "bottom";
 
-  /** specify the scale of the alert, defaults to m */
+  /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
 
   @Watch("icon")
@@ -128,9 +129,7 @@ export class Alert {
 
   disconnectedCallback(): void {
     window.clearTimeout(this.autoDismissTimeoutId);
-    if (this.containerDiv) {
-      this.containerDiv.removeEventListener("transitionrun", this.onTransitionRun);
-    }
+    this.containerEl?.removeEventListener("transitionstart", this.transitionStartHandler);
   }
 
   render(): VNode {
@@ -171,7 +170,7 @@ export class Alert {
             [placement]: true
           }}
           onTransitionEnd={this.transitionEnd}
-          ref={this.setContainerDiv}
+          ref={this.setContainerEl}
         >
           {requestedIcon ? (
             <div class="alert-icon">
@@ -197,27 +196,27 @@ export class Alert {
   //
   //--------------------------------------------------------------------------
 
-  /* Fired when an alert is requested to be closed and before the closing transition begins. */
-  @Event() calciteAlertBeforeClose: EventEmitter;
+  /* Fires when the component is requested to be closed and before the closing transition begins. */
+  @Event() calciteAlertBeforeClose: EventEmitter<void>;
 
-  /* Fired when an alert has been closed and animation is complete */
-  @Event() calciteAlertClose: EventEmitter;
+  /* Fires when the component is closed and animation is complete. */
+  @Event() calciteAlertClose: EventEmitter<void>;
 
-  /* Fired while alert is still invisible but was added to the DOM, and before the opening transition begins. */
-  @Event() calciteAlertBeforeOpen: EventEmitter;
+  /* Fires when the component is added to the DOM but not rendered, and before the opening transition begins. */
+  @Event() calciteAlertBeforeOpen: EventEmitter<void>;
 
-  /* Fired when an alert has been opened and animation is complete */
-  @Event() calciteAlertOpen: EventEmitter;
+  /* Fires when the component is open and animation is complete. */
+  @Event() calciteAlertOpen: EventEmitter<void>;
 
   /**
-   * Fired to sync queue when opened or closed
+   * Fires to sync queue when opened or closed.
    *
    * @internal
    */
   @Event() calciteInternalAlertSync: EventEmitter;
 
   /**
-   * Fired when an alert is added to dom - used to receive initial queue
+   * Fires when the component is added to DOM - used to receive initial queue.
    *
    * @internal
    */
@@ -280,11 +279,11 @@ export class Alert {
   /** is the alert queued */
   @State() queued = false;
 
-  private containerDiv: HTMLDivElement;
+  private containerEl: HTMLDivElement;
 
-  private setContainerDiv = (el): void => {
-    this.containerDiv = el;
-    this.containerDiv.addEventListener("transitionrun", this.onTransitionRun);
+  private setContainerEl = (el): void => {
+    this.containerEl = el;
+    this.containerEl.addEventListener("transitionstart", this.transitionStartHandler);
   };
 
   /** the close button element */
@@ -334,21 +333,31 @@ export class Alert {
     this.calciteInternalAlertSync.emit({ queue: this.queue });
   };
 
-  /* *
-  - `transitionrun` fires when the transition is created at the start of any delay and is not cancellable once started.
-  - if there is no transition delay, both `transitionrun` and `transitionstart` are fired at the same time.
-  */
-  onTransitionRun = (event: TransitionEvent): void => {
+  onBeforeOpen(): void {
+    this.calciteAlertBeforeOpen.emit();
+  }
+
+  onOpen(): void {
+    this.calciteAlertOpen.emit();
+  }
+
+  onBeforeClose(): void {
+    this.calciteAlertBeforeClose.emit();
+  }
+
+  onClose(): void {
+    this.calciteAlertClose.emit();
+  }
+
+  transitionStartHandler = (event: TransitionEvent): void => {
     if (event.propertyName === this.activeTransitionProp) {
-      this.active
-        ? this.openCloseEventEmitter("beforeOpening")
-        : this.openCloseEventEmitter("beforeClosing");
+      this.active ? this.onBeforeOpen() : this.onBeforeClose();
     }
   };
 
   transitionEnd = (event: TransitionEvent): void => {
     if (event.propertyName === this.activeTransitionProp) {
-      this.active ? this.openCloseEventEmitter("isOpen") : this.openCloseEventEmitter("isClosed");
+      this.active ? this.onOpen() : this.onClose();
     }
   };
 
@@ -356,22 +365,5 @@ export class Alert {
   private openAlert(): void {
     window.clearTimeout(this.queueTimeout);
     this.queueTimeout = window.setTimeout(() => (this.queued = false), 300);
-  }
-
-  private openCloseEventEmitter(componentVisibilityState: string): void {
-    const payload = {
-      el: this.el,
-      queue: this.queue
-    };
-    const emitComponentState = {
-      beforeOpening: () => this.calciteAlertBeforeOpen.emit(payload),
-      isOpen: () => this.calciteAlertOpen.emit(payload),
-      beforeClosing: () => this.calciteAlertBeforeClose.emit(payload),
-      isClosed: () => this.calciteAlertClose.emit(payload)
-    };
-    (
-      emitComponentState[componentVisibilityState] ||
-      emitComponentState["The component state is unknown."]
-    )();
   }
 }

@@ -36,6 +36,7 @@ import {
 import List from "../pick-list/shared-list-render";
 import { createObserver } from "../../utils/observers";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import { getHandleAndItemElement, getScreenReaderText } from "./utils";
 
 /**
  * @slot - A slot for adding `calcite-value-list-item` elements. List items are displayed as a vertical list.
@@ -57,17 +58,17 @@ export class ValueList<
   // --------------------------------------------------------------------------
 
   /**
-   * When true, prevents user interaction. This state shows list items grayed out and with lower opacity.
+   * When true, interaction is prevented and the component is displayed with lower opacity.
    */
   @Prop({ reflect: true }) disabled = false;
 
   /**
-   * When true, list items are sortable via a draggable button.
+   * When true, `calcite-value-list-item`s are sortable via a draggable button.
    */
   @Prop({ reflect: true }) dragEnabled = false;
 
   /**
-   * When true, an input appears at the top of the list that can be used by end users to filter list items.
+   * When true, an input appears at the top of the component that can be used by end users to filter list items.
    */
   @Prop({ reflect: true }) filterEnabled = false;
 
@@ -77,29 +78,57 @@ export class ValueList<
   @Prop({ reflect: true }) filterPlaceholder: string;
 
   /**
-   * The list's group identifier.
+   * The component's group identifier.
    *
    * To drag elements from one list into another, both lists must have the same group value.
    */
   @Prop() group?: string;
 
   /**
-   * When true, content is waiting to be loaded. This state shows a busy indicator.
+   * When true, a busy indicator is displayed.
    */
   @Prop({ reflect: true }) loading = false;
 
   /**
    * Similar to standard radio buttons and checkboxes.
-   * When true, a user can select multiple list items at a time.
-   * When false, only a single list item can be selected at a time,
-   * and selecting a new list item will deselect any other selected list items.
+   * When true, a user can select multiple `calcite-value-list-item`s at a time.
+   * When false, only a single `calcite-value-list-item` can be selected at a time,
+   * and a new selection will deselect previous selections.
    */
   @Prop({ reflect: true }) multiple = false;
 
   /**
-   * When true and single-selection is enabled, the selection changes when navigating list items via the keyboard.
+   * When true and single-selection is enabled, the selection changes when navigating `calcite-value-list-item`s via keyboard.
    */
   @Prop() selectionFollowsFocus = false;
+
+  /**
+   * When "drag-enabled" is true and active, specifies accessible context to the `calcite-value-list-item`'s initial position.
+   *
+   * Use ${position} of ${total} as placeholder for displaying indices and ${item.label} as placeholder for displaying label of `calcite-value-list-item`.
+   */
+  @Prop() intlDragHandleIdle?: string;
+
+  /**
+   * When "drag-enabled" is true and active, specifies accessible context to the component.
+   *
+   * Use ${position} of ${total} as placeholder for displaying indices and ${item.label} as placeholder for displaying label of `calcite-value-list-item`.
+   */
+  @Prop() intlDragHandleActive?: string;
+
+  /**
+   * When "drag-enabled" is true and active, specifies accessible context to the `calcite-value-list-item`'s new position.
+   *
+   * Use ${position} of ${total} as placeholder for displaying indices and ${item.label} as placeholder for displaying label of `calcite-value-list-item`.
+   */
+  @Prop() intlDragHandleChange?: string;
+
+  /**
+   * When "drag-enabled" is true and active, specifies accessible context to the `calcite-value-list-item`'s current position after commit.
+   *
+   * Use ${position} of ${total} as placeholder for displaying indices and ${item.label} as placeholder for displaying label of `calcite-value-list-item`.
+   */
+  @Prop() intlDragHandleCommit?: string;
 
   // --------------------------------------------------------------------------
   //
@@ -124,6 +153,8 @@ export class ValueList<
   emitCalciteListChange: () => void;
 
   filterEl: HTMLCalciteFilterElement;
+
+  assistiveTextEl: HTMLSpanElement;
 
   // --------------------------------------------------------------------------
   //
@@ -252,25 +283,21 @@ export class ValueList<
   getItemData = getItemData.bind(this);
 
   keyDownHandler = (event: KeyboardEvent): void => {
-    const handleElement = event
-      .composedPath()
-      .find(
-        (item: HTMLElement) => item.dataset?.jsHandle !== undefined
-      ) as HTMLCalciteHandleElement;
+    const { handle, item } = getHandleAndItemElement(event);
+    if (handle && !item.handleActivated && event.key === " ") {
+      this.updateScreenReaderText(getScreenReaderText(item, "commit", this));
+    }
 
-    const item = event
-      .composedPath()
-      .find(
-        (item: HTMLElement) => item.tagName?.toLowerCase() === "calcite-value-list-item"
-      ) as ItemElement;
-
-    // Only trigger keyboard sorting when the internal drag handle is focused and activated
-    if (!handleElement || !item.handleActivated) {
+    if (!handle || !item.handleActivated) {
       keyDownHandler.call(this, event);
       return;
     }
 
     const { items } = this;
+
+    if (event.key === " ") {
+      this.updateScreenReaderText(getScreenReaderText(item, "active", this));
+    }
 
     if ((event.key !== "ArrowUp" && event.key !== "ArrowDown") || items.length <= 1) {
       return;
@@ -280,7 +307,6 @@ export class ValueList<
 
     const { el } = this;
     const nextIndex = moveItemIndex(this, item, event.key === "ArrowUp" ? "up" : "down");
-
     if (nextIndex === items.length - 1) {
       el.appendChild(item);
     } else {
@@ -295,9 +321,17 @@ export class ValueList<
     this.items = this.getItems();
     this.calciteListOrderChange.emit(this.items.map(({ value }) => value));
 
-    requestAnimationFrame(() => handleElement?.focus());
+    requestAnimationFrame(() => handle?.focus());
     item.handleActivated = true;
+
+    this.updateHandleAriaLabel(handle, getScreenReaderText(item, "change", this));
   };
+
+  handleBlur(): void {
+    if (this.dragEnabled) {
+      this.updateScreenReaderText("");
+    }
+  }
 
   // --------------------------------------------------------------------------
   //
@@ -335,7 +369,33 @@ export class ValueList<
     return type;
   }
 
+  updateScreenReaderText(text: string): void {
+    this.assistiveTextEl.textContent = text;
+  }
+
+  updateHandleAriaLabel(handleElement: HTMLSpanElement, text: string): void {
+    handleElement.ariaLabel = text;
+  }
+
+  storeAssistiveEl = (el: HTMLSpanElement): void => {
+    this.assistiveTextEl = el;
+  };
+
+  handleFocusIn = (event: FocusEvent): void => {
+    const { handle, item } = getHandleAndItemElement(event);
+    if (!item?.handleActivated && item && handle) {
+      this.updateHandleAriaLabel(handle, getScreenReaderText(item, "idle", this));
+    }
+  };
+
   render(): VNode {
-    return <List onKeyDown={this.keyDownHandler} props={this} />;
+    return (
+      <List
+        onBlur={this.handleBlur}
+        onFocusin={this.handleFocusIn}
+        onKeyDown={this.keyDownHandler}
+        props={this}
+      />
+    );
   }
 }

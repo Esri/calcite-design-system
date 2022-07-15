@@ -1,6 +1,6 @@
 :host {
   @apply bg-foreground-1 flex;
-  width: fit-content;
+  inline-size: fit-content;
   outline: 1px solid var(--calcite-ui-border-input);
   outline-offset: -1px;
 }
@@ -15,7 +15,7 @@
 
 :host([width="full"]) {
   @apply w-full;
-  min-width: fit-content;
+  min-inline-size: fit-content;
   ::slotted(calcite-radio-group-item) {
     @apply flex-auto;
   }
