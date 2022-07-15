@@ -129,9 +129,7 @@ export class Alert implements OpenCloseComponent {
 
   disconnectedCallback(): void {
     window.clearTimeout(this.autoDismissTimeoutId);
-    if (this.containerDiv) {
-      this.containerDiv.removeEventListener("transitionrun", this.transitionRunHandler);
-    }
+    this.containerEl?.removeEventListener("transitionstart", this.transitionStartHandler);
   }
 
   render(): VNode {
@@ -172,7 +170,7 @@ export class Alert implements OpenCloseComponent {
             [placement]: true
           }}
           onTransitionEnd={this.transitionEnd}
-          ref={this.setContainerDiv}
+          ref={this.setContainerEl}
         >
           {requestedIcon ? (
             <div class="alert-icon">
@@ -281,11 +279,11 @@ export class Alert implements OpenCloseComponent {
   /** is the alert queued */
   @State() queued = false;
 
-  private containerDiv: HTMLDivElement;
+  private containerEl: HTMLDivElement;
 
-  private setContainerDiv = (el): void => {
-    this.containerDiv = el;
-    this.containerDiv.addEventListener("transitionrun", this.transitionRunHandler);
+  private setContainerEl = (el): void => {
+    this.containerEl = el;
+    this.containerEl.addEventListener("transitionstart", this.transitionStartHandler);
   };
 
   /** the close button element */
@@ -351,11 +349,7 @@ export class Alert implements OpenCloseComponent {
     this.calciteAlertClose.emit();
   }
 
-  /* *
-  - `transitionrun` fires when the transition is created at the start of any delay and is not cancellable once started.
-  - if there is no transition delay, both `transitionrun` and `transitionstart` are fired at the same time.
-  */
-  transitionRunHandler = (event: TransitionEvent): void => {
+  transitionStartHandler = (event: TransitionEvent): void => {
     if (event.propertyName === this.activeTransitionProp) {
       this.active ? this.onBeforeOpen() : this.onBeforeClose();
     }
