@@ -570,8 +570,8 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent {
     let groupHeaderHeight: number;
 
     if (maxItems > 0 && itemsToProcess < maxItems) {
-      this.items.forEach((item: HTMLCalciteDropdownItemElement, index) => {
-        if (index === 0) {
+      this.items.forEach((item: HTMLCalciteDropdownItemElement) => {
+        if (item.matches("calcite-dropdown-group calcite-dropdown-item:first-child")) {
           if (isNaN(groupHeaderHeight)) {
             groupHeaderHeight = item.offsetTop;
           }
