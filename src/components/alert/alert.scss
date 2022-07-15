@@ -90,8 +90,7 @@
       opacity-0;
     border-radius: var(--calcite-border-radius);
     border-block-start: 0px solid transparent;
-    border-inline-start: 1px solid var(--calcite-ui-border-3);
-    border-inline-end: 1px solid var(--calcite-ui-border-3);
+    border-inline: 1px solid var(--calcite-ui-border-3);
     border-block-end: 1px solid var(--calcite-ui-border-3);
     min-block-size: var(--calcite-alert-min-height);
     inline-size: var(--calcite-alert-width);
@@ -244,8 +243,7 @@
     text-center
     font-medium
     opacity-0;
-  border-inline-start: 0px solid transparent;
-  border-inline-end: 0px solid transparent;
+  border-inline: 0px solid transparent;
   border-start-end-radius: 0;
 
   &.active {

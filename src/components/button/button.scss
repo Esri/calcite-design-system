@@ -55,8 +55,7 @@
 .content {
   @apply flex;
   flex-basis: auto;
-  margin-inline-start: var(--calcite-button-content-margin);
-  margin-inline-end: var(--calcite-button-content-margin);
+  margin-inline: var(--calcite-button-content-margin);
 }
 
 .icon-start-empty {
@@ -582,8 +581,7 @@
       border-b-color-input
       border-t
       border-b;
-    border-block-end-style: solid;
-    border-block-start-style: solid;
+    border-block-style: solid;
 
     &:not(.content--slotted) {
       --calcite-button-padding-y: 0;
