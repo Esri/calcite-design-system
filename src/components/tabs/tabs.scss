@@ -8,15 +8,15 @@
 }
 
 :host([bordered]:not([position="below"])) ::slotted(calcite-tab-nav) {
-  margin-bottom: -1px;
+  margin-block-end: -1px;
 }
 
 :host([bordered]:not([position="bottom"])) ::slotted(calcite-tab-nav) {
-  margin-bottom: -1px;
+  margin-block-end: -1px;
 }
 
 :host([bordered][position="below"]) ::slotted(calcite-tab-nav) {
-  margin-top: -1px;
+  margin-block-start: -1px;
 }
 
 :host([bordered][position="below"]) {
@@ -57,7 +57,7 @@ section {
     flex-grow
     overflow-hidden
     border-t;
-  border-top-style: solid;
+  border-block-start-style: solid;
 }
 
 :host([position="below"]) section {
@@ -75,11 +75,11 @@ section {
 }
 
 :host([position="below"]:not([bordered])) section {
-  border-bottom-style: solid;
+  border-block-end-style: solid;
 }
 
 :host([position="bottom"]:not([bordered])) section {
-  border-bottom-style: solid;
+  border-block-end-style: solid;
 }
 
 @media (forced-colors: active) {

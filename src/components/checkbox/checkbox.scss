@@ -24,8 +24,8 @@
 
   .check-svg,
   .toggle {
-    width: var(--calcite-checkbox-size);
-    height: var(--calcite-checkbox-size);
+    inline-size: var(--calcite-checkbox-size);
+    block-size: var(--calcite-checkbox-size);
   }
 
   .check-svg {
