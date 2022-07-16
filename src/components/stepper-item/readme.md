@@ -17,6 +17,14 @@ individual `calcite-stepper-item` item
 | `itemSubtitle` | `item-subtitle` | <span style="color:red">**[DEPRECATED]**</span> use description instead<br/><br/>pass a title for the stepper item | `string`  | `undefined` |
 | `itemTitle`    | `item-title`    | <span style="color:red">**[DEPRECATED]**</span> use heading instead<br/><br/>pass a title for the stepper item     | `string`  | `undefined` |
 
+## Methods
+
+### `setFocus() => Promise<void>`
+
+#### Returns
+
+Type: `Promise<void>`
+
 ## Slots
 
 | Slot | Description                       |
