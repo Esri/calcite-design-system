@@ -288,6 +288,7 @@ export class DatePicker {
   keyDownHandler = (event: KeyboardEvent): void => {
     if (event.key === "Escape") {
       this.reset();
+      e.preventDefault();
     }
   };
 
@@ -501,6 +502,7 @@ export class DatePicker {
     }
   }
 
+  // TODO: revisit, may be moved to input?
   /**
    * Reset active date and close
    */

@@ -20,6 +20,7 @@ import {
   HiddenFormInputSlot
 } from "../../utils/form";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import { isActivationKey } from "../../utils/key";
 
 @Component({
   tag: "calcite-switch",
@@ -106,8 +107,8 @@ export class Switch implements LabelableComponent, CheckableFormCompoment, Inter
   //--------------------------------------------------------------------------
 
   keyDownHandler = (event: KeyboardEvent): void => {
-    const key = event.key;
-    if (!this.disabled && (key === " " || key === "Enter")) {
+    const { key } = event;
+    if (!this.disabled && isActivationKey(key)) {
       this.toggle();
       event.preventDefault();
     }

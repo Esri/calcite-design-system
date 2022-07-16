@@ -1,4 +1,5 @@
 import { ReferenceElement } from "../../utils/floating-ui";
+import { isActivationKey } from "../../utils/key";
 
 export default class PopoverManager {
   // --------------------------------------------------------------------------
@@ -66,11 +67,12 @@ export default class PopoverManager {
   };
 
   private keyHandler = (event: KeyboardEvent): void => {
-    if (event.key !== "Enter" && event.key !== " ") {
+    if (event.defaultPrevented || !isActivationKey(event.key)) {
       return;
     }
 
     this.togglePopovers(event);
+    event.preventDefault();
   };
 
   private clickHandler = (event: MouseEvent): void => {

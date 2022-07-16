@@ -488,19 +488,22 @@ export class Combobox
         break;
       case "ArrowLeft":
         this.previousChip();
+        event.preventDefault();
         break;
       case "ArrowRight":
         this.nextChip();
+        event.preventDefault();
         break;
       case "ArrowUp":
+        event.preventDefault();
         this.shiftActiveItemIndex(-1);
         if (!this.comboboxInViewport()) {
           this.el.scrollIntoView();
         }
         break;
       case "ArrowDown":
+        event.preventDefault();
         if (!this.open) {
-          event.preventDefault();
           this.open = true;
         }
         this.shiftActiveItemIndex(1);
@@ -516,9 +519,10 @@ export class Combobox
         }
         break;
       case "Home":
-        if (this.open) {
-          event.preventDefault();
+        if (!this.open) {
+          return;
         }
+        event.preventDefault();
         this.updateActiveItemIndex(0);
         this.scrollToActiveItem();
         if (!this.comboboxInViewport()) {
@@ -526,9 +530,10 @@ export class Combobox
         }
         break;
       case "End":
-        if (this.open) {
-          event.preventDefault();
+        if (!this.open) {
+          return;
         }
+        event.preventDefault();
         this.updateActiveItemIndex(this.visibleItems.length - 1);
         this.scrollToActiveItem();
         if (!this.comboboxInViewport()) {
@@ -537,23 +542,30 @@ export class Combobox
         break;
       case "Escape":
         this.open = false;
+        event.preventDefault();
         break;
       case "Enter":
         if (this.activeItemIndex > -1) {
           this.toggleSelection(this.visibleItems[this.activeItemIndex]);
+          event.preventDefault();
         } else if (this.activeChipIndex > -1) {
           this.removeActiveChip();
+          event.preventDefault();
         } else if (this.allowCustomValues && this.text) {
           this.addCustomChip(this.text, true);
+          event.preventDefault();
         } else if (!event.defaultPrevented) {
           submitForm(this);
+          event.preventDefault();
         }
         break;
       case "Delete":
       case "Backspace":
         if (this.activeChipIndex > -1) {
+          event.preventDefault();
           this.removeActiveChip();
         } else if (!this.text && this.isMulti()) {
+          event.preventDefault();
           this.removeLastChip();
         }
         break;

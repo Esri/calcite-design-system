@@ -181,7 +181,7 @@ export class RadioGroup implements LabelableComponent, FormComponent, Interactiv
   @Listen("keydown")
   protected handleKeyDown(event: KeyboardEvent): void {
     const keys = ["ArrowLeft", "ArrowUp", "ArrowRight", "ArrowDown", " "];
-    const key = event.key;
+    const { key } = event;
     const { el, selectedItem } = this;
 
     if (keys.indexOf(key) === -1) {

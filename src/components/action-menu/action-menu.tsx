@@ -422,6 +422,7 @@ export class ActionMenu implements ConditionalSlotComponent {
 
     if (key === "Escape") {
       this.toggleOpen(false);
+      event.preventDefault();
       return;
     }
 

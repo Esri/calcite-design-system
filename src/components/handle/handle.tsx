@@ -70,12 +70,14 @@ export class Handle {
     switch (event.key) {
       case " ":
         this.activated = !this.activated;
+        event.preventDefault();
         break;
       case "ArrowUp":
       case "ArrowDown":
         if (!this.activated) {
           return;
         }
+        event.preventDefault();
         const direction = event.key.toLowerCase().replace("arrow", "");
         this.calciteHandleNudge.emit({ handle: this.el, direction });
         break;

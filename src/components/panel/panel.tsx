@@ -272,8 +272,9 @@ export class Panel implements ConditionalSlotComponent, InteractiveComponent {
   };
 
   panelKeyDownHandler = (event: KeyboardEvent): void => {
-    if (event.key === "Escape") {
+    if (event.key === "Escape" && !event.defaultPrevented) {
       this.close();
+      event.preventDefault();
     }
   };
 
