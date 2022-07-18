@@ -71,7 +71,7 @@ const createAccordionItemAttributes: (options?: {
   group?: string;
   iconEnd?: string;
   iconStart?: string;
-}) => Attributes = ({ icon, group }) => {
+}) => Attributes = ({ icon, group, iconStart, iconEnd }) => {
   const groupTitle = group ? group : "";
   const defaultAttributes = [
     {
@@ -105,13 +105,13 @@ const createAccordionItemAttributes: (options?: {
     }
   ];
 
-  if (iconStartAttribute && iconEndAttribute) {
+  if (iconEnd && iconStart) {
     return iconStartAttribute.concat(defaultAttributes, iconEndAttribute);
   } else if (icon) {
     return iconAttribute.concat(defaultAttributes);
-  } else if (iconStartAttribute) {
+  } else if (iconStart) {
     return iconStartAttribute.concat(defaultAttributes);
-  } else if (iconEndAttribute) {
+  } else if (iconEnd) {
     return iconEndAttribute.concat(defaultAttributes);
   }
 
