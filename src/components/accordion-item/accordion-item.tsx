@@ -137,9 +137,6 @@ export class AccordionItem {
       <calcite-icon class="accordion-item-icon" icon={this.iconStart} scale="s" />
     );
     const iconEndEl = <calcite-icon class="accordion-item-icon" icon={this.iconEnd} scale="s" />;
-    const { guid } = this;
-    const regionId = `${guid}-region`;
-    const buttonId = `${guid}-button`;
     return (
       <Host>
         <div
