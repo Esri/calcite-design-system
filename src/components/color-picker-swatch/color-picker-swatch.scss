@@ -20,8 +20,8 @@ $size-l: 28px;
 
 .swatch {
   @apply overflow-visible;
-  height: inherit;
-  width: inherit;
+  block-size: inherit;
+  inline-size: inherit;
 
   rect {
     @apply transition-all duration-150 ease-in-out;
