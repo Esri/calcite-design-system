@@ -158,6 +158,7 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent {
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
     this.createPopper();
     this.setFilteredPlacements();
+    this.updateItems();
   }
 
   componentDidLoad(): void {
@@ -212,7 +213,7 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent {
             role="menu"
           >
             <div hidden={!(open || active)}>
-              <slot onSlotchange={this.updateItems} />
+              <slot />
             </div>
           </div>
         </div>
@@ -407,7 +408,7 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent {
   };
 
   updateItems = (): void => {
-    this.items = Array.from(this.el?.querySelectorAll("calcite-dropdown-item"));
+    this.items = Array.from(this.el.querySelectorAll("calcite-dropdown-item"));
 
     this.updateSelectedItems();
 
