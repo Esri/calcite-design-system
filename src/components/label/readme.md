@@ -31,14 +31,15 @@ When using the `default`, `inline` or `inline-space-between` layout option with 
 
 ## Properties
 
-| Property    | Attribute   | Description                                                                                                                                                         | Type                                              | Default     |
-| ----------- | ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------- | ----------- |
-| `alignment` | `alignment` | specify the text alignment of the label                                                                                                                             | `"center" \| "end" \| "start"`                    | `"start"`   |
-| `disabled`  | `disabled`  | <span style="color:red">**[DEPRECATED]**</span> use the `disabled` property on the interactive components instead<br/><br/>is the label disabled                    | `boolean`                                         | `false`     |
-| `for`       | `for`       | The id of the input associated with the label                                                                                                                       | `string`                                          | `undefined` |
-| `layout`    | `layout`    | is the wrapped element positioned inline with the label slotted text                                                                                                | `"default" \| "inline" \| "inline-space-between"` | `"default"` |
-| `scale`     | `scale`     | specify the scale of the label, defaults to m                                                                                                                       | `"l" \| "m" \| "s"`                               | `"m"`       |
-| `status`    | `status`    | <span style="color:red">**[DEPRECATED]**</span> set directly on child element instead<br/><br/>specify the status of the label and any child input / input messages | `"idle" \| "invalid" \| "valid"`                  | `"idle"`    |
+| Property         | Attribute         | Description                                                                                                                                                         | Type                                              | Default     |
+| ---------------- | ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------- | ----------- |
+| `alignment`      | `alignment`       | specify the text alignment of the label                                                                                                                             | `"center" \| "end" \| "start"`                    | `"start"`   |
+| `disableSpacing` | `disable-spacing` | <span style="color:red">**[DEPRECATED]**</span> set the --calcite-label-margin-bottom css variable to 0 instead<br/><br/>eliminates any space around the label      | `boolean`                                         | `false`     |
+| `disabled`       | `disabled`        | <span style="color:red">**[DEPRECATED]**</span> use the `disabled` property on the interactive components instead<br/><br/>is the label disabled                    | `boolean`                                         | `false`     |
+| `for`            | `for`             | The id of the input associated with the label                                                                                                                       | `string`                                          | `undefined` |
+| `layout`         | `layout`          | is the wrapped element positioned inline with the label slotted text                                                                                                | `"default" \| "inline" \| "inline-space-between"` | `"default"` |
+| `scale`          | `scale`           | specify the scale of the label, defaults to m                                                                                                                       | `"l" \| "m" \| "s"`                               | `"m"`       |
+| `status`         | `status`          | <span style="color:red">**[DEPRECATED]**</span> set directly on child element instead<br/><br/>specify the status of the label and any child input / input messages | `"idle" \| "invalid" \| "valid"`                  | `"idle"`    |
 
 ## Slots
 

@@ -4,7 +4,7 @@
     inline-flex
     flex-col
     self-stretch;
-  max-width: 15vw;
+  max-inline-size: 15vw;
   background: transparent;
 }
 
@@ -13,7 +13,7 @@
 }
 
 :host([expanded]) {
-  max-width: 20vw;
+  max-inline-size: 20vw;
 }
 
 ::slotted(calcite-action-group) {

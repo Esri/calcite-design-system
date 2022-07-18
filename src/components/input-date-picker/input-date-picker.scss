@@ -59,7 +59,7 @@
   }
 
   .vertical-arrow-container {
-    top: theme("spacing.6");
+    inset-block-start: theme("spacing.6");
     @apply bg-foreground-1
       absolute
       left-0
@@ -71,19 +71,19 @@
 
 :host([scale="s"][range]:not([layout="vertical"])) {
   .calendar-picker-wrapper {
-    width: 216px;
+    inline-size: 216px;
   }
 }
 
 :host([scale="m"][range]:not([layout="vertical"])) {
   .calendar-picker-wrapper {
-    width: 286px;
+    inline-size: 286px;
   }
 }
 
 :host([scale="l"][range]:not([layout="vertical"])) {
   .calendar-picker-wrapper {
-    width: 398px;
+    inline-size: 398px;
   }
 }
 
@@ -107,7 +107,7 @@
 }
 
 :host([range][layout="vertical"][scale="m"]) .vertical-arrow-container {
-  top: theme("spacing.6");
+  inset-block-start: theme("spacing.6");
   padding-inline-start: theme("spacing.3");
 
   calcite-icon {
@@ -118,7 +118,7 @@
 }
 
 :host([range][layout="vertical"][scale="l"]) .vertical-arrow-container {
-  top: theme("spacing.9");
+  inset-block-start: theme("spacing.9");
   @apply px-3.5;
 }
 
