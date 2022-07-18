@@ -32,12 +32,12 @@ A single instance of an alert. Multiple alerts will aggregate in a queue.
 
 ## Events
 
-| Event                     | Description | Type                                                                              |
-| ------------------------- | ----------- | --------------------------------------------------------------------------------- |
-| `calciteAlertBeforeClose` |             | `CustomEvent<{ el: HTMLCalciteAlertElement; queue: HTMLCalciteAlertElement[]; }>` |
-| `calciteAlertBeforeOpen`  |             | `CustomEvent<{ el: HTMLCalciteAlertElement; queue: HTMLCalciteAlertElement[]; }>` |
-| `calciteAlertClose`       |             | `CustomEvent<{ el: HTMLCalciteAlertElement; queue: HTMLCalciteAlertElement[]; }>` |
-| `calciteAlertOpen`        |             | `CustomEvent<{ el: HTMLCalciteAlertElement; queue: HTMLCalciteAlertElement[]; }>` |
+| Event                     | Description | Type                |
+| ------------------------- | ----------- | ------------------- |
+| `calciteAlertBeforeClose` |             | `CustomEvent<void>` |
+| `calciteAlertBeforeOpen`  |             | `CustomEvent<void>` |
+| `calciteAlertClose`       |             | `CustomEvent<void>` |
+| `calciteAlertOpen`        |             | `CustomEvent<void>` |
 
 ## Methods
 

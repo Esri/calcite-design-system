@@ -8,7 +8,7 @@
 
 :host {
   @apply relative flex items-center;
-  width: fit-content;
+  inline-size: fit-content;
 }
 
 @include disabled();

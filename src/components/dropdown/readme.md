@@ -77,13 +77,13 @@ You can combine groups in a single dropdown, with varying selection modes:
 
 ## Events
 
-| Event                        | Description                                                | Type                                               |
-| ---------------------------- | ---------------------------------------------------------- | -------------------------------------------------- |
-| `calciteDropdownBeforeClose` |                                                            | `CustomEvent<{ el: HTMLCalciteDropdownElement; }>` |
-| `calciteDropdownBeforeOpen`  |                                                            | `CustomEvent<{ el: HTMLCalciteDropdownElement; }>` |
-| `calciteDropdownClose`       |                                                            | `CustomEvent<{ el: HTMLCalciteDropdownElement; }>` |
-| `calciteDropdownOpen`        |                                                            | `CustomEvent<{ el: HTMLCalciteDropdownElement; }>` |
-| `calciteDropdownSelect`      | fires when a dropdown item has been selected or deselected | `CustomEvent<void>`                                |
+| Event                        | Description                                                | Type                |
+| ---------------------------- | ---------------------------------------------------------- | ------------------- |
+| `calciteDropdownBeforeClose` |                                                            | `CustomEvent<void>` |
+| `calciteDropdownBeforeOpen`  |                                                            | `CustomEvent<void>` |
+| `calciteDropdownClose`       |                                                            | `CustomEvent<void>` |
+| `calciteDropdownOpen`        |                                                            | `CustomEvent<void>` |
+| `calciteDropdownSelect`      | fires when a dropdown item has been selected or deselected | `CustomEvent<void>` |
 
 ## Methods
 
