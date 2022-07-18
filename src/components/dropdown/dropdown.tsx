@@ -384,7 +384,7 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent {
 
   guid = `calcite-dropdown-${guid()}`;
 
-  defaultAsignedElements: Element[];
+  defaultAssignedElements: Element[] = [];
 
   //--------------------------------------------------------------------------
   //
@@ -393,7 +393,7 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent {
   //--------------------------------------------------------------------------
 
   slotChangeHandler = (event: Event): void => {
-    this.defaultAsignedElements = (event.target as HTMLSlotElement).assignedElements({
+    this.defaultAssignedElements = (event.target as HTMLSlotElement).assignedElements({
       flatten: true
     });
 
@@ -417,9 +417,9 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent {
   };
 
   updateItems = (): void => {
-    const { defaultAsignedElements } = this;
+    const { defaultAssignedElements } = this;
 
-    const groups = defaultAsignedElements.filter((el) =>
+    const groups = defaultAssignedElements.filter((el) =>
       el?.matches("calcite-dropdown-group")
     ) as HTMLCalciteDropdownGroupElement[];
 
@@ -427,7 +427,7 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent {
       .map((group) => Array.from(group?.querySelectorAll("calcite-dropdown-item")))
       .reduce((previousValue, currentValue) => [...previousValue, ...currentValue], []);
 
-    const items = defaultAsignedElements.filter((el) =>
+    const items = defaultAssignedElements.filter((el) =>
       el?.matches("calcite-dropdown-item")
     ) as HTMLCalciteDropdownItemElement[];
 
