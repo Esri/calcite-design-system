@@ -15,7 +15,8 @@ import {
   disconnectConditionalSlotComponent,
   ConditionalSlotComponent
 } from "../../utils/conditionalSlot";
-import { CSS_UTILITY, SLOTS, CSS } from "../../utils/resources";
+import { CSS_UTILITY } from "../../utils/resources";
+import { SLOTS, CSS } from "./resources";
 import { Position } from "../interfaces";
 
 /**

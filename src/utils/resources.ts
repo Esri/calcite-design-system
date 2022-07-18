@@ -34,21 +34,3 @@ export const CSS_UTILITY = {
 export const TEXT = {
   loading: "Loading"
 };
-
-export const SLOTS = {
-  actionsStart: "actions-start",
-  actionsEnd: "actions-end"
-};
-
-export const CSS = {
-  icon: "icon",
-  header: "header",
-  headerContent: "header-content",
-  actionsStart: "actions-start",
-  actionsEnd: "actions-end",
-  headerText: "header-text",
-  heading: "heading",
-  description: "description",
-  expandIcon: "expand-icon",
-  content: "content"
-};
