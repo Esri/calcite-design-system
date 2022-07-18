@@ -4,14 +4,17 @@ import { html } from "../../../support/formatting";
 import { CSS } from "../accordion-item/resources";
 
 describe("calcite-accordion", () => {
-  const accordionContent = `
-    <calcite-accordion-item item-title="Accordion Title 1" id="1">Accordion Item Content
+  const accordionContent = html`
+    <calcite-accordion-item item-title="Accordion Title 1" id="1"
+      ><calcite-action scale="s" icon="brush-tip" label="Paint" slot="actions-start"></calcite-action>Accordion Item
+      Content
+      <calcite-action scale="s" icon="sound" label="Volume" slot="actions-end"></calcite-action>
     </calcite-accordion-item>
-    <calcite-accordion-item item-title="Accordion Title 1" id="2" active>Accordion Item Content
+    <calcite-accordion-item item-title="Accordion Title 1" id="2" active
+      >Accordion Item Content
     </calcite-accordion-item>
-    <calcite-accordion-item item-title="Accordion Title 3" id="3">Accordion Item Content
-    </calcite-accordion-item>
- `;
+    <calcite-accordion-item item-title="Accordion Title 3" id="3">Accordion Item Content </calcite-accordion-item>
+  `;
   it("renders", async () => renders("calcite-accordion", { display: "block" }));
 
   it("is accessible", async () => accessible(`<calcite-accordion>${accordionContent}</calcite-accordion>`));

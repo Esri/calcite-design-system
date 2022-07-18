@@ -275,3 +275,26 @@ export const TransparentAppearance = (): string =>
       )}
     `
   );
+
+export const WithActions = (): string => html`
+  <calcite-accordion scale="s">
+    <calcite-accordion-item scale="m" item-title="Accordion Item">
+      <calcite-action scale="s" icon="brush-tip" label="Paint" slot="actions-start"></calcite-action
+      >${accordionItemContent}
+      <calcite-action scale="s" icon="banana" label="Banana" slot="actions-end"></calcite-action>
+      <calcite-action scale="s" icon="sound" label="Volume" slot="actions-end"></calcite-action>
+    </calcite-accordion-item>
+    <calcite-accordion-item scale="m" item-title="Accordion Item">
+      <calcite-action scale="s" icon="brush-tip" label="Paint" slot="actions-start"></calcite-action
+      >${accordionItemContent}
+      <calcite-action scale="s" icon="banana" label="Banana" slot="actions-end"></calcite-action>
+      <calcite-action scale="s" icon="sound" label="Volume" slot="actions-end"></calcite-action>
+    </calcite-accordion-item>
+    <calcite-accordion-item scale="m" item-title="Accordion Item">
+      <calcite-action scale="s" icon="brush-tip" label="Paint" slot="actions-start"></calcite-action
+      >${accordionItemContent}
+      <calcite-action scale="s" icon="banana" label="Banana" slot="actions-end"></calcite-action>
+      <calcite-action scale="s" icon="sound" label="Volume" slot="actions-end"></calcite-action>
+    </calcite-accordion-item>
+  </calcite-accordion>
+`;
