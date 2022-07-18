@@ -104,7 +104,7 @@
 
 .checkbox-wrapper {
   @apply absolute m-0 p-0;
-  top: theme("spacing.2");
+  inset-block-start: theme("spacing.2");
   inset-inline-end: theme("spacing.2");
 }
 
@@ -125,4 +125,9 @@
   @include slotted("thumbnail", "img") {
     @apply w-full;
   }
+}
+
+slot[name="footer-leading"]::slotted(*),
+slot[name="footer-trailing"]::slotted(*) {
+  @apply flex gap-1;
 }

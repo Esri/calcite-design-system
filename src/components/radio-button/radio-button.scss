@@ -45,9 +45,9 @@
 }
 
 .radio {
-  height: var(--calcite-radio-size);
-  max-width: var(--calcite-radio-size);
-  min-width: var(--calcite-radio-size);
+  block-size: var(--calcite-radio-size);
+  max-inline-size: var(--calcite-radio-size);
+  min-inline-size: var(--calcite-radio-size);
 }
 
 :host([scale="s"][checked]),
@@ -89,8 +89,8 @@
   :host([checked][disabled]) {
     .radio::after {
       content: "";
-      width: var(--calcite-radio-size);
-      height: var(--calcite-radio-size);
+      inline-size: var(--calcite-radio-size);
+      block-size: var(--calcite-radio-size);
       background-color: windowText;
       display: block;
     }

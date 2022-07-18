@@ -7,6 +7,15 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## Unreleased
 
+### Bug Fixes
+
+- **accordion-item:** add on-demand screen reader feedback to collapsed and expansion interaction ([#4931](https://github.com/Esri/calcite-components/issues/4931)) ([296b4d3](https://github.com/Esri/calcite-components/commit/296b4d3e3c141e2d6d2ca736580499bd050969ab))
+- **card:** align footer leading and trailing slots vertically. ([#4920](https://github.com/Esri/calcite-components/issues/4920)) ([6dc346b](https://github.com/Esri/calcite-components/commit/6dc346b828b6613599c9eff602bd62a55eecbfa2))
+- **stepper:** revisit horizontal layout approach to avoid rearranging the DOM ([#4367](https://github.com/Esri/calcite-components/issues/4367)) ([992d822](https://github.com/Esri/calcite-components/commit/992d8222fa2fd3a932d65be6d94a116afc0c61a6)), closes [#1258](https://github.com/Esri/calcite-components/issues/1258)
+<!--@unreleased-section-end-->
+
+## [1.0.0-beta.86](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.85...v1.0.0-beta.86) (2022-07-13)
+
 ### Features
 
 - **chip,notice,panel,popover:** deprecate dismissible & dismissed props and add support for closable & closed props ([#4789](https://github.com/Esri/calcite-components/issues/4789)) ([74f47a9](https://github.com/Esri/calcite-components/commit/74f47a9c126828652b4fef063a21138669a9064b))
@@ -16,7 +25,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - **accordion, combobox, dropdown, tree:** remove excessive borders in high contrast mode ([#4913](https://github.com/Esri/calcite-components/issues/4913)) ([a5c9206](https://github.com/Esri/calcite-components/commit/a5c9206e54e2f9fecc4164cf09001a710d781887)), closes [#4912](https://github.com/Esri/calcite-components/issues/4912) [#4912](https://github.com/Esri/calcite-components/issues/4912) [#4912](https://github.com/Esri/calcite-components/issues/4912) [#4912](https://github.com/Esri/calcite-components/issues/4912) [#4912](https://github.com/Esri/calcite-components/issues/4912)
 - **card:** Prevent content from overflowing when corners are rounded ([#4908](https://github.com/Esri/calcite-components/issues/4908)) ([c5144b3](https://github.com/Esri/calcite-components/commit/c5144b37a0e04edd93987487a833ff42a70628c1)), closes [#4895](https://github.com/Esri/calcite-components/issues/4895)
 - **combobox:** Correctly read back items in voiceover ([#4905](https://github.com/Esri/calcite-components/issues/4905)) ([30807e6](https://github.com/Esri/calcite-components/commit/30807e6a1d1e1b2b7d05e9b9d21781ecbfa3568f)), closes [#4388](https://github.com/Esri/calcite-components/issues/4388)
-<!--@unreleased-section-end-->
+- **revert:** css-only hydration to prevent FOUC ([#4916](https://github.com/Esri/calcite-components/pull/4916)) ([579837d](https://github.com/Esri/calcite-components/commit/579837d60a26ac4ed04075f6a33e1dbdb2957d71))
 
 ## [1.0.0-beta.85](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.84...v1.0.0-beta.85) (2022-07-13)
 
@@ -64,7 +73,6 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - **input:** support larger than 64-bit floating point numbers without losing precision ([#4679](https://github.com/Esri/calcite-components/issues/4679)) ([b81dd82](https://github.com/Esri/calcite-components/commit/b81dd82071810476c414372e6faa3e450bbf3a39))
 - **input:** update number stepper buttons to work with both mouse/touch inputs ([#4846](https://github.com/Esri/calcite-components/issues/4846)) ([c8b33f5](https://github.com/Esri/calcite-components/commit/c8b33f5415191ede41b6fbe30601c173d2f8704d)), closes [#4172](https://github.com/Esri/calcite-components/issues/4172)
 - **input:** type number spinner buttons will no longer interact when disabled ([#4884](https://github.com/Esri/calcite-components/issues/4884)) ([645e812](https://github.com/Esri/calcite-components/commit/645e81216998e404c5275f2a8ab2997d1a895a91))
-- **label:** deprecate disable-spacing property by allowing a css variable to override the bottom margin ([#4889](https://github.com/Esri/calcite-components/issues/4889)) ([9b112ba](https://github.com/Esri/calcite-components/commit/9b112bae26de9d96c0376603438438678f1d7a52))
 - **popover:** Add aria-live="polite" for screen readers ([#4894](https://github.com/Esri/calcite-components/issues/4894)) ([87da60c](https://github.com/Esri/calcite-components/commit/87da60caed17dd23868aa3b6bc26e489cd672193))
 - **radio-group-item:** Add aria-label providing context to users ([#4899](https://github.com/Esri/calcite-components/issues/4899)) ([2efe19b](https://github.com/Esri/calcite-components/commit/2efe19b331acaca19a1928732591e75ce51228c9))
 - (radio group) - apply forced-colors styles ([#4877](https://github.com/Esri/calcite-components/issues/4877)) ([1af345e](https://github.com/Esri/calcite-components/commit/1af345e23d3475b34ce0cb983f7ee01a19a7bd66))
