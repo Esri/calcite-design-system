@@ -71,7 +71,7 @@ export class PickListItem implements ConditionalSlotComponent, InteractiveCompon
   /**
    * Label and accessible name for the component. Appears next to the icon.
    */
-  @Prop({ reflect: true }) label: string;
+  @Prop({ reflect: true }) label!: string;
 
   @Watch("label")
   labelWatchHandler(): void {
