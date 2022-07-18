@@ -25,6 +25,7 @@ import {
 import { HeadingLevel } from "../functional/Heading";
 
 import { TEXT } from "../date-picker/resources";
+import { CSS } from "./resources";
 import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
 import {
   connectForm,
@@ -48,13 +49,16 @@ import { StrictModifiers, Instance as Popper } from "@popperjs/core";
 import { DateRangeChange } from "../date-picker/interfaces";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { toAriaBoolean } from "../../utils/dom";
+import { OpenCloseComponent } from "../../utils/openCloseComponent";
 
 @Component({
   tag: "calcite-input-date-picker",
   styleUrl: "input-date-picker.scss",
   shadow: true
 })
-export class InputDatePicker implements LabelableComponent, FormComponent, InteractiveComponent {
+export class InputDatePicker
+  implements LabelableComponent, FormComponent, InteractiveComponent, OpenCloseComponent
+{
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -72,8 +76,16 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
    */
   @Prop({ reflect: true }) disabled = false;
 
+  /**
+   * When true, still focusable but controls are gone and the value cannot be modified.
+   *
+   * @mdn [readOnly](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/readonly)
+   */
+  @Prop() readOnly = false;
+
   @Watch("disabled")
-  handleDisabledChange(value: boolean): void {
+  @Watch("readOnly")
+  handleDisabledAndReadOnlyChange(value: boolean): void {
     if (!value) {
       this.active = false;
     }
@@ -162,7 +174,7 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
 
   @Watch("active")
   activeHandler(): void {
-    if (!this.disabled) {
+    if (!this.disabled || !this.readOnly) {
       this.reposition();
       return;
     }
@@ -288,15 +300,17 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
    */
   @Event() calciteInputDatePickerChange: EventEmitter<void>;
 
-  /**
-   * @internal
-   */
-  @Event() calciteInternalInputDatePickerOpen: EventEmitter;
+  /* Fires when the component is requested to be closed and before the closing transition begins. */
+  @Event() calciteInputDatePickerBeforeClose: EventEmitter<void>;
 
-  /**
-   * @internal
-   */
-  @Event() calciteInternalInputDatePickerClose: EventEmitter;
+  /* Fires when the component is closed and animation is complete. */
+  @Event() calciteInputDatePickerClose: EventEmitter<void>;
+
+  /* Fires when the component is added to the DOM but not rendered, and before the opening transition begins. */
+  @Event() calciteInputDatePickerBeforeOpen: EventEmitter<void>;
+
+  /* Fires when the component is open and animation is complete. */
+  @Event() calciteInputDatePickerOpen: EventEmitter<void>;
 
   // --------------------------------------------------------------------------
   //
@@ -372,6 +386,7 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
   }
 
   disconnectedCallback(): void {
+    this.containerEl?.removeEventListener("transitionstart", this.transitionStartHandler);
     this.destroyPopper();
     disconnectLabel(this);
     disconnectForm(this);
@@ -382,7 +397,7 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
   }
 
   render(): VNode {
-    const { disabled } = this;
+    const { disabled, readOnly } = this;
     const date = dateFromRange(
       this.range ? this.startAsDate : this.valueAsDate,
       this.minAsDate,
@@ -421,6 +436,7 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
                   onCalciteInternalInputBlur={this.inputBlur}
                   onCalciteInternalInputFocus={this.startInputFocus}
                   placeholder={this.localeData?.placeholder}
+                  readOnly={readOnly}
                   ref={this.setStartInput}
                   scale={this.scale}
                   type="text"
@@ -431,8 +447,8 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
             <div
               aria-hidden={toAriaBoolean(!this.active)}
               class={{
-                "menu-container": true,
-                "menu-container--active": this.active
+                [CSS.menu]: true,
+                [CSS.menuActive]: this.active
               }}
               ref={this.setMenuEl}
             >
@@ -444,6 +460,7 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
                   [PopperCSS.animationActive]: this.active
                 }}
                 onTransitionEnd={this.transitionEnd}
+                ref={this.setContainerEl}
               >
                 <calcite-date-picker
                   activeRange={this.focusedInput}
@@ -493,6 +510,7 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
                   onCalciteInternalInputBlur={this.inputBlur}
                   onCalciteInternalInputFocus={this.endInputFocus}
                   placeholder={this.localeData?.placeholder}
+                  readOnly={readOnly}
                   ref={this.setEndInput}
                   scale={this.scale}
                   type="text"
@@ -541,6 +559,13 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
 
   private activeTransitionProp = "opacity";
 
+  private containerEl: HTMLDivElement;
+
+  private setContainerEl = (el): void => {
+    this.containerEl = el;
+    this.containerEl.addEventListener("transitionstart", this.transitionStartHandler);
+  };
+
   @Watch("layout")
   @Watch("focusedInput")
   setReferenceEl(): void {
@@ -572,11 +597,31 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
     this.setFocus();
   }
 
+  onBeforeOpen(): void {
+    this.calciteInputDatePickerBeforeOpen.emit();
+  }
+
+  onOpen(): void {
+    this.calciteInputDatePickerOpen.emit();
+  }
+
+  onBeforeClose(): void {
+    this.calciteInputDatePickerBeforeClose.emit();
+  }
+
+  onClose(): void {
+    this.calciteInputDatePickerClose.emit();
+  }
+
+  transitionStartHandler = (event: TransitionEvent): void => {
+    if (event.propertyName === this.activeTransitionProp) {
+      this.active ? this.onBeforeOpen() : this.onBeforeClose();
+    }
+  };
+
   transitionEnd = (event: TransitionEvent): void => {
     if (event.propertyName === this.activeTransitionProp) {
-      this.active
-        ? this.calciteInternalInputDatePickerOpen.emit()
-        : this.calciteInternalInputDatePickerClose.emit();
+      this.active ? this.onOpen() : this.onClose();
     }
   };
 
@@ -609,12 +654,16 @@ export class InputDatePicker implements LabelableComponent, FormComponent, Inter
   };
 
   startInputFocus = (): void => {
-    this.active = true;
+    if (!this.readOnly) {
+      this.active = true;
+    }
     this.focusedInput = "start";
   };
 
   endInputFocus = (): void => {
-    this.active = true;
+    if (!this.readOnly) {
+      this.active = true;
+    }
     this.focusedInput = "end";
   };
 

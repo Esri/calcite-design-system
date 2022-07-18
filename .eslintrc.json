@@ -62,6 +62,36 @@
     "lines-between-class-members": ["error", "always"],
     "no-multiple-empty-lines": ["error", { "max": 1 }],
     "no-unneeded-ternary": "error",
+    "react/forbid-component-props": [
+      "warn",
+      {
+        "forbid": [
+          {
+            "propName": "onKeyPress",
+            "message": "Use onKeyDown instead for consistent interaction behavior (e.g., closing, moving focus, etc.)."
+          },
+          {
+            "propName": "onKeyUp",
+            "message": "Use onKeyDown instead for consistent interaction behavior (e.g., closing, moving focus, etc.)."
+          }
+        ]
+      }
+    ],
+    "react/forbid-dom-props": [
+      "warn",
+      {
+        "forbid": [
+          {
+            "propName": "onKeyPress",
+            "message": "Use onKeyDown instead for consistent interaction behavior (e.g., closing, moving focus, etc.)."
+          },
+          {
+            "propName": "onKeyUp",
+            "message": "Use onKeyDown instead for consistent interaction behavior (e.g., closing, moving focus, etc)."
+          }
+        ]
+      }
+    ],
     "react/jsx-sort-props": "error",
     "react/jsx-uses-react": "error",
     "react/jsx-uses-vars": "error",

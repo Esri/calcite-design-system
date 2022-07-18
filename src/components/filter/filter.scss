@@ -44,7 +44,7 @@ calcite-input {
     absolute
     flex;
   inset-inline-start: 0;
-  transition: left var(--calcite-animation-timing), right var(--calcite-animation-timing),
+  transition: inset-inline-start var(--calcite-animation-timing), inset-inline-end var(--calcite-animation-timing),
     opacity var(--calcite-animation-timing);
 }
 

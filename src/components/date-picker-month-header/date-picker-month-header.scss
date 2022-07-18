@@ -31,7 +31,7 @@
   }
   .chevron {
     // @apply h-16;
-    height: 3.5rem;
+    block-size: 3.5rem;
   }
 }
 
@@ -50,7 +50,7 @@
     px-1
     outline-none
     transition-default;
-  width: calc(100% / 7);
+  inline-size: calc(100% / 7);
 
   &:focus {
     @apply focus-inset;

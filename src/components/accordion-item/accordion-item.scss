@@ -33,8 +33,7 @@
     relative
     flex
     flex-col
-    no-underline
-    outline-none;
+    no-underline;
   background-color: var(--calcite-accordion-item-background, theme("backgroundColor.foreground.1"));
 }
 
@@ -44,16 +43,18 @@
 }
 
 :host(:focus) .accordion-item-header {
-  @apply focus-inset;
+  @apply focus-inset
+  outline-none;
 }
 
-:host([active]) {
+:host([active]),
+:host([expanded]) {
   @apply text-color-1;
   & .accordion-item-content {
     @apply text-color-1 block;
   }
   & .accordion-item-header {
-    border-bottom-color: transparent;
+    border-block-end-color: transparent;
   }
 }
 
@@ -77,7 +78,7 @@
 :host .accordion-item-content,
 :host .accordion-item-header {
   padding: var(--calcite-accordion-item-padding);
-  border-bottom: 1px solid var(--calcite-accordion-item-border, theme("borderColor.color.2"));
+  border-block-end: 1px solid var(--calcite-accordion-item-border, theme("borderColor.color.2"));
 }
 
 :host .accordion-item-header * {
@@ -104,11 +105,13 @@
   transform: rotate(var(--calcite-accordion-item-icon-rotation-rtl));
 }
 
-:host([active]) .accordion-item-expand-icon {
+:host([active]) .accordion-item-expand-icon,
+:host([expanded]) .accordion-item-expand-icon {
   @apply text-color-1;
   transform: rotate(var(--calcite-accordion-item-active-icon-rotation));
 }
-:host([active]) .calcite--rtl .accordion-item-expand-icon {
+:host([active]) .calcite--rtl .accordion-item-expand-icon,
+:host([expanded]) .calcite--rtl .accordion-item-expand-icon {
   transform: rotate(var(--calcite-accordion-item-active-icon-rotation-rtl));
 }
 
@@ -150,7 +153,8 @@
 
 :host(:focus),
 :host(:active),
-:host([active]) {
+:host([active]),
+:host([expanded]) {
   & .accordion-item-heading {
     @apply text-color-1;
   }
@@ -162,5 +166,24 @@
   }
   & .accordion-item-description {
     @apply text-color-2;
+  }
+}
+
+@media (forced-colors: active) {
+  :host([expanded]) {
+    & .accordion-item-header {
+      border-block-end: none;
+    }
+    & .accordion-item-heading {
+      /** give visual indicator of expanded state since subtle color changes can't be done **/
+      font-weight: bolder;
+    }
+  }
+  :host(:hover),
+  :host(:focus) {
+    & .accordion-item-heading {
+      /** give visual indicator of expandability/click-ability since subtle color changes can't be done **/
+      text-decoration: underline;
+    }
   }
 }
