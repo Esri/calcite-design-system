@@ -419,19 +419,19 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent {
   updateItems = (): void => {
     const { defaultAssignedElements } = this;
 
-    const groups = defaultAssignedElements.filter((el) =>
-      el?.matches("calcite-dropdown-group")
-    ) as HTMLCalciteDropdownGroupElement[];
-
-    const groupItems = groups
-      .map((group) => Array.from(group?.querySelectorAll("calcite-dropdown-item")))
+    this.items = (
+      defaultAssignedElements.filter((el) =>
+        el?.matches("calcite-dropdown-group, calcite-dropdown-item")
+      ) as (HTMLCalciteDropdownItemElement | HTMLCalciteDropdownGroupElement)[]
+    )
+      .map((el) =>
+        el.matches("calcite-dropdown-group")
+          ? Array.from(
+              (el as HTMLCalciteDropdownGroupElement).querySelectorAll("calcite-dropdown-item")
+            )
+          : [el as HTMLCalciteDropdownItemElement]
+      )
       .reduce((previousValue, currentValue) => [...previousValue, ...currentValue], []);
-
-    const items = defaultAssignedElements.filter((el) =>
-      el?.matches("calcite-dropdown-item")
-    ) as HTMLCalciteDropdownItemElement[];
-
-    this.items = [...groupItems, ...items];
 
     this.updateSelectedItems();
 
