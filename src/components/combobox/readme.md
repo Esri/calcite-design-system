@@ -77,13 +77,13 @@
 
 | Event                         | Description                                                                                                                           | Type                                                                             |
 | ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
-| `calciteComboboxBeforeClose`  |                                                                                                                                       | `CustomEvent<{ el: HTMLCalciteComboboxElement; }>`                               |
-| `calciteComboboxBeforeOpen`   |                                                                                                                                       | `CustomEvent<{ el: HTMLCalciteComboboxElement; }>`                               |
+| `calciteComboboxBeforeClose`  |                                                                                                                                       | `CustomEvent<void>`                                                              |
+| `calciteComboboxBeforeOpen`   |                                                                                                                                       | `CustomEvent<void>`                                                              |
 | `calciteComboboxChange`       | Called when the selected item(s) changes.                                                                                             | `CustomEvent<{ selectedItems: HTMLCalciteComboboxItemElement[]; }>`              |
 | `calciteComboboxChipDismiss`  | Called when a selected item in the combobox is dismissed via its chip                                                                 | `CustomEvent<any>`                                                               |
-| `calciteComboboxClose`        |                                                                                                                                       | `CustomEvent<{ el: HTMLCalciteComboboxElement; }>`                               |
+| `calciteComboboxClose`        |                                                                                                                                       | `CustomEvent<void>`                                                              |
 | `calciteComboboxFilterChange` | Called when the user has entered text to filter the options list                                                                      | `CustomEvent<{ visibleItems: HTMLCalciteComboboxItemElement[]; text: string; }>` |
-| `calciteComboboxOpen`         |                                                                                                                                       | `CustomEvent<{ el: HTMLCalciteComboboxElement; }>`                               |
+| `calciteComboboxOpen`         |                                                                                                                                       | `CustomEvent<void>`                                                              |
 | `calciteLookupChange`         | <span style="color:red">**[DEPRECATED]**</span> use calciteComboboxChange instead<br/><br/>Called when the selected items set changes | `CustomEvent<HTMLCalciteComboboxItemElement[]>`                                  |
 
 ## Methods
