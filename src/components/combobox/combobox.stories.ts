@@ -107,7 +107,7 @@ export const Multiple = (): string => html`
 export const NestedItems = (): string => html`
   <div style="width:400px;max-width:100%;background-color:white;padding:100px">
     <calcite-combobox
-      active
+      open
       label="demo combobox"
       selection-mode="${select("selection-mode", ["multi", "single", "ancestors"], "multi")}"
       placeholder="${text("placeholder", "placeholder")}"
@@ -259,7 +259,7 @@ FlipPositioning.parameters = {
 };
 
 export const SingleLongLabel = (): string => html`
-  <calcite-combobox active selection-mode="single" allow-custom-values>
+  <calcite-combobox open selection-mode="single" allow-custom-values>
     <calcite-combobox-item value="Trees" text-label="Trees">
       <calcite-combobox-item
         value="CommercialDamageAssessment - Damage to Commercial Buildings"
