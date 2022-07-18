@@ -158,7 +158,6 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent {
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
     this.createPopper();
     this.setFilteredPlacements();
-    this.updateItems();
   }
 
   componentDidLoad(): void {
@@ -213,7 +212,7 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent {
             role="menu"
           >
             <div hidden={!(open || active)}>
-              <slot />
+              <slot onSlotchange={this.slotChangeHandler} />
             </div>
           </div>
         </div>
@@ -385,11 +384,21 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent {
 
   guid = `calcite-dropdown-${guid()}`;
 
+  defaultAsignedElements: Element[];
+
   //--------------------------------------------------------------------------
   //
   //  Private Methods
   //
   //--------------------------------------------------------------------------
+
+  slotChangeHandler = (event: Event): void => {
+    this.defaultAsignedElements = (event.target as HTMLSlotElement).assignedElements({
+      flatten: true
+    });
+
+    this.updateItems();
+  };
 
   setFilteredPlacements = (): void => {
     const { el, flipPlacements } = this;
@@ -408,7 +417,21 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent {
   };
 
   updateItems = (): void => {
-    this.items = Array.from(this.el.querySelectorAll("calcite-dropdown-item"));
+    const { defaultAsignedElements } = this;
+
+    const groups = defaultAsignedElements.filter((el) =>
+      el?.matches("calcite-dropdown-group")
+    ) as HTMLCalciteDropdownGroupElement[];
+
+    const groupItems = groups
+      .map((group) => Array.from(group?.querySelectorAll("calcite-dropdown-item")))
+      .reduce((previousValue, currentValue) => [...previousValue, ...currentValue], []);
+
+    const items = defaultAsignedElements.filter((el) =>
+      el?.matches("calcite-dropdown-item")
+    ) as HTMLCalciteDropdownItemElement[];
+
+    this.items = [...groupItems, ...items];
 
     this.updateSelectedItems();
 
