@@ -321,7 +321,7 @@ describe("calcite-popover", () => {
     expect(await popover.isVisible()).toBe(false);
   });
 
-  it("should emit open event", async () => {
+  it("should emit open and beforeOpen events", async () => {
     const page = await newE2EPage();
 
     await page.setContent(
@@ -332,11 +332,14 @@ describe("calcite-popover", () => {
 
     const popover = await page.find("calcite-popover");
 
-    const event = await popover.spyOnEvent("calcitePopoverOpen");
+    const openEvent = await popover.spyOnEvent("calcitePopoverOpen");
+    const beforeOpenEvent = await popover.spyOnEvent("calcitePopoverBeforeOpen");
 
-    expect(event).toHaveReceivedEventTimes(0);
+    expect(openEvent).toHaveReceivedEventTimes(0);
+    expect(beforeOpenEvent).toHaveReceivedEventTimes(0);
 
     const popoverOpenEvent = page.waitForEvent("calcitePopoverOpen");
+    const popoverBeforeOpenEvent = page.waitForEvent("calcitePopoverBeforeOpen");
 
     await page.evaluate(() => {
       const popover = document.querySelector("calcite-popover");
@@ -344,11 +347,13 @@ describe("calcite-popover", () => {
     });
 
     await popoverOpenEvent;
+    await popoverBeforeOpenEvent;
 
-    expect(event).toHaveReceivedEventTimes(1);
+    expect(openEvent).toHaveReceivedEventTimes(1);
+    expect(beforeOpenEvent).toHaveReceivedEventTimes(1);
   });
 
-  it("should emit close event", async () => {
+  it("should emit close and beforeClose events", async () => {
     const page = await newE2EPage();
 
     await page.setContent(
@@ -359,20 +364,25 @@ describe("calcite-popover", () => {
 
     const popover = await page.find("calcite-popover");
 
-    const event = await popover.spyOnEvent("calcitePopoverClose");
+    const closeEvent = await popover.spyOnEvent("calcitePopoverClose");
+    const beforeCloseEvent = await popover.spyOnEvent("calcitePopoverBeforeClose");
 
-    expect(event).toHaveReceivedEventTimes(0);
+    expect(closeEvent).toHaveReceivedEventTimes(0);
+    expect(beforeCloseEvent).toHaveReceivedEventTimes(0);
 
     const popoverCloseEvent = page.waitForEvent("calcitePopoverClose");
+    const popoverBeforeCloseEvent = page.waitForEvent("calcitePopoverBeforeClose");
 
     await page.evaluate(() => {
       const popover = document.querySelector("calcite-popover");
       popover.open = false;
     });
 
+    await popoverBeforeCloseEvent;
     await popoverCloseEvent;
 
-    expect(event).toHaveReceivedEventTimes(1);
+    expect(closeEvent).toHaveReceivedEventTimes(1);
+    expect(beforeCloseEvent).toHaveReceivedEventTimes(1);
   });
 
   it("should not be visible if reference is hidden", async () => {
