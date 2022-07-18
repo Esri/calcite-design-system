@@ -39,7 +39,8 @@
     focus-base
     flex;
   box-shadow: inset 0 0 0 1px var(--calcite-ui-border-input);
-  padding: calc(var(--calcite-combobox-item-spacing-unit-s) / 4) var(--calcite-combobox-item-spacing-unit-l);
+  padding-block: calc(var(--calcite-combobox-item-spacing-unit-s) / 4);
+  padding-inline: var(--calcite-combobox-item-spacing-unit-l);
 }
 
 :host(:focus-within) .wrapper,
@@ -48,7 +49,8 @@
 }
 
 .wrapper--single {
-  padding: 0 var(--calcite-combobox-item-spacing-unit-l);
+  padding-block: 0;
+  padding-inline: var(--calcite-combobox-item-spacing-unit-l);
   @apply cursor-pointer flex-nowrap;
 }
 
@@ -70,10 +72,10 @@
   bg-transparent
   p-0;
   font-size: inherit;
-  height: var(--calcite-combobox-input-height);
+  block-size: var(--calcite-combobox-input-height);
   line-height: var(--calcite-combobox-input-height);
-  min-width: 120px;
-  margin-bottom: var(--calcite-combobox-item-spacing-unit-s);
+  min-inline-size: 120px;
+  margin-block-end: var(--calcite-combobox-item-spacing-unit-s);
   &:focus {
     @apply outline-none;
   }
@@ -99,7 +101,8 @@
 }
 
 .input--icon {
-  padding: 0 var(--calcite-combobox-item-spacing-unit-l);
+  padding-block: 0;
+  padding-inline: var(--calcite-combobox-item-spacing-unit-l);
 }
 
 .input-wrap {
@@ -118,14 +121,13 @@
     truncate
     p-0
     font-normal;
-  height: var(--calcite-combobox-input-height);
+  block-size: var(--calcite-combobox-input-height);
   line-height: var(--calcite-combobox-input-height);
 }
 
 .label--spaced {
   @apply py-0;
-  padding-left: var(--calcite-combobox-item-spacing-unit-l);
-  padding-right: var(--calcite-combobox-item-spacing-unit-l);
+  padding-inline: var(--calcite-combobox-item-spacing-unit-l);
 }
 
 .icon-end,
@@ -166,7 +168,7 @@
   @apply bg-foreground-1
     max-h-screen
     overflow-y-auto;
-  width: var(--calcite-dropdown-width);
+  inline-size: var(--calcite-dropdown-width);
 }
 
 .list {
@@ -180,7 +182,7 @@
 .chip {
   margin-block: calc(var(--calcite-combobox-item-spacing-unit-s) / 4);
   margin-inline: 0 var(--calcite-combobox-item-spacing-unit-s);
-  max-width: 100%;
+  max-inline-size: 100%;
 }
 
 .chip--active {

@@ -67,7 +67,7 @@
 
 :host {
   @apply mx-auto hidden max-w-full items-center;
-  width: var(--calcite-notice-width);
+  inline-size: var(--calcite-notice-width);
 }
 
 .container {
@@ -79,7 +79,7 @@
     w-full
     opacity-0
     transition-default;
-  max-height: 0;
+  max-block-size: 0;
   text-align: start;
   border-inline-start: 0px solid;
   box-shadow: 0 0 0 0 transparent;
@@ -118,7 +118,8 @@
 
 @mixin notice-element-base() {
   @apply transition-default box-border;
-  padding: var(--calcite-notice-spacing-token-small) var(--calcite-notice-spacing-token-large);
+  padding-block: var(--calcite-notice-spacing-token-small);
+  padding-inline: var(--calcite-notice-spacing-token-large);
   flex: 0 0 auto;
 }
 
@@ -133,7 +134,8 @@
     padding-inline-start: var(--calcite-notice-spacing-token-large);
   }
   &:only-of-type {
-    padding: var(--calcite-notice-spacing-token-small) var(--calcite-notice-spacing-token-large);
+    padding-block: var(--calcite-notice-spacing-token-small);
+    padding-inline: var(--calcite-notice-spacing-token-large);
   }
 }
 

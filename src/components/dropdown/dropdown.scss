@@ -26,8 +26,8 @@
     w-auto
     overflow-y-auto
     overflow-x-hidden;
-  max-height: 90vh;
-  width: var(--calcite-dropdown-width);
+  max-block-size: 90vh;
+  inline-size: var(--calcite-dropdown-width);
 }
 .calcite-dropdown-trigger-container {
   @apply relative flex flex-auto;
