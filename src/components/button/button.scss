@@ -230,7 +230,7 @@
 
 // button styles
 // solid
-:host {
+:host([appearance="solid"]) {
   button,
   a {
     @apply border-color-transparent
@@ -238,7 +238,7 @@
       border-solid;
   }
 }
-:host([color="blue"]) {
+:host([appearance="solid"][color="blue"]) {
   button,
   a {
     @apply text-color-inverse bg-brand;
@@ -254,7 +254,7 @@
     }
   }
 }
-:host([color="red"]) {
+:host([appearance="solid"][color="red"]) {
   button,
   a {
     @apply text-color-inverse bg-danger;
@@ -270,7 +270,7 @@
     }
   }
 }
-:host([color="neutral"]) {
+:host([appearance="solid"][color="neutral"]) {
   button,
   a {
     @apply text-color-1 bg-foreground-3;
@@ -286,7 +286,7 @@
     }
   }
 }
-:host([color="inverse"]) {
+:host([appearance="solid"][color="inverse"]) {
   button,
   a {
     @apply text-color-inverse;

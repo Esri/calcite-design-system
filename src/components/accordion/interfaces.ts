@@ -1,1 +1,1 @@
-export type AccordionAppearance = "default" | "minimal" | "transparent";
+export type AccordionAppearance = "default" | "minimal" | "transparent" | "solid";

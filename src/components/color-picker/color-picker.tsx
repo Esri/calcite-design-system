@@ -62,8 +62,8 @@ export class ColorPicker implements InteractiveComponent {
    */
   @Prop() allowEmpty = false;
 
-  /** specify the appearance - minimal (no containing border) */
-  @Prop({ reflect: true }) appearance: ColorAppearance;
+  /** specify the appearance - solid (containing border), or minimal (no containing border) */
+  @Prop({ reflect: true }) appearance: ColorAppearance = "solid";
 
   /**
    * Internal prop for advanced use-cases.

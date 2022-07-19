@@ -12,6 +12,10 @@ describe("calcite-button", () => {
         defaultValue: "center"
       },
       {
+        propertyName: "appearance",
+        defaultValue: "solid"
+      },
+      {
         propertyName: "label",
         defaultValue: undefined
       },
@@ -98,6 +102,7 @@ describe("calcite-button", () => {
 
     expect(element).toHaveAttribute(HYDRATED_ATTR);
     expect(element).toEqualAttribute("color", "blue");
+    expect(element).toEqualAttribute("appearance", "solid");
     expect(element).toEqualAttribute("scale", "m");
     expect(element).toEqualAttribute("width", "auto");
     expect(elementAsLink).toBeNull();
@@ -158,6 +163,7 @@ describe("calcite-button", () => {
 
     expect(element).toHaveAttribute(HYDRATED_ATTR);
     expect(element).toEqualAttribute("color", "blue");
+    expect(element).toEqualAttribute("appearance", "solid");
     expect(element).toEqualAttribute("scale", "m");
     expect(element).toEqualAttribute("width", "auto");
     expect(elementAsLink).not.toBeNull();

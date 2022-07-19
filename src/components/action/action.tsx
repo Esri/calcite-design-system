@@ -45,7 +45,7 @@ export class Action implements InteractiveComponent {
   @Prop({ reflect: true }) alignment?: Alignment;
 
   /** Specify the appearance style of the action. */
-  @Prop({ reflect: true }) appearance: Extract<"solid" | "clear" | "transparent", Appearance>;
+  @Prop({ reflect: true }) appearance: Extract<"solid" | "clear", Appearance> = "solid";
 
   /**
    * When true, the side padding of the component is reduced. Compact mode is used internally by components, e.g. `calcite-block-section`.

@@ -1,6 +1,6 @@
 import type Color from "color";
 
-export type ColorAppearance = "default" | "minimal";
+export type ColorAppearance = "default" | "minimal" | "solid";
 
 export type ColorMode = "rgb" | "hsv";
 
