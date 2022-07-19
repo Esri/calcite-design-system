@@ -185,13 +185,15 @@ export class InputDatePicker
   @Prop({ mutable: true, reflect: true }) open = false;
 
   @Watch("open")
-  openHandler(): void {
-    if (!this.disabled || !this.readOnly) {
-      this.reposition();
+  openHandler(value: boolean): void {
+    this.active = value;
+
+    if (this.disabled || this.readOnly) {
+      this.open = false;
       return;
     }
 
-    this.open = false;
+    this.reposition();
   }
 
   /**
@@ -359,7 +361,9 @@ export class InputDatePicker
   // --------------------------------------------------------------------------
 
   connectedCallback(): void {
-    this.open = this.active;
+    this.activeHandler(this.active || this.open);
+    this.openHandler(this.active || this.open);
+
     if (Array.isArray(this.value)) {
       this.valueAsDate = this.value.map((v) => dateFromISO(v));
       this.start = this.value[0];
