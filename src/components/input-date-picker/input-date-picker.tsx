@@ -174,6 +174,11 @@ export class InputDatePicker
     }
   }
 
+  /**
+   * @internal
+   */
+  @Prop({ mutable: true, reflect: true }) open = false;
+
   /** Expand or collapse when calendar does not have input */
   @Prop({ mutable: true, reflect: true }) active = false;
 

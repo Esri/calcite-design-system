@@ -368,7 +368,7 @@ export function connectFloatingUI(
   cleanupMap.set(
     component,
     autoUpdate(referenceEl, floatingEl, () => {
-      if (component.active) {
+      if (component.open) {
         component.reposition();
       }
     })
