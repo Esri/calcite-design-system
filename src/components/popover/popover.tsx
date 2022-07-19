@@ -142,7 +142,6 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
 
   @Watch("open")
   openHandler(): void {
-    this.active = this.open;
     this.reposition();
     this.setExpandedAttr();
   }
@@ -202,8 +201,6 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
 
   @State() effectiveReferenceElement: ReferenceElement;
 
-  active: boolean;
-
   arrowEl: HTMLDivElement;
 
   closeButtonEl: HTMLCalciteActionElement;
@@ -226,7 +223,6 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
   // --------------------------------------------------------------------------
 
   connectedCallback(): void {
-    this.active = this.open;
     connectFloatingUI(this, this.effectiveReferenceElement, this.el);
     this.setFilteredPlacements();
   }
@@ -283,10 +279,6 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
       offsetSkidding,
       arrowEl
     } = this;
-
-    if (!effectiveReferenceElement) {
-      return;
-    }
 
     return positionFloatingUI({
       floatingEl: el,

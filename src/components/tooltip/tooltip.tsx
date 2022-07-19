@@ -68,7 +68,6 @@ export class Tooltip implements FloatingUIComponent {
 
   @Watch("open")
   openHandler(): void {
-    this.active = this.open;
     this.reposition();
   }
 
@@ -112,8 +111,6 @@ export class Tooltip implements FloatingUIComponent {
 
   @State() effectiveReferenceElement: ReferenceElement;
 
-  active: boolean;
-
   arrowEl: HTMLDivElement;
 
   guid = `calcite-tooltip-${guid()}`;
@@ -125,7 +122,6 @@ export class Tooltip implements FloatingUIComponent {
   // --------------------------------------------------------------------------
 
   connectedCallback(): void {
-    this.active = this.open;
     connectFloatingUI(this, this.effectiveReferenceElement, this.el);
   }
 
@@ -160,10 +156,6 @@ export class Tooltip implements FloatingUIComponent {
       offsetSkidding,
       arrowEl
     } = this;
-
-    if (!effectiveReferenceElement) {
-      return;
-    }
 
     return positionFloatingUI({
       floatingEl: el,

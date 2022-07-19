@@ -230,10 +230,6 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent, Float
   async reposition(): Promise<void> {
     const { floatingEl, referenceEl, placement, overlayPositioning } = this;
 
-    if (!floatingEl || !referenceEl) {
-      return;
-    }
-
     return positionFloatingUI({
       floatingEl,
       referenceEl,

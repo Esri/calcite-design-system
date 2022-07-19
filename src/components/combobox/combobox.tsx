@@ -239,10 +239,6 @@ export class Combobox
   async reposition(): Promise<void> {
     const { floatingEl, referenceEl, placement, overlayPositioning } = this;
 
-    if (!floatingEl || !referenceEl) {
-      return;
-    }
-
     return positionFloatingUI({
       floatingEl,
       referenceEl,
