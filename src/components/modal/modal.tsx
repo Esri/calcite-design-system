@@ -270,11 +270,6 @@ export class Modal implements ConditionalSlotComponent, OpenCloseComponent {
 
   private containerEl: HTMLDivElement;
 
-  private setContainerEl = (el): void => {
-    this.containerEl = el;
-    this.containerEl.addEventListener("transitionstart", this.transitionStartHandler);
-  };
-
   //--------------------------------------------------------------------------
   //
   //  Event Listeners
@@ -365,6 +360,11 @@ export class Modal implements ConditionalSlotComponent, OpenCloseComponent {
   //
   //--------------------------------------------------------------------------
 
+  private setContainerEl = (el): void => {
+    this.containerEl = el;
+    this.containerEl.addEventListener("transitionstart", this.transitionStartHandler);
+  };
+
   onBeforeOpen(): void {
     this.calciteModalBeforeOpen.emit();
   }
@@ -382,13 +382,13 @@ export class Modal implements ConditionalSlotComponent, OpenCloseComponent {
   }
 
   transitionStartHandler = (event: TransitionEvent): void => {
-    if (event.propertyName === this.activeTransitionProp) {
+    if (event.propertyName === this.activeTransitionProp && event.target === this.containerEl) {
       this.open || this.active ? this.onBeforeOpen() : this.onBeforeClose();
     }
   };
 
   transitionEnd = (event: TransitionEvent): void => {
-    if (event.propertyName === this.activeTransitionProp) {
+    if (event.propertyName === this.activeTransitionProp && event.target === this.containerEl) {
       this.open || this.active ? this.onOpen() : this.onClose();
     }
   };

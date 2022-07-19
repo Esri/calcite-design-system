@@ -554,13 +554,13 @@ export class Combobox
   }
 
   transitionEnd = (event: TransitionEvent): void => {
-    if (event.propertyName === this.activeTransitionProp) {
+    if (event.propertyName === this.activeTransitionProp && event.target === this.listContainerEl) {
       this.open || this.active ? this.onOpen() : this.onClose();
     }
   };
 
   transitionStartHandler = (event: TransitionEvent): void => {
-    if (event.propertyName === this.activeTransitionProp) {
+    if (event.propertyName === this.activeTransitionProp && event.target === this.listContainerEl) {
       this.open || this.active ? this.onBeforeOpen() : this.onBeforeClose();
     }
   };
