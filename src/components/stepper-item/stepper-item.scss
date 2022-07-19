@@ -46,6 +46,7 @@
     relative
     flex
     flex-grow
+    cursor-pointer
     flex-col
     border-0
     border-t-2
@@ -266,7 +267,7 @@
   }
 
   .stepper-item-content {
-    @apply duration-150 ease-in-out;
+    @apply cursor-auto duration-150 ease-in-out;
     padding-block: 0;
     padding-inline-end: var(--calcite-stepper-item-spacing-unit-m);
     text-align: start;
