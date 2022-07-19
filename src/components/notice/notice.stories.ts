@@ -16,7 +16,7 @@ export const Simple = (): string => html`
   <div style="width:600px;max-width:100%;text-align:center;">
     <calcite-notice
       ${boolean("icon", true)}
-      ${boolean("active", true)}
+      ${boolean("open", true)}
       ${boolean("dismissible", true)}
       scale="${select("scale", ["s", "m", "l"], "m")}"
       width="${select("width", ["auto", "half", "full"], "auto")}"
@@ -33,7 +33,7 @@ export const CustomIcon = (): string => html`
   <div style="width:600px;max-width:100%;text-align:center;">
     <calcite-notice
       icon="${select("icon", iconNames, iconNames[0])}"
-      ${boolean("active", true)}
+      ${boolean("open", true)}
       ${boolean("dismissible", true)}
       scale="${select("scale", ["s", "m", "l"], "m")}"
       width="${select("width", ["auto", "half", "full"], "auto")}"
@@ -52,7 +52,7 @@ export const WithAction = (): string => html`
   <div style="width:600px;max-width:100%;text-align:center;">
     <calcite-notice
       ${boolean("icon", true)}
-      ${boolean("active", true)}
+      ${boolean("open", true)}
       ${boolean("dismissible", false)}
       scale="${select("scale", ["s", "m", "l"], "m")}"
       width="${select("width", ["auto", "half", "full"], "auto")}"
@@ -75,7 +75,7 @@ export const DarkMode = (): string => html`
     <calcite-notice
       class="calcite-theme-dark"
       ${boolean("icon", true)}
-      ${boolean("active", true)}
+      ${boolean("open", true)}
       ${boolean("dismissible", false)}
       scale="${select("scale", ["s", "m", "l"], "m")}"
       width="${select("width", ["auto", "half", "full"], "auto")}"
@@ -93,7 +93,7 @@ export const Rtl = (): string => html`
   <div dir="rtl" style="width:600px;max-width:100%;text-align:center;">
     <calcite-notice
       ${boolean("icon", true)}
-      ${boolean("active", true)}
+      ${boolean("open", true)}
       ${boolean("dismissible", true)}
       width="${select("width", ["auto", "half", "full"], "auto")}"
       scale="${select("scale", ["s", "m", "l"], "m")}"

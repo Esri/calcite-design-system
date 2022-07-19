@@ -107,6 +107,16 @@
     opacity-100;
 }
 
+:host([open]) .container {
+  @apply shadow-1
+    pointer-events-auto
+    flex
+    max-h-full
+    items-center
+    border-2
+    opacity-100;
+}
+
 @include slotted("title", "*", ".container") {
   @apply text-color-1 m-0 font-medium;
 }

@@ -54,8 +54,15 @@ export class Notice implements ConditionalSlotComponent {
   //
   //---------------------------------------------------------------------------
 
-  /** When true, the component is active. */
+  /**
+   * When true, the component is active.
+   *
+   * @deprecated Use open instead.
+   */
   @Prop({ reflect: true, mutable: true }) active = false;
+
+  /** When true, the component is visible */
+  @Prop({ reflect: true, mutable: true }) open = false;
 
   /** The color for the component's top border and icon. */
   @Prop({ reflect: true }) color: StatusColor = "blue";
@@ -190,6 +197,7 @@ export class Notice implements ConditionalSlotComponent {
   //--------------------------------------------------------------------------
   private close = (): void => {
     this.active = false;
+    this.open = false;
     this.calciteNoticeClose.emit();
   };
 
