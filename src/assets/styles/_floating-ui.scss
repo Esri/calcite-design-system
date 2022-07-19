@@ -111,8 +111,8 @@ $pointer_offset: -$pointer_size * 0.5;
   .arrow,
   .arrow::before {
     position: absolute;
-    width: $pointer_size;
-    height: $pointer_size;
+    inline-size: $pointer_size;
+    block-size: $pointer_size;
     z-index: -1;
   }
 
@@ -124,18 +124,20 @@ $pointer_offset: -$pointer_size * 0.5;
   }
 
   :host([data-placement^="top"]) .arrow {
-    bottom: $pointer_offset;
+    inset-block-end: $pointer_offset;
   }
 
   :host([data-placement^="bottom"]) .arrow {
-    top: $pointer_offset;
+    inset-block-start: $pointer_offset;
   }
 
   :host([data-placement^="left"]) .arrow {
-    right: $pointer_offset;
+    direction: ltr;
+    inset-inline-end: $pointer_offset;
   }
 
   :host([data-placement^="right"]) .arrow {
-    left: $pointer_offset;
+    direction: ltr;
+    inset-inline-start: $pointer_offset;
   }
 }
