@@ -26,8 +26,8 @@ describe("calcite-chip", () => {
   it("renders default props when none are provided", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-chip>Chip content</calcite-chip>`);
-
     const element = await page.find("calcite-chip");
+    expect(element).toEqualAttribute("appearance", "solid");
     expect(element).toEqualAttribute("color", "grey");
     expect(element).toEqualAttribute("scale", "m");
   });
