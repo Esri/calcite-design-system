@@ -31,7 +31,29 @@ export type OverlayPositioning = Strategy;
 type VariationPlacement = "leading-start" | "leading" | "leading-end" | "trailing-end" | "trailing" | "trailing-start";
 
 type AutoPlacement = "auto" | "auto-start" | "auto-end";
-export type LogicalPlacement = AutoPlacement | Placement | VariationPlacement;
+
+/**
+ * Use "*-start" and "*-end" instead.
+ *
+ * There is no need for our "*-leading" and "*-trailing" values anymore since "*-start" and "*-end" are already flipped in RTL.
+ *
+ * @deprecated use expanded instead
+ */
+type DeprecatedPlacement =
+  | "leading-leading"
+  | "leading-trailing"
+  | "trailing-leading"
+  | "trailing-trailing"
+  | "top-leading"
+  | "top-trailing"
+  | "bottom-leading"
+  | "bottom-trailing"
+  | "right-leading"
+  | "right-trailing"
+  | "left-leading"
+  | "left-trailing";
+
+export type LogicalPlacement = AutoPlacement | Placement | VariationPlacement | DeprecatedPlacement;
 export type EffectivePlacement = Placement;
 
 export const placements: LogicalPlacement[] = [
@@ -110,7 +132,7 @@ export interface FloatingUIComponent {
   /**
    * Whether the component is opened.
    */
-  active: boolean;
+  open: boolean;
 
   /**
    * Describes the type of positioning to use for the overlaid content. If your element is in a fixed container, use the 'fixed' value.
@@ -225,8 +247,8 @@ export function getEffectivePlacement(floatingEl: HTMLElement, placement: Logica
   }
 
   return placement
-    .replace(/-leading/gi, "-start") // todo: remove. Has already been removed in typings.
-    .replace(/-trailing/gi, "-end") // todo: remove. Has already been removed in typings.
+    .replace(/-leading/gi, "-start")
+    .replace(/-trailing/gi, "-end")
     .replace(/leading/gi, placements[0])
     .replace(/trailing/gi, placements[1]) as EffectivePlacement;
 }
@@ -378,10 +400,6 @@ export function disconnectFloatingUI(
   cleanupMap.delete(component);
 }
 
-export function hypotenuse(sideA: number, sideB: number): number {
-  return Math.sqrt(Math.pow(sideA, 2) + Math.pow(sideB, 2));
-}
-
 const visiblePointerSize = 4;
 
 /**
@@ -389,4 +407,4 @@ const visiblePointerSize = 4;
  *
  * @default 6
  */
-export const defaultOffsetDistance = Math.ceil(hypotenuse(visiblePointerSize, visiblePointerSize));
+export const defaultOffsetDistance = Math.ceil(Math.hypot(visiblePointerSize, visiblePointerSize));
