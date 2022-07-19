@@ -233,7 +233,7 @@ describe("calcite-input-date-picker", () => {
   it("owns a floating-ui", () =>
     floatingUIOwner(
       `<calcite-input-date-picker value="2022-11-27" min="2022-11-15" max="2024-11-15"></calcite-input-date-picker>`,
-      "active",
+      "open",
       { shadowSelector: ".menu-container" }
     ));
 

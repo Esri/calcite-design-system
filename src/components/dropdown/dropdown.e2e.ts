@@ -1023,7 +1023,7 @@ describe("calcite-dropdown", () => {
           <calcite-dropdown-item id="item-3">3</calcite-dropdown-item>
         </calcite-dropdown-group>
       </calcite-dropdown>`,
-      "active",
+      "open",
       {
         shadowSelector: ".calcite-dropdown-wrapper"
       }

@@ -1208,7 +1208,7 @@ describe("calcite-combobox", () => {
         <calcite-combobox-item id="two" icon="beaker" value="two" text-label="Two" selected></calcite-combobox-item>
         <calcite-combobox-item id="three" value="three" text-label="Three"></calcite-combobox-item>
       </calcite-combobox>`,
-      "active",
+      "open",
       { shadowSelector: ".floating-ui-container" }
     ));
 
