@@ -25,7 +25,7 @@ export class Accordion {
   //
   //--------------------------------------------------------------------------
 
-  /** Specify the appearance - minimal (no containing border) or transparent*/
+  /** Specifies the appearance of the component. */
   @Prop({ reflect: true }) appearance: AccordionAppearance = "solid";
 
   /** Specifies the placement of the icon in the header. */

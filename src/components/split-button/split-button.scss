@@ -12,19 +12,19 @@
 }
 
 :host([appearance="solid"]) {
-  :host([color="blue"]) {
+  &:host([color="blue"]) {
     --calcite-split-button-background: theme("colors.brand");
     --calcite-split-button-divider: theme("colors.background.foreground.1");
   }
-  :host([color="red"]) {
+  &:host([color="red"]) {
     --calcite-split-button-background: theme("colors.danger");
     --calcite-split-button-divider: theme("colors.background.foreground.1");
   }
-  :host([color="neutral"]) {
+  &:host([color="neutral"]) {
     --calcite-split-button-background: theme("colors.background.foreground.3");
     --calcite-split-button-divider: theme("colors.color.1");
   }
-  :host([color="inverse"]) {
+  &:host([color="inverse"]) {
     --calcite-split-button-background: var(--calcite-ui-inverse);
     --calcite-split-button-divider: theme("colors.background.foreground.1");
   }

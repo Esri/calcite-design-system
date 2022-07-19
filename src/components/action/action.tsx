@@ -44,7 +44,7 @@ export class Action implements InteractiveComponent {
    */
   @Prop({ reflect: true }) alignment?: Alignment;
 
-  /** Specify the appearance style of the action. */
+  /** Specifies the appearance of the component. */
   @Prop({ reflect: true }) appearance: Extract<"solid" | "clear", Appearance> = "solid";
 
   /**
