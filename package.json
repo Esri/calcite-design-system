@@ -1,6 +1,6 @@
 {
   "name": "@esri/calcite-components",
-  "version": "1.0.0-next.533",
+  "version": "1.0.0-next.534",
   "description": "Web Components for Esri's Calcite Design System.",
   "main": "dist/index.cjs.js",
   "module": "dist/index.js",
@@ -60,7 +60,7 @@
   },
   "dependencies": {
     "@a11y/focus-trap": "1.0.5",
-    "@floating-ui/dom": "0.5.4",
+    "@floating-ui/dom": "1.0.0",
     "@stencil/core": "2.16.1",
     "@types/color": "3.0.3",
     "color": "4.2.3",
