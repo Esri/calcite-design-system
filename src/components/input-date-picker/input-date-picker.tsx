@@ -614,13 +614,13 @@ export class InputDatePicker
   }
 
   transitionStartHandler = (event: TransitionEvent): void => {
-    if (event.propertyName === this.activeTransitionProp) {
+    if (event.propertyName === this.activeTransitionProp && event.target === this.containerEl) {
       this.active ? this.onBeforeOpen() : this.onBeforeClose();
     }
   };
 
   transitionEnd = (event: TransitionEvent): void => {
-    if (event.propertyName === this.activeTransitionProp) {
+    if (event.propertyName === this.activeTransitionProp && event.target === this.containerEl) {
       this.active ? this.onOpen() : this.onClose();
     }
   };

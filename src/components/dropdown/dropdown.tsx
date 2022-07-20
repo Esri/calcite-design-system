@@ -462,13 +462,13 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent {
   };
 
   transitionEnd = (event: TransitionEvent): void => {
-    if (event.propertyName === this.activeTransitionProp) {
+    if (event.propertyName === this.activeTransitionProp && event.target === this.scrollerEl) {
       this.open || this.active ? this.onOpen() : this.onClose();
     }
   };
 
   transitionStartHandler = (event: TransitionEvent): void => {
-    if (event.propertyName === this.activeTransitionProp) {
+    if (event.propertyName === this.activeTransitionProp && event.target === this.scrollerEl) {
       this.open || this.active ? this.onBeforeOpen() : this.onBeforeClose();
     }
   };
