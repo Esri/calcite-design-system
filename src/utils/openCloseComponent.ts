@@ -57,8 +57,8 @@ export function transitionStartHandler(this: OpenCloseComponent, event: Transiti
   }
 }
 
-export function transitionEnd(event: TransitionEvent): void {
+export function transitionEnd(this: OpenCloseComponent, event: TransitionEvent): void {
   if (event.propertyName === this.activeTransitionProp && event.target === this.transitionEl) {
-    this.active ? this.onOpen() : this.onClose();
+    this.active || this.open ? this.onOpen() : this.onClose();
   }
 }
