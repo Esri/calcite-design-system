@@ -7,7 +7,8 @@ import {
   Host,
   Listen,
   Prop,
-  VNode
+  VNode,
+  Watch
 } from "@stencil/core";
 import { getElementDir, getElementProp, toAriaBoolean } from "../../utils/dom";
 
@@ -45,8 +46,18 @@ export class AccordionItem {
 
   @Prop({ reflect: true, mutable: true }) active = false;
 
+  @Watch("active")
+  activeHandler(value: boolean): void {
+    this.expanded = value;
+  }
+
   /** When true, item is expanded */
   @Prop({ reflect: true, mutable: true }) expanded = false;
+
+  @Watch("expanded")
+  expandedHandler(value: boolean): void {
+    this.active = value;
+  }
 
   /**
    * Specifies a title for the component.
@@ -109,11 +120,10 @@ export class AccordionItem {
     this.selectionMode = getElementProp(this.el, "selection-mode", "multi");
     this.iconType = getElementProp(this.el, "icon-type", "chevron");
     this.iconPosition = getElementProp(this.el, "icon-position", this.iconPosition);
-    if (this.active) {
-      this.expanded = true;
-    }
-    if (this.expanded) {
-      this.active = true;
+    const isExpanded = this.active || this.expanded;
+    if (isExpanded) {
+      this.activeHandler(isExpanded);
+      this.expandedHandler(isExpanded);
     }
   }
 
@@ -133,7 +143,7 @@ export class AccordionItem {
     return (
       <Host>
         <div
-          aria-expanded={toAriaBoolean(this.active || this.expanded)}
+          aria-expanded={toAriaBoolean(this.expanded)}
           class={{
             [`icon-position--${this.iconPosition}`]: true,
             [`icon-type--${this.iconType}`]: true
@@ -159,7 +169,7 @@ export class AccordionItem {
                   ? "chevronDown"
                   : this.iconType === "caret"
                   ? "caretDown"
-                  : this.expanded || this.active
+                  : this.expanded
                   ? "minus"
                   : "plus"
               }
@@ -250,18 +260,15 @@ export class AccordionItem {
     switch (this.selectionMode) {
       case "multi":
         if (this.el === this.requestedAccordionItem) {
-          this.active = !this.active;
           this.expanded = !this.expanded;
         }
         break;
 
       case "single":
-        this.active = this.el === this.requestedAccordionItem ? !this.active : false;
         this.expanded = this.el === this.requestedAccordionItem ? !this.expanded : false;
         break;
 
       case "single-persist":
-        this.active = this.el === this.requestedAccordionItem;
         this.expanded = this.el === this.requestedAccordionItem;
         break;
     }
