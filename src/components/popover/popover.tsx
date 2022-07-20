@@ -431,13 +431,13 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
   }
 
   transitionStartHandler = (event: TransitionEvent): void => {
-    if (event.propertyName === this.activeTransitionProp) {
+    if (event.propertyName === this.activeTransitionProp && event.target === this.containerEl) {
       this.open ? this.onBeforeOpen() : this.onBeforeClose();
     }
   };
 
   transitionEnd = (event: TransitionEvent): void => {
-    if (event.propertyName === this.activeTransitionProp) {
+    if (event.propertyName === this.activeTransitionProp && event.target === this.containerEl) {
       this.open ? this.onOpen() : this.onClose();
     }
   };

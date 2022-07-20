@@ -92,7 +92,7 @@ export class InputDatePicker
   @Watch("readOnly")
   handleDisabledAndReadOnlyChange(value: boolean): void {
     if (!value) {
-      this.active = false;
+      this.open = false;
     }
   }
 
@@ -175,21 +175,30 @@ export class InputDatePicker
   }
 
   /**
-   * @internal
+   * Expand or collapse when calendar does not have input
+   *
+   * @deprecated use open instead
    */
-  @Prop({ mutable: true, reflect: true }) open = false;
-
-  /** Expand or collapse when calendar does not have input */
   @Prop({ mutable: true, reflect: true }) active = false;
 
   @Watch("active")
-  activeHandler(): void {
-    if (!this.disabled || !this.readOnly) {
-      this.reposition();
+  activeHandler(value: boolean): void {
+    this.open = value;
+  }
+
+  /** Expand or collapse when calendar does not have input */
+  @Prop({ mutable: true, reflect: true }) open = false;
+
+  @Watch("open")
+  openHandler(value: boolean): void {
+    this.active = value;
+
+    if (this.disabled || this.readOnly) {
+      this.open = false;
       return;
     }
 
-    this.active = false;
+    this.reposition();
   }
 
   /**
@@ -287,7 +296,7 @@ export class InputDatePicker
       return;
     }
 
-    this.active = false;
+    this.open = false;
   }
 
   //--------------------------------------------------------------------------
@@ -360,6 +369,10 @@ export class InputDatePicker
   // --------------------------------------------------------------------------
 
   connectedCallback(): void {
+    const isOpen = this.active || this.open;
+    isOpen && this.activeHandler(isOpen);
+    isOpen && this.openHandler(isOpen);
+
     if (Array.isArray(this.value)) {
       this.valueAsDate = this.value.map((v) => dateFromISO(v));
       this.start = this.value[0];
@@ -434,11 +447,7 @@ export class InputDatePicker
         role="application"
       >
         {this.localeData && (
-          <div
-            aria-expanded={toAriaBoolean(this.active)}
-            class="input-container"
-            role="application"
-          >
+          <div aria-expanded={toAriaBoolean(this.open)} class="input-container" role="application">
             {
               <div class="input-wrapper" ref={this.setStartWrapper}>
                 <calcite-input
@@ -462,10 +471,10 @@ export class InputDatePicker
               </div>
             }
             <div
-              aria-hidden={toAriaBoolean(!this.active)}
+              aria-hidden={toAriaBoolean(!this.open)}
               class={{
                 [CSS.menu]: true,
-                [CSS.menuActive]: this.active
+                [CSS.menuActive]: this.open
               }}
               ref={this.setFloatingEl}
             >
@@ -474,7 +483,7 @@ export class InputDatePicker
                   ["calendar-picker-wrapper"]: true,
                   ["calendar-picker-wrapper--end"]: this.focusedInput === "end",
                   [FloatingCSS.animation]: true,
-                  [FloatingCSS.animationActive]: this.active
+                  [FloatingCSS.animationActive]: this.open
                 }}
                 onTransitionEnd={this.transitionEnd}
                 ref={this.setContainerEl}
@@ -629,14 +638,14 @@ export class InputDatePicker
   }
 
   transitionStartHandler = (event: TransitionEvent): void => {
-    if (event.propertyName === this.activeTransitionProp) {
-      this.active ? this.onBeforeOpen() : this.onBeforeClose();
+    if (event.propertyName === this.activeTransitionProp && event.target === this.containerEl) {
+      this.open ? this.onBeforeOpen() : this.onBeforeClose();
     }
   };
 
   transitionEnd = (event: TransitionEvent): void => {
-    if (event.propertyName === this.activeTransitionProp) {
-      this.active ? this.onOpen() : this.onClose();
+    if (event.propertyName === this.activeTransitionProp && event.target === this.containerEl) {
+      this.open ? this.onOpen() : this.onClose();
     }
   };
 
@@ -649,7 +658,7 @@ export class InputDatePicker
   };
 
   deactivate = (): void => {
-    this.active = false;
+    this.open = false;
   };
 
   keyDownHandler = (event: KeyboardEvent): void => {
@@ -660,7 +669,7 @@ export class InputDatePicker
 
   keyUpHandler = (e: KeyboardEvent): void => {
     if (e.key === "Escape") {
-      this.active = false;
+      this.open = false;
     }
   };
 
@@ -670,14 +679,14 @@ export class InputDatePicker
 
   startInputFocus = (): void => {
     if (!this.readOnly) {
-      this.active = true;
+      this.open = true;
     }
     this.focusedInput = "start";
   };
 
   endInputFocus = (): void => {
     if (!this.readOnly) {
-      this.active = true;
+      this.open = true;
     }
     this.focusedInput = "end";
   };

@@ -43,7 +43,7 @@
 // additional styling can be passed via @content
 @mixin disabled() {
   :host([disabled]) {
-    @apply opacity-disabled pointer-events-none cursor-default select-none;
+    @extend %disabled-host-only;
     @content;
 
     ::slotted([calcite-hydrated][disabled]),
@@ -52,6 +52,11 @@
       @apply opacity-100;
     }
   }
+}
+
+// used for host-specific styling when the `disabled` mixin cannot be applied on the host (e.g., `display: contents`)
+%disabled-host-only {
+  @apply opacity-disabled pointer-events-none cursor-default select-none;
 }
 
 // mixin to provide default invisibility and disabling of pointer events for components.
