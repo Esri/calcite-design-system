@@ -17,7 +17,8 @@
   @include popperWrapper();
 }
 @include popperElemAnim(".calcite-dropdown-wrapper");
-:host([active]) .calcite-dropdown-wrapper {
+:host([active]) .calcite-dropdown-wrapper,
+:host([open]) .calcite-dropdown-wrapper {
   @include popperWrapperActive();
 }
 :host .calcite-dropdown-content {
@@ -25,12 +26,21 @@
     w-auto
     overflow-y-auto
     overflow-x-hidden;
-  max-height: 90vh;
-  width: var(--calcite-dropdown-width);
+  max-block-size: 90vh;
+  inline-size: var(--calcite-dropdown-width);
 }
 .calcite-dropdown-trigger-container {
   @apply relative flex flex-auto;
 }
+
+@media (forced-colors: active) {
+  /* use real border since box-shadow is removed in high contrast mode */
+  :host([active]) .calcite-dropdown-wrapper,
+  :host([open]) .calcite-dropdown-wrapper {
+    border: 1px solid canvasText;
+  }
+}
+
 // width
 :host([width="s"]) {
   --calcite-dropdown-width: theme("spacing.48");

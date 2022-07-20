@@ -31,6 +31,7 @@ import {
   connectConditionalSlotComponent,
   disconnectConditionalSlotComponent
 } from "../../utils/conditionalSlot";
+import { OpenCloseComponent } from "../../utils/openCloseComponent";
 
 const isFocusableExtended = (el: FocusableElement): boolean => {
   return isCalciteFocusable(el) || isFocusable(el);
@@ -53,7 +54,7 @@ const getFocusableElements = (el: HTMLElement | ShadowRoot): HTMLElement[] => {
   styleUrl: "modal.scss",
   shadow: true
 })
-export class Modal implements ConditionalSlotComponent {
+export class Modal implements ConditionalSlotComponent, OpenCloseComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -66,11 +67,20 @@ export class Modal implements ConditionalSlotComponent {
   //  Properties
   //
   //--------------------------------------------------------------------------
-  /** When true, the component is active. */
+
+  /**
+   * When true, the `calcite-modal` is active.
+   *
+   * @deprecated use open instead
+   */
   @Prop({ mutable: true, reflect: true }) active = false;
 
-  /** Passes a function to run before the component closes. */
-  @Prop() beforeClose?: (el: HTMLElement) => Promise<void> = () => Promise.resolve();
+  /** When true,`calcite-modal`  opens  */
+  @Prop({ mutable: true, reflect: true }) open = false;
+
+  /** Passes a function to run before the `calcite-modal` closes. */
+  @Prop()
+  beforeClose?: (el: HTMLElement) => Promise<void> = () => Promise.resolve();
 
   /** When true, disables the component's close button. */
   @Prop() disableCloseButton = false;
@@ -115,8 +125,8 @@ export class Modal implements ConditionalSlotComponent {
   //--------------------------------------------------------------------------
   componentWillLoad(): void {
     // when modal initially renders, if active was set we need to open as watcher doesn't fire
-    if (this.active) {
-      this.open();
+    if (this.open || this.active) {
+      this.openModal();
     }
   }
 
@@ -127,6 +137,7 @@ export class Modal implements ConditionalSlotComponent {
   }
 
   disconnectedCallback(): void {
+    this.containerEl?.removeEventListener("transitionstart", this.transitionStartHandler);
     this.removeOverflowHiddenClass();
     this.mutationObserver?.disconnect();
     disconnectConditionalSlotComponent(this);
@@ -142,7 +153,7 @@ export class Modal implements ConditionalSlotComponent {
       >
         <calcite-scrim class={CSS.scrim} onClick={this.handleOutsideClose} />
         {this.renderStyle()}
-        <div class="modal" onTransitionEnd={this.transitionEnd}>
+        <div class="modal" onTransitionEnd={this.transitionEnd} ref={this.setContainerEl}>
           <div data-focus-fence onFocus={this.focusLastElement} tabindex="0" />
           <div class={CSS.header}>
             {this.renderCloseButton()}
@@ -253,6 +264,8 @@ export class Modal implements ConditionalSlotComponent {
 
   private activeTransitionProp = "opacity";
 
+  private containerEl: HTMLDivElement;
+
   //--------------------------------------------------------------------------
   //
   //  Event Listeners
@@ -260,7 +273,7 @@ export class Modal implements ConditionalSlotComponent {
   //--------------------------------------------------------------------------
   @Listen("keyup", { target: "window" })
   handleEscape(e: KeyboardEvent): void {
-    if (this.active && !this.disableEscape && e.key === "Escape") {
+    if ((this.open || this.active) && !this.disableEscape && e.key === "Escape") {
       this.close();
     }
   }
@@ -270,11 +283,17 @@ export class Modal implements ConditionalSlotComponent {
   //  Events
   //
   //--------------------------------------------------------------------------
-  /** Emits when the component finishes the open animation. */
-  @Event() calciteModalOpen: EventEmitter;
+  /* Fires when the component is requested to be closed and before the closing transition begins. */
+  @Event() calciteModalBeforeClose: EventEmitter<void>;
 
-  /** Emits when the component finishes the close animation. */
-  @Event() calciteModalClose: EventEmitter;
+  /* Fires when the component is closed and animation is complete. */
+  @Event() calciteModalClose: EventEmitter<void>;
+
+  /* Fires when the component is added to the DOM but not rendered, and before the opening transition begins. */
+  @Event() calciteModalBeforeOpen: EventEmitter<void>;
+
+  /* Fires when the component is open and animation is complete. */
+  @Event() calciteModalOpen: EventEmitter<void>;
 
   //--------------------------------------------------------------------------
   //
@@ -336,17 +355,46 @@ export class Modal implements ConditionalSlotComponent {
   //  Private Methods
   //
   //--------------------------------------------------------------------------
+
+  private setContainerEl = (el): void => {
+    this.containerEl = el;
+    this.containerEl.addEventListener("transitionstart", this.transitionStartHandler);
+  };
+
+  onBeforeOpen(): void {
+    this.calciteModalBeforeOpen.emit();
+  }
+
+  onOpen(): void {
+    this.calciteModalOpen.emit();
+  }
+
+  onBeforeClose(): void {
+    this.calciteModalBeforeClose.emit();
+  }
+
+  onClose(): void {
+    this.calciteModalClose.emit();
+  }
+
+  transitionStartHandler = (event: TransitionEvent): void => {
+    if (event.propertyName === this.activeTransitionProp && event.target === this.containerEl) {
+      this.open || this.active ? this.onBeforeOpen() : this.onBeforeClose();
+    }
+  };
+
   transitionEnd = (event: TransitionEvent): void => {
-    if (event.propertyName === this.activeTransitionProp) {
-      this.active ? this.calciteModalOpen.emit() : this.calciteModalClose.emit();
+    if (event.propertyName === this.activeTransitionProp && event.target === this.containerEl) {
+      this.open || this.active ? this.onOpen() : this.onClose();
     }
   };
 
   @Watch("active")
+  @Watch("open")
   async toggleModal(value: boolean, oldValue: boolean): Promise<void> {
     if (value !== oldValue) {
       if (value) {
-        this.open();
+        this.openModal();
       } else if (!value) {
         this.close();
       }
@@ -359,11 +407,11 @@ export class Modal implements ConditionalSlotComponent {
   };
 
   /** Open the modal */
-  private open() {
+  private openModal() {
     this.previousActiveElement = document.activeElement as HTMLElement;
     this.el.addEventListener("calciteModalOpen", this.openEnd);
     this.active = true;
-
+    this.open = true;
     const titleEl = getSlotted(this.el, SLOTS.header);
     const contentEl = getSlotted(this.el, SLOTS.content);
 
@@ -385,6 +433,7 @@ export class Modal implements ConditionalSlotComponent {
   close = (): Promise<void> => {
     return this.beforeClose(this.el).then(() => {
       this.active = false;
+      this.open = false;
       focusElement(this.previousActiveElement);
       this.removeOverflowHiddenClass();
     });

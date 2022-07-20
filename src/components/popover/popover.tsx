@@ -34,6 +34,7 @@ import {
 import { StrictModifiers, Instance as Popper } from "@popperjs/core";
 import { guid } from "../../utils/guid";
 import { queryElementRoots, toAriaBoolean } from "../../utils/dom";
+import { OpenCloseComponent } from "../../utils/openCloseComponent";
 import { HeadingLevel, Heading } from "../functional/Heading";
 
 import PopoverManager from "./PopoverManager";
@@ -48,7 +49,7 @@ const manager = new PopoverManager();
   styleUrl: "popover.scss",
   shadow: true
 })
-export class Popover {
+export class Popover implements OpenCloseComponent {
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -69,8 +70,13 @@ export class Popover {
 
   /**
    * When true, a close button is added to the component.
+   *
+   * @deprecated use closable instead
    */
   @Prop({ reflect: true }) dismissible = false;
+
+  /** When true, display a close button within the Popover */
+  @Prop({ reflect: true }) closable = false;
 
   /**
    * When true, prevents flipping the component's placement when overlapping its `referenceElement`.
@@ -197,6 +203,13 @@ export class Popover {
 
   private activeTransitionProp = "opacity";
 
+  private containerEl: HTMLDivElement;
+
+  private setContainerEl = (el): void => {
+    this.containerEl = el;
+    this.containerEl.addEventListener("transitionstart", this.transitionStartHandler);
+  };
+
   // --------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -216,6 +229,7 @@ export class Popover {
   }
 
   disconnectedCallback(): void {
+    this.containerEl?.removeEventListener("transitionstart", this.transitionStartHandler);
     this.removeReferences();
     this.destroyPopper();
   }
@@ -225,11 +239,18 @@ export class Popover {
   //  Events
   //
   //--------------------------------------------------------------------------
-  /** Fired when the component is closed. */
-  @Event() calcitePopoverClose: EventEmitter;
 
-  /** Fired when the component is opened. */
-  @Event() calcitePopoverOpen: EventEmitter;
+  /* Fires when the component is requested to be closed and before the closing transition begins. */
+  @Event() calcitePopoverBeforeClose: EventEmitter<void>;
+
+  /* Fires when the component is closed and animation is complete. */
+  @Event() calcitePopoverClose: EventEmitter<void>;
+
+  /* Fires when the component is added to the DOM but not rendered, and before the opening transition begins. */
+  @Event() calcitePopoverBeforeOpen: EventEmitter<void>;
+
+  /* Fires when the component is open and animation is complete. */
+  @Event() calcitePopoverOpen: EventEmitter<void>;
 
   // --------------------------------------------------------------------------
   //
@@ -442,9 +463,31 @@ export class Popover {
     this.open = false;
   };
 
+  onBeforeOpen(): void {
+    this.calcitePopoverBeforeOpen.emit();
+  }
+
+  onOpen(): void {
+    this.calcitePopoverOpen.emit();
+  }
+
+  onBeforeClose(): void {
+    this.calcitePopoverBeforeClose.emit();
+  }
+
+  onClose(): void {
+    this.calcitePopoverClose.emit();
+  }
+
+  transitionStartHandler = (event: TransitionEvent): void => {
+    if (event.propertyName === this.activeTransitionProp && event.target === this.containerEl) {
+      this.open ? this.onBeforeOpen() : this.onBeforeClose();
+    }
+  };
+
   transitionEnd = (event: TransitionEvent): void => {
-    if (event.propertyName === this.activeTransitionProp) {
-      this.open ? this.calcitePopoverOpen.emit() : this.calcitePopoverClose.emit();
+    if (event.propertyName === this.activeTransitionProp && event.target === this.containerEl) {
+      this.open ? this.onOpen() : this.onClose();
     }
   };
 
@@ -455,9 +498,9 @@ export class Popover {
   // --------------------------------------------------------------------------
 
   renderCloseButton(): VNode {
-    const { dismissible, closeButton, intlClose, heading } = this;
+    const { dismissible, closeButton, intlClose, heading, closable } = this;
 
-    return dismissible || closeButton ? (
+    return closable || dismissible || closeButton ? (
       <div class={CSS.closeButtonContainer}>
         <calcite-action
           class={CSS.closeButton}
@@ -511,6 +554,7 @@ export class Popover {
             [PopperCSS.animationActive]: displayed
           }}
           onTransitionEnd={this.transitionEnd}
+          ref={this.setContainerEl}
         >
           {arrowNode}
           <div

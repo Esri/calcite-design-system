@@ -17,6 +17,7 @@ import { LabelableComponent, connectLabel, disconnectLabel } from "../../utils/l
 import { connectForm, disconnectForm, FormComponent, HiddenFormInputSlot } from "../../utils/form";
 import { TEXT } from "./resources";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import { isActivationKey } from "../../utils/key";
 
 @Component({
   tag: "calcite-rating",
@@ -120,7 +121,8 @@ export class Rating implements LabelableComponent, FormComponent, InteractiveCom
   //
   //--------------------------------------------------------------------------
 
-  @Listen("blur") blurHandler(): void {
+  @Listen("blur")
+  blurHandler(): void {
     this.hasFocus = false;
   }
 
@@ -171,10 +173,8 @@ export class Rating implements LabelableComponent, FormComponent, InteractiveCom
               // click is fired from the the component's label, so we treat this as an internal event
               event.stopPropagation()
             }
-            onFocus={() => {
-              this.hasFocus = true;
-              this.focusValue = i;
-            }}
+            onFocus={() => this.onFocusChange(i)}
+            onKeyDown={this.onKeyboardPressed}
             ref={(el) =>
               (i === 1 || i === this.value) && (this.inputFocusRef = el as HTMLInputElement)
             }
@@ -226,6 +226,22 @@ export class Rating implements LabelableComponent, FormComponent, InteractiveCom
     this.value = value;
     this.calciteRatingChange.emit({ value });
   }
+
+  private onKeyboardPressed = (event: KeyboardEvent): void => {
+    if (!this.required && isActivationKey(event.key)) {
+      event.preventDefault();
+      this.updateValue(0);
+    }
+  };
+
+  private onFocusChange = (selectedRatingValue: number): void => {
+    this.hasFocus = true;
+    if (!this.required && this.focusValue === selectedRatingValue) {
+      this.updateValue(0);
+    } else {
+      this.focusValue = selectedRatingValue;
+    }
+  };
 
   //--------------------------------------------------------------------------
   //

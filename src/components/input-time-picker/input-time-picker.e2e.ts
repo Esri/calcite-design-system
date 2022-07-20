@@ -44,6 +44,34 @@ describe("calcite-input-time-picker", () => {
 
   it("can be disabled", () => disabled("calcite-input-time-picker"));
 
+  it("when set to readOnly, element still focusable but won't display the controls or allow for changing the value", async () => {
+    const page = await newE2EPage();
+    await page.setContent(
+      `<calcite-input-time-picker read-only triggerDisabled={true} id="canReadOnly"></calcite-input-time-picker>`
+    );
+
+    const component = await page.find("#canReadOnly");
+    const input = await page.find("#canReadOnly >>> calcite-input");
+    const popover = await page.find("#canReadOnly >>> calcite-popover");
+
+    expect(await input.getProperty("value")).toBe("");
+
+    await component.callMethod("setFocus");
+    await page.waitForChanges();
+
+    expect(await page.evaluate(() => document.activeElement.id)).toBe("canReadOnly");
+    expect(await popover.getProperty("open")).toBe(false);
+
+    await component.click();
+    await page.waitForChanges();
+    expect(await popover.getProperty("open")).toBe(false);
+
+    await component.type("atención atención");
+    await page.waitForChanges();
+
+    expect(await input.getProperty("value")).toBe("");
+  });
+
   it("opens the time picker on input keyboard focus", async () => {
     const page = await newE2EPage({
       html: `<calcite-input-time-picker></calcite-input-time-picker>`

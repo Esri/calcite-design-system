@@ -133,7 +133,7 @@ export const basic = (): string =>
       ${create(
         "calcite-accordion-item",
         createAccordionItemAttributes({ group: "accordion-item-4" }).concat({
-          name: "active",
+          name: "expanded",
           value: true
         }),
         accordionItemContent
@@ -164,7 +164,7 @@ export const icon = (): string =>
       ${create(
         "calcite-accordion-item",
         createAccordionItemAttributes({ icon: true, group: "accordion-item-4" }).concat({
-          name: "active",
+          name: "expanded",
           value: true
         }),
         accordionItemContent
@@ -198,7 +198,7 @@ export const darkThemeIcon = (): string =>
       ${create(
         "calcite-accordion-item",
         createAccordionItemAttributes({ icon: true, group: "accordion-item-4" }).concat({
-          name: "active",
+          name: "expanded",
           value: true
         }),
         accordionItemContent
@@ -234,7 +234,7 @@ export const RTL = (): string =>
       ${create(
         "calcite-accordion-item",
         createAccordionItemAttributes({ group: "accordion-item-4" }).concat({
-          name: "active",
+          name: "expanded",
           value: true
         }),
         accordionItemContent
@@ -268,7 +268,7 @@ export const TransparentAppearance = (): string =>
       ${create(
         "calcite-accordion-item",
         createAccordionItemAttributes({ group: "accordion-item-4" }).concat({
-          name: "active",
+          name: "expanded",
           value: true
         }),
         accordionItemContent

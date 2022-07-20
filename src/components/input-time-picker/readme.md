@@ -18,27 +18,28 @@
 
 ## Properties
 
-| Property           | Attribute            | Description                                                                   | Type                                        | Default     |
-| ------------------ | -------------------- | ----------------------------------------------------------------------------- | ------------------------------------------- | ----------- |
-| `active`           | `active`             | The active state of the time input                                            | `boolean`                                   | `false`     |
-| `disabled`         | `disabled`           | The disabled state of the time input                                          | `boolean`                                   | `false`     |
-| `intlHour`         | `intl-hour`          | aria-label for the hour input                                                 | `string`                                    | `undefined` |
-| `intlHourDown`     | `intl-hour-down`     | aria-label for the hour down button                                           | `string`                                    | `undefined` |
-| `intlHourUp`       | `intl-hour-up`       | aria-label for the hour up button                                             | `string`                                    | `undefined` |
-| `intlMeridiem`     | `intl-meridiem`      | aria-label for the meridiem (am/pm) input                                     | `string`                                    | `undefined` |
-| `intlMeridiemDown` | `intl-meridiem-down` | aria-label for the meridiem (am/pm) down button                               | `string`                                    | `undefined` |
-| `intlMeridiemUp`   | `intl-meridiem-up`   | aria-label for the meridiem (am/pm) up button                                 | `string`                                    | `undefined` |
-| `intlMinute`       | `intl-minute`        | aria-label for the minute input                                               | `string`                                    | `undefined` |
-| `intlMinuteDown`   | `intl-minute-down`   | aria-label for the minute down button                                         | `string`                                    | `undefined` |
-| `intlMinuteUp`     | `intl-minute-up`     | aria-label for the minute up button                                           | `string`                                    | `undefined` |
-| `intlSecond`       | `intl-second`        | aria-label for the second input                                               | `string`                                    | `undefined` |
-| `intlSecondDown`   | `intl-second-down`   | aria-label for the second down button                                         | `string`                                    | `undefined` |
-| `intlSecondUp`     | `intl-second-up`     | aria-label for the second up button                                           | `string`                                    | `undefined` |
-| `name`             | `name`               | The name of the time input                                                    | `string`                                    | `undefined` |
-| `placement`        | `placement`          | Determines where the popover will be positioned relative to the input.        | `Placement \| PlacementRtl \| VariationRtl` | `"auto"`    |
-| `scale`            | `scale`              | The scale (size) of the time input                                            | `"l" \| "m" \| "s"`                         | `"m"`       |
-| `step`             | `step`               | number (seconds) that specifies the granularity that the value must adhere to | `number`                                    | `60`        |
-| `value`            | `value`              | The selected time in UTC (always 24-hour format)                              | `string`                                    | `null`      |
+| Property           | Attribute            | Description                                                                        | Type                                        | Default     |
+| ------------------ | -------------------- | ---------------------------------------------------------------------------------- | ------------------------------------------- | ----------- |
+| `active`           | `active`             | The active state of the time input                                                 | `boolean`                                   | `false`     |
+| `disabled`         | `disabled`           | The disabled state of the time input                                               | `boolean`                                   | `false`     |
+| `intlHour`         | `intl-hour`          | aria-label for the hour input                                                      | `string`                                    | `undefined` |
+| `intlHourDown`     | `intl-hour-down`     | aria-label for the hour down button                                                | `string`                                    | `undefined` |
+| `intlHourUp`       | `intl-hour-up`       | aria-label for the hour up button                                                  | `string`                                    | `undefined` |
+| `intlMeridiem`     | `intl-meridiem`      | aria-label for the meridiem (am/pm) input                                          | `string`                                    | `undefined` |
+| `intlMeridiemDown` | `intl-meridiem-down` | aria-label for the meridiem (am/pm) down button                                    | `string`                                    | `undefined` |
+| `intlMeridiemUp`   | `intl-meridiem-up`   | aria-label for the meridiem (am/pm) up button                                      | `string`                                    | `undefined` |
+| `intlMinute`       | `intl-minute`        | aria-label for the minute input                                                    | `string`                                    | `undefined` |
+| `intlMinuteDown`   | `intl-minute-down`   | aria-label for the minute down button                                              | `string`                                    | `undefined` |
+| `intlMinuteUp`     | `intl-minute-up`     | aria-label for the minute up button                                                | `string`                                    | `undefined` |
+| `intlSecond`       | `intl-second`        | aria-label for the second input                                                    | `string`                                    | `undefined` |
+| `intlSecondDown`   | `intl-second-down`   | aria-label for the second down button                                              | `string`                                    | `undefined` |
+| `intlSecondUp`     | `intl-second-up`     | aria-label for the second up button                                                | `string`                                    | `undefined` |
+| `name`             | `name`               | The name of the time input                                                         | `string`                                    | `undefined` |
+| `placement`        | `placement`          | Determines where the popover will be positioned relative to the input.             | `Placement \| PlacementRtl \| VariationRtl` | `"auto"`    |
+| `readOnly`         | `read-only`          | When true, still focusable but controls are gone and the value cannot be modified. | `boolean`                                   | `false`     |
+| `scale`            | `scale`              | The scale (size) of the time input                                                 | `"l" \| "m" \| "s"`                         | `"m"`       |
+| `step`             | `step`               | number (seconds) that specifies the granularity that the value must adhere to      | `number`                                    | `60`        |
+| `value`            | `value`              | The selected time in UTC (always 24-hour format)                                   | `string`                                    | `null`      |
 
 ## Events
 

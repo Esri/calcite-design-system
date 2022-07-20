@@ -16,8 +16,10 @@ describe("calcite-notice", () => {
     accessible(`<calcite-notice icon active>${noticeContent}</calcite-notice>`));
   it("is accessible with close button", async () =>
     accessible(`<calcite-notice dismissible active>${noticeContent}</calcite-notice>`));
-  it("is accessible with icon and close button", async () =>
+  it("is accessible with icon and close button (deprecated)", async () =>
     accessible(`<calcite-notice icon dismissible active>${noticeContent}</calcite-notice>`));
+  it("is accessible with icon and close button", async () =>
+    accessible(`<calcite-notice icon closable active>${noticeContent}</calcite-notice>`));
 
   it("has slots", () => slots("calcite-notice", SLOTS));
 
@@ -53,7 +55,7 @@ describe("calcite-notice", () => {
     expect(icon).toBeNull();
   });
 
-  it("renders an icon and close button when requested", async () => {
+  it("renders an icon and close button when requested (deprecated)", async () => {
     const page = await newE2EPage();
     await page.setContent(`
     <calcite-notice icon dismissible>
@@ -66,7 +68,20 @@ describe("calcite-notice", () => {
     expect(icon).not.toBeNull();
   });
 
-  it("successfully closes a dismissible notice", async () => {
+  it("renders an icon and close button when requested", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+    <calcite-notice icon closable>
+    ${noticeContent}
+    </calcite-notice>`);
+
+    const close = await page.find(`calcite-notice >>> .${CSS.close}`);
+    const icon = await page.find(`calcite-notice >>> .${CSS.icon}`);
+    expect(close).not.toBeNull();
+    expect(icon).not.toBeNull();
+  });
+
+  it("successfully closes a dismissible notice (deprecated)", async () => {
     const page = await newE2EPage();
     await page.setContent(`
     <calcite-notice id="notice-1" active dismissible>
@@ -85,8 +100,27 @@ describe("calcite-notice", () => {
     expect(await notice1.isVisible()).not.toBe(true);
   });
 
-  describe("focusable", () => {
-    it("with link and dismissible => focuses on link", () =>
+  it("successfully closes a closable notice", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+    <calcite-notice id="notice-1" active closable>
+    ${noticeContent}
+    </calcite-notice>
+    `);
+
+    const notice1 = await page.find("#notice-1 >>> .container");
+    const noticeclose1 = await page.find(`#notice-1 >>> .${CSS.close}`);
+    const animationDurationInMs = 400;
+
+    expect(await notice1.isVisible()).toBe(true);
+
+    await noticeclose1.click();
+    await page.waitForTimeout(animationDurationInMs);
+    expect(await notice1.isVisible()).not.toBe(true);
+  });
+
+  describe("focusable (deprecated)", () => {
+    it("with link and dismissible (deprecated) => focuses on link", () =>
       focusable(html` <calcite-notice id="notice-1" active dismissible> ${noticeContent}</calcite-notice>`, {
         focusTargetSelector: `calcite-link`
       }));
@@ -110,6 +144,24 @@ describe("calcite-notice", () => {
         </calcite-notice>`,
         {
           focusTargetSelector: "body"
+        }
+      ));
+  });
+
+  describe("focusable", () => {
+    it("with link and closable => focuses on link", () =>
+      focusable(html` <calcite-notice id="notice-1" active deprecated> ${noticeContent}</calcite-notice>`, {
+        focusTargetSelector: `calcite-link`
+      }));
+
+    it("when closable => focuses on close button", () =>
+      focusable(
+        html` <calcite-notice id="notice-1" active closable>
+          <div slot="title">Title Text</div>
+          <div slot="message">Message Text</div>
+        </calcite-notice>`,
+        {
+          shadowFocusTargetSelector: `.${CSS.close}`
         }
       ));
   });
