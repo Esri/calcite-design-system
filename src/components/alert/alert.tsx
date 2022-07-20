@@ -16,7 +16,11 @@ import { getSlotted, setRequestedIcon, toAriaBoolean } from "../../utils/dom";
 import { DURATIONS, SLOTS, TEXT } from "./resources";
 import { Scale } from "../interfaces";
 import { AlertDuration, AlertPlacement, StatusColor, StatusIcons } from "./interfaces";
-import { OpenCloseComponent } from "../../utils/openCloseComponent";
+import {
+  OpenCloseComponent,
+  transitionStartHandler,
+  transitionEnd
+} from "../../utils/openCloseComponent";
 
 /**
  * Alerts are meant to provide a way to communicate urgent or important information to users, frequently as a result of an action they took in your app. Alerts are positioned
@@ -49,8 +53,9 @@ export class Alert implements OpenCloseComponent {
   //
   //---------------------------------------------------------------------------
 
-  /** When true, the component is active. */
-  @Prop({ reflect: true, mutable: true }) active = false;
+  @Prop({ mutable: true, reflect: true }) active = false;
+
+  @Prop({ mutable: true, reflect: true }) open = false;
 
   @Watch("active")
   watchActive(): void {
@@ -129,7 +134,7 @@ export class Alert implements OpenCloseComponent {
 
   disconnectedCallback(): void {
     window.clearTimeout(this.autoDismissTimeoutId);
-    this.transitionEl?.removeEventListener("transitionstart", this.transitionStartHandler);
+    this.transitionEl?.removeEventListener("transitionstart", transitionStartHandler.bind(this));
   }
 
   render(): VNode {
@@ -169,7 +174,7 @@ export class Alert implements OpenCloseComponent {
             queued,
             [placement]: true
           }}
-          onTransitionEnd={this.transitionEnd}
+          onTransitionEnd={transitionEnd.bind(this)}
           ref={this.setTransitionEl}
         >
           {requestedIcon ? (
@@ -304,7 +309,7 @@ export class Alert implements OpenCloseComponent {
 
   private setTransitionEl = (el): void => {
     this.transitionEl = el;
-    this.transitionEl.addEventListener("transitionstart", this.transitionStartHandler);
+    this.transitionEl.addEventListener("transitionstart", transitionStartHandler.bind(this));
   };
 
   /** determine which alert is active */
@@ -348,18 +353,6 @@ export class Alert implements OpenCloseComponent {
   onClose(): void {
     this.calciteAlertClose.emit();
   }
-
-  transitionStartHandler = (event: TransitionEvent): void => {
-    if (event.propertyName === this.activeTransitionProp && event.target === this.transitionEl) {
-      this.active ? this.onBeforeOpen() : this.onBeforeClose();
-    }
-  };
-
-  transitionEnd = (event: TransitionEvent): void => {
-    if (event.propertyName === this.activeTransitionProp && event.target === this.transitionEl) {
-      this.active ? this.onOpen() : this.onClose();
-    }
-  };
 
   /** remove queued class after animation completes */
   private openAlert(): void {
