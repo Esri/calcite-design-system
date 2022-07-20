@@ -171,7 +171,7 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent {
     this.mutationObserver?.disconnect();
     this.resizeObserver?.disconnect();
     this.destroyPopper();
-    this.scrollerEl?.removeEventListener("transitionstart", this.transitionStartHandler);
+    this.transitionEl?.removeEventListener("transitionstart", this.transitionStartHandler);
   }
 
   render(): VNode {
@@ -203,7 +203,7 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent {
               [PopperCSS.animationActive]: active || open
             }}
             onTransitionEnd={this.transitionEnd}
-            ref={this.setScrollerEl}
+            ref={this.setScrollerAndTransitionEl}
           >
             <div hidden={!(open || active)}>
               <slot onSlotchange={this.updateGroups} />
@@ -370,13 +370,15 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent {
 
   private referenceEl: HTMLDivElement;
 
-  private activeTransitionProp = "visibility";
-
   private scrollerEl: HTMLDivElement;
 
   mutationObserver = createObserver("mutation", () => this.updateItems());
 
   resizeObserver = createObserver("resize", (entries) => this.resizeObserverCallback(entries));
+
+  activeTransitionProp = "opacity";
+
+  transitionEl: HTMLDivElement;
 
   //--------------------------------------------------------------------------
   //
@@ -455,20 +457,22 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent {
     this.reposition();
   };
 
-  setScrollerEl = (scrollerEl: HTMLDivElement): void => {
-    this.resizeObserver.observe(scrollerEl);
-    this.scrollerEl = scrollerEl;
-    this.scrollerEl.addEventListener("transitionstart", this.transitionStartHandler);
+  setScrollerAndTransitionEl = (el: HTMLDivElement): void => {
+    this.resizeObserver.observe(el);
+    this.scrollerEl = el;
+
+    this.transitionEl = el;
+    this.transitionEl.addEventListener("transitionstart", this.transitionStartHandler);
   };
 
   transitionEnd = (event: TransitionEvent): void => {
-    if (event.propertyName === this.activeTransitionProp && event.target === this.scrollerEl) {
+    if (event.propertyName === this.activeTransitionProp && event.target === this.transitionEl) {
       this.open || this.active ? this.onOpen() : this.onClose();
     }
   };
 
   transitionStartHandler = (event: TransitionEvent): void => {
-    if (event.propertyName === this.activeTransitionProp && event.target === this.scrollerEl) {
+    if (event.propertyName === this.activeTransitionProp && event.target === this.transitionEl) {
       this.open || this.active ? this.onBeforeOpen() : this.onBeforeClose();
     }
   };

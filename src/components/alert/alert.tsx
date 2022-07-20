@@ -129,7 +129,7 @@ export class Alert implements OpenCloseComponent {
 
   disconnectedCallback(): void {
     window.clearTimeout(this.autoDismissTimeoutId);
-    this.containerEl?.removeEventListener("transitionstart", this.transitionStartHandler);
+    this.transitionEl?.removeEventListener("transitionstart", this.transitionStartHandler);
   }
 
   render(): VNode {
@@ -170,7 +170,7 @@ export class Alert implements OpenCloseComponent {
             [placement]: true
           }}
           onTransitionEnd={this.transitionEnd}
-          ref={this.setContainerEl}
+          ref={this.setTransitionEl}
         >
           {requestedIcon ? (
             <div class="alert-icon">
@@ -279,13 +279,6 @@ export class Alert implements OpenCloseComponent {
   /** is the alert queued */
   @State() queued = false;
 
-  private containerEl: HTMLDivElement;
-
-  private setContainerEl = (el): void => {
-    this.containerEl = el;
-    this.containerEl.addEventListener("transitionstart", this.transitionStartHandler);
-  };
-
   /** the close button element */
   private closeButton?: HTMLButtonElement;
 
@@ -299,13 +292,20 @@ export class Alert implements OpenCloseComponent {
   /* @internal */
   @State() requestedIcon?: string;
 
-  private activeTransitionProp = "opacity";
+  activeTransitionProp = "opacity";
+
+  transitionEl: HTMLDivElement;
 
   //--------------------------------------------------------------------------
   //
   //  Private Methods
   //
   //--------------------------------------------------------------------------
+
+  private setTransitionEl = (el): void => {
+    this.transitionEl = el;
+    this.transitionEl.addEventListener("transitionstart", this.transitionStartHandler);
+  };
 
   /** determine which alert is active */
   private determineActiveAlert(): void {
@@ -350,13 +350,13 @@ export class Alert implements OpenCloseComponent {
   }
 
   transitionStartHandler = (event: TransitionEvent): void => {
-    if (event.propertyName === this.activeTransitionProp && event.target === this.containerEl) {
+    if (event.propertyName === this.activeTransitionProp && event.target === this.transitionEl) {
       this.active ? this.onBeforeOpen() : this.onBeforeClose();
     }
   };
 
   transitionEnd = (event: TransitionEvent): void => {
-    if (event.propertyName === this.activeTransitionProp && event.target === this.containerEl) {
+    if (event.propertyName === this.activeTransitionProp && event.target === this.transitionEl) {
       this.active ? this.onOpen() : this.onClose();
     }
   };

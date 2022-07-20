@@ -137,7 +137,7 @@ export class Modal implements ConditionalSlotComponent, OpenCloseComponent {
   }
 
   disconnectedCallback(): void {
-    this.containerEl?.removeEventListener("transitionstart", this.transitionStartHandler);
+    this.transitionEl?.removeEventListener("transitionstart", this.transitionStartHandler);
     this.removeOverflowHiddenClass();
     this.mutationObserver?.disconnect();
     disconnectConditionalSlotComponent(this);
@@ -153,7 +153,7 @@ export class Modal implements ConditionalSlotComponent, OpenCloseComponent {
       >
         <calcite-scrim class={CSS.scrim} onClick={this.handleOutsideClose} />
         {this.renderStyle()}
-        <div class="modal" onTransitionEnd={this.transitionEnd} ref={this.setContainerEl}>
+        <div class="modal" onTransitionEnd={this.transitionEnd} ref={this.setTransitionEl}>
           <div data-focus-fence onFocus={this.focusLastElement} tabindex="0" />
           <div class={CSS.header}>
             {this.renderCloseButton()}
@@ -262,9 +262,9 @@ export class Modal implements ConditionalSlotComponent, OpenCloseComponent {
 
   titleId: string;
 
-  private activeTransitionProp = "opacity";
+  activeTransitionProp = "opacity";
 
-  private containerEl: HTMLDivElement;
+  transitionEl: HTMLDivElement;
 
   //--------------------------------------------------------------------------
   //
@@ -356,9 +356,9 @@ export class Modal implements ConditionalSlotComponent, OpenCloseComponent {
   //
   //--------------------------------------------------------------------------
 
-  private setContainerEl = (el): void => {
-    this.containerEl = el;
-    this.containerEl.addEventListener("transitionstart", this.transitionStartHandler);
+  private setTransitionEl = (el): void => {
+    this.transitionEl = el;
+    this.transitionEl.addEventListener("transitionstart", this.transitionStartHandler);
   };
 
   onBeforeOpen(): void {
@@ -378,13 +378,13 @@ export class Modal implements ConditionalSlotComponent, OpenCloseComponent {
   }
 
   transitionStartHandler = (event: TransitionEvent): void => {
-    if (event.propertyName === this.activeTransitionProp && event.target === this.containerEl) {
+    if (event.propertyName === this.activeTransitionProp && event.target === this.transitionEl) {
       this.open || this.active ? this.onBeforeOpen() : this.onBeforeClose();
     }
   };
 
   transitionEnd = (event: TransitionEvent): void => {
-    if (event.propertyName === this.activeTransitionProp && event.target === this.containerEl) {
+    if (event.propertyName === this.activeTransitionProp && event.target === this.transitionEl) {
       this.open || this.active ? this.onOpen() : this.onClose();
     }
   };

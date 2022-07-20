@@ -201,14 +201,9 @@ export class Popover implements OpenCloseComponent {
 
   guid = `calcite-popover-${guid()}`;
 
-  private activeTransitionProp = "opacity";
+  activeTransitionProp = "opacity";
 
-  private containerEl: HTMLDivElement;
-
-  private setContainerEl = (el): void => {
-    this.containerEl = el;
-    this.containerEl.addEventListener("transitionstart", this.transitionStartHandler);
-  };
+  transitionEl: HTMLDivElement;
 
   // --------------------------------------------------------------------------
   //
@@ -229,7 +224,7 @@ export class Popover implements OpenCloseComponent {
   }
 
   disconnectedCallback(): void {
-    this.containerEl?.removeEventListener("transitionstart", this.transitionStartHandler);
+    this.transitionEl?.removeEventListener("transitionstart", this.transitionStartHandler);
     this.removeReferences();
     this.destroyPopper();
   }
@@ -308,6 +303,11 @@ export class Popover implements OpenCloseComponent {
   //  Private Methods
   //
   // --------------------------------------------------------------------------
+
+  private setTransitionEl = (el): void => {
+    this.transitionEl = el;
+    this.transitionEl.addEventListener("transitionstart", this.transitionStartHandler);
+  };
 
   setFilteredPlacements = (): void => {
     const { el, flipPlacements } = this;
@@ -480,13 +480,13 @@ export class Popover implements OpenCloseComponent {
   }
 
   transitionStartHandler = (event: TransitionEvent): void => {
-    if (event.propertyName === this.activeTransitionProp && event.target === this.containerEl) {
+    if (event.propertyName === this.activeTransitionProp && event.target === this.transitionEl) {
       this.open ? this.onBeforeOpen() : this.onBeforeClose();
     }
   };
 
   transitionEnd = (event: TransitionEvent): void => {
-    if (event.propertyName === this.activeTransitionProp && event.target === this.containerEl) {
+    if (event.propertyName === this.activeTransitionProp && event.target === this.transitionEl) {
       this.open ? this.onOpen() : this.onClose();
     }
   };
@@ -554,7 +554,7 @@ export class Popover implements OpenCloseComponent {
             [PopperCSS.animationActive]: displayed
           }}
           onTransitionEnd={this.transitionEnd}
-          ref={this.setContainerEl}
+          ref={this.setTransitionEl}
         >
           {arrowNode}
           <div

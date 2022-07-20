@@ -386,7 +386,7 @@ export class InputDatePicker
   }
 
   disconnectedCallback(): void {
-    this.containerEl?.removeEventListener("transitionstart", this.transitionStartHandler);
+    this.transitionEl?.removeEventListener("transitionstart", this.transitionStartHandler);
     this.destroyPopper();
     disconnectLabel(this);
     disconnectForm(this);
@@ -460,7 +460,7 @@ export class InputDatePicker
                   [PopperCSS.animationActive]: this.active
                 }}
                 onTransitionEnd={this.transitionEnd}
-                ref={this.setContainerEl}
+                ref={this.setTransitionEl}
               >
                 <calcite-date-picker
                   activeRange={this.focusedInput}
@@ -557,14 +557,9 @@ export class InputDatePicker
 
   private endWrapper: HTMLDivElement;
 
-  private activeTransitionProp = "opacity";
+  activeTransitionProp = "opacity";
 
-  private containerEl: HTMLDivElement;
-
-  private setContainerEl = (el): void => {
-    this.containerEl = el;
-    this.containerEl.addEventListener("transitionstart", this.transitionStartHandler);
-  };
+  transitionEl: HTMLDivElement;
 
   @Watch("layout")
   @Watch("focusedInput")
@@ -593,6 +588,11 @@ export class InputDatePicker
       : null;
   };
 
+  private setTransitionEl = (el): void => {
+    this.transitionEl = el;
+    this.transitionEl.addEventListener("transitionstart", this.transitionStartHandler);
+  };
+
   onLabelClick(): void {
     this.setFocus();
   }
@@ -614,13 +614,13 @@ export class InputDatePicker
   }
 
   transitionStartHandler = (event: TransitionEvent): void => {
-    if (event.propertyName === this.activeTransitionProp && event.target === this.containerEl) {
+    if (event.propertyName === this.activeTransitionProp && event.target === this.transitionEl) {
       this.active ? this.onBeforeOpen() : this.onBeforeClose();
     }
   };
 
   transitionEnd = (event: TransitionEvent): void => {
-    if (event.propertyName === this.activeTransitionProp && event.target === this.containerEl) {
+    if (event.propertyName === this.activeTransitionProp && event.target === this.transitionEl) {
       this.active ? this.onOpen() : this.onClose();
     }
   };

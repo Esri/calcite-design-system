@@ -9,6 +9,15 @@ export interface OpenCloseComponent {
   readonly el: HTMLElement;
 
   /**
+   * Specifies property on which active transition is watched for.
+   */
+  activeTransitionProp: string;
+  /**
+   * Specifies element that the transition is allowed to emit on.
+   */
+  transitionEl: HTMLDivElement;
+
+  /**
    * Defines method for `beforeOpen` event handler.
    */
   onBeforeOpen: () => void;
