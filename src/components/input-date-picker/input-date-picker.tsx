@@ -361,8 +361,9 @@ export class InputDatePicker
   // --------------------------------------------------------------------------
 
   connectedCallback(): void {
-    this.activeHandler(this.active || this.open);
-    this.openHandler(this.active || this.open);
+    const isOpen = this.active || this.open;
+    isOpen && this.activeHandler(isOpen);
+    isOpen && this.openHandler(isOpen);
 
     if (Array.isArray(this.value)) {
       this.valueAsDate = this.value.map((v) => dateFromISO(v));
