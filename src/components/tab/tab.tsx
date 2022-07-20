@@ -65,7 +65,12 @@ export class Tab {
     const id = this.el.id || this.guid;
 
     return (
-      <Host aria-labelledby={this.labeledBy} id={id} role="tabpanel" tabIndex={0}>
+      <Host
+        aria-labelledby={this.labeledBy}
+        id={id}
+        role="tabpanel"
+        tabIndex={this.active ? 0 : -1}
+      >
         <section>
           <slot />
         </section>
