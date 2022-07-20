@@ -9,25 +9,25 @@
   flex-basis: theme("spacing.48");
 }
 
-:host([position="below"]) a {
+:host([position="below"]) .container {
   @apply border-t-color-transparent
     border-b-0
     border-t-2;
   border-block-start-style: solid;
 }
 
-:host([position="bottom"]) a {
+:host([position="bottom"]) .container {
   @apply border-t-color-transparent
     border-b-0
     border-t-2;
   border-block-start-style: solid;
 }
 
-:host a {
+:host .container {
   @apply focus-base;
 }
 
-:host(:focus) a {
+:host(:focus) .container {
   @apply focus-inset;
 }
 
@@ -39,42 +39,37 @@
   }
 }
 
-:host([active]) a {
+:host([active]) .container {
   @apply text-color-1 border-color-transparent;
 }
 
 @include disabled() {
-  span,
-  a {
+  .container {
     @apply pointer-events-none opacity-50;
   }
 }
 
 :host([scale="s"]) {
   margin-inline-end: 1rem;
-  a,
-  span {
+  .container {
     @apply text-n2h py-1;
   }
 }
 
 :host([scale="m"]) {
-  a,
-  span {
+  .container {
     @apply text-n1h py-2;
   }
 }
 
 :host([scale="l"]) {
   margin-inline-end: 1.5rem;
-  a,
-  span {
+  .container {
     @apply text-0h py-3;
   }
 }
 
-a,
-span {
+.container {
   @apply border-b-color-transparent
     text-color-3
     text-n1h
@@ -91,10 +86,6 @@ span {
     px-0
     py-2;
   border-block-end-style: solid;
-}
-
-span {
-  @apply cursor-default;
 }
 
 .calcite-tab-title--icon {
@@ -146,53 +137,50 @@ span {
 :host([bordered]:hover),
 :host([bordered]:focus),
 :host([bordered]:active) {
-  a {
+  .container {
     @apply relative;
   }
 }
 
 :host([bordered]:hover) {
-  a {
+  .container {
     background-color: var(--calcite-button-transparent-hover);
   }
 }
 
-:host([bordered]) a {
+:host([bordered]) .container {
   border-block-end-style: unset;
   border-inline-start: 1px solid transparent;
   border-inline-end: 1px solid transparent;
 }
 
-:host([bordered][position="below"]) a {
+:host([bordered][position="below"]) .container {
   border-block-start-style: unset;
 }
 
-:host([bordered][position="bottom"]) a {
+:host([bordered][position="bottom"]) .container {
   border-block-start-style: unset;
 }
 
-:host([active][bordered]) a {
+:host([active][bordered]) .container {
   border-inline-start-color: var(--calcite-ui-border-1);
   border-inline-end-color: var(--calcite-ui-border-1);
 }
 
 :host([bordered]) {
-  a,
-  span {
+  .container {
     @apply px-3;
   }
 }
 
 :host([bordered][scale="s"]) {
-  a,
-  span {
+  .container {
     @apply px-2;
   }
 }
 
 :host([bordered][scale="l"]) {
-  a,
-  span {
+  .container {
     @apply px-4;
   }
 }
@@ -203,31 +191,31 @@ span {
     outline-offset: 0;
   }
 
-  :host(:focus) a {
+  :host(:focus) .container {
     outline-color: highlight;
   }
 
-  :host([bordered]) a {
+  :host([bordered]) .container {
     border-block-end-style: solid;
   }
 
-  :host([bordered][position="below"]) a {
+  :host([bordered][position="below"]) .container {
     border-block-start-style: solid;
   }
 
-  :host([bordered][position="bottom"]) a {
+  :host([bordered][position="bottom"]) .container {
     border-block-start-style: solid;
   }
 
-  :host([bordered][active]) a {
+  :host([bordered][active]) .container {
     border-block-end-style: none;
   }
 
-  :host([bordered][position="below"][active]) a {
+  :host([bordered][position="below"][active]) .container {
     border-block-start-style: none;
   }
 
-  :host([bordered][position="bottom"][active]) a {
+  :host([bordered][position="bottom"][active]) .container {
     border-block-start-style: none;
   }
 }
