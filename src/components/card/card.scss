@@ -14,7 +14,6 @@
     shadow-none
     duration-150
     ease-in-out
-    overflow-hidden;
     border-radius: var(--calcite-border-radius-base);
     &:hover {
       @apply shadow-1-lg;
@@ -110,6 +109,8 @@
 
 .thumbnail-wrapper {
   @apply flex;
+  border-start-start-radius: var(--calcite-border-radius-base);
+  border-start-end-radius: var(--calcite-border-radius-base);
 }
 
 .calcite-card-container.inline {
