@@ -191,9 +191,6 @@
 :host([active]) .container {
   & .stepper-item-content {
     @apply flex;
-    & ::slotted(:last-child) {
-      margin-block-end: var(--calcite-stepper-item-spacing-unit-l);
-    }
   }
 }
 
@@ -233,6 +230,12 @@
 }
 :host([layout="vertical"][active]) .container {
   @apply border-color-brand;
+
+  & .stepper-item-content {
+    & ::slotted(:last-child) {
+      margin-block-end: var(--calcite-stepper-item-spacing-unit-l);
+    }
+  }
 }
 :host([layout="vertical"]:hover:not([disabled]):not([active])) .container,
 :host([layout="vertical"]:focus:not([disabled]):not([active])) .container {
