@@ -270,6 +270,10 @@ export const ThumbnailRounded = (): string => html`
       calcite-card {
         --calcite-border-radius-base: 12px;
       }
+      calcite-card img {
+        border-start-start-radius: var(--calcite-border-radius-base);
+        border-start-end-radius: var(--calcite-border-radius-base);
+      }
     </style>
     <calcite-card>
       ${thumbnailHtml}
