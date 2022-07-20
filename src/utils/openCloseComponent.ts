@@ -9,16 +9,9 @@ export interface OpenCloseComponent {
   readonly el: HTMLElement;
 
   /**
-   * When true, the component is active.
-   *
-   * @deprecated use open instead
-   */
-  active?: boolean;
-
-  /**
    * When true, the component opens.
    */
-  open: boolean;
+  open?: boolean;
 
   /**
    * Specifies property on which active transition is watched for.
@@ -51,13 +44,13 @@ export interface OpenCloseComponent {
   onClose: () => void;
 }
 
-export function transitionStartHandler(this: OpenCloseComponent, event: TransitionEvent): void {
+export function transitionStartHandler(event: TransitionEvent): void {
   if (event.propertyName === this.activeTransitionProp && event.target === this.transitionEl) {
     this.active || this.open ? this.onBeforeOpen() : this.onBeforeClose();
   }
 }
 
-export function transitionEnd(this: OpenCloseComponent, event: TransitionEvent): void {
+export function transitionEnd(event: TransitionEvent): void {
   if (event.propertyName === this.activeTransitionProp && event.target === this.transitionEl) {
     this.active || this.open ? this.onOpen() : this.onClose();
   }

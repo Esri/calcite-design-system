@@ -173,9 +173,8 @@ export class InputDatePicker
     }
   }
 
+  /** Expand or collapse when calendar does not have input */
   @Prop({ mutable: true, reflect: true }) active = false;
-
-  @Prop({ mutable: true, reflect: true }) open = false;
 
   @Watch("active")
   activeHandler(): void {
@@ -391,7 +390,7 @@ export class InputDatePicker
   }
 
   disconnectedCallback(): void {
-    this.transitionEl?.removeEventListener("transitionstart", transitionStartHandler.bind(this));
+    this.transitionEl?.removeEventListener("transitionstart", this.transitionStartHandler);
     this.destroyPopper();
     disconnectLabel(this);
     disconnectForm(this);
@@ -464,7 +463,7 @@ export class InputDatePicker
                   [PopperCSS.animation]: true,
                   [PopperCSS.animationActive]: this.active
                 }}
-                onTransitionEnd={transitionEnd.bind(this)}
+                onTransitionEnd={this.transitionEnd}
                 ref={this.setTransitionEl}
               >
                 <calcite-date-picker
@@ -566,6 +565,10 @@ export class InputDatePicker
 
   transitionEl: HTMLDivElement;
 
+  private transitionStartHandler = transitionStartHandler.bind(this);
+
+  private transitionEnd = transitionEnd.bind(this);
+
   @Watch("layout")
   @Watch("focusedInput")
   setReferenceEl(): void {
@@ -595,7 +598,7 @@ export class InputDatePicker
 
   private setTransitionEl = (el): void => {
     this.transitionEl = el;
-    this.transitionEl.addEventListener("transitionstart", transitionStartHandler.bind(this));
+    this.transitionEl.addEventListener("transitionstart", this.transitionStartHandler);
   };
 
   onLabelClick(): void {

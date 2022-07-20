@@ -53,9 +53,8 @@ export class Alert implements OpenCloseComponent {
   //
   //---------------------------------------------------------------------------
 
-  @Prop({ mutable: true, reflect: true }) active = false;
-
-  @Prop({ mutable: true, reflect: true }) open = false;
+  /** When true, the component is active. */
+  @Prop({ reflect: true, mutable: true }) active = false;
 
   @Watch("active")
   watchActive(): void {
@@ -134,7 +133,7 @@ export class Alert implements OpenCloseComponent {
 
   disconnectedCallback(): void {
     window.clearTimeout(this.autoDismissTimeoutId);
-    this.transitionEl?.removeEventListener("transitionstart", transitionStartHandler.bind(this));
+    this.transitionEl?.removeEventListener("transitionstart", this.transitionStartHandler);
   }
 
   render(): VNode {
@@ -174,7 +173,7 @@ export class Alert implements OpenCloseComponent {
             queued,
             [placement]: true
           }}
-          onTransitionEnd={transitionEnd.bind(this)}
+          onTransitionEnd={this.transitionEnd}
           ref={this.setTransitionEl}
         >
           {requestedIcon ? (
@@ -301,6 +300,10 @@ export class Alert implements OpenCloseComponent {
 
   transitionEl: HTMLDivElement;
 
+  private transitionStartHandler = transitionStartHandler.bind(this);
+
+  private transitionEnd = transitionEnd.bind(this);
+
   //--------------------------------------------------------------------------
   //
   //  Private Methods
@@ -309,7 +312,7 @@ export class Alert implements OpenCloseComponent {
 
   private setTransitionEl = (el): void => {
     this.transitionEl = el;
-    this.transitionEl.addEventListener("transitionstart", transitionStartHandler.bind(this));
+    this.transitionEl.addEventListener("transitionstart", this.transitionStartHandler);
   };
 
   /** determine which alert is active */

@@ -137,8 +137,9 @@ export class Popover implements OpenCloseComponent {
     this.reposition();
   }
 
-  @Prop({ reflect: true, mutable: true }) active = false;
-
+  /**
+   * When true, displays and positions the component.
+   */
   @Prop({ reflect: true, mutable: true }) open = false;
 
   @Watch("open")
@@ -208,6 +209,10 @@ export class Popover implements OpenCloseComponent {
 
   transitionEl: HTMLDivElement;
 
+  private transitionStartHandler = transitionStartHandler.bind(this);
+
+  private transitionEnd = transitionEnd.bind(this);
+
   // --------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -227,7 +232,7 @@ export class Popover implements OpenCloseComponent {
   }
 
   disconnectedCallback(): void {
-    this.transitionEl?.removeEventListener("transitionstart", transitionStartHandler.bind(this));
+    this.transitionEl?.removeEventListener("transitionstart", this.transitionStartHandler);
     this.removeReferences();
     this.destroyPopper();
   }
@@ -309,7 +314,7 @@ export class Popover implements OpenCloseComponent {
 
   private setTransitionEl = (el): void => {
     this.transitionEl = el;
-    this.transitionEl.addEventListener("transitionstart", transitionStartHandler.bind(this));
+    this.transitionEl.addEventListener("transitionstart", this.transitionStartHandler);
   };
 
   setFilteredPlacements = (): void => {
@@ -544,7 +549,7 @@ export class Popover implements OpenCloseComponent {
             [PopperCSS.animation]: true,
             [PopperCSS.animationActive]: displayed
           }}
-          onTransitionEnd={transitionEnd.bind(this)}
+          onTransitionEnd={this.transitionEnd}
           ref={this.setTransitionEl}
         >
           {arrowNode}

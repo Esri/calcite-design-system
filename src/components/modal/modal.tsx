@@ -31,7 +31,11 @@ import {
   connectConditionalSlotComponent,
   disconnectConditionalSlotComponent
 } from "../../utils/conditionalSlot";
-import { OpenCloseComponent } from "../../utils/openCloseComponent";
+import {
+  OpenCloseComponent,
+  transitionEnd,
+  transitionStartHandler
+} from "../../utils/openCloseComponent";
 
 const isFocusableExtended = (el: FocusableElement): boolean => {
   return isCalciteFocusable(el) || isFocusable(el);
@@ -68,8 +72,14 @@ export class Modal implements ConditionalSlotComponent, OpenCloseComponent {
   //
   //--------------------------------------------------------------------------
 
+  /**
+   * When true, the `calcite-modal` is active.
+   *
+   * @deprecated use open instead
+   */
   @Prop({ mutable: true, reflect: true }) active = false;
 
+  /** When true,`calcite-modal`  opens  */
   @Prop({ mutable: true, reflect: true }) open = false;
 
   /** Passes a function to run before the `calcite-modal` closes. */
@@ -260,6 +270,10 @@ export class Modal implements ConditionalSlotComponent, OpenCloseComponent {
 
   transitionEl: HTMLDivElement;
 
+  private transitionStartHandler = transitionStartHandler.bind(this);
+
+  private transitionEnd = transitionEnd.bind(this);
+
   //--------------------------------------------------------------------------
   //
   //  Event Listeners
@@ -370,18 +384,6 @@ export class Modal implements ConditionalSlotComponent, OpenCloseComponent {
   onClose(): void {
     this.calciteModalClose.emit();
   }
-
-  transitionStartHandler = (event: TransitionEvent): void => {
-    if (event.propertyName === this.activeTransitionProp && event.target === this.transitionEl) {
-      this.open || this.active ? this.onBeforeOpen() : this.onBeforeClose();
-    }
-  };
-
-  transitionEnd = (event: TransitionEvent): void => {
-    if (event.propertyName === this.activeTransitionProp && event.target === this.transitionEl) {
-      this.open || this.active ? this.onOpen() : this.onClose();
-    }
-  };
 
   @Watch("active")
   @Watch("open")

@@ -86,9 +86,12 @@ export class Combobox
   //
   //--------------------------------------------------------------------------
 
-  @Prop({ mutable: true, reflect: true }) active = false;
-
-  @Prop({ mutable: true, reflect: true }) open = false;
+  /**
+   * When true, opens the combobox
+   *
+   * @deprecated use open instead
+   */
+  @Prop({ reflect: true, mutable: true }) active = false;
 
   @Watch("active")
   @Watch("open")
@@ -101,6 +104,9 @@ export class Combobox
 
     this.setMaxScrollerHeight();
   }
+
+  /**When true, opens the combobox */
+  @Prop({ reflect: true, mutable: true }) open = false;
 
   /** Disable combobox input */
   @Prop({ reflect: true }) disabled = false;
@@ -323,7 +329,7 @@ export class Combobox
     this.destroyPopper();
     disconnectLabel(this);
     disconnectForm(this);
-    this.listContainerEl?.removeEventListener("transitionstart", transitionStartHandler.bind(this));
+    this.listContainerEl?.removeEventListener("transitionstart", this.transitionStartHandler);
   }
 
   //--------------------------------------------------------------------------
@@ -398,6 +404,10 @@ export class Combobox
   activeTransitionProp = "opacity";
 
   transitionEl: HTMLDivElement;
+
+  private transitionStartHandler = transitionStartHandler.bind(this);
+
+  private transitionEnd = transitionEnd.bind(this);
 
   // --------------------------------------------------------------------------
   //
@@ -625,7 +635,7 @@ export class Combobox
     this.listContainerEl = el;
 
     this.transitionEl = el;
-    this.transitionEl.addEventListener("transitionstart", transitionStartHandler.bind(this));
+    this.transitionEl.addEventListener("transitionstart", this.transitionStartHandler);
   };
 
   setReferenceEl = (el: HTMLDivElement): void => {
@@ -1122,7 +1132,7 @@ export class Combobox
         class={{ "popper-container": true, "popper-container--active": open || active }}
         ref={setMenuEl}
       >
-        <div class={classes} onTransitionEnd={transitionEnd.bind(this)} ref={setContainerEl}>
+        <div class={classes} onTransitionEnd={this.transitionEnd} ref={setContainerEl}>
           <ul class={{ list: true, "list--hide": !(open || active) }}>
             <slot />
           </ul>

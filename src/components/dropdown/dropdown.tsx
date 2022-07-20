@@ -60,9 +60,15 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent {
   //
   //--------------------------------------------------------------------------
 
-  @Prop({ mutable: true, reflect: true }) active = false;
+  /**
+   * Opens or closes the dropdown
+   *
+   * @deprecated use open instead.
+   */
+  @Prop({ reflect: true, mutable: true }) active = false;
 
-  @Prop({ mutable: true, reflect: true }) open = false;
+  /** When true, opens the dropdown */
+  @Prop({ reflect: true, mutable: true }) open = false;
 
   @Watch("active")
   @Watch("open")
@@ -169,7 +175,7 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent {
     this.mutationObserver?.disconnect();
     this.resizeObserver?.disconnect();
     this.destroyPopper();
-    this.transitionEl?.removeEventListener("transitionstart", transitionStartHandler.bind(this));
+    this.transitionEl?.removeEventListener("transitionstart", this.transitionStartHandler);
   }
 
   render(): VNode {
@@ -200,7 +206,7 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent {
               [PopperCSS.animation]: true,
               [PopperCSS.animationActive]: active || open
             }}
-            onTransitionEnd={transitionEnd.bind(this)}
+            onTransitionEnd={this.transitionEnd}
             ref={this.setScrollerAndTransitionEl}
           >
             <div hidden={!(open || active)}>
@@ -374,9 +380,13 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent {
 
   resizeObserver = createObserver("resize", (entries) => this.resizeObserverCallback(entries));
 
-  activeTransitionProp = "opacity";
+  activeTransitionProp = "visibility";
 
   transitionEl: HTMLDivElement;
+
+  private transitionStartHandler = transitionStartHandler.bind(this);
+
+  private transitionEnd = transitionEnd.bind(this);
 
   //--------------------------------------------------------------------------
   //
@@ -460,7 +470,7 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent {
     this.scrollerEl = el;
 
     this.transitionEl = el;
-    this.transitionEl.addEventListener("transitionstart", transitionStartHandler.bind(this));
+    this.transitionEl.addEventListener("transitionstart", this.transitionStartHandler);
   };
 
   onBeforeOpen(): void {
