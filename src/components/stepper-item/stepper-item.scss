@@ -274,6 +274,12 @@
   }
 }
 
+:host([layout="horizontal"][disabled]) {
+  .stepper-item-header {
+    @extend %disabled-host-only;
+  }
+}
+
 :host([layout="horizontal"][active]) {
   .stepper-item-content {
     grid-area: 2 / 1 / 2 / -1;
