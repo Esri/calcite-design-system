@@ -7,6 +7,10 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## Unreleased
 
+### Features
+
+- **input-date-picker:** deprecate active property in favor of open ([#4972](https://github.com/Esri/calcite-components/issues/4972)) ([d9e0f2b](https://github.com/Esri/calcite-components/commit/d9e0f2b8a2e323f6ed8f75488479216e6ce8211b))
+
 ### Bug Fixes
 
 - **accordion-item:** add on-demand screen reader feedback to collapsed and expansion interaction ([#4931](https://github.com/Esri/calcite-components/issues/4931)) ([296b4d3](https://github.com/Esri/calcite-components/commit/296b4d3e3c141e2d6d2ca736580499bd050969ab))
