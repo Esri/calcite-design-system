@@ -97,16 +97,6 @@
   @apply flex;
 }
 
-:host([active]) .container {
-  @apply shadow-1
-    pointer-events-auto
-    flex
-    max-h-full
-    items-center
-    border-2
-    opacity-100;
-}
-
 :host([open]) .container {
   @apply shadow-1
     pointer-events-auto
