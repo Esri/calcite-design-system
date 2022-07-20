@@ -109,6 +109,12 @@ export class AccordionItem {
     this.selectionMode = getElementProp(this.el, "selection-mode", "multi");
     this.iconType = getElementProp(this.el, "icon-type", "chevron");
     this.iconPosition = getElementProp(this.el, "icon-position", this.iconPosition);
+    if (this.active) {
+      this.expanded = true;
+    }
+    if (this.expanded) {
+      this.active = true;
+    }
   }
 
   componentDidLoad(): void {
@@ -127,7 +133,7 @@ export class AccordionItem {
     return (
       <Host>
         <div
-          aria-expanded={toAriaBoolean(this.active)}
+          aria-expanded={toAriaBoolean(this.active || this.expanded)}
           class={{
             [`icon-position--${this.iconPosition}`]: true,
             [`icon-type--${this.iconType}`]: true
