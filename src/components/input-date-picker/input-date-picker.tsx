@@ -49,7 +49,11 @@ import { StrictModifiers, Instance as Popper } from "@popperjs/core";
 import { DateRangeChange } from "../date-picker/interfaces";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { toAriaBoolean } from "../../utils/dom";
-import { OpenCloseComponent } from "../../utils/openCloseComponent";
+import {
+  OpenCloseComponent,
+  transitionStartHandler,
+  transitionEnd
+} from "../../utils/openCloseComponent";
 
 @Component({
   tag: "calcite-input-date-picker",
@@ -169,8 +173,9 @@ export class InputDatePicker
     }
   }
 
-  /** Expand or collapse when calendar does not have input */
   @Prop({ mutable: true, reflect: true }) active = false;
+
+  @Prop({ mutable: true, reflect: true }) open = false;
 
   @Watch("active")
   activeHandler(): void {
@@ -386,7 +391,7 @@ export class InputDatePicker
   }
 
   disconnectedCallback(): void {
-    this.transitionEl?.removeEventListener("transitionstart", this.transitionStartHandler);
+    this.transitionEl?.removeEventListener("transitionstart", transitionStartHandler.bind(this));
     this.destroyPopper();
     disconnectLabel(this);
     disconnectForm(this);
@@ -459,7 +464,7 @@ export class InputDatePicker
                   [PopperCSS.animation]: true,
                   [PopperCSS.animationActive]: this.active
                 }}
-                onTransitionEnd={this.transitionEnd}
+                onTransitionEnd={transitionEnd.bind(this)}
                 ref={this.setTransitionEl}
               >
                 <calcite-date-picker
@@ -590,7 +595,7 @@ export class InputDatePicker
 
   private setTransitionEl = (el): void => {
     this.transitionEl = el;
-    this.transitionEl.addEventListener("transitionstart", this.transitionStartHandler);
+    this.transitionEl.addEventListener("transitionstart", transitionStartHandler.bind(this));
   };
 
   onLabelClick(): void {
@@ -612,18 +617,6 @@ export class InputDatePicker
   onClose(): void {
     this.calciteInputDatePickerClose.emit();
   }
-
-  transitionStartHandler = (event: TransitionEvent): void => {
-    if (event.propertyName === this.activeTransitionProp && event.target === this.transitionEl) {
-      this.active ? this.onBeforeOpen() : this.onBeforeClose();
-    }
-  };
-
-  transitionEnd = (event: TransitionEvent): void => {
-    if (event.propertyName === this.activeTransitionProp && event.target === this.transitionEl) {
-      this.active ? this.onOpen() : this.onClose();
-    }
-  };
 
   setStartInput = (el: HTMLCalciteInputElement): void => {
     this.startInput = el;

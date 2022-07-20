@@ -68,14 +68,8 @@ export class Modal implements ConditionalSlotComponent, OpenCloseComponent {
   //
   //--------------------------------------------------------------------------
 
-  /**
-   * When true, the `calcite-modal` is active.
-   *
-   * @deprecated use open instead
-   */
   @Prop({ mutable: true, reflect: true }) active = false;
 
-  /** When true,`calcite-modal`  opens  */
   @Prop({ mutable: true, reflect: true }) open = false;
 
   /** Passes a function to run before the `calcite-modal` closes. */

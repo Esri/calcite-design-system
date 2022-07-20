@@ -43,7 +43,11 @@ import {
 import { createObserver } from "../../utils/observers";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { toAriaBoolean } from "../../utils/dom";
-import { OpenCloseComponent } from "../../utils/openCloseComponent";
+import {
+  OpenCloseComponent,
+  transitionStartHandler,
+  transitionEnd
+} from "../../utils/openCloseComponent";
 interface ItemData {
   label: string;
   value: string;
@@ -82,12 +86,9 @@ export class Combobox
   //
   //--------------------------------------------------------------------------
 
-  /**
-   * When true, opens the combobox
-   *
-   * @deprecated use open instead
-   */
-  @Prop({ reflect: true, mutable: true }) active = false;
+  @Prop({ mutable: true, reflect: true }) active = false;
+
+  @Prop({ mutable: true, reflect: true }) open = false;
 
   @Watch("active")
   @Watch("open")
@@ -100,9 +101,6 @@ export class Combobox
 
     this.setMaxScrollerHeight();
   }
-
-  /**When true, opens the combobox */
-  @Prop({ reflect: true, mutable: true }) open = false;
 
   /** Disable combobox input */
   @Prop({ reflect: true }) disabled = false;
@@ -325,7 +323,7 @@ export class Combobox
     this.destroyPopper();
     disconnectLabel(this);
     disconnectForm(this);
-    this.listContainerEl?.removeEventListener("transitionstart", this.transitionStartHandler);
+    this.listContainerEl?.removeEventListener("transitionstart", transitionStartHandler.bind(this));
   }
 
   //--------------------------------------------------------------------------
@@ -555,18 +553,6 @@ export class Combobox
     this.calciteComboboxClose.emit();
   }
 
-  transitionEnd = (event: TransitionEvent): void => {
-    if (event.propertyName === this.activeTransitionProp && event.target === this.transitionEl) {
-      this.open || this.active ? this.onOpen() : this.onClose();
-    }
-  };
-
-  transitionStartHandler = (event: TransitionEvent): void => {
-    if (event.propertyName === this.activeTransitionProp && event.target === this.transitionEl) {
-      this.open || this.active ? this.onBeforeOpen() : this.onBeforeClose();
-    }
-  };
-
   setMaxScrollerHeight = async (): Promise<void> => {
     const { active, listContainerEl, open } = this;
     const isOpen = !(active || open);
@@ -639,7 +625,7 @@ export class Combobox
     this.listContainerEl = el;
 
     this.transitionEl = el;
-    this.transitionEl.addEventListener("transitionstart", this.transitionStartHandler);
+    this.transitionEl.addEventListener("transitionstart", transitionStartHandler.bind(this));
   };
 
   setReferenceEl = (el: HTMLDivElement): void => {
@@ -1136,7 +1122,7 @@ export class Combobox
         class={{ "popper-container": true, "popper-container--active": open || active }}
         ref={setMenuEl}
       >
-        <div class={classes} onTransitionEnd={this.transitionEnd} ref={setContainerEl}>
+        <div class={classes} onTransitionEnd={transitionEnd.bind(this)} ref={setContainerEl}>
           <ul class={{ list: true, "list--hide": !(open || active) }}>
             <slot />
           </ul>

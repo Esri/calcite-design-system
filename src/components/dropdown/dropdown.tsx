@@ -30,7 +30,11 @@ import { Scale } from "../interfaces";
 import { SLOTS } from "./resources";
 import { createObserver } from "../../utils/observers";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
-import { OpenCloseComponent } from "../../utils/openCloseComponent";
+import {
+  OpenCloseComponent,
+  transitionStartHandler,
+  transitionEnd
+} from "../../utils/openCloseComponent";
 
 /**
  * @slot - A slot for adding `calcite-dropdown-group`s or `calcite-dropdown-item`s.
@@ -56,15 +60,9 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent {
   //
   //--------------------------------------------------------------------------
 
-  /**
-   * Opens or closes the dropdown
-   *
-   * @deprecated use open instead.
-   */
-  @Prop({ reflect: true, mutable: true }) active = false;
+  @Prop({ mutable: true, reflect: true }) active = false;
 
-  /** When true, opens the dropdown */
-  @Prop({ reflect: true, mutable: true }) open = false;
+  @Prop({ mutable: true, reflect: true }) open = false;
 
   @Watch("active")
   @Watch("open")
@@ -171,7 +169,7 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent {
     this.mutationObserver?.disconnect();
     this.resizeObserver?.disconnect();
     this.destroyPopper();
-    this.transitionEl?.removeEventListener("transitionstart", this.transitionStartHandler);
+    this.transitionEl?.removeEventListener("transitionstart", transitionStartHandler.bind(this));
   }
 
   render(): VNode {
@@ -202,7 +200,7 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent {
               [PopperCSS.animation]: true,
               [PopperCSS.animationActive]: active || open
             }}
-            onTransitionEnd={this.transitionEnd}
+            onTransitionEnd={transitionEnd.bind(this)}
             ref={this.setScrollerAndTransitionEl}
           >
             <div hidden={!(open || active)}>
@@ -462,19 +460,7 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent {
     this.scrollerEl = el;
 
     this.transitionEl = el;
-    this.transitionEl.addEventListener("transitionstart", this.transitionStartHandler);
-  };
-
-  transitionEnd = (event: TransitionEvent): void => {
-    if (event.propertyName === this.activeTransitionProp && event.target === this.transitionEl) {
-      this.open || this.active ? this.onOpen() : this.onClose();
-    }
-  };
-
-  transitionStartHandler = (event: TransitionEvent): void => {
-    if (event.propertyName === this.activeTransitionProp && event.target === this.transitionEl) {
-      this.open || this.active ? this.onBeforeOpen() : this.onBeforeClose();
-    }
+    this.transitionEl.addEventListener("transitionstart", transitionStartHandler.bind(this));
   };
 
   onBeforeOpen(): void {
