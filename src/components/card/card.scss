@@ -110,6 +110,7 @@
 .thumbnail-wrapper {
   @apply flex;
   border-radius: var(--calcite-border-radius-base);
+  overflow: hidden;
 }
 
 .calcite-card-container.inline {
