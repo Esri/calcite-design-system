@@ -253,6 +253,8 @@ export class Panel implements ConditionalSlotComponent, InteractiveComponent {
   dismiss = (): void => {
     this.dismissed = true;
     this.closed = true;
+    this.dismissible = false;
+    this.closable = false;
     this.calcitePanelDismiss.emit();
   };
 
@@ -529,7 +531,7 @@ export class Panel implements ConditionalSlotComponent, InteractiveComponent {
       <article
         aria-busy={toAriaBoolean(loading)}
         class={CSS.container}
-        hidden={(closable || dismissible) && (closed || dismissed)}
+        hidden={closed || dismissed}
         onKeyDown={panelKeyDownHandler}
         ref={this.setContainerRef}
         tabIndex={closable || dismissible ? 0 : -1}
