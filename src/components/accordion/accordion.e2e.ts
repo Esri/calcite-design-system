@@ -5,15 +5,13 @@ import { CSS } from "../accordion-item/resources";
 
 describe("calcite-accordion", () => {
   const accordionContent = html`
-    <calcite-accordion-item item-title="Accordion Title 1" id="1"
+    <calcite-accordion-item heading="Accordion Title 1" id="1"
       ><calcite-action scale="s" icon="brush-tip" label="Paint" slot="actions-start"></calcite-action>Accordion Item
       Content
       <calcite-action scale="s" icon="sound" label="Volume" slot="actions-end"></calcite-action>
     </calcite-accordion-item>
-    <calcite-accordion-item item-title="Accordion Title 1" id="2" active
-      >Accordion Item Content
-    </calcite-accordion-item>
-    <calcite-accordion-item item-title="Accordion Title 3" id="3">Accordion Item Content </calcite-accordion-item>
+    <calcite-accordion-item heading="Accordion Title 1" id="2" active>Accordion Item Content </calcite-accordion-item>
+    <calcite-accordion-item heading="Accordion Title 3" id="3">Accordion Item Content </calcite-accordion-item>
   `;
   it("renders", async () => renders("calcite-accordion", { display: "block" }));
 
@@ -51,11 +49,11 @@ describe("calcite-accordion", () => {
     const page = await newE2EPage();
     await page.setContent(`
     <calcite-accordion appearance="minimal" icon-position="start"  scale="l" selection-mode="single-persist" icon-type="caret">
-    <calcite-accordion-item item-title="Accordion Title 1" icon="car" id="1">Accordion Item Content
+    <calcite-accordion-item heading="Accordion Title 1" icon="car" id="1">Accordion Item Content
     </calcite-accordion-item>
-    <calcite-accordion-item item-title="Accordion Title 1" id="2" active>Accordion Item Content
+    <calcite-accordion-item heading="Accordion Title 1" id="2" active>Accordion Item Content
     </calcite-accordion-item>
-    <calcite-accordion-item item-title="Accordion Title 3" icon="car" id="3">Accordion Item Content
+    <calcite-accordion-item heading="Accordion Title 3" icon="car" id="3">Accordion Item Content
     </calcite-accordion-item>
     </calcite-accordion>`);
     const icon1 = await page.find(`calcite-accordion-item[id='1'] >>> .${CSS.icon}`);
