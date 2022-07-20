@@ -178,7 +178,7 @@ export class AccordionItem implements ConditionalSlotComponent {
               {this.icon ? iconEl : null}
               <div class={CSS.headerText}>
                 <span class={CSS.heading}>{this.heading || this.itemTitle}</span>
-                {this.itemSubtitle ? (
+                {this.itemSubtitle || this.description ? (
                   <span class={CSS.description}>{this.description || this.itemSubtitle}</span>
                 ) : null}
               </div>
