@@ -94,7 +94,7 @@
 
 @include popperElemAnim(".menu-container");
 
-:host([active]) .menu-container {
+:host([open]) .menu-container {
   @include popperWrapperActive();
 }
 
@@ -122,7 +122,7 @@
   @apply px-3.5;
 }
 
-:host([range][layout="vertical"][active]) {
+:host([range][layout="vertical"][open]) {
   .vertical-arrow-container {
     @apply hidden;
   }
