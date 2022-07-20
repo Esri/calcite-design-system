@@ -278,7 +278,7 @@ describe("calcite-input-date-picker", () => {
     const calciteInputDatePickerBeforeOpenSpy = await element.spyOnEvent("calciteInputDatePickerBeforeOpen");
     const calciteInputDatePickerOpenSpy = await element.spyOnEvent("calciteInputDatePickerOpen");
 
-    await element.setProperty("active", true);
+    await element.setProperty("open", true);
     await page.waitForChanges();
 
     expect(container).toHaveClass(CSS.menuActive);
@@ -295,7 +295,7 @@ describe("calcite-input-date-picker", () => {
     const calciteInputDatePickerBeforeCloseSpy = await element.spyOnEvent("calciteInputDatePickerBeforeClose");
     const calciteInputDatePickerClose = await element.spyOnEvent("calciteInputDatePickerClose");
 
-    await element.setProperty("active", false);
+    await element.setProperty("open", false);
     await page.waitForChanges();
 
     expect(container).not.toHaveClass(CSS.menuActive);

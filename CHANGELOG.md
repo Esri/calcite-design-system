@@ -7,13 +7,21 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## Unreleased
 
+### Features
+
+- **input-date-picker:** deprecate active property in favor of open ([#4972](https://github.com/Esri/calcite-components/issues/4972)) ([d9e0f2b](https://github.com/Esri/calcite-components/commit/d9e0f2b8a2e323f6ed8f75488479216e6ce8211b))
+
 ### Bug Fixes
 
 - **accordion-item:** add on-demand screen reader feedback to collapsed and expansion interaction ([#4931](https://github.com/Esri/calcite-components/issues/4931)) ([296b4d3](https://github.com/Esri/calcite-components/commit/296b4d3e3c141e2d6d2ca736580499bd050969ab))
+- **action:** updates line-height and affected y padding ([07b0b84](https://github.com/Esri/calcite-components/commit/07b0b84bf8087818b4da8646b487b9cc05c60082)), closes [#3955](https://github.com/Esri/calcite-components/issues/3955) [#3955](https://github.com/Esri/calcite-components/issues/3955)
 - **card:** align footer leading and trailing slots vertically. ([#4920](https://github.com/Esri/calcite-components/issues/4920)) ([6dc346b](https://github.com/Esri/calcite-components/commit/6dc346b828b6613599c9eff602bd62a55eecbfa2))
 - **modal, alert, combobox, dropdown, input-date-picker, popover:** Scope open and close events to component ([#4962](https://github.com/Esri/calcite-components/issues/4962)) ([b4d30c7](https://github.com/Esri/calcite-components/commit/b4d30c776349aa9ad4b291424790e0ea003fb737)), closes [#4902](https://github.com/Esri/calcite-components/issues/4902)
 - **pick-list-item:** Make label property required. ([#3373](https://github.com/Esri/calcite-components/issues/3373)) ([#4907](https://github.com/Esri/calcite-components/issues/4907)) ([567a424](https://github.com/Esri/calcite-components/commit/567a4243d8db50084efdf1d6ff63d6c67d07344b))
 - **stepper:** revisit horizontal layout approach to avoid rearranging the DOM ([#4367](https://github.com/Esri/calcite-components/issues/4367)) ([992d822](https://github.com/Esri/calcite-components/commit/992d8222fa2fd3a932d65be6d94a116afc0c61a6)), closes [#1258](https://github.com/Esri/calcite-components/issues/1258)
+- **stepper-item:** avoid cursor-pointer on item content for horizontal layouts ([#4965](https://github.com/Esri/calcite-components/issues/4965)) ([c74894a](https://github.com/Esri/calcite-components/commit/c74894aa44ab2a2eb76a397ec9db3691dbf61df8)), closes [#4954](https://github.com/Esri/calcite-components/issues/4954)
+- **stepper-item:** remove bottom margin on content from horizontal layout ([#4966](https://github.com/Esri/calcite-components/issues/4966)) ([a736af3](https://github.com/Esri/calcite-components/commit/a736af3439fa4e101950cf58bbdce0e86f52cc13)), closes [#4956](https://github.com/Esri/calcite-components/issues/4956)
+- **stepper-item:** restore disabled styling on horizontal layout stepper items ([#4964](https://github.com/Esri/calcite-components/issues/4964)) ([2980763](https://github.com/Esri/calcite-components/commit/298076338e562948cea21d606cd0d134ef00a348)), closes [#4955](https://github.com/Esri/calcite-components/issues/4955)
 <!--@unreleased-section-end-->
 
 ## [1.0.0-beta.86](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.85...v1.0.0-beta.86) (2022-07-13)
