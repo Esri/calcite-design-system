@@ -5,7 +5,7 @@ import {
   accessible,
   defaults,
   labelable,
-  popperOwner,
+  floatingUIOwner,
   formAssociated,
   disabled
 } from "../../tests/commonTests";
@@ -569,7 +569,7 @@ describe("calcite-combobox", () => {
       await page.waitForChanges();
       expect(await page.evaluate(() => document.activeElement.id)).toBe("myCombobox");
 
-      const container = await page.find(`#myCombobox >>> .popper-container`);
+      const container = await page.find(`#myCombobox >>> .floating-ui-container`);
       const visible = await container.isVisible();
       expect(visible).toBe(false);
     });
@@ -578,8 +578,8 @@ describe("calcite-combobox", () => {
       await page.keyboard.press("Tab");
       expect(await page.evaluate(() => document.activeElement.id)).toBe("myCombobox");
 
-      const popper = await page.find("#myCombobox >>> .popper-container--active");
-      expect(popper).toBeNull();
+      const floatingUI = await page.find("#myCombobox >>> .floating-ui-container--active");
+      expect(floatingUI).toBeNull();
     });
 
     it("tab will close the item group if it’s open", async () => {
@@ -590,13 +590,13 @@ describe("calcite-combobox", () => {
 
       await page.keyboard.press("Space");
       await page.waitForChanges();
-      let popper = await page.find("#myCombobox >>> .popper-container--active");
-      expect(popper).toBeTruthy();
+      let floatingUI = await page.find("#myCombobox >>> .floating-ui-container--active");
+      expect(floatingUI).toBeTruthy();
 
       await page.keyboard.press("Tab");
       await page.waitForChanges();
-      popper = await page.find("#myCombobox >>> .popper-container--active");
-      expect(popper).toBeNull();
+      floatingUI = await page.find("#myCombobox >>> .floating-ui-container--active");
+      expect(floatingUI).toBeNull();
     });
 
     it(`ArrowDown opens the item group for combobox in focus and jumps to the first item`, async () => {
@@ -619,13 +619,13 @@ describe("calcite-combobox", () => {
 
       await page.keyboard.press("Space");
       await page.waitForChanges();
-      let popper = await page.find("#myCombobox >>> .popper-container--active");
-      expect(popper).toBeTruthy();
+      let floatingUI = await page.find("#myCombobox >>> .floating-ui-container--active");
+      expect(floatingUI).toBeTruthy();
 
       await page.keyboard.press("Escape");
       await page.waitForChanges();
-      popper = await page.find("#myCombobox >>> .popper-container--active");
-      expect(popper).toBeNull();
+      floatingUI = await page.find("#myCombobox >>> .floating-ui-container--active");
+      expect(floatingUI).toBeNull();
 
       expect(await page.evaluate(() => document.activeElement.id)).toBe("myCombobox");
     });
@@ -1012,7 +1012,7 @@ describe("calcite-combobox", () => {
       expect(value).toBe("");
       await input.click();
 
-      const container = await page.find("calcite-combobox >>> .popper-container");
+      const container = await page.find("calcite-combobox >>> .floating-ui-container");
       let visible = await container.isVisible();
       expect(visible).toBe(true);
 
@@ -1201,15 +1201,15 @@ describe("calcite-combobox", () => {
       { testValue: "two", submitsOnEnter: true }
     ));
 
-  it("owns a popper", () =>
-    popperOwner(
+  it("owns a floating-ui", () =>
+    floatingUIOwner(
       html` <calcite-combobox>
         <calcite-combobox-item id="one" icon="banana" value="one" text-label="One"></calcite-combobox-item>
         <calcite-combobox-item id="two" icon="beaker" value="two" text-label="Two" selected></calcite-combobox-item>
         <calcite-combobox-item id="three" value="three" text-label="Three"></calcite-combobox-item>
       </calcite-combobox>`,
-      "active",
-      { shadowPopperSelector: ".popper-container" }
+      "open",
+      { shadowSelector: ".floating-ui-container" }
     ));
 
   it("should emit component status for transition-chained events: 'calciteComoboxBeforeOpen', 'calciteComboboxOpen', 'calciteComboboxBeforeClose', 'calciteComboboxClose'", async () => {
