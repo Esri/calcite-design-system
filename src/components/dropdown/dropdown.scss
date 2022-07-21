@@ -13,21 +13,23 @@
 @include disabled();
 
 :host .calcite-dropdown-wrapper {
-  @include popperContainer();
-  @include popperWrapper();
+  @include floatingUIContainer();
+  @include floatingUIWrapper();
 }
-@include popperElemAnim(".calcite-dropdown-wrapper");
+
+@include floatingUIElemAnim(".calcite-dropdown-wrapper");
 :host([active]) .calcite-dropdown-wrapper,
 :host([open]) .calcite-dropdown-wrapper {
-  @include popperWrapperActive();
+  @include floatingUIWrapperActive();
 }
+
 :host .calcite-dropdown-content {
   @apply bg-foreground-1
     w-auto
     overflow-y-auto
     overflow-x-hidden;
-  max-height: 90vh;
-  width: var(--calcite-dropdown-width);
+  max-block-size: 90vh;
+  inline-size: var(--calcite-dropdown-width);
 }
 .calcite-dropdown-trigger-container {
   @apply relative flex flex-auto;

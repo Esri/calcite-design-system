@@ -50,7 +50,8 @@
 }
 
 :host span {
-  padding: 0 var(--calcite-chip-spacing-unit-l);
+  padding-block: 0;
+  padding-inline: var(--calcite-chip-spacing-unit-l);
 }
 
 :host([dismissible]) span,
@@ -60,7 +61,8 @@
 
 :host([icon]:not([dismissible])) span,
 :host([icon]:not([closable])) span {
-  padding: 0 var(--calcite-chip-spacing-unit-l);
+  padding-block: 0;
+  padding-inline: var(--calcite-chip-spacing-unit-l);
 }
 
 :host button {
@@ -81,7 +83,8 @@
   border-start-end-radius: 50px;
   border-end-end-radius: 50px;
   border-end-start-radius: 0;
-  padding: 0 var(--calcite-chip-spacing-unit-s);
+  padding-block: 0;
+  padding-inline: var(--calcite-chip-spacing-unit-s);
   color: inherit;
 
   // close button focus styles

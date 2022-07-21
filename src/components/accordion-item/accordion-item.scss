@@ -54,7 +54,7 @@
     @apply text-color-1 block;
   }
   & .accordion-item-header {
-    border-bottom-color: transparent;
+    border-block-end-color: transparent;
   }
 }
 
@@ -78,7 +78,7 @@
 :host .accordion-item-content,
 :host .accordion-item-header {
   padding: var(--calcite-accordion-item-padding);
-  border-bottom: 1px solid var(--calcite-accordion-item-border, theme("borderColor.color.2"));
+  border-block-end: 1px solid var(--calcite-accordion-item-border, theme("borderColor.color.2"));
 }
 
 :host .accordion-item-header * {
@@ -172,7 +172,7 @@
 @media (forced-colors: active) {
   :host([expanded]) {
     & .accordion-item-header {
-      border-bottom: none;
+      border-block-end: none;
     }
     & .accordion-item-heading {
       /** give visual indicator of expanded state since subtle color changes can't be done **/

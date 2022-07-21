@@ -53,7 +53,7 @@
     flex-1
     border-b
     font-bold;
-  padding: var(--calcite-combobox-item-spacing-unit-l) 0;
-  margin-left: var(--calcite-combobox-item-spacing-unit-s);
-  margin-right: var(--calcite-combobox-item-spacing-unit-s);
+  padding-block: var(--calcite-combobox-item-spacing-unit-l);
+  padding-inline: 0;
+  margin-inline: var(--calcite-combobox-item-spacing-unit-s);
 }

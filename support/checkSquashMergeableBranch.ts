@@ -1,6 +1,4 @@
-const childProcess = require("child_process");
-const pify = require("pify");
-const exec = pify(childProcess.exec);
+import pify from "pify";
 
 /*
 This script checks how many commits there are on a branch;
@@ -9,6 +7,9 @@ This ensures a conventional commit message when PRs are squash-merged.
 */
 
 (async function runner(): Promise<void> {
+  const childProcess = await import("child_process");
+  const exec = pify(childProcess.exec);
+
   const conventionalCommitRegex =
     /^((build|chore|ci|docs|feat|fix|perf|refactor|revert|style|test)(\([\w ,-]+\))?(!)?: [\w ])+([\s\S]*)/;
 

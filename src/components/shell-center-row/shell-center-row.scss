@@ -36,11 +36,11 @@
 }
 
 :host([height-scale="s"]) {
-  height: theme("width[1/3]");
+  block-size: theme("width[1/3]");
 }
 
 :host([height-scale="m"]) {
-  height: 70%;
+  block-size: 70%;
 }
 
 :host([height-scale="l"]) {
@@ -48,7 +48,7 @@
 }
 
 :host([height-scale="l"][detached]) {
-  height: calc(theme("height.full") - theme("spacing.8"));
+  block-size: calc(theme("height.full") - theme("spacing.8"));
 }
 
 ::slotted(calcite-panel) {

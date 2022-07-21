@@ -16,16 +16,17 @@ import { filter } from "../../utils/filter";
 import { debounce } from "lodash-es";
 
 import {
-  createPopper,
-  updatePopper,
-  CSS as PopperCSS,
+  positionFloatingUI,
+  FloatingCSS,
   OverlayPositioning,
-  ComputedPlacement,
-  popperMenuComputedPlacements,
+  FloatingUIComponent,
+  connectFloatingUI,
+  disconnectFloatingUI,
+  LogicalPlacement,
+  EffectivePlacement,
   defaultMenuPlacement,
   filterComputedPlacements
-} from "../../utils/popper";
-import { StrictModifiers, Instance as Popper } from "@popperjs/core";
+} from "../../utils/floating-ui";
 import { guid } from "../../utils/guid";
 import { Scale } from "../interfaces";
 import { ComboboxSelectionMode, ComboboxChildElement } from "./interfaces";
@@ -67,7 +68,12 @@ const inputUidPrefix = "combobox-input-";
   shadow: true
 })
 export class Combobox
-  implements LabelableComponent, FormComponent, InteractiveComponent, OpenCloseComponent
+  implements
+    LabelableComponent,
+    FormComponent,
+    InteractiveComponent,
+    OpenCloseComponent,
+    FloatingUIComponent
 {
   //--------------------------------------------------------------------------
   //
@@ -141,6 +147,11 @@ export class Combobox
   /** Describes the type of positioning to use for the overlaid content. If your element is in a fixed container, use the 'fixed' value. */
   @Prop() overlayPositioning: OverlayPositioning = "absolute";
 
+  @Watch("overlayPositioning")
+  overlayPositioningHandler(): void {
+    this.reposition();
+  }
+
   /**
    * When true, makes the component required for form-submission.
    *
@@ -187,7 +198,7 @@ export class Combobox
   /**
    * Defines the available placements that can be used when a flip occurs.
    */
-  @Prop() flipPlacements?: ComputedPlacement[];
+  @Prop() flipPlacements?: EffectivePlacement[];
 
   @Watch("flipPlacements")
   flipPlacementsHandler(): void {
@@ -226,16 +237,15 @@ export class Combobox
   /** Updates the position of the component. */
   @Method()
   async reposition(): Promise<void> {
-    const { popper, menuEl } = this;
-    const modifiers = this.getModifiers();
-    popper
-      ? await updatePopper({
-          el: menuEl,
-          modifiers,
-          placement: defaultMenuPlacement,
-          popper
-        })
-      : this.createPopper();
+    const { floatingEl, referenceEl, placement, overlayPositioning } = this;
+
+    return positionFloatingUI({
+      floatingEl,
+      referenceEl,
+      overlayPositioning,
+      placement,
+      type: "menu"
+    });
   }
 
   /** Sets focus on the component. */
@@ -273,17 +283,17 @@ export class Combobox
   /** Called when a selected item in the combobox is dismissed via its chip */
   @Event() calciteComboboxChipDismiss: EventEmitter;
 
-  /* Fired when a combobox is requested to be closed and before the closing transition begins. */
-  @Event() calciteComboboxBeforeClose: EventEmitter<{ el: HTMLCalciteComboboxElement }>;
+  /* Fires when the component is requested to be closed and before the closing transition begins. */
+  @Event() calciteComboboxBeforeClose: EventEmitter<void>;
 
-  /* Fired when a combobox has been closed and animation is complete */
-  @Event() calciteComboboxClose: EventEmitter<{ el: HTMLCalciteComboboxElement }>;
+  /* Fires when the component is closed and animation is complete. */
+  @Event() calciteComboboxClose: EventEmitter<void>;
 
-  /* Fired while a combobox is still invisible but was added to the DOM, and before the opening transition begins. */
-  @Event() calciteComboboxBeforeOpen: EventEmitter<{ el: HTMLCalciteComboboxElement }>;
+  /* Fires when the component is added to the DOM but not rendered, and before the opening transition begins. */
+  @Event() calciteComboboxBeforeOpen: EventEmitter<void>;
 
-  /* Fired when a combobox has been opened and animation is complete */
-  @Event() calciteComboboxOpen: EventEmitter<{ el: HTMLCalciteComboboxElement }>;
+  /* Fires when the component is open and animation is complete. */
+  @Event() calciteComboboxOpen: EventEmitter<void>;
 
   // --------------------------------------------------------------------------
   //
@@ -296,9 +306,9 @@ export class Combobox
     this.value = this.getValue();
     this.internalValueChangeFlag = false;
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
-    this.createPopper();
     connectLabel(this);
     connectForm(this);
+    this.reposition();
     this.setFilteredPlacements();
   }
 
@@ -308,6 +318,7 @@ export class Combobox
 
   componentDidLoad(): void {
     afterConnectDefaultValueSet(this, this.getValue());
+    this.reposition();
   }
 
   componentDidRender(): void {
@@ -322,13 +333,10 @@ export class Combobox
   disconnectedCallback(): void {
     this.mutationObserver?.disconnect();
     this.resizeObserver?.disconnect();
-    this.destroyPopper();
     disconnectLabel(this);
     disconnectForm(this);
-
-    if (this.listContainerEl) {
-      this.listContainerEl.removeEventListener("transitionrun", this.transitionRunHandler);
-    }
+    disconnectFloatingUI(this, this.referenceEl, this.floatingEl);
+    this.listContainerEl?.removeEventListener("transitionstart", this.transitionStartHandler);
   }
 
   //--------------------------------------------------------------------------
@@ -337,7 +345,9 @@ export class Combobox
   //
   //--------------------------------------------------------------------------
 
-  filteredFlipPlacements: ComputedPlacement[];
+  placement: LogicalPlacement = defaultMenuPlacement;
+
+  filteredFlipPlacements: EffectivePlacement[];
 
   internalValueChangeFlag = false;
 
@@ -390,9 +400,7 @@ export class Combobox
 
   private inputHeight = 0;
 
-  private popper: Popper;
-
-  private menuEl: HTMLDivElement;
+  private floatingEl: HTMLDivElement;
 
   private referenceEl: HTMLDivElement;
 
@@ -557,17 +565,13 @@ export class Combobox
   }
 
   transitionEnd = (event: TransitionEvent): void => {
-    if (event.propertyName === this.activeTransitionProp) {
+    if (event.propertyName === this.activeTransitionProp && event.target === this.listContainerEl) {
       this.open || this.active ? this.onOpen() : this.onClose();
     }
   };
 
-  /* *
-  - `transitionrun` fires when the transition is created at the start of any delay and is not cancellable once started.
-  - if there is no transition delay, both `transitionrun` and `transitionstart` are fired at the same time.
-  */
-  transitionRunHandler = (event: TransitionEvent): void => {
-    if (event.propertyName === this.activeTransitionProp) {
+  transitionStartHandler = (event: TransitionEvent): void => {
+    if (event.propertyName === this.activeTransitionProp && event.target === this.listContainerEl) {
       this.open || this.active ? this.onBeforeOpen() : this.onBeforeClose();
     }
   };
@@ -635,61 +639,21 @@ export class Combobox
     this.open = false;
   };
 
-  setMenuEl = (el: HTMLDivElement): void => {
-    this.menuEl = el;
+  setFloatingEl = (el: HTMLDivElement): void => {
+    this.floatingEl = el;
+    connectFloatingUI(this, this.referenceEl, this.floatingEl);
   };
 
   setListContainerEl = (el: HTMLDivElement): void => {
     this.resizeObserver.observe(el);
     this.listContainerEl = el;
-    this.listContainerEl.addEventListener("transitionrun", this.transitionRunHandler);
+    this.listContainerEl.addEventListener("transitionstart", this.transitionStartHandler);
   };
 
   setReferenceEl = (el: HTMLDivElement): void => {
     this.referenceEl = el;
+    connectFloatingUI(this, this.referenceEl, this.floatingEl);
   };
-
-  getModifiers(): Partial<StrictModifiers>[] {
-    const flipModifier: Partial<StrictModifiers> = {
-      name: "flip",
-      enabled: true
-    };
-
-    flipModifier.options = {
-      fallbackPlacements: this.filteredFlipPlacements || popperMenuComputedPlacements
-    };
-
-    const eventListenerModifier: Partial<StrictModifiers> = {
-      name: "eventListeners",
-      enabled: this.open || this.active
-    };
-
-    return [flipModifier, eventListenerModifier];
-  }
-
-  createPopper(): void {
-    this.destroyPopper();
-    const { menuEl, referenceEl, overlayPositioning } = this;
-    const modifiers = this.getModifiers();
-
-    this.popper = createPopper({
-      el: menuEl,
-      modifiers,
-      overlayPositioning,
-      placement: defaultMenuPlacement,
-      referenceEl
-    });
-  }
-
-  destroyPopper(): void {
-    const { popper } = this;
-
-    if (popper) {
-      popper.destroy();
-    }
-
-    this.popper = null;
-  }
 
   private getMaxScrollerHeight(): number {
     const items = this.getCombinedItems().filter((item) => !item.hidden);
@@ -1125,19 +1089,22 @@ export class Combobox
     ));
   }
 
-  renderPopperContainer(): VNode {
-    const { active, setMenuEl, setListContainerEl, open } = this;
+  renderFloatingUIContainer(): VNode {
+    const { active, setFloatingEl, setListContainerEl, open } = this;
     const classes = {
       "list-container": true,
-      [PopperCSS.animation]: true,
-      [PopperCSS.animationActive]: open || active
+      [FloatingCSS.animation]: true,
+      [FloatingCSS.animationActive]: open || active
     };
 
     return (
       <div
         aria-hidden="true"
-        class={{ "popper-container": true, "popper-container--active": open || active }}
-        ref={setMenuEl}
+        class={{
+          "floating-ui-container": true,
+          "floating-ui-container--active": open || active
+        }}
+        ref={setFloatingEl}
       >
         <div class={classes} onTransitionEnd={this.transitionEnd} ref={setListContainerEl}>
           <ul class={{ list: true, "list--hide": !(open || active) }}>
@@ -1220,7 +1187,7 @@ export class Combobox
         >
           {this.renderListBoxOptions()}
         </ul>
-        {this.renderPopperContainer()}
+        {this.renderFloatingUIContainer()}
         <HiddenFormInputSlot component={this} />
       </Host>
     );

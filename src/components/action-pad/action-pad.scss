@@ -4,7 +4,7 @@
 }
 
 :host([expanded]) {
-  max-width: 20vw;
+  max-inline-size: 20vw;
   background: transparent;
 }
 
@@ -23,7 +23,7 @@
   flex-col
   overflow-y-auto
   rounded;
-  max-width: 15vw;
+  max-inline-size: 15vw;
 }
 
 .action-group--bottom {
@@ -33,7 +33,7 @@
 :host([layout="horizontal"]) {
   .container {
     @apply flex-row;
-    max-width: unset;
+    max-inline-size: unset;
     .action-group--bottom {
       @apply p-0;
     }

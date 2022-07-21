@@ -54,7 +54,8 @@ ul:focus {
     no-underline
     duration-150
     ease-in-out;
-  padding: var(--calcite-combobox-item-spacing-unit-s) var(--calcite-combobox-item-spacing-unit-l);
+  padding-block: var(--calcite-combobox-item-spacing-unit-s);
+  padding-inline: var(--calcite-combobox-item-spacing-unit-l);
 }
 
 :host([disabled]) .label {
@@ -79,7 +80,8 @@ ul:focus {
 }
 
 .title {
-  padding: 0 var(--calcite-combobox-item-spacing-unit-l);
+  padding-block: 0;
+  padding-inline: var(--calcite-combobox-item-spacing-unit-l);
 }
 
 .icon {
@@ -95,7 +97,7 @@ ul:focus {
 }
 
 .icon--custom {
-  margin-top: -1px;
+  margin-block-start: -1px;
   @apply text-color-3;
 }
 
@@ -105,7 +107,7 @@ ul:focus {
 
 .icon--dot {
   @apply flex justify-end;
-  min-width: var(--calcite-combobox-item-spacing-unit-l);
+  min-inline-size: var(--calcite-combobox-item-spacing-unit-l);
 }
 
 .icon--dot:before {

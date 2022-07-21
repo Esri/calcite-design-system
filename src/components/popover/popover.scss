@@ -1,5 +1,5 @@
-@include popperHost();
-@include popperArrow();
+@include floatingUIHost();
+@include floatingUIArrow();
 
 :host {
   @apply pointer-events-none;
@@ -9,7 +9,7 @@
   pointer-events: initial;
 }
 
-.calcite-popper-anim {
+.calcite-floating-ui-anim {
   @apply bg-foreground-1
     border-color-3
     rounded

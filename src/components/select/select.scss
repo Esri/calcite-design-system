@@ -13,7 +13,7 @@
   @apply relative
     flex
     items-stretch;
-  width: var(--select-width);
+  inline-size: var(--select-width);
 }
 
 @include disabled();
@@ -37,7 +37,7 @@
 }
 
 :host([scale="l"]) {
-  height: 44px;
+  block-size: 44px;
   --calcite-select-font-size: theme("fontSize.0h");
   --calcite-select-spacing-inline: theme("spacing.4") theme("spacing.12");
   .icon-container {

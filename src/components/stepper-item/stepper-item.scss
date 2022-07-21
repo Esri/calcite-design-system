@@ -37,7 +37,7 @@
   flex-grow
   flex-col
   self-start;
-  margin-bottom: var(--calcite-stepper-item-spacing-unit-s);
+  margin-block-end: var(--calcite-stepper-item-spacing-unit-s);
 }
 
 :host .container {
@@ -171,7 +171,7 @@
 }
 
 :host([active]) .container {
-  border-top-color: theme("backgroundColor.brand");
+  border-block-start-color: theme("backgroundColor.brand");
   & .stepper-item-heading {
     @apply text-color-1;
   }
@@ -188,15 +188,20 @@
   }
 }
 
-// vertical layout
+:host([active]) .container {
+  & .stepper-item-content {
+    @apply flex;
+  }
+}
+
 :host([layout="vertical"]) .container {
   @apply border-color-3
-    mx-0
-    mt-0
-    flex-auto
-    border-t-0
-    border-solid
-    py-0;
+  mx-0
+  mt-0
+  flex-auto
+  border-t-0
+  border-solid
+  py-0;
   border-inline-start-width: theme("borderWidth.2");
   padding-inline-start: var(--calcite-stepper-item-spacing-unit-l);
 
@@ -213,16 +218,6 @@
   }
 }
 
-// only show the content for vertical items
-:host([layout="vertical"][active]) .container {
-  & .stepper-item-content {
-    @apply flex;
-    & ::slotted(:last-child) {
-      margin-bottom: var(--calcite-stepper-item-spacing-unit-l);
-    }
-  }
-}
-
 :host([layout="vertical"][complete]) .container {
   border-color: rgba($h-bb-060, 0.5);
 }
@@ -235,6 +230,12 @@
 }
 :host([layout="vertical"][active]) .container {
   @apply border-color-brand;
+
+  & .stepper-item-content {
+    & ::slotted(:last-child) {
+      margin-block-end: var(--calcite-stepper-item-spacing-unit-l);
+    }
+  }
 }
 :host([layout="vertical"]:hover:not([disabled]):not([active])) .container,
 :host([layout="vertical"]:focus:not([disabled]):not([active])) .container {
@@ -242,6 +243,84 @@
 }
 :host([layout="vertical"][error]:hover:not([disabled]):not([active])) .container,
 :host([layout="vertical"][error]:focus:not([disabled]):not([active])) .container {
+  @apply border-color-danger-hover;
+}
+
+:host([layout="horizontal"]) {
+  display: contents;
+
+  .container {
+    display: contents;
+  }
+
+  .stepper-item-header {
+    @apply border-color-3
+    border-0
+    border-solid
+    border-t-2
+    focus-base;
+
+    grid-row: items;
+    margin-inline-end: theme("margin.2");
+    margin-block-end: var(--calcite-stepper-item-spacing-unit-s);
+
+    &:focus {
+      @apply focus-outset;
+    }
+  }
+
+  .stepper-item-content {
+    @apply cursor-auto duration-150 ease-in-out;
+    padding-block: 0;
+    padding-inline-end: var(--calcite-stepper-item-spacing-unit-m);
+    text-align: start;
+  }
+}
+
+:host([layout="horizontal"][disabled]) {
+  .stepper-item-header {
+    @extend %disabled-host-only;
+  }
+}
+
+:host([layout="horizontal"][active]) {
+  .stepper-item-content {
+    grid-area: 2 / 1 / 2 / -1;
+  }
+}
+
+:host([layout="horizontal"][scale="s"]) {
+  .stepper-item-header {
+    margin-inline-end: theme("margin.1");
+    margin-block-end: var(--calcite-stepper-item-spacing-unit-s);
+  }
+}
+:host([layout="horizontal"][scale="l"]) {
+  .stepper-item-header {
+    margin-inline-end: theme("margin.3");
+    margin-block-end: var(--calcite-stepper-item-spacing-unit-s);
+  }
+}
+
+:host([layout="horizontal"][complete]) .stepper-item-header {
+  border-color: rgba($h-bb-060, 0.5);
+}
+:host([layout="horizontal"][complete]:hover:not([disabled]):not([active])) .stepper-item-header,
+:host([layout="horizontal"][complete]:focus:not([disabled]):not([active])) .stepper-item-header {
+  @apply border-color-brand;
+}
+:host([layout="horizontal"][error]) .stepper-item-header {
+  @apply border-color-danger;
+}
+:host([layout="horizontal"][active]) .stepper-item-header {
+  @apply border-color-brand;
+}
+:host([layout="horizontal"]:hover:not([disabled]):not([active])) .stepper-item-header,
+:host([layout="horizontal"]:focus:not([disabled]):not([active])) .stepper-item-header {
+  border-color: rgba($h-bb-060, 0.5);
+}
+:host([layout="horizontal"][error]:hover:not([disabled]):not([active])) .stepper-item-header,
+:host([layout="horizontal"][error]:focus:not([disabled]):not([active])) .stepper-item-header {
   @apply border-color-danger-hover;
 }
 
@@ -257,7 +336,7 @@
   }
 
   :host([active]) .container {
-    border-top-color: highlight;
+    border-block-start-color: highlight;
     & .stepper-item-number {
       color: highlight;
     }

@@ -57,7 +57,7 @@
         w-px
         transition-colors;
     // ensure lines don't overlap focus outline
-    height: 96%;
+    block-size: 96%;
     content: "";
     background-color: var(--calcite-ui-border-2);
     z-index: -1;
@@ -113,13 +113,14 @@
   :host([expanded]) > & {
     transform: scaleY(1);
     opacity: 1;
-    height: auto;
+    block-size: auto;
   }
 }
 
 .node-container {
   @apply relative flex items-center;
-  padding: var(--calcite-tree-padding-y) 0;
+  padding-block: var(--calcite-tree-padding-y);
+  padding-inline: 0;
 
   .checkmark,
   .bullet-point {
