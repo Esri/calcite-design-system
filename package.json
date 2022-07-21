@@ -116,7 +116,7 @@
     "eslint-plugin-jsdoc": "39.3.3",
     "eslint-plugin-prettier": "4.2.1",
     "eslint-plugin-react": "7.30.1",
-    "eslint-plugin-unicorn": "43.0.1",
+    "eslint-plugin-unicorn": "43.0.2",
     "gh-release": "6.0.4",
     "git-semver-tags": "4.1.1",
     "husky": "8.0.1",
