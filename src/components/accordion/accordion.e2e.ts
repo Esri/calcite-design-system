@@ -74,9 +74,9 @@ describe("calcite-accordion", () => {
     const item1 = await element.find("calcite-accordion-item[id='1']");
     const item2 = await element.find("calcite-accordion-item[id='2']");
     const item3 = await element.find("calcite-accordion-item[id='3']");
-    const item1Content = await element.find("calcite-accordion-item[id='1'] >>> .accordion-item-content");
-    const item2Content = await element.find("calcite-accordion-item[id='2'] >>> .accordion-item-content");
-    const item3Content = await element.find("calcite-accordion-item[id='3'] >>> .accordion-item-content");
+    const item1Content = await element.find(`calcite-accordion-item[id='1'] >>> .${CSS.content}`);
+    const item2Content = await element.find(`calcite-accordion-item[id='2'] >>> .${CSS.content}`);
+    const item3Content = await element.find(`calcite-accordion-item[id='3'] >>> .${CSS.content} `);
 
     expect(item1).not.toHaveAttribute("expanded");
     expect(item1).not.toHaveAttribute("active");
