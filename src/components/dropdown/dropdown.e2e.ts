@@ -1055,6 +1055,7 @@ describe("calcite-dropdown", () => {
     await element.setProperty("active", true);
     await page.waitForChanges();
 
+    expect(await element.getProperty("open")).toBe(true);
     await calciteDropdownBeforeOpenEvent;
     await calciteDropdownOpenEvent;
 
@@ -1072,6 +1073,7 @@ describe("calcite-dropdown", () => {
     await element.setProperty("active", false);
     await page.waitForChanges();
 
+    expect(await element.getProperty("active")).toBe(true);
     await calciteDropdownBeforeCloseEvent;
     await calciteDropdownCloseEvent;
 
