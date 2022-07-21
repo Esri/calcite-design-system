@@ -1,16 +1,20 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { accessible, renders } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
+import { CSS } from "../accordion-item/resources";
 
 describe("calcite-accordion", () => {
-  const accordionContent = `
-    <calcite-accordion-item item-title="Accordion Title 1" id="1">Accordion Item Content
+  const accordionContent = html`
+    <calcite-accordion-item item-title="Accordion Title 1" id="1"
+      ><calcite-action scale="s" icon="brush-tip" label="Paint" slot="actions-start"></calcite-action>Accordion Item
+      Content
+      <calcite-action scale="s" icon="sound" label="Volume" slot="actions-end"></calcite-action>
     </calcite-accordion-item>
-    <calcite-accordion-item item-title="Accordion Title 1" id="2" active>Accordion Item Content
+    <calcite-accordion-item item-title="Accordion Title 1" id="2" active
+      >Accordion Item Content
     </calcite-accordion-item>
-    <calcite-accordion-item item-title="Accordion Title 3" id="3">Accordion Item Content
-    </calcite-accordion-item>
- `;
+    <calcite-accordion-item item-title="Accordion Title 3" id="3">Accordion Item Content </calcite-accordion-item>
+  `;
   it("renders", async () => renders("calcite-accordion", { display: "block" }));
 
   it("is accessible", async () => accessible(`<calcite-accordion>${accordionContent}</calcite-accordion>`));
@@ -54,9 +58,9 @@ describe("calcite-accordion", () => {
     <calcite-accordion-item item-title="Accordion Title 3" icon="car" id="3">Accordion Item Content
     </calcite-accordion-item>
     </calcite-accordion>`);
-    const icon1 = await page.find("calcite-accordion-item[id='1'] >>> .accordion-item-icon");
-    const icon2 = await page.find("calcite-accordion-item[id='2'] >>> .accordion-item-icon");
-    const icon3 = await page.find("calcite-accordion-item[id='3'] >>> .accordion-item-icon");
+    const icon1 = await page.find(`calcite-accordion-item[id='1'] >>> .${CSS.icon}`);
+    const icon2 = await page.find(`calcite-accordion-item[id='2'] >>> .${CSS.icon}`);
+    const icon3 = await page.find(`calcite-accordion-item[id='3'] >>> .${CSS.icon}`);
     expect(icon1).not.toBe(null);
     expect(icon2).toBe(null);
     expect(icon3).not.toBe(null);
@@ -72,9 +76,9 @@ describe("calcite-accordion", () => {
     const item1 = await element.find("calcite-accordion-item[id='1']");
     const item2 = await element.find("calcite-accordion-item[id='2']");
     const item3 = await element.find("calcite-accordion-item[id='3']");
-    const item1Content = await element.find("calcite-accordion-item[id='1'] >>> .accordion-item-content");
-    const item2Content = await element.find("calcite-accordion-item[id='2'] >>> .accordion-item-content");
-    const item3Content = await element.find("calcite-accordion-item[id='3'] >>> .accordion-item-content");
+    const item1Content = await element.find(`calcite-accordion-item[id='1'] >>> .${CSS.content}`);
+    const item2Content = await element.find(`calcite-accordion-item[id='2'] >>> .${CSS.content}`);
+    const item3Content = await element.find(`calcite-accordion-item[id='3'] >>> .${CSS.content}`);
     expect(item1).not.toHaveAttribute("active");
     expect(item2).toHaveAttribute("active");
     expect(item3).not.toHaveAttribute("active");
@@ -94,9 +98,9 @@ describe("calcite-accordion", () => {
     const item1 = await element.find("calcite-accordion-item[id='1']");
     const item2 = await element.find("calcite-accordion-item[id='2']");
     const item3 = await element.find("calcite-accordion-item[id='3']");
-    const item1Content = await element.find("calcite-accordion-item[id='1'] >>> .accordion-item-content");
-    const item2Content = await element.find("calcite-accordion-item[id='2'] >>> .accordion-item-content");
-    const item3Content = await element.find("calcite-accordion-item[id='3'] >>> .accordion-item-content");
+    const item1Content = await element.find(`calcite-accordion-item[id='1'] >>> .${CSS.content}`);
+    const item2Content = await element.find(`calcite-accordion-item[id='2'] >>> .${CSS.content}`);
+    const item3Content = await element.find(`calcite-accordion-item[id='3'] >>> .${CSS.content}`);
     await item1.click();
     await item3.click();
     expect(item1).toHaveAttribute("active");
@@ -118,9 +122,9 @@ describe("calcite-accordion", () => {
     const item1 = await element.find("calcite-accordion-item[id='1']");
     const item2 = await element.find("calcite-accordion-item[id='2']");
     const item3 = await element.find("calcite-accordion-item[id='3']");
-    const item1Content = await element.find("calcite-accordion-item[id='1'] >>> .accordion-item-content");
-    const item2Content = await element.find("calcite-accordion-item[id='2'] >>> .accordion-item-content");
-    const item3Content = await element.find("calcite-accordion-item[id='3'] >>> .accordion-item-content");
+    const item1Content = await element.find(`calcite-accordion-item[id='1'] >>> .${CSS.content}`);
+    const item2Content = await element.find(`calcite-accordion-item[id='2'] >>> .${CSS.content}`);
+    const item3Content = await element.find(`calcite-accordion-item[id='3'] >>> .${CSS.content}`);
     await item1.click();
     await item3.click();
     expect(item1).not.toHaveAttribute("active");
@@ -165,9 +169,9 @@ describe("calcite-accordion", () => {
     const item1 = await element.find("calcite-accordion-item[id='1']");
     const item2 = await element.find("calcite-accordion-item[id='2']");
     const item3 = await element.find("calcite-accordion-item[id='3']");
-    const item1Content = await element.find("calcite-accordion-item[id='1'] >>> .accordion-item-content");
-    const item2Content = await element.find("calcite-accordion-item[id='2'] >>> .accordion-item-content");
-    const item3Content = await element.find("calcite-accordion-item[id='3'] >>> .accordion-item-content");
+    const item1Content = await element.find(`calcite-accordion-item[id='1'] >>> .${CSS.content}`);
+    const item2Content = await element.find(`calcite-accordion-item[id='2'] >>> .${CSS.content}`);
+    const item3Content = await element.find(`calcite-accordion-item[id='3'] >>> .${CSS.content}`);
     await item2.click();
     expect(item1).not.toHaveAttribute("active");
     expect(item2).toHaveAttribute("active");
