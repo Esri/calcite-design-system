@@ -14,10 +14,10 @@ import { CSS, SLOTS, ICONS } from "./resources";
 import { focusElement, getSlotted, toAriaBoolean } from "../../utils/dom";
 import { Fragment, VNode } from "@stencil/core/internal";
 import { getRoundRobinIndex } from "../../utils/array";
-import { PopperPlacement, OverlayPositioning, ComputedPlacement } from "../../utils/popper";
 import { guid } from "../../utils/guid";
 import { Scale } from "../interfaces";
 import { createObserver } from "../../utils/observers";
+import { LogicalPlacement, EffectivePlacement, OverlayPositioning } from "../../utils/floating-ui";
 import {
   ConditionalSlotComponent,
   connectConditionalSlotComponent,
@@ -76,7 +76,7 @@ export class ActionMenu implements ConditionalSlotComponent {
   /**
    * Defines the available placements that can be used when a flip occurs.
    */
-  @Prop() flipPlacements?: ComputedPlacement[];
+  @Prop() flipPlacements?: EffectivePlacement[];
 
   /**
    *  Specifies the text string for the component.
@@ -105,9 +105,9 @@ export class ActionMenu implements ConditionalSlotComponent {
   /**
    * Determines where the component will be positioned relative to the `referenceElement`.
    *
-   * @see [PopperPlacement](https://github.com/Esri/calcite-components/blob/master/src/utils/popper.ts#L25)
+   * @see [LogicalPlacement](https://github.com/Esri/calcite-components/blob/master/src/utils/floating-ui.ts#L25)
    */
-  @Prop({ reflect: true }) placement: PopperPlacement = "auto";
+  @Prop({ reflect: true }) placement: LogicalPlacement = "auto";
 
   /**
    * Specifies the size of the component's trigger `calcite-action`.

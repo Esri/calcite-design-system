@@ -35,17 +35,17 @@ import {
   submitForm
 } from "../../utils/form";
 import {
-  createPopper,
-  updatePopper,
-  CSS as PopperCSS,
+  positionFloatingUI,
+  FloatingCSS,
   OverlayPositioning,
-  popperMenuComputedPlacements,
-  ComputedPlacement,
-  defaultMenuPlacement,
+  FloatingUIComponent,
+  connectFloatingUI,
+  disconnectFloatingUI,
+  EffectivePlacement,
   MenuPlacement,
+  defaultMenuPlacement,
   filterComputedPlacements
-} from "../../utils/popper";
-import { StrictModifiers, Instance as Popper } from "@popperjs/core";
+} from "../../utils/floating-ui";
 import { DateRangeChange } from "../date-picker/interfaces";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { toAriaBoolean } from "../../utils/dom";
@@ -57,7 +57,12 @@ import { OpenCloseComponent } from "../../utils/openCloseComponent";
   shadow: true
 })
 export class InputDatePicker
-  implements LabelableComponent, FormComponent, InteractiveComponent, OpenCloseComponent
+  implements
+    LabelableComponent,
+    FormComponent,
+    InteractiveComponent,
+    OpenCloseComponent,
+    FloatingUIComponent
 {
   //--------------------------------------------------------------------------
   //
@@ -87,7 +92,7 @@ export class InputDatePicker
   @Watch("readOnly")
   handleDisabledAndReadOnlyChange(value: boolean): void {
     if (!value) {
-      this.active = false;
+      this.open = false;
     }
   }
 
@@ -114,7 +119,7 @@ export class InputDatePicker
   /**
    * Defines the available placements that can be used when a flip occurs.
    */
-  @Prop() flipPlacements?: ComputedPlacement[];
+  @Prop() flipPlacements?: EffectivePlacement[];
 
   @Watch("flipPlacements")
   flipPlacementsHandler(): void {
@@ -169,17 +174,31 @@ export class InputDatePicker
     }
   }
 
-  /** Expand or collapse when calendar does not have input */
+  /**
+   * Expand or collapse when calendar does not have input
+   *
+   * @deprecated use open instead
+   */
   @Prop({ mutable: true, reflect: true }) active = false;
 
   @Watch("active")
-  activeHandler(): void {
-    if (!this.disabled || !this.readOnly) {
-      this.reposition();
+  activeHandler(value: boolean): void {
+    this.open = value;
+  }
+
+  /** Expand or collapse when calendar does not have input */
+  @Prop({ mutable: true, reflect: true }) open = false;
+
+  @Watch("open")
+  openHandler(value: boolean): void {
+    this.active = value;
+
+    if (this.disabled || this.readOnly) {
+      this.open = false;
       return;
     }
 
-    this.active = false;
+    this.reposition();
   }
 
   /**
@@ -217,7 +236,7 @@ export class InputDatePicker
   /**
    * Determines where the date-picker component will be positioned relative to the input.
    *
-   * @default "bottom-leading"
+   * @default "bottom-start"
    */
   @Prop({ reflect: true }) placement: MenuPlacement = defaultMenuPlacement;
 
@@ -248,6 +267,11 @@ export class InputDatePicker
   /** Describes the type of positioning to use for the overlaid content. If your element is in a fixed container, use the 'fixed' value. */
   @Prop() overlayPositioning: OverlayPositioning = "absolute";
 
+  @Watch("overlayPositioning")
+  overlayPositioningHandler(): void {
+    this.reposition();
+  }
+
   /** Disables the default behaviour on the third click of narrowing or extending the range and instead starts a new range. */
   @Prop() proximitySelectionDisabled = false;
 
@@ -272,7 +296,7 @@ export class InputDatePicker
       return;
     }
 
-    this.active = false;
+    this.open = false;
   }
 
   //--------------------------------------------------------------------------
@@ -327,17 +351,15 @@ export class InputDatePicker
   /** Updates the position of the component. */
   @Method()
   async reposition(): Promise<void> {
-    const { placement, popper, menuEl } = this;
-    const modifiers = this.getModifiers();
+    const { floatingEl, referenceEl, placement, overlayPositioning } = this;
 
-    popper
-      ? await updatePopper({
-          el: menuEl,
-          modifiers,
-          placement,
-          popper
-        })
-      : this.createPopper();
+    return positionFloatingUI({
+      floatingEl,
+      referenceEl,
+      overlayPositioning,
+      placement,
+      type: "menu"
+    });
   }
 
   // --------------------------------------------------------------------------
@@ -347,6 +369,10 @@ export class InputDatePicker
   // --------------------------------------------------------------------------
 
   connectedCallback(): void {
+    const isOpen = this.active || this.open;
+    isOpen && this.activeHandler(isOpen);
+    isOpen && this.openHandler(isOpen);
+
     if (Array.isArray(this.value)) {
       this.valueAsDate = this.value.map((v) => dateFromISO(v));
       this.start = this.value[0];
@@ -373,9 +399,9 @@ export class InputDatePicker
       this.maxAsDate = dateFromISO(this.max);
     }
 
-    this.createPopper();
     connectLabel(this);
     connectForm(this);
+    this.reposition();
     this.setFilteredPlacements();
   }
 
@@ -385,11 +411,15 @@ export class InputDatePicker
     this.onMaxChanged(this.max);
   }
 
+  componentDidLoad(): void {
+    this.reposition();
+  }
+
   disconnectedCallback(): void {
     this.containerEl?.removeEventListener("transitionstart", this.transitionStartHandler);
-    this.destroyPopper();
     disconnectLabel(this);
     disconnectForm(this);
+    disconnectFloatingUI(this, this.referenceEl, this.floatingEl);
   }
 
   componentDidRender(): void {
@@ -417,11 +447,7 @@ export class InputDatePicker
         role="application"
       >
         {this.localeData && (
-          <div
-            aria-expanded={toAriaBoolean(this.active)}
-            class="input-container"
-            role="application"
-          >
+          <div aria-expanded={toAriaBoolean(this.open)} class="input-container" role="application">
             {
               <div class="input-wrapper" ref={this.setStartWrapper}>
                 <calcite-input
@@ -445,19 +471,19 @@ export class InputDatePicker
               </div>
             }
             <div
-              aria-hidden={toAriaBoolean(!this.active)}
+              aria-hidden={toAriaBoolean(!this.open)}
               class={{
                 [CSS.menu]: true,
-                [CSS.menuActive]: this.active
+                [CSS.menuActive]: this.open
               }}
-              ref={this.setMenuEl}
+              ref={this.setFloatingEl}
             >
               <div
                 class={{
                   ["calendar-picker-wrapper"]: true,
                   ["calendar-picker-wrapper--end"]: this.focusedInput === "end",
-                  [PopperCSS.animation]: true,
-                  [PopperCSS.animationActive]: this.active
+                  [FloatingCSS.animation]: true,
+                  [FloatingCSS.animationActive]: this.open
                 }}
                 onTransitionEnd={this.transitionEnd}
                 ref={this.setContainerEl}
@@ -531,7 +557,7 @@ export class InputDatePicker
   //
   //--------------------------------------------------------------------------
 
-  filteredFlipPlacements: ComputedPlacement[];
+  filteredFlipPlacements: EffectivePlacement[];
 
   labelEl: HTMLCalciteLabelElement;
 
@@ -547,9 +573,7 @@ export class InputDatePicker
 
   private endInput: HTMLCalciteInputElement;
 
-  private popper: Popper;
-
-  private menuEl: HTMLDivElement;
+  private floatingEl: HTMLDivElement;
 
   private referenceEl: HTMLDivElement;
 
@@ -576,7 +600,7 @@ export class InputDatePicker
         ? endWrapper || startWrapper
         : startWrapper || endWrapper;
 
-    this.createPopper();
+    connectFloatingUI(this, this.referenceEl, this.floatingEl);
   }
 
   //--------------------------------------------------------------------------
@@ -615,13 +639,13 @@ export class InputDatePicker
 
   transitionStartHandler = (event: TransitionEvent): void => {
     if (event.propertyName === this.activeTransitionProp && event.target === this.containerEl) {
-      this.active ? this.onBeforeOpen() : this.onBeforeClose();
+      this.open ? this.onBeforeOpen() : this.onBeforeClose();
     }
   };
 
   transitionEnd = (event: TransitionEvent): void => {
     if (event.propertyName === this.activeTransitionProp && event.target === this.containerEl) {
-      this.active ? this.onOpen() : this.onClose();
+      this.open ? this.onOpen() : this.onClose();
     }
   };
 
@@ -634,7 +658,7 @@ export class InputDatePicker
   };
 
   deactivate = (): void => {
-    this.active = false;
+    this.open = false;
   };
 
   keyDownHandler = (event: KeyboardEvent): void => {
@@ -645,7 +669,7 @@ export class InputDatePicker
 
   keyUpHandler = (e: KeyboardEvent): void => {
     if (e.key === "Escape") {
-      this.active = false;
+      this.open = false;
     }
   };
 
@@ -655,14 +679,14 @@ export class InputDatePicker
 
   startInputFocus = (): void => {
     if (!this.readOnly) {
-      this.active = true;
+      this.open = true;
     }
     this.focusedInput = "start";
   };
 
   endInputFocus = (): void => {
     if (!this.readOnly) {
-      this.active = true;
+      this.open = true;
     }
     this.focusedInput = "end";
   };
@@ -671,10 +695,10 @@ export class InputDatePicker
     this.input(e.detail.value);
   };
 
-  setMenuEl = (el: HTMLDivElement): void => {
+  setFloatingEl = (el: HTMLDivElement): void => {
     if (el) {
-      this.menuEl = el;
-      this.createPopper();
+      this.floatingEl = el;
+      connectFloatingUI(this, this.referenceEl, this.floatingEl);
     }
   };
 
@@ -687,53 +711,6 @@ export class InputDatePicker
     this.endWrapper = el;
     this.setReferenceEl();
   };
-
-  getModifiers(): Partial<StrictModifiers>[] {
-    const flipModifier: Partial<StrictModifiers> = {
-      name: "flip",
-      enabled: true
-    };
-
-    flipModifier.options = {
-      fallbackPlacements: this.filteredFlipPlacements || popperMenuComputedPlacements
-    };
-
-    const eventListenerModifier: Partial<StrictModifiers> = {
-      name: "eventListeners",
-      enabled: this.active
-    };
-
-    return [flipModifier, eventListenerModifier];
-  }
-
-  createPopper(): void {
-    this.destroyPopper();
-    const { menuEl, placement, referenceEl, overlayPositioning } = this;
-
-    if (!menuEl || !referenceEl) {
-      return;
-    }
-
-    const modifiers = this.getModifiers();
-
-    this.popper = createPopper({
-      el: menuEl,
-      modifiers,
-      overlayPositioning,
-      placement,
-      referenceEl
-    });
-  }
-
-  destroyPopper(): void {
-    const { popper } = this;
-
-    if (popper) {
-      popper.destroy();
-    }
-
-    this.popper = null;
-  }
 
   @Watch("start")
   startWatcher(start: string): void {
