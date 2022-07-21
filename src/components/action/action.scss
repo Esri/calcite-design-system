@@ -59,7 +59,7 @@
     @apply m-0
       w-0
       truncate
-      leading-4
+      leading-6
       opacity-0
       transition-opacity
       duration-150
@@ -75,7 +75,7 @@
 
 :host([scale="s"]) {
   .button {
-    @apply text-n2h p-2 font-normal;
+    @apply text-n2h px-2 py-1 font-normal;
   }
   .button--text-visible .icon-container {
     margin-inline-end: theme("spacing.2");
@@ -84,7 +84,7 @@
 
 :host([scale="m"]) {
   .button {
-    @apply text-n1h p-4 font-normal;
+    @apply text-n1h px-4 py-3 font-normal;
   }
   .button--text-visible .icon-container {
     margin-inline-end: theme("spacing.3");
