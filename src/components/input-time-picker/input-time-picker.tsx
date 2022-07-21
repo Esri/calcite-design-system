@@ -244,13 +244,6 @@ export class InputTimePicker implements LabelableComponent, FormComponent, Inter
     this.setFocus();
   }
 
-  @Listen("keyup")
-  keyUpHandler(event: KeyboardEvent): void {
-    if (event.key === "Escape" && this.active) {
-      this.active = false;
-    }
-  }
-
   @Listen("calciteInternalTimePickerBlur")
   timePickerBlurHandler(event: CustomEvent): void {
     event.preventDefault();
@@ -301,9 +294,13 @@ export class InputTimePicker implements LabelableComponent, FormComponent, Inter
   //
   // --------------------------------------------------------------------------
 
-  keyDownHandler = (event: KeyboardEvent): void => {
-    if (event.key === "Enter" && !event.defaultPrevented) {
+  keyDownHandler = ({ defaultPrevented, key }: KeyboardEvent): void => {
+    if (key === "Enter" && !defaultPrevented) {
       submitForm(this);
+    }
+
+    if (key === "Escape" && this.active) {
+      this.active = false;
     }
   };
 
