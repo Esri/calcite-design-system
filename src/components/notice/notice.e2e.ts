@@ -9,17 +9,16 @@ describe("calcite-notice", () => {
   <div slot="message">Message Text</div>
   <calcite-link slot="link" href="">Action</calcite-link>
 `;
-  it("renders", async () => renders(`<calcite-notice active>${noticeContent}</calcite-notice>`, { display: "flex" }));
+  it("renders", async () => renders(`<calcite-notice open>${noticeContent}</calcite-notice>`, { display: "flex" }));
 
-  it("is accessible", async () => accessible(`<calcite-notice active>${noticeContent}</calcite-notice>`));
-  it("is accessible with icon", async () =>
-    accessible(`<calcite-notice icon active>${noticeContent}</calcite-notice>`));
+  it("is accessible", async () => accessible(`<calcite-notice open>${noticeContent}</calcite-notice>`));
+  it("is accessible with icon", async () => accessible(`<calcite-notice icon open>${noticeContent}</calcite-notice>`));
   it("is accessible with close button", async () =>
-    accessible(`<calcite-notice dismissible active>${noticeContent}</calcite-notice>`));
+    accessible(`<calcite-notice dismissible open>${noticeContent}</calcite-notice>`));
   it("is accessible with icon and close button (deprecated)", async () =>
-    accessible(`<calcite-notice icon dismissible active>${noticeContent}</calcite-notice>`));
+    accessible(`<calcite-notice icon dismissible open>${noticeContent}</calcite-notice>`));
   it("is accessible with icon and close button", async () =>
-    accessible(`<calcite-notice icon closable active>${noticeContent}</calcite-notice>`));
+    accessible(`<calcite-notice icon closable open>${noticeContent}</calcite-notice>`));
 
   it("has slots", () => slots("calcite-notice", SLOTS));
 
@@ -103,7 +102,7 @@ describe("calcite-notice", () => {
   it("successfully closes a closable notice", async () => {
     const page = await newE2EPage();
     await page.setContent(`
-    <calcite-notice id="notice-1" active closable>
+    <calcite-notice id="notice-1" open closable>
     ${noticeContent}
     </calcite-notice>
     `);
@@ -120,7 +119,7 @@ describe("calcite-notice", () => {
   });
 
   describe("focusable (deprecated)", () => {
-    it("with link and dismissible (deprecated) => focuses on link", () =>
+    it("with link and dismissible  => focuses on link", () =>
       focusable(html` <calcite-notice id="notice-1" active dismissible> ${noticeContent}</calcite-notice>`, {
         focusTargetSelector: `calcite-link`
       }));
@@ -150,13 +149,13 @@ describe("calcite-notice", () => {
 
   describe("focusable", () => {
     it("with link and closable => focuses on link", () =>
-      focusable(html` <calcite-notice id="notice-1" active deprecated> ${noticeContent}</calcite-notice>`, {
+      focusable(html` <calcite-notice id="notice-1" open closable> ${noticeContent}</calcite-notice>`, {
         focusTargetSelector: `calcite-link`
       }));
 
     it("when closable => focuses on close button", () =>
       focusable(
-        html` <calcite-notice id="notice-1" active closable>
+        html` <calcite-notice id="notice-1" open closable>
           <div slot="title">Title Text</div>
           <div slot="message">Message Text</div>
         </calcite-notice>`,
