@@ -155,11 +155,11 @@ export class SplitButton implements InteractiveComponent {
     );
   }
 
-  private calciteSplitButtonPrimaryClickHandler = (e: MouseEvent): CustomEvent =>
-    this.calciteSplitButtonPrimaryClick.emit(e);
+  private calciteSplitButtonPrimaryClickHandler = (event: MouseEvent): CustomEvent =>
+    this.calciteSplitButtonPrimaryClick.emit(event);
 
-  private calciteSplitButtonSecondaryClickHandler = (e: MouseEvent): CustomEvent =>
-    this.calciteSplitButtonSecondaryClick.emit(e);
+  private calciteSplitButtonSecondaryClickHandler = (event: MouseEvent): CustomEvent =>
+    this.calciteSplitButtonSecondaryClick.emit(event);
 
   private get dropdownIcon(): string {
     return this.dropdownIconType === "chevron"

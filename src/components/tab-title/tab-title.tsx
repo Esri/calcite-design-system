@@ -220,12 +220,12 @@ export class TabTitle implements InteractiveComponent {
   }
 
   @Listen("keydown")
-  keyDownHandler(e: KeyboardEvent): void {
-    switch (e.key) {
+  keyDownHandler(event: KeyboardEvent): void {
+    switch (event.key) {
       case " ":
       case "Enter":
         this.emitActiveTab();
-        e.preventDefault();
+        event.preventDefault();
         break;
       case "ArrowRight":
         if (getElementDir(this.el) === "ltr") {

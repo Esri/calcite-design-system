@@ -98,40 +98,40 @@ export class DatePickerMonth {
   //
   //--------------------------------------------------------------------------
 
-  keyDownHandler = (e: KeyboardEvent): void => {
+  keyDownHandler = (event: KeyboardEvent): void => {
     const isRTL = this.el.dir === "rtl";
-    switch (e.key) {
+    switch (event.key) {
       case "ArrowUp":
-        e.preventDefault();
+        event.preventDefault();
         this.addDays(-7);
         break;
       case "ArrowRight":
-        e.preventDefault();
+        event.preventDefault();
         this.addDays(isRTL ? -1 : 1);
         break;
       case "ArrowDown":
-        e.preventDefault();
+        event.preventDefault();
         this.addDays(7);
         break;
       case "ArrowLeft":
-        e.preventDefault();
+        event.preventDefault();
         this.addDays(isRTL ? 1 : -1);
         break;
       case "PageUp":
-        e.preventDefault();
+        event.preventDefault();
         this.addMonths(-1);
         break;
       case "PageDown":
-        e.preventDefault();
+        event.preventDefault();
         this.addMonths(1);
         break;
       case "Home":
-        e.preventDefault();
+        event.preventDefault();
         this.activeDate.setDate(1);
         this.addDays();
         break;
       case "End":
-        e.preventDefault();
+        event.preventDefault();
         this.activeDate.setDate(
           new Date(this.activeDate.getFullYear(), this.activeDate.getMonth() + 1, 0).getDate()
         );
@@ -139,7 +139,7 @@ export class DatePickerMonth {
         break;
       case "Enter":
       case " ":
-        e.preventDefault();
+        event.preventDefault();
         break;
       case "Tab":
         this.activeFocus = false;
@@ -359,18 +359,18 @@ export class DatePickerMonth {
     );
   }
 
-  dayHover = (e: CustomEvent): void => {
-    const target = e.target as HTMLCalciteDatePickerDayElement;
-    if (e.detail.disabled) {
+  dayHover = (event: CustomEvent): void => {
+    const target = event.target as HTMLCalciteDatePickerDayElement;
+    if (event.detail.disabled) {
       this.calciteInternalDatePickerMouseOut.emit();
     } else {
       this.calciteInternalDatePickerHover.emit(target.value);
     }
-    e.stopPropagation();
+    event.stopPropagation();
   };
 
-  daySelect = (e: CustomEvent): void => {
-    const target = e.target as HTMLCalciteDatePickerDayElement;
+  daySelect = (event: CustomEvent): void => {
+    const target = event.target as HTMLCalciteDatePickerDayElement;
     this.calciteDatePickerSelect.emit(target.value);
   };
 

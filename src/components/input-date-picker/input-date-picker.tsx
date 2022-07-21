@@ -667,14 +667,14 @@ export class InputDatePicker
     }
   };
 
-  keyUpHandler = (e: KeyboardEvent): void => {
-    if (e.key === "Escape") {
+  keyUpHandler = (event: KeyboardEvent): void => {
+    if (event.key === "Escape") {
       this.open = false;
     }
   };
 
-  inputBlur = (e: CustomEvent<any>): void => {
-    this.blur(e.detail);
+  inputBlur = (event: CustomEvent<any>): void => {
+    this.blur(event.detail);
   };
 
   startInputFocus = (): void => {
@@ -691,8 +691,8 @@ export class InputDatePicker
     this.focusedInput = "end";
   };
 
-  inputInput = (e: CustomEvent<any>): void => {
-    this.input(e.detail.value);
+  inputInput = (event: CustomEvent<any>): void => {
+    this.input(event.detail.value);
   };
 
   setFloatingEl = (el: HTMLDivElement): void => {
