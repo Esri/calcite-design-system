@@ -2,7 +2,7 @@ import { Component, Element, Event, EventEmitter, h, Prop, VNode, Watch } from "
 import { CSS } from "./resources";
 import { ButtonAppearance, ButtonColor, DropdownIconType } from "../button/interfaces";
 import { FlipContext, Scale, Width } from "../interfaces";
-import { OverlayPositioning } from "../../utils/popper";
+import { OverlayPositioning } from "../../utils/floating-ui";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 
 /**
@@ -134,7 +134,7 @@ export class SplitButton implements InteractiveComponent {
           disabled={this.disabled}
           onClick={this.calciteSplitButtonSecondaryClickHandler}
           overlayPositioning={this.overlayPositioning}
-          placement="bottom-trailing"
+          placement="bottom-end"
           scale={this.scale}
           width={this.scale}
         >
