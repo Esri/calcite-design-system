@@ -1,5 +1,6 @@
 :host {
   @extend %component-spacing;
+  @include floatingUIElemAnim(".menu-container");
   @apply relative
     inline-block
     w-full
@@ -88,18 +89,20 @@
 }
 
 .menu-container {
-  @include popperContainer();
-  @include popperWrapper();
+  @include floatingUIContainer();
+  @include floatingUIWrapper();
+  @apply invisible
+    pointer-events-none;
 }
 
-@include popperElemAnim(".menu-container");
+@include floatingUIElemAnim(".menu-container");
 
 :host([open]) .menu-container {
-  @include popperWrapperActive();
+  @include floatingUIWrapperActive();
 }
 
 .menu-container--active {
-  @include popperElemAnim(".menu-container");
+  @include floatingUIWrapperActive();
 }
 
 .input .calcite-input__wrapper {

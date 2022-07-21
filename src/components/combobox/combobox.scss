@@ -141,16 +141,16 @@
   @apply flex-none;
 }
 
-.popper-container {
+.floating-ui-container {
   @apply w-full;
-  @include popperContainer();
-  @include popperWrapper();
+  @include floatingUIContainer();
+  @include floatingUIWrapper();
 }
 
-@include popperElemAnim(".popper-container");
+@include floatingUIElemAnim(".floating-ui-container");
 
-.popper-container--active {
-  @include popperWrapperActive();
+.floating-ui-container--active {
+  @include floatingUIWrapperActive();
 }
 
 @media (forced-colors: active) {
