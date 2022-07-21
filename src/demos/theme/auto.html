@@ -75,11 +75,12 @@
       });
     </script>
   </head>
+
   <body>
     <main>
       <div class="shell-container">
         <calcite-shell>
-          <calcite-shell-panel id="primary-panel" slot="primary-panel" position="start" detached>
+          <calcite-shell-panel id="primary-panel" slot="panel-start" position="start" detached>
             <calcite-action-bar slot="action-bar">
               <calcite-action-group>
                 <calcite-action text="Save" icon="save" indicator> </calcite-action>
@@ -110,7 +111,7 @@
             </calcite-panel>
           </calcite-shell-panel>
 
-          <calcite-shell-panel slot="contextual-panel" position="end">
+          <calcite-shell-panel slot="panel-end" position="end">
             <calcite-action-bar slot="action-bar">
               <calcite-tooltip slot="expand-tooltip" label="tooltip" disable-pointer>Add layers</calcite-tooltip>
               <calcite-action-group>
@@ -128,13 +129,8 @@
                 <calcite-action icon="measure" text="Measure"></calcite-action>
                 <calcite-action text-enabled icon="road-sign" text="Directions" slot="menu-actions"></calcite-action>
                 <calcite-action text-enabled icon="point" text="Location" slot="menu-actions"></calcite-action>
-                <calcite-action
-                  text-enabled
-                  icon="pencil-square"
-                  text="Edit"
-                  disabled
-                  slot="menu-actions"
-                ></calcite-action>
+                <calcite-action text-enabled icon="pencil-square" text="Edit" disabled slot="menu-actions">
+                </calcite-action>
                 <calcite-action text-enabled icon="clock" text="Time" disabled slot="menu-actions"></calcite-action>
               </calcite-action-group>
               <calcite-action-group slot="bottom-actions">
@@ -314,18 +310,14 @@
             <calcite-action slot="menu-actions" text="options">
               <calcite-icon icon="ellipsis" scale="s"></calcite-icon>
             </calcite-action>
-            <calcite-pick-list-item
-              label="about disasters, fires, floods and killer bees"
-              value="1"
-            ></calcite-pick-list-item>
+            <calcite-pick-list-item label="about disasters, fires, floods and killer bees" value="1">
+            </calcite-pick-list-item>
             <calcite-pick-list-item
               label="about the NASA shuttle falling in the sea"
               value="2"
             ></calcite-pick-list-item>
-            <calcite-pick-list-item
-              label="about starvation and the food that Live Aid bought"
-              value="3"
-            ></calcite-pick-list-item>
+            <calcite-pick-list-item label="about starvation and the food that Live Aid bought" value="3">
+            </calcite-pick-list-item>
             <calcite-pick-list-item label="about disease, baby rock, Hudson, rock," value="4"></calcite-pick-list-item>
           </calcite-pick-list>
           <calcite-button slot="footer" width="half">Yeah!</calcite-button>

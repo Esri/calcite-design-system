@@ -34,7 +34,7 @@ const createShellPanelAttributes: (group: "Leading Panel" | "Trailing Panel", re
   return [
     {
       name: "slot",
-      value: group === "Leading Panel" ? "primary-panel" : "contextual-panel"
+      value: group === "Leading Panel" ? "panel-start" : "panel-end"
     },
     {
       name: "collapsed",
@@ -83,7 +83,7 @@ const createShellCenterRowAttributes: (group: string) => Attributes = (group) =>
   ];
 };
 
-const actionBarPrimaryContentHTML = html`
+const actionBarStartContentHTML = html`
   <calcite-action-group>
     <calcite-action text="Add" label="Add Item" icon="plus"></calcite-action>
     <calcite-action text="Save" label="Save Item" icon="save"></calcite-action>
@@ -93,7 +93,7 @@ const actionBarPrimaryContentHTML = html`
   </calcite-action-group>
 `;
 
-const actionBarContextualContentHTML = html`
+const actionBarEndContentHTML = html`
   <calcite-action-group>
     <calcite-action text="Idea" label="Add Item" icon="lightbulb"></calcite-action>
     <calcite-action text="Information" label="Save Item" icon="information"></calcite-action>
@@ -103,16 +103,16 @@ const actionBarContextualContentHTML = html`
   </calcite-action-group>
 `;
 
-const actionBarPrimaryHTML = html`
-  <calcite-action-bar class="calcite-theme-dark" slot="action-bar"> ${actionBarPrimaryContentHTML} </calcite-action-bar>
+const actionBarStartHTML = html`
+  <calcite-action-bar class="calcite-theme-dark" slot="action-bar"> ${actionBarStartContentHTML} </calcite-action-bar>
 `;
 
-const actionBarContextualHTML = html`
-  <calcite-action-bar slot="action-bar"> ${actionBarContextualContentHTML} </calcite-action-bar>
+const actionBarEndHTML = html`
+  <calcite-action-bar slot="action-bar"> ${actionBarEndContentHTML} </calcite-action-bar>
 `;
 
 const leadingPanelHTML = html`
-  ${actionBarPrimaryHTML}
+  ${actionBarStartHTML}
   <p>My Leading Panel</p>
 `;
 
@@ -129,7 +129,7 @@ const centerRowHTML = html`
 `;
 
 const trailingPanelHTML = html`
-  ${actionBarContextualHTML}
+  ${actionBarEndHTML}
   <p>My Trailing Panel</p>
 `;
 
@@ -226,8 +226,8 @@ export const RTL = (): string =>
 
 // TODO: UPDATE
 const advancedLeadingPanelHTML = html`
-  ${actionBarPrimaryHTML}
-  <calcite-block collapsible open heading="Primary Content" summary="This is the primary.">
+  ${actionBarStartHTML}
+  <calcite-block collapsible open heading="Start Content" summary="This is the primary.">
     <calcite-block-content>
       <calcite-action text="Play" text-enabled indicator icon="play"></calcite-action>
       <calcite-action text="Extent" text-enabled icon="extent"></calcite-action>
@@ -259,13 +259,13 @@ const advancedLeadingPanelHTML = html`
 
 // TODO: UPDATE
 const advancedTrailingPanelHTMl = html`
-  ${actionBarContextualHTML}
+  ${actionBarEndHTML}
   <calcite-flow>
     <calcite-panel heading="Layer settings">
       <calcite-action slot="header-menu-actions" text="Cool thing" text-enabled></calcite-action>
       <calcite-action slot="header-menu-actions" text="Cool thing" text-enabled></calcite-action>
       <calcite-action slot="header-menu-actions" text="Cool thing" text-enabled></calcite-action>
-      <calcite-block collapsible open heading="Contextual Content" summary="Select goodness">
+      <calcite-block collapsible open heading="End Content" summary="Select goodness">
         <calcite-block-content>
           <img alt="demo" src="${placeholderImage({ width: 640, height: 480 })}" width="100%" />
           <calcite-block-section text="Cool things">
@@ -284,7 +284,7 @@ const advancedTrailingPanelHTMl = html`
       <calcite-button slot="footer-actions" width="half">Save</calcite-button>
     </calcite-panel>
     <calcite-panel heading="Deeper flow item">
-      <calcite-block collapsible open heading="Contextual Content" summary="Select goodness">
+      <calcite-block collapsible open heading="End Content" summary="Select goodness">
         <calcite-block-content>
           <calcite-block-section text="Cool things">
             <calcite-action text="Cool thing" text-enabled></calcite-action>
@@ -347,7 +347,7 @@ export const advancedRTL = (): string =>
   );
 
 export const dismissedPanels = (): string => html`<calcite-shell content-behind>
-  <calcite-shell-panel slot="primary-panel" detached>
+  <calcite-shell-panel slot="panel-start" detached>
     <calcite-action-bar slot="action-bar">
       <calcite-action data-action-id="layers" icon="layers" text="Layers"></calcite-action>
       <calcite-action data-action-id="basemaps" icon="basemap" text="Basemaps"></calcite-action>
@@ -372,3 +372,14 @@ export const dismissedPanels = (): string => html`<calcite-shell content-behind>
     </calcite-panel>
   </calcite-shell-panel>
 </calcite-shell>`;
+
+export const endPanelOnly = (): string =>
+  create(
+    "calcite-shell",
+    createAttributes("Shell"),
+    html`
+      ${headerHTML} ${contentHTML}
+      ${create("calcite-shell-panel", createShellPanelAttributes("Trailing Panel"), advancedTrailingPanelHTMl)}
+      ${footerHTML}
+    `
+  );
