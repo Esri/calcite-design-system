@@ -15,17 +15,17 @@ import { ItemKeyboardEvent } from "./interfaces";
 
 import { focusElement, toAriaBoolean } from "../../utils/dom";
 import {
-  ComputedPlacement,
-  createPopper,
-  CSS as PopperCSS,
+  positionFloatingUI,
+  FloatingCSS,
   OverlayPositioning,
-  updatePopper,
-  popperMenuComputedPlacements,
+  FloatingUIComponent,
+  connectFloatingUI,
+  disconnectFloatingUI,
+  EffectivePlacement,
   MenuPlacement,
   defaultMenuPlacement,
   filterComputedPlacements
-} from "../../utils/popper";
-import { Instance as Popper, StrictModifiers } from "@popperjs/core";
+} from "../../utils/floating-ui";
 import { Scale } from "../interfaces";
 import { SLOTS } from "./resources";
 import { createObserver } from "../../utils/observers";
@@ -41,7 +41,7 @@ import { OpenCloseComponent } from "../../utils/openCloseComponent";
   styleUrl: "dropdown.scss",
   shadow: true
 })
-export class Dropdown implements InteractiveComponent, OpenCloseComponent {
+export class Dropdown implements InteractiveComponent, OpenCloseComponent, FloatingUIComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -98,7 +98,7 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent {
   /**
    * Defines the available placements that can be used when a flip occurs.
    */
-  @Prop() flipPlacements?: ComputedPlacement[];
+  @Prop() flipPlacements?: EffectivePlacement[];
 
   @Watch("flipPlacements")
   flipPlacementsHandler(): void {
@@ -119,10 +119,15 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent {
   /** Describes the type of positioning to use for the overlaid content. If your element is in a fixed container, use the 'fixed' value. */
   @Prop() overlayPositioning: OverlayPositioning = "absolute";
 
+  @Watch("overlayPositioning")
+  overlayPositioningHandler(): void {
+    this.reposition();
+  }
+
   /**
    * Determines where the dropdown will be positioned relative to the button.
    *
-   * @default "bottom-leading"
+   * @default "bottom-start"
    */
   @Prop({ reflect: true }) placement: MenuPlacement = defaultMenuPlacement;
 
@@ -155,8 +160,8 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent {
 
   connectedCallback(): void {
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
-    this.createPopper();
     this.setFilteredPlacements();
+    this.reposition();
   }
 
   componentDidLoad(): void {
@@ -169,8 +174,8 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent {
 
   disconnectedCallback(): void {
     this.mutationObserver?.disconnect();
+    disconnectFloatingUI(this, this.referenceEl, this.floatingEl);
     this.resizeObserver?.disconnect();
-    this.destroyPopper();
     this.scrollerEl?.removeEventListener("transitionstart", this.transitionStartHandler);
   }
 
@@ -194,13 +199,13 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent {
         <div
           aria-hidden={toAriaBoolean(!(active || open))}
           class="calcite-dropdown-wrapper"
-          ref={this.setMenuEl}
+          ref={this.setFloatingEl}
         >
           <div
             class={{
               ["calcite-dropdown-content"]: true,
-              [PopperCSS.animation]: true,
-              [PopperCSS.animationActive]: active || open
+              [FloatingCSS.animation]: true,
+              [FloatingCSS.animationActive]: active || open
             }}
             onTransitionEnd={this.transitionEnd}
             ref={this.setScrollerEl}
@@ -223,18 +228,15 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent {
   /** Updates the position of the component. */
   @Method()
   async reposition(): Promise<void> {
-    const { popper, menuEl, placement } = this;
+    const { floatingEl, referenceEl, placement, overlayPositioning } = this;
 
-    const modifiers = this.getModifiers();
-
-    popper
-      ? await updatePopper({
-          el: menuEl,
-          modifiers,
-          placement,
-          popper
-        })
-      : this.createPopper();
+    return positionFloatingUI({
+      floatingEl,
+      referenceEl,
+      overlayPositioning,
+      placement,
+      type: "menu"
+    });
   }
 
   //--------------------------------------------------------------------------
@@ -355,7 +357,7 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent {
   //
   //--------------------------------------------------------------------------
 
-  filteredFlipPlacements: ComputedPlacement[];
+  filteredFlipPlacements: EffectivePlacement[];
 
   private items: HTMLCalciteDropdownItemElement[] = [];
 
@@ -364,11 +366,9 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent {
   /** trigger elements */
   private triggers: HTMLElement[];
 
-  private popper: Popper;
+  floatingEl: HTMLDivElement;
 
-  private menuEl: HTMLDivElement;
-
-  private referenceEl: HTMLDivElement;
+  referenceEl: HTMLDivElement;
 
   private activeTransitionProp = "visibility";
 
@@ -491,54 +491,14 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent {
 
   setReferenceEl = (el: HTMLDivElement): void => {
     this.referenceEl = el;
+    connectFloatingUI(this, this.referenceEl, this.floatingEl);
     this.resizeObserver.observe(el);
   };
 
-  setMenuEl = (el: HTMLDivElement): void => {
-    this.menuEl = el;
+  setFloatingEl = (el: HTMLDivElement): void => {
+    this.floatingEl = el;
+    connectFloatingUI(this, this.referenceEl, this.floatingEl);
   };
-
-  getModifiers(): Partial<StrictModifiers>[] {
-    const flipModifier: Partial<StrictModifiers> = {
-      name: "flip",
-      enabled: true
-    };
-
-    flipModifier.options = {
-      fallbackPlacements: this.filteredFlipPlacements || popperMenuComputedPlacements
-    };
-
-    const eventListenerModifier: Partial<StrictModifiers> = {
-      name: "eventListeners",
-      enabled: this.open || this.active
-    };
-
-    return [flipModifier, eventListenerModifier];
-  }
-
-  createPopper(): void {
-    this.destroyPopper();
-    const { menuEl, referenceEl, placement, overlayPositioning } = this;
-    const modifiers = this.getModifiers();
-
-    this.popper = createPopper({
-      el: menuEl,
-      modifiers,
-      overlayPositioning,
-      placement,
-      referenceEl
-    });
-  }
-
-  destroyPopper(): void {
-    const { popper } = this;
-
-    if (popper) {
-      popper.destroy();
-    }
-
-    this.popper = null;
-  }
 
   private keyDownHandler = (e: KeyboardEvent): void => {
     const target = e.target as HTMLElement;

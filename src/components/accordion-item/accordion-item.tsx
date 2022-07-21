@@ -10,9 +10,14 @@ import {
   VNode,
   Watch
 } from "@stencil/core";
-import { getElementDir, getElementProp, toAriaBoolean } from "../../utils/dom";
-
+import { getElementDir, getElementProp, getSlotted, toAriaBoolean } from "../../utils/dom";
+import {
+  connectConditionalSlotComponent,
+  disconnectConditionalSlotComponent,
+  ConditionalSlotComponent
+} from "../../utils/conditionalSlot";
 import { CSS_UTILITY } from "../../utils/resources";
+import { SLOTS, CSS } from "./resources";
 import { Position } from "../interfaces";
 
 /**
@@ -23,7 +28,7 @@ import { Position } from "../interfaces";
   styleUrl: "accordion-item.scss",
   shadow: true
 })
-export class AccordionItem {
+export class AccordionItem implements ConditionalSlotComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -125,6 +130,7 @@ export class AccordionItem {
       this.activeHandler(isExpanded);
       this.expandedHandler(isExpanded);
     }
+    connectConditionalSlotComponent(this);
   }
 
   componentDidLoad(): void {
@@ -135,10 +141,38 @@ export class AccordionItem {
     });
   }
 
+  disconnectedCallback(): void {
+    disconnectConditionalSlotComponent(this);
+  }
+
+  // --------------------------------------------------------------------------
+  //
+  //  Render Methods
+  //
+  // --------------------------------------------------------------------------
+
+  renderActionsStart(): VNode {
+    const { el } = this;
+    return getSlotted(el, SLOTS.actionsStart) ? (
+      <div class={CSS.actionsStart}>
+        <slot name={SLOTS.actionsStart} />
+      </div>
+    ) : null;
+  }
+
+  renderActionsEnd(): VNode {
+    const { el } = this;
+    return getSlotted(el, SLOTS.actionsEnd) ? (
+      <div class={CSS.actionsEnd}>
+        <slot name={SLOTS.actionsEnd} />
+      </div>
+    ) : null;
+  }
+
   render(): VNode {
     const dir = getElementDir(this.el);
 
-    const iconEl = <calcite-icon class="accordion-item-icon" icon={this.icon} scale="s" />;
+    const iconEl = <calcite-icon class={CSS.icon} icon={this.icon} scale="s" />;
 
     return (
       <Host>
@@ -148,19 +182,36 @@ export class AccordionItem {
             [`icon-position--${this.iconPosition}`]: true,
             [`icon-type--${this.iconType}`]: true
           }}
-          onClick={this.itemHeaderClickHandler}
-          role="button"
-          tabindex="0"
         >
-          <div class={{ "accordion-item-header": true, [CSS_UTILITY.rtl]: dir === "rtl" }}>
-            {this.icon ? iconEl : null}
-            <div class="accordion-item-header-text">
-              <span class="accordion-item-heading">{this.heading || this.itemTitle}</span>
-              {this.itemSubtitle ? (
-                <span class="accordion-item-description">
-                  {this.description || this.itemSubtitle}
-                </span>
-              ) : null}
+          <div class={{ [CSS.header]: true, [CSS_UTILITY.rtl]: dir === "rtl" }}>
+            {this.renderActionsStart()}
+            <div
+              aria-expanded={toAriaBoolean(this.active || this.expanded)}
+              class={CSS.headerContent}
+              onClick={this.itemHeaderClickHandler}
+              role="button"
+              tabindex="0"
+            >
+              {this.icon ? iconEl : null}
+              <div class={CSS.headerText}>
+                <span class={CSS.heading}>{this.heading || this.itemTitle}</span>
+                {this.itemSubtitle || this.description ? (
+                  <span class={CSS.description}>{this.description || this.itemSubtitle}</span>
+                ) : null}
+              </div>
+              <calcite-icon
+                class={CSS.expandIcon}
+                icon={
+                  this.iconType === "chevron"
+                    ? "chevronDown"
+                    : this.iconType === "caret"
+                    ? "caretDown"
+                    : this.expanded || this.active
+                    ? "minus"
+                    : "plus"
+                }
+                scale="s"
+              />
             </div>
             <calcite-icon
               class="accordion-item-expand-icon"
@@ -175,8 +226,9 @@ export class AccordionItem {
               }
               scale="s"
             />
+            {this.renderActionsEnd()}
           </div>
-          <div class="accordion-item-content">
+          <div class={CSS.content}>
             <slot />
           </div>
         </div>

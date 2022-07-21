@@ -1,16 +1,17 @@
 import { Component, Element, Host, Method, Prop, State, Watch, h, VNode } from "@stencil/core";
 import { CSS, ARIA_DESCRIBED_BY } from "./resources";
-import { StrictModifiers, Instance as Popper } from "@popperjs/core";
 import { guid } from "../../utils/guid";
 import {
-  PopperPlacement,
-  defaultOffsetDistance,
-  createPopper,
-  updatePopper,
-  CSS as PopperCSS,
+  positionFloatingUI,
+  FloatingCSS,
   OverlayPositioning,
+  FloatingUIComponent,
+  connectFloatingUI,
+  disconnectFloatingUI,
+  LogicalPlacement,
+  defaultOffsetDistance,
   ReferenceElement
-} from "../../utils/popper";
+} from "../../utils/floating-ui";
 import { queryElementRoots, toAriaBoolean } from "../../utils/dom";
 
 import TooltipManager from "./TooltipManager";
@@ -25,7 +26,7 @@ const manager = new TooltipManager();
   styleUrl: "tooltip.scss",
   shadow: true
 })
-export class Tooltip {
+export class Tooltip implements FloatingUIComponent {
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -73,12 +74,17 @@ export class Tooltip {
   /** Describes the positioning type to use for the overlaid content. If the `referenceElement` is in a fixed container, use the "fixed" value. */
   @Prop() overlayPositioning: OverlayPositioning = "absolute";
 
+  @Watch("overlayPositioning")
+  overlayPositioningHandler(): void {
+    this.reposition();
+  }
+
   /**
    * Determines where the component will be positioned relative to the `referenceElement`.
    *
-   * @see [PopperPlacement](https://github.com/Esri/calcite-components/blob/master/src/utils/popper.ts#L25)
+   * @see [LogicalPlacement](https://github.com/Esri/calcite-components/blob/master/src/utils/floating-ui.ts#L25)
    */
-  @Prop({ reflect: true }) placement: PopperPlacement = "auto";
+  @Prop({ reflect: true }) placement: LogicalPlacement = "auto";
 
   @Watch("placement")
   placementHandler(): void {
@@ -107,8 +113,6 @@ export class Tooltip {
 
   arrowEl: HTMLDivElement;
 
-  popper: Popper;
-
   guid = `calcite-tooltip-${guid()}`;
 
   // --------------------------------------------------------------------------
@@ -116,6 +120,10 @@ export class Tooltip {
   //  Lifecycle
   //
   // --------------------------------------------------------------------------
+
+  connectedCallback(): void {
+    connectFloatingUI(this, this.effectiveReferenceElement, this.el);
+  }
 
   componentWillLoad(): void {
     this.setUpReferenceElement();
@@ -127,7 +135,7 @@ export class Tooltip {
 
   disconnectedCallback(): void {
     this.removeReferences();
-    this.destroyPopper();
+    disconnectFloatingUI(this, this.effectiveReferenceElement, this.el);
   }
 
   // --------------------------------------------------------------------------
@@ -139,17 +147,26 @@ export class Tooltip {
   /** Updates the position of the component. */
   @Method()
   async reposition(): Promise<void> {
-    const { popper, el, placement } = this;
-    const modifiers = this.getModifiers();
+    const {
+      el,
+      effectiveReferenceElement,
+      placement,
+      overlayPositioning,
+      offsetDistance,
+      offsetSkidding,
+      arrowEl
+    } = this;
 
-    popper
-      ? await updatePopper({
-          el,
-          modifiers,
-          placement,
-          popper
-        })
-      : this.createPopper();
+    return positionFloatingUI({
+      floatingEl: el,
+      referenceEl: effectiveReferenceElement,
+      overlayPositioning,
+      placement,
+      offsetDistance,
+      offsetSkidding,
+      arrowEl,
+      type: "tooltip"
+    });
   }
 
   // --------------------------------------------------------------------------
@@ -161,6 +178,7 @@ export class Tooltip {
   setUpReferenceElement = (): void => {
     this.removeReferences();
     this.effectiveReferenceElement = this.getReferenceElement();
+    connectFloatingUI(this, this.effectiveReferenceElement, this.el);
 
     const { el, referenceElement, effectiveReferenceElement } = this;
     if (referenceElement && !effectiveReferenceElement) {
@@ -170,7 +188,6 @@ export class Tooltip {
     }
 
     this.addReferences();
-    this.createPopper();
   };
 
   getId = (): string => {
@@ -189,6 +206,7 @@ export class Tooltip {
     if ("setAttribute" in effectiveReferenceElement) {
       effectiveReferenceElement.setAttribute(ARIA_DESCRIBED_BY, id);
     }
+
     manager.registerElement(effectiveReferenceElement, this.el);
   };
 
@@ -202,6 +220,7 @@ export class Tooltip {
     if ("removeAttribute" in effectiveReferenceElement) {
       effectiveReferenceElement.removeAttribute(ARIA_DESCRIBED_BY);
     }
+
     manager.unregisterElement(effectiveReferenceElement);
   };
 
@@ -213,58 +232,6 @@ export class Tooltip {
         ? queryElementRoots(el, { id: referenceElement })
         : referenceElement) || null
     );
-  }
-
-  getModifiers(): Partial<StrictModifiers>[] {
-    const { arrowEl, offsetDistance, offsetSkidding } = this;
-
-    const arrowModifier: Partial<StrictModifiers> = {
-      name: "arrow",
-      enabled: true,
-      options: {
-        element: arrowEl
-      }
-    };
-
-    const offsetModifier: Partial<StrictModifiers> = {
-      name: "offset",
-      enabled: true,
-      options: {
-        offset: [offsetSkidding, offsetDistance]
-      }
-    };
-
-    const eventListenerModifier: Partial<StrictModifiers> = {
-      name: "eventListeners",
-      enabled: this.open
-    };
-
-    return [arrowModifier, offsetModifier, eventListenerModifier];
-  }
-
-  createPopper(): void {
-    this.destroyPopper();
-
-    const { el, placement, effectiveReferenceElement: referenceEl, overlayPositioning } = this;
-    const modifiers = this.getModifiers();
-
-    this.popper = createPopper({
-      el,
-      modifiers,
-      placement,
-      overlayPositioning,
-      referenceEl
-    });
-  }
-
-  destroyPopper(): void {
-    const { popper } = this;
-
-    if (popper) {
-      popper.destroy();
-    }
-
-    this.popper = null;
   }
 
   // --------------------------------------------------------------------------
@@ -289,8 +256,8 @@ export class Tooltip {
       >
         <div
           class={{
-            [PopperCSS.animation]: true,
-            [PopperCSS.animationActive]: displayed
+            [FloatingCSS.animation]: true,
+            [FloatingCSS.animationActive]: displayed
           }}
         >
           <div class={CSS.arrow} ref={(arrowEl) => (this.arrowEl = arrowEl)} />

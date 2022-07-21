@@ -1,7 +1,7 @@
 import { select, number, text } from "@storybook/addon-knobs";
 import { html } from "../../../support/formatting";
 import { boolean, createSteps, stepStory, setTheme, setKnobs } from "../../../.storybook/helpers";
-import { popperPlacements } from "../../utils/popper";
+import { placements } from "../../utils/floating-ui";
 import readme from "./readme.md";
 import { defaultPopoverPlacement } from "../popover/resources";
 
@@ -32,7 +32,7 @@ export const Simple = stepStory(
         ${boolean("disable-flip", false)}
         ${boolean("disable-pointer", false)}
         reference-element="reference-element"
-        placement="${select("placement", popperPlacements, defaultPopoverPlacement)}"
+        placement="${select("placement", placements, defaultPopoverPlacement)}"
         offset-distance="${number("offset-distance", 6)}"
         offset-skidding="${number("offset-skidding", 0)}"
         ${boolean("open", false)}
@@ -63,14 +63,14 @@ export const Nested = stepStory(
       <calcite-popover
         ${boolean("dismissible", true)}
         reference-element="reference-element"
-        placement="${select("placement", popperPlacements, defaultPopoverPlacement)}"
+        placement="${select("placement", placements, defaultPopoverPlacement)}"
         ${boolean("open", false)}
       >
         <div style="width: 300px; padding:12px 16px;">${nestedReferenceElementHTML}</div>
         <calcite-popover
           ${boolean("dismissible", true)}
           reference-element="reference-element-nested"
-          placement="${select("placement", popperPlacements, defaultPopoverPlacement)}"
+          placement="${select("placement", placements, defaultPopoverPlacement)}"
           ${boolean("open", false)}
         >
           ${contentHTML}
@@ -92,7 +92,7 @@ export const Heading = stepStory(
       <calcite-popover
         ${boolean("dismissible", false)}
         reference-element="reference-element"
-        placement="${select("placement", popperPlacements, defaultPopoverPlacement)}"
+        placement="${select("placement", placements, defaultPopoverPlacement)}"
         ${boolean("open", false)}
         text-close="${text("text-close", "Close")}"
         heading="Heading"
