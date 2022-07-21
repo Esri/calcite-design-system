@@ -1,5 +1,5 @@
 import { Component, Element, Event, EventEmitter, h, Listen, Prop, VNode } from "@stencil/core";
-import { AccordionAppearance } from "./interfaces";
+import { AccordionAppearance, RequestedItem } from "./interfaces";
 import { Position, Scale } from "../interfaces";
 
 /**
@@ -52,7 +52,7 @@ export class Accordion {
   /**
    * @internal
    */
-  @Event() calciteInternalAccordionChange: EventEmitter;
+  @Event() calciteInternalAccordionChange: EventEmitter<RequestedItem>;
 
   //--------------------------------------------------------------------------
   //

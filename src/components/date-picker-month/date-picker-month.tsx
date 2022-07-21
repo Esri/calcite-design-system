@@ -73,24 +73,24 @@ export class DatePickerMonth {
   /**
    * Event emitted when user selects the date.
    */
-  @Event() calciteDatePickerSelect: EventEmitter;
+  @Event() calciteDatePickerSelect: EventEmitter<void>;
 
   /**
    * Event emitted when user hovers the date.
    *
    * @internal
    */
-  @Event() calciteInternalDatePickerHover: EventEmitter;
+  @Event() calciteInternalDatePickerHover: EventEmitter<void>;
 
   /**
    * Active date for the user keyboard access.
    */
-  @Event() calciteDatePickerActiveDateChange: EventEmitter;
+  @Event() calciteDatePickerActiveDateChange: EventEmitter<void>;
 
   /**
    * @internal
    */
-  @Event() calciteInternalDatePickerMouseOut: EventEmitter;
+  @Event() calciteInternalDatePickerMouseOut: EventEmitter<void>;
 
   //--------------------------------------------------------------------------
   //

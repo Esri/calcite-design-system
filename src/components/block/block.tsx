@@ -153,7 +153,7 @@ export class Block implements ConditionalSlotComponent, InteractiveComponent {
   /**
    * Emitted when the header has been clicked.
    */
-  @Event() calciteBlockToggle: EventEmitter;
+  @Event() calciteBlockToggle: EventEmitter<void>;
 
   // --------------------------------------------------------------------------
   //

@@ -15,7 +15,7 @@ import { ItemKeyboardEvent } from "../dropdown/interfaces";
 
 import { FlipContext } from "../interfaces";
 import { CSS } from "./resources";
-import { SelectionMode } from "../dropdown-group/interfaces";
+import { RequestedItem, SelectionMode } from "../dropdown-group/interfaces";
 
 /**
  * @slot - A slot for adding text.
@@ -73,13 +73,13 @@ export class DropdownItem {
   /**
    * @internal
    */
-  @Event() calciteInternalDropdownItemSelect: EventEmitter;
+  @Event() calciteInternalDropdownItemSelect: EventEmitter<RequestedItem>;
 
   /** @internal */
   @Event() calciteInternalDropdownItemKeyEvent: EventEmitter<ItemKeyboardEvent>;
 
   /** @internal */
-  @Event() calciteInternalDropdownCloseRequest: EventEmitter;
+  @Event() calciteInternalDropdownCloseRequest: EventEmitter<void>;
   //--------------------------------------------------------------------------
   //
   //  Public Methods

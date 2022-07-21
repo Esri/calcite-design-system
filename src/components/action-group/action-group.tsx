@@ -9,6 +9,7 @@ import {
   connectConditionalSlotComponent,
   disconnectConditionalSlotComponent
 } from "../../utils/conditionalSlot";
+import { CalciteActionCustomEvent, CalciteActionMenuCustomEvent } from "../../components";
 
 /**
  * @slot - A slot for adding a group of `calcite-action`s.
@@ -140,7 +141,7 @@ export class ActionGroup implements ConditionalSlotComponent {
   //
   // --------------------------------------------------------------------------
 
-  setMenuOpen = (event: CustomEvent<boolean>): void => {
+  setMenuOpen = (event: CalciteActionMenuCustomEvent<boolean>): void => {
     this.menuOpen = !!event.detail;
   };
 }

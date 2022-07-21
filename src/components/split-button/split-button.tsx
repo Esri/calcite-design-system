@@ -1,7 +1,7 @@
 import { Component, Element, Event, EventEmitter, h, Prop, VNode, Watch } from "@stencil/core";
 import { CSS } from "./resources";
 import { ButtonAppearance, ButtonColor, DropdownIconType } from "../button/interfaces";
-import { FlipContext, Scale, Width } from "../interfaces";
+import { DeprecatedEventPayload, FlipContext, Scale, Width } from "../interfaces";
 import { OverlayPositioning } from "../../utils/floating-ui";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 
@@ -82,11 +82,15 @@ export class SplitButton implements InteractiveComponent {
   /** specify the width of the button, defaults to auto */
   @Prop({ reflect: true }) width: Width = "auto";
 
-  /** fired when the primary button is clicked */
-  @Event() calciteSplitButtonPrimaryClick: EventEmitter;
+  /**
+   * fired when the primary button is clicked
+   *
+   * **Note:** The event payload is deprecated, please use the evevnt listeners to  property on the component instead
+   */
+  @Event() calciteSplitButtonPrimaryClick: EventEmitter<DeprecatedEventPayload>;
 
   /** fired when the secondary button is clicked */
-  @Event() calciteSplitButtonSecondaryClick: EventEmitter;
+  @Event() calciteSplitButtonSecondaryClick: EventEmitter<void>;
 
   //--------------------------------------------------------------------------
   //

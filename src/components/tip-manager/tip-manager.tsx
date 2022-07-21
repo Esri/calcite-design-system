@@ -146,12 +146,12 @@ export class TipManager {
    *
    * @deprecated use calciteTipManagerClose instead.
    */
-  @Event() calciteTipManagerToggle: EventEmitter;
+  @Event() calciteTipManagerToggle: EventEmitter<void>;
 
   /**
    * Emitted when the `calcite-tip-manager` has been closed.
    */
-  @Event() calciteTipManagerClose: EventEmitter;
+  @Event() calciteTipManagerClose: EventEmitter<void>;
 
   // --------------------------------------------------------------------------
   //

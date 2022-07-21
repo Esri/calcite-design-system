@@ -197,7 +197,7 @@ export class InlineEditable implements InteractiveComponent, LabelableComponent 
   /**
    * @internal
    */
-  @Event() calciteInternalInlineEditableEnableEditingChange: EventEmitter;
+  @Event() calciteInternalInlineEditableEnableEditingChange: EventEmitter<void>;
 
   //--------------------------------------------------------------------------
   //

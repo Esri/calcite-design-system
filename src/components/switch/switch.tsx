@@ -11,7 +11,7 @@ import {
   Watch
 } from "@stencil/core";
 import { focusElement, toAriaBoolean } from "../../utils/dom";
-import { Scale } from "../interfaces";
+import { DeprecatedEventPayload, Scale } from "../interfaces";
 import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
 import {
   connectForm,
@@ -123,8 +123,6 @@ export class Switch implements LabelableComponent, CheckableFormCompoment, Inter
   private toggle(): void {
     this.checked = !this.checked;
     this.calciteSwitchChange.emit({
-      // todo: We should remove emmitting redudant props in event payload.
-      // https://github.com/Esri/calcite-components/issues/3163
       switched: this.checked
     });
   }
@@ -145,8 +143,10 @@ export class Switch implements LabelableComponent, CheckableFormCompoment, Inter
 
   /**
    * Fires when the checked value has changed.
+   *
+   * **Note:** The event payload is deprecated, please use the `checked` property on the component instead
    */
-  @Event() calciteSwitchChange: EventEmitter;
+  @Event() calciteSwitchChange: EventEmitter<DeprecatedEventPayload>;
 
   //--------------------------------------------------------------------------
   //

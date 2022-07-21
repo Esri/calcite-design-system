@@ -281,7 +281,7 @@ export class Combobox
   }>;
 
   /** Called when a selected item in the combobox is dismissed via its chip */
-  @Event() calciteComboboxChipDismiss: EventEmitter;
+  @Event() calciteComboboxChipDismiss: EventEmitter<void>;
 
   /* Fires when the component is requested to be closed and before the closing transition begins. */
   @Event() calciteComboboxBeforeClose: EventEmitter<void>;
@@ -602,6 +602,7 @@ export class Combobox
       this.toggleSelection(selection, false);
     }
 
+    // TODO: revisit
     this.calciteComboboxChipDismiss.emit(event.detail);
   };
 

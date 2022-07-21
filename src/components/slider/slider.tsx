@@ -842,14 +842,14 @@ export class Slider implements LabelableComponent, FormComponent, InteractiveCom
    * expensive operations consider using a debounce or throttle to avoid
    * locking up the main thread.
    */
-  @Event() calciteSliderInput: EventEmitter;
+  @Event() calciteSliderInput: EventEmitter<void>;
 
   /**
    * Fires on when the thumb is released on slider
    * If you need to constantly listen to the drag event,
    * please use calciteSliderInput instead
    */
-  @Event() calciteSliderChange: EventEmitter;
+  @Event() calciteSliderChange: EventEmitter<void>;
 
   /**
    * Fires on all updates to the slider.
@@ -859,7 +859,7 @@ export class Slider implements LabelableComponent, FormComponent, InteractiveCom
    *
    * @deprecated use calciteSliderInput instead
    */
-  @Event() calciteSliderUpdate: EventEmitter;
+  @Event() calciteSliderUpdate: EventEmitter<void>;
 
   //--------------------------------------------------------------------------
   //
