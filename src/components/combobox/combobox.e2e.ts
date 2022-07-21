@@ -661,8 +661,8 @@ describe("calcite-combobox", () => {
       });
       const combobox = await page.find("calcite-combobox");
       await combobox.callMethod(`setFocus`);
-      const popper = await page.find("#myCombobox >>> .popper-container--active");
-      expect(popper).toBeNull();
+      const activeContainer = await page.find("#myCombobox >>> .floating-ui-container--active");
+      expect(activeContainer).toBeNull();
       expect(await page.evaluate(() => window.scrollY)).toEqual(0);
 
       await page.keyboard.press("PageDown");
