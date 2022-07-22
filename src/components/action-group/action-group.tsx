@@ -1,15 +1,15 @@
-import { Component, h, Prop, Watch, Element } from "@stencil/core";
-import { SLOTS, TEXT, ICONS } from "./resources";
+import { Component, Element, h, Prop, Watch } from "@stencil/core";
+import { ICONS, SLOTS, TEXT } from "./resources";
 import { Fragment, VNode } from "@stencil/core/internal";
 import { getSlotted } from "../../utils/dom";
 import { SLOTS as ACTION_MENU_SLOTS } from "../action-menu/resources";
-import { Columns, Layout, Scale } from "../interfaces";
+import { Columns, DeprecatedEventPayload, Layout, Scale } from "../interfaces";
 import {
   ConditionalSlotComponent,
   connectConditionalSlotComponent,
   disconnectConditionalSlotComponent
 } from "../../utils/conditionalSlot";
-import { CalciteActionCustomEvent, CalciteActionMenuCustomEvent } from "../../components";
+import { CalciteActionMenuCustomEvent } from "../../components";
 
 /**
  * @slot - A slot for adding a group of `calcite-action`s.
