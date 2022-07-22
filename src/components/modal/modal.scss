@@ -81,8 +81,8 @@
     transform: translate3d(0, 0, 0);
     transition: transform var(--calcite-internal-animation-timing-slow) $easing-function, visibility 0ms linear,
       opacity var(--calcite-internal-animation-timing-slow) $easing-function,
-      max-width var(--calcite-internal-animation-timing-slow) $easing-function,
-      max-height var(--calcite-internal-animation-timing-slow) $easing-function;
+      max-inline-size var(--calcite-internal-animation-timing-slow) $easing-function,
+      max-block-size var(--calcite-internal-animation-timing-slow) $easing-function;
     transition-delay: 0ms;
   }
 }
@@ -134,7 +134,8 @@
 .title {
   @apply order-1 flex min-w-0 items-center;
   flex: 1 1 auto;
-  padding: var(--calcite-modal-padding) var(--calcite-modal-padding-large);
+  padding-block: var(--calcite-modal-padding);
+  padding-inline: var(--calcite-modal-padding-large);
 }
 
 @include slotted("header", "*") {
@@ -147,12 +148,13 @@
  */
 .content {
   @apply bg-foreground-1 relative box-border block h-full overflow-auto p-0;
-  max-height: calc(100vh - 12rem);
+  max-block-size: calc(100vh - 12rem);
   z-index: 1;
 }
 
 .content--spaced {
-  padding: var(--calcite-modal-padding) var(--calcite-modal-padding-large);
+  padding-block: var(--calcite-modal-padding);
+  padding-inline: var(--calcite-modal-padding-large);
 }
 
 .content--no-footer {
@@ -185,7 +187,8 @@
     border-t
     border-solid;
   flex: 0 0 auto;
-  padding: var(--calcite-modal-padding) var(--calcite-modal-padding-large);
+  padding-block: var(--calcite-modal-padding);
+  padding-inline: var(--calcite-modal-padding-large);
   z-index: 2;
 }
 
@@ -213,7 +216,7 @@ slot[name="primary"] {
 @mixin modal-size($size, $width) {
   :host([width="#{$size}"]) {
     .modal {
-      max-width: $width;
+      max-inline-size: $width;
     }
   }
   @media screen and (max-width: $width + 2 * $baseline) {
@@ -223,7 +226,7 @@ slot[name="primary"] {
       }
       .content {
         flex: 1 1 auto;
-        max-height: unset;
+        max-block-size: unset;
       }
     }
     :host([width="#{$size}"][docked]) {

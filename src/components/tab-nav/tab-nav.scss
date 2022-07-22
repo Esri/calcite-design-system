@@ -3,15 +3,15 @@
 }
 
 :host([scale="s"]) {
-  min-height: theme("spacing.6");
+  min-block-size: theme("spacing.6");
 }
 
 :host([scale="m"]) {
-  min-height: theme("spacing.8");
+  min-block-size: theme("spacing.8");
 }
 
 :host([scale="l"]) {
-  min-height: theme("spacing.11");
+  min-block-size: theme("spacing.11");
 }
 
 .tab-nav {
@@ -67,12 +67,12 @@
 
 :host([bordered][position="below"]) .tab-nav-active-indicator-container {
   inset-block-end: 0; // display active blue line below instead of above
-  top: unset;
+  inset-block-start: unset;
 }
 
 :host([bordered][position="bottom"]) .tab-nav-active-indicator-container {
   inset-block-end: 0; // display active blue line below instead of above
-  top: unset;
+  inset-block-start: unset;
 }
 
 @media (forced-colors: active) {

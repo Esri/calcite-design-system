@@ -32,12 +32,12 @@ A single instance of an alert. Multiple alerts will aggregate in a queue.
 
 ## Events
 
-| Event                     | Description | Type                                                                              |
-| ------------------------- | ----------- | --------------------------------------------------------------------------------- |
-| `calciteAlertBeforeClose` |             | `CustomEvent<{ el: HTMLCalciteAlertElement; queue: HTMLCalciteAlertElement[]; }>` |
-| `calciteAlertBeforeOpen`  |             | `CustomEvent<{ el: HTMLCalciteAlertElement; queue: HTMLCalciteAlertElement[]; }>` |
-| `calciteAlertClose`       |             | `CustomEvent<{ el: HTMLCalciteAlertElement; queue: HTMLCalciteAlertElement[]; }>` |
-| `calciteAlertOpen`        |             | `CustomEvent<{ el: HTMLCalciteAlertElement; queue: HTMLCalciteAlertElement[]; }>` |
+| Event                     | Description                                                                                              | Type                |
+| ------------------------- | -------------------------------------------------------------------------------------------------------- | ------------------- |
+| `calciteAlertBeforeClose` | Fires when the component is requested to be closed and before the closing transition begins.             | `CustomEvent<void>` |
+| `calciteAlertBeforeOpen`  | Fires when the component is added to the DOM but not rendered, and before the opening transition begins. | `CustomEvent<void>` |
+| `calciteAlertClose`       | Fires when the component is closed and animation is complete.                                            | `CustomEvent<void>` |
+| `calciteAlertOpen`        | Fires when the component is open and animation is complete.                                              | `CustomEvent<void>` |
 
 ## Methods
 

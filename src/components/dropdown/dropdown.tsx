@@ -15,21 +15,22 @@ import { ItemKeyboardEvent } from "./interfaces";
 
 import { focusElement, toAriaBoolean } from "../../utils/dom";
 import {
-  ComputedPlacement,
-  createPopper,
-  CSS as PopperCSS,
+  positionFloatingUI,
+  FloatingCSS,
   OverlayPositioning,
-  updatePopper,
-  popperMenuComputedPlacements,
+  FloatingUIComponent,
+  connectFloatingUI,
+  disconnectFloatingUI,
+  EffectivePlacement,
   MenuPlacement,
   defaultMenuPlacement,
   filterComputedPlacements
-} from "../../utils/popper";
-import { Instance as Popper, StrictModifiers } from "@popperjs/core";
+} from "../../utils/floating-ui";
 import { Scale } from "../interfaces";
 import { SLOTS } from "./resources";
 import { createObserver } from "../../utils/observers";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import { OpenCloseComponent } from "../../utils/openCloseComponent";
 
 /**
  * @slot - A slot for adding `calcite-dropdown-group`s or `calcite-dropdown-item`s.
@@ -40,7 +41,7 @@ import { InteractiveComponent, updateHostInteraction } from "../../utils/interac
   styleUrl: "dropdown.scss",
   shadow: true
 })
-export class Dropdown implements InteractiveComponent {
+export class Dropdown implements InteractiveComponent, OpenCloseComponent, FloatingUIComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -97,7 +98,7 @@ export class Dropdown implements InteractiveComponent {
   /**
    * Defines the available placements that can be used when a flip occurs.
    */
-  @Prop() flipPlacements?: ComputedPlacement[];
+  @Prop() flipPlacements?: EffectivePlacement[];
 
   @Watch("flipPlacements")
   flipPlacementsHandler(): void {
@@ -118,10 +119,15 @@ export class Dropdown implements InteractiveComponent {
   /** Describes the type of positioning to use for the overlaid content. If your element is in a fixed container, use the 'fixed' value. */
   @Prop() overlayPositioning: OverlayPositioning = "absolute";
 
+  @Watch("overlayPositioning")
+  overlayPositioningHandler(): void {
+    this.reposition();
+  }
+
   /**
    * Determines where the dropdown will be positioned relative to the button.
    *
-   * @default "bottom-leading"
+   * @default "bottom-start"
    */
   @Prop({ reflect: true }) placement: MenuPlacement = defaultMenuPlacement;
 
@@ -154,8 +160,8 @@ export class Dropdown implements InteractiveComponent {
 
   connectedCallback(): void {
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
-    this.createPopper();
     this.setFilteredPlacements();
+    this.reposition();
   }
 
   componentDidLoad(): void {
@@ -168,11 +174,9 @@ export class Dropdown implements InteractiveComponent {
 
   disconnectedCallback(): void {
     this.mutationObserver?.disconnect();
+    disconnectFloatingUI(this, this.referenceEl, this.floatingEl);
     this.resizeObserver?.disconnect();
-    this.destroyPopper();
-    if (this.scrollerEl) {
-      this.scrollerEl.removeEventListener("transitionrun", this.transitionRunHandler);
-    }
+    this.scrollerEl?.removeEventListener("transitionstart", this.transitionStartHandler);
   }
 
   render(): VNode {
@@ -195,13 +199,13 @@ export class Dropdown implements InteractiveComponent {
         <div
           aria-hidden={toAriaBoolean(!(active || open))}
           class="calcite-dropdown-wrapper"
-          ref={this.setMenuEl}
+          ref={this.setFloatingEl}
         >
           <div
             class={{
               ["calcite-dropdown-content"]: true,
-              [PopperCSS.animation]: true,
-              [PopperCSS.animationActive]: active || open
+              [FloatingCSS.animation]: true,
+              [FloatingCSS.animationActive]: active || open
             }}
             onTransitionEnd={this.transitionEnd}
             ref={this.setScrollerEl}
@@ -224,18 +228,15 @@ export class Dropdown implements InteractiveComponent {
   /** Updates the position of the component. */
   @Method()
   async reposition(): Promise<void> {
-    const { popper, menuEl, placement } = this;
+    const { floatingEl, referenceEl, placement, overlayPositioning } = this;
 
-    const modifiers = this.getModifiers();
-
-    popper
-      ? await updatePopper({
-          el: menuEl,
-          modifiers,
-          placement,
-          popper
-        })
-      : this.createPopper();
+    return positionFloatingUI({
+      floatingEl,
+      referenceEl,
+      overlayPositioning,
+      placement,
+      type: "menu"
+    });
   }
 
   //--------------------------------------------------------------------------
@@ -247,17 +248,17 @@ export class Dropdown implements InteractiveComponent {
   /** fires when a dropdown item has been selected or deselected */
   @Event() calciteDropdownSelect: EventEmitter<void>;
 
-  /* Fired while a dropdown is still invisible but was added to the DOM, and before the opening transition begins. */
-  @Event() calciteDropdownBeforeOpen: EventEmitter<{ el: HTMLCalciteDropdownElement }>;
+  /** Fires when the component is requested to be closed and before the closing transition begins. */
+  @Event() calciteDropdownBeforeClose: EventEmitter<void>;
 
-  /* Fired when a dropdown has been opened and animation is complete */
-  @Event() calciteDropdownOpen: EventEmitter<{ el: HTMLCalciteDropdownElement }>;
+  /** Fires when the component is closed and animation is complete. */
+  @Event() calciteDropdownClose: EventEmitter<void>;
 
-  /* Fired when a dropdown is requested to be closed and before the closing transition begins. */
-  @Event() calciteDropdownBeforeClose: EventEmitter<{ el: HTMLCalciteDropdownElement }>;
+  /** Fires when the component is added to the DOM but not rendered, and before the opening transition begins. */
+  @Event() calciteDropdownBeforeOpen: EventEmitter<void>;
 
-  /* Fired when a dropdown has been closed and animation is complete */
-  @Event() calciteDropdownClose: EventEmitter<{ el: HTMLCalciteDropdownElement }>;
+  /** Fires when the component is open and animation is complete. */
+  @Event() calciteDropdownOpen: EventEmitter<void>;
 
   @Listen("click", { target: "window" })
   closeCalciteDropdownOnClick(e: Event): void {
@@ -356,7 +357,7 @@ export class Dropdown implements InteractiveComponent {
   //
   //--------------------------------------------------------------------------
 
-  filteredFlipPlacements: ComputedPlacement[];
+  filteredFlipPlacements: EffectivePlacement[];
 
   private items: HTMLCalciteDropdownItemElement[] = [];
 
@@ -365,11 +366,9 @@ export class Dropdown implements InteractiveComponent {
   /** trigger elements */
   private triggers: HTMLElement[];
 
-  private popper: Popper;
+  floatingEl: HTMLDivElement;
 
-  private menuEl: HTMLDivElement;
-
-  private referenceEl: HTMLDivElement;
+  referenceEl: HTMLDivElement;
 
   private activeTransitionProp = "visibility";
 
@@ -459,89 +458,47 @@ export class Dropdown implements InteractiveComponent {
   setScrollerEl = (scrollerEl: HTMLDivElement): void => {
     this.resizeObserver.observe(scrollerEl);
     this.scrollerEl = scrollerEl;
-    this.scrollerEl.addEventListener("transitionrun", this.transitionRunHandler);
+    this.scrollerEl.addEventListener("transitionstart", this.transitionStartHandler);
   };
 
   transitionEnd = (event: TransitionEvent): void => {
-    if (event.propertyName === this.activeTransitionProp) {
-      this.open || this.active ? this.emitOpenCloseEvent("open") : this.emitOpenCloseEvent("close");
+    if (event.propertyName === this.activeTransitionProp && event.target === this.scrollerEl) {
+      this.open || this.active ? this.onOpen() : this.onClose();
     }
   };
 
-  transitionRunHandler = (event: TransitionEvent): void => {
-    if (event.propertyName === this.activeTransitionProp) {
-      this.active || this.open
-        ? this.emitOpenCloseEvent("beforeOpen")
-        : this.emitOpenCloseEvent("beforeClose");
+  transitionStartHandler = (event: TransitionEvent): void => {
+    if (event.propertyName === this.activeTransitionProp && event.target === this.scrollerEl) {
+      this.open || this.active ? this.onBeforeOpen() : this.onBeforeClose();
     }
   };
 
-  private emitOpenCloseEvent(componentVisibilityState: string): void {
-    const payload = {
-      el: this.el
-    };
-    const emitComponentState = {
-      beforeOpen: () => this.calciteDropdownBeforeOpen.emit(payload),
-      open: () => this.calciteDropdownOpen.emit(payload),
-      beforeClose: () => this.calciteDropdownBeforeClose.emit(payload),
-      close: () => this.calciteDropdownClose.emit(payload)
-    };
-    (
-      emitComponentState[componentVisibilityState] ||
-      emitComponentState["The component state is unknown."]
-    )();
+  onBeforeOpen(): void {
+    this.calciteDropdownBeforeOpen.emit();
+  }
+
+  onOpen(): void {
+    this.calciteDropdownOpen.emit();
+  }
+
+  onBeforeClose(): void {
+    this.calciteDropdownBeforeClose.emit();
+  }
+
+  onClose(): void {
+    this.calciteDropdownClose.emit();
   }
 
   setReferenceEl = (el: HTMLDivElement): void => {
     this.referenceEl = el;
+    connectFloatingUI(this, this.referenceEl, this.floatingEl);
     this.resizeObserver.observe(el);
   };
 
-  setMenuEl = (el: HTMLDivElement): void => {
-    this.menuEl = el;
+  setFloatingEl = (el: HTMLDivElement): void => {
+    this.floatingEl = el;
+    connectFloatingUI(this, this.referenceEl, this.floatingEl);
   };
-
-  getModifiers(): Partial<StrictModifiers>[] {
-    const flipModifier: Partial<StrictModifiers> = {
-      name: "flip",
-      enabled: true
-    };
-
-    flipModifier.options = {
-      fallbackPlacements: this.filteredFlipPlacements || popperMenuComputedPlacements
-    };
-
-    const eventListenerModifier: Partial<StrictModifiers> = {
-      name: "eventListeners",
-      enabled: this.open || this.active
-    };
-
-    return [flipModifier, eventListenerModifier];
-  }
-
-  createPopper(): void {
-    this.destroyPopper();
-    const { menuEl, referenceEl, placement, overlayPositioning } = this;
-    const modifiers = this.getModifiers();
-
-    this.popper = createPopper({
-      el: menuEl,
-      modifiers,
-      overlayPositioning,
-      placement,
-      referenceEl
-    });
-  }
-
-  destroyPopper(): void {
-    const { popper } = this;
-
-    if (popper) {
-      popper.destroy();
-    }
-
-    this.popper = null;
-  }
 
   private keyDownHandler = (e: KeyboardEvent): void => {
     const target = e.target as HTMLElement;

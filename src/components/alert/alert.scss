@@ -89,14 +89,13 @@
       justify-center
       opacity-0;
     border-radius: var(--calcite-border-radius);
-    border-top: 0px solid transparent;
-    border-left: 1px solid var(--calcite-ui-border-3);
-    border-right: 1px solid var(--calcite-ui-border-3);
-    border-bottom: 1px solid var(--calcite-ui-border-3);
-    min-height: var(--calcite-alert-min-height);
-    width: var(--calcite-alert-width);
-    max-width: calc(100% - (var(--calcite-alert-edge-distance) * 2 + 2px));
-    max-height: 0;
+    border-block-start: 0px solid transparent;
+    border-inline: 1px solid var(--calcite-ui-border-3);
+    border-block-end: 1px solid var(--calcite-ui-border-3);
+    min-block-size: var(--calcite-alert-min-height);
+    inline-size: var(--calcite-alert-width);
+    max-inline-size: calc(100% - (var(--calcite-alert-edge-distance) * 2 + 2px));
+    max-block-size: 0;
     z-index: 101;
     transition: var(--calcite-internal-animation-timing-slow) $easing-function,
       opacity var(--calcite-internal-animation-timing-slow) $easing-function,
@@ -176,7 +175,8 @@
 
 @mixin alert-element-base() {
   @apply transition-default;
-  padding: var(--calcite-alert-spacing-token-small) var(--calcite-alert-spacing-token-large);
+  padding-block: var(--calcite-alert-spacing-token-small);
+  padding-inline: var(--calcite-alert-spacing-token-large);
   flex: 0 0 auto;
 }
 
@@ -184,11 +184,11 @@
   @include alert-element-base;
   @apply bg-foreground-1 break-words;
   flex: 1 1 auto;
-  min-width: 0;
+  min-inline-size: 0;
   padding-block: var(--calcite-alert-spacing-token-small);
   padding-inline: 0 var(--calcite-alert-spacing-token-small);
-  border-bottom-left-radius: var(--calcite-border-radius);
-  border-bottom-right-radius: var(--calcite-border-radius);
+  border-end-start-radius: var(--calcite-border-radius);
+  border-end-end-radius: var(--calcite-border-radius);
 
   &:first-of-type:not(:only-child) {
     padding-inline-start: var(--calcite-alert-spacing-token-large);
@@ -243,9 +243,8 @@
     text-center
     font-medium
     opacity-0;
-  border-left: 0px solid transparent;
-  border-right: 0px solid transparent;
-  border-top-right-radius: 0;
+  border-inline: 0px solid transparent;
+  border-start-end-radius: 0;
 
   &.active {
     @apply visible opacity-100;
@@ -263,15 +262,15 @@
     block
     w-full
     overflow-hidden;
-  top: -2px;
-  height: 2px;
+  inset-block-start: -2px;
+  block-size: 2px;
   z-index: 103;
   border-radius: var(--calcite-border-radius) var(--calcite-border-radius) 0 0;
   &:after {
     @apply absolute
     top-0
     block;
-    height: 2px;
+    block-size: 2px;
     content: "";
     background-color: var(--calcite-alert-dismiss-progress-background);
     z-index: 104;
@@ -288,7 +287,7 @@ $alertColors: "blue" var(--calcite-ui-info), "red" var(--calcite-ui-danger), "ye
 
   :host([color="#{$name}"]) {
     .container {
-      border-top-color: $color;
+      border-block-start-color: $color;
 
       & .alert-icon {
         color: $color;

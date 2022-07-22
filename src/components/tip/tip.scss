@@ -48,7 +48,7 @@
 
 .info {
   @apply py-0 px-4;
-  width: 70%;
+  inline-size: 70%;
   &:only-child {
     @apply w-full px-0;
   }
@@ -68,7 +68,7 @@
 }
 
 .image-frame {
-  width: theme("width[1/4]");
+  inline-size: theme("width[1/4]");
   img {
     @apply max-w-full;
   }
