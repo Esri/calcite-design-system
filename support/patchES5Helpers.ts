@@ -2,9 +2,12 @@
   const {
     promises: { readFile, readdir, writeFile }
   } = await import("fs");
-  const { normalize } = await import("path");
+  const { dirname, normalize } = await import("path");
   const { quote } = await import("shell-quote");
+  const { fileURLToPath } = await import("url");
 
+  const __filename = fileURLToPath(import.meta.url);
+  const __dirname = dirname(__filename);
   const esmEs5Output = quote([normalize(`${__dirname}/../dist/esm-es5/`)]);
 
   // we patch __spreadArray to work around https://github.com/microsoft/tslib/issues/175
