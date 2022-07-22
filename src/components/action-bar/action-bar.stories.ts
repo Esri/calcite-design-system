@@ -159,11 +159,10 @@ export const withDefinedWidths = (): string =>
   html`
     <style>
       calcite-action-bar {
-        --calcite-action-bar-max-width: auto;
         --calcite-action-bar-expanded-max-width: 150px;
       }
     </style>
-    <calcite-action-bar>
+    <calcite-action-bar expanded>
       <calcite-action-group>
         <calcite-action text="Add to my custom action bar application" icon="plus"></calcite-action>
         <calcite-action text="Save to my custom action bar application" icon="save"></calcite-action>

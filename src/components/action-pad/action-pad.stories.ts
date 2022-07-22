@@ -122,10 +122,11 @@ export const withTooltip = (): string =>
 export const withDefinedWidths = (): string =>
   html`
     <style>
-      --calcite-action-pad-max-width: auto;
-      --calcite-action-pad-expanded-max-width: 100px;
+      calcite-action-pad {
+        --calcite-action-pad-expanded-max-width: 150px;
+      }
     </style>
-    <calcite-action-pad>
+    <calcite-action-pad expanded>
       <calcite-action-group>
         <calcite-action text="Add to my custom action pad application" icon="plus"></calcite-action>
         <calcite-action text="Save to my custom action pad application" icon="save"></calcite-action>
