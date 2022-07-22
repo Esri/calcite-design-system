@@ -95,6 +95,7 @@ export class ActionMenu implements ConditionalSlotComponent {
       this.menuButtonEl.active = open;
     }
     this.calciteActionMenuOpenChange.emit(open);
+    this.calciteActionMenuOpen.emit();
 
     this.setTooltipReferenceElement();
   }
@@ -124,8 +125,15 @@ export class ActionMenu implements ConditionalSlotComponent {
    * Emits when the `open` property has changed.
    *
    * **Note:**: The event payload is deprecated, please use the `open` property on the component instead
+   *
+   * @deprecated use `calciteActionMenuOpen` instead
    */
   @Event() calciteActionMenuOpenChange: EventEmitter<DeprecatedEventPayload>;
+
+  /**
+   * Emits when the menu has opened.
+   */
+  @Event() calciteActionMenuOpen: EventEmitter<void>;
 
   @Listen("pointerdown", { target: "window" })
   closeCalciteActionMenuOnClick(event: Event): void {

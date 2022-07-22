@@ -10,7 +10,7 @@ import {
   Fragment,
   State
 } from "@stencil/core";
-import { Scale } from "../interfaces";
+import { DeprecatedEventPayload, Scale } from "../interfaces";
 import {
   GlobalAttrComponent,
   unwatchGlobalAttributes,
@@ -20,7 +20,7 @@ import { localizeNumberString } from "../../utils/locale";
 import { CSS, TEXT } from "./resources";
 
 const maxPagesDisplayed = 5;
-export interface PaginationDetail {
+export interface PaginationDetail extends DeprecatedEventPayload {
   start: number;
   total: number;
   num: number;
@@ -94,6 +94,8 @@ export class Pagination implements GlobalAttrComponent {
    * Emits when the selected page changes.
    *
    * @see [PaginationDetail](https://github.com/Esri/calcite-components/blob/master/src/components/pagination/pagination.tsx#L23)
+   *
+   * **Note:**: The event payload is deprecated, please use the `num`, `start` or `total` properties on the component instead
    */
   @Event() calcitePaginationChange: EventEmitter<PaginationDetail>;
 

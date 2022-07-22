@@ -280,6 +280,8 @@ export class Combobox
 
   /**
    * Called when the selected item(s) changes.
+   *
+   * **Note:**: The event payload is deprecated, please use the `value` property on the component to determine selected values
    */
   @Event() calciteComboboxChange: EventEmitter<{ selectedItems: HTMLCalciteComboboxItemElement[] }>;
 
@@ -292,7 +294,7 @@ export class Combobox
   /**
    * Called when a selected item in the combobox is dismissed via its chip
    *
-   * **Note:**: The event payload is deprecated, please use the `value` property on the component to determine removed value instead
+   * @deprecated use `calciteComboboxChange` and the `value` property for updates
    */
   @Event() calciteComboboxChipDismiss: EventEmitter<DeprecatedEventPayload>;
 

@@ -49,6 +49,13 @@ export class Stepper {
   /** specify the scale of stepper, defaults to m */
   @Prop({ reflect: true }) scale: Scale = "m";
 
+  /**
+   * The selected step index
+   *
+   * @readonly
+   */
+  @Prop({ mutable: true }) selectedIndex: number;
+
   //--------------------------------------------------------------------------
   //
   //  Events
@@ -58,6 +65,7 @@ export class Stepper {
   /**
    * This event fires when the active stepper item has changed.
    *
+   * **Note:**: The event payload is deprecated, please use the `selectedIndex` property on the component instead
    */
   @Event() calciteStepperItemChange: EventEmitter<StepperItemChangeEventDetail>;
 
@@ -75,7 +83,7 @@ export class Stepper {
   //--------------------------------------------------------------------------
   componentDidLoad(): void {
     // if no stepper items are set as active, default to the first one
-    if (typeof this.currentPosition !== "number") {
+    if (typeof this.selectedIndex !== "number") {
       this.calciteInternalStepperItemChange.emit({
         position: 0
       });
@@ -151,7 +159,7 @@ export class Stepper {
     const { position } = event.detail;
 
     if (typeof position === "number") {
-      this.currentPosition = position;
+      this.selectedIndex = position;
     }
 
     this.calciteInternalStepperItemChange.emit({
@@ -177,7 +185,7 @@ export class Stepper {
   /** set the next step as active */
   @Method()
   async nextStep(): Promise<void> {
-    const enabledStepIndex = this.getEnabledStepIndex(this.currentPosition + 1, "next");
+    const enabledStepIndex = this.getEnabledStepIndex(this.selectedIndex + 1, "next");
 
     if (typeof enabledStepIndex !== "number") {
       return;
@@ -189,7 +197,7 @@ export class Stepper {
   /** set the previous step as active */
   @Method()
   async prevStep(): Promise<void> {
-    const enabledStepIndex = this.getEnabledStepIndex(this.currentPosition - 1, "previous");
+    const enabledStepIndex = this.getEnabledStepIndex(this.selectedIndex - 1, "previous");
 
     if (typeof enabledStepIndex !== "number") {
       return;
@@ -207,7 +215,7 @@ export class Stepper {
   async goToStep(step: number): Promise<void> {
     const position = step - 1;
 
-    if (this.currentPosition !== position) {
+    if (this.selectedIndex !== position) {
       this.updateStep(position);
     }
   }
@@ -250,9 +258,6 @@ export class Stepper {
   /** list of enabled Stepper items */
   private enabledItems: HTMLCalciteStepperItemElement[] = [];
 
-  /** keep track of the currently active item position */
-  private currentPosition: number;
-
   //--------------------------------------------------------------------------
   //
   //  Private Methods
@@ -263,7 +268,7 @@ export class Stepper {
     startIndex: number,
     direction: "next" | "previous" = "next"
   ): number | null {
-    const { items, currentPosition } = this;
+    const { items, selectedIndex } = this;
 
     let newIndex = startIndex;
 
@@ -271,13 +276,11 @@ export class Stepper {
       newIndex = newIndex + (direction === "previous" ? -1 : 1);
     }
 
-    return newIndex !== currentPosition && newIndex < items.length && newIndex >= 0
-      ? newIndex
-      : null;
+    return newIndex !== selectedIndex && newIndex < items.length && newIndex >= 0 ? newIndex : null;
   }
 
   private updateStep(position: number): void {
-    this.currentPosition = position;
+    this.selectedIndex = position;
     this.calciteInternalStepperItemChange.emit({
       position
     });

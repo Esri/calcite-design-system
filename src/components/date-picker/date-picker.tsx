@@ -161,6 +161,8 @@ export class DatePicker {
   //--------------------------------------------------------------------------
   /**
    * Trigger calcite date change when a user changes the date.
+   *
+   * **Note:**: The event payload is deprecated, please use the `value` or `valueAsDate` property on the component instead
    */
   @Event() calciteDatePickerChange: EventEmitter<Date>;
 
@@ -168,6 +170,8 @@ export class DatePicker {
    * Trigger calcite date change when a user changes the date range.
    *
    * @see [DateRangeChange](https://github.com/Esri/calcite-components/blob/master/src/components/date-picker/interfaces.ts#L1)
+   *
+   * **Note:**: The event payload is deprecated, please use the `value` or `valueAsDate` property on the component instead
    */
   @Event() calciteDatePickerRangeChange: EventEmitter<DateRangeChange>;
 

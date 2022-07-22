@@ -14,7 +14,7 @@ import {
 } from "@stencil/core";
 
 import { getElementDir } from "../../utils/dom";
-import { Layout, Scale, Width } from "../interfaces";
+import { DeprecatedEventPayload, Layout, Scale, Width } from "../interfaces";
 import { connectLabel, disconnectLabel, LabelableComponent } from "../../utils/label";
 import {
   afterConnectDefaultValueSet,
@@ -238,8 +238,12 @@ export class RadioGroup implements LabelableComponent, FormComponent, Interactiv
   //
   //--------------------------------------------------------------------------
 
-  /** Fired when the selected option changes, event detail is the new value */
-  @Event() calciteRadioGroupChange: EventEmitter<string>;
+  /**
+   * Fired when the selected option changes, event detail is the new value
+   *
+   * **Note:**: The event payload is deprecated, please use the `value` property on the component instead
+   */
+  @Event() calciteRadioGroupChange: EventEmitter<string & DeprecatedEventPayload>;
 
   // --------------------------------------------------------------------------
   //
