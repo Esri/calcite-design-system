@@ -58,12 +58,12 @@ export class Panel implements ConditionalSlotComponent, InteractiveComponent {
   @Watch("dismissed")
   dismissedHandler(value: boolean): void {
     this.closed = value;
+    this.calcitePanelDismissedChange.emit();
   }
 
   @Watch("closed")
   closedHandler(value: boolean): void {
     this.dismissed = value;
-    this.calcitePanelDismissedChange.emit();
   }
 
   /**
@@ -176,7 +176,7 @@ export class Panel implements ConditionalSlotComponent, InteractiveComponent {
 
   backButtonEl: HTMLCalciteActionElement;
 
-  dismissButtonEl: HTMLCalciteActionElement;
+  closeButtonEl: HTMLCalciteActionElement;
 
   containerEl: HTMLElement;
 
@@ -223,7 +223,7 @@ export class Panel implements ConditionalSlotComponent, InteractiveComponent {
   @Event() calcitePanelDismiss: EventEmitter;
 
   /**
-   * Fires when there is a change in dismissed prop value .
+   * Fires when there is a change to the `dismissed` property value .
    *
    * @deprecated use calcitePanelDismiss instead.
    */
@@ -263,8 +263,8 @@ export class Panel implements ConditionalSlotComponent, InteractiveComponent {
     this.containerEl = node;
   };
 
-  setDismissRef = (node: HTMLCalciteActionElement): void => {
-    this.dismissButtonEl = node;
+  setCloseRef = (node: HTMLCalciteActionElement): void => {
+    this.closeButtonEl = node;
   };
 
   setBackRef = (node: HTMLCalciteActionElement): void => {
@@ -273,11 +273,11 @@ export class Panel implements ConditionalSlotComponent, InteractiveComponent {
 
   panelKeyDownHandler = (event: KeyboardEvent): void => {
     if (event.key === "Escape") {
-      this.dismiss();
+      this.close();
     }
   };
 
-  dismiss = (): void => {
+  close = (): void => {
     this.closed = true;
     this.calcitePanelDismiss.emit();
   };
@@ -304,7 +304,7 @@ export class Panel implements ConditionalSlotComponent, InteractiveComponent {
   @Method()
   async setFocus(focusId?: "dismiss-button" | "back-button"): Promise<void> {
     if (focusId === "dismiss-button") {
-      this.dismissButtonEl?.setFocus();
+      this.closeButtonEl?.setFocus();
       return;
     }
 
@@ -407,15 +407,15 @@ export class Panel implements ConditionalSlotComponent, InteractiveComponent {
   }
 
   renderHeaderActionsEnd(): VNode {
-    const { dismiss, el, intlClose, closable } = this;
+    const { close, el, intlClose, closable } = this;
     const text = intlClose || TEXT.close;
 
-    const dismissibleNode = closable ? (
+    const closableNode = closable ? (
       <calcite-action
         aria-label={text}
         icon={ICONS.close}
-        onClick={dismiss}
-        ref={this.setDismissRef}
+        onClick={close}
+        ref={this.setCloseRef}
         text={text}
       />
     ) : null;
@@ -423,13 +423,13 @@ export class Panel implements ConditionalSlotComponent, InteractiveComponent {
     const slotNode = <slot name={SLOTS.headerActionsEnd} />;
     const hasEndActions = getSlotted(el, SLOTS.headerActionsEnd);
 
-    return hasEndActions || dismissibleNode ? (
+    return hasEndActions || closableNode ? (
       <div
         class={{ [CSS.headerActionsEnd]: true, [CSS.headerActions]: true }}
         key="header-actions-end"
       >
         {slotNode}
-        {dismissibleNode}
+        {closableNode}
       </div>
     ) : null;
   }
