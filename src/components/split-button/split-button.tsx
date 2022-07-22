@@ -85,12 +85,16 @@ export class SplitButton implements InteractiveComponent {
   /**
    * fired when the primary button is clicked
    *
-   * **Note:** The event payload is deprecated, please use the evevnt listeners to  property on the component instead
+   * **Note:** The event payload is deprecated, please use separate mouse event listeners to get info about click.
    */
   @Event() calciteSplitButtonPrimaryClick: EventEmitter<DeprecatedEventPayload>;
 
-  /** fired when the secondary button is clicked */
-  @Event() calciteSplitButtonSecondaryClick: EventEmitter<void>;
+  /**
+   * fired when the secondary button is clicked
+   *
+   * **Note:** The event payload is deprecated, please use separate mouse event listeners to get info about click.
+   */
+  @Event() calciteSplitButtonSecondaryClick: EventEmitter<DeprecatedEventPayload>;
 
   //--------------------------------------------------------------------------
   //
