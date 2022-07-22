@@ -225,7 +225,6 @@ export class ActionMenu implements ConditionalSlotComponent {
 
     menuButtonEl.addEventListener("click", this.menuButtonClick);
     menuButtonEl.addEventListener("keydown", this.menuButtonKeyDown);
-    menuButtonEl.addEventListener("keyup", this.menuButtonKeyUp);
   };
 
   disconnectMenuButtonEl = (): void => {
@@ -237,7 +236,6 @@ export class ActionMenu implements ConditionalSlotComponent {
 
     menuButtonEl.removeEventListener("click", this.menuButtonClick);
     menuButtonEl.removeEventListener("keydown", this.menuButtonKeyDown);
-    menuButtonEl.removeEventListener("keyup", this.menuButtonKeyUp);
   };
 
   setDefaultMenuButtonEl = (el: HTMLCalciteActionElement): void => {
@@ -298,7 +296,6 @@ export class ActionMenu implements ConditionalSlotComponent {
           id={menuId}
           onClick={this.handleCalciteActionClick}
           onKeyDown={this.menuActionsContainerKeyDown}
-          onKeyUp={this.menuActionsContainerKeyUp}
           ref={(el) => (this.menuEl = el)}
           role="menu"
           tabIndex={-1}
@@ -387,7 +384,7 @@ export class ActionMenu implements ConditionalSlotComponent {
     return !!supportedKeys.find((k) => k === key);
   }
 
-  menuButtonKeyUp = (event: KeyboardEvent): void => {
+  menuButtonKeyDown = (event: KeyboardEvent): void => {
     const { key } = event;
     const { actionElements } = this;
 
@@ -403,16 +400,6 @@ export class ActionMenu implements ConditionalSlotComponent {
 
     this.toggleOpen(true);
     this.handleActionNavigation(key, actionElements);
-  };
-
-  menuButtonKeyDown = (event: KeyboardEvent): void => {
-    const { key } = event;
-
-    if (!this.isValidKey(key, SUPPORTED_BUTTON_NAV_KEYS)) {
-      return;
-    }
-
-    event.preventDefault();
   };
 
   menuActionsContainerKeyDown = (event: KeyboardEvent): void => {
@@ -431,28 +418,17 @@ export class ActionMenu implements ConditionalSlotComponent {
       return;
     }
 
-    if (this.isValidKey(key, SUPPORTED_MENU_NAV_KEYS)) {
-      event.preventDefault();
-    }
-  };
-
-  menuActionsContainerKeyUp = (event: KeyboardEvent): void => {
-    const { key } = event;
-    const { actionElements } = this;
-
     if (key === "Escape") {
       this.toggleOpen(false);
       return;
     }
 
-    if (!this.isValidKey(key, SUPPORTED_MENU_NAV_KEYS)) {
+    if (!actionElements.length) {
       return;
     }
 
-    event.preventDefault();
-
-    if (!actionElements.length) {
-      return;
+    if (this.isValidKey(key, SUPPORTED_MENU_NAV_KEYS)) {
+      event.preventDefault();
     }
 
     this.handleActionNavigation(key, actionElements);
