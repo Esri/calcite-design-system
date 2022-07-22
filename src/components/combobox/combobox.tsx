@@ -103,7 +103,6 @@ export class Combobox
       return;
     }
     this.open = value;
-    this.setMaxScrollerHeight();
   }
 
   /**When true, opens the combobox */
