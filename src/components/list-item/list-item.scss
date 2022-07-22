@@ -23,8 +23,7 @@
 }
 
 .content-container {
-  @apply focus-base
-    text-color-2
+  @apply text-color-2
     flex
     flex-auto
     font-sans
@@ -33,34 +32,14 @@
     p-0;
 }
 
-tr:focus,
-td:focus {
-  outline: 2px solid hsl(216deg 94% 70%);
+tr,
+td {
+  @apply focus-base;
 }
 
-.content-container--button {
-  @apply bg-foreground-1
-    focus-base
-    cursor-pointer
-    border-none;
-
-  text-align: initial;
-
-  &:hover {
-    @apply bg-foreground-2;
-    .label,
-    .description {
-      @apply text-color-1;
-    }
-  }
-  &:focus {
-    @apply focus-inset;
-  }
-
-  .content-start,
-  .content-end {
-    @apply pointer-events-none;
-  }
+tr:focus,
+td:focus {
+  @apply focus-inset;
 }
 
 .content {

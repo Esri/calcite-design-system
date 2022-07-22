@@ -4,7 +4,6 @@ export const CSS = {
   contentContainerDisabled: "content-container--disabled",
   nestedContainer: "nested-container",
   nestedContainerHidden: "nested-container--hidden",
-  contentContainerButton: "content-container--button",
   content: "content",
   actionsStart: "actions-start",
   contentStart: "content-start",
