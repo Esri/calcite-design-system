@@ -5,7 +5,9 @@ module.exports = {
     "@storybook/addon-a11y",
     "@whitespace/storybook-addon-html",
     "storybook-rtl-addon",
-    "storybook-addon-themes"
+    "storybook-addon-themes",
+    "@storybook/addon-interactions",
+    "@storybook/testing-library"
   ],
   staticDirs: ["../__docs-temp__"],
   stories: ["../src/**/*.stories.@(mdx|ts)"],

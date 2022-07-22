@@ -52,6 +52,7 @@ export const parameters = {
   options: {
     storySort: {
       order: ["Overview", "Components", "App Components"]
-    }
+    },
+    diffThreshold: 0.08 // for chromatic
   }
 };

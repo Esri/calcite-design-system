@@ -8,8 +8,7 @@ export default {
   title: "Components/Controls/Slider",
 
   parameters: {
-    notes: readme,
-    chromatic: { diffThreshold: 0.1 }
+    notes: readme
   }
 };
 
