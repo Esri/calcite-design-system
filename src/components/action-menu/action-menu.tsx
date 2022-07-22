@@ -14,10 +14,10 @@ import { CSS, SLOTS, ICONS } from "./resources";
 import { focusElement, getSlotted, toAriaBoolean } from "../../utils/dom";
 import { Fragment, VNode } from "@stencil/core/internal";
 import { getRoundRobinIndex } from "../../utils/array";
-import { PopperPlacement, OverlayPositioning, ComputedPlacement } from "../../utils/popper";
 import { guid } from "../../utils/guid";
 import { Scale } from "../interfaces";
 import { createObserver } from "../../utils/observers";
+import { LogicalPlacement, EffectivePlacement, OverlayPositioning } from "../../utils/floating-ui";
 import {
   ConditionalSlotComponent,
   connectConditionalSlotComponent,
@@ -76,7 +76,7 @@ export class ActionMenu implements ConditionalSlotComponent {
   /**
    * Defines the available placements that can be used when a flip occurs.
    */
-  @Prop() flipPlacements?: ComputedPlacement[];
+  @Prop() flipPlacements?: EffectivePlacement[];
 
   /**
    *  Specifies the text string for the component.
@@ -105,9 +105,9 @@ export class ActionMenu implements ConditionalSlotComponent {
   /**
    * Determines where the component will be positioned relative to the `referenceElement`.
    *
-   * @see [PopperPlacement](https://github.com/Esri/calcite-components/blob/master/src/utils/popper.ts#L25)
+   * @see [LogicalPlacement](https://github.com/Esri/calcite-components/blob/master/src/utils/floating-ui.ts#L25)
    */
-  @Prop({ reflect: true }) placement: PopperPlacement = "auto";
+  @Prop({ reflect: true }) placement: LogicalPlacement = "auto";
 
   /**
    * Specifies the size of the component's trigger `calcite-action`.
@@ -225,7 +225,6 @@ export class ActionMenu implements ConditionalSlotComponent {
 
     menuButtonEl.addEventListener("click", this.menuButtonClick);
     menuButtonEl.addEventListener("keydown", this.menuButtonKeyDown);
-    menuButtonEl.addEventListener("keyup", this.menuButtonKeyUp);
   };
 
   disconnectMenuButtonEl = (): void => {
@@ -237,7 +236,6 @@ export class ActionMenu implements ConditionalSlotComponent {
 
     menuButtonEl.removeEventListener("click", this.menuButtonClick);
     menuButtonEl.removeEventListener("keydown", this.menuButtonKeyDown);
-    menuButtonEl.removeEventListener("keyup", this.menuButtonKeyUp);
   };
 
   setDefaultMenuButtonEl = (el: HTMLCalciteActionElement): void => {
@@ -298,7 +296,6 @@ export class ActionMenu implements ConditionalSlotComponent {
           id={menuId}
           onClick={this.handleCalciteActionClick}
           onKeyDown={this.menuActionsContainerKeyDown}
-          onKeyUp={this.menuActionsContainerKeyUp}
           ref={(el) => (this.menuEl = el)}
           role="menu"
           tabIndex={-1}
@@ -387,7 +384,7 @@ export class ActionMenu implements ConditionalSlotComponent {
     return !!supportedKeys.find((k) => k === key);
   }
 
-  menuButtonKeyUp = (event: KeyboardEvent): void => {
+  menuButtonKeyDown = (event: KeyboardEvent): void => {
     const { key } = event;
     const { actionElements } = this;
 
@@ -403,16 +400,6 @@ export class ActionMenu implements ConditionalSlotComponent {
 
     this.toggleOpen(true);
     this.handleActionNavigation(key, actionElements);
-  };
-
-  menuButtonKeyDown = (event: KeyboardEvent): void => {
-    const { key } = event;
-
-    if (!this.isValidKey(key, SUPPORTED_BUTTON_NAV_KEYS)) {
-      return;
-    }
-
-    event.preventDefault();
   };
 
   menuActionsContainerKeyDown = (event: KeyboardEvent): void => {
@@ -431,28 +418,17 @@ export class ActionMenu implements ConditionalSlotComponent {
       return;
     }
 
-    if (this.isValidKey(key, SUPPORTED_MENU_NAV_KEYS)) {
-      event.preventDefault();
-    }
-  };
-
-  menuActionsContainerKeyUp = (event: KeyboardEvent): void => {
-    const { key } = event;
-    const { actionElements } = this;
-
     if (key === "Escape") {
       this.toggleOpen(false);
       return;
     }
 
-    if (!this.isValidKey(key, SUPPORTED_MENU_NAV_KEYS)) {
+    if (!actionElements.length) {
       return;
     }
 
-    event.preventDefault();
-
-    if (!actionElements.length) {
-      return;
+    if (this.isValidKey(key, SUPPORTED_MENU_NAV_KEYS)) {
+      event.preventDefault();
     }
 
     this.handleActionNavigation(key, actionElements);

@@ -13,7 +13,7 @@
 | `disabled`           | `disabled`         | When true, interaction is prevented and the component is displayed with lower opacity.         | `boolean`                                                   | `false`       |
 | `icon`               | `icon`             | Determines the icon SVG symbol that will be shown. Options are circle, square, grip or null.   | `ICON_TYPES.circle \| ICON_TYPES.grip \| ICON_TYPES.square` | `null`        |
 | `intlRemove`         | `intl-remove`      | Accessible name for the component's remove button. Only applicable if removable is "true".     | `string`                                                    | `TEXT.remove` |
-| `label`              | `label`            | Label and accessible name for the component. Appears next to the icon.                         | `string`                                                    | `undefined`   |
+| `label` _(required)_ | `label`            | Label and accessible name for the component. Appears next to the icon.                         | `string`                                                    | `undefined`   |
 | `metadata`           | --                 | Provides additional metadata to the component. Primary use is for a filter on the parent list. | `{ [x: string]: unknown; }`                                 | `undefined`   |
 | `removable`          | `removable`        | When true, displays a remove action that removes the item from the list.                       | `boolean`                                                   | `false`       |
 | `selected`           | `selected`         | When true, selects an item. Toggles when an item is checked/unchecked.                         | `boolean`                                                   | `false`       |
