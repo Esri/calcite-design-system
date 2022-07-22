@@ -34,7 +34,7 @@ const createShellPanelAttributes: (group: "Leading Panel" | "Trailing Panel", re
   return [
     {
       name: "slot",
-      value: group === "Leading Panel" ? "panel-start" : "panel-end"
+      value: group === "Leading Panel" ? "shell-panel-start" : "shell-panel-end"
     },
     {
       name: "collapsed",
@@ -347,7 +347,7 @@ export const advancedRTL = (): string =>
   );
 
 export const dismissedPanels = (): string => html`<calcite-shell content-behind>
-  <calcite-shell-panel slot="panel-start" detached>
+  <calcite-shell-panel slot="shell-panel-start" detached>
     <calcite-action-bar slot="action-bar">
       <calcite-action data-action-id="layers" icon="layers" text="Layers"></calcite-action>
       <calcite-action data-action-id="basemaps" icon="basemap" text="Basemaps"></calcite-action>
@@ -390,7 +390,7 @@ background-size: 20px 20px;
 background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
 "
     ></div>
-    <calcite-shell-panel slot="panel-end" position="end" detached>
+    <calcite-shell-panel slot="shell-panel-end" position="end" detached>
       <calcite-action-bar slot="action-bar">
         <calcite-action-group layout="vertical">
           <calcite-action text="Idea" label="Add Item" icon="lightbulb" appearance="solid" scale="m"></calcite-action>
