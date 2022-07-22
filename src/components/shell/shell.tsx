@@ -13,8 +13,8 @@ import {
  * @slot footer - A slot for adding footer content. This content will be positioned at the bottom of the shell.
  * @slot panel-start - A slot for adding the starting `calcite-shell-panel`.
  * @slot panel-end - A slot for adding the ending `calcite-shell-panel`.
- * @deprecated @slot primary-panel - A slot for adding the leading `calcite-shell-panel`.
- * @deprecated @slot contextual-panel - A slot for adding the trailing `calcite-shell-panel`.
+ * @slot primary-panel - [DEPRECATED] A slot for adding the leading `calcite-shell-panel`.
+ * @slot contextual-panel - [DEPRECATED] A slot for adding the trailing `calcite-shell-panel`.
  * @slot center-row - A slot for adding custom content in the center row.
  */
 @Component({
