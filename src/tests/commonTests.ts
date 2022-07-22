@@ -825,22 +825,22 @@ export async function disabled(
 }
 
 /**
- * This helper will test if a popper-owning component has configured the popper correctly.
- * At the moment, this only tests if the scroll event listeners are only active when the popper is displayed.
+ * This helper will test if a floating-ui-owning component has configured the floating-ui correctly.
+ * At the moment, this only tests if the scroll event listeners are only active when the floating-ui is displayed.
  *
  * @param componentTagOrHTML - the component tag or HTML markup to test against
- * @param togglePropName - the component property that toggles the popper
- * @param options - the popper owner test configuration
- * @param options.shadowPopperSelector
+ * @param togglePropName - the component property that toggles the floating-ui
+ * @param options - the floating-ui owner test configuration
+ * @param options.shadowSelector
  */
-export async function popperOwner(
+export async function floatingUIOwner(
   componentTagOrHTML: TagOrHTML,
   togglePropName: string,
   options?: {
     /**
-     * Use this to specify the selector in the shadow DOM for the popper element.
+     * Use this to specify the selector in the shadow DOM for the floating-ui element.
      */
-    shadowPopperSelector?: string;
+    shadowSelector?: string;
   }
 ): Promise<void> {
   const page = await simplePageSetup(componentTagOrHTML);
@@ -862,11 +862,13 @@ export async function popperOwner(
     return page.$eval(
       tag,
       (component: HTMLElement, shadowSelector: string): string => {
-        const popperEl = shadowSelector ? component.shadowRoot.querySelector<HTMLElement>(shadowSelector) : component;
+        const floatingUIEl = shadowSelector
+          ? component.shadowRoot.querySelector<HTMLElement>(shadowSelector)
+          : component;
 
-        return popperEl.getAttribute("style");
+        return floatingUIEl.getAttribute("style");
       },
-      options?.shadowPopperSelector
+      options?.shadowSelector
     );
   }
 

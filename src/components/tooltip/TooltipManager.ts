@@ -1,4 +1,4 @@
-import { ReferenceElement } from "../../utils/popper";
+import { ReferenceElement } from "../../utils/floating-ui";
 import { TOOLTIP_DELAY_MS } from "./resources";
 
 export default class TooltipManager {
