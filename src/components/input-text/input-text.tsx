@@ -267,17 +267,24 @@ export class InputText implements LabelableComponent, FormComponent, Interactive
   /**
    * @internal
    */
-  @Event() calciteInternalInputTextFocus: EventEmitter;
+  @Event() calciteInternalInputTextFocus: EventEmitter<{
+    element: HTMLInputElement;
+    value: string;
+  }>;
 
   /**
    * @internal
    */
-  @Event() calciteInternalInputTextBlur: EventEmitter;
+  @Event() calciteInternalInputTextBlur: EventEmitter<{ element: HTMLInputElement; value: string }>;
 
   /**
    * Fires each time a new value is typed.
    */
-  @Event({ cancelable: true }) calciteInputTextInput: EventEmitter;
+  @Event({ cancelable: true }) calciteInputTextInput: EventEmitter<{
+    element: HTMLInputElement;
+    nativeEvent: MouseEvent | KeyboardEvent | InputEvent;
+    value: string;
+  }>;
 
   /**
    * Fires each time a new value is typed and committed.
@@ -312,7 +319,7 @@ export class InputText implements LabelableComponent, FormComponent, Interactive
       return;
     }
     if (this.isClearable && event.key === "Escape") {
-      this.clearInputValue(event);
+      this.clearInputTextValue(event);
       event.preventDefault();
     }
     if (event.key === "Enter" && !event.defaultPrevented) {
@@ -324,7 +331,7 @@ export class InputText implements LabelableComponent, FormComponent, Interactive
     this.setFocus();
   }
 
-  private clearInputValue = (nativeEvent: KeyboardEvent | MouseEvent): void => {
+  private clearInputTextValue = (nativeEvent: KeyboardEvent | MouseEvent): void => {
     this.setValue({
       committing: true,
       nativeEvent,
@@ -340,7 +347,7 @@ export class InputText implements LabelableComponent, FormComponent, Interactive
     this.previousEmittedValue = this.value;
   };
 
-  private inputBlurHandler = () => {
+  private inputTextBlurHandler = () => {
     this.calciteInternalInputTextBlur.emit({
       element: this.childEl,
       value: this.value
@@ -349,7 +356,7 @@ export class InputText implements LabelableComponent, FormComponent, Interactive
     this.emitChangeIfUserModified();
   };
 
-  private inputFocusHandler = (event: FocusEvent): void => {
+  private inputTextFocusHandler = (event: FocusEvent): void => {
     const slottedActionEl = getSlotted(this.el, "action");
     if (event.target !== slottedActionEl) {
       this.setFocus();
@@ -360,7 +367,7 @@ export class InputText implements LabelableComponent, FormComponent, Interactive
     });
   };
 
-  private inputInputHandler = (nativeEvent: InputEvent): void => {
+  private inputTextInputHandler = (nativeEvent: InputEvent): void => {
     if (this.disabled || this.readOnly) {
       return;
     }
@@ -371,7 +378,7 @@ export class InputText implements LabelableComponent, FormComponent, Interactive
     });
   };
 
-  private inputKeyDownHandler = (event: KeyboardEvent): void => {
+  private inputTextKeyDownHandler = (event: KeyboardEvent): void => {
     if (this.disabled || this.readOnly) {
       return;
     }
@@ -443,7 +450,7 @@ export class InputText implements LabelableComponent, FormComponent, Interactive
   }): void => {
     this.setPreviousValue(previousValue || this.value);
     this.previousValueOrigin = origin;
-    this.userChangedValue = origin === "user";
+    this.userChangedValue = origin === "user" && value !== this.value;
     this.value = value;
 
     if (origin === "direct") {
@@ -484,7 +491,7 @@ export class InputText implements LabelableComponent, FormComponent, Interactive
         aria-label={this.intlClear || TEXT.clear}
         class={CSS.clearButton}
         disabled={this.disabled || this.readOnly}
-        onClick={this.clearInputValue}
+        onClick={this.clearInputTextValue}
         tabIndex={this.disabled ? -1 : 0}
         type="button"
       >
@@ -518,10 +525,10 @@ export class InputText implements LabelableComponent, FormComponent, Interactive
         maxLength={this.maxLength}
         minLength={this.minLength}
         name={this.name}
-        onBlur={this.inputBlurHandler}
-        onFocus={this.inputFocusHandler}
-        onInput={this.inputInputHandler}
-        onKeyDown={this.inputKeyDownHandler}
+        onBlur={this.inputTextBlurHandler}
+        onFocus={this.inputTextFocusHandler}
+        onInput={this.inputTextInputHandler}
+        onKeyDown={this.inputTextKeyDownHandler}
         placeholder={this.placeholder || ""}
         readOnly={this.readOnly}
         ref={this.setChildElRef}
@@ -533,7 +540,7 @@ export class InputText implements LabelableComponent, FormComponent, Interactive
     );
 
     return (
-      <Host onClick={this.inputFocusHandler} onKeyDown={this.keyDownHandler}>
+      <Host onClick={this.inputTextFocusHandler} onKeyDown={this.keyDownHandler}>
         <div class={{ [CSS.inputWrapper]: true, [CSS_UTILITY.rtl]: dir === "rtl" }}>
           {this.prefixText ? prefixText : null}
           <div class={CSS.wrapper}>
