@@ -361,7 +361,7 @@ export class DatePickerMonth {
 
   dayHover = (e: CustomEvent): void => {
     const target = e.target as HTMLCalciteDatePickerDayElement;
-    if (e.detail.disabled) {
+    if (target.disabled) {
       this.calciteInternalDatePickerMouseOut.emit();
     } else {
       this.calciteInternalDatePickerHover.emit(target.value);

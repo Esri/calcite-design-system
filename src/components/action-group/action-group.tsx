@@ -3,7 +3,7 @@ import { ICONS, SLOTS, TEXT } from "./resources";
 import { Fragment, VNode } from "@stencil/core/internal";
 import { getSlotted } from "../../utils/dom";
 import { SLOTS as ACTION_MENU_SLOTS } from "../action-menu/resources";
-import { Columns, DeprecatedEventPayload, Layout, Scale } from "../interfaces";
+import { Columns, Layout, Scale } from "../interfaces";
 import {
   ConditionalSlotComponent,
   connectConditionalSlotComponent,

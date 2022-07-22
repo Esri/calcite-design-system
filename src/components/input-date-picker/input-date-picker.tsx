@@ -666,7 +666,7 @@ export class InputDatePicker
   };
 
   inputBlur = (e: CustomEvent<any>): void => {
-    this.blur(e.detail);
+    this.blur(e.currentTarget as HTMLCalciteInputElement);
   };
 
   startInputFocus = (): void => {
