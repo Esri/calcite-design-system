@@ -58,7 +58,6 @@ export class Panel implements ConditionalSlotComponent, InteractiveComponent {
   @Watch("dismissed")
   dismissedHandler(value: boolean): void {
     this.closed = value;
-    this.calcitePanelDismissedChange.emit();
   }
 
   @Watch("closed")
@@ -196,11 +195,15 @@ export class Panel implements ConditionalSlotComponent, InteractiveComponent {
     const isClosed = this.dismissed || this.closed;
     const isClosable = this.dismissible || this.closable;
 
-    isClosed && this.dismissedHandler(this.closed || this.dismissed);
-    isClosed && this.closedHandler(this.closed || this.dismissed);
+    if (isClosed) {
+      this.dismissedHandler(isClosed);
+      this.closedHandler(isClosed);
+    }
 
-    isClosable && this.dismissibleHandler(this.closable || this.dismissible);
-    isClosable && this.closableHandler(this.closable || this.dismissible);
+    if (isClosable) {
+      this.dismissibleHandler(isClosable);
+      this.closableHandler(isClosable);
+    }
   }
 
   disconnectedCallback(): void {
@@ -220,7 +223,7 @@ export class Panel implements ConditionalSlotComponent, InteractiveComponent {
   @Event() calcitePanelDismiss: EventEmitter;
 
   /**
-   * Fires when the close button is clicked.
+   * Fires when there is a change in dismissed prop value .
    *
    * @deprecated use calcitePanelDismiss instead.
    */
@@ -276,7 +279,6 @@ export class Panel implements ConditionalSlotComponent, InteractiveComponent {
 
   dismiss = (): void => {
     this.closed = true;
-    this.closable = false;
     this.calcitePanelDismiss.emit();
   };
 
