@@ -324,16 +324,16 @@ export class InputDatePicker
    */
   @Event() calciteInputDatePickerChange: EventEmitter<void>;
 
-  /* Fires when the component is requested to be closed and before the closing transition begins. */
+  /** Fires when the component is requested to be closed and before the closing transition begins. */
   @Event() calciteInputDatePickerBeforeClose: EventEmitter<void>;
 
-  /* Fires when the component is closed and animation is complete. */
+  /** Fires when the component is closed and animation is complete. */
   @Event() calciteInputDatePickerClose: EventEmitter<void>;
 
-  /* Fires when the component is added to the DOM but not rendered, and before the opening transition begins. */
+  /** Fires when the component is added to the DOM but not rendered, and before the opening transition begins. */
   @Event() calciteInputDatePickerBeforeOpen: EventEmitter<void>;
 
-  /* Fires when the component is open and animation is complete. */
+  /** Fires when the component is open and animation is complete. */
   @Event() calciteInputDatePickerOpen: EventEmitter<void>;
 
   // --------------------------------------------------------------------------

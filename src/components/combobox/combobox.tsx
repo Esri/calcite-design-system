@@ -283,16 +283,16 @@ export class Combobox
   /** Called when a selected item in the combobox is dismissed via its chip */
   @Event() calciteComboboxChipDismiss: EventEmitter;
 
-  /* Fires when the component is requested to be closed and before the closing transition begins. */
+  /** Fires when the component is requested to be closed and before the closing transition begins. */
   @Event() calciteComboboxBeforeClose: EventEmitter<void>;
 
-  /* Fires when the component is closed and animation is complete. */
+  /** Fires when the component is closed and animation is complete. */
   @Event() calciteComboboxClose: EventEmitter<void>;
 
-  /* Fires when the component is added to the DOM but not rendered, and before the opening transition begins. */
+  /** Fires when the component is added to the DOM but not rendered, and before the opening transition begins. */
   @Event() calciteComboboxBeforeOpen: EventEmitter<void>;
 
-  /* Fires when the component is open and animation is complete. */
+  /** Fires when the component is open and animation is complete. */
   @Event() calciteComboboxOpen: EventEmitter<void>;
 
   // --------------------------------------------------------------------------

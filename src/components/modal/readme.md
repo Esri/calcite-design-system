@@ -74,10 +74,12 @@ modal.beforeClose = beforeClose;
 
 ## Events
 
-| Event               | Description                                            | Type               |
-| ------------------- | ------------------------------------------------------ | ------------------ |
-| `calciteModalClose` | Emits when the component finishes the close animation. | `CustomEvent<any>` |
-| `calciteModalOpen`  | Emits when the component finishes the open animation.  | `CustomEvent<any>` |
+| Event                     | Description                                                                                              | Type                |
+| ------------------------- | -------------------------------------------------------------------------------------------------------- | ------------------- |
+| `calciteModalBeforeClose` | Fires when the component is requested to be closed and before the closing transition begins.             | `CustomEvent<void>` |
+| `calciteModalBeforeOpen`  | Fires when the component is added to the DOM but not rendered, and before the opening transition begins. | `CustomEvent<void>` |
+| `calciteModalClose`       | Fires when the component is closed and animation is complete.                                            | `CustomEvent<void>` |
+| `calciteModalOpen`        | Fires when the component is open and animation is complete.                                              | `CustomEvent<void>` |
 
 ## Methods
 

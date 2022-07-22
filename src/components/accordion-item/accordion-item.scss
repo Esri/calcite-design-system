@@ -47,7 +47,6 @@
   outline-none;
 }
 
-:host([active]),
 :host([expanded]) {
   @apply text-color-1;
   & .content {
@@ -107,12 +106,11 @@
   transform: rotate(var(--calcite-accordion-item-icon-rotation-rtl));
 }
 
-:host([active]) .expand-icon,
 :host([expanded]) .expand-icon {
   @apply text-color-1;
   transform: rotate(var(--calcite-accordion-item-active-icon-rotation));
 }
-:host([active]) .calcite--rtl .expand-icon,
+
 :host([expanded]) .calcite--rtl .expand-icon {
   transform: rotate(var(--calcite-accordion-item-active-icon-rotation-rtl));
 }
@@ -155,7 +153,6 @@
 
 :host(:focus),
 :host(:active),
-:host([active]),
 :host([expanded]) {
   & .heading {
     @apply text-color-1;

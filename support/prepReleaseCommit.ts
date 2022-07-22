@@ -7,16 +7,19 @@ import yargs from "yargs";
   const childProcess = await import("child_process");
   const { promises: fs } = await import("fs");
   const gitSemverTags = await import("git-semver-tags");
-  const { normalize } = await import("path");
+  const { dirname, normalize } = await import("path");
   const prettier = await import("prettier");
   const semver = await import("semver");
   const { quote } = await import("shell-quote");
   const { default: standardVersion } = await import("standard-version");
+  const { fileURLToPath } = await import("url");
 
   const exec = pify(childProcess.exec);
   const header = `# Changelog\n\nThis document maintains a list of released versions and changes introduced by them.\nThis project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)\n`;
   const unreleasedSectionTokenStart = "<!--@unreleased-section-start-->";
   const unreleasedSectionTokenEnd = "<!--@unreleased-section-end-->";
+  const __filename = fileURLToPath(import.meta.url);
+  const __dirname = dirname(__filename);
   const changelogPath = quote([normalize(`${__dirname}/../CHANGELOG.md`)]);
   const readmePath = quote([normalize(`${__dirname}/../readme.md`)]);
 
