@@ -56,6 +56,7 @@ const isGroup = (el: ComboboxChildElement): el is HTMLCalciteComboboxItemGroupEl
 const itemUidPrefix = "combobox-item-";
 const chipUidPrefix = "combobox-chip-";
 const labelUidPrefix = "combobox-label-";
+//const announceUiDPrefix = "combobox-announce-";
 const listboxUidPrefix = "combobox-listbox-";
 const inputUidPrefix = "combobox-input-";
 
@@ -281,6 +282,7 @@ export class Combobox
   }>;
 
   /** Called when a selected item in the combobox is dismissed via its chip */
+  // eslint-disable-next-line @esri/calcite-components/require-event-emitter-type
   @Event() calciteComboboxChipDismiss: EventEmitter;
 
   /* Fires when the component is requested to be closed and before the closing transition begins. */
@@ -1015,6 +1017,7 @@ export class Combobox
           icon={item.icon}
           id={item.guid ? `${chipUidPrefix}${item.guid}` : null}
           key={item.textLabel}
+          // eslint-disable-next-line react/jsx-no-bind
           onCalciteChipDismiss={(event) => this.calciteChipDismissHandler(event, item)}
           scale={scale}
           title={label}
@@ -1147,12 +1150,14 @@ export class Combobox
     const single = this.selectionMode === "single";
 
     return (
-      <Host onKeyDown={this.keydownHandler}>
+      <Host>
         <div
           aria-autocomplete="list"
+          aria-controls={`${listboxUidPrefix}${guid}`}
           aria-expanded={toAriaBoolean(open || active)}
           aria-haspopup="listbox"
           aria-labelledby={`${labelUidPrefix}${guid}`}
+          aria-live="polite"
           aria-owns={`${listboxUidPrefix}${guid}`}
           class={{
             wrapper: true,
@@ -1160,8 +1165,10 @@ export class Combobox
             "wrapper--active": open || active
           }}
           onClick={this.clickHandler}
+          onKeyDown={this.keydownHandler}
           ref={this.setReferenceEl}
           role="combobox"
+          tabindex="0"
         >
           <div class="grid-input">
             {this.renderIconStart()}
