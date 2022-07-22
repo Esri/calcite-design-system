@@ -56,7 +56,6 @@ const isGroup = (el: ComboboxChildElement): el is HTMLCalciteComboboxItemGroupEl
 const itemUidPrefix = "combobox-item-";
 const chipUidPrefix = "combobox-chip-";
 const labelUidPrefix = "combobox-label-";
-//const announceUiDPrefix = "combobox-announce-";
 const listboxUidPrefix = "combobox-listbox-";
 const inputUidPrefix = "combobox-input-";
 
