@@ -6,8 +6,8 @@
 
 | Property       | Attribute       | Description                                                  | Type                         | Default     |
 | -------------- | --------------- | ------------------------------------------------------------ | ---------------------------- | ----------- |
-| `heading`      | `heading`       | The title for all nested `calcite-list-item` rows.           | `string`                     | `undefined` |
-| `headingLevel` | `heading-level` | Number at which section headings should start for the group. | `1 \| 2 \| 3 \| 4 \| 5 \| 6` | `undefined` |
+| `heading`      | `heading`       | The header text for all nested `calcite-list-item` rows.     | `string`                     | `undefined` |
+| `headingLevel` | `heading-level` | Specifies the number at which section headings should start. | `1 \| 2 \| 3 \| 4 \| 5 \| 6` | `undefined` |
 
 ## Slots
 

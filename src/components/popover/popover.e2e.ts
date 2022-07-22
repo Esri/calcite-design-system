@@ -1,8 +1,7 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { html } from "../../../support/formatting";
 
-import { accessible, defaults, hidden, popperOwner, renders } from "../../tests/commonTests";
-
+import { accessible, defaults, hidden, renders, floatingUIOwner } from "../../tests/commonTests";
 import { CSS } from "./resources";
 
 describe("calcite-popover", () => {
@@ -38,9 +37,13 @@ describe("calcite-popover", () => {
   it("is accessible when open", async () =>
     accessible(`<calcite-popover label="test" open reference-element="ref"></calcite-popover><div id="ref">😄</div>`));
 
-  it("is accessible with close button", async () =>
+  it("is accessible with close button (deprecated)", async () =>
     accessible(
       `<calcite-popover label="test" open dismissible reference-element="ref"></calcite-popover><div id="ref">😄</div>`
+    ));
+  it("is accessible with close button", async () =>
+    accessible(
+      `<calcite-popover label="test" open closable reference-element="ref"></calcite-popover><div id="ref">😄</div>`
     ));
 
   it("honors hidden attribute", async () => hidden("calcite-popover"));
@@ -69,6 +72,10 @@ describe("calcite-popover", () => {
       },
       {
         propertyName: "dismissible",
+        defaultValue: false
+      },
+      {
+        propertyName: "closable",
         defaultValue: false
       },
       {
@@ -189,7 +196,7 @@ describe("calcite-popover", () => {
     expect(computedStyle.transform).not.toBe("matrix(0, 0, 0, 0, 0, 0)");
   });
 
-  it("should show closeButton when enabled", async () => {
+  it("should show closeButton when enabled (deprecated)", async () => {
     const page = await newE2EPage();
 
     await page.setContent(
@@ -209,8 +216,28 @@ describe("calcite-popover", () => {
     await page.waitForChanges();
 
     closeButton = await page.find(`calcite-popover >>> .${CSS.closeButton}`);
+  });
 
-    expect(await closeButton.isVisible()).toBe(true);
+  it("should show closeButton when enabled with closable prop", async () => {
+    const page = await newE2EPage();
+
+    await page.setContent(
+      `<calcite-popover placement="auto" reference-element="ref" open>content</calcite-popover><div id="ref">referenceElement</div>`
+    );
+
+    await page.waitForChanges();
+
+    let closeButton = await page.find(`calcite-popover >>> .${CSS.closeButton}`);
+
+    expect(closeButton).toBe(null);
+
+    const element = await page.find("calcite-popover");
+
+    element.setProperty("closable", true);
+
+    await page.waitForChanges();
+
+    closeButton = await page.find(`calcite-popover >>> .${CSS.closeButton}`);
   });
 
   it("should honor click interaction", async () => {
@@ -293,7 +320,7 @@ describe("calcite-popover", () => {
     expect(await popover.isVisible()).toBe(false);
   });
 
-  it("should emit open event", async () => {
+  it("should emit open and beforeOpen events", async () => {
     const page = await newE2EPage();
 
     await page.setContent(
@@ -304,11 +331,14 @@ describe("calcite-popover", () => {
 
     const popover = await page.find("calcite-popover");
 
-    const event = await popover.spyOnEvent("calcitePopoverOpen");
+    const openEvent = await popover.spyOnEvent("calcitePopoverOpen");
+    const beforeOpenEvent = await popover.spyOnEvent("calcitePopoverBeforeOpen");
 
-    expect(event).toHaveReceivedEventTimes(0);
+    expect(openEvent).toHaveReceivedEventTimes(0);
+    expect(beforeOpenEvent).toHaveReceivedEventTimes(0);
 
     const popoverOpenEvent = page.waitForEvent("calcitePopoverOpen");
+    const popoverBeforeOpenEvent = page.waitForEvent("calcitePopoverBeforeOpen");
 
     await page.evaluate(() => {
       const popover = document.querySelector("calcite-popover");
@@ -316,11 +346,13 @@ describe("calcite-popover", () => {
     });
 
     await popoverOpenEvent;
+    await popoverBeforeOpenEvent;
 
-    expect(event).toHaveReceivedEventTimes(1);
+    expect(openEvent).toHaveReceivedEventTimes(1);
+    expect(beforeOpenEvent).toHaveReceivedEventTimes(1);
   });
 
-  it("should emit close event", async () => {
+  it("should emit close and beforeClose events", async () => {
     const page = await newE2EPage();
 
     await page.setContent(
@@ -331,55 +363,26 @@ describe("calcite-popover", () => {
 
     const popover = await page.find("calcite-popover");
 
-    const event = await popover.spyOnEvent("calcitePopoverClose");
+    const closeEvent = await popover.spyOnEvent("calcitePopoverClose");
+    const beforeCloseEvent = await popover.spyOnEvent("calcitePopoverBeforeClose");
 
-    expect(event).toHaveReceivedEventTimes(0);
+    expect(closeEvent).toHaveReceivedEventTimes(0);
+    expect(beforeCloseEvent).toHaveReceivedEventTimes(0);
 
     const popoverCloseEvent = page.waitForEvent("calcitePopoverClose");
+    const popoverBeforeCloseEvent = page.waitForEvent("calcitePopoverBeforeClose");
 
     await page.evaluate(() => {
       const popover = document.querySelector("calcite-popover");
       popover.open = false;
     });
 
+    await popoverBeforeCloseEvent;
     await popoverCloseEvent;
 
-    expect(event).toHaveReceivedEventTimes(1);
+    expect(closeEvent).toHaveReceivedEventTimes(1);
+    expect(beforeCloseEvent).toHaveReceivedEventTimes(1);
   });
-
-  it("should not be visible if reference is hidden", async () => {
-    /*
-    Hide modifier
-    https://popper.js.org/docs/v2/modifiers/hide/
-
-    data-popper-reference-hidden: This attribute gets applied to the popper when the reference element is fully clipped and hidden from view, which causes the popper to appear to be attached to nothing.
-    */
-    const page = await newE2EPage();
-
-    await page.setContent(
-      `<calcite-popover placement="auto" reference-element="ref" open>content</calcite-popover><div id="ref">referenceElement</div>`
-    );
-
-    await page.waitForChanges();
-
-    const popover = await page.find("calcite-popover");
-
-    expect(await popover.isVisible()).toBe(true);
-    expect((await popover.getComputedStyle()).pointerEvents).toBe("auto");
-
-    popover.setAttribute("data-popper-reference-hidden", "");
-
-    await page.waitForChanges();
-
-    expect(await popover.isVisible()).toBe(false);
-    expect((await popover.getComputedStyle()).pointerEvents).toBe("none");
-  });
-
-  it("owns a popper", () =>
-    popperOwner(
-      `<calcite-popover placement="auto" reference-element="ref" open>content</calcite-popover><div id="ref">referenceElement</div>`,
-      "open"
-    ));
 
   it("should open popovers", async () => {
     const page = await newE2EPage();
@@ -431,6 +434,38 @@ describe("calcite-popover", () => {
     expect(await popover.getProperty("open")).toBe(true);
   });
 
+  it("should not be visible if reference is hidden", async () => {
+    const page = await newE2EPage();
+
+    await page.setContent(
+      html` <calcite-popover placement="auto" reference-element="ref" open>content</calcite-popover>
+        <div id="scrollEl" style="height: 200px; overflow: auto;">
+          <div id="ref">referenceElement</div>
+          <div style="height: 400px;">some content</div>
+        </div>`
+    );
+
+    await page.waitForChanges();
+
+    const scrollEl = await page.find("#scrollEl");
+
+    expect(await scrollEl.getProperty("scrollTop")).toBe(0);
+
+    const popover = await page.find("calcite-popover");
+
+    expect(await popover.isVisible()).toBe(true);
+    expect((await popover.getComputedStyle()).pointerEvents).toBe("auto");
+
+    await page.$eval("#scrollEl", async (scrollEl: HTMLDivElement) => {
+      scrollEl.scrollTo({ top: 300 });
+    });
+
+    await page.waitForChanges();
+
+    expect(await popover.isVisible()).toBe(false);
+    expect((await popover.getComputedStyle()).pointerEvents).toBe("none");
+  });
+
   it("do not autoClose popovers when clicked outside", async () => {
     const page = await newE2EPage();
 
@@ -461,7 +496,6 @@ describe("calcite-popover", () => {
     await page.setContent(
       html`
         <div id="outsideNode">Outside node</div>
-
         <calcite-popover auto-close reference-element="ref" open>
           <div id="insideNode">Inside node</div>
         </calcite-popover>
@@ -492,18 +526,46 @@ describe("calcite-popover", () => {
     expect(await popover.getProperty("open")).toBe(false);
   });
 
+  it("should not be visible if ui has escaped", async () => {
+    const page = await newE2EPage();
+
+    await page.setContent(
+      html`<div id="scrollEl" style="height: 200px; overflow: auto;">
+        <calcite-popover placement="auto" reference-element="ref" open>content</calcite-popover>
+        <div id="ref">referenceElement</div>
+        <div style="height: 400px;">some content</div>
+      </div>`
+    );
+
+    await page.waitForChanges();
+
+    const scrollEl = await page.find("#scrollEl");
+
+    expect(await scrollEl.getProperty("scrollTop")).toBe(0);
+
+    const popover = await page.find("calcite-popover");
+
+    expect(await popover.isVisible()).toBe(true);
+    expect((await popover.getComputedStyle()).pointerEvents).toBe("auto");
+
+    await page.$eval("#scrollEl", async (scrollEl: HTMLDivElement) => {
+      scrollEl.scrollTo({ top: 300 });
+    });
+
+    await page.waitForChanges();
+
+    expect(await popover.isVisible()).toBe(false);
+    expect((await popover.getComputedStyle()).pointerEvents).toBe("none");
+  });
+
   it("should not toggle popovers with triggerDisabled", async () => {
     const page = await newE2EPage();
 
     await page.setContent(
-      html`
-        <div id="outsideNode">Outside node</div>
+      html` <div id="outsideNode">Outside node</div>
         <calcite-popover trigger-disabled reference-element="ref" open> Hello World </calcite-popover>
-        <div id="ref">Button</div>
-      `
+        <div id="ref">Button</div>`
     );
-
-    await page.waitForChanges();
 
     const popover = await page.find("calcite-popover");
 
@@ -535,6 +597,12 @@ describe("calcite-popover", () => {
 
     expect(await popover.getProperty("open")).toBe(false);
   });
+
+  it("owns a floating-ui", () =>
+    floatingUIOwner(
+      `<calcite-popover placement="auto" reference-element="ref" open>content</calcite-popover><div id="ref">referenceElement</div>`,
+      "open"
+    ));
 
   it("should autoClose shadow popovers when clicked outside", async () => {
     const page = await newE2EPage();

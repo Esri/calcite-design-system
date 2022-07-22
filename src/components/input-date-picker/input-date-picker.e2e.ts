@@ -1,6 +1,7 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { defaults, disabled, formAssociated, labelable, popperOwner, renders } from "../../tests/commonTests";
+import { defaults, disabled, formAssociated, labelable, floatingUIOwner, renders } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
+import { CSS } from "./resources";
 
 const animationDurationInMs = 200;
 
@@ -229,10 +230,80 @@ describe("calcite-input-date-picker", () => {
     expect(minDateAsTime).toEqual(new Date(minDateString).getTime());
   });
 
-  it("owns a popper", () =>
-    popperOwner(
+  it("owns a floating-ui", () =>
+    floatingUIOwner(
       `<calcite-input-date-picker value="2022-11-27" min="2022-11-15" max="2024-11-15"></calcite-input-date-picker>`,
-      "active",
-      { shadowPopperSelector: ".menu-container" }
+      "open",
+      { shadowSelector: ".menu-container" }
     ));
+
+  it("when set to readOnly, element still focusable but won't display the controls or allow for changing the value", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<calcite-input-date-picker read-only id="canReadOnly"></calcite-input-date-picker>`);
+
+    const component = await page.find("#canReadOnly");
+    const input = await page.find("#canReadOnly >>> calcite-input");
+
+    expect(await input.getProperty("value")).toBe("");
+
+    await component.callMethod("setFocus");
+    await page.waitForChanges();
+    const calendar = await page.find(`#canReadOnly >>> .${CSS.menu}`);
+
+    expect(await page.evaluate(() => document.activeElement.id)).toBe("canReadOnly");
+    expect(calendar).not.toHaveClass(CSS.menuActive);
+
+    await component.click();
+    await page.waitForChanges();
+    expect(calendar).not.toHaveClass(CSS.menuActive);
+
+    await component.type("atención atención");
+    await page.waitForChanges();
+
+    expect(await input.getProperty("value")).toBe("");
+  });
+
+  it("should emit component status for transition-chained events: 'calciteInputDatePickerBeforeOpen', 'calciteInputDatePickerOpen', 'calciteInputDatePickerBeforeClose', 'calciteInputDatePickerClose'", async () => {
+    const page = await newE2EPage();
+    await page.setContent(
+      html` <calcite-input-date-picker id="pickerOpenClose" value="2021-12-08"></calcite-input-date-picker> `
+    );
+
+    const element = await page.find("calcite-input-date-picker");
+    const container = await page.find(`calcite-input-date-picker >>> .${CSS.menu}`);
+
+    const calciteInputDatePickerBeforeOpenEvent = page.waitForEvent("calciteInputDatePickerBeforeOpen");
+    const calciteInputDatePickerOpenEvent = page.waitForEvent("calciteInputDatePickerOpen");
+
+    const calciteInputDatePickerBeforeOpenSpy = await element.spyOnEvent("calciteInputDatePickerBeforeOpen");
+    const calciteInputDatePickerOpenSpy = await element.spyOnEvent("calciteInputDatePickerOpen");
+
+    await element.setProperty("open", true);
+    await page.waitForChanges();
+
+    expect(container).toHaveClass(CSS.menuActive);
+
+    await calciteInputDatePickerBeforeOpenEvent;
+    await calciteInputDatePickerOpenEvent;
+
+    expect(calciteInputDatePickerBeforeOpenSpy).toHaveReceivedEventTimes(1);
+    expect(calciteInputDatePickerOpenSpy).toHaveReceivedEventTimes(1);
+
+    const calciteInputDatePickerBeforeCloseEvent = page.waitForEvent("calciteInputDatePickerBeforeClose");
+    const calciteInputDatePickerCloseEvent = page.waitForEvent("calciteInputDatePickerClose");
+
+    const calciteInputDatePickerBeforeCloseSpy = await element.spyOnEvent("calciteInputDatePickerBeforeClose");
+    const calciteInputDatePickerClose = await element.spyOnEvent("calciteInputDatePickerClose");
+
+    await element.setProperty("open", false);
+    await page.waitForChanges();
+
+    expect(container).not.toHaveClass(CSS.menuActive);
+
+    await calciteInputDatePickerBeforeCloseEvent;
+    await calciteInputDatePickerCloseEvent;
+
+    expect(calciteInputDatePickerBeforeCloseSpy).toHaveReceivedEventTimes(1);
+    expect(calciteInputDatePickerClose).toHaveReceivedEventTimes(1);
+  });
 });

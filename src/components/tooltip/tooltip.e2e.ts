@@ -1,6 +1,6 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { TOOLTIP_DELAY_MS } from "../tooltip/resources";
-import { accessible, defaults, hidden, popperOwner, renders } from "../../tests/commonTests";
+import { accessible, defaults, hidden, floatingUIOwner, renders } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 
 describe("calcite-tooltip", () => {
@@ -228,12 +228,6 @@ describe("calcite-tooltip", () => {
 
     expect(content.textContent).toBe("hi");
   });
-
-  it("owns a popper", () =>
-    popperOwner(
-      `<calcite-tooltip reference-element="ref">content</calcite-tooltip><div id="ref">referenceElement</div>`,
-      "open"
-    ));
 
   it("should honor tooltips on mouseover/mouseout", async () => {
     const page = await newE2EPage();
@@ -475,6 +469,12 @@ describe("calcite-tooltip", () => {
 
     expect(await hoverTip.getProperty("open")).toBe(false);
   });
+
+  it("owns a floating-ui", () =>
+    floatingUIOwner(
+      `<calcite-tooltip reference-element="ref">content</calcite-tooltip><div id="ref">referenceElement</div>`,
+      "open"
+    ));
 
   it("should only open the last hovered tooltip", async () => {
     const page = await newE2EPage();

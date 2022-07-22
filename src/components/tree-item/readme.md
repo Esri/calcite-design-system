@@ -6,16 +6,16 @@
 
 ## Properties
 
-| Property   | Attribute  | Description                 | Type      | Default |
-| ---------- | ---------- | --------------------------- | --------- | ------- |
-| `expanded` | `expanded` | Expanded state of the item. | `boolean` | `false` |
-| `selected` | `selected` | Selected state of the item. | `boolean` | `false` |
+| Property   | Attribute  | Description                           | Type      | Default |
+| ---------- | ---------- | ------------------------------------- | --------- | ------- |
+| `expanded` | `expanded` | When true, the component is expanded. | `boolean` | `false` |
+| `selected` | `selected` | When true, the component is selected. | `boolean` | `false` |
 
 ## Slots
 
 | Slot         | Description                                       |
 | ------------ | ------------------------------------------------- |
-|              | A slot for adding content to the item.            |
+|              | A slot for adding the component's content.        |
 | `"children"` | A slot for adding nested `calcite-tree` elements. |
 
 ## Dependencies

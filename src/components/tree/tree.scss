@@ -1,3 +1,7 @@
 :host {
-  @apply block outline-none;
+  @apply block;
+}
+
+:host(:focus) {
+  @apply outline-none;
 }

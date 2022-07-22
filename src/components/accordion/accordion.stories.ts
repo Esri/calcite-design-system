@@ -73,12 +73,12 @@ const createAccordionItemAttributes: (options?: { icon?: boolean; group?: string
   const groupTitle = group ? group : "";
   const defaultAttributes = [
     {
-      name: "item-title",
-      value: text("item-title", "Item title", groupTitle)
+      name: "heading",
+      value: text("heading", "Heading", groupTitle)
     },
     {
-      name: "item-subtitle",
-      value: text("item-subtitle", "Item subtitle", groupTitle)
+      name: "description",
+      value: text("description", "Description", groupTitle)
     }
   ];
 
@@ -133,7 +133,7 @@ export const basic = (): string =>
       ${create(
         "calcite-accordion-item",
         createAccordionItemAttributes({ group: "accordion-item-4" }).concat({
-          name: "active",
+          name: "expanded",
           value: true
         }),
         accordionItemContent
@@ -164,7 +164,7 @@ export const icon = (): string =>
       ${create(
         "calcite-accordion-item",
         createAccordionItemAttributes({ icon: true, group: "accordion-item-4" }).concat({
-          name: "active",
+          name: "expanded",
           value: true
         }),
         accordionItemContent
@@ -198,7 +198,7 @@ export const darkThemeIcon = (): string =>
       ${create(
         "calcite-accordion-item",
         createAccordionItemAttributes({ icon: true, group: "accordion-item-4" }).concat({
-          name: "active",
+          name: "expanded",
           value: true
         }),
         accordionItemContent
@@ -234,7 +234,7 @@ export const RTL = (): string =>
       ${create(
         "calcite-accordion-item",
         createAccordionItemAttributes({ group: "accordion-item-4" }).concat({
-          name: "active",
+          name: "expanded",
           value: true
         }),
         accordionItemContent
@@ -268,10 +268,33 @@ export const TransparentAppearance = (): string =>
       ${create(
         "calcite-accordion-item",
         createAccordionItemAttributes({ group: "accordion-item-4" }).concat({
-          name: "active",
+          name: "expanded",
           value: true
         }),
         accordionItemContent
       )}
     `
   );
+
+export const WithActions = (): string => html`
+  <calcite-accordion scale="s">
+    <calcite-accordion-item scale="m" heading="Accordion Item">
+      <calcite-action scale="s" icon="brush-tip" label="Paint" slot="actions-start"></calcite-action
+      >${accordionItemContent}
+      <calcite-action scale="s" icon="banana" label="Banana" slot="actions-end"></calcite-action>
+      <calcite-action scale="s" icon="sound" label="Volume" slot="actions-end"></calcite-action>
+    </calcite-accordion-item>
+    <calcite-accordion-item scale="m" heading="Accordion Item">
+      <calcite-action scale="s" icon="brush-tip" label="Paint" slot="actions-start"></calcite-action
+      >${accordionItemContent}
+      <calcite-action scale="s" icon="banana" label="Banana" slot="actions-end"></calcite-action>
+      <calcite-action scale="s" icon="sound" label="Volume" slot="actions-end"></calcite-action>
+    </calcite-accordion-item>
+    <calcite-accordion-item scale="m" heading="Accordion Item">
+      <calcite-action scale="s" icon="brush-tip" label="Paint" slot="actions-start"></calcite-action
+      >${accordionItemContent}
+      <calcite-action scale="s" icon="banana" label="Banana" slot="actions-end"></calcite-action>
+      <calcite-action scale="s" icon="sound" label="Volume" slot="actions-end"></calcite-action>
+    </calcite-accordion-item>
+  </calcite-accordion>
+`;

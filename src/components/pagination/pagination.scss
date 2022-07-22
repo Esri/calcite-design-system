@@ -72,8 +72,7 @@
     border-none
     border-opacity-0
     bg-transparent;
-  border-top: 2px solid transparent;
-  border-bottom: 2px solid transparent;
+  border-block: 2px solid transparent;
   &:hover {
     @apply text-color-1 transition-default;
   }

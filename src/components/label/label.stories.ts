@@ -223,3 +223,42 @@ export const toggleSwitchWithLabel = stepStory(
   </calcite-label>`,
   createSteps("calcite-label").click("calcite-label").snapshot("Toggle switch with label")
 );
+
+export const MarginBottomStillWorksByDefault = (): string => html`
+  <calcite-label>
+    I should have a bottom margin
+    <calcite-input></calcite-input>
+  </calcite-label>
+  <calcite-label>
+    I should also have a bottom margin
+    <calcite-input></calcite-input>
+  </calcite-label>
+`;
+
+export const DisableSpacingIsDeprecatedButStillWorks = (): string => html`
+  <calcite-label disable-spacing>
+    I should not have a bottom margin because I have disable-spacing set.
+    <calcite-input></calcite-input>
+  </calcite-label>
+  <calcite-label disable-spacing>
+    I should not have a bottom margin because I have disable-spacing set.
+    <calcite-input></calcite-input>
+  </calcite-label>
+`;
+
+export const CalciteLabelMarginBottomCSSVariableTakesEffectWithoutDisableSpacingProp = (): string => html`
+  <style>
+    calcite-label {
+      --calcite-label-margin-bottom: 0;
+    }
+  </style>
+  <calcite-label>
+    I don't have a bottom margin because the document I am rendered in has overridden the --calcite-label-margin-bottom
+    css variable to 0.
+    <calcite-input></calcite-input>
+  </calcite-label>
+  <calcite-label disable-spacing>
+    I should still not have a bottom margin because I'm using the disable-spacing prop.
+    <calcite-input></calcite-input>
+  </calcite-label>
+`;

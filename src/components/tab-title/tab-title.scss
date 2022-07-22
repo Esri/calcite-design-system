@@ -13,14 +13,14 @@
   @apply border-t-color-transparent
     border-b-0
     border-t-2;
-  border-top-style: solid;
+  border-block-start-style: solid;
 }
 
 :host([position="bottom"]) a {
   @apply border-t-color-transparent
     border-b-0
     border-t-2;
-  border-top-style: solid;
+  border-block-start-style: solid;
 }
 
 :host a {
@@ -90,7 +90,7 @@ span {
     border-b-2
     px-0
     py-2;
-  border-bottom-style: solid;
+  border-block-end-style: solid;
 }
 
 span {
@@ -158,17 +158,17 @@ span {
 }
 
 :host([bordered]) a {
-  border-bottom-style: unset;
+  border-block-end-style: unset;
   border-inline-start: 1px solid transparent;
   border-inline-end: 1px solid transparent;
 }
 
 :host([bordered][position="below"]) a {
-  border-top-style: unset;
+  border-block-start-style: unset;
 }
 
 :host([bordered][position="bottom"]) a {
-  border-top-style: unset;
+  border-block-start-style: unset;
 }
 
 :host([active][bordered]) a {
@@ -208,26 +208,26 @@ span {
   }
 
   :host([bordered]) a {
-    border-bottom-style: solid;
+    border-block-end-style: solid;
   }
 
   :host([bordered][position="below"]) a {
-    border-top-style: solid;
+    border-block-start-style: solid;
   }
 
   :host([bordered][position="bottom"]) a {
-    border-top-style: solid;
+    border-block-start-style: solid;
   }
 
   :host([bordered][active]) a {
-    border-bottom-style: none;
+    border-block-end-style: none;
   }
 
   :host([bordered][position="below"][active]) a {
-    border-top-style: none;
+    border-block-start-style: none;
   }
 
   :host([bordered][position="bottom"][active]) a {
-    border-top-style: none;
+    border-block-start-style: none;
   }
 }

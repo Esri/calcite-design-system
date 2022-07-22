@@ -54,16 +54,43 @@ export class Notice implements ConditionalSlotComponent {
   //
   //---------------------------------------------------------------------------
 
-  /** When true, the component is active. */
+  /**
+   * When true, the component is active.
+   *
+   * @deprecated Use open instead.
+   */
   @Prop({ reflect: true, mutable: true }) active = false;
+
+  @Watch("active")
+  activeHandler(value: boolean): void {
+    this.open = value;
+  }
+
+  /** When true, the component is visible */
+  @Prop({ reflect: true, mutable: true }) open = false;
+
+  @Watch("open")
+  openHandler(value: boolean): void {
+    this.active = value;
+  }
 
   /** The color for the component's top border and icon. */
   @Prop({ reflect: true }) color: StatusColor = "blue";
 
-  /** When true, a close button is added to the component. */
+  /**
+   * When true, a close button is added to the component.
+   *
+   * @deprecated use closable instead
+   */
   @Prop({ reflect: true }) dismissible? = false;
 
-  /** Specifies an icon to display - accepts Calcite UI icon names. */
+  /** When true, displays a button user can click to dismiss the `calcite-notice` */
+  @Prop({ reflect: true }) closable? = false;
+
+  /**
+   * When present, shows a default recommended icon. You can
+   * also pass a calcite-ui-icon name to display a requested icon.
+   */
   @Prop({ reflect: true }) icon: string | boolean;
 
   /**
@@ -93,6 +120,12 @@ export class Notice implements ConditionalSlotComponent {
 
   connectedCallback(): void {
     connectConditionalSlotComponent(this);
+    const isOpen = this.active || this.open;
+
+    if (isOpen) {
+      this.activeHandler(isOpen);
+      this.openHandler(isOpen);
+    }
   }
 
   disconnectedCallback(): void {
@@ -135,7 +168,7 @@ export class Notice implements ConditionalSlotComponent {
             <slot name={SLOTS.actionsEnd} />
           </div>
         ) : null}
-        {this.dismissible ? closeButton : null}
+        {this.closable || this.dismissible ? closeButton : null}
       </div>
     );
   }
@@ -179,7 +212,7 @@ export class Notice implements ConditionalSlotComponent {
   //
   //--------------------------------------------------------------------------
   private close = (): void => {
-    this.active = false;
+    this.open = false;
     this.calciteNoticeClose.emit();
   };
 
