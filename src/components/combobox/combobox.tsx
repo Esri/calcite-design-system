@@ -1016,7 +1016,6 @@ export class Combobox
           icon={item.icon}
           id={item.guid ? `${chipUidPrefix}${item.guid}` : null}
           key={item.textLabel}
-          // eslint-disable-next-line react/jsx-no-bind
           onCalciteChipDismiss={(event) => this.calciteChipDismissHandler(event, item)}
           scale={scale}
           title={label}
