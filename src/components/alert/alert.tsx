@@ -213,7 +213,7 @@ export class Alert implements OpenCloseComponent {
    *
    * @internal
    */
-  @Event() calciteInternalAlertSync: EventEmitter<{ queue: HTMLCalciteAlertElement[] }>;
+  @Event() calciteInternalAlertSync: EventEmitter<Sync>;
 
   /**
    * Fires when the component is added to DOM - used to receive initial queue.

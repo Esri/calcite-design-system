@@ -7,3 +7,6 @@ export enum StatusIcons {
   red = "exclamationMarkTriangle",
   blue = "lightbulb"
 }
+export interface Sync {
+  queue: HTMLCalciteAlertElement[];
+}
