@@ -13,7 +13,7 @@
   background: transparent;
 }
 
-:host([expanded]) .container {
+:host([expanded][layout="vertical"]) .container {
   max-inline-size: var(--calcite-action-pad-expanded-max-width);
 }
 
