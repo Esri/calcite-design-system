@@ -42,3 +42,11 @@ jobs:
           show-on-start: false
           card-layout-exit: complete
           timezone: America/Los_Angeles
+      - name: storybook deployment
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          npm run build-storybook
+          npx storybook-to-ghpages --existing-output-dir=docs --ci
+        env:
+          GH_TOKEN: ${{ github.actor }}:${{ secrets.ADMIN_TOKEN }}
