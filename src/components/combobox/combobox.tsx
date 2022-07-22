@@ -28,7 +28,7 @@ import {
   filterComputedPlacements
 } from "../../utils/floating-ui";
 import { guid } from "../../utils/guid";
-import { Scale } from "../interfaces";
+import { DeprecatedEventPayload, Scale } from "../interfaces";
 import { ComboboxSelectionMode, ComboboxChildElement } from "./interfaces";
 import { ComboboxChildSelector, ComboboxItem, ComboboxItemGroup, TEXT } from "./resources";
 import { getItemAncestors, getItemChildren, hasActiveChildren } from "./utils";
@@ -280,8 +280,12 @@ export class Combobox
     text: string;
   }>;
 
-  /** Called when a selected item in the combobox is dismissed via its chip */
-  @Event() calciteComboboxChipDismiss: EventEmitter<void>;
+  /**
+   * Called when a selected item in the combobox is dismissed via its chip
+   *
+   * **Note:**: The event payload is deprecated, please use the `value` property on the component to determine removed value instead
+   */
+  @Event() calciteComboboxChipDismiss: EventEmitter<DeprecatedEventPayload>;
 
   /* Fires when the component is requested to be closed and before the closing transition begins. */
   @Event() calciteComboboxBeforeClose: EventEmitter<void>;
@@ -602,7 +606,6 @@ export class Combobox
       this.toggleSelection(selection, false);
     }
 
-    // TODO: revisit
     this.calciteComboboxChipDismiss.emit(event.detail);
   };
 
