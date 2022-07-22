@@ -1,14 +1,22 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-action-bar-expanded-max-width: optionally specify the expanded max width of the action bar when in "vertical" layout.
+ */
+
 :host {
   @extend %component-host;
   @apply pointer-events-auto
     inline-flex
     self-stretch;
+  background: transparent;
+  --calcite-action-bar-expanded-max-width: auto;
 }
 
 :host([layout="vertical"]) {
   @apply flex-col;
-  max-inline-size: 15vw;
-  background: transparent;
 }
 
 :host([layout="horizontal"]) {
@@ -24,7 +32,7 @@
 }
 
 :host([layout="vertical"][expanded]) {
-  max-inline-size: 20vw;
+  max-inline-size: var(--calcite-action-bar-expanded-max-width);
 }
 
 ::slotted(calcite-action-group) {
