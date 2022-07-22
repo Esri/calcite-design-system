@@ -279,37 +279,37 @@ describe("calcite-alert", () => {
 
     expect(await container.isVisible()).toBe(false);
 
-    const calciteAlertBeforeOpeningEvent = page.waitForEvent("calciteAlertBeforeOpen");
-    const calciteAlertIsOpenEvent = page.waitForEvent("calciteAlertOpen");
+    const calciteAlertBeforeOpenEvent = page.waitForEvent("calciteAlertBeforeOpen");
+    const calciteAlertOpenEvent = page.waitForEvent("calciteAlertOpen");
 
-    const calciteAlertBeforeOpeningSpy = await element.spyOnEvent("calciteAlertBeforeOpen");
-    const calciteAlertIsOpenSpy = await element.spyOnEvent("calciteAlertOpen");
+    const calciteAlertBeforeOpenSpy = await element.spyOnEvent("calciteAlertBeforeOpen");
+    const calciteAlertOpenSpy = await element.spyOnEvent("calciteAlertOpen");
 
     await element.setProperty("active", true);
     await page.waitForChanges();
 
-    await calciteAlertBeforeOpeningEvent;
-    await calciteAlertIsOpenEvent;
+    await calciteAlertBeforeOpenEvent;
+    await calciteAlertOpenEvent;
 
-    expect(calciteAlertBeforeOpeningSpy).toHaveReceivedEventTimes(1);
-    expect(calciteAlertIsOpenSpy).toHaveReceivedEventTimes(1);
+    expect(calciteAlertBeforeOpenSpy).toHaveReceivedEventTimes(1);
+    expect(calciteAlertOpenSpy).toHaveReceivedEventTimes(1);
 
     expect(await container.isVisible()).toBe(true);
 
-    const calciteAlertBeforeClosingEvent = page.waitForEvent("calciteAlertBeforeClose");
-    const calciteAlertIsClosedEvent = page.waitForEvent("calciteAlertClose");
+    const calciteAlertBeforeCloseEvent = page.waitForEvent("calciteAlertBeforeClose");
+    const calciteAlertCloseEvent = page.waitForEvent("calciteAlertClose");
 
-    const calciteAlertBeforeClosingSpy = await element.spyOnEvent("calciteAlertBeforeClose");
-    const calciteAlertIsClosed = await element.spyOnEvent("calciteAlertClose");
+    const calciteAlertBeforeCloseSpy = await element.spyOnEvent("calciteAlertBeforeClose");
+    const calciteAlertClose = await element.spyOnEvent("calciteAlertClose");
 
     await element.setProperty("active", false);
     await page.waitForChanges();
 
-    await calciteAlertBeforeClosingEvent;
-    await calciteAlertIsClosedEvent;
+    await calciteAlertBeforeCloseEvent;
+    await calciteAlertCloseEvent;
 
-    expect(calciteAlertBeforeClosingSpy).toHaveReceivedEventTimes(1);
-    expect(calciteAlertIsClosed).toHaveReceivedEventTimes(1);
+    expect(calciteAlertBeforeCloseSpy).toHaveReceivedEventTimes(1);
+    expect(calciteAlertClose).toHaveReceivedEventTimes(1);
 
     expect(await container.isVisible()).toBe(false);
   });

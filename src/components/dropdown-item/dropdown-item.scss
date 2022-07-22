@@ -46,7 +46,6 @@
     cursor-pointer
     items-center
     no-underline
-    outline-none
     duration-150
     ease-in-out;
 }
@@ -75,7 +74,7 @@
   @apply focus-base;
 }
 :host(:focus) {
-  @apply focus-inset;
+  @apply focus-inset outline-none;
 }
 
 // when used as link move styling anchor

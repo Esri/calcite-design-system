@@ -6,7 +6,7 @@
 @import "focus";
 @import "host";
 @import "spacing";
-@import "popper";
+@import "floating-ui";
 
 @mixin slotted($selector, $tag, $scope: "") {
   #{$scope} slot[name="#{$selector}"]::slotted(#{$tag}),
@@ -27,15 +27,12 @@
 // mixin to hide inputs from form-associated components
 @mixin hidden-form-input() {
   ::slotted(input[slot="hidden-form-input"]) {
-    bottom: 0 !important;
-    left: 0 !important;
     margin: 0 !important;
     opacity: 0 !important;
     outline: none !important;
     padding: 0 !important;
     position: absolute !important;
-    right: 0 !important;
-    top: 0 !important;
+    inset: 0 !important;
     transform: none !important;
     -webkit-appearance: none !important;
     z-index: -1 !important;
@@ -46,7 +43,7 @@
 // additional styling can be passed via @content
 @mixin disabled() {
   :host([disabled]) {
-    @apply opacity-disabled pointer-events-none cursor-default select-none;
+    @extend %disabled-host-only;
     @content;
 
     ::slotted([calcite-hydrated][disabled]),
@@ -55,6 +52,11 @@
       @apply opacity-100;
     }
   }
+}
+
+// used for host-specific styling when the `disabled` mixin cannot be applied on the host (e.g., `display: contents`)
+%disabled-host-only {
+  @apply opacity-disabled pointer-events-none cursor-default select-none;
 }
 
 // mixin to provide default invisibility and disabling of pointer events for components.

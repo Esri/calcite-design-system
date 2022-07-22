@@ -8,8 +8,9 @@ individual `calcite-accordion` item
 
 | Property       | Attribute       | Description                                                                                                                 | Type      | Default     |
 | -------------- | --------------- | --------------------------------------------------------------------------------------------------------------------------- | --------- | ----------- |
-| `active`       | `active`        | When true, the component is active.                                                                                         | `boolean` | `false`     |
+| `active`       | `active`        | <span style="color:red">**[DEPRECATED]**</span> use expanded instead<br/><br/>When true, the component is active.           | `boolean` | `false`     |
 | `description`  | `description`   | Specifies a description for the component.                                                                                  | `string`  | `undefined` |
+| `expanded`     | `expanded`      | When true, item is expanded                                                                                                 | `boolean` | `false`     |
 | `heading`      | `heading`       | Specifies heading text for the component.                                                                                   | `string`  | `undefined` |
 | `icon`         | `icon`          | Specifies an icon to display - accepts Calcite UI icon names.                                                               | `string`  | `undefined` |
 | `itemSubtitle` | `item-subtitle` | <span style="color:red">**[DEPRECATED]**</span> Use `description` instead.<br/><br/>Specifies a subtitle for the component. | `string`  | `undefined` |
