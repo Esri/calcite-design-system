@@ -21,7 +21,7 @@ $loader-circumference: ($loader-scale - (2 * $stroke-width)) * 3.14159;
   fill: none;
   transform: scale(1, 1);
   animation: loader-color-shift 6s alternate-reverse infinite linear;
-  padding-block: var(--calcite-loader-padding, 4rem);
+  padding-block: var(--calcite-loader-padding, theme("spacing.16"));
 }
 
 :host([scale="s"]) {

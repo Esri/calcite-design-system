@@ -118,7 +118,7 @@ export class Modal implements ConditionalSlotComponent, OpenCloseComponent {
   /**
    * When true, disables spacing to the content area slot.
    *
-   * @deprecated  Use `--calcite-modal-padding`  CSS variable instead.
+   * @deprecated  Use `--calcite-modal-padding` CSS variable instead.
    */
   @Prop() noPadding = false;
 
