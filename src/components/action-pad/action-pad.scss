@@ -1,10 +1,19 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-action-pad-expanded-max-width: optionally specify the expanded max width of the action pad.
+ */
+
 :host {
   @extend %component-host;
   @apply animate-in block rounded-sm;
+  --calcite-action-pad-expanded-max-width: auto;
 }
 
 :host([expanded]) {
-  max-inline-size: 20vw;
+  max-inline-size: var(--calcite-action-pad-expanded-max-width);
   background: transparent;
 }
 
