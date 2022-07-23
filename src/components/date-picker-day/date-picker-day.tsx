@@ -95,9 +95,7 @@ export class DatePickerDay implements InteractiveComponent {
 
   @Listen("mouseover")
   mouseoverHandler(): void {
-    this.calciteInternalDayHover.emit({
-      disabled: this.disabled
-    });
+    this.calciteInternalDayHover.emit();
   }
 
   //--------------------------------------------------------------------------

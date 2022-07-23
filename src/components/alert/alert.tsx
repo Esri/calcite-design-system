@@ -15,7 +15,7 @@ import {
 import { getSlotted, setRequestedIcon, toAriaBoolean } from "../../utils/dom";
 import { DURATIONS, SLOTS, TEXT } from "./resources";
 import { Scale } from "../interfaces";
-import { AlertDuration, AlertPlacement, StatusColor, StatusIcons } from "./interfaces";
+import { AlertDuration, AlertPlacement, StatusColor, StatusIcons, Sync } from "./interfaces";
 import { OpenCloseComponent } from "../../utils/openCloseComponent";
 
 /**
