@@ -90,9 +90,9 @@ Add `calcite-match-height` to a wrapping element to ensure proper height, scroll
 
 ## Events
 
-| Event                     | Description                                                                                                                                                                 | Type               |
-| ------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------ |
-| `calciteShellPanelToggle` | <span style="color:red">**[DEPRECATED]**</span> use a resizeObserver on the shell-panel to listen for changes to its size.<br/><br/>Emitted when collapse has been toggled. | `CustomEvent<any>` |
+| Event                     | Description                                                                                                                                                                 | Type                |
+| ------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------- |
+| `calciteShellPanelToggle` | <span style="color:red">**[DEPRECATED]**</span> use a resizeObserver on the shell-panel to listen for changes to its size.<br/><br/>Emitted when collapse has been toggled. | `CustomEvent<void>` |
 
 ## Slots
 

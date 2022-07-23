@@ -39,10 +39,10 @@ You can programmatically focus the close button of a `dismissible` `calcite-noti
 
 ## Events
 
-| Event                | Description                         | Type               |
-| -------------------- | ----------------------------------- | ------------------ |
-| `calciteNoticeClose` | Fired when the component is closed. | `CustomEvent<any>` |
-| `calciteNoticeOpen`  | Fired when the component is opened. | `CustomEvent<any>` |
+| Event                | Description                         | Type                |
+| -------------------- | ----------------------------------- | ------------------- |
+| `calciteNoticeClose` | Fired when the component is closed. | `CustomEvent<void>` |
+| `calciteNoticeOpen`  | Fired when the component is opened. | `CustomEvent<void>` |
 
 ## Methods
 
