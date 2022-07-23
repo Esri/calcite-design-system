@@ -227,13 +227,13 @@ export class AccordionItem implements ConditionalSlotComponent {
   //--------------------------------------------------------------------------
 
   @Listen("keydown")
-  keyDownHandler(e: KeyboardEvent): void {
-    if (e.target === this.el) {
-      switch (e.key) {
+  keyDownHandler(event: KeyboardEvent): void {
+    if (event.target === this.el) {
+      switch (event.key) {
         case " ":
         case "Enter":
           this.emitRequestedItem();
-          e.preventDefault();
+          event.preventDefault();
           break;
         case "ArrowUp":
         case "ArrowDown":
@@ -241,9 +241,9 @@ export class AccordionItem implements ConditionalSlotComponent {
         case "End":
           this.calciteInternalAccordionItemKeyEvent.emit({
             parent: this.parent,
-            item: e
+            item: event
           });
-          e.preventDefault();
+          event.preventDefault();
           break;
       }
     }

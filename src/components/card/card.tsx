@@ -136,12 +136,12 @@ export class Card implements ConditionalSlotComponent {
     this.selectCard();
   };
 
-  private cardSelectKeyDown = (e: KeyboardEvent): void => {
-    switch (e.key) {
+  private cardSelectKeyDown = (event: KeyboardEvent): void => {
+    switch (event.key) {
       case " ":
       case "Enter":
         this.selectCard();
-        e.preventDefault();
+        event.preventDefault();
         break;
     }
   };

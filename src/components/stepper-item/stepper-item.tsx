@@ -239,13 +239,13 @@ export class StepperItem implements InteractiveComponent {
   //
   //--------------------------------------------------------------------------
 
-  private keyDownHandler = (e: KeyboardEvent): void => {
-    if (!this.disabled && e.target === this.el) {
-      switch (e.key) {
+  private keyDownHandler = (event: KeyboardEvent): void => {
+    if (!this.disabled && event.target === this.el) {
+      switch (event.key) {
         case " ":
         case "Enter":
           this.emitUserRequestedItem();
-          e.preventDefault();
+          event.preventDefault();
           break;
         case "ArrowUp":
         case "ArrowDown":
@@ -253,8 +253,8 @@ export class StepperItem implements InteractiveComponent {
         case "ArrowRight":
         case "Home":
         case "End":
-          this.calciteInternalStepperItemKeyEvent.emit({ item: e });
-          e.preventDefault();
+          this.calciteInternalStepperItemKeyEvent.emit({ item: event });
+          event.preventDefault();
           break;
       }
     }

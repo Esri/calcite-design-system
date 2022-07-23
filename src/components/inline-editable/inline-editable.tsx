@@ -306,15 +306,15 @@ export class InlineEditable implements InteractiveComponent, LabelableComponent 
     }
   };
 
-  private escapeKeyHandler = async (e: KeyboardEvent) => {
-    if (e.key !== "Escape") {
-      if (e.key === "Tab" && this.shouldShowControls) {
-        if (!e.shiftKey && e.target === this.inputElement) {
-          e.preventDefault();
+  private escapeKeyHandler = async (event: KeyboardEvent) => {
+    if (event.key !== "Escape") {
+      if (event.key === "Tab" && this.shouldShowControls) {
+        if (!event.shiftKey && event.target === this.inputElement) {
+          event.preventDefault();
           this.cancelEditingButton.setFocus();
         }
-        if (!!e.shiftKey && e.target === this.cancelEditingButton) {
-          e.preventDefault();
+        if (!!event.shiftKey && event.target === this.cancelEditingButton) {
+          event.preventDefault();
           this.inputElement?.setFocus();
         }
       }
@@ -323,28 +323,28 @@ export class InlineEditable implements InteractiveComponent, LabelableComponent 
     this.cancelEditing();
   };
 
-  private cancelEditingHandler = async (e: MouseEvent) => {
-    e.preventDefault();
+  private cancelEditingHandler = async (event: MouseEvent) => {
+    event.preventDefault();
     this.cancelEditing();
   };
 
-  private enableEditingHandler = async (e: MouseEvent) => {
+  private enableEditingHandler = async (event: MouseEvent) => {
     if (
       this.disabled ||
-      e.target === this.cancelEditingButton ||
-      e.target === this.confirmEditingButton
+      event.target === this.cancelEditingButton ||
+      event.target === this.confirmEditingButton
     ) {
       return;
     }
 
-    e.preventDefault();
+    event.preventDefault();
     if (!this.editingEnabled) {
       this.enableEditing();
     }
   };
 
-  private confirmChangesHandler = async (e: MouseEvent) => {
-    e.preventDefault();
+  private confirmChangesHandler = async (event: MouseEvent) => {
+    event.preventDefault();
     this.calciteInlineEditableEditConfirm.emit();
     try {
       if (this.afterConfirm) {
@@ -353,7 +353,7 @@ export class InlineEditable implements InteractiveComponent, LabelableComponent 
         this.disableEditing();
         this.enableEditingButton.setFocus();
       }
-    } catch (e) {
+    } catch (error) {
     } finally {
       this.loading = false;
     }

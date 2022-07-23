@@ -192,9 +192,9 @@ export class TabNav {
   //--------------------------------------------------------------------------
 
   @Listen("calciteInternalTabsFocusPrevious")
-  focusPreviousTabHandler(e: CustomEvent): void {
+  focusPreviousTabHandler(event: CustomEvent): void {
     const currentIndex = this.getIndexOfTabTitle(
-      e.target as HTMLCalciteTabTitleElement,
+      event.target as HTMLCalciteTabTitleElement,
       this.enabledTabTitles
     );
 
@@ -204,14 +204,14 @@ export class TabNav {
 
     previousTab?.focus();
 
-    e.stopPropagation();
-    e.preventDefault();
+    event.stopPropagation();
+    event.preventDefault();
   }
 
   @Listen("calciteInternalTabsFocusNext")
-  focusNextTabHandler(e: CustomEvent): void {
+  focusNextTabHandler(event: CustomEvent): void {
     const currentIndex = this.getIndexOfTabTitle(
-      e.target as HTMLCalciteTabTitleElement,
+      event.target as HTMLCalciteTabTitleElement,
       this.enabledTabTitles
     );
 
@@ -219,52 +219,54 @@ export class TabNav {
 
     nextTab?.focus();
 
-    e.stopPropagation();
-    e.preventDefault();
+    event.stopPropagation();
+    event.preventDefault();
   }
 
   @Listen("calciteInternalTabsActivate")
-  internalActivateTabHandler(e: CustomEvent<TabChangeEventDetail>): void {
-    this.selectedTab = e.detail.tab
-      ? e.detail.tab
-      : this.getIndexOfTabTitle(e.target as HTMLCalciteTabTitleElement);
-    e.stopPropagation();
-    e.preventDefault();
+  internalActivateTabHandler(event: CustomEvent<TabChangeEventDetail>): void {
+    this.selectedTab = event.detail.tab
+      ? event.detail.tab
+      : this.getIndexOfTabTitle(event.target as HTMLCalciteTabTitleElement);
+    event.stopPropagation();
+    event.preventDefault();
   }
 
-  @Listen("calciteTabsActivate") activateTabHandler(e: CustomEvent<TabChangeEventDetail>): void {
+  @Listen("calciteTabsActivate") activateTabHandler(
+    event: CustomEvent<TabChangeEventDetail>
+  ): void {
     this.calciteTabChange.emit({
       tab: this.selectedTab
     });
 
-    e.stopPropagation();
-    e.preventDefault();
+    event.stopPropagation();
+    event.preventDefault();
   }
 
   /**
    * Check for active tabs on register and update selected
    *
-   * @param e
+   * @param event
    */
   @Listen("calciteInternalTabTitleRegister")
-  updateTabTitles(e: CustomEvent<TabID>): void {
-    if ((e.target as HTMLCalciteTabTitleElement).active) {
-      this.selectedTab = e.detail;
+  updateTabTitles(event: CustomEvent<TabID>): void {
+    if ((event.target as HTMLCalciteTabTitleElement).active) {
+      this.selectedTab = event.detail;
     }
   }
 
   @Listen("calciteInternalTabChange", { target: "body" })
-  globalInternalTabChangeHandler(e: CustomEvent<TabChangeEventDetail>): void {
+  globalInternalTabChangeHandler(event: CustomEvent<TabChangeEventDetail>): void {
     if (
       this.syncId &&
-      e.target !== this.el &&
-      (e.target as HTMLCalciteTabNavElement).syncId === this.syncId &&
-      this.selectedTab !== e.detail.tab
+      event.target !== this.el &&
+      (event.target as HTMLCalciteTabNavElement).syncId === this.syncId &&
+      this.selectedTab !== event.detail.tab
     ) {
-      this.selectedTab = e.detail.tab;
-      e.stopPropagation();
+      this.selectedTab = event.detail.tab;
+      event.stopPropagation();
     }
-    e.stopPropagation();
+    event.stopPropagation();
   }
 
   //--------------------------------------------------------------------------

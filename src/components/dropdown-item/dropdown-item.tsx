@@ -202,29 +202,29 @@ export class DropdownItem {
   }
 
   @Listen("keydown")
-  keyDownHandler(e: KeyboardEvent): void {
-    switch (e.key) {
+  keyDownHandler(event: KeyboardEvent): void {
+    switch (event.key) {
       case " ":
       case "Enter":
         this.emitRequestedItem();
         if (this.href) {
           this.childLink.click();
         }
-        e.preventDefault();
+        event.preventDefault();
         break;
       case "Escape":
         this.calciteInternalDropdownCloseRequest.emit();
-        e.preventDefault();
+        event.preventDefault();
         break;
       case "Tab":
-        this.calciteInternalDropdownItemKeyEvent.emit({ keyboardEvent: e });
+        this.calciteInternalDropdownItemKeyEvent.emit({ keyboardEvent: event });
         break;
       case "ArrowUp":
       case "ArrowDown":
       case "Home":
       case "End":
-        e.preventDefault();
-        this.calciteInternalDropdownItemKeyEvent.emit({ keyboardEvent: e });
+        event.preventDefault();
+        this.calciteInternalDropdownItemKeyEvent.emit({ keyboardEvent: event });
         break;
     }
   }

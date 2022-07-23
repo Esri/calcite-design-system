@@ -105,9 +105,9 @@ export class Stepper {
   //--------------------------------------------------------------------------
 
   @Listen("calciteInternalStepperItemKeyEvent")
-  calciteInternalStepperItemKeyEvent(e: CustomEvent<StepperItemKeyEventDetail>): void {
-    const item = e.detail.item;
-    const itemToFocus = e.target as HTMLCalciteStepperItemElement;
+  calciteInternalStepperItemKeyEvent(event: CustomEvent<StepperItemKeyEventDetail>): void {
+    const item = event.detail.item;
+    const itemToFocus = event.target as HTMLCalciteStepperItemElement;
     const isFirstItem = this.itemIndex(itemToFocus) === 0;
     const isLastItem = this.itemIndex(itemToFocus) === this.enabledItems.length - 1;
     switch (item.key) {
@@ -134,7 +134,7 @@ export class Stepper {
         this.focusLastItem();
         break;
     }
-    e.stopPropagation();
+    event.stopPropagation();
   }
 
   @Listen("calciteInternalStepperItemRegister") registerItem(event: CustomEvent): void {
@@ -293,21 +293,21 @@ export class Stepper {
     focusElement(lastItem);
   }
 
-  private focusNextItem(e: HTMLCalciteStepperItemElement): void {
-    const index = this.itemIndex(e);
+  private focusNextItem(el: HTMLCalciteStepperItemElement): void {
+    const index = this.itemIndex(el);
     const nextItem = this.enabledItems[index + 1] || this.enabledItems[0];
     focusElement(nextItem);
   }
 
-  private focusPrevItem(e: HTMLCalciteStepperItemElement): void {
-    const index = this.itemIndex(e);
+  private focusPrevItem(el: HTMLCalciteStepperItemElement): void {
+    const index = this.itemIndex(el);
     const prevItem =
       this.enabledItems[index - 1] || this.enabledItems[this.enabledItems.length - 1];
     focusElement(prevItem);
   }
 
-  private itemIndex(e: HTMLCalciteStepperItemElement): number {
-    return this.enabledItems.indexOf(e);
+  private itemIndex(el: HTMLCalciteStepperItemElement): number {
+    return this.enabledItems.indexOf(el);
   }
 
   private sortItems(): HTMLCalciteStepperItemElement[] {
