@@ -9,7 +9,7 @@ import yargs from "yargs";
   const { default: gitSemverTags } = await import("git-semver-tags");
   const { dirname, normalize } = await import("path");
   const prettier = await import("prettier");
-  const semver = await import("semver");
+  const { default: semver } = await import("semver");
   const { quote } = await import("shell-quote");
   const { default: standardVersion } = await import("standard-version");
   const { fileURLToPath } = await import("url");
