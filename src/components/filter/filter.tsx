@@ -3,18 +3,19 @@ import {
   Element,
   Event,
   EventEmitter,
-  Prop,
-  h,
-  VNode,
-  Method,
   Fragment,
+  h,
+  Method,
+  Prop,
+  VNode,
   Watch
 } from "@stencil/core";
-import { debounce, forIn } from "lodash-es";
-import { CSS, ICONS, TEXT, DEBOUNCE_TIMEOUT } from "./resources";
+import { debounce } from "lodash-es";
+import { CSS, DEBOUNCE_TIMEOUT, ICONS, TEXT } from "./resources";
 import { Scale } from "../interfaces";
 import { focusElement } from "../../utils/dom";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import { filter } from "../../utils/filter";
 
 @Component({
   tag: "calcite-filter",
@@ -140,38 +141,10 @@ export class Filter implements InteractiveComponent {
   //
   // --------------------------------------------------------------------------
 
-  filter = debounce((value: string, emit = false): void => {
-    const regex = new RegExp(value, "i");
-
-    if (this.items.length === 0) {
-      this.updateFiltered([], emit);
-      return;
-    }
-
-    const find = (input: object, RE: RegExp): any => {
-      let found = false;
-      forIn(input, (val) => {
-        if (typeof val === "function" || val == null /* intentional == to catch undefined */) {
-          return;
-        }
-        if (Array.isArray(val) || (typeof val === "object" && val !== null)) {
-          if (find(val, RE)) {
-            found = true;
-          }
-        } else if (RE.test(val)) {
-          found = true;
-        }
-      });
-
-      return found;
-    };
-
-    const result = this.items.filter((item) => {
-      return find(item, regex);
-    });
-
-    this.updateFiltered(result, emit);
-  }, DEBOUNCE_TIMEOUT);
+  filter = debounce(
+    (value: string, emit = false): void => this.updateFiltered(filter(this.items, value), emit),
+    DEBOUNCE_TIMEOUT
+  );
 
   inputHandler = (event: CustomEvent): void => {
     const target = event.target as HTMLCalciteInputElement;
