@@ -1,5 +1,5 @@
 import pify from "pify";
-
+import { prepReleaseCommit } from "./prepReleaseCommit";
 /*
  * This script is meant to be run by a CI environment during the deploy phase.
  * It checks if there are release-worthy (deployable) changes and will publish to NPM when applicable.
@@ -38,7 +38,7 @@ import pify from "pify";
       // https://docs.github.com/en/actions/publishing-packages/publishing-nodejs-packages#publishing-packages-to-the-npm-registry
 
       console.log(" - prepping and building package...");
-      await exec(`npm run util:prep-next`);
+      await prepReleaseCommit();
 
       const changesCommitted = (await exec(`git rev-parse HEAD`)) !== (await exec(`git rev-parse origin/master`));
       if (!changesCommitted) {

@@ -3,7 +3,7 @@ import type { Options } from "standard-version";
 import pify from "pify";
 import yargs from "yargs";
 
-(async function prepReleaseCommit(): Promise<void> {
+export async function prepReleaseCommit(): Promise<void> {
   const childProcess = await import("child_process");
   const { promises: fs } = await import("fs");
   const { default: gitSemverTags } = await import("git-semver-tags");
@@ -41,8 +41,6 @@ import yargs from "yargs";
     standardVersionOptions = await getStandardVersionOptions(next, semverTags);
   } catch (error) {
     console.log(baseErrorMessage);
-    await exec(`echo ${baseErrorMessage}`);
-
     process.exitCode = 1;
     return;
   }
@@ -54,8 +52,6 @@ import yargs from "yargs";
       await runStandardVersion(next, standardVersionOptions);
     } catch (error) {
       console.log(changelogGenerationErrorMessage);
-      await exec(`echo ${changelogGenerationErrorMessage}`);
-
       process.exitCode = 1;
     }
     return;
@@ -71,7 +67,6 @@ import yargs from "yargs";
     await runStandardVersion(next, standardVersionOptions);
   } catch (error) {
     console.log(changelogGenerationErrorMessage);
-    await exec(`echo ${changelogGenerationErrorMessage}`);
     process.exitCode = 1;
   } finally {
     // restore deleted prerelease tags
@@ -82,16 +77,12 @@ import yargs from "yargs";
     const target = next ? "next" : "beta";
     const targetVersionPattern = new RegExp(`-${target}\\.\\d+$`);
 
-    await exec(`echo ${semverTags}`);
-
     // we keep track of `beta` and `next` releases since `standard-version` resets the version number when going in between
     // this should not be needed after v1.0.0 since there would no longer be a beta version to keep track of
     const targetDescendingOrderTags = semverTags.filter((tag) => targetVersionPattern.test(tag)).sort(semver.rcompare);
     const targetReleaseVersion = semver.inc(targetDescendingOrderTags[0], "prerelease", target);
 
-    await exec(`echo ${targetDescendingOrderTags}`);
-
-    if (!targetVersionPattern.test(targetReleaseVersion)) {
+    if (!targetReleaseVersion || !targetVersionPattern.test(targetReleaseVersion)) {
       throw new Error(`target release version does not have prerelease identifier (${target})`);
     }
 
@@ -116,6 +107,9 @@ import yargs from "yargs";
       await appendUnreleasedNotesToChangelog();
       await exec(`git add ${changelogPath}`);
     } else {
+      if (!standardVersionOptions.releaseAs) {
+        throw new Error(`target release version is undefined`);
+      }
       await updateReadmeCdnUrls(standardVersionOptions.releaseAs);
       await exec(`git add ${readmePath}`);
     }
@@ -178,4 +172,8 @@ import yargs from "yargs";
 
     await fs.writeFile(readmePath, updatedReadmeContent);
   }
+}
+
+(async function () {
+  await prepReleaseCommit();
 })();
