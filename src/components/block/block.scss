@@ -1,19 +1,8 @@
 :host {
   @extend %component-host;
   @extend %component-spacing;
-
-  @apply transition-margin
-    ease-cubic
-    border-color-3
-    flex
-    flex-shrink-0
-    flex-grow-0
-    flex-col
-    border-0
-    border-b
-    border-solid
-    p-0
-    duration-150;
+  @apply transition-margin ease-cubic border-color-3 flex flex-shrink-0 flex-grow-0
+    flex-col border-0 border-b border-solid p-0 duration-150;
   flex-basis: auto;
 }
 
@@ -146,7 +135,8 @@ calcite-handle {
 }
 
 .content--spaced {
-  @apply px-3 py-2;
+  padding-block: var(--calcite-block-padding, theme("spacing.2"));
+  padding-inline: var(--calcite-block-padding, theme("spacing[2.5]"));
 }
 
 .control-container {
