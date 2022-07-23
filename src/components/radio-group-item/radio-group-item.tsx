@@ -105,5 +105,5 @@ export class RadioGroupItem {
    * @internal
    */
   @Event()
-  calciteInternalRadioGroupItemChange: EventEmitter;
+  calciteInternalRadioGroupItemChange: EventEmitter<void>;
 }

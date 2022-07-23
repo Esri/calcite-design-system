@@ -81,7 +81,7 @@ export class Card implements ConditionalSlotComponent {
   //--------------------------------------------------------------------------
 
   /** Fired when a selectable card is selected */
-  @Event() calciteCardSelect: EventEmitter;
+  @Event() calciteCardSelect: EventEmitter<void>;
 
   // --------------------------------------------------------------------------
   //

@@ -73,24 +73,24 @@ export class DatePickerMonth {
   /**
    * Event emitted when user selects the date.
    */
-  @Event() calciteDatePickerSelect: EventEmitter;
+  @Event() calciteDatePickerSelect: EventEmitter<Date>;
 
   /**
    * Event emitted when user hovers the date.
    *
    * @internal
    */
-  @Event() calciteInternalDatePickerHover: EventEmitter;
+  @Event() calciteInternalDatePickerHover: EventEmitter<Date>;
 
   /**
    * Active date for the user keyboard access.
    */
-  @Event() calciteDatePickerActiveDateChange: EventEmitter;
+  @Event() calciteDatePickerActiveDateChange: EventEmitter<Date>;
 
   /**
    * @internal
    */
-  @Event() calciteInternalDatePickerMouseOut: EventEmitter;
+  @Event() calciteInternalDatePickerMouseOut: EventEmitter<void>;
 
   //--------------------------------------------------------------------------
   //
@@ -361,7 +361,7 @@ export class DatePickerMonth {
 
   dayHover = (event: CustomEvent): void => {
     const target = event.target as HTMLCalciteDatePickerDayElement;
-    if (event.detail.disabled) {
+    if (target.disabled) {
       this.calciteInternalDatePickerMouseOut.emit();
     } else {
       this.calciteInternalDatePickerHover.emit(target.value);

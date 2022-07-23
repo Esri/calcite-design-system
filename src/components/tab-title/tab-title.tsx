@@ -268,12 +268,12 @@ export class TabTitle implements InteractiveComponent {
   /**
    * @internal
    */
-  @Event() calciteInternalTabsFocusNext: EventEmitter;
+  @Event() calciteInternalTabsFocusNext: EventEmitter<void>;
 
   /**
    * @internal
    */
-  @Event() calciteInternalTabsFocusPrevious: EventEmitter;
+  @Event() calciteInternalTabsFocusPrevious: EventEmitter<void>;
 
   /**
    * @internal

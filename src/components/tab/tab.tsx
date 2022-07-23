@@ -108,7 +108,7 @@ export class Tab {
   /**
    * @internal
    */
-  @Event() calciteInternalTabRegister: EventEmitter;
+  @Event() calciteInternalTabRegister: EventEmitter<void>;
 
   //--------------------------------------------------------------------------
   //

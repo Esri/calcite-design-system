@@ -19,6 +19,7 @@ import {
 import { CSS_UTILITY } from "../../utils/resources";
 import { SLOTS, CSS } from "./resources";
 import { Position } from "../interfaces";
+import { ItemKeyEvent, RegistryEntry, RequestedItem } from "./interfaces";
 
 /**
  * @slot - A slot for adding custom content, including nested `calcite-accordion-item`s.
@@ -97,22 +98,22 @@ export class AccordionItem implements ConditionalSlotComponent {
   /**
    * @internal
    */
-  @Event() calciteInternalAccordionItemKeyEvent: EventEmitter;
+  @Event() calciteInternalAccordionItemKeyEvent: EventEmitter<ItemKeyEvent>;
 
   /**
    * @internal
    */
-  @Event() calciteInternalAccordionItemSelect: EventEmitter;
+  @Event() calciteInternalAccordionItemSelect: EventEmitter<RequestedItem>;
 
   /**
    * @internal
    */
-  @Event() calciteInternalAccordionItemClose: EventEmitter;
+  @Event() calciteInternalAccordionItemClose: EventEmitter<void>;
 
   /**
    * @internal
    */
-  @Event() calciteInternalAccordionItemRegister: EventEmitter;
+  @Event() calciteInternalAccordionItemRegister: EventEmitter<RegistryEntry>;
 
   //--------------------------------------------------------------------------
   //
