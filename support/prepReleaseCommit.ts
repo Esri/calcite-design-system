@@ -6,7 +6,7 @@ import yargs from "yargs";
 (async function prepReleaseCommit(): Promise<void> {
   const childProcess = await import("child_process");
   const { promises: fs } = await import("fs");
-  const gitSemverTags = await import("git-semver-tags");
+  const { default: gitSemverTags } = await import("git-semver-tags");
   const { dirname, normalize } = await import("path");
   const prettier = await import("prettier");
   const semver = await import("semver");
