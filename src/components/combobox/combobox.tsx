@@ -287,16 +287,16 @@ export class Combobox
    */
   @Event() calciteComboboxChipDismiss: EventEmitter<DeprecatedEventPayload>;
 
-  /* Fires when the component is requested to be closed and before the closing transition begins. */
+  /** Fires when the component is requested to be closed and before the closing transition begins. */
   @Event() calciteComboboxBeforeClose: EventEmitter<void>;
 
-  /* Fires when the component is closed and animation is complete. */
+  /** Fires when the component is closed and animation is complete. */
   @Event() calciteComboboxClose: EventEmitter<void>;
 
-  /* Fires when the component is added to the DOM but not rendered, and before the opening transition begins. */
+  /** Fires when the component is added to the DOM but not rendered, and before the opening transition begins. */
   @Event() calciteComboboxBeforeOpen: EventEmitter<void>;
 
-  /* Fires when the component is open and animation is complete. */
+  /** Fires when the component is open and animation is complete. */
   @Event() calciteComboboxOpen: EventEmitter<void>;
 
   // --------------------------------------------------------------------------
@@ -1151,12 +1151,14 @@ export class Combobox
     const single = this.selectionMode === "single";
 
     return (
-      <Host onKeyDown={this.keydownHandler}>
+      <Host>
         <div
           aria-autocomplete="list"
+          aria-controls={`${listboxUidPrefix}${guid}`}
           aria-expanded={toAriaBoolean(open || active)}
           aria-haspopup="listbox"
           aria-labelledby={`${labelUidPrefix}${guid}`}
+          aria-live="polite"
           aria-owns={`${listboxUidPrefix}${guid}`}
           class={{
             wrapper: true,
@@ -1164,8 +1166,10 @@ export class Combobox
             "wrapper--active": open || active
           }}
           onClick={this.clickHandler}
+          onKeyDown={this.keydownHandler}
           ref={this.setReferenceEl}
           role="combobox"
+          tabindex="0"
         >
           <div class="grid-input">
             {this.renderIconStart()}

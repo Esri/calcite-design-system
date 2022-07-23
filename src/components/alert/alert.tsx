@@ -196,16 +196,16 @@ export class Alert implements OpenCloseComponent {
   //
   //--------------------------------------------------------------------------
 
-  /* Fires when the component is requested to be closed and before the closing transition begins. */
+  /** Fires when the component is requested to be closed and before the closing transition begins. */
   @Event() calciteAlertBeforeClose: EventEmitter<void>;
 
-  /* Fires when the component is closed and animation is complete. */
+  /** Fires when the component is closed and animation is complete. */
   @Event() calciteAlertClose: EventEmitter<void>;
 
-  /* Fires when the component is added to the DOM but not rendered, and before the opening transition begins. */
+  /** Fires when the component is added to the DOM but not rendered, and before the opening transition begins. */
   @Event() calciteAlertBeforeOpen: EventEmitter<void>;
 
-  /* Fires when the component is open and animation is complete. */
+  /** Fires when the component is open and animation is complete. */
   @Event() calciteAlertOpen: EventEmitter<void>;
 
   /**

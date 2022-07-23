@@ -97,7 +97,7 @@
   @apply flex;
 }
 
-:host([active]) .container {
+:host([open]) .container {
   @apply shadow-1
     pointer-events-auto
     flex

@@ -31,7 +31,7 @@ describe("calcite-panel", () => {
 
   it("has slots", () => slots("calcite-panel", SLOTS));
 
-  it("can be disabled", () => disabled(`<calcite-panel dismissible>scrolling content</calcite-panel>`));
+  it("can be disabled", () => disabled(`<calcite-panel closable>scrolling content</calcite-panel>`));
 
   it("honors dismissed prop (deprecated)", async () => {
     const page = await newE2EPage();
@@ -49,6 +49,7 @@ describe("calcite-panel", () => {
 
     await page.waitForChanges();
 
+    expect(await element.getProperty("closed")).toBe(true);
     expect(await container.isVisible()).toBe(false);
   });
 
@@ -68,11 +69,12 @@ describe("calcite-panel", () => {
 
     await page.waitForChanges();
 
+    expect(await element.getProperty("dismissed")).toBe(true);
     expect(await container.isVisible()).toBe(false);
   });
 
   it("dismiss event should fire when closed", async () => {
-    const page = await newE2EPage({ html: "<calcite-panel dismissible>test</calcite-panel>" });
+    const page = await newE2EPage({ html: "<calcite-panel closable>test</calcite-panel>" });
 
     const calcitePanelDismiss = await page.spyOnEvent("calcitePanelDismiss", "window");
     const calcitePanelDismissedChange = await page.spyOnEvent("calcitePanelDismissedChange", "window");
@@ -86,7 +88,7 @@ describe("calcite-panel", () => {
   });
 
   it("dismiss event should not fire when closed via prop", async () => {
-    const page = await newE2EPage({ html: "<calcite-panel dismissible>test</calcite-panel>" });
+    const page = await newE2EPage({ html: "<calcite-panel closable>test</calcite-panel>" });
 
     const eventSpy = await page.spyOnEvent("calcitePanelDismiss", "window");
 
@@ -96,6 +98,7 @@ describe("calcite-panel", () => {
 
     await page.waitForChanges();
 
+    expect(await panel.getProperty("closed")).toBe(true);
     expect(eventSpy).not.toHaveReceivedEvent();
   });
 
@@ -130,7 +133,7 @@ describe("calcite-panel", () => {
     }));
 
   it("should focus on container", async () =>
-    focusable(`<calcite-panel dismissible>test</calcite-panel>`, {
+    focusable(`<calcite-panel closable>test</calcite-panel>`, {
       shadowFocusTargetSelector: "article"
     }));
 
