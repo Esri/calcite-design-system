@@ -58,7 +58,7 @@ export class Alert implements OpenCloseComponent {
       this.calciteInternalAlertRegister.emit();
     }
     if (!this.active) {
-      this.queue = this.queue.filter((e) => e !== this.el);
+      this.queue = this.queue.filter((el) => el !== this.el);
       this.calciteInternalAlertSync.emit({ queue: this.queue });
     }
   }
@@ -328,7 +328,7 @@ export class Alert implements OpenCloseComponent {
     this.autoDismissTimeoutId = null;
     this.queued = false;
     this.active = false;
-    this.queue = this.queue.filter((e) => e !== this.el);
+    this.queue = this.queue.filter((el) => el !== this.el);
     this.determineActiveAlert();
     this.calciteInternalAlertSync.emit({ queue: this.queue });
   };

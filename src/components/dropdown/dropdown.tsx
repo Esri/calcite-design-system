@@ -261,9 +261,9 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent, Float
   @Event() calciteDropdownOpen: EventEmitter<void>;
 
   @Listen("click", { target: "window" })
-  closeCalciteDropdownOnClick(e: Event): void {
+  closeCalciteDropdownOnClick(event: Event): void {
     const isOpen = !(this.open || this.active);
-    if (isOpen || e.composedPath().includes(this.el)) {
+    if (isOpen || event.composedPath().includes(this.el)) {
       return;
     }
 
@@ -271,14 +271,14 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent, Float
   }
 
   @Listen("calciteInternalDropdownCloseRequest")
-  closeCalciteDropdownOnEvent(e: Event): void {
+  closeCalciteDropdownOnEvent(event: Event): void {
     this.closeCalciteDropdown();
-    e.stopPropagation();
+    event.stopPropagation();
   }
 
   @Listen("calciteDropdownOpen", { target: "window" })
-  closeCalciteDropdownOnOpenEvent(e: Event): void {
-    if (e.composedPath().includes(this.el)) {
+  closeCalciteDropdownOnOpenEvent(event: Event): void {
+    if (event.composedPath().includes(this.el)) {
       return;
     }
 
@@ -301,8 +301,8 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent, Float
   }
 
   @Listen("calciteInternalDropdownItemKeyEvent")
-  calciteInternalDropdownItemKeyEvent(e: CustomEvent<ItemKeyboardEvent>): void {
-    const { keyboardEvent } = e.detail;
+  calciteInternalDropdownItemKeyEvent(event: CustomEvent<ItemKeyboardEvent>): void {
+    const { keyboardEvent } = event.detail;
     // handle edge
     const target = keyboardEvent.target as HTMLCalciteDropdownItemElement;
     const itemToFocus = target.nodeName !== "A" ? target : target.parentNode;
@@ -334,7 +334,7 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent, Float
         break;
     }
 
-    e.stopPropagation();
+    event.stopPropagation();
   }
 
   @Listen("calciteInternalDropdownItemSelect")
@@ -500,16 +500,16 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent, Float
     connectFloatingUI(this, this.referenceEl, this.floatingEl);
   };
 
-  private keyDownHandler = (e: KeyboardEvent): void => {
-    const target = e.target as HTMLElement;
+  private keyDownHandler = (event: KeyboardEvent): void => {
+    const target = event.target as HTMLElement;
 
     if (target !== this.referenceEl) {
       return;
     }
 
-    const key = e.key;
+    const key = event.key;
 
-    if ((this.open || this.active) && (key === "Escape" || (e.shiftKey && key === "Tab"))) {
+    if ((this.open || this.active) && (key === "Escape" || (event.shiftKey && key === "Tab"))) {
       this.closeCalciteDropdown();
       return;
     }
@@ -580,20 +580,20 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent, Float
     this.getFocusableElement(lastItem);
   }
 
-  private focusNextItem(e): void {
-    const index = this.itemIndex(e);
+  private focusNextItem(el): void {
+    const index = this.itemIndex(el);
     const nextItem = this.items[index + 1] || this.items[0];
     this.getFocusableElement(nextItem);
   }
 
-  private focusPrevItem(e): void {
-    const index = this.itemIndex(e);
+  private focusPrevItem(el): void {
+    const index = this.itemIndex(el);
     const prevItem = this.items[index - 1] || this.items[this.items.length - 1];
     this.getFocusableElement(prevItem);
   }
 
-  private itemIndex(e): number {
-    return this.items.indexOf(e);
+  private itemIndex(el): number {
+    return this.items.indexOf(el);
   }
 
   private getFocusableElement(item): void {

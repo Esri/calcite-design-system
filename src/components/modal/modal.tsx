@@ -272,8 +272,8 @@ export class Modal implements ConditionalSlotComponent, OpenCloseComponent {
   //
   //--------------------------------------------------------------------------
   @Listen("keydown", { target: "window" })
-  handleEscape(e: KeyboardEvent): void {
-    if ((this.open || this.active) && !this.disableEscape && e.key === "Escape") {
+  handleEscape(event: KeyboardEvent): void {
+    if ((this.open || this.active) && !this.disableEscape && event.key === "Escape") {
       this.close();
     }
   }

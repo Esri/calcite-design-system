@@ -151,7 +151,7 @@ export class Tab {
   @Method()
   async getTabIndex(): Promise<number> {
     return Array.prototype.indexOf.call(
-      nodeListToArray(this.el.parentElement.children).filter((e) => e.matches("calcite-tab")),
+      nodeListToArray(this.el.parentElement.children).filter((el) => el.matches("calcite-tab")),
       this.el
     );
   }
