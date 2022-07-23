@@ -15,9 +15,9 @@
 
 ## Events
 
-| Event                              | Description                         | Type               |
-| ---------------------------------- | ----------------------------------- | ------------------ |
-| `calciteColorPickerHexInputChange` | Emitted when the hex value changes. | `CustomEvent<any>` |
+| Event                              | Description                         | Type                |
+| ---------------------------------- | ----------------------------------- | ------------------- |
+| `calciteColorPickerHexInputChange` | Emitted when the hex value changes. | `CustomEvent<void>` |
 
 ## Methods
 
