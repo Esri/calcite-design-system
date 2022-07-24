@@ -8,7 +8,6 @@ import { generatePreactTypes } from "./support/preact";
 import stylelint from "stylelint";
 import { version } from "./package.json";
 import cssnano from "cssnano";
-import purgecss from "@fullhuman/postcss-purgecss";
 
 export const create: () => Config = () => ({
   buildEs5: "prod",
@@ -113,10 +112,6 @@ export const create: () => Config = () => ({
         }),
         cssnano({
           preset: "default"
-        }),
-        purgecss({
-          content: ["./src/**/*.tsx", "./src/**/*.css", "./src/index.html"],
-          defaultExtractor: (content) => content.match(/[A-Za-z0-9-_:/]+/g) || []
         })
       ]
     })
