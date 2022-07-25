@@ -3,11 +3,11 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-modal-content-text: The component content's font size.
- * @prop --calcite-modal-padding: The top/bottom padding around items within the component.
- * @prop --calcite-modal-padding-large: The left/right padding around items within the component.
- * @prop --calcite-modal-title-text: The component title's font size.
- * @prop --calcite-scrim-background: The component's semi-transparent background color.
+ * @prop --calcite-modal-content-text: [Deprecated] The component content's font size.
+ * @prop --calcite-modal-padding: [Deprecated] The padding around content area slot.
+ * @prop --calcite-modal-padding-large: [Deprecated] The left/right padding around items within the component.
+ * @prop --calcite-modal-title-text: [Deprecated] The component title's font size.
+ * @prop --calcite-scrim-background: [Deprecated] The component's semi-transparent background color.
  */
 
 :host {
@@ -29,6 +29,10 @@
   --calcite-modal-padding-large: theme("spacing.4");
   --calcite-modal-title-text: theme("fontSize.1h");
   --calcite-modal-content-text: theme("fontSize.n1");
+  --calcite-modal-padding-internal: theme("spacing.3");
+  --calcite-modal-padding-large-internal: theme("spacing.4");
+  --calcite-modal-title-text-internal: theme("fontSize.1h");
+  --calcite-modal-content-text-internal: theme("fontSize.n1");
 }
 
 :host([scale="m"]) {
@@ -36,6 +40,10 @@
   --calcite-modal-padding-large: theme("spacing.5");
   --calcite-modal-title-text: theme("fontSize.2h");
   --calcite-modal-content-text: theme("fontSize.0");
+  --calcite-modal-padding-internal: theme("spacing.4");
+  --calcite-modal-padding-large-internal: theme("spacing.5");
+  --calcite-modal-title-text-internal: theme("fontSize.2h");
+  --calcite-modal-content-text-internal: theme("fontSize.0");
 }
 
 :host([scale="l"]) {
@@ -43,6 +51,10 @@
   --calcite-modal-padding-large: theme("spacing.6");
   --calcite-modal-title-text: theme("fontSize.3h");
   --calcite-modal-content-text: theme("fontSize.1");
+  --calcite-modal-padding-internal: theme("spacing.5");
+  --calcite-modal-padding-large-internal: theme("spacing.6");
+  --calcite-modal-title-text-internal: theme("fontSize.3h");
+  --calcite-modal-content-text-internal: theme("fontSize.1");
 }
 
 .scrim {
@@ -115,7 +127,7 @@
     border-none
     bg-transparent;
   border-start-end-radius: theme("borderRadius.DEFAULT");
-  padding: var(--calcite-modal-padding);
+  padding-block: var(--calcite-modal-padding, var(--calcite-modal-padding-internal));
   flex: 0 0 auto;
   calcite-icon {
     @apply pointer-events-none;
@@ -134,13 +146,13 @@
 .title {
   @apply order-1 flex min-w-0 items-center;
   flex: 1 1 auto;
-  padding-block: var(--calcite-modal-padding);
-  padding-inline: var(--calcite-modal-padding-large);
+  padding-block: var(--calcite-modal-padding, var(--calcite-model-padding-internal));
+  padding-inline: var(--calcite-modal-padding-large, var(--calcite-modal-padding-large-internal));
 }
 
 @include slotted("header", "*") {
   @apply text-color-1 m-0 font-normal;
-  font-size: var(--calcite-modal-title-text);
+  font-size: var(--calcite-modal-title-text, var(--calcite-modal-title-text-internal));
 }
 
 /**
@@ -153,8 +165,7 @@
 }
 
 .content--spaced {
-  padding-block: var(--calcite-modal-padding);
-  padding-inline: var(--calcite-modal-padding-large);
+  padding: var(--calcite-modal-padding);
 }
 
 .content--no-footer {
@@ -162,7 +173,7 @@
 }
 
 @include slotted("content", "*") {
-  font-size: var(--calcite-modal-content-text);
+  font-size: var(--calcite-modal-content-text, var(--calcite-modal-context-text-internal));
 }
 
 :host([background-color="grey"]) {
@@ -187,8 +198,8 @@
     border-t
     border-solid;
   flex: 0 0 auto;
-  padding-block: var(--calcite-modal-padding);
-  padding-inline: var(--calcite-modal-padding-large);
+  padding-block: var(--calcite-modal-padding, var(--calcite-modal-padding-internal));
+  padding-inline: var(--calcite-modal-padding-large, var(--calcite-modal-padding-large-internal));
   z-index: 2;
 }
 

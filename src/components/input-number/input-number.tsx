@@ -1,4 +1,4 @@
-import { Scale, Status } from "../interfaces";
+import { DeprecatedEventPayload, Scale, Status } from "../interfaces";
 import {
   Component,
   Element,
@@ -373,17 +373,19 @@ export class InputNumber implements LabelableComponent, FormComponent, Interacti
   /**
    * @internal
    */
-  @Event() calciteInternalInputNumberFocus: EventEmitter;
+  @Event() calciteInternalInputNumberFocus: EventEmitter<void>;
 
   /**
    * @internal
    */
-  @Event() calciteInternalInputNumberBlur: EventEmitter;
+  @Event() calciteInternalInputNumberBlur: EventEmitter<void>;
 
   /**
    * Fires each time a new value is typed.
+   *
+   * **Note:**: The `el` and `value` event payload props are deprecated, please use the event's target/currentTarget instead
    */
-  @Event({ cancelable: true }) calciteInputNumberInput: EventEmitter;
+  @Event({ cancelable: true }) calciteInputNumberInput: EventEmitter<DeprecatedEventPayload>;
 
   /**
    * Fires each time a new value is typed and committed.
@@ -476,11 +478,7 @@ export class InputNumber implements LabelableComponent, FormComponent, Interacti
   };
 
   private inputNumberBlurHandler = () => {
-    this.calciteInternalInputNumberBlur.emit({
-      element: this.childNumberEl,
-      value: this.value
-    });
-
+    this.calciteInternalInputNumberBlur.emit();
     this.emitChangeIfUserModified();
   };
 
@@ -489,10 +487,7 @@ export class InputNumber implements LabelableComponent, FormComponent, Interacti
     if (event.target !== slottedActionEl) {
       this.setFocus();
     }
-    this.calciteInternalInputNumberFocus.emit({
-      element: this.childNumberEl,
-      value: this.value
-    });
+    this.calciteInternalInputNumberFocus.emit();
   };
 
   private inputNumberInputHandler = (nativeEvent: InputEvent): void => {

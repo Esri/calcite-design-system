@@ -50,9 +50,9 @@ Renders a `calcite-action` that displays only an icon and a tooltip label.
 
 ## Events
 
-| Event                | Description                                                                                                              | Type               |
-| -------------------- | ------------------------------------------------------------------------------------------------------------------------ | ------------------ |
-| `calciteActionClick` | <span style="color:red">**[DEPRECATED]**</span> use onClick instead.<br/><br/>Emits when the component has been clicked. | `CustomEvent<any>` |
+| Event                | Description                                                                                                              | Type                |
+| -------------------- | ------------------------------------------------------------------------------------------------------------------------ | ------------------- |
+| `calciteActionClick` | <span style="color:red">**[DEPRECATED]**</span> use onClick instead.<br/><br/>Emits when the component has been clicked. | `CustomEvent<void>` |
 
 ## Methods
 

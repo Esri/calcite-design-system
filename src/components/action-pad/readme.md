@@ -62,9 +62,9 @@ Renders a group of `calcite-action`s contained in a `calcite-action-group`. Acti
 
 ## Events
 
-| Event                    | Description                                    | Type               |
-| ------------------------ | ---------------------------------------------- | ------------------ |
-| `calciteActionPadToggle` | Emits when the `expanded` property is toggled. | `CustomEvent<any>` |
+| Event                    | Description                                    | Type                |
+| ------------------------ | ---------------------------------------------- | ------------------- |
+| `calciteActionPadToggle` | Emits when the `expanded` property is toggled. | `CustomEvent<void>` |
 
 ## Methods
 

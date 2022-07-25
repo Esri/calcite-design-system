@@ -37,7 +37,7 @@ function createLocaleDateTimeFormatter(locale: string, includeSeconds = true): I
       options.second = "2-digit";
     }
     return new Intl.DateTimeFormat(locale, options);
-  } catch (e) {
+  } catch (error) {
     throw new Error(`Invalid locale supplied while attempting to create a DateTime formatter: ${locale}`);
   }
 }

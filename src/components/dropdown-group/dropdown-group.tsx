@@ -10,7 +10,7 @@ import {
   VNode
 } from "@stencil/core";
 import { getElementProp } from "../../utils/dom";
-import { SelectionMode } from "./interfaces";
+import { RequestedItem, SelectionMode } from "./interfaces";
 import { Scale } from "../interfaces";
 import { CSS } from "./resources";
 
@@ -59,7 +59,7 @@ export class DropdownGroup {
   /**
    * @internal
    */
-  @Event() calciteInternalDropdownItemChange: EventEmitter;
+  @Event() calciteInternalDropdownItemChange: EventEmitter<RequestedItem>;
 
   //--------------------------------------------------------------------------
   //

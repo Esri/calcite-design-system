@@ -41,7 +41,11 @@ export class Loader {
   /** Text that displays under the component's indicator. */
   @Prop() text? = "";
 
-  /** Disables spacing around the component. */
+  /**
+   * Disables spacing around the component.
+   *
+   * @deprecated Use `--calcite-loader-padding` CSS variable instead.
+   */
   @Prop() noPadding = false;
 
   //--------------------------------------------------------------------------

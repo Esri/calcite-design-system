@@ -32,16 +32,16 @@ If you can calculate your progress, it's best to use the determinate version of 
 
 ## Properties
 
-| Property             | Attribute    | Description                                                                            | Type                               | Default     |
-| -------------------- | ------------ | -------------------------------------------------------------------------------------- | ---------------------------------- | ----------- |
-| `active`             | `active`     | When true, the component is active.                                                    | `boolean`                          | `false`     |
-| `inline`             | `inline`     | When true, displays smaller and appears to the left of the text.                       | `boolean`                          | `false`     |
-| `label` _(required)_ | `label`      | Accessible name for the component.                                                     | `string`                           | `undefined` |
-| `noPadding`          | `no-padding` | Disables spacing around the component.                                                 | `boolean`                          | `false`     |
-| `scale`              | `scale`      | Specifies the size of the component.                                                   | `"l" \| "m" \| "s"`                | `"m"`       |
-| `text`               | `text`       | Text that displays under the component's indicator.                                    | `string`                           | `""`        |
-| `type`               | `type`       | Use indeterminate if finding actual progress value is impossible.                      | `"determinate" \| "indeterminate"` | `undefined` |
-| `value`              | `value`      | The component's value. Valid only for determinate indicators. Percent complete of 100. | `number`                           | `0`         |
+| Property             | Attribute    | Description                                                                                                                                          | Type                               | Default     |
+| -------------------- | ------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------- | ----------- |
+| `active`             | `active`     | When true, the component is active.                                                                                                                  | `boolean`                          | `false`     |
+| `inline`             | `inline`     | When true, displays smaller and appears to the left of the text.                                                                                     | `boolean`                          | `false`     |
+| `label` _(required)_ | `label`      | Accessible name for the component.                                                                                                                   | `string`                           | `undefined` |
+| `noPadding`          | `no-padding` | <span style="color:red">**[DEPRECATED]**</span> Use `--calcite-loader-padding` CSS variable instead.<br/><br/>Disables spacing around the component. | `boolean`                          | `false`     |
+| `scale`              | `scale`      | Specifies the size of the component.                                                                                                                 | `"l" \| "m" \| "s"`                | `"m"`       |
+| `text`               | `text`       | Text that displays under the component's indicator.                                                                                                  | `string`                           | `""`        |
+| `type`               | `type`       | Use indeterminate if finding actual progress value is impossible.                                                                                    | `"determinate" \| "indeterminate"` | `undefined` |
+| `value`              | `value`      | The component's value. Valid only for determinate indicators. Percent complete of 100.                                                               | `number`                           | `0`         |
 
 ## CSS Custom Properties
 

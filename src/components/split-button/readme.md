@@ -39,10 +39,10 @@ The calcite-split-button control is one that combines a button with a dropdown m
 
 ## Events
 
-| Event                              | Description                                | Type               |
-| ---------------------------------- | ------------------------------------------ | ------------------ |
-| `calciteSplitButtonPrimaryClick`   | fired when the primary button is clicked   | `CustomEvent<any>` |
-| `calciteSplitButtonSecondaryClick` | fired when the secondary button is clicked | `CustomEvent<any>` |
+| Event                              | Description                                                                                                                                              | Type               |
+| ---------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------ |
+| `calciteSplitButtonPrimaryClick`   | fired when the primary button is clicked **Note:** The event payload is deprecated, please use separate mouse event listeners to get info about click.   | `CustomEvent<any>` |
+| `calciteSplitButtonSecondaryClick` | fired when the secondary button is clicked **Note:** The event payload is deprecated, please use separate mouse event listeners to get info about click. | `CustomEvent<any>` |
 
 ## Slots
 
