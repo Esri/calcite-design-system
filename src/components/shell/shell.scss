@@ -65,7 +65,7 @@
   @apply text-n2-wrap font-normal;
 }
 
-slot[name="shell-panel-end"]::slotted(calcite-shell-panel) {
+slot[name="panel-end"]::slotted(calcite-shell-panel) {
   margin-inline-start: auto;
 }
 
