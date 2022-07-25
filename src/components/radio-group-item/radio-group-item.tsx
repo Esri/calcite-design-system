@@ -50,6 +50,14 @@ export class RadioGroupItem {
    */
   @Prop({ reflect: true }) icon?: string;
 
+  @Watch("icon")
+  iconHandler(value: string): void {
+    if (value) {
+      this.iconPosition === "start" && (this.iconStart = value);
+      this.iconPosition === "end" && (this.iconEnd = value);
+    }
+  }
+
   /** flip the icon in rtl */
   @Prop({ reflect: true }) iconFlipRtl = false;
 
@@ -59,6 +67,12 @@ export class RadioGroupItem {
    * @deprecated use iconStart and iconEnd
    */
   @Prop({ reflect: true }) iconPosition?: Position = "start";
+
+  @Watch("iconPosition")
+  iconPositionHandler(value: Position): void {
+    value === "start" && (this.iconStart = this.icon);
+    value === "end" && (this.iconEnd = this.icon);
+  }
 
   /** Optionally pass an icon to display at the start - accepts Calcite UI icon names */
   @Prop({ reflect: true }) iconStart?: string;
@@ -71,6 +85,19 @@ export class RadioGroupItem {
    */
   @Prop({ mutable: true })
   value: any | null;
+
+  //--------------------------------------------------------------------------
+  //
+  //  Lifecycle
+  //
+  //--------------------------------------------------------------------------
+
+  connectedCallback(): void {
+    if (this.icon) {
+      this.iconPosition === "start" && (this.iconStart = this.icon);
+      this.iconPosition === "end" && (this.iconEnd = this.icon);
+    }
+  }
 
   render(): VNode {
     const { checked, value } = this;
@@ -116,11 +143,9 @@ export class RadioGroupItem {
             "label--outline": appearance === "outline"
           }}
         >
-          {this.icon && this.iconPosition === "start" ? iconEl : null}
           {this.iconStart ? iconStartEl : null}
           <slot>{value}</slot>
           <slot name={SLOTS.input} />
-          {this.icon && this.iconPosition === "end" ? iconEl : null}
           {this.iconEnd ? iconEndEl : null}
         </label>
       </Host>
