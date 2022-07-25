@@ -285,8 +285,8 @@ export class DatePicker {
   //
   //--------------------------------------------------------------------------
 
-  keyDownHandler = (e: KeyboardEvent): void => {
-    if (e.key === "Escape") {
+  keyDownHandler = (event: KeyboardEvent): void => {
+    if (event.key === "Escape") {
       this.reset();
     }
   };
@@ -324,8 +324,8 @@ export class DatePicker {
     this.localeData = await getLocaleData(locale);
   }
 
-  monthHeaderSelectChange = (e: CustomEvent<Date>): void => {
-    const date = new Date(e.detail);
+  monthHeaderSelectChange = (event: CustomEvent<Date>): void => {
+    const date = new Date(event.detail);
     if (!this.range) {
       this.activeDate = date;
     } else {
@@ -338,8 +338,8 @@ export class DatePicker {
     }
   };
 
-  monthActiveDateChange = (e: CustomEvent<Date>): void => {
-    const date = new Date(e.detail);
+  monthActiveDateChange = (event: CustomEvent<Date>): void => {
+    const date = new Date(event.detail);
     if (!this.range) {
       this.activeDate = date;
     } else {
@@ -352,12 +352,12 @@ export class DatePicker {
     }
   };
 
-  monthHoverChange = (e: CustomEvent<Date>): void => {
+  monthHoverChange = (event: CustomEvent<Date>): void => {
     if (!this.startAsDate) {
       this.hoverRange = undefined;
       return;
     }
-    const date = new Date(e.detail);
+    const date = new Date(event.detail);
     this.hoverRange = {
       focused: this.activeRange || "start",
       start: this.startAsDate,
@@ -408,7 +408,7 @@ export class DatePicker {
         this.hoverRange = undefined;
       }
     }
-    e.stopPropagation();
+    event.stopPropagation();
   };
 
   monthMouseOutChange = (): void => {
@@ -535,10 +535,10 @@ export class DatePicker {
   /**
    * Event handler for when the selected date changes
    *
-   * @param e
+   * @param event
    */
-  private monthDateChange = (e: CustomEvent<Date>): void => {
-    const date = new Date(e.detail);
+  private monthDateChange = (event: CustomEvent<Date>): void => {
+    const date = new Date(event.detail);
     if (!this.range) {
       this.value = date ? dateToISO(date) : "";
       this.valueAsDate = date || null;

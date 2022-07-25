@@ -44,11 +44,12 @@
       });
     </script>
   </head>
+
   <body>
     <main>
       <div class="shell-container">
         <calcite-shell>
-          <calcite-shell-panel resizable slot="primary-panel" position="start">
+          <calcite-shell-panel resizable slot="panel-start" position="start">
             <calcite-action-bar slot="action-bar" class="calcite-theme-dark">
               <calcite-action-group>
                 <calcite-action text="Add" icon="plus"> </calcite-action>
@@ -103,7 +104,7 @@
             </calcite-panel>
           </calcite-shell-panel>
 
-          <calcite-shell-panel resizable slot="contextual-panel" position="end" detached>
+          <calcite-shell-panel resizable slot="panel-end" position="end" detached>
             <calcite-action-bar slot="action-bar">
               <calcite-action-group>
                 <calcite-action text="Add" active icon="plus"> </calcite-action>
@@ -194,12 +195,8 @@
                 height-scale="l"
                 width-scale="m"
               >
-                <calcite-action
-                  slot="header-actions-end"
-                  icon="banana"
-                  label="this is bananas"
-                  text-enabled
-                ></calcite-action>
+                <calcite-action slot="header-actions-end" icon="banana" label="this is bananas" text-enabled>
+                </calcite-action>
                 <calcite-value-list id="one" multiple>
                   <calcite-value-list-item
                     label="2018PopulationDensityEsriAndEvenLonger"

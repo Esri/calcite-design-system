@@ -14,7 +14,7 @@ Renders a shell with leading and trailing floating panels, action bar/pad, block
 
 ```html
 <calcite-shell>
-  <calcite-shell-panel slot="primary-panel" position="start" detached>
+  <calcite-shell-panel slot="panel-start" position="start" detached>
     <calcite-action-bar slot="action-bar">
       <calcite-action-group>
         <calcite-action text="Add" icon="plus"></calcite-action>
@@ -40,7 +40,7 @@ Renders a shell with leading and trailing floating panels, action bar/pad, block
     </calcite-block>
   </calcite-shell-panel>
 
-   <calcite-shell-panel slot="contextual-panel" position="end" detached height-scale="l">
+   <calcite-shell-panel slot="panel-end" position="end" detached height-scale="l">
       <calcite-action-bar slot="action-bar">
         <calcite-action-group>
           <calcite-action text="Add" active icon="plus"></calcite-action>
@@ -103,7 +103,7 @@ Renders a single panel with actions in an action bar.
 
 ```html
 <calcite-shell>
-  <calcite-shell-panel slot="primary-panel" position="start">
+  <calcite-shell-panel slot="panel-start" position="start">
     <img src="https://via.placeholder.com/300x200" alt="placeholder" />
     <calcite-action-bar slot="action-bar">
       <calcite-action text="Add" active icon="plus"></calcite-action>
@@ -120,10 +120,10 @@ Renders a shell with a header and panels on the left and right sides of the app.
 
 ```html
 <calcite-shell>
-  <calcite-shell-panel slot="primary-panel" position="start">
+  <calcite-shell-panel slot="panel-start" position="start">
     Leading panel! (on the left side, since this is a LTR app)
   </calcite-shell-panel>
-  <calcite-shell-panel slot="contextual-panel" position="end"> Trailing panel! (right side) </calcite-shell-panel>
+  <calcite-shell-panel slot="panel-end" position="end"> Trailing panel! (right side) </calcite-shell-panel>
   <calcite-shell-center-row slot="center-row" position="end" height-scale="m">
     Center Row! (center bottom)
   </calcite-shell-center-row>

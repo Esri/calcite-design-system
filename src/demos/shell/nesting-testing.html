@@ -19,10 +19,12 @@
         width: 100%;
         height: 100%;
       }
+
       .toggles,
       #toggles-drag {
         display: none;
       }
+
       #viewDiv {
         padding: 0;
         margin: 0;
@@ -54,11 +56,12 @@
       });
     </script>
   </head>
+
   <body>
     <main>
       <div class="shell-container">
         <calcite-shell content-behind>
-          <calcite-shell-panel id="primary-panel" slot="primary-panel" position="start" detached>
+          <calcite-shell-panel id="primary-panel" slot="panel-start" position="start" detached>
             <calcite-action-bar slot="action-bar" class="calcite-theme-dark">
               <calcite-action-group>
                 <calcite-action text="Save" icon="save" indicator> </calcite-action>
@@ -82,7 +85,7 @@
             </calcite-action-bar>
           </calcite-shell-panel>
 
-          <calcite-shell-panel slot="contextual-panel" position="end">
+          <calcite-shell-panel slot="panel-end" position="end">
             <calcite-action-bar slot="action-bar">
               <calcite-action-group>
                 <calcite-action text="Layer properties" icon="sliders-horizontal"> </calcite-action>
@@ -124,8 +127,8 @@
                   <calcite-action text="cool" icon="banana" text-enabled slot="header-menu-actions"></calcite-action>
                   <div>
                     <calcite-button alignment="center" appearance="transparent" width="full" scale="s"
-                      >The button</calcite-button
-                    >
+                      >The button
+                    </calcite-button>
                     <calcite-list>
                       <calcite-list-item label="States">
                         <calcite-icon icon="chevron-right" slot="content-end" scale="s"></calcite-icon>

@@ -15,7 +15,7 @@ import { focusElement, getSlotted, toAriaBoolean } from "../../utils/dom";
 import { Fragment, VNode } from "@stencil/core/internal";
 import { getRoundRobinIndex } from "../../utils/array";
 import { guid } from "../../utils/guid";
-import { Scale } from "../interfaces";
+import { DeprecatedEventPayload, Scale } from "../interfaces";
 import { createObserver } from "../../utils/observers";
 import { LogicalPlacement, EffectivePlacement, OverlayPositioning } from "../../utils/floating-ui";
 import {
@@ -122,8 +122,10 @@ export class ActionMenu implements ConditionalSlotComponent {
 
   /**
    * Emits when the `open` property has changed.
+   *
+   * **Note:**: The event payload is deprecated, please use the `open` property on the component instead
    */
-  @Event() calciteActionMenuOpenChange: EventEmitter;
+  @Event() calciteActionMenuOpenChange: EventEmitter<DeprecatedEventPayload>;
 
   @Listen("click", { target: "window" })
   closeCalciteActionMenuOnClick(event: Event): void {
