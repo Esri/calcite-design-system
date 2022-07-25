@@ -857,16 +857,16 @@ describe("calcite-dropdown", () => {
     await page.waitForChanges();
 
     const element = await page.find("calcite-dropdown");
-    const group1 = await element.find("calcite-dropdown-group[id='group-1']");
-    const group2 = await element.find("calcite-dropdown-group[id='group-2']");
-    const group3 = await element.find("calcite-dropdown-group[id='group-3']");
-    const item1 = await element.find("calcite-dropdown-item[id='item-1']");
-    const item2 = await element.find("calcite-dropdown-item[id='item-2']");
-    const item3 = await element.find("calcite-dropdown-item[id='item-3']");
-    const item4 = await element.find("calcite-dropdown-item[id='item-4']");
-    const item5 = await element.find("calcite-dropdown-item[id='item-5']");
-    const item6 = await element.find("calcite-dropdown-item[id='item-6']");
-    const item7 = await element.find("calcite-dropdown-item[id='item-7']");
+    const group1 = await element.find("calcite-dropdown-group[id='group-1'] >>> .container");
+    const group2 = await element.find("calcite-dropdown-group[id='group-2'] >>> .container");
+    const group3 = await element.find("calcite-dropdown-group[id='group-3'] >>> .container");
+    const item1 = await element.find("calcite-dropdown-item[id='item-1'] >>> .container");
+    const item2 = await element.find("calcite-dropdown-item[id='item-2'] >>> .container");
+    const item3 = await element.find("calcite-dropdown-item[id='item-3'] >>> .container");
+    const item4 = await element.find("calcite-dropdown-item[id='item-4'] >>> .container");
+    const item5 = await element.find("calcite-dropdown-item[id='item-5'] >>> .container");
+    const item6 = await element.find("calcite-dropdown-item[id='item-6'] >>> .container");
+    const item7 = await element.find("calcite-dropdown-item[id='item-7'] >>> .container");
 
     expect(group1).toEqualAttribute("role", "group");
     expect(group2).toEqualAttribute("role", "group");
@@ -933,7 +933,10 @@ describe("calcite-dropdown", () => {
         document.body.innerHTML = `<${wrapperName}></${wrapperName}>`;
 
         const wrapper = document.querySelector(wrapperName);
-        wrapper.shadowRoot.querySelector<HTMLCalciteDropdownItemElement>("#item-3").click();
+        wrapper.shadowRoot
+          .querySelector<HTMLCalciteDropdownItemElement>("#item-3")
+          .shadowRoot.querySelector<HTMLDivElement>(".container")
+          .click();
       },
       wrappedDropdownTemplateHTML,
       wrapperName
