@@ -212,17 +212,17 @@ export class DatePickerMonthHeader {
   /**
    * Increment year on UP/DOWN keys
    *
-   * @param e
+   * @param event
    */
-  private onYearKey = (e: KeyboardEvent): void => {
-    const localizedYear = this.parseCalendarYear((e.target as HTMLInputElement).value);
-    switch (e.key) {
+  private onYearKey = (event: KeyboardEvent): void => {
+    const localizedYear = this.parseCalendarYear((event.target as HTMLInputElement).value);
+    switch (event.key) {
       case "ArrowDown":
-        e.preventDefault();
+        event.preventDefault();
         this.setYear({ localizedYear, offset: -1 });
         break;
       case "ArrowUp":
-        e.preventDefault();
+        event.preventDefault();
         this.setYear({ localizedYear, offset: 1 });
         break;
     }
@@ -257,34 +257,34 @@ export class DatePickerMonthHeader {
     });
   };
 
-  private prevMonthClick = (e: Event): void => {
-    this.handleArrowClick(e, this.prevMonthDate);
+  private prevMonthClick = (event: Event): void => {
+    this.handleArrowClick(event, this.prevMonthDate);
   };
 
-  private prevMonthKeydown = (e: KeyboardEvent): void => {
-    const key = e.key;
+  private prevMonthKeydown = (event: KeyboardEvent): void => {
+    const key = event.key;
     if (key === " " || key === "Enter") {
-      this.prevMonthClick(e);
+      this.prevMonthClick(event);
     }
   };
 
-  private nextMonthClick = (e: Event): void => {
-    this.handleArrowClick(e, this.nextMonthDate);
+  private nextMonthClick = (event: Event): void => {
+    this.handleArrowClick(event, this.nextMonthDate);
   };
 
-  private nextMonthKeydown = (e: KeyboardEvent): void => {
-    const key = e.key;
+  private nextMonthKeydown = (event: KeyboardEvent): void => {
+    const key = event.key;
     if (key === " " || key === "Enter") {
-      this.nextMonthClick(e);
+      this.nextMonthClick(event);
     }
   };
 
   /*
    * Update active month on clicks of left/right arrows
    */
-  private handleArrowClick = (e: Event, date: Date): void => {
-    e?.preventDefault();
-    e.stopPropagation();
+  private handleArrowClick = (event: Event, date: Date): void => {
+    event?.preventDefault();
+    event.stopPropagation();
     this.calciteDatePickerSelect.emit(date);
   };
 

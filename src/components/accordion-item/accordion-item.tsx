@@ -19,6 +19,7 @@ import {
 import { CSS_UTILITY } from "../../utils/resources";
 import { SLOTS, CSS } from "./resources";
 import { Position } from "../interfaces";
+import { ItemKeyEvent, RegistryEntry, RequestedItem } from "./interfaces";
 
 /**
  * @slot - A slot for adding custom content, including nested `calcite-accordion-item`s.
@@ -97,22 +98,22 @@ export class AccordionItem implements ConditionalSlotComponent {
   /**
    * @internal
    */
-  @Event() calciteInternalAccordionItemKeyEvent: EventEmitter;
+  @Event() calciteInternalAccordionItemKeyEvent: EventEmitter<ItemKeyEvent>;
 
   /**
    * @internal
    */
-  @Event() calciteInternalAccordionItemSelect: EventEmitter;
+  @Event() calciteInternalAccordionItemSelect: EventEmitter<RequestedItem>;
 
   /**
    * @internal
    */
-  @Event() calciteInternalAccordionItemClose: EventEmitter;
+  @Event() calciteInternalAccordionItemClose: EventEmitter<void>;
 
   /**
    * @internal
    */
-  @Event() calciteInternalAccordionItemRegister: EventEmitter;
+  @Event() calciteInternalAccordionItemRegister: EventEmitter<RegistryEntry>;
 
   //--------------------------------------------------------------------------
   //
@@ -227,13 +228,13 @@ export class AccordionItem implements ConditionalSlotComponent {
   //--------------------------------------------------------------------------
 
   @Listen("keydown")
-  keyDownHandler(e: KeyboardEvent): void {
-    if (e.target === this.el) {
-      switch (e.key) {
+  keyDownHandler(event: KeyboardEvent): void {
+    if (event.target === this.el) {
+      switch (event.key) {
         case " ":
         case "Enter":
           this.emitRequestedItem();
-          e.preventDefault();
+          event.preventDefault();
           break;
         case "ArrowUp":
         case "ArrowDown":
@@ -241,9 +242,9 @@ export class AccordionItem implements ConditionalSlotComponent {
         case "End":
           this.calciteInternalAccordionItemKeyEvent.emit({
             parent: this.parent,
-            item: e
+            item: event
           });
-          e.preventDefault();
+          event.preventDefault();
           break;
       }
     }

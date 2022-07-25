@@ -85,7 +85,7 @@ export class ActionPad implements ConditionalSlotComponent {
   /**
    * Emits when the `expanded` property is toggled.
    */
-  @Event() calciteActionPadToggle: EventEmitter;
+  @Event() calciteActionPadToggle: EventEmitter<void>;
 
   // --------------------------------------------------------------------------
   //

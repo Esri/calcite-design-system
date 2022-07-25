@@ -68,10 +68,10 @@ Renders a tip manager using a group of tips as well as a single tip.
 
 ## Events
 
-| Event                     | Description                                                                                                                                                          | Type               |
-| ------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------ |
-| `calciteTipManagerClose`  | Emitted when the `calcite-tip-manager` has been closed.                                                                                                              | `CustomEvent<any>` |
-| `calciteTipManagerToggle` | <span style="color:red">**[DEPRECATED]**</span> use calciteTipManagerClose instead.<br/><br/>Emitted when the `calcite-tip-manager` has been toggled open or closed. | `CustomEvent<any>` |
+| Event                     | Description                                                                                                                                                          | Type                |
+| ------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------- |
+| `calciteTipManagerClose`  | Emitted when the `calcite-tip-manager` has been closed.                                                                                                              | `CustomEvent<void>` |
+| `calciteTipManagerToggle` | <span style="color:red">**[DEPRECATED]**</span> use calciteTipManagerClose instead.<br/><br/>Emitted when the `calcite-tip-manager` has been toggled open or closed. | `CustomEvent<void>` |
 
 ## Methods
 

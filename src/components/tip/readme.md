@@ -31,9 +31,9 @@ Renders a non-dismissible tip with a heading, thumbnail, info and a link.
 
 ## Events
 
-| Event               | Description                                    | Type               |
-| ------------------- | ---------------------------------------------- | ------------------ |
-| `calciteTipDismiss` | Emitted when the component has been dismissed. | `CustomEvent<any>` |
+| Event               | Description                                    | Type                |
+| ------------------- | ---------------------------------------------- | ------------------- |
+| `calciteTipDismiss` | Emitted when the component has been dismissed. | `CustomEvent<void>` |
 
 ## Slots
 

@@ -1,5 +1,5 @@
-import { Component, h, Prop, Watch, Element } from "@stencil/core";
-import { SLOTS, TEXT, ICONS } from "./resources";
+import { Component, Element, h, Prop, Watch } from "@stencil/core";
+import { ICONS, SLOTS, TEXT } from "./resources";
 import { Fragment, VNode } from "@stencil/core/internal";
 import { getSlotted } from "../../utils/dom";
 import { SLOTS as ACTION_MENU_SLOTS } from "../action-menu/resources";
@@ -9,6 +9,7 @@ import {
   connectConditionalSlotComponent,
   disconnectConditionalSlotComponent
 } from "../../utils/conditionalSlot";
+import { CalciteActionMenuCustomEvent } from "../../components";
 
 /**
  * @slot - A slot for adding a group of `calcite-action`s.
@@ -140,7 +141,7 @@ export class ActionGroup implements ConditionalSlotComponent {
   //
   // --------------------------------------------------------------------------
 
-  setMenuOpen = (event: CustomEvent<boolean>): void => {
+  setMenuOpen = (event: CalciteActionMenuCustomEvent<boolean>): void => {
     this.menuOpen = !!event.detail;
   };
 }
