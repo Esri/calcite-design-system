@@ -53,11 +53,12 @@
       });
     </script>
   </head>
+
   <body>
     <main>
       <div class="shell-container">
         <calcite-shell>
-          <calcite-shell-panel id="primary-panel" slot="primary-panel" position="start">
+          <calcite-shell-panel id="primary-panel" slot="panel-start" position="start">
             <calcite-action-bar slot="action-bar" class="calcite-theme-dark">
               <calcite-action-group>
                 <calcite-action text="Save" icon="save" indicator> </calcite-action>
@@ -87,7 +88,7 @@
             </calcite-flow>
           </calcite-shell-panel>
 
-          <calcite-shell-panel slot="contextual-panel" position="end">
+          <calcite-shell-panel slot="panel-end" position="end">
             <calcite-action-bar slot="action-bar">
               <calcite-action-group>
                 <calcite-action text="Layer properties" icon="sliders-horizontal"> </calcite-action>
@@ -124,12 +125,8 @@
           <calcite-shell-center-row slot="center-row" height-scale="s" detached id="center-row">
             <calcite-panel heading="Data table" summary="US Demographics - Country - County">
               <calcite-action slot="header-leading-content" text="Switch layer" icon="caret-down"></calcite-action>
-              <calcite-action
-                slot="header-actions-end"
-                text="Expand"
-                icon="chevrons-up"
-                id="expand-trigger"
-              ></calcite-action>
+              <calcite-action slot="header-actions-end" text="Expand" icon="chevrons-up" id="expand-trigger">
+              </calcite-action>
               <calcite-fab slot="fab"></calcite-fab>
               <style>
                 .demo-table th {
@@ -137,6 +134,7 @@
                   position: sticky;
                   top: 0;
                 }
+
                 .demo-table,
                 .demo-table th,
                 .demo-table td {
@@ -145,32 +143,41 @@
                   border: solid 1px var(--calcite-app-border);
                   border-collapse: collapse;
                 }
+
                 .demo-table th,
                 .demo-table td {
                   padding: 4px 8px;
                 }
+
                 .demo-table td {
                   vertical-align: top;
                 }
+
                 .demo-table th {
                   min-width: 7rem;
                 }
+
                 .demo-table th.sml {
                   min-width: 1rem;
                 }
+
                 .demo-table tr:nth-child(even) {
                   background-color: #f8f8f8;
                 }
+
                 .demo-table calcite-icon {
                   color: #9e9e9e;
                 }
+
                 .demo-table tr td:first-child {
                   vertical-align: middle;
                 }
               </style>
               <table class="demo-table">
                 <tr>
-                  <th class="sml"><calcite-icon icon="square" scale="s"></calcite-icon></th>
+                  <th class="sml">
+                    <calcite-icon icon="square" scale="s"></calcite-icon>
+                  </th>
                   <th class="sml">ID</th>
                   <th>Cool cache</th>
                   <th>neat-notion</th>
@@ -184,7 +191,9 @@
                   <th>UnderwaterUnit</th>
                 </tr>
                 <tr>
-                  <td class="sml"><calcite-icon icon="square" scale="s"></calcite-icon></td>
+                  <td class="sml">
+                    <calcite-icon icon="square" scale="s"></calcite-icon>
+                  </td>
                   <td>01</td>
                   <td>Can't keep Johnny down.</td>
                   <td>You probably get that a lot.</td>
@@ -198,7 +207,9 @@
                   <td>Protagonist</td>
                 </tr>
                 <tr>
-                  <td class="sml"><calcite-icon icon="square" scale="s"></calcite-icon></td>
+                  <td class="sml">
+                    <calcite-icon icon="square" scale="s"></calcite-icon>
+                  </td>
                   <td>01</td>
                   <td>Can't keep Johnny down.</td>
                   <td>You probably get that a lot.</td>
@@ -212,7 +223,9 @@
                   <td>Protagonist</td>
                 </tr>
                 <tr>
-                  <td class="sml"><calcite-icon icon="square" scale="s"></calcite-icon></td>
+                  <td class="sml">
+                    <calcite-icon icon="square" scale="s"></calcite-icon>
+                  </td>
                   <td>01</td>
                   <td>Can't keep Johnny down.</td>
                   <td>You probably get that a lot.</td>
@@ -226,7 +239,9 @@
                   <td>Protagonist</td>
                 </tr>
                 <tr>
-                  <td class="sml"><calcite-icon icon="square" scale="s"></calcite-icon></td>
+                  <td class="sml">
+                    <calcite-icon icon="square" scale="s"></calcite-icon>
+                  </td>
                   <td>01</td>
                   <td>Can't keep Johnny down.</td>
                   <td>You probably get that a lot.</td>
@@ -240,7 +255,9 @@
                   <td>Protagonist</td>
                 </tr>
                 <tr>
-                  <td class="sml"><calcite-icon icon="square" scale="s"></calcite-icon></td>
+                  <td class="sml">
+                    <calcite-icon icon="square" scale="s"></calcite-icon>
+                  </td>
                   <td>01</td>
                   <td>Can't keep Johnny down.</td>
                   <td>You probably get that a lot.</td>
@@ -254,7 +271,9 @@
                   <td>Protagonist</td>
                 </tr>
                 <tr>
-                  <td class="sml"><calcite-icon icon="square" scale="s"></calcite-icon></td>
+                  <td class="sml">
+                    <calcite-icon icon="square" scale="s"></calcite-icon>
+                  </td>
                   <td>01</td>
                   <td>Can't keep Johnny down.</td>
                   <td>You probably get that a lot.</td>
@@ -268,7 +287,9 @@
                   <td>Protagonist</td>
                 </tr>
                 <tr>
-                  <td class="sml"><calcite-icon icon="square" scale="s"></calcite-icon></td>
+                  <td class="sml">
+                    <calcite-icon icon="square" scale="s"></calcite-icon>
+                  </td>
                   <td>01</td>
                   <td>Can't keep Johnny down.</td>
                   <td>You probably get that a lot.</td>
@@ -282,7 +303,9 @@
                   <td>Protagonist</td>
                 </tr>
                 <tr>
-                  <td class="sml"><calcite-icon icon="square" scale="s"></calcite-icon></td>
+                  <td class="sml">
+                    <calcite-icon icon="square" scale="s"></calcite-icon>
+                  </td>
                   <td>01</td>
                   <td>Can't keep Johnny down.</td>
                   <td>You probably get that a lot.</td>
@@ -296,7 +319,9 @@
                   <td>Protagonist</td>
                 </tr>
                 <tr>
-                  <td class="sml"><calcite-icon icon="square" scale="s"></calcite-icon></td>
+                  <td class="sml">
+                    <calcite-icon icon="square" scale="s"></calcite-icon>
+                  </td>
                   <td>01</td>
                   <td>Can't keep Johnny down.</td>
                   <td>You probably get that a lot.</td>
@@ -310,7 +335,9 @@
                   <td>Protagonist</td>
                 </tr>
                 <tr>
-                  <td class="sml"><calcite-icon icon="square" scale="s"></calcite-icon></td>
+                  <td class="sml">
+                    <calcite-icon icon="square" scale="s"></calcite-icon>
+                  </td>
                   <td>01</td>
                   <td>Can't keep Johnny down.</td>
                   <td>You probably get that a lot.</td>
@@ -324,7 +351,9 @@
                   <td>Protagonist</td>
                 </tr>
                 <tr>
-                  <td class="sml"><calcite-icon icon="square" scale="s"></calcite-icon></td>
+                  <td class="sml">
+                    <calcite-icon icon="square" scale="s"></calcite-icon>
+                  </td>
                   <td>01</td>
                   <td>Can't keep Johnny down.</td>
                   <td>You probably get that a lot.</td>
@@ -338,7 +367,9 @@
                   <td>Protagonist</td>
                 </tr>
                 <tr>
-                  <td class="sml"><calcite-icon icon="square" scale="s"></calcite-icon></td>
+                  <td class="sml">
+                    <calcite-icon icon="square" scale="s"></calcite-icon>
+                  </td>
                   <td>01</td>
                   <td>LAST</td>
                   <td>You probably get that a lot.</td>

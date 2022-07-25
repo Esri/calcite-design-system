@@ -50,11 +50,12 @@
       });
     </script>
   </head>
+
   <body>
     <main>
       <div class="shell-container">
         <calcite-shell>
-          <calcite-shell-panel slot="primary-panel" position="start" detached>
+          <calcite-shell-panel slot="panel-start" position="start" detached>
             <calcite-panel
               id="shell-floating-panel"
               slot="shell-floating-panel"
@@ -78,8 +79,9 @@
               intl-collapse="Collapse"
               intl-expand="Expand"
               expand
-              ><calcite-action-group class="js-action-group" slot="" calcite-hydrated=""
-                ><calcite-action
+            >
+              <calcite-action-group class="js-action-group" slot="" calcite-hydrated="">
+                <calcite-action
                   id="adddata"
                   class="js-action"
                   label="Add data"
@@ -90,8 +92,8 @@
                   disabled=""
                   text-enabled=""
                   calcite-hydrated=""
-                ></calcite-action
-                ><calcite-action
+                ></calcite-action>
+                <calcite-action
                   id="layers"
                   class="js-action"
                   label="Layers"
@@ -102,8 +104,8 @@
                   active=""
                   text-enabled=""
                   calcite-hydrated=""
-                ></calcite-action
-                ><calcite-action
+                ></calcite-action>
+                <calcite-action
                   id="tables"
                   class="js-action"
                   label="Tables"
@@ -113,8 +115,8 @@
                   appearance="solid"
                   text-enabled=""
                   calcite-hydrated=""
-                ></calcite-action
-                ><calcite-action
+                ></calcite-action>
+                <calcite-action
                   id="basemaps"
                   class="js-action"
                   label="Basemap"
@@ -124,8 +126,8 @@
                   appearance="solid"
                   text-enabled=""
                   calcite-hydrated=""
-                ></calcite-action
-                ><calcite-action
+                ></calcite-action>
+                <calcite-action
                   id="maplegend"
                   class="js-action"
                   label="Legend"
@@ -135,8 +137,8 @@
                   appearance="solid"
                   text-enabled=""
                   calcite-hydrated=""
-                ></calcite-action
-                ><calcite-action
+                ></calcite-action>
+                <calcite-action
                   id="bookmarks"
                   class="js-action"
                   label="Bookmarks"
@@ -147,9 +149,10 @@
                   disabled=""
                   text-enabled=""
                   calcite-hydrated=""
-                ></calcite-action></calcite-action-group
-              ><calcite-action-group class="js-action-group" slot="" calcite-hydrated=""
-                ><calcite-action
+                ></calcite-action>
+              </calcite-action-group>
+              <calcite-action-group class="js-action-group" slot="" calcite-hydrated="">
+                <calcite-action
                   id="save"
                   class="js-action"
                   label="Save"
@@ -160,8 +163,8 @@
                   disabled=""
                   text-enabled=""
                   calcite-hydrated=""
-                ></calcite-action
-                ><calcite-action
+                ></calcite-action>
+                <calcite-action
                   id="opennewmap"
                   class="js-action"
                   label="Create new map"
@@ -172,8 +175,8 @@
                   disabled=""
                   text-enabled=""
                   calcite-hydrated=""
-                ></calcite-action
-                ><calcite-action
+                ></calcite-action>
+                <calcite-action
                   id="openmap"
                   class="js-action"
                   label="Open existing map"
@@ -183,8 +186,8 @@
                   appearance="solid"
                   text-enabled=""
                   calcite-hydrated=""
-                ></calcite-action
-                ><calcite-action
+                ></calcite-action>
+                <calcite-action
                   id="mapproperties"
                   class="js-action"
                   label="Map properties"
@@ -195,9 +198,11 @@
                   disabled=""
                   text-enabled=""
                   calcite-hydrated=""
-                ></calcite-action></calcite-action-group
-              ><calcite-action-group class="js-action-group" slot="" calcite-hydrated=""
-                ><calcite-action
+                >
+                </calcite-action>
+              </calcite-action-group>
+              <calcite-action-group class="js-action-group" slot="" calcite-hydrated="">
+                <calcite-action
                   id="share"
                   class="js-action"
                   label="Share map"
@@ -208,8 +213,8 @@
                   disabled=""
                   text-enabled=""
                   calcite-hydrated=""
-                ></calcite-action
-                ><calcite-action
+                ></calcite-action>
+                <calcite-action
                   id="print"
                   class="js-action"
                   label="Print"
@@ -219,9 +224,10 @@
                   appearance="solid"
                   text-enabled=""
                   calcite-hydrated=""
-                ></calcite-action></calcite-action-group
-              ><calcite-action-group class="js-action-group" slot="bottom-actions" calcite-hydrated=""
-                ><calcite-action
+                ></calcite-action>
+              </calcite-action-group>
+              <calcite-action-group class="js-action-group" slot="bottom-actions" calcite-hydrated="">
+                <calcite-action
                   id="feedback"
                   class="js-action"
                   label="Feedback"
@@ -231,8 +237,8 @@
                   appearance="solid"
                   text-enabled=""
                   calcite-hydrated=""
-                ></calcite-action
-                ><calcite-action
+                ></calcite-action>
+                <calcite-action
                   id="whatsnext"
                   class="js-action"
                   label="What's next?"
@@ -242,22 +248,24 @@
                   appearance="solid"
                   text-enabled=""
                   calcite-hydrated=""
-                ></calcite-action></calcite-action-group
-            ></calcite-action-bar>
+                ></calcite-action>
+              </calcite-action-group>
+            </calcite-action-bar>
             <calcite-panel heading="Layers" height-scale="l">
               <div id="layerlist-container"></div>
             </calcite-panel>
           </calcite-shell-panel>
 
-          <calcite-shell-panel slot="contextual-panel" position="end">
+          <calcite-shell-panel slot="panel-end" position="end">
             <calcite-action-bar
               slot="action-bar"
               class="calcite-theme-light"
               intl-collapse="Collapse"
               intl-expand="Expand"
               expand
-              ><calcite-action-group class="js-action-group" slot="" calcite-hydrated=""
-                ><calcite-action
+            >
+              <calcite-action-group class="js-action-group" slot="" calcite-hydrated="">
+                <calcite-action
                   id="layerproperties"
                   class="js-action"
                   label="Properties"
@@ -268,8 +276,9 @@
                   disabled=""
                   text-enabled=""
                   calcite-hydrated=""
-                ></calcite-action
-                ><calcite-action
+                >
+                </calcite-action>
+                <calcite-action
                   id="layerstyles"
                   class="js-action"
                   label="Styles"
@@ -280,8 +289,8 @@
                   disabled=""
                   text-enabled=""
                   calcite-hydrated=""
-                ></calcite-action
-                ><calcite-action
+                ></calcite-action>
+                <calcite-action
                   id="layerfilter"
                   class="js-action"
                   label="Filter"
@@ -292,8 +301,8 @@
                   disabled=""
                   text-enabled=""
                   calcite-hydrated=""
-                ></calcite-action
-                ><calcite-action
+                ></calcite-action>
+                <calcite-action
                   id="cluster"
                   class="js-action"
                   label="Clustering"
@@ -304,8 +313,8 @@
                   disabled=""
                   text-enabled=""
                   calcite-hydrated=""
-                ></calcite-action
-                ><calcite-action
+                ></calcite-action>
+                <calcite-action
                   id="configurepopup"
                   class="js-action"
                   label="Configure pop-ups"
@@ -316,8 +325,9 @@
                   disabled=""
                   text-enabled=""
                   calcite-hydrated=""
-                ></calcite-action
-                ><calcite-action
+                >
+                </calcite-action>
+                <calcite-action
                   id="configureattributes"
                   class="js-action"
                   label="Configure fields"
@@ -328,8 +338,8 @@
                   disabled=""
                   text-enabled=""
                   calcite-hydrated=""
-                ></calcite-action
-                ><calcite-action
+                ></calcite-action>
+                <calcite-action
                   id="labels"
                   class="js-action"
                   label="Labels"
@@ -340,9 +350,10 @@
                   disabled=""
                   text-enabled=""
                   calcite-hydrated=""
-                ></calcite-action></calcite-action-group
-              ><calcite-action-group class="js-action-group" slot="" calcite-hydrated=""
-                ><calcite-action
+                ></calcite-action>
+              </calcite-action-group>
+              <calcite-action-group class="js-action-group" slot="" calcite-hydrated="">
+                <calcite-action
                   id="search"
                   class="js-action"
                   label="Search"
@@ -352,8 +363,8 @@
                   appearance="solid"
                   text-enabled=""
                   calcite-hydrated=""
-                ></calcite-action
-                ><calcite-action
+                ></calcite-action>
+                <calcite-action
                   id="measurement"
                   class="js-action"
                   label="Measurement"
@@ -363,8 +374,8 @@
                   appearance="solid"
                   text-enabled=""
                   calcite-hydrated=""
-                ></calcite-action
-                ><calcite-action
+                ></calcite-action>
+                <calcite-action
                   id="directions"
                   class="js-action"
                   label="Directions"
@@ -375,8 +386,8 @@
                   disabled=""
                   text-enabled=""
                   calcite-hydrated=""
-                ></calcite-action
-                ><calcite-action
+                ></calcite-action>
+                <calcite-action
                   id="coordinateconversion"
                   class="js-action"
                   label="Location"
@@ -386,8 +397,8 @@
                   appearance="solid"
                   text-enabled=""
                   calcite-hydrated=""
-                ></calcite-action
-                ><calcite-action
+                ></calcite-action>
+                <calcite-action
                   id="editfeatures"
                   class="js-action"
                   label="Edit"
@@ -398,8 +409,9 @@
                   disabled=""
                   text-enabled=""
                   calcite-hydrated=""
-                ></calcite-action
-                ><calcite-action
+                >
+                </calcite-action>
+                <calcite-action
                   id="timeslider"
                   class="js-action"
                   label="Time"
@@ -410,8 +422,9 @@
                   disabled=""
                   text-enabled=""
                   calcite-hydrated=""
-                ></calcite-action></calcite-action-group
-            ></calcite-action-bar>
+                ></calcite-action>
+              </calcite-action-group>
+            </calcite-action-bar>
             <calcite-panel heading="Label features" summary="Popular Demographics in the United States (Beta) - County">
               <calcite-action slot="menu-actions" text="Switch layer" icon="caret-down"></calcite-action>
 
@@ -567,18 +580,14 @@
             <calcite-action slot="menu-actions" text="options">
               <calcite-icon icon="ellipsis" scale="s"></calcite-icon>
             </calcite-action>
-            <calcite-pick-list-item
-              label="about disasters, fires, floods and killer bees"
-              value="1"
-            ></calcite-pick-list-item>
+            <calcite-pick-list-item label="about disasters, fires, floods and killer bees" value="1">
+            </calcite-pick-list-item>
             <calcite-pick-list-item
               label="about the NASA shuttle falling in the sea"
               value="2"
             ></calcite-pick-list-item>
-            <calcite-pick-list-item
-              label="about starvation and the food that Live Aid bought"
-              value="3"
-            ></calcite-pick-list-item>
+            <calcite-pick-list-item label="about starvation and the food that Live Aid bought" value="3">
+            </calcite-pick-list-item>
             <calcite-pick-list-item label="about disease, baby rock, Hudson, rock," value="4"></calcite-pick-list-item>
           </calcite-pick-list>
           <calcite-button slot="footer" width="half">Yeah!</calcite-button>

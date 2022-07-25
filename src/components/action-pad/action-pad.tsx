@@ -179,7 +179,8 @@ export class ActionPad implements ConditionalSlotComponent {
       el,
       position,
       toggleExpand,
-      scale
+      scale,
+      layout
     } = this;
 
     const tooltip = getSlotted(el, SLOTS.expandTooltip) as HTMLCalciteTooltipElement;
@@ -201,7 +202,7 @@ export class ActionPad implements ConditionalSlotComponent {
     ) : null;
 
     return expandToggleNode ? (
-      <calcite-action-group class={CSS.actionGroupBottom} scale={scale}>
+      <calcite-action-group class={CSS.actionGroupBottom} layout={layout} scale={scale}>
         <slot name={SLOTS.expandTooltip} />
         {expandToggleNode}
       </calcite-action-group>
