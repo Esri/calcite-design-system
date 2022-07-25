@@ -65,13 +65,7 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent, Float
 
   @Watch("active")
   activeHandler(value: boolean): void {
-    if (!this.disabled) {
-      this.reposition();
-      this.open = value;
-      return;
-    }
-
-    this.active = false;
+    this.open = value;
   }
 
   /** When true, opens the dropdown */
