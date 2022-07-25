@@ -51,9 +51,9 @@
 
 ## Events
 
-| Event                   | Description                                      | Type               |
-| ----------------------- | ------------------------------------------------ | ------------------ |
-| `calciteCheckboxChange` | Emitted when the checkbox checked status changes | `CustomEvent<any>` |
+| Event                   | Description                                      | Type                |
+| ----------------------- | ------------------------------------------------ | ------------------- |
+| `calciteCheckboxChange` | Emitted when the checkbox checked status changes | `CustomEvent<void>` |
 
 ## Methods
 

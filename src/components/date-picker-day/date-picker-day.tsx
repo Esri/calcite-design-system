@@ -86,8 +86,8 @@ export class DatePickerDay implements InteractiveComponent {
     !this.disabled && this.calciteDaySelect.emit();
   };
 
-  keyDownHandler = (e: KeyboardEvent): void => {
-    const key = e.key;
+  keyDownHandler = (event: KeyboardEvent): void => {
+    const key = event.key;
     if (key === " " || key === "Enter") {
       !this.disabled && this.calciteDaySelect.emit();
     }
@@ -95,9 +95,7 @@ export class DatePickerDay implements InteractiveComponent {
 
   @Listen("mouseover")
   mouseoverHandler(): void {
-    this.calciteInternalDayHover.emit({
-      disabled: this.disabled
-    });
+    this.calciteInternalDayHover.emit();
   }
 
   //--------------------------------------------------------------------------
@@ -109,14 +107,14 @@ export class DatePickerDay implements InteractiveComponent {
   /**
    * Emitted when user selects day
    */
-  @Event() calciteDaySelect: EventEmitter;
+  @Event() calciteDaySelect: EventEmitter<void>;
 
   /**
    * Emitted when user hovers over a day
    *
    * @internal
    */
-  @Event() calciteInternalDayHover: EventEmitter;
+  @Event() calciteInternalDayHover: EventEmitter<void>;
 
   //--------------------------------------------------------------------------
   //

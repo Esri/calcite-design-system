@@ -548,3 +548,14 @@ export const Default = stepStory(
     )
     .snapshot("Text Overflow")
 );
+
+export const ArabicLocale = (): string => html`
+  <calcite-action
+    dir="rtl"
+    icon="banana"
+    lang="ar"
+    locale="ar-EG"
+    text="لكن لا بد أن أوضح لك أن كل"
+    text-enabled
+  ></calcite-action>
+`;

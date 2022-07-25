@@ -1,4 +1,4 @@
-import { ReferenceElement } from "../../utils/popper";
+import { ReferenceElement } from "../../utils/floating-ui";
 
 export default class PopoverManager {
   // --------------------------------------------------------------------------

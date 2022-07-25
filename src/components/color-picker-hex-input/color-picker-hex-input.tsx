@@ -113,7 +113,7 @@ export class ColorPickerHexInput {
   /**
    * Emitted when the hex value changes.
    */
-  @Event() calciteColorPickerHexInputChange: EventEmitter;
+  @Event() calciteColorPickerHexInputChange: EventEmitter<void>;
 
   private onCalciteInternalInputBlur = (): void => {
     const node = this.inputNode;

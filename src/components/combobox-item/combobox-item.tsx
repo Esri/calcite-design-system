@@ -15,7 +15,7 @@ import { CSS } from "./resources";
 import { guid } from "../../utils/guid";
 import { ComboboxChildElement } from "../combobox/interfaces";
 import { getAncestors, getDepth } from "../combobox/utils";
-import { Scale } from "../interfaces";
+import { DeprecatedEventPayload, Scale } from "../interfaces";
 import {
   connectConditionalSlotComponent,
   disconnectConditionalSlotComponent,
@@ -119,8 +119,10 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
 
   /**
    * Emitted whenever the item is selected or unselected.
+   *
+   * **Note:**: The event's payload is deprecated, please use the event's target/currentTarget instead
    */
-  @Event() calciteComboboxItemChange: EventEmitter;
+  @Event() calciteComboboxItemChange: EventEmitter<DeprecatedEventPayload>;
 
   // --------------------------------------------------------------------------
   //

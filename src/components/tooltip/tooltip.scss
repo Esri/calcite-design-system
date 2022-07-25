@@ -1,5 +1,5 @@
-@include popperHost(999);
-@include popperArrow();
+@include floatingUIHost(999);
+@include floatingUIArrow();
 
 .container {
   @apply bg-foreground-1
@@ -16,7 +16,7 @@
   text-align: start;
 }
 
-.calcite-popper-anim {
+.calcite-floating-ui-anim {
   @apply bg-foreground-1
     border-color-3
     rounded

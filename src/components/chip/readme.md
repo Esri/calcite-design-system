@@ -27,9 +27,9 @@
 
 ## Events
 
-| Event                | Description                                | Type               |
-| -------------------- | ------------------------------------------ | ------------------ |
-| `calciteChipDismiss` | Emitted when the dismiss button is clicked | `CustomEvent<any>` |
+| Event                | Description                                                                                                                                           | Type               |
+| -------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------ |
+| `calciteChipDismiss` | Emitted when the dismiss button is clicked **Note:**: The `el` event payload props is deprecated, please use the event's target/currentTarget instead | `CustomEvent<any>` |
 
 ## Methods
 

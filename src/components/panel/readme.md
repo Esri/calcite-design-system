@@ -90,12 +90,12 @@ Renders a panel with a header and a footer.
 
 ## Events
 
-| Event                         | Description                                                                                                                       | Type               |
-| ----------------------------- | --------------------------------------------------------------------------------------------------------------------------------- | ------------------ |
-| `calcitePanelBackClick`       | Fires when the back button is clicked.                                                                                            | `CustomEvent<any>` |
-| `calcitePanelDismiss`         | Fires when the close button is clicked.                                                                                           | `CustomEvent<any>` |
-| `calcitePanelDismissedChange` | <span style="color:red">**[DEPRECATED]**</span> use calcitePanelDismiss instead.<br/><br/>Fires when the close button is clicked. | `CustomEvent<any>` |
-| `calcitePanelScroll`          | Fires when the content is scrolled.                                                                                               | `CustomEvent<any>` |
+| Event                         | Description                                                                                                                                                | Type                |
+| ----------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------- |
+| `calcitePanelBackClick`       | Fires when the back button is clicked.                                                                                                                     | `CustomEvent<void>` |
+| `calcitePanelDismiss`         | Fires when the close button is clicked.                                                                                                                    | `CustomEvent<void>` |
+| `calcitePanelDismissedChange` | <span style="color:red">**[DEPRECATED]**</span> use calcitePanelDismiss instead.<br/><br/>Fires when there is a change to the `dismissed` property value . | `CustomEvent<void>` |
+| `calcitePanelScroll`          | Fires when the content is scrolled.                                                                                                                        | `CustomEvent<void>` |
 
 ## Methods
 
