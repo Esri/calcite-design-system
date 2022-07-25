@@ -328,16 +328,16 @@ export class InputDatePicker
    */
   @Event() calciteInputDatePickerChange: EventEmitter<void>;
 
-  /* Fires when the component is requested to be closed and before the closing transition begins. */
+  /** Fires when the component is requested to be closed and before the closing transition begins. */
   @Event() calciteInputDatePickerBeforeClose: EventEmitter<void>;
 
-  /* Fires when the component is closed and animation is complete. */
+  /** Fires when the component is closed and animation is complete. */
   @Event() calciteInputDatePickerClose: EventEmitter<void>;
 
-  /* Fires when the component is added to the DOM but not rendered, and before the opening transition begins. */
+  /** Fires when the component is added to the DOM but not rendered, and before the opening transition begins. */
   @Event() calciteInputDatePickerBeforeOpen: EventEmitter<void>;
 
-  /* Fires when the component is open and animation is complete. */
+  /** Fires when the component is open and animation is complete. */
   @Event() calciteInputDatePickerOpen: EventEmitter<void>;
 
   // --------------------------------------------------------------------------
@@ -444,12 +444,7 @@ export class InputDatePicker
     const formattedDate = date ? date.toLocaleDateString(this.locale) : "";
 
     return (
-      <Host
-        onBlur={this.deactivate}
-        onKeyDown={this.keyDownHandler}
-        onKeyUp={this.keyUpHandler}
-        role="application"
-      >
+      <Host onBlur={this.deactivate} onKeyDown={this.keyDownHandler} role="application">
         {this.localeData && (
           <div aria-expanded={toAriaBoolean(this.open)} class="input-container" role="application">
             {
@@ -657,20 +652,17 @@ export class InputDatePicker
     this.open = false;
   };
 
-  keyDownHandler = (event: KeyboardEvent): void => {
-    if (event.key === "Enter" && !event.defaultPrevented) {
+  keyDownHandler = ({ defaultPrevented, key }: KeyboardEvent): void => {
+    if (key === "Enter" && !defaultPrevented) {
       submitForm(this);
-    }
-  };
-
-  keyUpHandler = (e: KeyboardEvent): void => {
-    if (e.key === "Escape") {
+    } else if (key === "Escape") {
+      this.active = false;
       this.open = false;
     }
   };
 
-  inputBlur = (e: CustomEvent<any>): void => {
-    this.blur(e.detail);
+  inputBlur = (event: CustomEvent<any>): void => {
+    this.blur(event.currentTarget as HTMLCalciteInputElement);
   };
 
   startInputFocus = (): void => {
@@ -687,8 +679,8 @@ export class InputDatePicker
     this.focusedInput = "end";
   };
 
-  inputInput = (e: CustomEvent<any>): void => {
-    this.input(e.detail.value);
+  inputInput = (event: CustomEvent<any>): void => {
+    this.input(event.detail.value);
   };
 
   setFloatingEl = (el: HTMLDivElement): void => {

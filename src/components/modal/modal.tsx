@@ -119,7 +119,11 @@ export class Modal implements ConditionalSlotComponent, OpenCloseComponent {
   /** Sets the background color of the component's content. */
   @Prop({ reflect: true }) backgroundColor: ModalBackgroundColor = "white";
 
-  /** When true, disables spacing to the content area slot. */
+  /**
+   * When true, disables spacing to the content area slot.
+   *
+   * @deprecated  Use `--calcite-modal-padding` CSS variable instead.
+   */
   @Prop() noPadding = false;
 
   //--------------------------------------------------------------------------
@@ -279,9 +283,9 @@ export class Modal implements ConditionalSlotComponent, OpenCloseComponent {
   //  Event Listeners
   //
   //--------------------------------------------------------------------------
-  @Listen("keyup", { target: "window" })
-  handleEscape(e: KeyboardEvent): void {
-    if ((this.open || this.active) && !this.disableEscape && e.key === "Escape") {
+  @Listen("keydown", { target: "window" })
+  handleEscape(event: KeyboardEvent): void {
+    if ((this.open || this.active) && !this.disableEscape && event.key === "Escape") {
       this.close();
     }
   }
@@ -291,16 +295,16 @@ export class Modal implements ConditionalSlotComponent, OpenCloseComponent {
   //  Events
   //
   //--------------------------------------------------------------------------
-  /* Fires when the component is requested to be closed and before the closing transition begins. */
+  /** Fires when the component is requested to be closed and before the closing transition begins. */
   @Event() calciteModalBeforeClose: EventEmitter<void>;
 
-  /* Fires when the component is closed and animation is complete. */
+  /** Fires when the component is closed and animation is complete. */
   @Event() calciteModalClose: EventEmitter<void>;
 
-  /* Fires when the component is added to the DOM but not rendered, and before the opening transition begins. */
+  /** Fires when the component is added to the DOM but not rendered, and before the opening transition begins. */
   @Event() calciteModalBeforeOpen: EventEmitter<void>;
 
-  /* Fires when the component is open and animation is complete. */
+  /** Fires when the component is open and animation is complete. */
   @Event() calciteModalOpen: EventEmitter<void>;
 
   //--------------------------------------------------------------------------

@@ -38,9 +38,9 @@
 
 ## Events
 
-| Event                     | Description                                                                                                                                   | Type               |
-| ------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- | ------------------ |
-| `calciteTileSelectChange` | Emits a custom change event. For checkboxes, it emits when the checkbox is checked or unchecked. For radios it only emits when it is checked. | `CustomEvent<any>` |
+| Event                     | Description                                                                                                                                   | Type                |
+| ------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- | ------------------- |
+| `calciteTileSelectChange` | Emits a custom change event. For checkboxes, it emits when the checkbox is checked or unchecked. For radios it only emits when it is checked. | `CustomEvent<void>` |
 
 ## Methods
 

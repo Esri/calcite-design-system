@@ -114,7 +114,7 @@ export class TileSelect implements InteractiveComponent {
   /**
    * Emits a custom change event.  For checkboxes, it emits when the checkbox is checked or unchecked.  For radios it only emits when it is checked.
    */
-  @Event() calciteTileSelectChange: EventEmitter;
+  @Event() calciteTileSelectChange: EventEmitter<void>;
 
   //--------------------------------------------------------------------------
   //

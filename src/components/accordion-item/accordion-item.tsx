@@ -7,7 +7,8 @@ import {
   Host,
   Listen,
   Prop,
-  VNode
+  VNode,
+  Watch
 } from "@stencil/core";
 import { getElementDir, getElementProp, getSlotted, toAriaBoolean } from "../../utils/dom";
 import {
@@ -18,6 +19,7 @@ import {
 import { CSS_UTILITY } from "../../utils/resources";
 import { SLOTS, CSS } from "./resources";
 import { Position } from "../interfaces";
+import { ItemKeyEvent, RegistryEntry, RequestedItem } from "./interfaces";
 
 /**
  * @slot - A slot for adding custom content, including nested `calcite-accordion-item`s.
@@ -50,8 +52,18 @@ export class AccordionItem implements ConditionalSlotComponent {
 
   @Prop({ reflect: true, mutable: true }) active = false;
 
+  @Watch("active")
+  activeHandler(value: boolean): void {
+    this.expanded = value;
+  }
+
   /** When true, item is expanded */
   @Prop({ reflect: true, mutable: true }) expanded = false;
+
+  @Watch("expanded")
+  expandedHandler(value: boolean): void {
+    this.active = value;
+  }
 
   /**
    * Specifies a title for the component.
@@ -86,22 +98,22 @@ export class AccordionItem implements ConditionalSlotComponent {
   /**
    * @internal
    */
-  @Event() calciteInternalAccordionItemKeyEvent: EventEmitter;
+  @Event() calciteInternalAccordionItemKeyEvent: EventEmitter<ItemKeyEvent>;
 
   /**
    * @internal
    */
-  @Event() calciteInternalAccordionItemSelect: EventEmitter;
+  @Event() calciteInternalAccordionItemSelect: EventEmitter<RequestedItem>;
 
   /**
    * @internal
    */
-  @Event() calciteInternalAccordionItemClose: EventEmitter;
+  @Event() calciteInternalAccordionItemClose: EventEmitter<void>;
 
   /**
    * @internal
    */
-  @Event() calciteInternalAccordionItemRegister: EventEmitter;
+  @Event() calciteInternalAccordionItemRegister: EventEmitter<RegistryEntry>;
 
   //--------------------------------------------------------------------------
   //
@@ -114,6 +126,11 @@ export class AccordionItem implements ConditionalSlotComponent {
     this.selectionMode = getElementProp(this.el, "selection-mode", "multi");
     this.iconType = getElementProp(this.el, "icon-type", "chevron");
     this.iconPosition = getElementProp(this.el, "icon-position", this.iconPosition);
+    const isExpanded = this.active || this.expanded;
+    if (isExpanded) {
+      this.activeHandler(isExpanded);
+      this.expandedHandler(isExpanded);
+    }
     connectConditionalSlotComponent(this);
   }
 
@@ -155,9 +172,7 @@ export class AccordionItem implements ConditionalSlotComponent {
 
   render(): VNode {
     const dir = getElementDir(this.el);
-
     const iconEl = <calcite-icon class={CSS.icon} icon={this.icon} scale="s" />;
-
     return (
       <Host>
         <div
@@ -213,13 +228,13 @@ export class AccordionItem implements ConditionalSlotComponent {
   //--------------------------------------------------------------------------
 
   @Listen("keydown")
-  keyDownHandler(e: KeyboardEvent): void {
-    if (e.target === this.el) {
-      switch (e.key) {
+  keyDownHandler(event: KeyboardEvent): void {
+    if (event.target === this.el) {
+      switch (event.key) {
         case " ":
         case "Enter":
           this.emitRequestedItem();
-          e.preventDefault();
+          event.preventDefault();
           break;
         case "ArrowUp":
         case "ArrowDown":
@@ -227,9 +242,9 @@ export class AccordionItem implements ConditionalSlotComponent {
         case "End":
           this.calciteInternalAccordionItemKeyEvent.emit({
             parent: this.parent,
-            item: e
+            item: event
           });
-          e.preventDefault();
+          event.preventDefault();
           break;
       }
     }
@@ -282,18 +297,15 @@ export class AccordionItem implements ConditionalSlotComponent {
     switch (this.selectionMode) {
       case "multi":
         if (this.el === this.requestedAccordionItem) {
-          this.active = !this.active;
           this.expanded = !this.expanded;
         }
         break;
 
       case "single":
-        this.active = this.el === this.requestedAccordionItem ? !this.active : false;
         this.expanded = this.el === this.requestedAccordionItem ? !this.expanded : false;
         break;
 
       case "single-persist":
-        this.active = this.el === this.requestedAccordionItem;
         this.expanded = this.el === this.requestedAccordionItem;
         break;
     }
