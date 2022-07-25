@@ -132,8 +132,8 @@ export class Tree {
   }
 
   @Listen("calciteInternalTreeItemSelect")
-  onClick(e: CustomEvent<TreeItemSelectDetail>): void {
-    const target = e.target as HTMLCalciteTreeItemElement;
+  onClick(event: CustomEvent<TreeItemSelectDetail>): void {
+    const target = event.target as HTMLCalciteTreeItemElement;
     const childItems = nodeListToArray(
       target.querySelectorAll("calcite-tree-item")
     ) as HTMLCalciteTreeItemElement[];
@@ -143,12 +143,12 @@ export class Tree {
     }
 
     if (!this.child) {
-      e.preventDefault();
-      e.stopPropagation();
+      event.preventDefault();
+      event.stopPropagation();
     }
 
     if (this.selectionMode === TreeSelectionMode.Ancestors && !this.child) {
-      this.updateAncestorTree(e);
+      this.updateAncestorTree(event);
       return;
     }
 
@@ -160,7 +160,7 @@ export class Tree {
             this.selectionMode === TreeSelectionMode.MultiChildren)));
 
     const shouldModifyToCurrentSelection =
-      e.detail.modifyCurrentSelection &&
+      event.detail.modifyCurrentSelection &&
       (this.selectionMode === TreeSelectionMode.Multi ||
         this.selectionMode === TreeSelectionMode.MultiChildren);
 
@@ -205,7 +205,7 @@ export class Tree {
         });
       }
 
-      if (shouldExpandTarget && !e.detail.forceToggle) {
+      if (shouldExpandTarget && !event.detail.forceToggle) {
         target.expanded = true;
       }
 
@@ -215,7 +215,7 @@ export class Tree {
 
       if (
         (shouldModifyToCurrentSelection && target.selected) ||
-        (shouldSelectChildren && e.detail.forceToggle)
+        (shouldSelectChildren && event.detail.forceToggle)
       ) {
         targetItems.forEach((treeItem) => {
           treeItem.selected = false;
@@ -235,7 +235,7 @@ export class Tree {
       ).filter((i) => i.selected)
     });
 
-    e.stopPropagation();
+    event.stopPropagation();
   }
 
   @Listen("keydown")
@@ -297,8 +297,8 @@ export class Tree {
     }
   }
 
-  updateAncestorTree(e: CustomEvent<TreeItemSelectDetail>): void {
-    const item = e.target as HTMLCalciteTreeItemElement;
+  updateAncestorTree(event: CustomEvent<TreeItemSelectDetail>): void {
+    const item = event.target as HTMLCalciteTreeItemElement;
     const children = item.querySelectorAll("calcite-tree-item");
     const ancestors: HTMLCalciteTreeItemElement[] = [];
     let parent = item.parentElement.closest("calcite-tree-item");

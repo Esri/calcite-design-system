@@ -15,7 +15,7 @@ import {
 import { getSlotted, setRequestedIcon, toAriaBoolean } from "../../utils/dom";
 import { DURATIONS, SLOTS, TEXT } from "./resources";
 import { Scale } from "../interfaces";
-import { AlertDuration, AlertPlacement, StatusColor, StatusIcons } from "./interfaces";
+import { AlertDuration, AlertPlacement, StatusColor, StatusIcons, Sync } from "./interfaces";
 import { OpenCloseComponent } from "../../utils/openCloseComponent";
 
 /**
@@ -58,7 +58,7 @@ export class Alert implements OpenCloseComponent {
       this.calciteInternalAlertRegister.emit();
     }
     if (!this.active) {
-      this.queue = this.queue.filter((e) => e !== this.el);
+      this.queue = this.queue.filter((el) => el !== this.el);
       this.calciteInternalAlertSync.emit({ queue: this.queue });
     }
   }
@@ -213,14 +213,14 @@ export class Alert implements OpenCloseComponent {
    *
    * @internal
    */
-  @Event() calciteInternalAlertSync: EventEmitter;
+  @Event() calciteInternalAlertSync: EventEmitter<Sync>;
 
   /**
    * Fires when the component is added to DOM - used to receive initial queue.
    *
    * @internal
    */
-  @Event() calciteInternalAlertRegister: EventEmitter;
+  @Event() calciteInternalAlertRegister: EventEmitter<void>;
 
   // when an alert is opened or closed, update queue and determine active alert
   @Listen("calciteInternalAlertSync", { target: "window" })
@@ -328,7 +328,7 @@ export class Alert implements OpenCloseComponent {
     this.autoDismissTimeoutId = null;
     this.queued = false;
     this.active = false;
-    this.queue = this.queue.filter((e) => e !== this.el);
+    this.queue = this.queue.filter((el) => el !== this.el);
     this.determineActiveAlert();
     this.calciteInternalAlertSync.emit({ queue: this.queue });
   };

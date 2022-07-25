@@ -125,7 +125,7 @@ export class RadioButtonGroup {
   /**
    * Emitted when the radio button group has changed.
    */
-  @Event() calciteRadioButtonGroupChange: EventEmitter;
+  @Event() calciteRadioButtonGroupChange: EventEmitter<void>;
 
   //--------------------------------------------------------------------------
   //

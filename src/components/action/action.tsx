@@ -108,7 +108,7 @@ export class Action implements InteractiveComponent {
    *
    * @deprecated use onClick instead.
    */
-  @Event() calciteActionClick: EventEmitter;
+  @Event() calciteActionClick: EventEmitter<void>;
 
   // --------------------------------------------------------------------------
   //

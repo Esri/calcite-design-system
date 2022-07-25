@@ -11,3 +11,6 @@ export type Status = "invalid" | "valid" | "idle";
 export type ThemeClass = "calcite-theme-light" | "calcite-theme-dark" | "calcite-theme-auto";
 export type ThemeName = "light" | "dark" | "auto";
 export type Width = "auto" | "half" | "full";
+
+// used to help track of event payloads to remove at 1.0.0 – see https://github.com/Esri/calcite-components/issues/3781
+export type DeprecatedEventPayload = any;

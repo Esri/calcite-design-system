@@ -38,10 +38,10 @@
 
 ## Events
 
-| Event                      | Description                                         | Type                |
-| -------------------------- | --------------------------------------------------- | ------------------- |
-| `calciteInputNumberChange` | Fires each time a new value is typed and committed. | `CustomEvent<void>` |
-| `calciteInputNumberInput`  | Fires each time a new value is typed.               | `CustomEvent<any>`  |
+| Event                      | Description                                                                                                                                                   | Type                |
+| -------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------- |
+| `calciteInputNumberChange` | Fires each time a new value is typed and committed.                                                                                                           | `CustomEvent<void>` |
+| `calciteInputNumberInput`  | Fires each time a new value is typed. **Note:**: The `el` and `value` event payload props are deprecated, please use the event's target/currentTarget instead | `CustomEvent<any>`  |
 
 ## Methods
 

@@ -50,11 +50,12 @@
       });
     </script>
   </head>
+
   <body>
     <main>
       <div class="shell-container">
         <calcite-shell content-behind>
-          <calcite-shell-panel slot="primary-panel" position="start" detached>
+          <calcite-shell-panel slot="panel-start" position="start" detached>
             <calcite-panel
               id="shell-floating-panel"
               slot="shell-floating-panel"
@@ -101,7 +102,7 @@
             </calcite-panel>
           </calcite-shell-panel>
 
-          <calcite-shell-panel slot="contextual-panel" position="end">
+          <calcite-shell-panel slot="panel-end" position="end">
             <calcite-action-bar slot="action-bar">
               <calcite-action-group>
                 <calcite-tooltip slot="menu-tooltip">Bits and bobs.</calcite-tooltip>

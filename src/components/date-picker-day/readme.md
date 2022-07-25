@@ -22,9 +22,9 @@
 
 ## Events
 
-| Event              | Description                   | Type               |
-| ------------------ | ----------------------------- | ------------------ |
-| `calciteDaySelect` | Emitted when user selects day | `CustomEvent<any>` |
+| Event              | Description                   | Type                |
+| ------------------ | ----------------------------- | ------------------- |
+| `calciteDaySelect` | Emitted when user selects day | `CustomEvent<void>` |
 
 ## Dependencies
 

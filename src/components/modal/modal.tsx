@@ -115,7 +115,11 @@ export class Modal implements ConditionalSlotComponent, OpenCloseComponent {
   /** Sets the background color of the component's content. */
   @Prop({ reflect: true }) backgroundColor: ModalBackgroundColor = "white";
 
-  /** When true, disables spacing to the content area slot. */
+  /**
+   * When true, disables spacing to the content area slot.
+   *
+   * @deprecated  Use `--calcite-modal-padding` CSS variable instead.
+   */
   @Prop() noPadding = false;
 
   //--------------------------------------------------------------------------
@@ -272,8 +276,8 @@ export class Modal implements ConditionalSlotComponent, OpenCloseComponent {
   //
   //--------------------------------------------------------------------------
   @Listen("keydown", { target: "window" })
-  handleEscape(e: KeyboardEvent): void {
-    if ((this.open || this.active) && !this.disableEscape && e.key === "Escape") {
+  handleEscape(event: KeyboardEvent): void {
+    if ((this.open || this.active) && !this.disableEscape && event.key === "Escape") {
       this.close();
     }
   }

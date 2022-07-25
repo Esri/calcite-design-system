@@ -155,17 +155,17 @@ export class Checkbox implements LabelableComponent, CheckableFormCompoment, Int
    *
    * @internal
    */
-  @Event() calciteInternalCheckboxBlur: EventEmitter;
+  @Event() calciteInternalCheckboxBlur: EventEmitter<boolean>;
 
   /** Emitted when the checkbox checked status changes */
-  @Event() calciteCheckboxChange: EventEmitter;
+  @Event() calciteCheckboxChange: EventEmitter<void>;
 
   /**
    * Emitted when the checkbox is focused
    *
    * @internal
    */
-  @Event() calciteInternalCheckboxFocus: EventEmitter;
+  @Event() calciteInternalCheckboxFocus: EventEmitter<boolean>;
 
   //--------------------------------------------------------------------------
   //

@@ -11,8 +11,10 @@ import {
  * @slot - A slot for adding content to the shell. This content will appear between any leading and trailing panels added to the shell. (eg. a map)
  * @slot header - A slot for adding header content. This content will be positioned at the top of the shell.
  * @slot footer - A slot for adding footer content. This content will be positioned at the bottom of the shell.
- * @slot primary-panel - A slot for adding the leading `calcite-shell-panel`.
- * @slot contextual-panel - A slot for adding the trailing `calcite-shell-panel`.
+ * @slot panel-start - A slot for adding the starting `calcite-shell-panel`.
+ * @slot panel-end - A slot for adding the ending `calcite-shell-panel`.
+ * @slot primary-panel - [DEPRECATED] A slot for adding the leading `calcite-shell-panel`.
+ * @slot contextual-panel - [DEPRECATED] A slot for adding the trailing `calcite-shell-panel`.
  * @slot center-row - A slot for adding custom content in the center row.
  */
 @Component({
@@ -115,7 +117,9 @@ export class Shell implements ConditionalSlotComponent {
     return (
       <div class={mainClasses}>
         <slot name={SLOTS.primaryPanel} />
+        <slot name={SLOTS.panelStart} />
         {this.renderContent()}
+        <slot name={SLOTS.panelEnd} />
         <slot name={SLOTS.contextualPanel} />
       </div>
     );
