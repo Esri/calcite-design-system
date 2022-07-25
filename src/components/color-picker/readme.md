@@ -55,10 +55,10 @@ For a minimal design, you can hide unused color formats and options:
 
 ## Events
 
-| Event                      | Description                                                                                                                                                                                      | Type               |
-| -------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------ |
-| `calciteColorPickerChange` | Fires when the color value has changed.                                                                                                                                                          | `CustomEvent<any>` |
-| `calciteColorPickerInput`  | Fires as the color value changes. This is similar to the change event with the exception of dragging. When dragging the color field or hue slider thumb, this event fires as the thumb is moved. | `CustomEvent<any>` |
+| Event                      | Description                                                                                                                                                                                      | Type                |
+| -------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------- |
+| `calciteColorPickerChange` | Fires when the color value has changed.                                                                                                                                                          | `CustomEvent<void>` |
+| `calciteColorPickerInput`  | Fires as the color value changes. This is similar to the change event with the exception of dragging. When dragging the color field or hue slider thumb, this event fires as the thumb is moved. | `CustomEvent<void>` |
 
 ## Methods
 

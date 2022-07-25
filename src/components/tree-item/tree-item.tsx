@@ -271,11 +271,11 @@ export class TreeItem implements ConditionalSlotComponent {
   //--------------------------------------------------------------------------
 
   @Listen("click")
-  onClick(e: Event): void {
+  onClick(event: Event): void {
     // Solve for if the item is clicked somewhere outside the slotted anchor.
     // Anchor is triggered anywhere you click
     const [link] = filterDirectChildren<HTMLAnchorElement>(this.el, "a");
-    if (link && (e.composedPath()[0] as any).tagName.toLowerCase() !== "a") {
+    if (link && (event.composedPath()[0] as any).tagName.toLowerCase() !== "a") {
       const target = link.target === "" ? "_self" : link.target;
       window.open(link.href, target);
     }
@@ -294,21 +294,21 @@ export class TreeItem implements ConditionalSlotComponent {
   childrenClickHandler = (event: MouseEvent): void => event.stopPropagation();
 
   @Listen("keydown")
-  keyDownHandler(e: KeyboardEvent): void {
+  keyDownHandler(event: KeyboardEvent): void {
     let root;
 
-    switch (e.key) {
+    switch (event.key) {
       case " ":
         this.calciteInternalTreeItemSelect.emit({
           modifyCurrentSelection: this.isSelectionMultiLike,
           forceToggle: false
         });
-        e.preventDefault();
+        event.preventDefault();
         break;
       case "Enter":
         // activates a node, i.e., performs its default action. For parent nodes, one possible default action is to open or close the node. In single-select trees where selection does not follow focus (see note below), the default action is typically to select the focused node.
-        const link = nodeListToArray(this.el.children).find((e) =>
-          e.matches("a")
+        const link = nodeListToArray(this.el.children).find((el) =>
+          el.matches("a")
         ) as HTMLAnchorElement;
 
         if (link) {
@@ -321,7 +321,7 @@ export class TreeItem implements ConditionalSlotComponent {
           });
         }
 
-        e.preventDefault();
+        event.preventDefault();
         break;
       case "Home":
         root = this.el.closest("calcite-tree:not([child])") as HTMLCalciteTreeElement;
@@ -335,13 +335,13 @@ export class TreeItem implements ConditionalSlotComponent {
         root = this.el.closest("calcite-tree:not([child])");
 
         let currentNode = root.children[root.children.length - 1]; // last child
-        let currentTree = nodeListToArray(currentNode.children).find((e) =>
-          e.matches("calcite-tree")
+        let currentTree = nodeListToArray(currentNode.children).find((el) =>
+          el.matches("calcite-tree")
         );
         while (currentTree) {
           currentNode = currentTree.children[root.children.length - 1];
-          currentTree = nodeListToArray(currentNode.children).find((e) =>
-            e.matches("calcite-tree")
+          currentTree = nodeListToArray(currentNode.children).find((el) =>
+            el.matches("calcite-tree")
           );
         }
         currentNode?.focus();

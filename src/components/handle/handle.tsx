@@ -1,6 +1,7 @@
 import { Component, Element, Event, EventEmitter, Method, Prop, h, VNode } from "@stencil/core";
 import { toAriaBoolean } from "../../utils/dom";
 import { CSS, ICONS } from "./resources";
+import { DeprecatedEventPayload } from "../interfaces";
 
 @Component({
   tag: "calcite-handle",
@@ -42,8 +43,10 @@ export class Handle {
 
   /**
    * Emitted when the the handle is activated and the up or down arrow key is pressed.
+   *
+   * **Note:**: The `handle` event payload prop is deprecated, please use the event's target/currentTarget instead
    */
-  @Event() calciteHandleNudge: EventEmitter;
+  @Event() calciteHandleNudge: EventEmitter<DeprecatedEventPayload>;
 
   // --------------------------------------------------------------------------
   //

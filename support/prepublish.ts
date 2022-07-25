@@ -1,18 +1,21 @@
-const chalk = require("chalk");
-const childProcess = require("child_process");
-const branch = childProcess.execSync("git rev-parse --abbrev-ref HEAD");
+import chalk from "chalk";
 
-if (branch.toString().trim() === "master") {
-  process.exit();
-} else {
-  const message = chalk.red(
-    `Error: ${chalk.white(
-      `You may only run ${chalk.green("npm publish")} from the ${chalk.yellow(
-        "master"
-      )} branch. You are on ${chalk.yellow(branch)}.`
-    )}`
-  );
+(async function () {
+  const childProcess = await import("child_process");
+  const branch = childProcess.execSync("git rev-parse --abbrev-ref HEAD");
 
-  console.error(message);
-  process.exit(1);
-}
+  if (branch.toString().trim() === "master") {
+    process.exit();
+  } else {
+    const message = chalk.red(
+      `Error: ${chalk.white(
+        `You may only run ${chalk.green("npm publish")} from the ${chalk.yellow(
+          "master"
+        )} branch. You are on ${chalk.yellow(branch)}.`
+      )}`
+    );
+
+    console.error(message);
+    process.exit(1);
+  }
+})();

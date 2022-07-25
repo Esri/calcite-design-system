@@ -21,19 +21,22 @@ import {
   defaultPopoverPlacement
 } from "./resources";
 import {
-  PopperPlacement,
-  defaultOffsetDistance,
-  createPopper,
-  updatePopper,
-  CSS as PopperCSS,
+  positionFloatingUI,
+  FloatingCSS,
   OverlayPositioning,
-  ComputedPlacement,
+  FloatingUIComponent,
+  connectFloatingUI,
+  disconnectFloatingUI,
+  LogicalPlacement,
+  EffectivePlacement,
+  defaultOffsetDistance,
   filterComputedPlacements,
   ReferenceElement
-} from "../../utils/popper";
-import { StrictModifiers, Instance as Popper } from "@popperjs/core";
+} from "../../utils/floating-ui";
+
 import { guid } from "../../utils/guid";
 import { queryElementRoots, toAriaBoolean } from "../../utils/dom";
+import { OpenCloseComponent } from "../../utils/openCloseComponent";
 import { HeadingLevel, Heading } from "../functional/Heading";
 
 import PopoverManager from "./PopoverManager";
@@ -48,7 +51,7 @@ const manager = new PopoverManager();
   styleUrl: "popover.scss",
   shadow: true
 })
-export class Popover {
+export class Popover implements FloatingUIComponent, OpenCloseComponent {
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -90,7 +93,7 @@ export class Popover {
   /**
    * Defines the available placements that can be used when a flip occurs.
    */
-  @Prop() flipPlacements?: ComputedPlacement[];
+  @Prop() flipPlacements?: EffectivePlacement[];
 
   @Watch("flipPlacements")
   flipPlacementsHandler(): void {
@@ -146,12 +149,17 @@ export class Popover {
   /** Describes the positioning type to use for the overlaid content. If the element is in a fixed container, use the "fixed" value. */
   @Prop() overlayPositioning: OverlayPositioning = "absolute";
 
+  @Watch("overlayPositioning")
+  overlayPositioningHandler(): void {
+    this.reposition();
+  }
+
   /**
    * Determines where the component will be positioned relative to the `referenceElement`.
    *
-   * @see [PopperPlacement](https://github.com/Esri/calcite-components/blob/master/src/utils/popper.ts#L25)
+   * @see [LogicalPlacement](https://github.com/Esri/calcite-components/blob/master/src/utils/floating-ui.ts#L25)
    */
-  @Prop({ reflect: true }) placement: PopperPlacement = defaultPopoverPlacement;
+  @Prop({ reflect: true }) placement: LogicalPlacement = defaultPopoverPlacement;
 
   @Watch("placement")
   placementHandler(): void {
@@ -166,6 +174,7 @@ export class Popover {
   @Watch("referenceElement")
   referenceElementHandler(): void {
     this.setUpReferenceElement();
+    this.reposition();
   }
 
   /**
@@ -186,13 +195,11 @@ export class Popover {
   //
   // --------------------------------------------------------------------------
 
-  filteredFlipPlacements: ComputedPlacement[];
+  filteredFlipPlacements: EffectivePlacement[];
 
   @Element() el: HTMLCalcitePopoverElement;
 
   @State() effectiveReferenceElement: ReferenceElement;
-
-  popper: Popper;
 
   arrowEl: HTMLDivElement;
 
@@ -202,6 +209,13 @@ export class Popover {
 
   private activeTransitionProp = "opacity";
 
+  private containerEl: HTMLDivElement;
+
+  private setContainerEl = (el): void => {
+    this.containerEl = el;
+    this.containerEl.addEventListener("transitionstart", this.transitionStartHandler);
+  };
+
   // --------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -209,6 +223,7 @@ export class Popover {
   // --------------------------------------------------------------------------
 
   connectedCallback(): void {
+    connectFloatingUI(this, this.effectiveReferenceElement, this.el);
     this.setFilteredPlacements();
   }
 
@@ -221,8 +236,9 @@ export class Popover {
   }
 
   disconnectedCallback(): void {
+    this.containerEl?.removeEventListener("transitionstart", this.transitionStartHandler);
     this.removeReferences();
-    this.destroyPopper();
+    disconnectFloatingUI(this, this.effectiveReferenceElement, this.el);
   }
 
   //--------------------------------------------------------------------------
@@ -230,11 +246,18 @@ export class Popover {
   //  Events
   //
   //--------------------------------------------------------------------------
-  /** Fired when the component is closed. */
-  @Event() calcitePopoverClose: EventEmitter;
 
-  /** Fired when the component is opened. */
-  @Event() calcitePopoverOpen: EventEmitter;
+  /** Fires when the component is requested to be closed and before the closing transition begins. */
+  @Event() calcitePopoverBeforeClose: EventEmitter<void>;
+
+  /** Fires when the component is closed and animation is complete. */
+  @Event() calcitePopoverClose: EventEmitter<void>;
+
+  /** Fires when the component is added to the DOM but not rendered, and before the opening transition begins. */
+  @Event() calcitePopoverBeforeOpen: EventEmitter<void>;
+
+  /** Fires when the component is open and animation is complete. */
+  @Event() calcitePopoverOpen: EventEmitter<void>;
 
   // --------------------------------------------------------------------------
   //
@@ -245,17 +268,30 @@ export class Popover {
   /** Updates the position of the component. */
   @Method()
   async reposition(): Promise<void> {
-    const { popper, el, placement } = this;
-    const modifiers = this.getModifiers();
+    const {
+      el,
+      effectiveReferenceElement,
+      placement,
+      overlayPositioning,
+      disableFlip,
+      flipPlacements,
+      offsetDistance,
+      offsetSkidding,
+      arrowEl
+    } = this;
 
-    popper
-      ? await updatePopper({
-          el,
-          modifiers,
-          placement,
-          popper
-        })
-      : this.createPopper();
+    return positionFloatingUI({
+      floatingEl: el,
+      referenceEl: effectiveReferenceElement,
+      overlayPositioning,
+      placement,
+      disableFlip,
+      flipPlacements,
+      offsetDistance,
+      offsetSkidding,
+      arrowEl,
+      type: "popover"
+    });
   }
 
   /**
@@ -304,6 +340,7 @@ export class Popover {
   setUpReferenceElement = (): void => {
     this.removeReferences();
     this.effectiveReferenceElement = this.getReferenceElement();
+    connectFloatingUI(this, this.effectiveReferenceElement, this.el);
 
     const { el, referenceElement, effectiveReferenceElement } = this;
     if (referenceElement && !effectiveReferenceElement) {
@@ -313,7 +350,6 @@ export class Popover {
     }
 
     this.addReferences();
-    this.createPopper();
   };
 
   getId = (): string => {
@@ -344,6 +380,7 @@ export class Popover {
     if ("setAttribute" in effectiveReferenceElement) {
       effectiveReferenceElement.setAttribute(ARIA_CONTROLS, id);
     }
+
     manager.registerElement(effectiveReferenceElement, this.el);
     this.setExpandedAttr();
   };
@@ -359,6 +396,7 @@ export class Popover {
       effectiveReferenceElement.removeAttribute(ARIA_CONTROLS);
       effectiveReferenceElement.removeAttribute(ARIA_EXPANDED);
     }
+
     manager.unregisterElement(effectiveReferenceElement);
   };
 
@@ -372,85 +410,41 @@ export class Popover {
     );
   }
 
-  getModifiers(): Partial<StrictModifiers>[] {
-    const {
-      arrowEl,
-      disableFlip,
-      disablePointer,
-      offsetDistance,
-      offsetSkidding,
-      filteredFlipPlacements
-    } = this;
-    const flipModifier: Partial<StrictModifiers> = {
-      name: "flip",
-      enabled: !disableFlip
-    };
-
-    if (filteredFlipPlacements) {
-      flipModifier.options = {
-        fallbackPlacements: filteredFlipPlacements
-      };
-    }
-
-    const arrowModifier: Partial<StrictModifiers> = {
-      name: "arrow",
-      enabled: !disablePointer
-    };
-
-    if (arrowEl) {
-      arrowModifier.options = {
-        element: arrowEl
-      };
-    }
-
-    const offsetModifier: Partial<StrictModifiers> = {
-      name: "offset",
-      enabled: true,
-      options: {
-        offset: [offsetSkidding, offsetDistance]
-      }
-    };
-
-    const eventListenerModifier: Partial<StrictModifiers> = {
-      name: "eventListeners",
-      enabled: this.open
-    };
-
-    return [arrowModifier, flipModifier, offsetModifier, eventListenerModifier];
-  }
-
-  createPopper(): void {
-    this.destroyPopper();
-    const { el, placement, effectiveReferenceElement: referenceEl, overlayPositioning } = this;
-    const modifiers = this.getModifiers();
-
-    this.popper = createPopper({
-      el,
-      modifiers,
-      overlayPositioning,
-      placement,
-      referenceEl
-    });
-  }
-
-  destroyPopper(): void {
-    const { popper } = this;
-
-    if (popper) {
-      popper.destroy();
-    }
-
-    this.popper = null;
-  }
-
   hide = (): void => {
     this.open = false;
   };
 
-  transitionEnd = (event: TransitionEvent): void => {
-    if (event.propertyName === this.activeTransitionProp) {
-      this.open ? this.calcitePopoverOpen.emit() : this.calcitePopoverClose.emit();
+  onBeforeOpen(): void {
+    this.calcitePopoverBeforeOpen.emit();
+  }
+
+  onOpen(): void {
+    this.calcitePopoverOpen.emit();
+  }
+
+  onBeforeClose(): void {
+    this.calcitePopoverBeforeClose.emit();
+  }
+
+  onClose(): void {
+    this.calcitePopoverClose.emit();
+  }
+
+  transitionStartHandler = (event: TransitionEvent): void => {
+    if (event.propertyName === this.activeTransitionProp && event.target === this.containerEl) {
+      this.open ? this.onBeforeOpen() : this.onBeforeClose();
     }
+  };
+
+  transitionEnd = (event: TransitionEvent): void => {
+    if (event.propertyName === this.activeTransitionProp && event.target === this.containerEl) {
+      this.open ? this.onOpen() : this.onClose();
+    }
+  };
+
+  storeArrowEl = (el: HTMLDivElement): void => {
+    this.arrowEl = el;
+    this.reposition();
   };
 
   // --------------------------------------------------------------------------
@@ -497,9 +491,7 @@ export class Popover {
     const { effectiveReferenceElement, heading, label, open, disablePointer } = this;
     const displayed = effectiveReferenceElement && open;
     const hidden = !displayed;
-    const arrowNode = !disablePointer ? (
-      <div class={CSS.arrow} ref={(arrowEl) => (this.arrowEl = arrowEl)} />
-    ) : null;
+    const arrowNode = !disablePointer ? <div class={CSS.arrow} ref={this.storeArrowEl} /> : null;
 
     return (
       <Host
@@ -512,10 +504,11 @@ export class Popover {
       >
         <div
           class={{
-            [PopperCSS.animation]: true,
-            [PopperCSS.animationActive]: displayed
+            [FloatingCSS.animation]: true,
+            [FloatingCSS.animationActive]: displayed
           }}
           onTransitionEnd={this.transitionEnd}
+          ref={this.setContainerEl}
         >
           {arrowNode}
           <div

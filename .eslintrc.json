@@ -27,6 +27,17 @@
     "unicorn"
   ],
   "rules": {
+    "@esri/calcite-components/ban-events": [
+      "warn",
+      {
+        "event": "keyup",
+        "message": "Use keydown instead for consistent interaction behavior (e.g., closing, moving focus, etc.)."
+      },
+      {
+        "event": "keypress",
+        "message": "Use keydown instead for consistent interaction behavior (e.g., closing, moving focus, etc.)."
+      }
+    ],
     "@stencil/decorators-context": "off",
     "@stencil/decorators-style": "warn",
     "@stencil/no-unused-watch": "off",
@@ -96,7 +107,21 @@
     "react/jsx-uses-react": "error",
     "react/jsx-uses-vars": "error",
     "react/self-closing-comp": "error",
-    "unicorn/prefer-ternary": "error"
+    "unicorn/prefer-ternary": "error",
+    "unicorn/prevent-abbreviations": [
+      "error",
+      {
+        "extendDefaultReplacements": false,
+        "replacements": {
+          "e": {
+            "error": true,
+            "event": true
+          }
+        },
+        "checkProperties": false,
+        "checkFilenames": false
+      }
+    ]
   },
   "settings": {
     "react": {
