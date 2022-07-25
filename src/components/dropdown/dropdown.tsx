@@ -309,28 +309,27 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent, Float
   @Listen("calciteInternalDropdownItemKeyEvent")
   calciteInternalDropdownItemKeyEvent(event: CustomEvent<ItemKeyboardEvent>): void {
     const { keyboardEvent } = event.detail;
-    // handle edge
-    const target = keyboardEvent.target as HTMLCalciteDropdownItemElement;
-    const itemToFocus = target.nodeName !== "A" ? target : target.parentNode;
-    const isFirstItem = this.itemIndex(itemToFocus) === 0;
-    const isLastItem = this.itemIndex(itemToFocus) === this.items.length - 1;
-    switch (keyboardEvent.key) {
+    const { key, shiftKey } = keyboardEvent;
+    const target = event.target as HTMLCalciteDropdownItemElement;
+    const isFirstItem = this.itemIndex(target) === 0;
+    const isLastItem = this.itemIndex(target) === this.items.length - 1;
+    switch (key) {
       case "Tab":
-        if (isLastItem && !keyboardEvent.shiftKey) {
+        if (isLastItem && !shiftKey) {
           this.closeCalciteDropdown();
-        } else if (isFirstItem && keyboardEvent.shiftKey) {
+        } else if (isFirstItem && shiftKey) {
           this.closeCalciteDropdown();
-        } else if (keyboardEvent.shiftKey) {
-          this.focusPrevItem(itemToFocus);
+        } else if (shiftKey) {
+          this.focusPrevItem(target);
         } else {
-          this.focusNextItem(itemToFocus);
+          this.focusNextItem(target);
         }
         break;
       case "ArrowDown":
-        this.focusNextItem(itemToFocus);
+        this.focusNextItem(target);
         break;
       case "ArrowUp":
-        this.focusPrevItem(itemToFocus);
+        this.focusPrevItem(target);
         break;
       case "Home":
         this.focusFirstItem();
@@ -583,45 +582,33 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent, Float
   }
 
   private focusOnFirstActiveOrFirstItem = (): void => {
-    this.getFocusableElement(this.items.find((item) => item.active) || this.items[0]);
+    focusElement(this.items.find((item) => item.active) || this.items[0]);
   };
 
   private focusFirstItem() {
     const firstItem = this.items[0];
-    this.getFocusableElement(firstItem);
+    focusElement(firstItem);
   }
 
   private focusLastItem() {
     const lastItem = this.items[this.items.length - 1];
-    this.getFocusableElement(lastItem);
+    focusElement(lastItem);
   }
 
   private focusNextItem(el): void {
     const index = this.itemIndex(el);
     const nextItem = this.items[index + 1] || this.items[0];
-    this.getFocusableElement(nextItem);
+    focusElement(nextItem);
   }
 
   private focusPrevItem(el): void {
     const index = this.itemIndex(el);
     const prevItem = this.items[index - 1] || this.items[this.items.length - 1];
-    this.getFocusableElement(prevItem);
+    focusElement(prevItem);
   }
 
   private itemIndex(el): number {
     return this.items.indexOf(el);
-  }
-
-  private getFocusableElement(item): void {
-    if (!item) {
-      return;
-    }
-
-    const target = item.attributes.isLink
-      ? item.shadowRoot.querySelector("a")
-      : (item as HTMLCalciteDropdownItemElement);
-
-    focusElement(target);
   }
 
   private toggleOpenEnd = (): void => {

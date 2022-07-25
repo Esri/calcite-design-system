@@ -89,7 +89,7 @@ export class DropdownItem {
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    this.el?.focus();
+    this.containerEl?.focus();
   }
 
   //--------------------------------------------------------------------------
@@ -165,8 +165,9 @@ export class DropdownItem {
     const itemAria = this.selectionMode !== "none" ? toAriaBoolean(this.active) : null;
 
     return (
-      <Host aria-checked={itemAria} role={itemRole} tabindex="0">
+      <Host>
         <div
+          aria-checked={itemAria}
           class={{
             container: true,
             [CSS.containerLink]: !!this.href,
@@ -177,6 +178,11 @@ export class DropdownItem {
             [CSS.containerSingle]: this.selectionMode === "single",
             [CSS.containerNone]: this.selectionMode === "none"
           }}
+          onClick={this.clickHandler}
+          onKeyDown={this.keyDownHandler}
+          ref={(el) => (this.containerEl = el)}
+          role={itemRole}
+          tabindex="0"
         >
           {this.selectionMode !== "none" ? (
             <calcite-icon
@@ -197,12 +203,11 @@ export class DropdownItem {
   //
   //--------------------------------------------------------------------------
 
-  @Listen("click") onClick(): void {
+  clickHandler = (): void => {
     this.emitRequestedItem();
-  }
+  };
 
-  @Listen("keydown")
-  keyDownHandler(event: KeyboardEvent): void {
+  keyDownHandler = (event: KeyboardEvent): void => {
     switch (event.key) {
       case " ":
       case "Enter":
@@ -227,7 +232,7 @@ export class DropdownItem {
         this.calciteInternalDropdownItemKeyEvent.emit({ keyboardEvent: event });
         break;
     }
-  }
+  };
 
   @Listen("calciteInternalDropdownItemChange", { target: "body" })
   updateActiveItemOnChange(event: CustomEvent): void {
@@ -261,6 +266,8 @@ export class DropdownItem {
 
   /** if href is requested, track the rendered child link*/
   private childLink: HTMLAnchorElement;
+
+  private containerEl: HTMLDivElement;
 
   //--------------------------------------------------------------------------
   //
