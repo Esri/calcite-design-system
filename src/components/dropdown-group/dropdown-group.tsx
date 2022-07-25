@@ -83,7 +83,7 @@ export class DropdownGroup {
       this.groupPosition > 0 ? <div class="dropdown-separator" role="separator" /> : null;
 
     return (
-      <Host role="menu">
+      <Host aria-label={this.groupTitle} role="group">
         <div
           class={{
             container: true,

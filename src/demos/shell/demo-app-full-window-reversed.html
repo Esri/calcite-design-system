@@ -44,11 +44,12 @@
       });
     </script>
   </head>
+
   <body>
     <main>
       <div class="shell-container">
         <calcite-shell>
-          <calcite-shell-panel slot="primary-panel" position="end" detached>
+          <calcite-shell-panel slot="panel-start" position="end" detached>
             <calcite-panel
               id="shell-floating-panel"
               slot="shell-floating-panel"
@@ -146,7 +147,7 @@
             </calcite-panel>
           </calcite-shell-panel>
 
-          <calcite-shell-panel slot="contextual-panel" position="start" detached>
+          <calcite-shell-panel slot="panel-end" position="start" detached>
             <calcite-action-bar slot="action-bar">
               <calcite-action-group>
                 <calcite-action text="Add" active icon="plus"> </calcite-action>
@@ -417,18 +418,14 @@
           <h3 class="heading" slot="header-content">WE CARE A LOT</h3>
           <calcite-pick-list filter-enabled filter-sticky>
             <calcite-action slot="menu-actions" label="options" icon="ellipsis"> </calcite-action>
-            <calcite-pick-list-item
-              label="about disasters, fires, floods and killer bees"
-              value="1"
-            ></calcite-pick-list-item>
+            <calcite-pick-list-item label="about disasters, fires, floods and killer bees" value="1">
+            </calcite-pick-list-item>
             <calcite-pick-list-item
               label="about the NASA shuttle falling in the sea"
               value="2"
             ></calcite-pick-list-item>
-            <calcite-pick-list-item
-              label="about starvation and the food that Live Aid bought"
-              value="3"
-            ></calcite-pick-list-item>
+            <calcite-pick-list-item label="about starvation and the food that Live Aid bought" value="3">
+            </calcite-pick-list-item>
             <calcite-pick-list-item label="about disease, baby rock, Hudson, rock," value="4"></calcite-pick-list-item>
           </calcite-pick-list>
           <calcite-button slot="footer-actions" width="half">Yeah!</calcite-button>

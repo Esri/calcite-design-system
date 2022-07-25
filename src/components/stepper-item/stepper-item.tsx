@@ -152,6 +152,12 @@ export class StepperItem implements InteractiveComponent {
     this.layout = getElementProp(this.el, "layout", false);
     this.scale = getElementProp(this.el, "scale", "m");
     this.parentStepperEl = this.el.parentElement as HTMLCalciteStepperElement;
+    this.itemPosition = this.getItemPosition();
+    this.registerStepperItem();
+
+    if (this.active) {
+      this.emitRequestedItem();
+    }
   }
 
   componentDidRender(): void {
@@ -175,16 +181,14 @@ export class StepperItem implements InteractiveComponent {
             }
           >
             {this.icon ? this.renderIcon() : null}
-            {this.numbered ? (
-              <div class="stepper-item-number">{this.getItemPosition() + 1}.</div>
-            ) : null}
+            {this.numbered ? <div class="stepper-item-number">{this.itemPosition + 1}.</div> : null}
             <div class="stepper-item-header-text">
               <span class="stepper-item-heading">{this.heading || this.itemTitle}</span>
               <span class="stepper-item-description">{this.description || this.itemSubtitle}</span>
             </div>
           </div>
           <div class="stepper-item-content">
-            <slot onSlotchange={this.setItemContent} />
+            <slot />
           </div>
         </div>
       </Host>
@@ -303,18 +307,8 @@ export class StepperItem implements InteractiveComponent {
     }
   };
 
-  private setItemContent = (): void => {
-    this.itemPosition = this.getItemPosition();
-    this.registerStepperItem();
-
-    if (this.active) {
-      this.emitRequestedItem();
-    }
-  };
-
   private getItemPosition(): number {
-    return Array.prototype.indexOf.call(
-      this.parentStepperEl.querySelectorAll("calcite-stepper-item"),
+    return Array.from(this.parentStepperEl?.querySelectorAll("calcite-stepper-item")).indexOf(
       this.el
     );
   }

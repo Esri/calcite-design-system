@@ -17,16 +17,18 @@
         width: 100%;
         height: 100%;
       }
+
       .padded-content {
         padding: 0.75rem;
       }
     </style>
   </head>
+
   <body>
     <main>
       <div class="shell-container">
         <calcite-shell>
-          <calcite-shell-panel id="primary-panel" slot="primary-panel" position="start">
+          <calcite-shell-panel id="primary-panel" slot="panel-start" position="start">
             <!-- <div slot="action-bar">
                   Actionbar
               </div> -->
@@ -56,7 +58,7 @@
             </calcite-panel>
           </calcite-shell-panel>
 
-          <calcite-shell-panel slot="contextual-panel" position="end">
+          <calcite-shell-panel slot="panel-end" position="end">
             <!-- <div slot="action-bar">
                 Actionbar
             </div> -->
@@ -77,13 +79,8 @@
                 <calcite-action icon="measure" text="Measure"></calcite-action>
                 <calcite-action text-enabled icon="road-sign" text="Directions" slot="menu-actions"></calcite-action>
                 <calcite-action text-enabled icon="point" text="Location" slot="menu-actions"></calcite-action>
-                <calcite-action
-                  text-enabled
-                  icon="pencil-square"
-                  text="Edit"
-                  disabled
-                  slot="menu-actions"
-                ></calcite-action>
+                <calcite-action text-enabled icon="pencil-square" text="Edit" disabled slot="menu-actions">
+                </calcite-action>
                 <calcite-action text-enabled icon="clock" text="Time" disabled slot="menu-actions"></calcite-action>
               </calcite-action-group>
               <calcite-action-group slot="bottom-actions">
