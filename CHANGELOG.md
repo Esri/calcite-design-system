@@ -3,6 +3,17 @@
 This document maintains a list of released versions and changes introduced by them.
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
+## [1.0.0-beta.88](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.87...v1.0.0-beta.88) (2022-07-25)
+
+### Features
+
+- **action-bar:** Add property for "horizontal" layout ([#4838](https://github.com/Esri/calcite-components/issues/4838)) ([92a567b](https://github.com/Esri/calcite-components/commit/92a567b7e8e6c366b3d4315782e1ef8e1f6d4303)), closes [#2137](https://github.com/Esri/calcite-components/issues/2137) [#2380](https://github.com/Esri/calcite-components/issues/2380)
+
+### Bug Fixes
+
+- **action-bar, action-pad:** Allow users to define custom max-width with CSS ([#5006](https://github.com/Esri/calcite-components/issues/5006)) ([2270d71](https://github.com/Esri/calcite-components/commit/2270d71674c2f5cc785dca27f97909358231efa1)), closes [#2380](https://github.com/Esri/calcite-components/issues/2380)
+- **dropdown:** Fix navigating without a dropdown-group ([#4949](https://github.com/Esri/calcite-components/issues/4949)) ([4392fb2](https://github.com/Esri/calcite-components/commit/4392fb20658b5a0f0e25f16da20aaa14826697c9)), closes [#4944](https://github.com/Esri/calcite-components/issues/4944)
+
 ## [1.0.0-beta.87](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.86...v1.0.0-beta.87) (2022-07-23)
 
 ### ⚠ BREAKING CHANGES
