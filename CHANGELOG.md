@@ -3,6 +3,13 @@
 This document maintains a list of released versions and changes introduced by them.
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
+## [1.0.0-beta.89](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.88...v1.0.0-beta.89) (2022-07-25)
+
+### Bug Fixes
+
+- **shell:** Allow a single detached shell-panel at the end in content-behind mode ([#5000](https://github.com/Esri/calcite-components/issues/5000)) ([6e71b85](https://github.com/Esri/calcite-components/commit/6e71b855661673b14683c83c4333013730496240)), closes [#4156](https://github.com/Esri/calcite-components/issues/4156)
+- **stepper-item:** Correctly emit position in calciteStepperItemChange event ([#4938](https://github.com/Esri/calcite-components/issues/4938)) ([f7deebc](https://github.com/Esri/calcite-components/commit/f7deebc6de73fd0a04edc6544d52fe2fbd139893))
+
 ## [1.0.0-beta.88](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.87...v1.0.0-beta.88) (2022-07-25)
 
 ### Features
