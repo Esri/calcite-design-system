@@ -91,13 +91,12 @@ export class AccordionItem implements ConditionalSlotComponent {
    *
    * @deprecated use `iconStart` or `iconEnd` properties instead
    */
-  @Prop({ reflect: true }) icon?: string;
+  @Prop({ mutable: true, reflect: true }) icon?: string;
 
   @Watch("icon")
   iconHandler(value: string): void {
     if (value) {
-      this.iconPosition === "start" && (this.iconStart = value);
-      this.iconPosition === "end" && (this.iconEnd = value);
+      this.iconStart = value;
     }
   }
 
@@ -151,8 +150,10 @@ export class AccordionItem implements ConditionalSlotComponent {
     }
 
     if (this.icon) {
-      this.iconPosition === "start" && (this.iconStart = this.icon);
-      this.iconPosition === "end" && (this.iconEnd = this.icon);
+      this.iconStart = this.icon;
+    }
+    if (this.iconStart) {
+      this.icon = this.iconStart;
     }
     connectConditionalSlotComponent(this);
   }
@@ -195,10 +196,8 @@ export class AccordionItem implements ConditionalSlotComponent {
 
   render(): VNode {
     const dir = getElementDir(this.el);
-    const iconStartEl = (
-      <calcite-icon class="accordion-item-icon" icon={this.iconStart} scale="s" />
-    );
-    const iconEndEl = <calcite-icon class="accordion-item-icon" icon={this.iconEnd} scale="s" />;
+    const iconStartEl = <calcite-icon class={CSS.iconStart} icon={this.iconStart} scale="s" />;
+    const iconEndEl = <calcite-icon class={CSS.iconEnd} icon={this.iconEnd} scale="s" />;
 
     return (
       <Host>
@@ -217,14 +216,16 @@ export class AccordionItem implements ConditionalSlotComponent {
               role="button"
               tabindex="0"
             >
-              {this.iconStart ? iconStartEl : null}
-              <div class={CSS.headerText}>
-                <span class={CSS.heading}>{this.heading || this.itemTitle}</span>
-                {this.itemSubtitle || this.description ? (
-                  <span class={CSS.description}>{this.description || this.itemSubtitle}</span>
-                ) : null}
+              <div class="header-container">
+                {this.iconStart ? iconStartEl : null}
+                <div class={CSS.headerText}>
+                  <span class={CSS.heading}>{this.heading || this.itemTitle}</span>
+                  {this.itemSubtitle || this.description ? (
+                    <span class={CSS.description}>{this.description || this.itemSubtitle}</span>
+                  ) : null}
+                </div>
+                {this.iconEnd ? iconEndEl : null}
               </div>
-              {this.iconEnd ? iconEndEl : null}
               <calcite-icon
                 class={CSS.expandIcon}
                 icon={
@@ -307,18 +308,8 @@ export class AccordionItem implements ConditionalSlotComponent {
   /** what selection mode is the parent accordion in */
   private selectionMode: string;
 
-  /**
-   * what icon position does the parent accordion specify
-   *
-   * @deprecated use `iconStart` and `iconEnd` properties instead.
-   */
+  /** what icon position does the parent accordion specify */
   private iconPosition: Position = "end";
-
-  @Watch("iconPosition")
-  iconPositionHandler(value: Position): void {
-    value === "start" && (this.iconStart = this.icon);
-    value === "end" && (this.iconEnd = this.icon);
-  }
 
   /** what icon type does the parent accordion specify */
   private iconType: string;

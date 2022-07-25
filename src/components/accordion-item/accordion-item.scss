@@ -73,6 +73,19 @@
   margin-inline-start: var(--calcite-accordion-item-icon-spacing-end);
 }
 
+.icon--start {
+  margin-inline-end: 1rem;
+}
+
+.icon--end {
+  margin-inline-end: 1rem;
+  margin-inline-start: 1rem;
+}
+
+.header-container {
+  inline-size: 100%;
+}
+
 .content {
   padding: var(--calcite-accordion-item-padding);
 }
