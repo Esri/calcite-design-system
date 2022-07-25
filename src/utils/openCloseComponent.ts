@@ -11,12 +11,12 @@ export interface OpenCloseComponent {
   /**
    * When true, the component opens.
    */
-  open?: boolean;
+  open: boolean;
 
   /**
    * Specifies property on which active transition is watched for.
    */
-  activeTransitionProp: string;
+  openTransitionProp: string;
 
   /**
    * Specifies element that the transition is allowed to emit on.
@@ -45,13 +45,13 @@ export interface OpenCloseComponent {
 }
 
 export function transitionStartHandler(event: TransitionEvent): void {
-  if (event.propertyName === this.activeTransitionProp && event.target === this.transitionEl) {
-    this.active || this.open ? this.onBeforeOpen() : this.onBeforeClose();
+  if (event.propertyName === this.openTransitionProp && event.target === this.transitionEl) {
+    this.open ? this.onBeforeOpen() : this.onBeforeClose();
   }
 }
 
 export function transitionEnd(event: TransitionEvent): void {
-  if (event.propertyName === this.activeTransitionProp && event.target === this.transitionEl) {
-    this.active || this.open ? this.onOpen() : this.onClose();
+  if (event.propertyName === this.openTransitionProp && event.target === this.transitionEl) {
+    this.open ? this.onOpen() : this.onClose();
   }
 }

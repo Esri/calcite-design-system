@@ -296,7 +296,7 @@ export class Alert implements OpenCloseComponent {
   /* @internal */
   @State() requestedIcon?: string;
 
-  activeTransitionProp = "opacity";
+  openTransitionProp = "opacity";
 
   transitionEl: HTMLDivElement;
 

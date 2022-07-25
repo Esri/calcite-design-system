@@ -211,7 +211,7 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
 
   guid = `calcite-popover-${guid()}`;
 
-  activeTransitionProp = "opacity";
+  openTransitionProp = "opacity";
 
   transitionEl: HTMLDivElement;
 

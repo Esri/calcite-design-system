@@ -416,7 +416,7 @@ export class Combobox
 
   private ignoreSelectedEventsFlag = false;
 
-  activeTransitionProp = "opacity";
+  openTransitionProp = "opacity";
 
   transitionEl: HTMLDivElement;
 

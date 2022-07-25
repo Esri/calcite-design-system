@@ -383,7 +383,7 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent, Float
 
   resizeObserver = createObserver("resize", (entries) => this.resizeObserverCallback(entries));
 
-  activeTransitionProp = "visibility";
+  openTransitionProp = "visibility";
 
   transitionEl: HTMLDivElement;
 

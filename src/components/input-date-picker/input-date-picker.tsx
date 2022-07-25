@@ -580,7 +580,7 @@ export class InputDatePicker
 
   private endWrapper: HTMLDivElement;
 
-  activeTransitionProp = "opacity";
+  openTransitionProp = "opacity";
 
   transitionEl: HTMLDivElement;
 

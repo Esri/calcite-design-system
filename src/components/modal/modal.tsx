@@ -270,7 +270,7 @@ export class Modal implements ConditionalSlotComponent, OpenCloseComponent {
 
   titleId: string;
 
-  activeTransitionProp = "opacity";
+  openTransitionProp = "opacity";
 
   transitionEl: HTMLDivElement;
 
