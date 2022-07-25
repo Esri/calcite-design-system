@@ -27,13 +27,10 @@ jobs:
       - name: storybook/next deployment
         env:
           NEXT_RELEASE_ENABLED: ${{ secrets.NEXT_RELEASE_ENABLED }}
-          GH_TOKEN: ${{ github.actor }}:${{ secrets.ADMIN_TOKEN }}
+          # https://github.com/storybookjs/storybook-deployer/issues/77#issuecomment-618560481
+          GH_TOKEN_FOR_STORYBOOK: ${{ github.actor }}:${{ secrets.ADMIN_TOKEN }}
         run: |
           if [ "$NEXT_RELEASE_ENABLED" == "true" ]; then
-            git config --global user.name "github-actions[bot]"
-            git config --global user.email "github-actions[bot]@users.noreply.github.com"
-            npm run build-storybook
-            npx storybook-to-ghpages --existing-output-dir=docs --ci
             npm run util:deploy-next-from-ci
           else
             echo "Next release is disabled"

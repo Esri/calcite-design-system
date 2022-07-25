@@ -46,6 +46,11 @@ import pify from "pify";
         process.exitCode = 1;
       }
 
+      await exec("npm run build-storybook");
+      await exec(
+        "npx storybook-to-ghpages --host-token-env-variable=GITHUB_TOKEN_FOR_STORYBOOK --existing-output-dir=docs --ci"
+      );
+
       await exec(`git log --pretty=format:'%h : %s' --graph`);
 
       // github token provided by the checkout action
