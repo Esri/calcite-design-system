@@ -275,8 +275,8 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent, Float
   @Event() calciteDropdownOpen: EventEmitter<void>;
 
   @Listen("click", { target: "window" })
-  closeCalciteDropdownOnClick(e: Event): void {
-    if (!this.open || e.composedPath().includes(this.el)) {
+  closeCalciteDropdownOnClick(event: Event): void {
+    if (!this.open || event.composedPath().includes(this.el)) {
       return;
     }
 
@@ -520,7 +520,7 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent, Float
 
     const key = event.key;
 
-    if (this.open && (key === "Escape" || (e.shiftKey && key === "Tab"))) {
+    if (this.open && (key === "Escape" || (event.shiftKey && key === "Tab"))) {
       this.closeCalciteDropdown();
       return;
     }
