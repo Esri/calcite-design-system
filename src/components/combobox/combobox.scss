@@ -166,8 +166,8 @@
 
 .list-container {
   @apply bg-foreground-1
-    max-h-screen
     overflow-y-auto;
+  max-block-size: 50vh;
   inline-size: var(--calcite-dropdown-width);
 }
 
