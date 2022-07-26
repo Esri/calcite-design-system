@@ -17,6 +17,10 @@
   @include floatingUIWrapper();
 }
 
+::slotted(calcite-dropdown-item) {
+  display: none;
+}
+
 @include floatingUIElemAnim(".calcite-dropdown-wrapper");
 :host([active]) .calcite-dropdown-wrapper,
 :host([open]) .calcite-dropdown-wrapper {
@@ -52,8 +56,4 @@
 }
 :host([width="l"]) {
   --calcite-dropdown-width: theme("spacing.64");
-}
-
-::slotted(calcite-dropdown-item) {
-  display: none;
 }
