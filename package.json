@@ -1,6 +1,6 @@
 {
   "name": "@esri/calcite-components",
-  "version": "1.0.0-beta.89",
+  "version": "1.0.0-beta.90",
   "description": "Web Components for Esri's Calcite Design System.",
   "main": "dist/index.cjs.js",
   "module": "dist/index.js",
@@ -49,6 +49,7 @@
     "util:copy-icons": "cpy \"./node_modules/@esri/calcite-ui-icons/js/*.json\" \"./src/components/icon/assets/icon/\" --flat",
     "util:deploy-next": "npm run util:prep-next && npm run util:push-tags && npm run util:publish-next",
     "util:deploy-next-from-ci": "ts-node --esm support/deployNextFromCI.ts",
+    "util:is-next-deployable": "ts-node --esm support/isNextDeployable.ts",
     "util:hydration-styles": "ts-node --esm support/hydrationStyles.ts",
     "util:patch-es5-helpers": "ts-node --esm support/patchES5Helpers.ts",
     "util:prep-next": "ts-node --esm support/prepReleaseCommit.ts --next && npm run build",

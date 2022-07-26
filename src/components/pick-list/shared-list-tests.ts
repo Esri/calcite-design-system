@@ -2,6 +2,7 @@ import { E2EElement, E2EPage, newE2EPage } from "@stencil/core/testing";
 import { disabled, focusable } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS as PICK_LIST_ITEM_CSS } from "../pick-list-item/resources";
+import { selectText } from "../../tests/utils";
 
 type ListType = "pick" | "value";
 type ListElement = HTMLCalcitePickListElement | HTMLCalciteValueListElement;
@@ -426,111 +427,74 @@ export function filterBehavior(listType: ListType): void {
   let page: E2EPage = null;
   let item1: E2EElement;
   let item2: E2EElement;
-  let item1Visible;
-  let item2Visible;
+  let filter: E2EElement;
 
   beforeEach(async () => {
     page = await newE2EPage();
     await page.setContent(`<calcite-${listType}-list filter-enabled>
         <calcite-${listType}-list-item value="1" label="One" description="uno"></calcite-${listType}-list-item>
-        <calcite-${listType}-list-item value="2" label="Two" description="dos"></calcite-${listType}-list-item>
+        <calcite-${listType}-list-item value="2" label="Two [regex chars]" description="dos (regex chars)"></calcite-${listType}-list-item>
       </calcite-${listType}-list>`);
     item1 = await page.find(`calcite-${listType}-list-item[value="1"]`);
     item2 = await page.find(`calcite-${listType}-list-item[value="2"]`);
+    filter = await page.find(`calcite-${listType}-list >>> calcite-filter`);
     item1.setProperty("metadata", { category: "first" });
-    item2.setProperty("metadata", { category: "second" });
+    item2.setProperty("metadata", { category: "second /regex chars/" });
     await page.waitForChanges();
-    await page.evaluate((listType) => {
-      (window as any).filter = document
-        .querySelector(`calcite-${listType}-list`)
-        .shadowRoot.querySelector("calcite-filter");
-      const filter = (window as any).filter;
-      (window as any).filterInput = filter.shadowRoot.querySelector("calcite-input");
-    }, listType);
   });
 
   it("should match text in the label prop", async () => {
     // Match first item
-    await page.evaluate(() => {
-      const filterInput = (window as any).filterInput;
-      filterInput.value = "one";
-      filterInput.dispatchEvent(new CustomEvent("calciteInputInput"));
-    });
+    await selectText(filter);
+    await filter.type("one");
     await item2.waitForNotVisible();
 
-    item1Visible = await item1.isVisible();
-    item2Visible = await item2.isVisible();
+    expect(await item1.isVisible()).toBe(true);
+    expect(await item2.isVisible()).toBe(false);
 
-    expect(item1Visible).toBe(true);
-    expect(item2Visible).toBe(false);
-
-    // Match second item
-    await page.evaluate(() => {
-      const filterInput = (window as any).filterInput;
-      filterInput.value = "two";
-      filterInput.dispatchEvent(new CustomEvent("calciteInputInput"));
-    });
+    // Match second item (with regex chars)
+    await selectText(filter);
+    await filter.type("two [");
     await item1.waitForNotVisible();
 
-    item1Visible = await item1.isVisible();
-    item2Visible = await item2.isVisible();
-    expect(item1Visible).toBe(false);
-    expect(item2Visible).toBe(true);
+    expect(await item1.isVisible()).toBe(false);
+    expect(await item2.isVisible()).toBe(true);
   });
 
   it("should match text in the description prop", async () => {
     // Match first item
-    await page.evaluate(() => {
-      const filterInput = (window as any).filterInput;
-      filterInput.value = "uno";
-      filterInput.dispatchEvent(new CustomEvent("calciteInputInput"));
-    });
+    await selectText(filter);
+    await filter.type("uno");
     await item2.waitForNotVisible();
 
-    item1Visible = await item1.isVisible();
-    item2Visible = await item2.isVisible();
+    expect(await item1.isVisible()).toBe(true);
+    expect(await item2.isVisible()).toBe(false);
 
-    expect(item1Visible).toBe(true);
-    expect(item2Visible).toBe(false);
-
-    // Match second item
-    await page.evaluate(() => {
-      const filterInput = (window as any).filterInput;
-      filterInput.value = "dos";
-      filterInput.dispatchEvent(new CustomEvent("calciteInputInput"));
-    });
+    // Match second item (with regex chars)
+    await selectText(filter);
+    await filter.type("dos (");
     await item1.waitForNotVisible();
 
-    item1Visible = await item1.isVisible();
-    item2Visible = await item2.isVisible();
-    expect(item1Visible).toBe(false);
-    expect(item2Visible).toBe(true);
+    expect(await item1.isVisible()).toBe(false);
+    expect(await item2.isVisible()).toBe(true);
   });
 
   it("should match text in the metadata prop", async () => {
-    await page.evaluate(() => {
-      const filterInput = (window as any).filterInput;
-      filterInput.value = "first";
-      filterInput.dispatchEvent(new CustomEvent("calciteInputInput"));
-    });
+    // Match first item
+    await selectText(filter);
+    await filter.type("first");
     await item2.waitForNotVisible();
 
-    let item1Visible = await item1.isVisible();
-    let item2Visible = await item2.isVisible();
-    expect(item1Visible).toBe(true);
-    expect(item2Visible).toBe(false);
+    expect(await item1.isVisible()).toBe(true);
+    expect(await item2.isVisible()).toBe(false);
 
-    await page.evaluate(() => {
-      const filterInput = (window as any).filterInput;
-      filterInput.value = "second";
-      filterInput.dispatchEvent(new CustomEvent("calciteInputInput"));
-    });
+    // Match second item (with regex chars)
+    await selectText(filter);
+    await filter.type("second /");
     await item1.waitForNotVisible();
 
-    item1Visible = await item1.isVisible();
-    item2Visible = await item2.isVisible();
-    expect(item1Visible).toBe(false);
-    expect(item2Visible).toBe(true);
+    expect(await item1.isVisible()).toBe(false);
+    expect(await item2.isVisible()).toBe(true);
   });
 }
 
