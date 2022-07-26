@@ -180,3 +180,9 @@ export const paddingDisabled = (): string => html` <calcite-panel heading="Prope
     <div>calcite components ninja</div>
   </calcite-block>
 </calcite-panel>`;
+
+export const headingLevel2 = (): string => html` <calcite-panel heading="Properties">
+  <calcite-block heading-level="2" heading="Example block heading" summary="example summary heading" collapsible open>
+    <div>calcite components ninja</div>
+  </calcite-block>
+</calcite-panel>`;
