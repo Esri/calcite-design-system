@@ -99,7 +99,7 @@ export class ActionGroup implements ConditionalSlotComponent {
   }
 
   renderMenu(): VNode {
-    const { el, expanded, intlMore, menuOpen, scale } = this;
+    const { el, expanded, intlMore, menuOpen, scale, layout } = this;
 
     const hasMenuItems = getSlotted(el, SLOTS.menuActions);
 
@@ -110,7 +110,7 @@ export class ActionGroup implements ConditionalSlotComponent {
         label={intlMore || TEXT.more}
         onCalciteActionMenuOpenChange={this.setMenuOpen}
         open={menuOpen}
-        placement="leading-start"
+        placement={layout === "horizontal" ? "bottom-leading" : "leading-start"}
         scale={scale}
       >
         <calcite-action

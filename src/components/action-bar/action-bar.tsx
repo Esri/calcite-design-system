@@ -10,11 +10,12 @@ import {
   VNode,
   Method
 } from "@stencil/core";
-import { Position, Scale } from "../interfaces";
+import { Position, Scale, Layout } from "../interfaces";
 import { ExpandToggle, toggleChildActionText } from "../functional/ExpandToggle";
 import { CSS, SLOTS, TEXT } from "./resources";
 import { getSlotted, focusElement } from "../../utils/dom";
 import {
+  geActionDimensions,
   getOverflowCount,
   overflowActions,
   queryActions,
@@ -63,6 +64,7 @@ export class ActionBar implements ConditionalSlotComponent {
   @Watch("expanded")
   expandedHandler(expanded: boolean): void {
     toggleChildActionText({ parent: this.el, expanded });
+    this.conditionallyOverflowActions();
   }
 
   /**
@@ -74,6 +76,11 @@ export class ActionBar implements ConditionalSlotComponent {
    * Specifies the label of the collapse icon when the component is expanded.
    */
   @Prop() intlCollapse?: string;
+
+  /**
+   *  The layout direction of the actions.
+   */
+  @Prop({ reflect: true }) layout: Extract<"horizontal" | "vertical", Layout> = "vertical";
 
   /**
    * Disables automatically overflowing `calcite-action`s that won't fit into menus.
@@ -170,7 +177,7 @@ export class ActionBar implements ConditionalSlotComponent {
    */
   @Method()
   async overflowActions(): Promise<void> {
-    this.resize(this.el.clientHeight);
+    this.resize({ width: this.el.clientWidth, height: this.el.clientHeight });
   }
 
   /**
@@ -210,14 +217,14 @@ export class ActionBar implements ConditionalSlotComponent {
   };
 
   resizeHandler = (entry: ResizeObserverEntry): void => {
-    const { height } = entry.contentRect;
-    this.resize(height);
+    const { width, height } = entry.contentRect;
+    this.resize({ width, height });
   };
 
-  resize = debounce((height: number): void => {
-    const { el, expanded, expandDisabled } = this;
+  resize = debounce(({ width, height }: { width: number; height: number }): void => {
+    const { el, expanded, expandDisabled, layout } = this;
 
-    if (!height) {
+    if ((layout === "vertical" && !height) || (layout === "horizontal" && !width)) {
       return;
     }
 
@@ -229,10 +236,15 @@ export class ActionBar implements ConditionalSlotComponent {
         ? actionGroups.length + 1
         : actionGroups.length;
 
+    const { actionHeight, actionWidth } = geActionDimensions(actions);
+
     const overflowCount = getOverflowCount({
+      layout,
       actionCount,
-      actionHeight: actions[0]?.clientHeight,
+      actionHeight,
+      actionWidth,
       height,
+      width,
       groupCount
     });
 
@@ -273,7 +285,8 @@ export class ActionBar implements ConditionalSlotComponent {
       el,
       position,
       toggleExpand,
-      scale
+      scale,
+      layout
     } = this;
 
     const tooltip = getSlotted(el, SLOTS.expandTooltip) as HTMLCalciteTooltipElement;
@@ -295,7 +308,7 @@ export class ActionBar implements ConditionalSlotComponent {
     ) : null;
 
     return getSlotted(el, SLOTS.bottomActions) || expandToggleNode ? (
-      <calcite-action-group class={CSS.actionGroupBottom} scale={scale}>
+      <calcite-action-group class={CSS.actionGroupBottom} layout={layout} scale={scale}>
         <slot name={SLOTS.bottomActions} />
         <slot name={SLOTS.expandTooltip} />
         {expandToggleNode}

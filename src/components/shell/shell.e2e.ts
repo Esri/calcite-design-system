@@ -34,10 +34,10 @@ describe("calcite-shell", () => {
   it("should be accessible", async () =>
     accessible(`
     <calcite-shell>
-      <calcite-shell-panel slot="${SLOTS.primaryPanel}" position="start">
+      <calcite-shell-panel slot="${SLOTS.panelStart}" position="start">
         <p>Primary Content</p>
       </calcite-shell-panel>
-      <calcite-shell-panel slot="${SLOTS.contextualPanel}" position="end">
+      <calcite-shell-panel slot="${SLOTS.panelEnd}" position="end">
         <p>Primary Content</p>
       </calcite-shell-panel>
     </calcite-shell>
@@ -85,10 +85,10 @@ describe("calcite-shell", () => {
     const page = await newE2EPage();
 
     await page.setContent(`<calcite-shell content-behind>
-    <calcite-shell-panel slot="${SLOTS.primaryPanel}" position="end">
+    <calcite-shell-panel slot="${SLOTS.panelStart}" position="end">
       <p>Primary Content</p>
     </calcite-shell-panel>
-    <calcite-shell-panel slot="${SLOTS.contextualPanel}" position="start">
+    <calcite-shell-panel slot="${SLOTS.panelEnd}" position="start">
       <p>Primary Content</p>
     </calcite-shell-panel>
   </calcite-shell>`);
@@ -100,14 +100,33 @@ describe("calcite-shell", () => {
     expect(mainReversed).not.toBeNull();
   });
 
+  it("flex row should not be reversed with start/end panels", async () => {
+    const page = await newE2EPage();
+
+    await page.setContent(`<calcite-shell>
+    <calcite-shell-panel slot="${SLOTS.panelStart}" position="end">
+      <p>Primary Content</p>
+    </calcite-shell-panel>
+    <calcite-shell-panel slot="${SLOTS.panelEnd}" position="start">
+      <p>Primary Content</p>
+    </calcite-shell-panel>
+  </calcite-shell>`);
+
+    await page.waitForChanges();
+
+    const mainReversed = await page.find(`calcite-shell >>> .${CSS.mainReversed}`);
+
+    expect(mainReversed).toBeNull();
+  });
+
   it("should place the center-row inside the content node when content-behind is false", async () => {
     const page = await newE2EPage();
 
     await page.setContent(`<calcite-shell>
-    <calcite-shell-panel slot="${SLOTS.primaryPanel}" position="end">
+    <calcite-shell-panel slot="${SLOTS.panelStart}" position="end">
       <p>Primary Content</p>
     </calcite-shell-panel>
-    <calcite-shell-panel slot="${SLOTS.contextualPanel}" position="start">
+    <calcite-shell-panel slot="${SLOTS.panelEnd}" position="start">
       <p>Primary Content</p>
     </calcite-shell-panel>
     <p>Main content</p>
@@ -128,10 +147,10 @@ describe("calcite-shell", () => {
     const page = await newE2EPage();
 
     await page.setContent(`<calcite-shell content-behind>
-    <calcite-shell-panel slot="${SLOTS.primaryPanel}" position="end">
+    <calcite-shell-panel slot="${SLOTS.panelStart}" position="end">
       <p>Primary Content</p>
     </calcite-shell-panel>
-    <calcite-shell-panel slot="${SLOTS.contextualPanel}" position="start">
+    <calcite-shell-panel slot="${SLOTS.panelEnd}" position="start">
       <p>Primary Content</p>
     </calcite-shell-panel>
     <p>Main content</p>

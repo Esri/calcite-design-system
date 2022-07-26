@@ -161,11 +161,12 @@ export class TabTitle implements InteractiveComponent {
     return (
       <Host
         aria-controls={this.controls}
-        aria-expanded={toAriaBoolean(this.active)}
+        aria-selected={toAriaBoolean(this.active)}
         id={id}
         role="tab"
+        tabIndex={this.active ? 0 : -1}
       >
-        <a
+        <div
           class={{
             container: true,
             "container--has-text": this.hasText
@@ -174,7 +175,7 @@ export class TabTitle implements InteractiveComponent {
           {this.iconStart ? iconStartEl : null}
           <slot />
           {this.iconEnd ? iconEndEl : null}
-        </a>
+        </div>
       </Host>
     );
   }
@@ -184,7 +185,9 @@ export class TabTitle implements InteractiveComponent {
   }
 
   componentDidRender(): void {
-    updateHostInteraction(this, true);
+    updateHostInteraction(this, () => {
+      return this.active;
+    });
   }
 
   //--------------------------------------------------------------------------
@@ -228,6 +231,7 @@ export class TabTitle implements InteractiveComponent {
         event.preventDefault();
         break;
       case "ArrowRight":
+        e.preventDefault();
         if (getElementDir(this.el) === "ltr") {
           this.calciteInternalTabsFocusNext.emit();
         } else {
@@ -235,6 +239,7 @@ export class TabTitle implements InteractiveComponent {
         }
         break;
       case "ArrowLeft":
+        e.preventDefault();
         if (getElementDir(this.el) === "ltr") {
           this.calciteInternalTabsFocusPrevious.emit();
         } else {
@@ -356,10 +361,4 @@ export class TabTitle implements InteractiveComponent {
   }
 
   guid = `calcite-tab-title-${guid()}`;
-
-  //--------------------------------------------------------------------------
-  //
-  //  Private Methods
-  //
-  //--------------------------------------------------------------------------
 }

@@ -21,6 +21,7 @@
         width: 100%;
         height: calc(99vh - 80px);
       }
+
       #viewDiv {
         padding: 0;
         margin: 0;
@@ -65,11 +66,12 @@
       });
     </script>
   </head>
+
   <body>
     <main>
       <div class="shell-container">
         <calcite-shell content-behind>
-          <calcite-shell-panel id="primary-panel" slot="primary-panel" position="start" detached>
+          <calcite-shell-panel id="primary-panel" slot="panel-start" position="start" detached>
             <calcite-action-bar slot="action-bar">
               <calcite-action-group>
                 <calcite-action text="Save" icon="save" indicator> </calcite-action>
@@ -112,7 +114,7 @@
             </calcite-panel>
           </calcite-shell-panel>
 
-          <calcite-shell-panel slot="contextual-panel" position="end">
+          <calcite-shell-panel slot="panel-end" position="end">
             <calcite-action-bar slot="action-bar">
               <calcite-action-group>
                 <calcite-action text="Layer properties" icon="sliders-horizontal"> </calcite-action>
@@ -153,6 +155,7 @@
                   font-weight: 500;
                   color: var(--calcite-ui-text-2);
                 }
+
                 .manage-expresssion-container {
                   display: flex;
                   align-items: center;
@@ -161,9 +164,11 @@
                   margin: 1.25rem 0 0.5rem 0;
                   /* border: 1px solid #e0e0e0; */
                 }
+
                 .manage-expresssion-text {
                   flex: 1 0 auto;
                 }
+
                 .manage-expresssion-container .icon {
                   flex: 0 0 auto;
                   padding-right: 0.25rem;
@@ -181,18 +186,10 @@
                   </calcite-notice>
                 </div> -->
                 <calcite-action slot="header-menu-actions" text-enabled text="I'm one." icon="banana"></calcite-action>
-                <calcite-action
-                  slot="header-menu-actions"
-                  text-enabled
-                  text="I'm a longer one."
-                  icon="banana"
-                ></calcite-action>
-                <calcite-action
-                  slot="header-menu-actions"
-                  text-enabled
-                  text="I am the longest one."
-                  icon="banana"
-                ></calcite-action>
+                <calcite-action slot="header-menu-actions" text-enabled text="I'm a longer one." icon="banana">
+                </calcite-action>
+                <calcite-action slot="header-menu-actions" text-enabled text="I am the longest one." icon="banana">
+                </calcite-action>
                 <calcite-block heading="Options" collapsible open>
                   <calcite-icon icon="sliders" scale="m" slot="icon"></calcite-icon>
                   <calcite-label layout="inline-space-between">
@@ -234,8 +231,9 @@
                     Title
                     <calcite-input type="text" placeholder="My awesome title">
                       <calcite-action text="cool action" icon="brackets-curly" slot="action" scale="s"></calcite-action>
-                    </calcite-input> </calcite-label
-                  ><calcite-label scale="s">
+                    </calcite-input>
+                  </calcite-label>
+                  <calcite-label scale="s">
                     Description
                     <calcite-input type="text" placeholder="My awesome description">
                       <calcite-action text="cool action" icon="brackets-curly" slot="action" scale="s"></calcite-action>
@@ -258,8 +256,9 @@
                     Title
                     <calcite-input type="text" placeholder="My awesome title">
                       <calcite-action text="cool action" icon="brackets-curly" slot="action" scale="s"></calcite-action>
-                    </calcite-input> </calcite-label
-                  ><calcite-label scale="s">
+                    </calcite-input>
+                  </calcite-label>
+                  <calcite-label scale="s">
                     Description
                     <calcite-input type="text" placeholder="My awesome description">
                       <calcite-action text="cool action" icon="brackets-curly" slot="action" scale="s"></calcite-action>
@@ -300,7 +299,8 @@
                   text-enabled
                   scale="s"
                   style="margin-top: 1rem"
-                ></calcite-fab>
+                >
+                </calcite-fab>
               </calcite-panel>
             </calcite-flow>
             <!-- </div> -->
@@ -365,18 +365,14 @@
             <calcite-action slot="menu-actions" text="options">
               <calcite-icon icon="ellipsis" scale="s"></calcite-icon>
             </calcite-action>
-            <calcite-pick-list-item
-              label="about disasters, fires, floods and killer bees"
-              value="1"
-            ></calcite-pick-list-item>
+            <calcite-pick-list-item label="about disasters, fires, floods and killer bees" value="1">
+            </calcite-pick-list-item>
             <calcite-pick-list-item
               label="about the NASA shuttle falling in the sea"
               value="2"
             ></calcite-pick-list-item>
-            <calcite-pick-list-item
-              label="about starvation and the food that Live Aid bought"
-              value="3"
-            ></calcite-pick-list-item>
+            <calcite-pick-list-item label="about starvation and the food that Live Aid bought" value="3">
+            </calcite-pick-list-item>
             <calcite-pick-list-item label="about disease, baby rock, Hudson, rock," value="4"></calcite-pick-list-item>
             <calcite-pick-list-item label="about disease, baby rock, Hudson, rock," value="4"></calcite-pick-list-item>
             <calcite-pick-list-item label="about disease, baby rock, Hudson, rock," value="4"></calcite-pick-list-item>
