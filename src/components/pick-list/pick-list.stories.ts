@@ -176,3 +176,14 @@ export const disabled = (): string => html`<calcite-pick-list disabled>
   ></calcite-pick-list-item>
   <calcite-pick-list-item label="hi" description="there" value="helloWorld"></calcite-pick-list-item>
 </calcite-pick-list>`;
+
+export const headingLevel2 = (): string => html`<calcite-pick-list>
+  <calcite-pick-list-group heading-level="2" group-title="Dogs">
+    <calcite-pick-list-item label="All the dogs" value="all-dogs" slot="parent-item">
+      ${action}
+    </calcite-pick-list-item>
+    <calcite-pick-list-item label="Husky" value="husky"> ${action} </calcite-pick-list-item>
+    <calcite-pick-list-item label="Pomeranian" value="pom"> ${action} </calcite-pick-list-item>
+    <calcite-pick-list-item label="Xoloitzcuintle" value="xolo"> ${action} </calcite-pick-list-item>
+  </calcite-pick-list-group>
+</calcite-pick-list>`;
