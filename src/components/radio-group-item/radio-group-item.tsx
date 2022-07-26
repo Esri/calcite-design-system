@@ -105,15 +105,6 @@ export class RadioGroupItem {
     const appearance: RadioAppearance = getElementProp(this.el, "appearance", "solid");
     const layout: Layout = getElementProp(this.el, "layout", "horizontal");
 
-    const iconEl = (
-      <calcite-icon
-        class={CSS.radioGroupItemIcon}
-        flipRtl={this.iconFlipRtl}
-        icon={this.icon}
-        scale="s"
-      />
-    );
-
     const iconStartEl = (
       <calcite-icon
         class={CSS.radioGroupItemIcon}
