@@ -217,7 +217,7 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent, Float
             role="menu"
           >
             <div hidden={!(open || active)}>
-              <slot onSlotchange={this.slotChangeHandler} />
+              <slot onSlotchange={this.updateGroups} />
             </div>
           </div>
         </div>
@@ -367,6 +367,8 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent, Float
 
   private items: HTMLCalciteDropdownItemElement[] = [];
 
+  private groups: HTMLCalciteDropdownGroupElement[] = [];
+
   /** trigger elements */
   private triggers: HTMLElement[];
 
@@ -417,25 +419,23 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent, Float
   };
 
   updateItems = (): void => {
-    const { defaultAssignedElements } = this;
-
-    this.items = (
-      defaultAssignedElements.filter((el) =>
-        el?.matches("calcite-dropdown-group, calcite-dropdown-item")
-      ) as (HTMLCalciteDropdownItemElement | HTMLCalciteDropdownGroupElement)[]
-    )
-      .map((el) =>
-        el.matches("calcite-dropdown-group")
-          ? Array.from(
-              (el as HTMLCalciteDropdownGroupElement).querySelectorAll("calcite-dropdown-item")
-            )
-          : [el as HTMLCalciteDropdownItemElement]
-      )
+    this.items = this.groups
+      .map((group) => Array.from(group?.querySelectorAll("calcite-dropdown-item")))
       .reduce((previousValue, currentValue) => [...previousValue, ...currentValue], []);
 
     this.updateSelectedItems();
 
     this.reposition();
+  };
+
+  updateGroups = (event: Event): void => {
+    const groups = (event.target as HTMLSlotElement)
+      .assignedElements({ flatten: true })
+      .filter((el) => el?.matches("calcite-dropdown-group")) as HTMLCalciteDropdownGroupElement[];
+
+    this.groups = groups;
+
+    this.updateItems();
   };
 
   resizeObserverCallback = (entries: ResizeObserverEntry[]): void => {
@@ -553,22 +553,24 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent, Float
     let maxScrollerHeight = 0;
     let groupHeaderHeight: number;
 
-    if (maxItems > 0 && itemsToProcess < maxItems) {
-      this.items.forEach((item: HTMLCalciteDropdownItemElement) => {
-        if (item.matches("calcite-dropdown-group calcite-dropdown-item:first-child")) {
-          if (isNaN(groupHeaderHeight)) {
-            groupHeaderHeight = item.offsetTop;
+    this.groups.forEach((group) => {
+      if (maxItems > 0 && itemsToProcess < maxItems) {
+        Array.from(group.children).forEach((item: HTMLCalciteDropdownItemElement, index) => {
+          if (index === 0) {
+            if (isNaN(groupHeaderHeight)) {
+              groupHeaderHeight = item.offsetTop;
+            }
+
+            maxScrollerHeight += groupHeaderHeight;
           }
 
-          maxScrollerHeight += groupHeaderHeight;
-        }
-
-        if (itemsToProcess < maxItems) {
-          maxScrollerHeight += item.offsetHeight;
-          itemsToProcess += 1;
-        }
-      });
-    }
+          if (itemsToProcess < maxItems) {
+            maxScrollerHeight += item.offsetHeight;
+            itemsToProcess += 1;
+          }
+        });
+      }
+    });
 
     return maxScrollerHeight;
   }
