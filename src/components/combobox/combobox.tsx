@@ -316,7 +316,6 @@ export class Combobox
 
   connectedCallback(): void {
     this.internalValueChangeFlag = true;
-    const isOpen = this.active || this.open;
     this.value = this.getValue();
     this.internalValueChangeFlag = false;
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
@@ -324,9 +323,11 @@ export class Combobox
     connectForm(this);
     this.reposition();
     this.setFilteredPlacements();
-    if (isOpen) {
-      this.activeHandler(isOpen);
-      this.openHandler(isOpen);
+    if (this.active) {
+      this.activeHandler(this.active);
+    }
+    if (this.open) {
+      this.openHandler(this.open);
     }
   }
 
@@ -627,8 +628,8 @@ export class Combobox
 
   setInactiveIfNotContained = (event: Event): void => {
     const composedPath = event.composedPath();
-    const isOpen = !this.open;
-    if (isOpen || composedPath.includes(this.el) || composedPath.includes(this.referenceEl)) {
+
+    if (!this.open || composedPath.includes(this.el) || composedPath.includes(this.referenceEl)) {
       return;
     }
 
