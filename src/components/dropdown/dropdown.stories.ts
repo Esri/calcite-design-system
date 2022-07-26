@@ -406,11 +406,13 @@ export const FlipPositioning = stepStory(
     <div style="margin:10px;">
       <calcite-dropdown width="m" placement="${select("placement", menuPlacements, "top")}">
         <calcite-button slot="dropdown-trigger">Open Dropdown</calcite-button>
-        <calcite-dropdown-item>1</calcite-dropdown-item>
-        <calcite-dropdown-item>2</calcite-dropdown-item>
-        <calcite-dropdown-item>3</calcite-dropdown-item>
-        <calcite-dropdown-item>4</calcite-dropdown-item>
-        <calcite-dropdown-item>5</calcite-dropdown-item>
+        <calcite-dropdown-group>
+          <calcite-dropdown-item>1</calcite-dropdown-item>
+          <calcite-dropdown-item>2</calcite-dropdown-item>
+          <calcite-dropdown-item>3</calcite-dropdown-item>
+          <calcite-dropdown-item>4</calcite-dropdown-item>
+          <calcite-dropdown-item>5</calcite-dropdown-item>
+        </calcite-dropdown-group>
       </calcite-dropdown>
     </div>
   `,

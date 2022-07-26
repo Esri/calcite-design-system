@@ -9,6 +9,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### Bug Fixes
 
+- **pick-list-group, tip, tip-manager, block, panel:** headingLevel should not adjust styling ([#5014](https://github.com/Esri/calcite-components/issues/5014)) ([4365fbb](https://github.com/Esri/calcite-components/commit/4365fbb60efaa8373cafe71ac896a280ab7e04f0)), closes [#4768](https://github.com/Esri/calcite-components/issues/4768)
 - **tab, tab-title:** Fix accessibility and keyboard navigation ([#4979](https://github.com/Esri/calcite-components/issues/4979)) ([36cbe2a](https://github.com/Esri/calcite-components/commit/36cbe2a1cd32af44181bf88edce2aa45139652af)), closes [#2124](https://github.com/Esri/calcite-components/issues/2124)
 <!--@unreleased-section-end-->
 
