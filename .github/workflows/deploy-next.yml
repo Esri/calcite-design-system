@@ -24,11 +24,18 @@ jobs:
         run: |
           npm ci --legacy-peer-deps
           npm test
-      - name: next deployment
+      - name: storybook/next deployment
         env:
           NEXT_RELEASE_ENABLED: ${{ secrets.NEXT_RELEASE_ENABLED }}
+          # https://github.com/storybookjs/storybook-deployer/issues/77#issuecomment-618560481
+          GH_TOKEN_FOR_STORYBOOK: ${{ github.actor }}:${{ secrets.ADMIN_TOKEN }}
         run: |
           if [ "$NEXT_RELEASE_ENABLED" == "true" ]; then
+            npm run util:is-next-deployable
+            git config --global user.email "github-actions[bot]@users.noreply.github.com"
+            git config --global user.name "github-actions[bot]"
+            # deploy storybook, but still release next if it fails
+            { npm run build-storybook && npx storybook-to-ghpages --host-token-env-variable=GH_TOKEN_FOR_STORYBOOK --existing-output-dir=docs --ci; } || true
             npm run util:deploy-next-from-ci
           else
             echo "Next release is disabled"
@@ -42,11 +49,3 @@ jobs:
           show-on-start: false
           card-layout-exit: complete
           timezone: America/Los_Angeles
-      - name: storybook deployment
-        run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          npm run build-storybook
-          npx storybook-to-ghpages --existing-output-dir=docs --ci
-        env:
-          GH_TOKEN: ${{ github.actor }}:${{ secrets.ADMIN_TOKEN }}
