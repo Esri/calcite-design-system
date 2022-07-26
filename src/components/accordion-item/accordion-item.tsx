@@ -95,9 +95,7 @@ export class AccordionItem implements ConditionalSlotComponent {
 
   @Watch("icon")
   iconHandler(value: string): void {
-    if (value) {
-      this.iconStart = value;
-    }
+    this.iconStart = value;
   }
 
   /**Specified an icon to display at the start - accepts Calcite UI icon names. */

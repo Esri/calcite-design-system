@@ -52,10 +52,8 @@ export class RadioGroupItem {
 
   @Watch("icon")
   iconHandler(value: string): void {
-    if (value) {
-      this.iconPosition === "start" && (this.iconStart = value);
-      this.iconPosition === "end" && (this.iconEnd = value);
-    }
+    this.iconPosition === "start" && (this.iconStart = value);
+    this.iconPosition === "end" && (this.iconEnd = value);
   }
 
   /** flip the icon in rtl */
