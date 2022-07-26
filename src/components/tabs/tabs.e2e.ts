@@ -52,10 +52,10 @@ describe("calcite-tabs", () => {
     const tabs = await page.findAll("calcite-tab");
     const titles = await page.findAll("calcite-tab-title");
 
-    expect(tabs[0]).toEqualAttribute("aria-expanded", "true");
-    expect(tabs[1]).toEqualAttribute("aria-expanded", "false");
-    expect(tabs[2]).toEqualAttribute("aria-expanded", "false");
-    expect(tabs[3]).toEqualAttribute("aria-expanded", "false");
+    expect(titles[0]).toEqualAttribute("aria-selected", "true");
+    expect(titles[1]).toEqualAttribute("aria-selected", "false");
+    expect(titles[2]).toEqualAttribute("aria-selected", "false");
+    expect(titles[3]).toEqualAttribute("aria-selected", "false");
 
     for (let index = 0; index < tabs.length; index++) {
       const tab = tabs[index];
