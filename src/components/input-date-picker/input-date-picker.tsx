@@ -51,8 +51,8 @@ import { InteractiveComponent, updateHostInteraction } from "../../utils/interac
 import { toAriaBoolean } from "../../utils/dom";
 import {
   OpenCloseComponent,
-  transitionStartHandler,
-  transitionEnd
+  connectOpenCloseComponent,
+  disconnectOpenCloseComponent
 } from "../../utils/openCloseComponent";
 
 @Component({
@@ -407,6 +407,7 @@ export class InputDatePicker
     connectForm(this);
     this.reposition();
     this.setFilteredPlacements();
+    connectOpenCloseComponent(this, this.transitionEl);
   }
 
   async componentWillLoad(): Promise<void> {
@@ -420,10 +421,10 @@ export class InputDatePicker
   }
 
   disconnectedCallback(): void {
-    this.transitionEl?.removeEventListener("transitionstart", this.transitionStartHandler);
     disconnectLabel(this);
     disconnectForm(this);
     disconnectFloatingUI(this, this.referenceEl, this.floatingEl);
+    disconnectOpenCloseComponent(this.transitionEl);
   }
 
   componentDidRender(): void {
@@ -484,7 +485,6 @@ export class InputDatePicker
                   [FloatingCSS.animation]: true,
                   [FloatingCSS.animationActive]: this.open
                 }}
-                onTransitionEnd={this.transitionEnd}
                 ref={this.setTransitionEl}
               >
                 <calcite-date-picker
@@ -584,10 +584,6 @@ export class InputDatePicker
 
   transitionEl: HTMLDivElement;
 
-  private transitionStartHandler = transitionStartHandler.bind(this);
-
-  private transitionEnd = transitionEnd.bind(this);
-
   @Watch("layout")
   @Watch("focusedInput")
   setReferenceEl(): void {
@@ -617,7 +613,6 @@ export class InputDatePicker
 
   private setTransitionEl = (el): void => {
     this.transitionEl = el;
-    this.transitionEl.addEventListener("transitionstart", this.transitionStartHandler);
   };
 
   onLabelClick(): void {

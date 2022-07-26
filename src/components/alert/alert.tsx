@@ -18,8 +18,8 @@ import { Scale } from "../interfaces";
 import { AlertDuration, AlertPlacement, StatusColor, StatusIcons, Sync } from "./interfaces";
 import {
   OpenCloseComponent,
-  transitionStartHandler,
-  transitionEnd
+  connectOpenCloseComponent,
+  disconnectOpenCloseComponent
 } from "../../utils/openCloseComponent";
 
 /**
@@ -125,6 +125,7 @@ export class Alert implements OpenCloseComponent {
     if (this.active && !this.queued) {
       this.calciteInternalAlertRegister.emit();
     }
+    connectOpenCloseComponent(this, this.transitionEl);
   }
 
   componentWillLoad(): void {
@@ -133,7 +134,7 @@ export class Alert implements OpenCloseComponent {
 
   disconnectedCallback(): void {
     window.clearTimeout(this.autoDismissTimeoutId);
-    this.transitionEl?.removeEventListener("transitionstart", this.transitionStartHandler);
+    disconnectOpenCloseComponent(this.transitionEl);
   }
 
   render(): VNode {
@@ -173,7 +174,6 @@ export class Alert implements OpenCloseComponent {
             queued,
             [placement]: true
           }}
-          onTransitionEnd={this.transitionEnd}
           ref={this.setTransitionEl}
         >
           {requestedIcon ? (
@@ -300,10 +300,6 @@ export class Alert implements OpenCloseComponent {
 
   transitionEl: HTMLDivElement;
 
-  private transitionStartHandler = transitionStartHandler.bind(this);
-
-  private transitionEnd = transitionEnd.bind(this);
-
   //--------------------------------------------------------------------------
   //
   //  Private Methods
@@ -312,7 +308,6 @@ export class Alert implements OpenCloseComponent {
 
   private setTransitionEl = (el): void => {
     this.transitionEl = el;
-    this.transitionEl.addEventListener("transitionstart", this.transitionStartHandler);
   };
 
   /** determine which alert is active */

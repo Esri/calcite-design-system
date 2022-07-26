@@ -46,8 +46,8 @@ import { InteractiveComponent, updateHostInteraction } from "../../utils/interac
 import { toAriaBoolean } from "../../utils/dom";
 import {
   OpenCloseComponent,
-  transitionStartHandler,
-  transitionEnd
+  connectOpenCloseComponent,
+  disconnectOpenCloseComponent
 } from "../../utils/openCloseComponent";
 interface ItemData {
   label: string;
@@ -318,6 +318,7 @@ export class Combobox
     connectForm(this);
     this.reposition();
     this.setFilteredPlacements();
+    connectOpenCloseComponent(this, this.transitionEl);
   }
 
   componentWillLoad(): void {
@@ -344,7 +345,7 @@ export class Combobox
     disconnectLabel(this);
     disconnectForm(this);
     disconnectFloatingUI(this, this.referenceEl, this.floatingEl);
-    this.listContainerEl?.removeEventListener("transitionstart", this.transitionStartHandler);
+    disconnectOpenCloseComponent(this.transitionEl);
   }
 
   //--------------------------------------------------------------------------
@@ -419,10 +420,6 @@ export class Combobox
   openTransitionProp = "opacity";
 
   transitionEl: HTMLDivElement;
-
-  private transitionStartHandler = transitionStartHandler.bind(this);
-
-  private transitionEnd = transitionEnd.bind(this);
 
   // --------------------------------------------------------------------------
   //
@@ -651,7 +648,6 @@ export class Combobox
     this.listContainerEl = el;
 
     this.transitionEl = el;
-    this.transitionEl.addEventListener("transitionstart", this.transitionStartHandler);
   };
 
   setReferenceEl = (el: HTMLDivElement): void => {
@@ -1110,7 +1106,7 @@ export class Combobox
         }}
         ref={setFloatingEl}
       >
-        <div class={classes} onTransitionEnd={this.transitionEnd} ref={setContainerEl}>
+        <div class={classes} ref={setContainerEl}>
           <ul class={{ list: true, "list--hide": !(open || active) }}>
             <slot />
           </ul>

@@ -38,8 +38,8 @@ import { guid } from "../../utils/guid";
 import { queryElementRoots, toAriaBoolean } from "../../utils/dom";
 import {
   OpenCloseComponent,
-  transitionStartHandler,
-  transitionEnd
+  connectOpenCloseComponent,
+  disconnectOpenCloseComponent
 } from "../../utils/openCloseComponent";
 import { HeadingLevel, Heading } from "../functional/Heading";
 
@@ -215,10 +215,6 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
 
   transitionEl: HTMLDivElement;
 
-  private transitionStartHandler = transitionStartHandler.bind(this);
-
-  private transitionEnd = transitionEnd.bind(this);
-
   // --------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -228,6 +224,7 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
   connectedCallback(): void {
     connectFloatingUI(this, this.effectiveReferenceElement, this.el);
     this.setFilteredPlacements();
+    connectOpenCloseComponent(this, this.transitionEl);
   }
 
   componentWillLoad(): void {
@@ -239,9 +236,9 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
   }
 
   disconnectedCallback(): void {
-    this.transitionEl?.removeEventListener("transitionstart", this.transitionStartHandler);
     this.removeReferences();
     disconnectFloatingUI(this, this.effectiveReferenceElement, this.el);
+    disconnectOpenCloseComponent(this.transitionEl);
   }
 
   //--------------------------------------------------------------------------
@@ -334,7 +331,6 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
 
   private setTransitionEl = (el): void => {
     this.transitionEl = el;
-    this.transitionEl.addEventListener("transitionstart", this.transitionStartHandler);
   };
 
   setFilteredPlacements = (): void => {
@@ -503,7 +499,6 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
             [FloatingCSS.animation]: true,
             [FloatingCSS.animationActive]: displayed
           }}
-          onTransitionEnd={this.transitionEnd}
           ref={this.setTransitionEl}
         >
           {arrowNode}

@@ -33,8 +33,8 @@ import {
 } from "../../utils/conditionalSlot";
 import {
   OpenCloseComponent,
-  transitionEnd,
-  transitionStartHandler
+  connectOpenCloseComponent,
+  disconnectOpenCloseComponent
 } from "../../utils/openCloseComponent";
 
 const isFocusableExtended = (el: FocusableElement): boolean => {
@@ -142,13 +142,14 @@ export class Modal implements ConditionalSlotComponent, OpenCloseComponent {
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
     this.updateFooterVisibility();
     connectConditionalSlotComponent(this);
+    connectOpenCloseComponent(this, this.transitionEl);
   }
 
   disconnectedCallback(): void {
-    this.transitionEl?.removeEventListener("transitionstart", this.transitionStartHandler);
     this.removeOverflowHiddenClass();
     this.mutationObserver?.disconnect();
     disconnectConditionalSlotComponent(this);
+    disconnectOpenCloseComponent(this.transitionEl);
   }
 
   render(): VNode {
@@ -161,7 +162,7 @@ export class Modal implements ConditionalSlotComponent, OpenCloseComponent {
       >
         <calcite-scrim class={CSS.scrim} onClick={this.handleOutsideClose} />
         {this.renderStyle()}
-        <div class="modal" onTransitionEnd={this.transitionEnd} ref={this.setTransitionEl}>
+        <div class="modal" ref={this.setTransitionEl}>
           <div data-focus-fence onFocus={this.focusLastElement} tabindex="0" />
           <div class={CSS.header}>
             {this.renderCloseButton()}
@@ -274,10 +275,6 @@ export class Modal implements ConditionalSlotComponent, OpenCloseComponent {
 
   transitionEl: HTMLDivElement;
 
-  private transitionStartHandler = transitionStartHandler.bind(this);
-
-  private transitionEnd = transitionEnd.bind(this);
-
   //--------------------------------------------------------------------------
   //
   //  Event Listeners
@@ -370,7 +367,6 @@ export class Modal implements ConditionalSlotComponent, OpenCloseComponent {
 
   private setTransitionEl = (el): void => {
     this.transitionEl = el;
-    this.transitionEl.addEventListener("transitionstart", this.transitionStartHandler);
   };
 
   onBeforeOpen(): void {

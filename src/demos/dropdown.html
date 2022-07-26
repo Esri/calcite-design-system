@@ -280,9 +280,9 @@
       </div>
     </div>
 
-    <!-- icon-end + multi select -->
+    <!-- icon-end + multi select I AM HERE-->
     <div class="parent">
-      <div class="child right-aligned-text">icon-end + multi select</div>
+      <div class="child right-aligned-text">icon-end + multi select HERE</div>
 
       <div class="child">
         <calcite-dropdown scale="s" selection-mode="multi">
@@ -316,6 +316,12 @@
           </calcite-dropdown-group>
         </calcite-dropdown>
       </div>
+      <script>
+        document.addEventListener("calciteDropdownBeforeOpen", () => console.log("calciteDropdownBeforeOpening"));
+        document.addEventListener("calciteDropdownOpen", () => console.log("calciteDropdownIsOpen"));
+        document.addEventListener("calciteDropdownBeforeClose", () => console.log("calciteDropdownBeforeClosing"));
+        document.addEventListener("calciteDropdownClose", () => console.log("calciteDropdownIsClosed"));
+      </script>
     </div>
 
     <hr />

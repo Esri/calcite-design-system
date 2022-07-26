@@ -32,8 +32,8 @@ import { createObserver } from "../../utils/observers";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import {
   OpenCloseComponent,
-  transitionStartHandler,
-  transitionEnd
+  connectOpenCloseComponent,
+  disconnectOpenCloseComponent
 } from "../../utils/openCloseComponent";
 import { guid } from "../../utils/guid";
 /**
@@ -166,6 +166,7 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent, Float
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
     this.setFilteredPlacements();
     this.reposition();
+    connectOpenCloseComponent(this, this.transitionEl);
   }
 
   componentDidLoad(): void {
@@ -180,7 +181,7 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent, Float
     this.mutationObserver?.disconnect();
     disconnectFloatingUI(this, this.referenceEl, this.floatingEl);
     this.resizeObserver?.disconnect();
-    this.transitionEl?.removeEventListener("transitionstart", this.transitionStartHandler);
+    disconnectOpenCloseComponent(this.transitionEl);
   }
 
   render(): VNode {
@@ -215,7 +216,6 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent, Float
               [FloatingCSS.animationActive]: active || open
             }}
             id={`${guid}-menu`}
-            onTransitionEnd={this.transitionEnd}
             ref={this.setScrollerAndTransitionEl}
             role="menu"
           >
@@ -387,10 +387,6 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent, Float
 
   transitionEl: HTMLDivElement;
 
-  private transitionStartHandler = transitionStartHandler.bind(this);
-
-  private transitionEnd = transitionEnd.bind(this);
-
   guid = `calcite-dropdown-${guid()}`;
 
   defaultAssignedElements: Element[] = [];
@@ -487,7 +483,6 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent, Float
     this.scrollerEl = el;
 
     this.transitionEl = el;
-    this.transitionEl.addEventListener("transitionstart", this.transitionStartHandler);
   };
 
   onBeforeOpen(): void {
