@@ -231,7 +231,7 @@ export class TabTitle implements InteractiveComponent {
         event.preventDefault();
         break;
       case "ArrowRight":
-        e.preventDefault();
+        event.preventDefault();
         if (getElementDir(this.el) === "ltr") {
           this.calciteInternalTabsFocusNext.emit();
         } else {
@@ -239,7 +239,7 @@ export class TabTitle implements InteractiveComponent {
         }
         break;
       case "ArrowLeft":
-        e.preventDefault();
+        event.preventDefault();
         if (getElementDir(this.el) === "ltr") {
           this.calciteInternalTabsFocusPrevious.emit();
         } else {
