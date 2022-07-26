@@ -74,12 +74,14 @@
 }
 
 .icon--start {
-  margin-inline-end: 1rem;
+  @apply flex items-center;
+  margin-inline-end: var(--calcite-accordion-item-icon-spacing-end);
 }
 
 .icon--end {
-  margin-inline-end: 1rem;
-  margin-inline-start: 1rem;
+  @apply flex items-center;
+  margin-inline-end: var(--calcite-accordion-item-icon-spacing-end);
+  margin-inline-start: var(--calcite-accordion-item-icon-spacing-start);
 }
 
 .header-container {

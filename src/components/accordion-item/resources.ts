@@ -15,5 +15,6 @@ export const CSS = {
   expandIcon: "expand-icon",
   content: "content",
   iconStart: "icon--start",
-  iconEnd: "icon--end"
+  iconEnd: "icon--end",
+  headerContainer: "header-container"
 };

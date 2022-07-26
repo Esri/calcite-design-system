@@ -216,7 +216,7 @@ export class AccordionItem implements ConditionalSlotComponent {
               role="button"
               tabindex="0"
             >
-              <div class="header-container">
+              <div class={CSS.headerContainer}>
                 {this.iconStart ? iconStartEl : null}
                 <div class={CSS.headerText}>
                   <span class={CSS.heading}>{this.heading || this.itemTitle}</span>
