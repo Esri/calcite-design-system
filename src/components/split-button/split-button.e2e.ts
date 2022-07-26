@@ -75,7 +75,9 @@ describe("calcite-split-button", () => {
 
     expect(buttons).toHaveLength(2);
 
-    buttons.forEach(async (button) => expect(await button.getProperty("type")).toBe("button"));
+    for (const button of buttons) {
+      expect(await button.getProperty("type")).toBe("button");
+    }
   });
 
   it("renders requested props when valid props are provided", async () => {
@@ -218,7 +220,7 @@ describe("calcite-split-button", () => {
     const group = await page.find("calcite-dropdown-group");
     const secondary = await page.find(`calcite-split-button >>> calcite-button[split-child="secondary"]`);
     const dropdownOpenEvent = page.waitForEvent("calciteDropdownOpen");
-    secondary.click();
+    await secondary.click();
     await dropdownOpenEvent;
     expect(await group.isVisible()).toBe(true);
     expect(await page.evaluate(() => document.activeElement.id)).toEqual("item-1");

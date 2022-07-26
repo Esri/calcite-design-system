@@ -428,7 +428,7 @@ describe("calcite-dropdown", () => {
 
     const element = await page.find("calcite-dropdown");
     const dropdownOpenEvent = page.waitForEvent("calciteDropdownOpen");
-    element.click();
+    await element.click();
     await dropdownOpenEvent;
     expect(await page.evaluate(() => document.activeElement.id)).toEqual("item-1");
   });
@@ -448,7 +448,7 @@ describe("calcite-dropdown", () => {
 
     const element = await page.find("calcite-dropdown");
     const dropdownOpenEvent = page.waitForEvent("calciteDropdownOpen");
-    element.click();
+    await element.click();
     await dropdownOpenEvent;
 
     expect(await page.evaluate(() => document.activeElement.id)).toEqual("item-3");
@@ -469,7 +469,7 @@ describe("calcite-dropdown", () => {
 
     const element = await page.find("calcite-dropdown");
     const dropdownOpenEvent = page.waitForEvent("calciteDropdownOpen");
-    element.click();
+    await element.click();
     await dropdownOpenEvent;
 
     expect(await page.evaluate(() => document.activeElement.id)).toEqual("item-2");
@@ -528,7 +528,7 @@ describe("calcite-dropdown", () => {
 
       const element = await page.find("calcite-dropdown");
       const dropdownOpenEvent = page.waitForEvent("calciteDropdownOpen");
-      element.click();
+      await element.click();
       await dropdownOpenEvent;
 
       expect(await page.evaluate(() => document.activeElement.id)).toEqual("item-50");
@@ -538,7 +538,7 @@ describe("calcite-dropdown", () => {
       expect(await item.isIntersectingViewport()).toBe(true);
     });
 
-    it.skip("control max items displayed", async () => {
+    it("control max items displayed", async () => {
       const maxItems = 7;
       const page = await newE2EPage({
         html: html`<calcite-dropdown max-items="${maxItems}">
@@ -562,7 +562,7 @@ describe("calcite-dropdown", () => {
 
       const element = await page.find("calcite-dropdown");
       const dropdownOpenEvent = page.waitForEvent("calciteDropdownOpen");
-      element.click();
+      await element.click();
       await dropdownOpenEvent;
 
       const items = await page.findAll("calcite-dropdown-item");
