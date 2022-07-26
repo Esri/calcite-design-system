@@ -318,7 +318,6 @@ export class Combobox
     connectForm(this);
     this.reposition();
     this.setFilteredPlacements();
-    connectOpenCloseComponent(this);
   }
 
   componentWillLoad(): void {
@@ -328,6 +327,7 @@ export class Combobox
   componentDidLoad(): void {
     afterConnectDefaultValueSet(this, this.getValue());
     this.reposition();
+    connectOpenCloseComponent(this);
   }
 
   componentDidRender(): void {

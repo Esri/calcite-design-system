@@ -166,11 +166,11 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent, Float
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
     this.setFilteredPlacements();
     this.reposition();
-    connectOpenCloseComponent(this);
   }
 
   componentDidLoad(): void {
     this.reposition();
+    connectOpenCloseComponent(this);
   }
 
   componentDidRender(): void {

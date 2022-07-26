@@ -142,6 +142,9 @@ export class Modal implements ConditionalSlotComponent, OpenCloseComponent {
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
     this.updateFooterVisibility();
     connectConditionalSlotComponent(this);
+  }
+
+  componentDidLoad(): void {
     connectOpenCloseComponent(this);
   }
 

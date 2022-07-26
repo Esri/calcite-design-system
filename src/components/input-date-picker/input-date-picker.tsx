@@ -407,7 +407,6 @@ export class InputDatePicker
     connectForm(this);
     this.reposition();
     this.setFilteredPlacements();
-    connectOpenCloseComponent(this);
   }
 
   async componentWillLoad(): Promise<void> {
@@ -418,6 +417,7 @@ export class InputDatePicker
 
   componentDidLoad(): void {
     this.reposition();
+    connectOpenCloseComponent(this);
   }
 
   disconnectedCallback(): void {

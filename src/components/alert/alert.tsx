@@ -125,11 +125,14 @@ export class Alert implements OpenCloseComponent {
     if (this.active && !this.queued) {
       this.calciteInternalAlertRegister.emit();
     }
-    connectOpenCloseComponent(this);
   }
 
   componentWillLoad(): void {
     this.requestedIcon = setRequestedIcon(StatusIcons, this.icon, this.color);
+  }
+
+  componentDidLoad(): void {
+    connectOpenCloseComponent(this);
   }
 
   disconnectedCallback(): void {

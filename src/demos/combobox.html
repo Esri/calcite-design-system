@@ -736,7 +736,7 @@
 
       <div class="child" style="align-self: flex-start">
         <div style="width: 20vw">
-          <p>Single</p>
+          <p>Single HERE</p>
           <calcite-combobox label="demo combobox 3" selection-mode="single" allow-custom-values>
             <calcite-combobox-item value="Trees" text-label="Trees">
               <calcite-combobox-item
@@ -750,6 +750,12 @@
             <calcite-combobox-item value="Rivers" text-label="Rivers"></calcite-combobox-item>
           </calcite-combobox>
         </div>
+        <script>
+          document.addEventListener("calciteComboboxBeforeOpen", () => console.log("calciteComboboxBeforeOpen"));
+          document.addEventListener("calciteComboboxOpen", () => console.log("calciteComboboxOpen"));
+          document.addEventListener("calciteComboboxBeforeClose", () => console.log("calciteComboboxBeforeClose"));
+          document.addEventListener("calciteComboboxClose", () => console.log("calciteComboboxClose"));
+        </script>
       </div>
     </div>
   </body>
