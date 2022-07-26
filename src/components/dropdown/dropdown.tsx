@@ -166,7 +166,7 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent, Float
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
     this.setFilteredPlacements();
     this.reposition();
-    connectOpenCloseComponent(this, this.transitionEl);
+    connectOpenCloseComponent(this);
   }
 
   componentDidLoad(): void {
@@ -181,7 +181,7 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent, Float
     this.mutationObserver?.disconnect();
     disconnectFloatingUI(this, this.referenceEl, this.floatingEl);
     this.resizeObserver?.disconnect();
-    disconnectOpenCloseComponent(this.transitionEl);
+    disconnectOpenCloseComponent(this);
   }
 
   render(): VNode {

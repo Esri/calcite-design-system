@@ -142,14 +142,14 @@ export class Modal implements ConditionalSlotComponent, OpenCloseComponent {
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
     this.updateFooterVisibility();
     connectConditionalSlotComponent(this);
-    connectOpenCloseComponent(this, this.transitionEl);
+    connectOpenCloseComponent(this);
   }
 
   disconnectedCallback(): void {
     this.removeOverflowHiddenClass();
     this.mutationObserver?.disconnect();
     disconnectConditionalSlotComponent(this);
-    disconnectOpenCloseComponent(this.transitionEl);
+    disconnectOpenCloseComponent(this);
   }
 
   render(): VNode {

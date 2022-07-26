@@ -125,7 +125,7 @@ export class Alert implements OpenCloseComponent {
     if (this.active && !this.queued) {
       this.calciteInternalAlertRegister.emit();
     }
-    connectOpenCloseComponent(this, this.transitionEl);
+    connectOpenCloseComponent(this);
   }
 
   componentWillLoad(): void {
@@ -134,7 +134,7 @@ export class Alert implements OpenCloseComponent {
 
   disconnectedCallback(): void {
     window.clearTimeout(this.autoDismissTimeoutId);
-    disconnectOpenCloseComponent(this.transitionEl);
+    disconnectOpenCloseComponent(this);
   }
 
   render(): VNode {

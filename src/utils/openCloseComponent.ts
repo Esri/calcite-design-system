@@ -59,16 +59,16 @@ function transitionEnd(event: TransitionEvent): void {
 let boundOnTransitionStart;
 let boundOnTransitionEnd;
 
-export function connectOpenCloseComponent(component: OpenCloseComponent, el: HTMLDivElement): void {
+export function connectOpenCloseComponent(component: OpenCloseComponent): void {
   boundOnTransitionStart = transitionStart.bind(component);
   boundOnTransitionEnd = transitionEnd.bind(component);
-  console.log("el", el);
+  console.log("component.transitionEl", component.transitionEl);
 
-  el?.addEventListener("transitionstart", boundOnTransitionStart);
-  el?.addEventListener("transitionend", boundOnTransitionEnd);
+  component.transitionEl?.addEventListener("transitionstart", boundOnTransitionStart);
+  component.transitionEl?.addEventListener("transitionend", boundOnTransitionEnd);
 }
 
-export function disconnectOpenCloseComponent(el: HTMLDivElement): void {
-  el?.removeEventListener("transitionstart", boundOnTransitionStart);
-  el?.removeEventListener("transitionstart", boundOnTransitionEnd);
+export function disconnectOpenCloseComponent(component: OpenCloseComponent): void {
+  component.transitionEl?.removeEventListener("transitionstart", boundOnTransitionStart);
+  component.transitionEl?.removeEventListener("transitionstart", boundOnTransitionEnd);
 }

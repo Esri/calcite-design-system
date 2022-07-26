@@ -318,7 +318,7 @@ export class Combobox
     connectForm(this);
     this.reposition();
     this.setFilteredPlacements();
-    connectOpenCloseComponent(this, this.transitionEl);
+    connectOpenCloseComponent(this);
   }
 
   componentWillLoad(): void {
@@ -345,7 +345,7 @@ export class Combobox
     disconnectLabel(this);
     disconnectForm(this);
     disconnectFloatingUI(this, this.referenceEl, this.floatingEl);
-    disconnectOpenCloseComponent(this.transitionEl);
+    disconnectOpenCloseComponent(this);
   }
 
   //--------------------------------------------------------------------------

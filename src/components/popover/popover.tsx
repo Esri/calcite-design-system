@@ -224,7 +224,7 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
   connectedCallback(): void {
     connectFloatingUI(this, this.effectiveReferenceElement, this.el);
     this.setFilteredPlacements();
-    connectOpenCloseComponent(this, this.transitionEl);
+    connectOpenCloseComponent(this);
   }
 
   componentWillLoad(): void {
@@ -238,7 +238,7 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
   disconnectedCallback(): void {
     this.removeReferences();
     disconnectFloatingUI(this, this.effectiveReferenceElement, this.el);
-    disconnectOpenCloseComponent(this.transitionEl);
+    disconnectOpenCloseComponent(this);
   }
 
   //--------------------------------------------------------------------------

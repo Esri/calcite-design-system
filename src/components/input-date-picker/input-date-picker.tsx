@@ -407,7 +407,7 @@ export class InputDatePicker
     connectForm(this);
     this.reposition();
     this.setFilteredPlacements();
-    connectOpenCloseComponent(this, this.transitionEl);
+    connectOpenCloseComponent(this);
   }
 
   async componentWillLoad(): Promise<void> {
@@ -424,7 +424,7 @@ export class InputDatePicker
     disconnectLabel(this);
     disconnectForm(this);
     disconnectFloatingUI(this, this.referenceEl, this.floatingEl);
-    disconnectOpenCloseComponent(this.transitionEl);
+    disconnectOpenCloseComponent(this);
   }
 
   componentDidRender(): void {
