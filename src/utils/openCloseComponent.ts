@@ -44,14 +44,31 @@ export interface OpenCloseComponent {
   onClose: () => void;
 }
 
-export function transitionStartHandler(event: TransitionEvent): void {
+function transitionStart(event: TransitionEvent): void {
   if (event.propertyName === this.openTransitionProp && event.target === this.transitionEl) {
     this.open ? this.onBeforeOpen() : this.onBeforeClose();
   }
 }
 
-export function transitionEnd(event: TransitionEvent): void {
+function transitionEnd(event: TransitionEvent): void {
   if (event.propertyName === this.openTransitionProp && event.target === this.transitionEl) {
     this.open ? this.onOpen() : this.onClose();
   }
+}
+
+let boundOnTransitionStart;
+let boundOnTransitionEnd;
+
+export function connectOpenCloseComponent(component: OpenCloseComponent, el: HTMLDivElement): void {
+  boundOnTransitionStart = transitionStart.bind(component);
+  boundOnTransitionEnd = transitionEnd.bind(component);
+  console.log("el", el);
+
+  el?.addEventListener("transitionstart", boundOnTransitionStart);
+  el?.addEventListener("transitionend", boundOnTransitionEnd);
+}
+
+export function disconnectOpenCloseComponent(el: HTMLDivElement): void {
+  el?.removeEventListener("transitionstart", boundOnTransitionStart);
+  el?.removeEventListener("transitionstart", boundOnTransitionEnd);
 }
