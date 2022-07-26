@@ -106,8 +106,7 @@ export class Combobox
   }
 
   /**When true, opens the combobox */
-  @Prop({ reflect: true, mutable: true })
-  open = false;
+  @Prop({ reflect: true, mutable: true }) open = false;
 
   @Watch("open")
   openHandler(value: boolean): void {
