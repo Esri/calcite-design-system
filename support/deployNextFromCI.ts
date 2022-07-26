@@ -12,11 +12,6 @@ import pify from "pify";
   async function deployNextFromCI(): Promise<void> {
     console.log("Deploying @next 🚧");
 
-    console.log(" - adding user details...");
-
-    await exec(`git config --global user.email "github-actions[bot]@users.noreply.github.com"`);
-    await exec(`git config --global user.name "github-actions[bot]"`);
-
     // the setup-node gh action handles the token
     // https://docs.github.com/en/actions/publishing-packages/publishing-nodejs-packages#publishing-packages-to-the-npm-registry
 
@@ -25,11 +20,8 @@ import pify from "pify";
 
     const changesCommitted = (await exec(`git rev-parse HEAD`)) !== (await exec(`git rev-parse origin/master`));
     if (!changesCommitted) {
-      console.log("an error occurred committing changes");
-      process.exitCode = 1;
+      throw new Error("Failed to commit changes");
     }
-
-    await exec(`git log --pretty=format:'%h : %s' --graph`);
 
     // github token provided by the checkout action
     // https://github.com/actions/checkout#usage
@@ -38,8 +30,7 @@ import pify from "pify";
 
     const changesPushed = (await exec(`git rev-parse HEAD`)) === (await exec(`git rev-parse origin/master`));
     if (!changesPushed) {
-      console.log("an error occurred pushing changes");
-      process.exitCode = 1;
+      throw new Error("Failed to push changes");
     }
 
     console.log(" - publishing @next...");
@@ -55,5 +46,6 @@ import pify from "pify";
       `An error occurred during deployment ❌:
 ${error}`
     );
+    process.exit(1);
   }
 })();
