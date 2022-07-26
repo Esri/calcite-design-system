@@ -96,19 +96,28 @@ export class Combobox
   @Prop({ reflect: true, mutable: true }) active = false;
 
   @Watch("active")
-  @Watch("open")
-  activeHandler(): void {
+  activeHandler(value: boolean): void {
     if (this.disabled) {
       this.active = false;
       this.open = false;
       return;
     }
-
-    this.setMaxScrollerHeight();
+    this.open = value;
   }
 
   /**When true, opens the combobox */
   @Prop({ reflect: true, mutable: true }) open = false;
+
+  @Watch("open")
+  openHandler(value: boolean): void {
+    if (this.disabled) {
+      this.active = false;
+      this.open = false;
+      return;
+    }
+    this.active = value;
+    this.setMaxScrollerHeight();
+  }
 
   /** Disable combobox input */
   @Prop({ reflect: true }) disabled = false;
@@ -314,6 +323,12 @@ export class Combobox
     connectForm(this);
     this.reposition();
     this.setFilteredPlacements();
+    if (this.active) {
+      this.activeHandler(this.active);
+    }
+    if (this.open) {
+      this.openHandler(this.open);
+    }
   }
 
   componentWillLoad(): void {
@@ -457,8 +472,7 @@ export class Combobox
         if (this.allowCustomValues && this.text) {
           this.addCustomChip(this.text, true);
           event.preventDefault();
-        } else if (this.open || this.active) {
-          this.active = false;
+        } else if (this.open) {
           this.open = false;
           event.preventDefault();
         }
@@ -476,9 +490,8 @@ export class Combobox
         }
         break;
       case "ArrowDown":
-        if (!(this.open || this.active)) {
+        if (!this.open) {
           event.preventDefault();
-          this.active = true;
           this.open = true;
         }
         this.shiftActiveItemIndex(1);
@@ -489,13 +502,12 @@ export class Combobox
       case " ":
         if (!this.textInput.value) {
           event.preventDefault();
-          this.active = true;
           this.open = true;
           this.shiftActiveItemIndex(1);
         }
         break;
       case "Home":
-        if (this.open || this.active) {
+        if (this.open) {
           event.preventDefault();
         }
         this.updateActiveItemIndex(0);
@@ -505,7 +517,7 @@ export class Combobox
         }
         break;
       case "End":
-        if (this.open || this.active) {
+        if (this.open) {
           event.preventDefault();
         }
         this.updateActiveItemIndex(this.visibleItems.length - 1);
@@ -515,7 +527,6 @@ export class Combobox
         }
         break;
       case "Escape":
-        this.active = false;
         this.open = false;
         break;
       case "Enter":
@@ -541,13 +552,11 @@ export class Combobox
   };
 
   private toggleCloseEnd = (): void => {
-    this.active = false;
     this.open = false;
     this.el.removeEventListener("calciteComboboxClose", this.toggleCloseEnd);
   };
 
   private toggleOpenEnd = (): void => {
-    this.active = true;
     this.open = false;
     this.el.removeEventListener("calciteComboboxOpen", this.toggleOpenEnd);
   };
@@ -570,20 +579,20 @@ export class Combobox
 
   transitionEnd = (event: TransitionEvent): void => {
     if (event.propertyName === this.activeTransitionProp && event.target === this.listContainerEl) {
-      this.open || this.active ? this.onOpen() : this.onClose();
+      this.open ? this.onOpen() : this.onClose();
     }
   };
 
   transitionStartHandler = (event: TransitionEvent): void => {
     if (event.propertyName === this.activeTransitionProp && event.target === this.listContainerEl) {
-      this.open || this.active ? this.onBeforeOpen() : this.onBeforeClose();
+      this.open ? this.onBeforeOpen() : this.onBeforeClose();
     }
   };
 
   setMaxScrollerHeight = async (): Promise<void> => {
-    const { active, listContainerEl, open } = this;
-    const isOpen = !(active || open);
-    if (!listContainerEl || isOpen) {
+    const { listContainerEl, open } = this;
+
+    if (!listContainerEl || !open) {
       return;
     }
 
@@ -597,7 +606,6 @@ export class Combobox
     event: CustomEvent<HTMLCalciteChipElement>,
     comboboxItem: HTMLCalciteComboboxItemElement
   ): void => {
-    this.active = false;
     this.open = false;
 
     const selection = this.items.find((item) => item === comboboxItem);
@@ -613,7 +621,6 @@ export class Combobox
     if (event.composedPath().some((node: HTMLElement) => node.tagName === "CALCITE-CHIP")) {
       return;
     }
-    this.active = !this.active;
     this.open = !this.open;
     this.updateActiveItemIndex(0);
     this.setFocus();
@@ -621,8 +628,8 @@ export class Combobox
 
   setInactiveIfNotContained = (event: Event): void => {
     const composedPath = event.composedPath();
-    const isOpen = !(this.open || this.active);
-    if (isOpen || composedPath.includes(this.el) || composedPath.includes(this.referenceEl)) {
+
+    if (!this.open || composedPath.includes(this.el) || composedPath.includes(this.referenceEl)) {
       return;
     }
 
@@ -639,7 +646,6 @@ export class Combobox
       this.updateActiveItemIndex(-1);
     }
 
-    this.active = false;
     this.open = false;
   };
 
@@ -778,7 +784,6 @@ export class Combobox
       if (this.textInput) {
         this.textInput.value = item.textLabel;
       }
-      this.active = false;
       this.open = false;
       this.updateActiveItemIndex(-1);
       this.resetText();
