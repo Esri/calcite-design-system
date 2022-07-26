@@ -129,7 +129,7 @@ export class Modal implements ConditionalSlotComponent, OpenCloseComponent {
   //--------------------------------------------------------------------------
   componentWillLoad(): void {
     // when modal initially renders, if active was set we need to open as watcher doesn't fire
-    if (this.open || this.active) {
+    if (this.open) {
       this.openModal();
     }
   }
@@ -277,7 +277,7 @@ export class Modal implements ConditionalSlotComponent, OpenCloseComponent {
   //--------------------------------------------------------------------------
   @Listen("keydown", { target: "window" })
   handleEscape(event: KeyboardEvent): void {
-    if ((this.open || this.active) && !this.disableEscape && event.key === "Escape") {
+    if (this.open && !this.disableEscape && event.key === "Escape") {
       this.close();
     }
   }
@@ -383,13 +383,13 @@ export class Modal implements ConditionalSlotComponent, OpenCloseComponent {
 
   transitionStartHandler = (event: TransitionEvent): void => {
     if (event.propertyName === this.activeTransitionProp && event.target === this.containerEl) {
-      this.open || this.active ? this.onBeforeOpen() : this.onBeforeClose();
+      this.open ? this.onBeforeOpen() : this.onBeforeClose();
     }
   };
 
   transitionEnd = (event: TransitionEvent): void => {
     if (event.propertyName === this.activeTransitionProp && event.target === this.containerEl) {
-      this.open || this.active ? this.onOpen() : this.onClose();
+      this.open ? this.onOpen() : this.onClose();
     }
   };
 
@@ -414,8 +414,8 @@ export class Modal implements ConditionalSlotComponent, OpenCloseComponent {
   private openModal() {
     this.previousActiveElement = document.activeElement as HTMLElement;
     this.el.addEventListener("calciteModalOpen", this.openEnd);
-    this.active = true;
     this.open = true;
+    this.active = true;
     const titleEl = getSlotted(this.el, SLOTS.header);
     const contentEl = getSlotted(this.el, SLOTS.content);
 
@@ -436,8 +436,8 @@ export class Modal implements ConditionalSlotComponent, OpenCloseComponent {
   /** Close the modal, first running the `beforeClose` method */
   close = (): Promise<void> => {
     return this.beforeClose(this.el).then(() => {
-      this.active = false;
       this.open = false;
+      this.active = false;
       focusElement(this.previousActiveElement);
       this.removeOverflowHiddenClass();
     });

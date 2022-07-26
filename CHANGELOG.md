@@ -9,8 +9,13 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### Bug Fixes
 
+- **dropdown,modal,combobox:** active prop will be in sync with open prop ([#4997](https://github.com/Esri/calcite-components/issues/4997)) ([b3b2ebd](https://github.com/Esri/calcite-components/commit/b3b2ebd91fcea6c8dbad1f4b48c7b72c11bdc3f0))
 - **pick-list-group, tip, tip-manager, block, panel:** headingLevel should not adjust styling ([#5014](https://github.com/Esri/calcite-components/issues/5014)) ([4365fbb](https://github.com/Esri/calcite-components/commit/4365fbb60efaa8373cafe71ac896a280ab7e04f0)), closes [#4768](https://github.com/Esri/calcite-components/issues/4768)
 - **tab, tab-title:** Fix accessibility and keyboard navigation ([#4979](https://github.com/Esri/calcite-components/issues/4979)) ([36cbe2a](https://github.com/Esri/calcite-components/commit/36cbe2a1cd32af44181bf88edce2aa45139652af)), closes [#2124](https://github.com/Esri/calcite-components/issues/2124)
+
+### Reverts
+
+- Fix navigating without a dropdown-group ([#5025](https://github.com/Esri/calcite-components/issues/5025)) ([bbe0ced](https://github.com/Esri/calcite-components/commit/bbe0ced9dd91d170d23b5680d71a18c03eae83b8))
 <!--@unreleased-section-end-->
 
 ## [1.0.0-beta.90](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.89...v1.0.0-beta.90) (2022-07-26)
