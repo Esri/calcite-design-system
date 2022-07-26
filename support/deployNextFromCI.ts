@@ -48,7 +48,7 @@ import pify from "pify";
 
       // deploy storybook, but still release next if it fails
       await exec(
-        "{ npm run build-storybook && npx storybook-to-ghpages --host-token-env-variable=GITHUB_TOKEN_FOR_STORYBOOK --existing-output-dir=docs --ci; } || true"
+        "{ npm run build-storybook && npx storybook-to-ghpages --host-token-env-variable=GH_TOKEN_FOR_STORYBOOK --existing-output-dir=docs --ci; } || true"
       );
 
       await exec(`git log --pretty=format:'%h : %s' --graph`);
