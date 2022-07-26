@@ -538,10 +538,11 @@ describe("calcite-dropdown", () => {
       expect(await item.isIntersectingViewport()).toBe(true);
     });
 
-    it.skip("control max items displayed", async () => {
+    it("control max items displayed", async () => {
       const maxItems = 7;
-      const page = await newE2EPage({
-        html: html`<calcite-dropdown max-items="${maxItems}">
+      const page = await newE2EPage();
+      await page.setContent(
+        html`<calcite-dropdown max-items="${maxItems}">
           <calcite-button slot="dropdown-trigger">Open Dropdown</calcite-button>
           <calcite-dropdown-group group-title="First group">
             <calcite-dropdown-item id="item-1">1</calcite-dropdown-item>
@@ -558,11 +559,11 @@ describe("calcite-dropdown", () => {
             <calcite-dropdown-item id="item-10">10</calcite-dropdown-item>
           </calcite-dropdown-group>
         </calcite-dropdown>`
-      });
+      );
 
       const element = await page.find("calcite-dropdown");
       const dropdownOpenEvent = page.waitForEvent("calciteDropdownOpen");
-      element.click();
+      await element.click();
       await dropdownOpenEvent;
 
       const items = await page.findAll("calcite-dropdown-item");
