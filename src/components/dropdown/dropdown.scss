@@ -53,3 +53,7 @@
 :host([width="l"]) {
   --calcite-dropdown-width: theme("spacing.64");
 }
+
+::slotted(calcite-dropdown-item) {
+  display: none;
+}
