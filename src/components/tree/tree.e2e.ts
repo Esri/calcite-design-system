@@ -243,7 +243,7 @@ describe("calcite-tree", () => {
         </calcite-tree>
       `);
       const treeItemIcon = await page.find(`#cables >>> [data-test-id="icon"]`);
-      treeItemIcon.click();
+      await treeItemIcon.click();
 
       const changeSpy = await treeItemIcon.spyOnEvent("calciteTreeSelect");
       await page.waitForChanges();

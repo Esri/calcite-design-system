@@ -77,7 +77,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
 
 const tipContent = html`
   <calcite-tip-group group-title="Astronomy">
-    <calcite-tip heading="The Red Rocks and Blue Water">
+    <calcite-tip heading="The Red Rocks and Blue Water" heading-level="2">
       <img slot="thumbnail" src="${placeholderImage({ width: 1000, height: 600 })}" alt="This is an image." />
       <p>
         This tip is how a tip should really look. It has a landscape or square image and a small amount of text content.

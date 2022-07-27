@@ -211,6 +211,14 @@ export const Default = stepStory(
     .executeScript(
       setKnobs({
         story: "components-controls-datepicker--default",
+        knobs: [{ name: "locale", value: "pt-PT" }]
+      })
+    )
+    .snapshot("pt-PT locale")
+
+    .executeScript(
+      setKnobs({
+        story: "components-controls-datepicker--default",
         knobs: [{ name: "locale", value: "ru" }]
       })
     )
