@@ -59,16 +59,16 @@ function transitionEnd(event: TransitionEvent): void {
 let boundOnTransitionStart;
 let boundOnTransitionEnd;
 
-export function connectOpenCloseComponent(component: OpenCloseComponent): void {
+export const connectOpenCloseComponent = (component: OpenCloseComponent): void => {
   boundOnTransitionStart = transitionStart.bind(component);
   boundOnTransitionEnd = transitionEnd.bind(component);
   console.log("component.transitionEl", component.transitionEl);
 
   component.transitionEl?.addEventListener("transitionstart", boundOnTransitionStart);
   component.transitionEl?.addEventListener("transitionend", boundOnTransitionEnd);
-}
+};
 
-export function disconnectOpenCloseComponent(component: OpenCloseComponent): void {
+export const disconnectOpenCloseComponent = (component: OpenCloseComponent): void => {
   component.transitionEl?.removeEventListener("transitionstart", boundOnTransitionStart);
   component.transitionEl?.removeEventListener("transitionstart", boundOnTransitionEnd);
-}
+};
