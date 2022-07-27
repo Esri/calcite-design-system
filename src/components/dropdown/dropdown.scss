@@ -26,8 +26,8 @@
   @apply bg-foreground-1
     w-auto
     overflow-y-auto
-    overflow-x-hidden;
-  max-block-size: 90vh;
+    overflow-x-hidden
+    max-h-menu;
   inline-size: var(--calcite-dropdown-width);
 }
 .calcite-dropdown-trigger-container {
