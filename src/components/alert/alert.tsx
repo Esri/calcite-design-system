@@ -132,13 +132,10 @@ export class Alert implements OpenCloseComponent {
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
-    if ((this.open || this.active) && !this.queued) {
-      if (this.active) {
-        this.activeHandler(this.active);
-      }
-      if (this.open) {
-        this.openHandler(this.open);
-      }
+    const open = this.open || this.active;
+    if (open && !this.queued) {
+      this.activeHandler(open);
+      this.openHandler(open);
       this.calciteInternalAlertRegister.emit();
     }
   }
