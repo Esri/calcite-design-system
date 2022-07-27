@@ -55,7 +55,9 @@ describe("calcite-inline-editable", () => {
 
       expect(buttons).toHaveLength(3);
 
-      buttons.forEach(async (button) => expect(await button.getProperty("type")).toBe("button"));
+      for (const button of buttons) {
+        expect(await button.getProperty("type")).toBe("button");
+      }
     });
 
     it("uses a wrapping label's scale when none are provided", async () => {
