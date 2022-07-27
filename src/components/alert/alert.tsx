@@ -49,17 +49,31 @@ export class Alert implements OpenCloseComponent {
   //
   //---------------------------------------------------------------------------
 
-  /** When true, the component is active. */
+  /**
+   * When true, opens the combobox
+   *
+   * @deprecated use open instead
+   */
   @Prop({ reflect: true, mutable: true }) active = false;
 
+  /** When true, opens the dropdown */
+  @Prop({ reflect: true, mutable: true }) open = false;
+
   @Watch("active")
-  watchActive(): void {
-    if (this.active && !this.queued) {
+  activeHandler(value: boolean): void {
+    this.open = value;
+  }
+
+  @Watch("open")
+  openHandler(value: boolean): void {
+    if (this.open && !this.queued) {
       this.calciteInternalAlertRegister.emit();
+      this.active = value;
     }
-    if (!this.active) {
+    if (!this.open) {
       this.queue = this.queue.filter((el) => el !== this.el);
       this.calciteInternalAlertSync.emit({ queue: this.queue });
+      this.active = false;
     }
   }
 
@@ -118,7 +132,10 @@ export class Alert implements OpenCloseComponent {
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
-    if (this.active && !this.queued) {
+    const open = this.open || this.active;
+    if (open && !this.queued) {
+      this.activeHandler(open);
+      this.openHandler(open);
       this.calciteInternalAlertRegister.emit();
     }
   }
@@ -236,7 +253,7 @@ export class Alert implements OpenCloseComponent {
   // when an alert is first registered, trigger a queue sync
   @Listen("calciteInternalAlertRegister", { target: "window" })
   alertRegister(): void {
-    if (this.active && !this.queue.includes(this.el as HTMLCalciteAlertElement)) {
+    if (this.open && !this.queue.includes(this.el as HTMLCalciteAlertElement)) {
       this.queued = true;
       this.queue.push(this.el as HTMLCalciteAlertElement);
     }
@@ -327,7 +344,7 @@ export class Alert implements OpenCloseComponent {
   private closeAlert = (): void => {
     this.autoDismissTimeoutId = null;
     this.queued = false;
-    this.active = false;
+    this.open = false;
     this.queue = this.queue.filter((el) => el !== this.el);
     this.determineActiveAlert();
     this.calciteInternalAlertSync.emit({ queue: this.queue });
@@ -351,13 +368,13 @@ export class Alert implements OpenCloseComponent {
 
   transitionStartHandler = (event: TransitionEvent): void => {
     if (event.propertyName === this.activeTransitionProp && event.target === this.containerEl) {
-      this.active ? this.onBeforeOpen() : this.onBeforeClose();
+      this.open ? this.onBeforeOpen() : this.onBeforeClose();
     }
   };
 
   transitionEnd = (event: TransitionEvent): void => {
     if (event.propertyName === this.activeTransitionProp && event.target === this.containerEl) {
-      this.active ? this.onOpen() : this.onClose();
+      this.open ? this.onOpen() : this.onClose();
     }
   };
 

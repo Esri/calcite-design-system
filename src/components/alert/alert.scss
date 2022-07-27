@@ -141,7 +141,7 @@
   }
 }
 
-:host([active]) {
+:host([open]) {
   .container:not(.queued) {
     @apply max-h-full border-t-2 opacity-100;
     pointer-events: initial;
@@ -224,7 +224,7 @@
     @apply text-color-1 bg-foreground-2;
   }
 
-  &:active {
+  &:open {
     @apply bg-foreground-3;
   }
 }
