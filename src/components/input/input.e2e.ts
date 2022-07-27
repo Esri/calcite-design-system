@@ -913,7 +913,7 @@ describe("calcite-input", () => {
 
       await page.keyboard.press("ArrowLeft");
       await page.waitForChanges();
-      typeNumberValue(page, "-");
+      await typeNumberValue(page, "-");
       await page.waitForChanges();
       expect(Number(await element.getProperty("value"))).toBe(0.000012);
     });

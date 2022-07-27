@@ -170,7 +170,9 @@ describe("calcite-color-picker", () => {
 
     expect(buttons).toHaveLength(2);
 
-    buttons.forEach(async (button) => expect(await button.getProperty("type")).toBe("button"));
+    for (const button of buttons) {
+      expect(await button.getProperty("type")).toBe("button");
+    }
   });
 
   it.skip("emits event when value changes via user interaction and not programmatically", async () => {

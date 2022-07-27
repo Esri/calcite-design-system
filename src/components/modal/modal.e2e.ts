@@ -68,9 +68,9 @@ describe("calcite-modal events", () => {
     const changeEvent = await modal.spyOnEvent("calciteModalBeforeOpen");
     expect(changeEvent).toHaveReceivedEventTimes(0);
     await modal.setProperty("active", true);
-    await modal.setProperty("open", true);
     await page.waitForChanges();
     await page.waitForTimeout(400);
+    expect(await modal.getProperty("open")).toBe(true);
     expect(changeEvent).toHaveReceivedEventTimes(1);
   });
   it("emits the calciteModalOpen event on open", async () => {
@@ -79,10 +79,10 @@ describe("calcite-modal events", () => {
     const modal = await page.find("calcite-modal");
     const changeEvent = await modal.spyOnEvent("calciteModalOpen");
     expect(changeEvent).toHaveReceivedEventTimes(0);
-    await modal.setProperty("active", true);
-    await modal.setProperty("open", true);
+    modal.setProperty("active", true);
     await page.waitForChanges();
     await page.waitForTimeout(400);
+    expect(await modal.getProperty("open")).toBe(true);
     expect(changeEvent).toHaveReceivedEventTimes(1);
   });
   it("emits the calciteModalClose event before close", async () => {
@@ -91,13 +91,13 @@ describe("calcite-modal events", () => {
     const modal = await page.find("calcite-modal");
     const changeEvent = await modal.spyOnEvent("calciteModalBeforeClose");
     await modal.setProperty("active", true);
-    await modal.setProperty("open", true);
     await page.waitForChanges();
+    expect(await modal.getProperty("open")).toBe(true);
     expect(changeEvent).toHaveReceivedEventTimes(0);
-    await modal.setProperty("active", false);
-    await modal.setProperty("open", false);
+    modal.setProperty("active", false);
     await page.waitForChanges();
     await page.waitForTimeout(400);
+    expect(await modal.getProperty("open")).toBe(false);
     expect(changeEvent).toHaveReceivedEventTimes(1);
   });
   it("emits the calciteModalClose event on close", async () => {
@@ -106,13 +106,13 @@ describe("calcite-modal events", () => {
     const modal = await page.find("calcite-modal");
     const changeEvent = await modal.spyOnEvent("calciteModalClose");
     await modal.setProperty("active", true);
-    await modal.setProperty("open", true);
     await page.waitForChanges();
+    expect(await modal.getProperty("open")).toBe(true);
     expect(changeEvent).toHaveReceivedEventTimes(0);
     await modal.setProperty("active", false);
-    await modal.setProperty("open", false);
     await page.waitForChanges();
     await page.waitForTimeout(400);
+    expect(await modal.getProperty("open")).toBe(false);
     expect(changeEvent).toHaveReceivedEventTimes(1);
   });
 });
