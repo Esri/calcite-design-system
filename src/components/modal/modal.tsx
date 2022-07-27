@@ -13,8 +13,8 @@ import {
   Watch
 } from "@stencil/core";
 import {
-  FocusableElement,
   ensureId,
+  FocusableElement,
   focusElement,
   getSlotted,
   isCalciteFocusable
@@ -24,7 +24,7 @@ import { queryShadowRoot } from "@a11y/focus-trap/shadow";
 import { isFocusable, isHidden } from "@a11y/focus-trap/focusable";
 import { Scale } from "../interfaces";
 import { ModalBackgroundColor } from "./interfaces";
-import { TEXT, SLOTS, CSS, ICONS } from "./resources";
+import { CSS, ICONS, SLOTS, TEXT } from "./resources";
 import { createObserver } from "../../utils/observers";
 import {
   ConditionalSlotComponent,
@@ -366,18 +366,22 @@ export class Modal implements ConditionalSlotComponent, OpenCloseComponent {
   };
 
   onBeforeOpen(): void {
+    this.containerEl.classList.add(CSS.openingActive);
     this.calciteModalBeforeOpen.emit();
   }
 
   onOpen(): void {
+    this.containerEl.classList.remove(CSS.openingIdle, CSS.openingActive);
     this.calciteModalOpen.emit();
   }
 
   onBeforeClose(): void {
+    this.containerEl.classList.add(CSS.closingActive);
     this.calciteModalBeforeClose.emit();
   }
 
   onClose(): void {
+    this.containerEl.classList.remove(CSS.closingIdle, CSS.closingActive);
     this.calciteModalClose.emit();
   }
 
@@ -395,13 +399,13 @@ export class Modal implements ConditionalSlotComponent, OpenCloseComponent {
 
   @Watch("active")
   @Watch("open")
-  async toggleModal(value: boolean, oldValue: boolean): Promise<void> {
-    if (value !== oldValue) {
-      if (value) {
-        this.openModal();
-      } else if (!value) {
-        this.close();
-      }
+  async toggleModal(value: boolean): Promise<void> {
+    if (value) {
+      this.containerEl.classList.add(CSS.openingIdle);
+      this.openModal();
+    } else {
+      this.containerEl.classList.add(CSS.closingIdle);
+      this.close();
     }
   }
 

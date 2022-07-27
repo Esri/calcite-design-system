@@ -20,7 +20,8 @@
     overflow-y-hidden
     opacity-0;
   visibility: hidden !important;
-  transition: visibility 0ms linear 300ms, opacity var(--calcite-internal-animation-timing-slow) $easing-function;
+  transition: visibility 0ms linear var(--calcite-internal-animation-timing-slow),
+    opacity var(--calcite-internal-animation-timing-slow) $easing-function;
   z-index: 101;
 }
 
@@ -78,9 +79,30 @@
   z-index: 102;
   -webkit-overflow-scrolling: touch;
   visibility: hidden;
-  transition: transform var(--calcite-internal-animation-timing-slow) $easing-function, visibility 0ms linear 300ms,
+  transition: transform var(--calcite-internal-animation-timing-slow) $easing-function,
+    visibility 0ms linear var(--calcite-internal-animation-timing-slow),
     opacity var(--calcite-internal-animation-timing-slow) $easing-function;
-  transform: translate3d(0, 20px, 0);
+}
+
+$hidden-position: translate3d(0, 20px, 0);
+$shown-position: translate3d(0, 0, 0);
+
+.modal--opening {
+  &-idle {
+    transform: $hidden-position;
+  }
+  &-active {
+    transform: $shown-position;
+  }
+}
+
+.modal--closing {
+  &-idle {
+    transform: $shown-position;
+  }
+  &-active {
+    transform: $hidden-position;
+  }
 }
 
 :host([active]),
@@ -90,7 +112,6 @@
   transition-delay: 0ms;
   .modal {
     @apply pointer-events-auto visible opacity-100;
-    transform: translate3d(0, 0, 0);
     transition: transform var(--calcite-internal-animation-timing-slow) $easing-function, visibility 0ms linear,
       opacity var(--calcite-internal-animation-timing-slow) $easing-function,
       max-inline-size var(--calcite-internal-animation-timing-slow) $easing-function,
