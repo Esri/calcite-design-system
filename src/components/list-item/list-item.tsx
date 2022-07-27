@@ -46,7 +46,7 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
 
   /**
    *
-   * @internaler
+   * @internal
    */
   @Prop() active = false;
 
