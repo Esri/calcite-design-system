@@ -129,7 +129,7 @@ export class Modal implements ConditionalSlotComponent, OpenCloseComponent {
   //--------------------------------------------------------------------------
   componentWillLoad(): void {
     // when modal initially renders, if active was set we need to open as watcher doesn't fire
-    if (this.open) {
+    if (this.open || this.active) {
       this.openModal();
     }
   }
