@@ -261,11 +261,7 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent, Float
   //
   //--------------------------------------------------------------------------
 
-  /**
-   * fires when a dropdown item has been selected or deselected
-   *
-   *
-   */
+  /** fires when a dropdown item has been selected or deselected */
   @Event() calciteDropdownSelect: EventEmitter<Selection>;
 
   /** Fires when the component is requested to be closed and before the closing transition begins. */
