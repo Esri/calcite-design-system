@@ -31,12 +31,13 @@ jobs:
           GH_TOKEN_FOR_STORYBOOK: ${{ github.actor }}:${{ secrets.ADMIN_TOKEN }}
         run: |
           if [ "$NEXT_RELEASE_ENABLED" == "true" ]; then
-            npm run util:is-next-deployable
-            git config --global user.email "github-actions[bot]@users.noreply.github.com"
-            git config --global user.name "github-actions[bot]"
-            # deploy storybook, but still release next if it fails
-            { npm run build-storybook && npx storybook-to-ghpages --host-token-env-variable=GH_TOKEN_FOR_STORYBOOK --existing-output-dir=docs --ci; } || true
-            npm run util:deploy-next-from-ci
+            if npm run util:is-next-deployable; then
+              git config --global user.email "github-actions[bot]@users.noreply.github.com"
+              git config --global user.name "github-actions[bot]"
+              # deploy storybook, but still release next if it fails
+              { npm run build-storybook && npx storybook-to-ghpages --host-token-env-variable=GH_TOKEN_FOR_STORYBOOK --existing-output-dir=docs --ci; } || true
+              npm run util:deploy-next-from-ci
+            fi
           else
             echo "Next release is disabled"
           fi

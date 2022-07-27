@@ -18,7 +18,6 @@
 }
 
 @include floatingUIElemAnim(".calcite-dropdown-wrapper");
-:host([active]) .calcite-dropdown-wrapper,
 :host([open]) .calcite-dropdown-wrapper {
   @include floatingUIWrapperActive();
 }
@@ -27,8 +26,8 @@
   @apply bg-foreground-1
     w-auto
     overflow-y-auto
-    overflow-x-hidden;
-  max-block-size: 90vh;
+    overflow-x-hidden
+    max-h-menu;
   inline-size: var(--calcite-dropdown-width);
 }
 .calcite-dropdown-trigger-container {
@@ -37,7 +36,6 @@
 
 @media (forced-colors: active) {
   /* use real border since box-shadow is removed in high contrast mode */
-  :host([active]) .calcite-dropdown-wrapper,
   :host([open]) .calcite-dropdown-wrapper {
     border: 1px solid canvasText;
   }

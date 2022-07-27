@@ -401,6 +401,34 @@ export const ScrollingAfterCertainItems = (): string => html`
 
 ScrollingAfterCertainItems.storyName = "Scrolling after certain items";
 
+export const ScrollingWithoutMaxItems = (): string => html`
+  <calcite-dropdown open>
+    <calcite-button slot="dropdown-trigger">Open Dropdown</calcite-button>
+    <calcite-dropdown-group
+      selection-mode="${select("group selection mode", ["single", "multi", "none"], "single")}"
+      group-title="Sort by"
+    >
+      <calcite-dropdown-item>Relevance</calcite-dropdown-item>
+      <calcite-dropdown-item active>Date modified</calcite-dropdown-item>
+      <calcite-dropdown-item>Title</calcite-dropdown-item>
+    </calcite-dropdown-group>
+    <calcite-dropdown-group group-title="First group">
+      <calcite-dropdown-item>1</calcite-dropdown-item>
+      <calcite-dropdown-item>2</calcite-dropdown-item>
+      <calcite-dropdown-item>3</calcite-dropdown-item>
+      <calcite-dropdown-item>4</calcite-dropdown-item>
+      <calcite-dropdown-item>5</calcite-dropdown-item>
+    </calcite-dropdown-group>
+    <calcite-dropdown-group group-title="Second group">
+      <calcite-dropdown-item>6</calcite-dropdown-item>
+      <calcite-dropdown-item>7</calcite-dropdown-item>
+      <calcite-dropdown-item>8</calcite-dropdown-item>
+      <calcite-dropdown-item>9</calcite-dropdown-item>
+      <calcite-dropdown-item>10</calcite-dropdown-item>
+    </calcite-dropdown-group>
+  </calcite-dropdown>
+`;
+
 export const FlipPositioning = stepStory(
   (): string => html`
     <div style="margin:10px;">
