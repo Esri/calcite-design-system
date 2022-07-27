@@ -7,8 +7,14 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## Unreleased
 
+### Features
+
+- **alert:** deprecates active prop and syncs with open ([#5029](https://github.com/Esri/calcite-components/issues/5029)) ([3161b8e](https://github.com/Esri/calcite-components/commit/3161b8ef1bb652ccc8ae32ccc184c11dc14584ea))
+
 ### Bug Fixes
 
+- **combobox, dropdown:** Make sure menus do not take up more than half of available height by default ([#5015](https://github.com/Esri/calcite-components/issues/5015)) ([4729c80](https://github.com/Esri/calcite-components/commit/4729c8045b62e33b09b58faf8aad43c2fdef3f37)), closes [#4772](https://github.com/Esri/calcite-components/issues/4772)
+- **date-picker:** add short day names for pt-PT date picker ([#5028](https://github.com/Esri/calcite-components/issues/5028)) ([c4f818e](https://github.com/Esri/calcite-components/commit/c4f818ee955a48e776cb9ea0c189f96ca7f49982)), closes [#4776](https://github.com/Esri/calcite-components/issues/4776)
 - **dropdown,modal,combobox:** active prop will be in sync with open prop ([#4997](https://github.com/Esri/calcite-components/issues/4997)) ([b3b2ebd](https://github.com/Esri/calcite-components/commit/b3b2ebd91fcea6c8dbad1f4b48c7b72c11bdc3f0))
 - **pick-list-group, tip, tip-manager, block, panel:** headingLevel should not adjust styling ([#5014](https://github.com/Esri/calcite-components/issues/5014)) ([4365fbb](https://github.com/Esri/calcite-components/commit/4365fbb60efaa8373cafe71ac896a280ab7e04f0)), closes [#4768](https://github.com/Esri/calcite-components/issues/4768)
 - **tab, tab-title:** Fix accessibility and keyboard navigation ([#4979](https://github.com/Esri/calcite-components/issues/4979)) ([36cbe2a](https://github.com/Esri/calcite-components/commit/36cbe2a1cd32af44181bf88edce2aa45139652af)), closes [#2124](https://github.com/Esri/calcite-components/issues/2124)
