@@ -291,6 +291,8 @@ describe("calcite-alert", () => {
     await calciteAlertBeforeOpenEvent;
     await calciteAlertOpenEvent;
 
+    expect(await element.getProperty("open")).toBe(true);
+
     expect(calciteAlertBeforeOpenSpy).toHaveReceivedEventTimes(1);
     expect(calciteAlertOpenSpy).toHaveReceivedEventTimes(1);
 
@@ -307,6 +309,8 @@ describe("calcite-alert", () => {
 
     await calciteAlertBeforeCloseEvent;
     await calciteAlertCloseEvent;
+
+    expect(await element.getProperty("open")).toBe(false);
 
     expect(calciteAlertBeforeCloseSpy).toHaveReceivedEventTimes(1);
     expect(calciteAlertClose).toHaveReceivedEventTimes(1);
