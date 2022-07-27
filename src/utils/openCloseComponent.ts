@@ -62,7 +62,6 @@ let boundOnTransitionEnd;
 export const connectOpenCloseComponent = (component: OpenCloseComponent): void => {
   boundOnTransitionStart = transitionStart.bind(component);
   boundOnTransitionEnd = transitionEnd.bind(component);
-  console.log("component.transitionEl", component.transitionEl);
 
   component.transitionEl?.addEventListener("transitionstart", boundOnTransitionStart);
   component.transitionEl?.addEventListener("transitionend", boundOnTransitionEnd);
