@@ -127,7 +127,7 @@ export class ActionMenu implements ConditionalSlotComponent {
    */
   @Event() calciteActionMenuOpenChange: EventEmitter<DeprecatedEventPayload>;
 
-  @Listen("click", { target: "window" })
+  @Listen("pointerdown", { target: "window" })
   closeCalciteActionMenuOnClick(event: Event): void {
     const composedPath = event.composedPath();
 
@@ -225,7 +225,7 @@ export class ActionMenu implements ConditionalSlotComponent {
       menuButtonEl.text = label;
     }
 
-    menuButtonEl.addEventListener("click", this.menuButtonClick);
+    menuButtonEl.addEventListener("pointerdown", this.menuButtonClick);
     menuButtonEl.addEventListener("keydown", this.menuButtonKeyDown);
   };
 
@@ -236,7 +236,7 @@ export class ActionMenu implements ConditionalSlotComponent {
       return;
     }
 
-    menuButtonEl.removeEventListener("click", this.menuButtonClick);
+    menuButtonEl.removeEventListener("pointerdown", this.menuButtonClick);
     menuButtonEl.removeEventListener("keydown", this.menuButtonKeyDown);
   };
 
