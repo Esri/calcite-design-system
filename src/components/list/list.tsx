@@ -59,6 +59,14 @@ export class List implements InteractiveComponent {
     }
   }
 
+  @Listen("calciteListItemClick")
+  handleCalciteListItemClick(event: CustomEvent): void {
+    const target = event.target as HTMLCalciteListItemElement;
+    const { listItems } = this;
+
+    listItems.forEach((listItem) => (listItem.active = listItem === target));
+  }
+
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -115,7 +123,6 @@ export class List implements InteractiveComponent {
         <table
           aria-busy={toAriaBoolean(this.loading)}
           aria-label={this.label}
-          onClick={this.handleClick}
           onKeyDown={this.handleListKeydown}
           role="treegrid"
         >
@@ -166,17 +173,6 @@ export class List implements InteractiveComponent {
     listItems.forEach((listItem) => (listItem.active = listItem === focusEl));
 
     focusEl.setFocus();
-  };
-
-  handleClick = (event: PointerEvent): void => {
-    const composedPath = event.composedPath();
-    const { listItems } = this;
-
-    const firstActiveItem = composedPath.find((path) =>
-      listItems.includes(path as HTMLCalciteListItemElement)
-    );
-
-    listItems.forEach((listItem) => (listItem.active = listItem === firstActiveItem));
   };
 
   isNavigable = (listItem: HTMLCalciteListItemElement): boolean => {

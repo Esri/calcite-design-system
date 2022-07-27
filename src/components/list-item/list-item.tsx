@@ -54,7 +54,7 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
    *
    * @internal
    */
-  @Prop() level: number = null;
+  @Prop({ mutable: true }) level: number = null;
 
   /**
    *
@@ -72,19 +72,19 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
    *
    * @internal
    */
-  @Prop() parentListEl: HTMLCalciteListElement;
+  @Prop({ mutable: true }) parentListEl: HTMLCalciteListElement;
 
   /**
    *
    * @internal
    */
-  @Prop() parentListItemEl: HTMLCalciteListItemElement;
+  @Prop({ mutable: true }) parentListItemEl: HTMLCalciteListItemElement;
 
   /**
    *
    * @internal
    */
-  @Prop() expandable = false;
+  @Prop({ mutable: true }) expandable = false;
 
   /**
    * A description for the component. Displays below the label text.

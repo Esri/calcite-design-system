@@ -55,7 +55,8 @@
       <div class="child">
         <calcite-list label="test">
           <calcite-list-item label="Princess Bubblegum" description="Ruler of The Candy Kingdom">
-            <calcite-action icon="drag" text="drag" label="drag" scale="s" slot="actions-start"></calcite-action>
+            <calcite-action appearance="clear" icon="drag" text="drag" label="drag" scale="s" slot="actions-start">
+            </calcite-action>
             <calcite-icon scale="l" icon="effects" slot="content-start"></calcite-icon>
             <calcite-avatar
               scale="m"
@@ -64,11 +65,19 @@
             ></calcite-avatar>
             <calcite-icon scale="s" icon="check-circle" slot="content-end" style="color: var(--calcite-ui-success)">
             </calcite-icon>
-            <calcite-action icon="ellipsis" text="menu" label="menu" slot="actions-end"></calcite-action>
-            <calcite-action icon="x" text="remove" label="remove" slot="actions-end"></calcite-action>
+            <calcite-action appearance="clear" icon="ellipsis" text="menu" label="menu" slot="actions-end">
+            </calcite-action>
+            <calcite-action
+              appearance="clear"
+              icon="x"
+              text="remove"
+              label="remove"
+              slot="actions-end"
+            ></calcite-action>
           </calcite-list-item>
           <calcite-list-item label="Finn Mertens" description="Part owner of the Tree House">
-            <calcite-action icon="drag" text="drag" label="drag" scale="s" slot="actions-start"></calcite-action>
+            <calcite-action appearance="clear" icon="drag" text="drag" label="drag" scale="s" slot="actions-start">
+            </calcite-action>
             <calcite-icon scale="l" icon="running" slot="content-start"></calcite-icon>
             <calcite-avatar
               scale="m"
@@ -77,11 +86,19 @@
             ></calcite-avatar>
             <calcite-icon scale="s" icon="check-circle" slot="content-end" style="color: var(--calcite-ui-success)">
             </calcite-icon>
-            <calcite-action icon="ellipsis" text="label" label="menu" slot="actions-end"></calcite-action>
-            <calcite-action icon="x" text="remove" label="remove" slot="actions-end"></calcite-action>
+            <calcite-action appearance="clear" icon="ellipsis" text="label" label="menu" slot="actions-end">
+            </calcite-action>
+            <calcite-action
+              appearance="clear"
+              icon="x"
+              text="remove"
+              label="remove"
+              slot="actions-end"
+            ></calcite-action>
           </calcite-list-item>
           <calcite-list-item label="Jake T. Dog" description="Part owner of the Tree House">
-            <calcite-action icon="drag" text="drag" label="drag" scale="s" slot="actions-start"></calcite-action>
+            <calcite-action appearance="clear" icon="drag" text="drag" label="drag" scale="s" slot="actions-start">
+            </calcite-action>
             <calcite-icon scale="l" icon="walking" slot="content-start"></calcite-icon>
             <calcite-avatar
               scale="m"
@@ -94,8 +111,15 @@
               slot="content-end"
               style="color: var(--calcite-ui-danger)"
             ></calcite-icon>
-            <calcite-action icon="ellipsis" text="menu" label="menu" slot="actions-end"></calcite-action>
-            <calcite-action icon="x" text="remove" label="remove" slot="actions-end"></calcite-action>
+            <calcite-action appearance="clear" icon="ellipsis" text="menu" label="menu" slot="actions-end">
+            </calcite-action>
+            <calcite-action
+              appearance="clear"
+              icon="x"
+              text="remove"
+              label="remove"
+              slot="actions-end"
+            ></calcite-action>
           </calcite-list-item>
         </calcite-list>
       </div>
@@ -178,12 +202,20 @@
       <div class="child">
         <calcite-list>
           <calcite-list-item label="Jake the Dog" description="Is yellow and magical.">
-            <calcite-action label="edit" text="edit" slot="actions-end" icon="pencil"></calcite-action>
+            <calcite-action
+              appearance="clear"
+              label="edit"
+              text="edit"
+              slot="actions-end"
+              icon="pencil"
+            ></calcite-action>
           </calcite-list-item>
 
           <calcite-list-item non-interactive>
-            <calcite-action label="undo" text="undo" slot="actions-end" icon="undo"> </calcite-action>
-            <calcite-action text="check" label="check" slot="actions-end" icon="check"> </calcite-action>
+            <calcite-action appearance="clear" label="undo" text="undo" slot="actions-end" icon="undo">
+            </calcite-action>
+            <calcite-action appearance="clear" text="check" label="check" slot="actions-end" icon="check">
+            </calcite-action>
             <div class="form-container" slot="content-start">
               <calcite-input scale="s" value="Jake the Dog" scale="m" placeholder="This is an input."></calcite-input>
             </div>
@@ -203,7 +235,8 @@
       <div class="child">
         <calcite-list label="test">
           <calcite-list-item>
-            <calcite-action text="more" label="more" slot="actions-end" icon="ellipsis"> </calcite-action>
+            <calcite-action appearance="clear" text="more" label="more" slot="actions-end" icon="ellipsis">
+            </calcite-action>
             <calcite-icon icon="layers" scale="m" slot="content-start"></calcite-icon>
             <span slot="content-start">Some value or something and a <b>thing</b>.</span>
             <div slot="content-end" style="display: flex; justify-content: flex-end">
@@ -213,7 +246,8 @@
           </calcite-list-item>
 
           <calcite-list-item>
-            <calcite-action text="more" label="more" slot="actions-end" icon="ellipsis"> </calcite-action>
+            <calcite-action appearance="clear" text="more" label="more" slot="actions-end" icon="ellipsis">
+            </calcite-action>
             <calcite-icon icon="user" scale="m" slot="content-start"></calcite-icon>
             <span slot="content-start">Some value or something and a <b>thing</b>.</span>
             <div slot="content-end" style="display: flex; justify-content: flex-end">
@@ -222,7 +256,8 @@
           </calcite-list-item>
 
           <calcite-list-item>
-            <calcite-action text="more" label="more" slot="actions-end" icon="ellipsis"> </calcite-action>
+            <calcite-action appearance="clear" text="more" label="more" slot="actions-end" icon="ellipsis">
+            </calcite-action>
             <calcite-icon icon="user" scale="m" slot="content-start"></calcite-icon>
             <span slot="content-start">Some value or something and a <b>thing</b>.</span>
             <div slot="content-end" style="display: flex; justify-content: flex-end">
