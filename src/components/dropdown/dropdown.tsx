@@ -11,7 +11,7 @@ import {
   VNode,
   Watch
 } from "@stencil/core";
-import { ItemKeyboardEvent } from "./interfaces";
+import { ItemKeyboardEvent, Selection } from "./interfaces";
 
 import { focusElement, toAriaBoolean } from "../../utils/dom";
 import {
@@ -32,6 +32,7 @@ import { createObserver } from "../../utils/observers";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { OpenCloseComponent } from "../../utils/openCloseComponent";
 import { guid } from "../../utils/guid";
+import { RequestedItem } from "../dropdown-group/interfaces";
 
 /**
  * @slot - A slot for adding `calcite-dropdown-group`s or `calcite-dropdown-item`s.
@@ -261,7 +262,7 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent, Float
   //--------------------------------------------------------------------------
 
   /** fires when a dropdown item has been selected or deselected */
-  @Event() calciteDropdownSelect: EventEmitter<void>;
+  @Event() calciteDropdownSelect: EventEmitter<Selection>;
 
   /** Fires when the component is requested to be closed and before the closing transition begins. */
   @Event() calciteDropdownBeforeClose: EventEmitter<void>;
@@ -351,10 +352,12 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent, Float
   }
 
   @Listen("calciteInternalDropdownItemSelect")
-  handleItemSelect(event: CustomEvent): void {
+  handleItemSelect(event: CustomEvent<RequestedItem>): void {
     this.updateSelectedItems();
     event.stopPropagation();
-    this.calciteDropdownSelect.emit();
+    this.calciteDropdownSelect.emit({
+      item: event.detail.requestedDropdownItem
+    });
     if (
       !this.disableCloseOnSelect ||
       event.detail.requestedDropdownGroup.selectionMode === "none"
