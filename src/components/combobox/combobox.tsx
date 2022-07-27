@@ -590,7 +590,7 @@ export class Combobox
   };
 
   setMaxScrollerHeight = async (): Promise<void> => {
-    const { listContainerEl, open } = this;
+    const { listContainerEl, open, referenceEl } = this;
 
     if (!listContainerEl || !open) {
       return;
@@ -599,6 +599,7 @@ export class Combobox
     await this.reposition();
     const maxScrollerHeight = this.getMaxScrollerHeight();
     listContainerEl.style.maxHeight = maxScrollerHeight > 0 ? `${maxScrollerHeight}px` : "";
+    listContainerEl.style.minWidth = `${referenceEl.clientWidth}px`;
     await this.reposition();
   };
 
