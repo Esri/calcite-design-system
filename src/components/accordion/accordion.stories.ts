@@ -312,7 +312,7 @@ export const WithIconStartAndEnd = (): string =>
     html`
       ${create(
         "calcite-accordion-item",
-        createAccordionItemAttributes({ group: "accordion-item-1", iconStart: "banana" }),
+        createAccordionItemAttributes({ group: "accordion-item-1", iconStart: "banana", icon: true }),
         accordionItemContent
       )}
       ${create(
@@ -322,12 +322,17 @@ export const WithIconStartAndEnd = (): string =>
       )}
       ${create(
         "calcite-accordion-item",
-        createAccordionItemAttributes({ group: "accordion-item-3", iconEnd: "plane", iconStart: "plane" }),
+        createAccordionItemAttributes({ group: "accordion-item-3", iconEnd: "plane", iconStart: "plane", icon: true }),
         accordionItemContent
       )}
       ${create(
         "calcite-accordion-item",
-        createAccordionItemAttributes({ group: "accordion-item-4", iconStart: "biking", iconEnd: "biking" }).concat({
+        createAccordionItemAttributes({
+          group: "accordion-item-4",
+          iconStart: "biking",
+          iconEnd: "biking",
+          icon: true
+        }).concat({
           name: "expanded",
           value: true
         }),
