@@ -148,7 +148,7 @@
     "type-fest": "2.17.0",
     "typescript": "4.5.4",
     "updtr": "4.0.0",
-    "workbox-build": "6.5.3",
+    "workbox-build": "6.5.4",
     "yargs": "17.5.1"
   },
   "license": "SEE LICENSE IN copyright.txt",
