@@ -799,14 +799,10 @@ export class Slider implements LabelableComponent, FormComponent, InteractiveCom
     this.setValue(activeProp, this.clamp(fixedDecimalAdjustment, activeProp));
   }
 
-  @Listen("click")
-  clickHandler(event: PointerEvent): void {
-    this.focusActiveHandle(event.clientX);
-  }
-
   @Listen("pointerdown")
   pointerDownHandler(event: PointerEvent): void {
     const x = event.clientX || event.pageX;
+    this.focusActiveHandle(x);
     const position = this.translate(x);
     let prop: ActiveSliderProperty = "value";
     if (isRange(this.value)) {
