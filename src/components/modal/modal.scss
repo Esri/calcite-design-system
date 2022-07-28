@@ -105,7 +105,6 @@
   }
 }
 
-:host([active]),
 :host([open]) {
   @apply opacity-100;
   visibility: visible !important;
@@ -291,7 +290,6 @@ slot[name="primary"] {
   }
 }
 
-:host([active][fullscreen]),
 :host([open][fullscreen]) {
   .header {
     border-radius: 0;
