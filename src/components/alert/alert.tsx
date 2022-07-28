@@ -142,14 +142,11 @@ export class Alert implements OpenCloseComponent {
       this.openHandler(open);
       this.calciteInternalAlertRegister.emit();
     }
+    connectOpenCloseComponent(this);
   }
 
   componentWillLoad(): void {
     this.requestedIcon = setRequestedIcon(StatusIcons, this.icon, this.color);
-  }
-
-  componentDidLoad(): void {
-    connectOpenCloseComponent(this);
   }
 
   disconnectedCallback(): void {
@@ -328,6 +325,7 @@ export class Alert implements OpenCloseComponent {
 
   private setTransitionEl = (el): void => {
     this.transitionEl = el;
+    connectOpenCloseComponent(this);
   };
 
   /** determine which alert is active */

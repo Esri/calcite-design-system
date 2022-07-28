@@ -325,6 +325,7 @@ export class Combobox
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
     connectLabel(this);
     connectForm(this);
+    connectOpenCloseComponent(this);
     this.reposition();
     this.setFilteredPlacements();
     if (this.active) {
@@ -342,7 +343,6 @@ export class Combobox
   componentDidLoad(): void {
     afterConnectDefaultValueSet(this, this.getValue());
     this.reposition();
-    connectOpenCloseComponent(this);
   }
 
   componentDidRender(): void {
@@ -654,6 +654,7 @@ export class Combobox
     this.listContainerEl = el;
 
     this.transitionEl = el;
+    connectOpenCloseComponent(this);
   };
 
   setReferenceEl = (el: HTMLDivElement): void => {

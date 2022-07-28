@@ -177,11 +177,11 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent, Float
     if (this.active) {
       this.activeHandler(this.active);
     }
+    connectOpenCloseComponent(this);
   }
 
   componentDidLoad(): void {
     this.reposition();
-    connectOpenCloseComponent(this);
   }
 
   componentDidRender(): void {
@@ -493,6 +493,7 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent, Float
     this.scrollerEl = el;
 
     this.transitionEl = el;
+    connectOpenCloseComponent(this);
   };
 
   onBeforeOpen(): void {

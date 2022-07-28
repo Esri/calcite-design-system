@@ -405,6 +405,7 @@ export class InputDatePicker
 
     connectLabel(this);
     connectForm(this);
+    connectOpenCloseComponent(this);
     this.reposition();
     this.setFilteredPlacements();
   }
@@ -417,7 +418,6 @@ export class InputDatePicker
 
   componentDidLoad(): void {
     this.reposition();
-    connectOpenCloseComponent(this);
   }
 
   disconnectedCallback(): void {
@@ -613,6 +613,7 @@ export class InputDatePicker
 
   private setTransitionEl = (el): void => {
     this.transitionEl = el;
+    connectOpenCloseComponent(this);
   };
 
   onLabelClick(): void {
