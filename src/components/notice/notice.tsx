@@ -84,8 +84,18 @@ export class Notice implements ConditionalSlotComponent {
    */
   @Prop({ reflect: true }) dismissible? = false;
 
+  @Watch("dismissible")
+  handleDismissible(value: boolean): void {
+    this.closable = value;
+  }
+
   /** When true, displays a button user can click to dismiss the `calcite-notice` */
   @Prop({ reflect: true }) closable? = false;
+
+  @Watch("closable")
+  handleClosable(value: boolean): void {
+    this.dismissible = value;
+  }
 
   /**
    * When present, shows a default recommended icon. You can
@@ -125,6 +135,12 @@ export class Notice implements ConditionalSlotComponent {
     if (isOpen) {
       this.activeHandler(isOpen);
       this.openHandler(isOpen);
+    }
+    if (this.dismissible) {
+      this.handleDismissible(this.dismissible);
+    }
+    if (this.closable) {
+      this.handleClosable(this.closable);
     }
   }
 
@@ -168,7 +184,7 @@ export class Notice implements ConditionalSlotComponent {
             <slot name={SLOTS.actionsEnd} />
           </div>
         ) : null}
-        {this.closable || this.dismissible ? closeButton : null}
+        {this.closable ? closeButton : null}
       </div>
     );
   }
