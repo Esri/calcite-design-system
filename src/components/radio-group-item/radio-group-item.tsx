@@ -92,8 +92,8 @@ export class RadioGroupItem {
 
   connectedCallback(): void {
     if (this.icon) {
-      this.iconPosition === "start" && (this.iconStart = this.icon);
-      this.iconPosition === "end" && (this.iconEnd = this.icon);
+      this.iconPosition === "start" && !this.iconStart && (this.iconStart = this.icon);
+      this.iconPosition === "end" && !this.iconEnd && (this.iconEnd = this.icon);
     }
   }
 

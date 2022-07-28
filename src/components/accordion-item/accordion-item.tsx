@@ -101,6 +101,11 @@ export class AccordionItem implements ConditionalSlotComponent {
   /**Specified an icon to display at the start - accepts Calcite UI icon names. */
   @Prop({ reflect: true }) iconStart?: string;
 
+  @Watch("iconStart")
+  iconStartHandler(value: string): void {
+    this.icon = value;
+  }
+
   /**Specified an icon to display at the end - accepts Calcite UI icon names. */
   @Prop({ reflect: true }) iconEnd?: string;
 
@@ -147,12 +152,13 @@ export class AccordionItem implements ConditionalSlotComponent {
       this.expandedHandler(isExpanded);
     }
 
-    if (this.icon) {
-      this.iconStart = this.icon;
-    }
     if (this.iconStart) {
       this.icon = this.iconStart;
     }
+    if (this.icon && !this.iconStart) {
+      this.iconStart = this.icon;
+    }
+
     connectConditionalSlotComponent(this);
   }
 
