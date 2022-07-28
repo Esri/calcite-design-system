@@ -66,13 +66,11 @@ function transitionEnd(event: TransitionEvent): void {
  * @param component
  */
 export function connectOpenCloseComponent(component: OpenCloseComponent): void {
+  if (componentToTransitionListeners.has(component)) {
+    return;
+  }
+  disconnectOpenCloseComponent(component);
   if (component.transitionEl) {
-    const [start, end] = componentToTransitionListeners.get(component);
-    document.removeEventListener("transitionstart", start);
-    document.removeEventListener("transitionend", end);
-
-    componentToTransitionListeners.delete(component);
-
     const boundOnTransitionStart: (event: TransitionEvent) => void = transitionStart.bind(component);
     const boundOnTransitionEnd: (event: TransitionEvent) => void = transitionEnd.bind(component);
 
@@ -82,13 +80,15 @@ export function connectOpenCloseComponent(component: OpenCloseComponent): void {
     component.transitionEl.addEventListener("transitionend", boundOnTransitionEnd);
   }
 }
-
 /**
  * Helper to tear down transition listeners on disconnectedCallback on OpenCloseComponent components.
  *
  * @param component
  */
 export function disconnectOpenCloseComponent(component: OpenCloseComponent): void {
+  if (!componentToTransitionListeners.has(component)) {
+    return;
+  }
   const [start, end] = componentToTransitionListeners.get(component);
   document.removeEventListener("transitionstart", start);
   document.removeEventListener("transitionend", end);
