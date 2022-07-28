@@ -75,7 +75,7 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
    *
    * @deprecated use closable instead
    */
-  @Prop({ reflect: true }) dismissible = false;
+  @Prop({ mutable: true, reflect: true }) dismissible = false;
 
   @Watch("dismissible")
   handleDismissible(value: boolean): void {
@@ -83,7 +83,7 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
   }
 
   /** When true, display a close button within the Popover */
-  @Prop({ reflect: true }) closable = false;
+  @Prop({ mutable: true, reflect: true }) closable = false;
 
   @Watch("closable")
   handleClosable(value: boolean): void {
