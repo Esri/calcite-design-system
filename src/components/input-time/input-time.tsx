@@ -57,7 +57,7 @@ export class InputTime implements LabelableComponent, FormComponent, Interactive
   //
   //--------------------------------------------------------------------------
 
-  @Element() el: HTMLCalciteTimePickerElement;
+  @Element() el: HTMLCalciteInputTimeElement;
 
   //--------------------------------------------------------------------------
   //
@@ -110,12 +110,8 @@ export class InputTime implements LabelableComponent, FormComponent, Interactive
     this.setValue(this.value, false);
   }
 
-  /**
-   * The name used to submit the value to the associated form.
-   *
-   * Note that this prop should use the @Prop decorator.
-   */
-  name: string;
+  /** The name of the time input */
+  @Prop() name: string;
 
   /**
    * When true, still focusable but controls are gone and the value cannot be modified.
@@ -765,8 +761,8 @@ export class InputTime implements LabelableComponent, FormComponent, Interactive
               {this.localizedMeridiem || "--"}
             </span>
           )}
-          <HiddenFormInputSlot component={this} />
         </div>
+        <HiddenFormInputSlot component={this} />
       </Host>
     );
   }
