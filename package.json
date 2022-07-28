@@ -100,7 +100,7 @@
     "@types/standard-version": "7.0.1",
     "@types/yargs": "17.0.10",
     "@typescript-eslint/eslint-plugin": "5.30.7",
-    "@typescript-eslint/parser": "5.30.7",
+    "@typescript-eslint/parser": "5.31.0",
     "@whitespace/storybook-addon-html": "5.0.0",
     "autoprefixer": "10.4.7",
     "axe-core": "4.4.3",
