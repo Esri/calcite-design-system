@@ -2,6 +2,7 @@ import {
   Component,
   Element,
   h,
+  Host,
   Prop,
   VNode,
   Event,
@@ -14,7 +15,7 @@ import {
 import { Scale } from "../interfaces";
 import { numberKeys } from "../../utils/key";
 import { isValidNumber } from "../../utils/number";
-import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
+import { LabelableComponent, connectLabel, disconnectLabel } from "../../utils/label";
 import {
   connectForm,
   disconnectForm,
@@ -236,6 +237,12 @@ export class InputTime implements LabelableComponent, FormComponent, Interactive
   hostFocusHandler(): void {
     this.calciteInternalTimePickerFocus.emit();
   }
+
+  hostKeyDownHandler = ({ defaultPrevented, key }: KeyboardEvent): void => {
+    if (key === "Enter" && !defaultPrevented) {
+      submitForm(this);
+    }
+  };
 
   @Listen("keydown")
   keyDownHandler(event: KeyboardEvent): void {
@@ -666,16 +673,16 @@ export class InputTime implements LabelableComponent, FormComponent, Interactive
     const secondIsNumber = isValidNumber(this.second);
     const showMeridiem = this.hourCycle === "12";
     return (
-      <div
-        class={{
-          [CSS.timePicker]: true,
-          [CSS.showMeridiem]: showMeridiem,
-          [CSS.showSecond]: this.showSecond,
-          [CSS[`scale-${this.scale}`]]: true
-        }}
-        dir="ltr"
-      >
-        <div class={CSS.column} role="group">
+      <Host onKeyDown={this.hostKeyDownHandler}>
+        <div
+          class={{
+            [CSS.container]: true,
+            [CSS.showMeridiem]: showMeridiem,
+            [CSS.showSecond]: this.showSecond,
+            [CSS[`scale-${this.scale}`]]: true
+          }}
+          dir="ltr"
+        >
           <span
             aria-label={this.intlHour}
             aria-valuemax="23"
@@ -694,9 +701,7 @@ export class InputTime implements LabelableComponent, FormComponent, Interactive
           >
             {this.localizedHour || "--"}
           </span>
-        </div>
-        <span class={CSS.delimiter}>{this.localizedHourSuffix}</span>
-        <div class={CSS.column} role="group">
+          <span class={CSS.delimiter}>{this.localizedHourSuffix}</span>
           <span
             aria-label={this.intlMinute}
             aria-valuemax="12"
@@ -715,10 +720,8 @@ export class InputTime implements LabelableComponent, FormComponent, Interactive
           >
             {this.localizedMinute || "--"}
           </span>
-        </div>
-        {this.showSecond && <span class={CSS.delimiter}>{this.localizedMinuteSuffix}</span>}
-        {this.showSecond && (
-          <div class={CSS.column} role="group">
+          {this.showSecond && <span class={CSS.delimiter}>{this.localizedMinuteSuffix}</span>}
+          {this.showSecond && (
             <span
               aria-label={this.intlSecond}
               aria-valuemax="59"
@@ -737,19 +740,11 @@ export class InputTime implements LabelableComponent, FormComponent, Interactive
             >
               {this.localizedSecond || "--"}
             </span>
-          </div>
-        )}
-        {this.localizedSecondSuffix && (
-          <span class={CSS.delimiter}>{this.localizedSecondSuffix}</span>
-        )}
-        {showMeridiem && (
-          <div
-            class={{
-              [CSS.column]: true,
-              [CSS.meridiemStart]: this.meridiemOrder === 0
-            }}
-            role="group"
-          >
+          )}
+          {this.localizedSecondSuffix && (
+            <span class={CSS.delimiter}>{this.localizedSecondSuffix}</span>
+          )}
+          {showMeridiem && (
             <span
               aria-label={this.intlMeridiem}
               aria-valuemax="2"
@@ -758,7 +753,8 @@ export class InputTime implements LabelableComponent, FormComponent, Interactive
               aria-valuetext={this.meridiem}
               class={{
                 [CSS.input]: true,
-                [CSS.meridiem]: true
+                [CSS.meridiem]: true,
+                [CSS.meridiemStart]: this.meridiemOrder === 0
               }}
               onFocus={this.focusHandler}
               onKeyDown={this.meridiemKeyDownHandler}
@@ -768,10 +764,10 @@ export class InputTime implements LabelableComponent, FormComponent, Interactive
             >
               {this.localizedMeridiem || "--"}
             </span>
-          </div>
-        )}
-        <HiddenFormInputSlot component={this} />
-      </div>
+          )}
+          <HiddenFormInputSlot component={this} />
+        </div>
+      </Host>
     );
   }
 }
