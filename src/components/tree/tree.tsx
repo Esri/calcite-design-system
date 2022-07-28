@@ -350,7 +350,7 @@ export class Tree {
    *
    * @see [TreeSelectDetail](https://github.com/Esri/calcite-components/blob/master/src/components/tree/interfaces.ts#L1)
    */
-  @Event() calciteTreeSelect: EventEmitter<TreeSelectDetail>;
+  @Event({ cancelable: false }) calciteTreeSelect: EventEmitter<TreeSelectDetail>;
 
   // --------------------------------------------------------------------------
   //

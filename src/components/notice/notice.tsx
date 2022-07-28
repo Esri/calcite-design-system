@@ -180,10 +180,10 @@ export class Notice implements ConditionalSlotComponent {
   //--------------------------------------------------------------------------
 
   /** Fired when the component is closed. */
-  @Event() calciteNoticeClose: EventEmitter<void>;
+  @Event({ cancelable: false }) calciteNoticeClose: EventEmitter<void>;
 
   /** Fired when the component is opened. */
-  @Event() calciteNoticeOpen: EventEmitter<void>;
+  @Event({ cancelable: false }) calciteNoticeOpen: EventEmitter<void>;
 
   //--------------------------------------------------------------------------
   //

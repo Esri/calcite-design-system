@@ -59,7 +59,7 @@ export class DropdownGroup {
   /**
    * @internal
    */
-  @Event() calciteInternalDropdownItemChange: EventEmitter<RequestedItem>;
+  @Event({ cancelable: false }) calciteInternalDropdownItemChange: EventEmitter<RequestedItem>;
 
   //--------------------------------------------------------------------------
   //

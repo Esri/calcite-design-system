@@ -113,7 +113,7 @@ export class Rating implements LabelableComponent, FormComponent, InteractiveCom
   /**
    * Fires when the rating value has changed.
    */
-  @Event() calciteRatingChange: EventEmitter<{ value: number }>;
+  @Event({ cancelable: false }) calciteRatingChange: EventEmitter<{ value: number }>;
 
   //--------------------------------------------------------------------------
   //
