@@ -66,9 +66,6 @@ function transitionEnd(event: TransitionEvent): void {
  * @param component
  */
 export function connectOpenCloseComponent(component: OpenCloseComponent): void {
-  if (componentToTransitionListeners.has(component)) {
-    return;
-  }
   disconnectOpenCloseComponent(component);
   if (component.transitionEl) {
     const boundOnTransitionStart: (event: TransitionEvent) => void = transitionStart.bind(component);
