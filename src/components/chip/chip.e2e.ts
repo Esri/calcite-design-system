@@ -12,7 +12,7 @@ describe("calcite-chip", () => {
 
   it("should emit event after the close button is clicked", async () => {
     const page = await newE2EPage();
-    await page.setContent(`<calcite-chip dismissible>cheetos</calcite-chip>`);
+    await page.setContent(`<calcite-chip closable>cheetos</calcite-chip>`);
 
     const eventSpy = await page.spyOnEvent("calciteChipDismiss", "window");
 
@@ -45,7 +45,7 @@ describe("calcite-chip", () => {
 
   it("renders a close button when requested (deprecated)", async () => {
     const page = await newE2EPage();
-    await page.setContent(`<calcite-chip dismissible>Chip content</calcite-chip>`);
+    await page.setContent(`<calcite-chip closable>Chip content</calcite-chip>`);
 
     const close = await page.find("calcite-chip >>> button.close");
     expect(close).not.toBeNull();
@@ -74,7 +74,7 @@ describe("calcite-chip", () => {
         icon="layer"
         appearance="clear"
         color="green"
-        dismissible
+        closable
       >
         Layers
       </calcite-chip>
