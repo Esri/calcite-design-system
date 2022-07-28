@@ -14,7 +14,7 @@ describe("calcite-notice", () => {
   it("is accessible", async () => accessible(`<calcite-notice open>${noticeContent}</calcite-notice>`));
   it("is accessible with icon", async () => accessible(`<calcite-notice icon open>${noticeContent}</calcite-notice>`));
   it("is accessible with close button", async () =>
-    accessible(`<calcite-notice dismissible open>${noticeContent}</calcite-notice>`));
+    accessible(`<calcite-notice closable open>${noticeContent}</calcite-notice>`));
   it("is accessible with icon and close button (deprecated)", async () =>
     accessible(`<calcite-notice icon dismissible open>${noticeContent}</calcite-notice>`));
   it("is accessible with icon and close button", async () =>
@@ -41,7 +41,7 @@ describe("calcite-notice", () => {
   it("renders requested props when valid props are provided", async () => {
     const page = await newE2EPage();
     await page.setContent(`
-    <calcite-notice color="yellow" dismissible>
+    <calcite-notice color="yellow" closable>
     ${noticeContent}
     </calcite-notice>`);
 
@@ -57,7 +57,7 @@ describe("calcite-notice", () => {
   it("renders an icon and close button when requested (deprecated)", async () => {
     const page = await newE2EPage();
     await page.setContent(`
-    <calcite-notice icon dismissible>
+    <calcite-notice icon closable>
     ${noticeContent}
     </calcite-notice>`);
 

@@ -224,7 +224,7 @@ export class Combobox
   //
   //--------------------------------------------------------------------------
 
-  @Listen("click", { target: "document" })
+  @Listen("pointerdown", { target: "document" })
   documentClickHandler(event: Event): void {
     this.setInactiveIfNotContained(event);
   }

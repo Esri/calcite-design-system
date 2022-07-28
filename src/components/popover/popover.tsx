@@ -79,10 +79,20 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
    *
    * @deprecated use closable instead
    */
-  @Prop({ reflect: true }) dismissible = false;
+  @Prop({ mutable: true, reflect: true }) dismissible = false;
+
+  @Watch("dismissible")
+  handleDismissible(value: boolean): void {
+    this.closable = value;
+  }
 
   /** When true, display a close button within the Popover */
-  @Prop({ reflect: true }) closable = false;
+  @Prop({ mutable: true, reflect: true }) closable = false;
+
+  @Watch("closable")
+  handleClosable(value: boolean): void {
+    this.dismissible = value;
+  }
 
   /**
    * When true, prevents flipping the component's placement when overlapping its `referenceElement`.
@@ -225,6 +235,12 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
     connectFloatingUI(this, this.effectiveReferenceElement, this.el);
     this.setFilteredPlacements();
     connectOpenCloseComponent(this);
+    if (this.dismissible) {
+      this.handleDismissible(this.dismissible);
+    }
+    if (this.closable) {
+      this.handleClosable(this.closable);
+    }
   }
 
   componentWillLoad(): void {
@@ -447,9 +463,9 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
   // --------------------------------------------------------------------------
 
   renderCloseButton(): VNode {
-    const { dismissible, closeButton, intlClose, heading, closable } = this;
+    const { closeButton, intlClose, heading, closable } = this;
 
-    return closable || dismissible || closeButton ? (
+    return closable || closeButton ? (
       <div class={CSS.closeButtonContainer}>
         <calcite-action
           class={CSS.closeButton}
