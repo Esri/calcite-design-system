@@ -10,6 +10,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ### Features
 
 - **alert:** deprecates active prop and syncs with open ([#5029](https://github.com/Esri/calcite-components/issues/5029)) ([3161b8e](https://github.com/Esri/calcite-components/commit/3161b8ef1bb652ccc8ae32ccc184c11dc14584ea))
+- **dropdown:** include selection-triggering item in select event payload ([#5030](https://github.com/Esri/calcite-components/issues/5030)) ([59006fc](https://github.com/Esri/calcite-components/commit/59006fc2d76d62fc9446339985bb8c79b20aa613)), closes [#1967](https://github.com/Esri/calcite-components/issues/1967)
 - **input-text:** create separate component for input type text ([#4946](https://github.com/Esri/calcite-components/issues/4946)) ([568bb36](https://github.com/Esri/calcite-components/commit/568bb3617c8bcea8ba64db06caac0e2f419d8fe3))
 
 ### Bug Fixes
