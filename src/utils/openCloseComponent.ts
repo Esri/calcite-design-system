@@ -44,16 +44,10 @@ export interface OpenCloseComponent {
   onClose: () => void;
 }
 
-/**
- * Exported for testing purposes only
- *
- * @internal
- */
-export const transitionStartEvent = "transitionstart";
-export const transitionEndEvent = "transitionend";
-
-const componentToTransitionStartListeners = new WeakMap<HTMLDivElement, typeof transitionStart>();
-const componentToTransitionEndListeners = new WeakMap<HTMLDivElement, typeof transitionEnd>();
+const componentToTransitionListeners = new WeakMap<
+  OpenCloseComponent,
+  [typeof transitionStart, typeof transitionEnd]
+>();
 
 function transitionStart(event: TransitionEvent): void {
   if (event.propertyName === this.openTransitionProp && event.target === this.transitionEl) {
@@ -66,35 +60,38 @@ function transitionEnd(event: TransitionEvent): void {
     this.open ? this.onOpen() : this.onClose();
   }
 }
-
-let boundOnTransitionStart: (event: TransitionEvent) => void;
-let boundOnTransitionEnd: (event: TransitionEvent) => void;
-
-/* removes any existing listeners, adds listener and updates the map */
-export const connectOpenCloseComponent = (component: OpenCloseComponent): void => {
+/**
+ * Helper to keep track of transition listeners on setTransitionEl and connectedCallback on OpenCloseComponent components.
+ *
+ * @param component
+ */
+export function connectOpenCloseComponent(component: OpenCloseComponent): void {
   if (component.transitionEl) {
-    document.removeEventListener(transitionStartEvent, componentToTransitionStartListeners.get(component.transitionEl));
-    document.removeEventListener(transitionEndEvent, componentToTransitionEndListeners.get(component.transitionEl));
+    const [start, end] = componentToTransitionListeners.get(component);
+    document.removeEventListener("transitionstart", start);
+    document.removeEventListener("transitionend", end);
 
-    componentToTransitionStartListeners.delete(component.transitionEl);
-    componentToTransitionEndListeners.delete(component.transitionEl);
+    componentToTransitionListeners.delete(component);
 
-    boundOnTransitionStart = transitionStart.bind(component);
-    boundOnTransitionEnd = transitionEnd.bind(component);
+    const boundOnTransitionStart: (event: TransitionEvent) => void = transitionStart.bind(component);
+    const boundOnTransitionEnd: (event: TransitionEvent) => void = transitionEnd.bind(component);
 
-    componentToTransitionStartListeners.set(component.transitionEl, boundOnTransitionStart);
-    componentToTransitionEndListeners.set(component.transitionEl, boundOnTransitionEnd);
+    componentToTransitionListeners.set(component, [boundOnTransitionStart, boundOnTransitionEnd]);
 
-    component.transitionEl.addEventListener(transitionStartEvent, boundOnTransitionStart);
-    component.transitionEl.addEventListener(transitionEndEvent, boundOnTransitionEnd);
+    component.transitionEl.addEventListener("transitionstart", boundOnTransitionStart);
+    component.transitionEl.addEventListener("transitionend", boundOnTransitionEnd);
   }
-};
+}
 
-/* uses map to remove the listener from transitionEl and updates the map */
-export const disconnectOpenCloseComponent = (component: OpenCloseComponent): void => {
-  document.removeEventListener(transitionStartEvent, componentToTransitionStartListeners.get(component.transitionEl));
-  document.removeEventListener(transitionEndEvent, componentToTransitionEndListeners.get(component.transitionEl));
+/**
+ * Helper to tear down transition listeners on disconnectedCallback on OpenCloseComponent components.
+ *
+ * @param component
+ */
+export function disconnectOpenCloseComponent(component: OpenCloseComponent): void {
+  const [start, end] = componentToTransitionListeners.get(component);
+  document.removeEventListener("transitionstart", start);
+  document.removeEventListener("transitionend", end);
 
-  componentToTransitionStartListeners.delete(component.transitionEl);
-  componentToTransitionEndListeners.delete(component.transitionEl);
-};
+  componentToTransitionListeners.delete(component);
+}
