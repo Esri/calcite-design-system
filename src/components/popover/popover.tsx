@@ -77,6 +77,7 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
    */
   @Prop({ reflect: true }) dismissible = false;
 
+  @Watch("dismissible")
   handleDismissible(value: boolean): void {
     this.closable = value;
   }
