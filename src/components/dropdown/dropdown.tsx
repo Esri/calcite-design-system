@@ -276,7 +276,7 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent, Float
   /** Fires when the component is open and animation is complete. */
   @Event() calciteDropdownOpen: EventEmitter<void>;
 
-  @Listen("click", { target: "window" })
+  @Listen("pointerdown", { target: "window" })
   closeCalciteDropdownOnClick(event: Event): void {
     if (!this.open || event.composedPath().includes(this.el)) {
       return;
