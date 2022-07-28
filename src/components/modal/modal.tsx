@@ -138,6 +138,12 @@ export class Modal implements ConditionalSlotComponent, OpenCloseComponent {
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
     this.updateFooterVisibility();
     connectConditionalSlotComponent(this);
+    if (this.open) {
+      this.active = this.open;
+    }
+    if (this.active) {
+      this.activeHandler(this.active);
+    }
   }
 
   disconnectedCallback(): void {
@@ -394,9 +400,14 @@ export class Modal implements ConditionalSlotComponent, OpenCloseComponent {
   };
 
   @Watch("active")
+  activeHandler(value: boolean): void {
+    this.open = value;
+  }
+
   @Watch("open")
   async toggleModal(value: boolean, oldValue: boolean): Promise<void> {
     if (value !== oldValue) {
+      this.active = value;
       if (value) {
         this.openModal();
       } else if (!value) {
@@ -415,7 +426,6 @@ export class Modal implements ConditionalSlotComponent, OpenCloseComponent {
     this.previousActiveElement = document.activeElement as HTMLElement;
     this.el.addEventListener("calciteModalOpen", this.openEnd);
     this.open = true;
-    this.active = true;
     const titleEl = getSlotted(this.el, SLOTS.header);
     const contentEl = getSlotted(this.el, SLOTS.content);
 
@@ -437,7 +447,6 @@ export class Modal implements ConditionalSlotComponent, OpenCloseComponent {
   close = (): Promise<void> => {
     return this.beforeClose(this.el).then(() => {
       this.open = false;
-      this.active = false;
       focusElement(this.previousActiveElement);
       this.removeOverflowHiddenClass();
     });

@@ -83,7 +83,6 @@
   transform: translate3d(0, 20px, 0);
 }
 
-:host([active]),
 :host([open]) {
   @apply opacity-100;
   visibility: visible !important;
@@ -269,7 +268,6 @@ slot[name="primary"] {
   }
 }
 
-:host([active][fullscreen]),
 :host([open][fullscreen]) {
   .modal {
     transform: translate3D(0, 0, 0) scale(1);

@@ -261,6 +261,23 @@ describe("calcite-modal accessibility checks", () => {
     expect(modal).toHaveAttribute("active");
   });
 
+  it("closes when Escape key is pressed and modal is open on page load", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<calcite-modal intl-close="test" active></calcite-modal>`);
+    const modal = await page.find("calcite-modal");
+    await page.waitForChanges();
+    expect(modal).toHaveAttribute("active");
+    expect(modal).toHaveAttribute("open");
+    await page.keyboard.press("Escape");
+    await page.waitForChanges();
+    expect(modal).not.toHaveAttribute("active");
+    expect(modal).not.toHaveAttribute("open");
+    await modal.setProperty("active", true);
+    await page.waitForChanges();
+    expect(modal).toHaveAttribute("active");
+    expect(modal).toHaveAttribute("open");
+  });
+
   it("closes when Close button is clicked", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-modal intl-close="test"></calcite-modal>`);
