@@ -303,6 +303,7 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
           aria-setsize={setSize}
           class={CSS.container}
           onClick={this.handleItemClick}
+          onFocus={this.focusCellNull}
           onKeyDown={this.handleItemKeyDown}
           ref={(el) => (this.containerEl = el)}
           role="row"
@@ -398,6 +399,10 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
     }
 
     this.emitListItemClick();
+  };
+
+  focusCellNull = (): void => {
+    this.focusCell(null);
   };
 
   focusCell = (focusEl: HTMLTableCellElement, saveFocusIndex = true): void => {
