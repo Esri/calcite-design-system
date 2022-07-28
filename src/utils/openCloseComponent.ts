@@ -44,6 +44,17 @@ export interface OpenCloseComponent {
   onClose: () => void;
 }
 
+/**
+ * Exported for testing purposes only
+ *
+ * @internal
+ */
+export const transitionStartEvent = "transitionstart";
+export const transitionEndEvent = "transitionend";
+
+const componentToTransitionStartListeners = new WeakMap<HTMLDivElement, typeof transitionStart>();
+const componentToTransitionEndListeners = new WeakMap<HTMLDivElement, typeof transitionEnd>();
+
 function transitionStart(event: TransitionEvent): void {
   if (event.propertyName === this.openTransitionProp && event.target === this.transitionEl) {
     this.open ? this.onBeforeOpen() : this.onBeforeClose();
@@ -56,18 +67,34 @@ function transitionEnd(event: TransitionEvent): void {
   }
 }
 
-let boundOnTransitionStart;
-let boundOnTransitionEnd;
+let boundOnTransitionStart: (event: TransitionEvent) => void;
+let boundOnTransitionEnd: (event: TransitionEvent) => void;
 
+/* removes any existing listeners, adds listener and updates the map */
 export const connectOpenCloseComponent = (component: OpenCloseComponent): void => {
-  boundOnTransitionStart = transitionStart.bind(component);
-  boundOnTransitionEnd = transitionEnd.bind(component);
+  if (component.transitionEl) {
+    document.removeEventListener(transitionStartEvent, componentToTransitionStartListeners.get(component.transitionEl));
+    document.removeEventListener(transitionEndEvent, componentToTransitionEndListeners.get(component.transitionEl));
 
-  component.transitionEl?.addEventListener("transitionstart", boundOnTransitionStart);
-  component.transitionEl?.addEventListener("transitionend", boundOnTransitionEnd);
+    componentToTransitionStartListeners.delete(component.transitionEl);
+    componentToTransitionEndListeners.delete(component.transitionEl);
+
+    boundOnTransitionStart = transitionStart.bind(component);
+    boundOnTransitionEnd = transitionEnd.bind(component);
+
+    componentToTransitionStartListeners.set(component.transitionEl, boundOnTransitionStart);
+    componentToTransitionEndListeners.set(component.transitionEl, boundOnTransitionEnd);
+
+    component.transitionEl.addEventListener(transitionStartEvent, boundOnTransitionStart);
+    component.transitionEl.addEventListener(transitionEndEvent, boundOnTransitionEnd);
+  }
 };
 
+/* uses map to remove the listener from transitionEl and updates the map */
 export const disconnectOpenCloseComponent = (component: OpenCloseComponent): void => {
-  component.transitionEl?.removeEventListener("transitionstart", boundOnTransitionStart);
-  component.transitionEl?.removeEventListener("transitionstart", boundOnTransitionEnd);
+  document.removeEventListener(transitionStartEvent, componentToTransitionStartListeners.get(component.transitionEl));
+  document.removeEventListener(transitionEndEvent, componentToTransitionEndListeners.get(component.transitionEl));
+
+  componentToTransitionStartListeners.delete(component.transitionEl);
+  componentToTransitionEndListeners.delete(component.transitionEl);
 };
