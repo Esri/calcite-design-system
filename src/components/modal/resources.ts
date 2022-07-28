@@ -1,4 +1,5 @@
 export const CSS = {
+  modal: "modal",
   title: "title",
   header: "header",
   footer: "footer",

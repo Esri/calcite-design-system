@@ -1,7 +1,7 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { focusable, renders, slots } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
-import { SLOTS } from "./resources";
+import { CSS, SLOTS } from "./resources";
 
 describe("calcite-modal properties", () => {
   it("renders", () => renders("calcite-modal", { display: "flex", visible: false }));
@@ -60,61 +60,77 @@ describe("calcite-modal properties", () => {
   });
 });
 
-describe("calcite-modal events", () => {
-  it("emits the calciteModalBeforeOpen event before open", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-modal></calcite-modal>`);
-    const modal = await page.find("calcite-modal");
-    const changeEvent = await modal.spyOnEvent("calciteModalBeforeOpen");
-    expect(changeEvent).toHaveReceivedEventTimes(0);
-    await modal.setProperty("active", true);
-    await page.waitForChanges();
-    await page.waitForTimeout(400);
-    expect(await modal.getProperty("open")).toBe(true);
-    expect(changeEvent).toHaveReceivedEventTimes(1);
-  });
-  it("emits the calciteModalOpen event on open", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-modal></calcite-modal>`);
-    const modal = await page.find("calcite-modal");
-    const changeEvent = await modal.spyOnEvent("calciteModalOpen");
-    expect(changeEvent).toHaveReceivedEventTimes(0);
-    modal.setProperty("active", true);
-    await page.waitForChanges();
-    await page.waitForTimeout(400);
-    expect(await modal.getProperty("open")).toBe(true);
-    expect(changeEvent).toHaveReceivedEventTimes(1);
-  });
-  it("emits the calciteModalClose event before close", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-modal></calcite-modal>`);
-    const modal = await page.find("calcite-modal");
-    const changeEvent = await modal.spyOnEvent("calciteModalBeforeClose");
-    await modal.setProperty("active", true);
-    await page.waitForChanges();
-    expect(await modal.getProperty("open")).toBe(true);
-    expect(changeEvent).toHaveReceivedEventTimes(0);
-    modal.setProperty("active", false);
-    await page.waitForChanges();
-    await page.waitForTimeout(400);
-    expect(await modal.getProperty("open")).toBe(false);
-    expect(changeEvent).toHaveReceivedEventTimes(1);
-  });
-  it("emits the calciteModalClose event on close", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-modal></calcite-modal>`);
-    const modal = await page.find("calcite-modal");
-    const changeEvent = await modal.spyOnEvent("calciteModalClose");
-    await modal.setProperty("active", true);
-    await page.waitForChanges();
-    expect(await modal.getProperty("open")).toBe(true);
-    expect(changeEvent).toHaveReceivedEventTimes(0);
-    await modal.setProperty("active", false);
-    await page.waitForChanges();
-    await page.waitForTimeout(400);
-    expect(await modal.getProperty("open")).toBe(false);
-    expect(changeEvent).toHaveReceivedEventTimes(1);
-  });
+it("opens and closes", async () => {
+  const page = await newE2EPage();
+  await page.setContent(`<calcite-modal></calcite-modal>`);
+  const modal = await page.find("calcite-modal");
+  const beforeOpenSpy = await modal.spyOnEvent("calciteModalBeforeOpen");
+  const openSpy = await modal.spyOnEvent("calciteModalOpen");
+  const beforeCloseSpy = await modal.spyOnEvent("calciteModalBeforeClose");
+  const closeSpy = await modal.spyOnEvent("calciteModalClose");
+
+  function getTransitionTransform(
+    modalSelector: string,
+    modalContainerSelector: string,
+    type: "none" | "matrix"
+  ): boolean {
+    const modalContainer = document
+      .querySelector(modalSelector)
+      .shadowRoot.querySelector<HTMLElement>(modalContainerSelector);
+    return getComputedStyle(modalContainer).transform.startsWith(type);
+  }
+
+  expect(beforeOpenSpy).toHaveReceivedEventTimes(0);
+  expect(openSpy).toHaveReceivedEventTimes(0);
+  expect(beforeCloseSpy).toHaveReceivedEventTimes(0);
+  expect(closeSpy).toHaveReceivedEventTimes(0);
+  await page.waitForFunction(getTransitionTransform, {}, "calcite-modal", `.${CSS.modal}`, "none");
+
+  await modal.setProperty("active", true);
+  let waitForEvent = page.waitForEvent("calciteModalBeforeOpen");
+  await page.waitForChanges();
+  await waitForEvent;
+
+  expect(beforeOpenSpy).toHaveReceivedEventTimes(1);
+  expect(openSpy).toHaveReceivedEventTimes(0);
+  expect(beforeCloseSpy).toHaveReceivedEventTimes(0);
+  expect(closeSpy).toHaveReceivedEventTimes(0);
+  await page.waitForFunction(getTransitionTransform, {}, "calcite-modal", `.${CSS.modal}`, "matrix");
+
+  waitForEvent = page.waitForEvent("calciteModalOpen");
+  await page.waitForChanges();
+  await waitForEvent;
+
+  expect(beforeOpenSpy).toHaveReceivedEventTimes(1);
+  expect(openSpy).toHaveReceivedEventTimes(1);
+  expect(beforeCloseSpy).toHaveReceivedEventTimes(0);
+  expect(closeSpy).toHaveReceivedEventTimes(0);
+  expect(await modal.getProperty("open")).toBe(true);
+  await page.waitForFunction(getTransitionTransform, {}, "calcite-modal", `.${CSS.modal}`, "matrix");
+  await page.waitForFunction(getTransitionTransform, {}, "calcite-modal", `.${CSS.modal}`, "none");
+
+  await modal.setProperty("active", false);
+  waitForEvent = page.waitForEvent("calciteModalBeforeClose");
+  await page.waitForChanges();
+  await waitForEvent;
+
+  expect(beforeOpenSpy).toHaveReceivedEventTimes(1);
+  expect(openSpy).toHaveReceivedEventTimes(1);
+  expect(beforeCloseSpy).toHaveReceivedEventTimes(1);
+  expect(closeSpy).toHaveReceivedEventTimes(0);
+  await page.waitForFunction(getTransitionTransform, {}, "calcite-modal", `.${CSS.modal}`, "matrix");
+
+  waitForEvent = page.waitForEvent("calciteModalClose");
+  await page.waitForChanges();
+  await waitForEvent;
+
+  expect(beforeOpenSpy).toHaveReceivedEventTimes(1);
+  expect(openSpy).toHaveReceivedEventTimes(1);
+  expect(beforeCloseSpy).toHaveReceivedEventTimes(1);
+  expect(closeSpy).toHaveReceivedEventTimes(1);
+  await page.waitForFunction(getTransitionTransform, {}, "calcite-modal", `.${CSS.modal}`, "matrix");
+  await page.waitForFunction(getTransitionTransform, {}, "calcite-modal", `.${CSS.modal}`, "none");
+  expect(await modal.getProperty("open")).toBe(false);
 });
 
 describe("calcite-modal accessibility checks", () => {

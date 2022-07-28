@@ -157,7 +157,7 @@ export class Modal implements ConditionalSlotComponent, OpenCloseComponent {
       >
         <calcite-scrim class={CSS.scrim} onClick={this.handleOutsideClose} />
         {this.renderStyle()}
-        <div class="modal" onTransitionEnd={this.transitionEnd} ref={this.setContainerEl}>
+        <div class={CSS.modal} onTransitionEnd={this.transitionEnd} ref={this.setContainerEl}>
           <div data-focus-fence onFocus={this.focusLastElement} tabindex="0" />
           <div class={CSS.header}>
             {this.renderCloseButton()}
@@ -223,11 +223,11 @@ export class Modal implements ConditionalSlotComponent, OpenCloseComponent {
     return hasCustomWidth ? (
       <style>
         {`
-        .modal {
+        .${CSS.modal} {
           max-width: ${this.width}px !important;
         }
         @media screen and (max-width: ${this.width}px) {
-          .modal {
+          .${CSS.modal} {
             height: 100% !important;
             max-height: 100% !important;
             width: 100% !important;
