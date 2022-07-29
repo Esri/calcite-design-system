@@ -44,7 +44,11 @@ import {
 import { createObserver } from "../../utils/observers";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { toAriaBoolean } from "../../utils/dom";
-import { OpenCloseComponent } from "../../utils/openCloseComponent";
+import {
+  OpenCloseComponent,
+  connectOpenCloseComponent,
+  disconnectOpenCloseComponent
+} from "../../utils/openCloseComponent";
 interface ItemData {
   label: string;
   value: string;
@@ -321,6 +325,7 @@ export class Combobox
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
     connectLabel(this);
     connectForm(this);
+    connectOpenCloseComponent(this);
     this.reposition();
     this.setFilteredPlacements();
     if (this.active) {
@@ -355,7 +360,7 @@ export class Combobox
     disconnectLabel(this);
     disconnectForm(this);
     disconnectFloatingUI(this, this.referenceEl, this.floatingEl);
-    this.listContainerEl?.removeEventListener("transitionstart", this.transitionStartHandler);
+    disconnectOpenCloseComponent(this);
   }
 
   //--------------------------------------------------------------------------
@@ -427,7 +432,9 @@ export class Combobox
 
   private ignoreSelectedEventsFlag = false;
 
-  private activeTransitionProp = "opacity";
+  openTransitionProp = "opacity";
+
+  transitionEl: HTMLDivElement;
 
   // --------------------------------------------------------------------------
   //
@@ -577,18 +584,6 @@ export class Combobox
     this.calciteComboboxClose.emit();
   }
 
-  transitionEnd = (event: TransitionEvent): void => {
-    if (event.propertyName === this.activeTransitionProp && event.target === this.listContainerEl) {
-      this.open ? this.onOpen() : this.onClose();
-    }
-  };
-
-  transitionStartHandler = (event: TransitionEvent): void => {
-    if (event.propertyName === this.activeTransitionProp && event.target === this.listContainerEl) {
-      this.open ? this.onBeforeOpen() : this.onBeforeClose();
-    }
-  };
-
   setMaxScrollerHeight = async (): Promise<void> => {
     const { listContainerEl, open, referenceEl } = this;
 
@@ -655,10 +650,12 @@ export class Combobox
     connectFloatingUI(this, this.referenceEl, this.floatingEl);
   };
 
-  setListContainerEl = (el: HTMLDivElement): void => {
+  setContainerEl = (el: HTMLDivElement): void => {
     this.resizeObserver.observe(el);
     this.listContainerEl = el;
-    this.listContainerEl.addEventListener("transitionstart", this.transitionStartHandler);
+
+    this.transitionEl = el;
+    connectOpenCloseComponent(this);
   };
 
   setReferenceEl = (el: HTMLDivElement): void => {
@@ -1100,7 +1097,7 @@ export class Combobox
   }
 
   renderFloatingUIContainer(): VNode {
-    const { active, setFloatingEl, setListContainerEl, open } = this;
+    const { active, setFloatingEl, setContainerEl, open } = this;
     const classes = {
       "list-container": true,
       [FloatingCSS.animation]: true,
@@ -1116,7 +1113,7 @@ export class Combobox
         }}
         ref={setFloatingEl}
       >
-        <div class={classes} onTransitionEnd={this.transitionEnd} ref={setListContainerEl}>
+        <div class={classes} ref={setContainerEl}>
           <ul class={{ list: true, "list--hide": !(open || active) }}>
             <slot />
           </ul>
