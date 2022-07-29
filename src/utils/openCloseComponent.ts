@@ -46,7 +46,7 @@ export interface OpenCloseComponent {
 
 const componentToTransitionListeners = new WeakMap<
   OpenCloseComponent,
-  [typeof transitionStart, typeof transitionEnd]
+  [HTMLDivElement, typeof transitionStart, typeof transitionEnd]
 >();
 
 function transitionStart(event: TransitionEvent): void {
@@ -71,7 +71,11 @@ export function connectOpenCloseComponent(component: OpenCloseComponent): void {
     const boundOnTransitionStart: (event: TransitionEvent) => void = transitionStart.bind(component);
     const boundOnTransitionEnd: (event: TransitionEvent) => void = transitionEnd.bind(component);
 
-    componentToTransitionListeners.set(component, [boundOnTransitionStart, boundOnTransitionEnd]);
+    componentToTransitionListeners.set(component, [
+      component.transitionEl,
+      boundOnTransitionStart,
+      boundOnTransitionEnd
+    ]);
 
     component.transitionEl.addEventListener("transitionstart", boundOnTransitionStart);
     component.transitionEl.addEventListener("transitionend", boundOnTransitionEnd);
@@ -86,9 +90,9 @@ export function disconnectOpenCloseComponent(component: OpenCloseComponent): voi
   if (!componentToTransitionListeners.has(component)) {
     return;
   }
-  const [start, end] = componentToTransitionListeners.get(component);
-  document.removeEventListener("transitionstart", start);
-  document.removeEventListener("transitionend", end);
+  const [transitionEl, start, end] = componentToTransitionListeners.get(component);
+  transitionEl.removeEventListener("transitionstart", start);
+  transitionEl.removeEventListener("transitionend", end);
 
   componentToTransitionListeners.delete(component);
 }
