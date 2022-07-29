@@ -59,8 +59,8 @@ export class List implements InteractiveComponent {
     }
   }
 
-  @Listen("calciteListItemClick")
-  handleCalciteListItemClick(event: CustomEvent): void {
+  @Listen("calciteListItemSelect")
+  handleCalciteListItemSelect(event: CustomEvent): void {
     const target = event.target as HTMLCalciteListItemElement;
     const { listItems } = this;
 

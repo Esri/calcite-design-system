@@ -45,6 +45,51 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
   // --------------------------------------------------------------------------
 
   /**
+   * A description for the component. Displays below the label text.
+   */
+  @Prop() description?: string;
+
+  /**
+   * todo: document
+   */
+  @Prop({ mutable: true, reflect: true }) expanded = false;
+
+  /**
+   * When true, interaction is prevented and the component is displayed with lower opacity.
+   */
+  @Prop({ reflect: true }) disabled = false;
+
+  /**
+   * The label text of the component. Displays above the description text.
+   */
+  @Prop() label: string;
+
+  //--------------------------------------------------------------------------
+  //
+  //  Events
+  //
+  //--------------------------------------------------------------------------
+
+  /**
+   * Emitted whenever the list item content is selected.
+   */
+  @Event({ bubbles: true }) calciteListItemSelect: EventEmitter<void>;
+
+  /**
+   *
+   * @internal
+   */
+  @Event() calciteInternalFocusPreviousItem: EventEmitter<void>;
+
+  // --------------------------------------------------------------------------
+  //
+  //  Private Properties
+  //
+  // --------------------------------------------------------------------------
+
+  @Element() el: HTMLCalciteListItemElement;
+
+  /**
    *
    * @internal
    */
@@ -85,51 +130,6 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
    * @internal
    */
   @Prop({ mutable: true }) expandable = false;
-
-  /**
-   * A description for the component. Displays below the label text.
-   */
-  @Prop() description?: string;
-
-  /**
-   * todo: document
-   */
-  @Prop({ mutable: true, reflect: true }) expanded = false;
-
-  /**
-   * When true, interaction is prevented and the component is displayed with lower opacity.
-   */
-  @Prop({ reflect: true }) disabled = false;
-
-  /**
-   * The label text of the component. Displays above the description text.
-   */
-  @Prop() label: string;
-
-  //--------------------------------------------------------------------------
-  //
-  //  Events
-  //
-  //--------------------------------------------------------------------------
-
-  /**
-   * Emitted whenever the list item content is clicked.
-   */
-  @Event({ bubbles: true }) calciteListItemClick: EventEmitter<void>;
-
-  /**
-   *
-   * @internal
-   */
-  @Event() calciteInternalFocusPreviousItem: EventEmitter<void>;
-
-  // --------------------------------------------------------------------------
-  //
-  //  Private Properties
-  //
-  // --------------------------------------------------------------------------
-
-  @Element() el: HTMLCalciteListItemElement;
 
   containerEl: HTMLTableRowElement;
 
@@ -283,6 +283,8 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
           [CSS.hasCenterContent]: hasCenterContent,
           [CSS.contentContainerDisabled]: disabled // todo: Needs styling
         }}
+        onClick={this.handleItemContentSelect}
+        onKeyDown={this.handleItemContentKeyDown}
         ref={(el) => (this.contentEl = el)}
         role="gridcell"
       >
@@ -302,7 +304,6 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
           aria-posinset={posInSet}
           aria-setsize={setSize}
           class={CSS.container}
-          onClick={this.handleItemClick}
           onFocus={this.focusCellNull}
           onKeyDown={this.handleItemKeyDown}
           ref={(el) => (this.containerEl = el)}
@@ -342,6 +343,15 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
     this.expanded = !this.expanded;
   };
 
+  handleItemContentKeyDown = (event: KeyboardEvent): void => {
+    const { key } = event;
+
+    if (key === " " || key === "Enter") {
+      event.preventDefault();
+      this.emitListItemSelect();
+    }
+  };
+
   handleItemKeyDown = (event: KeyboardEvent): void => {
     const { key } = event;
     const composedPath = event.composedPath();
@@ -379,26 +389,23 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
       } else if (cells[currentIndex] && cells[prevIndex]) {
         this.focusCell(cells[prevIndex]);
       }
-    } else if (key === " " || key === "Enter") {
-      event.preventDefault();
-      this.emitListItemClick();
     }
   };
 
-  emitListItemClick = (): void => {
+  emitListItemSelect = (): void => {
     if (this.disabled) {
       return;
     }
 
-    this.calciteListItemClick.emit();
+    this.calciteListItemSelect.emit();
   };
 
-  handleItemClick = (): void => {
+  handleItemContentSelect = (): void => {
     if (this.disabled) {
       return;
     }
 
-    this.emitListItemClick();
+    this.emitListItemSelect();
   };
 
   focusCellNull = (): void => {
