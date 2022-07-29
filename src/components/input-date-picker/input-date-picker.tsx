@@ -49,7 +49,11 @@ import {
 import { DateRangeChange } from "../date-picker/interfaces";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { toAriaBoolean } from "../../utils/dom";
-import { OpenCloseComponent } from "../../utils/openCloseComponent";
+import {
+  OpenCloseComponent,
+  connectOpenCloseComponent,
+  disconnectOpenCloseComponent
+} from "../../utils/openCloseComponent";
 
 @Component({
   tag: "calcite-input-date-picker",
@@ -401,6 +405,7 @@ export class InputDatePicker
 
     connectLabel(this);
     connectForm(this);
+    connectOpenCloseComponent(this);
     this.reposition();
     this.setFilteredPlacements();
   }
@@ -416,10 +421,10 @@ export class InputDatePicker
   }
 
   disconnectedCallback(): void {
-    this.containerEl?.removeEventListener("transitionstart", this.transitionStartHandler);
     disconnectLabel(this);
     disconnectForm(this);
     disconnectFloatingUI(this, this.referenceEl, this.floatingEl);
+    disconnectOpenCloseComponent(this);
   }
 
   componentDidRender(): void {
@@ -480,8 +485,7 @@ export class InputDatePicker
                   [FloatingCSS.animation]: true,
                   [FloatingCSS.animationActive]: this.open
                 }}
-                onTransitionEnd={this.transitionEnd}
-                ref={this.setContainerEl}
+                ref={this.setTransitionEl}
               >
                 <calcite-date-picker
                   activeRange={this.focusedInput}
@@ -576,14 +580,9 @@ export class InputDatePicker
 
   private endWrapper: HTMLDivElement;
 
-  private activeTransitionProp = "opacity";
+  openTransitionProp = "opacity";
 
-  private containerEl: HTMLDivElement;
-
-  private setContainerEl = (el): void => {
-    this.containerEl = el;
-    this.containerEl.addEventListener("transitionstart", this.transitionStartHandler);
-  };
+  transitionEl: HTMLDivElement;
 
   @Watch("layout")
   @Watch("focusedInput")
@@ -612,6 +611,11 @@ export class InputDatePicker
       : null;
   };
 
+  private setTransitionEl = (el): void => {
+    this.transitionEl = el;
+    connectOpenCloseComponent(this);
+  };
+
   onLabelClick(): void {
     this.setFocus();
   }
@@ -631,18 +635,6 @@ export class InputDatePicker
   onClose(): void {
     this.calciteInputDatePickerClose.emit();
   }
-
-  transitionStartHandler = (event: TransitionEvent): void => {
-    if (event.propertyName === this.activeTransitionProp && event.target === this.containerEl) {
-      this.open ? this.onBeforeOpen() : this.onBeforeClose();
-    }
-  };
-
-  transitionEnd = (event: TransitionEvent): void => {
-    if (event.propertyName === this.activeTransitionProp && event.target === this.containerEl) {
-      this.open ? this.onOpen() : this.onClose();
-    }
-  };
 
   setStartInput = (el: HTMLCalciteInputElement): void => {
     this.startInput = el;

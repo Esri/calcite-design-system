@@ -1,6 +1,6 @@
 # calcite-dropdown
 
-A `calcite-dropdown` can be used to provide an absolutely positioned set of selectable items. You can combine multiple groups of items and selection modes, and optionally pass a title for each group. All `<calcite-dropdown-item>` must have a parent `<calcite-dropdown-group>`, even if `group-title` attribute is not set.
+A `calcite-dropdown` can be used to provide an absolutely positioned set of selectable items. You can combine multiple groups of items and selection modes, and optionally pass a title for each group. Every `calcite-dropdown-item` must have a parent `calcite-dropdown-group`, even if the `groupTitle` property is not set.
 
 <!-- Auto Generated Below -->
 
@@ -77,13 +77,13 @@ You can combine groups in a single dropdown, with varying selection modes:
 
 ## Events
 
-| Event                        | Description                                                                                              | Type                |
-| ---------------------------- | -------------------------------------------------------------------------------------------------------- | ------------------- |
-| `calciteDropdownBeforeClose` | Fires when the component is requested to be closed and before the closing transition begins.             | `CustomEvent<void>` |
-| `calciteDropdownBeforeOpen`  | Fires when the component is added to the DOM but not rendered, and before the opening transition begins. | `CustomEvent<void>` |
-| `calciteDropdownClose`       | Fires when the component is closed and animation is complete.                                            | `CustomEvent<void>` |
-| `calciteDropdownOpen`        | Fires when the component is open and animation is complete.                                              | `CustomEvent<void>` |
-| `calciteDropdownSelect`      | fires when a dropdown item has been selected or deselected                                               | `CustomEvent<void>` |
+| Event                        | Description                                                                                              | Type                     |
+| ---------------------------- | -------------------------------------------------------------------------------------------------------- | ------------------------ |
+| `calciteDropdownBeforeClose` | Fires when the component is requested to be closed and before the closing transition begins.             | `CustomEvent<void>`      |
+| `calciteDropdownBeforeOpen`  | Fires when the component is added to the DOM but not rendered, and before the opening transition begins. | `CustomEvent<void>`      |
+| `calciteDropdownClose`       | Fires when the component is closed and animation is complete.                                            | `CustomEvent<void>`      |
+| `calciteDropdownOpen`        | Fires when the component is open and animation is complete.                                              | `CustomEvent<void>`      |
+| `calciteDropdownSelect`      | fires when a dropdown item has been selected or deselected                                               | `CustomEvent<Selection>` |
 
 ## Methods
 
@@ -97,10 +97,10 @@ Type: `Promise<void>`
 
 ## Slots
 
-| Slot                 | Description                                                              |
-| -------------------- | ------------------------------------------------------------------------ |
-|                      | A slot for adding `calcite-dropdown-group`s or `calcite-dropdown-item`s. |
-| `"dropdown-trigger"` | A slot for the element that triggers the dropdown.                       |
+| Slot                 | Description                                                                                                                                                                     |
+| -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|                      | A slot for adding `calcite-dropdown-group` components. Every `calcite-dropdown-item` must have a parent `calcite-dropdown-group`, even if the `groupTitle` property is not set. |
+| `"dropdown-trigger"` | A slot for the element that triggers the `calcite-dropdown`.                                                                                                                    |
 
 ## CSS Custom Properties
 

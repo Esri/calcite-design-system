@@ -11,7 +11,7 @@ import {
   VNode,
   Watch
 } from "@stencil/core";
-import { ItemKeyboardEvent } from "./interfaces";
+import { ItemKeyboardEvent, Selection } from "./interfaces";
 
 import { focusElement, toAriaBoolean } from "../../utils/dom";
 import {
@@ -30,12 +30,17 @@ import { Scale } from "../interfaces";
 import { SLOTS } from "./resources";
 import { createObserver } from "../../utils/observers";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
-import { OpenCloseComponent } from "../../utils/openCloseComponent";
+import {
+  OpenCloseComponent,
+  connectOpenCloseComponent,
+  disconnectOpenCloseComponent
+} from "../../utils/openCloseComponent";
 import { guid } from "../../utils/guid";
+import { RequestedItem } from "../dropdown-group/interfaces";
 
 /**
- * @slot - A slot for adding `calcite-dropdown-group`s or `calcite-dropdown-item`s.
- * @slot dropdown-trigger - A slot for the element that triggers the dropdown.
+ * @slot - A slot for adding `calcite-dropdown-group` components. Every `calcite-dropdown-item` must have a parent `calcite-dropdown-group`, even if the `groupTitle` property is not set.
+ * @slot dropdown-trigger - A slot for the element that triggers the `calcite-dropdown`.
  */
 @Component({
   tag: "calcite-dropdown",
@@ -172,6 +177,7 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent, Float
     if (this.active) {
       this.activeHandler(this.active);
     }
+    connectOpenCloseComponent(this);
   }
 
   componentDidLoad(): void {
@@ -186,7 +192,7 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent, Float
     this.mutationObserver?.disconnect();
     disconnectFloatingUI(this, this.referenceEl, this.floatingEl);
     this.resizeObserver?.disconnect();
-    this.scrollerEl?.removeEventListener("transitionstart", this.transitionStartHandler);
+    disconnectOpenCloseComponent(this);
   }
 
   render(): VNode {
@@ -221,8 +227,7 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent, Float
               [FloatingCSS.animationActive]: open
             }}
             id={`${guid}-menu`}
-            onTransitionEnd={this.transitionEnd}
-            ref={this.setScrollerEl}
+            ref={this.setScrollerAndTransitionEl}
             role="menu"
           >
             <div hidden={!open}>
@@ -261,7 +266,7 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent, Float
   //--------------------------------------------------------------------------
 
   /** fires when a dropdown item has been selected or deselected */
-  @Event() calciteDropdownSelect: EventEmitter<void>;
+  @Event() calciteDropdownSelect: EventEmitter<Selection>;
 
   /** Fires when the component is requested to be closed and before the closing transition begins. */
   @Event() calciteDropdownBeforeClose: EventEmitter<void>;
@@ -275,7 +280,7 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent, Float
   /** Fires when the component is open and animation is complete. */
   @Event() calciteDropdownOpen: EventEmitter<void>;
 
-  @Listen("click", { target: "window" })
+  @Listen("pointerdown", { target: "window" })
   closeCalciteDropdownOnClick(event: Event): void {
     if (!this.open || event.composedPath().includes(this.el)) {
       return;
@@ -351,10 +356,12 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent, Float
   }
 
   @Listen("calciteInternalDropdownItemSelect")
-  handleItemSelect(event: CustomEvent): void {
+  handleItemSelect(event: CustomEvent<RequestedItem>): void {
     this.updateSelectedItems();
     event.stopPropagation();
-    this.calciteDropdownSelect.emit();
+    this.calciteDropdownSelect.emit({
+      item: event.detail.requestedDropdownItem
+    });
     if (
       !this.disableCloseOnSelect ||
       event.detail.requestedDropdownGroup.selectionMode === "none"
@@ -383,13 +390,15 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent, Float
 
   referenceEl: HTMLDivElement;
 
-  private activeTransitionProp = "visibility";
-
   private scrollerEl: HTMLDivElement;
 
   mutationObserver = createObserver("mutation", () => this.updateItems());
 
   resizeObserver = createObserver("resize", (entries) => this.resizeObserverCallback(entries));
+
+  openTransitionProp = "visibility";
+
+  transitionEl: HTMLDivElement;
 
   guid = `calcite-dropdown-${guid()}`;
 
@@ -479,22 +488,12 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent, Float
     this.reposition();
   };
 
-  setScrollerEl = (scrollerEl: HTMLDivElement): void => {
-    this.resizeObserver.observe(scrollerEl);
-    this.scrollerEl = scrollerEl;
-    this.scrollerEl.addEventListener("transitionstart", this.transitionStartHandler);
-  };
+  setScrollerAndTransitionEl = (el: HTMLDivElement): void => {
+    this.resizeObserver.observe(el);
+    this.scrollerEl = el;
 
-  transitionEnd = (event: TransitionEvent): void => {
-    if (event.propertyName === this.activeTransitionProp && event.target === this.scrollerEl) {
-      this.open ? this.onOpen() : this.onClose();
-    }
-  };
-
-  transitionStartHandler = (event: TransitionEvent): void => {
-    if (event.propertyName === this.activeTransitionProp && event.target === this.scrollerEl) {
-      this.open ? this.onBeforeOpen() : this.onBeforeClose();
-    }
+    this.transitionEl = el;
+    connectOpenCloseComponent(this);
   };
 
   onBeforeOpen(): void {
