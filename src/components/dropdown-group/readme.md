@@ -12,9 +12,9 @@
 
 ## Slots
 
-| Slot | Description                                 |
-| ---- | ------------------------------------------- |
-|      | A slot for adding `calcite-dropdown-item`s. |
+| Slot | Description                                           |
+| ---- | ----------------------------------------------------- |
+|      | A slot for adding `calcite-dropdown-item` components. |
 
 ---
 
