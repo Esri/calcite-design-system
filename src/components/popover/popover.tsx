@@ -36,7 +36,11 @@ import {
 
 import { guid } from "../../utils/guid";
 import { queryElementRoots, toAriaBoolean } from "../../utils/dom";
-import { OpenCloseComponent } from "../../utils/openCloseComponent";
+import {
+  OpenCloseComponent,
+  connectOpenCloseComponent,
+  disconnectOpenCloseComponent
+} from "../../utils/openCloseComponent";
 import { HeadingLevel, Heading } from "../functional/Heading";
 
 import PopoverManager from "./PopoverManager";
@@ -217,14 +221,9 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
 
   guid = `calcite-popover-${guid()}`;
 
-  private activeTransitionProp = "opacity";
+  openTransitionProp = "opacity";
 
-  private containerEl: HTMLDivElement;
-
-  private setContainerEl = (el): void => {
-    this.containerEl = el;
-    this.containerEl.addEventListener("transitionstart", this.transitionStartHandler);
-  };
+  transitionEl: HTMLDivElement;
 
   // --------------------------------------------------------------------------
   //
@@ -235,6 +234,7 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
   connectedCallback(): void {
     connectFloatingUI(this, this.effectiveReferenceElement, this.el);
     this.setFilteredPlacements();
+    connectOpenCloseComponent(this);
     if (this.dismissible) {
       this.handleDismissible(this.dismissible);
     }
@@ -252,9 +252,9 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
   }
 
   disconnectedCallback(): void {
-    this.containerEl?.removeEventListener("transitionstart", this.transitionStartHandler);
     this.removeReferences();
     disconnectFloatingUI(this, this.effectiveReferenceElement, this.el);
+    disconnectOpenCloseComponent(this);
   }
 
   //--------------------------------------------------------------------------
@@ -344,6 +344,11 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
   //  Private Methods
   //
   // --------------------------------------------------------------------------
+
+  private setTransitionEl = (el): void => {
+    this.transitionEl = el;
+    connectOpenCloseComponent(this);
+  };
 
   setFilteredPlacements = (): void => {
     const { el, flipPlacements } = this;
@@ -446,18 +451,6 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
     this.calcitePopoverClose.emit();
   }
 
-  transitionStartHandler = (event: TransitionEvent): void => {
-    if (event.propertyName === this.activeTransitionProp && event.target === this.containerEl) {
-      this.open ? this.onBeforeOpen() : this.onBeforeClose();
-    }
-  };
-
-  transitionEnd = (event: TransitionEvent): void => {
-    if (event.propertyName === this.activeTransitionProp && event.target === this.containerEl) {
-      this.open ? this.onOpen() : this.onClose();
-    }
-  };
-
   storeArrowEl = (el: HTMLDivElement): void => {
     this.arrowEl = el;
     this.reposition();
@@ -523,8 +516,7 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
             [FloatingCSS.animation]: true,
             [FloatingCSS.animationActive]: displayed
           }}
-          onTransitionEnd={this.transitionEnd}
-          ref={this.setContainerEl}
+          ref={this.setTransitionEl}
         >
           {arrowNode}
           <div
