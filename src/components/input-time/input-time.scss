@@ -1,6 +1,21 @@
 :host {
   @apply inline-block
     select-none;
+
+  .container {
+    &.scale-s {
+      @apply text-n2h h-6 px-2;
+      padding-inline-start: theme("padding.8");
+    }
+    &.scale-m {
+      @apply text-n1h h-8 px-3;
+      padding-inline-start: theme("padding.10");
+    }
+    &.scale-l {
+      @apply text-0h h-11 px-4;
+      padding-inline-start: theme("padding.12");
+    }
+  }
 }
 
 @include disabled();
