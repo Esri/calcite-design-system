@@ -97,10 +97,10 @@ Type: `Promise<void>`
 
 ## Slots
 
-| Slot                 | Description                                                              |
-| -------------------- | ------------------------------------------------------------------------ |
-|                      | A slot for adding `calcite-dropdown-group`s or `calcite-dropdown-item`s. |
-| `"dropdown-trigger"` | A slot for the element that triggers the dropdown.                       |
+| Slot                 | Description                                                                                                                                                                     |
+| -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|                      | A slot for adding `calcite-dropdown-group` components. Every `calcite-dropdown-item` must have a parent `calcite-dropdown-group`, even if the `groupTitle` property is not set. |
+| `"dropdown-trigger"` | A slot for the element that triggers the `calcite-dropdown`.                                                                                                                    |
 
 ## CSS Custom Properties
 
