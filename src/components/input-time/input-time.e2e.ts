@@ -11,43 +11,43 @@ import {
   renders
 } from "../../tests/commonTests";
 
-describe("calcite-input-time-picker", () => {
-  it("renders", async () => renders("calcite-input-time-picker", { display: "inline-block" }));
+describe("calcite-input-time", () => {
+  it("renders", async () => renders("calcite-input-time", { display: "inline-block" }));
 
   it("is accessible", async () =>
     accessible(`
     <calcite-label>
-      Input Time Picker
-      <calcite-input-time-picker name="test"></calcite-input-time-picker>
+      Input Time
+      <calcite-input-time name="test"></calcite-input-time>
     </calcite-label>
   `));
 
   it("has defaults", async () =>
-    defaults("calcite-input-time-picker", [
+    defaults("calcite-input-time", [
       { propertyName: "scale", defaultValue: "m" },
       { propertyName: "step", defaultValue: 60 }
     ]));
 
   it("reflects", async () =>
-    reflects(`calcite-input-time-picker`, [
+    reflects(`calcite-input-time`, [
       { propertyName: "active", value: true },
       { propertyName: "disabled", value: true },
       { propertyName: "scale", value: "m" }
     ]));
 
-  it("is labelable", async () => labelable("calcite-input-time-picker"));
+  it("is labelable", async () => labelable("calcite-input-time"));
 
   it("should focus the input when setFocus is called", async () =>
-    focusable(`calcite-input-time-picker`, {
+    focusable(`calcite-input-time`, {
       shadowFocusTargetSelector: "calcite-input"
     }));
 
-  it("can be disabled", () => disabled("calcite-input-time-picker"));
+  it("can be disabled", () => disabled("calcite-input-time"));
 
   it("when set to readOnly, element still focusable but won't display the controls or allow for changing the value", async () => {
     const page = await newE2EPage();
     await page.setContent(
-      `<calcite-input-time-picker read-only triggerDisabled={true} id="canReadOnly"></calcite-input-time-picker>`
+      `<calcite-input-time read-only triggerDisabled={true} id="canReadOnly"></calcite-input-time>`
     );
 
     const component = await page.find("#canReadOnly");
@@ -72,11 +72,11 @@ describe("calcite-input-time-picker", () => {
     expect(await input.getProperty("value")).toBe("");
   });
 
-  it("opens the time picker on input keyboard focus", async () => {
+  it.skip("opens the time picker on input keyboard focus", async () => {
     const page = await newE2EPage({
-      html: `<calcite-input-time-picker></calcite-input-time-picker>`
+      html: `<calcite-input-time></calcite-input-time>`
     });
-    const popover = await page.find("calcite-input-time-picker >>> calcite-popover");
+    const popover = await page.find("calcite-input-time >>> calcite-popover");
 
     await page.keyboard.press("Tab");
     await page.waitForChanges();
@@ -84,12 +84,12 @@ describe("calcite-input-time-picker", () => {
     expect(await popover.getProperty("open")).toBe(true);
   });
 
-  it("opens the time picker on input click", async () => {
+  it.skip("opens the time picker on input click", async () => {
     const page = await newE2EPage({
-      html: `<calcite-input-time-picker></calcite-input-time-picker>`
+      html: `<calcite-input-time></calcite-input-time>`
     });
-    const input = await page.find("calcite-input-time-picker >>> calcite-input");
-    const popover = await page.find("calcite-input-time-picker >>> calcite-popover");
+    const input = await page.find("calcite-input-time >>> calcite-input");
+    const popover = await page.find("calcite-input-time >>> calcite-popover");
 
     await input.click();
     await page.waitForChanges();
@@ -100,11 +100,11 @@ describe("calcite-input-time-picker", () => {
   it("programmatically changing the value reflects in the input for fr lang (24-hour)", async () => {
     const lang = "fr";
     const page = await newE2EPage({
-      html: `<calcite-input-time-picker lang="${lang}"" step="1"></calcite-input-time-picker>`
+      html: `<calcite-input-time lang="${lang}"" step="1"></calcite-input-time>`
     });
 
-    const inputTimePicker = await page.find("calcite-input-time-picker");
-    const input = await page.find("calcite-input-time-picker >>> calcite-input");
+    const inputTime = await page.find("calcite-input-time");
+    const input = await page.find("calcite-input-time >>> calcite-input");
 
     for (let second = 0; second < 10; second++) {
       const date = new Date(0);
@@ -113,15 +113,15 @@ describe("calcite-input-time-picker", () => {
       const expectedValue = date.toISOString().substr(11, 8);
       const expectedInputValue = localizeTimeString(expectedValue, lang);
 
-      inputTimePicker.setProperty("value", expectedValue);
+      inputTime.setProperty("value", expectedValue);
 
       await page.waitForChanges();
 
       const inputValue = await input.getProperty("value");
-      const inputTimePickerValue = await inputTimePicker.getProperty("value");
+      const inputTimeValue = await inputTime.getProperty("value");
 
       expect(inputValue).toBe(expectedInputValue);
-      expect(inputTimePickerValue).toBe(expectedValue);
+      expect(inputTimeValue).toBe(expectedValue);
     }
 
     for (let minute = 0; minute < 10; minute++) {
@@ -131,15 +131,15 @@ describe("calcite-input-time-picker", () => {
       const expectedValue = date.toISOString().substr(11, 8);
       const expectedInputValue = localizeTimeString(expectedValue, lang);
 
-      inputTimePicker.setProperty("value", expectedValue);
+      inputTime.setProperty("value", expectedValue);
 
       await page.waitForChanges();
 
       const inputValue = await input.getProperty("value");
-      const inputTimePickerValue = await inputTimePicker.getProperty("value");
+      const inputTimeValue = await inputTime.getProperty("value");
 
       expect(inputValue).toBe(expectedInputValue);
-      expect(inputTimePickerValue).toBe(expectedValue);
+      expect(inputTimeValue).toBe(expectedValue);
     }
 
     for (let hour = 0; hour < 10; hour++) {
@@ -149,26 +149,26 @@ describe("calcite-input-time-picker", () => {
       const expectedValue = date.toISOString().substr(11, 8);
       const expectedInputValue = localizeTimeString(expectedValue, lang);
 
-      inputTimePicker.setProperty("value", expectedValue);
+      inputTime.setProperty("value", expectedValue);
 
       await page.waitForChanges();
 
       const inputValue = await input.getProperty("value");
-      const inputTimePickerValue = await inputTimePicker.getProperty("value");
+      const inputTimeValue = await inputTime.getProperty("value");
 
       expect(inputValue).toBe(expectedInputValue);
-      expect(inputTimePickerValue).toBe(expectedValue);
+      expect(inputTimeValue).toBe(expectedValue);
     }
   });
 
   it("value displays correctly in the input when it is programmatically changed for a 12-hour language", async () => {
     const lang = "en";
     const page = await newE2EPage({
-      html: `<calcite-input-time-picker step="1"></calcite-input-time-picker>`
+      html: `<calcite-input-time step="1"></calcite-input-time>`
     });
 
-    const inputTimePicker = await page.find("calcite-input-time-picker");
-    const input = await page.find("calcite-input-time-picker >>> calcite-input");
+    const inputTime = await page.find("calcite-input-time");
+    const input = await page.find("calcite-input-time >>> calcite-input");
 
     const date = new Date(0);
     date.setHours(13);
@@ -178,28 +178,28 @@ describe("calcite-input-time-picker", () => {
     const expectedValue = date.toISOString().substr(11, 8);
     const expectedDisplayValue = localizeTimeString(expectedValue, lang);
 
-    inputTimePicker.setProperty("value", expectedValue);
+    inputTime.setProperty("value", expectedValue);
 
     await page.waitForChanges();
 
     const inputValue = await input.getProperty("value");
-    const inputTimePickerValue = await inputTimePicker.getProperty("value");
+    const inputTimeValue = await inputTime.getProperty("value");
 
     expect(inputValue).toBe(expectedDisplayValue);
-    expect(inputTimePickerValue).toBe(expectedValue);
+    expect(inputTimeValue).toBe(expectedValue);
   });
 
   it("value displays correctly in the input when it is programmatically changed for a 12-hour language when a default value is present", async () => {
     const lang = "en";
     const page = await newE2EPage({
-      html: `<calcite-input-time-picker step="1" value="11:00:00"></calcite-input-time-picker>`
+      html: `<calcite-input-time step="1" value="11:00:00"></calcite-input-time>`
     });
 
-    const inputTimePicker = await page.find("calcite-input-time-picker");
-    const input = await page.find("calcite-input-time-picker >>> calcite-input");
+    const inputTime = await page.find("calcite-input-time");
+    const input = await page.find("calcite-input-time >>> calcite-input");
 
     expect(await input.getProperty("value")).toBe("11:00:00 AM");
-    expect(await inputTimePicker.getProperty("value")).toBe("11:00:00");
+    expect(await inputTime.getProperty("value")).toBe("11:00:00");
 
     const date = new Date(0);
     date.setHours(13);
@@ -209,28 +209,28 @@ describe("calcite-input-time-picker", () => {
     const expectedValue = date.toISOString().substr(11, 8);
     const expectedDisplayValue = localizeTimeString(expectedValue, lang);
 
-    inputTimePicker.setProperty("value", expectedValue);
+    inputTime.setProperty("value", expectedValue);
 
     await page.waitForChanges();
 
     const inputValue = await input.getProperty("value");
-    const inputTimePickerValue = await inputTimePicker.getProperty("value");
+    const inputTimeValue = await inputTime.getProperty("value");
 
     expect(inputValue).toBe(expectedDisplayValue);
-    expect(inputTimePickerValue).toBe(expectedValue);
+    expect(inputTimeValue).toBe(expectedValue);
   });
 
   it("value displays correctly in the input when it is programmatically changed for a 24-hour language when a default value is present", async () => {
     const lang = "fr";
     const page = await newE2EPage({
-      html: `<calcite-input-time-picker step="1" value="11:00:00" lang="${lang}"></calcite-input-time-picker>`
+      html: `<calcite-input-time step="1" value="11:00:00" lang="${lang}"></calcite-input-time>`
     });
 
-    const inputTimePicker = await page.find("calcite-input-time-picker");
-    const input = await page.find("calcite-input-time-picker >>> calcite-input");
+    const inputTime = await page.find("calcite-input-time");
+    const input = await page.find("calcite-input-time >>> calcite-input");
 
     expect(await input.getProperty("value")).toBe("11:00:00");
-    expect(await inputTimePicker.getProperty("value")).toBe("11:00:00");
+    expect(await inputTime.getProperty("value")).toBe("11:00:00");
 
     const date = new Date(0);
     date.setHours(13);
@@ -240,23 +240,23 @@ describe("calcite-input-time-picker", () => {
     const expectedValue = "13:59:59";
     const expectedDisplayValue = localizeTimeString(expectedValue, lang);
 
-    inputTimePicker.setProperty("value", expectedValue);
+    inputTime.setProperty("value", expectedValue);
 
     await page.waitForChanges();
 
     const inputValue = await input.getProperty("value");
-    const inputTimePickerValue = await inputTimePicker.getProperty("value");
+    const inputTimeValue = await inputTime.getProperty("value");
 
     expect(inputValue).toBe(expectedDisplayValue);
-    expect(inputTimePickerValue).toBe(expectedValue);
+    expect(inputTimeValue).toBe(expectedValue);
   });
 
-  it("appropriately triggers calciteInputTimePickerChange event when the user types a value", async () => {
+  it("appropriately triggers calciteInputTimeChange event when the user types a value", async () => {
     const page = await newE2EPage();
-    await page.setContent(`<calcite-input-time-picker step="1"></calcite-input-time-picker>`);
+    await page.setContent(`<calcite-input-time step="1"></calcite-input-time>`);
 
-    const inputTimePicker = await page.find("calcite-input-time-picker");
-    const changeEvent = await inputTimePicker.spyOnEvent("calciteInputTimePickerChange");
+    const inputTime = await page.find("calcite-input-time");
+    const changeEvent = await inputTime.spyOnEvent("calciteInputTimeChange");
 
     expect(changeEvent).toHaveReceivedEventTimes(0);
 
@@ -279,50 +279,49 @@ describe("calcite-input-time-picker", () => {
 
   it("formats valid typed time value appropriately on blur", async () => {
     const page = await newE2EPage();
-    await page.setContent(`<calcite-input-time-picker step="1"></calcite-input-time-picker><input>`);
+    await page.setContent(`<calcite-input-time step="1"></calcite-input-time><input>`);
 
-    const inputTimePicker = await page.find("calcite-input-time-picker");
+    const inputTime = await page.find("calcite-input-time");
 
     await page.keyboard.press("Tab");
     await page.keyboard.type("2:3:4");
     await page.keyboard.press("Tab");
     await page.waitForChanges();
 
-    expect(await inputTimePicker.getProperty("value")).toBe("02:03:04");
+    expect(await inputTime.getProperty("value")).toBe("02:03:04");
   });
 
   it("resets to previous value when default event behavior is prevented", async () => {
     const page = await newE2EPage({
-      html: `<calcite-input-time-picker value="14:59"></calcite-input-time-picker>`
+      html: `<calcite-input-time value="14:59"></calcite-input-time>`
     });
-    const inputTimePicker = await page.find("calcite-input-time-picker");
+    const inputTime = await page.find("calcite-input-time");
 
     await page.evaluate(() => {
-      const inputTimePicker = document.querySelector("calcite-input-time-picker");
-      inputTimePicker.addEventListener("calciteInputTimePickerChange", (event) => {
+      const inputTime = document.querySelector("calcite-input-time");
+      inputTime.addEventListener("calciteInputTimeChange", (event) => {
         event.preventDefault();
       });
     });
 
-    expect(await inputTimePicker.getProperty("value")).toBe("14:59");
+    expect(await inputTime.getProperty("value")).toBe("14:59");
 
     await page.keyboard.press("Tab");
     await page.keyboard.press(":");
     await page.keyboard.press("5");
     await page.waitForChanges();
 
-    expect(await inputTimePicker.getProperty("value")).toBe("14:59");
+    expect(await inputTime.getProperty("value")).toBe("14:59");
   });
 
   it("sets initial value to undefined when it is not a valid time value", async () => {
     const page = await newE2EPage({
-      html: `<calcite-input-time-picker value="invalid"></calcite-input-time-picker>`
+      html: `<calcite-input-time value="invalid"></calcite-input-time>`
     });
-    const inputTimePicker = await page.find("calcite-input-time-picker");
+    const inputTime = await page.find("calcite-input-time");
 
-    expect(await inputTimePicker.getProperty("value")).toBeUndefined();
+    expect(await inputTime.getProperty("value")).toBeUndefined();
   });
 
-  it("is form-associated", () =>
-    formAssociated("calcite-input-time-picker", { testValue: "03:23", submitsOnEnter: true }));
+  it("is form-associated", () => formAssociated("calcite-input-time", { testValue: "03:23", submitsOnEnter: true }));
 });

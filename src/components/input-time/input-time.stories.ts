@@ -6,7 +6,7 @@ import { html } from "../../../support/formatting";
 import { defaultMenuPlacement, menuPlacements } from "../../utils/floating-ui";
 
 export default {
-  title: "Components/Controls/Time/Input Time Picker",
+  title: "Components/Controls/Input Time",
 
   parameters: {
     notes: readme
@@ -14,7 +14,7 @@ export default {
 };
 
 export const LightTheme = (): string => html`
-  <calcite-input-time-picker
+  <calcite-input-time
     ${boolean("disabled", false)}
     ${boolean("hidden", false)}
     name="${text("name", "light")}"
@@ -22,11 +22,11 @@ export const LightTheme = (): string => html`
     step="${number("step", 1)}"
     value="${text("value", "10:37")}"
   >
-  </calcite-input-time-picker>
+  </calcite-input-time>
 `;
 
 export const DarkTheme = (): string => html`
-  <calcite-input-time-picker
+  <calcite-input-time
     ${boolean("disabled", false)}
     ${boolean("hidden", false)}
     class="calcite-theme-dark"
@@ -35,11 +35,11 @@ export const DarkTheme = (): string => html`
     step="${number("step", 1)}"
     value="${text("value", "22:37")}"
   >
-  </calcite-input-time-picker>
+  </calcite-input-time>
 `;
 
 export const Placement = (): string => html`
-  <calcite-input-time-picker
+  <calcite-input-time
     ${boolean("disabled", false)}
     ${boolean("hidden", false)}
     name="${text("name", "placement-top")}"
@@ -48,12 +48,12 @@ export const Placement = (): string => html`
     value="${text("value", "10:37")}"
     placement="${select("placement", menuPlacements, defaultMenuPlacement)}"
   >
-  </calcite-input-time-picker>
+  </calcite-input-time>
 `;
 
 export const KoreanLocale = stepStory(
   (): string => html`
-    <calcite-input-time-picker
+    <calcite-input-time
       id="reference-element"
       ${boolean("disabled", false)}
       ${boolean("hidden", false)}
@@ -63,14 +63,14 @@ export const KoreanLocale = stepStory(
       value="${text("value", "10:37")}"
       lang="ko"
     >
-    </calcite-input-time-picker>
+    </calcite-input-time>
   `,
-  createSteps("calcite-input-time-picker").click("#reference-element").snapshot("timePicker")
+  createSteps("calcite-input-time").click("#reference-element").snapshot("Korean Time Input")
 );
 
 export const ArabicLocale = stepStory(
   (): string => html`
-    <calcite-input-time-picker
+    <calcite-input-time
       id="reference-element"
       ${boolean("disabled", false)}
       ${boolean("hidden", false)}
@@ -81,11 +81,11 @@ export const ArabicLocale = stepStory(
       lang="ar"
       dir="rtl"
     >
-    </calcite-input-time-picker>
+    </calcite-input-time>
   `,
-  createSteps("calcite-input-time-picker").click("#reference-element").snapshot("timePicker")
+  createSteps("calcite-input-time").click("#reference-element").snapshot("Arabic Time Input")
 );
 
 DarkTheme.parameters = { themes: themesDarkDefault };
 
-export const disabled = (): string => html`<calcite-input-time-picker disabled></calcite-input-time-picker>`;
+export const disabled = (): string => html`<calcite-input-time disabled></calcite-input-time>`;

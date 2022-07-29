@@ -130,7 +130,7 @@ export class InputTime implements LabelableComponent, FormComponent, Interactive
    */
   @Prop({ reflect: true }) required = false;
 
-  /** The scale (size) of the time picker */
+  /** The scale (size) of the time input */
   @Prop() scale: Scale = "m";
 
   /** number (seconds) that specifies the granularity that the value must adhere to */
@@ -209,17 +209,17 @@ export class InputTime implements LabelableComponent, FormComponent, Interactive
   /**
    * @internal
    */
-  @Event() calciteInternalTimePickerBlur: EventEmitter<void>;
+  @Event() calciteInternalTimeBlur: EventEmitter<void>;
 
   /**
    * @internal
    */
-  @Event() calciteInternalTimePickerChange: EventEmitter<string>;
+  @Event() calciteInternalTimeChange: EventEmitter<string>;
 
   /**
    * @internal
    */
-  @Event() calciteInternalTimePickerFocus: EventEmitter<void>;
+  @Event() calciteInternalTimeFocus: EventEmitter<void>;
 
   //--------------------------------------------------------------------------
   //
@@ -229,12 +229,12 @@ export class InputTime implements LabelableComponent, FormComponent, Interactive
 
   @Listen("blur")
   hostBlurHandler(): void {
-    this.calciteInternalTimePickerBlur.emit();
+    this.calciteInternalTimeBlur.emit();
   }
 
   @Listen("focus")
   hostFocusHandler(): void {
-    this.calciteInternalTimePickerFocus.emit();
+    this.calciteInternalTimeFocus.emit();
   }
 
   hostKeyDownHandler = ({ defaultPrevented, key }: KeyboardEvent): void => {
@@ -582,7 +582,7 @@ export class InputTime implements LabelableComponent, FormComponent, Interactive
       this.value = null;
     }
     if (emit) {
-      this.calciteInternalTimePickerChange.emit();
+      this.calciteInternalTimeChange.emit();
     }
   };
 
@@ -623,7 +623,7 @@ export class InputTime implements LabelableComponent, FormComponent, Interactive
       ? localizeTimeStringToParts(this.value, this.locale)?.localizedMeridiem || null
       : localizeTimePart(this.meridiem, "meridiem", this.locale);
     if (emit) {
-      this.calciteInternalTimePickerChange.emit();
+      this.calciteInternalTimeChange.emit();
     }
   };
 
