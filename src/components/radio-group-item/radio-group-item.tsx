@@ -51,9 +51,9 @@ export class RadioGroupItem {
   @Prop({ reflect: true }) icon?: string;
 
   @Watch("icon")
-  iconHandler(value: string): void {
-    this.iconPosition === "start" && (this.iconStart = value);
-    this.iconPosition === "end" && (this.iconEnd = value);
+  iconHandler(newValue: string, oldValue: string): void {
+    this.iconPosition === "start" && this.iconStart === oldValue && (this.iconStart = newValue);
+    this.iconPosition === "end" && this.iconEnd === oldValue && (this.iconEnd = newValue);
   }
 
   /** flip the icon in rtl */
@@ -67,9 +67,15 @@ export class RadioGroupItem {
   @Prop({ reflect: true }) iconPosition?: Position = "start";
 
   @Watch("iconPosition")
-  iconPositionHandler(value: Position): void {
-    value === "start" && (this.iconStart = this.icon);
-    value === "end" && (this.iconEnd = this.icon);
+  iconPositionHandler(value: Position, oldValue: Position): void {
+    if (value === "start" && this.iconEnd === this.icon && oldValue === "end") {
+      this.iconStart = this.icon;
+      this.iconEnd = null;
+    }
+    if (value === "end" && this.iconStart === this.icon && oldValue === "start") {
+      this.iconEnd = this.icon;
+      this.iconStart = null;
+    }
   }
 
   /** Optionally pass an icon to display at the start - accepts Calcite UI icon names */
