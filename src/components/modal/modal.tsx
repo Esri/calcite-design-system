@@ -13,8 +13,8 @@ import {
   Watch
 } from "@stencil/core";
 import {
-  FocusableElement,
   ensureId,
+  FocusableElement,
   focusElement,
   getSlotted,
   isCalciteFocusable
@@ -24,7 +24,7 @@ import { queryShadowRoot } from "@a11y/focus-trap/shadow";
 import { isFocusable, isHidden } from "@a11y/focus-trap/focusable";
 import { Scale } from "../interfaces";
 import { ModalBackgroundColor } from "./interfaces";
-import { TEXT, SLOTS, CSS, ICONS } from "./resources";
+import { CSS, ICONS, SLOTS, TEXT } from "./resources";
 import { createObserver } from "../../utils/observers";
 import {
   ConditionalSlotComponent,
@@ -168,7 +168,7 @@ export class Modal implements ConditionalSlotComponent, OpenCloseComponent {
       >
         <calcite-scrim class={CSS.scrim} onClick={this.handleOutsideClose} />
         {this.renderStyle()}
-        <div class="modal" ref={this.setTransitionEl}>
+        <div class={CSS.modal} ref={this.setTransitionEl}>
           <div data-focus-fence onFocus={this.focusLastElement} tabindex="0" />
           <div class={CSS.header}>
             {this.renderCloseButton()}
@@ -234,11 +234,11 @@ export class Modal implements ConditionalSlotComponent, OpenCloseComponent {
     return hasCustomWidth ? (
       <style>
         {`
-        .modal {
+        .${CSS.modal} {
           max-width: ${this.width}px !important;
         }
         @media screen and (max-width: ${this.width}px) {
-          .modal {
+          .${CSS.modal} {
             height: 100% !important;
             max-height: 100% !important;
             width: 100% !important;
@@ -377,18 +377,22 @@ export class Modal implements ConditionalSlotComponent, OpenCloseComponent {
   };
 
   onBeforeOpen(): void {
+    this.transitionEl.classList.add(CSS.openingActive);
     this.calciteModalBeforeOpen.emit();
   }
 
   onOpen(): void {
+    this.transitionEl.classList.remove(CSS.openingIdle, CSS.openingActive);
     this.calciteModalOpen.emit();
   }
 
   onBeforeClose(): void {
+    this.transitionEl.classList.add(CSS.closingActive);
     this.calciteModalBeforeClose.emit();
   }
 
   onClose(): void {
+    this.transitionEl.classList.remove(CSS.closingIdle, CSS.closingActive);
     this.calciteModalClose.emit();
   }
 
@@ -398,14 +402,14 @@ export class Modal implements ConditionalSlotComponent, OpenCloseComponent {
   }
 
   @Watch("open")
-  async toggleModal(value: boolean, oldValue: boolean): Promise<void> {
-    if (value !== oldValue) {
-      this.active = value;
-      if (value) {
-        this.openModal();
-      } else if (!value) {
-        this.close();
-      }
+  async toggleModal(value: boolean): Promise<void> {
+    this.active = value;
+    if (value) {
+      this.transitionEl?.classList.add(CSS.openingIdle);
+      this.openModal();
+    } else {
+      this.transitionEl?.classList.add(CSS.closingIdle);
+      this.close();
     }
   }
 
