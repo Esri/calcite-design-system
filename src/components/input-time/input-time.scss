@@ -3,17 +3,45 @@
     select-none;
 
   .container {
+    @apply flex
+      items-center
+      text-color-1
+      bg-foreground-1
+      box-border
+      max-h-full
+      w-full
+      max-w-full
+      flex-1
+      font-normal
+      border-color-input
+      border
+      border-solid
+      relative;
+
+    calcite-icon {
+      @apply absolute text-color-3;
+    }
+
     &.scale-s {
       @apply text-n2h h-6 px-2;
       padding-inline-start: theme("padding.8");
+      .clock-icon {
+        inset-inline-start: theme("spacing.2");
+      }
     }
     &.scale-m {
       @apply text-n1h h-8 px-3;
       padding-inline-start: theme("padding.10");
+      .clock-icon {
+        inset-inline-start: theme("spacing.3");
+      }
     }
     &.scale-l {
       @apply text-0h h-11 px-4;
       padding-inline-start: theme("padding.12");
+      .clock-icon {
+        inset-inline-start: theme("spacing.4");
+      }
     }
   }
 }

@@ -68,6 +68,9 @@ export class InputTime implements LabelableComponent, FormComponent, Interactive
   /** The disabled state of the time input */
   @Prop({ reflect: true }) disabled = false;
 
+  /** When true, the icon is flipped in RTL. */
+  @Prop({ reflect: true }) iconFlipRtl = false;
+
   /**
    * aria-label for the hour input
    *
@@ -679,6 +682,7 @@ export class InputTime implements LabelableComponent, FormComponent, Interactive
           }}
           dir="ltr"
         >
+          <calcite-icon class={CSS.clockIcon} flipRtl={this.iconFlipRtl} icon="clock" scale="s" />
           <span
             aria-label={this.intlHour}
             aria-valuemax="23"

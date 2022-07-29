@@ -1,6 +1,7 @@
 export const CSS = {
   delimiter: "delimiter",
   hour: "hour",
+  clockIcon: "clock-icon",
   input: "input",
   meridiem: "meridiem",
   minute: "minute",
