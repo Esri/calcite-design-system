@@ -127,31 +127,31 @@
 }
 
 // solid
-:host([color="blue"][appearance="solid"]) {
+:host([color="blue"]) {
   border-color: transparent;
   background-color: var(--calcite-ui-info);
   color: var(--calcite-ui-text-inverse);
 }
 
-:host([color="red"][appearance="solid"]) {
+:host([color="red"]) {
   border-color: transparent;
   background-color: var(--calcite-ui-danger);
   color: var(--calcite-ui-text-inverse);
 }
 
-:host([color="yellow"][appearance="solid"]) {
+:host([color="yellow"]) {
   border-color: transparent;
   background-color: var(--calcite-ui-warning);
   color: $blk-220;
 }
 
-:host([color="green"][appearance="solid"]) {
+:host([color="green"]) {
   border-color: transparent;
   background-color: var(--calcite-ui-success);
   color: $blk-220;
 }
 
-:host([color="grey"][appearance="solid"]) {
+:host([color="grey"]) {
   border-color: transparent;
   background-color: var(--calcite-ui-foreground-2);
   color: var(--calcite-ui-text-1);

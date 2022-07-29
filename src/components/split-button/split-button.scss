@@ -11,7 +11,7 @@
   }
 }
 
-:host([appearance="solid"]) {
+:host {
   &:host([color="blue"]) {
     --calcite-split-button-background: theme("colors.brand");
     --calcite-split-button-divider: theme("colors.background.foreground.1");
