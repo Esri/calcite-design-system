@@ -412,10 +412,10 @@ export class Modal implements ConditionalSlotComponent, OpenCloseComponent {
   async toggleModal(value: boolean): Promise<void> {
     this.active = value;
     if (value) {
-      this.containerEl.classList.add(CSS.openingIdle);
+      this.containerEl?.classList.add(CSS.openingIdle);
       this.openModal();
     } else {
-      this.containerEl.classList.add(CSS.closingIdle);
+      this.containerEl?.classList.add(CSS.closingIdle);
       this.close();
     }
   }

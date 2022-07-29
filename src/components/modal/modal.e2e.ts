@@ -2,6 +2,7 @@ import { newE2EPage } from "@stencil/core/testing";
 import { focusable, renders, slots } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS, SLOTS } from "./resources";
+import { skipAnimations } from "../../tests/utils";
 
 describe("calcite-modal properties", () => {
   it("renders", () => renders("calcite-modal", { display: "flex", visible: false }));
@@ -250,31 +251,21 @@ describe("calcite-modal accessibility checks", () => {
     expect(modal).toEqualAttribute("aria-modal", "true");
   });
 
-  it("closes when Escape key is pressed", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-modal intl-close="test"></calcite-modal>`);
-    const modal = await page.find("calcite-modal");
-    await modal.setProperty("active", true);
-    await page.waitForChanges();
-    expect(modal).toHaveAttribute("active");
-    await page.keyboard.press("Escape");
-    await page.waitForChanges();
-    expect(modal).not.toHaveAttribute("active");
-  });
-
   it("closes and allows re-opening when Escape key is pressed", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-modal intl-close="test"></calcite-modal>`);
+    await skipAnimations(page);
     const modal = await page.find("calcite-modal");
     await modal.setProperty("active", true);
     await page.waitForChanges();
-    expect(modal).toHaveAttribute("active");
+    expect(await modal.isVisible()).toBe(true);
     await page.keyboard.press("Escape");
     await page.waitForChanges();
-    expect(modal).not.toHaveAttribute("active");
+    expect(await modal.isVisible()).toBe(false);
+    expect(await modal.getProperty("active")).toBe(false);
     await modal.setProperty("active", true);
     await page.waitForChanges();
-    expect(modal).toHaveAttribute("active");
+    expect(await modal.isVisible()).toBe(true);
   });
 
   it("closes when Escape key is pressed and modal is open on page load", async () => {
@@ -294,17 +285,22 @@ describe("calcite-modal accessibility checks", () => {
     expect(modal).toHaveAttribute("open");
   });
 
-  it("closes when Close button is clicked", async () => {
+  it("closes and allows re-opening when Close button is clicked", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-modal intl-close="test"></calcite-modal>`);
+    await skipAnimations(page);
     const modal = await page.find("calcite-modal");
-    const button = await page.find("calcite-modal >>> .close");
-    await modal.setProperty("active", true);
+    modal.setProperty("active", true);
     await page.waitForChanges();
-    expect(modal).toHaveAttribute("active");
-    await button.click();
+    expect(await modal.isVisible()).toBe(true);
+    const closeButton = await page.find("calcite-modal >>> .close");
+    await closeButton.click();
     await page.waitForChanges();
-    expect(modal).not.toHaveAttribute("active");
+    expect(await modal.isVisible()).toBe(false);
+    expect(await modal.getProperty("active")).toBe(false);
+    modal.setProperty("active", true);
+    await page.waitForChanges();
+    expect(await modal.isVisible()).toBe(true);
   });
 
   it("should close when the scrim is clicked", async () => {
@@ -329,22 +325,6 @@ describe("calcite-modal accessibility checks", () => {
     await page.$eval("calcite-modal", (elm) => elm.shadowRoot.querySelector("calcite-scrim").click());
     await page.waitForChanges();
     expect(await modal.getProperty("active")).toBe(true);
-  });
-
-  it("closes and allows re-opening when Close button  is clicked", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-modal intl-close="test"></calcite-modal>`);
-    const modal = await page.find("calcite-modal");
-    const button = await page.find("calcite-modal >>> .close");
-    await modal.setProperty("active", true);
-    await page.waitForChanges();
-    expect(modal).toHaveAttribute("active");
-    await button.click();
-    await page.waitForChanges();
-    expect(modal).not.toHaveAttribute("active");
-    await modal.setProperty("active", true);
-    await page.waitForChanges();
-    expect(modal).toHaveAttribute("active");
   });
 
   it("does not close when Escape is pressed and disable-escape is set", async () => {
