@@ -377,22 +377,22 @@ export class Modal implements ConditionalSlotComponent, OpenCloseComponent {
   };
 
   onBeforeOpen(): void {
-    this.containerEl.classList.add(CSS.openingActive);
+    this.transitionEl.classList.add(CSS.openingActive);
     this.calciteModalBeforeOpen.emit();
   }
 
   onOpen(): void {
-    this.containerEl.classList.remove(CSS.openingIdle, CSS.openingActive);
+    this.transitionEl.classList.remove(CSS.openingIdle, CSS.openingActive);
     this.calciteModalOpen.emit();
   }
 
   onBeforeClose(): void {
-    this.containerEl.classList.add(CSS.closingActive);
+    this.transitionEl.classList.add(CSS.closingActive);
     this.calciteModalBeforeClose.emit();
   }
 
   onClose(): void {
-    this.containerEl.classList.remove(CSS.closingIdle, CSS.closingActive);
+    this.transitionEl.classList.remove(CSS.closingIdle, CSS.closingActive);
     this.calciteModalClose.emit();
   }
 
@@ -405,10 +405,10 @@ export class Modal implements ConditionalSlotComponent, OpenCloseComponent {
   async toggleModal(value: boolean): Promise<void> {
     this.active = value;
     if (value) {
-      this.containerEl?.classList.add(CSS.openingIdle);
+      this.transitionEl?.classList.add(CSS.openingIdle);
       this.openModal();
     } else {
-      this.containerEl?.classList.add(CSS.closingIdle);
+      this.transitionEl?.classList.add(CSS.closingIdle);
       this.close();
     }
   }
