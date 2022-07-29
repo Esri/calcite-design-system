@@ -22,6 +22,15 @@
       @apply absolute text-color-3;
     }
 
+    .input {
+      @apply p-1;
+      &:focus,
+      &:hover:focus {
+        @apply outline-none;
+        box-shadow: inset 0 0 0 2px var(--calcite-ui-brand);
+      }
+    }
+
     &.scale-s {
       @apply text-n2h h-6 px-2;
       padding-inline-start: theme("padding.8");

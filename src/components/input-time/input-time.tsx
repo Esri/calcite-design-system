@@ -570,7 +570,7 @@ export class InputTime implements LabelableComponent, FormComponent, Interactive
     } else {
       this.hour = null;
       this.localizedHour = null;
-      this.localizedHourSuffix = null;
+      this.localizedHourSuffix = ":";
       this.localizedMeridiem = null;
       this.localizedMinute = null;
       this.localizedMinuteSuffix = null;
