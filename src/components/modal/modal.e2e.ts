@@ -99,7 +99,6 @@ it("opens and closes", async () => {
   await page.waitForFunction(getTransitionTransform, {}, "calcite-modal", `.${CSS.modal}`, "matrix");
 
   waitForEvent = page.waitForEvent("calciteModalOpen");
-  await page.waitForChanges();
   await waitForEvent;
 
   expect(beforeOpenSpy).toHaveReceivedEventTimes(1);
@@ -122,7 +121,6 @@ it("opens and closes", async () => {
   await page.waitForFunction(getTransitionTransform, {}, "calcite-modal", `.${CSS.modal}`, "matrix");
 
   waitForEvent = page.waitForEvent("calciteModalClose");
-  await page.waitForChanges();
   await waitForEvent;
 
   expect(beforeOpenSpy).toHaveReceivedEventTimes(1);
