@@ -205,6 +205,9 @@ export default {
       },
       transitionTimingFunction: {
         cubic: "cubic-bezier(0.215, 0.440, 0.420, 0.880)"
+      },
+      maxHeight: {
+        menu: "45vh"
       }
     }
   },

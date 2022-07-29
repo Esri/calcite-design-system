@@ -191,3 +191,26 @@ export const MinHeight = stepStory(
   </calcite-stepper>`,
   createSteps("calcite-stepper").click("#one").snapshot("stepper with min-height")
 );
+
+export const OverriddenWidth = (): string => html` <calcite-stepper numbered style="width: 50vw">
+  <calcite-stepper-item item-title="Choose method" item-subtitle="Add members without sending invitations" complete>
+    <calcite-notice active width="full">
+      <div slot="message">Step 1 Content Goes Here</div>
+    </calcite-notice>
+  </calcite-stepper-item>
+  <calcite-stepper-item item-title="Compile member list" complete error>
+    <calcite-notice active width="full">
+      <div slot="message">Step 2 Content Goes Here</div>
+    </calcite-notice>
+  </calcite-stepper-item>
+  <calcite-stepper-item item-title="Set member properties" item-subtitle="" active="">
+    <calcite-notice active width="full">
+      <div slot="message">Step 3 Content Goes Here</div>
+    </calcite-notice>
+  </calcite-stepper-item>
+  <calcite-stepper-item item-title="Confirm and complete" item-subtitle="Disabled example" disabled="">
+    <calcite-notice active width="full">
+      <div slot="message">Step 4 Content Goes Here</div>
+    </calcite-notice>
+  </calcite-stepper-item>
+</calcite-stepper>`;

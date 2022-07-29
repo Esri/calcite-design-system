@@ -15,7 +15,7 @@ import { Scale } from "../interfaces";
 import { CSS } from "./resources";
 
 /**
- * @slot - A slot for adding `calcite-dropdown-item`s.
+ * @slot - A slot for adding `calcite-dropdown-item` components.
  */
 @Component({
   tag: "calcite-dropdown-group",

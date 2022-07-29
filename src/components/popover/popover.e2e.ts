@@ -649,4 +649,26 @@ describe("calcite-popover", () => {
 
     expect(await shadowPopover.getProperty("open")).toBe(false);
   });
+
+  it("should set dismissible prop to true when closable is true", async () => {
+    const page = await newE2EPage();
+
+    await page.setContent(
+      html`<calcite-popover label="Example label" reference-element="popover-button" dismissible>
+        <p style="padding:0 10px;display:flex;flex-direction:row">
+          <calcite-icon icon="3d-glasses"></calcite-icon> Popover content here
+        </p>
+      </calcite-popover>`
+    );
+
+    await page.waitForChanges();
+    const popoverEl = await page.find("calcite-popover");
+
+    expect(await popoverEl.getProperty("closable")).toBe(true);
+
+    popoverEl.setProperty("dismissible", false);
+    await page.waitForChanges();
+
+    expect(await popoverEl.getProperty("closable")).toBe(false);
+  });
 });

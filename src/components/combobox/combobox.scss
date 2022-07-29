@@ -142,7 +142,6 @@
 }
 
 .floating-ui-container {
-  @apply w-full;
   @include floatingUIContainer();
   @include floatingUIWrapper();
 }
@@ -166,7 +165,7 @@
 
 .list-container {
   @apply bg-foreground-1
-    max-h-screen
+    max-h-menu
     overflow-y-auto;
   inline-size: var(--calcite-dropdown-width);
 }
