@@ -20,7 +20,12 @@ export class Loader {
   //  Properties
   //
   //--------------------------------------------------------------------------
-  /** When true, the component is active. */
+
+  /**
+   * When true, activates the loader
+   *
+   * @deprecated use global hidden attribute instead
+   */
   @Prop({ reflect: true }) active = false;
 
   /** When true, displays smaller and appears to the left of the text. */
