@@ -135,7 +135,7 @@ export class Chip implements ConditionalSlotComponent {
    *
    * **Note:**: The `el` event payload props is deprecated, please use the event's target/currentTarget instead
    */
-  @Event() calciteChipDismiss: EventEmitter<DeprecatedEventPayload>;
+  @Event({ cancelable: false }) calciteChipDismiss: EventEmitter<DeprecatedEventPayload>;
 
   // --------------------------------------------------------------------------
   //

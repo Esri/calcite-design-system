@@ -146,7 +146,7 @@ export class Switch implements LabelableComponent, CheckableFormCompoment, Inter
    *
    * **Note:** The event payload is deprecated, please use the `checked` property on the component instead
    */
-  @Event() calciteSwitchChange: EventEmitter<DeprecatedEventPayload>;
+  @Event({ cancelable: false }) calciteSwitchChange: EventEmitter<DeprecatedEventPayload>;
 
   //--------------------------------------------------------------------------
   //

@@ -111,7 +111,7 @@ export class Filter implements InteractiveComponent {
   /**
    * This event fires when the filter text changes.
    */
-  @Event() calciteFilterChange: EventEmitter<void>;
+  @Event({ cancelable: false }) calciteFilterChange: EventEmitter<void>;
 
   //--------------------------------------------------------------------------
   //

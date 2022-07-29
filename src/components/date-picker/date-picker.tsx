@@ -162,14 +162,14 @@ export class DatePicker {
   /**
    * Trigger calcite date change when a user changes the date.
    */
-  @Event() calciteDatePickerChange: EventEmitter<Date>;
+  @Event({ cancelable: false }) calciteDatePickerChange: EventEmitter<Date>;
 
   /**
    * Trigger calcite date change when a user changes the date range.
    *
    * @see [DateRangeChange](https://github.com/Esri/calcite-components/blob/master/src/components/date-picker/interfaces.ts#L1)
    */
-  @Event() calciteDatePickerRangeChange: EventEmitter<DateRangeChange>;
+  @Event({ cancelable: false }) calciteDatePickerRangeChange: EventEmitter<DateRangeChange>;
 
   /**
    * Active date.

@@ -59,14 +59,16 @@ export class Stepper {
    * This event fires when the active stepper item has changed.
    *
    */
-  @Event() calciteStepperItemChange: EventEmitter<StepperItemChangeEventDetail>;
+  @Event({ cancelable: false })
+  calciteStepperItemChange: EventEmitter<StepperItemChangeEventDetail>;
 
   /**
    * This event fires when the active stepper item has changed.
    *
    * @internal
    */
-  @Event() calciteInternalStepperItemChange: EventEmitter<StepperItemChangeEventDetail>;
+  @Event({ cancelable: false })
+  calciteInternalStepperItemChange: EventEmitter<StepperItemChangeEventDetail>;
 
   //--------------------------------------------------------------------------
   //

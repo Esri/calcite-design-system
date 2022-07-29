@@ -87,7 +87,7 @@ export class DatePickerMonthHeader {
   /**
    *  Changes to active date
    */
-  @Event() calciteDatePickerSelect: EventEmitter<Date>;
+  @Event({ cancelable: false }) calciteDatePickerSelect: EventEmitter<Date>;
 
   //--------------------------------------------------------------------------
   //

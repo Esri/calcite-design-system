@@ -299,16 +299,16 @@ export class Modal implements ConditionalSlotComponent, OpenCloseComponent {
   //
   //--------------------------------------------------------------------------
   /** Fires when the component is requested to be closed and before the closing transition begins. */
-  @Event() calciteModalBeforeClose: EventEmitter<void>;
+  @Event({ cancelable: false }) calciteModalBeforeClose: EventEmitter<void>;
 
   /** Fires when the component is closed and animation is complete. */
-  @Event() calciteModalClose: EventEmitter<void>;
+  @Event({ cancelable: false }) calciteModalClose: EventEmitter<void>;
 
   /** Fires when the component is added to the DOM but not rendered, and before the opening transition begins. */
-  @Event() calciteModalBeforeOpen: EventEmitter<void>;
+  @Event({ cancelable: false }) calciteModalBeforeOpen: EventEmitter<void>;
 
   /** Fires when the component is open and animation is complete. */
-  @Event() calciteModalOpen: EventEmitter<void>;
+  @Event({ cancelable: false }) calciteModalOpen: EventEmitter<void>;
 
   //--------------------------------------------------------------------------
   //

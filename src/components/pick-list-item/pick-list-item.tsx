@@ -166,7 +166,7 @@ export class PickListItem implements ConditionalSlotComponent, InteractiveCompon
   /**
    * Fires when the component is selected or unselected.
    */
-  @Event() calciteListItemChange: EventEmitter<{
+  @Event({ cancelable: false }) calciteListItemChange: EventEmitter<{
     item: HTMLCalcitePickListItemElement;
     value: any;
     selected: boolean;
@@ -176,21 +176,21 @@ export class PickListItem implements ConditionalSlotComponent, InteractiveCompon
   /**
    * Fires when the remove button is pressed.
    */
-  @Event() calciteListItemRemove: EventEmitter<void>;
+  @Event({ cancelable: true }) calciteListItemRemove: EventEmitter<void>;
 
   /**
    * Emits when the the component's label, description, value, or metadata properties are modified.
    *
    * @internal
    */
-  @Event() calciteInternalListItemPropsChange: EventEmitter<void>;
+  @Event({ cancelable: false }) calciteInternalListItemPropsChange: EventEmitter<void>;
 
   /**
    * Emits when the the component's value property is modified.
    *
    * @internal
    */
-  @Event() calciteInternalListItemValueChange: EventEmitter<{
+  @Event({ cancelable: false }) calciteInternalListItemValueChange: EventEmitter<{
     oldValue: any;
     newValue: any;
   }>;

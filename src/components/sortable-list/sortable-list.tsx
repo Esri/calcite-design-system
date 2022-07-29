@@ -112,7 +112,7 @@ export class SortableList implements InteractiveComponent {
   /**
    * Emitted when the order of the list has changed.
    */
-  @Event() calciteListOrderChange: EventEmitter<void>;
+  @Event({ cancelable: false }) calciteListOrderChange: EventEmitter<void>;
 
   @Listen("calciteHandleNudge")
   calciteHandleNudgeHandler(event: CustomEvent): void {
