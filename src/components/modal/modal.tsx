@@ -31,7 +31,11 @@ import {
   connectConditionalSlotComponent,
   disconnectConditionalSlotComponent
 } from "../../utils/conditionalSlot";
-import { OpenCloseComponent } from "../../utils/openCloseComponent";
+import {
+  OpenCloseComponent,
+  connectOpenCloseComponent,
+  disconnectOpenCloseComponent
+} from "../../utils/openCloseComponent";
 
 const isFocusableExtended = (el: FocusableElement): boolean => {
   return isCalciteFocusable(el) || isFocusable(el);
@@ -138,13 +142,20 @@ export class Modal implements ConditionalSlotComponent, OpenCloseComponent {
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
     this.updateFooterVisibility();
     connectConditionalSlotComponent(this);
+    connectOpenCloseComponent(this);
+    if (this.open) {
+      this.active = this.open;
+    }
+    if (this.active) {
+      this.activeHandler(this.active);
+    }
   }
 
   disconnectedCallback(): void {
-    this.containerEl?.removeEventListener("transitionstart", this.transitionStartHandler);
     this.removeOverflowHiddenClass();
     this.mutationObserver?.disconnect();
     disconnectConditionalSlotComponent(this);
+    disconnectOpenCloseComponent(this);
   }
 
   render(): VNode {
@@ -157,7 +168,7 @@ export class Modal implements ConditionalSlotComponent, OpenCloseComponent {
       >
         <calcite-scrim class={CSS.scrim} onClick={this.handleOutsideClose} />
         {this.renderStyle()}
-        <div class="modal" onTransitionEnd={this.transitionEnd} ref={this.setContainerEl}>
+        <div class="modal" ref={this.setTransitionEl}>
           <div data-focus-fence onFocus={this.focusLastElement} tabindex="0" />
           <div class={CSS.header}>
             {this.renderCloseButton()}
@@ -266,9 +277,9 @@ export class Modal implements ConditionalSlotComponent, OpenCloseComponent {
 
   titleId: string;
 
-  private activeTransitionProp = "opacity";
+  openTransitionProp = "opacity";
 
-  private containerEl: HTMLDivElement;
+  transitionEl: HTMLDivElement;
 
   //--------------------------------------------------------------------------
   //
@@ -360,9 +371,9 @@ export class Modal implements ConditionalSlotComponent, OpenCloseComponent {
   //
   //--------------------------------------------------------------------------
 
-  private setContainerEl = (el): void => {
-    this.containerEl = el;
-    this.containerEl.addEventListener("transitionstart", this.transitionStartHandler);
+  private setTransitionEl = (el): void => {
+    this.transitionEl = el;
+    connectOpenCloseComponent(this);
   };
 
   onBeforeOpen(): void {
@@ -381,22 +392,15 @@ export class Modal implements ConditionalSlotComponent, OpenCloseComponent {
     this.calciteModalClose.emit();
   }
 
-  transitionStartHandler = (event: TransitionEvent): void => {
-    if (event.propertyName === this.activeTransitionProp && event.target === this.containerEl) {
-      this.open ? this.onBeforeOpen() : this.onBeforeClose();
-    }
-  };
-
-  transitionEnd = (event: TransitionEvent): void => {
-    if (event.propertyName === this.activeTransitionProp && event.target === this.containerEl) {
-      this.open ? this.onOpen() : this.onClose();
-    }
-  };
-
   @Watch("active")
+  activeHandler(value: boolean): void {
+    this.open = value;
+  }
+
   @Watch("open")
   async toggleModal(value: boolean, oldValue: boolean): Promise<void> {
     if (value !== oldValue) {
+      this.active = value;
       if (value) {
         this.openModal();
       } else if (!value) {
@@ -415,7 +419,6 @@ export class Modal implements ConditionalSlotComponent, OpenCloseComponent {
     this.previousActiveElement = document.activeElement as HTMLElement;
     this.el.addEventListener("calciteModalOpen", this.openEnd);
     this.open = true;
-    this.active = true;
     const titleEl = getSlotted(this.el, SLOTS.header);
     const contentEl = getSlotted(this.el, SLOTS.content);
 
@@ -437,7 +440,6 @@ export class Modal implements ConditionalSlotComponent, OpenCloseComponent {
   close = (): Promise<void> => {
     return this.beforeClose(this.el).then(() => {
       this.open = false;
-      this.active = false;
       focusElement(this.previousActiveElement);
       this.removeOverflowHiddenClass();
     });

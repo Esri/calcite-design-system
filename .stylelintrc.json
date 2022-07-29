@@ -13,6 +13,12 @@
       }
     ],
     "property-case": "lower",
+    "selector-max-specificity": [
+      "0,5,5",
+      {
+        "message": "selector is too complex, consider applying multiple classes dynamically during rendering"
+      }
+    ],
     "selector-type-no-unknown": [
       true,
       {
