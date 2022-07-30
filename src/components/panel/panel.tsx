@@ -220,24 +220,24 @@ export class Panel implements ConditionalSlotComponent, InteractiveComponent {
   /**
    * Fires when the close button is clicked.
    */
-  @Event() calcitePanelDismiss: EventEmitter<void>;
+  @Event({ cancelable: false }) calcitePanelDismiss: EventEmitter<void>;
 
   /**
    * Fires when there is a change to the `dismissed` property value .
    *
    * @deprecated use calcitePanelDismiss instead.
    */
-  @Event() calcitePanelDismissedChange: EventEmitter<void>;
+  @Event({ cancelable: false }) calcitePanelDismissedChange: EventEmitter<void>;
 
   /**
    * Fires when the content is scrolled.
    */
-  @Event() calcitePanelScroll: EventEmitter<void>;
+  @Event({ cancelable: false }) calcitePanelScroll: EventEmitter<void>;
 
   /**
    * Fires when the back button is clicked.
    */
-  @Event() calcitePanelBackClick: EventEmitter<void>;
+  @Event({ cancelable: false }) calcitePanelBackClick: EventEmitter<void>;
 
   // --------------------------------------------------------------------------
   //

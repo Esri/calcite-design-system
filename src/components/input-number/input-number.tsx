@@ -373,12 +373,12 @@ export class InputNumber implements LabelableComponent, FormComponent, Interacti
   /**
    * @internal
    */
-  @Event() calciteInternalInputNumberFocus: EventEmitter<void>;
+  @Event({ cancelable: false }) calciteInternalInputNumberFocus: EventEmitter<void>;
 
   /**
    * @internal
    */
-  @Event() calciteInternalInputNumberBlur: EventEmitter<void>;
+  @Event({ cancelable: false }) calciteInternalInputNumberBlur: EventEmitter<void>;
 
   /**
    * Fires each time a new value is typed.
@@ -390,7 +390,7 @@ export class InputNumber implements LabelableComponent, FormComponent, Interacti
   /**
    * Fires each time a new value is typed and committed.
    */
-  @Event() calciteInputNumberChange: EventEmitter<void>;
+  @Event({ cancelable: false }) calciteInputNumberChange: EventEmitter<void>;
 
   //--------------------------------------------------------------------------
   //

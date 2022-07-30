@@ -125,7 +125,7 @@ export class ActionMenu implements ConditionalSlotComponent {
    *
    * **Note:**: The event payload is deprecated, please use the `open` property on the component instead
    */
-  @Event() calciteActionMenuOpenChange: EventEmitter<DeprecatedEventPayload>;
+  @Event({ cancelable: false }) calciteActionMenuOpenChange: EventEmitter<DeprecatedEventPayload>;
 
   @Listen("pointerdown", { target: "window" })
   closeCalciteActionMenuOnClick(event: Event): void {

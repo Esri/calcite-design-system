@@ -72,7 +72,7 @@ export class BlockSection {
   /**
    * Emitted when the header has been clicked.
    */
-  @Event() calciteBlockSectionToggle: EventEmitter<void>;
+  @Event({ cancelable: false }) calciteBlockSectionToggle: EventEmitter<void>;
 
   // --------------------------------------------------------------------------
   //

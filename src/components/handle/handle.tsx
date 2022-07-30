@@ -46,7 +46,7 @@ export class Handle {
    *
    * **Note:**: The `handle` event payload prop is deprecated, please use the event's target/currentTarget instead
    */
-  @Event() calciteHandleNudge: EventEmitter<DeprecatedEventPayload>;
+  @Event({ cancelable: false }) calciteHandleNudge: EventEmitter<DeprecatedEventPayload>;
 
   // --------------------------------------------------------------------------
   //

@@ -260,7 +260,7 @@ export class TabTitle implements InteractiveComponent {
    *
    * @see [TabChangeEventDetail](https://github.com/Esri/calcite-components/blob/master/src/components/tab/interfaces.ts#L1)
    */
-  @Event() calciteTabsActivate: EventEmitter<TabChangeEventDetail>;
+  @Event({ cancelable: false }) calciteTabsActivate: EventEmitter<TabChangeEventDetail>;
 
   /**
    * Fires when a specific tab is activated (`event.details`)
@@ -268,22 +268,22 @@ export class TabTitle implements InteractiveComponent {
    * @see [TabChangeEventDetail](https://github.com/Esri/calcite-components/blob/master/src/components/tab/interfaces.ts#L1)
    * @internal
    */
-  @Event() calciteInternalTabsActivate: EventEmitter<TabChangeEventDetail>;
+  @Event({ cancelable: false }) calciteInternalTabsActivate: EventEmitter<TabChangeEventDetail>;
 
   /**
    * @internal
    */
-  @Event() calciteInternalTabsFocusNext: EventEmitter<void>;
+  @Event({ cancelable: false }) calciteInternalTabsFocusNext: EventEmitter<void>;
 
   /**
    * @internal
    */
-  @Event() calciteInternalTabsFocusPrevious: EventEmitter<void>;
+  @Event({ cancelable: false }) calciteInternalTabsFocusPrevious: EventEmitter<void>;
 
   /**
    * @internal
    */
-  @Event() calciteInternalTabTitleRegister: EventEmitter<TabID>;
+  @Event({ cancelable: false }) calciteInternalTabTitleRegister: EventEmitter<TabID>;
 
   //--------------------------------------------------------------------------
   //
