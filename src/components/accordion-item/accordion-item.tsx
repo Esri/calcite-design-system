@@ -98,22 +98,22 @@ export class AccordionItem implements ConditionalSlotComponent {
   /**
    * @internal
    */
-  @Event() calciteInternalAccordionItemKeyEvent: EventEmitter<ItemKeyEvent>;
+  @Event({ cancelable: false }) calciteInternalAccordionItemKeyEvent: EventEmitter<ItemKeyEvent>;
 
   /**
    * @internal
    */
-  @Event() calciteInternalAccordionItemSelect: EventEmitter<RequestedItem>;
+  @Event({ cancelable: false }) calciteInternalAccordionItemSelect: EventEmitter<RequestedItem>;
 
   /**
    * @internal
    */
-  @Event() calciteInternalAccordionItemClose: EventEmitter<void>;
+  @Event({ cancelable: false }) calciteInternalAccordionItemClose: EventEmitter<void>;
 
   /**
    * @internal
    */
-  @Event() calciteInternalAccordionItemRegister: EventEmitter<RegistryEntry>;
+  @Event({ cancelable: false }) calciteInternalAccordionItemRegister: EventEmitter<RegistryEntry>;
 
   //--------------------------------------------------------------------------
   //

@@ -68,7 +68,7 @@ export class Label {
   /**
    * @internal
    */
-  @Event({ bubbles: false }) calciteInternalLabelClick: EventEmitter<{
+  @Event({ bubbles: false, cancelable: false }) calciteInternalLabelClick: EventEmitter<{
     sourceEvent: MouseEvent;
   }>;
 

@@ -84,7 +84,7 @@ export class Tip implements ConditionalSlotComponent {
   /**
    * Emitted when the component has been dismissed.
    */
-  @Event() calciteTipDismiss: EventEmitter<void>;
+  @Event({ cancelable: false }) calciteTipDismiss: EventEmitter<void>;
 
   // --------------------------------------------------------------------------
   //

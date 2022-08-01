@@ -358,7 +358,7 @@ export class TreeItem implements ConditionalSlotComponent {
   /**
    * @internal
    */
-  @Event() calciteInternalTreeItemSelect: EventEmitter<TreeItemSelectDetail>;
+  @Event({ cancelable: false }) calciteInternalTreeItemSelect: EventEmitter<TreeItemSelectDetail>;
 
   //--------------------------------------------------------------------------
   //

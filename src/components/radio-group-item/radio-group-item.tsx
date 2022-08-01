@@ -104,6 +104,6 @@ export class RadioGroupItem {
    *
    * @internal
    */
-  @Event()
+  @Event({ cancelable: false })
   calciteInternalRadioGroupItemChange: EventEmitter<void>;
 }

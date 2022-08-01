@@ -122,23 +122,26 @@ export class StepperItem implements InteractiveComponent {
   /**
    * @internal
    */
-  @Event() calciteInternalStepperItemKeyEvent: EventEmitter<StepperItemKeyEventDetail>;
+  @Event({ cancelable: false })
+  calciteInternalStepperItemKeyEvent: EventEmitter<StepperItemKeyEventDetail>;
 
   /**
    * @internal
    */
-  @Event() calciteInternalStepperItemSelect: EventEmitter<StepperItemEventDetail>;
+  @Event({ cancelable: false })
+  calciteInternalStepperItemSelect: EventEmitter<StepperItemEventDetail>;
 
   /**
    * @internal
    */
-  @Event()
+  @Event({ cancelable: false })
   calciteInternalUserRequestedStepperItemSelect: EventEmitter<StepperItemChangeEventDetail>;
 
   /**
    * @internal
    */
-  @Event() calciteInternalStepperItemRegister: EventEmitter<StepperItemEventDetail>;
+  @Event({ cancelable: false })
+  calciteInternalStepperItemRegister: EventEmitter<StepperItemEventDetail>;
 
   //--------------------------------------------------------------------------
   //

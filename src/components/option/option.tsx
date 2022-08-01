@@ -80,7 +80,7 @@ export class Option {
   /**
    * @internal
    */
-  @Event()
+  @Event({ cancelable: false })
   private calciteInternalOptionChange: EventEmitter<void>;
 
   //--------------------------------------------------------------------------

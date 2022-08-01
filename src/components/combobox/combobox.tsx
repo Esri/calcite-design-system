@@ -280,15 +280,17 @@ export class Combobox
    *
    * @deprecated use calciteComboboxChange instead
    */
-  @Event() calciteLookupChange: EventEmitter<HTMLCalciteComboboxItemElement[]>;
+  @Event({ cancelable: false }) calciteLookupChange: EventEmitter<HTMLCalciteComboboxItemElement[]>;
 
   /**
    * Called when the selected item(s) changes.
    */
-  @Event() calciteComboboxChange: EventEmitter<{ selectedItems: HTMLCalciteComboboxItemElement[] }>;
+  @Event({ cancelable: false }) calciteComboboxChange: EventEmitter<{
+    selectedItems: HTMLCalciteComboboxItemElement[];
+  }>;
 
   /** Called when the user has entered text to filter the options list */
-  @Event() calciteComboboxFilterChange: EventEmitter<{
+  @Event({ cancelable: false }) calciteComboboxFilterChange: EventEmitter<{
     visibleItems: HTMLCalciteComboboxItemElement[];
     text: string;
   }>;
@@ -298,19 +300,19 @@ export class Combobox
    *
    * **Note:**: The event payload is deprecated, please use the `value` property on the component to determine removed value instead
    */
-  @Event() calciteComboboxChipDismiss: EventEmitter<DeprecatedEventPayload>;
+  @Event({ cancelable: false }) calciteComboboxChipDismiss: EventEmitter<DeprecatedEventPayload>;
 
   /** Fires when the component is requested to be closed and before the closing transition begins. */
-  @Event() calciteComboboxBeforeClose: EventEmitter<void>;
+  @Event({ cancelable: false }) calciteComboboxBeforeClose: EventEmitter<void>;
 
   /** Fires when the component is closed and animation is complete. */
-  @Event() calciteComboboxClose: EventEmitter<void>;
+  @Event({ cancelable: false }) calciteComboboxClose: EventEmitter<void>;
 
   /** Fires when the component is added to the DOM but not rendered, and before the opening transition begins. */
-  @Event() calciteComboboxBeforeOpen: EventEmitter<void>;
+  @Event({ cancelable: false }) calciteComboboxBeforeOpen: EventEmitter<void>;
 
   /** Fires when the component is open and animation is complete. */
-  @Event() calciteComboboxOpen: EventEmitter<void>;
+  @Event({ cancelable: false }) calciteComboboxOpen: EventEmitter<void>;
 
   // --------------------------------------------------------------------------
   //
