@@ -27,6 +27,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - **slider:** Focus active handle on pointerdown instead of click ([#5037](https://github.com/Esri/calcite-components/issues/5037)) ([24a6b95](https://github.com/Esri/calcite-components/commit/24a6b9548e8eaa2ab8b8c9faa05869c0c29d6136)), closes [#4290](https://github.com/Esri/calcite-components/issues/4290)
 - **stepper:** allow overriding stepper width ([#5051](https://github.com/Esri/calcite-components/issues/5051)) ([d4e348e](https://github.com/Esri/calcite-components/commit/d4e348ef559aa23475a7b5fe1fdf41fde4bf78dd)), closes [#4883](https://github.com/Esri/calcite-components/issues/4883)
 - **tab, tab-title:** Fix accessibility and keyboard navigation ([#4979](https://github.com/Esri/calcite-components/issues/4979)) ([36cbe2a](https://github.com/Esri/calcite-components/commit/36cbe2a1cd32af44181bf88edce2aa45139652af)), closes [#2124](https://github.com/Esri/calcite-components/issues/2124)
+- **tree:** fix keyboard navigation when wrapped in shadow DOM ([#5057](https://github.com/Esri/calcite-components/issues/5057)) ([6937b8a](https://github.com/Esri/calcite-components/commit/6937b8a856ad42d9b75250aa9a1d84882a2b86f8)), closes [#4814](https://github.com/Esri/calcite-components/issues/4814)
 
 ### Reverts
 
