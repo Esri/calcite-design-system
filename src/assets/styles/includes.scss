@@ -16,7 +16,7 @@
 }
 
 :host([hidden]) {
-  display: none;
+  display: none !important;
 }
 
 @mixin word-break() {

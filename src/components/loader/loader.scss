@@ -47,17 +47,11 @@ $loader-circumference: ($loader-scale - (2 * $stroke-width)) * 3.14159;
 }
 
 :host {
-  visibility: hidden;
+  @apply hidden;
+}
 
-  &:host([hidden]) {
-    visibility: hidden !important;
-  }
-  &:host:not([hidden]) {
-    @apply flex;
-  }
-  &:host([active]) {
-    @apply flex;
-  }
+:host([active]) {
+  @apply flex;
 }
 
 .loader__text {
