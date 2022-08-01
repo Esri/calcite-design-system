@@ -165,6 +165,11 @@
   }
 }
 
+:host([appearance="clear"]),
+:host([appearance="transparent"]) {
+  @apply text-color-1 bg-transparent;
+}
+
 // clear is deprecated. use transparent instead.
 :host([color="blue"][appearance="clear"]),
 :host([color="blue"][appearance="transparent"]) {
