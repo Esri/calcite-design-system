@@ -9,7 +9,7 @@ import {
   h,
   VNode
 } from "@stencil/core";
-import { focusElement, nodeListToArray } from "../../utils/dom";
+import { focusElement, getRootNode, nodeListToArray } from "../../utils/dom";
 import { TreeItemSelectDetail } from "../tree-item/interfaces";
 import { TreeSelectDetail, TreeSelectionMode } from "./interfaces";
 import { Scale } from "../interfaces";
@@ -275,7 +275,7 @@ export class Tree {
           if (!target.hasChildren) {
             break;
           }
-          if (target.expanded && document.activeElement === target) {
+          if (target.expanded && getRootNode(this.el).activeElement === target) {
             // When focus is on an open node, moves focus to the first child node.
             target.querySelector("calcite-tree-item")?.focus();
             event.preventDefault();
