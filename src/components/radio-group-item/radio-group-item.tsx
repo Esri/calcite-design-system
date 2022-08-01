@@ -50,12 +50,6 @@ export class RadioGroupItem {
    */
   @Prop({ reflect: true }) icon?: string;
 
-  @Watch("icon")
-  iconHandler(newValue: string, oldValue: string): void {
-    this.iconPosition === "start" && this.iconStart === oldValue && (this.iconStart = newValue);
-    this.iconPosition === "end" && this.iconEnd === oldValue && (this.iconEnd = newValue);
-  }
-
   /** flip the icon in rtl */
   @Prop({ reflect: true }) iconFlipRtl = false;
 
@@ -65,18 +59,6 @@ export class RadioGroupItem {
    * @deprecated use iconStart and iconEnd
    */
   @Prop({ reflect: true }) iconPosition?: Position = "start";
-
-  @Watch("iconPosition")
-  iconPositionHandler(value: Position, oldValue: Position): void {
-    if (value === "start" && this.iconEnd === this.icon && oldValue === "end") {
-      this.iconStart = this.icon;
-      this.iconEnd = null;
-    }
-    if (value === "end" && this.iconStart === this.icon && oldValue === "start") {
-      this.iconEnd = this.icon;
-      this.iconStart = null;
-    }
-  }
 
   /** Optionally pass an icon to display at the start - accepts Calcite UI icon names */
   @Prop({ reflect: true }) iconStart?: string;
@@ -89,19 +71,6 @@ export class RadioGroupItem {
    */
   @Prop({ mutable: true })
   value: any | null;
-
-  //--------------------------------------------------------------------------
-  //
-  //  Lifecycle
-  //
-  //--------------------------------------------------------------------------
-
-  connectedCallback(): void {
-    if (this.icon) {
-      this.iconPosition === "start" && !this.iconStart && (this.iconStart = this.icon);
-      this.iconPosition === "end" && !this.iconEnd && (this.iconEnd = this.icon);
-    }
-  }
 
   render(): VNode {
     const { checked, value } = this;
@@ -127,6 +96,15 @@ export class RadioGroupItem {
       />
     );
 
+    const iconEl = (
+      <calcite-icon
+        class={CSS.radioGroupItemIcon}
+        flipRtl={this.iconFlipRtl}
+        icon={this.icon}
+        scale="s"
+      />
+    );
+
     return (
       <Host aria-checked={toAriaBoolean(checked)} aria-label={value} role="radio">
         <label
@@ -138,9 +116,11 @@ export class RadioGroupItem {
             "label--outline": appearance === "outline"
           }}
         >
+          {this.icon && this.iconPosition === "start" && !this.iconStart ? iconEl : null}
           {this.iconStart ? iconStartEl : null}
           <slot>{value}</slot>
           <slot name={SLOTS.input} />
+          {this.icon && this.iconPosition === "end" && !this.iconEnd ? iconEl : null}
           {this.iconEnd ? iconEndEl : null}
         </label>
       </Host>
