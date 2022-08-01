@@ -131,7 +131,7 @@ export class InputTime implements LabelableComponent, FormComponent, Interactive
   @Prop({ reflect: true }) required = false;
 
   /** The scale (size) of the time input */
-  @Prop() scale: Scale = "m";
+  @Prop({ reflect: true }) scale: Scale = "m";
 
   /** number (seconds) that specifies the granularity that the value must adhere to */
   @Prop() step = 60;

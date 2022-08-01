@@ -30,46 +30,41 @@ describe("calcite-input-time", () => {
 
   it("reflects", async () =>
     reflects(`calcite-input-time`, [
-      { propertyName: "active", value: true },
       { propertyName: "disabled", value: true },
+      { propertyName: "iconFlipRtl", value: true },
+      { propertyName: "required", value: true },
       { propertyName: "scale", value: "m" }
     ]));
 
   it("is labelable", async () => labelable("calcite-input-time"));
 
-  it("should focus the input when setFocus is called", async () =>
+  it("should focus the hour input when setFocus is called", async () =>
     focusable(`calcite-input-time`, {
-      shadowFocusTargetSelector: "calcite-input"
+      shadowFocusTargetSelector: "span.hour"
     }));
 
   it("can be disabled", () => disabled("calcite-input-time"));
 
   it("when set to readOnly, element still focusable but won't display the controls or allow for changing the value", async () => {
     const page = await newE2EPage();
-    await page.setContent(
-      `<calcite-input-time read-only triggerDisabled={true} id="canReadOnly"></calcite-input-time>`
-    );
+    await page.setContent(`<calcite-input-time id="canReadOnly" readonly></calcite-input-time>`);
 
-    const component = await page.find("#canReadOnly");
-    const input = await page.find("#canReadOnly >>> calcite-input");
-    const popover = await page.find("#canReadOnly >>> calcite-popover");
-
-    expect(await input.getProperty("value")).toBe("");
+    const component = await page.find("calcite-input-time");
 
     await component.callMethod("setFocus");
     await page.waitForChanges();
 
     expect(await page.evaluate(() => document.activeElement.id)).toBe("canReadOnly");
-    expect(await popover.getProperty("open")).toBe(false);
 
     await component.click();
     await page.waitForChanges();
-    expect(await popover.getProperty("open")).toBe(false);
 
-    await component.type("atención atención");
+    await component.type("12");
+    await page.keyboard.press("Tab");
+    await component.type("30");
     await page.waitForChanges();
 
-    expect(await input.getProperty("value")).toBe("");
+    expect(await component.getProperty("value")).toBeNull();
   });
 
   it.skip("opens the time picker on input keyboard focus", async () => {
