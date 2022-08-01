@@ -73,13 +73,14 @@ export class DropdownItem {
   /**
    * @internal
    */
-  @Event() calciteInternalDropdownItemSelect: EventEmitter<RequestedItem>;
+  @Event({ cancelable: false }) calciteInternalDropdownItemSelect: EventEmitter<RequestedItem>;
 
   /** @internal */
-  @Event() calciteInternalDropdownItemKeyEvent: EventEmitter<ItemKeyboardEvent>;
+  @Event({ cancelable: false })
+  calciteInternalDropdownItemKeyEvent: EventEmitter<ItemKeyboardEvent>;
 
   /** @internal */
-  @Event() calciteInternalDropdownCloseRequest: EventEmitter<void>;
+  @Event({ cancelable: false }) calciteInternalDropdownCloseRequest: EventEmitter<void>;
   //--------------------------------------------------------------------------
   //
   //  Public Methods

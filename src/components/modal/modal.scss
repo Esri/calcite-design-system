@@ -20,7 +20,8 @@
     overflow-y-hidden
     opacity-0;
   visibility: hidden !important;
-  transition: visibility 0ms linear 300ms, opacity var(--calcite-internal-animation-timing-slow) $easing-function;
+  transition: visibility 0ms linear var(--calcite-internal-animation-timing-slow),
+    opacity var(--calcite-internal-animation-timing-slow) $easing-function;
   z-index: 101;
 }
 
@@ -78,9 +79,30 @@
   z-index: 102;
   -webkit-overflow-scrolling: touch;
   visibility: hidden;
-  transition: transform var(--calcite-internal-animation-timing-slow) $easing-function, visibility 0ms linear 300ms,
+  transition: transform var(--calcite-internal-animation-timing-slow) $easing-function,
+    visibility 0ms linear var(--calcite-internal-animation-timing-slow),
     opacity var(--calcite-internal-animation-timing-slow) $easing-function;
-  transform: translate3d(0, 20px, 0);
+
+  --calcite-modal-hidden-position: translate3d(0, 20px, 0);
+  --calcite-modal-shown-position: translate3d(0, 0, 0);
+
+  &--opening {
+    &-idle {
+      transform: var(--calcite-modal-hidden-position);
+    }
+    &-active {
+      transform: var(--calcite-modal-shown-position);
+    }
+  }
+
+  &--closing {
+    &-idle {
+      transform: var(--calcite-modal-shown-position);
+    }
+    &-active {
+      transform: var(--calcite-modal-hidden-position);
+    }
+  }
 }
 
 :host([open]) {
@@ -89,7 +111,6 @@
   transition-delay: 0ms;
   .modal {
     @apply pointer-events-auto visible opacity-100;
-    transform: translate3d(0, 0, 0);
     transition: transform var(--calcite-internal-animation-timing-slow) $easing-function, visibility 0ms linear,
       opacity var(--calcite-internal-animation-timing-slow) $easing-function,
       max-inline-size var(--calcite-internal-animation-timing-slow) $easing-function,
@@ -260,7 +281,8 @@ slot[name="primary"] {
   background-color: transparent;
   .modal {
     @apply m-0 h-full max-h-full w-full max-w-full;
-    transform: translate3D(0, 20px, 0) scale(0.95);
+    --calcite-modal-hidden-position: translate3D(0, 20px, 0) scale(0.95);
+    --calcite-modal-shown-position: translate3D(0, 0, 0) scale(1);
   }
   .content {
     @apply max-h-full;
@@ -269,9 +291,6 @@ slot[name="primary"] {
 }
 
 :host([open][fullscreen]) {
-  .modal {
-    transform: translate3D(0, 0, 0) scale(1);
-  }
   .header {
     border-radius: 0;
   }

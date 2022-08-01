@@ -30,7 +30,11 @@ import { Scale } from "../interfaces";
 import { SLOTS } from "./resources";
 import { createObserver } from "../../utils/observers";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
-import { OpenCloseComponent } from "../../utils/openCloseComponent";
+import {
+  OpenCloseComponent,
+  connectOpenCloseComponent,
+  disconnectOpenCloseComponent
+} from "../../utils/openCloseComponent";
 import { guid } from "../../utils/guid";
 import { RequestedItem } from "../dropdown-group/interfaces";
 
@@ -173,6 +177,7 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent, Float
     if (this.active) {
       this.activeHandler(this.active);
     }
+    connectOpenCloseComponent(this);
   }
 
   componentDidLoad(): void {
@@ -187,7 +192,7 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent, Float
     this.mutationObserver?.disconnect();
     disconnectFloatingUI(this, this.referenceEl, this.floatingEl);
     this.resizeObserver?.disconnect();
-    this.scrollerEl?.removeEventListener("transitionstart", this.transitionStartHandler);
+    disconnectOpenCloseComponent(this);
   }
 
   render(): VNode {
@@ -222,8 +227,7 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent, Float
               [FloatingCSS.animationActive]: open
             }}
             id={`${guid}-menu`}
-            onTransitionEnd={this.transitionEnd}
-            ref={this.setScrollerEl}
+            ref={this.setScrollerAndTransitionEl}
             role="menu"
           >
             <div hidden={!open}>
@@ -262,19 +266,19 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent, Float
   //--------------------------------------------------------------------------
 
   /** fires when a dropdown item has been selected or deselected */
-  @Event() calciteDropdownSelect: EventEmitter<Selection>;
+  @Event({ cancelable: false }) calciteDropdownSelect: EventEmitter<Selection>;
 
   /** Fires when the component is requested to be closed and before the closing transition begins. */
-  @Event() calciteDropdownBeforeClose: EventEmitter<void>;
+  @Event({ cancelable: false }) calciteDropdownBeforeClose: EventEmitter<void>;
 
   /** Fires when the component is closed and animation is complete. */
-  @Event() calciteDropdownClose: EventEmitter<void>;
+  @Event({ cancelable: false }) calciteDropdownClose: EventEmitter<void>;
 
   /** Fires when the component is added to the DOM but not rendered, and before the opening transition begins. */
-  @Event() calciteDropdownBeforeOpen: EventEmitter<void>;
+  @Event({ cancelable: false }) calciteDropdownBeforeOpen: EventEmitter<void>;
 
   /** Fires when the component is open and animation is complete. */
-  @Event() calciteDropdownOpen: EventEmitter<void>;
+  @Event({ cancelable: false }) calciteDropdownOpen: EventEmitter<void>;
 
   @Listen("pointerdown", { target: "window" })
   closeCalciteDropdownOnClick(event: Event): void {
@@ -386,13 +390,15 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent, Float
 
   referenceEl: HTMLDivElement;
 
-  private activeTransitionProp = "visibility";
-
   private scrollerEl: HTMLDivElement;
 
   mutationObserver = createObserver("mutation", () => this.updateItems());
 
   resizeObserver = createObserver("resize", (entries) => this.resizeObserverCallback(entries));
+
+  openTransitionProp = "visibility";
+
+  transitionEl: HTMLDivElement;
 
   guid = `calcite-dropdown-${guid()}`;
 
@@ -482,22 +488,12 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent, Float
     this.reposition();
   };
 
-  setScrollerEl = (scrollerEl: HTMLDivElement): void => {
-    this.resizeObserver.observe(scrollerEl);
-    this.scrollerEl = scrollerEl;
-    this.scrollerEl.addEventListener("transitionstart", this.transitionStartHandler);
-  };
+  setScrollerAndTransitionEl = (el: HTMLDivElement): void => {
+    this.resizeObserver.observe(el);
+    this.scrollerEl = el;
 
-  transitionEnd = (event: TransitionEvent): void => {
-    if (event.propertyName === this.activeTransitionProp && event.target === this.scrollerEl) {
-      this.open ? this.onOpen() : this.onClose();
-    }
-  };
-
-  transitionStartHandler = (event: TransitionEvent): void => {
-    if (event.propertyName === this.activeTransitionProp && event.target === this.scrollerEl) {
-      this.open ? this.onBeforeOpen() : this.onBeforeClose();
-    }
+    this.transitionEl = el;
+    connectOpenCloseComponent(this);
   };
 
   onBeforeOpen(): void {
