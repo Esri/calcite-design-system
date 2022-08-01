@@ -121,7 +121,7 @@ export class InputTime implements LabelableComponent, FormComponent, Interactive
    *
    * @mdn [readOnly](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/readonly)
    */
-  @Prop() readOnly = false;
+  @Prop() readonly = false;
 
   /**
    * When true, makes the component required for form-submission.
@@ -228,24 +228,22 @@ export class InputTime implements LabelableComponent, FormComponent, Interactive
   //--------------------------------------------------------------------------
 
   @Listen("blur")
-  hostBlurHandler(): void {
+  blurHandler(): void {
     this.calciteInternalTimeBlur.emit();
   }
 
   @Listen("focus")
-  hostFocusHandler(): void {
+  focusHandler(): void {
     this.calciteInternalTimeFocus.emit();
   }
 
-  hostKeyDownHandler = ({ defaultPrevented, key }: KeyboardEvent): void => {
-    if (key === "Enter" && !defaultPrevented) {
-      submitForm(this);
-    }
-  };
-
   @Listen("keydown")
-  keyDownHandler(event: KeyboardEvent): void {
-    const key = event.key;
+  keyDownHandler({ defaultPrevented, key }: KeyboardEvent): void {
+    if (key === "Enter" && !defaultPrevented && !this.disabled) {
+      submitForm(this);
+      return;
+    }
+
     switch (this.activeEl) {
       case this.hourEl:
         if (key === "ArrowRight") {
@@ -324,6 +322,10 @@ export class InputTime implements LabelableComponent, FormComponent, Interactive
     this.setValuePart("meridiem", newMeridiem);
   };
 
+  private decrementMinute = (): void => {
+    this.decrementMinuteOrSecond("minute");
+  };
+
   private decrementMinuteOrSecond = (key: MinuteOrSecond): void => {
     let newValue;
     if (isValidNumber(this[key])) {
@@ -335,19 +337,25 @@ export class InputTime implements LabelableComponent, FormComponent, Interactive
     this.setValuePart(key, newValue);
   };
 
-  private decrementMinute = (): void => {
-    this.decrementMinuteOrSecond("minute");
-  };
-
   private decrementSecond = (): void => {
     this.decrementMinuteOrSecond("second");
   };
 
-  private focusHandler = (event: FocusEvent): void => {
-    this.activeEl = event.currentTarget as HTMLSpanElement;
-  };
+  private getMeridiemOrder(formatParts: Intl.DateTimeFormatPart[]): number {
+    const isRTLKind = this.locale === "ar" || this.locale === "he";
+    if (formatParts && !isRTLKind) {
+      const index = formatParts.findIndex((parts: { type: string; value: string }) => {
+        return parts.value === this.localizedMeridiem;
+      });
+      return index;
+    }
+    return 0;
+  }
 
   private hourKeyDownHandler = (event: KeyboardEvent): void => {
+    if (this.disabled || this.readonly) {
+      return;
+    }
     const key = event.key;
     if (numberKeys.includes(key)) {
       const keyAsNumber = parseInt(key);
@@ -396,11 +404,6 @@ export class InputTime implements LabelableComponent, FormComponent, Interactive
     }
   };
 
-  private incrementMeridiem = (): void => {
-    const newMeridiem = this.meridiem === "AM" ? "PM" : "AM";
-    this.setValuePart("meridiem", newMeridiem);
-  };
-
   private incrementHour = (): void => {
     const newHour = isValidNumber(this.hour)
       ? this.hour === "23"
@@ -408,6 +411,15 @@ export class InputTime implements LabelableComponent, FormComponent, Interactive
         : parseInt(this.hour) + 1
       : 1;
     this.setValuePart("hour", newHour);
+  };
+
+  private incrementMeridiem = (): void => {
+    const newMeridiem = this.meridiem === "AM" ? "PM" : "AM";
+    this.setValuePart("meridiem", newMeridiem);
+  };
+
+  private incrementMinute = (): void => {
+    this.incrementMinuteOrSecond("minute");
   };
 
   private incrementMinuteOrSecond = (key: MinuteOrSecond): void => {
@@ -419,15 +431,14 @@ export class InputTime implements LabelableComponent, FormComponent, Interactive
     this.setValuePart(key, newValue);
   };
 
-  private incrementMinute = (): void => {
-    this.incrementMinuteOrSecond("minute");
-  };
-
   private incrementSecond = (): void => {
     this.incrementMinuteOrSecond("second");
   };
 
   private meridiemKeyDownHandler = (event: KeyboardEvent): void => {
+    if (this.disabled || this.readonly) {
+      return;
+    }
     switch (event.key) {
       case "a":
         this.setValuePart("meridiem", "AM");
@@ -455,6 +466,9 @@ export class InputTime implements LabelableComponent, FormComponent, Interactive
   };
 
   private minuteKeyDownHandler = (event: KeyboardEvent): void => {
+    if (this.disabled || this.readonly) {
+      return;
+    }
     const key = event.key;
     if (numberKeys.includes(key)) {
       const keyAsNumber = parseInt(key);
@@ -496,6 +510,9 @@ export class InputTime implements LabelableComponent, FormComponent, Interactive
   }
 
   private secondKeyDownHandler = (event: KeyboardEvent): void => {
+    if (this.disabled || this.readonly) {
+      return;
+    }
     const key = event.key;
     if (numberKeys.includes(key)) {
       const keyAsNumber = parseInt(key);
@@ -627,16 +644,9 @@ export class InputTime implements LabelableComponent, FormComponent, Interactive
     }
   };
 
-  private getMeridiemOrder(formatParts: Intl.DateTimeFormatPart[]): number {
-    const isRTLKind = this.locale === "ar" || this.locale === "he";
-    if (formatParts && !isRTLKind) {
-      const index = formatParts.findIndex((parts: { type: string; value: string }) => {
-        return parts.value === this.localizedMeridiem;
-      });
-      return index;
-    }
-    return 0;
-  }
+  private timePartFocusHandler = (event: FocusEvent): void => {
+    this.activeEl = event.currentTarget as HTMLSpanElement;
+  };
 
   // --------------------------------------------------------------------------
   //
@@ -672,7 +682,7 @@ export class InputTime implements LabelableComponent, FormComponent, Interactive
     const secondIsNumber = isValidNumber(this.second);
     const showMeridiem = this.hourCycle === "12";
     return (
-      <Host onKeyDown={this.hostKeyDownHandler}>
+      <Host>
         <div
           class={{
             [CSS.container]: true,
@@ -693,7 +703,7 @@ export class InputTime implements LabelableComponent, FormComponent, Interactive
               [CSS.input]: true,
               [CSS.hour]: true
             }}
-            onFocus={this.focusHandler}
+            onFocus={this.timePartFocusHandler}
             onKeyDown={this.hourKeyDownHandler}
             ref={this.setHourEl}
             role="spinbutton"
@@ -712,7 +722,7 @@ export class InputTime implements LabelableComponent, FormComponent, Interactive
               [CSS.input]: true,
               [CSS.minute]: true
             }}
-            onFocus={this.focusHandler}
+            onFocus={this.timePartFocusHandler}
             onKeyDown={this.minuteKeyDownHandler}
             ref={this.setMinuteEl}
             role="spinbutton"
@@ -732,7 +742,7 @@ export class InputTime implements LabelableComponent, FormComponent, Interactive
                 [CSS.input]: true,
                 [CSS.second]: true
               }}
-              onFocus={this.focusHandler}
+              onFocus={this.timePartFocusHandler}
               onKeyDown={this.secondKeyDownHandler}
               ref={this.setSecondEl}
               role="spinbutton"
@@ -756,7 +766,7 @@ export class InputTime implements LabelableComponent, FormComponent, Interactive
                 [CSS.meridiem]: true,
                 [CSS.meridiemStart]: this.meridiemOrder === 0
               }}
-              onFocus={this.focusHandler}
+              onFocus={this.timePartFocusHandler}
               onKeyDown={this.meridiemKeyDownHandler}
               ref={this.setMeridiemEl}
               role="spinbutton"
