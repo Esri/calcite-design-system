@@ -50,7 +50,7 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
   @Prop() description?: string;
 
   /**
-   * todo: document
+   * When true, item is expanded to show child components.
    */
   @Prop({ mutable: true, reflect: true }) expanded = false;
 
@@ -281,7 +281,7 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
         class={{
           [CSS.contentContainer]: true,
           [CSS.hasCenterContent]: hasCenterContent,
-          [CSS.contentContainerDisabled]: disabled // todo: Needs styling
+          [CSS.contentContainerDisabled]: disabled
         }}
         onClick={this.handleItemContentSelect}
         onKeyDown={this.handleItemContentKeyDown}

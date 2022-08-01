@@ -30,9 +30,9 @@ export class List implements InteractiveComponent {
   @Prop({ reflect: true }) disabled = false;
 
   /**
-   * todo: document
+   * Specifies an accessible name for the component.
    */
-  @Prop() label = "";
+  @Prop() label?: string;
 
   /**
    * When true, content is waiting to be loaded. This state shows a busy indicator.
@@ -119,10 +119,10 @@ export class List implements InteractiveComponent {
   render(): VNode {
     return (
       <div class={CSS.container}>
-        {this.loading ? <calcite-scrim loading={this.loading} /> : null}
+        {this.loading ? <calcite-scrim class={CSS.scrim} loading={this.loading} /> : null}
         <table
           aria-busy={toAriaBoolean(this.loading)}
-          aria-label={this.label}
+          aria-label={this.label || ""}
           onKeyDown={this.handleListKeydown}
           role="treegrid"
         >

@@ -17,6 +17,11 @@ export class ListItemGroup {
   // --------------------------------------------------------------------------
 
   /**
+   * When true, interaction is prevented and the component is displayed with lower opacity.
+   */
+  @Prop({ reflect: true }) disabled = false;
+
+  /**
    * The header text for all nested `calcite-list-item` rows.
    *
    */
