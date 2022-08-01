@@ -73,7 +73,7 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
   /**
    * Emitted whenever the list item content is selected.
    */
-  @Event({ bubbles: true }) calciteListItemSelect: EventEmitter<void>;
+  @Event({ cancelable: false }) calciteListItemSelect: EventEmitter<void>;
 
   /**
    *
