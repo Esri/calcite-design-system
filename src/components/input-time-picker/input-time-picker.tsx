@@ -202,7 +202,7 @@ export class InputTimePicker implements LabelableComponent, FormComponent, Inter
   /**
    * Fires when the time value is changed as a result of user input.
    */
-  @Event() calciteInputTimePickerChange: EventEmitter<string>;
+  @Event({ cancelable: true }) calciteInputTimePickerChange: EventEmitter<string>;
 
   //--------------------------------------------------------------------------
   //

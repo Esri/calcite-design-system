@@ -12,9 +12,8 @@ import {
 } from "@stencil/core";
 import { ICON_TYPES } from "../pick-list/resources";
 import { guid } from "../../utils/guid";
-import { CSS } from "../pick-list-item/resources";
+import { CSS, SLOTS as PICK_LIST_SLOTS } from "../pick-list-item/resources";
 import { ICONS, SLOTS } from "./resources";
-import { SLOTS as PICK_LIST_SLOTS } from "../pick-list-item/resources";
 import { getSlotted } from "../../utils/dom";
 import {
   ConditionalSlotComponent,
@@ -158,7 +157,7 @@ export class ValueListItem implements ConditionalSlotComponent, InteractiveCompo
   /**
    * Fires when the remove button is pressed.
    */
-  @Event() calciteListItemRemove: EventEmitter<void>; // wrapped pick-list-item emits this
+  @Event({ cancelable: true }) calciteListItemRemove: EventEmitter<void>; // wrapped pick-list-item emits this
 
   @Listen("calciteListItemChange")
   calciteListItemChangeHandler(event: CustomEvent): void {

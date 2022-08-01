@@ -15,7 +15,7 @@ import { Scale } from "../interfaces";
 import { CSS } from "./resources";
 
 /**
- * @slot - A slot for adding `calcite-dropdown-item`s.
+ * @slot - A slot for adding `calcite-dropdown-item` components.
  */
 @Component({
   tag: "calcite-dropdown-group",
@@ -59,7 +59,7 @@ export class DropdownGroup {
   /**
    * @internal
    */
-  @Event() calciteInternalDropdownItemChange: EventEmitter<RequestedItem>;
+  @Event({ cancelable: false }) calciteInternalDropdownItemChange: EventEmitter<RequestedItem>;
 
   //--------------------------------------------------------------------------
   //
@@ -83,7 +83,7 @@ export class DropdownGroup {
       this.groupPosition > 0 ? <div class="dropdown-separator" role="separator" /> : null;
 
     return (
-      <Host role="menu">
+      <Host aria-label={this.groupTitle} role="group">
         <div
           class={{
             container: true,

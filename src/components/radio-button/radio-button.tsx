@@ -260,7 +260,7 @@ export class RadioButton
    *
    * @internal
    */
-  @Event() calciteInternalRadioButtonBlur: EventEmitter<void>;
+  @Event({ cancelable: false }) calciteInternalRadioButtonBlur: EventEmitter<void>;
 
   /**
    * Fires only when the radio button is checked.  This behavior is identical to the native HTML input element.
@@ -268,7 +268,7 @@ export class RadioButton
    * directly on the element, but instead either attach it to a node that contains all of the radio buttons in the group
    * or use the calciteRadioButtonGroupChange event if using this with calcite-radio-button-group.
    */
-  @Event() calciteRadioButtonChange: EventEmitter<void>;
+  @Event({ cancelable: false }) calciteRadioButtonChange: EventEmitter<void>;
 
   /**
    * Fires when the checked property changes.  This is an internal event used for styling purposes only.
@@ -276,14 +276,14 @@ export class RadioButton
    *
    * @internal
    */
-  @Event() calciteInternalRadioButtonCheckedChange: EventEmitter<void>;
+  @Event({ cancelable: false }) calciteInternalRadioButtonCheckedChange: EventEmitter<void>;
 
   /**
    * Fires when the radio button is focused.
    *
    * @internal
    */
-  @Event() calciteInternalRadioButtonFocus: EventEmitter<void>;
+  @Event({ cancelable: false }) calciteInternalRadioButtonFocus: EventEmitter<void>;
 
   //--------------------------------------------------------------------------
   //

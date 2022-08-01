@@ -239,7 +239,7 @@ export class RadioGroup implements LabelableComponent, FormComponent, Interactiv
   //--------------------------------------------------------------------------
 
   /** Fired when the selected option changes, event detail is the new value */
-  @Event() calciteRadioGroupChange: EventEmitter<string>;
+  @Event({ cancelable: false }) calciteRadioGroupChange: EventEmitter<string>;
 
   // --------------------------------------------------------------------------
   //

@@ -83,6 +83,42 @@ export const basic = (): string =>
     `
   );
 
+export const horizontal = (): string => html`
+  <div style="width: 500px;">
+    <calcite-action-bar layout="horizontal" style="width:100%">
+      <calcite-action-group layout="horizontal">
+        <calcite-action text="Add" icon="plus"> </calcite-action>
+        <calcite-action text="Save" icon="save"> </calcite-action>
+        <calcite-action text="Layers" icon="layers"> </calcite-action>
+      </calcite-action-group>
+      <calcite-action-group layout="horizontal">
+        <calcite-action text="Add" icon="plus"> </calcite-action>
+        <calcite-action text="Save" active icon="save"> </calcite-action>
+        <calcite-action text="Layers" icon="layers"> </calcite-action>
+      </calcite-action-group>
+      <calcite-action slot="bottom-actions" text="hello world" icon="layers"> </calcite-action>
+    </calcite-action-bar>
+  </div>
+`;
+
+export const horizontalSmall = (): string => html`
+  <div style="width: 250px;">
+    <calcite-action-bar layout="horizontal" style="width:100%">
+      <calcite-action-group layout="horizontal">
+        <calcite-action text="Add" icon="plus"> </calcite-action>
+        <calcite-action text="Save" icon="save"> </calcite-action>
+        <calcite-action text="Layers" icon="layers"> </calcite-action>
+      </calcite-action-group>
+      <calcite-action-group layout="horizontal">
+        <calcite-action text="Add" icon="plus"> </calcite-action>
+        <calcite-action text="Save" active icon="save"> </calcite-action>
+        <calcite-action text="Layers" icon="layers"> </calcite-action>
+      </calcite-action-group>
+      <calcite-action slot="bottom-actions" text="hello world" icon="layers"> </calcite-action>
+    </calcite-action-bar>
+  </div>
+`;
+
 export const darkThemeRTL = (): string =>
   create(
     "calcite-action-bar",
@@ -118,3 +154,21 @@ export const withTooltip = (): string =>
       <calcite-action text="Add" icon="plus"></calcite-action>
     `
   );
+
+export const withDefinedWidths = (): string =>
+  html`
+    <style>
+      calcite-action-bar {
+        --calcite-action-bar-expanded-max-width: 150px;
+      }
+    </style>
+    <calcite-action-bar expanded>
+      <calcite-action-group>
+        <calcite-action text="Add to my custom action bar application" icon="plus"></calcite-action>
+        <calcite-action text="Save to my custom action bar application" icon="save"></calcite-action>
+      </calcite-action-group>
+      <calcite-action-group>
+        <calcite-action text="Layers in my custom action bar application" icon="layers"></calcite-action>
+      </calcite-action-group>
+    </calcite-action-bar>
+  `;

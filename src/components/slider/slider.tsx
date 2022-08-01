@@ -799,14 +799,10 @@ export class Slider implements LabelableComponent, FormComponent, InteractiveCom
     this.setValue(activeProp, this.clamp(fixedDecimalAdjustment, activeProp));
   }
 
-  @Listen("click")
-  clickHandler(event: PointerEvent): void {
-    this.focusActiveHandle(event.clientX);
-  }
-
   @Listen("pointerdown")
   pointerDownHandler(event: PointerEvent): void {
     const x = event.clientX || event.pageX;
+    this.focusActiveHandle(x);
     const position = this.translate(x);
     let prop: ActiveSliderProperty = "value";
     if (isRange(this.value)) {
@@ -842,14 +838,14 @@ export class Slider implements LabelableComponent, FormComponent, InteractiveCom
    * expensive operations consider using a debounce or throttle to avoid
    * locking up the main thread.
    */
-  @Event() calciteSliderInput: EventEmitter<void>;
+  @Event({ cancelable: false }) calciteSliderInput: EventEmitter<void>;
 
   /**
    * Fires on when the thumb is released on slider
    * If you need to constantly listen to the drag event,
    * please use calciteSliderInput instead
    */
-  @Event() calciteSliderChange: EventEmitter<void>;
+  @Event({ cancelable: false }) calciteSliderChange: EventEmitter<void>;
 
   /**
    * Fires on all updates to the slider.
@@ -859,7 +855,7 @@ export class Slider implements LabelableComponent, FormComponent, InteractiveCom
    *
    * @deprecated use calciteSliderInput instead
    */
-  @Event() calciteSliderUpdate: EventEmitter<void>;
+  @Event({ cancelable: false }) calciteSliderUpdate: EventEmitter<void>;
 
   //--------------------------------------------------------------------------
   //

@@ -18,7 +18,7 @@ export const Simple = (): string => html`
       scale="${select("scale", ["s", "m", "l"], "m")}"
       appearance="${select("appearance", ["solid", "clear"], "solid")}"
       color="${select("color", ["blue", "red", "yellow", "green", "grey"], "grey")}"
-      ${boolean("dismissible", false)}
+      ${boolean("closable", false)}
       >My great chip</calcite-chip
     >
   </div>
@@ -31,7 +31,7 @@ export const WithIcon = (): string => html`
       scale="${select("scale", ["s", "m", "l"], "m")}"
       appearance="${select("appearance", ["solid", "clear"], "solid")}"
       color="${select("color", ["blue", "red", "yellow", "green", "grey"], "grey")}"
-      ${boolean("dismissible", false)}
+      ${boolean("closable", false)}
     >
       My great chip</calcite-chip
     >
@@ -44,7 +44,7 @@ export const WithImage = (): string => html`
       scale="${select("scale", ["s", "m", "l"], "m")}"
       appearance="${select("appearance", ["solid", "clear"], "solid")}"
       color="${select("color", ["blue", "red", "yellow", "green", "grey"], "grey")}"
-      ${boolean("dismissible", false)}
+      ${boolean("closable", false)}
     >
       <img alt="" slot="image" src="${placeholderImage({ width: 50, height: 50 })}" />
       My great chip</calcite-chip
@@ -61,7 +61,7 @@ export const WithAvatar = (): string => {
         scale="${scale}"
         appearance="${select("appearance", ["solid", "clear"], "solid")}"
         color="${select("color", ["blue", "red", "yellow", "green", "grey"], "grey")}"
-        ${boolean("dismissible", false)}
+        ${boolean("closable", false)}
       >
         <calcite-avatar
           slot="image"
@@ -82,7 +82,7 @@ export const DarkTheme = (): string => html`
       scale="${select("scale", ["s", "m", "l"], "m")}"
       appearance="${select("appearance", ["solid", "clear"], "solid")}"
       color="${select("color", ["blue", "red", "yellow", "green", "grey"], "grey")}"
-      ${boolean("dismissible", false)}
+      ${boolean("closable", false)}
       >My great chip</calcite-chip
     >
   </div>
@@ -98,7 +98,7 @@ export const Rtl = (): string => html`
       scale="${select("scale", ["s", "m", "l"], "m")}"
       appearance="${select("appearance", ["solid", "clear"], "solid")}"
       color="${select("color", ["blue", "red", "yellow", "green", "grey"], "grey")}"
-      ${boolean("dismissible", false)}
+      ${boolean("closable", false)}
       >My great chip</calcite-chip
     >
   </div>
@@ -107,4 +107,4 @@ export const Rtl = (): string => html`
 Rtl.storyName = "RTL";
 
 export const OverriddenIconColor = (): string =>
-  html`<calcite-chip icon="banana" style="--calcite-ui-icon-color: #ac9f42" dismissible>Banana</calcite-chip>`;
+  html`<calcite-chip icon="banana" style="--calcite-ui-icon-color: #ac9f42" closable>Banana</calcite-chip>`;

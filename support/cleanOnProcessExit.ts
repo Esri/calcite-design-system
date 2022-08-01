@@ -16,7 +16,9 @@ import yargs from "yargs";
     exit: boolean;
   }
 
-  const { path } = yargs(process.argv) as any;
+  const { path } = yargs(process.argv.slice(2))
+    .options({ path: { type: "string" } })
+    .parseSync();
 
   const exitHandler = (options: CleanupOptions | ExitOptions): void => {
     if ("cleanup" in options) {

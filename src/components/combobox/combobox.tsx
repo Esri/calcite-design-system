@@ -44,7 +44,11 @@ import {
 import { createObserver } from "../../utils/observers";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { toAriaBoolean } from "../../utils/dom";
-import { OpenCloseComponent } from "../../utils/openCloseComponent";
+import {
+  OpenCloseComponent,
+  connectOpenCloseComponent,
+  disconnectOpenCloseComponent
+} from "../../utils/openCloseComponent";
 interface ItemData {
   label: string;
   value: string;
@@ -96,19 +100,28 @@ export class Combobox
   @Prop({ reflect: true, mutable: true }) active = false;
 
   @Watch("active")
-  @Watch("open")
-  activeHandler(): void {
+  activeHandler(value: boolean): void {
     if (this.disabled) {
       this.active = false;
       this.open = false;
       return;
     }
-
-    this.setMaxScrollerHeight();
+    this.open = value;
   }
 
   /**When true, opens the combobox */
   @Prop({ reflect: true, mutable: true }) open = false;
+
+  @Watch("open")
+  openHandler(value: boolean): void {
+    if (this.disabled) {
+      this.active = false;
+      this.open = false;
+      return;
+    }
+    this.active = value;
+    this.setMaxScrollerHeight();
+  }
 
   /** Disable combobox input */
   @Prop({ reflect: true }) disabled = false;
@@ -211,7 +224,7 @@ export class Combobox
   //
   //--------------------------------------------------------------------------
 
-  @Listen("click", { target: "document" })
+  @Listen("pointerdown", { target: "document" })
   documentClickHandler(event: Event): void {
     this.setInactiveIfNotContained(event);
   }
@@ -267,15 +280,17 @@ export class Combobox
    *
    * @deprecated use calciteComboboxChange instead
    */
-  @Event() calciteLookupChange: EventEmitter<HTMLCalciteComboboxItemElement[]>;
+  @Event({ cancelable: false }) calciteLookupChange: EventEmitter<HTMLCalciteComboboxItemElement[]>;
 
   /**
    * Called when the selected item(s) changes.
    */
-  @Event() calciteComboboxChange: EventEmitter<{ selectedItems: HTMLCalciteComboboxItemElement[] }>;
+  @Event({ cancelable: false }) calciteComboboxChange: EventEmitter<{
+    selectedItems: HTMLCalciteComboboxItemElement[];
+  }>;
 
   /** Called when the user has entered text to filter the options list */
-  @Event() calciteComboboxFilterChange: EventEmitter<{
+  @Event({ cancelable: false }) calciteComboboxFilterChange: EventEmitter<{
     visibleItems: HTMLCalciteComboboxItemElement[];
     text: string;
   }>;
@@ -285,19 +300,19 @@ export class Combobox
    *
    * **Note:**: The event payload is deprecated, please use the `value` property on the component to determine removed value instead
    */
-  @Event() calciteComboboxChipDismiss: EventEmitter<DeprecatedEventPayload>;
+  @Event({ cancelable: false }) calciteComboboxChipDismiss: EventEmitter<DeprecatedEventPayload>;
 
   /** Fires when the component is requested to be closed and before the closing transition begins. */
-  @Event() calciteComboboxBeforeClose: EventEmitter<void>;
+  @Event({ cancelable: false }) calciteComboboxBeforeClose: EventEmitter<void>;
 
   /** Fires when the component is closed and animation is complete. */
-  @Event() calciteComboboxClose: EventEmitter<void>;
+  @Event({ cancelable: false }) calciteComboboxClose: EventEmitter<void>;
 
   /** Fires when the component is added to the DOM but not rendered, and before the opening transition begins. */
-  @Event() calciteComboboxBeforeOpen: EventEmitter<void>;
+  @Event({ cancelable: false }) calciteComboboxBeforeOpen: EventEmitter<void>;
 
   /** Fires when the component is open and animation is complete. */
-  @Event() calciteComboboxOpen: EventEmitter<void>;
+  @Event({ cancelable: false }) calciteComboboxOpen: EventEmitter<void>;
 
   // --------------------------------------------------------------------------
   //
@@ -312,8 +327,15 @@ export class Combobox
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
     connectLabel(this);
     connectForm(this);
+    connectOpenCloseComponent(this);
     this.reposition();
     this.setFilteredPlacements();
+    if (this.active) {
+      this.activeHandler(this.active);
+    }
+    if (this.open) {
+      this.openHandler(this.open);
+    }
   }
 
   componentWillLoad(): void {
@@ -340,7 +362,7 @@ export class Combobox
     disconnectLabel(this);
     disconnectForm(this);
     disconnectFloatingUI(this, this.referenceEl, this.floatingEl);
-    this.listContainerEl?.removeEventListener("transitionstart", this.transitionStartHandler);
+    disconnectOpenCloseComponent(this);
   }
 
   //--------------------------------------------------------------------------
@@ -412,7 +434,9 @@ export class Combobox
 
   private ignoreSelectedEventsFlag = false;
 
-  private activeTransitionProp = "opacity";
+  openTransitionProp = "opacity";
+
+  transitionEl: HTMLDivElement;
 
   // --------------------------------------------------------------------------
   //
@@ -457,8 +481,7 @@ export class Combobox
         if (this.allowCustomValues && this.text) {
           this.addCustomChip(this.text, true);
           event.preventDefault();
-        } else if (this.open || this.active) {
-          this.active = false;
+        } else if (this.open) {
           this.open = false;
           event.preventDefault();
         }
@@ -476,9 +499,8 @@ export class Combobox
         }
         break;
       case "ArrowDown":
-        if (!(this.open || this.active)) {
+        if (!this.open) {
           event.preventDefault();
-          this.active = true;
           this.open = true;
         }
         this.shiftActiveItemIndex(1);
@@ -489,13 +511,12 @@ export class Combobox
       case " ":
         if (!this.textInput.value) {
           event.preventDefault();
-          this.active = true;
           this.open = true;
           this.shiftActiveItemIndex(1);
         }
         break;
       case "Home":
-        if (this.open || this.active) {
+        if (this.open) {
           event.preventDefault();
         }
         this.updateActiveItemIndex(0);
@@ -505,7 +526,7 @@ export class Combobox
         }
         break;
       case "End":
-        if (this.open || this.active) {
+        if (this.open) {
           event.preventDefault();
         }
         this.updateActiveItemIndex(this.visibleItems.length - 1);
@@ -515,7 +536,6 @@ export class Combobox
         }
         break;
       case "Escape":
-        this.active = false;
         this.open = false;
         break;
       case "Enter":
@@ -541,13 +561,11 @@ export class Combobox
   };
 
   private toggleCloseEnd = (): void => {
-    this.active = false;
     this.open = false;
     this.el.removeEventListener("calciteComboboxClose", this.toggleCloseEnd);
   };
 
   private toggleOpenEnd = (): void => {
-    this.active = true;
     this.open = false;
     this.el.removeEventListener("calciteComboboxOpen", this.toggleOpenEnd);
   };
@@ -568,28 +586,17 @@ export class Combobox
     this.calciteComboboxClose.emit();
   }
 
-  transitionEnd = (event: TransitionEvent): void => {
-    if (event.propertyName === this.activeTransitionProp && event.target === this.listContainerEl) {
-      this.open || this.active ? this.onOpen() : this.onClose();
-    }
-  };
-
-  transitionStartHandler = (event: TransitionEvent): void => {
-    if (event.propertyName === this.activeTransitionProp && event.target === this.listContainerEl) {
-      this.open || this.active ? this.onBeforeOpen() : this.onBeforeClose();
-    }
-  };
-
   setMaxScrollerHeight = async (): Promise<void> => {
-    const { active, listContainerEl, open } = this;
-    const isOpen = !(active || open);
-    if (!listContainerEl || isOpen) {
+    const { listContainerEl, open, referenceEl } = this;
+
+    if (!listContainerEl || !open) {
       return;
     }
 
     await this.reposition();
     const maxScrollerHeight = this.getMaxScrollerHeight();
     listContainerEl.style.maxHeight = maxScrollerHeight > 0 ? `${maxScrollerHeight}px` : "";
+    listContainerEl.style.minWidth = `${referenceEl.clientWidth}px`;
     await this.reposition();
   };
 
@@ -597,7 +604,6 @@ export class Combobox
     event: CustomEvent<HTMLCalciteChipElement>,
     comboboxItem: HTMLCalciteComboboxItemElement
   ): void => {
-    this.active = false;
     this.open = false;
 
     const selection = this.items.find((item) => item === comboboxItem);
@@ -613,7 +619,6 @@ export class Combobox
     if (event.composedPath().some((node: HTMLElement) => node.tagName === "CALCITE-CHIP")) {
       return;
     }
-    this.active = !this.active;
     this.open = !this.open;
     this.updateActiveItemIndex(0);
     this.setFocus();
@@ -621,8 +626,8 @@ export class Combobox
 
   setInactiveIfNotContained = (event: Event): void => {
     const composedPath = event.composedPath();
-    const isOpen = !(this.open || this.active);
-    if (isOpen || composedPath.includes(this.el) || composedPath.includes(this.referenceEl)) {
+
+    if (!this.open || composedPath.includes(this.el) || composedPath.includes(this.referenceEl)) {
       return;
     }
 
@@ -639,7 +644,6 @@ export class Combobox
       this.updateActiveItemIndex(-1);
     }
 
-    this.active = false;
     this.open = false;
   };
 
@@ -648,10 +652,12 @@ export class Combobox
     connectFloatingUI(this, this.referenceEl, this.floatingEl);
   };
 
-  setListContainerEl = (el: HTMLDivElement): void => {
+  setContainerEl = (el: HTMLDivElement): void => {
     this.resizeObserver.observe(el);
     this.listContainerEl = el;
-    this.listContainerEl.addEventListener("transitionstart", this.transitionStartHandler);
+
+    this.transitionEl = el;
+    connectOpenCloseComponent(this);
   };
 
   setReferenceEl = (el: HTMLDivElement): void => {
@@ -778,7 +784,6 @@ export class Combobox
       if (this.textInput) {
         this.textInput.value = item.textLabel;
       }
-      this.active = false;
       this.open = false;
       this.updateActiveItemIndex(-1);
       this.resetText();
@@ -1094,7 +1099,7 @@ export class Combobox
   }
 
   renderFloatingUIContainer(): VNode {
-    const { active, setFloatingEl, setListContainerEl, open } = this;
+    const { active, setFloatingEl, setContainerEl, open } = this;
     const classes = {
       "list-container": true,
       [FloatingCSS.animation]: true,
@@ -1110,7 +1115,7 @@ export class Combobox
         }}
         ref={setFloatingEl}
       >
-        <div class={classes} onTransitionEnd={this.transitionEnd} ref={setListContainerEl}>
+        <div class={classes} ref={setContainerEl}>
           <ul class={{ list: true, "list--hide": !(open || active) }}>
             <slot />
           </ul>
