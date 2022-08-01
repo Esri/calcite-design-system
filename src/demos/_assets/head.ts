@@ -15,6 +15,9 @@
     {
       src: "build/calcite.esm.js",
       type: "module"
+    },
+    {
+      src: "demos/_assets/demo-shadow-dom-wrapper.js"
     }
   ];
 
