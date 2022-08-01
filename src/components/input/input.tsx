@@ -418,12 +418,12 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
   /**
    * @internal
    */
-  @Event() calciteInternalInputFocus: EventEmitter<void>;
+  @Event({ cancelable: false }) calciteInternalInputFocus: EventEmitter<void>;
 
   /**
    * @internal
    */
-  @Event() calciteInternalInputBlur: EventEmitter<void>;
+  @Event({ cancelable: false }) calciteInternalInputBlur: EventEmitter<void>;
 
   /**
    * Fires each time a new value is typed.
@@ -435,7 +435,7 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
   /**
    * Fires each time a new value is typed and committed.
    */
-  @Event() calciteInputChange: EventEmitter<void>;
+  @Event({ cancelable: false }) calciteInputChange: EventEmitter<void>;
 
   //--------------------------------------------------------------------------
   //

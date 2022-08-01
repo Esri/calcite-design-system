@@ -280,12 +280,12 @@ export class TabNav {
    *
    * @see [TabChangeEventDetail](https://github.com/Esri/calcite-components/blob/master/src/components/tab/interfaces.ts#L1)
    */
-  @Event() calciteTabChange: EventEmitter<TabChangeEventDetail>;
+  @Event({ cancelable: false }) calciteTabChange: EventEmitter<TabChangeEventDetail>;
 
   /**
    * @internal
    */
-  @Event() calciteInternalTabChange: EventEmitter<TabChangeEventDetail>;
+  @Event({ cancelable: false }) calciteInternalTabChange: EventEmitter<TabChangeEventDetail>;
 
   //--------------------------------------------------------------------------
   //

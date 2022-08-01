@@ -313,7 +313,7 @@ export class InputDatePicker
    *
    * @deprecated use `calciteInputDatePickerChange` instead.
    */
-  @Event() calciteDatePickerChange: EventEmitter<Date>;
+  @Event({ cancelable: false }) calciteDatePickerChange: EventEmitter<Date>;
 
   /**
    * Trigger calcite date change when a user changes the date range.
@@ -321,24 +321,24 @@ export class InputDatePicker
    * @see [DateRangeChange](https://github.com/Esri/calcite-components/blob/master/src/components/calcite-date-picker/interfaces.ts#L1)
    * @deprecated use `calciteInputDatePickerChange` instead.
    */
-  @Event() calciteDatePickerRangeChange: EventEmitter<DateRangeChange>;
+  @Event({ cancelable: false }) calciteDatePickerRangeChange: EventEmitter<DateRangeChange>;
 
   /**
    * This event fires when the input date picker value changes.
    */
-  @Event() calciteInputDatePickerChange: EventEmitter<void>;
+  @Event({ cancelable: false }) calciteInputDatePickerChange: EventEmitter<void>;
 
   /** Fires when the component is requested to be closed and before the closing transition begins. */
-  @Event() calciteInputDatePickerBeforeClose: EventEmitter<void>;
+  @Event({ cancelable: false }) calciteInputDatePickerBeforeClose: EventEmitter<void>;
 
   /** Fires when the component is closed and animation is complete. */
-  @Event() calciteInputDatePickerClose: EventEmitter<void>;
+  @Event({ cancelable: false }) calciteInputDatePickerClose: EventEmitter<void>;
 
   /** Fires when the component is added to the DOM but not rendered, and before the opening transition begins. */
-  @Event() calciteInputDatePickerBeforeOpen: EventEmitter<void>;
+  @Event({ cancelable: false }) calciteInputDatePickerBeforeOpen: EventEmitter<void>;
 
   /** Fires when the component is open and animation is complete. */
-  @Event() calciteInputDatePickerOpen: EventEmitter<void>;
+  @Event({ cancelable: false }) calciteInputDatePickerOpen: EventEmitter<void>;
 
   // --------------------------------------------------------------------------
   //

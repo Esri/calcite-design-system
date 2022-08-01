@@ -180,7 +180,7 @@ export class Select implements LabelableComponent, FormComponent, InteractiveCom
   /**
    * This event will fire whenever the selected option changes.
    */
-  @Event() calciteSelectChange: EventEmitter<void>;
+  @Event({ cancelable: false }) calciteSelectChange: EventEmitter<void>;
 
   private handleInternalSelectChange = (): void => {
     const selected = this.selectEl.selectedOptions[0];
