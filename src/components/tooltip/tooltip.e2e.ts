@@ -11,6 +11,8 @@ describe("calcite-tooltip", () => {
     });
   });
 
+  it("honors hidden attribute", async () => hidden("calcite-tooltip"));
+
   it("is accessible when closed", async () =>
     accessible(`<calcite-tooltip label="test" reference-element="ref"></calcite-tooltip><div id="ref">😄</div>`));
 

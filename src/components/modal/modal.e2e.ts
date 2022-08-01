@@ -1,11 +1,13 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { focusable, renders, slots } from "../../tests/commonTests";
+import { focusable, renders, slots, hidden } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS, SLOTS } from "./resources";
 import { skipAnimations } from "../../tests/utils";
 
 describe("calcite-modal properties", () => {
   it("renders", () => renders("calcite-modal", { display: "flex", visible: false }));
+
+  it("honors hidden attribute", async () => hidden("calcite-modal"));
 
   it("has slots", () => slots("calcite-modal", SLOTS));
 

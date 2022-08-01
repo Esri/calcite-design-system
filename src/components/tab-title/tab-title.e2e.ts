@@ -1,10 +1,12 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { disabled, HYDRATED_ATTR, renders } from "../../tests/commonTests";
+import { disabled, HYDRATED_ATTR, renders, hidden } from "../../tests/commonTests";
 
 describe("calcite-tab-title", () => {
   const tabTitleHtml = "<calcite-tab-title></calcite-tab-title>";
 
   it("renders", async () => renders(tabTitleHtml, { display: "block" }));
+
+  it("honors hidden attribute", async () => hidden("calcite-tab-title"));
 
   it("can be disabled", () => disabled("<calcite-tab-title active></calcite-tab-title>"));
 

@@ -1,4 +1,4 @@
-import { accessible, disabled, labelable, renders } from "../../tests/commonTests";
+import { accessible, disabled, labelable, renders, hidden } from "../../tests/commonTests";
 import { E2EPage } from "@stencil/core/testing";
 import { newE2EPage } from "@stencil/core/testing";
 import { CSS } from "./resources";
@@ -14,6 +14,8 @@ describe("calcite-inline-editable", () => {
       `,
       { display: "block" }
     ));
+
+  it("honors hidden attribute", async () => hidden("calcite-inline-editable"));
 
   it("can be disabled", () =>
     disabled(
