@@ -3,5 +3,6 @@ export const SLOTS = {
 };
 
 export const CSS = {
-  radioGroupItemIcon: "radio-group-item-icon"
+  radioGroupItemIcon: "radio-group-item-icon",
+  icon: "icon"
 };

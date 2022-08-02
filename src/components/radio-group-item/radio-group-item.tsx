@@ -44,9 +44,9 @@ export class RadioGroupItem {
   }
 
   /**
-   * optionally pass an icon to display - accepts Calcite UI icon names
+   * Optionally pass an icon to display - accepts Calcite UI icon names
    *
-   * @deprecated use iconStart and iconEnd
+   * @deprecated Use either iconStart or iconEnd but do not combine them with icon & iconPosition.
    */
   @Prop({ reflect: true }) icon?: string;
 
@@ -54,9 +54,9 @@ export class RadioGroupItem {
   @Prop({ reflect: true }) iconFlipRtl = false;
 
   /**
-   * optionally used with icon, select where to position the icon
+   * Optionally used with icon, select where to position the icon
    *
-   * @deprecated use iconStart and iconEnd
+   * @deprecated Use either iconStart or iconEnd but do not combine them with icon & iconPosition.
    */
   @Prop({ reflect: true }) iconPosition?: Position = "start";
 
@@ -78,32 +78,39 @@ export class RadioGroupItem {
     const appearance: RadioAppearance = getElementProp(this.el, "appearance", "solid");
     const layout: Layout = getElementProp(this.el, "layout", "horizontal");
 
-    const iconStartEl = (
+    const iconStartEl = this.iconStart ? (
       <calcite-icon
         class={CSS.radioGroupItemIcon}
         flipRtl={this.iconFlipRtl}
         icon={this.iconStart}
+        key="icon-start"
         scale="s"
       />
-    );
+    ) : null;
 
-    const iconEndEl = (
+    const iconEndEl = this.iconEnd ? (
       <calcite-icon
         class={CSS.radioGroupItemIcon}
         flipRtl={this.iconFlipRtl}
         icon={this.iconEnd}
+        key="icon-end"
         scale="s"
       />
-    );
+    ) : null;
 
     const iconEl = (
       <calcite-icon
         class={CSS.radioGroupItemIcon}
         flipRtl={this.iconFlipRtl}
         icon={this.icon}
+        key={CSS.icon}
         scale="s"
       />
     );
+
+    const iconAtStart =
+      this.icon && this.iconPosition === "start" && !this.iconStart ? iconEl : null;
+    const iconAtEnd = this.icon && this.iconPosition === "end" && !this.iconEnd ? iconEl : null;
 
     return (
       <Host aria-checked={toAriaBoolean(checked)} aria-label={value} role="radio">
@@ -116,11 +123,11 @@ export class RadioGroupItem {
             "label--outline": appearance === "outline"
           }}
         >
-          {this.icon && this.iconPosition === "start" && !this.iconStart ? iconEl : null}
+          {iconAtStart}
           {this.iconStart ? iconStartEl : null}
           <slot>{value}</slot>
           <slot name={SLOTS.input} />
-          {this.icon && this.iconPosition === "end" && !this.iconEnd ? iconEl : null}
+          {iconAtEnd}
           {this.iconEnd ? iconEndEl : null}
         </label>
       </Host>

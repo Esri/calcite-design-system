@@ -200,8 +200,12 @@ export class AccordionItem implements ConditionalSlotComponent {
 
   render(): VNode {
     const dir = getElementDir(this.el);
-    const iconStartEl = <calcite-icon class={CSS.iconStart} icon={this.iconStart} scale="s" />;
-    const iconEndEl = <calcite-icon class={CSS.iconEnd} icon={this.iconEnd} scale="s" />;
+    const iconStartEl = this.iconStart ? (
+      <calcite-icon class={CSS.iconStart} icon={this.iconStart} key={CSS.iconStart} scale="s" />
+    ) : null;
+    const iconEndEl = this.iconEnd ? (
+      <calcite-icon class={CSS.iconEnd} icon={this.iconEnd} key={CSS.iconEnd} scale="s" />
+    ) : null;
 
     return (
       <Host>
@@ -221,14 +225,14 @@ export class AccordionItem implements ConditionalSlotComponent {
               tabindex="0"
             >
               <div class={CSS.headerContainer}>
-                {this.iconStart ? iconStartEl : null}
+                {iconStartEl}
                 <div class={CSS.headerText}>
                   <span class={CSS.heading}>{this.heading || this.itemTitle}</span>
                   {this.itemSubtitle || this.description ? (
                     <span class={CSS.description}>{this.description || this.itemSubtitle}</span>
                   ) : null}
                 </div>
-                {this.iconEnd ? iconEndEl : null}
+                {iconEndEl}
               </div>
               <calcite-icon
                 class={CSS.expandIcon}
