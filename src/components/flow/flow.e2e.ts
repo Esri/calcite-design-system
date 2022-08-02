@@ -205,6 +205,8 @@ describe("calcite-flow", () => {
       newPanelsHTML
     );
 
+    await page.waitForChanges();
+
     const items = await page.findAll("calcite-panel");
 
     expect(items).toHaveLength(3);
