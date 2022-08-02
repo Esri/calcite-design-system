@@ -206,7 +206,7 @@ export class AccordionItem implements ConditionalSlotComponent {
     const iconEndEl = this.iconEnd ? (
       <calcite-icon class={CSS.iconEnd} icon={this.iconEnd} key={CSS.iconEnd} scale="s" />
     ) : null;
-
+    const description = this.description || this.itemSubtitle;
     return (
       <Host>
         <div
@@ -228,9 +228,7 @@ export class AccordionItem implements ConditionalSlotComponent {
                 {iconStartEl}
                 <div class={CSS.headerText}>
                   <span class={CSS.heading}>{this.heading || this.itemTitle}</span>
-                  {this.itemSubtitle || this.description ? (
-                    <span class={CSS.description}>{this.description || this.itemSubtitle}</span>
-                  ) : null}
+                  {description ? <span class={CSS.description}>{description}</span> : null}
                 </div>
                 {iconEndEl}
               </div>
