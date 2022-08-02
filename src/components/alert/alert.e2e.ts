@@ -12,7 +12,7 @@ describe("calcite-alert", () => {
 
   it("renders", async () => renders("calcite-alert", { visible: false, display: "block" }));
 
-  it("honors hidden attribute", async () => hidden("calcite-alert"));
+  it("honors hidden attribute", async () => hidden(`<calcite-alert open></calcite-alert>`));
 
   it("is accessible", async () =>
     accessible(`
