@@ -79,7 +79,7 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
    *
    * @internal
    */
-  @Event() calciteInternalFocusPreviousItem: EventEmitter<void>;
+  @Event({ cancelable: false }) calciteInternalFocusPreviousItem: EventEmitter<void>;
 
   // --------------------------------------------------------------------------
   //
