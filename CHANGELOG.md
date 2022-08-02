@@ -15,6 +15,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### Bug Fixes
 
+- **tab:** Screen reader support to access tab content ([#5061](https://github.com/Esri/calcite-components/issues/5061)) ([d8edc8d](https://github.com/Esri/calcite-components/commit/d8edc8df829eacb704cec8899c9b10c09eb79956))
 - apply layered z-indices across components ([#5058](https://github.com/Esri/calcite-components/issues/5058)) ([c01f71e](https://github.com/Esri/calcite-components/commit/c01f71e5b840cac0f0b7810f027321711f87a90d)), closes [#4372](https://github.com/Esri/calcite-components/issues/4372) [#3099](https://github.com/Esri/calcite-components/issues/3099) [#4682](https://github.com/Esri/calcite-components/issues/4682) [#3724](https://github.com/Esri/calcite-components/issues/3724) [#4781](https://github.com/Esri/calcite-components/issues/4781)
 - **action-menu:** Correctly close on touch devices ([#5034](https://github.com/Esri/calcite-components/issues/5034)) ([2d523df](https://github.com/Esri/calcite-components/commit/2d523dfe3b083c680741eed4273d3880ca46d144)), closes [#4771](https://github.com/Esri/calcite-components/issues/4771)
 - **combobox:** set min width of combobox items to match its input ([#5045](https://github.com/Esri/calcite-components/issues/5045)) ([5b2c04d](https://github.com/Esri/calcite-components/commit/5b2c04de6d7351a33a4f930403ae0ef6fa957f8e)), closes [#3099](https://github.com/Esri/calcite-components/issues/3099)
