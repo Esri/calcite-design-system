@@ -96,7 +96,6 @@
 :host(:focus),
 :host([active]) {
   @apply outline-none;
-  z-index: 1;
 }
 
 :host(:focus:not([disabled])) .day {
@@ -108,7 +107,6 @@
   @apply font-medium;
   background-color: var(--calcite-ui-brand) !important;
   color: var(--calcite-ui-foreground-1) !important;
-  z-index: 1;
 }
 
 :host([range][selected]) {
@@ -398,7 +396,6 @@
 
   :host([selected]) {
     outline: 2px solid canvasText;
-    z-index: 1;
     .day {
       @apply rounded-none;
       background-color: highlight;

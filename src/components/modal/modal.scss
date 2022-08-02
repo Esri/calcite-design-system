@@ -18,11 +18,11 @@
     items-center
     justify-center
     overflow-y-hidden
-    opacity-0;
+    opacity-0
+    z-overlay;
   visibility: hidden !important;
   transition: visibility 0ms linear var(--calcite-internal-animation-timing-slow),
     opacity var(--calcite-internal-animation-timing-slow) $easing-function;
-  z-index: 101;
 }
 
 :host([scale="s"]) {
@@ -75,8 +75,8 @@
     flex-col
     overflow-hidden
     rounded
-    opacity-0;
-  z-index: 102;
+    opacity-0
+    z-modal;
   -webkit-overflow-scrolling: touch;
   visibility: hidden;
   transition: transform var(--calcite-internal-animation-timing-slow) $easing-function,
@@ -131,9 +131,9 @@
     rounded-t
     border-0
     border-b
-    border-solid;
+    border-solid
+    z-header;
   flex: 0 0 auto;
-  z-index: 2;
 }
 
 .close {
@@ -181,7 +181,6 @@
 .content {
   @apply bg-foreground-1 relative box-border block h-full overflow-auto p-0;
   max-block-size: calc(100vh - 12rem);
-  z-index: 1;
 }
 
 .content--spaced {
@@ -216,11 +215,11 @@
     rounded-b
     border-0
     border-t
-    border-solid;
+    border-solid
+    z-header;
   flex: 0 0 auto;
   padding-block: var(--calcite-modal-padding, var(--calcite-modal-padding-internal));
   padding-inline: var(--calcite-modal-padding-large, var(--calcite-modal-padding-large-internal));
-  z-index: 2;
 }
 
 .footer--hide-back .back,
