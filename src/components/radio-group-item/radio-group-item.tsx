@@ -103,7 +103,7 @@ export class RadioGroupItem {
         class={CSS.radioGroupItemIcon}
         flipRtl={this.iconFlipRtl}
         icon={this.icon}
-        key={CSS.icon}
+        key="icon"
         scale="s"
       />
     );
