@@ -201,10 +201,10 @@ export class AccordionItem implements ConditionalSlotComponent {
   render(): VNode {
     const dir = getElementDir(this.el);
     const iconStartEl = this.iconStart ? (
-      <calcite-icon class={CSS.iconStart} icon={this.iconStart} key={CSS.iconStart} scale="s" />
+      <calcite-icon class={CSS.iconStart} icon={this.iconStart} key="icon-start" scale="s" />
     ) : null;
     const iconEndEl = this.iconEnd ? (
-      <calcite-icon class={CSS.iconEnd} icon={this.iconEnd} key={CSS.iconEnd} scale="s" />
+      <calcite-icon class={CSS.iconEnd} icon={this.iconEnd} key="icon-end" scale="s" />
     ) : null;
     const description = this.description || this.itemSubtitle;
     return (
