@@ -16,7 +16,7 @@ const animationDurationInMs = 200;
 describe("calcite-input-date-picker", () => {
   it("renders", async () => renders("calcite-input-date-picker", { display: "inline-block" }));
 
-  it("honors hidden attribute", async () => hidden("calcite-date-picker"));
+  it("honors hidden attribute", async () => hidden("calcite-input-date-picker"));
 
   it("defaults", async () =>
     defaults("calcite-input-date-picker", [

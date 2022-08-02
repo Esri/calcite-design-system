@@ -4,7 +4,7 @@ import { renders, hidden } from "../../tests/commonTests";
 describe("calcite-radio-group-item", () => {
   it("renders", () => renders("calcite-radio-group-item", { display: "flex" }));
 
-  it("honors hidden attribute", async () => hidden("calcite-link"));
+  it("honors hidden attribute", async () => hidden("calcite-radio-group-item"));
 
   it("is un-checked by default", async () => {
     const page = await newE2EPage();
