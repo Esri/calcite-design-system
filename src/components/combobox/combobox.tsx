@@ -1069,7 +1069,7 @@ export class Combobox
             "input--single": true,
             "input--transparent": this.activeChipIndex > -1,
             "input--hidden": showLabel,
-            "input--icon": single && needsIcon
+            "input--icon": !!this.placeholderIcon
           }}
           disabled={disabled}
           id={`${inputUidPrefix}${guid}`}
@@ -1127,14 +1127,18 @@ export class Combobox
   renderIconStart(): VNode {
     const { selectionMode, needsIcon, selectedItems, placeholderIcon } = this;
     const selectedItem = selectedItems[0];
-    return (
+
+    const hasIconAtStart =
       selectionMode === "single" &&
       needsIcon &&
-      (selectedItem?.icon || placeholderIcon) && (
+      ((selectedItem?.icon && !this.open) || placeholderIcon);
+
+    return (
+      hasIconAtStart && (
         <span class="icon-start">
           <calcite-icon
             class="selected-icon"
-            icon={selectedItem?.icon ?? placeholderIcon}
+            icon={this.open || !selectedItem?.icon ? placeholderIcon : selectedItem?.icon}
             scale="s"
           />
         </span>
