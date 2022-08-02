@@ -252,7 +252,7 @@ export class Panel implements ConditionalSlotComponent, InteractiveComponent {
   /**
    * @internal
    */
-  @Event() calciteInternalPanelOpenChange: EventEmitter;
+  @Event({ cancelable: false }) calciteInternalPanelOpenChange: EventEmitter<void>;
 
   // --------------------------------------------------------------------------
   //
