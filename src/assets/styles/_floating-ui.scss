@@ -11,13 +11,12 @@ $floating-ui-default-z-index: 900;
 @mixin floatingUIAnim {
   .calcite-floating-ui-anim {
     position: relative;
-    z-index: 1;
     transition: var(--calcite-floating-ui-transition);
     visibility: hidden;
     transition-property: transform, visibility, opacity;
     opacity: 0;
     box-shadow: $shadow-2;
-    @apply rounded;
+    @apply rounded z-default;
   }
 }
 
@@ -113,7 +112,7 @@ $pointer_offset: -$pointer_size * 0.5;
     position: absolute;
     inline-size: $pointer_size;
     block-size: $pointer_size;
-    z-index: -1;
+    @apply -z-default;
   }
 
   .arrow::before {
