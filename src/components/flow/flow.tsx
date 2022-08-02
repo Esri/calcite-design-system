@@ -121,15 +121,14 @@ export class Flow {
     const foundOpenIndex = this.findOpenPanelIndex(panels);
 
     panels.forEach((panel, index) => {
-      const isOpen = index === foundOpenIndex;
-      panel.open = isOpen;
-      panel.hidden = !isOpen;
+      const currentlyOpen = index === foundOpenIndex;
+      panel.hidden = !currentlyOpen;
 
-      if (!isOpen) {
+      if (!currentlyOpen) {
         panel.menuOpen = false;
       }
 
-      panel.showBackButton = index === foundOpenIndex && foundOpenIndex > 0;
+      panel.showBackButton = currentlyOpen && foundOpenIndex > 0;
     });
 
     if (foundOpenIndex === -1) {
