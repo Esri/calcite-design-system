@@ -1,5 +1,14 @@
 import { E2EPage, newE2EPage } from "@stencil/core/testing";
-import { defaults, disabled, focusable, formAssociated, labelable, reflects, renders } from "../../tests/commonTests";
+import {
+  defaults,
+  disabled,
+  focusable,
+  formAssociated,
+  labelable,
+  reflects,
+  renders,
+  hidden
+} from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { letterKeys, numberKeys } from "../../utils/key";
 import { getDecimalSeparator, locales, localizeNumberString } from "../../utils/locale";
@@ -22,6 +31,8 @@ describe("calcite-input-number", () => {
   it("is labelable", async () => labelable("calcite-input-number"));
 
   it("renders", () => renders("calcite-input-number", { display: "block" }));
+
+  it("honors hidden attribute", async () => hidden("calcite-input-number"));
 
   it("reflects", async () =>
     reflects("calcite-input-number", [

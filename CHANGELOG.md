@@ -9,12 +9,15 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### Features
 
+- ensure global hidden attribute is honored for all components ([#5059](https://github.com/Esri/calcite-components/issues/5059)) ([adcbb55](https://github.com/Esri/calcite-components/commit/adcbb55b3ab3ab9fca0921b4bbbea1e4bf92907b))
 - **alert:** deprecates active prop and syncs with open ([#5029](https://github.com/Esri/calcite-components/issues/5029)) ([3161b8e](https://github.com/Esri/calcite-components/commit/3161b8ef1bb652ccc8ae32ccc184c11dc14584ea))
 - **dropdown:** include selection-triggering item in select event payload ([#5030](https://github.com/Esri/calcite-components/issues/5030)) ([59006fc](https://github.com/Esri/calcite-components/commit/59006fc2d76d62fc9446339985bb8c79b20aa613)), closes [#1967](https://github.com/Esri/calcite-components/issues/1967)
 - **input-text:** create separate component for input type text ([#4946](https://github.com/Esri/calcite-components/issues/4946)) ([568bb36](https://github.com/Esri/calcite-components/commit/568bb3617c8bcea8ba64db06caac0e2f419d8fe3))
 
 ### Bug Fixes
 
+- **tab:** Screen reader support to access tab content ([#5061](https://github.com/Esri/calcite-components/issues/5061)) ([d8edc8d](https://github.com/Esri/calcite-components/commit/d8edc8df829eacb704cec8899c9b10c09eb79956))
+- apply layered z-indices across components ([#5058](https://github.com/Esri/calcite-components/issues/5058)) ([c01f71e](https://github.com/Esri/calcite-components/commit/c01f71e5b840cac0f0b7810f027321711f87a90d)), closes [#4372](https://github.com/Esri/calcite-components/issues/4372) [#3099](https://github.com/Esri/calcite-components/issues/3099) [#4682](https://github.com/Esri/calcite-components/issues/4682) [#3724](https://github.com/Esri/calcite-components/issues/3724) [#4781](https://github.com/Esri/calcite-components/issues/4781)
 - **action-menu:** Correctly close on touch devices ([#5034](https://github.com/Esri/calcite-components/issues/5034)) ([2d523df](https://github.com/Esri/calcite-components/commit/2d523dfe3b083c680741eed4273d3880ca46d144)), closes [#4771](https://github.com/Esri/calcite-components/issues/4771)
 - **combobox:** set min width of combobox items to match its input ([#5045](https://github.com/Esri/calcite-components/issues/5045)) ([5b2c04d](https://github.com/Esri/calcite-components/commit/5b2c04de6d7351a33a4f930403ae0ef6fa957f8e)), closes [#3099](https://github.com/Esri/calcite-components/issues/3099)
 - **combobox, dropdown:** Make sure menus do not take up more than half of available height by default ([#5015](https://github.com/Esri/calcite-components/issues/5015)) ([4729c80](https://github.com/Esri/calcite-components/commit/4729c8045b62e33b09b58faf8aad43c2fdef3f37)), closes [#4772](https://github.com/Esri/calcite-components/issues/4772)

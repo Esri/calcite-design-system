@@ -1,5 +1,5 @@
 import { E2EPage, EventSpy, newE2EPage } from "@stencil/core/testing";
-import { accessible, defaults, disabled, floatingUIOwner, renders } from "../../tests/commonTests";
+import { accessible, defaults, disabled, floatingUIOwner, renders, hidden } from "../../tests/commonTests";
 import dedent from "dedent";
 import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
@@ -19,6 +19,8 @@ describe("calcite-dropdown", () => {
       </calcite-dropdown>`,
       { display: "inline-flex" }
     ));
+
+  it("honors hidden attribute", async () => hidden("calcite-dropdown"));
 
   it("defaults", async () =>
     defaults("calcite-dropdown", [

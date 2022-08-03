@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, renders } from "../../tests/commonTests";
+import { accessible, renders, hidden } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS } from "../accordion-item/resources";
 
@@ -14,6 +14,8 @@ describe("calcite-accordion", () => {
     <calcite-accordion-item heading="Accordion Title 3" id="3">Accordion Item Content </calcite-accordion-item>
   `;
   it("renders", async () => renders("calcite-accordion", { display: "block" }));
+
+  it("honors hidden attribute", async () => hidden("calcite-accordion"));
 
   it("is accessible", async () => accessible(`<calcite-accordion>${accordionContent}</calcite-accordion>`));
 

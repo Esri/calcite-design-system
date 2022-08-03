@@ -199,7 +199,6 @@
   .button::after {
     content: "";
     @apply absolute
-      z-10
       h-2
       w-2
       rounded-full
