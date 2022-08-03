@@ -304,6 +304,7 @@ export const WithPlaceTextAndNoIcon = (): string => html` <calcite-combobox
   max-items="6"
   selection-mode="single"
   scale="s"
+  open
 >
   <calcite-combobox-item value="root" text-label="username" icon="home" selected></calcite-combobox-item>
   <calcite-combobox-item value="1" text-label="Folder 1" icon="folder"></calcite-combobox-item>
