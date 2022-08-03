@@ -297,6 +297,19 @@ export const WithPlaceHolderIcon = (): string => html` <calcite-combobox
   <calcite-combobox-item value="2" text-label="Folder 2" icon="folder"></calcite-combobox-item>
 </calcite-combobox>`;
 
+export const WithPlaceTextAndNoIcon = (): string => html` <calcite-combobox
+  id="labelFour"
+  label="test"
+  placeholder="${text("placeholder", "select folder")}"
+  max-items="6"
+  selection-mode="single"
+  scale="s"
+>
+  <calcite-combobox-item value="root" text-label="username" icon="home" selected></calcite-combobox-item>
+  <calcite-combobox-item value="1" text-label="Folder 1" icon="folder"></calcite-combobox-item>
+  <calcite-combobox-item value="2" text-label="Folder 2" icon="folder"></calcite-combobox-item>
+</calcite-combobox>`;
+
 export const ScrollingWithoutMaxItems = (): string => html`
   <div style="width:400px;max-width:100%;background-color:white;padding:100px">
     <calcite-combobox label="demo combobox" open>
