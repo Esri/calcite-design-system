@@ -209,17 +209,22 @@ export class InputTime implements LabelableComponent, FormComponent, Interactive
   /**
    * @internal
    */
-  @Event() calciteInternalTimeBlur: EventEmitter<void>;
+  @Event() calciteInternalInputTimeBlur: EventEmitter<void>;
+
+  /**
+   * Fires when the time value is changed as a result of user input.
+   */
+  @Event() calciteInputTimeChange: EventEmitter<string>;
+
+  /**
+   * Fires each time the user inputs but has not committed changes.
+   */
+  @Event() calciteInputTimeInput: EventEmitter<string>;
 
   /**
    * @internal
    */
-  @Event() calciteInternalTimeChange: EventEmitter<string>;
-
-  /**
-   * @internal
-   */
-  @Event() calciteInternalTimeFocus: EventEmitter<void>;
+  @Event() calciteInternalInputTimeFocus: EventEmitter<void>;
 
   //--------------------------------------------------------------------------
   //
@@ -229,12 +234,12 @@ export class InputTime implements LabelableComponent, FormComponent, Interactive
 
   @Listen("blur")
   blurHandler(): void {
-    this.calciteInternalTimeBlur.emit();
+    this.calciteInternalInputTimeBlur.emit();
   }
 
   @Listen("focus")
   focusHandler(): void {
-    this.calciteInternalTimeFocus.emit();
+    this.calciteInternalInputTimeFocus.emit();
   }
 
   @Listen("keydown")
@@ -599,7 +604,7 @@ export class InputTime implements LabelableComponent, FormComponent, Interactive
       this.value = null;
     }
     if (emit) {
-      this.calciteInternalTimeChange.emit();
+      this.calciteInputTimeChange.emit();
     }
   };
 
@@ -640,7 +645,7 @@ export class InputTime implements LabelableComponent, FormComponent, Interactive
       ? localizeTimeStringToParts(this.value, this.locale)?.localizedMeridiem || null
       : localizeTimePart(this.meridiem, "meridiem", this.locale);
     if (emit) {
-      this.calciteInternalTimeChange.emit();
+      this.calciteInputTimeChange.emit();
     }
   };
 
