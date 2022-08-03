@@ -214,11 +214,7 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent, Float
             onSlotchange={this.updateTriggers}
           />
         </div>
-        <div
-          aria-hidden={toAriaBoolean(!open)}
-          class="calcite-dropdown-wrapper"
-          ref={this.setFloatingEl}
-        >
+        <div class="calcite-dropdown-wrapper" ref={this.setFloatingEl}>
           <div
             aria-labelledby={`${guid}-menubutton`}
             class={{
@@ -230,7 +226,7 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent, Float
             ref={this.setScrollerAndTransitionEl}
             role="menu"
           >
-            <div hidden={!open}>
+            <div class={{ ["calcite-dropdown-item-container--closed"]: !open }}>
               <slot onSlotchange={this.updateGroups} />
             </div>
           </div>
