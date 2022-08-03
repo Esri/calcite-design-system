@@ -37,6 +37,7 @@ import {
 } from "../../utils/openCloseComponent";
 import { guid } from "../../utils/guid";
 import { RequestedItem } from "../dropdown-group/interfaces";
+import { isActivationKey } from "../../utils/key";
 
 /**
  * @slot - A slot for adding `calcite-dropdown-group` components. Every `calcite-dropdown-item` must have a parent `calcite-dropdown-group`, even if the `groupTitle` property is not set.
@@ -547,7 +548,7 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent, Float
       }
     }
 
-    if (key === " " || key === "Enter") {
+    if (isActivationKey(key)) {
       this.openCalciteDropdown();
       event.preventDefault();
     } else if (key === "Escape") {
