@@ -1,5 +1,5 @@
 import { E2EElement, newE2EPage } from "@stencil/core/testing";
-import { accessible, disabled, HYDRATED_ATTR, labelable, defaults } from "../../tests/commonTests";
+import { accessible, disabled, HYDRATED_ATTR, labelable, defaults, hidden } from "../../tests/commonTests";
 import { CSS } from "./resources";
 import { GlobalTestProps } from "../../tests/utils";
 import { html } from "../../../support/formatting";
@@ -88,6 +88,8 @@ describe("calcite-button", () => {
         defaultValue: "auto"
       }
     ]));
+
+  it("honors hidden attribute", async () => hidden("calcite-button"));
 
   it("renders as a button with default props", async () => {
     const page = await newE2EPage();

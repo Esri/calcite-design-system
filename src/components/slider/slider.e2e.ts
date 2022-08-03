@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { defaults, disabled, formAssociated, labelable, renders } from "../../tests/commonTests";
+import { defaults, disabled, formAssociated, labelable, renders, hidden } from "../../tests/commonTests";
 import { getElementXY } from "../../tests/utils";
 import { html } from "../../../support/formatting";
 
@@ -7,6 +7,8 @@ describe("calcite-slider", () => {
   const sliderWidthFor1To1PixelValueTrack = "114px";
 
   it("renders", async () => renders("calcite-slider", { display: "block" }));
+
+  it("honors hidden attribute", async () => hidden("calcite-slider"));
 
   it("has defaults", async () =>
     defaults("calcite-slider", [
