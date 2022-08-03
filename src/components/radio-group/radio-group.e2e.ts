@@ -1,9 +1,11 @@
 import { E2EPage, newE2EPage } from "@stencil/core/testing";
-import { disabled, focusable, formAssociated, labelable, renders } from "../../tests/commonTests";
+import { disabled, focusable, formAssociated, labelable, renders, hidden } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 
 describe("calcite-radio-group", () => {
   it("renders", () => renders("calcite-radio-group", { display: "flex" }));
+
+  it("honors hidden attribute", async () => hidden("calcite-radio-group"));
 
   it("is labelable", async () =>
     labelable(

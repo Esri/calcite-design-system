@@ -46,7 +46,7 @@ describe("calcite-popover", () => {
       `<calcite-popover label="test" open closable reference-element="ref"></calcite-popover><div id="ref">😄</div>`
     ));
 
-  it("honors hidden attribute", async () => hidden("calcite-popover"));
+  it("honors hidden attribute", async () => hidden(`<calcite-popover open></calcite-popover>`));
 
   it("has property defaults", async () =>
     defaults("calcite-popover", [

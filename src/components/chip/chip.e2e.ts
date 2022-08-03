@@ -1,10 +1,12 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, renders, slots } from "../../tests/commonTests";
+import { accessible, renders, slots, hidden } from "../../tests/commonTests";
 
 import { CSS, SLOTS } from "./resources";
 
 describe("calcite-chip", () => {
   it("renders", async () => renders("<calcite-chip>doritos</calcite-chip>", { display: "inline-flex" }));
+
+  it("honors hidden attribute", async () => hidden("calcite-chip"));
 
   it("is accessible", async () => accessible(`<calcite-chip>doritos</calcite-chip>`));
 

@@ -8,11 +8,14 @@ import {
   formAssociated,
   labelable,
   reflects,
-  renders
+  renders,
+  hidden
 } from "../../tests/commonTests";
 
 describe("calcite-input-time-picker", () => {
   it("renders", async () => renders("calcite-input-time-picker", { display: "inline-block" }));
+
+  it("honors hidden attribute", async () => hidden("calcite-input-time-picker"));
 
   it("is accessible", async () =>
     accessible(`
