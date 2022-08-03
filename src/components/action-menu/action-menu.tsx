@@ -48,6 +48,9 @@ export class ActionMenu implements ConditionalSlotComponent {
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
     this.getActions();
     connectConditionalSlotComponent(this);
+    if (this.open) {
+      this.toggleOpen(true);
+    }
   }
 
   disconnectedCallback(): void {
