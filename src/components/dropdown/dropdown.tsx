@@ -200,19 +200,17 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent, Float
     return (
       <Host>
         <div
+          aria-controls={`${guid}-menu`}
+          aria-expanded={toAriaBoolean(open)}
+          aria-haspopup="menu"
           class="calcite-dropdown-trigger-container"
           id={`${guid}-menubutton`}
           onClick={this.openCalciteDropdown}
           onKeyDown={this.keyDownHandler}
           ref={this.setReferenceEl}
+          role="button"
         >
-          <slot
-            aria-controls={`${guid}-menu`}
-            aria-expanded={toAriaBoolean(open)}
-            aria-haspopup="menu"
-            name={SLOTS.dropdownTrigger}
-            onSlotchange={this.updateTriggers}
-          />
+          <slot name={SLOTS.dropdownTrigger} onSlotchange={this.updateTriggers} />
         </div>
         <div class="calcite-dropdown-wrapper" ref={this.setFloatingEl}>
           <div
