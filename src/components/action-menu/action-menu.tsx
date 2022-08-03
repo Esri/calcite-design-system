@@ -48,9 +48,6 @@ export class ActionMenu implements ConditionalSlotComponent {
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
     this.getActions();
     connectConditionalSlotComponent(this);
-    if (this.open) {
-      this.toggleOpen(true);
-    }
   }
 
   disconnectedCallback(): void {
@@ -149,9 +146,15 @@ export class ActionMenu implements ConditionalSlotComponent {
 
   @Element() el: HTMLCalciteActionMenuElement;
 
-  menuButtonEl: HTMLCalciteActionElement;
+  /**
+   * @internal
+   */
+  @Prop() menuButtonEl: HTMLCalciteActionElement;
 
-  defaultMenuButtonEl: HTMLCalciteActionElement;
+  /**
+   * @internal
+   */
+  @Prop() defaultMenuButtonEl: HTMLCalciteActionElement;
 
   menuEl: HTMLDivElement;
 
