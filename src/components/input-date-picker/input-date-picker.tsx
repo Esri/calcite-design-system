@@ -652,6 +652,7 @@ export class InputDatePicker
     const { defaultPrevented, key } = event;
     if (key === "Enter" && !defaultPrevented) {
       submitForm(this);
+      event.preventDefault();
     } else if (key === "Escape" && !defaultPrevented) {
       this.active = false;
       this.open = false;
