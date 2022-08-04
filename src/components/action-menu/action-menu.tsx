@@ -11,18 +11,12 @@ import {
   State
 } from "@stencil/core";
 import { CSS, SLOTS, ICONS } from "./resources";
-import { focusElement, getSlotted, toAriaBoolean } from "../../utils/dom";
+import { focusElement, toAriaBoolean } from "../../utils/dom";
 import { Fragment, VNode } from "@stencil/core/internal";
 import { getRoundRobinIndex } from "../../utils/array";
 import { guid } from "../../utils/guid";
 import { DeprecatedEventPayload, Scale } from "../interfaces";
-import { createObserver } from "../../utils/observers";
 import { LogicalPlacement, EffectivePlacement, OverlayPositioning } from "../../utils/floating-ui";
-import {
-  ConditionalSlotComponent,
-  connectConditionalSlotComponent,
-  disconnectConditionalSlotComponent
-} from "../../utils/conditionalSlot";
 
 const SUPPORTED_BUTTON_NAV_KEYS = ["ArrowUp", "ArrowDown"];
 const SUPPORTED_MENU_NAV_KEYS = ["ArrowUp", "ArrowDown", "End", "Home"];
@@ -37,23 +31,15 @@ const SUPPORTED_MENU_NAV_KEYS = ["ArrowUp", "ArrowDown", "End", "Home"];
   styleUrl: "action-menu.scss",
   shadow: true
 })
-export class ActionMenu implements ConditionalSlotComponent {
+export class ActionMenu {
   // --------------------------------------------------------------------------
   //
   //  Lifecycle
   //
   // --------------------------------------------------------------------------
 
-  connectedCallback(): void {
-    this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
-    this.getActions();
-    connectConditionalSlotComponent(this);
-  }
-
   disconnectedCallback(): void {
-    this.mutationObserver?.disconnect();
     this.disconnectMenuButtonEl();
-    disconnectConditionalSlotComponent(this);
   }
 
   // --------------------------------------------------------------------------
@@ -146,21 +132,13 @@ export class ActionMenu implements ConditionalSlotComponent {
 
   @Element() el: HTMLCalciteActionMenuElement;
 
-  /**
-   * @internal
-   */
-  @Prop() menuButtonEl: HTMLCalciteActionElement;
+  @State() menuButtonEl: HTMLCalciteActionElement;
 
-  /**
-   * @internal
-   */
-  @Prop() defaultMenuButtonEl: HTMLCalciteActionElement;
+  slottedMenuButtonEl: HTMLCalciteActionElement;
 
-  menuEl: HTMLDivElement;
+  defaultMenuButtonEl: HTMLCalciteActionElement;
 
   actionElements: HTMLCalciteActionElement[] = [];
-
-  mutationObserver = createObserver("mutation", () => this.getActions());
 
   guid = `calcite-action-menu-${guid()}`;
 
@@ -186,7 +164,7 @@ export class ActionMenu implements ConditionalSlotComponent {
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    focusElement(this.open ? this.menuEl : this.menuButtonEl);
+    focusElement(this.menuButtonEl);
   }
 
   // --------------------------------------------------------------------------
@@ -196,9 +174,8 @@ export class ActionMenu implements ConditionalSlotComponent {
   // --------------------------------------------------------------------------
 
   connectMenuButtonEl = (): void => {
-    const { el, menuButtonId, menuId, open, label } = this;
-    const menuButtonEl =
-      (getSlotted(el, SLOTS.trigger) as HTMLCalciteActionElement) || this.defaultMenuButtonEl;
+    const { menuButtonId, menuId, open, label } = this;
+    const menuButtonEl = this.slottedMenuButtonEl || this.defaultMenuButtonEl;
 
     if (this.menuButtonEl === menuButtonEl) {
       return;
@@ -246,6 +223,17 @@ export class ActionMenu implements ConditionalSlotComponent {
     menuButtonEl.removeEventListener("keydown", this.menuButtonKeyDown);
   };
 
+  setMenuButtonEl = (event: Event): void => {
+    const actions = (event.target as HTMLSlotElement)
+      .assignedElements({
+        flatten: true
+      })
+      .filter((el) => el?.matches("calcite-action")) as HTMLCalciteActionElement[];
+
+    this.slottedMenuButtonEl = actions[0];
+    this.connectMenuButtonEl();
+  };
+
   setDefaultMenuButtonEl = (el: HTMLCalciteActionElement): void => {
     this.defaultMenuButtonEl = el;
     this.connectMenuButtonEl();
@@ -255,7 +243,7 @@ export class ActionMenu implements ConditionalSlotComponent {
     const { label, scale, expanded } = this;
 
     const menuButtonSlot = (
-      <slot name={SLOTS.trigger}>
+      <slot name={SLOTS.trigger} onSlotchange={this.setMenuButtonEl}>
         <calcite-action
           class={CSS.defaultTrigger}
           icon={ICONS.menu}
@@ -304,11 +292,10 @@ export class ActionMenu implements ConditionalSlotComponent {
           id={menuId}
           onClick={this.handleCalciteActionClick}
           onKeyDown={this.menuActionsContainerKeyDown}
-          ref={(el) => (this.menuEl = el)}
           role="menu"
           tabIndex={-1}
         >
-          <slot />
+          <slot onSlotchange={this.handleDefaultSlotChange} />
         </div>
       </calcite-popover>
     );
@@ -376,16 +363,14 @@ export class ActionMenu implements ConditionalSlotComponent {
     actions?.forEach(this.updateAction);
   };
 
-  getActions = (): void => {
-    const { el } = this;
+  handleDefaultSlotChange = (event: Event): void => {
+    const actions = (event.target as HTMLSlotElement)
+      .assignedElements({
+        flatten: true
+      })
+      .filter((el) => el?.matches("calcite-action")) as HTMLCalciteActionElement[];
 
-    const actionElements = getSlotted(el, { all: true, matches: "calcite-action" }) as any;
-
-    this.updateActions(actionElements);
-
-    this.actionElements = actionElements;
-
-    this.connectMenuButtonEl();
+    this.actionElements = actions;
   };
 
   isValidKey(key: string, supportedKeys: string[]): boolean {
@@ -396,15 +381,21 @@ export class ActionMenu implements ConditionalSlotComponent {
     const { key } = event;
     const { actionElements } = this;
 
+    if (!actionElements.length) {
+      return;
+    }
+
+    if (key === " " || key === "Enter") {
+      event.preventDefault();
+      this.toggleOpen();
+      return;
+    }
+
     if (!this.isValidKey(key, SUPPORTED_BUTTON_NAV_KEYS)) {
       return;
     }
 
     event.preventDefault();
-
-    if (!actionElements.length) {
-      return;
-    }
 
     this.toggleOpen(true);
     this.handleActionNavigation(key, actionElements);
@@ -443,6 +434,10 @@ export class ActionMenu implements ConditionalSlotComponent {
   };
 
   handleActionNavigation = (key: string, actions: HTMLCalciteActionElement[]): void => {
+    if (!this.open) {
+      return;
+    }
+
     const currentIndex = this.activeMenuItemIndex;
 
     if (key === "Home") {
