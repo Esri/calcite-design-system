@@ -118,9 +118,7 @@ export class TabTitle implements InteractiveComponent {
 
     if (selected) {
       this.active = selected;
-    }
-
-    if (active && !selected) {
+    } else if (active) {
       this.activeHandler(active);
     }
 
