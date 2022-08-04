@@ -20,7 +20,7 @@ export const Basic = (): string =>
 
 export const Open = (): string =>
   html`
-    <calcite-action-menu>
+    <calcite-action-menu open>
       <calcite-action slot="trigger" text="Add" icon="banana"></calcite-action>
       <calcite-action text="Plus" icon="plus" text-enabled></calcite-action>
       <calcite-action text="Minus" icon="minus" text-enabled></calcite-action>
