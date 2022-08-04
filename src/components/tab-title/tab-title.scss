@@ -39,7 +39,7 @@
   }
 }
 
-:host([active]) .container {
+:host([selected]) .container {
   @apply text-color-1 border-color-transparent;
 }
 
@@ -122,15 +122,15 @@
   margin-inline-end: 0;
 }
 
-:host([bordered][active]) {
+:host([bordered][selected]) {
   box-shadow: inset 0px -2px var(--calcite-ui-foreground-1);
 }
 
-:host([bordered][active][position="below"]) {
+:host([bordered][selected][position="below"]) {
   box-shadow: inset 0 2px 0 var(--calcite-ui-foreground-1);
 }
 
-:host([bordered][active][position="bottom"]) {
+:host([bordered][selected][position="bottom"]) {
   box-shadow: inset 0 2px 0 var(--calcite-ui-foreground-1);
 }
 
@@ -162,7 +162,7 @@
   border-block-start-style: unset;
 }
 
-:host([active][bordered]) .container {
+:host([selected][bordered]) .container {
   border-inline-start-color: var(--calcite-ui-border-1);
   border-inline-end-color: var(--calcite-ui-border-1);
 }
@@ -207,15 +207,15 @@
     border-block-start-style: solid;
   }
 
-  :host([bordered][active]) .container {
+  :host([bordered][selected]) .container {
     border-block-end-style: none;
   }
 
-  :host([bordered][position="below"][active]) .container {
+  :host([bordered][position="below"][selected]) .container {
     border-block-start-style: none;
   }
 
-  :host([bordered][position="bottom"][active]) .container {
+  :host([bordered][position="bottom"][selected]) .container {
     border-block-start-style: none;
   }
 }
