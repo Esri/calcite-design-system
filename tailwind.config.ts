@@ -208,6 +208,17 @@ export default {
       },
       maxHeight: {
         menu: "45vh"
+      },
+      zIndex: {
+        deep: "-999999",
+        default: "1",
+        sticky: "300",
+        header: "400",
+        toast: "500",
+        dropdown: "600",
+        overlay: "700",
+        modal: "800",
+        popup: "900"
       }
     }
   },

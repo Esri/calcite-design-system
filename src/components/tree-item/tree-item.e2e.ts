@@ -1,10 +1,12 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, renders, defaults, slots } from "../../tests/commonTests";
+import { accessible, renders, defaults, slots, hidden } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { SLOTS } from "./resources";
 
 describe("calcite-tree-item", () => {
   it("renders", async () => renders("calcite-tree-item", { visible: false, display: "block" }));
+
+  it("honors hidden attribute", async () => hidden(`<calcite-tree-item expanded></calcite-tree-item>`));
 
   it("is accessible", async () => accessible(`<calcite-tree-item></calcite-tree-item>`));
 

@@ -105,7 +105,6 @@
     border-none
     bg-transparent
     text-center;
-  z-index: 2;
   &:hover {
     @apply duration-100 ease-in-out;
     transition-property: outline-color;

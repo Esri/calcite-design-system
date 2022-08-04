@@ -52,7 +52,7 @@
 .content--behind {
   @apply absolute
     inset-0
-    z-0
+    z-default
     border-0;
   display: initial;
 }
@@ -71,8 +71,7 @@ slot[name="panel-end"]::slotted(calcite-shell-panel) {
 
 ::slotted(calcite-shell-panel),
 ::slotted(calcite-shell-center-row) {
-  @apply relative;
-  z-index: 1;
+  @apply relative z-default;
 }
 
 ::slotted(calcite-panel),
@@ -93,8 +92,8 @@ slot[name="center-row"]::slotted(calcite-shell-center-row:not([detached])) {
   animate-in-up
   absolute
   box-border
-  rounded;
+  rounded
+  z-toast;
   inset-block-end: theme("spacing.2");
   inset-inline: var(--calcite-shell-tip-spacing);
-  z-index: 2;
 }

@@ -1,5 +1,14 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { defaults, disabled, focusable, formAssociated, labelable, reflects, renders } from "../../tests/commonTests";
+import {
+  defaults,
+  disabled,
+  focusable,
+  formAssociated,
+  labelable,
+  reflects,
+  renders,
+  hidden
+} from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { TEXT } from "./resources";
 
@@ -7,6 +16,8 @@ describe("calcite-input-text", () => {
   it("is labelable", async () => labelable("calcite-input-text"));
 
   it("renders", () => renders("calcite-input-text", { display: "block" }));
+
+  it("honors hidden attribute", async () => hidden("calcite-input-text"));
 
   it("reflects", async () =>
     reflects("calcite-input-text", [
