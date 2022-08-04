@@ -17,6 +17,7 @@ import { getRoundRobinIndex } from "../../utils/array";
 import { guid } from "../../utils/guid";
 import { DeprecatedEventPayload, Scale } from "../interfaces";
 import { LogicalPlacement, EffectivePlacement, OverlayPositioning } from "../../utils/floating-ui";
+import { isActivationKey } from "../../utils/key";
 
 const SUPPORTED_BUTTON_NAV_KEYS = ["ArrowUp", "ArrowDown"];
 const SUPPORTED_MENU_NAV_KEYS = ["ArrowUp", "ArrowDown", "End", "Home"];
@@ -385,7 +386,7 @@ export class ActionMenu {
       return;
     }
 
-    if (key === " " || key === "Enter") {
+    if (isActivationKey(key)) {
       event.preventDefault();
       this.toggleOpen();
       return;
@@ -410,7 +411,7 @@ export class ActionMenu {
       return;
     }
 
-    if (key === " " || key === "Enter") {
+    if (isActivationKey(key)) {
       event.preventDefault();
       const action = actionElements[activeMenuItemIndex];
       action ? action.click() : this.toggleOpen(false);
