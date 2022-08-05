@@ -1,6 +1,7 @@
 @import "./node_modules/@esri/calcite-colors/dist/colors.scss";
 @import "./node_modules/@esri/calcite-base/dist/_index.scss";
 
+/* These keyframes are intentionally noops and are only used to emit the calciteThemeChange event */
 @keyframes calciteThemeChangeLight {
   from {
     /**/
@@ -88,6 +89,7 @@
   }
 }
 
+/* defaults to light when there is no specified theme class */
 body:not(.calcite-theme-dark):not(.calcite-theme-auto):not(.calcite-theme-light) {
   animation-name: calciteThemeChangeLight;
 }
