@@ -262,7 +262,7 @@ export class DatePickerMonthHeader {
   };
 
   private prevMonthKeydown = (event: KeyboardEvent): void => {
-    const key = event.key;
+    const { key } = event;
     if (key === " " || key === "Enter") {
       this.prevMonthClick(event);
     }
@@ -273,7 +273,7 @@ export class DatePickerMonthHeader {
   };
 
   private nextMonthKeydown = (event: KeyboardEvent): void => {
-    const key = event.key;
+    const { key } = event;
     if (key === " " || key === "Enter") {
       this.nextMonthClick(event);
     }
