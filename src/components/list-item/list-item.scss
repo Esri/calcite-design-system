@@ -39,8 +39,7 @@ td {
 
 tr:focus,
 td:focus {
-  @apply focus-normal;
-  z-index: 999;
+  @apply focus-normal z-sticky;
 }
 
 .content {

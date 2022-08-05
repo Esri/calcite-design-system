@@ -21,7 +21,7 @@ export function getListItemChildren(event: Event): HTMLCalciteListItemElement[] 
 
 export function updateListItemChildren(listItemChildren: HTMLCalciteListItemElement[]): void {
   listItemChildren.forEach((listItem) => {
-    listItem.posInSet = listItemChildren.indexOf(listItem) + 1;
+    listItem.setPosition = listItemChildren.indexOf(listItem) + 1;
     listItem.setSize = listItemChildren.length;
   });
 }

@@ -14,8 +14,8 @@
   w-full
   flex-col
   bg-transparent
-  relative;
-  z-index: 1;
+  relative
+  z-default;
   * {
     @apply box-border;
   }

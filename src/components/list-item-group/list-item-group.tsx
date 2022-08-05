@@ -1,4 +1,5 @@
-import { Component, Prop, h, VNode, Host } from "@stencil/core";
+import { Component, Prop, h, VNode, Host, Element } from "@stencil/core";
+import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { CSS } from "./resources";
 
 /**
@@ -9,7 +10,7 @@ import { CSS } from "./resources";
   styleUrl: "list-item-group.scss",
   shadow: true
 })
-export class ListItemGroup {
+export class ListItemGroup implements InteractiveComponent {
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -26,6 +27,24 @@ export class ListItemGroup {
    *
    */
   @Prop({ reflect: true }) heading: string;
+
+  // --------------------------------------------------------------------------
+  //
+  //  Lifecycle
+  //
+  // --------------------------------------------------------------------------
+
+  componentDidRender(): void {
+    updateHostInteraction(this);
+  }
+
+  // --------------------------------------------------------------------------
+  //
+  //  Private Properties
+  //
+  // --------------------------------------------------------------------------
+
+  @Element() el: HTMLCalciteListItemGroupElement;
 
   // --------------------------------------------------------------------------
   //

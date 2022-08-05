@@ -19,6 +19,7 @@ import {
 } from "../../utils/conditionalSlot";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { getDepth, getListItemChildren, updateListItemChildren } from "./utils";
+import { isActivationKey } from "../../utils/key";
 
 const focusMap = new Map<HTMLCalciteListElement, number>();
 
@@ -111,7 +112,7 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
    *
    * @internal
    */
-  @Prop() posInSet: number = null;
+  @Prop() setPosition: number = null;
 
   /**
    *
@@ -294,14 +295,14 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
   }
 
   render(): VNode {
-    const { expandable, expanded, level, posInSet, setSize, active, label } = this;
+    const { expandable, expanded, level, setPosition, setSize, active, label } = this;
     return (
       <Host>
         <tr
           aria-expanded={expandable ? toAriaBoolean(expanded) : null}
           aria-label={label}
           aria-level={level}
-          aria-posinset={posInSet}
+          aria-posinset={setPosition}
           aria-setsize={setSize}
           class={CSS.container}
           onFocus={this.focusCellNull}
@@ -346,7 +347,7 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
   handleItemContentKeyDown = (event: KeyboardEvent): void => {
     const { key } = event;
 
-    if (key === " " || key === "Enter") {
+    if (isActivationKey(key)) {
       event.preventDefault();
       this.emitListItemSelect();
     }

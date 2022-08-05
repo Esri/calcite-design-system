@@ -37,7 +37,7 @@ export class List implements InteractiveComponent {
   /**
    * When true, content is waiting to be loaded. This state shows a busy indicator.
    */
-  @Prop({ reflect: true }) loading = false;
+  @Prop() loading = false;
 
   //--------------------------------------------------------------------------
   //

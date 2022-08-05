@@ -56,4 +56,20 @@ describe("calcite-list-item", () => {
 
     expect(contentNode).toBeNull();
   });
+
+  it("emits calciteListItemSelect on click", async () => {
+    const page = await newE2EPage({
+      html: `<calcite-list-item label="hello" description="world"></calcite-list-item>`
+    });
+
+    await page.waitForChanges();
+
+    const contentContainer = await page.find(`calcite-list-item >>> .${CSS.contentContainer}`);
+
+    const eventSpy = await page.spyOnEvent("calciteListItemSelect");
+
+    await contentContainer.click();
+
+    expect(eventSpy).toHaveReceivedEventTimes(1);
+  });
 });
