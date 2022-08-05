@@ -18,10 +18,9 @@ import { TabPosition } from "../tabs/interfaces";
 import { Scale } from "../interfaces";
 import { createObserver } from "../../utils/observers";
 import { layoutHorizontal16 } from "@esri/calcite-ui-icons";
-import { SLOTS } from "./resources";
 
 /**
- * @slot tab-title - A slot for adding a tab nav title component.
+ * @slot - A slot for adding `calcite-tab-title`s.
  */
 @Component({
   tag: "calcite-tab-nav",
@@ -194,7 +193,7 @@ export class TabNav {
               style={indicatorStyle}
             />
           </div>
-          <slot name={SLOTS.tabTitle} />
+          <slot />
         </div>
       </Host>
     );
