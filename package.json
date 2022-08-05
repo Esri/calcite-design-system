@@ -17,6 +17,7 @@
     "hydrate/"
   ],
   "scripts": {
+    "generate:i18nTypes": "ts-node --esm ./support/generateTypes.ts",
     "build": "npm run util:copy-icons && stencil build && npm run util:patch-es5-helpers",
     "build:watch": "npm run util:copy-icons && stencil build --watch",
     "build:watch-dev": "npm run util:copy-icons && stencil build --dev --watch",
@@ -130,6 +131,7 @@
     "postcss": "8.4.14",
     "prettier": "2.7.1",
     "puppeteer": "10.0.0",
+    "quicktype-core": "6.0.71",
     "rimraf": "3.0.2",
     "screener-storybook": "0.23.0",
     "semver": "7.3.7",
