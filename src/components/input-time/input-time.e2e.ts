@@ -123,63 +123,68 @@ describe("calcite-input-time", () => {
     expect(await secondEl.getProperty("textContent")).toEqualText(localizedSecond);
   });
 
-  it("value displays correctly in the input when it is programmatically changed for a 12-hour language", async () => {
+  it("programmatically changing the value reflects in the UI for en lang (12-hour)", async () => {
     const lang = "en";
     const page = await newE2EPage({
-      html: `<calcite-input-time step="1"></calcite-input-time>`
+      html: `<calcite-input-time lang=${lang} step="1"></calcite-input-time>`
     });
 
-    const inputTime = await page.find("calcite-input-time");
-    const input = await page.find("calcite-input-time >>> calcite-input");
+    const inputTimeEl = await page.find("calcite-input-time");
+    const hourEl = await page.find(`calcite-input-time >>> .${CSS.hour}`);
+    const delimiterEls = await page.findAll(`calcite-input-time >>> .${CSS.delimiter}`);
+    const minuteEl = await page.find(`calcite-input-time >>> .${CSS.minute}`);
+    const secondEl = await page.find(`calcite-input-time >>> .${CSS.second}`);
 
-    const date = new Date(0);
-    date.setHours(13);
-    date.setMinutes(59);
-    date.setSeconds(59);
+    const expectedValue = "14:59:30";
+    const { localizedHour, localizedHourSuffix, localizedMinute, localizedMinuteSuffix, localizedSecond } =
+      localizeTimeStringToParts(expectedValue, lang);
 
-    const expectedValue = date.toISOString().substr(11, 8);
-    const expectedDisplayValue = localizeTimeString(expectedValue, lang);
-
-    inputTime.setProperty("value", expectedValue);
+    inputTimeEl.setProperty("value", expectedValue);
 
     await page.waitForChanges();
 
-    const inputValue = await input.getProperty("value");
-    const inputTimeValue = await inputTime.getProperty("value");
-
-    expect(inputValue).toBe(expectedDisplayValue);
-    expect(inputTimeValue).toBe(expectedValue);
+    expect(await inputTimeEl.getProperty("value")).toBe(expectedValue);
+    expect(localizedHourSuffix).toEqualText(":");
+    expect(localizedMinuteSuffix).toEqualText(":");
+    expect(await hourEl.getProperty("textContent")).toEqualText(localizedHour);
+    expect(await delimiterEls[0].getProperty("textContent")).toEqualText(localizedHourSuffix);
+    expect(await minuteEl.getProperty("textContent")).toEqualText(localizedMinute);
+    expect(await delimiterEls[1].getProperty("textContent")).toEqualText(localizedMinuteSuffix);
+    expect(await secondEl.getProperty("textContent")).toEqualText(localizedSecond);
   });
 
-  it("value displays correctly in the input when it is programmatically changed for a 12-hour language when a default value is present", async () => {
+  it("programmatically changing the value reflects in the UI for en lang (12-hour) when a default value is present", async () => {
     const lang = "en";
+    const defaultHour = "14";
+    const defaultMinute = "59";
+    const defaultSecond = "30";
+    const defaultValue = `${defaultHour}:${defaultMinute}:${defaultSecond}`;
     const page = await newE2EPage({
-      html: `<calcite-input-time step="1" value="11:00:00"></calcite-input-time>`
+      html: `<calcite-input-time lang=${lang} step="1" value="${defaultValue}"></calcite-input-time>`
     });
 
-    const inputTime = await page.find("calcite-input-time");
-    const input = await page.find("calcite-input-time >>> calcite-input");
+    const inputTimeEl = await page.find("calcite-input-time");
+    const hourEl = await page.find(`calcite-input-time >>> .${CSS.hour}`);
+    const delimiterEls = await page.findAll(`calcite-input-time >>> .${CSS.delimiter}`);
+    const minuteEl = await page.find(`calcite-input-time >>> .${CSS.minute}`);
+    const secondEl = await page.find(`calcite-input-time >>> .${CSS.second}`);
 
-    expect(await input.getProperty("value")).toBe("11:00:00 AM");
-    expect(await inputTime.getProperty("value")).toBe("11:00:00");
+    const expectedValue = "16:49:20";
+    const { localizedHour, localizedHourSuffix, localizedMinute, localizedMinuteSuffix, localizedSecond } =
+      localizeTimeStringToParts(expectedValue, lang);
 
-    const date = new Date(0);
-    date.setHours(13);
-    date.setMinutes(59);
-    date.setSeconds(59);
-
-    const expectedValue = date.toISOString().substr(11, 8);
-    const expectedDisplayValue = localizeTimeString(expectedValue, lang);
-
-    inputTime.setProperty("value", expectedValue);
+    inputTimeEl.setProperty("value", expectedValue);
 
     await page.waitForChanges();
 
-    const inputValue = await input.getProperty("value");
-    const inputTimeValue = await inputTime.getProperty("value");
-
-    expect(inputValue).toBe(expectedDisplayValue);
-    expect(inputTimeValue).toBe(expectedValue);
+    expect(await inputTimeEl.getProperty("value")).toBe(expectedValue);
+    expect(localizedHourSuffix).toEqualText(":");
+    expect(localizedMinuteSuffix).toEqualText(":");
+    expect(await hourEl.getProperty("textContent")).toEqualText(localizedHour);
+    expect(await delimiterEls[0].getProperty("textContent")).toEqualText(localizedHourSuffix);
+    expect(await minuteEl.getProperty("textContent")).toEqualText(localizedMinute);
+    expect(await delimiterEls[1].getProperty("textContent")).toEqualText(localizedMinuteSuffix);
+    expect(await secondEl.getProperty("textContent")).toEqualText(localizedSecond);
   });
 
   it("value displays correctly in the input when it is programmatically changed for a 24-hour language when a default value is present", async () => {
