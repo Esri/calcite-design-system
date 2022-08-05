@@ -32,34 +32,11 @@
         margin: 25px 0;
         border-top: 1px solid var(--calcite-ui-border-2);
       }
-
-      .theme-switch-container {
-        position: fixed;
-        top: 0.75rem;
-        left: 0.75rem;
-        z-index: 2;
-        border: 1px solid;
-        border-radius: var(--calcite-border-radius);
-        border-color: var(--calcite-ui-border-1);
-        background-color: var(--calcite-ui-background);
-      }
-
-      .theme-switch-icon {
-        padding: 0.5rem;
-      }
     </style>
   </head>
 
   <body>
     <h1 style="margin: 0 auto; text-align: center">Switch</h1>
-
-    <div class="theme-switch-container">
-      <calcite-label disable-spacing layout="inline">
-        <calcite-icon icon="brightness" scale="s" class="theme-switch-icon"> </calcite-icon>
-        <calcite-switch class="theme-switch"></calcite-switch>
-        <calcite-icon icon="moon" scale="s" class="theme-switch-icon"> </calcite-icon>
-      </calcite-label>
-    </div>
 
     <!-- HEADER -->
     <div class="parent">
@@ -175,16 +152,6 @@
       const basicSwitch = document.getElementById("basicSwitch");
       basicSwitch.addEventListener("calciteSwitchChange", function (e) {
         console.log("Basic switch changed by <calcite-switch>", e.detail.switched);
-      });
-
-      document
-        .querySelector(".theme-switch")
-        .addEventListener("calciteSwitchChange", () => document.body.classList.toggle("calcite-theme-dark"));
-
-      document.addEventListener("animationstart", (event) => {
-        if (event.animationName === "calciteThemeChange") {
-          console.log("Calcite theme changed", event);
-        }
       });
     </script>
   </body>

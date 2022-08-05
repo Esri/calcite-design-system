@@ -1,7 +1,15 @@
 @import "./node_modules/@esri/calcite-colors/dist/colors.scss";
 @import "./node_modules/@esri/calcite-base/dist/_index.scss";
 
-@keyframes calciteThemeChange {
+@keyframes calciteThemeChangeLight {
+  from {
+    /**/
+  }
+  to {
+    /**/
+  }
+}
+@keyframes calciteThemeChangeDark {
   from {
     /**/
   }
@@ -25,7 +33,6 @@
   --calcite-button-transparent-press: #{rgba($blk-240, 0.08)};
   --calcite-link-blue-underline: #{rgba($h-bb-070, 0.4)};
   --calcite-scrim-background: #{rgba($blk-000, 0.85)};
-  animation-name: calciteThemeChange;
 }
 
 @mixin calcite-theme-dark-extended {
@@ -40,7 +47,6 @@
   --calcite-button-transparent-press: #{rgba($blk-000, 0.08)};
   --calcite-link-blue-underline: #{rgba($d-bb-420, 0.4)};
   --calcite-scrim-background: #{rgba($blk-240, 0.85)};
-  animation-name: calciteThemeChange;
 }
 
 :root {
@@ -70,11 +76,21 @@
 .calcite-theme-auto {
   @media (prefers-color-scheme: dark) {
     @include calcite-theme-dark-extended();
+    animation-name: calciteThemeChangeDark;
   }
 
   @media (prefers-color-scheme: light) {
     @include calcite-theme-light-extended();
+    animation-name: calciteThemeChangeLight;
   }
+}
+
+body.calcite-theme-dark:not(.calcite-theme-auto) {
+  animation-name: calciteThemeChangeDark;
+}
+
+body:not(.calcite-theme-dark):not(.calcite-theme-auto) {
+  animation-name: calciteThemeChangeLight;
 }
 
 .overflow-hidden {
