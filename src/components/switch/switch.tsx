@@ -106,7 +106,7 @@ export class Switch implements LabelableComponent, CheckableFormCompoment, Inter
   //--------------------------------------------------------------------------
 
   keyDownHandler = (event: KeyboardEvent): void => {
-    const key = event.key;
+    const { key } = event;
     if (!this.disabled && (key === " " || key === "Enter")) {
       this.toggle();
       event.preventDefault();
