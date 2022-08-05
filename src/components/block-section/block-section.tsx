@@ -81,7 +81,7 @@ export class BlockSection {
   // --------------------------------------------------------------------------
 
   handleHeaderKeyDown = (event: KeyboardEvent): void => {
-    if (event.key === " " || event.key === "Enter") {
+    if (isActivationKey(event.key)) {
       this.toggleSection();
       event.preventDefault();
       event.stopPropagation();
