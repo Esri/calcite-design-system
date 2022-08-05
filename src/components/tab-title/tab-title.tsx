@@ -137,6 +137,10 @@ export class TabTitle implements InteractiveComponent {
     }
   }
 
+  componentDidRerender(): void {
+    console.log("tab-title rerender layout value", this.layout);
+  }
+
   render(): VNode {
     const id = this.el.id || this.guid;
 

@@ -1,5 +1,6 @@
-import { Component, Prop, h, Element, Listen, State, VNode, Fragment } from "@stencil/core";
+import { Component, Prop, h, Element, Listen, State, VNode, Fragment, Watch } from "@stencil/core";
 import { TabLayout, TabPosition } from "./interfaces";
+import { getSlotted } from "../../utils/dom";
 import { Scale } from "../interfaces";
 import { SLOTS } from "./resources";
 
@@ -32,6 +33,11 @@ export class Tabs {
    */
   @Prop({ reflect: true }) layout: TabLayout = "inline";
 
+  @Watch("layout")
+  layoutHandler(newValue: TabLayout): void {
+    this.updateParentLayoutChanged(this.el, newValue);
+  }
+
   /**
    * Display the tabs top (default) or bottom of the tab content. above and below are deprecated.
    *
@@ -55,9 +61,14 @@ export class Tabs {
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
+    console.log("parent connected layout", this.layout);
     if (this.layout === "center") {
       this.bordered = false;
     }
+  }
+
+  componentDidRender(): void {
+    console.log("tabs rerendered layout", this.layout); //this rerenders with a new value for prop
   }
 
   render(): VNode {
@@ -197,4 +208,9 @@ export class Tabs {
     this.tabs.forEach((el) => el.updateAriaInfo(tabIds, titleIds));
     this.titles.forEach((el) => el.updateAriaInfo(tabIds, titleIds));
   }
+
+  private updateParentLayoutChanged = (el: HTMLCalciteTabsElement, layout: TabLayout): void => {
+    const item = getSlotted<HTMLCalciteTabsElement>(el, SLOTS.tabNav);
+    item.layout = layout;
+  };
 }

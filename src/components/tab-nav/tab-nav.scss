@@ -1,6 +1,8 @@
 :host {
   @apply relative flex;
 }
+:host([layout="center"]) {
+}
 
 :host([scale="s"]) {
   min-block-size: theme("spacing.6");

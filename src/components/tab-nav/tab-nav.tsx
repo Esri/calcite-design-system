@@ -12,14 +12,16 @@ import {
   Watch
 } from "@stencil/core";
 import { TabChangeEventDetail } from "../tab/interfaces";
-import { getElementDir, filterDirectChildren } from "../../utils/dom";
+import { getElementDir, filterDirectChildren, getSlotted } from "../../utils/dom";
 import { TabID, TabLayout } from "../tabs/interfaces";
 import { TabPosition } from "../tabs/interfaces";
 import { Scale } from "../interfaces";
 import { createObserver } from "../../utils/observers";
+import { layoutHorizontal16 } from "@esri/calcite-ui-icons";
+import { SLOTS } from "./resources";
 
 /**
- * @slot - A slot for adding `calcite-tab-title`s.
+ * @slot tab-title - A slot for adding a tab nav title component.
  */
 @Component({
   tag: "calcite-tab-nav",
@@ -60,6 +62,12 @@ export class TabNav {
    * @internal
    */
   @Prop({ reflect: true, mutable: true }) layout: TabLayout = "inline";
+
+  @Watch("layout")
+  layoutHandler(newValue: TabLayout): void {
+    console.log("layoutHandler of watch in tab-nav ran");
+    this.updateParentLayoutChanged(this.el, newValue);
+  }
 
   /**
    * @internal
@@ -114,6 +122,10 @@ export class TabNav {
 
   connectedCallback(): void {
     this.parentTabsEl = this.el.closest("calcite-tabs");
+    if (this.parentTabsEl) {
+      console.log("child connected layout value", this.parentTabsEl.layout);
+    }
+
     this.resizeObserver?.observe(this.el);
   }
 
@@ -130,7 +142,9 @@ export class TabNav {
   }
 
   componentWillRender(): void {
+    console.log("component will rerender ran in tab-nav");
     const { parentTabsEl } = this;
+    //rerenders with getSlotted with correct attribute
 
     this.layout = parentTabsEl?.layout;
     this.position = parentTabsEl?.position;
@@ -143,6 +157,7 @@ export class TabNav {
   }
 
   componentDidRender(): void {
+    console.log("tab-nav rerender layout value", this.layout);
     // if every tab title is active select the first tab.
     if (
       this.tabTitles.length &&
@@ -179,7 +194,7 @@ export class TabNav {
               style={indicatorStyle}
             />
           </div>
-          <slot />
+          <slot name={SLOTS.tabTitle} />
         </div>
       </Host>
     );
@@ -362,4 +377,9 @@ export class TabNav {
       "calcite-tab-title:not([disabled])"
     );
   }
+
+  private updateParentLayoutChanged = (el: HTMLCalciteTabNavElement, layout: TabLayout): void => {
+    const item = getSlotted<HTMLCalciteTabNavElement>(el, SLOTS.tabTitle);
+    item.layout = layout;
+  };
 }
