@@ -555,8 +555,9 @@ export class Combobox
           this.addCustomChip(this.text, true);
           event.preventDefault();
         } else if (!event.defaultPrevented) {
-          submitForm(this);
-          event.preventDefault();
+          if (submitForm(this)) {
+            event.preventDefault();
+          }
         }
         break;
       case "Delete":

@@ -651,8 +651,9 @@ export class InputDatePicker
   keyDownHandler = (event: KeyboardEvent): void => {
     const { defaultPrevented, key } = event;
     if (key === "Enter" && !defaultPrevented) {
-      submitForm(this);
-      event.preventDefault();
+      if (submitForm(this)) {
+        event.preventDefault();
+      }
     } else if (key === "Escape" && !defaultPrevented) {
       this.active = false;
       this.open = false;

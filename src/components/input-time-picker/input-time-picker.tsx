@@ -302,8 +302,9 @@ export class InputTimePicker implements LabelableComponent, FormComponent, Inter
     }
 
     if (key === "Enter") {
-      submitForm(this);
-      event.preventDefault();
+      if (submitForm(this)) {
+        event.preventDefault();
+      }
     }
 
     if (key === "Escape" && this.active) {

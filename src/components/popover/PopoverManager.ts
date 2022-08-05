@@ -72,7 +72,6 @@ export default class PopoverManager {
     }
 
     this.togglePopovers(event);
-    event.preventDefault();
   };
 
   private clickHandler = (event: MouseEvent): void => {
