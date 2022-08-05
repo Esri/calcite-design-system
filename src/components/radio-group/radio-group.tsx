@@ -49,31 +49,31 @@ export class RadioGroup implements LabelableComponent, FormComponent, Interactiv
   //
   //--------------------------------------------------------------------------
 
-  /** specify the appearance style of the radio group, defaults to solid. */
+  /** Specifies the appearance style of the component. */
   @Prop({ reflect: true }) appearance: RadioAppearance = "solid";
 
-  /** is the radio group disabled  */
+  /** When true, interaction is prevented and the component is displayed with lower opacity. */
   @Prop({ reflect: true }) disabled = false;
 
   /**
-   * When true, makes the component required for form-submission.
+   * When true, the component must have a value on form submission.
    *
    * @internal
    */
   @Prop({ reflect: true }) required = false;
 
-  /** specify the layout of the radio group, defaults to horizontal */
+  /** Defines the layout of the component. */
   @Prop({ reflect: true }) layout: Layout = "horizontal";
 
   /**
-   * The group's name. Gets submitted with the form.
+   * Specifies the name of the component on form submission.
    */
   @Prop() name: string;
 
-  /** The scale of the radio group */
+  /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
 
-  /** The value of the selectedItem */
+  /** The component's "selectedItem" value. */
   @Prop({ mutable: true }) value: string = null;
 
   @Watch("value")
@@ -83,7 +83,7 @@ export class RadioGroup implements LabelableComponent, FormComponent, Interactiv
   }
 
   /**
-   * The group's selected item.
+   * The component's selected item `HTMLElement`.
    *
    * @readonly
    */
@@ -110,7 +110,7 @@ export class RadioGroup implements LabelableComponent, FormComponent, Interactiv
     }
   }
 
-  /** specify the width of the group, defaults to auto */
+  /** Specifies the width of the component. */
   @Prop({ reflect: true }) width: Extract<"auto" | "full", Width> = "auto";
 
   //--------------------------------------------------------------------------
@@ -238,7 +238,7 @@ export class RadioGroup implements LabelableComponent, FormComponent, Interactiv
   //
   //--------------------------------------------------------------------------
 
-  /** Fired when the selected option changes, event detail is the new value */
+  /** Fires when the selected option changes, where the event detail is the new value. */
   @Event({ cancelable: false }) calciteRadioGroupChange: EventEmitter<string>;
 
   // --------------------------------------------------------------------------
