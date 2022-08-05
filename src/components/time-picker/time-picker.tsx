@@ -417,7 +417,6 @@ export class TimePicker {
           this.incrementHour();
           break;
         case " ":
-        case "Spacebar":
           event.preventDefault();
           break;
       }
@@ -488,7 +487,6 @@ export class TimePicker {
         this.decrementMeridiem();
         break;
       case " ":
-      case "Spacebar":
         event.preventDefault();
         break;
     }
@@ -536,7 +534,6 @@ export class TimePicker {
           this.incrementMinute();
           break;
         case " ":
-        case "Spacebar":
           event.preventDefault();
           break;
       }
@@ -585,7 +582,6 @@ export class TimePicker {
           this.incrementSecond();
           break;
         case " ":
-        case "Spacebar":
           event.preventDefault();
           break;
       }
