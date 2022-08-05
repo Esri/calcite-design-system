@@ -7,7 +7,7 @@ const toggleTheme = (): void => {
 };
 
 const toggleDom = (event: CustomEvent<void>): void => {
-  const mover = document.querySelector<DemoDomMover>("demo-dom-mover");
+  const mover = document.querySelector<DomSwapper>("demo-dom-swapper");
   const switchEl = event.currentTarget as HTMLCalciteSwitchElement;
   if (switchEl.checked) {
     mover.moveTo("shadow");

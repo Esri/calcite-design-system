@@ -17,7 +17,7 @@
       type: "module"
     },
     {
-      src: "demos/_assets/demo-shadow-dom-wrapper.js"
+      src: "demos/_assets/demo-dom-swapper.js"
     }
   ];
 
