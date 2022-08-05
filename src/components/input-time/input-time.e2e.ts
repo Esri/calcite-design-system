@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { localizeTimeString } from "../../utils/time";
+import { localizeTimeString, localizeTimeStringToParts } from "../../utils/time";
 import {
   accessible,
   defaults,
@@ -10,6 +10,7 @@ import {
   reflects,
   renders
 } from "../../tests/commonTests";
+import { CSS } from "./resources";
 
 describe("calcite-input-time", () => {
   it("renders", async () => renders("calcite-input-time", { display: "inline-block" }));
@@ -92,68 +93,34 @@ describe("calcite-input-time", () => {
     expect(await popover.getProperty("open")).toBe(true);
   });
 
-  it("programmatically changing the value reflects in the input for fr lang (24-hour)", async () => {
-    const lang = "fr";
+  it("programmatically changing the value reflects in the UI for da lang (24-hour with period delimiter)", async () => {
+    const lang = "da";
     const page = await newE2EPage({
       html: `<calcite-input-time lang="${lang}"" step="1"></calcite-input-time>`
     });
 
-    const inputTime = await page.find("calcite-input-time");
-    const input = await page.find("calcite-input-time >>> calcite-input");
+    const inputTimeEl = await page.find("calcite-input-time");
+    const hourEl = await page.find(`calcite-input-time >>> .${CSS.hour}`);
+    const delimiterEls = await page.findAll(`calcite-input-time >>> .${CSS.delimiter}`);
+    const minuteEl = await page.find(`calcite-input-time >>> .${CSS.minute}`);
+    const secondEl = await page.find(`calcite-input-time >>> .${CSS.second}`);
 
-    for (let second = 0; second < 10; second++) {
-      const date = new Date(0);
-      date.setSeconds(second);
+    const expectedValue = "14:59:30";
+    const { localizedHour, localizedHourSuffix, localizedMinute, localizedMinuteSuffix, localizedSecond } =
+      localizeTimeStringToParts(expectedValue, lang);
 
-      const expectedValue = date.toISOString().substr(11, 8);
-      const expectedInputValue = localizeTimeString(expectedValue, lang);
+    inputTimeEl.setProperty("value", expectedValue);
 
-      inputTime.setProperty("value", expectedValue);
+    await page.waitForChanges();
 
-      await page.waitForChanges();
-
-      const inputValue = await input.getProperty("value");
-      const inputTimeValue = await inputTime.getProperty("value");
-
-      expect(inputValue).toBe(expectedInputValue);
-      expect(inputTimeValue).toBe(expectedValue);
-    }
-
-    for (let minute = 0; minute < 10; minute++) {
-      const date = new Date(0);
-      date.setMinutes(minute);
-
-      const expectedValue = date.toISOString().substr(11, 8);
-      const expectedInputValue = localizeTimeString(expectedValue, lang);
-
-      inputTime.setProperty("value", expectedValue);
-
-      await page.waitForChanges();
-
-      const inputValue = await input.getProperty("value");
-      const inputTimeValue = await inputTime.getProperty("value");
-
-      expect(inputValue).toBe(expectedInputValue);
-      expect(inputTimeValue).toBe(expectedValue);
-    }
-
-    for (let hour = 0; hour < 10; hour++) {
-      const date = new Date(0);
-      date.setHours(hour);
-
-      const expectedValue = date.toISOString().substr(11, 8);
-      const expectedInputValue = localizeTimeString(expectedValue, lang);
-
-      inputTime.setProperty("value", expectedValue);
-
-      await page.waitForChanges();
-
-      const inputValue = await input.getProperty("value");
-      const inputTimeValue = await inputTime.getProperty("value");
-
-      expect(inputValue).toBe(expectedInputValue);
-      expect(inputTimeValue).toBe(expectedValue);
-    }
+    expect(await inputTimeEl.getProperty("value")).toBe(expectedValue);
+    expect(localizedHourSuffix).toEqualText(".");
+    expect(localizedMinuteSuffix).toEqualText(".");
+    expect(await hourEl.getProperty("textContent")).toEqualText(localizedHour);
+    expect(await delimiterEls[0].getProperty("textContent")).toEqualText(localizedHourSuffix);
+    expect(await minuteEl.getProperty("textContent")).toEqualText(localizedMinute);
+    expect(await delimiterEls[1].getProperty("textContent")).toEqualText(localizedMinuteSuffix);
+    expect(await secondEl.getProperty("textContent")).toEqualText(localizedSecond);
   });
 
   it("value displays correctly in the input when it is programmatically changed for a 12-hour language", async () => {
