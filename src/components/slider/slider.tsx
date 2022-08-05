@@ -763,7 +763,7 @@ export class Slider implements LabelableComponent, FormComponent, InteractiveCom
     const mirror = this.shouldMirror();
     const { activeProp, max, min, pageStep, step } = this;
     const value = this[activeProp];
-    const key = event.key;
+    const { key } = event;
 
     if (key === "Enter" || key === " ") {
       event.preventDefault();
