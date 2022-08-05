@@ -8,7 +8,7 @@ describe("calcite-tab-title", () => {
 
   it("honors hidden attribute", async () => hidden("calcite-tab-title"));
 
-  it("can be disabled", () => disabled("<calcite-tab-title active></calcite-tab-title>"));
+  it("can be disabled", () => disabled("<calcite-tab-title selected></calcite-tab-title>"));
 
   it("renders with an icon-start", async () => {
     const page = await newE2EPage();
@@ -49,7 +49,7 @@ describe("calcite-tab-title", () => {
     const activeEventSpy = await page.spyOnEvent("calciteTabsActivate");
     const title = await page.find("calcite-tab-title");
 
-    title.setProperty("active", true);
+    title.setProperty("selected", true);
     await page.waitForChanges();
     expect(activeEventSpy).toHaveReceivedEventTimes(0);
 

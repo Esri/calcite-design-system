@@ -6,7 +6,7 @@ describe("calcite-tab", () => {
 
   it("renders", async () => {
     await renders("calcite-tab", { display: "none", visible: false });
-    await renders("<calcite-tab active></calcite-tab>", { display: "block", visible: true });
+    await renders("<calcite-tab selected></calcite-tab>", { display: "block", visible: true });
   });
 
   it("honors hidden attribute", async () => hidden("calcite-tab"));
@@ -15,6 +15,7 @@ describe("calcite-tab", () => {
     defaults("calcite-tab", [
       { propertyName: "tab", defaultValue: undefined },
       { propertyName: "active", defaultValue: false },
+      { propertyName: "selected", defaultValue: false },
       { propertyName: "scale", defaultValue: undefined }
     ]));
 
