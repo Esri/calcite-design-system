@@ -52,6 +52,7 @@
 :root {
   @extend %type-vars;
   @include calcite-theme-light-extended();
+
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -67,10 +68,12 @@
 
 .calcite-theme-dark {
   @include calcite-theme-dark-extended();
+  animation-name: calciteThemeChangeDark;
 }
 
 .calcite-theme-light {
   @include calcite-theme-light-extended();
+  animation-name: calciteThemeChangeLight;
 }
 
 .calcite-theme-auto {
@@ -85,11 +88,7 @@
   }
 }
 
-body.calcite-theme-dark:not(.calcite-theme-auto) {
-  animation-name: calciteThemeChangeDark;
-}
-
-body:not(.calcite-theme-dark):not(.calcite-theme-auto) {
+body:not(.calcite-theme-dark):not(.calcite-theme-auto):not(.calcite-theme-light) {
   animation-name: calciteThemeChangeLight;
 }
 
