@@ -17,7 +17,6 @@ import { TabID, TabLayout } from "../tabs/interfaces";
 import { TabPosition } from "../tabs/interfaces";
 import { Scale } from "../interfaces";
 import { createObserver } from "../../utils/observers";
-import { layoutHorizontal16 } from "@esri/calcite-ui-icons";
 
 /**
  * @slot - A slot for adding `calcite-tab-title`s.
@@ -378,7 +377,7 @@ export class TabNav {
   }
 
   private updateParentLayoutChanged = (el: HTMLCalciteTabNavElement, layout: TabLayout): void => {
-    const item = getSlotted<HTMLCalciteTabNavElement>(el, SLOTS.tabTitle);
+    const item = getSlotted<HTMLCalciteTabNavElement>(el, "tab-title");
     item.layout = layout;
   };
 }
