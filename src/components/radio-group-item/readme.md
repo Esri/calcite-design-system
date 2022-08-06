@@ -4,13 +4,13 @@
 
 ## Properties
 
-| Property       | Attribute       | Description                                                        | Type               | Default     |
-| -------------- | --------------- | ------------------------------------------------------------------ | ------------------ | ----------- |
-| `checked`      | `checked`       | Indicates whether the control is checked.                          | `boolean`          | `false`     |
-| `icon`         | `icon`          | optionally pass an icon to display - accepts Calcite UI icon names | `string`           | `undefined` |
-| `iconFlipRtl`  | `icon-flip-rtl` | flip the icon in rtl                                               | `boolean`          | `false`     |
-| `iconPosition` | `icon-position` | optionally used with icon, select where to position the icon       | `"end" \| "start"` | `"start"`   |
-| `value`        | `value`         | The control's value.                                               | `any`              | `undefined` |
+| Property       | Attribute       | Description                                                                              | Type               | Default     |
+| -------------- | --------------- | ---------------------------------------------------------------------------------------- | ------------------ | ----------- |
+| `checked`      | `checked`       | When true, the component is checked.                                                     | `boolean`          | `false`     |
+| `icon`         | `icon`          | Specifies an icon to display - accepts Calcite UI icon names.                            | `string`           | `undefined` |
+| `iconFlipRtl`  | `icon-flip-rtl` | When true, the icon will be flipped when the element direction is right-to-left ("rtl"). | `boolean`          | `false`     |
+| `iconPosition` | `icon-position` | When used with "icon", specifies its position.                                           | `"end" \| "start"` | `"start"`   |
+| `value`        | `value`         | The component's value.                                                                   | `any`              | `undefined` |
 
 ## Dependencies
 
