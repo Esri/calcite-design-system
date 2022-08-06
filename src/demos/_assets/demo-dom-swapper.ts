@@ -16,7 +16,7 @@ class DomSwapper extends HTMLElement {
     this._slot = slot;
   }
 
-  private _docStyle: HTMLStyleElement;
+  private _headStyles: HTMLStyleElement[];
 
   private _slot: HTMLSlotElement;
 
@@ -40,16 +40,18 @@ class DomSwapper extends HTMLElement {
       this.append(...Array.from(this.shadowRoot.children).filter((node) => node !== this._slot));
       this._context = "light";
     } else {
-      if (!this._docStyle) {
-        this._docStyle = this.recreateDocStyle();
+      if (!this._headStyles) {
+        this._headStyles = this.recreateDemoStyle();
       }
-      this.shadowRoot.append(this._docStyle, ...this.shadowRoot.querySelector("slot").assignedNodes());
+      this.shadowRoot.append(...this._headStyles, ...this.shadowRoot.querySelector("slot").assignedNodes());
       this._context = "shadow";
     }
   }
 
-  private recreateDocStyle(): HTMLStyleElement {
-    return document.querySelector("style:not([data-styles])").cloneNode(true) as HTMLStyleElement;
+  private recreateDemoStyle(): HTMLStyleElement[] {
+    return Array.from(document.querySelectorAll("head style:not([data-styles]), head link[rel=stylesheet]")).map(
+      (style) => style.cloneNode(true) as HTMLStyleElement
+    );
   }
 }
 
