@@ -47,7 +47,7 @@ export class RadioButton
   //
   //--------------------------------------------------------------------------
 
-  /** The checked state of the radio button. */
+  /** When true, the component is checked. */
   @Prop({ mutable: true, reflect: true }) checked = false;
 
   @Watch("checked")
@@ -59,37 +59,37 @@ export class RadioButton
     this.calciteInternalRadioButtonCheckedChange.emit();
   }
 
-  /** The disabled state of the radio button. */
+  /** When true, interaction is prevented and the component is displayed with lower opacity. */
   @Prop({ reflect: true }) disabled = false;
 
   /**
-   * The focused state of the radio button.
+   * The focused state of the component.
    *
    * @internal
    */
   @Prop({ mutable: true, reflect: true }) focused = false;
 
-  /** The id attribute of the radio button.  When omitted, a globally unique identifier is used. */
+  /** The id attribute of the component. When omitted, a globally unique identifier is used. */
   @Prop({ reflect: true, mutable: true }) guid: string;
 
-  /** The radio button's hidden status.  When a radio button is hidden it is not focusable or checkable. */
+  /** When true, the component is not displayed and is not focusable or checkable. */
   @Prop({ reflect: true }) hidden = false;
 
   /**
-   * The hovered state of the radio button.
+   * The hovered state of the component.
    *
    * @internal
    */
   @Prop({ reflect: true, mutable: true }) hovered = false;
 
   /**
-   * The label of the radio input
+   * Accessible name for the component.
    *
    * @internal
    */
   @Prop() label?: string;
 
-  /** The name of the radio button. `name` is passed as a property automatically from `calcite-radio-button-group`. */
+  /** Specifies the name of the component, passed from the `calcite-radio-button-group` on form submission. */
   @Prop({ reflect: true }) name: string;
 
   @Watch("name")
@@ -97,13 +97,13 @@ export class RadioButton
     this.checkLastRadioButton();
   }
 
-  /** Requires that a value is selected for the radio button group before the parent form will submit. */
+  /** When true, the component must have a value selected from the `calcite-radio-button-group` on form submission. */
   @Prop({ reflect: true }) required = false;
 
-  /** The scale (size) of the radio button. `scale` is passed as a property automatically from `calcite-radio-button-group`. */
+  /** Specifies the size of the component inherited from the `calcite-radio-button-group`. */
   @Prop({ reflect: true }) scale: Scale = "m";
 
-  /** The value of the radio button. */
+  /** The component's value. */
   @Prop({ mutable: true }) value!: any;
 
   //--------------------------------------------------------------------------

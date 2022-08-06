@@ -39,46 +39,46 @@ export class Rating implements LabelableComponent, FormComponent, InteractiveCom
   //
   // --------------------------------------------------------------------------
 
-  /** specify the scale of the component, defaults to m */
+  /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
 
-  /** the value of the rating component */
+  /** The component's value. */
   @Prop({ reflect: true, mutable: true }) value = 0;
 
-  /** is the rating component in a selectable mode */
+  /** When true, the component's value can be read, but cannot be modified. */
   @Prop({ reflect: true }) readOnly = false;
 
-  /** is the rating component in a selectable mode */
+  /** When true, interaction is prevented and the component is displayed with lower opacity. */
   @Prop({ reflect: true }) disabled = false;
 
-  /** Show average and count data summary chip (if available) */
+  /** When true, and if available, displays the "average" and/or "count" data summary in a `calcite-chip`. */
   @Prop({ reflect: true }) showChip = false;
 
-  /** optionally pass a number of previous ratings to display */
+  /** Specifies the number of previous ratings to display. */
   @Prop({ reflect: true }) count?: number;
 
-  /** optionally pass a cumulative average rating to display */
+  /** Specifies a cumulative average from previous ratings to display. */
   @Prop({ reflect: true }) average?: number;
 
-  /** The name of the rating */
+  /** Specifies the name of the component on form submission. */
   @Prop({ reflect: true }) name: string;
 
   /**
-   * Localized string for "Rating" (used for aria label)
+   * Accessible name for the component.
    *
    * @default "Rating"
    */
   @Prop() intlRating?: string = TEXT.rating;
 
   /**
-   * Localized string for labelling each star, `${num}` in the string will be replaced by the number
+   * Accessible name for each star. The `${num}` in the string will be replaced by the number.
    *
    * @default "Stars: ${num}"
    */
   @Prop() intlStars?: string = TEXT.stars;
 
   /**
-   * When true, makes the component required for form-submission.
+   * When true, the component must have a value on form submission.
    *
    * @internal
    */
@@ -111,7 +111,7 @@ export class Rating implements LabelableComponent, FormComponent, InteractiveCom
   //--------------------------------------------------------------------------
 
   /**
-   * Fires when the rating value has changed.
+   * Fires when the component's value changes.
    */
   @Event({ cancelable: false }) calciteRatingChange: EventEmitter<{ value: number }>;
 
