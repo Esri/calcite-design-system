@@ -1,24 +1,6 @@
 @import "./node_modules/@esri/calcite-colors/dist/colors.scss";
 @import "./node_modules/@esri/calcite-base/dist/_index.scss";
 
-/* These keyframes are intentionally noops and are only used to emit the calciteThemeChange event */
-@keyframes calciteThemeChangeLight {
-  from {
-    /**/
-  }
-  to {
-    /**/
-  }
-}
-@keyframes calciteThemeChangeDark {
-  from {
-    /**/
-  }
-  to {
-    /**/
-  }
-}
-
 /* CSS vars (@include in global) */
 @import "type";
 
@@ -69,29 +51,20 @@
 
 .calcite-theme-dark {
   @include calcite-theme-dark-extended();
-  animation-name: calciteThemeChangeDark;
 }
 
 .calcite-theme-light {
   @include calcite-theme-light-extended();
-  animation-name: calciteThemeChangeLight;
 }
 
 .calcite-theme-auto {
   @media (prefers-color-scheme: dark) {
     @include calcite-theme-dark-extended();
-    animation-name: calciteThemeChangeDark;
   }
 
   @media (prefers-color-scheme: light) {
     @include calcite-theme-light-extended();
-    animation-name: calciteThemeChangeLight;
   }
-}
-
-/* defaults to light when there is no specified theme class */
-body:not(.calcite-theme-dark):not(.calcite-theme-auto):not(.calcite-theme-light) {
-  animation-name: calciteThemeChangeLight;
 }
 
 .overflow-hidden {
