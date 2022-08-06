@@ -530,7 +530,7 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent, Float
       return;
     }
 
-    const key = event.key;
+    const { key } = event;
 
     if (this.open && (key === "Escape" || (event.shiftKey && key === "Tab"))) {
       this.closeCalciteDropdown();

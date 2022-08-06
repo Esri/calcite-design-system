@@ -216,7 +216,6 @@
   @apply transition-default
     pointer-events-none
     absolute
-    z-10
     block;
 }
 
@@ -499,7 +498,6 @@ input[type="time"]::-webkit-clear-button {
     text-color-3
     pointer-events-none
     absolute
-    z-10
     h-3
     w-3;
 

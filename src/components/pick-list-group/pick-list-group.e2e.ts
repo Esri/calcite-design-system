@@ -1,10 +1,13 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { CSS, SLOTS } from "./resources";
-import { accessible, defaults, renders, slots } from "../../tests/commonTests";
+import { accessible, defaults, renders, slots, hidden } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 
 describe("calcite-pick-list-group", () => {
   it("renders", async () => renders("calcite-pick-list-group", { display: "block" }));
+
+  it("honors hidden attribute", async () => hidden("calcite-pick-list-group"));
+
   it("is accessible", async () => {
     await accessible("<calcite-pick-list-group></calcite-pick-list-group>");
     await accessible(`<calcite-pick-list-group group-title="awesome title, bruh"></calcite-pick-list-group>`);

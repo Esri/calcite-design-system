@@ -87,7 +87,8 @@
       flex
       items-center
       justify-center
-      opacity-0;
+      opacity-0
+      z-toast;
     border-radius: var(--calcite-border-radius);
     border-block-start: 0px solid transparent;
     border-inline: 1px solid var(--calcite-ui-border-3);
@@ -96,7 +97,6 @@
     inline-size: var(--calcite-alert-width);
     max-inline-size: calc(100% - (var(--calcite-alert-edge-distance) * 2 + 2px));
     max-block-size: 0;
-    z-index: 101;
     transition: var(--calcite-internal-animation-timing-slow) $easing-function,
       opacity var(--calcite-internal-animation-timing-slow) $easing-function,
       all var(--calcite-animation-timing) ease-in-out;
@@ -264,7 +264,6 @@
     overflow-hidden;
   inset-block-start: -2px;
   block-size: 2px;
-  z-index: 103;
   border-radius: var(--calcite-border-radius) var(--calcite-border-radius) 0 0;
   &:after {
     @apply absolute
@@ -273,7 +272,6 @@
     block-size: 2px;
     content: "";
     background-color: var(--calcite-alert-dismiss-progress-background);
-    z-index: 104;
     inset-inline-end: 0;
   }
 }

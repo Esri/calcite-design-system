@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { renders } from "../../tests/commonTests";
+import { renders, hidden } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 
 // todo test the automatic setting of first item to active
@@ -68,6 +68,8 @@ describe("calcite-stepper", () => {
     expect(element).toHaveAttribute("numbered");
     expect(element).toHaveAttribute("icon");
   });
+
+  it("honors hidden attribute", async () => hidden("calcite-stepper"));
 
   it("adds active attribute to requested item", async () => {
     const page = await newE2EPage();

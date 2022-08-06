@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, renders, defaults } from "../../tests/commonTests";
+import { accessible, renders, defaults, hidden } from "../../tests/commonTests";
 import { GlobalTestProps } from "../../tests/utils";
 import { html } from "../../../support/formatting";
 import { CSS } from "../tree-item/resources";
@@ -7,6 +7,8 @@ import { TreeSelectionMode } from "./interfaces";
 
 describe("calcite-tree", () => {
   it("renders", () => renders("calcite-tree", { display: "block" }));
+
+  it("honors hidden attribute", async () => hidden("calcite-tree"));
 
   it("is accessible", async () => accessible(`<calcite-tree></calcite-tree>`));
 
