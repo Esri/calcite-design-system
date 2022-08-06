@@ -30,6 +30,7 @@ import { throttle } from "lodash-es";
 
 import { clamp } from "../../utils/math";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import { isActivationKey } from "../../utils/key";
 
 const throttleFor60FpsInMs = 16;
 const defaultValue = normalizeHex(DEFAULT_COLOR.hex());
@@ -531,7 +532,7 @@ export class ColorPicker implements InteractiveComponent {
   };
 
   private handleSavedColorKeyDown = (event: KeyboardEvent): void => {
-    if (event.key === " " || event.key === "Enter") {
+    if (isActivationKey(event.key)) {
       event.preventDefault();
       event.stopPropagation();
       this.handleSavedColorSelect(event);
