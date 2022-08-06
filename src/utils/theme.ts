@@ -10,32 +10,29 @@ export default function (): void {
   const { classList } = document.body;
   const prefersDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
 
-  const getCurrentTheme = (): string =>
+  const getTheme = (): string =>
     classList.contains(darkTheme) || (classList.contains(autoTheme) && prefersDark) ? "dark" : "light";
 
-  const emitThemeChange = (newTheme: string): void => {
-    if (currentTheme !== newTheme) {
-      document.body.dispatchEvent(
-        new CustomEvent("calciteThemeChange", { bubbles: true, detail: { theme: newTheme } })
-      );
-    }
+  const emitThemeChange = (theme: string) =>
+    document.body.dispatchEvent(new CustomEvent("calciteThemeChange", { bubbles: true, detail: { theme } }));
+
+  const themeChangeHandler = (newTheme: string): void => {
+    currentTheme !== newTheme && emitThemeChange(newTheme);
     currentTheme = newTheme;
   };
 
-  let currentTheme = getCurrentTheme();
+  let currentTheme = getTheme();
 
   // emits event on page load
-  document.body.dispatchEvent(
-    new CustomEvent("calciteThemeChange", { bubbles: true, detail: { theme: currentTheme } })
-  );
+  emitThemeChange(currentTheme);
 
   // emits event when changing OS theme preferences
   window
     .matchMedia("(prefers-color-scheme: dark)")
-    .addEventListener("change", (event) => emitThemeChange(event.matches ? "dark" : "light"));
+    .addEventListener("change", (event) => themeChangeHandler(event.matches ? "dark" : "light"));
 
   // emits event when toggling between theme classes on <body>
-  new MutationObserver(() => emitThemeChange(getCurrentTheme())).observe(document.body, {
+  new MutationObserver(() => themeChangeHandler(getTheme())).observe(document.body, {
     attributes: true,
     attributeFilter: ["class"]
   });
