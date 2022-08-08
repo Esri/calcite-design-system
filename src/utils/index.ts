@@ -6,5 +6,9 @@ import { initThemeChangeEvent } from "./theme";
  * @see {@link https://stenciljs.com/docs/config#globalscript Stencil's globalScript property}
  */
 export default function (): void {
-  initThemeChangeEvent();
+  if (isBrowser()) {
+    initThemeChangeEvent();
+  }
 }
+
+const isBrowser = new Function("try {return this===window;}catch(e){ return false;}");

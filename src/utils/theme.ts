@@ -1,15 +1,9 @@
 import { autoTheme, darkTheme } from "./resources";
 
-const isBrowser = new Function("try {return this===window;}catch(e){ return false;}");
-
 /**
  * Emits when the theme is dynamically toggled between light and dark on <body> or in OS preferences.
  */
 export function initThemeChangeEvent(): void {
-  if (!isBrowser) {
-    return;
-  }
-
   const { classList } = document.body;
   const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
 
