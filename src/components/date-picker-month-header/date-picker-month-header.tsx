@@ -23,6 +23,7 @@ import { DateLocaleData } from "../date-picker/utils";
 import { Scale } from "../interfaces";
 import { HeadingLevel, Heading } from "../functional/Heading";
 import { BUDDHIST_CALENDAR_YEAR_OFFSET } from "./resources";
+import { isActivationKey } from "../../utils/key";
 
 @Component({
   tag: "calcite-date-picker-month-header",
@@ -263,7 +264,7 @@ export class DatePickerMonthHeader {
 
   private prevMonthKeydown = (event: KeyboardEvent): void => {
     const { key } = event;
-    if (key === " " || key === "Enter") {
+    if (isActivationKey(key)) {
       this.prevMonthClick(event);
     }
   };
@@ -274,7 +275,7 @@ export class DatePickerMonthHeader {
 
   private nextMonthKeydown = (event: KeyboardEvent): void => {
     const { key } = event;
-    if (key === " " || key === "Enter") {
+    if (isActivationKey(key)) {
       this.nextMonthClick(event);
     }
   };
