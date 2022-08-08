@@ -1,14 +1,17 @@
 import { autoTheme, darkTheme } from "./resources";
 
+const isBrowser = new Function("try {return this===window;}catch(e){ return false;}");
+
 /**
- * Emits when the theme is dynamically toggled between light and dark on <body>.
- * This file is imported in Stencil's `globalScript` config option.
- *
- * @see {@link https://stenciljs.com/docs/config#globalscript Stencil's globalScript property}
+ * Emits when the theme is dynamically toggled between light and dark on <body> or in OS preferences.
  */
-export default function (): void {
+export function initThemeChangeEvent(): void {
+  if (!isBrowser) {
+    return;
+  }
+
   const { classList } = document.body;
-  const prefersDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+  const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
 
   const getTheme = (): string =>
     classList.contains(darkTheme) || (classList.contains(autoTheme) && prefersDark) ? "dark" : "light";
