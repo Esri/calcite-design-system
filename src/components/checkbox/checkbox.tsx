@@ -16,6 +16,7 @@ import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from 
 import { connectForm, disconnectForm } from "../../utils/form";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { toAriaBoolean } from "../../utils/dom";
+import { isActivationKey } from "../../utils/key";
 
 @Component({
   tag: "calcite-checkbox",
@@ -134,7 +135,7 @@ export class Checkbox implements LabelableComponent, CheckableFormCompoment, Int
   };
 
   keyDownHandler = (event: KeyboardEvent): void => {
-    if (event.key === " " || event.key === "Enter") {
+    if (isActivationKey(event.key)) {
       this.toggle();
       event.preventDefault();
     }

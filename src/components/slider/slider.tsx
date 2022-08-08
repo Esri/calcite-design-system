@@ -27,6 +27,7 @@ import {
   HiddenFormInputSlot
 } from "../../utils/form";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import { isActivationKey } from "../../utils/key";
 
 type ActiveSliderProperty = "minValue" | "maxValue" | "value" | "minMaxValue";
 
@@ -765,7 +766,7 @@ export class Slider implements LabelableComponent, FormComponent, InteractiveCom
     const value = this[activeProp];
     const { key } = event;
 
-    if (key === "Enter" || key === " ") {
+    if (isActivationKey(key)) {
       event.preventDefault();
       return;
     }
