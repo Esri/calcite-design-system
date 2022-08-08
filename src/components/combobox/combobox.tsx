@@ -1127,22 +1127,20 @@ export class Combobox
   renderIconStart(): VNode {
     const { selectedItems, placeholderIcon, selectionMode } = this;
     const selectedItem = selectedItems[0];
-    let hasIconAtStart: boolean;
 
-    if (!this.open) {
-      if (selectedItem) {
-        hasIconAtStart = !!selectedItem?.icon && selectionMode === "single";
-      } else if (placeholderIcon) {
-        hasIconAtStart = !!placeholderIcon;
-      }
-    }
+    const hasIconAtStart = this.open
+      ? !!this.placeholderIcon
+      : selectedItem
+      ? !!selectedItem?.icon
+      : !!this.placeholderIcon;
 
     return (
-      hasIconAtStart && (
+      hasIconAtStart &&
+      selectionMode === "single" && (
         <span class="icon-start">
           <calcite-icon
             class="selected-icon"
-            icon={!selectedItem ? placeholderIcon : selectedItem?.icon}
+            icon={!this.open && selectedItem?.icon ? selectedItem?.icon : placeholderIcon}
             scale="s"
           />
         </span>
