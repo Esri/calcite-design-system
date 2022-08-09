@@ -379,26 +379,14 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
     connectForm(this);
     this.mutationObserver?.observe(this.el, { childList: true });
     this.setDisabledAction();
-
-    this.el.addEventListener("calciteHiddenInputChange", (event) => {
-      const hiddenInputValue = (event.target as HTMLInputElement).value;
-
-      this.setValue({
-        value:
-          this.type === "number"
-            ? isValidNumber(hiddenInputValue)
-              ? hiddenInputValue
-              : ""
-            : hiddenInputValue,
-        origin: "user"
-      });
-    });
+    document.addEventListener("calciteInternalHiddenInputChange", this.hiddenInputChangeHandler);
   }
 
   disconnectedCallback(): void {
     disconnectLabel(this);
     disconnectForm(this);
     this.mutationObserver?.disconnect();
+    document.removeEventListener("calciteInternalHiddenInputChange", this.hiddenInputChangeHandler);
   }
 
   componentWillLoad(): void {
@@ -732,9 +720,22 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
     }
   }
 
-  // handleHiddenInputChange(input: HTMLInputElement): void {
+  hiddenInputChangeHandler(event: Event): void {
+    if ((event.target as HTMLInputElement).name === this.name) {
+      const hiddenInputValue = (event.target as HTMLInputElement).value;
+      const value =
+        this.type === "number"
+          ? isValidNumber(hiddenInputValue)
+            ? hiddenInputValue
+            : ""
+          : hiddenInputValue;
 
-  // }
+      this.setValue({
+        value,
+        origin: "user"
+      });
+    }
+  }
 
   private setChildElRef = (el) => {
     this.childEl = el;

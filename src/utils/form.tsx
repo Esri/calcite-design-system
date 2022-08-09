@@ -280,7 +280,7 @@ function syncHiddenFormInput(component: FormComponent): void {
     docFrag.append(input);
 
     input.dispatchEvent(
-      new CustomEvent("calciteHiddenInputChange", {
+      new CustomEvent("calciteInternalHiddenInputChange", {
         bubbles: true,
         composed: true
       })
