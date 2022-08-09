@@ -297,7 +297,7 @@ export const WithPlaceHolderIcon = (): string => html` <calcite-combobox
   <calcite-combobox-item value="2" text-label="Folder 2" icon="folder"></calcite-combobox-item>
 </calcite-combobox>`;
 
-export const WithPlaceHolderTextAndNoIcon = (): string => html` <calcite-combobox
+export const WithoutPlaceHolderIcon = (): string => html` <calcite-combobox
   id="labelFour"
   label="test"
   placeholder="${text("placeholder", "select folder")}"
