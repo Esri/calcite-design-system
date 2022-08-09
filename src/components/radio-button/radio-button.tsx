@@ -19,7 +19,7 @@ import {
   HiddenFormInputSlot,
   connectForm,
   disconnectForm,
-  CheckableFormCompoment
+  CheckableFormComponent
 } from "../../utils/form";
 import { CSS } from "./resources";
 import { getRoundRobinIndex } from "../../utils/array";
@@ -31,7 +31,7 @@ import { InteractiveComponent, updateHostInteraction } from "../../utils/interac
   shadow: true
 })
 export class RadioButton
-  implements LabelableComponent, CheckableFormCompoment, InteractiveComponent
+  implements LabelableComponent, CheckableFormComponent, InteractiveComponent
 {
   //--------------------------------------------------------------------------
   //

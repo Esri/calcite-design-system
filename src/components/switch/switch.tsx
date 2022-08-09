@@ -16,7 +16,7 @@ import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from 
 import {
   connectForm,
   disconnectForm,
-  CheckableFormCompoment,
+  CheckableFormComponent,
   HiddenFormInputSlot
 } from "../../utils/form";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
@@ -27,7 +27,7 @@ import { isActivationKey } from "../../utils/key";
   styleUrl: "switch.scss",
   shadow: true
 })
-export class Switch implements LabelableComponent, CheckableFormCompoment, InteractiveComponent {
+export class Switch implements LabelableComponent, CheckableFormComponent, InteractiveComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
