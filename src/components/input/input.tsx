@@ -379,6 +379,20 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
     connectForm(this);
     this.mutationObserver?.observe(this.el, { childList: true });
     this.setDisabledAction();
+
+    this.el.addEventListener("calciteHiddenInputChange", (event) => {
+      const hiddenInputValue = (event.target as HTMLInputElement).value;
+
+      this.setValue({
+        value:
+          this.type === "number"
+            ? isValidNumber(hiddenInputValue)
+              ? hiddenInputValue
+              : ""
+            : hiddenInputValue,
+        origin: "user"
+      });
+    });
   }
 
   disconnectedCallback(): void {
@@ -717,6 +731,10 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
       input.type = "password";
     }
   }
+
+  // handleHiddenInputChange(input: HTMLInputElement): void {
+
+  // }
 
   private setChildElRef = (el) => {
     this.childEl = el;

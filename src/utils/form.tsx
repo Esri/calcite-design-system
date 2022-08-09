@@ -279,6 +279,13 @@ function syncHiddenFormInput(component: FormComponent): void {
 
     docFrag.append(input);
 
+    input.dispatchEvent(
+      new CustomEvent("calciteHiddenInputChange", {
+        bubbles: true,
+        composed: true
+      })
+    );
+
     defaultSyncHiddenFormInput(component, input, value);
   });
 
