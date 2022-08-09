@@ -8,7 +8,8 @@ import {
   Method,
   Event,
   EventEmitter,
-  Watch
+  Watch,
+  State
 } from "@stencil/core";
 import { SLOTS, CSS } from "./resources";
 import { getElementDir, getSlotted, toAriaBoolean } from "../../utils/dom";
@@ -24,7 +25,6 @@ import { isActivationKey } from "../../utils/key";
 const focusMap = new Map<HTMLCalciteListElement, number>();
 
 const listSelector = "calcite-list";
-const listItemSelector = "calcite-list-item";
 
 /**
  * @slot - A slot for adding `calcite-list-item` and `calcite-list-item-group` elements.
@@ -46,14 +46,15 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
   // --------------------------------------------------------------------------
 
   /**
+   *
+   * @internal
+   */
+  @Prop() active = false;
+
+  /**
    * A description for the component. Displays below the label text.
    */
   @Prop() description?: string;
-
-  /**
-   * When true, item is expanded to show child components.
-   */
-  @Prop({ mutable: true, reflect: true }) expanded = false;
 
   /**
    * When true, interaction is prevented and the component is displayed with lower opacity.
@@ -64,6 +65,23 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
    * The label text of the component. Displays above the description text.
    */
   @Prop() label: string;
+
+  /**
+   * When true, item is open to show child components.
+   */
+  @Prop({ mutable: true, reflect: true }) open = false;
+
+  /**
+   *
+   * @internal
+   */
+  @Prop() setSize: number = null;
+
+  /**
+   *
+   * @internal
+   */
+  @Prop() setPosition: number = null;
 
   //--------------------------------------------------------------------------
   //
@@ -90,47 +108,13 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
 
   @Element() el: HTMLCalciteListItemElement;
 
-  /**
-   *
-   * @internal
-   */
-  @Prop() active = false;
+  @State() level: number = null;
 
-  /**
-   *
-   * @internal
-   */
-  @Prop({ mutable: true }) level: number = null;
+  @State() parentListEl: HTMLCalciteListElement;
 
-  /**
-   *
-   * @internal
-   */
-  @Prop() setSize: number = null;
+  @State() parentListItemEl: HTMLCalciteListItemElement;
 
-  /**
-   *
-   * @internal
-   */
-  @Prop() setPosition: number = null;
-
-  /**
-   *
-   * @internal
-   */
-  @Prop({ mutable: true }) parentListEl: HTMLCalciteListElement;
-
-  /**
-   *
-   * @internal
-   */
-  @Prop({ mutable: true }) parentListItemEl: HTMLCalciteListItemElement;
-
-  /**
-   *
-   * @internal
-   */
-  @Prop({ mutable: true }) expandable = false;
+  @State() openable = false;
 
   containerEl: HTMLTableRowElement;
 
@@ -157,7 +141,6 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
     connectConditionalSlotComponent(this);
     const { el } = this;
     this.parentListEl = el.closest(listSelector);
-    this.parentListItemEl = el.parentElement?.closest(listItemSelector);
     this.level = getDepth(el) + 1;
   }
 
@@ -200,14 +183,14 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
   //
   // --------------------------------------------------------------------------
 
-  renderExpand(): VNode {
-    const { el, expanded, expandable } = this;
+  renderOpen(): VNode {
+    const { el, open, openable } = this;
     const dir = getElementDir(el);
 
-    return expandable ? (
-      <td class={CSS.expandContainer} onClick={this.toggleExpanded}>
+    return openable ? (
+      <td class={CSS.openContainer} onClick={this.toggleOpen}>
         <calcite-icon
-          icon={expanded ? "caret-down" : dir === "rtl" ? "caret-left" : "caret-right"}
+          icon={open ? "caret-down" : dir === "rtl" ? "caret-left" : "caret-right"}
           scale="s"
         />
       </td>
@@ -295,11 +278,11 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
   }
 
   render(): VNode {
-    const { expandable, expanded, level, setPosition, setSize, active, label } = this;
+    const { openable, open, level, setPosition, setSize, active, label } = this;
     return (
       <Host>
         <tr
-          aria-expanded={expandable ? toAriaBoolean(expanded) : null}
+          aria-expanded={openable ? toAriaBoolean(open) : null}
           aria-label={label}
           aria-level={level}
           aria-posinset={setPosition}
@@ -311,7 +294,7 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
           role="row"
           tabIndex={active ? 0 : -1}
         >
-          {this.renderExpand()}
+          {this.renderOpen()}
           {this.renderActionsStart()}
           {this.renderContentContainer()}
           {this.renderActionsEnd()}
@@ -319,7 +302,7 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
         <div
           class={{
             [CSS.nestedContainer]: true,
-            [CSS.nestedContainerHidden]: expandable ? !expanded : false
+            [CSS.nestedContainerHidden]: openable ? !open : false
           }}
         >
           <slot onSlotchange={this.handleDefaultSlotChange} />
@@ -337,11 +320,15 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
   handleDefaultSlotChange = (event: Event): void => {
     const listItemChildren = getListItemChildren(event);
     updateListItemChildren(listItemChildren);
-    this.expandable = !!listItemChildren.length;
+    const openable = !!listItemChildren.length;
+    this.openable = openable;
+    if (!openable) {
+      this.open = false;
+    }
   };
 
-  toggleExpanded = (): void => {
-    this.expanded = !this.expanded;
+  toggleOpen = (): void => {
+    this.open = !this.open;
   };
 
   handleItemContentKeyDown = (event: KeyboardEvent): void => {
@@ -356,7 +343,7 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
   handleItemKeyDown = (event: KeyboardEvent): void => {
     const { key } = event;
     const composedPath = event.composedPath();
-    const { containerEl, contentEl, actionsStartEl, actionsEndEl, expanded, expandable } = this;
+    const { containerEl, contentEl, actionsStartEl, actionsEndEl, open, openable } = this;
 
     const cells = [actionsStartEl, contentEl, actionsEndEl].filter(Boolean);
     const currentIndex = cells.findIndex((cell) => composedPath.includes(cell));
@@ -365,8 +352,8 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
       event.preventDefault();
       const nextIndex = currentIndex + 1;
       if (currentIndex === -1) {
-        if (!expanded && expandable) {
-          this.expanded = true;
+        if (!open && openable) {
+          this.open = true;
           this.focusCell(null);
         } else if (cells[0]) {
           this.focusCell(cells[0]);
@@ -379,8 +366,8 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
       const prevIndex = currentIndex - 1;
       if (currentIndex === -1) {
         this.focusCell(null);
-        if (expanded && expandable) {
-          this.expanded = false;
+        if (open && openable) {
+          this.open = false;
         } else {
           this.calciteInternalFocusPreviousItem.emit();
         }

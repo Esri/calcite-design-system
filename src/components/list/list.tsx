@@ -176,15 +176,13 @@ export class List implements InteractiveComponent {
   };
 
   isNavigable = (listItem: HTMLCalciteListItemElement): boolean => {
-    const { parentListItemEl } = listItem;
+    const parentListItemEl = listItem.parentElement?.closest(listItemSelector);
 
     if (!parentListItemEl) {
       return true;
     }
 
-    return (
-      parentListItemEl.expandable && parentListItemEl.expanded && this.isNavigable(parentListItemEl)
-    );
+    return parentListItemEl.open && this.isNavigable(parentListItemEl);
   };
 
   handleListKeydown = (event: KeyboardEvent): void => {
