@@ -8,10 +8,11 @@ import {
   Watch,
   h,
   VNode,
-  Fragment
+  Fragment,
+  State
 } from "@stencil/core";
 import { CSS, HEADING_LEVEL, ICONS, SLOTS, TEXT } from "./resources";
-import { getElementDir, getSlotted, toAriaBoolean } from "../../utils/dom";
+import { getElementDir, toAriaBoolean } from "../../utils/dom";
 import { Scale } from "../interfaces";
 import { HeadingLevel, Heading } from "../functional/Heading";
 import { SLOTS as ACTION_MENU_SLOTS } from "../action-menu/resources";
@@ -69,7 +70,7 @@ export class Panel implements ConditionalSlotComponent, InteractiveComponent {
   /**
    * When provided, this method will be called before it is removed from the parent flow.
    */
-  @Prop() beforeBack?: () => Promise<void>;
+  @Prop() beforeBack?: () => Promise<void>; // todo: remove
 
   /**
    *  When true, interaction is prevented and the component is displayed with lower opacity.
@@ -104,12 +105,12 @@ export class Panel implements ConditionalSlotComponent, InteractiveComponent {
   /**
    * When true, displays a back button in the header.
    */
-  @Prop({ reflect: true }) showBackButton = false;
+  @Prop({ reflect: true }) showBackButton = false; // todo: remove
 
   /**
    * Accessible name for the component's back button. The back button will only be shown when 'showBackButton' is true.
    */
-  @Prop() intlBack?: string;
+  @Prop() intlBack?: string; // todo: remove
 
   /**
    * Specifies the maximum height of the component.
@@ -174,7 +175,7 @@ export class Panel implements ConditionalSlotComponent, InteractiveComponent {
 
   @Element() el: HTMLCalcitePanelElement;
 
-  backButtonEl: HTMLCalciteActionElement;
+  backButtonEl: HTMLCalciteActionElement; // todo: remove
 
   closeButtonEl: HTMLCalciteActionElement;
 
@@ -183,6 +184,20 @@ export class Panel implements ConditionalSlotComponent, InteractiveComponent {
   panelScrollEl: HTMLElement;
 
   resizeObserver = createObserver("resize", () => this.resizeHandler());
+
+  @State() hasStartActions = false;
+
+  @State() hasEndActions = false;
+
+  @State() hasMenuItems = false;
+
+  @State() hasHeaderContent = false;
+
+  @State() hasFooterContent = false;
+
+  @State() hasFooterActions = false;
+
+  @State() hasFab = false;
 
   // --------------------------------------------------------------------------
   //
@@ -237,7 +252,7 @@ export class Panel implements ConditionalSlotComponent, InteractiveComponent {
   /**
    * Fires when the back button is clicked.
    */
-  @Event({ cancelable: false }) calcitePanelBackClick: EventEmitter<void>;
+  @Event({ cancelable: false }) calcitePanelBackClick: EventEmitter<void>; // todo: remove
 
   // --------------------------------------------------------------------------
   //
@@ -267,6 +282,7 @@ export class Panel implements ConditionalSlotComponent, InteractiveComponent {
     this.closeButtonEl = node;
   };
 
+  // todo: remove
   setBackRef = (node: HTMLCalciteActionElement): void => {
     this.backButtonEl = node;
   };
@@ -286,8 +302,75 @@ export class Panel implements ConditionalSlotComponent, InteractiveComponent {
     this.calcitePanelScroll.emit();
   };
 
+  // todo: remove
   backButtonClick = (): void => {
     this.calcitePanelBackClick.emit();
+  };
+
+  handleHeaderActionsStartSlotChange = (event: Event): void => {
+    const elements = (event.target as HTMLSlotElement)
+      .assignedElements({
+        flatten: true
+      })
+      .filter((el) => el?.matches("calcite-action")) as HTMLCalciteActionElement[];
+
+    this.hasStartActions = !!elements.length;
+  };
+
+  handleHeaderActionsEndSlotChange = (event: Event): void => {
+    const elements = (event.target as HTMLSlotElement)
+      .assignedElements({
+        flatten: true
+      })
+      .filter((el) => el?.matches("calcite-action")) as HTMLCalciteActionElement[];
+
+    this.hasEndActions = !!elements.length;
+  };
+
+  handleHeaderMenuActionsSlotChange = (event: Event): void => {
+    const elements = (event.target as HTMLSlotElement)
+      .assignedElements({
+        flatten: true
+      })
+      .filter((el) => el?.matches("calcite-action")) as HTMLCalciteActionElement[];
+
+    this.hasMenuItems = !!elements.length;
+  };
+
+  handleHeaderContentSlotChange = (event: Event): void => {
+    const elements = (event.target as HTMLSlotElement).assignedElements({
+      flatten: true
+    });
+
+    this.hasHeaderContent = !!elements.length;
+  };
+
+  handleFooterSlotChange = (event: Event): void => {
+    const elements = (event.target as HTMLSlotElement).assignedElements({
+      flatten: true
+    });
+
+    this.hasFooterContent = !!elements.length;
+  };
+
+  handleFooterActionsSlotChange = (event: Event): void => {
+    const elements = (event.target as HTMLSlotElement)
+      .assignedElements({
+        flatten: true
+      })
+      .filter((el) => el?.matches("calcite-action")) as HTMLCalciteActionElement[];
+
+    this.hasFooterActions = !!elements.length;
+  };
+
+  handleFabSlotChange = (event: Event): void => {
+    const elements = (event.target as HTMLSlotElement)
+      .assignedElements({
+        flatten: true
+      })
+      .filter((el) => el?.matches("calcite-fab")) as HTMLCalciteFabElement[];
+
+    this.hasFab = !!elements.length;
   };
 
   // --------------------------------------------------------------------------
@@ -308,6 +391,7 @@ export class Panel implements ConditionalSlotComponent, InteractiveComponent {
       return;
     }
 
+    // todo: remove back-button
     if (focusId === "back-button") {
       this.backButtonEl?.setFocus();
       return;
@@ -340,6 +424,7 @@ export class Panel implements ConditionalSlotComponent, InteractiveComponent {
   //
   // --------------------------------------------------------------------------
 
+  // todo: remove
   renderBackButton(): VNode {
     const { el } = this;
 
@@ -364,7 +449,7 @@ export class Panel implements ConditionalSlotComponent, InteractiveComponent {
   }
 
   renderHeaderContent(): VNode {
-    const { heading, headingLevel, summary, description } = this;
+    const { heading, headingLevel, summary, description, hasHeaderContent } = this;
     const headingNode = heading ? (
       <Heading class={CSS.heading} level={headingLevel || HEADING_LEVEL}>
         {heading}
@@ -374,7 +459,7 @@ export class Panel implements ConditionalSlotComponent, InteractiveComponent {
     const descriptionNode =
       description || summary ? <span class={CSS.description}>{description || summary}</span> : null;
 
-    return headingNode || descriptionNode ? (
+    return !hasHeaderContent && (headingNode || descriptionNode) ? (
       <div class={CSS.headerContent} key="header-content">
         {headingNode}
         {descriptionNode}
@@ -387,27 +472,31 @@ export class Panel implements ConditionalSlotComponent, InteractiveComponent {
    */
   renderHeaderSlottedContent(): VNode {
     return (
-      <div class={CSS.headerContent} key="slotted-header-content">
-        <slot name={SLOTS.headerContent} />
+      <div class={CSS.headerContent} hidden={!this.hasHeaderContent} key="slotted-header-content">
+        <slot name={SLOTS.headerContent} onSlotchange={this.handleHeaderContentSlotChange} />
       </div>
     );
   }
 
   renderHeaderStartActions(): VNode {
-    const { el } = this;
-    const hasStartActions = getSlotted(el, SLOTS.headerActionsStart);
-    return hasStartActions ? (
+    const { hasStartActions } = this;
+
+    return (
       <div
         class={{ [CSS.headerActionsStart]: true, [CSS.headerActions]: true }}
+        hidden={!hasStartActions}
         key="header-actions-start"
       >
-        <slot name={SLOTS.headerActionsStart} />
+        <slot
+          name={SLOTS.headerActionsStart}
+          onSlotchange={this.handleHeaderActionsStartSlotChange}
+        />
       </div>
-    ) : null;
+    );
   }
 
   renderHeaderActionsEnd(): VNode {
-    const { close, el, intlClose, closable } = this;
+    const { close, hasEndActions, intlClose, closable } = this;
     const text = intlClose || TEXT.close;
 
     const closableNode = closable ? (
@@ -420,28 +509,31 @@ export class Panel implements ConditionalSlotComponent, InteractiveComponent {
       />
     ) : null;
 
-    const slotNode = <slot name={SLOTS.headerActionsEnd} />;
-    const hasEndActions = getSlotted(el, SLOTS.headerActionsEnd);
+    const slotNode = (
+      <slot name={SLOTS.headerActionsEnd} onSlotchange={this.handleHeaderActionsEndSlotChange} />
+    );
 
-    return hasEndActions || closableNode ? (
+    const showContainer = hasEndActions || closableNode;
+
+    return (
       <div
         class={{ [CSS.headerActionsEnd]: true, [CSS.headerActions]: true }}
+        hidden={!showContainer}
         key="header-actions-end"
       >
         {slotNode}
         {closableNode}
       </div>
-    ) : null;
+    );
   }
 
   renderMenu(): VNode {
-    const { el, intlOptions, menuOpen } = this;
+    const { hasMenuItems, intlOptions, menuOpen } = this;
 
-    const hasMenuItems = getSlotted(el, SLOTS.headerMenuActions);
-
-    return hasMenuItems ? (
+    return (
       <calcite-action-menu
         flipPlacements={["top", "bottom"]}
+        hidden={!hasMenuItems}
         key="menu"
         label={intlOptions || TEXT.options}
         open={menuOpen}
@@ -452,33 +544,36 @@ export class Panel implements ConditionalSlotComponent, InteractiveComponent {
           slot={ACTION_MENU_SLOTS.trigger}
           text={intlOptions || TEXT.options}
         />
-        <slot name={SLOTS.headerMenuActions} />
+        <slot
+          name={SLOTS.headerMenuActions}
+          onSlotchange={this.handleHeaderMenuActionsSlotChange}
+        />
       </calcite-action-menu>
-    ) : null;
+    );
   }
 
   renderHeaderNode(): VNode {
-    const { el, showBackButton } = this;
+    const { hasHeaderContent, showBackButton } = this;
 
+    // todo: remove
     const backButtonNode = this.renderBackButton();
 
-    const hasHeaderSlottedContent = getSlotted(el, SLOTS.headerContent);
-    const headerContentNode = hasHeaderSlottedContent
-      ? this.renderHeaderSlottedContent()
-      : this.renderHeaderContent();
-
+    const slottedHeaderContentNode = this.renderHeaderSlottedContent();
+    const headerContentNode = this.renderHeaderContent();
     const actionsNodeStart = this.renderHeaderStartActions();
     const actionsNodeEnd = this.renderHeaderActionsEnd();
     const headerMenuNode = this.renderMenu();
 
     return actionsNodeStart ||
       headerContentNode ||
+      slottedHeaderContentNode ||
       actionsNodeEnd ||
       headerMenuNode ||
-      showBackButton ? (
+      showBackButton ? ( // todo: remove
       <header class={CSS.header}>
         {backButtonNode}
         {actionsNodeStart}
+        {slottedHeaderContentNode}
         {headerContentNode}
         {actionsNodeEnd}
         {headerMenuNode}
@@ -487,17 +582,20 @@ export class Panel implements ConditionalSlotComponent, InteractiveComponent {
   }
 
   renderFooterNode(): VNode {
-    const { el } = this;
+    const { hasFooterContent, hasFooterActions } = this;
 
-    const hasFooterSlottedContent = getSlotted(el, SLOTS.footer);
-    const hasFooterActions = getSlotted(el, SLOTS.footerActions);
+    const showFooter = hasFooterContent || hasFooterActions;
 
-    return hasFooterSlottedContent || hasFooterActions ? (
-      <footer class={CSS.footer} key="footer">
-        {hasFooterSlottedContent ? <slot key="footer-slot" name={SLOTS.footer} /> : null}
-        {hasFooterActions ? <slot key="footer-actions-slot" name={SLOTS.footerActions} /> : null}
+    return (
+      <footer class={CSS.footer} hidden={!showFooter} key="footer">
+        <slot key="footer-slot" name={SLOTS.footer} onSlotchange={this.handleFooterSlotChange} />
+        <slot
+          key="footer-actions-slot"
+          name={SLOTS.footerActions}
+          onSlotchange={this.handleFooterActionsSlotChange}
+        />
       </footer>
-    ) : null;
+    );
   }
 
   setPanelScrollEl = (el: HTMLElement): void => {
@@ -511,38 +609,34 @@ export class Panel implements ConditionalSlotComponent, InteractiveComponent {
   };
 
   renderContent(): VNode {
-    const { el } = this;
-    const hasFab = getSlotted(el, SLOTS.fab);
+    const { hasFab } = this;
 
     const defaultSlotNode: VNode = <slot key="default-slot" />;
     const contentWrapperKey = "content-wrapper";
 
-    return hasFab ? (
+    const containerNode = hasFab ? (
+      <section class={CSS.contentContainer}>{defaultSlotNode}</section>
+    ) : (
+      defaultSlotNode
+    );
+
+    return (
       <div
         class={{ [CSS.contentWrapper]: true, [CSS.contentHeight]: true }}
         key={contentWrapperKey}
         onScroll={this.panelScrollHandler}
         ref={this.setPanelScrollEl}
       >
-        <section class={CSS.contentContainer}>{defaultSlotNode}</section>
+        {containerNode}
         {this.renderFab()}
       </div>
-    ) : (
-      <section
-        class={{ [CSS.contentWrapper]: true, [CSS.contentContainer]: true }}
-        key={contentWrapperKey}
-        onScroll={this.panelScrollHandler}
-        ref={this.setPanelScrollEl}
-      >
-        {defaultSlotNode}
-      </section>
     );
   }
 
   renderFab(): VNode {
     return (
-      <div class={CSS.fabContainer}>
-        <slot name={SLOTS.fab} />
+      <div class={CSS.fabContainer} hidden={!this.hasFab}>
+        <slot name={SLOTS.fab} onSlotchange={this.handleFabSlotChange} />
       </div>
     );
   }

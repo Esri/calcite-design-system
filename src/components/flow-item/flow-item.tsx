@@ -1,6 +1,18 @@
-import { Component, Element, Prop, h, VNode, Host, Method } from "@stencil/core";
+import {
+  Component,
+  Element,
+  Prop,
+  h,
+  VNode,
+  Host,
+  Method,
+  Event,
+  EventEmitter
+} from "@stencil/core";
+import { getElementDir } from "../../utils/dom";
 import { HeadingLevel } from "../functional/Heading";
 import { Scale } from "../interfaces";
+import { CSS, ICONS, TEXT } from "./resources";
 
 /**
  * @slot - A slot for adding custom content.
@@ -95,6 +107,17 @@ export class FlowItem {
 
   // --------------------------------------------------------------------------
   //
+  //  Events
+  //
+  // --------------------------------------------------------------------------
+
+  /**
+   * Fires when the back button is clicked.
+   */
+  @Event({ cancelable: false }) calcitePanelBackClick: EventEmitter<void>;
+
+  // --------------------------------------------------------------------------
+  //
   //  Private Properties
   //
   // --------------------------------------------------------------------------
@@ -102,6 +125,8 @@ export class FlowItem {
   @Element() el: HTMLCalciteFlowItemElement;
 
   containerEl: HTMLCalcitePanelElement;
+
+  backButtonEl: HTMLCalciteActionElement;
 
   // --------------------------------------------------------------------------
   //
@@ -137,9 +162,46 @@ export class FlowItem {
 
   // --------------------------------------------------------------------------
   //
+  //  Private Methods
+  //
+  // --------------------------------------------------------------------------
+
+  backButtonClick = (): void => {
+    this.calcitePanelBackClick.emit();
+  };
+
+  setBackRef = (node: HTMLCalciteActionElement): void => {
+    this.backButtonEl = node;
+  };
+
+  // --------------------------------------------------------------------------
+  //
   //  Render Methods
   //
   // --------------------------------------------------------------------------
+
+  renderBackButton(): VNode {
+    const { el } = this;
+
+    const rtl = getElementDir(el) === "rtl";
+    const { showBackButton, intlBack, backButtonClick } = this;
+    const label = intlBack || TEXT.back;
+    const icon = rtl ? ICONS.backRight : ICONS.backLeft;
+
+    return showBackButton ? (
+      <calcite-action
+        aria-label={label}
+        class={CSS.backButton}
+        icon={icon}
+        key="flow-back-button"
+        onClick={backButtonClick}
+        ref={this.setBackRef}
+        scale="s"
+        slot="header-actions-start"
+        text={label}
+      />
+    ) : null;
+  }
 
   render(): VNode {
     const {
@@ -182,6 +244,7 @@ export class FlowItem {
           <slot name="footer-actions" slot="footer-actions" />
           <slot name="footer" slot="footer" />
           <slot />
+          {this.renderBackButton()}
         </calcite-panel>
       </Host>
     );
