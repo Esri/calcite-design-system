@@ -424,7 +424,9 @@ export class InputNumber implements LabelableComponent, FormComponent, Interacti
       event.preventDefault();
     }
     if (event.key === "Enter" && !event.defaultPrevented) {
-      submitForm(this);
+      if (submitForm(this)) {
+        event.preventDefault();
+      }
     }
   };
 

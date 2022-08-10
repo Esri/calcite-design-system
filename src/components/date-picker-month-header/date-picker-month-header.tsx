@@ -258,24 +258,22 @@ export class DatePickerMonthHeader {
     });
   };
 
-  private prevMonthClick = (event: Event): void => {
+  private prevMonthClick = (event: KeyboardEvent | MouseEvent): void => {
     this.handleArrowClick(event, this.prevMonthDate);
   };
 
   private prevMonthKeydown = (event: KeyboardEvent): void => {
-    const { key } = event;
-    if (isActivationKey(key)) {
+    if (isActivationKey(event.key)) {
       this.prevMonthClick(event);
     }
   };
 
-  private nextMonthClick = (event: Event): void => {
+  private nextMonthClick = (event: MouseEvent | KeyboardEvent): void => {
     this.handleArrowClick(event, this.nextMonthDate);
   };
 
   private nextMonthKeydown = (event: KeyboardEvent): void => {
-    const { key } = event;
-    if (isActivationKey(key)) {
+    if (isActivationKey(event.key)) {
       this.nextMonthClick(event);
     }
   };
@@ -283,9 +281,8 @@ export class DatePickerMonthHeader {
   /*
    * Update active month on clicks of left/right arrows
    */
-  private handleArrowClick = (event: Event, date: Date): void => {
-    event?.preventDefault();
-    event.stopPropagation();
+  private handleArrowClick = (event: MouseEvent | KeyboardEvent, date: Date): void => {
+    event.preventDefault();
     this.calciteDatePickerSelect.emit(date);
   };
 
