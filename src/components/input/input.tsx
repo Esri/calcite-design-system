@@ -477,7 +477,9 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
       event.preventDefault();
     }
     if (event.key === "Enter" && !event.defaultPrevented) {
-      submitForm(this);
+      if (submitForm(this)) {
+        event.preventDefault();
+      }
     }
   };
 
