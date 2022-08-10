@@ -308,31 +308,25 @@ export class Panel implements ConditionalSlotComponent, InteractiveComponent {
   };
 
   handleHeaderActionsStartSlotChange = (event: Event): void => {
-    const elements = (event.target as HTMLSlotElement)
-      .assignedElements({
-        flatten: true
-      })
-      .filter((el) => el?.matches("calcite-action")) as HTMLCalciteActionElement[];
+    const elements = (event.target as HTMLSlotElement).assignedElements({
+      flatten: true
+    });
 
     this.hasStartActions = !!elements.length;
   };
 
   handleHeaderActionsEndSlotChange = (event: Event): void => {
-    const elements = (event.target as HTMLSlotElement)
-      .assignedElements({
-        flatten: true
-      })
-      .filter((el) => el?.matches("calcite-action")) as HTMLCalciteActionElement[];
+    const elements = (event.target as HTMLSlotElement).assignedElements({
+      flatten: true
+    });
 
     this.hasEndActions = !!elements.length;
   };
 
   handleHeaderMenuActionsSlotChange = (event: Event): void => {
-    const elements = (event.target as HTMLSlotElement)
-      .assignedElements({
-        flatten: true
-      })
-      .filter((el) => el?.matches("calcite-action")) as HTMLCalciteActionElement[];
+    const elements = (event.target as HTMLSlotElement).assignedElements({
+      flatten: true
+    });
 
     this.hasMenuItems = !!elements.length;
   };
@@ -354,21 +348,17 @@ export class Panel implements ConditionalSlotComponent, InteractiveComponent {
   };
 
   handleFooterActionsSlotChange = (event: Event): void => {
-    const elements = (event.target as HTMLSlotElement)
-      .assignedElements({
-        flatten: true
-      })
-      .filter((el) => el?.matches("calcite-action")) as HTMLCalciteActionElement[];
+    const elements = (event.target as HTMLSlotElement).assignedElements({
+      flatten: true
+    });
 
     this.hasFooterActions = !!elements.length;
   };
 
   handleFabSlotChange = (event: Event): void => {
-    const elements = (event.target as HTMLSlotElement)
-      .assignedElements({
-        flatten: true
-      })
-      .filter((el) => el?.matches("calcite-fab")) as HTMLCalciteFabElement[];
+    const elements = (event.target as HTMLSlotElement).assignedElements({
+      flatten: true
+    });
 
     this.hasFab = !!elements.length;
   };
@@ -553,7 +543,7 @@ export class Panel implements ConditionalSlotComponent, InteractiveComponent {
   }
 
   renderHeaderNode(): VNode {
-    const { hasHeaderContent, showBackButton } = this;
+    const { showBackButton } = this;
 
     // todo: remove
     const backButtonNode = this.renderBackButton();

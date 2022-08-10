@@ -1,5 +1,5 @@
 export const CSS = {
-  backButton: "back-button",
+  backButton: "back-button", // todo: remove
   container: "container",
   header: "header",
   heading: "heading",
@@ -23,8 +23,8 @@ export const CSS = {
 export const ICONS = {
   close: "x",
   menu: "ellipsis",
-  backLeft: "chevron-left",
-  backRight: "chevron-right"
+  backLeft: "chevron-left", // todo: remove
+  backRight: "chevron-right" // todo: remove
 };
 
 export const SLOTS = {
