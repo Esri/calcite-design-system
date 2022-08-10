@@ -69,8 +69,10 @@ export class Panel implements ConditionalSlotComponent, InteractiveComponent {
 
   /**
    * When provided, this method will be called before it is removed from the parent flow.
+   *
+   *  @deprecated use `calcite-flow-item` instead.
    */
-  @Prop() beforeBack?: () => Promise<void>; // todo: remove
+  @Prop() beforeBack?: () => Promise<void>;
 
   /**
    *  When true, interaction is prevented and the component is displayed with lower opacity.
@@ -104,13 +106,17 @@ export class Panel implements ConditionalSlotComponent, InteractiveComponent {
 
   /**
    * When true, displays a back button in the header.
+   *
+   * @deprecated use `calcite-flow-item` instead.
    */
-  @Prop({ reflect: true }) showBackButton = false; // todo: remove
+  @Prop({ reflect: true }) showBackButton = false;
 
   /**
    * Accessible name for the component's back button. The back button will only be shown when 'showBackButton' is true.
+   *
+   * @deprecated use `calcite-flow-item` instead.
    */
-  @Prop() intlBack?: string; // todo: remove
+  @Prop() intlBack?: string;
 
   /**
    * Specifies the maximum height of the component.
@@ -175,7 +181,7 @@ export class Panel implements ConditionalSlotComponent, InteractiveComponent {
 
   @Element() el: HTMLCalcitePanelElement;
 
-  backButtonEl: HTMLCalciteActionElement; // todo: remove
+  backButtonEl: HTMLCalciteActionElement;
 
   closeButtonEl: HTMLCalciteActionElement;
 
@@ -251,8 +257,10 @@ export class Panel implements ConditionalSlotComponent, InteractiveComponent {
 
   /**
    * Fires when the back button is clicked.
+   *
+   * @deprecated use `calcite-flow-item` instead.
    */
-  @Event({ cancelable: false }) calcitePanelBackClick: EventEmitter<void>; // todo: remove
+  @Event({ cancelable: false }) calcitePanelBackClick: EventEmitter<void>;
 
   // --------------------------------------------------------------------------
   //
@@ -282,7 +290,6 @@ export class Panel implements ConditionalSlotComponent, InteractiveComponent {
     this.closeButtonEl = node;
   };
 
-  // todo: remove
   setBackRef = (node: HTMLCalciteActionElement): void => {
     this.backButtonEl = node;
   };
@@ -302,7 +309,6 @@ export class Panel implements ConditionalSlotComponent, InteractiveComponent {
     this.calcitePanelScroll.emit();
   };
 
-  // todo: remove
   backButtonClick = (): void => {
     this.calcitePanelBackClick.emit();
   };
@@ -372,22 +378,22 @@ export class Panel implements ConditionalSlotComponent, InteractiveComponent {
   /**
    * Sets focus on the component.
    *
-   * @param focusId
    */
   @Method()
-  async setFocus(focusId?: "dismiss-button" | "back-button"): Promise<void> {
-    if (focusId === "dismiss-button") {
-      this.closeButtonEl?.setFocus();
+  async setFocus(): Promise<void> {
+    const { backButtonEl, closeButtonEl, containerEl } = this;
+
+    if (backButtonEl) {
+      backButtonEl.setFocus();
       return;
     }
 
-    // todo: remove back-button
-    if (focusId === "back-button") {
-      this.backButtonEl?.setFocus();
+    if (closeButtonEl) {
+      closeButtonEl.setFocus();
       return;
     }
 
-    this.containerEl?.focus();
+    containerEl?.focus();
   }
 
   /**
@@ -414,7 +420,6 @@ export class Panel implements ConditionalSlotComponent, InteractiveComponent {
   //
   // --------------------------------------------------------------------------
 
-  // todo: remove
   renderBackButton(): VNode {
     const { el } = this;
 
@@ -543,7 +548,6 @@ export class Panel implements ConditionalSlotComponent, InteractiveComponent {
   }
 
   renderHeaderNode(): VNode {
-    // todo: remove
     const {
       showBackButton,
       hasHeaderContent,

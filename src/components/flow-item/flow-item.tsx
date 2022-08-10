@@ -114,7 +114,7 @@ export class FlowItem {
   /**
    * Fires when the back button is clicked.
    */
-  @Event({ cancelable: false }) calcitePanelBackClick: EventEmitter<void>;
+  @Event({ cancelable: false }) calciteFlowItemBackClick: EventEmitter<void>;
 
   // --------------------------------------------------------------------------
   //
@@ -153,7 +153,7 @@ export class FlowItem {
    * Scrolls the component's content to a specified set of coordinates.
    *
    * ```
-   *   myCalcitePanel.scrollContentTo({
+   *   myCalciteFlowItem.scrollContentTo({
    *     left: 0, // Specifies the number of pixels along the X axis to scroll the window or element.
    *     top: 0, // Specifies the number of pixels along the Y axis to scroll the window or element
    *     behavior: "auto" // Specifies whether the scrolling should animate smoothly (smooth), or happen instantly in a single jump (auto, the default value).
@@ -174,7 +174,7 @@ export class FlowItem {
   // --------------------------------------------------------------------------
 
   backButtonClick = (): void => {
-    this.calcitePanelBackClick.emit();
+    this.calciteFlowItemBackClick.emit();
   };
 
   setBackRef = (node: HTMLCalciteActionElement): void => {
