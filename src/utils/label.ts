@@ -38,9 +38,10 @@ export const labelDisconnectedEvent = "calciteInternaLabelDisconnected";
 
 const labelTagName = "calcite-label";
 const onLabelClickMap = new WeakMap<HTMLCalciteLabelElement, typeof onLabelClick>();
+const labelToLabelableElements = new WeakMap<HTMLCalciteLabelElement, Set<HTMLElement>>();
 const onLabelConnectedMap = new WeakMap<LabelableComponent, typeof onLabelConnected>();
 const onLabelDisconnectedMap = new WeakMap<LabelableComponent, typeof onLabelDisconnected>();
-const unlabeledComponents = new Set<LabelableComponent>();
+const unlabeledComponents = new WeakSet<LabelableComponent>();
 
 const findLabelForComponent = (componentEl: HTMLElement): HTMLCalciteLabelElement | null => {
   const { id } = componentEl;
@@ -95,9 +96,18 @@ function hasAncestorCustomElements(label: HTMLCalciteLabelElement, componentEl: 
 export function connectLabel(component: LabelableComponent): void {
   const labelEl = findLabelForComponent(component.el);
 
-  if (onLabelClickMap.has(labelEl) || (!labelEl && unlabeledComponents.has(component))) {
+  if (
+    (onLabelClickMap.has(labelEl) && component.labelEl === labelEl) ||
+    (!labelEl && unlabeledComponents.has(component))
+  ) {
     return;
   }
+
+  if (!labelToLabelableElements.has(labelEl)) {
+    labelToLabelableElements.set(labelEl, new Set());
+  }
+
+  labelToLabelableElements.get(labelEl).add(component.el);
 
   const boundOnLabelDisconnected = onLabelDisconnected.bind(component);
 
@@ -121,6 +131,7 @@ export function connectLabel(component: LabelableComponent): void {
  * @param component
  */
 export function disconnectLabel(component: LabelableComponent): void {
+  labelToLabelableElements.get(component.labelEl).delete(component.el);
   unlabeledComponents.delete(component);
   document.removeEventListener(labelConnectedEvent, onLabelConnectedMap.get(component));
   document.removeEventListener(labelDisconnectedEvent, onLabelDisconnectedMap.get(component));
@@ -150,9 +161,21 @@ function onLabelClick(this: LabelableComponent, event: CustomEvent<{ sourceEvent
     return;
   }
 
-  const containedLabelableChildClicked = this.el.contains(event.detail.sourceEvent.target as HTMLElement);
+  const clickTarget = event.detail.sourceEvent.target as HTMLElement;
+  const containedLabelableChildClicked = this.el.contains(clickTarget);
+  const labelables = labelToLabelableElements.get(this.labelEl);
 
-  if (containedLabelableChildClicked) {
+  if (containedLabelableChildClicked || labelables.has(clickTarget)) {
+    return;
+  }
+
+  const isTrailingLabelableSibling =
+    labelables.size > 1 &&
+    Array.from(labelables).some(
+      (labelableEl) => this.el.compareDocumentPosition(labelableEl) === Node.DOCUMENT_POSITION_PRECEDING
+    );
+
+  if (isTrailingLabelableSibling) {
     return;
   }
 
