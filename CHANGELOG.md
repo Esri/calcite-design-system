@@ -9,6 +9,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### Features
 
+- emit calciteThemeChange event when dynamically toggling between light and dark modes ([#5104](https://github.com/Esri/calcite-components/issues/5104)) ([b39aa65](https://github.com/Esri/calcite-components/commit/b39aa65d9350c2a9aa93ac58fc6134b0ac3339c9))
 - **tab,tab-title:** deprecate active and support selected prop ([#5093](https://github.com/Esri/calcite-components/issues/5093)) ([963bb61](https://github.com/Esri/calcite-components/commit/963bb61fb77d21b504217f9b6734148549c032e9))
 - ensure global hidden attribute is honored for all components ([#5059](https://github.com/Esri/calcite-components/issues/5059)) ([adcbb55](https://github.com/Esri/calcite-components/commit/adcbb55b3ab3ab9fca0921b4bbbea1e4bf92907b))
 - **alert:** deprecates active prop and syncs with open ([#5029](https://github.com/Esri/calcite-components/issues/5029)) ([3161b8e](https://github.com/Esri/calcite-components/commit/3161b8ef1bb652ccc8ae32ccc184c11dc14584ea))
