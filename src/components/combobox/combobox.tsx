@@ -1036,8 +1036,7 @@ export class Combobox
   }
 
   renderInput(): VNode {
-    const { guid, active, disabled, placeholder, selectionMode, needsIcon, selectedItems, open } =
-      this;
+    const { guid, active, disabled, placeholder, selectionMode, selectedItems, open } = this;
     const single = selectionMode === "single";
     const selectedItem = selectedItems[0];
     const showLabel = !(open || active) && single && !!selectedItem;
@@ -1052,7 +1051,7 @@ export class Combobox
           <span
             class={{
               label: true,
-              "label--spaced": needsIcon
+              "label--icon": !!selectedItem?.icon
             }}
             key="label"
           >
@@ -1128,11 +1127,15 @@ export class Combobox
     const { selectedItems, placeholderIcon, selectionMode } = this;
     const selectedItem = selectedItems[0];
     const selectedIcon = selectedItem?.icon;
-    const iconAtStart = !this.open && selectedItem ? !!selectedIcon : !!this.placeholderIcon;
+    const singleSelectionMode = selectionMode === "single";
+
+    const iconAtStart =
+      !this.open && selectedItem
+        ? !!selectedIcon && singleSelectionMode
+        : !!this.placeholderIcon && (!selectedItem || singleSelectionMode);
 
     return (
-      iconAtStart &&
-      selectionMode === "single" && (
+      iconAtStart && (
         <span class="icon-start">
           <calcite-icon
             class="selected-icon"

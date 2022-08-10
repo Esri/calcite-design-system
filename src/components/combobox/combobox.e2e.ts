@@ -1263,4 +1263,29 @@ describe("calcite-combobox", () => {
 
     expect(await container.isVisible()).toBe(false);
   });
+
+  // eslint-disable-next-line jest/no-focused-tests
+  it("should have input--icon class when placeholder-icon is parsed", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html` <calcite-combobox
+      placeholder="What's scarier than 5G?"
+      selection-mode="single"
+      class="pad"
+      placeholder-icon="car"
+    >
+      <calcite-combobox-item value="Bluetooth" text-label="Bluetooth" icon="bluetooth"> </calcite-combobox-item>
+      <calcite-combobox-item value="Exercise" text-label="Exercise"> </calcite-combobox-item>
+      <calcite-combobox-item value="Space Lasers" text-label="Space Lasers" icon="satellite-3"> </calcite-combobox-item>
+    </calcite-combobox>`);
+
+    const comboboxEl = await page.find("calcite-combobox");
+    const inputEl = await page.find("calcite-combobox >>> input");
+    await page.waitForChanges();
+
+    expect(inputEl).toHaveClass("input--icon");
+
+    comboboxEl.setProperty("open", true);
+
+    expect(inputEl).toHaveClass("input--icon");
+  });
 });

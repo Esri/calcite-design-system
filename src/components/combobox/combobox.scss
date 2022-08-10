@@ -125,8 +125,7 @@
   line-height: var(--calcite-combobox-input-height);
 }
 
-.label--spaced {
-  @apply py-0;
+.label--icon {
   padding-inline: var(--calcite-combobox-item-spacing-unit-l);
 }
 
