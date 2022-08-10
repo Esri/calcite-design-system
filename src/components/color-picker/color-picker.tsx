@@ -534,7 +534,6 @@ export class ColorPicker implements InteractiveComponent {
   private handleSavedColorKeyDown = (event: KeyboardEvent): void => {
     if (isActivationKey(event.key)) {
       event.preventDefault();
-      event.stopPropagation();
       this.handleSavedColorSelect(event);
     }
   };

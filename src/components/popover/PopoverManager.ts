@@ -67,7 +67,7 @@ export default class PopoverManager {
   };
 
   private keyHandler = (event: KeyboardEvent): void => {
-    if (!isActivationKey(event.key)) {
+    if (event.defaultPrevented || !isActivationKey(event.key)) {
       return;
     }
 
