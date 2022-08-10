@@ -122,18 +122,16 @@ describe("calcite-panel", () => {
 
   it("should focus on close button )", async () =>
     focusable(`<calcite-panel closable>test</calcite-panel>`, {
-      focusId: "dismiss-button",
       shadowFocusTargetSelector: "calcite-action"
     }));
 
   it("should focus on back button", async () =>
     focusable(`<calcite-panel show-back-button>test</calcite-panel>`, {
-      focusId: "back-button",
       shadowFocusTargetSelector: "calcite-action"
     }));
 
   it("should focus on container", async () =>
-    focusable(`<calcite-panel closable>test</calcite-panel>`, {
+    focusable(`<calcite-panel>test</calcite-panel>`, {
       shadowFocusTargetSelector: "article"
     }));
 
@@ -194,19 +192,7 @@ describe("calcite-panel", () => {
 
     const header = await page.find(`calcite-panel >>> .${CSS.header}`);
 
-    expect(header).toBeNull();
-  });
-
-  it("should not render menu nodes when there are no header-menu-actions", async () => {
-    const page = await newE2EPage();
-
-    await page.setContent("<calcite-panel></calcite-panel>");
-
-    const menuButton = await page.find(`calcite-panel >>> .${CSS.menuButton}`);
-    const menuContainer = await page.find(`calcite-panel >>> .${CSS.menuContainer}`);
-
-    expect(menuButton).toBeNull();
-    expect(menuContainer).toBeNull();
+    expect(await header.isVisible()).toBe(false);
   });
 
   it("menuOpen should show/hide when toggled", async () => {
@@ -250,8 +236,8 @@ describe("calcite-panel", () => {
     const actionsContainerStart = await page.find(`calcite-panel >>> .${CSS.headerActionsStart}`);
     const actionsContainerEnd = await page.find(`calcite-panel >>> .${CSS.headerActionsEnd}`);
 
-    expect(actionsContainerStart).toBeNull();
-    expect(actionsContainerEnd).toBeNull();
+    expect(await actionsContainerStart.isVisible()).toBe(false);
+    expect(await actionsContainerEnd.isVisible()).toBe(false);
   });
 
   it("header-content should override heading and summary properties (deprecated)", async () => {
@@ -336,7 +322,7 @@ describe("calcite-panel", () => {
 
     const footer = await page.find(`calcite-panel >>> .${CSS.footer}`);
 
-    expect(footer).toBeNull();
+    expect(await footer.isVisible()).toBe(false);
   });
 
   it("should update width based on the multipier CSS variable", async () => {

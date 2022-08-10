@@ -247,3 +247,14 @@ export const disabled = (): string => html`<calcite-tabs>
   <calcite-tab active><p>Tab 1 Content</p></calcite-tab>
   <calcite-tab><p>Tab 2 Content</p></calcite-tab>
 </calcite-tabs>`;
+
+export const LayoutCenter = (): string => html` <calcite-tabs
+  layout="${select("layout", ["inline", "center"], "center")}"
+>
+  <calcite-tab-nav slot="tab-nav">
+    <calcite-tab-title>Tab 1 Title</calcite-tab-title>
+    <calcite-tab-title>Tab 2 Title</calcite-tab-title>
+    <calcite-tab-title>Tab 3 Title</calcite-tab-title>
+    <calcite-tab-title>Tab 4 Title</calcite-tab-title>
+  </calcite-tab-nav>
+</calcite-tabs>`;

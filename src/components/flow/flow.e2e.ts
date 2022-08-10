@@ -24,30 +24,29 @@ describe("calcite-flow", () => {
   it("back() method should remove item", async () => {
     const page = await newE2EPage();
 
-    await page.setContent(
-      html`<calcite-flow
-        ><calcite-panel>Hello World</calcite-panel><calcite-panel>Hello World</calcite-panel></calcite-flow
-      >`
-    );
+    await page.setContent("<calcite-flow><calcite-flow-item>Hello World</calcite-flow-item></calcite-flow>");
 
     const flow = await page.find("calcite-flow");
-    const panels = await page.findAll("calcite-panel");
+    const flowItems = await page.findAll("calcite-flow-item");
 
-    expect(panels).toHaveLength(2);
-    expect(await panels[0].getProperty("open")).toBe(false);
-    expect(panels[0].getAttribute("hidden")).toBe("");
-    expect(await panels[1].getProperty("open")).toBe(true);
-    expect(panels[1].getAttribute("hidden")).toBe(null);
+    expect(flowItems).toHaveLength(2);
+    expect(await flowItems[0].getProperty("open")).toBe(false);
+    expect(flowItems[0].getAttribute("hidden")).toBe("");
+    expect(await flowItems[1].getProperty("open")).toBe(true);
+    expect(flowItems[1].getAttribute("hidden")).toBe(null);
 
     await flow.callMethod("back");
 
     await page.waitForChanges();
 
-    expect(panels).toHaveLength(2);
-    expect(await panels[0].getProperty("open")).toBe(true);
-    expect(panels[0].getAttribute("hidden")).toBe(null);
-    expect(await panels[1].getProperty("open")).toBe(false);
-    expect(panels[1].getAttribute("hidden")).toBe("");
+    expect(flowItems).toHaveLength(2);
+    expect(await flowItems[0].getProperty("open")).toBe(true);
+    expect(flowItems[0].getAttribute("hidden")).toBe(null);
+    expect(await flowItems[1].getProperty("open")).toBe(false);
+    expect(flowItems[1].getAttribute("hidden")).toBe("");
+    const flowItem = await page.find("calcite-flow-item");
+
+    expect(flowItem).toBeNull();
   });
 
   it("setting 'beforeBack' should be called in 'back()'", async () => {
@@ -56,13 +55,11 @@ describe("calcite-flow", () => {
     const mockCallBack = jest.fn().mockReturnValue(Promise.resolve());
     await page.exposeFunction("beforeBack", mockCallBack);
 
-    await page.setContent(
-      html`<calcite-flow><calcite-panel></calcite-panel><calcite-panel id="last-panel"></calcite-panel></calcite-flow>`
-    );
+    await page.setContent(`<calcite-flow><calcite-flow-item id="last-item"></calcite-flow-item></calcite-flow>`);
 
     await page.$eval(
-      "#last-panel",
-      (elm: HTMLCalcitePanelElement) =>
+      "#last-item",
+      (elm: HTMLCalciteFlowItemElement) =>
         (elm.beforeBack = (window as typeof window & Pick<typeof elm, "beforeBack">).beforeBack)
     );
 
@@ -77,19 +74,19 @@ describe("calcite-flow", () => {
   it("frame advancing should add animation class", async () => {
     const page = await newE2EPage();
 
-    await page.setContent(html`<calcite-flow><calcite-panel></calcite-panel></calcite-flow>`);
+    await page.setContent("<calcite-flow><calcite-flow-item></calcite-flow-item></calcite-flow>");
 
-    const items = await page.findAll("calcite-panel");
+    const items = await page.findAll("calcite-flow-item");
 
     expect(items).toHaveLength(1);
 
     const element = await page.find("calcite-flow");
 
-    element.innerHTML = html`<calcite-panel>test</calcite-panel><calcite-panel>test</calcite-panel>`;
+    element.innerHTML = "<calcite-flow-item>test</calcite-flow-item><calcite-flow-item>test</calcite-flow-item>";
 
     await page.waitForChanges();
 
-    const items2 = await page.findAll("calcite-panel");
+    const items2 = await page.findAll("calcite-flow-item");
 
     expect(items2).toHaveLength(2);
 
@@ -101,15 +98,15 @@ describe("calcite-flow", () => {
   it("frame advancing should add animation class when subtree is modified", async () => {
     const page = await newE2EPage();
 
-    await page.setContent(html`<calcite-flow><calcite-panel>flow1</calcite-panel></calcite-flow>`);
+    await page.setContent("<calcite-flow><calcite-flow-item>flow1</calcite-flow-item></calcite-flow>");
 
     const element = await page.find("calcite-flow");
 
-    element.innerHTML = html`<calcite-panel>flow1</calcite-panel><calcite-panel id="flow2">flow2</calcite-panel>`;
+    element.innerHTML = `<calcite-flow-item>flow1</calcite-flow-item><calcite-flow-item id="flow2">flow2</calcite-flow-item>`;
 
     await page.waitForChanges();
 
-    const item2 = await page.find(`calcite-panel[id=flow2]`);
+    const item2 = await page.find(`calcite-flow-item[id=flow2]`);
 
     item2.innerHTML = "new flow2 subtree content";
 
@@ -125,23 +122,17 @@ describe("calcite-flow", () => {
 
     await page.setContent("<calcite-flow></calcite-flow>");
 
-    const newPanelsHTML = html`
-      <calcite-panel>Hello World</calcite-panel>
-      <calcite-panel>Hello World</calcite-panel>
-      <calcite-panel>Hello World</calcite-panel>
-    `;
-
-    await page.$eval(
-      "calcite-flow",
-      (elm: HTMLElement, newPanelsHTML: string) => {
-        elm.innerHTML = newPanelsHTML;
-      },
-      newPanelsHTML
-    );
+    await page.$eval("calcite-flow", (elm: HTMLElement) => {
+      elm.innerHTML = `
+      <calcite-flow-item>Hello World</calcite-flow-item>
+      <calcite-flow-item>Hello World</calcite-flow-item>
+      <calcite-flow-item>Hello World</calcite-flow-item>
+      `;
+    });
 
     await page.waitForChanges();
 
-    const items = await page.findAll("calcite-panel");
+    const items = await page.findAll("calcite-flow-item");
 
     expect(items).toHaveLength(3);
 
@@ -154,7 +145,7 @@ describe("calcite-flow", () => {
 
     await page.waitForChanges();
 
-    const items2 = await page.findAll("calcite-panel");
+    const items2 = await page.findAll("calcite-flow-item");
 
     expect(items2).toHaveLength(3);
 
@@ -168,7 +159,7 @@ describe("calcite-flow", () => {
     const page = await newE2EPage();
 
     await page.setContent(
-      html`<calcite-flow><calcite-panel>test</calcite-panel><calcite-panel>test</calcite-panel></calcite-flow>`
+      "<calcite-flow><calcite-flow-item>test</calcite-flow-item><calcite-flow-item>test</calcite-flow-item></calcite-flow>"
     );
 
     const frame = await page.find(`calcite-flow >>> .${CSS.frame}`);
@@ -178,7 +169,7 @@ describe("calcite-flow", () => {
 
     const element = await page.find("calcite-flow");
 
-    element.innerHTML = html`<calcite-panel>test</calcite-panel><calcite-panel>test</calcite-panel>`;
+    element.innerHTML = "<calcite-flow-item>test</calcite-flow-item><calcite-flow-item>test</calcite-flow-item>";
 
     await page.waitForChanges();
 
@@ -186,28 +177,20 @@ describe("calcite-flow", () => {
     expect(frame).not.toHaveClass(CSS.frameAdvancing);
   });
 
-  it("panel properties should be set", async () => {
+  it("flowItem properties should be set", async () => {
     const page = await newE2EPage();
 
     await page.setContent("<calcite-flow></calcite-flow>");
 
-    const newPanelsHTML = html`
-      <calcite-panel>Hello World</calcite-panel>
-      <calcite-panel>Hello World</calcite-panel>
-      <calcite-panel>Hello World</calcite-panel>
-    `;
+    await page.$eval("calcite-flow", (elm: HTMLElement) => {
+      elm.innerHTML = `
+      <calcite-flow-item>Hello World</calcite-flow-item>
+      <calcite-flow-item>Hello World</calcite-flow-item>
+      <calcite-flow-item>Hello World</calcite-flow-item>
+      `;
+    });
 
-    await page.$eval(
-      "calcite-flow",
-      (elm: HTMLElement, newPanelsHTML: string) => {
-        elm.innerHTML = newPanelsHTML;
-      },
-      newPanelsHTML
-    );
-
-    await page.waitForChanges();
-
-    const items = await page.findAll("calcite-panel");
+    const items = await page.findAll("calcite-flow-item");
 
     expect(items).toHaveLength(3);
 
@@ -225,26 +208,28 @@ describe("calcite-flow", () => {
   });
 
   it("should be accessible", async () =>
-    accessible(html`
-      <calcite-flow>
-        <calcite-panel> </calcite-panel>
-        <calcite-panel> </calcite-panel>
-        <calcite-panel> </calcite-panel>
-      </calcite-flow>
+    accessible(`
+    <calcite-flow>
+    <calcite-flow-item>Hello World</calcite-flow-item>
+    <calcite-flow-item>Hello World</calcite-flow-item>
+    <calcite-flow-item>Hello World</calcite-flow-item>
+    </calcite-flow>
     `));
 
-  it("should also work with descendant slotted panels", async () => {
+  it("should also work with descendant slotted flowItems", async () => {
     const page = await newE2EPage();
 
     await page.setContent(html`<calcite-flow>
-      <calcite-panel>Valid panel</calcite-panel>
-      <calcite-panel>Valid panel</calcite-panel>
+      <calcite-flow-item>Valid flowItem</calcite-flow-item>
+      <calcite-flow-item>Valid flowItem</calcite-flow-item>
       <div>
-        <calcite-panel>Allowed panel <calcite-panel>Disallowed panel</calcite-panel></calcite-panel>
+        <calcite-flow-item
+          >Allowed flowItem <calcite-flow-item>Disallowed flowItem</calcite-flow-item></calcite-flow-item
+        >
       </div>
     </calcite-flow>`);
 
-    const items = await page.findAll("calcite-panel");
+    const items = await page.findAll("calcite-flow-item");
 
     expect(items).toHaveLength(4);
 

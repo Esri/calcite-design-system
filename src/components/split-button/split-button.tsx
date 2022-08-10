@@ -58,7 +58,12 @@ export class SplitButton implements InteractiveComponent {
    */
   @Prop({ reflect: true }) loading = false;
 
-  /** Describes the type of positioning to use for the dropdown. If your element is in a fixed container, use the 'fixed' value. */
+  /**
+   * Determines the type of positioning to use for the overlaid content.
+   *
+   * Using the "absolute" value will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout. The "fixed" value should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is "fixed".
+   *
+   */
   @Prop() overlayPositioning: OverlayPositioning = "absolute";
 
   /** optionally pass an icon to display at the end of the primary button - accepts Calcite UI icon names  */

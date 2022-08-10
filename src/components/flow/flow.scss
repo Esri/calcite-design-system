@@ -19,7 +19,7 @@
       p-0;
   }
 
-  ::slotted(calcite-panel) {
+  ::slotted(calcite-flow-item) {
     @apply h-full;
   }
 

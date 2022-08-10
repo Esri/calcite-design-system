@@ -9,7 +9,8 @@ import {
   h,
   State,
   Host,
-  VNode
+  VNode,
+  Watch
 } from "@stencil/core";
 import { TabChangeEventDetail } from "./interfaces";
 import { guid } from "../../utils/guid";
@@ -47,8 +48,25 @@ export class Tab {
 
   /**
    * Show this tab
+   *
+   * @deprecated Use selected instead.
    */
   @Prop({ reflect: true, mutable: true }) active = false;
+
+  @Watch("active")
+  activeHandler(value: boolean): void {
+    this.selected = value;
+  }
+
+  /**
+   * When true, display this tab.
+   */
+  @Prop({ reflect: true, mutable: true }) selected = false;
+
+  @Watch("selected")
+  selectedHandler(value: boolean): void {
+    this.active = value;
+  }
 
   /**
    * @internal
@@ -66,7 +84,7 @@ export class Tab {
 
     return (
       <Host aria-labelledby={this.labeledBy} id={id}>
-        <div role="tabpanel" tabIndex={this.active ? 0 : -1}>
+        <div role="tabpanel" tabIndex={this.selected ? 0 : -1}>
           <section>
             <slot />
           </section>
@@ -77,6 +95,12 @@ export class Tab {
 
   connectedCallback(): void {
     this.parentTabsEl = this.el.closest("calcite-tabs");
+    const isSelected = this.selected || this.active;
+
+    if (isSelected) {
+      this.activeHandler(isSelected);
+      this.selectedHandler(isSelected);
+    }
   }
 
   componentDidLoad(): void {
@@ -127,10 +151,10 @@ export class Tab {
     }
 
     if (this.tab) {
-      this.active = this.tab === event.detail.tab;
+      this.selected = this.tab === event.detail.tab;
     } else {
       this.getTabIndex().then((index) => {
-        this.active = index === event.detail.tab;
+        this.selected = index === event.detail.tab;
       });
     }
     event.stopPropagation();
