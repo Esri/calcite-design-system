@@ -384,12 +384,22 @@ export class Panel implements InteractiveComponent {
   async setFocus(focusId?: DeprecatedFocusId): Promise<void> {
     const { backButtonEl, closeButtonEl, containerEl } = this;
 
-    if (backButtonEl || focusId === "back-button") {
+    if (focusId === "back-button") {
+      backButtonEl?.setFocus();
+      return;
+    }
+
+    if (focusId === "dismiss-button") {
+      closeButtonEl?.setFocus();
+      return;
+    }
+
+    if (backButtonEl) {
       backButtonEl.setFocus();
       return;
     }
 
-    if (closeButtonEl || focusId === "dismiss-button") {
+    if (closeButtonEl) {
       closeButtonEl.setFocus();
       return;
     }
