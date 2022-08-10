@@ -41,3 +41,10 @@ export const TEXT = {
 };
 
 export const HEADING_LEVEL = 3;
+
+/**
+ * There is no need for using focusId anymore. The appropriate element will be focused.
+ *
+ * @deprecated
+ */
+export type DeprecatedFocusId = "dismiss-button" | "back-button";

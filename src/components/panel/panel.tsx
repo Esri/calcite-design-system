@@ -11,20 +11,13 @@ import {
   Fragment,
   State
 } from "@stencil/core";
-import { CSS, HEADING_LEVEL, ICONS, SLOTS, TEXT } from "./resources";
+import { CSS, HEADING_LEVEL, ICONS, SLOTS, TEXT, DeprecatedFocusId } from "./resources";
 import { getElementDir, toAriaBoolean } from "../../utils/dom";
 import { Scale } from "../interfaces";
 import { HeadingLevel, Heading } from "../functional/Heading";
 import { SLOTS as ACTION_MENU_SLOTS } from "../action-menu/resources";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { createObserver } from "../../utils/observers";
-
-/**
- * There is no need for using focusId anymore. The appropriate element will be focused.
- *
- * @deprecated
- */
-type DeprecatedFocusId = "dismiss-button" | "back-button";
 
 /**
  * @slot - A slot for adding custom content.
