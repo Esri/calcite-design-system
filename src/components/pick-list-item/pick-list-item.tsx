@@ -179,7 +179,7 @@ export class PickListItem implements ConditionalSlotComponent, InteractiveCompon
   @Event({ cancelable: true }) calciteListItemRemove: EventEmitter<void>;
 
   /**
-   * Emits when the the component's label, description, value, or metadata properties are modified.
+   * Emits when the component's label, description, value, or metadata properties are modified.
    *
    * @internal
    */
