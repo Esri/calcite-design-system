@@ -141,7 +141,7 @@ export class ColorPickerHexInput {
   protected onInputKeyDown(event: KeyboardEvent): void {
     const { altKey, ctrlKey, metaKey, shiftKey } = event;
     const { internalColor, value } = this;
-    const key = event.key;
+    const { key } = event;
 
     if (key === "Tab" || key === "Enter") {
       this.onInputChange();

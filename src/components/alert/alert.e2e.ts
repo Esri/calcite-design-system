@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { renders, accessible, HYDRATED_ATTR } from "../../tests/commonTests";
+import { renders, accessible, HYDRATED_ATTR, hidden } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
 
@@ -11,6 +11,8 @@ describe("calcite-alert", () => {
   `;
 
   it("renders", async () => renders("calcite-alert", { visible: false, display: "block" }));
+
+  it("honors hidden attribute", async () => hidden(`<calcite-alert open></calcite-alert>`));
 
   it("is accessible", async () =>
     accessible(`

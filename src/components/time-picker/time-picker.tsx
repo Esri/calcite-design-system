@@ -257,7 +257,7 @@ export class TimePicker {
 
   @Listen("keydown")
   keyDownHandler(event: KeyboardEvent): void {
-    const key = event.key;
+    const { key } = event;
     switch (this.activeEl) {
       case this.hourEl:
         if (key === "ArrowRight") {
@@ -327,7 +327,7 @@ export class TimePicker {
   // --------------------------------------------------------------------------
 
   private buttonActivated(event: KeyboardEvent): boolean {
-    const key = event.key;
+    const { key } = event;
 
     if (key === " ") {
       event.preventDefault();
@@ -376,7 +376,7 @@ export class TimePicker {
   };
 
   private hourKeyDownHandler = (event: KeyboardEvent): void => {
-    const key = event.key;
+    const { key } = event;
     if (numberKeys.includes(key)) {
       const keyAsNumber = parseInt(key);
       let newHour;
@@ -417,7 +417,6 @@ export class TimePicker {
           this.incrementHour();
           break;
         case " ":
-        case "Spacebar":
           event.preventDefault();
           break;
       }
@@ -488,7 +487,6 @@ export class TimePicker {
         this.decrementMeridiem();
         break;
       case " ":
-      case "Spacebar":
         event.preventDefault();
         break;
     }
@@ -507,7 +505,7 @@ export class TimePicker {
   };
 
   private minuteKeyDownHandler = (event: KeyboardEvent): void => {
-    const key = event.key;
+    const { key } = event;
     if (numberKeys.includes(key)) {
       const keyAsNumber = parseInt(key);
       let newMinute;
@@ -536,7 +534,6 @@ export class TimePicker {
           this.incrementMinute();
           break;
         case " ":
-        case "Spacebar":
           event.preventDefault();
           break;
       }
@@ -556,7 +553,7 @@ export class TimePicker {
   };
 
   private secondKeyDownHandler = (event: KeyboardEvent): void => {
-    const key = event.key;
+    const { key } = event;
     if (numberKeys.includes(key)) {
       const keyAsNumber = parseInt(key);
       let newSecond;
@@ -585,7 +582,6 @@ export class TimePicker {
           this.incrementSecond();
           break;
         case " ":
-        case "Spacebar":
           event.preventDefault();
           break;
       }
