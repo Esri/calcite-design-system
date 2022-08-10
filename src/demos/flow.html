@@ -91,6 +91,7 @@
             const addFlowButtonNode = document.getElementById("add-panel");
 
             addFlowButtonNode.addEventListener("click", function () {
+              flowNode.querySelectorAll("calcite-flow-item").forEach((flowItem) => (flowItem.open = false));
               const newNode = document.createElement("calcite-flow-item");
 
               newNode.beforeBack = function () {

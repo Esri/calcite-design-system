@@ -21,32 +21,35 @@ describe("calcite-flow", () => {
     expect(element).not.toHaveClass(CSS.frameRetreating);
   });
 
-  it("back() method should remove item", async () => {
+  it("back() method should set previous flowItem to be open", async () => {
     const page = await newE2EPage();
 
-    await page.setContent("<calcite-flow><calcite-flow-item>Hello World</calcite-flow-item></calcite-flow>");
+    await page.setContent(
+      html`<calcite-flow>
+        <calcite-flow-item>Hello World</calcite-flow-item>
+        <calcite-flow-item>Hello World 2</calcite-flow-item>
+      </calcite-flow>`
+    );
+
+    await page.waitForChanges();
 
     const flow = await page.find("calcite-flow");
     const flowItems = await page.findAll("calcite-flow-item");
 
     expect(flowItems).toHaveLength(2);
     expect(await flowItems[0].getProperty("open")).toBe(false);
-    expect(flowItems[0].getAttribute("hidden")).toBe("");
+    expect(await flowItems[0].isVisible()).toBe(false);
     expect(await flowItems[1].getProperty("open")).toBe(true);
-    expect(flowItems[1].getAttribute("hidden")).toBe(null);
+    expect(await flowItems[1].isVisible()).toBe(true);
 
     await flow.callMethod("back");
-
     await page.waitForChanges();
 
     expect(flowItems).toHaveLength(2);
     expect(await flowItems[0].getProperty("open")).toBe(true);
-    expect(flowItems[0].getAttribute("hidden")).toBe(null);
+    expect(await flowItems[0].isVisible()).toBe(true);
     expect(await flowItems[1].getProperty("open")).toBe(false);
-    expect(flowItems[1].getAttribute("hidden")).toBe("");
-    const flowItem = await page.find("calcite-flow-item");
-
-    expect(flowItem).toBeNull();
+    expect(await flowItems[1].isVisible()).toBe(false);
   });
 
   it("setting 'beforeBack' should be called in 'back()'", async () => {
@@ -55,7 +58,12 @@ describe("calcite-flow", () => {
     const mockCallBack = jest.fn().mockReturnValue(Promise.resolve());
     await page.exposeFunction("beforeBack", mockCallBack);
 
-    await page.setContent(`<calcite-flow><calcite-flow-item id="last-item"></calcite-flow-item></calcite-flow>`);
+    await page.setContent(
+      html`<calcite-flow>
+        <calcite-flow-item>Hello World</calcite-flow-item>
+        <calcite-flow-item id="last-item">Hello World</calcite-flow-item>
+      </calcite-flow>`
+    );
 
     await page.$eval(
       "#last-item",
@@ -74,7 +82,9 @@ describe("calcite-flow", () => {
   it("frame advancing should add animation class", async () => {
     const page = await newE2EPage();
 
-    await page.setContent("<calcite-flow><calcite-flow-item></calcite-flow-item></calcite-flow>");
+    await page.setContent(html`<calcite-flow>
+      <calcite-flow-item></calcite-flow-item>
+    </calcite-flow>`);
 
     const items = await page.findAll("calcite-flow-item");
 
@@ -98,7 +108,9 @@ describe("calcite-flow", () => {
   it("frame advancing should add animation class when subtree is modified", async () => {
     const page = await newE2EPage();
 
-    await page.setContent("<calcite-flow><calcite-flow-item>flow1</calcite-flow-item></calcite-flow>");
+    await page.setContent(html`<calcite-flow>
+      <calcite-flow-item>flow1</calcite-flow-item>
+    </calcite-flow>`);
 
     const element = await page.find("calcite-flow");
 
@@ -159,7 +171,10 @@ describe("calcite-flow", () => {
     const page = await newE2EPage();
 
     await page.setContent(
-      "<calcite-flow><calcite-flow-item>test</calcite-flow-item><calcite-flow-item>test</calcite-flow-item></calcite-flow>"
+      html`<calcite-flow>
+        <calcite-flow-item>test</calcite-flow-item>
+        <calcite-flow-item>test</calcite-flow-item>
+      </calcite-flow>`
     );
 
     const frame = await page.find(`calcite-flow >>> .${CSS.frame}`);
@@ -190,21 +205,23 @@ describe("calcite-flow", () => {
       `;
     });
 
-    const items = await page.findAll("calcite-flow-item");
+    await page.waitForChanges();
 
-    expect(items).toHaveLength(3);
+    const flowItems = await page.findAll("calcite-flow-item");
 
-    expect(await items[0].getProperty("open")).toBe(false);
-    expect(await items[0].getProperty("showBackButton")).toBe(false);
-    expect(items[0].getAttribute("hidden")).toBe("");
+    expect(flowItems).toHaveLength(3);
 
-    expect(await items[1].getProperty("open")).toBe(false);
-    expect(await items[1].getProperty("showBackButton")).toBe(false);
-    expect(items[1].getAttribute("hidden")).toBe("");
+    expect(await flowItems[0].getProperty("open")).toBe(false);
+    expect(await flowItems[0].getProperty("showBackButton")).toBe(false);
+    expect(await flowItems[0].isVisible()).toBe(false);
 
-    expect(await items[2].getProperty("open")).toBe(true);
-    expect(await items[2].getProperty("showBackButton")).toBe(true);
-    expect(items[2].getAttribute("hidden")).toBe(null);
+    expect(await flowItems[1].getProperty("open")).toBe(false);
+    expect(await flowItems[1].getProperty("showBackButton")).toBe(false);
+    expect(await flowItems[1].isVisible()).toBe(false);
+
+    expect(await flowItems[2].getProperty("open")).toBe(true);
+    expect(await flowItems[2].getProperty("showBackButton")).toBe(true);
+    expect(await flowItems[2].isVisible()).toBe(true);
   });
 
   it("should be accessible", async () =>
@@ -224,29 +241,30 @@ describe("calcite-flow", () => {
       <calcite-flow-item>Valid flowItem</calcite-flow-item>
       <div>
         <calcite-flow-item
-          >Allowed flowItem <calcite-flow-item>Disallowed flowItem</calcite-flow-item></calcite-flow-item
-        >
+          >Allowed flowItem
+          <calcite-flow-item>Disallowed flowItem</calcite-flow-item>
+        </calcite-flow-item>
       </div>
     </calcite-flow>`);
 
-    const items = await page.findAll("calcite-flow-item");
+    const flowItems = await page.findAll("calcite-flow-item");
 
-    expect(items).toHaveLength(4);
+    expect(flowItems).toHaveLength(4);
 
-    expect(await items[0].getProperty("open")).toBe(false);
-    expect(await items[0].getProperty("showBackButton")).toBe(false);
-    expect(items[0].getAttribute("hidden")).toBe("");
+    expect(await flowItems[0].getProperty("open")).toBe(false);
+    expect(await flowItems[0].getProperty("showBackButton")).toBe(false);
+    expect(await flowItems[0].isVisible()).toBe(false);
 
-    expect(await items[1].getProperty("open")).toBe(false);
-    expect(await items[1].getProperty("showBackButton")).toBe(false);
-    expect(items[1].getAttribute("hidden")).toBe("");
+    expect(await flowItems[1].getProperty("open")).toBe(false);
+    expect(await flowItems[1].getProperty("showBackButton")).toBe(false);
+    expect(await flowItems[1].isVisible()).toBe(false);
 
-    expect(await items[2].getProperty("open")).toBe(true);
-    expect(await items[2].getProperty("showBackButton")).toBe(true);
-    expect(items[2].getAttribute("hidden")).toBe(null);
+    expect(await flowItems[2].getProperty("open")).toBe(true);
+    expect(await flowItems[2].getProperty("showBackButton")).toBe(true);
+    expect(await flowItems[2].isVisible()).toBe(true);
 
-    expect(await items[3].getProperty("open")).toBe(false);
-    expect(items[3].getAttribute("hidden")).toBe(null);
-    expect(await items[3].getProperty("showBackButton")).toBe(false);
+    expect(await flowItems[3].getProperty("open")).toBe(false);
+    expect(await flowItems[3].getProperty("showBackButton")).toBe(false);
+    expect(await flowItems[3].isVisible()).toBe(true);
   });
 });

@@ -20,7 +20,11 @@
   }
 
   ::slotted(calcite-flow-item) {
-    @apply h-full;
+    @apply h-full hidden;
+  }
+
+  ::slotted(calcite-flow-item[open]) {
+    @apply flex;
   }
 
   ::slotted(.calcite-match-height:last-child) {

@@ -26,9 +26,9 @@ export class Flow {
     const { flowItems, openIndex } = this;
 
     const openItem = flowItems[openIndex];
-    const nextOpenIndex = flowItems[openIndex - 1];
+    const nextOpenItem = flowItems[openIndex - 1];
 
-    if (!openItem || !nextOpenIndex) {
+    if (!openItem || !nextOpenItem) {
       return;
     }
 
@@ -38,8 +38,8 @@ export class Flow {
 
     return beforeBack.call(openItem).then(() => {
       openItem.open = false;
-      nextOpenIndex.open = true;
-      return nextOpenIndex;
+      nextOpenItem.open = true;
+      return nextOpenItem;
     });
   }
 
@@ -126,7 +126,6 @@ export class Flow {
 
     flowItems.forEach((flowItem, index) => {
       const currentlyOpen = index === foundOpenIndex;
-      flowItem.hidden = !currentlyOpen;
 
       if (!currentlyOpen) {
         flowItem.menuOpen = false;

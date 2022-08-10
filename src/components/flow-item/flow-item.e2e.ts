@@ -32,6 +32,10 @@ describe("calcite-flow-item", () => {
       {
         propertyName: "showBackButton",
         defaultValue: false
+      },
+      {
+        propertyName: "open",
+        defaultValue: false
       }
     ]));
 
