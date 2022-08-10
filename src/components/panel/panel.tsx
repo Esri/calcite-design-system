@@ -20,6 +20,13 @@ import { InteractiveComponent, updateHostInteraction } from "../../utils/interac
 import { createObserver } from "../../utils/observers";
 
 /**
+ * There is no need for using focusId anymore. The appropriate element will be focused.
+ *
+ * @deprecated
+ */
+type DeprecatedFocusId = "dismiss-button" | "back-button";
+
+/**
  * @slot - A slot for adding custom content.
  * @slot header-actions-start - A slot for adding actions or content to the start side of the header.
  * @slot header-actions-end - A slot for adding actions or content to the end side of the header.
@@ -371,17 +378,18 @@ export class Panel implements InteractiveComponent {
   /**
    * Sets focus on the component.
    *
+   * @param focusId
    */
   @Method()
-  async setFocus(): Promise<void> {
+  async setFocus(focusId?: DeprecatedFocusId): Promise<void> {
     const { backButtonEl, closeButtonEl, containerEl } = this;
 
-    if (backButtonEl) {
+    if (backButtonEl || focusId === "back-button") {
       backButtonEl.setFocus();
       return;
     }
 
-    if (closeButtonEl) {
+    if (closeButtonEl || focusId === "dismiss-button") {
       closeButtonEl.setFocus();
       return;
     }
