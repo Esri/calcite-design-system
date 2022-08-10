@@ -170,7 +170,7 @@ export class Rating implements LabelableComponent, FormComponent, InteractiveCom
             name={this.guid}
             onChange={() => this.updateValue(i)}
             onClick={(event) =>
-              // click is fired from the the component's label, so we treat this as an internal event
+              // click is fired from the component's label, so we treat this as an internal event
               event.stopPropagation()
             }
             onFocus={() => this.onFocusChange(i)}
