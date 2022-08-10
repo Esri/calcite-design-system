@@ -544,32 +544,36 @@ export class Panel implements ConditionalSlotComponent, InteractiveComponent {
 
   renderHeaderNode(): VNode {
     // todo: remove
-    const { showBackButton } = this;
+    const {
+      showBackButton,
+      hasHeaderContent,
+      hasStartActions,
+      hasEndActions,
+      closable,
+      hasMenuItems
+    } = this;
 
-    // todo: remove
-    const backButtonNode = this.renderBackButton();
-
-    const slottedHeaderContentNode = this.renderHeaderSlottedContent();
     const headerContentNode = this.renderHeaderContent();
-    const actionsNodeStart = this.renderHeaderStartActions();
-    const actionsNodeEnd = this.renderHeaderActionsEnd();
-    const headerMenuNode = this.renderMenu();
 
-    return actionsNodeStart ||
+    const showHeader =
+      showBackButton ||
+      hasHeaderContent ||
       headerContentNode ||
-      slottedHeaderContentNode ||
-      actionsNodeEnd ||
-      headerMenuNode ||
-      showBackButton ? ( // todo: remove
-      <header class={CSS.header}>
-        {backButtonNode}
-        {actionsNodeStart}
-        {slottedHeaderContentNode}
+      hasStartActions ||
+      hasEndActions ||
+      closable ||
+      hasMenuItems;
+
+    return (
+      <header class={CSS.header} hidden={!showHeader}>
+        {this.renderBackButton()} // todo: remove
+        {this.renderHeaderStartActions()}
+        {this.renderHeaderSlottedContent()}
         {headerContentNode}
-        {actionsNodeEnd}
-        {headerMenuNode}
+        {this.renderHeaderActionsEnd()}
+        {this.renderMenu()}
       </header>
-    ) : null;
+    );
   }
 
   renderFooterNode(): VNode {
