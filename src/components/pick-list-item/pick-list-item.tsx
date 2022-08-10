@@ -186,7 +186,7 @@ export class PickListItem implements ConditionalSlotComponent, InteractiveCompon
   @Event({ cancelable: false }) calciteInternalListItemPropsChange: EventEmitter<void>;
 
   /**
-   * Emits when the the component's value property is modified.
+   * Emits when the component's value property is modified.
    *
    * @internal
    */
