@@ -160,7 +160,7 @@ export class Combobox
   /**
    * Determines the type of positioning to use for the overlaid content.
    *
-   * Using the `absolute` value will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the the container's layout. The "fixed" value should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is "fixed".
+   * using the "absolute" value will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the the container's layout. The "fixed" value should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is "fixed".
    *
    */
   @Prop() overlayPositioning: OverlayPositioning = "absolute";
