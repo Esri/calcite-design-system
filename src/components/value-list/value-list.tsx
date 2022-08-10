@@ -285,6 +285,10 @@ export class ValueList<
   getItemData = getItemData.bind(this);
 
   keyDownHandler = (event: KeyboardEvent): void => {
+    if (event.defaultPrevented) {
+      return;
+    }
+
     const { handle, item } = getHandleAndItemElement(event);
     if (handle && !item.handleActivated && event.key === " ") {
       this.updateScreenReaderText(getScreenReaderText(item, "commit", this));

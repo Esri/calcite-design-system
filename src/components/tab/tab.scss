@@ -1,4 +1,4 @@
-:host([active]) section {
+:host([selected]) section {
   @apply block;
 }
 
@@ -6,7 +6,7 @@
   @apply hidden h-full w-full;
 }
 
-:host([active]) {
+:host([selected]) {
   @apply block h-full w-full overflow-auto;
 }
 

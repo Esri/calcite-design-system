@@ -323,7 +323,9 @@ export class InputText implements LabelableComponent, FormComponent, Interactive
       event.preventDefault();
     }
     if (event.key === "Enter" && !event.defaultPrevented) {
-      submitForm(this);
+      if (submitForm(this)) {
+        event.preventDefault();
+      }
     }
   };
 

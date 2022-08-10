@@ -16,17 +16,18 @@ import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from 
 import {
   connectForm,
   disconnectForm,
-  CheckableFormCompoment,
+  CheckableFormComponent,
   HiddenFormInputSlot
 } from "../../utils/form";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import { isActivationKey } from "../../utils/key";
 
 @Component({
   tag: "calcite-switch",
   styleUrl: "switch.scss",
   shadow: true
 })
-export class Switch implements LabelableComponent, CheckableFormCompoment, InteractiveComponent {
+export class Switch implements LabelableComponent, CheckableFormComponent, InteractiveComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -106,8 +107,7 @@ export class Switch implements LabelableComponent, CheckableFormCompoment, Inter
   //--------------------------------------------------------------------------
 
   keyDownHandler = (event: KeyboardEvent): void => {
-    const key = event.key;
-    if (!this.disabled && (key === " " || key === "Enter")) {
+    if (!this.disabled && isActivationKey(event.key)) {
       this.toggle();
       event.preventDefault();
     }
