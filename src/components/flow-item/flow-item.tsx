@@ -12,7 +12,9 @@ import {
 import { getElementDir } from "../../utils/dom";
 import { HeadingLevel } from "../functional/Heading";
 import { Scale } from "../interfaces";
-import { CSS, ICONS, TEXT } from "./resources";
+import { CSS, ICONS, TEXT, SLOTS } from "./resources";
+import { SLOTS as PANEL_SLOTS } from "../panel/resources";
+import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 
 /**
  * @slot - A slot for adding custom content.
@@ -29,7 +31,7 @@ import { CSS, ICONS, TEXT } from "./resources";
   styleUrl: "flow-item.scss",
   shadow: true
 })
-export class FlowItem {
+export class FlowItem implements InteractiveComponent {
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -104,6 +106,16 @@ export class FlowItem {
    * Specifies the width of the component.
    */
   @Prop({ reflect: true }) widthScale?: Scale;
+
+  //--------------------------------------------------------------------------
+  //
+  //  Lifecycle
+  //
+  //--------------------------------------------------------------------------
+
+  componentDidRender(): void {
+    updateHostInteraction(this);
+  }
 
   // --------------------------------------------------------------------------
   //
@@ -243,13 +255,13 @@ export class FlowItem {
           menuOpen={menuOpen}
           widthScale={widthScale}
         >
-          <slot name="header-actions-start" slot="header-actions-start" />
-          <slot name="header-actions-end" slot="header-actions-end" />
-          <slot name="header-content" slot="header-content" />
-          <slot name="header-menu-actions" slot="header-menu-actions" />
-          <slot name="fab" slot="fab" />
-          <slot name="footer-actions" slot="footer-actions" />
-          <slot name="footer" slot="footer" />
+          <slot name={SLOTS.headerActionsStart} slot={PANEL_SLOTS.headerActionsStart} />
+          <slot name={SLOTS.headerActionsEnd} slot={PANEL_SLOTS.headerActionsEnd} />
+          <slot name={SLOTS.headerContent} slot={PANEL_SLOTS.headerContent} />
+          <slot name={SLOTS.headerMenuActions} slot={PANEL_SLOTS.headerMenuActions} />
+          <slot name={SLOTS.fab} slot={PANEL_SLOTS.fab} />
+          <slot name={SLOTS.footerActions} slot={PANEL_SLOTS.footerActions} />
+          <slot name={SLOTS.footer} slot={PANEL_SLOTS.footer} />
           <slot />
           {this.renderBackButton()}
         </calcite-panel>

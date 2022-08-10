@@ -122,18 +122,16 @@ describe("calcite-panel", () => {
 
   it("should focus on close button )", async () =>
     focusable(`<calcite-panel closable>test</calcite-panel>`, {
-      focusId: "dismiss-button",
       shadowFocusTargetSelector: "calcite-action"
     }));
 
   it("should focus on back button", async () =>
     focusable(`<calcite-panel show-back-button>test</calcite-panel>`, {
-      focusId: "back-button",
       shadowFocusTargetSelector: "calcite-action"
     }));
 
   it("should focus on container", async () =>
-    focusable(`<calcite-panel closable>test</calcite-panel>`, {
+    focusable(`<calcite-panel>test</calcite-panel>`, {
       shadowFocusTargetSelector: "article"
     }));
 

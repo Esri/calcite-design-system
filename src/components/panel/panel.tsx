@@ -16,11 +16,6 @@ import { getElementDir, toAriaBoolean } from "../../utils/dom";
 import { Scale } from "../interfaces";
 import { HeadingLevel, Heading } from "../functional/Heading";
 import { SLOTS as ACTION_MENU_SLOTS } from "../action-menu/resources";
-import {
-  ConditionalSlotComponent,
-  connectConditionalSlotComponent,
-  disconnectConditionalSlotComponent
-} from "../../utils/conditionalSlot";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { createObserver } from "../../utils/observers";
 
@@ -39,7 +34,7 @@ import { createObserver } from "../../utils/observers";
   styleUrl: "panel.scss",
   shadow: true
 })
-export class Panel implements ConditionalSlotComponent, InteractiveComponent {
+export class Panel implements InteractiveComponent {
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -212,7 +207,6 @@ export class Panel implements ConditionalSlotComponent, InteractiveComponent {
   // --------------------------------------------------------------------------
 
   connectedCallback(): void {
-    connectConditionalSlotComponent(this);
     const isClosed = this.dismissed || this.closed;
     const isClosable = this.dismissible || this.closable;
 
@@ -228,7 +222,6 @@ export class Panel implements ConditionalSlotComponent, InteractiveComponent {
   }
 
   disconnectedCallback(): void {
-    disconnectConditionalSlotComponent(this);
     this.resizeObserver?.disconnect();
   }
 

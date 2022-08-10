@@ -3,6 +3,8 @@
   @apply relative flex w-full flex-auto overflow-hidden;
 }
 
+@include disabled();
+
 .back-button {
   @apply border-color-3
   border-0
