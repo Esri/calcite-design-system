@@ -5,10 +5,10 @@ import { CSS, SLOTS } from "./resources";
 describe("calcite-flow-item", () => {
   it("renders", async () => renders("calcite-flow-item", { display: "flex" }));
 
-  it("honors hidden attribute", async () => hidden("calcite-panel"));
+  it("honors hidden attribute", async () => hidden("calcite-flow-item"));
 
   it("has property defaults", async () =>
-    defaults("calcite-panel", [
+    defaults("calcite-flow-item", [
       {
         propertyName: "closable",
         defaultValue: false
