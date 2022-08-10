@@ -566,7 +566,7 @@ export class Panel implements ConditionalSlotComponent, InteractiveComponent {
 
     return (
       <header class={CSS.header} hidden={!showHeader}>
-        {this.renderBackButton()} // todo: remove
+        {this.renderBackButton()}
         {this.renderHeaderStartActions()}
         {this.renderHeaderSlottedContent()}
         {headerContentNode}
