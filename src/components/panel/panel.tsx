@@ -543,6 +543,7 @@ export class Panel implements ConditionalSlotComponent, InteractiveComponent {
   }
 
   renderHeaderNode(): VNode {
+    // todo: remove
     const { showBackButton } = this;
 
     // todo: remove

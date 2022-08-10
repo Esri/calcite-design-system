@@ -139,7 +139,14 @@ export class FlowItem {
    */
   @Method()
   async setFocus(): Promise<void> {
-    this.containerEl?.setFocus();
+    const { backButtonEl, containerEl } = this;
+
+    if (backButtonEl) {
+      backButtonEl.setFocus();
+      return;
+    }
+
+    containerEl?.setFocus();
   }
 
   /**
