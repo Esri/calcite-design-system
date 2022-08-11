@@ -57,7 +57,7 @@ export class Slider implements LabelableComponent, FormComponent, InteractiveCom
   /** When true, interaction is prevented and the component is displayed with lower opacity. */
   @Prop({ reflect: true }) disabled = false;
 
-  /** When true, indicates if a histogram is present. */
+  /** When true, indicates a histogram is present. */
   @Prop({ reflect: true, mutable: true }) hasHistogram = false;
 
   /**
@@ -86,7 +86,7 @@ export class Slider implements LabelableComponent, FormComponent, InteractiveCom
   /** The component's maximum selectable value. */
   @Prop({ reflect: true }) max = 100;
 
-  /** Accessible name for second handle for multiple selections, such as "Temperature, upper bound". */
+  /** For multiple selections, the accessible name for the second handle, such as "Temperature, upper bound". */
   @Prop() maxLabel?: string;
 
   /** For multiple selections, the component's upper value. */
@@ -128,7 +128,7 @@ export class Slider implements LabelableComponent, FormComponent, InteractiveCom
   /** Specifies the interval to move with the up, or down keys. */
   @Prop() step?: number = 1;
 
-  /** Display tick marks on the number line at a specified interval. */
+  /** Displays tick marks on the number line at a specified interval. */
   @Prop() ticks?: number;
 
   /** The component's value. */

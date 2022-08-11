@@ -91,7 +91,7 @@ export class Select implements LabelableComponent, FormComponent, InteractiveCom
   }
 
   /**
-   * The component's selected item `HTMLElement`.
+   * The component's selected option `HTMLElement`.
    *
    * @readonly
    */

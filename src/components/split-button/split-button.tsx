@@ -95,7 +95,7 @@ export class SplitButton implements InteractiveComponent {
   calciteSplitButtonPrimaryClick: EventEmitter<DeprecatedEventPayload>;
 
   /**
-   * Fires when the secondary button is clicked.
+   * Fires when the dropdown menu is clicked.
    *
    * **Note:** The event payload is deprecated, use separate mouse event listeners to get info about click.
    */
