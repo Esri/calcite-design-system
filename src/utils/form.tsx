@@ -279,6 +279,16 @@ function syncHiddenFormInput(component: FormComponent): void {
 
     docFrag.append(input);
 
+    // emits when hidden input is autofilled
+    input.addEventListener("change", () =>
+      input.dispatchEvent(
+        new CustomEvent("calciteInternalHiddenInputChange", {
+          bubbles: true,
+          composed: true
+        })
+      )
+    );
+
     input.dispatchEvent(
       new CustomEvent("calciteInternalHiddenInputChange", {
         bubbles: true,
