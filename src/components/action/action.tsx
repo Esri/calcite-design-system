@@ -220,6 +220,7 @@ export class Action implements InteractiveComponent {
           aria-busy={toAriaBoolean(loading)}
           aria-disabled={toAriaBoolean(disabled)}
           aria-label={ariaLabel}
+          aria-pressed={this.active ? "true" : "false"}
           class={buttonClasses}
           disabled={disabled}
           ref={(buttonEl): HTMLButtonElement => (this.buttonEl = buttonEl)}
@@ -240,6 +241,7 @@ export class Action implements InteractiveComponent {
   calciteActionClickHandler = (): void => {
     if (!this.disabled) {
       this.calciteActionClick.emit();
+      this.active = !this.active;
     }
   };
 }
