@@ -54,14 +54,14 @@ export class Slider implements LabelableComponent, FormComponent, InteractiveCom
   //
   //--------------------------------------------------------------------------
 
-  /** Disable and gray out the slider */
+  /** When true, interaction is prevented and the component is displayed with lower opacity. */
   @Prop({ reflect: true }) disabled = false;
 
-  /** Indicates if a histogram is present */
+  /** When true, indicates a histogram is present. */
   @Prop({ reflect: true, mutable: true }) hasHistogram = false;
 
   /**
-   * List of x,y coordinates within the slider's min and max, displays above the slider track.
+   * A list of the histogram's x,y coordinates within the component's "min" and "max". Displays above the component's track.
    *
    * @see [DataSeries](https://github.com/Esri/calcite-components/blob/master/src/components/graph/interfaces.ts#L5)
    */
@@ -73,32 +73,32 @@ export class Slider implements LabelableComponent, FormComponent, InteractiveCom
   }
 
   /**
-   * Array of values describing a single color stop, sorted by offset ascending.
+   * A set of single color stops for a histogram, sorted by offset ascending.
    */
   @Prop() histogramStops: ColorStop[];
 
-  /** Label handles with their numeric value */
+  /** When true, displays label handles with their numeric value. */
   @Prop({ reflect: true }) labelHandles = false;
 
-  /** Label tick marks with their numeric value. */
+  /** When true and "ticks" is specified, displays label tick marks with their numeric value. */
   @Prop({ reflect: true }) labelTicks = false;
 
-  /** Maximum selectable value */
+  /** The component's maximum selectable value. */
   @Prop({ reflect: true }) max = 100;
 
-  /** Used as an accessible label (aria-label) for second handle if needed (ex. "Temperature, upper bound") */
+  /** For multiple selections, the accessible name for the second handle, such as "Temperature, upper bound". */
   @Prop() maxLabel?: string;
 
-  /** Currently selected upper number (if multi-select) */
+  /** For multiple selections, the component's upper value. */
   @Prop({ mutable: true }) maxValue?: number;
 
-  /** Minimum selectable value */
+  /** The component's minimum selectable value. */
   @Prop({ reflect: true }) min = 0;
 
-  /** Used as an accessible label (aria-label) for first (or only) handle (ex. "Temperature, lower bound") */
+  /** Accessible name for first (or only) handle, such as "Temperature, lower bound". */
   @Prop() minLabel: string;
 
-  /** Currently selected lower number (if multi-select) */
+  /** For multiple selections, the component's lower value. */
   @Prop({ mutable: true }) minValue?: number;
 
   /**
@@ -108,30 +108,30 @@ export class Slider implements LabelableComponent, FormComponent, InteractiveCom
    */
   @Prop({ reflect: true }) mirrored = false;
 
-  /** The name of the slider */
+  /** Specifies the name of the component on form submission. */
   @Prop({ reflect: true }) name: string;
 
-  /** Interval to move on page up/page down keys */
+  /** Specifies the interval to move with the page up, or page down keys. */
   @Prop() pageStep?: number;
 
-  /** Use finer point for handles */
+  /** When true, sets a finer point for handles. */
   @Prop() precise = false;
 
   /**
-   * When true, makes the component required for form-submission.
+   * When true, the component must have a value on form submission.
    */
   @Prop({ reflect: true }) required = false;
 
-  /** When true, enables snap selection along the step interval */
+  /** When true, enables snap selection in coordination with "step" via a mouse. */
   @Prop() snap = false;
 
-  /** Interval to move on up/down keys */
+  /** Specifies the interval to move with the up, or down keys. */
   @Prop() step?: number = 1;
 
-  /** Show tick marks on the number line at provided interval */
+  /** Displays tick marks on the number line at a specified interval. */
   @Prop() ticks?: number;
 
-  /** Currently selected number (if single select) */
+  /** The component's value. */
   @Prop({ reflect: true, mutable: true }) value: null | number | number[] = 0;
 
   @Watch("value")
@@ -146,7 +146,7 @@ export class Slider implements LabelableComponent, FormComponent, InteractiveCom
   }
 
   /**
-   * Specify the scale of the slider, defaults to m
+   *  Specifies the size of the component.
    */
   @Prop() scale: Scale = "m";
 
@@ -834,27 +834,30 @@ export class Slider implements LabelableComponent, FormComponent, InteractiveCom
   //
   //--------------------------------------------------------------------------
   /**
-   * Fires on all updates to the slider.
-   * :warning: Will be fired frequently during drag. If you are performing any
+   * Fires on all updates to the component.
+   *
+   * **Note:** Will be fired frequently during drag. If you are performing any
    * expensive operations consider using a debounce or throttle to avoid
    * locking up the main thread.
    */
   @Event({ cancelable: false }) calciteSliderInput: EventEmitter<void>;
 
   /**
-   * Fires on when the thumb is released on slider
-   * If you need to constantly listen to the drag event,
-   * please use calciteSliderInput instead
+   * Fires when the thumb is released on the component.
+   *
+   * **Note:** If you need to constantly listen to the drag event,
+   * use "calciteSliderInput" instead.
    */
   @Event({ cancelable: false }) calciteSliderChange: EventEmitter<void>;
 
   /**
-   * Fires on all updates to the slider.
-   * :warning: Will be fired frequently during drag. If you are performing any
+   * Fires on all updates to the component.
+   *
+   * **Note:** Will be fired frequently during drag. If you are performing any
    * expensive operations consider using a debounce or throttle to avoid
    * locking up the main thread.
    *
-   * @deprecated use calciteSliderInput instead
+   * @deprecated use "calciteSliderInput" instead.
    */
   @Event({ cancelable: false }) calciteSliderUpdate: EventEmitter<void>;
 
