@@ -673,4 +673,58 @@ describe("calcite-slider", () => {
   it("is form-associated", () => formAssociated("calcite-slider", { testValue: 5 }));
 
   it("is form-associated with range", () => formAssociated("calcite-slider", { testValue: [5, 10] }));
+
+  it("groupSeparator: displays numbers as comma separated when prop is true and does not when false", async () => {
+    const page = await newE2EPage({
+      html: `<calcite-slider 
+                min="1000" 
+                max="10000" 
+                min-value="2500" 
+                max-value="5000" 
+                step="1000" 
+                ticks="1000" 
+                label-handles 
+                label-ticks 
+                style="width:${sliderWidthFor1To1PixelValueTrack}">
+            </calcite-slider>`
+    });
+    await page.waitForChanges();
+    const slider = await page.find("calcite-slider");
+
+    const [labelMinVal, labelVal, tickMin, tickMax] = await page.evaluate(() => {
+      const slider = document.querySelector("calcite-slider");
+
+      const labelMinVal = slider.shadowRoot.querySelector("span.handle__label--minValue") as HTMLElement;
+      const labelVal = slider.shadowRoot.querySelector("span.handle__label--value") as HTMLElement;
+
+      const tickMin = slider.shadowRoot.querySelector("span.tick__label--min") as HTMLElement;
+      const tickMax = slider.shadowRoot.querySelector("span.tick__label--max") as HTMLElement;
+
+      return [labelMinVal.innerText, labelVal.innerText, tickMin.innerText, tickMax.innerText];
+    });
+
+    expect([labelMinVal, labelVal, tickMin, tickMax]).toEqual(["2500", "5000", "1000", "10000"]);
+
+    await slider.setProperty("groupSeparator", true);
+    await page.waitForChanges();
+
+    const [labelMinValSeparated, labelValSeparated, tickMinSeparated, tickMaxSeparated] = await page.evaluate(() => {
+      const slider = document.querySelector("calcite-slider");
+
+      const labelMinVal = slider.shadowRoot.querySelector("span.handle__label--minValue") as HTMLElement;
+      const labelVal = slider.shadowRoot.querySelector("span.handle__label--value") as HTMLElement;
+
+      const tickMin = slider.shadowRoot.querySelector("span.tick__label--min") as HTMLElement;
+      const tickMax = slider.shadowRoot.querySelector("span.tick__label--max") as HTMLElement;
+
+      return [labelMinVal.innerText, labelVal.innerText, tickMin.innerText, tickMax.innerText];
+    });
+
+    expect([labelMinValSeparated, labelValSeparated, tickMinSeparated, tickMaxSeparated]).toEqual([
+      "2,500",
+      "5,000",
+      "1,000",
+      "10,000"
+    ]);
+  });
 });
