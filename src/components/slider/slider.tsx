@@ -150,6 +150,11 @@ export class Slider implements LabelableComponent, FormComponent, InteractiveCom
    */
   @Prop() scale: Scale = "m";
 
+  /**
+   * When true, displays numbers as comma separated (e.g. 1,970) and when false/not present does not (e.g. 1970)
+   */
+  @Prop() groupSeparator = false;
+
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
