@@ -232,7 +232,7 @@ describe("calcite-input-time", () => {
 
     await page.keyboard.press("Tab");
     await page.keyboard.press("1");
-    await page.keyboard.press(":");
+    await page.keyboard.press("Tab");
     await page.keyboard.press("2");
 
     await page.waitForChanges();
