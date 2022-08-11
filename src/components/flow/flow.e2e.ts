@@ -265,6 +265,6 @@ describe("calcite-flow", () => {
 
     expect(await flowItems[3].getProperty("open")).toBe(false);
     expect(await flowItems[3].getProperty("showBackButton")).toBe(false);
-    expect(await flowItems[3].isVisible()).toBe(true);
+    expect(await flowItems[3].isVisible()).toBe(false);
   });
 });

@@ -1,6 +1,10 @@
 :host {
   @extend %component-host;
-  @apply relative flex w-full flex-auto overflow-hidden;
+  @apply relative hidden w-full flex-auto overflow-hidden;
+}
+
+:host([open]) {
+  @apply flex;
 }
 
 @include disabled();

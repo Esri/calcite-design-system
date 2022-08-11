@@ -3,7 +3,7 @@ import { accessible, defaults, disabled, focusable, hidden, renders, slots } fro
 import { CSS, SLOTS } from "./resources";
 
 describe("calcite-flow-item", () => {
-  it("renders", async () => renders("calcite-flow-item", { display: "flex" }));
+  it("renders", async () => renders("<calcite-flow-item open></calcite-flow-item>", { display: "flex" }));
 
   it("honors hidden attribute", async () => hidden("calcite-flow-item"));
 
@@ -41,7 +41,7 @@ describe("calcite-flow-item", () => {
 
   it("has slots", () => slots("calcite-flow-item", SLOTS));
 
-  it("can be disabled", () => disabled(`<calcite-flow-item closable>scrolling content</calcite-flow-item>`));
+  it("can be disabled", () => disabled(`<calcite-flow-item closable open>scrolling content</calcite-flow-item>`));
 
   it("should be accessible", async () =>
     accessible(`
@@ -56,7 +56,7 @@ describe("calcite-flow-item", () => {
     `));
 
   it("should focus on back button", async () =>
-    focusable(`<calcite-flow-item show-back-button>test</calcite-flow-item>`, {
+    focusable(`<calcite-flow-item show-back-button open>test</calcite-flow-item>`, {
       shadowFocusTargetSelector: "calcite-action"
     }));
 
