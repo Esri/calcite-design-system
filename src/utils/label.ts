@@ -103,15 +103,15 @@ export function connectLabel(component: LabelableComponent): void {
     return;
   }
 
-  if (!labelToLabelableElements.has(labelEl)) {
-    labelToLabelableElements.set(labelEl, new Set());
-  }
-
-  labelToLabelableElements.get(labelEl).add(component.el);
-
   const boundOnLabelDisconnected = onLabelDisconnected.bind(component);
 
   if (labelEl) {
+    if (!labelToLabelableElements.has(labelEl)) {
+      labelToLabelableElements.set(labelEl, new Set());
+    }
+
+    labelToLabelableElements.get(labelEl).add(component.el);
+
     component.labelEl = labelEl;
     const boundOnLabelClick = onLabelClick.bind(component);
     onLabelClickMap.set(component.labelEl, boundOnLabelClick);
@@ -131,7 +131,6 @@ export function connectLabel(component: LabelableComponent): void {
  * @param component
  */
 export function disconnectLabel(component: LabelableComponent): void {
-  labelToLabelableElements.get(component.labelEl).delete(component.el);
   unlabeledComponents.delete(component);
   document.removeEventListener(labelConnectedEvent, onLabelConnectedMap.get(component));
   document.removeEventListener(labelDisconnectedEvent, onLabelDisconnectedMap.get(component));
@@ -142,6 +141,7 @@ export function disconnectLabel(component: LabelableComponent): void {
     return;
   }
 
+  labelToLabelableElements.get(component.labelEl).delete(component.el);
   const boundOnLabelClick = onLabelClickMap.get(component.labelEl);
   component.labelEl.removeEventListener(labelClickEvent, boundOnLabelClick);
   onLabelClickMap.delete(component.labelEl);
