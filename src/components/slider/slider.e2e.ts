@@ -702,7 +702,7 @@ describe("calcite-slider", () => {
 
       return [labelMinVal.innerText, labelVal.innerText, tickMin.innerText, tickMax.innerText];
     };
-    await page.exposeFunction("separator", displayedValuesArray);
+    await page.exposeFunction("displayedValuesArray", displayedValuesArray);
 
     const noSeparator = await page.$eval("calcite-slider", async (): Promise<string[]> => {
       return await displayedValuesArray();
