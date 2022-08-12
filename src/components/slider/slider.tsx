@@ -19,6 +19,7 @@ import { intersects } from "../../utils/dom";
 import { clamp, decimalPlaces } from "../../utils/math";
 import { Scale } from "../interfaces";
 import { LabelableComponent, connectLabel, disconnectLabel } from "../../utils/label";
+import { localizeNumberString } from "../../utils/locale";
 import {
   afterConnectDefaultValueSet,
   connectForm,
@@ -151,9 +152,19 @@ export class Slider implements LabelableComponent, FormComponent, InteractiveCom
   @Prop() scale: Scale = "m";
 
   /**
-   * When true, displays numbers as comma separated (e.g. 1,970) and when false/not present does not (e.g. 1970)
+   * When true, number values are displayed with the locale's group separator.
    */
-  @Prop({ reflect: true, mutable: true }) groupSeparator = false;
+  @Prop({ reflect: true }) groupSeparator = false;
+
+  /** Specifies the BCP 47 language tag for the desired language and country format. */
+  @Prop() locale: string = document.documentElement.lang || "en";
+
+  /**
+   * Specifies the Unicode numeral system used by the component for localization.
+   *
+   * @mdn [numberingSystem](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/Locale/numberingSystem)
+   */
+  @Prop() numberingSystem?: string;
 
   //--------------------------------------------------------------------------
   //
@@ -262,13 +273,13 @@ export class Slider implements LabelableComponent, FormComponent, InteractiveCom
         tabIndex={0}
       >
         <span aria-hidden="true" class="handle__label handle__label--value">
-          {value ? this.determineGroupSeparator(value) : value}
+          {this.determineGroupSeparator(value)}
         </span>
         <span aria-hidden="true" class="handle__label handle__label--value static">
-          {value ? this.determineGroupSeparator(value) : value}
+          {this.determineGroupSeparator(value)}
         </span>
         <span aria-hidden="true" class="handle__label handle__label--value transformed">
-          {value ? this.determineGroupSeparator(value) : value}
+          {this.determineGroupSeparator(value)}
         </span>
         <div class="handle" />
       </div>
@@ -297,13 +308,13 @@ export class Slider implements LabelableComponent, FormComponent, InteractiveCom
       >
         <div class="handle" />
         <span aria-hidden="true" class="handle__label handle__label--value">
-          {value ? this.determineGroupSeparator(value) : value}
+          {this.determineGroupSeparator(value)}
         </span>
         <span aria-hidden="true" class="handle__label handle__label--value static">
-          {value ? this.determineGroupSeparator(value) : value}
+          {this.determineGroupSeparator(value)}
         </span>
         <span aria-hidden="true" class="handle__label handle__label--value transformed">
-          {value ? this.determineGroupSeparator(value) : value}
+          {this.determineGroupSeparator(value)}
         </span>
       </div>
     );
@@ -385,13 +396,13 @@ export class Slider implements LabelableComponent, FormComponent, InteractiveCom
         tabIndex={0}
       >
         <span aria-hidden="true" class="handle__label handle__label--value">
-          {value ? this.determineGroupSeparator(value) : value}
+          {this.determineGroupSeparator(value)}
         </span>
         <span aria-hidden="true" class="handle__label handle__label--value static">
-          {value ? this.determineGroupSeparator(value) : value}
+          {this.determineGroupSeparator(value)}
         </span>
         <span aria-hidden="true" class="handle__label handle__label--value transformed">
-          {value ? this.determineGroupSeparator(value) : value}
+          {this.determineGroupSeparator(value)}
         </span>
         <div class="handle" />
         <div class="handle-extension" />
@@ -423,13 +434,13 @@ export class Slider implements LabelableComponent, FormComponent, InteractiveCom
         <div class="handle-extension" />
         <div class="handle" />
         <span aria-hidden="true" class="handle__label handle__label--value">
-          {value ? this.determineGroupSeparator(value) : value}
+          {this.determineGroupSeparator(value)}
         </span>
         <span aria-hidden="true" class="handle__label handle__label--value static">
-          {value ? this.determineGroupSeparator(value) : value}
+          {this.determineGroupSeparator(value)}
         </span>
         <span aria-hidden="true" class="handle__label handle__label--value transformed">
-          {value ? this.determineGroupSeparator(value) : value}
+          {this.determineGroupSeparator(value)}
         </span>
       </div>
     );
@@ -481,13 +492,13 @@ export class Slider implements LabelableComponent, FormComponent, InteractiveCom
         tabIndex={0}
       >
         <span aria-hidden="true" class="handle__label handle__label--minValue">
-          {this.minValue && this.determineGroupSeparator(this.minValue)}
+          {this.determineGroupSeparator(this.minValue)}
         </span>
         <span aria-hidden="true" class="handle__label handle__label--minValue static">
-          {this.minValue && this.determineGroupSeparator(this.minValue)}
+          {this.determineGroupSeparator(this.minValue)}
         </span>
         <span aria-hidden="true" class="handle__label handle__label--minValue transformed">
-          {this.minValue && this.determineGroupSeparator(this.minValue)}
+          {this.determineGroupSeparator(this.minValue)}
         </span>
         <div class="handle" />
       </div>
@@ -516,13 +527,13 @@ export class Slider implements LabelableComponent, FormComponent, InteractiveCom
       >
         <div class="handle" />
         <span aria-hidden="true" class="handle__label handle__label--minValue">
-          {this.minValue && this.determineGroupSeparator(this.minValue)}
+          {this.determineGroupSeparator(this.minValue)}
         </span>
         <span aria-hidden="true" class="handle__label handle__label--minValue static">
-          {this.minValue && this.determineGroupSeparator(this.minValue)}
+          {this.determineGroupSeparator(this.minValue)}
         </span>
         <span aria-hidden="true" class="handle__label handle__label--minValue transformed">
-          {this.minValue && this.determineGroupSeparator(this.minValue)}
+          {this.determineGroupSeparator(this.minValue)}
         </span>
       </div>
     );
@@ -579,13 +590,13 @@ export class Slider implements LabelableComponent, FormComponent, InteractiveCom
         <div class="handle-extension" />
         <div class="handle" />
         <span aria-hidden="true" class="handle__label handle__label--minValue">
-          {this.minValue && this.determineGroupSeparator(this.minValue)}
+          {this.determineGroupSeparator(this.minValue)}
         </span>
         <span aria-hidden="true" class="handle__label handle__label--minValue static">
-          {this.minValue && this.determineGroupSeparator(this.minValue)}
+          {this.determineGroupSeparator(this.minValue)}
         </span>
         <span aria-hidden="true" class="handle__label handle__label--minValue transformed">
-          {this.minValue && this.determineGroupSeparator(this.minValue)}
+          {this.determineGroupSeparator(this.minValue)}
         </span>
       </div>
     );
@@ -1403,11 +1414,20 @@ export class Slider implements LabelableComponent, FormComponent, InteractiveCom
   }
 
   /**
-   * Returns a string representing the label value that is parsed for comma separator based on whether groupSeparator prop is set to true/false.
+   * Returns a string representing the localized label value based on groupSeparator prop being on or off.
    *
-   * @param input
+   * @param value
    */
-  private determineGroupSeparator = (input: number): string => {
-    return this.groupSeparator ? input.toLocaleString() : input.toLocaleString().replace(",", "");
+  private determineGroupSeparator = (value): string => {
+    if (value) {
+      return this.groupSeparator
+        ? localizeNumberString(
+            value.toString(),
+            this.locale,
+            this.groupSeparator,
+            this.numberingSystem
+          )
+        : value;
+    }
   };
 }
