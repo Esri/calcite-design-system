@@ -155,11 +155,6 @@ export class Slider implements LabelableComponent, FormComponent, InteractiveCom
    */
   @Prop({ reflect: true, mutable: true }) groupSeparator = false;
 
-  @Watch("groupSeparator")
-  handleGroupSeparatorChange(value: boolean): void {
-    this.groupSeparator = value;
-  }
-
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
