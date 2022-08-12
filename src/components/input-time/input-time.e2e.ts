@@ -68,31 +68,6 @@ describe("calcite-input-time", () => {
     expect(await component.getProperty("value")).toBeNull();
   });
 
-  it.skip("opens the time picker on input keyboard focus", async () => {
-    const page = await newE2EPage({
-      html: `<calcite-input-time></calcite-input-time>`
-    });
-    const popover = await page.find("calcite-input-time >>> calcite-popover");
-
-    await page.keyboard.press("Tab");
-    await page.waitForChanges();
-
-    expect(await popover.getProperty("open")).toBe(true);
-  });
-
-  it.skip("opens the time picker on input click", async () => {
-    const page = await newE2EPage({
-      html: `<calcite-input-time></calcite-input-time>`
-    });
-    const input = await page.find("calcite-input-time >>> calcite-input");
-    const popover = await page.find("calcite-input-time >>> calcite-popover");
-
-    await input.click();
-    await page.waitForChanges();
-
-    expect(await popover.getProperty("open")).toBe(true);
-  });
-
   it("programmatically changing the value reflects in the UI for da lang (24-hour with period delimiter)", async () => {
     const lang = "da";
     const page = await newE2EPage({
