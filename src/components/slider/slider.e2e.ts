@@ -689,42 +689,33 @@ describe("calcite-slider", () => {
             </calcite-slider>`
     });
     await page.waitForChanges();
-    const slider = await page.find("calcite-slider");
+    const element = await page.find("calcite-slider");
 
-    const [labelMinVal, labelVal, tickMin, tickMax] = await page.evaluate(() => {
-      const slider = document.querySelector("calcite-slider");
+    const separator = async (): Promise<string[]> => {
+      await page.waitForChanges();
 
-      const labelMinVal = slider.shadowRoot.querySelector("span.handle__label--minValue") as HTMLElement;
-      const labelVal = slider.shadowRoot.querySelector("span.handle__label--value") as HTMLElement;
+      const labelMinVal = (await element.shadowRoot.querySelector("span.handle__label--minValue")) as HTMLElement;
+      const labelVal = (await element.shadowRoot.querySelector("span.handle__label--value")) as HTMLElement;
 
-      const tickMin = slider.shadowRoot.querySelector("span.tick__label--min") as HTMLElement;
-      const tickMax = slider.shadowRoot.querySelector("span.tick__label--max") as HTMLElement;
+      const tickMin = (await element.shadowRoot.querySelector("span.tick__label--min")) as HTMLElement;
+      const tickMax = (await element.shadowRoot.querySelector("span.tick__label--max")) as HTMLElement;
 
       return [labelMinVal.innerText, labelVal.innerText, tickMin.innerText, tickMax.innerText];
+    };
+    await page.exposeFunction("separator", separator);
+
+    const noSeparator = await page.$eval("calcite-slider", async (): Promise<string[]> => {
+      return await separator();
     });
 
-    expect([labelMinVal, labelVal, tickMin, tickMax]).toEqual(["2500", "5000", "1000", "10000"]);
-
-    await slider.setProperty("groupSeparator", true);
+    element.setProperty("groupSeparator", true);
     await page.waitForChanges();
 
-    const [labelMinValSeparated, labelValSeparated, tickMinSeparated, tickMaxSeparated] = await page.evaluate(() => {
-      const slider = document.querySelector("calcite-slider");
-
-      const labelMinVal = slider.shadowRoot.querySelector("span.handle__label--minValue") as HTMLElement;
-      const labelVal = slider.shadowRoot.querySelector("span.handle__label--value") as HTMLElement;
-
-      const tickMin = slider.shadowRoot.querySelector("span.tick__label--min") as HTMLElement;
-      const tickMax = slider.shadowRoot.querySelector("span.tick__label--max") as HTMLElement;
-
-      return [labelMinVal.innerText, labelVal.innerText, tickMin.innerText, tickMax.innerText];
+    const withSeparator = await page.$eval("calcite-slider", async (): Promise<string[]> => {
+      return await separator();
     });
 
-    expect([labelMinValSeparated, labelValSeparated, tickMinSeparated, tickMaxSeparated]).toEqual([
-      "2,500",
-      "5,000",
-      "1,000",
-      "10,000"
-    ]);
+    expect([...noSeparator]).toEqual(["2500", "5000", "1000", "10000"]);
+    expect([...withSeparator]).toEqual(["2,500", "5,000", "1,000", "10,000"]);
   });
 });
