@@ -113,7 +113,7 @@ export class ColorPickerHexInput {
   /**
    * Emitted when the hex value changes.
    */
-  @Event() calciteColorPickerHexInputChange: EventEmitter<void>;
+  @Event({ cancelable: false }) calciteColorPickerHexInputChange: EventEmitter<void>;
 
   private onCalciteInternalInputBlur = (): void => {
     const node = this.inputNode;
@@ -141,7 +141,7 @@ export class ColorPickerHexInput {
   protected onInputKeyDown(event: KeyboardEvent): void {
     const { altKey, ctrlKey, metaKey, shiftKey } = event;
     const { internalColor, value } = this;
-    const key = event.key;
+    const { key } = event;
 
     if (key === "Tab" || key === "Enter") {
       this.onInputChange();

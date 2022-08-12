@@ -187,17 +187,18 @@ export class InlineEditable implements InteractiveComponent, LabelableComponent 
   /**
    * Emitted when the cancel button gets clicked.
    */
-  @Event() calciteInlineEditableEditCancel: EventEmitter<void>;
+  @Event({ cancelable: false }) calciteInlineEditableEditCancel: EventEmitter<void>;
 
   /**
    * Emitted when the check button gets clicked.
    */
-  @Event() calciteInlineEditableEditConfirm: EventEmitter<void>;
+  @Event({ cancelable: false }) calciteInlineEditableEditConfirm: EventEmitter<void>;
 
   /**
    * @internal
    */
-  @Event() calciteInternalInlineEditableEnableEditingChange: EventEmitter<void>;
+  @Event({ cancelable: false })
+  calciteInternalInlineEditableEnableEditingChange: EventEmitter<void>;
 
   //--------------------------------------------------------------------------
   //
@@ -307,20 +308,25 @@ export class InlineEditable implements InteractiveComponent, LabelableComponent 
   };
 
   private escapeKeyHandler = async (event: KeyboardEvent) => {
-    if (event.key !== "Escape") {
-      if (event.key === "Tab" && this.shouldShowControls) {
-        if (!event.shiftKey && event.target === this.inputElement) {
-          event.preventDefault();
-          this.cancelEditingButton.setFocus();
-        }
-        if (!!event.shiftKey && event.target === this.cancelEditingButton) {
-          event.preventDefault();
-          this.inputElement?.setFocus();
-        }
-      }
+    if (event.defaultPrevented) {
       return;
     }
-    this.cancelEditing();
+
+    if (event.key === "Escape") {
+      event.preventDefault();
+      this.cancelEditing();
+    }
+
+    if (event.key === "Tab" && this.shouldShowControls) {
+      if (!event.shiftKey && event.target === this.inputElement) {
+        event.preventDefault();
+        this.cancelEditingButton.setFocus();
+      }
+      if (!!event.shiftKey && event.target === this.cancelEditingButton) {
+        event.preventDefault();
+        this.inputElement?.setFocus();
+      }
+    }
   };
 
   private cancelEditingHandler = async (event: MouseEvent) => {

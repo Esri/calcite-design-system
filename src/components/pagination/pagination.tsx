@@ -88,14 +88,14 @@ export class Pagination implements GlobalAttrComponent {
    *
    * @deprecated use calcitePaginationChange instead
    */
-  @Event() calcitePaginationUpdate: EventEmitter<PaginationDetail>;
+  @Event({ cancelable: false }) calcitePaginationUpdate: EventEmitter<PaginationDetail>;
 
   /**
    * Emits when the selected page changes.
    *
    * @see [PaginationDetail](https://github.com/Esri/calcite-components/blob/master/src/components/pagination/pagination.tsx#L23)
    */
-  @Event() calcitePaginationChange: EventEmitter<PaginationDetail>;
+  @Event({ cancelable: false }) calcitePaginationChange: EventEmitter<PaginationDetail>;
 
   // --------------------------------------------------------------------------
   //

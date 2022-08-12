@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, disabled, formAssociated, HYDRATED_ATTR, labelable } from "../../tests/commonTests";
+import { accessible, disabled, formAssociated, HYDRATED_ATTR, labelable, hidden } from "../../tests/commonTests";
 
 describe("calcite-switch", () => {
   it("renders with correct default attributes", async () => {
@@ -11,6 +11,8 @@ describe("calcite-switch", () => {
     expect(calciteSwitch).toHaveAttribute(HYDRATED_ATTR);
     expect(calciteSwitch).toHaveAttribute("checked");
   });
+
+  it("honors hidden attribute", async () => hidden("calcite-switch"));
 
   it("is accessible", async () => accessible(`<calcite-switch label="test-label"></calcite-switch>`));
 

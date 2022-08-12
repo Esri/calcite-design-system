@@ -52,7 +52,7 @@ export class Accordion {
   /**
    * @internal
    */
-  @Event() calciteInternalAccordionChange: EventEmitter<RequestedItem>;
+  @Event({ cancelable: false }) calciteInternalAccordionChange: EventEmitter<RequestedItem>;
 
   //--------------------------------------------------------------------------
   //
@@ -92,7 +92,7 @@ export class Accordion {
     const item = event.detail.item;
     const parent = event.detail.parent as HTMLCalciteAccordionElement;
     if (this.el === parent) {
-      const key = item.key;
+      const { key } = item;
       const itemToFocus = event.target;
       const isFirstItem = this.itemIndex(itemToFocus) === 0;
       const isLastItem = this.itemIndex(itemToFocus) === this.items.length - 1;

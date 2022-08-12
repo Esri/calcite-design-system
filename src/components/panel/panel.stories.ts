@@ -165,3 +165,6 @@ export const darkThemeRTL = (): string =>
 darkThemeRTL.parameters = { themes: themesDarkDefault };
 
 export const disabled = (): string => html`<calcite-panel heading="Heading" disabled>disabled</calcite-panel>`;
+
+export const headingLevel2 = (): string =>
+  html`<calcite-panel heading-level="2" heading="Heading">My Panel</calcite-panel>`;

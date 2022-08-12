@@ -42,53 +42,53 @@ export class StepperItem implements InteractiveComponent {
   //  Public Properties
   //
   //--------------------------------------------------------------------------
-  /** is the step active */
+  /** When true, the component is active. */
   @Prop({ reflect: true, mutable: true }) active = false;
 
-  /** has the step been completed */
+  /** When true, the component's workflow has been completed. */
   @Prop({ reflect: true }) complete = false;
 
-  /** does the step contain an error that needs to be resolved by the user */
+  /** When true, the component contains an error that requires resolution from the user. */
   @Prop() error = false;
 
-  /** is the step disabled and not navigable to by a user */
+  /** When true, interaction is prevented and the component is displayed with lower opacity. */
   @Prop({ reflect: true }) disabled = false;
 
   /**
-   * pass a title for the stepper item
+   * The component header text.
    *
-   * @deprecated use heading instead
+   * @deprecated use "heading" instead.
    */
   @Prop() itemTitle?: string;
 
-  /** stepper item heading */
+  /** The component header text. */
   @Prop() heading?: string;
 
   /**
-   * pass a title for the stepper item
+   * A description for the component. Displays below the header text.
    *
-   * @deprecated use description instead
+   * @deprecated use "description" instead.
    */
   @Prop() itemSubtitle?: string;
 
-  /** stepper item description */
+  /** A description for the component. Displays below the header text. */
   @Prop() description: string;
 
   // internal props inherited from wrapping calcite-stepper
-  /** pass a title for the stepper item */
+  /** Defines the layout of the component. */
   /** @internal */
   @Prop({ reflect: true, mutable: true }) layout?: Extract<"horizontal" | "vertical", Layout> =
     "horizontal";
 
-  /** should the items display an icon based on status */
+  /** When true, displays a status icon in the `calcite-stepper-item` heading. */
   /** @internal */
   @Prop({ mutable: true }) icon = false;
 
-  /** optionally display the step number next to the title and subtitle */
+  /** When true, displays the step number in the `calcite-stepper-item` heading. */
   /** @internal */
   @Prop({ mutable: true }) numbered = false;
 
-  /** the scale of the item */
+  /** Specifies the size of the component. */
   /** @internal */
   @Prop({ reflect: true, mutable: true }) scale: Scale = "m";
 
@@ -122,23 +122,26 @@ export class StepperItem implements InteractiveComponent {
   /**
    * @internal
    */
-  @Event() calciteInternalStepperItemKeyEvent: EventEmitter<StepperItemKeyEventDetail>;
+  @Event({ cancelable: false })
+  calciteInternalStepperItemKeyEvent: EventEmitter<StepperItemKeyEventDetail>;
 
   /**
    * @internal
    */
-  @Event() calciteInternalStepperItemSelect: EventEmitter<StepperItemEventDetail>;
+  @Event({ cancelable: false })
+  calciteInternalStepperItemSelect: EventEmitter<StepperItemEventDetail>;
 
   /**
    * @internal
    */
-  @Event()
+  @Event({ cancelable: false })
   calciteInternalUserRequestedStepperItemSelect: EventEmitter<StepperItemChangeEventDetail>;
 
   /**
    * @internal
    */
-  @Event() calciteInternalStepperItemRegister: EventEmitter<StepperItemEventDetail>;
+  @Event({ cancelable: false })
+  calciteInternalStepperItemRegister: EventEmitter<StepperItemEventDetail>;
 
   //--------------------------------------------------------------------------
   //
@@ -152,6 +155,12 @@ export class StepperItem implements InteractiveComponent {
     this.layout = getElementProp(this.el, "layout", false);
     this.scale = getElementProp(this.el, "scale", "m");
     this.parentStepperEl = this.el.parentElement as HTMLCalciteStepperElement;
+    this.itemPosition = this.getItemPosition();
+    this.registerStepperItem();
+
+    if (this.active) {
+      this.emitRequestedItem();
+    }
   }
 
   componentDidRender(): void {
@@ -175,16 +184,14 @@ export class StepperItem implements InteractiveComponent {
             }
           >
             {this.icon ? this.renderIcon() : null}
-            {this.numbered ? (
-              <div class="stepper-item-number">{this.getItemPosition() + 1}.</div>
-            ) : null}
+            {this.numbered ? <div class="stepper-item-number">{this.itemPosition + 1}.</div> : null}
             <div class="stepper-item-header-text">
               <span class="stepper-item-heading">{this.heading || this.itemTitle}</span>
               <span class="stepper-item-description">{this.description || this.itemSubtitle}</span>
             </div>
           </div>
           <div class="stepper-item-content">
-            <slot onSlotchange={this.setItemContent} />
+            <slot />
           </div>
         </div>
       </Host>
@@ -227,7 +234,7 @@ export class StepperItem implements InteractiveComponent {
   /** position within parent */
   private itemPosition: number;
 
-  /** the latest requested item position*/
+  /** the latest requested item position */
   private activePosition: number;
 
   /** the parent stepper component */
@@ -303,18 +310,8 @@ export class StepperItem implements InteractiveComponent {
     }
   };
 
-  private setItemContent = (): void => {
-    this.itemPosition = this.getItemPosition();
-    this.registerStepperItem();
-
-    if (this.active) {
-      this.emitRequestedItem();
-    }
-  };
-
   private getItemPosition(): number {
-    return Array.prototype.indexOf.call(
-      this.parentStepperEl.querySelectorAll("calcite-stepper-item"),
+    return Array.from(this.parentStepperEl?.querySelectorAll("calcite-stepper-item")).indexOf(
       this.el
     );
   }

@@ -42,11 +42,11 @@ export class Handle {
   // --------------------------------------------------------------------------
 
   /**
-   * Emitted when the the handle is activated and the up or down arrow key is pressed.
+   * Emitted when the handle is activated and the up or down arrow key is pressed.
    *
    * **Note:**: The `handle` event payload prop is deprecated, please use the event's target/currentTarget instead
    */
-  @Event() calciteHandleNudge: EventEmitter<DeprecatedEventPayload>;
+  @Event({ cancelable: false }) calciteHandleNudge: EventEmitter<DeprecatedEventPayload>;
 
   // --------------------------------------------------------------------------
   //
@@ -70,12 +70,14 @@ export class Handle {
     switch (event.key) {
       case " ":
         this.activated = !this.activated;
+        event.preventDefault();
         break;
       case "ArrowUp":
       case "ArrowDown":
         if (!this.activated) {
           return;
         }
+        event.preventDefault();
         const direction = event.key.toLowerCase().replace("arrow", "");
         this.calciteHandleNudge.emit({ handle: this.el, direction });
         break;

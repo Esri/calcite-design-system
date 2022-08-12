@@ -1,11 +1,13 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { renders } from "../../tests/commonTests";
+import { renders, hidden } from "../../tests/commonTests";
 
 describe("calcite-loader", () => {
   it("renders", async () => {
     await renders("calcite-loader", { display: "none", visible: false });
     await renders(`<calcite-loader active></calcite-loader>`, { display: "flex", visible: true });
   });
+
+  it("honors hidden attribute", async () => hidden("calcite-loader"));
 
   it("displays label from text prop", async () => {
     const page = await newE2EPage();

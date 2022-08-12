@@ -1,9 +1,11 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { CSS, TEXT } from "./resources";
-import { accessible, defaults, renders } from "../../tests/commonTests";
+import { accessible, defaults, renders, hidden } from "../../tests/commonTests";
 
 describe("calcite-tip-manager", () => {
   it("renders", async () => renders("calcite-tip-manager", { display: "block" }));
+
+  it("honors hidden attribute", async () => hidden("calcite-tip-manager"));
 
   describe("first render", () => {
     it("should render and show the default title", async () => {

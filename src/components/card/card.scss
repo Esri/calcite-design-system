@@ -17,12 +17,10 @@
     overflow-hidden;
     border-radius: var(--calcite-border-radius-base);
     &:hover {
-      @apply shadow-1-lg;
-      z-index: 1;
+      @apply shadow-1-lg z-default;
     }
     &:active {
-      @apply shadow-1-sm duration-75;
-      z-index: 1;
+      @apply shadow-1-sm duration-75 z-default;
     }
   }
 }

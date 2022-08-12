@@ -217,7 +217,7 @@ describe("calcite-date-picker", () => {
 
   it("updates internally when min attribute is updated after initialization", async () => {
     const page = await newE2EPage();
-    page.emulateTimezone("America/Los_Angeles");
+    await page.emulateTimezone("America/Los_Angeles");
     await page.setContent(
       html`<calcite-date-picker value="2022-11-27" min="2022-11-15" max="2024-11-15"></calcite-date-picker>`
     );

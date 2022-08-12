@@ -202,7 +202,7 @@ export class InputTimePicker implements LabelableComponent, FormComponent, Inter
   /**
    * Fires when the time value is changed as a result of user input.
    */
-  @Event() calciteInputTimePickerChange: EventEmitter<string>;
+  @Event({ cancelable: true }) calciteInputTimePickerChange: EventEmitter<string>;
 
   //--------------------------------------------------------------------------
   //
@@ -294,13 +294,22 @@ export class InputTimePicker implements LabelableComponent, FormComponent, Inter
   //
   // --------------------------------------------------------------------------
 
-  keyDownHandler = ({ defaultPrevented, key }: KeyboardEvent): void => {
-    if (key === "Enter" && !defaultPrevented) {
-      submitForm(this);
+  keyDownHandler = (event: KeyboardEvent): void => {
+    const { defaultPrevented, key } = event;
+
+    if (defaultPrevented) {
+      return;
+    }
+
+    if (key === "Enter") {
+      if (submitForm(this)) {
+        event.preventDefault();
+      }
     }
 
     if (key === "Escape" && this.active) {
       this.active = false;
+      event.preventDefault();
     }
   };
 

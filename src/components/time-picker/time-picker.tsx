@@ -227,17 +227,17 @@ export class TimePicker {
   /**
    * @internal
    */
-  @Event() calciteInternalTimePickerBlur: EventEmitter<void>;
+  @Event({ cancelable: false }) calciteInternalTimePickerBlur: EventEmitter<void>;
 
   /**
    * @internal
    */
-  @Event() calciteInternalTimePickerChange: EventEmitter<string>;
+  @Event({ cancelable: false }) calciteInternalTimePickerChange: EventEmitter<string>;
 
   /**
    * @internal
    */
-  @Event() calciteInternalTimePickerFocus: EventEmitter<void>;
+  @Event({ cancelable: false }) calciteInternalTimePickerFocus: EventEmitter<void>;
 
   //--------------------------------------------------------------------------
   //
@@ -257,23 +257,32 @@ export class TimePicker {
 
   @Listen("keydown")
   keyDownHandler(event: KeyboardEvent): void {
-    const key = event.key;
+    const { defaultPrevented, key } = event;
+
+    if (defaultPrevented) {
+      return;
+    }
+
     switch (this.activeEl) {
       case this.hourEl:
         if (key === "ArrowRight") {
           this.setFocus("minute");
+          event.preventDefault();
         }
         break;
       case this.minuteEl:
         switch (key) {
           case "ArrowLeft":
             this.setFocus("hour");
+            event.preventDefault();
             break;
           case "ArrowRight":
             if (this.step !== 60) {
               this.setFocus("second");
+              event.preventDefault();
             } else if (this.hourCycle === "12") {
               this.setFocus("meridiem");
+              event.preventDefault();
             }
             break;
         }
@@ -282,10 +291,12 @@ export class TimePicker {
         switch (key) {
           case "ArrowLeft":
             this.setFocus("minute");
+            event.preventDefault();
             break;
           case "ArrowRight":
             if (this.hourCycle === "12") {
               this.setFocus("meridiem");
+              event.preventDefault();
             }
             break;
         }
@@ -295,8 +306,10 @@ export class TimePicker {
           case "ArrowLeft":
             if (this.step !== 60) {
               this.setFocus("second");
+              event.preventDefault();
             } else {
               this.setFocus("minute");
+              event.preventDefault();
             }
             break;
         }
@@ -327,7 +340,7 @@ export class TimePicker {
   // --------------------------------------------------------------------------
 
   private buttonActivated(event: KeyboardEvent): boolean {
-    const key = event.key;
+    const { key } = event;
 
     if (key === " ") {
       event.preventDefault();
@@ -376,7 +389,7 @@ export class TimePicker {
   };
 
   private hourKeyDownHandler = (event: KeyboardEvent): void => {
-    const key = event.key;
+    const { key } = event;
     if (numberKeys.includes(key)) {
       const keyAsNumber = parseInt(key);
       let newHour;
@@ -417,7 +430,6 @@ export class TimePicker {
           this.incrementHour();
           break;
         case " ":
-        case "Spacebar":
           event.preventDefault();
           break;
       }
@@ -488,7 +500,6 @@ export class TimePicker {
         this.decrementMeridiem();
         break;
       case " ":
-      case "Spacebar":
         event.preventDefault();
         break;
     }
@@ -507,7 +518,7 @@ export class TimePicker {
   };
 
   private minuteKeyDownHandler = (event: KeyboardEvent): void => {
-    const key = event.key;
+    const { key } = event;
     if (numberKeys.includes(key)) {
       const keyAsNumber = parseInt(key);
       let newMinute;
@@ -536,7 +547,6 @@ export class TimePicker {
           this.incrementMinute();
           break;
         case " ":
-        case "Spacebar":
           event.preventDefault();
           break;
       }
@@ -556,7 +566,7 @@ export class TimePicker {
   };
 
   private secondKeyDownHandler = (event: KeyboardEvent): void => {
-    const key = event.key;
+    const { key } = event;
     if (numberKeys.includes(key)) {
       const keyAsNumber = parseInt(key);
       let newSecond;
@@ -585,7 +595,6 @@ export class TimePicker {
           this.incrementSecond();
           break;
         case " ":
-        case "Spacebar":
           event.preventDefault();
           break;
       }
