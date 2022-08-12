@@ -192,5 +192,6 @@ function onLabelDisconnected(this: LabelableComponent): void {
   unlabeledComponents.add(this);
   const boundOnLabelConnected = onLabelConnectedMap.get(this) || onLabelConnected.bind(this);
   onLabelConnectedMap.set(this, boundOnLabelConnected);
+  labelToLabelableElements.delete(this.labelEl);
   document.addEventListener(labelConnectedEvent, boundOnLabelConnected);
 }
