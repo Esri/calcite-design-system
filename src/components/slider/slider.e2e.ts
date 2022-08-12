@@ -691,7 +691,7 @@ describe("calcite-slider", () => {
     await page.waitForChanges();
     const element = await page.find("calcite-slider");
 
-    const separator = async (): Promise<string[]> => {
+    const displayedValuesArray = async (): Promise<string[]> => {
       await page.waitForChanges();
 
       const labelMinVal = (await element.shadowRoot.querySelector("span.handle__label--minValue")) as HTMLElement;
@@ -702,17 +702,17 @@ describe("calcite-slider", () => {
 
       return [labelMinVal.innerText, labelVal.innerText, tickMin.innerText, tickMax.innerText];
     };
-    await page.exposeFunction("separator", separator);
+    await page.exposeFunction("separator", displayedValuesArray);
 
     const noSeparator = await page.$eval("calcite-slider", async (): Promise<string[]> => {
-      return await separator();
+      return await displayedValuesArray();
     });
 
     element.setProperty("groupSeparator", true);
     await page.waitForChanges();
 
     const withSeparator = await page.$eval("calcite-slider", async (): Promise<string[]> => {
-      return await separator();
+      return await displayedValuesArray();
     });
 
     expect([...noSeparator]).toEqual(["2500", "5000", "1000", "10000"]);
