@@ -675,25 +675,22 @@ describe("calcite-slider", () => {
   it("is form-associated with range", () => formAssociated("calcite-slider", { testValue: [5, 10] }));
 
   it("groupSeparator: displays numbers as comma separated when prop is true and does not when false", async () => {
-    const page = await newE2EPage({
-      html: `<calcite-slider 
-                min="1000" 
-                max="10000" 
-                min-value="2500" 
-                max-value="5000" 
-                step="1000" 
-                ticks="1000" 
-                label-handles 
-                label-ticks 
-                style="width:${sliderWidthFor1To1PixelValueTrack}">
-            </calcite-slider>`
-    });
-    await page.waitForChanges();
+    const page = await newE2EPage();
+    await page.setContent(html`<calcite-slider
+      min="1000"
+      max="10000"
+      min-value="2500"
+      max-value="5000"
+      step="1000"
+      ticks="1000"
+      label-handles
+      label-ticks
+      style="width:${sliderWidthFor1To1PixelValueTrack}"
+    >
+    </calcite-slider>`);
     const element = await page.find("calcite-slider");
 
-    const displayedValuesArray = async (): Promise<string[]> => {
-      await page.waitForChanges();
-
+    const getDisplayedValuesArray = async (): Promise<string[]> => {
       const labelMinVal = (await element.shadowRoot.querySelector("span.handle__label--minValue")) as HTMLElement;
       const labelVal = (await element.shadowRoot.querySelector("span.handle__label--value")) as HTMLElement;
 
@@ -702,20 +699,16 @@ describe("calcite-slider", () => {
 
       return [labelMinVal.innerText, labelVal.innerText, tickMin.innerText, tickMax.innerText];
     };
-    await page.exposeFunction("displayedValuesArray", displayedValuesArray);
+    await page.exposeFunction("displayedValuesArray", getDisplayedValuesArray);
 
-    const noSeparator = await page.$eval("calcite-slider", async (): Promise<string[]> => {
-      return await displayedValuesArray();
-    });
+    const noSeparator = await page.$eval("calcite-slider", getDisplayedValuesArray);
 
     element.setProperty("groupSeparator", true);
     await page.waitForChanges();
 
-    const withSeparator = await page.$eval("calcite-slider", async (): Promise<string[]> => {
-      return await displayedValuesArray();
-    });
+    const withSeparator = await page.$eval("calcite-slider", getDisplayedValuesArray);
 
-    expect([...noSeparator]).toEqual(["2500", "5000", "1000", "10000"]);
-    expect([...withSeparator]).toEqual(["2,500", "5,000", "1,000", "10,000"]);
+    expect(noSeparator).toEqual(["2500", "5000", "1000", "10000"]);
+    expect(withSeparator).toEqual(["2,500", "5,000", "1,000", "10,000"]);
   });
 });
