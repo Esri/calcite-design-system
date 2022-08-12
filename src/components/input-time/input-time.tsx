@@ -577,10 +577,6 @@ export class InputTime implements LabelableComponent, FormComponent, Interactive
     context?: "connected" | "direct" | "lang" | "user";
   }): void => {
     const formattedNewValue = formatTimeString(newValue);
-    if (formattedNewValue === this.value) {
-      return;
-    }
-
     const oldValue = this.value;
     const { hour, minute, second } = parseTimeString(newValue);
     const {
@@ -635,7 +631,6 @@ export class InputTime implements LabelableComponent, FormComponent, Interactive
     }
   };
 
-  // TODO: integrate this functionality with this.setValue
   private setValuePart = (
     key: "hour" | "minute" | "second" | "meridiem",
     value: number | string | Meridiem
