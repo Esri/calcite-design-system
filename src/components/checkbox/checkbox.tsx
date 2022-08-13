@@ -11,18 +11,19 @@ import {
 } from "@stencil/core";
 import { guid } from "../../utils/guid";
 import { Scale } from "../interfaces";
-import { CheckableFormCompoment, HiddenFormInputSlot } from "../../utils/form";
+import { CheckableFormComponent, HiddenFormInputSlot } from "../../utils/form";
 import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
 import { connectForm, disconnectForm } from "../../utils/form";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { toAriaBoolean } from "../../utils/dom";
+import { isActivationKey } from "../../utils/key";
 
 @Component({
   tag: "calcite-checkbox",
   styleUrl: "checkbox.scss",
   shadow: true
 })
-export class Checkbox implements LabelableComponent, CheckableFormCompoment, InteractiveComponent {
+export class Checkbox implements LabelableComponent, CheckableFormComponent, InteractiveComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -134,7 +135,7 @@ export class Checkbox implements LabelableComponent, CheckableFormCompoment, Int
   };
 
   keyDownHandler = (event: KeyboardEvent): void => {
-    if (event.key === " " || event.key === "Enter") {
+    if (isActivationKey(event.key)) {
       this.toggle();
       event.preventDefault();
     }

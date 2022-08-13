@@ -14,10 +14,11 @@
 
 ## Properties
 
-| Property | Attribute | Description                                                                                           | Type      | Default     |
-| -------- | --------- | ----------------------------------------------------------------------------------------------------- | --------- | ----------- |
-| `active` | `active`  | Show this tab                                                                                         | `boolean` | `false`     |
-| `tab`    | `tab`     | Optionally include a unique name for this tab, be sure to also set this name on the associated title. | `string`  | `undefined` |
+| Property   | Attribute  | Description                                                                                           | Type      | Default     |
+| ---------- | ---------- | ----------------------------------------------------------------------------------------------------- | --------- | ----------- |
+| `active`   | `active`   | <span style="color:red">**[DEPRECATED]**</span> Use selected instead.<br/><br/>Show this tab          | `boolean` | `false`     |
+| `selected` | `selected` | When true, display this tab.                                                                          | `boolean` | `false`     |
+| `tab`      | `tab`      | Optionally include a unique name for this tab, be sure to also set this name on the associated title. | `string`  | `undefined` |
 
 ## Methods
 

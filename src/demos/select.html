@@ -38,142 +38,144 @@
   </head>
 
   <body>
-    <h1 style="margin: 0 auto; text-align: center">Select</h1>
+    <demo-dom-swapper>
+      <h1 style="margin: 0 auto; text-align: center">Select</h1>
 
-    <!-- Header -->
-    <div class="parent">
-      <div class="child"></div>
-      <div class="child">Small</div>
-      <div class="child">Medium</div>
-      <div class="child">Large</div>
-    </div>
-
-    <!-- Basic -->
-    <div class="parent">
-      <div class="child right-aligned-text">Basic</div>
-      <div class="child">
-        <calcite-select label="calcite select" scale="s">
-          <calcite-option value="high">😃</calcite-option>
-          <calcite-option value="medium">😶</calcite-option>
-          <calcite-option value="low">😭</calcite-option>
-        </calcite-select>
+      <!-- Header -->
+      <div class="parent">
+        <div class="child"></div>
+        <div class="child">Small</div>
+        <div class="child">Medium</div>
+        <div class="child">Large</div>
       </div>
 
-      <div class="child">
-        <calcite-select label="calcite select" scale="m">
-          <calcite-option value="high">😃</calcite-option>
-          <calcite-option value="medium">😶</calcite-option>
-          <calcite-option value="low">😭</calcite-option>
-        </calcite-select>
+      <!-- Basic -->
+      <div class="parent">
+        <div class="child right-aligned-text">Basic</div>
+        <div class="child">
+          <calcite-select label="calcite select" scale="s">
+            <calcite-option value="high">😃</calcite-option>
+            <calcite-option value="medium">😶</calcite-option>
+            <calcite-option value="low">😭</calcite-option>
+          </calcite-select>
+        </div>
+
+        <div class="child">
+          <calcite-select label="calcite select" scale="m">
+            <calcite-option value="high">😃</calcite-option>
+            <calcite-option value="medium">😶</calcite-option>
+            <calcite-option value="low">😭</calcite-option>
+          </calcite-select>
+        </div>
+
+        <div class="child">
+          <calcite-select label="calcite select" scale="l">
+            <calcite-option value="high">😃</calcite-option>
+            <calcite-option value="medium">😶</calcite-option>
+            <calcite-option value="low">😭</calcite-option>
+          </calcite-select>
+        </div>
       </div>
 
-      <div class="child">
-        <calcite-select label="calcite select" scale="l">
-          <calcite-option value="high">😃</calcite-option>
-          <calcite-option value="medium">😶</calcite-option>
-          <calcite-option value="low">😭</calcite-option>
-        </calcite-select>
-      </div>
-    </div>
+      <!-- Disabled -->
+      <div class="parent">
+        <div class="child right-aligned-text">Disabled</div>
 
-    <!-- Disabled -->
-    <div class="parent">
-      <div class="child right-aligned-text">Disabled</div>
+        <div class="child">
+          <calcite-select label="calcite select" disabled scale="s">
+            <calcite-option>high</calcite-option>
+            <calcite-option>medium</calcite-option>
+            <calcite-option>low</calcite-option>
+          </calcite-select>
+        </div>
 
-      <div class="child">
-        <calcite-select label="calcite select" disabled scale="s">
-          <calcite-option>high</calcite-option>
-          <calcite-option>medium</calcite-option>
-          <calcite-option>low</calcite-option>
-        </calcite-select>
-      </div>
+        <div class="child">
+          <calcite-select label="calcite select" disabled scale="m">
+            <calcite-option>high</calcite-option>
+            <calcite-option>medium</calcite-option>
+            <calcite-option>low</calcite-option>
+          </calcite-select>
+        </div>
 
-      <div class="child">
-        <calcite-select label="calcite select" disabled scale="m">
-          <calcite-option>high</calcite-option>
-          <calcite-option>medium</calcite-option>
-          <calcite-option>low</calcite-option>
-        </calcite-select>
-      </div>
-
-      <div class="child">
-        <calcite-select label="calcite select" disabled scale="l">
-          <calcite-option>high</calcite-option>
-          <calcite-option>medium</calcite-option>
-          <calcite-option>low</calcite-option>
-        </calcite-select>
-      </div>
-    </div>
-
-    <!-- Grouped -->
-    <div class="parent">
-      <div class="child right-aligned-text">Grouped</div>
-
-      <div class="child">
-        <calcite-select label="calcite select" scale="s">
-          <calcite-option-group label="letters">
-            <calcite-option>a</calcite-option>
-            <calcite-option>b</calcite-option>
-            <calcite-option>c</calcite-option>
-            <calcite-option disabled>d (disabled)</calcite-option>
-          </calcite-option-group>
-          <calcite-option-group label="numbers">
-            <calcite-option label="one">1</calcite-option>
-            <calcite-option label="two" selected>2</calcite-option>
-            <calcite-option label="three">3</calcite-option>
-          </calcite-option-group>
-          <calcite-option-group label="unselectables" disabled>
-            <calcite-option>You-Know-Who</calcite-option>
-            <calcite-option selected>Tom Marvolo Riddle</calcite-option>
-            <calcite-option>He-Who-Must-Not-Be-Named</calcite-option>
-            <calcite-option>Voldemort</calcite-option>
-          </calcite-option-group>
-        </calcite-select>
+        <div class="child">
+          <calcite-select label="calcite select" disabled scale="l">
+            <calcite-option>high</calcite-option>
+            <calcite-option>medium</calcite-option>
+            <calcite-option>low</calcite-option>
+          </calcite-select>
+        </div>
       </div>
 
-      <div class="child">
-        <calcite-select label="calcite select" scale="m">
-          <calcite-option-group label="letters">
-            <calcite-option>a</calcite-option>
-            <calcite-option>b</calcite-option>
-            <calcite-option>c</calcite-option>
-            <calcite-option disabled>d (disabled)</calcite-option>
-          </calcite-option-group>
-          <calcite-option-group label="numbers">
-            <calcite-option label="one">1</calcite-option>
-            <calcite-option label="two" selected>2</calcite-option>
-            <calcite-option label="three">3</calcite-option>
-          </calcite-option-group>
-          <calcite-option-group label="unselectables" disabled>
-            <calcite-option>You-Know-Who</calcite-option>
-            <calcite-option selected>Tom Marvolo Riddle</calcite-option>
-            <calcite-option>He-Who-Must-Not-Be-Named</calcite-option>
-            <calcite-option>Voldemort</calcite-option>
-          </calcite-option-group>
-        </calcite-select>
-      </div>
+      <!-- Grouped -->
+      <div class="parent">
+        <div class="child right-aligned-text">Grouped</div>
 
-      <div class="child">
-        <calcite-select label="calcite select" scale="l">
-          <calcite-option-group label="letters">
-            <calcite-option>a</calcite-option>
-            <calcite-option>b</calcite-option>
-            <calcite-option>c</calcite-option>
-            <calcite-option disabled>d (disabled)</calcite-option>
-          </calcite-option-group>
-          <calcite-option-group label="numbers">
-            <calcite-option label="one">1</calcite-option>
-            <calcite-option label="two" selected>2</calcite-option>
-            <calcite-option label="three">3</calcite-option>
-          </calcite-option-group>
-          <calcite-option-group label="unselectables" disabled>
-            <calcite-option>You-Know-Who</calcite-option>
-            <calcite-option selected>Tom Marvolo Riddle</calcite-option>
-            <calcite-option>He-Who-Must-Not-Be-Named</calcite-option>
-            <calcite-option>Voldemort</calcite-option>
-          </calcite-option-group>
-        </calcite-select>
+        <div class="child">
+          <calcite-select label="calcite select" scale="s">
+            <calcite-option-group label="letters">
+              <calcite-option>a</calcite-option>
+              <calcite-option>b</calcite-option>
+              <calcite-option>c</calcite-option>
+              <calcite-option disabled>d (disabled)</calcite-option>
+            </calcite-option-group>
+            <calcite-option-group label="numbers">
+              <calcite-option label="one">1</calcite-option>
+              <calcite-option label="two" selected>2</calcite-option>
+              <calcite-option label="three">3</calcite-option>
+            </calcite-option-group>
+            <calcite-option-group label="unselectables" disabled>
+              <calcite-option>You-Know-Who</calcite-option>
+              <calcite-option selected>Tom Marvolo Riddle</calcite-option>
+              <calcite-option>He-Who-Must-Not-Be-Named</calcite-option>
+              <calcite-option>Voldemort</calcite-option>
+            </calcite-option-group>
+          </calcite-select>
+        </div>
+
+        <div class="child">
+          <calcite-select label="calcite select" scale="m">
+            <calcite-option-group label="letters">
+              <calcite-option>a</calcite-option>
+              <calcite-option>b</calcite-option>
+              <calcite-option>c</calcite-option>
+              <calcite-option disabled>d (disabled)</calcite-option>
+            </calcite-option-group>
+            <calcite-option-group label="numbers">
+              <calcite-option label="one">1</calcite-option>
+              <calcite-option label="two" selected>2</calcite-option>
+              <calcite-option label="three">3</calcite-option>
+            </calcite-option-group>
+            <calcite-option-group label="unselectables" disabled>
+              <calcite-option>You-Know-Who</calcite-option>
+              <calcite-option selected>Tom Marvolo Riddle</calcite-option>
+              <calcite-option>He-Who-Must-Not-Be-Named</calcite-option>
+              <calcite-option>Voldemort</calcite-option>
+            </calcite-option-group>
+          </calcite-select>
+        </div>
+
+        <div class="child">
+          <calcite-select label="calcite select" scale="l">
+            <calcite-option-group label="letters">
+              <calcite-option>a</calcite-option>
+              <calcite-option>b</calcite-option>
+              <calcite-option>c</calcite-option>
+              <calcite-option disabled>d (disabled)</calcite-option>
+            </calcite-option-group>
+            <calcite-option-group label="numbers">
+              <calcite-option label="one">1</calcite-option>
+              <calcite-option label="two" selected>2</calcite-option>
+              <calcite-option label="three">3</calcite-option>
+            </calcite-option-group>
+            <calcite-option-group label="unselectables" disabled>
+              <calcite-option>You-Know-Who</calcite-option>
+              <calcite-option selected>Tom Marvolo Riddle</calcite-option>
+              <calcite-option>He-Who-Must-Not-Be-Named</calcite-option>
+              <calcite-option>Voldemort</calcite-option>
+            </calcite-option-group>
+          </calcite-select>
+        </div>
       </div>
-    </div>
+    </demo-dom-swapper>
   </body>
 </html>
