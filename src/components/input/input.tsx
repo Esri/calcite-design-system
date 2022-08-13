@@ -379,14 +379,14 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
     connectForm(this);
     this.mutationObserver?.observe(this.el, { childList: true });
     this.setDisabledAction();
-    document.addEventListener("calciteInternalHiddenInputChange", this.hiddenInputChangeHandler);
+    this.el.addEventListener("calciteInternalHiddenInputChange", this.hiddenInputChangeHandler);
   }
 
   disconnectedCallback(): void {
     disconnectLabel(this);
     disconnectForm(this);
     this.mutationObserver?.disconnect();
-    document.removeEventListener("calciteInternalHiddenInputChange", this.hiddenInputChangeHandler);
+    this.el.removeEventListener("calciteInternalHiddenInputChange", this.hiddenInputChangeHandler);
   }
 
   componentWillLoad(): void {
@@ -720,7 +720,7 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
     }
   }
 
-  hiddenInputChangeHandler(event: Event): void {
+  hiddenInputChangeHandler = (event: Event): void => {
     if ((event.target as HTMLInputElement).name === this.name) {
       const hiddenInputValue = (event.target as HTMLInputElement).value;
       const value =
@@ -735,7 +735,7 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
         origin: "direct"
       });
     }
-  }
+  };
 
   private setChildElRef = (el) => {
     this.childEl = el;
