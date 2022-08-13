@@ -289,13 +289,6 @@ function syncHiddenFormInput(component: FormComponent): void {
       )
     );
 
-    input.dispatchEvent(
-      new CustomEvent("calciteInternalHiddenInputChange", {
-        bubbles: true,
-        composed: true
-      })
-    );
-
     defaultSyncHiddenFormInput(component, input, value);
   });
 

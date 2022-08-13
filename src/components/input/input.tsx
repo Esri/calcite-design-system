@@ -732,7 +732,7 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
 
       this.setValue({
         value,
-        origin: "user"
+        origin: "direct"
       });
     }
   }
