@@ -17,7 +17,7 @@
     "hydrate/"
   ],
   "scripts": {
-    "build": "npm run util:copy-icons && stencil build && npm run util:patch-es5-helpers",
+    "build": "npm run util:copy-icons && stencil build && npm run util:patch-es5-helpers && npm run util:patch-esm-resolution",
     "build:watch": "npm run util:copy-icons && stencil build --watch",
     "build:watch-dev": "npm run util:copy-icons && stencil build --dev --watch",
     "build-storybook": "npm run util:build-docs && build-storybook --output-dir ./docs",
@@ -52,6 +52,7 @@
     "util:is-next-deployable": "ts-node --esm support/isNextDeployable.ts",
     "util:hydration-styles": "ts-node --esm support/hydrationStyles.ts",
     "util:patch-es5-helpers": "ts-node --esm support/patchES5Helpers.ts",
+    "util:patch-esm-resolution": "ts-node --esm support/patchESMResolution.ts",
     "util:prep-next": "ts-node --esm support/prepReleaseCommit.ts --next && npm run build",
     "util:publish-next": "npm publish --tag next",
     "util:check-squash-mergeable-branch": "ts-node --esm support/checkSquashMergeableBranch.ts",
