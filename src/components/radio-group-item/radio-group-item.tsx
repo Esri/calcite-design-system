@@ -35,7 +35,7 @@ export class RadioGroupItem {
   //
   //--------------------------------------------------------------------------
 
-  /** Indicates whether the control is checked. */
+  /** When true, the component is checked. */
   @Prop({ reflect: true, mutable: true }) checked = false;
 
   @Watch("checked")
@@ -50,7 +50,7 @@ export class RadioGroupItem {
    */
   @Prop({ reflect: true }) icon?: string;
 
-  /** flip the icon in rtl */
+  /** When true, the icon will be flipped when the element direction is right-to-left ("rtl"). */
   @Prop({ reflect: true }) iconFlipRtl = false;
 
   /**
@@ -67,7 +67,7 @@ export class RadioGroupItem {
   @Prop({ reflect: true }) iconEnd?: string;
 
   /**
-   * The control's value.
+   * The component's value.
    */
   @Prop({ mutable: true })
   value: any | null;

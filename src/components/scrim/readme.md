@@ -36,10 +36,10 @@
 
 ## Properties
 
-| Property      | Attribute      | Description                                                                                             | Type      | Default        |
-| ------------- | -------------- | ------------------------------------------------------------------------------------------------------- | --------- | -------------- |
-| `intlLoading` | `intl-loading` | string to override English loading text                                                                 | `string`  | `TEXT.loading` |
-| `loading`     | `loading`      | Determines if the component will have the loader overlay. Otherwise, will render opaque disabled state. | `boolean` | `false`        |
+| Property      | Attribute      | Description                                    | Type      | Default        |
+| ------------- | -------------- | ---------------------------------------------- | --------- | -------------- |
+| `intlLoading` | `intl-loading` | Accessible name when the component is loading. | `string`  | `TEXT.loading` |
+| `loading`     | `loading`      | When true, a busy indicator is displayed.      | `boolean` | `false`        |
 
 ## Slots
 

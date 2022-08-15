@@ -268,7 +268,12 @@ export class InputDatePicker
    */
   @Prop({ mutable: true }) end?: string;
 
-  /** Describes the type of positioning to use for the overlaid content. If your element is in a fixed container, use the 'fixed' value. */
+  /**
+   * Determines the type of positioning to use for the overlaid content.
+   *
+   * Using the "absolute" value will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout. The "fixed" value should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is "fixed".
+   *
+   */
   @Prop() overlayPositioning: OverlayPositioning = "absolute";
 
   @Watch("overlayPositioning")
@@ -648,12 +653,16 @@ export class InputDatePicker
     this.open = false;
   };
 
-  keyDownHandler = ({ defaultPrevented, key }: KeyboardEvent): void => {
+  keyDownHandler = (event: KeyboardEvent): void => {
+    const { defaultPrevented, key } = event;
     if (key === "Enter" && !defaultPrevented) {
-      submitForm(this);
-    } else if (key === "Escape") {
+      if (submitForm(this)) {
+        event.preventDefault();
+      }
+    } else if (key === "Escape" && !defaultPrevented) {
       this.active = false;
       this.open = false;
+      event.preventDefault();
     }
   };
 
