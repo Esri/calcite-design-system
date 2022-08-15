@@ -674,45 +674,116 @@ describe("calcite-slider", () => {
 
   it("is form-associated with range", () => formAssociated("calcite-slider", { testValue: [5, 10] }));
 
-  it("groupSeparator: displays numbers as comma separated when prop is true and does not when false", async () => {
-    const page = await newE2EPage();
-    await page.setContent(html`<calcite-slider
-      min="1000"
-      max="10000"
-      min-value="2500"
-      max-value="5000"
-      step="1000"
-      ticks="1000"
-      label-handles
-      label-ticks
-      style="width:${sliderWidthFor1To1PixelValueTrack}"
-    >
-    </calcite-slider>`);
-    const element = await page.find("calcite-slider");
+  describe("number locale support", () => {
+    let page;
+    let noSeparator;
+    const expectedNotSeparatedValueArray = ["2500", "500000.5", "1000", "1000000.5"];
+    let withSeparator;
+    let getDisplayedValuesArray;
+    let element;
 
-    const getDisplayedValuesArray = async (): Promise<string[]> => {
-      const labelMinVal = (await element.shadowRoot.querySelector("span.handle__label--minValue")) as HTMLElement;
-      const labelVal = (await element.shadowRoot.querySelector("span.handle__label--value")) as HTMLElement;
+    beforeEach(async () => {
+      page = await newE2EPage();
+      await page.setContent(html`<calcite-slider
+        min="1000"
+        max="1000000.50"
+        min-value="2500"
+        max-value="500000.50"
+        step="1000"
+        ticks="1000"
+        label-handles
+        label-ticks
+        style="width:${sliderWidthFor1To1PixelValueTrack}"
+      >
+      </calcite-slider>`);
+      element = await page.find("calcite-slider");
 
-      const tickMin = (await element.shadowRoot.querySelector("span.tick__label--min")) as HTMLElement;
-      const tickMax = (await element.shadowRoot.querySelector("span.tick__label--max")) as HTMLElement;
+      getDisplayedValuesArray = async (): Promise<string[]> => {
+        const labelMinVal = (await element.shadowRoot.querySelector("span.handle__label--minValue")) as HTMLElement;
+        const labelVal = (await element.shadowRoot.querySelector("span.handle__label--value")) as HTMLElement;
 
-      return [labelMinVal.innerText, labelVal.innerText, tickMin.innerText, tickMax.innerText];
-    };
-    await page.exposeFunction("getDisplayedValuesArray", getDisplayedValuesArray);
+        const tickMin = (await element.shadowRoot.querySelector("span.tick__label--min")) as HTMLElement;
+        const tickMax = (await element.shadowRoot.querySelector("span.tick__label--max")) as HTMLElement;
 
-    const noSeparator = await page.$eval("calcite-slider", async (): Promise<string[]> => {
-      return await getDisplayedValuesArray();
+        return [labelMinVal.innerText, labelVal.innerText, tickMin.innerText, tickMax.innerText];
+      };
+      await page.exposeFunction("getDisplayedValuesArray", getDisplayedValuesArray);
     });
 
-    element.setProperty("groupSeparator", true);
-    await page.waitForChanges();
+    it("English", async () => {
+      element.setProperty("locale", "en");
+      await page.waitForChanges();
 
-    const withSeparator = await page.$eval("calcite-slider", async (): Promise<string[]> => {
-      return await getDisplayedValuesArray();
+      noSeparator = await page.$eval("calcite-slider", async (): Promise<string[]> => {
+        return await getDisplayedValuesArray();
+      });
+
+      element.setProperty("groupSeparator", true);
+      await page.waitForChanges();
+
+      withSeparator = await page.$eval("calcite-slider", async (): Promise<string[]> => {
+        return await getDisplayedValuesArray();
+      });
+
+      expect(noSeparator).toEqual(expectedNotSeparatedValueArray);
+      expect(withSeparator).toEqual(["2,500", "500,000.5", "1,000", "1,000,000.5"]);
     });
 
-    expect(noSeparator).toEqual(["2500", "5000", "1000", "10000"]);
-    expect(withSeparator).toEqual(["2,500", "5,000", "1,000", "10,000"]);
+    it("Spanish", async () => {
+      element.setProperty("locale", "es");
+      await page.waitForChanges();
+
+      noSeparator = await page.$eval("calcite-slider", async (): Promise<string[]> => {
+        return await getDisplayedValuesArray();
+      });
+
+      element.setProperty("groupSeparator", true);
+      await page.waitForChanges();
+
+      withSeparator = await page.$eval("calcite-slider", async (): Promise<string[]> => {
+        return await getDisplayedValuesArray();
+      });
+
+      expect(noSeparator).toEqual(expectedNotSeparatedValueArray);
+      expect(withSeparator).toEqual(["2500", "500.000,5", "1000", "1.000.000,5"]);
+    });
+
+    it("French", async () => {
+      element.setProperty("locale", "fr");
+      await page.waitForChanges();
+
+      noSeparator = await page.$eval("calcite-slider", async (): Promise<string[]> => {
+        return await getDisplayedValuesArray();
+      });
+
+      element.setProperty("groupSeparator", true);
+      await page.waitForChanges();
+
+      withSeparator = await page.$eval("calcite-slider", async (): Promise<string[]> => {
+        return await getDisplayedValuesArray();
+      });
+
+      expect(noSeparator).toEqual(expectedNotSeparatedValueArray);
+      expect(withSeparator).toEqual(["2 500", "500 000,5", "1 000", "1 000 000,5"]);
+    });
+
+    it("German (Switzerland)", async () => {
+      element.setProperty("locale", "de-CH");
+      await page.waitForChanges();
+
+      noSeparator = await page.$eval("calcite-slider", async (): Promise<string[]> => {
+        return await getDisplayedValuesArray();
+      });
+
+      element.setProperty("groupSeparator", true);
+      await page.waitForChanges();
+
+      withSeparator = await page.$eval("calcite-slider", async (): Promise<string[]> => {
+        return await getDisplayedValuesArray();
+      });
+
+      expect(noSeparator).toEqual(expectedNotSeparatedValueArray);
+      expect(withSeparator).toEqual(["2’500", "500’000.5", "1’000", "1’000’000.5"]);
+    });
   });
 });
