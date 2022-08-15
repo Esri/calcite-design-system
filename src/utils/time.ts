@@ -67,6 +67,36 @@ export function getLocaleHourCycle(locale: string): HourCycle {
   return getLocalizedTimePart("meridiem", parts) ? "12" : "24";
 }
 
+export function getLocaleHourSuffix(locale: string): string {
+  const formatter = createLocaleDateTimeFormatter(locale);
+  const parts = formatter.formatToParts(new Date(Date.UTC(0, 0, 0, 0, 0, 0)));
+  const hourIndex = parts.indexOf(parts.find(({ type }): boolean => type === "hour"));
+  const minuteIndex = parts.indexOf(parts.find(({ type }): boolean => type === "minute"));
+  const hourSuffix = parts[hourIndex + 1];
+  return hourSuffix && hourSuffix.type === "literal" && minuteIndex - hourIndex === 2
+    ? hourSuffix.value?.trim() || ":"
+    : ":";
+}
+
+export function getLocaleMinuteSuffix(locale: string): string {
+  const formatter = createLocaleDateTimeFormatter(locale);
+  const parts = formatter.formatToParts(new Date(Date.UTC(0, 0, 0, 0, 0, 0)));
+  const minuteIndex = parts.indexOf(parts.find(({ type }): boolean => type === "minute"));
+  const secondIndex = parts.indexOf(parts.find(({ type }): boolean => type === "second"));
+  const minuteSuffix = parts[minuteIndex + 1];
+  return minuteSuffix && minuteSuffix.type === "literal" && secondIndex - minuteIndex === 2
+    ? minuteSuffix.value?.trim() || null
+    : null;
+}
+
+export function getLocaleSecondSuffix(locale: string): string {
+  const formatter = createLocaleDateTimeFormatter(locale);
+  const parts = formatter.formatToParts(new Date(Date.UTC(0, 0, 0, 0, 0, 0)));
+  const secondIndex = parts.indexOf(parts.find(({ type }): boolean => type === "second"));
+  const secondSuffix = parts[secondIndex + 1];
+  return secondSuffix && secondSuffix.type === "literal" ? secondSuffix.value?.trim() || null : null;
+}
+
 function getLocalizedTimePart(part: TimePart, parts: Intl.DateTimeFormatPart[]): string {
   if (!part || !parts) {
     return null;
@@ -169,8 +199,17 @@ export function localizeTimeString(value: string, locale = "en", includeSeconds 
 }
 
 export function localizeTimeStringToParts(value: string, locale = "en"): LocalizedTime {
+  const emptyLocalizedTime = {
+    localizedHour: null,
+    localizedHourSuffix: null,
+    localizedMinute: null,
+    localizedMinuteSuffix: null,
+    localizedSecond: null,
+    localizedSecondSuffix: null,
+    localizedMeridiem: null
+  };
   if (!isValidTime(value)) {
-    return null;
+    return emptyLocalizedTime;
   }
   const { hour, minute, second = "0" } = parseTimeString(value);
   const dateFromTimeString = new Date(Date.UTC(0, 0, 0, parseInt(hour), parseInt(minute), parseInt(second)));
@@ -187,7 +226,7 @@ export function localizeTimeStringToParts(value: string, locale = "en"): Localiz
       localizedMeridiem: getLocalizedTimePart("meridiem", parts)
     };
   }
-  return null;
+  return emptyLocalizedTime;
 }
 
 export function getTimeParts(value: string, locale = "en"): Intl.DateTimeFormatPart[] {
