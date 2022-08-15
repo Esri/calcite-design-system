@@ -171,7 +171,7 @@ export class StepperItem implements InteractiveComponent {
     return (
       <Host
         aria-expanded={toAriaBoolean(this.active)}
-        onClick={this.emitUserRequestedItem}
+        onClick={this.handleItemClick}
         onKeyDown={this.keyDownHandler}
       >
         <div class="container">
@@ -288,6 +288,19 @@ export class StepperItem implements InteractiveComponent {
       position: this.itemPosition
     });
   }
+
+  private handleItemClick = (event: MouseEvent): void => {
+    if (
+      this.layout === "horizontal" &&
+      event
+        .composedPath()
+        .some((el) => (el as HTMLElement).classList?.contains("stepper-item-content"))
+    ) {
+      return;
+    }
+
+    this.emitUserRequestedItem();
+  };
 
   private emitUserRequestedItem = (): void => {
     this.emitRequestedItem();
