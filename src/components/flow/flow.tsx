@@ -80,7 +80,8 @@ export class Flow {
   // --------------------------------------------------------------------------
 
   @Listen("calciteFlowItemBackClick")
-  handleCalciteFlowItemBackClick(): void {
+  @Listen("calcitePanelBackClick")
+  handleItemBackClick(): void {
     this.back();
   }
 

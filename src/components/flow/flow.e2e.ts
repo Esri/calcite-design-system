@@ -1,6 +1,7 @@
 import { newE2EPage } from "@stencil/core/testing";
 
 import { CSS } from "./resources";
+import { CSS as ITEM_CSS } from "../flow-item/resources";
 import { accessible, hidden, renders } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 
@@ -39,6 +40,19 @@ describe("calcite-flow", () => {
         await flow.callMethod("back");
 
         await page.waitForChanges();
+
+        const flowItem = await page.find(itemTag);
+
+        expect(flowItem).toBeNull();
+      });
+
+      it("goes back when item back button is clicked", async () => {
+        const page = await newE2EPage();
+
+        await page.setContent(`<calcite-flow><${itemTag}></${itemTag}></calcite-flow>`);
+
+        const itemBackButton = await page.find(`${itemTag} >>> .${ITEM_CSS.backButton}`);
+        await itemBackButton.click();
 
         const flowItem = await page.find(itemTag);
 
@@ -220,7 +234,7 @@ describe("calcite-flow", () => {
     </calcite-flow>
     `));
 
-      it("should also work with descendant slotted panels", async () => {
+      it("should also work with descendant slotted items", async () => {
         const page = await newE2EPage();
 
         await page.setContent(html`<calcite-flow>
