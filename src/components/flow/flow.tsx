@@ -4,7 +4,7 @@ import { FlowDirection } from "./interfaces";
 import { createObserver } from "../../utils/observers";
 
 /**
- * @slot - A slot for adding `calcite-flow-item`s to the flow.
+ * @slot - A slot for adding `calcite-flow-item` or `calcite-panel`s (deprecated) to the flow.
  */
 @Component({
   tag: "calcite-flow",
@@ -19,13 +19,13 @@ export class Flow {
   // --------------------------------------------------------------------------
 
   /**
-   * Removes the currently active `calcite-flow-item`.
+   * Removes the currently active `calcite-flow-item` or `calcite-panel`.
    */
   @Method()
   async back(): Promise<HTMLCalciteFlowItemElement> {
-    const { flowItems } = this;
+    const { items } = this;
 
-    const lastItem = flowItems[flowItems.length - 1];
+    const lastItem = items[items.length - 1];
 
     if (!lastItem) {
       return;
@@ -50,15 +50,13 @@ export class Flow {
 
   @Element() el: HTMLCalciteFlowElement;
 
-  @State() flowItemCount = 0;
-
   @State() flowDirection: FlowDirection = null;
 
-  @State() flowItems: HTMLCalciteFlowItemElement[] = [];
+  @State() itemCount = 0;
 
-  flowItemMutationObserver: MutationObserver = createObserver("mutation", () =>
-    this.updateFlowProps()
-  );
+  @State() items: HTMLCalciteFlowItemElement[] = [];
+
+  itemMutationObserver = createObserver("mutation", () => this.updateFlowProps());
 
   // --------------------------------------------------------------------------
   //
@@ -67,12 +65,12 @@ export class Flow {
   // --------------------------------------------------------------------------
 
   connectedCallback(): void {
-    this.flowItemMutationObserver?.observe(this.el, { childList: true, subtree: true });
+    this.itemMutationObserver?.observe(this.el, { childList: true, subtree: true });
     this.updateFlowProps();
   }
 
   disconnectedCallback(): void {
-    this.flowItemMutationObserver?.disconnect();
+    this.itemMutationObserver?.disconnect();
   }
 
   // --------------------------------------------------------------------------
@@ -98,35 +96,36 @@ export class Flow {
   };
 
   updateFlowProps = (): void => {
-    const { el, flowItems } = this;
+    const { el, items } = this;
 
-    const newFlowItems: HTMLCalciteFlowItemElement[] = Array.from(
-      el.querySelectorAll("calcite-flow-item")
+    const newItems: (HTMLCalciteFlowItemElement | HTMLCalcitePanelElement)[] = Array.from(
+      el.querySelectorAll("calcite-flow-item, calcite-panel")
     ).filter(
-      (flowItem) => !flowItem.matches("calcite-flow-item calcite-flow-item")
+      (flowItem) =>
+        !flowItem.matches("calcite-flow-item calcite-flow-item, calcite-panel calcite-panel")
     ) as HTMLCalciteFlowItemElement[];
 
-    const oldFlowItemCount = flowItems.length;
-    const newFlowItemCount = newFlowItems.length;
-    const activeFlowItem = newFlowItems[newFlowItemCount - 1];
-    const previousFlowItem = newFlowItems[newFlowItemCount - 2];
+    const oldItemCount = items.length;
+    const newItemCount = newItems.length;
+    const activeItem = newItems[newItemCount - 1];
+    const previousItem = newItems[newItemCount - 2];
 
-    if (newFlowItemCount && activeFlowItem) {
-      newFlowItems.forEach((flowItemNode) => {
-        flowItemNode.showBackButton = flowItemNode === activeFlowItem && newFlowItemCount > 1;
-        flowItemNode.hidden = flowItemNode !== activeFlowItem;
+    if (newItemCount && activeItem) {
+      newItems.forEach((itemNode) => {
+        itemNode.showBackButton = itemNode === activeItem && newItemCount > 1;
+        itemNode.hidden = itemNode !== activeItem;
       });
     }
 
-    if (previousFlowItem) {
-      previousFlowItem.menuOpen = false;
+    if (previousItem) {
+      previousItem.menuOpen = false;
     }
 
-    this.flowItems = newFlowItems;
+    this.items = newItems;
 
-    if (oldFlowItemCount !== newFlowItemCount) {
-      const flowDirection = this.getFlowDirection(oldFlowItemCount, newFlowItemCount);
-      this.flowItemCount = newFlowItemCount;
+    if (oldItemCount !== newItemCount) {
+      const flowDirection = this.getFlowDirection(oldItemCount, newItemCount);
+      this.itemCount = newItemCount;
       this.flowDirection = flowDirection;
     }
   };
