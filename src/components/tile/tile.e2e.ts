@@ -29,8 +29,6 @@ describe("calcite-tile", () => {
       { propertyName: "icon", value: "layers" }
     ]));
 
-  it("honors hidden attribute", async () => hidden("calcite-tile"));
-
   it("can be disabled", () => disabled("<calcite-tile heading='test' href='http://www.esri.com'></calcite-tile>"));
 
   it("renders without a link by default", async () => {

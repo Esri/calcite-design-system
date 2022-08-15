@@ -80,7 +80,7 @@ export interface FormComponent<T = any> extends FormOwner {
  *
  * Along with the interface, use the matching form utils to help set up the component behavior.
  */
-export interface CheckableFormCompoment<T = any> extends FormComponent<T> {
+export interface CheckableFormComponent<T = any> extends FormComponent<T> {
   /**
    * For boolean-valued components, this property defines whether the associated value is submitted to the form or not.
    */
@@ -94,7 +94,7 @@ export interface CheckableFormCompoment<T = any> extends FormComponent<T> {
   defaultChecked: boolean;
 }
 
-function isCheckable(component: FormComponent): component is CheckableFormCompoment {
+function isCheckable(component: FormComponent): component is CheckableFormComponent {
   return "checked" in component;
 }
 
@@ -135,15 +135,18 @@ function hasRegisteredFormComponentParent(
  * Helper to submit a form.
  *
  * @param component
+ * @returns true if its associated form was submitted, false otherwise.
  */
-export function submitForm(component: FormOwner): void {
+export function submitForm(component: FormOwner): boolean {
   const { formEl } = component;
 
   if (!formEl) {
-    return;
+    return false;
   }
 
   "requestSubmit" in formEl ? formEl.requestSubmit() : formEl.submit();
+
+  return true;
 }
 
 /**
