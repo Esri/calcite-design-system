@@ -685,6 +685,7 @@ describe("calcite-slider", () => {
     beforeEach(async () => {
       page = await newE2EPage();
       await page.setContent(html`<calcite-slider
+        group-separator
         min="1000"
         max="1000000.50"
         min-value="2500"
@@ -710,60 +711,43 @@ describe("calcite-slider", () => {
       await page.exposeFunction("getDisplayedValuesArray", getDisplayedValuesArray);
     });
 
-    it("English", async () => {
-      element.setProperty("locale", "en");
+    it("does not render separated when groupSeparator prop is false", async () => {
+      element.setProperty("groupSeparator", false);
       await page.waitForChanges();
 
       noSeparator = await page.$eval("calcite-slider", async (): Promise<string[]> => {
         return await getDisplayedValuesArray();
       });
-
-      element.setProperty("groupSeparator", true);
-      await page.waitForChanges();
-
-      withSeparator = await page.$eval("calcite-slider", async (): Promise<string[]> => {
-        return await getDisplayedValuesArray();
-      });
-
+      expect(await element.getProperty("groupSeparator")).toBe(false);
       expect(noSeparator).toEqual(expectedNotSeparatedValueArray);
-      expect(withSeparator).toEqual(["2,500", "500,000.5", "1,000", "1,000,000.5"]);
-    });
 
-    it("Spanish", async () => {
-      element.setProperty("locale", "es");
-      await page.waitForChanges();
-
-      noSeparator = await page.$eval("calcite-slider", async (): Promise<string[]> => {
-        return await getDisplayedValuesArray();
-      });
-
-      element.setProperty("groupSeparator", true);
-      await page.waitForChanges();
-
-      withSeparator = await page.$eval("calcite-slider", async (): Promise<string[]> => {
-        return await getDisplayedValuesArray();
-      });
-
-      expect(noSeparator).toEqual(expectedNotSeparatedValueArray);
-      expect(withSeparator).toEqual(["2500", "500.000,5", "1000", "1.000.000,5"]);
-    });
-
-    it("French", async () => {
       element.setProperty("locale", "fr");
       await page.waitForChanges();
 
       noSeparator = await page.$eval("calcite-slider", async (): Promise<string[]> => {
         return await getDisplayedValuesArray();
       });
+      expect(await element.getProperty("groupSeparator")).toBe(false);
+      expect(noSeparator).toEqual(expectedNotSeparatedValueArray);
+    });
 
-      element.setProperty("groupSeparator", true);
+    it("English", async () => {
+      element.setProperty("locale", "en");
       await page.waitForChanges();
 
       withSeparator = await page.$eval("calcite-slider", async (): Promise<string[]> => {
         return await getDisplayedValuesArray();
       });
+      expect(withSeparator).toEqual(["2,500", "500,000.5", "1,000", "1,000,000.5"]);
+    });
 
-      expect(noSeparator).toEqual(expectedNotSeparatedValueArray);
+    it("French", async () => {
+      element.setProperty("locale", "fr");
+      await page.waitForChanges();
+
+      withSeparator = await page.$eval("calcite-slider", async (): Promise<string[]> => {
+        return await getDisplayedValuesArray();
+      });
       expect(withSeparator).toEqual(["2 500", "500 000,5", "1 000", "1 000 000,5"]);
     });
 
@@ -771,19 +755,30 @@ describe("calcite-slider", () => {
       element.setProperty("locale", "de-CH");
       await page.waitForChanges();
 
-      noSeparator = await page.$eval("calcite-slider", async (): Promise<string[]> => {
+      withSeparator = await page.$eval("calcite-slider", async (): Promise<string[]> => {
         return await getDisplayedValuesArray();
       });
+      expect(withSeparator).toEqual(["2’500", "500’000.5", "1’000", "1’000’000.5"]);
+    });
 
-      element.setProperty("groupSeparator", true);
+    it("Hindi", async () => {
+      element.setProperty("locale", "hi");
       await page.waitForChanges();
 
       withSeparator = await page.$eval("calcite-slider", async (): Promise<string[]> => {
         return await getDisplayedValuesArray();
       });
+      expect(withSeparator).toEqual(["2,500", "5,00,000.5", "1,000", "10,00,000.5"]);
+    });
 
-      expect(noSeparator).toEqual(expectedNotSeparatedValueArray);
-      expect(withSeparator).toEqual(["2’500", "500’000.5", "1’000", "1’000’000.5"]);
+    it("Spanish", async () => {
+      element.setProperty("locale", "es");
+      await page.waitForChanges();
+
+      withSeparator = await page.$eval("calcite-slider", async (): Promise<string[]> => {
+        return await getDisplayedValuesArray();
+      });
+      expect(withSeparator).toEqual(["2500", "500.000,5", "1000", "1.000.000,5"]);
     });
   });
 });
