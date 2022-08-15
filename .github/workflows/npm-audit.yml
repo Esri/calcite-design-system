@@ -14,7 +14,7 @@ jobs:
       - name: audit dependencies
         run: |
           npm ci --legacy-peer-deps
-          npm audit --fix
+          npm audit fix
       - name: create pull request
         uses: peter-evans/create-pull-request@v3
         with:
