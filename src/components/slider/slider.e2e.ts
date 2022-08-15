@@ -699,14 +699,18 @@ describe("calcite-slider", () => {
 
       return [labelMinVal.innerText, labelVal.innerText, tickMin.innerText, tickMax.innerText];
     };
-    await page.exposeFunction("displayedValuesArray", getDisplayedValuesArray);
+    await page.exposeFunction("getDisplayedValuesArray", getDisplayedValuesArray);
 
-    const noSeparator = await page.$eval("calcite-slider", getDisplayedValuesArray);
+    const noSeparator = await page.$eval("calcite-slider", async (): Promise<string[]> => {
+      return await getDisplayedValuesArray();
+    });
 
     element.setProperty("groupSeparator", true);
     await page.waitForChanges();
 
-    const withSeparator = await page.$eval("calcite-slider", getDisplayedValuesArray);
+    const withSeparator = await page.$eval("calcite-slider", async (): Promise<string[]> => {
+      return await getDisplayedValuesArray();
+    });
 
     expect(noSeparator).toEqual(["2500", "5000", "1000", "10000"]);
     expect(withSeparator).toEqual(["2,500", "5,000", "1,000", "10,000"]);

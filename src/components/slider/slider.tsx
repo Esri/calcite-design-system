@@ -217,6 +217,8 @@ export class Slider implements LabelableComponent, FormComponent, InteractiveCom
     const id = this.el.id || this.guid;
     const maxProp = isRange(this.value) ? "maxValue" : "value";
     const value = isRange(this.value) ? this.maxValue : this.value;
+    const displayedValue = this.determineGroupSeparator(value);
+    const displayedMinValue = this.determineGroupSeparator(this.minValue);
     const min = this.minValue || this.min;
     const useMinValue = this.shouldUseMinValue();
     const minInterval = this.getUnitInterval(useMinValue ? this.minValue : min) * 100;
@@ -273,13 +275,13 @@ export class Slider implements LabelableComponent, FormComponent, InteractiveCom
         tabIndex={0}
       >
         <span aria-hidden="true" class="handle__label handle__label--value">
-          {this.determineGroupSeparator(value)}
+          {displayedValue}
         </span>
         <span aria-hidden="true" class="handle__label handle__label--value static">
-          {this.determineGroupSeparator(value)}
+          {displayedValue}
         </span>
         <span aria-hidden="true" class="handle__label handle__label--value transformed">
-          {this.determineGroupSeparator(value)}
+          {displayedValue}
         </span>
         <div class="handle" />
       </div>
@@ -308,13 +310,13 @@ export class Slider implements LabelableComponent, FormComponent, InteractiveCom
       >
         <div class="handle" />
         <span aria-hidden="true" class="handle__label handle__label--value">
-          {this.determineGroupSeparator(value)}
+          {displayedValue}
         </span>
         <span aria-hidden="true" class="handle__label handle__label--value static">
-          {this.determineGroupSeparator(value)}
+          {displayedValue}
         </span>
         <span aria-hidden="true" class="handle__label handle__label--value transformed">
-          {this.determineGroupSeparator(value)}
+          {displayedValue}
         </span>
       </div>
     );
@@ -396,13 +398,13 @@ export class Slider implements LabelableComponent, FormComponent, InteractiveCom
         tabIndex={0}
       >
         <span aria-hidden="true" class="handle__label handle__label--value">
-          {this.determineGroupSeparator(value)}
+          {displayedValue}
         </span>
         <span aria-hidden="true" class="handle__label handle__label--value static">
-          {this.determineGroupSeparator(value)}
+          {displayedValue}
         </span>
         <span aria-hidden="true" class="handle__label handle__label--value transformed">
-          {this.determineGroupSeparator(value)}
+          {displayedValue}
         </span>
         <div class="handle" />
         <div class="handle-extension" />
@@ -434,13 +436,13 @@ export class Slider implements LabelableComponent, FormComponent, InteractiveCom
         <div class="handle-extension" />
         <div class="handle" />
         <span aria-hidden="true" class="handle__label handle__label--value">
-          {this.determineGroupSeparator(value)}
+          {displayedValue}
         </span>
         <span aria-hidden="true" class="handle__label handle__label--value static">
-          {this.determineGroupSeparator(value)}
+          {displayedValue}
         </span>
         <span aria-hidden="true" class="handle__label handle__label--value transformed">
-          {this.determineGroupSeparator(value)}
+          {displayedValue}
         </span>
       </div>
     );
@@ -492,13 +494,13 @@ export class Slider implements LabelableComponent, FormComponent, InteractiveCom
         tabIndex={0}
       >
         <span aria-hidden="true" class="handle__label handle__label--minValue">
-          {this.determineGroupSeparator(this.minValue)}
+          {displayedMinValue}
         </span>
         <span aria-hidden="true" class="handle__label handle__label--minValue static">
-          {this.determineGroupSeparator(this.minValue)}
+          {displayedMinValue}
         </span>
         <span aria-hidden="true" class="handle__label handle__label--minValue transformed">
-          {this.determineGroupSeparator(this.minValue)}
+          {displayedMinValue}
         </span>
         <div class="handle" />
       </div>
@@ -527,13 +529,13 @@ export class Slider implements LabelableComponent, FormComponent, InteractiveCom
       >
         <div class="handle" />
         <span aria-hidden="true" class="handle__label handle__label--minValue">
-          {this.determineGroupSeparator(this.minValue)}
+          {displayedMinValue}
         </span>
         <span aria-hidden="true" class="handle__label handle__label--minValue static">
-          {this.determineGroupSeparator(this.minValue)}
+          {displayedMinValue}
         </span>
         <span aria-hidden="true" class="handle__label handle__label--minValue transformed">
-          {this.determineGroupSeparator(this.minValue)}
+          {displayedMinValue}
         </span>
       </div>
     );
@@ -590,13 +592,13 @@ export class Slider implements LabelableComponent, FormComponent, InteractiveCom
         <div class="handle-extension" />
         <div class="handle" />
         <span aria-hidden="true" class="handle__label handle__label--minValue">
-          {this.determineGroupSeparator(this.minValue)}
+          {displayedMinValue}
         </span>
         <span aria-hidden="true" class="handle__label handle__label--minValue static">
-          {this.determineGroupSeparator(this.minValue)}
+          {displayedMinValue}
         </span>
         <span aria-hidden="true" class="handle__label handle__label--minValue transformed">
-          {this.determineGroupSeparator(this.minValue)}
+          {displayedMinValue}
         </span>
       </div>
     );
@@ -695,6 +697,7 @@ export class Slider implements LabelableComponent, FormComponent, InteractiveCom
     const valueIsRange = isRange(this.value);
     const isMinTickLabel = tick === this.min;
     const isMaxTickLabel = tick === this.max;
+    const displayedTickValue = this.determineGroupSeparator(tick);
     const tickLabel = (
       <span
         class={{
@@ -703,7 +706,7 @@ export class Slider implements LabelableComponent, FormComponent, InteractiveCom
           "tick__label--max": isMaxTickLabel
         }}
       >
-        {this.determineGroupSeparator(tick)}
+        {displayedTickValue}
       </span>
     );
     if (this.labelTicks && !this.hasHistogram && !valueIsRange) {
