@@ -107,7 +107,7 @@ export class TreeItem implements ConditionalSlotComponent {
   /**
    * @internal
    */
-  @Prop({ mutable: true }) selectionMode: TreeSelectionMode;
+  @Prop({ mutable: true, reflect: true }) selectionMode: TreeSelectionMode;
 
   @Watch("selectionMode")
   getselectionMode(): void {
@@ -181,7 +181,6 @@ export class TreeItem implements ConditionalSlotComponent {
     const showCheckmark =
       this.selectionMode === TreeSelectionMode.Multi ||
       this.selectionMode === TreeSelectionMode.MultiChildren;
-    const showBlank = this.selectionMode === TreeSelectionMode.None;
     const chevron = this.hasChildren ? (
       <calcite-icon
         class={{
@@ -213,8 +212,6 @@ export class TreeItem implements ConditionalSlotComponent {
       ? ICONS.bulletPoint
       : showCheckmark
       ? ICONS.checkmark
-      : showBlank
-      ? ICONS.blank
       : null;
     const itemIndicator = selectedIcon ? (
       <calcite-icon
