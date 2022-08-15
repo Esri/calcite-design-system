@@ -455,12 +455,11 @@ describe("calcite-stepper", () => {
           item.shadowRoot.querySelector<HTMLElement>(".stepper-item-content").click()
         );
 
-        // horizontal layout moves content outside of item selection hit area
         if (layout === "vertical") {
           expect(eventSpy).toHaveReceivedEventTimes(++expectedEvents);
           expect(eventSpy.lastEvent.detail.position).toBe(0);
         } else {
-          // horizontal layout moves content outside of item selection hit area
+          // no events since horizontal layout moves content outside of item selection hit area
           expect(eventSpy).toHaveReceivedEventTimes(expectedEvents);
         }
       }
