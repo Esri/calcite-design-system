@@ -17,7 +17,7 @@
     "hydrate/"
   ],
   "scripts": {
-    "generate:i18nTypes": "ts-node --esm ./support/generateTypes.ts",
+    "generate:t9nTypes": "ts-node --esm ./support/generateTypes.ts",
     "build": "npm run util:copy-icons && stencil build && npm run util:patch-es5-helpers",
     "build:watch": "npm run util:copy-icons && stencil build --watch",
     "build:watch-dev": "npm run util:copy-icons && stencil build --dev --watch",

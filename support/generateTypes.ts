@@ -45,7 +45,7 @@ import { readFile, writeFile } from "fs";
         .replace(/interface (.+) \{/g, "type $1 = {");
 
       /* Note: using `.d.ts` file extension will exclude it from the output build */
-      const declarationFile = bundle.replace(rootBundleExtension, ".ts");
+      const declarationFile = bundle.replace(rootBundleExtension, "index.d.ts");
 
       await pify(writeFile)(
         declarationFile,
@@ -53,7 +53,7 @@ import { readFile, writeFile } from "fs";
           filepath: declarationFile
         })
       );
-      const i18nPath = `${bundle.split("/i18n")[0]}/i18n`;
+      const i18nPath = `${bundle.split("/t9n")[0]}/t9n`;
       return i18nPath.replace(/\//g, "\\");
     })
   );
