@@ -49,7 +49,7 @@ describe("calcite-flow", () => {
       it("goes back when item back button is clicked", async () => {
         const page = await newE2EPage();
 
-        await page.setContent(`<calcite-flow><${itemTag}></${itemTag}></calcite-flow>`);
+        await page.setContent(`<calcite-flow show-back-button><${itemTag}></${itemTag}></calcite-flow>`);
 
         const itemBackButton = await page.find(`${itemTag} >>> .${ITEM_CSS.backButton}`);
         await itemBackButton.click();
