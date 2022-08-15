@@ -298,12 +298,8 @@ export const WithPlaceHolderIcon = (): string => html` <calcite-combobox
 </calcite-combobox>`;
 
 export const WithoutPlaceHolderIcon = (): string => html` <calcite-combobox
-  id="labelFour"
-  label="test"
   placeholder="${text("placeholder", "select folder")}"
-  max-items="6"
-  selection-mode="single"
-  scale="s"
+  selection-mode="multi"
   open
 >
   <calcite-combobox-item value="root" text-label="username" icon="home" selected></calcite-combobox-item>
