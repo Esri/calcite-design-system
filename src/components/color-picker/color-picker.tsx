@@ -14,13 +14,7 @@ import {
 } from "@stencil/core";
 
 import Color from "color";
-import {
-  ColorAppearance,
-  ColorMode,
-  ColorPickerStrings,
-  ColorValue,
-  InternalColor
-} from "./interfaces";
+import { ColorAppearance, ColorMode, ColorValue, InternalColor } from "./interfaces";
 import { Scale } from "../interfaces";
 import {
   CSS,
@@ -36,6 +30,7 @@ import { throttle } from "lodash-es";
 
 import { clamp } from "../../utils/math";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import { Strings } from "./assets/color-picker/t9n";
 
 const throttleFor60FpsInMs = 16;
 const defaultValue = normalizeHex(DEFAULT_COLOR.hex());
@@ -286,7 +281,7 @@ export class ColorPicker implements InteractiveComponent {
   /**
    * @todo doc
    */
-  @Prop() stringOverrides: Partial<ColorPickerStrings>;
+  @Prop() stringOverrides: Partial<Strings>;
 
   @Watch("builtInStrings")
   @Watch("stringOverrides")
@@ -383,7 +378,7 @@ export class ColorPicker implements InteractiveComponent {
 
   private sliderThumbState: "idle" | "hover" | "drag" = "idle";
 
-  @State() builtInStrings: ColorPickerStrings;
+  @State() builtInStrings: Strings;
 
   @State() colorFieldAndSliderInteractive = false;
 
@@ -393,7 +388,7 @@ export class ColorPicker implements InteractiveComponent {
 
   @State() dimensions = DIMENSIONS.m;
 
-  @State() mergedStrings: ColorPickerStrings;
+  @State() mergedStrings: Strings;
 
   @State() savedColors: string[] = [];
 
