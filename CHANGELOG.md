@@ -7,6 +7,10 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## Unreleased
 
+### Features
+
+- **tree:** add none selection mode ([#5128](https://github.com/Esri/calcite-components/issues/5128)) ([e96bfbe](https://github.com/Esri/calcite-components/commit/e96bfbe6401b84b26ca8c167d665bb82769252da)), closes [#3121](https://github.com/Esri/calcite-components/issues/3121)
+
 ### Bug Fixes
 
 - **radio-button-group:** fix incorrect event payload type ([#5153](https://github.com/Esri/calcite-components/issues/5153)) ([efb0114](https://github.com/Esri/calcite-components/commit/efb0114016b5aba852e97b3f035a6e0a2341b5b7))
