@@ -95,7 +95,7 @@
     "@types/lodash-es": "4.17.6",
     "@types/pify": "5.0.1",
     "@types/rimraf": "3.0.2",
-    "@types/semver": "7.3.10",
+    "@types/semver": "7.3.12",
     "@types/shell-quote": "1.7.1",
     "@types/sortablejs": "1.13.0",
     "@types/standard-version": "7.0.1",
