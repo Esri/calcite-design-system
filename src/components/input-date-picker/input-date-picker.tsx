@@ -128,6 +128,7 @@ export class InputDatePicker
   @Watch("flipPlacements")
   flipPlacementsHandler(): void {
     this.setFilteredPlacements();
+    this.reposition();
   }
 
   /**
@@ -360,13 +361,14 @@ export class InputDatePicker
   /** Updates the position of the component. */
   @Method()
   async reposition(): Promise<void> {
-    const { floatingEl, referenceEl, placement, overlayPositioning } = this;
+    const { floatingEl, referenceEl, placement, overlayPositioning, filteredFlipPlacements } = this;
 
     return positionFloatingUI({
       floatingEl,
       referenceEl,
       overlayPositioning,
       placement,
+      flipPlacements: filteredFlipPlacements,
       type: "menu"
     });
   }
@@ -411,8 +413,8 @@ export class InputDatePicker
     connectLabel(this);
     connectForm(this);
     connectOpenCloseComponent(this);
-    this.reposition();
     this.setFilteredPlacements();
+    this.reposition();
   }
 
   async componentWillLoad(): Promise<void> {
