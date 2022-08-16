@@ -709,11 +709,11 @@ describe("calcite-slider", () => {
       element = await page.find("calcite-slider");
 
       getDisplayedValuesArray = async (): Promise<string[]> => {
-        const labelMinVal = (await element.shadowRoot.querySelector(CSS.labelMinValue)) as HTMLElement;
-        const labelVal = (await element.shadowRoot.querySelector(CSS.labelValue)) as HTMLElement;
+        const labelMinVal = (await element.shadowRoot.querySelector(`.${CSS.labelMinValue}`)) as HTMLElement;
+        const labelVal = (await element.shadowRoot.querySelector(`.${CSS.labelValue}`)) as HTMLElement;
 
-        const tickMin = (await element.shadowRoot.querySelector(CSS.tickMin)) as HTMLElement;
-        const tickMax = (await element.shadowRoot.querySelector(CSS.tickMax)) as HTMLElement;
+        const tickMin = (await element.shadowRoot.querySelector(`.${CSS.tickMin}`)) as HTMLElement;
+        const tickMax = (await element.shadowRoot.querySelector(`.${CSS.tickMax}`)) as HTMLElement;
 
         return [labelMinVal.innerText, labelVal.innerText, tickMin.innerText, tickMax.innerText];
       };
