@@ -237,7 +237,9 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent, Float
             ref={this.setScrollerAndTransitionEl}
             role="menu"
           >
-            <slot onSlotchange={this.updateGroups} />
+            <div hidden={!open}>
+              <slot onSlotchange={this.updateGroups} />
+            </div>
           </div>
         </div>
       </Host>
