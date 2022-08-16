@@ -481,8 +481,8 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent, Float
   };
 
   setMaxScrollerHeight = (): void => {
-    const { scrollerEl, open } = this;
-    if (!scrollerEl || !open) {
+    const { scrollerEl } = this;
+    if (!scrollerEl) {
       return;
     }
 
