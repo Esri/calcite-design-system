@@ -31,7 +31,7 @@ export const Simple = (): string => html`
       group-title="Sort by"
     >
       <calcite-dropdown-item>Relevance</calcite-dropdown-item>
-      <calcite-dropdown-item active>Date modified</calcite-dropdown-item>
+      <calcite-dropdown-item selected>Date modified</calcite-dropdown-item>
       <calcite-dropdown-item>Title</calcite-dropdown-item>
     </calcite-dropdown-group>
   </calcite-dropdown>
@@ -52,7 +52,7 @@ export const SimpleAutoWidth = (): string => html`
       group-title="Sort by"
     >
       <calcite-dropdown-item>Relevance</calcite-dropdown-item>
-      <calcite-dropdown-item active>Date</calcite-dropdown-item>
+      <calcite-dropdown-item selected>Date</calcite-dropdown-item>
       <calcite-dropdown-item>Title</calcite-dropdown-item>
     </calcite-dropdown-group>
   </calcite-dropdown>
@@ -76,7 +76,7 @@ export const SimpleFullWidth = (): string => html`
         group-title="Sort by"
       >
         <calcite-dropdown-item>Relevance</calcite-dropdown-item>
-        <calcite-dropdown-item active>Date modified</calcite-dropdown-item>
+        <calcite-dropdown-item selected>Date modified</calcite-dropdown-item>
         <calcite-dropdown-item>Title</calcite-dropdown-item>
       </calcite-dropdown-group>
     </calcite-dropdown>
@@ -99,7 +99,7 @@ export const WithIcons = (): string => html`
       group-title="Icon Start"
     >
       <calcite-dropdown-item icon-start="list">List</calcite-dropdown-item>
-      <calcite-dropdown-item icon-start="grid" active>Grid</calcite-dropdown-item>
+      <calcite-dropdown-item icon-start="grid" selected>Grid</calcite-dropdown-item>
       <calcite-dropdown-item icon-start="table">Table</calcite-dropdown-item>
     </calcite-dropdown-group>
     <calcite-dropdown-group
@@ -107,7 +107,7 @@ export const WithIcons = (): string => html`
       group-title="Icon End"
     >
       <calcite-dropdown-item icon-end="list">List</calcite-dropdown-item>
-      <calcite-dropdown-item icon-end="grid" active>Grid</calcite-dropdown-item>
+      <calcite-dropdown-item icon-end="grid" selected>Grid</calcite-dropdown-item>
       <calcite-dropdown-item icon-end="table">Table</calcite-dropdown-item>
     </calcite-dropdown-group>
     <calcite-dropdown-group
@@ -115,7 +115,7 @@ export const WithIcons = (): string => html`
       group-title="Icon Both"
     >
       <calcite-dropdown-item icon-start="list" icon-end="data-check">List</calcite-dropdown-item>
-      <calcite-dropdown-item icon-start="grid" icon-end="data-check" active>Grid</calcite-dropdown-item>
+      <calcite-dropdown-item icon-start="grid" icon-end="data-check" selected>Grid</calcite-dropdown-item>
       <calcite-dropdown-item icon-start="table" icon-end="data-check">Table</calcite-dropdown-item>
     </calcite-dropdown-group>
   </calcite-dropdown>
@@ -134,13 +134,13 @@ export const GroupsAndSelectionModes = (): string => html`
     <calcite-button slot="dropdown-trigger">Open Dropdown</calcite-button>
     <calcite-dropdown-group group-title="Select one">
       <calcite-dropdown-item>Apple</calcite-dropdown-item>
-      <calcite-dropdown-item active>Orange</calcite-dropdown-item>
+      <calcite-dropdown-item selected>Orange</calcite-dropdown-item>
       <calcite-dropdown-item>Grape</calcite-dropdown-item>
     </calcite-dropdown-group>
     <calcite-dropdown-group group-title="Select multi" selection-mode="multi">
       <calcite-dropdown-item>Asparagus</calcite-dropdown-item>
-      <calcite-dropdown-item active>Potato</calcite-dropdown-item>
-      <calcite-dropdown-item active>Yam</calcite-dropdown-item>
+      <calcite-dropdown-item selected>Potato</calcite-dropdown-item>
+      <calcite-dropdown-item selected>Yam</calcite-dropdown-item>
     </calcite-dropdown-group>
     <calcite-dropdown-group group-title="Select none (useful for actions)" selection-mode="none">
       <calcite-dropdown-item>Plant beans</calcite-dropdown-item>
@@ -228,7 +228,7 @@ export const DarkTheme = (): string => html`
       group-title="Sort by"
     >
       <calcite-dropdown-item>Relevance</calcite-dropdown-item>
-      <calcite-dropdown-item active>Date modified</calcite-dropdown-item>
+      <calcite-dropdown-item selected>Date modified</calcite-dropdown-item>
       <calcite-dropdown-item>Title</calcite-dropdown-item>
     </calcite-dropdown-group>
   </calcite-dropdown>
@@ -254,7 +254,7 @@ export const WithIconsDarkTheme = (): string => html`
       group-title="Icon Start"
     >
       <calcite-dropdown-item icon-start="list">List</calcite-dropdown-item>
-      <calcite-dropdown-item icon-start="grid" active>Grid</calcite-dropdown-item>
+      <calcite-dropdown-item icon-start="grid" selected>Grid</calcite-dropdown-item>
       <calcite-dropdown-item icon-start="table">Table</calcite-dropdown-item>
     </calcite-dropdown-group>
     <calcite-dropdown-group
@@ -262,7 +262,7 @@ export const WithIconsDarkTheme = (): string => html`
       group-title="Icon End"
     >
       <calcite-dropdown-item icon-end="list">List</calcite-dropdown-item>
-      <calcite-dropdown-item icon-end="grid" active>Grid</calcite-dropdown-item>
+      <calcite-dropdown-item icon-end="grid" selected>Grid</calcite-dropdown-item>
       <calcite-dropdown-item icon-end="table">Table</calcite-dropdown-item>
     </calcite-dropdown-group>
     <calcite-dropdown-group
@@ -270,7 +270,7 @@ export const WithIconsDarkTheme = (): string => html`
       group-title="Icon Both"
     >
       <calcite-dropdown-item icon-start="list" icon-end="data-check">List</calcite-dropdown-item>
-      <calcite-dropdown-item icon-start="grid" icon-end="data-check" active>Grid</calcite-dropdown-item>
+      <calcite-dropdown-item icon-start="grid" icon-end="data-check" selected>Grid</calcite-dropdown-item>
       <calcite-dropdown-item icon-start="table" icon-end="data-check">Table</calcite-dropdown-item>
     </calcite-dropdown-group>
   </calcite-dropdown>
@@ -292,13 +292,13 @@ export const GroupsAndSelectionModesDarkTheme = (): string => html`
     <calcite-button slot="dropdown-trigger">Open Dropdown</calcite-button>
     <calcite-dropdown-group group-title="Select one">
       <calcite-dropdown-item>Apple</calcite-dropdown-item>
-      <calcite-dropdown-item active>Orange</calcite-dropdown-item>
+      <calcite-dropdown-item selected>Orange</calcite-dropdown-item>
       <calcite-dropdown-item>Grape</calcite-dropdown-item>
     </calcite-dropdown-group>
     <calcite-dropdown-group group-title="Select multi" selection-mode="multi">
       <calcite-dropdown-item>Asparagus</calcite-dropdown-item>
-      <calcite-dropdown-item active>Potato</calcite-dropdown-item>
-      <calcite-dropdown-item active>Yam</calcite-dropdown-item>
+      <calcite-dropdown-item selected>Potato</calcite-dropdown-item>
+      <calcite-dropdown-item selected>Yam</calcite-dropdown-item>
     </calcite-dropdown-group>
     <calcite-dropdown-group group-title="Select none (useful for actions)" selection-mode="none">
       <calcite-dropdown-item>Plant beans</calcite-dropdown-item>
@@ -362,7 +362,7 @@ export const SimpleRtl = (): string => html`
       group-title="Sort by"
     >
       <calcite-dropdown-item>Relevance</calcite-dropdown-item>
-      <calcite-dropdown-item active>Date modified</calcite-dropdown-item>
+      <calcite-dropdown-item selected>Date modified</calcite-dropdown-item>
       <calcite-dropdown-item>Title</calcite-dropdown-item>
     </calcite-dropdown-group>
   </calcite-dropdown>
@@ -409,7 +409,7 @@ export const ScrollingWithoutMaxItems = (): string => html`
       group-title="Sort by"
     >
       <calcite-dropdown-item>Relevance</calcite-dropdown-item>
-      <calcite-dropdown-item active>Date modified</calcite-dropdown-item>
+      <calcite-dropdown-item selected>Date modified</calcite-dropdown-item>
       <calcite-dropdown-item>Title</calcite-dropdown-item>
     </calcite-dropdown-group>
     <calcite-dropdown-group group-title="First group">
@@ -485,7 +485,7 @@ export const AlignedCenter = (): string => html`
         group-title="Sort by"
       >
         <calcite-dropdown-item>Relevance</calcite-dropdown-item>
-        <calcite-dropdown-item active>Date modified</calcite-dropdown-item>
+        <calcite-dropdown-item selected>Date modified</calcite-dropdown-item>
         <calcite-dropdown-item>Title</calcite-dropdown-item>
       </calcite-dropdown-group>
     </calcite-dropdown>
@@ -509,7 +509,7 @@ export const AlignedCenterRTL = (): string => html`
         group-title="Sort by"
       >
         <calcite-dropdown-item>Relevance</calcite-dropdown-item>
-        <calcite-dropdown-item active>Date modified</calcite-dropdown-item>
+        <calcite-dropdown-item selected>Date modified</calcite-dropdown-item>
         <calcite-dropdown-item>Title</calcite-dropdown-item>
       </calcite-dropdown-group>
     </calcite-dropdown>
