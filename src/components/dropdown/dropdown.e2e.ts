@@ -1188,7 +1188,7 @@ describe("calcite-dropdown", () => {
     const calciteDropdownBeforeCloseSpy = await element.spyOnEvent("calciteDropdownBeforeClose");
     const calciteDropdownCloseSpy = await element.spyOnEvent("calciteDropdownClose");
 
-    await element.setProperty("selected", false);
+    await element.setProperty("active", false);
     await page.waitForChanges();
 
     await calciteDropdownBeforeCloseEvent;
@@ -1198,6 +1198,6 @@ describe("calcite-dropdown", () => {
     expect(calciteDropdownCloseSpy).toHaveReceivedEventTimes(1);
 
     expect(await group.isVisible()).toBe(false);
-    expect(await element.getProperty("active")).toBe(false);
+    expect(await element.getProperty("open")).toBe(false);
   });
 });
