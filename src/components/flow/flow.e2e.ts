@@ -46,17 +46,21 @@ describe("calcite-flow", () => {
         expect(flowItem).toBeNull();
       });
 
-      it("goes back when item back button is clicked", async () => {
+      it.only("goes back when item back button is clicked", async () => {
         const page = await newE2EPage();
 
-        await page.setContent(`<calcite-flow show-back-button><${itemTag}></${itemTag}></calcite-flow>`);
+        await page.setContent(html`<calcite-flow show-back-button>
+          <${itemTag} id="first"></${itemTag}>
+          <${itemTag} id="second"></${itemTag}>
+        </calcite-flow>`);
 
-        const itemBackButton = await page.find(`${itemTag} >>> .${ITEM_CSS.backButton}`);
-        await itemBackButton.click();
+        const activeItemBackButton = await page.find(`${itemTag}:last-of-type >>> .${ITEM_CSS.backButton}`);
+        await activeItemBackButton.click();
 
-        const flowItem = await page.find(itemTag);
+        const items = await page.findAll(itemTag);
 
-        expect(flowItem).toBeNull();
+        expect(items).toHaveLength(1);
+        expect(items[0].id).toBe("first");
       });
 
       it("setting 'beforeBack' should be called in 'back()'", async () => {
