@@ -12,7 +12,6 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "jsx": "react",
-    "jsxFactory": "h",
-    "esModuleInterop": true
+    "jsxFactory": "h"
   }
 }
