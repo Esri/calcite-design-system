@@ -125,7 +125,7 @@ export class RadioButtonGroup {
   /**
    * Fires when the component has changed.
    */
-  @Event({ cancelable: false }) calciteRadioButtonGroupChange: EventEmitter<void>;
+  @Event({ cancelable: false }) calciteRadioButtonGroupChange: EventEmitter<any>;
 
   //--------------------------------------------------------------------------
   //
