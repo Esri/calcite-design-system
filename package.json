@@ -17,7 +17,6 @@
     "hydrate/"
   ],
   "scripts": {
-    "generate:t9nTypes": "ts-node --esm ./support/generateTypes.ts",
     "build": "npm run util:copy-icons && stencil build && npm run util:patch-es5-helpers",
     "build:watch": "npm run util:copy-icons && stencil build --watch",
     "build:watch-dev": "npm run util:copy-icons && stencil build --dev --watch",
@@ -50,6 +49,7 @@
     "util:copy-icons": "cpy \"./node_modules/@esri/calcite-ui-icons/js/*.json\" \"./src/components/icon/assets/icon/\" --flat",
     "util:deploy-next": "npm run util:prep-next && npm run util:push-tags && npm run util:publish-next",
     "util:deploy-next-from-ci": "ts-node --esm support/deployNextFromCI.ts",
+    "util:generate-t9n-types": "ts-node --esm support/generateT9nTypes.ts",
     "util:is-next-deployable": "ts-node --esm support/isNextDeployable.ts",
     "util:hydration-styles": "ts-node --esm support/hydrationStyles.ts",
     "util:patch-es5-helpers": "ts-node --esm support/patchES5Helpers.ts",
