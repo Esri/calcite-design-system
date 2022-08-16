@@ -54,34 +54,34 @@ export class Select implements LabelableComponent, FormComponent, InteractiveCom
   //--------------------------------------------------------------------------
 
   /**
-   * When true, it prevents the option from being selected.
+   * When true, interaction is prevented and the component is displayed with lower opacity.
    */
   @Prop({ reflect: true }) disabled = false;
 
   /**
-   * The component's label. This is required for accessibility purposes.
+   * Accessible name for the component.
    *
    */
   @Prop() label!: string;
 
   /**
-   * The select's name. Gets submitted with the form.
+   * Specifies the name of the component on form submission.
    */
   @Prop() name: string;
 
   /**
-   * When true, makes the component required for form-submission.
+   * When true, the component must have a value on form submission.
    *
    * @internal
    */
   @Prop({ reflect: true }) required = false;
 
   /**
-   * The component scale.
+   * Specifies the size of the component.
    */
   @Prop({ reflect: true }) scale: Scale = "m";
 
-  /** The value of the selectedOption */
+  /** The component's "selectedOption" value. */
   @Prop({ mutable: true }) value: string = null;
 
   @Watch("value")
@@ -91,7 +91,7 @@ export class Select implements LabelableComponent, FormComponent, InteractiveCom
   }
 
   /**
-   * The currently selected option.
+   * The component's selected option `HTMLElement`.
    *
    * @readonly
    */
@@ -103,7 +103,7 @@ export class Select implements LabelableComponent, FormComponent, InteractiveCom
   }
 
   /**
-   * The component width.
+   * Specifies the width of the component.
    */
   @Prop({ reflect: true }) width: Width = "auto";
 
@@ -178,7 +178,7 @@ export class Select implements LabelableComponent, FormComponent, InteractiveCom
   //--------------------------------------------------------------------------
 
   /**
-   * This event will fire whenever the selected option changes.
+   * Fires when the selected option changes.
    */
   @Event({ cancelable: false }) calciteSelectChange: EventEmitter<void>;
 

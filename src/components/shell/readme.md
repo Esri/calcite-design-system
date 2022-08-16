@@ -139,28 +139,28 @@ Renders a shell with a header and panels on the left and right sides of the app.
 
 ## Properties
 
-| Property        | Attribute        | Description                                                   | Type      | Default |
-| --------------- | ---------------- | ------------------------------------------------------------- | --------- | ------- |
-| `contentBehind` | `content-behind` | Positions the center content behind any calcite-shell-panels. | `boolean` | `false` |
+| Property        | Attribute        | Description                                                     | Type      | Default |
+| --------------- | ---------------- | --------------------------------------------------------------- | --------- | ------- |
+| `contentBehind` | `content-behind` | Positions the center content behind any `calcite-shell-panel`s. | `boolean` | `false` |
 
 ## Slots
 
-| Slot                 | Description                                                                                                                              |
-| -------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
-|                      | A slot for adding content to the shell. This content will appear between any leading and trailing panels added to the shell. (eg. a map) |
-| `"center-row"`       | A slot for adding custom content in the center row.                                                                                      |
-| `"contextual-panel"` | [DEPRECATED] A slot for adding the trailing `calcite-shell-panel`.                                                                       |
-| `"footer"`           | A slot for adding footer content. This content will be positioned at the bottom of the shell.                                            |
-| `"header"`           | A slot for adding header content. This content will be positioned at the top of the shell.                                               |
-| `"panel-end"`        | A slot for adding the ending `calcite-shell-panel`.                                                                                      |
-| `"panel-start"`      | A slot for adding the starting `calcite-shell-panel`.                                                                                    |
-| `"primary-panel"`    | [DEPRECATED] A slot for adding the leading `calcite-shell-panel`.                                                                        |
+| Slot                 | Description                                                                                                                                         |
+| -------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
+|                      | A slot for adding content to the component. This content will appear between any leading and trailing panels added to the component, such as a map. |
+| `"center-row"`       | A slot for adding content to the center row.                                                                                                        |
+| `"contextual-panel"` | [DEPRECATED] A slot for adding the trailing `calcite-shell-panel`.                                                                                  |
+| `"footer"`           | A slot for adding footer content. This content will be positioned at the bottom of the component.                                                   |
+| `"header"`           | A slot for adding header content. This content will be positioned at the top of the component.                                                      |
+| `"panel-end"`        | A slot for adding the ending `calcite-shell-panel`.                                                                                                 |
+| `"panel-start"`      | A slot for adding the starting `calcite-shell-panel`.                                                                                               |
+| `"primary-panel"`    | [DEPRECATED] A slot for adding the leading `calcite-shell-panel`.                                                                                   |
 
 ## CSS Custom Properties
 
-| Name                          | Description                                                               |
-| ----------------------------- | ------------------------------------------------------------------------- |
-| `--calcite-shell-tip-spacing` | the left/right positioning of the tip-manager when slotted within a shell |
+| Name                          | Description                                                                            |
+| ----------------------------- | -------------------------------------------------------------------------------------- |
+| `--calcite-shell-tip-spacing` | The left and right spacing of the `calcite-tip-manager` when slotted in the component. |
 
 ---
 

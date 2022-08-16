@@ -135,15 +135,18 @@ function hasRegisteredFormComponentParent(
  * Helper to submit a form.
  *
  * @param component
+ * @returns true if its associated form was submitted, false otherwise.
  */
-export function submitForm(component: FormOwner): void {
+export function submitForm(component: FormOwner): boolean {
   const { formEl } = component;
 
   if (!formEl) {
-    return;
+    return false;
   }
 
   "requestSubmit" in formEl ? formEl.requestSubmit() : formEl.submit();
+
+  return true;
 }
 
 /**

@@ -257,23 +257,32 @@ export class TimePicker {
 
   @Listen("keydown")
   keyDownHandler(event: KeyboardEvent): void {
-    const { key } = event;
+    const { defaultPrevented, key } = event;
+
+    if (defaultPrevented) {
+      return;
+    }
+
     switch (this.activeEl) {
       case this.hourEl:
         if (key === "ArrowRight") {
           this.setFocus("minute");
+          event.preventDefault();
         }
         break;
       case this.minuteEl:
         switch (key) {
           case "ArrowLeft":
             this.setFocus("hour");
+            event.preventDefault();
             break;
           case "ArrowRight":
             if (this.step !== 60) {
               this.setFocus("second");
+              event.preventDefault();
             } else if (this.hourCycle === "12") {
               this.setFocus("meridiem");
+              event.preventDefault();
             }
             break;
         }
@@ -282,10 +291,12 @@ export class TimePicker {
         switch (key) {
           case "ArrowLeft":
             this.setFocus("minute");
+            event.preventDefault();
             break;
           case "ArrowRight":
             if (this.hourCycle === "12") {
               this.setFocus("meridiem");
+              event.preventDefault();
             }
             break;
         }
@@ -295,8 +306,10 @@ export class TimePicker {
           case "ArrowLeft":
             if (this.step !== 60) {
               this.setFocus("second");
+              event.preventDefault();
             } else {
               this.setFocus("minute");
+              event.preventDefault();
             }
             break;
         }
