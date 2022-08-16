@@ -65,6 +65,11 @@ export class Slider
   /** When true, interaction is prevented and the component is displayed with lower opacity. */
   @Prop({ reflect: true }) disabled = false;
 
+  /**
+   * When true, number values are displayed with a group separator corresponding to the language and country format.
+   */
+  @Prop({ reflect: true }) groupSeparator = false;
+
   /** When true, indicates a histogram is present. */
   @Prop({ reflect: true, mutable: true }) hasHistogram = false;
 
@@ -119,6 +124,13 @@ export class Slider
   /** Specifies the name of the component on form submission. */
   @Prop({ reflect: true }) name: string;
 
+  /**
+   * Specifies the Unicode numeral system used by the component for localization.
+   *
+   * @mdn [numberingSystem](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/Locale/numberingSystem)
+   */
+  @Prop() numberingSystem?: string;
+
   /** Specifies the interval to move with the page up, or page down keys. */
   @Prop() pageStep?: number;
 
@@ -157,18 +169,6 @@ export class Slider
    *  Specifies the size of the component.
    */
   @Prop() scale: Scale = "m";
-
-  /**
-   * When true, number values are displayed with a group separator corresponding to the language and country format.
-   */
-  @Prop({ reflect: true }) groupSeparator = false;
-
-  /**
-   * Specifies the Unicode numeral system used by the component for localization.
-   *
-   * @mdn [numberingSystem](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/Locale/numberingSystem)
-   */
-  @Prop() numberingSystem?: string;
 
   //--------------------------------------------------------------------------
   //
