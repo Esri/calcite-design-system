@@ -297,15 +297,15 @@ export const WithPlaceHolderIcon = (): string => html` <calcite-combobox
   <calcite-combobox-item value="2" text-label="Folder 2" icon="folder"></calcite-combobox-item>
 </calcite-combobox>`;
 
-export const WithoutPlaceHolderIcon = (): string => html` <calcite-combobox
-  placeholder="${text("placeholder", "select folder")}"
-  selection-mode="multi"
-  open
+export const WithoutPlaceHolderIcon = (): string => html` <div
+  style="width:400px;max-width:100%;background-color:white;padding:100px"
 >
-  <calcite-combobox-item value="root" text-label="username" icon="home" selected></calcite-combobox-item>
-  <calcite-combobox-item value="1" text-label="Folder 1" icon="folder"></calcite-combobox-item>
-  <calcite-combobox-item value="2" text-label="Folder 2" icon="folder"></calcite-combobox-item>
-</calcite-combobox>`;
+  <calcite-combobox placeholder="${text("placeholder", "select folder")}" selection-mode="multi" open>
+    <calcite-combobox-item value="root" text-label="username" icon="home" selected></calcite-combobox-item>
+    <calcite-combobox-item value="1" text-label="Folder 1" icon="folder"></calcite-combobox-item>
+    <calcite-combobox-item value="2" text-label="Folder 2" icon="folder"></calcite-combobox-item>
+  </calcite-combobox>
+</div>`;
 
 export const ScrollingWithoutMaxItems = (): string => html`
   <div style="width:400px;max-width:100%;background-color:white;padding:100px">
