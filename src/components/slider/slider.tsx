@@ -19,7 +19,6 @@ import { intersects } from "../../utils/dom";
 import { clamp, decimalPlaces } from "../../utils/math";
 import { Scale } from "../interfaces";
 import { LabelableComponent, connectLabel, disconnectLabel } from "../../utils/label";
-import { localizeNumberString } from "../../utils/locale";
 import {
   afterConnectDefaultValueSet,
   connectForm,
@@ -29,6 +28,12 @@ import {
 } from "../../utils/form";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { isActivationKey } from "../../utils/key";
+import { localizeNumberString } from "../../utils/locale";
+import {
+  GlobalAttrComponent,
+  watchGlobalAttributes,
+  unwatchGlobalAttributes
+} from "../../utils/globalAttributes";
 
 type ActiveSliderProperty = "minValue" | "maxValue" | "value" | "minMaxValue";
 
@@ -41,7 +46,9 @@ function isRange(value: number | number[]): value is number[] {
   styleUrl: "slider.scss",
   shadow: true
 })
-export class Slider implements LabelableComponent, FormComponent, InteractiveComponent {
+export class Slider
+  implements LabelableComponent, FormComponent, InteractiveComponent, GlobalAttrComponent
+{
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -152,12 +159,9 @@ export class Slider implements LabelableComponent, FormComponent, InteractiveCom
   @Prop() scale: Scale = "m";
 
   /**
-   * When true, number values are displayed with the locale's group separator.
+   * When true, number values are displayed with a group separator corresponding to the language and country format.
    */
   @Prop({ reflect: true }) groupSeparator = false;
-
-  /** Specifies the BCP 47 language tag for the desired language and country format. */
-  @Prop() locale: string = document.documentElement.lang || "en";
 
   /**
    * Specifies the Unicode numeral system used by the component for localization.
@@ -177,12 +181,14 @@ export class Slider implements LabelableComponent, FormComponent, InteractiveCom
     this.setValueFromMinMax();
     connectLabel(this);
     connectForm(this);
+    watchGlobalAttributes(this, ["lang"]);
   }
 
   disconnectedCallback(): void {
     disconnectLabel(this);
     disconnectForm(this);
     this.removeDragListeners();
+    unwatchGlobalAttributes(this);
   }
 
   componentWillLoad(): void {
@@ -929,6 +935,8 @@ export class Slider implements LabelableComponent, FormComponent, InteractiveCom
 
   @State() private tickValues: number[] = [];
 
+  @State() globalAttributes = {};
+
   //--------------------------------------------------------------------------
   //
   //  Private Methods
@@ -1422,14 +1430,10 @@ export class Slider implements LabelableComponent, FormComponent, InteractiveCom
    * @param value
    */
   private determineGroupSeparator = (value): string => {
+    const lang = this.globalAttributes["lang"] || document.documentElement.lang || "en";
     if (value) {
       return this.groupSeparator
-        ? localizeNumberString(
-            value.toString(),
-            this.locale,
-            this.groupSeparator,
-            this.numberingSystem
-          )
+        ? localizeNumberString(value.toString(), lang, this.groupSeparator, this.numberingSystem)
         : value;
     }
   };
