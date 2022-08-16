@@ -1,6 +1,6 @@
-export type Strings = {
+export interface Strings {
   collapse: string;
   expand: string;
   loading: string;
   options: string;
-};
+}

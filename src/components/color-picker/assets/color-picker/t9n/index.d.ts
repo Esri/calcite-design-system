@@ -1,4 +1,4 @@
-export type Strings = {
+export interface Strings {
   b: string;
   blue: string;
   deleteColor: string;
@@ -18,4 +18,4 @@ export type Strings = {
   saved: string;
   v: string;
   value: string;
-};
+}

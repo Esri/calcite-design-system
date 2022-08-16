@@ -1,4 +1,4 @@
-export type Strings = {
+export interface Strings {
   filterLabel: string;
   clear: string;
-};
+}

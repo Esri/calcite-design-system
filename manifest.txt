@@ -10,7 +10,6 @@ src\components\card\assets\card\t9n
 src\components\chip\assets\chip\t9n
 src\components\color-picker\assets\color-picker\t9n
 src\components\combobox\assets\combobox\t9n
-src\components\date-picker\assets\date-picker\nls\en.json\t9n
 src\components\date-picker\assets\date-picker\t9n
 src\components\filter\assets\filter\t9n
 src\components\inline-editable\assets\inline-editable\t9n
