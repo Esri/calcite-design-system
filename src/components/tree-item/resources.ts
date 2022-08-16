@@ -15,5 +15,6 @@ export const SLOTS = {
 export const ICONS = {
   bulletPoint: "bullet-point",
   checkmark: "check",
-  chevronRight: "chevron-right"
+  chevronRight: "chevron-right",
+  blank: "blank"
 };

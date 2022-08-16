@@ -353,6 +353,95 @@
         </div>
       </div>
 
+      <!-- none selection mode -->
+      <div class="parent">
+        <div class="child right-aligned-text">none selection mode</div>
+
+        <div class="child">
+          <calcite-tree selection-mode="none" scale="s">
+            <calcite-tree-item>
+              <span>Child 1</span>
+            </calcite-tree-item>
+
+            <calcite-tree-item>
+              <span>Child 2</span>
+
+              <calcite-tree slot="children">
+                <calcite-tree-item>
+                  <span>Grandchild 1</span>
+                  <calcite-tree slot="children">
+                    <calcite-tree-item>
+                      <span>Great Grandchild 1</span>
+                    </calcite-tree-item>
+                    <calcite-tree-item>
+                      <span>Great Grandchild 2</span>
+                    </calcite-tree-item>
+                    <calcite-tree-item>
+                      <span>Great Grandchild 3</span>
+                    </calcite-tree-item>
+                  </calcite-tree>
+                </calcite-tree-item>
+                <calcite-tree-item>
+                  <span>Grandchild 2</span>
+                </calcite-tree-item>
+                <calcite-tree-item>
+                  <span>Grandchild 3</span>
+                </calcite-tree-item>
+              </calcite-tree>
+            </calcite-tree-item>
+
+            <calcite-tree-item>
+              <span>Child 3</span>
+            </calcite-tree-item>
+            <calcite-tree-item>
+              <span>Child 4</span>
+            </calcite-tree-item>
+          </calcite-tree>
+        </div>
+
+        <div class="child">
+          <calcite-tree selection-mode="none" scale="m">
+            <calcite-tree-item>
+              <span>Child 1</span>
+            </calcite-tree-item>
+
+            <calcite-tree-item>
+              <span>Child 2</span>
+
+              <calcite-tree slot="children">
+                <calcite-tree-item>
+                  <span>Grandchild 1</span>
+                  <calcite-tree slot="children">
+                    <calcite-tree-item>
+                      <span>Great Grandchild 1</span>
+                    </calcite-tree-item>
+                    <calcite-tree-item>
+                      <span>Great Grandchild 2</span>
+                    </calcite-tree-item>
+                    <calcite-tree-item>
+                      <span>Great Grandchild 3</span>
+                    </calcite-tree-item>
+                  </calcite-tree>
+                </calcite-tree-item>
+                <calcite-tree-item>
+                  <span>Grandchild 2</span>
+                </calcite-tree-item>
+                <calcite-tree-item>
+                  <span>Grandchild 3</span>
+                </calcite-tree-item>
+              </calcite-tree>
+            </calcite-tree-item>
+
+            <calcite-tree-item>
+              <span>Child 3</span>
+            </calcite-tree-item>
+            <calcite-tree-item>
+              <span>Child 4</span>
+            </calcite-tree-item>
+          </calcite-tree>
+        </div>
+      </div>
+
       <!-- events to test -->
       <div class="parent">
         <div class="child right-aligned-text">events</div>
