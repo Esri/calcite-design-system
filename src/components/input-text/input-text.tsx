@@ -415,6 +415,7 @@ export class InputText implements LabelableComponent, FormComponent, Interactive
         origin: "direct"
       });
     }
+    event.stopPropagation();
   };
 
   private setChildElRef = (el) => {

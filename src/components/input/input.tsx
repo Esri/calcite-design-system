@@ -737,6 +737,7 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
         origin: "direct"
       });
     }
+    event.stopPropagation();
   };
 
   private setChildElRef = (el) => {

@@ -227,12 +227,12 @@ export function afterConnectDefaultValueSet<T>(component: FormComponent<T>, valu
 
 const hiddenInputChangeHandler = (event: Event) => {
   event.target.dispatchEvent(
-    new CustomEvent("calciteInternalHiddenInputChange", {
-      bubbles: true,
-      composed: true
-    })
+    new CustomEvent("calciteInternalHiddenInputChange", { bubbles: true })
   );
 };
+
+const removeHiddenInputChangeEventListener = (input: HTMLInputElement) =>
+  input.removeEventListener("change", hiddenInputChangeHandler);
 
 /**
  * Helper for maintaining a form-associated's hidden input in sync with the component.
@@ -249,7 +249,7 @@ function syncHiddenFormInput(component: FormComponent): void {
 
   if (!formEl || !name) {
     inputs.forEach((input) => {
-      input.removeEventListener("change", hiddenInputChangeHandler);
+      removeHiddenInputChangeEventListener(input);
       input.remove();
     });
     return;
@@ -304,7 +304,7 @@ function syncHiddenFormInput(component: FormComponent): void {
     el.append(docFrag);
   }
   extra.forEach((input) => {
-    input.removeEventListener("change", hiddenInputChangeHandler);
+    removeHiddenInputChangeEventListener(input);
     input.remove();
   });
 }

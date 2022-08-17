@@ -642,6 +642,7 @@ export class InputNumber implements LabelableComponent, FormComponent, Interacti
         origin: "direct"
       });
     }
+    event.stopPropagation();
   };
 
   private setChildNumberElRef = (el) => {
