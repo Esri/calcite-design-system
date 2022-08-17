@@ -563,7 +563,7 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent, Float
   };
 
   private updateSelectedItems(): void {
-    this.selectedItems = this.items.filter((item) => item.active);
+    this.selectedItems = this.items.filter((item) => item.selected);
   }
 
   private getMaxScrollerHeight(): number {
@@ -603,7 +603,7 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent, Float
   }
 
   private focusOnFirstActiveOrFirstItem = (): void => {
-    this.getFocusableElement(this.items.find((item) => item.active) || this.items[0]);
+    this.getFocusableElement(this.items.find((item) => item.selected) || this.items[0]);
   };
 
   private focusFirstItem() {
