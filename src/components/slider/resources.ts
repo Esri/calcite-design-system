@@ -1,4 +1,5 @@
 export const CSS = {
+  handleLabel: "handle__label",
   labelMinValue: "handle__label--minValue",
   labelValue: "handle__label--value",
   tickMin: "tick__label--min",
