@@ -264,7 +264,6 @@ export class TabNav {
       this.selectedTab !== event.detail.tab
     ) {
       this.selectedTab = event.detail.tab;
-      event.stopPropagation();
     }
     event.stopPropagation();
   }
