@@ -34,6 +34,7 @@ import {
   watchGlobalAttributes,
   unwatchGlobalAttributes
 } from "../../utils/globalAttributes";
+import { CSS } from "./resources";
 
 type ActiveSliderProperty = "minValue" | "maxValue" | "value" | "minMaxValue";
 
@@ -233,6 +234,8 @@ export class Slider
     const leftThumbOffset = `${mirror ? 100 - minInterval : minInterval}%`;
     const rightThumbOffset = `${mirror ? maxInterval : 100 - maxInterval}%`;
     const valueIsRange = isRange(this.value);
+    const handleLabelMinValueClasses = { [CSS.handleLabel]: true, [CSS.labelMinValue]: true };
+    const handleLabelValueClasses = { [CSS.handleLabel]: true, [CSS.labelValue]: true };
 
     const handle = (
       <div
@@ -280,13 +283,13 @@ export class Slider
         style={{ right: rightThumbOffset }}
         tabIndex={0}
       >
-        <span aria-hidden="true" class="handle__label handle__label--value">
+        <span aria-hidden="true" class={handleLabelValueClasses}>
           {displayedValue}
         </span>
-        <span aria-hidden="true" class="handle__label handle__label--value static">
+        <span aria-hidden="true" class={`${handleLabelValueClasses} .static`}>
           {displayedValue}
         </span>
-        <span aria-hidden="true" class="handle__label handle__label--value transformed">
+        <span aria-hidden="true" class={`${handleLabelValueClasses} .transformed`}>
           {displayedValue}
         </span>
         <div class="handle" />
@@ -315,13 +318,13 @@ export class Slider
         tabIndex={0}
       >
         <div class="handle" />
-        <span aria-hidden="true" class="handle__label handle__label--value">
+        <span aria-hidden="true" class={handleLabelValueClasses}>
           {displayedValue}
         </span>
-        <span aria-hidden="true" class="handle__label handle__label--value static">
+        <span aria-hidden="true" class={`${handleLabelValueClasses} .static`}>
           {displayedValue}
         </span>
-        <span aria-hidden="true" class="handle__label handle__label--value transformed">
+        <span aria-hidden="true" class={`${handleLabelValueClasses} .transformed`}>
           {displayedValue}
         </span>
       </div>
@@ -403,13 +406,13 @@ export class Slider
         style={{ right: rightThumbOffset }}
         tabIndex={0}
       >
-        <span aria-hidden="true" class="handle__label handle__label--value">
+        <span aria-hidden="true" class={handleLabelValueClasses}>
           {displayedValue}
         </span>
-        <span aria-hidden="true" class="handle__label handle__label--value static">
+        <span aria-hidden="true" class={`${handleLabelValueClasses} .static`}>
           {displayedValue}
         </span>
-        <span aria-hidden="true" class="handle__label handle__label--value transformed">
+        <span aria-hidden="true" class={`${handleLabelValueClasses} .transformed`}>
           {displayedValue}
         </span>
         <div class="handle" />
@@ -441,13 +444,13 @@ export class Slider
       >
         <div class="handle-extension" />
         <div class="handle" />
-        <span aria-hidden="true" class="handle__label handle__label--value">
+        <span aria-hidden="true" class={handleLabelValueClasses}>
           {displayedValue}
         </span>
-        <span aria-hidden="true" class="handle__label handle__label--value static">
+        <span aria-hidden="true" class={`${handleLabelValueClasses} .static`}>
           {displayedValue}
         </span>
-        <span aria-hidden="true" class="handle__label handle__label--value transformed">
+        <span aria-hidden="true" class={`${handleLabelValueClasses} .transformed`}>
           {displayedValue}
         </span>
       </div>
@@ -499,13 +502,13 @@ export class Slider
         style={{ left: leftThumbOffset }}
         tabIndex={0}
       >
-        <span aria-hidden="true" class="handle__label handle__label--minValue">
+        <span aria-hidden="true" class={handleLabelMinValueClasses}>
           {displayedMinValue}
         </span>
-        <span aria-hidden="true" class="handle__label handle__label--minValue static">
+        <span aria-hidden="true" class={`${handleLabelMinValueClasses} .static`}>
           {displayedMinValue}
         </span>
-        <span aria-hidden="true" class="handle__label handle__label--minValue transformed">
+        <span aria-hidden="true" class={`${handleLabelMinValueClasses} .transformed`}>
           {displayedMinValue}
         </span>
         <div class="handle" />
@@ -534,13 +537,13 @@ export class Slider
         tabIndex={0}
       >
         <div class="handle" />
-        <span aria-hidden="true" class="handle__label handle__label--minValue">
+        <span aria-hidden="true" class={handleLabelMinValueClasses}>
           {displayedMinValue}
         </span>
-        <span aria-hidden="true" class="handle__label handle__label--minValue static">
+        <span aria-hidden="true" class={`${handleLabelMinValueClasses}. static`}>
           {displayedMinValue}
         </span>
-        <span aria-hidden="true" class="handle__label handle__label--minValue transformed">
+        <span aria-hidden="true" class={`${handleLabelMinValueClasses}. transformed`}>
           {displayedMinValue}
         </span>
       </div>
@@ -597,13 +600,13 @@ export class Slider
       >
         <div class="handle-extension" />
         <div class="handle" />
-        <span aria-hidden="true" class="handle__label handle__label--minValue">
+        <span aria-hidden="true" class={handleLabelMinValueClasses}>
           {displayedMinValue}
         </span>
-        <span aria-hidden="true" class="handle__label handle__label--minValue static">
+        <span aria-hidden="true" class={`${handleLabelMinValueClasses} .static`}>
           {displayedMinValue}
         </span>
-        <span aria-hidden="true" class="handle__label handle__label--minValue transformed">
+        <span aria-hidden="true" class={`${handleLabelMinValueClasses} .transformed`}>
           {displayedMinValue}
         </span>
       </div>

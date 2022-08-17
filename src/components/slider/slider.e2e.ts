@@ -750,8 +750,7 @@ describe("calcite-slider", () => {
         expect(withSeparator).toEqual(formattedValuesArr);
       };
 
-      Object.entries(formattedValuesPerLanguageObject);
-      for (const lang of Object.keys(formattedValuesPerLanguageObject)) {
+      for (const lang in formattedValuesPerLanguageObject) {
         await testLocalizedGroupSeparator(lang, formattedValuesPerLanguageObject[lang]);
       }
     });
