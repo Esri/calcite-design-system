@@ -198,11 +198,11 @@ describe("calcite-dropdown", () => {
       <calcite-button slot="dropdown-trigger">Open dropdown</calcite-button>
       <calcite-dropdown-group id="group-1" group-title="My Group 1 Title">
         <calcite-dropdown-item id="item-1"> Dropdown Item Content </calcite-dropdown-item>
-        <calcite-dropdown-item id="item-2" selecyed> Dropdown Item Content </calcite-dropdown-item>
+        <calcite-dropdown-item id="item-2" selected> Dropdown Item Content </calcite-dropdown-item>
       </calcite-dropdown-group>
       <calcite-dropdown-group id="group-2">
         <calcite-dropdown-item id="item-3"> Dropdown Item Content </calcite-dropdown-item>
-        <calcite-dropdown-item id="item-4" selecyed> Dropdown Item Content </calcite-dropdown-item>
+        <calcite-dropdown-item id="item-4" selected> Dropdown Item Content </calcite-dropdown-item>
       </calcite-dropdown-group>
     </calcite-dropdown>`);
 
@@ -212,13 +212,13 @@ describe("calcite-dropdown", () => {
     expect(group2Title).toBeNull();
   });
 
-  it("renders selecyed item based on attribute in dom", async () => {
+  it("renders selected item based on attribute in dom", async () => {
     const page = await newE2EPage();
     await page.setContent(html`<calcite-dropdown>
       <calcite-button slot="dropdown-trigger">Open dropdown</calcite-button>
       <calcite-dropdown-group id="group-1">
         <calcite-dropdown-item id="item-1"> Dropdown Item Content </calcite-dropdown-item>
-        <calcite-dropdown-item id="item-2" selecyed> Dropdown Item Content </calcite-dropdown-item>
+        <calcite-dropdown-item id="item-2" selected> Dropdown Item Content </calcite-dropdown-item>
         <calcite-dropdown-item id="item-3"> Dropdown Item Content </calcite-dropdown-item>
       </calcite-dropdown-group>
     </calcite-dropdown>`);
@@ -230,7 +230,6 @@ describe("calcite-dropdown", () => {
 
     //active prop is deprecated
     expect(item1).not.toHaveAttribute("active");
-    expect(item2).toHaveAttribute("active");
     expect(item3).not.toHaveAttribute("active");
 
     expect(item1).not.toHaveAttribute("selected");
@@ -1169,11 +1168,10 @@ describe("calcite-dropdown", () => {
     const calciteDropdownBeforeOpenSpy = await element.spyOnEvent("calciteDropdownBeforeOpen");
     const calciteDropdownOpenSpy = await element.spyOnEvent("calciteDropdownOpen");
 
-    await element.setProperty("selected", true);
+    await element.setProperty("active", true);
     await page.waitForChanges();
 
     expect(await element.getProperty("open")).toBe(true);
-    expect(await element.getProperty("active")).toBe(true);
     await calciteDropdownBeforeOpenEvent;
     await calciteDropdownOpenEvent;
 
@@ -1198,6 +1196,5 @@ describe("calcite-dropdown", () => {
     expect(calciteDropdownCloseSpy).toHaveReceivedEventTimes(1);
 
     expect(await group.isVisible()).toBe(false);
-    expect(await element.getProperty("open")).toBe(false);
   });
 });
