@@ -270,7 +270,7 @@ export const Default = stepStory(
         story: "components-controls-datepicker--default",
         knobs: [
           { name: "locale", value: "en-gb" },
-          { name: "value", value: "2023-04-11" }
+          { name: "value", value: "2024-01-11" }
         ]
       })
     )
