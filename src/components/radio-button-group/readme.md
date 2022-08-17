@@ -86,9 +86,9 @@ Renders all radio button inputs disabled, first one checked
 
 ## Events
 
-| Event                           | Description                           | Type                |
-| ------------------------------- | ------------------------------------- | ------------------- |
-| `calciteRadioButtonGroupChange` | Fires when the component has changed. | `CustomEvent<void>` |
+| Event                           | Description                           | Type               |
+| ------------------------------- | ------------------------------------- | ------------------ |
+| `calciteRadioButtonGroupChange` | Fires when the component has changed. | `CustomEvent<any>` |
 
 ## Slots
 
