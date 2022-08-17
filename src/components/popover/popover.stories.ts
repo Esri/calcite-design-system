@@ -108,3 +108,17 @@ export const Heading = stepStory(
     .click("#reference-element")
     .snapshot("Open Popover with Dismissible Heading")
 );
+
+export const flipPlacements = (): string => html`
+  <div style="height: 100px; overflow:scroll; width: 200px;">
+    <div class="my-popover-reference">
+      <calcite-button title="Reference Element" id="reference-element">nostrud exercitation</calcite-button>
+    </div>
+    <calcite-popover class="my-popover" reference-element="reference-element" open placement="top" heading="Heading">
+      ${contentHTML}
+    </calcite-popover>
+  </div>
+  <script>
+    document.querySelector(".my-popover").flipPlacements = ["right"];
+  </script>
+`;
