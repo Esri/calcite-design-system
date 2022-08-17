@@ -711,8 +711,8 @@ export class Slider
       <span
         class={{
           tick__label: true,
-          "tick__label--min": isMinTickLabel,
-          "tick__label--max": isMaxTickLabel
+          [CSS.tickMin]: isMinTickLabel,
+          [CSS.tickMax]: isMaxTickLabel
         }}
       >
         {displayedTickValue}
