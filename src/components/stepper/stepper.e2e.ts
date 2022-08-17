@@ -69,7 +69,7 @@ describe("calcite-stepper", () => {
     expect(element).toHaveAttribute("icon");
   });
 
-  it("honors hidden attribute", async () => hidden("calcite-stepper"));
+  it.skip("honors hidden attribute", async () => hidden("calcite-stepper"));
 
   it("adds selected attribute to requested item", async () => {
     const page = await newE2EPage();
