@@ -42,10 +42,33 @@ export class StepperItem implements InteractiveComponent {
   //  Public Properties
   //
   //--------------------------------------------------------------------------
-  /** When true, the component is active. */
+
+  /**
+   *  is the step active
+   *
+   * @deprecated Use selected instead.
+   */
   @Prop({ reflect: true, mutable: true }) active = false;
 
-  /** When true, the component's workflow has been completed. */
+  @Watch("active")
+  activeHandler(value: boolean): void {
+    this.selected = value;
+  }
+
+  /**
+   * When true, step is selected
+   */
+  @Prop({ reflect: true, mutable: true }) selected = false;
+
+  @Watch("selected")
+  selectedHandler(value: boolean): void {
+    this.active = value;
+    if (this.selected) {
+      this.emitRequestedItem();
+    }
+  }
+
+  /** has the step been completed */
   @Prop({ reflect: true }) complete = false;
 
   /** When true, the component contains an error that requires resolution from the user. */
@@ -98,13 +121,6 @@ export class StepperItem implements InteractiveComponent {
     this.registerStepperItem();
   }
 
-  @Watch("active")
-  activeWatcher(active: boolean): void {
-    if (active) {
-      this.emitRequestedItem();
-    }
-  }
-
   //--------------------------------------------------------------------------
   //
   //  Internal State/Props
@@ -149,6 +165,16 @@ export class StepperItem implements InteractiveComponent {
   //
   //--------------------------------------------------------------------------
 
+  connectedCallback(): void {
+    const { selected, active } = this;
+
+    if (selected) {
+      this.active = selected;
+    } else if (active) {
+      this.selected = active;
+    }
+  }
+
   componentWillLoad(): void {
     this.icon = getElementProp(this.el, "icon", false);
     this.numbered = getElementProp(this.el, "numbered", false);
@@ -158,7 +184,7 @@ export class StepperItem implements InteractiveComponent {
     this.itemPosition = this.getItemPosition();
     this.registerStepperItem();
 
-    if (this.active) {
+    if (this.selected) {
       this.emitRequestedItem();
     }
   }
@@ -210,8 +236,8 @@ export class StepperItem implements InteractiveComponent {
       event.target === this.parentStepperEl ||
       event.composedPath().includes(this.parentStepperEl)
     ) {
-      this.activePosition = event.detail.position;
-      this.determineActiveItem();
+      this.selectedPosition = event.detail.position;
+      this.determineSelectedItem();
     }
   }
 
@@ -234,8 +260,8 @@ export class StepperItem implements InteractiveComponent {
   /** position within parent */
   private itemPosition: number;
 
-  /** the latest requested item position */
-  private activePosition: number;
+  /** the latest requested item position*/
+  private selectedPosition: number;
 
   /** the parent stepper component */
   private parentStepperEl: HTMLCalciteStepperElement;
@@ -268,7 +294,7 @@ export class StepperItem implements InteractiveComponent {
   };
 
   private renderIcon(): VNode {
-    const path = this.active
+    const path = this.selected
       ? "circleF"
       : this.error
       ? "exclamationMarkCircleF"
@@ -279,8 +305,8 @@ export class StepperItem implements InteractiveComponent {
     return <calcite-icon class="stepper-item-icon" icon={path} scale="s" />;
   }
 
-  private determineActiveItem(): void {
-    this.active = !this.disabled && this.itemPosition === this.activePosition;
+  private determineSelectedItem(): void {
+    this.selected = !this.disabled && this.itemPosition === this.selectedPosition;
   }
 
   private registerStepperItem(): void {
