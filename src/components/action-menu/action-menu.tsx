@@ -425,6 +425,7 @@ export class ActionMenu {
 
     if (key === "Escape") {
       this.toggleOpen(false);
+      event.preventDefault();
       return;
     }
 

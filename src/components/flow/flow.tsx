@@ -4,7 +4,7 @@ import { FlowDirection } from "./interfaces";
 import { createObserver } from "../../utils/observers";
 
 /**
- * @slot - A slot for adding `calcite-flow-item`s to the flow.
+ * @slot - A slot for adding `calcite-flow-item` to the flow.
  */
 @Component({
   tag: "calcite-flow",
@@ -23,10 +23,10 @@ export class Flow {
    */
   @Method()
   async back(): Promise<HTMLCalciteFlowItemElement> {
-    const { flowItems, openIndex } = this;
+    const { items, openIndex } = this;
 
-    const openItem = flowItems[openIndex];
-    const nextOpenItem = flowItems[openIndex - 1];
+    const openItem = items[openIndex];
+    const nextOpenItem = items[openIndex - 1];
 
     if (!openItem || !nextOpenItem) {
       return;
@@ -51,15 +51,13 @@ export class Flow {
 
   @Element() el: HTMLCalciteFlowElement;
 
-  @State() flowItemCount = 0;
-
   @State() flowDirection: FlowDirection = null;
 
-  @State() flowItems: HTMLCalciteFlowItemElement[] = [];
+  @State() items: HTMLCalciteFlowItemElement[] = [];
 
   openIndex = -1;
 
-  flowItemMutationObserver: MutationObserver = createObserver("mutation", () =>
+  itemMutationObserver: MutationObserver = createObserver("mutation", () =>
     this.handleMutationObserverChange()
   );
 
@@ -70,12 +68,12 @@ export class Flow {
   // --------------------------------------------------------------------------
 
   connectedCallback(): void {
-    this.flowItemMutationObserver?.observe(this.el, { childList: true, subtree: true });
+    this.itemMutationObserver?.observe(this.el, { childList: true, subtree: true });
     this.handleMutationObserverChange();
   }
 
   disconnectedCallback(): void {
-    this.flowItemMutationObserver?.disconnect();
+    this.itemMutationObserver?.disconnect();
   }
 
   // --------------------------------------------------------------------------
@@ -91,7 +89,7 @@ export class Flow {
   }
 
   @Listen("calciteFlowItemBackClick")
-  handleCalciteFlowItemBackClick(): void {
+  handleItemBackClick(): void {
     this.back();
   }
 
@@ -113,7 +111,7 @@ export class Flow {
       (flowItem) => !flowItem.matches("calcite-flow-item calcite-flow-item")
     ) as HTMLCalciteFlowItemElement[];
 
-    this.flowItems = newItems;
+    this.items = newItems;
 
     this.ensureOpenFlowItemExists();
 
@@ -121,10 +119,10 @@ export class Flow {
   };
 
   updateFlowProps = (): void => {
-    const { openIndex, flowItems } = this;
-    const foundOpenIndex = this.findOpenFlowItemIndex(flowItems);
+    const { openIndex, items } = this;
+    const foundOpenIndex = this.findOpenFlowItemIndex(items);
 
-    flowItems.forEach((flowItem, index) => {
+    items.forEach((flowItem, index) => {
       const currentlyOpen = index === foundOpenIndex;
 
       if (!currentlyOpen) {
@@ -145,24 +143,24 @@ export class Flow {
     this.openIndex = foundOpenIndex;
   };
 
-  findOpenFlowItemIndex = (flowItems: HTMLCalciteFlowItemElement[]): number => {
-    const openItem = flowItems
+  findOpenFlowItemIndex = (items: HTMLCalciteFlowItemElement[]): number => {
+    const openItem = items
       .slice(0)
       .reverse()
-      .find((flowItem) => !!flowItem.open);
+      .find((item) => !!item.open);
 
-    return flowItems.indexOf(openItem);
+    return items.indexOf(openItem);
   };
 
   ensureOpenFlowItemExists(): void {
-    const { flowItems } = this;
-    const foundOpenIndex = this.findOpenFlowItemIndex(flowItems);
+    const { items } = this;
+    const foundOpenIndex = this.findOpenFlowItemIndex(items);
 
     if (foundOpenIndex !== -1) {
       return;
     }
 
-    const lastItem = flowItems[flowItems.length - 1];
+    const lastItem = items[items.length - 1];
 
     if (lastItem) {
       lastItem.open = true;

@@ -11,7 +11,7 @@ import {
   Fragment,
   State
 } from "@stencil/core";
-import { CSS, HEADING_LEVEL, ICONS, SLOTS, TEXT, DeprecatedFocusId } from "./resources";
+import { CSS, HEADING_LEVEL, ICONS, SLOTS, TEXT } from "./resources";
 import { getElementDir, toAriaBoolean } from "../../utils/dom";
 import { Scale } from "../interfaces";
 import { HeadingLevel, Heading } from "../functional/Heading";
@@ -65,7 +65,7 @@ export class Panel implements InteractiveComponent {
   /**
    * When provided, this method will be called before it is removed from the parent flow.
    *
-   *  @deprecated use `calcite-flow-item` instead.
+   * @deprecated use `calcite-flow-item` instead.
    */
   @Prop() beforeBack?: () => Promise<void>;
 
@@ -288,8 +288,9 @@ export class Panel implements InteractiveComponent {
   };
 
   panelKeyDownHandler = (event: KeyboardEvent): void => {
-    if (event.key === "Escape") {
+    if (event.key === "Escape" && !event.defaultPrevented) {
       this.close();
+      event.preventDefault();
     }
   };
 
@@ -374,7 +375,7 @@ export class Panel implements InteractiveComponent {
    * @param focusId
    */
   @Method()
-  async setFocus(focusId?: DeprecatedFocusId): Promise<void> {
+  async setFocus(focusId?: "back-button" | "dismiss-button"): Promise<void> {
     const { backButtonEl, closeButtonEl, containerEl } = this;
 
     if (focusId === "back-button") {

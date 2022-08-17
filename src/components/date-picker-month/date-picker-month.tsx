@@ -99,7 +99,12 @@ export class DatePickerMonth {
   //--------------------------------------------------------------------------
 
   keyDownHandler = (event: KeyboardEvent): void => {
+    if (event.defaultPrevented) {
+      return;
+    }
+
     const isRTL = this.el.dir === "rtl";
+
     switch (event.key) {
       case "ArrowUp":
         event.preventDefault();

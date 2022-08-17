@@ -653,12 +653,16 @@ export class InputDatePicker
     this.open = false;
   };
 
-  keyDownHandler = ({ defaultPrevented, key }: KeyboardEvent): void => {
+  keyDownHandler = (event: KeyboardEvent): void => {
+    const { defaultPrevented, key } = event;
     if (key === "Enter" && !defaultPrevented) {
-      submitForm(this);
-    } else if (key === "Escape") {
+      if (submitForm(this)) {
+        event.preventDefault();
+      }
+    } else if (key === "Escape" && !defaultPrevented) {
       this.active = false;
       this.open = false;
+      event.preventDefault();
     }
   };
 
