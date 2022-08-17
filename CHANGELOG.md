@@ -9,6 +9,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### Features
 
+- **stepper-item,dropdown-item:** deprecate active and add support for selected prop ([#5097](https://github.com/Esri/calcite-components/issues/5097)) ([b6f29a6](https://github.com/Esri/calcite-components/commit/b6f29a6aea8e002184aca6efe7ac1a347cb4eb08))
 - **tree:** add none selection mode ([#5128](https://github.com/Esri/calcite-components/issues/5128)) ([e96bfbe](https://github.com/Esri/calcite-components/commit/e96bfbe6401b84b26ca8c167d665bb82769252da)), closes [#3121](https://github.com/Esri/calcite-components/issues/3121)
 
 ### Bug Fixes
