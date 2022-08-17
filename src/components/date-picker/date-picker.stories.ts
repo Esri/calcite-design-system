@@ -264,4 +264,15 @@ export const Default = stepStory(
       })
     )
     .snapshot("norwegian locale")
+
+    .executeScript(
+      setKnobs({
+        story: "components-controls-datepicker--default",
+        knobs: [
+          { name: "locale", value: "en-gb" },
+          { name: "value", value: "2023-04-11" }
+        ]
+      })
+    )
+    .snapshot("birtish english locale")
 );
