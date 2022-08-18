@@ -230,6 +230,8 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
 
   transitionEl: HTMLDivElement;
 
+  hasLoaded = false;
+
   // --------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -246,7 +248,7 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
     if (closable) {
       this.handleClosable(closable);
     }
-    this.setUpReferenceElement();
+    this.setUpReferenceElement(this.hasLoaded);
   }
 
   componentDidLoad(): void {
@@ -254,6 +256,7 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
       this.setUpReferenceElement();
     }
     this.reposition();
+    this.hasLoaded = true;
   }
 
   disconnectedCallback(): void {
@@ -363,13 +366,13 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
       : null;
   };
 
-  setUpReferenceElement = (): void => {
+  setUpReferenceElement = (warn = true): void => {
     this.removeReferences();
     this.effectiveReferenceElement = this.getReferenceElement();
     connectFloatingUI(this, this.effectiveReferenceElement, this.el);
 
     const { el, referenceElement, effectiveReferenceElement } = this;
-    if (referenceElement && !effectiveReferenceElement) {
+    if (warn && referenceElement && !effectiveReferenceElement) {
       console.warn(`${el.tagName}: reference-element id "${referenceElement}" was not found.`, {
         el
       });
