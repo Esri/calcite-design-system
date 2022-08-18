@@ -15,6 +15,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ### Bug Fixes
 
 - **date-picker:** no longer misalign dates with day in `en-gb`,`en-au`,`nb`,`es`,`de` locales ([#5175](https://github.com/Esri/calcite-components/issues/5175)) ([f6db589](https://github.com/Esri/calcite-components/commit/f6db5894f22d845aa7b0317691acb09d41c2352f))
+- **input:** display autofilled username/password input values ([#5149](https://github.com/Esri/calcite-components/issues/5149)) ([5313fd4](https://github.com/Esri/calcite-components/commit/5313fd4c270f619eddd53dce7d42677512efd757))
 - **radio-button-group:** fix incorrect event payload type ([#5153](https://github.com/Esri/calcite-components/issues/5153)) ([efb0114](https://github.com/Esri/calcite-components/commit/efb0114016b5aba852e97b3f035a6e0a2341b5b7))
 - **scrim:** reverts change to hidden attribute that caused a transition regression on scrim ([#5174](https://github.com/Esri/calcite-components/issues/5174)) ([eac9c04](https://github.com/Esri/calcite-components/commit/eac9c04b78483b14e64c83e8a33d0b505f342e33))
 - **stepper-item:** avoid emitting change event when clicking content in horizontal layout ([#5150](https://github.com/Esri/calcite-components/issues/5150)) ([922fa01](https://github.com/Esri/calcite-components/commit/922fa015db8cb38e1c9b769c7e44f4e6107c6e07)), closes [#5127](https://github.com/Esri/calcite-components/issues/5127)
