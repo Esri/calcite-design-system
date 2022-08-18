@@ -335,12 +335,14 @@ export class InputNumber implements LabelableComponent, FormComponent, Interacti
     connectForm(this);
     this.mutationObserver?.observe(this.el, { childList: true });
     this.setDisabledAction();
+    this.el.addEventListener("calciteInternalHiddenInputChange", this.hiddenInputChangeHandler);
   }
 
   disconnectedCallback(): void {
     disconnectLabel(this);
     disconnectForm(this);
     this.mutationObserver?.disconnect();
+    this.el.removeEventListener("calciteInternalHiddenInputChange", this.hiddenInputChangeHandler);
   }
 
   componentWillLoad(): void {
@@ -632,6 +634,16 @@ export class InputNumber implements LabelableComponent, FormComponent, Interacti
     input.min = this.min?.toString(10) ?? "";
     input.max = this.max?.toString(10) ?? "";
   }
+
+  hiddenInputChangeHandler = (event: Event): void => {
+    if ((event.target as HTMLInputElement).name === this.name) {
+      this.setNumberValue({
+        value: (event.target as HTMLInputElement).value,
+        origin: "direct"
+      });
+    }
+    event.stopPropagation();
+  };
 
   private setChildNumberElRef = (el) => {
     this.childNumberEl = el;
