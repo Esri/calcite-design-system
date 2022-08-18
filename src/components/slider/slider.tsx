@@ -234,8 +234,8 @@ export class Slider
     const leftThumbOffset = `${mirror ? 100 - minInterval : minInterval}%`;
     const rightThumbOffset = `${mirror ? maxInterval : 100 - maxInterval}%`;
     const valueIsRange = isRange(this.value);
-    const handleLabelMinValueClasses = { [CSS.handleLabel]: true, [CSS.labelMinValue]: true };
-    const handleLabelValueClasses = { [CSS.handleLabel]: true, [CSS.labelValue]: true };
+    const handleLabelMinValueClasses = `${CSS.handleLabel} ${CSS.handleLabelMinValue}`;
+    const handleLabelValueClasses = `${CSS.handleLabel} ${CSS.handleLabelMinValue}`;
 
     const handle = (
       <div
@@ -286,10 +286,10 @@ export class Slider
         <span aria-hidden="true" class={handleLabelValueClasses}>
           {displayedValue}
         </span>
-        <span aria-hidden="true" class={`${handleLabelValueClasses} .static`}>
+        <span aria-hidden="true" class={`${handleLabelValueClasses} static`}>
           {displayedValue}
         </span>
-        <span aria-hidden="true" class={`${handleLabelValueClasses} .transformed`}>
+        <span aria-hidden="true" class={`${handleLabelValueClasses} transformed`}>
           {displayedValue}
         </span>
         <div class="handle" />
@@ -321,10 +321,10 @@ export class Slider
         <span aria-hidden="true" class={handleLabelValueClasses}>
           {displayedValue}
         </span>
-        <span aria-hidden="true" class={`${handleLabelValueClasses} .static`}>
+        <span aria-hidden="true" class={`${handleLabelValueClasses} static`}>
           {displayedValue}
         </span>
-        <span aria-hidden="true" class={`${handleLabelValueClasses} .transformed`}>
+        <span aria-hidden="true" class={`${handleLabelValueClasses} transformed`}>
           {displayedValue}
         </span>
       </div>
@@ -409,10 +409,10 @@ export class Slider
         <span aria-hidden="true" class={handleLabelValueClasses}>
           {displayedValue}
         </span>
-        <span aria-hidden="true" class={`${handleLabelValueClasses} .static`}>
+        <span aria-hidden="true" class={`${handleLabelValueClasses} static`}>
           {displayedValue}
         </span>
-        <span aria-hidden="true" class={`${handleLabelValueClasses} .transformed`}>
+        <span aria-hidden="true" class={`${handleLabelValueClasses} transformed`}>
           {displayedValue}
         </span>
         <div class="handle" />
@@ -447,10 +447,10 @@ export class Slider
         <span aria-hidden="true" class={handleLabelValueClasses}>
           {displayedValue}
         </span>
-        <span aria-hidden="true" class={`${handleLabelValueClasses} .static`}>
+        <span aria-hidden="true" class={`${handleLabelValueClasses} static`}>
           {displayedValue}
         </span>
-        <span aria-hidden="true" class={`${handleLabelValueClasses} .transformed`}>
+        <span aria-hidden="true" class={`${handleLabelValueClasses} transformed`}>
           {displayedValue}
         </span>
       </div>
@@ -505,10 +505,10 @@ export class Slider
         <span aria-hidden="true" class={handleLabelMinValueClasses}>
           {displayedMinValue}
         </span>
-        <span aria-hidden="true" class={`${handleLabelMinValueClasses} .static`}>
+        <span aria-hidden="true" class={`${handleLabelMinValueClasses} static`}>
           {displayedMinValue}
         </span>
-        <span aria-hidden="true" class={`${handleLabelMinValueClasses} .transformed`}>
+        <span aria-hidden="true" class={`${handleLabelMinValueClasses} transformed`}>
           {displayedMinValue}
         </span>
         <div class="handle" />
@@ -540,10 +540,10 @@ export class Slider
         <span aria-hidden="true" class={handleLabelMinValueClasses}>
           {displayedMinValue}
         </span>
-        <span aria-hidden="true" class={`${handleLabelMinValueClasses}. static`}>
+        <span aria-hidden="true" class={`${handleLabelMinValueClasses} static`}>
           {displayedMinValue}
         </span>
-        <span aria-hidden="true" class={`${handleLabelMinValueClasses}. transformed`}>
+        <span aria-hidden="true" class={`${handleLabelMinValueClasses} transformed`}>
           {displayedMinValue}
         </span>
       </div>
@@ -603,10 +603,10 @@ export class Slider
         <span aria-hidden="true" class={handleLabelMinValueClasses}>
           {displayedMinValue}
         </span>
-        <span aria-hidden="true" class={`${handleLabelMinValueClasses} .static`}>
+        <span aria-hidden="true" class={`${handleLabelMinValueClasses} static`}>
           {displayedMinValue}
         </span>
-        <span aria-hidden="true" class={`${handleLabelMinValueClasses} .transformed`}>
+        <span aria-hidden="true" class={`${handleLabelMinValueClasses} transformed`}>
           {displayedMinValue}
         </span>
       </div>
