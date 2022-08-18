@@ -7,7 +7,11 @@ import { initThemeChangeEvent } from "./theme";
  */
 export default function (): void {
   if (isBrowser()) {
-    document.addEventListener("DOMContentLoaded", () => initThemeChangeEvent());
+    if (document.readyState === "complete") {
+      initThemeChangeEvent();
+    } else {
+      document.addEventListener("DOMContentLoaded", () => initThemeChangeEvent());
+    }
   }
 }
 
