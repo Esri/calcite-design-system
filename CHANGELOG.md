@@ -14,6 +14,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### Bug Fixes
 
+- wait for body to load before initializing theme change event ([#5180](https://github.com/Esri/calcite-components/issues/5180)) ([39e4877](https://github.com/Esri/calcite-components/commit/39e4877851edb66c1bcaa9afb608dc27931a37e3))
 - **date-picker:** no longer misalign dates with day in `en-gb`,`en-au`,`nb`,`es`,`de` locales ([#5175](https://github.com/Esri/calcite-components/issues/5175)) ([f6db589](https://github.com/Esri/calcite-components/commit/f6db5894f22d845aa7b0317691acb09d41c2352f))
 - **input:** display autofilled username/password input values ([#5149](https://github.com/Esri/calcite-components/issues/5149)) ([5313fd4](https://github.com/Esri/calcite-components/commit/5313fd4c270f619eddd53dce7d42677512efd757))
 - **radio-button-group:** fix incorrect event payload type ([#5153](https://github.com/Esri/calcite-components/issues/5153)) ([efb0114](https://github.com/Esri/calcite-components/commit/efb0114016b5aba852e97b3f035a6e0a2341b5b7))
