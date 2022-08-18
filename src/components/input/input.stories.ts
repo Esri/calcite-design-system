@@ -3,7 +3,7 @@ import { boolean, iconNames } from "../../../.storybook/helpers";
 import { themesDarkDefault } from "../../../.storybook/utils";
 import readme from "./readme.md";
 import { html } from "../../../support/formatting";
-import { userEvent, within } from "@storybook/testing-library";
+import { userEvent, within, waitFor } from "@storybook/testing-library";
 
 export default {
   title: "Components/Controls/Input",
@@ -55,14 +55,15 @@ const WithLabelTemplate = (): string =>
 export const WithLabel = WithLabelTemplate.bind({});
 
 WithLabel.play = async ({ canvasElement }) => {
-  const canvas = within(canvasElement);
-  const input = canvas.getByTestId("input-with-label") as any;
-  await customElements.whenDefined("calcite-input");
-  await input.componentOnReady();
-  // input.setFocus();
-  const nativeInput = input.shadowRoot.querySelector("input");
-  nativeInput.focus();
-  await userEvent.type(nativeInput, "foo bar baz");
+  const wc = canvasElement.querySelector("calcite-input") as HTMLElement;
+
+  const root = await waitFor(() => (wc.shadowRoot as ShadowRoot).firstElementChild as HTMLElement, {
+    timeout: 5000
+  });
+
+  const canvas = within(root);
+  const input = canvas.getByTestId("input-with-label") as HTMLInputElement;
+  await userEvent.type(input, "foo bar baz");
 };
 
 export const WithLabelAndInputMessage = (): string => html`
