@@ -10,7 +10,7 @@ export default function (): void {
     if (document.readyState === "interactive") {
       initThemeChangeEvent();
     } else {
-      document.addEventListener("DOMContentLoaded", () => initThemeChangeEvent());
+      document.addEventListener("DOMContentLoaded", () => initThemeChangeEvent(), { once: true });
     }
   }
 }
