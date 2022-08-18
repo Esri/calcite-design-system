@@ -131,6 +131,9 @@ export class Tooltip implements FloatingUIComponent {
   }
 
   componentDidLoad(): void {
+    if (this.referenceElement && !this.effectiveReferenceElement) {
+      this.setUpReferenceElement();
+    }
     this.reposition();
   }
 

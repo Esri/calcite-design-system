@@ -654,7 +654,7 @@ describe("calcite-popover", () => {
     const page = await newE2EPage();
 
     await page.setContent(
-      html`<calcite-popover label="Example label" reference-element="popover-button" dismissible>
+      html`<calcite-popover label="Example label" reference-element="popover-button" closable>
         <p style="padding:0 10px;display:flex;flex-direction:row">
           <calcite-icon icon="3d-glasses"></calcite-icon> Popover content here
         </p>
