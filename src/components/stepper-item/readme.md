@@ -8,14 +8,15 @@ individual `calcite-stepper-item` item
 
 | Property       | Attribute       | Description                                                                                                                                          | Type      | Default     |
 | -------------- | --------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- | --------- | ----------- |
-| `active`       | `active`        | When true, the component is active.                                                                                                                  | `boolean` | `false`     |
-| `complete`     | `complete`      | When true, the component's workflow has been completed.                                                                                              | `boolean` | `false`     |
+| `active`       | `active`        | <span style="color:red">**[DEPRECATED]**</span> Use selected instead.<br/><br/>is the step active                                                    | `boolean` | `false`     |
+| `complete`     | `complete`      | has the step been completed                                                                                                                          | `boolean` | `false`     |
 | `description`  | `description`   | A description for the component. Displays below the header text.                                                                                     | `string`  | `undefined` |
 | `disabled`     | `disabled`      | When true, interaction is prevented and the component is displayed with lower opacity.                                                               | `boolean` | `false`     |
 | `error`        | `error`         | When true, the component contains an error that requires resolution from the user.                                                                   | `boolean` | `false`     |
 | `heading`      | `heading`       | The component header text.                                                                                                                           | `string`  | `undefined` |
 | `itemSubtitle` | `item-subtitle` | <span style="color:red">**[DEPRECATED]**</span> use "description" instead.<br/><br/>A description for the component. Displays below the header text. | `string`  | `undefined` |
 | `itemTitle`    | `item-title`    | <span style="color:red">**[DEPRECATED]**</span> use "heading" instead.<br/><br/>The component header text.                                           | `string`  | `undefined` |
+| `selected`     | `selected`      | When true, step is selected                                                                                                                          | `boolean` | `false`     |
 
 ## Methods
 
