@@ -7,7 +7,7 @@ import { initThemeChangeEvent } from "./theme";
  */
 export default function (): void {
   if (isBrowser()) {
-    initThemeChangeEvent();
+    document.addEventListener("DOMContentLoaded", () => initThemeChangeEvent());
   }
 }
 
