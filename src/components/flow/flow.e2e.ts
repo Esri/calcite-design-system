@@ -46,7 +46,7 @@ describe("calcite-flow", () => {
         expect(flowItem).toBeNull();
       });
 
-      it.only("goes back when item back button is clicked", async () => {
+      it("goes back when item back button is clicked", async () => {
         const page = await newE2EPage();
 
         await page.setContent(html`<calcite-flow show-back-button>
