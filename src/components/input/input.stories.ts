@@ -55,15 +55,15 @@ const WithLabelTemplate = (): string =>
 export const WithLabel = WithLabelTemplate.bind({});
 
 WithLabel.play = async ({ canvasElement }) => {
-  const wc = canvasElement.querySelector("calcite-input") as HTMLElement;
+  const wc = canvasElement.querySelector("calcite-input") as HTMLInputElement;
 
   const root = await waitFor(() => (wc.shadowRoot as ShadowRoot).firstElementChild as HTMLElement, {
     timeout: 5000
   });
 
-  const canvas = within(root);
-  const input = canvas.getByTestId("input-with-label") as HTMLInputElement;
-  await userEvent.type(input, "foo bar baz");
+  // const screen = within(root);
+  // const input = screen.getByTestId("input-with-label") as HTMLInputElement;
+  await userEvent.type(wc, "foo bar baz");
 };
 
 export const WithLabelAndInputMessage = (): string => html`
