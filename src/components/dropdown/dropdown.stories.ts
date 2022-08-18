@@ -429,6 +429,17 @@ export const ScrollingWithoutMaxItems = (): string => html`
   </calcite-dropdown>
 `;
 
+export const NoScrollingMaxItemsEqualsItems = (): string => html` <calcite-dropdown max-items="3" open>
+  <calcite-button slot="dropdown-trigger">Activate Dropdown</calcite-button>
+  <calcite-dropdown-group selection-mode="single" group-title="Selection Mode: Single">
+    <calcite-dropdown-item>Relevance</calcite-dropdown-item>
+    <calcite-dropdown-item active>Date modified</calcite-dropdown-item>
+    <calcite-dropdown-item>Title</calcite-dropdown-item>
+  </calcite-dropdown-group>
+</calcite-dropdown>`;
+
+NoScrollingMaxItemsEqualsItems.storyName = "No Scrolling when maxItems equals items";
+
 export const FlipPositioning = stepStory(
   (): string => html`
     <div style="margin:10px;">
