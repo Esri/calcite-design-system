@@ -3,9 +3,7 @@
 This document maintains a list of released versions and changes introduced by them.
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
-<!--@unreleased-section-start-->
-
-## Unreleased
+## [1.0.0-beta.92](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.91...v1.0.0-beta.92) (2022-08-18)
 
 ### Features
 
@@ -22,7 +20,6 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - **stepper-item:** avoid emitting change event when clicking content in horizontal layout ([#5150](https://github.com/Esri/calcite-components/issues/5150)) ([922fa01](https://github.com/Esri/calcite-components/commit/922fa015db8cb38e1c9b769c7e44f4e6107c6e07)), closes [#5127](https://github.com/Esri/calcite-components/issues/5127)
 - ensure handled key events are canceled and ignore canceled-events ([#5083](https://github.com/Esri/calcite-components/issues/5083)) ([418b8b3](https://github.com/Esri/calcite-components/commit/418b8b3b26d598cb42178bf5e09307e832edd9f5)), closes [#4144](https://github.com/Esri/calcite-components/issues/4144)
 - patch esm resolution issue causing webpack build error ([#5145](https://github.com/Esri/calcite-components/issues/5145)) ([81e7c33](https://github.com/Esri/calcite-components/commit/81e7c3316a681a9625ae746a09d2c64ef8577557))
-<!--@unreleased-section-end-->
 
 ## [1.0.0-beta.91](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.90...v1.0.0-beta.91) (2022-08-10)
 
