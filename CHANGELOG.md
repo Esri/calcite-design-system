@@ -3,6 +3,15 @@
 This document maintains a list of released versions and changes introduced by them.
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
+<!--@unreleased-section-start-->
+
+## Unreleased
+
+### Bug Fixes
+
+- initialize calciteThemeChange when DOM content is loaded before globalScript executes ([#5184](https://github.com/Esri/calcite-components/issues/5184)) ([7fd27f9](https://github.com/Esri/calcite-components/commit/7fd27f9fa7bf07b851e32913972f68d542648671))
+<!--@unreleased-section-end-->
+
 ## [1.0.0-beta.92](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.91...v1.0.0-beta.92) (2022-08-18)
 
 ### Features
