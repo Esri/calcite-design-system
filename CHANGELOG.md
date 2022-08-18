@@ -3,9 +3,7 @@
 This document maintains a list of released versions and changes introduced by them.
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
-<!--@unreleased-section-start-->
-
-## Unreleased
+## [1.0.0-beta.92](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.91...v1.0.0-beta.92) (2022-08-18)
 
 ### Features
 
@@ -14,13 +12,14 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### Bug Fixes
 
+- wait for body to load before initializing theme change event ([#5180](https://github.com/Esri/calcite-components/issues/5180)) ([39e4877](https://github.com/Esri/calcite-components/commit/39e4877851edb66c1bcaa9afb608dc27931a37e3))
 - **date-picker:** no longer misalign dates with day in `en-gb`,`en-au`,`nb`,`es`,`de` locales ([#5175](https://github.com/Esri/calcite-components/issues/5175)) ([f6db589](https://github.com/Esri/calcite-components/commit/f6db5894f22d845aa7b0317691acb09d41c2352f))
+- **input:** display autofilled username/password input values ([#5149](https://github.com/Esri/calcite-components/issues/5149)) ([5313fd4](https://github.com/Esri/calcite-components/commit/5313fd4c270f619eddd53dce7d42677512efd757))
 - **radio-button-group:** fix incorrect event payload type ([#5153](https://github.com/Esri/calcite-components/issues/5153)) ([efb0114](https://github.com/Esri/calcite-components/commit/efb0114016b5aba852e97b3f035a6e0a2341b5b7))
 - **scrim:** reverts change to hidden attribute that caused a transition regression on scrim ([#5174](https://github.com/Esri/calcite-components/issues/5174)) ([eac9c04](https://github.com/Esri/calcite-components/commit/eac9c04b78483b14e64c83e8a33d0b505f342e33))
 - **stepper-item:** avoid emitting change event when clicking content in horizontal layout ([#5150](https://github.com/Esri/calcite-components/issues/5150)) ([922fa01](https://github.com/Esri/calcite-components/commit/922fa015db8cb38e1c9b769c7e44f4e6107c6e07)), closes [#5127](https://github.com/Esri/calcite-components/issues/5127)
 - ensure handled key events are canceled and ignore canceled-events ([#5083](https://github.com/Esri/calcite-components/issues/5083)) ([418b8b3](https://github.com/Esri/calcite-components/commit/418b8b3b26d598cb42178bf5e09307e832edd9f5)), closes [#4144](https://github.com/Esri/calcite-components/issues/4144)
 - patch esm resolution issue causing webpack build error ([#5145](https://github.com/Esri/calcite-components/issues/5145)) ([81e7c33](https://github.com/Esri/calcite-components/commit/81e7c3316a681a9625ae746a09d2c64ef8577557))
-<!--@unreleased-section-end-->
 
 ## [1.0.0-beta.91](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.90...v1.0.0-beta.91) (2022-08-10)
 
