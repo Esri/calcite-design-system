@@ -671,4 +671,33 @@ describe("calcite-popover", () => {
 
     expect(await popoverEl.getProperty("closable")).toBe(false);
   });
+
+  it("should still function when disconnected and reconnected", async () => {
+    const page = await newE2EPage();
+
+    await page.setContent(
+      `<calcite-popover placement="auto" reference-element="ref" open>content</calcite-popover>
+      <div id="transfer"></div>
+      <div id="ref">referenceElement</div>`
+    );
+
+    await page.waitForChanges();
+
+    const popover = await page.find(`calcite-popover`);
+    const ref = await page.find("#ref");
+    expect(await popover.isVisible()).toBe(true);
+
+    await ref.click();
+    expect(await popover.isVisible()).toBe(false);
+
+    await page.$eval("calcite-popover", (popoverEl: HTMLCalcitePopoverElement) => {
+      const transferEl = document.getElementById("transfer");
+      transferEl.appendChild(popoverEl);
+    });
+
+    await page.waitForChanges();
+    await ref.click();
+
+    expect(await popover.isVisible()).toBe(true);
+  });
 });

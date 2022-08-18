@@ -237,7 +237,6 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
   // --------------------------------------------------------------------------
 
   connectedCallback(): void {
-    connectFloatingUI(this, this.effectiveReferenceElement, this.el);
     this.setFilteredPlacements();
     connectOpenCloseComponent(this);
     if (this.dismissible) {
@@ -246,9 +245,6 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
     if (this.closable) {
       this.handleClosable(this.closable);
     }
-  }
-
-  componentWillLoad(): void {
     this.setUpReferenceElement();
   }
 

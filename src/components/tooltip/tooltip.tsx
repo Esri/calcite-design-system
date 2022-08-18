@@ -127,10 +127,6 @@ export class Tooltip implements FloatingUIComponent {
   // --------------------------------------------------------------------------
 
   connectedCallback(): void {
-    connectFloatingUI(this, this.effectiveReferenceElement, this.el);
-  }
-
-  componentWillLoad(): void {
     this.setUpReferenceElement();
   }
 
