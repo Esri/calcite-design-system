@@ -1,13 +1,5 @@
 import { locales } from "../locale";
 
-/**
- * Get supported locale code from raw user input
- * Exported for testing purposes.
- *
- * @param lang
- * @private
- * @returns {string}
- */
 export function getSupportedLocale(lang: string): string {
   if (locales.indexOf(lang) > -1) {
     return lang;
@@ -24,6 +16,3 @@ export function getSupportedLocale(lang: string): string {
   }
   return locales.includes(lang) ? lang : "en";
 }
-
-//TODO : Get the locale of the component or look for closest one if needed.
-//lookup DOM utils
