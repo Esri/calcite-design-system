@@ -1054,8 +1054,7 @@ export class Combobox
   }
 
   renderInput(): VNode {
-    const { guid, active, disabled, placeholder, selectionMode, needsIcon, selectedItems, open } =
-      this;
+    const { guid, active, disabled, placeholder, selectionMode, selectedItems, open } = this;
     const single = selectionMode === "single";
     const selectedItem = selectedItems[0];
     const showLabel = !(open || active) && single && !!selectedItem;
@@ -1070,7 +1069,7 @@ export class Combobox
           <span
             class={{
               label: true,
-              "label--spaced": needsIcon
+              "label--icon": !!selectedItem?.icon
             }}
             key="label"
           >
@@ -1087,7 +1086,7 @@ export class Combobox
             "input--single": true,
             "input--transparent": this.activeChipIndex > -1,
             "input--hidden": showLabel,
-            "input--icon": single && needsIcon
+            "input--icon": !!this.placeholderIcon
           }}
           disabled={disabled}
           id={`${inputUidPrefix}${guid}`}
@@ -1143,16 +1142,22 @@ export class Combobox
   }
 
   renderIconStart(): VNode {
-    const { selectionMode, needsIcon, selectedItems, placeholderIcon } = this;
+    const { selectedItems, placeholderIcon, selectionMode } = this;
     const selectedItem = selectedItems[0];
+    const selectedIcon = selectedItem?.icon;
+    const singleSelectionMode = selectionMode === "single";
+
+    const iconAtStart =
+      !this.open && selectedItem
+        ? !!selectedIcon && singleSelectionMode
+        : !!this.placeholderIcon && (!selectedItem || singleSelectionMode);
+
     return (
-      selectionMode === "single" &&
-      needsIcon &&
-      (selectedItem?.icon || placeholderIcon) && (
+      iconAtStart && (
         <span class="icon-start">
           <calcite-icon
             class="selected-icon"
-            icon={selectedItem?.icon ?? placeholderIcon}
+            icon={!this.open && selectedItem ? selectedIcon : placeholderIcon}
             scale="s"
           />
         </span>
