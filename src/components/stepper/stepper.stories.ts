@@ -77,7 +77,7 @@ export const NoContent = (): string => html`
     <calcite-stepper-item
       item-title="${text("item-3-title", "Set member properties")}"
       item-subtitle="${text("item-3-subtitle", "")}"
-      active
+      selected
     >
     </calcite-stepper-item>
     <calcite-stepper-item
@@ -159,7 +159,7 @@ export const Rtl = (): string => html`
       <calcite-stepper-item
         item-title="${text("item-3-title", "Set member properties")}"
         item-subtitle="${text("item-3-subtitle", "")}"
-        active
+        selected
       >
         <calcite-notice active width="full"><div slot="message">Step 3 Content Goes Here</div></calcite-notice>
       </calcite-stepper-item>

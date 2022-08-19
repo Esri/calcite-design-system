@@ -563,11 +563,11 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent, Float
   };
 
   private updateSelectedItems(): void {
-    this.selectedItems = this.items.filter((item) => item.active);
+    this.selectedItems = this.items.filter((item) => item.selected);
   }
 
   private getMaxScrollerHeight(): number {
-    const { maxItems } = this;
+    const { maxItems, items } = this;
     let itemsToProcess = 0;
     let maxScrollerHeight = 0;
     let groupHeaderHeight: number;
@@ -591,7 +591,7 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent, Float
       }
     });
 
-    return maxScrollerHeight;
+    return items.length > maxItems ? maxScrollerHeight : 0;
   }
 
   private closeCalciteDropdown(focusTrigger = true) {
@@ -603,7 +603,7 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent, Float
   }
 
   private focusOnFirstActiveOrFirstItem = (): void => {
-    this.getFocusableElement(this.items.find((item) => item.active) || this.items[0]);
+    this.getFocusableElement(this.items.find((item) => item.selected) || this.items[0]);
   };
 
   private focusFirstItem() {
