@@ -390,7 +390,7 @@ export class ColorPicker implements InteractiveComponent {
 
   @State() dimensions = DIMENSIONS.m;
 
-  @State() mergedStrings: Partial<Strings>;
+  @State() mergedStrings: Strings;
 
   @State() savedColors: string[] = [];
 
@@ -793,7 +793,6 @@ export class ColorPicker implements InteractiveComponent {
       this.savedColors = JSON.parse(localStorage.getItem(storageKey));
     }
 
-    //fetch Bundle
     await this.fetchStrings();
 
     // overrides have precedence
@@ -1090,25 +1089,11 @@ export class ColorPicker implements InteractiveComponent {
 
   async fetchStrings(): Promise<void> {
     // TODO: these could split into reusable utils
-    // setup util for fetching locale
 
-    //fetch supported locales
-    const locale = this.getLocale();
-    // TODO: fetching could be moved to a util (similar to icon fetching)
+    const lang = this.el.lang || document.documentElement.lang || navigator.language;
+    const locale = getSupportedLocale(lang);
+
     this.builtInStrings = await fetchLocaleStrings(locale, "color-picker");
-  }
-
-  getLocale(): string {
-    // need to determine best place to grab locale from
-    //we can go by order ( locale of component > locale of closests > lang of document > navigator)
-    const lang = document.documentElement.lang || navigator.language;
-
-    return this.normalizeLocale(lang);
-  }
-
-  normalizeLocale(lang: string): string {
-    // TODO: implement – create reusable util similar to https://github.com/Esri/calcite-components/blob/b03bc153b49984b7d5574fda7fae40f52f8ce7c6/src/components/date-picker/utils.ts#L78
-    return getSupportedLocale(lang);
   }
 
   handleKeyDown(event: KeyboardEvent): void {

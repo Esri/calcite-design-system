@@ -8,7 +8,7 @@ import { locales } from "../locale";
  * @private
  * @returns {string}
  */
-export function getSupportedLocale(lang = ""): string {
+export function getSupportedLocale(lang: string): string {
   if (locales.indexOf(lang) > -1) {
     return lang;
   }
@@ -27,8 +27,3 @@ export function getSupportedLocale(lang = ""): string {
 
 //TODO : Get the locale of the component or look for closest one if needed.
 //lookup DOM utils
-
-// export function getLocale(selector: string): string {
-//   const el = document.querySelector(selector) as HTMLElement;
-//   const localeAttr = el.getProperty("locale");
-// }
