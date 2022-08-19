@@ -3,7 +3,6 @@ import {
   Element,
   Event,
   EventEmitter,
-  getAssetPath,
   h,
   Listen,
   Method,
@@ -32,6 +31,8 @@ import { clamp } from "../../utils/math";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { Strings } from "./assets/color-picker/t9n";
 import { isActivationKey } from "../../utils/key";
+import { fetchLocaleStrings } from "../../utils/localization/fetchLocaleData";
+import { getSupportedLocale } from "../../utils/localization/fetchLocale";
 
 const throttleFor60FpsInMs = 16;
 const defaultValue = normalizeHex(DEFAULT_COLOR.hex());
@@ -389,7 +390,7 @@ export class ColorPicker implements InteractiveComponent {
 
   @State() dimensions = DIMENSIONS.m;
 
-  @State() mergedStrings: Strings;
+  @State() mergedStrings: Partial<Strings>;
 
   @State() savedColors: string[] = [];
 
@@ -792,6 +793,9 @@ export class ColorPicker implements InteractiveComponent {
       this.savedColors = JSON.parse(localStorage.getItem(storageKey));
     }
 
+    //fetch Bundle
+    await this.fetchStrings();
+
     // overrides have precedence
     if (!this.stringOverrides) {
       const stringOverrides = {};
@@ -806,7 +810,6 @@ export class ColorPicker implements InteractiveComponent {
         });
     }
 
-    await this.fetchStrings();
     this.mergeStrings();
   }
 
@@ -1019,7 +1022,6 @@ export class ColorPicker implements InteractiveComponent {
 
   private renderChannelsTab = (channelMode: this["channelMode"]): VNode => {
     const { channelMode: activeChannelMode, channels, mergedStrings } = this;
-
     const active = channelMode === activeChannelMode;
     const isRgb = channelMode === "rgb";
     const channelLabels = isRgb
@@ -1088,21 +1090,25 @@ export class ColorPicker implements InteractiveComponent {
 
   async fetchStrings(): Promise<void> {
     // TODO: these could split into reusable utils
+    // setup util for fetching locale
+
+    //fetch supported locales
     const locale = this.getLocale();
     // TODO: fetching could be moved to a util (similar to icon fetching)
-    this.builtInStrings = await (
-      await fetch(getAssetPath(`./assets/color-picker/i18n/${locale}.json`))
-    ).json();
+    this.builtInStrings = await fetchLocaleStrings(locale, "color-picker");
   }
 
   getLocale(): string {
-    const lang = document.documentElement.lang || navigator.language; // need to determine best place to grab locale from
+    // need to determine best place to grab locale from
+    //we can go by order ( locale of component > locale of closests > lang of document > navigator)
+    const lang = document.documentElement.lang || navigator.language;
+
     return this.normalizeLocale(lang);
   }
 
-  normalizeLocale(locale: string): string {
+  normalizeLocale(lang: string): string {
     // TODO: implement – create reusable util similar to https://github.com/Esri/calcite-components/blob/b03bc153b49984b7d5574fda7fae40f52f8ce7c6/src/components/date-picker/utils.ts#L78
-    return locale;
+    return getSupportedLocale(lang);
   }
 
   handleKeyDown(event: KeyboardEvent): void {
