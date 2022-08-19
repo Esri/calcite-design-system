@@ -539,3 +539,12 @@ background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
     </calcite-shell-panel>
     <footer slot="footer">My Shell Footer</footer>
   </calcite-shell>`;
+
+export const contentBehind = (): string => html`<calcite-shell content-behind>
+  ${headerHTML}
+  <calcite-shell-panel slot="panel-start">${leadingPanelHTML}</calcite-shell-panel>
+  ${contentHTML}
+  <calcite-shell-center-row slot="center-row">${centerRowHTML}</calcite-shell-center-row>
+  <calcite-shell-panel slot="panel-end">${trailingPanelHTML}</calcite-shell-panel>
+  ${footerHTML}
+</calcite-shell>`;
