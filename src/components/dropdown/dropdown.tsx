@@ -567,7 +567,7 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent, Float
   }
 
   private getMaxScrollerHeight(): number {
-    const { maxItems } = this;
+    const { maxItems, items } = this;
     let itemsToProcess = 0;
     let maxScrollerHeight = 0;
     let groupHeaderHeight: number;
@@ -591,7 +591,7 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent, Float
       }
     });
 
-    return maxScrollerHeight;
+    return items.length > maxItems ? maxScrollerHeight : 0;
   }
 
   private closeCalciteDropdown(focusTrigger = true) {
