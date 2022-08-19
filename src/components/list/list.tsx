@@ -1,5 +1,5 @@
 import { Component, Element, h, VNode, Prop, Method, Listen } from "@stencil/core";
-import { CSS } from "./resources";
+import { CSS, SelectionAppearance } from "./resources";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { createObserver } from "../../utils/observers";
 import { getListItemChildren, updateListItemChildren } from "../list-item/utils";
@@ -38,6 +38,19 @@ export class List implements InteractiveComponent {
    * When true, content is waiting to be loaded. This state shows a busy indicator.
    */
   @Prop() loading = false;
+
+  /**
+   * Similar to standard radio buttons and checkboxes.
+   * When true, a user can select multiple `calcite-list-item`s at a time.
+   * When false, only a single `calcite-list-item` can be selected at a time,
+   * and a new selection will deselect previous selections.
+   */
+  @Prop() multiple = false;
+
+  /**
+   * @todo: naming
+   */
+  @Prop() selectionAppearance: SelectionAppearance = "icon";
 
   //--------------------------------------------------------------------------
   //

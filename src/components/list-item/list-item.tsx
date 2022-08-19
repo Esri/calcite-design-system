@@ -21,6 +21,7 @@ import {
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { getDepth, getListItemChildren, updateListItemChildren } from "./utils";
 import { isActivationKey } from "../../utils/key";
+import { SelectionAppearance } from "../list/resources";
 
 const focusMap = new Map<HTMLCalciteListElement, number>();
 
@@ -82,6 +83,17 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
    * @internal
    */
   @Prop() setPosition: number = null;
+
+  /**
+   * When true, the component is selected.
+   */
+  @Prop({ reflect: true, mutable: true }) selected = false;
+
+  /**
+   *
+   * @internal
+   */
+  @Prop() selectionAppearance: SelectionAppearance = "icon";
 
   //--------------------------------------------------------------------------
   //
@@ -278,7 +290,7 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
   }
 
   render(): VNode {
-    const { openable, open, level, setPosition, setSize, active, label } = this;
+    const { openable, open, level, setPosition, setSize, active, label, selected } = this;
     return (
       <Host>
         <tr
@@ -286,6 +298,7 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
           aria-label={label}
           aria-level={level}
           aria-posinset={setPosition}
+          aria-selected={selected}
           aria-setsize={setSize}
           class={CSS.container}
           onFocus={this.focusCellNull}
