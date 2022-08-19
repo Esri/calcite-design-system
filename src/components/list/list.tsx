@@ -1,4 +1,4 @@
-import { Component, Element, h, VNode, Prop, Method, Listen } from "@stencil/core";
+import { Component, Element, h, VNode, Prop, Method, Listen, Watch } from "@stencil/core";
 import { CSS, SelectionAppearance } from "./resources";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { createObserver } from "../../utils/observers";
@@ -51,6 +51,11 @@ export class List implements InteractiveComponent {
    * @todo: naming
    */
   @Prop() selectionAppearance: SelectionAppearance = "icon";
+
+  @Watch("selectionAppearance")
+  handleSelectionAppearanceChange(): void {
+    this.updateListItems();
+  }
 
   //--------------------------------------------------------------------------
   //
@@ -168,7 +173,10 @@ export class List implements InteractiveComponent {
   };
 
   updateListItems = (): void => {
-    this.listItems = this.queryListItems();
+    const { selectionAppearance } = this;
+    const items = this.queryListItems();
+    items.forEach((item) => (item.selectionAppearance = selectionAppearance));
+    this.listItems = items;
     this.setActiveListItem();
   };
 
