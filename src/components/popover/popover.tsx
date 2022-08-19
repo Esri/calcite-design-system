@@ -230,6 +230,8 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
 
   transitionEl: HTMLDivElement;
 
+  hasLoaded = false;
+
   // --------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -237,23 +239,24 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
   // --------------------------------------------------------------------------
 
   connectedCallback(): void {
-    connectFloatingUI(this, this.effectiveReferenceElement, this.el);
     this.setFilteredPlacements();
     connectOpenCloseComponent(this);
-    if (this.dismissible) {
-      this.handleDismissible(this.dismissible);
+    const closable = this.closable || this.dismissible;
+    if (closable) {
+      this.handleDismissible(closable);
     }
-    if (this.closable) {
-      this.handleClosable(this.closable);
+    if (closable) {
+      this.handleClosable(closable);
     }
-  }
-
-  componentWillLoad(): void {
-    this.setUpReferenceElement();
+    this.setUpReferenceElement(this.hasLoaded);
   }
 
   componentDidLoad(): void {
+    if (this.referenceElement && !this.effectiveReferenceElement) {
+      this.setUpReferenceElement();
+    }
     this.reposition();
+    this.hasLoaded = true;
   }
 
   disconnectedCallback(): void {
@@ -363,13 +366,13 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
       : null;
   };
 
-  setUpReferenceElement = (): void => {
+  setUpReferenceElement = (warn = true): void => {
     this.removeReferences();
     this.effectiveReferenceElement = this.getReferenceElement();
     connectFloatingUI(this, this.effectiveReferenceElement, this.el);
 
     const { el, referenceElement, effectiveReferenceElement } = this;
-    if (referenceElement && !effectiveReferenceElement) {
+    if (warn && referenceElement && !effectiveReferenceElement) {
       console.warn(`${el.tagName}: reference-element id "${referenceElement}" was not found.`, {
         el
       });

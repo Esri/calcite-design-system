@@ -236,9 +236,7 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent, Float
             ref={this.setScrollerAndTransitionEl}
             role="menu"
           >
-            <div hidden={!open}>
-              <slot onSlotchange={this.updateGroups} />
-            </div>
+            <slot onSlotchange={this.updateGroups} />
           </div>
         </div>
       </Host>
@@ -483,8 +481,8 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent, Float
   };
 
   setMaxScrollerHeight = (): void => {
-    const { scrollerEl, open } = this;
-    if (!scrollerEl || !open) {
+    const { scrollerEl } = this;
+    if (!scrollerEl) {
       return;
     }
 
@@ -567,7 +565,7 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent, Float
   }
 
   private getMaxScrollerHeight(): number {
-    const { maxItems } = this;
+    const { maxItems, items } = this;
     let itemsToProcess = 0;
     let maxScrollerHeight = 0;
     let groupHeaderHeight: number;
@@ -591,7 +589,7 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent, Float
       }
     });
 
-    return maxScrollerHeight;
+    return items.length > maxItems ? maxScrollerHeight : 0;
   }
 
   private closeCalciteDropdown(focusTrigger = true) {
