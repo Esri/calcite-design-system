@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, renders, defaults } from "../../tests/commonTests";
+import { accessible, renders, defaults, hidden } from "../../tests/commonTests";
 import { GlobalTestProps } from "../../tests/utils";
 import { html } from "../../../support/formatting";
 import { CSS } from "../tree-item/resources";
@@ -7,6 +7,8 @@ import { TreeSelectionMode } from "./interfaces";
 
 describe("calcite-tree", () => {
   it("renders", () => renders("calcite-tree", { display: "block" }));
+
+  it("honors hidden attribute", async () => hidden("calcite-tree"));
 
   it("is accessible", async () => accessible(`<calcite-tree></calcite-tree>`));
 
@@ -369,6 +371,44 @@ describe("calcite-tree", () => {
           `calcite-tree-item >>> .${CSS.nodeContainer} .${CSS.checkboxLabel} .${CSS.checkbox}`
         );
         expect(checkbox).not.toBeNull();
+      });
+    });
+
+    describe(`when tree-item selection-mode is ${TreeSelectionMode.None}`, () => {
+      it("allows selecting items without a selection", async () => {
+        const page = await newE2EPage();
+        await page.setContent(html`
+          <calcite-tree selection-mode=${TreeSelectionMode.None}>
+            <calcite-tree-item id="1">1</calcite-tree-item>
+            <calcite-tree-item id="2">2</calcite-tree-item>
+          </calcite-tree>
+        `);
+
+        type TestWindow = GlobalTestProps<{
+          selectedIds: string[];
+        }>;
+
+        await page.evaluateHandle(() =>
+          document.addEventListener("calciteTreeSelect", ({ detail }: CustomEvent) => {
+            (window as TestWindow).selectedIds = detail.selected.map((item) => item.id);
+          })
+        );
+
+        const getSelectedIds = async (): Promise<any> => page.evaluate(() => (window as TestWindow).selectedIds);
+
+        const tree = await page.find(`calcite-tree`);
+        const selectEventSpy = await tree.spyOnEvent("calciteTreeSelect");
+        const [item1, item2] = await page.findAll(`calcite-tree-item`);
+
+        await item1.click();
+        expect(selectEventSpy).toHaveReceivedEventTimes(1);
+        expect(await getSelectedIds()).toEqual(["1"]);
+        expect(await page.findAll("calcite-tree-item[selected]")).toHaveLength(0);
+
+        await item2.click();
+        expect(selectEventSpy).toHaveReceivedEventTimes(2);
+        expect(await getSelectedIds()).toEqual(["2"]);
+        expect(await page.findAll("calcite-tree-item[selected]")).toHaveLength(0);
       });
     });
   });

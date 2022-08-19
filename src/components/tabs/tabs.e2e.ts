@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, renders, defaults } from "../../tests/commonTests";
+import { accessible, renders, defaults, hidden } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 
 describe("calcite-tabs", () => {
@@ -18,6 +18,8 @@ describe("calcite-tabs", () => {
   const tabsSnippet = `<calcite-tabs>${tabsContent}</calcite-tabs>`;
 
   it("renders", async () => renders(tabsSnippet, { display: "flex" }));
+
+  it("honors hidden attribute", async () => hidden("calcite-tabs"));
 
   it("has defaults", async () =>
     defaults("calcite-tabs", [

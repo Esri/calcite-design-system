@@ -6,14 +6,15 @@ The tab-title is the link that switches between panes in [calcite-tabs](../tabs)
 
 ## Properties
 
-| Property      | Attribute       | Description                                                                                              | Type                         | Default     |
-| ------------- | --------------- | -------------------------------------------------------------------------------------------------------- | ---------------------------- | ----------- |
-| `active`      | `active`        | Show this tab title as selected                                                                          | `boolean`                    | `false`     |
-| `disabled`    | `disabled`      | Disable this tab title                                                                                   | `boolean`                    | `false`     |
-| `iconEnd`     | `icon-end`      | optionally pass an icon to display at the end of a tab title - accepts calcite ui icon names             | `string`                     | `undefined` |
-| `iconFlipRtl` | `icon-flip-rtl` | flip the icon(s) in rtl                                                                                  | `"both" \| "end" \| "start"` | `undefined` |
-| `iconStart`   | `icon-start`    | optionally pass an icon to display at the start of a tab title - accepts calcite ui icon names           | `string`                     | `undefined` |
-| `tab`         | `tab`           | Optionally include a unique name for the tab title, be sure to also set this name on the associated tab. | `string`                     | `undefined` |
+| Property      | Attribute       | Description                                                                                                    | Type                         | Default     |
+| ------------- | --------------- | -------------------------------------------------------------------------------------------------------------- | ---------------------------- | ----------- |
+| `active`      | `active`        | <span style="color:red">**[DEPRECATED]**</span> Use selected instead.<br/><br/>Show this tab title as selected | `boolean`                    | `false`     |
+| `disabled`    | `disabled`      | Disable this tab title                                                                                         | `boolean`                    | `false`     |
+| `iconEnd`     | `icon-end`      | optionally pass an icon to display at the end of a tab title - accepts calcite ui icon names                   | `string`                     | `undefined` |
+| `iconFlipRtl` | `icon-flip-rtl` | flip the icon(s) in rtl                                                                                        | `"both" \| "end" \| "start"` | `undefined` |
+| `iconStart`   | `icon-start`    | optionally pass an icon to display at the start of a tab title - accepts calcite ui icon names                 | `string`                     | `undefined` |
+| `selected`    | `selected`      | When true, display this tab title as selected.                                                                 | `boolean`                    | `false`     |
+| `tab`         | `tab`           | Optionally include a unique name for the tab title, be sure to also set this name on the associated tab.       | `string`                     | `undefined` |
 
 ## Events
 

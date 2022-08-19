@@ -35,7 +35,7 @@ export class RadioGroupItem {
   //
   //--------------------------------------------------------------------------
 
-  /** Indicates whether the control is checked. */
+  /** When true, the component is checked. */
   @Prop({ reflect: true, mutable: true }) checked = false;
 
   @Watch("checked")
@@ -43,17 +43,17 @@ export class RadioGroupItem {
     this.calciteInternalRadioGroupItemChange.emit();
   }
 
-  /** optionally pass an icon to display - accepts Calcite UI icon names  */
+  /** Specifies an icon to display - accepts Calcite UI icon names. */
   @Prop({ reflect: true }) icon?: string;
 
-  /** flip the icon in rtl */
+  /** When true, the icon will be flipped when the element direction is right-to-left ("rtl"). */
   @Prop({ reflect: true }) iconFlipRtl = false;
 
-  /** optionally used with icon, select where to position the icon */
+  /** When used with "icon", specifies its position. */
   @Prop({ reflect: true }) iconPosition?: Position = "start";
 
   /**
-   * The control's value.
+   * The component's value.
    */
   @Prop({ mutable: true })
   value: any | null;

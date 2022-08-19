@@ -24,8 +24,7 @@
     items-stretch
     justify-end;
   &.sticky-pos {
-    @apply sticky top-0;
-    z-index: 1;
+    @apply sticky top-0 z-default;
   }
   @apply shadow-border-bottom;
 }

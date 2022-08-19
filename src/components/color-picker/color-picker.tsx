@@ -31,6 +31,7 @@ import { throttle } from "lodash-es";
 import { clamp } from "../../utils/math";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { Strings } from "./assets/color-picker/t9n";
+import { isActivationKey } from "../../utils/key";
 
 const throttleFor60FpsInMs = 16;
 const defaultValue = normalizeHex(DEFAULT_COLOR.hex());
@@ -429,7 +430,7 @@ export class ColorPicker implements InteractiveComponent {
   };
 
   private handleColorFieldScopeKeyDown = (event: KeyboardEvent): void => {
-    const key = event.key;
+    const { key } = event;
     const arrowKeyToXYOffset = {
       ArrowUp: { x: 0, y: -10 },
       ArrowRight: { x: 10, y: 0 },
@@ -450,7 +451,7 @@ export class ColorPicker implements InteractiveComponent {
 
   private handleHueScopeKeyDown = (event: KeyboardEvent): void => {
     const modifier = event.shiftKey ? 10 : 1;
-    const key = event.key;
+    const { key } = event;
     const arrowKeyToXOffset = {
       ArrowUp: 1,
       ArrowRight: 1,
@@ -520,7 +521,7 @@ export class ColorPicker implements InteractiveComponent {
   @Listen("keyup", { capture: true })
   protected handleChannelKeyUpOrDown(event: KeyboardEvent): void {
     this.shiftKeyChannelAdjustment = 0;
-    const key = event.key;
+    const { key } = event;
 
     if (
       (key !== "ArrowUp" && key !== "ArrowDown") ||
@@ -567,9 +568,8 @@ export class ColorPicker implements InteractiveComponent {
   };
 
   private handleSavedColorKeyDown = (event: KeyboardEvent): void => {
-    if (event.key === " " || event.key === "Enter") {
+    if (isActivationKey(event.key)) {
       event.preventDefault();
-      event.stopPropagation();
       this.handleSavedColorSelect(event);
     }
   };

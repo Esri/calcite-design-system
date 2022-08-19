@@ -160,7 +160,12 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
     this.setExpandedAttr();
   }
 
-  /** Describes the positioning type to use for the overlaid content. If the element is in a fixed container, use the "fixed" value. */
+  /**
+   * Determines the type of positioning to use for the overlaid content.
+   *
+   * Using the "absolute" value will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout. The "fixed" value should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is "fixed".
+   *
+   */
   @Prop() overlayPositioning: OverlayPositioning = "absolute";
 
   @Watch("overlayPositioning")
@@ -225,6 +230,8 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
 
   transitionEl: HTMLDivElement;
 
+  hasLoaded = false;
+
   // --------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -232,23 +239,24 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
   // --------------------------------------------------------------------------
 
   connectedCallback(): void {
-    connectFloatingUI(this, this.effectiveReferenceElement, this.el);
     this.setFilteredPlacements();
     connectOpenCloseComponent(this);
-    if (this.dismissible) {
-      this.handleDismissible(this.dismissible);
+    const closable = this.closable || this.dismissible;
+    if (closable) {
+      this.handleDismissible(closable);
     }
-    if (this.closable) {
-      this.handleClosable(this.closable);
+    if (closable) {
+      this.handleClosable(closable);
     }
-  }
-
-  componentWillLoad(): void {
-    this.setUpReferenceElement();
+    this.setUpReferenceElement(this.hasLoaded);
   }
 
   componentDidLoad(): void {
+    if (this.referenceElement && !this.effectiveReferenceElement) {
+      this.setUpReferenceElement();
+    }
     this.reposition();
+    this.hasLoaded = true;
   }
 
   disconnectedCallback(): void {
@@ -358,13 +366,13 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
       : null;
   };
 
-  setUpReferenceElement = (): void => {
+  setUpReferenceElement = (warn = true): void => {
     this.removeReferences();
     this.effectiveReferenceElement = this.getReferenceElement();
     connectFloatingUI(this, this.effectiveReferenceElement, this.el);
 
     const { el, referenceElement, effectiveReferenceElement } = this;
-    if (referenceElement && !effectiveReferenceElement) {
+    if (warn && referenceElement && !effectiveReferenceElement) {
       console.warn(`${el.tagName}: reference-element id "${referenceElement}" was not found.`, {
         el
       });

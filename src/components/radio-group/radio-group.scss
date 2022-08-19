@@ -25,9 +25,4 @@
   @apply justify-start;
 }
 
-::slotted(calcite-radio-group-item[checked]),
-::slotted(calcite-radio-group-item:focus) {
-  @apply z-0;
-}
-
 @include hidden-form-input();

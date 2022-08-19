@@ -1,7 +1,7 @@
 import { ThemeClass, ThemeName } from "../components/interfaces";
 
-const autoTheme = "calcite-theme-auto";
-const darkTheme = "calcite-theme-dark";
+export const autoTheme = "calcite-theme-auto";
+export const darkTheme = "calcite-theme-dark";
 const lightTheme = "calcite-theme-light";
 
 interface Theme {
