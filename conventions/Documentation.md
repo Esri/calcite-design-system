@@ -17,4 +17,4 @@ For additional documentation, create a [usage folder](https://github.com/Esri/ca
 There are two documentation sources for displaying deprecations, depending on the API reference. In both cases a deprecated chip will be displayed within the component's API reference section.
 
 1. The JSDoc `@deprecated` tag is used for JavaScript properties, events, and methods in the `<component-name>.tsx` file. Notes can accompany the JSDoc tag, such as "use `<property>` instead".
-2. The `[Deprecated]` text is used for slots (`@Slots`) in the `<component-name>.tsx` file and CSS custom properties in the `<component-name>.scss` file.
+2. The `[Deprecated]` text is used for slots (`@slots`) in the `<component-name>.tsx` file and CSS custom properties in the `<component-name>.scss` file.
