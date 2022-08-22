@@ -1197,7 +1197,6 @@ export class Combobox
           onKeyDown={this.keydownHandler}
           ref={this.setReferenceEl}
           role="combobox"
-          tabindex="0"
         >
           <div class="grid-input">
             {this.renderIconStart()}
