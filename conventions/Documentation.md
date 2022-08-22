@@ -2,7 +2,7 @@
 
 Calcite Components uses [Storybook](https://storybook.js.org/) to provide an interactive showcase of components with accompanying documentation.
 
-For each main component (e.g., one that can be used by itself), there should be a `<component-name>.stories.ts` file in its component folder.
+For each main component (i.e., one that can be used by itself), there should be a `<component-name>.stories.ts` file in its component folder.
 
 Each story should provide access to relevant [knobs](https://github.com/storybookjs/storybook/tree/next/addons/knobs) so users can test out different properties.
 
