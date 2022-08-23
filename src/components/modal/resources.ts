@@ -1,5 +1,6 @@
 export const CSS = {
   modal: "modal",
+  modalOpen: "modal--open",
   title: "title",
   header: "header",
   footer: "footer",
