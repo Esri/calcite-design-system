@@ -112,6 +112,7 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
   @Watch("flipPlacements")
   flipPlacementsHandler(): void {
     this.setFilteredPlacements();
+    this.reposition();
   }
 
   /**
@@ -298,7 +299,7 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
       placement,
       overlayPositioning,
       disableFlip,
-      flipPlacements,
+      filteredFlipPlacements,
       offsetDistance,
       offsetSkidding,
       arrowEl
@@ -310,7 +311,7 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
       overlayPositioning,
       placement,
       disableFlip,
-      flipPlacements,
+      flipPlacements: filteredFlipPlacements,
       offsetDistance,
       offsetSkidding,
       arrowEl,
