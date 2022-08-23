@@ -14,6 +14,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ### Bug Fixes
 
 - **combobox:** no longer has left padding when placeholder-icon is empty ([#5073](https://github.com/Esri/calcite-components/issues/5073)) ([f8cf9a0](https://github.com/Esri/calcite-components/commit/f8cf9a0ee3b89bf8bd783384124ea9272fe6a6ef))
+- **combobox, dropdown, input-date-picker, popover:** Correctly honor flipPlacements property. ([#5170](https://github.com/Esri/calcite-components/issues/5170)) ([d99d917](https://github.com/Esri/calcite-components/commit/d99d917d36ab6e5a33b2f6bbe1486ed55f172f2a))
 - **dropdown:** Correct placement when opening ([#5169](https://github.com/Esri/calcite-components/issues/5169)) ([3472392](https://github.com/Esri/calcite-components/commit/3472392e8790afee66e3f65127cc2825d924069a)), closes [#5102](https://github.com/Esri/calcite-components/issues/5102)
 - **dropdown:** Fix placement typings ([#5165](https://github.com/Esri/calcite-components/issues/5165)) ([f5a72e0](https://github.com/Esri/calcite-components/commit/f5a72e06626d63a11133b777fe9201341b6c3037)), closes [#5163](https://github.com/Esri/calcite-components/issues/5163)
 - **dropdown:** Remove scrolling when max-items >= number of dropdown items ([#5188](https://github.com/Esri/calcite-components/issues/5188)) ([d839de7](https://github.com/Esri/calcite-components/commit/d839de799305da9073a8a1157cc34f85b402b218)), closes [#4880](https://github.com/Esri/calcite-components/issues/4880)

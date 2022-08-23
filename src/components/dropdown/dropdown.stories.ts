@@ -526,3 +526,29 @@ export const AlignedCenterRTL = (): string => html`
     </calcite-dropdown>
   </div>
 `;
+
+export const flipPlacements = (): string => html`
+  <style>
+    .my-dropdown {
+      margin-top: 50px;
+    }
+  </style>
+  <div style="height: 100px; overflow:scroll;">
+    <calcite-dropdown class="my-dropdown" open>
+      <calcite-button slot="dropdown-trigger">Open Dropdown</calcite-button>
+      <calcite-dropdown-group group-title="Sort by">
+        <calcite-dropdown-item>Relevance</calcite-dropdown-item>
+        <calcite-dropdown-item active>Date modified</calcite-dropdown-item>
+        <calcite-dropdown-item>Title</calcite-dropdown-item>
+      </calcite-dropdown-group>
+      <calcite-dropdown-group group-title="Sort by">
+        <calcite-dropdown-item>Relevance</calcite-dropdown-item>
+        <calcite-dropdown-item active>Date modified</calcite-dropdown-item>
+        <calcite-dropdown-item>Title</calcite-dropdown-item>
+      </calcite-dropdown-group>
+    </calcite-dropdown>
+  </div>
+  <script>
+    document.querySelector(".my-dropdown").flipPlacements = ["right"];
+  </script>
+`;
