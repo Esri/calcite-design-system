@@ -1288,20 +1288,4 @@ describe("calcite-combobox", () => {
 
     expect(inputEl).toHaveClass("icon-start");
   });
-
-  it.only("should focus input when tabbed", async () => {
-    const page = await newE2EPage();
-    await page.setContent(html` <calcite-combobox>
-      <calcite-combobox-item value="Bluetooth" text-label="Bluetooth"> </calcite-combobox-item>
-    </calcite-combobox>`);
-
-    await page.keyboard.press("Tab");
-    await page.waitForChanges();
-
-    expect(
-      await page.evaluateHandle(async () => {
-        document.activeElement.matches(".input");
-      })
-    ).toBe(true);
-  });
 });
