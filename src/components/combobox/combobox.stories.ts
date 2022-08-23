@@ -4,7 +4,6 @@ import { themesDarkDefault } from "../../../.storybook/utils";
 import readme1 from "./readme.md";
 import readme2 from "../combobox-item/readme.md";
 import { html } from "../../../support/formatting";
-import { Keys } from "screener-storybook/src/screener";
 
 export default {
   title: "Components/Controls/Combobox",
@@ -396,17 +395,6 @@ export const OptionListMinWidthMatchesInputWhenOverlayPositioningIsFixed = (): s
   </div>
 `;
 
-export const FocusInput = stepStory(
-  (): string => html`
-    <div style="position: absolute; bottom: 10px; left: 10px;">
-      <calcite-combobox>
-        <calcite-combobox-item value="Trees" text-label="Trees"> </calcite-combobox-item>
-      </calcite-combobox>
-    </div>
-  `,
-  createSteps("calcite-combobox").keys("body", Keys.tab).snapshot("Focus")
-);
-
 export const flipPlacements = (): string => html`
   <style>
     .my-combobox {
@@ -449,4 +437,3 @@ export const flipPlacements = (): string => html`
     document.querySelector(".my-combobox").flipPlacements = ["right"];
   </script>
 `;
-
