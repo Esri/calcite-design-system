@@ -329,38 +329,60 @@ export class Tree {
       parent = parent.parentElement.closest<HTMLCalciteTreeItemElement>("calcite-tree-item");
     }
 
-    item.selected = !item.selected;
-    item.indeterminate = false;
+    const childItems = Array.from(
+      item.querySelectorAll<HTMLCalciteTreeItemElement>("calcite-tree-item:not([disabled])")
+    );
+    const childItemsWithNoChildren = childItems.filter((child) => !child.hasChildren);
+    const childItemsWithChildren = childItems.filter((child) => child.hasChildren);
 
-    const children = item.querySelectorAll<HTMLCalciteTreeItemElement>("calcite-tree-item");
+    const futureSelected = item.hasChildren
+      ? !(item.selected || item.indeterminate)
+      : !item.selected;
 
-    if (children.length) {
-      children.forEach((el) => {
-        if (el.closest("calcite-tree-item[disabled]")) {
-          if (item.selected && !el.selected) {
-            item.indeterminate = true;
-          }
-          return;
-        }
-        el.selected = item.selected;
-        el.indeterminate = false;
-      });
+    childItemsWithNoChildren.forEach((el) => {
+      el.selected = futureSelected;
+      el.indeterminate = false;
+    });
+
+    function updateItemState(
+      childItems: HTMLCalciteTreeItemElement[],
+      item: HTMLCalciteTreeItemElement
+    ): void {
+      const selected = childItems.filter((child) => child.selected);
+      const unselected = childItems.filter((child) => !child.selected);
+
+      item.selected = selected.length === childItems.length;
+      item.indeterminate = selected.length > 0 && unselected.length > 0;
     }
 
-    if (ancestors) {
-      ancestors.forEach((ancestor) => {
-        const descendants = nodeListToArray(ancestor.querySelectorAll("calcite-tree-item"));
-        const activeDescendants = descendants.filter((el) => el.selected);
-        if (activeDescendants.length === 0) {
-          ancestor.selected = false;
-          ancestor.indeterminate = false;
-          return;
-        }
-        const indeterminate = activeDescendants.length < descendants.length;
-        ancestor.indeterminate = indeterminate;
-        ancestor.selected = !indeterminate;
-      });
+    childItemsWithChildren.forEach((el) => {
+      const directChildItems = Array.from(
+        el.querySelectorAll<HTMLCalciteTreeItemElement>(":scope > calcite-tree > calcite-tree-item")
+      );
+
+      updateItemState(directChildItems, el);
+    });
+
+    if (item.hasChildren) {
+      updateItemState(childItems, item);
+    } else {
+      item.selected = futureSelected;
+      item.indeterminate = false;
     }
+
+    ancestors.forEach((ancestor) => {
+      const descendants = nodeListToArray(ancestor.querySelectorAll("calcite-tree-item"));
+      const activeDescendants = descendants.filter((el) => el.selected);
+      if (activeDescendants.length === 0) {
+        ancestor.selected = false;
+        ancestor.indeterminate = false;
+        return;
+      }
+
+      const indeterminate = activeDescendants.length < descendants.length;
+      ancestor.indeterminate = indeterminate;
+      ancestor.selected = !indeterminate;
+    });
 
     this.calciteTreeSelect.emit({
       selected: (
