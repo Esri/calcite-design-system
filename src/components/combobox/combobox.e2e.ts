@@ -1,4 +1,3 @@
-/* eslint-disable jest/no-focused-tests */
 import { E2EPage, E2EElement, newE2EPage } from "@stencil/core/testing";
 import {
   renders,
