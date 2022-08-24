@@ -31,6 +31,12 @@ import {
   getTimeParts
 } from "../../utils/time";
 import { CSS, TEXT } from "./resources";
+import {
+  GlobalAttrComponent,
+  unwatchGlobalAttributes,
+  watchGlobalAttributes
+} from "../../utils/globalAttributes";
+import { getLang, LangComponent } from "../../utils/locale";
 
 function capitalize(str: string): string {
   return str.charAt(0).toUpperCase() + str.slice(1);
@@ -41,7 +47,7 @@ function capitalize(str: string): string {
   styleUrl: "time-picker.scss",
   shadow: true
 })
-export class TimePicker {
+export class TimePicker implements GlobalAttrComponent, LangComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -144,9 +150,10 @@ export class TimePicker {
    * BCP 47 language tag for desired language and country format
    *
    * @internal
+   * @deprecated set the global `lang` attribute on the element instead.
+   * @mdn [lang](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/lang)
    */
-  @Prop({ attribute: "lang", mutable: true }) locale: string =
-    document.documentElement.lang || navigator.language || "en";
+  @Prop({ mutable: true }) locale: string;
 
   @Watch("locale")
   localeWatcher(newLocale: string): void {
@@ -191,6 +198,8 @@ export class TimePicker {
   //  State
   //
   // --------------------------------------------------------------------------
+
+  @State() globalAttributes = {};
 
   @State() hour: string;
 
@@ -618,6 +627,7 @@ export class TimePicker {
   private setValue = (value: string, emit = true): void => {
     if (isValidTime(value)) {
       const { hour, minute, second } = parseTimeString(value);
+      const lang = getLang(this);
       const {
         localizedHour,
         localizedHourSuffix,
@@ -626,7 +636,7 @@ export class TimePicker {
         localizedSecond,
         localizedSecondSuffix,
         localizedMeridiem
-      } = localizeTimeStringToParts(value, this.locale);
+      } = localizeTimeStringToParts(value, lang);
       this.localizedHour = localizedHour;
       this.localizedHourSuffix = localizedHourSuffix;
       this.localizedMinute = localizedMinute;
@@ -639,7 +649,7 @@ export class TimePicker {
       if (localizedMeridiem) {
         this.localizedMeridiem = localizedMeridiem;
         this.meridiem = getMeridiem(this.hour);
-        const formatParts = getTimeParts(value, this.locale);
+        const formatParts = getTimeParts(value, lang);
         this.meridiemOrder = this.getMeridiemOrder(formatParts);
       }
     } else {
@@ -722,6 +732,11 @@ export class TimePicker {
   connectedCallback() {
     this.setValue(this.value, false);
     this.hourCycle = getLocaleHourCycle(this.locale);
+    watchGlobalAttributes(this, ["lang"]);
+  }
+
+  disconnectedCallback(): void {
+    unwatchGlobalAttributes(this);
   }
 
   // --------------------------------------------------------------------------

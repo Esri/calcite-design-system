@@ -54,6 +54,12 @@ import {
   connectOpenCloseComponent,
   disconnectOpenCloseComponent
 } from "../../utils/openCloseComponent";
+import {
+  GlobalAttrComponent,
+  unwatchGlobalAttributes,
+  watchGlobalAttributes
+} from "../../utils/globalAttributes";
+import { getLang, LangComponent } from "../../utils/locale";
 
 @Component({
   tag: "calcite-input-date-picker",
@@ -64,9 +70,11 @@ export class InputDatePicker
   implements
     LabelableComponent,
     FormComponent,
+    GlobalAttrComponent,
     InteractiveComponent,
     OpenCloseComponent,
-    FloatingUIComponent
+    FloatingUIComponent,
+    LangComponent
 {
   //--------------------------------------------------------------------------
   //
@@ -232,8 +240,13 @@ export class InputDatePicker
    */
   @Prop() intlYear?: string = TEXT.year;
 
-  /** BCP 47 language tag for desired language and country format */
-  @Prop() locale?: string = document.documentElement.lang || "en";
+  /**
+   * BCP 47 language tag for desired language and country format
+   *
+   * @deprecated set the global `lang` attribute on the element instead.
+   * @mdn [lang](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/lang)
+   */
+  @Prop() locale?: string;
 
   /** specify the scale of the date picker */
   @Prop({ reflect: true }) scale: "s" | "m" | "l" = "m";
@@ -413,6 +426,7 @@ export class InputDatePicker
     connectLabel(this);
     connectForm(this);
     connectOpenCloseComponent(this);
+    watchGlobalAttributes(this, ["lang"]);
     this.setFilteredPlacements();
     this.reposition();
   }
@@ -432,6 +446,7 @@ export class InputDatePicker
     disconnectForm(this);
     disconnectFloatingUI(this, this.referenceEl, this.floatingEl);
     disconnectOpenCloseComponent(this);
+    unwatchGlobalAttributes(this);
   }
 
   componentDidRender(): void {
@@ -448,8 +463,9 @@ export class InputDatePicker
     const endDate = this.range
       ? dateFromRange(this.endAsDate, this.minAsDate, this.maxAsDate)
       : null;
-    const formattedEndDate = endDate ? endDate.toLocaleDateString(this.locale) : "";
-    const formattedDate = date ? date.toLocaleDateString(this.locale) : "";
+    const lang = getLang(this);
+    const formattedEndDate = endDate ? endDate.toLocaleDateString(lang) : "";
+    const formattedDate = date ? date.toLocaleDateString(lang) : "";
 
     return (
       <Host onBlur={this.deactivate} onKeyDown={this.keyDownHandler} role="application">
@@ -501,7 +517,7 @@ export class InputDatePicker
                   intlNextMonth={this.intlNextMonth}
                   intlPrevMonth={this.intlPrevMonth}
                   intlYear={this.intlYear}
-                  locale={this.locale}
+                  locale={lang}
                   max={this.max}
                   maxAsDate={this.maxAsDate}
                   min={this.min}
@@ -572,6 +588,8 @@ export class InputDatePicker
   defaultValue: InputDatePicker["value"];
 
   @State() focusedInput: "start" | "end" = "start";
+
+  @State() globalAttributes = {};
 
   @State() private localeData: DateLocaleData;
 
@@ -717,14 +735,14 @@ export class InputDatePicker
     this.endAsDate = dateFromISO(end);
   }
 
+  @Watch("globalAttributes")
   @Watch("locale")
   private async loadLocaleData(): Promise<void> {
     if (!Build.isBrowser) {
       return;
     }
 
-    const { locale } = this;
-    this.localeData = await getLocaleData(locale);
+    this.localeData = await getLocaleData(getLang(this));
   }
 
   private clearCurrentValue(): void {
@@ -807,17 +825,18 @@ export class InputDatePicker
    * @param target
    */
   private blur(target: HTMLCalciteInputElement): void {
-    const { locale, focusedInput, endAsDate, range, startAsDate, valueAsDate } = this;
+    const { focusedInput, endAsDate, range, startAsDate, valueAsDate } = this;
+    const lang = getLang(this);
     const date = this.getDateFromInput(target.value);
     if (!date) {
       if (!range && valueAsDate) {
         target.value = Array.isArray(valueAsDate)
-          ? valueAsDate[focusedInput === "end" ? 1 : 0].toLocaleDateString(locale)
-          : valueAsDate.toLocaleDateString(locale);
+          ? valueAsDate[focusedInput === "end" ? 1 : 0].toLocaleDateString(lang)
+          : valueAsDate.toLocaleDateString(lang);
       } else if (focusedInput === "start" && startAsDate) {
-        target.value = startAsDate.toLocaleDateString(locale);
+        target.value = startAsDate.toLocaleDateString(lang);
       } else if (focusedInput === "end" && endAsDate) {
-        target.value = endAsDate.toLocaleDateString(locale);
+        target.value = endAsDate.toLocaleDateString(lang);
       }
     }
   }

@@ -25,13 +25,17 @@ import {
   submitForm
 } from "../../utils/form";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import { GlobalAttrComponent } from "../../utils/globalAttributes";
+import { getLang } from "../../utils/locale";
 
 @Component({
   tag: "calcite-input-time-picker",
   styleUrl: "input-time-picker.scss",
   shadow: true
 })
-export class InputTimePicker implements LabelableComponent, FormComponent, InteractiveComponent {
+export class InputTimePicker
+  implements LabelableComponent, FormComponent, InteractiveComponent, GlobalAttrComponent
+{
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -117,9 +121,10 @@ export class InputTimePicker implements LabelableComponent, FormComponent, Inter
    * BCP 47 language tag for desired language and country format
    *
    * @internal
+   * @deprecated set the global `lang` attribute on the element instead.
+   * @mdn [lang](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/lang)
    */
-  @Prop({ attribute: "lang", mutable: true }) locale: string =
-    document.documentElement.lang || navigator.language || "en";
+  @Prop({ mutable: true }) locale: string;
 
   @Watch("locale")
   localeWatcher(newLocale: string): void {
@@ -191,6 +196,8 @@ export class InputTimePicker implements LabelableComponent, FormComponent, Inter
   //
   //--------------------------------------------------------------------------
 
+  @State() globalAttributes = {};
+
   @State() localizedValue: string;
 
   //--------------------------------------------------------------------------
@@ -213,14 +220,15 @@ export class InputTimePicker implements LabelableComponent, FormComponent, Inter
   private calciteInternalInputBlurHandler = (): void => {
     this.active = false;
     const shouldIncludeSeconds = this.shouldIncludeSeconds();
+    const lang = getLang(this);
 
     const localizedInputValue = localizeTimeString(
       this.calciteInputEl.value,
-      this.locale,
+      lang,
       shouldIncludeSeconds
     );
     this.setInputValue(
-      localizedInputValue || localizeTimeString(this.value, this.locale, shouldIncludeSeconds)
+      localizedInputValue || localizeTimeString(this.value, lang, shouldIncludeSeconds)
     );
   };
 
@@ -348,7 +356,7 @@ export class InputTimePicker implements LabelableComponent, FormComponent, Inter
     const newValue = formatTimeString(value);
     const newLocalizedValue = localizeTimeString(
       newValue,
-      this.locale,
+      getLang(this),
       this.shouldIncludeSeconds()
     );
     this.internalValueChange = origin !== "external" && origin !== "loading";
@@ -471,7 +479,7 @@ export class InputTimePicker implements LabelableComponent, FormComponent, Inter
             intlSecond={this.intlSecond}
             intlSecondDown={this.intlSecondDown}
             intlSecondUp={this.intlSecondUp}
-            lang={this.locale}
+            lang={getLang(this)}
             onCalciteInternalTimePickerChange={this.timePickerChangeHandler}
             ref={this.setCalciteTimePickerEl}
             scale={this.scale}

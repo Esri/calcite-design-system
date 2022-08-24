@@ -16,7 +16,7 @@ import {
   unwatchGlobalAttributes,
   watchGlobalAttributes
 } from "../../utils/globalAttributes";
-import { localizeNumberString } from "../../utils/locale";
+import { getLang, LangComponent, localizeNumberString } from "../../utils/locale";
 import { CSS, TEXT } from "./resources";
 
 const maxPagesDisplayed = 5;
@@ -31,7 +31,7 @@ export interface PaginationDetail {
   styleUrl: "pagination.scss",
   shadow: true
 })
-export class Pagination implements GlobalAttrComponent {
+export class Pagination implements GlobalAttrComponent, LangComponent {
   //--------------------------------------------------------------------------
   //
   //  Public Properties
@@ -210,7 +210,7 @@ export class Pagination implements GlobalAttrComponent {
   }
 
   renderPage(start: number): VNode {
-    const lang = this.globalAttributes["lang"] || document.documentElement.lang || "en";
+    const lang = getLang(this);
     const page = Math.floor(start / this.num) + (this.num === 1 ? 0 : 1);
     return (
       <button
