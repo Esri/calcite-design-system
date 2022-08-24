@@ -221,6 +221,7 @@ export class Combobox
   @Watch("flipPlacements")
   flipPlacementsHandler(): void {
     this.setFilteredPlacements();
+    this.reposition();
   }
 
   //--------------------------------------------------------------------------
@@ -255,13 +256,14 @@ export class Combobox
   /** Updates the position of the component. */
   @Method()
   async reposition(): Promise<void> {
-    const { floatingEl, referenceEl, placement, overlayPositioning } = this;
+    const { floatingEl, referenceEl, placement, overlayPositioning, filteredFlipPlacements } = this;
 
     return positionFloatingUI({
       floatingEl,
       referenceEl,
       overlayPositioning,
       placement,
+      flipPlacements: filteredFlipPlacements,
       type: "menu"
     });
   }
@@ -333,8 +335,8 @@ export class Combobox
     connectLabel(this);
     connectForm(this);
     connectOpenCloseComponent(this);
-    this.reposition();
     this.setFilteredPlacements();
+    this.reposition();
     if (this.active) {
       this.activeHandler(this.active);
     }
@@ -1197,7 +1199,6 @@ export class Combobox
           onKeyDown={this.keydownHandler}
           ref={this.setReferenceEl}
           role="combobox"
-          tabindex="0"
         >
           <div class="grid-input">
             {this.renderIconStart()}
