@@ -1,10 +1,6 @@
 import { boolean, select } from "@storybook/addon-knobs";
-import {
-  filterComponentAttributes,
-  Attributes,
-  createComponentHTML as create,
-  placeholderImage
-} from "../../../.storybook/utils";
+import { filterComponentAttributes, Attributes, createComponentHTML as create } from "../../../.storybook/utils";
+import { placeholderImage } from "../../tests/utils";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import readme from "./readme.md";
 import panelReadme from "../shell-panel/readme.md";

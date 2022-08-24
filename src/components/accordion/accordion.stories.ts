@@ -3,9 +3,9 @@ import {
   Attributes,
   filterComponentAttributes,
   createComponentHTML as create,
-  themesDarkDefault,
-  placeholderImage
+  themesDarkDefault
 } from "../../../.storybook/utils";
+import { placeholderImage } from "../../tests/utils";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { iconNames } from "../../../.storybook/helpers";
 import { select, text } from "@storybook/addon-knobs";
