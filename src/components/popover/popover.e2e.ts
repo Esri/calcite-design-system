@@ -654,7 +654,7 @@ describe("calcite-popover", () => {
     const page = await newE2EPage();
 
     await page.setContent(
-      html`<calcite-popover label="Example label" reference-element="popover-button" dismissible>
+      html`<calcite-popover label="Example label" reference-element="popover-button" closable>
         <p style="padding:0 10px;display:flex;flex-direction:row">
           <calcite-icon icon="3d-glasses"></calcite-icon> Popover content here
         </p>
@@ -670,5 +670,34 @@ describe("calcite-popover", () => {
     await page.waitForChanges();
 
     expect(await popoverEl.getProperty("closable")).toBe(false);
+  });
+
+  it("should still function when disconnected and reconnected", async () => {
+    const page = await newE2EPage();
+
+    await page.setContent(
+      `<calcite-popover placement="auto" reference-element="ref" open>content</calcite-popover>
+      <div id="transfer"></div>
+      <div id="ref">referenceElement</div>`
+    );
+
+    await page.waitForChanges();
+
+    const popover = await page.find(`calcite-popover`);
+    const ref = await page.find("#ref");
+    expect(await popover.isVisible()).toBe(true);
+
+    await ref.click();
+    expect(await popover.isVisible()).toBe(false);
+
+    await page.$eval("calcite-popover", (popoverEl: HTMLCalcitePopoverElement) => {
+      const transferEl = document.getElementById("transfer");
+      transferEl.appendChild(popoverEl);
+    });
+
+    await page.waitForChanges();
+    await ref.click();
+
+    expect(await popover.isVisible()).toBe(true);
   });
 });
