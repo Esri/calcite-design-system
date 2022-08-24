@@ -37,8 +37,10 @@
   @apply bg-foreground-1
     text-color-1
     focus-base
-    flex;
-  box-shadow: inset 0 0 0 1px var(--calcite-ui-border-input);
+    flex
+    border-color-input
+    border
+    border-solid;
   padding-block: calc(var(--calcite-combobox-item-spacing-unit-s) / 4);
   padding-inline: var(--calcite-combobox-item-spacing-unit-l);
 }
@@ -125,8 +127,7 @@
   line-height: var(--calcite-combobox-input-height);
 }
 
-.label--spaced {
-  @apply py-0;
+.label--icon {
   padding-inline: var(--calcite-combobox-item-spacing-unit-l);
 }
 
