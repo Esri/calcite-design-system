@@ -14,11 +14,11 @@ function syncEnT9nFiles() {
       const path = i.replaceAll("\\", "/");
       const component = path.split("/")[2];
 
-      console.log(`syncronizing t9 en files for ${component}`);
+      console.log(`syncronizing t9 en.json file for ${component}`);
 
       copyFile(`${path}/en.json`, `${path}/en-US.json`, (err) => {
         if (err) {
-          return console.log("err", err);
+          return console.error(err);
         }
 
         console.log(`created en-US.json file for ${component} `);
