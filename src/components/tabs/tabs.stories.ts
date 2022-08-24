@@ -1,7 +1,6 @@
 import { select, optionsKnob } from "@storybook/addon-knobs";
 import { createSteps, iconNames, stepStory } from "../../../.storybook/helpers";
-import { themesDarkDefault } from "../../../.storybook/utils";
-import { placeholderImage } from "../../tests/utils";
+import { placeholderImage, themesDarkDefault } from "../../../.storybook/utils";
 import readme1 from "./readme.md";
 import readme2 from "../tab/readme.md";
 import readme3 from "../tab-nav/readme.md";

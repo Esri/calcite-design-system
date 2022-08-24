@@ -3,9 +3,9 @@ import {
   Attribute,
   filterComponentAttributes,
   Attributes,
-  createComponentHTML as create
+  createComponentHTML as create,
+  placeholderImage
 } from "../../../.storybook/utils";
-import { placeholderImage } from "../../tests/utils";
 import blockReadme from "./readme.md";
 import sectionReadme from "../block-section/readme.md";
 import { html } from "../../../support/formatting";

@@ -9,7 +9,7 @@ import {
 import readme from "./readme.md";
 import groupReadme from "../tip-group/readme.md";
 import { TEXT } from "./resources";
-import { placeholderImage } from "../../tests/utils";
+import { placeholderImage } from "../../../.storybook/utils";
 
 export default {
   title: "Components/Tips/Tip",

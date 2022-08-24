@@ -9,7 +9,7 @@ import {
 import readme from "./readme.md";
 import { TEXT } from "./resources";
 import { html } from "../../../support/formatting";
-import { placeholderImage } from "../../tests/utils";
+import { placeholderImage } from "../../../.storybook/utils";
 
 export default {
   title: "Components/Tips/Tip Manager",

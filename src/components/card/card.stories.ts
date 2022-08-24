@@ -1,5 +1,5 @@
 import { boolean, select, text } from "@storybook/addon-knobs";
-import { placeholderImage } from "../../tests/utils";
+import { placeholderImage } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import readme from "./readme.md";
 import {
