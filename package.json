@@ -50,6 +50,7 @@
     "util:deploy-next": "npm run util:prep-next && npm run util:push-tags && npm run util:publish-next",
     "util:deploy-next-from-ci": "ts-node --esm support/deployNextFromCI.ts",
     "util:generate-t9n-types": "ts-node --esm support/generateT9nTypes.ts",
+    "util:sync-t9n-types": "ts-node --esm support/syncEnT9nBundles.ts",
     "util:is-next-deployable": "ts-node --esm support/isNextDeployable.ts",
     "util:hydration-styles": "ts-node --esm support/hydrationStyles.ts",
     "util:patch-es5-helpers": "ts-node --esm support/patchES5Helpers.ts",
