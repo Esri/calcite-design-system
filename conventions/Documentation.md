@@ -1,20 +1,59 @@
 # Documentation
 
+## Stencil Documentation
+
+Stencil uses [JSDoc](https://jsdoc.app) for their API reference generation. Stencil generates a [`docs-json`](https://stenciljs.com/docs/docs-json) output target, which is parsed and displayed on the [SDK site](https://developers.arcgis.com/calcite-design-system/components). The API reference includes property/attribute names, descriptions, types, values, and description notes (e.g., required, optional, deprecated, etc. The SDK site updates the API reference after Calcite Component releases.
+
+### Style Guide
+
+Follow these conventions when adding or editing API reference:
+
+- Use complete sentences with proper grammar, capitalization, and punctuation.
+- No abbreviations, e.g. use "property" instead of "prop".
+- Verbs must be in present tense.
+- Use the full tag name when referencing other Calcite Components (prefix with `calcite-`), e.g. `calcite-button` instead of `button`.
+- For plural context, use `calcite-button`s instead of `calcite-button` elements.
+- Use backticks (`` ` ``) for the names of slots, events, properties CSS variables, and component names (e.g. `calcite-button` instead of calcite-button).
+- Use double quotes (`"`) for the values of properties/attributes and event details.
+- Only use single quotes (`'`) as apostrophes.
+- No links or URLs allowed in descriptions. If a link is necessary, a [custom JSDoc tag](https://stenciljs.com/docs/docs-json#custom-jsdocs-tags) should be added and parsed in the SDK site.
+- Refrain from using "e.g." or "i.e." references. Leverage "such as" (or similar) where examples are referenced.
+- Use "Accessible" instead of "Aria" or "a11y" language
+- Verify slots and properties/attributes don't use the text "optional" in their descriptions
+
+### Deprecation Notices
+
+There are two ways to document deprecations, depending on the API reference. In both cases a deprecated chip will be displayed in the SDK site within the component's API reference section.
+
+1. The `@deprecated` JSDoc tag is used for JavaScript properties, events, and methods in the `<component-name>.tsx` file. Notes can accompany the JSDoc tag, such as "use `<property>` instead".
+2. The `[Deprecated]` text is added at the beginning of the JSDoc description for slots (`@slots`) in the `<component-name>.tsx` file and CSS variables in the `<component-name>.scss` file. The text is parsed and removed from the description in the SDK site.
+
+## Storybook
+
 Calcite Components uses [Storybook](https://storybook.js.org/) to provide an interactive showcase of components with accompanying documentation.
 
 For each main component (i.e., one that can be used by itself), there should be a `<component-name>.stories.ts` file in its component folder.
 
 Each story should provide access to relevant [knobs](https://github.com/storybookjs/storybook/tree/next/addons/knobs) so users can test out different properties.
 
-For additional documentation, create a [usage folder](https://github.com/Esri/calcite-components/tree/master/src/components/action/usage) in the component directory with a basic.md and optionally an advanced.md file (if additional documentation or examples are required) with snippets showing different supported use cases for the component.
+### Writing stories
 
-## Code Documentation
+Each component should use a `storiesOf` with at least one story. If your component has properties that effect visual styles, you can use the [storybook knobs addon](https://www.npmjs.com/package/@storybook/addon-knobs) to allow people to manipulate properties and see live updates in the documentation. A minimal stories file might look something like this:
 
-[JSDoc](https://jsdoc.app) is used to document each component. After a release, the documentation builds on the respective component page on the [SDK site](https://developers.arcgis.com/calcite-design-system/components) specifying property/attribute names, descriptions, types, values, and description notes (e.g., required, optional, deprecated, etc.).
+```
+import { storiesOf } from '@storybook/html';
+import { boolean } from '@storybook/addon-knobs'
+import notes from './readme.md';
 
-### Deprecated
+export default {
+  title: "Components/X",
+  parameters: { notes }
+};
 
-There are two documentation sources for displaying deprecations, depending on the API reference. In both cases a deprecated chip will be displayed within the component's API reference section.
+storiesOf('My component', module)
+  .add('Simple', () => `
+    <my-component demo-prop="${boolean("demo-prop", true)}"></my-component>
+  , { notes })`
+```
 
-1. The JSDoc `@deprecated` tag is used for JavaScript properties, events, and methods in the `<component-name>.tsx` file. Notes can accompany the JSDoc tag, such as "use `<property>` instead".
-2. The `[Deprecated]` text is used for slots (`@slots`) in the `<component-name>.tsx` file and CSS custom properties in the `<component-name>.scss` file.
+Make sure to import the README generated by Stencil so that it can be viewed in Storybook. Storybook is deployed during every `next` version , where as the SDK site is only updated after `beta` releases. Storybook is a great resource for testing the newest changes and viewing the newest API reference.

@@ -8,8 +8,10 @@ Note: New contributors should first contact [Ben Elan](mailto:belan@esri.com) or
 
 Calcite Components is still in its early stages. You can help most by:
 
-- Adding ideas for components to our [wishlist project](https://github.com/Esri/calcite-components/projects/2). We are using the wishlist to gather ideas about useful components which we may be able to add to Calcite Components.
-- Working on [the issues](https://github.com/Esri/calcite-components/issues?q=is%3Aopen+is%3Aissue+label%3A%22help+wanted%22+no%3Aassignee) marked as `help wanted`. There is also a `good first issue` label if you are just getting started.
+- Adding ideas for components by [creating a New Component issue](https://github.com/Esri/calcite-components/issues/new?assignees=&labels=new+component%2C0+-+new%2Cneeds+triage&template=new-component.yml).
+- Requesting features for existing components by [creating a Enhancement issue](https://github.com/Esri/calcite-components/issues/new?assignees=&labels=enhancement%2C0+-+new%2Cneeds+triage&template=enhancement.yml).
+- Reporting problems by [creating a Bug issue](https://github.com/Esri/calcite-components/issues/new?assignees=&labels=bug%2C0+-+new%2Cneeds+triage&template=bug.yml).
+- Working on [the issues marked as `help wanted`](https://github.com/Esri/calcite-components/issues?q=is%3Aopen+is%3Aissue+label%3A%22help+wanted%22+no%3Aassignee). There is also a `good first issue` label if you are just getting started. Before working on an issue, make sure to comment on it and ask for the specific action items. Sometimes there is additional context needed that is not specified in the issue.
 - If you want to help develop components take a look at [1.0.0 components](https://github.com/Esri/calcite-components/projects/1) which are the components we are targeting for the first release of Calcite Components. Before starting development please review our [component conventions](./conventions/README.md) and the [Stencil documentation](https://stenciljs.com/docs/host-element).
 
 If you aren't familiar with the basics of Web Components and Shadow DOM, please read through some of the following resources before contributing:
@@ -43,6 +45,14 @@ There are four issue lifecycle labels:
 
 An issue can only have one of the lifecycle labels at any time. Please make sure to keep these up to date.
 
+### Issues that cannot be worked on
+
+There are three labels that mean an issue is not ready for development:
+
+- `design`: Issues that need design consultation, such as interaction research/feedback, visual mockups, and general approval. Once design completes their review, the `design` label will be removed, which means a developer can pick up the issue.
+- `need more info`: Issues that are missing information and/or a clear, actionable description. This can mean we are waiting on a user to provide additional context, we can't reproduce the issue, or further discussion is needed in order to determine a solution.
+- `blocked`: Issues that cannot be worked on until a different issue is resolved. The blocking issue may be from an external library (Stencil, Storybook, Jest, etc.) or a Calcite Components issue. The blocking issue should be linked to in the blocked issue's body or comment.
+
 ### Milestones
 
 Milestones are used to manage sprints, which are two weeks long. Sprint milestones are not closed until all of the issues are verified. We usually have a couple sprint milestones open at a time to help with future planning. Grab issues from the current sprint when you are looking for something to work on. There are also two constant milestones:
@@ -70,16 +80,17 @@ Our code base is written in TypeScript and must adhere to specific conventions a
 
 ## Getting a development environment set up
 
-We recommend installing the following extensions in your editor of choice: TypeScript, Sass, TailwindCSS, ESLint and Prettier.
+An installation of Node is required for development. If you don't have Node installed, we recommend [Volta], which will automatically use the Node versions we pinned in `package.json`. We also recommend installing the following extensions in your editor of choice: TypeScript, TailwindCSS, ESLint, StyleLint, and Prettier. If you use VS Code, you will see a pop up in the bottom right corner prompting you to install or view the workspaces's recommended extensions. You can install the extensions manually if you do not use VS Code:
 
-- https://code.visualstudio.com/
+- https://tailwindcss.com/docs/intellisense
+- https://eslint.org/docs/latest/user-guide/integrations
+- https://stylelint.io/user-guide/integrations/editor
 - https://atom.io/packages/atom-typescript
 - https://github.com/Microsoft/TypeScript-Sublime-Plugin
-- https://tailwindcss.com/docs/intellisense
 - https://github.com/neoclide/coc.nvim
 - etc...
 
-To start the local development environment run `npm start` this will start the local Stencil development server on http://localhost:3333. You can modify the [index.html](./src/index.html) to add and test your new component. Just add another HTML file to the `demos` folder and link to this new page from `index.html`.
+To start the local development environment run `npm i && npm start`, which will install the npm dependencies and start the local Stencil development server on http://localhost:3333. You can modify the [index.html](./src/index.html) to add and test your new component. Just add another HTML file to the `demos` folder and link to this new page from `index.html`.
 
 ## Linting
 
@@ -101,28 +112,15 @@ Before adding a new component, please read through the [component conventions gu
 
 ## Documenting a component
 
-Calcite Components utilizes [Storybook](https://storybook.js.org/) for documenting components. Adding a new component is very simple:
+Stencil creates API reference documentation using JSDoc, here is their [documentation page](https://stenciljs.com/docs/docs-json). Calcite Components utilizes [Storybook](https://storybook.js.org/) for documenting components. Adding a new component is very simple:
 
 1. Create a new file inside your component directory like `X.stories.js`
-2. Write stories (see below)
+2. Write stories
 3. Run the documentation locally with `npm run docs:preview`
 
 The `docs:preview` command will build Calcite Components and open your browser to view the storybook docs locally.
 
-### Writing stories
-
-Each component should use a `storiesOf` with at least one story. It's a great idea to add the component's auto-generated `readme.md` as notes. If your component has props that effect visual styles, you can use the [storybook knobs addon](https://www.npmjs.com/package/@storybook/addon-knobs) to allow people to manipulate props and see live updates in the documentation. A minimal stories file might look something like this:
-
-```
-import { storiesOf } from '@storybook/html';
-import { boolean } from '@storybook/addon-knobs'
-import notes from './readme.md';
-
-storiesOf('My component', module)
-  .add('Simple', () => `
-    <my-component demo-prop="${boolean("demo-prop", true)}"></my-component>
-  , { notes })`
-```
+For more information view the [Documentation Conventions](https://github.com/Esri/calcite-components/blob/master/conventions/Documentation.md).
 
 ## Branch naming conventions
 
@@ -154,11 +152,11 @@ johndoe/feature/add-something-to-modal
 
 This project follows [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/), which are used to generate the changelog. Be sure to provide clear and sufficient information in commit messages. This is important because the commit messages are used to automatically update the changelog.
 
-[Stencil's contributing document](https://github.com/ionic-team/stencil/blob/master/.github/CONTRIBUTING.md#commit-message-format) explains this in great detail, so please refer to this for more details and examples.'
+[Stencil's contributing document](https://github.com/ionic-team/stencil/blob/master/.github/CONTRIBUTING.md#commit-message-format) explains this in great detail, so please refer to this for more details and examples.
 
 ## Breaking Changes
 
-For ease of discoverability, commit messages for breaking changes should use both the header (`!`) and body (`BREAKING CHANGE:`) syntax:
+Commit messages for breaking changes should use both the header (`!`) and body (`BREAKING CHANGE:`) syntax:
 
 ```
 <type>!: <descriptive summary>
@@ -172,4 +170,4 @@ See the [conventional commits doc](https://www.conventionalcommits.org/en/v1.0.0
 
 ## Pull requests
 
-In order to ensure conventional commits are followed, pull requests will run a check to indicate whether the PR is following the convention or not. The [Semantic Pull Request](https://github.com/probot/semantic-pull-requests) status check will ensure your pull requests are semantic before you merge them.
+In order to ensure conventional commits are followed, pull requests will run a check to indicate whether the PR is following the convention or not. The [Semantic Pull Request](https://github.com/amannn/action-semantic-pull-request) status check will ensure your pull requests are semantic before you merge them.
