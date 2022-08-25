@@ -1,5 +1,5 @@
 import { Component, Element, h, VNode, Prop, Method, Listen, Watch } from "@stencil/core";
-import { CSS, SelectionAppearance } from "./resources";
+import { CSS, SelectionAppearance, SelectionMode } from "./resources";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { createObserver } from "../../utils/observers";
 import { getListItemChildren, updateListItemChildren } from "../list-item/utils";
@@ -40,18 +40,16 @@ export class List implements InteractiveComponent {
   @Prop() loading = false;
 
   /**
-   * Similar to standard radio buttons and checkboxes.
-   * When true, a user can select multiple `calcite-list-item`s at a time.
-   * When false, only a single `calcite-list-item` can be selected at a time,
-   * and a new selection will deselect previous selections.
+   * @todo document.
    */
-  @Prop() multiple = false;
+  @Prop() selectionMode: SelectionMode = "single";
 
   /**
-   * @todo: naming
+   * @todo document.
    */
   @Prop() selectionAppearance: SelectionAppearance = "icon";
 
+  @Watch("selectionMode")
   @Watch("selectionAppearance")
   handleSelectionAppearanceChange(): void {
     this.updateListItems();
@@ -173,9 +171,12 @@ export class List implements InteractiveComponent {
   };
 
   updateListItems = (): void => {
-    const { selectionAppearance } = this;
+    const { selectionAppearance, selectionMode } = this;
     const items = this.queryListItems();
-    items.forEach((item) => (item.selectionAppearance = selectionAppearance));
+    items.forEach((item) => {
+      item.selectionAppearance = selectionAppearance;
+      item.selectionMode = selectionMode;
+    });
     this.listItems = items;
     this.setActiveListItem();
   };

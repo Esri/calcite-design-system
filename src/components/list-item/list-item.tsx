@@ -21,7 +21,7 @@ import {
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { getDepth, getListItemChildren, updateListItemChildren } from "./utils";
 import { isActivationKey } from "../../utils/key";
-import { SelectionAppearance } from "../list/resources";
+import { SelectionAppearance, SelectionMode } from "../list/resources";
 
 const focusMap = new Map<HTMLCalciteListElement, number>();
 
@@ -88,6 +88,12 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
    * When true, the component is selected.
    */
   @Prop({ reflect: true, mutable: true }) selected = false;
+
+  /**
+   *
+   * @internal
+   */
+  @Prop() selectionMode: SelectionMode = "single";
 
   /**
    *

@@ -4,4 +4,6 @@ export const CSS = {
   tableContainer: "table-container"
 };
 
-export type SelectionAppearance = "border" | "icon";
+export type SelectionAppearance = "border" | "icon" | "control";
+
+export type SelectionMode = "single" | "multiple" | "none";
