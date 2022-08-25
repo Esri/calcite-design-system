@@ -212,3 +212,14 @@ export function getDaysDiff(date1: Date, date2: Date): number {
   const ts2 = date2.getTime();
   return (ts1 - ts2) / (1000 * 3600 * 24);
 }
+
+/**
+ * Set time of the day to the end.
+ *
+ * @param {Date} date Date.
+ * @returns {Date} Date with time set to end of day .
+ */
+export function setEndOfDay(date: Date): Date {
+  date.setHours(23, 59, 59, 999);
+  return date;
+}

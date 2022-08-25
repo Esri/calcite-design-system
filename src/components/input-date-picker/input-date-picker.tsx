@@ -20,7 +20,8 @@ import {
   dateFromISO,
   dateToISO,
   parseDateString,
-  sameDate
+  sameDate,
+  setEndOfDay
 } from "../../utils/date";
 import { HeadingLevel } from "../functional/Heading";
 
@@ -399,7 +400,7 @@ export class InputDatePicker
     }
 
     if (this.end) {
-      this.endAsDate = dateFromISO(this.end);
+      this.endAsDate = setEndOfDay(dateFromISO(this.end));
     }
 
     if (this.min) {
@@ -714,7 +715,7 @@ export class InputDatePicker
 
   @Watch("end")
   endWatcher(end: string): void {
-    this.endAsDate = dateFromISO(end);
+    this.endAsDate = end ? setEndOfDay(dateFromISO(end)) : dateFromISO(end);
   }
 
   @Watch("locale")
@@ -795,7 +796,7 @@ export class InputDatePicker
         this.end = endDateISO;
         this.calciteDatePickerRangeChange.emit({
           startDate: this.startAsDate,
-          endDate: date
+          endDate: setEndOfDay(date)
         });
       }
     }

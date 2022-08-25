@@ -12,7 +12,14 @@ import {
   Build
 } from "@stencil/core";
 import { getLocaleData, DateLocaleData } from "./utils";
-import { dateFromRange, dateFromISO, dateToISO, getDaysDiff, HoverRange } from "../../utils/date";
+import {
+  dateFromRange,
+  dateFromISO,
+  dateToISO,
+  getDaysDiff,
+  HoverRange,
+  setEndOfDay
+} from "../../utils/date";
 import { HeadingLevel } from "../functional/Heading";
 
 import { DateRangeChange } from "./interfaces";
@@ -491,7 +498,7 @@ export class DatePicker {
    * @param emit
    */
   private setEndAsDate(endDate: Date, emit?: boolean): void {
-    this.endAsDate = endDate;
+    this.endAsDate = endDate ? setEndOfDay(endDate) : endDate;
     this.mostRecentRangeValue = this.endAsDate;
     if (emit) {
       this.calciteDatePickerRangeChange.emit({
