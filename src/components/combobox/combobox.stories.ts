@@ -394,3 +394,46 @@ export const OptionListMinWidthMatchesInputWhenOverlayPositioningIsFixed = (): s
     </calcite-combobox>
   </div>
 `;
+
+export const flipPlacements = (): string => html`
+  <style>
+    .my-combobox {
+      position: unset;
+      margin-top: 50px;
+    }
+  </style>
+  <div style="height: 100px; overflow:scroll;">
+    <calcite-combobox class="my-combobox" placeholder="placeholder" open>
+      <calcite-combobox-item value="Trees" text-label="Trees" aria-hidden="true">
+        <calcite-combobox-item value="Pine" text-label="Pine" aria-hidden="true"></calcite-combobox-item>
+        <calcite-combobox-item
+          value="Sequoia"
+          disabled=""
+          text-label="Sequoia"
+          aria-hidden="true"
+        ></calcite-combobox-item>
+        <calcite-combobox-item value="Douglas Fir" text-label="Douglas Fir" aria-hidden="true"></calcite-combobox-item>
+      </calcite-combobox-item>
+      <calcite-combobox-item value="Flowers" text-label="Flowers" aria-hidden="true">
+        <calcite-combobox-item value="Daffodil" text-label="Daffodil" aria-hidden="true"></calcite-combobox-item>
+        <calcite-combobox-item
+          value="Black Eyed Susan"
+          text-label="Black Eyed Susan"
+          aria-hidden="true"
+        ></calcite-combobox-item>
+        <calcite-combobox-item value="Nasturtium" text-label="Nasturtium" aria-hidden="true"></calcite-combobox-item>
+      </calcite-combobox-item>
+      <calcite-combobox-item value="Animals" text-label="Animals" aria-hidden="true">
+        <calcite-combobox-item value="Birds" text-label="Birds" aria-hidden="true"></calcite-combobox-item>
+        <calcite-combobox-item value="Reptiles" text-label="Reptiles" aria-hidden="true"></calcite-combobox-item>
+        <calcite-combobox-item value="Amphibians" text-label="Amphibians" aria-hidden="true"></calcite-combobox-item>
+      </calcite-combobox-item>
+      <calcite-combobox-item value="Rocks" text-label="Rocks" aria-hidden="true"></calcite-combobox-item>
+      <calcite-combobox-item value="Insects" text-label="Insects" aria-hidden="true"></calcite-combobox-item>
+      <calcite-combobox-item value="Rivers" text-label="Rivers" aria-hidden="true"></calcite-combobox-item>
+    </calcite-combobox>
+  </div>
+  <script>
+    document.querySelector(".my-combobox").flipPlacements = ["right"];
+  </script>
+`;

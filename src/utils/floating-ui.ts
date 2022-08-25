@@ -191,7 +191,9 @@ function getMiddleware({
   if (type === "menu") {
     return [
       ...defaultMiddleware,
-      flip({ fallbackPlacements: ["top-start", "top", "top-end", "bottom-start", "bottom", "bottom-end"] })
+      flip({
+        fallbackPlacements: flipPlacements || ["top-start", "top", "top-end", "bottom-start", "bottom", "bottom-end"]
+      })
     ];
   }
 
