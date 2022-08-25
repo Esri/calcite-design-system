@@ -125,31 +125,31 @@
 }
 
 // solid
-:host([color="blue"][appearance="solid"]) {
+:host([color="blue"]) {
   border-color: transparent;
   background-color: var(--calcite-ui-info);
   color: var(--calcite-ui-text-inverse);
 }
 
-:host([color="red"][appearance="solid"]) {
+:host([color="red"]) {
   border-color: transparent;
   background-color: var(--calcite-ui-danger);
   color: var(--calcite-ui-text-inverse);
 }
 
-:host([color="yellow"][appearance="solid"]) {
+:host([color="yellow"]) {
   border-color: transparent;
   background-color: var(--calcite-ui-warning);
   color: $blk-220;
 }
 
-:host([color="green"][appearance="solid"]) {
+:host([color="green"]) {
   border-color: transparent;
   background-color: var(--calcite-ui-success);
   color: $blk-220;
 }
 
-:host([color="grey"][appearance="solid"]) {
+:host([color="grey"]) {
   border-color: transparent;
   background-color: var(--calcite-ui-foreground-2);
   color: var(--calcite-ui-text-1);
@@ -163,36 +163,46 @@
   }
 }
 
-// clear
-:host([color="blue"][appearance="clear"]) {
+:host([appearance="clear"]),
+:host([appearance="transparent"]) {
+  @apply text-color-1 bg-transparent;
+}
+
+// clear is deprecated. use transparent instead.
+:host([color="blue"][appearance="clear"]),
+:host([color="blue"][appearance="transparent"]) {
   border-color: var(--calcite-ui-info);
   .chip-icon {
     color: var(--calcite-ui-icon-color, var(--calcite-ui-info));
   }
 }
 
-:host([color="red"][appearance="clear"]) {
+:host([color="red"][appearance="clear"]),
+:host([color="red"][appearance="transparent"]) {
   border-color: var(--calcite-ui-danger);
   .chip-icon {
     color: var(--calcite-ui-icon-color, var(--calcite-ui-danger));
   }
 }
 
-:host([color="yellow"][appearance="clear"]) {
+:host([color="yellow"][appearance="clear"]),
+:host([color="yellow"][appearance="transparent"]) {
   border-color: var(--calcite-ui-warning);
   .chip-icon {
     color: var(--calcite-ui-icon-color, var(--calcite-ui-warning));
   }
 }
 
-:host([color="green"][appearance="clear"]) {
+:host([color="green"][appearance="clear"]),
+:host([color="green"][appearance="transparent"]) {
   border-color: var(--calcite-ui-success);
   .chip-icon {
     color: var(--calcite-ui-icon-color, var(--calcite-ui-success));
   }
 }
 
-:host([color="grey"][appearance="clear"]) {
+:host([color="grey"][appearance="clear"]),
+:host([color="grey"][appearance="transparent"]) {
   border-color: var(--calcite-ui-border-1);
   .chip-icon {
     color: var(--calcite-ui-icon-color, var(--calcite-ui-text-3));

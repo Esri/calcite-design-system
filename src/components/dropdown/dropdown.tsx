@@ -113,6 +113,7 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent, Float
   @Watch("flipPlacements")
   flipPlacementsHandler(): void {
     this.setFilteredPlacements();
+    this.reposition();
   }
 
   /**
@@ -236,9 +237,7 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent, Float
             ref={this.setScrollerAndTransitionEl}
             role="menu"
           >
-            <div hidden={!open}>
-              <slot onSlotchange={this.updateGroups} />
-            </div>
+            <slot onSlotchange={this.updateGroups} />
           </div>
         </div>
       </Host>
@@ -254,13 +253,14 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent, Float
   /** Updates the position of the component. */
   @Method()
   async reposition(): Promise<void> {
-    const { floatingEl, referenceEl, placement, overlayPositioning } = this;
+    const { floatingEl, referenceEl, placement, overlayPositioning, filteredFlipPlacements } = this;
 
     return positionFloatingUI({
       floatingEl,
       referenceEl,
       overlayPositioning,
       placement,
+      flipPlacements: filteredFlipPlacements,
       type: "menu"
     });
   }
@@ -483,8 +483,8 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent, Float
   };
 
   setMaxScrollerHeight = (): void => {
-    const { scrollerEl, open } = this;
-    if (!scrollerEl || !open) {
+    const { scrollerEl } = this;
+    if (!scrollerEl) {
       return;
     }
 
@@ -563,11 +563,11 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent, Float
   };
 
   private updateSelectedItems(): void {
-    this.selectedItems = this.items.filter((item) => item.active);
+    this.selectedItems = this.items.filter((item) => item.selected);
   }
 
   private getMaxScrollerHeight(): number {
-    const { maxItems } = this;
+    const { maxItems, items } = this;
     let itemsToProcess = 0;
     let maxScrollerHeight = 0;
     let groupHeaderHeight: number;
@@ -591,7 +591,7 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent, Float
       }
     });
 
-    return maxScrollerHeight;
+    return items.length > maxItems ? maxScrollerHeight : 0;
   }
 
   private closeCalciteDropdown(focusTrigger = true) {
@@ -603,7 +603,7 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent, Float
   }
 
   private focusOnFirstActiveOrFirstItem = (): void => {
-    this.getFocusableElement(this.items.find((item) => item.active) || this.items[0]);
+    this.getFocusableElement(this.items.find((item) => item.selected) || this.items[0]);
   };
 
   private focusFirstItem() {

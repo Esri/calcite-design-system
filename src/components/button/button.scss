@@ -238,7 +238,7 @@
       border-solid;
   }
 }
-:host([appearance="solid"][color="blue"]) {
+:host([color="blue"]) {
   button,
   a {
     @apply text-color-inverse bg-brand;
@@ -254,7 +254,7 @@
     }
   }
 }
-:host([appearance="solid"][color="red"]) {
+:host([color="red"]) {
   button,
   a {
     @apply text-color-inverse bg-danger;
@@ -270,7 +270,7 @@
     }
   }
 }
-:host([appearance="solid"][color="neutral"]) {
+:host([color="neutral"]) {
   button,
   a {
     @apply text-color-1 bg-foreground-3;
@@ -286,7 +286,7 @@
     }
   }
 }
-:host([appearance="solid"][color="inverse"]) {
+:host([color="inverse"]) {
   button,
   a {
     @apply text-color-inverse;
@@ -314,7 +314,7 @@
 :host([appearance="outline"][color="blue"]) {
   button,
   a {
-    @apply border-color-brand;
+    @apply border-color-brand bg-foreground-1;
     color: theme("colors.brand");
     &:hover {
       @apply border-color-brand-hover;
@@ -339,7 +339,7 @@
 :host([appearance="outline"][color="red"]) {
   button,
   a {
-    @apply border-color-danger;
+    @apply border-color-danger bg-foreground-1;
     color: theme("colors.danger");
     &:hover {
       @apply border-color-danger-hover;
@@ -364,7 +364,7 @@
 :host([appearance="outline"][color="neutral"]) {
   button,
   a {
-    @apply text-color-1;
+    @apply text-color-1 bg-foreground-1;
     border-color: theme("backgroundColor.foreground.3");
     &:hover {
       box-shadow: inset 0 0 0 1px var(--calcite-ui-foreground-3);
@@ -383,7 +383,7 @@
 :host([appearance="outline"][color="inverse"]) {
   button,
   a {
-    @apply text-color-1;
+    @apply text-color-1 bg-foreground-1;
     border-color: var(--calcite-ui-inverse);
     &:hover {
       border-color: var(--calcite-ui-inverse-hover);
@@ -402,18 +402,20 @@
     }
   }
 }
-// clear
-:host([appearance="clear"]) {
+// clear is deprecated. use minimal instead
+:host([appearance="clear"]),
+:host([appearance="minimal"]) {
   button,
   a {
     @apply border border-solid bg-transparent;
     box-shadow: inset 0 0 0 1px transparent;
   }
 }
-:host([appearance="clear"][color="blue"]) {
+:host([appearance="clear"][color="blue"]),
+:host([appearance="minimal"][color="blue"]) {
   button,
   a {
-    @apply border-color-brand;
+    @apply border-color-brand bg-transparent;
     color: theme("colors.brand");
     &:hover {
       @apply border-color-brand-hover;
@@ -435,10 +437,11 @@
     }
   }
 }
-:host([appearance="clear"][color="red"]) {
+:host([appearance="clear"][color="red"]),
+:host([appearance="minimal"][color="red"]) {
   button,
   a {
-    @apply border-color-danger;
+    @apply border-color-danger bg-transparent;
     color: theme("colors.danger");
     &:hover {
       @apply border-color-danger-hover;
@@ -460,10 +463,11 @@
     }
   }
 }
-:host([appearance="clear"][color="neutral"]) {
+:host([appearance="clear"][color="neutral"]),
+:host([appearance="minimal"][color="neutral"]) {
   button,
   a {
-    @apply text-color-1;
+    @apply text-color-1  bg-transparent;
     border-color: theme("backgroundColor.foreground.3");
     &:hover {
       box-shadow: inset 0 0 0 1px var(--calcite-ui-foreground-3);
@@ -479,10 +483,11 @@
     }
   }
 }
-:host([appearance="clear"][color="inverse"]) {
+:host([appearance="clear"][color="inverse"]),
+:host([appearance="minimal"][color="inverse"]) {
   button,
   a {
-    @apply text-color-1;
+    @apply text-color-1  bg-transparent;
     border-color: var(--calcite-ui-inverse);
     &:hover {
       border-color: var(--calcite-ui-inverse-hover);
@@ -503,13 +508,15 @@
 }
 
 :host([appearance="outline"][split-child="primary"]) button,
-:host([appearance="clear"][split-child="primary"]) button {
+:host([appearance="clear"][split-child="primary"]) button,
+:host([appearance="minimal"][split-child="primary"]) button {
   border-inline-end-width: 0;
   border-inline-start-width: theme("borderWidth.DEFAULT");
 }
 
 :host([appearance="outline"][split-child="secondary"]) button,
-:host([appearance="clear"][split-child="secondary"]) button {
+:host([appearance="clear"][split-child="secondary"]) button,
+:host([appearance="minimal"][split-child="secondary"]) button {
   border-inline-start-width: 0;
   border-inline-end-width: theme("borderWidth.DEFAULT");
 }

@@ -249,7 +249,6 @@ export class InputTimePicker implements LabelableComponent, FormComponent, Inter
     event.preventDefault();
     event.stopPropagation();
     this.active = false;
-    event.stopPropagation;
   }
 
   private timePickerChangeHandler = (event: CustomEvent): void => {
@@ -257,7 +256,6 @@ export class InputTimePicker implements LabelableComponent, FormComponent, Inter
     const target = event.target as HTMLCalciteTimePickerElement;
     const value = target.value;
     this.setValue({ value, origin: "time-picker" });
-    event.stopPropagation();
   };
 
   @Listen("calciteInternalTimePickerFocus")
@@ -267,7 +265,6 @@ export class InputTimePicker implements LabelableComponent, FormComponent, Inter
     if (!this.readOnly) {
       this.active = true;
     }
-    event.stopPropagation;
   }
 
   // --------------------------------------------------------------------------
