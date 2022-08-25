@@ -189,12 +189,14 @@ export class ValueList<
   /**
    * Emits when any of the list item selections have changed.
    */
-  @Event() calciteListChange: EventEmitter<Map<string, HTMLCalciteValueListItemElement>>;
+  @Event({ cancelable: false }) calciteListChange: EventEmitter<
+    Map<string, HTMLCalciteValueListItemElement>
+  >;
 
   /**
    * Emits when the order of the list has changed.
    */
-  @Event() calciteListOrderChange: EventEmitter<any[]>;
+  @Event({ cancelable: false }) calciteListOrderChange: EventEmitter<any[]>;
 
   @Listen("focusout")
   calciteListFocusOutHandler(event: FocusEvent): void {
@@ -283,6 +285,10 @@ export class ValueList<
   getItemData = getItemData.bind(this);
 
   keyDownHandler = (event: KeyboardEvent): void => {
+    if (event.defaultPrevented) {
+      return;
+    }
+
     const { handle, item } = getHandleAndItemElement(event);
     if (handle && !item.handleActivated && event.key === " ") {
       this.updateScreenReaderText(getScreenReaderText(item, "commit", this));

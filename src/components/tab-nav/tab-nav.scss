@@ -21,6 +21,10 @@
     overflow-auto;
 }
 
+:host([layout="center"]) .tab-nav {
+  @apply justify-center;
+}
+
 // prevent indicator overflow in horizontal scrolling situations
 .tab-nav-active-indicator-container {
   @apply absolute

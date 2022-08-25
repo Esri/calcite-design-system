@@ -146,12 +146,12 @@ export class TipManager {
    *
    * @deprecated use calciteTipManagerClose instead.
    */
-  @Event() calciteTipManagerToggle: EventEmitter;
+  @Event({ cancelable: false }) calciteTipManagerToggle: EventEmitter<void>;
 
   /**
    * Emitted when the `calcite-tip-manager` has been closed.
    */
-  @Event() calciteTipManagerClose: EventEmitter;
+  @Event({ cancelable: false }) calciteTipManagerClose: EventEmitter<void>;
 
   // --------------------------------------------------------------------------
   //
@@ -205,7 +205,7 @@ export class TipManager {
     this.nextTip();
   };
 
-  tipManagerKeyUpHandler = (event: KeyboardEvent): void => {
+  tipManagerKeyDownHandler = (event: KeyboardEvent): void => {
     if (event.target !== this.container) {
       return;
     }
@@ -283,7 +283,7 @@ export class TipManager {
         aria-hidden={toAriaBoolean(closed)}
         class={CSS.container}
         hidden={closed}
-        onKeyUp={this.tipManagerKeyUpHandler}
+        onKeyDown={this.tipManagerKeyDownHandler}
         ref={this.storeContainerRef}
         tabIndex={0}
       >

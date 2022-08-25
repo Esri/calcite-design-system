@@ -22,6 +22,10 @@ describe("calcite-action-bar", () => {
       {
         propertyName: "scale",
         defaultValue: undefined
+      },
+      {
+        propertyName: "layout",
+        defaultValue: "vertical"
       }
     ]));
 
@@ -365,6 +369,7 @@ describe("calcite-action-bar", () => {
       await page.$eval("calcite-action-bar", (element: HTMLCalciteActionBarElement) => {
         element.style.height = "550px";
       });
+      await page.waitForChanges();
       await page.waitForTimeout(overflowActionsDebounceInMs);
 
       expect(await page.findAll(dynamicGroupActionsSelector)).toHaveLength(8);

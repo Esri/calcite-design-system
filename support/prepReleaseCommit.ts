@@ -6,21 +6,26 @@ import yargs from "yargs";
 (async function prepReleaseCommit(): Promise<void> {
   const childProcess = await import("child_process");
   const { promises: fs } = await import("fs");
-  const gitSemverTags = await import("git-semver-tags");
-  const { normalize } = await import("path");
+  const { default: gitSemverTags } = await import("git-semver-tags");
+  const { dirname, normalize } = await import("path");
   const prettier = await import("prettier");
-  const semver = await import("semver");
+  const { default: semver } = await import("semver");
   const { quote } = await import("shell-quote");
   const { default: standardVersion } = await import("standard-version");
+  const { fileURLToPath } = await import("url");
 
   const exec = pify(childProcess.exec);
   const header = `# Changelog\n\nThis document maintains a list of released versions and changes introduced by them.\nThis project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)\n`;
   const unreleasedSectionTokenStart = "<!--@unreleased-section-start-->";
   const unreleasedSectionTokenEnd = "<!--@unreleased-section-end-->";
+  const __filename = fileURLToPath(import.meta.url);
+  const __dirname = dirname(__filename);
   const changelogPath = quote([normalize(`${__dirname}/../CHANGELOG.md`)]);
   const readmePath = quote([normalize(`${__dirname}/../readme.md`)]);
 
-  const { next } = yargs(process.argv) as any;
+  const { next } = yargs(process.argv.slice(2))
+    .options({ next: { type: "boolean", default: false } })
+    .parseSync();
 
   // deepen the history when fetching tags due to shallow clone
   await exec("git fetch --deepen=250 --tags");
@@ -38,8 +43,6 @@ import yargs from "yargs";
     standardVersionOptions = await getStandardVersionOptions(next, semverTags);
   } catch (error) {
     console.log(baseErrorMessage);
-    await exec(`echo ${baseErrorMessage}`);
-
     process.exitCode = 1;
     return;
   }
@@ -51,8 +54,6 @@ import yargs from "yargs";
       await runStandardVersion(next, standardVersionOptions);
     } catch (error) {
       console.log(changelogGenerationErrorMessage);
-      await exec(`echo ${changelogGenerationErrorMessage}`);
-
       process.exitCode = 1;
     }
     return;
@@ -68,7 +69,6 @@ import yargs from "yargs";
     await runStandardVersion(next, standardVersionOptions);
   } catch (error) {
     console.log(changelogGenerationErrorMessage);
-    await exec(`echo ${changelogGenerationErrorMessage}`);
     process.exitCode = 1;
   } finally {
     // restore deleted prerelease tags
@@ -79,14 +79,14 @@ import yargs from "yargs";
     const target = next ? "next" : "beta";
     const targetVersionPattern = new RegExp(`-${target}\\.\\d+$`);
 
-    await exec(`echo ${semverTags}`);
+    console.log(semverTags);
 
     // we keep track of `beta` and `next` releases since `standard-version` resets the version number when going in between
     // this should not be needed after v1.0.0 since there would no longer be a beta version to keep track of
     const targetDescendingOrderTags = semverTags.filter((tag) => targetVersionPattern.test(tag)).sort(semver.rcompare);
     const targetReleaseVersion = semver.inc(targetDescendingOrderTags[0], "prerelease", target);
 
-    await exec(`echo ${targetDescendingOrderTags}`);
+    console.log(targetDescendingOrderTags);
 
     if (!targetVersionPattern.test(targetReleaseVersion)) {
       throw new Error(`target release version does not have prerelease identifier (${target})`);

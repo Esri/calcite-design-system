@@ -1,4 +1,4 @@
-import { Scale, Status } from "../interfaces";
+import { DeprecatedEventPayload, Scale, Status } from "../interfaces";
 import {
   Component,
   Element,
@@ -379,12 +379,14 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
     connectForm(this);
     this.mutationObserver?.observe(this.el, { childList: true });
     this.setDisabledAction();
+    this.el.addEventListener("calciteInternalHiddenInputChange", this.hiddenInputChangeHandler);
   }
 
   disconnectedCallback(): void {
     disconnectLabel(this);
     disconnectForm(this);
     this.mutationObserver?.disconnect();
+    this.el.removeEventListener("calciteInternalHiddenInputChange", this.hiddenInputChangeHandler);
   }
 
   componentWillLoad(): void {
@@ -418,22 +420,24 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
   /**
    * @internal
    */
-  @Event() calciteInternalInputFocus: EventEmitter;
+  @Event({ cancelable: false }) calciteInternalInputFocus: EventEmitter<void>;
 
   /**
    * @internal
    */
-  @Event() calciteInternalInputBlur: EventEmitter;
+  @Event({ cancelable: false }) calciteInternalInputBlur: EventEmitter<void>;
 
   /**
    * Fires each time a new value is typed.
+   *
+   * **Note:**: The `el` and `value` event payload props are deprecated, please use the event's target/currentTarget instead
    */
-  @Event({ cancelable: true }) calciteInputInput: EventEmitter;
+  @Event({ cancelable: true }) calciteInputInput: EventEmitter<DeprecatedEventPayload>;
 
   /**
    * Fires each time a new value is typed and committed.
    */
-  @Event() calciteInputChange: EventEmitter<void>;
+  @Event({ cancelable: false }) calciteInputChange: EventEmitter<void>;
 
   //--------------------------------------------------------------------------
   //
@@ -475,7 +479,9 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
       event.preventDefault();
     }
     if (event.key === "Enter" && !event.defaultPrevented) {
-      submitForm(this);
+      if (submitForm(this)) {
+        event.preventDefault();
+      }
     }
   };
 
@@ -529,11 +535,7 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
   };
 
   private inputBlurHandler = () => {
-    this.calciteInternalInputBlur.emit({
-      element: this.childEl,
-      value: this.value
-    });
-
+    this.calciteInternalInputBlur.emit();
     this.emitChangeIfUserModified();
   };
 
@@ -542,10 +544,7 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
     if (event.target !== slottedActionEl) {
       this.setFocus();
     }
-    this.calciteInternalInputFocus.emit({
-      element: this.childEl,
-      value: this.value
-    });
+    this.calciteInternalInputFocus.emit();
   };
 
   private inputInputHandler = (nativeEvent: InputEvent): void => {
@@ -722,6 +721,24 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
       input.type = "password";
     }
   }
+
+  hiddenInputChangeHandler = (event: Event): void => {
+    if ((event.target as HTMLInputElement).name === this.name) {
+      const hiddenInputValue = (event.target as HTMLInputElement).value;
+      const value =
+        this.type === "number"
+          ? isValidNumber(hiddenInputValue)
+            ? hiddenInputValue
+            : ""
+          : hiddenInputValue;
+
+      this.setValue({
+        value,
+        origin: "direct"
+      });
+    }
+    event.stopPropagation();
+  };
 
   private setChildElRef = (el) => {
     this.childEl = el;

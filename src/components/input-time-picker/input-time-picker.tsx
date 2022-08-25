@@ -202,7 +202,7 @@ export class InputTimePicker implements LabelableComponent, FormComponent, Inter
   /**
    * Fires when the time value is changed as a result of user input.
    */
-  @Event() calciteInputTimePickerChange: EventEmitter<string>;
+  @Event({ cancelable: true }) calciteInputTimePickerChange: EventEmitter<string>;
 
   //--------------------------------------------------------------------------
   //
@@ -244,19 +244,11 @@ export class InputTimePicker implements LabelableComponent, FormComponent, Inter
     this.setFocus();
   }
 
-  @Listen("keyup")
-  keyUpHandler(event: KeyboardEvent): void {
-    if (event.key === "Escape" && this.active) {
-      this.active = false;
-    }
-  }
-
   @Listen("calciteInternalTimePickerBlur")
   timePickerBlurHandler(event: CustomEvent): void {
     event.preventDefault();
     event.stopPropagation();
     this.active = false;
-    event.stopPropagation;
   }
 
   private timePickerChangeHandler = (event: CustomEvent): void => {
@@ -264,7 +256,6 @@ export class InputTimePicker implements LabelableComponent, FormComponent, Inter
     const target = event.target as HTMLCalciteTimePickerElement;
     const value = target.value;
     this.setValue({ value, origin: "time-picker" });
-    event.stopPropagation();
   };
 
   @Listen("calciteInternalTimePickerFocus")
@@ -274,7 +265,6 @@ export class InputTimePicker implements LabelableComponent, FormComponent, Inter
     if (!this.readOnly) {
       this.active = true;
     }
-    event.stopPropagation;
   }
 
   // --------------------------------------------------------------------------
@@ -302,8 +292,21 @@ export class InputTimePicker implements LabelableComponent, FormComponent, Inter
   // --------------------------------------------------------------------------
 
   keyDownHandler = (event: KeyboardEvent): void => {
-    if (event.key === "Enter" && !event.defaultPrevented) {
-      submitForm(this);
+    const { defaultPrevented, key } = event;
+
+    if (defaultPrevented) {
+      return;
+    }
+
+    if (key === "Enter") {
+      if (submitForm(this)) {
+        event.preventDefault();
+      }
+    }
+
+    if (key === "Escape" && this.active) {
+      this.active = false;
+      event.preventDefault();
     }
   };
 

@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, defaults, focusable, renders } from "../../tests/commonTests";
+import { accessible, defaults, focusable, renders, hidden } from "../../tests/commonTests";
 import { formatTimePart } from "../../utils/time";
 import { CSS } from "./resources";
 
@@ -36,6 +36,8 @@ export type NumericString = "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" 
 
 describe("calcite-time-picker", () => {
   it("renders", async () => renders("calcite-time-picker", { display: "inline-block" }));
+
+  it("honors hidden attribute", async () => hidden("calcite-time-picker"));
 
   it("is accessible", async () => accessible(`<calcite-time-picker></calcite-time-picker>`));
 

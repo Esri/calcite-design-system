@@ -54,8 +54,25 @@ export class Notice implements ConditionalSlotComponent {
   //
   //---------------------------------------------------------------------------
 
-  /** When true, the component is active. */
+  /**
+   * When true, the component is active.
+   *
+   * @deprecated Use open instead.
+   */
   @Prop({ reflect: true, mutable: true }) active = false;
+
+  @Watch("active")
+  activeHandler(value: boolean): void {
+    this.open = value;
+  }
+
+  /** When true, the component is visible */
+  @Prop({ reflect: true, mutable: true }) open = false;
+
+  @Watch("open")
+  openHandler(value: boolean): void {
+    this.active = value;
+  }
 
   /** The color for the component's top border and icon. */
   @Prop({ reflect: true }) color: StatusColor = "blue";
@@ -67,8 +84,18 @@ export class Notice implements ConditionalSlotComponent {
    */
   @Prop({ reflect: true }) dismissible? = false;
 
+  @Watch("dismissible")
+  handleDismissible(value: boolean): void {
+    this.closable = value;
+  }
+
   /** When true, displays a button user can click to dismiss the `calcite-notice` */
   @Prop({ reflect: true }) closable? = false;
+
+  @Watch("closable")
+  handleClosable(value: boolean): void {
+    this.dismissible = value;
+  }
 
   /**
    * When present, shows a default recommended icon. You can
@@ -103,6 +130,18 @@ export class Notice implements ConditionalSlotComponent {
 
   connectedCallback(): void {
     connectConditionalSlotComponent(this);
+    const isOpen = this.active || this.open;
+
+    if (isOpen) {
+      this.activeHandler(isOpen);
+      this.openHandler(isOpen);
+    }
+    if (this.dismissible) {
+      this.handleDismissible(this.dismissible);
+    }
+    if (this.closable) {
+      this.handleClosable(this.closable);
+    }
   }
 
   disconnectedCallback(): void {
@@ -145,7 +184,7 @@ export class Notice implements ConditionalSlotComponent {
             <slot name={SLOTS.actionsEnd} />
           </div>
         ) : null}
-        {this.closable || this.dismissible ? closeButton : null}
+        {this.closable ? closeButton : null}
       </div>
     );
   }
@@ -157,10 +196,10 @@ export class Notice implements ConditionalSlotComponent {
   //--------------------------------------------------------------------------
 
   /** Fired when the component is closed. */
-  @Event() calciteNoticeClose: EventEmitter;
+  @Event({ cancelable: false }) calciteNoticeClose: EventEmitter<void>;
 
   /** Fired when the component is opened. */
-  @Event() calciteNoticeOpen: EventEmitter;
+  @Event({ cancelable: false }) calciteNoticeOpen: EventEmitter<void>;
 
   //--------------------------------------------------------------------------
   //
@@ -189,7 +228,7 @@ export class Notice implements ConditionalSlotComponent {
   //
   //--------------------------------------------------------------------------
   private close = (): void => {
-    this.active = false;
+    this.open = false;
     this.calciteNoticeClose.emit();
   };
 

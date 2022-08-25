@@ -1,9 +1,11 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, defaults, reflects, renders } from "../../tests/commonTests";
+import { accessible, defaults, reflects, renders, hidden } from "../../tests/commonTests";
 import { CSS } from "./resources";
 import { scaleToPx } from "./utils";
 
 describe("calcite-icon", () => {
+  it("honors hidden attribute", async () => hidden("calcite-icon"));
+
   it("has defaults", async () =>
     defaults("calcite-icon", [
       { propertyName: "flipRtl", defaultValue: false },

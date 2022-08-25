@@ -44,8 +44,30 @@ export class TabTitle implements InteractiveComponent {
   //
   //--------------------------------------------------------------------------
 
-  /** Show this tab title as selected */
+  /**
+   * Show this tab title as selected
+   *
+   * @deprecated Use selected instead.
+   */
   @Prop({ reflect: true, mutable: true }) active = false;
+
+  @Watch("active")
+  activeHandler(value: boolean): void {
+    this.selected = value;
+  }
+
+  /**
+   * When true, display this tab title as selected.
+   */
+  @Prop({ reflect: true, mutable: true }) selected = false;
+
+  @Watch("selected")
+  selectedHandler(value: boolean): void {
+    this.active = value;
+    if (this.selected) {
+      this.emitActiveTab(false);
+    }
+  }
 
   /** Disable this tab title  */
   @Prop({ reflect: true }) disabled = false;
@@ -85,13 +107,6 @@ export class TabTitle implements InteractiveComponent {
    */
   @Prop({ reflect: true }) tab?: string;
 
-  @Watch("active")
-  activeTabChanged(): void {
-    if (this.active) {
-      this.emitActiveTab(false);
-    }
-  }
-
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -99,6 +114,14 @@ export class TabTitle implements InteractiveComponent {
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
+    const { selected, active } = this;
+
+    if (selected) {
+      this.active = selected;
+    } else if (active) {
+      this.activeHandler(active);
+    }
+
     this.setupTextContentObserver();
     this.parentTabNavEl = this.el.closest("calcite-tab-nav");
     this.parentTabsEl = this.el.closest("calcite-tabs");
@@ -118,7 +141,7 @@ export class TabTitle implements InteractiveComponent {
     if (Build.isBrowser) {
       this.updateHasText();
     }
-    if (this.tab && this.active) {
+    if (this.tab && this.selected) {
       this.emitActiveTab(false);
     }
   }
@@ -161,11 +184,12 @@ export class TabTitle implements InteractiveComponent {
     return (
       <Host
         aria-controls={this.controls}
-        aria-expanded={toAriaBoolean(this.active)}
+        aria-selected={toAriaBoolean(this.selected)}
         id={id}
         role="tab"
+        tabIndex={this.selected ? 0 : -1}
       >
-        <a
+        <div
           class={{
             container: true,
             "container--has-text": this.hasText
@@ -174,7 +198,7 @@ export class TabTitle implements InteractiveComponent {
           {this.iconStart ? iconStartEl : null}
           <slot />
           {this.iconEnd ? iconEndEl : null}
-        </a>
+        </div>
       </Host>
     );
   }
@@ -184,7 +208,9 @@ export class TabTitle implements InteractiveComponent {
   }
 
   componentDidRender(): void {
-    updateHostInteraction(this, true);
+    updateHostInteraction(this, () => {
+      return this.selected;
+    });
   }
 
   //--------------------------------------------------------------------------
@@ -204,10 +230,10 @@ export class TabTitle implements InteractiveComponent {
     }
 
     if (this.tab) {
-      this.active = this.tab === event.detail.tab;
+      this.selected = this.tab === event.detail.tab;
     } else {
       this.getTabIndex().then((index) => {
-        this.active = index === event.detail.tab;
+        this.selected = index === event.detail.tab;
       });
     }
 
@@ -220,14 +246,15 @@ export class TabTitle implements InteractiveComponent {
   }
 
   @Listen("keydown")
-  keyDownHandler(e: KeyboardEvent): void {
-    switch (e.key) {
+  keyDownHandler(event: KeyboardEvent): void {
+    switch (event.key) {
       case " ":
       case "Enter":
         this.emitActiveTab();
-        e.preventDefault();
+        event.preventDefault();
         break;
       case "ArrowRight":
+        event.preventDefault();
         if (getElementDir(this.el) === "ltr") {
           this.calciteInternalTabsFocusNext.emit();
         } else {
@@ -235,6 +262,7 @@ export class TabTitle implements InteractiveComponent {
         }
         break;
       case "ArrowLeft":
+        event.preventDefault();
         if (getElementDir(this.el) === "ltr") {
           this.calciteInternalTabsFocusPrevious.emit();
         } else {
@@ -255,7 +283,7 @@ export class TabTitle implements InteractiveComponent {
    *
    * @see [TabChangeEventDetail](https://github.com/Esri/calcite-components/blob/master/src/components/tab/interfaces.ts#L1)
    */
-  @Event() calciteTabsActivate: EventEmitter<TabChangeEventDetail>;
+  @Event({ cancelable: false }) calciteTabsActivate: EventEmitter<TabChangeEventDetail>;
 
   /**
    * Fires when a specific tab is activated (`event.details`)
@@ -263,22 +291,22 @@ export class TabTitle implements InteractiveComponent {
    * @see [TabChangeEventDetail](https://github.com/Esri/calcite-components/blob/master/src/components/tab/interfaces.ts#L1)
    * @internal
    */
-  @Event() calciteInternalTabsActivate: EventEmitter<TabChangeEventDetail>;
+  @Event({ cancelable: false }) calciteInternalTabsActivate: EventEmitter<TabChangeEventDetail>;
 
   /**
    * @internal
    */
-  @Event() calciteInternalTabsFocusNext: EventEmitter;
+  @Event({ cancelable: false }) calciteInternalTabsFocusNext: EventEmitter<void>;
 
   /**
    * @internal
    */
-  @Event() calciteInternalTabsFocusPrevious: EventEmitter;
+  @Event({ cancelable: false }) calciteInternalTabsFocusPrevious: EventEmitter<void>;
 
   /**
    * @internal
    */
-  @Event() calciteInternalTabTitleRegister: EventEmitter<TabID>;
+  @Event({ cancelable: false }) calciteInternalTabTitleRegister: EventEmitter<TabID>;
 
   //--------------------------------------------------------------------------
   //
@@ -356,10 +384,4 @@ export class TabTitle implements InteractiveComponent {
   }
 
   guid = `calcite-tab-title-${guid()}`;
-
-  //--------------------------------------------------------------------------
-  //
-  //  Private Methods
-  //
-  //--------------------------------------------------------------------------
 }

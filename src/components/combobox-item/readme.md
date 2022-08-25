@@ -19,9 +19,9 @@
 
 ## Events
 
-| Event                       | Description                                          | Type               |
-| --------------------------- | ---------------------------------------------------- | ------------------ |
-| `calciteComboboxItemChange` | Emitted whenever the item is selected or unselected. | `CustomEvent<any>` |
+| Event                       | Description                                                                                                                                            | Type               |
+| --------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------ |
+| `calciteComboboxItemChange` | Emitted whenever the item is selected or unselected. **Note:**: The event's payload is deprecated, please use the event's target/currentTarget instead | `CustomEvent<any>` |
 
 ## Methods
 

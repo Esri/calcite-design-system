@@ -20,24 +20,24 @@
 
 ## Properties
 
-| Property     | Attribute     | Description                                                                                     | Type                | Default       |
-| ------------ | ------------- | ----------------------------------------------------------------------------------------------- | ------------------- | ------------- |
-| `average`    | `average`     | optionally pass a cumulative average rating to display                                          | `number`            | `undefined`   |
-| `count`      | `count`       | optionally pass a number of previous ratings to display                                         | `number`            | `undefined`   |
-| `disabled`   | `disabled`    | is the rating component in a selectable mode                                                    | `boolean`           | `false`       |
-| `intlRating` | `intl-rating` | Localized string for "Rating" (used for aria label)                                             | `string`            | `TEXT.rating` |
-| `intlStars`  | `intl-stars`  | Localized string for labelling each star, `${num}` in the string will be replaced by the number | `string`            | `TEXT.stars`  |
-| `name`       | `name`        | The name of the rating                                                                          | `string`            | `undefined`   |
-| `readOnly`   | `read-only`   | is the rating component in a selectable mode                                                    | `boolean`           | `false`       |
-| `scale`      | `scale`       | specify the scale of the component, defaults to m                                               | `"l" \| "m" \| "s"` | `"m"`         |
-| `showChip`   | `show-chip`   | Show average and count data summary chip (if available)                                         | `boolean`           | `false`       |
-| `value`      | `value`       | the value of the rating component                                                               | `number`            | `0`           |
+| Property     | Attribute     | Description                                                                                          | Type                | Default       |
+| ------------ | ------------- | ---------------------------------------------------------------------------------------------------- | ------------------- | ------------- |
+| `average`    | `average`     | Specifies a cumulative average from previous ratings to display.                                     | `number`            | `undefined`   |
+| `count`      | `count`       | Specifies the number of previous ratings to display.                                                 | `number`            | `undefined`   |
+| `disabled`   | `disabled`    | When true, interaction is prevented and the component is displayed with lower opacity.               | `boolean`           | `false`       |
+| `intlRating` | `intl-rating` | Accessible name for the component.                                                                   | `string`            | `TEXT.rating` |
+| `intlStars`  | `intl-stars`  | Accessible name for each star. The `${num}` in the string will be replaced by the number.            | `string`            | `TEXT.stars`  |
+| `name`       | `name`        | Specifies the name of the component on form submission.                                              | `string`            | `undefined`   |
+| `readOnly`   | `read-only`   | When true, the component's value can be read, but cannot be modified.                                | `boolean`           | `false`       |
+| `scale`      | `scale`       | Specifies the size of the component.                                                                 | `"l" \| "m" \| "s"` | `"m"`         |
+| `showChip`   | `show-chip`   | When true, and if available, displays the "average" and/or "count" data summary in a `calcite-chip`. | `boolean`           | `false`       |
+| `value`      | `value`       | The component's value.                                                                               | `number`            | `0`           |
 
 ## Events
 
-| Event                 | Description                              | Type                              |
-| --------------------- | ---------------------------------------- | --------------------------------- |
-| `calciteRatingChange` | Fires when the rating value has changed. | `CustomEvent<{ value: number; }>` |
+| Event                 | Description                               | Type                              |
+| --------------------- | ----------------------------------------- | --------------------------------- |
+| `calciteRatingChange` | Fires when the component's value changes. | `CustomEvent<{ value: number; }>` |
 
 ## Methods
 
@@ -51,9 +51,9 @@ Type: `Promise<void>`
 
 ## CSS Custom Properties
 
-| Name                            | Description                                              |
-| ------------------------------- | -------------------------------------------------------- |
-| `--calcite-rating-spacing-unit` | the amount of left/right margin between each rating star |
+| Name                            | Description                                                           |
+| ------------------------------- | --------------------------------------------------------------------- |
+| `--calcite-rating-spacing-unit` | The amount of left and right margin spacing between each rating star. |
 
 ## Dependencies
 

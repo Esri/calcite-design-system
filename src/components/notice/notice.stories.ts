@@ -16,8 +16,8 @@ export const Simple = (): string => html`
   <div style="width:600px;max-width:100%;text-align:center;">
     <calcite-notice
       ${boolean("icon", true)}
-      ${boolean("active", true)}
-      ${boolean("dismissible", true)}
+      ${boolean("open", true)}
+      ${boolean("closable", true)}
       scale="${select("scale", ["s", "m", "l"], "m")}"
       width="${select("width", ["auto", "half", "full"], "auto")}"
       color="${select("color", ["green", "red", "yellow", "blue"], "blue")}"
@@ -33,8 +33,8 @@ export const CustomIcon = (): string => html`
   <div style="width:600px;max-width:100%;text-align:center;">
     <calcite-notice
       icon="${select("icon", iconNames, iconNames[0])}"
-      ${boolean("active", true)}
-      ${boolean("dismissible", true)}
+      ${boolean("open", true)}
+      ${boolean("closable", true)}
       scale="${select("scale", ["s", "m", "l"], "m")}"
       width="${select("width", ["auto", "half", "full"], "auto")}"
       color="${select("color", ["green", "red", "yellow", "blue"], "blue")}"
@@ -52,8 +52,8 @@ export const WithAction = (): string => html`
   <div style="width:600px;max-width:100%;text-align:center;">
     <calcite-notice
       ${boolean("icon", true)}
-      ${boolean("active", true)}
-      ${boolean("dismissible", false)}
+      ${boolean("open", true)}
+      ${boolean("closable", false)}
       scale="${select("scale", ["s", "m", "l"], "m")}"
       width="${select("width", ["auto", "half", "full"], "auto")}"
       color="${select("color", ["green", "red", "yellow", "blue"], "red")}"
@@ -75,8 +75,8 @@ export const DarkMode = (): string => html`
     <calcite-notice
       class="calcite-theme-dark"
       ${boolean("icon", true)}
-      ${boolean("active", true)}
-      ${boolean("dismissible", false)}
+      ${boolean("open", true)}
+      ${boolean("closable", false)}
       scale="${select("scale", ["s", "m", "l"], "m")}"
       width="${select("width", ["auto", "half", "full"], "auto")}"
       color="${select("color", ["green", "red", "yellow", "blue"], "red")}"
@@ -93,8 +93,8 @@ export const Rtl = (): string => html`
   <div dir="rtl" style="width:600px;max-width:100%;text-align:center;">
     <calcite-notice
       ${boolean("icon", true)}
-      ${boolean("active", true)}
-      ${boolean("dismissible", true)}
+      ${boolean("open", true)}
+      ${boolean("closable", true)}
       width="${select("width", ["auto", "half", "full"], "auto")}"
       scale="${select("scale", ["s", "m", "l"], "m")}"
       color="${select("color", ["green", "red", "yellow", "blue"], "blue")}"

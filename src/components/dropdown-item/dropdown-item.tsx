@@ -8,14 +8,15 @@ import {
   Listen,
   Method,
   Prop,
-  VNode
+  VNode,
+  Watch
 } from "@stencil/core";
 import { getElementProp, toAriaBoolean } from "../../utils/dom";
 import { ItemKeyboardEvent } from "../dropdown/interfaces";
 
 import { FlipContext } from "../interfaces";
 import { CSS } from "./resources";
-import { SelectionMode } from "../dropdown-group/interfaces";
+import { RequestedItem, SelectionMode } from "../dropdown-group/interfaces";
 
 /**
  * @slot - A slot for adding text.
@@ -40,8 +41,25 @@ export class DropdownItem {
   //
   //--------------------------------------------------------------------------
 
-  /** Indicates whether the item is active. */
+  /**
+   * Indicates whether the item is active.
+   *
+   * @deprecated Use selected instead.
+   */
   @Prop({ reflect: true, mutable: true }) active = false;
+
+  @Watch("active")
+  activeHandler(value: boolean): void {
+    this.selected = value;
+  }
+
+  /** When true, item is selected  */
+  @Prop({ reflect: true, mutable: true }) selected = false;
+
+  @Watch("selected")
+  selectedHandler(value: boolean): void {
+    this.active = value;
+  }
 
   /** flip the icon(s) in rtl */
   @Prop({ reflect: true }) iconFlipRtl?: FlipContext;
@@ -73,13 +91,14 @@ export class DropdownItem {
   /**
    * @internal
    */
-  @Event() calciteInternalDropdownItemSelect: EventEmitter;
+  @Event({ cancelable: false }) calciteInternalDropdownItemSelect: EventEmitter<RequestedItem>;
 
   /** @internal */
-  @Event() calciteInternalDropdownItemKeyEvent: EventEmitter<ItemKeyboardEvent>;
+  @Event({ cancelable: false })
+  calciteInternalDropdownItemKeyEvent: EventEmitter<ItemKeyboardEvent>;
 
   /** @internal */
-  @Event() calciteInternalDropdownCloseRequest: EventEmitter;
+  @Event({ cancelable: false }) calciteInternalDropdownCloseRequest: EventEmitter<void>;
   //--------------------------------------------------------------------------
   //
   //  Public Methods
@@ -103,6 +122,12 @@ export class DropdownItem {
   }
 
   connectedCallback(): void {
+    const isSelected = this.selected || this.active;
+
+    if (isSelected) {
+      this.activeHandler(isSelected);
+      this.selectedHandler(isSelected);
+    }
     this.initialize();
   }
 
@@ -162,7 +187,7 @@ export class DropdownItem {
       ? "menuitemcheckbox"
       : "menuitem";
 
-    const itemAria = this.selectionMode !== "none" ? toAriaBoolean(this.active) : null;
+    const itemAria = this.selectionMode !== "none" ? toAriaBoolean(this.selected) : null;
 
     return (
       <Host aria-checked={itemAria} role={itemRole} tabindex="0">
@@ -202,29 +227,29 @@ export class DropdownItem {
   }
 
   @Listen("keydown")
-  keyDownHandler(e: KeyboardEvent): void {
-    switch (e.key) {
+  keyDownHandler(event: KeyboardEvent): void {
+    switch (event.key) {
       case " ":
       case "Enter":
         this.emitRequestedItem();
         if (this.href) {
           this.childLink.click();
         }
-        e.preventDefault();
+        event.preventDefault();
         break;
       case "Escape":
         this.calciteInternalDropdownCloseRequest.emit();
-        e.preventDefault();
+        event.preventDefault();
         break;
       case "Tab":
-        this.calciteInternalDropdownItemKeyEvent.emit({ keyboardEvent: e });
+        this.calciteInternalDropdownItemKeyEvent.emit({ keyboardEvent: event });
         break;
       case "ArrowUp":
       case "ArrowDown":
       case "Home":
       case "End":
-        e.preventDefault();
-        this.calciteInternalDropdownItemKeyEvent.emit({ keyboardEvent: e });
+        event.preventDefault();
+        this.calciteInternalDropdownItemKeyEvent.emit({ keyboardEvent: event });
         break;
     }
   }
@@ -272,7 +297,7 @@ export class DropdownItem {
     this.selectionMode = getElementProp(this.el, "selection-mode", "single");
     this.parentDropdownGroupEl = this.el.closest("calcite-dropdown-group");
     if (this.selectionMode === "none") {
-      this.active = false;
+      this.selected = false;
     }
   }
 
@@ -280,20 +305,20 @@ export class DropdownItem {
     switch (this.selectionMode) {
       case "multi":
         if (this.el === this.requestedDropdownItem) {
-          this.active = !this.active;
+          this.selected = !this.selected;
         }
         break;
 
       case "single":
         if (this.el === this.requestedDropdownItem) {
-          this.active = true;
+          this.selected = true;
         } else if (this.requestedDropdownGroup === this.parentDropdownGroupEl) {
-          this.active = false;
+          this.selected = false;
         }
         break;
 
       case "none":
-        this.active = false;
+        this.selected = false;
         break;
     }
   }
