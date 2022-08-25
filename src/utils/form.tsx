@@ -292,6 +292,8 @@ function syncHiddenFormInput(component: FormComponent): void {
       docFrag = ownerDocument!.createDocumentFragment();
     }
 
+    input.inert = true;
+
     docFrag.append(input);
 
     // emits when hidden input is autofilled
