@@ -52,6 +52,13 @@ describe("calcite-checkbox", () => {
 
     expect(calciteCheckbox).toHaveAttribute("checked");
     expect(await calciteCheckbox.getProperty("checked")).toBe(true);
+
+    //in addition to .click() check with .callMethod("click") as well
+    await calciteCheckbox.callMethod("click");
+    await page.waitForChanges();
+
+    expect(calciteCheckbox).not.toHaveAttribute("checked");
+    expect(await calciteCheckbox.getProperty("checked")).toBe(false);
   });
 
   it("appropriately triggers the custom change event", async () => {
