@@ -195,7 +195,9 @@ describe("calcite-radio-button", () => {
     expect(await first.getProperty("checked")).toBe(true);
     expect(await second.getProperty("checked")).toBe(false);
 
-    //in addition to .click() check with .callMethod("click") as well
+    /* call a 'click' @method on a component with stencil utility function .callMethod("click") as an additional check to
+    the HTMLElement.click() method that simulates a mouse click on an element */
+
     await second.callMethod("click");
     await page.waitForChanges();
 
@@ -285,17 +287,6 @@ describe("calcite-radio-button", () => {
 
     expect(focusEvent).toHaveReceivedEventTimes(1);
     expect(blurEvent).toHaveReceivedEventTimes(1);
-
-    //in addition to .click() check with .callMethod("click") as well
-    await radio.callMethod("click");
-
-    expect(focusEvent).toHaveReceivedEventTimes(2);
-    expect(blurEvent).toHaveReceivedEventTimes(1);
-
-    await radio2.callMethod("click");
-
-    expect(focusEvent).toHaveReceivedEventTimes(2);
-    expect(blurEvent).toHaveReceivedEventTimes(2);
   });
 
   it("appropriately triggers the custom internal focus and blur events with keyboard", async () => {
