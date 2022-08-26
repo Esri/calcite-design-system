@@ -195,9 +195,7 @@ describe("calcite-radio-button", () => {
     expect(await first.getProperty("checked")).toBe(true);
     expect(await second.getProperty("checked")).toBe(false);
 
-    /* call a 'click' @method on a component with stencil utility function .callMethod("click") as an additional check to
-    the HTMLElement.click() method that simulates a mouse click on an element */
-
+    // helps test click behavior via HTMLElement.click()
     await second.callMethod("click");
     await page.waitForChanges();
 
