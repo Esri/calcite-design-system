@@ -3,6 +3,19 @@
 This document maintains a list of released versions and changes introduced by them.
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
+<!--@unreleased-section-start-->
+
+## Unreleased
+
+### Features
+
+- **flow:** Adds flow-item component to replace use of panel within a flow ([#5129](https://github.com/Esri/calcite-components/issues/5129)) ([6f6316c](https://github.com/Esri/calcite-components/commit/6f6316c8532e1876aadc63f71c3e4095db2af3b6)), closes [#5071](https://github.com/Esri/calcite-components/issues/5071)
+
+### Bug Fixes
+
+- **card:** drop hover/press styling ([#5212](https://github.com/Esri/calcite-components/issues/5212)) ([7740137](https://github.com/Esri/calcite-components/commit/774013727424ea2ce1ccbc5ff43c25aa7c95b362)), closes [#5204](https://github.com/Esri/calcite-components/issues/5204)
+<!--@unreleased-section-end-->
+
 ## [1.0.0-beta.93](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.92...v1.0.0-beta.93) (2022-08-23)
 
 ### Features
