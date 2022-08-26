@@ -52,7 +52,7 @@ describe("calcite-switch", () => {
 
     expect(await calciteSwitch.getProperty("checked")).toBe(true);
 
-    //in addition to .click() check with .callMethod("click") as well
+    // helps test click behavior via HTMLElement.click()
     await calciteSwitch.callMethod("click");
     await page.waitForChanges();
 
