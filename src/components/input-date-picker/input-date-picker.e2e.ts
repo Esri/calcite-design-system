@@ -1,4 +1,3 @@
-/* eslint-disable jest/no-focused-tests */
 import { newE2EPage } from "@stencil/core/testing";
 import {
   defaults,
@@ -362,7 +361,7 @@ describe("calcite-input-date-picker", () => {
     });
   });
 
-  it.only("should return endDate time as 23:59:999 when valueAsDate property is parsed", async () => {
+  it("should return endDate time as 23:59:999 when valueAsDate property is parsed", async () => {
     const page = await newE2EPage();
     await page.setContent(html` <calcite-input-date-picker layout="horizontal" range />`);
 
