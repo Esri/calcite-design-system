@@ -11,8 +11,8 @@ Calcite Components is still in its early stages. You can help most by:
 - Adding ideas for components by [creating a New Component issue](https://github.com/Esri/calcite-components/issues/new?assignees=&labels=new+component%2C0+-+new%2Cneeds+triage&template=new-component.yml).
 - Requesting features for existing components by [creating a Enhancement issue](https://github.com/Esri/calcite-components/issues/new?assignees=&labels=enhancement%2C0+-+new%2Cneeds+triage&template=enhancement.yml).
 - Reporting problems by [creating a Bug issue](https://github.com/Esri/calcite-components/issues/new?assignees=&labels=bug%2C0+-+new%2Cneeds+triage&template=bug.yml).
-- Working on [the issues marked as `help wanted`](https://github.com/Esri/calcite-components/issues?q=is%3Aopen+is%3Aissue+label%3A%22help+wanted%22+no%3Aassignee). There is also a `good first issue` label if you are just getting started. Before working on an issue, make sure to comment on it and ask for the specific action items. Sometimes there is additional context needed that is not specified in the issue.
-- If you want to help develop components take a look at [1.0.0 components](https://github.com/Esri/calcite-components/projects/1) which are the components we are targeting for the first release of Calcite Components. Before starting development please review our [component conventions](./conventions/README.md) and the [Stencil documentation](https://stenciljs.com/docs/host-element).
+- Working on [the issues marked as `help wanted`](https://github.com/Esri/calcite-components/issues?q=is%3Aopen+is%3Aissue+label%3A%22help+wanted%22+no%3Aassignee). There is also a `good first issue` label if you are just getting started. Before working on an issue, make sure to comment on it and ask for the action items. Sometimes there is additional context needed that is not specified in the issue.
+- If you want to help develop components take a look at the [new component issues](https://github.com/Esri/calcite-components/issues?q=is%3Aopen+is%3Aissue+label%3A%22new+component%22). Before starting development please review our [component conventions](./conventions/README.md) and the [Stencil documentation](https://stenciljs.com/docs/host-element).
 
 If you aren't familiar with the basics of Web Components and Shadow DOM, please read through some of the following resources before contributing:
 
@@ -55,7 +55,7 @@ There are three labels that mean an issue is not ready for development:
 
 ### Milestones
 
-Milestones are used to manage sprints, which are two weeks long. Sprint milestones are not closed until all of the issues are verified. We usually have a couple sprint milestones open at a time to help with future planning. Grab issues from the current sprint when you are looking for something to work on. There are also two constant milestones:
+Milestones are used to manage sprints, which are two weeks long. Sprint milestones are not closed until all of the issues are verified. We usually have a couple sprint milestones open at a time to help with future planning. Calcite Core team members should grab issues from the current sprint when you are looking for something to work on. External contributors should ask before working on issues in upcoming sprints, since some of them need to be completed in a timely manner. There are also two constant milestones:
 
 - **Backburner:** Issues we want to tackle soon, but not in the immediate sprint. If you didn't find anything to work on in the current sprint, this is the second place to look.
 - **Freezer:** Items that we want to look into, but do not have an immediate timeline associated. Try not to work on these issues unless they have a `help wanted` label.
@@ -68,6 +68,14 @@ Milestones are used to manage sprints, which are two weeks long. Sprint mileston
 - **5:** Fixing bugs or adding small features that don't require comprehensive planning.
 - **13:** Issues that are more complicated and need some workflow or design planning. These issues usually need additional unit tests written.
 - **40:** If an issue is this complicated it should be converted into an epic.
+
+### Epics
+
+Epics are specified by the `epic` label. Epics are changes that require a lot of work and wouldn't fit into a single milestone. An epic should be a single concept, and have child issues for individual tasks created and listed in the epic's issue body.
+
+### Labels
+
+GitHub labels are used for organizing issues and providing context. You should read through the [label descriptions](https://github.com/Esri/calcite-components/labels) to familiarize yourself with what they signify.
 
 ## Code base
 
@@ -90,7 +98,7 @@ An installation of Node is required for development. If you don't have Node inst
 - https://github.com/neoclide/coc.nvim
 - etc...
 
-To start the local development environment run `npm i && npm start`, which will install the npm dependencies and start the local Stencil development server on http://localhost:3333. You can modify the [index.html](./src/index.html) to add and test your new component. Just add another HTML file to the `demos` folder and link to this new page from `index.html`.
+To start the local development environment, run `npm start`, which will start the local Stencil development server on [http://localhost:3333](http://localhost:3333). You can modify the [index.html](./src/index.html) to add and test your new component. Just add another HTML file to the `demos` folder and link to this new page from `index.html`.
 
 ## Linting
 
@@ -104,11 +112,11 @@ Calcite Components include Stencil's default testing tools which are built on [J
 
 If you're working on writing tests for a particular component, it can be helpful to use `npm run test:watch` to retest on file changes. Once the initial tests run, typing `o` at the prompt will run tests only on changed files, allowing you to quickly iterate on tests for a specific component.
 
-Please refer to the [Stencil testing documentation](https://stenciljs.com/docs/testing-overview) for more information.
+Please refer to the [Stencil testing documentation](https://stenciljs.com/docs/testing-overview) and Calcite's [testing conventions](./conventions/Testing.md) for more information.
 
 ## Adding a new component
 
-Before adding a new component, please read through the [component conventions guide](./conventions/README.md). This guide covers everything from colors to event naming syntax and will help you create a component that is consistent with those that exist already. All new components should have an [issue](https://github.com/Esri/calcite-components/issues/new?assignees=&labels=new+component%2C+0+-+new%2C+architecture&template=new-component.md&title=New+Component%3A+).
+Before adding a new component, please read through the [component conventions guide](./conventions/README.md). This guide covers everything from colors to event naming syntax and will help you create a component that is consistent with those that already exist. All new components should have an [issue](https://github.com/Esri/calcite-components/issues/new?assignees=&labels=new+component%2C+0+-+new%2C+architecture&template=new-component.md&title=New+Component%3A+).
 
 ## Documenting a component
 
@@ -120,7 +128,7 @@ Stencil creates API reference documentation using JSDoc, here is their [document
 
 The `docs:preview` command will build Calcite Components and open your browser to view the storybook docs locally.
 
-For more information view the [Documentation Conventions](https://github.com/Esri/calcite-components/blob/master/conventions/Documentation.md).
+Please refer to the [Documentation Conventions](./conventions/Documentation.md) for more information.
 
 ## Branch naming conventions
 
