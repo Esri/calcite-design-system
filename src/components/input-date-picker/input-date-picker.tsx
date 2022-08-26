@@ -107,7 +107,9 @@ export class InputDatePicker
   @Watch("value")
   valueHandler(value: string | string[]): void {
     if (Array.isArray(value)) {
-      this.valueAsDate = value.map((v) => dateFromISO(v));
+      this.valueAsDate = value.map((v, index) => {
+        return dateFromISO(v, index === 1);
+      });
       this.start = value[0];
       this.end = value[1];
     } else if (value) {
@@ -384,9 +386,10 @@ export class InputDatePicker
     const isOpen = this.active || this.open;
     isOpen && this.activeHandler(isOpen);
     isOpen && this.openHandler(isOpen);
-
     if (Array.isArray(this.value)) {
-      this.valueAsDate = this.value.map((v) => dateFromISO(v));
+      this.valueAsDate = this.value.map((v, index) => {
+        return dateFromISO(v, index === 1);
+      });
       this.start = this.value[0];
       this.end = this.value[1];
     } else if (this.value) {
