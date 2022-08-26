@@ -53,7 +53,7 @@ describe("calcite-checkbox", () => {
     expect(calciteCheckbox).toHaveAttribute("checked");
     expect(await calciteCheckbox.getProperty("checked")).toBe(true);
 
-    //in addition to .click() check with .callMethod("click") as well
+    // helps test click behavior via HTMLElement.click()
     await calciteCheckbox.callMethod("click");
     await page.waitForChanges();
 
