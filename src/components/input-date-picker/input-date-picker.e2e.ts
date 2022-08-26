@@ -1,3 +1,4 @@
+/* eslint-disable jest/no-focused-tests */
 import { newE2EPage } from "@stencil/core/testing";
 import {
   defaults,
@@ -358,6 +359,34 @@ describe("calcite-input-date-picker", () => {
     expect(eventSpy).toHaveReceivedEventDetail({
       startDate: null,
       endDate: new Date(2026, 7, 30, 23, 59, 59, 999).toISOString()
+    });
+  });
+
+  it.only("should return endDate time as 23:59:999 when valueAsDate property is parsed", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html` <calcite-input-date-picker layout="horizontal" range />`);
+
+    const datepickerEl = await page.find("calcite-input-date-picker");
+    datepickerEl.setProperty("value", ["2022-08-10", "2022-08-20"]);
+    const eventSpy = await datepickerEl.spyOnEvent("calciteDatePickerRangeChange");
+
+    await page.keyboard.press("Tab");
+    await page.waitForChanges();
+    await page.keyboard.press("Backspace");
+    await page.waitForChanges();
+    await page.keyboard.press("Backspace");
+    await page.waitForChanges();
+    await page.keyboard.press("Backspace");
+    await page.waitForChanges();
+    await page.keyboard.press("Backspace");
+    await page.waitForChanges();
+
+    await datepickerEl.type("08/15/2022");
+    await page.waitForChanges();
+
+    expect(eventSpy).toHaveReceivedEventDetail({
+      startDate: new Date(2022, 7, 15).toISOString(),
+      endDate: new Date(2022, 7, 20, 23, 59, 59, 999).toISOString()
     });
   });
 });
