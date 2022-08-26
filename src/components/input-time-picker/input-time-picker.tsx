@@ -58,7 +58,7 @@ export class InputTimePicker implements LabelableComponent, FormComponent, Inter
     this.open = value;
   }
 
-  /** When tru, opens the `time-picker` component */
+  /** When true, displays the `calcite-time-picker` component.*/
 
   @Prop({ reflect: true, mutable: true }) open = false;
 
