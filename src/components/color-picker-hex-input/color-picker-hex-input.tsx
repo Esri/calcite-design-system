@@ -179,6 +179,15 @@ export class ColorPickerHexInput {
     }
   }
 
+  private onPaste(event: ClipboardEvent): void {
+    const hex = event.clipboardData.getData("text");
+
+    if (isValidHex(hex)) {
+      event.preventDefault();
+      this.inputNode.value = hex.slice(1);
+    }
+  }
+
   //--------------------------------------------------------------------------
   //
   //  Private State/Props
@@ -214,6 +223,7 @@ export class ColorPickerHexInput {
           onCalciteInputChange={this.onInputChange}
           onCalciteInternalInputBlur={this.onCalciteInternalInputBlur}
           onKeyDown={this.handleKeyDown}
+          onPaste={this.onPaste}
           prefixText="#"
           ref={this.storeInputRef}
           scale={this.scale}

@@ -118,20 +118,8 @@
   items-stretch;
 }
 
-.header-actions--end,
-.menu-container:only-child {
+.header-actions--end {
   margin-inline-start: theme("margin.auto");
-}
-
-.menu-button {
-  @apply relative
-    h-full
-    flex-initial
-    self-stretch;
-}
-.menu {
-  min-inline-size: theme("spacing.40");
-  flex-flow: column nowrap;
 }
 
 .content-wrapper {
@@ -177,4 +165,8 @@
   p-2
   z-sticky;
   inline-size: fit-content;
+}
+
+[hidden] {
+  display: none;
 }
