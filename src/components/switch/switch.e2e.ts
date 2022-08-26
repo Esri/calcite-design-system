@@ -51,6 +51,12 @@ describe("calcite-switch", () => {
     });
 
     expect(await calciteSwitch.getProperty("checked")).toBe(true);
+
+    //in addition to .click() check with .callMethod("click") as well
+    await calciteSwitch.callMethod("click");
+    await page.waitForChanges();
+
+    expect(await calciteSwitch.getProperty("checked")).toBe(false);
   });
 
   it("can be checked via the switched property (deprecated)", async () => {
