@@ -229,6 +229,20 @@ describe("calcite-link", () => {
 
       expect(page.url()).toBe(targetUrl);
     });
+
+    it("non user-initiated click event", async () => {
+      const link = await page.find("calcite-link");
+      link.click();
+      await page.waitForChanges();
+
+      expect(page.url()).toBe(targetUrl);
+
+      // helps test click behavior via HTMLElement.click()
+      await link.callMethod("click");
+      await page.waitForChanges();
+
+      expect(page.url()).toBe(targetUrl);
+    });
   });
 
   describe("CSS properties for light/dark themes", () => {
