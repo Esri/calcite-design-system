@@ -1,4 +1,4 @@
-import { Component, Element, h, Host, Method, Prop, VNode } from "@stencil/core";
+import { Component, Element, h, Host, Listen, Method, Prop, VNode } from "@stencil/core";
 import { focusElement, getElementDir } from "../../utils/dom";
 import { FlipContext } from "../interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
@@ -115,6 +115,20 @@ export class Link implements InteractiveComponent {
         </Tag>
       </Host>
     );
+  }
+
+  //--------------------------------------------------------------------------
+  //
+  //  Events
+  //
+  //--------------------------------------------------------------------------
+
+  @Listen("click")
+  clickHandler(event: CustomEvent): void {
+    /* forwards the click() to the internal link for non user-initiated events */
+    if (!event.isTrusted) {
+      this.childEl.click();
+    }
   }
 
   //--------------------------------------------------------------------------
