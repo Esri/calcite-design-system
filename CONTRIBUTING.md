@@ -11,7 +11,8 @@ Calcite Components is still in its early stages. You can help most by:
 - Adding ideas for components by [creating a New Component issue](https://github.com/Esri/calcite-components/issues/new?assignees=&labels=new+component%2C0+-+new%2Cneeds+triage&template=new-component.yml).
 - Requesting features for existing components by [creating a Enhancement issue](https://github.com/Esri/calcite-components/issues/new?assignees=&labels=enhancement%2C0+-+new%2Cneeds+triage&template=enhancement.yml).
 - Reporting problems by [creating a Bug issue](https://github.com/Esri/calcite-components/issues/new?assignees=&labels=bug%2C0+-+new%2Cneeds+triage&template=bug.yml).
-- Working on [the issues marked as `help wanted`](https://github.com/Esri/calcite-components/issues?q=is%3Aopen+is%3Aissue+label%3A%22help+wanted%22+no%3Aassignee). There is also a `good first issue` label if you are just getting started. Before working on an issue, make sure to comment on it and ask for the action items. Sometimes there is additional context needed that is not specified in the issue.
+- Working on [the issues marked as `help wanted`](https://github.com/Esri/calcite-components/issues?q=is%3Aopen+is%3Aissue+label%3A%22help+wanted%22+no%3Aassignee). There is also a `good first issue` label if you are just getting started.
+  - Comment on the issue and ask for the action items before you start working. Sometimes additional context is needed, which may not be specified in the issue.
 - If you want to help develop components take a look at the [new component issues](https://github.com/Esri/calcite-components/issues?q=is%3Aopen+is%3Aissue+label%3A%22new+component%22). Before starting development please review our [component conventions](./conventions/README.md) and the [Stencil documentation](https://stenciljs.com/docs/host-element).
 
 If you aren't familiar with the basics of Web Components and Shadow DOM, please read through some of the following resources before contributing:
@@ -32,6 +33,10 @@ If something isn't working the way you expect, please take a look at the [existi
 - Did this problem start happening after a recent release or was it always a bug?
 
 ## Issue management
+
+### Labels
+
+GitHub labels are used for organizing issues and providing context. You can familiarize yourself with the [label descriptions](https://github.com/Esri/calcite-components/labels) to understand what they signify.
 
 ### Lifecycle
 
@@ -73,10 +78,6 @@ Milestones are used to manage sprints, which are two weeks long. Sprint mileston
 
 Epics are specified by the `epic` label. Epics are changes that require a lot of work and wouldn't fit into a single milestone. An epic should be a single concept, and have child issues for individual tasks created and listed in the epic's issue body.
 
-### Labels
-
-GitHub labels are used for organizing issues and providing context. You should read through the [label descriptions](https://github.com/Esri/calcite-components/labels) to familiarize yourself with what they signify.
-
 ## Code base
 
 Our code base is written in TypeScript and must adhere to specific conventions and formatting. Please do the following while developing:
@@ -88,15 +89,12 @@ Our code base is written in TypeScript and must adhere to specific conventions a
 
 ## Getting a development environment set up
 
-An installation of Node is required for development. If you don't have Node installed, we recommend [Volta], which will automatically use the Node versions we pinned in `package.json`. We also recommend installing the following extensions in your editor of choice: TypeScript, TailwindCSS, ESLint, StyleLint, and Prettier. If you use VS Code, you will see a pop up in the bottom right corner prompting you to install or view the workspaces's recommended extensions. You can install the extensions manually if you do not use VS Code:
+An installation of Node is required for development. If you don't have Node installed, we recommend [Volta], which will automatically use the Node versions we pinned in `package.json`. We also recommend installing the following extensions in your editor of choice: TypeScript, TailwindCSS, ESLint, StyleLint, and Prettier. If you use VS Code, you will see a pop up in the bottom right corner prompting you to install or view the workspaces's recommended extensions. Here are instructions for manually installing the extensions in a variety of editors:
 
 - https://tailwindcss.com/docs/intellisense
 - https://eslint.org/docs/latest/user-guide/integrations
 - https://stylelint.io/user-guide/integrations/editor
-- https://atom.io/packages/atom-typescript
-- https://github.com/Microsoft/TypeScript-Sublime-Plugin
-- https://github.com/neoclide/coc.nvim
-- etc...
+- https://prettier.io/docs/en/editors.html
 
 To start the local development environment, run `npm start`, which will start the local Stencil development server on [http://localhost:3333](http://localhost:3333). You can modify the [index.html](./src/index.html) to add and test your new component. Just add another HTML file to the `demos` folder and link to this new page from `index.html`.
 
