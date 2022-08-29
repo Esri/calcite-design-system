@@ -97,8 +97,5 @@ export async function getLocaleData(lang: string): Promise<DateLocaleData> {
 }
 
 export function mapValueToValueAsDate(value: string[]): Date[] {
-  const newarray = value.map((v, index) => {
-    return dateFromISO(v, index === 1);
-  });
-  return newarray;
+  return value.map((v, index) => dateFromISO(v, index === 1));
 }
