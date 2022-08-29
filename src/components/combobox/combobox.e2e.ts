@@ -11,7 +11,7 @@ import {
 } from "../../tests/commonTests";
 
 import { html } from "../../../support/formatting";
-import { TEXT, CSS } from "./resources";
+import { TEXT, CSS, ComboboxChildSelector } from "./resources";
 
 describe("calcite-combobox", () => {
   it("renders", async () => renders("calcite-combobox", { display: "block" }));
@@ -1286,5 +1286,21 @@ describe("calcite-combobox", () => {
     await page.waitForChanges();
 
     expect(inputEl).toHaveClass("icon-start");
+  });
+
+  it("should be able to type when tab through the component once", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html` <calcite-combobox>
+      <calcite-combobox-item value="Bluetooth" text-label="Bluetooth"> </calcite-combobox-item>
+    </calcite-combobox>`);
+
+    const inputEl = await page.find("calcite-combobox >>> input");
+
+    await page.keyboard.press("Tab");
+    await page.waitForChanges();
+    await page.keyboard.type("Blue");
+    await page.waitForChanges();
+
+    expect(await inputEl.getProperty("value")).toBe("Blue");
   });
 });
