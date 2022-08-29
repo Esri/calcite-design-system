@@ -10,7 +10,7 @@ import {
 
 /**
  * @slot - A slot for adding text and a hyperlink.
- * @slot thumbnail - A slot for adding an HTML image element to the tip.
+ * @slot thumbnail - A slot for adding an HTML image element.
  */
 @Component({
   tag: "calcite-tip",
@@ -24,32 +24,34 @@ export class Tip implements ConditionalSlotComponent {
   //
   // --------------------------------------------------------------------------
   /**
-   * No longer displays the tip.
+   * When true, the component does not display.
    */
   @Prop({ reflect: true, mutable: true }) dismissed = false;
 
   /**
-   * Indicates whether the tip can be dismissed.
+   * When true, the close button is not present on the component.
    */
   @Prop({ reflect: true }) nonDismissible = false;
 
   /**
-   * The heading of the tip.
+   * The component header text.
    */
   @Prop() heading?: string;
 
   /**
-   * Number at which section headings should start for this component.
+   * Specifies the number at which section headings should start.
    */
   @Prop() headingLevel: HeadingLevel;
 
   /**
-   * The selected state of the tip if it is being used inside a `calcite-tip-manager`.
+   * When true and if it has a parent `calcite-tip-manager`, the component is selected.
+   *
+   * Only one tip can be selected within the `calcite-tip-manager` parent.
    */
   @Prop({ reflect: true }) selected = false;
 
   /**
-   * Alternate text for closing the tip.
+   * Accessible name for the component's close button.
    */
   @Prop() intlClose?: string;
 
@@ -82,7 +84,7 @@ export class Tip implements ConditionalSlotComponent {
   // --------------------------------------------------------------------------
 
   /**
-   * Emitted when the component has been dismissed.
+   * Emits when the component has been dismissed.
    */
   @Event({ cancelable: false }) calciteTipDismiss: EventEmitter<void>;
 
