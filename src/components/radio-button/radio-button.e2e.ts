@@ -194,6 +194,19 @@ describe("calcite-radio-button", () => {
 
     expect(await first.getProperty("checked")).toBe(true);
     expect(await second.getProperty("checked")).toBe(false);
+
+    // helps test click behavior via HTMLElement.click()
+    await second.callMethod("click");
+    await page.waitForChanges();
+
+    expect(await first.getProperty("checked")).toBe(false);
+    expect(await second.getProperty("checked")).toBe(true);
+
+    await first.callMethod("click");
+    await page.waitForChanges();
+
+    expect(await first.getProperty("checked")).toBe(true);
+    expect(await second.getProperty("checked")).toBe(false);
   });
 
   it("programmatically checking a radio button updates the group's state correctly", async () => {

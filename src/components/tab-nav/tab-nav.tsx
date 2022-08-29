@@ -42,12 +42,12 @@ export class TabNav {
   //--------------------------------------------------------------------------
 
   /**
-   * Name to use when saving selected tab data to localStorage
+   * Specifies the name when saving selected `calcite-tab` data to `localStorage`.
    */
   @Prop() storageId: string;
 
   /**
-   * Pass the same string to multiple tab navs to keep them all in sync if one changes
+   * Specifies text to update multiple components to keep in sync if one changes.
    */
   @Prop() syncId: string;
 
@@ -275,7 +275,7 @@ export class TabNav {
   //--------------------------------------------------------------------------
 
   /**
-   * Emitted when the active tab changes
+   * Emits when the selected `calcite-tab` changes.
    *
    * @see [TabChangeEventDetail](https://github.com/Esri/calcite-components/blob/master/src/components/tab/interfaces.ts#L1)
    */
