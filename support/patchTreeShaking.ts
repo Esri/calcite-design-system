@@ -1,3 +1,5 @@
+// patch needed due to Stencil tree-shaking bug
+// https://github.com/ionic-team/stencil/issues/3470
 (async function () {
   const {
     promises: { readFile, writeFile }
@@ -6,8 +8,6 @@
   const { quote } = await import("shell-quote");
   const { fileURLToPath } = await import("url");
 
-  // patch needed due to Stencil tree-shaking bug
-  // https://github.com/ionic-team/stencil/issues/3470
   try {
     const __filename = fileURLToPath(import.meta.url);
     const __dirname = dirname(__filename);
