@@ -108,9 +108,6 @@ export class InputDatePicker
   valueHandler(value: string | string[]): void {
     if (Array.isArray(value)) {
       this.valueAsDate = mapValueToValueAsDate(value);
-      // this.valueAsDate = value.map((v, index) => {
-      //   return dateFromISO(v, index === 1);
-      // });
       this.start = value[0];
       this.end = value[1];
     } else if (value) {
