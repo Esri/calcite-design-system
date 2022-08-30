@@ -232,16 +232,20 @@ describe("calcite-link", () => {
 
     it("non user-initiated click event", async () => {
       const link = await page.find("calcite-link");
+      const clickEvent = await link.spyOnEvent("click");
       link.click();
       await page.waitForChanges();
 
       expect(page.url()).toBe(targetUrl);
+      expect(clickEvent).toHaveReceivedEventTimes(1);
 
       // helps test click behavior via HTMLElement.click()
       await link.callMethod("click");
       await page.waitForChanges();
 
       expect(page.url()).toBe(targetUrl);
+      // make sure forwarded internal event does not propagate
+      expect(clickEvent).toHaveReceivedEventTimes(2);
     });
   });
 

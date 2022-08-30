@@ -127,7 +127,11 @@ export class Link implements InteractiveComponent {
   clickHandler(event: CustomEvent): void {
     /* forwards the click() to the internal link for non user-initiated events */
     if (!event.isTrusted) {
-      this.childEl.click();
+      if (event.composedPath().find((el) => el === this.childEl)) {
+        event.stopPropagation();
+      } else {
+        this.childEl.click();
+      }
     }
   }
 
