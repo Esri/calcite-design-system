@@ -124,10 +124,10 @@ export class Link implements InteractiveComponent {
   //--------------------------------------------------------------------------
 
   @Listen("click")
-  clickHandler(event: CustomEvent): void {
+  clickHandler(event: PointerEvent): void {
     /* forwards the click() to the internal link for non user-initiated events */
     if (!event.isTrusted) {
-      if (event.composedPath().find((el) => el === this.childEl)) {
+      if (event.composedPath().find((el: HTMLElement) => el === this.childEl)) {
         event.stopPropagation();
       } else {
         this.childEl.click();
