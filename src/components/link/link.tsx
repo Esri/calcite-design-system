@@ -103,6 +103,7 @@ export class Link implements InteractiveComponent {
           */
           download={Tag === "a" && (download === "" || download) ? download : null}
           href={Tag === "a" && this.href}
+          onClick={this.childElClickHandler}
           ref={this.storeTagRef}
           rel={Tag === "a" && this.rel}
           role={role}
@@ -127,11 +128,7 @@ export class Link implements InteractiveComponent {
   clickHandler(event: PointerEvent): void {
     /* forwards the click() to the internal link for non user-initiated events */
     if (!event.isTrusted) {
-      if (event.composedPath().find((el: HTMLElement) => el === this.childEl)) {
-        event.stopPropagation();
-      } else {
-        this.childEl.click();
-      }
+      this.childEl.click();
     }
   }
 
@@ -155,6 +152,15 @@ export class Link implements InteractiveComponent {
 
   /** the rendered child element */
   private childEl: HTMLAnchorElement | HTMLSpanElement;
+
+  /**
+   * handle clicks on child element
+   *
+   * @param event
+   */
+  private childElClickHandler = (event: PointerEvent): void => {
+    event.stopPropagation();
+  };
 
   //--------------------------------------------------------------------------
   //
