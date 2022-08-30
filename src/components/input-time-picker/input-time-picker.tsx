@@ -46,13 +46,27 @@ export class InputTimePicker implements LabelableComponent, FormComponent, Inter
   //
   //--------------------------------------------------------------------------
 
-  /** The active state of the time input */
+  /**
+   * The active state of the time input
+   *
+   * @deprecated Use open instead.
+   */
   @Prop({ reflect: true, mutable: true }) active = false;
 
   @Watch("active")
-  activeHandler(): void {
+  activeHandler(value: boolean): void {
+    this.open = value;
+  }
+
+  /** When true, displays the `calcite-time-picker` component.*/
+
+  @Prop({ reflect: true, mutable: true }) open = false;
+
+  @Watch("open")
+  openHandler(value: boolean): void {
+    this.active = value;
     if (this.disabled || this.readOnly) {
-      this.active = false;
+      this.open = false;
       return;
     }
 
@@ -73,7 +87,7 @@ export class InputTimePicker implements LabelableComponent, FormComponent, Inter
   @Watch("readOnly")
   handleDisabledAndReadOnlyChange(value: boolean): void {
     if (!value) {
-      this.active = false;
+      this.open = false;
     }
   }
 
@@ -211,7 +225,7 @@ export class InputTimePicker implements LabelableComponent, FormComponent, Inter
   //--------------------------------------------------------------------------
 
   private calciteInternalInputBlurHandler = (): void => {
-    this.active = false;
+    this.open = false;
     const shouldIncludeSeconds = this.shouldIncludeSeconds();
 
     const localizedInputValue = localizeTimeString(
@@ -226,7 +240,7 @@ export class InputTimePicker implements LabelableComponent, FormComponent, Inter
 
   private calciteInternalInputFocusHandler = (event: CustomEvent): void => {
     if (!this.readOnly) {
-      this.active = true;
+      this.open = true;
       event.stopPropagation();
     }
   };
@@ -248,7 +262,7 @@ export class InputTimePicker implements LabelableComponent, FormComponent, Inter
   timePickerBlurHandler(event: CustomEvent): void {
     event.preventDefault();
     event.stopPropagation();
-    this.active = false;
+    this.open = false;
   }
 
   private timePickerChangeHandler = (event: CustomEvent): void => {
@@ -263,7 +277,7 @@ export class InputTimePicker implements LabelableComponent, FormComponent, Inter
     event.preventDefault();
     event.stopPropagation();
     if (!this.readOnly) {
-      this.active = true;
+      this.open = true;
     }
   }
 
@@ -304,8 +318,8 @@ export class InputTimePicker implements LabelableComponent, FormComponent, Inter
       }
     }
 
-    if (key === "Escape" && this.active) {
-      this.active = false;
+    if (key === "Escape" && this.open) {
+      this.open = false;
       event.preventDefault();
     }
   };
@@ -398,11 +412,18 @@ export class InputTimePicker implements LabelableComponent, FormComponent, Inter
   //--------------------------------------------------------------------------
 
   connectedCallback() {
+    const { active, open } = this;
     if (this.value) {
       this.setValue({ value: isValidTime(this.value) ? this.value : undefined, origin: "loading" });
     }
     connectLabel(this);
     connectForm(this);
+
+    if (open) {
+      this.active = open;
+    } else if (active) {
+      this.open = active;
+    }
   }
 
   componentDidLoad() {
@@ -452,7 +473,7 @@ export class InputTimePicker implements LabelableComponent, FormComponent, Inter
         <calcite-popover
           id={popoverId}
           label="Time Picker"
-          open={this.active}
+          open={this.open}
           placement={this.placement}
           ref={this.setCalcitePopoverEl}
           referenceElement={this.referenceElementId}

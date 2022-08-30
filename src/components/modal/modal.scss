@@ -148,6 +148,7 @@
     bg-transparent;
   border-start-end-radius: theme("borderRadius.DEFAULT");
   padding-block: var(--calcite-modal-padding, var(--calcite-modal-padding-internal));
+  padding-inline: var(--calcite-modal-padding, var(--calcite-modal-padding-internal));
   flex: 0 0 auto;
   calcite-icon {
     @apply pointer-events-none;
