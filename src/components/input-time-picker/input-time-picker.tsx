@@ -137,11 +137,20 @@ export class InputTimePicker implements LabelableComponent, FormComponent, Inter
 
   @Watch("locale")
   localeWatcher(newLocale: string): void {
-    this.setInputValue(localizeTimeString(this.value, newLocale, this.shouldIncludeSeconds()));
+    this.setInputValue(
+      localizeTimeString(this.value, newLocale, this.numberingSystem, this.shouldIncludeSeconds())
+    );
   }
 
   /** The name of the time input */
   @Prop() name: string;
+
+  /**
+   * Specifies the Unicode numeral system used by the component for localization.
+   *
+   * @mdn [numberingSystem](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/Locale/numberingSystem)
+   */
+  @Prop() numberingSystem?: string;
 
   /**
    * When true, makes the component required for form-submission.
@@ -231,10 +240,12 @@ export class InputTimePicker implements LabelableComponent, FormComponent, Inter
     const localizedInputValue = localizeTimeString(
       this.calciteInputEl.value,
       this.locale,
+      this.numberingSystem,
       shouldIncludeSeconds
     );
     this.setInputValue(
-      localizedInputValue || localizeTimeString(this.value, this.locale, shouldIncludeSeconds)
+      localizedInputValue ||
+        localizeTimeString(this.value, this.locale, this.numberingSystem, shouldIncludeSeconds)
     );
   };
 
@@ -363,6 +374,7 @@ export class InputTimePicker implements LabelableComponent, FormComponent, Inter
     const newLocalizedValue = localizeTimeString(
       newValue,
       this.locale,
+      this.numberingSystem,
       this.shouldIncludeSeconds()
     );
     this.internalValueChange = origin !== "external" && origin !== "loading";
@@ -461,6 +473,8 @@ export class InputTimePicker implements LabelableComponent, FormComponent, Inter
             disabled={this.disabled}
             icon="clock"
             label={getLabelText(this)}
+            locale={this.locale}
+            numberingSystem={this.numberingSystem}
             onCalciteInputInput={this.calciteInputInputHandler}
             onCalciteInternalInputBlur={this.calciteInternalInputBlurHandler}
             onCalciteInternalInputFocus={this.calciteInternalInputFocusHandler}
@@ -493,6 +507,7 @@ export class InputTimePicker implements LabelableComponent, FormComponent, Inter
             intlSecondDown={this.intlSecondDown}
             intlSecondUp={this.intlSecondUp}
             lang={this.locale}
+            numberingSystem={this.numberingSystem}
             onCalciteInternalTimePickerChange={this.timePickerChangeHandler}
             ref={this.setCalciteTimePickerEl}
             scale={this.scale}

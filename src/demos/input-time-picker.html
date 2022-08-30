@@ -57,86 +57,42 @@
           <calcite-label scale="l">basic</calcite-label>
           <calcite-label scale="s">
             Small Label
-            <calcite-input-time-picker scale="s" value="23:59"></calcite-input-time-picker>
+            <calcite-input-time-picker lang="ar" numberingSystem="arab" scale="s"></calcite-input-time-picker>
           </calcite-label>
           <calcite-label scale="m">
             Medium Label
-            <calcite-input-time-picker scale="m" value="23:59"></calcite-input-time-picker>
+            <calcite-input-time-picker lang="ar" numberingSystem="arab" scale="m"></calcite-input-time-picker>
           </calcite-label>
           <calcite-label scale="l"
             >Large Label
-            <calcite-input-time-picker scale="l" value="23:59"></calcite-input-time-picker>
+            <calcite-input-time-picker lang="ar" numberingSystem="arab" scale="l"></calcite-input-time-picker>
           </calcite-label>
 
           <calcite-label scale="l">seconds</calcite-label>
           <calcite-label scale="s">
             Small Label
-            <calcite-input-time-picker scale="s" step="1" value="23:59"></calcite-input-time-picker>
+            <calcite-input-time-picker lang="ar" numberingSystem="arab" scale="s" step="1"></calcite-input-time-picker>
           </calcite-label>
           <calcite-label scale="m">
             Medium Label
-            <calcite-input-time-picker scale="m" step="1" value="23:59"></calcite-input-time-picker>
+            <calcite-input-time-picker lang="ar" numberingSystem="arab" scale="m" step="1"></calcite-input-time-picker>
           </calcite-label>
           <calcite-label scale="l"
             >Large Label
-            <calcite-input-time-picker scale="l" step="1" value="23:59"></calcite-input-time-picker>
+            <calcite-input-time-picker lang="ar" numberingSystem="arab" scale="l" step="1"></calcite-input-time-picker>
           </calcite-label>
 
           <calcite-label scale="l">time-picker basic</calcite-label>
-          <calcite-time-picker scale="s" value="23:59"></calcite-time-picker>
-          <calcite-time-picker scale="m" value="23:59"></calcite-time-picker>
-          <calcite-time-picker scale="l" value="23:59"></calcite-time-picker>
+          <calcite-time-picker lang="ar" numberingSystem="arab" scale="s"></calcite-time-picker>
+          <calcite-time-picker lang="ar" numberingSystem="arab" scale="m"></calcite-time-picker>
+          <calcite-time-picker lang="ar" numberingSystem="arab" scale="l"></calcite-time-picker>
 
           <calcite-label scale="l">time-picker seconds</calcite-label>
-          <calcite-time-picker scale="s" step="1" value="23:59:59"></calcite-time-picker>
-          <calcite-time-picker scale="m" step="1" value="23:59:59"></calcite-time-picker>
-          <calcite-time-picker scale="l" step="1" value="23:59:59"></calcite-time-picker>
+          <calcite-time-picker lang="ar" numberingSystem="arab" scale="s" step="1"></calcite-time-picker>
+          <calcite-time-picker lang="ar" numberingSystem="arab" scale="m" step="1"></calcite-time-picker>
+          <calcite-time-picker lang="ar" numberingSystem="arab" scale="l" step="1"></calcite-time-picker>
         </main>
       </div>
-
-      <script>
-        (async () => {
-          await customElements.whenDefined("calcite-input-time-picker");
-          await customElements.whenDefined("calcite-tile-select-group");
-          await customElements.whenDefined("calcite-tile-select");
-          const inputTimePicker = document.querySelector("calcite-input-time-picker");
-          await inputTimePicker.componentOnReady();
-          const tileSelectGroup = document.querySelector("calcite-tile-select-group");
-          await tileSelectGroup.componentOnReady();
-          const inputTimePickerEls = Array.from(document.querySelectorAll("calcite-input-time-picker"));
-          const timePickerEls = Array.from(document.querySelectorAll("calcite-time-picker"));
-          document.addEventListener("calciteInputTimePickerChange", (event) => {
-            console.log("calciteInputTimePickerChange", event.target.value);
-          });
-          document.addEventListener("calciteTileSelectChange", (event) => {
-            inputTimePickerEls.forEach((inputTimePickerEl) => (inputTimePickerEl.locale = event.target.value));
-            timePickerEls.forEach((timePickerEl) => (timePickerEl.locale = event.target.value));
-          });
-          locales.forEach(({ locale, name }) => {
-            let localeEl = document.createElement("calcite-tile-select");
-            localeEl.setAttribute("heading", name);
-            localeEl.setAttribute("name", "locales");
-            localeEl.setAttribute("scale", "s");
-            localeEl.setAttribute("width", "full");
-            localeEl.setAttribute("value", locale);
-            tileSelectGroup.appendChild(localeEl);
-          });
-          const htmlEl = document.querySelector("html");
-          const htmlElObserver = new MutationObserver((mutations) => {
-            mutations.forEach((mutation) => {
-              if (mutation.type == "attributes" && mutation.attributeName === "dir") {
-                inputTimePickerEls.forEach((inputTimePickerEl) =>
-                  inputTimePickerEl.setAttribute("dir", htmlEl.getAttribute("dir"))
-                );
-                timePickerEls.forEach((timePickerEl) => timePickerEl.setAttribute("dir", htmlEl.getAttribute("dir")));
-              }
-            });
-          });
-          htmlElObserver.observe(htmlEl, {
-            attributes: true
-          });
-        })();
-      </script>
     </demo-dom-swapper>
   </body>
 </html>

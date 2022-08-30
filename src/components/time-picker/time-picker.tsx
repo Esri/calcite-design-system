@@ -150,7 +150,7 @@ export class TimePicker {
 
   @Watch("locale")
   localeWatcher(newLocale: string): void {
-    this.hourCycle = getLocaleHourCycle(newLocale);
+    this.hourCycle = getLocaleHourCycle(newLocale, this.numberingSystem);
     this.setValue(this.value, false);
   }
 
@@ -159,6 +159,13 @@ export class TimePicker {
 
   /** Specifies the granularity the "value" must adhere to (in seconds). */
   @Prop() step = 60;
+
+  /**
+   * Specifies the Unicode numeral system used by the component for localization.
+   *
+   * @mdn [numberingSystem](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/Locale/numberingSystem)
+   */
+  @Prop() numberingSystem?: string;
 
   /** The component's value in UTC (always 24-hour format). */
   @Prop({ mutable: true }) value: string = null;
@@ -626,7 +633,7 @@ export class TimePicker {
         localizedSecond,
         localizedSecondSuffix,
         localizedMeridiem
-      } = localizeTimeStringToParts(value, this.locale);
+      } = localizeTimeStringToParts(value, this.locale, this.numberingSystem);
       this.localizedHour = localizedHour;
       this.localizedHourSuffix = localizedHourSuffix;
       this.localizedMinute = localizedMinute;
@@ -639,7 +646,7 @@ export class TimePicker {
       if (localizedMeridiem) {
         this.localizedMeridiem = localizedMeridiem;
         this.meridiem = getMeridiem(this.hour);
-        const formatParts = getTimeParts(value, this.locale);
+        const formatParts = getTimeParts(value, this.locale, this.numberingSystem);
         this.meridiemOrder = this.getMeridiemOrder(formatParts);
       }
     } else {
@@ -682,11 +689,16 @@ export class TimePicker {
             }
             break;
         }
-        this.localizedHour = localizeTimePart(this.hour, "hour", this.locale);
+        this.localizedHour = localizeTimePart(this.hour, "hour", this.locale, this.numberingSystem);
       }
     } else {
       this[key] = typeof value === "number" ? formatTimePart(value) : value;
-      this[`localized${capitalize(key)}`] = localizeTimePart(this[key], key, this.locale);
+      this[`localized${capitalize(key)}`] = localizeTimePart(
+        this[key],
+        key,
+        this.locale,
+        this.numberingSystem
+      );
     }
     if (this.hour && this.minute) {
       const showSeconds = this.second && this.showSecond;
@@ -695,8 +707,9 @@ export class TimePicker {
       this.value = null;
     }
     this.localizedMeridiem = this.value
-      ? localizeTimeStringToParts(this.value, this.locale)?.localizedMeridiem || null
-      : localizeTimePart(this.meridiem, "meridiem", this.locale);
+      ? localizeTimeStringToParts(this.value, this.locale, this.numberingSystem)
+          ?.localizedMeridiem || null
+      : localizeTimePart(this.meridiem, "meridiem", this.locale, this.numberingSystem);
     if (emit) {
       this.calciteInternalTimePickerChange.emit();
     }
