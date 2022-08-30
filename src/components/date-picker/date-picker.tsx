@@ -11,8 +11,15 @@ import {
   VNode,
   Build
 } from "@stencil/core";
-import { getLocaleData, DateLocaleData } from "./utils";
-import { dateFromRange, dateFromISO, dateToISO, getDaysDiff, HoverRange } from "../../utils/date";
+import { getLocaleData, DateLocaleData, getValueAsDateRange } from "./utils";
+import {
+  dateFromRange,
+  dateFromISO,
+  dateToISO,
+  getDaysDiff,
+  HoverRange,
+  setEndOfDay
+} from "../../utils/date";
 import { HeadingLevel } from "../functional/Heading";
 
 import { DateRangeChange } from "./interfaces";
@@ -193,7 +200,7 @@ export class DatePicker {
   // --------------------------------------------------------------------------
   connectedCallback(): void {
     if (Array.isArray(this.value)) {
-      this.valueAsDate = this.value.map((v) => dateFromISO(v));
+      this.valueAsDate = getValueAsDateRange(this.value);
       this.start = this.value[0];
       this.end = this.value[1];
     } else if (this.value) {
@@ -294,7 +301,7 @@ export class DatePicker {
   @Watch("value")
   valueHandler(value: string | string[]): void {
     if (Array.isArray(value)) {
-      this.valueAsDate = value.map((v) => dateFromISO(v));
+      this.valueAsDate = getValueAsDateRange(value);
       this.start = value[0];
       this.end = value[1];
     } else if (value) {
@@ -491,7 +498,7 @@ export class DatePicker {
    * @param emit
    */
   private setEndAsDate(endDate: Date, emit?: boolean): void {
-    this.endAsDate = endDate;
+    this.endAsDate = endDate ? setEndOfDay(endDate) : endDate;
     this.mostRecentRangeValue = this.endAsDate;
     if (emit) {
       this.calciteDatePickerRangeChange.emit({

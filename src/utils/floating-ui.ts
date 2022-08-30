@@ -37,7 +37,7 @@ type AutoPlacement = "auto" | "auto-start" | "auto-end";
  *
  * There is no need for our "*-leading" and "*-trailing" values anymore since "*-start" and "*-end" are already flipped in RTL.
  *
- * @deprecated use expanded instead
+ * @deprecated
  */
 type DeprecatedPlacement =
   | "leading-leading"
@@ -121,10 +121,21 @@ export const flipPlacements: EffectivePlacement[] = [
   "left-end"
 ];
 
-export type MenuPlacement = Extract<
-  LogicalPlacement,
-  "top-start" | "top" | "top-end" | "bottom-start" | "bottom" | "bottom-end"
+/**
+ * Use "*-start" and "*-end" instead.
+ *
+ * There is no need for our "*-leading" and "*-trailing" values anymore since "*-start" and "*-end" are already flipped in RTL.
+ *
+ * @deprecated
+ */
+type DeprecatedMenuPlacement = Extract<
+  DeprecatedPlacement,
+  "top-leading" | "top-trailing" | "bottom-leading" | "bottom-trailing"
 >;
+
+export type MenuPlacement =
+  | DeprecatedMenuPlacement
+  | Extract<LogicalPlacement, "top-start" | "top" | "top-end" | "bottom-start" | "bottom" | "bottom-end">;
 
 export const defaultMenuPlacement: MenuPlacement = "bottom-start";
 
@@ -180,7 +191,9 @@ function getMiddleware({
   if (type === "menu") {
     return [
       ...defaultMiddleware,
-      flip({ fallbackPlacements: ["top-start", "top", "top-end", "bottom-start", "bottom", "bottom-end"] })
+      flip({
+        fallbackPlacements: flipPlacements || ["top-start", "top", "top-end", "bottom-start", "bottom", "bottom-end"]
+      })
     ];
   }
 

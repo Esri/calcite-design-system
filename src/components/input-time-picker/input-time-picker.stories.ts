@@ -51,6 +51,15 @@ export const Placement = (): string => html`
   </calcite-input-time-picker>
 `;
 
+export const Open = (): string => html`
+  <calcite-input-time-picker
+    name="${text("name", "placement-top")}"
+    value="${text("value", "10:37")}"
+    ${boolean("open", true)}
+  >
+  </calcite-input-time-picker>
+`;
+
 export const KoreanLocale = stepStory(
   (): string => html`
     <calcite-input-time-picker

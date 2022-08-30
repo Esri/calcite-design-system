@@ -561,4 +561,43 @@ describe("calcite-tooltip", () => {
 
     expect(await tooltip.getProperty("open")).toBe(false);
   });
+
+  it("should still function when disconnected and reconnected", async () => {
+    const page = await newE2EPage();
+
+    await page.setContent(
+      html`<button id="test">test</button>
+        <p>Hello World</p>
+        <calcite-tooltip reference-element="ref">Content</calcite-tooltip>
+        <button id="ref">Button</button>
+        <p>Hello World 2</p>
+        <div id="transfer"></div>`
+    );
+
+    await page.waitForChanges();
+
+    const tooltip = await page.find(`calcite-tooltip`);
+    const ref = await page.find("#ref");
+    expect(await tooltip.isVisible()).toBe(false);
+
+    await ref.focus();
+    await page.waitForChanges();
+    expect(await tooltip.isVisible()).toBe(true);
+
+    const testElement = await page.find("#test");
+    await testElement.focus();
+    await page.waitForChanges();
+    expect(await tooltip.isVisible()).toBe(false);
+
+    await page.$eval("calcite-tooltip", (tooltipEl: HTMLCalciteTooltipElement) => {
+      const transferEl = document.getElementById("transfer");
+      transferEl.appendChild(tooltipEl);
+    });
+    await page.waitForChanges();
+
+    await ref.focus();
+    await page.waitForChanges();
+
+    expect(await tooltip.isVisible()).toBe(true);
+  });
 });

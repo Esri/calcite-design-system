@@ -105,3 +105,25 @@ export const RTL = (): string => html`
 `;
 
 export const disabled = (): string => html`<calcite-input-date-picker disabled></calcite-input-date-picker>`;
+
+export const flipPlacements = (): string => html`
+  <style>
+    .my-input-date-picker-div {
+      margin-top: 50px;
+    }
+    .my-input-date-picker {
+      position: unset;
+    }
+  </style>
+  <div style="height: 100px; overflow:scroll;">
+    <div class="my-input-date-picker-div">
+      <calcite-label layout="inline">
+        Date
+        <calcite-input-date-picker open class="my-input-date-picker"></calcite-input-date-picker
+      ></calcite-label>
+    </div>
+  </div>
+  <script>
+    document.querySelector(".my-input-date-picker").flipPlacements = ["right"];
+  </script>
+`;

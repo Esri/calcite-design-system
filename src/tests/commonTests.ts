@@ -3,7 +3,7 @@ import { JSX } from "../components";
 import { toHaveNoViolations } from "jest-axe";
 import axe from "axe-core";
 import { config } from "../../stencil.config";
-import { GlobalTestProps } from "./utils";
+import { GlobalTestProps, skipAnimations } from "./utils";
 import { hiddenFormInputSlotName } from "../utils/form";
 import { html } from "../../support/formatting";
 
@@ -714,11 +714,7 @@ export async function disabled(
 
   const component = await page.find(tag);
   const enabledComponentClickSpy = await component.spyOnEvent("click");
-  await page.addStyleTag({
-    // skip animations/transitions
-    content: `:root { --calcite-duration-factor: 0; }`
-  });
-
+  await skipAnimations(page);
   await page.$eval(tag, (el) => {
     el.addEventListener(
       "click",
