@@ -11,7 +11,7 @@ import {
   VNode,
   Build
 } from "@stencil/core";
-import { getLocaleData, DateLocaleData, mapValueToValueAsDate } from "./utils";
+import { getLocaleData, DateLocaleData, getValueAsDateRange } from "./utils";
 import {
   dateFromRange,
   dateFromISO,
@@ -200,7 +200,7 @@ export class DatePicker {
   // --------------------------------------------------------------------------
   connectedCallback(): void {
     if (Array.isArray(this.value)) {
-      this.valueAsDate = mapValueToValueAsDate(this.value);
+      this.valueAsDate = getValueAsDateRange(this.value);
       this.start = this.value[0];
       this.end = this.value[1];
     } else if (this.value) {
@@ -301,7 +301,7 @@ export class DatePicker {
   @Watch("value")
   valueHandler(value: string | string[]): void {
     if (Array.isArray(value)) {
-      this.valueAsDate = mapValueToValueAsDate(value);
+      this.valueAsDate = getValueAsDateRange(value);
       this.start = value[0];
       this.end = value[1];
     } else if (value) {

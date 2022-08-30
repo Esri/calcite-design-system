@@ -13,7 +13,7 @@ import {
   EventEmitter,
   Build
 } from "@stencil/core";
-import { getLocaleData, DateLocaleData, mapValueToValueAsDate } from "../date-picker/utils";
+import { getLocaleData, DateLocaleData, getValueAsDateRange } from "../date-picker/utils";
 import {
   dateFromRange,
   inRange,
@@ -107,7 +107,7 @@ export class InputDatePicker
   @Watch("value")
   valueHandler(value: string | string[]): void {
     if (Array.isArray(value)) {
-      this.valueAsDate = mapValueToValueAsDate(value);
+      this.valueAsDate = getValueAsDateRange(value);
       this.start = value[0];
       this.end = value[1];
     } else if (value) {
@@ -385,7 +385,7 @@ export class InputDatePicker
     isOpen && this.activeHandler(isOpen);
     isOpen && this.openHandler(isOpen);
     if (Array.isArray(this.value)) {
-      this.valueAsDate = mapValueToValueAsDate(this.value);
+      this.valueAsDate = getValueAsDateRange(this.value);
       this.start = this.value[0];
       this.end = this.value[1];
     } else if (this.value) {

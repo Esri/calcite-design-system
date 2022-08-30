@@ -102,6 +102,6 @@ export async function getLocaleData(lang: string): Promise<DateLocaleData> {
  * @param value
  */
 
-export function mapValueToValueAsDate(value: string[]): Date[] {
+export function getValueAsDateRange(value: string[]): Date[] {
   return value.map((v, index) => dateFromISO(v, index === 1));
 }
