@@ -722,6 +722,7 @@ export class TimePicker {
   connectedCallback() {
     this.setValue(this.value, false);
     this.hourCycle = getLocaleHourCycle(this.locale);
+    this.meridiemOrder = this.getMeridiemOrder(getTimeParts("0:00:00", this.locale));
   }
 
   // --------------------------------------------------------------------------
