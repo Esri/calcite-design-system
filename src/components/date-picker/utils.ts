@@ -1,5 +1,5 @@
 import { getAssetPath } from "@stencil/core";
-import { getSupportedLocale } from "../../utils/localization/fetchLocale";
+import { getSupportedLocale } from "../../utils/fetchLocale";
 
 /**
  * Translation resource data structure

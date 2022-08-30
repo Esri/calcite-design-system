@@ -1,4 +1,4 @@
-import { locales } from "../locale";
+import { locales } from "./locale";
 
 export function getSupportedLocale(lang: string): string {
   if (locales.indexOf(lang) > -1) {
