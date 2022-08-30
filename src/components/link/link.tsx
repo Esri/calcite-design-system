@@ -126,7 +126,7 @@ export class Link implements InteractiveComponent {
 
   @Listen("click")
   clickHandler(event: PointerEvent): void {
-    /* forwards the click() to the internal link for non user-initiated events */
+    // forwards the click() to the internal link for non user-initiated events
     if (!event.isTrusted) {
       this.childEl.click();
     }
@@ -153,13 +153,10 @@ export class Link implements InteractiveComponent {
   /** the rendered child element */
   private childEl: HTMLAnchorElement | HTMLSpanElement;
 
-  /**
-   * handle clicks on child element
-   *
-   * @param event
-   */
   private childElClickHandler = (event: PointerEvent): void => {
-    event.stopPropagation();
+    if (!event.isTrusted) {
+      event.stopPropagation();
+    }
   };
 
   //--------------------------------------------------------------------------

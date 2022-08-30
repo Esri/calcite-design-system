@@ -230,7 +230,7 @@ describe("calcite-link", () => {
       expect(page.url()).toBe(targetUrl);
     });
 
-    it("non user-initiated click even", async () => {
+    it("non user-initiated click event", async () => {
       const link = await page.find("calcite-link");
       const clickEvent = await link.spyOnEvent("click");
 
