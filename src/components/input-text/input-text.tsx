@@ -506,7 +506,7 @@ export class InputText implements LabelableComponent, FormComponent, Interactive
         class={CSS.clearButton}
         disabled={this.disabled || this.readOnly}
         onClick={this.clearInputTextValue}
-        tabIndex={this.disabled ? -1 : 0}
+        tabIndex={-1}
         type="button"
       >
         <calcite-icon icon="x" scale="s" />

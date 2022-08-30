@@ -670,7 +670,7 @@ describe("calcite-input", () => {
       await element.callMethod("setFocus");
       await page.keyboard.press("Tab");
       expect(calciteInputInput).toHaveReceivedEventTimes(10);
-      expect(calciteInputChange).toHaveReceivedEventTimes(2);
+      expect(calciteInputChange).toHaveReceivedEventTimes(1);
       expect(await element.getProperty("value")).toBe(`${inputFirstPart}${textSecondPart}`);
 
       await element.callMethod("setFocus");

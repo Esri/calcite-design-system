@@ -186,7 +186,7 @@ export function keyboardNavigation(listType: ListType): void {
       await page.keyboard.press("Tab");
       await page.keyboard.press("Tab");
 
-      expect(await getFocusedItemValue(page)).toEqual("one");
+      expect(await getFocusedItemValue(page)).toEqual(null);
 
       await filter.callMethod("setFocus");
       await page.waitForChanges();
@@ -202,7 +202,7 @@ export function keyboardNavigation(listType: ListType): void {
       await page.keyboard.press("Tab");
       await page.keyboard.press("Tab");
 
-      expect(await getFocusedItemValue(page)).toEqual("two");
+      expect(await getFocusedItemValue(page)).toEqual(null);
     });
 
     it("resets tabindex to selected item when focusing out of list", async () => {
