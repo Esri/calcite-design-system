@@ -15,6 +15,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ### Bug Fixes
 
 - **card:** drop hover/press styling ([#5212](https://github.com/Esri/calcite-components/issues/5212)) ([7740137](https://github.com/Esri/calcite-components/commit/774013727424ea2ce1ccbc5ff43c25aa7c95b362)), closes [#5204](https://github.com/Esri/calcite-components/issues/5204)
+- **input-date-picker:** end date time is set to end of the day ([#5220](https://github.com/Esri/calcite-components/issues/5220)) ([a2166f7](https://github.com/Esri/calcite-components/commit/a2166f7add0b779cf2233c219648e0beed26510a)), closes [#5027](https://github.com/Esri/calcite-components/issues/5027)
 - **modal:** close button padding is aligned ([#5217](https://github.com/Esri/calcite-components/issues/5217)) ([4051a70](https://github.com/Esri/calcite-components/commit/4051a703b56c076b4100b531991b9f5167394e98)), closes [#5210](https://github.com/Esri/calcite-components/issues/5210)
 - **time-picker, input-time-picker:** initialize meridiem at the start of the time for rtl locales ([#5246](https://github.com/Esri/calcite-components/issues/5246)) ([4207654](https://github.com/Esri/calcite-components/commit/4207654476859e4c6e6413607da09dfb3a01836d)), closes [#4957](https://github.com/Esri/calcite-components/issues/4957)
 <!--@unreleased-section-end-->
