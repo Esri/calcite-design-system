@@ -10,6 +10,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ### Features
 
 - **flow:** Adds flow-item component to replace use of panel within a flow ([#5129](https://github.com/Esri/calcite-components/issues/5129)) ([6f6316c](https://github.com/Esri/calcite-components/commit/6f6316c8532e1876aadc63f71c3e4095db2af3b6)), closes [#5071](https://github.com/Esri/calcite-components/issues/5071)
+- **input-time-picker:** deprecate active prop and add open prop ([#5179](https://github.com/Esri/calcite-components/issues/5179)) ([7223e66](https://github.com/Esri/calcite-components/commit/7223e66a882eacbbb8dc24eb349dfc214608ce06))
 
 ### Bug Fixes
 

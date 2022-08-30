@@ -25,10 +25,14 @@ export class TileSelectGroup implements InteractiveComponent {
   //
   //--------------------------------------------------------------------------
 
-  /** The disabled state of the tile select. */
+  /** When true, interaction is prevented and the component is displayed with lower opacity. */
   @Prop({ reflect: true }) disabled = false;
 
-  /** Tiles by default move horizontally, stacking with each row, vertical allows single-column layouts */
+  /**
+   * Defines the layout of the component.
+   *
+   * Use "horizontal" for rows, and "vertical" for a single column.
+   */
   @Prop({ reflect: true }) layout?: TileSelectGroupLayout = "horizontal";
 
   //--------------------------------------------------------------------------
