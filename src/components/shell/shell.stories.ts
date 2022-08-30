@@ -261,7 +261,7 @@ const advancedLeadingPanelHTML = html`
 const advancedTrailingPanelHTMl = html`
   ${actionBarEndHTML}
   <calcite-flow>
-    <calcite-panel heading="Layer settings">
+    <calcite-flow-item heading="Layer settings">
       <calcite-action slot="header-menu-actions" text="Cool thing" text-enabled></calcite-action>
       <calcite-action slot="header-menu-actions" text="Cool thing" text-enabled></calcite-action>
       <calcite-action slot="header-menu-actions" text="Cool thing" text-enabled></calcite-action>
@@ -282,8 +282,8 @@ const advancedTrailingPanelHTMl = html`
       </calcite-block>
       <calcite-button slot="footer-actions" width="half" appearance="clear">Cancel</calcite-button>
       <calcite-button slot="footer-actions" width="half">Save</calcite-button>
-    </calcite-panel>
-    <calcite-panel heading="Deeper flow item">
+    </calcite-flow-item>
+    <calcite-flow-item heading="Deeper flow item">
       <calcite-block collapsible open heading="End Content" summary="Select goodness">
         <calcite-block-content>
           <calcite-block-section text="Cool things">
@@ -316,7 +316,7 @@ const advancedTrailingPanelHTMl = html`
       </calcite-block>
       <calcite-button slot="footer-actions" width="half" appearance="clear">Cancel</calcite-button>
       <calcite-button slot="footer-actions" width="half">Save</calcite-button>
-    </calcite-panel>
+    </calcite-flow-item>
   </calcite-flow>
 `;
 
@@ -413,7 +413,7 @@ background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
         </calcite-action-group>
       </calcite-action-bar>
       <calcite-flow>
-        <calcite-panel heading="Layer settings">
+        <calcite-flow-item heading="Layer settings">
           <calcite-action
             slot="header-menu-actions"
             text="Cool thing"
@@ -474,8 +474,8 @@ background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
           >
             Save
           </calcite-button>
-        </calcite-panel>
-        <calcite-panel heading="Deeper flow item" show-back-button>
+        </calcite-flow-item>
+        <calcite-flow-item heading="Deeper flow item" show-back-button>
           <calcite-block collapsible open heading="End Content" summary="Select goodness">
             <calcite-block-content>
               <calcite-block-section text="Cool things" toggle-display="button">
@@ -534,7 +534,7 @@ background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
           >
             Save
           </calcite-button>
-        </calcite-panel>
+        </calcite-flow-item>
       </calcite-flow>
     </calcite-shell-panel>
     <footer slot="footer">My Shell Footer</footer>
