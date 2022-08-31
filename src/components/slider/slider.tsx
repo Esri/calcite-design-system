@@ -235,7 +235,7 @@ export class Slider
     const rightThumbOffset = `${mirror ? maxInterval : 100 - maxInterval}%`;
     const valueIsRange = isRange(this.value);
     const handleLabelMinValueClasses = `${CSS.handleLabel} ${CSS.handleLabelMinValue}`;
-    const handleLabelValueClasses = `${CSS.handleLabel} ${CSS.handleLabelMinValue}`;
+    const handleLabelValueClasses = `${CSS.handleLabel} ${CSS.handleLabelValue}`;
 
     const handle = (
       <div
