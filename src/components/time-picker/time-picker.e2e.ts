@@ -1043,5 +1043,14 @@ describe("calcite-time-picker", () => {
       const timePickerDir = await timePicker.getAttribute("dir");
       expect(timePickerDir).toBe("ltr");
     });
+
+    it("meridiem is at the start of the time for arabic locale", async () => {
+      const page = await newE2EPage({
+        html: `<calcite-time-picker lang="ar" dir="rtl"></calcite-time-picker>`
+      });
+
+      const meridiemStart = await page.find(`calcite-time-picker >>> .${CSS.meridiemStart}`);
+      expect(meridiemStart).toBeTruthy();
+    });
   });
 });
