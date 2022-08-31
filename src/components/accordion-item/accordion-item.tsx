@@ -123,7 +123,7 @@ export class AccordionItem implements ConditionalSlotComponent {
 
   connectedCallback(): void {
     this.parent = this.el.parentElement as HTMLCalciteAccordionElement;
-    this.selectionMode = getElementProp(this.el, "selection-mode", "multi");
+    this.selectionMode = getElementProp(this.el, "selection-mode", "multiple");
     this.iconType = getElementProp(this.el, "icon-type", "chevron");
     this.iconPosition = getElementProp(this.el, "icon-position", this.iconPosition);
     const isExpanded = this.active || this.expanded;
@@ -295,7 +295,7 @@ export class AccordionItem implements ConditionalSlotComponent {
 
   private determineActiveItem(): void {
     switch (this.selectionMode) {
-      case "multi":
+      case "multi" || "multiple":
         if (this.el === this.requestedAccordionItem) {
           this.expanded = !this.expanded;
         }

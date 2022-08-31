@@ -41,7 +41,8 @@ export class Accordion {
    * Specifies the selection mode - "multi" (allow any number of open items), "single" (allow one open item),
    * or "single-persist" (allow and require one open item).
    */
-  @Prop({ reflect: true }) selectionMode: "multi" | "single" | "single-persist" = "multi";
+  @Prop({ reflect: true }) selectionMode: "multi" | "single" | "single-persist" | "multiple" =
+    "multiple";
 
   //--------------------------------------------------------------------------
   //

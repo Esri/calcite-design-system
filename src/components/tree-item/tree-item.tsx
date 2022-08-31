@@ -112,8 +112,9 @@ export class TreeItem implements ConditionalSlotComponent {
   @Watch("selectionMode")
   getselectionMode(): void {
     this.isSelectionMultiLike =
-      this.selectionMode === TreeSelectionMode.Multi ||
-      this.selectionMode === TreeSelectionMode.MultiChildren;
+      this.selectionMode === TreeSelectionMode.Multiple ||
+      this.selectionMode === TreeSelectionMode.Multi;
+    this.selectionMode === TreeSelectionMode.MultiChildren;
   }
 
   //--------------------------------------------------------------------------
@@ -180,6 +181,7 @@ export class TreeItem implements ConditionalSlotComponent {
       this.selectionMode === TreeSelectionMode.Children;
     const showCheckmark =
       this.selectionMode === TreeSelectionMode.Multi ||
+      this.selectionMode === TreeSelectionMode.Multiple ||
       this.selectionMode === TreeSelectionMode.MultiChildren;
     const chevron = this.hasChildren ? (
       <calcite-icon

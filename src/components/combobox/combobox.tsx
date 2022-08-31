@@ -179,11 +179,11 @@ export class Combobox
 
   /**
    * specify the selection mode
-   * - multi: allow any number of selected items (default)
+   * - multiple: allow any number of selected items (default)
    * - single: only one selection)
-   * - ancestors: like multi, but show ancestors of selected items as selected, only deepest children shown in chips
+   * - ancestors: like multiple, but show ancestors of selected items as selected, only deepest children shown in chips
    */
-  @Prop({ reflect: true }) selectionMode: ComboboxSelectionMode = "multi";
+  @Prop({ reflect: true }) selectionMode: ComboboxSelectionMode = "multiple";
 
   /** Specify the scale of the combobox, defaults to m */
   @Prop({ reflect: true }) scale: Scale = "m";

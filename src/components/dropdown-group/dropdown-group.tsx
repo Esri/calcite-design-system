@@ -40,7 +40,7 @@ export class DropdownGroup {
   @Prop({ reflect: true }) groupTitle?: string;
 
   /**
-    specify the selection mode - multi (allow any number of (or no) active items), single (allow and require one active item),
+    specify the selection mode - multiple (allow any number of (or no) active items), single (allow and require one active item),
    none (no active items), defaults to single
    */
   @Prop({ reflect: true }) selectionMode: SelectionMode = "single";
