@@ -25,6 +25,8 @@ import {
   submitForm
 } from "../../utils/form";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import { numberKeys } from "../../utils/key";
+import { defaultNumberingSystem } from "../../utils/locale";
 
 @Component({
   tag: "calcite-input-time-picker",
@@ -259,6 +261,22 @@ export class InputTimePicker implements LabelableComponent, FormComponent, Inter
   private calciteInputInputHandler = (event: CustomEvent): void => {
     const target = event.target as HTMLCalciteTimePickerElement;
     this.setValue({ value: target.value });
+
+    if (this.localizedValue && isValidTime(target.value)) {
+      this.setInputValue(this.localizedValue);
+    } else {
+      const formatter = new Intl.NumberFormat(this.locale, {
+        numberingSystem: this.numberingSystem || defaultNumberingSystem
+      } as Intl.ResolvedNumberFormatOptions);
+
+      const formattedValue = target.value
+        .split("")
+        .map((char) => (numberKeys.includes(char) ? formatter.format(Number(char)) : char))
+        .filter((char) => char)
+        .join("");
+
+      this.setInputValue(formattedValue);
+    }
   };
 
   @Listen("click")
