@@ -49,8 +49,9 @@ export function dateFromRange(date?: any, min?: Date | string, max?: Date | stri
  * TODO: handle time when time of day UI is added
  *
  * @param iso8601
+ * @param isEndDate
  */
-export function dateFromISO(iso8601: string | Date): Date | null {
+export function dateFromISO(iso8601: string | Date, isEndDate = false): Date | null {
   if (iso8601 instanceof Date) {
     return iso8601;
   }
@@ -62,6 +63,9 @@ export function dateFromISO(iso8601: string | Date): Date | null {
   date.setFullYear(d[0]);
   if (isNaN(date.getTime())) {
     throw new Error(`Invalid ISO 8601 date: "${iso8601}"`);
+  }
+  if (isEndDate) {
+    return setEndOfDay(date);
   }
   return date;
 }
@@ -211,4 +215,15 @@ export function getDaysDiff(date1: Date, date2: Date): number {
   const ts1 = date1.getTime();
   const ts2 = date2.getTime();
   return (ts1 - ts2) / (1000 * 3600 * 24);
+}
+
+/**
+ * Set time of the day to the end.
+ *
+ * @param {Date} date Date.
+ * @returns {Date} Date with time set to end of day .
+ */
+export function setEndOfDay(date: Date): Date {
+  date.setHours(23, 59, 59, 999);
+  return date;
 }

@@ -67,32 +67,32 @@ Renders a panel with a header and a footer.
 
 ## Properties
 
-| Property         | Attribute          | Description                                                                                                                                    | Type                         | Default     |
-| ---------------- | ------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------- | ----------- |
-| `beforeBack`     | --                 | When provided, this method will be called before it is removed from the parent flow.                                                           | `() => Promise<void>`        | `undefined` |
-| `closable`       | `closable`         | When true, displays a close button in the trailing side of the header                                                                          | `boolean`                    | `false`     |
-| `closed`         | `closed`           | When true, panel will be hidden                                                                                                                | `boolean`                    | `false`     |
-| `description`    | `description`      | A description for the component.                                                                                                               | `string`                     | `undefined` |
-| `disabled`       | `disabled`         | When true, interaction is prevented and the component is displayed with lower opacity.                                                         | `boolean`                    | `false`     |
-| `dismissed`      | `dismissed`        | <span style="color:red">**[DEPRECATED]**</span> use closed instead<br/><br/>When true, hides the component.                                    | `boolean`                    | `false`     |
-| `dismissible`    | `dismissible`      | <span style="color:red">**[DEPRECATED]**</span> use closable instead<br/><br/>When true, a close button is added to the component.             | `boolean`                    | `false`     |
-| `heading`        | `heading`          | The component header text.                                                                                                                     | `string`                     | `undefined` |
-| `headingLevel`   | `heading-level`    | Specifies the number at which section headings should start.                                                                                   | `1 \| 2 \| 3 \| 4 \| 5 \| 6` | `undefined` |
-| `heightScale`    | `height-scale`     | Specifies the maximum height of the component.                                                                                                 | `"l" \| "m" \| "s"`          | `undefined` |
-| `intlBack`       | `intl-back`        | Accessible name for the component's back button. The back button will only be shown when 'showBackButton' is true.                             | `string`                     | `undefined` |
-| `intlClose`      | `intl-close`       | Accessible name for the component's close button. The close button will only be shown when 'dismissible' is true.                              | `string`                     | `undefined` |
-| `intlOptions`    | `intl-options`     | Accessible name for the component's actions menu.                                                                                              | `string`                     | `undefined` |
-| `loading`        | `loading`          | When true, a busy indicator is displayed.                                                                                                      | `boolean`                    | `false`     |
-| `menuOpen`       | `menu-open`        | When true, the action menu items in the `header-menu-actions` slot are open.                                                                   | `boolean`                    | `false`     |
-| `showBackButton` | `show-back-button` | When true, displays a back button in the header.                                                                                               | `boolean`                    | `false`     |
-| `summary`        | `summary`          | <span style="color:red">**[DEPRECATED]**</span> use description instead<br/><br/>Summary text. A description displayed underneath the heading. | `string`                     | `undefined` |
-| `widthScale`     | `width-scale`      | Specifies the width of the component.                                                                                                          | `"l" \| "m" \| "s"`          | `undefined` |
+| Property         | Attribute          | Description                                                                                                                                                                                                  | Type                         | Default     |
+| ---------------- | ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------- | ----------- |
+| `beforeBack`     | --                 | <span style="color:red">**[DEPRECATED]**</span> use `calcite-flow-item` instead.<br/><br/>When provided, this method will be called before it is removed from the parent flow.                               | `() => Promise<void>`        | `undefined` |
+| `closable`       | `closable`         | When true, displays a close button in the trailing side of the header                                                                                                                                        | `boolean`                    | `false`     |
+| `closed`         | `closed`           | When true, panel will be hidden                                                                                                                                                                              | `boolean`                    | `false`     |
+| `description`    | `description`      | A description for the component.                                                                                                                                                                             | `string`                     | `undefined` |
+| `disabled`       | `disabled`         | When true, interaction is prevented and the component is displayed with lower opacity.                                                                                                                       | `boolean`                    | `false`     |
+| `dismissed`      | `dismissed`        | <span style="color:red">**[DEPRECATED]**</span> use closed instead<br/><br/>When true, hides the component.                                                                                                  | `boolean`                    | `false`     |
+| `dismissible`    | `dismissible`      | <span style="color:red">**[DEPRECATED]**</span> use closable instead<br/><br/>When true, a close button is added to the component.                                                                           | `boolean`                    | `false`     |
+| `heading`        | `heading`          | The component header text.                                                                                                                                                                                   | `string`                     | `undefined` |
+| `headingLevel`   | `heading-level`    | Specifies the number at which section headings should start.                                                                                                                                                 | `1 \| 2 \| 3 \| 4 \| 5 \| 6` | `undefined` |
+| `heightScale`    | `height-scale`     | Specifies the maximum height of the component.                                                                                                                                                               | `"l" \| "m" \| "s"`          | `undefined` |
+| `intlBack`       | `intl-back`        | <span style="color:red">**[DEPRECATED]**</span> use `calcite-flow-item` instead.<br/><br/>Accessible name for the component's back button. The back button will only be shown when 'showBackButton' is true. | `string`                     | `undefined` |
+| `intlClose`      | `intl-close`       | Accessible name for the component's close button. The close button will only be shown when 'dismissible' is true.                                                                                            | `string`                     | `undefined` |
+| `intlOptions`    | `intl-options`     | Accessible name for the component's actions menu.                                                                                                                                                            | `string`                     | `undefined` |
+| `loading`        | `loading`          | When true, a busy indicator is displayed.                                                                                                                                                                    | `boolean`                    | `false`     |
+| `menuOpen`       | `menu-open`        | When true, the action menu items in the `header-menu-actions` slot are open.                                                                                                                                 | `boolean`                    | `false`     |
+| `showBackButton` | `show-back-button` | <span style="color:red">**[DEPRECATED]**</span> use `calcite-flow-item` instead.<br/><br/>When true, displays a back button in the header.                                                                   | `boolean`                    | `false`     |
+| `summary`        | `summary`          | <span style="color:red">**[DEPRECATED]**</span> use description instead<br/><br/>Summary text. A description displayed underneath the heading.                                                               | `string`                     | `undefined` |
+| `widthScale`     | `width-scale`      | Specifies the width of the component.                                                                                                                                                                        | `"l" \| "m" \| "s"`          | `undefined` |
 
 ## Events
 
 | Event                         | Description                                                                                                                                                | Type                |
 | ----------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------- |
-| `calcitePanelBackClick`       | Fires when the back button is clicked.                                                                                                                     | `CustomEvent<void>` |
+| `calcitePanelBackClick`       | <span style="color:red">**[DEPRECATED]**</span> use `calcite-flow-item` instead.<br/><br/>Fires when the back button is clicked.                           | `CustomEvent<void>` |
 | `calcitePanelDismiss`         | Fires when the close button is clicked.                                                                                                                    | `CustomEvent<void>` |
 | `calcitePanelDismissedChange` | <span style="color:red">**[DEPRECATED]**</span> use calcitePanelDismiss instead.<br/><br/>Fires when there is a change to the `dismissed` property value . | `CustomEvent<void>` |
 | `calcitePanelScroll`          | Fires when the content is scrolled.                                                                                                                        | `CustomEvent<void>` |
@@ -115,7 +115,7 @@ Scrolls the component's content to a specified set of coordinates.
 
 Type: `Promise<void>`
 
-### `setFocus(focusId?: "dismiss-button" | "back-button") => Promise<void>`
+### `setFocus(focusId?: "back-button" | "dismiss-button") => Promise<void>`
 
 Sets focus on the component.
 
@@ -146,6 +146,10 @@ Type: `Promise<void>`
 
 ## Dependencies
 
+### Used by
+
+- [calcite-flow-item](../flow-item)
+
 ### Depends on
 
 - [calcite-action](../action)
@@ -166,6 +170,7 @@ graph TD;
   calcite-popover --> calcite-action
   calcite-popover --> calcite-icon
   calcite-scrim --> calcite-loader
+  calcite-flow-item --> calcite-panel
   style calcite-panel fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

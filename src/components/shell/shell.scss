@@ -52,8 +52,8 @@
 .content--behind {
   @apply absolute
     inset-0
-    z-default
     border-0;
+  z-index: calc(theme("zIndex.default") - 1);
   display: initial;
 }
 
