@@ -361,4 +361,9 @@ export class TabNav {
       "calcite-tab-title:not([disabled])"
     );
   }
+
+  @Listen("calciteInternalTabWidthChanged")
+  iconStartChangeHandler(): void {
+    this.updateActiveWidth();
+  }
 }

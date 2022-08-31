@@ -140,6 +140,7 @@ export class TabTitle implements InteractiveComponent {
         detail: this.el
       })
     );
+    this.resizeObserver?.disconnect();
   }
 
   componentWillLoad(): void {
@@ -199,6 +200,7 @@ export class TabTitle implements InteractiveComponent {
             container: true,
             "container--has-text": this.hasText
           }}
+          ref={(el) => (this.containerEl = el as HTMLDivElement)}
         >
           {this.iconStart ? iconStartEl : null}
           <slot />
@@ -216,6 +218,7 @@ export class TabTitle implements InteractiveComponent {
     updateHostInteraction(this, () => {
       return this.selected;
     });
+    this.resizeObserver?.observe(this.containerEl);
   }
 
   //--------------------------------------------------------------------------
@@ -313,6 +316,11 @@ export class TabTitle implements InteractiveComponent {
    */
   @Event({ cancelable: false }) calciteInternalTabTitleRegister: EventEmitter<TabID>;
 
+  /**
+   * @internal
+   */
+  @Event({ cancelable: false }) calciteInternalTabWidthChanged: EventEmitter<void>;
+
   //--------------------------------------------------------------------------
   //
   //  Public Methods
@@ -365,6 +373,12 @@ export class TabTitle implements InteractiveComponent {
   parentTabNavEl: HTMLCalciteTabNavElement;
 
   parentTabsEl: HTMLCalciteTabsElement;
+
+  containerEl: HTMLDivElement;
+
+  resizeObserver = createObserver("resize", () => {
+    this.calciteInternalTabWidthChanged.emit();
+  });
 
   updateHasText(): void {
     this.hasText = this.el.textContent.trim().length > 0;
