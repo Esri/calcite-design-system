@@ -254,9 +254,9 @@ describe("calcite-tree", () => {
     });
 
     describe("has selected items in the selection event payload", () => {
-      it("contains current selection when selection=multi", async () => {
+      it("contains current selection when selection=multiple", async () => {
         const page = await newE2EPage({
-          html: html` <calcite-tree selection-mode="multi">
+          html: html` <calcite-tree selection-mode="multiple">
             <calcite-tree-item id="1">1</calcite-tree-item>
             <calcite-tree-item id="2">2</calcite-tree-item>
           </calcite-tree>`

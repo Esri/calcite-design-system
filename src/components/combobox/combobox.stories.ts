@@ -19,7 +19,7 @@ export const Simple = (): string => html`
       label="demo combobox"
       placeholder="${text("placeholder", "placeholder")}"
       label="${text("label (for screen readers)", "demo")}"
-      selection-mode="${select("selection-mode", ["multi", "single", "ancestors"], "multi")}"
+      selection-mode="${select("selection-mode", ["multi", "single", "ancestors", "multiple"], "multiple")}"
       scale="${select("scale", ["s", "m", "l"], "m")}"
       ${boolean("disabled", false)}
       ${boolean("allow-custom-values", false)}
@@ -51,7 +51,7 @@ export const Single = (): string => html`
   <div style="width:150px;max-width:100%;background-color:white;padding:100px">
     <calcite-combobox
       label="demo combobox"
-      selection-mode="${select("selection-mode", ["multi", "single", "ancestors"], "single")}"
+      selection-mode="${select("selection-mode", ["multi", "single", "ancestors", "multiple"], "single")}"
       placeholder="${text("placeholder", "placeholder")}"
       label="${text("label (for screen readers)", "demo")}"
       scale="${select("scale", ["s", "m", "l"], "m")}"
@@ -81,7 +81,7 @@ export const Multiple = (): string => html`
       label="demo combobox"
       placeholder="${text("placeholder", "placeholder")}"
       label="${text("label (for screen readers)", "demo")}"
-      selection-mode="${select("selection-mode", ["multi", "single", "ancestors"], "multi")}"
+      selection-mode="${select("selection-mode", ["multi", "single", "ancestors", "multiple"], "multiple")}"
       scale="${select("scale", ["s", "m", "l"], "m")}"
       ${boolean("disabled", false)}
       ${boolean("allow-custom-values", false)}
@@ -107,7 +107,7 @@ export const NestedItems = (): string => html`
     <calcite-combobox
       open
       label="demo combobox"
-      selection-mode="${select("selection-mode", ["multi", "single", "ancestors"], "multi")}"
+      selection-mode="${select("selection-mode", ["multi", "single", "ancestors", "multiple"], "multiple")}"
       placeholder="${text("placeholder", "placeholder")}"
       label="${text("label (for screen readers)", "demo")}"
       scale="${select("scale", ["s", "m", "l"], "m")}"
@@ -149,7 +149,7 @@ export const DarkTheme = (): string => html`
   <div style="width:400px;max-width:100%;padding:100px">
     <calcite-combobox
       label="demo combobox"
-      selection-mode="${select("selection-mode", ["multi", "single", "ancestors"], "multi")}"
+      selection-mode="${select("selection-mode", ["multi", "single", "ancestors", "multiple"], "multiple")}"
       class="calcite-theme-dark"
       placeholder="${text("placeholder", "placeholder")}"
       label="${text("label (for screen readers)", "demo")}"
@@ -187,7 +187,7 @@ export const Rtl = (): string => html`
     <calcite-combobox
       placeholder="${text("placeholder", "placeholder")}"
       label="${text("label (for screen readers)", "demo")}"
-      selection-mode="${select("selection-mode", ["multi", "single", "ancestors"], "multi")}"
+      selection-mode="${select("selection-mode", ["multi", "single", "ancestors", "multiple"], "multiple")}"
       dir="rtl"
       scale="${select("scale", ["s", "m", "l"], "m")}"
       ${boolean("disabled", false)}
@@ -224,7 +224,7 @@ export const FlipPositioning = stepStory(
         max-items="${number("max-items", 6)}"
         placeholder="${text("placeholder", "placeholder")}"
         label="${text("label (for screen readers)", "demo")}"
-        selection-mode="${select("selection-mode", ["multi", "single", "ancestors"], "multi")}"
+        selection-mode="${select("selection-mode", ["multi", "single", "ancestors", "multiple"], "multiple")}"
         scale="${select("scale", ["s", "m", "l"], "m")}"
         ${boolean("disabled", false)}
         ${boolean("allow-custom-values", false)}
@@ -300,7 +300,7 @@ export const WithPlaceHolderIcon = (): string => html` <calcite-combobox
 export const WithoutPlaceHolderIcon = (): string => html` <div
   style="width:400px;max-width:100%;background-color:white;padding:100px"
 >
-  <calcite-combobox placeholder="${text("placeholder", "select folder")}" selection-mode="multi" open>
+  <calcite-combobox placeholder="${text("placeholder", "select folder")}" selection-mode="multiple" open>
     <calcite-combobox-item value="root" text-label="username" icon="home" selected></calcite-combobox-item>
     <calcite-combobox-item value="1" text-label="Folder 1" icon="folder"></calcite-combobox-item>
     <calcite-combobox-item value="2" text-label="Folder 2" icon="folder"></calcite-combobox-item>
