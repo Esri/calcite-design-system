@@ -1,14 +1,4 @@
-import {
-  Component,
-  Element,
-  Event,
-  EventEmitter,
-  h,
-  Listen,
-  Prop,
-  VNode,
-  Watch
-} from "@stencil/core";
+import { Component, Element, Event, EventEmitter, h, Listen, Prop, VNode } from "@stencil/core";
 import { AccordionAppearance, AccordionSelectionMode, RequestedItem } from "./interfaces";
 import { Position, Scale } from "../interfaces";
 
