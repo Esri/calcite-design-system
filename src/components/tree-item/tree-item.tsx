@@ -113,8 +113,8 @@ export class TreeItem implements ConditionalSlotComponent {
   getselectionMode(): void {
     this.isSelectionMultiLike =
       this.selectionMode === TreeSelectionMode.Multiple ||
-      this.selectionMode === TreeSelectionMode.Multi;
-    this.selectionMode === TreeSelectionMode.MultiChildren;
+      this.selectionMode === TreeSelectionMode.Multi ||
+      this.selectionMode === TreeSelectionMode.MultiChildren;
   }
 
   //--------------------------------------------------------------------------
