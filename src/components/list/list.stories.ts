@@ -13,7 +13,7 @@ export default {
 
 const thumbnailImage = placeholderImage({ width: 44, height: 44 });
 
-export const Simple = (): string => html`
+export const simple = (): string => html`
   <calcite-list>
     <calcite-list-item
       label="Cras iaculis ultricies nulla."
@@ -32,19 +32,16 @@ export const Simple = (): string => html`
   </calcite-list>
 `;
 
-export const OnlyLabel = (): string => html`
+export const onlyLabelVersusOnlyDescription = (): string => html`
   <calcite-list>
     <calcite-list-item label="This has no description."> </calcite-list-item>
   </calcite-list>
-`;
-
-export const OnlyDescription = (): string => html`
   <calcite-list>
     <calcite-list-item description="This has no label."> </calcite-list-item>
   </calcite-list>
 `;
 
-export const NestedListItems = (): string => html`
+export const nestedListItemsAndGroupItems = (): string => html`
   <calcite-list>
     <calcite-list-item
       label="Cras iaculis ultricies nulla."
@@ -57,9 +54,6 @@ export const NestedListItems = (): string => html`
         ></calcite-list-item></calcite-list-item
     ></calcite-list-item>
   </calcite-list>
-`;
-
-export const GroupedItems = (): string => html`
   <calcite-list>
     <calcite-list-item-group heading="Digits">
       <calcite-list-item
@@ -145,8 +139,8 @@ export const RichContent = (): string => html`
   </calcite-list>
 `;
 
-export const RTL = (): string => html`
-  <calcite-list dir="rtl">
+export const darkThemeRTL = (): string => html`
+  <calcite-list class="calcite-theme-dark" dir="rtl">
     <calcite-list-item label="Princess Bubblegum" description="Ruler of The Candy Kingdom">
       <calcite-action icon="drag" label="drag" scale="s" slot="actions-start"></calcite-action>
       <calcite-icon scale="l" icon="effects" slot="content-start"></calcite-icon>
@@ -179,42 +173,7 @@ export const RTL = (): string => html`
   </calcite-list>
 `;
 
-export const DarkMode = (): string => html`
-  <calcite-list class="calcite-theme-dark">
-    <calcite-list-item label="Princess Bubblegum" description="Ruler of The Candy Kingdom">
-      <calcite-action icon="drag" label="drag" scale="s" slot="actions-start"></calcite-action>
-      <calcite-icon scale="l" icon="effects" slot="content-start"></calcite-icon>
-      <calcite-avatar scale="l" slot="content-start" thumbnail="${thumbnailImage}"></calcite-avatar>
-      <calcite-icon scale="s" icon="check" slot="content-end" style="color: var(--calcite-ui-success)"></calcite-icon>
-      <calcite-action icon="ellipsis" label="menu" slot="actions-end"></calcite-action>
-      <calcite-action icon="x" label="remove" slot="actions-end"></calcite-action>
-    </calcite-list-item>
-    <calcite-list-item label="Finn Mertens" description="Part owner of the Tree House">
-      <calcite-action icon="drag" label="drag" scale="s" slot="actions-start"></calcite-action>
-      <calcite-icon scale="l" icon="running" slot="content-start"></calcite-icon>
-      <calcite-avatar scale="l" slot="content-start" thumbnail="${thumbnailImage}"></calcite-avatar>
-      <calcite-icon scale="s" icon="check" slot="content-end" style="color: var(--calcite-ui-success)"></calcite-icon>
-      <calcite-action icon="ellipsis" label="menu" slot="actions-end"></calcite-action>
-      <calcite-action icon="x" label="remove" slot="actions-end"></calcite-action>
-    </calcite-list-item>
-    <calcite-list-item label="Jake T. Dog" description="Part owner of the Tree House">
-      <calcite-action icon="drag" label="drag" scale="s" slot="actions-start"></calcite-action>
-      <calcite-icon scale="l" icon="walking" slot="content-start"></calcite-icon>
-      <calcite-avatar scale="l" slot="content-start" thumbnail="${thumbnailImage}"></calcite-avatar>
-      <calcite-icon
-        scale="s"
-        icon="exclamation-mark-triangle"
-        slot="content-end"
-        style="color: var(--calcite-ui-danger)"
-      ></calcite-icon>
-      <calcite-action icon="ellipsis" label="menu" slot="actions-end"></calcite-action>
-      <calcite-action icon="x" label="remove" slot="actions-end"></calcite-action>
-    </calcite-list-item>
-  </calcite-list>
-`;
-
-DarkMode.storyName = "Dark mode";
-DarkMode.parameters = { themes: themesDarkDefault };
+darkThemeRTL.parameters = { themes: themesDarkDefault };
 
 export const disabled = (): string => html`<calcite-list disabled>
   <calcite-list-item

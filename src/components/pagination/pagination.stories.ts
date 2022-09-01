@@ -12,10 +12,11 @@ export default {
   }
 };
 
-export const Simple = (): string => html`
+export const simple = (): string => html`
   <calcite-pagination
     scale="${select("scale", ["s", "m", "l"], "m")}"
     start="${number("start", 1)}"
+    lang="${select("lang", locales, "en")}"
     total="${number("total", 123456789)}"
     num="${number("num", 10)}"
     dir="${select("dir", ["ltr", "rtl"], "ltr")}"
@@ -23,41 +24,18 @@ export const Simple = (): string => html`
   </calcite-pagination>
 `;
 
-export const Locales = (): string => html`
-  <calcite-pagination
-    lang="${select("lang", locales, "fr")}"
-    scale="${select("scale", ["s", "m", "l"], "m")}"
-    start="${number("start", 1)}"
-    total="${number("total", 123456789)}"
-    num="${number("num", 10)}"
-    dir="${select("dir", ["ltr", "rtl"], "ltr")}"
-  >
-  </calcite-pagination>
-`;
-
-export const DarkMode = (): string => html`
+export const darkThemeFrenchLocaleAndRTL = (): string => html`
   <calcite-pagination
     class="calcite-theme-dark"
     scale="${select("scale", ["s", "m", "l"], "m")}"
     start="${number("start", 1)}"
+    lang="fr"
     total="${number("total", 123456789)}"
     num="${number("num", 10)}"
-    dir="${select("dir", ["ltr", "rtl"], "ltr")}"
-    class="calcite-theme-dark"
-  >
-  </calcite-pagination>
-`;
-
-DarkMode.parameters = { themes: themesDarkDefault };
-
-export const RTL = (): string => html`
-  <calcite-pagination
     dir="rtl"
-    scale="${select("scale", ["s", "m", "l"], "m")}"
-    start="${number("start", 1)}"
-    total="${number("total", 123456789)}"
-    num="${number("num", 10)}"
-    dir="${select("dir", ["ltr", "rtl"], "ltr")}"
+    }
   >
   </calcite-pagination>
 `;
+
+darkThemeFrenchLocaleAndRTL.parameters = { themes: themesDarkDefault };

@@ -114,9 +114,7 @@ const panelContent = `${headerHTML}
   ${contentHTML}
   ${footerHTML}`;
 
-export const basic = (): string => create("calcite-panel", createAttributes(), panelContent);
-
-export const withButton = (): string =>
+export const simple = (): string =>
   create(
     "calcite-panel",
     createAttributes(),
@@ -130,18 +128,19 @@ export const withButton = (): string =>
     `
   );
 
-export const onlyProps = (): string => html`
+export const onlyPropsAndHeadingLevel2 = (): string => html`
   <div style="width: 300px;">
     <calcite-panel
       height-scale="s"
       heading="Panel title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum"
+      heading-level="2"
       summary="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
     />
   </div>
 `;
 
-export const withStyledSlot = (): string => html`
-  <calcite-panel style="height: 100%;" heading="Heading">
+export const disabledWithStyledSlot = (): string => html`
+  <calcite-panel style="height: 100%;" heading="Heading" disabled>
     <div id="content" style="height: 100%;">${contentHTML}</div>
   </calcite-panel>
 `;
@@ -163,8 +162,3 @@ export const darkThemeRTL = (): string =>
   );
 
 darkThemeRTL.parameters = { themes: themesDarkDefault };
-
-export const disabled = (): string => html`<calcite-panel heading="Heading" disabled>disabled</calcite-panel>`;
-
-export const headingLevel2 = (): string =>
-  html`<calcite-panel heading-level="2" heading="Heading">My Panel</calcite-panel>`;

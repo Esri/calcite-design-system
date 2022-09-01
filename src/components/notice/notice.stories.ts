@@ -21,45 +21,11 @@ export const Simple = (): string => html`
       scale="${select("scale", ["s", "m", "l"], "m")}"
       width="${select("width", ["auto", "half", "full"], "auto")}"
       color="${select("color", ["green", "red", "yellow", "blue"], "blue")}"
-    >
-      <div slot="title">Your settings area has changed</div>
-      <div slot="message">Look around and let us know what you think</div>
-      <calcite-link slot="link" title="my action">Learn more</calcite-link>
-    </calcite-notice>
-  </div>
-`;
-
-export const CustomIcon = (): string => html`
-  <div style="width:600px;max-width:100%;text-align:center;">
-    <calcite-notice
       icon="${select("icon", iconNames, iconNames[0])}"
-      ${boolean("open", true)}
-      ${boolean("closable", true)}
-      scale="${select("scale", ["s", "m", "l"], "m")}"
-      width="${select("width", ["auto", "half", "full"], "auto")}"
-      color="${select("color", ["green", "red", "yellow", "blue"], "blue")}"
     >
       <div slot="title">Your settings area has changed</div>
       <div slot="message">Look around and let us know what you think</div>
       <calcite-link slot="link" title="my action">Learn more</calcite-link>
-    </calcite-notice>
-  </div>
-`;
-
-CustomIcon.storyName = "Custom icon";
-
-export const WithAction = (): string => html`
-  <div style="width:600px;max-width:100%;text-align:center;">
-    <calcite-notice
-      ${boolean("icon", true)}
-      ${boolean("open", true)}
-      ${boolean("closable", false)}
-      scale="${select("scale", ["s", "m", "l"], "m")}"
-      width="${select("width", ["auto", "half", "full"], "auto")}"
-      color="${select("color", ["green", "red", "yellow", "blue"], "red")}"
-    >
-      <div slot="title">Notice with action</div>
-      <div slot="message">This shows a notice with a custom action</div>
       <calcite-action
         label="Retry"
         icon="reset"
@@ -70,9 +36,10 @@ export const WithAction = (): string => html`
   </div>
 `;
 
-export const DarkMode = (): string => html`
+export const darkThemeRTL = (): string => html`
   <div style="width:600px;max-width:100%;text-align:center;">
     <calcite-notice
+      dir="rtl"
       class="calcite-theme-dark"
       ${boolean("icon", true)}
       ${boolean("open", true)}
@@ -87,23 +54,4 @@ export const DarkMode = (): string => html`
   </div>
 `;
 
-DarkMode.parameters = { themes: themesDarkDefault };
-
-export const Rtl = (): string => html`
-  <div dir="rtl" style="width:600px;max-width:100%;text-align:center;">
-    <calcite-notice
-      ${boolean("icon", true)}
-      ${boolean("open", true)}
-      ${boolean("closable", true)}
-      width="${select("width", ["auto", "half", "full"], "auto")}"
-      scale="${select("scale", ["s", "m", "l"], "m")}"
-      color="${select("color", ["green", "red", "yellow", "blue"], "blue")}"
-    >
-      <div slot="title">Your settings area has changed</div>
-      <div slot="message">Look around and let us know what you think</div>
-      <calcite-link slot="link" title="my action">Learn more</calcite-link>
-    </calcite-notice>
-  </div>
-`;
-
-Rtl.storyName = "RTL";
+darkThemeRTL.parameters = { themes: themesDarkDefault };

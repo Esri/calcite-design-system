@@ -77,7 +77,7 @@ const action = html`
   ></calcite-action>
 `;
 
-export const basic = (): string =>
+export const simple = (): string =>
   create(
     "calcite-pick-list",
     createAttributes(),
@@ -118,12 +118,12 @@ export const darkThemeRTL = (): string =>
 
 darkThemeRTL.parameters = { themes: themesDarkDefault };
 
-export const grouped = (): string =>
+export const groupedAndHeadingLevel2 = (): string =>
   create(
     "calcite-pick-list",
     createAttributes(),
     html`
-      <calcite-pick-list-group group-title="numbers">
+      <calcite-pick-list-group group-title="numbers" heading-level="2">
         <calcite-pick-list-item label="one" description="fish" value="one" icon="grip">
           ${action}
         </calcite-pick-list-item>
@@ -131,7 +131,7 @@ export const grouped = (): string =>
           ${action}
         </calcite-pick-list-item>
       </calcite-pick-list-group>
-      <calcite-pick-list-group group-title="colors">
+      <calcite-pick-list-group group-title="colors" heading-level="2">
         <calcite-pick-list-item label="red" description="fish" value="red" icon="grip">
           ${action}
         </calcite-pick-list-item>
@@ -175,15 +175,4 @@ export const disabled = (): string => html`<calcite-pick-list disabled>
     selected
   ></calcite-pick-list-item>
   <calcite-pick-list-item label="hi" description="there" value="helloWorld"></calcite-pick-list-item>
-</calcite-pick-list>`;
-
-export const headingLevel2 = (): string => html`<calcite-pick-list>
-  <calcite-pick-list-group heading-level="2" group-title="Dogs">
-    <calcite-pick-list-item label="All the dogs" value="all-dogs" slot="parent-item">
-      ${action}
-    </calcite-pick-list-item>
-    <calcite-pick-list-item label="Husky" value="husky"> ${action} </calcite-pick-list-item>
-    <calcite-pick-list-item label="Pomeranian" value="pom"> ${action} </calcite-pick-list-item>
-    <calcite-pick-list-item label="Xoloitzcuintle" value="xolo"> ${action} </calcite-pick-list-item>
-  </calcite-pick-list-group>
 </calcite-pick-list>`;
