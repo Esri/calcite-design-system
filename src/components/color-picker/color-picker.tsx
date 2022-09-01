@@ -33,7 +33,7 @@ import { Strings } from "./assets/color-picker/t9n";
 import { isActivationKey } from "../../utils/key";
 import { fetchLocaleStrings } from "../../utils/fetchLocaleData";
 import { getSupportedLocale } from "../../utils/fetchLocale";
-
+import { overRideLocalizedStrings } from "../../utils/strings";
 const throttleFor60FpsInMs = 16;
 const defaultValue = normalizeHex(DEFAULT_COLOR.hex());
 const defaultFormat = "auto";
@@ -263,6 +263,30 @@ export class ColorPicker implements InteractiveComponent {
    * @deprecated – translations are now built-in, if you need to override a string, please use `stringOverrides`
    */
   @Prop() intlValue: string;
+
+  @Watch("intlG")
+  @Watch("intlB")
+  @Watch("intlV")
+  @Watch("intlBlue")
+  @Watch("intlDeleteColor")
+  @Watch("intlGreen")
+  @Watch("intlH")
+  @Watch("intlHsv")
+  @Watch("intlHex")
+  @Watch("intlHue")
+  @Watch("intlNoColor")
+  @Watch("intlR")
+  @Watch("intlRed")
+  @Watch("intlRgb")
+  @Watch("intlS")
+  @Watch("intlSaturation")
+  @Watch("intlSaveColor")
+  @Watch("intlSaved")
+  @Watch("intlV")
+  @Watch("intlValue")
+  handleIntl(): void {
+    this.overrideStringsAndMerge();
+  }
 
   /**
    * The scale of the color picker.
@@ -794,20 +818,7 @@ export class ColorPicker implements InteractiveComponent {
     }
 
     await this.fetchStrings();
-
-    // overrides have precedence
-    if (!this.stringOverrides) {
-      const stringOverrides = {};
-      for (const key in this) {
-        if (key.startsWith("intl") && !!this[key]) {
-          let trimmed = key.replace("intl", "");
-          trimmed = `${trimmed[0].toLowerCase()}${trimmed.slice(1)}`;
-          stringOverrides[trimmed] = this[key];
-        }
-      }
-      this.stringOverrides = { ...stringOverrides };
-    }
-    this.mergeStrings();
+    this.overrideStringsAndMerge();
   }
 
   disconnectedCallback(): void {
@@ -1463,5 +1474,10 @@ export class ColorPicker implements InteractiveComponent {
     return color[channelMode]()
       .array()
       .map((value) => Math.floor(value)) as [number, number, number];
+  }
+
+  private overrideStringsAndMerge(): void {
+    this.stringOverrides = overRideLocalizedStrings(this.el);
+    this.mergeStrings();
   }
 }
