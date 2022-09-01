@@ -308,7 +308,8 @@ export class DropdownItem {
 
   private determineActiveItem(): void {
     switch (this.selectionMode) {
-      case "multi" || "multiple":
+      case "multi":
+      case "multiple":
         if (this.el === this.requestedDropdownItem) {
           this.selected = !this.selected;
         }
