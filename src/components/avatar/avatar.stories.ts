@@ -12,7 +12,7 @@ export default {
   }
 };
 
-export const Simple = (): string => html`
+export const simple = (): string => html`
   <calcite-avatar
     scale="${select("scale", ["s", "m", "l"], "m")}"
     full-name="${text("full-name", "John Doe")}"
@@ -23,7 +23,7 @@ export const Simple = (): string => html`
   </calcite-avatar>
 `;
 
-export const MissingThumbnail = (): string => html`
+export const missingThumbnail = (): string => html`
   <calcite-avatar
     scale="${select("scale", ["s", "m", "l"], "m")}"
     full-name="${text("full-name", "John Doe")}"
@@ -33,10 +33,9 @@ export const MissingThumbnail = (): string => html`
   </calcite-avatar>
 `;
 
-MissingThumbnail.storyName = "Missing thumbnail";
-
-export const Dark = (): string => html`
+export const darkThemeRTL_TestOnly = (): string => html`
   <calcite-avatar
+    dir="rtl"
     class="calcite-theme-dark"
     scale="${select("scale", ["s", "m", "l"], "m")}"
     full-name="${text("full-name", "John Doe")}"
@@ -46,4 +45,4 @@ export const Dark = (): string => html`
   </calcite-avatar>
 `;
 
-Dark.parameters = { themes: themesDarkDefault };
+darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };

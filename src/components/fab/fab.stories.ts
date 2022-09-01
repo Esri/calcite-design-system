@@ -91,8 +91,10 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
   );
 };
 
-export const basic = (): string => create("calcite-fab", createAttributes());
-export const darkThemeRTL = (): string =>
+export const simple = (): string => create("calcite-fab", createAttributes());
+export const disabled = (): string => html`<calcite-fab disabled icon="plus"></calcite-fab>`;
+
+export const darkThemeRTL_TestOnly = (): string =>
   create(
     "calcite-fab",
     createAttributes({ exceptions: ["dir", "class"] }).concat([
@@ -107,6 +109,4 @@ export const darkThemeRTL = (): string =>
     ])
   );
 
-darkThemeRTL.parameters = { themes: themesDarkDefault };
-
-export const disabled = (): string => html`<calcite-fab disabled icon="plus"></calcite-fab>`;
+darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };

@@ -149,7 +149,7 @@ const item2HTML = html`
   </ul>
 `;
 
-export const basic = (): string =>
+export const simple = (): string =>
   create(
     "calcite-flow",
     createAttributes(),
@@ -157,10 +157,16 @@ export const basic = (): string =>
     ${create("calcite-flow-item", createFlowItemAttributes("Panel 2"), createItemHTML(item2HTML))}`
   );
 
-export const RTL = (): string =>
+export const darkThemeRTL_TestOnly = (): string =>
   create(
     "calcite-flow",
-    createAttributes({ exceptions: ["dir"] }).concat({ name: "dir", value: "rtl" }),
+    createAttributes({ exceptions: ["dir"] }).concat(
+      {
+        name: "class",
+        value: "calcite-theme-dark"
+      },
+      { name: "dir", value: "rtl" }
+    ),
     `${create("calcite-flow-item", createFlowItemAttributes("Panel 1"), createItemHTML(item1HTML))}
     ${create("calcite-flow-item", createFlowItemAttributes("Panel 2"), createItemHTML(item2HTML))}`
   );

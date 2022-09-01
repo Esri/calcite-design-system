@@ -68,7 +68,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
   );
 };
 
-export const basic = (): string =>
+export const simple = (): string =>
   create(
     "calcite-action-bar",
     createAttributes(),
@@ -119,7 +119,25 @@ export const horizontalSmall = (): string => html`
   </div>
 `;
 
-export const darkThemeRTL = (): string =>
+export const withDefinedWidths = (): string =>
+  html`
+    <style>
+      calcite-action-bar {
+        --calcite-action-bar-expanded-max-width: 150px;
+      }
+    </style>
+    <calcite-action-bar expanded>
+      <calcite-action-group>
+        <calcite-action text="Add to my custom action bar application" icon="plus"></calcite-action>
+        <calcite-action text="Save to my custom action bar application" icon="save"></calcite-action>
+      </calcite-action-group>
+      <calcite-action-group>
+        <calcite-action text="Layers in my custom action bar application" icon="layers"></calcite-action>
+      </calcite-action-group>
+    </calcite-action-bar>
+  `;
+
+export const darkThemeRTL_TestOnly = (): string =>
   create(
     "calcite-action-bar",
     createAttributes({ exceptions: ["dir", "class"] }).concat([
@@ -143,9 +161,9 @@ export const darkThemeRTL = (): string =>
     `
   );
 
-darkThemeRTL.parameters = { themes: themesDarkDefault };
+darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };
 
-export const withTooltip = (): string =>
+export const withTooltip_NoTest = (): string =>
   create(
     "calcite-action-bar",
     createAttributes(),
@@ -154,21 +172,3 @@ export const withTooltip = (): string =>
       <calcite-action text="Add" icon="plus"></calcite-action>
     `
   );
-
-export const withDefinedWidths = (): string =>
-  html`
-    <style>
-      calcite-action-bar {
-        --calcite-action-bar-expanded-max-width: 150px;
-      }
-    </style>
-    <calcite-action-bar expanded>
-      <calcite-action-group>
-        <calcite-action text="Add to my custom action bar application" icon="plus"></calcite-action>
-        <calcite-action text="Save to my custom action bar application" icon="save"></calcite-action>
-      </calcite-action-group>
-      <calcite-action-group>
-        <calcite-action text="Layers in my custom action bar application" icon="layers"></calcite-action>
-      </calcite-action-group>
-    </calcite-action-bar>
-  `;

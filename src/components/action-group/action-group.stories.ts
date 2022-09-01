@@ -11,7 +11,7 @@ export default {
   }
 };
 
-export const GridCentering = (): string => html`
+export const gridCenteringOfActionsInAGroup = (): string => html`
   <div style="width:400px">
     <calcite-action-group layout="${select("layout", ["horizontal", "vertical", "grid"], "grid")}">
       <calcite-action
@@ -41,5 +41,3 @@ export const GridCentering = (): string => html`
     </calcite-action-group>
   </div>
 `;
-
-GridCentering.storyName = "Grid Centering of Actions in a Group";

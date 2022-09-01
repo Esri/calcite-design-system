@@ -18,18 +18,12 @@ export const simple = (): string => html`
   ></calcite-icon>
 `;
 
-export const RTL = (): string => html`
-  <calcite-icon dir="rtl" icon="${select("icon", iconNames, sampleIcon)}" ${boolean("flip-rtl", true)}></calcite-icon>
+export const darkThemeRTL_TestOnly = (): string => html`
+  <calcite-icon
+    class="calcite-theme-dark"
+    dir="rtl"
+    icon="${select("icon", iconNames, sampleIcon)}"
+    ${boolean("flip-rtl", true)}
+  ></calcite-icon>
 `;
-
-export const darkMode = (): string => html`
-  <style>
-    :root {
-      /* icon svg inherits the current font color */
-      color: var(--calcite-ui-warning);
-    }
-  </style>
-  <calcite-icon icon="${select("icon", iconNames, sampleIcon)}" class="calcite-theme-dark"></calcite-icon>
-`;
-
-darkMode.parameters = { themes: themesDarkDefault };
+darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };

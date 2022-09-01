@@ -4,8 +4,7 @@ import {
   Attribute,
   filterComponentAttributes,
   Attributes,
-  createComponentHTML as create,
-  themesDarkDefault
+  createComponentHTML as create
 } from "../../../.storybook/utils";
 import readme from "./readme.md";
 import { html } from "../../../support/formatting";
@@ -134,7 +133,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
   );
 };
 
-export const Default = stepStory(
+export const simple = stepStory(
   (): string => html`<div style="width: 400px">${create("calcite-date-picker", createAttributes())}</div>`,
 
   createSteps("calcite-date-picker")
@@ -274,5 +273,5 @@ export const Default = stepStory(
         ]
       })
     )
-    .snapshot("birtish english locale")
+    .snapshot("british english locale")
 );

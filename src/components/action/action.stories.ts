@@ -132,7 +132,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
 
 const selector = "calcite-action";
 
-export const Default = stepStory(
+export const simple = stepStory(
   (): string => html`<div style="width: 150px">${create("calcite-action", createAttributes())}</div>`,
 
   createSteps("calcite-action")
@@ -549,7 +549,7 @@ export const Default = stepStory(
     .snapshot("Text Overflow")
 );
 
-export const ArabicLocale = (): string => html`
+export const ArabicLocale_TestOnly = (): string => html`
   <calcite-action
     dir="rtl"
     icon="banana"
