@@ -53,13 +53,6 @@ export class Accordion {
    */
   @Prop({ reflect: true }) selectionMode: AccordionSelectionMode = "multiple";
 
-  @Watch("selectionMode ")
-  selectionHandler(value: AccordionSelectionMode): void {
-    if (value === "multi") {
-      this.selectionMode = "multiple";
-    }
-  }
-
   //--------------------------------------------------------------------------
   //
   //  Events
