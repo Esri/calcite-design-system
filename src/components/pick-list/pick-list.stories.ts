@@ -10,12 +10,14 @@ import readme from "./readme.md";
 import itemReadme from "../pick-list-item/readme.md";
 import groupReadme from "../pick-list-group/readme.md";
 import { html } from "../../../support/formatting";
+import { storyFilters } from "../../../.storybook/helpers";
 
 export default {
   title: "Components/Pick List",
   parameters: {
     notes: [readme, itemReadme, groupReadme]
-  }
+  },
+  ...storyFilters()
 };
 
 const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ exceptions } = { exceptions: [] }) => {

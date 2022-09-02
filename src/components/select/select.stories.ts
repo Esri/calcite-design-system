@@ -9,6 +9,7 @@ import { boolean, text } from "@storybook/addon-knobs";
 import selectReadme from "../select/readme.md";
 import optionReadme from "../option/readme.md";
 import optionGroupReadme from "../option-group/readme.md";
+import { storyFilters } from "../../../.storybook/helpers";
 
 const createSelectAttributes: (options?: { exceptions: string[] }) => Attributes = (
   { exceptions } = { exceptions: [] }
@@ -71,7 +72,8 @@ export default {
       option: optionReadme,
       optionGroup: optionGroupReadme
     }
-  }
+  },
+  ...storyFilters()
 };
 
 export const basic = (): string =>

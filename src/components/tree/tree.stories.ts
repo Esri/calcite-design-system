@@ -1,5 +1,5 @@
 import { select } from "@storybook/addon-knobs";
-import { boolean } from "../../../.storybook/helpers";
+import { boolean, storyFilters } from "../../../.storybook/helpers";
 import { themesDarkDefault } from "../../../.storybook/utils";
 import readme from "./readme.md";
 import treeItemReadme from "../tree-item/readme.md";
@@ -43,10 +43,10 @@ const treeItems = `
 
 export default {
   title: "Components/Tree",
-
   parameters: {
     notes: [readme, treeItemReadme]
-  }
+  },
+  ...storyFilters()
 };
 
 const selectionModes = ["single", "multi", "children", "multi-children", "ancestors", "none"];

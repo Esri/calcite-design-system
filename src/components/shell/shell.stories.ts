@@ -10,12 +10,14 @@ import readme from "./readme.md";
 import panelReadme from "../shell-panel/readme.md";
 import centerRowReadme from "../shell-center-row/readme.md";
 import { html } from "../../../support/formatting";
+import { storyFilters } from "../../../.storybook/helpers";
 
 export default {
   title: "Components/Shell",
   parameters: {
     notes: [readme, panelReadme, centerRowReadme]
-  }
+  },
+  ...storyFilters()
 };
 
 const createAttributes: (group: string, options?: { exceptions: string[] }) => Attributes = (

@@ -1,5 +1,5 @@
 import { select, text } from "@storybook/addon-knobs";
-import { boolean, createSteps, stepStory } from "../../../.storybook/helpers";
+import { boolean, createSteps, stepStory, storyFilters } from "../../../.storybook/helpers";
 import { themesDarkDefault } from "../../../.storybook/utils";
 import readme1 from "./readme.md";
 import readme2 from "../stepper-item/readme.md";
@@ -7,10 +7,10 @@ import { html } from "../../../support/formatting";
 
 export default {
   title: "Components/Stepper",
-
   parameters: {
     notes: [readme1, readme2]
-  }
+  },
+  ...storyFilters()
 };
 
 export const Simple = (): string => html`

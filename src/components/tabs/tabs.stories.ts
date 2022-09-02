@@ -1,5 +1,5 @@
 import { select, optionsKnob } from "@storybook/addon-knobs";
-import { createSteps, iconNames, stepStory } from "../../../.storybook/helpers";
+import { createSteps, iconNames, stepStory, storyFilters } from "../../../.storybook/helpers";
 import { placeholderImage, themesDarkDefault } from "../../../.storybook/utils";
 import readme1 from "./readme.md";
 import readme2 from "../tab/readme.md";
@@ -9,10 +9,10 @@ import { html } from "../../../support/formatting";
 
 export default {
   title: "Components/Tabs",
-
   parameters: {
     notes: [readme1, readme2, readme3, readme4]
-  }
+  },
+  ...storyFilters()
 };
 
 export const Simple = stepStory(

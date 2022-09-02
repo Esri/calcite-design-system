@@ -1,5 +1,5 @@
 import { select } from "@storybook/addon-knobs";
-import { boolean } from "../../../.storybook/helpers";
+import { boolean, storyFilters } from "../../../.storybook/helpers";
 import { themesDarkDefault } from "../../../.storybook/utils";
 import readme1 from "./readme.md";
 import readme2 from "../radio-group-item/readme.md";
@@ -7,10 +7,10 @@ import { html } from "../../../support/formatting";
 
 export default {
   title: "Components/Controls/Radio/Radio Group",
-
   parameters: {
     notes: [readme1, readme2]
-  }
+  },
+  ...storyFilters()
 };
 
 export const simple = (): string => html`

@@ -3,12 +3,14 @@ import readme from "./readme.md";
 import itemReadme from "../list-item/readme.md";
 import groupReadme from "../list-item-group/readme.md";
 import { html } from "../../../support/formatting";
+import { storyFilters } from "../../../.storybook/helpers";
 
 export default {
   title: "Components/List",
   parameters: {
     notes: [readme, itemReadme, groupReadme]
-  }
+  },
+  ...storyFilters()
 };
 
 const thumbnailImage = placeholderImage({ width: 44, height: 44 });

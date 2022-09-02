@@ -10,12 +10,14 @@ import { ATTRIBUTES } from "../../../.storybook/resources";
 import readme from "./readme.md";
 import { SLOTS, TEXT } from "./resources";
 import { html } from "../../../support/formatting";
+import { storyFilters } from "../../../.storybook/helpers";
 
 export default {
   title: "Components/Panel",
   parameters: {
     notes: readme
-  }
+  },
+  ...storyFilters()
 };
 
 const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ exceptions } = { exceptions: [] }) => {

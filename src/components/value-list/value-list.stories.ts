@@ -9,12 +9,14 @@ import {
 import readme from "./readme.md";
 import itemReadme from "../value-list-item/readme.md";
 import { html } from "../../../support/formatting";
+import { storyFilters } from "../../../.storybook/helpers";
 
 export default {
   title: "Components/Value List",
   parameters: {
     notes: [readme, itemReadme]
-  }
+  },
+  ...storyFilters()
 };
 
 const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ exceptions } = { exceptions: [] }) => {
