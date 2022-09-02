@@ -202,29 +202,6 @@ const centerRowAdvancedHTML = html`
   </calcite-tip-manager>
 `;
 
-export const basic = (): string =>
-  create(
-    "calcite-shell",
-    createAttributes("Shell"),
-    html`
-      ${headerHTML} ${create("calcite-shell-panel", createShellPanelAttributes("Leading Panel"), leadingPanelHTML)}
-      ${contentHTML} ${create("calcite-shell-center-row", createShellCenterRowAttributes("Center Row"), centerRowHTML)}
-      ${create("calcite-shell-panel", createShellPanelAttributes("Trailing Panel"), trailingPanelHTML)} ${footerHTML}
-    `
-  );
-
-export const RTL = (): string =>
-  create(
-    "calcite-shell",
-    createAttributes("Shell", { exceptions: ["dir"] }).concat({ name: "dir", value: "rtl" }),
-    html`
-      ${headerHTML} ${create("calcite-shell-panel", createShellPanelAttributes("Leading Panel"), leadingPanelHTML)}
-      ${contentHTML} ${create("calcite-shell-center-row", createShellCenterRowAttributes("Center Row"), centerRowHTML)}
-      ${create("calcite-shell-panel", createShellPanelAttributes("Trailing Panel"), trailingPanelHTML)} ${footerHTML}
-    `
-  );
-
-// TODO: UPDATE
 const advancedLeadingPanelHTML = html`
   ${actionBarStartHTML}
   <calcite-block collapsible open heading="Start Content" summary="This is the primary.">
@@ -320,7 +297,7 @@ const advancedTrailingPanelHTMl = html`
   </calcite-flow>
 `;
 
-export const advanced = (): string =>
+export const basic = (): string =>
   create(
     "calcite-shell",
     createAttributes("Shell"),
@@ -333,7 +310,7 @@ export const advanced = (): string =>
     `
   );
 
-export const advancedRTL = (): string =>
+export const basicRTL = (): string =>
   create(
     "calcite-shell",
     createAttributes("Shell", { exceptions: ["dir"] }).concat({ name: "dir", value: "rtl" }),
