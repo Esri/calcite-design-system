@@ -42,7 +42,7 @@ Each story should provide access to relevant [knobs](https://github.com/storyboo
 
 ### Writing stories
 
-Each component should use a `storiesOf` with at least one story. If your component has properties that effect visual styles, you can use the [storybook knobs addon](https://www.npmjs.com/package/@storybook/addon-knobs) to allow people to manipulate properties and see live updates in the documentation. A minimal stories file might look something like this:
+Each component should use the [Component Story Format (CSF)](https://storybook.js.org/docs/html/api/csf) with at least one story. If your component has properties that effect visual styles, you can use the [storybook knobs addon](https://www.npmjs.com/package/@storybook/addon-knobs) to allow people to manipulate properties and see live updates in the documentation. A minimal stories file might look something like this:
 
 ```
 import { storiesOf } from '@storybook/html';

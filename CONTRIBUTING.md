@@ -13,7 +13,7 @@ Calcite Components is still in its early stages. You can help most by:
 - Reporting problems by [creating a Bug issue](https://github.com/Esri/calcite-components/issues/new?assignees=&labels=bug%2C0+-+new%2Cneeds+triage&template=bug.yml).
 - Working on [the issues marked as `help wanted`](https://github.com/Esri/calcite-components/issues?q=is%3Aopen+is%3Aissue+label%3A%22help+wanted%22+no%3Aassignee). There is also a `good first issue` label if you are just getting started.
   - Comment on the issue and ask for the action items before you start working. Sometimes additional context is needed, which may not be specified in the issue.
-- If you want to help develop components take a look at the [new component issues](https://github.com/Esri/calcite-components/issues?q=is%3Aopen+is%3Aissue+label%3A%22new+component%22). Before starting development please review our [component conventions](./conventions/README.md) and the [Stencil documentation](https://stenciljs.com/docs/host-element).
+- If you want to help develop components take a look at the [new component issues](https://github.com/Esri/calcite-components/issues?q=is%3Aopen+is%3Aissue+label%3A%22new+component%22). Before starting development please review our [component conventions](./conventions/README.md) and the [Stencil documentation](https://stenciljs.com/docs/introduction).
 
 If you aren't familiar with the basics of Web Components and Shadow DOM, please read through some of the following resources before contributing:
 
@@ -89,14 +89,14 @@ Our code base is written in TypeScript and must adhere to specific conventions a
 
 ## Getting a development environment set up
 
-An installation of Node is required for development. If you don't have Node installed, we recommend [Volta], which will automatically use the Node versions we pinned in `package.json`. We also recommend installing the following extensions in your editor of choice: TypeScript, TailwindCSS, ESLint, StyleLint, and Prettier. If you use VS Code, you will see a pop up in the bottom right corner prompting you to install or view the workspaces's recommended extensions. Here are instructions for manually installing the extensions in a variety of editors:
+An installation of Node is required for development. If you don't have Node installed, we recommend [Volta], which will automatically use the Node versions we pinned in `package.json`. We also recommend installing the following extensions in your editor of choice: TypeScript, TailwindCSS, ESLint, Stylelint, and Prettier. If you use VS Code, you will see a pop up in the bottom right corner prompting you to install or view the workspaces's recommended extensions. Here are instructions for manually installing the extensions in a variety of editors:
 
 - https://tailwindcss.com/docs/intellisense
 - https://eslint.org/docs/latest/user-guide/integrations
 - https://stylelint.io/user-guide/integrations/editor
 - https://prettier.io/docs/en/editors.html
 
-To start the local development environment, run `npm start`, which will start the local Stencil development server on [http://localhost:3333](http://localhost:3333). You can modify the [index.html](./src/index.html) to add and test your new component. Just add another HTML file to the `demos` folder and link to this new page from `index.html`.
+To start the local development environment, run `npm start`, which will start the local Stencil development server on localhost. You can modify the [index.html](./src/index.html) to add and test your new component. Just add another HTML file to the `demos` folder and link to this new page from `index.html`.
 
 ## Linting
 
@@ -160,7 +160,7 @@ This project follows [conventional commits](https://www.conventionalcommits.org/
 
 [Stencil's contributing document](https://github.com/ionic-team/stencil/blob/master/.github/CONTRIBUTING.md#commit-message-format) explains this in great detail, so please refer to this for more details and examples.
 
-## Breaking Changes
+## Breaking changes
 
 Commit messages for breaking changes should use both the header (`!`) and body (`BREAKING CHANGE:`) syntax:
 
@@ -177,3 +177,5 @@ See the [conventional commits doc](https://www.conventionalcommits.org/en/v1.0.0
 ## Pull requests
 
 In order to ensure conventional commits are followed, pull requests will run a check to indicate whether the PR is following the convention or not. The [Semantic Pull Request](https://github.com/amannn/action-semantic-pull-request) status check will ensure your pull requests are semantic before you merge them.
+
+You can update the PR title any time before merging the PR. This may be necessary when the scope or type of the PR changes, or if additional details are needed for the changelog entry.
