@@ -61,8 +61,9 @@ export const Simple = (): string => html`
   </calcite-tree>
 `;
 
-export const RTL = (): string => html`
+export const simpleDarkRTL = (): string => html`
   <calcite-tree
+    class="calcite-theme-dark"
     dir="rtl"
     ${boolean("lines", false)}
     selection-mode="${select("selection-mode", selectionModes, "single")}"
@@ -72,16 +73,4 @@ export const RTL = (): string => html`
   </calcite-tree>
 `;
 
-export const DarkMode = (): string => html`
-  <calcite-tree
-    class="calcite-theme-dark"
-    ${boolean("lines", false)}
-    selection-mode="${select("selection-mode", selectionModes, "single")}"
-    scale="${select("scale", ["s", "m", "l"], "m")}"
-  >
-    ${treeItems}
-  </calcite-tree>
-`;
-
-DarkMode.storyName = "Dark mode";
-DarkMode.parameters = { themes: themesDarkDefault };
+simpleDarkRTL.parameters = { themes: themesDarkDefault };

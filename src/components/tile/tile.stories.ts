@@ -12,7 +12,8 @@ export default {
   ...storyFilters()
 };
 
-export const Light = (): string => html`
+export const Simple = (): string => html`
+  <h1>Default</h1>
   <calcite-tile
     ${boolean("active", false)}
     description="${text(
@@ -26,9 +27,24 @@ export const Light = (): string => html`
     icon="${select("icon", iconNames, "layer")}"
   >
   </calcite-tile>
+  <h1>Disabled</h1>
+  <calcite-tile
+    ${boolean("active", false)}
+    disabled
+    description="${text(
+      "description",
+      "Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+    )}"
+    heading="${text("heading", "Tile heading lorem ipsum")}"
+    ${boolean("hidden", false)}
+    href="${text("href", "#")}"
+    icon="${select("icon", iconNames, "layer")}"
+  >
+  </calcite-tile>
 `;
 
-export const Dark = (): string => html`
+export const darkRTL = (): string => html`
+  <h1>Default</h1>
   <calcite-tile
     ${boolean("active", false)}
     description="${text(
@@ -41,28 +57,28 @@ export const Dark = (): string => html`
     href="${text("href", "#")}"
     icon="${select("icon", iconNames, "layer")}"
     class="calcite-theme-dark"
+    dir="rtl"
   >
   </calcite-tile>
-`;
-
-Dark.parameters = { themes: themesDarkDefault };
-
-export const RTL = (): string => html`
+  <h1>Disabled</h1>
   <calcite-tile
     ${boolean("active", false)}
     description="${text(
       "description",
       "Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
     )}"
-    heading="${text("heading", "Tile heading lorem ipsum!")}"
-    ${boolean("disabled", false)}
+    disabled
+    heading="${text("heading", "Tile heading lorem ipsum")}"
     ${boolean("hidden", false)}
     href="${text("href", "#")}"
     icon="${select("icon", iconNames, "layer")}"
+    class="calcite-theme-dark"
     dir="rtl"
   >
   </calcite-tile>
 `;
+
+darkRTL.parameters = { themes: themesDarkDefault };
 
 export const LargeTile = (): string => html`
   <calcite-tile
@@ -87,8 +103,6 @@ export const ContentStartRTL = (): string => html`
     <calcite-icon scale="s" slot="content-end" icon="launch"></calcite-icon>
   </calcite-tile>
 `;
-
-export const disabled = (): string => html`<calcite-tile heading="Heading" disabled></calcite-tile>`;
 
 export const OverflowingContent = (): string => html`
   <calcite-tile
