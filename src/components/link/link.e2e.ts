@@ -229,6 +229,19 @@ describe("calcite-link", () => {
 
       expect(page.url()).toBe(targetUrl);
     });
+
+    it("non user-initiated click event", async () => {
+      const link = await page.find("calcite-link");
+      const clickEvent = await link.spyOnEvent("click");
+
+      // helps test click behavior via HTMLElement.click()
+      await link.callMethod("click");
+      await page.waitForChanges();
+
+      expect(page.url()).toBe(targetUrl);
+      // make sure forwarded internal event does not propagate
+      expect(clickEvent).toHaveReceivedEventTimes(1);
+    });
   });
 
   describe("CSS properties for light/dark themes", () => {
