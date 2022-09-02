@@ -154,8 +154,7 @@ export class AccordionItem implements ConditionalSlotComponent {
 
     if (this.iconStart) {
       this.icon = this.iconStart;
-    }
-    if (this.icon && !this.iconStart) {
+    } else if (this.icon) {
       this.iconStart = this.icon;
     }
 
