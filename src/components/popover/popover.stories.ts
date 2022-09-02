@@ -43,7 +43,7 @@ export const simple = (): string => html`
   </div>
 `;
 
-export const darkThemeRTL = (): string => html` <div style="width: 400px;">
+export const darkThemeRTL_TestOnly = (): string => html` <div style="width: 400px;">
   ${referenceElementHTML}
   <calcite-popover
     ${boolean("dismissible", false)}
@@ -62,7 +62,7 @@ export const darkThemeRTL = (): string => html` <div style="width: 400px;">
   </calcite-popover>
 </div>`;
 
-darkThemeRTL.parameters = { themes: themesDarkDefault };
+darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };
 
 export const nested = (): string => html`
   <div style="width: 400px;">
@@ -85,24 +85,4 @@ export const nested = (): string => html`
       </calcite-popover>
     </calcite-popover>
   </div>
-`;
-
-export const flipPlacementRight_NoTest = (): string => html`
-  <div style="height: 100px; overflow:scroll; width: 200px;">
-    <div class="my-popover-reference">
-      <calcite-button title="Reference Element" id="reference-element">nostrud exercitation</calcite-button>
-    </div>
-    <calcite-popover
-     class="my-popover"
-     reference-element="reference-element"
-     ${boolean("open", true)}
-     placement="top"
-     heading="${text("heading", "Heading")}"
-     ${boolean("dismissible", true)}
-      ${contentHTML}
-    </calcite-popover>
-  </div>
-  <script>
-    document.querySelector(".my-popover").flipPlacements = ["right"];
-  </script>
 `;

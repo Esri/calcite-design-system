@@ -12,29 +12,21 @@ export default {
   }
 };
 
-export const Determinate_NoTest = (): string => html`
+export const simple = (): string => html`
   <calcite-progress
-    type="determinate"
-    value="${number("value", 0, { range: true, min: 0, max: 1, step: 0.01 })}"
+    type="${select("type", ["determinate", "indeterminate"], "determinate")}"
+    value="${number("value", 0.8, { range: true, min: 0, max: 1, step: 0.01 })}"
     text="${text("text", "")}"
   ></calcite-progress>
 `;
 
-export const Indeterminate_NoTest = (): string => html`
-  <calcite-progress
-    reversed=${boolean("reversed", false)}
-    type="indeterminate"
-    text="${text("text", "")}"
-  ></calcite-progress>
-`;
-
-export const darkTheme_NoTest = (): string => html`
+export const darkThemeRTL_TestOnly = (): string => html`
   <calcite-progress
     class="calcite-theme-dark"
     type="${select("type", { determinate: "determinate", indeterminate: "indeterminate" }, "indeterminate")}"
-    value="${number("value", 0, { range: true, min: 0, max: 1, step: 0.01 })}"
+    value="${number("value", 0.2, { range: true, min: 0, max: 1, step: 0.01 })}"
     text="${text("text", "")}"
   ></calcite-progress>
 `;
 
-darkTheme_NoTest.parameters = { themes: themesDarkDefault };
+darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };

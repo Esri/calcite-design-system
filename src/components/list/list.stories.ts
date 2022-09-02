@@ -32,7 +32,7 @@ export const simple = (): string => html`
   </calcite-list>
 `;
 
-export const onlyLabelVersusOnlyDescription = (): string => html`
+export const onlyLabelVersusOnlyDescription_TestOnly = (): string => html`
   <calcite-list>
     <calcite-list-item label="This has no description."> </calcite-list-item>
   </calcite-list>
@@ -77,7 +77,7 @@ export const nestedListItemsAndGroupItems = (): string => html`
   </calcite-list>
 `;
 
-export const StartAndEndContentSlots = (): string => html`<calcite-list>
+export const startAndEndContentSlots = (): string => html`<calcite-list>
   <calcite-list-item>
     <calcite-action slot="actions-end" icon="ellipsis"> </calcite-action>
     <calcite-icon icon="layers" scale="m" slot="content-start"></calcite-icon>
@@ -105,7 +105,7 @@ export const StartAndEndContentSlots = (): string => html`<calcite-list>
   </calcite-list-item>
 </calcite-list> `;
 
-export const RichContent = (): string => html`
+export const richContent = (): string => html`
   <calcite-list>
     <calcite-list-item label="Princess Bubblegum" description="Ruler of The Candy Kingdom">
       <calcite-action icon="drag" label="drag" scale="s" slot="actions-start"></calcite-action>
@@ -139,7 +139,7 @@ export const RichContent = (): string => html`
   </calcite-list>
 `;
 
-export const darkThemeRTL = (): string => html`
+export const darkThemeRTL_TestOnly = (): string => html`
   <calcite-list class="calcite-theme-dark" dir="rtl">
     <calcite-list-item label="Princess Bubblegum" description="Ruler of The Candy Kingdom">
       <calcite-action icon="drag" label="drag" scale="s" slot="actions-start"></calcite-action>
@@ -173,9 +173,9 @@ export const darkThemeRTL = (): string => html`
   </calcite-list>
 `;
 
-darkThemeRTL.parameters = { themes: themesDarkDefault };
+darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };
 
-export const disabled = (): string => html`<calcite-list disabled>
+export const disabled_TestOnly = (): string => html`<calcite-list disabled>
   <calcite-list-item
     label="Cras iaculis ultricies nulla."
     description="Lorem ipsum dolor sit amet, consectetuer adipiscing elit."

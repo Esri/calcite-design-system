@@ -1,6 +1,5 @@
 import { number, color, select } from "@storybook/addon-knobs";
 import { boolean } from "../../../.storybook/helpers";
-import { themesDarkDefault } from "../../../.storybook/utils";
 import readme from "./readme.md";
 import { html } from "../../../support/formatting";
 
@@ -22,18 +21,6 @@ export const simple_NoTest = (): string => html`
   />
 `;
 
-export const noPadding_NoTest = (): string => html`
-  <div style="border: 1px solid rgb(192,192,192, 0.5); width: 100px">
-    <calcite-loader
-      active
-      type="${select("type", ["determinate", "indeterminate"], "indeterminate")}"
-      scale="${select("scale", ["s", "m", "l"], "m")}"
-      ${boolean("no-padding", true)}
-      value="${number("value", 0, { range: true, min: 0, max: 100, step: 1 })}"
-    />
-  </div>
-`;
-
 export const inline_NoTest = (): string => html`
 <div style="display: inline-flex;align-items: center;justify-content: center;width: 100%;">
 <calcite-loader
@@ -44,21 +31,7 @@ export const inline_NoTest = (): string => html`
 </div>
 `;
 
-export const darkTheme_NoTest = (): string => html`
-  <calcite-loader
-    class="calcite-theme-dark"
-    type="${select("type", ["determinate", "indeterminate"], "indeterminate")}"
-    scale="${select("scale", ["s", "m", "l"], "m")}"
-    ${boolean("no-padding", false)}
-    value="${number("value", 0, { range: true, min: 0, max: 100, step: 1 })}"
-    active
-    class="calcite-theme-dark"
-  />
-`;
-
-darkTheme_NoTest.parameters = { themes: themesDarkDefault };
-
-export const CustomTheme_NoTest = (): string => html`
+export const customTheme_NoTest = (): string => html`
   <calcite-loader
     type="${select("type", ["determinate", "indeterminate"], "indeterminate")}"
     scale="${select("scale", ["s", "m", "l"], "m")}"

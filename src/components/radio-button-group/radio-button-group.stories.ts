@@ -39,7 +39,7 @@ export const simple = (): string => html`
   </calcite-radio-button-group>
 `;
 
-export const darkThemeRTL = (): string => html`
+export const darkThemeRTL_TestOnly = (): string => html`
   <calcite-radio-button-group
     class="calcite-theme-dark"
     dir="rtl"
@@ -68,4 +68,4 @@ export const darkThemeRTL = (): string => html`
   </calcite-radio-button-group>
 `;
 
-darkThemeRTL.parameters = { themes: themesDarkDefault };
+darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };

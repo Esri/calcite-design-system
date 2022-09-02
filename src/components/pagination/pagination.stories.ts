@@ -19,12 +19,11 @@ export const simple = (): string => html`
     lang="${select("lang", locales, "en")}"
     total="${number("total", 123456789)}"
     num="${number("num", 10)}"
-    dir="${select("dir", ["ltr", "rtl"], "ltr")}"
   >
   </calcite-pagination>
 `;
 
-export const darkThemeFrenchLocaleAndRTL = (): string => html`
+export const darkThemeFrenchLocaleAndRTL_NoTest = (): string => html`
   <calcite-pagination
     class="calcite-theme-dark"
     scale="${select("scale", ["s", "m", "l"], "m")}"
@@ -38,4 +37,4 @@ export const darkThemeFrenchLocaleAndRTL = (): string => html`
   </calcite-pagination>
 `;
 
-darkThemeFrenchLocaleAndRTL.parameters = { themes: themesDarkDefault };
+darkThemeFrenchLocaleAndRTL_NoTest.parameters = { themes: themesDarkDefault };

@@ -12,7 +12,7 @@ export default {
   }
 };
 
-export const Simple = (): string => html`
+export const simple = (): string => html`
   <div style="width:600px;max-width:100%;text-align:center;">
     <calcite-notice
       ${boolean("icon", true)}
@@ -36,7 +36,7 @@ export const Simple = (): string => html`
   </div>
 `;
 
-export const darkThemeRTL = (): string => html`
+export const darkThemeRTL_NoTest = (): string => html`
   <div style="width:600px;max-width:100%;text-align:center;">
     <calcite-notice
       dir="rtl"
@@ -54,4 +54,4 @@ export const darkThemeRTL = (): string => html`
   </div>
 `;
 
-darkThemeRTL.parameters = { themes: themesDarkDefault };
+darkThemeRTL_NoTest.parameters = { themes: themesDarkDefault };

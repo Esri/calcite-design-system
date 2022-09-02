@@ -10,7 +10,7 @@ export default {
   }
 };
 
-export const WrappingComponentsOtherThanInput = (): string => html`
+export const simple = (): string => html`
   <div style="width:300px;max-width:100%;text-align:center;">
     <calcite-label>
       Default label wrapping a switch
@@ -80,9 +80,7 @@ export const WrappingComponentsOtherThanInput = (): string => html`
   </div>
 `;
 
-WrappingComponentsOtherThanInput.storyName = "Wrapping components other than input";
-
-export const darkThemeRTL = (): string => html`
+export const darkThemeRTL_TestOnly = (): string => html`
   <div style="width:300px;max-width:100%;text-align:center;" class="calcite-theme-dark" dir="rtl">
     <calcite-label class="calcite-theme-dark">
       Default label wrapping a switch
@@ -144,9 +142,9 @@ export const darkThemeRTL = (): string => html`
   </div>
 `;
 
-darkThemeRTL.parameters = { themes: themesDarkDefault };
+darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };
 
-export const toggleSwitchWithLabel = stepStory(
+export const toggleSwitchWithLabel_TestOnly = stepStory(
   (): string => html`<calcite-label layout="inline">
     Toggle theme
     <calcite-switch id="theme-switch"></calcite-switch>
@@ -154,7 +152,7 @@ export const toggleSwitchWithLabel = stepStory(
   createSteps("calcite-label").click("calcite-label").snapshot("Toggle switch with label")
 );
 
-export const SpacingWithLabel = (): string => html`
+export const spacingWithLabel_TestOnly = (): string => html`
   <style>
     .css-var {
       --calcite-label-margin-bottom: 0;

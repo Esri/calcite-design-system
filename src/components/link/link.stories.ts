@@ -18,7 +18,7 @@ export default {
   }
 };
 
-export const Simple = (): string => html`
+export const simple = (): string => html`
   <div
     style="font-size: ${select(
       "containing font size",
@@ -34,51 +34,7 @@ export const Simple = (): string => html`
   </div>
 `;
 
-export const WithIconStart = (): string => html`
-  <div
-    style="font-size: ${select(
-      "containing font size",
-      ["12", "14", "16", "18", "20", "24", "32"],
-      "16"
-    )}px; font-weight: ${select("containing font weight", ["300", "400", "500", "700"], "400")};"
-  >
-    Some wrapping text
-    <calcite-link
-      href="${text("href", "")}"
-      ${boolean("disabled", false)}
-      icon-start="${select("icon-start", iconNames, iconNames[0])}"
-    >
-      ${text("text", "link text here")}</calcite-link
-    >
-    around the link
-  </div>
-`;
-
-WithIconStart.storyName = "With icon-start";
-
-export const WithIconEnd = (): string => html`
-  <div
-    style="font-size: ${select(
-      "containing font size",
-      ["12", "14", "16", "18", "20", "24", "32"],
-      "16"
-    )}px; font-weight: ${select("containing font weight", ["300", "400", "500", "700"], "400")};"
-  >
-    Some wrapping text
-    <calcite-link
-      href="${text("href", "")}"
-      ${boolean("disabled", false)}
-      icon-end="${select("icon-end", iconNames, iconNames[0])}"
-    >
-      ${text("text", "link text here")}</calcite-link
-    >
-    around the link
-  </div>
-`;
-
-WithIconEnd.storyName = "With icon-end";
-
-export const WithIconStartAndIconEnd = (): string => html`
+export const iconStartAndIconEnd = (): string => html`
   <div
     style="font-size: ${select(
       "containing font size",
@@ -99,11 +55,10 @@ export const WithIconStartAndIconEnd = (): string => html`
   </div>
 `;
 
-WithIconStartAndIconEnd.storyName = "With icon-start and icon-end";
-
-export const DarkMode = (): string => html`
+export const darkThemeRTL_TestOnly = (): string => html`
   <div
     class="calcite-theme-dark"
+    dir="rtl"
     style="color: white; font-size: ${select(
       "containing font size",
       ["12", "14", "16", "18", "20", "24", "32"],
@@ -118,29 +73,6 @@ export const DarkMode = (): string => html`
   </div>
 `;
 
-DarkMode.storyName = "Dark mode";
-DarkMode.parameters = { themes: themesDarkDefault };
+darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };
 
-export const WithIconStartAndIconEndRTL = (): string => html`
-  <div
-    style="font-size: ${select(
-      "containing font size",
-      ["12", "14", "16", "18", "20", "24", "32"],
-      "16"
-    )}px; font-weight: ${select("containing font weight", ["300", "400", "500", "700"], "400")};"
-  >
-    Some wrapping text
-    <calcite-link
-      dir="rtl"
-      href="${text("href", "")}"
-      ${boolean("disabled", false)}
-      icon-start="${select("icon-start", iconNames, iconNames[0])}"
-      icon-end="${select("icon-end", iconNames, iconNames[1])}"
-    >
-      ${text("text", "link text here")}</calcite-link
-    >
-    around the link
-  </div>
-`;
-
-export const disabled = (): string => html`<calcite-link disabled>disabled</calcite-link`;
+export const disabled_TestOnly = (): string => html`<calcite-link disabled>disabled</calcite-link`;

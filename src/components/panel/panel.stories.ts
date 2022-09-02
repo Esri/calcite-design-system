@@ -128,24 +128,30 @@ export const simple = (): string =>
     `
   );
 
-export const onlyPropsAndHeadingLevel2 = (): string => html`
+export const onlyProps = (): string => html`
   <div style="width: 300px;">
     <calcite-panel
       height-scale="s"
-      heading="Panel title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum"
-      heading-level="2"
-      summary="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+      heading-level="${text("heading-level", "2")}"
+      summary="${text(
+        "summary",
+        "Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+      )}"
+      heading="${text(
+        "heading",
+        "Panel title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum"
+      )}"
     />
   </div>
 `;
 
-export const disabledWithStyledSlot = (): string => html`
+export const disabledWithStyledSlot_TestOnly = (): string => html`
   <calcite-panel style="height: 100%;" heading="Heading" disabled>
     <div id="content" style="height: 100%;">${contentHTML}</div>
   </calcite-panel>
 `;
 
-export const darkThemeRTL = (): string =>
+export const darkThemeRTL_TestOnly = (): string =>
   create(
     "calcite-panel",
     createAttributes({ exceptions: ["dir", "class"] }).concat([
@@ -161,4 +167,4 @@ export const darkThemeRTL = (): string =>
     panelContent
   );
 
-darkThemeRTL.parameters = { themes: themesDarkDefault };
+darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };

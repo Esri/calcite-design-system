@@ -28,23 +28,6 @@ export const simple = (): string => html`
   </calcite-radio-group>
 `;
 
-export const wrappingCalciteLabel = (): string => html`
-  <calcite-label scale="${select("scale", ["s", "m", "l"], "m")}">
-    My great radio group
-    <calcite-radio-group
-      layout="${select("layout", ["horizontal", "vertical"], "horizontal")}"
-      appearance="${select("appearance", ["solid", "outline"], "solid")}"
-      width="${select("width", ["auto", "full"], "auto")}"
-      ${boolean("disabled", false)}
-    >
-      <calcite-radio-group-item value="react" checked>React</calcite-radio-group-item>
-      <calcite-radio-group-item value="ember">Ember</calcite-radio-group-item>
-      <calcite-radio-group-item value="angular">Angular</calcite-radio-group-item>
-      <calcite-radio-group-item value="vue">Vue</calcite-radio-group-item>
-    </calcite-radio-group>
-  </calcite-label>
-`;
-
 export const fullWidthWithIcons = (): string => html`
   <div style="width:33vw;">
     <calcite-label scale="${select("scale", ["s", "m", "l"], "m")}">
@@ -63,7 +46,7 @@ export const fullWidthWithIcons = (): string => html`
   </div>
 `;
 
-export const darkThemeRTL = (): string => html`
+export const darkThemeRTL_TestOnly = (): string => html`
   <calcite-radio-group
     class="calcite-theme-dark"
     dir="rtl"
@@ -80,9 +63,9 @@ export const darkThemeRTL = (): string => html`
   </calcite-radio-group>
 `;
 
-darkThemeRTL.parameters = { themes: themesDarkDefault };
+darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };
 
-export const disabled = (): string => html`<calcite-radio-group disabled>
+export const disabled_TestOnly = (): string => html`<calcite-radio-group disabled>
   <calcite-radio-group-item value="react" checked>React</calcite-radio-group-item>
   <calcite-radio-group-item value="ember">Ember</calcite-radio-group-item>
   <calcite-radio-group-item value="angular">Angular</calcite-radio-group-item>

@@ -27,7 +27,7 @@ export const simple = (): string => html`
   </calcite-label>
 `;
 
-export const darkThemeRTL = (): string => html`
+export const darkThemeRTL_TestOnly = (): string => html`
   <calcite-label layout="inline" class="calcite-theme-dark" dir="rtl">
     <calcite-radio-button
       ${boolean("checked", false)}
@@ -43,6 +43,6 @@ export const darkThemeRTL = (): string => html`
   </calcite-label>
 `;
 
-darkThemeRTL.parameters = { themes: themesDarkDefault };
+darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };
 
-export const disabled = (): string => html`<calcite-radio-button checked disabled></calcite-radio-button>`;
+export const disabled_TestOnly = (): string => html`<calcite-radio-button checked disabled></calcite-radio-button>`;

@@ -15,7 +15,7 @@ export default {
 export const simple = (): string => html`
   <calcite-rating
     scale="${select("scale", ["s", "m", "l"], "m")}"
-    value="${number("value", 0)}"
+    value="${number("value", 1)}"
     ${boolean("show-chip", true)}
     average="${number("average", 4.4)}"
     count="${number("count", 10)}"
@@ -26,12 +26,12 @@ export const simple = (): string => html`
   ></calcite-rating>
 `;
 
-export const darkThemeRTL = (): string => html`
+export const darkThemeRTL_TestOnly = (): string => html`
   <calcite-rating
     class="calcite-theme-dark"
     dir="rtl"
     scale="${select("scale", ["s", "m", "l"], "m")}"
-    value="${number("value", 0)}"
+    value="${number("value", 2)}"
     ${boolean("show-chip", true)}
     average="${number("average", 4.4)}"
     count="${number("count", 10)}"
@@ -42,23 +42,6 @@ export const darkThemeRTL = (): string => html`
   ></calcite-rating>
 `;
 
-darkThemeRTL.parameters = { themes: themesDarkDefault };
+darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };
 
-export const wrappedInCalciteLabel = (): string => html`
-  <calcite-label layout="${select("input layout", ["default", "inline", "inline-space-between"], "default")}">
-    Rate this!
-    <calcite-rating
-      scale="${select("scale", ["s", "m", "l"], "m")}"
-      value="${number("value", 0)}"
-      ${boolean("show-chip", false)}
-      average="${number("average", 0)}"
-      count="${number("count", 0)}"
-      ${boolean("read-only", false)}
-      ${boolean("disabled", false)}
-      intl-rating="${text("intl-rating", "Rating")}"
-      intl-stars="${text("intl-rating", "Stars: ${num}")}"
-    ></calcite-rating>
-  </calcite-label>
-`;
-
-export const disabled = (): string => html`<calcite-rating disabled value="3"></calcite-rating>`;
+export const disabled_TestOnly = (): string => html`<calcite-rating disabled value="3"></calcite-rating>`;
