@@ -3,13 +3,14 @@ import { themesDarkDefault } from "../../../.storybook/utils";
 import { boolean } from "@storybook/addon-knobs";
 import { html } from "../../../support/formatting";
 import readme from "./readme.md";
+import { storyFilters } from "../../../.storybook/helpers";
 
 export default {
   title: "Components/Tiles/Tile Select Group",
-
   parameters: {
     notes: readme
-  }
+  },
+  ...storyFilters()
 };
 
 export const Light = (): string => html`

@@ -1,5 +1,5 @@
 import { boolean, select, text } from "@storybook/addon-knobs";
-import { iconNames, setKnobs, setTheme } from "../../../.storybook/helpers";
+import { iconNames, setKnobs, setTheme, storyFilters } from "../../../.storybook/helpers";
 import {
   Attribute,
   Attributes,
@@ -15,7 +15,8 @@ export default {
   title: "Components/Tiles/Tile Select",
   parameters: {
     notes: readme
-  }
+  },
+  ...storyFilters()
 };
 
 const icon = "i2DExplore";

@@ -1,6 +1,6 @@
 import { select, number, text } from "@storybook/addon-knobs";
 import { html } from "../../../support/formatting";
-import { boolean } from "../../../.storybook/helpers";
+import { boolean, storyFilters } from "../../../.storybook/helpers";
 import { placements } from "../../utils/floating-ui";
 import readme from "./readme.md";
 import { defaultPopoverPlacement } from "../popover/resources";
@@ -21,7 +21,8 @@ export default {
   title: "Components/Popover",
   parameters: {
     notes: [readme]
-  }
+  },
+  ...storyFilters()
 };
 
 export const simple = (): string => html`

@@ -5,13 +5,14 @@ import readme from "./readme.md";
 import { html } from "../../../support/formatting";
 import { locales } from "../../utils/locale";
 import { defaultMenuPlacement, menuPlacements } from "../../utils/floating-ui";
+import { storyFilters } from "../../../.storybook/helpers";
 
 export default {
   title: "Components/Controls/InputDatePicker",
-
   parameters: {
     notes: readme
-  }
+  },
+  ...storyFilters()
 };
 
 export const simple = (): string => html`

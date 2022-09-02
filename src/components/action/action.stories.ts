@@ -7,7 +7,7 @@ import {
 } from "../../../.storybook/utils";
 import readme from "./readme.md";
 import { html } from "../../../support/formatting";
-import { createSteps, iconNames, stepStory, setTheme, setKnobs } from "../../../.storybook/helpers";
+import { createSteps, iconNames, stepStory, setTheme, setKnobs, storyFilters } from "../../../.storybook/helpers";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 const { alignment, scale } = ATTRIBUTES;
 
@@ -15,7 +15,8 @@ export default {
   title: "Components/Buttons/Action",
   parameters: {
     notes: readme
-  }
+  },
+  ...storyFilters()
 };
 
 const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ exceptions } = { exceptions: [] }) => {

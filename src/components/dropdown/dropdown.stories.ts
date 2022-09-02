@@ -1,5 +1,5 @@
 import { number, select } from "@storybook/addon-knobs";
-import { boolean } from "../../../.storybook/helpers";
+import { boolean, storyFilters } from "../../../.storybook/helpers";
 import { themesDarkDefault } from "../../../.storybook/utils";
 import readme1 from "./readme.md";
 import readme2 from "../dropdown-group/readme.md";
@@ -9,10 +9,10 @@ import { html } from "../../../support/formatting";
 
 export default {
   title: "Components/Buttons/Dropdown",
-
   parameters: {
     notes: [readme1, readme2, readme3]
-  }
+  },
+  ...storyFilters()
 };
 
 export const simple = (): string => html`

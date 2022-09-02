@@ -10,12 +10,14 @@ import readme from "./readme.md";
 import { TEXT } from "./resources";
 import { html } from "../../../support/formatting";
 import { placeholderImage } from "../../../.storybook/utils";
+import { storyFilters } from "../../../.storybook/helpers";
 
 export default {
   title: "Components/Tips/Tip Manager",
   parameters: {
     notes: readme
-  }
+  },
+  ...storyFilters()
 };
 
 const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ exceptions } = { exceptions: [] }) => {

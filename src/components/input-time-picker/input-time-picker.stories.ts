@@ -1,5 +1,5 @@
 import { number, select, text } from "@storybook/addon-knobs";
-import { boolean } from "../../../.storybook/helpers";
+import { boolean, storyFilters } from "../../../.storybook/helpers";
 import { themesDarkDefault } from "../../../.storybook/utils";
 import readme from "./readme.md";
 import { html } from "../../../support/formatting";
@@ -7,10 +7,10 @@ import { defaultMenuPlacement, menuPlacements } from "../../utils/floating-ui";
 
 export default {
   title: "Components/Controls/Time/Input Time Picker",
-
   parameters: {
     notes: readme
-  }
+  },
+  ...storyFilters()
 };
 
 export const simple = (): string => html`

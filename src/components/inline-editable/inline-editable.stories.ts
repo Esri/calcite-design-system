@@ -2,13 +2,14 @@ import readme from "./readme.md";
 import { boolean, select, text } from "@storybook/addon-knobs";
 import { themesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
+import { storyFilters } from "../../../.storybook/helpers";
 
 export default {
   title: "Components/Controls/Inline Editable",
-
   parameters: {
     notes: readme
-  }
+  },
+  ...storyFilters()
 };
 
 export const simple = (): string => html`

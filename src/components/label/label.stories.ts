@@ -1,13 +1,13 @@
 import { themesDarkDefault } from "../../../.storybook/utils";
 import readme from "./readme.md";
 import { html } from "../../../support/formatting";
-import { createSteps, stepStory } from "../../../.storybook/helpers";
+import { createSteps, stepStory, storyFilters } from "../../../.storybook/helpers";
 export default {
   title: "Components/Label",
-
   parameters: {
     notes: readme
-  }
+  },
+  ...storyFilters()
 };
 
 export const WrappingComponentsOtherThanInput = (): string => html`

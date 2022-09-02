@@ -1,13 +1,14 @@
 import { number } from "@storybook/addon-knobs";
 import { themesDarkDefault } from "../../../.storybook/utils";
 import readme from "./readme.md";
+import { storyFilters } from "../../../.storybook/helpers";
 
 export default {
   title: "Components/Controls/Slider/support/Graph",
-
   parameters: {
     notes: readme
-  }
+  },
+  ...storyFilters()
 };
 
 const data: HTMLCalciteGraphElement["data"] = [

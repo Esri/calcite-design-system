@@ -9,6 +9,7 @@ import {
 import blockReadme from "./readme.md";
 import sectionReadme from "../block-section/readme.md";
 import { html } from "../../../support/formatting";
+import { storyFilters } from "../../../.storybook/helpers";
 
 export default {
   title: "Components/Block",
@@ -17,7 +18,8 @@ export default {
       block: blockReadme,
       section: sectionReadme
     }
-  }
+  },
+  ...storyFilters()
 };
 
 const createBlockAttributes: (options?: { exceptions: string[] }) => Attributes = (

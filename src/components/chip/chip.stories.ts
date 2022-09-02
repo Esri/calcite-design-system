@@ -1,15 +1,15 @@
 import { select } from "@storybook/addon-knobs";
-import { iconNames, boolean } from "../../../.storybook/helpers";
+import { iconNames, boolean, storyFilters } from "../../../.storybook/helpers";
 import { placeholderImage, themesDarkDefault } from "../../../.storybook/utils";
 import readme from "./readme.md";
 import { html } from "../../../support/formatting";
 
 export default {
   title: "Components/Chip",
-
   parameters: {
     notes: readme
-  }
+  },
+  ...storyFilters()
 };
 
 export const simple = (): string => html`

@@ -8,7 +8,7 @@ import {
   Attributes,
   createComponentHTML as create
 } from "../../../.storybook/utils";
-import { createSteps, stepStory, setTheme, setKnobs } from "../../../.storybook/helpers";
+import { createSteps, stepStory, setTheme, setKnobs, storyFilters } from "../../../.storybook/helpers";
 import { TEXT } from "./resources";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 
@@ -16,7 +16,8 @@ export default {
   title: "Components/Card",
   parameters: {
     notes: readme
-  }
+  },
+  ...storyFilters()
 };
 
 const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ exceptions } = { exceptions: [] }) => {

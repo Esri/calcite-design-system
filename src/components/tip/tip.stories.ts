@@ -10,12 +10,14 @@ import readme from "./readme.md";
 import groupReadme from "../tip-group/readme.md";
 import { TEXT } from "./resources";
 import { placeholderImage } from "../../../.storybook/utils";
+import { storyFilters } from "../../../.storybook/helpers";
 
 export default {
   title: "Components/Tips/Tip",
   parameters: {
     notes: [readme, groupReadme]
-  }
+  },
+  ...storyFilters()
 };
 
 const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ exceptions } = { exceptions: [] }) => {

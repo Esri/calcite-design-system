@@ -1,5 +1,5 @@
 import { select, text, number } from "@storybook/addon-knobs";
-import { boolean, iconNames } from "../../../.storybook/helpers";
+import { boolean, iconNames, storyFilters } from "../../../.storybook/helpers";
 import { themesDarkDefault } from "../../../.storybook/utils";
 import readme from "./readme.md";
 import { html } from "../../../support/formatting";
@@ -8,7 +8,8 @@ export default {
   title: "Components/Controls/Input",
   parameters: {
     notes: readme
-  }
+  },
+  ...storyFilters()
 };
 
 export const simple = (): string => html`

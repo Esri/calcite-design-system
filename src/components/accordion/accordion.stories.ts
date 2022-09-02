@@ -7,7 +7,7 @@ import {
   placeholderImage
 } from "../../../.storybook/utils";
 import { ATTRIBUTES } from "../../../.storybook/resources";
-import { iconNames } from "../../../.storybook/helpers";
+import { iconNames, storyFilters } from "../../../.storybook/helpers";
 import { select, text } from "@storybook/addon-knobs";
 import accordionReadme from "./readme.md";
 import accordionItemReadme from "../accordion-item/readme.md";
@@ -107,7 +107,8 @@ export default {
     backgrounds: {
       values: [{ name: "transparent", value: "#0000ffff" }]
     }
-  }
+  },
+  ...storyFilters()
 };
 
 export const simple = (): string =>

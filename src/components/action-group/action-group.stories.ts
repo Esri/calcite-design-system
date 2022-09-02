@@ -1,14 +1,14 @@
 import { select, text } from "@storybook/addon-knobs";
-import { iconNames } from "../../../.storybook/helpers";
+import { iconNames, storyFilters } from "../../../.storybook/helpers";
 import readme from "./readme.md";
 import { html } from "../../../support/formatting";
 
 export default {
   title: "Components/Action Group",
-
   parameters: {
     notes: readme
-  }
+  },
+  ...storyFilters()
 };
 
 export const gridCenteringOfActionsInAGroup = (): string => html`

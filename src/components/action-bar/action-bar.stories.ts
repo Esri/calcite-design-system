@@ -10,12 +10,14 @@ import readme from "./readme.md";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { html } from "../../../support/formatting";
 import { TEXT } from "./resources";
+import { storyFilters } from "../../../.storybook/helpers";
 
 export default {
   title: "Components/Action Bar",
   parameters: {
     notes: readme
-  }
+  },
+  ...storyFilters()
 };
 
 const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ exceptions } = { exceptions: [] }) => {

@@ -1,5 +1,5 @@
 import { select, text } from "@storybook/addon-knobs";
-import { boolean } from "../../../.storybook/helpers";
+import { boolean, storyFilters } from "../../../.storybook/helpers";
 import { themesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import readme from "./readme.md";
@@ -14,10 +14,10 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
 
 export default {
   title: "Components/Controls/Checkbox",
-
   parameters: {
     notes: readme
-  }
+  },
+  ...storyFilters()
 };
 
 export const simple = (): string => html`

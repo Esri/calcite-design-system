@@ -9,16 +9,16 @@ import {
 import readme from "./readme.md";
 import { html } from "../../../support/formatting";
 import { locales } from "../../utils/locale";
-import { createSteps, setKnobs, setTheme, stepStory } from "../../../.storybook/helpers";
+import { createSteps, setKnobs, setTheme, stepStory, storyFilters } from "../../../.storybook/helpers";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 const { scale } = ATTRIBUTES;
 
 export default {
   title: "Components/Controls/DatePicker",
-
   parameters: {
     notes: readme
-  }
+  },
+  ...storyFilters()
 };
 
 const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ exceptions } = { exceptions: [] }) => {

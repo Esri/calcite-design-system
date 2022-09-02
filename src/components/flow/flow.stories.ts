@@ -4,6 +4,7 @@ import readme from "./readme.md";
 import itemReadme from "../panel/readme.md";
 import { SLOTS, TEXT } from "../panel/resources";
 import { html } from "../../../support/formatting";
+import { storyFilters } from "../../../.storybook/helpers";
 
 export default {
   title: "Components/Flow",
@@ -12,7 +13,8 @@ export default {
       flow: readme,
       item: itemReadme
     }
-  }
+  },
+  ...storyFilters()
 };
 
 const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ exceptions } = { exceptions: [] }) => {

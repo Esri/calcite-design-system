@@ -9,14 +9,14 @@ import {
 import colorReadme from "./readme.md";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { html } from "../../../support/formatting";
-import { createSteps, stepStory } from "../../../.storybook/helpers";
+import { createSteps, stepStory, storyFilters } from "../../../.storybook/helpers";
 
 export default {
   title: "Components/Controls/ColorPicker",
-
   parameters: {
     notes: colorReadme
-  }
+  },
+  ...storyFilters()
 };
 
 const createColorAttributes: (options?: { exceptions: string[] }) => Attributes = (
