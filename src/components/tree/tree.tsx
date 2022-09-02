@@ -152,6 +152,8 @@ export class Tree {
       return;
     }
 
+    const isNoneSelectionMode = this.selectionMode === TreeSelectionMode.None;
+
     const shouldSelect =
       this.selectionMode !== null &&
       (!target.hasChildren ||
@@ -160,6 +162,7 @@ export class Tree {
             this.selectionMode === TreeSelectionMode.MultiChildren)));
 
     const shouldModifyToCurrentSelection =
+      !isNoneSelectionMode &&
       event.detail.modifyCurrentSelection &&
       (this.selectionMode === TreeSelectionMode.Multi ||
         this.selectionMode === TreeSelectionMode.MultiChildren);
@@ -220,20 +223,20 @@ export class Tree {
         targetItems.forEach((treeItem) => {
           treeItem.selected = false;
         });
-      } else {
+      } else if (!isNoneSelectionMode) {
         targetItems.forEach((treeItem) => {
           treeItem.selected = true;
         });
       }
     }
 
-    this.calciteTreeSelect.emit({
-      selected: (
-        nodeListToArray(
-          this.el.querySelectorAll("calcite-tree-item")
-        ) as HTMLCalciteTreeItemElement[]
-      ).filter((i) => i.selected)
-    });
+    const selected = isNoneSelectionMode
+      ? [target]
+      : (nodeListToArray(this.el.querySelectorAll("calcite-tree-item")).filter(
+          (i) => i.selected
+        ) as HTMLCalciteTreeItemElement[]);
+
+    this.calciteTreeSelect.emit({ selected });
 
     event.stopPropagation();
   }

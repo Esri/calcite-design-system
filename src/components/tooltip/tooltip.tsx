@@ -120,6 +120,8 @@ export class Tooltip implements FloatingUIComponent {
 
   guid = `calcite-tooltip-${guid()}`;
 
+  hasLoaded = false;
+
   // --------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -127,15 +129,15 @@ export class Tooltip implements FloatingUIComponent {
   // --------------------------------------------------------------------------
 
   connectedCallback(): void {
-    connectFloatingUI(this, this.effectiveReferenceElement, this.el);
-  }
-
-  componentWillLoad(): void {
-    this.setUpReferenceElement();
+    this.setUpReferenceElement(this.hasLoaded);
   }
 
   componentDidLoad(): void {
+    if (this.referenceElement && !this.effectiveReferenceElement) {
+      this.setUpReferenceElement();
+    }
     this.reposition();
+    this.hasLoaded = true;
   }
 
   disconnectedCallback(): void {
@@ -180,13 +182,13 @@ export class Tooltip implements FloatingUIComponent {
   //
   // --------------------------------------------------------------------------
 
-  setUpReferenceElement = (): void => {
+  setUpReferenceElement = (warn = true): void => {
     this.removeReferences();
     this.effectiveReferenceElement = this.getReferenceElement();
     connectFloatingUI(this, this.effectiveReferenceElement, this.el);
 
     const { el, referenceElement, effectiveReferenceElement } = this;
-    if (referenceElement && !effectiveReferenceElement) {
+    if (warn && referenceElement && !effectiveReferenceElement) {
       console.warn(`${el.tagName}: reference-element id "${referenceElement}" was not found.`, {
         el
       });

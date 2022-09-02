@@ -231,4 +231,48 @@ export const Default = stepStory(
       })
     )
     .snapshot("th locale (Buddhist calendar)")
+
+    .executeScript(
+      setKnobs({
+        story: "components-controls-datepicker--default",
+        knobs: [
+          { name: "locale", value: "de" },
+          { name: "value", value: "2022-08-11" }
+        ]
+      })
+    )
+    .snapshot("german locale")
+
+    .executeScript(
+      setKnobs({
+        story: "components-controls-datepicker--default",
+        knobs: [
+          { name: "locale", value: "es" },
+          { name: "value", value: "2023-05-11" }
+        ]
+      })
+    )
+    .snapshot("spanish locale")
+
+    .executeScript(
+      setKnobs({
+        story: "components-controls-datepicker--default",
+        knobs: [
+          { name: "locale", value: "nb" },
+          { name: "value", value: "2023-05-11" }
+        ]
+      })
+    )
+    .snapshot("norwegian locale")
+
+    .executeScript(
+      setKnobs({
+        story: "components-controls-datepicker--default",
+        knobs: [
+          { name: "locale", value: "en-gb" },
+          { name: "value", value: "2024-01-11" }
+        ]
+      })
+    )
+    .snapshot("birtish english locale")
 );

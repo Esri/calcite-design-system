@@ -316,4 +316,76 @@ describe("calcite-input-date-picker", () => {
     expect(calciteInputDatePickerBeforeCloseSpy).toHaveReceivedEventTimes(1);
     expect(calciteInputDatePickerClose).toHaveReceivedEventTimes(1);
   });
+
+  it("should return endDate time as 23:59:999 when end value is typed", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html` <calcite-input-date-picker layout="horizontal" range />`);
+
+    const datepickerEl = await page.find("calcite-input-date-picker");
+    const eventSpy = await datepickerEl.spyOnEvent("calciteDatePickerRangeChange");
+    await page.waitForChanges();
+
+    await page.keyboard.press("Tab");
+    await page.waitForChanges();
+    await page.keyboard.press("Tab");
+    await page.waitForChanges();
+    await page.keyboard.press("Tab");
+    await page.waitForChanges();
+    await page.keyboard.press("Tab");
+    await page.waitForChanges();
+    await page.keyboard.press("Tab");
+    await page.waitForChanges();
+    await page.keyboard.press("Tab");
+    await page.waitForChanges();
+    await page.keyboard.press("Tab");
+    await page.waitForChanges();
+    await datepickerEl.type("08/30/2022");
+    await page.waitForChanges();
+
+    expect(eventSpy).toHaveReceivedEventDetail({
+      startDate: null,
+      endDate: new Date(2022, 7, 30, 23, 59, 59, 999).toISOString()
+    });
+
+    await page.keyboard.press("Backspace");
+    await page.waitForChanges();
+
+    await page.keyboard.press("Backspace");
+    await page.waitForChanges();
+
+    await datepickerEl.type("26");
+
+    expect(eventSpy).toHaveReceivedEventDetail({
+      startDate: null,
+      endDate: new Date(2026, 7, 30, 23, 59, 59, 999).toISOString()
+    });
+  });
+
+  it("should return endDate time as 23:59:999 when valueAsDate property is parsed", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html` <calcite-input-date-picker layout="horizontal" range />`);
+
+    const datepickerEl = await page.find("calcite-input-date-picker");
+    datepickerEl.setProperty("value", ["2022-08-10", "2022-08-20"]);
+    const eventSpy = await datepickerEl.spyOnEvent("calciteDatePickerRangeChange");
+
+    await page.keyboard.press("Tab");
+    await page.waitForChanges();
+    await page.keyboard.press("Backspace");
+    await page.waitForChanges();
+    await page.keyboard.press("Backspace");
+    await page.waitForChanges();
+    await page.keyboard.press("Backspace");
+    await page.waitForChanges();
+    await page.keyboard.press("Backspace");
+    await page.waitForChanges();
+
+    await datepickerEl.type("08/15/2022");
+    await page.waitForChanges();
+
+    expect(eventSpy).toHaveReceivedEventDetail({
+      startDate: new Date(2022, 7, 15).toISOString(),
+      endDate: new Date(2022, 7, 20, 23, 59, 59, 999).toISOString()
+    });
+  });
 });
