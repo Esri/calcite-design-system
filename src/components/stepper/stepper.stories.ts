@@ -14,6 +14,7 @@ export default {
 };
 
 export const Simple = (): string => html`
+  <h1>Default</h1>
   <calcite-stepper
     scale="${select("scale", ["s", "m", "l"], "m")}"
     layout="${select("layout", ["horizontal", "vertical"], "horizontal")}"
@@ -49,6 +50,40 @@ export const Simple = (): string => html`
       disabled
     >
       <calcite-notice active width="full"><div slot="message">Step 4 Content Goes Here</div></calcite-notice>
+    </calcite-stepper-item>
+  </calcite-stepper>
+  <h1>No Content</h1>
+  <calcite-stepper
+    scale="${select("scale", ["s", "m", "l"], "m")}"
+    layout="${select("layout", ["horizontal", "vertical"], "horizontal")}"
+    scale="${select("scale", ["s", "m", "l"], "m")}"
+    ${boolean("numbered", true)}
+    ${boolean("icon", true)}
+  >
+    <calcite-stepper-item
+      item-title="${text("item-1-title", "Choose method")}"
+      item-subtitle="${text("item-1-subtitle", "Add members without sending invitations")}"
+      complete
+    >
+    </calcite-stepper-item>
+    <calcite-stepper-item
+      item-title="${text("item-2-title", "Compile member list")}"
+      item-subtitle="${text("item-2-subtitle", "")}"
+      complete
+      error
+    >
+    </calcite-stepper-item>
+    <calcite-stepper-item
+      item-title="${text("item-3-title", "Set member properties")}"
+      item-subtitle="${text("item-3-subtitle", "")}"
+      selected
+    >
+    </calcite-stepper-item>
+    <calcite-stepper-item
+      item-title="${text("item-4-title", "Confirm and complete")}"
+      item-subtitle="${text("item-4-subtitle", "Disabled example")}"
+      disabled
+    >
     </calcite-stepper-item>
   </calcite-stepper>
 `;
@@ -106,44 +141,6 @@ export const minHeight = stepStory(
   </calcite-stepper>`,
   createSteps("calcite-stepper").click("#one").snapshot("stepper with min-height")
 );
-
-export const noContent = (): string => html`
-  <calcite-stepper
-    scale="${select("scale", ["s", "m", "l"], "m")}"
-    layout="${select("layout", ["horizontal", "vertical"], "horizontal")}"
-    scale="${select("scale", ["s", "m", "l"], "m")}"
-    ${boolean("numbered", true)}
-    ${boolean("icon", true)}
-  >
-    <calcite-stepper-item
-      item-title="${text("item-1-title", "Choose method")}"
-      item-subtitle="${text("item-1-subtitle", "Add members without sending invitations")}"
-      complete
-    >
-    </calcite-stepper-item>
-    <calcite-stepper-item
-      item-title="${text("item-2-title", "Compile member list")}"
-      item-subtitle="${text("item-2-subtitle", "")}"
-      complete
-      error
-    >
-    </calcite-stepper-item>
-    <calcite-stepper-item
-      item-title="${text("item-3-title", "Set member properties")}"
-      item-subtitle="${text("item-3-subtitle", "")}"
-      selected
-    >
-    </calcite-stepper-item>
-    <calcite-stepper-item
-      item-title="${text("item-4-title", "Confirm and complete")}"
-      item-subtitle="${text("item-4-subtitle", "Disabled example")}"
-      disabled
-    >
-    </calcite-stepper-item>
-  </calcite-stepper>
-`;
-
-NoContent.storyName = "No content";
 
 export const overriddenWidth = (): string => html` <calcite-stepper numbered style="width: 50vw">
   <calcite-stepper-item item-title="Choose method" item-subtitle="Add members without sending invitations" complete>
