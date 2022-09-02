@@ -297,20 +297,21 @@ const advancedTrailingPanelHTMl = html`
   </calcite-flow>
 `;
 
-export const basic = (): string =>
+export const simple = (): string =>
   create(
     "calcite-shell",
     createAttributes("Shell"),
     html`
       ${headerHTML}
       ${create("calcite-shell-panel", createShellPanelAttributes("Leading Panel", true), advancedLeadingPanelHTML)}
-      ${contentHTML} ${centerRowAdvancedHTML}
+      ${contentHTML} ${create("calcite-shell-center-row", createShellCenterRowAttributes("Center Row"), centerRowHTML)}
+      ${centerRowAdvancedHTML}
       ${create("calcite-shell-panel", createShellPanelAttributes("Trailing Panel", true), advancedTrailingPanelHTMl)}
       ${footerHTML}
     `
   );
 
-export const basicRTL = (): string =>
+export const simpleRTL = (): string =>
   create(
     "calcite-shell",
     createAttributes("Shell", { exceptions: ["dir"] }).concat({ name: "dir", value: "rtl" }),
