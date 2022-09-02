@@ -108,7 +108,7 @@
 }
 
 .children-container {
-  @apply relative h-0 overflow-hidden;
+  @apply relative h-0 overflow-visible;
   margin-inline-start: theme("margin.5");
   transform: scaleY(0);
   opacity: 0;
