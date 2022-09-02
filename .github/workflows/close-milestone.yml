@@ -4,7 +4,7 @@ on:
     branches: [master]
     types: [closed]
   issues:
-    types: [closed]
+    types: [closed, demilestoned]
 jobs:
   close-milestone:
     runs-on: ubuntu-latest
