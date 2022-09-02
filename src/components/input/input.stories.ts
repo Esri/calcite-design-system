@@ -125,7 +125,7 @@ export const textarea = (): string => html`
   </div>
 `;
 
-export const disabled = (): string => html`<calcite-input disabled value="disabled"></calcite-input>`;
+export const disabled_TestOnly = (): string => html`<calcite-input disabled value="disabled"></calcite-input>`;
 
 export const darkThemeRTL_TestOnly = (): string => html`
   <div dir="rtl" style="width:300px;max-width:100%;text-align:center;">

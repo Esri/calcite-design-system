@@ -109,7 +109,7 @@ export const setWidthContainer = (): string => html`
 
 setWidthContainer.storyName = "Set width container";
 
-export const disabled = (): string => html`<calcite-button disabled>disabled</calcite-button>`;
+export const disabled_TestOnly = (): string => html`<calcite-button disabled>disabled</calcite-button>`;
 
 export const withIconStartEmpty_TestOnly = (): string => html` <calcite-button icon-start> Button </calcite-button>`;
 

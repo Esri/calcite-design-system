@@ -33,7 +33,7 @@ export const simple = (): string => html`
   </div>
 `;
 
-export const disabled = (): string => html`<calcite-inline-editable disabled>
+export const disabled_TestOnly = (): string => html`<calcite-inline-editable disabled>
   <calcite-input value="disabled"></calcite-input>
 </calcite-inline-editable>`;
 

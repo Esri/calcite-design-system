@@ -94,7 +94,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
 };
 
 export const simple = (): string => create("calcite-fab", createAttributes());
-export const disabled = (): string => html`<calcite-fab disabled icon="plus"></calcite-fab>`;
+export const disabled_TestOnly = (): string => html`<calcite-fab disabled icon="plus"></calcite-fab>`;
 
 export const darkThemeRTL_TestOnly = (): string =>
   create(

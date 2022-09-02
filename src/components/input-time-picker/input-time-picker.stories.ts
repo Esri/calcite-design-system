@@ -26,7 +26,7 @@ export const simple = (): string => html`
   </calcite-input-time-picker>
 `;
 
-export const disabled = (): string => html`<calcite-input-time-picker disabled></calcite-input-time-picker>`;
+export const disabled_TestOnly = (): string => html`<calcite-input-time-picker disabled></calcite-input-time-picker>`;
 
 export const darkThemeRTL_TestOnly = (): string => html`
   <calcite-input-time-picker

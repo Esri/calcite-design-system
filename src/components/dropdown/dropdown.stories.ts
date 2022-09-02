@@ -316,7 +316,7 @@ export const noScrollingWhenMaxItemsEqualsItems_TestOnly = (): string => html` <
   </calcite-dropdown-group>
 </calcite-dropdown>`;
 
-export const disabled = (): string => html` <calcite-dropdown disabled>
+export const disabled_TestOnly = (): string => html` <calcite-dropdown disabled>
   <calcite-button slot="dropdown-trigger">Open Dropdown</calcite-button>
   <calcite-dropdown-group group-title="First group">
     <calcite-dropdown-item>1</calcite-dropdown-item>

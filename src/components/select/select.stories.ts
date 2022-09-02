@@ -141,7 +141,7 @@ export const RTL = (): string =>
     `
   );
 
-export const disabled = (): string => html`<calcite-select disabled>
+export const disabled_TestOnly = (): string => html`<calcite-select disabled>
   <calcite-option label="first" value="1"></calcite-option>
   <calcite-option label="second" value="2"></calcite-option>
 </calcite-select>`;

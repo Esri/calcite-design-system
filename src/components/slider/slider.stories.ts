@@ -282,7 +282,7 @@ export const HistogramDark = (): HTMLCalciteSliderElement => {
 HistogramDark.storyName = "Histogram Dark theme";
 HistogramDark.parameters = { themes: themesDarkDefault };
 
-export const disabled = (): string => html`<calcite-slider disabled value="5"></calcite-slider>`;
+export const disabled_TestOnly = (): string => html`<calcite-slider disabled value="5"></calcite-slider>`;
 
 export const wordBreakDoesNotAffectLabels = (): string =>
   html`<calcite-slider

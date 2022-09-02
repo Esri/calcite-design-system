@@ -47,7 +47,7 @@ export const range = (): string => html`
   </div>
 `;
 
-export const disabled = (): string => html`<calcite-input-date-picker disabled></calcite-input-date-picker>`;
+export const disabled_TestOnly = (): string => html`<calcite-input-date-picker disabled></calcite-input-date-picker>`;
 
 export const flipPlacements_TestOnly = (): string => html`
   <style>

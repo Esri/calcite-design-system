@@ -79,7 +79,7 @@ export const withSlottedAction = (): string => html`
   </div>
 `;
 
-export const darkThemeRTL_NoTest = (): string => html`
+export const darkThemeRTL_TestOnly = (): string => html`
   <div style="width:300px;max-width:100%;text-align:center;">
     <calcite-input-text
       id="input-dark-theme"
@@ -101,4 +101,4 @@ export const darkThemeRTL_NoTest = (): string => html`
     >
   </div>
 `;
-darkThemeRTL_NoTest.parameters = { themes: themesDarkDefault };
+darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };

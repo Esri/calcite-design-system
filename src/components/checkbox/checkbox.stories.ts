@@ -32,7 +32,7 @@ export const simple = (): string => html`
   </calcite-label>
 `;
 
-export const disabled = (): string => html`<calcite-checkbox checked disabled></calcite-checkbox>`;
+export const disabled_TestOnly = (): string => html`<calcite-checkbox checked disabled></calcite-checkbox>`;
 
 export const darkThemeRTL_TestOnly = (): string => html`
   <calcite-label dir="rtl" layout="inline" class="calcite-theme-dark">

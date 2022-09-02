@@ -162,13 +162,19 @@ export const withHeaderControl = (): string =>
 export const withIconAndHeader = (): string =>
   create("calcite-block", createBlockAttributes({ exceptions: ["open", "collapsible"] }), `<div slot="icon">✅</div>`);
 
-export const disabled = (): string => html`<calcite-block heading="heading" summary="summary" open collapsible disabled>
+export const disabled_TestOnly = (): string => html`<calcite-block
+  heading="heading"
+  summary="summary"
+  open
+  collapsible
+  disabled
+>
   <calcite-block-section text="Nature" open>
     <img alt="demo" src="${placeholderImage({ width: 320, height: 240 })}" />
   </calcite-block-section>
 </calcite-block>`;
 
-export const paddingDisabled = (): string => html` <calcite-panel heading="Properties">
+export const paddingdisabled_TestOnly = (): string => html` <calcite-panel heading="Properties">
   <calcite-block heading="Example block heading" summary="example summary heading" collapsible open disable-padding>
     <div>calcite components ninja</div>
   </calcite-block>

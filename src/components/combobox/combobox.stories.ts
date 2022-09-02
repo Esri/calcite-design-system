@@ -145,7 +145,7 @@ export const nestedItems = (): string => html`
   </div>
 `;
 
-export const disabled = (): string => html`<calcite-combobox disabled>
+export const disabled_TestOnly = (): string => html`<calcite-combobox disabled>
   <calcite-combobox-item value="Trees" text-label="Trees">
     <calcite-combobox-item value="Pine" text-label="Pine"></calcite-combobox-item>
     <calcite-combobox-item value="Sequoia" disabled text-label="Sequoia"></calcite-combobox-item>

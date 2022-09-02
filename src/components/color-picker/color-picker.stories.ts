@@ -76,7 +76,7 @@ export const simple = (): string =>
     }
   ]);
 
-export const disabled = (): string => html`<calcite-color-picker disabled></calcite-color-picker>`;
+export const disabled_TestOnly = (): string => html`<calcite-color-picker disabled></calcite-color-picker>`;
 
 export const darkThemeRTL_TestOnly = (): string =>
   create("calcite-color-picker", [
