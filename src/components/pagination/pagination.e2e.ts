@@ -1,6 +1,7 @@
 import { newE2EPage, E2EElement, E2EPage } from "@stencil/core/testing";
 import { accessible, hidden, renders } from "../../tests/commonTests";
 import { CSS } from "./resources";
+import { html } from "../../../support/formatting";
 
 describe("calcite-pagination", () => {
   it("renders", async () => renders("calcite-pagination", { display: "flex" }));
@@ -177,6 +178,83 @@ describe("calcite-pagination", () => {
       await page.waitForChanges();
 
       expect(toggleSpy).toHaveReceivedEventTimes(0);
+    });
+  });
+
+  describe("number locale support", () => {
+    let page: E2EPage;
+    let element: E2EElement;
+    let noSeparator: string[];
+    let withSeparator: string[];
+    let getDisplayedValuesArray;
+    const expectedNotSeparatedValueArray: string[] = ["14999997", "14999998", "14999999", "15000000"];
+
+    const formattedValuesPerLanguageObject = {
+      "de-CH": ["14’999’997", "14’999’998", "14’999’999", "15’000’000"],
+      en: ["14,999,997", "14,999,998", "14,999,999", "15,000,000"],
+      es: ["14.999.997", "14.999.998", "14.999.999", "15.000.000"],
+      fr: ["14 999 997", "14 999 998", "14 999 999", "15 000 000"],
+      hi: ["1,49,99,997", "1,49,99,998", "1,49,99,999", "1,50,00,000"]
+    };
+
+    beforeEach(async () => {
+      page = await newE2EPage();
+      await page.setContent(
+        html`<calcite-pagination lang="en" group-separator total="150000000" num="10"></calcite-pagination>`
+      );
+      element = await page.find("calcite-pagination");
+
+      // assign temporary class to the last displayed page to query outside of evaluate
+      await page.evaluate(() => {
+        const el = document.querySelector("calcite-pagination");
+        const lastButton = Array.from(el.shadowRoot.querySelectorAll("button")).find((el) => {
+          return el.innerText === "15,000,000";
+        });
+        lastButton.classList.add("lastPage");
+      });
+      const lastButton = await page.find(`calcite-pagination >>> .lastPage`);
+      await lastButton.click();
+
+      const buttonListAbridged = await (await page.findAll(`calcite-pagination >>> .page`)).slice(-4);
+      getDisplayedValuesArray = async (): Promise<string[]> => {
+        return buttonListAbridged.map((page) => page.innerText);
+      };
+      await page.exposeFunction("getDisplayedValuesArray", getDisplayedValuesArray);
+    });
+
+    it("does not render separated when groupSeparator prop is false", async () => {
+      element.setProperty("groupSeparator", false);
+      await page.waitForChanges();
+
+      noSeparator = await page.$eval("calcite-pagination", async (): Promise<string[]> => {
+        return await getDisplayedValuesArray();
+      });
+      expect(await element.getProperty("groupSeparator")).toBe(false);
+      expect(noSeparator).toEqual(expectedNotSeparatedValueArray);
+
+      element.setProperty("lang", "fr");
+      await page.waitForChanges();
+
+      noSeparator = await page.$eval("calcite-pagination", async (): Promise<string[]> => {
+        return await getDisplayedValuesArray();
+      });
+      expect(noSeparator).toEqual(expectedNotSeparatedValueArray);
+    });
+
+    it("displays group separator for multiple locales", async () => {
+      const testLocalizedGroupSeparator = async (lang: string, formattedValuesArr: string[]): Promise<void> => {
+        element.setProperty("lang", lang);
+        await page.waitForChanges();
+
+        withSeparator = await page.$eval("calcite-pagination", async (): Promise<string[]> => {
+          return await getDisplayedValuesArray();
+        });
+        expect(withSeparator).toEqual(formattedValuesArr);
+      };
+
+      for (const lang in formattedValuesPerLanguageObject) {
+        await testLocalizedGroupSeparator(lang, formattedValuesPerLanguageObject[lang]);
+      }
     });
   });
 });
