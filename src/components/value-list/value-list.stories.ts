@@ -87,7 +87,6 @@ const action = html`
 `;
 
 export const simple = (): string => html`
-  <h1>Default</h1>
   ${create(
     "calcite-value-list",
     createAttributes(),
@@ -107,7 +106,9 @@ export const simple = (): string => html`
       </calcite-value-list-item>
     `
   )}
-  <h1>Disabled</h1>
+`;
+
+export const disabled_TestOnly = (): string => html`
   <calcite-value-list disabled>
     <calcite-value-list-item label="T. Rex" description="arm strength impaired" value="trex"></calcite-value-list-item>
     <calcite-value-list-item
@@ -120,9 +121,7 @@ export const simple = (): string => html`
   </calcite-value-list>
 `;
 
-export const simpleDarkRTL = (): string => html`
-  <h1>Default</h1>
-
+export const darkThemeRTL_TestOnly = (): string => html`
   ${create(
     "calcite-value-list",
     createAttributes({ exceptions: ["dir", "class"] }).concat([
@@ -145,30 +144,5 @@ export const simpleDarkRTL = (): string => html`
       </calcite-value-list-item>
     `
   )}
-  <h1>Disabled</h1>
-  ${create(
-    "calcite-value-list",
-    createAttributes({ exceptions: ["dir", "class", "disabled"] }).concat([
-      { name: "dir", value: "rtl" },
-      { name: "disabled", value: "true" },
-      { name: "class", value: "calcite-theme-dark" }
-    ]),
-    html`
-      <calcite-value-list-item label="Dogs" description="Man's best friend" value="dogs">
-        ${action}
-      </calcite-value-list-item>
-      <calcite-value-list-item label="Cats" description="Independent and fluffy" value="cats">
-        ${action}
-      </calcite-value-list-item>
-      <calcite-value-list-item
-        label="Fish. But not just any fish, a tiger fish caught live in the Atlantic Ocean while on vacation."
-        description="Easy to care for."
-        value="fish"
-      >
-        ${action}
-      </calcite-value-list-item>
-    `
-  )}
 `;
-
-simpleDarkRTL.parameters = { themes: themesDarkDefault };
+darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };

@@ -51,7 +51,7 @@ export default {
 
 const selectionModes = ["single", "multi", "children", "multi-children", "ancestors", "none"];
 
-export const Simple = (): string => html`
+export const simple = (): string => html`
   <calcite-tree
     ${boolean("lines", false)}
     selection-mode="${select("selection-mode", selectionModes, "single")}"
@@ -61,7 +61,7 @@ export const Simple = (): string => html`
   </calcite-tree>
 `;
 
-export const simpleDarkRTL = (): string => html`
+export const darkThemeRTL_TestOnly = (): string => html`
   <calcite-tree
     class="calcite-theme-dark"
     dir="rtl"
@@ -72,5 +72,4 @@ export const simpleDarkRTL = (): string => html`
     ${treeItems}
   </calcite-tree>
 `;
-
-simpleDarkRTL.parameters = { themes: themesDarkDefault };
+darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };
