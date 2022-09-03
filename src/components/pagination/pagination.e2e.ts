@@ -215,7 +215,7 @@ describe("calcite-pagination", () => {
       const lastButton = await page.find(`calcite-pagination >>> .lastPage`);
       await lastButton.click();
 
-      const buttonListAbridged = await (await page.findAll(`calcite-pagination >>> .page`)).slice(-4);
+      const buttonListAbridged = await (await page.findAll(`calcite-pagination >>> .${CSS.page}`)).slice(-4);
       getDisplayedValuesArray = async (): Promise<string[]> => {
         return buttonListAbridged.map((page) => page.innerText);
       };
