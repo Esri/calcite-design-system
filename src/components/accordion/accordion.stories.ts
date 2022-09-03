@@ -66,10 +66,12 @@ const createAccordionAttributes: (options?: { exceptions: string[] }) => Attribu
   );
 };
 
-const createAccordionItemAttributes: (options?: { icon?: boolean; group?: string }) => Attributes = ({
-  icon,
-  group
-}) => {
+const createAccordionItemAttributes: (options?: {
+  icon?: boolean;
+  group?: string;
+  iconEnd?: string;
+  iconStart?: string;
+}) => Attributes = ({ icon, group, iconStart, iconEnd }) => {
   const groupTitle = group ? group : "";
   const defaultAttributes = [
     {
@@ -89,7 +91,31 @@ const createAccordionItemAttributes: (options?: { icon?: boolean; group?: string
     }
   ];
 
-  return icon ? iconAttribute.concat(defaultAttributes) : defaultAttributes;
+  const iconStartAttribute = [
+    {
+      name: "icon-start",
+      value: select("icon-start", iconNames, iconNames[0], groupTitle)
+    }
+  ];
+
+  const iconEndAttribute = [
+    {
+      name: "icon-end",
+      value: select("icon-end", iconNames, iconNames[0], groupTitle)
+    }
+  ];
+
+  if (iconEnd && iconStart) {
+    return iconStartAttribute.concat(defaultAttributes, iconEndAttribute);
+  } else if (icon) {
+    return iconAttribute.concat(defaultAttributes);
+  } else if (iconStart || iconEnd) {
+    return iconStart ? iconStartAttribute.concat(defaultAttributes) : iconEndAttribute.concat(defaultAttributes);
+  } else if (iconEnd && iconStart) {
+    return iconEndAttribute.concat(defaultAttributes, iconStartAttribute);
+  }
+
+  return defaultAttributes;
 };
 
 const accordionItemContent = `Custom content here<br/><img src="${placeholderImage({
@@ -276,6 +302,44 @@ export const TransparentAppearance = (): string =>
     `
   );
 
+export const WithIconStartAndEnd = (): string =>
+  create(
+    "calcite-accordion",
+    createAccordionAttributes({ exceptions: ["appearance"] }).concat({
+      name: "appearance",
+      value: "transparent"
+    }),
+    html`
+      ${create(
+        "calcite-accordion-item",
+        createAccordionItemAttributes({ group: "accordion-item-1", iconStart: "banana", icon: true }),
+        accordionItemContent
+      )}
+      ${create(
+        "calcite-accordion-item",
+        createAccordionItemAttributes({ group: "accordion-item-2", iconEnd: "cars" }),
+        accordionItemContent
+      )}
+      ${create(
+        "calcite-accordion-item",
+        createAccordionItemAttributes({ group: "accordion-item-3", iconEnd: "plane", iconStart: "plane", icon: true }),
+        accordionItemContent
+      )}
+      ${create(
+        "calcite-accordion-item",
+        createAccordionItemAttributes({
+          group: "accordion-item-4",
+          iconStart: "biking",
+          iconEnd: "biking",
+          icon: true
+        }).concat({
+          name: "expanded",
+          value: true
+        }),
+        accordionItemContent
+      )}
+    `
+  );
 export const WithActions = (): string => html`
   <calcite-accordion scale="s">
     <calcite-accordion-item scale="m" heading="Accordion Item">
