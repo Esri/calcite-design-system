@@ -50,6 +50,7 @@ jobs:
           COMMIT_SHA: ${{github.event.pull_request.head.sha || github.sha}}
           SAUCE_ACCESS_NAME: ${{ secrets.SAUCE_ACCESS_NAME}}
           SAUCE_ACCESS_KEY: ${{ secrets.SAUCE_ACCESS_KEY }}
+          STORYBOOK_SCREENSHOT_TEST_BUILD: true
         run: npm run test:storybook || true
       - if: steps.one.outputs.skip == 'skip'
         name: skip screener for markdown PRs
