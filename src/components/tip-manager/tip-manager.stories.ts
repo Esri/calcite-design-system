@@ -123,7 +123,7 @@ const tipContent = html`
 
 export const simple = (): string => create("calcite-tip-manager", createAttributes(), tipContent);
 
-export const simpleDarkRTL = (): string =>
+export const darkThemeRTL_TestOnly = (): string =>
   create(
     "calcite-tip-manager",
     createAttributes({ exceptions: ["dir", "class"] }).concat([
@@ -132,5 +132,4 @@ export const simpleDarkRTL = (): string =>
     ]),
     tipContent
   );
-
-simpleDarkRTL.parameters = { themes: themesDarkDefault };
+darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };

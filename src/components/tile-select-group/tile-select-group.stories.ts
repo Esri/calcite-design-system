@@ -65,26 +65,25 @@ const tileSelectsHTML = html`
   </calcite-tile-select>
 `;
 
-export const Simple = (): string => html`
-  <h1>Default</h1>
+export const simple = (): string => html`
   <calcite-tile-select-group
     layout="${select("layout", ["horizontal", "vertical"], "horizontal", "Tile Select Group")}"
     dir="${select("dir", ["ltr", "rtl"], "ltr", "Tile Select Group")}"
-  >
-    ${tileSelectsHTML}
-  </calcite-tile-select-group>
-  <h1>Disabled</h1>
-  <calcite-tile-select-group
-    layout="${select("layout", ["horizontal", "vertical"], "horizontal", "Tile Select Group")}"
-    dir="${select("dir", ["ltr", "rtl"], "ltr", "Tile Select Group")}"
-    disabled
   >
     ${tileSelectsHTML}
   </calcite-tile-select-group>
 `;
 
-export const simpleDarkRTL = (): string => html`
-  <h1>Default</h1>
+export const disabled_TestOnly = (): string => html`
+  <calcite-tile-select-group
+    layout="${select("layout", ["horizontal", "vertical"], "horizontal", "Tile Select Group")}"
+    dir="${select("dir", ["ltr", "rtl"], "ltr", "Tile Select Group")}"
+  >
+    ${tileSelectsHTML}
+  </calcite-tile-select-group>
+`;
+
+export const darkThemeRTL_TestOnly = (): string => html`
   <calcite-tile-select-group
     layout="${select("layout", ["horizontal", "vertical"], "horizontal", "Tile Select Group")}"
     dir="${select("dir", ["ltr", "rtl"], "rtl", "Tile Select Group")}"
@@ -92,15 +91,5 @@ export const simpleDarkRTL = (): string => html`
   >
     ${tileSelectsHTML}
   </calcite-tile-select-group>
-  <h1>Disabled</h1>
-  <calcite-tile-select-group
-    layout="${select("layout", ["horizontal", "vertical"], "horizontal", "Tile Select Group")}"
-    dir="${select("dir", ["ltr", "rtl"], "rtl", "Tile Select Group")}"
-    class="calcite-theme-dark"
-    disabled
-  >
-    ${tileSelectsHTML}
-  </calcite-tile-select-group>
 `;
-
-simpleDarkRTL.parameters = { themes: themesDarkDefault };
+darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };

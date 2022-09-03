@@ -66,7 +66,8 @@ const html = `<img slot="thumbnail" src="${placeholderImage({
 })}" alt="This is an image." />Enim nascetur erat faucibus ornare varius arcu fames bibendum habitant felis elit ante. Nibh morbi massa curae; leo semper diam aenean congue taciti eu porta. Varius faucibus ridiculus donec. Montes sit ligula purus porta ante lacus habitasse libero cubilia purus! In quis congue arcu maecenas felis cursus pellentesque nascetur porta donec non. Quisque, rutrum ligula pharetra justo habitasse facilisis rutrum neque. Magnis nostra nec nulla dictumst taciti consectetur. Non porttitor tempor orci dictumst magna porta vitae. </div><a href="http://www.esri.com">This is a link</a>.`;
 
 export const simple = (): string => create("calcite-tip", createAttributes(), html);
-export const simpleDarkRTL = (): string =>
+
+export const darkThemeRTL_TestOnly = (): string =>
   create(
     "calcite-tip",
     createAttributes({ exceptions: ["dir", "class"] }).concat([
@@ -75,5 +76,4 @@ export const simpleDarkRTL = (): string =>
     ]),
     html
   );
-
-simpleDarkRTL.parameters = { themes: themesDarkDefault };
+darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };

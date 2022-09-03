@@ -12,8 +12,7 @@ export default {
   ...storyFilters()
 };
 
-export const Simple = (): string => html`
-  <h1>Default</h1>
+export const simple = (): string => html`
   <calcite-tile
     ${boolean("active", false)}
     description="${text(
@@ -27,60 +26,9 @@ export const Simple = (): string => html`
     icon="${select("icon", iconNames, "layer")}"
   >
   </calcite-tile>
-  <h1>Disabled</h1>
-  <calcite-tile
-    ${boolean("active", false)}
-    disabled
-    description="${text(
-      "description",
-      "Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
-    )}"
-    heading="${text("heading", "Tile heading lorem ipsum")}"
-    ${boolean("hidden", false)}
-    href="${text("href", "#")}"
-    icon="${select("icon", iconNames, "layer")}"
-  >
-  </calcite-tile>
 `;
 
-export const darkRTL = (): string => html`
-  <h1>Default</h1>
-  <calcite-tile
-    ${boolean("active", false)}
-    description="${text(
-      "description",
-      "Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
-    )}"
-    ${boolean("disabled", false)}
-    heading="${text("heading", "Tile heading lorem ipsum")}"
-    ${boolean("hidden", false)}
-    href="${text("href", "#")}"
-    icon="${select("icon", iconNames, "layer")}"
-    class="calcite-theme-dark"
-    dir="rtl"
-  >
-  </calcite-tile>
-  <h1>Disabled</h1>
-  <calcite-tile
-    ${boolean("active", false)}
-    description="${text(
-      "description",
-      "Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
-    )}"
-    disabled
-    heading="${text("heading", "Tile heading lorem ipsum")}"
-    ${boolean("hidden", false)}
-    href="${text("href", "#")}"
-    icon="${select("icon", iconNames, "layer")}"
-    class="calcite-theme-dark"
-    dir="rtl"
-  >
-  </calcite-tile>
-`;
-
-darkRTL.parameters = { themes: themesDarkDefault };
-
-export const LargeTile = (): string => html`
+export const largeTile = (): string => html`
   <calcite-tile
     ${boolean("active", false)}
     description=""
@@ -93,7 +41,26 @@ export const LargeTile = (): string => html`
   </calcite-tile>
 `;
 
-export const ContentStartRTL = (): string => html`
+export const darkThemeRTL_TestOnly = (): string => html`
+  <calcite-tile
+    ${boolean("active", false)}
+    description="${text(
+      "description",
+      "Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+    )}"
+    ${boolean("disabled", false)}
+    heading="${text("heading", "Tile heading lorem ipsum")}"
+    ${boolean("hidden", false)}
+    href="${text("href", "#")}"
+    icon="${select("icon", iconNames, "layer")}"
+    class="calcite-theme-dark"
+    dir="rtl"
+  >
+  </calcite-tile>
+`;
+darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };
+
+export const contentStartRTL_TestOnly = (): string => html`
   <calcite-tile
     description="${text("description", "polygon layer")}"
     heading="${text("heading", "Percent of population that carpool to work")}"
@@ -104,11 +71,27 @@ export const ContentStartRTL = (): string => html`
   </calcite-tile>
 `;
 
-export const OverflowingContent = (): string => html`
+export const overflowingContent_TestOnly = (): string => html`
   <calcite-tile
     icon="2d-explore"
     heading="Example tile headinghfjkdlsahfjklsdahfjklsadhfjkldsahfjldkashfjdkalshfds;ahfjkldshafljkdsahfljksdahfdlsajkfhsadkljfhsdajklfhsdalkjfhdsalkjfhdsalf"
     description="Example tile description contenthfjdkslahfjkdsalhf sdajklfh ksdjahfljksadhfljkdsahfjklsdahfjlkdsahflkjdsahfjkdsahflkdjsahfldksajhfdsklajhfdsljkahfdsajkfhsadlkjfsadhfdsa"
     style="width:200px"
   ></calcite-tile>
+`;
+
+export const disabled_TestOnly = (): string => html`
+  <calcite-tile
+    ${boolean("active", false)}
+    description="${text(
+      "description",
+      "Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+    )}"
+    ${boolean("disabled", false)}
+    heading="${text("heading", "Tile heading lorem ipsum")}"
+    ${boolean("hidden", false)}
+    href="${text("href", "#")}"
+    icon="${select("icon", iconNames, "layer")}"
+  >
+  </calcite-tile>
 `;

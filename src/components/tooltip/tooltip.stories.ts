@@ -16,7 +16,7 @@ export default {
   ...storyFilters()
 };
 
-export const Simple = stepStory(
+export const simple = stepStory(
   (): string => html`
     <div style="width: 400px;">
       ${referenceElementHTML}
