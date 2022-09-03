@@ -11,7 +11,7 @@ export default {
   ...storyFilters()
 };
 
-export const Simple = (): string => html`
+export const simple = (): string => html`
   <div tabindex="0" style="position: relative; width: 400px; height: 400px">
     <calcite-scrim ${boolean("loading", false)}></calcite-scrim>
     <div style="width: 400px; height: 400px; overflow: auto">
@@ -41,9 +41,9 @@ export const Simple = (): string => html`
   </div>
 `;
 
-export const DarkMode = (): string => html`
+export const darkThemeRTL_TestOnly = (): string => html`
   <div tabindex="0" style="position: relative; width: 400px; height: 400px">
-    <calcite-scrim class="calcite-theme-dark" ${boolean("loading", false)}></calcite-scrim>
+    <calcite-scrim dir="rtl" class="calcite-theme-dark" ${boolean("loading", false)}></calcite-scrim>
     <div style="width: 400px; height: 400px; overflow: auto">
       <p>
         Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor
@@ -71,5 +71,4 @@ export const DarkMode = (): string => html`
   </div>
 `;
 
-DarkMode.storyName = "Dark mode";
-DarkMode.parameters = { themes: themesDarkDefault };
+darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };

@@ -2,7 +2,8 @@ import {
   Attribute,
   filterComponentAttributes,
   Attributes,
-  createComponentHTML as create
+  createComponentHTML as create,
+  themesDarkDefault
 } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { boolean, text } from "@storybook/addon-knobs";
@@ -76,7 +77,7 @@ export default {
   ...storyFilters()
 };
 
-export const basic = (): string =>
+export const simple = (): string =>
   html`<div style="width:260px">
     ${create(
       "calcite-select",
@@ -114,14 +115,18 @@ export const grouped = (): string =>
     `
   );
 
-export const RTL = (): string =>
+export const darkThemeRTL_TestOnly = (): string =>
   create(
     "calcite-select",
     [
-      ...createSelectAttributes({ exceptions: ["dir"] }),
+      ...createSelectAttributes({ exceptions: ["dir", "class"] }),
       {
         name: "dir",
         value: "rtl"
+      },
+      {
+        name: "class",
+        value: "calcite-theme-dark"
       }
     ],
     html`
@@ -140,6 +145,8 @@ export const RTL = (): string =>
       </calcite-option-group>
     `
   );
+
+darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };
 
 export const disabled_TestOnly = (): string => html`<calcite-select disabled>
   <calcite-option label="first" value="1"></calcite-option>

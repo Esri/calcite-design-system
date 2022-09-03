@@ -3,7 +3,8 @@ import {
   filterComponentAttributes,
   Attributes,
   createComponentHTML as create,
-  placeholderImage
+  placeholderImage,
+  themesDarkDefault
 } from "../../../.storybook/utils";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import readme from "./readme.md";
@@ -313,18 +314,24 @@ export const simple = (): string =>
     `
   );
 
-export const simpleRTL = (): string =>
+export const darkThemeRTL_TestOnly = (): string =>
   create(
     "calcite-shell",
-    createAttributes("Shell", { exceptions: ["dir"] }).concat({ name: "dir", value: "rtl" }),
+    createAttributes("Shell", { exceptions: ["dir", "class"] }).concat(
+      { name: "dir", value: "rtl" },
+      { name: "class", value: "calcite-theme-dark" }
+    ),
     html`
       ${headerHTML}
       ${create("calcite-shell-panel", createShellPanelAttributes("Leading Panel"), advancedLeadingPanelHTML)}
+      ${contentHTML} ${create("calcite-shell-center-row", createShellCenterRowAttributes("Center Row"), centerRowHTML)}
       ${contentHTML} ${centerRowAdvancedHTML}
       ${create("calcite-shell-panel", createShellPanelAttributes("Trailing Panel"), advancedTrailingPanelHTMl)}
       ${footerHTML}
     `
   );
+
+darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };
 
 export const dismissedPanels = (): string => html`<calcite-shell content-behind>
   <calcite-shell-panel slot="panel-start" detached>

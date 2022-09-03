@@ -13,7 +13,7 @@ export default {
   ...storyFilters()
 };
 
-export const Simple = (): string => html`
+export const simple = (): string => html`
   <h1>Default</h1>
   <calcite-stepper
     scale="${select("scale", ["s", "m", "l"], "m")}"
@@ -88,7 +88,7 @@ export const Simple = (): string => html`
   </calcite-stepper>
 `;
 
-export const darkModeRTL = (): string => html`
+export const darkThemeRTL_TestOnly = (): string => html`
 <div dir="rtl">
   <calcite-stepper
   class="calcite-theme-dark"
@@ -131,9 +131,9 @@ export const darkModeRTL = (): string => html`
 </div>
 `;
 
-darkModeRTL.parameters = { themes: themesDarkDefault };
+darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };
 
-export const minHeight = stepStory(
+export const minHeight_TestOnly = stepStory(
   (): string => html`<calcite-stepper style="min-height: 500px;">
     <calcite-stepper-item item-title="Title one" id="one"> Step one </calcite-stepper-item>
     <calcite-stepper-item item-title="Title two"> Step two </calcite-stepper-item>
@@ -142,7 +142,7 @@ export const minHeight = stepStory(
   createSteps("calcite-stepper").click("#one").snapshot("stepper with min-height")
 );
 
-export const overriddenWidth = (): string => html` <calcite-stepper numbered style="width: 50vw">
+export const overriddenWidth_TestOnly = (): string => html` <calcite-stepper numbered style="width: 50vw">
   <calcite-stepper-item item-title="Choose method" item-subtitle="Add members without sending invitations" complete>
     <calcite-notice active width="full">
       <div slot="message">Step 1 Content Goes Here</div>
