@@ -2,7 +2,11 @@ import { newE2EPage } from "@stencil/core/testing";
 import { renders, hidden } from "../../tests/commonTests";
 
 describe("calcite-label", () => {
-  it("renders", () => renders("calcite-label", { display: "inline" }));
+  describe("renders", () => {
+    it("renders (default)", () => renders("calcite-label", { display: "flex" }));
+    it("renders (inline)", () =>
+      renders("<calcite-label layout='inline'></calcite-label>", { display: "inline-flex" }));
+  });
 
   it("renders default props when none are provided", async () => {
     const page = await newE2EPage();

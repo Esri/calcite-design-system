@@ -7,7 +7,7 @@
  */
 
 :host {
-  @apply inline;
+  @apply flex;
 }
 
 :host([alignment="start"]) {
@@ -69,6 +69,7 @@
 
 :host([layout="inline"]),
 :host([layout="inline-space-between"]) {
+  @apply inline-flex;
   .container {
     @apply flex flex-row items-center gap-2;
   }
