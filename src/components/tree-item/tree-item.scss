@@ -92,7 +92,7 @@
 :host {
   @apply focus-base;
 }
-:host(:focus) {
+:host(:focus:not([disabled])) {
   @apply focus-inset outline-none;
 }
 
@@ -138,7 +138,7 @@
 
 .node-container:hover,
 :host([selected]) .node-container:hover,
-:host(:focus) .node-container {
+:host(:focus:not([disabled])) .node-container {
   .checkmark,
   .bullet-point {
     @apply opacity-100;
