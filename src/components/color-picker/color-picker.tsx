@@ -31,9 +31,7 @@ import { clamp } from "../../utils/math";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { Strings } from "./assets/color-picker/t9n";
 import { isActivationKey } from "../../utils/key";
-import { fetchLocaleStrings } from "../../utils/fetchLocaleData";
-import { getSupportedLang } from "../../utils/fetchLocale";
-import { overRideLocalizedStrings } from "../../utils/strings";
+import { connectStrings, disconnectStrings, fetchStrings, T9nComponent } from "../../utils/t9n";
 const throttleFor60FpsInMs = 16;
 const defaultValue = normalizeHex(DEFAULT_COLOR.hex());
 const defaultFormat = "auto";
@@ -44,7 +42,7 @@ const defaultFormat = "auto";
   shadow: true,
   assetsDirs: ["assets"]
 })
-export class ColorPicker implements InteractiveComponent {
+export class ColorPicker implements InteractiveComponent, T9nComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -264,30 +262,6 @@ export class ColorPicker implements InteractiveComponent {
    */
   @Prop() intlValue: string;
 
-  @Watch("intlG")
-  @Watch("intlB")
-  @Watch("intlV")
-  @Watch("intlBlue")
-  @Watch("intlDeleteColor")
-  @Watch("intlGreen")
-  @Watch("intlH")
-  @Watch("intlHsv")
-  @Watch("intlHex")
-  @Watch("intlHue")
-  @Watch("intlNoColor")
-  @Watch("intlR")
-  @Watch("intlRed")
-  @Watch("intlRgb")
-  @Watch("intlS")
-  @Watch("intlSaturation")
-  @Watch("intlSaveColor")
-  @Watch("intlSaved")
-  @Watch("intlV")
-  @Watch("intlValue")
-  handleIntl(): void {
-    this.overrideStringsAndMerge();
-  }
-
   /**
    * The scale of the color picker.
    */
@@ -311,8 +285,8 @@ export class ColorPicker implements InteractiveComponent {
 
   @Watch("builtInStrings")
   @Watch("stringOverrides")
-  handleStringChanges(): void {
-    this.mergeStrings();
+  onStringsChange(): void {
+    /* wired up by t9n util */
   }
 
   /** standard UniCode numeral system tag for localization */
@@ -817,13 +791,17 @@ export class ColorPicker implements InteractiveComponent {
       this.savedColors = JSON.parse(localStorage.getItem(storageKey));
     }
 
-    await this.fetchStrings();
-    this.overrideStringsAndMerge();
+    await fetchStrings(this);
+  }
+
+  connectedCallback(): void {
+    connectStrings(this);
   }
 
   disconnectedCallback(): void {
     document.removeEventListener("pointermove", this.globalPointerMoveHandler);
     document.removeEventListener("pointerup", this.globalPointerUpHandler);
+    disconnectStrings(this);
   }
 
   componentDidRender(): void {
@@ -1088,22 +1066,6 @@ export class ColorPicker implements InteractiveComponent {
   //  Private Methods
   //
   //--------------------------------------------------------------------------
-
-  mergeStrings(): void {
-    this.mergedStrings = {
-      ...this.builtInStrings,
-      ...this.stringOverrides
-    };
-  }
-
-  async fetchStrings(): Promise<void> {
-    // TODO: these could split into reusable utils
-
-    const lang = this.el.lang || document.documentElement.lang || navigator.language;
-    const locale = getSupportedLang(lang);
-
-    this.builtInStrings = await fetchLocaleStrings(locale, "color-picker");
-  }
 
   handleKeyDown(event: KeyboardEvent): void {
     if (event.key === "Enter") {
@@ -1474,10 +1436,5 @@ export class ColorPicker implements InteractiveComponent {
     return color[channelMode]()
       .array()
       .map((value) => Math.floor(value)) as [number, number, number];
-  }
-
-  private overrideStringsAndMerge(): void {
-    this.stringOverrides = overRideLocalizedStrings(this.el);
-    this.mergeStrings();
   }
 }

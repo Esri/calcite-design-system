@@ -1,4 +1,3 @@
-import { getAssetPath } from "@stencil/core";
 import { BigDecimal, isValidNumber, sanitizeDecimalString, sanitizeExponentialNumberString } from "./number";
 
 export const locales = [
@@ -15,6 +14,7 @@ export const locales = [
   "en-AU",
   "en-CA",
   "en-GB",
+  "en-US",
   "es",
   "es-MX",
   "et",
@@ -152,38 +152,4 @@ export function getSupportedLang(lang: string): string {
     }
   }
   return locales.includes(lang) ? lang : "en";
-}
-
-type StringBundle = Record<string, string>;
-
-export async function getStringBundle(lang: string, component: string): Promise<StringBundle> {
-  let strings: StringBundle;
-
-  try {
-    strings = await fetchBundle(lang, component);
-  } catch (error) {
-    strings = await fetchBundle("en", component);
-  }
-
-  return strings;
-}
-
-async function fetchBundle(lang: string, component: string): Promise<StringBundle> {
-  let response: Response;
-
-  try {
-    response = await fetch(getAssetPath(`./assets/${component}/t9n/${lang}.json`));
-  } catch (error) {
-    throwStringFetchError();
-  } finally {
-    if (!response.ok) {
-      throwStringFetchError();
-    }
-  }
-
-  return response.json() as Promise<StringBundle>;
-}
-
-function throwStringFetchError(): never {
-  throw new Error("could not fetch component strings");
 }
