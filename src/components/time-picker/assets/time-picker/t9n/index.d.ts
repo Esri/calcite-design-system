@@ -1,4 +1,4 @@
-export interface Strings {
+export type Strings = {
   hour: string;
   hourDown: string;
   hourUp: string;
@@ -11,4 +11,4 @@ export interface Strings {
   second: string;
   secondDown: string;
   secondUp: string;
-}
+};

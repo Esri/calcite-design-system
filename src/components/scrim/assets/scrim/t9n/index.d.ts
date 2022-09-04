@@ -1,3 +1,3 @@
-export interface Strings {
+export type Strings = {
   loading: string;
-}
+};

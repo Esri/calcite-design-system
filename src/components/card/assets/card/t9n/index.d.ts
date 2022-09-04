@@ -1,5 +1,5 @@
-export interface Strings {
+export type Strings = {
   select: string;
   deselect: string;
   loading: string;
-}
+};

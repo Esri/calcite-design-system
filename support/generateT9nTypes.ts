@@ -34,7 +34,11 @@ import globby from "globby";
             "just-types": "true"
           }
         })
-      ).lines.join("\n");
+      ).lines
+        .join("\n")
+        // export types to avoid issues when typing the string bundles
+        // see https://github.com/microsoft/TypeScript/issues/15300
+        .replace(/interface (.+) \{/g, "type $1 = {");
 
       /* Note: using `.d.ts` file extension will exclude it from the output build */
       const declarationFile = bundle.replace(rootBundleFile, "index.d.ts");

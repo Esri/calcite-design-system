@@ -1,4 +1,4 @@
-export interface Strings {
+export type Strings = {
   rating: string;
   stars: string;
-}
+};

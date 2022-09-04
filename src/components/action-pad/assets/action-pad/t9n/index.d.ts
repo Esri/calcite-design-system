@@ -1,4 +1,4 @@
-export interface Strings {
+export type Strings = {
   expand: string;
   collapse: string;
-}
+};
