@@ -58,7 +58,7 @@ export class Action implements InteractiveComponent {
   @Prop({ reflect: true }) disabled = false;
 
   /** Specifies an icon to display - accepts Calcite UI icon names.  */
-  @Prop() icon?: string;
+  @Prop({ reflect: true }) icon?: string;
 
   /**
    * When true, indicates unread changes.

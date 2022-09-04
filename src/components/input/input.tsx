@@ -71,7 +71,7 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
    *
    * @mdn [autofocus](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/autofocus)
    */
-  @Prop() autofocus = false;
+  @Prop({ reflect: true }) autofocus = false;
 
   /**
    * When true, a clear button is displayed when the component has a value. The clear button shows by default for "search", "time", and "date" types, and will not display for the "textarea" type.
@@ -93,14 +93,14 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
   /**
    * When true, number values are displayed with the locale's group separator.
    */
-  @Prop() groupSeparator = false;
+  @Prop({ reflect: true }) groupSeparator = false;
 
   /**
    * When true, the component will not be visible.
    *
    * @mdn [hidden](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/hidden)
    */
-  @Prop() hidden = false;
+  @Prop({ reflect: true }) hidden = false;
 
   /**
    * When true, shows a default recommended icon. Alternatively, pass a Calcite UI Icon name to display a specific icon.
@@ -136,7 +136,7 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
    *
    * @mdn [numberingSystem](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/Locale/numberingSystem)
    */
-  @Prop() numberingSystem?: string;
+  @Prop({ reflect: true }) numberingSystem?: string;
 
   /**
    * Toggles locale formatting for numbers.
@@ -217,10 +217,10 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
    *
    * @mdn [readOnly](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/readonly)
    */
-  @Prop() readOnly = false;
+  @Prop({ reflect: true }) readOnly = false;
 
   /** When true, the component must have a value in order for the form to submit. */
-  @Prop() required = false;
+  @Prop({ reflect: true }) required = false;
 
   /** Specifies the size of the component. */
   @Prop({ mutable: true, reflect: true }) scale: Scale = "m";

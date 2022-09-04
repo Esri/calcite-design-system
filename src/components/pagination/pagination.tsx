@@ -38,13 +38,13 @@ export class Pagination implements GlobalAttrComponent {
   //
   //--------------------------------------------------------------------------
   /** Specifies the number of items per page. */
-  @Prop() num = 20;
+  @Prop({ reflect: true }) num = 20;
 
   /** Specifies the starting item number. */
-  @Prop({ mutable: true }) start = 1;
+  @Prop({ mutable: true, reflect: true }) start = 1;
 
   /** Specifies the total number of items. */
-  @Prop() total = 0;
+  @Prop({ reflect: true }) total = 0;
 
   /**
    * Accessible name for the component's next button.
