@@ -1,30 +1,30 @@
-import { readFile, copyFile } from "fs";
+(async function () {
+  const {
+    promises: { readFile, copyFile }
+  } = await import("fs");
+  const { resolve, sep, win32 } = await import("path");
 
-function syncEnT9nFiles() {
-  const t9nManifestPath = "./manifest.txt";
+  const t9nManifestPath = "./t9nmanifest.txt";
+  const contents = await readFile(t9nManifestPath, { encoding: "utf-8" });
+  const entries = contents.split("\n");
+  const synchronized: string[] = [];
 
-  readFile(t9nManifestPath, (err, data) => {
-    if (err) {
-      return (err.code = "ENOENT") ? console.error(`${t9nManifestPath} file not found`) : console.error(err);
-    }
+  console.log(`synchronizing t9n en.json files`);
 
-    const arr = data.toString().replace(/\r\n/g, "\n").split("\n");
+  for (const entry of entries) {
+    const path = entry.split(win32.sep).join(sep);
+    const component = path.split(sep)[2];
 
-    for (const i of arr) {
-      const path = i.replaceAll("\\", "/");
-      const component = path.split("/")[2];
+    const source = resolve(`${path}/en.json`);
+    const destination = resolve(`${path}/en-US.json`);
 
-      console.log(`syncronizing t9 en.json file for ${component}`);
+    await copyFile(source, destination);
+    synchronized.push(component);
+  }
 
-      copyFile(`${path}/en.json`, `${path}/en-US.json`, (err) => {
-        if (err) {
-          return console.error(err);
-        }
-
-        console.log(`created en-US.json file for ${component} `);
-      });
-    }
-  });
-}
-
-syncEnT9nFiles();
+  console.log(
+    `created en-US.json file for the following components: \n${synchronized
+      .map((synchronized) => `* ${synchronized}`)
+      .join("\n")} `
+  );
+})();

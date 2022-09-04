@@ -1,7 +1,6 @@
 import { getAssetPath } from "@stencil/core";
-import { getSupportedLocale } from "../../utils/fetchLocale";
+import { getSupportedLang } from "../../utils/locale";
 import { dateFromISO } from "../../utils/date";
-import { locales } from "../../utils/locale";
 
 /**
  * Translation resource data structure
@@ -53,7 +52,7 @@ export const requestCache: Record<string, Promise<DateLocaleData>> = {};
  * @public
  */
 export async function getLocaleData(lang: string): Promise<DateLocaleData> {
-  const locale = getSupportedLocale(lang);
+  const locale = getSupportedLang(lang);
   if (translationCache[locale]) {
     return translationCache[locale];
   }

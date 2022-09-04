@@ -1,4 +1,5 @@
-import { sanitizeDecimalString, sanitizeExponentialNumberString, isValidNumber, BigDecimal } from "./number";
+import { getAssetPath } from "@stencil/core";
+import { BigDecimal, isValidNumber, sanitizeDecimalString, sanitizeExponentialNumberString } from "./number";
 
 export const locales = [
   "ar",
@@ -134,4 +135,55 @@ export function localizeNumberString(
     }
     return nonExpoNumString;
   });
+}
+
+export function getSupportedLang(lang: string): string {
+  if (locales.indexOf(lang) > -1) {
+    return lang;
+  }
+
+  lang = lang.toLowerCase();
+
+  if (lang.includes("-")) {
+    lang = lang.replace(/(\w+)-(\w+)/, (_match, language, region) => `${language}-${region.toUpperCase()}`);
+
+    if (!locales.includes(lang)) {
+      lang = lang.split("-")[0];
+    }
+  }
+  return locales.includes(lang) ? lang : "en";
+}
+
+type StringBundle = Record<string, string>;
+
+export async function getStringBundle(lang: string, component: string): Promise<StringBundle> {
+  let strings: StringBundle;
+
+  try {
+    strings = await fetchBundle(lang, component);
+  } catch (error) {
+    strings = await fetchBundle("en", component);
+  }
+
+  return strings;
+}
+
+async function fetchBundle(lang: string, component: string): Promise<StringBundle> {
+  let response: Response;
+
+  try {
+    response = await fetch(getAssetPath(`./assets/${component}/t9n/${lang}.json`));
+  } catch (error) {
+    throwStringFetchError();
+  } finally {
+    if (!response.ok) {
+      throwStringFetchError();
+    }
+  }
+
+  return response.json() as Promise<StringBundle>;
+}
+
+function throwStringFetchError(): never {
+  throw new Error("could not fetch component strings");
 }

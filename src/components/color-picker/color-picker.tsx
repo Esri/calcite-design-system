@@ -32,7 +32,7 @@ import { InteractiveComponent, updateHostInteraction } from "../../utils/interac
 import { Strings } from "./assets/color-picker/t9n";
 import { isActivationKey } from "../../utils/key";
 import { fetchLocaleStrings } from "../../utils/fetchLocaleData";
-import { getSupportedLocale } from "../../utils/fetchLocale";
+import { getSupportedLang } from "../../utils/fetchLocale";
 import { overRideLocalizedStrings } from "../../utils/strings";
 const throttleFor60FpsInMs = 16;
 const defaultValue = normalizeHex(DEFAULT_COLOR.hex());
@@ -1100,7 +1100,7 @@ export class ColorPicker implements InteractiveComponent {
     // TODO: these could split into reusable utils
 
     const lang = this.el.lang || document.documentElement.lang || navigator.language;
-    const locale = getSupportedLocale(lang);
+    const locale = getSupportedLang(lang);
 
     this.builtInStrings = await fetchLocaleStrings(locale, "color-picker");
   }
