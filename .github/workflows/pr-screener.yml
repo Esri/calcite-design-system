@@ -1,12 +1,15 @@
 name: Screener
 on:
+  workflow_dispatch:
   pull_request:
     branches: [master]
+    types: [ready_for_review]
   # need to run on the base branch when merging to keep the baseline state up to date
   push:
     branches: [master]
 jobs:
   screenshot_tests:
+    if: "!contains(github.event.pull_request.labels.*.name, 'pr has no visual changes') && github.actor!='dependabot-preview[bot]'"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -49,11 +52,23 @@ jobs:
           SAUCE_ACCESS_KEY: ${{ secrets.SAUCE_ACCESS_KEY }}
         run: npm run test:storybook || true
       - if: steps.one.outputs.skip == 'skip'
-        name: skip screener
+        name: skip screener for markdown PRs
         uses: Sibz/github-status-action@v1
         with:
           authToken: ${{ secrets.GITHUB_TOKEN }}
           context: screener
           description: Screener run skipped (markdown PRs)
+          state: success
+          sha: ${{github.event.pull_request.head.sha || github.sha}}
+  skip_screenshot_tests:
+    if: "contains(github.event.pull_request.labels.*.name, 'pr has no visual changes') || github.actor=='dependabot-preview[bot]'"
+    runs-on: ubuntu-latest
+    steps:
+      - name: skip screener for dependabot PRs or no visual changes
+        uses: Sibz/github-status-action@v1
+        with:
+          authToken: ${{ secrets.GITHUB_TOKEN }}
+          context: screener
+          description: Screener run skipped (no visual changes or dependabot PR)
           state: success
           sha: ${{github.event.pull_request.head.sha || github.sha}}

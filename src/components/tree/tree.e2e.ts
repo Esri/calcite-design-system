@@ -373,6 +373,44 @@ describe("calcite-tree", () => {
         expect(checkbox).not.toBeNull();
       });
     });
+
+    describe(`when tree-item selection-mode is ${TreeSelectionMode.None}`, () => {
+      it("allows selecting items without a selection", async () => {
+        const page = await newE2EPage();
+        await page.setContent(html`
+          <calcite-tree selection-mode=${TreeSelectionMode.None}>
+            <calcite-tree-item id="1">1</calcite-tree-item>
+            <calcite-tree-item id="2">2</calcite-tree-item>
+          </calcite-tree>
+        `);
+
+        type TestWindow = GlobalTestProps<{
+          selectedIds: string[];
+        }>;
+
+        await page.evaluateHandle(() =>
+          document.addEventListener("calciteTreeSelect", ({ detail }: CustomEvent) => {
+            (window as TestWindow).selectedIds = detail.selected.map((item) => item.id);
+          })
+        );
+
+        const getSelectedIds = async (): Promise<any> => page.evaluate(() => (window as TestWindow).selectedIds);
+
+        const tree = await page.find(`calcite-tree`);
+        const selectEventSpy = await tree.spyOnEvent("calciteTreeSelect");
+        const [item1, item2] = await page.findAll(`calcite-tree-item`);
+
+        await item1.click();
+        expect(selectEventSpy).toHaveReceivedEventTimes(1);
+        expect(await getSelectedIds()).toEqual(["1"]);
+        expect(await page.findAll("calcite-tree-item[selected]")).toHaveLength(0);
+
+        await item2.click();
+        expect(selectEventSpy).toHaveReceivedEventTimes(2);
+        expect(await getSelectedIds()).toEqual(["2"]);
+        expect(await page.findAll("calcite-tree-item[selected]")).toHaveLength(0);
+      });
+    });
   });
 
   describe("keyboard support", () => {

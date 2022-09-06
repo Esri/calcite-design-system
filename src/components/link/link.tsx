@@ -1,4 +1,4 @@
-import { Component, Element, h, Host, Method, Prop, VNode } from "@stencil/core";
+import { Component, Element, h, Host, Listen, Method, Prop, VNode } from "@stencil/core";
 import { focusElement, getElementDir } from "../../utils/dom";
 import { FlipContext } from "../interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
@@ -103,6 +103,7 @@ export class Link implements InteractiveComponent {
           */
           download={Tag === "a" && (download === "" || download) ? download : null}
           href={Tag === "a" && this.href}
+          onClick={this.childElClickHandler}
           ref={this.storeTagRef}
           rel={Tag === "a" && this.rel}
           role={role}
@@ -115,6 +116,20 @@ export class Link implements InteractiveComponent {
         </Tag>
       </Host>
     );
+  }
+
+  //--------------------------------------------------------------------------
+  //
+  //  Events
+  //
+  //--------------------------------------------------------------------------
+
+  @Listen("click")
+  clickHandler(event: PointerEvent): void {
+    // forwards the click() to the internal link for non user-initiated events
+    if (!event.isTrusted) {
+      this.childEl.click();
+    }
   }
 
   //--------------------------------------------------------------------------
@@ -137,6 +152,13 @@ export class Link implements InteractiveComponent {
 
   /** the rendered child element */
   private childEl: HTMLAnchorElement | HTMLSpanElement;
+
+  private childElClickHandler = (event: PointerEvent): void => {
+    if (!event.isTrusted) {
+      // click was invoked internally, we stop it here
+      event.stopPropagation();
+    }
+  };
 
   //--------------------------------------------------------------------------
   //
