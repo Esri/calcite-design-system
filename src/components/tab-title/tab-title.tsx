@@ -319,7 +319,7 @@ export class TabTitle implements InteractiveComponent {
   /**
    * @internal
    */
-  @Event({ cancelable: false }) calciteInternalTabWidthChanged: EventEmitter<void>;
+  @Event({ cancelable: false }) calciteInternalTabIconChanged: EventEmitter<void>;
 
   //--------------------------------------------------------------------------
   //
@@ -377,7 +377,7 @@ export class TabTitle implements InteractiveComponent {
   containerEl: HTMLDivElement;
 
   resizeObserver = createObserver("resize", () => {
-    this.calciteInternalTabWidthChanged.emit();
+    this.calciteInternalTabIconChanged.emit();
   });
 
   updateHasText(): void {

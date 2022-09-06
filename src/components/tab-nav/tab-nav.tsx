@@ -268,6 +268,11 @@ export class TabNav {
     event.stopPropagation();
   }
 
+  @Listen("calciteInternalTabIconChanged")
+  iconStartChangeHandler(): void {
+    this.updateActiveWidth();
+  }
+
   //--------------------------------------------------------------------------
   //
   //  Events
@@ -360,10 +365,5 @@ export class TabNav {
       this.el,
       "calcite-tab-title:not([disabled])"
     );
-  }
-
-  @Listen("calciteInternalTabWidthChanged")
-  iconStartChangeHandler(): void {
-    this.updateActiveWidth();
   }
 }
