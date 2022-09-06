@@ -122,3 +122,16 @@ export const disabled = (): string => html`<calcite-radio-group disabled>
   <calcite-radio-group-item value="angular">Angular</calcite-radio-group-item>
   <calcite-radio-group-item value="vue">Vue</calcite-radio-group-item>
 </calcite-radio-group>`;
+
+export const WithIconStartAndEnd = (): string => html` <calcite-radio-group scale="s">
+  <calcite-radio-group-item icon-start="car" icon-end="car" value="car" checked icon="plane" icon-positon="end"
+    >Car</calcite-radio-group-item
+  >
+  <calcite-radio-group-item icon-end="plane" value="plane" icon="banana" icon-positon="start"
+    >Plane</calcite-radio-group-item
+  >
+  <calcite-radio-group-item icon-start="biking" icon-end="biking" value="bicycle" icon="car" icon-positon="start"
+    >Bicycle</calcite-radio-group-item
+  >
+  <calcite-radio-group-item value="nothing">Nothing</calcite-radio-group-item>
+</calcite-radio-group>`;
