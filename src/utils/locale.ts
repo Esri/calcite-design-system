@@ -150,6 +150,8 @@ export function getSupportedLang(lang: string): string {
     if (!locales.includes(lang)) {
       lang = lang.split("-")[0];
     }
+  } else if (lang === "nb") {
+    return "no";
   }
   return locales.includes(lang) ? lang : "en";
 }
