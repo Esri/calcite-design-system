@@ -37,6 +37,9 @@ import {
   localizeTimePart,
   Meridiem,
   getLocaleHourCycle,
+  getLocaleHourSuffix,
+  getLocaleMinuteSuffix,
+  getLocaleSecondSuffix,
   getTimeParts
 } from "../../utils/time";
 import { CSS, TEXT } from "./resources";
@@ -570,44 +573,33 @@ export class InputTime implements LabelableComponent, FormComponent, Interactive
   private setSecondEl = (el: HTMLSpanElement) => (this.secondEl = el);
 
   private setValue = ({
-    newValue,
-    context = "user"
+    context = "user",
+    newValue
   }: {
-    newValue: string;
     context?: "connected" | "direct" | "lang" | "user";
+    newValue: string;
   }): void => {
     const formattedNewValue = formatTimeString(newValue);
     const oldValue = this.value;
-    const { hour, minute, second } = parseTimeString(newValue);
-    const {
-      localizedHour,
-      localizedHourSuffix,
-      localizedMinute,
-      localizedMinuteSuffix,
-      localizedSecond,
-      localizedSecondSuffix,
-      localizedMeridiem
-    } = localizeTimeStringToParts(newValue, this.locale);
+    const { hour, minute, second } = parseTimeString(formattedNewValue);
+    const { localizedHour, localizedMinute, localizedSecond, localizedMeridiem } =
+      localizeTimeStringToParts(formattedNewValue, this.locale);
 
     this.userChangedValue = context === "user";
 
-    const shouldEmit =
-      this.userChangedValue &&
-      ((newValue !== this.previousValue && !newValue) ||
-        !!(!this.previousValue && formattedNewValue) ||
-        (formattedNewValue !== this.previousValue && formattedNewValue));
+    const shouldEmit = this.userChangedValue && formattedNewValue !== this.previousValue;
 
     this.value = formattedNewValue;
 
     this.hour = hour;
     this.localizedHour = localizedHour;
-    this.localizedHourSuffix = localizedHourSuffix;
+    this.localizedHourSuffix = getLocaleHourSuffix(this.locale);
     this.minute = minute;
     this.localizedMinute = localizedMinute;
-    this.localizedMinuteSuffix = localizedMinuteSuffix;
+    this.localizedMinuteSuffix = getLocaleMinuteSuffix(this.locale);
     this.second = second;
     this.localizedSecond = localizedSecond;
-    this.localizedSecondSuffix = localizedSecondSuffix;
+    this.localizedSecondSuffix = getLocaleSecondSuffix(this.locale);
 
     if (localizedMeridiem) {
       this.meridiem = getMeridiem(this.hour);
@@ -625,6 +617,7 @@ export class InputTime implements LabelableComponent, FormComponent, Interactive
         this.userChangedValue = false;
         this.value = oldValue;
         this.previousValue = oldValue;
+        // TODO: reset localized values here when the change event's default behavior is prevented
       } else {
         this.previousValue = formattedNewValue;
       }
@@ -657,12 +650,15 @@ export class InputTime implements LabelableComponent, FormComponent, Interactive
       this[key] = typeof value === "number" ? formatTimePart(value) : value;
       this[`localized${capitalize(key)}`] = localizeTimePart(this[key], key, this.locale);
     }
-    this.setValue({
-      newValue:
-        this.hour && this.minute
-          ? `${this.hour}:${this.minute}:${this.showSecond && (this.second || "00")}`
-          : null
-    });
+    if (this.hour && this.minute) {
+      const showSeconds = this.second && this.showSecond;
+      this.setValue({
+        newValue: `${this.hour}:${this.minute}:${showSeconds ? this.second : "00"}`
+      });
+    } else {
+      // TODO: Ensure change event fires when the value is null.  We'll have to reconcile setValuePart and setValue to determine which one or both will delegate change events.
+      this.value = null;
+    }
     this.localizedMeridiem = this.value
       ? localizeTimeStringToParts(this.value, this.locale)?.localizedMeridiem || null
       : localizeTimePart(this.meridiem, "meridiem", this.locale);
