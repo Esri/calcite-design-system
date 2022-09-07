@@ -7,7 +7,7 @@ import globby from "globby";
     promises: { readFile, writeFile }
   } = await import("fs");
 
-  const rootBundleFile = "en.json";
+  const rootBundleFile = "messages.json";
   const rootBundlePattern = `src/components/**/t9n/${rootBundleFile}`;
 
   const rootBundles = await globby([rootBundlePattern]);

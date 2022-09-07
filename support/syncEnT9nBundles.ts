@@ -9,21 +9,21 @@
   const entries = contents.split("\n");
   const synchronized: string[] = [];
 
-  console.log(`synchronizing t9n en.json files`);
+  console.log(`synchronizing t9n messages.json files`);
 
   for (const entry of entries) {
     const path = entry.split(win32.sep).join(sep);
     const component = path.split(sep)[2];
 
-    const source = resolve(`${path}/en.json`);
-    const destination = resolve(`${path}/en-US.json`);
+    const source = resolve(`${path}/messages.json`);
+    const destination = resolve(`${path}/messages_en.json`);
 
     await copyFile(source, destination);
     synchronized.push(component);
   }
 
   console.log(
-    `created en-US.json file for the following components: \n${synchronized
+    `created messages_en.json file for the following components: \n${synchronized
       .map((synchronized) => `* ${synchronized}`)
       .join("\n")} `
   );
