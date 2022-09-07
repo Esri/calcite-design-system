@@ -1287,4 +1287,20 @@ describe("calcite-combobox", () => {
 
     expect(inputEl).toHaveClass("icon-start");
   });
+
+  it("should be able to type when tab through the component once", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html` <calcite-combobox>
+      <calcite-combobox-item value="Bluetooth" text-label="Bluetooth"> </calcite-combobox-item>
+    </calcite-combobox>`);
+
+    const inputEl = await page.find("calcite-combobox >>> input");
+
+    await page.keyboard.press("Tab");
+    await page.waitForChanges();
+    await page.keyboard.type("Blue");
+    await page.waitForChanges();
+
+    expect(await inputEl.getProperty("value")).toBe("Blue");
+  });
 });

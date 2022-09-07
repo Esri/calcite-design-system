@@ -1,4 +1,5 @@
 import { getAssetPath } from "@stencil/core";
+import { dateFromISO } from "../../utils/date";
 import { locales } from "../../utils/locale";
 
 /**
@@ -93,4 +94,14 @@ export async function getLocaleData(lang: string): Promise<DateLocaleData> {
   translationCache[locale] = data;
 
   return data;
+}
+
+/**
+ *  Maps value to valueAsDate
+ *
+ * @param value
+ */
+
+export function getValueAsDateRange(value: string[]): Date[] {
+  return value.map((v, index) => dateFromISO(v, index === 1));
 }
