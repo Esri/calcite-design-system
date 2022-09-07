@@ -1,4 +1,4 @@
-import { boolean } from "@storybook/addon-knobs";
+import { boolean, text } from "@storybook/addon-knobs";
 import {
   Attribute,
   filterComponentAttributes,
@@ -10,12 +10,14 @@ import readme from "./readme.md";
 import itemReadme from "../pick-list-item/readme.md";
 import groupReadme from "../pick-list-group/readme.md";
 import { html } from "../../../support/formatting";
+import { storyFilters } from "../../../.storybook/helpers";
 
 export default {
   title: "Components/Pick List",
   parameters: {
     notes: [readme, itemReadme, groupReadme]
-  }
+  },
+  ...storyFilters()
 };
 
 const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ exceptions } = { exceptions: [] }) => {
@@ -77,7 +79,7 @@ const action = html`
   ></calcite-action>
 `;
 
-export const basic = (): string =>
+export const simple = (): string =>
   create(
     "calcite-pick-list",
     createAttributes(),
@@ -92,7 +94,7 @@ export const basic = (): string =>
     `
   );
 
-export const darkThemeRTL = (): string =>
+export const darkThemeRTL_TestOnly = (): string =>
   create(
     "calcite-pick-list",
     createAttributes({ exceptions: ["dir", "class"] }).concat([
@@ -116,14 +118,14 @@ export const darkThemeRTL = (): string =>
     `
   );
 
-darkThemeRTL.parameters = { themes: themesDarkDefault };
+darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };
 
 export const grouped = (): string =>
   create(
     "calcite-pick-list",
     createAttributes(),
     html`
-      <calcite-pick-list-group group-title="numbers">
+      <calcite-pick-list-group group-title="numbers" heading-level="${text("heading-level", "1")}">
         <calcite-pick-list-item label="one" description="fish" value="one" icon="grip">
           ${action}
         </calcite-pick-list-item>
@@ -131,7 +133,7 @@ export const grouped = (): string =>
           ${action}
         </calcite-pick-list-item>
       </calcite-pick-list-group>
-      <calcite-pick-list-group group-title="colors">
+      <calcite-pick-list-group group-title="colors" heading-level="${text("heading-level", "1")}">
         <calcite-pick-list-item label="red" description="fish" value="red" icon="grip">
           ${action}
         </calcite-pick-list-item>
@@ -166,7 +168,7 @@ export const nested = (): string =>
     `
   );
 
-export const disabled = (): string => html`<calcite-pick-list disabled>
+export const disabled_TestOnly = (): string => html`<calcite-pick-list disabled>
   <calcite-pick-list-item label="T. Rex" description="arm strength impaired" value="trex"></calcite-pick-list-item>
   <calcite-pick-list-item
     label="Triceratops"
@@ -175,15 +177,4 @@ export const disabled = (): string => html`<calcite-pick-list disabled>
     selected
   ></calcite-pick-list-item>
   <calcite-pick-list-item label="hi" description="there" value="helloWorld"></calcite-pick-list-item>
-</calcite-pick-list>`;
-
-export const headingLevel2 = (): string => html`<calcite-pick-list>
-  <calcite-pick-list-group heading-level="2" group-title="Dogs">
-    <calcite-pick-list-item label="All the dogs" value="all-dogs" slot="parent-item">
-      ${action}
-    </calcite-pick-list-item>
-    <calcite-pick-list-item label="Husky" value="husky"> ${action} </calcite-pick-list-item>
-    <calcite-pick-list-item label="Pomeranian" value="pom"> ${action} </calcite-pick-list-item>
-    <calcite-pick-list-item label="Xoloitzcuintle" value="xolo"> ${action} </calcite-pick-list-item>
-  </calcite-pick-list-group>
 </calcite-pick-list>`;

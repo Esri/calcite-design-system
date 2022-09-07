@@ -1,7 +1,7 @@
 import { select, number } from "@storybook/addon-knobs";
 import readme from "./readme.md";
 import { html } from "../../../support/formatting";
-import { boolean, createSteps, stepStory, setTheme } from "../../../.storybook/helpers";
+import { boolean, createSteps, stepStory, setTheme, storyFilters } from "../../../.storybook/helpers";
 import { placements } from "../../utils/floating-ui";
 
 const contentHTML = `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua`;
@@ -10,13 +10,13 @@ const referenceElementHTML = `Ut enim ad minim veniam, quis <calcite-button appe
 
 export default {
   title: "Components/Tooltip",
-
   parameters: {
     notes: readme
-  }
+  },
+  ...storyFilters()
 };
 
-export const Simple = stepStory(
+export const simple = stepStory(
   (): string => html`
     <div style="width: 400px;">
       ${referenceElementHTML}

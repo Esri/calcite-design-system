@@ -7,7 +7,7 @@ import {
 } from "../../../.storybook/utils";
 import readme from "./readme.md";
 import { html } from "../../../support/formatting";
-import { createSteps, iconNames, stepStory, setTheme, setKnobs } from "../../../.storybook/helpers";
+import { createSteps, iconNames, stepStory, setTheme, setKnobs, storyFilters } from "../../../.storybook/helpers";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 const { alignment, scale } = ATTRIBUTES;
 
@@ -15,7 +15,8 @@ export default {
   title: "Components/Buttons/Action",
   parameters: {
     notes: readme
-  }
+  },
+  ...storyFilters()
 };
 
 const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ exceptions } = { exceptions: [] }) => {
@@ -132,7 +133,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
 
 const selector = "calcite-action";
 
-export const Default = stepStory(
+export const simple = stepStory(
   (): string => html`<div style="width: 150px">${create("calcite-action", createAttributes())}</div>`,
 
   createSteps("calcite-action")
@@ -142,7 +143,7 @@ export const Default = stepStory(
     // Default
     .executeScript(
       setKnobs({
-        story: "components-buttons-action--default",
+        story: "components-buttons-action--simple",
         knobs: [{ name: "icon", value: "beaker" }]
       })
     )
@@ -157,7 +158,7 @@ export const Default = stepStory(
     // Active
     .executeScript(
       setKnobs({
-        story: "components-buttons-action--default",
+        story: "components-buttons-action--simple",
         knobs: [
           { name: "active", value: "true" },
           { name: "icon", value: "beaker" }
@@ -175,7 +176,7 @@ export const Default = stepStory(
     // Alignment Center
     .executeScript(
       setKnobs({
-        story: "components-buttons-action--default",
+        story: "components-buttons-action--simple",
         knobs: [
           { name: "alignment", value: "center" },
           { name: "icon", value: "beaker" }
@@ -187,7 +188,7 @@ export const Default = stepStory(
     // Alignment End
     .executeScript(
       setKnobs({
-        story: "components-buttons-action--default",
+        story: "components-buttons-action--simple",
         knobs: [
           { name: "alignment", value: "end" },
           { name: "icon", value: "beaker" }
@@ -199,7 +200,7 @@ export const Default = stepStory(
     // Appearance Clear
     .executeScript(
       setKnobs({
-        story: "components-buttons-action--default",
+        story: "components-buttons-action--simple",
         knobs: [
           { name: "appearance", value: "clear" },
           { name: "icon", value: "beaker" }
@@ -217,7 +218,7 @@ export const Default = stepStory(
     // Compact
     .executeScript(
       setKnobs({
-        story: "components-buttons-action--default",
+        story: "components-buttons-action--simple",
         knobs: [
           { name: "compact", value: "true" },
           { name: "icon", value: "beaker" }
@@ -227,7 +228,7 @@ export const Default = stepStory(
     .snapshot("Compact Alignment Start")
     .executeScript(
       setKnobs({
-        story: "components-buttons-action--default",
+        story: "components-buttons-action--simple",
         knobs: [
           { name: "alignment", value: "end" },
           { name: "compact", value: "true" },
@@ -238,7 +239,7 @@ export const Default = stepStory(
     .snapshot("Compact Alignment End")
     .executeScript(
       setKnobs({
-        story: "components-buttons-action--default",
+        story: "components-buttons-action--simple",
         knobs: [
           { name: "compact", value: "true" },
           { name: "textEnabled", value: "false" },
@@ -251,7 +252,7 @@ export const Default = stepStory(
     // Dark
     .executeScript(
       setKnobs({
-        story: "components-buttons-action--default",
+        story: "components-buttons-action--simple",
         knobs: [
           { name: "indicator", value: "true" },
           { name: "icon", value: "beaker" }
@@ -268,7 +269,7 @@ export const Default = stepStory(
     .snapshot("Dark Mouse Up")
     .executeScript(
       setKnobs({
-        story: "components-buttons-action--default",
+        story: "components-buttons-action--simple",
         knobs: [
           { name: "active", value: "true" },
           { name: "icon", value: "beaker" },
@@ -280,7 +281,7 @@ export const Default = stepStory(
     .snapshot("Dark Active")
     .executeScript(
       setKnobs({
-        story: "components-buttons-action--default",
+        story: "components-buttons-action--simple",
         knobs: [
           { name: "active", value: "true" },
           { name: "disabled", value: "true" },
@@ -295,7 +296,7 @@ export const Default = stepStory(
     // Disabled
     .executeScript(
       setKnobs({
-        story: "components-buttons-action--default",
+        story: "components-buttons-action--simple",
         knobs: [
           { name: "active", value: "true" },
           { name: "disabled", value: "true" },
@@ -308,7 +309,7 @@ export const Default = stepStory(
     .snapshot("Disabled Active")
     .executeScript(
       setKnobs({
-        story: "components-buttons-action--default",
+        story: "components-buttons-action--simple",
         knobs: [
           { name: "appearance", value: "solid" },
           { name: "disabled", value: "true" },
@@ -320,7 +321,7 @@ export const Default = stepStory(
     .snapshot("Disabled Appearance Solid")
     .executeScript(
       setKnobs({
-        story: "components-buttons-action--default",
+        story: "components-buttons-action--simple",
         knobs: [
           { name: "appearance", value: "clear" },
           { name: "disabled", value: "true" },
@@ -334,7 +335,7 @@ export const Default = stepStory(
     // Indicator
     .executeScript(
       setKnobs({
-        story: "components-buttons-action--default",
+        story: "components-buttons-action--simple",
         knobs: [
           { name: "indicator", value: "true" },
           { name: "icon", value: "beaker" }
@@ -344,7 +345,7 @@ export const Default = stepStory(
     .snapshot("Indicator")
     .executeScript(
       setKnobs({
-        story: "components-buttons-action--default",
+        story: "components-buttons-action--simple",
         knobs: [
           { name: "indicator", value: "true" },
           { name: "textEnabled", value: "false" },
@@ -357,7 +358,7 @@ export const Default = stepStory(
     // Loading
     .executeScript(
       setKnobs({
-        story: "components-buttons-action--default",
+        story: "components-buttons-action--simple",
         knobs: [
           { name: "loading", value: "true" },
           { name: "icon", value: "beaker" }
@@ -367,7 +368,7 @@ export const Default = stepStory(
     .snapshot("Loading")
     .executeScript(
       setKnobs({
-        story: "components-buttons-action--default",
+        story: "components-buttons-action--simple",
         knobs: [
           { name: "loading", value: "true" },
           { name: "textEnabled", value: "false" },
@@ -380,7 +381,7 @@ export const Default = stepStory(
     // RTL
     .executeScript(
       setKnobs({
-        story: "components-buttons-action--default",
+        story: "components-buttons-action--simple",
         knobs: [
           { name: "alignment", value: "start" },
           { name: "icon", value: "beaker" }
@@ -391,7 +392,7 @@ export const Default = stepStory(
     .snapshot("RTL Alignment Start")
     .executeScript(
       setKnobs({
-        story: "components-buttons-action--default",
+        story: "components-buttons-action--simple",
         knobs: [
           { name: "alignment", value: "center" },
           { name: "icon", value: "beaker" }
@@ -402,7 +403,7 @@ export const Default = stepStory(
     .snapshot("RTL Alignment Center")
     .executeScript(
       setKnobs({
-        story: "components-buttons-action--default",
+        story: "components-buttons-action--simple",
         knobs: [
           { name: "alignment", value: "end" },
           { name: "icon", value: "beaker" }
@@ -415,7 +416,7 @@ export const Default = stepStory(
     // RTL Indicator
     .executeScript(
       setKnobs({
-        story: "components-buttons-action--default",
+        story: "components-buttons-action--simple",
         knobs: [
           { name: "alignment", value: "start" },
           { name: "indicator", value: "true" },
@@ -427,7 +428,7 @@ export const Default = stepStory(
     .snapshot("RTL Indicator Alignment Start")
     .executeScript(
       setKnobs({
-        story: "components-buttons-action--default",
+        story: "components-buttons-action--simple",
         knobs: [
           { name: "alignment", value: "center" },
           { name: "indicator", value: "true" },
@@ -439,7 +440,7 @@ export const Default = stepStory(
     .snapshot("RTL Indicator Alignment Center")
     .executeScript(
       setKnobs({
-        story: "components-buttons-action--default",
+        story: "components-buttons-action--simple",
         knobs: [
           { name: "alignment", value: "end" },
           { name: "indicator", value: "true" },
@@ -453,7 +454,7 @@ export const Default = stepStory(
     // RTL Loading
     .executeScript(
       setKnobs({
-        story: "components-buttons-action--default",
+        story: "components-buttons-action--simple",
         knobs: [
           { name: "alignment", value: "start" },
           { name: "loading", value: "true" },
@@ -465,7 +466,7 @@ export const Default = stepStory(
     .snapshot("RTL Loading Alignment Start")
     .executeScript(
       setKnobs({
-        story: "components-buttons-action--default",
+        story: "components-buttons-action--simple",
         knobs: [
           { name: "alignment", value: "center" },
           { name: "loading", value: "true" },
@@ -477,7 +478,7 @@ export const Default = stepStory(
     .snapshot("RTL Loading Alignment Center")
     .executeScript(
       setKnobs({
-        story: "components-buttons-action--default",
+        story: "components-buttons-action--simple",
         knobs: [
           { name: "alignment", value: "end" },
           { name: "loading", value: "true" },
@@ -491,7 +492,7 @@ export const Default = stepStory(
     // Scale
     .executeScript(
       setKnobs({
-        story: "components-buttons-action--default",
+        story: "components-buttons-action--simple",
         knobs: [
           { name: "indicator", value: "true" },
           { name: "scale", value: "s" },
@@ -502,7 +503,7 @@ export const Default = stepStory(
     .snapshot("Scale Small")
     .executeScript(
       setKnobs({
-        story: "components-buttons-action--default",
+        story: "components-buttons-action--simple",
         knobs: [
           { name: "indicator", value: "true" },
           { name: "scale", value: "s" },
@@ -514,7 +515,7 @@ export const Default = stepStory(
     .snapshot("Scale Small Text Disabled")
     .executeScript(
       setKnobs({
-        story: "components-buttons-action--default",
+        story: "components-buttons-action--simple",
         knobs: [
           { name: "indicator", value: "true" },
           { name: "scale", value: "l" },
@@ -525,7 +526,7 @@ export const Default = stepStory(
     .snapshot("Scale Large")
     .executeScript(
       setKnobs({
-        story: "components-buttons-action--default",
+        story: "components-buttons-action--simple",
         knobs: [
           { name: "indicator", value: "true" },
           { name: "scale", value: "l" },
@@ -539,7 +540,7 @@ export const Default = stepStory(
     // Text
     .executeScript(
       setKnobs({
-        story: "components-buttons-action--default",
+        story: "components-buttons-action--simple",
         knobs: [
           { name: "text", value: "A long amount of text" },
           { name: "icon", value: "beaker" }
@@ -549,7 +550,7 @@ export const Default = stepStory(
     .snapshot("Text Overflow")
 );
 
-export const ArabicLocale = (): string => html`
+export const arabicLocale_TestOnly = (): string => html`
   <calcite-action
     dir="rtl"
     icon="banana"

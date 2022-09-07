@@ -1,18 +1,18 @@
 import { select } from "@storybook/addon-knobs";
-import { iconNames, boolean } from "../../../.storybook/helpers";
+import { iconNames, boolean, storyFilters } from "../../../.storybook/helpers";
 import { placeholderImage, themesDarkDefault } from "../../../.storybook/utils";
 import readme from "./readme.md";
 import { html } from "../../../support/formatting";
 
 export default {
   title: "Components/Chip",
-
   parameters: {
     notes: readme
-  }
+  },
+  ...storyFilters()
 };
 
-export const Simple = (): string => html`
+export const simple = (): string => html`
   <div style="background-color:white;padding:100px">
     <calcite-chip
       scale="${select("scale", ["s", "m", "l"], "m")}"
@@ -24,7 +24,7 @@ export const Simple = (): string => html`
   </div>
 `;
 
-export const WithIcon = (): string => html`
+export const withIcon = (): string => html`
   <div style="background-color:white;padding:100px">
     <calcite-chip
       icon="${select("icon", iconNames, iconNames[0])}"
@@ -38,7 +38,7 @@ export const WithIcon = (): string => html`
   </div>
 `;
 
-export const WithImage = (): string => html`
+export const withImage = (): string => html`
   <div style="background-color:white;padding:100px">
     <calcite-chip
       scale="${select("scale", ["s", "m", "l"], "m")}"
@@ -52,7 +52,7 @@ export const WithImage = (): string => html`
   </div>
 `;
 
-export const WithAvatar = (): string => {
+export const withAvatar = (): string => {
   const scale = select("scale", ["s", "m", "l"], "m");
 
   return html`
@@ -75,8 +75,11 @@ export const WithAvatar = (): string => {
   `;
 };
 
-export const DarkTheme = (): string => html`
-  <div style="background-color:#2b2b2b;padding:100px">
+export const overriddenIconColor = (): string =>
+  html`<calcite-chip icon="banana" style="--calcite-ui-icon-color: #ac9f42" closable>Banana</calcite-chip>`;
+
+export const darkThemeRTL_TestOnly = (): string => html`
+  <div style="background-color:#2b2b2b;padding:100px" dir="rtl">
     <calcite-chip
       class="calcite-theme-dark"
       scale="${select("scale", ["s", "m", "l"], "m")}"
@@ -88,23 +91,4 @@ export const DarkTheme = (): string => html`
   </div>
 `;
 
-DarkTheme.storyName = "Dark theme";
-DarkTheme.parameters = { themes: themesDarkDefault };
-
-export const Rtl = (): string => html`
-  <div style="background-color:white;padding:100px" dir="rtl">
-    <calcite-chip
-      icon="${select("icon", iconNames, iconNames[0])}"
-      scale="${select("scale", ["s", "m", "l"], "m")}"
-      appearance="${select("appearance", ["solid", "clear"], "solid")}"
-      color="${select("color", ["blue", "red", "yellow", "green", "grey"], "grey")}"
-      ${boolean("closable", false)}
-      >My great chip</calcite-chip
-    >
-  </div>
-`;
-
-Rtl.storyName = "RTL";
-
-export const OverriddenIconColor = (): string =>
-  html`<calcite-chip icon="banana" style="--calcite-ui-icon-color: #ac9f42" closable>Banana</calcite-chip>`;
+darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };
