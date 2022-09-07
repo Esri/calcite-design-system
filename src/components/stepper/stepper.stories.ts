@@ -164,3 +164,10 @@ export const overriddenWidth_TestOnly = (): string => html` <calcite-stepper num
     </calcite-notice>
   </calcite-stepper-item>
 </calcite-stepper>`;
+
+export const disabled_TestOnly = (): string => html`<calcite-stepper>
+  <calcite-stepper-item item-title="item1" complete>1</calcite-stepper-item>
+  <calcite-stepper-item item-title="item2">2</calcite-stepper-item>
+  <calcite-stepper-item item-title="item3" active>3</calcite-stepper-item>
+  <calcite-stepper-item item-title="item4" disabled>4</calcite-stepper-item>
+</calcite-stepper>`;

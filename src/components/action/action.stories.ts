@@ -550,7 +550,7 @@ export const simple = stepStory(
     .snapshot("Text Overflow")
 );
 
-export const ArabicLocale_TestOnly = (): string => html`
+export const arabicLocale_TestOnly = (): string => html`
   <calcite-action
     dir="rtl"
     icon="banana"

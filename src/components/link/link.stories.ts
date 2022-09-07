@@ -34,6 +34,46 @@ export const simple = (): string => html`
   </div>
 `;
 
+export const iconStart = (): string => html`
+  <div
+    style="font-size: ${select(
+      "containing font size",
+      ["12", "14", "16", "18", "20", "24", "32"],
+      "16"
+    )}px; font-weight: ${select("containing font weight", ["300", "400", "500", "700"], "400")};"
+  >
+    Some wrapping text
+    <calcite-link
+      href="${text("href", "")}"
+      ${boolean("disabled", false)}
+      icon-start="${select("icon-start", iconNames, iconNames[0])}"
+    >
+      ${text("text", "link text here")}</calcite-link
+    >
+    around the link
+  </div>
+`;
+
+export const iconEnd = (): string => html`
+  <div
+    style="font-size: ${select(
+      "containing font size",
+      ["12", "14", "16", "18", "20", "24", "32"],
+      "16"
+    )}px; font-weight: ${select("containing font weight", ["300", "400", "500", "700"], "400")};"
+  >
+    Some wrapping text
+    <calcite-link
+      href="${text("href", "")}"
+      ${boolean("disabled", false)}
+      icon-end="${select("icon-end", iconNames, iconNames[0])}"
+    >
+      ${text("text", "link text here")}</calcite-link
+    >
+    around the link
+  </div>
+`;
+
 export const iconStartAndIconEnd = (): string => html`
   <div
     style="font-size: ${select(

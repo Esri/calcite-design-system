@@ -215,7 +215,7 @@ export const darkThemeRTL_TestOnly = (): string => html`
 `;
 darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };
 
-export const ItemsAsLinksDarkTheme = (): string => html`
+export const itemsAsLinksDarkTheme = (): string => html`
   <calcite-dropdown
     open
     class="calcite-theme-dark"
@@ -247,8 +247,7 @@ export const ItemsAsLinksDarkTheme = (): string => html`
   </calcite-dropdown>
 `;
 
-ItemsAsLinksDarkTheme.storyName = "Items as Links - dark theme";
-ItemsAsLinksDarkTheme.parameters = { themes: themesDarkDefault };
+itemsAsLinksDarkTheme.parameters = { themes: themesDarkDefault };
 
 export const scrollingAfterCertainItems_TestOnly = (): string => html`
   <calcite-dropdown

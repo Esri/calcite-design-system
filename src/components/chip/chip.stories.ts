@@ -75,7 +75,7 @@ export const withAvatar = (): string => {
   `;
 };
 
-export const OverriddenIconColor = (): string =>
+export const overriddenIconColor = (): string =>
   html`<calcite-chip icon="banana" style="--calcite-ui-icon-color: #ac9f42" closable>Banana</calcite-chip>`;
 
 export const darkThemeRTL_TestOnly = (): string => html`

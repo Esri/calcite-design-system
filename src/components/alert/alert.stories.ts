@@ -110,7 +110,7 @@ export const customIcon = (): string => html`
   </calcite-alert>
 `;
 
-export const Queue_NoTest = (): string => html`
+export const queue_NoTest = (): string => html`
   <div>
     <h5>Open or add to queue</h5>
     <calcite-button onclick='document.querySelector("#one").setAttribute("open", "")'>Open Alert 1</calcite-button>

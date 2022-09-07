@@ -238,7 +238,7 @@ export const darkThemeRTL_TestOnly = (): string =>
 
 darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };
 
-export const TransparentAppearance_TestOnly = (): string =>
+export const transparentAppearance_TestOnly = (): string =>
   create(
     "calcite-accordion",
     createAccordionAttributes({ exceptions: ["appearance"] }).concat({

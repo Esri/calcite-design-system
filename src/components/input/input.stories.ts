@@ -167,8 +167,8 @@ export const darkThemeRTL_TestOnly = (): string => html`
 `;
 darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };
 
-export const HebrewNumberingSystem_TestOnly = (): string =>
+export const hebrewNumberingSystem_TestOnly = (): string =>
   html` <calcite-input type="number" locale="ar-EG" numbering-system="hebr" value="123456"></calcite-input>`;
 
-export const ArabicLocaleWithLatinNumberingSystem_TestOnly = (): string =>
+export const arabicLocaleWithLatinNumberingSystem_TestOnly = (): string =>
   html` <calcite-input type="number" locale="ar-EG" value="123456"></calcite-input>`;
