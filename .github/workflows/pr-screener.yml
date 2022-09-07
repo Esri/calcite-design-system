@@ -61,7 +61,7 @@ jobs:
           state: success
           sha: ${{github.event.pull_request.head.sha || github.sha}}
   skip_screenshot_tests:
-    if: "(github.event.action == 'synchronize' && contains(github.event.pull_request.labels.*.name, 'pr ready for visual snapshots')) || github.event.pull_request.draft == true || github.actor == 'dependabot-preview[bot]'"
+    if: "(github.event.action == 'synchronize' && contains(github.event.pull_request.labels.*.name, 'pr ready for visual snapshots')) || github.event.pull_request.draft == true || (github.actor == 'dependabot-preview[bot]' && github.event.action != 'labeled')"
     runs-on: ubuntu-latest
     steps:
       - name: skip screener for dependabot PRs or no visual changes
