@@ -174,7 +174,7 @@ export const disabled_TestOnly = (): string => html`<calcite-block
   </calcite-block-section>
 </calcite-block>`;
 
-export const paddingdisabled_TestOnly = (): string => html` <calcite-panel heading="Properties">
+export const paddingDisabled_TestOnly = (): string => html` <calcite-panel heading="Properties">
   <calcite-block heading="Example block heading" summary="example summary heading" collapsible open disable-padding>
     <div>calcite components ninja</div>
   </calcite-block>

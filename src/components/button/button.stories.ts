@@ -107,8 +107,6 @@ export const setWidthContainer = (): string => html`
   </div>
 `;
 
-setWidthContainer.storyName = "Set width container";
-
 export const disabled_TestOnly = (): string => html`<calcite-button disabled>disabled</calcite-button>`;
 
 export const withIconStartEmpty_TestOnly = (): string => html` <calcite-button icon-start> Button </calcite-button>`;
@@ -138,8 +136,6 @@ export const sideBySide_TestOnly = (): string => html`
     </calcite-button>
   </div>
 `;
-
-sideBySide_TestOnly.storyName = "Side by side";
 
 export const darkThemeRTL_TestOnly = (): string => html`
   <calcite-button

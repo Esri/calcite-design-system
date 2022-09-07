@@ -91,5 +91,4 @@ export const darkThemeRTL_TestOnly = (): string => html`
   </div>
 `;
 
-darkThemeRTL_TestOnly.storyName = "Dark theme";
 darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };
