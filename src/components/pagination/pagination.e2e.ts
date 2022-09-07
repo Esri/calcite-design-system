@@ -197,41 +197,39 @@ describe("calcite-pagination", () => {
       hi: ["1,49,99,997", "1,49,99,998", "1,49,99,999", "1,50,00,000"]
     };
 
+    async function getDisplayedValues(): Promise<string[]> {
+      const buttons = await page.findAll("calcite-pagination >>> .page");
+      const buttonsTestedForSeparator = buttons.slice(-4);
+      return buttonsTestedForSeparator.map((button) => button.innerText);
+    }
+
     beforeEach(async () => {
       page = await newE2EPage();
       await page.setContent(
         html`<calcite-pagination lang="en" group-separator total="150000000" num="10"></calcite-pagination>`
       );
+      await page.exposeFunction("getDisplayedValuesArray", getDisplayedValuesArray);
       element = await page.find("calcite-pagination");
 
       const buttons = await page.findAll(`calcite-pagination >>> .${CSS.page}`);
       const last = buttons[buttons.length - 1];
       await last.click();
-
-      const buttonListAbridged = await (await page.findAll(`calcite-pagination >>> .${CSS.page}`)).slice(-4);
-      getDisplayedValuesArray = async (): Promise<string[]> => {
-        return buttonListAbridged.map((page) => page.innerText);
-      };
-      await page.exposeFunction("getDisplayedValuesArray", getDisplayedValuesArray);
     });
 
     it("does not render separated when groupSeparator prop is false", async () => {
       element.setProperty("groupSeparator", false);
       await page.waitForChanges();
 
-      noSeparator = await page.$eval("calcite-pagination", async (): Promise<string[]> => {
-        return await getDisplayedValuesArray();
-      });
-      expect(await element.getProperty("groupSeparator")).toBe(false);
+      noSeparator = await getDisplayedValues();
       expect(noSeparator).toEqual(expectedNotSeparatedValueArray);
+      expect(await element.getProperty("groupSeparator")).toBe(false);
 
       element.setProperty("lang", "fr");
       await page.waitForChanges();
 
-      noSeparator = await page.$eval("calcite-pagination", async (): Promise<string[]> => {
-        return await getDisplayedValuesArray();
-      });
+      noSeparator = await getDisplayedValues();
       expect(noSeparator).toEqual(expectedNotSeparatedValueArray);
+      expect(await element.getProperty("groupSeparator")).toBe(false);
     });
 
     it("displays group separator for multiple locales", async () => {
@@ -239,9 +237,7 @@ describe("calcite-pagination", () => {
         element.setProperty("lang", lang);
         await page.waitForChanges();
 
-        withSeparator = await page.$eval("calcite-pagination", async (): Promise<string[]> => {
-          return await getDisplayedValuesArray();
-        });
+        withSeparator = await getDisplayedValues();
         expect(withSeparator).toEqual(formattedValuesArr);
       };
 
