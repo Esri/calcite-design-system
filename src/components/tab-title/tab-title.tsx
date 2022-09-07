@@ -200,7 +200,7 @@ export class TabTitle implements InteractiveComponent {
             container: true,
             "container--has-text": this.hasText
           }}
-          ref={(el) => (this.containerEl = el as HTMLDivElement)}
+          ref={(el) => this.resizeObserver?.observe(el)}
         >
           {this.iconStart ? iconStartEl : null}
           <slot />
@@ -218,7 +218,6 @@ export class TabTitle implements InteractiveComponent {
     updateHostInteraction(this, () => {
       return this.selected;
     });
-    this.resizeObserver?.observe(this.containerEl);
   }
 
   //--------------------------------------------------------------------------
