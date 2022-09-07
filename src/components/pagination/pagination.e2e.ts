@@ -204,16 +204,9 @@ describe("calcite-pagination", () => {
       );
       element = await page.find("calcite-pagination");
 
-      // assign temporary class to the last displayed page to query outside of evaluate
-      await page.evaluate(() => {
-        const el = document.querySelector("calcite-pagination");
-        const lastButton = Array.from(el.shadowRoot.querySelectorAll("button")).find((el) => {
-          return el.innerText === "15,000,000";
-        });
-        lastButton.classList.add("lastPage");
-      });
-      const lastButton = await page.find(`calcite-pagination >>> .lastPage`);
-      await lastButton.click();
+      const buttons = await page.findAll(`calcite-pagination >>> .${CSS.page}`);
+      const last = buttons[buttons.length - 1];
+      await last.click();
 
       const buttonListAbridged = await (await page.findAll(`calcite-pagination >>> .${CSS.page}`)).slice(-4);
       getDisplayedValuesArray = async (): Promise<string[]> => {
