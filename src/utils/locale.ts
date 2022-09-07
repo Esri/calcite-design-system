@@ -144,14 +144,18 @@ export function getSupportedLang(lang: string): string {
 
   lang = lang.toLowerCase();
 
+  // we support both 'nb' and 'no' (BCP 47) for Norwegian
+  if (lang === "nb") {
+    return "no";
+  }
+
   if (lang.includes("-")) {
     lang = lang.replace(/(\w+)-(\w+)/, (_match, language, region) => `${language}-${region.toUpperCase()}`);
 
     if (!locales.includes(lang)) {
       lang = lang.split("-")[0];
     }
-  } else if (lang === "nb") {
-    return "no";
   }
+
   return locales.includes(lang) ? lang : "en";
 }
