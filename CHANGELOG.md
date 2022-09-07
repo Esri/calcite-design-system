@@ -7,17 +7,25 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## Unreleased
 
+### ⚠ BREAKING CHANGES
+
+- **slider:** For consistency, a `groupSeparator` prop was introduced to opt-into including the localized, numeric group separator in labels. Before this change, labels automatically included the group separator when rendered. In order to keep this behavior, developers will need to set `groupSeparator = true` (prop), or `group-separator` (attribute) on the component.
+
+Co-authored-by: JC Franco <jfranco@esri.com>
+
 ### Features
 
 - **accordion-item,radio-group-item:** deprecate iconPosition & icon and add support for iconStart and iconEnd ([#4807](https://github.com/Esri/calcite-components/issues/4807)) ([40a3f11](https://github.com/Esri/calcite-components/commit/40a3f11fb790e6e5916f91b37abba74b6b75158a)), closes [#4688](https://github.com/Esri/calcite-components/issues/4688)
 - **flow:** Adds flow-item component to replace use of panel within a flow ([#5129](https://github.com/Esri/calcite-components/issues/5129)) ([6f6316c](https://github.com/Esri/calcite-components/commit/6f6316c8532e1876aadc63f71c3e4095db2af3b6)), closes [#5071](https://github.com/Esri/calcite-components/issues/5071)
 - **input-time-picker:** deprecate active prop and add open prop ([#5179](https://github.com/Esri/calcite-components/issues/5179)) ([7223e66](https://github.com/Esri/calcite-components/commit/7223e66a882eacbbb8dc24eb349dfc214608ce06))
 - **link:** add support for HTMLElement.click() ([#5231](https://github.com/Esri/calcite-components/issues/5231)) ([8294509](https://github.com/Esri/calcite-components/commit/8294509f0077f2b83d3e24d9482511f53de5482c)), closes [#4212](https://github.com/Esri/calcite-components/issues/4212)
+- **slider:** add a groupSeparator prop to enable toggling display of separator in label ([#5138](https://github.com/Esri/calcite-components/issues/5138)) ([5720f12](https://github.com/Esri/calcite-components/commit/5720f12cd8c585e35348c9b7d62236035f84a302)), closes [#4976](https://github.com/Esri/calcite-components/issues/4976)
 
 ### Bug Fixes
 
 - **card:** drop hover/press styling ([#5212](https://github.com/Esri/calcite-components/issues/5212)) ([7740137](https://github.com/Esri/calcite-components/commit/774013727424ea2ce1ccbc5ff43c25aa7c95b362)), closes [#5204](https://github.com/Esri/calcite-components/issues/5204)
 - **input-date-picker:** end date time is set to end of the day ([#5220](https://github.com/Esri/calcite-components/issues/5220)) ([a2166f7](https://github.com/Esri/calcite-components/commit/a2166f7add0b779cf2233c219648e0beed26510a)), closes [#5027](https://github.com/Esri/calcite-components/issues/5027)
+- **list-item:** Use margin instead of padding when slotting icons. ([#5277](https://github.com/Esri/calcite-components/issues/5277)) ([5f05989](https://github.com/Esri/calcite-components/commit/5f059890a1b641ddb9a06e039678c4da58efa5d2))
 - **modal:** close button padding is aligned ([#5217](https://github.com/Esri/calcite-components/issues/5217)) ([4051a70](https://github.com/Esri/calcite-components/commit/4051a703b56c076b4100b531991b9f5167394e98)), closes [#5210](https://github.com/Esri/calcite-components/issues/5210)
 - **time-picker, input-time-picker:** initialize meridiem at the start of the time for rtl locales ([#5246](https://github.com/Esri/calcite-components/issues/5246)) ([4207654](https://github.com/Esri/calcite-components/commit/4207654476859e4c6e6413607da09dfb3a01836d)), closes [#4957](https://github.com/Esri/calcite-components/issues/4957)
 <!--@unreleased-section-end-->
