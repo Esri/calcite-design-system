@@ -20,8 +20,8 @@ jobs:
             // no optional chaining support
             // https://github.com/actions/github-script/pull/182
             const milestone_number =
-              (issue && issue.milestone.number) ||
-              (pull_request && pull_request.milestone.number);
+              (issue && issue.milestone && issue.milestone.number) ||
+              (pull_request && pull_request.milestone && pull_request.milestone.number);
 
             if (!milestone_number) {
               console.log("No milestone found, ending run.");
