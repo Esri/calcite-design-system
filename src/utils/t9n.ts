@@ -3,6 +3,8 @@ import { getSupportedLang } from "./locale";
 
 export type StringBundle = Record<string, string>;
 
+export const stringBundleCache: Record<string, Promise<StringBundle>> = {};
+
 export async function getStringBundle(lang: string, component: string): Promise<StringBundle> {
   let strings: StringBundle;
 
@@ -16,19 +18,24 @@ export async function getStringBundle(lang: string, component: string): Promise<
 }
 
 async function fetchBundle(lang: string, component: string): Promise<StringBundle> {
-  let response: Response;
+  const id = `${component}_${lang}`;
 
-  try {
-    response = await fetch(getAssetPath(`./assets/${component}/t9n/${lang}.json`));
-  } catch (error) {
-    throwStringFetchError();
-  } finally {
-    if (!response.ok) {
-      throwStringFetchError();
-    }
+  if (stringBundleCache?.id) {
+    return await stringBundleCache[id];
   }
 
-  return response.json() as Promise<StringBundle>;
+  stringBundleCache[id] = fetch(getAssetPath(`./assets/${component}/t9n/${lang}.json`))
+    .then((resp) => {
+      if (!resp.ok) {
+        throwStringFetchError();
+      }
+      return resp.json();
+    })
+    .catch(() => {
+      throwStringFetchError();
+    });
+
+  return await stringBundleCache[id];
 }
 
 function throwStringFetchError(): never {
