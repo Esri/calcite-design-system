@@ -141,7 +141,7 @@ export const simple = stepStory(
 
     .executeScript(
       setKnobs({
-        story: "components-controls-datepicker--default",
+        story: "components-controls-datepicker--simple",
         knobs: [{ name: "dir", value: "rtl" }]
       })
     )
@@ -149,7 +149,7 @@ export const simple = stepStory(
 
     .executeScript(
       setKnobs({
-        story: "components-controls-datepicker--default",
+        story: "components-controls-datepicker--simple",
         knobs: []
       })
     )
@@ -159,7 +159,7 @@ export const simple = stepStory(
     .executeScript(setTheme("light"))
     .executeScript(
       setKnobs({
-        story: "components-controls-datepicker--default",
+        story: "components-controls-datepicker--simple",
         knobs: [
           { name: "end", value: "2020-02-16" },
           { name: "min", value: "2016-08-09" },
@@ -172,7 +172,7 @@ export const simple = stepStory(
 
     .executeScript(
       setKnobs({
-        story: "components-controls-datepicker--default",
+        story: "components-controls-datepicker--simple",
         knobs: [
           { name: "dir", value: "rtl" },
           { name: "end", value: "2020-02-16" },
@@ -186,7 +186,7 @@ export const simple = stepStory(
 
     .executeScript(
       setKnobs({
-        story: "components-controls-datepicker--default",
+        story: "components-controls-datepicker--simple",
         knobs: [{ name: "value", value: "2022-03-15" }]
       })
     )
@@ -201,7 +201,7 @@ export const simple = stepStory(
 
     .executeScript(
       setKnobs({
-        story: "components-controls-datepicker--default",
+        story: "components-controls-datepicker--simple",
         knobs: [{ name: "locale", value: "bg" }]
       })
     )
@@ -209,7 +209,7 @@ export const simple = stepStory(
 
     .executeScript(
       setKnobs({
-        story: "components-controls-datepicker--default",
+        story: "components-controls-datepicker--simple",
         knobs: [{ name: "locale", value: "pt-PT" }]
       })
     )
@@ -217,7 +217,7 @@ export const simple = stepStory(
 
     .executeScript(
       setKnobs({
-        story: "components-controls-datepicker--default",
+        story: "components-controls-datepicker--simple",
         knobs: [{ name: "locale", value: "ru" }]
       })
     )
@@ -225,7 +225,7 @@ export const simple = stepStory(
 
     .executeScript(
       setKnobs({
-        story: "components-controls-datepicker--default",
+        story: "components-controls-datepicker--simple",
         knobs: [{ name: "locale", value: "th" }]
       })
     )
@@ -233,7 +233,7 @@ export const simple = stepStory(
 
     .executeScript(
       setKnobs({
-        story: "components-controls-datepicker--default",
+        story: "components-controls-datepicker--simple",
         knobs: [
           { name: "locale", value: "de" },
           { name: "value", value: "2022-08-11" }
@@ -244,7 +244,7 @@ export const simple = stepStory(
 
     .executeScript(
       setKnobs({
-        story: "components-controls-datepicker--default",
+        story: "components-controls-datepicker--simple",
         knobs: [
           { name: "locale", value: "es" },
           { name: "value", value: "2023-05-11" }
@@ -255,7 +255,7 @@ export const simple = stepStory(
 
     .executeScript(
       setKnobs({
-        story: "components-controls-datepicker--default",
+        story: "components-controls-datepicker--simple",
         knobs: [
           { name: "locale", value: "nb" },
           { name: "value", value: "2023-05-11" }
@@ -266,7 +266,7 @@ export const simple = stepStory(
 
     .executeScript(
       setKnobs({
-        story: "components-controls-datepicker--default",
+        story: "components-controls-datepicker--simple",
         knobs: [
           { name: "locale", value: "en-gb" },
           { name: "value", value: "2024-01-11" }
