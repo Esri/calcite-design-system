@@ -1,5 +1,5 @@
 {
-  "intlEnablingEditing": "Click to edit",
-  "intlCancelEditing": "Cancel",
-  "intlConfirmChanges": "Save"
+  "enablingEditing": "Click to edit",
+  "cancelEditing": "Cancel",
+  "confirmChanges": "Save"
 }
