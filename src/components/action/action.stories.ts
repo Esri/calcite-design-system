@@ -133,23 +133,27 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
 };
 
 export const simple = (): string =>
-  html`<div style="width: 150px">
+  html`<div>
     ${create(
       "calcite-action",
-      createAttributes({ exceptions: ["icon"] }).concat([
+      createAttributes({ exceptions: ["icon", "text"] }).concat([
         {
           name: "icon",
           value: "banana"
+        },
+        {
+          name: "text",
+          value: ""
         }
       ])
     )}
   </div>`;
 
-export const disabledAndCompact_TestOnly = (): string =>
-  html`<div style="width: 150px">
+export const disabledAndCompactAndTextOnly_TestOnly = (): string =>
+  html`<div>
     ${create(
       "calcite-action",
-      createAttributes({ exceptions: ["compact", "disabled", "icon"] }).concat([
+      createAttributes({ exceptions: ["compact", "disabled"] }).concat([
         { name: "compact", value: true },
         { name: "disabled", value: true }
       ])
@@ -157,51 +161,38 @@ export const disabledAndCompact_TestOnly = (): string =>
   </div>`;
 
 export const activeAndAppearanceClear_TestOnly = (): string =>
-  html`<div style="width: 150px">
+  html`<div>
     ${create(
       "calcite-action",
       createAttributes({ exceptions: ["icon", "appearance", "active"] }).concat([
-        { name: "appearance", value: "clear" },
-        { name: "active", value: true }
+        { name: "active", value: true },
+        { name: "icon", value: "banana" },
+        { name: "appearance", value: "clear" }
       ])
     )}
   </div>`;
 
-export const indicatorAndText_TestOnly = (): string =>
-  html`<div style="width: 150px">
+export const alignmentEndAndSmallScaleAndIndicator_TestOnly = (): string =>
+  html`<div style="width: 300px">
     ${create(
       "calcite-action",
-      createAttributes({ exceptions: ["icon", "indicator", "textEnabled", "text"] }).concat([
-        { name: "textEnabled", value: true },
-        { name: "text", value: "Blah" },
-        { name: "indicator", value: true }
-      ])
-    )}
-  </div>`;
-
-export const alignmentStartSmallScale_TestOnly = (): string =>
-  html`<div style="width: 150px">
-    ${create(
-      "calcite-action",
-      createAttributes({ exceptions: ["icon", "indicator", "textEnabled", "text", "alignment", "scale"] }).concat([
-        { name: "textEnabled", value: true },
-        { name: "text", value: "Blah" },
+      createAttributes({ exceptions: ["icon", "indicator", "alignment", "scale"] }).concat([
+        { name: "icon", value: "banana" },
+        { name: "alignment", value: "end" },
         { name: "indicator", value: true },
-        { name: "alignment", value: "start" },
         { name: "scale", value: "s" }
       ])
     )}
   </div>`;
 
-export const alignmentEndLargeScaleTextOverflow_TestOnly = (): string =>
+export const alignmentStartAndLargeScaleAndTextOverflow_TestOnly = (): string =>
   html`<div style="width: 150px">
     ${create(
       "calcite-action",
-      createAttributes({ exceptions: ["icon", "indicator", "textEnabled", "text", "alignment", "scale"] }).concat([
-        { name: "textEnabled", value: true },
+      createAttributes({ exceptions: ["icon", "text", "alignment", "scale"] }).concat([
+        { name: "icon", value: "banana" },
         { name: "text", value: "Blah blah blah blah blah blah blah blah blah blah" },
-        { name: "indicator", value: true },
-        { name: "alignment", value: "end" },
+        { name: "alignment", value: "start" },
         { name: "scale", value: "l" }
       ])
     )}
@@ -219,13 +210,11 @@ export const arabicLocale_TestOnly = (): string => html`
 `;
 
 export const darkThemeRTL_TestOnly = (): string =>
-  html`<div style="width: 150px">
+  html`<div>
     ${create(
       "calcite-action",
-      createAttributes({ exceptions: ["icon", "indicator", "textEnabled", "text", "class", "dir"] }).concat([
-        { name: "textEnabled", value: true },
-        { name: "text", value: "Blah" },
-        { name: "indicator", value: true },
+      createAttributes({ exceptions: ["icon", "class", "dir"] }).concat([
+        { name: "icon", value: "banana" },
         { name: "class", value: "calcite-theme-dark" },
         { name: "dir", value: "rtl" }
       ])
