@@ -27,6 +27,14 @@ import {
   HiddenFormInputSlot
 } from "../../utils/form";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import { isActivationKey } from "../../utils/key";
+import { localizeNumberString } from "../../utils/locale";
+import {
+  GlobalAttrComponent,
+  watchGlobalAttributes,
+  unwatchGlobalAttributes
+} from "../../utils/globalAttributes";
+import { CSS } from "./resources";
 
 type ActiveSliderProperty = "minValue" | "maxValue" | "value" | "minMaxValue";
 
@@ -39,7 +47,9 @@ function isRange(value: number | number[]): value is number[] {
   styleUrl: "slider.scss",
   shadow: true
 })
-export class Slider implements LabelableComponent, FormComponent, InteractiveComponent {
+export class Slider
+  implements LabelableComponent, FormComponent, InteractiveComponent, GlobalAttrComponent
+{
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -53,14 +63,19 @@ export class Slider implements LabelableComponent, FormComponent, InteractiveCom
   //
   //--------------------------------------------------------------------------
 
-  /** Disable and gray out the slider */
+  /** When true, interaction is prevented and the component is displayed with lower opacity. */
   @Prop({ reflect: true }) disabled = false;
 
-  /** Indicates if a histogram is present */
+  /**
+   * When true, number values are displayed with a group separator corresponding to the language and country format.
+   */
+  @Prop({ reflect: true }) groupSeparator = false;
+
+  /** When true, indicates a histogram is present. */
   @Prop({ reflect: true, mutable: true }) hasHistogram = false;
 
   /**
-   * List of x,y coordinates within the slider's min and max, displays above the slider track.
+   * A list of the histogram's x,y coordinates within the component's "min" and "max". Displays above the component's track.
    *
    * @see [DataSeries](https://github.com/Esri/calcite-components/blob/master/src/components/graph/interfaces.ts#L5)
    */
@@ -72,32 +87,32 @@ export class Slider implements LabelableComponent, FormComponent, InteractiveCom
   }
 
   /**
-   * Array of values describing a single color stop, sorted by offset ascending.
+   * A set of single color stops for a histogram, sorted by offset ascending.
    */
   @Prop() histogramStops: ColorStop[];
 
-  /** Label handles with their numeric value */
+  /** When true, displays label handles with their numeric value. */
   @Prop({ reflect: true }) labelHandles = false;
 
-  /** Label tick marks with their numeric value. */
+  /** When true and "ticks" is specified, displays label tick marks with their numeric value. */
   @Prop({ reflect: true }) labelTicks = false;
 
-  /** Maximum selectable value */
+  /** The component's maximum selectable value. */
   @Prop({ reflect: true }) max = 100;
 
-  /** Used as an accessible label (aria-label) for second handle if needed (ex. "Temperature, upper bound") */
+  /** For multiple selections, the accessible name for the second handle, such as "Temperature, upper bound". */
   @Prop() maxLabel?: string;
 
-  /** Currently selected upper number (if multi-select) */
+  /** For multiple selections, the component's upper value. */
   @Prop({ mutable: true }) maxValue?: number;
 
-  /** Minimum selectable value */
+  /** The component's minimum selectable value. */
   @Prop({ reflect: true }) min = 0;
 
-  /** Used as an accessible label (aria-label) for first (or only) handle (ex. "Temperature, lower bound") */
+  /** Accessible name for first (or only) handle, such as "Temperature, lower bound". */
   @Prop() minLabel: string;
 
-  /** Currently selected lower number (if multi-select) */
+  /** For multiple selections, the component's lower value. */
   @Prop({ mutable: true }) minValue?: number;
 
   /**
@@ -107,30 +122,37 @@ export class Slider implements LabelableComponent, FormComponent, InteractiveCom
    */
   @Prop({ reflect: true }) mirrored = false;
 
-  /** The name of the slider */
+  /** Specifies the name of the component on form submission. */
   @Prop({ reflect: true }) name: string;
 
-  /** Interval to move on page up/page down keys */
+  /**
+   * Specifies the Unicode numeral system used by the component for localization.
+   *
+   * @mdn [numberingSystem](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/Locale/numberingSystem)
+   */
+  @Prop() numberingSystem?: string;
+
+  /** Specifies the interval to move with the page up, or page down keys. */
   @Prop() pageStep?: number;
 
-  /** Use finer point for handles */
+  /** When true, sets a finer point for handles. */
   @Prop() precise = false;
 
   /**
-   * When true, makes the component required for form-submission.
+   * When true, the component must have a value on form submission.
    */
   @Prop({ reflect: true }) required = false;
 
-  /** When true, enables snap selection along the step interval */
+  /** When true, enables snap selection in coordination with "step" via a mouse. */
   @Prop() snap = false;
 
-  /** Interval to move on up/down keys */
+  /** Specifies the interval to move with the up, or down keys. */
   @Prop() step?: number = 1;
 
-  /** Show tick marks on the number line at provided interval */
+  /** Displays tick marks on the number line at a specified interval. */
   @Prop() ticks?: number;
 
-  /** Currently selected number (if single select) */
+  /** The component's value. */
   @Prop({ reflect: true, mutable: true }) value: null | number | number[] = 0;
 
   @Watch("value")
@@ -145,7 +167,7 @@ export class Slider implements LabelableComponent, FormComponent, InteractiveCom
   }
 
   /**
-   * Specify the scale of the slider, defaults to m
+   *  Specifies the size of the component.
    */
   @Prop() scale: Scale = "m";
 
@@ -160,12 +182,14 @@ export class Slider implements LabelableComponent, FormComponent, InteractiveCom
     this.setValueFromMinMax();
     connectLabel(this);
     connectForm(this);
+    watchGlobalAttributes(this, ["lang"]);
   }
 
   disconnectedCallback(): void {
     disconnectLabel(this);
     disconnectForm(this);
     this.removeDragListeners();
+    unwatchGlobalAttributes(this);
   }
 
   componentWillLoad(): void {
@@ -200,6 +224,8 @@ export class Slider implements LabelableComponent, FormComponent, InteractiveCom
     const id = this.el.id || this.guid;
     const maxProp = isRange(this.value) ? "maxValue" : "value";
     const value = isRange(this.value) ? this.maxValue : this.value;
+    const displayedValue = this.determineGroupSeparator(value);
+    const displayedMinValue = this.determineGroupSeparator(this.minValue);
     const min = this.minValue || this.min;
     const useMinValue = this.shouldUseMinValue();
     const minInterval = this.getUnitInterval(useMinValue ? this.minValue : min) * 100;
@@ -208,6 +234,8 @@ export class Slider implements LabelableComponent, FormComponent, InteractiveCom
     const leftThumbOffset = `${mirror ? 100 - minInterval : minInterval}%`;
     const rightThumbOffset = `${mirror ? maxInterval : 100 - maxInterval}%`;
     const valueIsRange = isRange(this.value);
+    const handleLabelMinValueClasses = `${CSS.handleLabel} ${CSS.handleLabelMinValue}`;
+    const handleLabelValueClasses = `${CSS.handleLabel} ${CSS.handleLabelValue}`;
 
     const handle = (
       <div
@@ -255,14 +283,14 @@ export class Slider implements LabelableComponent, FormComponent, InteractiveCom
         style={{ right: rightThumbOffset }}
         tabIndex={0}
       >
-        <span aria-hidden="true" class="handle__label handle__label--value">
-          {value ? value.toLocaleString() : value}
+        <span aria-hidden="true" class={handleLabelValueClasses}>
+          {displayedValue}
         </span>
-        <span aria-hidden="true" class="handle__label handle__label--value static">
-          {value ? value.toLocaleString() : value}
+        <span aria-hidden="true" class={`${handleLabelValueClasses} static`}>
+          {displayedValue}
         </span>
-        <span aria-hidden="true" class="handle__label handle__label--value transformed">
-          {value ? value.toLocaleString() : value}
+        <span aria-hidden="true" class={`${handleLabelValueClasses} transformed`}>
+          {displayedValue}
         </span>
         <div class="handle" />
       </div>
@@ -290,14 +318,14 @@ export class Slider implements LabelableComponent, FormComponent, InteractiveCom
         tabIndex={0}
       >
         <div class="handle" />
-        <span aria-hidden="true" class="handle__label handle__label--value">
-          {value ? value.toLocaleString() : value}
+        <span aria-hidden="true" class={handleLabelValueClasses}>
+          {displayedValue}
         </span>
-        <span aria-hidden="true" class="handle__label handle__label--value static">
-          {value ? value.toLocaleString() : value}
+        <span aria-hidden="true" class={`${handleLabelValueClasses} static`}>
+          {displayedValue}
         </span>
-        <span aria-hidden="true" class="handle__label handle__label--value transformed">
-          {value ? value.toLocaleString() : value}
+        <span aria-hidden="true" class={`${handleLabelValueClasses} transformed`}>
+          {displayedValue}
         </span>
       </div>
     );
@@ -378,14 +406,14 @@ export class Slider implements LabelableComponent, FormComponent, InteractiveCom
         style={{ right: rightThumbOffset }}
         tabIndex={0}
       >
-        <span aria-hidden="true" class="handle__label handle__label--value">
-          {value ? value.toLocaleString() : value}
+        <span aria-hidden="true" class={handleLabelValueClasses}>
+          {displayedValue}
         </span>
-        <span aria-hidden="true" class="handle__label handle__label--value static">
-          {value ? value.toLocaleString() : value}
+        <span aria-hidden="true" class={`${handleLabelValueClasses} static`}>
+          {displayedValue}
         </span>
-        <span aria-hidden="true" class="handle__label handle__label--value transformed">
-          {value ? value.toLocaleString() : value}
+        <span aria-hidden="true" class={`${handleLabelValueClasses} transformed`}>
+          {displayedValue}
         </span>
         <div class="handle" />
         <div class="handle-extension" />
@@ -416,14 +444,14 @@ export class Slider implements LabelableComponent, FormComponent, InteractiveCom
       >
         <div class="handle-extension" />
         <div class="handle" />
-        <span aria-hidden="true" class="handle__label handle__label--value">
-          {value ? value.toLocaleString() : value}
+        <span aria-hidden="true" class={handleLabelValueClasses}>
+          {displayedValue}
         </span>
-        <span aria-hidden="true" class="handle__label handle__label--value static">
-          {value ? value.toLocaleString() : value}
+        <span aria-hidden="true" class={`${handleLabelValueClasses} static`}>
+          {displayedValue}
         </span>
-        <span aria-hidden="true" class="handle__label handle__label--value transformed">
-          {value ? value.toLocaleString() : value}
+        <span aria-hidden="true" class={`${handleLabelValueClasses} transformed`}>
+          {displayedValue}
         </span>
       </div>
     );
@@ -474,14 +502,14 @@ export class Slider implements LabelableComponent, FormComponent, InteractiveCom
         style={{ left: leftThumbOffset }}
         tabIndex={0}
       >
-        <span aria-hidden="true" class="handle__label handle__label--minValue">
-          {this.minValue && this.minValue.toLocaleString()}
+        <span aria-hidden="true" class={handleLabelMinValueClasses}>
+          {displayedMinValue}
         </span>
-        <span aria-hidden="true" class="handle__label handle__label--minValue static">
-          {this.minValue && this.minValue.toLocaleString()}
+        <span aria-hidden="true" class={`${handleLabelMinValueClasses} static`}>
+          {displayedMinValue}
         </span>
-        <span aria-hidden="true" class="handle__label handle__label--minValue transformed">
-          {this.minValue && this.minValue.toLocaleString()}
+        <span aria-hidden="true" class={`${handleLabelMinValueClasses} transformed`}>
+          {displayedMinValue}
         </span>
         <div class="handle" />
       </div>
@@ -509,14 +537,14 @@ export class Slider implements LabelableComponent, FormComponent, InteractiveCom
         tabIndex={0}
       >
         <div class="handle" />
-        <span aria-hidden="true" class="handle__label handle__label--minValue">
-          {this.minValue && this.minValue.toLocaleString()}
+        <span aria-hidden="true" class={handleLabelMinValueClasses}>
+          {displayedMinValue}
         </span>
-        <span aria-hidden="true" class="handle__label handle__label--minValue static">
-          {this.minValue && this.minValue.toLocaleString()}
+        <span aria-hidden="true" class={`${handleLabelMinValueClasses} static`}>
+          {displayedMinValue}
         </span>
-        <span aria-hidden="true" class="handle__label handle__label--minValue transformed">
-          {this.minValue && this.minValue.toLocaleString()}
+        <span aria-hidden="true" class={`${handleLabelMinValueClasses} transformed`}>
+          {displayedMinValue}
         </span>
       </div>
     );
@@ -572,14 +600,14 @@ export class Slider implements LabelableComponent, FormComponent, InteractiveCom
       >
         <div class="handle-extension" />
         <div class="handle" />
-        <span aria-hidden="true" class="handle__label handle__label--minValue">
-          {this.minValue && this.minValue.toLocaleString()}
+        <span aria-hidden="true" class={handleLabelMinValueClasses}>
+          {displayedMinValue}
         </span>
-        <span aria-hidden="true" class="handle__label handle__label--minValue static">
-          {this.minValue && this.minValue.toLocaleString()}
+        <span aria-hidden="true" class={`${handleLabelMinValueClasses} static`}>
+          {displayedMinValue}
         </span>
-        <span aria-hidden="true" class="handle__label handle__label--minValue transformed">
-          {this.minValue && this.minValue.toLocaleString()}
+        <span aria-hidden="true" class={`${handleLabelMinValueClasses} transformed`}>
+          {displayedMinValue}
         </span>
       </div>
     );
@@ -678,15 +706,16 @@ export class Slider implements LabelableComponent, FormComponent, InteractiveCom
     const valueIsRange = isRange(this.value);
     const isMinTickLabel = tick === this.min;
     const isMaxTickLabel = tick === this.max;
+    const displayedTickValue = this.determineGroupSeparator(tick);
     const tickLabel = (
       <span
         class={{
           tick__label: true,
-          "tick__label--min": isMinTickLabel,
-          "tick__label--max": isMaxTickLabel
+          [CSS.tickMin]: isMinTickLabel,
+          [CSS.tickMax]: isMaxTickLabel
         }}
       >
-        {tick.toLocaleString()}
+        {displayedTickValue}
       </span>
     );
     if (this.labelTicks && !this.hasHistogram && !valueIsRange) {
@@ -763,9 +792,9 @@ export class Slider implements LabelableComponent, FormComponent, InteractiveCom
     const mirror = this.shouldMirror();
     const { activeProp, max, min, pageStep, step } = this;
     const value = this[activeProp];
-    const key = event.key;
+    const { key } = event;
 
-    if (key === "Enter" || key === " ") {
+    if (isActivationKey(key)) {
       event.preventDefault();
       return;
     }
@@ -799,14 +828,10 @@ export class Slider implements LabelableComponent, FormComponent, InteractiveCom
     this.setValue(activeProp, this.clamp(fixedDecimalAdjustment, activeProp));
   }
 
-  @Listen("click")
-  clickHandler(event: PointerEvent): void {
-    this.focusActiveHandle(event.clientX);
-  }
-
   @Listen("pointerdown")
   pointerDownHandler(event: PointerEvent): void {
     const x = event.clientX || event.pageX;
+    this.focusActiveHandle(x);
     const position = this.translate(x);
     let prop: ActiveSliderProperty = "value";
     if (isRange(this.value)) {
@@ -837,29 +862,32 @@ export class Slider implements LabelableComponent, FormComponent, InteractiveCom
   //
   //--------------------------------------------------------------------------
   /**
-   * Fires on all updates to the slider.
-   * :warning: Will be fired frequently during drag. If you are performing any
+   * Fires on all updates to the component.
+   *
+   * **Note:** Will be fired frequently during drag. If you are performing any
    * expensive operations consider using a debounce or throttle to avoid
    * locking up the main thread.
    */
-  @Event() calciteSliderInput: EventEmitter;
+  @Event({ cancelable: false }) calciteSliderInput: EventEmitter<void>;
 
   /**
-   * Fires on when the thumb is released on slider
-   * If you need to constantly listen to the drag event,
-   * please use calciteSliderInput instead
+   * Fires when the thumb is released on the component.
+   *
+   * **Note:** If you need to constantly listen to the drag event,
+   * use "calciteSliderInput" instead.
    */
-  @Event() calciteSliderChange: EventEmitter;
+  @Event({ cancelable: false }) calciteSliderChange: EventEmitter<void>;
 
   /**
-   * Fires on all updates to the slider.
-   * :warning: Will be fired frequently during drag. If you are performing any
+   * Fires on all updates to the component.
+   *
+   * **Note:** Will be fired frequently during drag. If you are performing any
    * expensive operations consider using a debounce or throttle to avoid
    * locking up the main thread.
    *
-   * @deprecated use calciteSliderInput instead
+   * @deprecated use "calciteSliderInput" instead.
    */
-  @Event() calciteSliderUpdate: EventEmitter;
+  @Event({ cancelable: false }) calciteSliderUpdate: EventEmitter<void>;
 
   //--------------------------------------------------------------------------
   //
@@ -909,6 +937,8 @@ export class Slider implements LabelableComponent, FormComponent, InteractiveCom
   @State() private maxValueDragRange: number = null;
 
   @State() private tickValues: number[] = [];
+
+  @State() globalAttributes = {};
 
   //--------------------------------------------------------------------------
   //
@@ -1396,4 +1426,18 @@ export class Slider implements LabelableComponent, FormComponent, InteractiveCom
     const handleBounds = handle.getBoundingClientRect();
     return intersects(maxLabelBounds, handleBounds);
   }
+
+  /**
+   * Returns a string representing the localized label value based on groupSeparator prop being on or off.
+   *
+   * @param value
+   */
+  private determineGroupSeparator = (value): string => {
+    const lang = this.globalAttributes["lang"] || document.documentElement.lang || "en";
+    if (value) {
+      return this.groupSeparator
+        ? localizeNumberString(value.toString(), lang, this.groupSeparator, this.numberingSystem)
+        : value;
+    }
+  };
 }

@@ -1,5 +1,5 @@
 import { Component, Element, Event, EventEmitter, h, Listen, Prop, VNode } from "@stencil/core";
-import { AccordionAppearance } from "./interfaces";
+import { AccordionAppearance, RequestedItem } from "./interfaces";
 import { Position, Scale } from "../interfaces";
 
 /**
@@ -26,7 +26,7 @@ export class Accordion {
   //--------------------------------------------------------------------------
 
   /** Specifies the appearance of the component. */
-  @Prop({ reflect: true }) appearance: AccordionAppearance = "default";
+  @Prop({ reflect: true }) appearance: AccordionAppearance = "solid";
 
   /** Specifies the placement of the icon in the header. */
   @Prop({ reflect: true }) iconPosition: Position = "end";
@@ -52,7 +52,7 @@ export class Accordion {
   /**
    * @internal
    */
-  @Event() calciteInternalAccordionChange: EventEmitter;
+  @Event({ cancelable: false }) calciteInternalAccordionChange: EventEmitter<RequestedItem>;
 
   //--------------------------------------------------------------------------
   //
@@ -68,12 +68,14 @@ export class Accordion {
   }
 
   render(): VNode {
+    const transparent = this.appearance === "transparent";
+    const minimal = this.appearance === "minimal";
     return (
       <div
         class={{
-          "accordion--transparent": this.appearance === "transparent",
-          "accordion--minimal": this.appearance === "minimal",
-          accordion: this.appearance === "default"
+          "accordion--transparent": transparent,
+          "accordion--minimal": minimal,
+          accordion: !transparent && !minimal
         }}
       >
         <slot />
@@ -88,12 +90,12 @@ export class Accordion {
   //--------------------------------------------------------------------------
 
   @Listen("calciteInternalAccordionItemKeyEvent")
-  calciteInternalAccordionItemKeyEvent(e: CustomEvent): void {
-    const item = e.detail.item;
-    const parent = e.detail.parent as HTMLCalciteAccordionElement;
+  calciteInternalAccordionItemKeyEvent(event: CustomEvent): void {
+    const item = event.detail.item;
+    const parent = event.detail.parent as HTMLCalciteAccordionElement;
     if (this.el === parent) {
-      const key = item.key;
-      const itemToFocus = e.target;
+      const { key } = item;
+      const itemToFocus = event.target;
       const isFirstItem = this.itemIndex(itemToFocus) === 0;
       const isLastItem = this.itemIndex(itemToFocus) === this.items.length - 1;
       switch (key) {
@@ -119,20 +121,20 @@ export class Accordion {
           break;
       }
     }
-    e.stopPropagation();
+    event.stopPropagation();
   }
 
   @Listen("calciteInternalAccordionItemRegister")
-  registerCalciteAccordionItem(e: CustomEvent): void {
+  registerCalciteAccordionItem(event: CustomEvent): void {
     const item = {
-      item: e.target as HTMLCalciteAccordionItemElement,
-      parent: e.detail.parent as HTMLCalciteAccordionElement,
-      position: e.detail.position as number
+      item: event.target as HTMLCalciteAccordionItemElement,
+      parent: event.detail.parent as HTMLCalciteAccordionElement,
+      position: event.detail.position as number
     };
     if (this.el === item.parent) {
       this.items.push(item);
     }
-    e.stopPropagation();
+    event.stopPropagation();
   }
 
   @Listen("calciteInternalAccordionItemSelect")
@@ -175,20 +177,20 @@ export class Accordion {
     this.focusElement(lastItem);
   }
 
-  private focusNextItem(e): void {
-    const index = this.itemIndex(e);
+  private focusNextItem(el): void {
+    const index = this.itemIndex(el);
     const nextItem = this.items[index + 1] || this.items[0];
     this.focusElement(nextItem);
   }
 
-  private focusPrevItem(e): void {
-    const index = this.itemIndex(e);
+  private focusPrevItem(el): void {
+    const index = this.itemIndex(el);
     const prevItem = this.items[index - 1] || this.items[this.items.length - 1];
     this.focusElement(prevItem);
   }
 
-  private itemIndex(e): number {
-    return this.items.indexOf(e);
+  private itemIndex(el): number {
+    return this.items.indexOf(el);
   }
 
   private focusElement(item) {

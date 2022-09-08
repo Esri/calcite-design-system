@@ -13,7 +13,7 @@ $loader-scale: 54;
 $loader-circumference: ($loader-scale - (2 * $stroke-width)) * 3.14159;
 
 :host {
-  @apply relative mx-auto hidden items-center justify-center py-16 opacity-100;
+  @apply relative mx-auto hidden items-center justify-center opacity-100;
   min-block-size: var(--calcite-loader-size);
   font-size: var(--calcite-loader-font-size);
   stroke: var(--calcite-ui-brand);
@@ -21,6 +21,7 @@ $loader-circumference: ($loader-scale - (2 * $stroke-width)) * 3.14159;
   fill: none;
   transform: scale(1, 1);
   animation: loader-color-shift 6s alternate-reverse infinite linear;
+  padding-block: var(--calcite-loader-padding, theme("spacing.16"));
 }
 
 :host([scale="s"]) {

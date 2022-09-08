@@ -30,11 +30,15 @@ describe("calcite-popover-manager", () => {
     await page.waitForChanges();
     const popovers = await page.findAll("calcite-popover");
     expect(popovers.length).toBe(2);
-    popovers.forEach(async (popover) => expect(await popover.getProperty("autoClose")).toBe(false));
+    for (const popover of popovers) {
+      expect(await popover.getProperty("autoClose")).toBe(false);
+    }
     const manager = await page.find("calcite-popover-manager");
     expect(await manager.getProperty("autoClose")).toBe(false);
     manager.setProperty("autoClose", true);
     await page.waitForChanges();
-    popovers.forEach(async (popover) => expect(await popover.getProperty("autoClose")).toBe(true));
+    for (const popover of popovers) {
+      expect(await popover.getProperty("autoClose")).toBe(true);
+    }
   });
 });

@@ -62,9 +62,9 @@ Renders a group of `calcite-action`s contained in a `calcite-action-group`. Acti
 
 ## Events
 
-| Event                    | Description                                    | Type               |
-| ------------------------ | ---------------------------------------------- | ------------------ |
-| `calciteActionPadToggle` | Emits when the `expanded` property is toggled. | `CustomEvent<any>` |
+| Event                    | Description                                    | Type                |
+| ------------------------ | ---------------------------------------------- | ------------------- |
+| `calciteActionPadToggle` | Emits when the `expanded` property is toggled. | `CustomEvent<void>` |
 
 ## Methods
 
@@ -82,6 +82,12 @@ Type: `Promise<void>`
 | ------------------ | -------------------------------------------------------- |
 |                    | A slot for adding `calcite-action`s to the component.    |
 | `"expand-tooltip"` | Used to set the `calcite-tooltip` for the expand toggle. |
+
+## CSS Custom Properties
+
+| Name                                      | Description                                                                            |
+| ----------------------------------------- | -------------------------------------------------------------------------------------- |
+| `--calcite-action-pad-expanded-max-width` | optionally specify the expanded max width of the action pad when in "vertical" layout. |
 
 ## Dependencies
 

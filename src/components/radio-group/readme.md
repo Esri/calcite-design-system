@@ -17,22 +17,22 @@
 
 ## Properties
 
-| Property       | Attribute       | Description                                                         | Type                                   | Default        |
-| -------------- | --------------- | ------------------------------------------------------------------- | -------------------------------------- | -------------- |
-| `appearance`   | `appearance`    | specify the appearance style of the radio group, defaults to solid. | `"outline" \| "solid"`                 | `"solid"`      |
-| `disabled`     | `disabled`      | is the radio group disabled                                         | `boolean`                              | `false`        |
-| `layout`       | `layout`        | specify the layout of the radio group, defaults to horizontal       | `"grid" \| "horizontal" \| "vertical"` | `"horizontal"` |
-| `name`         | `name`          | The group's name. Gets submitted with the form.                     | `string`                               | `undefined`    |
-| `scale`        | `scale`         | The scale of the radio group                                        | `"l" \| "m" \| "s"`                    | `"m"`          |
-| `selectedItem` | `selected-item` | The group's selected item.                                          | `HTMLCalciteRadioGroupItemElement`     | `undefined`    |
-| `value`        | `value`         | The value of the selectedItem                                       | `string`                               | `null`         |
-| `width`        | `width`         | specify the width of the group, defaults to auto                    | `"auto" \| "full"`                     | `"auto"`       |
+| Property       | Attribute       | Description                                                                            | Type                                   | Default        |
+| -------------- | --------------- | -------------------------------------------------------------------------------------- | -------------------------------------- | -------------- |
+| `appearance`   | `appearance`    | Specifies the appearance style of the component.                                       | `"outline" \| "solid"`                 | `"solid"`      |
+| `disabled`     | `disabled`      | When true, interaction is prevented and the component is displayed with lower opacity. | `boolean`                              | `false`        |
+| `layout`       | `layout`        | Defines the layout of the component.                                                   | `"grid" \| "horizontal" \| "vertical"` | `"horizontal"` |
+| `name`         | `name`          | Specifies the name of the component on form submission.                                | `string`                               | `undefined`    |
+| `scale`        | `scale`         | Specifies the size of the component.                                                   | `"l" \| "m" \| "s"`                    | `"m"`          |
+| `selectedItem` | `selected-item` | The component's selected item `HTMLElement`.                                           | `HTMLCalciteRadioGroupItemElement`     | `undefined`    |
+| `value`        | `value`         | The component's "selectedItem" value.                                                  | `string`                               | `null`         |
+| `width`        | `width`         | Specifies the width of the component.                                                  | `"auto" \| "full"`                     | `"auto"`       |
 
 ## Events
 
-| Event                     | Description                                                           | Type                  |
-| ------------------------- | --------------------------------------------------------------------- | --------------------- |
-| `calciteRadioGroupChange` | Fired when the selected option changes, event detail is the new value | `CustomEvent<string>` |
+| Event                     | Description                                                                      | Type                  |
+| ------------------------- | -------------------------------------------------------------------------------- | --------------------- |
+| `calciteRadioGroupChange` | Fires when the selected option changes, where the event detail is the new value. | `CustomEvent<string>` |
 
 ## Methods
 

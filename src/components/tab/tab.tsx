@@ -9,15 +9,16 @@ import {
   h,
   State,
   Host,
-  VNode
+  VNode,
+  Watch
 } from "@stencil/core";
 import { TabChangeEventDetail } from "./interfaces";
 import { guid } from "../../utils/guid";
-import { nodeListToArray, toAriaBoolean } from "../../utils/dom";
+import { nodeListToArray } from "../../utils/dom";
 import { Scale } from "../interfaces";
 
 /**
- * @slot - A slot for adding custom content.
+ * @slot - A slot for adding content to the component.
  */
 @Component({
   tag: "calcite-tab",
@@ -40,15 +41,37 @@ export class Tab {
   //--------------------------------------------------------------------------
 
   /**
-   * Optionally include a unique name for this tab,
-   * be sure to also set this name on the associated title.
+   * Specifies a unique name for the component.
+   *
+   * When specified, use the same value on the `calcite-tab-title`.
    */
-  @Prop({ reflect: true }) tab: string;
+  @Prop({ reflect: true }) tab?: string;
 
   /**
-   * Show this tab
+   * When true, the component's contents are selected.
+   *
+   * Only one tab can be selected within the `calcite-tabs` parent.
+   *
+   * @deprecated Use "selected" instead.
    */
   @Prop({ reflect: true, mutable: true }) active = false;
+
+  @Watch("active")
+  activeHandler(value: boolean): void {
+    this.selected = value;
+  }
+
+  /**
+   * When true, the component's contents are selected.
+   *
+   * Only one tab can be selected within the `calcite-tabs` parent.
+   */
+  @Prop({ reflect: true, mutable: true }) selected = false;
+
+  @Watch("selected")
+  selectedHandler(value: boolean): void {
+    this.active = value;
+  }
 
   /**
    * @internal
@@ -65,21 +88,24 @@ export class Tab {
     const id = this.el.id || this.guid;
 
     return (
-      <Host
-        aria-expanded={toAriaBoolean(this.active)}
-        aria-labelledby={this.labeledBy}
-        id={id}
-        role="tabpanel"
-      >
-        <section>
-          <slot />
-        </section>
+      <Host aria-labelledby={this.labeledBy} id={id}>
+        <div role="tabpanel" tabIndex={this.selected ? 0 : -1}>
+          <section>
+            <slot />
+          </section>
+        </div>
       </Host>
     );
   }
 
   connectedCallback(): void {
     this.parentTabsEl = this.el.closest("calcite-tabs");
+    const isSelected = this.selected || this.active;
+
+    if (isSelected) {
+      this.activeHandler(isSelected);
+      this.selectedHandler(isSelected);
+    }
   }
 
   componentDidLoad(): void {
@@ -108,7 +134,7 @@ export class Tab {
   /**
    * @internal
    */
-  @Event() calciteInternalTabRegister: EventEmitter;
+  @Event({ cancelable: false }) calciteInternalTabRegister: EventEmitter<void>;
 
   //--------------------------------------------------------------------------
   //
@@ -130,10 +156,10 @@ export class Tab {
     }
 
     if (this.tab) {
-      this.active = this.tab === event.detail.tab;
+      this.selected = this.tab === event.detail.tab;
     } else {
       this.getTabIndex().then((index) => {
-        this.active = index === event.detail.tab;
+        this.selected = index === event.detail.tab;
       });
     }
     event.stopPropagation();
@@ -146,12 +172,12 @@ export class Tab {
   //--------------------------------------------------------------------------
 
   /**
-   * Return the index of this tab within the tab array
+   * Returns the index of the component item within the tab array.
    */
   @Method()
   async getTabIndex(): Promise<number> {
     return Array.prototype.indexOf.call(
-      nodeListToArray(this.el.parentElement.children).filter((e) => e.matches("calcite-tab")),
+      nodeListToArray(this.el.parentElement.children).filter((el) => el.matches("calcite-tab")),
       this.el
     );
   }

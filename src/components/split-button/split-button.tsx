@@ -1,7 +1,7 @@
 import { Component, Element, Event, EventEmitter, h, Prop, VNode, Watch } from "@stencil/core";
 import { CSS } from "./resources";
 import { ButtonAppearance, ButtonColor, DropdownIconType } from "../button/interfaces";
-import { FlipContext, Scale, Width } from "../interfaces";
+import { DeprecatedEventPayload, FlipContext, Scale, Width } from "../interfaces";
 import { OverlayPositioning } from "../../utils/floating-ui";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 
@@ -16,13 +16,13 @@ import { InteractiveComponent, updateHostInteraction } from "../../utils/interac
 export class SplitButton implements InteractiveComponent {
   @Element() el: HTMLCalciteSplitButtonElement;
 
-  /** specify the appearance style of the button, defaults to solid. */
+  /** Specifies the appearance style of the component. */
   @Prop({ reflect: true }) appearance: ButtonAppearance = "solid";
 
-  /** specify the color of the control, defaults to blue */
+  /** Specifies the color of the component. */
   @Prop({ reflect: true }) color: ButtonColor = "blue";
 
-  /** is the control disabled  */
+  /** When true, interaction is prevented and the component is displayed with lower opacity. */
   @Prop({ reflect: true }) disabled = false;
 
   @Watch("disabled")
@@ -33,7 +33,7 @@ export class SplitButton implements InteractiveComponent {
   }
 
   /**
-   * Is the dropdown currently active or not
+   * When true, the component is active.
    *
    * @internal
    */
@@ -46,47 +46,61 @@ export class SplitButton implements InteractiveComponent {
     }
   }
 
-  /** specify the icon used for the dropdown menu, defaults to chevron */
+  /** Specifies the icon used for the dropdown menu. */
   @Prop({ reflect: true }) dropdownIconType: DropdownIconType = "chevron";
 
-  /** aria label for overflow button */
+  /** Accessible name for the dropdown menu. */
   @Prop({ reflect: true }) dropdownLabel?: string;
 
   /**
-    optionally add a calcite-loader component to the control,
-   disabling interaction. with the primary button
+    When true, a busy indicator is displayed on the primary button.
    */
   @Prop({ reflect: true }) loading = false;
 
-  /** Describes the type of positioning to use for the dropdown. If your element is in a fixed container, use the 'fixed' value. */
+  /**
+   * Determines the type of positioning to use for the overlaid content.
+   *
+   * Using the "absolute" value will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout. The "fixed" value should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is "fixed".
+   *
+   */
   @Prop() overlayPositioning: OverlayPositioning = "absolute";
 
-  /** optionally pass an icon to display at the end of the primary button - accepts Calcite UI icon names  */
+  /** Specifies an icon to display at the end of the primary button - accepts Calcite UI icon names. */
   @Prop({ reflect: true }) primaryIconEnd?: string;
 
-  /** flip the primary icon(s) in rtl */
+  /**  When true, the primary button icon will be flipped when the element direction is right-to-left ("rtl"). */
   @Prop({ reflect: true }) primaryIconFlipRtl?: FlipContext;
 
-  /** optionally pass an icon to display at the start of the primary button - accepts Calcite UI icon names  */
+  /** Specifies an icon to display at the start of the primary button - accepts Calcite UI icon names.  */
   @Prop({ reflect: true }) primaryIconStart?: string;
 
-  /** optionally pass an aria-label for the primary button */
+  /** Accessible name for the primary button. */
   @Prop({ reflect: true }) primaryLabel?: string;
 
-  /** text for primary action button  */
+  /** Text displayed in the primary button. */
   @Prop({ reflect: true }) primaryText: string;
 
-  /** specify the scale of the control, defaults to m */
+  /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
 
-  /** specify the width of the button, defaults to auto */
+  /** Specifies the width of the component. */
   @Prop({ reflect: true }) width: Width = "auto";
 
-  /** fired when the primary button is clicked */
-  @Event() calciteSplitButtonPrimaryClick: EventEmitter;
+  /**
+   * Fires when the primary button is clicked.
+   *
+   * **Note:** The event payload is deprecated, use separate mouse event listeners to get info about click.
+   */
+  @Event({ cancelable: false })
+  calciteSplitButtonPrimaryClick: EventEmitter<DeprecatedEventPayload>;
 
-  /** fired when the secondary button is clicked */
-  @Event() calciteSplitButtonSecondaryClick: EventEmitter;
+  /**
+   * Fires when the dropdown menu is clicked.
+   *
+   * **Note:** The event payload is deprecated, use separate mouse event listeners to get info about click.
+   */
+  @Event({ cancelable: false })
+  calciteSplitButtonSecondaryClick: EventEmitter<DeprecatedEventPayload>;
 
   //--------------------------------------------------------------------------
   //
@@ -155,11 +169,11 @@ export class SplitButton implements InteractiveComponent {
     );
   }
 
-  private calciteSplitButtonPrimaryClickHandler = (e: MouseEvent): CustomEvent =>
-    this.calciteSplitButtonPrimaryClick.emit(e);
+  private calciteSplitButtonPrimaryClickHandler = (event: MouseEvent): CustomEvent =>
+    this.calciteSplitButtonPrimaryClick.emit(event);
 
-  private calciteSplitButtonSecondaryClickHandler = (e: MouseEvent): CustomEvent =>
-    this.calciteSplitButtonSecondaryClick.emit(e);
+  private calciteSplitButtonSecondaryClickHandler = (event: MouseEvent): CustomEvent =>
+    this.calciteSplitButtonSecondaryClick.emit(event);
 
   private get dropdownIcon(): string {
     return this.dropdownIconType === "chevron"

@@ -107,7 +107,11 @@ export class Block implements ConditionalSlotComponent, InteractiveComponent {
   /**Block description */
   @Prop() description: string;
 
-  /** When true, removes padding for the slotted content */
+  /**
+   * When true, removes padding for the slotted content
+   *
+   * @deprecated Use `--calcite-block-padding` CSS variable instead.
+   */
   @Prop() disablePadding = false;
 
   //--------------------------------------------------------------------------
@@ -153,7 +157,7 @@ export class Block implements ConditionalSlotComponent, InteractiveComponent {
   /**
    * Emitted when the header has been clicked.
    */
-  @Event() calciteBlockToggle: EventEmitter;
+  @Event({ cancelable: false }) calciteBlockToggle: EventEmitter<void>;
 
   // --------------------------------------------------------------------------
   //

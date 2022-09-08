@@ -1,5 +1,5 @@
 import { select } from "@storybook/addon-knobs";
-import { boolean } from "../../../.storybook/helpers";
+import { boolean, storyFilters } from "../../../.storybook/helpers";
 import { themesDarkDefault } from "../../../.storybook/utils";
 import readme from "./readme.md";
 import treeItemReadme from "../tree-item/readme.md";
@@ -43,55 +43,33 @@ const treeItems = `
 
 export default {
   title: "Components/Tree",
-
   parameters: {
     notes: [readme, treeItemReadme]
-  }
+  },
+  ...storyFilters()
 };
 
-export const Simple = (): string => html`
+const selectionModes = ["single", "multi", "children", "multi-children", "ancestors", "none"];
+
+export const simple = (): string => html`
   <calcite-tree
     ${boolean("lines", false)}
-    selection-mode="${select(
-      "selection-mode",
-      ["single", "multi", "children", "multi-children", "ancestors"],
-      "single"
-    )}"
+    selection-mode="${select("selection-mode", selectionModes, "single")}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
   >
     ${treeItems}
   </calcite-tree>
 `;
 
-export const RTL = (): string => html`
-  <calcite-tree
-    dir="rtl"
-    ${boolean("lines", false)}
-    selection-mode="${select(
-      "selection-mode",
-      ["single", "multi", "children", "multi-children", "ancestors"],
-      "single"
-    )}"
-    scale="${select("scale", ["s", "m", "l"], "m")}"
-  >
-    ${treeItems}
-  </calcite-tree>
-`;
-
-export const DarkMode = (): string => html`
+export const darkThemeRTL_TestOnly = (): string => html`
   <calcite-tree
     class="calcite-theme-dark"
+    dir="rtl"
     ${boolean("lines", false)}
-    selection-mode="${select(
-      "selection-mode",
-      ["single", "multi", "children", "multi-children", "ancestors"],
-      "single"
-    )}"
+    selection-mode="${select("selection-mode", selectionModes, "single")}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
   >
     ${treeItems}
   </calcite-tree>
 `;
-
-DarkMode.storyName = "Dark mode";
-DarkMode.parameters = { themes: themesDarkDefault };
+darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };

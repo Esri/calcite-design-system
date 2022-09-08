@@ -8,7 +8,7 @@ import {
   Attributes,
   createComponentHTML as create
 } from "../../../.storybook/utils";
-import { createSteps, stepStory, setTheme, setKnobs } from "../../../.storybook/helpers";
+import { createSteps, stepStory, setTheme, setKnobs, storyFilters } from "../../../.storybook/helpers";
 import { TEXT } from "./resources";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 
@@ -16,7 +16,8 @@ export default {
   title: "Components/Card",
   parameters: {
     notes: readme
-  }
+  },
+  ...storyFilters()
 };
 
 const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ exceptions } = { exceptions: [] }) => {
@@ -124,43 +125,30 @@ const tooltipHtml = html`
   <calcite-tooltip placement="bottom-start" reference-element="card-icon-test-7">Delete</calcite-tooltip>
 `;
 
-export const Simple = stepStory(
-  (): string => html` <div style="width: 260px">${create("calcite-card", createAttributes(), titleHtml)}</div>`,
-  createSteps("calcite-card").snapshot("Simple").rtl().snapshot("Simple RTL")
-);
+export const simple = (): string => html` <div style="width: 260px">
+  ${create("calcite-card", createAttributes(), titleHtml)}
+</div>`;
 
-export const SimpleWithFooterLinks = stepStory(
-  (): string => html`
-    <div style="width:260px">${create("calcite-card", createAttributes(), html`${titleHtml}${footerLinksHtml}`)}</div>
-  `,
-  createSteps("calcite-card").snapshot("Simple With Links").rtl().snapshot("Simple With Links RTL")
-);
+export const simpleWithFooterLinks = (): string => html`
+  <div style="width:260px">${create("calcite-card", createAttributes(), html`${titleHtml}${footerLinksHtml}`)}</div>
+`;
 
-export const SimpleWithFooterButton = stepStory(
-  (): string => html`
-    <div style="width:260px">${create("calcite-card", createAttributes(), html`${titleHtml}${footerButtonHtml}`)}</div>
-  `,
-  createSteps("calcite-card").snapshot("Simple With Footer Button").rtl().snapshot("Simple With Footer Button RTL")
-);
+export const simpleWithFooterButton = (): string => html`
+  <div style="width:260px">${create("calcite-card", createAttributes(), html`${titleHtml}${footerButtonHtml}`)}</div>
+`;
 
-export const SimpleWithFooterTextButtonTooltip = stepStory(
-  (): string => html`
-    <div style="width:260px">
-      ${create(
-        "calcite-card",
-        createAttributes(),
-        html`${titleHtml}${footerLeadingTextHtml}${footerTrailingButtonsHtml}`
-      )}
-    </div>
-    ${tooltipHtml}
-  `,
-  createSteps("calcite-card")
-    .snapshot("Simple With Footer Text, Buttons and Tooltips")
-    .rtl()
-    .snapshot("Simple With Footer Text, Buttons and Tooltips RTL")
-);
+export const simpleWithFooterTextButtonTooltip_NoTest = (): string => html`
+  <div style="width:260px">
+    ${create(
+      "calcite-card",
+      createAttributes(),
+      html`${titleHtml}${footerLeadingTextHtml}${footerTrailingButtonsHtml}`
+    )}
+  </div>
+  ${tooltipHtml}
+`;
 
-export const Thumbnail = stepStory(
+export const thumbnail = stepStory(
   (): string => html`
     <div style="width:260px">
       ${create(
@@ -264,7 +252,7 @@ export const Thumbnail = stepStory(
     .snapshot("Thumbnail Inline End Dark")
 );
 
-export const ThumbnailRounded = (): string => html`
+export const thumbnailRounded = (): string => html`
   <div id="card-container" style="width:260px;">
     <style>
       calcite-card {
@@ -293,5 +281,11 @@ export const ThumbnailRounded = (): string => html`
         icon-start="circle"
       ></calcite-button>
     </calcite-card>
+  </div>
+`;
+
+export const darkThemeRTL_TestOnly = (): string => html`
+  <div dir="rtl" style="width:260px;">
+    <calcite-card>${thumbnailHtml}${titleHtml}${footerLeadingTextHtml}${footerTrailingButtonsHtml}</calcite-card>
   </div>
 `;

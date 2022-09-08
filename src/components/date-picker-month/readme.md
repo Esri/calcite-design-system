@@ -17,10 +17,10 @@
 
 ## Events
 
-| Event                               | Description                               | Type               |
-| ----------------------------------- | ----------------------------------------- | ------------------ |
-| `calciteDatePickerActiveDateChange` | Active date for the user keyboard access. | `CustomEvent<any>` |
-| `calciteDatePickerSelect`           | Event emitted when user selects the date. | `CustomEvent<any>` |
+| Event                               | Description                               | Type                |
+| ----------------------------------- | ----------------------------------------- | ------------------- |
+| `calciteDatePickerActiveDateChange` | Active date for the user keyboard access. | `CustomEvent<Date>` |
+| `calciteDatePickerSelect`           | Event emitted when user selects the date. | `CustomEvent<Date>` |
 
 ## Dependencies
 

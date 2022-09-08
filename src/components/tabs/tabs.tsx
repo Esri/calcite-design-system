@@ -5,7 +5,7 @@ import { SLOTS } from "./resources";
 
 /**
  * @slot - A slot for adding `calcite-tab`s.
- * @slot tab-nav - A slot for adding a tab navigation component.
+ * @slot tab-nav - A slot for adding a `calcite-tab-nav`.
  */
 @Component({
   tag: "calcite-tabs",
@@ -28,23 +28,23 @@ export class Tabs {
   //--------------------------------------------------------------------------
 
   /**
-   * Align tab titles to the edge or fully justify them across the tab nav ("center")
+   * Specifies the layout of the `calcite-tab-nav`, justifying the `calcite-tab-title`s to the start ("inline"), or across and centered ("center").
    */
   @Prop({ reflect: true }) layout: TabLayout = "inline";
 
   /**
-   * Display the tabs top (default) or bottom of the tab content. above and below are deprecated.
+   * Specifies the position of the component in relation to the `calcite-tab`s. The "above" and "below" values are deprecated.
    *
    */
   @Prop({ reflect: true }) position: TabPosition = "top";
 
   /**
-   * Specify the scale of the tabs component, defaults to m
+   * Specifies the size of the component.
    */
   @Prop({ reflect: true }) scale: Scale = "m";
 
   /**
-   * Optionally enable tabs to appear like a folder-style menu when its layout is "inline"
+   * When true and layout is set to "inline", the component will display with a folder style menu.
    */
   @Prop({ reflect: true, mutable: true }) bordered = false;
 
@@ -78,47 +78,47 @@ export class Tabs {
   //--------------------------------------------------------------------------
 
   /**
-   * @param e
+   * @param event
    * @internal
    */
   @Listen("calciteInternalTabTitleRegister")
-  calciteInternalTabTitleRegister(e: CustomEvent): void {
-    this.titles = [...this.titles, e.target as HTMLCalciteTabTitleElement];
+  calciteInternalTabTitleRegister(event: CustomEvent): void {
+    this.titles = [...this.titles, event.target as HTMLCalciteTabTitleElement];
     this.registryHandler();
-    e.stopPropagation();
+    event.stopPropagation();
   }
 
   /**
-   * @param e
+   * @param event
    * @internal
    */
   @Listen("calciteTabTitleUnregister", { target: "body" })
-  calciteTabTitleUnregister(e: CustomEvent): void {
-    this.titles = this.titles.filter((el) => el !== e.detail);
+  calciteTabTitleUnregister(event: CustomEvent): void {
+    this.titles = this.titles.filter((el) => el !== event.detail);
     this.registryHandler();
-    e.stopPropagation();
+    event.stopPropagation();
   }
 
   /**
-   * @param e
+   * @param event
    * @internal
    */
   @Listen("calciteInternalTabRegister")
-  calciteInternalTabRegister(e: CustomEvent): void {
-    this.tabs = [...this.tabs, e.target as HTMLCalciteTabElement];
+  calciteInternalTabRegister(event: CustomEvent): void {
+    this.tabs = [...this.tabs, event.target as HTMLCalciteTabElement];
     this.registryHandler();
-    e.stopPropagation();
+    event.stopPropagation();
   }
 
   /**
-   * @param e
+   * @param event
    * @internal
    */
   @Listen("calciteTabUnregister", { target: "body" })
-  calciteTabUnregister(e: CustomEvent): void {
-    this.tabs = this.tabs.filter((el) => el !== e.detail);
+  calciteTabUnregister(event: CustomEvent): void {
+    this.tabs = this.tabs.filter((el) => el !== event.detail);
     this.registryHandler();
-    e.stopPropagation();
+    event.stopPropagation();
   }
 
   //--------------------------------------------------------------------------
@@ -163,11 +163,11 @@ export class Tabs {
     let titleIds;
 
     // determine if we are using `tab` based or `index` based tab identifiers.
-    if (this.tabs.some((e) => e.tab) || this.titles.some((e) => e.tab)) {
+    if (this.tabs.some((el) => el.tab) || this.titles.some((el) => el.tab)) {
       // if we are using `tab` based identifiers sort by `tab` to account for
       // possible out of order tabs and get the id of each tab
-      tabIds = this.tabs.sort((a, b) => a.tab.localeCompare(b.tab)).map((e) => e.id);
-      titleIds = this.titles.sort((a, b) => a.tab.localeCompare(b.tab)).map((e) => e.id);
+      tabIds = this.tabs.sort((a, b) => a.tab.localeCompare(b.tab)).map((el) => el.id);
+      titleIds = this.titles.sort((a, b) => a.tab.localeCompare(b.tab)).map((el) => el.id);
     } else {
       // if we are using index based tabs then the `<calcite-tab>` and
       // `<calcite-tab-title>` might have been rendered out of order so the

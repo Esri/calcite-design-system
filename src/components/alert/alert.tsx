@@ -15,8 +15,12 @@ import {
 import { getSlotted, setRequestedIcon, toAriaBoolean } from "../../utils/dom";
 import { DURATIONS, SLOTS, TEXT } from "./resources";
 import { Scale } from "../interfaces";
-import { AlertDuration, AlertPlacement, StatusColor, StatusIcons } from "./interfaces";
-import { OpenCloseComponent } from "../../utils/openCloseComponent";
+import { AlertDuration, AlertPlacement, StatusColor, StatusIcons, Sync } from "./interfaces";
+import {
+  OpenCloseComponent,
+  connectOpenCloseComponent,
+  disconnectOpenCloseComponent
+} from "../../utils/openCloseComponent";
 
 /**
  * Alerts are meant to provide a way to communicate urgent or important information to users, frequently as a result of an action they took in your app. Alerts are positioned
@@ -49,17 +53,31 @@ export class Alert implements OpenCloseComponent {
   //
   //---------------------------------------------------------------------------
 
-  /** When true, the component is active. */
+  /**
+   * When true, opens the combobox
+   *
+   * @deprecated use open instead
+   */
   @Prop({ reflect: true, mutable: true }) active = false;
 
+  /** When true, opens the dropdown */
+  @Prop({ reflect: true, mutable: true }) open = false;
+
   @Watch("active")
-  watchActive(): void {
-    if (this.active && !this.queued) {
+  activeHandler(value: boolean): void {
+    this.open = value;
+  }
+
+  @Watch("open")
+  openHandler(value: boolean): void {
+    if (this.open && !this.queued) {
       this.calciteInternalAlertRegister.emit();
+      this.active = value;
     }
-    if (!this.active) {
-      this.queue = this.queue.filter((e) => e !== this.el);
+    if (!this.open) {
+      this.queue = this.queue.filter((el) => el !== this.el);
       this.calciteInternalAlertSync.emit({ queue: this.queue });
+      this.active = false;
     }
   }
 
@@ -118,9 +136,13 @@ export class Alert implements OpenCloseComponent {
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
-    if (this.active && !this.queued) {
+    const open = this.open || this.active;
+    if (open && !this.queued) {
+      this.activeHandler(open);
+      this.openHandler(open);
       this.calciteInternalAlertRegister.emit();
     }
+    connectOpenCloseComponent(this);
   }
 
   componentWillLoad(): void {
@@ -129,7 +151,7 @@ export class Alert implements OpenCloseComponent {
 
   disconnectedCallback(): void {
     window.clearTimeout(this.autoDismissTimeoutId);
-    this.containerEl?.removeEventListener("transitionstart", this.transitionStartHandler);
+    disconnectOpenCloseComponent(this);
   }
 
   render(): VNode {
@@ -169,8 +191,7 @@ export class Alert implements OpenCloseComponent {
             queued,
             [placement]: true
           }}
-          onTransitionEnd={this.transitionEnd}
-          ref={this.setContainerEl}
+          ref={this.setTransitionEl}
         >
           {requestedIcon ? (
             <div class="alert-icon">
@@ -197,30 +218,30 @@ export class Alert implements OpenCloseComponent {
   //--------------------------------------------------------------------------
 
   /** Fires when the component is requested to be closed and before the closing transition begins. */
-  @Event() calciteAlertBeforeClose: EventEmitter<void>;
+  @Event({ cancelable: false }) calciteAlertBeforeClose: EventEmitter<void>;
 
   /** Fires when the component is closed and animation is complete. */
-  @Event() calciteAlertClose: EventEmitter<void>;
+  @Event({ cancelable: false }) calciteAlertClose: EventEmitter<void>;
 
   /** Fires when the component is added to the DOM but not rendered, and before the opening transition begins. */
-  @Event() calciteAlertBeforeOpen: EventEmitter<void>;
+  @Event({ cancelable: false }) calciteAlertBeforeOpen: EventEmitter<void>;
 
   /** Fires when the component is open and animation is complete. */
-  @Event() calciteAlertOpen: EventEmitter<void>;
+  @Event({ cancelable: false }) calciteAlertOpen: EventEmitter<void>;
 
   /**
    * Fires to sync queue when opened or closed.
    *
    * @internal
    */
-  @Event() calciteInternalAlertSync: EventEmitter;
+  @Event({ cancelable: false }) calciteInternalAlertSync: EventEmitter<Sync>;
 
   /**
    * Fires when the component is added to DOM - used to receive initial queue.
    *
    * @internal
    */
-  @Event() calciteInternalAlertRegister: EventEmitter;
+  @Event({ cancelable: false }) calciteInternalAlertRegister: EventEmitter<void>;
 
   // when an alert is opened or closed, update queue and determine active alert
   @Listen("calciteInternalAlertSync", { target: "window" })
@@ -236,7 +257,7 @@ export class Alert implements OpenCloseComponent {
   // when an alert is first registered, trigger a queue sync
   @Listen("calciteInternalAlertRegister", { target: "window" })
   alertRegister(): void {
-    if (this.active && !this.queue.includes(this.el as HTMLCalciteAlertElement)) {
+    if (this.open && !this.queue.includes(this.el as HTMLCalciteAlertElement)) {
       this.queued = true;
       this.queue.push(this.el as HTMLCalciteAlertElement);
     }
@@ -279,13 +300,6 @@ export class Alert implements OpenCloseComponent {
   /** is the alert queued */
   @State() queued = false;
 
-  private containerEl: HTMLDivElement;
-
-  private setContainerEl = (el): void => {
-    this.containerEl = el;
-    this.containerEl.addEventListener("transitionstart", this.transitionStartHandler);
-  };
-
   /** the close button element */
   private closeButton?: HTMLButtonElement;
 
@@ -299,13 +313,20 @@ export class Alert implements OpenCloseComponent {
   /* @internal */
   @State() requestedIcon?: string;
 
-  private activeTransitionProp = "opacity";
+  openTransitionProp = "opacity";
+
+  transitionEl: HTMLDivElement;
 
   //--------------------------------------------------------------------------
   //
   //  Private Methods
   //
   //--------------------------------------------------------------------------
+
+  private setTransitionEl = (el): void => {
+    this.transitionEl = el;
+    connectOpenCloseComponent(this);
+  };
 
   /** determine which alert is active */
   private determineActiveAlert(): void {
@@ -327,8 +348,8 @@ export class Alert implements OpenCloseComponent {
   private closeAlert = (): void => {
     this.autoDismissTimeoutId = null;
     this.queued = false;
-    this.active = false;
-    this.queue = this.queue.filter((e) => e !== this.el);
+    this.open = false;
+    this.queue = this.queue.filter((el) => el !== this.el);
     this.determineActiveAlert();
     this.calciteInternalAlertSync.emit({ queue: this.queue });
   };
@@ -348,18 +369,6 @@ export class Alert implements OpenCloseComponent {
   onClose(): void {
     this.calciteAlertClose.emit();
   }
-
-  transitionStartHandler = (event: TransitionEvent): void => {
-    if (event.propertyName === this.activeTransitionProp && event.target === this.containerEl) {
-      this.active ? this.onBeforeOpen() : this.onBeforeClose();
-    }
-  };
-
-  transitionEnd = (event: TransitionEvent): void => {
-    if (event.propertyName === this.activeTransitionProp && event.target === this.containerEl) {
-      this.active ? this.onOpen() : this.onClose();
-    }
-  };
 
   /** remove queued class after animation completes */
   private openAlert(): void {

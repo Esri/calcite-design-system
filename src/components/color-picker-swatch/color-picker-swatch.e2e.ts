@@ -1,9 +1,11 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { CSS } from "./resources";
-import { accessible, defaults, reflects, renders } from "../../tests/commonTests";
+import { accessible, defaults, reflects, renders, hidden } from "../../tests/commonTests";
 
 describe("calcite-color-picker-swatch", () => {
   it("renders", () => renders("calcite-color-picker-swatch", { display: "inline-flex" }));
+
+  it("honors hidden attribute", async () => hidden("calcite-color-picker-swatch"));
 
   it("is accessible", async () => {
     await accessible("calcite-color-picker-swatch");

@@ -1,7 +1,7 @@
 import yargs from "yargs";
 
 (async function () {
-  const rimraf = await import("rimraf");
+  const { default: rimraf } = await import("rimraf");
   const { resolve } = await import("path");
 
   // 👇 based on https://stackoverflow.com/a/14032965
@@ -16,7 +16,9 @@ import yargs from "yargs";
     exit: boolean;
   }
 
-  const { path } = yargs(process.argv) as any;
+  const { path } = yargs(process.argv.slice(2))
+    .options({ path: { type: "string" } })
+    .parseSync();
 
   const exitHandler = (options: CleanupOptions | ExitOptions): void => {
     if ("cleanup" in options) {

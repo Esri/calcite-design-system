@@ -10,12 +10,12 @@ import {
   VNode
 } from "@stencil/core";
 import { getElementProp } from "../../utils/dom";
-import { SelectionMode } from "./interfaces";
+import { RequestedItem, SelectionMode } from "./interfaces";
 import { Scale } from "../interfaces";
 import { CSS } from "./resources";
 
 /**
- * @slot - A slot for adding `calcite-dropdown-item`s.
+ * @slot - A slot for adding `calcite-dropdown-item` components.
  */
 @Component({
   tag: "calcite-dropdown-group",
@@ -59,7 +59,7 @@ export class DropdownGroup {
   /**
    * @internal
    */
-  @Event() calciteInternalDropdownItemChange: EventEmitter;
+  @Event({ cancelable: false }) calciteInternalDropdownItemChange: EventEmitter<RequestedItem>;
 
   //--------------------------------------------------------------------------
   //
@@ -83,7 +83,7 @@ export class DropdownGroup {
       this.groupPosition > 0 ? <div class="dropdown-separator" role="separator" /> : null;
 
     return (
-      <Host role="menu">
+      <Host aria-label={this.groupTitle} role="group">
         <div
           class={{
             container: true,

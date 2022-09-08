@@ -73,24 +73,24 @@ export class DatePickerMonth {
   /**
    * Event emitted when user selects the date.
    */
-  @Event() calciteDatePickerSelect: EventEmitter;
+  @Event({ cancelable: false }) calciteDatePickerSelect: EventEmitter<Date>;
 
   /**
    * Event emitted when user hovers the date.
    *
    * @internal
    */
-  @Event() calciteInternalDatePickerHover: EventEmitter;
+  @Event({ cancelable: false }) calciteInternalDatePickerHover: EventEmitter<Date>;
 
   /**
    * Active date for the user keyboard access.
    */
-  @Event() calciteDatePickerActiveDateChange: EventEmitter;
+  @Event({ cancelable: false }) calciteDatePickerActiveDateChange: EventEmitter<Date>;
 
   /**
    * @internal
    */
-  @Event() calciteInternalDatePickerMouseOut: EventEmitter;
+  @Event({ cancelable: false }) calciteInternalDatePickerMouseOut: EventEmitter<void>;
 
   //--------------------------------------------------------------------------
   //
@@ -98,40 +98,45 @@ export class DatePickerMonth {
   //
   //--------------------------------------------------------------------------
 
-  keyDownHandler = (e: KeyboardEvent): void => {
+  keyDownHandler = (event: KeyboardEvent): void => {
+    if (event.defaultPrevented) {
+      return;
+    }
+
     const isRTL = this.el.dir === "rtl";
-    switch (e.key) {
+
+    switch (event.key) {
       case "ArrowUp":
-        e.preventDefault();
+        event.preventDefault();
         this.addDays(-7);
         break;
       case "ArrowRight":
-        e.preventDefault();
+        event.preventDefault();
         this.addDays(isRTL ? -1 : 1);
         break;
       case "ArrowDown":
-        e.preventDefault();
+        event.preventDefault();
         this.addDays(7);
         break;
       case "ArrowLeft":
-        e.preventDefault();
+        event.preventDefault();
         this.addDays(isRTL ? 1 : -1);
         break;
       case "PageUp":
-        e.preventDefault();
+        event.preventDefault();
         this.addMonths(-1);
         break;
       case "PageDown":
-        e.preventDefault();
+        event.preventDefault();
         this.addMonths(1);
         break;
       case "Home":
-        e.preventDefault();
+        event.preventDefault();
         this.activeDate.setDate(1);
         this.addDays();
         break;
       case "End":
-        e.preventDefault();
+        event.preventDefault();
         this.activeDate.setDate(
           new Date(this.activeDate.getFullYear(), this.activeDate.getMonth() + 1, 0).getDate()
         );
@@ -139,7 +144,7 @@ export class DatePickerMonth {
         break;
       case "Enter":
       case " ":
-        e.preventDefault();
+        event.preventDefault();
         break;
       case "Tab":
         this.activeFocus = false;
@@ -267,7 +272,7 @@ export class DatePickerMonth {
     if (day - 6 === startOfWeek) {
       return days;
     }
-    for (let i = Math.abs(lastDate.getDay() - startOfWeek); i >= 0; i--) {
+    for (let i = lastDate.getDay() - startOfWeek; i >= 0; i--) {
       days.push(date - i);
     }
     return days;
@@ -359,18 +364,18 @@ export class DatePickerMonth {
     );
   }
 
-  dayHover = (e: CustomEvent): void => {
-    const target = e.target as HTMLCalciteDatePickerDayElement;
-    if (e.detail.disabled) {
+  dayHover = (event: CustomEvent): void => {
+    const target = event.target as HTMLCalciteDatePickerDayElement;
+    if (target.disabled) {
       this.calciteInternalDatePickerMouseOut.emit();
     } else {
       this.calciteInternalDatePickerHover.emit(target.value);
     }
-    e.stopPropagation();
+    event.stopPropagation();
   };
 
-  daySelect = (e: CustomEvent): void => {
-    const target = e.target as HTMLCalciteDatePickerDayElement;
+  daySelect = (event: CustomEvent): void => {
+    const target = event.target as HTMLCalciteDatePickerDayElement;
     this.calciteDatePickerSelect.emit(target.value);
   };
 

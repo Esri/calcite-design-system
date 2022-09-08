@@ -44,8 +44,8 @@ export class OptionGroup {
   /**
    * @internal
    */
-  @Event()
-  private calciteInternalOptionGroupChange: EventEmitter;
+  @Event({ cancelable: false })
+  private calciteInternalOptionGroupChange: EventEmitter<void>;
 
   //--------------------------------------------------------------------------
   //
