@@ -5,72 +5,32 @@ import readme from "./readme.md";
 import { html } from "../../../support/formatting";
 import { locales } from "../../utils/locale";
 import { defaultMenuPlacement, menuPlacements } from "../../utils/floating-ui";
+import { storyFilters } from "../../../.storybook/helpers";
 
 export default {
   title: "Components/Controls/InputDatePicker",
-
   parameters: {
     notes: readme
-  }
+  },
+  ...storyFilters()
 };
 
-export const Simple = (): string => html`
+export const simple = (): string => html`
   <div style="width: 400px">
-    <calcite-label layout="inline">
-      Date
-      <calcite-input-date-picker
-        scale="${select("scale", ["s", "m", "l"], "m")}"
-        value="${text("value", "2020-12-12")}"
-        min="${text("min", "2016-08-09")}"
-        max="${text("max", "2023-12-18")}"
-        locale="${select("locale", locales, "en")}"
-        intl-next-month="${text("intl-next-month", "Next month")}"
-        intl-prev-month="${text("intl-prev-month", "Previous month")}"
-      ></calcite-input-date-picker
-    ></calcite-label>
+    <calcite-input-date-picker
+      scale="${select("scale", ["s", "m", "l"], "m")}"
+      value="${text("value", "2020-12-12")}"
+      min="${text("min", "2016-08-09")}"
+      max="${text("max", "2023-12-18")}"
+      locale="${select("locale", locales, "en")}"
+      intl-next-month="${text("intl-next-month", "Next month")}"
+      intl-prev-month="${text("intl-prev-month", "Previous month")}"
+      placement="${select("placement", menuPlacements, defaultMenuPlacement)}"
+    ></calcite-input-date-picker
   </div>
 `;
 
-export const DarkMode = (): string => html`
-  <div style="width: 400px">
-    <calcite-label layout="inline" class="calcite-theme-dark">
-      Date
-      <calcite-input-date-picker
-        scale="${select("scale", ["s", "m", "l"], "m")}"
-        value="${text("value", "2020-12-12")}"
-        min="${text("min", "2016-08-09")}"
-        max="${text("max", "2023-12-18")}"
-        locale="${select("locale", locales, "en")}"
-        intl-next-month="${text("intl-next-month", "Next month")}"
-        intl-prev-month="${text("intl-prev-month", "Previous month")}"
-        range="${boolean("range", false)}"
-      ></calcite-input-date-picker
-    ></calcite-label>
-  </div>
-`;
-
-export const Placement = (): string => html`
-  <div style="width: 400px">
-    <calcite-label layout="inline">
-      Date
-      <calcite-input-date-picker
-        scale="${select("scale", ["s", "m", "l"], "m")}"
-        value="${text("value", "2020-12-12")}"
-        min="${text("min", "2016-08-09")}"
-        max="${text("max", "2023-12-18")}"
-        locale="${select("locale", locales, "en")}"
-        intl-next-month="${text("intl-next-month", "Next month")}"
-        intl-prev-month="${text("intl-prev-month", "Previous month")}"
-        placement="${select("placement", menuPlacements, defaultMenuPlacement)}"
-      ></calcite-input-date-picker
-    ></calcite-label>
-  </div>
-`;
-
-DarkMode.storyName = "Dark mode";
-DarkMode.parameters = { themes: themesDarkDefault };
-
-export const Range = (): string => html`
+export const range = (): string => html`
   <div style="width: 400px">
     <calcite-input-date-picker
       scale="${select("scale", ["s", "m", "l"], "m")}"
@@ -87,43 +47,40 @@ export const Range = (): string => html`
   </div>
 `;
 
-export const RTL = (): string => html`
-  <div style="width: 400px" dir="rtl">
-    <calcite-label layout="inline">
-      Date
-      <calcite-input-date-picker
-        scale="${select("scale", ["s", "m", "l"], "m")}"
-        value="${text("value", "2020-12-12")}"
-        min="${text("min", "2016-08-09")}"
-        max="${text("max", "2023-12-18")}"
-        locale="${select("locale", locales, "en")}"
-        intl-next-month="${text("intl-next-month", "Next month")}"
-        intl-prev-month="${text("intl-prev-month", "Previous month")}"
-      ></calcite-input-date-picker
-    ></calcite-label>
-  </div>
-`;
+export const disabled_TestOnly = (): string => html`<calcite-input-date-picker disabled></calcite-input-date-picker>`;
 
-export const disabled = (): string => html`<calcite-input-date-picker disabled></calcite-input-date-picker>`;
-
-export const flipPlacements = (): string => html`
+export const flipPlacements_TestOnly = (): string => html`
   <style>
     .my-input-date-picker-div {
       margin-top: 50px;
     }
+
     .my-input-date-picker {
       position: unset;
     }
   </style>
   <div style="height: 100px; overflow:scroll;">
     <div class="my-input-date-picker-div">
-      <calcite-label layout="inline">
-        Date
-        <calcite-input-date-picker open class="my-input-date-picker"></calcite-input-date-picker
-      ></calcite-label>
+      <calcite-input-date-picker open class="my-input-date-picker"></calcite-input-date-picker>
     </div>
   </div>
   <script>
     document.querySelector(".my-input-date-picker").flipPlacements = ["right"];
   </script>
 `;
+
+export const darkThemeRTL_TestOnly = (): string => html`
+  <div dir="rtl" style="width: 400px">
+    <calcite-input-date-picker
+      scale="${select("scale", ["s", "m", "l"], "m")}"
+      value="${text("value", "2020-12-12")}"
+      min="${text("min", "2016-08-09")}"
+      max="${text("max", "2023-12-18")}"
+      locale="${select("locale", locales, "en")}"
+      intl-next-month="${text("intl-next-month", "Next month")}"
+      intl-prev-month="${text("intl-prev-month", "Previous month")}"
+      range="${boolean("range", false)}"
+    ></calcite-input-date-picker
+  </div>
+`;
+darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };

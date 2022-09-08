@@ -1,5 +1,5 @@
 import { select, optionsKnob } from "@storybook/addon-knobs";
-import { createSteps, iconNames, stepStory } from "../../../.storybook/helpers";
+import { createSteps, iconNames, stepStory, storyFilters } from "../../../.storybook/helpers";
 import { placeholderImage, themesDarkDefault } from "../../../.storybook/utils";
 import readme1 from "./readme.md";
 import readme2 from "../tab/readme.md";
@@ -9,13 +9,13 @@ import { html } from "../../../support/formatting";
 
 export default {
   title: "Components/Tabs",
-
   parameters: {
     notes: [readme1, readme2, readme3, readme4]
-  }
+  },
+  ...storyFilters()
 };
 
-export const Simple = stepStory(
+export const simple = stepStory(
   (): string => html`
     <calcite-tabs
       layout="${select("layout", ["inline", "center"], "inline")}"
@@ -25,7 +25,7 @@ export const Simple = stepStory(
       <calcite-tab-nav slot="tab-nav">
         <calcite-tab-title active>Tab 1 Title</calcite-tab-title>
         <calcite-tab-title id="reference-element">Tab 2 Title</calcite-tab-title>
-        <calcite-tab-title>Tab 3 Title</calcite-tab-title>
+        <calcite-tab-title disabled>Disabled Tab</calcite-tab-title>
         <calcite-tab-title>Tab 4 Title</calcite-tab-title>
       </calcite-tab-nav>
 
@@ -45,7 +45,29 @@ export const Simple = stepStory(
   createSteps("calcite-tabs").snapshot("simple").click("#reference-element").snapshot("horizontal scroll")
 );
 
-export const Bordered = (): string => html`
+export const simpleDarkThemeRTL_TestOnly = (): string => html`
+  <calcite-tabs
+    dir="rtl"
+    class="calcite-theme-dark"
+    layout="${select("layout", ["inline", "center"], "inline")}"
+    position="${select("position", ["above", "below"], "above")}"
+    scale="${select("scale", ["s", "m", "l"], "m")}"
+  >
+    <calcite-tab-nav slot="tab-nav">
+      <calcite-tab-title active>Tab 1 Title</calcite-tab-title>
+      <calcite-tab-title>Tab 2 Title</calcite-tab-title>
+      <calcite-tab-title disabled>Disabled Tab</calcite-tab-title>
+      <calcite-tab-title>Tab 4 Title</calcite-tab-title>
+    </calcite-tab-nav>
+    <calcite-tab active><p>Tab 1 Content</p></calcite-tab>
+    <calcite-tab><p>Tab 2 Content</p></calcite-tab>
+    <calcite-tab><p>Tab 3 Content</p></calcite-tab>
+    <calcite-tab><p>Tab 4 Content</p></calcite-tab>
+  </calcite-tabs>
+`;
+simpleDarkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };
+
+export const bordered = (): string => html`
   <calcite-tabs
     layout="inline"
     position="${select("position", ["above", "below"], "above")}"
@@ -65,7 +87,7 @@ export const Bordered = (): string => html`
   </calcite-tabs>
 `;
 
-export const BorderedRTLDark = (): string => html`
+export const borderedDarkThemeRTL_TestOnly = (): string => html`
   <calcite-tabs
     layout="inline"
     position="${select("position", ["above", "below"], "above")}"
@@ -86,11 +108,11 @@ export const BorderedRTLDark = (): string => html`
     <calcite-tab tab="tab4" active>Tab 4 Content</calcite-tab>
   </calcite-tabs>
 `;
-BorderedRTLDark.parameters = { themes: themesDarkDefault };
+borderedDarkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };
 
 const selectedIcon = iconNames[0];
 
-export const WithIcons = (): string => html`
+export const withIcons = (): string => html`
   <calcite-tabs
     layout="${select("layout", ["inline", "center"], "inline")}"
     position="${select("position", ["above", "below"], "above")}"
@@ -116,9 +138,7 @@ export const WithIcons = (): string => html`
   </calcite-tabs>
 `;
 
-WithIcons.storyName = "With icons";
-
-export const SetWidth = (): string => html`
+export const setWidth = (): string => html`
   <div style="width: 400px;">
     <calcite-tabs
     layout="${select("layout", ["inline", "center"], "inline")}"
@@ -147,7 +167,7 @@ export const SetWidth = (): string => html`
   </div>
 `;
 
-export const JustTabNav = (): string => html`
+export const justTabNav = (): string => html`
   <calcite-tab-nav
     position="${select("position", ["above", "below"], "below")}"
     scale="${select("scale", ["s", "m", "l"], "l")}"
@@ -159,30 +179,7 @@ export const JustTabNav = (): string => html`
   </calcite-tab-nav>
 `;
 
-export const DarkMode = (): string => html`
-  <calcite-tabs
-    class="calcite-theme-dark"
-    layout="${select("layout", ["inline", "center"], "inline")}"
-    position="${select("position", ["above", "below"], "above")}"
-    scale="${select("scale", ["s", "m", "l"], "m")}"
-  >
-    <calcite-tab-nav slot="tab-nav">
-      <calcite-tab-title active>Tab 1 Title</calcite-tab-title>
-      <calcite-tab-title>Tab 2 Title</calcite-tab-title>
-      <calcite-tab-title>Tab 3 Title</calcite-tab-title>
-      <calcite-tab-title>Tab 4 Title</calcite-tab-title>
-    </calcite-tab-nav>
-    <calcite-tab active><p>Tab 1 Content</p></calcite-tab>
-    <calcite-tab><p>Tab 2 Content</p></calcite-tab>
-    <calcite-tab><p>Tab 3 Content</p></calcite-tab>
-    <calcite-tab><p>Tab 4 Content</p></calcite-tab>
-  </calcite-tabs>
-`;
-
-DarkMode.storyName = "Dark mode";
-DarkMode.parameters = { themes: themesDarkDefault };
-
-export const DisabledTabs = (): string => {
+export const disabledTabs_TestOnly = (): string => {
   const disabledLabel = "Disabled Tabs";
   const disabledValuesObj = {
     Tab1: "tab1",
@@ -216,41 +213,7 @@ export const DisabledTabs = (): string => {
     `;
 };
 
-DisabledTabs.storyName = "Disabled tabs";
-
-export const RTL = (): string => html`
-  <calcite-tabs
-    dir="rtl"
-    layout="${select("layout", ["inline", "center"], "inline")}"
-    position="${select("position", ["above", "below"], "above")}"
-    scale="${select("scale", ["s", "m", "l"], "m")}"
-  >
-    <calcite-tab-nav slot="tab-nav">
-      <calcite-tab-title active>Tab 1 Title</calcite-tab-title>
-      <calcite-tab-title>Tab 2 Title</calcite-tab-title>
-      <calcite-tab-title>Tab 3 Title</calcite-tab-title>
-      <calcite-tab-title>Tab 4 Title</calcite-tab-title>
-    </calcite-tab-nav>
-
-    <calcite-tab active><p>Tab 1 Content</p></calcite-tab>
-    <calcite-tab><p>Tab 2 Content</p></calcite-tab>
-    <calcite-tab><p>Tab 3 Content</p></calcite-tab>
-    <calcite-tab><p>Tab 4 Content</p></calcite-tab>
-  </calcite-tabs>
-`;
-
-export const disabled = (): string => html`<calcite-tabs>
-  <calcite-tab-nav slot="tab-nav">
-    <calcite-tab-title active>Tab 1 Title</calcite-tab-title>
-    <calcite-tab-title disabled>Tab 2 Title</calcite-tab-title>
-  </calcite-tab-nav>
-  <calcite-tab active><p>Tab 1 Content</p></calcite-tab>
-  <calcite-tab><p>Tab 2 Content</p></calcite-tab>
-</calcite-tabs>`;
-
-export const LayoutCenter = (): string => html` <calcite-tabs
-  layout="${select("layout", ["inline", "center"], "center")}"
->
+export const layoutCenter_TestOnly = (): string => html`<calcite-tabs layout="center">
   <calcite-tab-nav slot="tab-nav">
     <calcite-tab-title>Tab 1 Title</calcite-tab-title>
     <calcite-tab-title>Tab 2 Title</calcite-tab-title>
