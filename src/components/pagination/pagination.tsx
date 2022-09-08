@@ -188,11 +188,9 @@ export class Pagination implements GlobalAttrComponent {
    */
   private determineGroupSeparator = (value): string => {
     const lang = this.globalAttributes["lang"] || document.documentElement.lang || "en";
-    if (value) {
-      return this.groupSeparator
-        ? localizeNumberString(value.toString(), lang, this.groupSeparator, this.numberingSystem)
-        : value;
-    }
+    return this.groupSeparator
+      ? localizeNumberString(value.toString(), lang, this.groupSeparator, this.numberingSystem)
+      : value;
   };
 
   //--------------------------------------------------------------------------
