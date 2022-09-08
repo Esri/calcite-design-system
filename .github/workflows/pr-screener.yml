@@ -76,6 +76,7 @@ jobs:
     if: "github.event_name == 'workflow_dispatch'"
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
         with:
           node-version: lts/*
