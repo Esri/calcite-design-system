@@ -7,7 +7,7 @@
 
 :host([selection-mode="none"]:not([has-children])) {
   .node-container {
-    margin-inline: theme("margin.3");
+    margin-inline: theme("margin.2");
   }
 }
 
