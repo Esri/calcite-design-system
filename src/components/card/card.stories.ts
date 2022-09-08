@@ -1,5 +1,5 @@
 import { boolean, select, text } from "@storybook/addon-knobs";
-import { placeholderImage } from "../../../.storybook/utils";
+import { placeholderImage, themesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import readme from "./readme.md";
 import {
@@ -8,7 +8,7 @@ import {
   Attributes,
   createComponentHTML as create
 } from "../../../.storybook/utils";
-import { createSteps, stepStory, setTheme, setKnobs, storyFilters } from "../../../.storybook/helpers";
+import { storyFilters } from "../../../.storybook/helpers";
 import { TEXT } from "./resources";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 
@@ -148,109 +148,60 @@ export const simpleWithFooterTextButtonTooltip_NoTest = (): string => html`
   ${tooltipHtml}
 `;
 
-export const thumbnail = stepStory(
-  (): string => html`
-    <div style="width:260px">
-      ${create(
-        "calcite-card",
-        createAttributes(),
-        html`
-          ${thumbnailHtml}
-          <h3 slot="title">Portland Businesses</h3>
-          <span slot="subtitle"
-            >by
-            <calcite-link href="">example_user</calcite-link>
-          </span>
-          <div>
-            Created: Apr 22, 2019
-            <br />
-            Updated: Dec 9, 2019
-            <br />
-            View Count: 0
-          </div>
-          <calcite-button
-            slot="footer-leading"
-            color="neutral"
-            scale="s"
-            id="card-icon-test-1"
-            icon-start="circle"
-          ></calcite-button>
-          <div slot="footer-trailing">
-            <calcite-button scale="s" color="neutral" id="card-icon-test-2" icon-start="circle"></calcite-button>
-            <calcite-button scale="s" color="neutral" id="card-icon-test-3" icon-start="circle"></calcite-button>
-            <calcite-dropdown type="hover">
-              <calcite-button
-                id="card-icon-test-5"
-                slot="dropdown-trigger"
-                scale="s"
-                color="neutral"
-                icon-start="circle"
-              ></calcite-button>
-              <calcite-dropdown-group selection-mode="none">
-                <calcite-dropdown-item>View details</calcite-dropdown-item>
-                <calcite-dropdown-item>Duplicate</calcite-dropdown-item>
-                <calcite-dropdown-item>Delete</calcite-dropdown-item>
-              </calcite-dropdown-group>
-            </calcite-dropdown>
-          </div>
-        `
-      )}
-      <calcite-tooltip placement="bottom-start" reference-element="card-icon-test-1"
-        >My great tooltip example
-      </calcite-tooltip>
-      <calcite-tooltip placement="bottom-start" reference-element="card-icon-test-2">Sharing level: 2 </calcite-tooltip>
-      <calcite-tooltip placement="top-end" reference-element="card-icon-test-3">More... </calcite-tooltip>
-      <calcite-tooltip placement="top-start" reference-element="card-icon-test-5">More options </calcite-tooltip>
-    </div>
-  `,
-  createSteps("calcite-card")
-    .snapshot("Thumbnail Block Start")
-    .rtl()
-    .snapshot("Thumbnail Block Start RTL")
-    .executeScript(setTheme("dark"))
-    .snapshot("Thumbnail Block Start RTL Dark")
-    .ltr()
-    .snapshot("Thumbnail Block Start Dark")
-    .executeScript(
-      setKnobs({
-        story: "components-card--thumbnail",
-        knobs: [{ name: "thumbnail-position", value: "block-end" }]
-      })
-    )
-    .snapshot("Thumbnail Block End")
-    .rtl()
-    .snapshot("Thumbnail Block End RTL")
-    .executeScript(setTheme("dark"))
-    .snapshot("Thumbnail Block End RTL Dark")
-    .ltr()
-    .snapshot("Thumbnail Block End Dark")
-    .executeScript(
-      setKnobs({
-        story: "components-card--thumbnail",
-        knobs: [{ name: "thumbnail-position", value: "inline-start" }]
-      })
-    )
-    .snapshot("Thumbnail Inline Start")
-    .rtl()
-    .snapshot("Thumbnail Inline Start RTL")
-    .executeScript(setTheme("dark"))
-    .snapshot("Thumbnail Inline Start RTL Dark")
-    .ltr()
-    .snapshot("Thumbnail Inline Start Dark")
-    .executeScript(
-      setKnobs({
-        story: "components-card--thumbnail",
-        knobs: [{ name: "thumbnail-position", value: "inline-end" }]
-      })
-    )
-    .snapshot("Thumbnail Inline End")
-    .rtl()
-    .snapshot("Thumbnail Inline End RTL")
-    .executeScript(setTheme("dark"))
-    .snapshot("Thumbnail Inline End RTL Dark")
-    .ltr()
-    .snapshot("Thumbnail Inline End Dark")
-);
+export const thumbnail = (): string => html`
+  <div style="width:260px">
+    ${create(
+      "calcite-card",
+      createAttributes(),
+      html`
+        ${thumbnailHtml}
+        <h3 slot="title">Portland Businesses</h3>
+        <span slot="subtitle"
+          >by
+          <calcite-link href="">example_user</calcite-link>
+        </span>
+        <div>
+          Created: Apr 22, 2019
+          <br />
+          Updated: Dec 9, 2019
+          <br />
+          View Count: 0
+        </div>
+        <calcite-button
+          slot="footer-leading"
+          color="neutral"
+          scale="s"
+          id="card-icon-test-1"
+          icon-start="circle"
+        ></calcite-button>
+        <div slot="footer-trailing">
+          <calcite-button scale="s" color="neutral" id="card-icon-test-2" icon-start="circle"></calcite-button>
+          <calcite-button scale="s" color="neutral" id="card-icon-test-3" icon-start="circle"></calcite-button>
+          <calcite-dropdown type="hover">
+            <calcite-button
+              id="card-icon-test-5"
+              slot="dropdown-trigger"
+              scale="s"
+              color="neutral"
+              icon-start="circle"
+            ></calcite-button>
+            <calcite-dropdown-group selection-mode="none">
+              <calcite-dropdown-item>View details</calcite-dropdown-item>
+              <calcite-dropdown-item>Duplicate</calcite-dropdown-item>
+              <calcite-dropdown-item>Delete</calcite-dropdown-item>
+            </calcite-dropdown-group>
+          </calcite-dropdown>
+        </div>
+      `
+    )}
+    <calcite-tooltip placement="bottom-start" reference-element="card-icon-test-1"
+      >My great tooltip example
+    </calcite-tooltip>
+    <calcite-tooltip placement="bottom-start" reference-element="card-icon-test-2">Sharing level: 2 </calcite-tooltip>
+    <calcite-tooltip placement="top-end" reference-element="card-icon-test-3">More... </calcite-tooltip>
+    <calcite-tooltip placement="top-start" reference-element="card-icon-test-5">More options </calcite-tooltip>
+  </div>
+`;
 
 export const thumbnailRounded = (): string => html`
   <div id="card-container" style="width:260px;">
@@ -289,3 +240,5 @@ export const darkThemeRTL_TestOnly = (): string => html`
     <calcite-card>${thumbnailHtml}${titleHtml}${footerLeadingTextHtml}${footerTrailingButtonsHtml}</calcite-card>
   </div>
 `;
+
+darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };
