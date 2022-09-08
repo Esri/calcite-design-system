@@ -1,5 +1,5 @@
 import { select } from "@storybook/addon-knobs";
-import { boolean, storyFilters } from "../../../.storybook/helpers";
+import { boolean, createSteps, stepStory, storyFilters } from "../../../.storybook/helpers";
 import { themesDarkDefault } from "../../../.storybook/utils";
 import readme from "./readme.md";
 import treeItemReadme from "../tree-item/readme.md";
@@ -60,6 +60,22 @@ export const simple = (): string => html`
     ${treeItems}
   </calcite-tree>
 `;
+
+export const selectionModeNoneScales = stepStory(
+  (): string => html` <calcite-tree
+    ${boolean("lines", false)}
+    selection-mode="${select("selection-mode", selectionModes, "none")}"
+  >
+    ${treeItems}
+  </calcite-tree>`,
+  createSteps("calcite-tree")
+    .executeScript(`document.querySelector("calcite-tree").scale = "s"`)
+    .snapshot("selection-mode:none small")
+    .executeScript(`document.querySelector("calcite-tree").scale = "m"`)
+    .snapshot("selection-mode:none medium")
+    .executeScript(`document.querySelector("calcite-tree").scale = "l"`)
+    .snapshot("selection-mode:none large")
+);
 
 export const darkThemeRTL_TestOnly = (): string => html`
   <calcite-tree
