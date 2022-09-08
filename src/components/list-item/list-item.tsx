@@ -335,7 +335,7 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
           aria-label={label}
           aria-level={level}
           aria-posinset={setPosition}
-          aria-selected={selected}
+          aria-selected={toAriaBoolean(selected)}
           aria-setsize={setSize}
           class={{
             [CSS.container]: true,

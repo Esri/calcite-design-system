@@ -145,6 +145,7 @@ export class List implements InteractiveComponent {
         <table
           aria-busy={toAriaBoolean(loading)}
           aria-label={label || ""}
+          class={CSS.table}
           onKeyDown={this.handleListKeydown}
           role="treegrid"
         >

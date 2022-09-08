@@ -35,15 +35,79 @@
 
       <!-- simple list -->
       <div class="parent">
-        <div class="child right-aligned-text">simple list</div>
+        <div class="child right-aligned-text">simple list single selection</div>
 
         <div class="child">
           <calcite-list label="test">
             <calcite-list-item label="test" description="hello world">
-              <calcite-icon icon="check" slot="content-start" style="color: var(--calcite-ui-success)"></calcite-icon>
+              <calcite-icon icon="banana" slot="content-start" style="color: var(--calcite-ui-success)"></calcite-icon>
             </calcite-list-item>
             <calcite-list-item label="test" description="hello world">
-              <calcite-icon icon="blank" slot="content-start" style="color: var(--calcite-ui-success)"></calcite-icon>
+              <calcite-icon icon="compass" slot="content-start" style="color: var(--calcite-ui-success)"></calcite-icon>
+            </calcite-list-item>
+          </calcite-list>
+        </div>
+      </div>
+
+      <!-- simple list -->
+      <div class="parent">
+        <div class="child right-aligned-text">simple list single selection border</div>
+
+        <div class="child">
+          <calcite-list label="test" selection-appearance="border">
+            <calcite-list-item label="test" description="hello world">
+              <calcite-icon icon="banana" slot="content-start" style="color: var(--calcite-ui-success)"></calcite-icon>
+            </calcite-list-item>
+            <calcite-list-item label="test" description="hello world">
+              <calcite-icon icon="compass" slot="content-start" style="color: var(--calcite-ui-success)"></calcite-icon>
+            </calcite-list-item>
+          </calcite-list>
+        </div>
+      </div>
+
+      <!-- simple list multiple selection -->
+      <div class="parent">
+        <div class="child right-aligned-text">simple list multiple</div>
+
+        <div class="child">
+          <calcite-list selection-mode="multiple" label="test">
+            <calcite-list-item label="test" description="hello world">
+              <calcite-icon icon="banana" slot="content-start" style="color: var(--calcite-ui-success)"></calcite-icon>
+            </calcite-list-item>
+            <calcite-list-item label="test" description="hello world">
+              <calcite-icon icon="compass" slot="content-start" style="color: var(--calcite-ui-success)"></calcite-icon>
+            </calcite-list-item>
+          </calcite-list>
+        </div>
+      </div>
+
+      <!-- simple list multiple selection border -->
+      <div class="parent">
+        <div class="child right-aligned-text">simple list multiple border</div>
+
+        <div class="child">
+          <calcite-list selection-mode="multiple" selection-appearance="border" label="test">
+            <calcite-list-item label="test" description="hello world">
+              <calcite-icon icon="banana" slot="content-start" style="color: var(--calcite-ui-success)"></calcite-icon>
+            </calcite-list-item>
+            <calcite-list-item label="test" description="hello world">
+              <calcite-icon icon="compass" slot="content-start" style="color: var(--calcite-ui-success)"></calcite-icon>
+            </calcite-list-item>
+          </calcite-list>
+        </div>
+      </div>
+
+      <!-- simple list no selection -->
+      <div class="parent">
+        <div class="child right-aligned-text">simple list no selection</div>
+
+        <div class="child">
+          <calcite-list selection-mode="none" label="test">
+            <calcite-list-item label="test" description="hello world">
+              <calcite-icon icon="banana" slot="content-start" style="color: var(--calcite-ui-success)"></calcite-icon>
+            </calcite-list-item>
+            <calcite-list-item label="test" description="hello world">
+              <calcite-icon icon="compass" slot="content-start" style="color: var(--calcite-ui-success)"></calcite-icon>
             </calcite-list-item>
           </calcite-list>
         </div>

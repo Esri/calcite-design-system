@@ -21,6 +21,10 @@
   }
 }
 
+.table {
+  @apply w-full;
+}
+
 ::slotted(calcite-list-item) {
   @apply shadow-border-bottom mb-px;
 }

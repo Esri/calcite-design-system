@@ -96,7 +96,7 @@ td:focus {
 }
 
 .selection-container {
-  @apply flex flex-auto self-center px-3;
+  @apply flex px-3;
   color: var(--calcite-list-item-icon-color);
 }
 
