@@ -21,8 +21,8 @@ import {
 } from "../../utils/conditionalSlot";
 
 /**
- * @slot - A slot for adding content to the shell panel.
- * @slot action-bar - A slot for adding a `calcite-action-bar` to the panel.
+ * @slot - A slot for adding content to the component.
+ * @slot action-bar - A slot for adding a `calcite-action-bar` to the component.
  */
 @Component({
   tag: "calcite-shell-panel",
@@ -37,7 +37,7 @@ export class ShellPanel implements ConditionalSlotComponent {
   // --------------------------------------------------------------------------
 
   /**
-   * Hide the content panel.
+   * When true, hides the component's content area.
    */
   @Prop({ reflect: true }) collapsed = false;
 
@@ -47,35 +47,35 @@ export class ShellPanel implements ConditionalSlotComponent {
   }
 
   /**
-   * This property makes the content area appear like a "floating" panel.
+   * When true, the content area displays like a floating panel.
    */
   @Prop({ reflect: true }) detached = false;
 
   /**
-   * Specifies the maximum height of the contents when detached.
+   * When "detached", specifies the maximum height of the component.
    */
   @Prop({ reflect: true }) detachedHeightScale: Scale = "l";
 
   /**
-   * This sets width of the content area.
+   * Specifies the width of the component's content area.
    */
 
   @Prop({ reflect: true }) widthScale: Scale = "m";
 
   /**
-   * Arranges the component depending on the elements 'dir' property.
+   * Specifies the component's position. Will be flipped when the element direction is right-to-left ("rtl").
    */
   @Prop({ reflect: true }) position: Position;
 
   /**
-   * Accessible label for resize separator.
+   * Accessible name for the resize separator.
    *
    * @default "Resize"
    */
   @Prop() intlResize = TEXT.resize;
 
   /**
-   * This property makes the content area resizable if the calcite-shell-panel is not 'detached'.
+   * When true and not "detached", the component's content area is resizable.
    */
   @Prop({ reflect: true }) resizable = false;
 
@@ -133,7 +133,7 @@ export class ShellPanel implements ConditionalSlotComponent {
   /**
    * Emitted when collapse has been toggled.
    *
-   * @deprecated use a resizeObserver on the shell-panel to listen for changes to its size.
+   * @deprecated use a resizeObserver on the component to listen for changes to its size.
    */
   @Event({ cancelable: false }) calciteShellPanelToggle: EventEmitter<void>;
 

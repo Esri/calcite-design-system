@@ -13,7 +13,7 @@ describe("calcite-dropdown", () => {
         <calcite-button slot="dropdown-trigger">Open dropdown</calcite-button>
         <calcite-dropdown-group id="group-1">
           <calcite-dropdown-item id="item-1"> Dropdown Item Content </calcite-dropdown-item>
-          <calcite-dropdown-item id="item-2" active> Dropdown Item Content </calcite-dropdown-item>
+          <calcite-dropdown-item id="item-2" selected> Dropdown Item Content </calcite-dropdown-item>
           <calcite-dropdown-item id="item-3"> Dropdown Item Content </calcite-dropdown-item>
         </calcite-dropdown-group>
       </calcite-dropdown>`,
@@ -40,7 +40,7 @@ describe("calcite-dropdown", () => {
         <calcite-button slot="dropdown-trigger">Open dropdown</calcite-button>
         <calcite-dropdown-group id="group-1">
           <calcite-dropdown-item id="item-1"> Dropdown Item Content </calcite-dropdown-item>
-          <calcite-dropdown-item id="item-2" active> Dropdown Item Content </calcite-dropdown-item>
+          <calcite-dropdown-item id="item-2" selected> Dropdown Item Content </calcite-dropdown-item>
           <calcite-dropdown-item id="item-3"> Dropdown Item Content </calcite-dropdown-item>
         </calcite-dropdown-group>
       </calcite-dropdown>`,
@@ -109,12 +109,12 @@ describe("calcite-dropdown", () => {
       <calcite-button slot="dropdown-trigger" id="trigger">Open dropdown</calcite-button>
       <calcite-dropdown-group id="group-1" selection-mode="multi">
         <calcite-dropdown-item id="item-1"> Dropdown Item Content </calcite-dropdown-item>
-        <calcite-dropdown-item id="item-2" active> Dropdown Item Content </calcite-dropdown-item>
-        <calcite-dropdown-item id="item-3" active> Dropdown Item Content </calcite-dropdown-item>
+        <calcite-dropdown-item id="item-2" selected> Dropdown Item Content </calcite-dropdown-item>
+        <calcite-dropdown-item id="item-3" selected> Dropdown Item Content </calcite-dropdown-item>
       </calcite-dropdown-group>
       <calcite-dropdown-group id="group-2" selection-mode="single">
         <calcite-dropdown-item id="item-4"> Dropdown Item Content </calcite-dropdown-item>
-        <calcite-dropdown-item id="item-5" active> Dropdown Item Content </calcite-dropdown-item>
+        <calcite-dropdown-item id="item-5" selected> Dropdown Item Content </calcite-dropdown-item>
       </calcite-dropdown-group>
       <calcite-dropdown-group id="group-3" selection-mode="none">
         <calcite-dropdown-item id="item-6"> Dropdown Item Content </calcite-dropdown-item>
@@ -129,7 +129,7 @@ describe("calcite-dropdown", () => {
       <calcite-button slot="dropdown-trigger">Open dropdown</calcite-button>
       <calcite-dropdown-group id="group-1">
         <calcite-dropdown-item id="item-1"> Dropdown Item Content </calcite-dropdown-item>
-        <calcite-dropdown-item id="item-2" active> Dropdown Item Content </calcite-dropdown-item>
+        <calcite-dropdown-item id="item-2" selected> Dropdown Item Content </calcite-dropdown-item>
         <calcite-dropdown-item id="item-3"> Dropdown Item Content </calcite-dropdown-item>
       </calcite-dropdown-group>
     </calcite-dropdown>`);
@@ -147,7 +147,7 @@ describe("calcite-dropdown", () => {
       <calcite-button slot="dropdown-trigger">Open dropdown</calcite-button>
       <calcite-dropdown-group id="group-1" selection-mode="multi">
         <calcite-dropdown-item id="item-1"> Dropdown Item Content </calcite-dropdown-item>
-        <calcite-dropdown-item id="item-2" active> Dropdown Item Content </calcite-dropdown-item>
+        <calcite-dropdown-item id="item-2" selected> Dropdown Item Content </calcite-dropdown-item>
         <calcite-dropdown-item id="item-3"> Dropdown Item Content </calcite-dropdown-item>
       </calcite-dropdown-group>
     </calcite-dropdown>`);
@@ -166,7 +166,7 @@ describe("calcite-dropdown", () => {
       <calcite-button slot="dropdown-trigger">Open dropdown</calcite-button>
       <calcite-dropdown-group>
         <calcite-dropdown-item icon-start="grid" id="item-1"> Dropdown Item Content </calcite-dropdown-item>
-        <calcite-dropdown-item icon-end="grid" id="item-2" active> Dropdown Item Content </calcite-dropdown-item>
+        <calcite-dropdown-item icon-end="grid" id="item-2" selected> Dropdown Item Content </calcite-dropdown-item>
         <calcite-dropdown-item icon-start="grid" icon-end="grid" id="item-3">
           Dropdown Item Content
         </calcite-dropdown-item>
@@ -198,11 +198,11 @@ describe("calcite-dropdown", () => {
       <calcite-button slot="dropdown-trigger">Open dropdown</calcite-button>
       <calcite-dropdown-group id="group-1" group-title="My Group 1 Title">
         <calcite-dropdown-item id="item-1"> Dropdown Item Content </calcite-dropdown-item>
-        <calcite-dropdown-item id="item-2" active> Dropdown Item Content </calcite-dropdown-item>
+        <calcite-dropdown-item id="item-2" selected> Dropdown Item Content </calcite-dropdown-item>
       </calcite-dropdown-group>
       <calcite-dropdown-group id="group-2">
         <calcite-dropdown-item id="item-3"> Dropdown Item Content </calcite-dropdown-item>
-        <calcite-dropdown-item id="item-4" active> Dropdown Item Content </calcite-dropdown-item>
+        <calcite-dropdown-item id="item-4" selected> Dropdown Item Content </calcite-dropdown-item>
       </calcite-dropdown-group>
     </calcite-dropdown>`);
 
@@ -212,13 +212,13 @@ describe("calcite-dropdown", () => {
     expect(group2Title).toBeNull();
   });
 
-  it("renders active item based on attribute in dom", async () => {
+  it("renders selected item based on attribute in dom", async () => {
     const page = await newE2EPage();
     await page.setContent(html`<calcite-dropdown>
       <calcite-button slot="dropdown-trigger">Open dropdown</calcite-button>
       <calcite-dropdown-group id="group-1">
         <calcite-dropdown-item id="item-1"> Dropdown Item Content </calcite-dropdown-item>
-        <calcite-dropdown-item id="item-2" active> Dropdown Item Content </calcite-dropdown-item>
+        <calcite-dropdown-item id="item-2" selected> Dropdown Item Content </calcite-dropdown-item>
         <calcite-dropdown-item id="item-3"> Dropdown Item Content </calcite-dropdown-item>
       </calcite-dropdown-group>
     </calcite-dropdown>`);
@@ -227,18 +227,23 @@ describe("calcite-dropdown", () => {
     const item1 = await element.find("calcite-dropdown-item[id='item-1']");
     const item2 = await element.find("calcite-dropdown-item[id='item-2']");
     const item3 = await element.find("calcite-dropdown-item[id='item-3']");
+
+    //active prop is deprecated
     expect(item1).not.toHaveAttribute("active");
-    expect(item2).toHaveAttribute("active");
     expect(item3).not.toHaveAttribute("active");
+
+    expect(item1).not.toHaveAttribute("selected");
+    expect(item2).toHaveAttribute("selected");
+    expect(item3).not.toHaveAttribute("selected");
   });
 
-  it("renders multiple active items when group is in multi selection mode", async () => {
+  it("renders multiple selected items when group is in multi selection mode", async () => {
     const page = await newE2EPage();
     await page.setContent(html`<calcite-dropdown>
       <calcite-button id="trigger" slot="dropdown-trigger">Open dropdown</calcite-button>
       <calcite-dropdown-group id="group-1" selection-mode="multi">
         <calcite-dropdown-item id="item-1"> Dropdown Item Content </calcite-dropdown-item>
-        <calcite-dropdown-item id="item-2" active> Dropdown Item Content </calcite-dropdown-item>
+        <calcite-dropdown-item id="item-2" selected> Dropdown Item Content </calcite-dropdown-item>
         <calcite-dropdown-item id="item-3"> Dropdown Item Content </calcite-dropdown-item>
       </calcite-dropdown-group>
     </calcite-dropdown>`);
@@ -277,19 +282,25 @@ describe("calcite-dropdown", () => {
       expectedItemIds: ["item-1", "item-3"],
       mostRecentId: "item-3"
     });
+
+    // active prop is deprecated
     expect(item1).toHaveAttribute("active");
     expect(item2).not.toHaveAttribute("active");
     expect(item3).toHaveAttribute("active");
+
+    expect(item1).toHaveAttribute("selected");
+    expect(item2).not.toHaveAttribute("selected");
+    expect(item3).toHaveAttribute("selected");
     expect(itemChangeSpy).toHaveReceivedEventTimes(3);
   });
 
-  it("renders just one active item when group is in single selection mode", async () => {
+  it("renders just one selected item when group is in single selection mode", async () => {
     const page = await newE2EPage();
     await page.setContent(html`<calcite-dropdown>
       <calcite-button id="trigger" slot="dropdown-trigger">Open dropdown</calcite-button>
       <calcite-dropdown-group id="group-1" selection-mode="single">
         <calcite-dropdown-item id="item-1"> Dropdown Item Content </calcite-dropdown-item>
-        <calcite-dropdown-item id="item-2" active> Dropdown Item Content </calcite-dropdown-item>
+        <calcite-dropdown-item id="item-2" selected> Dropdown Item Content </calcite-dropdown-item>
         <calcite-dropdown-item id="item-3"> Dropdown Item Content </calcite-dropdown-item>
       </calcite-dropdown-group>
     </calcite-dropdown>`);
@@ -321,19 +332,24 @@ describe("calcite-dropdown", () => {
       mostRecentId: "item-3"
     });
 
+    //active prop is deprecated
     expect(item1).not.toHaveAttribute("active");
     expect(item2).not.toHaveAttribute("active");
     expect(item3).toHaveAttribute("active");
+
+    expect(item1).not.toHaveAttribute("selected");
+    expect(item2).not.toHaveAttribute("selected");
+    expect(item3).toHaveAttribute("selected");
     expect(itemChangeSpy).toHaveReceivedEventTimes(2);
   });
 
-  it("renders no active item when group is in none selection mode (and removes any active state set in dom on load)", async () => {
+  it("renders no selected item when group is in none selection mode (and removes any selected state set in dom on load)", async () => {
     const page = await newE2EPage();
     await page.setContent(html`<calcite-dropdown>
       <calcite-button id="trigger" slot="dropdown-trigger">Open dropdown</calcite-button>
       <calcite-dropdown-group id="group-1" selection-mode="none">
         <calcite-dropdown-item id="item-1"> Dropdown Item Content </calcite-dropdown-item>
-        <calcite-dropdown-item id="item-2" active> Dropdown Item Content </calcite-dropdown-item>
+        <calcite-dropdown-item id="item-2" selected> Dropdown Item Content </calcite-dropdown-item>
         <calcite-dropdown-item id="item-3"> Dropdown Item Content </calcite-dropdown-item>
       </calcite-dropdown-group>
     </calcite-dropdown>`);
@@ -359,24 +375,30 @@ describe("calcite-dropdown", () => {
     await item3.click();
     await page.waitForChanges();
     await assertSelectedItems(page, { expectedItemIds: [], mostRecentId: "item-3" });
+
+    //active prop is deprecated
     expect(item1).not.toHaveAttribute("active");
     expect(item2).not.toHaveAttribute("active");
     expect(item3).not.toHaveAttribute("active");
+
+    expect(item1).not.toHaveAttribute("selected");
+    expect(item2).not.toHaveAttribute("selected");
+    expect(item3).not.toHaveAttribute("selected");
     expect(itemChangeSpy).toHaveReceivedEventTimes(3);
   });
 
-  it("renders the correct active state when parent contains groups of assorted selection modes", async () => {
+  it("renders the correct selected state when parent contains groups of assorted selection modes", async () => {
     const page = await newE2EPage();
     await page.setContent(html`<calcite-dropdown>
       <calcite-button slot="dropdown-trigger" id="trigger">Open dropdown</calcite-button>
       <calcite-dropdown-group id="group-1" selection-mode="multi">
         <calcite-dropdown-item id="item-1"> Dropdown Item Content </calcite-dropdown-item>
-        <calcite-dropdown-item id="item-2" active> Dropdown Item Content </calcite-dropdown-item>
+        <calcite-dropdown-item id="item-2" selected> Dropdown Item Content </calcite-dropdown-item>
         <calcite-dropdown-item id="item-3"> Dropdown Item Content </calcite-dropdown-item>
       </calcite-dropdown-group>
       <calcite-dropdown-group id="group-2" selection-mode="single">
         <calcite-dropdown-item id="item-4"> Dropdown Item Content </calcite-dropdown-item>
-        <calcite-dropdown-item id="item-5" active> Dropdown Item Content </calcite-dropdown-item>
+        <calcite-dropdown-item id="item-5" selected> Dropdown Item Content </calcite-dropdown-item>
         <calcite-dropdown-item id="item-6"> Dropdown Item Content </calcite-dropdown-item>
       </calcite-dropdown-group>
       <calcite-dropdown-group id="group-3" selection-mode="none">
@@ -465,6 +487,7 @@ describe("calcite-dropdown", () => {
       mostRecentId: "item-9"
     });
 
+    //active is deprecated
     expect(item1).toHaveAttribute("active");
     expect(item2).not.toHaveAttribute("active");
     expect(item3).toHaveAttribute("active");
@@ -474,6 +497,16 @@ describe("calcite-dropdown", () => {
     expect(item7).not.toHaveAttribute("active");
     expect(item8).not.toHaveAttribute("active");
     expect(item9).not.toHaveAttribute("active");
+
+    expect(item1).toHaveAttribute("selected");
+    expect(item2).not.toHaveAttribute("selected");
+    expect(item3).toHaveAttribute("selected");
+    expect(item4).not.toHaveAttribute("selected");
+    expect(item5).not.toHaveAttribute("selected");
+    expect(item6).toHaveAttribute("selected");
+    expect(item7).not.toHaveAttribute("selected");
+    expect(item8).not.toHaveAttribute("selected");
+    expect(item9).not.toHaveAttribute("selected");
     expect(itemChangeSpy).toHaveReceivedEventTimes(7);
   });
 
@@ -496,7 +529,7 @@ describe("calcite-dropdown", () => {
     expect(elementAsLink).toEqualAttribute("target", "_blank");
   });
 
-  it("should focus the first item on open when there is no active item", async () => {
+  it("should focus the first item on open when there is no selected item", async () => {
     const page = await newE2EPage({
       html: html`<calcite-dropdown>
         <calcite-button slot="dropdown-trigger">Open Dropdown</calcite-button>
@@ -516,14 +549,14 @@ describe("calcite-dropdown", () => {
     expect(await page.evaluate(() => document.activeElement.id)).toEqual("item-1");
   });
 
-  it("should focus the first active item on open", async () => {
+  it("should focus the first selected item on open", async () => {
     const page = await newE2EPage({
       html: html`<calcite-dropdown>
         <calcite-button slot="dropdown-trigger">Open Dropdown</calcite-button>
         <calcite-dropdown-group>
           <calcite-dropdown-item id="item-1">1</calcite-dropdown-item>
           <calcite-dropdown-item id="item-2">2</calcite-dropdown-item>
-          <calcite-dropdown-item id="item-3" active>3</calcite-dropdown-item>
+          <calcite-dropdown-item id="item-3" selected>3</calcite-dropdown-item>
           <calcite-dropdown-item id="item-4">4</calcite-dropdown-item>
         </calcite-dropdown-group>
       </calcite-dropdown>`
@@ -537,15 +570,15 @@ describe("calcite-dropdown", () => {
     expect(await page.evaluate(() => document.activeElement.id)).toEqual("item-3");
   });
 
-  it("should focus the first active item on open (multi)", async () => {
+  it("should focus the first selected item on open (multi)", async () => {
     const page = await newE2EPage({
       html: html`<calcite-dropdown>
         <calcite-button slot="dropdown-trigger">Open Dropdown</calcite-button>
         <calcite-dropdown-group selection-mode="multi">
           <calcite-dropdown-item id="item-1">1</calcite-dropdown-item>
-          <calcite-dropdown-item id="item-2" active>2</calcite-dropdown-item>
+          <calcite-dropdown-item id="item-2" selected>2</calcite-dropdown-item>
           <calcite-dropdown-item id="item-3">3</calcite-dropdown-item>
-          <calcite-dropdown-item id="item-4" active>4</calcite-dropdown-item>
+          <calcite-dropdown-item id="item-4" selected>4</calcite-dropdown-item>
         </calcite-dropdown-group>
       </calcite-dropdown>`
     });
@@ -604,7 +637,7 @@ describe("calcite-dropdown", () => {
           <calcite-dropdown-item id="item-47">47</calcite-dropdown-item>
           <calcite-dropdown-item id="item-48">48</calcite-dropdown-item>
           <calcite-dropdown-item id="item-49">49</calcite-dropdown-item>
-          <calcite-dropdown-item id="item-50" active>50</calcite-dropdown-item>
+          <calcite-dropdown-item id="item-50" selected>50</calcite-dropdown-item>
         </calcite-dropdown-group>
       </calcite-dropdown>`);
       await page.waitForChanges();
@@ -670,7 +703,7 @@ describe("calcite-dropdown", () => {
       <calcite-button id="trigger" slot="dropdown-trigger">Open dropdown</calcite-button>
       <calcite-dropdown-group id="group-1" selection-mode="single">
         <calcite-dropdown-item id="item-1"> Dropdown Item Content </calcite-dropdown-item>
-        <calcite-dropdown-item id="item-2" active> Dropdown Item Content </calcite-dropdown-item>
+        <calcite-dropdown-item id="item-2" selected> Dropdown Item Content </calcite-dropdown-item>
         <calcite-dropdown-item id="item-3"> Dropdown Item Content </calcite-dropdown-item>
       </calcite-dropdown-group>
     </calcite-dropdown>`);
@@ -694,7 +727,7 @@ describe("calcite-dropdown", () => {
       <calcite-button id="trigger" slot="dropdown-trigger">Open dropdown</calcite-button>
       <calcite-dropdown-group id="group-1" selection-mode="single">
         <calcite-dropdown-item id="item-1"> Dropdown Item Content </calcite-dropdown-item>
-        <calcite-dropdown-item id="item-2" active> Dropdown Item Content </calcite-dropdown-item>
+        <calcite-dropdown-item id="item-2" selected> Dropdown Item Content </calcite-dropdown-item>
         <calcite-dropdown-item>
           <div id="item-3">Dropdown Item Content</div>
         </calcite-dropdown-item>
@@ -752,7 +785,7 @@ describe("calcite-dropdown", () => {
           <calcite-button slot="dropdown-trigger">Open dropdown</calcite-button>
           <calcite-dropdown-group selection-mode="single">
             <calcite-dropdown-item id="item-1"> Dropdown Item Content </calcite-dropdown-item>
-            <calcite-dropdown-item id="item-2" active> Dropdown Item Content </calcite-dropdown-item>
+            <calcite-dropdown-item id="item-2" selected> Dropdown Item Content </calcite-dropdown-item>
           </calcite-dropdown-group>
         </calcite-dropdown>
       `);
@@ -797,7 +830,7 @@ describe("calcite-dropdown", () => {
           <calcite-action slot="dropdown-trigger">Open dropdown</calcite-action>
           <calcite-dropdown-group selection-mode="single">
             <calcite-dropdown-item id="item-1"> Dropdown Item Content</calcite-dropdown-item>
-            <calcite-dropdown-item id="item-2" active> Dropdown Item Content</calcite-dropdown-item>
+            <calcite-dropdown-item id="item-2" selected> Dropdown Item Content</calcite-dropdown-item>
           </calcite-dropdown-group>
         </calcite-dropdown>
       `);
@@ -842,7 +875,7 @@ describe("calcite-dropdown", () => {
         <calcite-button id="trigger" slot="dropdown-trigger">Open dropdown</calcite-button>
         <calcite-dropdown-group id="group-1" selection-mode="single">
           <calcite-dropdown-item id="item-1"> Dropdown Item Content </calcite-dropdown-item>
-          <calcite-dropdown-item id="item-2" active> Dropdown Item Content </calcite-dropdown-item>
+          <calcite-dropdown-item id="item-2" selected> Dropdown Item Content </calcite-dropdown-item>
           <calcite-dropdown-item id="item-3"> Dropdown Item Content </calcite-dropdown-item>
         </calcite-dropdown-group>
       </calcite-dropdown>
@@ -850,7 +883,7 @@ describe("calcite-dropdown", () => {
         <calcite-button id="trigger" slot="dropdown-trigger">Open dropdown</calcite-button>
         <calcite-dropdown-group id="group-1" selection-mode="single">
           <calcite-dropdown-item id="item-1"> Dropdown Item Content </calcite-dropdown-item>
-          <calcite-dropdown-item id="item-2" active> Dropdown Item Content </calcite-dropdown-item>
+          <calcite-dropdown-item id="item-2" selected> Dropdown Item Content </calcite-dropdown-item>
           <calcite-dropdown-item id="item-3"> Dropdown Item Content </calcite-dropdown-item>
         </calcite-dropdown-group>
       </calcite-dropdown>`);
@@ -880,7 +913,7 @@ describe("calcite-dropdown", () => {
         <calcite-button id="trigger" slot="dropdown-trigger">Open dropdown</calcite-button>
         <calcite-dropdown-group id="group-1" selection-mode="single">
           <calcite-dropdown-item id="item-1"> Dropdown Item Content </calcite-dropdown-item>
-          <calcite-dropdown-item id="item-2" active> Dropdown Item Content </calcite-dropdown-item>
+          <calcite-dropdown-item id="item-2" selected> Dropdown Item Content </calcite-dropdown-item>
           <calcite-dropdown-item id="item-3"> Dropdown Item Content </calcite-dropdown-item>
         </calcite-dropdown-group>
       </calcite-dropdown>
@@ -908,7 +941,7 @@ describe("calcite-dropdown", () => {
         <calcite-icon class="trigger" icon="caretDown" scale="s" slot="dropdown-trigger"></calcite-icon>
         <calcite-dropdown-group id="group-1" selection-mode="single">
           <calcite-dropdown-item id="item-1"> Dropdown Item Content </calcite-dropdown-item>
-          <calcite-dropdown-item id="item-2" active> Dropdown Item Content </calcite-dropdown-item>
+          <calcite-dropdown-item id="item-2" selected> Dropdown Item Content </calcite-dropdown-item>
           <calcite-dropdown-item id="item-3"> Dropdown Item Content </calcite-dropdown-item>
         </calcite-dropdown-group>
       </calcite-dropdown>
@@ -982,7 +1015,7 @@ describe("calcite-dropdown", () => {
       <calcite-dropdown disable-close-on-select>
         <calcite-button slot="dropdown-trigger">Open</calcite-button>
         <calcite-dropdown-group selection-mode="single">
-          <calcite-dropdown-item id="item-1" active>1</calcite-dropdown-item>
+          <calcite-dropdown-item id="item-1" selected>1</calcite-dropdown-item>
           <calcite-dropdown-item id="item-2">2</calcite-dropdown-item>
           <calcite-dropdown-item id="item-3">3</calcite-dropdown-item>
         </calcite-dropdown-group>
@@ -1026,7 +1059,7 @@ describe("calcite-dropdown", () => {
 
     const finalSelectedItem = await page.evaluate(async (wrapperName: string): Promise<string> => {
       const wrapper = document.querySelector(wrapperName);
-      return wrapper.shadowRoot.querySelector("calcite-dropdown-item[active]").id;
+      return wrapper.shadowRoot.querySelector("calcite-dropdown-item[selected]").id;
     }, wrapperName);
 
     await expect(finalSelectedItem).toBe("item-3");
@@ -1101,7 +1134,7 @@ describe("calcite-dropdown", () => {
       html` <calcite-dropdown>
         <calcite-button slot="dropdown-trigger">Open</calcite-button>
         <calcite-dropdown-group selection-mode="single">
-          <calcite-dropdown-item id="item-1" active>1</calcite-dropdown-item>
+          <calcite-dropdown-item id="item-1" selected>1</calcite-dropdown-item>
           <calcite-dropdown-item id="item-2">2</calcite-dropdown-item>
           <calcite-dropdown-item id="item-3">3</calcite-dropdown-item>
         </calcite-dropdown-group>
@@ -1119,7 +1152,7 @@ describe("calcite-dropdown", () => {
         <calcite-button slot="dropdown-trigger">Open dropdown</calcite-button>
         <calcite-dropdown-group id="group-1">
           <calcite-dropdown-item id="item-1"> Dropdown Item Content </calcite-dropdown-item>
-          <calcite-dropdown-item id="item-2" active> Dropdown Item Content </calcite-dropdown-item>
+          <calcite-dropdown-item id="item-2" selected> Dropdown Item Content </calcite-dropdown-item>
           <calcite-dropdown-item id="item-3"> Dropdown Item Content </calcite-dropdown-item>
         </calcite-dropdown-group>
       </calcite-dropdown>

@@ -117,7 +117,7 @@ td:focus {
 .content-start,
 .content-end {
   ::slotted(calcite-icon) {
-    @apply self-center px-3;
+    @apply self-center mx-3;
   }
 }
 

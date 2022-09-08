@@ -107,7 +107,7 @@ export class TreeItem implements ConditionalSlotComponent {
   /**
    * @internal
    */
-  @Prop({ mutable: true }) selectionMode: TreeSelectionMode;
+  @Prop({ mutable: true, reflect: true }) selectionMode: TreeSelectionMode;
 
   @Watch("selectionMode")
   getselectionMode(): void {
@@ -213,7 +213,7 @@ export class TreeItem implements ConditionalSlotComponent {
       : showCheckmark
       ? ICONS.checkmark
       : null;
-    const bulletOrCheckIcon = selectedIcon ? (
+    const itemIndicator = selectedIcon ? (
       <calcite-icon
         class={{
           [CSS.bulletPointIcon]: selectedIcon === ICONS.bulletPoint,
@@ -245,7 +245,7 @@ export class TreeItem implements ConditionalSlotComponent {
           ref={(el) => (this.defaultSlotWrapper = el as HTMLElement)}
         >
           {chevron}
-          {bulletOrCheckIcon}
+          {itemIndicator}
           {checkbox ? checkbox : defaultSlotNode}
         </div>
         <div

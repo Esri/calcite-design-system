@@ -16,12 +16,6 @@
     ease-in-out
     overflow-hidden;
     border-radius: var(--calcite-border-radius-base);
-    &:hover {
-      @apply shadow-1-lg z-default;
-    }
-    &:active {
-      @apply shadow-1-sm duration-75 z-default;
-    }
   }
 }
 
@@ -61,11 +55,6 @@
   @apply text-color-3
     text-n2-wrap
     p-3;
-}
-
-// selectable and selected styles
-:host([selectable]) .calcite-card-container:active {
-  @apply shadow-1-sm;
 }
 
 :host([selected]) .calcite-card-container {

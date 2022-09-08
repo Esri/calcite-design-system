@@ -30,7 +30,7 @@ export class TipManager {
   //
   // --------------------------------------------------------------------------
   /**
-   * Closed state of the `calcite-tip-manager`.
+   * When true, does not display or position the component.
    */
   @Prop({ reflect: true, mutable: true }) closed = false;
 
@@ -41,32 +41,32 @@ export class TipManager {
   }
 
   /**
-   * Number at which section headings should start for this component.
+   * Specifies the number at which section headings should start.
    */
   @Prop() headingLevel: HeadingLevel;
 
   /**
-   * Alternate text for closing the tip.
+   * Accessible name for the component's close button.
    */
   @Prop() intlClose?: string;
 
   /**
-   * The default group title for the `calcite-tip-manager`.
+   * Accessible name for the `calcite-tip-group` title.
    */
   @Prop() intlDefaultTitle?: string;
 
   /**
-   * Alternate text for navigating to the next tip.
+   * Accessible name for navigating to the next tip.
    */
   @Prop() intlNext?: string;
 
   /**
-   * Label that appears on hover of pagination icon.
+   * Text that accompanies the component's pagination.
    */
   @Prop() intlPaginationLabel?: string;
 
   /**
-   * Alternate text for navigating to the previous tip.
+   * Accessible name for navigating to the previous tip.
    */
   @Prop() intlPrevious?: string;
 
@@ -119,7 +119,7 @@ export class TipManager {
   //
   // --------------------------------------------------------------------------
 
-  /** Selects the next tip to display */
+  /** Selects the next `calcite-tip` to display. */
   @Method()
   async nextTip(): Promise<void> {
     this.direction = "advancing";
@@ -127,7 +127,7 @@ export class TipManager {
     this.selectedIndex = (nextIndex + this.total) % this.total;
   }
 
-  /** Selects the previous tip to display */
+  /** Selects the previous `calcite-tip` to display. */
   @Method()
   async previousTip(): Promise<void> {
     this.direction = "retreating";
@@ -142,14 +142,14 @@ export class TipManager {
   // --------------------------------------------------------------------------
 
   /**
-   * Emitted when the `calcite-tip-manager` has been toggled open or closed.
+   * Emits when the component has been open or closed.
    *
-   * @deprecated use calciteTipManagerClose instead.
+   * @deprecated use "calciteTipManagerClose" instead.
    */
   @Event({ cancelable: false }) calciteTipManagerToggle: EventEmitter<void>;
 
   /**
-   * Emitted when the `calcite-tip-manager` has been closed.
+   * Emits when the component has been closed.
    */
   @Event({ cancelable: false }) calciteTipManagerClose: EventEmitter<void>;
 

@@ -5,7 +5,7 @@ import { SLOTS } from "./resources";
 
 /**
  * @slot - A slot for adding `calcite-tab`s.
- * @slot tab-nav - A slot for adding a tab navigation component.
+ * @slot tab-nav - A slot for adding a `calcite-tab-nav`.
  */
 @Component({
   tag: "calcite-tabs",
@@ -28,23 +28,23 @@ export class Tabs {
   //--------------------------------------------------------------------------
 
   /**
-   * Align tab titles to the edge or fully justify them across the tab nav ("center")
+   * Specifies the layout of the `calcite-tab-nav`, justifying the `calcite-tab-title`s to the start ("inline"), or across and centered ("center").
    */
   @Prop({ reflect: true }) layout: TabLayout = "inline";
 
   /**
-   * Display the tabs top (default) or bottom of the tab content. above and below are deprecated.
+   * Specifies the position of the component in relation to the `calcite-tab`s. The "above" and "below" values are deprecated.
    *
    */
   @Prop({ reflect: true }) position: TabPosition = "top";
 
   /**
-   * Specify the scale of the tabs component, defaults to m
+   * Specifies the size of the component.
    */
   @Prop({ reflect: true }) scale: Scale = "m";
 
   /**
-   * Optionally enable tabs to appear like a folder-style menu when its layout is "inline"
+   * When true and layout is set to "inline", the component will display with a folder style menu.
    */
   @Prop({ reflect: true, mutable: true }) bordered = false;
 
