@@ -14,6 +14,14 @@
   }
 }
 
+.container--border-selected {
+  border-inline-start: theme("borderWidth.4") solid theme("colors.brand");
+}
+
+.container--border-unselected {
+  border-inline-start: theme("borderWidth.4") solid transparent;
+}
+
 .nested-container {
   @apply bg-foreground-1 flex flex-col;
 }
@@ -86,15 +94,21 @@ td:focus {
   @apply flex-initial;
 }
 
+.selection-container {
+  @apply flex flex-auto self-center px-3;
+}
+
 .actions-start,
 .actions-end,
 .content-start,
 .content-end,
+.selection-container,
 .open-container {
   @apply flex items-center;
 }
 
-.open-container {
+.open-container,
+.selection-container {
   @apply cursor-pointer;
 }
 

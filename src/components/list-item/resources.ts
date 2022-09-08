@@ -1,5 +1,7 @@
 export const CSS = {
   container: "container",
+  containerBorderSelected: "container--border-selected",
+  containerBorderUnselected: "container--border-unselected",
   contentContainer: "content-container",
   contentContainerDisabled: "content-container--disabled",
   nestedContainer: "nested-container",
@@ -11,6 +13,7 @@ export const CSS = {
   description: "description",
   contentEnd: "content-end",
   actionsEnd: "actions-end",
+  selectionContainer: "selection-container",
   openContainer: "open-container",
   hasCenterContent: "has-center-content"
 };

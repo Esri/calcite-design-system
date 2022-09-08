@@ -20,7 +20,6 @@ import {
 } from "../../utils/conditionalSlot";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { getDepth, getListItemChildren, updateListItemChildren } from "./utils";
-import { isActivationKey } from "../../utils/key";
 import { SelectionAppearance, SelectionMode } from "../list/resources";
 
 const focusMap = new Map<HTMLCalciteListElement, number>();
@@ -201,6 +200,23 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
   //
   // --------------------------------------------------------------------------
 
+  renderSelected(): VNode {
+    const { selected, selectionMode, selectionAppearance } = this;
+
+    if (selectionMode === "none" || selectionAppearance === "border") {
+      return null;
+    }
+
+    return (
+      <td class={CSS.selectionContainer} onClick={this.toggleSelected}>
+        <calcite-icon
+          icon={selected ? (selectionMode === "multiple" ? "check" : "bullet-point") : "blank"}
+          scale="s"
+        />
+      </td>
+    );
+  }
+
   renderOpen(): VNode {
     const { el, open, openable } = this;
     const dir = getElementDir(el);
@@ -285,8 +301,7 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
           [CSS.hasCenterContent]: hasCenterContent,
           [CSS.contentContainerDisabled]: disabled
         }}
-        onClick={this.handleItemContentSelect}
-        onKeyDown={this.handleItemContentKeyDown}
+        onClick={this.toggleSelected}
         ref={(el) => (this.contentEl = el)}
         role="gridcell"
       >
@@ -296,7 +311,23 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
   }
 
   render(): VNode {
-    const { openable, open, level, setPosition, setSize, active, label, selected } = this;
+    const {
+      openable,
+      open,
+      level,
+      setPosition,
+      setSize,
+      active,
+      label,
+      selected,
+      selectionAppearance,
+      selectionMode
+    } = this;
+
+    const showBorder = selectionMode !== "none" && selectionAppearance === "border";
+    const borderSelected = showBorder && selected;
+    const borderUnselected = showBorder && !selected;
+
     return (
       <Host>
         <tr
@@ -306,13 +337,18 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
           aria-posinset={setPosition}
           aria-selected={selected}
           aria-setsize={setSize}
-          class={CSS.container}
+          class={{
+            [CSS.container]: true,
+            [CSS.containerBorderSelected]: borderSelected,
+            [CSS.containerBorderUnselected]: borderUnselected
+          }}
           onFocus={this.focusCellNull}
           onKeyDown={this.handleItemKeyDown}
           ref={(el) => (this.containerEl = el)}
           role="row"
           tabIndex={active ? 0 : -1}
         >
+          {this.renderSelected()}
           {this.renderOpen()}
           {this.renderActionsStart()}
           {this.renderContentContainer()}
@@ -350,13 +386,13 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
     this.open = !this.open;
   };
 
-  handleItemContentKeyDown = (event: KeyboardEvent): void => {
-    const { key } = event;
-
-    if (isActivationKey(key)) {
-      event.preventDefault();
-      this.emitListItemSelect();
+  toggleSelected = (): void => {
+    if (this.disabled || this.selectionMode === "none") {
+      return;
     }
+
+    this.selected = !this.selected;
+    this.calciteListItemSelect.emit();
   };
 
   handleItemKeyDown = (event: KeyboardEvent): void => {
@@ -367,7 +403,10 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
     const cells = [actionsStartEl, contentEl, actionsEndEl].filter(Boolean);
     const currentIndex = cells.findIndex((cell) => composedPath.includes(cell));
 
-    if (key === "ArrowRight") {
+    if (key === " ") {
+      event.preventDefault();
+      this.toggleSelected();
+    } else if (key === "ArrowRight") {
       event.preventDefault();
       const nextIndex = currentIndex + 1;
       if (currentIndex === -1) {
@@ -397,22 +436,6 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
         this.focusCell(cells[prevIndex]);
       }
     }
-  };
-
-  emitListItemSelect = (): void => {
-    if (this.disabled) {
-      return;
-    }
-
-    this.calciteListItemSelect.emit();
-  };
-
-  handleItemContentSelect = (): void => {
-    if (this.disabled) {
-      return;
-    }
-
-    this.emitListItemSelect();
   };
 
   focusCellNull = (): void => {

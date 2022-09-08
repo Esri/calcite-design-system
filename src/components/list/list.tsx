@@ -37,17 +37,17 @@ export class List implements InteractiveComponent {
   /**
    * When true, content is waiting to be loaded. This state shows a busy indicator.
    */
-  @Prop() loading = false;
+  @Prop({ reflect: true }) loading = false;
 
   /**
    * @todo document.
    */
-  @Prop() selectionMode: SelectionMode = "single";
+  @Prop({ reflect: true }) selectionMode: SelectionMode = "single";
 
   /**
    * @todo document.
    */
-  @Prop() selectionAppearance: SelectionAppearance = "icon";
+  @Prop({ reflect: true }) selectionAppearance: SelectionAppearance = "icon";
 
   @Watch("selectionMode")
   @Watch("selectionAppearance")
@@ -78,9 +78,14 @@ export class List implements InteractiveComponent {
   @Listen("calciteListItemSelect")
   handleCalciteListItemSelect(event: CustomEvent): void {
     const target = event.target as HTMLCalciteListItemElement;
-    const { listItems } = this;
+    const { listItems, selectionMode } = this;
 
-    listItems.forEach((listItem) => (listItem.active = listItem === target));
+    listItems.forEach((listItem) => {
+      listItem.active = listItem === target;
+      if (selectionMode === "single") {
+        listItem.selected = listItem === target;
+      }
+    });
   }
 
   //--------------------------------------------------------------------------
@@ -133,12 +138,13 @@ export class List implements InteractiveComponent {
   // --------------------------------------------------------------------------
 
   render(): VNode {
+    const { loading, label } = this;
     return (
       <div class={CSS.container}>
-        {this.loading ? <calcite-scrim class={CSS.scrim} loading={this.loading} /> : null}
+        {loading ? <calcite-scrim class={CSS.scrim} loading={loading} /> : null}
         <table
-          aria-busy={toAriaBoolean(this.loading)}
-          aria-label={this.label || ""}
+          aria-busy={toAriaBoolean(loading)}
+          aria-label={label || ""}
           onKeyDown={this.handleListKeydown}
           role="treegrid"
         >
