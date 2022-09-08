@@ -9,6 +9,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### ⚠ BREAKING CHANGES
 
+- **pagination:** For consistency, a groupSeparator prop was introduced to opt-into including the localized, numeric group separator in page numbers. Before this change, page numbers automatically included the group separator when rendered. In order to keep this behavior, developers will need to set groupSeparator = true(prop), or group-separator (attribute)  on the component.
 - **slider:** For consistency, a `groupSeparator` prop was introduced to opt-into including the localized, numeric group separator in labels. Before this change, labels automatically included the group separator when rendered. In order to keep this behavior, developers will need to set `groupSeparator = true` (prop), or `group-separator` (attribute) on the component.
 
 Co-authored-by: JC Franco <jfranco@esri.com>
@@ -19,6 +20,7 @@ Co-authored-by: JC Franco <jfranco@esri.com>
 - **flow:** Adds flow-item component to replace use of panel within a flow ([#5129](https://github.com/Esri/calcite-components/issues/5129)) ([6f6316c](https://github.com/Esri/calcite-components/commit/6f6316c8532e1876aadc63f71c3e4095db2af3b6)), closes [#5071](https://github.com/Esri/calcite-components/issues/5071)
 - **input-time-picker:** deprecate active prop and add open prop ([#5179](https://github.com/Esri/calcite-components/issues/5179)) ([7223e66](https://github.com/Esri/calcite-components/commit/7223e66a882eacbbb8dc24eb349dfc214608ce06))
 - **link:** add support for HTMLElement.click() ([#5231](https://github.com/Esri/calcite-components/issues/5231)) ([8294509](https://github.com/Esri/calcite-components/commit/8294509f0077f2b83d3e24d9482511f53de5482c)), closes [#4212](https://github.com/Esri/calcite-components/issues/4212)
+- **pagination:** add groupSeparator prop to enable toggling display of separator in pages ([#5265](https://github.com/Esri/calcite-components/issues/5265)) ([cdcec6a](https://github.com/Esri/calcite-components/commit/cdcec6a5e213ebe4a1f1f1da44fa10073f719c52)), closes [#5259](https://github.com/Esri/calcite-components/issues/5259)
 - **slider:** add a groupSeparator prop to enable toggling display of separator in label ([#5138](https://github.com/Esri/calcite-components/issues/5138)) ([5720f12](https://github.com/Esri/calcite-components/commit/5720f12cd8c585e35348c9b7d62236035f84a302)), closes [#4976](https://github.com/Esri/calcite-components/issues/4976)
 
 ### Bug Fixes
