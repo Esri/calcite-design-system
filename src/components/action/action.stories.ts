@@ -3,11 +3,12 @@ import {
   Attribute,
   filterComponentAttributes,
   Attributes,
-  createComponentHTML as create
+  createComponentHTML as create,
+  themesDarkDefault
 } from "../../../.storybook/utils";
 import readme from "./readme.md";
 import { html } from "../../../support/formatting";
-import { createSteps, iconNames, stepStory, setTheme, setKnobs, storyFilters } from "../../../.storybook/helpers";
+import { iconNames, storyFilters } from "../../../.storybook/helpers";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 const { alignment, scale } = ATTRIBUTES;
 
@@ -65,7 +66,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
       {
         name: "icon",
         commit(): Attribute {
-          this.value = select("icon", ["", ...iconNames], "");
+          this.value = select("icon", ["", ...iconNames], "banana");
           delete this.build;
           return this;
         }
@@ -131,424 +132,71 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
   );
 };
 
-const selector = "calcite-action";
+export const simple = (): string =>
+  html`<div>
+    ${create(
+      "calcite-action",
+      createAttributes({ exceptions: ["icon", "text"] }).concat([
+        {
+          name: "icon",
+          value: "banana"
+        },
+        {
+          name: "text",
+          value: ""
+        }
+      ])
+    )}
+  </div>`;
 
-export const simple = stepStory(
-  (): string => html`<div style="width: 150px">${create("calcite-action", createAttributes())}</div>`,
+export const disabledAndCompactAndTextOnly_TestOnly = (): string =>
+  html`<div>
+    ${create(
+      "calcite-action",
+      createAttributes({ exceptions: ["compact", "disabled"] }).concat([
+        { name: "compact", value: true },
+        { name: "disabled", value: true }
+      ])
+    )}
+  </div>`;
 
-  createSteps("calcite-action")
-    // No Icon
-    .snapshot("No Icon")
+export const activeAndAppearanceClear_TestOnly = (): string =>
+  html`<div>
+    ${create(
+      "calcite-action",
+      createAttributes({ exceptions: ["icon", "appearance", "active"] }).concat([
+        { name: "active", value: true },
+        { name: "icon", value: "banana" },
+        { name: "appearance", value: "clear" }
+      ])
+    )}
+  </div>`;
 
-    // Default
-    .executeScript(
-      setKnobs({
-        story: "components-buttons-action--simple",
-        knobs: [{ name: "icon", value: "beaker" }]
-      })
-    )
-    .snapshot("Default")
-    .hover(selector)
-    .snapshot("Default Hover")
-    .mouseDown(selector)
-    .snapshot("Default Mouse Down")
-    .mouseUp(selector)
-    .snapshot("Default Mouse Up")
+export const alignmentEndAndSmallScaleAndIndicator_TestOnly = (): string =>
+  html`<div style="width: 300px">
+    ${create(
+      "calcite-action",
+      createAttributes({ exceptions: ["icon", "indicator", "alignment", "scale"] }).concat([
+        { name: "icon", value: "banana" },
+        { name: "alignment", value: "end" },
+        { name: "indicator", value: true },
+        { name: "scale", value: "s" }
+      ])
+    )}
+  </div>`;
 
-    // Active
-    .executeScript(
-      setKnobs({
-        story: "components-buttons-action--simple",
-        knobs: [
-          { name: "active", value: "true" },
-          { name: "icon", value: "beaker" }
-        ]
-      })
-    )
-    .snapshot("Active")
-    .hover(selector)
-    .snapshot("Active Hover")
-    .mouseDown(selector)
-    .snapshot("Active Mouse Down")
-    .mouseUp(selector)
-    .snapshot("Active Mouse Up")
-
-    // Alignment Center
-    .executeScript(
-      setKnobs({
-        story: "components-buttons-action--simple",
-        knobs: [
-          { name: "alignment", value: "center" },
-          { name: "icon", value: "beaker" }
-        ]
-      })
-    )
-    .snapshot("Alignment Center")
-
-    // Alignment End
-    .executeScript(
-      setKnobs({
-        story: "components-buttons-action--simple",
-        knobs: [
-          { name: "alignment", value: "end" },
-          { name: "icon", value: "beaker" }
-        ]
-      })
-    )
-    .snapshot("Alignment End")
-
-    // Appearance Clear
-    .executeScript(
-      setKnobs({
-        story: "components-buttons-action--simple",
-        knobs: [
-          { name: "appearance", value: "clear" },
-          { name: "icon", value: "beaker" }
-        ]
-      })
-    )
-    .snapshot("Appearance Clear")
-    .hover(selector)
-    .snapshot("Appearance Clear Hover")
-    .mouseDown(selector)
-    .snapshot("Appearance Clear Mouse Down")
-    .mouseUp(selector)
-    .snapshot("Appearance Clear Mouse Up")
-
-    // Compact
-    .executeScript(
-      setKnobs({
-        story: "components-buttons-action--simple",
-        knobs: [
-          { name: "compact", value: "true" },
-          { name: "icon", value: "beaker" }
-        ]
-      })
-    )
-    .snapshot("Compact Alignment Start")
-    .executeScript(
-      setKnobs({
-        story: "components-buttons-action--simple",
-        knobs: [
-          { name: "alignment", value: "end" },
-          { name: "compact", value: "true" },
-          { name: "icon", value: "beaker" }
-        ]
-      })
-    )
-    .snapshot("Compact Alignment End")
-    .executeScript(
-      setKnobs({
-        story: "components-buttons-action--simple",
-        knobs: [
-          { name: "compact", value: "true" },
-          { name: "textEnabled", value: "false" },
-          { name: "icon", value: "beaker" }
-        ]
-      })
-    )
-    .snapshot("Compact Text Disabled")
-
-    // Dark
-    .executeScript(
-      setKnobs({
-        story: "components-buttons-action--simple",
-        knobs: [
-          { name: "indicator", value: "true" },
-          { name: "icon", value: "beaker" }
-        ]
-      })
-    )
-    .executeScript(setTheme("dark"))
-    .snapshot("Dark")
-    .hover(selector)
-    .snapshot("Dark Hover")
-    .mouseDown(selector)
-    .snapshot("Dark Mouse Down")
-    .mouseUp(selector)
-    .snapshot("Dark Mouse Up")
-    .executeScript(
-      setKnobs({
-        story: "components-buttons-action--simple",
-        knobs: [
-          { name: "active", value: "true" },
-          { name: "icon", value: "beaker" },
-          { name: "indicator", value: "true" }
-        ]
-      })
-    )
-    .executeScript(setTheme("dark"))
-    .snapshot("Dark Active")
-    .executeScript(
-      setKnobs({
-        story: "components-buttons-action--simple",
-        knobs: [
-          { name: "active", value: "true" },
-          { name: "disabled", value: "true" },
-          { name: "indicator", value: "true" },
-          { name: "icon", value: "beaker" }
-        ]
-      })
-    )
-    .executeScript(setTheme("dark"))
-    .snapshot("Dark Active Disabled")
-
-    // Disabled
-    .executeScript(
-      setKnobs({
-        story: "components-buttons-action--simple",
-        knobs: [
-          { name: "active", value: "true" },
-          { name: "disabled", value: "true" },
-          { name: "indicator", value: "true" },
-          { name: "icon", value: "beaker" }
-        ]
-      })
-    )
-    .executeScript(setTheme("light"))
-    .snapshot("Disabled Active")
-    .executeScript(
-      setKnobs({
-        story: "components-buttons-action--simple",
-        knobs: [
-          { name: "appearance", value: "solid" },
-          { name: "disabled", value: "true" },
-          { name: "indicator", value: "true" },
-          { name: "icon", value: "beaker" }
-        ]
-      })
-    )
-    .snapshot("Disabled Appearance Solid")
-    .executeScript(
-      setKnobs({
-        story: "components-buttons-action--simple",
-        knobs: [
-          { name: "appearance", value: "clear" },
-          { name: "disabled", value: "true" },
-          { name: "indicator", value: "true" },
-          { name: "icon", value: "beaker" }
-        ]
-      })
-    )
-    .snapshot("Disabled Appearance Clear")
-
-    // Indicator
-    .executeScript(
-      setKnobs({
-        story: "components-buttons-action--simple",
-        knobs: [
-          { name: "indicator", value: "true" },
-          { name: "icon", value: "beaker" }
-        ]
-      })
-    )
-    .snapshot("Indicator")
-    .executeScript(
-      setKnobs({
-        story: "components-buttons-action--simple",
-        knobs: [
-          { name: "indicator", value: "true" },
-          { name: "textEnabled", value: "false" },
-          { name: "icon", value: "beaker" }
-        ]
-      })
-    )
-    .snapshot("Indicator Text Disabled")
-
-    // Loading
-    .executeScript(
-      setKnobs({
-        story: "components-buttons-action--simple",
-        knobs: [
-          { name: "loading", value: "true" },
-          { name: "icon", value: "beaker" }
-        ]
-      })
-    )
-    .snapshot("Loading")
-    .executeScript(
-      setKnobs({
-        story: "components-buttons-action--simple",
-        knobs: [
-          { name: "loading", value: "true" },
-          { name: "textEnabled", value: "false" },
-          { name: "icon", value: "beaker" }
-        ]
-      })
-    )
-    .snapshot("Loading Text Disabled")
-
-    // RTL
-    .executeScript(
-      setKnobs({
-        story: "components-buttons-action--simple",
-        knobs: [
-          { name: "alignment", value: "start" },
-          { name: "icon", value: "beaker" }
-        ]
-      })
-    )
-    .rtl()
-    .snapshot("RTL Alignment Start")
-    .executeScript(
-      setKnobs({
-        story: "components-buttons-action--simple",
-        knobs: [
-          { name: "alignment", value: "center" },
-          { name: "icon", value: "beaker" }
-        ]
-      })
-    )
-    .rtl()
-    .snapshot("RTL Alignment Center")
-    .executeScript(
-      setKnobs({
-        story: "components-buttons-action--simple",
-        knobs: [
-          { name: "alignment", value: "end" },
-          { name: "icon", value: "beaker" }
-        ]
-      })
-    )
-    .rtl()
-    .snapshot("RTL Alignment End")
-
-    // RTL Indicator
-    .executeScript(
-      setKnobs({
-        story: "components-buttons-action--simple",
-        knobs: [
-          { name: "alignment", value: "start" },
-          { name: "indicator", value: "true" },
-          { name: "icon", value: "beaker" }
-        ]
-      })
-    )
-    .rtl()
-    .snapshot("RTL Indicator Alignment Start")
-    .executeScript(
-      setKnobs({
-        story: "components-buttons-action--simple",
-        knobs: [
-          { name: "alignment", value: "center" },
-          { name: "indicator", value: "true" },
-          { name: "icon", value: "beaker" }
-        ]
-      })
-    )
-    .rtl()
-    .snapshot("RTL Indicator Alignment Center")
-    .executeScript(
-      setKnobs({
-        story: "components-buttons-action--simple",
-        knobs: [
-          { name: "alignment", value: "end" },
-          { name: "indicator", value: "true" },
-          { name: "icon", value: "beaker" }
-        ]
-      })
-    )
-    .rtl()
-    .snapshot("RTL Indicator Alignment End")
-
-    // RTL Loading
-    .executeScript(
-      setKnobs({
-        story: "components-buttons-action--simple",
-        knobs: [
-          { name: "alignment", value: "start" },
-          { name: "loading", value: "true" },
-          { name: "icon", value: "beaker" }
-        ]
-      })
-    )
-    .rtl()
-    .snapshot("RTL Loading Alignment Start")
-    .executeScript(
-      setKnobs({
-        story: "components-buttons-action--simple",
-        knobs: [
-          { name: "alignment", value: "center" },
-          { name: "loading", value: "true" },
-          { name: "icon", value: "beaker" }
-        ]
-      })
-    )
-    .rtl()
-    .snapshot("RTL Loading Alignment Center")
-    .executeScript(
-      setKnobs({
-        story: "components-buttons-action--simple",
-        knobs: [
-          { name: "alignment", value: "end" },
-          { name: "loading", value: "true" },
-          { name: "icon", value: "beaker" }
-        ]
-      })
-    )
-    .rtl()
-    .snapshot("RTL Loading Alignment End")
-
-    // Scale
-    .executeScript(
-      setKnobs({
-        story: "components-buttons-action--simple",
-        knobs: [
-          { name: "indicator", value: "true" },
-          { name: "scale", value: "s" },
-          { name: "icon", value: "beaker" }
-        ]
-      })
-    )
-    .snapshot("Scale Small")
-    .executeScript(
-      setKnobs({
-        story: "components-buttons-action--simple",
-        knobs: [
-          { name: "indicator", value: "true" },
-          { name: "scale", value: "s" },
-          { name: "textEnabled", value: "false" },
-          { name: "icon", value: "beaker" }
-        ]
-      })
-    )
-    .snapshot("Scale Small Text Disabled")
-    .executeScript(
-      setKnobs({
-        story: "components-buttons-action--simple",
-        knobs: [
-          { name: "indicator", value: "true" },
-          { name: "scale", value: "l" },
-          { name: "icon", value: "beaker" }
-        ]
-      })
-    )
-    .snapshot("Scale Large")
-    .executeScript(
-      setKnobs({
-        story: "components-buttons-action--simple",
-        knobs: [
-          { name: "indicator", value: "true" },
-          { name: "scale", value: "l" },
-          { name: "textEnabled", value: "false" },
-          { name: "icon", value: "beaker" }
-        ]
-      })
-    )
-    .snapshot("Scale Large Text Disabled")
-
-    // Text
-    .executeScript(
-      setKnobs({
-        story: "components-buttons-action--simple",
-        knobs: [
-          { name: "text", value: "A long amount of text" },
-          { name: "icon", value: "beaker" }
-        ]
-      })
-    )
-    .snapshot("Text Overflow")
-);
+export const alignmentStartAndLargeScaleAndTextOverflow_TestOnly = (): string =>
+  html`<div style="width: 150px">
+    ${create(
+      "calcite-action",
+      createAttributes({ exceptions: ["icon", "text", "alignment", "scale"] }).concat([
+        { name: "icon", value: "banana" },
+        { name: "text", value: "Blah blah blah blah blah blah blah blah blah blah" },
+        { name: "alignment", value: "start" },
+        { name: "scale", value: "l" }
+      ])
+    )}
+  </div>`;
 
 export const arabicLocale_TestOnly = (): string => html`
   <calcite-action
@@ -560,3 +208,17 @@ export const arabicLocale_TestOnly = (): string => html`
     text-enabled
   ></calcite-action>
 `;
+
+export const darkThemeRTL_TestOnly = (): string =>
+  html`<div>
+    ${create(
+      "calcite-action",
+      createAttributes({ exceptions: ["icon", "class", "dir"] }).concat([
+        { name: "icon", value: "banana" },
+        { name: "class", value: "calcite-theme-dark" },
+        { name: "dir", value: "rtl" }
+      ])
+    )}
+  </div>`;
+
+darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };

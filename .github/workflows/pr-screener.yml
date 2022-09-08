@@ -3,13 +3,13 @@ on:
   workflow_dispatch:
   pull_request:
     branches: [master]
-    types: [ready_for_review]
+    types: [labeled, synchronize, ready_for_review]
   # need to run on the base branch when merging to keep the baseline state up to date
   push:
     branches: [master]
 jobs:
   screenshot_tests:
-    if: "!contains(github.event.pull_request.labels.*.name, 'pr has no visual changes') && github.actor!='dependabot-preview[bot]'"
+    if: "(github.event.action == 'ready_for_review' && contains(github.event.pull_request.labels.*.name, 'pr ready for visual snapshots')) || (github.event.action == 'labeled' && github.event.label.name == 'pr ready for visual snapshots' && github.event.pull_request.draft == false) || github.event.action == 'push'"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -58,11 +58,11 @@ jobs:
         with:
           authToken: ${{ secrets.GITHUB_TOKEN }}
           context: screener
-          description: Screener run skipped (markdown PRs)
+          description: Screener run skipped (markdown PR)
           state: success
           sha: ${{github.event.pull_request.head.sha || github.sha}}
   skip_screenshot_tests:
-    if: "contains(github.event.pull_request.labels.*.name, 'pr has no visual changes') || github.actor=='dependabot-preview[bot]'"
+    if: "(github.event.action == 'synchronize' && contains(github.event.pull_request.labels.*.name, 'pr ready for visual snapshots')) || github.event.pull_request.draft == true || (github.actor == 'dependabot-preview[bot]' && github.event.action != 'labeled')"
     runs-on: ubuntu-latest
     steps:
       - name: skip screener for dependabot PRs or no visual changes
@@ -70,6 +70,6 @@ jobs:
         with:
           authToken: ${{ secrets.GITHUB_TOKEN }}
           context: screener
-          description: Screener run skipped (no visual changes or dependabot PR)
+          description: Screener run skipped (not ready for snapshots or dependabot PR)
           state: success
           sha: ${{github.event.pull_request.head.sha || github.sha}}
