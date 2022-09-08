@@ -15,6 +15,7 @@ import { DateLocaleData } from "../date-picker/utils";
 import { Scale } from "../interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import { isActivationKey } from "../../utils/key";
 
 @Component({
   tag: "calcite-date-picker-day",
@@ -86,18 +87,16 @@ export class DatePickerDay implements InteractiveComponent {
     !this.disabled && this.calciteDaySelect.emit();
   };
 
-  keyDownHandler = (e: KeyboardEvent): void => {
-    const key = e.key;
-    if (key === " " || key === "Enter") {
+  keyDownHandler = (event: KeyboardEvent): void => {
+    if (isActivationKey(event.key)) {
       !this.disabled && this.calciteDaySelect.emit();
+      event.preventDefault();
     }
   };
 
   @Listen("mouseover")
   mouseoverHandler(): void {
-    this.calciteInternalDayHover.emit({
-      disabled: this.disabled
-    });
+    this.calciteInternalDayHover.emit();
   }
 
   //--------------------------------------------------------------------------
@@ -109,14 +108,14 @@ export class DatePickerDay implements InteractiveComponent {
   /**
    * Emitted when user selects day
    */
-  @Event() calciteDaySelect: EventEmitter;
+  @Event({ cancelable: false }) calciteDaySelect: EventEmitter<void>;
 
   /**
    * Emitted when user hovers over a day
    *
    * @internal
    */
-  @Event() calciteInternalDayHover: EventEmitter;
+  @Event({ cancelable: false }) calciteInternalDayHover: EventEmitter<void>;
 
   //--------------------------------------------------------------------------
   //

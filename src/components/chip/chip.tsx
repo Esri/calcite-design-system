@@ -1,9 +1,19 @@
-import { Component, h, Prop, Event, EventEmitter, Element, VNode, Method } from "@stencil/core";
+import {
+  Component,
+  h,
+  Prop,
+  Event,
+  EventEmitter,
+  Element,
+  VNode,
+  Method,
+  Watch
+} from "@stencil/core";
 import { getSlotted } from "../../utils/dom";
 import { guid } from "../../utils/guid";
 import { CSS, TEXT, SLOTS, ICONS } from "./resources";
 import { ChipColor } from "./interfaces";
-import { Appearance, Scale } from "../interfaces";
+import { Appearance, DeprecatedEventPayload, Scale } from "../interfaces";
 import {
   ConditionalSlotComponent,
   connectConditionalSlotComponent,
@@ -37,10 +47,20 @@ export class Chip implements ConditionalSlotComponent {
    *
    * @deprecated use closable instead
    */
-  @Prop({ reflect: true }) dismissible = false;
+  @Prop({ reflect: true, mutable: true }) dismissible = false;
+
+  @Watch("dismissible")
+  handleDismissible(value: boolean): void {
+    this.closable = value;
+  }
 
   /** When true, show abutton user can click to dismiss the chip. */
-  @Prop({ reflect: true }) closable = false;
+  @Prop({ reflect: true, mutable: true }) closable = false;
+
+  @Watch("closable")
+  handleClosable(value: boolean): void {
+    this.dismissible = value;
+  }
 
   /**
    * Aria label for the "x" button
@@ -80,6 +100,12 @@ export class Chip implements ConditionalSlotComponent {
 
   connectedCallback(): void {
     connectConditionalSlotComponent(this);
+    if (this.dismissible) {
+      this.handleDismissible(this.dismissible);
+    }
+    if (this.closable) {
+      this.handleClosable(this.closable);
+    }
   }
 
   disconnectedCallback(): void {
@@ -104,8 +130,12 @@ export class Chip implements ConditionalSlotComponent {
   //
   // --------------------------------------------------------------------------
 
-  /** Emitted when the dismiss button is clicked */
-  @Event() calciteChipDismiss: EventEmitter;
+  /**
+   * Emitted when the dismiss button is clicked
+   *
+   * **Note:**: The `el` event payload props is deprecated, please use the event's target/currentTarget instead
+   */
+  @Event({ cancelable: false }) calciteChipDismiss: EventEmitter<DeprecatedEventPayload>;
 
   // --------------------------------------------------------------------------
   //
@@ -164,7 +194,7 @@ export class Chip implements ConditionalSlotComponent {
         <span class={CSS.title} id={this.guid}>
           <slot />
         </span>
-        {this.closable || this.dismissible ? closeButton : null}
+        {this.closable ? closeButton : null}
       </div>
     );
   }

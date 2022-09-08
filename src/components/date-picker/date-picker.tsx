@@ -11,8 +11,15 @@ import {
   VNode,
   Build
 } from "@stencil/core";
-import { getLocaleData, DateLocaleData } from "./utils";
-import { dateFromRange, dateFromISO, dateToISO, getDaysDiff, HoverRange } from "../../utils/date";
+import { getLocaleData, DateLocaleData, getValueAsDateRange } from "./utils";
+import {
+  dateFromRange,
+  dateFromISO,
+  dateToISO,
+  getDaysDiff,
+  HoverRange,
+  setEndOfDay
+} from "../../utils/date";
 import { HeadingLevel } from "../functional/Heading";
 
 import { DateRangeChange } from "./interfaces";
@@ -162,14 +169,14 @@ export class DatePicker {
   /**
    * Trigger calcite date change when a user changes the date.
    */
-  @Event() calciteDatePickerChange: EventEmitter<Date>;
+  @Event({ cancelable: false }) calciteDatePickerChange: EventEmitter<Date>;
 
   /**
    * Trigger calcite date change when a user changes the date range.
    *
    * @see [DateRangeChange](https://github.com/Esri/calcite-components/blob/master/src/components/date-picker/interfaces.ts#L1)
    */
-  @Event() calciteDatePickerRangeChange: EventEmitter<DateRangeChange>;
+  @Event({ cancelable: false }) calciteDatePickerRangeChange: EventEmitter<DateRangeChange>;
 
   /**
    * Active date.
@@ -193,7 +200,7 @@ export class DatePicker {
   // --------------------------------------------------------------------------
   connectedCallback(): void {
     if (Array.isArray(this.value)) {
-      this.valueAsDate = this.value.map((v) => dateFromISO(v));
+      this.valueAsDate = getValueAsDateRange(this.value);
       this.start = this.value[0];
       this.end = this.value[1];
     } else if (this.value) {
@@ -285,8 +292,8 @@ export class DatePicker {
   //
   //--------------------------------------------------------------------------
 
-  keyDownHandler = (e: KeyboardEvent): void => {
-    if (e.key === "Escape") {
+  keyDownHandler = (event: KeyboardEvent): void => {
+    if (event.key === "Escape") {
       this.reset();
     }
   };
@@ -294,7 +301,7 @@ export class DatePicker {
   @Watch("value")
   valueHandler(value: string | string[]): void {
     if (Array.isArray(value)) {
-      this.valueAsDate = value.map((v) => dateFromISO(v));
+      this.valueAsDate = getValueAsDateRange(value);
       this.start = value[0];
       this.end = value[1];
     } else if (value) {
@@ -324,8 +331,8 @@ export class DatePicker {
     this.localeData = await getLocaleData(locale);
   }
 
-  monthHeaderSelectChange = (e: CustomEvent<Date>): void => {
-    const date = new Date(e.detail);
+  monthHeaderSelectChange = (event: CustomEvent<Date>): void => {
+    const date = new Date(event.detail);
     if (!this.range) {
       this.activeDate = date;
     } else {
@@ -338,8 +345,8 @@ export class DatePicker {
     }
   };
 
-  monthActiveDateChange = (e: CustomEvent<Date>): void => {
-    const date = new Date(e.detail);
+  monthActiveDateChange = (event: CustomEvent<Date>): void => {
+    const date = new Date(event.detail);
     if (!this.range) {
       this.activeDate = date;
     } else {
@@ -352,12 +359,12 @@ export class DatePicker {
     }
   };
 
-  monthHoverChange = (e: CustomEvent<Date>): void => {
+  monthHoverChange = (event: CustomEvent<Date>): void => {
     if (!this.startAsDate) {
       this.hoverRange = undefined;
       return;
     }
-    const date = new Date(e.detail);
+    const date = new Date(event.detail);
     this.hoverRange = {
       focused: this.activeRange || "start",
       start: this.startAsDate,
@@ -408,7 +415,7 @@ export class DatePicker {
         this.hoverRange = undefined;
       }
     }
-    e.stopPropagation();
+    event.stopPropagation();
   };
 
   monthMouseOutChange = (): void => {
@@ -491,7 +498,7 @@ export class DatePicker {
    * @param emit
    */
   private setEndAsDate(endDate: Date, emit?: boolean): void {
-    this.endAsDate = endDate;
+    this.endAsDate = endDate ? setEndOfDay(endDate) : endDate;
     this.mostRecentRangeValue = this.endAsDate;
     if (emit) {
       this.calciteDatePickerRangeChange.emit({
@@ -535,10 +542,10 @@ export class DatePicker {
   /**
    * Event handler for when the selected date changes
    *
-   * @param e
+   * @param event
    */
-  private monthDateChange = (e: CustomEvent<Date>): void => {
-    const date = new Date(e.detail);
+  private monthDateChange = (event: CustomEvent<Date>): void => {
+    const date = new Date(event.detail);
     if (!this.range) {
       this.value = date ? dateToISO(date) : "";
       this.valueAsDate = date || null;

@@ -23,6 +23,7 @@ import { DateLocaleData } from "../date-picker/utils";
 import { Scale } from "../interfaces";
 import { HeadingLevel, Heading } from "../functional/Heading";
 import { BUDDHIST_CALENDAR_YEAR_OFFSET } from "./resources";
+import { isActivationKey } from "../../utils/key";
 
 @Component({
   tag: "calcite-date-picker-month-header",
@@ -87,7 +88,7 @@ export class DatePickerMonthHeader {
   /**
    *  Changes to active date
    */
-  @Event() calciteDatePickerSelect: EventEmitter<Date>;
+  @Event({ cancelable: false }) calciteDatePickerSelect: EventEmitter<Date>;
 
   //--------------------------------------------------------------------------
   //
@@ -212,17 +213,17 @@ export class DatePickerMonthHeader {
   /**
    * Increment year on UP/DOWN keys
    *
-   * @param e
+   * @param event
    */
-  private onYearKey = (e: KeyboardEvent): void => {
-    const localizedYear = this.parseCalendarYear((e.target as HTMLInputElement).value);
-    switch (e.key) {
+  private onYearKey = (event: KeyboardEvent): void => {
+    const localizedYear = this.parseCalendarYear((event.target as HTMLInputElement).value);
+    switch (event.key) {
       case "ArrowDown":
-        e.preventDefault();
+        event.preventDefault();
         this.setYear({ localizedYear, offset: -1 });
         break;
       case "ArrowUp":
-        e.preventDefault();
+        event.preventDefault();
         this.setYear({ localizedYear, offset: 1 });
         break;
     }
@@ -257,34 +258,31 @@ export class DatePickerMonthHeader {
     });
   };
 
-  private prevMonthClick = (e: Event): void => {
-    this.handleArrowClick(e, this.prevMonthDate);
+  private prevMonthClick = (event: KeyboardEvent | MouseEvent): void => {
+    this.handleArrowClick(event, this.prevMonthDate);
   };
 
-  private prevMonthKeydown = (e: KeyboardEvent): void => {
-    const key = e.key;
-    if (key === " " || key === "Enter") {
-      this.prevMonthClick(e);
+  private prevMonthKeydown = (event: KeyboardEvent): void => {
+    if (isActivationKey(event.key)) {
+      this.prevMonthClick(event);
     }
   };
 
-  private nextMonthClick = (e: Event): void => {
-    this.handleArrowClick(e, this.nextMonthDate);
+  private nextMonthClick = (event: MouseEvent | KeyboardEvent): void => {
+    this.handleArrowClick(event, this.nextMonthDate);
   };
 
-  private nextMonthKeydown = (e: KeyboardEvent): void => {
-    const key = e.key;
-    if (key === " " || key === "Enter") {
-      this.nextMonthClick(e);
+  private nextMonthKeydown = (event: KeyboardEvent): void => {
+    if (isActivationKey(event.key)) {
+      this.nextMonthClick(event);
     }
   };
 
   /*
    * Update active month on clicks of left/right arrows
    */
-  private handleArrowClick = (e: Event, date: Date): void => {
-    e?.preventDefault();
-    e.stopPropagation();
+  private handleArrowClick = (event: MouseEvent | KeyboardEvent, date: Date): void => {
+    event.preventDefault();
     this.calciteDatePickerSelect.emit(date);
   };
 

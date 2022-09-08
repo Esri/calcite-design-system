@@ -2,8 +2,8 @@ import pify from "pify";
 
 (async function () {
   const childProcess = await import("child_process");
-  const githubRelease = await import("gh-release");
-  const rimraf = await import("rimraf");
+  const { default: githubRelease } = await import("gh-release");
+  const { default: rimraf } = await import("rimraf");
 
   const packageFileName = childProcess.execSync("npm pack", { encoding: "utf-8" }).trim();
   const packageScope = "esri-";

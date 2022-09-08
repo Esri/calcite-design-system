@@ -1,8 +1,10 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { renders } from "../../tests/commonTests";
+import { renders, hidden } from "../../tests/commonTests";
 
 describe("calcite-radio-group-item", () => {
   it("renders", () => renders("calcite-radio-group-item", { display: "flex" }));
+
+  it("honors hidden attribute", async () => hidden("calcite-radio-group-item"));
 
   it("is un-checked by default", async () => {
     const page = await newE2EPage();
@@ -35,10 +37,18 @@ describe("calcite-radio-group-item", () => {
     expect(label).toEqualText("test-value");
   });
 
-  it("renders icon if requested", async () => {
+  it("renders icon if requested (deprecated)", async () => {
     const page = await newE2EPage();
     await page.setContent(`
     <calcite-radio-group-item icon="car">Content</calcite-accordion-item>`);
+    const icon = await page.find("calcite-radio-group-item >>> .radio-group-item-icon");
+    expect(icon).not.toBe(null);
+  });
+
+  it("renders icon at start if requested", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+    <calcite-radio-group-item icon-start="car">Content</calcite-accordion-item>`);
     const icon = await page.find("calcite-radio-group-item >>> .radio-group-item-icon");
     expect(icon).not.toBe(null);
   });
@@ -104,6 +114,8 @@ describe("calcite-radio-group-item", () => {
       expect(element).not.toHaveAttribute("icon-flip-rtl");
       expect(element).toEqualAttribute("icon-position", "start");
       expect(element).not.toHaveAttribute("value");
+      expect(element).not.toHaveAttribute("icon-start");
+      expect(element).not.toHaveAttribute("icon-end");
     });
   });
 });

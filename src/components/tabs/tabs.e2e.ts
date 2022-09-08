@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, renders, defaults } from "../../tests/commonTests";
+import { accessible, renders, defaults, hidden } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 
 describe("calcite-tabs", () => {
@@ -18,6 +18,8 @@ describe("calcite-tabs", () => {
   const tabsSnippet = `<calcite-tabs>${tabsContent}</calcite-tabs>`;
 
   it("renders", async () => renders(tabsSnippet, { display: "flex" }));
+
+  it("honors hidden attribute", async () => hidden("calcite-tabs"));
 
   it("has defaults", async () =>
     defaults("calcite-tabs", [
@@ -52,10 +54,10 @@ describe("calcite-tabs", () => {
     const tabs = await page.findAll("calcite-tab");
     const titles = await page.findAll("calcite-tab-title");
 
-    expect(tabs[0]).toEqualAttribute("aria-expanded", "true");
-    expect(tabs[1]).toEqualAttribute("aria-expanded", "false");
-    expect(tabs[2]).toEqualAttribute("aria-expanded", "false");
-    expect(tabs[3]).toEqualAttribute("aria-expanded", "false");
+    expect(titles[0]).toEqualAttribute("aria-selected", "true");
+    expect(titles[1]).toEqualAttribute("aria-selected", "false");
+    expect(titles[2]).toEqualAttribute("aria-selected", "false");
+    expect(titles[3]).toEqualAttribute("aria-selected", "false");
 
     for (let index = 0; index < tabs.length; index++) {
       const tab = tabs[index];
@@ -309,7 +311,7 @@ describe("calcite-tabs", () => {
     await page.waitForChanges();
 
     const kidB = await page.find("#kidB");
-    kidB.click();
+    await kidB.click();
 
     await page.waitForChanges();
 

@@ -19,6 +19,7 @@ import {
 import { CSS_UTILITY } from "../../utils/resources";
 import { SLOTS, CSS } from "./resources";
 import { Position } from "../interfaces";
+import { ItemKeyEvent, RegistryEntry, RequestedItem } from "./interfaces";
 
 /**
  * @slot - A slot for adding custom content, including nested `calcite-accordion-item`s.
@@ -85,8 +86,28 @@ export class AccordionItem implements ConditionalSlotComponent {
   /** Specifies a description for the component. */
   @Prop() description: string;
 
-  /** Specifies an icon to display - accepts Calcite UI icon names. */
-  @Prop({ reflect: true }) icon?: string;
+  /**
+   * Specifies an icon to display - accepts Calcite UI icon names.
+   *
+   * @deprecated use `iconStart` or `iconEnd` properties instead
+   */
+  @Prop({ mutable: true, reflect: true }) icon?: string;
+
+  @Watch("icon")
+  iconHandler(value: string): void {
+    this.iconStart = value;
+  }
+
+  /**Specified an icon to display at the start - accepts Calcite UI icon names. */
+  @Prop({ reflect: true }) iconStart?: string;
+
+  @Watch("iconStart")
+  iconStartHandler(value: string): void {
+    this.icon = value;
+  }
+
+  /**Specified an icon to display at the end - accepts Calcite UI icon names. */
+  @Prop({ reflect: true }) iconEnd?: string;
 
   //--------------------------------------------------------------------------
   //
@@ -97,22 +118,22 @@ export class AccordionItem implements ConditionalSlotComponent {
   /**
    * @internal
    */
-  @Event() calciteInternalAccordionItemKeyEvent: EventEmitter;
+  @Event({ cancelable: false }) calciteInternalAccordionItemKeyEvent: EventEmitter<ItemKeyEvent>;
 
   /**
    * @internal
    */
-  @Event() calciteInternalAccordionItemSelect: EventEmitter;
+  @Event({ cancelable: false }) calciteInternalAccordionItemSelect: EventEmitter<RequestedItem>;
 
   /**
    * @internal
    */
-  @Event() calciteInternalAccordionItemClose: EventEmitter;
+  @Event({ cancelable: false }) calciteInternalAccordionItemClose: EventEmitter<void>;
 
   /**
    * @internal
    */
-  @Event() calciteInternalAccordionItemRegister: EventEmitter;
+  @Event({ cancelable: false }) calciteInternalAccordionItemRegister: EventEmitter<RegistryEntry>;
 
   //--------------------------------------------------------------------------
   //
@@ -130,6 +151,13 @@ export class AccordionItem implements ConditionalSlotComponent {
       this.activeHandler(isExpanded);
       this.expandedHandler(isExpanded);
     }
+
+    if (this.iconStart) {
+      this.icon = this.iconStart;
+    } else if (this.icon) {
+      this.iconStart = this.icon;
+    }
+
     connectConditionalSlotComponent(this);
   }
 
@@ -171,7 +199,13 @@ export class AccordionItem implements ConditionalSlotComponent {
 
   render(): VNode {
     const dir = getElementDir(this.el);
-    const iconEl = <calcite-icon class={CSS.icon} icon={this.icon} scale="s" />;
+    const iconStartEl = this.iconStart ? (
+      <calcite-icon class={CSS.iconStart} icon={this.iconStart} key="icon-start" scale="s" />
+    ) : null;
+    const iconEndEl = this.iconEnd ? (
+      <calcite-icon class={CSS.iconEnd} icon={this.iconEnd} key="icon-end" scale="s" />
+    ) : null;
+    const description = this.description || this.itemSubtitle;
     return (
       <Host>
         <div
@@ -189,12 +223,13 @@ export class AccordionItem implements ConditionalSlotComponent {
               role="button"
               tabindex="0"
             >
-              {this.icon ? iconEl : null}
-              <div class={CSS.headerText}>
-                <span class={CSS.heading}>{this.heading || this.itemTitle}</span>
-                {this.itemSubtitle || this.description ? (
-                  <span class={CSS.description}>{this.description || this.itemSubtitle}</span>
-                ) : null}
+              <div class={CSS.headerContainer}>
+                {iconStartEl}
+                <div class={CSS.headerText}>
+                  <span class={CSS.heading}>{this.heading || this.itemTitle}</span>
+                  {description ? <span class={CSS.description}>{description}</span> : null}
+                </div>
+                {iconEndEl}
               </div>
               <calcite-icon
                 class={CSS.expandIcon}
@@ -227,13 +262,13 @@ export class AccordionItem implements ConditionalSlotComponent {
   //--------------------------------------------------------------------------
 
   @Listen("keydown")
-  keyDownHandler(e: KeyboardEvent): void {
-    if (e.target === this.el) {
-      switch (e.key) {
+  keyDownHandler(event: KeyboardEvent): void {
+    if (event.target === this.el) {
+      switch (event.key) {
         case " ":
         case "Enter":
           this.emitRequestedItem();
-          e.preventDefault();
+          event.preventDefault();
           break;
         case "ArrowUp":
         case "ArrowDown":
@@ -241,9 +276,9 @@ export class AccordionItem implements ConditionalSlotComponent {
         case "End":
           this.calciteInternalAccordionItemKeyEvent.emit({
             parent: this.parent,
-            item: e
+            item: event
           });
-          e.preventDefault();
+          event.preventDefault();
           break;
       }
     }

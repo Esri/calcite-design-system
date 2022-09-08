@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, focusable, renders, slots } from "../../tests/commonTests";
+import { accessible, focusable, renders, slots, hidden } from "../../tests/commonTests";
 import { CSS, SLOTS } from "./resources";
 import { html } from "../../../support/formatting";
 
@@ -11,10 +11,12 @@ describe("calcite-notice", () => {
 `;
   it("renders", async () => renders(`<calcite-notice open>${noticeContent}</calcite-notice>`, { display: "flex" }));
 
+  it("honors hidden attribute", async () => hidden("calcite-notice"));
+
   it("is accessible", async () => accessible(`<calcite-notice open>${noticeContent}</calcite-notice>`));
   it("is accessible with icon", async () => accessible(`<calcite-notice icon open>${noticeContent}</calcite-notice>`));
   it("is accessible with close button", async () =>
-    accessible(`<calcite-notice dismissible open>${noticeContent}</calcite-notice>`));
+    accessible(`<calcite-notice closable open>${noticeContent}</calcite-notice>`));
   it("is accessible with icon and close button (deprecated)", async () =>
     accessible(`<calcite-notice icon dismissible open>${noticeContent}</calcite-notice>`));
   it("is accessible with icon and close button", async () =>
@@ -41,7 +43,7 @@ describe("calcite-notice", () => {
   it("renders requested props when valid props are provided", async () => {
     const page = await newE2EPage();
     await page.setContent(`
-    <calcite-notice color="yellow" dismissible>
+    <calcite-notice color="yellow" closable>
     ${noticeContent}
     </calcite-notice>`);
 
@@ -57,7 +59,7 @@ describe("calcite-notice", () => {
   it("renders an icon and close button when requested (deprecated)", async () => {
     const page = await newE2EPage();
     await page.setContent(`
-    <calcite-notice icon dismissible>
+    <calcite-notice icon closable>
     ${noticeContent}
     </calcite-notice>`);
 

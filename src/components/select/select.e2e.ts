@@ -1,5 +1,14 @@
 import { E2EElement, E2EPage, newE2EPage } from "@stencil/core/testing";
-import { accessible, disabled, focusable, formAssociated, labelable, reflects, renders } from "../../tests/commonTests";
+import {
+  accessible,
+  disabled,
+  focusable,
+  formAssociated,
+  labelable,
+  reflects,
+  renders,
+  hidden
+} from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
 
@@ -13,6 +22,8 @@ describe("calcite-select", () => {
   `;
 
   it("renders", async () => renders(simpleTestMarkup, { display: "flex" }));
+
+  it("honors hidden attribute", async () => hidden("calcite-select"));
 
   it("is accessible", async () => accessible(simpleTestMarkup));
 

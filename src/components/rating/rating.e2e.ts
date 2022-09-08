@@ -1,8 +1,10 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { renders, accessible, focusable, labelable, formAssociated, disabled } from "../../tests/commonTests";
+import { renders, accessible, focusable, labelable, formAssociated, disabled, hidden } from "../../tests/commonTests";
 
 describe("calcite-rating", () => {
   it("renders", async () => renders("<calcite-rating></calcite-rating>", { display: "flex" }));
+
+  it("honors hidden attribute", async () => hidden("calcite-rating"));
 
   it("should be accessible", async () => accessible(`<calcite-rating></calcite-rating>`));
 

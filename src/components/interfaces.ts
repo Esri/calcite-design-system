@@ -1,6 +1,6 @@
 /* Note: using `.d.ts` file extension will exclude it from the output build */
 export type Alignment = "start" | "center" | "end";
-export type Appearance = "solid" | "clear" | "outline";
+export type Appearance = "solid" | "clear" | "outline" | "transparent" | "minimal";
 export type Columns = 1 | 2 | 3 | 4 | 5 | 6;
 export type FlipContext = "both" | "start" | "end";
 export type Layout = "horizontal" | "vertical" | "grid";
@@ -11,3 +11,6 @@ export type Status = "invalid" | "valid" | "idle";
 export type ThemeClass = "calcite-theme-light" | "calcite-theme-dark" | "calcite-theme-auto";
 export type ThemeName = "light" | "dark" | "auto";
 export type Width = "auto" | "half" | "full";
+
+// used to help track of event payloads to remove at 1.0.0 – see https://github.com/Esri/calcite-components/issues/3781
+export type DeprecatedEventPayload = any;

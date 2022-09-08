@@ -136,7 +136,7 @@ describe("calcite-shell-panel", () => {
 
   it("should be accessible", async () =>
     accessible(`
-    <calcite-shell-panel slot="primary-panel" position="start">
+    <calcite-shell-panel slot="panel-start" position="start">
       <calcite-action-bar slot="action-bar">
         <calcite-action-group>
           <calcite-action text="Add" icon="plus"></calcite-action>
@@ -213,7 +213,7 @@ describe("calcite-shell-panel", () => {
     await page.setContent(`
       <div style="width: 100%; height: 100%;">
         <calcite-shell>
-          <calcite-shell-panel slot="primary-panel">
+          <calcite-shell-panel slot="panel-start">
             <calcite-button slot="headder">Header test</calcite-button>
             <calcite-panel>
               Content test
@@ -243,7 +243,7 @@ describe("calcite-shell-panel", () => {
     await page.setContent(`
       <div style="width: 100%; height: 100%;">
         <calcite-shell>
-          <calcite-shell-panel slot="primary-panel">
+          <calcite-shell-panel slot="panel-start">
             <calcite-button slot="headder">Header test</calcite-button>
             <calcite-panel>
               Content test
@@ -282,7 +282,7 @@ describe("calcite-shell-panel", () => {
     await page.setContent(`
       <div style="width: 100%; height: 100%;">
         <calcite-shell>
-          <calcite-shell-panel slot="primary-panel" resizable>
+          <calcite-shell-panel slot="panel-start" resizable>
             <calcite-button slot="headder">Header test</calcite-button>
             <calcite-panel>
               Content test
@@ -358,7 +358,7 @@ describe("calcite-shell-panel", () => {
     await page.setContent(`
       <div style="width: 100%; height: 100%;">
         <calcite-shell>
-          <calcite-shell-panel slot="primary-panel" resizable>
+          <calcite-shell-panel slot="panel-start" resizable>
             <calcite-button slot="headder">Header test</calcite-button>
             <calcite-panel>
               Content test
@@ -393,7 +393,7 @@ describe("calcite-shell-panel", () => {
     const page = await newE2EPage();
     await page.setContent(
       `<calcite-shell content-behind>
-        <calcite-shell-panel slot="primary-panel" position="start" detached></calcite-shell-panel>
+        <calcite-shell-panel slot="panel-start" position="start" detached></calcite-shell-panel>
         <calcite-action text="test" style="height: 100%; width: 100%;" text-enabled></calcite-action>
       </calcite-shell>`
     );

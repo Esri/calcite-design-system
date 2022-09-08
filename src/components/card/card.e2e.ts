@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, renders, slots } from "../../tests/commonTests";
+import { accessible, renders, slots, hidden } from "../../tests/commonTests";
 import { placeholderImage } from "../../../.storybook/utils";
 import { CSS, SLOTS } from "./resources";
 const placeholder = placeholderImage({
@@ -9,6 +9,8 @@ const placeholder = placeholderImage({
 
 describe("calcite-card", () => {
   it("renders", async () => renders("calcite-card", { display: "block" }));
+
+  it("honors hidden attribute", async () => hidden("calcite-card"));
 
   it("is accessible", async () => accessible("calcite-card"));
 

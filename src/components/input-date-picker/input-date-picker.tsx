@@ -13,14 +13,15 @@ import {
   EventEmitter,
   Build
 } from "@stencil/core";
-import { getLocaleData, DateLocaleData } from "../date-picker/utils";
+import { getLocaleData, DateLocaleData, getValueAsDateRange } from "../date-picker/utils";
 import {
   dateFromRange,
   inRange,
   dateFromISO,
   dateToISO,
   parseDateString,
-  sameDate
+  sameDate,
+  setEndOfDay
 } from "../../utils/date";
 import { HeadingLevel } from "../functional/Heading";
 
@@ -49,7 +50,11 @@ import {
 import { DateRangeChange } from "../date-picker/interfaces";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { toAriaBoolean } from "../../utils/dom";
-import { OpenCloseComponent } from "../../utils/openCloseComponent";
+import {
+  OpenCloseComponent,
+  connectOpenCloseComponent,
+  disconnectOpenCloseComponent
+} from "../../utils/openCloseComponent";
 
 @Component({
   tag: "calcite-input-date-picker",
@@ -102,7 +107,7 @@ export class InputDatePicker
   @Watch("value")
   valueHandler(value: string | string[]): void {
     if (Array.isArray(value)) {
-      this.valueAsDate = value.map((v) => dateFromISO(v));
+      this.valueAsDate = getValueAsDateRange(value);
       this.start = value[0];
       this.end = value[1];
     } else if (value) {
@@ -124,6 +129,7 @@ export class InputDatePicker
   @Watch("flipPlacements")
   flipPlacementsHandler(): void {
     this.setFilteredPlacements();
+    this.reposition();
   }
 
   /**
@@ -264,7 +270,12 @@ export class InputDatePicker
    */
   @Prop({ mutable: true }) end?: string;
 
-  /** Describes the type of positioning to use for the overlaid content. If your element is in a fixed container, use the 'fixed' value. */
+  /**
+   * Determines the type of positioning to use for the overlaid content.
+   *
+   * Using the "absolute" value will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout. The "fixed" value should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is "fixed".
+   *
+   */
   @Prop() overlayPositioning: OverlayPositioning = "absolute";
 
   @Watch("overlayPositioning")
@@ -309,7 +320,7 @@ export class InputDatePicker
    *
    * @deprecated use `calciteInputDatePickerChange` instead.
    */
-  @Event() calciteDatePickerChange: EventEmitter<Date>;
+  @Event({ cancelable: false }) calciteDatePickerChange: EventEmitter<Date>;
 
   /**
    * Trigger calcite date change when a user changes the date range.
@@ -317,24 +328,24 @@ export class InputDatePicker
    * @see [DateRangeChange](https://github.com/Esri/calcite-components/blob/master/src/components/calcite-date-picker/interfaces.ts#L1)
    * @deprecated use `calciteInputDatePickerChange` instead.
    */
-  @Event() calciteDatePickerRangeChange: EventEmitter<DateRangeChange>;
+  @Event({ cancelable: false }) calciteDatePickerRangeChange: EventEmitter<DateRangeChange>;
 
   /**
    * This event fires when the input date picker value changes.
    */
-  @Event() calciteInputDatePickerChange: EventEmitter<void>;
+  @Event({ cancelable: false }) calciteInputDatePickerChange: EventEmitter<void>;
 
   /** Fires when the component is requested to be closed and before the closing transition begins. */
-  @Event() calciteInputDatePickerBeforeClose: EventEmitter<void>;
+  @Event({ cancelable: false }) calciteInputDatePickerBeforeClose: EventEmitter<void>;
 
   /** Fires when the component is closed and animation is complete. */
-  @Event() calciteInputDatePickerClose: EventEmitter<void>;
+  @Event({ cancelable: false }) calciteInputDatePickerClose: EventEmitter<void>;
 
   /** Fires when the component is added to the DOM but not rendered, and before the opening transition begins. */
-  @Event() calciteInputDatePickerBeforeOpen: EventEmitter<void>;
+  @Event({ cancelable: false }) calciteInputDatePickerBeforeOpen: EventEmitter<void>;
 
   /** Fires when the component is open and animation is complete. */
-  @Event() calciteInputDatePickerOpen: EventEmitter<void>;
+  @Event({ cancelable: false }) calciteInputDatePickerOpen: EventEmitter<void>;
 
   // --------------------------------------------------------------------------
   //
@@ -351,13 +362,14 @@ export class InputDatePicker
   /** Updates the position of the component. */
   @Method()
   async reposition(): Promise<void> {
-    const { floatingEl, referenceEl, placement, overlayPositioning } = this;
+    const { floatingEl, referenceEl, placement, overlayPositioning, filteredFlipPlacements } = this;
 
     return positionFloatingUI({
       floatingEl,
       referenceEl,
       overlayPositioning,
       placement,
+      flipPlacements: filteredFlipPlacements,
       type: "menu"
     });
   }
@@ -372,9 +384,8 @@ export class InputDatePicker
     const isOpen = this.active || this.open;
     isOpen && this.activeHandler(isOpen);
     isOpen && this.openHandler(isOpen);
-
     if (Array.isArray(this.value)) {
-      this.valueAsDate = this.value.map((v) => dateFromISO(v));
+      this.valueAsDate = getValueAsDateRange(this.value);
       this.start = this.value[0];
       this.end = this.value[1];
     } else if (this.value) {
@@ -388,7 +399,7 @@ export class InputDatePicker
     }
 
     if (this.end) {
-      this.endAsDate = dateFromISO(this.end);
+      this.endAsDate = setEndOfDay(dateFromISO(this.end));
     }
 
     if (this.min) {
@@ -401,8 +412,9 @@ export class InputDatePicker
 
     connectLabel(this);
     connectForm(this);
-    this.reposition();
+    connectOpenCloseComponent(this);
     this.setFilteredPlacements();
+    this.reposition();
   }
 
   async componentWillLoad(): Promise<void> {
@@ -416,10 +428,10 @@ export class InputDatePicker
   }
 
   disconnectedCallback(): void {
-    this.containerEl?.removeEventListener("transitionstart", this.transitionStartHandler);
     disconnectLabel(this);
     disconnectForm(this);
     disconnectFloatingUI(this, this.referenceEl, this.floatingEl);
+    disconnectOpenCloseComponent(this);
   }
 
   componentDidRender(): void {
@@ -480,8 +492,7 @@ export class InputDatePicker
                   [FloatingCSS.animation]: true,
                   [FloatingCSS.animationActive]: this.open
                 }}
-                onTransitionEnd={this.transitionEnd}
-                ref={this.setContainerEl}
+                ref={this.setTransitionEl}
               >
                 <calcite-date-picker
                   activeRange={this.focusedInput}
@@ -576,14 +587,9 @@ export class InputDatePicker
 
   private endWrapper: HTMLDivElement;
 
-  private activeTransitionProp = "opacity";
+  openTransitionProp = "opacity";
 
-  private containerEl: HTMLDivElement;
-
-  private setContainerEl = (el): void => {
-    this.containerEl = el;
-    this.containerEl.addEventListener("transitionstart", this.transitionStartHandler);
-  };
+  transitionEl: HTMLDivElement;
 
   @Watch("layout")
   @Watch("focusedInput")
@@ -612,6 +618,11 @@ export class InputDatePicker
       : null;
   };
 
+  private setTransitionEl = (el): void => {
+    this.transitionEl = el;
+    connectOpenCloseComponent(this);
+  };
+
   onLabelClick(): void {
     this.setFocus();
   }
@@ -632,18 +643,6 @@ export class InputDatePicker
     this.calciteInputDatePickerClose.emit();
   }
 
-  transitionStartHandler = (event: TransitionEvent): void => {
-    if (event.propertyName === this.activeTransitionProp && event.target === this.containerEl) {
-      this.open ? this.onBeforeOpen() : this.onBeforeClose();
-    }
-  };
-
-  transitionEnd = (event: TransitionEvent): void => {
-    if (event.propertyName === this.activeTransitionProp && event.target === this.containerEl) {
-      this.open ? this.onOpen() : this.onClose();
-    }
-  };
-
   setStartInput = (el: HTMLCalciteInputElement): void => {
     this.startInput = el;
   };
@@ -656,17 +655,21 @@ export class InputDatePicker
     this.open = false;
   };
 
-  keyDownHandler = ({ defaultPrevented, key }: KeyboardEvent): void => {
+  keyDownHandler = (event: KeyboardEvent): void => {
+    const { defaultPrevented, key } = event;
     if (key === "Enter" && !defaultPrevented) {
-      submitForm(this);
-    } else if (key === "Escape") {
+      if (submitForm(this)) {
+        event.preventDefault();
+      }
+    } else if (key === "Escape" && !defaultPrevented) {
       this.active = false;
       this.open = false;
+      event.preventDefault();
     }
   };
 
-  inputBlur = (e: CustomEvent<any>): void => {
-    this.blur(e.detail);
+  inputBlur = (event: CustomEvent<any>): void => {
+    this.blur(event.currentTarget as HTMLCalciteInputElement);
   };
 
   startInputFocus = (): void => {
@@ -683,8 +686,8 @@ export class InputDatePicker
     this.focusedInput = "end";
   };
 
-  inputInput = (e: CustomEvent<any>): void => {
-    this.input(e.detail.value);
+  inputInput = (event: CustomEvent<any>): void => {
+    this.input(event.detail.value);
   };
 
   setFloatingEl = (el: HTMLDivElement): void => {
@@ -711,7 +714,7 @@ export class InputDatePicker
 
   @Watch("end")
   endWatcher(end: string): void {
-    this.endAsDate = dateFromISO(end);
+    this.endAsDate = end ? setEndOfDay(dateFromISO(end)) : dateFromISO(end);
   }
 
   @Watch("locale")
@@ -792,7 +795,7 @@ export class InputDatePicker
         this.end = endDateISO;
         this.calciteDatePickerRangeChange.emit({
           startDate: this.startAsDate,
-          endDate: date
+          endDate: setEndOfDay(date)
         });
       }
     }

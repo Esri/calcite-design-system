@@ -79,6 +79,39 @@ Only attach additional data to your event if that data cannot be determined from
 
 `<calcite-tab-nav>` is also an example of this. The `event.details.tab` item contains the index of the selected tab or the tab name which cannot be easily determined from the state of `<calcite-tab-nav>` in some cases so it makes sense to include in the event.
 
+### Native event cancelation
+
+When a component **handles events for its own interaction** (e.g., moving between list items, closing an open menu), if the event is tied to default browser behavior (e.g., space key scrolling the page), `Event.preventDefault()` must be called to avoid mixed behavior.
+
+```tsx
+class SomeInputTypeComponent {
+  handleKeyDown(event: KeyboardEvent): void {
+    if (event.key === "Escape") {
+      /* clear text/close popover */
+      event.preventDefault(); // let browser or other components know that the event has been handled
+    }
+    // ...
+  }
+}
+```
+
+For composite components or components that support children (either light or shadow DOM), they may need to check if an event has been canceled (`Event.defaultPrevented`) before handling it.
+
+```tsx
+class CompositeOrParentComponent {
+  handleKeyDown(event: KeyboardEvent): void {
+    if (
+      event.key === "Escape" &&
+      !event.defaultPrevented // check if child component has already handled this
+    ) {
+      /* close */
+      event.preventDefault(); // let browser or other components know that the event has been handled
+    }
+    // ...
+  }
+}
+```
+
 ## Props
 
 Private/internal props should be annotated accordingly to avoid exposing them in the doc and/or API. You can do this by using the `@private`/`@internal` [JSDoc](https://jsdoc.app/) tags.

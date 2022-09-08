@@ -1,7 +1,17 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, disabled, focusable, formAssociated, HYDRATED_ATTR, labelable } from "../../tests/commonTests";
+import {
+  accessible,
+  disabled,
+  focusable,
+  formAssociated,
+  HYDRATED_ATTR,
+  labelable,
+  hidden
+} from "../../tests/commonTests";
 
 describe("calcite-checkbox", () => {
+  it("honors hidden attribute", async () => hidden("calcite-checkbox"));
+
   it("is accessible", async () =>
     accessible(
       `<calcite-label><calcite-checkbox id="example" name="example" value="one"></calcite-checkbox> label</calcite-label>`
@@ -42,6 +52,13 @@ describe("calcite-checkbox", () => {
 
     expect(calciteCheckbox).toHaveAttribute("checked");
     expect(await calciteCheckbox.getProperty("checked")).toBe(true);
+
+    // helps test click behavior via HTMLElement.click()
+    await calciteCheckbox.callMethod("click");
+    await page.waitForChanges();
+
+    expect(calciteCheckbox).not.toHaveAttribute("checked");
+    expect(await calciteCheckbox.getProperty("checked")).toBe(false);
   });
 
   it("appropriately triggers the custom change event", async () => {

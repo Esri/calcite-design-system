@@ -5,6 +5,12 @@
     cursor-pointer;
 }
 
+:host([selection-mode="none"]:not([has-children])) {
+  .node-container {
+    margin-inline: theme("margin.3");
+  }
+}
+
 @include calciteHydratedHidden();
 
 :host([scale="s"]) {
@@ -55,12 +61,12 @@
         absolute
         top-0
         w-px
-        transition-colors;
+        transition-colors
+        z-default;
     // ensure lines don't overlap focus outline
     block-size: 96%;
     content: "";
     background-color: var(--calcite-ui-border-2);
-    z-index: -1;
   }
 }
 
@@ -177,7 +183,7 @@
 }
 
 // dropdown expanded and not selected
-:host([has-children][expanded]:not([selected])) > .node-container {
+:host([has-children][expanded]:not([selected]):not([selection-mode="none"])) > .node-container {
   ::slotted(*) {
     @apply text-color-1 font-medium;
   }

@@ -4,7 +4,7 @@ import { FlowDirection } from "./interfaces";
 import { createObserver } from "../../utils/observers";
 
 /**
- * @slot - A slot for adding `calcite-panel`s to the flow.
+ * @slot - A slot for adding `calcite-flow-item` or `calcite-panel`s (deprecated) to the flow.
  */
 @Component({
   tag: "calcite-flow",
@@ -19,13 +19,13 @@ export class Flow {
   // --------------------------------------------------------------------------
 
   /**
-   * Removes the currently active `calcite-panel`.
+   * Removes the currently active `calcite-flow-item` or `calcite-panel`.
    */
   @Method()
-  async back(): Promise<HTMLCalcitePanelElement> {
-    const { panels } = this;
+  async back(): Promise<HTMLCalciteFlowItemElement> {
+    const { items } = this;
 
-    const lastItem = panels[panels.length - 1];
+    const lastItem = items[items.length - 1];
 
     if (!lastItem) {
       return;
@@ -50,15 +50,13 @@ export class Flow {
 
   @Element() el: HTMLCalciteFlowElement;
 
-  @State() panelCount = 0;
-
   @State() flowDirection: FlowDirection = null;
 
-  @State() panels: HTMLCalcitePanelElement[] = [];
+  @State() itemCount = 0;
 
-  panelItemMutationObserver: MutationObserver = createObserver("mutation", () =>
-    this.updateFlowProps()
-  );
+  @State() items: HTMLCalciteFlowItemElement[] = [];
+
+  itemMutationObserver = createObserver("mutation", () => this.updateFlowProps());
 
   // --------------------------------------------------------------------------
   //
@@ -67,12 +65,12 @@ export class Flow {
   // --------------------------------------------------------------------------
 
   connectedCallback(): void {
-    this.panelItemMutationObserver?.observe(this.el, { childList: true, subtree: true });
+    this.itemMutationObserver?.observe(this.el, { childList: true, subtree: true });
     this.updateFlowProps();
   }
 
   disconnectedCallback(): void {
-    this.panelItemMutationObserver?.disconnect();
+    this.itemMutationObserver?.disconnect();
   }
 
   // --------------------------------------------------------------------------
@@ -81,50 +79,54 @@ export class Flow {
   //
   // --------------------------------------------------------------------------
 
+  @Listen("calciteFlowItemBackClick")
   @Listen("calcitePanelBackClick")
-  handleCalcitePanelBackClick(): void {
+  handleItemBackClick(): void {
     this.back();
   }
 
-  getFlowDirection = (oldPanelCount: number, newPanelCount: number): FlowDirection | null => {
-    const allowRetreatingDirection = oldPanelCount > 1;
-    const allowAdvancingDirection = oldPanelCount && newPanelCount > 1;
+  getFlowDirection = (oldFlowItemCount: number, newFlowItemCount: number): FlowDirection | null => {
+    const allowRetreatingDirection = oldFlowItemCount > 1;
+    const allowAdvancingDirection = oldFlowItemCount && newFlowItemCount > 1;
 
     if (!allowAdvancingDirection && !allowRetreatingDirection) {
       return null;
     }
 
-    return newPanelCount < oldPanelCount ? "retreating" : "advancing";
+    return newFlowItemCount < oldFlowItemCount ? "retreating" : "advancing";
   };
 
   updateFlowProps = (): void => {
-    const { el, panels } = this;
+    const { el, items } = this;
 
-    const newPanels: HTMLCalcitePanelElement[] = Array.from(
-      el.querySelectorAll("calcite-panel")
-    ).filter((panel) => !panel.matches("calcite-panel calcite-panel")) as HTMLCalcitePanelElement[];
+    const newItems: (HTMLCalciteFlowItemElement | HTMLCalcitePanelElement)[] = Array.from(
+      el.querySelectorAll("calcite-flow-item, calcite-panel")
+    ).filter(
+      (flowItem) =>
+        !flowItem.matches("calcite-flow-item calcite-flow-item, calcite-panel calcite-panel")
+    ) as HTMLCalciteFlowItemElement[];
 
-    const oldPanelCount = panels.length;
-    const newPanelCount = newPanels.length;
-    const activePanel = newPanels[newPanelCount - 1];
-    const previousPanel = newPanels[newPanelCount - 2];
+    const oldItemCount = items.length;
+    const newItemCount = newItems.length;
+    const activeItem = newItems[newItemCount - 1];
+    const previousItem = newItems[newItemCount - 2];
 
-    if (newPanelCount && activePanel) {
-      newPanels.forEach((panelNode) => {
-        panelNode.showBackButton = panelNode === activePanel && newPanelCount > 1;
-        panelNode.hidden = panelNode !== activePanel;
+    if (newItemCount && activeItem) {
+      newItems.forEach((itemNode) => {
+        itemNode.showBackButton = itemNode === activeItem && newItemCount > 1;
+        itemNode.hidden = itemNode !== activeItem;
       });
     }
 
-    if (previousPanel) {
-      previousPanel.menuOpen = false;
+    if (previousItem) {
+      previousItem.menuOpen = false;
     }
 
-    this.panels = newPanels;
+    this.items = newItems;
 
-    if (oldPanelCount !== newPanelCount) {
-      const flowDirection = this.getFlowDirection(oldPanelCount, newPanelCount);
-      this.panelCount = newPanelCount;
+    if (oldItemCount !== newItemCount) {
+      const flowDirection = this.getFlowDirection(oldItemCount, newItemCount);
+      this.itemCount = newItemCount;
       this.flowDirection = flowDirection;
     }
   };

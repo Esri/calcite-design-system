@@ -9,7 +9,7 @@ import {
   h,
   VNode
 } from "@stencil/core";
-import { focusElement, nodeListToArray } from "../../utils/dom";
+import { focusElement, getRootNode, nodeListToArray } from "../../utils/dom";
 import { TreeItemSelectDetail } from "../tree-item/interfaces";
 import { TreeSelectDetail, TreeSelectionMode } from "./interfaces";
 import { Scale } from "../interfaces";
@@ -132,8 +132,8 @@ export class Tree {
   }
 
   @Listen("calciteInternalTreeItemSelect")
-  onClick(e: CustomEvent<TreeItemSelectDetail>): void {
-    const target = e.target as HTMLCalciteTreeItemElement;
+  onClick(event: CustomEvent<TreeItemSelectDetail>): void {
+    const target = event.target as HTMLCalciteTreeItemElement;
     const childItems = nodeListToArray(
       target.querySelectorAll("calcite-tree-item")
     ) as HTMLCalciteTreeItemElement[];
@@ -143,14 +143,16 @@ export class Tree {
     }
 
     if (!this.child) {
-      e.preventDefault();
-      e.stopPropagation();
+      event.preventDefault();
+      event.stopPropagation();
     }
 
     if (this.selectionMode === TreeSelectionMode.Ancestors && !this.child) {
-      this.updateAncestorTree(e);
+      this.updateAncestorTree(event);
       return;
     }
+
+    const isNoneSelectionMode = this.selectionMode === TreeSelectionMode.None;
 
     const shouldSelect =
       this.selectionMode !== null &&
@@ -160,7 +162,8 @@ export class Tree {
             this.selectionMode === TreeSelectionMode.MultiChildren)));
 
     const shouldModifyToCurrentSelection =
-      e.detail.modifyCurrentSelection &&
+      !isNoneSelectionMode &&
+      event.detail.modifyCurrentSelection &&
       (this.selectionMode === TreeSelectionMode.Multi ||
         this.selectionMode === TreeSelectionMode.MultiChildren);
 
@@ -205,7 +208,7 @@ export class Tree {
         });
       }
 
-      if (shouldExpandTarget && !e.detail.forceToggle) {
+      if (shouldExpandTarget && !event.detail.forceToggle) {
         target.expanded = true;
       }
 
@@ -215,27 +218,27 @@ export class Tree {
 
       if (
         (shouldModifyToCurrentSelection && target.selected) ||
-        (shouldSelectChildren && e.detail.forceToggle)
+        (shouldSelectChildren && event.detail.forceToggle)
       ) {
         targetItems.forEach((treeItem) => {
           treeItem.selected = false;
         });
-      } else {
+      } else if (!isNoneSelectionMode) {
         targetItems.forEach((treeItem) => {
           treeItem.selected = true;
         });
       }
     }
 
-    this.calciteTreeSelect.emit({
-      selected: (
-        nodeListToArray(
-          this.el.querySelectorAll("calcite-tree-item")
-        ) as HTMLCalciteTreeItemElement[]
-      ).filter((i) => i.selected)
-    });
+    const selected = isNoneSelectionMode
+      ? [target]
+      : (nodeListToArray(this.el.querySelectorAll("calcite-tree-item")).filter(
+          (i) => i.selected
+        ) as HTMLCalciteTreeItemElement[]);
 
-    e.stopPropagation();
+    this.calciteTreeSelect.emit({ selected });
+
+    event.stopPropagation();
   }
 
   @Listen("keydown")
@@ -275,7 +278,7 @@ export class Tree {
           if (!target.hasChildren) {
             break;
           }
-          if (target.expanded && document.activeElement === target) {
+          if (target.expanded && getRootNode(this.el).activeElement === target) {
             // When focus is on an open node, moves focus to the first child node.
             target.querySelector("calcite-tree-item")?.focus();
             event.preventDefault();
@@ -297,8 +300,8 @@ export class Tree {
     }
   }
 
-  updateAncestorTree(e: CustomEvent<TreeItemSelectDetail>): void {
-    const item = e.target as HTMLCalciteTreeItemElement;
+  updateAncestorTree(event: CustomEvent<TreeItemSelectDetail>): void {
+    const item = event.target as HTMLCalciteTreeItemElement;
     const children = item.querySelectorAll("calcite-tree-item");
     const ancestors: HTMLCalciteTreeItemElement[] = [];
     let parent = item.parentElement.closest("calcite-tree-item");
@@ -350,7 +353,7 @@ export class Tree {
    *
    * @see [TreeSelectDetail](https://github.com/Esri/calcite-components/blob/master/src/components/tree/interfaces.ts#L1)
    */
-  @Event() calciteTreeSelect: EventEmitter<TreeSelectDetail>;
+  @Event({ cancelable: false }) calciteTreeSelect: EventEmitter<TreeSelectDetail>;
 
   // --------------------------------------------------------------------------
   //
