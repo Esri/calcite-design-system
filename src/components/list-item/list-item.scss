@@ -1,5 +1,6 @@
 :host {
   @apply flex flex-col;
+  --calcite-list-item-icon-color: theme("colors.brand");
 }
 
 @include disabled();
@@ -96,6 +97,7 @@ td:focus {
 
 .selection-container {
   @apply flex flex-auto self-center px-3;
+  color: var(--calcite-list-item-icon-color);
 }
 
 .actions-start,
