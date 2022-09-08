@@ -881,7 +881,7 @@ export async function floatingUIOwner(
   await scrollTo(scrollablePageSizeInPx, scrollablePageSizeInPx);
   await page.waitForChanges();
 
-  expect(await getTransform()).toBe(initialClosedTransform);
+  expect(await getTransform()).not.toBe(initialClosedTransform);
 
   await scrollTo(0, 0);
   await page.waitForChanges();
