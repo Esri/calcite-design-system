@@ -184,9 +184,6 @@ describe("calcite-pagination", () => {
   describe("number locale support", () => {
     let page: E2EPage;
     let element: E2EElement;
-    let noSeparator: string[];
-    let withSeparator: string[];
-    let getDisplayedValuesArray;
     const expectedNotSeparatedValueArray: string[] = ["14999997", "14999998", "14999999", "15000000"];
 
     const formattedValuesPerLanguageObject = {
@@ -208,7 +205,6 @@ describe("calcite-pagination", () => {
       await page.setContent(
         html`<calcite-pagination lang="en" group-separator total="150000000" num="10"></calcite-pagination>`
       );
-      await page.exposeFunction("getDisplayedValuesArray", getDisplayedValuesArray);
       element = await page.find("calcite-pagination");
 
       const buttons = await page.findAll(`calcite-pagination >>> .${CSS.page}`);
@@ -220,7 +216,7 @@ describe("calcite-pagination", () => {
       element.setProperty("groupSeparator", false);
       await page.waitForChanges();
 
-      noSeparator = await getDisplayedValues();
+      let noSeparator = await getDisplayedValues();
       expect(noSeparator).toEqual(expectedNotSeparatedValueArray);
       expect(await element.getProperty("groupSeparator")).toBe(false);
 
@@ -237,7 +233,7 @@ describe("calcite-pagination", () => {
         element.setProperty("lang", lang);
         await page.waitForChanges();
 
-        withSeparator = await getDisplayedValues();
+        const withSeparator = await getDisplayedValues();
         expect(withSeparator).toEqual(formattedValuesArr);
       };
 
