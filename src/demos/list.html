@@ -179,7 +179,7 @@
         <div class="child right-aligned-text">nested</div>
 
         <div class="child">
-          <calcite-list label="test">
+          <calcite-list label="test" selection-mode="multiple">
             <calcite-list-item label="Hi!" description="hello world">
               <calcite-list-item label="Hi!" description="hello world">
                 <calcite-list-item label="Hi!" description="hello world"></calcite-list-item>
@@ -213,12 +213,16 @@
         <div class="child">
           <calcite-list>
             <calcite-list-item heading="test" description="hello world">
-              <calcite-icon icon="check" slot="content-start" style="color: var(--calcite-ui-success)"></calcite-icon>
+              <calcite-icon icon="embark" slot="content-start" style="color: var(--calcite-ui-success)"></calcite-icon>
               <calcite-list-item heading="test" description="hello world">
-                <calcite-icon icon="check" slot="content-start" style="color: var(--calcite-ui-success)"></calcite-icon>
+                <calcite-icon
+                  icon="embark"
+                  slot="content-start"
+                  style="color: var(--calcite-ui-success)"
+                ></calcite-icon>
                 <calcite-list-item heading="test" description="hello world">
                   <calcite-icon
-                    icon="check"
+                    icon="embark"
                     slot="content-start"
                     style="color: var(--calcite-ui-success)"
                   ></calcite-icon>
@@ -227,7 +231,11 @@
             </calcite-list-item>
             <calcite-list-item-group heading="My Group">
               <calcite-list-item heading="test" description="hello world">
-                <calcite-icon icon="check" slot="content-start" style="color: var(--calcite-ui-success)"></calcite-icon>
+                <calcite-icon
+                  icon="embark"
+                  slot="content-start"
+                  style="color: var(--calcite-ui-success)"
+                ></calcite-icon>
               </calcite-list-item>
               <calcite-list-item heading="test" description="hello world">
                 <calcite-icon icon="blank" slot="content-start" style="color: var(--calcite-ui-success)"></calcite-icon>
@@ -267,7 +275,7 @@
             <calcite-list-item non-interactive>
               <calcite-action appearance="clear" label="undo" text="undo" slot="actions-end" icon="undo">
               </calcite-action>
-              <calcite-action appearance="clear" text="check" label="check" slot="actions-end" icon="check">
+              <calcite-action appearance="clear" text="embark" label="embark" slot="actions-end" icon="embark">
               </calcite-action>
               <div class="form-container" slot="content-start">
                 <calcite-input scale="s" value="Jake the Dog" scale="m" placeholder="This is an input."></calcite-input>
