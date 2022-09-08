@@ -80,6 +80,7 @@ jobs:
         with:
           node-version: lts/*
           cache: npm
+          cache-dependency-path: ./package-lock.json
       - run: npm ci --legacy-peer-deps
       - name: run screener check
         env:
