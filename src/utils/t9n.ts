@@ -1,45 +1,43 @@
 import { getAssetPath } from "@stencil/core";
 import { getSupportedLang } from "./locale";
 
-export type StringBundle = Record<string, string>;
+export type MessageBundle = Record<string, string>;
 
-export const stringBundleCache: Record<string, Promise<StringBundle>> = {};
+export const componentLangToMessageBundleCache: Record<string, Promise<MessageBundle>> = {};
 
-export async function getStringBundle(lang: string, component: string): Promise<StringBundle> {
-  let strings: StringBundle;
+export async function getMessageBundle(lang: string, component: string): Promise<MessageBundle> {
+  let messages: MessageBundle;
 
   try {
-    strings = await fetchBundle(lang, component);
+    messages = await fetchBundle(lang, component);
   } catch (error) {
-    strings = await fetchBundle("en", component);
+    messages = await fetchBundle("en", component);
   }
 
-  return strings;
+  return messages;
 }
 
-async function fetchBundle(lang: string, component: string): Promise<StringBundle> {
-  const id = `${component}_${lang}`;
+async function fetchBundle(lang: string, component: string): Promise<MessageBundle> {
+  const key = `${component}_${lang}`;
 
-  if (stringBundleCache?.id) {
-    return await stringBundleCache[id];
+  if (componentLangToMessageBundleCache[key]) {
+    return await componentLangToMessageBundleCache[key];
   }
 
-  stringBundleCache[id] = fetch(getAssetPath(`./assets/${component}/t9n/${lang}.json`))
+  componentLangToMessageBundleCache[key] = fetch(getAssetPath(`./assets/${component}/t9n/messages_${lang}.json`))
     .then((resp) => {
       if (!resp.ok) {
-        throwStringFetchError();
+        throwMessageFetchError();
       }
       return resp.json();
     })
-    .catch(() => {
-      throwStringFetchError();
-    });
+    .catch(() => throwMessageFetchError());
 
-  return await stringBundleCache[id];
+  return componentLangToMessageBundleCache[key];
 }
 
-function throwStringFetchError(): never {
-  throw new Error("could not fetch component strings");
+function throwMessageFetchError(): never {
+  throw new Error("could not fetch component message bundle");
 }
 
 /**
@@ -49,7 +47,7 @@ function throwStringFetchError(): never {
  */
 export function mergeIntlPropsIntoOverrides(component: T9nComponent): void {
   const { el } = component;
-  let overrides = component.stringOverrides;
+  let overrides = component.messageOverrides;
 
   // overrides have precedence
   if (overrides) {
@@ -58,9 +56,9 @@ export function mergeIntlPropsIntoOverrides(component: T9nComponent): void {
 
   for (const prop in el) {
     if (prop.startsWith("intl")) {
-      const assignedString = el[prop];
+      const assignedValue = el[prop];
 
-      if (assignedString) {
+      if (assignedValue) {
         let mappedProp = prop.replace("intl", "");
         mappedProp = `${mappedProp[0].toLowerCase()}${mappedProp.slice(1)}`;
 
@@ -68,27 +66,27 @@ export function mergeIntlPropsIntoOverrides(component: T9nComponent): void {
           overrides = {};
         }
 
-        overrides[mappedProp] = assignedString;
+        overrides[mappedProp] = assignedValue;
       }
     }
   }
 
-  component.stringOverrides = overrides;
+  component.messageOverrides = overrides;
 }
 
-export function mergeStrings(component: T9nComponent): void {
-  component.mergedStrings = {
-    ...component.builtInStrings,
-    ...component.stringOverrides
+export function mergeMessages(component: T9nComponent): void {
+  component.messages = {
+    ...component.defaultMessages,
+    ...component.messageOverrides
   };
 }
 
 /**
- * This utility sets up the strings used by the component. It should be awaited in the `componentWillLoad` lifecycle hook.
+ * This utility sets up the messages used by the component. It should be awaited in the `componentWillLoad` lifecycle hook.
  *
  * @param component
  */
-export async function fetchStrings(component: T9nComponent): Promise<void> {
+export async function fetchMessages(component: T9nComponent): Promise<void> {
   const { el } = component;
   const lang = el.lang || document.documentElement.lang || navigator.language;
   const locale = getSupportedLang(lang);
@@ -96,57 +94,57 @@ export async function fetchStrings(component: T9nComponent): Promise<void> {
   const tag = el.tagName.toLowerCase();
   const componentName = tag.replace("calcite-", "");
 
-  component.builtInStrings = await getStringBundle(locale, componentName);
+  component.defaultMessages = await getMessageBundle(locale, componentName);
   mergeIntlPropsIntoOverrides(component);
-  mergeStrings(component);
+  mergeMessages(component);
 }
 
-export function connectStrings(component: T9nComponent): void {
-  component.onStringsChange = defaultOnStringsChange;
+export function connectMessages(component: T9nComponent): void {
+  component.onMessagesChange = defaultOnMessagesChange;
 }
 
-export function disconnectStrings(component: T9nComponent): void {
-  component.onStringsChange = undefined;
+export function disconnectMessages(component: T9nComponent): void {
+  component.onMessagesChange = undefined;
 }
 
-export function defaultOnStringsChange(this: T9nComponent): void {
-  mergeStrings(this);
+export function defaultOnMessagesChange(this: T9nComponent): void {
+  mergeMessages(this);
 }
 
 export interface T9nComponent {
   el: HTMLElement;
 
   /**
-   * This property holds all strings used by the component's rendering.
+   * This property holds all messages used by the component's rendering.
    *
    * This prop should use the `@State` decorator.
    */
-  mergedStrings: StringBundle;
+  messages: MessageBundle;
 
   /**
-   * This property holds the component's default strings.
+   * This property holds the component's default messages.
    *
    * This prop should use the `@State` decorator.
    */
-  builtInStrings: StringBundle;
+  defaultMessages: MessageBundle;
 
   /**
-   * This property holds all user string overrides.
+   * This property holds all user message overrides.
    *
    * This prop should use the `@Prop` decorator.
    */
-  stringOverrides: Partial<StringBundle>;
+  messageOverrides: Partial<MessageBundle>;
 
   /**
-   * This private method ensures strings are kept in sync.
+   * This private method ensures messages are kept in sync.
    *
-   * This method should be configured to watch for changes on `builtInStrings` and `stringOverrides`.
+   * This method should be configured to watch for changes on `defaultMessages` and `messageOverrides`.
    *
-   * @Watch("builtInStrings")
-   * @Watch("stringOverrides")
-   * onStringsChange(): void {
+   * @Watch("defaultMessages")
+   * @Watch("messageOverrides")
+   * onMessagesChange(): void {
    *  \/* wired up by t9n util *\/
    * }
    */
-  onStringsChange(): void;
+  onMessagesChange(): void;
 }

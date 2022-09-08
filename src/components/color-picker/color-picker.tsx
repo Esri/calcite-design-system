@@ -31,7 +31,7 @@ import { clamp } from "../../utils/math";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { Strings } from "./assets/color-picker/t9n";
 import { isActivationKey } from "../../utils/key";
-import { connectStrings, disconnectStrings, fetchStrings, T9nComponent } from "../../utils/t9n";
+import { connectMessages, disconnectMessages, fetchMessages, T9nComponent } from "../../utils/t9n";
 const throttleFor60FpsInMs = 16;
 const defaultValue = normalizeHex(DEFAULT_COLOR.hex());
 const defaultFormat = "auto";
@@ -114,7 +114,7 @@ export class ColorPicker implements InteractiveComponent, T9nComponent {
    * Label used for the blue channel
    *
    * @default "B"
-   * @deprecated – translations are now built-in, if you need to override a string, please use `stringOverrides`
+   * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`
    */
   @Prop() intlB: string;
 
@@ -122,7 +122,7 @@ export class ColorPicker implements InteractiveComponent, T9nComponent {
    * Label used for the blue channel description
    *
    * @default "Blue"
-   * @deprecated – translations are now built-in, if you need to override a string, please use `stringOverrides`
+   * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`
    */
   @Prop() intlBlue: string;
 
@@ -130,7 +130,7 @@ export class ColorPicker implements InteractiveComponent, T9nComponent {
    * Label used for the delete color button.
    *
    * @default "Delete color"
-   * @deprecated – translations are now built-in, if you need to override a string, please use `stringOverrides`
+   * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`
    */
   @Prop() intlDeleteColor: string;
 
@@ -138,7 +138,7 @@ export class ColorPicker implements InteractiveComponent, T9nComponent {
    * Label used for the green channel
    *
    * @default "G"
-   * @deprecated – translations are now built-in, if you need to override a string, please use `stringOverrides`
+   * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`
    */
   @Prop() intlG: string;
 
@@ -146,7 +146,7 @@ export class ColorPicker implements InteractiveComponent, T9nComponent {
    * Label used for the green channel description
    *
    * @default "Green"
-   * @deprecated – translations are now built-in, if you need to override a string, please use `stringOverrides`
+   * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`
    */
   @Prop() intlGreen: string;
 
@@ -154,7 +154,7 @@ export class ColorPicker implements InteractiveComponent, T9nComponent {
    * Label used for the hue channel
    *
    * @default "H"
-   * @deprecated – translations are now built-in, if you need to override a string, please use `stringOverrides`
+   * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`
    */
   @Prop() intlH: string;
 
@@ -162,7 +162,7 @@ export class ColorPicker implements InteractiveComponent, T9nComponent {
    * Label used for the HSV mode
    *
    * @default "HSV"
-   * @deprecated – translations are now built-in, if you need to override a string, please use `stringOverrides`
+   * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`
    */
   @Prop() intlHsv: string;
 
@@ -170,7 +170,7 @@ export class ColorPicker implements InteractiveComponent, T9nComponent {
    * Label used for the hex input
    *
    * @default "Hex"
-   * @deprecated – translations are now built-in, if you need to override a string, please use `stringOverrides`
+   * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`
    */
   @Prop() intlHex: string;
 
@@ -178,7 +178,7 @@ export class ColorPicker implements InteractiveComponent, T9nComponent {
    * Label used for the hue channel description
    *
    * @default "Hue"
-   * @deprecated – translations are now built-in, if you need to override a string, please use `stringOverrides`
+   * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`
    */
   @Prop() intlHue: string;
 
@@ -186,7 +186,7 @@ export class ColorPicker implements InteractiveComponent, T9nComponent {
    * Label used for the hex input when there is no color selected.
    *
    * @default "No color"
-   * @deprecated – translations are now built-in, if you need to override a string, please use `stringOverrides`
+   * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`
    */
   @Prop() intlNoColor: string;
 
@@ -194,7 +194,7 @@ export class ColorPicker implements InteractiveComponent, T9nComponent {
    * Label used for the red channel
    *
    * @default "R"
-   * @deprecated – translations are now built-in, if you need to override a string, please use `stringOverrides`
+   * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`
    */
   @Prop() intlR: string;
 
@@ -202,7 +202,7 @@ export class ColorPicker implements InteractiveComponent, T9nComponent {
    * Label used for the red channel description
    *
    * @default "Red"
-   * @deprecated – translations are now built-in, if you need to override a string, please use `stringOverrides`
+   * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`
    */
   @Prop() intlRed: string;
 
@@ -210,7 +210,7 @@ export class ColorPicker implements InteractiveComponent, T9nComponent {
    * Label used for the RGB mode
    *
    * @default "RGB"
-   * @deprecated – translations are now built-in, if you need to override a string, please use `stringOverrides`
+   * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`
    */
   @Prop() intlRgb: string;
 
@@ -218,7 +218,7 @@ export class ColorPicker implements InteractiveComponent, T9nComponent {
    * Label used for the saturation channel
    *
    * @default "S"
-   * @deprecated – translations are now built-in, if you need to override a string, please use `stringOverrides`
+   * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`
    */
   @Prop() intlS: string;
 
@@ -226,7 +226,7 @@ export class ColorPicker implements InteractiveComponent, T9nComponent {
    * Label used for the saturation channel description
    *
    * @default "Saturation"
-   * @deprecated – translations are now built-in, if you need to override a string, please use `stringOverrides`
+   * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`
    */
   @Prop() intlSaturation: string;
 
@@ -234,7 +234,7 @@ export class ColorPicker implements InteractiveComponent, T9nComponent {
    * Label used for the save color button.
    *
    * @default "Save color"
-   * @deprecated – translations are now built-in, if you need to override a string, please use `stringOverrides`
+   * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`
    */
   @Prop() intlSaveColor: string;
 
@@ -242,7 +242,7 @@ export class ColorPicker implements InteractiveComponent, T9nComponent {
    * Label used for the saved colors section
    *
    * @default "Saved"
-   * @deprecated – translations are now built-in, if you need to override a string, please use `stringOverrides`
+   * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`
    */
   @Prop() intlSaved: string;
 
@@ -250,7 +250,7 @@ export class ColorPicker implements InteractiveComponent, T9nComponent {
    * Label used for the value channel
    *
    * @default "V"
-   * @deprecated – translations are now built-in, if you need to override a string, please use `stringOverrides`
+   * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`
    */
   @Prop() intlV: string;
 
@@ -258,7 +258,7 @@ export class ColorPicker implements InteractiveComponent, T9nComponent {
    * Label used for the
    *
    * @default "Value"
-   * @deprecated – translations are now built-in, if you need to override a string, please use `stringOverrides`
+   * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`
    */
   @Prop() intlValue: string;
 
@@ -281,11 +281,11 @@ export class ColorPicker implements InteractiveComponent, T9nComponent {
   /**
    * @todo doc
    */
-  @Prop({ mutable: true }) stringOverrides: Partial<Strings>;
+  @Prop({ mutable: true }) messageOverrides: Partial<Strings>;
 
-  @Watch("builtInStrings")
-  @Watch("stringOverrides")
-  onStringsChange(): void {
+  @Watch("defaultStrings")
+  @Watch("messageOverrides")
+  onMessagesChange(): void {
     /* wired up by t9n util */
   }
 
@@ -378,7 +378,7 @@ export class ColorPicker implements InteractiveComponent, T9nComponent {
 
   private sliderThumbState: "idle" | "hover" | "drag" = "idle";
 
-  @State() builtInStrings: Strings;
+  @State() defaultMessages: Strings;
 
   @State() colorFieldAndSliderInteractive = false;
 
@@ -388,7 +388,7 @@ export class ColorPicker implements InteractiveComponent, T9nComponent {
 
   @State() dimensions = DIMENSIONS.m;
 
-  @State() mergedStrings: Strings;
+  @State() messages: Strings;
 
   @State() savedColors: string[] = [];
 
@@ -791,17 +791,17 @@ export class ColorPicker implements InteractiveComponent, T9nComponent {
       this.savedColors = JSON.parse(localStorage.getItem(storageKey));
     }
 
-    await fetchStrings(this);
+    await fetchMessages(this);
   }
 
   connectedCallback(): void {
-    connectStrings(this);
+    connectMessages(this);
   }
 
   disconnectedCallback(): void {
     document.removeEventListener("pointermove", this.globalPointerMoveHandler);
     document.removeEventListener("pointerup", this.globalPointerUpHandler);
-    disconnectStrings(this);
+    disconnectMessages(this);
   }
 
   componentDidRender(): void {
@@ -815,16 +815,8 @@ export class ColorPicker implements InteractiveComponent, T9nComponent {
   //--------------------------------------------------------------------------
 
   render(): VNode {
-    const {
-      allowEmpty,
-      color,
-      mergedStrings,
-      hideHex,
-      hideChannels,
-      hideSaved,
-      savedColors,
-      scale
-    } = this;
+    const { allowEmpty, color, messages, hideHex, hideChannels, hideSaved, savedColors, scale } =
+      this;
     const selectedColorInHex = color ? color.hex() : null;
     const hexInputScale = scale === "l" ? "m" : "s";
     const {
@@ -858,7 +850,7 @@ export class ColorPicker implements InteractiveComponent, T9nComponent {
             ref={this.initColorFieldAndSlider}
           />
           <div
-            aria-label={vertical ? mergedStrings.value : mergedStrings.saturation}
+            aria-label={vertical ? messages.value : messages.saturation}
             aria-valuemax={vertical ? HSV_LIMITS.v : HSV_LIMITS.s}
             aria-valuemin="0"
             aria-valuenow={(vertical ? color?.saturationv() : color?.value()) || "0"}
@@ -870,7 +862,7 @@ export class ColorPicker implements InteractiveComponent, T9nComponent {
             tabindex="0"
           />
           <div
-            aria-label={mergedStrings.hue}
+            aria-label={messages.hue}
             aria-valuemax={HSV_LIMITS.h}
             aria-valuemin="0"
             aria-valuenow={color?.round().hue() || DEFAULT_COLOR.round().hue()}
@@ -897,7 +889,7 @@ export class ColorPicker implements InteractiveComponent, T9nComponent {
                     [CSS.headerHex]: true
                   }}
                 >
-                  {mergedStrings.hex}
+                  {messages.hex}
                 </span>
                 <calcite-color-picker-hex-input
                   allowEmpty={allowEmpty}
@@ -930,7 +922,7 @@ export class ColorPicker implements InteractiveComponent, T9nComponent {
         {hideSaved ? null : (
           <div class={{ [CSS.savedColorsSection]: true, [CSS.section]: true }}>
             <div class={CSS.header}>
-              <label>{mergedStrings.saved}</label>
+              <label>{messages.saved}</label>
               <div class={CSS.savedColorsButtons}>
                 <calcite-button
                   appearance="transparent"
@@ -938,7 +930,7 @@ export class ColorPicker implements InteractiveComponent, T9nComponent {
                   color="neutral"
                   disabled={noColor}
                   iconStart="minus"
-                  label={mergedStrings.deleteColor}
+                  label={messages.deleteColor}
                   onClick={this.deleteColor}
                   scale={hexInputScale}
                   type="button"
@@ -949,7 +941,7 @@ export class ColorPicker implements InteractiveComponent, T9nComponent {
                   color="neutral"
                   disabled={noColor}
                   iconStart="plus"
-                  label={mergedStrings.saveColor}
+                  label={messages.saveColor}
                   onClick={this.saveColor}
                   scale={hexInputScale}
                   type="button"
@@ -989,9 +981,9 @@ export class ColorPicker implements InteractiveComponent, T9nComponent {
   };
 
   private renderChannelsTabTitle = (channelMode: this["channelMode"]): VNode => {
-    const { channelMode: activeChannelMode, mergedStrings } = this;
+    const { channelMode: activeChannelMode, messages } = this;
     const active = channelMode === activeChannelMode;
-    const label = channelMode === "rgb" ? mergedStrings.rgb : mergedStrings.hsv;
+    const label = channelMode === "rgb" ? messages.rgb : messages.hsv;
 
     return (
       <calcite-tab-title
@@ -1007,15 +999,15 @@ export class ColorPicker implements InteractiveComponent, T9nComponent {
   };
 
   private renderChannelsTab = (channelMode: this["channelMode"]): VNode => {
-    const { channelMode: activeChannelMode, channels, mergedStrings } = this;
+    const { channelMode: activeChannelMode, channels, messages } = this;
     const active = channelMode === activeChannelMode;
     const isRgb = channelMode === "rgb";
     const channelLabels = isRgb
-      ? [mergedStrings.r, mergedStrings.g, mergedStrings.b]
-      : [mergedStrings.h, mergedStrings.s, mergedStrings.v];
+      ? [messages.r, messages.g, messages.b]
+      : [messages.h, messages.s, messages.v];
     const channelAriaLabels = isRgb
-      ? [mergedStrings.red, mergedStrings.green, mergedStrings.blue]
-      : [mergedStrings.hue, mergedStrings.saturation, mergedStrings.value];
+      ? [messages.red, messages.green, messages.blue]
+      : [messages.hue, messages.saturation, messages.value];
     const direction = getElementDir(this.el);
 
     return (
