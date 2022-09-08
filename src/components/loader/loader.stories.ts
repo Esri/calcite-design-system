@@ -1,18 +1,17 @@
 import { number, color, select } from "@storybook/addon-knobs";
-import { boolean } from "../../../.storybook/helpers";
-import { themesDarkDefault } from "../../../.storybook/utils";
+import { boolean, storyFilters } from "../../../.storybook/helpers";
 import readme from "./readme.md";
 import { html } from "../../../support/formatting";
 
 export default {
   title: "Components/Loader",
-
   parameters: {
     notes: readme
-  }
+  },
+  ...storyFilters()
 };
 
-export const Simple = (): string => html`
+export const simple_NoTest = (): string => html`
   <calcite-loader
     active
     type="${select("type", ["determinate", "indeterminate"], "indeterminate")}"
@@ -22,19 +21,7 @@ export const Simple = (): string => html`
   />
 `;
 
-export const NoPadding = (): string => html`
-  <div style="border: 1px solid rgb(192,192,192, 0.5); width: 100px">
-    <calcite-loader
-      active
-      type="${select("type", ["determinate", "indeterminate"], "indeterminate")}"
-      scale="${select("scale", ["s", "m", "l"], "m")}"
-      ${boolean("no-padding", true)}
-      value="${number("value", 0, { range: true, min: 0, max: 100, step: 1 })}"
-    />
-  </div>
-`;
-
-export const Inline = (): string => html`
+export const inline_NoTest = (): string => html`
 <div style="display: inline-flex;align-items: center;justify-content: center;width: 100%;">
 <calcite-loader
   scale="${select("scale", ["s", "m", "l"], "m")}"
@@ -44,22 +31,7 @@ export const Inline = (): string => html`
 </div>
 `;
 
-export const DarkMode = (): string => html`
-  <calcite-loader
-    class="calcite-theme-dark"
-    type="${select("type", ["determinate", "indeterminate"], "indeterminate")}"
-    scale="${select("scale", ["s", "m", "l"], "m")}"
-    ${boolean("no-padding", false)}
-    value="${number("value", 0, { range: true, min: 0, max: 100, step: 1 })}"
-    active
-    class="calcite-theme-dark"
-  />
-`;
-
-DarkMode.storyName = "Dark mode";
-DarkMode.parameters = { themes: themesDarkDefault };
-
-export const CustomTheme = (): string => html`
+export const customTheme_NoTest = (): string => html`
   <calcite-loader
     type="${select("type", ["determinate", "indeterminate"], "indeterminate")}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
@@ -72,5 +44,3 @@ export const CustomTheme = (): string => html`
     active
   />
 `;
-
-CustomTheme.storyName = "Custom theme";
