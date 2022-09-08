@@ -1,14 +1,16 @@
 import { html } from "../../../support/formatting";
 import readme from "./readme.md";
+import { storyFilters } from "../../../.storybook/helpers";
 
 export default {
   title: "Components/Action Menu",
   parameters: {
     notes: readme
-  }
+  },
+  ...storyFilters()
 };
 
-export const Basic = (): string =>
+export const simple = (): string =>
   html`
     <calcite-action-menu>
       <calcite-action slot="trigger" text="Add" icon="banana"></calcite-action>
@@ -18,7 +20,7 @@ export const Basic = (): string =>
     </calcite-action-menu>
   `;
 
-export const Open = (): string =>
+export const open = (): string =>
   html`
     <calcite-action-menu open>
       <calcite-action slot="trigger" text="Add" icon="banana"></calcite-action>
