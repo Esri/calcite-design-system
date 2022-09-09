@@ -150,16 +150,16 @@ export class InputDatePicker
   @Prop({ mutable: true }) startAsDate?: Date;
 
   /**
-   * The component's end date as full date object.
+   * The component's end date as a full date object.
    *
    * @deprecated use "valueAsDate" instead.
    */
   @Prop({ mutable: true }) endAsDate?: Date;
 
-  /** Specifies the earliest allowed date as full date object. */
+  /** Specifies the earliest allowed date as a full date object. */
   @Prop({ mutable: true }) minAsDate?: Date;
 
-  /** Specifies the latest allowed date as full date object. */
+  /** Specifies the latest allowed date as a full date object. */
   @Prop({ mutable: true }) maxAsDate?: Date;
 
   /** Specifies the earliest allowed date ("yyyy-mm-dd"). */
@@ -330,7 +330,7 @@ export class InputDatePicker
   /**
    * Fires when a user changes the date range.
    *
-   * @see [DateRangeChange](https://github.com/Esri/calcite-components/blob/master/src/components/calcite-date-picker/interfaces.ts#L1)
+   * @see [DateRangeChange](https://github.com/Esri/calcite-components/blob/master/src/components/date-picker/interfaces.ts#L1)
    * @deprecated use "calciteInputDatePickerChange" instead.
    */
   @Event({ cancelable: false }) calciteDatePickerRangeChange: EventEmitter<DateRangeChange>;
