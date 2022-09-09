@@ -129,7 +129,7 @@
     "jest-axe": "6.0.0",
     "jest-cli": "26.6.3",
     "lint-staged": "13.0.3",
-    "pify": "6.0.0",
+    "pify": "6.1.0",
     "postcss": "8.4.16",
     "prettier": "2.7.1",
     "puppeteer": "10.0.0",
