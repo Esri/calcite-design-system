@@ -88,6 +88,11 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
    */
   @Prop({ reflect: true, mutable: true }) selected = false;
 
+  @Watch("selected")
+  handleSelectedChange(): void {
+    this.calciteInternalListItemSelect.emit();
+  }
+
   /**
    *
    * @internal
@@ -110,6 +115,12 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
    * Emitted whenever the list item content is selected.
    */
   @Event({ cancelable: false }) calciteListItemSelect: EventEmitter<void>;
+
+  /**
+   *
+   * @internal
+   */
+  @Event({ cancelable: false }) calciteInternalListItemSelect: EventEmitter<void>;
 
   /**
    *
