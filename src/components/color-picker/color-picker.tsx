@@ -283,6 +283,26 @@ export class ColorPicker implements InteractiveComponent, T9nComponent {
    */
   @Prop({ mutable: true }) messageOverrides: Partial<Strings>;
 
+  @Watch("intlG")
+  @Watch("intlB")
+  @Watch("intlV")
+  @Watch("intlBlue")
+  @Watch("intlDeleteColor")
+  @Watch("intlGreen")
+  @Watch("intlH")
+  @Watch("intlHsv")
+  @Watch("intlHex")
+  @Watch("intlHue")
+  @Watch("intlNoColor")
+  @Watch("intlR")
+  @Watch("intlRed")
+  @Watch("intlRgb")
+  @Watch("intlS")
+  @Watch("intlSaturation")
+  @Watch("intlSaveColor")
+  @Watch("intlSaved")
+  @Watch("intlV")
+  @Watch("intlValue")
   @Watch("defaultMessages")
   @Watch("messageOverrides")
   onMessagesChange(): void {
