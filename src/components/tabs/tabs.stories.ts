@@ -242,5 +242,6 @@ export const WithIconStart_TestOnly = stepStory(
        document.getElementById("btn").onclick = function(){
        tab-title.iconStart ="car"  }`
     )
+    .click("#btn")
     .snapshot("WithIconStart")
 );
