@@ -41,7 +41,7 @@ type NumberNudgeDirection = "up" | "down";
 type SetValueOrigin = "initial" | "connected" | "user" | "reset" | "direct";
 
 /**
- * @slot action - A slot for positioning a button next to the component.
+ * @slot action - A slot for positioning a `calcite-button` next to the component.
  */
 @Component({
   tag: "calcite-input",
@@ -108,24 +108,24 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
   @Prop({ reflect: true }) icon: string | boolean;
 
   /**
-   * A text label that will appear on the clear button for screen readers.
+   * Accessible name for the component's clear button.
    */
   @Prop() intlClear?: string;
 
   /**
-   * Accessible name that will appear while loading.
+   * Accessible name when the component is loading.
    *
    * @default "Loading"
    */
   @Prop() intlLoading?: string = COMMON_TEXT.loading;
 
-  /** When true, the icon is flipped in RTL. */
+  /** When true, the icon will be flipped when the element direction is right-to-left ("rtl"). */
   @Prop({ reflect: true }) iconFlipRtl = false;
 
-  /** Accessible name for the component's button or hyperlink. */
+  /** Accessible name for the component. */
   @Prop() label?: string;
 
-  /** When true, the component is in the loading state and `calcite-progress` is displayed. */
+  /** When true, a busy indicator is displayed. */
   @Prop({ reflect: true }) loading = false;
 
   /** Specifies the BCP 47 language tag for the desired language and country format. */
@@ -139,7 +139,7 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
   @Prop() numberingSystem?: string;
 
   /**
-   * Toggles locale formatting for numbers.
+   * When true, uses locale formatting for numbers.
    *
    * @internal
    */
@@ -174,7 +174,7 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
   /**
    * Specifies the maximum length of text for the component's value.
    *
-   * @deprecated use maxLength instead
+   * @deprecated use "maxLength" instead.
    */
   @Prop({ reflect: true }) maxlength?: number;
 
@@ -193,7 +193,7 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
   @Prop({ reflect: true }) minLength?: number;
 
   /**
-   * Specifies the name of the component.
+   * Specifies the name of the component on form submission.
    *
    * @mdn [name](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#name)
    */
@@ -213,7 +213,7 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
   @Prop() prefixText?: string;
 
   /**
-   * When true, the value cannot be modified.
+   * When true, the component's value can be read, but cannot be modified.
    *
    * @mdn [readOnly](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/readonly)
    */
@@ -229,13 +229,13 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
   @Prop({ mutable: true, reflect: true }) status: Status = "idle";
 
   /**
-   * Specifies the granularity that the component's value must adhere to.
+   * Specifies the granularity the component's value must adhere to.
    *
    * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/step)
    */
   @Prop({ reflect: true }) step?: number | "any";
 
-  /** Adds text to the end of the component.  */
+  /** Adds text to the end of the component. */
   @Prop() suffixText?: string;
 
   /**
@@ -430,7 +430,7 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
   /**
    * Fires each time a new value is typed.
    *
-   * **Note:**: The `el` and `value` event payload props are deprecated, please use the event's target/currentTarget instead
+   * **Note:**: The `el` and `value` event payload properties are deprecated, use the event's target/currentTarget instead.
    */
   @Event({ cancelable: true }) calciteInputInput: EventEmitter<DeprecatedEventPayload>;
 
@@ -455,7 +455,7 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
     }
   }
 
-  /** Selects all text of the component's `value`. */
+  /** Selects all text of the component's "value". */
   @Method()
   async selectText(): Promise<void> {
     if (this.type === "number") {

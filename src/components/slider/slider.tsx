@@ -118,7 +118,7 @@ export class Slider implements LabelableComponent, FormComponent, InteractiveCom
   @Prop() precise = false;
 
   /**
-   * When true, the component must have a value on form submission.
+   * When true, the component must have a value in order for the form to submit.
    */
   @Prop({ reflect: true }) required = false;
 

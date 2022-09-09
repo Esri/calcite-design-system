@@ -171,7 +171,7 @@ export class Combobox
   }
 
   /**
-   * When true, makes the component required for form-submission.
+   * When true, the component must have a value in order for the form to submit.
    *
    * @internal
    */

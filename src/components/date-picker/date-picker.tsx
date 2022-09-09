@@ -135,7 +135,7 @@ export class DatePicker {
    */
   @Prop() intlYear?: string = TEXT.year;
 
-  /** BCP 47 language tag for desired language and country format */
+  /** Specifies the BCP 47 language tag for the desired language and country format. */
   @Prop() locale?: string = document.documentElement.lang || "en";
 
   /** specify the scale of the date picker */
