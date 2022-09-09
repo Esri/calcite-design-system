@@ -65,13 +65,13 @@ export class SplitButton implements InteractiveComponent {
    */
   @Prop() overlayPositioning: OverlayPositioning = "absolute";
 
-  /** Specifies an icon to display at the end of the primary button - accepts Calcite UI icon names. */
+  /** Specifies an icon to display at the end of the primary button. */
   @Prop({ reflect: true }) primaryIconEnd?: string;
 
   /**  When true, the primary button icon will be flipped when the element direction is right-to-left ("rtl"). */
   @Prop({ reflect: true }) primaryIconFlipRtl?: FlipContext;
 
-  /** Specifies an icon to display at the start of the primary button - accepts Calcite UI icon names.  */
+  /** Specifies an icon to display at the start of the primary button. */
   @Prop({ reflect: true }) primaryIconStart?: string;
 
   /** Accessible name for the primary button. */

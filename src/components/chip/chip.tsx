@@ -69,7 +69,7 @@ export class Chip implements ConditionalSlotComponent {
    */
   @Prop() dismissLabel?: string = TEXT.close;
 
-  /** optionally pass an icon to display - accepts Calcite UI icon names  */
+  /** Specifies an icon to display. */
   @Prop({ reflect: true }) icon?: string;
 
   /** flip the icon in rtl */

@@ -64,10 +64,10 @@ export class DropdownItem {
   /** flip the icon(s) in rtl */
   @Prop({ reflect: true }) iconFlipRtl?: FlipContext;
 
-  /** optionally pass an icon to display at the start of an item - accepts calcite ui icon names  */
+  /** Specifies an icon to display at the start of the component. */
   @Prop({ reflect: true }) iconStart?: string;
 
-  /** optionally pass an icon to display at the end of an item - accepts calcite ui icon names  */
+  /** Specifies an icon to display at the end of the component. */
   @Prop({ reflect: true }) iconEnd?: string;
 
   /** optionally pass a href - used to determine if the component should render as anchor */

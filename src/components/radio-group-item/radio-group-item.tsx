@@ -44,9 +44,9 @@ export class RadioGroupItem {
   }
 
   /**
-   * Optionally pass an icon to display - accepts Calcite UI icon names
+   * Specifies an icon to display.
    *
-   * @deprecated Use either iconStart or iconEnd but do not combine them with icon & iconPosition.
+   * @deprecated Use either "iconStart" or "iconEnd" but do not combine them with "icon" and "iconPosition".
    */
   @Prop({ reflect: true }) icon?: string;
 
@@ -54,16 +54,16 @@ export class RadioGroupItem {
   @Prop({ reflect: true }) iconFlipRtl = false;
 
   /**
-   * Optionally used with icon, select where to position the icon
+   * Specifies the placement of the icon.
    *
-   * @deprecated Use either iconStart or iconEnd but do not combine them with icon & iconPosition.
+   * @deprecated Use either "iconStart" or "iconEnd" but do not combine them with "icon" and "iconPosition".
    */
   @Prop({ reflect: true }) iconPosition?: Position = "start";
 
-  /** Optionally pass an icon to display at the start - accepts Calcite UI icon names */
+  /** Specifies an icon to display at the start of the component. */
   @Prop({ reflect: true }) iconStart?: string;
 
-  /** Optionally pass an icon to display at the end - accepts Calcite UI icon names */
+  /** Specifies an icon to display at the end of the component. */
   @Prop({ reflect: true }) iconEnd?: string;
 
   /**
