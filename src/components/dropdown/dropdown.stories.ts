@@ -1,5 +1,5 @@
 import { number, select } from "@storybook/addon-knobs";
-import { boolean, createSteps, stepStory } from "../../../.storybook/helpers";
+import { boolean, storyFilters } from "../../../.storybook/helpers";
 import { themesDarkDefault } from "../../../.storybook/utils";
 import readme1 from "./readme.md";
 import readme2 from "../dropdown-group/readme.md";
@@ -9,13 +9,13 @@ import { html } from "../../../support/formatting";
 
 export default {
   title: "Components/Buttons/Dropdown",
-
   parameters: {
     notes: [readme1, readme2, readme3]
-  }
+  },
+  ...storyFilters()
 };
 
-export const Simple = (): string => html`
+export const simple = (): string => html`
   <calcite-dropdown
     open
     placement="${select("placement", menuPlacements, defaultMenuPlacement)}"
@@ -37,7 +37,7 @@ export const Simple = (): string => html`
   </calcite-dropdown>
 `;
 
-export const SimpleAutoWidth = (): string => html`
+export const simpleAutoWidth = (): string => html`
   <calcite-dropdown
     open
     placement="${select("placement", menuPlacements, defaultMenuPlacement)}"
@@ -58,7 +58,7 @@ export const SimpleAutoWidth = (): string => html`
   </calcite-dropdown>
 `;
 
-export const SimpleFullWidth = (): string => html`
+export const simpleFullWidth = (): string => html`
   <div style="width: 500px;">
     <calcite-dropdown
       style="width:100%"
@@ -83,7 +83,7 @@ export const SimpleFullWidth = (): string => html`
   </div>
 `;
 
-export const WithIcons = (): string => html`
+export const withIcons = (): string => html`
   <calcite-dropdown
     open
     placement="${select("placement", menuPlacements, defaultMenuPlacement)}"
@@ -121,7 +121,7 @@ export const WithIcons = (): string => html`
   </calcite-dropdown>
 `;
 
-export const GroupsAndSelectionModes = (): string => html`
+export const groupsAndSelectionModes = (): string => html`
   <calcite-dropdown
     open
     placement="${select("placement", menuPlacements, defaultMenuPlacement)}"
@@ -149,9 +149,7 @@ export const GroupsAndSelectionModes = (): string => html`
   </calcite-dropdown>
 `;
 
-GroupsAndSelectionModes.storyName = "Groups and selection modes";
-
-export const ItemsAsLinks = (): string => html`
+export const itemsAsLinks = (): string => html`
   <calcite-dropdown
     open
     placement="${select("placement", menuPlacements, defaultMenuPlacement)}"
@@ -237,8 +235,9 @@ export const DarkTheme = (): string => html`
 DarkTheme.storyName = "Dark theme";
 DarkTheme.parameters = { themes: themesDarkDefault };
 
-export const WithIconsDarkTheme = (): string => html`
+export const darkThemeRTL_TestOnly = (): string => html`
   <calcite-dropdown
+    dir="rtl"
     open
     class="calcite-theme-dark"
     placement="${select("placement", menuPlacements, defaultMenuPlacement)}"
@@ -299,18 +298,29 @@ export const GroupsAndSelectionModesDarkTheme = (): string => html`
       <calcite-dropdown-item>Asparagus</calcite-dropdown-item>
       <calcite-dropdown-item selected>Potato</calcite-dropdown-item>
       <calcite-dropdown-item selected>Yam</calcite-dropdown-item>
+    <calcite-dropdown-group group-title="Select one">
+      <calcite-dropdown-item icon-end="list">List</calcite-dropdown-item>
+      <calcite-dropdown-item icon-end="grid" selected>Grid</calcite-dropdown-item>
+      <calcite-dropdown-item icon-end="table">Table</calcite-dropdown-item>
+      <calcite-dropdown-item href="http://google.com" target="_blank" title="Test title">A link</calcite-dropdown-item>
+    </calcite-dropdown-group>
+    <calcite-dropdown-group group-title="Select multi" selection-mode="multi">
+      <calcite-dropdown-item icon-end="list">List</calcite-dropdown-item>
+      <calcite-dropdown-item icon-end="grid" selected>Grid</calcite-dropdown-item>
+      <calcite-dropdown-item icon-end="table">Table</calcite-dropdown-item>
+      <calcite-dropdown-item href="http://google.com" target="_blank" title="Test title">A link</calcite-dropdown-item>
     </calcite-dropdown-group>
     <calcite-dropdown-group group-title="Select none (useful for actions)" selection-mode="none">
-      <calcite-dropdown-item>Plant beans</calcite-dropdown-item>
-      <calcite-dropdown-item>Add peas</calcite-dropdown-item>
+      <calcite-dropdown-item icon-end="list">List</calcite-dropdown-item>
+      <calcite-dropdown-item icon-end="grid" selected>Grid</calcite-dropdown-item>
+      <calcite-dropdown-item icon-end="table">Table</calcite-dropdown-item>
+      <calcite-dropdown-item href="http://google.com" target="_blank" title="Test title">A link</calcite-dropdown-item>
     </calcite-dropdown-group>
   </calcite-dropdown>
 `;
+darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };
 
-GroupsAndSelectionModesDarkTheme.storyName = "Groups and selection modes dark theme";
-GroupsAndSelectionModesDarkTheme.parameters = { themes: themesDarkDefault };
-
-export const ItemsAsLinksDarkTheme = (): string => html`
+export const itemsAsLinksDarkTheme = (): string => html`
   <calcite-dropdown
     open
     class="calcite-theme-dark"
@@ -342,8 +352,7 @@ export const ItemsAsLinksDarkTheme = (): string => html`
   </calcite-dropdown>
 `;
 
-ItemsAsLinksDarkTheme.storyName = "Items as Links - dark theme";
-ItemsAsLinksDarkTheme.parameters = { themes: themesDarkDefault };
+itemsAsLinksDarkTheme.parameters = { themes: themesDarkDefault };
 
 export const SimpleRtl = (): string => html`
   <calcite-dropdown
@@ -370,7 +379,7 @@ export const SimpleRtl = (): string => html`
 
 SimpleRtl.storyName = "Simple - RTL";
 
-export const ScrollingAfterCertainItems = (): string => html`
+export const scrollingAfterCertainItems_TestOnly = (): string => html`
   <calcite-dropdown
     open
     placement="${select("placement", menuPlacements, defaultMenuPlacement)}"
@@ -399,9 +408,7 @@ export const ScrollingAfterCertainItems = (): string => html`
   </calcite-dropdown>
 `;
 
-ScrollingAfterCertainItems.storyName = "Scrolling after certain items";
-
-export const ScrollingWithoutMaxItems = (): string => html`
+export const scrollingWithoutMaxItems_TestOnly = (): string => html`
   <calcite-dropdown open>
     <calcite-button slot="dropdown-trigger">Open Dropdown</calcite-button>
     <calcite-dropdown-group
@@ -429,7 +436,7 @@ export const ScrollingWithoutMaxItems = (): string => html`
   </calcite-dropdown>
 `;
 
-export const NoScrollingMaxItemsEqualsItems = (): string => html` <calcite-dropdown max-items="3" open>
+export const noScrollingWhenMaxItemsEqualsItems_TestOnly = (): string => html` <calcite-dropdown max-items="3" open>
   <calcite-button slot="dropdown-trigger">Activate Dropdown</calcite-button>
   <calcite-dropdown-group selection-mode="single" group-title="Selection Mode: Single">
     <calcite-dropdown-item>Relevance</calcite-dropdown-item>
@@ -438,30 +445,7 @@ export const NoScrollingMaxItemsEqualsItems = (): string => html` <calcite-dropd
   </calcite-dropdown-group>
 </calcite-dropdown>`;
 
-NoScrollingMaxItemsEqualsItems.storyName = "No Scrolling when maxItems equals items";
-
-export const FlipPositioning = stepStory(
-  (): string => html`
-    <div style="margin:10px;">
-      <calcite-dropdown width="m" placement="${select("placement", menuPlacements, "top")}">
-        <calcite-button slot="dropdown-trigger">Open Dropdown</calcite-button>
-        <calcite-dropdown-group>
-          <calcite-dropdown-item>1</calcite-dropdown-item>
-          <calcite-dropdown-item>2</calcite-dropdown-item>
-          <calcite-dropdown-item>3</calcite-dropdown-item>
-          <calcite-dropdown-item>4</calcite-dropdown-item>
-          <calcite-dropdown-item>5</calcite-dropdown-item>
-        </calcite-dropdown-group>
-      </calcite-dropdown>
-    </div>
-  `,
-  createSteps("calcite-dropdown").snapshot("Default").click("calcite-button").snapshot("Open")
-);
-FlipPositioning.parameters = {
-  layout: "fullscreen"
-};
-
-export const disabled = (): string => html` <calcite-dropdown disabled>
+export const disabled_TestOnly = (): string => html` <calcite-dropdown disabled>
   <calcite-button slot="dropdown-trigger">Open Dropdown</calcite-button>
   <calcite-dropdown-group group-title="First group">
     <calcite-dropdown-item>1</calcite-dropdown-item>
@@ -479,7 +463,25 @@ export const disabled = (): string => html` <calcite-dropdown disabled>
   </calcite-dropdown-group>
 </calcite-dropdown>`;
 
-export const AlignedCenter = (): string => html`
+export const flipPositioning_TestOnly = (): string => html`
+  <div style="margin:10px;">
+    <calcite-dropdown width="m" placement="${select("placement", menuPlacements, "top")}" open>
+      <calcite-button slot="dropdown-trigger">Open Dropdown</calcite-button>
+      <calcite-dropdown-group>
+        <calcite-dropdown-item>1</calcite-dropdown-item>
+        <calcite-dropdown-item>2</calcite-dropdown-item>
+        <calcite-dropdown-item>3</calcite-dropdown-item>
+        <calcite-dropdown-item>4</calcite-dropdown-item>
+        <calcite-dropdown-item>5</calcite-dropdown-item>
+      </calcite-dropdown-group>
+    </calcite-dropdown>
+  </div>
+`;
+flipPositioning_TestOnly.parameters = {
+  layout: "fullscreen"
+};
+
+export const alignedCenter_TestOnly = (): string => html`
   <div style="text-align:center">
     <calcite-dropdown
       open
@@ -503,7 +505,7 @@ export const AlignedCenter = (): string => html`
   </div>
 `;
 
-export const AlignedCenterRTL = (): string => html`
+export const alignedCenterRTL_TestOnly = (): string => html`
   <div dir="rtl" style="text-align:center">
     <calcite-dropdown
       open
@@ -527,7 +529,7 @@ export const AlignedCenterRTL = (): string => html`
   </div>
 `;
 
-export const flipPlacements = (): string => html`
+export const flipPlacements_TestOnly = (): string => html`
   <style>
     .my-dropdown {
       margin-top: 50px;

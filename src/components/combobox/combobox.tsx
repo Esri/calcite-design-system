@@ -25,7 +25,8 @@ import {
   LogicalPlacement,
   EffectivePlacement,
   defaultMenuPlacement,
-  filterComputedPlacements
+  filterComputedPlacements,
+  repositionDebounceTimeout
 } from "../../utils/floating-ui";
 import { guid } from "../../utils/guid";
 import { DeprecatedEventPayload, Scale } from "../interfaces";
@@ -167,7 +168,7 @@ export class Combobox
 
   @Watch("overlayPositioning")
   overlayPositioningHandler(): void {
-    this.reposition();
+    this.debouncedReposition();
   }
 
   /**
@@ -221,7 +222,7 @@ export class Combobox
   @Watch("flipPlacements")
   flipPlacementsHandler(): void {
     this.setFilteredPlacements();
-    this.reposition();
+    this.debouncedReposition();
   }
 
   //--------------------------------------------------------------------------
@@ -336,7 +337,7 @@ export class Combobox
     connectForm(this);
     connectOpenCloseComponent(this);
     this.setFilteredPlacements();
-    this.reposition();
+    this.debouncedReposition();
     if (this.active) {
       this.activeHandler(this.active);
     }
@@ -351,12 +352,12 @@ export class Combobox
 
   componentDidLoad(): void {
     afterConnectDefaultValueSet(this, this.getValue());
-    this.reposition();
+    this.debouncedReposition();
   }
 
   componentDidRender(): void {
     if (this.el.offsetHeight !== this.inputHeight) {
-      this.reposition();
+      this.debouncedReposition();
       this.inputHeight = this.el.offsetHeight;
     }
 
@@ -450,6 +451,8 @@ export class Combobox
   //  Private Methods
   //
   // --------------------------------------------------------------------------
+
+  debouncedReposition = debounce(() => this.reposition(), repositionDebounceTimeout);
 
   setFilteredPlacements = (): void => {
     const { el, flipPlacements } = this;
@@ -613,11 +616,11 @@ export class Combobox
       return;
     }
 
-    await this.reposition();
+    await this.debouncedReposition();
     const maxScrollerHeight = this.getMaxScrollerHeight();
     listContainerEl.style.maxHeight = maxScrollerHeight > 0 ? `${maxScrollerHeight}px` : "";
     listContainerEl.style.minWidth = `${referenceEl.clientWidth}px`;
-    await this.reposition();
+    await this.debouncedReposition();
   };
 
   calciteChipDismissHandler = (
