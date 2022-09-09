@@ -37,8 +37,21 @@ export class Pagination implements GlobalAttrComponent {
   //  Public Properties
   //
   //--------------------------------------------------------------------------
+
+  /**
+   * When true, number values are displayed with a group separator corresponding to the language and country format.
+   */
+  @Prop({ reflect: true }) groupSeparator = false;
+
   /** Specifies the number of items per page. */
   @Prop() num = 20;
+
+  /**
+   * Specifies the Unicode numeral system used by the component for localization.
+   *
+   * @mdn [numberingSystem](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/Locale/numberingSystem)
+   */
+  @Prop() numberingSystem?: string;
 
   /** Specifies the starting item number. */
   @Prop({ mutable: true }) start = 1;
@@ -168,6 +181,18 @@ export class Pagination implements GlobalAttrComponent {
     this.calcitePaginationUpdate.emit(changePayload);
   }
 
+  /**
+   * Returns a string representing the localized label value based on groupSeparator prop being on or off.
+   *
+   * @param value
+   */
+  private determineGroupSeparator = (value): string => {
+    const lang = this.globalAttributes["lang"] || document.documentElement.lang || "en";
+    return this.groupSeparator
+      ? localizeNumberString(value.toString(), lang, this.groupSeparator, this.numberingSystem)
+      : value;
+  };
+
   //--------------------------------------------------------------------------
   //
   //  Render Methods
@@ -210,8 +235,9 @@ export class Pagination implements GlobalAttrComponent {
   }
 
   renderPage(start: number): VNode {
-    const lang = this.globalAttributes["lang"] || document.documentElement.lang || "en";
     const page = Math.floor(start / this.num) + (this.num === 1 ? 0 : 1);
+    const displayedPage = this.determineGroupSeparator(page);
+
     return (
       <button
         class={{
@@ -223,7 +249,7 @@ export class Pagination implements GlobalAttrComponent {
           this.emitUpdate();
         }}
       >
-        {localizeNumberString(page.toString(), lang, true)}
+        {displayedPage}
       </button>
     );
   }
