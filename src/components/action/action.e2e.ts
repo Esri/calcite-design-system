@@ -1,6 +1,6 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, disabled, hidden, renders } from "../../tests/commonTests";
-import { CSS } from "./resources";
+import { accessible, disabled, hidden, renders, slots } from "../../tests/commonTests";
+import { CSS, SLOTS } from "./resources";
 
 describe("calcite-action", () => {
   it("renders", async () => renders("calcite-action", { display: "flex" }));
@@ -8,6 +8,8 @@ describe("calcite-action", () => {
   it("honors hidden attribute", async () => hidden("calcite-action"));
 
   it("can be disabled", () => disabled("calcite-action"));
+
+  it("has slots", () => slots("calcite-action", SLOTS));
 
   it("should have visible text when text is enabled", async () => {
     const page = await newE2EPage();
@@ -112,5 +114,17 @@ describe("calcite-action", () => {
   it("should be accessible", async () => {
     await accessible(`<calcite-action text="hello world"></calcite-action>`);
     await accessible(`<calcite-action text="hello world" disabled text-enabled></calcite-action>`);
+  });
+
+  it("should have a tooltip", async () => {
+    const page = await newE2EPage();
+    await page.setContent(
+      `<calcite-action text="hello world"><calcite-tooltip slot="tooltip">Hello World!</calcite-tooltip></calcite-action>`
+    );
+    await page.waitForChanges();
+
+    const tooltip = await page.find("calcite-tooltip");
+    const referenceElement: HTMLElement = await tooltip.getProperty("referenceElement");
+    expect(referenceElement).toBeDefined();
   });
 });

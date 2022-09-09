@@ -45,7 +45,8 @@ import {
   EffectivePlacement,
   MenuPlacement,
   defaultMenuPlacement,
-  filterComputedPlacements
+  filterComputedPlacements,
+  repositionDebounceTimeout
 } from "../../utils/floating-ui";
 import { DateRangeChange } from "../date-picker/interfaces";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
@@ -55,6 +56,7 @@ import {
   connectOpenCloseComponent,
   disconnectOpenCloseComponent
 } from "../../utils/openCloseComponent";
+import { debounce } from "lodash-es";
 
 @Component({
   tag: "calcite-input-date-picker",
@@ -129,7 +131,7 @@ export class InputDatePicker
   @Watch("flipPlacements")
   flipPlacementsHandler(): void {
     this.setFilteredPlacements();
-    this.reposition();
+    this.debouncedReposition();
   }
 
   /**
@@ -204,7 +206,7 @@ export class InputDatePicker
       return;
     }
 
-    this.reposition();
+    this.debouncedReposition();
   }
 
   /**
@@ -280,7 +282,7 @@ export class InputDatePicker
 
   @Watch("overlayPositioning")
   overlayPositioningHandler(): void {
-    this.reposition();
+    this.debouncedReposition();
   }
 
   /**
@@ -417,7 +419,7 @@ export class InputDatePicker
     connectForm(this);
     connectOpenCloseComponent(this);
     this.setFilteredPlacements();
-    this.reposition();
+    this.debouncedReposition();
   }
 
   async componentWillLoad(): Promise<void> {
@@ -427,7 +429,7 @@ export class InputDatePicker
   }
 
   componentDidLoad(): void {
-    this.reposition();
+    this.debouncedReposition();
   }
 
   disconnectedCallback(): void {
@@ -612,6 +614,8 @@ export class InputDatePicker
   //  Private Methods
   //
   //--------------------------------------------------------------------------
+
+  debouncedReposition = debounce(() => this.reposition(), repositionDebounceTimeout);
 
   setFilteredPlacements = (): void => {
     const { el, flipPlacements } = this;
