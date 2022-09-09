@@ -382,7 +382,11 @@ export function connectFloatingUI(
 
   cleanupMap.set(
     component,
-    autoUpdate(referenceEl, floatingEl, () => component.reposition())
+    autoUpdate(referenceEl, floatingEl, () => {
+      if (component.open) {
+        component.reposition();
+      }
+    })
   );
 }
 
