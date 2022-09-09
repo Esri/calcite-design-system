@@ -283,7 +283,7 @@ export class ColorPicker implements InteractiveComponent, T9nComponent {
    */
   @Prop({ mutable: true }) messageOverrides: Partial<Strings>;
 
-  @Watch("defaultStrings")
+  @Watch("defaultMessages")
   @Watch("messageOverrides")
   onMessagesChange(): void {
     /* wired up by t9n util */
@@ -388,7 +388,10 @@ export class ColorPicker implements InteractiveComponent, T9nComponent {
 
   @State() dimensions = DIMENSIONS.m;
 
-  @State() messages: Strings;
+  /**
+   * @internal
+   */
+  @Prop({ mutable: true }) messages: Strings;
 
   @State() savedColors: string[] = [];
 

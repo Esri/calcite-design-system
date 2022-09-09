@@ -14,7 +14,6 @@ export const locales = [
   "en-AU",
   "en-CA",
   "en-GB",
-  "en-US",
   "es",
   "es-MX",
   "et",
