@@ -149,7 +149,6 @@
   }
 }
 
-// selection-mode none, dropdown without children
 :host([selection-mode="none"]:not([has-children])) {
   &:host([scale="s"]) > .node-container {
     padding-inline-start: theme("padding.2");
