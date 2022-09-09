@@ -57,7 +57,7 @@ export class Button implements LabelableComponent, InteractiveComponent, FormOwn
   /** flip the icon(s) in rtl */
   @Prop({ reflect: true }) iconFlipRtl?: FlipContext;
 
-  /** Specifies an icon to display at the start of the component.  */
+  /** Specifies an icon to display at the start of the component. */
   @Prop({ reflect: true }) iconStart?: string;
 
   /**
