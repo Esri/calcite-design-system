@@ -236,7 +236,6 @@ export const WithIconStart_TestOnly = stepStory(
     </calcite-tabs>
   `,
   createSteps("calcite-tabs")
-    .snapshot("beforeIconAdded")
     .executeScript(
       `const tabtitle = document.getElementById("tab-title");
        document.getElementById("btn").onclick = function(){
