@@ -24,3 +24,5 @@ export const SLOTS = {
   contentEnd: "content-end",
   actionsEnd: "actions-end"
 };
+
+export const MAX_COLUMNS = 5;

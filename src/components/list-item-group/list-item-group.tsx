@@ -1,6 +1,7 @@
 import { Component, Prop, h, VNode, Host, Element } from "@stencil/core";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { CSS } from "./resources";
+import { MAX_COLUMNS } from "../list-item/resources";
 
 /**
  * @slot - A slot for adding `calcite-list-item` and `calcite-list-item-group` elements.
@@ -58,7 +59,7 @@ export class ListItemGroup implements InteractiveComponent {
     return (
       <Host>
         <tr class={CSS.heading}>
-          <td colSpan={4}>{heading}</td>
+          <td colSpan={MAX_COLUMNS}>{heading}</td>
         </tr>
         <slot />
       </Host>
