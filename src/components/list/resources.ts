@@ -5,6 +5,8 @@ export const CSS = {
   tableContainer: "table-container"
 };
 
+export const debounceUpdateListTimeout = 100;
+
 export type SelectionAppearance = "border" | "icon" | "control";
 
 export type SelectionMode = "single" | "multiple" | "none";

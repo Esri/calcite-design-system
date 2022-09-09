@@ -1,9 +1,10 @@
 import { Component, Element, h, VNode, Prop, Method, Listen, Watch } from "@stencil/core";
-import { CSS, SelectionAppearance, SelectionMode } from "./resources";
+import { CSS, debounceUpdateListTimeout, SelectionAppearance, SelectionMode } from "./resources";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { createObserver } from "../../utils/observers";
 import { getListItemChildren, updateListItemChildren } from "../list-item/utils";
 import { toAriaBoolean } from "../../utils/dom";
+import { debounce } from "lodash-es";
 
 const listItemSelector = "calcite-list-item";
 
@@ -177,7 +178,7 @@ export class List implements InteractiveComponent {
     }
   };
 
-  updateListItems = (): void => {
+  updateListItems = debounce((): void => {
     const { selectionAppearance, selectionMode } = this;
     const items = this.queryListItems();
     items.forEach((item) => {
@@ -186,7 +187,7 @@ export class List implements InteractiveComponent {
     });
     this.listItems = items;
     this.setActiveListItem();
-  };
+  }, debounceUpdateListTimeout);
 
   queryListItems = (): HTMLCalciteListItemElement[] => {
     return Array.from(this.el.querySelectorAll(listItemSelector)).filter((item) => !item.disabled);
