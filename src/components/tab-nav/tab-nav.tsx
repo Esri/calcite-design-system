@@ -268,6 +268,11 @@ export class TabNav {
     event.stopPropagation();
   }
 
+  @Listen("calciteInternalTabIconChanged")
+  iconStartChangeHandler(): void {
+    this.updateActiveWidth();
+  }
+
   //--------------------------------------------------------------------------
   //
   //  Events
