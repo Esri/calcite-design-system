@@ -238,9 +238,12 @@ export const WithIconStart_TestOnly = stepStory(
   createSteps("calcite-tabs")
     .executeScript(
       `const tabtitle = document.getElementById("tab-title");
-       document.getElementById("btn").onclick = function(){
-       tab-title.iconStart ="car"  }`
+      const button = document.getElementById("btn");
+      button.addEventListener("click", () => {
+      tabtitle.iconStart = "car";
+      });
+      `
     )
-    .click("#btn")
+    .click("calcite-button")
     .snapshot("WithIconStart")
 );
