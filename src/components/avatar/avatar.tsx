@@ -55,8 +55,7 @@ export class Avatar {
   //
   //--------------------------------------------------------------------------
 
-  /** True if thumnail fails to load */
-  @State() error = false;
+  @State() thumbnailFailedToLoad = false;
 
   //--------------------------------------------------------------------------
   //
@@ -65,9 +64,14 @@ export class Avatar {
   //--------------------------------------------------------------------------
 
   private determineContent() {
-    if (this.thumbnail && !this.error) {
+    if (this.thumbnail && !this.thumbnailFailedToLoad) {
       return (
-        <img alt="" class="thumbnail" onError={() => (this.error = true)} src={this.thumbnail} />
+        <img
+          alt=""
+          class="thumbnail"
+          onError={() => (this.thumbnailFailedToLoad = true)}
+          src={this.thumbnail}
+        />
       );
     }
     const initials = this.generateInitials();
