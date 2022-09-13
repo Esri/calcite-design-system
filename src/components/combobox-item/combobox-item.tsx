@@ -45,16 +45,16 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
   @Prop({ reflect: true, mutable: true }) selected = false;
 
   /** True when item is highlighted either from keyboard or mouse hover */
-  @Prop() active = false;
+  @Prop({ reflect: true }) active = false;
 
   /** Parent and grandparent combobox items, this is set internally for use from combobox */
   @Prop({ mutable: true }) ancestors: ComboboxChildElement[];
 
   /** Unique identifier, used for accessibility */
-  @Prop() guid = guid();
+  @Prop({ reflect: true }) guid = guid();
 
   /** Custom icon to display both in combobox chips and next to combobox item text */
-  @Prop() icon?: string;
+  @Prop({ reflect: true }) icon?: string;
 
   @Watch("selected")
   selectedWatchHandler(): void {
@@ -77,7 +77,7 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
   /**
    * Do not filter this item based on the search text
    */
-  @Prop() filterDisabled: boolean;
+  @Prop({ reflect: true }) filterDisabled: boolean;
 
   // --------------------------------------------------------------------------
   //

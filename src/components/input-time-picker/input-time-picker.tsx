@@ -83,7 +83,7 @@ export class InputTimePicker
    *
    * @mdn [readOnly](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/readonly)
    */
-  @Prop() readOnly = false;
+  @Prop({ reflect: true }) readOnly = false;
 
   @Watch("disabled")
   @Watch("readOnly")
@@ -143,7 +143,7 @@ export class InputTimePicker
   }
 
   /** The name of the time input */
-  @Prop() name: string;
+  @Prop({ reflect: true }) name: string;
 
   /**
    * When true, makes the component required for form-submission.
@@ -171,7 +171,7 @@ export class InputTimePicker
   @Prop({ reflect: true }) placement: LogicalPlacement = "auto";
 
   /** number (seconds) that specifies the granularity that the value must adhere to */
-  @Prop() step = 60;
+  @Prop({ reflect: true }) step = 60;
 
   /** The selected time in UTC (always 24-hour format) */
   @Prop({ mutable: true }) value: string = null;
