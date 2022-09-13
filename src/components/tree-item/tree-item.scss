@@ -149,6 +149,18 @@
   }
 }
 
+:host([selection-mode="none"]:not([has-children])) {
+  &:host([scale="s"]) > .node-container {
+    padding-inline-start: theme("padding.2");
+  }
+  &:host([scale="m"]) > .node-container {
+    padding-inline-start: theme("padding.4");
+  }
+  &:host([scale="l"]) > .node-container {
+    padding-inline-start: theme("padding.6");
+  }
+}
+
 // ancestors selection-mode, dropdown without children
 :host(:not([has-children])) {
   &:host([scale="s"]) > .node-container[data-selection-mode="ancestors"] .checkbox {
@@ -177,7 +189,7 @@
 }
 
 // dropdown expanded and not selected
-:host([has-children][expanded]:not([selected])) > .node-container {
+:host([has-children][expanded]:not([selected]):not([selection-mode="none"])) > .node-container {
   ::slotted(*) {
     @apply text-color-1 font-medium;
   }

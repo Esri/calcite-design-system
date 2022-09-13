@@ -13,14 +13,15 @@ import {
   EventEmitter,
   Build
 } from "@stencil/core";
-import { getLocaleData, DateLocaleData } from "../date-picker/utils";
+import { getLocaleData, DateLocaleData, getValueAsDateRange } from "../date-picker/utils";
 import {
   dateFromRange,
   inRange,
   dateFromISO,
   dateToISO,
   parseDateString,
-  sameDate
+  sameDate,
+  setEndOfDay
 } from "../../utils/date";
 import { HeadingLevel } from "../functional/Heading";
 
@@ -44,7 +45,8 @@ import {
   EffectivePlacement,
   MenuPlacement,
   defaultMenuPlacement,
-  filterComputedPlacements
+  filterComputedPlacements,
+  repositionDebounceTimeout
 } from "../../utils/floating-ui";
 import { DateRangeChange } from "../date-picker/interfaces";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
@@ -54,6 +56,7 @@ import {
   connectOpenCloseComponent,
   disconnectOpenCloseComponent
 } from "../../utils/openCloseComponent";
+import { debounce } from "lodash-es";
 
 @Component({
   tag: "calcite-input-date-picker",
@@ -106,7 +109,7 @@ export class InputDatePicker
   @Watch("value")
   valueHandler(value: string | string[]): void {
     if (Array.isArray(value)) {
-      this.valueAsDate = value.map((v) => dateFromISO(v));
+      this.valueAsDate = getValueAsDateRange(value);
       this.start = value[0];
       this.end = value[1];
     } else if (value) {
@@ -128,6 +131,7 @@ export class InputDatePicker
   @Watch("flipPlacements")
   flipPlacementsHandler(): void {
     this.setFilteredPlacements();
+    this.debouncedReposition();
   }
 
   /**
@@ -202,7 +206,7 @@ export class InputDatePicker
       return;
     }
 
-    this.reposition();
+    this.debouncedReposition();
   }
 
   /**
@@ -278,7 +282,7 @@ export class InputDatePicker
 
   @Watch("overlayPositioning")
   overlayPositioningHandler(): void {
-    this.reposition();
+    this.debouncedReposition();
   }
 
   /** Disables the default behaviour on the third click of narrowing or extending the range and instead starts a new range. */
@@ -360,13 +364,14 @@ export class InputDatePicker
   /** Updates the position of the component. */
   @Method()
   async reposition(): Promise<void> {
-    const { floatingEl, referenceEl, placement, overlayPositioning } = this;
+    const { floatingEl, referenceEl, placement, overlayPositioning, filteredFlipPlacements } = this;
 
     return positionFloatingUI({
       floatingEl,
       referenceEl,
       overlayPositioning,
       placement,
+      flipPlacements: filteredFlipPlacements,
       type: "menu"
     });
   }
@@ -381,9 +386,8 @@ export class InputDatePicker
     const isOpen = this.active || this.open;
     isOpen && this.activeHandler(isOpen);
     isOpen && this.openHandler(isOpen);
-
     if (Array.isArray(this.value)) {
-      this.valueAsDate = this.value.map((v) => dateFromISO(v));
+      this.valueAsDate = getValueAsDateRange(this.value);
       this.start = this.value[0];
       this.end = this.value[1];
     } else if (this.value) {
@@ -397,7 +401,7 @@ export class InputDatePicker
     }
 
     if (this.end) {
-      this.endAsDate = dateFromISO(this.end);
+      this.endAsDate = setEndOfDay(dateFromISO(this.end));
     }
 
     if (this.min) {
@@ -411,8 +415,8 @@ export class InputDatePicker
     connectLabel(this);
     connectForm(this);
     connectOpenCloseComponent(this);
-    this.reposition();
     this.setFilteredPlacements();
+    this.debouncedReposition();
   }
 
   async componentWillLoad(): Promise<void> {
@@ -422,7 +426,7 @@ export class InputDatePicker
   }
 
   componentDidLoad(): void {
-    this.reposition();
+    this.debouncedReposition();
   }
 
   disconnectedCallback(): void {
@@ -608,6 +612,8 @@ export class InputDatePicker
   //
   //--------------------------------------------------------------------------
 
+  debouncedReposition = debounce(() => this.reposition(), repositionDebounceTimeout);
+
   setFilteredPlacements = (): void => {
     const { el, flipPlacements } = this;
 
@@ -653,12 +659,16 @@ export class InputDatePicker
     this.open = false;
   };
 
-  keyDownHandler = ({ defaultPrevented, key }: KeyboardEvent): void => {
+  keyDownHandler = (event: KeyboardEvent): void => {
+    const { defaultPrevented, key } = event;
     if (key === "Enter" && !defaultPrevented) {
-      submitForm(this);
-    } else if (key === "Escape") {
+      if (submitForm(this)) {
+        event.preventDefault();
+      }
+    } else if (key === "Escape" && !defaultPrevented) {
       this.active = false;
       this.open = false;
+      event.preventDefault();
     }
   };
 
@@ -708,7 +718,7 @@ export class InputDatePicker
 
   @Watch("end")
   endWatcher(end: string): void {
-    this.endAsDate = dateFromISO(end);
+    this.endAsDate = end ? setEndOfDay(dateFromISO(end)) : dateFromISO(end);
   }
 
   @Watch("locale")
@@ -789,7 +799,7 @@ export class InputDatePicker
         this.end = endDateISO;
         this.calciteDatePickerRangeChange.emit({
           startDate: this.startAsDate,
-          endDate: date
+          endDate: setEndOfDay(date)
         });
       }
     }

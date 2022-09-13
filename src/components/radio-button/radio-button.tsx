@@ -312,6 +312,7 @@ export class RadioButton
 
     if (key === " ") {
       this.check();
+      event.preventDefault();
       return;
     }
 

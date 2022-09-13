@@ -88,9 +88,9 @@ export class DatePickerDay implements InteractiveComponent {
   };
 
   keyDownHandler = (event: KeyboardEvent): void => {
-    const { key } = event;
-    if (isActivationKey(key)) {
+    if (isActivationKey(event.key)) {
       !this.disabled && this.calciteDaySelect.emit();
+      event.preventDefault();
     }
   };
 

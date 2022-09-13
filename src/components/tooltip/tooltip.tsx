@@ -10,11 +10,13 @@ import {
   disconnectFloatingUI,
   LogicalPlacement,
   defaultOffsetDistance,
-  ReferenceElement
+  ReferenceElement,
+  repositionDebounceTimeout
 } from "../../utils/floating-ui";
 import { queryElementRoots, toAriaBoolean } from "../../utils/dom";
 
 import TooltipManager from "./TooltipManager";
+import { debounce } from "lodash-es";
 
 const manager = new TooltipManager();
 
@@ -48,7 +50,7 @@ export class Tooltip implements FloatingUIComponent {
 
   @Watch("offsetDistance")
   offsetDistanceOffsetHandler(): void {
-    this.reposition();
+    this.debouncedReposition();
   }
 
   /**
@@ -58,7 +60,7 @@ export class Tooltip implements FloatingUIComponent {
 
   @Watch("offsetSkidding")
   offsetSkiddingHandler(): void {
-    this.reposition();
+    this.debouncedReposition();
   }
 
   /**
@@ -68,7 +70,7 @@ export class Tooltip implements FloatingUIComponent {
 
   @Watch("open")
   openHandler(): void {
-    this.reposition();
+    this.debouncedReposition();
   }
 
   /**
@@ -81,7 +83,7 @@ export class Tooltip implements FloatingUIComponent {
 
   @Watch("overlayPositioning")
   overlayPositioningHandler(): void {
-    this.reposition();
+    this.debouncedReposition();
   }
 
   /**
@@ -93,7 +95,7 @@ export class Tooltip implements FloatingUIComponent {
 
   @Watch("placement")
   placementHandler(): void {
-    this.reposition();
+    this.debouncedReposition();
   }
 
   /**
@@ -120,6 +122,8 @@ export class Tooltip implements FloatingUIComponent {
 
   guid = `calcite-tooltip-${guid()}`;
 
+  hasLoaded = false;
+
   // --------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -127,15 +131,15 @@ export class Tooltip implements FloatingUIComponent {
   // --------------------------------------------------------------------------
 
   connectedCallback(): void {
-    connectFloatingUI(this, this.effectiveReferenceElement, this.el);
-  }
-
-  componentWillLoad(): void {
-    this.setUpReferenceElement();
+    this.setUpReferenceElement(this.hasLoaded);
   }
 
   componentDidLoad(): void {
-    this.reposition();
+    if (this.referenceElement && !this.effectiveReferenceElement) {
+      this.setUpReferenceElement();
+    }
+    this.debouncedReposition();
+    this.hasLoaded = true;
   }
 
   disconnectedCallback(): void {
@@ -180,13 +184,15 @@ export class Tooltip implements FloatingUIComponent {
   //
   // --------------------------------------------------------------------------
 
-  setUpReferenceElement = (): void => {
+  debouncedReposition = debounce(() => this.reposition(), repositionDebounceTimeout);
+
+  setUpReferenceElement = (warn = true): void => {
     this.removeReferences();
     this.effectiveReferenceElement = this.getReferenceElement();
     connectFloatingUI(this, this.effectiveReferenceElement, this.el);
 
     const { el, referenceElement, effectiveReferenceElement } = this;
-    if (referenceElement && !effectiveReferenceElement) {
+    if (warn && referenceElement && !effectiveReferenceElement) {
       console.warn(`${el.tagName}: reference-element id "${referenceElement}" was not found.`, {
         el
       });

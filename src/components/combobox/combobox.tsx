@@ -25,7 +25,8 @@ import {
   LogicalPlacement,
   EffectivePlacement,
   defaultMenuPlacement,
-  filterComputedPlacements
+  filterComputedPlacements,
+  repositionDebounceTimeout
 } from "../../utils/floating-ui";
 import { guid } from "../../utils/guid";
 import { DeprecatedEventPayload, Scale } from "../interfaces";
@@ -167,7 +168,7 @@ export class Combobox
 
   @Watch("overlayPositioning")
   overlayPositioningHandler(): void {
-    this.reposition();
+    this.debouncedReposition();
   }
 
   /**
@@ -221,6 +222,7 @@ export class Combobox
   @Watch("flipPlacements")
   flipPlacementsHandler(): void {
     this.setFilteredPlacements();
+    this.debouncedReposition();
   }
 
   //--------------------------------------------------------------------------
@@ -255,13 +257,14 @@ export class Combobox
   /** Updates the position of the component. */
   @Method()
   async reposition(): Promise<void> {
-    const { floatingEl, referenceEl, placement, overlayPositioning } = this;
+    const { floatingEl, referenceEl, placement, overlayPositioning, filteredFlipPlacements } = this;
 
     return positionFloatingUI({
       floatingEl,
       referenceEl,
       overlayPositioning,
       placement,
+      flipPlacements: filteredFlipPlacements,
       type: "menu"
     });
   }
@@ -333,8 +336,8 @@ export class Combobox
     connectLabel(this);
     connectForm(this);
     connectOpenCloseComponent(this);
-    this.reposition();
     this.setFilteredPlacements();
+    this.debouncedReposition();
     if (this.active) {
       this.activeHandler(this.active);
     }
@@ -349,12 +352,12 @@ export class Combobox
 
   componentDidLoad(): void {
     afterConnectDefaultValueSet(this, this.getValue());
-    this.reposition();
+    this.debouncedReposition();
   }
 
   componentDidRender(): void {
     if (this.el.offsetHeight !== this.inputHeight) {
-      this.reposition();
+      this.debouncedReposition();
       this.inputHeight = this.el.offsetHeight;
     }
 
@@ -449,6 +452,8 @@ export class Combobox
   //
   // --------------------------------------------------------------------------
 
+  debouncedReposition = debounce(() => this.reposition(), repositionDebounceTimeout);
+
   setFilteredPlacements = (): void => {
     const { el, flipPlacements } = this;
 
@@ -493,19 +498,22 @@ export class Combobox
         break;
       case "ArrowLeft":
         this.previousChip();
+        event.preventDefault();
         break;
       case "ArrowRight":
         this.nextChip();
+        event.preventDefault();
         break;
       case "ArrowUp":
+        event.preventDefault();
         this.shiftActiveItemIndex(-1);
         if (!this.comboboxInViewport()) {
           this.el.scrollIntoView();
         }
         break;
       case "ArrowDown":
+        event.preventDefault();
         if (!this.open) {
-          event.preventDefault();
           this.open = true;
         }
         this.shiftActiveItemIndex(1);
@@ -521,9 +529,10 @@ export class Combobox
         }
         break;
       case "Home":
-        if (this.open) {
-          event.preventDefault();
+        if (!this.open) {
+          return;
         }
+        event.preventDefault();
         this.updateActiveItemIndex(0);
         this.scrollToActiveItem();
         if (!this.comboboxInViewport()) {
@@ -531,9 +540,10 @@ export class Combobox
         }
         break;
       case "End":
-        if (this.open) {
-          event.preventDefault();
+        if (!this.open) {
+          return;
         }
+        event.preventDefault();
         this.updateActiveItemIndex(this.visibleItems.length - 1);
         this.scrollToActiveItem();
         if (!this.comboboxInViewport()) {
@@ -542,23 +552,31 @@ export class Combobox
         break;
       case "Escape":
         this.open = false;
+        event.preventDefault();
         break;
       case "Enter":
         if (this.activeItemIndex > -1) {
           this.toggleSelection(this.visibleItems[this.activeItemIndex]);
+          event.preventDefault();
         } else if (this.activeChipIndex > -1) {
           this.removeActiveChip();
+          event.preventDefault();
         } else if (this.allowCustomValues && this.text) {
           this.addCustomChip(this.text, true);
+          event.preventDefault();
         } else if (!event.defaultPrevented) {
-          submitForm(this);
+          if (submitForm(this)) {
+            event.preventDefault();
+          }
         }
         break;
       case "Delete":
       case "Backspace":
         if (this.activeChipIndex > -1) {
+          event.preventDefault();
           this.removeActiveChip();
         } else if (!this.text && this.isMulti()) {
+          event.preventDefault();
           this.removeLastChip();
         }
         break;
@@ -598,11 +616,11 @@ export class Combobox
       return;
     }
 
-    await this.reposition();
+    await this.debouncedReposition();
     const maxScrollerHeight = this.getMaxScrollerHeight();
     listContainerEl.style.maxHeight = maxScrollerHeight > 0 ? `${maxScrollerHeight}px` : "";
     listContainerEl.style.minWidth = `${referenceEl.clientWidth}px`;
-    await this.reposition();
+    await this.debouncedReposition();
   };
 
   calciteChipDismissHandler = (
@@ -1041,8 +1059,7 @@ export class Combobox
   }
 
   renderInput(): VNode {
-    const { guid, active, disabled, placeholder, selectionMode, needsIcon, selectedItems, open } =
-      this;
+    const { guid, active, disabled, placeholder, selectionMode, selectedItems, open } = this;
     const single = selectionMode === "single";
     const selectedItem = selectedItems[0];
     const showLabel = !(open || active) && single && !!selectedItem;
@@ -1057,7 +1074,7 @@ export class Combobox
           <span
             class={{
               label: true,
-              "label--spaced": needsIcon
+              "label--icon": !!selectedItem?.icon
             }}
             key="label"
           >
@@ -1074,7 +1091,7 @@ export class Combobox
             "input--single": true,
             "input--transparent": this.activeChipIndex > -1,
             "input--hidden": showLabel,
-            "input--icon": single && needsIcon
+            "input--icon": !!this.placeholderIcon
           }}
           disabled={disabled}
           id={`${inputUidPrefix}${guid}`}
@@ -1130,16 +1147,22 @@ export class Combobox
   }
 
   renderIconStart(): VNode {
-    const { selectionMode, needsIcon, selectedItems, placeholderIcon } = this;
+    const { selectedItems, placeholderIcon, selectionMode } = this;
     const selectedItem = selectedItems[0];
+    const selectedIcon = selectedItem?.icon;
+    const singleSelectionMode = selectionMode === "single";
+
+    const iconAtStart =
+      !this.open && selectedItem
+        ? !!selectedIcon && singleSelectionMode
+        : !!this.placeholderIcon && (!selectedItem || singleSelectionMode);
+
     return (
-      selectionMode === "single" &&
-      needsIcon &&
-      (selectedItem?.icon || placeholderIcon) && (
+      iconAtStart && (
         <span class="icon-start">
           <calcite-icon
             class="selected-icon"
-            icon={selectedItem?.icon ?? placeholderIcon}
+            icon={!this.open && selectedItem ? selectedIcon : placeholderIcon}
             scale="s"
           />
         </span>
@@ -1179,7 +1202,6 @@ export class Combobox
           onKeyDown={this.keydownHandler}
           ref={this.setReferenceEl}
           role="combobox"
-          tabindex="0"
         >
           <div class="grid-input">
             {this.renderIconStart()}

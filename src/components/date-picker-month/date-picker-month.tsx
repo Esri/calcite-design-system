@@ -99,7 +99,12 @@ export class DatePickerMonth {
   //--------------------------------------------------------------------------
 
   keyDownHandler = (event: KeyboardEvent): void => {
+    if (event.defaultPrevented) {
+      return;
+    }
+
     const isRTL = this.el.dir === "rtl";
+
     switch (event.key) {
       case "ArrowUp":
         event.preventDefault();
@@ -267,7 +272,7 @@ export class DatePickerMonth {
     if (day - 6 === startOfWeek) {
       return days;
     }
-    for (let i = Math.abs(lastDate.getDay() - startOfWeek); i >= 0; i--) {
+    for (let i = lastDate.getDay() - startOfWeek; i >= 0; i--) {
       days.push(date - i);
     }
     return days;

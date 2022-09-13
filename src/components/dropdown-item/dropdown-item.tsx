@@ -8,7 +8,8 @@ import {
   Listen,
   Method,
   Prop,
-  VNode
+  VNode,
+  Watch
 } from "@stencil/core";
 import { getElementProp, toAriaBoolean } from "../../utils/dom";
 import { ItemKeyboardEvent } from "../dropdown/interfaces";
@@ -40,8 +41,25 @@ export class DropdownItem {
   //
   //--------------------------------------------------------------------------
 
-  /** Indicates whether the item is active. */
+  /**
+   * Indicates whether the item is active.
+   *
+   * @deprecated Use selected instead.
+   */
   @Prop({ reflect: true, mutable: true }) active = false;
+
+  @Watch("active")
+  activeHandler(value: boolean): void {
+    this.selected = value;
+  }
+
+  /** When true, item is selected  */
+  @Prop({ reflect: true, mutable: true }) selected = false;
+
+  @Watch("selected")
+  selectedHandler(value: boolean): void {
+    this.active = value;
+  }
 
   /** flip the icon(s) in rtl */
   @Prop({ reflect: true }) iconFlipRtl?: FlipContext;
@@ -104,6 +122,12 @@ export class DropdownItem {
   }
 
   connectedCallback(): void {
+    const isSelected = this.selected || this.active;
+
+    if (isSelected) {
+      this.activeHandler(isSelected);
+      this.selectedHandler(isSelected);
+    }
     this.initialize();
   }
 
@@ -163,7 +187,7 @@ export class DropdownItem {
       ? "menuitemcheckbox"
       : "menuitem";
 
-    const itemAria = this.selectionMode !== "none" ? toAriaBoolean(this.active) : null;
+    const itemAria = this.selectionMode !== "none" ? toAriaBoolean(this.selected) : null;
 
     return (
       <Host aria-checked={itemAria} role={itemRole} tabindex="0">
@@ -273,7 +297,7 @@ export class DropdownItem {
     this.selectionMode = getElementProp(this.el, "selection-mode", "single");
     this.parentDropdownGroupEl = this.el.closest("calcite-dropdown-group");
     if (this.selectionMode === "none") {
-      this.active = false;
+      this.selected = false;
     }
   }
 
@@ -281,20 +305,20 @@ export class DropdownItem {
     switch (this.selectionMode) {
       case "multi":
         if (this.el === this.requestedDropdownItem) {
-          this.active = !this.active;
+          this.selected = !this.selected;
         }
         break;
 
       case "single":
         if (this.el === this.requestedDropdownItem) {
-          this.active = true;
+          this.selected = true;
         } else if (this.requestedDropdownGroup === this.parentDropdownGroupEl) {
-          this.active = false;
+          this.selected = false;
         }
         break;
 
       case "none":
-        this.active = false;
+        this.selected = false;
         break;
     }
   }

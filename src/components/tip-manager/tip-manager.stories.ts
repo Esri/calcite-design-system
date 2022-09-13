@@ -10,12 +10,14 @@ import readme from "./readme.md";
 import { TEXT } from "./resources";
 import { html } from "../../../support/formatting";
 import { placeholderImage } from "../../../.storybook/utils";
+import { storyFilters } from "../../../.storybook/helpers";
 
 export default {
   title: "Components/Tips/Tip Manager",
   parameters: {
     notes: readme
-  }
+  },
+  ...storyFilters()
 };
 
 const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ exceptions } = { exceptions: [] }) => {
@@ -119,9 +121,9 @@ const tipContent = html`
   </calcite-tip>
 `;
 
-export const basic = (): string => create("calcite-tip-manager", createAttributes(), tipContent);
+export const simple = (): string => create("calcite-tip-manager", createAttributes(), tipContent);
 
-export const darkThemeRTL = (): string =>
+export const darkThemeRTL_TestOnly = (): string =>
   create(
     "calcite-tip-manager",
     createAttributes({ exceptions: ["dir", "class"] }).concat([
@@ -130,5 +132,4 @@ export const darkThemeRTL = (): string =>
     ]),
     tipContent
   );
-
-darkThemeRTL.parameters = { themes: themesDarkDefault };
+darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };
