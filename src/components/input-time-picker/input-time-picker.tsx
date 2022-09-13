@@ -15,7 +15,7 @@ import {
 import { guid } from "../../utils/guid";
 import { formatTimeString, isValidTime, localizeTimeString } from "../../utils/time";
 import { Scale } from "../interfaces";
-import { LogicalPlacement } from "../../utils/floating-ui";
+import { FloatingUIComponent, LogicalPlacement, OverlayPositioning } from "../../utils/floating-ui";
 import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
 import {
   connectForm,
@@ -34,7 +34,12 @@ import { getLang } from "../../utils/locale";
   shadow: true
 })
 export class InputTimePicker
-  implements LabelableComponent, FormComponent, InteractiveComponent, GlobalAttrComponent
+  implements
+    LabelableComponent,
+    FormComponent,
+    InteractiveComponent,
+    FloatingUIComponent,
+    GlobalAttrComponent
 {
   //--------------------------------------------------------------------------
   //
@@ -50,13 +55,27 @@ export class InputTimePicker
   //
   //--------------------------------------------------------------------------
 
-  /** The active state of the time input */
+  /**
+   * The active state of the time input
+   *
+   * @deprecated Use open instead.
+   */
   @Prop({ reflect: true, mutable: true }) active = false;
 
   @Watch("active")
-  activeHandler(): void {
+  activeHandler(value: boolean): void {
+    this.open = value;
+  }
+
+  /** When true, displays the `calcite-time-picker` component.*/
+
+  @Prop({ reflect: true, mutable: true }) open = false;
+
+  @Watch("open")
+  openHandler(value: boolean): void {
+    this.active = value;
     if (this.disabled || this.readOnly) {
-      this.active = false;
+      this.open = false;
       return;
     }
 
@@ -71,13 +90,13 @@ export class InputTimePicker
    *
    * @mdn [readOnly](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/readonly)
    */
-  @Prop() readOnly = false;
+  @Prop({ reflect: true }) readOnly = false;
 
   @Watch("disabled")
   @Watch("readOnly")
   handleDisabledAndReadOnlyChange(value: boolean): void {
     if (!value) {
-      this.active = false;
+      this.open = false;
     }
   }
 
@@ -132,7 +151,7 @@ export class InputTimePicker
   }
 
   /** The name of the time input */
-  @Prop() name: string;
+  @Prop({ reflect: true }) name: string;
 
   /**
    * When true, makes the component required for form-submission.
@@ -145,6 +164,14 @@ export class InputTimePicker
   @Prop({ reflect: true }) scale: Scale = "m";
 
   /**
+   * Determines the type of positioning to use for the overlaid content.
+   *
+   * Using the "absolute" value will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout. The "fixed" value should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is "fixed".
+   *
+   */
+  @Prop() overlayPositioning: OverlayPositioning = "absolute";
+
+  /**
    * Determines where the popover will be positioned relative to the input.
    *
    * @see [LogicalPlacement](https://github.com/Esri/calcite-components/blob/master/src/utils/floating-ui.ts#L25)
@@ -152,7 +179,7 @@ export class InputTimePicker
   @Prop({ reflect: true }) placement: LogicalPlacement = "auto";
 
   /** number (seconds) that specifies the granularity that the value must adhere to */
-  @Prop() step = 60;
+  @Prop({ reflect: true }) step = 60;
 
   /** The selected time in UTC (always 24-hour format) */
   @Prop({ mutable: true }) value: string = null;
@@ -218,7 +245,7 @@ export class InputTimePicker
   //--------------------------------------------------------------------------
 
   private calciteInternalInputBlurHandler = (): void => {
-    this.active = false;
+    this.open = false;
     const shouldIncludeSeconds = this.shouldIncludeSeconds();
     const lang = getLang(this);
 
@@ -234,7 +261,7 @@ export class InputTimePicker
 
   private calciteInternalInputFocusHandler = (event: CustomEvent): void => {
     if (!this.readOnly) {
-      this.active = true;
+      this.open = true;
       event.stopPropagation();
     }
   };
@@ -256,7 +283,7 @@ export class InputTimePicker
   timePickerBlurHandler(event: CustomEvent): void {
     event.preventDefault();
     event.stopPropagation();
-    this.active = false;
+    this.open = false;
   }
 
   private timePickerChangeHandler = (event: CustomEvent): void => {
@@ -271,7 +298,7 @@ export class InputTimePicker
     event.preventDefault();
     event.stopPropagation();
     if (!this.readOnly) {
-      this.active = true;
+      this.open = true;
     }
   }
 
@@ -312,8 +339,8 @@ export class InputTimePicker
       }
     }
 
-    if (key === "Escape" && this.active) {
-      this.active = false;
+    if (key === "Escape" && this.open) {
+      this.open = false;
       event.preventDefault();
     }
   };
@@ -406,11 +433,18 @@ export class InputTimePicker
   //--------------------------------------------------------------------------
 
   connectedCallback() {
+    const { active, open } = this;
     if (this.value) {
       this.setValue({ value: isValidTime(this.value) ? this.value : undefined, origin: "loading" });
     }
     connectLabel(this);
     connectForm(this);
+
+    if (open) {
+      this.active = open;
+    } else if (active) {
+      this.open = active;
+    }
   }
 
   componentDidLoad() {
@@ -460,7 +494,8 @@ export class InputTimePicker
         <calcite-popover
           id={popoverId}
           label="Time Picker"
-          open={this.active}
+          open={this.open}
+          overlayPositioning={this.overlayPositioning}
           placement={this.placement}
           ref={this.setCalcitePopoverEl}
           referenceElement={this.referenceElementId}

@@ -13,14 +13,15 @@ import {
   EventEmitter,
   Build
 } from "@stencil/core";
-import { getLocaleData, DateLocaleData } from "../date-picker/utils";
+import { getLocaleData, DateLocaleData, getValueAsDateRange } from "../date-picker/utils";
 import {
   dateFromRange,
   inRange,
   dateFromISO,
   dateToISO,
   parseDateString,
-  sameDate
+  sameDate,
+  setEndOfDay
 } from "../../utils/date";
 import { HeadingLevel } from "../functional/Heading";
 
@@ -44,7 +45,8 @@ import {
   EffectivePlacement,
   MenuPlacement,
   defaultMenuPlacement,
-  filterComputedPlacements
+  filterComputedPlacements,
+  repositionDebounceTimeout
 } from "../../utils/floating-ui";
 import { DateRangeChange } from "../date-picker/interfaces";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
@@ -60,6 +62,7 @@ import {
   watchGlobalAttributes
 } from "../../utils/globalAttributes";
 import { getLang, LangComponent } from "../../utils/locale";
+import { debounce } from "lodash-es";
 
 @Component({
   tag: "calcite-input-date-picker",
@@ -98,7 +101,7 @@ export class InputDatePicker
    *
    * @mdn [readOnly](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/readonly)
    */
-  @Prop() readOnly = false;
+  @Prop({ reflect: true }) readOnly = false;
 
   @Watch("disabled")
   @Watch("readOnly")
@@ -114,7 +117,7 @@ export class InputDatePicker
   @Watch("value")
   valueHandler(value: string | string[]): void {
     if (Array.isArray(value)) {
-      this.valueAsDate = value.map((v) => dateFromISO(v));
+      this.valueAsDate = getValueAsDateRange(value);
       this.start = value[0];
       this.end = value[1];
     } else if (value) {
@@ -136,13 +139,13 @@ export class InputDatePicker
   @Watch("flipPlacements")
   flipPlacementsHandler(): void {
     this.setFilteredPlacements();
-    this.reposition();
+    this.debouncedReposition();
   }
 
   /**
    * Number at which section headings should start for this component.
    */
-  @Prop() headingLevel: HeadingLevel;
+  @Prop({ reflect: true }) headingLevel: HeadingLevel;
 
   /** Selected date as full date object*/
   @Prop({ mutable: true }) valueAsDate?: Date | Date[];
@@ -168,7 +171,7 @@ export class InputDatePicker
   @Prop({ mutable: true }) maxAsDate?: Date;
 
   /** Earliest allowed date ("yyyy-mm-dd") */
-  @Prop({ mutable: true }) min?: string;
+  @Prop({ mutable: true, reflect: true }) min?: string;
 
   @Watch("min")
   onMinChanged(min: string): void {
@@ -178,7 +181,7 @@ export class InputDatePicker
   }
 
   /** Latest allowed date ("yyyy-mm-dd") */
-  @Prop({ mutable: true }) max?: string;
+  @Prop({ mutable: true, reflect: true }) max?: string;
 
   @Watch("max")
   onMaxChanged(max: string): void {
@@ -211,13 +214,13 @@ export class InputDatePicker
       return;
     }
 
-    this.reposition();
+    this.debouncedReposition();
   }
 
   /**
    * The picker's name. Gets submitted with the form.
    */
-  @Prop() name: string;
+  @Prop({ reflect: true }) name: string;
 
   /**
    * Localized string for "previous month" (used for aria label)
@@ -273,14 +276,14 @@ export class InputDatePicker
    *
    * @deprecated use value instead
    */
-  @Prop({ mutable: true }) start?: string;
+  @Prop({ mutable: true, reflect: true }) start?: string;
 
   /**
    * Selected end date
    *
    * @deprecated use value instead
    */
-  @Prop({ mutable: true }) end?: string;
+  @Prop({ mutable: true, reflect: true }) end?: string;
 
   /**
    * Determines the type of positioning to use for the overlaid content.
@@ -288,15 +291,15 @@ export class InputDatePicker
    * Using the "absolute" value will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout. The "fixed" value should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is "fixed".
    *
    */
-  @Prop() overlayPositioning: OverlayPositioning = "absolute";
+  @Prop({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
   @Watch("overlayPositioning")
   overlayPositioningHandler(): void {
-    this.reposition();
+    this.debouncedReposition();
   }
 
   /** Disables the default behaviour on the third click of narrowing or extending the range and instead starts a new range. */
-  @Prop() proximitySelectionDisabled = false;
+  @Prop({ reflect: true }) proximitySelectionDisabled = false;
 
   /** Layout */
   @Prop({ reflect: true }) layout: "horizontal" | "vertical" = "horizontal";
@@ -396,9 +399,8 @@ export class InputDatePicker
     const isOpen = this.active || this.open;
     isOpen && this.activeHandler(isOpen);
     isOpen && this.openHandler(isOpen);
-
     if (Array.isArray(this.value)) {
-      this.valueAsDate = this.value.map((v) => dateFromISO(v));
+      this.valueAsDate = getValueAsDateRange(this.value);
       this.start = this.value[0];
       this.end = this.value[1];
     } else if (this.value) {
@@ -412,7 +414,7 @@ export class InputDatePicker
     }
 
     if (this.end) {
-      this.endAsDate = dateFromISO(this.end);
+      this.endAsDate = setEndOfDay(dateFromISO(this.end));
     }
 
     if (this.min) {
@@ -428,7 +430,7 @@ export class InputDatePicker
     connectOpenCloseComponent(this);
     watchGlobalAttributes(this, ["lang"]);
     this.setFilteredPlacements();
-    this.reposition();
+    this.debouncedReposition();
   }
 
   async componentWillLoad(): Promise<void> {
@@ -438,7 +440,7 @@ export class InputDatePicker
   }
 
   componentDidLoad(): void {
-    this.reposition();
+    this.debouncedReposition();
   }
 
   disconnectedCallback(): void {
@@ -628,6 +630,8 @@ export class InputDatePicker
   //
   //--------------------------------------------------------------------------
 
+  debouncedReposition = debounce(() => this.reposition(), repositionDebounceTimeout);
+
   setFilteredPlacements = (): void => {
     const { el, flipPlacements } = this;
 
@@ -732,7 +736,7 @@ export class InputDatePicker
 
   @Watch("end")
   endWatcher(end: string): void {
-    this.endAsDate = dateFromISO(end);
+    this.endAsDate = end ? setEndOfDay(dateFromISO(end)) : dateFromISO(end);
   }
 
   @Watch("globalAttributes")
@@ -813,7 +817,7 @@ export class InputDatePicker
         this.end = endDateISO;
         this.calciteDatePickerRangeChange.emit({
           startDate: this.startAsDate,
-          endDate: date
+          endDate: setEndOfDay(date)
         });
       }
     }

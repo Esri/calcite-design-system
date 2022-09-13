@@ -137,8 +137,13 @@ export function localizeNumberString(
   });
 }
 
+/**
+ * This interface is for components that need to determine locale from the lang attribute.
+ */
 export interface LangComponent extends GlobalAttrComponent {
   /**
+   *
+   *
    * BCP 47 language tag for desired language and country format
    *
    * @deprecated set the global `lang` attribute on the element instead.

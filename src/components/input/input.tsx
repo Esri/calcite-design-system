@@ -85,7 +85,7 @@ export class Input
    *
    * @mdn [autofocus](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/autofocus)
    */
-  @Prop() autofocus = false;
+  @Prop({ reflect: true }) autofocus = false;
 
   /**
    * When true, a clear button is displayed when the component has a value. The clear button shows by default for "search", "time", and "date" types, and will not display for the "textarea" type.
@@ -107,14 +107,14 @@ export class Input
   /**
    * When true, number values are displayed with the locale's group separator.
    */
-  @Prop() groupSeparator = false;
+  @Prop({ reflect: true }) groupSeparator = false;
 
   /**
    * When true, the component will not be visible.
    *
    * @mdn [hidden](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/hidden)
    */
-  @Prop() hidden = false;
+  @Prop({ reflect: true }) hidden = false;
 
   /**
    * When true, shows a default recommended icon. Alternatively, pass a Calcite UI Icon name to display a specific icon.
@@ -155,7 +155,7 @@ export class Input
    *
    * @mdn [numberingSystem](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/Locale/numberingSystem)
    */
-  @Prop() numberingSystem?: string;
+  @Prop({ reflect: true }) numberingSystem?: string;
 
   /**
    * Toggles locale formatting for numbers.
@@ -236,10 +236,10 @@ export class Input
    *
    * @mdn [readOnly](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/readonly)
    */
-  @Prop() readOnly = false;
+  @Prop({ reflect: true }) readOnly = false;
 
   /** When true, the component must have a value in order for the form to submit. */
-  @Prop() required = false;
+  @Prop({ reflect: true }) required = false;
 
   /** Specifies the size of the component. */
   @Prop({ mutable: true, reflect: true }) scale: Scale = "m";
@@ -900,7 +900,7 @@ export class Input
         class={CSS.clearButton}
         disabled={this.disabled || this.readOnly}
         onClick={this.clearInputValue}
-        tabIndex={this.disabled ? -1 : 0}
+        tabIndex={-1}
         type="button"
       >
         <calcite-icon icon="x" scale="s" />

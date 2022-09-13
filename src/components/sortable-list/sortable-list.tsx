@@ -33,24 +33,24 @@ export class SortableList implements InteractiveComponent {
   /**
    * Specifies which items inside the element should be draggable.
    */
-  @Prop() dragSelector?: string;
+  @Prop({ reflect: true }) dragSelector?: string;
 
   /**
    * The list's group identifier.
    *
    * To drag elements from one list into another, both lists must have the same group value.
    */
-  @Prop() group?: string;
+  @Prop({ reflect: true }) group?: string;
 
   /**
    * The selector for the handle elements.
    */
-  @Prop() handleSelector = "calcite-handle";
+  @Prop({ reflect: true }) handleSelector = "calcite-handle";
 
   /**
    * Indicates the horizontal or vertical orientation of the component.
    */
-  @Prop() layout: Layout = "vertical";
+  @Prop({ reflect: true }) layout: Layout = "vertical";
 
   /**
    * When true, disabled prevents interaction. This state shows items with lower opacity/grayed.

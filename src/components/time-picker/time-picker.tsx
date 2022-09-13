@@ -63,91 +63,91 @@ export class TimePicker implements GlobalAttrComponent, LangComponent {
   //--------------------------------------------------------------------------
 
   /**
-   * aria-label for the hour input
+   * Accessible name for the component's hour input.
    *
    * @default "Hour"
    */
   @Prop() intlHour = TEXT.hour;
 
   /**
-   * aria-label for the hour down button
+   * Accessible name for the component's hour down button.
    *
    * @default "Decrease hour"
    */
   @Prop() intlHourDown = TEXT.hourDown;
 
   /**
-   * aria-label for the hour up button
+   * Accessible name for the component's hour up button.
    *
    * @default "Increase hour"
    */
   @Prop() intlHourUp = TEXT.hourUp;
 
   /**
-   * aria-label for the meridiem (am/pm) input
+   * Accessible name for the component's meridiem (AM/PM) input.
    *
    * @default "AM/PM"
    */
   @Prop() intlMeridiem = TEXT.meridiem;
 
   /**
-   * aria-label for the meridiem (am/pm) down button
+   * Accessible name for the component's meridiem (AM/PM) down button.
    *
    * @default "Decrease AM/PM"
    */
   @Prop() intlMeridiemDown = TEXT.meridiemDown;
 
   /**
-   * aria-label for the meridiem (am/pm) up button
+   * Accessible name for the component's meridiem (AM/PM) up button.
    *
    * @default "Increase AM/PM"
    */
   @Prop() intlMeridiemUp = TEXT.meridiemUp;
 
   /**
-   * aria-label for the minute input
+   * Accessible name for the component's minute input.
    *
    * @default "Minute"
    */
   @Prop() intlMinute = TEXT.minute;
 
   /**
-   * aria-label for the minute down button
+   * Accessible name for the component's minute down button.
    *
    * @default "Decrease minute"
    */
   @Prop() intlMinuteDown = TEXT.minuteDown;
 
   /**
-   * aria-label for the minute up button
+   * Accessible name for the component's minute up button.
    *
    * @default "Increase minute"
    */
   @Prop() intlMinuteUp = TEXT.minuteUp;
 
   /**
-   * aria-label for the second input
+   * Accessible name for the component's second input.
    *
    * @default "Second"
    */
   @Prop() intlSecond = TEXT.second;
 
   /**
-   * aria-label for the second down button
+   * Accessible name for the component's second down button.
    *
    * @default "Decrease second"
    */
   @Prop() intlSecondDown = TEXT.secondDown;
 
   /**
-   * aria-label for the second up button
+   * Accessible name for the component's second up button.
    *
    * @default "Increase second"
    */
   @Prop() intlSecondUp = TEXT.secondUp;
 
   /**
-   * BCP 47 language tag for desired language and country format
+   * BCP 47 language tag for desired language and country format.
    *
    * @internal
    * @deprecated set the global `lang` attribute on the element instead.
@@ -161,13 +161,13 @@ export class TimePicker implements GlobalAttrComponent, LangComponent {
     this.setValue(this.value, false);
   }
 
-  /** The scale (size) of the time picker */
-  @Prop() scale: Scale = "m";
+  /** Specifies the size of the component. */
+  @Prop({ reflect: true }) scale: Scale = "m";
 
-  /** number (seconds) that specifies the granularity that the value must adhere to */
-  @Prop() step = 60;
+  /** Specifies the granularity the "value" must adhere to (in seconds). */
+  @Prop({ reflect: true }) step = 60;
 
-  /** The selected time in UTC (always 24-hour format) */
+  /** The component's value in UTC (always 24-hour format). */
   @Prop({ mutable: true }) value: string = null;
 
   @Watch("value")
@@ -676,6 +676,7 @@ export class TimePicker implements GlobalAttrComponent, LangComponent {
     value: number | string | Meridiem,
     emit = true
   ): void => {
+    const lang = getLang(this);
     if (key === "meridiem") {
       this.meridiem = value as Meridiem;
       if (isValidNumber(this.hour)) {
@@ -692,11 +693,11 @@ export class TimePicker implements GlobalAttrComponent, LangComponent {
             }
             break;
         }
-        this.localizedHour = localizeTimePart(this.hour, "hour", this.locale);
+        this.localizedHour = localizeTimePart(this.hour, "hour", lang);
       }
     } else {
       this[key] = typeof value === "number" ? formatTimePart(value) : value;
-      this[`localized${capitalize(key)}`] = localizeTimePart(this[key], key, this.locale);
+      this[`localized${capitalize(key)}`] = localizeTimePart(this[key], key, lang);
     }
     if (this.hour && this.minute) {
       const showSeconds = this.second && this.showSecond;
@@ -705,15 +706,16 @@ export class TimePicker implements GlobalAttrComponent, LangComponent {
       this.value = null;
     }
     this.localizedMeridiem = this.value
-      ? localizeTimeStringToParts(this.value, this.locale)?.localizedMeridiem || null
-      : localizeTimePart(this.meridiem, "meridiem", this.locale);
+      ? localizeTimeStringToParts(this.value, lang)?.localizedMeridiem || null
+      : localizeTimePart(this.meridiem, "meridiem", lang);
     if (emit) {
       this.calciteInternalTimePickerChange.emit();
     }
   };
 
   private getMeridiemOrder(formatParts: Intl.DateTimeFormatPart[]): number {
-    const isRTLKind = this.locale === "ar" || this.locale === "he";
+    const lang = getLang(this);
+    const isRTLKind = lang === "ar" || lang === "he";
     if (formatParts && !isRTLKind) {
       const index = formatParts.findIndex((parts: { type: string; value: string }) => {
         return parts.value === this.localizedMeridiem;
@@ -731,7 +733,9 @@ export class TimePicker implements GlobalAttrComponent, LangComponent {
 
   connectedCallback() {
     this.setValue(this.value, false);
-    this.hourCycle = getLocaleHourCycle(this.locale);
+    const lang = getLang(this);
+    this.hourCycle = getLocaleHourCycle(lang);
+    this.meridiemOrder = this.getMeridiemOrder(getTimeParts("0:00:00", lang));
     watchGlobalAttributes(this, ["lang"]);
   }
 

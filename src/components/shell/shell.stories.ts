@@ -3,19 +3,22 @@ import {
   filterComponentAttributes,
   Attributes,
   createComponentHTML as create,
-  placeholderImage
+  placeholderImage,
+  themesDarkDefault
 } from "../../../.storybook/utils";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import readme from "./readme.md";
 import panelReadme from "../shell-panel/readme.md";
 import centerRowReadme from "../shell-center-row/readme.md";
 import { html } from "../../../support/formatting";
+import { storyFilters } from "../../../.storybook/helpers";
 
 export default {
   title: "Components/Shell",
   parameters: {
     notes: [readme, panelReadme, centerRowReadme]
-  }
+  },
+  ...storyFilters()
 };
 
 const createAttributes: (group: string, options?: { exceptions: string[] }) => Attributes = (
@@ -202,29 +205,6 @@ const centerRowAdvancedHTML = html`
   </calcite-tip-manager>
 `;
 
-export const basic = (): string =>
-  create(
-    "calcite-shell",
-    createAttributes("Shell"),
-    html`
-      ${headerHTML} ${create("calcite-shell-panel", createShellPanelAttributes("Leading Panel"), leadingPanelHTML)}
-      ${contentHTML} ${create("calcite-shell-center-row", createShellCenterRowAttributes("Center Row"), centerRowHTML)}
-      ${create("calcite-shell-panel", createShellPanelAttributes("Trailing Panel"), trailingPanelHTML)} ${footerHTML}
-    `
-  );
-
-export const RTL = (): string =>
-  create(
-    "calcite-shell",
-    createAttributes("Shell", { exceptions: ["dir"] }).concat({ name: "dir", value: "rtl" }),
-    html`
-      ${headerHTML} ${create("calcite-shell-panel", createShellPanelAttributes("Leading Panel"), leadingPanelHTML)}
-      ${contentHTML} ${create("calcite-shell-center-row", createShellCenterRowAttributes("Center Row"), centerRowHTML)}
-      ${create("calcite-shell-panel", createShellPanelAttributes("Trailing Panel"), trailingPanelHTML)} ${footerHTML}
-    `
-  );
-
-// TODO: UPDATE
 const advancedLeadingPanelHTML = html`
   ${actionBarStartHTML}
   <calcite-block collapsible open heading="Start Content" summary="This is the primary.">
@@ -261,7 +241,7 @@ const advancedLeadingPanelHTML = html`
 const advancedTrailingPanelHTMl = html`
   ${actionBarEndHTML}
   <calcite-flow>
-    <calcite-panel heading="Layer settings">
+    <calcite-flow-item heading="Layer settings">
       <calcite-action slot="header-menu-actions" text="Cool thing" text-enabled></calcite-action>
       <calcite-action slot="header-menu-actions" text="Cool thing" text-enabled></calcite-action>
       <calcite-action slot="header-menu-actions" text="Cool thing" text-enabled></calcite-action>
@@ -282,8 +262,8 @@ const advancedTrailingPanelHTMl = html`
       </calcite-block>
       <calcite-button slot="footer-actions" width="half" appearance="clear">Cancel</calcite-button>
       <calcite-button slot="footer-actions" width="half">Save</calcite-button>
-    </calcite-panel>
-    <calcite-panel heading="Deeper flow item">
+    </calcite-flow-item>
+    <calcite-flow-item heading="Deeper flow item">
       <calcite-block collapsible open heading="End Content" summary="Select goodness">
         <calcite-block-content>
           <calcite-block-section text="Cool things">
@@ -316,35 +296,42 @@ const advancedTrailingPanelHTMl = html`
       </calcite-block>
       <calcite-button slot="footer-actions" width="half" appearance="clear">Cancel</calcite-button>
       <calcite-button slot="footer-actions" width="half">Save</calcite-button>
-    </calcite-panel>
+    </calcite-flow-item>
   </calcite-flow>
 `;
 
-export const advanced = (): string =>
+export const simple = (): string =>
   create(
     "calcite-shell",
     createAttributes("Shell"),
     html`
       ${headerHTML}
       ${create("calcite-shell-panel", createShellPanelAttributes("Leading Panel", true), advancedLeadingPanelHTML)}
-      ${contentHTML} ${centerRowAdvancedHTML}
+      ${contentHTML} ${create("calcite-shell-center-row", createShellCenterRowAttributes("Center Row"), centerRowHTML)}
+      ${centerRowAdvancedHTML}
       ${create("calcite-shell-panel", createShellPanelAttributes("Trailing Panel", true), advancedTrailingPanelHTMl)}
       ${footerHTML}
     `
   );
 
-export const advancedRTL = (): string =>
+export const darkThemeRTL_TestOnly = (): string =>
   create(
     "calcite-shell",
-    createAttributes("Shell", { exceptions: ["dir"] }).concat({ name: "dir", value: "rtl" }),
+    createAttributes("Shell", { exceptions: ["dir", "class"] }).concat(
+      { name: "dir", value: "rtl" },
+      { name: "class", value: "calcite-theme-dark" }
+    ),
     html`
       ${headerHTML}
       ${create("calcite-shell-panel", createShellPanelAttributes("Leading Panel"), advancedLeadingPanelHTML)}
+      ${contentHTML} ${create("calcite-shell-center-row", createShellCenterRowAttributes("Center Row"), centerRowHTML)}
       ${contentHTML} ${centerRowAdvancedHTML}
       ${create("calcite-shell-panel", createShellPanelAttributes("Trailing Panel"), advancedTrailingPanelHTMl)}
       ${footerHTML}
     `
   );
+
+darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };
 
 export const dismissedPanels = (): string => html`<calcite-shell content-behind>
   <calcite-shell-panel slot="panel-start" detached>
@@ -413,7 +400,7 @@ background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
         </calcite-action-group>
       </calcite-action-bar>
       <calcite-flow>
-        <calcite-panel heading="Layer settings">
+        <calcite-flow-item heading="Layer settings">
           <calcite-action
             slot="header-menu-actions"
             text="Cool thing"
@@ -474,8 +461,8 @@ background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
           >
             Save
           </calcite-button>
-        </calcite-panel>
-        <calcite-panel heading="Deeper flow item" show-back-button>
+        </calcite-flow-item>
+        <calcite-flow-item heading="Deeper flow item" show-back-button>
           <calcite-block collapsible open heading="End Content" summary="Select goodness">
             <calcite-block-content>
               <calcite-block-section text="Cool things" toggle-display="button">
@@ -534,7 +521,7 @@ background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
           >
             Save
           </calcite-button>
-        </calcite-panel>
+        </calcite-flow-item>
       </calcite-flow>
     </calcite-shell-panel>
     <footer slot="footer">My Shell Footer</footer>
