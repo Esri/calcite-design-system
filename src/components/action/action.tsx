@@ -13,7 +13,7 @@ import {
 
 import { Alignment, Appearance, Scale } from "../interfaces";
 
-import { CSS, TEXT } from "./resources";
+import { CSS, TEXT, SLOTS } from "./resources";
 
 import { createObserver } from "../../utils/observers";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
@@ -227,6 +227,7 @@ export class Action implements InteractiveComponent {
           {this.renderIconContainer()}
           {this.renderTextContainer()}
         </button>
+        <slot name={SLOTS.tooltip} onSlotchange={this.handleTooltipSlotChange} />
       </Host>
     );
   }
@@ -236,6 +237,20 @@ export class Action implements InteractiveComponent {
   //  Private Methods
   //
   // --------------------------------------------------------------------------
+
+  handleTooltipSlotChange = (event: Event): void => {
+    const tooltips = (event.target as HTMLSlotElement)
+      .assignedElements({
+        flatten: true
+      })
+      .filter((el) => el?.matches("calcite-tooltip")) as HTMLCalciteTooltipElement[];
+
+    const tooltip = tooltips[0];
+
+    if (tooltip) {
+      tooltip.referenceElement = this.buttonEl;
+    }
+  };
 
   calciteActionClickHandler = (): void => {
     if (!this.disabled) {

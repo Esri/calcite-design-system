@@ -24,7 +24,8 @@ import {
   EffectivePlacement,
   MenuPlacement,
   defaultMenuPlacement,
-  filterComputedPlacements
+  filterComputedPlacements,
+  repositionDebounceTimeout
 } from "../../utils/floating-ui";
 import { Scale } from "../interfaces";
 import { SLOTS } from "./resources";
@@ -38,6 +39,7 @@ import {
 import { guid } from "../../utils/guid";
 import { RequestedItem } from "../dropdown-group/interfaces";
 import { isActivationKey } from "../../utils/key";
+import { debounce } from "lodash-es";
 
 /**
  * @slot - A slot for adding `calcite-dropdown-group` components. Every `calcite-dropdown-item` must have a parent `calcite-dropdown-group`, even if the `groupTitle` property is not set.
@@ -81,7 +83,7 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent, Float
   @Watch("open")
   openHandler(value: boolean): void {
     if (!this.disabled) {
-      this.reposition();
+      this.debouncedReposition();
       this.active = value;
       return;
     }
@@ -113,7 +115,7 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent, Float
   @Watch("flipPlacements")
   flipPlacementsHandler(): void {
     this.setFilteredPlacements();
-    this.reposition();
+    this.debouncedReposition();
   }
 
   /**
@@ -137,7 +139,7 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent, Float
 
   @Watch("overlayPositioning")
   overlayPositioningHandler(): void {
-    this.reposition();
+    this.debouncedReposition();
   }
 
   /**
@@ -149,7 +151,7 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent, Float
 
   @Watch("placement")
   placementHandler(): void {
-    this.reposition();
+    this.debouncedReposition();
   }
 
   /** specify the scale of dropdown, defaults to m */
@@ -177,7 +179,7 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent, Float
   connectedCallback(): void {
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
     this.setFilteredPlacements();
-    this.reposition();
+    this.debouncedReposition();
     if (this.open) {
       this.openHandler(this.open);
     }
@@ -188,7 +190,7 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent, Float
   }
 
   componentDidLoad(): void {
-    this.reposition();
+    this.debouncedReposition();
   }
 
   componentDidRender(): void {
@@ -416,6 +418,8 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent, Float
   //
   //--------------------------------------------------------------------------
 
+  debouncedReposition = debounce(() => this.reposition(), repositionDebounceTimeout);
+
   slotChangeHandler = (event: Event): void => {
     this.defaultAssignedElements = (event.target as HTMLSlotElement).assignedElements({
       flatten: true
@@ -437,7 +441,7 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent, Float
       flatten: true
     }) as HTMLElement[];
 
-    this.reposition();
+    this.debouncedReposition();
   };
 
   updateItems = (): void => {
@@ -447,7 +451,7 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent, Float
 
     this.updateSelectedItems();
 
-    this.reposition();
+    this.debouncedReposition();
   };
 
   updateGroups = (event: Event): void => {
@@ -488,10 +492,10 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent, Float
       return;
     }
 
-    this.reposition();
+    this.debouncedReposition();
     const maxScrollerHeight = this.getMaxScrollerHeight();
     scrollerEl.style.maxHeight = maxScrollerHeight > 0 ? `${maxScrollerHeight}px` : "";
-    this.reposition();
+    this.debouncedReposition();
   };
 
   setScrollerAndTransitionEl = (el: HTMLDivElement): void => {

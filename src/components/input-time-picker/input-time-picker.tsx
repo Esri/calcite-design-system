@@ -15,7 +15,7 @@ import {
 import { guid } from "../../utils/guid";
 import { formatTimeString, isValidTime, localizeTimeString } from "../../utils/time";
 import { Scale } from "../interfaces";
-import { LogicalPlacement } from "../../utils/floating-ui";
+import { FloatingUIComponent, LogicalPlacement, OverlayPositioning } from "../../utils/floating-ui";
 import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
 import {
   connectForm,
@@ -31,7 +31,9 @@ import { InteractiveComponent, updateHostInteraction } from "../../utils/interac
   styleUrl: "input-time-picker.scss",
   shadow: true
 })
-export class InputTimePicker implements LabelableComponent, FormComponent, InteractiveComponent {
+export class InputTimePicker
+  implements LabelableComponent, FormComponent, InteractiveComponent, FloatingUIComponent
+{
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -152,6 +154,14 @@ export class InputTimePicker implements LabelableComponent, FormComponent, Inter
 
   /** The scale (size) of the time input */
   @Prop({ reflect: true }) scale: Scale = "m";
+
+  /**
+   * Determines the type of positioning to use for the overlaid content.
+   *
+   * Using the "absolute" value will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout. The "fixed" value should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is "fixed".
+   *
+   */
+  @Prop() overlayPositioning: OverlayPositioning = "absolute";
 
   /**
    * Determines where the popover will be positioned relative to the input.
@@ -474,6 +484,7 @@ export class InputTimePicker implements LabelableComponent, FormComponent, Inter
           id={popoverId}
           label="Time Picker"
           open={this.open}
+          overlayPositioning={this.overlayPositioning}
           placement={this.placement}
           ref={this.setCalcitePopoverEl}
           referenceElement={this.referenceElementId}

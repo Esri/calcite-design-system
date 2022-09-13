@@ -10,11 +10,13 @@ import {
   disconnectFloatingUI,
   LogicalPlacement,
   defaultOffsetDistance,
-  ReferenceElement
+  ReferenceElement,
+  repositionDebounceTimeout
 } from "../../utils/floating-ui";
 import { queryElementRoots, toAriaBoolean } from "../../utils/dom";
 
 import TooltipManager from "./TooltipManager";
+import { debounce } from "lodash-es";
 
 const manager = new TooltipManager();
 
@@ -48,7 +50,7 @@ export class Tooltip implements FloatingUIComponent {
 
   @Watch("offsetDistance")
   offsetDistanceOffsetHandler(): void {
-    this.reposition();
+    this.debouncedReposition();
   }
 
   /**
@@ -58,7 +60,7 @@ export class Tooltip implements FloatingUIComponent {
 
   @Watch("offsetSkidding")
   offsetSkiddingHandler(): void {
-    this.reposition();
+    this.debouncedReposition();
   }
 
   /**
@@ -68,7 +70,7 @@ export class Tooltip implements FloatingUIComponent {
 
   @Watch("open")
   openHandler(): void {
-    this.reposition();
+    this.debouncedReposition();
   }
 
   /**
@@ -81,7 +83,7 @@ export class Tooltip implements FloatingUIComponent {
 
   @Watch("overlayPositioning")
   overlayPositioningHandler(): void {
-    this.reposition();
+    this.debouncedReposition();
   }
 
   /**
@@ -93,7 +95,7 @@ export class Tooltip implements FloatingUIComponent {
 
   @Watch("placement")
   placementHandler(): void {
-    this.reposition();
+    this.debouncedReposition();
   }
 
   /**
@@ -136,7 +138,7 @@ export class Tooltip implements FloatingUIComponent {
     if (this.referenceElement && !this.effectiveReferenceElement) {
       this.setUpReferenceElement();
     }
-    this.reposition();
+    this.debouncedReposition();
     this.hasLoaded = true;
   }
 
@@ -181,6 +183,8 @@ export class Tooltip implements FloatingUIComponent {
   //  Private Methods
   //
   // --------------------------------------------------------------------------
+
+  debouncedReposition = debounce(() => this.reposition(), repositionDebounceTimeout);
 
   setUpReferenceElement = (warn = true): void => {
     this.removeReferences();
