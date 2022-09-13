@@ -1,10 +1,9 @@
 import type { Options } from "standard-version";
-
-import pify from "pify";
 import yargs from "yargs";
 
 (async function prepReleaseCommit(): Promise<void> {
   const childProcess = await import("child_process");
+  const { promisify } = await import("util");
   const { promises: fs } = await import("fs");
   const { default: gitSemverTags } = await import("git-semver-tags");
   const { dirname, normalize } = await import("path");
@@ -13,8 +12,8 @@ import yargs from "yargs";
   const { quote } = await import("shell-quote");
   const { default: standardVersion } = await import("standard-version");
   const { fileURLToPath } = await import("url");
+  const exec = promisify(childProcess.exec);
 
-  const exec = pify(childProcess.exec);
   const header = `# Changelog\n\nThis document maintains a list of released versions and changes introduced by them.\nThis project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)\n`;
   const unreleasedSectionTokenStart = "<!--@unreleased-section-start-->";
   const unreleasedSectionTokenEnd = "<!--@unreleased-section-end-->";
@@ -30,10 +29,10 @@ import yargs from "yargs";
   // deepen the history when fetching tags due to shallow clone
   await exec("git fetch --deepen=250 --tags");
 
-  const previousReleasedTag = (await exec("git describe --abbrev=0 --tags", { encoding: "utf-8" })).trim();
+  const previousReleasedTag = (await exec("git describe --abbrev=0 --tags", { encoding: "utf-8" })).stdout.trim();
   const prereleaseVersionPattern = /-next\.\d+$/;
   const previousReleaseIsPrerelease = prereleaseVersionPattern.test(previousReleasedTag);
-  const semverTags = await pify(gitSemverTags)();
+  const semverTags = await promisify(gitSemverTags)();
   let standardVersionOptions: Options;
 
   const baseErrorMessage = "an error occurred generating the changelog";
@@ -82,7 +81,7 @@ import yargs from "yargs";
     // we keep track of `beta` and `next` releases since `standard-version` resets the version number when going in between
     // this should not be needed after v1.0.0 since there would no longer be a beta version to keep track of
     const targetDescendingOrderTags = semverTags.filter((tag) => targetVersionPattern.test(tag)).sort(semver.rcompare);
-    const targetReleaseVersion = semver.inc(targetDescendingOrderTags[0], "prerelease", target);
+    const targetReleaseVersion = semver.inc(targetDescendingOrderTags[0], "prerelease", target) || "";
 
     if (!targetVersionPattern.test(targetReleaseVersion)) {
       throw new Error(`target release version does not have prerelease identifier (${target})`);
@@ -156,10 +155,14 @@ import yargs from "yargs";
         "npx conventional-changelog --release-count 1 --output-unreleased --preset conventionalcommits --context support/.unreleased-changelog-context.json",
         { encoding: "utf-8" }
       )
-    ).trim();
+    ).stdout.trim();
   }
 
-  async function updateReadmeCdnUrls(version: string): Promise<void> {
+  async function updateReadmeCdnUrls(version: string | undefined): Promise<void> {
+    if (!version) {
+      return;
+    }
+
     const scriptTagPattern = /(<script\s+type="module"\s+src=").+("\s*><\/script>)/m;
     const linkTagPattern = /(<link\s+rel="stylesheet"\s+type="text\/css"\s+href=").+("\s*\/>)/m;
     const baseCdnUrl = `https://unpkg.com/@esri/calcite-components@${version}/dist/calcite/calcite.`;
