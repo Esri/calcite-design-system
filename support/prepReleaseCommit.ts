@@ -84,7 +84,7 @@ import yargs from "yargs";
     const targetReleaseVersion = semver.inc(targetDescendingOrderTags[0], "prerelease", target);
 
     if (!targetReleaseVersion) {
-      throw new Error("an error occurred determining the target release version ");
+      throw new Error("an error occurred determining the target release version");
     }
 
     if (!targetVersionPattern.test(targetReleaseVersion)) {
@@ -113,7 +113,7 @@ import yargs from "yargs";
       await exec(`git add ${changelogPath}`);
     } else {
       if (!standardVersionOptions.releaseAs) {
-        throw new Error("an error occurred determining the target release version ");
+        throw new Error("an error occurred determining the target release version");
       }
       await updateReadmeCdnUrls(standardVersionOptions.releaseAs);
       await exec(`git add ${readmePath}`);
