@@ -5,7 +5,7 @@ export const CSS = {
   tableContainer: "table-container"
 };
 
-export const debounceUpdateListTimeout = 100;
+export const debounceTimeout = 100;
 
 export type SelectionAppearance = "border" | "icon" | "control";
 

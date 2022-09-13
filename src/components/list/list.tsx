@@ -1,5 +1,5 @@
 import { Component, Element, h, VNode, Prop, Method, Listen, Watch } from "@stencil/core";
-import { CSS, debounceUpdateListTimeout, SelectionAppearance, SelectionMode } from "./resources";
+import { CSS, debounceTimeout, SelectionAppearance, SelectionMode } from "./resources";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { createObserver } from "../../utils/observers";
 import { getListItemChildren, updateListItemChildren } from "../list-item/utils";
@@ -92,6 +92,8 @@ export class List implements InteractiveComponent {
         listItem.selected = listItem === target;
       }
     });
+
+    this.updateSelectedItems();
   }
 
   //--------------------------------------------------------------------------
@@ -183,6 +185,10 @@ export class List implements InteractiveComponent {
     }
   };
 
+  updateSelectedItems = debounce((): void => {
+    this.selectedItems = this.listItems.filter((item) => item.selected);
+  }, debounceTimeout);
+
   updateListItems = debounce((): void => {
     const { selectionAppearance, selectionMode } = this;
     const items = this.queryListItems();
@@ -192,8 +198,8 @@ export class List implements InteractiveComponent {
     });
     this.listItems = items;
     this.setActiveListItem();
-    this.selectedItems = items.filter((item) => item.selected);
-  }, debounceUpdateListTimeout);
+    this.updateSelectedItems();
+  }, debounceTimeout);
 
   queryListItems = (): HTMLCalciteListItemElement[] => {
     return Array.from(this.el.querySelectorAll(listItemSelector)).filter((item) => !item.disabled);
