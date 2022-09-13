@@ -61,7 +61,7 @@ export class InputText implements LabelableComponent, FormComponent, Interactive
    *
    * @mdn [autofocus](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/autofocus)
    */
-  @Prop() autofocus = false;
+  @Prop({ reflect: true }) autofocus = false;
 
   /**
    * When true, a clear button is displayed when the component has a value.
@@ -85,7 +85,7 @@ export class InputText implements LabelableComponent, FormComponent, Interactive
    *
    * @mdn [hidden](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/hidden)
    */
-  @Prop() hidden = false;
+  @Prop({ reflect: true }) hidden = false;
 
   /**
    * When true, shows a default recommended icon. Alternatively, pass a Calcite UI Icon name to display a specific icon.
@@ -149,10 +149,10 @@ export class InputText implements LabelableComponent, FormComponent, Interactive
    *
    * @mdn [readOnly](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/readonly)
    */
-  @Prop() readOnly = false;
+  @Prop({ reflect: true }) readOnly = false;
 
   /** When true, the component must have a value in order for the form to submit. */
-  @Prop() required = false;
+  @Prop({ reflect: true }) required = false;
 
   /** Specifies the size of the component. */
   @Prop({ mutable: true, reflect: true }) scale: Scale = "m";
@@ -242,12 +242,14 @@ export class InputText implements LabelableComponent, FormComponent, Interactive
     connectForm(this);
     this.mutationObserver?.observe(this.el, { childList: true });
     this.setDisabledAction();
+    this.el.addEventListener("calciteInternalHiddenInputChange", this.hiddenInputChangeHandler);
   }
 
   disconnectedCallback(): void {
     disconnectLabel(this);
     disconnectForm(this);
     this.mutationObserver?.disconnect();
+    this.el.removeEventListener("calciteInternalHiddenInputChange", this.hiddenInputChangeHandler);
   }
 
   componentWillLoad(): void {
@@ -323,7 +325,9 @@ export class InputText implements LabelableComponent, FormComponent, Interactive
       event.preventDefault();
     }
     if (event.key === "Enter" && !event.defaultPrevented) {
-      submitForm(this);
+      if (submitForm(this)) {
+        event.preventDefault();
+      }
     }
   };
 
@@ -403,6 +407,16 @@ export class InputText implements LabelableComponent, FormComponent, Interactive
       input.maxLength = this.maxLength;
     }
   }
+
+  hiddenInputChangeHandler = (event: Event): void => {
+    if ((event.target as HTMLInputElement).name === this.name) {
+      this.setValue({
+        value: (event.target as HTMLInputElement).value,
+        origin: "direct"
+      });
+    }
+    event.stopPropagation();
+  };
 
   private setChildElRef = (el) => {
     this.childEl = el;

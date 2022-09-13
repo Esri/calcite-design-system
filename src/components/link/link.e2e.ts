@@ -1,8 +1,10 @@
 import { E2EElement, E2EPage, newE2EPage } from "@stencil/core/testing";
-import { accessible, defaults, disabled, renders } from "../../tests/commonTests";
+import { accessible, defaults, disabled, renders, hidden } from "../../tests/commonTests";
 
 describe("calcite-link", () => {
   it("renders", async () => renders("<calcite-link href='/'>link</calcite-link>", { display: "inline" }));
+
+  it("honors hidden attribute", async () => hidden("calcite-link"));
 
   it("defaults", async () =>
     defaults("calcite-link", [
@@ -226,6 +228,19 @@ describe("calcite-link", () => {
       await page.waitForChanges();
 
       expect(page.url()).toBe(targetUrl);
+    });
+
+    it("non user-initiated click event", async () => {
+      const link = await page.find("calcite-link");
+      const clickEvent = await link.spyOnEvent("click");
+
+      // helps test click behavior via HTMLElement.click()
+      await link.callMethod("click");
+      await page.waitForChanges();
+
+      expect(page.url()).toBe(targetUrl);
+      // make sure forwarded internal event does not propagate
+      expect(clickEvent).toHaveReceivedEventTimes(1);
     });
   });
 

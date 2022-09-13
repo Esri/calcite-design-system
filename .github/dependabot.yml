@@ -7,7 +7,7 @@ updates:
     # Check the npm registry for updates every week (Tuesdays)
     schedule:
       interval: "weekly"
-      day: "thursday"
+      day: "tuesday"
       time: "05:00"
       timezone: "America/Los_Angeles"
     # Conventional commits

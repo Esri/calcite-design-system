@@ -82,7 +82,7 @@ export class Alert implements OpenCloseComponent {
   }
 
   /** When true, the component closes automatically (recommended for passive, non-blocking alerts). */
-  @Prop() autoDismiss = false;
+  @Prop({ reflect: true }) autoDismiss = false;
 
   /** Specifies the duration before the component automatically closes (only use with `autoDismiss`). */
   @Prop({ reflect: true }) autoDismissDuration: AlertDuration = this.autoDismiss ? "medium" : null;
@@ -107,7 +107,7 @@ export class Alert implements OpenCloseComponent {
   @Prop() label!: string;
 
   /** Specifies the placement of the component */
-  @Prop() placement: AlertPlacement = "bottom";
+  @Prop({ reflect: true }) placement: AlertPlacement = "bottom";
 
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";

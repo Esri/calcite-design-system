@@ -54,7 +54,7 @@ export class PickListItem implements ConditionalSlotComponent, InteractiveCompon
   /**
    * When false, the component cannot be deselected by user interaction.
    */
-  @Prop() disableDeselect = false;
+  @Prop({ reflect: true }) disableDeselect = false;
 
   /**
    * @internal
@@ -179,14 +179,14 @@ export class PickListItem implements ConditionalSlotComponent, InteractiveCompon
   @Event({ cancelable: true }) calciteListItemRemove: EventEmitter<void>;
 
   /**
-   * Emits when the the component's label, description, value, or metadata properties are modified.
+   * Emits when the component's label, description, value, or metadata properties are modified.
    *
    * @internal
    */
   @Event({ cancelable: false }) calciteInternalListItemPropsChange: EventEmitter<void>;
 
   /**
-   * Emits when the the component's value property is modified.
+   * Emits when the component's value property is modified.
    *
    * @internal
    */

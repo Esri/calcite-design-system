@@ -79,9 +79,53 @@ Only attach additional data to your event if that data cannot be determined from
 
 `<calcite-tab-nav>` is also an example of this. The `event.details.tab` item contains the index of the selected tab or the tab name which cannot be easily determined from the state of `<calcite-tab-nav>` in some cases so it makes sense to include in the event.
 
-## Props
+### Native event cancelation
 
-Private/internal props should be annotated accordingly to avoid exposing them in the doc and/or API. You can do this by using the `@private`/`@internal` [JSDoc](https://jsdoc.app/) tags.
+When a component **handles events for its own interaction** (e.g., moving between list items, closing an open menu), if the event is tied to default browser behavior (e.g., space key scrolling the page), `Event.preventDefault()` must be called to avoid mixed behavior.
+
+```tsx
+class SomeInputTypeComponent {
+  handleKeyDown(event: KeyboardEvent): void {
+    if (event.key === "Escape") {
+      /* clear text/close popover */
+      event.preventDefault(); // let browser or other components know that the event has been handled
+    }
+    // ...
+  }
+}
+```
+
+For composite components or components that support children (either light or shadow DOM), they may need to check if an event has been canceled (`Event.defaultPrevented`) before handling it.
+
+```tsx
+class CompositeOrParentComponent {
+  handleKeyDown(event: KeyboardEvent): void {
+    if (
+      event.key === "Escape" &&
+      !event.defaultPrevented // check if child component has already handled this
+    ) {
+      /* close */
+      event.preventDefault(); // let browser or other components know that the event has been handled
+    }
+    // ...
+  }
+}
+```
+
+## Properties
+
+Private/internal properties should be annotated accordingly to avoid exposing them in the doc and/or API. You can do this by using the `@private`/`@internal` [JSDoc](https://jsdoc.app/) tags.
+
+### Reflecting to attributes
+
+It is recommended to reflect properties that fit the following criteria:
+
+- are static or will not be updated frequently during the component lifespan (e.g., a number that represents a range min or max would be reflected, but a number that represents a value that will constantly be updated by the user would not)
+- value represents non-rich data or booleans/numbers/strings that are not used as content (e.g., a string that represents a mode would be reflected, but a string that represents a placeholder, title or summary would not)
+- are public and belong to a public component
+- required for internal styling or would make internal styling easier
+
+Doing so will give developers more flexibility when querying the DOM. This is important in framework environments where we can't safely assume components will have their attributes set vs properties.
 
 ## Focus support
 

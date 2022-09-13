@@ -155,6 +155,7 @@ export class Filter implements InteractiveComponent {
   keyDownHandler = (event: KeyboardEvent): void => {
     if (event.key === "Escape") {
       this.clear();
+      event.preventDefault();
     }
 
     if (event.key === "Enter") {

@@ -30,6 +30,7 @@ import { throttle } from "lodash-es";
 
 import { clamp } from "../../utils/math";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import { isActivationKey } from "../../utils/key";
 
 const throttleFor60FpsInMs = 16;
 const defaultValue = normalizeHex(DEFAULT_COLOR.hex());
@@ -60,10 +61,10 @@ export class ColorPicker implements InteractiveComponent {
    *
    * When true, clearing the input and blurring will restore the last valid color set. When false, it will set it to empty.
    */
-  @Prop() allowEmpty = false;
+  @Prop({ reflect: true }) allowEmpty = false;
 
-  /** specify the appearance - default (containing border), or minimal (no containing border) */
-  @Prop({ reflect: true }) appearance: ColorAppearance = "default";
+  /** specify the appearance - solid (containing border), or minimal (no containing border) */
+  @Prop({ reflect: true }) appearance: ColorAppearance = "solid";
 
   /**
    * Internal prop for advanced use-cases.
@@ -91,7 +92,7 @@ export class ColorPicker implements InteractiveComponent {
    *
    * @default "auto"
    */
-  @Prop() format: Format = defaultFormat;
+  @Prop({ reflect: true }) format: Format = defaultFormat;
 
   @Watch("format")
   handleFormatChange(format: ColorPicker["format"]): void {
@@ -100,13 +101,13 @@ export class ColorPicker implements InteractiveComponent {
   }
 
   /** When true, hides the hex input */
-  @Prop() hideHex = false;
+  @Prop({ reflect: true }) hideHex = false;
 
   /** When true, hides the RGB/HSV channel inputs */
-  @Prop() hideChannels = false;
+  @Prop({ reflect: true }) hideChannels = false;
 
   /** When true, hides the saved colors section */
-  @Prop() hideSaved = false;
+  @Prop({ reflect: true }) hideSaved = false;
 
   /**
    * Label used for the blue channel
@@ -255,10 +256,10 @@ export class ColorPicker implements InteractiveComponent {
   /**
    * Storage ID for colors.
    */
-  @Prop() storageId: string;
+  @Prop({ reflect: true }) storageId: string;
 
   /** standard UniCode numeral system tag for localization */
-  @Prop() numberingSystem?: string;
+  @Prop({ reflect: true }) numberingSystem?: string;
 
   /**
    * The color value.
@@ -393,7 +394,7 @@ export class ColorPicker implements InteractiveComponent {
   };
 
   private handleColorFieldScopeKeyDown = (event: KeyboardEvent): void => {
-    const key = event.key;
+    const { key } = event;
     const arrowKeyToXYOffset = {
       ArrowUp: { x: 0, y: -10 },
       ArrowRight: { x: 10, y: 0 },
@@ -414,7 +415,7 @@ export class ColorPicker implements InteractiveComponent {
 
   private handleHueScopeKeyDown = (event: KeyboardEvent): void => {
     const modifier = event.shiftKey ? 10 : 1;
-    const key = event.key;
+    const { key } = event;
     const arrowKeyToXOffset = {
       ArrowUp: 1,
       ArrowRight: 1,
@@ -484,7 +485,7 @@ export class ColorPicker implements InteractiveComponent {
   @Listen("keyup", { capture: true })
   protected handleChannelKeyUpOrDown(event: KeyboardEvent): void {
     this.shiftKeyChannelAdjustment = 0;
-    const key = event.key;
+    const { key } = event;
 
     if (
       (key !== "ArrowUp" && key !== "ArrowDown") ||
@@ -531,9 +532,8 @@ export class ColorPicker implements InteractiveComponent {
   };
 
   private handleSavedColorKeyDown = (event: KeyboardEvent): void => {
-    if (event.key === " " || event.key === "Enter") {
+    if (isActivationKey(event.key)) {
       event.preventDefault();
-      event.stopPropagation();
       this.handleSavedColorSelect(event);
     }
   };

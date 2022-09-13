@@ -1,10 +1,12 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, renders, slots } from "../../tests/commonTests";
+import { accessible, renders, slots, hidden } from "../../tests/commonTests";
 
 import { CSS, SLOTS } from "./resources";
 
 describe("calcite-chip", () => {
   it("renders", async () => renders("<calcite-chip>doritos</calcite-chip>", { display: "inline-flex" }));
+
+  it("honors hidden attribute", async () => hidden("calcite-chip"));
 
   it("is accessible", async () => accessible(`<calcite-chip>doritos</calcite-chip>`));
 
@@ -39,6 +41,16 @@ describe("calcite-chip", () => {
 
     const element = await page.find("calcite-chip");
     expect(element).toEqualAttribute("appearance", "clear");
+    expect(element).toEqualAttribute("color", "blue");
+    expect(element).toEqualAttribute("scale", "l");
+  });
+
+  it("renders transparent chip when appearance='transparent'", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<calcite-chip appearance="transparent" color="blue" scale="l">Chip content</calcite-chip>`);
+
+    const element = await page.find("calcite-chip");
+    expect(element).toEqualAttribute("appearance", "transparent");
     expect(element).toEqualAttribute("color", "blue");
     expect(element).toEqualAttribute("scale", "l");
   });

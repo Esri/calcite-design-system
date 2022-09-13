@@ -24,7 +24,8 @@ import {
   EffectivePlacement,
   MenuPlacement,
   defaultMenuPlacement,
-  filterComputedPlacements
+  filterComputedPlacements,
+  repositionDebounceTimeout
 } from "../../utils/floating-ui";
 import { Scale } from "../interfaces";
 import { SLOTS } from "./resources";
@@ -37,6 +38,8 @@ import {
 } from "../../utils/openCloseComponent";
 import { guid } from "../../utils/guid";
 import { RequestedItem } from "../dropdown-group/interfaces";
+import { isActivationKey } from "../../utils/key";
+import { debounce } from "lodash-es";
 
 /**
  * @slot - A slot for adding `calcite-dropdown-group` components. Every `calcite-dropdown-item` must have a parent `calcite-dropdown-group`, even if the `groupTitle` property is not set.
@@ -80,7 +83,7 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent, Float
   @Watch("open")
   openHandler(value: boolean): void {
     if (!this.disabled) {
-      this.reposition();
+      this.debouncedReposition();
       this.active = value;
       return;
     }
@@ -112,25 +115,31 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent, Float
   @Watch("flipPlacements")
   flipPlacementsHandler(): void {
     this.setFilteredPlacements();
+    this.debouncedReposition();
   }
 
   /**
    specify the maximum number of calcite-dropdown-items to display before showing the scroller, must be greater than 0 -
    this value does not include groupTitles passed to calcite-dropdown-group
    */
-  @Prop() maxItems = 0;
+  @Prop({ reflect: true }) maxItems = 0;
 
   @Watch("maxItems")
   maxItemsHandler(): void {
     this.setMaxScrollerHeight();
   }
 
-  /** Describes the type of positioning to use for the overlaid content. If your element is in a fixed container, use the 'fixed' value. */
-  @Prop() overlayPositioning: OverlayPositioning = "absolute";
+  /**
+   * Determines the type of positioning to use for the overlaid content.
+   *
+   * Using the "absolute" value will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout. The "fixed" value should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is "fixed".
+   *
+   */
+  @Prop({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
   @Watch("overlayPositioning")
   overlayPositioningHandler(): void {
-    this.reposition();
+    this.debouncedReposition();
   }
 
   /**
@@ -142,7 +151,7 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent, Float
 
   @Watch("placement")
   placementHandler(): void {
-    this.reposition();
+    this.debouncedReposition();
   }
 
   /** specify the scale of dropdown, defaults to m */
@@ -170,7 +179,7 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent, Float
   connectedCallback(): void {
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
     this.setFilteredPlacements();
-    this.reposition();
+    this.debouncedReposition();
     if (this.open) {
       this.openHandler(this.open);
     }
@@ -181,7 +190,7 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent, Float
   }
 
   componentDidLoad(): void {
-    this.reposition();
+    this.debouncedReposition();
   }
 
   componentDidRender(): void {
@@ -230,9 +239,7 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent, Float
             ref={this.setScrollerAndTransitionEl}
             role="menu"
           >
-            <div hidden={!open}>
-              <slot onSlotchange={this.updateGroups} />
-            </div>
+            <slot onSlotchange={this.updateGroups} />
           </div>
         </div>
       </Host>
@@ -248,13 +255,14 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent, Float
   /** Updates the position of the component. */
   @Method()
   async reposition(): Promise<void> {
-    const { floatingEl, referenceEl, placement, overlayPositioning } = this;
+    const { floatingEl, referenceEl, placement, overlayPositioning, filteredFlipPlacements } = this;
 
     return positionFloatingUI({
       floatingEl,
       referenceEl,
       overlayPositioning,
       placement,
+      flipPlacements: filteredFlipPlacements,
       type: "menu"
     });
   }
@@ -410,6 +418,8 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent, Float
   //
   //--------------------------------------------------------------------------
 
+  debouncedReposition = debounce(() => this.reposition(), repositionDebounceTimeout);
+
   slotChangeHandler = (event: Event): void => {
     this.defaultAssignedElements = (event.target as HTMLSlotElement).assignedElements({
       flatten: true
@@ -431,7 +441,7 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent, Float
       flatten: true
     }) as HTMLElement[];
 
-    this.reposition();
+    this.debouncedReposition();
   };
 
   updateItems = (): void => {
@@ -441,7 +451,7 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent, Float
 
     this.updateSelectedItems();
 
-    this.reposition();
+    this.debouncedReposition();
   };
 
   updateGroups = (event: Event): void => {
@@ -477,15 +487,15 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent, Float
   };
 
   setMaxScrollerHeight = (): void => {
-    const { scrollerEl, open } = this;
-    if (!scrollerEl || !open) {
+    const { scrollerEl } = this;
+    if (!scrollerEl) {
       return;
     }
 
-    this.reposition();
+    this.debouncedReposition();
     const maxScrollerHeight = this.getMaxScrollerHeight();
     scrollerEl.style.maxHeight = maxScrollerHeight > 0 ? `${maxScrollerHeight}px` : "";
-    this.reposition();
+    this.debouncedReposition();
   };
 
   setScrollerAndTransitionEl = (el: HTMLDivElement): void => {
@@ -529,31 +539,39 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent, Float
     if (target !== this.referenceEl) {
       return;
     }
+    const { defaultPrevented, key } = event;
 
-    const key = event.key;
-
-    if (this.open && (key === "Escape" || (event.shiftKey && key === "Tab"))) {
-      this.closeCalciteDropdown();
+    if (defaultPrevented) {
       return;
     }
 
-    switch (key) {
-      case " ":
-      case "Enter":
-        this.openCalciteDropdown();
-        break;
-      case "Escape":
+    if (this.open) {
+      if (key === "Escape") {
         this.closeCalciteDropdown();
-        break;
+        event.preventDefault();
+        return;
+      } else if (event.shiftKey && key === "Tab") {
+        this.closeCalciteDropdown();
+        event.preventDefault();
+        return;
+      }
+    }
+
+    if (isActivationKey(key)) {
+      this.openCalciteDropdown();
+      event.preventDefault();
+    } else if (key === "Escape") {
+      this.closeCalciteDropdown();
+      event.preventDefault();
     }
   };
 
   private updateSelectedItems(): void {
-    this.selectedItems = this.items.filter((item) => item.active);
+    this.selectedItems = this.items.filter((item) => item.selected);
   }
 
   private getMaxScrollerHeight(): number {
-    const { maxItems } = this;
+    const { maxItems, items } = this;
     let itemsToProcess = 0;
     let maxScrollerHeight = 0;
     let groupHeaderHeight: number;
@@ -577,7 +595,7 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent, Float
       }
     });
 
-    return maxScrollerHeight;
+    return items.length > maxItems ? maxScrollerHeight : 0;
   }
 
   private closeCalciteDropdown(focusTrigger = true) {
@@ -589,7 +607,7 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent, Float
   }
 
   private focusOnFirstActiveOrFirstItem = (): void => {
-    this.getFocusableElement(this.items.find((item) => item.active) || this.items[0]);
+    this.getFocusableElement(this.items.find((item) => item.selected) || this.items[0]);
   };
 
   private focusFirstItem() {

@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, renders, defaults, disabled } from "../../tests/commonTests";
+import { accessible, renders, defaults, disabled, hidden } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
 
@@ -19,6 +19,8 @@ describe("calcite-split-button", () => {
   </calcite-dropdown-group>`;
 
   it("renders", () => renders("calcite-split-button", { display: "inline-block" }));
+
+  it("honors hidden attribute", async () => hidden("calcite-split-button"));
 
   it("is accessible", async () =>
     accessible(`<calcite-split-button

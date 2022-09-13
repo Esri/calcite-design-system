@@ -11,18 +11,19 @@ import {
 } from "@stencil/core";
 import { guid } from "../../utils/guid";
 import { Scale } from "../interfaces";
-import { CheckableFormCompoment, HiddenFormInputSlot } from "../../utils/form";
+import { CheckableFormComponent, HiddenFormInputSlot } from "../../utils/form";
 import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
 import { connectForm, disconnectForm } from "../../utils/form";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { toAriaBoolean } from "../../utils/dom";
+import { isActivationKey } from "../../utils/key";
 
 @Component({
   tag: "calcite-checkbox",
   styleUrl: "checkbox.scss",
   shadow: true
 })
-export class Checkbox implements LabelableComponent, CheckableFormCompoment, InteractiveComponent {
+export class Checkbox implements LabelableComponent, CheckableFormComponent, InteractiveComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -134,7 +135,7 @@ export class Checkbox implements LabelableComponent, CheckableFormCompoment, Int
   };
 
   keyDownHandler = (event: KeyboardEvent): void => {
-    if (event.key === " " || event.key === "Enter") {
+    if (isActivationKey(event.key)) {
       this.toggle();
       event.preventDefault();
     }
@@ -225,7 +226,7 @@ export class Checkbox implements LabelableComponent, CheckableFormCompoment, Int
           role="checkbox"
           tabIndex={this.disabled ? undefined : 0}
         >
-          <svg class="check-svg" viewBox="0 0 16 16">
+          <svg aria-hidden="true" class="check-svg" viewBox="0 0 16 16">
             <path d={this.getPath()} />
           </svg>
           <slot />

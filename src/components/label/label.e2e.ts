@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { renders } from "../../tests/commonTests";
+import { renders, hidden } from "../../tests/commonTests";
 
 describe("calcite-label", () => {
   it("renders", () => renders("calcite-label", { display: "inline" }));
@@ -30,6 +30,8 @@ describe("calcite-label", () => {
     const element = await page.find("calcite-label");
     expect(element).toEqualAttribute("layout", "inline-space-between");
   });
+
+  it("honors hidden attribute", async () => hidden("calcite-label"));
 
   describe("alignment prop", () => {
     let page;
