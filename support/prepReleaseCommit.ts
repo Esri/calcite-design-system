@@ -81,7 +81,11 @@ import yargs from "yargs";
     // we keep track of `beta` and `next` releases since `standard-version` resets the version number when going in between
     // this should not be needed after v1.0.0 since there would no longer be a beta version to keep track of
     const targetDescendingOrderTags = semverTags.filter((tag) => targetVersionPattern.test(tag)).sort(semver.rcompare);
-    const targetReleaseVersion = semver.inc(targetDescendingOrderTags[0], "prerelease", target) || "";
+    const targetReleaseVersion = semver.inc(targetDescendingOrderTags[0], "prerelease", target);
+
+    if (!targetReleaseVersion) {
+      throw new Error("an error occurred determining the target release version ");
+    }
 
     if (!targetVersionPattern.test(targetReleaseVersion)) {
       throw new Error(`target release version does not have prerelease identifier (${target})`);
