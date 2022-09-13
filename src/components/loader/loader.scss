@@ -198,7 +198,7 @@ $loader-circumference: ($loader-scale - (2 * $stroke-width)) * 3.14159;
 
 @include generateSegment(1, 10, 40, calc(var(--calcite-internal-animation-timing-slow) * 2.4));
 @include generateSegment(2, 20, 30, calc(var(--calcite-internal-animation-timing-slow) * 3.2));
-@include generateSegment(3, 05, 45, 1.16s, calc(var(--calcite-internal-animation-timing-slow) * 3.867));
+@include generateSegment(3, 05, 45, calc(var(--calcite-internal-animation-timing-slow) * 3.867));
 
 @keyframes loader-color-shift {
   0% {
