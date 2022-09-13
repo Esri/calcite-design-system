@@ -14,6 +14,6 @@ module.exports = {
     minLayoutDimension: 1,
     minLayoutPosition: 1
   },
-  excludeRules: [/^Overview/],
+  excludeRules: [/^Overview/, /No Test$/],
   resolution: "1920x1440"
 };

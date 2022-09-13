@@ -40,12 +40,12 @@
 
         <div class="child">
           <calcite-flow>
-            <calcite-panel heading="one, two, three, four">
+            <calcite-flow-item heading="one, two, three, four">
               <!-- image -->
-            </calcite-panel>
-            <calcite-panel heading="tell me that you love me more">
+            </calcite-flow-item>
+            <calcite-flow-item heading="tell me that you love me more">
               <!-- image -->
-            </calcite-panel>
+            </calcite-flow-item>
           </calcite-flow>
         </div>
       </div>
@@ -56,12 +56,12 @@
 
         <div class="child">
           <calcite-flow>
-            <calcite-panel heading="What are the most popular commute alternatives?">
+            <calcite-flow-item heading="What are the most popular commute alternatives?">
               <button slot="header-menu-actions">Reset</button>
               <button slot="header-menu-actions">Rename</button>
               <button slot="footer-actions">Save</button>
               <button slot="footer-actions">Cancel</button>
-            </calcite-panel>
+            </calcite-flow-item>
           </calcite-flow>
         </div>
       </div>
@@ -72,7 +72,7 @@
 
         <div class="child">
           <calcite-flow id="flow">
-            <calcite-panel
+            <calcite-flow-item
               heading="What are the most popular commute alternatives?"
               summary="I don't have an answer to this questions. Stop asking me this question."
             >
@@ -82,7 +82,7 @@
               <button slot="footer-actions" class="btn btn-secondary">Cancel</button>
               <p><img src="https://placeimg.com/300/200/nature" alt="placeholder" /></p>
               <p><img src="https://placeimg.com/300/200/nature" alt="placeholder" /></p>
-            </calcite-panel>
+            </calcite-flow-item>
           </calcite-flow>
           <calcite-button id="add-panel" appearance="solid" icon-end="plus" scale="l">Add Flow Item</calcite-button>
           <script>
@@ -91,7 +91,7 @@
             const addFlowButtonNode = document.getElementById("add-panel");
 
             addFlowButtonNode.addEventListener("click", function () {
-              const newNode = document.createElement("calcite-panel");
+              const newNode = document.createElement("calcite-flow-item");
 
               newNode.beforeBack = function () {
                 newNode.loading = true;

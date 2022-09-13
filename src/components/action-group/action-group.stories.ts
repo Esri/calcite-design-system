@@ -1,17 +1,17 @@
 import { select, text } from "@storybook/addon-knobs";
-import { iconNames } from "../../../.storybook/helpers";
+import { iconNames, storyFilters } from "../../../.storybook/helpers";
 import readme from "./readme.md";
 import { html } from "../../../support/formatting";
 
 export default {
   title: "Components/Action Group",
-
   parameters: {
     notes: readme
-  }
+  },
+  ...storyFilters()
 };
 
-export const GridCentering = (): string => html`
+export const gridCenteringOfActionsInAGroup = (): string => html`
   <div style="width:400px">
     <calcite-action-group layout="${select("layout", ["horizontal", "vertical", "grid"], "grid")}">
       <calcite-action
@@ -41,5 +41,3 @@ export const GridCentering = (): string => html`
     </calcite-action-group>
   </div>
 `;
-
-GridCentering.storyName = "Grid Centering of Actions in a Group";
