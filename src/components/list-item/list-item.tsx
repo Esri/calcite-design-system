@@ -96,6 +96,11 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
   }
 
   /**
+   * The component's value.
+   */
+  @Prop() value?: any;
+
+  /**
    *
    * @internal
    */

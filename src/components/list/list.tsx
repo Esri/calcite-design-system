@@ -43,6 +43,11 @@ export class List implements InteractiveComponent {
   /**
    * @todo document.
    */
+  @Prop({ mutable: true }) selectedItems: HTMLCalciteListItemElement[] = [];
+
+  /**
+   * @todo document.
+   */
   @Prop({ reflect: true }) selectionMode: SelectionMode = "single";
 
   /**
@@ -129,7 +134,7 @@ export class List implements InteractiveComponent {
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    this.el.querySelector(listItemSelector)?.setFocus();
+    this.el.querySelector<HTMLCalciteListItemElement>(`${listItemSelector}[active]`)?.setFocus();
   }
 
   // --------------------------------------------------------------------------
@@ -187,6 +192,7 @@ export class List implements InteractiveComponent {
     });
     this.listItems = items;
     this.setActiveListItem();
+    this.selectedItems = items.filter((item) => item.selected);
   }, debounceUpdateListTimeout);
 
   queryListItems = (): HTMLCalciteListItemElement[] => {
