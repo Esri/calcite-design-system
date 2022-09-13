@@ -113,7 +113,7 @@ export class ColorPickerHexInput {
   /**
    * Emitted when the hex value changes.
    */
-  @Event() calciteColorPickerHexInputChange: EventEmitter<void>;
+  @Event({ cancelable: false }) calciteColorPickerHexInputChange: EventEmitter<void>;
 
   private onCalciteInternalInputBlur = (): void => {
     const node = this.inputNode;
@@ -141,7 +141,7 @@ export class ColorPickerHexInput {
   protected onInputKeyDown(event: KeyboardEvent): void {
     const { altKey, ctrlKey, metaKey, shiftKey } = event;
     const { internalColor, value } = this;
-    const key = event.key;
+    const { key } = event;
 
     if (key === "Tab" || key === "Enter") {
       this.onInputChange();
@@ -176,6 +176,15 @@ export class ColorPickerHexInput {
 
     if (singleChar && !withModifiers && !validHexChar) {
       event.preventDefault();
+    }
+  }
+
+  private onPaste(event: ClipboardEvent): void {
+    const hex = event.clipboardData.getData("text");
+
+    if (isValidHex(hex)) {
+      event.preventDefault();
+      this.inputNode.value = hex.slice(1);
     }
   }
 
@@ -214,6 +223,7 @@ export class ColorPickerHexInput {
           onCalciteInputChange={this.onInputChange}
           onCalciteInternalInputBlur={this.onCalciteInternalInputBlur}
           onKeyDown={this.handleKeyDown}
+          onPaste={this.onPaste}
           prefixText="#"
           ref={this.storeInputRef}
           scale={this.scale}

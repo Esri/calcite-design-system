@@ -42,12 +42,12 @@ export class TabNav {
   //--------------------------------------------------------------------------
 
   /**
-   * Name to use when saving selected tab data to localStorage
+   * Specifies the name when saving selected `calcite-tab` data to `localStorage`.
    */
   @Prop() storageId: string;
 
   /**
-   * Pass the same string to multiple tab navs to keep them all in sync if one changes
+   * Specifies text to update multiple components to keep in sync if one changes.
    */
   @Prop() syncId: string;
 
@@ -264,9 +264,13 @@ export class TabNav {
       this.selectedTab !== event.detail.tab
     ) {
       this.selectedTab = event.detail.tab;
-      event.stopPropagation();
     }
     event.stopPropagation();
+  }
+
+  @Listen("calciteInternalTabIconChanged")
+  iconStartChangeHandler(): void {
+    this.updateActiveWidth();
   }
 
   //--------------------------------------------------------------------------
@@ -276,16 +280,16 @@ export class TabNav {
   //--------------------------------------------------------------------------
 
   /**
-   * Emitted when the active tab changes
+   * Emits when the selected `calcite-tab` changes.
    *
    * @see [TabChangeEventDetail](https://github.com/Esri/calcite-components/blob/master/src/components/tab/interfaces.ts#L1)
    */
-  @Event() calciteTabChange: EventEmitter<TabChangeEventDetail>;
+  @Event({ cancelable: false }) calciteTabChange: EventEmitter<TabChangeEventDetail>;
 
   /**
    * @internal
    */
-  @Event() calciteInternalTabChange: EventEmitter<TabChangeEventDetail>;
+  @Event({ cancelable: false }) calciteInternalTabChange: EventEmitter<TabChangeEventDetail>;
 
   //--------------------------------------------------------------------------
   //

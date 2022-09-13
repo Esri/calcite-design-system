@@ -16,7 +16,7 @@ export class TipGroup {
   // --------------------------------------------------------------------------
 
   /**
-   * The title used for all nested tips.
+   * The component header text for all nested `calcite-tip`s.
    *
    */
   @Prop() groupTitle?: string;

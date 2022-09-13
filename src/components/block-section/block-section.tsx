@@ -5,6 +5,7 @@ import { CSS, ICONS, TEXT } from "./resources";
 import { BlockSectionToggleDisplay } from "./interfaces";
 import { Status } from "../interfaces";
 import { guid } from "../../utils/guid";
+import { isActivationKey } from "../../utils/key";
 
 /**
  * @slot - A slot for adding content to the block section.
@@ -72,7 +73,7 @@ export class BlockSection {
   /**
    * Emitted when the header has been clicked.
    */
-  @Event() calciteBlockSectionToggle: EventEmitter<void>;
+  @Event({ cancelable: false }) calciteBlockSectionToggle: EventEmitter<void>;
 
   // --------------------------------------------------------------------------
   //
@@ -81,7 +82,7 @@ export class BlockSection {
   // --------------------------------------------------------------------------
 
   handleHeaderKeyDown = (event: KeyboardEvent): void => {
-    if (event.key === " " || event.key === "Enter") {
+    if (isActivationKey(event.key)) {
       this.toggleSection();
       event.preventDefault();
       event.stopPropagation();

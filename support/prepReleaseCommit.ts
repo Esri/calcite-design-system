@@ -23,7 +23,9 @@ import yargs from "yargs";
   const changelogPath = quote([normalize(`${__dirname}/../CHANGELOG.md`)]);
   const readmePath = quote([normalize(`${__dirname}/../readme.md`)]);
 
-  const { next } = yargs(process.argv) as any;
+  const { next } = yargs(process.argv.slice(2))
+    .options({ next: { type: "boolean", default: false } })
+    .parseSync();
 
   // deepen the history when fetching tags due to shallow clone
   await exec("git fetch --deepen=250 --tags");
@@ -41,8 +43,6 @@ import yargs from "yargs";
     standardVersionOptions = await getStandardVersionOptions(next, semverTags);
   } catch (error) {
     console.log(baseErrorMessage);
-    await exec(`echo ${baseErrorMessage}`);
-
     process.exitCode = 1;
     return;
   }
@@ -54,8 +54,6 @@ import yargs from "yargs";
       await runStandardVersion(next, standardVersionOptions);
     } catch (error) {
       console.log(changelogGenerationErrorMessage);
-      await exec(`echo ${changelogGenerationErrorMessage}`);
-
       process.exitCode = 1;
     }
     return;
@@ -71,7 +69,6 @@ import yargs from "yargs";
     await runStandardVersion(next, standardVersionOptions);
   } catch (error) {
     console.log(changelogGenerationErrorMessage);
-    await exec(`echo ${changelogGenerationErrorMessage}`);
     process.exitCode = 1;
   } finally {
     // restore deleted prerelease tags
@@ -82,14 +79,10 @@ import yargs from "yargs";
     const target = next ? "next" : "beta";
     const targetVersionPattern = new RegExp(`-${target}\\.\\d+$`);
 
-    await exec(`echo ${semverTags}`);
-
     // we keep track of `beta` and `next` releases since `standard-version` resets the version number when going in between
     // this should not be needed after v1.0.0 since there would no longer be a beta version to keep track of
     const targetDescendingOrderTags = semverTags.filter((tag) => targetVersionPattern.test(tag)).sort(semver.rcompare);
     const targetReleaseVersion = semver.inc(targetDescendingOrderTags[0], "prerelease", target);
-
-    await exec(`echo ${targetDescendingOrderTags}`);
 
     if (!targetVersionPattern.test(targetReleaseVersion)) {
       throw new Error(`target release version does not have prerelease identifier (${target})`);

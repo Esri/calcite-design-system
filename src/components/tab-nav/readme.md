@@ -20,16 +20,16 @@ When tab-nav is the only parent, tab-title can inherit its `scale` and `position
 
 ## Properties
 
-| Property    | Attribute    | Description                                                                       | Type     | Default     |
-| ----------- | ------------ | --------------------------------------------------------------------------------- | -------- | ----------- |
-| `storageId` | `storage-id` | Name to use when saving selected tab data to localStorage                         | `string` | `undefined` |
-| `syncId`    | `sync-id`    | Pass the same string to multiple tab navs to keep them all in sync if one changes | `string` | `undefined` |
+| Property    | Attribute    | Description                                                                   | Type     | Default     |
+| ----------- | ------------ | ----------------------------------------------------------------------------- | -------- | ----------- |
+| `storageId` | `storage-id` | Specifies the name when saving selected `calcite-tab` data to `localStorage`. | `string` | `undefined` |
+| `syncId`    | `sync-id`    | Specifies text to update multiple components to keep in sync if one changes.  | `string` | `undefined` |
 
 ## Events
 
-| Event              | Description                         | Type                                |
-| ------------------ | ----------------------------------- | ----------------------------------- |
-| `calciteTabChange` | Emitted when the active tab changes | `CustomEvent<TabChangeEventDetail>` |
+| Event              | Description                                    | Type                                |
+| ------------------ | ---------------------------------------------- | ----------------------------------- |
+| `calciteTabChange` | Emits when the selected `calcite-tab` changes. | `CustomEvent<TabChangeEventDetail>` |
 
 ## Slots
 

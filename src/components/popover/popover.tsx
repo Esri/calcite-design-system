@@ -31,15 +31,21 @@ import {
   EffectivePlacement,
   defaultOffsetDistance,
   filterComputedPlacements,
-  ReferenceElement
+  ReferenceElement,
+  repositionDebounceTimeout
 } from "../../utils/floating-ui";
 
 import { guid } from "../../utils/guid";
 import { queryElementRoots, toAriaBoolean } from "../../utils/dom";
-import { OpenCloseComponent } from "../../utils/openCloseComponent";
+import {
+  OpenCloseComponent,
+  connectOpenCloseComponent,
+  disconnectOpenCloseComponent
+} from "../../utils/openCloseComponent";
 import { HeadingLevel, Heading } from "../functional/Heading";
 
 import PopoverManager from "./PopoverManager";
+import { debounce } from "lodash-es";
 
 const manager = new PopoverManager();
 
@@ -75,10 +81,20 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
    *
    * @deprecated use closable instead
    */
-  @Prop({ reflect: true }) dismissible = false;
+  @Prop({ mutable: true, reflect: true }) dismissible = false;
+
+  @Watch("dismissible")
+  handleDismissible(value: boolean): void {
+    this.closable = value;
+  }
 
   /** When true, display a close button within the Popover */
-  @Prop({ reflect: true }) closable = false;
+  @Prop({ mutable: true, reflect: true }) closable = false;
+
+  @Watch("closable")
+  handleClosable(value: boolean): void {
+    this.dismissible = value;
+  }
 
   /**
    * When true, prevents flipping the component's placement when overlapping its `referenceElement`.
@@ -98,6 +114,7 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
   @Watch("flipPlacements")
   flipPlacementsHandler(): void {
     this.setFilteredPlacements();
+    this.debouncedReposition();
   }
 
   /**
@@ -122,7 +139,7 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
 
   @Watch("offsetDistance")
   offsetDistanceOffsetHandler(): void {
-    this.reposition();
+    this.debouncedReposition();
   }
 
   /**
@@ -132,7 +149,7 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
 
   @Watch("offsetSkidding")
   offsetSkiddingHandler(): void {
-    this.reposition();
+    this.debouncedReposition();
   }
 
   /**
@@ -142,16 +159,21 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
 
   @Watch("open")
   openHandler(): void {
-    this.reposition();
+    this.debouncedReposition();
     this.setExpandedAttr();
   }
 
-  /** Describes the positioning type to use for the overlaid content. If the element is in a fixed container, use the "fixed" value. */
+  /**
+   * Determines the type of positioning to use for the overlaid content.
+   *
+   * Using the "absolute" value will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout. The "fixed" value should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is "fixed".
+   *
+   */
   @Prop() overlayPositioning: OverlayPositioning = "absolute";
 
   @Watch("overlayPositioning")
   overlayPositioningHandler(): void {
-    this.reposition();
+    this.debouncedReposition();
   }
 
   /**
@@ -163,7 +185,7 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
 
   @Watch("placement")
   placementHandler(): void {
-    this.reposition();
+    this.debouncedReposition();
   }
 
   /**
@@ -174,7 +196,7 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
   @Watch("referenceElement")
   referenceElementHandler(): void {
     this.setUpReferenceElement();
-    this.reposition();
+    this.debouncedReposition();
   }
 
   /**
@@ -207,14 +229,11 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
 
   guid = `calcite-popover-${guid()}`;
 
-  private activeTransitionProp = "opacity";
+  openTransitionProp = "opacity";
 
-  private containerEl: HTMLDivElement;
+  transitionEl: HTMLDivElement;
 
-  private setContainerEl = (el): void => {
-    this.containerEl = el;
-    this.containerEl.addEventListener("transitionstart", this.transitionStartHandler);
-  };
+  hasLoaded = false;
 
   // --------------------------------------------------------------------------
   //
@@ -223,22 +242,30 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
   // --------------------------------------------------------------------------
 
   connectedCallback(): void {
-    connectFloatingUI(this, this.effectiveReferenceElement, this.el);
     this.setFilteredPlacements();
-  }
-
-  componentWillLoad(): void {
-    this.setUpReferenceElement();
+    connectOpenCloseComponent(this);
+    const closable = this.closable || this.dismissible;
+    if (closable) {
+      this.handleDismissible(closable);
+    }
+    if (closable) {
+      this.handleClosable(closable);
+    }
+    this.setUpReferenceElement(this.hasLoaded);
   }
 
   componentDidLoad(): void {
-    this.reposition();
+    if (this.referenceElement && !this.effectiveReferenceElement) {
+      this.setUpReferenceElement();
+    }
+    this.debouncedReposition();
+    this.hasLoaded = true;
   }
 
   disconnectedCallback(): void {
-    this.containerEl?.removeEventListener("transitionstart", this.transitionStartHandler);
     this.removeReferences();
     disconnectFloatingUI(this, this.effectiveReferenceElement, this.el);
+    disconnectOpenCloseComponent(this);
   }
 
   //--------------------------------------------------------------------------
@@ -248,16 +275,16 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
   //--------------------------------------------------------------------------
 
   /** Fires when the component is requested to be closed and before the closing transition begins. */
-  @Event() calcitePopoverBeforeClose: EventEmitter<void>;
+  @Event({ cancelable: false }) calcitePopoverBeforeClose: EventEmitter<void>;
 
   /** Fires when the component is closed and animation is complete. */
-  @Event() calcitePopoverClose: EventEmitter<void>;
+  @Event({ cancelable: false }) calcitePopoverClose: EventEmitter<void>;
 
   /** Fires when the component is added to the DOM but not rendered, and before the opening transition begins. */
-  @Event() calcitePopoverBeforeOpen: EventEmitter<void>;
+  @Event({ cancelable: false }) calcitePopoverBeforeOpen: EventEmitter<void>;
 
   /** Fires when the component is open and animation is complete. */
-  @Event() calcitePopoverOpen: EventEmitter<void>;
+  @Event({ cancelable: false }) calcitePopoverOpen: EventEmitter<void>;
 
   // --------------------------------------------------------------------------
   //
@@ -274,7 +301,7 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
       placement,
       overlayPositioning,
       disableFlip,
-      flipPlacements,
+      filteredFlipPlacements,
       offsetDistance,
       offsetSkidding,
       arrowEl
@@ -286,7 +313,7 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
       overlayPositioning,
       placement,
       disableFlip,
-      flipPlacements,
+      flipPlacements: filteredFlipPlacements,
       offsetDistance,
       offsetSkidding,
       arrowEl,
@@ -329,6 +356,13 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
   //
   // --------------------------------------------------------------------------
 
+  debouncedReposition = debounce(() => this.reposition(), repositionDebounceTimeout);
+
+  private setTransitionEl = (el): void => {
+    this.transitionEl = el;
+    connectOpenCloseComponent(this);
+  };
+
   setFilteredPlacements = (): void => {
     const { el, flipPlacements } = this;
 
@@ -337,13 +371,13 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
       : null;
   };
 
-  setUpReferenceElement = (): void => {
+  setUpReferenceElement = (warn = true): void => {
     this.removeReferences();
     this.effectiveReferenceElement = this.getReferenceElement();
     connectFloatingUI(this, this.effectiveReferenceElement, this.el);
 
     const { el, referenceElement, effectiveReferenceElement } = this;
-    if (referenceElement && !effectiveReferenceElement) {
+    if (warn && referenceElement && !effectiveReferenceElement) {
       console.warn(`${el.tagName}: reference-element id "${referenceElement}" was not found.`, {
         el
       });
@@ -430,21 +464,9 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
     this.calcitePopoverClose.emit();
   }
 
-  transitionStartHandler = (event: TransitionEvent): void => {
-    if (event.propertyName === this.activeTransitionProp && event.target === this.containerEl) {
-      this.open ? this.onBeforeOpen() : this.onBeforeClose();
-    }
-  };
-
-  transitionEnd = (event: TransitionEvent): void => {
-    if (event.propertyName === this.activeTransitionProp && event.target === this.containerEl) {
-      this.open ? this.onOpen() : this.onClose();
-    }
-  };
-
   storeArrowEl = (el: HTMLDivElement): void => {
     this.arrowEl = el;
-    this.reposition();
+    this.debouncedReposition();
   };
 
   // --------------------------------------------------------------------------
@@ -454,9 +476,9 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
   // --------------------------------------------------------------------------
 
   renderCloseButton(): VNode {
-    const { dismissible, closeButton, intlClose, heading, closable } = this;
+    const { closeButton, intlClose, heading, closable } = this;
 
-    return closable || dismissible || closeButton ? (
+    return closable || closeButton ? (
       <div class={CSS.closeButtonContainer}>
         <calcite-action
           class={CSS.closeButton}
@@ -507,8 +529,7 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
             [FloatingCSS.animation]: true,
             [FloatingCSS.animationActive]: displayed
           }}
-          onTransitionEnd={this.transitionEnd}
-          ref={this.setContainerEl}
+          ref={this.setTransitionEl}
         >
           {arrowNode}
           <div

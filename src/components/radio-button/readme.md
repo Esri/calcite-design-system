@@ -15,16 +15,16 @@
 
 ## Properties
 
-| Property             | Attribute  | Description                                                                                                            | Type                | Default     |
-| -------------------- | ---------- | ---------------------------------------------------------------------------------------------------------------------- | ------------------- | ----------- |
-| `checked`            | `checked`  | The checked state of the radio button.                                                                                 | `boolean`           | `false`     |
-| `disabled`           | `disabled` | The disabled state of the radio button.                                                                                | `boolean`           | `false`     |
-| `guid`               | `guid`     | The id attribute of the radio button. When omitted, a globally unique identifier is used.                              | `string`            | `undefined` |
-| `hidden`             | `hidden`   | The radio button's hidden status. When a radio button is hidden it is not focusable or checkable.                      | `boolean`           | `false`     |
-| `name`               | `name`     | The name of the radio button. `name` is passed as a property automatically from `calcite-radio-button-group`.          | `string`            | `undefined` |
-| `required`           | `required` | Requires that a value is selected for the radio button group before the parent form will submit.                       | `boolean`           | `false`     |
-| `scale`              | `scale`    | The scale (size) of the radio button. `scale` is passed as a property automatically from `calcite-radio-button-group`. | `"l" \| "m" \| "s"` | `"m"`       |
-| `value` _(required)_ | `value`    | The value of the radio button.                                                                                         | `any`               | `undefined` |
+| Property             | Attribute  | Description                                                                                                   | Type                | Default     |
+| -------------------- | ---------- | ------------------------------------------------------------------------------------------------------------- | ------------------- | ----------- |
+| `checked`            | `checked`  | When true, the component is checked.                                                                          | `boolean`           | `false`     |
+| `disabled`           | `disabled` | When true, interaction is prevented and the component is displayed with lower opacity.                        | `boolean`           | `false`     |
+| `guid`               | `guid`     | The id attribute of the component. When omitted, a globally unique identifier is used.                        | `string`            | `undefined` |
+| `hidden`             | `hidden`   | When true, the component is not displayed and is not focusable or checkable.                                  | `boolean`           | `false`     |
+| `name`               | `name`     | Specifies the name of the component, passed from the `calcite-radio-button-group` on form submission.         | `string`            | `undefined` |
+| `required`           | `required` | When true, the component must have a value selected from the `calcite-radio-button-group` on form submission. | `boolean`           | `false`     |
+| `scale`              | `scale`    | Specifies the size of the component inherited from the `calcite-radio-button-group`.                          | `"l" \| "m" \| "s"` | `"m"`       |
+| `value` _(required)_ | `value`    | The component's value.                                                                                        | `any`               | `undefined` |
 
 ## Events
 

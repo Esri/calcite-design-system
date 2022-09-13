@@ -260,3 +260,14 @@ export async function newProgrammaticE2EPage(): Promise<E2EPage> {
 
   return page;
 }
+
+/**
+ * Sets CSS vars to skip animations/transitions
+ *
+ * @param page
+ */
+export async function skipAnimations(page: E2EPage): Promise<void> {
+  await page.addStyleTag({
+    content: `:root { --calcite-duration-factor: 0; }`
+  });
+}

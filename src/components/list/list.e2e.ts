@@ -1,5 +1,11 @@
 import { accessible, hidden, renders, focusable, disabled } from "../../tests/commonTests";
+import { placeholderImage } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
+
+const placeholder = placeholderImage({
+  width: 140,
+  height: 100
+});
 
 describe("calcite-list", () => {
   it("renders", async () => renders("calcite-list", { display: "block" }));
@@ -21,7 +27,7 @@ describe("calcite-list", () => {
     <calcite-list-item label="candy" description="kingdom">
       <calcite-action icon="banana" label="finn" slot="actions-start" />
       <calcite-icon icon="banana" slot="content-start" />
-      <img src="http://www.fillmurray.com/g/140/100" slot="content-start" />
+      <img slot="content-start" src="${placeholder}" alt="Test image" />
       <calcite-icon icon="banana" slot="content-end" />
       <calcite-action icon="banana" label="jake" slot="actions-end" />
     </calcite-list-item>

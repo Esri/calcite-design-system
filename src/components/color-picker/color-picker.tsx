@@ -30,6 +30,7 @@ import { throttle } from "lodash-es";
 
 import { clamp } from "../../utils/math";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import { isActivationKey } from "../../utils/key";
 
 const throttleFor60FpsInMs = 16;
 const defaultValue = normalizeHex(DEFAULT_COLOR.hex());
@@ -62,8 +63,8 @@ export class ColorPicker implements InteractiveComponent {
    */
   @Prop() allowEmpty = false;
 
-  /** specify the appearance - default (containing border), or minimal (no containing border) */
-  @Prop({ reflect: true }) appearance: ColorAppearance = "default";
+  /** specify the appearance - solid (containing border), or minimal (no containing border) */
+  @Prop({ reflect: true }) appearance: ColorAppearance = "solid";
 
   /**
    * Internal prop for advanced use-cases.
@@ -375,14 +376,14 @@ export class ColorPicker implements InteractiveComponent {
   /**
    * Fires when the color value has changed.
    */
-  @Event() calciteColorPickerChange: EventEmitter<void>;
+  @Event({ cancelable: false }) calciteColorPickerChange: EventEmitter<void>;
 
   /**
    * Fires as the color value changes.
    *
    * This is similar to the change event with the exception of dragging. When dragging the color field or hue slider thumb, this event fires as the thumb is moved.
    */
-  @Event() calciteColorPickerInput: EventEmitter<void>;
+  @Event({ cancelable: false }) calciteColorPickerInput: EventEmitter<void>;
 
   private handleTabActivate = (event: Event): void => {
     this.channelMode = (event.currentTarget as HTMLElement).getAttribute(
@@ -393,7 +394,7 @@ export class ColorPicker implements InteractiveComponent {
   };
 
   private handleColorFieldScopeKeyDown = (event: KeyboardEvent): void => {
-    const key = event.key;
+    const { key } = event;
     const arrowKeyToXYOffset = {
       ArrowUp: { x: 0, y: -10 },
       ArrowRight: { x: 10, y: 0 },
@@ -414,7 +415,7 @@ export class ColorPicker implements InteractiveComponent {
 
   private handleHueScopeKeyDown = (event: KeyboardEvent): void => {
     const modifier = event.shiftKey ? 10 : 1;
-    const key = event.key;
+    const { key } = event;
     const arrowKeyToXOffset = {
       ArrowUp: 1,
       ArrowRight: 1,
@@ -484,7 +485,7 @@ export class ColorPicker implements InteractiveComponent {
   @Listen("keyup", { capture: true })
   protected handleChannelKeyUpOrDown(event: KeyboardEvent): void {
     this.shiftKeyChannelAdjustment = 0;
-    const key = event.key;
+    const { key } = event;
 
     if (
       (key !== "ArrowUp" && key !== "ArrowDown") ||
@@ -531,9 +532,8 @@ export class ColorPicker implements InteractiveComponent {
   };
 
   private handleSavedColorKeyDown = (event: KeyboardEvent): void => {
-    if (event.key === " " || event.key === "Enter") {
+    if (isActivationKey(event.key)) {
       event.preventDefault();
-      event.stopPropagation();
       this.handleSavedColorSelect(event);
     }
   };

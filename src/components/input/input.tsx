@@ -379,12 +379,14 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
     connectForm(this);
     this.mutationObserver?.observe(this.el, { childList: true });
     this.setDisabledAction();
+    this.el.addEventListener("calciteInternalHiddenInputChange", this.hiddenInputChangeHandler);
   }
 
   disconnectedCallback(): void {
     disconnectLabel(this);
     disconnectForm(this);
     this.mutationObserver?.disconnect();
+    this.el.removeEventListener("calciteInternalHiddenInputChange", this.hiddenInputChangeHandler);
   }
 
   componentWillLoad(): void {
@@ -418,12 +420,12 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
   /**
    * @internal
    */
-  @Event() calciteInternalInputFocus: EventEmitter<void>;
+  @Event({ cancelable: false }) calciteInternalInputFocus: EventEmitter<void>;
 
   /**
    * @internal
    */
-  @Event() calciteInternalInputBlur: EventEmitter<void>;
+  @Event({ cancelable: false }) calciteInternalInputBlur: EventEmitter<void>;
 
   /**
    * Fires each time a new value is typed.
@@ -435,7 +437,7 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
   /**
    * Fires each time a new value is typed and committed.
    */
-  @Event() calciteInputChange: EventEmitter<void>;
+  @Event({ cancelable: false }) calciteInputChange: EventEmitter<void>;
 
   //--------------------------------------------------------------------------
   //
@@ -477,7 +479,9 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
       event.preventDefault();
     }
     if (event.key === "Enter" && !event.defaultPrevented) {
-      submitForm(this);
+      if (submitForm(this)) {
+        event.preventDefault();
+      }
     }
   };
 
@@ -717,6 +721,24 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
       input.type = "password";
     }
   }
+
+  hiddenInputChangeHandler = (event: Event): void => {
+    if ((event.target as HTMLInputElement).name === this.name) {
+      const hiddenInputValue = (event.target as HTMLInputElement).value;
+      const value =
+        this.type === "number"
+          ? isValidNumber(hiddenInputValue)
+            ? hiddenInputValue
+            : ""
+          : hiddenInputValue;
+
+      this.setValue({
+        value,
+        origin: "direct"
+      });
+    }
+    event.stopPropagation();
+  };
 
   private setChildElRef = (el) => {
     this.childEl = el;

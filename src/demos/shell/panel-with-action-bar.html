@@ -10,22 +10,24 @@
   </head>
 
   <body>
-    <main>
-      <section class="example-container">
-        <h1>calcite-shell-panel</h1>
+    <demo-dom-swapper>
+      <main>
+        <section class="example-container">
+          <h1>calcite-shell-panel</h1>
 
-        <h2>Basic Shell Panel</h2>
-        <calcite-shell-panel slot="primary-panel" position="start">
-          <img src="https://via.placeholder.com/300x200" alt="placeholder" />
-          <calcite-action-bar slot="action-bar">
-            <calcite-action-group>
-              <calcite-action text="Add" icon="plus"> </calcite-action>
-              <calcite-action text="Save" icon="save"> </calcite-action>
-              <calcite-action text="Layers" icon="layers"> </calcite-action>
-            </calcite-action-group>
-          </calcite-action-bar>
-        </calcite-shell-panel>
-      </section>
-    </main>
+          <h2>Basic Shell Panel</h2>
+          <calcite-shell-panel slot="panel-start" position="start">
+            <img src="https://via.placeholder.com/300x200" alt="placeholder" />
+            <calcite-action-bar slot="action-bar">
+              <calcite-action-group>
+                <calcite-action text="Add" icon="plus"> </calcite-action>
+                <calcite-action text="Save" icon="save"> </calcite-action>
+                <calcite-action text="Layers" icon="layers"> </calcite-action>
+              </calcite-action-group>
+            </calcite-action-bar>
+          </calcite-shell-panel>
+        </section>
+      </main>
+    </demo-dom-swapper>
   </body>
 </html>

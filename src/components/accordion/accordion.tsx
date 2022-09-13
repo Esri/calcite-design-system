@@ -26,7 +26,7 @@ export class Accordion {
   //--------------------------------------------------------------------------
 
   /** Specifies the appearance of the component. */
-  @Prop({ reflect: true }) appearance: AccordionAppearance = "default";
+  @Prop({ reflect: true }) appearance: AccordionAppearance = "solid";
 
   /** Specifies the placement of the icon in the header. */
   @Prop({ reflect: true }) iconPosition: Position = "end";
@@ -52,7 +52,7 @@ export class Accordion {
   /**
    * @internal
    */
-  @Event() calciteInternalAccordionChange: EventEmitter<RequestedItem>;
+  @Event({ cancelable: false }) calciteInternalAccordionChange: EventEmitter<RequestedItem>;
 
   //--------------------------------------------------------------------------
   //
@@ -68,12 +68,14 @@ export class Accordion {
   }
 
   render(): VNode {
+    const transparent = this.appearance === "transparent";
+    const minimal = this.appearance === "minimal";
     return (
       <div
         class={{
-          "accordion--transparent": this.appearance === "transparent",
-          "accordion--minimal": this.appearance === "minimal",
-          accordion: this.appearance === "default"
+          "accordion--transparent": transparent,
+          "accordion--minimal": minimal,
+          accordion: !transparent && !minimal
         }}
       >
         <slot />
@@ -92,7 +94,7 @@ export class Accordion {
     const item = event.detail.item;
     const parent = event.detail.parent as HTMLCalciteAccordionElement;
     if (this.el === parent) {
-      const key = item.key;
+      const { key } = item;
       const itemToFocus = event.target;
       const isFirstItem = this.itemIndex(itemToFocus) === 0;
       const isLastItem = this.itemIndex(itemToFocus) === this.items.length - 1;

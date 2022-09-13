@@ -83,6 +83,12 @@ Type: `Promise<void>`
 |                    | A slot for adding `calcite-action`s to the component.    |
 | `"expand-tooltip"` | Used to set the `calcite-tooltip` for the expand toggle. |
 
+## CSS Custom Properties
+
+| Name                                      | Description                                                                            |
+| ----------------------------------------- | -------------------------------------------------------------------------------------- |
+| `--calcite-action-pad-expanded-max-width` | optionally specify the expanded max width of the action pad when in "vertical" layout. |
+
 ## Dependencies
 
 ### Depends on

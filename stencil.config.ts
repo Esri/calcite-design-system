@@ -98,6 +98,7 @@ export const create: () => Config = () => ({
     }
   ],
   globalStyle: "src/assets/styles/global.scss",
+  globalScript: "src/utils/globalScript.ts",
   plugins: [
     sass({
       injectGlobalPaths: ["src/assets/styles/includes.scss"]
