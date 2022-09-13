@@ -1,5 +1,14 @@
 import { E2EPage, newE2EPage } from "@stencil/core/testing";
-import { defaults, disabled, focusable, formAssociated, labelable, reflects, renders } from "../../tests/commonTests";
+import {
+  defaults,
+  disabled,
+  focusable,
+  formAssociated,
+  labelable,
+  reflects,
+  renders,
+  hidden
+} from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { letterKeys, numberKeys } from "../../utils/key";
 import { getDecimalSeparator, locales, localizeNumberString } from "../../utils/locale";
@@ -23,6 +32,8 @@ describe("calcite-input", () => {
   it("is labelable", async () => labelable("calcite-input"));
 
   it("renders", () => renders("calcite-input", { display: "block" }));
+
+  it("honors hidden attribute", async () => hidden("calcite-input"));
 
   it("reflects", async () =>
     reflects("calcite-input", [
@@ -913,7 +924,7 @@ describe("calcite-input", () => {
 
       await page.keyboard.press("ArrowLeft");
       await page.waitForChanges();
-      typeNumberValue(page, "-");
+      await typeNumberValue(page, "-");
       await page.waitForChanges();
       expect(Number(await element.getProperty("value"))).toBe(0.000012);
     });

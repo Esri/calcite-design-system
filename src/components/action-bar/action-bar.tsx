@@ -113,7 +113,7 @@ export class ActionBar implements ConditionalSlotComponent {
   /**
    * Emits when the `expanded` property is toggled.
    */
-  @Event() calciteActionBarToggle: EventEmitter<void>;
+  @Event({ cancelable: false }) calciteActionBarToggle: EventEmitter<void>;
 
   // --------------------------------------------------------------------------
   //

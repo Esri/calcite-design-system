@@ -28,6 +28,7 @@ The `calcite-progress` component is used to show progress on some async task to 
 
 - [calcite-input](../input)
 - [calcite-input-number](../input-number)
+- [calcite-input-text](../input-text)
 
 ### Graph
 
@@ -35,6 +36,7 @@ The `calcite-progress` component is used to show progress on some async task to 
 graph TD;
   calcite-input --> calcite-progress
   calcite-input-number --> calcite-progress
+  calcite-input-text --> calcite-progress
   style calcite-progress fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

@@ -57,3 +57,14 @@ export const stepStory = (story: Story, steps: Steps): Story => {
 
   return story;
 };
+
+/**
+ * This helps create different storybook builds for internal and screenshot test environments
+ */
+export function storyFilters(): {
+  excludeStories: RegExp | string[];
+} {
+  return {
+    excludeStories: process.env.STORYBOOK_SCREENSHOT_TEST_BUILD ? /.*_NoTest$/ : /.*_TestOnly$/
+  };
+}

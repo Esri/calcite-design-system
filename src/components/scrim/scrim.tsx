@@ -18,15 +18,14 @@ export class Scrim {
   // --------------------------------------------------------------------------
 
   /**
-   * string to override English loading text
+   * Accessible name when the component is loading.
    *
    * @default "Loading"
    */
   @Prop() intlLoading?: string = TEXT.loading;
 
   /**
-   * Determines if the component will have the loader overlay.
-   * Otherwise, will render opaque disabled state.
+   * When true, a busy indicator is displayed.
    */
   @Prop({ reflect: true }) loading = false;
 

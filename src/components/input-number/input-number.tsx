@@ -335,12 +335,14 @@ export class InputNumber implements LabelableComponent, FormComponent, Interacti
     connectForm(this);
     this.mutationObserver?.observe(this.el, { childList: true });
     this.setDisabledAction();
+    this.el.addEventListener("calciteInternalHiddenInputChange", this.hiddenInputChangeHandler);
   }
 
   disconnectedCallback(): void {
     disconnectLabel(this);
     disconnectForm(this);
     this.mutationObserver?.disconnect();
+    this.el.removeEventListener("calciteInternalHiddenInputChange", this.hiddenInputChangeHandler);
   }
 
   componentWillLoad(): void {
@@ -373,12 +375,12 @@ export class InputNumber implements LabelableComponent, FormComponent, Interacti
   /**
    * @internal
    */
-  @Event() calciteInternalInputNumberFocus: EventEmitter<void>;
+  @Event({ cancelable: false }) calciteInternalInputNumberFocus: EventEmitter<void>;
 
   /**
    * @internal
    */
-  @Event() calciteInternalInputNumberBlur: EventEmitter<void>;
+  @Event({ cancelable: false }) calciteInternalInputNumberBlur: EventEmitter<void>;
 
   /**
    * Fires each time a new value is typed.
@@ -390,7 +392,7 @@ export class InputNumber implements LabelableComponent, FormComponent, Interacti
   /**
    * Fires each time a new value is typed and committed.
    */
-  @Event() calciteInputNumberChange: EventEmitter<void>;
+  @Event({ cancelable: false }) calciteInputNumberChange: EventEmitter<void>;
 
   //--------------------------------------------------------------------------
   //
@@ -424,7 +426,9 @@ export class InputNumber implements LabelableComponent, FormComponent, Interacti
       event.preventDefault();
     }
     if (event.key === "Enter" && !event.defaultPrevented) {
-      submitForm(this);
+      if (submitForm(this)) {
+        event.preventDefault();
+      }
     }
   };
 
@@ -630,6 +634,16 @@ export class InputNumber implements LabelableComponent, FormComponent, Interacti
     input.min = this.min?.toString(10) ?? "";
     input.max = this.max?.toString(10) ?? "";
   }
+
+  hiddenInputChangeHandler = (event: Event): void => {
+    if ((event.target as HTMLInputElement).name === this.name) {
+      this.setNumberValue({
+        value: (event.target as HTMLInputElement).value,
+        origin: "direct"
+      });
+    }
+    event.stopPropagation();
+  };
 
   private setChildNumberElRef = (el) => {
     this.childNumberEl = el;

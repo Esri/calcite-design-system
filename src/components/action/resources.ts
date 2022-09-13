@@ -12,3 +12,7 @@ export const CSS = {
 export const TEXT = {
   loading: "Loading"
 };
+
+export const SLOTS = {
+  tooltip: "tooltip"
+};

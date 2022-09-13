@@ -31,7 +31,9 @@ describe("calcite-fab", () => {
 
     expect(buttons).toHaveLength(1);
 
-    buttons.forEach(async (button) => expect(await button.getProperty("type")).toBe("button"));
+    for (const button of buttons) {
+      expect(await button.getProperty("type")).toBe("button");
+    }
   });
 
   it("should have visible text when text is enabled", async () => {

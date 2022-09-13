@@ -1,10 +1,12 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, renders, slots } from "../../tests/commonTests";
+import { accessible, renders, slots, hidden } from "../../tests/commonTests";
 
 import { CSS, SLOTS } from "./resources";
 
 describe("calcite-chip", () => {
   it("renders", async () => renders("<calcite-chip>doritos</calcite-chip>", { display: "inline-flex" }));
+
+  it("honors hidden attribute", async () => hidden("calcite-chip"));
 
   it("is accessible", async () => accessible(`<calcite-chip>doritos</calcite-chip>`));
 
@@ -12,7 +14,7 @@ describe("calcite-chip", () => {
 
   it("should emit event after the close button is clicked", async () => {
     const page = await newE2EPage();
-    await page.setContent(`<calcite-chip dismissible>cheetos</calcite-chip>`);
+    await page.setContent(`<calcite-chip closable>cheetos</calcite-chip>`);
 
     const eventSpy = await page.spyOnEvent("calciteChipDismiss", "window");
 
@@ -43,9 +45,19 @@ describe("calcite-chip", () => {
     expect(element).toEqualAttribute("scale", "l");
   });
 
+  it("renders transparent chip when appearance='transparent'", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<calcite-chip appearance="transparent" color="blue" scale="l">Chip content</calcite-chip>`);
+
+    const element = await page.find("calcite-chip");
+    expect(element).toEqualAttribute("appearance", "transparent");
+    expect(element).toEqualAttribute("color", "blue");
+    expect(element).toEqualAttribute("scale", "l");
+  });
+
   it("renders a close button when requested (deprecated)", async () => {
     const page = await newE2EPage();
-    await page.setContent(`<calcite-chip dismissible>Chip content</calcite-chip>`);
+    await page.setContent(`<calcite-chip closable>Chip content</calcite-chip>`);
 
     const close = await page.find("calcite-chip >>> button.close");
     expect(close).not.toBeNull();
@@ -74,7 +86,7 @@ describe("calcite-chip", () => {
         icon="layer"
         appearance="clear"
         color="green"
-        dismissible
+        closable
       >
         Layers
       </calcite-chip>

@@ -4,23 +4,23 @@
 
 ## Properties
 
-| Property           | Attribute            | Description                                                                   | Type                | Default             |
-| ------------------ | -------------------- | ----------------------------------------------------------------------------- | ------------------- | ------------------- |
-| `intlHour`         | `intl-hour`          | aria-label for the hour input                                                 | `string`            | `TEXT.hour`         |
-| `intlHourDown`     | `intl-hour-down`     | aria-label for the hour down button                                           | `string`            | `TEXT.hourDown`     |
-| `intlHourUp`       | `intl-hour-up`       | aria-label for the hour up button                                             | `string`            | `TEXT.hourUp`       |
-| `intlMeridiem`     | `intl-meridiem`      | aria-label for the meridiem (am/pm) input                                     | `string`            | `TEXT.meridiem`     |
-| `intlMeridiemDown` | `intl-meridiem-down` | aria-label for the meridiem (am/pm) down button                               | `string`            | `TEXT.meridiemDown` |
-| `intlMeridiemUp`   | `intl-meridiem-up`   | aria-label for the meridiem (am/pm) up button                                 | `string`            | `TEXT.meridiemUp`   |
-| `intlMinute`       | `intl-minute`        | aria-label for the minute input                                               | `string`            | `TEXT.minute`       |
-| `intlMinuteDown`   | `intl-minute-down`   | aria-label for the minute down button                                         | `string`            | `TEXT.minuteDown`   |
-| `intlMinuteUp`     | `intl-minute-up`     | aria-label for the minute up button                                           | `string`            | `TEXT.minuteUp`     |
-| `intlSecond`       | `intl-second`        | aria-label for the second input                                               | `string`            | `TEXT.second`       |
-| `intlSecondDown`   | `intl-second-down`   | aria-label for the second down button                                         | `string`            | `TEXT.secondDown`   |
-| `intlSecondUp`     | `intl-second-up`     | aria-label for the second up button                                           | `string`            | `TEXT.secondUp`     |
-| `scale`            | `scale`              | The scale (size) of the time picker                                           | `"l" \| "m" \| "s"` | `"m"`               |
-| `step`             | `step`               | number (seconds) that specifies the granularity that the value must adhere to | `number`            | `60`                |
-| `value`            | `value`              | The selected time in UTC (always 24-hour format)                              | `string`            | `null`              |
+| Property           | Attribute            | Description                                                        | Type                | Default             |
+| ------------------ | -------------------- | ------------------------------------------------------------------ | ------------------- | ------------------- |
+| `intlHour`         | `intl-hour`          | Accessible name for the component's hour input.                    | `string`            | `TEXT.hour`         |
+| `intlHourDown`     | `intl-hour-down`     | Accessible name for the component's hour down button.              | `string`            | `TEXT.hourDown`     |
+| `intlHourUp`       | `intl-hour-up`       | Accessible name for the component's hour up button.                | `string`            | `TEXT.hourUp`       |
+| `intlMeridiem`     | `intl-meridiem`      | Accessible name for the component's meridiem (AM/PM) input.        | `string`            | `TEXT.meridiem`     |
+| `intlMeridiemDown` | `intl-meridiem-down` | Accessible name for the component's meridiem (AM/PM) down button.  | `string`            | `TEXT.meridiemDown` |
+| `intlMeridiemUp`   | `intl-meridiem-up`   | Accessible name for the component's meridiem (AM/PM) up button.    | `string`            | `TEXT.meridiemUp`   |
+| `intlMinute`       | `intl-minute`        | Accessible name for the component's minute input.                  | `string`            | `TEXT.minute`       |
+| `intlMinuteDown`   | `intl-minute-down`   | Accessible name for the component's minute down button.            | `string`            | `TEXT.minuteDown`   |
+| `intlMinuteUp`     | `intl-minute-up`     | Accessible name for the component's minute up button.              | `string`            | `TEXT.minuteUp`     |
+| `intlSecond`       | `intl-second`        | Accessible name for the component's second input.                  | `string`            | `TEXT.second`       |
+| `intlSecondDown`   | `intl-second-down`   | Accessible name for the component's second down button.            | `string`            | `TEXT.secondDown`   |
+| `intlSecondUp`     | `intl-second-up`     | Accessible name for the component's second up button.              | `string`            | `TEXT.secondUp`     |
+| `scale`            | `scale`              | Specifies the size of the component.                               | `"l" \| "m" \| "s"` | `"m"`               |
+| `step`             | `step`               | Specifies the granularity the "value" must adhere to (in seconds). | `number`            | `60`                |
+| `value`            | `value`              | The component's value in UTC (always 24-hour format).              | `string`            | `null`              |
 
 ## Methods
 

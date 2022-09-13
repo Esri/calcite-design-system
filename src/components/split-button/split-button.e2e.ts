@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, renders, defaults, disabled } from "../../tests/commonTests";
+import { accessible, renders, defaults, disabled, hidden } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
 
@@ -19,6 +19,8 @@ describe("calcite-split-button", () => {
   </calcite-dropdown-group>`;
 
   it("renders", () => renders("calcite-split-button", { display: "inline-block" }));
+
+  it("honors hidden attribute", async () => hidden("calcite-split-button"));
 
   it("is accessible", async () =>
     accessible(`<calcite-split-button
@@ -75,7 +77,9 @@ describe("calcite-split-button", () => {
 
     expect(buttons).toHaveLength(2);
 
-    buttons.forEach(async (button) => expect(await button.getProperty("type")).toBe("button"));
+    for (const button of buttons) {
+      expect(await button.getProperty("type")).toBe("button");
+    }
   });
 
   it("renders requested props when valid props are provided", async () => {
@@ -218,7 +222,7 @@ describe("calcite-split-button", () => {
     const group = await page.find("calcite-dropdown-group");
     const secondary = await page.find(`calcite-split-button >>> calcite-button[split-child="secondary"]`);
     const dropdownOpenEvent = page.waitForEvent("calciteDropdownOpen");
-    secondary.click();
+    await secondary.click();
     await dropdownOpenEvent;
     expect(await group.isVisible()).toBe(true);
     expect(await page.evaluate(() => document.activeElement.id)).toEqual("item-1");
