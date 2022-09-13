@@ -66,7 +66,7 @@ describe("calcite-color-picker", () => {
       },
       {
         propertyName: "appearance",
-        defaultValue: "default"
+        defaultValue: "solid"
       },
       {
         propertyName: "format",

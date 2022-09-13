@@ -191,6 +191,7 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
     const showCheckmark =
       this.selectionMode === TreeSelectionMode.Multi ||
       this.selectionMode === TreeSelectionMode.MultiChildren;
+    const showBlank = this.selectionMode === TreeSelectionMode.None && !this.hasChildren;
     const chevron = this.hasChildren ? (
       <calcite-icon
         class={{
@@ -222,6 +223,8 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
       ? ICONS.bulletPoint
       : showCheckmark
       ? ICONS.checkmark
+      : showBlank
+      ? ICONS.blank
       : null;
     const itemIndicator = selectedIcon ? (
       <calcite-icon

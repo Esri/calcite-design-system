@@ -31,7 +31,8 @@ import {
   EffectivePlacement,
   defaultOffsetDistance,
   filterComputedPlacements,
-  ReferenceElement
+  ReferenceElement,
+  repositionDebounceTimeout
 } from "../../utils/floating-ui";
 
 import { guid } from "../../utils/guid";
@@ -44,6 +45,7 @@ import {
 import { HeadingLevel, Heading } from "../functional/Heading";
 
 import PopoverManager from "./PopoverManager";
+import { debounce } from "lodash-es";
 
 const manager = new PopoverManager();
 
@@ -112,6 +114,7 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
   @Watch("flipPlacements")
   flipPlacementsHandler(): void {
     this.setFilteredPlacements();
+    this.debouncedReposition();
   }
 
   /**
@@ -136,7 +139,7 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
 
   @Watch("offsetDistance")
   offsetDistanceOffsetHandler(): void {
-    this.reposition();
+    this.debouncedReposition();
   }
 
   /**
@@ -146,7 +149,7 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
 
   @Watch("offsetSkidding")
   offsetSkiddingHandler(): void {
-    this.reposition();
+    this.debouncedReposition();
   }
 
   /**
@@ -156,7 +159,7 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
 
   @Watch("open")
   openHandler(): void {
-    this.reposition();
+    this.debouncedReposition();
     this.setExpandedAttr();
   }
 
@@ -170,7 +173,7 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
 
   @Watch("overlayPositioning")
   overlayPositioningHandler(): void {
-    this.reposition();
+    this.debouncedReposition();
   }
 
   /**
@@ -182,7 +185,7 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
 
   @Watch("placement")
   placementHandler(): void {
-    this.reposition();
+    this.debouncedReposition();
   }
 
   /**
@@ -193,7 +196,7 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
   @Watch("referenceElement")
   referenceElementHandler(): void {
     this.setUpReferenceElement();
-    this.reposition();
+    this.debouncedReposition();
   }
 
   /**
@@ -255,7 +258,7 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
     if (this.referenceElement && !this.effectiveReferenceElement) {
       this.setUpReferenceElement();
     }
-    this.reposition();
+    this.debouncedReposition();
     this.hasLoaded = true;
   }
 
@@ -298,7 +301,7 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
       placement,
       overlayPositioning,
       disableFlip,
-      flipPlacements,
+      filteredFlipPlacements,
       offsetDistance,
       offsetSkidding,
       arrowEl
@@ -310,7 +313,7 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
       overlayPositioning,
       placement,
       disableFlip,
-      flipPlacements,
+      flipPlacements: filteredFlipPlacements,
       offsetDistance,
       offsetSkidding,
       arrowEl,
@@ -352,6 +355,8 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
   //  Private Methods
   //
   // --------------------------------------------------------------------------
+
+  debouncedReposition = debounce(() => this.reposition(), repositionDebounceTimeout);
 
   private setTransitionEl = (el): void => {
     this.transitionEl = el;
@@ -461,7 +466,7 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
 
   storeArrowEl = (el: HTMLDivElement): void => {
     this.arrowEl = el;
-    this.reposition();
+    this.debouncedReposition();
   };
 
   // --------------------------------------------------------------------------

@@ -18,7 +18,7 @@ import { nodeListToArray } from "../../utils/dom";
 import { Scale } from "../interfaces";
 
 /**
- * @slot - A slot for adding custom content.
+ * @slot - A slot for adding content to the component.
  */
 @Component({
   tag: "calcite-tab",
@@ -41,15 +41,18 @@ export class Tab {
   //--------------------------------------------------------------------------
 
   /**
-   * Optionally include a unique name for this tab,
-   * be sure to also set this name on the associated title.
+   * Specifies a unique name for the component.
+   *
+   * When specified, use the same value on the `calcite-tab-title`.
    */
-  @Prop({ reflect: true }) tab: string;
+  @Prop({ reflect: true }) tab?: string;
 
   /**
-   * Show this tab
+   * When true, the component's contents are selected.
    *
-   * @deprecated Use selected instead.
+   * Only one tab can be selected within the `calcite-tabs` parent.
+   *
+   * @deprecated Use "selected" instead.
    */
   @Prop({ reflect: true, mutable: true }) active = false;
 
@@ -59,7 +62,9 @@ export class Tab {
   }
 
   /**
-   * When true, display this tab.
+   * When true, the component's contents are selected.
+   *
+   * Only one tab can be selected within the `calcite-tabs` parent.
    */
   @Prop({ reflect: true, mutable: true }) selected = false;
 
@@ -167,7 +172,7 @@ export class Tab {
   //--------------------------------------------------------------------------
 
   /**
-   * Return the index of this tab within the tab array
+   * Returns the index of the component item within the tab array.
    */
   @Method()
   async getTabIndex(): Promise<number> {

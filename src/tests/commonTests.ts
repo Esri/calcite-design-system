@@ -720,10 +720,11 @@ export async function disabled(
       "click",
       (event) => {
         const path = event.composedPath() as HTMLElement[];
+        const anchor = path.find((el) => el?.tagName === "A");
 
-        if (path.find((el) => el?.tagName === "A")) {
+        if (anchor) {
           // we prevent the default behavior to avoid a page redirect
-          el.addEventListener("click", (event) => event.preventDefault(), { once: true });
+          anchor.addEventListener("click", (event) => event.preventDefault(), { once: true });
         }
       },
       true
