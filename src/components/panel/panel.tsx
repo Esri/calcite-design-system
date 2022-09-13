@@ -97,7 +97,7 @@ export class Panel implements InteractiveComponent {
   /**
    * Specifies the number at which section headings should start.
    */
-  @Prop() headingLevel: HeadingLevel;
+  @Prop({ reflect: true }) headingLevel: HeadingLevel;
 
   /**
    * When true, displays a back button in the header.

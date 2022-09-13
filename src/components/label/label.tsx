@@ -57,7 +57,7 @@ export class Label {
    *
    * @deprecated set the --calcite-label-margin-bottom css variable to 0 instead
    */
-  @Prop() disableSpacing = false;
+  @Prop({ reflect: true }) disableSpacing = false;
 
   //--------------------------------------------------------------------------
   //

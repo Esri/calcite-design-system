@@ -10,12 +10,14 @@ import readme from "./readme.md";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { html } from "../../../support/formatting";
 import { TEXT } from "./resources";
+import { storyFilters } from "../../../.storybook/helpers";
 
 export default {
   title: "Components/Action Pad",
   parameters: {
     notes: readme
-  }
+  },
+  ...storyFilters()
 };
 
 const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ exceptions } = { exceptions: [] }) => {
@@ -68,7 +70,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
   );
 };
 
-export const basic = (): string =>
+export const simple = (): string =>
   create(
     "calcite-action-pad",
     createAttributes(),
@@ -83,7 +85,25 @@ export const basic = (): string =>
     `
   );
 
-export const darkThemeRTL = (): string =>
+export const withDefinedWidths = (): string =>
+  html`
+    <style>
+      calcite-action-pad {
+        --calcite-action-pad-expanded-max-width: 150px;
+      }
+    </style>
+    <calcite-action-pad expanded>
+      <calcite-action-group>
+        <calcite-action text="Add to my custom action pad application" icon="plus"></calcite-action>
+        <calcite-action text="Save to my custom action pad application" icon="save"></calcite-action>
+      </calcite-action-group>
+      <calcite-action-group>
+        <calcite-action text="Layers in my custom action pad application" icon="layers"></calcite-action>
+      </calcite-action-group>
+    </calcite-action-pad>
+  `;
+
+export const darkThemeRTL_TestOnly = (): string =>
   create(
     "calcite-action-pad",
     createAttributes({ exceptions: ["dir", "class"] }).concat([
@@ -107,9 +127,9 @@ export const darkThemeRTL = (): string =>
     `
   );
 
-darkThemeRTL.parameters = { themes: themesDarkDefault };
+darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };
 
-export const withTooltip = (): string =>
+export const withTooltip_NoTest = (): string =>
   create(
     "calcite-action-pad",
     createAttributes(),
@@ -118,21 +138,3 @@ export const withTooltip = (): string =>
       <calcite-action text="Add" icon="plus"></calcite-action>
     `
   );
-
-export const withDefinedWidths = (): string =>
-  html`
-    <style>
-      calcite-action-pad {
-        --calcite-action-pad-expanded-max-width: 150px;
-      }
-    </style>
-    <calcite-action-pad expanded>
-      <calcite-action-group>
-        <calcite-action text="Add to my custom action pad application" icon="plus"></calcite-action>
-        <calcite-action text="Save to my custom action pad application" icon="save"></calcite-action>
-      </calcite-action-group>
-      <calcite-action-group>
-        <calcite-action text="Layers in my custom action pad application" icon="layers"></calcite-action>
-      </calcite-action-group>
-    </calcite-action-pad>
-  `;

@@ -6,7 +6,14 @@ import { initThemeChangeEvent } from "./theme";
  * @see {@link https://stenciljs.com/docs/config#globalscript}
  */
 export default function (): void {
-  if (isBrowser()) {
+  const isBrowser =
+    typeof window !== "undefined" &&
+    typeof location !== "undefined" &&
+    typeof document !== "undefined" &&
+    window.location === location &&
+    window.document === document;
+
+  if (isBrowser) {
     if (document.readyState === "interactive") {
       initThemeChangeEvent();
     } else {
@@ -14,5 +21,3 @@ export default function (): void {
     }
   }
 }
-
-const isBrowser = new Function("try {return this===window;}catch(e){ return false;}");

@@ -73,6 +73,9 @@
     "lines-between-class-members": ["error", "always"],
     "no-multiple-empty-lines": ["error", { "max": 1 }],
     "no-unneeded-ternary": "error",
+    "no-eval": "error",
+    "no-implied-eval": "error",
+    "no-new-func": "error",
     "react/forbid-component-props": [
       "warn",
       {

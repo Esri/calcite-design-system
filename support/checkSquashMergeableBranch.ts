@@ -1,5 +1,3 @@
-import pify from "pify";
-
 /*
 This script checks how many commits there are on a branch;
 if there is only one commit it makes sure the message is in the conventional format.
@@ -8,14 +6,15 @@ This ensures a conventional commit message when PRs are squash-merged.
 
 (async function runner(): Promise<void> {
   const childProcess = await import("child_process");
-  const exec = pify(childProcess.exec);
+  const { promisify } = await import("util");
+  const exec = promisify(childProcess.exec);
 
   const conventionalCommitRegex =
     /^((build|chore|ci|docs|feat|fix|perf|refactor|revert|style|test)(\([\w ,-]+\))?(!)?: [\w ])+([\s\S]*)/;
 
-  const currentBranch = (await exec(`git rev-parse --abbrev-ref HEAD`, { encoding: "utf-8" })).trim();
+  const currentBranch = (await exec(`git rev-parse --abbrev-ref HEAD`, { encoding: "utf-8" })).stdout.trim();
 
-  const commits = (await exec(`git log --format=%B ${currentBranch} --not master`, { encoding: "utf-8" }))
+  const commits = (await exec(`git log --format=%B ${currentBranch} --not master`, { encoding: "utf-8" })).stdout
     .trim()
     .split("\n")
     .filter((commit: string) => !!commit);

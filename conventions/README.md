@@ -112,9 +112,20 @@ class CompositeOrParentComponent {
 }
 ```
 
-## Props
+## Properties
 
-Private/internal props should be annotated accordingly to avoid exposing them in the doc and/or API. You can do this by using the `@private`/`@internal` [JSDoc](https://jsdoc.app/) tags.
+Private/internal properties should be annotated accordingly to avoid exposing them in the doc and/or API. You can do this by using the `@private`/`@internal` [JSDoc](https://jsdoc.app/) tags.
+
+### Reflecting to attributes
+
+It is recommended to reflect properties that fit the following criteria:
+
+- are static or will not be updated frequently during the component lifespan (e.g., a number that represents a range min or max would be reflected, but a number that represents a value that will constantly be updated by the user would not)
+- value represents non-rich data or booleans/numbers/strings that are not used as content (e.g., a string that represents a mode would be reflected, but a string that represents a placeholder, title or summary would not)
+- are public and belong to a public component
+- required for internal styling or would make internal styling easier
+
+Doing so will give developers more flexibility when querying the DOM. This is important in framework environments where we can't safely assume components will have their attributes set vs properties.
 
 ## Focus support
 
