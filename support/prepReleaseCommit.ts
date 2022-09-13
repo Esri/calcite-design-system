@@ -112,6 +112,9 @@ import yargs from "yargs";
       await appendUnreleasedNotesToChangelog();
       await exec(`git add ${changelogPath}`);
     } else {
+      if (!standardVersionOptions.releaseAs) {
+        throw new Error("an error occurred determining the target release version ");
+      }
       await updateReadmeCdnUrls(standardVersionOptions.releaseAs);
       await exec(`git add ${readmePath}`);
     }
@@ -162,11 +165,7 @@ import yargs from "yargs";
     ).stdout.trim();
   }
 
-  async function updateReadmeCdnUrls(version: string | undefined): Promise<void> {
-    if (!version) {
-      return;
-    }
-
+  async function updateReadmeCdnUrls(version: string): Promise<void> {
     const scriptTagPattern = /(<script\s+type="module"\s+src=").+("\s*><\/script>)/m;
     const linkTagPattern = /(<link\s+rel="stylesheet"\s+type="text\/css"\s+href=").+("\s*\/>)/m;
     const baseCdnUrl = `https://unpkg.com/@esri/calcite-components@${version}/dist/calcite/calcite.`;
