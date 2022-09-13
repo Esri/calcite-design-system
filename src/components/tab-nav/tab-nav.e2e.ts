@@ -1,11 +1,13 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, renders } from "../../tests/commonTests";
+import { accessible, renders, hidden } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 
 describe("calcite-tab-nav", () => {
   const tabNavHtml = "<calcite-tab-nav></calcite-tab-nav>";
 
   it("renders", async () => await renders(tabNavHtml, { display: "flex" }));
+
+  it("honors hidden attribute", async () => hidden("calcite-tab-nav"));
 
   it("is accessible", async () => await accessible(tabNavHtml));
 

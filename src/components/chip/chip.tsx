@@ -47,7 +47,7 @@ export class Chip implements ConditionalSlotComponent {
    *
    * @deprecated use closable instead
    */
-  @Prop({ reflect: true }) dismissible = false;
+  @Prop({ reflect: true, mutable: true }) dismissible = false;
 
   @Watch("dismissible")
   handleDismissible(value: boolean): void {
@@ -55,7 +55,7 @@ export class Chip implements ConditionalSlotComponent {
   }
 
   /** When true, show abutton user can click to dismiss the chip. */
-  @Prop({ reflect: true }) closable = false;
+  @Prop({ reflect: true, mutable: true }) closable = false;
 
   @Watch("closable")
   handleClosable(value: boolean): void {

@@ -37,16 +37,16 @@ export class Stepper {
   //
   //--------------------------------------------------------------------------
 
-  /** optionally display a status icon next to the step title */
+  /** When true, displays a status icon in the `calcite-stepper-item` heading. */
   @Prop({ reflect: true }) icon = false;
 
-  /** specify the layout of stepper, defaults to horizontal */
+  /** Defines the layout of the component. */
   @Prop({ reflect: true }) layout: Extract<"horizontal" | "vertical", Layout> = "horizontal";
 
-  /** optionally display the number next to the step title */
+  /** When true, displays the step number in the `calcite-stepper-item` heading. */
   @Prop({ reflect: true }) numbered = false;
 
-  /** specify the scale of stepper, defaults to m */
+  /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
 
   //--------------------------------------------------------------------------
@@ -56,14 +56,14 @@ export class Stepper {
   //--------------------------------------------------------------------------
 
   /**
-   * This event fires when the active stepper item has changed.
+   * Fires when the active `calcite-stepper-item` changes.
    *
    */
   @Event({ cancelable: false })
   calciteStepperItemChange: EventEmitter<StepperItemChangeEventDetail>;
 
   /**
-   * This event fires when the active stepper item has changed.
+   * Fires when the active `calcite-stepper-item` changes.
    *
    * @internal
    */
@@ -176,7 +176,7 @@ export class Stepper {
   //
   //--------------------------------------------------------------------------
 
-  /** set the next step as active */
+  /** Set the next `calcite-stepper-item` as active. */
   @Method()
   async nextStep(): Promise<void> {
     const enabledStepIndex = this.getEnabledStepIndex(this.currentPosition + 1, "next");
@@ -188,7 +188,7 @@ export class Stepper {
     this.updateStep(enabledStepIndex);
   }
 
-  /** set the previous step as active */
+  /** Set the previous `calcite-stepper-item` as active. */
   @Method()
   async prevStep(): Promise<void> {
     const enabledStepIndex = this.getEnabledStepIndex(this.currentPosition - 1, "previous");
@@ -201,7 +201,7 @@ export class Stepper {
   }
 
   /**
-   * set the requested step as active
+   * Set a specified `calcite-stepper-item` as active.
    *
    * @param step
    */
@@ -214,7 +214,7 @@ export class Stepper {
     }
   }
 
-  /** set the first step as active */
+  /** Set the first `calcite-stepper-item` as active. */
   @Method()
   async startStep(): Promise<void> {
     const enabledStepIndex = this.getEnabledStepIndex(0, "next");
@@ -226,7 +226,7 @@ export class Stepper {
     this.updateStep(enabledStepIndex);
   }
 
-  /** set the last step as active */
+  /** Set the last `calcite-stepper-item` as active. */
   @Method()
   async endStep(): Promise<void> {
     const enabledStepIndex = this.getEnabledStepIndex(this.items.length - 1, "previous");

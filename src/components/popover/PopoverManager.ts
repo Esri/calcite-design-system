@@ -1,4 +1,5 @@
 import { ReferenceElement } from "../../utils/floating-ui";
+import { isActivationKey } from "../../utils/key";
 
 export default class PopoverManager {
   // --------------------------------------------------------------------------
@@ -53,20 +54,21 @@ export default class PopoverManager {
 
   private togglePopovers = (event: KeyboardEvent | MouseEvent): void => {
     const composedPath = event.composedPath();
-    const popover = this.queryPopover(composedPath);
+    const togglePopover = this.queryPopover(composedPath);
 
-    if (popover && !popover.triggerDisabled) {
-      popover.toggle();
-      return;
+    if (togglePopover && !togglePopover.triggerDisabled) {
+      togglePopover.toggle();
     }
 
     Array.from(this.registeredElements.values())
-      .filter((popover) => popover.autoClose && popover.open && !composedPath.includes(popover))
+      .filter(
+        (popover) => popover !== togglePopover && popover.autoClose && popover.open && !composedPath.includes(popover)
+      )
       .forEach((popover) => popover.toggle(false));
   };
 
   private keyHandler = (event: KeyboardEvent): void => {
-    if (event.key !== "Enter" && event.key !== " ") {
+    if (event.defaultPrevented || !isActivationKey(event.key)) {
       return;
     }
 

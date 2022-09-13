@@ -14,10 +14,9 @@ $spacing: $baseline * 0.5;
     padding: $spacing;
     position: relative;
     vertical-align: top;
-    @apply transition-default z-10;
+    @apply transition-default;
 
     &.checked {
-      @apply z-30;
       box-shadow: 0 0 0 1px var(--calcite-ui-brand);
     }
 
@@ -35,7 +34,6 @@ $spacing: $baseline * 0.5;
     &.focused {
       @apply focus-base;
       &:not(.disabled) {
-        @apply z-30;
         &:not(.input-enabled) {
           @apply focus-inset;
           outline-offset: -4px;
@@ -123,7 +121,6 @@ $spacing: $baseline * 0.5;
 
 :host(:hover) {
   .container {
-    @apply z-20;
     &:not(.input-enabled) {
       box-shadow: 0 0 0 1px var(--calcite-ui-brand);
     }

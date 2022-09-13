@@ -127,8 +127,8 @@
   @apply opacity-100;
 }
 
-:host([active]) .container:not(.container--none-selection),
-:host([active]) .container--link .dropdown-link {
+:host([selected]) .container:not(.container--none-selection),
+:host([selected]) .container--link .dropdown-link {
   @apply text-color-1 font-medium;
   &:before {
     @apply opacity-100;

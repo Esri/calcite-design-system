@@ -50,338 +50,340 @@
   </head>
 
   <body>
-    <!--
+    <demo-dom-swapper>
+      <!--
       ******************************************************************
       * STANDARD
       ******************************************************************
     -->
-    <!-- Sizes -->
-    <div class="parent-flex">
-      <div class="child-flex font right-aligned-text"></div>
-      <div class="child-flex font">Small</div>
-      <div class="child-flex font">Medium</div>
-      <div class="child-flex font">Large</div>
-    </div>
-
-    <!-- Standard -->
-    <div class="parent-flex">
-      <div class="child-flex font right-aligned-text">Standard</div>
-      <div class="child-flex">
-        <calcite-label scale="s">
-          Input Label
-          <calcite-input-text placeholder="Placeholder" scale="s"></calcite-input-text>
-        </calcite-label>
+      <!-- Sizes -->
+      <div class="parent-flex">
+        <div class="child-flex font right-aligned-text"></div>
+        <div class="child-flex font">Small</div>
+        <div class="child-flex font">Medium</div>
+        <div class="child-flex font">Large</div>
       </div>
 
-      <div class="child-flex">
-        <calcite-label>
-          Input Label
-          <calcite-input-text placeholder="Placeholder" scale="m"></calcite-input-text>
-        </calcite-label>
+      <!-- Standard -->
+      <div class="parent-flex">
+        <div class="child-flex font right-aligned-text">Standard</div>
+        <div class="child-flex">
+          <calcite-label scale="s">
+            Input Label
+            <calcite-input-text placeholder="Placeholder" scale="s"></calcite-input-text>
+          </calcite-label>
+        </div>
+
+        <div class="child-flex">
+          <calcite-label>
+            Input Label
+            <calcite-input-text placeholder="Placeholder" scale="m"></calcite-input-text>
+          </calcite-label>
+        </div>
+
+        <div class="child-flex">
+          <calcite-label scale="l">
+            Input Label
+            <calcite-input-text placeholder="Placeholder" scale="l"></calcite-input-text>
+          </calcite-label>
+        </div>
       </div>
 
-      <div class="child-flex">
-        <calcite-label scale="l">
-          Input Label
-          <calcite-input-text placeholder="Placeholder" scale="l"></calcite-input-text>
-        </calcite-label>
-      </div>
-    </div>
+      <!-- Standard with icon -->
+      <div class="parent-flex">
+        <div class="child-flex font right-aligned-text">Standard with icon</div>
+        <div class="child-flex">
+          <calcite-label scale="s">
+            Input Label
+            <calcite-input-text placeholder="Placeholder" scale="s" icon="search"></calcite-input-text>
+          </calcite-label>
+        </div>
 
-    <!-- Standard with icon -->
-    <div class="parent-flex">
-      <div class="child-flex font right-aligned-text">Standard with icon</div>
-      <div class="child-flex">
-        <calcite-label scale="s">
-          Input Label
-          <calcite-input-text placeholder="Placeholder" scale="s" icon="search"></calcite-input-text>
-        </calcite-label>
-      </div>
+        <div class="child-flex">
+          <calcite-label>
+            Input Label
+            <calcite-input-text placeholder="Placeholder" scale="m" icon="search"></calcite-input-text>
+          </calcite-label>
+        </div>
 
-      <div class="child-flex">
-        <calcite-label>
-          Input Label
-          <calcite-input-text placeholder="Placeholder" scale="m" icon="search"></calcite-input-text>
-        </calcite-label>
-      </div>
-
-      <div class="child-flex">
-        <calcite-label scale="l">
-          Input Label
-          <calcite-input-text placeholder="Placeholder" scale="l" icon="search"></calcite-input-text>
-        </calcite-label>
-      </div>
-    </div>
-
-    <!-- Standard Prefix/Suffix -->
-    <div class="parent-flex">
-      <div class="child-flex font right-aligned-text">Standard Prefix/Suffix</div>
-      <div class="child-flex">
-        <calcite-label scale="s">
-          Input Label
-          <calcite-input-text
-            placeholder="Placeholder"
-            scale="s"
-            prefix-text="Prefix"
-            suffix-text="Suffix"
-          ></calcite-input-text>
-        </calcite-label>
+        <div class="child-flex">
+          <calcite-label scale="l">
+            Input Label
+            <calcite-input-text placeholder="Placeholder" scale="l" icon="search"></calcite-input-text>
+          </calcite-label>
+        </div>
       </div>
 
-      <div class="child-flex">
-        <calcite-label>
-          Input Label
-          <calcite-input-text
-            placeholder="Placeholder"
-            scale="m"
-            prefix-text="Prefix"
-            suffix-text="Suffix"
-          ></calcite-input-text>
-        </calcite-label>
+      <!-- Standard Prefix/Suffix -->
+      <div class="parent-flex">
+        <div class="child-flex font right-aligned-text">Standard Prefix/Suffix</div>
+        <div class="child-flex">
+          <calcite-label scale="s">
+            Input Label
+            <calcite-input-text
+              placeholder="Placeholder"
+              scale="s"
+              prefix-text="Prefix"
+              suffix-text="Suffix"
+            ></calcite-input-text>
+          </calcite-label>
+        </div>
+
+        <div class="child-flex">
+          <calcite-label>
+            Input Label
+            <calcite-input-text
+              placeholder="Placeholder"
+              scale="m"
+              prefix-text="Prefix"
+              suffix-text="Suffix"
+            ></calcite-input-text>
+          </calcite-label>
+        </div>
+
+        <div class="child-flex">
+          <calcite-label scale="l">
+            Input Label
+            <calcite-input-text
+              placeholder="Placeholder"
+              scale="l"
+              prefix-text="Prefix"
+              suffix-text="Suffix"
+            ></calcite-input-text>
+          </calcite-label>
+        </div>
       </div>
 
-      <div class="child-flex">
-        <calcite-label scale="l">
-          Input Label
-          <calcite-input-text
-            placeholder="Placeholder"
-            scale="l"
-            prefix-text="Prefix"
-            suffix-text="Suffix"
-          ></calcite-input-text>
-        </calcite-label>
-      </div>
-    </div>
+      <!-- Null -->
+      <div class="parent-flex">
+        <div class="child-flex font right-aligned-text">Null</div>
+        <div class="child-flex">
+          <calcite-input-text icon clearable scale="s"></calcite-input-text>
+        </div>
 
-    <!-- Null -->
-    <div class="parent-flex">
-      <div class="child-flex font right-aligned-text">Null</div>
-      <div class="child-flex">
-        <calcite-input-text icon clearable scale="s"></calcite-input-text>
+        <div class="child-flex">
+          <calcite-input-text icon clearable scale="m"></calcite-input-text>
+        </div>
+
+        <div class="child-flex">
+          <calcite-input-text icon clearable scale="l"></calcite-input-text>
+        </div>
       </div>
 
-      <div class="child-flex">
-        <calcite-input-text icon clearable scale="m"></calcite-input-text>
-      </div>
+      <hr />
 
-      <div class="child-flex">
-        <calcite-input-text icon clearable scale="l"></calcite-input-text>
-      </div>
-    </div>
-
-    <hr />
-
-    <!--
+      <!--
       ******************************************************
       * MESSAGE INFO
       ******************************************************
     -->
-    <div class="parent-flex">
-      <div class="child-flex right-aligned-text"></div>
-      <div class="child-flex font header">Messages</div>
-    </div>
-
-    <div class="parent-flex">
-      <div class="child-flex font right-aligned-text"></div>
-      <div class="child-flex font">Small</div>
-      <div class="child-flex font">Medium</div>
-      <div class="child-flex font">Large</div>
-    </div>
-
-    <!-- Message Info -->
-    <div class="parent-flex">
-      <div class="child-flex font right-aligned-text">Message Info</div>
-      <div class="child-flex">
-        <calcite-label scale="s" status="idle">
-          <calcite-input-text placeholder="Placeholder" scale="s"> </calcite-input-text>
-          <calcite-input-message scale="s" active icon> Info message </calcite-input-message>
-        </calcite-label>
+      <div class="parent-flex">
+        <div class="child-flex right-aligned-text"></div>
+        <div class="child-flex font header">Messages</div>
       </div>
 
-      <div class="child-flex">
-        <calcite-label status="idle">
-          <calcite-input-text placeholder="Placeholder" scale="m"> </calcite-input-text>
-          <calcite-input-message scale="m" active icon> Info message </calcite-input-message>
-        </calcite-label>
+      <div class="parent-flex">
+        <div class="child-flex font right-aligned-text"></div>
+        <div class="child-flex font">Small</div>
+        <div class="child-flex font">Medium</div>
+        <div class="child-flex font">Large</div>
       </div>
 
-      <div class="child-flex">
-        <calcite-label scale="l" status="idle">
-          <calcite-input-text placeholder="Placeholder" scale="l"> </calcite-input-text>
-          <calcite-input-message scale="l" active icon> Info message </calcite-input-message>
-        </calcite-label>
-      </div>
-    </div>
+      <!-- Message Info -->
+      <div class="parent-flex">
+        <div class="child-flex font right-aligned-text">Message Info</div>
+        <div class="child-flex">
+          <calcite-label scale="s" status="idle">
+            <calcite-input-text placeholder="Placeholder" scale="s"> </calcite-input-text>
+            <calcite-input-message scale="s" active icon> Info message </calcite-input-message>
+          </calcite-label>
+        </div>
 
-    <!-- Message Success -->
-    <div class="parent-flex">
-      <div class="child-flex font right-aligned-text">Message Success</div>
-      <div class="child-flex">
-        <calcite-label scale="s" status="valid">
-          <calcite-input-text placeholder="Placeholder" scale="s"> </calcite-input-text>
-          <calcite-input-message scale="s" active icon> Success message </calcite-input-message>
-        </calcite-label>
-      </div>
+        <div class="child-flex">
+          <calcite-label status="idle">
+            <calcite-input-text placeholder="Placeholder" scale="m"> </calcite-input-text>
+            <calcite-input-message scale="m" active icon> Info message </calcite-input-message>
+          </calcite-label>
+        </div>
 
-      <div class="child-flex">
-        <calcite-label status="valid">
-          <calcite-input-text placeholder="Placeholder" scale="m"> </calcite-input-text>
-          <calcite-input-message scale="m" active icon> Success message </calcite-input-message>
-        </calcite-label>
-      </div>
-
-      <div class="child-flex">
-        <calcite-label scale="l" status="valid">
-          <calcite-input-text placeholder="Placeholder" scale="l"> </calcite-input-text>
-          <calcite-input-message scale="l" active icon> Success message </calcite-input-message>
-        </calcite-label>
-      </div>
-    </div>
-
-    <!-- Message Warning -->
-    <div class="parent-flex">
-      <div class="child-flex font right-aligned-text">Message Warning</div>
-      <div class="child-flex">
-        <calcite-label scale="s">
-          <calcite-input-text placeholder="Placeholder" scale="s"> </calcite-input-text>
-          <calcite-input-message scale="s" active icon="exclamation-mark-triangle">
-            Warning message
-          </calcite-input-message>
-        </calcite-label>
+        <div class="child-flex">
+          <calcite-label scale="l" status="idle">
+            <calcite-input-text placeholder="Placeholder" scale="l"> </calcite-input-text>
+            <calcite-input-message scale="l" active icon> Info message </calcite-input-message>
+          </calcite-label>
+        </div>
       </div>
 
-      <div class="child-flex">
-        <calcite-label>
-          <calcite-input-text placeholder="Placeholder" scale="m"> </calcite-input-text>
-          <calcite-input-message scale="m" active icon="exclamation-mark-triangle">
-            Warning message
-          </calcite-input-message>
-        </calcite-label>
+      <!-- Message Success -->
+      <div class="parent-flex">
+        <div class="child-flex font right-aligned-text">Message Success</div>
+        <div class="child-flex">
+          <calcite-label scale="s" status="valid">
+            <calcite-input-text placeholder="Placeholder" scale="s"> </calcite-input-text>
+            <calcite-input-message scale="s" active icon> Success message </calcite-input-message>
+          </calcite-label>
+        </div>
+
+        <div class="child-flex">
+          <calcite-label status="valid">
+            <calcite-input-text placeholder="Placeholder" scale="m"> </calcite-input-text>
+            <calcite-input-message scale="m" active icon> Success message </calcite-input-message>
+          </calcite-label>
+        </div>
+
+        <div class="child-flex">
+          <calcite-label scale="l" status="valid">
+            <calcite-input-text placeholder="Placeholder" scale="l"> </calcite-input-text>
+            <calcite-input-message scale="l" active icon> Success message </calcite-input-message>
+          </calcite-label>
+        </div>
       </div>
 
-      <div class="child-flex">
-        <calcite-label scale="l">
-          <calcite-input-text placeholder="Placeholder" scale="l"> </calcite-input-text>
-          <calcite-input-message scale="l" active icon="exclamation-mark-triangle">
-            Warning message
-          </calcite-input-message>
-        </calcite-label>
+      <!-- Message Warning -->
+      <div class="parent-flex">
+        <div class="child-flex font right-aligned-text">Message Warning</div>
+        <div class="child-flex">
+          <calcite-label scale="s">
+            <calcite-input-text placeholder="Placeholder" scale="s"> </calcite-input-text>
+            <calcite-input-message scale="s" active icon="exclamation-mark-triangle">
+              Warning message
+            </calcite-input-message>
+          </calcite-label>
+        </div>
+
+        <div class="child-flex">
+          <calcite-label>
+            <calcite-input-text placeholder="Placeholder" scale="m"> </calcite-input-text>
+            <calcite-input-message scale="m" active icon="exclamation-mark-triangle">
+              Warning message
+            </calcite-input-message>
+          </calcite-label>
+        </div>
+
+        <div class="child-flex">
+          <calcite-label scale="l">
+            <calcite-input-text placeholder="Placeholder" scale="l"> </calcite-input-text>
+            <calcite-input-message scale="l" active icon="exclamation-mark-triangle">
+              Warning message
+            </calcite-input-message>
+          </calcite-label>
+        </div>
       </div>
-    </div>
 
-    <!-- Message Error -->
-    <div class="parent-flex">
-      <div class="child-flex font right-aligned-text">Message Error</div>
-      <div class="child-flex">
-        <calcite-label scale="s" status="invalid">
-          <calcite-input-text placeholder="Placeholder" scale="s"> </calcite-input-text>
-          <calcite-input-message scale="s" active icon> Error message </calcite-input-message>
-        </calcite-label>
+      <!-- Message Error -->
+      <div class="parent-flex">
+        <div class="child-flex font right-aligned-text">Message Error</div>
+        <div class="child-flex">
+          <calcite-label scale="s" status="invalid">
+            <calcite-input-text placeholder="Placeholder" scale="s"> </calcite-input-text>
+            <calcite-input-message scale="s" active icon> Error message </calcite-input-message>
+          </calcite-label>
+        </div>
+
+        <div class="child-flex">
+          <calcite-label status="invalid">
+            <calcite-input-text placeholder="Placeholder" scale="m"> </calcite-input-text>
+            <calcite-input-message scale="m" active icon> Error message </calcite-input-message>
+          </calcite-label>
+        </div>
+
+        <div class="child-flex">
+          <calcite-label scale="l" status="invalid">
+            <calcite-input-text placeholder="Placeholder" scale="l"> </calcite-input-text>
+            <calcite-input-message scale="l" active icon> Error message </calcite-input-message>
+          </calcite-label>
+        </div>
       </div>
 
-      <div class="child-flex">
-        <calcite-label status="invalid">
-          <calcite-input-text placeholder="Placeholder" scale="m"> </calcite-input-text>
-          <calcite-input-message scale="m" active icon> Error message </calcite-input-message>
-        </calcite-label>
-      </div>
+      <hr />
 
-      <div class="child-flex">
-        <calcite-label scale="l" status="invalid">
-          <calcite-input-text placeholder="Placeholder" scale="l"> </calcite-input-text>
-          <calcite-input-message scale="l" active icon> Error message </calcite-input-message>
-        </calcite-label>
-      </div>
-    </div>
-
-    <hr />
-
-    <!--
+      <!--
       ******************************************************
       * ERROR STATES
       ******************************************************
     -->
-    <div class="parent-flex">
-      <div class="child-flex right-aligned-text"></div>
-      <div class="child-flex font header">Error states</div>
-    </div>
-
-    <div class="parent-flex">
-      <div class="child-flex font right-aligned-text"></div>
-      <div class="child-flex font">Small</div>
-      <div class="child-flex font">Medium</div>
-      <div class="child-flex font">Large</div>
-    </div>
-
-    <!-- Standard -->
-    <div class="parent-flex">
-      <div class="child-flex font right-aligned-text">Standard</div>
-      <div class="child-flex">
-        <calcite-label scale="s" status="invalid">
-          Input Label
-          <calcite-input-text placeholder="Placeholder" scale="s"></calcite-input-text>
-          <calcite-input-message scale="s" active icon> Error message </calcite-input-message>
-        </calcite-label>
+      <div class="parent-flex">
+        <div class="child-flex right-aligned-text"></div>
+        <div class="child-flex font header">Error states</div>
       </div>
 
-      <div class="child-flex">
-        <calcite-label status="invalid">
-          Input Label
-          <calcite-input-text placeholder="Placeholder" scale="m"></calcite-input-text>
-          <calcite-input-message scale="m" active icon> Error message </calcite-input-message>
-        </calcite-label>
+      <div class="parent-flex">
+        <div class="child-flex font right-aligned-text"></div>
+        <div class="child-flex font">Small</div>
+        <div class="child-flex font">Medium</div>
+        <div class="child-flex font">Large</div>
       </div>
 
-      <div class="child-flex">
-        <calcite-label scale="l" status="invalid">
-          Input Label
-          <calcite-input-text placeholder="Placeholder" scale="l"></calcite-input-text>
-          <calcite-input-message scale="l" active icon> Error message </calcite-input-message>
-        </calcite-label>
-      </div>
-    </div>
+      <!-- Standard -->
+      <div class="parent-flex">
+        <div class="child-flex font right-aligned-text">Standard</div>
+        <div class="child-flex">
+          <calcite-label scale="s" status="invalid">
+            Input Label
+            <calcite-input-text placeholder="Placeholder" scale="s"></calcite-input-text>
+            <calcite-input-message scale="s" active icon> Error message </calcite-input-message>
+          </calcite-label>
+        </div>
 
-    <!-- Prefix/Suffix -->
-    <div class="parent-flex">
-      <div class="child-flex font right-aligned-text">Prefix/Suffix</div>
-      <div class="child-flex">
-        <calcite-label scale="s" status="invalid">
-          Input Label
-          <calcite-input-text
-            placeholder="Placeholder"
-            scale="s"
-            prefix-text="Prefix"
-            suffix-text="Suffix"
-          ></calcite-input-text>
-          <calcite-input-message scale="s" active icon> Error message </calcite-input-message>
-        </calcite-label>
-      </div>
+        <div class="child-flex">
+          <calcite-label status="invalid">
+            Input Label
+            <calcite-input-text placeholder="Placeholder" scale="m"></calcite-input-text>
+            <calcite-input-message scale="m" active icon> Error message </calcite-input-message>
+          </calcite-label>
+        </div>
 
-      <div class="child-flex">
-        <calcite-label status="invalid">
-          Input Label
-          <calcite-input-text
-            placeholder="Placeholder"
-            scale="m"
-            prefix-text="Prefix"
-            suffix-text="Suffix"
-          ></calcite-input-text>
-          <calcite-input-message scale="m" active icon> Error message </calcite-input-message>
-        </calcite-label>
+        <div class="child-flex">
+          <calcite-label scale="l" status="invalid">
+            Input Label
+            <calcite-input-text placeholder="Placeholder" scale="l"></calcite-input-text>
+            <calcite-input-message scale="l" active icon> Error message </calcite-input-message>
+          </calcite-label>
+        </div>
       </div>
 
-      <div class="child-flex">
-        <calcite-label scale="l" status="invalid">
-          Input Label
-          <calcite-input-text
-            placeholder="Placeholder"
-            scale="l"
-            prefix-text="Prefix"
-            suffix-text="Suffix"
-          ></calcite-input-text>
-          <calcite-input-message scale="l" active icon> Error message </calcite-input-message>
-        </calcite-label>
+      <!-- Prefix/Suffix -->
+      <div class="parent-flex">
+        <div class="child-flex font right-aligned-text">Prefix/Suffix</div>
+        <div class="child-flex">
+          <calcite-label scale="s" status="invalid">
+            Input Label
+            <calcite-input-text
+              placeholder="Placeholder"
+              scale="s"
+              prefix-text="Prefix"
+              suffix-text="Suffix"
+            ></calcite-input-text>
+            <calcite-input-message scale="s" active icon> Error message </calcite-input-message>
+          </calcite-label>
+        </div>
+
+        <div class="child-flex">
+          <calcite-label status="invalid">
+            Input Label
+            <calcite-input-text
+              placeholder="Placeholder"
+              scale="m"
+              prefix-text="Prefix"
+              suffix-text="Suffix"
+            ></calcite-input-text>
+            <calcite-input-message scale="m" active icon> Error message </calcite-input-message>
+          </calcite-label>
+        </div>
+
+        <div class="child-flex">
+          <calcite-label scale="l" status="invalid">
+            Input Label
+            <calcite-input-text
+              placeholder="Placeholder"
+              scale="l"
+              prefix-text="Prefix"
+              suffix-text="Suffix"
+            ></calcite-input-text>
+            <calcite-input-message scale="l" active icon> Error message </calcite-input-message>
+          </calcite-label>
+        </div>
       </div>
-    </div>
+    </demo-dom-swapper>
   </body>
 </html>

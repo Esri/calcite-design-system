@@ -1,18 +1,18 @@
 import { select } from "@storybook/addon-knobs";
-import { boolean, iconNames } from "../../../.storybook/helpers";
+import { boolean, iconNames, storyFilters } from "../../../.storybook/helpers";
 import { themesDarkDefault } from "../../../.storybook/utils";
 import readme from "./readme.md";
 import { html } from "../../../support/formatting";
 
 export default {
   title: "Components/Alert",
-
   parameters: {
     notes: readme
-  }
+  },
+  ...storyFilters()
 };
 
-export const TitleMessageLink = (): string => html`
+export const titleMessageLink = (): string => html`
 <calcite-alert
 ${boolean("icon", true)}
 ${boolean("auto-dismiss", false)}
@@ -29,9 +29,9 @@ color="${select("color", ["green", "red", "yellow", "blue"], "blue")}">
 </calcite-alert>
 `;
 
-TitleMessageLink.storyName = "Title, message, link";
+titleMessageLink.storyName = "Title, message, link";
 
-export const TitleMessage = (): string => html`
+export const titleMessage = (): string => html`
   <calcite-alert
     ${boolean("icon", true)}
     ${boolean("auto-dismiss", false)}
@@ -50,9 +50,9 @@ export const TitleMessage = (): string => html`
   </calcite-alert>
 `;
 
-TitleMessage.storyName = "Title, message";
+titleMessage.storyName = "Title, message";
 
-export const MessageLink = (): string => html`
+export const messageLink = (): string => html`
   <calcite-alert
     ${boolean("icon", true)}
     ${boolean("auto-dismiss", false)}
@@ -71,9 +71,9 @@ export const MessageLink = (): string => html`
   </calcite-alert>
 `;
 
-MessageLink.storyName = "Message, link";
+messageLink.storyName = "Message, link";
 
-export const Message = (): string => html`
+export const message = (): string => html`
   <calcite-alert
     ${boolean("icon", true)}
     ${boolean("auto-dismiss", false)}
@@ -91,7 +91,7 @@ export const Message = (): string => html`
   </calcite-alert>
 `;
 
-export const CustomIcon = (): string => html`
+export const customIcon = (): string => html`
   <calcite-alert
     icon="${select("icon", iconNames, iconNames[0])}"
     ${boolean("auto-dismiss", false)}
@@ -110,9 +110,7 @@ export const CustomIcon = (): string => html`
   </calcite-alert>
 `;
 
-CustomIcon.storyName = "Custom icon";
-
-export const Queue = (): string => html`
+export const queue_NoTest = (): string => html`
   <div>
     <h5>Open or add to queue</h5>
     <calcite-button onclick='document.querySelector("#one").setAttribute("open", "")'>Open Alert 1</calcite-button>
@@ -150,7 +148,7 @@ export const Queue = (): string => html`
   </div>
 `;
 
-export const DarkTheme = (): string => html`
+export const darkThemeRTL_TestOnly = (): string => html`
   <calcite-alert
     class="calcite-theme-dark"
     ${boolean("icon", true)}
@@ -171,10 +169,10 @@ export const DarkTheme = (): string => html`
   </calcite-alert>
 `;
 
-DarkTheme.parameters = { themes: themesDarkDefault };
+darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };
 
-export const DarkThemeQueue = (): string => html`
-  <div>
+export const queueDarkThemeRTL_TestOnly = (): string => html`
+  <div dir="rtl">
     <h5 style="color:white">Open or add to queue</h5>
     <calcite-button class="calcite-theme-dark" onclick='document.querySelector("#one").setAttribute("open", "")'
       >Open Alert 1</calcite-button
@@ -239,25 +237,4 @@ export const DarkThemeQueue = (): string => html`
   </div>
 `;
 
-DarkThemeQueue.parameters = { themes: themesDarkDefault };
-
-export const Rtl = (): string => html`
-<div dir="rtl">
-<calcite-alert
-${boolean("icon", true)}
-${boolean("auto-dismiss", false)}
-auto-dismiss-duration="${select("auto-dismiss-duration", ["fast", "medium", "slow"], "medium")}"
-placement="${select("placement", ["bottom-start", "bottom", "bottom-end", "top-start", "top", "top-end"], "bottom")}"
-${boolean("active", true)}
-scale="${select("scale", ["s", "m", "l"], "m")}"
-color="${select("color", ["green", "red", "yellow", "blue"], "blue")}">
-<div slot="title">Something failed</div>
-<div slot="message">
-  That thing you wanted to do didn't work as expected
-</div>
-<calcite-link slot="link" title="my action">Retry</calcite-button>
-</calcite-alert>
-</div>
-`;
-
-Rtl.storyName = "RTL";
+queueDarkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };

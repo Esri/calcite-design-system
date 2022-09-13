@@ -9,12 +9,12 @@
 }
 
 .track {
-  @apply z-0 w-full overflow-hidden;
+  @apply z-default w-full overflow-hidden;
   background: theme("borderColor.color.3");
 }
 
 .bar {
-  @apply bg-brand z-0;
+  @apply bg-brand z-default;
 }
 
 @media (forced-colors: active) {

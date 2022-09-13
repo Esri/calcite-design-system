@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, focusable, renders, slots } from "../../tests/commonTests";
+import { accessible, focusable, renders, slots, hidden } from "../../tests/commonTests";
 import { CSS, SLOTS } from "./resources";
 import { html } from "../../../support/formatting";
 
@@ -10,6 +10,8 @@ describe("calcite-notice", () => {
   <calcite-link slot="link" href="">Action</calcite-link>
 `;
   it("renders", async () => renders(`<calcite-notice open>${noticeContent}</calcite-notice>`, { display: "flex" }));
+
+  it("honors hidden attribute", async () => hidden("calcite-notice"));
 
   it("is accessible", async () => accessible(`<calcite-notice open>${noticeContent}</calcite-notice>`));
   it("is accessible with icon", async () => accessible(`<calcite-notice icon open>${noticeContent}</calcite-notice>`));
