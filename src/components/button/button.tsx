@@ -71,10 +71,10 @@ export class Button implements LabelableComponent, InteractiveComponent, FormOwn
   @Prop({ reflect: true }) loading = false;
 
   /** The name attribute to apply to the button */
-  @Prop() name?: string;
+  @Prop({ reflect: true }) name?: string;
 
   /** The rel attribute to apply to the hyperlink */
-  @Prop() rel?: string;
+  @Prop({ reflect: true }) rel?: string;
 
   /**
    * The form ID to associate with the component
@@ -93,10 +93,10 @@ export class Button implements LabelableComponent, InteractiveComponent, FormOwn
   @Prop({ reflect: true }) splitChild?: "primary" | "secondary" | false = false;
 
   /** The target attribute to apply to the hyperlink */
-  @Prop() target?: string;
+  @Prop({ reflect: true }) target?: string;
 
   /** The type attribute to apply to the button */
-  @Prop({ mutable: true }) type = "button";
+  @Prop({ mutable: true, reflect: true }) type = "button";
 
   /** specify the width of the button, defaults to auto */
   @Prop({ reflect: true }) width: Width = "auto";

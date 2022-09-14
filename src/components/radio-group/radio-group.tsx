@@ -68,7 +68,7 @@ export class RadioGroup implements LabelableComponent, FormComponent, Interactiv
   /**
    * Specifies the name of the component on form submission.
    */
-  @Prop() name: string;
+  @Prop({ reflect: true }) name: string;
 
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";

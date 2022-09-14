@@ -57,7 +57,7 @@ export class Action implements InteractiveComponent {
    */
   @Prop({ reflect: true }) disabled = false;
 
-  /** Specifies an icon to display.  */
+  /** Specifies an icon to display. */
   @Prop() icon?: string;
 
   /**

@@ -125,7 +125,7 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
   /**
    * Specifies the number at which section headings should start.
    */
-  @Prop() headingLevel: HeadingLevel;
+  @Prop({ reflect: true }) headingLevel: HeadingLevel;
 
   /** Accessible name for the component. */
   @Prop() label!: string;
@@ -169,7 +169,7 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
    * Using the "absolute" value will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout. The "fixed" value should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is "fixed".
    *
    */
-  @Prop() overlayPositioning: OverlayPositioning = "absolute";
+  @Prop({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
   @Watch("overlayPositioning")
   overlayPositioningHandler(): void {

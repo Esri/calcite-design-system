@@ -44,8 +44,9 @@ export class DatePicker {
   //  Public Properties
   //
   //--------------------------------------------------------------------------
+
   /** Active range */
-  @Prop() activeRange?: "start" | "end";
+  @Prop({ reflect: true }) activeRange?: "start" | "end";
 
   /** Selected date */
   @Prop({ mutable: true }) value?: string | string[];
@@ -53,7 +54,7 @@ export class DatePicker {
   /**
    * Number at which section headings should start for this component.
    */
-  @Prop() headingLevel: HeadingLevel;
+  @Prop({ reflect: true }) headingLevel: HeadingLevel;
 
   /** Selected date as full date object*/
   @Prop({ mutable: true }) valueAsDate?: Date | Date[];
@@ -95,7 +96,7 @@ export class DatePicker {
   }
 
   /** Earliest allowed date ("yyyy-mm-dd") */
-  @Prop({ mutable: true }) min?: string;
+  @Prop({ mutable: true, reflect: true }) min?: string;
 
   @Watch("min")
   onMinChanged(min: string): void {
@@ -105,7 +106,7 @@ export class DatePicker {
   }
 
   /** Latest allowed date ("yyyy-mm-dd") */
-  @Prop({ mutable: true }) max?: string;
+  @Prop({ mutable: true, reflect: true }) max?: string;
 
   @Watch("max")
   onMaxChanged(max: string): void {
@@ -149,17 +150,17 @@ export class DatePicker {
    *
    * @deprecated use value instead
    */
-  @Prop({ mutable: true }) start?: string;
+  @Prop({ mutable: true, reflect: true }) start?: string;
 
   /**
    * Selected end date
    *
    * @deprecated use value instead
    */
-  @Prop({ mutable: true }) end?: string;
+  @Prop({ mutable: true, reflect: true }) end?: string;
 
   /** Disables the default behaviour on the third click of narrowing or extending the range and instead starts a new range. */
-  @Prop() proximitySelectionDisabled = false;
+  @Prop({ reflect: true }) proximitySelectionDisabled = false;
 
   //--------------------------------------------------------------------------
   //

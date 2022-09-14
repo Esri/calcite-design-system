@@ -83,7 +83,7 @@ export class InputTimePicker
    *
    * @mdn [readOnly](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/readonly)
    */
-  @Prop() readOnly = false;
+  @Prop({ reflect: true }) readOnly = false;
 
   @Watch("disabled")
   @Watch("readOnly")

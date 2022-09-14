@@ -93,7 +93,7 @@ export class InputDatePicker
    *
    * @mdn [readOnly](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/readonly)
    */
-  @Prop() readOnly = false;
+  @Prop({ reflect: true }) readOnly = false;
 
   @Watch("disabled")
   @Watch("readOnly")
@@ -137,7 +137,7 @@ export class InputDatePicker
   /**
    * Specifies the number at which section headings should start.
    */
-  @Prop() headingLevel: HeadingLevel;
+  @Prop({ reflect: true }) headingLevel: HeadingLevel;
 
   /** The component's value as a full date object. */
   @Prop({ mutable: true }) valueAsDate?: Date | Date[];
@@ -212,7 +212,7 @@ export class InputDatePicker
   /**
    * Specifies the name of the component on form submission.
    */
-  @Prop() name: string;
+  @Prop({ reflect: true }) name: string;
 
   /**
    * Accessible name for the component's previous month button.
@@ -263,14 +263,14 @@ export class InputDatePicker
    *
    * @deprecated use "value" instead.
    */
-  @Prop({ mutable: true }) start?: string;
+  @Prop({ mutable: true, reflect: true }) start?: string;
 
   /**
    * The component's end date.
    *
    * @deprecated use "value" instead.
    */
-  @Prop({ mutable: true }) end?: string;
+  @Prop({ mutable: true, reflect: true }) end?: string;
 
   /**
    * Determines the type of positioning to use for the overlaid content.
@@ -278,7 +278,7 @@ export class InputDatePicker
    * Using the "absolute" value will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout. The "fixed" value should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is "fixed".
    *
    */
-  @Prop() overlayPositioning: OverlayPositioning = "absolute";
+  @Prop({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
   @Watch("overlayPositioning")
   overlayPositioningHandler(): void {
