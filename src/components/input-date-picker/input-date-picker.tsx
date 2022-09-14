@@ -519,7 +519,7 @@ export class InputDatePicker
                   intlNextMonth={this.intlNextMonth}
                   intlPrevMonth={this.intlPrevMonth}
                   intlYear={this.intlYear}
-                  locale={locale}
+                  lang={locale}
                   max={this.max}
                   maxAsDate={this.maxAsDate}
                   min={this.min}
