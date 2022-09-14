@@ -102,7 +102,7 @@
 }
 
 .children-container {
-  @apply relative h-0 overflow-visible;
+  @apply relative h-0 overflow-hidden;
   margin-inline-start: theme("margin.5");
   transform: scaleY(0);
   opacity: 0;
@@ -111,6 +111,7 @@
   transform-origin: top; // keep the top of the element in the same place. this is optional.
 
   :host([expanded]) > & {
+    @apply overflow-visible;
     transform: scaleY(1);
     opacity: 1;
     block-size: auto;
