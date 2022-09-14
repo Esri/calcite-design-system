@@ -1,3 +1,4 @@
+import { readTask } from "@stencil/core";
 /**
  * Defines interface for components with open/close public emitter.
  * All implementations of this interface must handle the following events: `beforeOpen`, `open`, `beforeClose`, `close`.
@@ -60,6 +61,22 @@ function transitionEnd(event: TransitionEvent): void {
     this.open ? this.onOpen() : this.onClose();
   }
 }
+
+/**
+ * Helper to determine globally set transition duration setting.
+ *
+ * @param component
+ */
+export function onToggleUnanimatedComponent(component: OpenCloseComponent): void {
+  readTask((): void => {
+    const transitionElement = window.getComputedStyle(component.transitionEl);
+    const transitionDurationProp = transitionElement.getPropertyValue("transition-duration").split(", ")[2];
+    if (transitionDurationProp === "0s") {
+      component.open ? component.onOpen() : component.onClose();
+    }
+  });
+}
+
 /**
  * Helper to keep track of transition listeners on setTransitionEl and connectedCallback on OpenCloseComponent components.
  *
