@@ -31,6 +31,7 @@ Co-authored-by: JC Franco <jfranco@esri.com>
 ### Bug Fixes
 
 - **checkbox:** hide check icon from screen readers ([#5211](https://github.com/Esri/calcite-components/issues/5211)) ([15ef5e6](https://github.com/Esri/calcite-components/commit/15ef5e69e270f55c687617fda58b8b0aac1bb944)), closes [#5131](https://github.com/Esri/calcite-components/issues/5131)
+- **input, input-number:** hide non-interactive number up/down buttons from assistive technologies ([#5324](https://github.com/Esri/calcite-components/issues/5324)) ([58b1adf](https://github.com/Esri/calcite-components/commit/58b1adf8882c258de648f0ccb410deabddf492e8))
 - remove unsafe-eval to support CSP script-src ([#5299](https://github.com/Esri/calcite-components/issues/5299)) ([2ad4456](https://github.com/Esri/calcite-components/commit/2ad4456b569ec081635c341f5dbc27b60613fb00))
 - **card:** drop hover/press styling ([#5212](https://github.com/Esri/calcite-components/issues/5212)) ([7740137](https://github.com/Esri/calcite-components/commit/774013727424ea2ce1ccbc5ff43c25aa7c95b362)), closes [#5204](https://github.com/Esri/calcite-components/issues/5204)
 - **combobox, dropdown, input-date-picker, popover, tooltip:** Improve floating ui performance. ([#5289](https://github.com/Esri/calcite-components/issues/5289)) ([9071c87](https://github.com/Esri/calcite-components/commit/9071c875b4153573ac6d9cd92bbaa678d628a51b)), closes [#5286](https://github.com/Esri/calcite-components/issues/5286)
