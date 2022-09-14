@@ -81,7 +81,11 @@ import yargs from "yargs";
     // we keep track of `beta` and `next` releases since `standard-version` resets the version number when going in between
     // this should not be needed after v1.0.0 since there would no longer be a beta version to keep track of
     const targetDescendingOrderTags = semverTags.filter((tag) => targetVersionPattern.test(tag)).sort(semver.rcompare);
-    const targetReleaseVersion = semver.inc(targetDescendingOrderTags[0], "prerelease", target) || "";
+    const targetReleaseVersion = semver.inc(targetDescendingOrderTags[0], "prerelease", target);
+
+    if (!targetReleaseVersion) {
+      throw new Error("an error occurred determining the target release version");
+    }
 
     if (!targetVersionPattern.test(targetReleaseVersion)) {
       throw new Error(`target release version does not have prerelease identifier (${target})`);
@@ -108,6 +112,9 @@ import yargs from "yargs";
       await appendUnreleasedNotesToChangelog();
       await exec(`git add ${changelogPath}`);
     } else {
+      if (!standardVersionOptions.releaseAs) {
+        throw new Error("an error occurred determining the target release version");
+      }
       await updateReadmeCdnUrls(standardVersionOptions.releaseAs);
       await exec(`git add ${readmePath}`);
     }
@@ -158,11 +165,7 @@ import yargs from "yargs";
     ).stdout.trim();
   }
 
-  async function updateReadmeCdnUrls(version: string | undefined): Promise<void> {
-    if (!version) {
-      return;
-    }
-
+  async function updateReadmeCdnUrls(version: string): Promise<void> {
     const scriptTagPattern = /(<script\s+type="module"\s+src=").+("\s*><\/script>)/m;
     const linkTagPattern = /(<link\s+rel="stylesheet"\s+type="text\/css"\s+href=").+("\s*\/>)/m;
     const baseCdnUrl = `https://unpkg.com/@esri/calcite-components@${version}/dist/calcite/calcite.`;
