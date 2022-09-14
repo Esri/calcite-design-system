@@ -72,7 +72,7 @@ export class Chip implements ConditionalSlotComponent {
   /** Specifies an icon to display. */
   @Prop({ reflect: true }) icon?: string;
 
-  /** flip the icon in rtl */
+  /** When true, the icon will be flipped when the element direction is right-to-left ("rtl"). */
   @Prop({ reflect: true }) iconFlipRtl = false;
 
   /** specify the scale of the chip, defaults to m */

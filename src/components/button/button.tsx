@@ -54,7 +54,7 @@ export class Button implements LabelableComponent, InteractiveComponent, FormOwn
   /** Specifies an icon to display at the end of the component. */
   @Prop({ reflect: true }) iconEnd?: string;
 
-  /** flip the icon(s) in rtl */
+  /** When true, the icon will be flipped when the element direction is right-to-left ("rtl"). */
   @Prop({ reflect: true }) iconFlipRtl?: FlipContext;
 
   /** Specifies an icon to display at the start of the component. */

@@ -61,7 +61,7 @@ export class DropdownItem {
     this.active = value;
   }
 
-  /** flip the icon(s) in rtl */
+  /** When true, the icon will be flipped when the element direction is right-to-left ("rtl"). */
   @Prop({ reflect: true }) iconFlipRtl?: FlipContext;
 
   /** Specifies an icon to display at the start of the component. */
