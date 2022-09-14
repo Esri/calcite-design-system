@@ -153,11 +153,11 @@ export interface LangComponent extends GlobalAttrComponent {
 }
 
 /**
- * This util helps resolve the language code for a component that is configured to watch for the global `lang` attribute.
+ * This util helps resolve a component's locale.
  * It will also fall back on the deprecated `locale` if a component implemented this previously.
  *
  * @param component
  */
-export function getLang(component: LangComponent): string {
+export function getLocale(component: LangComponent): string {
   return component.globalAttributes.lang || component.locale || document.documentElement.lang || "en";
 }

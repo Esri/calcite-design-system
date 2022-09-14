@@ -36,7 +36,7 @@ import {
   unwatchGlobalAttributes,
   watchGlobalAttributes
 } from "../../utils/globalAttributes";
-import { getLang, LangComponent } from "../../utils/locale";
+import { getLocale, LangComponent } from "../../utils/locale";
 
 function capitalize(str: string): string {
   return str.charAt(0).toUpperCase() + str.slice(1);
@@ -627,7 +627,7 @@ export class TimePicker implements GlobalAttrComponent, LangComponent {
   private setValue = (value: string, emit = true): void => {
     if (isValidTime(value)) {
       const { hour, minute, second } = parseTimeString(value);
-      const lang = getLang(this);
+      const locale = getLocale(this);
       const {
         localizedHour,
         localizedHourSuffix,
@@ -636,7 +636,7 @@ export class TimePicker implements GlobalAttrComponent, LangComponent {
         localizedSecond,
         localizedSecondSuffix,
         localizedMeridiem
-      } = localizeTimeStringToParts(value, lang);
+      } = localizeTimeStringToParts(value, locale);
       this.localizedHour = localizedHour;
       this.localizedHourSuffix = localizedHourSuffix;
       this.localizedMinute = localizedMinute;
@@ -649,7 +649,7 @@ export class TimePicker implements GlobalAttrComponent, LangComponent {
       if (localizedMeridiem) {
         this.localizedMeridiem = localizedMeridiem;
         this.meridiem = getMeridiem(this.hour);
-        const formatParts = getTimeParts(value, lang);
+        const formatParts = getTimeParts(value, locale);
         this.meridiemOrder = this.getMeridiemOrder(formatParts);
       }
     } else {
@@ -676,7 +676,7 @@ export class TimePicker implements GlobalAttrComponent, LangComponent {
     value: number | string | Meridiem,
     emit = true
   ): void => {
-    const lang = getLang(this);
+    const locale = getLocale(this);
     if (key === "meridiem") {
       this.meridiem = value as Meridiem;
       if (isValidNumber(this.hour)) {
@@ -693,11 +693,11 @@ export class TimePicker implements GlobalAttrComponent, LangComponent {
             }
             break;
         }
-        this.localizedHour = localizeTimePart(this.hour, "hour", lang);
+        this.localizedHour = localizeTimePart(this.hour, "hour", locale);
       }
     } else {
       this[key] = typeof value === "number" ? formatTimePart(value) : value;
-      this[`localized${capitalize(key)}`] = localizeTimePart(this[key], key, lang);
+      this[`localized${capitalize(key)}`] = localizeTimePart(this[key], key, locale);
     }
     if (this.hour && this.minute) {
       const showSeconds = this.second && this.showSecond;
@@ -706,16 +706,16 @@ export class TimePicker implements GlobalAttrComponent, LangComponent {
       this.value = null;
     }
     this.localizedMeridiem = this.value
-      ? localizeTimeStringToParts(this.value, lang)?.localizedMeridiem || null
-      : localizeTimePart(this.meridiem, "meridiem", lang);
+      ? localizeTimeStringToParts(this.value, locale)?.localizedMeridiem || null
+      : localizeTimePart(this.meridiem, "meridiem", locale);
     if (emit) {
       this.calciteInternalTimePickerChange.emit();
     }
   };
 
   private getMeridiemOrder(formatParts: Intl.DateTimeFormatPart[]): number {
-    const lang = getLang(this);
-    const isRTLKind = lang === "ar" || lang === "he";
+    const locale = getLocale(this);
+    const isRTLKind = locale === "ar" || locale === "he";
     if (formatParts && !isRTLKind) {
       const index = formatParts.findIndex((parts: { type: string; value: string }) => {
         return parts.value === this.localizedMeridiem;
@@ -733,9 +733,9 @@ export class TimePicker implements GlobalAttrComponent, LangComponent {
 
   connectedCallback() {
     this.setValue(this.value, false);
-    const lang = getLang(this);
-    this.hourCycle = getLocaleHourCycle(lang);
-    this.meridiemOrder = this.getMeridiemOrder(getTimeParts("0:00:00", lang));
+    const locale = getLocale(this);
+    this.hourCycle = getLocaleHourCycle(locale);
+    this.meridiemOrder = this.getMeridiemOrder(getTimeParts("0:00:00", locale));
     watchGlobalAttributes(this, ["lang"]);
   }
 

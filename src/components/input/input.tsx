@@ -29,7 +29,7 @@ import {
   getDecimalSeparator,
   delocalizeNumberString,
   localizeNumberString,
-  getLang,
+  getLocale,
   LangComponent
 } from "../../utils/locale";
 import { numberKeys } from "../../utils/key";
@@ -595,7 +595,7 @@ export class Input
       return;
     }
     const value = (nativeEvent.target as HTMLInputElement).value;
-    const delocalizedValue = delocalizeNumberString(value, getLang(this));
+    const delocalizedValue = delocalizeNumberString(value, getLocale(this));
     if (nativeEvent.inputType === "insertFromPaste") {
       if (!isValidNumber(delocalizedValue)) {
         nativeEvent.preventDefault();
@@ -649,7 +649,7 @@ export class Input
       }
       return;
     }
-    const decimalSeparator = getDecimalSeparator(getLang(this));
+    const decimalSeparator = getDecimalSeparator(getLocale(this));
     if (event.key === decimalSeparator) {
       if (!this.value && !this.childNumberEl.value) {
         return;
@@ -824,10 +824,15 @@ export class Input
     previousValue?: string;
     value: string;
   }): void => {
-    const lang = getLang(this);
+    const locale = getLocale(this);
     const previousLocalizedValue =
       this.type === "number"
-        ? localizeNumberString(this.previousValue, lang, this.groupSeparator, this.numberingSystem)
+        ? localizeNumberString(
+            this.previousValue,
+            locale,
+            this.groupSeparator,
+            this.numberingSystem
+          )
         : "";
     const sanitizedValue = this.type === "number" ? sanitizeNumberString(value) : value;
     const newValue =
@@ -838,7 +843,7 @@ export class Input
         : sanitizedValue;
     const newLocalizedValue =
       this.type === "number"
-        ? localizeNumberString(newValue, lang, this.groupSeparator, this.numberingSystem)
+        ? localizeNumberString(newValue, locale, this.groupSeparator, this.numberingSystem)
         : "";
 
     this.setPreviousValue(previousValue || this.value);

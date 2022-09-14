@@ -29,7 +29,7 @@ import {
   unwatchGlobalAttributes,
   watchGlobalAttributes
 } from "../../utils/globalAttributes";
-import { getLang, LangComponent } from "../../utils/locale";
+import { getLocale, LangComponent } from "../../utils/locale";
 
 @Component({
   assetsDirs: ["assets"],
@@ -348,7 +348,7 @@ export class DatePicker implements GlobalAttrComponent, LangComponent {
       return;
     }
 
-    this.localeData = await getLocaleData(getLang(this));
+    this.localeData = await getLocaleData(getLocale(this));
   }
 
   monthHeaderSelectChange = (event: CustomEvent<Date>): void => {

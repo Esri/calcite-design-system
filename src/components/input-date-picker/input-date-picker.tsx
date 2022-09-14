@@ -61,7 +61,7 @@ import {
   unwatchGlobalAttributes,
   watchGlobalAttributes
 } from "../../utils/globalAttributes";
-import { getLang, LangComponent } from "../../utils/locale";
+import { getLocale, LangComponent } from "../../utils/locale";
 import { debounce } from "lodash-es";
 
 @Component({
@@ -465,9 +465,9 @@ export class InputDatePicker
     const endDate = this.range
       ? dateFromRange(this.endAsDate, this.minAsDate, this.maxAsDate)
       : null;
-    const lang = getLang(this);
-    const formattedEndDate = endDate ? endDate.toLocaleDateString(lang) : "";
-    const formattedDate = date ? date.toLocaleDateString(lang) : "";
+    const locale = getLocale(this);
+    const formattedEndDate = endDate ? endDate.toLocaleDateString(locale) : "";
+    const formattedDate = date ? date.toLocaleDateString(locale) : "";
 
     return (
       <Host onBlur={this.deactivate} onKeyDown={this.keyDownHandler} role="application">
@@ -519,7 +519,7 @@ export class InputDatePicker
                   intlNextMonth={this.intlNextMonth}
                   intlPrevMonth={this.intlPrevMonth}
                   intlYear={this.intlYear}
-                  locale={lang}
+                  locale={locale}
                   max={this.max}
                   maxAsDate={this.maxAsDate}
                   min={this.min}
@@ -746,7 +746,7 @@ export class InputDatePicker
       return;
     }
 
-    this.localeData = await getLocaleData(getLang(this));
+    this.localeData = await getLocaleData(getLocale(this));
   }
 
   private clearCurrentValue(): void {
@@ -830,17 +830,17 @@ export class InputDatePicker
    */
   private blur(target: HTMLCalciteInputElement): void {
     const { focusedInput, endAsDate, range, startAsDate, valueAsDate } = this;
-    const lang = getLang(this);
+    const locale = getLocale(this);
     const date = this.getDateFromInput(target.value);
     if (!date) {
       if (!range && valueAsDate) {
         target.value = Array.isArray(valueAsDate)
-          ? valueAsDate[focusedInput === "end" ? 1 : 0].toLocaleDateString(lang)
-          : valueAsDate.toLocaleDateString(lang);
+          ? valueAsDate[focusedInput === "end" ? 1 : 0].toLocaleDateString(locale)
+          : valueAsDate.toLocaleDateString(locale);
       } else if (focusedInput === "start" && startAsDate) {
-        target.value = startAsDate.toLocaleDateString(lang);
+        target.value = startAsDate.toLocaleDateString(locale);
       } else if (focusedInput === "end" && endAsDate) {
-        target.value = endAsDate.toLocaleDateString(lang);
+        target.value = endAsDate.toLocaleDateString(locale);
       }
     }
   }

@@ -26,7 +26,7 @@ import {
 } from "../../utils/form";
 import {
   delocalizeNumberString,
-  getLang,
+  getLocale,
   getDecimalSeparator,
   LangComponent,
   localizeNumberString
@@ -522,7 +522,7 @@ export class InputNumber
       return;
     }
     const value = (nativeEvent.target as HTMLInputElement).value;
-    const delocalizedValue = delocalizeNumberString(value, getLang(this));
+    const delocalizedValue = delocalizeNumberString(value, getLocale(this));
     if (nativeEvent.inputType === "insertFromPaste") {
       if (!isValidNumber(delocalizedValue)) {
         nativeEvent.preventDefault();
@@ -576,7 +576,7 @@ export class InputNumber
       }
       return;
     }
-    const decimalSeparator = getDecimalSeparator(getLang(this));
+    const decimalSeparator = getDecimalSeparator(getLocale(this));
     if (event.key === decimalSeparator) {
       if (!this.value && !this.childNumberEl.value) {
         return;
@@ -714,11 +714,11 @@ export class InputNumber
     previousValue?: string;
     value: string;
   }): void => {
-    const lang = getLang(this);
+    const locale = getLocale(this);
 
     const previousLocalizedValue = localizeNumberString(
       this.previousValue,
-      lang,
+      locale,
       this.groupSeparator,
       this.numberingSystem
     );
@@ -733,7 +733,7 @@ export class InputNumber
 
     const newLocalizedValue = localizeNumberString(
       newValue,
-      lang,
+      locale,
       this.groupSeparator,
       this.numberingSystem
     );

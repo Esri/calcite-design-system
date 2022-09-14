@@ -26,7 +26,7 @@ import {
 } from "../../utils/form";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { GlobalAttrComponent } from "../../utils/globalAttributes";
-import { getLang } from "../../utils/locale";
+import { getLocale } from "../../utils/locale";
 
 @Component({
   tag: "calcite-input-time-picker",
@@ -247,15 +247,15 @@ export class InputTimePicker
   private calciteInternalInputBlurHandler = (): void => {
     this.open = false;
     const shouldIncludeSeconds = this.shouldIncludeSeconds();
-    const lang = getLang(this);
+    const locale = getLocale(this);
 
     const localizedInputValue = localizeTimeString(
       this.calciteInputEl.value,
-      lang,
+      locale,
       shouldIncludeSeconds
     );
     this.setInputValue(
-      localizedInputValue || localizeTimeString(this.value, lang, shouldIncludeSeconds)
+      localizedInputValue || localizeTimeString(this.value, locale, shouldIncludeSeconds)
     );
   };
 
@@ -383,7 +383,7 @@ export class InputTimePicker
     const newValue = formatTimeString(value);
     const newLocalizedValue = localizeTimeString(
       newValue,
-      getLang(this),
+      getLocale(this),
       this.shouldIncludeSeconds()
     );
     this.internalValueChange = origin !== "external" && origin !== "loading";
@@ -514,7 +514,7 @@ export class InputTimePicker
             intlSecond={this.intlSecond}
             intlSecondDown={this.intlSecondDown}
             intlSecondUp={this.intlSecondUp}
-            lang={getLang(this)}
+            lang={getLocale(this)}
             onCalciteInternalTimePickerChange={this.timePickerChangeHandler}
             ref={this.setCalciteTimePickerEl}
             scale={this.scale}
