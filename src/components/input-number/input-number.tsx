@@ -789,6 +789,7 @@ export class InputNumber implements LabelableComponent, FormComponent, Interacti
 
     const numberButtonsHorizontalUp = (
       <button
+        aria-hidden="true"
         class={{
           [CSS.numberButtonItem]: true,
           [CSS.buttonItemHorizontal]: isHorizontalNumberButton
@@ -807,6 +808,7 @@ export class InputNumber implements LabelableComponent, FormComponent, Interacti
 
     const numberButtonsHorizontalDown = (
       <button
+        aria-hidden="true"
         class={{
           [CSS.numberButtonItem]: true,
           [CSS.buttonItemHorizontal]: isHorizontalNumberButton
