@@ -15,7 +15,7 @@ import {
 import { guid } from "../../utils/guid";
 import { formatTimeString, isValidTime, localizeTimeString } from "../../utils/time";
 import { Scale } from "../interfaces";
-import { LogicalPlacement } from "../../utils/floating-ui";
+import { FloatingUIComponent, LogicalPlacement, OverlayPositioning } from "../../utils/floating-ui";
 import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
 import {
   connectForm,
@@ -31,7 +31,9 @@ import { InteractiveComponent, updateHostInteraction } from "../../utils/interac
   styleUrl: "input-time-picker.scss",
   shadow: true
 })
-export class InputTimePicker implements LabelableComponent, FormComponent, InteractiveComponent {
+export class InputTimePicker
+  implements LabelableComponent, FormComponent, InteractiveComponent, FloatingUIComponent
+{
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -81,7 +83,7 @@ export class InputTimePicker implements LabelableComponent, FormComponent, Inter
    *
    * @mdn [readOnly](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/readonly)
    */
-  @Prop() readOnly = false;
+  @Prop({ reflect: true }) readOnly = false;
 
   @Watch("disabled")
   @Watch("readOnly")
@@ -141,7 +143,7 @@ export class InputTimePicker implements LabelableComponent, FormComponent, Inter
   }
 
   /** The name of the time input */
-  @Prop() name: string;
+  @Prop({ reflect: true }) name: string;
 
   /**
    * When true, makes the component required for form-submission.
@@ -154,6 +156,14 @@ export class InputTimePicker implements LabelableComponent, FormComponent, Inter
   @Prop({ reflect: true }) scale: Scale = "m";
 
   /**
+   * Determines the type of positioning to use for the overlaid content.
+   *
+   * Using the "absolute" value will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout. The "fixed" value should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is "fixed".
+   *
+   */
+  @Prop() overlayPositioning: OverlayPositioning = "absolute";
+
+  /**
    * Determines where the popover will be positioned relative to the input.
    *
    * @see [LogicalPlacement](https://github.com/Esri/calcite-components/blob/master/src/utils/floating-ui.ts#L25)
@@ -161,7 +171,7 @@ export class InputTimePicker implements LabelableComponent, FormComponent, Inter
   @Prop({ reflect: true }) placement: LogicalPlacement = "auto";
 
   /** number (seconds) that specifies the granularity that the value must adhere to */
-  @Prop() step = 60;
+  @Prop({ reflect: true }) step = 60;
 
   /** The selected time in UTC (always 24-hour format) */
   @Prop({ mutable: true }) value: string = null;
@@ -474,6 +484,7 @@ export class InputTimePicker implements LabelableComponent, FormComponent, Inter
           id={popoverId}
           label="Time Picker"
           open={this.open}
+          overlayPositioning={this.overlayPositioning}
           placement={this.placement}
           ref={this.setCalcitePopoverEl}
           referenceElement={this.referenceElementId}

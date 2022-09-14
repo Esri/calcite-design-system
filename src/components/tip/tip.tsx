@@ -41,7 +41,7 @@ export class Tip implements ConditionalSlotComponent {
   /**
    * Specifies the number at which section headings should start.
    */
-  @Prop() headingLevel: HeadingLevel;
+  @Prop({ reflect: true }) headingLevel: HeadingLevel;
 
   /**
    * When true and if it has a parent `calcite-tip-manager`, the component is selected.

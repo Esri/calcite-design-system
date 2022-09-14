@@ -87,10 +87,10 @@ export class Modal implements ConditionalSlotComponent, OpenCloseComponent {
   beforeClose?: (el: HTMLElement) => Promise<void> = () => Promise.resolve();
 
   /** When true, disables the component's close button. */
-  @Prop() disableCloseButton = false;
+  @Prop({ reflect: true }) disableCloseButton = false;
 
   /** When true, disables the closing of the component when clicked outside. */
-  @Prop() disableOutsideClose = false;
+  @Prop({ reflect: true }) disableOutsideClose = false;
 
   /** Accessible name for the component's close button. */
   @Prop() intlClose = TEXT.close;
@@ -99,7 +99,7 @@ export class Modal implements ConditionalSlotComponent, OpenCloseComponent {
   @Prop({ reflect: true }) docked: boolean;
 
   /** When true, disables the default close on escape behavior. */
-  @Prop() disableEscape = false;
+  @Prop({ reflect: true }) disableEscape = false;
 
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
@@ -124,7 +124,7 @@ export class Modal implements ConditionalSlotComponent, OpenCloseComponent {
    *
    * @deprecated  Use `--calcite-modal-padding` CSS variable instead.
    */
-  @Prop() noPadding = false;
+  @Prop({ reflect: true }) noPadding = false;
 
   //--------------------------------------------------------------------------
   //

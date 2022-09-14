@@ -92,7 +92,7 @@ export class ActionMenu {
    * Using the "absolute" value will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout. The "fixed" value should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is "fixed".
    *
    */
-  @Prop() overlayPositioning: OverlayPositioning = "absolute";
+  @Prop({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
   /**
    * Determines where the component will be positioned relative to the `referenceElement`.
