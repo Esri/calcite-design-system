@@ -1,5 +1,5 @@
 import { select } from "@storybook/addon-knobs";
-import { boolean, storyFilters } from "../../../.storybook/helpers";
+import { boolean, createSteps, stepStory, storyFilters } from "../../../.storybook/helpers";
 import { themesDarkDefault } from "../../../.storybook/utils";
 import readme from "./readme.md";
 import treeItemReadme from "../tree-item/readme.md";
@@ -80,3 +80,40 @@ export const darkThemeRTL_TestOnly = (): string => html`
   </calcite-tree>
 `;
 darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };
+
+export const OverflowingSubtree_TestOnly = stepStory(
+  (): string =>
+    html` <calcite-tree>
+      <calcite-tree-item expanded id="two">
+        Layer 2
+        <calcite-tree slot="children">
+          <calcite-tree-item>
+            <span class="title">Layer 2.1</span>
+            <calcite-dropdown placement="bottom-trailing" id="trigger">
+              <calcite-button
+                appearance="transparent"
+                color="neutral"
+                icon-start="ellipsis"
+                slot="dropdown-trigger"
+              ></calcite-button>
+              <calcite-dropdown-group>
+                <calcite-dropdown-item icon-start="trash">Remove</calcite-dropdown-item>
+              </calcite-dropdown-group>
+            </calcite-dropdown>
+          </calcite-tree-item>
+        </calcite-tree>
+      </calcite-tree-item>
+      <calcite-tree-item>
+        <span class="title">Layer 3</span>
+        <calcite-dropdown placement="bottom-trailing">
+          <calcite-button
+            appearance="transparent"
+            color="neutral"
+            icon-start="ellipsis"
+            slot="dropdown-trigger"
+          ></calcite-button>
+        </calcite-dropdown>
+      </calcite-tree-item>
+    </calcite-tree>`,
+  createSteps("calcite-tree").click("calcite-button").snapshot("OverFlowingSubtree")
+);
