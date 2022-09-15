@@ -73,6 +73,7 @@ Type: `Promise<void>`
 
 - [calcite-action](../action)
 - [calcite-panel](../panel)
+- [calcite-tooltip](../tooltip)
 
 ### Graph
 
@@ -80,6 +81,7 @@ Type: `Promise<void>`
 graph TD;
   calcite-flow-item --> calcite-action
   calcite-flow-item --> calcite-panel
+  calcite-flow-item --> calcite-tooltip
   calcite-action --> calcite-loader
   calcite-action --> calcite-icon
   calcite-panel --> calcite-action
