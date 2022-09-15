@@ -25,7 +25,11 @@ import {
   submitForm
 } from "../../utils/form";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
-import { GlobalAttrComponent } from "../../utils/globalAttributes";
+import {
+  GlobalAttrComponent,
+  unwatchGlobalAttributes,
+  watchGlobalAttributes
+} from "../../utils/globalAttributes";
 import { getLocale } from "../../utils/locale";
 
 @Component({
@@ -148,8 +152,8 @@ export class InputTimePicker
   @Watch("globalAttributes")
   @Watch("locale")
   localeWatcher(): void {
-    const locale1 = getLocale(this);
-    this.setInputValue(localizeTimeString(this.value, locale1, this.shouldIncludeSeconds()));
+    const locale = getLocale(this);
+    this.setInputValue(localizeTimeString(this.value, locale, this.shouldIncludeSeconds()));
   }
 
   /** The name of the time input */
@@ -441,6 +445,7 @@ export class InputTimePicker
     }
     connectLabel(this);
     connectForm(this);
+    watchGlobalAttributes(this, ["lang"]);
 
     if (open) {
       this.active = open;
@@ -456,6 +461,7 @@ export class InputTimePicker
   disconnectedCallback() {
     disconnectLabel(this);
     disconnectForm(this);
+    unwatchGlobalAttributes(this);
   }
 
   componentDidRender(): void {
