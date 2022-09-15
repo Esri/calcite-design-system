@@ -8,7 +8,9 @@ import {
   Listen,
   Watch,
   h,
-  VNode
+  VNode,
+  readTask,
+  RafCallback
 } from "@stencil/core";
 import { TreeItemSelectDetail } from "./interfaces";
 import { TreeSelectionMode } from "../tree/interfaces";
@@ -165,6 +167,13 @@ export class TreeItem implements ConditionalSlotComponent {
     this.updateAncestorTree();
   }
 
+  componentDidrender(): void {
+    if (this.hasChildren) {
+      readTask(() => {
+        this.getChildrenContainerHeight();
+      });
+    }
+  }
   //--------------------------------------------------------------------------
   //
   //  Private State/Props
@@ -407,4 +416,12 @@ export class TreeItem implements ConditionalSlotComponent {
       return;
     }
   };
+
+  private getChildrenContainerHeight(): void {
+    if (this.hasChildren) {
+      this.childrenSlotWrapper.style.height = this.expanded
+        ? `${this.childrenSlotWrapper.offsetHeight}px`
+        : "0px";
+    }
+  }
 }
