@@ -9,8 +9,7 @@ import {
   Watch,
   h,
   VNode,
-  readTask,
-  RafCallback
+  readTask
 } from "@stencil/core";
 import { TreeItemSelectDetail } from "./interfaces";
 import { TreeSelectionMode } from "../tree/interfaces";
