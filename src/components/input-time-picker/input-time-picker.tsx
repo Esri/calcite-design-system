@@ -1,22 +1,22 @@
 import {
   Component,
   Element,
-  Host,
-  VNode,
-  h,
-  Prop,
-  Listen,
   Event,
   EventEmitter,
+  h,
+  Host,
+  Listen,
   Method,
-  Watch,
-  State
+  Prop,
+  State,
+  VNode,
+  Watch
 } from "@stencil/core";
 import { guid } from "../../utils/guid";
 import { formatTimeString, isValidTime, localizeTimeString } from "../../utils/time";
 import { Scale } from "../interfaces";
 import { FloatingUIComponent, LogicalPlacement, OverlayPositioning } from "../../utils/floating-ui";
-import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
+import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import {
   connectForm,
   disconnectForm,
@@ -145,9 +145,11 @@ export class InputTimePicker
    */
   @Prop({ mutable: true }) locale: string;
 
+  @Watch("globalAttributes")
   @Watch("locale")
-  localeWatcher(newLocale: string): void {
-    this.setInputValue(localizeTimeString(this.value, newLocale, this.shouldIncludeSeconds()));
+  localeWatcher(): void {
+    const locale1 = getLocale(this);
+    this.setInputValue(localizeTimeString(this.value, locale1, this.shouldIncludeSeconds()));
   }
 
   /** The name of the time input */

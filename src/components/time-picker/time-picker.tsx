@@ -155,10 +155,10 @@ export class TimePicker implements GlobalAttrComponent, LangComponent {
    */
   @Prop({ mutable: true }) locale: string;
 
+  @Watch("globalAttributes")
   @Watch("locale")
-  localeWatcher(newLocale: string): void {
-    this.hourCycle = getLocaleHourCycle(newLocale);
-    this.setValue(this.value, false);
+  localeWatcher(): void {
+    this.updateLocale();
   }
 
   /** Specifies the size of the component. */
@@ -725,6 +725,12 @@ export class TimePicker implements GlobalAttrComponent, LangComponent {
     return 0;
   }
 
+  private updateLocale() {
+    const locale = getLocale(this);
+    this.hourCycle = getLocaleHourCycle(locale);
+    this.setValue(this.value, false);
+  }
+
   // --------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -732,9 +738,8 @@ export class TimePicker implements GlobalAttrComponent, LangComponent {
   // --------------------------------------------------------------------------
 
   connectedCallback() {
-    this.setValue(this.value, false);
+    this.updateLocale();
     const locale = getLocale(this);
-    this.hourCycle = getLocaleHourCycle(locale);
     this.meridiemOrder = this.getMeridiemOrder(getTimeParts("0:00:00", locale));
     watchGlobalAttributes(this, ["lang"]);
   }
