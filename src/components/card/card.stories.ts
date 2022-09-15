@@ -235,7 +235,7 @@ export const thumbnailRounded = (): string => html`
   </div>
 `;
 
-export const headerDoesNotOverlapWithCheckbox_TestOnly = html`
+export const headerDoesNotOverlapWithCheckbox_TestOnly = (): string => html`
   <calcite-card selectable>
     <h3 slot="title">Pokem ipsum dolor sit amet Skitty Hoothoot</h3>
     <span slot="subtitle"
