@@ -73,14 +73,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .calcite-animate {
-    opacity: 1;
-    animation: none;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
   :root {
-    --calcite-internal-duration-factor: 0.01s;
+    --calcite-internal-duration-factor: 0.01;
   }
 }

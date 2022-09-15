@@ -76,6 +76,7 @@
 
 :host {
   --calcite-alert-edge-distance: theme("spacing.8");
+  --calcite-internal-alert-duration-factor: 1;
   @apply block;
   .container {
     @apply shadow-2
@@ -298,10 +299,16 @@ $alertDurations: "fast" 6000ms, "medium" 10000ms, "slow" 14000ms;
 
 @each $alertDuration in $alertDurations {
   $name: nth($alertDuration, 1);
-  $duration: nth($alertDuration, 2);
+  $duration: calc(nth($alertDuration, 2) * var(--calcite-internal-alert-duration-factor));
 
   :host([auto-dismiss-duration="#{$name}"]) .alert-dismiss-progress:after {
     animation: dismissProgress $duration ease-out;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :host {
+    --calcite-internal-alert-duration-factor: 0;
   }
 }
 
