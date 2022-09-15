@@ -71,8 +71,8 @@
 
 :host([selectable]) {
   .header {
-    // prevents overlap with checkbox
-    padding-inline-end: calc(theme("spacing.3") + theme("spacing.5"));
+    // prevents overlap with checkbox (default header padding + no-overlap spacing)
+    padding-inline-end: theme("spacing.8");
   }
 }
 
