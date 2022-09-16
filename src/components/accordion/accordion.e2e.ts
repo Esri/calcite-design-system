@@ -101,7 +101,7 @@ describe("calcite-accordion", () => {
     ${accordionContent}
     </calcite-accordion>`);
     const element = await page.find("calcite-accordion");
-    expect(element).toEqualAttribute("selection-mode", "multiple");
+    expect(element).toEqualAttribute("selection-mode", "multi");
     const item1 = await element.find("calcite-accordion-item[id='1']");
     const item2 = await element.find("calcite-accordion-item[id='2']");
     const item3 = await element.find("calcite-accordion-item[id='3']");

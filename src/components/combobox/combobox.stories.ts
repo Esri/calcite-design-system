@@ -204,9 +204,6 @@ export const flipPlacements_TestOnly = (): string => html`
 export const flipPositioning_TestOnly = (): string => html`
   <div style="position: absolute; bottom: 10px; left: 10px;">
     <calcite-combobox
-      label="demo combobox"
-      selection-mode="${select("selection-mode", ["multi", "single", "ancestors", "multiple"], "multiple")}"
-      class="calcite-theme-dark"
       max-items="${number("max-items", 6)}"
       placeholder="${text("placeholder", "placeholder")}"
       label="${text("label (for screen readers)", "demo")}"
@@ -249,8 +246,6 @@ export const darkThemeRTL_TestOnly = (): string => html`
       class="calcite-theme-dark"
       placeholder="${text("placeholder", "placeholder")}"
       label="${text("label (for screen readers)", "demo")}"
-      selection-mode="${select("selection-mode", ["multi", "single", "ancestors", "multiple"], "multiple")}"
-      dir="rtl"
       scale="${select("scale", ["s", "m", "l"], "m")}"
       ${boolean("disabled", false)}
       ${boolean("allow-custom-values", false)}
