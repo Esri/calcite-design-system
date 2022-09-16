@@ -736,7 +736,7 @@ export class Combobox
     return [...this.groupItems, ...this.items];
   }
 
-  filterItems = (() => {
+  private filterItems = (() => {
     const find = (item: ComboboxChildElement, filteredData: ItemData[]) =>
       item &&
       filteredData.some(({ label, value }) => {
