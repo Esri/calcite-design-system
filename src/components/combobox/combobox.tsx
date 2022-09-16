@@ -776,14 +776,14 @@ export class Combobox
     this.calciteLookupChange.emit(this.selectedItems);
   };
 
-  emitCalciteLookupChange = debounce(this.internalCalciteLookupChangeEvent, 0);
+  private emitCalciteLookupChange = debounce(this.internalCalciteLookupChangeEvent, 0);
 
   internalComboboxChangeEvent = (): void => {
     const { selectedItems } = this;
     this.calciteComboboxChange.emit({ selectedItems });
   };
 
-  emitComboboxChange = debounce(this.internalComboboxChangeEvent, 0);
+  private emitComboboxChange = debounce(this.internalComboboxChangeEvent, 0);
 
   toggleSelection(item: HTMLCalciteComboboxItemElement, value = !item.selected): void {
     if (!item) {
