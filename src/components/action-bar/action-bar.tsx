@@ -85,7 +85,7 @@ export class ActionBar implements ConditionalSlotComponent {
   /**
    * Disables automatically overflowing `calcite-action`s that won't fit into menus.
    */
-  @Prop() overflowActionsDisabled = false;
+  @Prop({ reflect: true }) overflowActionsDisabled = false;
 
   @Watch("overflowActionsDisabled")
   overflowDisabledHandler(overflowActionsDisabled: boolean): void {

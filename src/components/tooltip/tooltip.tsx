@@ -36,7 +36,7 @@ export class Tooltip implements FloatingUIComponent {
   // --------------------------------------------------------------------------
 
   /** Closes the component when the `referenceElement` is clicked. */
-  @Prop() closeOnClick = false;
+  @Prop({ reflect: true }) closeOnClick = false;
 
   /** Accessible name for the component. */
   @Prop() label!: string;
@@ -79,7 +79,7 @@ export class Tooltip implements FloatingUIComponent {
    * Using the "absolute" value will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout. The "fixed" value should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is "fixed".
    *
    */
-  @Prop() overlayPositioning: OverlayPositioning = "absolute";
+  @Prop({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
   @Watch("overlayPositioning")
   overlayPositioningHandler(): void {

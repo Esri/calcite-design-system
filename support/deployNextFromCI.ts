@@ -1,5 +1,3 @@
-import pify from "pify";
-
 /*
  * This script is meant to be run by a CI environment during the deploy phase.
  *
@@ -7,7 +5,8 @@ import pify from "pify";
  */
 (async function runner(): Promise<void> {
   const childProcess = await import("child_process");
-  const exec = pify(childProcess.exec);
+  const { promisify } = await import("util");
+  const exec = promisify(childProcess.exec);
 
   async function deployNextFromCI(): Promise<void> {
     console.log("Deploying @next 🚧");

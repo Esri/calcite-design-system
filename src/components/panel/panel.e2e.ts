@@ -401,4 +401,22 @@ describe("calcite-panel", () => {
 
     expect(await scrollEl.getProperty("scrollTop")).toBe(100);
   });
+
+  it("should close when Escape key is pressed and closable is true", async () => {
+    const page = await newE2EPage();
+    await page.setContent("<calcite-panel>test</calcite-panel>");
+    const panel = await page.find("calcite-panel");
+    const container = await page.find(`calcite-panel >>> .${CSS.container}`);
+    expect(await panel.getProperty("closed")).toBe(false);
+    expect(await container.isVisible()).toBe(true);
+    await container.press("Escape");
+    await page.waitForChanges();
+    expect(await panel.getProperty("closed")).toBe(false);
+    expect(await container.isVisible()).toBe(true);
+    panel.setProperty("closable", true);
+    await page.waitForChanges();
+    await container.press("Escape");
+    expect(await panel.getProperty("closed")).toBe(true);
+    expect(await container.isVisible()).toBe(false);
+  });
 });
