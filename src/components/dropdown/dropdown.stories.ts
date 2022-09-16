@@ -193,29 +193,23 @@ export const darkThemeRTL_TestOnly = (): string => html`
     ${boolean("disabled", false)}
   >
     <calcite-button slot="dropdown-trigger">Open Dropdown</calcite-button>
-    <calcite-dropdown-group
-      selection-mode="${select("group selection mode", ["single", "multi", "none", "multiple"], "single")}"
-      group-title="Icon Start"
-    >
-      <calcite-dropdown-item icon-start="list">List</calcite-dropdown-item>
-      <calcite-dropdown-item icon-start="grid" selected>Grid</calcite-dropdown-item>
-      <calcite-dropdown-item icon-start="table">Table</calcite-dropdown-item>
-    </calcite-dropdown-group>
-    <calcite-dropdown-group
-      selection-mode="${select("group selection mode", ["single", "multi", "none", "multiple"], "single")}"
-      group-title="Icon End"
-    >
+    <calcite-dropdown-group group-title="Select one">
       <calcite-dropdown-item icon-end="list">List</calcite-dropdown-item>
       <calcite-dropdown-item icon-end="grid" selected>Grid</calcite-dropdown-item>
       <calcite-dropdown-item icon-end="table">Table</calcite-dropdown-item>
+      <calcite-dropdown-item href="http://google.com" target="_blank" title="Test title">A link</calcite-dropdown-item>
     </calcite-dropdown-group>
-    <calcite-dropdown-group
-      selection-mode="${select("group selection mode", ["single", "multi", "none", "multiple"], "single")}"
-      group-title="Icon Both"
-    >
-      <calcite-dropdown-item icon-start="list" icon-end="data-check">List</calcite-dropdown-item>
-      <calcite-dropdown-item icon-start="grid" icon-end="data-check" selected>Grid</calcite-dropdown-item>
-      <calcite-dropdown-item icon-start="table" icon-end="data-check">Table</calcite-dropdown-item>
+    <calcite-dropdown-group group-title="Select multi" selection-mode="multi">
+      <calcite-dropdown-item icon-end="list">List</calcite-dropdown-item>
+      <calcite-dropdown-item icon-end="grid" selected>Grid</calcite-dropdown-item>
+      <calcite-dropdown-item icon-end="table">Table</calcite-dropdown-item>
+      <calcite-dropdown-item href="http://google.com" target="_blank" title="Test title">A link</calcite-dropdown-item>
+    </calcite-dropdown-group>
+    <calcite-dropdown-group group-title="Select none (useful for actions)" selection-mode="none">
+      <calcite-dropdown-item icon-end="list">List</calcite-dropdown-item>
+      <calcite-dropdown-item icon-end="grid" selected>Grid</calcite-dropdown-item>
+      <calcite-dropdown-item icon-end="table">Table</calcite-dropdown-item>
+      <calcite-dropdown-item href="http://google.com" target="_blank" title="Test title">A link</calcite-dropdown-item>
     </calcite-dropdown-group>
   </calcite-dropdown>
 `;
