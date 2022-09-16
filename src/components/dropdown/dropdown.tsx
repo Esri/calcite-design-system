@@ -312,14 +312,14 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent, Float
     this.open = false;
   }
 
-  @Listen("mouseenter")
+  @Listen("pointerenter")
   mouseEnterHandler(): void {
     if (this.type === "hover") {
       this.openCalciteDropdown();
     }
   }
 
-  @Listen("mouseleave")
+  @Listen("pointerleave")
   mouseLeaveHandler(): void {
     if (this.type === "hover") {
       this.closeCalciteDropdown();
