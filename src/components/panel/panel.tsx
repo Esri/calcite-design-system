@@ -288,7 +288,7 @@ export class Panel implements InteractiveComponent {
   };
 
   panelKeyDownHandler = (event: KeyboardEvent): void => {
-    if (event.key === "Escape" && !event.defaultPrevented) {
+    if (this.closable && event.key === "Escape" && !event.defaultPrevented) {
       this.close();
       event.preventDefault();
     }
