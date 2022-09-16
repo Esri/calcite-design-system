@@ -159,5 +159,5 @@ export interface LangComponent extends GlobalAttrComponent {
  * @param component
  */
 export function getLocale(component: LangComponent): string {
-  return component.globalAttributes.lang || component.locale || document.documentElement.lang || "en";
+  return component.el.lang || component.locale || document.documentElement.lang || "en";
 }
