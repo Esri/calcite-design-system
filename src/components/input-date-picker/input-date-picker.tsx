@@ -612,7 +612,7 @@ export class InputDatePicker
   //
   //--------------------------------------------------------------------------
 
-  debouncedReposition = debounce(() => this.reposition(), repositionDebounceTimeout);
+  private debouncedReposition = debounce(() => this.reposition(), repositionDebounceTimeout);
 
   setFilteredPlacements = (): void => {
     const { el, flipPlacements } = this;
