@@ -31,7 +31,7 @@ import { clamp } from "../../utils/math";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { Strings } from "./assets/color-picker/t9n";
 import { isActivationKey } from "../../utils/key";
-import { connectMessages, disconnectMessages, fetchMessages, T9nComponent } from "../../utils/t9n";
+import { connectMessages, disconnectMessages, setUpMessages, T9nComponent } from "../../utils/t9n";
 const throttleFor60FpsInMs = 16;
 const defaultValue = normalizeHex(DEFAULT_COLOR.hex());
 const defaultFormat = "auto";
@@ -814,7 +814,7 @@ export class ColorPicker implements InteractiveComponent, T9nComponent {
       this.savedColors = JSON.parse(localStorage.getItem(storageKey));
     }
 
-    await fetchMessages(this);
+    await setUpMessages(this);
   }
 
   connectedCallback(): void {

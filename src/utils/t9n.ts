@@ -1,27 +1,17 @@
 import { getAssetPath } from "@stencil/core";
 import { getSupportedLang } from "./locale";
+import { createObserver } from "./observers";
+import { closestElementCrossShadowBoundary } from "./dom";
 
 export type MessageBundle = Record<string, string>;
 
 export const componentLangToMessageBundleCache: Record<string, Promise<MessageBundle>> = {};
 
-export async function getMessageBundle(lang: string, component: string): Promise<MessageBundle> {
-  let messages: MessageBundle;
-
-  try {
-    messages = await fetchBundle(lang, component);
-  } catch (error) {
-    messages = await fetchBundle("en", component);
-  }
-
-  return messages;
-}
-
-async function fetchBundle(lang: string, component: string): Promise<MessageBundle> {
+async function getMessageBundle(lang: string, component: string): Promise<MessageBundle> {
   const key = `${component}_${lang}`;
 
   if (componentLangToMessageBundleCache[key]) {
-    return await componentLangToMessageBundleCache[key];
+    return componentLangToMessageBundleCache[key];
   }
 
   componentLangToMessageBundleCache[key] = fetch(getAssetPath(`./assets/${component}/t9n/messages_${lang}.json`))
@@ -74,7 +64,7 @@ export function mergeIntlPropsIntoOverrides(component: T9nComponent): void {
   component.messageOverrides = overrides;
 }
 
-export function mergeMessages(component: T9nComponent): void {
+function mergeMessages(component: T9nComponent): void {
   component.messages = {
     ...component.defaultMessages,
     ...component.messageOverrides
@@ -86,29 +76,88 @@ export function mergeMessages(component: T9nComponent): void {
  *
  * @param component
  */
-export async function fetchMessages(component: T9nComponent): Promise<void> {
-  const { el } = component;
-  const lang = el.lang || document.documentElement.lang || navigator.language;
-  const locale = getSupportedLang(lang);
+export async function setUpMessages(component: T9nComponent): Promise<void> {
+  const lang = component.el.lang || document.documentElement.lang || navigator.language;
 
-  const tag = el.tagName.toLowerCase();
-  const componentName = tag.replace("calcite-", "");
-
-  component.defaultMessages = await getMessageBundle(locale, componentName);
+  component.defaultMessages = await fetchMessages(component, lang);
   mergeIntlPropsIntoOverrides(component);
   mergeMessages(component);
 }
 
+async function fetchMessages(component: T9nComponent, lang: string): Promise<MessageBundle> {
+  const { el } = component;
+  const tag = el.tagName.toLowerCase();
+  const componentName = tag.replace("calcite-", "");
+
+  return getMessageBundle(getSupportedLang(lang), componentName);
+}
+
+/**
+ * @param component
+ * @param lang
+ * @internal
+ */
+export async function updateMessages(component: T9nComponent, lang: string): Promise<void> {
+  component.defaultMessages = await fetchMessages(component, lang);
+}
+
+const connectedComponents = new Set<T9nComponent>();
+
+const mutationObserver = createObserver("mutation", (records) => {
+  records.forEach((record) => {
+    const el = record.target as HTMLElement;
+
+    connectedComponents.forEach((component) => {
+      if ((component.el.lang && el !== component.el) || !el.contains(component.el)) {
+        return;
+      }
+
+      const closestLangEl = closestElementCrossShadowBoundary<HTMLElement>(component.el, "[lang]");
+
+      if (closestLangEl !== el) {
+        return;
+      }
+
+      updateMessages(component, closestLangEl.lang);
+    });
+  });
+});
+
+/**
+ * This utility sets up internals for messages support.
+ *
+ * It needs to be called in `connectedCallback`
+ *
+ * @param component
+ */
 export function connectMessages(component: T9nComponent): void {
   component.onMessagesChange = defaultOnMessagesChange;
+
+  if (connectedComponents.size === 0) {
+    mutationObserver.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["lang"],
+      subtree: true
+    });
+  }
+
+  connectedComponents.add(component);
 }
 
+/**
+ * This utility tears down internals for messages support.
+ *
+ * It needs to be called in `disconnectedCallback`
+ *
+ * @param component
+ */
 export function disconnectMessages(component: T9nComponent): void {
   component.onMessagesChange = undefined;
-}
+  connectedComponents.delete(component);
 
-export function defaultOnMessagesChange(this: T9nComponent): void {
-  mergeMessages(this);
+  if (connectedComponents.size === 0) {
+    mutationObserver.disconnect();
+  }
 }
 
 export interface T9nComponent {
@@ -149,4 +198,8 @@ export interface T9nComponent {
    * }
    */
   onMessagesChange(): void;
+}
+
+function defaultOnMessagesChange(this: T9nComponent): void {
+  mergeMessages(this);
 }
