@@ -92,12 +92,7 @@ async function fetchMessages(component: T9nComponent, lang: string): Promise<Mes
   return getMessageBundle(getSupportedLang(lang), componentName);
 }
 
-/**
- * @param component
- * @param lang
- * @internal
- */
-export async function updateMessages(component: T9nComponent, lang: string): Promise<void> {
+async function updateMessages(component: T9nComponent, lang: string): Promise<void> {
   component.defaultMessages = await fetchMessages(component, lang);
 }
 
