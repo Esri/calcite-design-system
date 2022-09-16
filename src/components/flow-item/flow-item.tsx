@@ -7,7 +7,8 @@ import {
   Host,
   Method,
   Event,
-  EventEmitter
+  EventEmitter,
+  State
 } from "@stencil/core";
 import { getElementDir } from "../../utils/dom";
 import { HeadingLevel } from "../functional/Heading";
@@ -65,7 +66,7 @@ export class FlowItem implements InteractiveComponent {
   /**
    * Specifies the number at which section headings should start.
    */
-  @Prop() headingLevel: HeadingLevel;
+  @Prop({ reflect: true }) headingLevel: HeadingLevel;
 
   /**
    * Specifies the maximum height of the component.
@@ -138,6 +139,7 @@ export class FlowItem implements InteractiveComponent {
 
   containerEl: HTMLCalcitePanelElement;
 
+  @State()
   backButtonEl: HTMLCalciteActionElement;
 
   // --------------------------------------------------------------------------
@@ -193,6 +195,10 @@ export class FlowItem implements InteractiveComponent {
     this.backButtonEl = node;
   };
 
+  getBackLabel = (): string => {
+    return this.intlBack || TEXT.back;
+  };
+
   // --------------------------------------------------------------------------
   //
   //  Render Methods
@@ -203,8 +209,8 @@ export class FlowItem implements InteractiveComponent {
     const { el } = this;
 
     const rtl = getElementDir(el) === "rtl";
-    const { showBackButton, intlBack, backButtonClick } = this;
-    const label = intlBack || TEXT.back;
+    const { showBackButton, backButtonClick } = this;
+    const label = this.getBackLabel();
     const icon = rtl ? ICONS.backRight : ICONS.backLeft;
 
     return showBackButton ? (
@@ -236,8 +242,10 @@ export class FlowItem implements InteractiveComponent {
       intlOptions,
       loading,
       menuOpen,
-      widthScale
+      widthScale,
+      backButtonEl
     } = this;
+    const label = this.getBackLabel();
     return (
       <Host>
         <calcite-panel
@@ -265,6 +273,11 @@ export class FlowItem implements InteractiveComponent {
           <slot />
           {this.renderBackButton()}
         </calcite-panel>
+        {backButtonEl ? (
+          <calcite-tooltip label={label} placement="auto" referenceElement={backButtonEl}>
+            {label}
+          </calcite-tooltip>
+        ) : null}
       </Host>
     );
   }

@@ -44,7 +44,7 @@ export class Pagination implements GlobalAttrComponent {
   @Prop({ reflect: true }) groupSeparator = false;
 
   /** Specifies the number of items per page. */
-  @Prop() num = 20;
+  @Prop({ reflect: true }) num = 20;
 
   /**
    * Specifies the Unicode numeral system used by the component for localization.
@@ -54,10 +54,10 @@ export class Pagination implements GlobalAttrComponent {
   @Prop() numberingSystem?: string;
 
   /** Specifies the starting item number. */
-  @Prop({ mutable: true }) start = 1;
+  @Prop({ mutable: true, reflect: true }) start = 1;
 
   /** Specifies the total number of items. */
-  @Prop() total = 0;
+  @Prop({ reflect: true }) total = 0;
 
   /**
    * Accessible name for the component's next button.
