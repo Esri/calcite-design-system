@@ -279,45 +279,6 @@ export const darkThemeRTL_TestOnly = (): string => html`
 `;
 darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };
 
-export const FlipPositioning = stepStory(
-  (): string => html`
-    <div style="position: absolute; bottom: 10px; left: 10px;">
-      <calcite-combobox
-        max-items="${number("max-items", 6)}"
-        placeholder="${text("placeholder", "placeholder")}"
-        label="${text("label (for screen readers)", "demo")}"
-        selection-mode="${select("selection-mode", ["multi", "single", "ancestors", "multiple"], "multiple")}"
-        scale="${select("scale", ["s", "m", "l"], "m")}"
-        ${boolean("disabled", false)}
-        ${boolean("allow-custom-values", false)}
-      >
-        <calcite-combobox-item value="Trees" text-label="Trees">
-          <calcite-combobox-item value="Pine" text-label="Pine"></calcite-combobox-item>
-          <calcite-combobox-item value="Sequoia" disabled text-label="Sequoia"></calcite-combobox-item>
-          <calcite-combobox-item value="Douglas Fir" text-label="Douglas Fir"></calcite-combobox-item>
-        </calcite-combobox-item>
-        <calcite-combobox-item value="Flowers" text-label="Flowers">
-          <calcite-combobox-item value="Daffodil" text-label="Daffodil"></calcite-combobox-item>
-          <calcite-combobox-item value="Black Eyed Susan" text-label="Black Eyed Susan"></calcite-combobox-item>
-          <calcite-combobox-item value="Nasturtium" text-label="Nasturtium"></calcite-combobox-item>
-        </calcite-combobox-item>
-        <calcite-combobox-item value="Animals" text-label="Animals">
-          <calcite-combobox-item value="Birds" text-label="Birds"></calcite-combobox-item>
-          <calcite-combobox-item value="Reptiles" text-label="Reptiles"></calcite-combobox-item>
-          <calcite-combobox-item value="Amphibians" text-label="Amphibians"></calcite-combobox-item>
-        </calcite-combobox-item>
-        <calcite-combobox-item value="Rocks" text-label="Rocks"></calcite-combobox-item>
-        <calcite-combobox-item value="Insects" text-label="Insects"></calcite-combobox-item>
-        <calcite-combobox-item value="Rivers" text-label="Rivers"></calcite-combobox-item>
-      </calcite-combobox>
-    </div>
-  `,
-  createSteps("calcite-combobox").snapshot("Default").click("calcite-combobox").snapshot("Open")
-);
-FlipPositioning.parameters = {
-  layout: "fullscreen"
-};
-
 export const singleLongLabel_TestOnly = (): string => html`
   <calcite-combobox open selection-mode="single" allow-custom-values>
     <calcite-combobox-item value="Trees" text-label="Trees">
