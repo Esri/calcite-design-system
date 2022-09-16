@@ -236,7 +236,7 @@ export const thumbnailRounded = (): string => html`
 `;
 
 export const headerDoesNotOverlapWithCheckbox_TestOnly = (): string => html`
-  <calcite-card selectable>
+  <calcite-card selectable style="width:260px">
     <h3 slot="title">Pokem ipsum dolor sit amet Skitty Hoothoot</h3>
     <span slot="subtitle"
       >Pika-pi Soul Badge Zoroark Starly Spoink Diglett Rotom. Water Kyogre Hitmontop Rampardos</span
