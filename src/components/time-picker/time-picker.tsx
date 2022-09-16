@@ -155,10 +155,10 @@ export class TimePicker {
   }
 
   /** Specifies the size of the component. */
-  @Prop() scale: Scale = "m";
+  @Prop({ reflect: true }) scale: Scale = "m";
 
   /** Specifies the granularity the "value" must adhere to (in seconds). */
-  @Prop() step = 60;
+  @Prop({ reflect: true }) step = 60;
 
   /** The component's value in UTC (always 24-hour format). */
   @Prop({ mutable: true }) value: string = null;

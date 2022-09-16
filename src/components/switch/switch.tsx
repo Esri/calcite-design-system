@@ -59,7 +59,7 @@ export class Switch implements LabelableComponent, CheckableFormComponent, Inter
    *
    * @deprecated use "checked" instead.
    */
-  @Prop({ mutable: true }) switched = false;
+  @Prop({ mutable: true, reflect: true }) switched = false;
 
   @Watch("switched")
   switchedWatcher(switched: boolean): void {

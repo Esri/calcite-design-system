@@ -8,7 +8,7 @@ export class Progress {
   @Element() el: HTMLCalciteProgressElement;
 
   /** Use indeterminate if finding actual progress value is impossible. */
-  @Prop() type: "indeterminate" | "determinate" = "determinate";
+  @Prop({ reflect: true }) type: "indeterminate" | "determinate" = "determinate";
 
   /** The component's progress value, with a range of 0.0 - 1.0. */
   @Prop() value = 0;
@@ -20,7 +20,7 @@ export class Progress {
   @Prop() text: string;
 
   /** When true and for indeterminate progress bars, reverses the animation direction. */
-  @Prop() reversed = false;
+  @Prop({ reflect: true }) reversed = false;
 
   render(): VNode {
     const isDeterminate = this.type === "determinate";

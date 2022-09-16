@@ -28,16 +28,16 @@ export class Avatar {
   @Prop({ reflect: true }) scale: Scale = "m";
 
   /** Specifies the `src` to an image (remember to add a token if the user is private). */
-  @Prop() thumbnail: string;
+  @Prop({ reflect: true }) thumbnail: string;
 
   /** Specifies the full name of the user. */
-  @Prop() fullName: string;
+  @Prop({ reflect: true }) fullName: string;
 
   /** Specifies the username of the user. */
-  @Prop() username: string;
+  @Prop({ reflect: true }) username: string;
 
   /** Specifies the unique id of the user. */
-  @Prop() userId: string;
+  @Prop({ reflect: true }) userId: string;
 
   //--------------------------------------------------------------------------
   //

@@ -107,12 +107,10 @@ const createAccordionItemAttributes: (options?: {
 
   if (iconEnd && iconStart) {
     return iconStartAttribute.concat(defaultAttributes, iconEndAttribute);
-  } else if (icon) {
-    return iconAttribute.concat(defaultAttributes);
   } else if (iconStart || iconEnd) {
     return iconStart ? iconStartAttribute.concat(defaultAttributes) : iconEndAttribute.concat(defaultAttributes);
-  } else if (iconEnd && iconStart) {
-    return iconEndAttribute.concat(defaultAttributes, iconStartAttribute);
+  } else if (icon) {
+    return iconAttribute.concat(defaultAttributes);
   }
 
   return defaultAttributes;

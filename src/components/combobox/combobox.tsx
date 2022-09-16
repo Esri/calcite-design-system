@@ -142,10 +142,10 @@ export class Combobox
   @Prop() placeholder?: string;
 
   /** Placeholder icon for input  */
-  @Prop() placeholderIcon?: string;
+  @Prop({ reflect: true }) placeholderIcon?: string;
 
   /** Specify the maximum number of combobox items (including nested children) to display before showing the scroller */
-  @Prop() maxItems = 0;
+  @Prop({ reflect: true }) maxItems = 0;
 
   @Watch("maxItems")
   maxItemsHandler(): void {
@@ -156,7 +156,7 @@ export class Combobox
   @Prop({ reflect: true }) name: string;
 
   /** Allow entry of custom values which are not in the original set of items */
-  @Prop() allowCustomValues: boolean;
+  @Prop({ reflect: true }) allowCustomValues: boolean;
 
   /**
    * Determines the type of positioning to use for the overlaid content.
@@ -164,7 +164,7 @@ export class Combobox
    * Using the "absolute" value will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout. The "fixed" value should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is "fixed".
    *
    */
-  @Prop() overlayPositioning: OverlayPositioning = "absolute";
+  @Prop({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
   @Watch("overlayPositioning")
   overlayPositioningHandler(): void {
@@ -176,7 +176,7 @@ export class Combobox
    *
    * @internal
    */
-  @Prop() required = false;
+  @Prop({ reflect: true }) required = false;
 
   /**
    * specify the selection mode

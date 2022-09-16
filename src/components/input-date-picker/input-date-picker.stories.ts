@@ -61,7 +61,7 @@ export const flipPlacements_TestOnly = (): string => html`
   </style>
   <div style="height: 100px; overflow:scroll;">
     <div class="my-input-date-picker-div">
-      <calcite-input-date-picker open class="my-input-date-picker"></calcite-input-date-picker>
+      <calcite-input-date-picker open class="my-input-date-picker" value="2020-02-12"></calcite-input-date-picker>
     </div>
   </div>
   <script>

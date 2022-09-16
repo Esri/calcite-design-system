@@ -20,7 +20,7 @@ export class TooltipManager {
    *
    * @default `[data-calcite-tooltip-reference]`
    */
-  @Prop() selector = "[data-calcite-tooltip-reference]";
+  @Prop({ reflect: true }) selector = "[data-calcite-tooltip-reference]";
 
   // --------------------------------------------------------------------------
   //
