@@ -3,6 +3,15 @@
 This document maintains a list of released versions and changes introduced by them.
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
+<!--@unreleased-section-start-->
+
+## Unreleased
+
+### Bug Fixes
+
+- **panel:** Do not close non closable panel on ESC key ([#5330](https://github.com/Esri/calcite-components/issues/5330)) ([ed93061](https://github.com/Esri/calcite-components/commit/ed9306124c6b0570fe3606a47b33840aeab129bb)), closes [#5329](https://github.com/Esri/calcite-components/issues/5329)
+<!--@unreleased-section-end-->
+
 ## [1.0.0-beta.94](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.93...v1.0.0-beta.94) (2022-09-15)
 
 ### ⚠ BREAKING CHANGES
