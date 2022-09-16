@@ -20,7 +20,8 @@ $loader-circumference: ($loader-scale - (2 * $stroke-width)) * 3.14159;
   stroke-width: $stroke-width;
   fill: none;
   transform: scale(1, 1);
-  animation: loader-color-shift 6s alternate-reverse infinite linear;
+  animation: loader-color-shift calc(var(--calcite-internal-animation-timing-slow) * 2) alternate-reverse infinite
+    linear;
   padding-block: var(--calcite-loader-padding, theme("spacing.16"));
 }
 
@@ -195,9 +196,9 @@ $loader-circumference: ($loader-scale - (2 * $stroke-width)) * 3.14159;
   }
 }
 
-@include generateSegment(1, 10, 40, 0.72s);
-@include generateSegment(2, 20, 30, 0.96s);
-@include generateSegment(3, 05, 45, 1.16s);
+@include generateSegment(1, 10, 40, calc(var(--calcite-internal-animation-timing-slow) * 2.4));
+@include generateSegment(2, 20, 30, calc(var(--calcite-internal-animation-timing-slow) * 3.2));
+@include generateSegment(3, 05, 45, calc(var(--calcite-internal-animation-timing-slow) * 3.867));
 
 @keyframes loader-color-shift {
   0% {
