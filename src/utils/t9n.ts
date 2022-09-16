@@ -138,8 +138,10 @@ export interface T9nComponent {
   /**
    * This private method ensures messages are kept in sync.
    *
-   * This method should be configured to watch for changes on `defaultMessages` and `messageOverrides`.
+   * This method should be configured to watch for changes on `defaultMessages`, `messageOverrides` and any associated Intl prop.
    *
+   * @Watch("intlMyPropA")
+   * @Watch("intlMyPropZ")
    * @Watch("defaultMessages")
    * @Watch("messageOverrides")
    * onMessagesChange(): void {
