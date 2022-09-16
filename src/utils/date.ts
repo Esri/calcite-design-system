@@ -164,20 +164,36 @@ export function parseNumber(str: string, localeData: DateLocaleData): number {
 }
 
 /**
- * Parse numeric units for day, month, and year from a localized string
+ * Parse day, month, and year from a localized string
  * month starts at 0 (can pass to date constructor)
+ * can return values as number or string
  *
  * @param str
  * @param localeData
+ * @param returnType
  */
-export function parseDateString(str: string, localeData: DateLocaleData): { day: number; month: number; year: number } {
+export function parseDateString(
+  str: string,
+  localeData: DateLocaleData,
+  returnType: "number" | "string" = "number"
+): { day: number | string; month: number | string; year: number | string } {
   const { separator, unitOrder } = localeData;
   const order = getOrder(unitOrder);
   const values = replaceArabicNumerals(str).split(separator);
+  const day = values[order.indexOf("d")];
+  const month = values[order.indexOf("d")];
+  const year = values[order.indexOf("y")];
+  if (returnType === "number") {
+    return {
+      day: parseInt(day),
+      month: parseInt(month) - 1,
+      year: parseInt(year)
+    };
+  }
   return {
-    day: parseInt(values[order.indexOf("d")]),
-    month: parseInt(values[order.indexOf("m")]) - 1,
-    year: parseInt(values[order.indexOf("y")])
+    day,
+    month,
+    year
   };
 }
 

@@ -748,10 +748,16 @@ export class InputDatePicker
    * @param value
    */
   private input(value: string): void {
+    const { year: yearAsString } = parseDateString(value, this.localeData, "string");
+
     const date = this.getDateFromInput(value);
 
-    if (!date) {
+    if (!yearAsString || !date) {
       this.clearCurrentValue();
+      return;
+    }
+
+    if ((yearAsString as string).length < 4) {
       return;
     }
 
@@ -874,8 +880,8 @@ export class InputDatePicker
     const { day, month, year } = parseDateString(value, this.localeData);
     const validDay = day > 0;
     const validMonth = month > -1;
-    const date = new Date(year, month, day);
-    date.setFullYear(year);
+    const date = new Date(year as number, month as number, day as number);
+    date.setFullYear(year as number);
     const validDate = !isNaN(date.getTime());
     const validLength = value.split(separator).filter((c) => c).length > 2;
     const validYear = year.toString().length > 0;
