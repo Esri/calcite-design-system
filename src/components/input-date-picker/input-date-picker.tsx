@@ -105,7 +105,7 @@ export class InputDatePicker
   @Prop({ mutable: true }) value: string | string[];
 
   @Watch("value")
-  valueHandler(value: string | string[]): void {
+  valueWatcher(value: string | string[]): void {
     if (Array.isArray(value)) {
       this.valueAsDate = getValueAsDateRange(value);
       this.start = value[0];
@@ -119,6 +119,7 @@ export class InputDatePicker
       this.start = undefined;
       this.end = undefined;
     }
+    this.localizeInputValues();
   }
 
   /**
@@ -425,6 +426,7 @@ export class InputDatePicker
 
   componentDidLoad(): void {
     this.reposition();
+    this.localizeInputValues();
   }
 
   disconnectedCallback(): void {
@@ -440,17 +442,6 @@ export class InputDatePicker
 
   render(): VNode {
     const { disabled, readOnly } = this;
-    const date = dateFromRange(
-      this.range ? this.startAsDate : this.valueAsDate,
-      this.minAsDate,
-      this.maxAsDate
-    );
-    const endDate = this.range
-      ? dateFromRange(this.endAsDate, this.minAsDate, this.maxAsDate)
-      : null;
-    const formattedEndDate = endDate ? endDate.toLocaleDateString(this.locale) : "";
-    const formattedDate = date ? date.toLocaleDateString(this.locale) : "";
-
     return (
       <Host onBlur={this.deactivate} onKeyDown={this.keyDownHandler} role="application">
         {this.localeData && (
@@ -473,7 +464,6 @@ export class InputDatePicker
                   ref={this.setStartInput}
                   scale={this.scale}
                   type="text"
-                  value={formattedDate}
                 />
               </div>
             }
@@ -546,7 +536,6 @@ export class InputDatePicker
                   ref={this.setEndInput}
                   scale={this.scale}
                   type="text"
-                  value={formattedEndDate}
                 />
               </div>
             )}
@@ -901,5 +890,30 @@ export class InputDatePicker
       return date;
     }
     return false;
+  }
+
+  private setInputValue = (input: "start" | "end", newValue: string): void => {
+    const inputEl = this[`${input}Input`];
+    if (!inputEl) {
+      return;
+    }
+    inputEl.value = newValue;
+  };
+
+  private localizeInputValues(): void {
+    const date = dateFromRange(
+      this.range ? this.startAsDate : this.valueAsDate,
+      this.minAsDate,
+      this.maxAsDate
+    );
+    const endDate = this.range
+      ? dateFromRange(this.endAsDate, this.minAsDate, this.maxAsDate)
+      : null;
+
+    const localizedDate = date ? date.toLocaleDateString(this.locale) : "";
+    const localizedEndDate = endDate ? endDate.toLocaleDateString(this.locale) : "";
+
+    this.setInputValue("start", localizedDate);
+    this.range && this.setInputValue("end", localizedEndDate);
   }
 }
