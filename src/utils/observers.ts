@@ -1,5 +1,15 @@
 import { Build } from "@stencil/core";
 
+export interface ExtendedMutationObserver extends MutationObserver {
+  new: () => ExtendedMutationObserver;
+  unobserve(target: Node): void;
+}
+
+declare const ExtendedMutationObserver: {
+  prototype: ExtendedMutationObserver;
+  new (callback: MutationCallback): ExtendedMutationObserver;
+};
+
 type ObserverType = "mutation" | "intersection" | "resize";
 
 type ObserverCallbackType<T extends ObserverType> = T extends "mutation"
@@ -19,7 +29,7 @@ type ObserverOptions<T extends ObserverType> = T extends "mutation"
   : never;
 
 type ObserverClassType<T extends ObserverType> = T extends "mutation"
-  ? typeof MutationObserver
+  ? typeof ExtendedMutationObserver
   : T extends "intersection"
   ? typeof IntersectionObserver
   : T extends "resize"
@@ -27,7 +37,7 @@ type ObserverClassType<T extends ObserverType> = T extends "mutation"
   : never;
 
 type ObserverInstanceType<T extends ObserverType> = T extends "mutation"
-  ? MutationObserver
+  ? ExtendedMutationObserver
   : T extends "intersection"
   ? IntersectionObserver
   : T extends "resize"
@@ -51,11 +61,42 @@ export function createObserver<T extends ObserverType>(
 }
 
 function getObserver<T extends ObserverType>(type: T): ObserverClassType<T> {
-  return (
-    type === "intersection"
-      ? window.IntersectionObserver
-      : type === "mutation"
-      ? window.MutationObserver
-      : window.ResizeObserver
-  ) as any;
+  // based on https://github.com/whatwg/dom/issues/126#issuecomment-1049814948
+  class ExtendedMutationObserver extends window.MutationObserver implements ExtendedMutationObserver {
+    private observedEntry: Array<{
+      target: Node;
+      options?: MutationObserverInit;
+    }> = [];
+
+    private readonly callback: MutationCallback;
+
+    constructor(callback: MutationCallback) {
+      super(callback);
+      this.callback = callback;
+    }
+
+    observe(target: Node, options?: MutationObserverInit): void {
+      this.observedEntry.push({ target, options });
+
+      return super.observe(target, options);
+    }
+
+    unobserve(target: Node): void {
+      const newObservedEntries = this.observedEntry.filter((observed) => observed.target !== target);
+      this.observedEntry = [];
+      this.callback(super.takeRecords(), this);
+      this.disconnect();
+      newObservedEntries.forEach((observed) => this.observe(observed.target, observed.options));
+    }
+  }
+
+  return (function () {
+    return (
+      type === "intersection"
+        ? window.IntersectionObserver
+        : type === "mutation"
+        ? ExtendedMutationObserver
+        : window.ResizeObserver
+    ) as any;
+  })();
 }

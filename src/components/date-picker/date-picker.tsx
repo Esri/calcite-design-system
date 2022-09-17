@@ -24,12 +24,7 @@ import { HeadingLevel } from "../functional/Heading";
 
 import { DateRangeChange } from "./interfaces";
 import { HEADING_LEVEL, TEXT } from "./resources";
-import {
-  GlobalAttrComponent,
-  unwatchGlobalAttributes,
-  watchGlobalAttributes
-} from "../../utils/globalAttributes";
-import { getLocale, LangComponent } from "../../utils/locale";
+import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 
 @Component({
   assetsDirs: ["assets"],
@@ -37,7 +32,7 @@ import { getLocale, LangComponent } from "../../utils/locale";
   styleUrl: "date-picker.scss",
   shadow: true
 })
-export class DatePicker implements GlobalAttrComponent, LangComponent {
+export class DatePicker implements LocalizedComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -237,11 +232,11 @@ export class DatePicker implements GlobalAttrComponent, LangComponent {
       this.maxAsDate = dateFromISO(this.max);
     }
 
-    watchGlobalAttributes(this, ["lang"]);
+    connectLocalized(this);
   }
 
   disconnectedCallback(): void {
-    unwatchGlobalAttributes(this);
+    disconnectLocalized(this);
   }
 
   async componentWillLoad(): Promise<void> {
@@ -300,6 +295,9 @@ export class DatePicker implements GlobalAttrComponent, LangComponent {
   //  Private State/Props
   //
   //--------------------------------------------------------------------------
+
+  @State() effectiveLocale = "";
+
   @State() private localeData: DateLocaleData;
 
   @State() private hoverRange: HoverRange;
@@ -341,14 +339,13 @@ export class DatePicker implements GlobalAttrComponent, LangComponent {
     this.setEndAsDate(dateFromISO(end));
   }
 
-  @Watch("globalAttributes")
-  @Watch("locale")
+  @Watch("effectiveLocale")
   private async loadLocaleData(): Promise<void> {
     if (!Build.isBrowser) {
       return;
     }
 
-    this.localeData = await getLocaleData(getLocale(this));
+    this.localeData = await getLocaleData(this.effectiveLocale);
   }
 
   monthHeaderSelectChange = (event: CustomEvent<Date>): void => {
@@ -468,6 +465,7 @@ export class DatePicker implements GlobalAttrComponent, LangComponent {
           intlNextMonth={this.intlNextMonth}
           intlPrevMonth={this.intlPrevMonth}
           intlYear={this.intlYear}
+          lang={this.effectiveLocale}
           localeData={this.localeData}
           max={maxDate}
           min={minDate}

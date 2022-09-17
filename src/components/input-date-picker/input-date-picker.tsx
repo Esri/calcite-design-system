@@ -56,12 +56,7 @@ import {
   connectOpenCloseComponent,
   disconnectOpenCloseComponent
 } from "../../utils/openCloseComponent";
-import {
-  GlobalAttrComponent,
-  unwatchGlobalAttributes,
-  watchGlobalAttributes
-} from "../../utils/globalAttributes";
-import { getLocale, LangComponent } from "../../utils/locale";
+import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import { debounce } from "lodash-es";
 
 @Component({
@@ -73,11 +68,10 @@ export class InputDatePicker
   implements
     LabelableComponent,
     FormComponent,
-    GlobalAttrComponent,
     InteractiveComponent,
     OpenCloseComponent,
     FloatingUIComponent,
-    LangComponent
+    LocalizedComponent
 {
   //--------------------------------------------------------------------------
   //
@@ -428,7 +422,8 @@ export class InputDatePicker
     connectLabel(this);
     connectForm(this);
     connectOpenCloseComponent(this);
-    watchGlobalAttributes(this, ["lang"]);
+    connectLocalized(this);
+
     this.setFilteredPlacements();
     this.debouncedReposition();
   }
@@ -448,7 +443,7 @@ export class InputDatePicker
     disconnectForm(this);
     disconnectFloatingUI(this, this.referenceEl, this.floatingEl);
     disconnectOpenCloseComponent(this);
-    unwatchGlobalAttributes(this);
+    disconnectLocalized(this);
   }
 
   componentDidRender(): void {
@@ -465,7 +460,7 @@ export class InputDatePicker
     const endDate = this.range
       ? dateFromRange(this.endAsDate, this.minAsDate, this.maxAsDate)
       : null;
-    const locale = getLocale(this);
+    const locale = this.effectiveLocale;
     const formattedEndDate = endDate ? endDate.toLocaleDateString(locale) : "";
     const formattedDate = date ? date.toLocaleDateString(locale) : "";
 
@@ -588,6 +583,8 @@ export class InputDatePicker
   formEl: HTMLFormElement;
 
   defaultValue: InputDatePicker["value"];
+
+  @State() effectiveLocale = "";
 
   @State() focusedInput: "start" | "end" = "start";
 
@@ -739,14 +736,13 @@ export class InputDatePicker
     this.endAsDate = end ? setEndOfDay(dateFromISO(end)) : dateFromISO(end);
   }
 
-  @Watch("globalAttributes")
-  @Watch("locale")
+  @Watch("effectiveLocale")
   private async loadLocaleData(): Promise<void> {
     if (!Build.isBrowser) {
       return;
     }
 
-    this.localeData = await getLocaleData(getLocale(this));
+    this.localeData = await getLocaleData(this.effectiveLocale);
   }
 
   private clearCurrentValue(): void {
@@ -830,7 +826,7 @@ export class InputDatePicker
    */
   private blur(target: HTMLCalciteInputElement): void {
     const { focusedInput, endAsDate, range, startAsDate, valueAsDate } = this;
-    const locale = getLocale(this);
+    const locale = this.effectiveLocale;
     const date = this.getDateFromInput(target.value);
     if (!date) {
       if (!range && valueAsDate) {
