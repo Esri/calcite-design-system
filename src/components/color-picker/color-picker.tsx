@@ -29,7 +29,7 @@ import { throttle } from "lodash-es";
 
 import { clamp } from "../../utils/math";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
-import { Strings } from "./assets/color-picker/t9n";
+import { Messages } from "./assets/color-picker/t9n";
 import { isActivationKey } from "../../utils/key";
 import { connectMessages, disconnectMessages, setUpMessages, T9nComponent } from "../../utils/t9n";
 const throttleFor60FpsInMs = 16;
@@ -279,9 +279,9 @@ export class ColorPicker implements InteractiveComponent, T9nComponent {
   @Prop({ reflect: true }) storageId: string;
 
   /**
-   * @todo doc
+   * Use this property to override individual strings used by the component.
    */
-  @Prop({ mutable: true }) messageOverrides: Partial<Strings>;
+  @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
 
   @Watch("intlG")
   @Watch("intlB")
@@ -398,7 +398,7 @@ export class ColorPicker implements InteractiveComponent, T9nComponent {
 
   private sliderThumbState: "idle" | "hover" | "drag" = "idle";
 
-  @State() defaultMessages: Strings;
+  @State() defaultMessages: Messages;
 
   @State() colorFieldAndSliderInteractive = false;
 
@@ -411,7 +411,7 @@ export class ColorPicker implements InteractiveComponent, T9nComponent {
   /**
    * @internal
    */
-  @Prop({ mutable: true }) messages: Strings;
+  @Prop({ mutable: true }) messages: Messages;
 
   @State() savedColors: string[] = [];
 

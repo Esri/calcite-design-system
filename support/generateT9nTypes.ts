@@ -16,7 +16,7 @@ import globby from "globby";
 
   const paths = await Promise.all(
     rootBundles.map(async (bundle) => {
-      const typeName = `${bundle.split("/").pop().replace(rootBundleFile, "")}-strings`;
+      const typeName = `${bundle.split("/").pop().replace(rootBundleFile, "")}-messages`;
       const jsonContents = await readFile(bundle, { encoding: "utf-8" });
 
       const jsonInput = jsonInputForTargetLanguage("typescript");
