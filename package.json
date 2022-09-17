@@ -17,9 +17,9 @@
     "hydrate/"
   ],
   "scripts": {
-    "build": "npm run util:copy-icons && stencil build && npm run util:patch",
-    "build:watch": "npm run util:copy-icons && stencil build --watch",
-    "build:watch-dev": "npm run util:copy-icons && stencil build --dev --watch",
+    "build": "npm run util:prep-build-reqs && stencil build && npm run util:patch",
+    "build:watch": "npm run util:prep-build-reqs && stencil build --watch",
+    "build:watch-dev": "npm run util:prep-build-reqs && stencil build --dev --watch",
     "build-storybook": "npm run util:build-docs && build-storybook --output-dir ./docs",
     "deps:update": "updtr --exclude chalk cheerio typescript @types/jest jest jest-cli ts-jest puppeteer && npm audit fix",
     "docs": "concurrently --kill-others --raw \"npm run build-storybook\" \"ts-node --esm ./support/cleanOnProcessExit.ts --path ./__docs-temp__\"",
@@ -44,7 +44,7 @@
     "test:prerender": "stencil build --no-docs --prerender",
     "test:storybook": "concurrently --raw \"npm:util:build-docs && screener-storybook --conf .storybook/screener.config.js\"",
     "test:watch": "npm run util:run-tests -- --watchAll",
-    "util:build-docs": "npm run util:copy-icons && stencil build --config stencil.storybook.config.ts",
+    "util:build-docs": "npm run util:prep-build-reqs && stencil build --config stencil.storybook.config.ts",
     "util:check-squash-mergeable-branch": "ts-node --esm support/checkSquashMergeableBranch.ts",
     "util:clean-tested-build": "npm ci && npm test && npm run build",
     "util:copy-icons": "cpy \"./node_modules/@esri/calcite-ui-icons/js/*.json\" \"./src/components/icon/assets/icon/\" --flat",
@@ -57,10 +57,11 @@
     "util:patch-es5-helpers": "ts-node --esm support/patchES5Helpers.ts",
     "util:patch-esm-resolution": "ts-node --esm support/patchESMResolution.ts",
     "util:patch-tree-shaking": "ts-node --esm support/patchTreeShaking.ts",
+    "util:prep-build-reqs": "npm run util:copy-icons && npm run util:generate-t9n-types",
     "util:prep-next": "ts-node --esm support/prepReleaseCommit.ts --next && npm run build",
     "util:publish-next": "npm publish --tag next",
     "util:push-tags": "git push --atomic --follow-tags origin master",
-    "util:run-tests": "npm run util:copy-icons && stencil test --no-docs --spec --e2e",
+    "util:run-tests": "npm run util:prep-build-reqs && stencil test --no-docs --spec --e2e",
     "util:sync-t9n-en-bundles": "ts-node --esm support/syncEnT9nBundles.ts"
   },
   "repository": {
