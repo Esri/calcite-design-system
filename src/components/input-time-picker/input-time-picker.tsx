@@ -26,11 +26,11 @@ import {
 } from "../../utils/form";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import {
-  GlobalAttrComponent,
-  unwatchGlobalAttributes,
-  watchGlobalAttributes
-} from "../../utils/globalAttributes";
-import { getLocale } from "../../utils/locale";
+  connectLocalized,
+  disconnectLocalized,
+  LocalizedComponent,
+  updateEffectiveLocale
+} from "../../utils/locale";
 
 @Component({
   tag: "calcite-input-time-picker",
@@ -43,7 +43,7 @@ export class InputTimePicker
     FormComponent,
     InteractiveComponent,
     FloatingUIComponent,
-    GlobalAttrComponent
+    LocalizedComponent
 {
   //--------------------------------------------------------------------------
   //
@@ -149,11 +149,9 @@ export class InputTimePicker
    */
   @Prop({ mutable: true }) locale: string;
 
-  @Watch("globalAttributes")
   @Watch("locale")
-  localeWatcher(): void {
-    const locale = getLocale(this);
-    this.setInputValue(localizeTimeString(this.value, locale, this.shouldIncludeSeconds()));
+  localeChanged(): void {
+    updateEffectiveLocale(this);
   }
 
   /** The name of the time input */
@@ -229,7 +227,14 @@ export class InputTimePicker
   //
   //--------------------------------------------------------------------------
 
-  @State() globalAttributes = {};
+  @State() effectiveLocale = "";
+
+  @Watch("effectiveLocale")
+  effectiveLocaleWatcher(): void {
+    this.setInputValue(
+      localizeTimeString(this.value, this.effectiveLocale, this.shouldIncludeSeconds())
+    );
+  }
 
   @State() localizedValue: string;
 
@@ -253,7 +258,7 @@ export class InputTimePicker
   private calciteInternalInputBlurHandler = (): void => {
     this.open = false;
     const shouldIncludeSeconds = this.shouldIncludeSeconds();
-    const locale = getLocale(this);
+    const locale = this.effectiveLocale;
 
     const localizedInputValue = localizeTimeString(
       this.calciteInputEl.value,
@@ -389,7 +394,7 @@ export class InputTimePicker
     const newValue = formatTimeString(value);
     const newLocalizedValue = localizeTimeString(
       newValue,
-      getLocale(this),
+      this.effectiveLocale,
       this.shouldIncludeSeconds()
     );
     this.internalValueChange = origin !== "external" && origin !== "loading";
@@ -445,7 +450,7 @@ export class InputTimePicker
     }
     connectLabel(this);
     connectForm(this);
-    watchGlobalAttributes(this, ["lang"]);
+    connectLocalized(this);
 
     if (open) {
       this.active = open;
@@ -461,7 +466,7 @@ export class InputTimePicker
   disconnectedCallback() {
     disconnectLabel(this);
     disconnectForm(this);
-    unwatchGlobalAttributes(this);
+    disconnectLocalized(this);
   }
 
   componentDidRender(): void {
@@ -522,7 +527,7 @@ export class InputTimePicker
             intlSecond={this.intlSecond}
             intlSecondDown={this.intlSecondDown}
             intlSecondUp={this.intlSecondUp}
-            lang={getLocale(this)}
+            lang={this.effectiveLocale}
             onCalciteInternalTimePickerChange={this.timePickerChangeHandler}
             ref={this.setCalciteTimePickerEl}
             scale={this.scale}
