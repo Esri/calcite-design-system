@@ -1,7 +1,5 @@
 import { getAssetPath } from "@stencil/core";
-import { getSupportedLang } from "./locale";
-import { createObserver } from "./observers";
-import { closestElementCrossShadowBoundary } from "./dom";
+import { getSupportedLocale, LocalizedComponent } from "./locale";
 
 export type MessageBundle = Record<string, string>;
 
@@ -77,9 +75,7 @@ function mergeMessages(component: T9nComponent): void {
  * @param component
  */
 export async function setUpMessages(component: T9nComponent): Promise<void> {
-  const lang = component.el.lang || document.documentElement.lang || navigator.language;
-
-  component.defaultMessages = await fetchMessages(component, lang);
+  component.defaultMessages = await fetchMessages(component, component.effectiveLocale);
   mergeIntlPropsIntoOverrides(component);
   mergeMessages(component);
 }
@@ -89,54 +85,35 @@ async function fetchMessages(component: T9nComponent, lang: string): Promise<Mes
   const tag = el.tagName.toLowerCase();
   const componentName = tag.replace("calcite-", "");
 
-  return getMessageBundle(getSupportedLang(lang), componentName);
+  return getMessageBundle(getSupportedLocale(lang), componentName);
 }
 
-async function updateMessages(component: T9nComponent, lang: string): Promise<void> {
+/**
+ * This utility must be set up for the component to update its default message bundle if the locale changes.
+ *
+ * It can be set up in **either** of the following ways:
+ *
+ * 1. called from `LocalizedComponent`'s `onLocaleChange` method or
+ * 2. called from a watcher configured to watch `LocalizedComponent`'s `effectiveLocale` prop
+ *
+ * @param component
+ * @param lang
+ */
+export async function updateMessages(component: T9nComponent, lang: string): Promise<void> {
   component.defaultMessages = await fetchMessages(component, lang);
 }
-
-const connectedComponents = new Set<T9nComponent>();
-
-const mutationObserver = createObserver("mutation", (records) => {
-  records.forEach((record) => {
-    const el = record.target as HTMLElement;
-
-    connectedComponents.forEach((component) => {
-      if ((component.el.lang && el !== component.el) || !el.contains(component.el)) {
-        return;
-      }
-
-      const closestLangEl = closestElementCrossShadowBoundary<HTMLElement>(component.el, "[lang]");
-
-      if (closestLangEl !== el) {
-        return;
-      }
-
-      updateMessages(component, closestLangEl.lang);
-    });
-  });
-});
 
 /**
  * This utility sets up internals for messages support.
  *
  * It needs to be called in `connectedCallback`
  *
+ * **Note**: this must be called after `LocalizedComponent`'s `connectLocalized` method.
+ *
  * @param component
  */
 export function connectMessages(component: T9nComponent): void {
   component.onMessagesChange = defaultOnMessagesChange;
-
-  if (connectedComponents.size === 0) {
-    mutationObserver.observe(document.documentElement, {
-      attributes: true,
-      attributeFilter: ["lang"],
-      subtree: true
-    });
-  }
-
-  connectedComponents.add(component);
 }
 
 /**
@@ -148,14 +125,17 @@ export function connectMessages(component: T9nComponent): void {
  */
 export function disconnectMessages(component: T9nComponent): void {
   component.onMessagesChange = undefined;
-  connectedComponents.delete(component);
-
-  if (connectedComponents.size === 0) {
-    mutationObserver.disconnect();
-  }
 }
 
-export interface T9nComponent {
+/**
+ * This interface enables components to support built-in translation strings.
+ *
+ * **Notes**:
+ *
+ * This requires `LocalizedComponent` to be implemented.
+ * To avoid unnecessary lookups, composite components should set `lang` on internal t9n components.
+ */
+export interface T9nComponent extends LocalizedComponent {
   el: HTMLElement;
 
   /**

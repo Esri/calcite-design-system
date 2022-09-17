@@ -31,7 +31,14 @@ import { clamp } from "../../utils/math";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { Messages } from "./assets/color-picker/t9n";
 import { isActivationKey } from "../../utils/key";
-import { connectMessages, disconnectMessages, setUpMessages, T9nComponent } from "../../utils/t9n";
+import {
+  connectMessages,
+  disconnectMessages,
+  setUpMessages,
+  T9nComponent,
+  updateMessages
+} from "../../utils/t9n";
+import { connectLocalized, disconnectLocalized } from "../../utils/locale";
 const throttleFor60FpsInMs = 16;
 const defaultValue = normalizeHex(DEFAULT_COLOR.hex());
 const defaultFormat = "auto";
@@ -407,6 +414,13 @@ export class ColorPicker implements InteractiveComponent, T9nComponent {
   @State() channels: [number, number, number] = this.toChannels(DEFAULT_COLOR);
 
   @State() dimensions = DIMENSIONS.m;
+
+  @State() effectiveLocale = "";
+
+  @Watch("effectiveLocale")
+  effectiveLocaleChange(): void {
+    updateMessages(this, this.effectiveLocale);
+  }
 
   /**
    * @internal
@@ -818,12 +832,14 @@ export class ColorPicker implements InteractiveComponent, T9nComponent {
   }
 
   connectedCallback(): void {
+    connectLocalized(this);
     connectMessages(this);
   }
 
   disconnectedCallback(): void {
     document.removeEventListener("pointermove", this.globalPointerMoveHandler);
     document.removeEventListener("pointerup", this.globalPointerUpHandler);
+    disconnectLocalized(this);
     disconnectMessages(this);
   }
 
@@ -1064,6 +1080,7 @@ export class ColorPicker implements InteractiveComponent, T9nComponent {
       data-channel-index={index}
       dir={direction}
       label={ariaLabel}
+      lang={this.effectiveLocale}
       numberButtonType="none"
       numberingSystem={this.numberingSystem}
       onCalciteInputChange={this.handleChannelChange}
