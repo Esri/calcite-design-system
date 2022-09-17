@@ -28,7 +28,9 @@ import {
 import {
   getDecimalSeparator,
   delocalizeNumberString,
-  localizeNumberString
+  localizeNumberString,
+  getLocale,
+  LangComponent
 } from "../../utils/locale";
 import { numberKeys } from "../../utils/key";
 import { isValidNumber, parseNumberString, sanitizeNumberString } from "../../utils/number";
@@ -36,6 +38,11 @@ import { CSS_UTILITY, TEXT as COMMON_TEXT } from "../../utils/resources";
 import { decimalPlaces } from "../../utils/math";
 import { createObserver } from "../../utils/observers";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import {
+  GlobalAttrComponent,
+  unwatchGlobalAttributes,
+  watchGlobalAttributes
+} from "../../utils/globalAttributes";
 
 type NumberNudgeDirection = "up" | "down";
 type SetValueOrigin = "initial" | "connected" | "user" | "reset" | "direct";
@@ -48,7 +55,14 @@ type SetValueOrigin = "initial" | "connected" | "user" | "reset" | "direct";
   styleUrl: "input.scss",
   shadow: true
 })
-export class Input implements LabelableComponent, FormComponent, InteractiveComponent {
+export class Input
+  implements
+    LabelableComponent,
+    FormComponent,
+    InteractiveComponent,
+    GlobalAttrComponent,
+    LangComponent
+{
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -128,8 +142,13 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
   /** When true, the component is in the loading state and `calcite-progress` is displayed. */
   @Prop({ reflect: true }) loading = false;
 
-  /** Specifies the BCP 47 language tag for the desired language and country format. */
-  @Prop() locale: string = document.documentElement.lang || "en";
+  /**
+   * BCP 47 language tag for desired language and country format
+   *
+   * @deprecated set the global `lang` attribute on the element instead.
+   * @mdn [lang](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/lang)
+   */
+  @Prop() locale: string;
 
   /**
    * Specifies the Unicode numeral system used by the component for localization.
@@ -351,6 +370,8 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
   //
   //--------------------------------------------------------------------------
 
+  @State() globalAttributes = {};
+
   @State() localizedValue: string;
 
   //--------------------------------------------------------------------------
@@ -377,6 +398,7 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
     }
     connectLabel(this);
     connectForm(this);
+    watchGlobalAttributes(this, ["lang"]);
     this.mutationObserver?.observe(this.el, { childList: true });
     this.setDisabledAction();
     this.el.addEventListener("calciteInternalHiddenInputChange", this.hiddenInputChangeHandler);
@@ -385,6 +407,7 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
   disconnectedCallback(): void {
     disconnectLabel(this);
     disconnectForm(this);
+    unwatchGlobalAttributes(this);
     this.mutationObserver?.disconnect();
     this.el.removeEventListener("calciteInternalHiddenInputChange", this.hiddenInputChangeHandler);
   }
@@ -572,7 +595,7 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
       return;
     }
     const value = (nativeEvent.target as HTMLInputElement).value;
-    const delocalizedValue = delocalizeNumberString(value, this.locale);
+    const delocalizedValue = delocalizeNumberString(value, getLocale(this));
     if (nativeEvent.inputType === "insertFromPaste") {
       if (!isValidNumber(delocalizedValue)) {
         nativeEvent.preventDefault();
@@ -626,7 +649,7 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
       }
       return;
     }
-    const decimalSeparator = getDecimalSeparator(this.locale);
+    const decimalSeparator = getDecimalSeparator(getLocale(this));
     if (event.key === decimalSeparator) {
       if (!this.value && !this.childNumberEl.value) {
         return;
@@ -801,11 +824,12 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
     previousValue?: string;
     value: string;
   }): void => {
+    const locale = getLocale(this);
     const previousLocalizedValue =
       this.type === "number"
         ? localizeNumberString(
             this.previousValue,
-            this.locale,
+            locale,
             this.groupSeparator,
             this.numberingSystem
           )
@@ -819,7 +843,7 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
         : sanitizedValue;
     const newLocalizedValue =
       this.type === "number"
-        ? localizeNumberString(newValue, this.locale, this.groupSeparator, this.numberingSystem)
+        ? localizeNumberString(newValue, locale, this.groupSeparator, this.numberingSystem)
         : "";
 
     this.setPreviousValue(previousValue || this.value);

@@ -356,7 +356,7 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
   //
   // --------------------------------------------------------------------------
 
-  debouncedReposition = debounce(() => this.reposition(), repositionDebounceTimeout);
+  private debouncedReposition = debounce(() => this.reposition(), repositionDebounceTimeout);
 
   private setTransitionEl = (el): void => {
     this.transitionEl = el;

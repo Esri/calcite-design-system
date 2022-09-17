@@ -127,7 +127,7 @@ export const darkThemeRTL_TestOnly = (): string => html`
 darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };
 
 export const hebrewNumberingSystem_TestOnly = (): string =>
-  html`<calcite-input-number locale="ar-EG" numbering-system="hebr" value="123456"></calcite-input-number>`;
+  html`<calcite-input-number lang="ar-EG" numbering-system="hebr" value="123456"></calcite-input-number>`;
 
 export const arabicLocaleWithLatinNumberingSystem_TestOnly = (): string =>
-  html`<calcite-input-number locale="ar-EG" numbering-system="latn" value="123456"></calcite-input-number>`;
+  html`<calcite-input-number lang="ar-EG" numbering-system="latn" value="123456"></calcite-input-number>`;

@@ -7,8 +7,14 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## Unreleased
 
+### Features
+
+- use global lang attribute to determine locale, deprecates `locale` prop ([#5216](https://github.com/Esri/calcite-components/issues/5216)) ([640cece](https://github.com/Esri/calcite-components/commit/640cece3ce15f221d075f11321c152ec2cba07b9)), closes [#4213](https://github.com/Esri/calcite-components/issues/4213)
+- **animation:** support reduced motion preference for animations ([#5314](https://github.com/Esri/calcite-components/issues/5314)) ([920f5bd](https://github.com/Esri/calcite-components/commit/920f5bd1aba336f6068354adb1077c223129611f))
+
 ### Bug Fixes
 
+- **card:** prevent header from overlapping with checkbox ([#5325](https://github.com/Esri/calcite-components/issues/5325)) ([c7f50c2](https://github.com/Esri/calcite-components/commit/c7f50c203a6226ed646771fb8a842c38b3961ec9)), closes [#4802](https://github.com/Esri/calcite-components/issues/4802)
 - **panel:** Do not close non closable panel on ESC key ([#5330](https://github.com/Esri/calcite-components/issues/5330)) ([ed93061](https://github.com/Esri/calcite-components/commit/ed9306124c6b0570fe3606a47b33840aeab129bb)), closes [#5329](https://github.com/Esri/calcite-components/issues/5329)
 <!--@unreleased-section-end-->
 
