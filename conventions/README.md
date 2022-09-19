@@ -112,6 +112,10 @@ class CompositeOrParentComponent {
 }
 ```
 
+### Interaction events
+
+Pointer events should be used in favor of mouse events to maximize device compatibility.
+
 ## Properties
 
 Private/internal properties should be annotated accordingly to avoid exposing them in the doc and/or API. You can do this by using the `@private`/`@internal` [JSDoc](https://jsdoc.app/) tags.
