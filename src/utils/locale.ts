@@ -1,4 +1,5 @@
 import { sanitizeDecimalString, sanitizeExponentialNumberString, isValidNumber, BigDecimal } from "./number";
+import { GlobalAttrComponent } from "./globalAttributes";
 
 export const locales = [
   "ar",
@@ -134,4 +135,29 @@ export function localizeNumberString(
     }
     return nonExpoNumString;
   });
+}
+
+/**
+ * This interface is for components that need to determine locale from the lang attribute.
+ */
+export interface LangComponent extends GlobalAttrComponent {
+  /**
+   * BCP 47 language tag for desired language and country format
+   *
+   * **Note**: this prop was added exclusively for backwards-compatibility
+   *
+   * @deprecated set the global `lang` attribute on the element instead.
+   * @mdn [lang](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/lang)
+   */
+  locale?: string;
+}
+
+/**
+ * This util helps resolve a component's locale.
+ * It will also fall back on the deprecated `locale` if a component implemented this previously.
+ *
+ * @param component
+ */
+export function getLocale(component: LangComponent): string {
+  return component.el.lang || component.locale || document.documentElement.lang || "en";
 }

@@ -45,7 +45,8 @@ import {
   EffectivePlacement,
   MenuPlacement,
   defaultMenuPlacement,
-  filterComputedPlacements
+  filterComputedPlacements,
+  repositionDebounceTimeout
 } from "../../utils/floating-ui";
 import { DateRangeChange } from "../date-picker/interfaces";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
@@ -55,6 +56,13 @@ import {
   connectOpenCloseComponent,
   disconnectOpenCloseComponent
 } from "../../utils/openCloseComponent";
+import {
+  GlobalAttrComponent,
+  unwatchGlobalAttributes,
+  watchGlobalAttributes
+} from "../../utils/globalAttributes";
+import { getLocale, LangComponent } from "../../utils/locale";
+import { debounce } from "lodash-es";
 
 @Component({
   tag: "calcite-input-date-picker",
@@ -65,9 +73,11 @@ export class InputDatePicker
   implements
     LabelableComponent,
     FormComponent,
+    GlobalAttrComponent,
     InteractiveComponent,
     OpenCloseComponent,
-    FloatingUIComponent
+    FloatingUIComponent,
+    LangComponent
 {
   //--------------------------------------------------------------------------
   //
@@ -91,7 +101,7 @@ export class InputDatePicker
    *
    * @mdn [readOnly](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/readonly)
    */
-  @Prop() readOnly = false;
+  @Prop({ reflect: true }) readOnly = false;
 
   @Watch("disabled")
   @Watch("readOnly")
@@ -129,13 +139,13 @@ export class InputDatePicker
   @Watch("flipPlacements")
   flipPlacementsHandler(): void {
     this.setFilteredPlacements();
-    this.reposition();
+    this.debouncedReposition();
   }
 
   /**
    * Number at which section headings should start for this component.
    */
-  @Prop() headingLevel: HeadingLevel;
+  @Prop({ reflect: true }) headingLevel: HeadingLevel;
 
   /** Selected date as full date object*/
   @Prop({ mutable: true }) valueAsDate?: Date | Date[];
@@ -161,7 +171,7 @@ export class InputDatePicker
   @Prop({ mutable: true }) maxAsDate?: Date;
 
   /** Earliest allowed date ("yyyy-mm-dd") */
-  @Prop({ mutable: true }) min?: string;
+  @Prop({ mutable: true, reflect: true }) min?: string;
 
   @Watch("min")
   onMinChanged(min: string): void {
@@ -171,7 +181,7 @@ export class InputDatePicker
   }
 
   /** Latest allowed date ("yyyy-mm-dd") */
-  @Prop({ mutable: true }) max?: string;
+  @Prop({ mutable: true, reflect: true }) max?: string;
 
   @Watch("max")
   onMaxChanged(max: string): void {
@@ -204,13 +214,13 @@ export class InputDatePicker
       return;
     }
 
-    this.reposition();
+    this.debouncedReposition();
   }
 
   /**
    * The picker's name. Gets submitted with the form.
    */
-  @Prop() name: string;
+  @Prop({ reflect: true }) name: string;
 
   /**
    * Localized string for "previous month" (used for aria label)
@@ -233,8 +243,13 @@ export class InputDatePicker
    */
   @Prop() intlYear?: string = TEXT.year;
 
-  /** BCP 47 language tag for desired language and country format */
-  @Prop() locale?: string = document.documentElement.lang || "en";
+  /**
+   * BCP 47 language tag for desired language and country format
+   *
+   * @deprecated set the global `lang` attribute on the element instead.
+   * @mdn [lang](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/lang)
+   */
+  @Prop() locale?: string;
 
   /** specify the scale of the date picker */
   @Prop({ reflect: true }) scale: "s" | "m" | "l" = "m";
@@ -261,14 +276,14 @@ export class InputDatePicker
    *
    * @deprecated use value instead
    */
-  @Prop({ mutable: true }) start?: string;
+  @Prop({ mutable: true, reflect: true }) start?: string;
 
   /**
    * Selected end date
    *
    * @deprecated use value instead
    */
-  @Prop({ mutable: true }) end?: string;
+  @Prop({ mutable: true, reflect: true }) end?: string;
 
   /**
    * Determines the type of positioning to use for the overlaid content.
@@ -276,15 +291,15 @@ export class InputDatePicker
    * Using the "absolute" value will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout. The "fixed" value should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is "fixed".
    *
    */
-  @Prop() overlayPositioning: OverlayPositioning = "absolute";
+  @Prop({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
   @Watch("overlayPositioning")
   overlayPositioningHandler(): void {
-    this.reposition();
+    this.debouncedReposition();
   }
 
   /** Disables the default behaviour on the third click of narrowing or extending the range and instead starts a new range. */
-  @Prop() proximitySelectionDisabled = false;
+  @Prop({ reflect: true }) proximitySelectionDisabled = false;
 
   /** Layout */
   @Prop({ reflect: true }) layout: "horizontal" | "vertical" = "horizontal";
@@ -413,8 +428,9 @@ export class InputDatePicker
     connectLabel(this);
     connectForm(this);
     connectOpenCloseComponent(this);
+    watchGlobalAttributes(this, ["lang"]);
     this.setFilteredPlacements();
-    this.reposition();
+    this.debouncedReposition();
   }
 
   async componentWillLoad(): Promise<void> {
@@ -424,7 +440,7 @@ export class InputDatePicker
   }
 
   componentDidLoad(): void {
-    this.reposition();
+    this.debouncedReposition();
   }
 
   disconnectedCallback(): void {
@@ -432,6 +448,7 @@ export class InputDatePicker
     disconnectForm(this);
     disconnectFloatingUI(this, this.referenceEl, this.floatingEl);
     disconnectOpenCloseComponent(this);
+    unwatchGlobalAttributes(this);
   }
 
   componentDidRender(): void {
@@ -448,8 +465,9 @@ export class InputDatePicker
     const endDate = this.range
       ? dateFromRange(this.endAsDate, this.minAsDate, this.maxAsDate)
       : null;
-    const formattedEndDate = endDate ? endDate.toLocaleDateString(this.locale) : "";
-    const formattedDate = date ? date.toLocaleDateString(this.locale) : "";
+    const locale = getLocale(this);
+    const formattedEndDate = endDate ? endDate.toLocaleDateString(locale) : "";
+    const formattedDate = date ? date.toLocaleDateString(locale) : "";
 
     return (
       <Host onBlur={this.deactivate} onKeyDown={this.keyDownHandler} role="application">
@@ -501,7 +519,7 @@ export class InputDatePicker
                   intlNextMonth={this.intlNextMonth}
                   intlPrevMonth={this.intlPrevMonth}
                   intlYear={this.intlYear}
-                  locale={this.locale}
+                  lang={locale}
                   max={this.max}
                   maxAsDate={this.maxAsDate}
                   min={this.min}
@@ -573,6 +591,8 @@ export class InputDatePicker
 
   @State() focusedInput: "start" | "end" = "start";
 
+  @State() globalAttributes = {};
+
   @State() private localeData: DateLocaleData;
 
   private startInput: HTMLCalciteInputElement;
@@ -609,6 +629,8 @@ export class InputDatePicker
   //  Private Methods
   //
   //--------------------------------------------------------------------------
+
+  private debouncedReposition = debounce(() => this.reposition(), repositionDebounceTimeout);
 
   setFilteredPlacements = (): void => {
     const { el, flipPlacements } = this;
@@ -717,14 +739,14 @@ export class InputDatePicker
     this.endAsDate = end ? setEndOfDay(dateFromISO(end)) : dateFromISO(end);
   }
 
+  @Watch("globalAttributes")
   @Watch("locale")
   private async loadLocaleData(): Promise<void> {
     if (!Build.isBrowser) {
       return;
     }
 
-    const { locale } = this;
-    this.localeData = await getLocaleData(locale);
+    this.localeData = await getLocaleData(getLocale(this));
   }
 
   private clearCurrentValue(): void {
@@ -807,7 +829,8 @@ export class InputDatePicker
    * @param target
    */
   private blur(target: HTMLCalciteInputElement): void {
-    const { locale, focusedInput, endAsDate, range, startAsDate, valueAsDate } = this;
+    const { focusedInput, endAsDate, range, startAsDate, valueAsDate } = this;
+    const locale = getLocale(this);
     const date = this.getDateFromInput(target.value);
     if (!date) {
       if (!range && valueAsDate) {

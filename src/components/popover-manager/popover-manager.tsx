@@ -32,7 +32,7 @@ export class PopoverManager {
    *
    * @default `[data-calcite-popover-reference]`
    */
-  @Prop() selector = "[data-calcite-popover-reference]";
+  @Prop({ reflect: true }) selector = "[data-calcite-popover-reference]";
 
   /**
    * Automatically closes any currently open popovers when clicking outside of a popover.

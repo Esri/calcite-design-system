@@ -28,7 +28,7 @@
 
 .indeterminate {
   @apply w-1/5;
-  animation: looping-progress-bar-ani 2200ms linear infinite;
+  animation: looping-progress-bar-ani calc(var(--calcite-internal-animation-timing-medium) * 11) linear infinite;
 }
 
 .reversed {

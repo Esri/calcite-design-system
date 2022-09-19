@@ -29,7 +29,8 @@ describe("calcite-input-time-picker", () => {
   it("has defaults", async () =>
     defaults("calcite-input-time-picker", [
       { propertyName: "scale", defaultValue: "m" },
-      { propertyName: "step", defaultValue: 60 }
+      { propertyName: "step", defaultValue: 60 },
+      { propertyName: "overlayPositioning", defaultValue: "absolute" }
     ]));
 
   it("reflects", async () =>

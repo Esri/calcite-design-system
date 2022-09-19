@@ -229,7 +229,7 @@ describe("calcite-tooltip", () => {
     expect(content.textContent).toBe("hi");
   });
 
-  it("should honor tooltips on mouseover/mouseout", async () => {
+  it("should honor tooltips on pointerover/pointerout", async () => {
     const page = await newE2EPage();
 
     await page.setContent(
@@ -450,7 +450,7 @@ describe("calcite-tooltip", () => {
     expect(await hoverTip.getProperty("open")).toBe(false);
 
     await page.$eval("#hoverRef", (elm: HTMLElement) => {
-      elm.dispatchEvent(new Event("mouseover"));
+      elm.dispatchEvent(new Event("pointerover"));
     });
 
     await page.waitForTimeout(TOOLTIP_DELAY_MS);
@@ -507,7 +507,7 @@ describe("calcite-tooltip", () => {
     expect(await hoverTip.getProperty("open")).toBe(false);
 
     await page.$eval("#hoverRef", (elm: HTMLElement) => {
-      elm.dispatchEvent(new Event("mouseover"));
+      elm.dispatchEvent(new Event("pointerover"));
     });
 
     await page.waitForTimeout(TOOLTIP_DELAY_MS);
