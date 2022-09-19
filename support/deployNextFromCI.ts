@@ -27,11 +27,6 @@
     console.log(" - pushing tags...");
     await exec(`git push --atomic --follow-tags origin master`);
 
-    const changesPushed = (await exec(`git rev-parse HEAD`)) === (await exec(`git rev-parse origin/master`));
-    if (!changesPushed) {
-      throw new Error("Failed to push changes");
-    }
-
     console.log(" - publishing @next...");
     await exec(`npm run util:publish-next`);
 
