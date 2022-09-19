@@ -67,3 +67,17 @@ body:
       placeholder: beta.1
     validations:
       required: false
+  - type: dropdown
+    id: esri-team
+    validations:
+      required: true
+    attributes:
+      label: Esri team
+      multiple: false
+      description: If you work at Esri, please select your product team. Otherwise choose "N/A".
+      options:
+        - N/A
+        - ArcGIS API for JavaScript
+        - ArcGIS Map Viewer
+        - ArcGIS Dashboard
+        - ArcGIS Hub
