@@ -100,10 +100,10 @@ describe("calcite-flow-item", () => {
 
     const calciteFlowItemClose = await page.spyOnEvent("calciteFlowItemClose", "window");
 
-    const panel = await page.find("calcite-flow-item >>> calcite-panel");
-    const closeButton = await panel.find("calcite-panel >>> calcite-action");
+    const closeButton = await page.find("calcite-flow-item >>> calcite-panel >>> calcite-action");
 
     await closeButton.click();
+    await page.waitForChanges();
 
     expect(calciteFlowItemClose).toHaveReceivedEvent();
   });
