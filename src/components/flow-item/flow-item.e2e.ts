@@ -94,4 +94,17 @@ describe("calcite-flow-item", () => {
 
     expect(eventSpy).toHaveReceivedEvent();
   });
+
+  it("close event should fire when closed", async () => {
+    const page = await newE2EPage({ html: "<calcite-flow-item closable>test</calcite-flow-item>" });
+
+    const calciteFlowItemClose = await page.spyOnEvent("calciteFlowItemClose", "window");
+
+    const panel = await page.find("calcite-flow-item >>> calcite-panel");
+    const closeButton = await panel.find("calcite-panel >>> calcite-action");
+
+    await closeButton.click();
+
+    expect(calciteFlowItemClose).toHaveReceivedEvent();
+  });
 });
