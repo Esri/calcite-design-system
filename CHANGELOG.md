@@ -9,6 +9,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### Features
 
+- **flow-item:** Add `calciteFlowItemClose` event ([#5342](https://github.com/Esri/calcite-components/issues/5342)) ([1f06430](https://github.com/Esri/calcite-components/commit/1f064302a977809b82ec31e149ba835202745064))
 - **panel:** Add `calcitePanelClose` event and deprecate `calcitePanelDismiss` event ([#5341](https://github.com/Esri/calcite-components/issues/5341)) ([f5b6a72](https://github.com/Esri/calcite-components/commit/f5b6a7214596647205e8716188f212846e8611fc))
 - use global lang attribute to determine locale, deprecates `locale` prop ([#5216](https://github.com/Esri/calcite-components/issues/5216)) ([640cece](https://github.com/Esri/calcite-components/commit/640cece3ce15f221d075f11321c152ec2cba07b9)), closes [#4213](https://github.com/Esri/calcite-components/issues/4213)
 - **animation:** support reduced motion preference for animations ([#5314](https://github.com/Esri/calcite-components/issues/5314)) ([920f5bd](https://github.com/Esri/calcite-components/commit/920f5bd1aba336f6068354adb1077c223129611f))
