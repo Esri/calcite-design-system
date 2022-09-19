@@ -169,7 +169,7 @@ export class TreeItem implements ConditionalSlotComponent {
   componentDidrender(): void {
     if (this.hasChildren) {
       readTask(() => {
-        this.getChildrenContainerHeight();
+        this.setChildrenContainerHeight();
       });
     }
   }
@@ -416,7 +416,7 @@ export class TreeItem implements ConditionalSlotComponent {
     }
   };
 
-  private getChildrenContainerHeight(): void {
+  private setChildrenContainerHeight(): void {
     if (this.hasChildren) {
       this.childrenSlotWrapper.style.height = this.expanded
         ? `${this.childrenSlotWrapper.offsetHeight}px`
