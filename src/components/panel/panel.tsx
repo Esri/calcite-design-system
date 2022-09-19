@@ -304,6 +304,7 @@ export class Panel implements InteractiveComponent {
   close = (): void => {
     this.closed = true;
     this.calcitePanelDismiss.emit();
+    this.calcitePanelClose.emit();
   };
 
   panelScrollHandler = (): void => {
