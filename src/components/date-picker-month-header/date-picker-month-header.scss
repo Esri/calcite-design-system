@@ -117,22 +117,16 @@
 }
 
 .year--suffix {
-  @apply w-16 text-left;
+  @apply text-left;
 }
 
 .year-wrap {
-  @apply relative;
+  @apply w-16 relative;
 }
 
 .suffix {
-  @apply absolute
-    top-0
+  @apply top-0
     left-0
-    w-16
     whitespace-nowrap
-    text-left;
-}
-
-.suffix__invisible {
-  @apply invisible;
+    text-right;
 }
