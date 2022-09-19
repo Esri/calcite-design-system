@@ -37,6 +37,7 @@
 
 .text {
   @apply text-n2h px-0 pt-4 pb-0 text-center font-medium;
+  color: var(--calcite-ui-text-2);
 }
 
 @keyframes looping-progress-bar-ani {
