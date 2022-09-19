@@ -83,10 +83,11 @@ The following are guidelines for adding/updating stories:
 
 - Should have knobs configured to allow users to toggle different options available to the component
 - The simplest and base configuration should be named `simple` for consistency
+- This story should have as many knobs possible for developers to interact with
 - Should have one story per unique, supported use case
 - Stories that can be covered by adding a new prop/knob should update an existing playground story
 
-#### Screenshot test stories
+#### Screenshot test-only stories
 
 - Should have the minimal HTML to reproduce the test scenario
 - Should not have knobs as screenshot tests will not interact with them
