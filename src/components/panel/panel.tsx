@@ -234,12 +234,19 @@ export class Panel implements InteractiveComponent {
   /**
    * Fires when the close button is clicked.
    */
+  @Event({ cancelable: false }) calcitePanelClose: EventEmitter<void>;
+
+  /**
+   * Fires when the close button is clicked.
+   *
+   * @deprecated use calcitePanelClose instead.
+   */
   @Event({ cancelable: false }) calcitePanelDismiss: EventEmitter<void>;
 
   /**
    * Fires when there is a change to the `dismissed` property value .
    *
-   * @deprecated use calcitePanelDismiss instead.
+   * @deprecated use calcitePanelClose instead.
    */
   @Event({ cancelable: false }) calcitePanelDismissedChange: EventEmitter<void>;
 
@@ -297,6 +304,7 @@ export class Panel implements InteractiveComponent {
   close = (): void => {
     this.closed = true;
     this.calcitePanelDismiss.emit();
+    this.calcitePanelClose.emit();
   };
 
   panelScrollHandler = (): void => {
