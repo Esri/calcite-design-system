@@ -14,8 +14,10 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### Bug Fixes
 
+- **action-bar, combobox, dropdown, filter, input-date-picker, popover, tooltip:** make methods using debounce/throttle private to prevent lodash type errors ([#5335](https://github.com/Esri/calcite-components/issues/5335)) ([eafa135](https://github.com/Esri/calcite-components/commit/eafa1352014fc9a060e1ce87481c68208c72a031))
 - **card:** prevent header from overlapping with checkbox ([#5325](https://github.com/Esri/calcite-components/issues/5325)) ([c7f50c2](https://github.com/Esri/calcite-components/commit/c7f50c203a6226ed646771fb8a842c38b3961ec9)), closes [#4802](https://github.com/Esri/calcite-components/issues/4802)
 - **panel:** Do not close non closable panel on ESC key ([#5330](https://github.com/Esri/calcite-components/issues/5330)) ([ed93061](https://github.com/Esri/calcite-components/commit/ed9306124c6b0570fe3606a47b33840aeab129bb)), closes [#5329](https://github.com/Esri/calcite-components/issues/5329)
+- **progress:** text now responds to light/dark theme mode change ([#5336](https://github.com/Esri/calcite-components/issues/5336)) ([54a5765](https://github.com/Esri/calcite-components/commit/54a576592f627cafba16ebb0c9ef6576d68cef9c))
 <!--@unreleased-section-end-->
 
 ## [1.0.0-beta.94](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.93...v1.0.0-beta.94) (2022-09-15)
