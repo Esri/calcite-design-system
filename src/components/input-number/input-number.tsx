@@ -1,4 +1,4 @@
-import { DeprecatedEventPayload, Scale, Status } from "../interfaces";
+import { DeprecatedEventPayload, Position, Scale, Status } from "../interfaces";
 import {
   Component,
   Element,
@@ -16,8 +16,7 @@ import { getElementDir, getElementProp, getSlotted, setRequestedIcon } from "../
 
 import { CSS, SLOTS, TEXT } from "./resources";
 import { InputPlacement } from "./interfaces";
-import { Position } from "../interfaces";
-import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
+import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import {
   connectForm,
   disconnectForm,
@@ -26,8 +25,10 @@ import {
   submitForm
 } from "../../utils/form";
 import {
-  getDecimalSeparator,
   delocalizeNumberString,
+  getLocale,
+  getDecimalSeparator,
+  LangComponent,
   localizeNumberString
 } from "../../utils/locale";
 import { numberKeys } from "../../utils/key";
@@ -36,6 +37,11 @@ import { CSS_UTILITY, TEXT as COMMON_TEXT } from "../../utils/resources";
 import { decimalPlaces } from "../../utils/math";
 import { createObserver } from "../../utils/observers";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import {
+  GlobalAttrComponent,
+  unwatchGlobalAttributes,
+  watchGlobalAttributes
+} from "../../utils/globalAttributes";
 
 type NumberNudgeDirection = "up" | "down";
 type setNumberValueOrigin = "initial" | "connected" | "user" | "reset" | "direct";
@@ -48,7 +54,14 @@ type setNumberValueOrigin = "initial" | "connected" | "user" | "reset" | "direct
   styleUrl: "input-number.scss",
   shadow: true
 })
-export class InputNumber implements LabelableComponent, FormComponent, InteractiveComponent {
+export class InputNumber
+  implements
+    LabelableComponent,
+    FormComponent,
+    InteractiveComponent,
+    GlobalAttrComponent,
+    LangComponent
+{
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -128,8 +141,13 @@ export class InputNumber implements LabelableComponent, FormComponent, Interacti
   /** When true, the component is in the loading state and `calcite-progress` is displayed. */
   @Prop({ reflect: true }) loading = false;
 
-  /** Specifies the BCP 47 language tag for the desired language and country format. */
-  @Prop() locale: string = document.documentElement.lang || "en";
+  /**
+   * Specifies the BCP 47 language tag for the desired language and country format.
+   *
+   * @deprecated set the global `lang` attribute on the element instead.
+   * @mdn [lang](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/lang)
+   */
+  @Prop() locale: string;
 
   /**
    * Specifies the Unicode numeral system used by the component for localization.
@@ -308,6 +326,8 @@ export class InputNumber implements LabelableComponent, FormComponent, Interacti
   //
   //--------------------------------------------------------------------------
 
+  @State() globalAttributes = {};
+
   @State() localizedValue: string;
 
   //--------------------------------------------------------------------------
@@ -333,6 +353,8 @@ export class InputNumber implements LabelableComponent, FormComponent, Interacti
     });
     connectLabel(this);
     connectForm(this);
+    watchGlobalAttributes(this, ["lang"]);
+
     this.mutationObserver?.observe(this.el, { childList: true });
     this.setDisabledAction();
     this.el.addEventListener("calciteInternalHiddenInputChange", this.hiddenInputChangeHandler);
@@ -341,6 +363,7 @@ export class InputNumber implements LabelableComponent, FormComponent, Interacti
   disconnectedCallback(): void {
     disconnectLabel(this);
     disconnectForm(this);
+    unwatchGlobalAttributes(this);
     this.mutationObserver?.disconnect();
     this.el.removeEventListener("calciteInternalHiddenInputChange", this.hiddenInputChangeHandler);
   }
@@ -499,7 +522,7 @@ export class InputNumber implements LabelableComponent, FormComponent, Interacti
       return;
     }
     const value = (nativeEvent.target as HTMLInputElement).value;
-    const delocalizedValue = delocalizeNumberString(value, this.locale);
+    const delocalizedValue = delocalizeNumberString(value, getLocale(this));
     if (nativeEvent.inputType === "insertFromPaste") {
       if (!isValidNumber(delocalizedValue)) {
         nativeEvent.preventDefault();
@@ -553,7 +576,7 @@ export class InputNumber implements LabelableComponent, FormComponent, Interacti
       }
       return;
     }
-    const decimalSeparator = getDecimalSeparator(this.locale);
+    const decimalSeparator = getDecimalSeparator(getLocale(this));
     if (event.key === decimalSeparator) {
       if (!this.value && !this.childNumberEl.value) {
         return;
@@ -691,9 +714,11 @@ export class InputNumber implements LabelableComponent, FormComponent, Interacti
     previousValue?: string;
     value: string;
   }): void => {
+    const locale = getLocale(this);
+
     const previousLocalizedValue = localizeNumberString(
       this.previousValue,
-      this.locale,
+      locale,
       this.groupSeparator,
       this.numberingSystem
     );
@@ -708,7 +733,7 @@ export class InputNumber implements LabelableComponent, FormComponent, Interacti
 
     const newLocalizedValue = localizeNumberString(
       newValue,
-      this.locale,
+      locale,
       this.groupSeparator,
       this.numberingSystem
     );
