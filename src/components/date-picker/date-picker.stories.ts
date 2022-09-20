@@ -278,7 +278,7 @@ export const simple = stepStory(
       setKnobs({
         story: "components-controls-datepicker--simple",
         knobs: [
-          { name: "locale", value: "zn-ch" },
+          { name: "locale", value: "zh-cn" },
           { name: "value", value: "2024-01-11" }
         ]
       })
