@@ -316,6 +316,10 @@ focusMenu(): void => {
 }
 ```
 
+## Layering
+
+Avoid setting z-index ad hoc and instead use a contextual z-index layer from the [Tailwind z-index extension](../tailwind.config.ts#L212-L222). This will ensure proper layering across components.
+
 ## Utils
 
 There are utilities for common workflows in [`src/utils`](../src/utils).

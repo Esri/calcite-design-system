@@ -24,6 +24,12 @@ import { HeadingLevel } from "../functional/Heading";
 
 import { DateRangeChange } from "./interfaces";
 import { HEADING_LEVEL, TEXT } from "./resources";
+import {
+  GlobalAttrComponent,
+  unwatchGlobalAttributes,
+  watchGlobalAttributes
+} from "../../utils/globalAttributes";
+import { getLocale, LangComponent } from "../../utils/locale";
 
 @Component({
   assetsDirs: ["assets"],
@@ -31,7 +37,7 @@ import { HEADING_LEVEL, TEXT } from "./resources";
   styleUrl: "date-picker.scss",
   shadow: true
 })
-export class DatePicker {
+export class DatePicker implements GlobalAttrComponent, LangComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -136,8 +142,13 @@ export class DatePicker {
    */
   @Prop() intlYear?: string = TEXT.year;
 
-  /** BCP 47 language tag for desired language and country format */
-  @Prop() locale?: string = document.documentElement.lang || "en";
+  /**
+   * BCP 47 language tag for desired language and country format
+   *
+   * @deprecated set the global `lang` attribute on the element instead.
+   * @mdn [lang](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/lang)
+   */
+  @Prop() locale?: string;
 
   /** specify the scale of the date picker */
   @Prop({ reflect: true }) scale: "s" | "m" | "l" = "m";
@@ -194,6 +205,8 @@ export class DatePicker {
    */
   @State() activeEndDate: Date;
 
+  @State() globalAttributes = {};
+
   // --------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -223,6 +236,12 @@ export class DatePicker {
     if (this.max) {
       this.maxAsDate = dateFromISO(this.max);
     }
+
+    watchGlobalAttributes(this, ["lang"]);
+  }
+
+  disconnectedCallback(): void {
+    unwatchGlobalAttributes(this);
   }
 
   async componentWillLoad(): Promise<void> {
@@ -322,14 +341,14 @@ export class DatePicker {
     this.setEndAsDate(dateFromISO(end));
   }
 
+  @Watch("globalAttributes")
   @Watch("locale")
   private async loadLocaleData(): Promise<void> {
     if (!Build.isBrowser) {
       return;
     }
 
-    const { locale } = this;
-    this.localeData = await getLocaleData(locale);
+    this.localeData = await getLocaleData(getLocale(this));
   }
 
   monthHeaderSelectChange = (event: CustomEvent<Date>): void => {

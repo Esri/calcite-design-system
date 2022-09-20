@@ -97,8 +97,8 @@ export default class TooltipManager {
 
   private addListeners(): void {
     document.addEventListener("keydown", this.keyDownHandler);
-    document.addEventListener("mouseover", this.mouseEnterShow, { capture: true });
-    document.addEventListener("mouseout", this.mouseLeaveHide, { capture: true });
+    document.addEventListener("pointerover", this.mouseEnterShow, { capture: true });
+    document.addEventListener("pointerout", this.mouseLeaveHide, { capture: true });
     document.addEventListener("pointerdown", this.clickHandler, { capture: true });
     document.addEventListener("focusin", this.focusShow, { capture: true });
     document.addEventListener("focusout", this.blurHide, { capture: true });
@@ -106,8 +106,8 @@ export default class TooltipManager {
 
   private removeListeners(): void {
     document.removeEventListener("keydown", this.keyDownHandler);
-    document.removeEventListener("mouseover", this.mouseEnterShow, { capture: true });
-    document.removeEventListener("mouseout", this.mouseLeaveHide, { capture: true });
+    document.removeEventListener("pointerover", this.mouseEnterShow, { capture: true });
+    document.removeEventListener("pointerout", this.mouseLeaveHide, { capture: true });
     document.removeEventListener("pointerdown", this.clickHandler, { capture: true });
     document.removeEventListener("focusin", this.focusShow, { capture: true });
     document.removeEventListener("focusout", this.blurHide, { capture: true });
@@ -178,9 +178,9 @@ export default class TooltipManager {
       return;
     }
 
-    if (type === "mouseover" && event.composedPath().includes(activeTooltipEl)) {
+    if (type === "pointerover" && event.composedPath().includes(activeTooltipEl)) {
       this.clearHoverTimeout(activeTooltipEl);
-    } else if (type === "mouseout" && !hoverTimeouts.has(activeTooltipEl)) {
+    } else if (type === "pointerout" && !hoverTimeouts.has(activeTooltipEl)) {
       this.hoverTooltip(activeTooltipEl, false);
     }
   }

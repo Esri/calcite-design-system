@@ -877,9 +877,7 @@ describe("calcite-input-number", () => {
         it(`displays decimal separator on initial load for ${locale} locale`, async () => {
           const value = "1234.56";
           const page = await newE2EPage();
-          await page.setContent(
-            html`<calcite-input-number locale="${locale}" value="${value}"></calcite-input-number>`
-          );
+          await page.setContent(html`<calcite-input-number lang="${locale}" value="${value}"></calcite-input-number>`);
           const calciteInput = await page.find("calcite-input-number");
           const input = await page.find("calcite-input-number >>> input");
 
@@ -891,7 +889,7 @@ describe("calcite-input-number", () => {
           const value = "1234.56";
           const page = await newE2EPage();
           await page.setContent(
-            html`<calcite-input-number locale="${locale}" value="${value}" group-separator></calcite-input-number>`
+            html`<calcite-input-number lang="${locale}" value="${value}" group-separator></calcite-input-number>`
           );
           const calciteInput = await page.find("calcite-input-number");
           const input = await page.find("calcite-input-number >>> input");
@@ -902,7 +900,7 @@ describe("calcite-input-number", () => {
 
         it(`allows typing valid decimal characters for ${locale} locale`, async () => {
           const page = await newE2EPage();
-          await page.setContent(html`<calcite-input-number locale="${locale}"></calcite-input-number>`);
+          await page.setContent(html`<calcite-input-number lang="${locale}"></calcite-input-number>`);
           const calciteInput = await page.find("calcite-input-number");
           const input = await page.find("calcite-input-number >>> input");
           const decimal = getDecimalSeparator(locale);
@@ -920,7 +918,7 @@ describe("calcite-input-number", () => {
 
         it(`displays correct formatted value when using exponential numbers for ${locale} locale`, async () => {
           const page = await newE2EPage();
-          await page.setContent(html`<calcite-input-number locale="${locale}"></calcite-input-number>`);
+          await page.setContent(html`<calcite-input-number lang="${locale}"></calcite-input-number>`);
 
           const calciteInput = await page.find("calcite-input-number");
           const input = await page.find("calcite-input-number >>> input");
@@ -937,7 +935,7 @@ describe("calcite-input-number", () => {
         it(`displays correct formatted value when the value is changed programmatically for ${locale} locale`, async () => {
           const page = await newE2EPage();
           await page.setContent(
-            html`<calcite-input-number locale="${locale}"></calcite-input-number><input id="external" />`
+            html`<calcite-input-number lang="${locale}"></calcite-input-number><input id="external" />`
           );
 
           await page.evaluate(() => {
@@ -970,7 +968,7 @@ describe("calcite-input-number", () => {
   it(`allows negative, decimal numbers for ar locale`, async () => {
     const value = "-0001.0001";
     const page = await newE2EPage();
-    await page.setContent(html`<calcite-input-number locale="ar"></calcite-input-number>`);
+    await page.setContent(html`<calcite-input-number lang="ar"></calcite-input-number>`);
     const element = await page.find("calcite-input-number");
     await element.callMethod("setFocus");
     await typeNumberValue(page, value);

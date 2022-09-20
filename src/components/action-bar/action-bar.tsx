@@ -221,7 +221,7 @@ export class ActionBar implements ConditionalSlotComponent {
     this.resize({ width, height });
   };
 
-  resize = debounce(({ width, height }: { width: number; height: number }): void => {
+  private resize = debounce(({ width, height }: { width: number; height: number }): void => {
     const { el, expanded, expandDisabled, layout } = this;
 
     if ((layout === "vertical" && !height) || (layout === "horizontal" && !width)) {
