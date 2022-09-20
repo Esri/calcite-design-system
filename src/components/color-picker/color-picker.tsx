@@ -262,7 +262,7 @@ export class ColorPicker implements InteractiveComponent {
   @Prop({ reflect: true }) numberingSystem?: string;
 
   /**
-   * The color value.
+   * The component's value.
    *
    * This value can be either a CSS color string,
    * a RGB, HSL or HSV object.
