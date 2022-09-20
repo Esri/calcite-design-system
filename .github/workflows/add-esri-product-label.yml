@@ -23,28 +23,13 @@ jobs:
               throw new Error("Could not determine the Esri product")
             }
 
-            const getLabel = (product) => {
-              switch (product) {
-                case "ArcGIS Map Viewer":
-                  return "MV";
-                case "ArcGIS API for JavaScript":
-                  return "JSAPI";
-                case "ArcGIS Hub":
-                  return "Hub";
-                case "ArcGIS Dashboard":
-                  return "Dashboard";
-                default:
-                  return "";
-              }
-            };
+            const product = productRegexMatch[0].trim();
 
-            const label = getLabel(productRegexMatch[0].trim());
-
-            if (label) {
+            if (product && product !== "N/A") {
               await github.issues.addLabels({
                 issue_number: context.issue.number,
                 owner: context.repo.owner,
                 repo: context.repo.repo,
-                labels: [label],
+                labels: [product],
               });
             }

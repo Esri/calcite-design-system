@@ -91,6 +91,29 @@ body:
       options:
         - N/A
         - ArcGIS API for JavaScript
-        - ArcGIS Map Viewer
+        - ArcGIS AppStudio
+        - ArcGIS Business/Community Analyst
         - ArcGIS Dashboard
+        - ArcGIS Developer Experience
+        - ArcGIS Enterprise
+        - ArcGIS Excalibur
+        - ArcGIS Experience Builder
+        - ArcGIS Field Apps
+        - ArcGIS GeoBIM
+        - ArcGIS GeoPlanner
         - ArcGIS Hub
+        - ArcGIS Indoors
+        - ArcGIS Insights
+        - ArcGIS Instant Apps
+        - ArcGIS Living Atlas
+        - ArcGIS Map Viewer
+        - ArcGIS Marketplace
+        - ArcGIS Mission
+        - ArcGIS Network Analyst
+        - ArcGIS Online
+        - ArcGIS Scene Viewer
+        - ArcGIS Site Scan
+        - ArcGIS StoryMaps
+        - ArcGIS Survey123
+        - ArcGIS Urban
+        - Marketing UI
