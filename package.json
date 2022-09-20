@@ -38,7 +38,7 @@
     "release:docs": "npm run docs && storybook-to-ghpages --existing-output-dir=docs",
     "release:next": "npm ci && npm test && npm run util:deploy-next",
     "release:prepare": "npm ci && npm test && ts-node --esm support/prepReleaseCommit.ts && npm run build",
-    "release:publish": "npm run util:push-tags && npm publish && ts-node --esm ./support/releaseToGitHub.ts",
+    "release:publish": "npm run util:test-types && npm run util:push-tags && npm publish && ts-node --esm ./support/releaseToGitHub.ts",
     "start": "concurrently --kill-others --raw \"tsc --project ./tsconfig-demos.json --watch\" \"npm run build:watch-dev -- --serve\" \"ts-node --esm ./support/cleanOnProcessExit.ts --path ./src/demos/**/*.js \"",
     "test": "npm run util:run-tests",
     "test:prerender": "stencil build --no-docs --prerender",
@@ -56,10 +56,11 @@
     "util:patch-esm-resolution": "ts-node --esm support/patchESMResolution.ts",
     "util:patch-tree-shaking": "ts-node --esm support/patchTreeShaking.ts",
     "util:prep-next": "ts-node --esm support/prepReleaseCommit.ts --next && npm run build",
-    "util:publish-next": "npm publish --tag next",
+    "util:publish-next": "npm run util:test-types && npm publish --tag next",
     "util:check-squash-mergeable-branch": "ts-node --esm support/checkSquashMergeableBranch.ts",
     "util:push-tags": "git push --atomic --follow-tags origin master",
-    "util:run-tests": "npm run util:copy-icons && stencil test --no-docs --spec --e2e"
+    "util:run-tests": "npm run util:copy-icons && stencil test --no-docs --spec --e2e",
+    "util:test-types": "tsc --esModuleInterop dist/types/**/*.d.ts dist/components/*.d.ts && ! grep -rnw 'dist/types' -e '<reference types='"
   },
   "repository": {
     "type": "git",
