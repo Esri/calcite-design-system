@@ -129,6 +129,11 @@ export class FlowItem implements InteractiveComponent {
    */
   @Event({ cancelable: false }) calciteFlowItemBackClick: EventEmitter<void>;
 
+  /**
+   * Fires when the close button is clicked.
+   */
+  @Event({ cancelable: false }) calciteFlowItemClose: EventEmitter<void>;
+
   // --------------------------------------------------------------------------
   //
   //  Private Properties
@@ -186,6 +191,11 @@ export class FlowItem implements InteractiveComponent {
   //  Private Methods
   //
   // --------------------------------------------------------------------------
+
+  handlePanelClose = (event: CustomEvent<void>): void => {
+    event.stopPropagation();
+    this.calciteFlowItemClose.emit();
+  };
 
   backButtonClick = (): void => {
     this.calciteFlowItemBackClick.emit();
@@ -261,6 +271,7 @@ export class FlowItem implements InteractiveComponent {
           intlOptions={intlOptions}
           loading={loading}
           menuOpen={menuOpen}
+          onCalcitePanelClose={this.handlePanelClose}
           widthScale={widthScale}
         >
           <slot name={SLOTS.headerActionsStart} slot={PANEL_SLOTS.headerActionsStart} />

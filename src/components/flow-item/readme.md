@@ -24,9 +24,10 @@
 
 ## Events
 
-| Event                      | Description                            | Type                |
-| -------------------------- | -------------------------------------- | ------------------- |
-| `calciteFlowItemBackClick` | Fires when the back button is clicked. | `CustomEvent<void>` |
+| Event                      | Description                             | Type                |
+| -------------------------- | --------------------------------------- | ------------------- |
+| `calciteFlowItemBackClick` | Fires when the back button is clicked.  | `CustomEvent<void>` |
+| `calciteFlowItemClose`     | Fires when the close button is clicked. | `CustomEvent<void>` |
 
 ## Methods
 
