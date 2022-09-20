@@ -262,14 +262,15 @@ export class ColorPicker implements InteractiveComponent {
   @Prop({ reflect: true }) numberingSystem?: string;
 
   /**
-   * The color value.
+   * The component's value.
    *
-   * This value can be either a {@link https://developer.mozilla.org/en-US/docs/Web/CSS/color|CSS string}
+   * This value can be either a CSS color string,
    * a RGB, HSL or HSV object.
    *
    * The type will be preserved as the color is updated.
    *
    * @default "#007ac2"
+   * @see [CSS Color](https://developer.mozilla.org/en-US/docs/Web/CSS/color)
    * @see [ColorValue](https://github.com/Esri/calcite-components/blob/master/src/components/color-picker/interfaces.ts#L10)
    */
   @Prop({ mutable: true }) value: ColorValue | null = defaultValue;
