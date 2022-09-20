@@ -1,5 +1,5 @@
-import { newE2EPage } from "@stencil/core/testing";
-import { focusable, renders, slots, hidden } from "../../tests/commonTests";
+import { E2EPage, newE2EPage } from "@stencil/core/testing";
+import { focusable, renders, slots, hidden, TagAndPage } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS, SLOTS } from "./resources";
 import { newProgrammaticE2EPage, skipAnimations } from "../../tests/utils";
@@ -59,7 +59,7 @@ describe("calcite-modal properties", () => {
     await page.waitForChanges();
     await modal.setProperty("active", false);
     await page.waitForChanges();
-    expect(mockCallBack).toBeCalled();
+    expect(mockCallBack).toHaveBeenCalled();
   });
 });
 
@@ -235,7 +235,14 @@ describe("calcite-modal accessibility checks", () => {
   });
 
   describe("setFocus", () => {
-    const createModalHTML = (contentHTML?: string) => `<calcite-modal active>${contentHTML}</calcite-modal>`;
+    const createModalPage = async (contentHTML?: string): Promise<TagAndPage> => {
+      const page = await newE2EPage();
+      const tag = "calcite-modal";
+      await page.setContent(`<${tag} open>${contentHTML}</$tag>`);
+      await skipAnimations(page);
+
+      return { tag, page };
+    };
 
     const closeButtonFocusId = "close-button";
     const closeButtonTargetSelector = ".close";
@@ -245,18 +252,18 @@ describe("calcite-modal accessibility checks", () => {
       <p slot="content">This is the content <button class=${focusableContentTargetClass}>test</button></p>`;
 
     it("focuses focusable content by default", async () =>
-      focusable(createModalHTML(focusableContentHTML), {
+      focusable(await createModalPage(focusableContentHTML), {
         focusTargetSelector: `.${focusableContentTargetClass}`
       }));
 
     it("focuses close button if there is no focusable content", async () =>
-      focusable(createModalHTML(), {
+      focusable(await createModalPage(), {
         focusId: closeButtonFocusId,
         shadowFocusTargetSelector: closeButtonTargetSelector
       }));
 
     it("can focus close button directly", async () =>
-      focusable(createModalHTML(focusableContentHTML), {
+      focusable(await createModalPage(focusableContentHTML), {
         focusId: closeButtonFocusId,
         shadowFocusTargetSelector: closeButtonTargetSelector
       }));

@@ -13,7 +13,7 @@ type ComponentTag = keyof JSX.IntrinsicElements;
 type AxeOwningWindow = GlobalTestProps<{ axe: typeof axe }>;
 type ComponentHTML = string;
 type TagOrHTML = ComponentTag | ComponentHTML;
-type TagAndPage = {
+export type TagAndPage = {
   tag: ComponentTag;
   page: E2EPage;
 };
@@ -48,29 +48,24 @@ async function simplePageSetup(componentTagOrHTML: TagOrHTML): Promise<E2EPage> 
 /**
  * Helper for asserting that a component is accessible.
  *
- * @param {string} componentTagOrHTML - the component tag or HTML markup to test against
+ * @param {TagOrHTML|TagAndPage} componentSetup - A component tag, html, or an object with e2e page and tag for setting up a test
  * @param {E2EPage} [page] - an e2e page
  */
-export async function accessible(componentTagOrHTML: TagOrHTML, page?: E2EPage): Promise<void> {
-  if (!page) {
-    page = await simplePageSetup(componentTagOrHTML);
-  }
+export async function accessible(componentSetup: TagOrHTML | TagAndPage): Promise<void> {
+  const { page, tag } = await getTagAndPage(componentSetup);
 
   await page.addScriptTag({ path: require.resolve("axe-core") });
   await page.waitForFunction(() => (window as AxeOwningWindow).axe);
 
   expect(
-    await page.evaluate(
-      async (componentTag: ComponentTag) => (window as AxeOwningWindow).axe.run(componentTag),
-      getTag(componentTagOrHTML)
-    )
+    await page.evaluate(async (componentTag: ComponentTag) => (window as AxeOwningWindow).axe.run(componentTag), tag)
   ).toHaveNoViolations();
 }
 
 /**
  * Helper for asserting that a component renders and is hydrated
  *
- * @param {string} componentTagOrHTML - the component tag or HTML markup to test against
+ * @param {TagOrHTML|TagAndPage} componentSetup - A component tag, html, or an object with e2e page and tag for setting up a test
  * @param {object} options - additional options to assert
  * @param {string} employee.visible - is the component visible
  * @param {string} employee.display - is the component's display "inline"
@@ -78,14 +73,14 @@ export async function accessible(componentTagOrHTML: TagOrHTML, page?: E2EPage):
  * @param options.display
  */
 export async function renders(
-  componentTagOrHTML: TagOrHTML,
+  componentSetup: TagOrHTML | TagAndPage,
   options?: {
     visible?: boolean;
     display: string;
   }
 ): Promise<void> {
-  const page = await simplePageSetup(componentTagOrHTML);
-  const element = await page.find(getTag(componentTagOrHTML));
+  const { page, tag } = await getTagAndPage(componentSetup);
+  const element = await page.find(tag);
 
   expect(element).toHaveAttribute(HYDRATED_ATTR);
   expect(await element.isVisible()).toBe(options?.visible ?? true);
@@ -95,26 +90,25 @@ export async function renders(
 /**
  * Helper for asserting that a component reflects
  *
- * @param {string} componentTagOrHTML - the component tag or HTML markup to test against
+ * @param {TagOrHTML|TagAndPage} componentSetup - A component tag, html, or an object with e2e page and tag for setting up a test
  * @param {object[]} propsToTest - the properties to test
  * @param {string} propsToTest.propertyName - the property name
  * @param {any} propsToTest.value - the property value
  */
 export async function reflects(
-  componentTagOrHTML: TagOrHTML,
+  componentSetup: TagOrHTML | TagAndPage,
   propsToTest: {
     propertyName: string;
     value: any;
   }[]
 ): Promise<void> {
-  const page = await simplePageSetup(componentTagOrHTML);
-  const componentTag = getTag(componentTagOrHTML);
-  const element = await page.find(componentTag);
+  const { page, tag } = await getTagAndPage(componentSetup);
+  const element = await page.find(tag);
 
   for (const propAndValue of propsToTest) {
     const { propertyName, value } = propAndValue;
     const attrName = propToAttr(propertyName);
-    const componentAttributeSelector = `${componentTag}[${attrName}]`;
+    const componentAttributeSelector = `${tag}[${attrName}]`;
 
     element.setProperty(propertyName, value);
     await page.waitForChanges();
@@ -145,20 +139,20 @@ function propToAttr(name: string): string {
 /**
  * Helper for asserting that a property's value is its default
  *
- * @param {string} componentTagOrHTML - the component tag or HTML markup to test against
+ * @param {TagOrHTML|TagAndPage} componentSetup - A component tag, html, or an object with e2e page and tag for setting up a test
  * @param {object[]} propsToTest - the properties to test
  * @param {string} propsToTest.propertyName - the property name
  * @param {any} propsToTest.value - the property value
  */
 export async function defaults(
-  componentTagOrHTML: TagOrHTML,
+  componentSetup: TagOrHTML | TagAndPage,
   propsToTest: {
     propertyName: string;
     defaultValue: any;
   }[]
 ): Promise<void> {
-  const page = await simplePageSetup(componentTagOrHTML);
-  const element = await page.find(getTag(componentTagOrHTML));
+  const { page, tag } = await getTagAndPage(componentSetup);
+  const element = await page.find(tag);
 
   for (const propAndValue of propsToTest) {
     const { propertyName, defaultValue } = propAndValue;
@@ -170,11 +164,11 @@ export async function defaults(
 /**
  * Helper for asserting that a component is not visible when hidden
  *
- * @param {string} componentTagOrHTML - the component tag or HTML markup to test against
+ * @param {TagOrHTML|TagAndPage} componentSetup - A component tag, html, or an object with e2e page and tag for setting up a test
  */
-export async function hidden(componentTagOrHTML: TagOrHTML): Promise<void> {
-  const page = await simplePageSetup(componentTagOrHTML);
-  const element = await page.find(getTag(componentTagOrHTML));
+export async function hidden(componentSetup: TagOrHTML | TagAndPage): Promise<void> {
+  const { page, tag } = await getTagAndPage(componentSetup);
+  const element = await page.find(tag);
 
   element.setAttribute("hidden", "");
   await page.waitForChanges();
@@ -200,12 +194,11 @@ interface FocusableOptions {
 /**
  * Helper for asserting that a component is focusable
  *
- * @param {string} componentTagOrHTML - the component tag or HTML markup to test against
+ * @param {TagOrHTML|TagAndPage} componentSetup - A component tag, html, or an object with e2e page and tag for setting up a test
  * @param {FocusableOptions} [options] - additional options for asserting focus
  */
-export async function focusable(componentTagOrHTML: TagOrHTML, options?: FocusableOptions): Promise<void> {
-  const page = await simplePageSetup(componentTagOrHTML);
-  const tag = getTag(componentTagOrHTML);
+export async function focusable(componentSetup: TagOrHTML | TagAndPage, options?: FocusableOptions): Promise<void> {
+  const { page, tag } = await getTagAndPage(componentSetup);
   const element = await page.find(tag);
   const focusTargetSelector = options?.focusTargetSelector || tag;
 
@@ -227,17 +220,16 @@ export async function focusable(componentTagOrHTML: TagOrHTML, options?: Focusab
 /**
  * Helper for asserting slots.
  *
- * @param {string} componentTagOrHTML - the component tag or HTML markup to test against
+ * @param {TagOrHTML|TagAndPage} componentSetup - A component tag, html, or an object with e2e page and tag for setting up a test
  * @param slots - a component's SLOTS resource object or an array of slot names
  * @param includeDefaultSlot - when true, it will run assertions on the default slot
  */
 export async function slots(
-  componentTagOrHTML: TagOrHTML,
+  componentSetup: TagOrHTML | TagAndPage,
   slots: Record<string, string> | string[],
   includeDefaultSlot = false
 ): Promise<void> {
-  const page = await simplePageSetup(componentTagOrHTML);
-  const tag = getTag(componentTagOrHTML);
+  const { page, tag } = await getTagAndPage(componentSetup);
   const slotNames = Array.isArray(slots) ? slots : Object.values(slots);
 
   await page.$eval(
@@ -703,7 +695,7 @@ async function getTagAndPage(componentSetup: TagOrHTML | TagAndPage): Promise<Ta
 /**
  * Helper to test the disabled prop disabling user interaction.
  *
- * @param {TagOrHTML|TagAndPage} componentSetup - A component tag, html, or an e2e page for setting up a test
+ * @param {TagOrHTML|TagAndPage} componentSetup - A component tag, html, or an object with e2e page and tag for setting up a test
  * @param {DisabledOptions} [options={ focusTarget: "host" }] - disabled options
  */
 export async function disabled(
@@ -825,13 +817,13 @@ export async function disabled(
  * This helper will test if a floating-ui-owning component has configured the floating-ui correctly.
  * At the moment, this only tests if the scroll event listeners are only active when the floating-ui is displayed.
  *
- * @param componentTagOrHTML - the component tag or HTML markup to test against
+ * @param {TagOrHTML|TagAndPage} componentSetup - A component tag, html, or an object with e2e page and tag for setting up a test
  * @param togglePropName - the component property that toggles the floating-ui
  * @param options - the floating-ui owner test configuration
  * @param options.shadowSelector
  */
 export async function floatingUIOwner(
-  componentTagOrHTML: TagOrHTML,
+  componentSetup: TagOrHTML | TagAndPage,
   togglePropName: string,
   options?: {
     /**
@@ -840,7 +832,7 @@ export async function floatingUIOwner(
     shadowSelector?: string;
   }
 ): Promise<void> {
-  const page = await simplePageSetup(componentTagOrHTML);
+  const { page, tag } = await getTagAndPage(componentSetup);
 
   const scrollablePageSizeInPx = 2400;
   await page.addStyleTag({
@@ -851,7 +843,6 @@ export async function floatingUIOwner(
   });
   await page.waitForChanges();
 
-  const tag = getTag(componentTagOrHTML);
   const component = await page.find(tag);
 
   async function getTransform(): Promise<string> {
