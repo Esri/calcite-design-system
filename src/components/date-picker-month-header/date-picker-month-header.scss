@@ -117,8 +117,8 @@
 }
 
 .year--suffix {
-  @apply w-16;
-  text-align: start;
+  @apply w-16
+  text-start;
 }
 
 .year-wrap {
@@ -129,9 +129,9 @@
   @apply absolute
     top-0
     w-16
-    whitespace-nowrap;
-  text-align: start;
-  inset-inline-start: 0px;
+    whitespace-nowrap
+    text-start;
+  inset-inline-start: 0;
 }
 
 .suffix__invisible {

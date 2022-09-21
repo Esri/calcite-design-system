@@ -260,8 +260,7 @@
     block
     w-full
     overflow-hidden;
-  inset-inline-start: 0px;
-  inset-inline-end: 0px;
+  inset-inline: 0;
   inset-block-start: -2px;
   block-size: 2px;
   border-radius: var(--calcite-border-radius) var(--calcite-border-radius) 0 0;
