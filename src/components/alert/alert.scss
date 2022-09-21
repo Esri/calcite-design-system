@@ -257,11 +257,11 @@
 
 .alert-dismiss-progress {
   @apply absolute
-    left-0
-    right-0
     block
     w-full
     overflow-hidden;
+  inset-inline-start: 0px;
+  inset-inline-end: 0px;
   inset-block-start: -2px;
   block-size: 2px;
   border-radius: var(--calcite-border-radius) var(--calcite-border-radius) 0 0;
