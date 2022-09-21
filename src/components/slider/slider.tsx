@@ -220,6 +220,14 @@ export class Slider
     updateHostInteraction(this);
   }
 
+  componentDidLoad(): void {
+    this.maxHandle.style.transform = `translateY(-${
+      this.handleEl.getBoundingClientRect().y -
+      this.trackEl.getBoundingClientRect().y +
+      this.handleEl.getBoundingClientRect().width / 2
+    }px)`;
+  }
+
   render(): VNode {
     const id = this.el.id || this.guid;
     const maxProp = isRange(this.value) ? "maxValue" : "value";
@@ -258,7 +266,7 @@ export class Slider
         style={{ right: rightThumbOffset }}
         tabIndex={0}
       >
-        <div class="handle" />
+        <div class="handle" ref={(el) => (this.handleEl = el as HTMLDivElement)} />
       </div>
     );
 
@@ -292,7 +300,7 @@ export class Slider
         <span aria-hidden="true" class={`${handleLabelValueClasses} transformed`}>
           {displayedValue}
         </span>
-        <div class="handle" />
+        <div class="handle" ref={(el) => (this.handleEl = el as HTMLDivElement)} />
       </div>
     );
 
@@ -927,6 +935,8 @@ export class Slider
   private maxHandle: HTMLDivElement;
 
   private trackEl: HTMLDivElement;
+
+  private handleEl: HTMLDivElement;
 
   @State() private activeProp: ActiveSliderProperty = "value";
 

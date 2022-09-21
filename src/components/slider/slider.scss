@@ -95,7 +95,7 @@
     bg-transparent
     p-0
     outline-none;
-  transform: translate(var(--calcite-slider-thumb-x-offset), var(--calcite-slider-thumb-y-offset));
+  transform: translateX(var(--calcite-slider-thumb-x-offset));
 
   .handle__label {
     &.static,
