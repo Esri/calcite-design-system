@@ -423,6 +423,8 @@ export class ColorPicker implements InteractiveComponent, T9nComponent {
   }
 
   /**
+   * Made into a prop for testing purposes only
+   *
    * @internal
    */
   @Prop({ mutable: true }) messages: Messages;
