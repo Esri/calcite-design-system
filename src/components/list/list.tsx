@@ -5,6 +5,7 @@ import { createObserver } from "../../utils/observers";
 import { getListItemChildren, updateListItemChildren } from "../list-item/utils";
 import { toAriaBoolean } from "../../utils/dom";
 import { debounce } from "lodash-es";
+import { HeadingLevel } from "../functional/Heading";
 
 const listItemSelector = "calcite-list-item";
 
@@ -31,6 +32,13 @@ export class List implements InteractiveComponent {
   @Prop({ reflect: true }) disabled = false;
 
   /**
+   * Specifies the number at which section headings should start.
+   *
+   * @deprecated no longer necessary.
+   */
+  @Prop() headingLevel: HeadingLevel;
+
+  /**
    * Specifies an accessible name for the component.
    */
   @Prop() label?: string;
@@ -41,17 +49,19 @@ export class List implements InteractiveComponent {
   @Prop({ reflect: true }) loading = false;
 
   /**
-   * @todo document.
+   * **read-only** The currently selected items
+   *
+   * @readonly
    */
   @Prop({ mutable: true }) selectedItems: HTMLCalciteListItemElement[] = [];
 
   /**
-   * @todo document.
+   * specify the selection mode - multiple (allow any number of (or no) selected items), single (allow and require one selected item), none (no selected items), defaults to single
    */
   @Prop({ reflect: true }) selectionMode: SelectionMode = "single";
 
   /**
-   * @todo document.
+   * specify the selection appearance - icon (displays a checkmark or dot), border (displays a border), defaults to icon
    */
   @Prop({ reflect: true }) selectionAppearance: SelectionAppearance = "icon";
 
@@ -185,11 +195,11 @@ export class List implements InteractiveComponent {
     }
   };
 
-  updateSelectedItems = debounce((): void => {
+  private updateSelectedItems = debounce((): void => {
     this.selectedItems = this.listItems.filter((item) => item.selected);
   }, debounceTimeout);
 
-  updateListItems = debounce((): void => {
+  private updateListItems = debounce((): void => {
     const { selectionAppearance, selectionMode } = this;
     const items = this.queryListItems();
     items.forEach((item) => {

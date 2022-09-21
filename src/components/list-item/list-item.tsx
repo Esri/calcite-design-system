@@ -46,10 +46,18 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
   // --------------------------------------------------------------------------
 
   /**
+   * Sets the item as focusable. Only one item should be focusable within a list.
    *
    * @internal
    */
   @Prop() active = false;
+
+  @Watch("active")
+  activeHandler(active: boolean): void {
+    if (!active) {
+      this.focusCell(null, false);
+    }
+  }
 
   /**
    * A description for the component. Displays below the label text.
@@ -67,17 +75,26 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
   @Prop() label: string;
 
   /**
+   * When true, prevents the content of the component from user interaction.
+   *
+   * @deprecated no longer necessary.
+   */
+  @Prop({ reflect: true }) nonInteractive = false;
+
+  /**
    * When true, item is open to show child components.
    */
   @Prop({ mutable: true, reflect: true }) open = false;
 
   /**
+   * Used to specify the aria-setsize attribute to define the number of items in the current set of list for accessibility.
    *
    * @internal
    */
   @Prop() setSize: number = null;
 
   /**
+   * Used to specify the aria-posinset attribute to define the number or position in the current set of list items for accessibility.
    *
    * @internal
    */
@@ -98,7 +115,7 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
   /**
    * The component's value.
    */
-  @Prop() value?: any;
+  @Prop() value: any;
 
   /**
    *
@@ -158,13 +175,6 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
   actionsStartEl: HTMLTableCellElement;
 
   actionsEndEl: HTMLTableCellElement;
-
-  @Watch("active")
-  activeHandler(active: boolean): void {
-    if (!active) {
-      this.focusCell(null, false);
-    }
-  }
 
   // --------------------------------------------------------------------------
   //
@@ -375,7 +385,7 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
         <div
           class={{
             [CSS.nestedContainer]: true,
-            [CSS.nestedContainerHidden]: openable ? !open : false
+            [CSS.nestedContainerHidden]: openable && !open
           }}
         >
           <slot onSlotchange={this.handleDefaultSlotChange} />
@@ -405,11 +415,14 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
   };
 
   toggleSelected = (): void => {
-    if (this.disabled || this.selectionMode === "none") {
+    if (this.disabled) {
       return;
     }
 
-    this.selected = !this.selected;
+    if (this.selectionMode !== "none") {
+      this.selected = !this.selected;
+    }
+
     this.calciteListItemSelect.emit();
   };
 
@@ -463,14 +476,17 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
   focusCell = (focusEl: HTMLTableCellElement, saveFocusIndex = true): void => {
     const { contentEl, actionsStartEl, actionsEndEl, parentListEl } = this;
 
-    saveFocusIndex && focusMap.set(parentListEl, null);
+    if (saveFocusIndex) {
+      focusMap.set(parentListEl, null);
+    }
 
     [actionsStartEl, contentEl, actionsEndEl].filter(Boolean).forEach((tableCell, cellIndex) => {
+      const tabIndexAttr = "tabindex";
       if (tableCell === focusEl) {
-        tableCell.setAttribute("tabIndex", "0");
+        tableCell.setAttribute(tabIndexAttr, "0");
         saveFocusIndex && focusMap.set(parentListEl, cellIndex);
       } else {
-        tableCell.removeAttribute("tabIndex");
+        tableCell.removeAttribute(tabIndexAttr);
       }
     });
 
