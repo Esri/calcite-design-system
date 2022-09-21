@@ -4,6 +4,7 @@ import itemReadme from "../list-item/readme.md";
 import groupReadme from "../list-item-group/readme.md";
 import { html } from "../../../support/formatting";
 import { storyFilters } from "../../../.storybook/helpers";
+import { boolean, select } from "@storybook/addon-knobs";
 
 export default {
   title: "Components/List",
@@ -16,7 +17,11 @@ export default {
 const thumbnailImage = placeholderImage({ width: 44, height: 44 });
 
 export const simple = (): string => html`
-  <calcite-list>
+  <calcite-list
+    selection-mode="${select("selection-mode", ["single", "multiple", "none"], "single")}"
+    selection-appearance="${select("selection-appearance", ["icon", "border"], "icon")}"
+    ${boolean("loading", false)}
+  >
     <calcite-list-item
       label="Cras iaculis ultricies nulla."
       description="Lorem ipsum dolor sit amet, consectetuer adipiscing elit."
