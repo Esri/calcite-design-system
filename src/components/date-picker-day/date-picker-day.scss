@@ -313,16 +313,43 @@
   }
 }
 
-:host(:hover[range-hover]:not([selected]).focused--start.hover--outside-range) :not(.calcite--rtl),
-:host(:hover[range-hover]:not([selected]).focused--end.hover--outside-range) .calcite--rtl {
-  .day-wrapper {
-    background-image: linear-gradient(
-      to right,
-      var(--calcite-ui-foreground-1),
-      var(--calcite-ui-foreground-1),
-      var(--calcite-ui-foreground-2),
-      var(--calcite-ui-foreground-2)
-    );
+:host(:hover[range-hover]:not([selected]).hover--outside-range) {
+  &:not(.calcite--rtl) {
+    &.focused--start {
+      .day-wrapper {
+        background-image: linear-gradient(
+          to right,
+          var(--calcite-ui-foreground-1),
+          var(--calcite-ui-foreground-1),
+          var(--calcite-ui-foreground-2),
+          var(--calcite-ui-foreground-2)
+        );
+      }
+    }
+    &.focused--end {
+      .day-wrapper {
+        background-image: linear-gradient(
+          to right,
+          var(--calcite-ui-foreground-2),
+          var(--calcite-ui-foreground-2),
+          var(--calcite-ui-foreground-1),
+          var(--calcite-ui-foreground-1)
+        );
+      }
+    }
+  }
+  &.calcite--rtl {
+    &.focused--start {
+      .day-wrapper {
+        background-image: linear-gradient(
+          to right,
+          var(--calcite-ui-foreground-2),
+          var(--calcite-ui-foreground-2),
+          var(--calcite-ui-foreground-1),
+          var(--calcite-ui-foreground-1)
+        );
+      }
+    }
   }
   .day {
     @apply rounded-full;
@@ -331,35 +358,30 @@
   }
 }
 
-:host(:hover[range-hover]:not([selected]).focused--end.hover--outside-range) :not(.calcite--rtl),
-:host(:hover[range-hover]:not([selected]).focused--start.hover--outside-range) .calcite--rtl {
-  .day-wrapper {
-    background-image: linear-gradient(
-      to right,
-      var(--calcite-ui-foreground-2),
-      var(--calcite-ui-foreground-2),
-      var(--calcite-ui-foreground-1),
-      var(--calcite-ui-foreground-1)
-    );
+:host(.hover--inside-range) {
+  &:hover[start-of-range] {
+    &.focused--start {
+      .day-wrapper {
+        @apply bg-foreground-2;
+      }
+    }
+    &.focused--end {
+      .day-wrapper {
+        @apply bg-none;
+      }
+    }
   }
-  .day {
-    @apply rounded-full;
-    opacity: 1;
-    box-shadow: 0 0 0 2px var(--calcite-ui-foreground-1);
-  }
-}
-
-:host(:hover[start-of-range].hover--inside-range.focused--end),
-:host(:hover[end-of-range].hover--inside-range.focused--start) {
-  .day-wrapper {
-    @apply bg-none;
-  }
-}
-
-:host([start-of-range].hover--inside-range.focused--end),
-:host([end-of-range].hover--inside-range.focused--start) {
-  .day-wrapper {
-    @apply bg-foreground-2;
+  &:hover[end-of-range] {
+    &.focused--start {
+      .day-wrapper {
+        @apply bg-none;
+      }
+    }
+    &.focused--end {
+      .day-wrapper {
+        @apply bg-foreground-2;
+      }
+    }
   }
 }
 
