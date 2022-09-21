@@ -137,12 +137,22 @@
         box-shadow: inset 8px 0 var(--calcite-ui-foreground-1);
       }
     }
+    &:not(:focus) {
+      .day {
+        box-shadow: 0 0 0 2px var(--calcite-ui-foreground-1);
+      }
+    }
   }
   &.calcite--rtl {
     .day-wrapper {
       box-shadow: inset -4px 0 var(--calcite-ui-foreground-1);
       &[scale="l"] {
         box-shadow: inset -8px 0 var(--calcite-ui-foreground-1);
+      }
+    }
+    &:not(:focus) {
+      .day {
+        box-shadow: 0 0 0 -2px var(--calcite-ui-foreground-1);
       }
     }
   }
@@ -159,6 +169,11 @@
         box-shadow: inset -8px 0 var(--calcite-ui-foreground-1);
       }
     }
+    &:not(:focus) {
+      .day {
+        box-shadow: 0 0 0 -2px var(--calcite-ui-foreground-1);
+      }
+    }
   }
   &.calcite--rtl {
     .day-wrapper {
@@ -167,22 +182,19 @@
         box-shadow: inset 8px 0 var(--calcite-ui-foreground-1);
       }
     }
+    &:not(:focus) {
+      .day {
+        box-shadow: 0 0 0 2px var(--calcite-ui-foreground-1);
+      }
+    }
   }
   .day {
     opacity: 1;
   }
 }
 
-:host([end-of-range]:not(:focus)) :not(.calcite--rtl),
-:host([start-of-range]:not(:focus)) .calcite--rtl {
-  .day {
-    box-shadow: 0 0 0 2px var(--calcite-ui-foreground-1);
-  }
-}
-
 :host([highlighted]) .day-wrapper {
   background-color: var(--calcite-ui-foreground-current);
-
   .day {
     @apply text-color-1;
   }
