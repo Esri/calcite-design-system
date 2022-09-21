@@ -93,25 +93,28 @@
   }
 }
 
-:host(:focus),
-:host([active]) {
-  @apply outline-none;
+:host(:focus) {
+  &[active] {
+    @apply outline-none;
+  }
+  &:not([disabled]) {
+    .day {
+      @apply focus-outset;
+      box-shadow: 0 0 0 2px var(--calcite-ui-foreground-1);
+    }
+  }
 }
 
-:host(:focus:not([disabled])) .day {
-  @apply focus-outset;
-  box-shadow: 0 0 0 2px var(--calcite-ui-foreground-1);
-}
-
-:host([selected]) .day {
-  @apply font-medium;
-  background-color: var(--calcite-ui-brand) !important;
-  color: var(--calcite-ui-foreground-1) !important;
-}
-
-:host([range][selected]) {
-  .day-wrapper {
-    background-color: var(--calcite-ui-foreground-current);
+:host([selected]) {
+  .day {
+    @apply font-medium;
+    background-color: var(--calcite-ui-brand) !important;
+    color: var(--calcite-ui-foreground-1) !important;
+    &[range] {
+      .day-wrapper {
+        background-color: var(--calcite-ui-foreground-current);
+      }
+    }
   }
 }
 
@@ -194,15 +197,18 @@
   }
 }
 
-:host([highlighted]) .day-wrapper {
-  background-color: var(--calcite-ui-foreground-current);
-  .day {
-    @apply text-color-1;
+:host([highlighted]) {
+  .day-wrapper {
+    background-color: var(--calcite-ui-foreground-current);
+    .day {
+      @apply text-color-1;
+    }
   }
-}
-
-:host([highlighted]:not([active]:focus)) .day {
-  @apply text-color-1 rounded-none;
+  &:not([active]:focus) {
+    .day {
+      @apply text-color-1 rounded-none;
+    }
+  }
 }
 
 :host([range-hover]:not([selected])) {
@@ -211,50 +217,6 @@
   }
   .day {
     @apply rounded-none;
-  }
-}
-
-:host([end-of-range][range-hover]) :not(.calcite--rtl) .day-wrapper,
-:host([start-of-range][range-hover]) .calcite--rtl .day-wrapper {
-  background-image: linear-gradient(
-    to right,
-    var(--calcite-ui-foreground-current),
-    var(--calcite-ui-foreground-current),
-    var(--calcite-ui-foreground-2),
-    var(--calcite-ui-foreground-2)
-  );
-  @apply rounded-none shadow-none;
-  &:hover {
-    background-image: linear-gradient(
-      to right,
-      var(--calcite-ui-foreground-current),
-      var(--calcite-ui-foreground-current),
-      var(--calcite-ui-foreground-1),
-      var(--calcite-ui-foreground-1)
-    );
-    @apply rounded-none shadow-none;
-  }
-}
-
-:host([start-of-range][range-hover]) :not(.calcite--rtl) .day-wrapper,
-:host([end-of-range][range-hover]) .calcite--rtl .day-wrapper {
-  background-image: linear-gradient(
-    to left,
-    var(--calcite-ui-foreground-current),
-    var(--calcite-ui-foreground-current),
-    var(--calcite-ui-foreground-2),
-    var(--calcite-ui-foreground-2)
-  );
-  @apply rounded-none shadow-none;
-  &:hover {
-    background-image: linear-gradient(
-      to left,
-      var(--calcite-ui-foreground-current),
-      var(--calcite-ui-foreground-current),
-      var(--calcite-ui-foreground-1),
-      var(--calcite-ui-foreground-1)
-    );
-    @apply rounded-none shadow-none;
   }
 }
 
@@ -382,7 +344,14 @@
 }
 
 :host {
-  &[highlighted],
+  &[highlighted] {
+    .day-wrapper {
+      background-color: var(--calcite-ui-foreground-current);
+      .day {
+        @apply text-color-1;
+      }
+    }
+  }
   &[range-hover] {
     &:first-child {
       .day-wrapper {
@@ -496,6 +465,102 @@
           &[scale="l"] {
             box-shadow: inset 6px 0px 0px 0px var(--calcite-ui-foreground-1);
           }
+        }
+      }
+    }
+  }
+}
+
+:host {
+  &[range-hover] {
+    &:not(.calcite--rtl) {
+      &[start-of-range] {
+        .day-wrapper {
+          background-image: linear-gradient(
+            to left,
+            var(--calcite-ui-foreground-current),
+            var(--calcite-ui-foreground-current),
+            var(--calcite-ui-foreground-2),
+            var(--calcite-ui-foreground-2)
+          );
+          &:hover {
+            background-image: linear-gradient(
+              to left,
+              var(--calcite-ui-foreground-current),
+              var(--calcite-ui-foreground-current),
+              var(--calcite-ui-foreground-1),
+              var(--calcite-ui-foreground-1)
+            );
+          }
+          @apply rounded-none shadow-none;
+        }
+      }
+      &[end-of-range] {
+        .day-wrapper {
+          background-image: linear-gradient(
+            to right,
+            var(--calcite-ui-foreground-current),
+            var(--calcite-ui-foreground-current),
+            var(--calcite-ui-foreground-2),
+            var(--calcite-ui-foreground-2)
+          );
+
+          &:hover {
+            background-image: linear-gradient(
+              to right,
+              var(--calcite-ui-foreground-current),
+              var(--calcite-ui-foreground-current),
+              var(--calcite-ui-foreground-1),
+              var(--calcite-ui-foreground-1)
+            );
+          }
+          @apply rounded-none shadow-none;
+        }
+      }
+    }
+    &.calcite--rtl {
+      &[start-of-range] {
+        .day-wrapper {
+          background-image: linear-gradient(
+            to right,
+            var(--calcite-ui-foreground-current),
+            var(--calcite-ui-foreground-current),
+            var(--calcite-ui-foreground-2),
+            var(--calcite-ui-foreground-2)
+          );
+
+          &:hover {
+            background-image: linear-gradient(
+              to right,
+              var(--calcite-ui-foreground-current),
+              var(--calcite-ui-foreground-current),
+              var(--calcite-ui-foreground-1),
+              var(--calcite-ui-foreground-1)
+            );
+          }
+          @apply rounded-none shadow-none;
+        }
+      }
+      &[end-of-range] {
+        .day-wrapper {
+          background-image: linear-gradient(
+            to left,
+            var(--calcite-ui-foreground-current),
+            var(--calcite-ui-foreground-current),
+            var(--calcite-ui-foreground-2),
+            var(--calcite-ui-foreground-2)
+          );
+
+          &:hover {
+            background-image: linear-gradient(
+              to left,
+              var(--calcite-ui-foreground-current),
+              var(--calcite-ui-foreground-current),
+              var(--calcite-ui-foreground-1),
+              var(--calcite-ui-foreground-1)
+            );
+          }
+          @apply rounded-none shadow-none;
         }
       }
     }
