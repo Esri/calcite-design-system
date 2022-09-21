@@ -34,7 +34,7 @@ You can provide code snippets demonstrating a specific behavior or pattern for a
 
 ## Storybook
 
-Calcite Components uses [Storybook](https://storybook.js.org/) to provide an interactive showcase of components with accompanying documentation and also to provide previews for screenshot testing. Storybook is deployed during every `next` release, whereas as the [SDK site](https://developers.arcgis.com/calcite-design-system/components/) is only updated after `beta` releases. Storybook is a great resource for testing the newest changes and viewing the newest API reference.
+Calcite Components uses [Storybook](https://storybook.js.org/) to provide an interactive showcase of components with accompanying documentation and also to provide previews for screenshot testing. Storybook is deployed during every `next` release, whereas the [SDK site](https://developers.arcgis.com/calcite-design-system/components/) is only updated after `beta` releases. Storybook is a great resource for testing the newest changes and viewing the newest API reference.
 
 ### Writing stories
 
@@ -101,7 +101,7 @@ export default {
 
 - Should have the minimal HTML needed to reproduce the test scenario
 - Should not have knobs since screenshot tests cannot interact with them
-- Stories that are only meant for testing should use the `_TestOnly` suffix, which ensures it is only used for the screenshot test build. For example, if a snapshot with specific properties is needed for testing, it wouldn't need to be the playground where knobs can be used to display the state in the `simple` story.
+- Stories that are only meant for testing should use the `_TestOnly` suffix, which ensures it is only used for the screenshot test build. For example, if a snapshot with specific properties is needed for testing, it wouldn't need to be included in the playground where knobs can be used to display the state in the `simple` story.
 - Stories that are not meant for testing should use the `_NoTest` suffix, which ensures it is only used for the internal playground build. For example, stories that requires interaction not supported by the screenshot test environment, such as changing knobs.
 - The `simple` story and any other significant configuration should have a matching `darkThemeRTL_TestOnly` story
   - In order to reduce snapshot count, dark theme and RTL visual tests have been combined
