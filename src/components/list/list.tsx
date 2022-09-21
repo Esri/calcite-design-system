@@ -36,7 +36,7 @@ export class List implements InteractiveComponent {
    *
    * @deprecated no longer necessary.
    */
-  @Prop() headingLevel: HeadingLevel;
+  @Prop({ reflect: true }) headingLevel: HeadingLevel;
 
   /**
    * Specifies an accessible name for the component.

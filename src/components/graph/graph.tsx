@@ -43,10 +43,10 @@ export class Graph {
   @Prop() highlightMax: number;
 
   /** Lowest point of the range */
-  @Prop() min!: number;
+  @Prop({ reflect: true }) min!: number;
 
   /** Highest point of the range */
-  @Prop() max!: number;
+  @Prop({ reflect: true }) max!: number;
 
   //--------------------------------------------------------------------------
   //

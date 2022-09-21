@@ -35,7 +35,7 @@ export class ListItemGroup implements InteractiveComponent {
    *
    * @deprecated no longer necessary.
    */
-  @Prop() headingLevel: HeadingLevel;
+  @Prop({ reflect: true }) headingLevel: HeadingLevel;
 
   // --------------------------------------------------------------------------
   //

@@ -226,7 +226,7 @@ export class Checkbox implements LabelableComponent, CheckableFormComponent, Int
           role="checkbox"
           tabIndex={this.disabled ? undefined : 0}
         >
-          <svg class="check-svg" viewBox="0 0 16 16">
+          <svg aria-hidden="true" class="check-svg" viewBox="0 0 16 16">
             <path d={this.getPath()} />
           </svg>
           <slot />
