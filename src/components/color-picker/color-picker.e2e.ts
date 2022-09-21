@@ -1,11 +1,9 @@
-import { accessible, defaults, hidden, reflects, renders, focusable, disabled } from "../../tests/commonTests";
+import { accessible, defaults, hidden, reflects, renders, focusable, disabled, t9n } from "../../tests/commonTests";
 import { CSS, DEFAULT_COLOR, DEFAULT_STORAGE_KEY_PREFIX, DIMENSIONS, TEXT } from "./resources";
 import { E2EElement, E2EPage, EventSpy, newE2EPage } from "@stencil/core/testing";
 import { ColorValue } from "./interfaces";
 import SpyInstance = jest.SpyInstance;
 import { GlobalTestProps, selectText, getElementXY } from "../../tests/utils";
-import { defaultMessages, overrideMessages, withIntlPropsAsAttributes } from "../../tests/t9nTests";
-import { html } from "../../../support/formatting";
 describe("calcite-color-picker", () => {
   let consoleSpy: SpyInstance;
 
@@ -88,6 +86,8 @@ describe("calcite-color-picker", () => {
 
   // #408047 is a color in the middle of the color field
   it("can be disabled", () => disabled("<calcite-color-picker value='#408047'></calcite-color-picker>"));
+
+  it("supports translations", () => t9n("<calcite-color-picker></calcite-color-picker>"));
 
   it(`should set all internal calcite-button types to 'button'`, async () => {
     const page = await newE2EPage({
@@ -247,7 +247,7 @@ describe("calcite-color-picker", () => {
   };
 
   function assertUnsupportedValueMessage(value: string | object | null, format: string): void {
-    expect(consoleSpy).toBeCalledTimes(1);
+    expect(consoleSpy).toHaveBeenCalledTimes(1);
     expect(consoleSpy).toHaveBeenCalledWith(
       expect.stringMatching(
         new RegExp(
@@ -1368,21 +1368,5 @@ describe("calcite-color-picker", () => {
         left: "0px"
       });
     });
-  });
-
-  it("default messages", async () => {
-    await defaultMessages("calcite-color-picker");
-  });
-
-  it("should display intlProps when messageOverrides isn't parsed", async () => {
-    const page = await newE2EPage();
-    await page.setContent(html`<calcite-color-picker scale="s" intl-b="blue" intl-g="green"></calcite-color-picker>`);
-    await withIntlPropsAsAttributes(page, "calcite-color-picker");
-  });
-
-  it("should be able to override messages", async () => {
-    const page = await newE2EPage();
-    await page.setContent(html`<calcite-color-picker scale="s" intl-b="blue" intl-g="green"></calcite-color-picker>`);
-    await overrideMessages("calcite-color-picker", { b: "bluecolor" }, page);
   });
 });

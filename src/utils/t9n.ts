@@ -33,40 +33,36 @@ function throwMessageFetchError(): never {
  *
  * @param component
  */
-export function mergeIntlPropsIntoOverrides(component: T9nComponent): void {
+export function overridesFromIntlProps(component: T9nComponent): MessageBundle {
   const { el } = component;
-  let overrides = component.messageOverrides;
+  const overrides = {};
 
-  // overrides have precedence
-  if (overrides) {
-    return;
-  }
+  Object.keys(el.constructor.prototype)
+    .filter((prop) => prop.startsWith("intl"))
+    .forEach((prop) => {
+      if (prop.startsWith("intl")) {
+        const assignedValue = el[prop];
 
-  for (const prop in el) {
-    if (prop.startsWith("intl")) {
-      const assignedValue = el[prop];
-
-      if (assignedValue) {
-        let mappedProp = prop.replace("intl", "");
-        mappedProp = `${mappedProp[0].toLowerCase()}${mappedProp.slice(1)}`;
-
-        if (!overrides) {
-          overrides = {};
+        if (assignedValue) {
+          let mappedProp = prop.replace("intl", "");
+          mappedProp = `${mappedProp[0].toLowerCase()}${mappedProp.slice(1)}`;
+          overrides[mappedProp] = assignedValue;
         }
-
-        overrides[mappedProp] = assignedValue;
       }
-    }
-  }
+    });
 
-  component.messageOverrides = overrides;
+  return overrides;
 }
 
 function mergeMessages(component: T9nComponent): void {
   component.messages = {
     ...component.defaultMessages,
-    ...component.messageOverrides
+    ...getEffectiveMessageOverrides(component)
   };
+}
+
+function getEffectiveMessageOverrides(component: T9nComponent): MessageBundle {
+  return component.messageOverrides ?? overridesFromIntlProps(component);
 }
 
 /**
@@ -76,7 +72,6 @@ function mergeMessages(component: T9nComponent): void {
  */
 export async function setUpMessages(component: T9nComponent): Promise<void> {
   component.defaultMessages = await fetchMessages(component, component.effectiveLocale);
-  mergeIntlPropsIntoOverrides(component);
   mergeMessages(component);
 }
 
