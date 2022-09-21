@@ -40,10 +40,11 @@
     "release:prepare": "npm ci && npm test && ts-node --esm support/prepReleaseCommit.ts && npm run build",
     "release:publish": "npm run util:test-types && npm run util:push-tags && npm publish && ts-node --esm ./support/releaseToGitHub.ts",
     "start": "concurrently --kill-others --raw \"tsc --project ./tsconfig-demos.json --watch\" \"npm run build:watch-dev -- --serve\" \"ts-node --esm ./support/cleanOnProcessExit.ts --path ./src/demos/**/*.js \"",
-    "test": "npm run util:run-tests",
+    "test": "npm run build && npm run test:existing-build",
+    "test:existing-build": "stencil test --no-docs --no-build --spec --e2e",
     "test:prerender": "stencil build --no-docs --prerender",
     "test:storybook": "concurrently --raw \"npm:util:build-docs && screener-storybook --conf .storybook/screener.config.js\"",
-    "test:watch": "npm run util:run-tests -- --watchAll",
+    "test:watch": "npm run test -- -- --watchAll",
     "util:build-docs": "npm run util:copy-icons && stencil build --config stencil.storybook.config.ts",
     "util:clean-tested-build": "npm ci && npm test && npm run build",
     "util:copy-icons": "cpy \"./node_modules/@esri/calcite-ui-icons/js/*.json\" \"./src/components/icon/assets/icon/\" --flat",
@@ -59,7 +60,6 @@
     "util:publish-next": "npm run util:test-types && npm publish --tag next",
     "util:check-squash-mergeable-branch": "ts-node --esm support/checkSquashMergeableBranch.ts",
     "util:push-tags": "git push --atomic --follow-tags origin master",
-    "util:run-tests": "npm run util:copy-icons && stencil test --no-docs --spec --e2e",
     "util:test-types": "tsc --esModuleInterop dist/types/**/*.d.ts dist/components/*.d.ts && ! grep -rnw 'dist/types' -e '<reference types='"
   },
   "repository": {
