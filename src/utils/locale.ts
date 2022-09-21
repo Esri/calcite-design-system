@@ -111,6 +111,8 @@ export function localizeNumberString(
   displayGroupSeparator = false,
   numberingSystem?: string
 ): string {
+  locale = getSupportedLocale(locale);
+
   return sanitizeExponentialNumberString(numberString, (nonExpoNumString: string): string => {
     if (nonExpoNumString) {
       const sanitizedNumberString = sanitizeDecimalString(nonExpoNumString.replace(defaultGroupSeparator, ""));
