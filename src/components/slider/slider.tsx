@@ -133,10 +133,10 @@ export class Slider
   @Prop() numberingSystem?: string;
 
   /** Specifies the interval to move with the page up, or page down keys. */
-  @Prop() pageStep?: number;
+  @Prop({ reflect: true }) pageStep?: number;
 
   /** When true, sets a finer point for handles. */
-  @Prop() precise = false;
+  @Prop({ reflect: true }) precise = false;
 
   /**
    * When true, the component must have a value on form submission.
@@ -144,13 +144,13 @@ export class Slider
   @Prop({ reflect: true }) required = false;
 
   /** When true, enables snap selection in coordination with "step" via a mouse. */
-  @Prop() snap = false;
+  @Prop({ reflect: true }) snap = false;
 
   /** Specifies the interval to move with the up, or down keys. */
-  @Prop() step?: number = 1;
+  @Prop({ reflect: true }) step?: number = 1;
 
   /** Displays tick marks on the number line at a specified interval. */
-  @Prop() ticks?: number;
+  @Prop({ reflect: true }) ticks?: number;
 
   /** The component's value. */
   @Prop({ reflect: true, mutable: true }) value: null | number | number[] = 0;
@@ -169,7 +169,7 @@ export class Slider
   /**
    *  Specifies the size of the component.
    */
-  @Prop() scale: Scale = "m";
+  @Prop({ reflect: true }) scale: Scale = "m";
 
   //--------------------------------------------------------------------------
   //

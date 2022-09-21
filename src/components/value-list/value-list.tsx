@@ -82,7 +82,7 @@ export class ValueList<
    *
    * To drag elements from one list into another, both lists must have the same group value.
    */
-  @Prop() group?: string;
+  @Prop({ reflect: true }) group?: string;
 
   /**
    * When true, a busy indicator is displayed.
@@ -100,7 +100,7 @@ export class ValueList<
   /**
    * When true and single-selection is enabled, the selection changes when navigating `calcite-value-list-item`s via keyboard.
    */
-  @Prop() selectionFollowsFocus = false;
+  @Prop({ reflect: true }) selectionFollowsFocus = false;
 
   /**
    * When "drag-enabled" is true and active, specifies accessible context to the `calcite-value-list-item`'s initial position.

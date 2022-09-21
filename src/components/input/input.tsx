@@ -28,7 +28,9 @@ import {
 import {
   getDecimalSeparator,
   delocalizeNumberString,
-  localizeNumberString
+  localizeNumberString,
+  getLocale,
+  LangComponent
 } from "../../utils/locale";
 import { numberKeys } from "../../utils/key";
 import { isValidNumber, parseNumberString, sanitizeNumberString } from "../../utils/number";
@@ -36,6 +38,11 @@ import { CSS_UTILITY, TEXT as COMMON_TEXT } from "../../utils/resources";
 import { decimalPlaces } from "../../utils/math";
 import { createObserver } from "../../utils/observers";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import {
+  GlobalAttrComponent,
+  unwatchGlobalAttributes,
+  watchGlobalAttributes
+} from "../../utils/globalAttributes";
 
 type NumberNudgeDirection = "up" | "down";
 type SetValueOrigin = "initial" | "connected" | "user" | "reset" | "direct";
@@ -48,7 +55,14 @@ type SetValueOrigin = "initial" | "connected" | "user" | "reset" | "direct";
   styleUrl: "input.scss",
   shadow: true
 })
-export class Input implements LabelableComponent, FormComponent, InteractiveComponent {
+export class Input
+  implements
+    LabelableComponent,
+    FormComponent,
+    InteractiveComponent,
+    GlobalAttrComponent,
+    LangComponent
+{
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -71,7 +85,7 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
    *
    * @mdn [autofocus](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/autofocus)
    */
-  @Prop() autofocus = false;
+  @Prop({ reflect: true }) autofocus = false;
 
   /**
    * When true, a clear button is displayed when the component has a value. The clear button shows by default for "search", "time", and "date" types, and will not display for the "textarea" type.
@@ -93,14 +107,14 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
   /**
    * When true, number values are displayed with the locale's group separator.
    */
-  @Prop() groupSeparator = false;
+  @Prop({ reflect: true }) groupSeparator = false;
 
   /**
    * When true, the component will not be visible.
    *
    * @mdn [hidden](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/hidden)
    */
-  @Prop() hidden = false;
+  @Prop({ reflect: true }) hidden = false;
 
   /**
    * When true, shows a default recommended icon. Alternatively, pass a Calcite UI Icon name to display a specific icon.
@@ -128,15 +142,20 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
   /** When true, the component is in the loading state and `calcite-progress` is displayed. */
   @Prop({ reflect: true }) loading = false;
 
-  /** Specifies the BCP 47 language tag for the desired language and country format. */
-  @Prop() locale: string = document.documentElement.lang || "en";
+  /**
+   * BCP 47 language tag for desired language and country format
+   *
+   * @deprecated set the global `lang` attribute on the element instead.
+   * @mdn [lang](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/lang)
+   */
+  @Prop() locale: string;
 
   /**
    * Specifies the Unicode numeral system used by the component for localization.
    *
    * @mdn [numberingSystem](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/Locale/numberingSystem)
    */
-  @Prop() numberingSystem?: string;
+  @Prop({ reflect: true }) numberingSystem?: string;
 
   /**
    * Toggles locale formatting for numbers.
@@ -217,10 +236,10 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
    *
    * @mdn [readOnly](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/readonly)
    */
-  @Prop() readOnly = false;
+  @Prop({ reflect: true }) readOnly = false;
 
   /** When true, the component must have a value in order for the form to submit. */
-  @Prop() required = false;
+  @Prop({ reflect: true }) required = false;
 
   /** Specifies the size of the component. */
   @Prop({ mutable: true, reflect: true }) scale: Scale = "m";
@@ -351,6 +370,8 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
   //
   //--------------------------------------------------------------------------
 
+  @State() globalAttributes = {};
+
   @State() localizedValue: string;
 
   //--------------------------------------------------------------------------
@@ -377,6 +398,7 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
     }
     connectLabel(this);
     connectForm(this);
+    watchGlobalAttributes(this, ["lang"]);
     this.mutationObserver?.observe(this.el, { childList: true });
     this.setDisabledAction();
     this.el.addEventListener("calciteInternalHiddenInputChange", this.hiddenInputChangeHandler);
@@ -385,6 +407,7 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
   disconnectedCallback(): void {
     disconnectLabel(this);
     disconnectForm(this);
+    unwatchGlobalAttributes(this);
     this.mutationObserver?.disconnect();
     this.el.removeEventListener("calciteInternalHiddenInputChange", this.hiddenInputChangeHandler);
   }
@@ -572,7 +595,7 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
       return;
     }
     const value = (nativeEvent.target as HTMLInputElement).value;
-    const delocalizedValue = delocalizeNumberString(value, this.locale);
+    const delocalizedValue = delocalizeNumberString(value, getLocale(this));
     if (nativeEvent.inputType === "insertFromPaste") {
       if (!isValidNumber(delocalizedValue)) {
         nativeEvent.preventDefault();
@@ -626,7 +649,7 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
       }
       return;
     }
-    const decimalSeparator = getDecimalSeparator(this.locale);
+    const decimalSeparator = getDecimalSeparator(getLocale(this));
     if (event.key === decimalSeparator) {
       if (!this.value && !this.childNumberEl.value) {
         return;
@@ -801,11 +824,12 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
     previousValue?: string;
     value: string;
   }): void => {
+    const locale = getLocale(this);
     const previousLocalizedValue =
       this.type === "number"
         ? localizeNumberString(
             this.previousValue,
-            this.locale,
+            locale,
             this.groupSeparator,
             this.numberingSystem
           )
@@ -819,7 +843,7 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
         : sanitizedValue;
     const newLocalizedValue =
       this.type === "number"
-        ? localizeNumberString(newValue, this.locale, this.groupSeparator, this.numberingSystem)
+        ? localizeNumberString(newValue, locale, this.groupSeparator, this.numberingSystem)
         : "";
 
     this.setPreviousValue(previousValue || this.value);
@@ -881,7 +905,7 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
         class={CSS.clearButton}
         disabled={this.disabled || this.readOnly}
         onClick={this.clearInputValue}
-        tabIndex={this.disabled ? -1 : 0}
+        tabIndex={-1}
         type="button"
       >
         <calcite-icon icon="x" scale="s" />
@@ -900,6 +924,7 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
 
     const numberButtonsHorizontalUp = (
       <button
+        aria-hidden="true"
         class={{
           [CSS.numberButtonItem]: true,
           [CSS.buttonItemHorizontal]: isHorizontalNumberButton
@@ -918,6 +943,7 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
 
     const numberButtonsHorizontalDown = (
       <button
+        aria-hidden="true"
         class={{
           [CSS.numberButtonItem]: true,
           [CSS.buttonItemHorizontal]: isHorizontalNumberButton

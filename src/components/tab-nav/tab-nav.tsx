@@ -44,12 +44,12 @@ export class TabNav {
   /**
    * Specifies the name when saving selected `calcite-tab` data to `localStorage`.
    */
-  @Prop() storageId: string;
+  @Prop({ reflect: true }) storageId: string;
 
   /**
    * Specifies text to update multiple components to keep in sync if one changes.
    */
-  @Prop() syncId: string;
+  @Prop({ reflect: true }) syncId: string;
 
   /**
    * @internal

@@ -61,7 +61,7 @@ export class ColorPicker implements InteractiveComponent {
    *
    * When true, clearing the input and blurring will restore the last valid color set. When false, it will set it to empty.
    */
-  @Prop() allowEmpty = false;
+  @Prop({ reflect: true }) allowEmpty = false;
 
   /** specify the appearance - solid (containing border), or minimal (no containing border) */
   @Prop({ reflect: true }) appearance: ColorAppearance = "solid";
@@ -92,7 +92,7 @@ export class ColorPicker implements InteractiveComponent {
    *
    * @default "auto"
    */
-  @Prop() format: Format = defaultFormat;
+  @Prop({ reflect: true }) format: Format = defaultFormat;
 
   @Watch("format")
   handleFormatChange(format: ColorPicker["format"]): void {
@@ -101,13 +101,13 @@ export class ColorPicker implements InteractiveComponent {
   }
 
   /** When true, hides the hex input */
-  @Prop() hideHex = false;
+  @Prop({ reflect: true }) hideHex = false;
 
   /** When true, hides the RGB/HSV channel inputs */
-  @Prop() hideChannels = false;
+  @Prop({ reflect: true }) hideChannels = false;
 
   /** When true, hides the saved colors section */
-  @Prop() hideSaved = false;
+  @Prop({ reflect: true }) hideSaved = false;
 
   /**
    * Label used for the blue channel
@@ -256,20 +256,21 @@ export class ColorPicker implements InteractiveComponent {
   /**
    * Storage ID for colors.
    */
-  @Prop() storageId: string;
+  @Prop({ reflect: true }) storageId: string;
 
   /** standard UniCode numeral system tag for localization */
-  @Prop() numberingSystem?: string;
+  @Prop({ reflect: true }) numberingSystem?: string;
 
   /**
-   * The color value.
+   * The component's value.
    *
-   * This value can be either a {@link https://developer.mozilla.org/en-US/docs/Web/CSS/color|CSS string}
+   * This value can be either a CSS color string,
    * a RGB, HSL or HSV object.
    *
    * The type will be preserved as the color is updated.
    *
    * @default "#007ac2"
+   * @see [CSS Color](https://developer.mozilla.org/en-US/docs/Web/CSS/color)
    * @see [ColorValue](https://github.com/Esri/calcite-components/blob/master/src/components/color-picker/interfaces.ts#L10)
    */
   @Prop({ mutable: true }) value: ColorValue | null = defaultValue;

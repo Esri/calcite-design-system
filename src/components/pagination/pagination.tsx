@@ -16,7 +16,7 @@ import {
   unwatchGlobalAttributes,
   watchGlobalAttributes
 } from "../../utils/globalAttributes";
-import { localizeNumberString } from "../../utils/locale";
+import { getLocale, LangComponent, localizeNumberString } from "../../utils/locale";
 import { CSS, TEXT } from "./resources";
 
 const maxPagesDisplayed = 5;
@@ -31,7 +31,7 @@ export interface PaginationDetail {
   styleUrl: "pagination.scss",
   shadow: true
 })
-export class Pagination implements GlobalAttrComponent {
+export class Pagination implements GlobalAttrComponent, LangComponent {
   //--------------------------------------------------------------------------
   //
   //  Public Properties
@@ -44,7 +44,7 @@ export class Pagination implements GlobalAttrComponent {
   @Prop({ reflect: true }) groupSeparator = false;
 
   /** Specifies the number of items per page. */
-  @Prop() num = 20;
+  @Prop({ reflect: true }) num = 20;
 
   /**
    * Specifies the Unicode numeral system used by the component for localization.
@@ -54,10 +54,10 @@ export class Pagination implements GlobalAttrComponent {
   @Prop() numberingSystem?: string;
 
   /** Specifies the starting item number. */
-  @Prop({ mutable: true }) start = 1;
+  @Prop({ mutable: true, reflect: true }) start = 1;
 
   /** Specifies the total number of items. */
-  @Prop() total = 0;
+  @Prop({ reflect: true }) total = 0;
 
   /**
    * Accessible name for the component's next button.
@@ -187,9 +187,9 @@ export class Pagination implements GlobalAttrComponent {
    * @param value
    */
   private determineGroupSeparator = (value): string => {
-    const lang = this.globalAttributes["lang"] || document.documentElement.lang || "en";
+    const locale = getLocale(this);
     return this.groupSeparator
-      ? localizeNumberString(value.toString(), lang, this.groupSeparator, this.numberingSystem)
+      ? localizeNumberString(value.toString(), locale, this.groupSeparator, this.numberingSystem)
       : value;
   };
 
