@@ -185,7 +185,7 @@ export class Tree {
       this.selectionMode === TreeSelectionMode.MultiChildren;
 
     if (!this.child) {
-      const targetItems = [];
+      const targetItems: HTMLCalciteTreeItemElement[] = [];
 
       if (shouldSelect) {
         targetItems.push(target);
@@ -222,11 +222,15 @@ export class Tree {
         (shouldSelectChildren && event.detail.forceToggle)
       ) {
         targetItems.forEach((treeItem) => {
-          treeItem.selected = false;
+          if (!treeItem.disabled) {
+            treeItem.selected = false;
+          }
         });
       } else if (!isNoneSelectionMode) {
         targetItems.forEach((treeItem) => {
-          treeItem.selected = true;
+          if (!treeItem.disabled) {
+            treeItem.selected = true;
+          }
         });
       }
     }
