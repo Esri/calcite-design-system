@@ -13,7 +13,7 @@ describe("calcite-list", () => {
   it("is focusable", () =>
     focusable(
       html`<calcite-list>
-        <calcite-list-item label="test" description="hello world"></calcite-list-item>
+        <calcite-list-item active label="test" description="hello world"></calcite-list-item>
       </calcite-list>`,
       {
         focusTargetSelector: "calcite-list-item"
