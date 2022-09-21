@@ -128,9 +128,9 @@
   @apply absolute
     top-0
     w-16
-    whitespace-nowrap;
-  inset-inline-start: 0px;
-  text-align: start;
+    whitespace-nowrap
+    text-start;
+  inset-inline-start: 0;
 }
 
 .suffix__invisible {
