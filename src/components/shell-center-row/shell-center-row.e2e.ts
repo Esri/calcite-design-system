@@ -11,6 +11,10 @@ describe("calcite-shell-center-row", () => {
   it("defaults", async () =>
     defaults("calcite-shell-center-row", [
       {
+        propertyName: "collapsed",
+        defaultValue: false
+      },
+      {
         propertyName: "detached",
         defaultValue: false
       },
@@ -34,6 +38,18 @@ describe("calcite-shell-center-row", () => {
     const actionBarContainer = await page.find(`calcite-shell-center-row >>> .${CSS.actionBarContainer}`);
 
     expect(actionBarContainer).toBeNull();
+  });
+
+  it("should not render when collapsed", async () => {
+    const page = await newE2EPage();
+    await page.setContent("<calcite-shell-center-row collapsed></calcite-shell-center-row>");
+
+    const element = await page.find("calcite-shell-center-row");
+
+    await page.waitForChanges();
+
+    expect(await element.getProperty("clientWidth")).toEqual(0);
+    expect(await element.getProperty("clientHeight")).toEqual(0);
   });
 
   it("should render action bar container first when action bar has start position", async () => {

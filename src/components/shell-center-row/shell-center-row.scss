@@ -27,6 +27,10 @@
   border-0;
 }
 
+:host([collapsed]) {
+  @apply hidden;
+}
+
 :host([position="end"]) {
   @apply self-end;
 }

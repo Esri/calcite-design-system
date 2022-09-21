@@ -68,6 +68,10 @@ const createShellCenterRowAttributes: (group: string) => Attributes = (group) =>
 
   return [
     {
+      name: "collapsed",
+      value: boolean("collapsed", false, group)
+    },
+    {
       name: "detached",
       value: boolean("detached", false, group)
     },
