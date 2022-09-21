@@ -127,10 +127,10 @@
 .suffix {
   @apply absolute
     top-0
-    left-0
     w-16
-    whitespace-nowrap
-    text-left;
+    whitespace-nowrap;
+  inset-inline-start: 0px;
+  text-align: start;
 }
 
 .suffix__invisible {
