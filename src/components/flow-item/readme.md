@@ -24,10 +24,11 @@
 
 ## Events
 
-| Event                      | Description                             | Type                |
-| -------------------------- | --------------------------------------- | ------------------- |
-| `calciteFlowItemBackClick` | Fires when the back button is clicked.  | `CustomEvent<void>` |
-| `calciteFlowItemClose`     | Fires when the close button is clicked. | `CustomEvent<void>` |
+| Event                      | Description                                                                                                                      | Type                |
+| -------------------------- | -------------------------------------------------------------------------------------------------------------------------------- | ------------------- |
+| `calciteFlowItemBack`      | Fires when the back button is clicked.                                                                                           | `CustomEvent<void>` |
+| `calciteFlowItemBackClick` | <span style="color:red">**[DEPRECATED]**</span> use calciteFlowItemBack instead.<br/><br/>Fires when the back button is clicked. | `CustomEvent<void>` |
+| `calciteFlowItemClose`     | Fires when the close button is clicked.                                                                                          | `CustomEvent<void>` |
 
 ## Methods
 
