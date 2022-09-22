@@ -244,7 +244,13 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
     return (
       <td class={CSS.selectionContainer} onClick={this.toggleSelected}>
         <calcite-icon
-          icon={selected ? (selectionMode === "multiple" ? ICONS.check : ICONS.radio) : ICONS.blank}
+          icon={
+            selected
+              ? selectionMode === "multiple"
+                ? ICONS.selectedMultiple
+                : ICONS.selectedSingle
+              : ICONS.unselected
+          }
           scale="s"
         />
       </td>

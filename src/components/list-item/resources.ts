@@ -28,10 +28,10 @@ export const SLOTS = {
 export const MAX_COLUMNS = 5;
 
 export const ICONS = {
-  check: "check-circle-f",
-  radio: "circle-f",
+  selectedMultiple: "check-circle-f",
+  selectedSingle: "circle-f",
+  unselected: "blank",
   closedLTR: "caret-right",
   closedRTL: "caret-left",
-  open: "caret-down",
-  blank: "blank"
+  open: "caret-down"
 };
