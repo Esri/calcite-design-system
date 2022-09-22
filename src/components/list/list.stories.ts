@@ -16,14 +16,16 @@ export default {
 
 const thumbnailImage = placeholderImage({ width: 44, height: 44 });
 
+const knobsHTML = (): string => html`selection-mode="${select(
+  "selection-mode",
+  ["single", "multiple", "none"],
+  "single"
+)}"
+selection-appearance="${select("selection-appearance", ["icon", "border"], "icon")}" ${boolean("loading", false)}
+${boolean("disabled", false)} ${text("label", "My List")}`;
+
 export const simple = (): string => html`
-  <calcite-list
-    selection-mode="${select("selection-mode", ["single", "multiple", "none"], "single")}"
-    selection-appearance="${select("selection-appearance", ["icon", "border"], "icon")}"
-    ${boolean("loading", false)}
-    ${boolean("disabled", false)}
-    ${text("label", "My List")}
-  >
+  <calcite-list ${knobsHTML()}>
     <calcite-list-item
       selected
       label="Cras iaculis ultricies nulla."
@@ -50,13 +52,7 @@ export const simple = (): string => html`
 `;
 
 export const onlyLabelVersusOnlyDescription_TestOnly = (): string => html`
-  <calcite-list
-    selection-mode="${select("selection-mode", ["single", "multiple", "none"], "single")}"
-    selection-appearance="${select("selection-appearance", ["icon", "border"], "icon")}"
-    ${boolean("loading", false)}
-    ${boolean("disabled", false)}
-    ${text("label", "My List")}
-  >
+  <calcite-list ${knobsHTML()}>
     <calcite-list-item label="This has no description."> </calcite-list-item>
   </calcite-list>
   <calcite-list>
@@ -65,13 +61,7 @@ export const onlyLabelVersusOnlyDescription_TestOnly = (): string => html`
 `;
 
 export const nestedListItemsAndGroupItems = (): string => html`
-  <calcite-list
-    selection-mode="${select("selection-mode", ["single", "multiple", "none"], "single")}"
-    selection-appearance="${select("selection-appearance", ["icon", "border"], "icon")}"
-    ${boolean("loading", false)}
-    ${boolean("disabled", false)}
-    ${text("label", "My List")}
-  >
+  <calcite-list ${knobsHTML()}>
     <calcite-list-item-group heading="Nested">
       <calcite-list-item
         expanded
@@ -111,13 +101,7 @@ export const nestedListItemsAndGroupItems = (): string => html`
   </calcite-list>
 `;
 
-export const startAndEndContentSlots = (): string => html`<calcite-list
-  selection-mode="${select("selection-mode", ["single", "multiple", "none"], "single")}"
-  selection-appearance="${select("selection-appearance", ["icon", "border"], "icon")}"
-  ${boolean("loading", false)}
-  ${boolean("disabled", false)}
-  ${text("label", "My List")}
->
+export const startAndEndContentSlots = (): string => html`<calcite-list ${knobsHTML()}>
   <calcite-list-item>
     <calcite-action slot="actions-end" icon="ellipsis"> </calcite-action>
     <calcite-icon icon="layers" scale="m" slot="content-start"></calcite-icon>
@@ -146,13 +130,7 @@ export const startAndEndContentSlots = (): string => html`<calcite-list
 </calcite-list> `;
 
 export const richContent = (): string => html`
-  <calcite-list
-    selection-mode="${select("selection-mode", ["single", "multiple", "none"], "single")}"
-    selection-appearance="${select("selection-appearance", ["icon", "border"], "icon")}"
-    ${boolean("loading", false)}
-    ${boolean("disabled", false)}
-    ${text("label", "My List")}
-  >
+  <calcite-list ${knobsHTML()}>
     <calcite-list-item label="Princess Bubblegum" description="Ruler of The Candy Kingdom">
       <calcite-action icon="drag" label="drag" scale="s" slot="actions-start"></calcite-action>
       <calcite-icon scale="l" icon="effects" slot="content-start"></calcite-icon>
@@ -186,15 +164,7 @@ export const richContent = (): string => html`
 `;
 
 export const darkThemeRTL_TestOnly = (): string => html`
-  <calcite-list
-    class="calcite-theme-dark"
-    dir="rtl"
-    selection-mode="${select("selection-mode", ["single", "multiple", "none"], "single")}"
-    selection-appearance="${select("selection-appearance", ["icon", "border"], "icon")}"
-    ${boolean("loading", false)}
-    ${boolean("disabled", false)}
-    ${text("label", "My List")}
-  >
+  <calcite-list class="calcite-theme-dark" dir="rtl" ${knobsHTML()}>
     <calcite-list-item label="Princess Bubblegum" description="Ruler of The Candy Kingdom">
       <calcite-action icon="drag" label="drag" scale="s" slot="actions-start"></calcite-action>
       <calcite-icon scale="l" icon="effects" slot="content-start"></calcite-icon>
