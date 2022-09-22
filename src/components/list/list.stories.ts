@@ -111,7 +111,13 @@ export const nestedListItemsAndGroupItems = (): string => html`
   </calcite-list>
 `;
 
-export const startAndEndContentSlots = (): string => html`<calcite-list>
+export const startAndEndContentSlots = (): string => html`<calcite-list
+  selection-mode="${select("selection-mode", ["single", "multiple", "none"], "single")}"
+  selection-appearance="${select("selection-appearance", ["icon", "border"], "icon")}"
+  ${boolean("loading", false)}
+  ${boolean("disabled", false)}
+  ${text("label", "My List")}
+>
   <calcite-list-item>
     <calcite-action slot="actions-end" icon="ellipsis"> </calcite-action>
     <calcite-icon icon="layers" scale="m" slot="content-start"></calcite-icon>
