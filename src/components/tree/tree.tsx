@@ -300,6 +300,11 @@ export class Tree {
     }
   }
 
+  @Listen("calciteInternalTreeItemBeforeExpanded")
+  beforeExpandHandler(): void {
+    this.calciteTreeBeforeExpanded.emit();
+  }
+
   updateAncestorTree(event: CustomEvent<TreeItemSelectDetail>): void {
     const item = event.target as HTMLCalciteTreeItemElement;
     const children = item.querySelectorAll("calcite-tree-item");
@@ -354,6 +359,18 @@ export class Tree {
    * @see [TreeSelectDetail](https://github.com/Esri/calcite-components/blob/master/src/components/tree/interfaces.ts#L1)
    */
   @Event({ cancelable: false }) calciteTreeSelect: EventEmitter<TreeSelectDetail>;
+
+  /** Fires when the component is requested to be closed and before the closing transition begins. */
+  @Event({ cancelable: false }) calciteTreeBeforeClose: EventEmitter<void>;
+
+  /** Fires when the component is closed and animation is complete. */
+  @Event({ cancelable: false }) calciteTreeClose: EventEmitter<void>;
+
+  /** Fires when the component is added to the DOM but not rendered, and before expanding transition begins. */
+  @Event({ cancelable: false }) calciteTreeBeforeExpanded: EventEmitter<void>;
+
+  /** Fires when the component is expanded and animation is complete. */
+  @Event({ cancelable: false }) calciteTreeExpanded: EventEmitter<void>;
 
   // --------------------------------------------------------------------------
   //

@@ -11,7 +11,17 @@ export interface OpenCloseComponent {
   /**
    * When true, the component opens.
    */
-  open: boolean;
+  open?: boolean;
+
+  /**
+   * When true, expands the comoponent.
+   */
+  expanded?: boolean;
+
+  /**
+   *  Specifies the name of transitionProp.
+   */
+  transitionProp?: string;
 
   /**
    * Specifies property on which active transition is watched for.
@@ -51,13 +61,13 @@ const componentToTransitionListeners = new WeakMap<
 
 function transitionStart(event: TransitionEvent): void {
   if (event.propertyName === this.openTransitionProp && event.target === this.transitionEl) {
-    this.open ? this.onBeforeOpen() : this.onBeforeClose();
+    this[this.transitionProp] ? this.onBeforeOpen() : this.onBeforeClose();
   }
 }
 
 function transitionEnd(event: TransitionEvent): void {
   if (event.propertyName === this.openTransitionProp && event.target === this.transitionEl) {
-    this.open ? this.onOpen() : this.onClose();
+    this[this.transitionProp] ? this.onOpen() : this.onClose();
   }
 }
 /**

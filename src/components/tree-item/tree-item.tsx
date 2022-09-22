@@ -8,8 +8,7 @@ import {
   Listen,
   Watch,
   h,
-  VNode,
-  readTask
+  VNode
 } from "@stencil/core";
 import { TreeItemSelectDetail } from "./interfaces";
 import { TreeSelectionMode } from "../tree/interfaces";
@@ -29,6 +28,11 @@ import {
   connectConditionalSlotComponent,
   disconnectConditionalSlotComponent
 } from "../../utils/conditionalSlot";
+import {
+  connectOpenCloseComponent,
+  disconnectOpenCloseComponent,
+  OpenCloseComponent
+} from "../../utils/openCloseComponent";
 
 /**
  * @slot - A slot for adding the component's content.
@@ -39,7 +43,7 @@ import {
   styleUrl: "tree-item.scss",
   shadow: true
 })
-export class TreeItem implements ConditionalSlotComponent {
+export class TreeItem implements ConditionalSlotComponent, OpenCloseComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -117,6 +121,44 @@ export class TreeItem implements ConditionalSlotComponent {
       this.selectionMode === TreeSelectionMode.MultiChildren;
   }
 
+  openTransitionProp = "transform";
+
+  transitionProp = "expanded";
+
+  /**
+   * Specifies element that the transition is allowed to emit on.
+   */
+  transitionEl: HTMLDivElement;
+
+  /**
+   * Defines method for `beforeOpen` event handler.
+   */
+  onBeforeOpen(): void {
+    this.calciteInternalTreeItemBeforeExpanded.emit();
+  }
+
+  /**
+   * Defines method for `open` event handler:
+   */
+  onOpen(): void {
+    this.transitionEl.style.transform = "none";
+    this.calciteInternalTreeItemExpanded.emit();
+  }
+
+  /**
+   * Defines method for `beforeClose` event handler:
+   */
+  onBeforeClose(): void {
+    this.calciteInternalTreeItemBeforeClose.emit();
+  }
+
+  /**
+   * Defines method for `close` event handler:
+   */
+  onClose(): void {
+    this.calciteInternalTreeItemClose.emit();
+  }
+
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -130,10 +172,12 @@ export class TreeItem implements ConditionalSlotComponent {
       this.updateParentIsExpanded(this.parentTreeItem, expanded);
     }
     connectConditionalSlotComponent(this);
+    connectOpenCloseComponent(this);
   }
 
   disconnectedCallback(): void {
     disconnectConditionalSlotComponent(this);
+    disconnectOpenCloseComponent(this);
   }
 
   componentWillRender(): void {
@@ -166,13 +210,6 @@ export class TreeItem implements ConditionalSlotComponent {
     this.updateAncestorTree();
   }
 
-  componentDidrender(): void {
-    if (this.hasChildren) {
-      readTask(() => {
-        this.setChildrenContainerHeight();
-      });
-    }
-  }
   //--------------------------------------------------------------------------
   //
   //  Private State/Props
@@ -266,13 +303,18 @@ export class TreeItem implements ConditionalSlotComponent {
           }}
           data-test-id="calcite-tree-children"
           onClick={this.childrenClickHandler}
-          ref={(el) => (this.childrenSlotWrapper = el as HTMLElement)}
+          ref={(el) => this.setTransitionEl(el)}
           role={this.hasChildren ? "group" : undefined}
         >
           <slot name={SLOTS.children} />
         </div>
       </Host>
     );
+  }
+
+  setTransitionEl(el: HTMLDivElement): void {
+    this.transitionEl = el;
+    connectOpenCloseComponent(this);
   }
 
   //--------------------------------------------------------------------------
@@ -371,6 +413,28 @@ export class TreeItem implements ConditionalSlotComponent {
    */
   @Event({ cancelable: false }) calciteInternalTreeItemSelect: EventEmitter<TreeItemSelectDetail>;
 
+  /**
+   * @internal
+   */
+  @Event({ cancelable: false, composed: true })
+  calciteInternalTreeItemBeforeClose: EventEmitter<void>;
+
+  /**
+   * @internal
+   */
+  @Event({ cancelable: false, composed: true }) calciteInternalTreeItemClose: EventEmitter<void>;
+
+  /**
+   * @internal
+   */
+  @Event({ cancelable: false, composed: true })
+  calciteInternalTreeItemBeforeExpanded: EventEmitter<void>;
+
+  /**
+   * @internal
+   */
+  @Event({ cancelable: false, composed: true }) calciteInternalTreeItemExpanded: EventEmitter<void>;
+
   //--------------------------------------------------------------------------
   //
   //  Public Methods
@@ -415,12 +479,4 @@ export class TreeItem implements ConditionalSlotComponent {
       return;
     }
   };
-
-  private setChildrenContainerHeight(): void {
-    if (this.hasChildren) {
-      this.childrenSlotWrapper.style.height = this.expanded
-        ? `${this.childrenSlotWrapper.offsetHeight}px`
-        : "0px";
-    }
-  }
 }
