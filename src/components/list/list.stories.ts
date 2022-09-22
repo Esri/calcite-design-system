@@ -3,8 +3,8 @@ import readme from "./readme.md";
 import itemReadme from "../list-item/readme.md";
 import groupReadme from "../list-item-group/readme.md";
 import { html } from "../../../support/formatting";
-import { storyFilters } from "../../../.storybook/helpers";
-import { boolean, select } from "@storybook/addon-knobs";
+import { storyFilters, boolean } from "../../../.storybook/helpers";
+import { select, text } from "@storybook/addon-knobs";
 
 export default {
   title: "Components/List",
@@ -21,6 +21,8 @@ export const simple = (): string => html`
     selection-mode="${select("selection-mode", ["single", "multiple", "none"], "single")}"
     selection-appearance="${select("selection-appearance", ["icon", "border"], "icon")}"
     ${boolean("loading", false)}
+    ${boolean("disabled", false)}
+    ${text("label", "My List")}
   >
     <calcite-list-item
       selected
@@ -48,7 +50,13 @@ export const simple = (): string => html`
 `;
 
 export const onlyLabelVersusOnlyDescription_TestOnly = (): string => html`
-  <calcite-list>
+  <calcite-list
+    selection-mode="${select("selection-mode", ["single", "multiple", "none"], "single")}"
+    selection-appearance="${select("selection-appearance", ["icon", "border"], "icon")}"
+    ${boolean("loading", false)}
+    ${boolean("disabled", false)}
+    ${text("label", "My List")}
+  >
     <calcite-list-item label="This has no description."> </calcite-list-item>
   </calcite-list>
   <calcite-list>
@@ -61,6 +69,8 @@ export const nestedListItemsAndGroupItems = (): string => html`
     selection-mode="${select("selection-mode", ["single", "multiple", "none"], "single")}"
     selection-appearance="${select("selection-appearance", ["icon", "border"], "icon")}"
     ${boolean("loading", false)}
+    ${boolean("disabled", false)}
+    ${text("label", "My List")}
   >
     <calcite-list-item-group heading="Nested">
       <calcite-list-item
@@ -134,6 +144,8 @@ export const richContent = (): string => html`
     selection-mode="${select("selection-mode", ["single", "multiple", "none"], "single")}"
     selection-appearance="${select("selection-appearance", ["icon", "border"], "icon")}"
     ${boolean("loading", false)}
+    ${boolean("disabled", false)}
+    ${text("label", "My List")}
   >
     <calcite-list-item label="Princess Bubblegum" description="Ruler of The Candy Kingdom">
       <calcite-action icon="drag" label="drag" scale="s" slot="actions-start"></calcite-action>
@@ -168,7 +180,15 @@ export const richContent = (): string => html`
 `;
 
 export const darkThemeRTL_TestOnly = (): string => html`
-  <calcite-list class="calcite-theme-dark" dir="rtl">
+  <calcite-list
+    class="calcite-theme-dark"
+    dir="rtl"
+    selection-mode="${select("selection-mode", ["single", "multiple", "none"], "single")}"
+    selection-appearance="${select("selection-appearance", ["icon", "border"], "icon")}"
+    ${boolean("loading", false)}
+    ${boolean("disabled", false)}
+    ${text("label", "My List")}
+  >
     <calcite-list-item label="Princess Bubblegum" description="Ruler of The Candy Kingdom">
       <calcite-action icon="drag" label="drag" scale="s" slot="actions-start"></calcite-action>
       <calcite-icon scale="l" icon="effects" slot="content-start"></calcite-icon>
