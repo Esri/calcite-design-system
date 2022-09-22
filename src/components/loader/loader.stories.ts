@@ -31,7 +31,7 @@ export const inline_NoTest = (): string => html`
 </div>
 `;
 
-export const customTheme_NoTest = (): string => html`
+export const customThemeAndRTL_NoTest = (): string => html`
   <calcite-loader
     type="${select("type", ["determinate", "indeterminate"], "indeterminate")}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
@@ -42,5 +42,6 @@ export const customTheme_NoTest = (): string => html`
     --calcite-ui-brand-hover: ${color("calcite-ui-blue-2", "#1a6324")};
     --calcite-ui-brand-press: ${color("calcite-ui-blue-3", "#338033")};"
     active
+    dir="rtl"
   />
 `;
