@@ -11,7 +11,7 @@ import {
   Watch,
   State
 } from "@stencil/core";
-import { SLOTS, CSS } from "./resources";
+import { SLOTS, CSS, ICONS } from "./resources";
 import { getElementDir, getSlotted, toAriaBoolean } from "../../utils/dom";
 import {
   ConditionalSlotComponent,
@@ -121,13 +121,13 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
    *
    * @internal
    */
-  @Prop() selectionMode: SelectionMode = "single";
+  @Prop() selectionMode: SelectionMode = null;
 
   /**
    *
    * @internal
    */
-  @Prop() selectionAppearance: SelectionAppearance = "icon";
+  @Prop() selectionAppearance: SelectionAppearance = null;
 
   //--------------------------------------------------------------------------
   //
@@ -187,6 +187,12 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
     const { el } = this;
     this.parentListEl = el.closest(listSelector);
     this.level = getDepth(el) + 1;
+    if (this.parentListEl && !this.selectionMode) {
+      this.selectionMode = this.parentListEl.selectionMode;
+    }
+    if (this.parentListEl && !this.selectionAppearance) {
+      this.selectionAppearance = this.parentListEl.selectionAppearance;
+    }
   }
 
   disconnectedCallback(): void {
@@ -238,7 +244,7 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
     return (
       <td class={CSS.selectionContainer} onClick={this.toggleSelected}>
         <calcite-icon
-          icon={selected ? (selectionMode === "multiple" ? "check" : "bullet-point") : "blank"}
+          icon={selected ? (selectionMode === "multiple" ? ICONS.check : ICONS.radio) : "blank"}
           scale="s"
         />
       </td>
@@ -252,7 +258,7 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
     return openable ? (
       <td class={CSS.openContainer} onClick={this.toggleOpen}>
         <calcite-icon
-          icon={open ? "caret-down" : dir === "rtl" ? "caret-left" : "caret-right"}
+          icon={open ? ICONS.open : dir === "rtl" ? ICONS.closedRTL : ICONS.closedLTR}
           scale="s"
         />
       </td>

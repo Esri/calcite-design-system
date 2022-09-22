@@ -206,13 +206,13 @@ export class List implements InteractiveComponent {
       item.selectionAppearance = selectionAppearance;
       item.selectionMode = selectionMode;
     });
-    this.listItems = items;
+    this.listItems = items.filter((item) => !item.disabled);
     this.setActiveListItem();
     this.updateSelectedItems();
   }, debounceTimeout);
 
   queryListItems = (): HTMLCalciteListItemElement[] => {
-    return Array.from(this.el.querySelectorAll(listItemSelector)).filter((item) => !item.disabled);
+    return Array.from(this.el.querySelectorAll(listItemSelector));
   };
 
   focusRow = (focusEl: HTMLCalciteListItemElement): void => {

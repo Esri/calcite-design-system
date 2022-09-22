@@ -26,3 +26,11 @@ export const SLOTS = {
 };
 
 export const MAX_COLUMNS = 5;
+
+export const ICONS = {
+  check: "check-circle-f",
+  radio: "circle-f",
+  closedLTR: "caret-right",
+  closedRTL: "caret-left",
+  open: "caret-down"
+};

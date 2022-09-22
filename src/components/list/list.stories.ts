@@ -23,6 +23,7 @@ export const simple = (): string => html`
     ${boolean("loading", false)}
   >
     <calcite-list-item
+      selected
       label="Cras iaculis ultricies nulla."
       description="Lorem ipsum dolor sit amet, consectetuer adipiscing elit."
     ></calcite-list-item>
@@ -31,6 +32,13 @@ export const simple = (): string => html`
       description="Aliquam tincidunt mauris eu risus."
     ></calcite-list-item>
     <calcite-list-item
+      label="Vestibulum commodo felis quis tortor.
+    "
+      description="Vestibulum auctor dapibus neque.
+    "
+    ></calcite-list-item>
+    <calcite-list-item
+      disabled
       label="Vestibulum commodo felis quis tortor.
     "
       description="Vestibulum auctor dapibus neque.
@@ -49,7 +57,11 @@ export const onlyLabelVersusOnlyDescription_TestOnly = (): string => html`
 `;
 
 export const nestedListItemsAndGroupItems = (): string => html`
-  <calcite-list>
+  <calcite-list
+    selection-mode="${select("selection-mode", ["single", "multiple", "none"], "single")}"
+    selection-appearance="${select("selection-appearance", ["icon", "border"], "icon")}"
+    ${boolean("loading", false)}
+  >
     <calcite-list-item
       expanded
       label="Cras iaculis ultricies nulla."
@@ -114,7 +126,11 @@ export const startAndEndContentSlots = (): string => html`<calcite-list>
 </calcite-list> `;
 
 export const richContent = (): string => html`
-  <calcite-list>
+  <calcite-list
+    selection-mode="${select("selection-mode", ["single", "multiple", "none"], "single")}"
+    selection-appearance="${select("selection-appearance", ["icon", "border"], "icon")}"
+    ${boolean("loading", false)}
+  >
     <calcite-list-item label="Princess Bubblegum" description="Ruler of The Candy Kingdom">
       <calcite-action icon="drag" label="drag" scale="s" slot="actions-start"></calcite-action>
       <calcite-icon scale="l" icon="effects" slot="content-start"></calcite-icon>
