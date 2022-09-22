@@ -121,13 +121,13 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
    *
    * @internal
    */
-  @Prop() selectionMode: SelectionMode = null;
+  @Prop({ mutable: true }) selectionMode: SelectionMode = null;
 
   /**
    *
    * @internal
    */
-  @Prop() selectionAppearance: SelectionAppearance = null;
+  @Prop({ mutable: true }) selectionAppearance: SelectionAppearance = null;
 
   //--------------------------------------------------------------------------
   //
