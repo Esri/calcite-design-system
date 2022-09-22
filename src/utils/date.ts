@@ -14,6 +14,9 @@ export interface HoverRange {
  * @param max
  */
 export function inRange(date: Date, min?: Date | string, max?: Date | string): boolean {
+  if (!date) {
+    return;
+  }
   const time = date.getTime();
   const afterMin = !(min instanceof Date) || time >= min.getTime();
   const beforeMax = !(max instanceof Date) || time <= max.getTime();
@@ -68,6 +71,34 @@ export function dateFromISO(iso8601: string | Date, isEndDate = false): Date | n
     return setEndOfDay(date);
   }
   return date;
+}
+
+/**
+ * Parse a localized date string into a valid Date.
+ * return false if date is invalid, or out of range
+ *
+ * @param value
+ * @param localeData
+ */
+export function dateFromLocalizedString(value: string, localeData: DateLocaleData): Date | false {
+  if (!localeData) {
+    return false;
+  }
+  const { separator } = localeData;
+  // FIXME: parsing a date from a string is currently broken, fix for this likely needed in parseDateString
+  const { day, month, year } = parseDateString(value, localeData);
+
+  const validDay = day > 0;
+  const validMonth = month > -1;
+  const date = new Date(year as number, month as number, day as number);
+  date.setFullYear(year as number);
+  const validDate = !isNaN(date.getTime());
+  const validLength = value.split(separator).filter((c) => c).length > 2;
+  const validYear = year.toString().length > 0;
+  if (validDay && validMonth && validDate && validLength && validYear) {
+    return date;
+  }
+  return false;
 }
 
 /**
@@ -177,6 +208,7 @@ export function parseDateString(
   localeData: DateLocaleData,
   returnType: "number" | "string" = "number"
 ): { day: number | string; month: number | string; year: number | string } {
+  // FIXME: this function is BORKED!
   const { separator, unitOrder } = localeData;
   const order = getOrder(unitOrder);
   const values = replaceArabicNumerals(str).split(separator);

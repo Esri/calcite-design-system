@@ -20,8 +20,8 @@ import {
   dateFromISO,
   dateToISO,
   parseDateString,
-  sameDate,
-  setEndOfDay
+  setEndOfDay,
+  dateFromLocalizedString
 } from "../../utils/date";
 import { HeadingLevel } from "../functional/Heading";
 
@@ -326,6 +326,46 @@ export class InputDatePicker
     this.open = false;
   }
 
+  private calciteInternalInputInputHandler = (event: CustomEvent<any>): void => {
+    const target = event.target as HTMLCalciteInputElement;
+    const value = target.value;
+    const { year: yearAsString } = parseDateString(value, this.localeData, "string");
+
+    if (yearAsString && (yearAsString as string).length < 4) {
+      return;
+    }
+
+    const date = dateFromLocalizedString(value, this.localeData) as Date;
+
+    if (inRange(date, this.min, this.max)) {
+      // TODO: Refresh Calendar View to show the month that corresponds to the input's current valid date value
+    }
+
+    console.log("calciteInternalInputInputHandler", value, date);
+  };
+
+  private calciteInternalInputBlurHandler = (event: CustomEvent<any>): void => {
+    const target = event.target as HTMLCalciteInputElement;
+    const { locale, focusedInput, endAsDate, range, startAsDate, valueAsDate } = this;
+    const date = dateFromLocalizedString(target.value, this.localeData);
+    if (!date) {
+      if (!range && valueAsDate) {
+        // TODO: setValue here
+        target.value = Array.isArray(valueAsDate)
+          ? valueAsDate[focusedInput === "end" ? 1 : 0].toLocaleDateString(locale)
+          : valueAsDate.toLocaleDateString(locale);
+      } else if (
+        focusedInput === "start" &&
+        startAsDate &&
+        inRange(startAsDate, this.min, this.max)
+      ) {
+        target.value = startAsDate.toLocaleDateString(locale);
+      } else if (focusedInput === "end" && endAsDate && inRange(endAsDate, this.min, this.max)) {
+        target.value = endAsDate.toLocaleDateString(locale);
+      }
+    }
+  };
+
   //--------------------------------------------------------------------------
   //
   //  Events
@@ -474,8 +514,8 @@ export class InputDatePicker
                   icon="calendar"
                   label={getLabelText(this)}
                   number-button-type="none"
-                  onCalciteInputInput={this.inputInput}
-                  onCalciteInternalInputBlur={this.inputBlur}
+                  onCalciteInputInput={this.calciteInternalInputInputHandler}
+                  onCalciteInternalInputBlur={this.calciteInternalInputBlurHandler}
                   onCalciteInternalInputFocus={this.startInputFocus}
                   placeholder={this.localeData?.placeholder}
                   readOnly={readOnly}
@@ -546,8 +586,8 @@ export class InputDatePicker
                   disabled={disabled}
                   icon="calendar"
                   number-button-type="none"
-                  onCalciteInputInput={this.inputInput}
-                  onCalciteInternalInputBlur={this.inputBlur}
+                  onCalciteInputInput={this.calciteInternalInputInputHandler}
+                  onCalciteInternalInputBlur={this.calciteInternalInputBlurHandler}
                   onCalciteInternalInputFocus={this.endInputFocus}
                   placeholder={this.localeData?.placeholder}
                   readOnly={readOnly}
@@ -679,10 +719,6 @@ export class InputDatePicker
     }
   };
 
-  inputBlur = (event: CustomEvent<any>): void => {
-    this.blur(event.currentTarget as HTMLCalciteInputElement);
-  };
-
   startInputFocus = (): void => {
     if (!this.readOnly) {
       this.open = true;
@@ -695,10 +731,6 @@ export class InputDatePicker
       this.open = true;
     }
     this.focusedInput = "end";
-  };
-
-  inputInput = (event: CustomEvent<any>): void => {
-    this.input(event.detail.value);
   };
 
   setFloatingEl = (el: HTMLDivElement): void => {
@@ -738,108 +770,6 @@ export class InputDatePicker
     this.localeData = await getLocaleData(getLocale(this));
   }
 
-  private clearCurrentValue(): void {
-    if (!this.range) {
-      if (typeof this.value === "string" && this.value) {
-        this.calciteDatePickerChange.emit();
-      }
-      this.value = "";
-      return;
-    }
-
-    const { focusedInput } = this;
-
-    if (focusedInput === "start") {
-      if (this.start) {
-        this.calciteDatePickerRangeChange.emit();
-      }
-      this.value = Array.isArray(this.value) ? ["", this.value[1] || ""] : [""];
-      this.start = undefined;
-    } else if (focusedInput === "end") {
-      if (this.end) {
-        this.calciteDatePickerRangeChange.emit();
-      }
-      this.value = Array.isArray(this.value) ? [this.value[0] || "", ""] : ["", ""];
-      this.end = undefined;
-    }
-  }
-
-  /**
-   * If inputted string is a valid date, update value/active
-   *
-   * @param value
-   */
-  private input(value: string): void {
-    const { year: yearAsString } = parseDateString(value, this.localeData, "string");
-
-    const date = this.getDateFromInput(value);
-
-    if (!yearAsString || !date) {
-      this.clearCurrentValue();
-      return;
-    }
-
-    if ((yearAsString as string).length < 4) {
-      return;
-    }
-
-    if (!this.range) {
-      this.value = dateToISO(date);
-      this.calciteDatePickerChange.emit(date);
-      return;
-    }
-
-    const { focusedInput } = this;
-
-    if (focusedInput === "start") {
-      if (!this.startAsDate || !sameDate(date, this.startAsDate)) {
-        const startDateISO = dateToISO(date);
-        this.value = Array.isArray(this.value)
-          ? [startDateISO, this.value[1] || ""]
-          : [startDateISO];
-        this.start = startDateISO;
-        this.calciteDatePickerRangeChange.emit({
-          startDate: date,
-          endDate: this.endAsDate
-        });
-      }
-    } else if (focusedInput === "end") {
-      if (!this.endAsDate || !sameDate(date, this.endAsDate)) {
-        const endDateISO = dateToISO(date);
-        this.value = Array.isArray(this.value)
-          ? [this.value[0] || "", endDateISO]
-          : ["", endDateISO];
-        this.end = endDateISO;
-        this.calciteDatePickerRangeChange.emit({
-          startDate: this.startAsDate,
-          endDate: setEndOfDay(date)
-        });
-      }
-    }
-  }
-
-  /**
-   * Clean up invalid date from input on blur
-   *
-   * @param target
-   */
-  private blur(target: HTMLCalciteInputElement): void {
-    const { focusedInput, endAsDate, range, startAsDate, valueAsDate } = this;
-    const locale = getLocale(this);
-    const date = this.getDateFromInput(target.value);
-    if (!date) {
-      if (!range && valueAsDate) {
-        target.value = Array.isArray(valueAsDate)
-          ? valueAsDate[focusedInput === "end" ? 1 : 0].toLocaleDateString(locale)
-          : valueAsDate.toLocaleDateString(locale);
-      } else if (focusedInput === "start" && startAsDate) {
-        target.value = startAsDate.toLocaleDateString(locale);
-      } else if (focusedInput === "end" && endAsDate) {
-        target.value = endAsDate.toLocaleDateString(locale);
-      }
-    }
-  }
-
   /**
    * Event handler for when the selected date changes
    *
@@ -850,7 +780,7 @@ export class InputDatePicker
       return;
     }
 
-    this.value = dateToISO(event.detail);
+    this.setValue(dateToISO(event.detail));
   };
 
   private shouldFocusRangeStart(): boolean {
@@ -880,53 +810,13 @@ export class InputDatePicker
 
     this.start = dateToISO(startDate);
     this.end = dateToISO(endDate);
-    this.value = [this.start, this.end];
+    this.setValue([this.start, this.end]);
 
     if (this.shouldFocusRangeEnd()) {
       this.endInput?.setFocus();
     } else if (this.shouldFocusRangeStart()) {
       this.startInput?.setFocus();
     }
-  };
-
-  /**
-   * Find a date from input string
-   * return false if date is invalid, or out of range
-   *
-   * @param value
-   */
-  private getDateFromInput(value: string): Date | false {
-    if (!this.localeData) {
-      return false;
-    }
-    const { separator } = this.localeData;
-    const { day, month, year } = parseDateString(value, this.localeData);
-    const validDay = day > 0;
-    const validMonth = month > -1;
-    const date = new Date(year as number, month as number, day as number);
-    date.setFullYear(year as number);
-    const validDate = !isNaN(date.getTime());
-    const validLength = value.split(separator).filter((c) => c).length > 2;
-    const validYear = year.toString().length > 0;
-    if (
-      validDay &&
-      validMonth &&
-      validDate &&
-      validLength &&
-      validYear &&
-      inRange(date, this.min, this.max)
-    ) {
-      return date;
-    }
-    return false;
-  }
-
-  private setInputValue = (input: "start" | "end", newValue: string): void => {
-    const inputEl = this[`${input}Input`];
-    if (!inputEl) {
-      return;
-    }
-    inputEl.value = newValue;
   };
 
   private localizeInputValues(): void {
@@ -945,4 +835,16 @@ export class InputDatePicker
     this.setInputValue("start", localizedDate);
     this.range && this.setInputValue("end", localizedEndDate);
   }
+
+  private setInputValue = (input: "start" | "end", newValue: string): void => {
+    const inputEl = this[`${input}Input`];
+    if (!inputEl) {
+      return;
+    }
+    inputEl.value = newValue;
+  };
+
+  private setValue = (value: string | string[]): void => {
+    this.value = value;
+  };
 }
