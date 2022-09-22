@@ -3,7 +3,8 @@ export const CSS = {
   containerBorderSelected: "container--border-selected",
   containerBorderUnselected: "container--border-unselected",
   contentContainer: "content-container",
-  contentContainerDisabled: "content-container--disabled",
+  contentContainerSelectable: "content-container--selectable",
+  contentContainerHasCenterContent: "content-container--has-center-content",
   nestedContainer: "nested-container",
   nestedContainerHidden: "nested-container--hidden",
   content: "content",
@@ -14,8 +15,7 @@ export const CSS = {
   contentEnd: "content-end",
   actionsEnd: "actions-end",
   selectionContainer: "selection-container",
-  openContainer: "open-container",
-  hasCenterContent: "has-center-content"
+  openContainer: "open-container"
 };
 
 export const SLOTS = {
@@ -32,5 +32,6 @@ export const ICONS = {
   radio: "circle-f",
   closedLTR: "caret-right",
   closedRTL: "caret-left",
-  open: "caret-down"
+  open: "caret-down",
+  blank: "blank"
 };

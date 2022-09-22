@@ -41,6 +41,10 @@
     p-0;
 }
 
+.content-container--selectable {
+  @apply cursor-pointer;
+}
+
 tr,
 td {
   @apply focus-base;
@@ -90,8 +94,8 @@ td:focus {
   @apply flex-auto;
 }
 
-.has-center-content .content-start,
-.has-center-content .content-end {
+.content-container--has-center-content .content-start,
+.content-container--has-center-content .content-end {
   @apply flex-initial;
 }
 

@@ -244,7 +244,7 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
     return (
       <td class={CSS.selectionContainer} onClick={this.toggleSelected}>
         <calcite-icon
-          icon={selected ? (selectionMode === "multiple" ? ICONS.check : ICONS.radio) : "blank"}
+          icon={selected ? (selectionMode === "multiple" ? ICONS.check : ICONS.radio) : ICONS.blank}
           scale="s"
         />
       </td>
@@ -323,7 +323,7 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
   }
 
   renderContentContainer(): VNode {
-    const { description, disabled, label } = this;
+    const { description, label, selectionMode } = this;
     const hasCenterContent = !!label || !!description;
     const content = [this.renderContentStart(), this.renderContent(), this.renderContentEnd()];
 
@@ -332,8 +332,8 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
         aria-label={label}
         class={{
           [CSS.contentContainer]: true,
-          [CSS.hasCenterContent]: hasCenterContent,
-          [CSS.contentContainerDisabled]: disabled
+          [CSS.contentContainerSelectable]: selectionMode !== "none",
+          [CSS.contentContainerHasCenterContent]: hasCenterContent
         }}
         onClick={this.toggleSelected}
         ref={(el) => (this.contentEl = el)}
