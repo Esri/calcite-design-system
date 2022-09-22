@@ -342,7 +342,7 @@ describe("calcite-action-bar", () => {
       expect(await page.findAll(slottedActionsSelector)).toHaveLength(7);
     });
 
-    it("should slot 'menu-actions' on resize of component", async () => {
+    it.skip("should slot 'menu-actions' on resize of component", async () => {
       const page = await newE2EPage({
         html: html`<div style="width:500px; height:500px;">
           <calcite-action-bar style="height: 290px">
