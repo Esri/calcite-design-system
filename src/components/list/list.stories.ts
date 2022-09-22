@@ -62,19 +62,23 @@ export const nestedListItemsAndGroupItems = (): string => html`
     selection-appearance="${select("selection-appearance", ["icon", "border"], "icon")}"
     ${boolean("loading", false)}
   >
-    <calcite-list-item
-      expanded
-      label="Cras iaculis ultricies nulla."
-      description="Lorem ipsum dolor sit amet, consectetuer adipiscing elit."
-    >
-      <calcite-list-item expanded label="Ut aliquam sollicitudin leo." description="Aliquam tincidunt mauris eu risus.">
+    <calcite-list-item-group heading="Nested">
+      <calcite-list-item
+        expanded
+        label="Cras iaculis ultricies nulla."
+        description="Lorem ipsum dolor sit amet, consectetuer adipiscing elit."
+      >
         <calcite-list-item
-          label="Vestibulum commodo felis quis tortor."
-          description="Vestibulum auctor dapibus neque."
-        ></calcite-list-item></calcite-list-item
-    ></calcite-list-item>
-  </calcite-list>
-  <calcite-list>
+          expanded
+          label="Ut aliquam sollicitudin leo."
+          description="Aliquam tincidunt mauris eu risus."
+        >
+          <calcite-list-item
+            label="Vestibulum commodo felis quis tortor."
+            description="Vestibulum auctor dapibus neque."
+          ></calcite-list-item></calcite-list-item
+      ></calcite-list-item>
+    </calcite-list-item-group>
     <calcite-list-item-group heading="Digits">
       <calcite-list-item
         label="One"
