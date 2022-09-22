@@ -577,18 +577,19 @@
       background-color: highlight;
     }
     &[range] {
-      &:host([highlighted]),
-      &:host([range-hover]:not([selected])) {
-        .day-wrapper {
-          background-color: highlight;
-        }
-      }
       &[start-of-range],
-      &[start-of-range] {
+      &[end-of-range] {
         .day-wrapper {
           background-color: canvas;
         }
       }
+    }
+  }
+  :host([range][selected]),
+  :host([highlighted]),
+  :host([range-hover]:not([selected])) {
+    .day-wrapper {
+      background-color: highlight;
     }
   }
 }
