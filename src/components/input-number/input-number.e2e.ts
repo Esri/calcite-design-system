@@ -463,7 +463,7 @@ describe("calcite-input-number", () => {
       expect(await input.getProperty("value")).toBe(`${finalNudgedValue}`);
     });
 
-    it("should emit an event on an interval when up/down buttons are down and stop on mouseup/mouseleave", async () => {
+    it.skip("should emit an event on an interval when up/down buttons are down and stop on mouseup/mouseleave", async () => {
       await page.setContent(html`<calcite-input-number value="0"></calcite-input-number>`);
       const input = await page.find("calcite-input-number");
       const calciteInputNumberInput = await page.spyOnEvent("calciteInputNumberInput");
