@@ -21,7 +21,7 @@ import {
   connectOpenCloseComponent,
   disconnectOpenCloseComponent
 } from "../../utils/openCloseComponent";
-import { getLocale, localizeNumberString } from "../../utils/locale";
+import { createLocaleNumberFormatter, getLocale } from "../../utils/locale";
 import {
   GlobalAttrComponent,
   watchGlobalAttributes,
@@ -181,10 +181,9 @@ export class Alert implements OpenCloseComponent, GlobalAttrComponent {
         <calcite-icon icon="x" scale={this.scale === "l" ? "m" : "s"} />
       </button>
     );
+    const formatter = createLocaleNumberFormatter(getLocale(this), this.numberingSystem, "always");
     const queueNumber = this.queueLength > 2 ? this.queueLength - 1 : 1;
-    const queueText = "+".concat(
-      localizeNumberString(queueNumber.toString(), getLocale(this), false, this.numberingSystem)
-    );
+    const queueText = formatter.format(queueNumber);
 
     const queueCount = (
       <div class={`${this.queueLength > 1 ? "active " : ""}alert-queue-count`}>
