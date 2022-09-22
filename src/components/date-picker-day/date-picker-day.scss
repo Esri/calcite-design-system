@@ -105,19 +105,6 @@
   }
 }
 
-:host([selected]) {
-  .day {
-    @apply font-medium;
-    background-color: var(--calcite-ui-brand) !important;
-    color: var(--calcite-ui-foreground-1) !important;
-    &[range] {
-      .day-wrapper {
-        background-color: var(--calcite-ui-foreground-current);
-      }
-    }
-  }
-}
-
 :host {
   &[start-of-range] {
     .day-wrapper {
@@ -207,6 +194,19 @@
   &:not([active]:focus) {
     .day {
       @apply text-color-1 rounded-none;
+    }
+  }
+}
+
+:host([selected]) {
+  .day {
+    @apply font-medium;
+    background-color: var(--calcite-ui-brand) !important;
+    color: var(--calcite-ui-foreground-1) !important;
+    &[range] {
+      .day-wrapper {
+        background-color: var(--calcite-ui-foreground-current);
+      }
     }
   }
 }
