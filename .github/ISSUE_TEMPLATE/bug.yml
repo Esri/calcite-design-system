@@ -67,3 +67,40 @@ body:
       placeholder: beta.1
     validations:
       required: false
+  - type: dropdown
+    id: esri-team
+    validations:
+      required: true
+    attributes:
+      label: Esri team
+      multiple: false
+      description: If you work at Esri, please select your product team. Otherwise choose "N/A".
+      options:
+        - N/A
+        - ArcGIS API for JavaScript
+        - ArcGIS AppStudio
+        - ArcGIS Business/Community Analyst
+        - ArcGIS Dashboard
+        - ArcGIS Developer Experience
+        - ArcGIS Enterprise
+        - ArcGIS Excalibur
+        - ArcGIS Experience Builder
+        - ArcGIS Field Apps
+        - ArcGIS GeoBIM
+        - ArcGIS GeoPlanner
+        - ArcGIS Hub
+        - ArcGIS Indoors
+        - ArcGIS Insights
+        - ArcGIS Instant Apps
+        - ArcGIS Living Atlas
+        - ArcGIS Map Viewer
+        - ArcGIS Marketplace
+        - ArcGIS Mission
+        - ArcGIS Network Analyst
+        - ArcGIS Online
+        - ArcGIS Scene Viewer
+        - ArcGIS Site Scan
+        - ArcGIS StoryMaps
+        - ArcGIS Survey123
+        - ArcGIS Urban
+        - Marketing UI

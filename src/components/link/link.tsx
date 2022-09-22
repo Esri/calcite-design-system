@@ -52,10 +52,10 @@ export class Link implements InteractiveComponent {
   @Prop({ reflect: true }) iconStart?: string;
 
   /** The rel attribute to apply to the hyperlink */
-  @Prop() rel?: string;
+  @Prop({ reflect: true }) rel?: string;
 
   /** The target attribute to apply to the hyperlink */
-  @Prop() target?: string;
+  @Prop({ reflect: true }) target?: string;
 
   //--------------------------------------------------------------------------
   //

@@ -10,11 +10,13 @@ import {
   disconnectFloatingUI,
   LogicalPlacement,
   defaultOffsetDistance,
-  ReferenceElement
+  ReferenceElement,
+  repositionDebounceTimeout
 } from "../../utils/floating-ui";
 import { queryElementRoots, toAriaBoolean } from "../../utils/dom";
 
 import TooltipManager from "./TooltipManager";
+import { debounce } from "lodash-es";
 
 const manager = new TooltipManager();
 
@@ -34,7 +36,7 @@ export class Tooltip implements FloatingUIComponent {
   // --------------------------------------------------------------------------
 
   /** Closes the component when the `referenceElement` is clicked. */
-  @Prop() closeOnClick = false;
+  @Prop({ reflect: true }) closeOnClick = false;
 
   /** Accessible name for the component. */
   @Prop() label!: string;
@@ -48,7 +50,7 @@ export class Tooltip implements FloatingUIComponent {
 
   @Watch("offsetDistance")
   offsetDistanceOffsetHandler(): void {
-    this.reposition();
+    this.debouncedReposition();
   }
 
   /**
@@ -58,7 +60,7 @@ export class Tooltip implements FloatingUIComponent {
 
   @Watch("offsetSkidding")
   offsetSkiddingHandler(): void {
-    this.reposition();
+    this.debouncedReposition();
   }
 
   /**
@@ -68,7 +70,7 @@ export class Tooltip implements FloatingUIComponent {
 
   @Watch("open")
   openHandler(): void {
-    this.reposition();
+    this.debouncedReposition();
   }
 
   /**
@@ -77,11 +79,11 @@ export class Tooltip implements FloatingUIComponent {
    * Using the "absolute" value will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout. The "fixed" value should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is "fixed".
    *
    */
-  @Prop() overlayPositioning: OverlayPositioning = "absolute";
+  @Prop({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
   @Watch("overlayPositioning")
   overlayPositioningHandler(): void {
-    this.reposition();
+    this.debouncedReposition();
   }
 
   /**
@@ -93,7 +95,7 @@ export class Tooltip implements FloatingUIComponent {
 
   @Watch("placement")
   placementHandler(): void {
-    this.reposition();
+    this.debouncedReposition();
   }
 
   /**
@@ -136,7 +138,7 @@ export class Tooltip implements FloatingUIComponent {
     if (this.referenceElement && !this.effectiveReferenceElement) {
       this.setUpReferenceElement();
     }
-    this.reposition();
+    this.debouncedReposition();
     this.hasLoaded = true;
   }
 
@@ -181,6 +183,8 @@ export class Tooltip implements FloatingUIComponent {
   //  Private Methods
   //
   // --------------------------------------------------------------------------
+
+  private debouncedReposition = debounce(() => this.reposition(), repositionDebounceTimeout);
 
   setUpReferenceElement = (warn = true): void => {
     this.removeReferences();

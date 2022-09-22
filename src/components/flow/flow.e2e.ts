@@ -82,7 +82,7 @@ describe("calcite-flow", () => {
         const backValue = await flow.callMethod("back");
 
         expect(backValue).toBeDefined();
-        expect(mockCallBack).toBeCalledTimes(1);
+        expect(mockCallBack).toHaveBeenCalledTimes(1);
       });
 
       it("frame advancing should add animation class", async () => {

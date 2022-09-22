@@ -63,7 +63,7 @@ export class SplitButton implements InteractiveComponent {
    * Using the "absolute" value will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout. The "fixed" value should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is "fixed".
    *
    */
-  @Prop() overlayPositioning: OverlayPositioning = "absolute";
+  @Prop({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
   /** Specifies an icon to display at the end of the primary button - accepts Calcite UI icon names. */
   @Prop({ reflect: true }) primaryIconEnd?: string;

@@ -1,11 +1,11 @@
-import pify from "pify";
-
 (async function () {
   const childProcess = await import("child_process");
+  const { promisify } = await import("util");
   const { default: githubRelease } = await import("gh-release");
   const { default: rimraf } = await import("rimraf");
+  const exec = promisify(childProcess.exec);
 
-  const packageFileName = childProcess.execSync("npm pack", { encoding: "utf-8" }).trim();
+  const packageFileName = (await exec("npm pack", { encoding: "utf-8" })).stdout.trim();
   const packageScope = "esri-";
 
   const options = {
@@ -21,7 +21,7 @@ import pify from "pify";
     yes: true // skips prompt
   };
 
-  pify(githubRelease)(options)
+  promisify(githubRelease)(options)
     .then(() => console.info("Released on GitHub! 🎉"))
     .catch((error) => console.error("Could not create GitHub release", error))
     .then(() => rimraf.sync(packageFileName));

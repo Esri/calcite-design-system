@@ -37,7 +37,7 @@ export class Fab implements InteractiveComponent {
    *
    * @default "plus"
    */
-  @Prop() icon?: string = ICONS.plus;
+  @Prop({ reflect: true }) icon?: string = ICONS.plus;
 
   /**
    * Label of the FAB, exposed on hover when textEnabled is false. If no label is provided, the label inherits what's provided for the `text` prop.

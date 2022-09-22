@@ -25,7 +25,8 @@ import {
   LogicalPlacement,
   EffectivePlacement,
   defaultMenuPlacement,
-  filterComputedPlacements
+  filterComputedPlacements,
+  repositionDebounceTimeout
 } from "../../utils/floating-ui";
 import { guid } from "../../utils/guid";
 import { DeprecatedEventPayload, Scale } from "../interfaces";
@@ -141,10 +142,10 @@ export class Combobox
   @Prop() placeholder?: string;
 
   /** Placeholder icon for input  */
-  @Prop() placeholderIcon?: string;
+  @Prop({ reflect: true }) placeholderIcon?: string;
 
   /** Specify the maximum number of combobox items (including nested children) to display before showing the scroller */
-  @Prop() maxItems = 0;
+  @Prop({ reflect: true }) maxItems = 0;
 
   @Watch("maxItems")
   maxItemsHandler(): void {
@@ -155,7 +156,7 @@ export class Combobox
   @Prop({ reflect: true }) name: string;
 
   /** Allow entry of custom values which are not in the original set of items */
-  @Prop() allowCustomValues: boolean;
+  @Prop({ reflect: true }) allowCustomValues: boolean;
 
   /**
    * Determines the type of positioning to use for the overlaid content.
@@ -163,11 +164,11 @@ export class Combobox
    * Using the "absolute" value will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout. The "fixed" value should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is "fixed".
    *
    */
-  @Prop() overlayPositioning: OverlayPositioning = "absolute";
+  @Prop({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
   @Watch("overlayPositioning")
   overlayPositioningHandler(): void {
-    this.reposition();
+    this.debouncedReposition();
   }
 
   /**
@@ -175,7 +176,7 @@ export class Combobox
    *
    * @internal
    */
-  @Prop() required = false;
+  @Prop({ reflect: true }) required = false;
 
   /**
    * specify the selection mode
@@ -221,7 +222,7 @@ export class Combobox
   @Watch("flipPlacements")
   flipPlacementsHandler(): void {
     this.setFilteredPlacements();
-    this.reposition();
+    this.debouncedReposition();
   }
 
   //--------------------------------------------------------------------------
@@ -336,7 +337,7 @@ export class Combobox
     connectForm(this);
     connectOpenCloseComponent(this);
     this.setFilteredPlacements();
-    this.reposition();
+    this.debouncedReposition();
     if (this.active) {
       this.activeHandler(this.active);
     }
@@ -351,12 +352,12 @@ export class Combobox
 
   componentDidLoad(): void {
     afterConnectDefaultValueSet(this, this.getValue());
-    this.reposition();
+    this.debouncedReposition();
   }
 
   componentDidRender(): void {
     if (this.el.offsetHeight !== this.inputHeight) {
-      this.reposition();
+      this.debouncedReposition();
       this.inputHeight = this.el.offsetHeight;
     }
 
@@ -450,6 +451,8 @@ export class Combobox
   //  Private Methods
   //
   // --------------------------------------------------------------------------
+
+  private debouncedReposition = debounce(() => this.reposition(), repositionDebounceTimeout);
 
   setFilteredPlacements = (): void => {
     const { el, flipPlacements } = this;
@@ -613,11 +616,11 @@ export class Combobox
       return;
     }
 
-    await this.reposition();
+    await this.debouncedReposition();
     const maxScrollerHeight = this.getMaxScrollerHeight();
     listContainerEl.style.maxHeight = maxScrollerHeight > 0 ? `${maxScrollerHeight}px` : "";
     listContainerEl.style.minWidth = `${referenceEl.clientWidth}px`;
-    await this.reposition();
+    await this.debouncedReposition();
   };
 
   calciteChipDismissHandler = (
@@ -733,7 +736,7 @@ export class Combobox
     return [...this.groupItems, ...this.items];
   }
 
-  filterItems = (() => {
+  private filterItems = (() => {
     const find = (item: ComboboxChildElement, filteredData: ItemData[]) =>
       item &&
       filteredData.some(({ label, value }) => {
@@ -773,14 +776,14 @@ export class Combobox
     this.calciteLookupChange.emit(this.selectedItems);
   };
 
-  emitCalciteLookupChange = debounce(this.internalCalciteLookupChangeEvent, 0);
+  private emitCalciteLookupChange = debounce(this.internalCalciteLookupChangeEvent, 0);
 
   internalComboboxChangeEvent = (): void => {
     const { selectedItems } = this;
     this.calciteComboboxChange.emit({ selectedItems });
   };
 
-  emitComboboxChange = debounce(this.internalComboboxChangeEvent, 0);
+  private emitComboboxChange = debounce(this.internalComboboxChangeEvent, 0);
 
   toggleSelection(item: HTMLCalciteComboboxItemElement, value = !item.selected): void {
     if (!item) {

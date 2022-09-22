@@ -28,7 +28,7 @@
 
 .indeterminate {
   @apply w-1/5;
-  animation: looping-progress-bar-ani 2200ms linear infinite;
+  animation: looping-progress-bar-ani calc(var(--calcite-internal-animation-timing-medium) * 11) linear infinite;
 }
 
 .reversed {
@@ -37,6 +37,7 @@
 
 .text {
   @apply text-n2h px-0 pt-4 pb-0 text-center font-medium;
+  color: var(--calcite-ui-text-2);
 }
 
 @keyframes looping-progress-bar-ani {

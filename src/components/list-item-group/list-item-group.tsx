@@ -27,7 +27,7 @@ export class ListItemGroup {
   /**
    * Specifies the number at which section headings should start.
    */
-  @Prop() headingLevel: HeadingLevel;
+  @Prop({ reflect: true }) headingLevel: HeadingLevel;
 
   // --------------------------------------------------------------------------
   //

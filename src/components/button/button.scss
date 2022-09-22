@@ -201,11 +201,11 @@
       transform var(--calcite-internal-animation-timing-slow) ease-in-out;
     &.loading-in {
       animation-name: loader-in;
-      animation-duration: 310ms;
+      animation-duration: var(--calcite-internal-animation-timing-slow);
     }
     &.loading-out {
       animation-name: loader-out;
-      animation-duration: 310ms;
+      animation-duration: var(--calcite-internal-animation-timing-slow);
     }
   }
 }
