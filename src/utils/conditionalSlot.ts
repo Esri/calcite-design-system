@@ -5,6 +5,8 @@ const observed = new Set<HTMLElement>();
 
 /**
  * Defines interface for components with a dynamically changing slot.
+ *
+ * @deprecated Use `onSlotchange` event instead.
  */
 export interface ConditionalSlotComponent {
   /**
@@ -20,6 +22,7 @@ const observerOptions: Pick<Parameters<MutationObserver["observe"]>[1], "childLi
  * Helper to set up a conditional slot component on connectedCallback.
  *
  * @param component
+ * @deprecated Use `onSlotchange` event instead.
  */
 export function connectConditionalSlotComponent(component: ConditionalSlotComponent): void {
   if (!mutationObserver) {
@@ -33,6 +36,7 @@ export function connectConditionalSlotComponent(component: ConditionalSlotCompon
  * Helper to tear down a conditional slot component on disconnectedCallback.
  *
  * @param component
+ * @deprecated Use `onSlotchange` event instead.
  */
 export function disconnectConditionalSlotComponent(component: ConditionalSlotComponent): void {
   observed.delete(component.el);
