@@ -187,12 +187,7 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
     const { el } = this;
     this.parentListEl = el.closest(listSelector);
     this.level = getDepth(el) + 1;
-    if (this.parentListEl && !this.selectionMode) {
-      this.selectionMode = this.parentListEl.selectionMode;
-    }
-    if (this.parentListEl && !this.selectionAppearance) {
-      this.selectionAppearance = this.parentListEl.selectionAppearance;
-    }
+    this.setSelectionDefaults();
   }
 
   disconnectedCallback(): void {
@@ -411,6 +406,22 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
   //  Private Methods
   //
   // --------------------------------------------------------------------------
+
+  setSelectionDefaults(): void {
+    const { parentListEl, selectionMode, selectionAppearance } = this;
+
+    if (!parentListEl) {
+      return;
+    }
+
+    if (!selectionMode) {
+      this.selectionMode = parentListEl.selectionMode;
+    }
+
+    if (!selectionAppearance) {
+      this.selectionAppearance = parentListEl.selectionAppearance;
+    }
+  }
 
   handleDefaultSlotChange = (event: Event): void => {
     const listItemChildren = getListItemChildren(event);
