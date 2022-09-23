@@ -146,7 +146,7 @@ export class List implements InteractiveComponent {
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    this.el.querySelector<HTMLCalciteListItemElement>(`${listItemSelector}[active]`)?.setFocus();
+    this.listItems.find((listItem) => listItem.active)?.setFocus();
   }
 
   // --------------------------------------------------------------------------
