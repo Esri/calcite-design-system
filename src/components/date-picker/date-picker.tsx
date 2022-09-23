@@ -51,6 +51,9 @@ export class DatePicker implements GlobalAttrComponent, LangComponent {
   //
   //--------------------------------------------------------------------------
 
+  /** Active date */
+  @Prop({ mutable: true }) activeDate: Date;
+
   /** Active range */
   @Prop({ reflect: true }) activeRange?: "start" | "end";
 
@@ -189,11 +192,6 @@ export class DatePicker implements GlobalAttrComponent, LangComponent {
    * @see [DateRangeChange](https://github.com/Esri/calcite-components/blob/master/src/components/date-picker/interfaces.ts#L1)
    */
   @Event({ cancelable: false }) calciteDatePickerRangeChange: EventEmitter<DateRangeChange>;
-
-  /**
-   * Active date.
-   */
-  @State() activeDate: Date;
 
   /**
    * Active start date.

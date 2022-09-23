@@ -132,6 +132,12 @@ export class InputDatePicker
     this.localizeInputValues();
   }
 
+  @Watch("valueAsDate")
+  valueAsDateWatcher(valueAsDate): void {
+    this.datePickerActiveDate = valueAsDate;
+    this.datePickerSelectedValue = valueAsDate;
+  }
+
   /**
    * Defines the available placements that can be used when a flip occurs.
    */
@@ -338,30 +344,14 @@ export class InputDatePicker
     const date = dateFromLocalizedString(value, this.localeData) as Date;
 
     if (inRange(date, this.min, this.max)) {
-      // TODO: Refresh Calendar View to show the month that corresponds to the input's current valid date value
+      this.datePickerActiveDate = date;
     }
   };
 
   private calciteInternalInputBlurHandler = (event: CustomEvent<any>): void => {
     const target = event.target as HTMLCalciteInputElement;
-    const { locale, focusedInput, endAsDate, range, startAsDate, valueAsDate } = this;
-    const date = dateFromLocalizedString(target.value, this.localeData);
-    if (!date) {
-      if (!range && valueAsDate) {
-        // TODO: setValue here
-        target.value = Array.isArray(valueAsDate)
-          ? valueAsDate[focusedInput === "end" ? 1 : 0].toLocaleDateString(locale)
-          : valueAsDate.toLocaleDateString(locale);
-      } else if (
-        focusedInput === "start" &&
-        startAsDate &&
-        inRange(startAsDate, this.min, this.max)
-      ) {
-        target.value = startAsDate.toLocaleDateString(locale);
-      } else if (focusedInput === "end" && endAsDate && inRange(endAsDate, this.min, this.max)) {
-        target.value = endAsDate.toLocaleDateString(locale);
-      }
-    }
+    const date = dateFromLocalizedString(target.value, this.localeData) as Date;
+    this.setValue(date ? dateToISO(date) : "");
   };
 
   //--------------------------------------------------------------------------
@@ -542,6 +532,7 @@ export class InputDatePicker
                 ref={this.setTransitionEl}
               >
                 <calcite-date-picker
+                  activeDate={this.datePickerActiveDate}
                   activeRange={this.focusedInput}
                   endAsDate={this.endAsDate}
                   headingLevel={this.headingLevel}
@@ -560,7 +551,7 @@ export class InputDatePicker
                   scale={this.scale}
                   startAsDate={this.startAsDate}
                   tabIndex={0}
-                  valueAsDate={this.valueAsDate}
+                  valueAsDate={this.datePickerSelectedValue}
                 />
               </div>
             </div>
@@ -616,6 +607,10 @@ export class InputDatePicker
   formEl: HTMLFormElement;
 
   defaultValue: InputDatePicker["value"];
+
+  @State() datePickerActiveDate: Date;
+
+  @State() datePickerSelectedValue: Date;
 
   @State() focusedInput: "start" | "end" = "start";
 
@@ -708,6 +703,13 @@ export class InputDatePicker
   keyDownHandler = (event: KeyboardEvent): void => {
     const { defaultPrevented, key } = event;
     if (key === "Enter" && !defaultPrevented) {
+      const date = dateFromLocalizedString(
+        this[`${this.focusedInput}Input`].value,
+        this.localeData
+      ) as Date;
+      if (date) {
+        this.setValue(dateToISO(date));
+      }
       if (submitForm(this)) {
         event.preventDefault();
       }
