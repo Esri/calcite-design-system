@@ -126,7 +126,8 @@
 
 .suffix {
   @apply top-0
-    left-0
     whitespace-nowrap
-    text-right;
+    text-start;
+  inset-inline-start: 0;
 }
+

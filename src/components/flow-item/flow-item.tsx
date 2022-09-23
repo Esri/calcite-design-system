@@ -127,6 +127,13 @@ export class FlowItem implements InteractiveComponent {
   /**
    * Fires when the back button is clicked.
    */
+  @Event({ cancelable: false }) calciteFlowItemBack: EventEmitter<void>;
+
+  /**
+   * Fires when the back button is clicked.
+   *
+   * @deprecated use calciteFlowItemBack instead.
+   */
   @Event({ cancelable: false }) calciteFlowItemBackClick: EventEmitter<void>;
 
   /**
@@ -199,6 +206,7 @@ export class FlowItem implements InteractiveComponent {
 
   backButtonClick = (): void => {
     this.calciteFlowItemBackClick.emit();
+    this.calciteFlowItemBack.emit();
   };
 
   setBackRef = (node: HTMLCalciteActionElement): void => {
