@@ -138,3 +138,7 @@ td:focus {
 ::slotted(calcite-list-item) {
   padding-inline-start: theme("spacing.2");
 }
+
+::slotted(calcite-list-item) {
+  @apply border-solid border-0 border-t border-color-3;
+}

@@ -60,7 +60,62 @@ export const onlyLabelVersusOnlyDescription_TestOnly = (): string => html`
   </calcite-list>
 `;
 
-export const nestedListItemsAndGroupItems = (): string => html`
+export const nestedItems = (): string => html`
+  <calcite-list ${knobsHTML()}>
+    <calcite-list-item
+      label="Level 1 item 1"
+      description="Lorem ipsum dolor sit amet, consectetuer adipiscing elit."
+    ></calcite-list-item>
+    <calcite-list-item label="Level 1 item 2" description="Lorem ipsum dolor sit amet, consectetuer adipiscing elit.">
+      <calcite-list-item label="Level 2 item 1" description="Lorem ipsum dolor sit amet, consectetuer adipiscing elit.">
+        <calcite-list-item
+          label="Level 3 item 1"
+          description="Lorem ipsum dolor sit amet, consectetuer adipiscing elit."
+        ></calcite-list-item>
+        <calcite-list-item
+          label="Level 3 item 2"
+          description="Lorem ipsum dolor sit amet, consectetuer adipiscing elit."
+        >
+          <calcite-list-item
+            label="Level 4 item 1"
+            description="Lorem ipsum dolor sit amet, consectetuer adipiscing elit."
+          >
+            <calcite-list-item
+              label="Level 5 item 1"
+              description="Lorem ipsum dolor sit amet, consectetuer adipiscing elit."
+            ></calcite-list-item>
+          </calcite-list-item>
+          <calcite-list-item
+            label="Level 4 item 2"
+            description="Lorem ipsum dolor sit amet, consectetuer adipiscing elit."
+          ></calcite-list-item>
+          <calcite-list-item
+            label="Level 4 item 3"
+            description="Lorem ipsum dolor sit amet, consectetuer adipiscing elit."
+          ></calcite-list-item>
+        </calcite-list-item>
+        <calcite-list-item
+          label="Level 3 item 3"
+          description="Lorem ipsum dolor sit amet, consectetuer adipiscing elit."
+        ></calcite-list-item>
+      </calcite-list-item>
+      <calcite-list-item
+        label="Level 2 item 2"
+        description="Lorem ipsum dolor sit amet, consectetuer adipiscing elit."
+      ></calcite-list-item>
+      <calcite-list-item
+        label="Level 2 item 3"
+        description="Lorem ipsum dolor sit amet, consectetuer adipiscing elit."
+      ></calcite-list-item>
+    </calcite-list-item>
+    <calcite-list-item
+      label="Level 1 item 3"
+      description="Lorem ipsum dolor sit amet, consectetuer adipiscing elit."
+    ></calcite-list-item>
+  </calcite-list>
+`;
+
+export const groupedItems = (): string => html`
   <calcite-list ${knobsHTML()}>
     <calcite-list-item-group heading="Nested">
       <calcite-list-item
