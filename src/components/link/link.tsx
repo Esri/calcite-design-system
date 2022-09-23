@@ -51,7 +51,7 @@ export class Link implements InteractiveComponent {
   /** Specifies an icon to display at the start of the component. */
   @Prop({ reflect: true }) iconStart?: string;
 
-  /** Specifies the relationship to the linked document defined in "href". */
+  /** Specifies the relationship to the linked document defined in `href`. */
   @Prop() rel?: string;
 
   /** Specifies the frame or window to open the linked document. */

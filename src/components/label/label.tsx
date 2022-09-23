@@ -36,19 +36,19 @@ export class Label {
    */
   @Prop({ reflect: true }) status: Status = "idle";
 
-  /** Specifies the "id" of the component the label is bound to. Use when the component the label is bound to does not reside within the component. */
+  /** Specifies the `id` of the component the label is bound to. Use when the component the label is bound to does not reside within the component. */
   @Prop({ reflect: true }) for: string;
 
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
 
-  /** Defines the layout of the label in relation to the component. Use "inline" positions to wrap the label and component on the same line. */
+  /** Defines the layout of the label in relation to the component. Use `"inline"` positions to wrap the label and component on the same line. */
   @Prop({ reflect: true }) layout: "inline" | "inline-space-between" | "default" = "default";
 
   /**
    * When true, interaction is prevented and the component is displayed with lower opacity.
    *
-   * @deprecated Use the "disabled" property on the component the label is bound to instead.
+   * @deprecated Use the `disabled` property on the component the label is bound to instead.
    */
   @Prop({ reflect: true }) disabled = false;
 

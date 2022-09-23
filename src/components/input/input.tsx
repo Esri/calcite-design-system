@@ -74,7 +74,7 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
   @Prop({ reflect: true }) autofocus = false;
 
   /**
-   * When true, a clear button is displayed when the component has a value. The clear button shows by default for "search", "time", and "date" types, and will not display for the "textarea" type.
+   * When true, a clear button is displayed when the component has a value. The clear button shows by default for `"search"`, `"time"`, and `"date"` types, and will not display for the `"textarea"` type.
    */
   @Prop({ reflect: true }) clearable = false;
 
@@ -159,7 +159,7 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
   }
 
   /**
-   * Specifies the minimum value for type "number".
+   * Specifies the minimum value for `type="number"`.
    *
    * @mdn [min](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#min)
    */
@@ -174,7 +174,7 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
   /**
    * Specifies the maximum length of text for the component's value.
    *
-   * @deprecated use "maxLength" instead.
+   * @deprecated use `maxLength` instead.
    */
   @Prop({ reflect: true }) maxlength?: number;
 
@@ -199,7 +199,7 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
    */
   @Prop({ reflect: true }) name: string;
 
-  /** Specifies the placement of the buttons for type "number". */
+  /** Specifies the placement of the buttons for `type="number"`. */
   @Prop({ reflect: true }) numberButtonType?: InputPlacement = "vertical";
 
   /**
@@ -246,7 +246,7 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
   /**
    * Specifies the component type.
    *
-   * Note that the following types add type-specific icons by default: "date", "email", "password", "search", "tel", "time".
+   * Note that the following `type`s add type-specific icons by default: `"date"`, `"email"`, `"password"`, `"search"`, `"tel"`, `"time"`.
    */
   @Prop({ reflect: true }) type:
     | "color"
@@ -428,14 +428,14 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
   @Event({ cancelable: false }) calciteInternalInputBlur: EventEmitter<void>;
 
   /**
-   * Fires each time a new value is typed.
+   * Fires each time a new `value` is typed.
    *
    * **Note:**: The `el` and `value` event payload properties are deprecated, use the event's target/currentTarget instead.
    */
   @Event({ cancelable: true }) calciteInputInput: EventEmitter<DeprecatedEventPayload>;
 
   /**
-   * Fires each time a new value is typed and committed.
+   * Fires each time a new `value` is typed and committed.
    */
   @Event({ cancelable: false }) calciteInputChange: EventEmitter<void>;
 
@@ -455,7 +455,7 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
     }
   }
 
-  /** Selects all text of the component's "value". */
+  /** Selects all text of the component's `value`. */
   @Method()
   async selectText(): Promise<void> {
     if (this.type === "number") {

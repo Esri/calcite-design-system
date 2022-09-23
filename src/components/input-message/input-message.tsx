@@ -41,7 +41,7 @@ export class InputMessage {
   /**
    * Specifies the appearance of a slotted message - default (displayed under the component), or floating (positioned absolutely under the component).
    *
-   * @deprecated "floating" type is no longer supported.
+   * @deprecated The `"floating"` type is no longer supported.
    */
   @Prop({ reflect: true }) type: "default";
 

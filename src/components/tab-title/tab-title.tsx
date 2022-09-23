@@ -49,7 +49,7 @@ export class TabTitle implements InteractiveComponent {
    *
    * Only one tab can be selected within the `calcite-tabs` parent.
    *
-   * @deprecated Use "selected" instead.
+   * @deprecated Use `selected` instead.
    */
   @Prop({ reflect: true, mutable: true }) active = false;
 

@@ -51,7 +51,7 @@ export class InputTimePicker
   /**
    * When true, the component is active.
    *
-   * @deprecated Use "open" instead.
+   * @deprecated Use `open` instead.
    */
   @Prop({ reflect: true, mutable: true }) active = false;
 
@@ -158,7 +158,9 @@ export class InputTimePicker
   /**
    * Determines the type of positioning to use for the overlaid content.
    *
-   * Using the "absolute" value will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout. The "fixed" value should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is "fixed".
+   * Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.
+   *
+   * `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
    *
    */
   @Prop() overlayPositioning: OverlayPositioning = "absolute";
@@ -170,7 +172,7 @@ export class InputTimePicker
    */
   @Prop({ reflect: true }) placement: LogicalPlacement = "auto";
 
-  /** Specifies the granularity the component's "value" must adhere to (in seconds). */
+  /** Specifies the granularity the component's `value` must adhere to (in seconds). */
   @Prop() step = 60;
 
   /** The component's value in UTC (always 24-hour format). */

@@ -89,7 +89,7 @@ export class AccordionItem implements ConditionalSlotComponent {
   /**
    * Specifies an icon to display.
    *
-   * @deprecated use "iconStart" or "iconEnd" instead.
+   * @deprecated use `iconStart` or `iconEnd` instead.
    */
   @Prop({ mutable: true, reflect: true }) icon?: string;
 

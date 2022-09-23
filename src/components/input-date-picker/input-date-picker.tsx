@@ -145,14 +145,14 @@ export class InputDatePicker
   /**
    * The component's start date as a full date object.
    *
-   * @deprecated use "valueAsDate" instead.
+   * @deprecated use `valueAsDate` instead.
    */
   @Prop({ mutable: true }) startAsDate?: Date;
 
   /**
    * The component's end date as a full date object.
    *
-   * @deprecated use "valueAsDate" instead.
+   * @deprecated use `valueAsDate` instead.
    */
   @Prop({ mutable: true }) endAsDate?: Date;
 
@@ -185,7 +185,7 @@ export class InputDatePicker
   /**
    * When true, the component is active.
    *
-   * @deprecated use "open" instead.
+   * @deprecated use `open` instead.
    */
   @Prop({ mutable: true, reflect: true }) active = false;
 
@@ -248,7 +248,7 @@ export class InputDatePicker
    */
   @Prop({ reflect: true }) placement: MenuPlacement = defaultMenuPlacement;
 
-  /** Range mode activation */
+  /** When true, activates a range for the component. */
   @Prop({ reflect: true }) range = false;
 
   /**
@@ -261,21 +261,23 @@ export class InputDatePicker
   /**
    * The component's start date.
    *
-   * @deprecated use "value" instead.
+   * @deprecated use `value` instead.
    */
   @Prop({ mutable: true, reflect: true }) start?: string;
 
   /**
    * The component's end date.
    *
-   * @deprecated use "value" instead.
+   * @deprecated use `value` instead.
    */
   @Prop({ mutable: true, reflect: true }) end?: string;
 
   /**
    * Determines the type of positioning to use for the overlaid content.
    *
-   * Using the "absolute" value will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout. The "fixed" value should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is "fixed".
+   * Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.
+   *
+   * `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
    *
    */
   @Prop({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
@@ -323,7 +325,7 @@ export class InputDatePicker
   /**
    * Fires when a user changes the date.
    *
-   * @deprecated use "calciteInputDatePickerChange" instead.
+   * @deprecated use `calciteInputDatePickerChange` instead.
    */
   @Event({ cancelable: false }) calciteDatePickerChange: EventEmitter<Date>;
 
@@ -331,7 +333,7 @@ export class InputDatePicker
    * Fires when a user changes the date range.
    *
    * @see [DateRangeChange](https://github.com/Esri/calcite-components/blob/master/src/components/date-picker/interfaces.ts#L1)
-   * @deprecated use "calciteInputDatePickerChange" instead.
+   * @deprecated use `calciteInputDatePickerChange` instead.
    */
   @Event({ cancelable: false }) calciteDatePickerRangeChange: EventEmitter<DateRangeChange>;
 
