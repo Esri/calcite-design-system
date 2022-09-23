@@ -500,6 +500,7 @@ export class InputDatePicker
 
   render(): VNode {
     const { disabled, readOnly } = this;
+    const locale = getLocale(this);
     return (
       <Host onBlur={this.deactivate} onKeyDown={this.keyDownHandler} role="application">
         {this.localeData && (
