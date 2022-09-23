@@ -258,3 +258,19 @@ export function intersects(rect1: DOMRect, rect2: DOMRect): boolean {
 export function toAriaBoolean(value: boolean): string {
   return Boolean(value).toString();
 }
+
+/**
+ * This helper returns boolean if the slot from the `onSlotchange` event has assigned elements to it.
+ *
+ * ```
+ * <slot onSlotchange={(event) => this.hasMySlot = slotChangeHasAssignedElements(event)) />}
+ * ```
+ *
+ * @param event
+ * @returns {boolean} Whether the slot has any assigned elements.
+ */
+export const slotChangeHasAssignedElements = (event: Event): boolean => {
+  return !!(event.target as HTMLSlotElement).assignedElements({
+    flatten: true
+  }).length;
+};
