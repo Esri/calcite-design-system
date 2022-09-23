@@ -12,12 +12,7 @@ import {
   State
 } from "@stencil/core";
 import { SLOTS, CSS, ICONS } from "./resources";
-import { getElementDir, getSlotted, toAriaBoolean } from "../../utils/dom";
-import {
-  ConditionalSlotComponent,
-  connectConditionalSlotComponent,
-  disconnectConditionalSlotComponent
-} from "../../utils/conditionalSlot";
+import { getElementDir, toAriaBoolean } from "../../utils/dom";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { getDepth, getListItemChildren, updateListItemChildren } from "./utils";
 import { SelectionAppearance, SelectionMode } from "../list/resources";
@@ -38,7 +33,7 @@ const listSelector = "calcite-list";
   styleUrl: "list-item.scss",
   shadow: true
 })
-export class ListItem implements ConditionalSlotComponent, InteractiveComponent {
+export class ListItem implements InteractiveComponent {
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -118,12 +113,14 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
   @Prop() value: any;
 
   /**
+   * specify the selection mode - multiple (allow any number of (or no) selected items), single (allow and require one selected item), none (no selected items), defaults to single
    *
    * @internal
    */
   @Prop({ mutable: true }) selectionMode: SelectionMode = null;
 
   /**
+   * specify the selection appearance - icon (displays a checkmark or dot), border (displays a border), defaults to icon
    *
    * @internal
    */
@@ -168,6 +165,14 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
 
   @State() openable = false;
 
+  @State() hasActionsStart = false;
+
+  @State() hasActionsEnd = false;
+
+  @State() hasContentStart = false;
+
+  @State() hasContentEnd = false;
+
   containerEl: HTMLTableRowElement;
 
   contentEl: HTMLTableCellElement;
@@ -183,15 +188,10 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
   // --------------------------------------------------------------------------
 
   connectedCallback(): void {
-    connectConditionalSlotComponent(this);
     const { el } = this;
     this.parentListEl = el.closest(listSelector);
     this.level = getDepth(el) + 1;
     this.setSelectionDefaults();
-  }
-
-  disconnectedCallback(): void {
-    disconnectConditionalSlotComponent(this);
   }
 
   componentDidRender(): void {
@@ -267,49 +267,51 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
   }
 
   renderActionsStart(): VNode {
-    const { el, label } = this;
-    return getSlotted(el, SLOTS.actionsStart) ? (
+    const { label, hasActionsStart } = this;
+    return (
       <td
         aria-label={label}
         class={CSS.actionsStart}
+        hidden={!hasActionsStart}
         ref={(el) => (this.actionsStartEl = el)}
         role="gridcell"
       >
-        <slot name={SLOTS.actionsStart} />
+        <slot name={SLOTS.actionsStart} onSlotchange={this.handleActionsStartSlotChange} />
       </td>
-    ) : null;
+    );
   }
 
   renderActionsEnd(): VNode {
-    const { el, label } = this;
-    return getSlotted(el, SLOTS.actionsEnd) ? (
+    const { label, hasActionsEnd } = this;
+    return (
       <td
         aria-label={label}
         class={CSS.actionsEnd}
+        hidden={!hasActionsEnd}
         ref={(el) => (this.actionsEndEl = el)}
         role="gridcell"
       >
-        <slot name={SLOTS.actionsEnd} />
+        <slot name={SLOTS.actionsEnd} onSlotchange={this.handleActionsEndSlotChange} />
       </td>
-    ) : null;
+    );
   }
 
   renderContentStart(): VNode {
-    const { el } = this;
-    return getSlotted(el, SLOTS.contentStart) ? (
-      <div class={CSS.contentStart}>
-        <slot name={SLOTS.contentStart} />
+    const { hasContentStart } = this;
+    return (
+      <div class={CSS.contentStart} hidden={!hasContentStart}>
+        <slot name={SLOTS.contentStart} onSlotchange={this.handleContentStartSlotChange} />
       </div>
-    ) : null;
+    );
   }
 
   renderContentEnd(): VNode {
-    const { el } = this;
-    return getSlotted(el, SLOTS.contentEnd) ? (
-      <div class={CSS.contentEnd}>
-        <slot name={SLOTS.contentEnd} />
+    const { hasContentEnd } = this;
+    return (
+      <div class={CSS.contentEnd} hidden={!hasContentEnd}>
+        <slot name={SLOTS.contentEnd} onSlotchange={this.handleContentEndSlotChange} />
       </div>
-    ) : null;
+    );
   }
 
   renderContent(): VNode {
@@ -406,6 +408,38 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
   //  Private Methods
   //
   // --------------------------------------------------------------------------
+
+  handleActionsStartSlotChange = (event: Event): void => {
+    const elements = (event.target as HTMLSlotElement).assignedElements({
+      flatten: true
+    });
+
+    this.hasActionsStart = !!elements.length;
+  };
+
+  handleActionsEndSlotChange = (event: Event): void => {
+    const elements = (event.target as HTMLSlotElement).assignedElements({
+      flatten: true
+    });
+
+    this.hasActionsEnd = !!elements.length;
+  };
+
+  handleContentStartSlotChange = (event: Event): void => {
+    const elements = (event.target as HTMLSlotElement).assignedElements({
+      flatten: true
+    });
+
+    this.hasContentStart = !!elements.length;
+  };
+
+  handleContentEndSlotChange = (event: Event): void => {
+    const elements = (event.target as HTMLSlotElement).assignedElements({
+      flatten: true
+    });
+
+    this.hasContentEnd = !!elements.length;
+  };
 
   setSelectionDefaults(): void {
     const { parentListEl, selectionMode, selectionAppearance } = this;
