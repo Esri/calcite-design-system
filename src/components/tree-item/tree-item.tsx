@@ -67,6 +67,7 @@ export class TreeItem implements ConditionalSlotComponent, OpenCloseComponent {
   @Watch("expanded")
   expandedHandler(newValue: boolean): void {
     this.updateParentIsExpanded(this.el, newValue);
+    this.transitionEl.style.transform = "scaleY(1)";
   }
 
   /**
@@ -156,6 +157,7 @@ export class TreeItem implements ConditionalSlotComponent, OpenCloseComponent {
    * Defines method for `close` event handler:
    */
   onClose(): void {
+    this.transitionEl.style.transform = "scaleY(0)";
     this.calciteInternalTreeItemClose.emit();
   }
 

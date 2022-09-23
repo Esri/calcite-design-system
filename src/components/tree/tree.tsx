@@ -305,6 +305,21 @@ export class Tree {
     this.calciteTreeBeforeExpanded.emit();
   }
 
+  @Listen("calciteInternalTreeItemExpanded")
+  expandHandler(): void {
+    this.calciteTreeExpanded.emit();
+  }
+
+  @Listen("calciteInternalTreeItemBeforeClose")
+  beforeCloseHandler(): void {
+    this.calciteTreeBeforeClose.emit();
+  }
+
+  @Listen("calciteInternalTreeItemClose")
+  closeHandler(): void {
+    this.calciteTreeClose.emit();
+  }
+
   updateAncestorTree(event: CustomEvent<TreeItemSelectDetail>): void {
     const item = event.target as HTMLCalciteTreeItemElement;
     const children = item.querySelectorAll("calcite-tree-item");

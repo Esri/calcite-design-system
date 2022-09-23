@@ -14,11 +14,6 @@ export interface OpenCloseComponent {
   open?: boolean;
 
   /**
-   * When true, expands the comoponent.
-   */
-  expanded?: boolean;
-
-  /**
    *  Specifies the name of transitionProp.
    */
   transitionProp?: string;
