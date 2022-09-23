@@ -10,6 +10,7 @@ import {
 } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
+import { keyboard16 } from "@esri/calcite-ui-icons";
 
 const animationDurationInMs = 200;
 
@@ -35,14 +36,15 @@ describe("calcite-input-date-picker", () => {
   it("can be disabled", () => disabled("calcite-input-date-picker"));
 
   describe("event emitting when the value changes", () => {
-    it("emits when configured for single date", async () => {
+    it("emits when value is committed for single date", async () => {
       const page = await newE2EPage();
       await page.setContent("<calcite-input-date-picker></calcite-input-date-picker>");
       const input = await page.find("calcite-input-date-picker");
-      await input.callMethod("setFocus");
-      await page.waitForChanges();
       const changeEvent = await page.spyOnEvent("calciteInputDatePickerChange");
       const deprecatedChangeEvent = await page.spyOnEvent("calciteDatePickerChange");
+
+      await input.callMethod("setFocus");
+      await page.waitForChanges();
       await page.waitForTimeout(animationDurationInMs);
       const wrapper = (
         await page.waitForFunction(() =>
@@ -56,36 +58,36 @@ describe("calcite-input-date-picker", () => {
       await input.press("7");
       await input.press("/");
       await input.press("2");
+      await input.press("0");
+      await input.press("2");
+      await input.press("0");
+      await page.keyboard.press("Enter");
       await page.waitForChanges();
+
       expect(changeEvent).toHaveReceivedEventTimes(1);
       expect(deprecatedChangeEvent).toHaveReceivedEventTimes(1);
-      await input.press("0");
+
+      expect(await input.getProperty("value")).toBe("2020-03-07");
+      expect(await input.getProperty("valueAsDate")).toBeDefined();
+
+      await input.press("Backspace");
+      await input.press("Backspace");
+      await input.press("Backspace");
+      await input.press("Backspace");
+      await input.press("Backspace");
+      await input.press("Backspace");
+      await input.press("Backspace");
+      await input.press("Backspace");
+      await input.press("Backspace");
+      await input.press("Backspace");
+      await page.keyboard.press("Enter");
       await page.waitForChanges();
+
       expect(changeEvent).toHaveReceivedEventTimes(2);
       expect(deprecatedChangeEvent).toHaveReceivedEventTimes(2);
-      await input.press("2");
-      await page.waitForChanges();
-      expect(changeEvent).toHaveReceivedEventTimes(3);
-      expect(deprecatedChangeEvent).toHaveReceivedEventTimes(3);
-      await input.press("0");
-      await page.waitForChanges();
-      expect(changeEvent).toHaveReceivedEventTimes(4);
-      expect(deprecatedChangeEvent).toHaveReceivedEventTimes(4);
-      const element = await page.find("calcite-input-date-picker");
-      expect(await element.getProperty("value")).toBe("2020-03-07");
-      expect(await element.getProperty("valueAsDate")).toBeDefined();
 
-      // emit when date cleared
-      await input.press("Backspace");
-      await input.press("Backspace");
-      await input.press("Backspace");
-      await input.press("Backspace");
-      await page.waitForChanges();
-      expect(changeEvent).toHaveReceivedEventTimes(8);
-      expect(deprecatedChangeEvent).toHaveReceivedEventTimes(8);
-
-      expect(await element.getProperty("value")).toBe("");
-      expect(await element.getProperty("valueAsDate")).toBeUndefined();
+      expect(await input.getProperty("value")).toBe("");
+      expect(await input.getProperty("valueAsDate")).toBeUndefined();
     });
 
     it("doesn't emit when cleared programmatically for single date", async () => {

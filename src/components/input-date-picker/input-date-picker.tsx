@@ -340,8 +340,6 @@ export class InputDatePicker
     if (inRange(date, this.min, this.max)) {
       // TODO: Refresh Calendar View to show the month that corresponds to the input's current valid date value
     }
-
-    console.log("calciteInternalInputInputHandler", value, date);
   };
 
   private calciteInternalInputBlurHandler = (event: CustomEvent<any>): void => {
