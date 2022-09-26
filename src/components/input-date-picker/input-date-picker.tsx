@@ -871,6 +871,7 @@ export class InputDatePicker
     }
 
     if (shouldEmit) {
+      this.calciteDatePickerChange.emit(value as Date);
       const changeEvent = this.calciteInputDatePickerChange.emit();
 
       if (changeEvent.defaultPrevented) {
