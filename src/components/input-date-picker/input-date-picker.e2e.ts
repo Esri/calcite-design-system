@@ -36,12 +36,13 @@ describe("calcite-input-date-picker", () => {
   it("can be disabled", () => disabled("calcite-input-date-picker"));
 
   describe("event emitting when the value changes", () => {
-    it("emits when value is committed for single date", async () => {
-      const page = await newE2EPage();
-      await page.setContent("<calcite-input-date-picker></calcite-input-date-picker>");
+    it("emits change event when value is committed for single date", async () => {
+      const page = await newE2EPage({ html: html`<calcite-input-date-picker></calcite-input-date-picker>` });
       const input = await page.find("calcite-input-date-picker");
       const changeEvent = await page.spyOnEvent("calciteInputDatePickerChange");
       const deprecatedChangeEvent = await page.spyOnEvent("calciteDatePickerChange");
+
+      expect(await input.getProperty("value")).toBeUndefined();
 
       await input.callMethod("setFocus");
       await page.waitForChanges();
@@ -53,33 +54,26 @@ describe("calcite-input-date-picker", () => {
       ).asElement();
       expect(await wrapper.isIntersectingViewport()).toBe(true);
 
-      await input.press("3");
-      await input.press("/");
-      await input.press("7");
-      await input.press("/");
-      await input.press("2");
-      await input.press("0");
-      await input.press("2");
-      await input.press("0");
+      await page.keyboard.type("3/7/2020");
       await page.keyboard.press("Enter");
       await page.waitForChanges();
+
+      expect(await input.getProperty("value")).toBe("2020-07-07");
+      expect(await input.getProperty("valueAsDate")).toBeDefined();
 
       expect(changeEvent).toHaveReceivedEventTimes(1);
       expect(deprecatedChangeEvent).toHaveReceivedEventTimes(1);
 
-      expect(await input.getProperty("value")).toBe("2020-03-07");
-      expect(await input.getProperty("valueAsDate")).toBeDefined();
-
-      await input.press("Backspace");
-      await input.press("Backspace");
-      await input.press("Backspace");
-      await input.press("Backspace");
-      await input.press("Backspace");
-      await input.press("Backspace");
-      await input.press("Backspace");
-      await input.press("Backspace");
-      await input.press("Backspace");
-      await input.press("Backspace");
+      await page.keyboard.press("Backspace");
+      await page.keyboard.press("Backspace");
+      await page.keyboard.press("Backspace");
+      await page.keyboard.press("Backspace");
+      await page.keyboard.press("Backspace");
+      await page.keyboard.press("Backspace");
+      await page.keyboard.press("Backspace");
+      await page.keyboard.press("Backspace");
+      await page.keyboard.press("Backspace");
+      await page.keyboard.press("Backspace");
       await page.keyboard.press("Enter");
       await page.waitForChanges();
 
