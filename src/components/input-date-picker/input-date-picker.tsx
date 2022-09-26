@@ -111,11 +111,13 @@ export class InputDatePicker
     }
   }
 
-  /** Selected date */
+  /** Selected date as a string in ISO format (YYYY-MM-DD) */
   @Prop({ mutable: true }) value: string | string[];
 
   @Watch("value")
   valueWatcher(value: string | string[]): void {
+    // TODO: setting start and end in this function is causing a Stencil warning that props are
+    // changing in the render cycle.  Fix or workaround this somehow.
     if (Array.isArray(value)) {
       this.valueAsDate = getValueAsDateRange(value);
       this.start = value[0];
@@ -351,7 +353,7 @@ export class InputDatePicker
   private calciteInternalInputBlurHandler = (event: CustomEvent<any>): void => {
     const target = event.target as HTMLCalciteInputElement;
     const date = dateFromLocalizedString(target.value, this.localeData) as Date;
-    this.setValue(date ? dateToISO(date) : "");
+    this.setValue(date);
   };
 
   //--------------------------------------------------------------------------
@@ -647,6 +649,9 @@ export class InputDatePicker
     connectFloatingUI(this, this.referenceEl, this.floatingEl);
   }
 
+  /** Previously set date value as a string in ISO format (YYYY-MM-DD) */
+  private previousValidValue: string | string[] = null;
+
   //--------------------------------------------------------------------------
   //
   //  Private Methods
@@ -707,9 +712,7 @@ export class InputDatePicker
         this[`${this.focusedInput}Input`].value,
         this.localeData
       ) as Date;
-      if (date) {
-        this.setValue(dateToISO(date));
-      }
+      this.setValue(date);
       if (submitForm(this)) {
         event.preventDefault();
       }
@@ -781,7 +784,7 @@ export class InputDatePicker
       return;
     }
 
-    this.setValue(dateToISO(event.detail));
+    this.setValue(event.detail);
   };
 
   private shouldFocusRangeStart(): boolean {
@@ -811,7 +814,7 @@ export class InputDatePicker
 
     this.start = dateToISO(startDate);
     this.end = dateToISO(endDate);
-    this.setValue([this.start, this.end]);
+    this.setValue([startDate, endDate]);
 
     if (this.shouldFocusRangeEnd()) {
       this.endInput?.setFocus();
@@ -833,11 +836,11 @@ export class InputDatePicker
     const localizedDate = date ? date.toLocaleDateString(this.locale) : "";
     const localizedEndDate = endDate ? endDate.toLocaleDateString(this.locale) : "";
 
-    this.setInputValue("start", localizedDate);
-    this.range && this.setInputValue("end", localizedEndDate);
+    this.setInputValue(localizedDate, "start");
+    this.range && this.setInputValue(localizedEndDate, "end");
   }
 
-  private setInputValue = (input: "start" | "end", newValue: string): void => {
+  private setInputValue = (newValue: string, input: "start" | "end" = "start"): void => {
     const inputEl = this[`${input}Input`];
     if (!inputEl) {
       return;
@@ -845,7 +848,43 @@ export class InputDatePicker
     inputEl.value = newValue;
   };
 
-  private setValue = (value: string | string[]): void => {
-    this.value = value;
+  private setValue = (value: Date | Date[]): void => {
+    const previousValue = this.value;
+    const newValue = Array.isArray(value)
+      ? [dateToISO(value[0]), dateToISO(value[1])]
+      : dateToISO(value as Date);
+
+    const shouldEmit =
+      (newValue !== this.previousValidValue && !value) ||
+      !!(!this.previousValidValue && newValue) ||
+      (newValue !== this.previousValidValue && newValue);
+
+    if (value) {
+      if (shouldEmit) {
+        this.previousValidValue = newValue;
+      }
+      if (newValue && newValue !== this.value) {
+        this.value = newValue;
+      }
+    } else {
+      this.value = null;
+    }
+
+    if (shouldEmit) {
+      const changeEvent = this.calciteInputDatePickerChange.emit();
+
+      if (changeEvent.defaultPrevented) {
+        this.value = previousValue;
+        if (this.range && Array.isArray(previousValue)) {
+          this.setInputValue(previousValue[0], "start");
+          this.setInputValue(previousValue[1], "end");
+        } else {
+          this.setInputValue(previousValue as string);
+        }
+        this.previousValidValue = previousValue;
+      } else {
+        this.previousValidValue = newValue;
+      }
+    }
   };
 }
