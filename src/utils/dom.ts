@@ -260,16 +260,16 @@ export function toAriaBoolean(value: boolean): string {
 }
 
 /**
- * This helper returns boolean if the slot from the `onSlotchange` event has assigned elements to it.
+ * This helper returns `true` if the target `slot` element from the `onSlotchange` event has an assigned element.
  *
  * ```
- * <slot onSlotchange={(event) => this.hasMySlot = slotChangeEventHasElements(event)) />}
+ * <slot onSlotchange={(event) => this.mySlotHasElement = hasAssignedElement(event)) />}
  * ```
  *
  * @param event
  * @returns {boolean} Whether the slot has any assigned elements.
  */
-export const slotChangeEventHasElements = (event: Event): boolean => {
+export const hasAssignedElement = (event: Event): boolean => {
   return !!(event.target as HTMLSlotElement).assignedElements({
     flatten: true
   }).length;
