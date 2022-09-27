@@ -105,7 +105,7 @@
     "@typescript-eslint/eslint-plugin": "5.38.1",
     "@typescript-eslint/parser": "5.38.0",
     "@whitespace/storybook-addon-html": "5.0.0",
-    "autoprefixer": "10.4.11",
+    "autoprefixer": "10.4.12",
     "axe-core": "4.4.3",
     "babel-loader": "8.2.5",
     "chalk": "4.1.2",
