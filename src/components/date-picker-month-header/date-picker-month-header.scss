@@ -101,7 +101,7 @@
   @apply font-inherit
     focus-base
     relative
-    w-12
+    w-10
     border-none
     bg-transparent
     text-center;
@@ -121,13 +121,12 @@
 }
 
 .year-wrap {
-  @apply w-16 relative;
+  @apply relative;
 }
 
 .suffix {
-  @apply top-0
+  @apply top-0 
     whitespace-nowrap
     text-start;
   inset-inline-start: 0;
 }
-
