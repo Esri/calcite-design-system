@@ -1432,10 +1432,15 @@ export class Slider
    *
    * @param value
    */
-  private determineGroupSeparator = (value: number): number | string => {
+  private determineGroupSeparator = (value: number): string => {
     const lang = this.globalAttributes["lang"] || document.documentElement.lang || "en";
-    return this.groupSeparator && value
-      ? localizeNumberString(value.toString(), lang, this.groupSeparator, this.numberingSystem)
-      : value;
+    if (typeof value === "number") {
+      return localizeNumberString(
+        value.toString(),
+        lang,
+        this.groupSeparator,
+        this.numberingSystem
+      );
+    }
   };
 }
