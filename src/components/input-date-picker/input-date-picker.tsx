@@ -318,12 +318,6 @@ export class InputDatePicker
   //
   //--------------------------------------------------------------------------
 
-  @Listen("calciteDatePickerChange")
-  @Listen("calciteDatePickerRangeChange")
-  handleDateOrRangeChange(): void {
-    this.calciteInputDatePickerChange.emit();
-  }
-
   @Listen("calciteDaySelect")
   calciteDaySelectHandler(): void {
     if (this.shouldFocusRangeStart() || this.shouldFocusRangeEnd()) {
