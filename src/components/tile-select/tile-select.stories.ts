@@ -1,15 +1,13 @@
 import { boolean, select, text } from "@storybook/addon-knobs";
-import { iconNames, setKnobs, setTheme, storyFilters } from "../../../.storybook/helpers";
+import { iconNames, storyFilters } from "../../../.storybook/helpers";
 import {
   Attribute,
   Attributes,
   createComponentHTML as create,
-  filterComponentAttributes,
-  themesDarkDefault
+  filterComponentAttributes
 } from "../../../.storybook/utils";
 import readme from "./readme.md";
 import { html } from "../../../support/formatting";
-import { createSteps, stepStory, toggleCentered } from "../../../.storybook/helpers";
 
 export default {
   title: "Components/Tiles/Tile Select",
@@ -18,11 +16,6 @@ export default {
   },
   ...storyFilters()
 };
-
-const icon = "i2DExplore";
-const heading = "Tile heading lorem ipsum";
-const description =
-  "Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall.";
 
 const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ exceptions } = { exceptions: [] }) => {
   return filterComponentAttributes(
@@ -165,3 +158,12 @@ export const radioWidthFull_TestOnly = (): string =>
     type="radio"
     width="full"
   ></calcite-tile-select>`;
+
+export const checked_TestOnly = (): string =>
+  html`<calcite-tile-select-group>
+    <calcite-tile-select
+      heading="Tile heading"
+      description="Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor"
+      checked
+    ></calcite-tile-select>
+  </calcite-tile-select-group>`;
