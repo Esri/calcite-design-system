@@ -645,9 +645,6 @@ export class InputDatePicker
     connectFloatingUI(this, this.referenceEl, this.floatingEl);
   }
 
-  /** Previously set date value as a string in ISO format (YYYY-MM-DD) */
-  private previousValue: string | string[] = "";
-
   //--------------------------------------------------------------------------
   //
   //  Private Methods
@@ -855,29 +852,17 @@ export class InputDatePicker
     }
 
     this.value = newValue || "";
-    this.previousValue = oldValue;
 
-    // TODO: clean up the following logic.  We might be able to drop some conditionals in shouldEmit
-    const shouldEmit =
-      (newValue !== this.previousValue && !value) ||
-      !!(!this.previousValue && newValue) ||
-      (newValue !== this.previousValue && newValue);
+    const changeEvent = this.calciteInputDatePickerChange.emit();
+    const deprecatedDatePickerChangeEvent = this.calciteDatePickerChange.emit();
 
-    if (shouldEmit) {
-      const changeEvent = this.calciteInputDatePickerChange.emit();
-      const deprecatedDatePickerChangeEvent = this.calciteDatePickerChange.emit();
-
-      if (changeEvent.defaultPrevented || deprecatedDatePickerChangeEvent.defaultPrevented) {
-        this.value = oldValue;
-        if (this.range && Array.isArray(oldValue)) {
-          this.setInputValue(oldValue[0], "start");
-          this.setInputValue(oldValue[1], "end");
-        } else {
-          this.setInputValue(oldValue as string);
-        }
-        this.previousValue = oldValue;
+    if (changeEvent.defaultPrevented || deprecatedDatePickerChangeEvent.defaultPrevented) {
+      this.value = oldValue;
+      if (this.range && Array.isArray(oldValue)) {
+        this.setInputValue(oldValue[0], "start");
+        this.setInputValue(oldValue[1], "end");
       } else {
-        this.previousValue = newValue;
+        this.setInputValue(oldValue as string);
       }
     }
   };
