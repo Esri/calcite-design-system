@@ -3,6 +3,15 @@
 This document maintains a list of released versions and changes introduced by them.
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
+<!--@unreleased-section-start-->
+
+## Unreleased
+
+### Bug Fixes
+
+- **tile-select:** ensure checked tile border is visible within tile-select group ([#5390](https://github.com/Esri/calcite-components/issues/5390)) ([0b28dbd](https://github.com/Esri/calcite-components/commit/0b28dbd6fc51b606169f7b36e6f4b20ec44ed66e))
+<!--@unreleased-section-end-->
+
 ## [1.0.0-beta.95](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.94...v1.0.0-beta.95) (2022-09-29)
 
 ### Features
