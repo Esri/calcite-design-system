@@ -22,6 +22,16 @@ import yargs from "yargs";
   const changelogPath = quote([normalize(`${__dirname}/../CHANGELOG.md`)]);
   const readmePath = quote([normalize(`${__dirname}/../readme.md`)]);
 
+  if (
+    (await exec("git rev-parse --abbrev-ref HEAD")).stdout !== "master" ||
+    (await exec("git rev-parse master")).stdout !== (await exec("git rev-parse origin/master")).stdout ||
+    (await exec("git status --porcelain=v1 2>/dev/null | wc -l")).stdout !== "0"
+  ) {
+    throw new Error(
+      "Make sure master is checked out and in line with origin/master, and that there are no uncommitted changes."
+    );
+  }
+
   const { next } = yargs(process.argv.slice(2))
     .options({ next: { type: "boolean", default: false } })
     .parseSync();
