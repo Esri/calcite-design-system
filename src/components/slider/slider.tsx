@@ -221,10 +221,9 @@ export class Slider
   }
 
   componentDidLoad(): void {
-    this.maxHandle.style.transform = `translateY(-${
-      this.handleEl.getBoundingClientRect().y -
-      this.trackEl.getBoundingClientRect().y +
-      this.handleEl.getBoundingClientRect().width / 2
+    const { y: handleY, width: handleWidth } = this.handleEl.getBoundingClientRect();
+    this.maxHandle.style.transform = `translate(var(--calcite-slider-thumb-x-offset),-${
+      handleY - this.trackEl.getBoundingClientRect().y + handleWidth / 2
     }px)`;
   }
 
