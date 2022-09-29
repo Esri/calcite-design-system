@@ -115,22 +115,7 @@ export class InputDatePicker
   @Prop({ mutable: true }) value: string | string[];
 
   @Watch("value")
-  valueWatcher(value: string | string[]): void {
-    // TODO: setting start and end in this function is causing a Stencil warning that props are
-    // changing in the render cycle.  Fix or workaround this somehow.
-    if (Array.isArray(value)) {
-      this.valueAsDate = getValueAsDateRange(value);
-      this.start = value[0];
-      this.end = value[1];
-    } else if (value) {
-      this.valueAsDate = dateFromISO(value);
-      this.start = "";
-      this.end = "";
-    } else {
-      this.valueAsDate = undefined;
-      this.start = undefined;
-      this.end = undefined;
-    }
+  valueWatcher(): void {
     this.localizeInputValues();
   }
 
@@ -849,6 +834,16 @@ export class InputDatePicker
 
     if (newValue === oldValue) {
       return;
+    }
+
+    if (Array.isArray(newValue)) {
+      this.valueAsDate = getValueAsDateRange(newValue);
+      this.start = newValue[0];
+      this.end = newValue[1];
+    } else if (newValue) {
+      this.valueAsDate = dateFromISO(newValue);
+    } else {
+      this.valueAsDate = undefined;
     }
 
     this.value = newValue || "";
