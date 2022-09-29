@@ -28,7 +28,7 @@ import yargs from "yargs";
     (await exec("git status --porcelain=v1 2>/dev/null | wc -l")).stdout !== "0"
   ) {
     throw new Error(
-      "Make sure master is checked out and in line with origin/master, and that there are no uncommitted changes."
+      "Make sure the master branch is checked out, in sync with origin, and that there are no uncommitted changes."
     );
   }
 
