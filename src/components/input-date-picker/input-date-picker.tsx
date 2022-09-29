@@ -434,7 +434,12 @@ export class InputDatePicker
       this.start = this.value[0];
       this.end = this.value[1];
     } else if (this.value) {
-      this.valueAsDate = dateFromISO(this.value);
+      try {
+        this.valueAsDate = dateFromISO(this.value);
+      } catch (error) {
+        this.warnAboutInvalidValue(this.value);
+        this.value = "";
+      }
       this.start = "";
       this.end = "";
     }
@@ -647,7 +652,7 @@ export class InputDatePicker
   }
 
   /** Previously set date value as a string in ISO format (YYYY-MM-DD) */
-  private previousValidValue: string | string[] = null;
+  private previousValue: string | string[] = null;
 
   //--------------------------------------------------------------------------
   //
@@ -852,13 +857,13 @@ export class InputDatePicker
       : dateToISO(value as Date);
 
     const shouldEmit =
-      (newValue !== this.previousValidValue && !value) ||
-      !!(!this.previousValidValue && newValue) ||
-      (newValue !== this.previousValidValue && newValue);
+      (newValue !== this.previousValue && !value) ||
+      !!(!this.previousValue && newValue) ||
+      (newValue !== this.previousValue && newValue);
 
     if (value) {
       if (shouldEmit) {
-        this.previousValidValue = newValue;
+        this.previousValue = newValue;
       }
       if (newValue && newValue !== this.value) {
         this.value = newValue;
@@ -878,10 +883,16 @@ export class InputDatePicker
         } else {
           this.setInputValue(previousValue as string);
         }
-        this.previousValidValue = previousValue;
+        this.previousValue = previousValue;
       } else {
-        this.previousValidValue = newValue;
+        this.previousValue = newValue;
       }
     }
   };
+
+  private warnAboutInvalidValue(value: string): void {
+    console.warn(
+      `The specified value "${value}" does not conform to the required format, "yyyy-MM-dd".`
+    );
+  }
 }
