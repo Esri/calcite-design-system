@@ -652,7 +652,7 @@ export class InputDatePicker
   }
 
   /** Previously set date value as a string in ISO format (YYYY-MM-DD) */
-  private previousValue: string | string[] = null;
+  private previousValue: string | string[] = "";
 
   //--------------------------------------------------------------------------
   //
@@ -869,7 +869,7 @@ export class InputDatePicker
         this.value = newValue;
       }
     } else {
-      this.value = null;
+      this.value = "";
     }
 
     if (shouldEmit) {
