@@ -452,7 +452,7 @@ export class Combobox
   //
   // --------------------------------------------------------------------------
 
-  debouncedReposition = debounce(() => this.reposition(), repositionDebounceTimeout);
+  private debouncedReposition = debounce(() => this.reposition(), repositionDebounceTimeout);
 
   setFilteredPlacements = (): void => {
     const { el, flipPlacements } = this;
@@ -736,7 +736,7 @@ export class Combobox
     return [...this.groupItems, ...this.items];
   }
 
-  filterItems = (() => {
+  private filterItems = (() => {
     const find = (item: ComboboxChildElement, filteredData: ItemData[]) =>
       item &&
       filteredData.some(({ label, value }) => {
@@ -776,14 +776,14 @@ export class Combobox
     this.calciteLookupChange.emit(this.selectedItems);
   };
 
-  emitCalciteLookupChange = debounce(this.internalCalciteLookupChangeEvent, 0);
+  private emitCalciteLookupChange = debounce(this.internalCalciteLookupChangeEvent, 0);
 
   internalComboboxChangeEvent = (): void => {
     const { selectedItems } = this;
     this.calciteComboboxChange.emit({ selectedItems });
   };
 
-  emitComboboxChange = debounce(this.internalComboboxChangeEvent, 0);
+  private emitComboboxChange = debounce(this.internalComboboxChangeEvent, 0);
 
   toggleSelection(item: HTMLCalciteComboboxItemElement, value = !item.selected): void {
     if (!item) {

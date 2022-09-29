@@ -73,9 +73,10 @@ describe("calcite-panel", () => {
     expect(await container.isVisible()).toBe(false);
   });
 
-  it("dismiss event should fire when closed", async () => {
+  it("close event should fire when closed", async () => {
     const page = await newE2EPage({ html: "<calcite-panel closable>test</calcite-panel>" });
 
+    const calcitePanelClose = await page.spyOnEvent("calcitePanelClose", "window");
     const calcitePanelDismiss = await page.spyOnEvent("calcitePanelDismiss", "window");
     const calcitePanelDismissedChange = await page.spyOnEvent("calcitePanelDismissedChange", "window");
 
@@ -83,6 +84,7 @@ describe("calcite-panel", () => {
 
     await closeButton.click();
 
+    expect(calcitePanelClose).toHaveReceivedEvent();
     expect(calcitePanelDismiss).toHaveReceivedEvent();
     expect(calcitePanelDismissedChange).toHaveReceivedEvent();
   });
