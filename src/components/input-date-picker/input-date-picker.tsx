@@ -849,9 +849,8 @@ export class InputDatePicker
     this.value = newValue || "";
 
     const changeEvent = this.calciteInputDatePickerChange.emit();
-    const deprecatedDatePickerChangeEvent = this.calciteDatePickerChange.emit();
 
-    if (changeEvent.defaultPrevented || deprecatedDatePickerChangeEvent.defaultPrevented) {
+    if (changeEvent.defaultPrevented) {
       this.value = oldValue;
       if (this.range && Array.isArray(oldValue)) {
         this.setInputValue(oldValue[0], "start");
