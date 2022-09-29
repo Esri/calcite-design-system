@@ -137,7 +137,6 @@ export class InputDatePicker
   @Watch("valueAsDate")
   valueAsDateWatcher(valueAsDate): void {
     this.datePickerActiveDate = valueAsDate;
-    this.datePickerSelectedValue = valueAsDate;
   }
 
   /**
@@ -553,7 +552,7 @@ export class InputDatePicker
                   scale={this.scale}
                   startAsDate={this.startAsDate}
                   tabIndex={0}
-                  valueAsDate={this.datePickerSelectedValue}
+                  valueAsDate={this.valueAsDate}
                 />
               </div>
             </div>
@@ -611,8 +610,6 @@ export class InputDatePicker
   defaultValue: InputDatePicker["value"];
 
   @State() datePickerActiveDate: Date;
-
-  @State() datePickerSelectedValue: Date;
 
   @State() focusedInput: "start" | "end" = "start";
 
