@@ -7,8 +7,13 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## Unreleased
 
+### Features
+
+- use pointer events instead of mouse events to improve device compatibility ([#5339](https://github.com/Esri/calcite-components/issues/5339)) ([2dcd031](https://github.com/Esri/calcite-components/commit/2dcd0315d756d22abfcc22db34c576ba9a8e479d))
+
 ### Bug Fixes
 
+- **slider:** thumb no longer appears above track at min ([#5397](https://github.com/Esri/calcite-components/issues/5397)) ([dc91d3c](https://github.com/Esri/calcite-components/commit/dc91d3c5a653499fbb2f6990fc97f1c66f6fa52f))
 - **tile-select:** ensure checked tile border is visible within tile-select group ([#5390](https://github.com/Esri/calcite-components/issues/5390)) ([0b28dbd](https://github.com/Esri/calcite-components/commit/0b28dbd6fc51b606169f7b36e6f4b20ec44ed66e))
 <!--@unreleased-section-end-->
 
