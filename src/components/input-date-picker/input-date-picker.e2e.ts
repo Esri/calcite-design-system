@@ -115,15 +115,17 @@ describe("calcite-input-date-picker", () => {
       expect(deprecatedChangeEvent).toHaveReceivedEventTimes(0);
     });
 
-    it("emits when configured for date range", async () => {
+    it("emits when value is committed for date range", async () => {
       const page = await newE2EPage();
       await page.setContent("<calcite-input-date-picker range></calcite-input-date-picker>");
       const input = await page.find("calcite-input-date-picker");
-      await input.callMethod("setFocus");
-      await page.waitForChanges();
       const changeEvent = await page.spyOnEvent("calciteInputDatePickerChange");
       const deprecatedChangeEvent = await page.spyOnEvent("calciteDatePickerRangeChange");
+
+      await input.callMethod("setFocus");
+      await page.waitForChanges();
       await page.waitForTimeout(animationDurationInMs);
+
       const wrapper = (
         await page.waitForFunction(() =>
           document.querySelector("calcite-input-date-picker").shadowRoot.querySelector(".calendar-picker-wrapper")
@@ -131,42 +133,37 @@ describe("calcite-input-date-picker", () => {
       ).asElement();
       expect(await wrapper.isIntersectingViewport()).toBe(true);
 
-      await input.press("3");
-      await input.press("/");
-      await input.press("7");
-      await input.press("/");
-      await input.press("2");
+      await page.keyboard.type("3/7/2020");
+      await page.keyboard.press("Enter");
       await page.waitForChanges();
+
+      // NOT WORKING!
       expect(changeEvent).toHaveReceivedEventTimes(1);
       expect(deprecatedChangeEvent).toHaveReceivedEventTimes(1);
-      await input.press("0");
+
+      input.setProperty("end", "2020-03-05");
       await page.waitForChanges();
+
+      expect(await input.getProperty("start")).toBe("2020-03-07");
+      expect(await input.getProperty("startAsDate")).toBeDefined();
+
+      await page.keyboard.press("Backspace");
+      await page.keyboard.press("Backspace");
+      await page.keyboard.press("Backspace");
+      await page.keyboard.press("Backspace");
+      await page.keyboard.press("Backspace");
+      await page.keyboard.press("Backspace");
+      await page.keyboard.press("Backspace");
+      await page.keyboard.press("Backspace");
+      await page.keyboard.press("Backspace");
+      await page.keyboard.press("Backspace");
+      await page.keyboard.press("Enter");
+      await page.waitForChanges();
+
       expect(changeEvent).toHaveReceivedEventTimes(2);
       expect(deprecatedChangeEvent).toHaveReceivedEventTimes(2);
-      await input.press("2");
-      await page.waitForChanges();
-      expect(changeEvent).toHaveReceivedEventTimes(3);
-      expect(deprecatedChangeEvent).toHaveReceivedEventTimes(3);
-      await input.press("0");
-      await page.waitForChanges();
-      expect(changeEvent).toHaveReceivedEventTimes(4);
-      expect(deprecatedChangeEvent).toHaveReceivedEventTimes(4);
-      const element = await page.find("calcite-input-date-picker");
-      element.setProperty("end", "2020-03-05");
-      await page.waitForChanges();
-      expect(await element.getProperty("start")).toBe("2020-03-07");
-      expect(await element.getProperty("startAsDate")).toBeDefined();
-
-      // emit when date cleared
-      await input.press("Backspace");
-      await input.press("Backspace");
-      await input.press("Backspace");
-      await input.press("Backspace");
-      await page.waitForChanges();
-      expect(changeEvent).toHaveReceivedEventTimes(8);
-      expect(deprecatedChangeEvent).toHaveReceivedEventTimes(8);
-      expect(await element.getProperty("start")).toBeNull();
-      expect(await element.getProperty("startAsDate")).toBeNull();
+      expect(await input.getProperty("start")).toBeNull();
+      expect(await input.getProperty("startAsDate")).toBeNull();
     });
   });
 
