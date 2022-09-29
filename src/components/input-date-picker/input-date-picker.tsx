@@ -845,39 +845,37 @@ export class InputDatePicker
   };
 
   private setValue = (value: Date | Date[]): void => {
-    const previousValue = this.value;
+    const oldValue = this.value;
     const newValue = Array.isArray(value)
       ? [dateToISO(value[0]), dateToISO(value[1])]
       : dateToISO(value as Date);
 
+    if (newValue === oldValue) {
+      return;
+    }
+
+    this.value = newValue || "";
+    this.previousValue = oldValue;
+
+    // TODO: clean up the following logic.  We might be able to drop some conditionals in shouldEmit
     const shouldEmit =
       (newValue !== this.previousValue && !value) ||
       !!(!this.previousValue && newValue) ||
       (newValue !== this.previousValue && newValue);
 
-    if (value) {
-      if (shouldEmit) {
-        this.previousValue = newValue;
-      }
-      if (newValue && newValue !== this.value) {
-        this.value = newValue;
-      }
-    } else {
-      this.value = "";
-    }
-
     if (shouldEmit) {
       const changeEvent = this.calciteInputDatePickerChange.emit();
+      const deprecatedDatePickerChangeEvent = this.calciteDatePickerChange.emit();
 
-      if (changeEvent.defaultPrevented) {
-        this.value = previousValue;
-        if (this.range && Array.isArray(previousValue)) {
-          this.setInputValue(previousValue[0], "start");
-          this.setInputValue(previousValue[1], "end");
+      if (changeEvent.defaultPrevented || deprecatedDatePickerChangeEvent.defaultPrevented) {
+        this.value = oldValue;
+        if (this.range && Array.isArray(oldValue)) {
+          this.setInputValue(oldValue[0], "start");
+          this.setInputValue(oldValue[1], "end");
         } else {
-          this.setInputValue(previousValue as string);
+          this.setInputValue(oldValue as string);
         }
-        this.previousValue = previousValue;
+        this.previousValue = oldValue;
       } else {
         this.previousValue = newValue;
       }
