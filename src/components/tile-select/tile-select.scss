@@ -17,6 +17,7 @@ $spacing: $baseline * 0.5;
     @apply transition-default;
 
     &.checked {
+      @apply z-default;
       box-shadow: 0 0 0 1px var(--calcite-ui-brand);
     }
 
