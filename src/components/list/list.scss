@@ -32,3 +32,11 @@
 ::slotted(calcite-list-item:last-child) {
   @apply shadow-none;
 }
+
+.sticky-pos {
+  @apply sticky top-0 z-sticky;
+}
+
+calcite-filter {
+  @apply mb-px;
+}

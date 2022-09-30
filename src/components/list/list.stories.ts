@@ -22,7 +22,7 @@ const knobsHTML = (): string => html`selection-mode="${select(
   "single"
 )}"
 selection-appearance="${select("selection-appearance", ["icon", "border"], "icon")}" ${boolean("loading", false)}
-${boolean("disabled", false)} ${text("label", "My List")}`;
+${boolean("filterEnabled", false)} ${boolean("disabled", false)} ${text("label", "My List")}`;
 
 export const simple = (): string => html`
   <calcite-list ${knobsHTML()}>
@@ -186,6 +186,39 @@ export const startAndEndContentSlots = (): string => html`<calcite-list ${knobsH
 
 export const richContent = (): string => html`
   <calcite-list ${knobsHTML()}>
+    <calcite-list-item label="Princess Bubblegum" description="Ruler of The Candy Kingdom">
+      <calcite-action icon="drag" label="drag" scale="s" slot="actions-start"></calcite-action>
+      <calcite-icon scale="l" icon="effects" slot="content-start"></calcite-icon>
+      <calcite-avatar scale="l" slot="content-start" thumbnail="${thumbnailImage}"></calcite-avatar>
+      <calcite-icon scale="s" icon="check" slot="content-end" style="color: var(--calcite-ui-success)"></calcite-icon>
+      <calcite-action icon="ellipsis" label="menu" slot="actions-end"></calcite-action>
+      <calcite-action icon="x" label="remove" slot="actions-end"></calcite-action>
+    </calcite-list-item>
+    <calcite-list-item label="Finn Mertens" description="Part owner of the Tree House">
+      <calcite-action icon="drag" label="drag" scale="s" slot="actions-start"></calcite-action>
+      <calcite-icon scale="l" icon="running" slot="content-start"></calcite-icon>
+      <calcite-avatar scale="l" slot="content-start" thumbnail="${thumbnailImage}"></calcite-avatar>
+      <calcite-icon scale="s" icon="check" slot="content-end" style="color: var(--calcite-ui-success)"></calcite-icon>
+      <calcite-action icon="ellipsis" label="menu" slot="actions-end"></calcite-action>
+      <calcite-action icon="x" label="remove" slot="actions-end"></calcite-action>
+    </calcite-list-item>
+    <calcite-list-item label="Jake T. Dog" description="Part owner of the Tree House">
+      <calcite-action icon="drag" label="drag" scale="s" slot="actions-start"></calcite-action>
+      <calcite-icon scale="l" icon="walking" slot="content-start"></calcite-icon>
+      <calcite-avatar scale="l" slot="content-start" thumbnail="${thumbnailImage}"></calcite-avatar>
+      <calcite-icon
+        scale="s"
+        icon="exclamation-mark-triangle"
+        slot="content-end"
+        style="color: var(--calcite-ui-danger)"
+      ></calcite-icon>
+      <calcite-action icon="ellipsis" label="menu" slot="actions-end"></calcite-action>
+      <calcite-action icon="x" label="remove" slot="actions-end"></calcite-action>
+    </calcite-list-item>
+  </calcite-list>
+`;
+export const richContentFilterEnabled = (): string => html`
+  <calcite-list filter-enabled>
     <calcite-list-item label="Princess Bubblegum" description="Ruler of The Candy Kingdom">
       <calcite-action icon="drag" label="drag" scale="s" slot="actions-start"></calcite-action>
       <calcite-icon scale="l" icon="effects" slot="content-start"></calcite-icon>
