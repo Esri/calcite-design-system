@@ -291,12 +291,12 @@ export class RadioButton
   //
   //--------------------------------------------------------------------------
 
-  @Listen("mouseenter")
+  @Listen("pointerenter")
   mouseenter(): void {
     this.hovered = true;
   }
 
-  @Listen("mouseleave")
+  @Listen("pointerleave")
   mouseleave(): void {
     this.hovered = false;
   }

@@ -186,7 +186,7 @@ export class Tooltip implements FloatingUIComponent {
   //
   // --------------------------------------------------------------------------
 
-  debouncedReposition = debounce(() => this.reposition(), repositionDebounceTimeout);
+  private debouncedReposition = debounce(() => this.reposition(), repositionDebounceTimeout);
 
   setUpReferenceElement = (warn = true): void => {
     this.removeReferences();

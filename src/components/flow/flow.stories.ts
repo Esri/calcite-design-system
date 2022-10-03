@@ -155,8 +155,8 @@ export const simple = (): string =>
   create(
     "calcite-flow",
     createAttributes(),
-    `${create("calcite-flow-item", createFlowItemAttributes("Panel 1"), createItemHTML(item1HTML))}
-    ${create("calcite-flow-item", createFlowItemAttributes("Panel 2"), createItemHTML(item2HTML))}`
+    `${create("calcite-flow-item", createFlowItemAttributes("Flow Item 1"), createItemHTML(item1HTML))}
+    ${create("calcite-flow-item", createFlowItemAttributes("Flow Item 2"), createItemHTML(item2HTML))}`
   );
 
 export const darkThemeRTL_TestOnly = (): string =>
@@ -169,6 +169,6 @@ export const darkThemeRTL_TestOnly = (): string =>
       },
       { name: "dir", value: "rtl" }
     ),
-    `${create("calcite-flow-item", createFlowItemAttributes("Panel 1"), createItemHTML(item1HTML))}
-    ${create("calcite-flow-item", createFlowItemAttributes("Panel 2"), createItemHTML(item2HTML))}`
+    `${create("calcite-flow-item", createFlowItemAttributes("Flow Item 1"), createItemHTML(item1HTML))}
+    ${create("calcite-flow-item", createFlowItemAttributes("Flow Item 2"), createItemHTML(item2HTML))}`
   );

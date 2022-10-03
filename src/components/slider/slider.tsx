@@ -1428,16 +1428,19 @@ export class Slider
   }
 
   /**
-   * Returns a string representing the localized label value based on groupSeparator prop being on or off.
+   * Returns a string representing the localized label value based if the groupSeparator prop is parsed.
    *
    * @param value
    */
-  private determineGroupSeparator = (value): string => {
+  private determineGroupSeparator = (value: number): string => {
     const lang = this.globalAttributes["lang"] || document.documentElement.lang || "en";
-    if (value) {
-      return this.groupSeparator
-        ? localizeNumberString(value.toString(), lang, this.groupSeparator, this.numberingSystem)
-        : value;
+    if (typeof value === "number") {
+      return localizeNumberString(
+        value.toString(),
+        lang,
+        this.groupSeparator,
+        this.numberingSystem
+      );
     }
   };
 }

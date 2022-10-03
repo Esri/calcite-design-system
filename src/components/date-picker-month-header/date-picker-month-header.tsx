@@ -62,9 +62,6 @@ export class DatePickerMonthHeader {
   /** Maximum date of the calendar above which is disabled. */
   @Prop() max: Date;
 
-  /** Specifies the BCP 47 language tag for the desired language and country format. */
-  @Prop() locale: string;
-
   /** Localized string for previous month. */
   @Prop() intlPrevMonth: string;
 
@@ -186,6 +183,8 @@ export class DatePickerMonthHeader {
   //  Private State/Props
   //
   //--------------------------------------------------------------------------
+
+  @State() globalAttributes = {};
 
   private yearInput: HTMLInputElement;
 

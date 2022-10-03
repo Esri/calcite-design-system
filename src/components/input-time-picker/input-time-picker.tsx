@@ -1,22 +1,22 @@
 import {
   Component,
   Element,
-  Host,
-  VNode,
-  h,
-  Prop,
-  Listen,
   Event,
   EventEmitter,
+  h,
+  Host,
+  Listen,
   Method,
-  Watch,
-  State
+  Prop,
+  State,
+  VNode,
+  Watch
 } from "@stencil/core";
 import { guid } from "../../utils/guid";
 import { formatTimeString, isValidTime, localizeTimeString } from "../../utils/time";
 import { Scale } from "../interfaces";
 import { FloatingUIComponent, LogicalPlacement, OverlayPositioning } from "../../utils/floating-ui";
-import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
+import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import {
   connectForm,
   disconnectForm,
@@ -25,6 +25,12 @@ import {
   submitForm
 } from "../../utils/form";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import {
+  GlobalAttrComponent,
+  unwatchGlobalAttributes,
+  watchGlobalAttributes
+} from "../../utils/globalAttributes";
+import { getLocale } from "../../utils/locale";
 
 @Component({
   tag: "calcite-input-time-picker",
@@ -32,7 +38,12 @@ import { InteractiveComponent, updateHostInteraction } from "../../utils/interac
   shadow: true
 })
 export class InputTimePicker
-  implements LabelableComponent, FormComponent, InteractiveComponent, FloatingUIComponent
+  implements
+    LabelableComponent,
+    FormComponent,
+    InteractiveComponent,
+    FloatingUIComponent,
+    GlobalAttrComponent
 {
   //--------------------------------------------------------------------------
   //
@@ -133,13 +144,16 @@ export class InputTimePicker
    * BCP 47 language tag for desired language and country format.
    *
    * @internal
+   * @deprecated set the global `lang` attribute on the element instead.
+   * @mdn [lang](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/lang)
    */
-  @Prop({ attribute: "lang", mutable: true }) locale: string =
-    document.documentElement.lang || navigator.language || "en";
+  @Prop({ mutable: true }) locale: string;
 
+  @Watch("globalAttributes")
   @Watch("locale")
-  localeWatcher(newLocale: string): void {
-    this.setInputValue(localizeTimeString(this.value, newLocale, this.shouldIncludeSeconds()));
+  localeWatcher(): void {
+    const locale = getLocale(this);
+    this.setInputValue(localizeTimeString(this.value, locale, this.shouldIncludeSeconds()));
   }
 
   /** Specifies the name of the component on form submission. */
@@ -217,6 +231,8 @@ export class InputTimePicker
   //
   //--------------------------------------------------------------------------
 
+  @State() globalAttributes = {};
+
   @State() localizedValue: string;
 
   //--------------------------------------------------------------------------
@@ -239,14 +255,15 @@ export class InputTimePicker
   private calciteInternalInputBlurHandler = (): void => {
     this.open = false;
     const shouldIncludeSeconds = this.shouldIncludeSeconds();
+    const locale = getLocale(this);
 
     const localizedInputValue = localizeTimeString(
       this.calciteInputEl.value,
-      this.locale,
+      locale,
       shouldIncludeSeconds
     );
     this.setInputValue(
-      localizedInputValue || localizeTimeString(this.value, this.locale, shouldIncludeSeconds)
+      localizedInputValue || localizeTimeString(this.value, locale, shouldIncludeSeconds)
     );
   };
 
@@ -374,7 +391,7 @@ export class InputTimePicker
     const newValue = formatTimeString(value);
     const newLocalizedValue = localizeTimeString(
       newValue,
-      this.locale,
+      getLocale(this),
       this.shouldIncludeSeconds()
     );
     this.internalValueChange = origin !== "external" && origin !== "loading";
@@ -430,6 +447,7 @@ export class InputTimePicker
     }
     connectLabel(this);
     connectForm(this);
+    watchGlobalAttributes(this, ["lang"]);
 
     if (open) {
       this.active = open;
@@ -445,6 +463,7 @@ export class InputTimePicker
   disconnectedCallback() {
     disconnectLabel(this);
     disconnectForm(this);
+    unwatchGlobalAttributes(this);
   }
 
   componentDidRender(): void {
@@ -505,7 +524,7 @@ export class InputTimePicker
             intlSecond={this.intlSecond}
             intlSecondDown={this.intlSecondDown}
             intlSecondUp={this.intlSecondUp}
-            lang={this.locale}
+            lang={getLocale(this)}
             onCalciteInternalTimePickerChange={this.timePickerChangeHandler}
             ref={this.setCalciteTimePickerEl}
             scale={this.scale}

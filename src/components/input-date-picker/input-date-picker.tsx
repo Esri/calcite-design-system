@@ -56,6 +56,12 @@ import {
   connectOpenCloseComponent,
   disconnectOpenCloseComponent
 } from "../../utils/openCloseComponent";
+import {
+  GlobalAttrComponent,
+  unwatchGlobalAttributes,
+  watchGlobalAttributes
+} from "../../utils/globalAttributes";
+import { getLocale, LangComponent } from "../../utils/locale";
 import { debounce } from "lodash-es";
 
 @Component({
@@ -67,9 +73,11 @@ export class InputDatePicker
   implements
     LabelableComponent,
     FormComponent,
+    GlobalAttrComponent,
     InteractiveComponent,
     OpenCloseComponent,
-    FloatingUIComponent
+    FloatingUIComponent,
+    LangComponent
 {
   //--------------------------------------------------------------------------
   //
@@ -235,8 +243,13 @@ export class InputDatePicker
    */
   @Prop() intlYear?: string = TEXT.year;
 
-  /** Specifies the BCP 47 language tag for the desired language and country format. */
-  @Prop() locale?: string = document.documentElement.lang || "en";
+  /**
+   * Specifies the BCP 47 language tag for the desired language and country format.
+   *
+   * @deprecated set the global `lang` attribute on the element instead.
+   * @mdn [lang](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/lang)
+   */
+  @Prop() locale?: string;
 
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: "s" | "m" | "l" = "m";
@@ -420,6 +433,7 @@ export class InputDatePicker
     connectLabel(this);
     connectForm(this);
     connectOpenCloseComponent(this);
+    watchGlobalAttributes(this, ["lang"]);
     this.setFilteredPlacements();
     this.debouncedReposition();
   }
@@ -439,6 +453,7 @@ export class InputDatePicker
     disconnectForm(this);
     disconnectFloatingUI(this, this.referenceEl, this.floatingEl);
     disconnectOpenCloseComponent(this);
+    unwatchGlobalAttributes(this);
   }
 
   componentDidRender(): void {
@@ -455,8 +470,9 @@ export class InputDatePicker
     const endDate = this.range
       ? dateFromRange(this.endAsDate, this.minAsDate, this.maxAsDate)
       : null;
-    const formattedEndDate = endDate ? endDate.toLocaleDateString(this.locale) : "";
-    const formattedDate = date ? date.toLocaleDateString(this.locale) : "";
+    const locale = getLocale(this);
+    const formattedEndDate = endDate ? endDate.toLocaleDateString(locale) : "";
+    const formattedDate = date ? date.toLocaleDateString(locale) : "";
 
     return (
       <Host onBlur={this.deactivate} onKeyDown={this.keyDownHandler} role="application">
@@ -508,7 +524,7 @@ export class InputDatePicker
                   intlNextMonth={this.intlNextMonth}
                   intlPrevMonth={this.intlPrevMonth}
                   intlYear={this.intlYear}
-                  locale={this.locale}
+                  lang={locale}
                   max={this.max}
                   maxAsDate={this.maxAsDate}
                   min={this.min}
@@ -580,6 +596,8 @@ export class InputDatePicker
 
   @State() focusedInput: "start" | "end" = "start";
 
+  @State() globalAttributes = {};
+
   @State() private localeData: DateLocaleData;
 
   private startInput: HTMLCalciteInputElement;
@@ -617,7 +635,7 @@ export class InputDatePicker
   //
   //--------------------------------------------------------------------------
 
-  debouncedReposition = debounce(() => this.reposition(), repositionDebounceTimeout);
+  private debouncedReposition = debounce(() => this.reposition(), repositionDebounceTimeout);
 
   setFilteredPlacements = (): void => {
     const { el, flipPlacements } = this;
@@ -726,14 +744,14 @@ export class InputDatePicker
     this.endAsDate = end ? setEndOfDay(dateFromISO(end)) : dateFromISO(end);
   }
 
+  @Watch("globalAttributes")
   @Watch("locale")
   private async loadLocaleData(): Promise<void> {
     if (!Build.isBrowser) {
       return;
     }
 
-    const { locale } = this;
-    this.localeData = await getLocaleData(locale);
+    this.localeData = await getLocaleData(getLocale(this));
   }
 
   private clearCurrentValue(): void {
@@ -816,7 +834,8 @@ export class InputDatePicker
    * @param target
    */
   private blur(target: HTMLCalciteInputElement): void {
-    const { locale, focusedInput, endAsDate, range, startAsDate, valueAsDate } = this;
+    const { focusedInput, endAsDate, range, startAsDate, valueAsDate } = this;
+    const locale = getLocale(this);
     const date = this.getDateFromInput(target.value);
     if (!date) {
       if (!range && valueAsDate) {
