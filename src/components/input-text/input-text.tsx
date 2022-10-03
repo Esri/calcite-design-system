@@ -104,7 +104,7 @@ export class InputText implements LabelableComponent, FormComponent, Interactive
    */
   @Prop() intlLoading?: string = COMMON_TEXT.loading;
 
-  /** When true, the icon is flipped in RTL. */
+  /** When true, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @Prop({ reflect: true }) iconFlipRtl = false;
 
   /** Accessible name for the component's button or hyperlink. */
@@ -145,7 +145,7 @@ export class InputText implements LabelableComponent, FormComponent, Interactive
   @Prop() prefixText?: string;
 
   /**
-   * When true, the value cannot be modified.
+   * When true, the component's value can be read, but cannot be modified.
    *
    * @mdn [readOnly](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/readonly)
    */

@@ -144,7 +144,7 @@ export class TipManager {
   /**
    * Emits when the component has been open or closed.
    *
-   * @deprecated use "calciteTipManagerClose" instead.
+   * @deprecated use `calciteTipManagerClose` instead.
    */
   @Event({ cancelable: false }) calciteTipManagerToggle: EventEmitter<void>;
 

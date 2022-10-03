@@ -51,13 +51,13 @@ export class Button implements LabelableComponent, InteractiveComponent, FormOwn
   /** optionally pass a href - used to determine if the component should render as a button or an anchor */
   @Prop({ reflect: true }) href?: string;
 
-  /** optionally pass an icon to display at the end of a button - accepts calcite ui icon names  */
+  /** Specifies an icon to display at the end of the component. */
   @Prop({ reflect: true }) iconEnd?: string;
 
-  /** flip the icon(s) in rtl */
+  /** When true, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @Prop({ reflect: true }) iconFlipRtl?: FlipContext;
 
-  /** optionally pass an icon to display at the start of a button - accepts calcite ui icon names  */
+  /** Specifies an icon to display at the start of the component. */
   @Prop({ reflect: true }) iconStart?: string;
 
   /**
