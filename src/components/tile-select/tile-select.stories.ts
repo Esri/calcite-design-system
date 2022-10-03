@@ -158,12 +158,3 @@ export const radioWidthFull_TestOnly = (): string =>
     type="radio"
     width="full"
   ></calcite-tile-select>`;
-
-export const checked_TestOnly = (): string =>
-  html`<calcite-tile-select-group>
-    <calcite-tile-select
-      heading="Tile heading"
-      description="Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor"
-      checked
-    ></calcite-tile-select>
-  </calcite-tile-select-group>`;
