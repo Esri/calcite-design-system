@@ -62,7 +62,7 @@ function mergeMessages(component: T9nComponent): void {
 }
 
 function getEffectiveMessageOverrides(component: T9nComponent): MessageBundle {
-  return component.messageOverrides ?? overridesFromIntlProps(component);
+  return component.messageOverrides ? overridesFromIntlProps(component) : null;
 }
 
 /**
@@ -95,6 +95,7 @@ async function fetchMessages(component: T9nComponent, lang: string): Promise<Mes
  * @param lang
  */
 export async function updateMessages(component: T9nComponent, lang: string): Promise<void> {
+  console.log("update messages");
   component.defaultMessages = await fetchMessages(component, lang);
 }
 

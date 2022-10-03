@@ -25,6 +25,14 @@ import { HeadingLevel } from "../functional/Heading";
 import { DateRangeChange } from "./interfaces";
 import { HEADING_LEVEL, TEXT } from "./resources";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
+import { Messages } from "./assets/date-picker/t9n";
+import {
+  connectMessages,
+  disconnectMessages,
+  setUpMessages,
+  T9nComponent,
+  updateMessages
+} from "../../utils/t9n";
 
 @Component({
   assetsDirs: ["assets"],
@@ -32,7 +40,7 @@ import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../..
   styleUrl: "date-picker.scss",
   shadow: true
 })
-export class DatePicker implements LocalizedComponent {
+export class DatePicker implements LocalizedComponent, T9nComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -120,22 +128,25 @@ export class DatePicker implements LocalizedComponent {
    * Localized string for "previous month" (used for aria label)
    *
    * @default "Previous month"
+   * @deprecated - translations are now built-in, if you need to override a string, please use `messageOverrides`
    */
-  @Prop() intlPrevMonth?: string = TEXT.prevMonth;
+  @Prop() intlPrevMonth?: string;
 
   /**
    * Localized string for "next month" (used for aria label)
    *
    * @default "Next month"
+   * @deprecated - translations are now built-in, if you need to override a string, please use `messageOverrides`
    */
-  @Prop() intlNextMonth?: string = TEXT.nextMonth;
+  @Prop() intlNextMonth?: string;
 
   /**
    * Localized string for "year" (used for aria label)
    *
    * @default "Year"
+   * @deprecated - translations are now built-in, if you need to override a string, please use `messageOverrides`
    */
-  @Prop() intlYear?: string = TEXT.year;
+  @Prop() intlYear?: string;
 
   /**
    * BCP 47 language tag for desired language and country format
@@ -167,6 +178,27 @@ export class DatePicker implements LocalizedComponent {
 
   /** Disables the default behaviour on the third click of narrowing or extending the range and instead starts a new range. */
   @Prop({ reflect: true }) proximitySelectionDisabled = false;
+
+  /**
+   * Use this property to override individual strings used by the component.
+   */
+  @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
+
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @internal
+   */
+  @Prop({ mutable: true }) messages: Messages;
+
+  @Watch("intlNextMonth")
+  @Watch("intlPrevMonth")
+  @Watch("intlYear")
+  @Watch("defaultMessages")
+  @Watch("messageOverrides")
+  onMessagesChange(): void {
+    /** referred in t9n util */
+  }
 
   //--------------------------------------------------------------------------
   //
@@ -202,6 +234,15 @@ export class DatePicker implements LocalizedComponent {
 
   @State() globalAttributes = {};
 
+  @State() defaultMessages: Messages;
+
+  @State() effectiveLocale = "";
+
+  @Watch("effectiveLocale")
+  effectiveLocaleChange(): void {
+    updateMessages(this, this.effectiveLocale);
+  }
+
   // --------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -233,16 +274,19 @@ export class DatePicker implements LocalizedComponent {
     }
 
     connectLocalized(this);
+    connectMessages(this);
   }
 
   disconnectedCallback(): void {
     disconnectLocalized(this);
+    disconnectMessages(this);
   }
 
   async componentWillLoad(): Promise<void> {
     await this.loadLocaleData();
     this.onMinChanged(this.min);
     this.onMaxChanged(this.max);
+    await setUpMessages(this);
   }
 
   render(): VNode {
@@ -295,8 +339,6 @@ export class DatePicker implements LocalizedComponent {
   //  Private State/Props
   //
   //--------------------------------------------------------------------------
-
-  @State() effectiveLocale = "";
 
   @State() private localeData: DateLocaleData;
 
@@ -462,9 +504,9 @@ export class DatePicker implements LocalizedComponent {
         <calcite-date-picker-month-header
           activeDate={activeDate}
           headingLevel={this.headingLevel || HEADING_LEVEL}
-          intlNextMonth={this.intlNextMonth}
-          intlPrevMonth={this.intlPrevMonth}
-          intlYear={this.intlYear}
+          intlNextMonth={this.messages.nextMonth}
+          intlPrevMonth={this.messages.prevMonth}
+          intlYear={this.messages.year}
           lang={this.effectiveLocale}
           localeData={this.localeData}
           max={maxDate}

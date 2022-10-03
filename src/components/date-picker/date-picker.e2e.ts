@@ -1,5 +1,5 @@
 import { E2EPage, newE2EPage } from "@stencil/core/testing";
-import { renders, defaults, hidden } from "../../tests/commonTests";
+import { renders, defaults, hidden, t9n } from "../../tests/commonTests";
 import { TEXT } from "./resources";
 import { html } from "../../../support/formatting";
 
@@ -10,18 +10,6 @@ describe("calcite-date-picker", () => {
 
   it("has property defaults", async () =>
     defaults("calcite-date-picker", [
-      {
-        propertyName: "intlPrevMonth",
-        defaultValue: TEXT.prevMonth
-      },
-      {
-        propertyName: "headingLevel",
-        defaultValue: undefined
-      },
-      {
-        propertyName: "intlNextMonth",
-        defaultValue: TEXT.nextMonth
-      },
       {
         propertyName: "scale",
         defaultValue: "m"
@@ -240,4 +228,6 @@ describe("calcite-date-picker", () => {
 
     expect(await date.getProperty("intlYear")).toEqual("Year");
   });
+
+  it("supports translations", () => t9n("<calcite-date-picker> </calcite-date-picker>"));
 });
