@@ -312,14 +312,14 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent, Float
     this.open = false;
   }
 
-  @Listen("mouseenter")
+  @Listen("pointerenter")
   mouseEnterHandler(): void {
     if (this.type === "hover") {
       this.openCalciteDropdown();
     }
   }
 
-  @Listen("mouseleave")
+  @Listen("pointerleave")
   mouseLeaveHandler(): void {
     if (this.type === "hover") {
       this.closeCalciteDropdown();
@@ -418,7 +418,7 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent, Float
   //
   //--------------------------------------------------------------------------
 
-  debouncedReposition = debounce(() => this.reposition(), repositionDebounceTimeout);
+  private debouncedReposition = debounce(() => this.reposition(), repositionDebounceTimeout);
 
   slotChangeHandler = (event: Event): void => {
     this.defaultAssignedElements = (event.target as HTMLSlotElement).assignedElements({

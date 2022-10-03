@@ -85,13 +85,15 @@ describe("calcite-flow-item", () => {
 
     expect(await backButtonNew.isVisible()).toBe(true);
 
-    const eventSpy = await page.spyOnEvent("calciteFlowItemBackClick", "window");
+    const calciteFlowItemBackClick = await page.spyOnEvent("calciteFlowItemBackClick", "window");
+    const calciteFlowItemBack = await page.spyOnEvent("calciteFlowItemBack", "window");
 
     await page.$eval("calcite-flow-item", (elm: HTMLElement) => {
       const nativeBackButton = elm.shadowRoot.querySelector(`calcite-action`);
       nativeBackButton.click();
     });
 
-    expect(eventSpy).toHaveReceivedEvent();
+    expect(calciteFlowItemBackClick).toHaveReceivedEvent();
+    expect(calciteFlowItemBack).toHaveReceivedEvent();
   });
 });

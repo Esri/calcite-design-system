@@ -72,6 +72,20 @@ Type: `Promise<void>`
 | ---- | ----------------------- |
 |      | A slot for adding text. |
 
+## Dependencies
+
+### Used by
+
+- [calcite-flow-item](../flow-item)
+
+### Graph
+
+```mermaid
+graph TD;
+  calcite-flow-item --> calcite-tooltip
+  style calcite-tooltip fill:#f9f,stroke:#333,stroke-width:4px
+```
+
 ---
 
 _Built with [StencilJS](https://stenciljs.com/)_

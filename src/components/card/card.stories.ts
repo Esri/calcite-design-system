@@ -235,6 +235,21 @@ export const thumbnailRounded = (): string => html`
   </div>
 `;
 
+export const headerDoesNotOverlapWithCheckbox_TestOnly = (): string => html`
+  <calcite-card selectable style="width:260px">
+    <h3 slot="title">Pokem ipsum dolor sit amet Skitty Hoothoot</h3>
+    <span slot="subtitle"
+      >Pika-pi Soul Badge Zoroark Starly Spoink Diglett Rotom. Water Kyogre Hitmontop Rampardos</span
+    >
+    <p>
+      Team Rocket Whimsicott Snover Duskull Servine Kakuna Bellsprout. Scratch Shelgon Oddish Hitmonchan Quagsire Earth
+      Badge Leaf Green. Pika-pi Bonsly Rare Candy Seadra blast off at the speed of light Shellos Kirlia. Celadon City
+      Seviper Omanyte Espeon Body Slam Victini Darumaka. Normal Krookodile Junichi Masuda Machoke Body Slam Zigzagoon to
+      protect the world from devastation.
+    </p>
+  </calcite-card>
+`;
+
 export const darkThemeRTL_TestOnly = (): string => html`
   <div dir="rtl" style="width:260px;">
     <calcite-card>${thumbnailHtml}${titleHtml}${footerLeadingTextHtml}${footerTrailingButtonsHtml}</calcite-card>
