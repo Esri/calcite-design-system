@@ -564,8 +564,14 @@ export class DatePicker implements GlobalAttrComponent, LangComponent {
    */
   private monthDateChange = (event: CustomEvent<Date>): void => {
     const date = new Date(event.detail);
+    const isoDate = dateToISO(date);
+
+    if (!this.range && isoDate === dateToISO(this.valueAsDate as Date)) {
+      return;
+    }
+
     if (!this.range) {
-      this.value = date ? dateToISO(date) : "";
+      this.value = isoDate || "";
       this.valueAsDate = date || null;
       this.activeDate = date || null;
       this.calciteDatePickerChange.emit(date);
