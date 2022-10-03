@@ -132,7 +132,7 @@ export class InputNumber
    */
   @Prop() intlLoading?: string = COMMON_TEXT.loading;
 
-  /** When true, the icon is flipped in RTL. */
+  /** When true, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @Prop({ reflect: true }) iconFlipRtl = false;
 
   /** Accessible name for the component's button or hyperlink. */
@@ -224,7 +224,7 @@ export class InputNumber
   @Prop() prefixText?: string;
 
   /**
-   * When true, the value cannot be modified.
+   * When true, the component's value can be read, but cannot be modified.
    *
    * @mdn [readOnly](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/readonly)
    */
@@ -408,7 +408,7 @@ export class InputNumber
   /**
    * Fires each time a new value is typed.
    *
-   * **Note:**: The `el` and `value` event payload props are deprecated, please use the event's target/currentTarget instead
+   * **Note:**: The `el` and `value` event payload props are deprecated, please use the event's `target`/`currentTarget` instead
    */
   @Event({ cancelable: true }) calciteInputNumberInput: EventEmitter<DeprecatedEventPayload>;
 
