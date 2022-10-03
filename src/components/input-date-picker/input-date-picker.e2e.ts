@@ -137,7 +137,6 @@ describe("calcite-input-date-picker", () => {
       await page.keyboard.press("Enter");
       await page.waitForChanges();
 
-      // NOT WORKING!
       expect(changeEvent).toHaveReceivedEventTimes(1);
       expect(deprecatedChangeEvent).toHaveReceivedEventTimes(1);
 
@@ -164,6 +163,30 @@ describe("calcite-input-date-picker", () => {
       expect(deprecatedChangeEvent).toHaveReceivedEventTimes(2);
       expect(await input.getProperty("start")).toBeNull();
       expect(await input.getProperty("startAsDate")).toBeNull();
+    });
+
+    it("doesn't emit change event and doesn't clear input when an invalid date is entered in input (allows free form typing)", async () => {
+      const page = await newE2EPage({ html: `<calcite-input-date-picker></calcite-input-date-picker>` });
+      const inputDatePicker = await page.find("calcite-input-date-picker");
+      const changeEvent = await page.spyOnEvent("calciteInputDatePickerChange");
+      const deprecatedChangeEvent = await page.spyOnEvent("calciteDatePickerRangeChange");
+
+      await inputDatePicker.callMethod("setFocus");
+      await page.waitForChanges();
+      await page.keyboard.type("3/7/");
+      await page.keyboard.press("Enter");
+      await page.waitForChanges();
+
+      expect(changeEvent).toHaveReceivedEventTimes(0);
+      expect(deprecatedChangeEvent).toHaveReceivedEventTimes(0);
+
+      const inputValue = await page.evaluate(() => {
+        const inputDatePicker = document.querySelector("calcite-input-date-picker");
+        const calciteInput = inputDatePicker.shadowRoot.querySelector("calcite-input");
+        const input = calciteInput.shadowRoot.querySelector("input");
+        return input.value;
+      });
+      expect(inputValue).toBe("3/7/");
     });
   });
 
