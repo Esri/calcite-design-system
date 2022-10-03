@@ -115,7 +115,19 @@ export class InputDatePicker
   @Prop({ mutable: true }) value: string | string[];
 
   @Watch("value")
-  valueWatcher(): void {
+  valueWatcher(newValue: string | string[]): void {
+    if (!this.userChangedValue) {
+      if (Array.isArray(newValue)) {
+        this.valueAsDate = getValueAsDateRange(newValue);
+        this.start = newValue[0];
+        this.end = newValue[1];
+      } else if (newValue) {
+        this.valueAsDate = dateFromISO(newValue);
+      } else {
+        this.valueAsDate = undefined;
+      }
+    }
+    this.userChangedValue = false;
     this.localizeInputValues();
   }
 
@@ -613,6 +625,8 @@ export class InputDatePicker
 
   private endWrapper: HTMLDivElement;
 
+  private userChangedValue = false;
+
   openTransitionProp = "opacity";
 
   transitionEl: HTMLDivElement;
@@ -691,7 +705,7 @@ export class InputDatePicker
         this.localeData
       ) as Date;
       const dateAsISO = dateToISO(date);
-      if (dateAsISO && dateAsISO !== this.value) {
+      if ((dateAsISO && dateAsISO !== this.value) || (this.value && this.startInput.value === "")) {
         this.setValue(date);
         this.calciteDatePickerChange.emit();
       }
@@ -850,6 +864,7 @@ export class InputDatePicker
       this.valueAsDate = undefined;
     }
 
+    this.userChangedValue = true;
     this.value = newValue || "";
 
     const changeEvent = this.calciteInputDatePickerChange.emit();
