@@ -133,7 +133,7 @@ export class Input
    */
   @Prop() intlLoading?: string = COMMON_TEXT.loading;
 
-  /** When true, the icon will be flipped when the element direction is right-to-left ("rtl"). */
+  /** When true, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @Prop({ reflect: true }) iconFlipRtl = false;
 
   /** Accessible name for the component. */
@@ -453,7 +453,7 @@ export class Input
   /**
    * Fires each time a new `value` is typed.
    *
-   * **Note:**: The `el` and `value` event payload properties are deprecated, use the event's target/currentTarget instead.
+   * **Note:**: The `el` and `value` event payload properties are deprecated, use the event's `target`/`currentTarget` instead.
    */
   @Event({ cancelable: true }) calciteInputInput: EventEmitter<DeprecatedEventPayload>;
 

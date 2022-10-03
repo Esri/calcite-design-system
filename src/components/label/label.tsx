@@ -55,7 +55,7 @@ export class Label {
   /**
    * When true, disables the component's spacing.
    *
-   * @deprecated Set the `--calcite-label-margin-bottom` css variable to "0" instead.
+   * @deprecated Set the `--calcite-label-margin-bottom` css variable to `0` instead.
    */
   @Prop({ reflect: true }) disableSpacing = false;
 

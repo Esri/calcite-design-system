@@ -39,13 +39,13 @@ export class Link implements InteractiveComponent {
    */
   @Prop({ reflect: true }) download: string | boolean = false;
 
-  /** Specifies the URL of the linked resource, which can be absolute or relative. */
+  /** Specifies the URL of the linked resource, which can be set as an absolute or relative path. */
   @Prop({ reflect: true }) href?: string;
 
   /** Specifies an icon to display at the end of the component. */
   @Prop({ reflect: true }) iconEnd?: string;
 
-  /** When true, the icon will be flipped when the element direction is right-to-left ("rtl"). */
+  /** When true, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @Prop({ reflect: true }) iconFlipRtl?: FlipContext;
 
   /** Specifies an icon to display at the start of the component. */

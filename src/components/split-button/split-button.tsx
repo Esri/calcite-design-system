@@ -70,7 +70,7 @@ export class SplitButton implements InteractiveComponent {
   /** Specifies an icon to display at the end of the primary button. */
   @Prop({ reflect: true }) primaryIconEnd?: string;
 
-  /**  When true, the primary button icon will be flipped when the element direction is right-to-left ("rtl"). */
+  /**  When true, the primary button icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @Prop({ reflect: true }) primaryIconFlipRtl?: FlipContext;
 
   /** Specifies an icon to display at the start of the primary button. */

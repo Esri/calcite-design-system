@@ -39,7 +39,7 @@ export class InputMessage {
   @Prop({ reflect: true, mutable: true }) status: Status = "idle";
 
   /**
-   * Specifies the appearance of a slotted message - default (displayed under the component), or floating (positioned absolutely under the component).
+   * Specifies the appearance of a slotted message - `"default"` (displayed under the component), or `"floating"` (positioned absolutely under the component).
    *
    * @deprecated The `"floating"` type is no longer supported.
    */
