@@ -16,7 +16,12 @@ import {
   unwatchGlobalAttributes,
   watchGlobalAttributes
 } from "../../utils/globalAttributes";
-import { getLocale, LangComponent, localizeNumberString } from "../../utils/locale";
+import {
+  getLocale,
+  LangComponent,
+  localizeNumberString,
+  NumberingSystem
+} from "../../utils/locale";
 import { CSS, TEXT } from "./resources";
 
 const maxPagesDisplayed = 5;
@@ -48,10 +53,8 @@ export class Pagination implements GlobalAttrComponent, LangComponent {
 
   /**
    * Specifies the Unicode numeral system used by the component for localization.
-   *
-   * @mdn [numberingSystem](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/Locale/numberingSystem)
    */
-  @Prop() numberingSystem?: string;
+  @Prop() numberingSystem?: NumberingSystem;
 
   /** Specifies the starting item number. */
   @Prop({ mutable: true, reflect: true }) start = 1;

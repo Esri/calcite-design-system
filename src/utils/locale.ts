@@ -1,5 +1,6 @@
 import { sanitizeDecimalString, sanitizeExponentialNumberString, isValidNumber, BigDecimal } from "./number";
 import { GlobalAttrComponent } from "./globalAttributes";
+import { numberKeys } from "./key";
 
 export const locales = [
   "ar",
@@ -53,12 +54,46 @@ export const locales = [
   "zh-TW"
 ];
 
+export const numberingSystems = [
+  "arab",
+  "arabext",
+  "bali",
+  "beng",
+  "deva",
+  "fullwide",
+  "gujr",
+  "guru",
+  "hanidec",
+  "khmr",
+  "knda",
+  "laoo",
+  "latn",
+  "limb",
+  "mlym",
+  "mong",
+  "mymr",
+  "orya",
+  "tamldec",
+  "telu",
+  "thai",
+  "tibt"
+] as const;
+
+export type NumberingSystem = typeof numberingSystems[number];
+
 const allDecimalsExceptLast = new RegExp(`[.](?=.*[.])`, "g");
 const everythingExceptNumbersDecimalsAndMinusSigns = new RegExp("[^0-9-.]", "g");
 const defaultGroupSeparator = new RegExp(",", "g");
 
 const browserNumberingSystem = new Intl.NumberFormat().resolvedOptions().numberingSystem;
-const defaultNumberingSystem = browserNumberingSystem === "arab" ? "latn" : browserNumberingSystem;
+export const defaultNumberingSystem =
+  browserNumberingSystem === "arab" || !isNumberingSystemSupported(browserNumberingSystem)
+    ? "latn"
+    : browserNumberingSystem;
+
+export function isNumberingSystemSupported(numberingSystem: string): numberingSystem is NumberingSystem {
+  return numberingSystems.includes(numberingSystem as NumberingSystem);
+}
 
 export function createLocaleNumberFormatter(
   locale: string,
@@ -67,7 +102,7 @@ export function createLocaleNumberFormatter(
   return new Intl.NumberFormat(locale, {
     minimumFractionDigits: 0,
     maximumFractionDigits: 20,
-    numberingSystem
+    numberingSystem: isNumberingSystemSupported(numberingSystem) ? numberingSystem : defaultNumberingSystem
   } as Intl.ResolvedNumberFormatOptions);
 }
 
@@ -108,7 +143,7 @@ export function localizeNumberString(
   numberString: string,
   locale: string,
   displayGroupSeparator = false,
-  numberingSystem?: string
+  numberingSystem?: NumberingSystem
 ): string {
   return sanitizeExponentialNumberString(numberString, (nonExpoNumString: string): string => {
     if (nonExpoNumString) {
@@ -160,4 +195,16 @@ export interface LangComponent extends GlobalAttrComponent {
  */
 export function getLocale(component: LangComponent): string {
   return component.el.lang || component.locale || document.documentElement.lang || "en";
+}
+
+export function sanitizeNumberingSystemString(numberingSystemString: string, currentValue: string): string {
+  let newValue = currentValue;
+
+  numberingSystemString.split("").forEach((char, index) => {
+    if (numberKeys.includes(char)) {
+      newValue = newValue.slice(0, index) + char + newValue.slice(index);
+    }
+  });
+
+  return newValue;
 }

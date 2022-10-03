@@ -29,7 +29,10 @@ import {
   getLocale,
   getDecimalSeparator,
   LangComponent,
-  localizeNumberString
+  localizeNumberString,
+  NumberingSystem,
+  sanitizeNumberingSystemString,
+  defaultNumberingSystem
 } from "../../utils/locale";
 import { numberKeys } from "../../utils/key";
 import { isValidNumber, parseNumberString, sanitizeNumberString } from "../../utils/number";
@@ -151,10 +154,8 @@ export class InputNumber
 
   /**
    * Specifies the Unicode numeral system used by the component for localization.
-   *
-   * @mdn [numberingSystem](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/Locale/numberingSystem)
    */
-  @Prop({ reflect: true }) numberingSystem?: string;
+  @Prop({ reflect: true }) numberingSystem?: NumberingSystem;
 
   /**
    * Toggles locale formatting for numbers.
@@ -722,8 +723,12 @@ export class InputNumber
       this.groupSeparator,
       this.numberingSystem
     );
+    const sanitizedValue = sanitizeNumberString(
+      (this.numberingSystem && this.numberingSystem !== "latn") || defaultNumberingSystem !== "latn"
+        ? sanitizeNumberingSystemString(value, this.value)
+        : value
+    );
 
-    const sanitizedValue = sanitizeNumberString(value);
     const newValue =
       value && !sanitizedValue
         ? isValidNumber(this.previousValue)

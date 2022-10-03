@@ -28,7 +28,7 @@ import {
 } from "../../utils/form";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { isActivationKey } from "../../utils/key";
-import { localizeNumberString } from "../../utils/locale";
+import { localizeNumberString, NumberingSystem } from "../../utils/locale";
 import {
   GlobalAttrComponent,
   watchGlobalAttributes,
@@ -127,10 +127,8 @@ export class Slider
 
   /**
    * Specifies the Unicode numeral system used by the component for localization.
-   *
-   * @mdn [numberingSystem](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/Locale/numberingSystem)
    */
-  @Prop() numberingSystem?: string;
+  @Prop() numberingSystem?: NumberingSystem;
 
   /** Specifies the interval to move with the page up, or page down keys. */
   @Prop({ reflect: true }) pageStep?: number;

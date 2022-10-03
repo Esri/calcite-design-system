@@ -1,5 +1,5 @@
 import { numberKeys } from "./key";
-import { createLocaleNumberFormatter, getDecimalSeparator, getMinusSign } from "./locale";
+import { createLocaleNumberFormatter, getDecimalSeparator, getMinusSign, NumberingSystem } from "./locale";
 
 // regex for number sanitization
 const allLeadingZerosOptionallyNegative = /^([-0])0+(?=\d)/;
@@ -55,7 +55,7 @@ export class BigDecimal {
     return (this.isNegative ? "-" : "").concat(value);
   }
 
-  formatToParts(locale: string, numberingSystem?: string): Intl.NumberFormatPart[] {
+  formatToParts(locale: string, numberingSystem?: NumberingSystem): Intl.NumberFormatPart[] {
     const formatter = createLocaleNumberFormatter(locale, numberingSystem);
 
     const s = this.value
