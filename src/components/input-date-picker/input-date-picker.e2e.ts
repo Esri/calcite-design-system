@@ -190,7 +190,7 @@ describe("calcite-input-date-picker", () => {
     });
   });
 
-  it("should clear active date properly when deleted via keyboard", async () => {
+  it("should clear active date properly when deleted and committed via keyboard", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-input-date-picker value="2021-12-08"></calcite-input-date-picker>`);
     const input = (
@@ -207,6 +207,7 @@ describe("calcite-input-date-picker", () => {
     for (let i = 0; i < 10; i++) {
       await input.press("Backspace");
     }
+    input.press("Enter");
 
     await page.waitForChanges();
 
