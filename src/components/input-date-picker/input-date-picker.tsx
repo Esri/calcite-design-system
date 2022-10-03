@@ -691,7 +691,7 @@ export class InputDatePicker
         this.localeData
       ) as Date;
       const dateAsISO = dateToISO(date);
-      if (dateAsISO !== this.value) {
+      if (dateAsISO && dateAsISO !== this.value) {
         this.setValue(date);
         this.calciteDatePickerChange.emit();
       }
