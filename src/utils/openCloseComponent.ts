@@ -70,9 +70,9 @@ function transitionEnd(event: TransitionEvent): void {
 export function onToggleUnanimatedComponent(component: OpenCloseComponent): void {
   readTask((): void => {
     if (component.transitionEl) {
-      const tokens = getComputedStyle(component.transitionEl).transition.split(" ");
-      const transitionPropIndex = tokens.findIndex((item) => item === component.openTransitionProp);
-      const transitionDuration = tokens[transitionPropIndex + 1];
+      const tokens: string[] = getComputedStyle(component.transitionEl).transition.split(" ");
+      const transitionPropIndex: number = tokens.findIndex((item) => item === component.openTransitionProp);
+      const transitionDuration: string = tokens[transitionPropIndex + 1];
       if (transitionDuration === "0s") {
         component.open ? component.onBeforeOpen() : component.onBeforeClose();
         component.open ? component.onOpen() : component.onClose();
