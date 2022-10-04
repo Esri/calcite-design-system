@@ -1,6 +1,5 @@
 import { E2EPage, newE2EPage } from "@stencil/core/testing";
 import { renders, defaults, hidden, t9n } from "../../tests/commonTests";
-import { TEXT } from "./resources";
 import { html } from "../../../support/formatting";
 
 describe("calcite-date-picker", () => {

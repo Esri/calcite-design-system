@@ -62,7 +62,7 @@ function mergeMessages(component: T9nComponent): void {
 }
 
 function getEffectiveMessageOverrides(component: T9nComponent): MessageBundle {
-  return component.messageOverrides ? overridesFromIntlProps(component) : null;
+  return component.messageOverrides ?? overridesFromIntlProps(component);
 }
 
 /**
