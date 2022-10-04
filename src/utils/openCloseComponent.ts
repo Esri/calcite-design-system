@@ -69,21 +69,9 @@ function transitionEnd(event: TransitionEvent): void {
  */
 export function onToggleUnanimatedComponent(component: OpenCloseComponent): void {
   readTask((): void => {
-    const transitionElement = window.getComputedStyle(component.transitionEl);
-    const transitionPropArray = transitionElement
-      .getPropertyValue("transition")
-      .replace(/[, ]+/g, " ")
-      .trim()
-      .split("s ");
-
-    let transitionDuration;
-    transitionPropArray.forEach((prop) => {
-      if (new RegExp("\\b" + component.openTransitionProp + "\\b").test(prop)) {
-        if (component.openTransitionProp === prop.substring(0, prop.indexOf(" "))) {
-          transitionDuration = prop.split(" ").pop();
-        }
-      }
-    });
+    const tokens = getComputedStyle(component.transitionEl).transition.split(" ");
+    const transitionPropIndex = tokens.findIndex((item) => item === component.openTransitionProp);
+    const transitionDuration = tokens[transitionPropIndex + 1];
     if (transitionDuration === "0") {
       component.open ? component.onBeforeOpen() : component.onBeforeClose();
       component.open ? component.onOpen() : component.onClose();
