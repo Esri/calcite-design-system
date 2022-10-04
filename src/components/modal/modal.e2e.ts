@@ -151,6 +151,31 @@ describe("opening and closing behavior", () => {
     expect(beforeOpenSpy).toHaveReceivedEventTimes(1);
     expect(openSpy).toHaveReceivedEventTimes(1);
   });
+
+  it("emits when setting --calcite-duration-factor to 0", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<calcite-modal active></calcite-modal>`);
+    await skipAnimations(page);
+
+    const beforeOpenSpy = await page.spyOnEvent("calciteModalBeforeOpen");
+    const openSpy = await page.spyOnEvent("calciteModalOpen");
+    const beforeCloseSpy = await page.spyOnEvent("calciteModalBeforeClose");
+    const closeSpy = await page.spyOnEvent("calciteModalClose");
+
+    const modal = await page.find("calcite-modal");
+
+    await modal.setProperty("active", false);
+    await page.waitForChanges();
+
+    expect(beforeCloseSpy).toHaveReceivedEventTimes(1);
+    expect(closeSpy).toHaveReceivedEventTimes(1);
+
+    await modal.setProperty("active", true);
+    await page.waitForChanges();
+
+    expect(beforeOpenSpy).toHaveReceivedEventTimes(1);
+    expect(openSpy).toHaveReceivedEventTimes(1);
+  });
 });
 
 describe("calcite-modal accessibility checks", () => {
