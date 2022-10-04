@@ -126,9 +126,9 @@ export class InputDatePicker
       } else {
         this.valueAsDate = undefined;
       }
+      this.localizeInputValues();
     }
     this.userChangedValue = false;
-    this.localizeInputValues();
   }
 
   @Watch("valueAsDate")
@@ -340,10 +340,8 @@ export class InputDatePicker
     }
   };
 
-  private calciteInternalInputBlurHandler = (event: CustomEvent<any>): void => {
-    const target = event.target as HTMLCalciteInputElement;
-    const date = dateFromLocalizedString(target.value, this.localeData) as Date;
-    this.setValue(date);
+  private calciteInternalInputBlurHandler = (): void => {
+    this.commitValue();
   };
 
   //--------------------------------------------------------------------------
@@ -697,18 +695,41 @@ export class InputDatePicker
     this.open = false;
   };
 
+  private commitValue(): void {
+    const { focusedInput, value } = this;
+    const focusedInputName = `${focusedInput}Input`;
+    const focusedInputValue = this[focusedInputName].value;
+    const date = dateFromLocalizedString(focusedInputValue, this.localeData) as Date;
+    const dateAsISO = dateToISO(date);
+    const valueIsArray = Array.isArray(value);
+    if (this.range) {
+      const focusedInputValueIndex = focusedInput === "start" ? 0 : 1;
+      if (valueIsArray && dateAsISO && dateAsISO !== value[focusedInputValueIndex]) {
+        this.setRangeValue([
+          focusedInput === "start" ? date : dateFromISO(value[0]),
+          focusedInput === "end" ? date : dateFromISO(value[1])
+        ]);
+        this.localizeInputValues();
+      } else if (!valueIsArray && dateAsISO) {
+        this.setRangeValue([focusedInput === "start" && date, focusedInput === "end" && date]);
+        this.localizeInputValues();
+      } else {
+        this.setRangeValue("");
+      }
+    } else {
+      if ((dateAsISO && dateAsISO !== value) || (value && focusedInputValue === "")) {
+        this.setValue(date);
+        this.localizeInputValues();
+      } else {
+        this.setValue("");
+      }
+    }
+  }
+
   keyDownHandler = (event: KeyboardEvent): void => {
     const { defaultPrevented, key } = event;
     if (key === "Enter" && !defaultPrevented) {
-      const date = dateFromLocalizedString(
-        this[`${this.focusedInput}Input`].value,
-        this.localeData
-      ) as Date;
-      const dateAsISO = dateToISO(date);
-      if ((dateAsISO && dateAsISO !== this.value) || (this.value && this.startInput.value === "")) {
-        this.setValue(date);
-        this.calciteDatePickerChange.emit();
-      }
+      this.commitValue();
       if (submitForm(this)) {
         event.preventDefault();
       }
@@ -780,6 +801,8 @@ export class InputDatePicker
       return;
     }
 
+    event.stopPropagation();
+
     this.setValue(event.detail);
   };
 
@@ -827,11 +850,11 @@ export class InputDatePicker
       ? dateFromRange(this.endAsDate, this.minAsDate, this.maxAsDate)
       : null;
 
-    const localizedDate = date ? date.toLocaleDateString(this.locale) : "";
-    const localizedEndDate = endDate ? endDate.toLocaleDateString(this.locale) : "";
+    const localizedDate = date && date.toLocaleDateString(this.locale);
+    const localizedEndDate = endDate && endDate.toLocaleDateString(this.locale);
 
-    this.setInputValue(localizedDate, "start");
-    this.range && this.setInputValue(localizedEndDate, "end");
+    localizedDate && this.setInputValue(localizedDate, "start");
+    this.range && localizedEndDate && this.setInputValue(localizedEndDate, "end");
   }
 
   private setInputValue = (newValue: string, input: "start" | "end" = "start"): void => {
@@ -842,35 +865,37 @@ export class InputDatePicker
     inputEl.value = newValue;
   };
 
-  private setRangeValue = (value: Date[]): void => {
-    if (!this.range && !Array.isArray(value)) {
+  private setRangeValue = (value: Date[] | string): void => {
+    if (!this.range) {
       return;
     }
 
-    const { focusedInput } = this;
+    const { value: oldValue } = this;
+    const oldValueIsArray = Array.isArray(oldValue);
+    const valueIsArray = Array.isArray(value);
 
-    const newStartDateISO = dateToISO(value[0]);
-    const newEndDateISO = dateToISO(value[1]);
+    const newStartDate = valueIsArray ? value[0] : "";
+    const newStartDateISO = valueIsArray ? dateToISO(newStartDate) : "";
+    const newEndDate = valueIsArray ? value[1] : "";
+    const newEndDateISO = valueIsArray ? dateToISO(newEndDate) : "";
 
-    const oldValue = this.value;
-    const newValue =
-      focusedInput === "start"
-        ? [newStartDateISO, Array.isArray(this.value) ? this.value[1] : ""]
-        : [Array.isArray(this.value) ? this.value[0] : "", newEndDateISO];
+    // TODO: ensure start and end dates are within min and max
+    // TODO: ensure start is before end and end is after start
+    const newValue = newStartDateISO || newEndDateISO ? [newStartDateISO, newEndDateISO] : "";
 
     if (newValue === oldValue) {
       return;
     }
 
     this.userChangedValue = true;
-    this.value = newValue || "";
-    this.valueAsDate = getValueAsDateRange(newValue);
+    this.value = newValue;
+    this.valueAsDate = newValue ? getValueAsDateRange(newValue) : undefined;
     this.start = newStartDateISO;
     this.end = newEndDateISO;
 
     const eventDetail = {
-      startDate: focusedInput === "start" ? value[0] : this.startAsDate,
-      endDate: focusedInput === "end" ? setEndOfDay(value[1]) : this.endAsDate
+      startDate: newStartDate as Date,
+      endDate: newEndDate ? (setEndOfDay(newEndDate) as Date) : (newEndDate as Date)
     };
 
     const changeEvent = this.calciteInputDatePickerChange.emit(eventDetail);
@@ -881,7 +906,7 @@ export class InputDatePicker
       (rangeChangeEvent && rangeChangeEvent.defaultPrevented)
     ) {
       this.value = oldValue;
-      if (Array.isArray(oldValue)) {
+      if (oldValueIsArray) {
         this.setInputValue(oldValue[0], "start");
         this.setInputValue(oldValue[1], "end");
       } else {
@@ -891,7 +916,7 @@ export class InputDatePicker
     }
   };
 
-  private setValue = (value: Date): void => {
+  private setValue = (value: Date | string): void => {
     if (this.range) {
       return;
     }
@@ -908,7 +933,9 @@ export class InputDatePicker
     this.value = newValue || "";
 
     const changeEvent = this.calciteInputDatePickerChange.emit();
-    if (changeEvent.defaultPrevented) {
+    const deprecatedDatePickerChangeEvent = this.calciteDatePickerChange.emit(value as Date);
+
+    if (changeEvent.defaultPrevented || deprecatedDatePickerChangeEvent.defaultPrevented) {
       this.value = oldValue;
       this.setInputValue(oldValue as string);
     }
