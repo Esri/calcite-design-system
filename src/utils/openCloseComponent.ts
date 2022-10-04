@@ -70,8 +70,22 @@ function transitionEnd(event: TransitionEvent): void {
 export function onToggleUnanimatedComponent(component: OpenCloseComponent): void {
   readTask((): void => {
     const transitionElement = window.getComputedStyle(component.transitionEl);
-    const transitionDurationProp = transitionElement.getPropertyValue("transition-duration").split(", ")[2];
-    if (transitionDurationProp === "0s") {
+    const transitionPropArray = transitionElement
+      .getPropertyValue("transition")
+      .replace(/[, ]+/g, " ")
+      .trim()
+      .split("s ");
+
+    let transitionDuration;
+    transitionPropArray.forEach((prop) => {
+      if (new RegExp("\\b" + component.openTransitionProp + "\\b").test(prop)) {
+        if (component.openTransitionProp === prop.substring(0, prop.indexOf(" "))) {
+          transitionDuration = prop.split(" ").pop();
+        }
+      }
+    });
+    if (transitionDuration === "0") {
+      component.open ? component.onBeforeOpen() : component.onBeforeClose();
       component.open ? component.onOpen() : component.onClose();
     }
   });
