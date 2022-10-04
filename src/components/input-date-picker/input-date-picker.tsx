@@ -369,7 +369,7 @@ export class InputDatePicker
   /**
    * This event fires when the input date picker value changes.
    */
-  @Event({ cancelable: false }) calciteInputDatePickerChange: EventEmitter<void>;
+  @Event({ cancelable: false }) calciteInputDatePickerChange: EventEmitter<DateRangeChange | void>;
 
   /** Fires when the component is requested to be closed and before the closing transition begins. */
   @Event({ cancelable: false }) calciteInputDatePickerBeforeClose: EventEmitter<void>;
@@ -808,9 +808,7 @@ export class InputDatePicker
 
     const { startDate, endDate } = event.detail;
 
-    this.start = dateToISO(startDate);
-    this.end = dateToISO(endDate);
-    this.setValue([startDate, endDate]);
+    this.setRangeValue([startDate, endDate]);
 
     if (this.shouldFocusRangeEnd()) {
       this.endInput?.setFocus();
@@ -844,39 +842,75 @@ export class InputDatePicker
     inputEl.value = newValue;
   };
 
-  private setValue = (value: Date | Date[]): void => {
+  private setRangeValue = (value: Date[]): void => {
+    if (!this.range && !Array.isArray(value)) {
+      return;
+    }
+
+    const { focusedInput } = this;
+
+    const newStartDateISO = dateToISO(value[0]);
+    const newEndDateISO = dateToISO(value[1]);
+
     const oldValue = this.value;
-    const newValue = Array.isArray(value)
-      ? [dateToISO(value[0]), dateToISO(value[1])]
-      : dateToISO(value as Date);
+    const newValue =
+      focusedInput === "start"
+        ? [newStartDateISO, Array.isArray(this.value) ? this.value[1] : ""]
+        : [Array.isArray(this.value) ? this.value[0] : "", newEndDateISO];
 
     if (newValue === oldValue) {
       return;
     }
 
-    if (Array.isArray(newValue)) {
-      this.valueAsDate = getValueAsDateRange(newValue);
-      this.start = newValue[0];
-      this.end = newValue[1];
-    } else if (newValue) {
-      this.valueAsDate = dateFromISO(newValue);
-    } else {
-      this.valueAsDate = undefined;
-    }
-
     this.userChangedValue = true;
     this.value = newValue || "";
+    this.valueAsDate = getValueAsDateRange(newValue);
+    this.start = newStartDateISO;
+    this.end = newEndDateISO;
 
-    const changeEvent = this.calciteInputDatePickerChange.emit();
+    const eventDetail = {
+      startDate: focusedInput === "start" ? value[0] : this.startAsDate,
+      endDate: focusedInput === "end" ? setEndOfDay(value[1]) : this.endAsDate
+    };
 
-    if (changeEvent.defaultPrevented) {
+    const changeEvent = this.calciteInputDatePickerChange.emit(eventDetail);
+    const rangeChangeEvent = this.calciteDatePickerRangeChange.emit(eventDetail);
+
+    if (
+      (changeEvent && changeEvent.defaultPrevented) ||
+      (rangeChangeEvent && rangeChangeEvent.defaultPrevented)
+    ) {
       this.value = oldValue;
-      if (this.range && Array.isArray(oldValue)) {
+      if (Array.isArray(oldValue)) {
         this.setInputValue(oldValue[0], "start");
         this.setInputValue(oldValue[1], "end");
       } else {
+        this.value = oldValue;
         this.setInputValue(oldValue as string);
       }
+    }
+  };
+
+  private setValue = (value: Date): void => {
+    if (this.range) {
+      return;
+    }
+
+    const oldValue = this.value;
+    const newValue = dateToISO(value as Date);
+
+    if (newValue === oldValue) {
+      return;
+    }
+
+    this.userChangedValue = true;
+    this.valueAsDate = newValue ? dateFromISO(newValue) : undefined;
+    this.value = newValue || "";
+
+    const changeEvent = this.calciteInputDatePickerChange.emit();
+    if (changeEvent.defaultPrevented) {
+      this.value = oldValue;
+      this.setInputValue(oldValue as string);
     }
   };
 
