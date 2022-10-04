@@ -31,7 +31,7 @@ export class TileSelectGroup implements InteractiveComponent {
   /**
    * Defines the layout of the component.
    *
-   * Use "horizontal" for rows, and "vertical" for a single column.
+   * Use `"horizontal"` for rows, and `"vertical"` for a single column.
    */
   @Prop({ reflect: true }) layout?: TileSelectGroupLayout = "horizontal";
 
