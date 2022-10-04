@@ -357,6 +357,7 @@ describe("calcite-input-date-picker", () => {
     await page.keyboard.press("Tab");
     await page.waitForChanges();
     await datepickerEl.type("08/30/2022");
+    await page.keyboard.press("Enter");
     await page.waitForChanges();
 
     expect(eventSpy).toHaveReceivedEventDetail({
