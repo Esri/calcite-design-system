@@ -1,5 +1,4 @@
 {
   "extends": "./tsconfig-base",
-  "include": ["src/demos", "src/components.d.ts"],
-  "exclude": ["node_modules"]
+  "include": ["src/demos", "src/components.d.ts"]
 }
