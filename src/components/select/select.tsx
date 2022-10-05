@@ -70,7 +70,7 @@ export class Select implements LabelableComponent, FormComponent, InteractiveCom
   @Prop({ reflect: true }) name: string;
 
   /**
-   * When true, the component must have a value on form submission.
+   * When true, the component must have a value in order for the form to submit.
    *
    * @internal
    */

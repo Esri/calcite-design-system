@@ -98,8 +98,7 @@ export class Notice implements ConditionalSlotComponent {
   }
 
   /**
-   * When present, shows a default recommended icon. You can
-   * also pass a calcite-ui-icon name to display a requested icon.
+   * When true, shows a default recommended icon. Alternatively, pass a Calcite UI Icon name to display a specific icon.
    */
   @Prop({ reflect: true }) icon: string | boolean;
 

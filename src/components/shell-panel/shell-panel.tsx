@@ -63,7 +63,7 @@ export class ShellPanel implements ConditionalSlotComponent {
   @Prop({ reflect: true }) widthScale: Scale = "m";
 
   /**
-   * Specifies the component's position. Will be flipped when the element direction is right-to-left ("rtl").
+   * Specifies the component's position. Will be flipped when the element direction is right-to-left (`"rtl"`).
    */
   @Prop({ reflect: true }) position: Position;
 

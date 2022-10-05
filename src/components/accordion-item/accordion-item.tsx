@@ -87,9 +87,9 @@ export class AccordionItem implements ConditionalSlotComponent {
   @Prop() description: string;
 
   /**
-   * Specifies an icon to display - accepts Calcite UI icon names.
+   * Specifies an icon to display.
    *
-   * @deprecated use `iconStart` or `iconEnd` properties instead
+   * @deprecated use `iconStart` or `iconEnd` instead.
    */
   @Prop({ mutable: true, reflect: true }) icon?: string;
 
@@ -98,7 +98,7 @@ export class AccordionItem implements ConditionalSlotComponent {
     this.iconStart = value;
   }
 
-  /**Specified an icon to display at the start - accepts Calcite UI icon names. */
+  /** Specifies an icon to display at the start of the component. */
   @Prop({ reflect: true }) iconStart?: string;
 
   @Watch("iconStart")
@@ -106,7 +106,7 @@ export class AccordionItem implements ConditionalSlotComponent {
     this.icon = value;
   }
 
-  /**Specified an icon to display at the end - accepts Calcite UI icon names. */
+  /** Specifies an icon to display at the end of the component. */
   @Prop({ reflect: true }) iconEnd?: string;
 
   //--------------------------------------------------------------------------

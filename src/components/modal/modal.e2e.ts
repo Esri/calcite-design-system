@@ -59,7 +59,7 @@ describe("calcite-modal properties", () => {
     await page.waitForChanges();
     await modal.setProperty("active", false);
     await page.waitForChanges();
-    expect(mockCallBack).toBeCalled();
+    expect(mockCallBack).toHaveBeenCalled();
   });
 });
 
@@ -255,7 +255,7 @@ describe("calcite-modal accessibility checks", () => {
         shadowFocusTargetSelector: closeButtonTargetSelector
       }));
 
-    it("can focus close button directly", async () =>
+    it.skip("can focus close button directly", async () =>
       focusable(createModalHTML(focusableContentHTML), {
         focusId: closeButtonFocusId,
         shadowFocusTargetSelector: closeButtonTargetSelector

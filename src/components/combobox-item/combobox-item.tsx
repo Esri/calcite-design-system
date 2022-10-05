@@ -120,7 +120,7 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
   /**
    * Emitted whenever the item is selected or unselected.
    *
-   * **Note:**: The event's payload is deprecated, please use the event's target/currentTarget instead
+   * **Note:**: The event's payload is deprecated, please use the event's `target`/`currentTarget` instead
    */
   @Event({ cancelable: false }) calciteComboboxItemChange: EventEmitter<DeprecatedEventPayload>;
 

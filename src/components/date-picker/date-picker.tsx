@@ -138,7 +138,7 @@ export class DatePicker implements LocalizedComponent {
   @Prop() intlYear?: string = TEXT.year;
 
   /**
-   * BCP 47 language tag for desired language and country format
+   * Specifies the BCP 47 language tag for the desired language and country format.
    *
    * @deprecated set the global `lang` attribute on the element instead.
    * @mdn [lang](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/lang)
