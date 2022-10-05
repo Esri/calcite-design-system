@@ -104,7 +104,7 @@ export const create: () => Config = () => ({
     }),
     postcss({
       plugins: [
-        tailwindcss(tailwindConfig),
+        tailwindcss(tailwindConfig as any),
         autoprefixer(),
         stylelint({
           configFile: ".stylelintrc-postcss.json",
