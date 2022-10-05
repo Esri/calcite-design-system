@@ -741,9 +741,9 @@ export class TimePicker implements LocalizedComponent {
   // --------------------------------------------------------------------------
 
   connectedCallback() {
+    connectLocalized(this);
     this.updateLocale();
     this.meridiemOrder = this.getMeridiemOrder(getTimeParts("0:00:00", this.effectiveLocale));
-    connectLocalized(this);
   }
 
   disconnectedCallback(): void {

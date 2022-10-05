@@ -21,6 +21,7 @@ import {
   connectOpenCloseComponent,
   disconnectOpenCloseComponent
 } from "../../utils/openCloseComponent";
+import { connectLocalized, LocalizedComponent } from "../../utils/locale";
 
 /**
  * Alerts are meant to provide a way to communicate urgent or important information to users, frequently as a result of an action they took in your app. Alerts are positioned
@@ -38,7 +39,7 @@ import {
   styleUrl: "alert.scss",
   shadow: true
 })
-export class Alert implements OpenCloseComponent {
+export class Alert implements OpenCloseComponent, LocalizedComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -136,6 +137,7 @@ export class Alert implements OpenCloseComponent {
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
+    connectLocalized(this);
     const open = this.open || this.active;
     if (open && !this.queued) {
       this.activeHandler(open);
@@ -312,6 +314,8 @@ export class Alert implements OpenCloseComponent {
   /** the computed icon to render */
   /* @internal */
   @State() requestedIcon?: string;
+
+  @State() effectiveLocale = "";
 
   openTransitionProp = "opacity";
 

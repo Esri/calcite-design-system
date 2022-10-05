@@ -249,6 +249,9 @@ export class DatePicker implements LocalizedComponent, T9nComponent {
   //
   // --------------------------------------------------------------------------
   connectedCallback(): void {
+    connectLocalized(this);
+    connectMessages(this);
+
     if (Array.isArray(this.value)) {
       this.valueAsDate = getValueAsDateRange(this.value);
       this.start = this.value[0];
@@ -272,9 +275,6 @@ export class DatePicker implements LocalizedComponent, T9nComponent {
     if (this.max) {
       this.maxAsDate = dateFromISO(this.max);
     }
-
-    connectLocalized(this);
-    connectMessages(this);
   }
 
   disconnectedCallback(): void {

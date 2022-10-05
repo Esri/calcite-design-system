@@ -334,6 +334,8 @@ export class InputNumber
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
+    connectLocalized(this);
+
     this.scale = getElementProp(this.el, "scale", this.scale);
     this.status = getElementProp(this.el, "status", this.status);
     this.inlineEditableEl = this.el.closest("calcite-inline-editable");
@@ -342,7 +344,6 @@ export class InputNumber
     }
     connectLabel(this);
     connectForm(this);
-    connectLocalized(this);
 
     this.setPreviousEmittedNumberValue(this.value);
     this.setPreviousNumberValue(this.value);

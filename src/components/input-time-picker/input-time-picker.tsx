@@ -444,13 +444,14 @@ export class InputTimePicker
   //--------------------------------------------------------------------------
 
   connectedCallback() {
+    connectLocalized(this);
+
     const { active, open } = this;
     if (this.value) {
       this.setValue({ value: isValidTime(this.value) ? this.value : undefined, origin: "loading" });
     }
     connectLabel(this);
     connectForm(this);
-    connectLocalized(this);
 
     if (open) {
       this.active = open;
