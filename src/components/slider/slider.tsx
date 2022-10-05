@@ -178,11 +178,11 @@ export class Slider
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
+    connectLocalized(this);
     this.setMinMaxFromValue();
     this.setValueFromMinMax();
     connectLabel(this);
     connectForm(this);
-    connectLocalized(this);
   }
 
   disconnectedCallback(): void {
