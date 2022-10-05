@@ -105,13 +105,13 @@ describe("calcite-tree", () => {
 
   it("should correctly select tree in ancestors selection mode", async () => {
     const page = await newE2EPage();
-    await page.setContent(`
+    await page.setContent(html`
       <calcite-tree selection-mode="ancestors">
         <calcite-tree-item id="one"><span>One</span></calcite-tree-item>
-        <calcite-tree-item id="two">
+        <calcite-tree-item id="two" expanded>
           <span>Two</span>
           <calcite-tree slot="children">
-            <calcite-tree-item id="child-one">
+            <calcite-tree-item id="child-one" expanded>
               <span>Child 1</span>
               <calcite-tree slot="children">
                 <calcite-tree-item id="grandchild-one">
@@ -127,10 +127,8 @@ describe("calcite-tree", () => {
         </calcite-tree-item>
       </calcite-tree>
     `);
-    await page.waitForChanges();
     const one = await page.find("#one");
     const two = await page.find("#two");
-    const twoIcon = await page.find('#two >>> [data-test-id="icon"]');
     const childOne = await page.find("#child-one");
     const childTwo = await page.find("#child-two");
     const grandchildOne = await page.find("#grandchild-one");
@@ -145,36 +143,58 @@ describe("calcite-tree", () => {
     expect(grandchildOne).not.toHaveAttribute("selected");
     expect(grandchildTwo).not.toHaveAttribute("selected");
 
-    await two.click();
+    // Puppeteer's element click will happen in the center of a component,
+    // so we call the method to ensure it happens on the component of interest
+
+    await two.callMethod("click");
+    await page.waitForChanges();
 
     expect(one).not.toHaveAttribute("selected");
+    expect(one).not.toHaveAttribute("indeterminate");
     expect(two).toHaveAttribute("selected");
     expect(childOne).toHaveAttribute("selected");
     expect(childTwo).toHaveAttribute("selected");
     expect(grandchildOne).toHaveAttribute("selected");
     expect(grandchildTwo).toHaveAttribute("selected");
 
-    await twoIcon.click();
-    await childOne.click();
+    await childOne.callMethod("click");
+    await page.waitForChanges();
 
+    expect(one).not.toHaveAttribute("selected");
+    expect(one).not.toHaveAttribute("indeterminate");
+    expect(two).not.toHaveAttribute("selected");
+    expect(two).toHaveAttribute("indeterminate");
     expect(childOne).not.toHaveAttribute("selected");
     expect(childTwo).toHaveAttribute("selected");
     expect(grandchildOne).not.toHaveAttribute("selected");
     expect(grandchildTwo).not.toHaveAttribute("selected");
-    expect(two).not.toHaveAttribute("selected");
-    expect(two).toHaveAttribute("indeterminate");
 
     grandchildTwo.setProperty("disabled", true);
     await page.waitForChanges();
-    await two.click();
+    await two.callMethod("click");
     await page.waitForChanges();
 
+    expect(one).not.toHaveAttribute("selected");
+    expect(one).not.toHaveAttribute("indeterminate");
+    expect(two).not.toHaveAttribute("selected");
+    expect(two).not.toHaveAttribute("indeterminate");
+    expect(childOne).not.toHaveAttribute("selected");
+    expect(childTwo).not.toHaveAttribute("selected");
+    expect(grandchildOne).not.toHaveAttribute("selected");
+    expect(grandchildTwo).not.toHaveAttribute("selected");
+
+    grandchildTwo.setProperty("disabled", false);
+    await page.waitForChanges();
+    await two.callMethod("click");
+    await page.waitForChanges();
+
+    expect(one).not.toHaveAttribute("selected");
+    expect(two).toHaveAttribute("selected");
+    expect(two).not.toHaveAttribute("indeterminate");
     expect(childOne).toHaveAttribute("selected");
     expect(childTwo).toHaveAttribute("selected");
     expect(grandchildOne).toHaveAttribute("selected");
-    expect(grandchildTwo).not.toHaveAttribute("selected");
-    expect(two).toHaveAttribute("selected");
-    expect(two).toHaveAttribute("indeterminate");
+    expect(grandchildTwo).toHaveAttribute("selected");
   });
 
   describe("item selection", () => {

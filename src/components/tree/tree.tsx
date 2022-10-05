@@ -107,8 +107,9 @@ export class Tree {
   @Listen("focus") onFocus(): void {
     if (!this.child) {
       const focusTarget =
-        this.el.querySelector<HTMLCalciteTreeItemElement>("calcite-tree-item[selected]") ||
-        this.el.querySelector<HTMLCalciteTreeItemElement>("calcite-tree-item");
+        this.el.querySelector<HTMLCalciteTreeItemElement>(
+          "calcite-tree-item[selected]:not([disabled])"
+        ) || this.el.querySelector<HTMLCalciteTreeItemElement>("calcite-tree-item:not([disabled])");
 
       focusElement(focusTarget);
     }
