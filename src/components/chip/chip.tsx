@@ -69,10 +69,10 @@ export class Chip implements ConditionalSlotComponent {
    */
   @Prop() dismissLabel?: string = TEXT.close;
 
-  /** optionally pass an icon to display - accepts Calcite UI icon names  */
+  /** Specifies an icon to display. */
   @Prop({ reflect: true }) icon?: string;
 
-  /** flip the icon in rtl */
+  /** When true, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @Prop({ reflect: true }) iconFlipRtl = false;
 
   /** specify the scale of the chip, defaults to m */
@@ -133,7 +133,7 @@ export class Chip implements ConditionalSlotComponent {
   /**
    * Emitted when the dismiss button is clicked
    *
-   * **Note:**: The `el` event payload props is deprecated, please use the event's target/currentTarget instead
+   * **Note:**: The `el` event payload props is deprecated, please use the event's `target`/`currentTarget` instead
    */
   @Event({ cancelable: false }) calciteChipDismiss: EventEmitter<DeprecatedEventPayload>;
 

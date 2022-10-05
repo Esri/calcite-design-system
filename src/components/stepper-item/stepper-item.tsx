@@ -80,7 +80,7 @@ export class StepperItem implements InteractiveComponent {
   /**
    * The component header text.
    *
-   * @deprecated use "heading" instead.
+   * @deprecated use `heading` instead.
    */
   @Prop() itemTitle?: string;
 
@@ -90,7 +90,7 @@ export class StepperItem implements InteractiveComponent {
   /**
    * A description for the component. Displays below the header text.
    *
-   * @deprecated use "description" instead.
+   * @deprecated use `description` instead.
    */
   @Prop() itemSubtitle?: string;
 
