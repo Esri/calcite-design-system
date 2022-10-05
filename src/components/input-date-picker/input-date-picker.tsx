@@ -395,6 +395,8 @@ export class InputDatePicker
   // --------------------------------------------------------------------------
 
   connectedCallback(): void {
+    connectLocalized(this);
+
     const isOpen = this.active || this.open;
     isOpen && this.activeHandler(isOpen);
     isOpen && this.openHandler(isOpen);
@@ -427,7 +429,6 @@ export class InputDatePicker
     connectLabel(this);
     connectForm(this);
     connectOpenCloseComponent(this);
-    connectLocalized(this);
 
     this.setFilteredPlacements();
     this.debouncedReposition();
