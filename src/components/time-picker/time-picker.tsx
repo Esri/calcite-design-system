@@ -37,6 +37,14 @@ import {
   LocalizedComponent,
   updateEffectiveLocale
 } from "../../utils/locale";
+import { Messages } from "./assets/time-picker/t9n";
+import {
+  connectMessages,
+  disconnectMessages,
+  setUpMessages,
+  T9nComponent,
+  updateMessages
+} from "../../utils/t9n";
 
 function capitalize(str: string): string {
   return str.charAt(0).toUpperCase() + str.slice(1);
@@ -45,9 +53,10 @@ function capitalize(str: string): string {
 @Component({
   tag: "calcite-time-picker",
   styleUrl: "time-picker.scss",
-  shadow: true
+  shadow: true,
+  assetsDirs: ["assets"]
 })
-export class TimePicker implements LocalizedComponent {
+export class TimePicker implements LocalizedComponent, T9nComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -66,85 +75,96 @@ export class TimePicker implements LocalizedComponent {
    * Accessible name for the component's hour input.
    *
    * @default "Hour"
+   * @deprecated - translations are now built-in, if you need to override a string, please use `messageOverrides`
    */
-  @Prop() intlHour = TEXT.hour;
+  @Prop() intlHour: string;
 
   /**
    * Accessible name for the component's hour down button.
    *
    * @default "Decrease hour"
+   * @deprecated - translations are now built-in, if you need to override a string, please use `messageOverrides`
    */
-  @Prop() intlHourDown = TEXT.hourDown;
+  @Prop() intlHourDown: string;
 
   /**
    * Accessible name for the component's hour up button.
    *
    * @default "Increase hour"
+   * @deprecated - translations are now built-in, if you need to override a string, please use `messageOverrides`
    */
-  @Prop() intlHourUp = TEXT.hourUp;
+  @Prop() intlHourUp: string;
 
   /**
    * Accessible name for the component's meridiem (AM/PM) input.
    *
    * @default "AM/PM"
+   * @deprecated - translations are now built-in, if you need to override a string, please use `messageOverrides`
    */
-  @Prop() intlMeridiem = TEXT.meridiem;
+  @Prop() intlMeridiem: string;
 
   /**
    * Accessible name for the component's meridiem (AM/PM) down button.
    *
    * @default "Decrease AM/PM"
+   * @deprecated - translations are now built-in, if you need to override a string, please use `messageOverrides`
    */
-  @Prop() intlMeridiemDown = TEXT.meridiemDown;
+  @Prop() intlMeridiemDown: string;
 
   /**
    * Accessible name for the component's meridiem (AM/PM) up button.
    *
    * @default "Increase AM/PM"
+   * @deprecated - translations are now built-in, if you need to override a string, please use `messageOverrides`
    */
-  @Prop() intlMeridiemUp = TEXT.meridiemUp;
+  @Prop() intlMeridiemUp: string;
 
   /**
    * Accessible name for the component's minute input.
    *
    * @default "Minute"
+   * @deprecated - translations are now built-in, if you need to override a string, please use `messageOverrides`
    */
-  @Prop() intlMinute = TEXT.minute;
+  @Prop() intlMinute: string;
 
   /**
    * Accessible name for the component's minute down button.
    *
    * @default "Decrease minute"
+   * @deprecated - translations are now built-in, if you need to override a string, please use `messageOverrides`
    */
-  @Prop() intlMinuteDown = TEXT.minuteDown;
+  @Prop() intlMinuteDown: string;
 
   /**
    * Accessible name for the component's minute up button.
    *
    * @default "Increase minute"
+   * @deprecated - translations are now built-in, if you need to override a string, please use `messageOverrides`
    */
-  @Prop() intlMinuteUp = TEXT.minuteUp;
+  @Prop() intlMinuteUp: string;
 
   /**
    * Accessible name for the component's second input.
    *
    * @default "Second"
+   * @deprecated - translations are now built-in, if you need to override a string, please use `messageOverrides`
    */
-  @Prop() intlSecond = TEXT.second;
+  @Prop() intlSecond: string;
 
   /**
    * Accessible name for the component's second down button.
    *
    * @default "Decrease second"
    */
-  @Prop() intlSecondDown = TEXT.secondDown;
+  @Prop() intlSecondDown: string;
 
   /**
    * Accessible name for the component's second up button.
    *
    * @default "Increase second"
+   * @deprecated - translations are now built-in, if you need to override a string, please use `messageOverrides`
    */
-  @Prop() intlSecondUp = TEXT.secondUp;
+  @Prop() intlSecondUp: string;
 
   /**
    * BCP 47 language tag for desired language and country format.
@@ -156,6 +176,7 @@ export class TimePicker implements LocalizedComponent {
   @Prop({ mutable: true }) locale: string;
 
   @Watch("locale")
+  @Watch("lang")
   localeChanged(): void {
     updateEffectiveLocale(this);
   }
@@ -173,6 +194,39 @@ export class TimePicker implements LocalizedComponent {
   valueWatcher(newValue: string): void {
     this.setValue(newValue, false);
   }
+
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @internal
+   */
+  @Prop({ mutable: true }) messages: Messages;
+
+  /**
+   * Use this property to override individual strings used by the component.
+   */
+  @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
+
+  @Watch("hour")
+  @Watch("hourDown")
+  @Watch("hourUp")
+  @Watch("meridiem")
+  @Watch("meridiemDown")
+  @Watch("meridiemUp")
+  @Watch("minute")
+  @Watch("minuteDown")
+  @Watch("minuteUp")
+  @Watch("second")
+  @Watch("secondDown")
+  @Watch("secondUp")
+  onMessagesChange(): void {
+    /** referred in t9n util */
+  }
+
+  /**
+   * @internal
+   */
+  @Prop({ mutable: true, reflect: true }) lang: string;
 
   // --------------------------------------------------------------------------
   //
@@ -201,7 +255,7 @@ export class TimePicker implements LocalizedComponent {
   @State() effectiveLocale = "";
 
   @Watch("effectiveLocale")
-  effectiveLocaleWatcher(): void {
+  effectiveLocaleWatcher(newvalue: string): void {
     this.updateLocale();
   }
 
@@ -230,6 +284,8 @@ export class TimePicker implements LocalizedComponent {
   @State() second: string;
 
   @State() showSecond: boolean = this.step < 60;
+
+  @State() defaultMessages: Messages;
 
   //--------------------------------------------------------------------------
   //
@@ -730,6 +786,7 @@ export class TimePicker implements LocalizedComponent {
   }
 
   private updateLocale() {
+    updateMessages(this, this.effectiveLocale);
     this.hourCycle = getLocaleHourCycle(this.effectiveLocale);
     this.setValue(this.value, false);
   }
@@ -741,13 +798,19 @@ export class TimePicker implements LocalizedComponent {
   // --------------------------------------------------------------------------
 
   connectedCallback() {
+    connectLocalized(this);
     this.updateLocale();
     this.meridiemOrder = this.getMeridiemOrder(getTimeParts("0:00:00", this.effectiveLocale));
-    connectLocalized(this);
+    connectMessages(this);
   }
 
   disconnectedCallback(): void {
     disconnectLocalized(this);
+    disconnectMessages(this);
+  }
+
+  async componentWillLoad(): Promise<void> {
+    await setUpMessages(this);
   }
 
   // --------------------------------------------------------------------------
@@ -774,7 +837,7 @@ export class TimePicker implements LocalizedComponent {
       >
         <div class={CSS.column} role="group">
           <span
-            aria-label={this.intlHourUp}
+            aria-label={this.messages.hourUp}
             class={{
               [CSS.button]: true,
               [CSS.buttonHourUp]: true,
@@ -788,7 +851,7 @@ export class TimePicker implements LocalizedComponent {
             <calcite-icon icon="chevron-up" scale={iconScale} />
           </span>
           <span
-            aria-label={this.intlHour}
+            aria-label={this.messages.hour}
             aria-valuemax="23"
             aria-valuemin="1"
             aria-valuenow={(hourIsNumber && parseInt(this.hour)) || "0"}
@@ -806,7 +869,7 @@ export class TimePicker implements LocalizedComponent {
             {this.localizedHour || "--"}
           </span>
           <span
-            aria-label={this.intlHourDown}
+            aria-label={this.messages.hourDown}
             class={{
               [CSS.button]: true,
               [CSS.buttonHourDown]: true,
@@ -823,7 +886,7 @@ export class TimePicker implements LocalizedComponent {
         <span class={CSS.delimiter}>{this.localizedHourSuffix}</span>
         <div class={CSS.column} role="group">
           <span
-            aria-label={this.intlMinuteUp}
+            aria-label={this.messages.minuteUp}
             class={{
               [CSS.button]: true,
               [CSS.buttonMinuteUp]: true
@@ -836,7 +899,7 @@ export class TimePicker implements LocalizedComponent {
             <calcite-icon icon="chevron-up" scale={iconScale} />
           </span>
           <span
-            aria-label={this.intlMinute}
+            aria-label={this.messages.minute}
             aria-valuemax="12"
             aria-valuemin="1"
             aria-valuenow={(minuteIsNumber && parseInt(this.minute)) || "0"}
@@ -854,7 +917,7 @@ export class TimePicker implements LocalizedComponent {
             {this.localizedMinute || "--"}
           </span>
           <span
-            aria-label={this.intlMinuteDown}
+            aria-label={this.messages.minuteDown}
             class={{
               [CSS.button]: true,
               [CSS.buttonMinuteDown]: true
@@ -871,7 +934,7 @@ export class TimePicker implements LocalizedComponent {
         {this.showSecond && (
           <div class={CSS.column} role="group">
             <span
-              aria-label={this.intlSecondUp}
+              aria-label={this.messages.secondUp}
               class={{
                 [CSS.button]: true,
                 [CSS.buttonSecondUp]: true
@@ -884,7 +947,7 @@ export class TimePicker implements LocalizedComponent {
               <calcite-icon icon="chevron-up" scale={iconScale} />
             </span>
             <span
-              aria-label={this.intlSecond}
+              aria-label={this.messages.second}
               aria-valuemax="59"
               aria-valuemin="0"
               aria-valuenow={(secondIsNumber && parseInt(this.second)) || "0"}
@@ -902,7 +965,7 @@ export class TimePicker implements LocalizedComponent {
               {this.localizedSecond || "--"}
             </span>
             <span
-              aria-label={this.intlSecondDown}
+              aria-label={this.messages.secondDown}
               class={{
                 [CSS.button]: true,
                 [CSS.buttonSecondDown]: true
@@ -928,7 +991,7 @@ export class TimePicker implements LocalizedComponent {
             role="group"
           >
             <span
-              aria-label={this.intlMeridiemUp}
+              aria-label={this.messages.meridiemUp}
               class={{
                 [CSS.button]: true,
                 [CSS.buttonMeridiemUp]: true,
@@ -942,7 +1005,7 @@ export class TimePicker implements LocalizedComponent {
               <calcite-icon icon="chevron-up" scale={iconScale} />
             </span>
             <span
-              aria-label={this.intlMeridiem}
+              aria-label={this.messages.meridiem}
               aria-valuemax="2"
               aria-valuemin="1"
               aria-valuenow={(this.meridiem === "PM" && "2") || "1"}
@@ -960,7 +1023,7 @@ export class TimePicker implements LocalizedComponent {
               {this.localizedMeridiem || "--"}
             </span>
             <span
-              aria-label={this.intlMeridiemDown}
+              aria-label={this.messages.meridiemDown}
               class={{
                 [CSS.button]: true,
                 [CSS.buttonMeridiemDown]: true,

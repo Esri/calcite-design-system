@@ -31,6 +31,7 @@ import {
   LocalizedComponent,
   updateEffectiveLocale
 } from "../../utils/locale";
+import { Messages } from "../time-picker/assets/time-picker/t9n";
 
 @Component({
   tag: "calcite-input-time-picker",
@@ -139,6 +140,9 @@ export class InputTimePicker
 
   /** aria-label for the second up button */
   @Prop() intlSecondUp?: string;
+
+  /** Use this property to override individual strings used by the component.  */
+  @Prop() messagesOverride: Partial<Messages>;
 
   /**
    * BCP 47 language tag for desired language and country format
@@ -528,6 +532,7 @@ export class InputTimePicker
             intlSecondDown={this.intlSecondDown}
             intlSecondUp={this.intlSecondUp}
             lang={this.effectiveLocale}
+            messageOverrides={this.messagesOverride}
             onCalciteInternalTimePickerChange={this.timePickerChangeHandler}
             ref={this.setCalciteTimePickerEl}
             scale={this.scale}
