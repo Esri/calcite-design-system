@@ -43,7 +43,7 @@ export class Tree {
   /**
    * Display input
    *
-   * @deprecated Use "ancestors" selection-mode for checkbox input.
+   * @deprecated Use `selectionMode="ancestors"` for checkbox input.
    */
   @Prop() inputEnabled = false;
 

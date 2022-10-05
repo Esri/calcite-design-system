@@ -24,10 +24,7 @@
 
     // github token provided by the checkout action
     // https://github.com/actions/checkout#usage
-    console.log(" - pushing tags...");
-    await exec(`git push --atomic --follow-tags origin master`);
-
-    console.log(" - publishing @next...");
+    console.log(" - pushes tags and publishing @next...");
     await exec(`npm run util:publish-next`);
 
     console.log("@next deployed! 🚀");

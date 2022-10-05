@@ -49,7 +49,7 @@ export class TabTitle implements InteractiveComponent {
    *
    * Only one tab can be selected within the `calcite-tabs` parent.
    *
-   * @deprecated Use "selected" instead.
+   * @deprecated Use `selected` instead.
    */
   @Prop({ reflect: true, mutable: true }) active = false;
 
@@ -76,13 +76,13 @@ export class TabTitle implements InteractiveComponent {
   /** When true, interaction is prevented and the component is displayed with lower opacity.  */
   @Prop({ reflect: true }) disabled = false;
 
-  /** Specifies an icon to display at the end of the component - accepts Calcite UI icon names.  */
+  /** Specifies an icon to display at the end of the component. */
   @Prop({ reflect: true }) iconEnd?: string;
 
-  /** When true, the icon will be flipped when the element direction is right-to-left ("rtl"). */
+  /** When true, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @Prop({ reflect: true }) iconFlipRtl?: FlipContext;
 
-  /** Specifies an icon to display at the start of the component - accepts Calcite UI icon names.  */
+  /** Specifies an icon to display at the start of the component. */
   @Prop({ reflect: true }) iconStart?: string;
 
   /**

@@ -678,7 +678,10 @@ describe("calcite-slider", () => {
   describe("number locale support", () => {
     let page: E2EPage;
     let noSeparator: string[];
-    const expectedNotSeparatedValueArray: string[] = ["2500", "500000.5", "1000", "1000000.5"];
+    const expectedNotSeparatedValueArray = {
+      en: ["2500", "500000.5", "1000", "1000000.5"],
+      fr: ["2500", "500000,5", "1000", "1000000,5"]
+    };
     let withSeparator: string[];
     let getDisplayedValuesArray;
     let element: E2EElement;
@@ -728,7 +731,7 @@ describe("calcite-slider", () => {
         return await getDisplayedValuesArray();
       });
       expect(await element.getProperty("groupSeparator")).toBe(false);
-      expect(noSeparator).toEqual(expectedNotSeparatedValueArray);
+      expect(noSeparator).toEqual(expectedNotSeparatedValueArray.en);
 
       element.setProperty("lang", "fr");
       await page.waitForChanges();
@@ -736,7 +739,7 @@ describe("calcite-slider", () => {
       noSeparator = await page.$eval("calcite-slider", async (): Promise<string[]> => {
         return await getDisplayedValuesArray();
       });
-      expect(noSeparator).toEqual(expectedNotSeparatedValueArray);
+      expect(noSeparator).toEqual(expectedNotSeparatedValueArray.fr);
     });
 
     it("displays group separator for multiple locales", async () => {
