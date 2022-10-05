@@ -96,7 +96,7 @@ An installation of Node is required for development. If you don't have Node inst
 - https://stylelint.io/user-guide/integrations/editor
 - https://prettier.io/docs/en/editors.html
 
-When installing dependencies, you need to use the `--legacy-peer-deps` flag due to an ESLint dependency conflict. The conflict won't effect the components since ESLint is only in `devDependencies`.
+The first time installing dependencies, you need to use the `--legacy-peer-deps` flag due to an ESLint dependency conflict. The conflict won't effect the components since ESLint is only in `devDependencies`.
 
 ```sh
 npm install --legacy-peer-deps
