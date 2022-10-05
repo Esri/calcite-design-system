@@ -384,6 +384,10 @@ export class Input
     if (this.inlineEditableEl) {
       this.editingEnabled = this.inlineEditableEl.editingEnabled || false;
     }
+    connectLabel(this);
+    connectForm(this);
+    connectLocalized(this);
+
     this.setPreviousEmittedValue(this.value);
     this.setPreviousValue(this.value);
     if (this.type === "number") {
@@ -393,9 +397,6 @@ export class Input
         value: isValidNumber(this.value) ? this.value : ""
       });
     }
-    connectLabel(this);
-    connectForm(this);
-    connectLocalized(this);
 
     this.mutationObserver?.observe(this.el, { childList: true });
     this.setDisabledAction();
