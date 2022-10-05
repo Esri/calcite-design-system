@@ -21,6 +21,12 @@ import {
   connectOpenCloseComponent,
   disconnectOpenCloseComponent
 } from "../../utils/openCloseComponent";
+import { createLocaleNumberFormatter, getLocale } from "../../utils/locale";
+import {
+  GlobalAttrComponent,
+  watchGlobalAttributes,
+  unwatchGlobalAttributes
+} from "../../utils/globalAttributes";
 
 /**
  * Alerts are meant to provide a way to communicate urgent or important information to users, frequently as a result of an action they took in your app. Alerts are positioned
@@ -38,7 +44,7 @@ import {
   styleUrl: "alert.scss",
   shadow: true
 })
-export class Alert implements OpenCloseComponent {
+export class Alert implements OpenCloseComponent, GlobalAttrComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -106,6 +112,13 @@ export class Alert implements OpenCloseComponent {
   /** Specifies an accessible name for the component. */
   @Prop() label!: string;
 
+  /**
+   * Specifies the Unicode numeral system used by the component for localization.
+   *
+   * @mdn [numberingSystem](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/Locale/numberingSystem)
+   */
+  @Prop({ reflect: true }) numberingSystem?: string;
+
   /** Specifies the placement of the component */
   @Prop({ reflect: true }) placement: AlertPlacement = "bottom";
 
@@ -143,6 +156,7 @@ export class Alert implements OpenCloseComponent {
       this.calciteInternalAlertRegister.emit();
     }
     connectOpenCloseComponent(this);
+    watchGlobalAttributes(this, ["lang"]);
   }
 
   componentWillLoad(): void {
@@ -152,6 +166,7 @@ export class Alert implements OpenCloseComponent {
   disconnectedCallback(): void {
     window.clearTimeout(this.autoDismissTimeoutId);
     disconnectOpenCloseComponent(this);
+    unwatchGlobalAttributes(this);
   }
 
   render(): VNode {
@@ -166,7 +181,10 @@ export class Alert implements OpenCloseComponent {
         <calcite-icon icon="x" scale={this.scale === "l" ? "m" : "s"} />
       </button>
     );
-    const queueText = `+${this.queueLength > 2 ? this.queueLength - 1 : 1}`;
+    const formatter = createLocaleNumberFormatter(getLocale(this), this.numberingSystem, "always");
+    const queueNumber = this.queueLength > 2 ? this.queueLength - 1 : 1;
+    const queueText = formatter.format(queueNumber);
+
     const queueCount = (
       <div class={`${this.queueLength > 1 ? "active " : ""}alert-queue-count`}>
         <calcite-chip scale={this.scale} value={queueText}>
@@ -290,6 +308,8 @@ export class Alert implements OpenCloseComponent {
   //  Private State/Props
   //
   //--------------------------------------------------------------------------
+
+  @State() globalAttributes = {};
 
   /** the list of queued alerts */
   @State() queue: HTMLCalciteAlertElement[] = [];
