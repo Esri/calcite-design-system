@@ -35,7 +35,7 @@ import {
   OpenCloseComponent,
   connectOpenCloseComponent,
   disconnectOpenCloseComponent,
-  onToggleUnanimatedComponent
+  onToggleComponentWithoutTransition
 } from "../../utils/openCloseComponent";
 
 const isFocusableExtended = (el: FocusableElement): boolean => {
@@ -420,7 +420,7 @@ export class Modal implements ConditionalSlotComponent, OpenCloseComponent {
   @Watch("open")
   async toggleModal(value: boolean): Promise<void> {
     this.active = value;
-    onToggleUnanimatedComponent(this);
+    onToggleComponentWithoutTransition(this);
     if (value) {
       this.transitionEl?.classList.add(CSS.openingIdle);
       this.openModal();
