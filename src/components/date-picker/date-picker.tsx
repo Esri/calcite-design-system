@@ -236,11 +236,6 @@ export class DatePicker implements LocalizedComponent, T9nComponent {
 
   @State() defaultMessages: Messages;
 
-  @Watch("effectiveLocale")
-  effectiveLocaleChange(): void {
-    updateMessages(this, this.effectiveLocale);
-  }
-
   // --------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -342,6 +337,11 @@ export class DatePicker implements LocalizedComponent, T9nComponent {
    * @internal
    */
   @Prop({ mutable: true }) effectiveLocale = "";
+
+  @Watch("effectiveLocale")
+  effectiveLocaleChange(): void {
+    updateMessages(this, this.effectiveLocale);
+  }
 
   @State() private localeData: DateLocaleData;
 

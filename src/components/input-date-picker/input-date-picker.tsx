@@ -58,6 +58,7 @@ import {
 } from "../../utils/openCloseComponent";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import { debounce } from "lodash-es";
+import { Messages } from "../date-picker/assets/date-picker/t9n";
 
 @Component({
   tag: "calcite-input-date-picker",
@@ -220,22 +221,25 @@ export class InputDatePicker
    * Localized string for "previous month" (used for aria label)
    *
    * @default "Previous month"
+   * @deprecated - translations are now built-in, if you need to override a string, please use `messageOverrides`
    */
-  @Prop() intlPrevMonth?: string = TEXT.prevMonth;
+  @Prop() intlPrevMonth?: string;
 
   /**
    * Localized string for "next month" (used for aria label)
    *
    * @default "Next month"
+   * @deprecated - translations are now built-in, if you need to override a string, please use `messageOverrides`
    */
-  @Prop() intlNextMonth?: string = TEXT.nextMonth;
+  @Prop() intlNextMonth?: string;
 
   /**
    * Localized string for "year" (used for aria label)
    *
    * @default "Year"
+   * @deprecated - translations are now built-in, if you need to override a string, please use `messageOverrides`
    */
-  @Prop() intlYear?: string = TEXT.year;
+  @Prop() intlYear?: string;
 
   /**
    * BCP 47 language tag for desired language and country format
@@ -297,6 +301,11 @@ export class InputDatePicker
 
   /** Layout */
   @Prop({ reflect: true }) layout: "horizontal" | "vertical" = "horizontal";
+
+  /**
+   * Use this property to override individual strings used by the component.
+   */
+  @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
 
   //--------------------------------------------------------------------------
   //
@@ -517,8 +526,10 @@ export class InputDatePicker
                   intlNextMonth={this.intlNextMonth}
                   intlPrevMonth={this.intlPrevMonth}
                   intlYear={this.intlYear}
+                  lang={locale}
                   max={this.max}
                   maxAsDate={this.maxAsDate}
+                  messageOverrides={this.messageOverrides}
                   min={this.min}
                   minAsDate={this.minAsDate}
                   onCalciteDatePickerChange={this.handleDateChange}
