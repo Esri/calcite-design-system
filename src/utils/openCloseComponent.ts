@@ -63,16 +63,19 @@ function transitionEnd(event: TransitionEvent): void {
 }
 
 /**
- * Helper to determine globally set transition duration setting.
+ * Helper to determine globally set transition duration on the given openTransitionProp, which is imported and set in the @Watch("open").
+ * Used to emit (before)open/close events in cases where opacity transition-duration is set to 0.
  *
  * @param component
  */
-export function onToggleUnanimatedComponent(component: OpenCloseComponent): void {
+export function onToggleComponentWithoutTransition(component: OpenCloseComponent): void {
   readTask((): void => {
     if (component.transitionEl) {
-      const tokens: string[] = getComputedStyle(component.transitionEl).transition.split(" ");
-      const transitionPropIndex: number = tokens.findIndex((item) => item === component.openTransitionProp);
-      const transitionDuration: string = tokens[transitionPropIndex + 1];
+      const allTransitionPropsArray = getComputedStyle(component.transitionEl).transition.split(" ");
+      const openTransitionPropIndex = allTransitionPropsArray.findIndex(
+        (item) => item === component.openTransitionProp
+      );
+      const transitionDuration = allTransitionPropsArray[openTransitionPropIndex + 1];
       if (transitionDuration === "0s") {
         component.open ? component.onBeforeOpen() : component.onBeforeClose();
         component.open ? component.onOpen() : component.onClose();
