@@ -704,33 +704,37 @@ export class InputDatePicker
     const valueIsArray = Array.isArray(value);
     if (this.range) {
       const focusedInputValueIndex = focusedInput === "start" ? 0 : 1;
-      if (valueIsArray && dateAsISO && dateAsISO !== value[focusedInputValueIndex]) {
-        this.setRangeValue([
-          focusedInput === "start" ? date : dateFromISO(value[0]),
-          focusedInput === "end" ? date : dateFromISO(value[1])
-        ]);
-        this.localizeInputValues();
-      } else if (!valueIsArray && dateAsISO) {
-        this.setRangeValue([focusedInput === "start" && date, focusedInput === "end" && date]);
-        this.localizeInputValues();
+      if (valueIsArray) {
+        if (dateAsISO === value[focusedInputValueIndex]) {
+          return;
+        }
+        if (date) {
+          this.setRangeValue([
+            focusedInput === "start" ? date : dateFromISO(value[0]),
+            focusedInput === "end" ? date : dateFromISO(value[1])
+          ]);
+          this.localizeInputValues();
+        } else {
+          this.setRangeValue([
+            focusedInput === "end" && dateFromISO(value[0]),
+            focusedInput === "start" && dateFromISO(value[1])
+          ]);
+        }
       } else {
-        // TODO: this needs to be smarter about detecting if an incomplete date is entered in the input.
-        // When an incomplete date is entered and the value is committed, the value needs to be set to ""
-        // but the input's value needs to stay untouched.
-        // This branch also needs to account for when the value is being committed when it hasn't changed.
-        this.setRangeValue("");
+        if (date) {
+          this.setRangeValue([
+            focusedInput === "start" ? date : dateFromISO(value[0]),
+            focusedInput === "end" ? date : dateFromISO(value[1])
+          ]);
+          this.localizeInputValues();
+        }
       }
     } else {
-      if ((dateAsISO && dateAsISO !== value) || (value && focusedInputValue === "")) {
-        this.setValue(date);
-        this.localizeInputValues();
-      } else {
-        // TODO: this needs to be smarter about detecting if an incomplete date is entered in the input.
-        // When an incomplete date is entered and the value is committed, the value needs to be set to ""
-        // but the input's value needs to stay untouched.
-        // This branch also needs to account for when the value is being committed when it hasn't changed.
-        // this.setValue("");
+      if (dateAsISO === value) {
+        return;
       }
+      this.setValue(date);
+      this.localizeInputValues();
     }
   }
 
