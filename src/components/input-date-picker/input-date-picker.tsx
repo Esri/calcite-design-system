@@ -112,7 +112,7 @@ export class InputDatePicker
   }
 
   /** Selected date as a string in ISO format (YYYY-MM-DD) */
-  @Prop({ mutable: true }) value: string | string[];
+  @Prop({ mutable: true }) value: string | string[] = "";
 
   @Watch("value")
   valueWatcher(newValue: string | string[]): void {
@@ -714,6 +714,10 @@ export class InputDatePicker
         this.setRangeValue([focusedInput === "start" && date, focusedInput === "end" && date]);
         this.localizeInputValues();
       } else {
+        // TODO: this needs to be smarter about detecting if an incomplete date is entered in the input.
+        // When an incomplete date is entered and the value is committed, the value needs to be set to ""
+        // but the input's value needs to stay untouched.
+        // This branch also needs to account for when the value is being committed when it hasn't changed.
         this.setRangeValue("");
       }
     } else {
@@ -721,7 +725,11 @@ export class InputDatePicker
         this.setValue(date);
         this.localizeInputValues();
       } else {
-        this.setValue("");
+        // TODO: this needs to be smarter about detecting if an incomplete date is entered in the input.
+        // When an incomplete date is entered and the value is committed, the value needs to be set to ""
+        // but the input's value needs to stay untouched.
+        // This branch also needs to account for when the value is being committed when it hasn't changed.
+        // this.setValue("");
       }
     }
   }
@@ -804,6 +812,7 @@ export class InputDatePicker
     event.stopPropagation();
 
     this.setValue(event.detail);
+    this.localizeInputValues();
   };
 
   private shouldFocusRangeStart(): boolean {
