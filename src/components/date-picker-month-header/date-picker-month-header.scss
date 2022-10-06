@@ -117,8 +117,7 @@
 }
 
 .year--suffix {
-  @apply w-16
-  text-start;
+  @apply w-16 text-left;
 }
 
 .year-wrap {
