@@ -476,6 +476,7 @@ export class InputDatePicker
                     this.layout === "vertical" && this.range ? `no-bottom-border` : ``
                   }`}
                   disabled={disabled}
+                  effectiveLocale={this.effectiveLocale}
                   icon="calendar"
                   label={getLabelText(this)}
                   number-button-type="none"
@@ -510,12 +511,12 @@ export class InputDatePicker
               >
                 <calcite-date-picker
                   activeRange={this.focusedInput}
+                  effectiveLocale={locale}
                   endAsDate={this.endAsDate}
                   headingLevel={this.headingLevel}
                   intlNextMonth={this.intlNextMonth}
                   intlPrevMonth={this.intlPrevMonth}
                   intlYear={this.intlYear}
-                  lang={locale}
                   max={this.max}
                   maxAsDate={this.maxAsDate}
                   min={this.min}
@@ -585,7 +586,10 @@ export class InputDatePicker
 
   defaultValue: InputDatePicker["value"];
 
-  @State() effectiveLocale = "";
+  /**
+   * @internal
+   */
+  @Prop({ mutable: true }) effectiveLocale = "";
 
   @State() focusedInput: "start" | "end" = "start";
 
