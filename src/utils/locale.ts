@@ -260,11 +260,13 @@ const mutationObserver = createObserver("mutation", (records) => {
 
       const closestLangEl = closestElementCrossShadowBoundary<HTMLElement>(component.el, "[lang]");
 
-      if (closestLangEl !== el) {
-        return;
+      if (closestLangEl !== null) {
+        if (closestLangEl !== el) {
+          return;
+        }
       }
 
-      component.effectiveLocale = closestLangEl.lang;
+      component.effectiveLocale = closestLangEl?.lang ?? "";
     });
   });
 });
