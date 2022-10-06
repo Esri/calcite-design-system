@@ -176,7 +176,6 @@ export class TimePicker implements LocalizedComponent, T9nComponent {
   @Prop({ mutable: true }) locale: string;
 
   @Watch("locale")
-  @Watch("lang")
   localeChanged(): void {
     updateEffectiveLocale(this);
   }
@@ -224,9 +223,11 @@ export class TimePicker implements LocalizedComponent, T9nComponent {
   }
 
   /**
+   * This property is used to set the effective locale component uses for translation purpose.
+   *
    * @internal
    */
-  @Prop({ mutable: true, reflect: true }) lang: string;
+  @Prop({ mutable: true }) effectiveLocale: string;
 
   // --------------------------------------------------------------------------
   //
@@ -252,10 +253,8 @@ export class TimePicker implements LocalizedComponent, T9nComponent {
   //
   // --------------------------------------------------------------------------
 
-  @State() effectiveLocale = "";
-
   @Watch("effectiveLocale")
-  effectiveLocaleWatcher(newvalue: string): void {
+  effectiveLocaleWatcher(): void {
     this.updateLocale();
   }
 
