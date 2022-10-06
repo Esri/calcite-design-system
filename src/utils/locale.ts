@@ -177,7 +177,11 @@ export interface LocalizedComponent {
   /**
    * Used to store the effective locale to avoid multiple lookups.
    *
-   * This prop should use the `@State` decorator and be initialized to "";
+   * This is an internal prop and should:
+   *
+   * - use the `@Prop({ mutable: true })` decorator (made mutable)
+   * - be initialized to ""
+   * - use the @internal JSDoc tag
    *
    * Components should watch this prop to ensure messages are updated.
    *
@@ -185,6 +189,8 @@ export interface LocalizedComponent {
    * effectiveLocaleChange(): void {
    *   updateMessages(this, this.effectiveLocale);
    * }
+   *
+   * This property should only be set by composite components for all supporting `LocalizedComponent`s.
    */
   effectiveLocale: string;
 }

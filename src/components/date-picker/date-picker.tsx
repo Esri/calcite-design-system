@@ -296,7 +296,10 @@ export class DatePicker implements LocalizedComponent {
   //
   //--------------------------------------------------------------------------
 
-  @State() effectiveLocale = "";
+  /**
+   * @internal
+   */
+  @Prop({ mutable: true }) effectiveLocale = "";
 
   @State() private localeData: DateLocaleData;
 
