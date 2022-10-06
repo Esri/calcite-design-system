@@ -129,7 +129,6 @@
   }
 }
 
-// Range start
 :host([start-of-range]) {
   :not(.calcite--rtl) {
     .day-wrapper {
@@ -145,7 +144,7 @@
     opacity: 1;
   }
 }
-// Range end
+
 :host([end-of-range]) {
   :not(.calcite--rtl) {
     .day-wrapper {
@@ -161,7 +160,7 @@
     opacity: 1;
   }
 }
-// Range start, no focus
+
 :host([start-of-range]:not(:focus)) {
   :not(.calcite--rtl) {
     .day {
@@ -174,7 +173,7 @@
     }
   }
 }
-// Range end, no focus
+
 :host([end-of-range]:not(:focus)) {
   :not(.calcite--rtl) {
     .day {
@@ -187,7 +186,7 @@
     }
   }
 }
-// Range start, large scale
+
 :host([start-of-range][scale="l"]) {
   :not(.calcite--rtl) {
     .day-wrapper {
@@ -200,7 +199,7 @@
     }
   }
 }
-// Range end, large scale
+
 :host([end-of-range][scale="l"]) {
   :not(.calcite--rtl) {
     .day-wrapper {
