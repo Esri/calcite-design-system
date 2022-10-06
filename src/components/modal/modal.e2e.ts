@@ -154,7 +154,7 @@ describe("opening and closing behavior", () => {
 
   it("emits when setting --calcite-duration-factor to 0", async () => {
     const page = await newE2EPage();
-    await page.setContent(`<calcite-modal active></calcite-modal>`);
+    await page.setContent(`<calcite-modal open></calcite-modal>`);
     await skipAnimations(page);
 
     const beforeOpenSpy = await page.spyOnEvent("calciteModalBeforeOpen");
