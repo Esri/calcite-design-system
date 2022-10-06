@@ -229,7 +229,10 @@ export class InputTimePicker
   //
   //--------------------------------------------------------------------------
 
-  @State() effectiveLocale = "";
+  /**
+   * @internal
+   */
+  @Prop({ mutable: true }) effectiveLocale = "";
 
   @Watch("effectiveLocale")
   effectiveLocaleWatcher(): void {
@@ -496,6 +499,7 @@ export class InputTimePicker
         >
           <calcite-input
             disabled={this.disabled}
+            effectiveLocale={this.effectiveLocale}
             icon="clock"
             label={getLabelText(this)}
             onCalciteInputInput={this.calciteInputInputHandler}
@@ -518,6 +522,7 @@ export class InputTimePicker
           triggerDisabled={true}
         >
           <calcite-time-picker
+            effectiveLocale={this.effectiveLocale}
             intlHour={this.intlHour}
             intlHourDown={this.intlHourDown}
             intlHourUp={this.intlHourUp}
@@ -530,7 +535,6 @@ export class InputTimePicker
             intlSecond={this.intlSecond}
             intlSecondDown={this.intlSecondDown}
             intlSecondUp={this.intlSecondUp}
-            lang={this.effectiveLocale}
             onCalciteInternalTimePickerChange={this.timePickerChangeHandler}
             ref={this.setCalciteTimePickerEl}
             scale={this.scale}

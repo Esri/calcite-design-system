@@ -367,7 +367,10 @@ export class Input
   //
   //--------------------------------------------------------------------------
 
-  @State() effectiveLocale = "";
+  /**
+   * @internal
+   */
+  @Prop({ mutable: true }) effectiveLocale = "";
 
   @State() localizedValue: string;
 
