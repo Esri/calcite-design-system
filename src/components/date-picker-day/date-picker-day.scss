@@ -234,28 +234,58 @@
   }
 }
 
-:host([end-of-range][range-hover]) :not(.calcite--rtl) .day-wrapper,
-:host([start-of-range][range-hover]) .calcite--rtl .day-wrapper {
-  background-image: linear-gradient(
-    to right,
-    var(--calcite-ui-foreground-current),
-    var(--calcite-ui-foreground-current),
-    var(--calcite-ui-foreground-2),
-    var(--calcite-ui-foreground-2)
-  );
-  @apply rounded-none shadow-none;
+:host([start-of-range][range-hover]) {
+  :not(.calcite--rtl) {
+    .day-wrapper {
+      background-image: linear-gradient(
+        to left,
+        var(--calcite-ui-foreground-current),
+        var(--calcite-ui-foreground-current),
+        var(--calcite-ui-foreground-2),
+        var(--calcite-ui-foreground-2)
+      );
+      @apply rounded-none shadow-none;
+    }
+  }
+  .calcite--rtl {
+    .day-wrapper {
+      background-image: linear-gradient(
+        to right,
+        var(--calcite-ui-foreground-current),
+        var(--calcite-ui-foreground-current),
+        var(--calcite-ui-foreground-2),
+        var(--calcite-ui-foreground-2)
+      );
+      @apply rounded-none shadow-none;
+    }
+  }
 }
 
-:host([start-of-range][range-hover]) :not(.calcite--rtl) .day-wrapper,
-:host([end-of-range][range-hover]) .calcite--rtl .day-wrapper {
-  background-image: linear-gradient(
-    to left,
-    var(--calcite-ui-foreground-current),
-    var(--calcite-ui-foreground-current),
-    var(--calcite-ui-foreground-2),
-    var(--calcite-ui-foreground-2)
-  );
-  @apply rounded-none shadow-none;
+:host([end-of-range][range-hover]) {
+  :not(.calcite--rtl) {
+    .day-wrapper {
+      background-image: linear-gradient(
+        to right,
+        var(--calcite-ui-foreground-current),
+        var(--calcite-ui-foreground-current),
+        var(--calcite-ui-foreground-2),
+        var(--calcite-ui-foreground-2)
+      );
+      @apply rounded-none shadow-none;
+    }
+  }
+  .calcite--rtl {
+    .day-wrapper {
+      background-image: linear-gradient(
+        to left,
+        var(--calcite-ui-foreground-current),
+        var(--calcite-ui-foreground-current),
+        var(--calcite-ui-foreground-2),
+        var(--calcite-ui-foreground-2)
+      );
+      @apply rounded-none shadow-none;
+    }
+  }
 }
 
 :host(:hover[end-of-range][range-hover]) :not(.calcite--rtl) .day-wrapper,
