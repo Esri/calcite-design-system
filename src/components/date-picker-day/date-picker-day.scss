@@ -312,16 +312,28 @@
   @apply rounded-none shadow-none;
 }
 
-:host(:hover[range-hover]:not([selected]).focused--end) :not(.calcite--rtl),
-:host(:hover[range-hover]:not([selected]).focused--start) .calcite--rtl {
-  .day-wrapper {
-    background-image: linear-gradient(
-      to right,
-      var(--calcite-ui-foreground-2),
-      var(--calcite-ui-foreground-2),
-      var(--calcite-ui-foreground-current),
-      var(--calcite-ui-foreground-current)
-    );
+:host(:hover[range-hover]:not([selected]).focused--start) {
+  :not(.calcite--rtl) {
+    .day-wrapper {
+      background-image: linear-gradient(
+        to right,
+        var(--calcite-ui-foreground-current),
+        var(--calcite-ui-foreground-current),
+        var(--calcite-ui-foreground-2),
+        var(--calcite-ui-foreground-2)
+      );
+    }
+  }
+  .calcite--rtl {
+    .day-wrapper {
+      background-image: linear-gradient(
+        to right,
+        var(--calcite-ui-foreground-2),
+        var(--calcite-ui-foreground-2),
+        var(--calcite-ui-foreground-current),
+        var(--calcite-ui-foreground-current)
+      );
+    }
   }
   .day {
     @apply rounded-full;
@@ -330,16 +342,28 @@
   }
 }
 
-:host(:hover[range-hover]:not([selected]).focused--start) :not(.calcite--rtl),
-:host(:hover[range-hover]:not([selected]).focused--end) .calcite--rtl {
-  .day-wrapper {
-    background-image: linear-gradient(
-      to right,
-      var(--calcite-ui-foreground-current),
-      var(--calcite-ui-foreground-current),
-      var(--calcite-ui-foreground-2),
-      var(--calcite-ui-foreground-2)
-    );
+:host(:hover[range-hover]:not([selected]).focused--end) {
+  :not(.calcite--rtl) {
+    .day-wrapper {
+      background-image: linear-gradient(
+        to right,
+        var(--calcite-ui-foreground-2),
+        var(--calcite-ui-foreground-2),
+        var(--calcite-ui-foreground-current),
+        var(--calcite-ui-foreground-current)
+      );
+    }
+  }
+  .calcite--rtl {
+    .day-wrapper {
+      background-image: linear-gradient(
+        to right,
+        var(--calcite-ui-foreground-current),
+        var(--calcite-ui-foreground-current),
+        var(--calcite-ui-foreground-2),
+        var(--calcite-ui-foreground-2)
+      );
+    }
   }
   .day {
     @apply rounded-full;
