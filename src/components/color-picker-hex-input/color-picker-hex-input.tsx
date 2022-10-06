@@ -96,7 +96,11 @@ export class ColorPickerHexInput {
    */
   @Prop({ mutable: true, reflect: true }) value: string = normalizeHex(DEFAULT_COLOR.hex());
 
-  /** standard UniCode numeral system tag for localization */
+  /**
+   * Specifies the Unicode numeral system used by the component for localization.
+   *
+   * @mdn [numberingSystem](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/Locale/numberingSystem)
+   */
   @Prop() numberingSystem?: string;
 
   @Watch("value")

@@ -60,18 +60,20 @@ export class SplitButton implements InteractiveComponent {
   /**
    * Determines the type of positioning to use for the overlaid content.
    *
-   * Using the "absolute" value will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout. The "fixed" value should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is "fixed".
+   * Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.
+   *
+   * `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
    *
    */
   @Prop({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
-  /** Specifies an icon to display at the end of the primary button - accepts Calcite UI icon names. */
+  /** Specifies an icon to display at the end of the primary button. */
   @Prop({ reflect: true }) primaryIconEnd?: string;
 
-  /**  When true, the primary button icon will be flipped when the element direction is right-to-left ("rtl"). */
+  /**  When true, the primary button icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @Prop({ reflect: true }) primaryIconFlipRtl?: FlipContext;
 
-  /** Specifies an icon to display at the start of the primary button - accepts Calcite UI icon names.  */
+  /** Specifies an icon to display at the start of the primary button. */
   @Prop({ reflect: true }) primaryIconStart?: string;
 
   /** Accessible name for the primary button. */

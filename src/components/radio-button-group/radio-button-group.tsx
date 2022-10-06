@@ -63,7 +63,7 @@ export class RadioButtonGroup {
   /** Specifies the name of the component on form submission. Must be unique to other component instances. */
   @Prop({ reflect: true }) name!: string;
 
-  /** When true, the component must have a value on form submission. */
+  /** When true, the component must have a value in order for the form to submit. */
   @Prop({ reflect: true }) required = false;
 
   /** Specifies the size of the component. */

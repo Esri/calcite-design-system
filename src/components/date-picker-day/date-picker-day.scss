@@ -129,57 +129,92 @@
   }
 }
 
-:host([start-of-range]) :not(.calcite--rtl),
-:host([end-of-range]) .calcite--rtl {
-  .day-wrapper {
-    box-shadow: inset 4px 0 var(--calcite-ui-foreground-1);
+:host([start-of-range]) {
+  :not(.calcite--rtl) {
+    .day-wrapper {
+      box-shadow: inset 4px 0 var(--calcite-ui-foreground-1);
+    }
+  }
+  .calcite--rtl {
+    .day-wrapper {
+      box-shadow: inset -4px 0 var(--calcite-ui-foreground-1);
+    }
   }
   .day {
     opacity: 1;
   }
 }
 
-:host([start-of-range]:not(:focus)) :not(.calcite--rtl),
-:host([end-of-range]:not(:focus)) .calcite--rtl {
-  .day {
-    box-shadow: 0 0 0 2px var(--calcite-ui-foreground-1);
+:host([end-of-range]) {
+  :not(.calcite--rtl) {
+    .day-wrapper {
+      box-shadow: inset -4px 0 var(--calcite-ui-foreground-1);
+    }
   }
-}
-
-:host([end-of-range]) :not(.calcite--rtl),
-:host([start-of-range]) .calcite--rtl {
-  .day-wrapper {
-    box-shadow: inset -4px 0 var(--calcite-ui-foreground-1);
+  .calcite--rtl {
+    .day-wrapper {
+      box-shadow: inset 4px 0 var(--calcite-ui-foreground-1);
+    }
   }
   .day {
     opacity: 1;
   }
 }
 
-:host([end-of-range]:not(:focus)) :not(.calcite--rtl),
-:host([start-of-range]:not(:focus)) .calcite--rtl {
-  .day {
-    box-shadow: 0 0 0 2px var(--calcite-ui-foreground-1);
+:host([start-of-range]:not(:focus)) {
+  :not(.calcite--rtl) {
+    .day {
+      box-shadow: 0 0 0 2px var(--calcite-ui-foreground-1);
+    }
+  }
+  .calcite--rtl {
+    .day {
+      box-shadow: 0 0 0 -2px var(--calcite-ui-foreground-1);
+    }
   }
 }
 
-:host([end-of-range][scale="l"]) :not(.calcite--rtl),
-:host([start-of-range][scale="l"]) .calcite--rtl {
-  .day-wrapper {
-    box-shadow: inset -8px 0 var(--calcite-ui-foreground-1);
+:host([end-of-range]:not(:focus)) {
+  :not(.calcite--rtl) {
+    .day {
+      box-shadow: 0 0 0 -2px var(--calcite-ui-foreground-1);
+    }
+  }
+  .calcite--rtl {
+    .day {
+      box-shadow: 0 0 0 2px var(--calcite-ui-foreground-1);
+    }
   }
 }
 
-:host([start-of-range][scale="l"]) :not(.calcite--rtl),
-:host([end-of-range][scale="l"]) .calcite--rtl {
-  .day-wrapper {
-    box-shadow: inset 8px 0 var(--calcite-ui-foreground-1);
+:host([start-of-range][scale="l"]) {
+  :not(.calcite--rtl) {
+    .day-wrapper {
+      box-shadow: inset 8px 0 var(--calcite-ui-foreground-1);
+    }
+  }
+  .calcite--rtl {
+    .day-wrapper {
+      box-shadow: inset -8px 0 var(--calcite-ui-foreground-1);
+    }
+  }
+}
+
+:host([end-of-range][scale="l"]) {
+  :not(.calcite--rtl) {
+    .day-wrapper {
+      box-shadow: inset -8px 0 var(--calcite-ui-foreground-1);
+    }
+  }
+  .calcite--rtl {
+    .day-wrapper {
+      box-shadow: inset 8px 0 var(--calcite-ui-foreground-1);
+    }
   }
 }
 
 :host([highlighted]) .day-wrapper {
   background-color: var(--calcite-ui-foreground-current);
-
   .day {
     @apply text-color-1;
   }
@@ -198,28 +233,58 @@
   }
 }
 
-:host([end-of-range][range-hover]) :not(.calcite--rtl) .day-wrapper,
-:host([start-of-range][range-hover]) .calcite--rtl .day-wrapper {
-  background-image: linear-gradient(
-    to right,
-    var(--calcite-ui-foreground-current),
-    var(--calcite-ui-foreground-current),
-    var(--calcite-ui-foreground-2),
-    var(--calcite-ui-foreground-2)
-  );
-  @apply rounded-none shadow-none;
+:host([start-of-range][range-hover]) {
+  :not(.calcite--rtl) {
+    .day-wrapper {
+      background-image: linear-gradient(
+        to left,
+        var(--calcite-ui-foreground-current),
+        var(--calcite-ui-foreground-current),
+        var(--calcite-ui-foreground-2),
+        var(--calcite-ui-foreground-2)
+      );
+      @apply rounded-none shadow-none;
+    }
+  }
+  .calcite--rtl {
+    .day-wrapper {
+      background-image: linear-gradient(
+        to right,
+        var(--calcite-ui-foreground-current),
+        var(--calcite-ui-foreground-current),
+        var(--calcite-ui-foreground-2),
+        var(--calcite-ui-foreground-2)
+      );
+      @apply rounded-none shadow-none;
+    }
+  }
 }
 
-:host([start-of-range][range-hover]) :not(.calcite--rtl) .day-wrapper,
-:host([end-of-range][range-hover]) .calcite--rtl .day-wrapper {
-  background-image: linear-gradient(
-    to left,
-    var(--calcite-ui-foreground-current),
-    var(--calcite-ui-foreground-current),
-    var(--calcite-ui-foreground-2),
-    var(--calcite-ui-foreground-2)
-  );
-  @apply rounded-none shadow-none;
+:host([end-of-range][range-hover]) {
+  :not(.calcite--rtl) {
+    .day-wrapper {
+      background-image: linear-gradient(
+        to right,
+        var(--calcite-ui-foreground-current),
+        var(--calcite-ui-foreground-current),
+        var(--calcite-ui-foreground-2),
+        var(--calcite-ui-foreground-2)
+      );
+      @apply rounded-none shadow-none;
+    }
+  }
+  .calcite--rtl {
+    .day-wrapper {
+      background-image: linear-gradient(
+        to left,
+        var(--calcite-ui-foreground-current),
+        var(--calcite-ui-foreground-current),
+        var(--calcite-ui-foreground-2),
+        var(--calcite-ui-foreground-2)
+      );
+      @apply rounded-none shadow-none;
+    }
+  }
 }
 
 :host(:hover[end-of-range][range-hover]) :not(.calcite--rtl) .day-wrapper,
@@ -246,16 +311,28 @@
   @apply rounded-none shadow-none;
 }
 
-:host(:hover[range-hover]:not([selected]).focused--end) :not(.calcite--rtl),
-:host(:hover[range-hover]:not([selected]).focused--start) .calcite--rtl {
-  .day-wrapper {
-    background-image: linear-gradient(
-      to right,
-      var(--calcite-ui-foreground-2),
-      var(--calcite-ui-foreground-2),
-      var(--calcite-ui-foreground-current),
-      var(--calcite-ui-foreground-current)
-    );
+:host(:hover[range-hover]:not([selected]).focused--start) {
+  :not(.calcite--rtl) {
+    .day-wrapper {
+      background-image: linear-gradient(
+        to right,
+        var(--calcite-ui-foreground-current),
+        var(--calcite-ui-foreground-current),
+        var(--calcite-ui-foreground-2),
+        var(--calcite-ui-foreground-2)
+      );
+    }
+  }
+  .calcite--rtl {
+    .day-wrapper {
+      background-image: linear-gradient(
+        to right,
+        var(--calcite-ui-foreground-2),
+        var(--calcite-ui-foreground-2),
+        var(--calcite-ui-foreground-current),
+        var(--calcite-ui-foreground-current)
+      );
+    }
   }
   .day {
     @apply rounded-full;
@@ -264,16 +341,28 @@
   }
 }
 
-:host(:hover[range-hover]:not([selected]).focused--start) :not(.calcite--rtl),
-:host(:hover[range-hover]:not([selected]).focused--end) .calcite--rtl {
-  .day-wrapper {
-    background-image: linear-gradient(
-      to right,
-      var(--calcite-ui-foreground-current),
-      var(--calcite-ui-foreground-current),
-      var(--calcite-ui-foreground-2),
-      var(--calcite-ui-foreground-2)
-    );
+:host(:hover[range-hover]:not([selected]).focused--end) {
+  :not(.calcite--rtl) {
+    .day-wrapper {
+      background-image: linear-gradient(
+        to right,
+        var(--calcite-ui-foreground-2),
+        var(--calcite-ui-foreground-2),
+        var(--calcite-ui-foreground-current),
+        var(--calcite-ui-foreground-current)
+      );
+    }
+  }
+  .calcite--rtl {
+    .day-wrapper {
+      background-image: linear-gradient(
+        to right,
+        var(--calcite-ui-foreground-current),
+        var(--calcite-ui-foreground-current),
+        var(--calcite-ui-foreground-2),
+        var(--calcite-ui-foreground-2)
+      );
+    }
   }
   .day {
     @apply rounded-full;
