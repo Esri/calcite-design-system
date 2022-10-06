@@ -78,7 +78,7 @@ export class Rating implements LabelableComponent, FormComponent, InteractiveCom
   @Prop() intlStars?: string = TEXT.stars;
 
   /**
-   * When true, the component must have a value on form submission.
+   * When true, the component must have a value in order for the form to submit.
    *
    * @internal
    */
@@ -145,7 +145,7 @@ export class Rating implements LabelableComponent, FormComponent, InteractiveCom
           <label
             class={{ star: true, focused, selected, average, hovered, partial }}
             htmlFor={`${this.guid}-${i}`}
-            onMouseOver={() => {
+            onPointerOver={() => {
               this.hoverValue = i;
             }}
           >
@@ -195,7 +195,7 @@ export class Rating implements LabelableComponent, FormComponent, InteractiveCom
           class="fieldset"
           disabled={disabled}
           onBlur={() => (this.hoverValue = null)}
-          onMouseLeave={() => (this.hoverValue = null)}
+          onPointerLeave={() => (this.hoverValue = null)}
           onTouchEnd={() => (this.hoverValue = null)}
         >
           <legend class="visually-hidden">{intlRating}</legend>

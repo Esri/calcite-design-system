@@ -33,7 +33,7 @@ export class Fab implements InteractiveComponent {
   @Prop({ reflect: true }) disabled = false;
 
   /**
-   * The name of the icon to display. The value of this property must match the icon name from https://esri.github.io/calcite-ui-icons/.
+   * Specifies an icon to display.
    *
    * @default "plus"
    */

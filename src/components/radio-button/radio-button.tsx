@@ -97,7 +97,7 @@ export class RadioButton
     this.checkLastRadioButton();
   }
 
-  /** When true, the component must have a value selected from the `calcite-radio-button-group` on form submission. */
+  /** When true, the component must have a value selected from the `calcite-radio-button-group` in order for the form to submit. */
   @Prop({ reflect: true }) required = false;
 
   /** Specifies the size of the component inherited from the `calcite-radio-button-group`. */
@@ -291,12 +291,12 @@ export class RadioButton
   //
   //--------------------------------------------------------------------------
 
-  @Listen("mouseenter")
+  @Listen("pointerenter")
   mouseenter(): void {
     this.hovered = true;
   }
 
-  @Listen("mouseleave")
+  @Listen("pointerleave")
   mouseleave(): void {
     this.hovered = false;
   }

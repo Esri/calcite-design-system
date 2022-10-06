@@ -139,7 +139,7 @@ export class Slider
   @Prop({ reflect: true }) precise = false;
 
   /**
-   * When true, the component must have a value on form submission.
+   * When true, the component must have a value in order for the form to submit.
    */
   @Prop({ reflect: true }) required = false;
 
@@ -874,7 +874,7 @@ export class Slider
    * Fires when the thumb is released on the component.
    *
    * **Note:** If you need to constantly listen to the drag event,
-   * use "calciteSliderInput" instead.
+   * use `calciteSliderInput` instead.
    */
   @Event({ cancelable: false }) calciteSliderChange: EventEmitter<void>;
 
@@ -885,7 +885,7 @@ export class Slider
    * expensive operations consider using a debounce or throttle to avoid
    * locking up the main thread.
    *
-   * @deprecated use "calciteSliderInput" instead.
+   * @deprecated use `calciteSliderInput` instead.
    */
   @Event({ cancelable: false }) calciteSliderUpdate: EventEmitter<void>;
 
@@ -1428,16 +1428,19 @@ export class Slider
   }
 
   /**
-   * Returns a string representing the localized label value based on groupSeparator prop being on or off.
+   * Returns a string representing the localized label value based if the groupSeparator prop is parsed.
    *
    * @param value
    */
-  private determineGroupSeparator = (value): string => {
+  private determineGroupSeparator = (value: number): string => {
     const lang = this.globalAttributes["lang"] || document.documentElement.lang || "en";
-    if (value) {
-      return this.groupSeparator
-        ? localizeNumberString(value.toString(), lang, this.groupSeparator, this.numberingSystem)
-        : value;
+    if (typeof value === "number") {
+      return localizeNumberString(
+        value.toString(),
+        lang,
+        this.groupSeparator,
+        this.numberingSystem
+      );
     }
   };
 }

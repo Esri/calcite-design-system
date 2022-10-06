@@ -62,13 +62,15 @@ const defaultNumberingSystem = browserNumberingSystem === "arab" ? "latn" : brow
 
 export function createLocaleNumberFormatter(
   locale: string,
-  numberingSystem = defaultNumberingSystem
+  numberingSystem = defaultNumberingSystem,
+  signDisplay: "auto" | "never" | "always" | "exceptZero" = "auto"
 ): Intl.NumberFormat {
   return new Intl.NumberFormat(locale, {
     minimumFractionDigits: 0,
     maximumFractionDigits: 20,
-    numberingSystem
-  } as Intl.ResolvedNumberFormatOptions);
+    numberingSystem,
+    signDisplay
+  } as Intl.NumberFormatOptions);
 }
 
 export function delocalizeNumberString(numberString: string, locale: string): string {
