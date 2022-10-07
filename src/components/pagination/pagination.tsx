@@ -7,7 +7,8 @@ import {
   Prop,
   Method,
   VNode,
-  Fragment
+  Fragment,
+  State
 } from "@stencil/core";
 import { Scale } from "../interfaces";
 import {
@@ -88,10 +89,7 @@ export class Pagination implements LocalizedComponent {
   //
   //--------------------------------------------------------------------------
 
-  /**
-   * @internal
-   */
-  @Prop({ mutable: true }) effectiveLocale = "";
+  @State() effectiveLocale = "";
 
   //--------------------------------------------------------------------------
   //

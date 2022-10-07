@@ -198,10 +198,7 @@ export class TimePicker implements LocalizedComponent {
   //
   // --------------------------------------------------------------------------
 
-  /**
-   * @internal
-   */
-  @Prop({ mutable: true }) effectiveLocale = "";
+  @State() effectiveLocale = "";
 
   @Watch("effectiveLocale")
   effectiveLocaleWatcher(): void {

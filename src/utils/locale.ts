@@ -1,7 +1,8 @@
 import { BigDecimal, isValidNumber, sanitizeDecimalString, sanitizeExponentialNumberString } from "./number";
 import { createObserver } from "./observers";
-import { closestElementCrossShadowBoundary } from "./dom";
+import { closestElementCrossShadowBoundary, containsCrossShadowBoundary } from "./dom";
 
+const defaultLocale = "en";
 export const locales = [
   "ar",
   "bg",
@@ -12,7 +13,7 @@ export const locales = [
   "de",
   "de-CH",
   "el",
-  "en",
+  defaultLocale,
   "en-AU",
   "en-CA",
   "en-GB",
@@ -184,11 +185,10 @@ export interface LocalizedComponent {
   /**
    * Used to store the effective locale to avoid multiple lookups.
    *
-   * This is an internal prop and should:
+   * This is an internal property and should:
    *
-   * - use the `@Prop({ mutable: true })` decorator (made mutable)
+   * - use the `@State` decorator
    * - be initialized to ""
-   * - use the @internal JSDoc tag
    *
    * Components should watch this prop to ensure messages are updated.
    *
@@ -196,8 +196,6 @@ export interface LocalizedComponent {
    * effectiveLocaleChange(): void {
    *   updateMessages(this, this.effectiveLocale);
    * }
-   *
-   * This property should only be set by composite components for all supporting `LocalizedComponent`s.
    */
   effectiveLocale: string;
 }
@@ -256,17 +254,25 @@ const mutationObserver = createObserver("mutation", (records) => {
     const el = record.target as HTMLElement;
 
     connectedComponents.forEach((component) => {
-      if (component.locale || (component.el.lang && el !== component.el) || !el.contains(component.el)) {
+      const hasOverridingLocale = !!(component.locale && !component.el.lang);
+      const inUnrelatedSubtree = !containsCrossShadowBoundary(el, component.el);
+
+      if (hasOverridingLocale || inUnrelatedSubtree) {
         return;
       }
 
       const closestLangEl = closestElementCrossShadowBoundary<HTMLElement>(component.el, "[lang]");
 
-      if (closestLangEl !== el) {
+      if (!closestLangEl) {
+        component.effectiveLocale = defaultLocale;
         return;
       }
 
-      component.effectiveLocale = closestLangEl.lang;
+      const closestLang = closestLangEl.lang;
+
+      component.effectiveLocale =
+        // user set lang="" means unknown language, so we use default
+        closestLangEl.hasAttribute("lang") && closestLang === "" ? defaultLocale : closestLang;
     });
   });
 });
@@ -283,6 +289,6 @@ function getLocale(component: LocalizedComponent): string {
     component.locale ||
     closestElementCrossShadowBoundary<HTMLElement>(component.el, "[lang]")?.lang ||
     document.documentElement.lang ||
-    "en"
+    defaultLocale
   );
 }
