@@ -154,10 +154,7 @@ export class Action implements InteractiveComponent, LocalizedComponent, T9nComp
 
   mutationObserver = createObserver("mutation", () => forceUpdate(this));
 
-  /**
-   * @internal
-   */
-  @Prop({ mutable: true }) effectiveLocale: string;
+  @State() effectiveLocale = "";
 
   @Watch("effectiveLocale")
   effectiveLocaleChange(): void {
