@@ -742,6 +742,11 @@ export class InputDatePicker
     const { defaultPrevented, key } = event;
     if (key === "Enter" && !defaultPrevented) {
       this.commitValue();
+      if (this.shouldFocusRangeEnd()) {
+        this.endInput?.setFocus();
+      } else if (this.shouldFocusRangeStart()) {
+        this.startInput?.setFocus();
+      }
       if (submitForm(this)) {
         event.preventDefault();
       }
@@ -847,6 +852,7 @@ export class InputDatePicker
     const { startDate, endDate } = event.detail;
 
     this.setRangeValue([startDate, endDate]);
+    this.localizeInputValues();
 
     if (this.shouldFocusRangeEnd()) {
       this.endInput?.setFocus();
