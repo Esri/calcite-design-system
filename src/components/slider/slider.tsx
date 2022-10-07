@@ -928,10 +928,7 @@ export class Slider
 
   private trackEl: HTMLDivElement;
 
-  /**
-   * @internal
-   */
-  @Prop({ mutable: true }) effectiveLocale = "";
+  @State() effectiveLocale = "";
 
   @State() private activeProp: ActiveSliderProperty = "value";
 

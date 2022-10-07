@@ -296,10 +296,7 @@ export class DatePicker implements LocalizedComponent {
   //
   //--------------------------------------------------------------------------
 
-  /**
-   * @internal
-   */
-  @Prop({ mutable: true }) effectiveLocale = "";
+  @State() effectiveLocale = "";
 
   @State() private localeData: DateLocaleData;
 
@@ -468,7 +465,6 @@ export class DatePicker implements LocalizedComponent {
           intlNextMonth={this.intlNextMonth}
           intlPrevMonth={this.intlPrevMonth}
           intlYear={this.intlYear}
-          lang={this.effectiveLocale}
           localeData={this.localeData}
           max={maxDate}
           min={minDate}

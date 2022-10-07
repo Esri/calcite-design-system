@@ -313,10 +313,7 @@ export class Alert implements OpenCloseComponent, LocalizedComponent {
   //
   //--------------------------------------------------------------------------
 
-  /**
-   * @internal
-   */
-  @Prop({ mutable: true }) effectiveLocale = "";
+  @State() effectiveLocale = "";
 
   /** the list of queued alerts */
   @State() queue: HTMLCalciteAlertElement[] = [];
