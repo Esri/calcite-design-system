@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, disabled, hidden, renders, slots } from "../../tests/commonTests";
+import { accessible, disabled, hidden, renders, slots, t9n } from "../../tests/commonTests";
 import { CSS, SLOTS } from "./resources";
 
 describe("calcite-action", () => {
@@ -127,4 +127,6 @@ describe("calcite-action", () => {
     const referenceElement: HTMLElement = await tooltip.getProperty("referenceElement");
     expect(referenceElement).toBeDefined();
   });
+
+  it("support translation", () => t9n("<calcite-action text=`Example action text` text-enabled></calcite-action>"));
 });

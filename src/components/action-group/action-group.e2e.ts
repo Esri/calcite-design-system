@@ -1,4 +1,4 @@
-import { accessible, hidden, renders, slots } from "../../tests/commonTests";
+import { accessible, hidden, renders, slots, t9n } from "../../tests/commonTests";
 import { newE2EPage } from "@stencil/core/testing";
 import { SLOTS } from "./resources";
 
@@ -28,4 +28,9 @@ describe("calcite-action-group", () => {
 
     expect(await menu.getProperty("scale")).toBe("l");
   });
+
+  it("support translation", () =>
+    t9n(
+      "<calcite-action-group><calcite-action text=`Undo` icon=`undo`></calcite-action><calcite-action text=`Redo` icon=`redo`></calcite-action></calcite-action-group>"
+    ));
 });

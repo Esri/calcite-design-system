@@ -145,7 +145,7 @@ export function localizeNumberString(
 
 export function getSupportedLocale(locale: string): string {
   if (!locale) {
-    return "en";
+    return defaultLocale;
   }
 
   if (locales.indexOf(locale) > -1) {
@@ -167,7 +167,7 @@ export function getSupportedLocale(locale: string): string {
     }
   }
 
-  return locales.includes(locale) ? locale : "en";
+  return locales.includes(locale) ? locale : defaultLocale;
 }
 
 /**
