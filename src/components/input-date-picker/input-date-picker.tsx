@@ -842,6 +842,8 @@ export class InputDatePicker
       return;
     }
 
+    event.stopPropagation();
+
     const { startDate, endDate } = event.detail;
 
     this.setRangeValue([startDate, endDate]);
