@@ -227,11 +227,16 @@ export class InputTimePicker
 
   //--------------------------------------------------------------------------
   //
-  //  State
+  //  State / Private Props
   //
   //--------------------------------------------------------------------------
 
-  @State() effectiveLocale = "";
+  @State() localizedValue: string;
+
+  /**
+   * @internal
+   */
+  @Prop({ mutable: true }) effectiveLocale = "";
 
   @Watch("effectiveLocale")
   effectiveLocaleWatcher(): void {
@@ -239,8 +244,6 @@ export class InputTimePicker
       localizeTimeString(this.value, this.effectiveLocale, this.shouldIncludeSeconds())
     );
   }
-
-  @State() localizedValue: string;
 
   //--------------------------------------------------------------------------
   //
@@ -532,7 +535,6 @@ export class InputTimePicker
             intlSecond={this.intlSecond}
             intlSecondDown={this.intlSecondDown}
             intlSecondUp={this.intlSecondUp}
-            lang={this.effectiveLocale}
             messageOverrides={this.messagesOverride}
             onCalciteInternalTimePickerChange={this.timePickerChangeHandler}
             ref={this.setCalciteTimePickerEl}
