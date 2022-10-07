@@ -159,7 +159,7 @@ export class DatePickerMonth {
     this.activeFocus = false;
   };
 
-  @Listen("mouseout")
+  @Listen("pointerout")
   mouseoutHandler(): void {
     this.calciteInternalDatePickerMouseOut.emit();
   }

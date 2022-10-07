@@ -200,7 +200,7 @@ export class TileSelect implements InteractiveComponent {
     }
   }
 
-  @Listen("mouseenter")
+  @Listen("pointerenter")
   mouseenter(): void {
     if (this.input.localName === "calcite-radio-button") {
       (this.input as HTMLCalciteRadioButtonElement).hovered = true;
@@ -210,7 +210,7 @@ export class TileSelect implements InteractiveComponent {
     }
   }
 
-  @Listen("mouseleave")
+  @Listen("pointerleave")
   mouseleave(): void {
     if (this.input.localName === "calcite-radio-button") {
       (this.input as HTMLCalciteRadioButtonElement).hovered = false;

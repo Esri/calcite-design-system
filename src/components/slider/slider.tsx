@@ -139,7 +139,7 @@ export class Slider
   @Prop({ reflect: true }) precise = false;
 
   /**
-   * When true, the component must have a value on form submission.
+   * When true, the component must have a value in order for the form to submit.
    */
   @Prop({ reflect: true }) required = false;
 
@@ -178,11 +178,11 @@ export class Slider
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
+    connectLocalized(this);
     this.setMinMaxFromValue();
     this.setValueFromMinMax();
     connectLabel(this);
     connectForm(this);
-    connectLocalized(this);
   }
 
   disconnectedCallback(): void {
@@ -874,7 +874,7 @@ export class Slider
    * Fires when the thumb is released on the component.
    *
    * **Note:** If you need to constantly listen to the drag event,
-   * use "calciteSliderInput" instead.
+   * use `calciteSliderInput` instead.
    */
   @Event({ cancelable: false }) calciteSliderChange: EventEmitter<void>;
 
@@ -885,7 +885,7 @@ export class Slider
    * expensive operations consider using a debounce or throttle to avoid
    * locking up the main thread.
    *
-   * @deprecated use "calciteSliderInput" instead.
+   * @deprecated use `calciteSliderInput` instead.
    */
   @Event({ cancelable: false }) calciteSliderUpdate: EventEmitter<void>;
 
@@ -1428,20 +1428,18 @@ export class Slider
   }
 
   /**
-   * Returns a string representing the localized label value based on groupSeparator prop being on or off.
+   * Returns a string representing the localized label value based if the groupSeparator prop is parsed.
    *
    * @param value
    */
-  private determineGroupSeparator = (value): string => {
-    if (value) {
-      return this.groupSeparator
-        ? localizeNumberString(
-            value.toString(),
-            this.effectiveLocale,
-            this.groupSeparator,
-            this.numberingSystem
-          )
-        : value;
+  private determineGroupSeparator = (value: number): string => {
+    if (typeof value === "number") {
+      return localizeNumberString(
+        value.toString(),
+        this.effectiveLocale,
+        this.groupSeparator,
+        this.numberingSystem
+      );
     }
   };
 }
