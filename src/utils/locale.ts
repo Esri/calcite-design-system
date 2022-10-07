@@ -144,6 +144,10 @@ export function localizeNumberString(
 }
 
 export function getSupportedLocale(locale: string): string {
+  if (!locale) {
+    return "en";
+  }
+
   if (locales.indexOf(locale) > -1) {
     return locale;
   }
