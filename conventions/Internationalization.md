@@ -43,7 +43,6 @@ This pattern enables components to support built-in translations. In order to su
 
 - This pattern depends on `LocalizedComponent` being implemented.
 - `connectLocalized` (from `LocalizedComponent`) must be called before `connectMessages`.
-- Composite components must set the _internal_ `effectiveLocale` on their internal/supporting components to ensure the locale is propagated
 - Although Intl props are supported, message overrides have the higher precedence.
 - If a message string has a matching Intl prop, its translation bundle message keys must match the same prop name without the `intl` prefix (e.g., `intlClose` -> `close`)
 - You can also look at the interface and util documentation for additional info.
