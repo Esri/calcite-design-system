@@ -78,7 +78,7 @@ export class Rating implements LabelableComponent, FormComponent, InteractiveCom
   @Prop() intlStars?: string = TEXT.stars;
 
   /**
-   * When true, the component must have a value on form submission.
+   * When true, the component must have a value in order for the form to submit.
    *
    * @internal
    */

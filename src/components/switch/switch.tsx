@@ -57,7 +57,7 @@ export class Switch implements LabelableComponent, CheckableFormComponent, Inter
   /**
    * When true, the component is checked.
    *
-   * @deprecated use "checked" instead.
+   * @deprecated use `checked` instead.
    */
   @Prop({ mutable: true, reflect: true }) switched = false;
 

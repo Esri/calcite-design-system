@@ -178,14 +178,12 @@ export class FlowItem implements InteractiveComponent {
   /**
    * Scrolls the component's content to a specified set of coordinates.
    *
-   * ```
-   *   myCalciteFlowItem.scrollContentTo({
-   *     left: 0, // Specifies the number of pixels along the X axis to scroll the window or element.
-   *     top: 0, // Specifies the number of pixels along the Y axis to scroll the window or element
-   *     behavior: "auto" // Specifies whether the scrolling should animate smoothly (smooth), or happen instantly in a single jump (auto, the default value).
-   *   });
-   * ```
-   *
+   * @example
+   * myCalciteFlowItem.scrollContentTo({
+   *   left: 0, // Specifies the number of pixels along the X axis to scroll the window or element.
+   *   top: 0, // Specifies the number of pixels along the Y axis to scroll the window or element
+   *   behavior: "auto" // Specifies whether the scrolling should animate smoothly (smooth), or happen instantly in a single jump (auto, the default value).
+   * });
    * @param options
    */
   @Method()

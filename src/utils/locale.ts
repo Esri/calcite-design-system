@@ -97,12 +97,14 @@ export function isNumberingSystemSupported(numberingSystem: string): numberingSy
 
 export function createLocaleNumberFormatter(
   locale: string,
-  numberingSystem = defaultNumberingSystem
+  numberingSystem = defaultNumberingSystem,
+  signDisplay: "auto" | "never" | "always" | "exceptZero" = "auto"
 ): Intl.NumberFormat {
   return new Intl.NumberFormat(locale, {
     minimumFractionDigits: 0,
     maximumFractionDigits: 20,
-    numberingSystem: isNumberingSystemSupported(numberingSystem) ? numberingSystem : defaultNumberingSystem
+    numberingSystem: isNumberingSystemSupported(numberingSystem) ? numberingSystem : defaultNumberingSystem,
+    signDisplay
   } as Intl.ResolvedNumberFormatOptions);
 }
 

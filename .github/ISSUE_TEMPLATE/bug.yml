@@ -77,6 +77,8 @@ body:
       description: If you work at Esri, please select your product team. Otherwise choose "N/A".
       options:
         - N/A
+        - Calcite (dev)
+        - Calcite (design)
         - ArcGIS API for JavaScript
         - ArcGIS AppStudio
         - ArcGIS Business/Community Analyst

@@ -137,7 +137,7 @@ export class Slider
   @Prop({ reflect: true }) precise = false;
 
   /**
-   * When true, the component must have a value on form submission.
+   * When true, the component must have a value in order for the form to submit.
    */
   @Prop({ reflect: true }) required = false;
 
@@ -872,7 +872,7 @@ export class Slider
    * Fires when the thumb is released on the component.
    *
    * **Note:** If you need to constantly listen to the drag event,
-   * use "calciteSliderInput" instead.
+   * use `calciteSliderInput` instead.
    */
   @Event({ cancelable: false }) calciteSliderChange: EventEmitter<void>;
 
@@ -883,7 +883,7 @@ export class Slider
    * expensive operations consider using a debounce or throttle to avoid
    * locking up the main thread.
    *
-   * @deprecated use "calciteSliderInput" instead.
+   * @deprecated use `calciteSliderInput` instead.
    */
   @Event({ cancelable: false }) calciteSliderUpdate: EventEmitter<void>;
 
