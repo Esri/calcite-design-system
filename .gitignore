@@ -32,3 +32,4 @@ UserInterfaceState.xcuserstate
 log.txt
 src/components.d.ts
 src/components/icon/assets
+src/components/*/assets/*/t9n/index.d.ts
