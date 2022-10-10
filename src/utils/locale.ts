@@ -376,9 +376,12 @@ class NumberStringFormat {
 
     const parts = new Intl.NumberFormat(this.locale).formatToParts(-12345678.9);
     const index = new Map(this.digits.map((d, i) => [d, i]));
-    this.minusSign = parts.find((d) => d.type === "minusSign").value;
-    this.group = parts.find((d) => d.type === "group").value;
+
+    const actualGroup = parts.find((d) => d.type === "group").value;
+    // change whitespace group characters that don't render correctly
+    this.group = actualGroup.trim().length === 0 ? " " : actualGroup;
     this.decimal = parts.find((d) => d.type === "decimal").value;
+    this.minusSign = parts.find((d) => d.type === "minusSign").value;
     this.getDigitIndex = (d) => index.get(d);
   };
 
