@@ -1,0 +1,14 @@
+{
+  "hour": "بيت_Hour_________لاحقة",
+  "hourDown": "بيت_Decrease hour______________لاحقة",
+  "hourUp": "بيت_Increase hour______________لاحقة",
+  "meridiem": "بيت_AM/PM___________لاحقة",
+  "meridiemDown": "بيت_Decrease AM/PM_______________لاحقة",
+  "meridiemUp": "بيت_Increase AM/PM_______________لاحقة",
+  "minute": "بيت_Minute_____________لاحقة",
+  "minuteDown": "بيت_Decrease minute________________لاحقة",
+  "minuteUp": "بيت_Increase minute________________لاحقة",
+  "second": "بيت_Second_____________لاحقة",
+  "secondDown": "بيت_Decrease second________________لاحقة",
+  "secondUp": "بيت_Increase second________________لاحقة"
+}
