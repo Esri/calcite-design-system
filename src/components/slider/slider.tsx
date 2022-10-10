@@ -28,12 +28,12 @@ import {
 } from "../../utils/form";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { isActivationKey } from "../../utils/key";
-import { localizeNumberString } from "../../utils/locale";
 import {
-  GlobalAttrComponent,
-  watchGlobalAttributes,
-  unwatchGlobalAttributes
-} from "../../utils/globalAttributes";
+  connectLocalized,
+  disconnectLocalized,
+  LocalizedComponent,
+  localizeNumberString
+} from "../../utils/locale";
 import { CSS } from "./resources";
 
 type ActiveSliderProperty = "minValue" | "maxValue" | "value" | "minMaxValue";
@@ -48,7 +48,7 @@ function isRange(value: number | number[]): value is number[] {
   shadow: true
 })
 export class Slider
-  implements LabelableComponent, FormComponent, InteractiveComponent, GlobalAttrComponent
+  implements LabelableComponent, FormComponent, InteractiveComponent, LocalizedComponent
 {
   //--------------------------------------------------------------------------
   //
@@ -178,18 +178,18 @@ export class Slider
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
+    connectLocalized(this);
     this.setMinMaxFromValue();
     this.setValueFromMinMax();
     connectLabel(this);
     connectForm(this);
-    watchGlobalAttributes(this, ["lang"]);
   }
 
   disconnectedCallback(): void {
     disconnectLabel(this);
     disconnectForm(this);
+    disconnectLocalized(this);
     this.removeDragListeners();
-    unwatchGlobalAttributes(this);
   }
 
   componentWillLoad(): void {
@@ -928,6 +928,8 @@ export class Slider
 
   private trackEl: HTMLDivElement;
 
+  @State() effectiveLocale = "";
+
   @State() private activeProp: ActiveSliderProperty = "value";
 
   @State() private minMaxValueRange: number = null;
@@ -937,8 +939,6 @@ export class Slider
   @State() private maxValueDragRange: number = null;
 
   @State() private tickValues: number[] = [];
-
-  @State() globalAttributes = {};
 
   //--------------------------------------------------------------------------
   //
@@ -1433,11 +1433,10 @@ export class Slider
    * @param value
    */
   private determineGroupSeparator = (value: number): string => {
-    const lang = this.globalAttributes["lang"] || document.documentElement.lang || "en";
     if (typeof value === "number") {
       return localizeNumberString(
         value.toString(),
-        lang,
+        this.effectiveLocale,
         this.groupSeparator,
         this.numberingSystem
       );
