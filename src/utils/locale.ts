@@ -326,6 +326,9 @@ interface NumberStringFormatOptions {
   useGrouping: boolean;
 }
 
+/**
+ * This util localizes and de-localizes numbers
+ */
 class NumberStringFormat {
   numberingSystem: string;
 
@@ -333,11 +336,15 @@ class NumberStringFormat {
 
   useGrouping: boolean;
 
-  minusSign: string;
+  // some white space group separators don't render correctly in the browser
+  // so we replace them with a normal <SPACE>
+  actualGroup: string;
 
   group: string;
 
   decimal: string;
+
+  minusSign: string;
 
   digits: Array<string>;
 
@@ -346,6 +353,7 @@ class NumberStringFormat {
   numberFormatter: Intl.NumberFormat;
 
   setOptions = (options: NumberStringFormatOptions) => {
+    // cache formatter by only re-creating when options change
     if (
       options?.numberingSystem === this.numberingSystem &&
       options?.locale === this.locale &&
@@ -377,9 +385,9 @@ class NumberStringFormat {
     const parts = new Intl.NumberFormat(this.locale).formatToParts(-12345678.9);
     const index = new Map(this.digits.map((d, i) => [d, i]));
 
-    const actualGroup = parts.find((d) => d.type === "group").value;
+    this.actualGroup = parts.find((d) => d.type === "group").value;
     // change whitespace group characters that don't render correctly
-    this.group = actualGroup.trim().length === 0 ? " " : actualGroup;
+    this.group = this.actualGroup.trim().length === 0 ? " " : this.actualGroup;
     this.decimal = parts.find((d) => d.type === "decimal").value;
     this.minusSign = parts.find((d) => d.type === "minusSign").value;
     this.getDigitIndex = (d) => index.get(d);
@@ -398,7 +406,9 @@ class NumberStringFormat {
   localize = (numberString: string) =>
     sanitizeExponentialNumberString(numberString, (nonExpoNumString: string): string =>
       isValidNumber(nonExpoNumString)
-        ? new BigDecimal(nonExpoNumString.trim()).format(this.numberFormatter)
+        ? new BigDecimal(nonExpoNumString.trim())
+            .format(this.numberFormatter)
+            .replace(new RegExp(`[${this.actualGroup}]`, "g"), this.group)
         : nonExpoNumString
     );
 }

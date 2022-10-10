@@ -846,7 +846,7 @@ export class Input
       const sanitizedValue = sanitizeNumberString(delocalizedValue);
 
       const newValue =
-        value && !sanitizedValue
+        (value && !sanitizedValue) || [".", "-"].includes(sanitizedValue)
           ? isValidNumber(this.previousValue)
             ? this.previousValue
             : ""
