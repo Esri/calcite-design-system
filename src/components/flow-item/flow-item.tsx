@@ -127,7 +127,19 @@ export class FlowItem implements InteractiveComponent {
   /**
    * Fires when the back button is clicked.
    */
+  @Event({ cancelable: false }) calciteFlowItemBack: EventEmitter<void>;
+
+  /**
+   * Fires when the back button is clicked.
+   *
+   * @deprecated use calciteFlowItemBack instead.
+   */
   @Event({ cancelable: false }) calciteFlowItemBackClick: EventEmitter<void>;
+
+  /**
+   * Fires when the close button is clicked.
+   */
+  @Event({ cancelable: false }) calciteFlowItemClose: EventEmitter<void>;
 
   // --------------------------------------------------------------------------
   //
@@ -166,14 +178,12 @@ export class FlowItem implements InteractiveComponent {
   /**
    * Scrolls the component's content to a specified set of coordinates.
    *
-   * ```
-   *   myCalciteFlowItem.scrollContentTo({
-   *     left: 0, // Specifies the number of pixels along the X axis to scroll the window or element.
-   *     top: 0, // Specifies the number of pixels along the Y axis to scroll the window or element
-   *     behavior: "auto" // Specifies whether the scrolling should animate smoothly (smooth), or happen instantly in a single jump (auto, the default value).
-   *   });
-   * ```
-   *
+   * @example
+   * myCalciteFlowItem.scrollContentTo({
+   *   left: 0, // Specifies the number of pixels along the X axis to scroll the window or element.
+   *   top: 0, // Specifies the number of pixels along the Y axis to scroll the window or element
+   *   behavior: "auto" // Specifies whether the scrolling should animate smoothly (smooth), or happen instantly in a single jump (auto, the default value).
+   * });
    * @param options
    */
   @Method()
@@ -187,8 +197,14 @@ export class FlowItem implements InteractiveComponent {
   //
   // --------------------------------------------------------------------------
 
+  handlePanelClose = (event: CustomEvent<void>): void => {
+    event.stopPropagation();
+    this.calciteFlowItemClose.emit();
+  };
+
   backButtonClick = (): void => {
     this.calciteFlowItemBackClick.emit();
+    this.calciteFlowItemBack.emit();
   };
 
   setBackRef = (node: HTMLCalciteActionElement): void => {
@@ -261,6 +277,7 @@ export class FlowItem implements InteractiveComponent {
           intlOptions={intlOptions}
           loading={loading}
           menuOpen={menuOpen}
+          onCalcitePanelClose={this.handlePanelClose}
           widthScale={widthScale}
         >
           <slot name={SLOTS.headerActionsStart} slot={PANEL_SLOTS.headerActionsStart} />

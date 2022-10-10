@@ -149,7 +149,7 @@ export class DatePicker implements LocalizedComponent, T9nComponent {
   @Prop() intlYear?: string;
 
   /**
-   * BCP 47 language tag for desired language and country format
+   * Specifies the BCP 47 language tag for the desired language and country format.
    *
    * @deprecated set the global `lang` attribute on the element instead.
    * @mdn [lang](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/lang)
@@ -333,10 +333,7 @@ export class DatePicker implements LocalizedComponent, T9nComponent {
   //
   //--------------------------------------------------------------------------
 
-  /**
-   * @internal
-   */
-  @Prop({ mutable: true }) effectiveLocale = "";
+  @State() effectiveLocale = "";
 
   @Watch("effectiveLocale")
   effectiveLocaleChange(): void {
