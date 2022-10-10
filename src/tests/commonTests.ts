@@ -6,6 +6,7 @@ import { config } from "../../stencil.config";
 import { GlobalTestProps, skipAnimations } from "./utils";
 import { hiddenFormInputSlotName } from "../utils/form";
 import { html } from "../../support/formatting";
+import { MessageBundle } from "../utils/t9n";
 
 expect.extend(toHaveNoViolations);
 
@@ -368,7 +369,8 @@ export async function labelable(componentTagOrHtml: TagOrHTML, options?: Labelab
   function ensureId(html: string): string {
     return html.includes("id=") ? html : html.replace(componentTag, `${componentTag} id="${id}" `);
   }
-  const wrappedHtml = html`<calcite-label> ${labelTitle} ${componentHtml} </calcite-label>`;
+
+  const wrappedHtml = html` <calcite-label> ${labelTitle} ${componentHtml}</calcite-label>`;
   const wrappedPage: E2EPage = await newE2EPage({ html: wrappedHtml });
   await wrappedPage.waitForChanges();
 
@@ -506,12 +508,12 @@ export async function formAssociated(componentTagOrHtml: TagOrHTML, options: For
   }
 
   const page = await newE2EPage({
-    html: html`<form>
+    html: html` <form>
       ${componentHtml}
       <!--
-      keeping things simple by using submit-type input
-      this should cover button and calcite-button submit cases
-      -->
+          keeping things simple by using submit-type input
+          this should cover button and calcite-button submit cases
+          -->
       <input id="submitter" type="submit" />
     </form>`
   });
@@ -902,4 +904,98 @@ export async function floatingUIOwner(
   await page.waitForChanges();
 
   expect(await getTransform()).toBe(initialOpenTransform);
+}
+
+/**
+ * Helper to test t9n component setup
+ *
+ * @param {TagOrHTML|TagAndPage} componentSetup - A component tag, html, or an object with e2e page and tag for setting up a test
+ */
+export async function t9n(componentSetup: TagOrHTML | TagAndPage): Promise<void> {
+  const { page, tag } = await getTagAndPage(componentSetup);
+  const component = await page.find(tag);
+
+  await assertDefaultMessages();
+  await assertIntlPropAsOverrides();
+  await assertOverrides();
+  await assertLangSwitch();
+
+  async function getCurrentMessages(): Promise<MessageBundle> {
+    return page.$eval(tag, (component: HTMLElement & { messages: MessageBundle }) => component.messages);
+  }
+
+  async function assertDefaultMessages(): Promise<void> {
+    expect(await getCurrentMessages()).toBeDefined();
+  }
+
+  async function assertIntlPropAsOverrides(): Promise<void> {
+    const intlProps = await page.$eval(tag, (component: HTMLElement) =>
+      Object.keys(component.constructor.prototype).filter((prop) => prop.startsWith("intl"))
+    );
+
+    if (intlProps.length > 0) {
+      const props: Partial<MessageBundle> = {};
+
+      for (const prop of intlProps) {
+        const index = intlProps.indexOf(prop);
+        const mappedPropName = prop.replace("intl", "");
+        props[mappedPropName[0].toLowerCase() + mappedPropName.slice(1)] = `${index}`;
+
+        component.setProperty(prop, `${index}`);
+        await page.waitForChanges();
+      }
+
+      expect(props).toEqual(await getCurrentMessages());
+
+      // reset test changes
+      for (const prop of intlProps) {
+        component.setProperty(prop, undefined);
+        await page.waitForChanges();
+      }
+    }
+  }
+
+  async function assertOverrides(): Promise<void> {
+    const messages = await getCurrentMessages();
+    const firstMessageProp = Object.keys(messages)[0];
+    const messageOverride = { [firstMessageProp]: "override test" };
+
+    component.setProperty("messageOverrides", messageOverride);
+    await page.waitForChanges();
+
+    expect(await getCurrentMessages()).toEqual({
+      ...messages,
+      ...messageOverride
+    });
+
+    // reset test changes
+    component.setProperty("messageOverrides", undefined);
+    await page.waitForChanges();
+  }
+
+  async function assertLangSwitch(): Promise<void> {
+    await page.evaluate(() => {
+      const orig = window.fetch;
+      window.fetch = async function (input, init) {
+        if (typeof input === "string" && input.endsWith("messages_es.json")) {
+          const dummyMessages = {};
+          window.fetch = orig;
+          return new Response(new Blob([JSON.stringify(dummyMessages, null, 2)], { type: "application/json" }));
+        }
+
+        return orig.call(input, init);
+      };
+    });
+
+    component.setAttribute("lang", "es");
+    await page.waitForChanges();
+    await page.waitForTimeout(3000);
+    const esMessages = await getCurrentMessages();
+
+    expect(esMessages).toEqual({});
+
+    // reset test changes
+    component.removeAttribute("lang");
+    await page.waitForChanges();
+  }
 }
