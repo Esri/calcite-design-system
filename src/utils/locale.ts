@@ -207,7 +207,7 @@ const connectedComponents = new Set<LocalizedComponent>();
 /**
  * This utility sets up internals for messages support.
  *
- * It needs to be called in `connectedCallback`
+ * It needs to be called in `connectedCallback` before any logic that depends on locale
  *
  * @param component
  */
