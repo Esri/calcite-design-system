@@ -1,6 +1,8 @@
-import { sanitizeDecimalString, sanitizeExponentialNumberString, isValidNumber, BigDecimal } from "./number";
-import { GlobalAttrComponent } from "./globalAttributes";
+import { BigDecimal, isValidNumber, sanitizeDecimalString, sanitizeExponentialNumberString } from "./number";
+import { createObserver } from "./observers";
+import { closestElementCrossShadowBoundary, containsCrossShadowBoundary } from "./dom";
 
+const defaultLocale = "en";
 export const locales = [
   "ar",
   "bg",
@@ -11,7 +13,7 @@ export const locales = [
   "de",
   "de-CH",
   "el",
-  "en",
+  defaultLocale,
   "en-AU",
   "en-CA",
   "en-GB",
@@ -139,10 +141,30 @@ export function localizeNumberString(
   });
 }
 
+export function getSupportedLocale(locale: string): string {
+  if (locales.indexOf(locale) > -1) {
+    return locale;
+  }
+
+  locale = locale.toLowerCase();
+
+  if (locale.includes("-")) {
+    locale = locale.replace(/(\w+)-(\w+)/, (_match, language, region) => `${language}-${region.toUpperCase()}`);
+
+    if (!locales.includes(locale)) {
+      locale = locale.split("-")[0];
+    }
+  }
+
+  return locales.includes(locale) ? locale : "en";
+}
+
 /**
  * This interface is for components that need to determine locale from the lang attribute.
  */
-export interface LangComponent extends GlobalAttrComponent {
+export interface LocalizedComponent {
+  el: HTMLElement;
+
   /**
    * BCP 47 language tag for desired language and country format
    *
@@ -152,7 +174,101 @@ export interface LangComponent extends GlobalAttrComponent {
    * @mdn [lang](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/lang)
    */
   locale?: string;
+
+  /**
+   * Used to store the effective locale to avoid multiple lookups.
+   *
+   * This is an internal property and should:
+   *
+   * - use the `@State` decorator
+   * - be initialized to ""
+   *
+   * Components should watch this prop to ensure messages are updated.
+   *
+   * @Watch("effectiveLocale")
+   * effectiveLocaleChange(): void {
+   *   updateMessages(this, this.effectiveLocale);
+   * }
+   */
+  effectiveLocale: string;
 }
+
+const connectedComponents = new Set<LocalizedComponent>();
+
+/**
+ * This utility sets up internals for messages support.
+ *
+ * It needs to be called in `connectedCallback`
+ *
+ * @param component
+ */
+export function connectLocalized(component: LocalizedComponent): void {
+  updateEffectiveLocale(component);
+
+  if (connectedComponents.size === 0) {
+    mutationObserver.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["lang"],
+      subtree: true
+    });
+  }
+
+  connectedComponents.add(component);
+}
+
+/**
+ * This is only exported for components that implemented the now deprecated `locale` prop.
+ *
+ * Do not use this utils for new components.
+ *
+ * @param component
+ */
+export function updateEffectiveLocale(component: LocalizedComponent): void {
+  component.effectiveLocale = getLocale(component);
+}
+
+/**
+ * This utility tears down internals for messages support.
+ *
+ * It needs to be called in `disconnectedCallback`
+ *
+ * @param component
+ */
+export function disconnectLocalized(component: LocalizedComponent): void {
+  connectedComponents.delete(component);
+
+  if (connectedComponents.size === 0) {
+    mutationObserver.disconnect();
+  }
+}
+
+const mutationObserver = createObserver("mutation", (records) => {
+  records.forEach((record) => {
+    const el = record.target as HTMLElement;
+
+    connectedComponents.forEach((component) => {
+      const hasOverridingLocale = !!(component.locale && !component.el.lang);
+      const inUnrelatedSubtree = !containsCrossShadowBoundary(el, component.el);
+
+      if (hasOverridingLocale || inUnrelatedSubtree) {
+        return;
+      }
+
+      const closestLangEl = closestElementCrossShadowBoundary<HTMLElement>(component.el, "[lang]");
+
+      if (!closestLangEl) {
+        component.effectiveLocale = defaultLocale;
+        return;
+      }
+
+      const closestLang = closestLangEl.lang;
+
+      component.effectiveLocale =
+        // user set lang="" means unknown language, so we use default
+        closestLangEl.hasAttribute("lang") && closestLang === "" ? defaultLocale : closestLang;
+    });
+  });
+});
 
 /**
  * This util helps resolve a component's locale.
@@ -160,6 +276,12 @@ export interface LangComponent extends GlobalAttrComponent {
  *
  * @param component
  */
-export function getLocale(component: LangComponent): string {
-  return component.el.lang || component.locale || document.documentElement.lang || "en";
+function getLocale(component: LocalizedComponent): string {
+  return (
+    component.el.lang ||
+    component.locale ||
+    closestElementCrossShadowBoundary<HTMLElement>(component.el, "[lang]")?.lang ||
+    document.documentElement.lang ||
+    defaultLocale
+  );
 }
