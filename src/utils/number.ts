@@ -52,7 +52,7 @@ export class BigDecimal {
     const i = s.slice(0, -BigDecimal.DECIMALS);
     const d = s.slice(-BigDecimal.DECIMALS).replace(/\.?0+$/, "");
     const value = i.concat(d.length ? "." + d : "");
-    return (this.isNegative ? "-" : "").concat(value);
+    return `${this.isNegative ? "-" : ""}${value}`;
   }
 
   formatToParts(locale: string, numberingSystem?: NumberingSystem): Intl.NumberFormatPart[] {
@@ -75,6 +75,21 @@ export class BigDecimal {
     }
 
     return parts;
+  }
+
+  format(formatter: Intl.NumberFormat): string {
+    const s = this.value
+      .toString()
+      .replace(new RegExp("-", "g"), "")
+      .padStart(BigDecimal.DECIMALS + 1, "0");
+
+    const i = s.slice(0, -BigDecimal.DECIMALS);
+    const d = s.slice(-BigDecimal.DECIMALS).replace(/\.?0+$/, "");
+
+    const iFormatted = `${this.isNegative ? "-" : ""}${formatter.format(BigInt(i))}`;
+    const dFormatted = d.length ? `.${formatter.format(BigInt(d))}` : "";
+
+    return `${iFormatted}${dFormatted}`;
   }
 
   add(num: string): bigint {

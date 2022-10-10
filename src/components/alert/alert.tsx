@@ -21,7 +21,7 @@ import {
   connectOpenCloseComponent,
   disconnectOpenCloseComponent
 } from "../../utils/openCloseComponent";
-import { createLocaleNumberFormatter, getLocale } from "../../utils/locale";
+import { createLocaleNumberFormatter, getLocale, NumberingSystem } from "../../utils/locale";
 import {
   GlobalAttrComponent,
   watchGlobalAttributes,
@@ -114,10 +114,8 @@ export class Alert implements OpenCloseComponent, GlobalAttrComponent {
 
   /**
    * Specifies the Unicode numeral system used by the component for localization.
-   *
-   * @mdn [numberingSystem](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/Locale/numberingSystem)
    */
-  @Prop({ reflect: true }) numberingSystem?: string;
+  @Prop({ reflect: true }) numberingSystem?: NumberingSystem;
 
   /** Specifies the placement of the component */
   @Prop({ reflect: true }) placement: AlertPlacement = "bottom";
