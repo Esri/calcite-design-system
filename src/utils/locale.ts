@@ -196,8 +196,6 @@ export interface LocalizedComponent {
    * effectiveLocaleChange(): void {
    *   updateMessages(this, this.effectiveLocale);
    * }
-   *
-   * This property should only be set by composite components for all supporting `LocalizedComponent`s.
    */
   effectiveLocale: string;
 }

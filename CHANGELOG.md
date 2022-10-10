@@ -9,21 +9,40 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### Features
 
-- use global lang attribute to determine locale, deprecates `locale` prop ([#5216](https://github.com/Esri/calcite-components/issues/5216)) ([640cece](https://github.com/Esri/calcite-components/commit/640cece3ce15f221d075f11321c152ec2cba07b9)), closes [#4213](https://github.com/Esri/calcite-components/issues/4213)
-- **animation:** support reduced motion preference for animations ([#5314](https://github.com/Esri/calcite-components/issues/5314)) ([920f5bd](https://github.com/Esri/calcite-components/commit/920f5bd1aba336f6068354adb1077c223129611f))
+- use pointer events instead of mouse events to improve device compatibility ([#5339](https://github.com/Esri/calcite-components/issues/5339)) ([2dcd031](https://github.com/Esri/calcite-components/commit/2dcd0315d756d22abfcc22db34c576ba9a8e479d))
 
 ### Bug Fixes
 
-- **card:** prevent header from overlapping with checkbox ([#5325](https://github.com/Esri/calcite-components/issues/5325)) ([c7f50c2](https://github.com/Esri/calcite-components/commit/c7f50c203a6226ed646771fb8a842c38b3961ec9)), closes [#4802](https://github.com/Esri/calcite-components/issues/4802)
-- **panel:** Do not close non closable panel on ESC key ([#5330](https://github.com/Esri/calcite-components/issues/5330)) ([ed93061](https://github.com/Esri/calcite-components/commit/ed9306124c6b0570fe3606a47b33840aeab129bb)), closes [#5329](https://github.com/Esri/calcite-components/issues/5329)
+- **slider:** thumb no longer appears above track at min ([#5397](https://github.com/Esri/calcite-components/issues/5397)) ([dc91d3c](https://github.com/Esri/calcite-components/commit/dc91d3c5a653499fbb2f6990fc97f1c66f6fa52f))
+- **tile-select:** ensure checked tile border is visible within tile-select group ([#5390](https://github.com/Esri/calcite-components/issues/5390)) ([0b28dbd](https://github.com/Esri/calcite-components/commit/0b28dbd6fc51b606169f7b36e6f4b20ec44ed66e))
 <!--@unreleased-section-end-->
+
+## [1.0.0-beta.95](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.94...v1.0.0-beta.95) (2022-09-29)
+
+### Features
+
+- **flow-item:** Add `calciteFlowItemBack` event and deprecate `calciteFlowItemBackClick` event ([#5343](https://github.com/Esri/calcite-components/issues/5343)) ([8bfcdb2](https://github.com/Esri/calcite-components/commit/8bfcdb217e282e3362b2fdfeead7b29a3268f339))
+- **flow-item:** Add `calciteFlowItemClose` event ([#5342](https://github.com/Esri/calcite-components/issues/5342)) ([1f06430](https://github.com/Esri/calcite-components/commit/1f064302a977809b82ec31e149ba835202745064))
+- **panel:** Add `calcitePanelClose` event and deprecate `calcitePanelDismiss` event ([#5341](https://github.com/Esri/calcite-components/issues/5341)) ([f5b6a72](https://github.com/Esri/calcite-components/commit/f5b6a7214596647205e8716188f212846e8611fc))
+- Use global `lang` attribute to determine locale, deprecates `locale` property ([#5216](https://github.com/Esri/calcite-components/issues/5216)) ([640cece](https://github.com/Esri/calcite-components/commit/640cece3ce15f221d075f11321c152ec2cba07b9)), closes [#4213](https://github.com/Esri/calcite-components/issues/4213)
+- **animation:** Support reduced motion preference for animations ([#5314](https://github.com/Esri/calcite-components/issues/5314)) ([920f5bd](https://github.com/Esri/calcite-components/commit/920f5bd1aba336f6068354adb1077c223129611f))
+
+### Bug Fixes
+
+- **action-bar, combobox, dropdown, filter, input-date-picker, popover, tooltip:** Make methods using debounce/throttle private to prevent lodash type errors ([#5335](https://github.com/Esri/calcite-components/issues/5335)) ([eafa135](https://github.com/Esri/calcite-components/commit/eafa1352014fc9a060e1ce87481c68208c72a031))
+- **card:** Prevent header from overlapping with checkbox ([#5325](https://github.com/Esri/calcite-components/issues/5325)) ([c7f50c2](https://github.com/Esri/calcite-components/commit/c7f50c203a6226ed646771fb8a842c38b3961ec9)), closes [#4802](https://github.com/Esri/calcite-components/issues/4802)
+- **date-picker-month-header:** Adds RTL equivalent CSS ([#5365](https://github.com/Esri/calcite-components/issues/5365)) ([174d9ad](https://github.com/Esri/calcite-components/commit/174d9add96dd08873a3f3a90f5b56a8d12ecc546))
+- **modal:** Fix modal not opening when `calcite-hydrated` attribute is not applied for open/close eventing ([#5383](https://github.com/Esri/calcite-components/issues/5383)) ([ec9f5ad](https://github.com/Esri/calcite-components/commit/ec9f5ad7900ca4122f46e37291d8153d1db26d30)), closes [#5396](https://github.com/Esri/calcite-components/issues/5396)
+- **panel:** Do not close non closable panel on ESC key ([#5330](https://github.com/Esri/calcite-components/issues/5330)) ([ed93061](https://github.com/Esri/calcite-components/commit/ed9306124c6b0570fe3606a47b33840aeab129bb)), closes [#5329](https://github.com/Esri/calcite-components/issues/5329)
+- **progress:** Text now responds to light/dark theme mode change ([#5336](https://github.com/Esri/calcite-components/issues/5336)) ([54a5765](https://github.com/Esri/calcite-components/commit/54a576592f627cafba16ebb0c9ef6576d68cef9c))
+- **tab-nav, tab-title:** Centered layout allows to scroll to the extent ([#5332](https://github.com/Esri/calcite-components/issues/5332)) ([9163982](https://github.com/Esri/calcite-components/commit/91639827c2416c4b784762f5c091b5218cfd8702))
 
 ## [1.0.0-beta.94](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.93...v1.0.0-beta.94) (2022-09-15)
 
 ### ⚠ BREAKING CHANGES
 
-- **pagination:** For consistency, a groupSeparator prop was introduced to opt-into including the localized, numeric group separator in page numbers. Before this change, page numbers automatically included the group separator when rendered. In order to keep this behavior, developers will need to set groupSeparator = true(prop), or group-separator (attribute)  on the component.
-- **slider:** For consistency, a `groupSeparator` prop was introduced to opt-into including the localized, numeric group separator in labels. Before this change, labels automatically included the group separator when rendered. In order to keep this behavior, developers will need to set `groupSeparator = true` (prop), or `group-separator` (attribute) on the component.
+- **pagination:** For consistency, a groupSeparator prop was introduced to opt-into including the localized, numeric group separator in page numbers. Before this change, page numbers automatically included the group separator when rendered. In order to keep this behavior, developers will need to set groupSeparator = true(prop), or group-separator (attribute) on the component.
+- **slider:** For consistency, a `groupSeparator` prop was introduced to opt-into including the localized, numeric group separator in labels. Before this change, labels automatically included the group separator when rendered. In order to keep this behavior, developers will need to set `groupSeparator = true` (prop), or `group-separator` (attribute) on the component.
 
 ### Features
 
