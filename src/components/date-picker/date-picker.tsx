@@ -23,7 +23,7 @@ import {
 import { HeadingLevel } from "../functional/Heading";
 
 import { DateRangeChange } from "./interfaces";
-import { HEADING_LEVEL, TEXT } from "./resources";
+import { HEADING_LEVEL } from "./resources";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import { Messages } from "./assets/date-picker/t9n";
 import {

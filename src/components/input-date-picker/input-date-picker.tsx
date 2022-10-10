@@ -522,7 +522,6 @@ export class InputDatePicker
               >
                 <calcite-date-picker
                   activeRange={this.focusedInput}
-                  effectiveLocale={locale}
                   endAsDate={this.endAsDate}
                   headingLevel={this.headingLevel}
                   intlNextMonth={this.intlNextMonth}
