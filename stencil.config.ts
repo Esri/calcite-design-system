@@ -9,7 +9,6 @@ import stylelint from "stylelint";
 import { version } from "./package.json";
 
 export const create: () => Config = () => ({
-  buildEs5: "prod",
   namespace: "calcite",
   bundles: [
     { components: ["calcite-accordion", "calcite-accordion-item"] },
