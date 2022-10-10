@@ -12,13 +12,9 @@ import {
 } from "@stencil/core";
 import { Scale } from "../interfaces";
 import {
-  GlobalAttrComponent,
-  unwatchGlobalAttributes,
-  watchGlobalAttributes
-} from "../../utils/globalAttributes";
-import {
-  getLocale,
-  LangComponent,
+  connectLocalized,
+  disconnectLocalized,
+  LocalizedComponent,
   localizeNumberString,
   NumberingSystem
 } from "../../utils/locale";
@@ -36,7 +32,7 @@ export interface PaginationDetail {
   styleUrl: "pagination.scss",
   shadow: true
 })
-export class Pagination implements GlobalAttrComponent, LangComponent {
+export class Pagination implements LocalizedComponent {
   //--------------------------------------------------------------------------
   //
   //  Public Properties
@@ -91,7 +87,8 @@ export class Pagination implements GlobalAttrComponent, LangComponent {
   //  State
   //
   //--------------------------------------------------------------------------
-  @State() globalAttributes = {};
+
+  @State() effectiveLocale = "";
 
   //--------------------------------------------------------------------------
   //
@@ -120,11 +117,11 @@ export class Pagination implements GlobalAttrComponent, LangComponent {
   // --------------------------------------------------------------------------
 
   connectedCallback(): void {
-    watchGlobalAttributes(this, ["lang"]);
+    connectLocalized(this);
   }
 
   disconnectedCallback(): void {
-    unwatchGlobalAttributes(this);
+    disconnectLocalized(this);
   }
 
   // --------------------------------------------------------------------------
@@ -190,9 +187,13 @@ export class Pagination implements GlobalAttrComponent, LangComponent {
    * @param value
    */
   private determineGroupSeparator = (value): string => {
-    const locale = getLocale(this);
     return this.groupSeparator
-      ? localizeNumberString(value.toString(), locale, this.groupSeparator, this.numberingSystem)
+      ? localizeNumberString(
+          value.toString(),
+          this.effectiveLocale,
+          this.groupSeparator,
+          this.numberingSystem
+        )
       : value;
   };
 

@@ -21,12 +21,13 @@ import {
   connectOpenCloseComponent,
   disconnectOpenCloseComponent
 } from "../../utils/openCloseComponent";
-import { createLocaleNumberFormatter, getLocale, NumberingSystem } from "../../utils/locale";
 import {
-  GlobalAttrComponent,
-  watchGlobalAttributes,
-  unwatchGlobalAttributes
-} from "../../utils/globalAttributes";
+  createLocaleNumberFormatter,
+  LocalizedComponent,
+  connectLocalized,
+  disconnectLocalized,
+  NumberingSystem
+} from "../../utils/locale";
 
 /**
  * Alerts are meant to provide a way to communicate urgent or important information to users, frequently as a result of an action they took in your app. Alerts are positioned
@@ -44,7 +45,7 @@ import {
   styleUrl: "alert.scss",
   shadow: true
 })
-export class Alert implements OpenCloseComponent, GlobalAttrComponent {
+export class Alert implements OpenCloseComponent, LocalizedComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -147,6 +148,7 @@ export class Alert implements OpenCloseComponent, GlobalAttrComponent {
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
+    connectLocalized(this);
     const open = this.open || this.active;
     if (open && !this.queued) {
       this.activeHandler(open);
@@ -154,7 +156,6 @@ export class Alert implements OpenCloseComponent, GlobalAttrComponent {
       this.calciteInternalAlertRegister.emit();
     }
     connectOpenCloseComponent(this);
-    watchGlobalAttributes(this, ["lang"]);
   }
 
   componentWillLoad(): void {
@@ -164,7 +165,7 @@ export class Alert implements OpenCloseComponent, GlobalAttrComponent {
   disconnectedCallback(): void {
     window.clearTimeout(this.autoDismissTimeoutId);
     disconnectOpenCloseComponent(this);
-    unwatchGlobalAttributes(this);
+    disconnectLocalized(this);
   }
 
   render(): VNode {
@@ -179,7 +180,11 @@ export class Alert implements OpenCloseComponent, GlobalAttrComponent {
         <calcite-icon icon="x" scale={this.scale === "l" ? "m" : "s"} />
       </button>
     );
-    const formatter = createLocaleNumberFormatter(getLocale(this), this.numberingSystem, "always");
+    const formatter = createLocaleNumberFormatter(
+      this.effectiveLocale,
+      this.numberingSystem,
+      "always"
+    );
     const queueNumber = this.queueLength > 2 ? this.queueLength - 1 : 1;
     const queueText = formatter.format(queueNumber);
 
@@ -307,7 +312,7 @@ export class Alert implements OpenCloseComponent, GlobalAttrComponent {
   //
   //--------------------------------------------------------------------------
 
-  @State() globalAttributes = {};
+  @State() effectiveLocale = "";
 
   /** the list of queued alerts */
   @State() queue: HTMLCalciteAlertElement[] = [];

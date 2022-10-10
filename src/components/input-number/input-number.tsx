@@ -25,12 +25,14 @@ import {
   submitForm
 } from "../../utils/form";
 import {
-  getLocale,
-  getDecimalSeparator,
-  LangComponent,
   NumberingSystem,
+  numberStringFormatter,
   defaultNumberingSystem,
-  numberStringFormatter
+  getDecimalSeparator,
+  LocalizedComponent,
+  disconnectLocalized,
+  connectLocalized,
+  updateEffectiveLocale
 } from "../../utils/locale";
 import { numberKeys } from "../../utils/key";
 import { isValidNumber, parseNumberString, sanitizeNumberString } from "../../utils/number";
@@ -38,11 +40,6 @@ import { CSS_UTILITY, TEXT as COMMON_TEXT } from "../../utils/resources";
 import { decimalPlaces } from "../../utils/math";
 import { createObserver } from "../../utils/observers";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
-import {
-  GlobalAttrComponent,
-  unwatchGlobalAttributes,
-  watchGlobalAttributes
-} from "../../utils/globalAttributes";
 
 type NumberNudgeDirection = "up" | "down";
 type setNumberValueOrigin = "initial" | "connected" | "user" | "reset" | "direct";
@@ -56,12 +53,7 @@ type setNumberValueOrigin = "initial" | "connected" | "user" | "reset" | "direct
   shadow: true
 })
 export class InputNumber
-  implements
-    LabelableComponent,
-    FormComponent,
-    InteractiveComponent,
-    GlobalAttrComponent,
-    LangComponent
+  implements LabelableComponent, FormComponent, InteractiveComponent, LocalizedComponent
 {
   //--------------------------------------------------------------------------
   //
@@ -149,6 +141,11 @@ export class InputNumber
    * @mdn [lang](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/lang)
    */
   @Prop() locale: string;
+
+  @Watch("locale")
+  localeChanged(): void {
+    updateEffectiveLocale(this);
+  }
 
   /**
    * Specifies the Unicode numeral system used by the component for localization.
@@ -325,7 +322,7 @@ export class InputNumber
   //
   //--------------------------------------------------------------------------
 
-  @State() globalAttributes = {};
+  @State() effectiveLocale = "";
 
   @State() localizedValue: string;
 
@@ -336,12 +333,17 @@ export class InputNumber
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
+    connectLocalized(this);
+
     this.scale = getElementProp(this.el, "scale", this.scale);
     this.status = getElementProp(this.el, "status", this.status);
     this.inlineEditableEl = this.el.closest("calcite-inline-editable");
     if (this.inlineEditableEl) {
       this.editingEnabled = this.inlineEditableEl.editingEnabled || false;
     }
+    connectLabel(this);
+    connectForm(this);
+
     this.setPreviousEmittedNumberValue(this.value);
     this.setPreviousNumberValue(this.value);
 
@@ -350,10 +352,6 @@ export class InputNumber
       origin: "connected",
       value: isValidNumber(this.value) ? this.value : ""
     });
-    connectLabel(this);
-    connectForm(this);
-    watchGlobalAttributes(this, ["lang"]);
-
     this.mutationObserver?.observe(this.el, { childList: true });
     this.setDisabledAction();
     this.el.addEventListener("calciteInternalHiddenInputChange", this.hiddenInputChangeHandler);
@@ -362,7 +360,8 @@ export class InputNumber
   disconnectedCallback(): void {
     disconnectLabel(this);
     disconnectForm(this);
-    unwatchGlobalAttributes(this);
+    disconnectLocalized(this);
+
     this.mutationObserver?.disconnect();
     this.el.removeEventListener("calciteInternalHiddenInputChange", this.hiddenInputChangeHandler);
   }
@@ -522,7 +521,7 @@ export class InputNumber
     }
     const value = (nativeEvent.target as HTMLInputElement).value;
     numberStringFormatter.setOptions({
-      locale: getLocale(this),
+      locale: this.effectiveLocale,
       numberingSystem: this.numberingSystem,
       useGrouping: this.groupSeparator
     });
@@ -580,7 +579,7 @@ export class InputNumber
       }
       return;
     }
-    const decimalSeparator = getDecimalSeparator(getLocale(this));
+    const decimalSeparator = getDecimalSeparator(this.effectiveLocale);
     if (event.key === decimalSeparator) {
       if (!this.value && !this.childNumberEl.value) {
         return;
@@ -718,9 +717,8 @@ export class InputNumber
     previousValue?: string;
     value: string;
   }): void => {
-    const locale = getLocale(this);
     numberStringFormatter.setOptions({
-      locale,
+      locale: this.effectiveLocale,
       numberingSystem: this.numberingSystem,
       useGrouping: this.groupSeparator
     });
