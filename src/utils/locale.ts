@@ -393,7 +393,7 @@ class NumberStringFormat {
   localize = (numberString: string) =>
     sanitizeExponentialNumberString(numberString, (nonExpoNumString: string): string =>
       isValidNumber(nonExpoNumString)
-        ? new BigDecimal(numberString.trim()).format(this.numberFormatter)
+        ? new BigDecimal(nonExpoNumString.trim()).format(this.numberFormatter)
         : nonExpoNumString
     );
 }
