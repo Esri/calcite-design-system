@@ -1,5 +1,11 @@
 import { numberKeys } from "./key";
-import { createLocaleNumberFormatter, getDecimalSeparator, getMinusSign, NumberingSystem } from "./locale";
+import {
+  createLocaleNumberFormatter,
+  getDecimalSeparator,
+  getMinusSign,
+  NumberingSystem,
+  numberStringFormatter
+} from "./locale";
 
 // regex for number sanitization
 const allLeadingZerosOptionallyNegative = /^([-0])0+(?=\d)/;
@@ -86,8 +92,8 @@ export class BigDecimal {
     const i = s.slice(0, -BigDecimal.DECIMALS);
     const d = s.slice(-BigDecimal.DECIMALS).replace(/\.?0+$/, "");
 
-    const iFormatted = `${this.isNegative ? "-" : ""}${formatter.format(BigInt(i))}`;
-    const dFormatted = d.length ? `.${formatter.format(BigInt(d))}` : "";
+    const iFormatted = `${this.isNegative ? numberStringFormatter.minusSign : ""}${formatter.format(BigInt(i))}`;
+    const dFormatted = d.length ? `${numberStringFormatter.decimal}${formatter.format(BigInt(d))}` : "";
 
     return `${iFormatted}${dFormatted}`;
   }

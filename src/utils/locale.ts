@@ -333,13 +333,15 @@ class NumberStringFormat {
 
   useGrouping: boolean;
 
-  groupRegex: RegExp;
+  minusSign: string;
 
-  decimalRegex: RegExp;
+  group: string;
 
-  numeralRegex: RegExp;
+  decimal: string;
 
-  getNumeralIndex;
+  digits: Array<string>;
+
+  getDigitIndex;
 
   numberFormatter: Intl.NumberFormat;
 
@@ -365,29 +367,29 @@ class NumberStringFormat {
       maximumFractionDigits: 20
     } as Intl.NumberFormatOptions);
 
-    const numerals = [
+    this.digits = [
       ...new Intl.NumberFormat(this.locale, {
         useGrouping: false,
         numberingSystem: this.numberingSystem
       } as Intl.NumberFormatOptions).format(9876543210)
     ].reverse();
 
-    const parts = new Intl.NumberFormat(this.locale).formatToParts(12345.6);
-    const index = new Map(numerals.map((d, i) => [d, i]));
-
-    this.groupRegex = new RegExp(`[${parts.find((d) => d.type === "group").value}]`, "g");
-    this.decimalRegex = new RegExp(`[${parts.find((d) => d.type === "decimal").value}]`);
-    this.numeralRegex = new RegExp(`[${numerals.join("")}]`, "g");
-    this.getNumeralIndex = (d) => index.get(d);
+    const parts = new Intl.NumberFormat(this.locale).formatToParts(-12345678.9);
+    const index = new Map(this.digits.map((d, i) => [d, i]));
+    this.minusSign = parts.find((d) => d.type === "minusSign").value;
+    this.group = parts.find((d) => d.type === "group").value;
+    this.decimal = parts.find((d) => d.type === "decimal").value;
+    this.getDigitIndex = (d) => index.get(d);
   };
 
   delocalize = (numberString: string) =>
     sanitizeExponentialNumberString(numberString, (nonExpoNumString: string): string =>
       nonExpoNumString
         .trim()
-        .replace(this.groupRegex, "")
-        .replace(this.decimalRegex, ".")
-        .replace(this.numeralRegex, this.getNumeralIndex)
+        .replace(new RegExp(`[${this.minusSign}]`, "g"), "-")
+        .replace(new RegExp(`[${this.group}]`, "g"), "")
+        .replace(new RegExp(`[${this.decimal}]`, "g"), ".")
+        .replace(new RegExp(`[${this.digits.join("")}]`, "g"), this.getDigitIndex)
     );
 
   localize = (numberString: string) =>
