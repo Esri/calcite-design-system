@@ -1,0 +1,178 @@
+{
+  "color": {
+    "brand": {
+      "default": {
+        "value": "$semantic.ui.color.brand.default.light",
+        "type": "color"
+      },
+      "hover": {
+        "value": "$semantic.ui.color.brand.hover.light",
+        "type": "color"
+      },
+      "press": {
+        "value": "$semantic.ui.color.brand.press.light",
+        "type": "color"
+      }
+    },
+    "background": {
+      "1": {
+        "value": "$semantic.ui.color.background.light",
+        "type": "color"
+      }
+    },
+    "foreground": {
+      "1": {
+        "value": "$semantic.ui.color.foreground.1.light",
+        "type": "color"
+      },
+      "2": {
+        "value": "$semantic.ui.color.foreground.2.light",
+        "type": "color"
+      },
+      "3": {
+        "value": "$semantic.ui.color.foreground.3.light",
+        "type": "color"
+      }
+    },
+    "text": {
+      "1": {
+        "value": "$semantic.ui.color.text.1.light",
+        "type": "color"
+      },
+      "2": {
+        "value": "$semantic.ui.color.text.2.light",
+        "type": "color"
+      },
+      "3": {
+        "value": "$semantic.ui.color.text.3.light",
+        "type": "color"
+      },
+      "inverse": {
+        "value": "$semantic.ui.color.text.inverse.light",
+        "type": "color"
+      },
+      "link": {
+        "value": "$semantic.ui.color.text.link.light",
+        "type": "color"
+      }
+    },
+    "border": {
+      "1": {
+        "value": "$semantic.ui.color.border.1.light",
+        "type": "color"
+      },
+      "2": {
+        "value": "$semantic.ui.color.border.2.light",
+        "type": "color"
+      },
+      "3": {
+        "value": "$semantic.ui.color.border.3.light",
+        "type": "color"
+      },
+      "input": {
+        "value": "$semantic.ui.color.border.input.light",
+        "type": "color"
+      }
+    },
+    "info": {
+      "default": {
+        "value": "$semantic.ui.color.info.default.light",
+        "type": "color"
+      },
+      "hover": {
+        "value": "$semantic.ui.color.info.hover.light",
+        "type": "color"
+      },
+      "press": {
+        "value": "$semantic.ui.color.info.press.light",
+        "type": "color"
+      }
+    },
+    "success": {
+      "default": {
+        "value": "$semantic.ui.color.success.default.light",
+        "type": "color"
+      },
+      "hover": {
+        "value": "$semantic.ui.color.success.hover.light",
+        "type": "color"
+      },
+      "press": {
+        "value": "$semantic.ui.color.success.press.light",
+        "type": "color"
+      }
+    },
+    "warning": {
+      "default": {
+        "value": "$semantic.ui.color.warning.default.light",
+        "type": "color"
+      },
+      "hover": {
+        "value": "$semantic.ui.color.warning.hover.light",
+        "type": "color"
+      },
+      "press": {
+        "value": "$semantic.ui.color.warning.press.light",
+        "type": "color"
+      }
+    },
+    "danger": {
+      "default": {
+        "value": "$semantic.ui.color.danger.default.light",
+        "type": "color"
+      },
+      "hover": {
+        "value": "$semantic.ui.color.danger.hover.light",
+        "type": "color"
+      },
+      "press": {
+        "value": "$semantic.ui.color.danger.press.light",
+        "type": "color"
+      }
+    },
+    "inverse": {
+      "default": {
+        "value": "$semantic.ui.color.inverse.light",
+        "type": "color"
+      }
+    },
+    "component": {
+      "avatar": {
+        "font": {
+          "value": "$avatar.font.light",
+          "type": "color"
+        },
+        "icon": {
+          "value": "$avatar.icon.light",
+          "type": "color"
+        },
+        "background": {
+          "default": {
+            "value": "$avatar.background.default.light",
+            "type": "color"
+          },
+          "red": {
+            "value": "$avatar.background.red.light",
+            "type": "color"
+          },
+          "teal": {
+            "value": "$avatar.background.teal.light",
+            "type": "color"
+          },
+          "blue": {
+            "value": "$avatar.background.blue.light",
+            "type": "color"
+          },
+          "green": {
+            "value": "$avatar.background.green.light",
+            "type": "color"
+          },
+          "yellow": {
+            "value": "$avatar.background.yellow.light",
+            "type": "color"
+          }
+        }
+      }
+    }
+  }
+}

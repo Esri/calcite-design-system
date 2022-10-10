@@ -1,0 +1,178 @@
+{
+  "color": {
+    "brand": {
+      "default": {
+        "value": "$semantic.ui.color.brand.default.dark",
+        "type": "color"
+      },
+      "hover": {
+        "value": "$semantic.ui.color.brand.hover.dark",
+        "type": "color"
+      },
+      "press": {
+        "value": "$semantic.ui.color.brand.press.dark",
+        "type": "color"
+      }
+    },
+    "background": {
+      "1": {
+        "value": "$semantic.ui.color.background.dark",
+        "type": "color"
+      }
+    },
+    "foreground": {
+      "1": {
+        "value": "$semantic.ui.color.foreground.1.dark",
+        "type": "color"
+      },
+      "2": {
+        "value": "$semantic.ui.color.foreground.2.dark",
+        "type": "color"
+      },
+      "3": {
+        "value": "$semantic.ui.color.foreground.3.dark",
+        "type": "color"
+      }
+    },
+    "text": {
+      "1": {
+        "value": "$semantic.ui.color.text.1.dark",
+        "type": "color"
+      },
+      "2": {
+        "value": "$semantic.ui.color.text.2.dark",
+        "type": "color"
+      },
+      "3": {
+        "value": "$semantic.ui.color.text.3.dark",
+        "type": "color"
+      },
+      "inverse": {
+        "value": "$semantic.ui.color.text.inverse.dark",
+        "type": "color"
+      },
+      "link": {
+        "value": "$semantic.ui.color.text.link.dark",
+        "type": "color"
+      }
+    },
+    "border": {
+      "1": {
+        "value": "$semantic.ui.color.border.1.dark",
+        "type": "color"
+      },
+      "2": {
+        "value": "$semantic.ui.color.border.2.dark",
+        "type": "color"
+      },
+      "3": {
+        "value": "$semantic.ui.color.border.3.dark",
+        "type": "color"
+      },
+      "input": {
+        "value": "$semantic.ui.color.border.input.dark",
+        "type": "color"
+      }
+    },
+    "info": {
+      "default": {
+        "value": "$semantic.ui.color.info.default.dark",
+        "type": "color"
+      },
+      "hover": {
+        "value": "$semantic.ui.color.info.hover.dark",
+        "type": "color"
+      },
+      "press": {
+        "value": "$semantic.ui.color.info.press.dark",
+        "type": "color"
+      }
+    },
+    "success": {
+      "default": {
+        "value": "$semantic.ui.color.success.default.dark",
+        "type": "color"
+      },
+      "hover": {
+        "value": "$semantic.ui.color.success.hover.dark",
+        "type": "color"
+      },
+      "press": {
+        "value": "$semantic.ui.color.success.press.dark",
+        "type": "color"
+      }
+    },
+    "warning": {
+      "default": {
+        "value": "$semantic.ui.color.warning.default.dark",
+        "type": "color"
+      },
+      "hover": {
+        "value": "$semantic.ui.color.warning.hover.dark",
+        "type": "color"
+      },
+      "press": {
+        "value": "$semantic.ui.color.warning.press.dark",
+        "type": "color"
+      }
+    },
+    "danger": {
+      "default": {
+        "value": "$semantic.ui.color.danger.default.dark",
+        "type": "color"
+      },
+      "hover": {
+        "value": "$semantic.ui.color.danger.hover.dark",
+        "type": "color"
+      },
+      "press": {
+        "value": "$semantic.ui.color.danger.press.dark",
+        "type": "color"
+      }
+    },
+    "inverse": {
+      "default": {
+        "value": "$semantic.ui.color.inverse.dark",
+        "type": "color"
+      }
+    },
+    "component": {
+      "avatar": {
+        "font": {
+          "value": "$avatar.font.dark",
+          "type": "color"
+        },
+        "icon": {
+          "value": "$avatar.icon.dark",
+          "type": "color"
+        },
+        "background": {
+          "default": {
+            "value": "$avatar.background.default.dark",
+            "type": "color"
+          },
+          "red": {
+            "value": "$avatar.background.red.dark",
+            "type": "color"
+          },
+          "teal": {
+            "value": "$avatar.background.teal.dark",
+            "type": "color"
+          },
+          "blue": {
+            "value": "$avatar.background.blue.dark",
+            "type": "color"
+          },
+          "green": {
+            "value": "$avatar.background.green.dark",
+            "type": "color"
+          },
+          "yellow": {
+            "value": "$avatar.background.yellow.dark",
+            "type": "color"
+          }
+        }
+      }
+    }
+  }
+}
