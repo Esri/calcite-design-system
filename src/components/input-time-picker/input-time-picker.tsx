@@ -496,7 +496,6 @@ export class InputTimePicker
         >
           <calcite-input
             disabled={this.disabled}
-            effectiveLocale={this.effectiveLocale}
             icon="clock"
             label={getLabelText(this)}
             onCalciteInputInput={this.calciteInputInputHandler}
@@ -519,7 +518,6 @@ export class InputTimePicker
           triggerDisabled={true}
         >
           <calcite-time-picker
-            effectiveLocale={this.effectiveLocale}
             intlHour={this.intlHour}
             intlHourDown={this.intlHourDown}
             intlHourUp={this.intlHourUp}
