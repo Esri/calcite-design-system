@@ -1,0 +1,7 @@
+{
+  "filterResults": "한_Filter results_______________빠",
+  "dragHandleActive": "한_Reordering ${itemLabel}, current position ${position} of ${total}__________________________________빠.",
+  "dragHandleChange": "한_${itemLabel}, new position ${position} of ${total}. Press space to confirm_______________________________________빠.",
+  "dragHandleCommit": "한_${itemLabel}, current position ${position} of ${total}_____________________________빠.",
+  "dragHandleIdle": "한_${itemLabel}, press space and use arrow keys to reorder content. Current position ${position} of ${total}______________________________________________________빠."
+}

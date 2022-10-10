@@ -5,7 +5,6 @@ hydrate/
 node_modules/
 
 # Compiled files
-support/output-targets/custom-elements/bundles/
 src/**/components.d.ts
 src/**/*.js
 __docs-temp__/*
