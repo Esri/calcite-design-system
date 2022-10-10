@@ -488,7 +488,6 @@ export class InputDatePicker
                     this.layout === "vertical" && this.range ? `no-bottom-border` : ``
                   }`}
                   disabled={disabled}
-                  effectiveLocale={this.effectiveLocale}
                   icon="calendar"
                   label={getLabelText(this)}
                   number-button-type="none"
