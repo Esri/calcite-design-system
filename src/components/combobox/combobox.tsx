@@ -79,7 +79,8 @@ const inputUidPrefix = "combobox-input-";
 @Component({
   tag: "calcite-combobox",
   styleUrl: "combobox.scss",
-  shadow: true
+  shadow: true,
+  assetsDirs: ["assets"]
 })
 export class Combobox
   implements
