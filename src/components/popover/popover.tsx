@@ -17,7 +17,6 @@ import {
   ARIA_CONTROLS,
   ARIA_EXPANDED,
   HEADING_LEVEL,
-  TEXT,
   defaultPopoverPlacement
 } from "./resources";
 import {
@@ -46,6 +45,9 @@ import { HeadingLevel, Heading } from "../functional/Heading";
 
 import PopoverManager from "./PopoverManager";
 import { debounce } from "lodash-es";
+import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
+import { connectMessages, disconnectMessages, T9nComponent } from "../../utils/t9n";
+import { Messages } from "./assets/popover/t9n";
 
 const manager = new PopoverManager();
 
@@ -57,7 +59,9 @@ const manager = new PopoverManager();
   styleUrl: "popover.scss",
   shadow: true
 })
-export class Popover implements FloatingUIComponent, OpenCloseComponent {
+export class Popover
+  implements FloatingUIComponent, OpenCloseComponent, LocalizedComponent, T9nComponent
+{
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -127,8 +131,34 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
    */
   @Prop({ reflect: true }) headingLevel: HeadingLevel;
 
+  /**
+   * Accessible name for the component's close button.
+   *
+   * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`
+   */
+  @Prop() intlClose;
+
   /** Accessible name for the component. */
   @Prop() label!: string;
+
+  /**
+   * Use this property to override individual strings used by the component.
+   */
+  @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
+
+  @Watch("intlClose")
+  @Watch("defaultMessages")
+  @Watch("messageOverrides")
+  onMessagesChange(): void {
+    /* wired up by t9n util */
+  }
+
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @internal
+   */
+  @Prop({ mutable: true }) messages: Messages;
 
   /**
    * Offsets the position of the popover away from the `referenceElement`.
@@ -206,13 +236,6 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
    */
   @Prop({ reflect: true }) triggerDisabled = false;
 
-  /**
-   * Accessible name for the component's close button.
-   *
-   * @default "Close"
-   */
-  @Prop() intlClose = TEXT.close;
-
   // --------------------------------------------------------------------------
   //
   //  Private Properties
@@ -223,7 +246,11 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
 
   @Element() el: HTMLCalcitePopoverElement;
 
+  @State() effectiveLocale = "";
+
   @State() effectiveReferenceElement: ReferenceElement;
+
+  @State() defaultMessages: Messages;
 
   arrowEl: HTMLDivElement;
 
@@ -245,6 +272,8 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
 
   connectedCallback(): void {
     this.setFilteredPlacements();
+    connectLocalized(this);
+    connectMessages(this);
     connectOpenCloseComponent(this);
     const closable = this.closable || this.dismissible;
     if (closable) {
@@ -266,6 +295,8 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
 
   disconnectedCallback(): void {
     this.removeReferences();
+    disconnectLocalized(this);
+    disconnectMessages(this);
     disconnectFloatingUI(this, this.effectiveReferenceElement, this.el);
     disconnectOpenCloseComponent(this);
   }
@@ -478,7 +509,7 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
   // --------------------------------------------------------------------------
 
   renderCloseButton(): VNode {
-    const { closeButton, intlClose, heading, closable } = this;
+    const { closeButton, messages, heading, closable } = this;
 
     return closable || closeButton ? (
       <div class={CSS.closeButtonContainer}>
@@ -487,7 +518,7 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
           onClick={this.hide}
           ref={(closeButtonEl) => (this.closeButtonEl = closeButtonEl)}
           scale={heading ? "s" : "m"}
-          text={intlClose}
+          text={messages.close}
         >
           <calcite-icon icon="x" scale={heading ? "s" : "m"} />
         </calcite-action>
