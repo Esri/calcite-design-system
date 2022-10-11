@@ -57,7 +57,8 @@ const manager = new PopoverManager();
 @Component({
   tag: "calcite-popover",
   styleUrl: "popover.scss",
-  shadow: true
+  shadow: true,
+  assetsDirs: ["assets"]
 })
 export class Popover
   implements FloatingUIComponent, OpenCloseComponent, LocalizedComponent, T9nComponent
