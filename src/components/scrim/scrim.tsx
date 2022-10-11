@@ -1,8 +1,8 @@
 import { Component, Element, Prop, h, VNode, Watch, State } from "@stencil/core";
 
 import { CSS } from "./resources";
-import { LocalizedComponent } from "../../utils/locale";
-import { T9nComponent } from "../../utils/t9n";
+import { disconnectLocalized, LocalizedComponent } from "../../utils/locale";
+import { disconnectMessages, setUpMessages, T9nComponent } from "../../utils/t9n";
 import { Messages } from "./assets/scrim/t9n";
 
 /**
@@ -69,6 +69,26 @@ export class Scrim implements LocalizedComponent, T9nComponent {
   @State() defaultMessages: Messages;
 
   @State() effectiveLocale = "";
+
+  //--------------------------------------------------------------------------
+  //
+  //  Lifecycle
+  //
+  //--------------------------------------------------------------------------
+
+  connectedCallback(): void {
+    disconnectLocalized(this);
+    disconnectMessages(this);
+  }
+
+  async componentWillLoad(): Promise<void> {
+    await setUpMessages(this);
+  }
+
+  disconnectedCallback(): void {
+    disconnectLocalized(this);
+    disconnectMessages(this);
+  }
 
   // --------------------------------------------------------------------------
   //
