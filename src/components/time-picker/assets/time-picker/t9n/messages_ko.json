@@ -1,0 +1,14 @@
+{
+  "hour": "한_Hour_________빠",
+  "hourDown": "한_Decrease hour______________빠",
+  "hourUp": "한_Increase hour______________빠",
+  "meridiem": "한_AM/PM___________빠",
+  "meridiemDown": "한_Decrease AM/PM_______________빠",
+  "meridiemUp": "한_Increase AM/PM_______________빠",
+  "minute": "한_Minute_____________빠",
+  "minuteDown": "한_Decrease minute________________빠",
+  "minuteUp": "한_Increase minute________________빠",
+  "second": "한_Second_____________빠",
+  "secondDown": "한_Decrease second________________빠",
+  "secondUp": "한_Increase second________________빠"
+}

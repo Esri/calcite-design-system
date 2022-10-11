@@ -51,13 +51,13 @@ export class Button implements LabelableComponent, InteractiveComponent, FormOwn
   /** optionally pass a href - used to determine if the component should render as a button or an anchor */
   @Prop({ reflect: true }) href?: string;
 
-  /** optionally pass an icon to display at the end of a button - accepts calcite ui icon names  */
+  /** Specifies an icon to display at the end of the component. */
   @Prop({ reflect: true }) iconEnd?: string;
 
-  /** flip the icon(s) in rtl */
+  /** When true, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @Prop({ reflect: true }) iconFlipRtl?: FlipContext;
 
-  /** optionally pass an icon to display at the start of a button - accepts calcite ui icon names  */
+  /** Specifies an icon to display at the start of the component. */
   @Prop({ reflect: true }) iconStart?: string;
 
   /**
@@ -71,10 +71,10 @@ export class Button implements LabelableComponent, InteractiveComponent, FormOwn
   @Prop({ reflect: true }) loading = false;
 
   /** The name attribute to apply to the button */
-  @Prop() name?: string;
+  @Prop({ reflect: true }) name?: string;
 
   /** The rel attribute to apply to the hyperlink */
-  @Prop() rel?: string;
+  @Prop({ reflect: true }) rel?: string;
 
   /**
    * The form ID to associate with the component
@@ -93,10 +93,10 @@ export class Button implements LabelableComponent, InteractiveComponent, FormOwn
   @Prop({ reflect: true }) splitChild?: "primary" | "secondary" | false = false;
 
   /** The target attribute to apply to the hyperlink */
-  @Prop() target?: string;
+  @Prop({ reflect: true }) target?: string;
 
   /** The type attribute to apply to the button */
-  @Prop({ mutable: true }) type = "button";
+  @Prop({ mutable: true, reflect: true }) type = "button";
 
   /** specify the width of the button, defaults to auto */
   @Prop({ reflect: true }) width: Width = "auto";

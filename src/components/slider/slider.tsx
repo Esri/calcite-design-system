@@ -28,12 +28,12 @@ import {
 } from "../../utils/form";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { isActivationKey } from "../../utils/key";
-import { localizeNumberString } from "../../utils/locale";
 import {
-  GlobalAttrComponent,
-  watchGlobalAttributes,
-  unwatchGlobalAttributes
-} from "../../utils/globalAttributes";
+  connectLocalized,
+  disconnectLocalized,
+  LocalizedComponent,
+  localizeNumberString
+} from "../../utils/locale";
 import { CSS } from "./resources";
 
 type ActiveSliderProperty = "minValue" | "maxValue" | "value" | "minMaxValue";
@@ -48,7 +48,7 @@ function isRange(value: number | number[]): value is number[] {
   shadow: true
 })
 export class Slider
-  implements LabelableComponent, FormComponent, InteractiveComponent, GlobalAttrComponent
+  implements LabelableComponent, FormComponent, InteractiveComponent, LocalizedComponent
 {
   //--------------------------------------------------------------------------
   //
@@ -133,24 +133,24 @@ export class Slider
   @Prop() numberingSystem?: string;
 
   /** Specifies the interval to move with the page up, or page down keys. */
-  @Prop() pageStep?: number;
+  @Prop({ reflect: true }) pageStep?: number;
 
   /** When true, sets a finer point for handles. */
-  @Prop() precise = false;
+  @Prop({ reflect: true }) precise = false;
 
   /**
-   * When true, the component must have a value on form submission.
+   * When true, the component must have a value in order for the form to submit.
    */
   @Prop({ reflect: true }) required = false;
 
   /** When true, enables snap selection in coordination with "step" via a mouse. */
-  @Prop() snap = false;
+  @Prop({ reflect: true }) snap = false;
 
   /** Specifies the interval to move with the up, or down keys. */
-  @Prop() step?: number = 1;
+  @Prop({ reflect: true }) step?: number = 1;
 
   /** Displays tick marks on the number line at a specified interval. */
-  @Prop() ticks?: number;
+  @Prop({ reflect: true }) ticks?: number;
 
   /** The component's value. */
   @Prop({ reflect: true, mutable: true }) value: null | number | number[] = 0;
@@ -169,7 +169,7 @@ export class Slider
   /**
    *  Specifies the size of the component.
    */
-  @Prop() scale: Scale = "m";
+  @Prop({ reflect: true }) scale: Scale = "m";
 
   //--------------------------------------------------------------------------
   //
@@ -178,18 +178,18 @@ export class Slider
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
+    connectLocalized(this);
     this.setMinMaxFromValue();
     this.setValueFromMinMax();
     connectLabel(this);
     connectForm(this);
-    watchGlobalAttributes(this, ["lang"]);
   }
 
   disconnectedCallback(): void {
     disconnectLabel(this);
     disconnectForm(this);
+    disconnectLocalized(this);
     this.removeDragListeners();
-    unwatchGlobalAttributes(this);
   }
 
   componentWillLoad(): void {
@@ -874,7 +874,7 @@ export class Slider
    * Fires when the thumb is released on the component.
    *
    * **Note:** If you need to constantly listen to the drag event,
-   * use "calciteSliderInput" instead.
+   * use `calciteSliderInput` instead.
    */
   @Event({ cancelable: false }) calciteSliderChange: EventEmitter<void>;
 
@@ -885,7 +885,7 @@ export class Slider
    * expensive operations consider using a debounce or throttle to avoid
    * locking up the main thread.
    *
-   * @deprecated use "calciteSliderInput" instead.
+   * @deprecated use `calciteSliderInput` instead.
    */
   @Event({ cancelable: false }) calciteSliderUpdate: EventEmitter<void>;
 
@@ -928,6 +928,8 @@ export class Slider
 
   private trackEl: HTMLDivElement;
 
+  @State() effectiveLocale = "";
+
   @State() private activeProp: ActiveSliderProperty = "value";
 
   @State() private minMaxValueRange: number = null;
@@ -937,8 +939,6 @@ export class Slider
   @State() private maxValueDragRange: number = null;
 
   @State() private tickValues: number[] = [];
-
-  @State() globalAttributes = {};
 
   //--------------------------------------------------------------------------
   //
@@ -1428,16 +1428,18 @@ export class Slider
   }
 
   /**
-   * Returns a string representing the localized label value based on groupSeparator prop being on or off.
+   * Returns a string representing the localized label value based if the groupSeparator prop is parsed.
    *
    * @param value
    */
-  private determineGroupSeparator = (value): string => {
-    const lang = this.globalAttributes["lang"] || document.documentElement.lang || "en";
-    if (value) {
-      return this.groupSeparator
-        ? localizeNumberString(value.toString(), lang, this.groupSeparator, this.numberingSystem)
-        : value;
+  private determineGroupSeparator = (value: number): string => {
+    if (typeof value === "number") {
+      return localizeNumberString(
+        value.toString(),
+        this.effectiveLocale,
+        this.groupSeparator,
+        this.numberingSystem
+      );
     }
   };
 }

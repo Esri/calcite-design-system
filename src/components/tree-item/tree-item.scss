@@ -5,12 +5,6 @@
     cursor-pointer;
 }
 
-:host([selection-mode="none"]:not([has-children])) {
-  .node-container {
-    margin-inline: theme("margin.3");
-  }
-}
-
 @include calciteHydratedHidden();
 
 :host([scale="s"]) {
@@ -152,6 +146,18 @@
   .checkmark {
     @apply opacity-100;
     color: theme("colors.brand");
+  }
+}
+
+:host([selection-mode="none"]:not([has-children])) {
+  &:host([scale="s"]) > .node-container {
+    padding-inline-start: theme("padding.2");
+  }
+  &:host([scale="m"]) > .node-container {
+    padding-inline-start: theme("padding.4");
+  }
+  &:host([scale="l"]) > .node-container {
+    padding-inline-start: theme("padding.6");
   }
 }
 

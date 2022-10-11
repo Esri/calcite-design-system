@@ -85,7 +85,7 @@ export class ActionBar implements ConditionalSlotComponent {
   /**
    * Disables automatically overflowing `calcite-action`s that won't fit into menus.
    */
-  @Prop() overflowActionsDisabled = false;
+  @Prop({ reflect: true }) overflowActionsDisabled = false;
 
   @Watch("overflowActionsDisabled")
   overflowDisabledHandler(overflowActionsDisabled: boolean): void {
@@ -221,7 +221,7 @@ export class ActionBar implements ConditionalSlotComponent {
     this.resize({ width, height });
   };
 
-  resize = debounce(({ width, height }: { width: number; height: number }): void => {
+  private resize = debounce(({ width, height }: { width: number; height: number }): void => {
     const { el, expanded, expandDisabled, layout } = this;
 
     if ((layout === "vertical" && !height) || (layout === "horizontal" && !width)) {

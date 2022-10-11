@@ -46,7 +46,7 @@ export class Loader {
    *
    * @deprecated Use `--calcite-loader-padding` CSS variable instead.
    */
-  @Prop() noPadding = false;
+  @Prop({ reflect: true }) noPadding = false;
 
   //--------------------------------------------------------------------------
   //

@@ -72,7 +72,7 @@ export class Checkbox implements LabelableComponent, CheckableFormComponent, Int
   @Prop({ reflect: true }) name;
 
   /**
-   * When true, makes the component required for form-submission.
+   * When true, the component must have a value in order for the form to submit.
    *
    * @internal
    */
@@ -226,7 +226,7 @@ export class Checkbox implements LabelableComponent, CheckableFormComponent, Int
           role="checkbox"
           tabIndex={this.disabled ? undefined : 0}
         >
-          <svg class="check-svg" viewBox="0 0 16 16">
+          <svg aria-hidden="true" class="check-svg" viewBox="0 0 16 16">
             <path d={this.getPath()} />
           </svg>
           <slot />

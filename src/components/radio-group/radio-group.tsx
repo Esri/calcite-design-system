@@ -56,7 +56,7 @@ export class RadioGroup implements LabelableComponent, FormComponent, Interactiv
   @Prop({ reflect: true }) disabled = false;
 
   /**
-   * When true, the component must have a value on form submission.
+   * When true, the component must have a value in order for the form to submit.
    *
    * @internal
    */
@@ -68,7 +68,7 @@ export class RadioGroup implements LabelableComponent, FormComponent, Interactiv
   /**
    * Specifies the name of the component on form submission.
    */
-  @Prop() name: string;
+  @Prop({ reflect: true }) name: string;
 
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";

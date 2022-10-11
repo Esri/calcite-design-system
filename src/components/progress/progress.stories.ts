@@ -25,10 +25,9 @@ export const darkThemeRTL_TestOnly = (): string => html`
   <calcite-progress
     class="calcite-theme-dark"
     type="${select("type", { determinate: "determinate", indeterminate: "indeterminate" }, "indeterminate")}"
-    value="${number("value", 0, { range: true, min: 0, max: 1, step: 0.01 })}"
-    text="${text("text", "")}"
+    value="${number("value", 0.2, { range: true, min: 0, max: 1, step: 0.01 })}"
+    text="${text("text", "% Complete (optional text)")}"
   ></calcite-progress>
 `;
-
 
 darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault, chromatic: { disableSnapshot: true } };

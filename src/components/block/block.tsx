@@ -32,7 +32,7 @@ export class Block implements ConditionalSlotComponent, InteractiveComponent {
   /**
    * When true, this block will be collapsible.
    */
-  @Prop() collapsible = false;
+  @Prop({ reflect: true }) collapsible = false;
 
   /**
    * When true, disabled prevents interaction. This state shows items with lower opacity/grayed.
@@ -52,7 +52,7 @@ export class Block implements ConditionalSlotComponent, InteractiveComponent {
   /**
    * Number at which section headings should start for this component.
    */
-  @Prop() headingLevel: HeadingLevel;
+  @Prop({ reflect: true }) headingLevel: HeadingLevel;
 
   /**
    * Aria-label for collapsing the toggle and tooltip used for the toggle when expanded.
@@ -112,7 +112,7 @@ export class Block implements ConditionalSlotComponent, InteractiveComponent {
    *
    * @deprecated Use `--calcite-block-padding` CSS variable instead.
    */
-  @Prop() disablePadding = false;
+  @Prop({ reflect: true }) disablePadding = false;
 
   //--------------------------------------------------------------------------
   //

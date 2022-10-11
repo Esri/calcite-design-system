@@ -73,7 +73,7 @@ export class PickList<
   /**
    * Specifies the number at which section headings should start.
    */
-  @Prop() headingLevel: HeadingLevel;
+  @Prop({ reflect: true }) headingLevel: HeadingLevel;
 
   /**
    * When true, a busy indicator is displayed.
@@ -91,7 +91,7 @@ export class PickList<
   /**
    * When true and single-selection is enabled, the selection changes when navigating `calcite-pick-list-item`s via keyboard.
    */
-  @Prop() selectionFollowsFocus = false;
+  @Prop({ reflect: true }) selectionFollowsFocus = false;
 
   // --------------------------------------------------------------------------
   //

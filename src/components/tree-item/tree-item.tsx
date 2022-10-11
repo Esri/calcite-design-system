@@ -88,7 +88,7 @@ export class TreeItem implements ConditionalSlotComponent {
    * Displays checkboxes (set on parent).
    *
    * @internal
-   * @deprecated Use "ancestors" selection-mode on parent for checkbox input.
+   * @deprecated Use `selectionMode="ancestors"` for checkbox input.
    */
   @Prop() inputEnabled: boolean;
 
@@ -181,6 +181,7 @@ export class TreeItem implements ConditionalSlotComponent {
     const showCheckmark =
       this.selectionMode === TreeSelectionMode.Multi ||
       this.selectionMode === TreeSelectionMode.MultiChildren;
+    const showBlank = this.selectionMode === TreeSelectionMode.None && !this.hasChildren;
     const chevron = this.hasChildren ? (
       <calcite-icon
         class={{
@@ -212,6 +213,8 @@ export class TreeItem implements ConditionalSlotComponent {
       ? ICONS.bulletPoint
       : showCheckmark
       ? ICONS.checkmark
+      : showBlank
+      ? ICONS.blank
       : null;
     const itemIndicator = selectedIcon ? (
       <calcite-icon
