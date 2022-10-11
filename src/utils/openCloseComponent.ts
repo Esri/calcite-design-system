@@ -45,6 +45,9 @@ export interface OpenCloseComponent {
   onClose: () => void;
 }
 
+let boundOnTransitionStart: (event: TransitionEvent) => void;
+let boundOnTransitionEnd: (event: TransitionEvent) => void;
+
 const componentToTransitionListeners = new WeakMap<
   OpenCloseComponent,
   [HTMLDivElement, typeof transitionStart, typeof transitionEnd]
@@ -53,22 +56,23 @@ const componentToTransitionListeners = new WeakMap<
 function transitionStart(event: TransitionEvent): void {
   if (event.propertyName === this.openTransitionProp && event.target === this.transitionEl) {
     this.open ? this.onBeforeOpen() : this.onBeforeClose();
+    this.transitionEl.removeEventListener("transitionstart", boundOnTransitionStart);
   }
 }
-
 function transitionEnd(event: TransitionEvent): void {
   if (event.propertyName === this.openTransitionProp && event.target === this.transitionEl) {
     this.open ? this.onOpen() : this.onClose();
+    this.transitionEl.removeEventListener("transitionend", boundOnTransitionEnd);
   }
 }
 
 /**
  * Helper to determine globally set transition duration on the given openTransitionProp, which is imported and set in the @Watch("open").
- * Used to emit (before)open/close events in cases where opacity transition-duration is set to 0.
+ * Used to emit (before)open/close events both for when the opacity transition is present and when there is none (transition-duration is set to 0).
  *
  * @param component
  */
-export function onToggleComponentWithoutTransition(component: OpenCloseComponent): void {
+export function onToggleOpenCloseComponent(component: OpenCloseComponent): void {
   readTask((): void => {
     if (component.transitionEl) {
       const allTransitionPropsArray = getComputedStyle(component.transitionEl).transition.split(" ");
@@ -79,11 +83,16 @@ export function onToggleComponentWithoutTransition(component: OpenCloseComponent
       if (transitionDuration === "0s") {
         component.open ? component.onBeforeOpen() : component.onBeforeClose();
         component.open ? component.onOpen() : component.onClose();
+      } else {
+        boundOnTransitionStart = transitionStart.bind(component);
+        boundOnTransitionEnd = transitionEnd.bind(component);
+
+        component.transitionEl.addEventListener("transitionstart", boundOnTransitionStart);
+        component.transitionEl.addEventListener("transitionend", boundOnTransitionEnd);
       }
     }
   });
 }
-
 /**
  * Helper to keep track of transition listeners on setTransitionEl and connectedCallback on OpenCloseComponent components.
  *
