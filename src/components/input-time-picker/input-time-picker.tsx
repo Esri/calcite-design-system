@@ -105,43 +105,95 @@ export class InputTimePicker
     }
   }
 
-  /** Accessible name for the component's hour input. */
+  /**
+   * Accessible name for the component's hour input.
+   *
+   * @deprecated - translations are now built-in, if you need to override a string, please use `messageOverrides`
+   */
   @Prop() intlHour?: string;
 
-  /** Accessible name for the component's hour down button. */
+  /**
+   * Accessible name for the component's hour down button.
+   *
+   * @deprecated - translations are now built-in, if you need to override a string, please use `messageOverrides`
+   */
   @Prop() intlHourDown?: string;
 
-  /** Accessible name for the component's hour up button. */
+  /**
+   * Accessible name for the component's hour up button.
+   *
+   * @deprecated - translations are now built-in, if you need to override a string, please use `messageOverrides`
+   */
   @Prop() intlHourUp?: string;
 
-  /** Accessible name for the component's meridiem (am/pm) input. */
+  /**
+   * Accessible name for the component's meridiem (am/pm) input.
+   *
+   * @deprecated - translations are now built-in, if you need to override a string, please use `messageOverrides`
+   */
   @Prop() intlMeridiem?: string;
 
-  /** Accessible name for the component's meridiem (am/pm) down button. */
+  /**
+   * Accessible name for the component's meridiem (am/pm) down button.
+   *
+   * @deprecated - translations are now built-in, if you need to override a string, please use `messageOverrides`
+   */
   @Prop() intlMeridiemDown?: string;
 
-  /** Accessible name for the component's meridiem (am/pm) up button. */
+  /**
+   * Accessible name for the component's meridiem (am/pm) up button.
+   *
+   * @deprecated - translations are now built-in, if you need to override a string, please use `messageOverrides`
+   */
   @Prop() intlMeridiemUp?: string;
 
-  /** Accessible name for the component's minute input. */
+  /**
+   * Accessible name for the component's minute input.
+   *
+   * @deprecated - translations are now built-in, if you need to override a string, please use `messageOverrides`
+   */
   @Prop() intlMinute?: string;
 
-  /** Accessible name for the component's minute down button. */
+  /**
+   * Accessible name for the component's minute down button.
+   *
+   * @deprecated - translations are now built-in, if you need to override a string, please use `messageOverrides`
+   */
   @Prop() intlMinuteDown?: string;
 
-  /** Accessible name for the component's minute up button. */
+  /**
+   * Accessible name for the component's minute up button.
+   *
+   * @deprecated - translations are now built-in, if you need to override a string, please use `messageOverrides`
+   */
   @Prop() intlMinuteUp?: string;
 
-  /** Accessible name for the component's second input. */
+  /**
+   * Accessible name for the component's second input.
+   *
+   * @deprecated - translations are now built-in, if you need to override a string, please use `messageOverrides`
+   */
   @Prop() intlSecond?: string;
 
-  /** Accessible name for the component's second down button. */
+  /**
+   * Accessible name for the component's second down button.
+   *
+   * @deprecated - translations are now built-in, if you need to override a string, please use `messageOverrides`
+   */
   @Prop() intlSecondDown?: string;
 
-  /** Accessible name for the component's second up button. */
+  /**
+   * Accessible name for the component's second up button.
+   *
+   * @deprecated - translations are now built-in, if you need to override a string, please use `messageOverrides`
+   */
   @Prop() intlSecondUp?: string;
 
-  /** Use this property to override individual strings used by the component.  */
+  /**
+   * Use this property to override individual strings used by the component.
+   *
+   * @deprecated - translations are now built-in, if you need to override a string, please use `messageOverrides`
+   */
   @Prop() messagesOverride: Partial<Messages>;
 
   /**
@@ -229,7 +281,7 @@ export class InputTimePicker
 
   //--------------------------------------------------------------------------
   //
-  //  State / Private Props
+  //  State
   //
   //--------------------------------------------------------------------------
 

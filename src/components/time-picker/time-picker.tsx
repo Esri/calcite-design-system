@@ -218,6 +218,8 @@ export class TimePicker implements LocalizedComponent, T9nComponent {
   @Watch("second")
   @Watch("secondDown")
   @Watch("secondUp")
+  @Watch("messageOverrides")
+  @Watch("defaultMessages")
   onMessagesChange(): void {
     /** referred in t9n util */
   }

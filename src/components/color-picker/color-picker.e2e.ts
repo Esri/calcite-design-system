@@ -1,9 +1,11 @@
-import { accessible, defaults, hidden, reflects, renders, focusable, disabled, t9n } from "../../tests/commonTests";
+import { accessible, defaults, hidden, reflects, renders, focusable, disabled } from "../../tests/commonTests";
+
 import { CSS, DEFAULT_COLOR, DEFAULT_STORAGE_KEY_PREFIX, DIMENSIONS, TEXT } from "./resources";
 import { E2EElement, E2EPage, EventSpy, newE2EPage } from "@stencil/core/testing";
 import { ColorValue } from "./interfaces";
 import SpyInstance = jest.SpyInstance;
 import { GlobalTestProps, selectText, getElementXY } from "../../tests/utils";
+
 describe("calcite-color-picker", () => {
   let consoleSpy: SpyInstance;
 
@@ -75,6 +77,78 @@ describe("calcite-color-picker", () => {
         defaultValue: TEXT.b
       },
       {
+        propertyName: "intlBlue",
+        defaultValue: TEXT.blue
+      },
+      {
+        propertyName: "intlDeleteColor",
+        defaultValue: TEXT["deleteColor"]
+      },
+      {
+        propertyName: "intlG",
+        defaultValue: TEXT.g
+      },
+      {
+        propertyName: "intlGreen",
+        defaultValue: TEXT.green
+      },
+      {
+        propertyName: "intlH",
+        defaultValue: TEXT.h
+      },
+      {
+        propertyName: "intlHsv",
+        defaultValue: TEXT["hsv"]
+      },
+      {
+        propertyName: "intlHex",
+        defaultValue: TEXT.hex
+      },
+      {
+        propertyName: "intlHue",
+        defaultValue: TEXT.hue
+      },
+      {
+        propertyName: "intlNoColor",
+        defaultValue: TEXT.noColor
+      },
+      {
+        propertyName: "intlR",
+        defaultValue: TEXT.r
+      },
+      {
+        propertyName: "intlRed",
+        defaultValue: TEXT.red
+      },
+      {
+        propertyName: "intlRgb",
+        defaultValue: TEXT.rgb
+      },
+      {
+        propertyName: "intlS",
+        defaultValue: TEXT.s
+      },
+      {
+        propertyName: "intlSaturation",
+        defaultValue: TEXT.saturation
+      },
+      {
+        propertyName: "intlSaveColor",
+        defaultValue: TEXT.saveColor
+      },
+      {
+        propertyName: "intlSaved",
+        defaultValue: TEXT.saved
+      },
+      {
+        propertyName: "intlV",
+        defaultValue: TEXT.v
+      },
+      {
+        propertyName: "intlValue",
+        defaultValue: TEXT.value
+      },
+      {
         propertyName: "scale",
         defaultValue: "m"
       },
@@ -86,8 +160,6 @@ describe("calcite-color-picker", () => {
 
   // #408047 is a color in the middle of the color field
   it("can be disabled", () => disabled("<calcite-color-picker value='#408047'></calcite-color-picker>"));
-
-  it("supports translations", () => t9n("<calcite-color-picker></calcite-color-picker>"));
 
   it(`should set all internal calcite-button types to 'button'`, async () => {
     const page = await newE2EPage({
