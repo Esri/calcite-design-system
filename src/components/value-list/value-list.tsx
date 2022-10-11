@@ -39,7 +39,7 @@ import { createObserver } from "../../utils/observers";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { getHandleAndItemElement, getScreenReaderText } from "./utils";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
-import { connectMessages, disconnectMessages, T9nComponent } from "../../utils/t9n";
+import { connectMessages, disconnectMessages, setUpMessages, T9nComponent } from "../../utils/t9n";
 import { Messages } from "./assets/value-list/t9n";
 
 /**
@@ -206,6 +206,10 @@ export class ValueList<
     connectMessages(this);
     initialize.call(this);
     initializeObserver.call(this);
+  }
+
+  async componentWillLoad(): Promise<void> {
+    await setUpMessages(this);
   }
 
   componentDidLoad(): void {
