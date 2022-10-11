@@ -7,6 +7,7 @@ import {
   Listen,
   Method,
   Prop,
+  State,
   VNode,
   Watch
 } from "@stencil/core";
@@ -16,6 +17,14 @@ import { TEXT, CSS } from "./resources";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import { createObserver } from "../../utils/observers";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
+import {
+  connectMessages,
+  disconnectMessages,
+  setUpMessages,
+  updateMessages
+} from "../../utils/t9n";
+import { Messages } from "./assets/inline-editable/t9n";
 
 /**
  * @slot - A slot for adding a `calcite-input`.
@@ -23,9 +32,12 @@ import { InteractiveComponent, updateHostInteraction } from "../../utils/interac
 @Component({
   tag: "calcite-inline-editable",
   shadow: true,
-  styleUrl: "inline-editable.scss"
+  styleUrl: "inline-editable.scss",
+  assetsDirs: ["assets"]
 })
-export class InlineEditable implements InteractiveComponent, LabelableComponent {
+export class InlineEditable
+  implements InteractiveComponent, LabelableComponent, LocalizedComponent
+{
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -73,6 +85,7 @@ export class InlineEditable implements InteractiveComponent, LabelableComponent 
    * specify text to be user for the enable editing button's aria-label, defaults to `Click to edit`
    *
    * @default "Click to edit"
+   * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`.
    */
   @Prop({ reflect: true }) intlEnableEditing = TEXT.intlEnablingEditing;
 
@@ -80,6 +93,7 @@ export class InlineEditable implements InteractiveComponent, LabelableComponent 
    * specify text to be user for the cancel editing button's aria-label, defaults to `Cancel`
    *
    * @default "Cancel"
+   * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`.
    */
   @Prop({ reflect: true }) intlCancelEditing = TEXT.intlCancelEditing;
 
@@ -87,6 +101,7 @@ export class InlineEditable implements InteractiveComponent, LabelableComponent 
    * specify text to be user for the confirm changes button's aria-label, defaults to `Save`
    *
    * @default "Save"
+   * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`.
    */
   @Prop({ reflect: true }) intlConfirmChanges = TEXT.intlConfirmChanges;
 
@@ -96,6 +111,27 @@ export class InlineEditable implements InteractiveComponent, LabelableComponent 
   /** when controls, specify a callback to be executed prior to disabling editing. when provided, loading state will be handled automatically. */
   @Prop() afterConfirm?: () => Promise<void>;
 
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @internal
+   */
+  @Prop({ mutable: true }) messages: Messages;
+
+  /**
+   * Use this property to override individual strings used by the component.
+   */
+  @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
+
+  @Watch("intlCancelEditing")
+  @Watch("intlConfirmChanges")
+  @Watch("intlEnableEditing")
+  @Watch("defaultMessages")
+  @Watch("messageOverrides")
+  onMessagesChange(): void {
+    /** referred in t9n util */
+  }
+
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -104,17 +140,25 @@ export class InlineEditable implements InteractiveComponent, LabelableComponent 
 
   connectedCallback() {
     connectLabel(this);
+    connectLocalized(this);
+    connectMessages(this);
     this.mutationObserver?.observe(this.el, { childList: true });
     this.mutationObserverCallback();
   }
 
   disconnectedCallback() {
     disconnectLabel(this);
+    disconnectLocalized(this);
+    disconnectMessages(this);
     this.mutationObserver?.disconnect();
   }
 
   componentDidRender(): void {
     updateHostInteraction(this);
+  }
+
+  async componentWillLoad(): Promise<void> {
+    await setUpMessages(this);
   }
 
   render(): VNode {
@@ -134,7 +178,7 @@ export class InlineEditable implements InteractiveComponent, LabelableComponent 
             color="neutral"
             disabled={this.disabled}
             iconStart="pencil"
-            label={this.intlEnableEditing}
+            label={this.messages.enablingEditing}
             onClick={this.enableEditingHandler}
             ref={(el) => (this.enableEditingButton = el)}
             scale={this.scale}
@@ -152,7 +196,7 @@ export class InlineEditable implements InteractiveComponent, LabelableComponent 
                 color="neutral"
                 disabled={this.disabled}
                 iconStart="x"
-                label={this.intlCancelEditing}
+                label={this.messages.cancelEditing}
                 onClick={this.cancelEditingHandler}
                 ref={(el) => (this.cancelEditingButton = el)}
                 scale={this.scale}
@@ -165,7 +209,7 @@ export class InlineEditable implements InteractiveComponent, LabelableComponent 
               color="blue"
               disabled={this.disabled}
               iconStart="check"
-              label={this.intlConfirmChanges}
+              label={this.messages.confirmChanges}
               loading={this.loading}
               onClick={this.confirmChangesHandler}
               ref={(el) => (this.confirmEditingButton = el)}
@@ -234,6 +278,15 @@ export class InlineEditable implements InteractiveComponent, LabelableComponent 
   labelEl: HTMLCalciteLabelElement;
 
   mutationObserver = createObserver("mutation", () => this.mutationObserverCallback());
+
+  @State() defaultMessages: Messages;
+
+  @State() effectiveLocale: string;
+
+  @Watch("effectiveLocale")
+  effectiveLocaleChange(): void {
+    updateMessages(this, this.effectiveLocale);
+  }
 
   //--------------------------------------------------------------------------
   //
