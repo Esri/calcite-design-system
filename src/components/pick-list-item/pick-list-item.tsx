@@ -138,6 +138,8 @@ export class PickListItem
 
   /**
    * Accessible name for the component's remove button. Only applicable if removable is "true".
+   *
+   * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`
    */
   @Prop({ reflect: true }) intlRemove;
 
@@ -317,7 +319,7 @@ export class PickListItem
         icon={ICONS.remove}
         onCalciteActionClick={this.removeClickHandler}
         slot={SLOTS.actionsEnd}
-        text={this.intlRemove}
+        text={this.messages.remove}
       />
     ) : null;
   }
