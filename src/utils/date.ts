@@ -85,7 +85,6 @@ export function dateFromLocalizedString(value: string, localeData: DateLocaleDat
     return false;
   }
   const { separator } = localeData;
-  // FIXME: parsing a date from a string is currently broken, fix for this likely needed in parseDateString
   const { day, month, year } = parseDateString(value, localeData);
 
   const validDay = day > 0;
@@ -208,17 +207,16 @@ export function parseDateString(
   localeData: DateLocaleData,
   returnType: "number" | "string" = "number"
 ): { day: number | string; month: number | string; year: number | string } {
-  // FIXME: this function is BORKED!
   const { separator, unitOrder } = localeData;
   const order = getOrder(unitOrder);
   const values = replaceArabicNumerals(str).split(separator);
   const day = values[order.indexOf("d")];
-  const month = values[order.indexOf("d")];
+  const month = values[order.indexOf("m")];
   const year = values[order.indexOf("y")];
   if (returnType === "number") {
     return {
       day: parseInt(day),
-      month: parseInt(month) - 1,
+      month: parseInt(month) - 1, // this subtracts by 1 because the month in the Date contructor is zero-based https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/getMonth
       year: parseInt(year)
     };
   }
@@ -230,7 +228,7 @@ export function parseDateString(
 }
 
 /**
- * Convert eastern arbic numerals
+ * Convert eastern arabic numerals
  *
  * @param str
  */

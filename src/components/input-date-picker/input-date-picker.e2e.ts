@@ -58,7 +58,7 @@ describe("calcite-input-date-picker", () => {
       await page.keyboard.press("Enter");
       await page.waitForChanges();
 
-      expect(await input.getProperty("value")).toBe("2020-07-07");
+      expect(await input.getProperty("value")).toBe("2020-03-07");
       expect(await input.getProperty("valueAsDate")).toBeDefined();
 
       expect(changeEvent).toHaveReceivedEventTimes(1);
