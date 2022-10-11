@@ -252,7 +252,7 @@ interface NumberStringFormatOptions {
 }
 
 /**
- * This util localizes and de-localizes numbers
+ * This util formats and parses numbers for localization
  */
 class NumberStringFormat {
   numberingSystem: string;
@@ -261,10 +261,14 @@ class NumberStringFormat {
 
   useGrouping: boolean;
 
-  // some white space group separators don't render correctly in the browser
-  // so we replace them with a normal <SPACE>
+  /**
+   * The actual group separator for the specified locale
+   * some white space group separators don't render correctly in the browser
+   * so we replace them with a normal <SPACE>
+   */
   actualGroup: string;
 
+  /** the corrected group separator */
   group: string;
 
   decimal: string;
@@ -277,10 +281,16 @@ class NumberStringFormat {
 
   numberFormatter: Intl.NumberFormat;
 
+  /**
+   * This method needs to be called before localize/delocalize to ensure the options are up to date
+   *
+   * @param options
+   */
   setOptions = (options: NumberStringFormatOptions) => {
     const locale = getSupportedLocale(options.locale);
     const numberingSystem = getSupportedNumberingSystem(options.numberingSystem);
-    // cache formatter by only re-creating when options change
+
+    // cache formatter by only recreating when options change
     if (
       numberingSystem === this.numberingSystem &&
       locale === this.locale &&
@@ -307,8 +317,8 @@ class NumberStringFormat {
       } as Intl.NumberFormatOptions).format(9876543210)
     ].reverse();
 
-    const parts = new Intl.NumberFormat(this.locale).formatToParts(-12345678.9);
     const index = new Map(this.digits.map((d, i) => [d, i]));
+    const parts = new Intl.NumberFormat(this.locale).formatToParts(-12345678.9);
 
     this.actualGroup = parts.find((d) => d.type === "group").value;
     // change whitespace group characters that don't render correctly
