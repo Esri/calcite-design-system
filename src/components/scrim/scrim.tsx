@@ -11,7 +11,8 @@ import { Messages } from "./assets/scrim/t9n";
 @Component({
   tag: "calcite-scrim",
   styleUrl: "scrim.scss",
-  shadow: true
+  shadow: true,
+  assetsDirs: ["assets"]
 })
 export class Scrim implements LocalizedComponent, T9nComponent {
   // --------------------------------------------------------------------------
@@ -25,7 +26,7 @@ export class Scrim implements LocalizedComponent, T9nComponent {
    *
    * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`
    */
-  @Prop() intlLoading?: string;
+  @Prop() intlLoading: string;
 
   /**
    * When true, a busy indicator is displayed.
