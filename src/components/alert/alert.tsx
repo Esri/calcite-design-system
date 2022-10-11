@@ -30,7 +30,6 @@ import {
 import {
   connectMessages,
   disconnectMessages,
-  MessageBundle,
   setUpMessages,
   T9nComponent,
   updateMessages
@@ -51,7 +50,8 @@ import { Messages } from "./assets/alert/t9n";
 @Component({
   tag: "calcite-alert",
   styleUrl: "alert.scss",
-  shadow: true
+  shadow: true,
+  assetsDirs: ["assets"]
 })
 export class Alert implements OpenCloseComponent, LocalizedComponent, T9nComponent {
   //--------------------------------------------------------------------------
@@ -147,9 +147,9 @@ export class Alert implements OpenCloseComponent, LocalizedComponent, T9nCompone
    */
   @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
 
+  @Watch("intlClose")
   @Watch("defaultMessages")
   @Watch("messageOverrides")
-  @Watch("intlClose")
   onMessagesChange(): void {
     /** referred in t9n util */
   }
