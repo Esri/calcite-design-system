@@ -12,7 +12,7 @@ import {
 } from "@stencil/core";
 
 import { getElementDir, toAriaBoolean } from "../../utils/dom";
-import { CSS, ICONS, TEXT } from "./resources";
+import { CSS, ICONS } from "./resources";
 import { BlockSectionToggleDisplay } from "./interfaces";
 import { Status } from "../interfaces";
 import { guid } from "../../utils/guid";
@@ -27,7 +27,8 @@ import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../..
 @Component({
   tag: "calcite-block-section",
   styleUrl: "block-section.scss",
-  shadow: true
+  shadow: true,
+  assetsDirs: ["assets"]
 })
 export class BlockSection implements LocalizedComponent, T9nComponent {
   // --------------------------------------------------------------------------
@@ -84,10 +85,10 @@ export class BlockSection implements LocalizedComponent, T9nComponent {
    */
   @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
 
-  @Watch("defaultMessages")
-  @Watch("messageOverrides")
   @Watch("intlCollapse")
   @Watch("intlExpand")
+  @Watch("defaultMessages")
+  @Watch("messageOverrides")
   onMessagesChange(): void {
     /** referred in t9n util */
   }

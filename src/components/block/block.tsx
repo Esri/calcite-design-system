@@ -34,7 +34,8 @@ import { Messages } from "./assets/block/t9n";
 @Component({
   tag: "calcite-block",
   styleUrl: "block.scss",
-  shadow: true
+  shadow: true,
+  assetsDirs: ["assets"]
 })
 export class Block
   implements ConditionalSlotComponent, InteractiveComponent, LocalizedComponent, T9nComponent
@@ -76,7 +77,7 @@ export class Block
    * @default "Collapse"
    * @deprecated - translations are now built-in, if you need to override a string, please use `messageOverrides`
    */
-  @Prop() intlCollapse?: string = TEXT.collapse;
+  @Prop() intlCollapse?: string;
 
   /**
    * Aria-label for expanding the toggle and tooltip used for the toggle when collapsed.
@@ -84,7 +85,7 @@ export class Block
    * @default "Expand"
    * @deprecated - translations are now built-in, if you need to override a string, please use `messageOverrides`
    */
-  @Prop() intlExpand?: string = TEXT.expand;
+  @Prop() intlExpand?: string;
 
   /**
    * string to override English loading text
@@ -92,7 +93,7 @@ export class Block
    * @default "Loading"
    * @deprecated - translations are now built-in, if you need to override a string, please use `messageOverrides`
    */
-  @Prop() intlLoading?: string = TEXT.loading;
+  @Prop() intlLoading?: string;
 
   /**
    * Text string used for the actions menu
@@ -100,7 +101,7 @@ export class Block
    * @default "Options"
    * @deprecated - translations are now built-in, if you need to override a string, please use `messageOverrides`
    */
-  @Prop() intlOptions?: string = TEXT.options;
+  @Prop() intlOptions?: string;
 
   /**
    * When true, content is waiting to be loaded. This state shows a busy indicator.
@@ -146,12 +147,12 @@ export class Block
    */
   @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
 
-  @Watch("defaultMessages")
-  @Watch("messageOverrides")
   @Watch("intlCollapse")
   @Watch("intlExpand")
   @Watch("intlLoading")
   @Watch("intlOptions")
+  @Watch("defaultMessages")
+  @Watch("messageOverrides")
   onMessagesChange(): void {
     /** referred in t9n util */
   }

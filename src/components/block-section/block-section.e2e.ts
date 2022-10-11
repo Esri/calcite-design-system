@@ -27,7 +27,7 @@ describe("calcite-block-section", () => {
       }
     ]));
 
-  it("support's translation", () => t9n("<calcite-block></calcite-block>"));
+  it("support's translation", () => t9n("<calcite-block-section></calcite-block-section>"));
 
   describe("toggle-display = 'switch'", () => {
     describe("accessibility", () => {
