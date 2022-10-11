@@ -59,7 +59,7 @@ describe("NumberStringFormat", () => {
       });
       const localizedNumberString = numberStringFormatter.localize(numberString);
       const delocalizedNumberString = numberStringFormatter.delocalize(localizedNumberString);
-      expect(delocalizedNumberString).toBe("1234");
+      expect(delocalizedNumberString).toBe(numberString);
     });
 
     it(`floating point numbers with group separators localize and delocalize in "${locale}"`, () => {
@@ -71,7 +71,7 @@ describe("NumberStringFormat", () => {
       });
       const localizedNumberString = numberStringFormatter.localize(numberString);
       const delocalizedNumberString = numberStringFormatter.delocalize(localizedNumberString);
-      expect(delocalizedNumberString).toBe("12345678.9");
+      expect(delocalizedNumberString).toBe(numberString);
     });
   });
 });
