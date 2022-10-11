@@ -233,12 +233,7 @@ export class InputTimePicker
   //
   //--------------------------------------------------------------------------
 
-  @State() localizedValue: string;
-
-  /**
-   * @internal
-   */
-  @Prop({ mutable: true }) effectiveLocale = "";
+  @State() effectiveLocale = "";
 
   @Watch("effectiveLocale")
   effectiveLocaleWatcher(): void {
@@ -246,6 +241,8 @@ export class InputTimePicker
       localizeTimeString(this.value, this.effectiveLocale, this.shouldIncludeSeconds())
     );
   }
+
+  @State() localizedValue: string;
 
   //--------------------------------------------------------------------------
   //
@@ -454,6 +451,7 @@ export class InputTimePicker
 
   connectedCallback() {
     connectLocalized(this);
+
     const { active, open } = this;
     if (this.value) {
       this.setValue({ value: isValidTime(this.value) ? this.value : undefined, origin: "loading" });
@@ -524,7 +522,6 @@ export class InputTimePicker
           triggerDisabled={true}
         >
           <calcite-time-picker
-            effectiveLocale={this.effectiveLocale}
             intlHour={this.intlHour}
             intlHourDown={this.intlHourDown}
             intlHourUp={this.intlHourUp}

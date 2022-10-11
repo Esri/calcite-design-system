@@ -342,6 +342,9 @@ export class InputNumber
     if (this.inlineEditableEl) {
       this.editingEnabled = this.inlineEditableEl.editingEnabled || false;
     }
+    connectLabel(this);
+    connectForm(this);
+
     this.setPreviousEmittedNumberValue(this.value);
     this.setPreviousNumberValue(this.value);
 
@@ -350,9 +353,6 @@ export class InputNumber
       origin: "connected",
       value: isValidNumber(this.value) ? this.value : ""
     });
-    connectLabel(this);
-    connectForm(this);
-
     this.mutationObserver?.observe(this.el, { childList: true });
     this.setDisabledAction();
     this.el.addEventListener("calciteInternalHiddenInputChange", this.hiddenInputChangeHandler);

@@ -83,7 +83,8 @@ $loader-circumference: ($loader-scale - (2 * $stroke-width)) * 3.14159;
 }
 
 .loader__svg {
-  @apply absolute top-0 left-0 origin-center overflow-visible;
+  @apply absolute top-0 origin-center overflow-visible;
+  inset-inline-start: 0;
   inline-size: var(--calcite-loader-size);
   block-size: var(--calcite-loader-size);
   animation-iteration-count: infinite;
@@ -130,7 +131,8 @@ $loader-circumference: ($loader-scale - (2 * $stroke-width)) * 3.14159;
 }
 
 :host([inline]) .loader__svgs {
-  @apply top-0 left-0 m-0;
+  @apply top-0 m-0;
+  inset-inline-start: 0;
   inline-size: var(--calcite-loader-size-inline);
   block-size: var(--calcite-loader-size-inline);
 }

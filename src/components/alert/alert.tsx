@@ -149,6 +149,7 @@ export class Alert implements OpenCloseComponent, LocalizedComponent {
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
+    connectLocalized(this);
     const open = this.open || this.active;
     if (open && !this.queued) {
       this.activeHandler(open);
@@ -156,7 +157,6 @@ export class Alert implements OpenCloseComponent, LocalizedComponent {
       this.calciteInternalAlertRegister.emit();
     }
     connectOpenCloseComponent(this);
-    connectLocalized(this);
   }
 
   componentWillLoad(): void {

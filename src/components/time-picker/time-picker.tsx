@@ -222,13 +222,6 @@ export class TimePicker implements LocalizedComponent, T9nComponent {
     /** referred in t9n util */
   }
 
-  /**
-   * This property is used to set the effective locale component uses for translation purpose.
-   *
-   * @internal
-   */
-  @Prop({ mutable: true }) effectiveLocale: string;
-
   // --------------------------------------------------------------------------
   //
   //  Private Properties
@@ -252,6 +245,8 @@ export class TimePicker implements LocalizedComponent, T9nComponent {
   //  State
   //
   // --------------------------------------------------------------------------
+
+  @State() effectiveLocale = "";
 
   @Watch("effectiveLocale")
   effectiveLocaleWatcher(): void {

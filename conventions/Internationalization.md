@@ -1,6 +1,6 @@
 # Internationalization (i18n)
 
-Typically, components allow users supply text values via slots and attributes, but there are cases where components need to take additional steps to support internationalization.
+Typically, components allow users to supply text values via slots and attributes, but there are cases where components need to take additional steps to support internationalization.
 
 ### Formatting
 
@@ -31,13 +31,13 @@ This pattern enables components to support built-in translations. In order to su
 
 1. Add the following translation bundles as component assets under a `t9n` folder (please refer to https://github.com/Esri/calcite-components/blob/master/conventions/README.md#assets for additional info on assets)
    1. `messages.json` – main bundle
-   1. `messages_en.json` – locale-specific bundle (kept in sync with main one via scripts)
-1. Implement the `T9nComponent` interface
+   2. `messages_en.json` – locale-specific bundle (kept in sync with main one via scripts)
+2. Implement the `T9nComponent` interface
    1. The `onMessagesChange` method must be empty as it is wired up by the support utils.
-   1. The `onMessagesChange` method must also be configured with watchers for the messages properties as well as Intl props.
-1. Use the `setUpMessages` util in the component's `componentWillLoad` lifecycle methods. This must be awaited on to have an initial set of strings available before rendering.
-1. Use the `connectMessages`/`disconnectMessages` utils in the component's `connectedCallback`/`disconnectedCallback` lifecycle methods. This will set up and tear down supporting methods on the component.
-1. Add an appropriate E2E test by using the `t9n` common test helper.
+   2. The `onMessagesChange` method must also be configured with watchers for the messages properties as well as Intl props.
+3. Use the `setUpMessages` util in the component's `componentWillLoad` lifecycle methods. This must be awaited on to have an initial set of strings available before rendering.
+4. Use the `connectMessages`/`disconnectMessages` utils in the component's `connectedCallback`/`disconnectedCallback` lifecycle methods. This will set up and tear down supporting methods on the component.
+5. Add an appropriate E2E test by using the `t9n` common test helper.
 
 #### Notes
 
@@ -50,7 +50,7 @@ This pattern enables components to support built-in translations. In order to su
 
 ## Translated strings
 
-**Note ⚠️**: this pattern deprecated and should no longer be followed for future components
+**Note ⚠️**: this pattern is deprecated and should no longer be followed for future components!
 
 In the future it will likely become necessary to provide string translations for components. An example would be the `aria-label` for the `<calcite-modal>` close button. Initial research looks promising and we could likely implement one of these approaches and set a `lang` for each component.
 
