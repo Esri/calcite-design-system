@@ -18,7 +18,13 @@ import {
   ConditionalSlotComponent
 } from "../../utils/conditionalSlot";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
-import { connectMessages, disconnectMessages, T9nComponent, updateMessages } from "../../utils/t9n";
+import {
+  connectMessages,
+  disconnectMessages,
+  setUpMessages,
+  T9nComponent,
+  updateMessages
+} from "../../utils/t9n";
 import { Messages } from "./assets/card/t9n";
 
 /**
@@ -133,6 +139,10 @@ export class Card implements ConditionalSlotComponent, LocalizedComponent, T9nCo
     disconnectConditionalSlotComponent(this);
     disconnectLocalized(this);
     disconnectMessages(this);
+  }
+
+  async componentWillLoad(): Promise<void> {
+    await setUpMessages(this);
   }
 
   render(): VNode {
