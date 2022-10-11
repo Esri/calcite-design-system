@@ -25,10 +25,11 @@ import {
   submitForm
 } from "../../utils/form";
 import {
-  delocalizeNumberString,
+  NumberingSystem,
+  numberStringFormatter,
+  defaultNumberingSystem,
   getDecimalSeparator,
   LocalizedComponent,
-  localizeNumberString,
   disconnectLocalized,
   connectLocalized,
   updateEffectiveLocale
@@ -148,10 +149,8 @@ export class InputNumber
 
   /**
    * Specifies the Unicode numeral system used by the component for localization.
-   *
-   * @mdn [numberingSystem](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/Locale/numberingSystem)
    */
-  @Prop({ reflect: true }) numberingSystem?: string;
+  @Prop({ reflect: true }) numberingSystem?: NumberingSystem;
 
   /**
    * Toggles locale formatting for numbers.
@@ -521,7 +520,12 @@ export class InputNumber
       return;
     }
     const value = (nativeEvent.target as HTMLInputElement).value;
-    const delocalizedValue = delocalizeNumberString(value, this.effectiveLocale);
+    numberStringFormatter.setOptions({
+      locale: this.effectiveLocale,
+      numberingSystem: this.numberingSystem,
+      useGrouping: this.groupSeparator
+    });
+    const delocalizedValue = numberStringFormatter.delocalize(value);
     if (nativeEvent.inputType === "insertFromPaste") {
       if (!isValidNumber(delocalizedValue)) {
         nativeEvent.preventDefault();
@@ -713,16 +717,18 @@ export class InputNumber
     previousValue?: string;
     value: string;
   }): void => {
-    const locale = this.effectiveLocale;
+    numberStringFormatter.setOptions({
+      locale: this.effectiveLocale,
+      numberingSystem: this.numberingSystem,
+      useGrouping: this.groupSeparator
+    });
 
-    const previousLocalizedValue = localizeNumberString(
-      this.previousValue,
-      locale,
-      this.groupSeparator,
-      this.numberingSystem
+    const sanitizedValue = sanitizeNumberString(
+      (this.numberingSystem && this.numberingSystem !== "latn") || defaultNumberingSystem !== "latn"
+        ? numberStringFormatter.delocalize(value)
+        : value
     );
 
-    const sanitizedValue = sanitizeNumberString(value);
     const newValue =
       value && !sanitizedValue
         ? isValidNumber(this.previousValue)
@@ -730,12 +736,7 @@ export class InputNumber
           : ""
         : sanitizedValue;
 
-    const newLocalizedValue = localizeNumberString(
-      newValue,
-      locale,
-      this.groupSeparator,
-      this.numberingSystem
-    );
+    const newLocalizedValue = numberStringFormatter.localize(newValue);
 
     this.setPreviousNumberValue(previousValue || this.value);
     this.previousValueOrigin = origin;
@@ -756,6 +757,7 @@ export class InputNumber
       });
 
       if (calciteInputNumberInputEvent.defaultPrevented) {
+        const previousLocalizedValue = numberStringFormatter.localize(this.previousValue);
         this.value = this.previousValue;
         this.localizedValue = previousLocalizedValue;
       } else if (committing) {

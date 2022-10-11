@@ -11,7 +11,7 @@ import {
 } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { letterKeys, numberKeys } from "../../utils/key";
-import { getDecimalSeparator, locales, localizeNumberString } from "../../utils/locale";
+import { locales, numberStringFormatter } from "../../utils/locale";
 import { getElementXY } from "../../tests/utils";
 import { KeyInput } from "puppeteer";
 
@@ -881,8 +881,13 @@ describe("calcite-input-number", () => {
           const calciteInput = await page.find("calcite-input-number");
           const input = await page.find("calcite-input-number >>> input");
 
+          numberStringFormatter.setOptions({
+            locale,
+            numberingSystem: "latn",
+            useGrouping: false
+          });
           expect(await calciteInput.getProperty("value")).toBe(value);
-          expect(await input.getProperty("value")).toBe(localizeNumberString(value, locale));
+          expect(await input.getProperty("value")).toBe(numberStringFormatter.localize(value));
         });
 
         it(`displays group and decimal separator on initial load for ${locale} locale using opt-in prop`, async () => {
@@ -894,42 +899,57 @@ describe("calcite-input-number", () => {
           const calciteInput = await page.find("calcite-input-number");
           const input = await page.find("calcite-input-number >>> input");
 
+          numberStringFormatter.setOptions({
+            locale,
+            numberingSystem: "latn",
+            useGrouping: true
+          });
           expect(await calciteInput.getProperty("value")).toBe(value);
-          expect(await input.getProperty("value")).toBe(localizeNumberString(value, locale, true));
+          expect(await input.getProperty("value")).toBe(numberStringFormatter.localize(value));
         });
 
         it(`allows typing valid decimal characters for ${locale} locale`, async () => {
+          numberStringFormatter.setOptions({
+            locale,
+            numberingSystem: "latn",
+            useGrouping: false
+          });
+
           const page = await newE2EPage();
           await page.setContent(html`<calcite-input-number lang="${locale}"></calcite-input-number>`);
           const calciteInput = await page.find("calcite-input-number");
           const input = await page.find("calcite-input-number >>> input");
-          const decimal = getDecimalSeparator(locale);
-          const unformattedValue = "1234.56";
+          const value = "1234.56";
 
           await page.keyboard.press("Tab");
           await typeNumberValue(page, "1234");
-          await page.keyboard.sendCharacter(decimal);
+          await page.keyboard.sendCharacter(numberStringFormatter.decimal);
           await input.press("5");
           await input.press("6");
 
-          expect(await calciteInput.getProperty("value")).toBe(`1234.56`);
-          expect(await input.getProperty("value")).toBe(localizeNumberString(unformattedValue, locale));
+          expect(await calciteInput.getProperty("value")).toBe(value);
+          expect(await input.getProperty("value")).toBe(numberStringFormatter.localize(value));
         });
 
         it(`displays correct formatted value when using exponential numbers for ${locale} locale`, async () => {
+          numberStringFormatter.setOptions({
+            locale,
+            numberingSystem: "latn",
+            useGrouping: false
+          });
+
           const page = await newE2EPage();
           await page.setContent(html`<calcite-input-number lang="${locale}"></calcite-input-number>`);
 
           const calciteInput = await page.find("calcite-input-number");
           const input = await page.find("calcite-input-number >>> input");
-          const decimal = getDecimalSeparator(locale);
-
+          const value = "1.5e-6";
           await page.keyboard.press("Tab");
           await page.waitForChanges();
-          await typeNumberValue(page, `1${decimal}5e-6`);
+          await typeNumberValue(page, `1${numberStringFormatter.decimal}5e-6`);
           await page.waitForChanges();
-          expect(await calciteInput.getProperty("value")).toBe(`1.5e-6`);
-          expect(await input.getProperty("value")).toBe(localizeNumberString("1.5e-6", locale));
+          expect(await calciteInput.getProperty("value")).toBe(value);
+          expect(await input.getProperty("value")).toBe(numberStringFormatter.localize(value));
         });
 
         it(`displays correct formatted value when the value is changed programmatically for ${locale} locale`, async () => {
@@ -959,8 +979,13 @@ describe("calcite-input-number", () => {
           await typeNumberValue(page, assertedValue);
           await page.waitForChanges();
 
+          numberStringFormatter.setOptions({
+            locale,
+            numberingSystem: "latn",
+            useGrouping: false
+          });
           expect(await calciteInput.getProperty("value")).toBe(assertedValue);
-          expect(await internalLocaleInput.getProperty("value")).toBe(localizeNumberString(assertedValue, locale));
+          expect(await internalLocaleInput.getProperty("value")).toBe(numberStringFormatter.localize(assertedValue));
         });
       });
   });
@@ -1123,8 +1148,13 @@ describe("calcite-input-number", () => {
     const input = await page.find("calcite-input-number >>> input");
     const copyInput = await page.find("#copy");
 
+    numberStringFormatter.setOptions({
+      locale: "en-US",
+      numberingSystem: "latn",
+      useGrouping: true
+    });
     expect(await calciteInput.getProperty("value")).toBe(initialValue);
-    expect(await input.getProperty("value")).toBe(localizeNumberString(initialValue, "en-US", true));
+    expect(await input.getProperty("value")).toBe(numberStringFormatter.localize(initialValue));
 
     await copyInput.focus();
     await page.keyboard.down("Meta");
@@ -1138,7 +1168,7 @@ describe("calcite-input-number", () => {
     await page.keyboard.up("Meta");
 
     expect(await calciteInput.getProperty("value")).toBe(initialValue);
-    expect(await input.getProperty("value")).toBe(localizeNumberString(initialValue, "en-US", true));
+    expect(await input.getProperty("value")).toBe(numberStringFormatter.localize(initialValue));
   });
 
   it("cannot be modified when readOnly is true", async () => {

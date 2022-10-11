@@ -55,12 +55,49 @@ export const locales = [
   "zh-TW"
 ];
 
+export const numberingSystems = [
+  "arab",
+  "arabext",
+  "bali",
+  "beng",
+  "deva",
+  "fullwide",
+  "gujr",
+  "guru",
+  "hanidec",
+  "khmr",
+  "knda",
+  "laoo",
+  "latn",
+  "limb",
+  "mlym",
+  "mong",
+  "mymr",
+  "orya",
+  "tamldec",
+  "telu",
+  "thai",
+  "tibt"
+] as const;
+
+export type NumberingSystem = typeof numberingSystems[number];
+
+const isNumberingSystemSupported = (numberingSystem: string): numberingSystem is NumberingSystem =>
+  numberingSystems.includes(numberingSystem as NumberingSystem);
+
+const browserNumberingSystem = new Intl.NumberFormat().resolvedOptions().numberingSystem;
+
+export const defaultNumberingSystem =
+  browserNumberingSystem === "arab" || !isNumberingSystemSupported(browserNumberingSystem)
+    ? "latn"
+    : browserNumberingSystem;
+
+const getSupportedNumberingSystem = (numberingSystem: string): NumberingSystem =>
+  isNumberingSystemSupported(numberingSystem) ? numberingSystem : defaultNumberingSystem;
+
 const allDecimalsExceptLast = new RegExp(`[.](?=.*[.])`, "g");
 const everythingExceptNumbersDecimalsAndMinusSigns = new RegExp("[^0-9-.]", "g");
 const defaultGroupSeparator = new RegExp(",", "g");
-
-const browserNumberingSystem = new Intl.NumberFormat().resolvedOptions().numberingSystem;
-const defaultNumberingSystem = browserNumberingSystem === "arab" ? "latn" : browserNumberingSystem;
 
 export function createLocaleNumberFormatter(
   locale: string,
@@ -70,7 +107,7 @@ export function createLocaleNumberFormatter(
   return new Intl.NumberFormat(locale, {
     minimumFractionDigits: 0,
     maximumFractionDigits: 20,
-    numberingSystem,
+    numberingSystem: getSupportedNumberingSystem(numberingSystem),
     signDisplay
   } as Intl.NumberFormatOptions);
 }
@@ -112,7 +149,7 @@ export function localizeNumberString(
   numberString: string,
   locale: string,
   displayGroupSeparator = false,
-  numberingSystem?: string
+  numberingSystem?: NumberingSystem
 ): string {
   locale = getSupportedLocale(locale);
 
@@ -292,3 +329,108 @@ function getLocale(component: LocalizedComponent): string {
     defaultLocale
   );
 }
+
+interface NumberStringFormatOptions {
+  numberingSystem: NumberingSystem;
+  locale: string;
+  useGrouping: boolean;
+}
+
+/**
+ * This util formats and parses numbers for localization
+ */
+class NumberStringFormat {
+  numberingSystem: string;
+
+  locale: string;
+
+  useGrouping: boolean;
+
+  /**
+   * The actual group separator for the specified locale
+   * some white space group separators don't render correctly in the browser
+   * so we replace them with a normal <SPACE>
+   */
+  actualGroup: string;
+
+  /** the corrected group separator */
+  group: string;
+
+  decimal: string;
+
+  minusSign: string;
+
+  digits: Array<string>;
+
+  getDigitIndex;
+
+  numberFormatter: Intl.NumberFormat;
+
+  /**
+   * This method needs to be called before localize/delocalize to ensure the options are up to date
+   *
+   * @param options
+   */
+  setOptions = (options: NumberStringFormatOptions) => {
+    const locale = getSupportedLocale(options.locale);
+    const numberingSystem = getSupportedNumberingSystem(options.numberingSystem);
+
+    // cache formatter by only recreating when options change
+    if (
+      numberingSystem === this.numberingSystem &&
+      locale === this.locale &&
+      options?.useGrouping === this.useGrouping
+    ) {
+      return;
+    }
+
+    this.locale = locale;
+    this.numberingSystem = numberingSystem;
+    this.useGrouping = options.useGrouping;
+
+    this.numberFormatter = new Intl.NumberFormat(this.locale, {
+      useGrouping: this.useGrouping,
+      numberingSystem: this.numberingSystem,
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 20
+    } as Intl.NumberFormatOptions);
+
+    this.digits = [
+      ...new Intl.NumberFormat(this.locale, {
+        useGrouping: false,
+        numberingSystem: this.numberingSystem
+      } as Intl.NumberFormatOptions).format(9876543210)
+    ].reverse();
+
+    const index = new Map(this.digits.map((d, i) => [d, i]));
+    const parts = new Intl.NumberFormat(this.locale).formatToParts(-12345678.9);
+
+    this.actualGroup = parts.find((d) => d.type === "group").value;
+    // change whitespace group characters that don't render correctly
+    this.group = this.actualGroup.trim().length === 0 ? " " : this.actualGroup;
+    this.decimal = parts.find((d) => d.type === "decimal").value;
+    this.minusSign = parts.find((d) => d.type === "minusSign").value;
+    this.getDigitIndex = (d) => index.get(d);
+  };
+
+  delocalize = (numberString: string) =>
+    sanitizeExponentialNumberString(numberString, (nonExpoNumString: string): string =>
+      nonExpoNumString
+        .trim()
+        .replace(new RegExp(`[${this.minusSign}]`, "g"), "-")
+        .replace(new RegExp(`[${this.group}]`, "g"), "")
+        .replace(new RegExp(`[${this.decimal}]`, "g"), ".")
+        .replace(new RegExp(`[${this.digits.join("")}]`, "g"), this.getDigitIndex)
+    );
+
+  localize = (numberString: string) =>
+    sanitizeExponentialNumberString(numberString, (nonExpoNumString: string): string =>
+      isValidNumber(nonExpoNumString)
+        ? new BigDecimal(nonExpoNumString.trim())
+            .format(this.numberFormatter)
+            .replace(new RegExp(`[${this.actualGroup}]`, "g"), this.group)
+        : nonExpoNumString
+    );
+}
+
+export const numberStringFormatter = new NumberStringFormat();

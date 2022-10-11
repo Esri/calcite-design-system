@@ -15,7 +15,8 @@ import {
   connectLocalized,
   disconnectLocalized,
   LocalizedComponent,
-  localizeNumberString
+  localizeNumberString,
+  NumberingSystem
 } from "../../utils/locale";
 import { CSS, TEXT } from "./resources";
 
@@ -48,10 +49,8 @@ export class Pagination implements LocalizedComponent {
 
   /**
    * Specifies the Unicode numeral system used by the component for localization.
-   *
-   * @mdn [numberingSystem](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/Locale/numberingSystem)
    */
-  @Prop() numberingSystem?: string;
+  @Prop() numberingSystem?: NumberingSystem;
 
   /** Specifies the starting item number. */
   @Prop({ mutable: true, reflect: true }) start = 1;

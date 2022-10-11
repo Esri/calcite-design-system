@@ -32,7 +32,8 @@ import {
   connectLocalized,
   disconnectLocalized,
   LocalizedComponent,
-  localizeNumberString
+  localizeNumberString,
+  NumberingSystem
 } from "../../utils/locale";
 import { CSS } from "./resources";
 
@@ -127,10 +128,8 @@ export class Slider
 
   /**
    * Specifies the Unicode numeral system used by the component for localization.
-   *
-   * @mdn [numberingSystem](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/Locale/numberingSystem)
    */
-  @Prop() numberingSystem?: string;
+  @Prop() numberingSystem?: NumberingSystem;
 
   /** Specifies the interval to move with the page up, or page down keys. */
   @Prop({ reflect: true }) pageStep?: number;

@@ -27,8 +27,9 @@ import {
 } from "../../utils/form";
 import {
   getDecimalSeparator,
-  delocalizeNumberString,
-  localizeNumberString,
+  NumberingSystem,
+  defaultNumberingSystem,
+  numberStringFormatter,
   LocalizedComponent,
   disconnectLocalized,
   connectLocalized,
@@ -150,9 +151,8 @@ export class Input
   /**
    * Specifies the Unicode numeral system used by the component for localization.
    *
-   * @mdn [numberingSystem](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/Locale/numberingSystem)
    */
-  @Prop({ reflect: true }) numberingSystem?: string;
+  @Prop({ reflect: true }) numberingSystem?: NumberingSystem;
 
   /**
    * When true, uses locale formatting for numbers.
@@ -596,7 +596,12 @@ export class Input
       return;
     }
     const value = (nativeEvent.target as HTMLInputElement).value;
-    const delocalizedValue = delocalizeNumberString(value, this.effectiveLocale);
+    numberStringFormatter.setOptions({
+      locale: this.effectiveLocale,
+      numberingSystem: this.numberingSystem,
+      useGrouping: this.groupSeparator
+    });
+    const delocalizedValue = numberStringFormatter.delocalize(value);
     if (nativeEvent.inputType === "insertFromPaste") {
       if (!isValidNumber(delocalizedValue)) {
         nativeEvent.preventDefault();
@@ -825,40 +830,42 @@ export class Input
     previousValue?: string;
     value: string;
   }): void => {
-    const locale = this.effectiveLocale;
-    const previousLocalizedValue =
-      this.type === "number"
-        ? localizeNumberString(
-            this.previousValue,
-            locale,
-            this.groupSeparator,
-            this.numberingSystem
-          )
-        : "";
-    const sanitizedValue = this.type === "number" ? sanitizeNumberString(value) : value;
-    const newValue =
-      this.type === "number" && value && !sanitizedValue
-        ? isValidNumber(this.previousValue)
-          ? this.previousValue
-          : ""
-        : sanitizedValue;
-    const newLocalizedValue =
-      this.type === "number"
-        ? localizeNumberString(newValue, locale, this.groupSeparator, this.numberingSystem)
-        : "";
+    numberStringFormatter.setOptions({
+      locale: this.effectiveLocale,
+      numberingSystem: this.numberingSystem,
+      useGrouping: this.groupSeparator
+    });
+
+    if (this.type === "number") {
+      const delocalizedValue =
+        (this.numberingSystem && this.numberingSystem !== "latn") ||
+        defaultNumberingSystem !== "latn"
+          ? numberStringFormatter.delocalize(value)
+          : value;
+
+      const sanitizedValue = sanitizeNumberString(delocalizedValue);
+
+      const newValue =
+        (value && !sanitizedValue) || [".", "-"].includes(sanitizedValue)
+          ? isValidNumber(this.previousValue)
+            ? this.previousValue
+            : ""
+          : sanitizedValue;
+
+      const newLocalizedValue = numberStringFormatter.localize(newValue);
+
+      this.localizedValue = newLocalizedValue;
+      this.userChangedValue = origin === "user" && this.value !== newValue;
+      this.value = newValue;
+      origin === "direct" && this.setInputValue(newLocalizedValue);
+    } else {
+      this.userChangedValue = origin === "user" && this.value !== value;
+      this.value = value;
+      origin === "direct" && this.setInputValue(value);
+    }
 
     this.setPreviousValue(previousValue || this.value);
     this.previousValueOrigin = origin;
-    this.userChangedValue = origin === "user" && this.value !== newValue;
-    this.value = newValue;
-
-    if (this.type === "number") {
-      this.localizedValue = newLocalizedValue;
-    }
-
-    if (origin === "direct") {
-      this.setInputValue(this.type === "number" ? newLocalizedValue : newValue);
-    }
 
     if (nativeEvent) {
       const calciteInputInputEvent = this.calciteInputInput.emit({
@@ -869,7 +876,10 @@ export class Input
 
       if (calciteInputInputEvent.defaultPrevented) {
         this.value = this.previousValue;
-        this.localizedValue = previousLocalizedValue;
+        this.localizedValue =
+          this.type === "number"
+            ? numberStringFormatter.localize(this.previousValue)
+            : this.previousValue;
       } else if (committing) {
         this.emitChangeIfUserModified();
       }
