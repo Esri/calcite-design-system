@@ -21,7 +21,13 @@ import {
 } from "../../utils/conditionalSlot";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
-import { connectMessages, disconnectMessages, T9nComponent, updateMessages } from "../../utils/t9n";
+import {
+  connectMessages,
+  disconnectMessages,
+  setUpMessages,
+  T9nComponent,
+  updateMessages
+} from "../../utils/t9n";
 import { Messages } from "./assets/pick-list-item/t9n";
 
 /**
@@ -184,6 +190,10 @@ export class PickListItem
     connectLocalized(this);
     connectMessages(this);
     connectConditionalSlotComponent(this);
+  }
+
+  async componentWillLoad(): Promise<void> {
+    await setUpMessages(this);
   }
 
   disconnectedCallback(): void {
