@@ -46,7 +46,13 @@ import { HeadingLevel, Heading } from "../functional/Heading";
 import PopoverManager from "./PopoverManager";
 import { debounce } from "lodash-es";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
-import { connectMessages, disconnectMessages, setUpMessages, T9nComponent } from "../../utils/t9n";
+import {
+  connectMessages,
+  disconnectMessages,
+  setUpMessages,
+  T9nComponent,
+  updateMessages
+} from "../../utils/t9n";
 import { Messages } from "./assets/popover/t9n";
 
 const manager = new PopoverManager();
@@ -248,6 +254,11 @@ export class Popover
   @Element() el: HTMLCalcitePopoverElement;
 
   @State() effectiveLocale = "";
+
+  @Watch("effectiveLocale")
+  effectiveLocaleChange(): void {
+    updateMessages(this, this.effectiveLocale);
+  }
 
   @State() effectiveReferenceElement: ReferenceElement;
 
