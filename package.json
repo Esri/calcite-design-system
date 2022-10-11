@@ -134,7 +134,7 @@
     "postcss": "8.4.17",
     "prettier": "2.7.1",
     "puppeteer": "10.0.0",
-    "quicktype-core": "6.0.71",
+    "quicktype-core": "6.1.0",
     "rimraf": "3.0.2",
     "screener-storybook": "0.23.0",
     "semver": "7.3.8",
