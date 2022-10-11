@@ -240,12 +240,11 @@ export class Filter implements InteractiveComponent, LocalizedComponent, T9nComp
         <div class={CSS.container}>
           <label>
             <calcite-input
-              aria-label={this.intlLabel || TEXT.filterLabel}
+              aria-label={this.messages.filterLabel}
               clearable={true}
               disabled={disabled}
               icon={ICONS.search}
-              intlClear={this.intlClear || TEXT.clear}
-              lang={this.effectiveLocale}
+              intlClear={this.messages.clear}
               onCalciteInputInput={this.inputHandler}
               onKeyDown={this.keyDownHandler}
               placeholder={this.placeholder}
