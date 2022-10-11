@@ -1,12 +1,6 @@
 import { numberKeys } from "./key";
 import { numberStringFormatter } from "./locale";
 
-// regex for number sanitization
-const allLeadingZerosOptionallyNegative = /^([-0])0+(?=\d)/;
-const decimalOnlyAtEndOfString = /(?!^\.)\.$/;
-const allHyphensExceptTheStart = /(?!^-)-/g;
-const isNegativeDecimalOnlyZeros = /^-\b0\b\.?0*$/;
-
 // adopted from https://stackoverflow.com/a/66939244
 export class BigDecimal {
   value: bigint;
@@ -135,21 +129,18 @@ export function parseNumberString(numberString?: string): string {
   });
 }
 
-export function sanitizeDecimalString(decimalString: string): string {
-  return decimalString.replace(decimalOnlyAtEndOfString, "");
-}
+// regex for number sanitization
+const allLeadingZerosOptionallyNegative = /^([-0])0+(?=\d)/;
+const decimalOnlyAtEndOfString = /(?!^\.)\.$/;
+const allHyphensExceptTheStart = /(?!^-)-/g;
+const isNegativeDecimalOnlyZeros = /^-\b0\b\.?0*$/;
 
-export function sanitizeNegativeString(negativeString: string): string {
-  return negativeString.replace(allHyphensExceptTheStart, "");
-}
-
-export function sanitizeLeadingZeroString(zeroString: string): string {
-  return zeroString.replace(allLeadingZerosOptionallyNegative, "$1");
-}
-
-export function sanitizeNumberString(numberString: string): string {
-  return sanitizeExponentialNumberString(numberString, (nonExpoNumString) => {
-    const sanitizedValue = sanitizeNegativeString(sanitizeDecimalString(sanitizeLeadingZeroString(nonExpoNumString)));
+export const sanitizeNumberString = (numberString: string): string =>
+  sanitizeExponentialNumberString(numberString, (nonExpoNumString) => {
+    const sanitizedValue = nonExpoNumString
+      .replace(allHyphensExceptTheStart, "")
+      .replace(decimalOnlyAtEndOfString, "")
+      .replace(allLeadingZerosOptionallyNegative, "$1");
 
     return isValidNumber(sanitizedValue)
       ? isNegativeDecimalOnlyZeros.test(sanitizedValue)
@@ -157,7 +148,6 @@ export function sanitizeNumberString(numberString: string): string {
         : new BigDecimal(sanitizedValue).toString()
       : nonExpoNumString;
   });
-}
 
 export function sanitizeExponentialNumberString(numberString: string, func: (s: string) => string): string {
   if (!numberString) {
