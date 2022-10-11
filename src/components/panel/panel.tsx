@@ -125,11 +125,15 @@ export class Panel implements InteractiveComponent, LocalizedComponent, T9nCompo
 
   /**
    * Accessible name for the component's close button. The close button will only be shown when 'dismissible' is true.
+   *
+   * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`
    */
   @Prop() intlClose: string;
 
   /**
    * Accessible name for the component's actions menu.
+   *
+   * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`
    */
   @Prop() intlOptions: string;
 
