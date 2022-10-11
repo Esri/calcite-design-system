@@ -205,7 +205,7 @@ export class Rating
                 <calcite-icon icon="star-f" scale={this.scale} />
               </div>
             )}
-            <span class="visually-hidden">{this.intlStars.replace("${num}", `${i}`)}</span>
+            <span class="visually-hidden">{this.messages.stars.replace("${num}", `${i}`)}</span>
           </label>
           <input
             checked={i === this.value}
