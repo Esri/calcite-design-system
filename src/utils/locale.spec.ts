@@ -54,7 +54,8 @@ describe("NumberStringFormat", () => {
       const numberString = "1234567890";
       numberStringFormatter.setOptions({
         locale,
-        numberingSystem: "latn",
+        // the group separator is different in arabic depending on the numberingSystem
+        numberingSystem: locale === "ar" ? "arab" : "latn",
         useGrouping: true
       });
       const localizedNumberString = numberStringFormatter.localize(numberString);
@@ -66,7 +67,8 @@ describe("NumberStringFormat", () => {
       const numberString = "12345678.9";
       numberStringFormatter.setOptions({
         locale,
-        numberingSystem: "latn",
+        // the group separator is different in arabic depending on the numberingSystem
+        numberingSystem: locale === "ar" ? "arab" : "latn",
         useGrouping: true
       });
       const localizedNumberString = numberStringFormatter.localize(numberString);

@@ -115,7 +115,8 @@ describe("BigDecimal", () => {
     it(`correctly localizes number parts - ${locale}`, () => {
       numberStringFormatter.setOptions({
         locale,
-        numberingSystem: "latn",
+        // the group separator is different in arabic depending on the numberingSystem
+        numberingSystem: locale === "ar" ? "arab" : "latn",
         useGrouping: true
       });
 
