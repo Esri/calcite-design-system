@@ -70,11 +70,11 @@ export class Pagination implements LocalizedComponent, T9nComponent {
     const extraOverrides: Partial<Messages> = {};
 
     if (this.textLabelNext) {
-      extraOverrides.nextLabel = this.textLabelNext;
+      extraOverrides.next = this.textLabelNext;
     }
 
     if (this.textLabelPrevious) {
-      extraOverrides.previousLabel = this.textLabelPrevious;
+      extraOverrides.previous = this.textLabelPrevious;
     }
 
     return extraOverrides;
@@ -331,7 +331,7 @@ export class Pagination implements LocalizedComponent, T9nComponent {
     return (
       <Fragment>
         <button
-          aria-label={this.messages.previousLabel}
+          aria-label={this.messages.previous}
           class={{
             [CSS.previous]: true,
             [CSS.disabled]: prevDisabled
@@ -347,7 +347,7 @@ export class Pagination implements LocalizedComponent, T9nComponent {
         {this.renderRightEllipsis()}
         {this.renderPage(this.getLastStart())}
         <button
-          aria-label={this.messages.nextLabel}
+          aria-label={this.messages.next}
           class={{
             [CSS.next]: true,
             [CSS.disabled]: nextDisabled
