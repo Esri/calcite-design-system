@@ -1,4 +1,5 @@
 import { isValidNumber } from "./number";
+import { getSupportedLocale } from "./locale";
 
 export type HourCycle = "12" | "24";
 
@@ -168,10 +169,13 @@ export function localizeTimeString(value: string, locale = "en", includeSeconds 
   return formatter?.format(dateFromTimeString) || null;
 }
 
-export function localizeTimeStringToParts(value: string, locale = "en"): LocalizedTime {
+export function localizeTimeStringToParts(value: string, locale: string): LocalizedTime {
   if (!isValidTime(value)) {
     return null;
   }
+
+  locale = getSupportedLocale(locale);
+
   const { hour, minute, second = "0" } = parseTimeString(value);
   const dateFromTimeString = new Date(Date.UTC(0, 0, 0, parseInt(hour), parseInt(minute), parseInt(second)));
   if (dateFromTimeString) {

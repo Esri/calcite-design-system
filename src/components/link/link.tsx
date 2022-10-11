@@ -29,33 +29,33 @@ export class Link implements InteractiveComponent {
   //
   //--------------------------------------------------------------------------
 
-  /** is the link disabled  */
+  /** When true, interaction is prevented and the component is displayed with lower opacity. */
   @Prop({ reflect: true }) disabled = false;
 
   /**
    * Prompts the user to save the linked URL instead of navigating to it. Can be used with or without a value:
    * Without a value, the browser will suggest a filename/extension
-   * See: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#attr-download
+   * See https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#attr-download.
    */
   @Prop({ reflect: true }) download: string | boolean = false;
 
-  /** optionally pass a href - used to determine if the component should render as a link or an anchor */
+  /** Specifies the URL of the linked resource, which can be set as an absolute or relative path. */
   @Prop({ reflect: true }) href?: string;
 
-  /** optionally pass an icon to display at the end of a button - accepts calcite ui icon names  */
+  /** Specifies an icon to display at the end of the component. */
   @Prop({ reflect: true }) iconEnd?: string;
 
-  /** flip the icon(s) in rtl */
+  /** When true, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @Prop({ reflect: true }) iconFlipRtl?: FlipContext;
 
-  /** optionally pass an icon to display at the start of a button - accepts calcite ui icon names  */
+  /** Specifies an icon to display at the start of the component. */
   @Prop({ reflect: true }) iconStart?: string;
 
-  /** The rel attribute to apply to the hyperlink */
-  @Prop({ reflect: true }) rel?: string;
+  /** Specifies the relationship to the linked document defined in `href`. */
+  @Prop() rel?: string;
 
-  /** The target attribute to apply to the hyperlink */
-  @Prop({ reflect: true }) target?: string;
+  /** Specifies the frame or window to open the linked document. */
+  @Prop() target?: string;
 
   //--------------------------------------------------------------------------
   //

@@ -258,8 +258,12 @@ export class ColorPicker implements InteractiveComponent {
    */
   @Prop({ reflect: true }) storageId: string;
 
-  /** standard UniCode numeral system tag for localization */
-  @Prop({ reflect: true }) numberingSystem?: string;
+  /**
+   * Specifies the Unicode numeral system used by the component for localization.
+   *
+   * @mdn [numberingSystem](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/Locale/numberingSystem)
+   */
+  @Prop() numberingSystem?: string;
 
   /**
    * The component's value.

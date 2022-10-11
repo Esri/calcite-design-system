@@ -26,36 +26,36 @@ export class Label {
   //
   //--------------------------------------------------------------------------
 
-  /** specify the text alignment of the label */
+  /** Specifies the text alignment of the component. */
   @Prop({ reflect: true }) alignment: Alignment = "start";
 
   /**
-   * specify the status of the label and any child input / input messages
+   * Specifies the status of the component and any child input, or input messages.
    *
-   * @deprecated set directly on child element instead
+   * @deprecated Set directly on the component the label is bound to instead.
    */
   @Prop({ reflect: true }) status: Status = "idle";
 
-  /** The id of the input associated with the label */
+  /** Specifies the `id` of the component the label is bound to. Use when the component the label is bound to does not reside within the component. */
   @Prop({ reflect: true }) for: string;
 
-  /** specify the scale of the label, defaults to m */
+  /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
 
-  /** is the wrapped element positioned inline with the label slotted text */
+  /** Defines the layout of the label in relation to the component. Use `"inline"` positions to wrap the label and component on the same line. */
   @Prop({ reflect: true }) layout: "inline" | "inline-space-between" | "default" = "default";
 
   /**
-   * is the label disabled
+   * When true, interaction is prevented and the component is displayed with lower opacity.
    *
-   * @deprecated use the `disabled` property on the interactive components instead
+   * @deprecated Use the `disabled` property on the component the label is bound to instead.
    */
   @Prop({ reflect: true }) disabled = false;
 
   /**
-   * eliminates any space around the label
+   * When true, disables the component's spacing.
    *
-   * @deprecated set the --calcite-label-margin-bottom css variable to 0 instead
+   * @deprecated Set the `--calcite-label-margin-bottom` css variable to `0` instead.
    */
   @Prop({ reflect: true }) disableSpacing = false;
 
