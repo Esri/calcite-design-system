@@ -105,7 +105,7 @@
   }
 }
 
-:host([open][calcite-hydrated]) {
+:host([open]) {
   @apply opacity-100;
   visibility: visible !important;
   transition-delay: 0ms;

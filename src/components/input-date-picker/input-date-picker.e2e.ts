@@ -169,7 +169,7 @@ describe("calcite-input-date-picker", () => {
       await page.waitForChanges();
       expect(changeEvent).toHaveReceivedEventTimes(8);
       expect(deprecatedChangeEvent).toHaveReceivedEventTimes(8);
-      expect(await element.getProperty("start")).toBeUndefined();
+      expect(await element.getProperty("start")).toBeNull();
       expect(await element.getProperty("startAsDate")).toBeNull();
     });
   });

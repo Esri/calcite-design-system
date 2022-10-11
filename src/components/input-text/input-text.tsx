@@ -61,7 +61,7 @@ export class InputText implements LabelableComponent, FormComponent, Interactive
    *
    * @mdn [autofocus](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/autofocus)
    */
-  @Prop() autofocus = false;
+  @Prop({ reflect: true }) autofocus = false;
 
   /**
    * When true, a clear button is displayed when the component has a value.
@@ -85,7 +85,7 @@ export class InputText implements LabelableComponent, FormComponent, Interactive
    *
    * @mdn [hidden](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/hidden)
    */
-  @Prop() hidden = false;
+  @Prop({ reflect: true }) hidden = false;
 
   /**
    * When true, shows a default recommended icon. Alternatively, pass a Calcite UI Icon name to display a specific icon.
@@ -104,7 +104,7 @@ export class InputText implements LabelableComponent, FormComponent, Interactive
    */
   @Prop() intlLoading?: string = COMMON_TEXT.loading;
 
-  /** When true, the icon is flipped in RTL. */
+  /** When true, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @Prop({ reflect: true }) iconFlipRtl = false;
 
   /** Accessible name for the component's button or hyperlink. */
@@ -145,14 +145,14 @@ export class InputText implements LabelableComponent, FormComponent, Interactive
   @Prop() prefixText?: string;
 
   /**
-   * When true, the value cannot be modified.
+   * When true, the component's value can be read, but cannot be modified.
    *
    * @mdn [readOnly](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/readonly)
    */
-  @Prop() readOnly = false;
+  @Prop({ reflect: true }) readOnly = false;
 
   /** When true, the component must have a value in order for the form to submit. */
-  @Prop() required = false;
+  @Prop({ reflect: true }) required = false;
 
   /** Specifies the size of the component. */
   @Prop({ mutable: true, reflect: true }) scale: Scale = "m";
@@ -506,7 +506,7 @@ export class InputText implements LabelableComponent, FormComponent, Interactive
         class={CSS.clearButton}
         disabled={this.disabled || this.readOnly}
         onClick={this.clearInputTextValue}
-        tabIndex={this.disabled ? -1 : 0}
+        tabIndex={-1}
         type="button"
       >
         <calcite-icon icon="x" scale="s" />

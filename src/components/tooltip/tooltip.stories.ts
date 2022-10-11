@@ -1,8 +1,9 @@
 import { select, number } from "@storybook/addon-knobs";
 import readme from "./readme.md";
 import { html } from "../../../support/formatting";
-import { boolean, createSteps, stepStory, setTheme, storyFilters } from "../../../.storybook/helpers";
+import { boolean, storyFilters } from "../../../.storybook/helpers";
 import { placements } from "../../utils/floating-ui";
+import { themesDarkDefault } from "../../../.storybook/utils";
 
 const contentHTML = `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua`;
 
@@ -16,28 +17,51 @@ export default {
   ...storyFilters()
 };
 
-export const simple = stepStory(
-  (): string => html`
-    <div style="width: 400px;">
-      ${referenceElementHTML}
-      <calcite-tooltip
-        reference-element="reference-element"
-        placement="${select("placement", placements, "auto")}"
-        offset-distance="${number("offset-distance", 6)}"
-        offset-skidding="${number("offset-skidding", 0)}"
-        ${boolean("open", false)}
-      >
-        ${contentHTML}
-      </calcite-tooltip>
-    </div>
-  `,
-  createSteps("calcite-tooltip")
-    .snapshot("Default")
-    .hover("#reference-element")
-    .snapshot("Open")
-    .rtl()
-    .snapshot("Rtl")
-    .ltr()
-    .executeScript(setTheme("dark"))
-    .snapshot("Dark theme")
-);
+export const simple = (): string => html`
+  <div style="width: 400px;">
+    ${referenceElementHTML}
+    <calcite-tooltip
+      reference-element="reference-element"
+      placement="${select("placement", placements, "auto")}"
+      offset-distance="${number("offset-distance", 6)}"
+      offset-skidding="${number("offset-skidding", 0)}"
+      ${boolean("open", false)}
+    >
+      ${contentHTML}
+    </calcite-tooltip>
+  </div>
+`;
+
+export const open_TestOnly = (): string => html`
+  <div style="width: 400px;">
+    ${referenceElementHTML}
+    <calcite-tooltip
+      reference-element="reference-element"
+      placement="${select("placement", placements, "auto")}"
+      offset-distance="${number("offset-distance", 6)}"
+      offset-skidding="${number("offset-skidding", 0)}"
+      ${boolean("open", true)}
+    >
+      ${contentHTML}
+    </calcite-tooltip>
+  </div>
+`;
+
+export const darkThemeRTL_TestOnly = (): string => html`
+  <div style="width: 400px;">
+    ${referenceElementHTML}
+    <calcite-tooltip
+      class="calcite-theme-dark"
+      dir="rtl"
+      reference-element="reference-element"
+      placement="${select("placement", placements, "auto")}"
+      offset-distance="${number("offset-distance", 6)}"
+      offset-skidding="${number("offset-skidding", 0)}"
+      ${boolean("open", false)}
+    >
+      ${contentHTML}
+    </calcite-tooltip>
+  </div>
+`;
+
+darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };

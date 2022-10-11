@@ -221,3 +221,29 @@ export const layoutCenter_TestOnly = (): string => html`<calcite-tabs layout="ce
     <calcite-tab-title>Tab 4 Title</calcite-tab-title>
   </calcite-tab-nav>
 </calcite-tabs>`;
+
+export const WithIconStart_TestOnly = stepStory(
+  (): string => html`
+    <calcite-tabs>
+      <calcite-tab-nav slot="tab-nav">
+        <calcite-tab-title active id="tab-title">Boats</calcite-tab-title>
+        <calcite-tab-title>Ships</calcite-tab-title>
+        <calcite-tab-title>Yachts</calcite-tab-title>
+      </calcite-tab-nav>
+      <calcite-tab active><calcite-button id="btn">Add indicator</calcite-button></calcite-tab>
+      <calcite-tab>Tab 2 content</calcite-tab>
+      <calcite-tab>Tab 3 content</calcite-tab>
+    </calcite-tabs>
+  `,
+  createSteps("calcite-tabs")
+    .executeScript(
+      `const tabtitle = document.getElementById("tab-title");
+      const button = document.getElementById("btn");
+      button.addEventListener("click", () => {
+      tabtitle.iconStart = "car";
+      });
+      `
+    )
+    .click("calcite-button")
+    .snapshot("WithIconStart")
+);

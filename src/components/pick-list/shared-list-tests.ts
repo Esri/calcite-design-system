@@ -184,8 +184,6 @@ export function keyboardNavigation(listType: ListType): void {
       await page.waitForEvent("calciteFilterChange");
 
       await page.keyboard.press("Tab");
-      await page.keyboard.press("Tab");
-
       expect(await getFocusedItemValue(page)).toEqual("one");
 
       await filter.callMethod("setFocus");
@@ -200,8 +198,6 @@ export function keyboardNavigation(listType: ListType): void {
       await page.waitForEvent("calciteFilterChange");
 
       await page.keyboard.press("Tab");
-      await page.keyboard.press("Tab");
-
       expect(await getFocusedItemValue(page)).toEqual("two");
     });
 

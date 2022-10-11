@@ -1,0 +1,14 @@
+{
+  "hour": "ก้_Hour_________ษฺ",
+  "hourDown": "ก้_Decrease hour______________ษฺ",
+  "hourUp": "ก้_Increase hour______________ษฺ",
+  "meridiem": "ก้_AM/PM___________ษฺ",
+  "meridiemDown": "ก้_Decrease AM/PM_______________ษฺ",
+  "meridiemUp": "ก้_Increase AM/PM_______________ษฺ",
+  "minute": "ก้_Minute_____________ษฺ",
+  "minuteDown": "ก้_Decrease minute________________ษฺ",
+  "minuteUp": "ก้_Increase minute________________ษฺ",
+  "second": "ก้_Second_____________ษฺ",
+  "secondDown": "ก้_Decrease second________________ษฺ",
+  "secondUp": "ก้_Increase second________________ษฺ"
+}

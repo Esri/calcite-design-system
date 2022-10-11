@@ -54,7 +54,7 @@ export class PickListItem implements ConditionalSlotComponent, InteractiveCompon
   /**
    * When false, the component cannot be deselected by user interaction.
    */
-  @Prop() disableDeselect = false;
+  @Prop({ reflect: true }) disableDeselect = false;
 
   /**
    * @internal
