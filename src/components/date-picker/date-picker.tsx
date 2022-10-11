@@ -232,10 +232,6 @@ export class DatePicker implements LocalizedComponent, T9nComponent {
    */
   @State() activeEndDate: Date;
 
-  @State() globalAttributes = {};
-
-  @State() defaultMessages: Messages;
-
   // --------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -339,6 +335,8 @@ export class DatePicker implements LocalizedComponent, T9nComponent {
   effectiveLocaleChange(): void {
     updateMessages(this, this.effectiveLocale);
   }
+
+  @State() defaultMessages: Messages;
 
   @State() private localeData: DateLocaleData;
 
@@ -507,7 +505,6 @@ export class DatePicker implements LocalizedComponent, T9nComponent {
           intlNextMonth={this.messages.nextMonth}
           intlPrevMonth={this.messages.prevMonth}
           intlYear={this.messages.year}
-          lang={this.effectiveLocale}
           localeData={this.localeData}
           max={maxDate}
           min={minDate}

@@ -228,5 +228,5 @@ describe("calcite-date-picker", () => {
     expect(await date.getProperty("intlYear")).toEqual("Year");
   });
 
-  it("supports translations", () => t9n("<calcite-date-picker> </calcite-date-picker>"));
+  it("supports translations", () => t9n("calcite-date-picker"));
 });
