@@ -98,11 +98,15 @@ export class Pagination implements LocalizedComponent, T9nComponent {
 
   /**
    * Accessible name for the component's next button.
+   *
+   * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`
    */
   @Prop() textLabelNext: string;
 
   /**
    * Accessible name for the component's previous button.
+   *
+   * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`
    */
   @Prop() textLabelPrevious: string;
 
