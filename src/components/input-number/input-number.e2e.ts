@@ -11,7 +11,7 @@ import {
 } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { letterKeys, numberKeys } from "../../utils/key";
-import { getDecimalSeparator, locales, numberStringFormatter } from "../../utils/locale";
+import { locales, numberStringFormatter } from "../../utils/locale";
 import { getElementXY } from "../../tests/utils";
 import { KeyInput } from "puppeteer";
 
@@ -909,46 +909,45 @@ describe("calcite-input-number", () => {
         });
 
         it(`allows typing valid decimal characters for ${locale} locale`, async () => {
-          const page = await newE2EPage();
-          await page.setContent(html`<calcite-input-number lang="${locale}"></calcite-input-number>`);
-          const calciteInput = await page.find("calcite-input-number");
-          const input = await page.find("calcite-input-number >>> input");
-          const decimal = getDecimalSeparator(locale);
-          const value = "1234.56";
-
-          await page.keyboard.press("Tab");
-          await typeNumberValue(page, "1234");
-          await page.keyboard.sendCharacter(decimal);
-          await input.press("5");
-          await input.press("6");
-
           numberStringFormatter.setOptions({
             locale,
             numberingSystem: "latn",
             useGrouping: false
           });
+
+          const page = await newE2EPage();
+          await page.setContent(html`<calcite-input-number lang="${locale}"></calcite-input-number>`);
+          const calciteInput = await page.find("calcite-input-number");
+          const input = await page.find("calcite-input-number >>> input");
+          const value = "1234.56";
+
+          await page.keyboard.press("Tab");
+          await typeNumberValue(page, "1234");
+          await page.keyboard.sendCharacter(numberStringFormatter.decimal);
+          await input.press("5");
+          await input.press("6");
+
           expect(await calciteInput.getProperty("value")).toBe(value);
           expect(await input.getProperty("value")).toBe(numberStringFormatter.localize(value));
         });
 
         it(`displays correct formatted value when using exponential numbers for ${locale} locale`, async () => {
-          const page = await newE2EPage();
-          await page.setContent(html`<calcite-input-number lang="${locale}"></calcite-input-number>`);
-
-          const calciteInput = await page.find("calcite-input-number");
-          const input = await page.find("calcite-input-number >>> input");
-          const decimal = getDecimalSeparator(locale);
-          const value = "1.5e-6";
-          await page.keyboard.press("Tab");
-          await page.waitForChanges();
-          await typeNumberValue(page, `1${decimal}5e-6`);
-          await page.waitForChanges();
-
           numberStringFormatter.setOptions({
             locale,
             numberingSystem: "latn",
             useGrouping: false
           });
+
+          const page = await newE2EPage();
+          await page.setContent(html`<calcite-input-number lang="${locale}"></calcite-input-number>`);
+
+          const calciteInput = await page.find("calcite-input-number");
+          const input = await page.find("calcite-input-number >>> input");
+          const value = "1.5e-6";
+          await page.keyboard.press("Tab");
+          await page.waitForChanges();
+          await typeNumberValue(page, `1${numberStringFormatter.decimal}5e-6`);
+          await page.waitForChanges();
           expect(await calciteInput.getProperty("value")).toBe(value);
           expect(await input.getProperty("value")).toBe(numberStringFormatter.localize(value));
         });

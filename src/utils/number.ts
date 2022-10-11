@@ -1,11 +1,5 @@
 import { numberKeys } from "./key";
-import {
-  createLocaleNumberFormatter,
-  getDecimalSeparator,
-  getMinusSign,
-  NumberingSystem,
-  numberStringFormatter
-} from "./locale";
+import { numberStringFormatter } from "./locale";
 
 // regex for number sanitization
 const allLeadingZerosOptionallyNegative = /^([-0])0+(?=\d)/;
@@ -61,9 +55,7 @@ export class BigDecimal {
     return `${this.isNegative ? "-" : ""}${value}`;
   }
 
-  formatToParts(locale: string, numberingSystem?: NumberingSystem): Intl.NumberFormatPart[] {
-    const formatter = createLocaleNumberFormatter(locale, numberingSystem);
-
+  formatToParts(formatter: Intl.NumberFormat): Intl.NumberFormatPart[] {
     const s = this.value
       .toString()
       .replace(new RegExp("-", "g"), "")
@@ -73,10 +65,10 @@ export class BigDecimal {
     const d = s.slice(-BigDecimal.DECIMALS).replace(/\.?0+$/, "");
 
     const parts = formatter.formatToParts(BigInt(i));
-    this.isNegative && parts.unshift({ type: "minusSign", value: getMinusSign(locale) });
+    this.isNegative && parts.unshift({ type: "minusSign", value: numberStringFormatter.minusSign });
 
     if (d.length) {
-      parts.push({ type: "decimal", value: getDecimalSeparator(locale) });
+      parts.push({ type: "decimal", value: numberStringFormatter.decimal });
       d.split("").forEach((char: string) => parts.push({ type: "fraction", value: char }));
     }
 

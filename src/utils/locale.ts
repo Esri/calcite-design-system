@@ -92,41 +92,8 @@ export const defaultNumberingSystem =
     ? "latn"
     : browserNumberingSystem;
 
-const getSupportedNumberingSystem = (numberingSystem: string): NumberingSystem =>
+export const getSupportedNumberingSystem = (numberingSystem: string): NumberingSystem =>
   isNumberingSystemSupported(numberingSystem) ? numberingSystem : defaultNumberingSystem;
-
-export function createLocaleNumberFormatter(
-  locale: string,
-  numberingSystem = defaultNumberingSystem,
-  signDisplay: "auto" | "never" | "always" | "exceptZero" = "auto"
-): Intl.NumberFormat {
-  return new Intl.NumberFormat(locale, {
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 20,
-    numberingSystem: getSupportedNumberingSystem(numberingSystem),
-    signDisplay
-  } as Intl.NumberFormatOptions);
-}
-
-export function getGroupSeparator(locale: string): string {
-  const formatter = createLocaleNumberFormatter(locale);
-  const parts = formatter.formatToParts(1234567);
-  const value = parts.find((part) => part.type === "group").value;
-  // change whitespace group characters that don't render correctly
-  return value.trim().length === 0 ? " " : value;
-}
-
-export function getDecimalSeparator(locale: string): string {
-  const formatter = createLocaleNumberFormatter(locale);
-  const parts = formatter.formatToParts(1.1);
-  return parts.find((part) => part.type === "decimal").value;
-}
-
-export function getMinusSign(locale: string): string {
-  const formatter = createLocaleNumberFormatter(locale);
-  const parts = formatter.formatToParts(-9);
-  return parts.find((part) => part.type === "minusSign").value;
-}
 
 export function getSupportedLocale(locale: string): string {
   if (locales.indexOf(locale) > -1) {
