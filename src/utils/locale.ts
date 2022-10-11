@@ -82,19 +82,22 @@ export const numberingSystems = [
 
 export type NumberingSystem = typeof numberingSystems[number];
 
-const allDecimalsExceptLast = new RegExp(`[.](?=.*[.])`, "g");
-const everythingExceptNumbersDecimalsAndMinusSigns = new RegExp("[^0-9-.]", "g");
-const defaultGroupSeparator = new RegExp(",", "g");
+const isNumberingSystemSupported = (numberingSystem: string): numberingSystem is NumberingSystem =>
+  numberingSystems.includes(numberingSystem as NumberingSystem);
 
 const browserNumberingSystem = new Intl.NumberFormat().resolvedOptions().numberingSystem;
+
 export const defaultNumberingSystem =
   browserNumberingSystem === "arab" || !isNumberingSystemSupported(browserNumberingSystem)
     ? "latn"
     : browserNumberingSystem;
 
-export function isNumberingSystemSupported(numberingSystem: string): numberingSystem is NumberingSystem {
-  return numberingSystems.includes(numberingSystem as NumberingSystem);
-}
+const getSupportedNumberingSystem = (numberingSystem: string): NumberingSystem =>
+  isNumberingSystemSupported(numberingSystem) ? numberingSystem : defaultNumberingSystem;
+
+const allDecimalsExceptLast = new RegExp(`[.](?=.*[.])`, "g");
+const everythingExceptNumbersDecimalsAndMinusSigns = new RegExp("[^0-9-.]", "g");
+const defaultGroupSeparator = new RegExp(",", "g");
 
 export function createLocaleNumberFormatter(
   locale: string,
@@ -104,7 +107,7 @@ export function createLocaleNumberFormatter(
   return new Intl.NumberFormat(locale, {
     minimumFractionDigits: 0,
     maximumFractionDigits: 20,
-    numberingSystem: isNumberingSystemSupported(numberingSystem) ? numberingSystem : defaultNumberingSystem,
+    numberingSystem: getSupportedNumberingSystem(numberingSystem),
     signDisplay
   } as Intl.NumberFormatOptions);
 }
@@ -360,20 +363,20 @@ class NumberStringFormat {
   numberFormatter: Intl.NumberFormat;
 
   setOptions = (options: NumberStringFormatOptions) => {
+    const locale = getSupportedLocale(options.locale);
+    const numberingSystem = getSupportedNumberingSystem(options.numberingSystem);
     // cache formatter by only re-creating when options change
     if (
-      options?.numberingSystem === this.numberingSystem &&
-      options?.locale === this.locale &&
+      numberingSystem === this.numberingSystem &&
+      locale === this.locale &&
       options?.useGrouping === this.useGrouping
     ) {
       return;
     }
 
-    this.locale = options.locale;
+    this.locale = locale;
+    this.numberingSystem = numberingSystem;
     this.useGrouping = options.useGrouping;
-    this.numberingSystem = isNumberingSystemSupported(options.numberingSystem)
-      ? options.numberingSystem
-      : defaultNumberingSystem;
 
     this.numberFormatter = new Intl.NumberFormat(this.locale, {
       useGrouping: this.useGrouping,
