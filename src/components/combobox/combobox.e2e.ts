@@ -7,7 +7,8 @@ import {
   labelable,
   floatingUIOwner,
   formAssociated,
-  disabled
+  disabled,
+  t9n
 } from "../../tests/commonTests";
 
 import { html } from "../../../support/formatting";
@@ -1303,4 +1304,6 @@ describe("calcite-combobox", () => {
 
     expect(await inputEl.getProperty("value")).toBe("Blue");
   });
+
+  it("supports translation", () => t9n("calcite-combobox"));
 });
