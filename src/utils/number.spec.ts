@@ -1,5 +1,5 @@
 import { BigDecimal, isValidNumber, parseNumberString, sanitizeNumberString } from "./number";
-import { getDecimalSeparator, getGroupSeparator, getMinusSign, locales } from "./locale";
+import { numberStringFormatter, locales } from "./locale";
 
 describe("isValidNumber", () => {
   it("returns false for string values that can't compute to a number", () => {
@@ -113,17 +113,18 @@ describe("BigDecimal", () => {
 
   locales.forEach((locale) => {
     it(`correctly localizes number parts - ${locale}`, () => {
-      const parts = new BigDecimal("-12345678.9").formatToParts(locale);
+      numberStringFormatter.setOptions({
+        locale,
+        // the group separator is different in arabic depending on the numberingSystem
+        numberingSystem: locale === "ar" ? "arab" : "latn",
+        useGrouping: true
+      });
 
-      const group = getGroupSeparator(locale);
+      const parts = new BigDecimal("-12345678.9").formatToParts(numberStringFormatter.numberFormatter);
       const groupPart = parts.find((part) => part.type === "group").value;
-      expect(groupPart.trim().length === 0 ? " " : groupPart).toBe(group);
-
-      const decimal = getDecimalSeparator(locale);
-      expect(parts.find((part) => part.type === "decimal").value).toBe(decimal);
-
-      const minusSign = getMinusSign(locale);
-      expect(parts.find((part) => part.type === "minusSign").value).toBe(minusSign);
+      expect(groupPart.trim().length === 0 ? " " : groupPart).toBe(numberStringFormatter.group);
+      expect(parts.find((part) => part.type === "decimal").value).toBe(numberStringFormatter.decimal);
+      expect(parts.find((part) => part.type === "minusSign").value).toBe(numberStringFormatter.minusSign);
     });
   });
 });

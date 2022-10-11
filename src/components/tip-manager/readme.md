@@ -71,7 +71,7 @@ Renders a tip manager using a group of tips as well as a single tip.
 | Event                     | Description                                                                                                                                      | Type                |
 | ------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------- |
 | `calciteTipManagerClose`  | Emits when the component has been closed.                                                                                                        | `CustomEvent<void>` |
-| `calciteTipManagerToggle` | <span style="color:red">**[DEPRECATED]**</span> use "calciteTipManagerClose" instead.<br/><br/>Emits when the component has been open or closed. | `CustomEvent<void>` |
+| `calciteTipManagerToggle` | <span style="color:red">**[DEPRECATED]**</span> use `calciteTipManagerClose` instead.<br/><br/>Emits when the component has been open or closed. | `CustomEvent<void>` |
 
 ## Methods
 

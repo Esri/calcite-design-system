@@ -22,10 +22,11 @@ import {
   disconnectOpenCloseComponent
 } from "../../utils/openCloseComponent";
 import {
-  createLocaleNumberFormatter,
+  getSupportedNumberingSystem,
   LocalizedComponent,
   connectLocalized,
-  disconnectLocalized
+  disconnectLocalized,
+  NumberingSystem
 } from "../../utils/locale";
 
 /**
@@ -114,10 +115,8 @@ export class Alert implements OpenCloseComponent, LocalizedComponent {
 
   /**
    * Specifies the Unicode numeral system used by the component for localization.
-   *
-   * @mdn [numberingSystem](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/Locale/numberingSystem)
    */
-  @Prop({ reflect: true }) numberingSystem?: string;
+  @Prop({ reflect: true }) numberingSystem?: NumberingSystem;
 
   /** Specifies the placement of the component */
   @Prop({ reflect: true }) placement: AlertPlacement = "bottom";
@@ -181,11 +180,13 @@ export class Alert implements OpenCloseComponent, LocalizedComponent {
         <calcite-icon icon="x" scale={this.scale === "l" ? "m" : "s"} />
       </button>
     );
-    const formatter = createLocaleNumberFormatter(
-      this.effectiveLocale,
-      this.numberingSystem,
-      "always"
-    );
+    const formatter = new Intl.NumberFormat(this.effectiveLocale, {
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 20,
+      numberingSystem: getSupportedNumberingSystem(this.numberingSystem),
+      signDisplay: "always"
+    } as Intl.NumberFormatOptions);
+
     const queueNumber = this.queueLength > 2 ? this.queueLength - 1 : 1;
     const queueText = formatter.format(queueNumber);
 
