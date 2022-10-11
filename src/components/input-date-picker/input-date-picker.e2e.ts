@@ -10,7 +10,7 @@ import {
 } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
-import { dateFromISO } from "../../utils/date";
+import { dateFromISO, setEndOfDay } from "../../utils/date";
 
 const animationDurationInMs = 200;
 
@@ -136,7 +136,7 @@ describe("calcite-input-date-picker", () => {
       const startDate = "1/1/2020";
       const startDateISO = dateFromISO("2020-1-1").toISOString();
       const endDate = "2/2/2020";
-      const endDateISO = dateFromISO("2020-2-2").toISOString();
+      const endDateISO = setEndOfDay(dateFromISO("2020-2-2")).toISOString();
 
       await page.keyboard.type(startDate);
       await page.keyboard.press("Enter");
@@ -383,19 +383,6 @@ describe("calcite-input-date-picker", () => {
       startDate: null,
       endDate: new Date(2022, 7, 30, 23, 59, 59, 999).toISOString()
     });
-
-    await page.keyboard.press("Backspace");
-    await page.waitForChanges();
-
-    await page.keyboard.press("Backspace");
-    await page.waitForChanges();
-
-    await datepickerEl.type("26");
-
-    expect(eventSpy).toHaveReceivedEventDetail({
-      startDate: null,
-      endDate: new Date(2026, 7, 30, 23, 59, 59, 999).toISOString()
-    });
   });
 
   it("should return endDate time as 23:59:999 when valueAsDate property is parsed", async () => {
@@ -416,8 +403,21 @@ describe("calcite-input-date-picker", () => {
     await page.waitForChanges();
     await page.keyboard.press("Backspace");
     await page.waitForChanges();
+    await page.keyboard.press("Backspace");
+    await page.waitForChanges();
+    await page.keyboard.press("Backspace");
+    await page.waitForChanges();
+    await page.keyboard.press("Backspace");
+    await page.waitForChanges();
+    await page.keyboard.press("Backspace");
+    await page.waitForChanges();
+    await page.keyboard.press("Backspace");
+    await page.waitForChanges();
+    await page.keyboard.press("Backspace");
+    await page.waitForChanges();
 
     await datepickerEl.type("08/15/2022");
+    await page.keyboard.press("Enter");
     await page.waitForChanges();
 
     expect(eventSpy).toHaveReceivedEventDetail({

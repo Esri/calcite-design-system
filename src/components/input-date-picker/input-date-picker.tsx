@@ -916,7 +916,7 @@ export class InputDatePicker
 
     const eventDetail = {
       startDate: newStartDate as Date,
-      endDate: newEndDate ? (setEndOfDay(newEndDate) as Date) : (newEndDate as Date)
+      endDate: newEndDate ? (setEndOfDay(newEndDate) as Date) : null
     };
 
     const changeEvent = this.calciteInputDatePickerChange.emit(eventDetail);
