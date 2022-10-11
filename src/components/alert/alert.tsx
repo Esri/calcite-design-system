@@ -22,7 +22,7 @@ import {
   disconnectOpenCloseComponent
 } from "../../utils/openCloseComponent";
 import {
-  createLocaleNumberFormatter,
+  getSupportedNumberingSystem,
   LocalizedComponent,
   connectLocalized,
   disconnectLocalized,
@@ -180,11 +180,13 @@ export class Alert implements OpenCloseComponent, LocalizedComponent {
         <calcite-icon icon="x" scale={this.scale === "l" ? "m" : "s"} />
       </button>
     );
-    const formatter = createLocaleNumberFormatter(
-      this.effectiveLocale,
-      this.numberingSystem,
-      "always"
-    );
+    const formatter = new Intl.NumberFormat(this.effectiveLocale, {
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 20,
+      numberingSystem: getSupportedNumberingSystem(this.numberingSystem),
+      signDisplay: "always"
+    } as Intl.NumberFormatOptions);
+
     const queueNumber = this.queueLength > 2 ? this.queueLength - 1 : 1;
     const queueText = formatter.format(queueNumber);
 

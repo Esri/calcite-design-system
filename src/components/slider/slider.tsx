@@ -32,7 +32,7 @@ import {
   connectLocalized,
   disconnectLocalized,
   LocalizedComponent,
-  localizeNumberString,
+  numberStringFormatter,
   NumberingSystem
 } from "../../utils/locale";
 import { CSS } from "./resources";
@@ -1433,12 +1433,13 @@ export class Slider
    */
   private determineGroupSeparator = (value: number): string => {
     if (typeof value === "number") {
-      return localizeNumberString(
-        value.toString(),
-        this.effectiveLocale,
-        this.groupSeparator,
-        this.numberingSystem
-      );
+      numberStringFormatter.setOptions({
+        locale: this.effectiveLocale,
+        numberingSystem: this.numberingSystem,
+        useGrouping: this.groupSeparator
+      });
+
+      return numberStringFormatter.localize(value.toString());
     }
   };
 }

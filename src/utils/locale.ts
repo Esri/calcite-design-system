@@ -1,4 +1,4 @@
-import { BigDecimal, isValidNumber, sanitizeDecimalString, sanitizeExponentialNumberString } from "./number";
+import { BigDecimal, isValidNumber, sanitizeExponentialNumberString } from "./number";
 import { createObserver } from "./observers";
 import { closestElementCrossShadowBoundary, containsCrossShadowBoundary } from "./dom";
 
@@ -92,93 +92,8 @@ export const defaultNumberingSystem =
     ? "latn"
     : browserNumberingSystem;
 
-const getSupportedNumberingSystem = (numberingSystem: string): NumberingSystem =>
+export const getSupportedNumberingSystem = (numberingSystem: string): NumberingSystem =>
   isNumberingSystemSupported(numberingSystem) ? numberingSystem : defaultNumberingSystem;
-
-const allDecimalsExceptLast = new RegExp(`[.](?=.*[.])`, "g");
-const everythingExceptNumbersDecimalsAndMinusSigns = new RegExp("[^0-9-.]", "g");
-const defaultGroupSeparator = new RegExp(",", "g");
-
-export function createLocaleNumberFormatter(
-  locale: string,
-  numberingSystem = defaultNumberingSystem,
-  signDisplay: "auto" | "never" | "always" | "exceptZero" = "auto"
-): Intl.NumberFormat {
-  return new Intl.NumberFormat(locale, {
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 20,
-    numberingSystem: getSupportedNumberingSystem(numberingSystem),
-    signDisplay
-  } as Intl.NumberFormatOptions);
-}
-
-export function delocalizeNumberString(numberString: string, locale: string): string {
-  return sanitizeExponentialNumberString(numberString, (nonExpoNumString: string): string => {
-    const delocalizedNumberString = nonExpoNumString
-      .replace(getMinusSign(locale), "-")
-      .replace(getGroupSeparator(locale), "")
-      .replace(getDecimalSeparator(locale), ".")
-      .replace(allDecimalsExceptLast, "")
-      .replace(everythingExceptNumbersDecimalsAndMinusSigns, "");
-
-    return isValidNumber(delocalizedNumberString) ? delocalizedNumberString : nonExpoNumString;
-  });
-}
-
-export function getGroupSeparator(locale: string): string {
-  const formatter = createLocaleNumberFormatter(locale);
-  const parts = formatter.formatToParts(1234567);
-  const value = parts.find((part) => part.type === "group").value;
-  // change whitespace group characters that don't render correctly
-  return value.trim().length === 0 ? " " : value;
-}
-
-export function getDecimalSeparator(locale: string): string {
-  const formatter = createLocaleNumberFormatter(locale);
-  const parts = formatter.formatToParts(1.1);
-  return parts.find((part) => part.type === "decimal").value;
-}
-
-export function getMinusSign(locale: string): string {
-  const formatter = createLocaleNumberFormatter(locale);
-  const parts = formatter.formatToParts(-9);
-  return parts.find((part) => part.type === "minusSign").value;
-}
-
-export function localizeNumberString(
-  numberString: string,
-  locale: string,
-  displayGroupSeparator = false,
-  numberingSystem?: NumberingSystem
-): string {
-  locale = getSupportedLocale(locale);
-
-  return sanitizeExponentialNumberString(numberString, (nonExpoNumString: string): string => {
-    if (nonExpoNumString) {
-      const sanitizedNumberString = sanitizeDecimalString(nonExpoNumString.replace(defaultGroupSeparator, ""));
-      if (isValidNumber(sanitizedNumberString)) {
-        const parts = new BigDecimal(sanitizedNumberString).formatToParts(locale, numberingSystem);
-
-        const localizedNumberString = parts
-          .map(({ type, value }) => {
-            switch (type) {
-              case "group":
-                return displayGroupSeparator ? getGroupSeparator(locale) : "";
-              case "decimal":
-                return getDecimalSeparator(locale);
-              case "minusSign":
-                return getMinusSign(locale);
-              default:
-                return value;
-            }
-          })
-          .reduce((string, part) => string + part);
-        return localizedNumberString;
-      }
-    }
-    return nonExpoNumString;
-  });
-}
 
 export function getSupportedLocale(locale: string): string {
   if (locales.indexOf(locale) > -1) {

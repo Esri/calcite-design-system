@@ -28,7 +28,6 @@ import {
   NumberingSystem,
   numberStringFormatter,
   defaultNumberingSystem,
-  getDecimalSeparator,
   LocalizedComponent,
   disconnectLocalized,
   connectLocalized,
@@ -579,12 +578,18 @@ export class InputNumber
       }
       return;
     }
-    const decimalSeparator = getDecimalSeparator(this.effectiveLocale);
-    if (event.key === decimalSeparator) {
+
+    numberStringFormatter.setOptions({
+      locale: this.effectiveLocale,
+      numberingSystem: this.numberingSystem,
+      useGrouping: this.groupSeparator
+    });
+
+    if (event.key === numberStringFormatter.decimal) {
       if (!this.value && !this.childNumberEl.value) {
         return;
       }
-      if (this.value && this.childNumberEl.value.indexOf(decimalSeparator) === -1) {
+      if (this.value && this.childNumberEl.value.indexOf(numberStringFormatter.decimal) === -1) {
         return;
       }
     }
