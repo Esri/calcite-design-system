@@ -1,0 +1,14 @@
+{
+  "hour": "Ĳ_Hour_________ä",
+  "hourDown": "Ĳ_Decrease hour______________ä",
+  "hourUp": "Ĳ_Increase hour______________ä",
+  "meridiem": "Ĳ_AM/PM___________ä",
+  "meridiemDown": "Ĳ_Decrease AM/PM_______________ä",
+  "meridiemUp": "Ĳ_Increase AM/PM_______________ä",
+  "minute": "Ĳ_Minute_____________ä",
+  "minuteDown": "Ĳ_Decrease minute________________ä",
+  "minuteUp": "Ĳ_Increase minute________________ä",
+  "second": "Ĳ_Second_____________ä",
+  "secondDown": "Ĳ_Decrease second________________ä",
+  "secondUp": "Ĳ_Increase second________________ä"
+}

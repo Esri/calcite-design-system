@@ -1,0 +1,7 @@
+{
+  "filterResults": "Ж_Filter results_______________Я",
+  "dragHandleActive": "Ж_Reordering ${itemLabel}, current position ${position} of ${total}__________________________________Я.",
+  "dragHandleChange": "Ж_${itemLabel}, new position ${position} of ${total}. Press space to confirm_______________________________________Я.",
+  "dragHandleCommit": "Ж_${itemLabel}, current position ${position} of ${total}_____________________________Я.",
+  "dragHandleIdle": "Ж_${itemLabel}, press space and use arrow keys to reorder content. Current position ${position} of ${total}______________________________________________________Я."
+}
