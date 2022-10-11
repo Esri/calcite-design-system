@@ -25,7 +25,8 @@ import {
   createLocaleNumberFormatter,
   LocalizedComponent,
   connectLocalized,
-  disconnectLocalized
+  disconnectLocalized,
+  NumberingSystem
 } from "../../utils/locale";
 
 /**
@@ -114,10 +115,8 @@ export class Alert implements OpenCloseComponent, LocalizedComponent {
 
   /**
    * Specifies the Unicode numeral system used by the component for localization.
-   *
-   * @mdn [numberingSystem](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/Locale/numberingSystem)
    */
-  @Prop({ reflect: true }) numberingSystem?: string;
+  @Prop({ reflect: true }) numberingSystem?: NumberingSystem;
 
   /** Specifies the placement of the component */
   @Prop({ reflect: true }) placement: AlertPlacement = "bottom";
