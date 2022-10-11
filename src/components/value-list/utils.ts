@@ -42,6 +42,6 @@ export function getHandleAndItemElement(event: KeyboardEvent | FocusEvent): {
 
 export function replacePlaceholders(text: string, label: string, position: number, total: number): string {
   const replacePosition = text.replace("${position}", position.toString());
-  const replaceLabel = replacePosition.replace("${item.label}", label);
+  const replaceLabel = replacePosition.replace("${itemLabel}", label);
   return replaceLabel.replace("${total}", total.toString());
 }
