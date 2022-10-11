@@ -7,7 +7,8 @@ import {
   labelable,
   reflects,
   renders,
-  hidden
+  hidden,
+  t9n
 } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { letterKeys, numberKeys } from "../../utils/key";
@@ -1602,4 +1603,6 @@ describe("calcite-input", () => {
     it("supports type=number", () =>
       formAssociated("<calcite-input type='number'></calcite-input>", { testValue: 5, submitsOnEnter: true }));
   });
+
+  it("supports translation", () => t9n("calcite-"));
 });
