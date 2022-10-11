@@ -96,6 +96,12 @@ An installation of Node is required for development. If you don't have Node inst
 - https://stylelint.io/user-guide/integrations/editor
 - https://prettier.io/docs/en/editors.html
 
+The first time installing dependencies, you need to use the `--legacy-peer-deps` flag due to an ESLint dependency conflict. The conflict won't affect the components since ESLint is only in `devDependencies`. Hopefully this will no longer be an issue once [`@stencil/eslint-plugin`](https://github.com/ionic-team/stencil-eslint) supports ESLint v8.
+
+```sh
+npm install --legacy-peer-deps
+```
+
 To start the local development environment, run `npm start`, which will start the local Stencil development server on localhost. You can modify the [index.html](./src/index.html) to add and test your new component. Just add another HTML file to the `demos` folder and link to this new page from `index.html`.
 
 ## Linting
