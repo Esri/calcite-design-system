@@ -148,6 +148,20 @@ export class Panel implements InteractiveComponent, LocalizedComponent, T9nCompo
   @Prop({ reflect: true }) menuOpen = false;
 
   /**
+   * Use this property to override individual strings used by the component.
+   */
+  @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
+
+  @Watch("intlBack")
+  @Watch("intlClose")
+  @Watch("intlOptions")
+  @Watch("defaultMessages")
+  @Watch("messageOverrides")
+  onMessagesChange(): void {
+    /* wired up by t9n util */
+  }
+
+  /**
    * Made into a prop for testing purposes only
    *
    * @internal
@@ -213,20 +227,6 @@ export class Panel implements InteractiveComponent, LocalizedComponent, T9nCompo
   @State() hasFooterActions = false;
 
   @State() hasFab = false;
-
-  /**
-   * Use this property to override individual strings used by the component.
-   */
-  @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
-
-  @Watch("intlBack")
-  @Watch("intlClose")
-  @Watch("intlOptions")
-  @Watch("defaultMessages")
-  @Watch("messageOverrides")
-  onMessagesChange(): void {
-    /* wired up by t9n util */
-  }
 
   // --------------------------------------------------------------------------
   //
