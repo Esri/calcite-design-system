@@ -11,13 +11,16 @@ import {
   Fragment,
   State
 } from "@stencil/core";
-import { CSS, HEADING_LEVEL, ICONS, SLOTS, TEXT } from "./resources";
+import { CSS, HEADING_LEVEL, ICONS, SLOTS } from "./resources";
 import { getElementDir, toAriaBoolean } from "../../utils/dom";
 import { Scale } from "../interfaces";
 import { HeadingLevel, Heading } from "../functional/Heading";
 import { SLOTS as ACTION_MENU_SLOTS } from "../action-menu/resources";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { createObserver } from "../../utils/observers";
+import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
+import { connectMessages, disconnectMessages, T9nComponent, updateMessages } from "../../utils/t9n";
+import { Messages } from "./assets/panel/t9n";
 
 /**
  * @slot - A slot for adding custom content.
@@ -32,35 +35,15 @@ import { createObserver } from "../../utils/observers";
 @Component({
   tag: "calcite-panel",
   styleUrl: "panel.scss",
-  shadow: true
+  shadow: true,
+  assetsDirs: ["assets"]
 })
-export class Panel implements InteractiveComponent {
+export class Panel implements InteractiveComponent, LocalizedComponent, T9nComponent {
   // --------------------------------------------------------------------------
   //
   //  Properties
   //
   // --------------------------------------------------------------------------
-
-  /**
-   * When true, hides the component.
-   *
-   * @deprecated use closed instead
-   */
-  @Prop({ mutable: true, reflect: true }) dismissed = false;
-
-  /** When true, panel will be hidden */
-  @Prop({ mutable: true, reflect: true }) closed = false;
-
-  @Watch("dismissed")
-  dismissedHandler(value: boolean): void {
-    this.closed = value;
-    this.calcitePanelDismissedChange.emit();
-  }
-
-  @Watch("closed")
-  closedHandler(value: boolean): void {
-    this.dismissed = value;
-  }
 
   /**
    * When provided, this method will be called before it is removed from the parent flow.
@@ -69,10 +52,39 @@ export class Panel implements InteractiveComponent {
    */
   @Prop() beforeBack?: () => Promise<void>;
 
+  /** When true, displays a close button in the trailing side of the header */
+  @Prop({ mutable: true, reflect: true }) closable = false;
+
+  @Watch("closable")
+  closableHandler(value: boolean): void {
+    this.dismissible = value;
+  }
+
+  /** When true, panel will be hidden */
+  @Prop({ mutable: true, reflect: true }) closed = false;
+
+  @Watch("closed")
+  closedHandler(value: boolean): void {
+    this.dismissed = value;
+  }
+
   /**
    *  When true, interaction is prevented and the component is displayed with lower opacity.
    */
   @Prop({ reflect: true }) disabled = false;
+
+  /**
+   * When true, hides the component.
+   *
+   * @deprecated use closed instead
+   */
+  @Prop({ mutable: true, reflect: true }) dismissed = false;
+
+  @Watch("dismissed")
+  dismissedHandler(value: boolean): void {
+    this.closed = value;
+    this.calcitePanelDismissedChange.emit();
+  }
 
   /**
    * When true, a close button is added to the component.
@@ -86,18 +98,57 @@ export class Panel implements InteractiveComponent {
     this.closable = value;
   }
 
-  /** When true, displays a close button in the trailing side of the header */
-  @Prop({ mutable: true, reflect: true }) closable = false;
+  /** A description for the component. */
+  @Prop() description: string;
 
-  @Watch("closable")
-  closableHandler(value: boolean): void {
-    this.dismissible = value;
-  }
+  /**
+   * The component header text.
+   */
+  @Prop() heading?: string;
 
   /**
    * Specifies the number at which section headings should start.
    */
   @Prop({ reflect: true }) headingLevel: HeadingLevel;
+
+  /**
+   * Specifies the maximum height of the component.
+   */
+  @Prop({ reflect: true }) heightScale?: Scale;
+
+  /**
+   * Accessible name for the component's back button. The back button will only be shown when 'showBackButton' is true.
+   *
+   * @deprecated use `calcite-flow-item` instead.
+   */
+  @Prop() intlBack: string;
+
+  /**
+   * Accessible name for the component's close button. The close button will only be shown when 'dismissible' is true.
+   */
+  @Prop() intlClose: string;
+
+  /**
+   * Accessible name for the component's actions menu.
+   */
+  @Prop() intlOptions: string;
+
+  /**
+   * When true, a busy indicator is displayed.
+   */
+  @Prop({ reflect: true }) loading = false;
+
+  /**
+   * When true, the action menu items in the `header-menu-actions` slot are open.
+   */
+  @Prop({ reflect: true }) menuOpen = false;
+
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @internal
+   */
+  @Prop({ mutable: true }) messages: Messages;
 
   /**
    * When true, displays a back button in the header.
@@ -107,66 +158,16 @@ export class Panel implements InteractiveComponent {
   @Prop({ reflect: true }) showBackButton = false;
 
   /**
-   * Accessible name for the component's back button. The back button will only be shown when 'showBackButton' is true.
-   *
-   * @deprecated use `calcite-flow-item` instead.
-   */
-  @Prop() intlBack?: string;
-
-  /**
-   * Specifies the maximum height of the component.
-   */
-  @Prop({ reflect: true }) heightScale?: Scale;
-
-  /**
-   * Specifies the width of the component.
-   */
-  @Prop({ reflect: true }) widthScale?: Scale;
-
-  /**
-   * When true, a busy indicator is displayed.
-   */
-  @Prop({ reflect: true }) loading = false;
-
-  /**
-   * Accessible name for the component's close button. The close button will only be shown when 'dismissible' is true.
-   */
-  @Prop() intlClose?: string;
-
-  /**
-   * Accessible name for the component's actions menu.
-   */
-  @Prop() intlOptions?: string;
-
-  /**
-   * The component header text.
-   */
-  @Prop() heading?: string;
-
-  /**
    * Summary text. A description displayed underneath the heading.
    *
    * @deprecated use description instead
    */
   @Prop() summary?: string;
 
-  /** A description for the component. */
-  @Prop() description: string;
-
   /**
-   * When true, the action menu items in the `header-menu-actions` slot are open.
+   * Specifies the width of the component.
    */
-  @Prop({ reflect: true }) menuOpen = false;
-
-  //--------------------------------------------------------------------------
-  //
-  //  Lifecycle
-  //
-  //--------------------------------------------------------------------------
-
-  componentDidRender(): void {
-    updateHostInteraction(this);
-  }
+  @Prop({ reflect: true }) widthScale?: Scale;
 
   // --------------------------------------------------------------------------
   //
@@ -186,6 +187,15 @@ export class Panel implements InteractiveComponent {
 
   resizeObserver = createObserver("resize", () => this.resizeHandler());
 
+  @State() defaultMessages: Messages;
+
+  @State() effectiveLocale = "";
+
+  @Watch("effectiveLocale")
+  effectiveLocaleChange(): void {
+    updateMessages(this, this.effectiveLocale);
+  }
+
   @State() hasStartActions = false;
 
   @State() hasEndActions = false;
@@ -200,6 +210,20 @@ export class Panel implements InteractiveComponent {
 
   @State() hasFab = false;
 
+  /**
+   * Use this property to override individual strings used by the component.
+   */
+  @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
+
+  @Watch("intlBack")
+  @Watch("intlClose")
+  @Watch("intlOptions")
+  @Watch("defaultMessages")
+  @Watch("messageOverrides")
+  onMessagesChange(): void {
+    /* wired up by t9n util */
+  }
+
   // --------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -207,6 +231,9 @@ export class Panel implements InteractiveComponent {
   // --------------------------------------------------------------------------
 
   connectedCallback(): void {
+    connectLocalized(this);
+    connectMessages(this);
+
     const isClosed = this.dismissed || this.closed;
     const isClosable = this.dismissible || this.closable;
 
@@ -221,7 +248,13 @@ export class Panel implements InteractiveComponent {
     }
   }
 
+  componentDidRender(): void {
+    updateHostInteraction(this);
+  }
+
   disconnectedCallback(): void {
+    disconnectLocalized(this);
+    disconnectMessages(this);
     this.resizeObserver?.disconnect();
   }
 
@@ -435,8 +468,8 @@ export class Panel implements InteractiveComponent {
     const { el } = this;
 
     const rtl = getElementDir(el) === "rtl";
-    const { showBackButton, intlBack, backButtonClick } = this;
-    const label = intlBack || TEXT.back;
+    const { showBackButton, messages, backButtonClick } = this;
+    const label = messages.back;
     const icon = rtl ? ICONS.backRight : ICONS.backLeft;
 
     return showBackButton ? (
@@ -502,8 +535,8 @@ export class Panel implements InteractiveComponent {
   }
 
   renderHeaderActionsEnd(): VNode {
-    const { close, hasEndActions, intlClose, closable } = this;
-    const text = intlClose || TEXT.close;
+    const { close, hasEndActions, messages, closable } = this;
+    const text = messages.close;
 
     const closableNode = closable ? (
       <calcite-action
@@ -534,21 +567,21 @@ export class Panel implements InteractiveComponent {
   }
 
   renderMenu(): VNode {
-    const { hasMenuItems, intlOptions, menuOpen } = this;
+    const { hasMenuItems, messages, menuOpen } = this;
 
     return (
       <calcite-action-menu
         flipPlacements={["top", "bottom"]}
         hidden={!hasMenuItems}
         key="menu"
-        label={intlOptions || TEXT.options}
+        label={messages.options}
         open={menuOpen}
         placement="bottom-end"
       >
         <calcite-action
           icon={ICONS.menu}
           slot={ACTION_MENU_SLOTS.trigger}
-          text={intlOptions || TEXT.options}
+          text={messages.options}
         />
         <slot
           name={SLOTS.headerMenuActions}
