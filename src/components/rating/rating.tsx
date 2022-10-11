@@ -25,7 +25,8 @@ import { Messages } from "./assets/rating/t9n";
 @Component({
   tag: "calcite-rating",
   styleUrl: "rating.scss",
-  shadow: true
+  shadow: true,
+  assetsDirs: ["assets"]
 })
 export class Rating
   implements
