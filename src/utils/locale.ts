@@ -148,6 +148,8 @@ export function localizeNumberString(
   displayGroupSeparator = false,
   numberingSystem?: NumberingSystem
 ): string {
+  locale = getSupportedLocale(locale);
+
   return sanitizeExponentialNumberString(numberString, (nonExpoNumString: string): string => {
     if (nonExpoNumString) {
       const sanitizedNumberString = sanitizeDecimalString(nonExpoNumString.replace(defaultGroupSeparator, ""));
@@ -181,6 +183,11 @@ export function getSupportedLocale(locale: string): string {
   }
 
   locale = locale.toLowerCase();
+
+  // we support both 'nb' and 'no' (BCP 47) for Norwegian
+  if (locale === "nb") {
+    return "no";
+  }
 
   if (locale.includes("-")) {
     locale = locale.replace(/(\w+)-(\w+)/, (_match, language, region) => `${language}-${region.toUpperCase()}`);
@@ -232,7 +239,7 @@ const connectedComponents = new Set<LocalizedComponent>();
 /**
  * This utility sets up internals for messages support.
  *
- * It needs to be called in `connectedCallback`
+ * It needs to be called in `connectedCallback` before any logic that depends on locale
  *
  * @param component
  */
