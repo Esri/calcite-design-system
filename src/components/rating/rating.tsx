@@ -19,7 +19,13 @@ import { connectForm, disconnectForm, FormComponent, HiddenFormInputSlot } from 
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { isActivationKey } from "../../utils/key";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
-import { connectMessages, disconnectMessages, setUpMessages, T9nComponent } from "../../utils/t9n";
+import {
+  connectMessages,
+  disconnectMessages,
+  setUpMessages,
+  T9nComponent,
+  updateMessages
+} from "../../utils/t9n";
 import { Messages } from "./assets/rating/t9n";
 
 @Component({
@@ -307,6 +313,11 @@ export class Rating
   defaultValue: Rating["value"];
 
   @State() effectiveLocale = "";
+
+  @Watch("effectiveLocale")
+  effectiveLocaleChange(): void {
+    updateMessages(this, this.effectiveLocale);
+  }
 
   @State() defaultMessages: Messages;
 
