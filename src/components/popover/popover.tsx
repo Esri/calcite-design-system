@@ -46,7 +46,7 @@ import { HeadingLevel, Heading } from "../functional/Heading";
 import PopoverManager from "./PopoverManager";
 import { debounce } from "lodash-es";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
-import { connectMessages, disconnectMessages, T9nComponent } from "../../utils/t9n";
+import { connectMessages, disconnectMessages, setUpMessages, T9nComponent } from "../../utils/t9n";
 import { Messages } from "./assets/popover/t9n";
 
 const manager = new PopoverManager();
@@ -284,6 +284,10 @@ export class Popover
       this.handleClosable(closable);
     }
     this.setUpReferenceElement(this.hasLoaded);
+  }
+
+  async componentWillLoad(): Promise<void> {
+    await setUpMessages(this);
   }
 
   componentDidLoad(): void {
