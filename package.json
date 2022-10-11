@@ -71,7 +71,7 @@
   "dependencies": {
     "@a11y/focus-trap": "1.0.5",
     "@floating-ui/dom": "1.0.2",
-    "@stencil/core": "2.18.0",
+    "@stencil/core": "2.18.1",
     "@types/color": "3.0.3",
     "color": "4.2.3",
     "form-request-submit-polyfill": "2.0.0",
