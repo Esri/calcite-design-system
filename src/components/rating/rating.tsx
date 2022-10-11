@@ -19,7 +19,7 @@ import { connectForm, disconnectForm, FormComponent, HiddenFormInputSlot } from 
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { isActivationKey } from "../../utils/key";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
-import { connectMessages, disconnectMessages, T9nComponent } from "../../utils/t9n";
+import { connectMessages, disconnectMessages, setUpMessages, T9nComponent } from "../../utils/t9n";
 import { Messages } from "./assets/rating/t9n";
 
 @Component({
@@ -126,6 +126,10 @@ export class Rating
     connectMessages(this);
     connectLabel(this);
     connectForm(this);
+  }
+
+  async componentWillLoad(): Promise<void> {
+    await setUpMessages(this);
   }
 
   disconnectedCallback(): void {
