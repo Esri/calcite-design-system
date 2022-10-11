@@ -49,7 +49,8 @@ import { Messages } from "./assets/value-list/t9n";
 @Component({
   tag: "calcite-value-list",
   styleUrl: "value-list.scss",
-  shadow: true
+  shadow: true,
+  assetsDirs: ["assets"]
 })
 export class ValueList<
   ItemElement extends HTMLCalciteValueListItemElement = HTMLCalciteValueListItemElement
