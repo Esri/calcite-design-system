@@ -15,7 +15,7 @@ import {
   connectLocalized,
   disconnectLocalized,
   LocalizedComponent,
-  localizeNumberString,
+  numberStringFormatter,
   NumberingSystem
 } from "../../utils/locale";
 import { CSS, TEXT } from "./resources";
@@ -186,15 +186,16 @@ export class Pagination implements LocalizedComponent {
    *
    * @param value
    */
-  private determineGroupSeparator = (value): string => {
+  private determineGroupSeparator = (value: number): string => {
+    numberStringFormatter.setOptions({
+      locale: this.effectiveLocale,
+      numberingSystem: this.numberingSystem,
+      useGrouping: this.groupSeparator
+    });
+
     return this.groupSeparator
-      ? localizeNumberString(
-          value.toString(),
-          this.effectiveLocale,
-          this.groupSeparator,
-          this.numberingSystem
-        )
-      : value;
+      ? numberStringFormatter.localize(value.toString())
+      : value.toString();
   };
 
   //--------------------------------------------------------------------------
