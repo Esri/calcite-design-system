@@ -1,6 +1,6 @@
 import "form-request-submit-polyfill/form-request-submit-polyfill";
 import { Component, Element, h, Method, Prop, Build, State, VNode, Watch } from "@stencil/core";
-import { CSS, TEXT } from "./resources";
+import { CSS } from "./resources";
 import { closestElementCrossShadowBoundary } from "../../utils/dom";
 import { ButtonAlignment, ButtonAppearance, ButtonColor } from "./interfaces";
 import { FlipContext, Scale, Width } from "../interfaces";
@@ -8,6 +8,15 @@ import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from 
 import { createObserver } from "../../utils/observers";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { submitForm, resetForm, FormOwner } from "../../utils/form";
+import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
+import {
+  connectMessages,
+  disconnectMessages,
+  setUpMessages,
+  T9nComponent,
+  updateMessages
+} from "../../utils/t9n";
+import { Messages } from "./assets/button/t9n";
 
 /** Passing a 'href' will render an anchor link, instead of a button. Role will be set to link, or button, depending on this. */
 /** It is the consumers responsibility to add aria information, rel, target, for links, and any button attributes for form submission */
@@ -16,9 +25,12 @@ import { submitForm, resetForm, FormOwner } from "../../utils/form";
 @Component({
   tag: "calcite-button",
   styleUrl: "button.scss",
-  shadow: true
+  shadow: true,
+  assetsDirs: ["assets"]
 })
-export class Button implements LabelableComponent, InteractiveComponent, FormOwner {
+export class Button
+  implements LabelableComponent, InteractiveComponent, FormOwner, LocalizedComponent, T9nComponent
+{
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -64,8 +76,9 @@ export class Button implements LabelableComponent, InteractiveComponent, FormOwn
    * string to override English loading text
    *
    * @default "Loading"
+   * @deprecated - translations are now built-in, if you need to override a string, please use `messageOverrides`
    */
-  @Prop() intlLoading?: string = TEXT.loading;
+  @Prop() intlLoading?: string;
 
   /** optionally add a calcite-loader component to the button, disabling interaction.  */
   @Prop({ reflect: true }) loading = false;
@@ -101,6 +114,18 @@ export class Button implements LabelableComponent, InteractiveComponent, FormOwn
   /** specify the width of the button, defaults to auto */
   @Prop({ reflect: true }) width: Width = "auto";
 
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @internal
+   */
+  @Prop({ mutable: true }) messages: Messages;
+
+  /**
+   * Use this property to override individual strings used by the component.
+   */
+  @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
+
   @Watch("loading")
   loadingChanged(newValue: boolean, oldValue: boolean): void {
     if (!!newValue && !oldValue) {
@@ -113,6 +138,13 @@ export class Button implements LabelableComponent, InteractiveComponent, FormOwn
     }
   }
 
+  @Watch("defaultMessages")
+  @Watch("messageOverrides")
+  @Watch("intlLoading")
+  onMessagesChange(): void {
+    /** referred in t9n util */
+  }
+
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -123,6 +155,8 @@ export class Button implements LabelableComponent, InteractiveComponent, FormOwn
     this.hasLoader = this.loading;
     this.setupTextContentObserver();
     connectLabel(this);
+    connectLocalized(this);
+    connectMessages(this);
     this.formEl = closestElementCrossShadowBoundary<HTMLFormElement>(
       this.el,
       this.form ? `#${this.form}` : "form"
@@ -132,13 +166,16 @@ export class Button implements LabelableComponent, InteractiveComponent, FormOwn
   disconnectedCallback(): void {
     this.mutationObserver?.disconnect();
     disconnectLabel(this);
+    disconnectLocalized(this);
+    disconnectMessages(this);
     this.formEl = null;
   }
 
-  componentWillLoad(): void {
+  async componentWillLoad(): Promise<void> {
     if (Build.isBrowser) {
       this.updateHasContent();
     }
+    await setUpMessages(this);
   }
 
   componentDidRender(): void {
@@ -154,7 +191,7 @@ export class Button implements LabelableComponent, InteractiveComponent, FormOwn
           active
           class={this.loading ? CSS.loadingIn : CSS.loadingOut}
           inline
-          label={this.intlLoading}
+          label={this.messages.loading}
           scale="m"
         />
       </div>
@@ -243,6 +280,15 @@ export class Button implements LabelableComponent, InteractiveComponent, FormOwn
 
   /** determine if loader present for styling purposes */
   @State() private hasLoader = false;
+
+  @State() effectiveLocale: string;
+
+  @Watch("effectiveLocale")
+  effectiveLocaleChange(): void {
+    updateMessages(this, this.effectiveLocale);
+  }
+
+  @State() defaultMessages: Messages;
 
   private updateHasContent() {
     const slottedContent = this.el.textContent.trim().length > 0 || this.el.childNodes.length > 0;
