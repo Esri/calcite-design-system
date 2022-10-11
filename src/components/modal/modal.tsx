@@ -31,12 +31,7 @@ import {
   connectConditionalSlotComponent,
   disconnectConditionalSlotComponent
 } from "../../utils/conditionalSlot";
-import {
-  OpenCloseComponent,
-  connectOpenCloseComponent,
-  disconnectOpenCloseComponent,
-  onToggleComponentWithoutTransition
-} from "../../utils/openCloseComponent";
+import { OpenCloseComponent, onToggleOpenCloseComponent } from "../../utils/openCloseComponent";
 
 const isFocusableExtended = (el: FocusableElement): boolean => {
   return isCalciteFocusable(el) || isFocusable(el);
@@ -143,7 +138,6 @@ export class Modal implements ConditionalSlotComponent, OpenCloseComponent {
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
     this.updateFooterVisibility();
     connectConditionalSlotComponent(this);
-    connectOpenCloseComponent(this);
     if (this.open) {
       this.active = this.open;
     }
@@ -156,7 +150,6 @@ export class Modal implements ConditionalSlotComponent, OpenCloseComponent {
     this.removeOverflowHiddenClass();
     this.mutationObserver?.disconnect();
     disconnectConditionalSlotComponent(this);
-    disconnectOpenCloseComponent(this);
   }
 
   render(): VNode {
@@ -389,7 +382,6 @@ export class Modal implements ConditionalSlotComponent, OpenCloseComponent {
 
   private setTransitionEl = (el): void => {
     this.transitionEl = el;
-    connectOpenCloseComponent(this);
   };
 
   onBeforeOpen(): void {
@@ -420,7 +412,7 @@ export class Modal implements ConditionalSlotComponent, OpenCloseComponent {
   @Watch("open")
   async toggleModal(value: boolean): Promise<void> {
     this.active = value;
-    onToggleComponentWithoutTransition(this);
+    onToggleOpenCloseComponent(this);
     if (value) {
       this.transitionEl?.classList.add(CSS.openingIdle);
       this.openModal();
