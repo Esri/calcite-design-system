@@ -71,10 +71,6 @@ describe("calcite-color-picker", () => {
         defaultValue: "auto"
       },
       {
-        propertyName: "intlB",
-        defaultValue: TEXT.b
-      },
-      {
         propertyName: "scale",
         defaultValue: "m"
       },
