@@ -90,7 +90,7 @@ describe("opening and closing behavior", () => {
     expect(closeSpy).toHaveReceivedEventTimes(0);
     await page.waitForFunction(getTransitionTransform, {}, "calcite-modal", `.${CSS.modal}`, "none");
 
-    await modal.setProperty("active", true);
+    await modal.setProperty("open", true);
     let waitForEvent = page.waitForEvent("calciteModalBeforeOpen");
     await page.waitForChanges();
     await waitForEvent;
@@ -112,7 +112,7 @@ describe("opening and closing behavior", () => {
     await page.waitForFunction(getTransitionTransform, {}, "calcite-modal", `.${CSS.modal}`, "matrix");
     await page.waitForFunction(getTransitionTransform, {}, "calcite-modal", `.${CSS.modal}`, "none");
 
-    await modal.setProperty("active", false);
+    await modal.setProperty("open", false);
     waitForEvent = page.waitForEvent("calciteModalBeforeClose");
     await page.waitForChanges();
     await waitForEvent;
@@ -164,13 +164,13 @@ describe("opening and closing behavior", () => {
 
     const modal = await page.find("calcite-modal");
 
-    await modal.setProperty("active", false);
+    await modal.setProperty("open", false);
     await page.waitForChanges();
 
     expect(beforeCloseSpy).toHaveReceivedEventTimes(1);
     expect(closeSpy).toHaveReceivedEventTimes(1);
 
-    await modal.setProperty("active", true);
+    await modal.setProperty("open", true);
     await page.waitForChanges();
 
     expect(beforeOpenSpy).toHaveReceivedEventTimes(1);
