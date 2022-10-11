@@ -1,0 +1,7 @@
+{
+  "filterResults": "試_Filter results_______________驗",
+  "dragHandleActive": "試_Reordering ${itemLabel}, current position ${position} of ${total}__________________________________驗.",
+  "dragHandleChange": "試_${itemLabel}, new position ${position} of ${total}. Press space to confirm_______________________________________驗.",
+  "dragHandleCommit": "試_${itemLabel}, current position ${position} of ${total}_____________________________驗.",
+  "dragHandleIdle": "試_${itemLabel}, press space and use arrow keys to reorder content. Current position ${position} of ${total}______________________________________________________驗."
+}
