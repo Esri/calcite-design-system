@@ -30,7 +30,7 @@ import {
   parseTimeString,
   TimePart
 } from "../../utils/time";
-import { CSS, TEXT } from "./resources";
+import { CSS } from "./resources";
 import {
   connectLocalized,
   disconnectLocalized,
@@ -206,18 +206,18 @@ export class TimePicker implements LocalizedComponent, T9nComponent {
    */
   @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
 
-  @Watch("hour")
-  @Watch("hourDown")
-  @Watch("hourUp")
-  @Watch("meridiem")
-  @Watch("meridiemDown")
-  @Watch("meridiemUp")
-  @Watch("minute")
-  @Watch("minuteDown")
-  @Watch("minuteUp")
-  @Watch("second")
-  @Watch("secondDown")
-  @Watch("secondUp")
+  @Watch("intlHour")
+  @Watch("intlHourDown")
+  @Watch("intlHourUp")
+  @Watch("intlMeridiem")
+  @Watch("intlMeridiemDown")
+  @Watch("intlMeridiemUp")
+  @Watch("intlMinute")
+  @Watch("intlMinuteDown")
+  @Watch("intlMinuteUp")
+  @Watch("intlSecond")
+  @Watch("intlSecondDown")
+  @Watch("intlSecondUp")
   @Watch("messageOverrides")
   @Watch("defaultMessages")
   onMessagesChange(): void {
