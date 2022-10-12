@@ -412,7 +412,6 @@ export class Modal implements ConditionalSlotComponent, OpenCloseComponent {
 
   @Watch("open")
   async toggleModal(value: boolean): Promise<void> {
-    console.log('trigger @Watch("open")');
     this.active = value;
     onToggleOpenCloseComponent(this);
     if (value) {
@@ -431,7 +430,6 @@ export class Modal implements ConditionalSlotComponent, OpenCloseComponent {
 
   /** Open the modal */
   private openModal() {
-    console.log("running private openModal() method ");
     this.previousActiveElement = document.activeElement as HTMLElement;
     this.el.addEventListener("calciteModalOpen", this.openEnd);
     this.open = true;

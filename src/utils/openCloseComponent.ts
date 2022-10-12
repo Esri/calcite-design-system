@@ -45,9 +45,6 @@ export interface OpenCloseComponent {
   onClose: () => void;
 }
 
-let boundOnTransitionStart: (event: TransitionEvent) => void;
-let boundOnTransitionEnd: (event: TransitionEvent) => void;
-
 const componentToTransitionListeners = new WeakMap<
   OpenCloseComponent,
   [HTMLDivElement, typeof transitionStart, typeof transitionEnd]
@@ -56,13 +53,11 @@ const componentToTransitionListeners = new WeakMap<
 function transitionStart(event: TransitionEvent): void {
   if (event.propertyName === this.openTransitionProp && event.target === this.transitionEl) {
     this.open ? this.onBeforeOpen() : this.onBeforeClose();
-    this.transitionEl.removeEventListener("transitionstart", boundOnTransitionStart);
   }
 }
 function transitionEnd(event: TransitionEvent): void {
   if (event.propertyName === this.openTransitionProp && event.target === this.transitionEl) {
     this.open ? this.onOpen() : this.onClose();
-    this.transitionEl.removeEventListener("transitionend", boundOnTransitionEnd);
   }
 }
 
@@ -73,12 +68,8 @@ function transitionEnd(event: TransitionEvent): void {
  * @param component
  */
 export function onToggleOpenCloseComponent(component: OpenCloseComponent): void {
-  console.log("in onToggleOpenCloseComponent");
   readTask((): void => {
-    console.log("in onToggleOpenCloseComponent readTask");
-    console.log("component.transitionEl", component.transitionEl);
     if (component.transitionEl) {
-      console.log("in onToggleOpenCloseComponent readTask if (component.transitionEl)");
       const allTransitionPropsArray = getComputedStyle(component.transitionEl).transition.split(" ");
       const openTransitionPropIndex = allTransitionPropsArray.findIndex(
         (item) => item === component.openTransitionProp
