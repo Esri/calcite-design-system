@@ -12,7 +12,7 @@
 | `disabled`    | `disabled`      | When true, interaction is prevented and the component is displayed with lower opacity.                              | `boolean`                        | `false`               |
 | `hidden`      | `hidden`        | When true, the component will not be visible.                                                                       | `boolean`                        | `false`               |
 | `icon`        | `icon`          | When true, shows a default recommended icon. Alternatively, pass a Calcite UI Icon name to display a specific icon. | `boolean \| string`              | `undefined`           |
-| `iconFlipRtl` | `icon-flip-rtl` | When true, the icon is flipped in RTL.                                                                              | `boolean`                        | `false`               |
+| `iconFlipRtl` | `icon-flip-rtl` | When true, the icon will be flipped when the element direction is right-to-left (`"rtl"`).                          | `boolean`                        | `false`               |
 | `intlClear`   | `intl-clear`    | A text label that will appear on the clear button for screen readers.                                               | `string`                         | `undefined`           |
 | `intlLoading` | `intl-loading`  | Accessible name that will appear while loading.                                                                     | `string`                         | `COMMON_TEXT.loading` |
 | `label`       | `label`         | Accessible name for the component's button or hyperlink.                                                            | `string`                         | `undefined`           |
@@ -22,7 +22,7 @@
 | `name`        | `name`          | Specifies the name of the component.                                                                                | `string`                         | `undefined`           |
 | `placeholder` | `placeholder`   | Specifies placeholder text for the component.                                                                       | `string`                         | `undefined`           |
 | `prefixText`  | `prefix-text`   | Adds text to the start of the component.                                                                            | `string`                         | `undefined`           |
-| `readOnly`    | `read-only`     | When true, the value cannot be modified.                                                                            | `boolean`                        | `false`               |
+| `readOnly`    | `read-only`     | When true, the component's value can be read, but cannot be modified.                                               | `boolean`                        | `false`               |
 | `required`    | `required`      | When true, the component must have a value in order for the form to submit.                                         | `boolean`                        | `false`               |
 | `scale`       | `scale`         | Specifies the size of the component.                                                                                | `"l" \| "m" \| "s"`              | `"m"`                 |
 | `status`      | `status`        | Specifies the status of the input field, which determines message and icons.                                        | `"idle" \| "invalid" \| "valid"` | `"idle"`              |
@@ -34,7 +34,7 @@
 | Event                    | Description                                         | Type                                                                                                                 |
 | ------------------------ | --------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
 | `calciteInputTextChange` | Fires each time a new value is typed and committed. | `CustomEvent<void>`                                                                                                  |
-| `calciteInputTextInput`  | Fires each time a new value is typed.               | `CustomEvent<{ element: HTMLInputElement; nativeEvent: MouseEvent \| KeyboardEvent \| InputEvent; value: string; }>` |
+| `calciteInputTextInput`  | Fires each time a new value is typed.               | `CustomEvent<{ element: HTMLInputElement; nativeEvent: KeyboardEvent \| MouseEvent \| InputEvent; value: string; }>` |
 
 ## Methods
 
