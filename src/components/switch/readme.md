@@ -21,7 +21,7 @@
 | `label`    | `label`    | Accessible name for the component.                                                                                   | `string`            | `undefined` |
 | `name`     | `name`     | Specifies the name of the component on form submission.                                                              | `string`            | `undefined` |
 | `scale`    | `scale`    | Specifies the size of the component.                                                                                 | `"l" \| "m" \| "s"` | `"m"`       |
-| `switched` | `switched` | <span style="color:red">**[DEPRECATED]**</span> use "checked" instead.<br/><br/>When true, the component is checked. | `boolean`           | `false`     |
+| `switched` | `switched` | <span style="color:red">**[DEPRECATED]**</span> use `checked` instead.<br/><br/>When true, the component is checked. | `boolean`           | `false`     |
 | `value`    | `value`    | The component's value.                                                                                               | `any`               | `undefined` |
 
 ## Events

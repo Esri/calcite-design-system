@@ -14,8 +14,8 @@ individual `calcite-stepper-item` item
 | `disabled`     | `disabled`      | When true, interaction is prevented and the component is displayed with lower opacity.                                                               | `boolean` | `false`     |
 | `error`        | `error`         | When true, the component contains an error that requires resolution from the user.                                                                   | `boolean` | `false`     |
 | `heading`      | `heading`       | The component header text.                                                                                                                           | `string`  | `undefined` |
-| `itemSubtitle` | `item-subtitle` | <span style="color:red">**[DEPRECATED]**</span> use "description" instead.<br/><br/>A description for the component. Displays below the header text. | `string`  | `undefined` |
-| `itemTitle`    | `item-title`    | <span style="color:red">**[DEPRECATED]**</span> use "heading" instead.<br/><br/>The component header text.                                           | `string`  | `undefined` |
+| `itemSubtitle` | `item-subtitle` | <span style="color:red">**[DEPRECATED]**</span> use `description` instead.<br/><br/>A description for the component. Displays below the header text. | `string`  | `undefined` |
+| `itemTitle`    | `item-title`    | <span style="color:red">**[DEPRECATED]**</span> use `heading` instead.<br/><br/>The component header text.                                           | `string`  | `undefined` |
 | `selected`     | `selected`      | When true, step is selected                                                                                                                          | `boolean` | `false`     |
 
 ## Methods
