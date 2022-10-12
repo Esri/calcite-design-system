@@ -1,5 +1,5 @@
 import { select, text } from "@storybook/addon-knobs";
-import { boolean, createSteps, stepStory, storyFilters } from "../../../.storybook/helpers";
+import { boolean, storyFilters } from "../../../.storybook/helpers";
 import { themesDarkDefault } from "../../../.storybook/utils";
 import readme1 from "./readme.md";
 import readme2 from "../stepper-item/readme.md";
@@ -133,15 +133,6 @@ export const darkThemeRTL_TestOnly = (): string => html`
 
 darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };
 
-export const minHeight_TestOnly = stepStory(
-  (): string => html`<calcite-stepper style="min-height: 500px;">
-    <calcite-stepper-item item-title="Title one" id="one"> Step one </calcite-stepper-item>
-    <calcite-stepper-item item-title="Title two"> Step two </calcite-stepper-item>
-    <calcite-stepper-item item-title="Title three"> Step three </calcite-stepper-item>
-  </calcite-stepper>`,
-  createSteps("calcite-stepper").click("#one").snapshot("stepper with min-height")
-);
-
 export const overriddenWidth_TestOnly = (): string => html` <calcite-stepper numbered style="width: 50vw">
   <calcite-stepper-item item-title="Choose method" item-subtitle="Add members without sending invitations" complete>
     <calcite-notice active width="full">
@@ -170,4 +161,15 @@ export const disabled_TestOnly = (): string => html`<calcite-stepper>
   <calcite-stepper-item item-title="item2">2</calcite-stepper-item>
   <calcite-stepper-item item-title="item3" active>3</calcite-stepper-item>
   <calcite-stepper-item item-title="item4" disabled>4</calcite-stepper-item>
+</calcite-stepper>`;
+
+export const arabicNumberingSystem_TestOnly = (): string => html`<calcite-stepper
+  numbered
+  numbering-system="arab"
+  lang="ar"
+>
+  <calcite-stepper-item item-title="Maps" complete>Content one</calcite-stepper-item>
+  <calcite-stepper-item item-title="Forms">Content two</calcite-stepper-item>
+  <calcite-stepper-item item-title="Tables" active>Content three</calcite-stepper-item>
+  <calcite-stepper-item item-title="Graphs">Content four</calcite-stepper-item>
 </calcite-stepper>`;
