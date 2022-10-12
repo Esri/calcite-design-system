@@ -154,7 +154,6 @@ export class Popover
   @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
 
   @Watch("intlClose")
-  @Watch("defaultMessages")
   @Watch("messageOverrides")
   onMessagesChange(): void {
     /* wired up by t9n util */
