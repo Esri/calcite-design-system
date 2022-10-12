@@ -126,7 +126,7 @@ export class InputDatePicker
   }
 
   @Watch("valueAsDate")
-  valueAsDateWatcher(valueAsDate): void {
+  valueAsDateWatcher(valueAsDate: Date): void {
     this.datePickerActiveDate = valueAsDate;
   }
 
@@ -811,7 +811,7 @@ export class InputDatePicker
   /**
    * Event handler for when the selected date changes
    *
-   * @param event
+   * @param event CalciteDatePicker custom change event
    */
   handleDateChange = (event: CustomEvent<Date>): void => {
     if (this.range) {
@@ -871,8 +871,8 @@ export class InputDatePicker
       ? dateFromRange(this.endAsDate, this.minAsDate, this.maxAsDate)
       : null;
 
-    const localizedDate = date && date.toLocaleDateString(this.locale);
-    const localizedEndDate = endDate && endDate.toLocaleDateString(this.locale);
+    const localizedDate = date && date.toLocaleDateString(this.effectiveLocale);
+    const localizedEndDate = endDate && endDate.toLocaleDateString(this.effectiveLocale);
 
     localizedDate && this.setInputValue(localizedDate, "start");
     this.range && localizedEndDate && this.setInputValue(localizedEndDate, "end");
