@@ -1,5 +1,5 @@
 import { accessible, hidden, renders, focusable, disabled } from "../../tests/commonTests";
-import { placeholderImage } from "../../../.storybook/utils";
+import { placeholderImage } from "../../../.storybook/placeholderImage";
 import { html } from "../../../support/formatting";
 
 const placeholder = placeholderImage({
