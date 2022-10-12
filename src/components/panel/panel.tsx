@@ -19,7 +19,13 @@ import { SLOTS as ACTION_MENU_SLOTS } from "../action-menu/resources";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { createObserver } from "../../utils/observers";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
-import { connectMessages, disconnectMessages, T9nComponent, updateMessages } from "../../utils/t9n";
+import {
+  connectMessages,
+  disconnectMessages,
+  setUpMessages,
+  T9nComponent,
+  updateMessages
+} from "../../utils/t9n";
 import { Messages } from "./assets/panel/t9n";
 
 /**
@@ -250,6 +256,10 @@ export class Panel implements InteractiveComponent, LocalizedComponent, T9nCompo
       this.dismissibleHandler(isClosable);
       this.closableHandler(isClosable);
     }
+  }
+
+  async componentWillLoad(): Promise<void> {
+    await setUpMessages(this);
   }
 
   componentDidRender(): void {
