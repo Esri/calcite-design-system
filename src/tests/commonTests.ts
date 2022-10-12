@@ -974,25 +974,35 @@ export async function t9n(componentSetup: TagOrHTML | TagAndPage): Promise<void>
   }
 
   async function assertLangSwitch(): Promise<void> {
-    await page.evaluate(() => {
-      const orig = window.fetch;
-      window.fetch = async function (input, init) {
-        if (typeof input === "string" && input.endsWith("messages_es.json")) {
-          const dummyMessages = {};
-          window.fetch = orig;
-          return new Response(new Blob([JSON.stringify(dummyMessages, null, 2)], { type: "application/json" }));
-        }
+    const enMessages = await getCurrentMessages();
+    const fakeBundleIdentifier = "__fake__";
+    await page.evaluate(
+      (enMessages, fakeBundleIdentifier) => {
+        const orig = window.fetch;
+        window.fetch = async function (input, init) {
+          if (typeof input === "string" && input.endsWith("messages_es.json")) {
+            const fakeEsMessages = {
+              ...enMessages, // reuse real message bundle in case component rendering depends on strings
 
-        return orig.call(input, init);
-      };
-    });
+              [fakeBundleIdentifier]: true // we inject a fake identifier for assertion-purposes
+            };
+            window.fetch = orig;
+            return new Response(new Blob([JSON.stringify(fakeEsMessages, null, 2)], { type: "application/json" }));
+          }
+
+          return orig.call(input, init);
+        };
+      },
+      enMessages,
+      fakeBundleIdentifier
+    );
 
     component.setAttribute("lang", "es");
     await page.waitForChanges();
     await page.waitForTimeout(3000);
     const esMessages = await getCurrentMessages();
 
-    expect(esMessages).toEqual({});
+    expect(esMessages).toHaveProperty(fakeBundleIdentifier);
 
     // reset test changes
     component.removeAttribute("lang");
