@@ -181,11 +181,11 @@ export class Alert implements OpenCloseComponent, LocalizedComponent {
       </button>
     );
 
-    numberStringFormatter.setOptions({
+    numberStringFormatter.numberFormatOptions = {
       locale: this.effectiveLocale,
       numberingSystem: this.numberingSystem,
       signDisplay: "always"
-    });
+    };
 
     const queueNumber = this.queueLength > 2 ? this.queueLength - 1 : 1;
     const queueText = numberStringFormatter.numberFormatter.format(queueNumber);
