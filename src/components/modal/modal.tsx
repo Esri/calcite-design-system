@@ -128,6 +128,13 @@ export class Modal implements ConditionalSlotComponent, OpenCloseComponent {
   //
   //--------------------------------------------------------------------------
 
+  componentWillLoad(): void {
+    // when modal initially renders, if active was set we need to open as watcher doesn't fire
+    if (this.open) {
+      requestAnimationFrame(() => this.openModal());
+    }
+  }
+
   connectedCallback(): void {
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
     this.updateFooterVisibility();
