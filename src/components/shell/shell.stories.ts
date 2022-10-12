@@ -5,7 +5,7 @@ import {
   createComponentHTML as create,
   themesDarkDefault
 } from "../../../.storybook/utils";
-import { placeholderImage } from "../../tests/utils";
+import { placeholderImage } from "../../../.storybook/placeholderImage";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import readme from "./readme.md";
 import panelReadme from "../shell-panel/readme.md";

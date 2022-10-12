@@ -5,7 +5,7 @@ import {
   Attributes,
   createComponentHTML as create
 } from "../../../.storybook/utils";
-import { placeholderImage } from "../../tests/utils";
+import { placeholderImage } from "../../../.storybook/placeholderImage";
 import blockReadme from "./readme.md";
 import sectionReadme from "../block-section/readme.md";
 import { html } from "../../../support/formatting";
