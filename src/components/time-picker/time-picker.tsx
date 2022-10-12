@@ -1,15 +1,15 @@
 import {
   Component,
   Element,
-  h,
-  Prop,
-  VNode,
   Event,
   EventEmitter,
-  Watch,
-  State,
+  h,
   Listen,
-  Method
+  Method,
+  Prop,
+  State,
+  VNode,
+  Watch
 } from "@stencil/core";
 import { Scale } from "../interfaces";
 import { isActivationKey, numberKeys } from "../../utils/key";
@@ -17,26 +17,26 @@ import { isValidNumber } from "../../utils/number";
 
 import {
   formatTimePart,
-  MinuteOrSecond,
-  maxTenthForMinuteAndSecond,
-  TimePart,
+  getLocaleHourCycle,
   getMeridiem,
+  getTimeParts,
   HourCycle,
   isValidTime,
-  localizeTimeStringToParts,
-  parseTimeString,
   localizeTimePart,
+  localizeTimeStringToParts,
+  maxTenthForMinuteAndSecond,
   Meridiem,
-  getLocaleHourCycle,
-  getTimeParts
+  MinuteOrSecond,
+  parseTimeString,
+  TimePart
 } from "../../utils/time";
 import { CSS, TEXT } from "./resources";
 import {
-  GlobalAttrComponent,
-  unwatchGlobalAttributes,
-  watchGlobalAttributes
-} from "../../utils/globalAttributes";
-import { getLocale, LangComponent } from "../../utils/locale";
+  connectLocalized,
+  disconnectLocalized,
+  LocalizedComponent,
+  updateEffectiveLocale
+} from "../../utils/locale";
 
 function capitalize(str: string): string {
   return str.charAt(0).toUpperCase() + str.slice(1);
@@ -47,7 +47,7 @@ function capitalize(str: string): string {
   styleUrl: "time-picker.scss",
   shadow: true
 })
-export class TimePicker implements GlobalAttrComponent, LangComponent {
+export class TimePicker implements LocalizedComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -155,10 +155,9 @@ export class TimePicker implements GlobalAttrComponent, LangComponent {
    */
   @Prop({ mutable: true }) locale: string;
 
-  @Watch("globalAttributes")
   @Watch("locale")
-  localeWatcher(): void {
-    this.updateLocale();
+  localeChanged(): void {
+    updateEffectiveLocale(this);
   }
 
   /** Specifies the size of the component. */
@@ -199,7 +198,12 @@ export class TimePicker implements GlobalAttrComponent, LangComponent {
   //
   // --------------------------------------------------------------------------
 
-  @State() globalAttributes = {};
+  @State() effectiveLocale = "";
+
+  @Watch("effectiveLocale")
+  effectiveLocaleWatcher(): void {
+    this.updateLocale();
+  }
 
   @State() hour: string;
 
@@ -627,7 +631,7 @@ export class TimePicker implements GlobalAttrComponent, LangComponent {
   private setValue = (value: string, emit = true): void => {
     if (isValidTime(value)) {
       const { hour, minute, second } = parseTimeString(value);
-      const locale = getLocale(this);
+      const locale = this.effectiveLocale;
       const {
         localizedHour,
         localizedHourSuffix,
@@ -676,7 +680,7 @@ export class TimePicker implements GlobalAttrComponent, LangComponent {
     value: number | string | Meridiem,
     emit = true
   ): void => {
-    const locale = getLocale(this);
+    const locale = this.effectiveLocale;
     if (key === "meridiem") {
       this.meridiem = value as Meridiem;
       if (isValidNumber(this.hour)) {
@@ -714,7 +718,7 @@ export class TimePicker implements GlobalAttrComponent, LangComponent {
   };
 
   private getMeridiemOrder(formatParts: Intl.DateTimeFormatPart[]): number {
-    const locale = getLocale(this);
+    const locale = this.effectiveLocale;
     const isRTLKind = locale === "ar" || locale === "he";
     if (formatParts && !isRTLKind) {
       const index = formatParts.findIndex((parts: { type: string; value: string }) => {
@@ -726,8 +730,7 @@ export class TimePicker implements GlobalAttrComponent, LangComponent {
   }
 
   private updateLocale() {
-    const locale = getLocale(this);
-    this.hourCycle = getLocaleHourCycle(locale);
+    this.hourCycle = getLocaleHourCycle(this.effectiveLocale);
     this.setValue(this.value, false);
   }
 
@@ -738,14 +741,13 @@ export class TimePicker implements GlobalAttrComponent, LangComponent {
   // --------------------------------------------------------------------------
 
   connectedCallback() {
+    connectLocalized(this);
     this.updateLocale();
-    const locale = getLocale(this);
-    this.meridiemOrder = this.getMeridiemOrder(getTimeParts("0:00:00", locale));
-    watchGlobalAttributes(this, ["lang"]);
+    this.meridiemOrder = this.getMeridiemOrder(getTimeParts("0:00:00", this.effectiveLocale));
   }
 
   disconnectedCallback(): void {
-    unwatchGlobalAttributes(this);
+    disconnectLocalized(this);
   }
 
   // --------------------------------------------------------------------------

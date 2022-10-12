@@ -9,7 +9,6 @@ import stylelint from "stylelint";
 import { version } from "./package.json";
 
 export const create: () => Config = () => ({
-  buildEs5: "prod",
   namespace: "calcite",
   bundles: [
     { components: ["calcite-accordion", "calcite-accordion-item"] },
@@ -77,7 +76,6 @@ export const create: () => Config = () => ({
   ],
   outputTargets: [
     { type: "dist-hydrate-script" },
-    { type: "dist-custom-elements-bundle" },
     { type: "dist-custom-elements", autoDefineCustomElements: true },
     { type: "dist" },
     { type: "docs-readme" },
