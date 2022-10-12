@@ -54,7 +54,8 @@ export function overridesFromIntlProps(component: T9nComponent): MessageBundle {
 function mergeMessages(component: T9nComponent): void {
   component.messages = {
     ...component.defaultMessages,
-    ...getEffectiveMessageOverrides(component)
+    ...getEffectiveMessageOverrides(component),
+    ...component.getExtraMessageOverrides?.()
   };
 }
 
@@ -165,6 +166,13 @@ export interface T9nComponent extends LocalizedComponent {
    * }
    */
   onMessagesChange(): void;
+
+  /**
+   * This private method provides a hook for non-intl props to be merged into `messages`.
+   *
+   * For example, this helps merge strings from props exclusive for screen reader markup.
+   */
+  getExtraMessageOverrides?(): Partial<MessageBundle>;
 }
 
 function defaultOnMessagesChange(this: T9nComponent): void {
