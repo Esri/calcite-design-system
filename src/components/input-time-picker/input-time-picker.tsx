@@ -30,10 +30,10 @@ import {
   disconnectLocalized,
   LocalizedComponent,
   NumberingSystem,
+  numberStringFormatter,
   updateEffectiveLocale
 } from "../../utils/locale";
 import { numberKeys } from "../../utils/key";
-import { defaultNumberingSystem } from "../../utils/locale";
 
 @Component({
   tag: "calcite-input-time-picker",
@@ -296,22 +296,27 @@ export class InputTimePicker
 
   private calciteInputInputHandler = (event: CustomEvent): void => {
     const target = event.target as HTMLCalciteTimePickerElement;
-    this.setValue({ value: target.value });
 
-    if (this.localizedValue && isValidTime(target.value)) {
+    numberStringFormatter.setOptions({
+      locale: this.effectiveLocale,
+      numberingSystem: this.numberingSystem,
+      useGrouping: false
+    });
+
+    const delocalizedValue = numberStringFormatter.delocalize(target.value);
+    this.setValue({ value: delocalizedValue });
+
+    if (this.localizedValue && isValidTime(delocalizedValue)) {
       this.setInputValue(this.localizedValue);
     } else {
-      const formatter = new Intl.NumberFormat(this.locale, {
-        numberingSystem: this.numberingSystem || defaultNumberingSystem
-      } as Intl.ResolvedNumberFormatOptions);
-
-      const formattedValue = target.value
+      // only translate the numerals until a valid time is typed
+      const localizedValue = delocalizedValue
         .split("")
-        .map((char) => (numberKeys.includes(char) ? formatter.format(Number(char)) : char))
+        .map((char) => (numberKeys.includes(char) ? numberStringFormatter.localize(char) : char))
         .filter((char) => char)
         .join("");
 
-      this.setInputValue(formattedValue);
+      this.setInputValue(localizedValue);
     }
   };
 
