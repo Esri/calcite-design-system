@@ -73,8 +73,12 @@ function transitionEnd(event: TransitionEvent): void {
  * @param component
  */
 export function onToggleOpenCloseComponent(component: OpenCloseComponent): void {
+  console.log("in onToggleOpenCloseComponent");
   readTask((): void => {
+    console.log("in onToggleOpenCloseComponent readTask");
+    console.log("component.transitionEl", component.transitionEl);
     if (component.transitionEl) {
+      console.log("in onToggleOpenCloseComponent readTask if (component.transitionEl)");
       const allTransitionPropsArray = getComputedStyle(component.transitionEl).transition.split(" ");
       const openTransitionPropIndex = allTransitionPropsArray.findIndex(
         (item) => item === component.openTransitionProp
@@ -84,11 +88,24 @@ export function onToggleOpenCloseComponent(component: OpenCloseComponent): void 
         component.open ? component.onBeforeOpen() : component.onBeforeClose();
         component.open ? component.onOpen() : component.onClose();
       } else {
-        boundOnTransitionStart = transitionStart.bind(component);
-        boundOnTransitionEnd = transitionEnd.bind(component);
-
-        component.transitionEl.addEventListener("transitionstart", boundOnTransitionStart);
-        component.transitionEl.addEventListener("transitionend", boundOnTransitionEnd);
+        component.transitionEl.addEventListener(
+          "transitionstart",
+          (event: TransitionEvent) => {
+            if (event.propertyName === this.openTransitionProp && event.target === this.transitionEl) {
+              this.open ? this.onBeforeOpen() : this.onBeforeClose();
+            }
+          },
+          { once: true }
+        );
+        component.transitionEl.addEventListener(
+          "transitionend",
+          (event: TransitionEvent) => {
+            if (event.propertyName === this.openTransitionProp && event.target === this.transitionEl) {
+              this.open ? this.onOpen() : this.onClose();
+            }
+          },
+          { once: true }
+        );
       }
     }
   });

@@ -127,12 +127,6 @@ export class Modal implements ConditionalSlotComponent, OpenCloseComponent {
   //  Lifecycle
   //
   //--------------------------------------------------------------------------
-  componentWillLoad(): void {
-    // when modal initially renders, if active was set we need to open as watcher doesn't fire
-    if (this.open) {
-      requestAnimationFrame(() => this.openModal());
-    }
-  }
 
   connectedCallback(): void {
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
@@ -411,6 +405,7 @@ export class Modal implements ConditionalSlotComponent, OpenCloseComponent {
 
   @Watch("open")
   async toggleModal(value: boolean): Promise<void> {
+    console.log('trigger @Watch("open")');
     this.active = value;
     onToggleOpenCloseComponent(this);
     if (value) {
@@ -429,6 +424,7 @@ export class Modal implements ConditionalSlotComponent, OpenCloseComponent {
 
   /** Open the modal */
   private openModal() {
+    console.log("running private openModal() method ");
     this.previousActiveElement = document.activeElement as HTMLElement;
     this.el.addEventListener("calciteModalOpen", this.openEnd);
     this.open = true;
