@@ -65,7 +65,8 @@ const getFocusableElements = (el: HTMLElement | ShadowRoot): HTMLElement[] => {
 @Component({
   tag: "calcite-modal",
   styleUrl: "modal.scss",
-  shadow: true
+  shadow: true,
+  assetsDirs: ["assets"]
 })
 export class Modal
   implements ConditionalSlotComponent, OpenCloseComponent, LocalizedComponent, T9nComponent
