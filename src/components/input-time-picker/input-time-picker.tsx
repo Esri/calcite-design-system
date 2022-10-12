@@ -317,8 +317,11 @@ export class InputTimePicker
     // only translate the numerals until blur
     const localizedValue = delocalizedValue
       .split("")
-      .map((char) => (numberKeys.includes(char) ? numberStringFormatter.localize(char) : char))
-      .filter((char) => char)
+      .map((char) =>
+        numberKeys.includes(char)
+          ? numberStringFormatter.numberFormatter.format(Number(char))
+          : char
+      )
       .join("");
 
     this.setInputValue(localizedValue);
