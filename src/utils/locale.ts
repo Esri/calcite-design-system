@@ -245,21 +245,18 @@ function getLocale(component: LocalizedComponent): string {
   );
 }
 
-interface NumberStringFormatOptions {
+interface NumberStringFormatOptions extends Intl.NumberFormatOptions {
   numberingSystem: NumberingSystem;
   locale: string;
-  useGrouping: boolean;
 }
 
 /**
  * This util formats and parses numbers for localization
  */
 class NumberStringFormat {
-  numberingSystem: string;
+  numberFormatter: Intl.NumberFormat;
 
-  locale: string;
-
-  useGrouping: boolean;
+  numberFormatOptions: NumberStringFormatOptions;
 
   /**
    * The actual group separator for the specified locale
@@ -279,46 +276,36 @@ class NumberStringFormat {
 
   getDigitIndex;
 
-  numberFormatter: Intl.NumberFormat;
-
   /**
    * This method needs to be called before localize/delocalize to ensure the options are up to date
    *
    * @param options
    */
   setOptions = (options: NumberStringFormatOptions) => {
-    const locale = getSupportedLocale(options.locale);
-    const numberingSystem = getSupportedNumberingSystem(options.numberingSystem);
+    options.locale = getSupportedLocale(options.locale);
+    options.numberingSystem = getSupportedNumberingSystem(options.numberingSystem);
 
     // cache formatter by only recreating when options change
-    if (
-      numberingSystem === this.numberingSystem &&
-      locale === this.locale &&
-      options?.useGrouping === this.useGrouping
-    ) {
+    if (JSON.stringify(this.numberFormatOptions) === JSON.stringify(options)) {
       return;
     }
 
-    this.locale = locale;
-    this.numberingSystem = numberingSystem;
-    this.useGrouping = options.useGrouping;
+    this.numberFormatOptions = options;
 
-    this.numberFormatter = new Intl.NumberFormat(this.locale, {
-      useGrouping: this.useGrouping,
-      numberingSystem: this.numberingSystem,
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 20
-    } as Intl.NumberFormatOptions);
+    this.numberFormatter = new Intl.NumberFormat(
+      this.numberFormatOptions.locale,
+      this.numberFormatOptions as Intl.NumberFormatOptions
+    );
 
     this.digits = [
-      ...new Intl.NumberFormat(this.locale, {
+      ...new Intl.NumberFormat(this.numberFormatOptions.locale, {
         useGrouping: false,
-        numberingSystem: this.numberingSystem
+        numberingSystem: this.numberFormatOptions.numberingSystem
       } as Intl.NumberFormatOptions).format(9876543210)
     ].reverse();
 
     const index = new Map(this.digits.map((d, i) => [d, i]));
-    const parts = new Intl.NumberFormat(this.locale).formatToParts(-12345678.9);
+    const parts = new Intl.NumberFormat(this.numberFormatOptions.locale).formatToParts(-12345678.9);
 
     this.actualGroup = parts.find((d) => d.type === "group").value;
     // change whitespace group characters that don't render correctly

@@ -273,17 +273,25 @@ export class InputTimePicker
   private calciteInternalInputBlurHandler = (): void => {
     this.open = false;
     const shouldIncludeSeconds = this.shouldIncludeSeconds();
-    const locale = this.effectiveLocale;
+    const { effectiveLocale: locale, numberingSystem, value, calciteInputEl } = this;
+
+    numberStringFormatter.setOptions({
+      locale,
+      numberingSystem,
+      useGrouping: false
+    });
+
+    const delocalizedValue = numberStringFormatter.delocalize(calciteInputEl.value);
 
     const localizedInputValue = localizeTimeString(
-      this.calciteInputEl.value,
+      delocalizedValue,
       locale,
-      this.numberingSystem,
+      numberingSystem,
       shouldIncludeSeconds
     );
     this.setInputValue(
       localizedInputValue ||
-        localizeTimeString(this.value, locale, this.numberingSystem, shouldIncludeSeconds)
+        localizeTimeString(value, locale, numberingSystem, shouldIncludeSeconds)
     );
   };
 
