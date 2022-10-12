@@ -1,18 +1,18 @@
 import { select, text } from "@storybook/addon-knobs";
-import { boolean } from "../../../.storybook/helpers";
+import { boolean, storyFilters } from "../../../.storybook/helpers";
 import { themesDarkDefault } from "../../../.storybook/utils";
 import readme from "./readme.md";
 import { html } from "../../../support/formatting";
 
 export default {
   title: "Components/Controls/Radio/Radio Button",
-
   parameters: {
     notes: readme
-  }
+  },
+  ...storyFilters()
 };
 
-export const LightTheme = (): string => html`
+export const simple = (): string => html`
   <calcite-label layout="inline">
     <calcite-radio-button
       ${boolean("checked", false)}
@@ -27,8 +27,8 @@ export const LightTheme = (): string => html`
   </calcite-label>
 `;
 
-export const DarkTheme = (): string => html`
-  <calcite-label layout="inline" class="calcite-theme-dark">
+export const darkThemeRTL_TestOnly = (): string => html`
+  <calcite-label layout="inline" class="calcite-theme-dark" dir="rtl">
     <calcite-radio-button
       ${boolean("checked", false)}
       ${boolean("disabled", false)}
@@ -43,21 +43,6 @@ export const DarkTheme = (): string => html`
   </calcite-label>
 `;
 
-DarkTheme.parameters = { themes: themesDarkDefault };
+darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };
 
-export const RTL = (): string => html`
-  <calcite-label layout="inline" dir="rtl">
-    <calcite-radio-button
-      ${boolean("checked", false)}
-      ${boolean("disabled", false)}
-      ${boolean("hidden", false)}
-      ${boolean("focused", false)}
-      name="simple"
-      scale="${select("scale", ["s", "m", "l"], "m")}"
-      value="value"
-    ></calcite-radio-button>
-    ${text("label", "Radio Button")}
-  </calcite-label>
-`;
-
-export const disabled = (): string => html`<calcite-radio-button checked disabled></calcite-radio-button>`;
+export const disabled_TestOnly = (): string => html`<calcite-radio-button checked disabled></calcite-radio-button>`;

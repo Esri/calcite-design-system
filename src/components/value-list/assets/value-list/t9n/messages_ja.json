@@ -1,0 +1,7 @@
+{
+  "filterResults": "須_Filter results_______________鷗",
+  "dragHandleActive": "須_Reordering ${itemLabel}, current position ${position} of ${total}__________________________________鷗.",
+  "dragHandleChange": "須_${itemLabel}, new position ${position} of ${total}. Press space to confirm_______________________________________鷗.",
+  "dragHandleCommit": "須_${itemLabel}, current position ${position} of ${total}_____________________________鷗.",
+  "dragHandleIdle": "須_${itemLabel}, press space and use arrow keys to reorder content. Current position ${position} of ${total}______________________________________________________鷗."
+}

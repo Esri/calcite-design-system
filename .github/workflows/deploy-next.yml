@@ -13,6 +13,7 @@ jobs:
         with:
           fetch-depth: 0
           token: ${{ secrets.ADMIN_TOKEN }}
+          ref: master
       - uses: actions/setup-node@v2
         with:
           node-version: lts/*

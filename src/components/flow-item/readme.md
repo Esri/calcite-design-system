@@ -24,23 +24,17 @@
 
 ## Events
 
-| Event                      | Description                            | Type                |
-| -------------------------- | -------------------------------------- | ------------------- |
-| `calciteFlowItemBackClick` | Fires when the back button is clicked. | `CustomEvent<void>` |
+| Event                      | Description                                                                                                                      | Type                |
+| -------------------------- | -------------------------------------------------------------------------------------------------------------------------------- | ------------------- |
+| `calciteFlowItemBack`      | Fires when the back button is clicked.                                                                                           | `CustomEvent<void>` |
+| `calciteFlowItemBackClick` | <span style="color:red">**[DEPRECATED]**</span> use calciteFlowItemBack instead.<br/><br/>Fires when the back button is clicked. | `CustomEvent<void>` |
+| `calciteFlowItemClose`     | Fires when the close button is clicked.                                                                                          | `CustomEvent<void>` |
 
 ## Methods
 
 ### `scrollContentTo(options?: ScrollToOptions) => Promise<void>`
 
 Scrolls the component's content to a specified set of coordinates.
-
-```
-  myCalciteFlowItem.scrollContentTo({
-    left: 0, // Specifies the number of pixels along the X axis to scroll the window or element.
-    top: 0, // Specifies the number of pixels along the Y axis to scroll the window or element
-    behavior: "auto" // Specifies whether the scrolling should animate smoothly (smooth), or happen instantly in a single jump (auto, the default value).
-  });
-```
 
 #### Returns
 
@@ -73,6 +67,7 @@ Type: `Promise<void>`
 
 - [calcite-action](../action)
 - [calcite-panel](../panel)
+- [calcite-tooltip](../tooltip)
 
 ### Graph
 
@@ -80,6 +75,7 @@ Type: `Promise<void>`
 graph TD;
   calcite-flow-item --> calcite-action
   calcite-flow-item --> calcite-panel
+  calcite-flow-item --> calcite-tooltip
   calcite-action --> calcite-loader
   calcite-action --> calcite-icon
   calcite-panel --> calcite-action

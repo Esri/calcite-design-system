@@ -72,7 +72,7 @@ export class StepperItem implements InteractiveComponent {
   @Prop({ reflect: true }) complete = false;
 
   /** When true, the component contains an error that requires resolution from the user. */
-  @Prop() error = false;
+  @Prop({ reflect: true }) error = false;
 
   /** When true, interaction is prevented and the component is displayed with lower opacity. */
   @Prop({ reflect: true }) disabled = false;
@@ -80,7 +80,7 @@ export class StepperItem implements InteractiveComponent {
   /**
    * The component header text.
    *
-   * @deprecated use "heading" instead.
+   * @deprecated use `heading` instead.
    */
   @Prop() itemTitle?: string;
 
@@ -90,7 +90,7 @@ export class StepperItem implements InteractiveComponent {
   /**
    * A description for the component. Displays below the header text.
    *
-   * @deprecated use "description" instead.
+   * @deprecated use `description` instead.
    */
   @Prop() itemSubtitle?: string;
 

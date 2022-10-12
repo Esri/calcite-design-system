@@ -14,6 +14,8 @@ import {
 } from "@floating-ui/dom";
 import { getElementDir } from "./dom";
 
+export const repositionDebounceTimeout = 100;
+
 export type ReferenceElement = VirtualElement | Element;
 
 type UIType = "menu" | "tooltip" | "popover";

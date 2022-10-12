@@ -1,0 +1,14 @@
+{
+  "hour": "ng_Hour_________ny",
+  "hourDown": "ng_Decrease hour______________ny",
+  "hourUp": "ng_Increase hour______________ny",
+  "meridiem": "ng_AM/PM___________ny",
+  "meridiemDown": "ng_Decrease AM/PM_______________ny",
+  "meridiemUp": "ng_Increase AM/PM_______________ny",
+  "minute": "ng_Minute_____________ny",
+  "minuteDown": "ng_Decrease minute________________ny",
+  "minuteUp": "ng_Increase minute________________ny",
+  "second": "ng_Second_____________ny",
+  "secondDown": "ng_Decrease second________________ny",
+  "secondUp": "ng_Increase second________________ny"
+}

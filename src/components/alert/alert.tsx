@@ -21,6 +21,13 @@ import {
   connectOpenCloseComponent,
   disconnectOpenCloseComponent
 } from "../../utils/openCloseComponent";
+import {
+  getSupportedNumberingSystem,
+  LocalizedComponent,
+  connectLocalized,
+  disconnectLocalized,
+  NumberingSystem
+} from "../../utils/locale";
 
 /**
  * Alerts are meant to provide a way to communicate urgent or important information to users, frequently as a result of an action they took in your app. Alerts are positioned
@@ -38,7 +45,7 @@ import {
   styleUrl: "alert.scss",
   shadow: true
 })
-export class Alert implements OpenCloseComponent {
+export class Alert implements OpenCloseComponent, LocalizedComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -82,7 +89,7 @@ export class Alert implements OpenCloseComponent {
   }
 
   /** When true, the component closes automatically (recommended for passive, non-blocking alerts). */
-  @Prop() autoDismiss = false;
+  @Prop({ reflect: true }) autoDismiss = false;
 
   /** Specifies the duration before the component automatically closes (only use with `autoDismiss`). */
   @Prop({ reflect: true }) autoDismissDuration: AlertDuration = this.autoDismiss ? "medium" : null;
@@ -106,8 +113,13 @@ export class Alert implements OpenCloseComponent {
   /** Specifies an accessible name for the component. */
   @Prop() label!: string;
 
+  /**
+   * Specifies the Unicode numeral system used by the component for localization.
+   */
+  @Prop({ reflect: true }) numberingSystem?: NumberingSystem;
+
   /** Specifies the placement of the component */
-  @Prop() placement: AlertPlacement = "bottom";
+  @Prop({ reflect: true }) placement: AlertPlacement = "bottom";
 
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
@@ -136,6 +148,7 @@ export class Alert implements OpenCloseComponent {
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
+    connectLocalized(this);
     const open = this.open || this.active;
     if (open && !this.queued) {
       this.activeHandler(open);
@@ -152,6 +165,7 @@ export class Alert implements OpenCloseComponent {
   disconnectedCallback(): void {
     window.clearTimeout(this.autoDismissTimeoutId);
     disconnectOpenCloseComponent(this);
+    disconnectLocalized(this);
   }
 
   render(): VNode {
@@ -166,7 +180,16 @@ export class Alert implements OpenCloseComponent {
         <calcite-icon icon="x" scale={this.scale === "l" ? "m" : "s"} />
       </button>
     );
-    const queueText = `+${this.queueLength > 2 ? this.queueLength - 1 : 1}`;
+    const formatter = new Intl.NumberFormat(this.effectiveLocale, {
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 20,
+      numberingSystem: getSupportedNumberingSystem(this.numberingSystem),
+      signDisplay: "always"
+    } as Intl.NumberFormatOptions);
+
+    const queueNumber = this.queueLength > 2 ? this.queueLength - 1 : 1;
+    const queueText = formatter.format(queueNumber);
+
     const queueCount = (
       <div class={`${this.queueLength > 1 ? "active " : ""}alert-queue-count`}>
         <calcite-chip scale={this.scale} value={queueText}>
@@ -290,6 +313,8 @@ export class Alert implements OpenCloseComponent {
   //  Private State/Props
   //
   //--------------------------------------------------------------------------
+
+  @State() effectiveLocale = "";
 
   /** the list of queued alerts */
   @State() queue: HTMLCalciteAlertElement[] = [];

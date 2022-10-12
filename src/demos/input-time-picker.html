@@ -93,6 +93,51 @@
           <calcite-time-picker lang="ar" numbering-system="arab" scale="l" step="1"></calcite-time-picker>
         </main>
       </div>
+
+      <script>
+        (async () => {
+          await customElements.whenDefined("calcite-input-time-picker");
+          await customElements.whenDefined("calcite-tile-select-group");
+          await customElements.whenDefined("calcite-tile-select");
+          const inputTimePicker = document.querySelector("calcite-input-time-picker");
+          await inputTimePicker.componentOnReady();
+          const tileSelectGroup = document.querySelector("calcite-tile-select-group");
+          await tileSelectGroup.componentOnReady();
+          const inputTimePickerEls = Array.from(document.querySelectorAll("calcite-input-time-picker"));
+          const timePickerEls = Array.from(document.querySelectorAll("calcite-time-picker"));
+          document.addEventListener("calciteInputTimePickerChange", (event) => {
+            console.log("calciteInputTimePickerChange", event.target.value);
+          });
+          document.addEventListener("calciteTileSelectChange", (event) => {
+            const locale = event.target.value;
+            inputTimePickerEls.forEach((inputTimePickerEl) => (inputTimePickerEl.lang = locale));
+            timePickerEls.forEach((timePickerEl) => (timePickerEl.lang = locale));
+          });
+          locales.forEach(({ locale, name }) => {
+            let localeEl = document.createElement("calcite-tile-select");
+            localeEl.setAttribute("heading", name);
+            localeEl.setAttribute("name", "locales");
+            localeEl.setAttribute("scale", "s");
+            localeEl.setAttribute("width", "full");
+            localeEl.setAttribute("value", locale);
+            tileSelectGroup.appendChild(localeEl);
+          });
+          const htmlEl = document.querySelector("html");
+          const htmlElObserver = new MutationObserver((mutations) => {
+            mutations.forEach((mutation) => {
+              if (mutation.type == "attributes" && mutation.attributeName === "dir") {
+                inputTimePickerEls.forEach((inputTimePickerEl) =>
+                  inputTimePickerEl.setAttribute("dir", htmlEl.getAttribute("dir"))
+                );
+                timePickerEls.forEach((timePickerEl) => timePickerEl.setAttribute("dir", htmlEl.getAttribute("dir")));
+              }
+            });
+          });
+          htmlElObserver.observe(htmlEl, {
+            attributes: true
+          });
+        })();
+      </script>
     </demo-dom-swapper>
   </body>
 </html>

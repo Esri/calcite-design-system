@@ -43,14 +43,28 @@ export class RadioGroupItem {
     this.calciteInternalRadioGroupItemChange.emit();
   }
 
-  /** Specifies an icon to display - accepts Calcite UI icon names. */
+  /**
+   * Specifies an icon to display.
+   *
+   * @deprecated Use either `iconStart` or `iconEnd` but do not combine them with `icon` and `iconPosition`.
+   */
   @Prop({ reflect: true }) icon?: string;
 
-  /** When true, the icon will be flipped when the element direction is right-to-left ("rtl"). */
+  /** When true, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @Prop({ reflect: true }) iconFlipRtl = false;
 
-  /** When used with "icon", specifies its position. */
+  /**
+   * Specifies the placement of the icon.
+   *
+   * @deprecated Use either `iconStart` or `iconEnd` but do not combine them with `icon` and `iconPosition`.
+   */
   @Prop({ reflect: true }) iconPosition?: Position = "start";
+
+  /** Specifies an icon to display at the start of the component. */
+  @Prop({ reflect: true }) iconStart?: string;
+
+  /** Specifies an icon to display at the end of the component. */
+  @Prop({ reflect: true }) iconEnd?: string;
 
   /**
    * The component's value.
@@ -64,14 +78,39 @@ export class RadioGroupItem {
     const appearance: RadioAppearance = getElementProp(this.el, "appearance", "solid");
     const layout: Layout = getElementProp(this.el, "layout", "horizontal");
 
+    const iconStartEl = this.iconStart ? (
+      <calcite-icon
+        class={CSS.radioGroupItemIcon}
+        flipRtl={this.iconFlipRtl}
+        icon={this.iconStart}
+        key="icon-start"
+        scale="s"
+      />
+    ) : null;
+
+    const iconEndEl = this.iconEnd ? (
+      <calcite-icon
+        class={CSS.radioGroupItemIcon}
+        flipRtl={this.iconFlipRtl}
+        icon={this.iconEnd}
+        key="icon-end"
+        scale="s"
+      />
+    ) : null;
+
     const iconEl = (
       <calcite-icon
         class={CSS.radioGroupItemIcon}
         flipRtl={this.iconFlipRtl}
         icon={this.icon}
+        key="icon"
         scale="s"
       />
     );
+
+    const iconAtStart =
+      this.icon && this.iconPosition === "start" && !this.iconStart ? iconEl : null;
+    const iconAtEnd = this.icon && this.iconPosition === "end" && !this.iconEnd ? iconEl : null;
 
     return (
       <Host aria-checked={toAriaBoolean(checked)} aria-label={value} role="radio">
@@ -84,10 +123,12 @@ export class RadioGroupItem {
             "label--outline": appearance === "outline"
           }}
         >
-          {this.icon && this.iconPosition === "start" ? iconEl : null}
+          {iconAtStart}
+          {this.iconStart ? iconStartEl : null}
           <slot>{value}</slot>
           <slot name={SLOTS.input} />
-          {this.icon && this.iconPosition === "end" ? iconEl : null}
+          {iconAtEnd}
+          {this.iconEnd ? iconEndEl : null}
         </label>
       </Host>
     );

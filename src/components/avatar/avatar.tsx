@@ -28,16 +28,16 @@ export class Avatar {
   @Prop({ reflect: true }) scale: Scale = "m";
 
   /** Specifies the `src` to an image (remember to add a token if the user is private). */
-  @Prop() thumbnail: string;
+  @Prop({ reflect: true }) thumbnail: string;
 
   /** Specifies the full name of the user. */
-  @Prop() fullName: string;
+  @Prop({ reflect: true }) fullName: string;
 
   /** Specifies the username of the user. */
-  @Prop() username: string;
+  @Prop({ reflect: true }) username: string;
 
   /** Specifies the unique id of the user. */
-  @Prop() userId: string;
+  @Prop({ reflect: true }) userId: string;
 
   //--------------------------------------------------------------------------
   //
@@ -55,8 +55,7 @@ export class Avatar {
   //
   //--------------------------------------------------------------------------
 
-  /** True if thumnail fails to load */
-  @State() error = false;
+  @State() thumbnailFailedToLoad = false;
 
   //--------------------------------------------------------------------------
   //
@@ -65,9 +64,14 @@ export class Avatar {
   //--------------------------------------------------------------------------
 
   private determineContent() {
-    if (this.thumbnail && !this.error) {
+    if (this.thumbnail && !this.thumbnailFailedToLoad) {
       return (
-        <img alt="" class="thumbnail" onError={() => (this.error = true)} src={this.thumbnail} />
+        <img
+          alt=""
+          class="thumbnail"
+          onError={() => (this.thumbnailFailedToLoad = true)}
+          src={this.thumbnail}
+        />
       );
     }
     const initials = this.generateInitials();

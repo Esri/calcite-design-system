@@ -16,15 +16,25 @@ Renders a `calcite-action` that has a clear background.
 
 ### With-text-displayed
 
-Renders a `calcite-action` that displays text along side an icon and a tooltip label.
+Renders a `calcite-action` that displays text alongside an icon.
 
 ```html
 <calcite-action label="Performs my custom action" text="Perform Action!" text-enabled icon="save"></calcite-action>
 ```
 
+### With-tooltip
+
+Renders a `calcite-action` that displays text alongside an icon. A `calcite-tooltip` will be displayed on hover or focus.
+
+```html
+<calcite-action label="Performs my custom action" text="Perform Action!" text-enabled icon="save"
+  ><calcite-tooltip slot="tooltip">Save me!</calcite-tooltip></calcite-action
+>
+```
+
 ### Without-text-displayed
 
-Renders a `calcite-action` that displays only an icon and a tooltip label.
+Renders a `calcite-action` that displays only an icon.
 
 ```html
 <calcite-action label="Performs my custom action" text="My Custom Action" icon="plus"></calcite-action>
@@ -39,7 +49,7 @@ Renders a `calcite-action` that displays only an icon and a tooltip label.
 | `appearance`        | `appearance`   | Specifies the appearance of the component.                                                                                            | `"clear" \| "solid"`           | `"solid"`      |
 | `compact`           | `compact`      | When true, the side padding of the component is reduced. Compact mode is used internally by components, e.g. `calcite-block-section`. | `boolean`                      | `false`        |
 | `disabled`          | `disabled`     | When true, interaction is prevented and the component is displayed with lower opacity.                                                | `boolean`                      | `false`        |
-| `icon`              | `icon`         | Specifies an icon to display - accepts Calcite UI icon names.                                                                         | `string`                       | `undefined`    |
+| `icon`              | `icon`         | Specifies an icon to display.                                                                                                         | `string`                       | `undefined`    |
 | `indicator`         | `indicator`    | When true, indicates unread changes.                                                                                                  | `boolean`                      | `false`        |
 | `intlLoading`       | `intl-loading` | Specifies the text label to display while loading.                                                                                    | `string`                       | `TEXT.loading` |
 | `label`             | `label`        | Specifies the label of the component. If no label is provided, the label inherits what's provided for the `text` prop.                | `string`                       | `undefined`    |

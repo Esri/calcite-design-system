@@ -72,7 +72,7 @@ export class Card implements ConditionalSlotComponent {
    */
   @Prop({ reflect: false }) intlDeselect: string = TEXT.deselect;
 
-  @Prop() thumbnailPosition: LogicalFlowPosition = "block-start";
+  @Prop({ reflect: true }) thumbnailPosition: LogicalFlowPosition = "block-start";
 
   //--------------------------------------------------------------------------
   //

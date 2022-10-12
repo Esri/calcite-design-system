@@ -1,5 +1,5 @@
 import { isValidNumber } from "./number";
-import { defaultNumberingSystem } from "./locale";
+import { getSupportedLocale, defaultNumberingSystem, NumberingSystem } from "./locale";
 export type HourCycle = "12" | "24";
 
 export interface LocalizedTime {
@@ -28,7 +28,7 @@ export const maxTenthForMinuteAndSecond = 5;
 
 function createLocaleDateTimeFormatter(
   locale: string,
-  numberingSystem = defaultNumberingSystem,
+  numberingSystem: NumberingSystem = defaultNumberingSystem,
   includeSeconds = true
 ): Intl.DateTimeFormat {
   try {
@@ -144,7 +144,7 @@ export function localizeTimePart(
   value: string,
   part: TimePart,
   locale: string,
-  numberingSystem = defaultNumberingSystem
+  numberingSystem: NumberingSystem = defaultNumberingSystem
 ): string {
   if (!isValidTimePart(value, part)) {
     return;
@@ -171,7 +171,7 @@ export function localizeTimePart(
 export function localizeTimeString(
   value: string,
   locale = "en",
-  numberingSystem: string,
+  numberingSystem: NumberingSystem,
   includeSeconds = true
 ): string {
   if (!isValidTime(value)) {
@@ -185,12 +185,15 @@ export function localizeTimeString(
 
 export function localizeTimeStringToParts(
   value: string,
-  locale = "en",
-  numberingSystem = defaultNumberingSystem
+  locale: string,
+  numberingSystem: NumberingSystem = defaultNumberingSystem
 ): LocalizedTime {
   if (!isValidTime(value)) {
     return null;
   }
+
+  locale = getSupportedLocale(locale);
+
   const { hour, minute, second = "0" } = parseTimeString(value);
   const dateFromTimeString = new Date(Date.UTC(0, 0, 0, parseInt(hour), parseInt(minute), parseInt(second)));
   if (dateFromTimeString) {

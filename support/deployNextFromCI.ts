@@ -1,5 +1,3 @@
-import pify from "pify";
-
 /*
  * This script is meant to be run by a CI environment during the deploy phase.
  *
@@ -7,7 +5,8 @@ import pify from "pify";
  */
 (async function runner(): Promise<void> {
   const childProcess = await import("child_process");
-  const exec = pify(childProcess.exec);
+  const { promisify } = await import("util");
+  const exec = promisify(childProcess.exec);
 
   async function deployNextFromCI(): Promise<void> {
     console.log("Deploying @next 🚧");
@@ -25,15 +24,7 @@ import pify from "pify";
 
     // github token provided by the checkout action
     // https://github.com/actions/checkout#usage
-    console.log(" - pushing tags...");
-    await exec(`git push --atomic --follow-tags origin master`);
-
-    const changesPushed = (await exec(`git rev-parse HEAD`)) === (await exec(`git rev-parse origin/master`));
-    if (!changesPushed) {
-      throw new Error("Failed to push changes");
-    }
-
-    console.log(" - publishing @next...");
+    console.log(" - pushes tags and publishing @next...");
     await exec(`npm run util:publish-next`);
 
     console.log("@next deployed! 🚀");
