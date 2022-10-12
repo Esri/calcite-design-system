@@ -314,18 +314,14 @@ export class InputTimePicker
     const delocalizedValue = numberStringFormatter.delocalize(target.value);
     this.setValue({ value: delocalizedValue });
 
-    if (this.localizedValue && isValidTime(delocalizedValue)) {
-      this.setInputValue(this.localizedValue);
-    } else {
-      // only translate the numerals until a valid time is typed
-      const localizedValue = delocalizedValue
-        .split("")
-        .map((char) => (numberKeys.includes(char) ? numberStringFormatter.localize(char) : char))
-        .filter((char) => char)
-        .join("");
+    // only translate the numerals until blur
+    const localizedValue = delocalizedValue
+      .split("")
+      .map((char) => (numberKeys.includes(char) ? numberStringFormatter.localize(char) : char))
+      .filter((char) => char)
+      .join("");
 
-      this.setInputValue(localizedValue);
-    }
+    this.setInputValue(localizedValue);
   };
 
   @Listen("click")
