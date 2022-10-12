@@ -157,9 +157,7 @@ export class TimePicker implements LocalizedComponent {
   @Prop({ mutable: true }) locale: string;
 
   @Watch("locale")
-  localeWatcher(newLocale: string): void {
-    this.hourCycle = getLocaleHourCycle(newLocale, this.numberingSystem);
-    this.setValue(this.value, false);
+  localeChanged(): void {
     updateEffectiveLocale(this);
   }
 
