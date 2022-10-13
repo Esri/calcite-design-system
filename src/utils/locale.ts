@@ -264,25 +264,25 @@ class NumberStringFormat {
   /** the corrected group separator */
   private _group: string;
 
-  public get group(): string {
+  get group(): string {
     return this._group;
   }
 
   private _decimal: string;
 
-  public get decimal(): string {
+  get decimal(): string {
     return this._decimal;
   }
 
   private _minusSign: string;
 
-  public get minusSign(): string {
+  get minusSign(): string {
     return this._minusSign;
   }
 
   private _digits: Array<string>;
 
-  public get digits(): Array<string> {
+  get digits(): Array<string> {
     return this._digits;
   }
 
@@ -290,20 +290,20 @@ class NumberStringFormat {
 
   private _numberFormatter: Intl.NumberFormat;
 
-  public get numberFormatter(): Intl.NumberFormat {
+  get numberFormatter(): Intl.NumberFormat {
     return this._numberFormatter;
   }
 
   private _numberFormatOptions: NumberStringFormatOptions;
 
-  public get numberFormatOptions(): NumberStringFormatOptions {
+  get numberFormatOptions(): NumberStringFormatOptions {
     return this._numberFormatOptions;
   }
 
   /**
    * numberFormatOptions needs to be set before localize/delocalize is called to ensure the options are up to date
    */
-  public set numberFormatOptions(options: NumberStringFormatOptions) {
+  set numberFormatOptions(options: NumberStringFormatOptions) {
     options.locale = getSupportedLocale(options.locale);
     options.numberingSystem = getSupportedNumberingSystem(options.numberingSystem);
 
