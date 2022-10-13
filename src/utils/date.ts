@@ -86,14 +86,15 @@ export function dateFromLocalizedString(value: string, localeData: DateLocaleDat
   }
   const { separator } = localeData;
   const { day, month, year } = parseDateString(value, localeData);
+  const date = new Date(year as number, month as number, day as number);
+  date.setFullYear(year as number);
 
   const validDay = day > 0;
   const validMonth = month > -1;
-  const date = new Date(year as number, month as number, day as number);
-  date.setFullYear(year as number);
   const validDate = !isNaN(date.getTime());
   const validLength = value.split(separator).filter((c) => c).length > 2;
   const validYear = year.toString().length > 0;
+
   if (validDay && validMonth && validDate && validLength && validYear) {
     return date;
   }
