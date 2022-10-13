@@ -148,7 +148,7 @@ export function getSupportedLocale(locale: string, context: "cldr" | "t9n" = "cl
   const contextualLocales = context === "cldr" ? locales : t9nLocales;
 
   // we support both 'nb' and 'no' (BCP 47) for Norwegian
-  if (locale === "nb") {
+  if (locale === "nb" || locale === "no") {
     return "no";
   }
 
@@ -170,6 +170,7 @@ export function getSupportedLocale(locale: string, context: "cldr" | "t9n" = "cl
       locale = locale.split("-")[0];
     }
   }
+
   return contextualLocales.includes(locale) ? locale : defaultLocale;
 }
 /**
