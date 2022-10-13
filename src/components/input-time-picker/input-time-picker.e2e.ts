@@ -244,9 +244,9 @@ describe("calcite-input-time-picker", () => {
     const inputTimePicker = await page.find("calcite-input-time-picker");
     const input = await page.find("calcite-input-time-picker >>> calcite-input");
 
-    const initialExpectedValue = localizeTimeString({ value: initialValue, locale, numberingSystem });
-    expect(await input.getProperty("value")).toBe(initialValue);
-    expect(await inputTimePicker.getProperty("value")).toBe(initialExpectedValue);
+    const initialDisplayValue = localizeTimeString({ value: initialValue, locale, numberingSystem });
+    expect(await input.getProperty("value")).toBe(initialDisplayValue);
+    expect(await inputTimePicker.getProperty("value")).toBe(initialValue);
 
     const date = new Date(0);
     date.setHours(13);
