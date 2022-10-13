@@ -8,9 +8,9 @@
 | ------------- | --------------- | -------------------------------------------------------------------------------------------------------------------- | ---------------------------- | ----------- |
 | `active`      | `active`        | <span style="color:red">**[DEPRECATED]**</span> Use selected instead.<br/><br/>Indicates whether the item is active. | `boolean`                    | `false`     |
 | `href`        | `href`          | optionally pass a href - used to determine if the component should render as anchor                                  | `string`                     | `undefined` |
-| `iconEnd`     | `icon-end`      | optionally pass an icon to display at the end of an item - accepts calcite ui icon names                             | `string`                     | `undefined` |
-| `iconFlipRtl` | `icon-flip-rtl` | flip the icon(s) in rtl                                                                                              | `"both" \| "end" \| "start"` | `undefined` |
-| `iconStart`   | `icon-start`    | optionally pass an icon to display at the start of an item - accepts calcite ui icon names                           | `string`                     | `undefined` |
+| `iconEnd`     | `icon-end`      | Specifies an icon to display at the end of the component.                                                            | `string`                     | `undefined` |
+| `iconFlipRtl` | `icon-flip-rtl` | When true, the icon will be flipped when the element direction is right-to-left (`"rtl"`).                           | `"both" \| "end" \| "start"` | `undefined` |
+| `iconStart`   | `icon-start`    | Specifies an icon to display at the start of the component.                                                          | `string`                     | `undefined` |
 | `label`       | `label`         | Applies to the aria-label attribute on the button or hyperlink                                                       | `string`                     | `undefined` |
 | `rel`         | `rel`           | The rel attribute to apply to the hyperlink                                                                          | `string`                     | `undefined` |
 | `selected`    | `selected`      | When true, item is selected                                                                                          | `boolean`                    | `false`     |
