@@ -221,8 +221,7 @@
 
 .icon,
 .resize-icon-wrapper {
-  // needed for firefox to display the icon properly
-  @apply z-default;
+  @apply z-default; // needed for firefox to display the icon properly
 }
 
 // hide browser default clear

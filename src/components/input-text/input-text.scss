@@ -162,8 +162,7 @@ input:focus {
     absolute
     block
 
-    // needed for firefox to display the icon properly
-    z-default;
+    z-default; // needed for firefox to display the icon properly
 }
 
 // hide browser default clear
