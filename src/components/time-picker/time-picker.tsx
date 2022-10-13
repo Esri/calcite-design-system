@@ -35,6 +35,7 @@ import {
   connectLocalized,
   disconnectLocalized,
   LocalizedComponent,
+  NumberingSystem,
   updateEffectiveLocale
 } from "../../utils/locale";
 import { Messages } from "./assets/time-picker/t9n";
@@ -185,6 +186,12 @@ export class TimePicker implements LocalizedComponent, T9nComponent {
 
   /** Specifies the granularity the "value" must adhere to (in seconds). */
   @Prop({ reflect: true }) step = 60;
+
+  /**
+   * Specifies the Unicode numeral system used by the component for localization.
+   *
+   */
+  @Prop() numberingSystem?: NumberingSystem;
 
   /** The component's value in UTC (always 24-hour format). */
   @Prop({ mutable: true }) value: string = null;
@@ -683,7 +690,7 @@ export class TimePicker implements LocalizedComponent, T9nComponent {
   private setValue = (value: string, emit = true): void => {
     if (isValidTime(value)) {
       const { hour, minute, second } = parseTimeString(value);
-      const locale = this.effectiveLocale;
+      const { effectiveLocale: locale, numberingSystem } = this;
       const {
         localizedHour,
         localizedHourSuffix,
@@ -692,7 +699,7 @@ export class TimePicker implements LocalizedComponent, T9nComponent {
         localizedSecond,
         localizedSecondSuffix,
         localizedMeridiem
-      } = localizeTimeStringToParts(value, locale);
+      } = localizeTimeStringToParts({ value, locale, numberingSystem });
       this.localizedHour = localizedHour;
       this.localizedHourSuffix = localizedHourSuffix;
       this.localizedMinute = localizedMinute;
@@ -705,7 +712,7 @@ export class TimePicker implements LocalizedComponent, T9nComponent {
       if (localizedMeridiem) {
         this.localizedMeridiem = localizedMeridiem;
         this.meridiem = getMeridiem(this.hour);
-        const formatParts = getTimeParts(value, locale);
+        const formatParts = getTimeParts({ value, locale, numberingSystem });
         this.meridiemOrder = this.getMeridiemOrder(formatParts);
       }
     } else {
@@ -732,7 +739,7 @@ export class TimePicker implements LocalizedComponent, T9nComponent {
     value: number | string | Meridiem,
     emit = true
   ): void => {
-    const locale = this.effectiveLocale;
+    const { effectiveLocale: locale, numberingSystem } = this;
     if (key === "meridiem") {
       this.meridiem = value as Meridiem;
       if (isValidNumber(this.hour)) {
@@ -749,11 +756,21 @@ export class TimePicker implements LocalizedComponent, T9nComponent {
             }
             break;
         }
-        this.localizedHour = localizeTimePart(this.hour, "hour", locale);
+        this.localizedHour = localizeTimePart({
+          value: this.hour,
+          part: "hour",
+          locale,
+          numberingSystem
+        });
       }
     } else {
       this[key] = typeof value === "number" ? formatTimePart(value) : value;
-      this[`localized${capitalize(key)}`] = localizeTimePart(this[key], key, locale);
+      this[`localized${capitalize(key)}`] = localizeTimePart({
+        value: this[key],
+        part: key,
+        locale,
+        numberingSystem
+      });
     }
     if (this.hour && this.minute) {
       const showSeconds = this.second && this.showSecond;
@@ -762,8 +779,9 @@ export class TimePicker implements LocalizedComponent, T9nComponent {
       this.value = null;
     }
     this.localizedMeridiem = this.value
-      ? localizeTimeStringToParts(this.value, locale)?.localizedMeridiem || null
-      : localizeTimePart(this.meridiem, "meridiem", locale);
+      ? localizeTimeStringToParts({ value: this.value, locale, numberingSystem })
+          ?.localizedMeridiem || null
+      : localizeTimePart({ value: this.meridiem, part: "meridiem", locale, numberingSystem });
     if (emit) {
       this.calciteInternalTimePickerChange.emit();
     }
@@ -783,7 +801,7 @@ export class TimePicker implements LocalizedComponent, T9nComponent {
 
   private updateLocale() {
     updateMessages(this, this.effectiveLocale);
-    this.hourCycle = getLocaleHourCycle(this.effectiveLocale);
+    this.hourCycle = getLocaleHourCycle(this.effectiveLocale, this.numberingSystem);
     this.setValue(this.value, false);
   }
 
@@ -796,8 +814,14 @@ export class TimePicker implements LocalizedComponent, T9nComponent {
   connectedCallback() {
     connectLocalized(this);
     this.updateLocale();
-    this.meridiemOrder = this.getMeridiemOrder(getTimeParts("0:00:00", this.effectiveLocale));
     connectMessages(this);
+    this.meridiemOrder = this.getMeridiemOrder(
+      getTimeParts({
+        value: "0:00:00",
+        locale: this.effectiveLocale,
+        numberingSystem: this.numberingSystem
+      })
+    );
   }
 
   disconnectedCallback(): void {
