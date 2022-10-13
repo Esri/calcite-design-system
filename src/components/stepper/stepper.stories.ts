@@ -163,13 +163,31 @@ export const disabled_TestOnly = (): string => html`<calcite-stepper>
   <calcite-stepper-item item-title="item4" disabled>4</calcite-stepper-item>
 </calcite-stepper>`;
 
-export const arabicNumberingSystem_TestOnly = (): string => html`<calcite-stepper
+export const arabicNumberingSystem_TestOnly = (): string => html` <calcite-stepper
   numbered
   numbering-system="arab"
   lang="ar"
+  dir="rtl"
+  scale="s"
 >
-  <calcite-stepper-item item-title="Maps" complete>Content one</calcite-stepper-item>
-  <calcite-stepper-item item-title="Forms">Content two</calcite-stepper-item>
-  <calcite-stepper-item item-title="Tables" active>Content three</calcite-stepper-item>
-  <calcite-stepper-item item-title="Graphs">Content four</calcite-stepper-item>
+  <calcite-stepper-item item-title="الخطوةالاولى" complete>
+    <calcite-notice active width="full">
+      <div slot="message">الخطوة الأولى للمحتوى هنا</div>
+    </calcite-notice>
+  </calcite-stepper-item>
+  <calcite-stepper-item item-title="الخطوة الثانية" complete>
+    <calcite-notice active width="full">
+      <div slot="message">الخطوة الثانية للمحتوى هنا</div>
+    </calcite-notice>
+  </calcite-stepper-item>
+  <calcite-stepper-item item-title="الخطوة الثالثة" item-subtitle="بعض النصوص الفرعية" active>
+    <calcite-notice active width="full">
+      <div slot="message">الخطوة الثالثة المحتوى يذهب هنا</div>
+    </calcite-notice>
+  </calcite-stepper-item>
+  <calcite-stepper-item item-title="الخطوة الرابعة">
+    <calcite-notice active width="full">
+      <div slot="message">الخطوة الرابعة المحتوى يذهب هنا</div>
+    </calcite-notice>
+  </calcite-stepper-item>
 </calcite-stepper>`;
