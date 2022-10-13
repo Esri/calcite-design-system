@@ -242,12 +242,12 @@ export class InputTimePicker
   @Watch("effectiveLocale")
   effectiveLocaleWatcher(): void {
     this.setInputValue(
-      localizeTimeString(
-        this.value,
-        this.effectiveLocale,
-        this.numberingSystem,
-        this.shouldIncludeSeconds()
-      )
+      localizeTimeString({
+        value: this.value,
+        locale: this.effectiveLocale,
+        numberingSystem: this.numberingSystem,
+        includeSeconds: this.shouldIncludeSeconds()
+      })
     );
   }
 
@@ -283,15 +283,15 @@ export class InputTimePicker
 
     const delocalizedValue = numberStringFormatter.delocalize(calciteInputEl.value);
 
-    const localizedInputValue = localizeTimeString(
-      delocalizedValue,
+    const localizedInputValue = localizeTimeString({
+      value: delocalizedValue,
+      includeSeconds: shouldIncludeSeconds,
       locale,
-      numberingSystem,
-      shouldIncludeSeconds
-    );
+      numberingSystem
+    });
     this.setInputValue(
       localizedInputValue ||
-        localizeTimeString(value, locale, numberingSystem, shouldIncludeSeconds)
+        localizeTimeString({ value, locale, numberingSystem, includeSeconds: shouldIncludeSeconds })
     );
   };
 
@@ -437,12 +437,12 @@ export class InputTimePicker
   }): void => {
     const previousValue = this.value;
     const newValue = formatTimeString(value);
-    const newLocalizedValue = localizeTimeString(
-      newValue,
-      this.effectiveLocale,
-      this.numberingSystem,
-      this.shouldIncludeSeconds()
-    );
+    const newLocalizedValue = localizeTimeString({
+      value: newValue,
+      locale: this.effectiveLocale,
+      numberingSystem: this.numberingSystem,
+      includeSeconds: this.shouldIncludeSeconds()
+    });
     this.internalValueChange = origin !== "external" && origin !== "loading";
 
     const shouldEmit =
@@ -542,7 +542,7 @@ export class InputTimePicker
             disabled={this.disabled}
             icon="clock"
             label={getLabelText(this)}
-            locale={this.locale}
+            lang={this.effectiveLocale}
             numberingSystem={this.numberingSystem}
             onCalciteInputInput={this.calciteInputInputHandler}
             onCalciteInternalInputBlur={this.calciteInternalInputBlurHandler}
@@ -576,6 +576,7 @@ export class InputTimePicker
             intlSecond={this.intlSecond}
             intlSecondDown={this.intlSecondDown}
             intlSecondUp={this.intlSecondUp}
+            lang={this.effectiveLocale}
             numberingSystem={this.numberingSystem}
             onCalciteInternalTimePickerChange={this.timePickerChangeHandler}
             ref={this.setCalciteTimePickerEl}
