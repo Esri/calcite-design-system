@@ -6,10 +6,10 @@ jobs:
   update-component-doc:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with:
-          node-version: lts/*
+          node-version-file: package.json
           cache: npm
       - name: generate doc
         run: |
@@ -17,7 +17,7 @@ jobs:
           npx stencil build --docs
           npm run lint:md
       - name: commit readme files/create pull request
-        uses: peter-evans/create-pull-request@v3
+        uses: peter-evans/create-pull-request@v4
         with:
           base: master
           branch: doc-update

@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Get release version
-        uses: actions/github-script@v4
+        uses: actions/github-script@v6
         with:
           script: |
             const release = context.payload.release

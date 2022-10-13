@@ -6,7 +6,7 @@ jobs:
   assign:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/github-script@v4
+      - uses: actions/github-script@v6
         env:
           ISSUE_BODY: ${{ github.event.issue.body }}
         with:
@@ -26,7 +26,7 @@ jobs:
             const product = productRegexMatch[0].trim();
 
             if (product && product !== "N/A") {
-              await github.issues.addLabels({
+              await github.rest.issues.addLabels({
                 issue_number: context.issue.number,
                 owner: context.repo.owner,
                 repo: context.repo.repo,
