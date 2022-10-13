@@ -208,11 +208,11 @@ export class StepperItem implements InteractiveComponent, LocalizedComponent {
   }
 
   render(): VNode {
-    numberStringFormatter.setOptions({
+    numberStringFormatter.numberFormatOptions = {
       locale: this.effectiveLocale,
       numberingSystem: this.parentStepperEl?.numberingSystem,
       useGrouping: false
-    });
+    };
 
     return (
       <Host
