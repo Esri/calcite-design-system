@@ -465,7 +465,6 @@ export class InputDatePicker
   }
 
   componentDidLoad(): void {
-    this.reposition();
     this.localizeInputValues();
     this.debouncedReposition();
   }
