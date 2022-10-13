@@ -524,6 +524,7 @@ export class InputDatePicker
                   activeRange={this.focusedInput}
                   endAsDate={this.endAsDate}
                   headingLevel={this.headingLevel}
+                  //t9n props are used here to forward the messages only.
                   intlNextMonth={this.intlNextMonth}
                   intlPrevMonth={this.intlPrevMonth}
                   intlYear={this.intlYear}

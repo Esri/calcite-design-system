@@ -502,7 +502,7 @@ export class DatePicker implements LocalizedComponent, T9nComponent {
         <calcite-date-picker-month-header
           activeDate={activeDate}
           headingLevel={this.headingLevel || HEADING_LEVEL}
-          //forwarding t9n props to non localized/t9n component as it resides in shadowDOM.
+          //t9n props are used here to forward the messages only.
           intlNextMonth={this.messages.nextMonth}
           intlPrevMonth={this.messages.prevMonth}
           intlYear={this.messages.year}
