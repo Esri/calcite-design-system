@@ -290,7 +290,7 @@ export class Block implements ConditionalSlotComponent, InteractiveComponent {
         <article
           aria-busy={toAriaBoolean(loading)}
           class={{
-            [CSS.article]: true
+            [CSS.container]: true
           }}
         >
           {headerNode}
