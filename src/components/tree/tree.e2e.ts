@@ -924,7 +924,8 @@ describe("calcite-tree", () => {
         </calcite-tree>
       </template>`;
 
-      const page = await newE2EPage({ html: `${templateHTML} <test-tree-element></test-tree-element>` });
+      const page = await newE2EPage();
+      await page.setContent(html`${templateHTML} <test-tree-element></test-tree-element>`);
       await page.waitForChanges();
 
       await page.evaluate(async (): Promise<string> => {
