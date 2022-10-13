@@ -542,8 +542,6 @@ export class InputTimePicker
             disabled={this.disabled}
             icon="clock"
             label={getLabelText(this)}
-            lang={this.effectiveLocale}
-            numberingSystem={this.numberingSystem}
             onCalciteInputInput={this.calciteInputInputHandler}
             onCalciteInternalInputBlur={this.calciteInternalInputBlurHandler}
             onCalciteInternalInputFocus={this.calciteInternalInputFocusHandler}
