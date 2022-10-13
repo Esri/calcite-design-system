@@ -1433,11 +1433,11 @@ export class Slider
    */
   private determineGroupSeparator = (value: number): string => {
     if (typeof value === "number") {
-      numberStringFormatter.setOptions({
+      numberStringFormatter.numberFormatOptions = {
         locale: this.effectiveLocale,
         numberingSystem: this.numberingSystem,
         useGrouping: this.groupSeparator
-      });
+      };
 
       return numberStringFormatter.localize(value.toString());
     }
