@@ -163,13 +163,10 @@
   @apply transition-default
     pointer-events-none
     absolute
-    block;
-}
+    block
 
-.icon,
-.resize-icon-wrapper {
-  // needed for firefox to display the icon properly
-  @apply z-default;
+    // needed for firefox to display the icon properly
+    z-default;
 }
 
 .clear-button {
