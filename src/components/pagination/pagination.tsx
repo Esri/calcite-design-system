@@ -187,11 +187,11 @@ export class Pagination implements LocalizedComponent {
    * @param value
    */
   private determineGroupSeparator = (value: number): string => {
-    numberStringFormatter.setOptions({
+    numberStringFormatter.numberFormatOptions = {
       locale: this.effectiveLocale,
       numberingSystem: this.numberingSystem,
       useGrouping: this.groupSeparator
-    });
+    };
 
     return this.groupSeparator
       ? numberStringFormatter.localize(value.toString())
