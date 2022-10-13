@@ -40,7 +40,7 @@ This pattern enables components to support built-in translations. In order to su
 5. Add an appropriate E2E test by using the `t9n` common test helper.
 6. Compound components ( Ex: input-date-picker) which are neither localized nor t9n need to forward `intl` props into supporting components.
    1. mark `intl` props as optional and add `messageOverrides` prop.
-   1. Parse the `messageOverrides` along with `intl` props into supporting components in render method.
+   2. Parse the `messageOverrides` along with `intl` props into supporting components in render method.
 7. Internal components which support public components requires `t9n` properties only to forward the messages.
 
 #### Notes
