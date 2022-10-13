@@ -199,18 +199,18 @@ export function parseNumber(str: string, localeData: DateLocaleData): number {
  * month starts at 0 (can pass to date constructor)
  * can return values as number or string
  *
- * @param str
+ * @param string
  * @param localeData
  * @param returnType
  */
 export function parseDateString(
-  str: string,
+  string: string,
   localeData: DateLocaleData,
   returnType: "number" | "string" = "number"
 ): { day: number | string; month: number | string; year: number | string } {
   const { separator, unitOrder } = localeData;
   const order = getOrder(unitOrder);
-  const values = replaceArabicNumerals(str).split(separator);
+  const values = replaceArabicNumerals(string).split(separator);
   const day = values[order.indexOf("d")];
   const month = values[order.indexOf("m")];
   const year = values[order.indexOf("y")];
