@@ -144,7 +144,6 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
   componentWillRender(): void {
     this.hasChildren = !!this.el.querySelector("calcite-tree");
     this.depth = 0;
-
     let parentTree = this.el.closest("calcite-tree");
 
     if (!parentTree) {
@@ -157,7 +156,7 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
 
     let nextParentTree;
     while (parentTree) {
-      nextParentTree = parentTree.parentElement.closest("calcite-tree");
+      nextParentTree = parentTree.parentElement?.closest("calcite-tree");
       if (nextParentTree === parentTree) {
         break;
       } else {
