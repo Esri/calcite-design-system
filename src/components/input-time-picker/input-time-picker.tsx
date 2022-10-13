@@ -275,11 +275,11 @@ export class InputTimePicker
     const shouldIncludeSeconds = this.shouldIncludeSeconds();
     const { effectiveLocale: locale, numberingSystem, value, calciteInputEl } = this;
 
-    numberStringFormatter.setOptions({
+    numberStringFormatter.numberFormatOptions = {
       locale,
       numberingSystem,
       useGrouping: false
-    });
+    };
 
     const delocalizedValue = numberStringFormatter.delocalize(calciteInputEl.value);
 
@@ -305,11 +305,11 @@ export class InputTimePicker
   private calciteInputInputHandler = (event: CustomEvent): void => {
     const target = event.target as HTMLCalciteTimePickerElement;
 
-    numberStringFormatter.setOptions({
+    numberStringFormatter.numberFormatOptions = {
       locale: this.effectiveLocale,
       numberingSystem: this.numberingSystem,
       useGrouping: false
-    });
+    };
 
     const delocalizedValue = numberStringFormatter.delocalize(target.value);
     this.setValue({ value: delocalizedValue });
