@@ -216,8 +216,13 @@
   @apply transition-default
     pointer-events-none
     absolute
-    block
-    z-default;
+    block;
+}
+
+.icon,
+.resize-icon-wrapper {
+  // needed for firefox to display the icon properly
+  @apply z-default;
 }
 
 // hide browser default clear
