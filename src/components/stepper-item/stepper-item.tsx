@@ -136,6 +136,15 @@ export class StepperItem implements InteractiveComponent, LocalizedComponent {
 
   @State() effectiveLocale = "";
 
+  @Watch("effectiveLocale")
+  effectiveLocaleWatcher(locale: string): void {
+    numberStringFormatter.numberFormatOptions = {
+      locale,
+      numberingSystem: this.parentStepperEl?.numberingSystem,
+      useGrouping: false
+    };
+  }
+
   headerEl: HTMLDivElement;
 
   //--------------------------------------------------------------------------
@@ -208,12 +217,6 @@ export class StepperItem implements InteractiveComponent, LocalizedComponent {
   }
 
   render(): VNode {
-    numberStringFormatter.numberFormatOptions = {
-      locale: this.effectiveLocale,
-      numberingSystem: this.parentStepperEl?.numberingSystem,
-      useGrouping: false
-    };
-
     return (
       <Host
         aria-expanded={toAriaBoolean(this.active)}
