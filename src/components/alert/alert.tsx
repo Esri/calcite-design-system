@@ -13,7 +13,7 @@ import {
   Watch
 } from "@stencil/core";
 import { getSlotted, setRequestedIcon, toAriaBoolean } from "../../utils/dom";
-import { DURATIONS, SLOTS, TEXT } from "./resources";
+import { DURATIONS, SLOTS } from "./resources";
 import { Scale } from "../interfaces";
 import { AlertDuration, AlertPlacement, StatusColor, StatusIcons, Sync } from "./interfaces";
 import {
