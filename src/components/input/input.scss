@@ -216,7 +216,8 @@
   @apply transition-default
     pointer-events-none
     absolute
-    block;
+    block
+    z-default;
 }
 
 // hide browser default clear
