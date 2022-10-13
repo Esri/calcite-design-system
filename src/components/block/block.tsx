@@ -298,8 +298,8 @@ export class Block implements ConditionalSlotComponent, InteractiveComponent {
             aria-expanded={toAriaBoolean(open)}
             aria-labelledby={buttonId}
             class={{
-              content: true,
-              "content--spaced": !this.disablePadding
+              [CSS.content]: true,
+              [CSS.contentSpaced]: !this.disablePadding
             }}
             hidden={!open}
             id={regionId}
