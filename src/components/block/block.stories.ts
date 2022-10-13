@@ -203,7 +203,7 @@ export const darkThemeRTL_TestOnly = (): string =>
     `
   );
 
-export const canSetFullHeight_TestOnly = (): string =>
+export const contentCanTakeFullHeight_TestOnly = (): string =>
   html`<calcite-block open heading="Heading" summary="summary" style="height: 250px">
     <div style="background: red; height: 100%;">should take full width of the content area</div>
   </calcite-block>`;
