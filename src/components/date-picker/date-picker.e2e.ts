@@ -110,7 +110,7 @@ describe("calcite-date-picker", () => {
 
   it("doesn't fire calciteDatePickerChange when the selected day is selected", async () => {
     const page = await newE2EPage();
-    await page.setContent("<calcite-date-picker value='2000-11-27' active></calcite-date-picker>");
+    await page.setContent("<calcite-date-picker value='2000-11-27' open></calcite-date-picker>");
     const changedEvent = await page.spyOnEvent("calciteDatePickerChange");
 
     await page.waitForTimeout(animationDurationInMs);
