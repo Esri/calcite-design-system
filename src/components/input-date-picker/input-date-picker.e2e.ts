@@ -38,7 +38,7 @@ describe("calcite-input-date-picker", () => {
   describe("event emitting when the value changes", () => {
     it("emits change event when value is committed for single date", async () => {
       const page = await newE2EPage();
-      page.setContent("<calcite-input-date-picker></calcite-input-date-picker>");
+      await page.setContent("<calcite-input-date-picker></calcite-input-date-picker>");
 
       const input = await page.find("calcite-input-date-picker");
       const changeEvent = await page.spyOnEvent("calciteInputDatePickerChange");
@@ -188,7 +188,7 @@ describe("calcite-input-date-picker", () => {
 
     it("doesn't emit change event and doesn't clear input when an invalid date is entered in input (allows free form typing)", async () => {
       const page = await newE2EPage();
-      page.setContent("<calcite-input-date-picker></calcite-input-date-picker>");
+      await page.setContent("<calcite-input-date-picker></calcite-input-date-picker>");
       const inputDatePicker = await page.find("calcite-input-date-picker");
       const changeEvent = await page.spyOnEvent("calciteInputDatePickerChange");
       const deprecatedChangeEvent = await page.spyOnEvent("calciteDatePickerRangeChange");
