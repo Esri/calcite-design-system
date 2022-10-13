@@ -37,7 +37,9 @@ describe("calcite-input-date-picker", () => {
 
   describe("event emitting when the value changes", () => {
     it("emits change event when value is committed for single date", async () => {
-      const page = await newE2EPage({ html: html`<calcite-input-date-picker></calcite-input-date-picker>` });
+      const page = await newE2EPage();
+      page.setContent("<calcite-input-date-picker></calcite-input-date-picker>");
+
       const input = await page.find("calcite-input-date-picker");
       const changeEvent = await page.spyOnEvent("calciteInputDatePickerChange");
       const deprecatedChangeEvent = await page.spyOnEvent("calciteDatePickerChange");
