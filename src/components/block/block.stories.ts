@@ -3,9 +3,9 @@ import {
   Attribute,
   filterComponentAttributes,
   Attributes,
-  createComponentHTML as create,
-  placeholderImage
+  createComponentHTML as create
 } from "../../../.storybook/utils";
+import { placeholderImage } from "../../../.storybook/placeholderImage";
 import blockReadme from "./readme.md";
 import sectionReadme from "../block-section/readme.md";
 import { html } from "../../../support/formatting";
@@ -202,3 +202,8 @@ export const darkThemeRTL_TestOnly = (): string =>
       </calcite-block-section>
     `
   );
+
+export const contentCanTakeFullHeight_TestOnly = (): string =>
+  html`<calcite-block open heading="Heading" summary="summary" style="height: 250px">
+    <div style="background: red; height: 100%;">should take full width of the content area</div>
+  </calcite-block>`;

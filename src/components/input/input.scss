@@ -219,6 +219,11 @@
     block;
 }
 
+.icon,
+.resize-icon-wrapper {
+  @apply z-default; // needed for firefox to display the icon properly
+}
+
 // hide browser default clear
 
 input[type="text"]::-ms-clear,
