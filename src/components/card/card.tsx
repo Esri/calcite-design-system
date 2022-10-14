@@ -108,6 +108,8 @@ export class Card implements ConditionalSlotComponent, LocalizedComponent, T9nCo
   @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
 
   @Watch("intlLoading")
+  @Watch("intlDeselect")
+  @Watch("intlSelect")
   @Watch("defaultMessages")
   @Watch("messageOverrides")
   onMessagesChange(): void {
