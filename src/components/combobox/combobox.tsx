@@ -31,7 +31,7 @@ import {
 import { guid } from "../../utils/guid";
 import { DeprecatedEventPayload, Scale } from "../interfaces";
 import { ComboboxSelectionMode, ComboboxChildElement } from "./interfaces";
-import { ComboboxChildSelector, ComboboxItem, ComboboxItemGroup, TEXT } from "./resources";
+import { ComboboxChildSelector, ComboboxItem, ComboboxItemGroup } from "./resources";
 import { getItemAncestors, getItemChildren, hasActiveChildren } from "./utils";
 import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
 import {
@@ -227,7 +227,7 @@ export class Combobox
    * @default "Remove tag"
    * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`.
    */
-  @Prop({ reflect: false }) intlRemoveTag: string = TEXT.removeTag;
+  @Prop({ reflect: false }) intlRemoveTag: string;
 
   /**
    * Defines the available placements that can be used when a flip occurs.
