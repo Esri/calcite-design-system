@@ -19,14 +19,6 @@ describe("calcite-block", () => {
         defaultValue: undefined
       },
       {
-        propertyName: "intlLoading",
-        defaultValue: TEXT.loading
-      },
-      {
-        propertyName: "intlOptions",
-        defaultValue: TEXT.options
-      },
-      {
         propertyName: "open",
         defaultValue: false
       }
