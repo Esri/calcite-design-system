@@ -595,11 +595,11 @@ export class Input
       return;
     }
     const value = (nativeEvent.target as HTMLInputElement).value;
-    numberStringFormatter.setOptions({
+    numberStringFormatter.numberFormatOptions = {
       locale: this.effectiveLocale,
       numberingSystem: this.numberingSystem,
       useGrouping: this.groupSeparator
-    });
+    };
     const delocalizedValue = numberStringFormatter.delocalize(value);
     if (nativeEvent.inputType === "insertFromPaste") {
       if (!isValidNumber(delocalizedValue)) {
@@ -654,11 +654,11 @@ export class Input
       }
       return;
     }
-    numberStringFormatter.setOptions({
+    numberStringFormatter.numberFormatOptions = {
       locale: this.effectiveLocale,
       numberingSystem: this.numberingSystem,
       useGrouping: this.groupSeparator
-    });
+    };
     if (event.key === numberStringFormatter.decimal) {
       if (!this.value && !this.childNumberEl.value) {
         return;
@@ -833,11 +833,11 @@ export class Input
     previousValue?: string;
     value: string;
   }): void => {
-    numberStringFormatter.setOptions({
+    numberStringFormatter.numberFormatOptions = {
       locale: this.effectiveLocale,
       numberingSystem: this.numberingSystem,
       useGrouping: this.groupSeparator
-    });
+    };
 
     if (this.type === "number") {
       const delocalizedValue =
