@@ -366,7 +366,7 @@ export class InputDatePicker
   /**
    * Fires when the component's value changes.
    */
-  @Event({ cancelable: false }) calciteInputDatePickerChange: EventEmitter<DateRangeChange | void>;
+  @Event({ cancelable: false }) calciteInputDatePickerChange: EventEmitter<void>;
 
   /** Fires when the component is requested to be closed and before the closing transition begins. */
   @Event({ cancelable: false }) calciteInputDatePickerBeforeClose: EventEmitter<void>;
@@ -918,7 +918,7 @@ export class InputDatePicker
       endDate: newEndDate ? (setEndOfDay(newEndDate) as Date) : null
     };
 
-    const changeEvent = this.calciteInputDatePickerChange.emit(eventDetail);
+    const changeEvent = this.calciteInputDatePickerChange.emit();
     const rangeChangeEvent = this.calciteDatePickerRangeChange.emit(eventDetail);
 
     if (

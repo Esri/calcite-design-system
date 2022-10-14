@@ -135,33 +135,39 @@ describe("calcite-input-date-picker", () => {
       ).asElement();
       expect(await wrapper.isIntersectingViewport()).toBe(true);
 
-      const startDate = "1/1/2020";
-      const startDateISO = dateFromISO("2020-1-1").toISOString();
-      const endDate = "2/2/2020";
-      const endDateISO = setEndOfDay(dateFromISO("2020-2-2")).toISOString();
+      const inputtedStartDate = "1/1/2020";
+      const expectedStartDateComponentValue = "2020-01-01";
+      const expectedStartDateISO = dateFromISO(expectedStartDateComponentValue).toISOString();
 
-      await page.keyboard.type(startDate);
+      const inputtedEndDate = "2/2/2020";
+      const expectedEndDateComponentValue = "2020-02-02";
+      const expectedEndDateISO = setEndOfDay(dateFromISO(expectedEndDateComponentValue)).toISOString();
+
+      await page.keyboard.type(inputtedStartDate);
       await page.keyboard.press("Enter");
       await page.waitForChanges();
 
-      let expectedEventDetail = { startDate: startDateISO, endDate: null };
+      let expectedEventDetail = { startDate: expectedStartDateISO, endDate: null };
 
+      expect(await input.getProperty("value")).toEqual([expectedStartDateComponentValue, ""]);
       expect(changeEvent).toHaveReceivedEventTimes(1);
-      expect(changeEvent).toHaveReceivedEventDetail(expectedEventDetail);
       expect(deprecatedChangeEvent).toHaveReceivedEventTimes(1);
       expect(deprecatedChangeEvent).toHaveReceivedEventDetail(expectedEventDetail);
 
-      await page.keyboard.type(endDate);
+      await page.keyboard.type(inputtedEndDate);
       await page.keyboard.press("Enter");
       await page.waitForChanges();
 
       expectedEventDetail = {
-        startDate: startDateISO,
-        endDate: endDateISO
+        startDate: expectedStartDateISO,
+        endDate: expectedEndDateISO
       };
 
+      expect(await input.getProperty("value")).toEqual([
+        expectedStartDateComponentValue,
+        expectedEndDateComponentValue
+      ]);
       expect(changeEvent).toHaveReceivedEventTimes(2);
-      expect(changeEvent).toHaveReceivedEventDetail(expectedEventDetail);
       expect(deprecatedChangeEvent).toHaveReceivedEventTimes(2);
       expect(deprecatedChangeEvent).toHaveReceivedEventDetail(expectedEventDetail);
 
@@ -178,10 +184,11 @@ describe("calcite-input-date-picker", () => {
       await page.keyboard.press("Enter");
       await page.waitForChanges();
 
-      expectedEventDetail = { startDate: startDateISO, endDate: null };
+      expectedEventDetail = { startDate: expectedStartDateISO, endDate: null };
 
+      console.log();
+      expect(await input.getProperty("value")).toEqual([expectedStartDateComponentValue, ""]);
       expect(changeEvent).toHaveReceivedEventTimes(3);
-      expect(changeEvent).toHaveReceivedEventDetail(expectedEventDetail);
       expect(deprecatedChangeEvent).toHaveReceivedEventTimes(3);
       expect(deprecatedChangeEvent).toHaveReceivedEventDetail(expectedEventDetail);
     });
