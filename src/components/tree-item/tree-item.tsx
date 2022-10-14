@@ -28,6 +28,7 @@ import {
   connectConditionalSlotComponent,
   disconnectConditionalSlotComponent
 } from "../../utils/conditionalSlot";
+import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 
 /**
  * @slot - A slot for adding the component's content.
@@ -38,7 +39,7 @@ import {
   styleUrl: "tree-item.scss",
   shadow: true
 })
-export class TreeItem implements ConditionalSlotComponent {
+export class TreeItem implements ConditionalSlotComponent, InteractiveComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -52,6 +53,11 @@ export class TreeItem implements ConditionalSlotComponent {
   //  Properties
   //
   //--------------------------------------------------------------------------
+
+  /**
+   * When true, interaction is prevented and the component is displayed with lower opacity.
+   */
+  @Prop({ reflect: true }) disabled = false;
 
   /** When true, the component is selected. */
   @Prop({ mutable: true, reflect: true }) selected = false;
@@ -165,6 +171,10 @@ export class TreeItem implements ConditionalSlotComponent {
     this.updateAncestorTree();
   }
 
+  componentDidRender(): void {
+    updateHostInteraction(this, () => this.parentExpanded || this.depth === 1);
+  }
+
   //--------------------------------------------------------------------------
   //
   //  Private State/Props
@@ -237,7 +247,6 @@ export class TreeItem implements ConditionalSlotComponent {
         aria-selected={this.selected ? "true" : showCheckmark ? "false" : undefined}
         calcite-hydrated-hidden={hidden}
         role="treeitem"
-        tabindex={this.parentExpanded || this.depth === 1 ? "0" : "-1"}
       >
         <div
           class={{

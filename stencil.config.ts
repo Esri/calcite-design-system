@@ -2,7 +2,7 @@ import { Config } from "@stencil/core";
 import { postcss } from "@stencil/postcss";
 import { sass } from "@stencil/sass";
 import autoprefixer from "autoprefixer";
-import tailwindcss from "tailwindcss";
+import tailwindcss, { Config as TailwindConfig } from "tailwindcss";
 import tailwindConfig from "./tailwind.config";
 import { generatePreactTypes } from "./support/preact";
 import stylelint from "stylelint";
@@ -102,7 +102,7 @@ export const create: () => Config = () => ({
     }),
     postcss({
       plugins: [
-        tailwindcss(tailwindConfig),
+        tailwindcss(tailwindConfig as any as TailwindConfig),
         autoprefixer(),
         stylelint({
           configFile: ".stylelintrc-postcss.json",

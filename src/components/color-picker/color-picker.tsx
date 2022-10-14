@@ -39,6 +39,8 @@ import {
   updateMessages
 } from "../../utils/t9n";
 import { connectLocalized, disconnectLocalized } from "../../utils/locale";
+import { NumberingSystem } from "../../utils/locale";
+
 const throttleFor60FpsInMs = 16;
 const defaultValue = normalizeHex(DEFAULT_COLOR.hex());
 const defaultFormat = "auto";
@@ -298,12 +300,8 @@ export class ColorPicker implements InteractiveComponent, T9nComponent {
     /* wired up by t9n util */
   }
 
-  /**
-   * Specifies the Unicode numeral system used by the component for localization.
-   *
-   * @mdn [numberingSystem](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/Locale/numberingSystem)
-   */
-  @Prop({ reflect: true }) numberingSystem?: string;
+  /** Specifies the Unicode numeral system used by the component for localization. */
+  @Prop({ reflect: true }) numberingSystem?: NumberingSystem;
 
   /**
    * The component's value.

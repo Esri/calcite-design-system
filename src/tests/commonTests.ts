@@ -370,7 +370,7 @@ export async function labelable(componentTagOrHtml: TagOrHTML, options?: Labelab
     return html.includes("id=") ? html : html.replace(componentTag, `${componentTag} id="${id}" `);
   }
 
-  const wrappedHtml = html` <calcite-label> ${labelTitle} ${componentHtml}</calcite-label>`;
+  const wrappedHtml = html`<calcite-label> ${labelTitle} ${componentHtml}</calcite-label>`;
   const wrappedPage: E2EPage = await newE2EPage({ html: wrappedHtml });
   await wrappedPage.waitForChanges();
 
@@ -508,7 +508,7 @@ export async function formAssociated(componentTagOrHtml: TagOrHTML, options: For
   }
 
   const page = await newE2EPage({
-    html: html` <form>
+    html: html`<form>
       ${componentHtml}
       <!--
           keeping things simple by using submit-type input
