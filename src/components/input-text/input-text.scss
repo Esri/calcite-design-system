@@ -160,7 +160,9 @@ input:focus {
   @apply transition-default
     pointer-events-none
     absolute
-    block;
+    block
+
+    z-default; // needed for firefox to display the icon properly
 }
 
 // hide browser default clear
