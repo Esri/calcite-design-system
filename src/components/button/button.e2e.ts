@@ -44,10 +44,6 @@ describe("calcite-button", () => {
         defaultValue: undefined
       },
       {
-        propertyName: "intlLoading",
-        defaultValue: "Loading"
-      },
-      {
         propertyName: "loading",
         defaultValue: false
       },
@@ -602,5 +598,5 @@ describe("calcite-button", () => {
     it("resets", async () => assertOnFormButtonType("reset"));
   });
 
-  it("support's translation", () => t9n("<calcite-button></calcite-button>"));
+  it("supports translation", () => t9n("calcite-button"));
 });
