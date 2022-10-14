@@ -42,7 +42,7 @@ export class Switch implements LabelableComponent, CheckableFormComponent, Inter
   //
   //--------------------------------------------------------------------------
 
-  /** When true, interaction is prevented and the component is displayed with lower opacity. */
+  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @Prop({ reflect: true }) disabled = false;
 
   /** Accessible name for the component. */
@@ -55,7 +55,7 @@ export class Switch implements LabelableComponent, CheckableFormComponent, Inter
   @Prop({ reflect: true }) scale: Scale = "m";
 
   /**
-   * When true, the component is checked.
+   * When `true`, the component is checked.
    *
    * @deprecated use `checked` instead.
    */
@@ -66,7 +66,7 @@ export class Switch implements LabelableComponent, CheckableFormComponent, Inter
     this.checked = switched;
   }
 
-  /** When true, the component is checked. */
+  /** When `true`, the component is checked. */
   @Prop({ reflect: true, mutable: true }) checked = false;
 
   /** The component's value. */
@@ -142,9 +142,9 @@ export class Switch implements LabelableComponent, CheckableFormComponent, Inter
   //--------------------------------------------------------------------------
 
   /**
-   * Fires when the checked value has changed.
+   * Fires when the `checked` value has changed.
    *
-   * **Note:** The event payload is deprecated, use the component's "checked" property instead.
+   * **Note:** The event payload is deprecated, use the component's `checked` property instead.
    */
   @Event({ cancelable: false }) calciteSwitchChange: EventEmitter<DeprecatedEventPayload>;
 

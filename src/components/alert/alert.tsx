@@ -60,13 +60,13 @@ export class Alert implements OpenCloseComponent, GlobalAttrComponent {
   //---------------------------------------------------------------------------
 
   /**
-   * When true, opens the combobox
+   * When `true`, displays and positions the component.
    *
-   * @deprecated use open instead
+   * @deprecated use `open` instead.
    */
   @Prop({ reflect: true, mutable: true }) active = false;
 
-  /** When true, opens the dropdown */
+  /** When `true`, displays and positions the component. */
   @Prop({ reflect: true, mutable: true }) open = false;
 
   @Watch("active")
@@ -87,7 +87,7 @@ export class Alert implements OpenCloseComponent, GlobalAttrComponent {
     }
   }
 
-  /** When true, the component closes automatically (recommended for passive, non-blocking alerts). */
+  /** When `true`, the component closes automatically (recommended for passive, non-blocking alerts). */
   @Prop({ reflect: true }) autoDismiss = false;
 
   /** Specifies the duration before the component automatically closes (only use with `autoDismiss`). */
@@ -97,7 +97,7 @@ export class Alert implements OpenCloseComponent, GlobalAttrComponent {
   @Prop({ reflect: true }) color: StatusColor = "blue";
 
   /**
-   * When true, shows a default recommended icon. Alternatively,
+   * When `true`, shows a default recommended icon. Alternatively,
    * pass a Calcite UI Icon name to display a specific icon.
    */
   @Prop({ reflect: true }) icon: string | boolean;

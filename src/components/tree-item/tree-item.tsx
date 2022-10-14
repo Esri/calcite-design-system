@@ -53,10 +53,10 @@ export class TreeItem implements ConditionalSlotComponent {
   //
   //--------------------------------------------------------------------------
 
-  /** When true, the component is selected. */
+  /** When `true`, the component is selected. */
   @Prop({ mutable: true, reflect: true }) selected = false;
 
-  /** When true, the component is expanded. */
+  /** When `true`, the component is expanded. */
   @Prop({ mutable: true, reflect: true }) expanded = false;
 
   @Watch("expanded")

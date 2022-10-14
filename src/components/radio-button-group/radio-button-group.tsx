@@ -36,7 +36,7 @@ export class RadioButtonGroup {
   //
   //--------------------------------------------------------------------------
 
-  /** When true, interaction is prevented and the component is displayed with lower opacity. */
+  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @Prop({ reflect: true }) disabled = false;
 
   @Watch("disabled")
@@ -44,7 +44,7 @@ export class RadioButtonGroup {
     this.passPropsToRadioButtons();
   }
 
-  /** When true, the component is not displayed and its `calcite-radio-button`s are not focusable or checkable. */
+  /** When `true`, the component is not displayed and its `calcite-radio-button`s are not focusable or checkable. */
   @Prop({ reflect: true }) hidden = false;
 
   @Watch("hidden")
@@ -63,7 +63,7 @@ export class RadioButtonGroup {
   /** Specifies the name of the component on form submission. Must be unique to other component instances. */
   @Prop({ reflect: true }) name!: string;
 
-  /** When true, the component must have a value in order for the form to submit. */
+  /** When `true`, the component must have a value in order for the form to submit. */
   @Prop({ reflect: true }) required = false;
 
   /** Specifies the size of the component. */

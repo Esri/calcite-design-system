@@ -47,7 +47,7 @@ export class RadioButton
   //
   //--------------------------------------------------------------------------
 
-  /** When true, the component is checked. */
+  /** When `true`, the component is checked. */
   @Prop({ mutable: true, reflect: true }) checked = false;
 
   @Watch("checked")
@@ -59,7 +59,7 @@ export class RadioButton
     this.calciteInternalRadioButtonCheckedChange.emit();
   }
 
-  /** When true, interaction is prevented and the component is displayed with lower opacity. */
+  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @Prop({ reflect: true }) disabled = false;
 
   /**
@@ -69,10 +69,10 @@ export class RadioButton
    */
   @Prop({ mutable: true, reflect: true }) focused = false;
 
-  /** The id attribute of the component. When omitted, a globally unique identifier is used. */
+  /** The `id` of the component. When omitted, a globally unique identifier is used. */
   @Prop({ reflect: true, mutable: true }) guid: string;
 
-  /** When true, the component is not displayed and is not focusable or checkable. */
+  /** When `true`, the component is not displayed and is not focusable or checkable. */
   @Prop({ reflect: true }) hidden = false;
 
   /**
@@ -97,7 +97,7 @@ export class RadioButton
     this.checkLastRadioButton();
   }
 
-  /** When true, the component must have a value selected from the `calcite-radio-button-group` in order for the form to submit. */
+  /** When `true`, the component must have a value selected from the `calcite-radio-button-group` in order for the form to submit. */
   @Prop({ reflect: true }) required = false;
 
   /** Specifies the size of the component inherited from the `calcite-radio-button-group`. */
@@ -266,7 +266,7 @@ export class RadioButton
    * Fires only when the radio button is checked.  This behavior is identical to the native HTML input element.
    * Since this event does not fire when the radio button is unchecked, it's not recommended to attach a listener for this event
    * directly on the element, but instead either attach it to a node that contains all of the radio buttons in the group
-   * or use the calciteRadioButtonGroupChange event if using this with calcite-radio-button-group.
+   * or use the `calciteRadioButtonGroupChange` event if using this with `calcite-radio-button-group`.
    */
   @Event({ cancelable: false }) calciteRadioButtonChange: EventEmitter<void>;
 
