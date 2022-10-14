@@ -192,12 +192,12 @@ export const HistogramWithColors = (): HTMLCalciteSliderElement => {
   slider.histogram = array(
     "histogram",
     [
-      [-90, 0],
-      [-60, 12],
-      [-20, 25],
-      [20, 55],
-      [60, 10],
-      [90, 0]
+      [0, 0],
+      [20, 12],
+      [40, 25],
+      [60, 55],
+      [80, 10],
+      [100, 0]
     ] as any,
     "  "
   ) as any;
