@@ -6,10 +6,11 @@
 
 ## Properties
 
-| Property   | Attribute  | Description                           | Type      | Default |
-| ---------- | ---------- | ------------------------------------- | --------- | ------- |
-| `expanded` | `expanded` | When true, the component is expanded. | `boolean` | `false` |
-| `selected` | `selected` | When true, the component is selected. | `boolean` | `false` |
+| Property   | Attribute  | Description                                                                            | Type      | Default |
+| ---------- | ---------- | -------------------------------------------------------------------------------------- | --------- | ------- |
+| `disabled` | `disabled` | When true, interaction is prevented and the component is displayed with lower opacity. | `boolean` | `false` |
+| `expanded` | `expanded` | When true, the component is expanded.                                                  | `boolean` | `false` |
+| `selected` | `selected` | When true, the component is selected.                                                  | `boolean` | `false` |
 
 ## Slots
 

@@ -81,7 +81,7 @@ Renders all radio button inputs disabled, first one checked
 | `hidden`            | `hidden`   | When true, the component is not displayed and its `calcite-radio-button`s are not focusable or checkable. | `boolean`                              | `false`        |
 | `layout`            | `layout`   | Defines the layout of the component.                                                                      | `"grid" \| "horizontal" \| "vertical"` | `"horizontal"` |
 | `name` _(required)_ | `name`     | Specifies the name of the component on form submission. Must be unique to other component instances.      | `string`                               | `undefined`    |
-| `required`          | `required` | When true, the component must have a value on form submission.                                            | `boolean`                              | `false`        |
+| `required`          | `required` | When true, the component must have a value in order for the form to submit.                               | `boolean`                              | `false`        |
 | `scale`             | `scale`    | Specifies the size of the component.                                                                      | `"l" \| "m" \| "s"`                    | `"m"`          |
 
 ## Events
