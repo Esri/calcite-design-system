@@ -101,3 +101,22 @@ export const flipPlacements_TestOnly = (): string => html`
     document.querySelector(".my-popover").flipPlacements = ["right"];
   </script>
 `;
+
+export const correctInitialPosition_TestOnly = (): string => html`
+  <calcite-panel>
+    <button id="popover-button">Ref</button>
+    <calcite-popover id="popover" label="Example label" reference-element="popover-button" overlay-positioning="fixed">
+      <p style="padding:0 10px;display:flex;flex-direction:row">Floating</p>
+    </calcite-popover>
+  </calcite-panel>
+  <script>
+    (async function () {
+      await customElements.whenDefined("calcite-popover");
+      const popover = document.querySelector("calcite-popover");
+      await popover.componentOnReady();
+
+      // need to set open after initial render to reproduce the issue
+      popover.open = true;
+    })();
+  </script>
+`;

@@ -380,6 +380,9 @@ export function connectFloatingUI(
 
   disconnectFloatingUI(component, referenceEl, floatingEl);
 
+  // ensure position matches for initial positioning
+  // floatingEl.style.position = component.overlayPositioning;
+
   cleanupMap.set(
     component,
     autoUpdate(referenceEl, floatingEl, () => {
