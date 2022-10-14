@@ -12,7 +12,7 @@ import {
   Watch
 } from "@stencil/core";
 import { debounce } from "lodash-es";
-import { CSS, DEBOUNCE_TIMEOUT, ICONS, TEXT } from "./resources";
+import { CSS, DEBOUNCE_TIMEOUT, ICONS } from "./resources";
 import { Scale } from "../interfaces";
 import { focusElement } from "../../utils/dom";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
@@ -240,7 +240,7 @@ export class Filter implements InteractiveComponent, LocalizedComponent, T9nComp
         <div class={CSS.container}>
           <label>
             <calcite-input
-              aria-label={this.messages.filterLabel}
+              aria-label={this.messages.label}
               clearable={true}
               disabled={disabled}
               icon={ICONS.search}
