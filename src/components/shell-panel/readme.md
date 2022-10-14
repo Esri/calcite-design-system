@@ -78,15 +78,15 @@ Add `calcite-match-height` to a wrapping element to ensure proper height, scroll
 
 ## Properties
 
-| Property              | Attribute               | Description                                                                                              | Type                | Default       |
-| --------------------- | ----------------------- | -------------------------------------------------------------------------------------------------------- | ------------------- | ------------- |
-| `collapsed`           | `collapsed`             | When true, hides the component's content area.                                                           | `boolean`           | `false`       |
-| `detached`            | `detached`              | When true, the content area displays like a floating panel.                                              | `boolean`           | `false`       |
-| `detachedHeightScale` | `detached-height-scale` | When "detached", specifies the maximum height of the component.                                          | `"l" \| "m" \| "s"` | `"l"`         |
-| `intlResize`          | `intl-resize`           | Accessible name for the resize separator.                                                                | `string`            | `TEXT.resize` |
-| `position`            | `position`              | Specifies the component's position. Will be flipped when the element direction is right-to-left ("rtl"). | `"end" \| "start"`  | `undefined`   |
-| `resizable`           | `resizable`             | When true and not "detached", the component's content area is resizable.                                 | `boolean`           | `false`       |
-| `widthScale`          | `width-scale`           | Specifies the width of the component's content area.                                                     | `"l" \| "m" \| "s"` | `"m"`         |
+| Property              | Attribute               | Description                                                                                                | Type                | Default       |
+| --------------------- | ----------------------- | ---------------------------------------------------------------------------------------------------------- | ------------------- | ------------- |
+| `collapsed`           | `collapsed`             | When true, hides the component's content area.                                                             | `boolean`           | `false`       |
+| `detached`            | `detached`              | When true, the content area displays like a floating panel.                                                | `boolean`           | `false`       |
+| `detachedHeightScale` | `detached-height-scale` | When "detached", specifies the maximum height of the component.                                            | `"l" \| "m" \| "s"` | `"l"`         |
+| `intlResize`          | `intl-resize`           | Accessible name for the resize separator.                                                                  | `string`            | `TEXT.resize` |
+| `position`            | `position`              | Specifies the component's position. Will be flipped when the element direction is right-to-left (`"rtl"`). | `"end" \| "start"`  | `undefined`   |
+| `resizable`           | `resizable`             | When true and not "detached", the component's content area is resizable.                                   | `boolean`           | `false`       |
+| `widthScale`          | `width-scale`           | Specifies the width of the component's content area.                                                       | `"l" \| "m" \| "s"` | `"m"`         |
 
 ## Events
 
