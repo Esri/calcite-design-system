@@ -10,7 +10,7 @@ import {
   Watch
 } from "@stencil/core";
 import { getSlotted, toAriaBoolean } from "../../utils/dom";
-import { CSS, SLOTS, TEXT } from "./resources";
+import { CSS, SLOTS } from "./resources";
 import { LogicalFlowPosition } from "../interfaces";
 import {
   connectConditionalSlotComponent,
@@ -84,14 +84,14 @@ export class Card implements ConditionalSlotComponent, LocalizedComponent, T9nCo
    *
    * @default "Select"
    */
-  @Prop({ reflect: false }) intlSelect: string = TEXT.select;
+  @Prop({ reflect: false }) intlSelect: string;
 
   /**
    * string to override English deselect text for checkbox when selectable is true
    *
    * @default "Deselect"
    */
-  @Prop({ reflect: false }) intlDeselect: string = TEXT.deselect;
+  @Prop({ reflect: false }) intlDeselect: string;
 
   @Prop({ reflect: true }) thumbnailPosition: LogicalFlowPosition = "block-start";
 
