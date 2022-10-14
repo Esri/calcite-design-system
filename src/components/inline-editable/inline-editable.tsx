@@ -13,7 +13,7 @@ import {
 } from "@stencil/core";
 import { getElementProp, getSlotted } from "../../utils/dom";
 import { Scale } from "../interfaces";
-import { TEXT, CSS } from "./resources";
+import { CSS } from "./resources";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import { createObserver } from "../../utils/observers";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
@@ -87,7 +87,7 @@ export class InlineEditable
    * @default "Click to edit"
    * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`.
    */
-  @Prop({ reflect: true }) intlEnableEditing = TEXT.intlEnablingEditing;
+  @Prop({ reflect: true }) intlEnableEditing: string;
 
   /**
    * specify text to be user for the cancel editing button's aria-label, defaults to `Cancel`
@@ -95,7 +95,7 @@ export class InlineEditable
    * @default "Cancel"
    * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`.
    */
-  @Prop({ reflect: true }) intlCancelEditing = TEXT.intlCancelEditing;
+  @Prop({ reflect: true }) intlCancelEditing: string;
 
   /**
    * specify text to be user for the confirm changes button's aria-label, defaults to `Save`
@@ -103,7 +103,7 @@ export class InlineEditable
    * @default "Save"
    * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`.
    */
-  @Prop({ reflect: true }) intlConfirmChanges = TEXT.intlConfirmChanges;
+  @Prop({ reflect: true }) intlConfirmChanges: string;
 
   /** specify the scale of the inline-editable component, defaults to the scale of the wrapped calcite-input or the scale of the closest wrapping component with a set scale */
   @Prop({ reflect: true, mutable: true }) scale?: Scale;
@@ -178,7 +178,7 @@ export class InlineEditable
             color="neutral"
             disabled={this.disabled}
             iconStart="pencil"
-            label={this.messages.enablingEditing}
+            label={this.messages.enableEditing}
             onClick={this.enableEditingHandler}
             ref={(el) => (this.enableEditingButton = el)}
             scale={this.scale}
