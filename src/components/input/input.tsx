@@ -26,7 +26,6 @@ import {
   submitForm
 } from "../../utils/form";
 import {
-  getDecimalSeparator,
   NumberingSystem,
   defaultNumberingSystem,
   numberStringFormatter,
@@ -596,11 +595,11 @@ export class Input
       return;
     }
     const value = (nativeEvent.target as HTMLInputElement).value;
-    numberStringFormatter.setOptions({
+    numberStringFormatter.numberFormatOptions = {
       locale: this.effectiveLocale,
       numberingSystem: this.numberingSystem,
       useGrouping: this.groupSeparator
-    });
+    };
     const delocalizedValue = numberStringFormatter.delocalize(value);
     if (nativeEvent.inputType === "insertFromPaste") {
       if (!isValidNumber(delocalizedValue)) {
@@ -655,12 +654,16 @@ export class Input
       }
       return;
     }
-    const decimalSeparator = getDecimalSeparator(this.effectiveLocale);
-    if (event.key === decimalSeparator) {
+    numberStringFormatter.numberFormatOptions = {
+      locale: this.effectiveLocale,
+      numberingSystem: this.numberingSystem,
+      useGrouping: this.groupSeparator
+    };
+    if (event.key === numberStringFormatter.decimal) {
       if (!this.value && !this.childNumberEl.value) {
         return;
       }
-      if (this.value && this.childNumberEl.value.indexOf(decimalSeparator) === -1) {
+      if (this.value && this.childNumberEl.value.indexOf(numberStringFormatter.decimal) === -1) {
         return;
       }
     }
@@ -830,11 +833,11 @@ export class Input
     previousValue?: string;
     value: string;
   }): void => {
-    numberStringFormatter.setOptions({
+    numberStringFormatter.numberFormatOptions = {
       locale: this.effectiveLocale,
       numberingSystem: this.numberingSystem,
       useGrouping: this.groupSeparator
-    });
+    };
 
     if (this.type === "number") {
       const delocalizedValue =

@@ -3,9 +3,9 @@ import {
   filterComponentAttributes,
   Attributes,
   createComponentHTML as create,
-  placeholderImage,
   themesDarkDefault
 } from "../../../.storybook/utils";
+import { placeholderImage } from "../../../.storybook/placeholderImage";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import readme from "./readme.md";
 import panelReadme from "../shell-panel/readme.md";
