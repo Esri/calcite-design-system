@@ -921,7 +921,7 @@ describe("calcite-tree", () => {
       );
       await page.waitForChanges();
 
-      const defineCustomElement = await page.evaluate(async (): Promise<void> => {
+      const defineTestElement = await page.evaluate(async (): Promise<void> => {
         customElements.define(
           "test-tree-element",
           class extends HTMLElement {
@@ -935,8 +935,7 @@ describe("calcite-tree", () => {
       });
       await page.waitForChanges();
 
-      renders("calcite-tree", { display: "block" });
-      await expect(() => defineCustomElement).not.toThrow(TypeError);
+      await expect(() => defineTestElement).not.toThrow(TypeError);
     });
   });
 });
