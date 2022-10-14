@@ -910,13 +910,20 @@ export async function floatingUIOwner(
  * Helper to test t9n component setup
  *
  * @param {TagOrHTML|TagAndPage} componentSetup - A component tag, html, or an object with e2e page and tag for setting up a test
+ * @param intlProps
+ * @param nonIntlProps
  */
-export async function t9n(componentSetup: TagOrHTML | TagAndPage): Promise<void> {
+export async function t9n(
+  componentSetup: TagOrHTML | TagAndPage,
+  intlProps = true,
+  nonIntlProps?: string[]
+): Promise<void> {
   const { page, tag } = await getTagAndPage(componentSetup);
   const component = await page.find(tag);
 
   await assertDefaultMessages();
-  await assertIntlPropAsOverrides();
+  intlProps ? await assertIntlPropAsOverrides() : await assertNonIntlPropAsOverrides();
+
   await assertOverrides();
   await assertLangSwitch();
 
@@ -997,5 +1004,26 @@ export async function t9n(componentSetup: TagOrHTML | TagAndPage): Promise<void>
     // reset test changes
     component.removeAttribute("lang");
     await page.waitForChanges();
+  }
+
+  // util method for components which do not follow `intl` pattern of defining messages.
+  async function assertNonIntlPropAsOverrides(): Promise<void> {
+    if (nonIntlProps.length > 0) {
+      const props: Partial<MessageBundle> = {};
+
+      for (const prop of nonIntlProps) {
+        const index = nonIntlProps.indexOf(prop);
+        props[prop] = `${index}`;
+        component.setProperty(prop, `${index}`);
+        await page.waitForChanges();
+      }
+      expect(props).toEqual(await getCurrentMessages());
+
+      // reset test changes
+      for (const prop of nonIntlProps) {
+        component.setProperty(prop, undefined);
+        await page.waitForChanges();
+      }
+    }
   }
 }

@@ -179,5 +179,6 @@ describe("calcite-chip", () => {
       expect(await chipEl.isVisible()).toBe(false);
     });
   });
-  it("supports translation", () => t9n("calcite-chip"));
+
+  it("supports translation", () => t9n("calcite-chip", false, ["dismissLabel"]));
 });
