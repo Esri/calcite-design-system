@@ -1,5 +1,5 @@
 export const CSS = {
-  article: "article",
+  container: "container",
   content: "content",
   contentSpaced: "content--spaced",
   headerContainer: "header-container",
