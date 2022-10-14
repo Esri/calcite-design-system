@@ -259,5 +259,5 @@ describe("calcite-block", () => {
     });
   });
 
-  it("supoorts translation", () => t9n("<calcite-block></calcite-block>"));
+  it("supports translation", () => t9n("calcite-block"));
 });

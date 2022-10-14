@@ -17,7 +17,13 @@ import { BlockSectionToggleDisplay } from "./interfaces";
 import { Status } from "../interfaces";
 import { guid } from "../../utils/guid";
 import { isActivationKey } from "../../utils/key";
-import { connectMessages, disconnectMessages, setUpMessages, T9nComponent } from "../../utils/t9n";
+import {
+  connectMessages,
+  disconnectMessages,
+  setUpMessages,
+  T9nComponent,
+  updateMessages
+} from "../../utils/t9n";
 import { Messages } from "./assets/block-section/t9n";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 
@@ -107,7 +113,7 @@ export class BlockSection implements LocalizedComponent, T9nComponent {
 
   @Watch("effectiveLocale")
   effectiveLocaleChange(): void {
-    // updateMessages(this, this.effectiveLocale);
+    updateMessages(this, this.effectiveLocale);
   }
 
   @State() defaultMessages: Messages;

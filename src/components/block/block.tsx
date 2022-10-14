@@ -10,7 +10,7 @@ import {
   VNode,
   Watch
 } from "@stencil/core";
-import { CSS, HEADING_LEVEL, ICONS, SLOTS, TEXT } from "./resources";
+import { CSS, HEADING_LEVEL, ICONS, SLOTS } from "./resources";
 import { getSlotted, toAriaBoolean } from "../../utils/dom";
 import { Heading, HeadingLevel } from "../functional/Heading";
 import { Status } from "../interfaces";
@@ -21,7 +21,13 @@ import {
 } from "../../utils/conditionalSlot";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { guid } from "../../utils/guid";
-import { connectMessages, disconnectMessages, setUpMessages, T9nComponent } from "../../utils/t9n";
+import {
+  connectMessages,
+  disconnectMessages,
+  setUpMessages,
+  T9nComponent,
+  updateMessages
+} from "../../utils/t9n";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import { Messages } from "./assets/block/t9n";
 
@@ -171,7 +177,7 @@ export class Block
 
   @Watch("effectiveLocale")
   effectiveLocaleChange(): void {
-    // updateMessages(this, this.effectiveLocale);
+    updateMessages(this, this.effectiveLocale);
   }
 
   @State() defaultMessages: Messages;
