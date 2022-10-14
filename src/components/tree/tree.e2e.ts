@@ -905,49 +905,38 @@ describe("calcite-tree", () => {
       expect(await getActiveElementId(page)).toEqual("child-1");
     });
 
-    it("renders when tree is in the root node (there is no parent)", async () => {
-      const templateHTML = html` <template id="test-tree-element-template">
+    it("renders when tree is the topmost element in a shadow root where it has no parent", async () => {
+      const templateHTML = html`<template id="test-tree-element-template">
         <calcite-tree>
-          <calcite-tree-item>Child 1</calcite-tree-item>
-          <calcite-tree-item>
-            Child 2
-            <calcite-tree slot="children">
-              <calcite-tree-item>Grandchild 1</calcite-tree-item>
-              <calcite-tree slot="children">
-                Grandchild 2
-                <calcite-tree-item>Great-grandchild 1</calcite-tree-item>
-                <calcite-tree-item>Great-grandchild 2</calcite-tree-item>
-              </calcite-tree>
-            </calcite-tree>
-          </calcite-tree-item>
-          <calcite-tree-item id="three">3</calcite-tree-item>
+          <calcite-tree-item>Child</calcite-tree-item>
         </calcite-tree>
       </template>`;
 
       const page = await newE2EPage();
-      await page.setContent(html`${templateHTML} <test-tree-element></test-tree-element>`);
+      await page.setContent(
+        html`
+          ${templateHTML}
+          <test-tree-element></test-tree-element>
+        `
+      );
       await page.waitForChanges();
 
-      await page.evaluate(async (): Promise<string> => {
+      const defineCustomElement = await page.evaluate(async (): Promise<void> => {
         customElements.define(
           "test-tree-element",
           class extends HTMLElement {
-            constructor() {
-              super();
-            }
-
             connectedCallback() {
-              this.attachShadow({ mode: "open" }).appendChild(
+              this.attachShadow({ mode: "open" }).append(
                 (document.getElementById("test-tree-element-template") as HTMLTemplateElement).content.cloneNode(true)
               );
             }
           }
         );
-        return null;
       });
       await page.waitForChanges();
 
       renders("calcite-tree", { display: "block" });
+      await expect(() => defineCustomElement).not.toThrow(TypeError);
     });
   });
 });
