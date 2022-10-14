@@ -191,7 +191,7 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
   }
 
   /**
-   *  The `referenceElement` used to position the component according to its `"placement"` value. Setting to an `HTMLElement` is preferred so the component does not need to query the DOM. However, a string `id` of the reference element can also be used.
+   *  The `referenceElement` used to position the component according to its `placement` value. Setting to an `HTMLElement` is preferred so the component does not need to query the DOM. However, a string `id` of the reference element can also be used.
    */
   @Prop() referenceElement!: ReferenceElement | string;
 
