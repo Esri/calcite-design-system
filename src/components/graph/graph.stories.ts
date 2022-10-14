@@ -2,6 +2,7 @@ import { number } from "@storybook/addon-knobs";
 import { themesDarkDefault } from "../../../.storybook/utils";
 import readme from "./readme.md";
 import { storyFilters } from "../../../.storybook/helpers";
+import "../../components";
 
 export default {
   title: "Components/Controls/Slider/support/Graph",
@@ -32,7 +33,7 @@ export const simple = (): HTMLDivElement => {
   const div = document.createElement("div");
   div.style.width = `${number("width", 300)}px`;
   div.style.height = `${number("height", 100)}px`;
-  const graph = document.createElement("calcite-graph");
+  const graph = document.createElement("calcite-graph") as HTMLCalciteGraphElement;
   graph.min = number("min", 0);
   graph.max = number("max", 100);
   graph.data = data;
@@ -44,7 +45,7 @@ export const highlightRange = (): HTMLDivElement => {
   const div = document.createElement("div");
   div.style.width = `${number("width", 300)}px`;
   div.style.height = `${number("height", 100)}px`;
-  const graph = document.createElement("calcite-graph");
+  const graph = document.createElement("calcite-graph") as HTMLCalciteGraphElement;
   graph.min = number("min", 0);
   graph.max = number("max", 100);
   graph.highlightMin = number("highlightMin", 25);
@@ -58,7 +59,7 @@ export const withColorStops = (): HTMLDivElement => {
   const div = document.createElement("div");
   div.style.width = `${number("width", 300)}px`;
   div.style.height = `${number("height", 100)}px`;
-  const graph = document.createElement("calcite-graph");
+  const graph = document.createElement("calcite-graph") as HTMLCalciteGraphElement;
   graph.min = number("min", 0);
   graph.max = number("max", 100);
   graph.colorStops = colorStops;
@@ -73,7 +74,7 @@ export const darkThemeRTL_TestOnly = (): HTMLDivElement => {
   div.style.height = `${number("height", 100)}px`;
   div.dir = "rtl";
   div.classList.add("calcite-theme-dark");
-  const graph = document.createElement("calcite-graph");
+  const graph = document.createElement("calcite-graph") as HTMLCalciteGraphElement;
   graph.min = number("min", 0);
   graph.max = number("max", 100);
   graph.highlightMin = number("highlightMin", 25);
@@ -83,3 +84,5 @@ export const darkThemeRTL_TestOnly = (): HTMLDivElement => {
   div.appendChild(graph);
   return div;
 };
+
+darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };
