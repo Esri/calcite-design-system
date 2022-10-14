@@ -12,7 +12,7 @@ import {
 } from "../../tests/commonTests";
 
 import { html } from "../../../support/formatting";
-import { TEXT, CSS } from "./resources";
+import { CSS } from "./resources";
 
 describe("calcite-combobox", () => {
   it("renders", async () => renders("calcite-combobox", { display: "block" }));
@@ -21,10 +21,6 @@ describe("calcite-combobox", () => {
       {
         propertyName: "overlayPositioning",
         defaultValue: "absolute"
-      },
-      {
-        propertyName: "intlRemoveTag",
-        defaultValue: TEXT.removeTag
       },
       {
         propertyName: "flipPlacements",
