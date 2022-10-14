@@ -219,7 +219,7 @@ export class Card implements ConditionalSlotComponent, LocalizedComponent, T9nCo
   }
 
   private renderCheckbox(): VNode {
-    const checkboxLabel = this.selected ? this.intlDeselect : this.intlSelect;
+    const checkboxLabel = this.selected ? this.messages.deselect : this.messages.select;
 
     return (
       <calcite-label
