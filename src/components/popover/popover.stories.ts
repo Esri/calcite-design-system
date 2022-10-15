@@ -116,5 +116,15 @@ export const correctInitialPosition_TestOnly = stepStory(
       </calcite-popover>
     </calcite-panel>
   `,
-  createSteps("calcite-popover").click("#popover").snapshot("correct initial position")
+  createSteps("calcite-popover")
+    .executeScript(
+      // we hijack styling to ensure initial positioning is captured in the screenshot
+      `
+        const popover = document.querySelector("calcite-popover");
+        popover.style = "border: 1px solid red";
+        popover.addAttribute("calcite-hydrated");
+        popover.removeAttribute("calcite-hydrated-hidden");
+    `
+    )
+    .snapshot("correct initial position")
 );
