@@ -318,11 +318,11 @@
         const localeDatePickerContainerL = document.getElementById("localeDatePickerContainerL");
 
         // creates the date picker with the selected lang/numberingSystem
-        const createLocaleDatePicker = ({ lang = selectedLang, numberingSystem = selectedNumberingSystem }) => {
+        const createLocaleDatePicker = ({ lang, numberingSystem }) => {
           // (re)create small date picker
           !!localeDatePickerS && localeDatePickerS.remove();
           localeDatePickerS = document.createElement("calcite-date-picker");
-          localeDatePickerS.scale = "s";
+          localeDatePickerS.scale = "m";
           localeDatePickerS.lang = lang;
           localeDatePickerS.numberingSystem = numberingSystem;
           selectedLang = lang;
@@ -356,15 +356,15 @@
         // numberingSystem property cannot be set dynamically
         document.addEventListener("calciteDropdownSelect", ({ target: { selectedItems } }) =>
           createLocaleDatePicker({
-            numberingSystem: selectedItems[0].getAttribute("data-numbering-system"),
-            lang: selectedItems[0].getAttribute("data-lang")
+            numberingSystem: selectedItems[0].getAttribute("data-numbering-system") || selectedNumberingSystem,
+            lang: selectedItems[0].getAttribute("data-lang") || selectedLang
           })
         );
 
         // wait for the rest of the date-pickers to load before setting the options for numberStringFormatter
         // otherwise they will all render with the lang/numberingSystem specified above
         setTimeout(() => {
-          createLocaleDatePicker({});
+          createLocaleDatePicker({ lang: selectedLang, numberingSystem: selectedNumberingSystem });
         }, 2000);
       </script>
     </demo-dom-swapper>
