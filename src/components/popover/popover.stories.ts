@@ -122,7 +122,7 @@ export const correctInitialPosition_TestOnly = stepStory(
       `
         const popover = document.querySelector("calcite-popover");
         popover.style = "border: 1px solid red";
-        popover.setAttribute("calcite-hydrated");
+        popover.setAttribute("calcite-hydrated", "");
         popover.removeAttribute("calcite-hydrated-hidden");
     `
     )
