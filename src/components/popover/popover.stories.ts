@@ -1,7 +1,7 @@
 import { select, number, text } from "@storybook/addon-knobs";
 import { html } from "../../../support/formatting";
 import { boolean, createSteps, stepStory, storyFilters } from "../../../.storybook/helpers";
-import { placements } from "../../utils/floating-ui";
+import { placements, repositionDebounceTimeout } from "../../utils/floating-ui";
 import readme from "./readme.md";
 import { defaultPopoverPlacement } from "../popover/resources";
 import { themesDarkDefault } from "../../../.storybook/utils";
@@ -117,6 +117,7 @@ export const correctInitialPosition_TestOnly = stepStory(
     </calcite-panel>
   `,
   createSteps("calcite-popover")
+    .wait(repositionDebounceTimeout * 2)
     .executeScript(
       // we hijack styling to ensure initial positioning is captured in the screenshot
       `
