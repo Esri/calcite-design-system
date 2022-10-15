@@ -80,9 +80,9 @@ export function dateFromISO(iso8601: string | Date, isEndDate = false): Date | n
  * @param value
  * @param localeData
  */
-export function dateFromLocalizedString(value: string, localeData: DateLocaleData): Date | false {
+export function dateFromLocalizedString(value: string, localeData: DateLocaleData): Date {
   if (!localeData) {
-    return false;
+    return null;
   }
   const { separator } = localeData;
   const { day, month, year } = parseDateString(value, localeData);
@@ -98,7 +98,7 @@ export function dateFromLocalizedString(value: string, localeData: DateLocaleDat
   if (validDay && validMonth && validDate && validLength && validYear) {
     return date;
   }
-  return false;
+  return null;
 }
 
 /**
