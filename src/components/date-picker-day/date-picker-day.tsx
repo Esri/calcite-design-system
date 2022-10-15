@@ -16,6 +16,7 @@ import { Scale } from "../interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { isActivationKey } from "../../utils/key";
+import { numberStringFormatter } from "../../utils/locale";
 
 @Component({
   tag: "calcite-date-picker-day",
@@ -123,17 +124,13 @@ export class DatePickerDay implements InteractiveComponent {
   //
   //--------------------------------------------------------------------------
   render(): VNode {
-    const formattedDay = String(this.day)
-      .split("")
-      .map((i) => this.localeData.numerals[i])
-      .join("");
     const dir = getElementDir(this.el);
     return (
       <Host onClick={this.onClick} onKeyDown={this.keyDownHandler} role="gridcell">
         <div class={{ "day-v-wrapper": true, [CSS_UTILITY.rtl]: dir === "rtl" }}>
           <div class="day-wrapper">
             <span class="day">
-              <span class="text">{formattedDay}</span>
+              <span class="text">{numberStringFormatter.localize(this.day.toString())}</span>
             </span>
           </div>
         </div>
