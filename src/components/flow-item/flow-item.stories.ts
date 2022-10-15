@@ -13,7 +13,7 @@ import { html } from "../../../support/formatting";
 import { storyFilters } from "../../../.storybook/helpers";
 
 export default {
-  title: "Components/Panel",
+  title: "Components/Flow Item",
   parameters: {
     notes: readme
   },
@@ -110,7 +110,7 @@ const footerHTML = html`
   <calcite-button slot="${SLOTS.footer}" width="half">Yeah!</calcite-button>
 `;
 
-const panelContent = `${headerHTML}
+const flowItemContent = `${headerHTML}
   <calcite-action text="Action" label="Action" slot="${SLOTS.headerActionsStart}" icon="bluetooth"></calcite-action>
   <calcite-action text="Action" label="Action" slot="${SLOTS.headerActionsEnd}" icon="attachment"></calcite-action>
   ${contentHTML}
@@ -118,7 +118,7 @@ const panelContent = `${headerHTML}
 
 export const simple = (): string =>
   create(
-    "calcite-panel",
+    "calcite-flow-item",
     createAttributes(),
     html`
       ${headerHTML}
@@ -132,7 +132,7 @@ export const simple = (): string =>
 
 export const onlyProps = (): string => html`
   <div style="width: 300px;">
-    <calcite-panel
+    <calcite-flow-item
       height-scale="s"
       heading-level="${text("heading-level", "2")}"
       summary="${text(
@@ -141,21 +141,21 @@ export const onlyProps = (): string => html`
       )}"
       heading="${text(
         "heading",
-        "Panel title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum"
+        "flowItem title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum"
       )}"
     />
   </div>
 `;
 
 export const disabledWithStyledSlot_TestOnly = (): string => html`
-  <calcite-panel style="height: 100%;" heading="Heading" disabled>
+  <calcite-flow-item style="height: 100%;" heading="Heading" disabled>
     <div id="content" style="height: 100%;">${contentHTML}</div>
-  </calcite-panel>
+  </calcite-flow-item>
 `;
 
 export const darkThemeRTL_TestOnly = (): string =>
   create(
-    "calcite-panel",
+    "calcite-flow-item",
     createAttributes({ exceptions: ["dir", "class"] }).concat([
       {
         name: "dir",
@@ -166,7 +166,7 @@ export const darkThemeRTL_TestOnly = (): string =>
         value: "calcite-theme-dark"
       }
     ]),
-    panelContent
+    flowItemContent
   );
 
 darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };
@@ -188,7 +188,7 @@ export const noDoubleScrollbars_TestOnly = (): string => html`
   </style>
   <div id="container">
     <calcite-flow>
-      <calcite-panel heading="Example">
+      <calcite-flow-item heading="Example">
         <div>### Stickied Content e.g. toolbar</div>
         <div class="content">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus sapien lectus, ultricies a molestie nec,
@@ -213,7 +213,7 @@ export const noDoubleScrollbars_TestOnly = (): string => html`
           sodales viverra lectus efficitur vitae. Nam molestie, neque consequat mollis pulvinar, sapien sem semper nunc,
           et euismod enim sem vitae ligula.
         </div>
-      </calcite-panel>
+      </calcite-flow-item>
     </calcite-flow>
   </div>
 `;
