@@ -186,7 +186,6 @@ describe("calcite-input-date-picker", () => {
 
       expectedEventDetail = { startDate: expectedStartDateISO, endDate: null };
 
-      console.log();
       expect(await input.getProperty("value")).toEqual([expectedStartDateComponentValue, ""]);
       expect(changeEvent).toHaveReceivedEventTimes(3);
       expect(deprecatedChangeEvent).toHaveReceivedEventTimes(3);
