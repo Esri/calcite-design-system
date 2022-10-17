@@ -137,6 +137,12 @@ export const simple = stepStory(
   (): string => html`<div style="width: 400px">${create("calcite-date-picker", createAttributes())}</div>`,
 
   createSteps("calcite-date-picker")
+    .executeScript(
+      setKnobs({
+        story: "components-controls-datepicker--simple",
+        knobs: [{ name: "value", value: "2000-01-01" }]
+      })
+    )
     .snapshot("Default")
 
     .executeScript(
@@ -145,16 +151,8 @@ export const simple = stepStory(
         knobs: [{ name: "dir", value: "rtl" }]
       })
     )
-    .snapshot("Default RTL")
-
-    .executeScript(
-      setKnobs({
-        story: "components-controls-datepicker--simple",
-        knobs: []
-      })
-    )
     .executeScript(setTheme("dark"))
-    .snapshot("Dark")
+    .snapshot("Dark Theme RTL")
 
     .executeScript(setTheme("light"))
     .executeScript(
@@ -218,18 +216,24 @@ export const simple = stepStory(
     .executeScript(
       setKnobs({
         story: "components-controls-datepicker--simple",
-        knobs: [{ name: "locale", value: "ru" }]
+        knobs: [
+          { name: "locale", value: "ar" },
+          { name: "numbering-system", value: "arab" }
+        ]
       })
     )
-    .snapshot("ru locale")
+    .snapshot("ar locale/numberingSystem")
 
     .executeScript(
       setKnobs({
         story: "components-controls-datepicker--simple",
-        knobs: [{ name: "locale", value: "th" }]
+        knobs: [
+          { name: "locale", value: "th" },
+          { name: "numbering-system", value: "thai" }
+        ]
       })
     )
-    .snapshot("th locale (Buddhist calendar)")
+    .snapshot("th locale/numberingSystem (Buddhist calendar)")
 
     .executeScript(
       setKnobs({

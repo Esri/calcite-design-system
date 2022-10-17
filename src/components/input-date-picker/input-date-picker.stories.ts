@@ -69,17 +69,28 @@ export const flipPlacements_TestOnly = (): string => html`
   </script>
 `;
 
+export const laoNumberingSystem_TestOnly = (): string => html`
+  <div dir="rtl" style="width: 400px">
+    <calcite-input-date-picker
+      scale="m"
+      value="1/1/1"
+      min="2016-08-09"
+      max="2023-12-18"
+      lang="zh-CN"
+      numbering-system="laoo"
+    ></calcite-input-date-picker
+  </div>`;
+
 export const darkThemeRTL_TestOnly = (): string => html`
   <div dir="rtl" style="width: 400px">
     <calcite-input-date-picker
-      scale="${select("scale", ["s", "m", "l"], "m")}"
-      value="${text("value", "2020-12-12")}"
-      min="${text("min", "2016-08-09")}"
-      max="${text("max", "2023-12-18")}"
-      lang="${select("locale", locales, "en")}"
-      intl-next-month="${text("intl-next-month", "Next month")}"
-      intl-prev-month="${text("intl-prev-month", "Previous month")}"
-      range="${boolean("range", false)}"
+      scale="m"
+      value="2020-12-12"
+      min="2016-08-09"
+      max="2023-12-18"
+      lang=en"
+      intl-next-month="Next month"
+      intl-prev-month="Prevoius month"
     ></calcite-input-date-picker
   </div>
 `;
