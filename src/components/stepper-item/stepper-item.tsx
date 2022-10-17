@@ -8,6 +8,7 @@ import {
   Listen,
   Method,
   Prop,
+  State,
   VNode,
   Watch
 } from "@stencil/core";
@@ -19,6 +20,12 @@ import {
   StepperItemEventDetail,
   StepperItemKeyEventDetail
 } from "../stepper/interfaces";
+import {
+  numberStringFormatter,
+  LocalizedComponent,
+  disconnectLocalized,
+  connectLocalized
+} from "../../utils/locale";
 
 /**
  * @slot - A slot for adding custom content.
@@ -28,7 +35,7 @@ import {
   styleUrl: "stepper-item.scss",
   shadow: true
 })
-export class StepperItem implements InteractiveComponent {
+export class StepperItem implements InteractiveComponent, LocalizedComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -127,6 +134,17 @@ export class StepperItem implements InteractiveComponent {
   //
   //--------------------------------------------------------------------------
 
+  @State() effectiveLocale = "";
+
+  @Watch("effectiveLocale")
+  effectiveLocaleWatcher(locale: string): void {
+    numberStringFormatter.numberFormatOptions = {
+      locale,
+      numberingSystem: this.parentStepperEl?.numberingSystem,
+      useGrouping: false
+    };
+  }
+
   headerEl: HTMLDivElement;
 
   //--------------------------------------------------------------------------
@@ -166,6 +184,7 @@ export class StepperItem implements InteractiveComponent {
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
+    connectLocalized(this);
     const { selected, active } = this;
 
     if (selected) {
@@ -193,6 +212,10 @@ export class StepperItem implements InteractiveComponent {
     updateHostInteraction(this, true);
   }
 
+  disconnectedCallback(): void {
+    disconnectLocalized(this);
+  }
+
   render(): VNode {
     return (
       <Host
@@ -210,7 +233,11 @@ export class StepperItem implements InteractiveComponent {
             }
           >
             {this.icon ? this.renderIcon() : null}
-            {this.numbered ? <div class="stepper-item-number">{this.itemPosition + 1}.</div> : null}
+            {this.numbered ? (
+              <div class="stepper-item-number">
+                {numberStringFormatter.numberFormatter.format(this.itemPosition + 1)}.
+              </div>
+            ) : null}
             <div class="stepper-item-header-text">
               <span class="stepper-item-heading">{this.heading || this.itemTitle}</span>
               <span class="stepper-item-description">{this.description || this.itemSubtitle}</span>

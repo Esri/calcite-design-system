@@ -13,6 +13,7 @@ import {
 import { Layout, Scale } from "../interfaces";
 import { StepperItemChangeEventDetail, StepperItemKeyEventDetail } from "./interfaces";
 import { focusElement } from "../../utils/dom";
+import { NumberingSystem } from "../../utils/locale";
 
 /**
  * @slot - A slot for adding `calcite-stepper-item`s.
@@ -45,6 +46,11 @@ export class Stepper {
 
   /** When `true`, displays the step number in the `calcite-stepper-item` heading. */
   @Prop({ reflect: true }) numbered = false;
+
+  /**
+   * Specifies the Unicode numeral system used by the component for localization.
+   */
+  @Prop({ reflect: true }) numberingSystem?: NumberingSystem;
 
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
