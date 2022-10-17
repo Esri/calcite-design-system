@@ -36,7 +36,6 @@ import {
   submitForm
 } from "../../utils/form";
 import {
-  positionFloatingUI,
   FloatingCSS,
   OverlayPositioning,
   FloatingUIComponent,
@@ -46,7 +45,7 @@ import {
   MenuPlacement,
   defaultMenuPlacement,
   filterComputedPlacements,
-  repositionDebounceTimeout
+  reposition
 } from "../../utils/floating-ui";
 import { DateRangeChange } from "../date-picker/interfaces";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
@@ -57,7 +56,6 @@ import {
   disconnectOpenCloseComponent
 } from "../../utils/openCloseComponent";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
-import { debounce } from "lodash-es";
 
 @Component({
   tag: "calcite-input-date-picker",
@@ -133,7 +131,7 @@ export class InputDatePicker
   @Watch("flipPlacements")
   flipPlacementsHandler(): void {
     this.setFilteredPlacements();
-    this.debouncedReposition();
+    this.reposition(true);
   }
 
   /**
@@ -208,7 +206,7 @@ export class InputDatePicker
       return;
     }
 
-    this.debouncedReposition();
+    this.reposition(true);
   }
 
   /**
@@ -291,7 +289,7 @@ export class InputDatePicker
 
   @Watch("overlayPositioning")
   overlayPositioningHandler(): void {
-    this.debouncedReposition();
+    this.reposition(true);
   }
 
   /**
@@ -373,19 +371,27 @@ export class InputDatePicker
     this.startInput?.setFocus();
   }
 
-  /** Updates the position of the component. */
+  /**
+   * Updates the position of the component.
+   *
+   * @param delayed
+   */
   @Method()
-  async reposition(): Promise<void> {
+  async reposition(delayed = false): Promise<void> {
     const { floatingEl, referenceEl, placement, overlayPositioning, filteredFlipPlacements } = this;
 
-    return positionFloatingUI({
-      floatingEl,
-      referenceEl,
-      overlayPositioning,
-      placement,
-      flipPlacements: filteredFlipPlacements,
-      type: "menu"
-    });
+    return reposition(
+      this,
+      {
+        floatingEl,
+        referenceEl,
+        overlayPositioning,
+        placement,
+        flipPlacements: filteredFlipPlacements,
+        type: "menu"
+      },
+      delayed
+    );
   }
 
   // --------------------------------------------------------------------------
@@ -431,7 +437,7 @@ export class InputDatePicker
     connectOpenCloseComponent(this);
 
     this.setFilteredPlacements();
-    this.debouncedReposition();
+    this.reposition(true);
   }
 
   async componentWillLoad(): Promise<void> {
@@ -441,7 +447,7 @@ export class InputDatePicker
   }
 
   componentDidLoad(): void {
-    this.debouncedReposition();
+    this.reposition(true);
   }
 
   disconnectedCallback(): void {
@@ -631,8 +637,6 @@ export class InputDatePicker
   //  Private Methods
   //
   //--------------------------------------------------------------------------
-
-  private debouncedReposition = debounce(() => this.reposition(), repositionDebounceTimeout);
 
   setFilteredPlacements = (): void => {
     const { el, flipPlacements } = this;

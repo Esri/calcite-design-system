@@ -1,19 +1,23 @@
 import {
-  computePosition,
-  Placement,
-  Strategy,
   arrow,
-  flip,
-  shift,
-  hide,
-  offset,
   autoPlacement,
   autoUpdate,
+  computePosition,
+  flip,
+  hide,
   Middleware,
+  offset,
+  Placement,
+  shift,
+  Strategy,
   VirtualElement
 } from "@floating-ui/dom";
 import { getElementDir } from "./dom";
+import { debounce } from "lodash-es";
 
+/**
+ * Exported for testing purposes only
+ */
 export const repositionDebounceTimeout = 100;
 
 export type ReferenceElement = VirtualElement | Element;
@@ -162,8 +166,10 @@ export interface FloatingUIComponent {
 
   /**
    * Updates the position of the component.
+   *
+   * @param delayed – (internal) when true, it will reposition the component after a delay. the default is false. This is useful for components that have multiple watched properties that schedule repositioning.
    */
-  reposition(): Promise<void>;
+  reposition(delayed?: boolean): Promise<void>;
 }
 
 export const FloatingCSS = {
@@ -269,7 +275,45 @@ export function getEffectivePlacement(floatingEl: HTMLElement, placement: Logica
 }
 
 /**
+ * Convenience function to manage `reposition` calls for FloatingUIComponents that use `positionFloatingUI.
+ *
+ * Note: this is not needed for components that use `calcite-popover`.
+ *
+ * @param component
+ * @param options
+ * @param options.referenceEl
+ * @param options.floatingEl
+ * @param options.overlayPositioning
+ * @param options.placement
+ * @param options.disableFlip
+ * @param options.flipPlacements
+ * @param options.offsetDistance
+ * @param options.offsetSkidding
+ * @param options.arrowEl
+ * @param options.type
+ * @param delayed
+ */
+export async function reposition(
+  component: FloatingUIComponent,
+  options: Parameters<typeof positionFloatingUI>[0],
+  delayed = false
+): Promise<void> {
+  if (!component.open) {
+    return;
+  }
+
+  return delayed ? debouncedReposition(options) : positionFloatingUI(options);
+}
+
+const debouncedReposition = debounce(positionFloatingUI, repositionDebounceTimeout, {
+  // leading: true,
+  maxWait: repositionDebounceTimeout
+});
+
+/**
  * Positions the floating element relative to the reference element.
+ *
+ * **Note:** exported for testing purposes only
  *
  * @param root0
  * @param root0.referenceEl
@@ -282,6 +326,7 @@ export function getEffectivePlacement(floatingEl: HTMLElement, placement: Logica
  * @param root0.offsetSkidding
  * @param root0.arrowEl
  * @param root0.type
+ * @param root0.includeArrow
  */
 export async function positionFloatingUI({
   referenceEl,
@@ -292,6 +337,7 @@ export async function positionFloatingUI({
   flipPlacements,
   offsetDistance,
   offsetSkidding,
+  includeArrow = false,
   arrowEl,
   type
 }: {
@@ -301,12 +347,14 @@ export async function positionFloatingUI({
   placement: LogicalPlacement;
   disableFlip?: boolean;
   flipPlacements?: EffectivePlacement[];
+
   offsetDistance?: number;
   offsetSkidding?: number;
   arrowEl?: HTMLElement;
+  includeArrow?: boolean;
   type: UIType;
 }): Promise<void> {
-  if (!referenceEl || !floatingEl) {
+  if (!referenceEl || !floatingEl || (includeArrow && !arrowEl)) {
     return null;
   }
 
@@ -360,7 +408,12 @@ export async function positionFloatingUI({
   });
 }
 
-const cleanupMap = new WeakMap<FloatingUIComponent, () => void>();
+/**
+ * Exported for testing purposes only
+ *
+ * @internal
+ */
+export const cleanupMap = new WeakMap<FloatingUIComponent, () => void>();
 
 /**
  * Helper to set up floating element interactions on connectedCallback.
@@ -385,11 +438,7 @@ export function connectFloatingUI(
 
   cleanupMap.set(
     component,
-    autoUpdate(referenceEl, floatingEl, () => {
-      if (component.open) {
-        component.reposition();
-      }
-    })
+    autoUpdate(referenceEl, floatingEl, () => component.reposition())
   );
 }
 

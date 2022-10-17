@@ -2,8 +2,6 @@ import { Component, Element, Host, Method, Prop, State, Watch, h, VNode } from "
 import { CSS, ARIA_DESCRIBED_BY } from "./resources";
 import { guid } from "../../utils/guid";
 import {
-  positionFloatingUI,
-  FloatingCSS,
   OverlayPositioning,
   FloatingUIComponent,
   connectFloatingUI,
@@ -11,12 +9,12 @@ import {
   LogicalPlacement,
   defaultOffsetDistance,
   ReferenceElement,
-  repositionDebounceTimeout
+  reposition,
+  FloatingCSS
 } from "../../utils/floating-ui";
 import { queryElementRoots, toAriaBoolean } from "../../utils/dom";
 
 import TooltipManager from "./TooltipManager";
-import { debounce } from "lodash-es";
 
 const manager = new TooltipManager();
 
@@ -50,7 +48,7 @@ export class Tooltip implements FloatingUIComponent {
 
   @Watch("offsetDistance")
   offsetDistanceOffsetHandler(): void {
-    this.debouncedReposition();
+    this.reposition(true);
   }
 
   /**
@@ -60,7 +58,7 @@ export class Tooltip implements FloatingUIComponent {
 
   @Watch("offsetSkidding")
   offsetSkiddingHandler(): void {
-    this.debouncedReposition();
+    this.reposition(true);
   }
 
   /**
@@ -70,7 +68,7 @@ export class Tooltip implements FloatingUIComponent {
 
   @Watch("open")
   openHandler(): void {
-    this.debouncedReposition();
+    this.reposition(true);
   }
 
   /**
@@ -85,7 +83,7 @@ export class Tooltip implements FloatingUIComponent {
 
   @Watch("overlayPositioning")
   overlayPositioningHandler(): void {
-    this.debouncedReposition();
+    this.reposition(true);
   }
 
   /**
@@ -97,7 +95,7 @@ export class Tooltip implements FloatingUIComponent {
 
   @Watch("placement")
   placementHandler(): void {
-    this.debouncedReposition();
+    this.reposition(true);
   }
 
   /**
@@ -144,7 +142,7 @@ export class Tooltip implements FloatingUIComponent {
     if (this.referenceElement && !this.effectiveReferenceElement) {
       this.setUpReferenceElement();
     }
-    this.debouncedReposition();
+    this.reposition(true);
     this.hasLoaded = true;
   }
 
@@ -159,9 +157,13 @@ export class Tooltip implements FloatingUIComponent {
   //
   // --------------------------------------------------------------------------
 
-  /** Updates the position of the component. */
+  /**
+   * Updates the position of the component.
+   *
+   * @param delayed
+   */
   @Method()
-  async reposition(): Promise<void> {
+  async reposition(delayed = false): Promise<void> {
     const {
       el,
       effectiveReferenceElement,
@@ -172,16 +174,21 @@ export class Tooltip implements FloatingUIComponent {
       arrowEl
     } = this;
 
-    return positionFloatingUI({
-      floatingEl: el,
-      referenceEl: effectiveReferenceElement,
-      overlayPositioning,
-      placement,
-      offsetDistance,
-      offsetSkidding,
-      arrowEl,
-      type: "tooltip"
-    });
+    return reposition(
+      this,
+      {
+        floatingEl: el,
+        referenceEl: effectiveReferenceElement,
+        overlayPositioning,
+        placement,
+        offsetDistance,
+        offsetSkidding,
+        includeArrow: true,
+        arrowEl,
+        type: "tooltip"
+      },
+      delayed
+    );
   }
 
   // --------------------------------------------------------------------------
@@ -189,8 +196,6 @@ export class Tooltip implements FloatingUIComponent {
   //  Private Methods
   //
   // --------------------------------------------------------------------------
-
-  private debouncedReposition = debounce(() => this.reposition(), repositionDebounceTimeout);
 
   setUpReferenceElement = (warn = true): void => {
     this.removeReferences();
