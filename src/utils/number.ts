@@ -38,8 +38,11 @@ export class BigDecimal {
   static fromBigInt = (bigint: bigint): bigint => Object.assign(Object.create(BigDecimal.prototype), { value: bigint });
 
   getIntegersAndDecimals(): { integers: string; decimals: string } {
-    const s = this.value.toString().padStart(BigDecimal.DECIMALS + 1, "0");
-    const integers = s.slice(0, -BigDecimal.DECIMALS).replace(defaultMinusSignRegex, "");
+    const s = this.value
+      .toString()
+      .replace(defaultMinusSignRegex, "")
+      .padStart(BigDecimal.DECIMALS + 1, "0");
+    const integers = s.slice(0, -BigDecimal.DECIMALS);
     const decimals = s.slice(-BigDecimal.DECIMALS).replace(unnecessaryDecimalRegex, "");
     return { integers, decimals };
   }
