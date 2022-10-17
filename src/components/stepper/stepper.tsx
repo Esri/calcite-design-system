@@ -37,13 +37,13 @@ export class Stepper {
   //
   //--------------------------------------------------------------------------
 
-  /** When true, displays a status icon in the `calcite-stepper-item` heading. */
+  /** When `true`, displays a status icon in the `calcite-stepper-item` heading. */
   @Prop({ reflect: true }) icon = false;
 
   /** Defines the layout of the component. */
   @Prop({ reflect: true }) layout: Extract<"horizontal" | "vertical", Layout> = "horizontal";
 
-  /** When true, displays the step number in the `calcite-stepper-item` heading. */
+  /** When `true`, displays the step number in the `calcite-stepper-item` heading. */
   @Prop({ reflect: true }) numbered = false;
 
   /** Specifies the size of the component. */

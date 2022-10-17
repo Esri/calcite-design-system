@@ -44,9 +44,9 @@ export class StepperItem implements InteractiveComponent {
   //--------------------------------------------------------------------------
 
   /**
-   *  is the step active
+   *  When `true`, the component is selected.
    *
-   * @deprecated Use selected instead.
+   * @deprecated Use `selected` instead.
    */
   @Prop({ reflect: true, mutable: true }) active = false;
 
@@ -56,7 +56,7 @@ export class StepperItem implements InteractiveComponent {
   }
 
   /**
-   * When true, step is selected
+   * When `true`, the component is selected.
    */
   @Prop({ reflect: true, mutable: true }) selected = false;
 
@@ -68,19 +68,19 @@ export class StepperItem implements InteractiveComponent {
     }
   }
 
-  /** has the step been completed */
+  /** When `true`, the step has been completed. */
   @Prop({ reflect: true }) complete = false;
 
-  /** When true, the component contains an error that requires resolution from the user. */
+  /** When `true`, the component contains an error that requires resolution from the user. */
   @Prop({ reflect: true }) error = false;
 
-  /** When true, interaction is prevented and the component is displayed with lower opacity. */
+  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @Prop({ reflect: true }) disabled = false;
 
   /**
    * The component header text.
    *
-   * @deprecated use "heading" instead.
+   * @deprecated use `heading` instead.
    */
   @Prop() itemTitle?: string;
 
@@ -90,7 +90,7 @@ export class StepperItem implements InteractiveComponent {
   /**
    * A description for the component. Displays below the header text.
    *
-   * @deprecated use "description" instead.
+   * @deprecated use `description` instead.
    */
   @Prop() itemSubtitle?: string;
 
@@ -103,11 +103,11 @@ export class StepperItem implements InteractiveComponent {
   @Prop({ reflect: true, mutable: true }) layout?: Extract<"horizontal" | "vertical", Layout> =
     "horizontal";
 
-  /** When true, displays a status icon in the `calcite-stepper-item` heading. */
+  /** When `true`, displays a status icon in the component's heading. */
   /** @internal */
   @Prop({ mutable: true }) icon = false;
 
-  /** When true, displays the step number in the `calcite-stepper-item` heading. */
+  /** When `true`, displays the step number in the component's heading. */
   /** @internal */
   @Prop({ mutable: true }) numbered = false;
 

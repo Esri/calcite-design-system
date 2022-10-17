@@ -1,0 +1,7 @@
+{
+  "filterResults": "ก้_Filter results_______________ษฺ",
+  "dragHandleActive": "ก้_Reordering ${itemLabel}, current position ${position} of ${total}__________________________________ษฺ.",
+  "dragHandleChange": "ก้_${itemLabel}, new position ${position} of ${total}. Press space to confirm_______________________________________ษฺ.",
+  "dragHandleCommit": "ก้_${itemLabel}, current position ${position} of ${total}_____________________________ษฺ.",
+  "dragHandleIdle": "ก้_${itemLabel}, press space and use arrow keys to reorder content. Current position ${position} of ${total}______________________________________________________ษฺ."
+}

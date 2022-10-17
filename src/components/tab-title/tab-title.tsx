@@ -45,11 +45,11 @@ export class TabTitle implements InteractiveComponent {
   //--------------------------------------------------------------------------
 
   /**
-   * When true, the component and its respective `calcite-tab` contents are selected.
+   * When `true`, the component and its respective `calcite-tab` contents are selected.
    *
    * Only one tab can be selected within the `calcite-tabs` parent.
    *
-   * @deprecated Use "selected" instead.
+   * @deprecated Use `selected` instead.
    */
   @Prop({ reflect: true, mutable: true }) active = false;
 
@@ -59,7 +59,7 @@ export class TabTitle implements InteractiveComponent {
   }
 
   /**
-   * When true, the component and its respective `calcite-tab` contents are selected.
+   * When `true`, the component and its respective `calcite-tab` contents are selected.
    *
    * Only one tab can be selected within the `calcite-tabs` parent.
    */
@@ -73,16 +73,16 @@ export class TabTitle implements InteractiveComponent {
     }
   }
 
-  /** When true, interaction is prevented and the component is displayed with lower opacity.  */
+  /** When `true`, interaction is prevented and the component is displayed with lower opacity.  */
   @Prop({ reflect: true }) disabled = false;
 
-  /** Specifies an icon to display at the end of the component - accepts Calcite UI icon names.  */
+  /** Specifies an icon to display at the end of the component. */
   @Prop({ reflect: true }) iconEnd?: string;
 
-  /** When true, the icon will be flipped when the element direction is right-to-left ("rtl"). */
+  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @Prop({ reflect: true }) iconFlipRtl?: FlipContext;
 
-  /** Specifies an icon to display at the start of the component - accepts Calcite UI icon names.  */
+  /** Specifies an icon to display at the start of the component. */
   @Prop({ reflect: true }) iconStart?: string;
 
   /**
@@ -286,7 +286,7 @@ export class TabTitle implements InteractiveComponent {
   //--------------------------------------------------------------------------
 
   /**
-   * Fires when a `calcite-tab` is selected. Emits the "tab" property, or the index position.
+   * Fires when a `calcite-tab` is selected. Emits the `tab` property, or the index position.
    *
    * @see [TabChangeEventDetail](https://github.com/Esri/calcite-components/blob/master/src/components/tab/interfaces.ts#L1)
    */
