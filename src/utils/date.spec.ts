@@ -144,7 +144,7 @@ describe("parse number", () => {
       locale: "ar",
       numberingSystem: "arab"
     };
-    expect(numberStringFormatter.delocalize("٧٨٩")).toEqual(789);
+    expect(numberStringFormatter.delocalize("٧٨٩")).toEqual("789");
   });
 });
 
