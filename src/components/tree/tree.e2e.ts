@@ -1,4 +1,4 @@
-import { newE2EPage } from "@stencil/core/testing";
+import { E2EPage, newE2EPage } from "@stencil/core/testing";
 import { accessible, renders, defaults, hidden } from "../../tests/commonTests";
 import { GlobalTestProps } from "../../tests/utils";
 import { html } from "../../../support/formatting";
@@ -105,13 +105,13 @@ describe("calcite-tree", () => {
 
   it("should correctly select tree in ancestors selection mode", async () => {
     const page = await newE2EPage();
-    await page.setContent(`
+    await page.setContent(html`
       <calcite-tree selection-mode="ancestors">
         <calcite-tree-item id="one"><span>One</span></calcite-tree-item>
-        <calcite-tree-item id="two">
+        <calcite-tree-item id="two" expanded>
           <span>Two</span>
           <calcite-tree slot="children">
-            <calcite-tree-item id="child-one">
+            <calcite-tree-item id="child-one" expanded>
               <span>Child 1</span>
               <calcite-tree slot="children">
                 <calcite-tree-item id="grandchild-one">
@@ -127,10 +127,8 @@ describe("calcite-tree", () => {
         </calcite-tree-item>
       </calcite-tree>
     `);
-    await page.waitForChanges();
     const one = await page.find("#one");
     const two = await page.find("#two");
-    const twoIcon = await page.find('#two >>> [data-test-id="icon"]');
     const childOne = await page.find("#child-one");
     const childTwo = await page.find("#child-two");
     const grandchildOne = await page.find("#grandchild-one");
@@ -145,24 +143,58 @@ describe("calcite-tree", () => {
     expect(grandchildOne).not.toHaveAttribute("selected");
     expect(grandchildTwo).not.toHaveAttribute("selected");
 
-    await two.click();
+    // Puppeteer's element click will happen in the center of a component,
+    // so we call the method to ensure it happens on the component of interest
+
+    await two.callMethod("click");
+    await page.waitForChanges();
 
     expect(one).not.toHaveAttribute("selected");
+    expect(one).not.toHaveAttribute("indeterminate");
     expect(two).toHaveAttribute("selected");
     expect(childOne).toHaveAttribute("selected");
     expect(childTwo).toHaveAttribute("selected");
     expect(grandchildOne).toHaveAttribute("selected");
     expect(grandchildTwo).toHaveAttribute("selected");
 
-    await twoIcon.click();
-    await childOne.click();
+    await childOne.callMethod("click");
+    await page.waitForChanges();
 
+    expect(one).not.toHaveAttribute("selected");
+    expect(one).not.toHaveAttribute("indeterminate");
+    expect(two).not.toHaveAttribute("selected");
+    expect(two).toHaveAttribute("indeterminate");
     expect(childOne).not.toHaveAttribute("selected");
     expect(childTwo).toHaveAttribute("selected");
     expect(grandchildOne).not.toHaveAttribute("selected");
     expect(grandchildTwo).not.toHaveAttribute("selected");
+
+    grandchildTwo.setProperty("disabled", true);
+    await page.waitForChanges();
+    await two.callMethod("click");
+    await page.waitForChanges();
+
+    expect(one).not.toHaveAttribute("selected");
+    expect(one).not.toHaveAttribute("indeterminate");
     expect(two).not.toHaveAttribute("selected");
-    expect(two).toHaveAttribute("indeterminate");
+    expect(two).not.toHaveAttribute("indeterminate");
+    expect(childOne).not.toHaveAttribute("selected");
+    expect(childTwo).not.toHaveAttribute("selected");
+    expect(grandchildOne).not.toHaveAttribute("selected");
+    expect(grandchildTwo).not.toHaveAttribute("selected");
+
+    grandchildTwo.setProperty("disabled", false);
+    await page.waitForChanges();
+    await two.callMethod("click");
+    await page.waitForChanges();
+
+    expect(one).not.toHaveAttribute("selected");
+    expect(two).toHaveAttribute("selected");
+    expect(two).not.toHaveAttribute("indeterminate");
+    expect(childOne).toHaveAttribute("selected");
+    expect(childTwo).toHaveAttribute("selected");
+    expect(grandchildOne).toHaveAttribute("selected");
+    expect(grandchildTwo).toHaveAttribute("selected");
   });
 
   describe("item selection", () => {
@@ -183,6 +215,7 @@ describe("calcite-tree", () => {
               </calcite-tree-item>
             </calcite-tree>
           </calcite-tree-item>
+          <calcite-tree-item disabled id="three"><span>Three</span></calcite-tree-item>
         </calcite-tree>`
       });
 
@@ -200,6 +233,9 @@ describe("calcite-tree", () => {
 
       await grandchildOne.press("Enter");
 
+      expect(selectEventSpy).toHaveReceivedEventTimes(3);
+
+      await page.click("#three");
       expect(selectEventSpy).toHaveReceivedEventTimes(3);
     });
 
@@ -294,18 +330,19 @@ describe("calcite-tree", () => {
       });
 
       it("contains current selection when selection=multi-children", async () => {
-        const page = await newE2EPage({
-          html: html` <calcite-tree lines selection-mode="multi-children" scale="s">
+        const page = await newE2EPage();
+        await page.setContent(
+          html`<calcite-tree lines selection-mode="multi-children" scale="s">
             <calcite-tree-item id="1"> Child 1 </calcite-tree-item>
             <calcite-tree-item id="2">
               Child 2
               <calcite-tree slot="children">
-                <calcite-tree-item id="3"> Grandchild 1 </calcite-tree-item>
+                <calcite-tree-item id="3" disabled> Grandchild 1 </calcite-tree-item>
                 <calcite-tree-item id="4"> Grandchild 2 </calcite-tree-item>
               </calcite-tree>
             </calcite-tree-item>
           </calcite-tree>`
-        });
+        );
 
         const [item1, item2, item3, item4] = await page.findAll("calcite-tree-item");
 
@@ -327,7 +364,7 @@ describe("calcite-tree", () => {
 
         await item2.click();
 
-        expect(await getSelectedIds()).toEqual(["1", "2", "3", "4"]);
+        expect(await getSelectedIds()).toEqual(["1", "2", "4"]);
 
         await item3.click();
 
@@ -533,6 +570,10 @@ describe("calcite-tree", () => {
       expect(keydownSpy).toHaveReceivedEventTimes(6);
     });
 
+    async function getActiveElementId(page: E2EPage): Promise<string> {
+      return page.evaluate(() => document.activeElement.id);
+    }
+
     it("ArrowRight and ArrowLeft keys expand and collapse nested trees", async () => {
       const parent = "parent";
       const child = "child";
@@ -568,70 +609,70 @@ describe("calcite-tree", () => {
       await page.keyboard.press("ArrowRight");
       await page.waitForChanges();
 
-      expect(await page.evaluate(() => document.activeElement.id)).toEqual(parent);
+      expect(await getActiveElementId(page)).toEqual(parent);
       expect(await parentEl.getProperty("expanded")).toBe(true);
       expect(await childEl.getProperty("expanded")).toBe(false);
 
       await page.keyboard.press("ArrowRight");
       await page.waitForChanges();
 
-      expect(await page.evaluate(() => document.activeElement.id)).toEqual(child);
+      expect(await getActiveElementId(page)).toEqual(child);
       expect(await parentEl.getProperty("expanded")).toBe(true);
       expect(await childEl.getProperty("expanded")).toBe(false);
 
       await page.keyboard.press("ArrowRight");
       await page.waitForChanges();
 
-      expect(await page.evaluate(() => document.activeElement.id)).toEqual(child);
+      expect(await getActiveElementId(page)).toEqual(child);
       expect(await parentEl.getProperty("expanded")).toBe(true);
       expect(await childEl.getProperty("expanded")).toBe(true);
 
       await page.keyboard.press("ArrowRight");
       await page.waitForChanges();
 
-      expect(await page.evaluate(() => document.activeElement.id)).toEqual(grandchild);
+      expect(await getActiveElementId(page)).toEqual(grandchild);
       expect(await parentEl.getProperty("expanded")).toBe(true);
       expect(await childEl.getProperty("expanded")).toBe(true);
 
       await page.keyboard.press("ArrowRight");
       await page.waitForChanges();
 
-      expect(await page.evaluate(() => document.activeElement.id)).toEqual(grandchild);
+      expect(await getActiveElementId(page)).toEqual(grandchild);
       expect(await parentEl.getProperty("expanded")).toBe(true);
       expect(await childEl.getProperty("expanded")).toBe(true);
 
       await page.keyboard.press("ArrowRight");
       await page.waitForChanges();
 
-      expect(await page.evaluate(() => document.activeElement.id)).toEqual(grandchild);
+      expect(await getActiveElementId(page)).toEqual(grandchild);
       expect(await parentEl.getProperty("expanded")).toBe(true);
       expect(await childEl.getProperty("expanded")).toBe(true);
 
       await page.keyboard.press("ArrowLeft");
       await page.waitForChanges();
 
-      expect(await page.evaluate(() => document.activeElement.id)).toEqual(child);
+      expect(await getActiveElementId(page)).toEqual(child);
       expect(await parentEl.getProperty("expanded")).toBe(true);
       expect(await childEl.getProperty("expanded")).toBe(true);
 
       await page.keyboard.press("ArrowLeft");
       await page.waitForChanges();
 
-      expect(await page.evaluate(() => document.activeElement.id)).toEqual(child);
+      expect(await getActiveElementId(page)).toEqual(child);
       expect(await parentEl.getProperty("expanded")).toBe(true);
       expect(await childEl.getProperty("expanded")).toBe(false);
 
       await page.keyboard.press("ArrowLeft");
       await page.waitForChanges();
 
-      expect(await page.evaluate(() => document.activeElement.id)).toEqual(parent);
+      expect(await getActiveElementId(page)).toEqual(parent);
       expect(await parentEl.getProperty("expanded")).toBe(true);
       expect(await childEl.getProperty("expanded")).toBe(false);
 
       await page.keyboard.press("ArrowLeft");
       await page.waitForChanges();
 
-      expect(await page.evaluate(() => document.activeElement.id)).toEqual(parent);
+      expect(await getActiveElementId(page)).toEqual(parent);
       expect(await parentEl.getProperty("expanded")).toBe(false);
       expect(await childEl.getProperty("expanded")).toBe(false);
     });
@@ -681,81 +722,187 @@ describe("calcite-tree", () => {
       await root.focus();
       await page.waitForChanges();
 
-      expect(await page.evaluate(() => document.activeElement.id)).toEqual("root-item-1");
+      expect(await getActiveElementId(page)).toEqual("root-item-1");
 
       await page.keyboard.press("ArrowDown");
       await page.waitForChanges();
 
-      expect(await page.evaluate(() => document.activeElement.id)).toEqual("parent");
+      expect(await getActiveElementId(page)).toEqual("parent");
       expect(keydownSpy).toHaveReceivedEventTimes(1);
 
       await page.keyboard.press("ArrowRight");
       await page.waitForChanges();
 
-      expect(await page.evaluate(() => document.activeElement.id)).toEqual("child");
+      expect(await getActiveElementId(page)).toEqual("child");
       expect(keydownSpy).toHaveReceivedEventTimes(2);
 
       await page.keyboard.press("ArrowDown");
       await page.waitForChanges();
 
-      expect(await page.evaluate(() => document.activeElement.id)).toEqual("child2");
+      expect(await getActiveElementId(page)).toEqual("child2");
       expect(keydownSpy).toHaveReceivedEventTimes(3);
 
       await page.keyboard.press("ArrowRight");
       await page.waitForChanges();
 
-      expect(await page.evaluate(() => document.activeElement.id)).toEqual("grandchild");
+      expect(await getActiveElementId(page)).toEqual("grandchild");
       expect(keydownSpy).toHaveReceivedEventTimes(4);
 
       await page.keyboard.press("ArrowDown");
       await page.waitForChanges();
 
-      expect(await page.evaluate(() => document.activeElement.id)).toEqual("grandchild2");
+      expect(await getActiveElementId(page)).toEqual("grandchild2");
       expect(keydownSpy).toHaveReceivedEventTimes(5);
 
       await page.keyboard.press("ArrowUp");
       await page.waitForChanges();
 
-      expect(await page.evaluate(() => document.activeElement.id)).toEqual("grandchild");
+      expect(await getActiveElementId(page)).toEqual("grandchild");
       expect(keydownSpy).toHaveReceivedEventTimes(6);
 
       await page.keyboard.press("ArrowLeft");
       await page.keyboard.press("ArrowDown");
       await page.waitForChanges();
 
-      expect(await page.evaluate(() => document.activeElement.id)).toEqual("child3");
+      expect(await getActiveElementId(page)).toEqual("child3");
       expect(keydownSpy).toHaveReceivedEventTimes(8);
 
       await page.keyboard.press("ArrowUp");
       await page.waitForChanges();
 
-      expect(await page.evaluate(() => document.activeElement.id)).toEqual("child2");
+      expect(await getActiveElementId(page)).toEqual("child2");
       expect(keydownSpy).toHaveReceivedEventTimes(9);
 
       await page.keyboard.press("ArrowUp");
       await page.waitForChanges();
 
-      expect(await page.evaluate(() => document.activeElement.id)).toEqual("child");
+      expect(await getActiveElementId(page)).toEqual("child");
       expect(keydownSpy).toHaveReceivedEventTimes(10);
 
       await page.keyboard.press("ArrowLeft");
       await page.keyboard.press("ArrowDown");
       await page.waitForChanges();
 
-      expect(await page.evaluate(() => document.activeElement.id)).toEqual("root-item-3");
+      expect(await getActiveElementId(page)).toEqual("root-item-3");
       expect(keydownSpy).toHaveReceivedEventTimes(12);
 
       await page.keyboard.press("ArrowUp");
       await page.waitForChanges();
 
-      expect(await page.evaluate(() => document.activeElement.id)).toEqual("parent");
+      expect(await getActiveElementId(page)).toEqual("parent");
       expect(keydownSpy).toHaveReceivedEventTimes(13);
 
       await page.keyboard.press("ArrowUp");
       await page.waitForChanges();
 
-      expect(await page.evaluate(() => document.activeElement.id)).toEqual("root-item-1");
+      expect(await getActiveElementId(page)).toEqual("root-item-1");
       expect(keydownSpy).toHaveReceivedEventTimes(14);
+    });
+
+    it("honors disabled items when navigating the tree", async () => {
+      const page = await newE2EPage();
+      await page.setContent(
+        html`<calcite-tree selection-mode="ancestors" id="root">
+          <calcite-tree-item id="child-1">
+            <span>Child 1</span>
+          </calcite-tree-item>
+
+          <calcite-tree-item id="child-2" disabled>
+            <span>Child 2</span>
+          </calcite-tree-item>
+
+          <calcite-tree-item id="child-3">
+            <span>Child 3</span>
+
+            <calcite-tree slot="children">
+              <calcite-tree-item disabled id="grandchild-1">
+                <span>Grandchild 1</span>
+              </calcite-tree-item>
+
+              <calcite-tree-item id="grandchild-2">
+                <span>Grandchild 2</span>
+
+                <calcite-tree slot="children">
+                  <calcite-tree-item id="great-grandchild-1">
+                    <span>Great Grandchild 1</span>
+                  </calcite-tree-item>
+
+                  <calcite-tree-item id="great-grandchild-2" disabled>
+                    <span>Great Grandchild 2</span>
+                  </calcite-tree-item>
+
+                  <calcite-tree-item id="great-grandchild-3">
+                    <span>Great Grandchild 3</span>
+                  </calcite-tree-item>
+                </calcite-tree>
+              </calcite-tree-item>
+
+              <calcite-tree-item id="grandchild-3">
+                <span>Grandchild 3</span>
+              </calcite-tree-item>
+            </calcite-tree>
+          </calcite-tree-item>
+
+          <calcite-tree-item id="child-4">
+            <span>Child 4</span>
+          </calcite-tree-item>
+        </calcite-tree>`
+      );
+
+      await page.click("#child-1");
+
+      expect(await getActiveElementId(page)).toEqual("child-1");
+
+      await page.keyboard.press("ArrowDown");
+      await page.waitForChanges();
+
+      expect(await getActiveElementId(page)).toEqual("child-3");
+
+      await page.keyboard.press("ArrowRight");
+      await page.waitForChanges();
+      await page.keyboard.press("ArrowRight");
+      await page.waitForChanges();
+
+      expect(await getActiveElementId(page)).toEqual("grandchild-2");
+
+      await page.keyboard.press("ArrowRight");
+      await page.waitForChanges();
+      await page.keyboard.press("ArrowRight");
+      await page.waitForChanges();
+
+      expect(await getActiveElementId(page)).toEqual("great-grandchild-1");
+
+      await page.keyboard.press("ArrowDown");
+      await page.waitForChanges();
+
+      expect(await getActiveElementId(page)).toEqual("great-grandchild-3");
+
+      await page.keyboard.press("ArrowUp");
+      await page.waitForChanges();
+
+      expect(await getActiveElementId(page)).toEqual("great-grandchild-1");
+
+      await page.keyboard.press("ArrowLeft");
+      await page.waitForChanges();
+
+      expect(await getActiveElementId(page)).toEqual("grandchild-2");
+
+      await page.keyboard.press("ArrowUp");
+      await page.waitForChanges();
+
+      expect(await getActiveElementId(page)).toEqual("grandchild-2");
+
+      await page.keyboard.press("ArrowLeft");
+      await page.waitForChanges();
+      await page.keyboard.press("ArrowLeft");
+      await page.waitForChanges();
+
+      expect(await getActiveElementId(page)).toEqual("child-3");
+
+      await page.keyboard.press("ArrowUp");
+      await page.waitForChanges();
+
+      expect(await getActiveElementId(page)).toEqual("child-1");
     });
   });
 });

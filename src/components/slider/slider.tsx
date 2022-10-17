@@ -32,7 +32,8 @@ import {
   connectLocalized,
   disconnectLocalized,
   LocalizedComponent,
-  localizeNumberString
+  numberStringFormatter,
+  NumberingSystem
 } from "../../utils/locale";
 import { CSS } from "./resources";
 
@@ -63,19 +64,19 @@ export class Slider
   //
   //--------------------------------------------------------------------------
 
-  /** When true, interaction is prevented and the component is displayed with lower opacity. */
+  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @Prop({ reflect: true }) disabled = false;
 
   /**
-   * When true, number values are displayed with a group separator corresponding to the language and country format.
+   * When `true`, number values are displayed with a group separator corresponding to the language and country format.
    */
   @Prop({ reflect: true }) groupSeparator = false;
 
-  /** When true, indicates a histogram is present. */
+  /** When `true`, indicates a histogram is present. */
   @Prop({ reflect: true, mutable: true }) hasHistogram = false;
 
   /**
-   * A list of the histogram's x,y coordinates within the component's "min" and "max". Displays above the component's track.
+   * A list of the histogram's x,y coordinates within the component's `min` and `max`. Displays above the component's track.
    *
    * @see [DataSeries](https://github.com/Esri/calcite-components/blob/master/src/components/graph/interfaces.ts#L5)
    */
@@ -91,16 +92,16 @@ export class Slider
    */
   @Prop() histogramStops: ColorStop[];
 
-  /** When true, displays label handles with their numeric value. */
+  /** When `true`, displays label handles with their numeric value. */
   @Prop({ reflect: true }) labelHandles = false;
 
-  /** When true and "ticks" is specified, displays label tick marks with their numeric value. */
+  /** When `true` and `ticks` is specified, displays label tick marks with their numeric value. */
   @Prop({ reflect: true }) labelTicks = false;
 
   /** The component's maximum selectable value. */
   @Prop({ reflect: true }) max = 100;
 
-  /** For multiple selections, the accessible name for the second handle, such as "Temperature, upper bound". */
+  /** For multiple selections, the accessible name for the second handle, such as `"Temperature, upper bound"`. */
   @Prop() maxLabel?: string;
 
   /** For multiple selections, the component's upper value. */
@@ -109,14 +110,14 @@ export class Slider
   /** The component's minimum selectable value. */
   @Prop({ reflect: true }) min = 0;
 
-  /** Accessible name for first (or only) handle, such as "Temperature, lower bound". */
+  /** Accessible name for first (or only) handle, such as `"Temperature, lower bound"`. */
   @Prop() minLabel: string;
 
   /** For multiple selections, the component's lower value. */
   @Prop({ mutable: true }) minValue?: number;
 
   /**
-   * When true, the slider will display values from high to low.
+   * When `true`, the slider will display values from high to low.
    *
    * Note that this value will be ignored if the slider has an associated histogram.
    */
@@ -127,23 +128,21 @@ export class Slider
 
   /**
    * Specifies the Unicode numeral system used by the component for localization.
-   *
-   * @mdn [numberingSystem](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/Locale/numberingSystem)
    */
-  @Prop() numberingSystem?: string;
+  @Prop() numberingSystem?: NumberingSystem;
 
   /** Specifies the interval to move with the page up, or page down keys. */
   @Prop({ reflect: true }) pageStep?: number;
 
-  /** When true, sets a finer point for handles. */
+  /** When `true`, sets a finer point for handles. */
   @Prop({ reflect: true }) precise = false;
 
   /**
-   * When true, the component must have a value in order for the form to submit.
+   * When `true`, the component must have a value in order for the form to submit.
    */
   @Prop({ reflect: true }) required = false;
 
-  /** When true, enables snap selection in coordination with "step" via a mouse. */
+  /** When `true`, enables snap selection in coordination with `step` via a mouse. */
   @Prop({ reflect: true }) snap = false;
 
   /** Specifies the interval to move with the up, or down keys. */
@@ -1434,12 +1433,13 @@ export class Slider
    */
   private determineGroupSeparator = (value: number): string => {
     if (typeof value === "number") {
-      return localizeNumberString(
-        value.toString(),
-        this.effectiveLocale,
-        this.groupSeparator,
-        this.numberingSystem
-      );
+      numberStringFormatter.numberFormatOptions = {
+        locale: this.effectiveLocale,
+        numberingSystem: this.numberingSystem,
+        useGrouping: this.groupSeparator
+      };
+
+      return numberStringFormatter.localize(value.toString());
     }
   };
 }

@@ -17,7 +17,6 @@ import {
   ARIA_CONTROLS,
   ARIA_EXPANDED,
   HEADING_LEVEL,
-  TEXT,
   defaultPopoverPlacement
 } from "./resources";
 import {
@@ -46,6 +45,15 @@ import { HeadingLevel, Heading } from "../functional/Heading";
 
 import PopoverManager from "./PopoverManager";
 import { debounce } from "lodash-es";
+import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
+import {
+  connectMessages,
+  disconnectMessages,
+  setUpMessages,
+  T9nComponent,
+  updateMessages
+} from "../../utils/t9n";
+import { Messages } from "./assets/popover/t9n";
 
 const manager = new PopoverManager();
 
@@ -55,9 +63,12 @@ const manager = new PopoverManager();
 @Component({
   tag: "calcite-popover",
   styleUrl: "popover.scss",
-  shadow: true
+  shadow: true,
+  assetsDirs: ["assets"]
 })
-export class Popover implements FloatingUIComponent, OpenCloseComponent {
+export class Popover
+  implements FloatingUIComponent, OpenCloseComponent, LocalizedComponent, T9nComponent
+{
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -70,16 +81,16 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
   @Prop({ reflect: true }) autoClose = false;
 
   /**
-   * When true, a close button is added to the component.
+   * When `true`, a close button is added to the component.
    *
    * @deprecated use dismissible instead.
    */
   @Prop({ reflect: true }) closeButton = false;
 
   /**
-   * When true, a close button is added to the component.
+   * When `true`, a close button is added to the component.
    *
-   * @deprecated use closable instead
+   * @deprecated use `closable` instead.
    */
   @Prop({ mutable: true, reflect: true }) dismissible = false;
 
@@ -88,7 +99,7 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
     this.closable = value;
   }
 
-  /** When true, display a close button within the Popover */
+  /** When `true`, display a close button within the component. */
   @Prop({ mutable: true, reflect: true }) closable = false;
 
   @Watch("closable")
@@ -97,12 +108,12 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
   }
 
   /**
-   * When true, prevents flipping the component's placement when overlapping its `referenceElement`.
+   * When `true`, prevents flipping the component's placement when overlapping its `referenceElement`.
    */
   @Prop({ reflect: true }) disableFlip = false;
 
   /**
-   * When true, removes the caret pointer.
+   * When `true`, removes the caret pointer.
    */
   @Prop({ reflect: true }) disablePointer = false;
 
@@ -127,8 +138,33 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
    */
   @Prop({ reflect: true }) headingLevel: HeadingLevel;
 
+  /**
+   * Accessible name for the component's close button.
+   *
+   * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`
+   */
+  @Prop() intlClose;
+
   /** Accessible name for the component. */
   @Prop() label!: string;
+
+  /**
+   * Use this property to override individual strings used by the component.
+   */
+  @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
+
+  @Watch("intlClose")
+  @Watch("messageOverrides")
+  onMessagesChange(): void {
+    /* wired up by t9n util */
+  }
+
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @internal
+   */
+  @Prop({ mutable: true }) messages: Messages;
 
   /**
    * Offsets the position of the popover away from the `referenceElement`.
@@ -143,7 +179,7 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
   }
 
   /**
-   * Offsets the position of the popover along the `referenceElement`.
+   * Offsets the position of the component along the `referenceElement`.
    */
   @Prop({ reflect: true }) offsetSkidding = 0;
 
@@ -153,7 +189,7 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
   }
 
   /**
-   * When true, displays and positions the component.
+   * When `true`, displays and positions the component.
    */
   @Prop({ reflect: true, mutable: true }) open = false;
 
@@ -191,7 +227,7 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
   }
 
   /**
-   *  The `referenceElement` used to position the component according to its "placement" value. Setting to an `HTMLElement` is preferred so the component does not need to query the DOM. However, a string `id` of the reference element can also be used.
+   *  The `referenceElement` used to position the component according to its `placement` value. Setting to an `HTMLElement` is preferred so the component does not need to query the DOM. However, a string `id` of the reference element can also be used.
    */
   @Prop() referenceElement!: ReferenceElement | string;
 
@@ -202,16 +238,11 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
   }
 
   /**
-   * When true, disables automatically toggling the component when its `referenceElement` has been triggered. This property can be set to "true" to manage when a popover is open.
+   * When `true`, disables automatically toggling the component when its `referenceElement` has been triggered.
+   *
+   * This property can be set to `true` to manage when the component is open.
    */
   @Prop({ reflect: true }) triggerDisabled = false;
-
-  /**
-   * Accessible name for the component's close button.
-   *
-   * @default "Close"
-   */
-  @Prop() intlClose = TEXT.close;
 
   // --------------------------------------------------------------------------
   //
@@ -223,7 +254,16 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
 
   @Element() el: HTMLCalcitePopoverElement;
 
+  @State() effectiveLocale = "";
+
+  @Watch("effectiveLocale")
+  effectiveLocaleChange(): void {
+    updateMessages(this, this.effectiveLocale);
+  }
+
   @State() effectiveReferenceElement: ReferenceElement;
+
+  @State() defaultMessages: Messages;
 
   arrowEl: HTMLDivElement;
 
@@ -245,6 +285,8 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
 
   connectedCallback(): void {
     this.setFilteredPlacements();
+    connectLocalized(this);
+    connectMessages(this);
     connectOpenCloseComponent(this);
     const closable = this.closable || this.dismissible;
     if (closable) {
@@ -254,6 +296,10 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
       this.handleClosable(closable);
     }
     this.setUpReferenceElement(this.hasLoaded);
+  }
+
+  async componentWillLoad(): Promise<void> {
+    await setUpMessages(this);
   }
 
   componentDidLoad(): void {
@@ -266,6 +312,8 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
 
   disconnectedCallback(): void {
     this.removeReferences();
+    disconnectLocalized(this);
+    disconnectMessages(this);
     disconnectFloatingUI(this, this.effectiveReferenceElement, this.el);
     disconnectOpenCloseComponent(this);
   }
@@ -478,7 +526,7 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
   // --------------------------------------------------------------------------
 
   renderCloseButton(): VNode {
-    const { closeButton, intlClose, heading, closable } = this;
+    const { closeButton, messages, heading, closable } = this;
 
     return closable || closeButton ? (
       <div class={CSS.closeButtonContainer}>
@@ -487,7 +535,7 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
           onClick={this.hide}
           ref={(closeButtonEl) => (this.closeButtonEl = closeButtonEl)}
           scale={heading ? "s" : "m"}
-          text={intlClose}
+          text={messages.close}
         >
           <calcite-icon icon="x" scale={heading ? "s" : "m"} />
         </calcite-action>

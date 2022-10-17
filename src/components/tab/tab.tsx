@@ -48,7 +48,7 @@ export class Tab {
   @Prop({ reflect: true }) tab?: string;
 
   /**
-   * When true, the component's contents are selected.
+   * When `true`, the component's contents are selected.
    *
    * Only one tab can be selected within the `calcite-tabs` parent.
    *
@@ -62,7 +62,7 @@ export class Tab {
   }
 
   /**
-   * When true, the component's contents are selected.
+   * When `true`, the component's contents are selected.
    *
    * Only one tab can be selected within the `calcite-tabs` parent.
    */

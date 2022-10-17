@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, defaults, hidden, renders } from "../../tests/commonTests";
+import { accessible, defaults, hidden, renders, t9n } from "../../tests/commonTests";
 import { CSS } from "./resources";
 
 describe("calcite-scrim", () => {
@@ -18,6 +18,8 @@ describe("calcite-scrim", () => {
         defaultValue: false
       }
     ]));
+
+  it("supports translations", () => t9n("calcite-scrim"));
 
   it("shows loading component", async () => {
     const page = await newE2EPage();
