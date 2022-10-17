@@ -143,7 +143,7 @@ export class Popover
    *
    * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`
    */
-  @Prop() intlClose;
+  @Prop() intlClose: string;
 
   /** Accessible name for the component. */
   @Prop() label!: string;
