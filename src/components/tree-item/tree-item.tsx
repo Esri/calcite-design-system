@@ -55,14 +55,14 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
   //--------------------------------------------------------------------------
 
   /**
-   * When true, interaction is prevented and the component is displayed with lower opacity.
+   * When `true`, interaction is prevented and the component is displayed with lower opacity.
    */
   @Prop({ reflect: true }) disabled = false;
 
-  /** When true, the component is selected. */
+  /** When `true`, the component is selected. */
   @Prop({ mutable: true, reflect: true }) selected = false;
 
-  /** When true, the component is expanded. */
+  /** When `true`, the component is expanded. */
   @Prop({ mutable: true, reflect: true }) expanded = false;
 
   @Watch("expanded")

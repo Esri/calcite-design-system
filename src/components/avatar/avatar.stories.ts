@@ -1,6 +1,7 @@
 import { select, text } from "@storybook/addon-knobs";
 
-import { placeholderImage, themesDarkDefault } from "../../../.storybook/utils";
+import { themesDarkDefault } from "../../../.storybook/utils";
+import { placeholderImage } from "../../../.storybook/placeholderImage";
 import { html } from "../../../support/formatting";
 import readme from "./readme.md";
 import { storyFilters } from "../../../.storybook/helpers";

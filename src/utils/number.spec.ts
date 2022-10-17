@@ -113,12 +113,12 @@ describe("BigDecimal", () => {
 
   locales.forEach((locale) => {
     it(`correctly localizes number parts - ${locale}`, () => {
-      numberStringFormatter.setOptions({
+      numberStringFormatter.numberFormatOptions = {
         locale,
         // the group separator is different in arabic depending on the numberingSystem
         numberingSystem: locale === "ar" ? "arab" : "latn",
         useGrouping: true
-      });
+      };
 
       const parts = new BigDecimal("-12345678.9").formatToParts(numberStringFormatter.numberFormatter);
       const groupPart = parts.find((part) => part.type === "group").value;

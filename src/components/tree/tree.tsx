@@ -396,7 +396,7 @@ export class Tree {
   //--------------------------------------------------------------------------
 
   /**
-   * Fires when the user selects/deselects `calcite-tree-items`. An object including an array of selected items will be passed in the event's "detail" property.
+   * Fires when the user selects/deselects `calcite-tree-items`. An object including an array of selected items will be passed in the event's `detail` property.
    *
    * @see [TreeSelectDetail](https://github.com/Esri/calcite-components/blob/master/src/components/tree/interfaces.ts#L1)
    */
