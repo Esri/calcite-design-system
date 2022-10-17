@@ -72,19 +72,19 @@ export class InputNumber
   @Prop({ reflect: true }) alignment: Position = "start";
 
   /**
-   * When true, the component is focused on page load.
+   * When `true`, the component is focused on page load.
    *
    * @mdn [autofocus](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/autofocus)
    */
   @Prop({ reflect: true }) autofocus = false;
 
   /**
-   * When true, a clear button is displayed when the component has a value.
+   * When `true`, a clear button is displayed when the component has a value.
    */
   @Prop({ reflect: true }) clearable = false;
 
   /**
-   * When true, interaction is prevented and the component is displayed with lower opacity.
+   * When `true`, interaction is prevented and the component is displayed with lower opacity.
    *
    * @mdn [disabled](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/disabled)
    */
@@ -96,19 +96,19 @@ export class InputNumber
   }
 
   /**
-   * When true, number values are displayed with the locale's group separator.
+   * When `true`, number values are displayed with a group separator corresponding to the language and country format.
    */
   @Prop({ reflect: true }) groupSeparator = false;
 
   /**
-   * When true, the component will not be visible.
+   * When `true`, the component will not be visible.
    *
    * @mdn [hidden](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/hidden)
    */
   @Prop({ reflect: true }) hidden = false;
 
   /**
-   * When true, shows a default recommended icon. Alternatively, pass a Calcite UI Icon name to display a specific icon.
+   * When `true`, shows a default recommended icon. Alternatively, pass a Calcite UI Icon name to display a specific icon.
    */
   @Prop({ reflect: true }) icon: string | boolean;
 
@@ -124,13 +124,13 @@ export class InputNumber
    */
   @Prop() intlLoading?: string = COMMON_TEXT.loading;
 
-  /** When true, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
+  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @Prop({ reflect: true }) iconFlipRtl = false;
 
   /** Accessible name for the component's button or hyperlink. */
   @Prop() label?: string;
 
-  /** When true, the component is in the loading state and `calcite-progress` is displayed. */
+  /** When `true`, the component is in the loading state and `calcite-progress` is displayed. */
   @Prop({ reflect: true }) loading = false;
 
   /**
@@ -219,13 +219,13 @@ export class InputNumber
   @Prop() prefixText?: string;
 
   /**
-   * When true, the component's value can be read, but cannot be modified.
+   * When `true`, the component's value can be read, but cannot be modified.
    *
    * @mdn [readOnly](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/readonly)
    */
   @Prop({ reflect: true }) readOnly = false;
 
-  /** When true, the component must have a value in order for the form to submit. */
+  /** When `true`, the component must have a value in order for the form to submit. */
   @Prop({ reflect: true }) required = false;
 
   /** Specifies the size of the component. */

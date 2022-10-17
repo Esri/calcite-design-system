@@ -164,7 +164,7 @@ export class TimePicker implements LocalizedComponent {
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
 
-  /** Specifies the granularity the "value" must adhere to (in seconds). */
+  /** Specifies the granularity the `value` must adhere to (in seconds). */
   @Prop({ reflect: true }) step = 60;
 
   /**

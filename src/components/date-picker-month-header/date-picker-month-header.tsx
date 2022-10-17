@@ -109,13 +109,12 @@ export class DatePickerMonthHeader {
     const activeMonth = this.activeDate.getMonth();
     const { months, unitOrder } = this.localeData;
     const localizedMonth = (months.wide || months.narrow || months.abbreviated)[activeMonth];
-    const localizedYear = this.formatCalendarYear(this.activeDate.getFullYear().toString());
+    const localizedYear = this.formatCalendarYear(this.activeDate.getFullYear());
     const iconScale = this.scale === "l" ? "m" : "s";
 
     const order = getOrder(unitOrder);
     const reverse = order.indexOf("y") < order.indexOf("m");
     const suffix = this.localeData.year?.suffix;
-
     return (
       <Fragment>
         <a
@@ -152,14 +151,7 @@ export class DatePickerMonthHeader {
               type="text"
               value={localizedYear}
             />
-            {suffix && (
-              <span class="suffix">
-                <span aria-hidden="true" class="suffix__invisible">
-                  {localizedYear}
-                </span>
-                {" " + suffix}
-              </span>
-            )}
+            {suffix && <span class="suffix">{suffix}</span>}
           </span>
         </div>
         <a
@@ -228,12 +220,11 @@ export class DatePickerMonthHeader {
     }
   };
 
-  private formatCalendarYear(year: string): string {
+  private formatCalendarYear(year: number): string {
     const { localeData } = this;
     const buddhistCalendar = localeData["default-calendar"] === "buddhist";
     const yearOffset = buddhistCalendar ? BUDDHIST_CALENDAR_YEAR_OFFSET : 0;
-
-    return localizeNumber(parseNumber(year, localeData) + yearOffset, localeData);
+    return localizeNumber(year + yearOffset, localeData);
   }
 
   private parseCalendarYear(year: string): string {
@@ -333,9 +324,7 @@ export class DatePickerMonthHeader {
     }
 
     if (commit) {
-      yearInput.value = this.formatCalendarYear(
-        (inRangeDate || activeDate).getFullYear().toString()
-      );
+      yearInput.value = this.formatCalendarYear((inRangeDate || activeDate).getFullYear());
     }
   }
 }

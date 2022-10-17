@@ -24,12 +24,12 @@ export class Tip implements ConditionalSlotComponent {
   //
   // --------------------------------------------------------------------------
   /**
-   * When true, the component does not display.
+   * When `true`, the component does not display.
    */
   @Prop({ reflect: true, mutable: true }) dismissed = false;
 
   /**
-   * When true, the close button is not present on the component.
+   * When `true`, the close button is not present on the component.
    */
   @Prop({ reflect: true }) nonDismissible = false;
 
