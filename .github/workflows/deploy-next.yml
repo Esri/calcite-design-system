@@ -38,9 +38,10 @@ jobs:
               # deploy storybook, but still release next if it fails
               { npm run build-storybook && npx storybook-to-ghpages --host-token-env-variable=GH_TOKEN_FOR_STORYBOOK --existing-output-dir=docs --ci; } || true
 
-              # remove the build to ./docs after storybook deploys to gh-pages
+              # remove the build to docs after storybook deploys to gh-pages
               # if there are changes the git sanity checks will prevent deployment
-              cd ./docs && git clean -fd
+              git clean -fd
+              git checkout master
               npm run util:deploy-next-from-ci
             fi
           else
