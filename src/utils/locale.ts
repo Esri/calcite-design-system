@@ -353,7 +353,7 @@ class NumberStringFormat {
         ? new BigDecimal(nonExpoNumString.trim())
             .format(this._numberFormatter)
             .replace(new RegExp(`[${this._actualGroup}]`, "g"), this._group)
-        : nonExpoNumString.trim()
+        : nonExpoNumString
     );
 }
 
