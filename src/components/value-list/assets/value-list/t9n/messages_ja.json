@@ -1,5 +1,4 @@
 {
-  "filterResults": "須_Filter results_______________鷗",
   "dragHandleActive": "須_Reordering ${itemLabel}, current position ${position} of ${total}__________________________________鷗.",
   "dragHandleChange": "須_${itemLabel}, new position ${position} of ${total}. Press space to confirm_______________________________________鷗.",
   "dragHandleCommit": "須_${itemLabel}, current position ${position} of ${total}_____________________________鷗.",
