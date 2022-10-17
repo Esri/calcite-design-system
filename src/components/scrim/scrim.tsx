@@ -35,7 +35,7 @@ export class Scrim implements LocalizedComponent, T9nComponent {
   @Prop() intlLoading: string;
 
   /**
-   * When true, a busy indicator is displayed.
+   * When `true`, a busy indicator is displayed.
    */
   @Prop({ reflect: true }) loading = false;
 
