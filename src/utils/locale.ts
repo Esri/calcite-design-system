@@ -349,11 +349,11 @@ class NumberStringFormat {
 
   localize = (numberString: string) =>
     sanitizeExponentialNumberString(numberString, (nonExpoNumString: string): string =>
-      isValidNumber(nonExpoNumString)
+      isValidNumber(nonExpoNumString.trim())
         ? new BigDecimal(nonExpoNumString.trim())
             .format(this._numberFormatter)
             .replace(new RegExp(`[${this._actualGroup}]`, "g"), this._group)
-        : nonExpoNumString
+        : nonExpoNumString.trim()
     );
 }
 
