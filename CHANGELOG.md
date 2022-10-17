@@ -7,6 +7,11 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## Unreleased
 
+### ⚠ BREAKING CHANGES
+
+- **build:** dropped ES5 build output – this was disabled as legacy browsers are no longer supported, any `nomodule` scripts should be removed ([#5412](https://github.com/Esri/calcite-components/issues/5412))
+- **build:** dropped `dist-custom-elements-bundle` output target – this is deprecated by Stencil and developers should use the `custom-elements` output target instead ([#5411](https://github.com/Esri/calcite-components/issues/5411))
+
 ### Features
 
 - **tree-item:** allow disabling tree-item ([#5194](https://github.com/Esri/calcite-components/issues/5194)) ([a16bea2](https://github.com/Esri/calcite-components/commit/a16bea2d0da14b9cd0c5d734ffc24cdf83eb22a9)), closes [#3772](https://github.com/Esri/calcite-components/issues/3772)
