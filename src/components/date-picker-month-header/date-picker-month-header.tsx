@@ -218,6 +218,7 @@ export class DatePickerMonthHeader {
     const { localeData } = this;
     const buddhistCalendar = localeData["default-calendar"] === "buddhist";
     const yearOffset = buddhistCalendar ? BUDDHIST_CALENDAR_YEAR_OFFSET : 0;
+    
     return numberStringFormatter.localize((year + yearOffset).toString());
   }
 
