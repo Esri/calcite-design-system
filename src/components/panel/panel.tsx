@@ -61,6 +61,9 @@ export class Panel implements InteractiveComponent, LocalizedComponent, T9nCompo
   /** When true, displays a close button in the trailing side of the header */
   @Prop({ mutable: true, reflect: true }) closable = false;
 
+  /** When `true`, the component will be hidden. */
+  @Prop({ mutable: true, reflect: true }) closed = false;
+
   @Watch("closable")
   closableHandler(value: boolean): void {
     this.dismissible = value;
@@ -93,9 +96,9 @@ export class Panel implements InteractiveComponent, LocalizedComponent, T9nCompo
   }
 
   /**
-   * When true, a close button is added to the component.
+   * When `true`, a close button is added to the component.
    *
-   * @deprecated use closable instead
+   * @deprecated use `closable` instead
    */
   @Prop({ mutable: true, reflect: true }) dismissible = false;
 
@@ -106,6 +109,9 @@ export class Panel implements InteractiveComponent, LocalizedComponent, T9nCompo
 
   /** A description for the component. */
   @Prop() description: string;
+
+  /** When `true`, displays a close button in the trailing side of the header. */
+  @Prop({ mutable: true, reflect: true }) closable = false;
 
   /**
    * The component header text.
@@ -123,7 +129,7 @@ export class Panel implements InteractiveComponent, LocalizedComponent, T9nCompo
   @Prop({ reflect: true }) heightScale?: Scale;
 
   /**
-   * Accessible name for the component's back button. The back button will only be shown when 'showBackButton' is true.
+   * Accessible name for the component's back button. The back button will only be shown when `showBackButton` is `true`.
    *
    * @deprecated use `calcite-flow-item` instead.
    */
@@ -144,7 +150,7 @@ export class Panel implements InteractiveComponent, LocalizedComponent, T9nCompo
   @Prop() intlOptions: string;
 
   /**
-   * When true, a busy indicator is displayed.
+   * When `true`, a busy indicator is displayed.
    */
   @Prop({ reflect: true }) loading = false;
 
@@ -184,7 +190,7 @@ export class Panel implements InteractiveComponent, LocalizedComponent, T9nCompo
   /**
    * Summary text. A description displayed underneath the heading.
    *
-   * @deprecated use description instead
+   * @deprecated use `description` instead.
    */
   @Prop() summary?: string;
 
@@ -286,14 +292,14 @@ export class Panel implements InteractiveComponent, LocalizedComponent, T9nCompo
   /**
    * Fires when the close button is clicked.
    *
-   * @deprecated use calcitePanelClose instead.
+   * @deprecated use `calcitePanelClose` instead.
    */
   @Event({ cancelable: false }) calcitePanelDismiss: EventEmitter<void>;
 
   /**
    * Fires when there is a change to the `dismissed` property value .
    *
-   * @deprecated use calcitePanelClose instead.
+   * @deprecated use `calcitePanelClose` instead.
    */
   @Event({ cancelable: false }) calcitePanelDismissedChange: EventEmitter<void>;
 

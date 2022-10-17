@@ -18,6 +18,7 @@ import { Scale } from "../interfaces";
 import { RGB } from "../color-picker/interfaces";
 import { focusElement } from "../../utils/dom";
 import { TEXT } from "../color-picker/resources";
+import { NumberingSystem } from "../../utils/locale";
 
 const DEFAULT_COLOR = Color();
 
@@ -96,12 +97,8 @@ export class ColorPickerHexInput {
    */
   @Prop({ mutable: true, reflect: true }) value: string = normalizeHex(DEFAULT_COLOR.hex());
 
-  /**
-   * Specifies the Unicode numeral system used by the component for localization.
-   *
-   * @mdn [numberingSystem](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/Locale/numberingSystem)
-   */
-  @Prop() numberingSystem?: string;
+  /** Specifies the Unicode numeral system used by the component for localization. */
+  @Prop() numberingSystem?: NumberingSystem;
 
   @Watch("value")
   handleValueChange(value: string, oldValue: string): void {

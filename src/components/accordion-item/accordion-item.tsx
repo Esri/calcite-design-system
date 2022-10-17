@@ -45,9 +45,9 @@ export class AccordionItem implements ConditionalSlotComponent {
   //--------------------------------------------------------------------------
 
   /**
-   * When true, the component is active.
+   * When `true`, the component is active.
    *
-   * @deprecated use expanded instead
+   * @deprecated use `expanded` instead.
    */
 
   @Prop({ reflect: true, mutable: true }) active = false;
@@ -57,7 +57,7 @@ export class AccordionItem implements ConditionalSlotComponent {
     this.expanded = value;
   }
 
-  /** When true, item is expanded */
+  /** When `true`, the component is expanded. */
   @Prop({ reflect: true, mutable: true }) expanded = false;
 
   @Watch("expanded")
