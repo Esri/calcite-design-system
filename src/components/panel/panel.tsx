@@ -69,9 +69,6 @@ export class Panel implements InteractiveComponent, LocalizedComponent, T9nCompo
     this.dismissible = value;
   }
 
-  /** When true, panel will be hidden */
-  @Prop({ mutable: true, reflect: true }) closed = false;
-
   @Watch("closed")
   closedHandler(value: boolean): void {
     this.dismissed = value;
@@ -109,9 +106,6 @@ export class Panel implements InteractiveComponent, LocalizedComponent, T9nCompo
 
   /** A description for the component. */
   @Prop() description: string;
-
-  /** When `true`, displays a close button in the trailing side of the header. */
-  @Prop({ mutable: true, reflect: true }) closable = false;
 
   /**
    * The component header text.
