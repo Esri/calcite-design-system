@@ -93,6 +93,7 @@ async function fetchMessages(component: T9nComponent, lang: string): Promise<Mes
  */
 export async function updateMessages(component: T9nComponent, lang: string): Promise<void> {
   component.defaultMessages = await fetchMessages(component, lang);
+  mergeMessages(component);
 }
 
 /**
@@ -139,8 +140,6 @@ export interface T9nComponent extends LocalizedComponent {
 
   /**
    * This property holds the component's default messages.
-   *
-   * This prop should use the `@State` decorator.
    */
   defaultMessages: MessageBundle;
 
@@ -158,7 +157,6 @@ export interface T9nComponent extends LocalizedComponent {
    *
    * @Watch("intlMyPropA")
    * @Watch("intlMyPropZ")
-   * @Watch("defaultMessages")
    * @Watch("messageOverrides")
    * onMessagesChange(): void {
    *  \/* wired up by t9n util *\/
