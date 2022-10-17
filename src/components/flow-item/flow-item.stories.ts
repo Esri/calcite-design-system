@@ -9,6 +9,7 @@ import {
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import readme from "./readme.md";
 import { SLOTS, TEXT } from "./resources";
+import { TEXT as PANEL_TEXT } from "../panel/resources";
 import { html } from "../../../support/formatting";
 import { storyFilters } from "../../../.storybook/helpers";
 
@@ -68,7 +69,11 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
       {
         name: "intl-close",
         commit(): Attribute {
-          this.value = text("intlClose", TEXT.close);
+          this.value = text(
+            "intlClose",
+            /* reusing `calcite-panel`'s value due to the current implementation */
+            PANEL_TEXT.close
+          );
           delete this.build;
           return this;
         }
