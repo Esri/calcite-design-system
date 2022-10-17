@@ -877,13 +877,15 @@ export class InputDatePicker
     const date = this.getDateFromInput(target.value);
     if (!date) {
       if (!range && valueAsDate) {
-        target.value = Array.isArray(valueAsDate)
-          ? valueAsDate[focusedInput === "end" ? 1 : 0].toLocaleDateString(locale)
-          : valueAsDate.toLocaleDateString(locale);
+        target.value = this.formatNumerals(
+          Array.isArray(valueAsDate)
+            ? valueAsDate[focusedInput === "end" ? 1 : 0].toLocaleDateString(locale)
+            : valueAsDate.toLocaleDateString(locale)
+        );
       } else if (focusedInput === "start" && startAsDate) {
-        target.value = startAsDate.toLocaleDateString(locale);
+        target.value = this.formatNumerals(startAsDate.toLocaleDateString(locale));
       } else if (focusedInput === "end" && endAsDate) {
-        target.value = endAsDate.toLocaleDateString(locale);
+        target.value = this.formatNumerals(endAsDate.toLocaleDateString(locale));
       }
     }
   }
