@@ -249,7 +249,7 @@ export class FlowItem implements InteractiveComponent, LocalizedComponent, T9nCo
    */
   @Method()
   async scrollContentTo(options?: ScrollToOptions): Promise<void> {
-    this.containerEl?.scrollContentTo(options);
+    await this.containerEl?.scrollContentTo(options);
   }
 
   // --------------------------------------------------------------------------
@@ -270,6 +270,10 @@ export class FlowItem implements InteractiveComponent, LocalizedComponent, T9nCo
 
   setBackRef = (node: HTMLCalciteActionElement): void => {
     this.backButtonEl = node;
+  };
+
+  setContainerRef = (node: HTMLCalcitePanelElement): void => {
+    this.containerEl = node;
   };
 
   // --------------------------------------------------------------------------
@@ -331,6 +335,7 @@ export class FlowItem implements InteractiveComponent, LocalizedComponent, T9nCo
           menuOpen={menuOpen}
           messageOverrides={messages}
           onCalcitePanelClose={this.handlePanelClose}
+          ref={this.setContainerRef}
           widthScale={widthScale}
         >
           <slot name={SLOTS.headerActionsStart} slot={PANEL_SLOTS.headerActionsStart} />
