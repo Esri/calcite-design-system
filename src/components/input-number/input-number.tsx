@@ -96,7 +96,7 @@ export class InputNumber
   }
 
   /**
-   * When `true`, number values are displayed with the locale's group separator.
+   * When `true`, number values are displayed with a group separator corresponding to the language and country format.
    */
   @Prop({ reflect: true }) groupSeparator = false;
 

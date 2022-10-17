@@ -103,11 +103,11 @@ export class StepperItem implements InteractiveComponent {
   @Prop({ reflect: true, mutable: true }) layout?: Extract<"horizontal" | "vertical", Layout> =
     "horizontal";
 
-  /** When `true`, displays a status icon in the `calcite-stepper-item` heading. */
+  /** When `true`, displays a status icon in the component's heading. */
   /** @internal */
   @Prop({ mutable: true }) icon = false;
 
-  /** When `true`, displays the step number in the `calcite-stepper-item` heading. */
+  /** When `true`, displays the step number in the component's heading. */
   /** @internal */
   @Prop({ mutable: true }) numbered = false;
 

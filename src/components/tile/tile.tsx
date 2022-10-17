@@ -67,7 +67,7 @@ export class Tile implements ConditionalSlotComponent, InteractiveComponent {
   /** When `true`, the component is not displayed and is not focusable.  */
   @Prop({ reflect: true }) hidden = false;
 
-  /** When embed is `"false"`, the url for the component. */
+  /** When embed is `"false"`, the URL for the component. */
   @Prop({ reflect: true }) href?: string;
 
   /** Specifies an icon to display. */

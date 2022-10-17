@@ -202,7 +202,9 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
   }
 
   /**
-   * When `true`, disables automatically toggling the component when its `referenceElement` has been triggered. This property can be set to `true` to manage when a popover is open.
+   * When `true`, disables automatically toggling the component when its `referenceElement` has been triggered.
+   *
+   * This property can be set to `true` to manage when the component is open.
    */
   @Prop({ reflect: true }) triggerDisabled = false;
 

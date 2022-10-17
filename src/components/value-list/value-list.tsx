@@ -112,7 +112,7 @@ export class ValueList<
   /**
    * When `dragEnabled` is `true` and active, specifies accessible context to the component.
    *
-   * Use "`${position}` of `${total}`"" as a placeholder for displaying indices and `${item.label}` as a placeholder for displaying the `calcite-value-list-item` label.
+   * Use "`${position}` of `${total}`" as a placeholder for displaying indices and `${item.label}` as a placeholder for displaying the `calcite-value-list-item` label.
    */
   @Prop() intlDragHandleActive?: string;
 

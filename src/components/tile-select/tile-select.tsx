@@ -74,7 +74,7 @@ export class TileSelect implements InteractiveComponent {
   /** When `true`, displays an interactive input based on the `type` property. */
   @Prop({ reflect: true }) inputEnabled = false;
 
-  /** When `inputEnabled` is `true`, the placement of the interactive input on the component. */
+  /** When `inputEnabled` is `true`, specifies the placement of the interactive input on the component. */
   @Prop({ reflect: true }) inputAlignment: Extract<"end" | "start", Alignment> = "start";
 
   /**
