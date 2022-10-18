@@ -285,6 +285,7 @@ export class FlowItem implements InteractiveComponent {
           ref={this.setContainerRef}
           widthScale={widthScale}
         >
+          {this.renderBackButton()}
           <slot name={SLOTS.headerActionsStart} slot={PANEL_SLOTS.headerActionsStart} />
           <slot name={SLOTS.headerActionsEnd} slot={PANEL_SLOTS.headerActionsEnd} />
           <slot name={SLOTS.headerContent} slot={PANEL_SLOTS.headerContent} />
@@ -293,7 +294,6 @@ export class FlowItem implements InteractiveComponent {
           <slot name={SLOTS.footerActions} slot={PANEL_SLOTS.footerActions} />
           <slot name={SLOTS.footer} slot={PANEL_SLOTS.footer} />
           <slot />
-          {this.renderBackButton()}
         </calcite-panel>
         {backButtonEl ? (
           <calcite-tooltip label={label} placement="auto" referenceElement={backButtonEl}>
