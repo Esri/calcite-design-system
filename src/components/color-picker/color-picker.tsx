@@ -552,6 +552,10 @@ export class ColorPicker implements InteractiveComponent {
   };
 
   private handleColorFieldAndSliderPointerDown = (event: PointerEvent): void => {
+    if (!event.isPrimary) {
+      return;
+    }
+
     const { offsetX, offsetY } = event;
     const region = this.getCanvasRegion(offsetY);
 

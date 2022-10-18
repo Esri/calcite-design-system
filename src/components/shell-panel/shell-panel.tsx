@@ -367,6 +367,10 @@ export class ShellPanel implements ConditionalSlotComponent {
   };
 
   separatorPointerDown = (event: PointerEvent): void => {
+    if (!event.isPrimary) {
+      return;
+    }
+
     event.preventDefault();
     const { separatorEl } = this;
 

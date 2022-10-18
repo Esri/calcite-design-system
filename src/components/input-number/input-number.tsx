@@ -646,6 +646,10 @@ export class InputNumber
   };
 
   private nudgeButtonPointerDownHandler = (event: PointerEvent): void => {
+    if (!event.isPrimary) {
+      return;
+    }
+
     event.preventDefault();
     const direction = (event.target as HTMLDivElement).dataset.adjustment as NumberNudgeDirection;
     if (!this.disabled) {

@@ -69,15 +69,19 @@ export default class TooltipManager {
     }
   };
 
-  private mouseEnterShow = (event: MouseEvent): void => {
+  private mouseEnterShow = (event: PointerEvent): void => {
     this.hoverEvent(event, true);
   };
 
-  private mouseLeaveHide = (event: MouseEvent): void => {
+  private mouseLeaveHide = (event: PointerEvent): void => {
     this.hoverEvent(event, false);
   };
 
-  private clickHandler = (event: MouseEvent): void => {
+  private clickHandler = (event: PointerEvent): void => {
+    if (!event.isPrimary) {
+      return;
+    }
+
     const clickedTooltip = this.queryTooltip(event.composedPath());
 
     this.clickedTooltip = clickedTooltip;
@@ -170,7 +174,7 @@ export default class TooltipManager {
     hoverTimeouts.set(tooltip, timeoutId);
   }
 
-  private activeTooltipHover(event: MouseEvent): void {
+  private activeTooltipHover(event: PointerEvent): void {
     const { activeTooltipEl, hoverTimeouts } = this;
     const { type } = event;
 
@@ -185,7 +189,7 @@ export default class TooltipManager {
     }
   }
 
-  private hoverEvent(event: MouseEvent, value: boolean): void {
+  private hoverEvent(event: PointerEvent, value: boolean): void {
     const tooltip = this.queryTooltip(event.composedPath());
 
     this.activeTooltipHover(event);
