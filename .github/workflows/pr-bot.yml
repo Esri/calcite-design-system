@@ -12,45 +12,41 @@ jobs:
         with:
           result-encoding: string
           script: |
-            const {
-              repo: { owner, repo },
-              payload: {
-                issue: { title, number: issue_number }
-              }
-            } = context;
-
             const conventionalCommitRegex =
               /^(build|chore|ci|docs|feat|fix|perf|refactor|revert|style|test)(\([\w ,-]+\))?(!?:\s+)([\w ]+[\s\S]*)/i;
 
-            const match = title.match(conventionalCommitRegex);
-            const commitType = match[1]; // first match group
+            const commitMessage = (issue && issue.title) || (pull_request && pull_request.title);
+            if (!commitMessage) {
+              console.log("No title found, ending run.");
+              return;
+            }
 
-            if (commitType) {
-              const labels = [getLabelName(commitType)];
-
+            const match = commitMessage.match(conventionalCommitRegex);
+            if (match && match.length > 1) {
+              const labels = [getLabelName(match[1])];
               await octokit.rest.issues.addLabels({
                 owner,
                 repo,
                 issue_number,
                 labels
               });
-            }
 
-            function getLabelName(type) {
-              switch (type) {
-                case "feat":
-                  return "enhancement";
-                case "fix":
-                  return "bug";
-                case "docs":
-                  return "docs";
-                case "test":
-                  return "testing";
-                case "refactor":
-                  return "refactor";
-                case "tooling":
-                  return "tooling";
-                default:
-                  return "chore";
+              function getLabelName(type) {
+                switch (type) {
+                  case "feat":
+                    return "enhancement";
+                  case "fix":
+                    return "bug";
+                  case "docs":
+                    return "docs";
+                  case "test":
+                    return "testing";
+                  case "refactor":
+                    return "refactor";
+                  case "tooling":
+                    return "tooling";
+                  default:
+                    return "chore";
+                }
               }
-            };
+            }
