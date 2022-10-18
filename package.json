@@ -119,7 +119,7 @@
     "dedent": "0.7.0",
     "eslint": "8.25.0",
     "eslint-config-prettier": "8.5.0",
-    "eslint-plugin-jest": "27.1.1",
+    "eslint-plugin-jest": "27.1.2",
     "eslint-plugin-jsdoc": "39.3.6",
     "eslint-plugin-prettier": "4.2.1",
     "eslint-plugin-react": "7.31.8",
