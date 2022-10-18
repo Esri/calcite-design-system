@@ -1,6 +1,6 @@
 :host([selected]) {
   section,
-  div:has(section) {
+  :has(section) {
     @apply block;
   }
 }
@@ -14,7 +14,7 @@
 }
 
 section,
-div:has(section) {
+:has(section) {
   @apply hidden h-full w-full;
 }
 
