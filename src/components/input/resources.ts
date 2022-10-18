@@ -27,3 +27,7 @@ export const INPUT_TYPE_ICONS = {
 export const SLOTS = {
   action: "action"
 };
+
+export const TEXT = {
+  clear: "Clear value"
+};
