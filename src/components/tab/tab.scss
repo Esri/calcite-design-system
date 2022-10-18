@@ -1,6 +1,6 @@
 :host([selected]) {
   section,
-  [role="tabpanel"] {
+  .container {
     @apply block;
   }
 }
@@ -14,7 +14,7 @@
 }
 
 section,
-[role="tabpanel"] {
+.container {
   @apply hidden h-full w-full;
 }
 
