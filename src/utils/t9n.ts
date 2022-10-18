@@ -77,7 +77,7 @@ async function fetchMessages(component: T9nComponent, lang: string): Promise<Mes
   const tag = el.tagName.toLowerCase();
   const componentName = tag.replace("calcite-", "");
 
-  return getMessageBundle(getSupportedLocale(lang), componentName);
+  return getMessageBundle(getSupportedLocale(lang, "t9n"), componentName);
 }
 
 /**

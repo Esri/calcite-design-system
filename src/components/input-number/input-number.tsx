@@ -35,7 +35,7 @@ import {
 } from "../../utils/locale";
 import { numberKeys } from "../../utils/key";
 import { isValidNumber, parseNumberString, sanitizeNumberString } from "../../utils/number";
-import { CSS_UTILITY, TEXT as COMMON_TEXT } from "../../utils/resources";
+import { CSS_UTILITY } from "../../utils/resources";
 import { decimalPlaces } from "../../utils/math";
 import { createObserver } from "../../utils/observers";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";

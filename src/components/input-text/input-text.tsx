@@ -14,7 +14,7 @@ import {
 } from "@stencil/core";
 import { getElementDir, getElementProp, getSlotted, setRequestedIcon } from "../../utils/dom";
 
-import { CSS, SLOTS, TEXT } from "./resources";
+import { CSS, SLOTS } from "./resources";
 import { Position } from "../interfaces";
 import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
 import {
@@ -24,8 +24,7 @@ import {
   HiddenFormInputSlot,
   submitForm
 } from "../../utils/form";
-import { CSS_UTILITY, TEXT as COMMON_TEXT } from "../../utils/resources";
-
+import { CSS_UTILITY } from "../../utils/resources";
 import { createObserver } from "../../utils/observers";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
