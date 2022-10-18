@@ -96,6 +96,10 @@ export const getSupportedNumberingSystem = (numberingSystem: string): NumberingS
   isNumberingSystemSupported(numberingSystem) ? numberingSystem : defaultNumberingSystem;
 
 export function getSupportedLocale(locale: string): string {
+  if (!locale) {
+    return defaultLocale;
+  }
+
   if (locales.indexOf(locale) > -1) {
     return locale;
   }
@@ -115,7 +119,7 @@ export function getSupportedLocale(locale: string): string {
     }
   }
 
-  return locales.includes(locale) ? locale : "en";
+  return locales.includes(locale) ? locale : defaultLocale;
 }
 
 /**
