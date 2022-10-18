@@ -113,7 +113,7 @@ export class Card implements ConditionalSlotComponent, LocalizedComponent, T9nCo
   @Watch("defaultMessages")
   @Watch("messageOverrides")
   onMessagesChange(): void {
-    /** referred in t9n util */
+    /* wired up by t9n util */
   }
 
   //--------------------------------------------------------------------------
