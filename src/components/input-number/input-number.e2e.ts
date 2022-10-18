@@ -882,11 +882,11 @@ describe("calcite-input-number", () => {
           const calciteInput = await page.find("calcite-input-number");
           const input = await page.find("calcite-input-number >>> input");
 
-          numberStringFormatter.setOptions({
+          numberStringFormatter.numberFormatOptions = {
             locale,
             numberingSystem: "latn",
             useGrouping: false
-          });
+          };
           expect(await calciteInput.getProperty("value")).toBe(value);
           expect(await input.getProperty("value")).toBe(numberStringFormatter.localize(value));
         });
@@ -900,21 +900,21 @@ describe("calcite-input-number", () => {
           const calciteInput = await page.find("calcite-input-number");
           const input = await page.find("calcite-input-number >>> input");
 
-          numberStringFormatter.setOptions({
+          numberStringFormatter.numberFormatOptions = {
             locale,
             numberingSystem: "latn",
             useGrouping: true
-          });
+          };
           expect(await calciteInput.getProperty("value")).toBe(value);
           expect(await input.getProperty("value")).toBe(numberStringFormatter.localize(value));
         });
 
         it(`allows typing valid decimal characters for ${locale} locale`, async () => {
-          numberStringFormatter.setOptions({
+          numberStringFormatter.numberFormatOptions = {
             locale,
             numberingSystem: "latn",
             useGrouping: false
-          });
+          };
 
           const page = await newE2EPage();
           await page.setContent(html`<calcite-input-number lang="${locale}"></calcite-input-number>`);
@@ -933,11 +933,11 @@ describe("calcite-input-number", () => {
         });
 
         it(`displays correct formatted value when using exponential numbers for ${locale} locale`, async () => {
-          numberStringFormatter.setOptions({
+          numberStringFormatter.numberFormatOptions = {
             locale,
             numberingSystem: "latn",
             useGrouping: false
-          });
+          };
 
           const page = await newE2EPage();
           await page.setContent(html`<calcite-input-number lang="${locale}"></calcite-input-number>`);
@@ -980,11 +980,11 @@ describe("calcite-input-number", () => {
           await typeNumberValue(page, assertedValue);
           await page.waitForChanges();
 
-          numberStringFormatter.setOptions({
+          numberStringFormatter.numberFormatOptions = {
             locale,
             numberingSystem: "latn",
             useGrouping: false
-          });
+          };
           expect(await calciteInput.getProperty("value")).toBe(assertedValue);
           expect(await internalLocaleInput.getProperty("value")).toBe(numberStringFormatter.localize(assertedValue));
         });
@@ -1149,11 +1149,11 @@ describe("calcite-input-number", () => {
     const input = await page.find("calcite-input-number >>> input");
     const copyInput = await page.find("#copy");
 
-    numberStringFormatter.setOptions({
+    numberStringFormatter.numberFormatOptions = {
       locale: "en-US",
       numberingSystem: "latn",
       useGrouping: true
-    });
+    };
     expect(await calciteInput.getProperty("value")).toBe(initialValue);
     expect(await input.getProperty("value")).toBe(numberStringFormatter.localize(initialValue));
 

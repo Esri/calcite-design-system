@@ -13,6 +13,7 @@ jobs:
         with:
           fetch-depth: 0
           token: ${{ secrets.ADMIN_TOKEN }}
+          ref: master
       - uses: actions/setup-node@v2
         with:
           node-version: lts/*
@@ -36,6 +37,10 @@ jobs:
               git config --global user.name "github-actions[bot]"
               # deploy storybook, but still release next if it fails
               { npm run build-storybook && npx storybook-to-ghpages --host-token-env-variable=GH_TOKEN_FOR_STORYBOOK --existing-output-dir=docs --ci; } || true
+
+              # remove the build to docs after storybook deploys to gh-pages
+              # if there are changes the git sanity checks will prevent deployment
+              git clean -fd && git reset --hard && git checkout master && git pull
               npm run util:deploy-next-from-ci
             fi
           else

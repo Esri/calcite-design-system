@@ -188,7 +188,7 @@ export class FlowItem implements InteractiveComponent {
    */
   @Method()
   async scrollContentTo(options?: ScrollToOptions): Promise<void> {
-    this.containerEl?.scrollContentTo(options);
+    await this.containerEl?.scrollContentTo(options);
   }
 
   // --------------------------------------------------------------------------
@@ -209,6 +209,10 @@ export class FlowItem implements InteractiveComponent {
 
   setBackRef = (node: HTMLCalciteActionElement): void => {
     this.backButtonEl = node;
+  };
+
+  setContainerRef = (node: HTMLCalcitePanelElement): void => {
+    this.containerEl = node;
   };
 
   getBackLabel = (): string => {
@@ -278,6 +282,7 @@ export class FlowItem implements InteractiveComponent {
           loading={loading}
           menuOpen={menuOpen}
           onCalcitePanelClose={this.handlePanelClose}
+          ref={this.setContainerRef}
           widthScale={widthScale}
         >
           <slot name={SLOTS.headerActionsStart} slot={PANEL_SLOTS.headerActionsStart} />

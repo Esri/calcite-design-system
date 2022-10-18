@@ -54,7 +54,7 @@ export class Select implements LabelableComponent, FormComponent, InteractiveCom
   //--------------------------------------------------------------------------
 
   /**
-   * When true, interaction is prevented and the component is displayed with lower opacity.
+   * When `true`, interaction is prevented and the component is displayed with lower opacity.
    */
   @Prop({ reflect: true }) disabled = false;
 
@@ -70,7 +70,7 @@ export class Select implements LabelableComponent, FormComponent, InteractiveCom
   @Prop({ reflect: true }) name: string;
 
   /**
-   * When true, the component must have a value in order for the form to submit.
+   * When `true`, the component must have a value in order for the form to submit.
    *
    * @internal
    */
@@ -81,7 +81,7 @@ export class Select implements LabelableComponent, FormComponent, InteractiveCom
    */
   @Prop({ reflect: true }) scale: Scale = "m";
 
-  /** The component's "selectedOption" value. */
+  /** The component's `selectedOption` value. */
   @Prop({ mutable: true }) value: string = null;
 
   @Watch("value")
@@ -178,7 +178,7 @@ export class Select implements LabelableComponent, FormComponent, InteractiveCom
   //--------------------------------------------------------------------------
 
   /**
-   * Fires when the selected option changes.
+   * Fires when the `selectedOption` changes.
    */
   @Event({ cancelable: false }) calciteSelectChange: EventEmitter<void>;
 

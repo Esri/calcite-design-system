@@ -1068,11 +1068,11 @@ describe("calcite-input", () => {
           const calciteInput = await page.find("calcite-input");
           const input = await page.find("calcite-input >>> input");
 
-          numberStringFormatter.setOptions({
+          numberStringFormatter.numberFormatOptions = {
             locale,
             numberingSystem: "latn",
             useGrouping: false
-          });
+          };
 
           const localizedValue = numberStringFormatter.localize(value);
 
@@ -1089,11 +1089,11 @@ describe("calcite-input", () => {
           const calciteInput = await page.find("calcite-input");
           const input = await page.find("calcite-input >>> input");
 
-          numberStringFormatter.setOptions({
+          numberStringFormatter.numberFormatOptions = {
             locale,
             numberingSystem: "latn",
             useGrouping: true
-          });
+          };
 
           const localizedValue = numberStringFormatter.localize(value);
 
@@ -1102,11 +1102,11 @@ describe("calcite-input", () => {
         });
 
         it(`allows typing valid decimal characters for ${locale} locale`, async () => {
-          numberStringFormatter.setOptions({
+          numberStringFormatter.numberFormatOptions = {
             locale,
             numberingSystem: "latn",
             useGrouping: false
-          });
+          };
 
           const page = await newE2EPage();
           await page.setContent(html`<calcite-input lang="${locale}" type="number"></calcite-input>`);
@@ -1120,11 +1120,11 @@ describe("calcite-input", () => {
           await input.press("5");
           await input.press("6");
 
-          numberStringFormatter.setOptions({
+          numberStringFormatter.numberFormatOptions = {
             locale,
             numberingSystem: "latn",
             useGrouping: false
-          });
+          };
 
           const localizedValue = numberStringFormatter.localize(unformattedValue);
 
@@ -1133,11 +1133,11 @@ describe("calcite-input", () => {
         });
 
         it(`displays correct formatted value when using exponential numbers for ${locale} locale`, async () => {
-          numberStringFormatter.setOptions({
+          numberStringFormatter.numberFormatOptions = {
             locale,
             numberingSystem: "latn",
             useGrouping: false
-          });
+          };
 
           const page = await newE2EPage();
           await page.setContent(html`<calcite-input lang="${locale}" type="number"></calcite-input>`);
@@ -1183,11 +1183,11 @@ describe("calcite-input", () => {
           await typeNumberValue(page, assertedValue);
           await page.waitForChanges();
 
-          numberStringFormatter.setOptions({
+          numberStringFormatter.numberFormatOptions = {
             locale,
             numberingSystem: "latn",
             useGrouping: false
-          });
+          };
 
           const localizedValue = numberStringFormatter.localize(assertedValue);
 
@@ -1355,11 +1355,11 @@ describe("calcite-input", () => {
     const input = await page.find("calcite-input >>> input");
     const copyInput = await page.find("#copy");
 
-    numberStringFormatter.setOptions({
+    numberStringFormatter.numberFormatOptions = {
       locale: "en-US",
       numberingSystem: "latn",
       useGrouping: true
-    });
+    };
 
     expect(await calciteInput.getProperty("value")).toBe(initialValue);
     expect(await input.getProperty("value")).toBe(numberStringFormatter.localize(initialValue));
