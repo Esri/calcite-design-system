@@ -1,5 +1,8 @@
-:host([selected]) section {
-  @apply block;
+:host([selected]) {
+  section,
+  div:has(section) {
+    @apply block;
+  }
 }
 
 :host {
@@ -10,7 +13,8 @@
   @apply block h-full w-full overflow-auto;
 }
 
-section {
+section,
+div:has(section) {
   @apply hidden h-full w-full;
 }
 
