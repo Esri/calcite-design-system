@@ -142,7 +142,7 @@ export class Notice implements ConditionalSlotComponent, LocalizedComponent, T9n
   @Watch("defaultMessages")
   @Watch("messageOverrides")
   onMessagesChange(): void {
-    /** referred in t9n util */
+    /* wired up by t9n util */
   }
 
   @Watch("icon")
