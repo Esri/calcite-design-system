@@ -12,6 +12,11 @@ jobs:
         with:
           result-encoding: string
           script: |
+            const {
+              repo: { owner, repo, number: issue_number },
+              payload: { issue, pull_request }
+            } = context;
+
             const conventionalCommitRegex =
               /^(build|chore|ci|docs|feat|fix|perf|refactor|revert|style|test)(\([\w ,-]+\))?(!?:\s+)([\w ]+[\s\S]*)/i;
 
