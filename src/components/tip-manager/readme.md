@@ -58,7 +58,7 @@ Renders a tip manager using a group of tips as well as a single tip.
 
 | Property              | Attribute               | Description                                                  | Type                         | Default     |
 | --------------------- | ----------------------- | ------------------------------------------------------------ | ---------------------------- | ----------- |
-| `closed`              | `closed`                | When true, does not display or position the component.       | `boolean`                    | `false`     |
+| `closed`              | `closed`                | When `true`, does not display or position the component.     | `boolean`                    | `false`     |
 | `headingLevel`        | `heading-level`         | Specifies the number at which section headings should start. | `1 \| 2 \| 3 \| 4 \| 5 \| 6` | `undefined` |
 | `intlClose`           | `intl-close`            | Accessible name for the component's close button.            | `string`                     | `undefined` |
 | `intlDefaultTitle`    | `intl-default-title`    | Accessible name for the `calcite-tip-group` title.           | `string`                     | `undefined` |

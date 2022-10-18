@@ -118,10 +118,10 @@
 
 ## Properties
 
-| Property       | Attribute       | Description                                                                            | Type                         | Default     |
-| -------------- | --------------- | -------------------------------------------------------------------------------------- | ---------------------------- | ----------- |
-| `disabled`     | `disabled`      | When true, interaction is prevented and the component is displayed with lower opacity. | `boolean`                    | `false`     |
-| `headingLevel` | `heading-level` | Specifies the number at which section headings should start.                           | `1 \| 2 \| 3 \| 4 \| 5 \| 6` | `undefined` |
+| Property       | Attribute       | Description                                                                              | Type                         | Default     |
+| -------------- | --------------- | ---------------------------------------------------------------------------------------- | ---------------------------- | ----------- |
+| `disabled`     | `disabled`      | When `true`, interaction is prevented and the component is displayed with lower opacity. | `boolean`                    | `false`     |
+| `headingLevel` | `heading-level` | Specifies the number at which section headings should start.                             | `1 \| 2 \| 3 \| 4 \| 5 \| 6` | `undefined` |
 
 ## Methods
 
