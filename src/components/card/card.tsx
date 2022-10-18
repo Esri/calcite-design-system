@@ -72,7 +72,7 @@ export class Card implements ConditionalSlotComponent {
    */
   @Prop({ reflect: false }) intlDeselect: string = TEXT.deselect;
 
-  /** Sets the placement of the thumbnail component defined in the `thumbnail` slot. */
+  /** Sets the placement of the thumbnail defined in the `thumbnail` slot. */
   @Prop({ reflect: true }) thumbnailPosition: LogicalFlowPosition = "block-start";
 
   //--------------------------------------------------------------------------
