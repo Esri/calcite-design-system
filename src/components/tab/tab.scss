@@ -1,6 +1,6 @@
 :host([selected]) {
   section,
-  :has(section) {
+  [role="tabpanel"] {
     @apply block;
   }
 }
@@ -14,7 +14,7 @@
 }
 
 section,
-:has(section) {
+[role="tabpanel"] {
   @apply hidden h-full w-full;
 }
 
