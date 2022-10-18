@@ -16,6 +16,7 @@ jobs:
       - run: |
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
+          npm ci --legacy-peer-deps
           npx update-browserslist-db@latest
       - name: create pull request
         uses: peter-evans/create-pull-request@v3
