@@ -150,7 +150,7 @@ export class Alert implements OpenCloseComponent, LocalizedComponent, T9nCompone
   @Watch("defaultMessages")
   @Watch("messageOverrides")
   onMessagesChange(): void {
-    /** referred in t9n util */
+    /* wired up by t9n util */
   }
 
   @Watch("icon")
