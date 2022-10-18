@@ -9,13 +9,13 @@
 | Property             | Attribute         | Description                                                                                    | Type                                                        | Default     |
 | -------------------- | ----------------- | ---------------------------------------------------------------------------------------------- | ----------------------------------------------------------- | ----------- |
 | `description`        | `description`     | A description for the component that displays below the label text.                            | `string`                                                    | `undefined` |
-| `disabled`           | `disabled`        | When true, interaction is prevented and the component is displayed with lower opacity.         | `boolean`                                                   | `false`     |
+| `disabled`           | `disabled`        | When `true`, interaction is prevented and the component is displayed with lower opacity.       | `boolean`                                                   | `false`     |
 | `icon`               | `icon`            | Determines the icon SVG symbol that will be shown. Options are circle, square, grip or null.   | `ICON_TYPES.circle \| ICON_TYPES.grip \| ICON_TYPES.square` | `null`      |
 | `label` _(required)_ | `label`           | Label and accessible name for the component. Appears next to the icon.                         | `string`                                                    | `undefined` |
 | `metadata`           | --                | Provides additional metadata to the component. Primary use is for a filter on the parent list. | `{ [x: string]: unknown; }`                                 | `undefined` |
-| `nonInteractive`     | `non-interactive` | When true, prevents the content of the component from user interaction.                        | `boolean`                                                   | `false`     |
-| `removable`          | `removable`       | When true, adds an action to remove the component.                                             | `boolean`                                                   | `false`     |
-| `selected`           | `selected`        | When true, the component is selected.                                                          | `boolean`                                                   | `false`     |
+| `nonInteractive`     | `non-interactive` | When `true`, prevents the content of the component from user interaction.                      | `boolean`                                                   | `false`     |
+| `removable`          | `removable`       | When `true`, adds an action to remove the component.                                           | `boolean`                                                   | `false`     |
+| `selected`           | `selected`        | When `true`, the component is selected.                                                        | `boolean`                                                   | `false`     |
 | `value` _(required)_ | `value`           | The component's value.                                                                         | `any`                                                       | `undefined` |
 
 ## Events

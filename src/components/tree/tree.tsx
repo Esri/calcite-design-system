@@ -72,7 +72,7 @@ export class Tree {
   //--------------------------------------------------------------------------
 
   componentWillRender(): void {
-    const parent: HTMLCalciteTreeElement = this.el.parentElement.closest("calcite-tree");
+    const parent: HTMLCalciteTreeElement = this.el.parentElement?.closest("calcite-tree");
     this.lines = parent ? parent.lines : this.lines;
     this.scale = parent ? parent.scale : this.scale;
     this.selectionMode = parent ? parent.selectionMode : this.selectionMode;
@@ -283,7 +283,7 @@ export class Tree {
       }
 
       // When focus is on a child node that is also either an end node or a closed node, moves focus to its parent node.
-      const parentItem = target.parentElement.closest("calcite-tree-item");
+      const parentItem = target.parentElement?.closest("calcite-tree-item");
 
       if (parentItem && (!target.hasChildren || target.expanded === false)) {
         parentItem.focus();
@@ -320,10 +320,10 @@ export class Tree {
     }
 
     const ancestors: HTMLCalciteTreeItemElement[] = [];
-    let parent = item.parentElement.closest<HTMLCalciteTreeItemElement>("calcite-tree-item");
+    let parent = item.parentElement?.closest<HTMLCalciteTreeItemElement>("calcite-tree-item");
     while (parent) {
       ancestors.push(parent);
-      parent = parent.parentElement.closest<HTMLCalciteTreeItemElement>("calcite-tree-item");
+      parent = parent.parentElement?.closest<HTMLCalciteTreeItemElement>("calcite-tree-item");
     }
 
     const childItems = Array.from(

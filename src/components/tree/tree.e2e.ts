@@ -1,9 +1,10 @@
 import { E2EPage, newE2EPage } from "@stencil/core/testing";
-import { accessible, renders, defaults, hidden } from "../../tests/commonTests";
-import { GlobalTestProps } from "../../tests/utils";
+import { accessible, defaults, hidden, renders } from "../../tests/commonTests";
+import { GlobalTestProps, newProgrammaticE2EPage } from "../../tests/utils";
 import { html } from "../../../support/formatting";
 import { CSS } from "../tree-item/resources";
 import { TreeSelectionMode } from "./interfaces";
+import SpyInstance = jest.SpyInstance;
 
 describe("calcite-tree", () => {
   it("renders", () => renders("calcite-tree", { display: "block" }));
@@ -903,6 +904,39 @@ describe("calcite-tree", () => {
       await page.waitForChanges();
 
       expect(await getActiveElementId(page)).toEqual("child-1");
+    });
+  });
+
+  describe("not throwing if tree doesn't have a parent element on initial render (#5333)", () => {
+    let consoleSpy: SpyInstance;
+
+    beforeAll(() => (consoleSpy = jest.spyOn(console, "error")));
+
+    afterAll(() => consoleSpy.mockRestore());
+
+    it("does not throw when tree is the topmost element in a shadow root", async () => {
+      const page = await newE2EPage();
+      await page.setContent("<test-tree-element></test-tree-element>");
+
+      await page.evaluate(async (): Promise<void> => {
+        customElements.define(
+          "test-tree-element",
+          class extends HTMLElement {
+            constructor() {
+              super();
+
+              const shadow = this.attachShadow({ mode: "open" });
+              shadow.innerHTML = `<calcite-tree>
+                  <calcite-tree-item>Child</calcite-tree-item>
+                </calcite-tree>`;
+            }
+          }
+        );
+      });
+      await page.waitForChanges();
+
+      // Stencil swallows the expected error, so we assert on the error message instead
+      expect(consoleSpy).toHaveBeenCalledTimes(0);
     });
   });
 });
