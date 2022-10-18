@@ -15,10 +15,18 @@ jobs:
               console.log("No release found")
               return
             }
-            core.exportVariable("RELEASE_VERSION", release.tag_name);
-      - name: Teams channel notification
-        uses: FTsbrown/msteams-action@v1.0.1
-        with:
-          TITLE: ${{ env.RELEASE_VERSION }}
-          BODY: "🚀 <code>@esri/calcite-components@${{ env.RELEASE_VERSION }}</code> released! Check out the [changelog](https://github.com/Esri/calcite-components/blob/master/CHANGELOG.md#changelog) for more info. 🚀"
-          MS_TEAMS_WEBHOOK: ${{ secrets.TEAMS_WEBHOOK_URI_RELEASE }}
+
+            const data = {
+              "@context": "http://schema.org/extensions",
+              "@type": "MessageCard",
+              title: release.tag_name,
+              text: `🚀 <code>@esri/calcite-components${process.env.RELEASE_VERSION}</code> released! Check out the [changelog](https://github.com/Esri/calcite-components/blob/master/CHANGELOG.md#changelog) for more info. 🚀`
+            };
+
+            await fetch(github.secrets.TEAMS_WEBHOOK_URI_RELEASE, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json"
+              },
+              body: JSON.stringify(data)
+            });
