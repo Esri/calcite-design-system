@@ -14,7 +14,7 @@ import {
 import { Layout, Position, Scale } from "../interfaces";
 import { ExpandToggle, toggleChildActionText } from "../functional/ExpandToggle";
 import { focusElement, getSlotted } from "../../utils/dom";
-import { CSS, TEXT, SLOTS } from "./resources";
+import { CSS, SLOTS } from "./resources";
 import {
   ConditionalSlotComponent,
   connectConditionalSlotComponent,
@@ -107,7 +107,7 @@ export class ActionPad implements ConditionalSlotComponent, LocalizedComponent, 
   @Watch("defaultMessages")
   @Watch("messageOverrides")
   onMessagesChange(): void {
-    /** referred in t9n util */
+    /* wired up by t9n util */
   }
 
   // --------------------------------------------------------------------------

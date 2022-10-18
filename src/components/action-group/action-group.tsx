@@ -1,5 +1,5 @@
 import { Component, Element, h, Prop, Watch } from "@stencil/core";
-import { ICONS, SLOTS, TEXT } from "./resources";
+import { ICONS, SLOTS } from "./resources";
 import { Fragment, State, VNode } from "@stencil/core/internal";
 import { getSlotted } from "../../utils/dom";
 import { SLOTS as ACTION_MENU_SLOTS } from "../action-menu/resources";
@@ -91,7 +91,7 @@ export class ActionGroup implements ConditionalSlotComponent, LocalizedComponent
   @Watch("defaultMessages")
   @Watch("messageOverrides")
   onMessagesChange(): void {
-    /** referred in t9n util */
+    /* wired up by t9n util */
   }
 
   // --------------------------------------------------------------------------

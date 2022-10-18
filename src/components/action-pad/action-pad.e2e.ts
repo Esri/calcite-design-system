@@ -251,8 +251,5 @@ describe("calcite-action-pad", () => {
     expect(await button.getProperty("scale")).toBe("l");
   });
 
-  it("supports translation", () =>
-    t9n(
-      "<calcite-action-pad><calcite-action text=`Undo` icon=`undo`></calcite-action><calcite-action text=`Redo` icon=`redo`></calcite-action></calcite-action-pad>"
-    ));
+  it("supports translation", () => t9n("calcite-action-pad"));
 });

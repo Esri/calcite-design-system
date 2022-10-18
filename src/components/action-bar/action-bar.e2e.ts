@@ -383,8 +383,5 @@ describe("calcite-action-bar", () => {
     });
   });
 
-  it("supports translation", () =>
-    t9n(
-      "<calcite-action-bar> <calcite-action text=`Information` ></calcite-action><calcite-action text=`Feedback` slot=`bottom-actions`></calcite-action> </calcite-action-bar>"
-    ));
+  it("supports translation", () => t9n("calcite-action-bar"));
 });

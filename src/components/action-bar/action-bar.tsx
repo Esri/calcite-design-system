@@ -13,7 +13,7 @@ import {
 } from "@stencil/core";
 import { Position, Scale, Layout } from "../interfaces";
 import { ExpandToggle, toggleChildActionText } from "../functional/ExpandToggle";
-import { CSS, SLOTS, TEXT } from "./resources";
+import { CSS, SLOTS } from "./resources";
 import { getSlotted, focusElement } from "../../utils/dom";
 import {
   geActionDimensions,
@@ -136,7 +136,7 @@ export class ActionBar implements ConditionalSlotComponent, LocalizedComponent, 
   @Watch("defaultMessages")
   @Watch("messageOverrides")
   onMessagesChange(): void {
-    /** referred in t9n util */
+    /* wired up by t9n util */
   }
 
   // --------------------------------------------------------------------------

@@ -128,5 +128,5 @@ describe("calcite-action", () => {
     expect(referenceElement).toBeDefined();
   });
 
-  it("support translation", () => t9n("<calcite-action text=`Example action text` text-enabled></calcite-action>"));
+  it("support translation", () => t9n("calcite-action"));
 });

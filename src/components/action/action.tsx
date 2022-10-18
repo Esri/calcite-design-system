@@ -15,7 +15,7 @@ import {
 
 import { Alignment, Appearance, Scale } from "../interfaces";
 
-import { CSS, TEXT, SLOTS } from "./resources";
+import { CSS, SLOTS } from "./resources";
 
 import { createObserver } from "../../utils/observers";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
@@ -126,7 +126,7 @@ export class Action implements InteractiveComponent, LocalizedComponent, T9nComp
   @Watch("defaultMessages")
   @Watch("messageOverrides")
   onMessagesChange(): void {
-    /** referred in t9n util */
+    /* wired up by t9n util */
   }
 
   // --------------------------------------------------------------------------

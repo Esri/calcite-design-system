@@ -29,8 +29,5 @@ describe("calcite-action-group", () => {
     expect(await menu.getProperty("scale")).toBe("l");
   });
 
-  it("support translation", () =>
-    t9n(
-      "<calcite-action-group><calcite-action text=`Undo` icon=`undo`></calcite-action><calcite-action text=`Redo` icon=`redo`></calcite-action></calcite-action-group>"
-    ));
+  it("support translation", () => t9n("calcite-action-group"));
 });
