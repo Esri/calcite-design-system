@@ -8,32 +8,32 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/github-script@v6
-        id: my-script
         with:
-          result-encoding: string
           script: |
             const {
-              repo: { owner, repo, number: issue_number },
-              payload: { issue, pull_request }
+              repo: { owner, repo },
+              payload: {
+                pull_request: { title, number: issue_number, labels: currentLabels },
+              },
             } = context;
 
             const conventionalCommitRegex =
               /^(build|chore|ci|docs|feat|fix|perf|refactor|revert|style|test)(\([\w ,-]+\))?(!?:\s+)([\w ]+[\s\S]*)/i;
 
-            const commitMessage = (issue && issue.title) || (pull_request && pull_request.title);
-            if (!commitMessage) {
+            if (!title) {
               console.log("No title found, ending run.");
               return;
             }
 
-            const match = commitMessage.match(conventionalCommitRegex);
+            const match = title.match(conventionalCommitRegex);
             if (match && match.length > 1) {
-              const labels = [getLabelName(match[1])];
-              await octokit.rest.issues.addLabels({
+              const labels = [...currentLabels, getLabelName(match[1])];
+
+              await github.rest.issues.setLabels({
+                issue_number,
                 owner,
                 repo,
-                issue_number,
-                labels
+                labels,
               });
 
               function getLabelName(type) {

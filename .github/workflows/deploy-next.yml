@@ -3,6 +3,7 @@ concurrency:
   group: deploy_next
   cancel-in-progress: true
 on:
+  workflow_dispatch:
   push:
     branches: [master]
 jobs:
