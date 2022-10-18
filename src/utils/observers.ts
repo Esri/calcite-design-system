@@ -56,8 +56,12 @@ export function createObserver<T extends ObserverType>(
   callback: ObserverCallbackType<T>,
   options?: ObserverOptions<T>
 ): ObserverInstanceType<T> | undefined {
+  if (!Build.isBrowser) {
+    return undefined;
+  }
+
   const Observer = getObserver<T>(type);
-  return Build.isBrowser ? (new Observer(callback as any, options as any) as any) : undefined;
+  return new Observer(callback as any, options as any) as any;
 }
 
 function getObserver<T extends ObserverType>(type: T): ObserverClassType<T> {

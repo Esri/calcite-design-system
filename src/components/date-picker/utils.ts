@@ -29,6 +29,7 @@ export interface DateLocaleData {
     suffix: string;
   };
 }
+
 /**
  * CLDR cache.
  * Exported for testing purposes.

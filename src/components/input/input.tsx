@@ -26,9 +26,9 @@ import {
   submitForm
 } from "../../utils/form";
 import {
-  getDecimalSeparator,
-  delocalizeNumberString,
-  localizeNumberString,
+  NumberingSystem,
+  defaultNumberingSystem,
+  numberStringFormatter,
   LocalizedComponent,
   disconnectLocalized,
   connectLocalized,
@@ -73,19 +73,19 @@ export class Input
   @Prop({ reflect: true }) alignment: Position = "start";
 
   /**
-   * When true, the component is focused on page load.
+   * When `true`, the component is focused on page load.
    *
    * @mdn [autofocus](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/autofocus)
    */
   @Prop({ reflect: true }) autofocus = false;
 
   /**
-   * When true, a clear button is displayed when the component has a value. The clear button shows by default for `"search"`, `"time"`, and `"date"` types, and will not display for the `"textarea"` type.
+   * When `true`, a clear button is displayed when the component has a value. The clear button shows by default for `"search"`, `"time"`, and `"date"` types, and will not display for the `"textarea"` type.
    */
   @Prop({ reflect: true }) clearable = false;
 
   /**
-   * When true, interaction is prevented and the component is displayed with lower opacity.
+   * When `true`, interaction is prevented and the component is displayed with lower opacity.
    *
    * @mdn [disabled](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/disabled)
    */
@@ -97,19 +97,19 @@ export class Input
   }
 
   /**
-   * When true, number values are displayed with the locale's group separator.
+   * When `true`, number values are displayed with a group separator corresponding to the language and country format.
    */
   @Prop({ reflect: true }) groupSeparator = false;
 
   /**
-   * When true, the component will not be visible.
+   * When `true`, the component will not be visible.
    *
    * @mdn [hidden](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/hidden)
    */
   @Prop({ reflect: true }) hidden = false;
 
   /**
-   * When true, shows a default recommended icon. Alternatively, pass a Calcite UI Icon name to display a specific icon.
+   * When `true`, shows a default recommended icon. Alternatively, pass a Calcite UI Icon name to display a specific icon.
    */
   @Prop({ reflect: true }) icon: string | boolean;
 
@@ -125,13 +125,13 @@ export class Input
    */
   @Prop() intlLoading?: string = COMMON_TEXT.loading;
 
-  /** When true, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
+  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @Prop({ reflect: true }) iconFlipRtl = false;
 
   /** Accessible name for the component. */
   @Prop() label?: string;
 
-  /** When true, a busy indicator is displayed. */
+  /** When `true`, a busy indicator is displayed. */
   @Prop({ reflect: true }) loading = false;
 
   /**
@@ -150,12 +150,11 @@ export class Input
   /**
    * Specifies the Unicode numeral system used by the component for localization.
    *
-   * @mdn [numberingSystem](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/Locale/numberingSystem)
    */
-  @Prop({ reflect: true }) numberingSystem?: string;
+  @Prop({ reflect: true }) numberingSystem?: NumberingSystem;
 
   /**
-   * When true, uses locale formatting for numbers.
+   * When `true`, uses locale formatting for numbers.
    *
    * @internal
    */
@@ -229,13 +228,13 @@ export class Input
   @Prop() prefixText?: string;
 
   /**
-   * When true, the component's value can be read, but cannot be modified.
+   * When `true`, the component's value can be read, but cannot be modified.
    *
    * @mdn [readOnly](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/readonly)
    */
   @Prop({ reflect: true }) readOnly = false;
 
-  /** When true, the component must have a value in order for the form to submit. */
+  /** When `true`, the component must have a value in order for the form to submit. */
   @Prop({ reflect: true }) required = false;
 
   /** Specifies the size of the component. */
@@ -386,6 +385,9 @@ export class Input
     if (this.inlineEditableEl) {
       this.editingEnabled = this.inlineEditableEl.editingEnabled || false;
     }
+    connectLabel(this);
+    connectForm(this);
+
     this.setPreviousEmittedValue(this.value);
     this.setPreviousValue(this.value);
     if (this.type === "number") {
@@ -395,8 +397,6 @@ export class Input
         value: isValidNumber(this.value) ? this.value : ""
       });
     }
-    connectLabel(this);
-    connectForm(this);
 
     this.mutationObserver?.observe(this.el, { childList: true });
     this.setDisabledAction();
@@ -595,7 +595,12 @@ export class Input
       return;
     }
     const value = (nativeEvent.target as HTMLInputElement).value;
-    const delocalizedValue = delocalizeNumberString(value, this.effectiveLocale);
+    numberStringFormatter.numberFormatOptions = {
+      locale: this.effectiveLocale,
+      numberingSystem: this.numberingSystem,
+      useGrouping: this.groupSeparator
+    };
+    const delocalizedValue = numberStringFormatter.delocalize(value);
     if (nativeEvent.inputType === "insertFromPaste") {
       if (!isValidNumber(delocalizedValue)) {
         nativeEvent.preventDefault();
@@ -649,12 +654,16 @@ export class Input
       }
       return;
     }
-    const decimalSeparator = getDecimalSeparator(this.effectiveLocale);
-    if (event.key === decimalSeparator) {
+    numberStringFormatter.numberFormatOptions = {
+      locale: this.effectiveLocale,
+      numberingSystem: this.numberingSystem,
+      useGrouping: this.groupSeparator
+    };
+    if (event.key === numberStringFormatter.decimal) {
       if (!this.value && !this.childNumberEl.value) {
         return;
       }
-      if (this.value && this.childNumberEl.value.indexOf(decimalSeparator) === -1) {
+      if (this.value && this.childNumberEl.value.indexOf(numberStringFormatter.decimal) === -1) {
         return;
       }
     }
@@ -824,40 +833,42 @@ export class Input
     previousValue?: string;
     value: string;
   }): void => {
-    const locale = this.effectiveLocale;
-    const previousLocalizedValue =
-      this.type === "number"
-        ? localizeNumberString(
-            this.previousValue,
-            locale,
-            this.groupSeparator,
-            this.numberingSystem
-          )
-        : "";
-    const sanitizedValue = this.type === "number" ? sanitizeNumberString(value) : value;
-    const newValue =
-      this.type === "number" && value && !sanitizedValue
-        ? isValidNumber(this.previousValue)
-          ? this.previousValue
-          : ""
-        : sanitizedValue;
-    const newLocalizedValue =
-      this.type === "number"
-        ? localizeNumberString(newValue, locale, this.groupSeparator, this.numberingSystem)
-        : "";
+    numberStringFormatter.numberFormatOptions = {
+      locale: this.effectiveLocale,
+      numberingSystem: this.numberingSystem,
+      useGrouping: this.groupSeparator
+    };
+
+    if (this.type === "number") {
+      const delocalizedValue =
+        (this.numberingSystem && this.numberingSystem !== "latn") ||
+        defaultNumberingSystem !== "latn"
+          ? numberStringFormatter.delocalize(value)
+          : value;
+
+      const sanitizedValue = sanitizeNumberString(delocalizedValue);
+
+      const newValue =
+        (value && !sanitizedValue) || [".", "-"].includes(sanitizedValue)
+          ? isValidNumber(this.previousValue)
+            ? this.previousValue
+            : ""
+          : sanitizedValue;
+
+      const newLocalizedValue = numberStringFormatter.localize(newValue);
+
+      this.localizedValue = newLocalizedValue;
+      this.userChangedValue = origin === "user" && this.value !== newValue;
+      this.value = newValue;
+      origin === "direct" && this.setInputValue(newLocalizedValue);
+    } else {
+      this.userChangedValue = origin === "user" && this.value !== value;
+      this.value = value;
+      origin === "direct" && this.setInputValue(value);
+    }
 
     this.setPreviousValue(previousValue || this.value);
     this.previousValueOrigin = origin;
-    this.userChangedValue = origin === "user" && this.value !== newValue;
-    this.value = newValue;
-
-    if (this.type === "number") {
-      this.localizedValue = newLocalizedValue;
-    }
-
-    if (origin === "direct") {
-      this.setInputValue(this.type === "number" ? newLocalizedValue : newValue);
-    }
 
     if (nativeEvent) {
       const calciteInputInputEvent = this.calciteInputInput.emit({
@@ -868,7 +879,10 @@ export class Input
 
       if (calciteInputInputEvent.defaultPrevented) {
         this.value = this.previousValue;
-        this.localizedValue = previousLocalizedValue;
+        this.localizedValue =
+          this.type === "number"
+            ? numberStringFormatter.localize(this.previousValue)
+            : this.previousValue;
       } else if (committing) {
         this.emitChangeIfUserModified();
       }

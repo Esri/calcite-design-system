@@ -40,14 +40,11 @@ export function overridesFromIntlProps(component: T9nComponent): MessageBundle {
   Object.keys(el.constructor.prototype)
     .filter((prop) => prop.startsWith("intl"))
     .forEach((prop) => {
-      if (prop.startsWith("intl")) {
-        const assignedValue = el[prop];
-
-        if (assignedValue) {
-          let mappedProp = prop.replace("intl", "");
-          mappedProp = `${mappedProp[0].toLowerCase()}${mappedProp.slice(1)}`;
-          overrides[mappedProp] = assignedValue;
-        }
+      const assignedValue = el[prop];
+      if (assignedValue) {
+        let mappedProp = prop.replace("intl", "");
+        mappedProp = `${mappedProp[0].toLowerCase()}${mappedProp.slice(1)}`;
+        overrides[mappedProp] = assignedValue;
       }
     });
 
