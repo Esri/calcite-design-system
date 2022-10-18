@@ -8,12 +8,12 @@ If you are looking for a list that handles more advanced usage like selection, s
 
 ## Properties
 
-| Property         | Attribute         | Description                                                                            | Type      | Default     |
-| ---------------- | ----------------- | -------------------------------------------------------------------------------------- | --------- | ----------- |
-| `description`    | `description`     | A description for the component. Displays below the label text.                        | `string`  | `undefined` |
-| `disabled`       | `disabled`        | When true, interaction is prevented and the component is displayed with lower opacity. | `boolean` | `false`     |
-| `label`          | `label`           | The label text of the component. Displays above the description text.                  | `string`  | `undefined` |
-| `nonInteractive` | `non-interactive` | When true, prevents the content of the component from user interaction.                | `boolean` | `false`     |
+| Property         | Attribute         | Description                                                                              | Type      | Default     |
+| ---------------- | ----------------- | ---------------------------------------------------------------------------------------- | --------- | ----------- |
+| `description`    | `description`     | A description for the component. Displays below the label text.                          | `string`  | `undefined` |
+| `disabled`       | `disabled`        | When `true`, interaction is prevented and the component is displayed with lower opacity. | `boolean` | `false`     |
+| `label`          | `label`           | The label text of the component. Displays above the description text.                    | `string`  | `undefined` |
+| `nonInteractive` | `non-interactive` | When `true`, prevents the content of the component from user interaction.                | `boolean` | `false`     |
 
 ## Methods
 
