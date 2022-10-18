@@ -255,12 +255,7 @@ export const TabChilrenWithPercentageHeights = (): string => html`
       <calcite-tab-title selected>Boats</calcite-tab-title>
     </calcite-tab-nav>
     <calcite-tab style="background: pink;">
-      <div
-        style="background: red;
-      height: 100%;"
-      >
-        Tab 1 content
-      </div>
+      <div style="background: red; height: 100%;">Tab 1 content</div>
     </calcite-tab>
   </calcite-tabs>
 `;
