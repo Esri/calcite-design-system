@@ -45,13 +45,13 @@ export class Rating implements LabelableComponent, FormComponent, InteractiveCom
   /** The component's value. */
   @Prop({ reflect: true, mutable: true }) value = 0;
 
-  /** When true, the component's value can be read, but cannot be modified. */
+  /** When `true`, the component's value can be read, but cannot be modified. */
   @Prop({ reflect: true }) readOnly = false;
 
-  /** When true, interaction is prevented and the component is displayed with lower opacity. */
+  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @Prop({ reflect: true }) disabled = false;
 
-  /** When true, and if available, displays the "average" and/or "count" data summary in a `calcite-chip`. */
+  /** When `true`, and if available, displays the `average` and/or `count` data summary in a `calcite-chip`. */
   @Prop({ reflect: true }) showChip = false;
 
   /** Specifies the number of previous ratings to display. */
@@ -78,7 +78,7 @@ export class Rating implements LabelableComponent, FormComponent, InteractiveCom
   @Prop() intlStars?: string = TEXT.stars;
 
   /**
-   * When true, the component must have a value on form submission.
+   * When `true`, the component must have a value in order for the form to submit.
    *
    * @internal
    */
@@ -145,7 +145,7 @@ export class Rating implements LabelableComponent, FormComponent, InteractiveCom
           <label
             class={{ star: true, focused, selected, average, hovered, partial }}
             htmlFor={`${this.guid}-${i}`}
-            onMouseOver={() => {
+            onPointerOver={() => {
               this.hoverValue = i;
             }}
           >
@@ -195,7 +195,7 @@ export class Rating implements LabelableComponent, FormComponent, InteractiveCom
           class="fieldset"
           disabled={disabled}
           onBlur={() => (this.hoverValue = null)}
-          onMouseLeave={() => (this.hoverValue = null)}
+          onPointerLeave={() => (this.hoverValue = null)}
           onTouchEnd={() => (this.hoverValue = null)}
         >
           <legend class="visually-hidden">{intlRating}</legend>

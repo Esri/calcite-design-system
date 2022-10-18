@@ -1,6 +1,6 @@
 import { Component, h, Prop, VNode } from "@stencil/core";
 /**
- * @slot - A slot for adding elements that reference a 'calcite-tooltip' by the 'selector' property.
+ * @slot - A slot for adding elements that reference a `calcite-tooltip` by the `selector` property.
  * @deprecated No longer required for tooltip usage.
  */
 @Component({

@@ -1,6 +1,7 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { accessible, defaults, disabled, focusable, hidden, renders, slots } from "../../tests/commonTests";
 import { CSS, SLOTS } from "./resources";
+import { html } from "../../../support/formatting";
 
 describe("calcite-flow-item", () => {
   it("renders", async () => renders("calcite-flow-item", { display: "flex" }));
@@ -95,5 +96,49 @@ describe("calcite-flow-item", () => {
 
     expect(calciteFlowItemBackClick).toHaveReceivedEvent();
     expect(calciteFlowItemBack).toHaveReceivedEvent();
+  });
+
+  it("allows scrolling content", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html`
+      <calcite-flow style="height: 300px">
+        <calcite-flow-item heading="Flow heading" id="flowOrPanel">
+          <calcite-block heading="Block example" summary="Some subtext" collapsible open>
+            <calcite-notice active>
+              <div slot="message">An excellent assortment of content.</div>
+            </calcite-notice>
+          </calcite-block>
+          <calcite-block heading="Block example" summary="Some subtext" collapsible open>
+            <calcite-notice active>
+              <div slot="message">An excellent assortment of content.</div>
+            </calcite-notice>
+          </calcite-block>
+          <calcite-block heading="Block example" summary="Some subtext" collapsible open>
+            <calcite-notice active>
+              <div slot="message">An excellent assortment of content.</div>
+            </calcite-notice>
+          </calcite-block>
+          <calcite-block heading="Block example" summary="Some subtext" collapsible open>
+            <calcite-notice active>
+              <div slot="message">An excellent assortment of content.</div>
+            </calcite-notice>
+          </calcite-block>
+        </calcite-flow-item>
+      </calcite-flow>
+    `);
+    const [top, _middle, bottom] = await page.findAll("calcite-block");
+
+    await bottom.callMethod("scrollIntoView");
+
+    expect(await top.isIntersectingViewport()).toBe(false);
+
+    await page.$eval("calcite-flow-item", (panel: HTMLCalcitePanelElement) =>
+      panel.scrollContentTo({
+        top: 0,
+        behavior: "auto"
+      })
+    );
+
+    expect(await top.isIntersectingViewport()).toBe(true);
   });
 });
