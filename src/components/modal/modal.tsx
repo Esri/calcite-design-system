@@ -73,32 +73,32 @@ export class Modal implements ConditionalSlotComponent, OpenCloseComponent {
   //--------------------------------------------------------------------------
 
   /**
-   * When true, the `calcite-modal` is active.
+   * When `true`, the component is active.
    *
-   * @deprecated use open instead
+   * @deprecated use `open` instead.
    */
   @Prop({ mutable: true, reflect: true }) active = false;
 
-  /** When true,`calcite-modal`  opens  */
+  /** When `true`, displays and positions the component.  */
   @Prop({ mutable: true, reflect: true }) open = false;
 
-  /** Passes a function to run before the `calcite-modal` closes. */
+  /** Passes a function to run before the component closes. */
   @Prop()
   beforeClose?: (el: HTMLElement) => Promise<void> = () => Promise.resolve();
 
-  /** When true, disables the component's close button. */
+  /** When `true`, disables the component's close button. */
   @Prop({ reflect: true }) disableCloseButton = false;
 
-  /** When true, disables the closing of the component when clicked outside. */
+  /** When `true`, disables the closing of the component when clicked outside. */
   @Prop({ reflect: true }) disableOutsideClose = false;
 
   /** Accessible name for the component's close button. */
   @Prop() intlClose = TEXT.close;
 
-  /** When true, prevents the component from expanding to the entire screen on mobile devices. */
+  /** When `true`, prevents the component from expanding to the entire screen on mobile devices. */
   @Prop({ reflect: true }) docked: boolean;
 
-  /** When true, disables the default close on escape behavior. */
+  /** When `true`, disables the default close on escape behavior. */
   @Prop({ reflect: true }) disableEscape = false;
 
   /** Specifies the size of the component. */
@@ -107,7 +107,7 @@ export class Modal implements ConditionalSlotComponent, OpenCloseComponent {
   /** Specifies the width of the component. Can use scale sizes or pass a number (displays in pixels). */
   @Prop({ reflect: true }) width: Scale | number = "m";
 
-  /** Sets the component to always be fullscreen (overrides width). */
+  /** Sets the component to always be fullscreen (overrides `width`). */
   @Prop({ reflect: true }) fullscreen: boolean;
 
   /**
@@ -120,7 +120,7 @@ export class Modal implements ConditionalSlotComponent, OpenCloseComponent {
   @Prop({ reflect: true }) backgroundColor: ModalBackgroundColor = "white";
 
   /**
-   * When true, disables spacing to the content area slot.
+   * When `true`, disables spacing to the content area slot.
    *
    * @deprecated  Use `--calcite-modal-padding` CSS variable instead.
    */

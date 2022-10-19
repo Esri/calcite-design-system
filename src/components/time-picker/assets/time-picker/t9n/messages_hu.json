@@ -1,0 +1,14 @@
+{
+  "hour": "í_Hour_________ő",
+  "hourDown": "í_Decrease hour______________ő",
+  "hourUp": "í_Increase hour______________ő",
+  "meridiem": "í_AM/PM___________ő",
+  "meridiemDown": "í_Decrease AM/PM_______________ő",
+  "meridiemUp": "í_Increase AM/PM_______________ő",
+  "minute": "í_Minute_____________ő",
+  "minuteDown": "í_Decrease minute________________ő",
+  "minuteUp": "í_Increase minute________________ő",
+  "second": "í_Second_____________ő",
+  "secondDown": "í_Decrease second________________ő",
+  "secondUp": "í_Increase second________________ő"
+}

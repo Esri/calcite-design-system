@@ -70,16 +70,16 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
   @Prop({ reflect: true }) autoClose = false;
 
   /**
-   * When true, a close button is added to the component.
+   * When `true`, a close button is added to the component.
    *
    * @deprecated use dismissible instead.
    */
   @Prop({ reflect: true }) closeButton = false;
 
   /**
-   * When true, a close button is added to the component.
+   * When `true`, a close button is added to the component.
    *
-   * @deprecated use closable instead
+   * @deprecated use `closable` instead.
    */
   @Prop({ mutable: true, reflect: true }) dismissible = false;
 
@@ -88,7 +88,7 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
     this.closable = value;
   }
 
-  /** When true, display a close button within the Popover */
+  /** When `true`, display a close button within the component. */
   @Prop({ mutable: true, reflect: true }) closable = false;
 
   @Watch("closable")
@@ -97,12 +97,12 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
   }
 
   /**
-   * When true, prevents flipping the component's placement when overlapping its `referenceElement`.
+   * When `true`, prevents flipping the component's placement when overlapping its `referenceElement`.
    */
   @Prop({ reflect: true }) disableFlip = false;
 
   /**
-   * When true, removes the caret pointer.
+   * When `true`, removes the caret pointer.
    */
   @Prop({ reflect: true }) disablePointer = false;
 
@@ -131,7 +131,7 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
   @Prop() label!: string;
 
   /**
-   * Offsets the position of the popover away from the `referenceElement`.
+   * Offsets the position of the component away from the `referenceElement`.
    *
    * @default 6
    */
@@ -143,7 +143,7 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
   }
 
   /**
-   * Offsets the position of the popover along the `referenceElement`.
+   * Offsets the position of the component along the `referenceElement`.
    */
   @Prop({ reflect: true }) offsetSkidding = 0;
 
@@ -153,7 +153,7 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
   }
 
   /**
-   * When true, displays and positions the component.
+   * When `true`, displays and positions the component.
    */
   @Prop({ reflect: true, mutable: true }) open = false;
 
@@ -166,7 +166,9 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
   /**
    * Determines the type of positioning to use for the overlaid content.
    *
-   * Using the "absolute" value will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout. The "fixed" value should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is "fixed".
+   * Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.
+   *
+   * `"fixed"` value should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
    *
    */
   @Prop({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
@@ -189,7 +191,7 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
   }
 
   /**
-   *  The `referenceElement` used to position the component according to its "placement" value. Setting to an `HTMLElement` is preferred so the component does not need to query the DOM. However, a string `id` of the reference element can also be used.
+   *  The `referenceElement` used to position the component according to its `placement` value. Setting to an `HTMLElement` is preferred so the component does not need to query the DOM. However, a string `id` of the reference element can also be used.
    */
   @Prop() referenceElement!: ReferenceElement | string;
 
@@ -200,7 +202,9 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
   }
 
   /**
-   * When true, disables automatically toggling the component when its `referenceElement` has been triggered. This property can be set to "true" to manage when a popover is open.
+   * When `true`, disables automatically toggling the component when its `referenceElement` has been triggered.
+   *
+   * This property can be set to `true` to manage when the component is open.
    */
   @Prop({ reflect: true }) triggerDisabled = false;
 

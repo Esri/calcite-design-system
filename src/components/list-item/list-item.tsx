@@ -60,7 +60,7 @@ export class ListItem implements InteractiveComponent {
   @Prop() description?: string;
 
   /**
-   * When true, interaction is prevented and the component is displayed with lower opacity.
+   * When `true`, interaction is prevented and the component is displayed with lower opacity.
    */
   @Prop({ reflect: true }) disabled = false;
 
@@ -75,7 +75,7 @@ export class ListItem implements InteractiveComponent {
   @Prop() metadata?: Record<string, unknown>;
 
   /**
-   * When true, prevents the content of the component from user interaction.
+   * When `true`, prevents the content of the component from user interaction.
    *
    * @deprecated no longer necessary.
    */

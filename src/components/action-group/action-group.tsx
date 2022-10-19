@@ -29,7 +29,7 @@ export class ActionGroup implements ConditionalSlotComponent {
   // --------------------------------------------------------------------------
 
   /**
-   * When true, the component is expanded.
+   * When `true`, the component is expanded.
    */
   @Prop({ reflect: true }) expanded = false;
 
@@ -54,7 +54,7 @@ export class ActionGroup implements ConditionalSlotComponent {
   @Prop() intlMore?: string;
 
   /**
-   * When true, the `calcite-action-menu` is open.
+   * When `true`, the `calcite-action-menu` is open.
    */
   @Prop({ reflect: true, mutable: true }) menuOpen = false;
 

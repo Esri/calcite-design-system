@@ -274,4 +274,14 @@ export const simple = stepStory(
       })
     )
     .snapshot("british english locale")
+    .executeScript(
+      setKnobs({
+        story: "components-controls-datepicker--simple",
+        knobs: [
+          { name: "locale", value: "zh-cn" },
+          { name: "value", value: "2024-01-11" }
+        ]
+      })
+    )
+    .snapshot("chinese locale")
 );
