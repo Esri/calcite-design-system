@@ -167,11 +167,12 @@ export class Modal
   //
   //--------------------------------------------------------------------------
   async componentWillLoad(): Promise<void> {
+    await setUpMessages(this);
+
     // when modal initially renders, if active was set we need to open as watcher doesn't fire
     if (this.open) {
-      requestAnimationFrame(() => this.openModal());
+      requestAnimationFrame(async () => this.openModal());
     }
-    await setUpMessages(this);
   }
 
   connectedCallback(): void {
