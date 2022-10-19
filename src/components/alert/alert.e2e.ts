@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { renders, accessible, HYDRATED_ATTR, hidden } from "../../tests/commonTests";
+import { renders, accessible, HYDRATED_ATTR, hidden, t9n } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
 
@@ -348,4 +348,6 @@ describe("calcite-alert", () => {
       expect(chip.textContent).toEqual(chipQueueCount);
     });
   });
+
+  it("supports translation", () => t9n("calcite-alert"));
 });

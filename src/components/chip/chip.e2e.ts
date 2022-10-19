@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, renders, slots, hidden } from "../../tests/commonTests";
+import { accessible, renders, slots, hidden, t9n } from "../../tests/commonTests";
 
 import { CSS, SLOTS } from "./resources";
 
@@ -179,4 +179,6 @@ describe("calcite-chip", () => {
       expect(await chipEl.isVisible()).toBe(false);
     });
   });
+
+  it("supports translation", () => t9n("calcite-chip", false, ["dismissLabel"]));
 });

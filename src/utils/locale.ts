@@ -173,6 +173,7 @@ export function getSupportedLocale(locale: string, context: "cldr" | "t9n" = "cl
 
   return contextualLocales.includes(locale) ? locale : defaultLocale;
 }
+
 /**
  * This interface is for components that need to determine locale from the lang attribute.
  */
