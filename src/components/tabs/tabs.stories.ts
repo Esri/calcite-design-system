@@ -248,3 +248,14 @@ export const WithIconStart_TestOnly = stepStory(
     .click("calcite-button")
     .snapshot("WithIconStart")
 );
+
+export const TabChilrenWithPercentageHeights = (): string => html`
+  <calcite-tabs style="height: 250px;">
+    <calcite-tab-nav slot="tab-nav">
+      <calcite-tab-title selected>Boats</calcite-tab-title>
+    </calcite-tab-nav>
+    <calcite-tab style="background: pink;">
+      <div style="background: red; height: 100%;">Tab 1 content</div>
+    </calcite-tab>
+  </calcite-tabs>
+`;
