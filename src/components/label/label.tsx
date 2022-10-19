@@ -46,14 +46,14 @@ export class Label {
   @Prop({ reflect: true }) layout: "inline" | "inline-space-between" | "default" = "default";
 
   /**
-   * When true, interaction is prevented and the component is displayed with lower opacity.
+   * When `true`, interaction is prevented and the component is displayed with lower opacity.
    *
    * @deprecated Use the `disabled` property on the component the label is bound to instead.
    */
   @Prop({ reflect: true }) disabled = false;
 
   /**
-   * When true, disables the component's spacing.
+   * When `true`, disables the component's spacing.
    *
    * @deprecated Set the `--calcite-label-margin-bottom` css variable to `0` instead.
    */

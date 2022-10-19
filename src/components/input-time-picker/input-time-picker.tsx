@@ -63,7 +63,7 @@ export class InputTimePicker
   //--------------------------------------------------------------------------
 
   /**
-   * When true, the component is active.
+   * When `true`, the component is active.
    *
    * @deprecated Use `open` instead.
    */
@@ -74,7 +74,7 @@ export class InputTimePicker
     this.open = value;
   }
 
-  /** When true, displays the `calcite-time-picker` component. */
+  /** When `true`, displays the `calcite-time-picker` component. */
 
   @Prop({ reflect: true, mutable: true }) open = false;
 
@@ -89,11 +89,11 @@ export class InputTimePicker
     this.reposition();
   }
 
-  /** When true, interaction is prevented and the component is displayed with lower opacity. */
+  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @Prop({ reflect: true }) disabled = false;
 
   /**
-   * When true, the component's value can be read, but controls are not accessible and the value cannot be modified.
+   * When `true`, the component's value can be read, but controls are not accessible and the value cannot be modified.
    *
    * @mdn [readOnly](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/readonly)
    */

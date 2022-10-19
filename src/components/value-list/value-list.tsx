@@ -58,17 +58,17 @@ export class ValueList<
   // --------------------------------------------------------------------------
 
   /**
-   * When true, interaction is prevented and the component is displayed with lower opacity.
+   * When `true`, interaction is prevented and the component is displayed with lower opacity.
    */
   @Prop({ reflect: true }) disabled = false;
 
   /**
-   * When true, `calcite-value-list-item`s are sortable via a draggable button.
+   * When `true`, `calcite-value-list-item`s are sortable via a draggable button.
    */
   @Prop({ reflect: true }) dragEnabled = false;
 
   /**
-   * When true, an input appears at the top of the component that can be used by end users to filter list items.
+   * When `true`, an input appears at the top of the component that can be used by end users to filter list items.
    */
   @Prop({ reflect: true }) filterEnabled = false;
 
@@ -85,48 +85,48 @@ export class ValueList<
   @Prop({ reflect: true }) group?: string;
 
   /**
-   * When true, a busy indicator is displayed.
+   * When `true`, a busy indicator is displayed.
    */
   @Prop({ reflect: true }) loading = false;
 
   /**
    * Similar to standard radio buttons and checkboxes.
-   * When true, a user can select multiple `calcite-value-list-item`s at a time.
-   * When false, only a single `calcite-value-list-item` can be selected at a time,
+   * When `true`, a user can select multiple `calcite-value-list-item`s at a time.
+   * When `false`, only a single `calcite-value-list-item` can be selected at a time,
    * and a new selection will deselect previous selections.
    */
   @Prop({ reflect: true }) multiple = false;
 
   /**
-   * When true and single-selection is enabled, the selection changes when navigating `calcite-value-list-item`s via keyboard.
+   * When `true` and single-selection is enabled, the selection changes when navigating `calcite-value-list-item`s via keyboard.
    */
   @Prop({ reflect: true }) selectionFollowsFocus = false;
 
   /**
-   * When "drag-enabled" is true and active, specifies accessible context to the `calcite-value-list-item`'s initial position.
+   * When `dragEnabled` is `true` and active, specifies accessible context to the `calcite-value-list-item`s initial position.
    *
-   * Use ${position} of ${total} as placeholder for displaying indices and ${item.label} as placeholder for displaying label of `calcite-value-list-item`.
+   * Use "`${position}` of `${total}`" as a placeholder for displaying indices and `${item.label}` as a placeholder for displaying the `calcite-value-list-item` label.
    */
   @Prop() intlDragHandleIdle?: string;
 
   /**
-   * When "drag-enabled" is true and active, specifies accessible context to the component.
+   * When `dragEnabled` is `true` and active, specifies accessible context to the component.
    *
-   * Use ${position} of ${total} as placeholder for displaying indices and ${item.label} as placeholder for displaying label of `calcite-value-list-item`.
+   * Use "`${position}` of `${total}`" as a placeholder for displaying indices and `${item.label}` as a placeholder for displaying the `calcite-value-list-item` label.
    */
   @Prop() intlDragHandleActive?: string;
 
   /**
-   * When "drag-enabled" is true and active, specifies accessible context to the `calcite-value-list-item`'s new position.
+   * When `dragEnabled` is `true` and active, specifies accessible context to the `calcite-value-list-item`s new position.
    *
-   * Use ${position} of ${total} as placeholder for displaying indices and ${item.label} as placeholder for displaying label of `calcite-value-list-item`.
+   * Use "`${position}` of `${total}`" as a placeholder for displaying indices and `${item.label}` as a placeholder for displaying the `calcite-value-list-item` label.
    */
   @Prop() intlDragHandleChange?: string;
 
   /**
-   * When "drag-enabled" is true and active, specifies accessible context to the `calcite-value-list-item`'s current position after commit.
+   * When `dragEnabled` is `true` and active, specifies accessible context to the `calcite-value-list-item`s current position after commit.
    *
-   * Use ${position} of ${total} as placeholder for displaying indices and ${item.label} as placeholder for displaying label of `calcite-value-list-item`.
+   * Use "`${position}` of `${total}`" as a placeholder for displaying indices and `${item.label}` as a placeholder for displaying the `calcite-value-list-item` label.
    */
   @Prop() intlDragHandleCommit?: string;
 
