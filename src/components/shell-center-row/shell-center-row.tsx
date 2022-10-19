@@ -25,7 +25,7 @@ export class ShellCenterRow implements ConditionalSlotComponent {
   // --------------------------------------------------------------------------
 
   /**
-   * When true, the content area displays like a floating panel.
+   * When `true`, the content area displays like a floating panel.
    */
   @Prop({ reflect: true }) detached = false;
 
