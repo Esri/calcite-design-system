@@ -1,0 +1,7 @@
+{
+  "filterResults": "כן_Filter results_______________ש",
+  "dragHandleActive": "כן_Reordering ${itemLabel}, current position ${position} of ${total}__________________________________ש.",
+  "dragHandleChange": "כן_${itemLabel}, new position ${position} of ${total}. Press space to confirm_______________________________________ש.",
+  "dragHandleCommit": "כן_${itemLabel}, current position ${position} of ${total}_____________________________ש.",
+  "dragHandleIdle": "כן_${itemLabel}, press space and use arrow keys to reorder content. Current position ${position} of ${total}______________________________________________________ש."
+}

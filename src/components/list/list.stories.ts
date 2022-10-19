@@ -1,4 +1,5 @@
-import { placeholderImage, themesDarkDefault } from "../../../.storybook/utils";
+import { themesDarkDefault } from "../../../.storybook/utils";
+import { placeholderImage } from "../../../.storybook/placeholderImage";
 import readme from "./readme.md";
 import itemReadme from "../list-item/readme.md";
 import groupReadme from "../list-item-group/readme.md";

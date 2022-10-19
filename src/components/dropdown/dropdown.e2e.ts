@@ -1,4 +1,4 @@
-import { E2EPage, EventSpy, newE2EPage } from "@stencil/core/testing";
+import { E2EPage, newE2EPage } from "@stencil/core/testing";
 import { accessible, defaults, disabled, floatingUIOwner, renders, hidden } from "../../tests/commonTests";
 import dedent from "dedent";
 import { html } from "../../../support/formatting";

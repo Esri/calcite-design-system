@@ -25,11 +25,13 @@ import {
   submitForm
 } from "../../utils/form";
 import {
-  delocalizeNumberString,
-  getLocale,
-  getDecimalSeparator,
-  LangComponent,
-  localizeNumberString
+  NumberingSystem,
+  numberStringFormatter,
+  defaultNumberingSystem,
+  LocalizedComponent,
+  disconnectLocalized,
+  connectLocalized,
+  updateEffectiveLocale
 } from "../../utils/locale";
 import { numberKeys } from "../../utils/key";
 import { isValidNumber, parseNumberString, sanitizeNumberString } from "../../utils/number";
@@ -37,11 +39,6 @@ import { CSS_UTILITY, TEXT as COMMON_TEXT } from "../../utils/resources";
 import { decimalPlaces } from "../../utils/math";
 import { createObserver } from "../../utils/observers";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
-import {
-  GlobalAttrComponent,
-  unwatchGlobalAttributes,
-  watchGlobalAttributes
-} from "../../utils/globalAttributes";
 
 type NumberNudgeDirection = "up" | "down";
 type setNumberValueOrigin = "initial" | "connected" | "user" | "reset" | "direct";
@@ -55,12 +52,7 @@ type setNumberValueOrigin = "initial" | "connected" | "user" | "reset" | "direct
   shadow: true
 })
 export class InputNumber
-  implements
-    LabelableComponent,
-    FormComponent,
-    InteractiveComponent,
-    GlobalAttrComponent,
-    LangComponent
+  implements LabelableComponent, FormComponent, InteractiveComponent, LocalizedComponent
 {
   //--------------------------------------------------------------------------
   //
@@ -80,19 +72,19 @@ export class InputNumber
   @Prop({ reflect: true }) alignment: Position = "start";
 
   /**
-   * When true, the component is focused on page load.
+   * When `true`, the component is focused on page load.
    *
    * @mdn [autofocus](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/autofocus)
    */
   @Prop({ reflect: true }) autofocus = false;
 
   /**
-   * When true, a clear button is displayed when the component has a value.
+   * When `true`, a clear button is displayed when the component has a value.
    */
   @Prop({ reflect: true }) clearable = false;
 
   /**
-   * When true, interaction is prevented and the component is displayed with lower opacity.
+   * When `true`, interaction is prevented and the component is displayed with lower opacity.
    *
    * @mdn [disabled](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/disabled)
    */
@@ -104,19 +96,19 @@ export class InputNumber
   }
 
   /**
-   * When true, number values are displayed with the locale's group separator.
+   * When `true`, number values are displayed with a group separator corresponding to the language and country format.
    */
   @Prop({ reflect: true }) groupSeparator = false;
 
   /**
-   * When true, the component will not be visible.
+   * When `true`, the component will not be visible.
    *
    * @mdn [hidden](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/hidden)
    */
   @Prop({ reflect: true }) hidden = false;
 
   /**
-   * When true, shows a default recommended icon. Alternatively, pass a Calcite UI Icon name to display a specific icon.
+   * When `true`, shows a default recommended icon. Alternatively, pass a Calcite UI Icon name to display a specific icon.
    */
   @Prop({ reflect: true }) icon: string | boolean;
 
@@ -132,13 +124,13 @@ export class InputNumber
    */
   @Prop() intlLoading?: string = COMMON_TEXT.loading;
 
-  /** When true, the icon is flipped in RTL. */
+  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @Prop({ reflect: true }) iconFlipRtl = false;
 
   /** Accessible name for the component's button or hyperlink. */
   @Prop() label?: string;
 
-  /** When true, the component is in the loading state and `calcite-progress` is displayed. */
+  /** When `true`, the component is in the loading state and `calcite-progress` is displayed. */
   @Prop({ reflect: true }) loading = false;
 
   /**
@@ -149,12 +141,15 @@ export class InputNumber
    */
   @Prop() locale: string;
 
+  @Watch("locale")
+  localeChanged(): void {
+    updateEffectiveLocale(this);
+  }
+
   /**
    * Specifies the Unicode numeral system used by the component for localization.
-   *
-   * @mdn [numberingSystem](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/Locale/numberingSystem)
    */
-  @Prop({ reflect: true }) numberingSystem?: string;
+  @Prop({ reflect: true }) numberingSystem?: NumberingSystem;
 
   /**
    * Toggles locale formatting for numbers.
@@ -224,13 +219,13 @@ export class InputNumber
   @Prop() prefixText?: string;
 
   /**
-   * When true, the value cannot be modified.
+   * When `true`, the component's value can be read, but cannot be modified.
    *
    * @mdn [readOnly](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/readonly)
    */
   @Prop({ reflect: true }) readOnly = false;
 
-  /** When true, the component must have a value in order for the form to submit. */
+  /** When `true`, the component must have a value in order for the form to submit. */
   @Prop({ reflect: true }) required = false;
 
   /** Specifies the size of the component. */
@@ -326,7 +321,7 @@ export class InputNumber
   //
   //--------------------------------------------------------------------------
 
-  @State() globalAttributes = {};
+  @State() effectiveLocale = "";
 
   @State() localizedValue: string;
 
@@ -337,12 +332,17 @@ export class InputNumber
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
+    connectLocalized(this);
+
     this.scale = getElementProp(this.el, "scale", this.scale);
     this.status = getElementProp(this.el, "status", this.status);
     this.inlineEditableEl = this.el.closest("calcite-inline-editable");
     if (this.inlineEditableEl) {
       this.editingEnabled = this.inlineEditableEl.editingEnabled || false;
     }
+    connectLabel(this);
+    connectForm(this);
+
     this.setPreviousEmittedNumberValue(this.value);
     this.setPreviousNumberValue(this.value);
 
@@ -351,10 +351,6 @@ export class InputNumber
       origin: "connected",
       value: isValidNumber(this.value) ? this.value : ""
     });
-    connectLabel(this);
-    connectForm(this);
-    watchGlobalAttributes(this, ["lang"]);
-
     this.mutationObserver?.observe(this.el, { childList: true });
     this.setDisabledAction();
     this.el.addEventListener("calciteInternalHiddenInputChange", this.hiddenInputChangeHandler);
@@ -363,7 +359,8 @@ export class InputNumber
   disconnectedCallback(): void {
     disconnectLabel(this);
     disconnectForm(this);
-    unwatchGlobalAttributes(this);
+    disconnectLocalized(this);
+
     this.mutationObserver?.disconnect();
     this.el.removeEventListener("calciteInternalHiddenInputChange", this.hiddenInputChangeHandler);
   }
@@ -408,7 +405,7 @@ export class InputNumber
   /**
    * Fires each time a new value is typed.
    *
-   * **Note:**: The `el` and `value` event payload props are deprecated, please use the event's target/currentTarget instead
+   * **Note:**: The `el` and `value` event payload props are deprecated, please use the event's `target`/`currentTarget` instead
    */
   @Event({ cancelable: true }) calciteInputNumberInput: EventEmitter<DeprecatedEventPayload>;
 
@@ -522,7 +519,12 @@ export class InputNumber
       return;
     }
     const value = (nativeEvent.target as HTMLInputElement).value;
-    const delocalizedValue = delocalizeNumberString(value, getLocale(this));
+    numberStringFormatter.numberFormatOptions = {
+      locale: this.effectiveLocale,
+      numberingSystem: this.numberingSystem,
+      useGrouping: this.groupSeparator
+    };
+    const delocalizedValue = numberStringFormatter.delocalize(value);
     if (nativeEvent.inputType === "insertFromPaste") {
       if (!isValidNumber(delocalizedValue)) {
         nativeEvent.preventDefault();
@@ -576,12 +578,18 @@ export class InputNumber
       }
       return;
     }
-    const decimalSeparator = getDecimalSeparator(getLocale(this));
-    if (event.key === decimalSeparator) {
+
+    numberStringFormatter.numberFormatOptions = {
+      locale: this.effectiveLocale,
+      numberingSystem: this.numberingSystem,
+      useGrouping: this.groupSeparator
+    };
+
+    if (event.key === numberStringFormatter.decimal) {
       if (!this.value && !this.childNumberEl.value) {
         return;
       }
-      if (this.value && this.childNumberEl.value.indexOf(decimalSeparator) === -1) {
+      if (this.value && this.childNumberEl.value.indexOf(numberStringFormatter.decimal) === -1) {
         return;
       }
     }
@@ -714,16 +722,18 @@ export class InputNumber
     previousValue?: string;
     value: string;
   }): void => {
-    const locale = getLocale(this);
+    numberStringFormatter.numberFormatOptions = {
+      locale: this.effectiveLocale,
+      numberingSystem: this.numberingSystem,
+      useGrouping: this.groupSeparator
+    };
 
-    const previousLocalizedValue = localizeNumberString(
-      this.previousValue,
-      locale,
-      this.groupSeparator,
-      this.numberingSystem
+    const sanitizedValue = sanitizeNumberString(
+      (this.numberingSystem && this.numberingSystem !== "latn") || defaultNumberingSystem !== "latn"
+        ? numberStringFormatter.delocalize(value)
+        : value
     );
 
-    const sanitizedValue = sanitizeNumberString(value);
     const newValue =
       value && !sanitizedValue
         ? isValidNumber(this.previousValue)
@@ -731,12 +741,7 @@ export class InputNumber
           : ""
         : sanitizedValue;
 
-    const newLocalizedValue = localizeNumberString(
-      newValue,
-      locale,
-      this.groupSeparator,
-      this.numberingSystem
-    );
+    const newLocalizedValue = numberStringFormatter.localize(newValue);
 
     this.setPreviousNumberValue(previousValue || this.value);
     this.previousValueOrigin = origin;
@@ -757,6 +762,7 @@ export class InputNumber
       });
 
       if (calciteInputNumberInputEvent.defaultPrevented) {
+        const previousLocalizedValue = numberStringFormatter.localize(this.previousValue);
         this.value = this.previousValue;
         this.localizedValue = previousLocalizedValue;
       } else if (committing) {
