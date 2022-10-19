@@ -49,6 +49,13 @@ export class DatePicker implements LocalizedComponent {
   /** Active date */
   @Prop({ mutable: true }) activeDate: Date;
 
+  @Watch("activeDate")
+  activeDateWatcher(newActiveDate: Date): void {
+    if (this.activeRange === "end") {
+      this.activeEndDate = newActiveDate;
+    }
+  }
+
   /** Active range */
   @Prop({ reflect: true }) activeRange?: "start" | "end";
 
