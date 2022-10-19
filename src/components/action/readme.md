@@ -42,27 +42,27 @@ Renders a `calcite-action` that displays only an icon.
 
 ## Properties
 
-| Property            | Attribute      | Description                                                                                                                           | Type                           | Default        |
-| ------------------- | -------------- | ------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------ | -------------- |
-| `active`            | `active`       | When true, the component is highlighted.                                                                                              | `boolean`                      | `false`        |
-| `alignment`         | `alignment`    | Specifies the horizontal alignment of button elements with text content.                                                              | `"center" \| "end" \| "start"` | `undefined`    |
-| `appearance`        | `appearance`   | Specifies the appearance of the component.                                                                                            | `"clear" \| "solid"`           | `"solid"`      |
-| `compact`           | `compact`      | When true, the side padding of the component is reduced. Compact mode is used internally by components, e.g. `calcite-block-section`. | `boolean`                      | `false`        |
-| `disabled`          | `disabled`     | When true, interaction is prevented and the component is displayed with lower opacity.                                                | `boolean`                      | `false`        |
-| `icon`              | `icon`         | Specifies an icon to display.                                                                                                         | `string`                       | `undefined`    |
-| `indicator`         | `indicator`    | When true, indicates unread changes.                                                                                                  | `boolean`                      | `false`        |
-| `intlLoading`       | `intl-loading` | Specifies the text label to display while loading.                                                                                    | `string`                       | `TEXT.loading` |
-| `label`             | `label`        | Specifies the label of the component. If no label is provided, the label inherits what's provided for the `text` prop.                | `string`                       | `undefined`    |
-| `loading`           | `loading`      | When true, a busy indicator is displayed.                                                                                             | `boolean`                      | `false`        |
-| `scale`             | `scale`        | Specifies the size of the component.                                                                                                  | `"l" \| "m" \| "s"`            | `"m"`          |
-| `text` _(required)_ | `text`         | Specifies text that accompanies the icon.                                                                                             | `string`                       | `undefined`    |
-| `textEnabled`       | `text-enabled` | Indicates whether the text is displayed.                                                                                              | `boolean`                      | `false`        |
+| Property            | Attribute      | Description                                                                                                                             | Type                           | Default        |
+| ------------------- | -------------- | --------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------ | -------------- |
+| `active`            | `active`       | When `true`, the component is highlighted.                                                                                              | `boolean`                      | `false`        |
+| `alignment`         | `alignment`    | Specifies the horizontal alignment of button elements with text content.                                                                | `"center" \| "end" \| "start"` | `undefined`    |
+| `appearance`        | `appearance`   | Specifies the appearance of the component.                                                                                              | `"clear" \| "solid"`           | `"solid"`      |
+| `compact`           | `compact`      | When `true`, the side padding of the component is reduced. Compact mode is used internally by components, e.g. `calcite-block-section`. | `boolean`                      | `false`        |
+| `disabled`          | `disabled`     | When `true`, interaction is prevented and the component is displayed with lower opacity.                                                | `boolean`                      | `false`        |
+| `icon`              | `icon`         | Specifies an icon to display.                                                                                                           | `string`                       | `undefined`    |
+| `indicator`         | `indicator`    | When `true`, indicates unread changes.                                                                                                  | `boolean`                      | `false`        |
+| `intlLoading`       | `intl-loading` | Specifies the text label to display while loading.                                                                                      | `string`                       | `TEXT.loading` |
+| `label`             | `label`        | Specifies the label of the component. If no label is provided, the label inherits what's provided for the `text` prop.                  | `string`                       | `undefined`    |
+| `loading`           | `loading`      | When `true`, a busy indicator is displayed.                                                                                             | `boolean`                      | `false`        |
+| `scale`             | `scale`        | Specifies the size of the component.                                                                                                    | `"l" \| "m" \| "s"`            | `"m"`          |
+| `text` _(required)_ | `text`         | Specifies text that accompanies the icon.                                                                                               | `string`                       | `undefined`    |
+| `textEnabled`       | `text-enabled` | Indicates whether the text is displayed.                                                                                                | `boolean`                      | `false`        |
 
 ## Events
 
-| Event                | Description                                                                                                              | Type                |
-| -------------------- | ------------------------------------------------------------------------------------------------------------------------ | ------------------- |
-| `calciteActionClick` | <span style="color:red">**[DEPRECATED]**</span> use onClick instead.<br/><br/>Emits when the component has been clicked. | `CustomEvent<void>` |
+| Event                | Description                                                                                                                | Type                |
+| -------------------- | -------------------------------------------------------------------------------------------------------------------------- | ------------------- |
+| `calciteActionClick` | <span style="color:red">**[DEPRECATED]**</span> use `onClick` instead.<br/><br/>Emits when the component has been clicked. | `CustomEvent<void>` |
 
 ## Methods
 
@@ -82,9 +82,9 @@ Type: `Promise<void>`
 
 ## CSS Custom Properties
 
-| Name                               | Description                                          |
-| ---------------------------------- | ---------------------------------------------------- |
-| `--calcite-action-indicator-color` | optionally specify the color of the action indicator |
+| Name                               | Description                                       |
+| ---------------------------------- | ------------------------------------------------- |
+| `--calcite-action-indicator-color` | Specifies the color of the component's indicator. |
 
 ## Dependencies
 
