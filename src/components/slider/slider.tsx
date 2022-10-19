@@ -1001,13 +1001,13 @@ export class Slider
   private focusActiveHandle(valueX: number): void {
     switch (this.dragProp) {
       case "minValue":
-        this.minHandle.focus();
+        this.minHandle?.focus();
         break;
       case "maxValue":
-        this.maxHandle.focus();
+        this.maxHandle?.focus();
         break;
       case "minMaxValue":
-        this.getClosestHandle(valueX).focus();
+        this.getClosestHandle(valueX)?.focus();
         break;
       default:
         break;
@@ -1155,9 +1155,11 @@ export class Slider
   }
 
   private getClosestHandle(valueX: number): HTMLDivElement {
-    return this.getDistanceX(this.maxHandle, valueX) > this.getDistanceX(this.minHandle, valueX)
-      ? this.minHandle
-      : this.maxHandle;
+    return this.minHandle && this.maxHandle
+      ? this.getDistanceX(this.maxHandle, valueX) > this.getDistanceX(this.minHandle, valueX)
+        ? this.minHandle
+        : this.maxHandle
+      : null;
   }
 
   private getDistanceX(el: HTMLDivElement, valueX: number): number {
