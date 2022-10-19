@@ -66,7 +66,7 @@ export class Card implements ConditionalSlotComponent {
   @Prop({ reflect: false }) intlSelect: string = TEXT.select;
 
   /**
-   * When `selectable` is `true`, the accessible name for the component's checkbox for de-selection.
+   * When `selectable` is `true`, the accessible name for the component's checkbox for deselection.
    *
    * @default "Deselect"
    */
