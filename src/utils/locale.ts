@@ -148,6 +148,7 @@ export const getSupportedNumberingSystem = (numberingSystem: string): NumberingS
  */
 export function getSupportedLocale(locale: string, context: "cldr" | "t9n" = "cldr"): string {
   const contextualLocales = context === "cldr" ? locales : t9nLocales;
+
   if (contextualLocales.includes(locale)) {
     return locale;
   }
