@@ -147,7 +147,7 @@ export const getSupportedNumberingSystem = (numberingSystem: string): NumberingS
 export function getSupportedLocale(locale: string, context: "cldr" | "t9n" = "cldr"): string {
   const contextualLocales = context === "cldr" ? locales : t9nLocales;
 
-  // we support both 'nb' and 'no' (BCP 47) for Norwegian
+  // we support both 'nb' and 'no' (BCP 47) for Norwegian but only `no` has corresponding bundle
   if (locale === "nb" || locale === "no") {
     return "no";
   }
