@@ -7,7 +7,8 @@ import {
   labelable,
   reflects,
   renders,
-  hidden
+  hidden,
+  t9n
 } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { TEXT } from "./resources";
@@ -364,4 +365,6 @@ describe("calcite-input-text", () => {
   });
 
   it("is form-associated", () => formAssociated("calcite-input-text", { testValue: "test", submitsOnEnter: true }));
+
+  it("supports translation", () => t9n("calcite-input-text"));
 });

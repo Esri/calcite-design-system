@@ -8,12 +8,13 @@ import {
   Host,
   Method,
   Prop,
+  State,
   VNode,
   Watch
 } from "@stencil/core";
 import { getElementDir, getElementProp, getSlotted, setRequestedIcon } from "../../utils/dom";
 
-import { CSS, SLOTS, TEXT } from "./resources";
+import { CSS, SLOTS } from "./resources";
 import { Position } from "../interfaces";
 import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
 import {
@@ -23,10 +24,18 @@ import {
   HiddenFormInputSlot,
   submitForm
 } from "../../utils/form";
-import { CSS_UTILITY, TEXT as COMMON_TEXT } from "../../utils/resources";
-
+import { CSS_UTILITY } from "../../utils/resources";
 import { createObserver } from "../../utils/observers";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
+import {
+  connectMessages,
+  disconnectMessages,
+  setUpMessages,
+  T9nComponent,
+  updateMessages
+} from "../../utils/t9n";
+import { Messages } from "./assets/input-text/t9n";
 
 type SetValueOrigin = "initial" | "connected" | "user" | "reset" | "direct";
 
@@ -36,9 +45,17 @@ type SetValueOrigin = "initial" | "connected" | "user" | "reset" | "direct";
 @Component({
   tag: "calcite-input-text",
   styleUrl: "input-text.scss",
-  shadow: true
+  shadow: true,
+  assetsDirs: ["assets"]
 })
-export class InputText implements LabelableComponent, FormComponent, InteractiveComponent {
+export class InputText
+  implements
+    LabelableComponent,
+    FormComponent,
+    InteractiveComponent,
+    LocalizedComponent,
+    T9nComponent
+{
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -94,6 +111,8 @@ export class InputText implements LabelableComponent, FormComponent, Interactive
 
   /**
    * A text label that will appear on the clear button for screen readers.
+   *
+   * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`.
    */
   @Prop() intlClear?: string;
 
@@ -101,8 +120,9 @@ export class InputText implements LabelableComponent, FormComponent, Interactive
    * Accessible name that will appear while loading.
    *
    * @default "Loading"
+   * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`.
    */
-  @Prop() intlLoading?: string = COMMON_TEXT.loading;
+  @Prop() intlLoading?: string;
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @Prop({ reflect: true }) iconFlipRtl = false;
@@ -171,6 +191,26 @@ export class InputText implements LabelableComponent, FormComponent, Interactive
   /** The component's value. */
   @Prop({ mutable: true }) value = "";
 
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @internal
+   */
+  @Prop({ mutable: true }) messages: Messages;
+
+  /**
+   * Use this property to override individual strings used by the component.
+   */
+  @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
+
+  @Watch("intlClear")
+  @Watch("intlLoading")
+  @Watch("defaultMessages")
+  @Watch("messageOverrides")
+  onMessagesChange(): void {
+    /* wired up by t9n util */
+  }
+
   @Watch("value")
   valueWatcher(newValue: string, previousValue: string): void {
     if (!this.userChangedValue) {
@@ -190,7 +230,7 @@ export class InputText implements LabelableComponent, FormComponent, Interactive
 
   //--------------------------------------------------------------------------
   //
-  //  Private Properties
+  //  Private State/Properties
   //
   //--------------------------------------------------------------------------
 
@@ -222,6 +262,15 @@ export class InputText implements LabelableComponent, FormComponent, Interactive
 
   private userChangedValue = false;
 
+  @State() effectiveLocale: string;
+
+  @Watch("effectiveLocale")
+  effectiveLocaleChange(): void {
+    updateMessages(this, this.effectiveLocale);
+  }
+
+  @State() defaultMessages: Messages;
+
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -229,6 +278,9 @@ export class InputText implements LabelableComponent, FormComponent, Interactive
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
+    connectLocalized(this);
+    connectMessages(this);
+
     this.scale = getElementProp(this.el, "scale", this.scale);
     this.status = getElementProp(this.el, "status", this.status);
     this.inlineEditableEl = this.el.closest("calcite-inline-editable");
@@ -248,12 +300,16 @@ export class InputText implements LabelableComponent, FormComponent, Interactive
   disconnectedCallback(): void {
     disconnectLabel(this);
     disconnectForm(this);
+    disconnectLocalized(this);
+    disconnectMessages(this);
+
     this.mutationObserver?.disconnect();
     this.el.removeEventListener("calciteInternalHiddenInputChange", this.hiddenInputChangeHandler);
   }
 
-  componentWillLoad(): void {
+  async componentWillLoad(): Promise<void> {
     this.requestedIcon = setRequestedIcon({}, this.icon, "text");
+    await setUpMessages(this);
   }
 
   componentDidRender(): void {
@@ -496,13 +552,13 @@ export class InputText implements LabelableComponent, FormComponent, Interactive
     const dir = getElementDir(this.el);
     const loader = (
       <div class={CSS.loader}>
-        <calcite-progress label={this.intlLoading} type="indeterminate" />
+        <calcite-progress label={this.messages.loading} type="indeterminate" />
       </div>
     );
 
     const inputClearButton = (
       <button
-        aria-label={this.intlClear || TEXT.clear}
+        aria-label={this.messages.clear}
         class={CSS.clearButton}
         disabled={this.disabled || this.readOnly}
         onClick={this.clearInputTextValue}

@@ -3,6 +3,7 @@ import { createObserver } from "./observers";
 import { closestElementCrossShadowBoundary, containsCrossShadowBoundary } from "./dom";
 
 const defaultLocale = "en";
+
 export const locales = [
   "ar",
   "bg",
