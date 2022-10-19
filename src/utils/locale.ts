@@ -99,6 +99,49 @@ export const locales = [
   "zh-TW"
 ];
 
+export const t9nLocales = [
+  "ar",
+  "bg",
+  "bs",
+  "ca",
+  "cs",
+  "da",
+  "de",
+  "el",
+  defaultLocale,
+  "es",
+  "et",
+  "fi",
+  "fr",
+  "he",
+  "hr",
+  "hu",
+  "id",
+  "it",
+  "ja",
+  "ko",
+  "lt",
+  "lv",
+  "nb",
+  "nl",
+  "pl",
+  "pt-BR",
+  "pt-PT",
+  "ro",
+  "ru",
+  "sk",
+  "sl",
+  "sr",
+  "sv",
+  "th",
+  "tr",
+  "uk",
+  "vi",
+  "zh-CN",
+  "zh-HK",
+  "zh-TW"
+];
+
 export const numberingSystems = [
   "arab",
   "arabext",
@@ -144,19 +187,23 @@ export const getSupportedNumberingSystem = (numberingSystem: string): NumberingS
  *
  * @param locale – the BCP 47 locale code
  * @param context - specifies whether the locale code should match in the context of CLDR or T9N (translation)
- * @returns {string} -returns a string
  */
 export function getSupportedLocale(locale: string, context: "cldr" | "t9n" = "cldr"): string {
   const contextualLocales = context === "cldr" ? locales : t9nLocales;
+
+  // we support both 'nb' and 'no' (BCP 47) for Norwegian but only `no` has corresponding bundle
+  if (locale === "nb" || locale === "no") {
+    return "no";
+  }
 
   if (contextualLocales.includes(locale)) {
     return locale;
   }
   locale = locale.toLowerCase();
 
-  // we support both 'nb' and 'no' (BCP 47) for Norwegian
-  if (locale === "nb") {
-    return "no";
+  // we use `pt-BR` as it will have the same translations as `pt`, which has no corresponding bundle
+  if (context === "t9n" && locale === "pt") {
+    return "pt-BR";
   }
 
   // we use `pt-BR` as it will have the same translations as `pt`, which has no corresponding bundle
@@ -171,8 +218,7 @@ export function getSupportedLocale(locale: string, context: "cldr" | "t9n" = "cl
       locale = locale.split("-")[0];
     }
   }
-
-  return contextualLocales.includes(locale) ? locale : "en";
+  return contextualLocales.includes(locale) ? locale : defaultLocale;
 }
 
 /**

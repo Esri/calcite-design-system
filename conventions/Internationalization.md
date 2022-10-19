@@ -38,6 +38,10 @@ This pattern enables components to support built-in translations. In order to su
 3. Use the `setUpMessages` util in the component's `componentWillLoad` lifecycle methods. This must be awaited on to have an initial set of strings available before rendering.
 4. Use the `connectMessages`/`disconnectMessages` utils in the component's `connectedCallback`/`disconnectedCallback` lifecycle methods. This will set up and tear down supporting methods on the component.
 5. Add an appropriate E2E test by using the `t9n` common test helper.
+6. Compound components ( Ex: input-date-picker) which are neither localized nor t9n need to forward `intl` props into supporting components.
+   1. mark `intl` props as optional and add `messageOverrides` prop.
+   2. Parse the `messageOverrides` along with `intl` props into supporting components in render method.
+7. Internal components which support public components requires `t9n` properties only to forward the messages.
 
 #### Notes
 
