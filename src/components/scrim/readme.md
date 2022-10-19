@@ -39,7 +39,7 @@
 | Property      | Attribute      | Description                                    | Type      | Default        |
 | ------------- | -------------- | ---------------------------------------------- | --------- | -------------- |
 | `intlLoading` | `intl-loading` | Accessible name when the component is loading. | `string`  | `TEXT.loading` |
-| `loading`     | `loading`      | When true, a busy indicator is displayed.      | `boolean` | `false`        |
+| `loading`     | `loading`      | When `true`, a busy indicator is displayed.    | `boolean` | `false`        |
 
 ## Slots
 

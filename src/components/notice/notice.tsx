@@ -55,9 +55,9 @@ export class Notice implements ConditionalSlotComponent {
   //---------------------------------------------------------------------------
 
   /**
-   * When true, the component is active.
+   * When `true`, the component is active.
    *
-   * @deprecated Use open instead.
+   * @deprecated Use `open` instead.
    */
   @Prop({ reflect: true, mutable: true }) active = false;
 
@@ -66,7 +66,7 @@ export class Notice implements ConditionalSlotComponent {
     this.open = value;
   }
 
-  /** When true, the component is visible */
+  /** When `true`, the component is visible. */
   @Prop({ reflect: true, mutable: true }) open = false;
 
   @Watch("open")
@@ -78,9 +78,9 @@ export class Notice implements ConditionalSlotComponent {
   @Prop({ reflect: true }) color: StatusColor = "blue";
 
   /**
-   * When true, a close button is added to the component.
+   * When `true`, a close button is added to the component.
    *
-   * @deprecated use closable instead
+   * @deprecated use `closable` instead.
    */
   @Prop({ reflect: true }) dismissible? = false;
 
@@ -89,7 +89,7 @@ export class Notice implements ConditionalSlotComponent {
     this.closable = value;
   }
 
-  /** When true, displays a button user can click to dismiss the `calcite-notice` */
+  /** When `true`, a close button is added to the component. */
   @Prop({ reflect: true }) closable? = false;
 
   @Watch("closable")
@@ -98,7 +98,7 @@ export class Notice implements ConditionalSlotComponent {
   }
 
   /**
-   * When true, shows a default recommended icon. Alternatively, pass a Calcite UI Icon name to display a specific icon.
+   * When `true`, shows a default recommended icon. Alternatively, pass a Calcite UI Icon name to display a specific icon.
    */
   @Prop({ reflect: true }) icon: string | boolean;
 
