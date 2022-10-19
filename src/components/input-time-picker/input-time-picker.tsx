@@ -618,6 +618,19 @@ export class InputTimePicker
           triggerDisabled={true}
         >
           <calcite-time-picker
+            //t9n props are used here to forward the messages only.
+            intlHour={this.intlHour}
+            intlHourDown={this.intlHourDown}
+            intlHourUp={this.intlHourUp}
+            intlMeridiem={this.intlMeridiem}
+            intlMeridiemDown={this.intlMeridiemDown}
+            intlMeridiemUp={this.intlMeridiemUp}
+            intlMinute={this.intlMinute}
+            intlMinuteDown={this.intlMinuteDown}
+            intlMinuteUp={this.intlMinuteUp}
+            intlSecond={this.intlSecond}
+            intlSecondDown={this.intlSecondDown}
+            intlSecondUp={this.intlSecondUp}
             lang={this.effectiveLocale}
             messageOverrides={this.messagesOverrides}
             numberingSystem={this.numberingSystem}
