@@ -7,10 +7,11 @@ import {
   h,
   Method,
   Prop,
+  State,
   VNode,
   Watch
 } from "@stencil/core";
-import { CSS, ICONS, SLOTS, TEXT } from "./resources";
+import { CSS, ICONS, SLOTS } from "./resources";
 import { ICON_TYPES } from "../pick-list/resources";
 import { getSlotted, toAriaBoolean } from "../../utils/dom";
 import {
@@ -19,6 +20,15 @@ import {
   disconnectConditionalSlotComponent
 } from "../../utils/conditionalSlot";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
+import {
+  connectMessages,
+  disconnectMessages,
+  setUpMessages,
+  T9nComponent,
+  updateMessages
+} from "../../utils/t9n";
+import { Messages } from "./assets/pick-list-item/t9n";
 
 /**
  * @slot actions-end - A slot for adding `calcite-action`s or content to the end side of the component.
@@ -27,9 +37,12 @@ import { InteractiveComponent, updateHostInteraction } from "../../utils/interac
 @Component({
   tag: "calcite-pick-list-item",
   styleUrl: "pick-list-item.scss",
-  shadow: true
+  shadow: true,
+  assetsDirs: ["assets"]
 })
-export class PickListItem implements ConditionalSlotComponent, InteractiveComponent {
+export class PickListItem
+  implements ConditionalSlotComponent, InteractiveComponent, LocalizedComponent, T9nComponent
+{
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -79,6 +92,25 @@ export class PickListItem implements ConditionalSlotComponent, InteractiveCompon
   }
 
   /**
+   * Use this property to override individual strings used by the component.
+   */
+  @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
+
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @internal
+   */
+  @Prop({ mutable: true }) messages: Messages;
+
+  @Watch("intlRemove")
+  @Watch("defaultMessages")
+  @Watch("messageOverrides")
+  onMessagesChange(): void {
+    /* wired up by t9n util */
+  }
+
+  /**
    * Provides additional metadata to the component. Primary use is for a filter on the parent list.
    */
   @Prop() metadata?: Record<string, unknown>;
@@ -113,9 +145,9 @@ export class PickListItem implements ConditionalSlotComponent, InteractiveCompon
   /**
    * When `removable` is `true`, the accessible name for the component's remove button.
    *
-   * @default "Remove"
+   * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`
    */
-  @Prop({ reflect: true }) intlRemove = TEXT.remove;
+  @Prop({ reflect: true }) intlRemove: string;
 
   /**
    * The component's value.
@@ -139,6 +171,15 @@ export class PickListItem implements ConditionalSlotComponent, InteractiveCompon
 
   shiftPressed: boolean;
 
+  @State() defaultMessages: Messages;
+
+  @State() effectiveLocale = "";
+
+  @Watch("effectiveLocale")
+  effectiveLocaleChange(): void {
+    updateMessages(this, this.effectiveLocale);
+  }
+
   // --------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -146,10 +187,18 @@ export class PickListItem implements ConditionalSlotComponent, InteractiveCompon
   // --------------------------------------------------------------------------
 
   connectedCallback(): void {
+    connectLocalized(this);
+    connectMessages(this);
     connectConditionalSlotComponent(this);
   }
 
+  async componentWillLoad(): Promise<void> {
+    await setUpMessages(this);
+  }
+
   disconnectedCallback(): void {
+    disconnectLocalized(this);
+    disconnectMessages(this);
     disconnectConditionalSlotComponent(this);
   }
 
@@ -280,7 +329,7 @@ export class PickListItem implements ConditionalSlotComponent, InteractiveCompon
         icon={ICONS.remove}
         onCalciteActionClick={this.removeClickHandler}
         slot={SLOTS.actionsEnd}
-        text={this.intlRemove}
+        text={this.messages.remove}
       />
     ) : null;
   }
