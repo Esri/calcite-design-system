@@ -307,6 +307,7 @@ export async function reposition(
 }
 
 const debouncedReposition = debounce(positionFloatingUI, repositionDebounceTimeout, {
+  leading: true,
   maxWait: repositionDebounceTimeout
 });
 
