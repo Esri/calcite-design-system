@@ -8,8 +8,3 @@ export const CSS = {
   ellipsisStart: "ellipsis--start",
   ellipsisEnd: "ellipsis--end"
 };
-
-export const TEXT = {
-  nextLabel: "Next",
-  previousLabel: "Previous"
-};

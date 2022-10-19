@@ -8,7 +8,8 @@ import {
   Method,
   VNode,
   Fragment,
-  State
+  State,
+  Watch
 } from "@stencil/core";
 import { Scale } from "../interfaces";
 import {
@@ -18,7 +19,15 @@ import {
   numberStringFormatter,
   NumberingSystem
 } from "../../utils/locale";
-import { CSS, TEXT } from "./resources";
+import { CSS } from "./resources";
+import { Messages } from "./assets/pagination/t9n";
+import {
+  connectMessages,
+  disconnectMessages,
+  setUpMessages,
+  T9nComponent,
+  updateMessages
+} from "../../utils/t9n";
 
 const maxPagesDisplayed = 5;
 export interface PaginationDetail {
@@ -30,9 +39,10 @@ export interface PaginationDetail {
 @Component({
   tag: "calcite-pagination",
   styleUrl: "pagination.scss",
-  shadow: true
+  shadow: true,
+  assetsDirs: ["assets"]
 })
-export class Pagination implements LocalizedComponent {
+export class Pagination implements LocalizedComponent, T9nComponent {
   //--------------------------------------------------------------------------
   //
   //  Public Properties
@@ -43,6 +53,33 @@ export class Pagination implements LocalizedComponent {
    * When `true`, number values are displayed with a group separator corresponding to the language and country format.
    */
   @Prop({ reflect: true }) groupSeparator = false;
+
+  /**
+   * Use this property to override individual strings used by the component.
+   */
+  @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
+
+  @Watch("textLabelNext")
+  @Watch("textLabelPrevious")
+  @Watch("defaultMessages")
+  @Watch("messageOverrides")
+  onMessagesChange(): void {
+    /* wired up by t9n util */
+  }
+
+  getExtraMessageOverrides(): Partial<Messages> {
+    const extraOverrides: Partial<Messages> = {};
+
+    if (this.textLabelNext) {
+      extraOverrides.next = this.textLabelNext;
+    }
+
+    if (this.textLabelPrevious) {
+      extraOverrides.previous = this.textLabelPrevious;
+    }
+
+    return extraOverrides;
+  }
 
   /** Specifies the number of items per page. */
   @Prop({ reflect: true }) num = 20;
@@ -61,16 +98,16 @@ export class Pagination implements LocalizedComponent {
   /**
    * Accessible name for the component's next button.
    *
-   * @default "Next"
+   * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`
    */
-  @Prop() textLabelNext: string = TEXT.nextLabel;
+  @Prop() textLabelNext: string;
 
   /**
    * Accessible name for the component's previous button.
    *
-   * @default "Previous"
+   * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`
    */
-  @Prop() textLabelPrevious: string = TEXT.previousLabel;
+  @Prop() textLabelPrevious: string;
 
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
@@ -88,7 +125,21 @@ export class Pagination implements LocalizedComponent {
   //
   //--------------------------------------------------------------------------
 
+  @State() defaultMessages: Messages;
+
   @State() effectiveLocale = "";
+
+  @Watch("effectiveLocale")
+  effectiveLocaleChange(): void {
+    updateMessages(this, this.effectiveLocale);
+  }
+
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @internal
+   */
+  @Prop({ mutable: true }) messages: Messages;
 
   //--------------------------------------------------------------------------
   //
@@ -118,10 +169,16 @@ export class Pagination implements LocalizedComponent {
 
   connectedCallback(): void {
     connectLocalized(this);
+    connectMessages(this);
+  }
+
+  async componentWillLoad(): Promise<void> {
+    await setUpMessages(this);
   }
 
   disconnectedCallback(): void {
     disconnectLocalized(this);
+    disconnectMessages(this);
   }
 
   // --------------------------------------------------------------------------
@@ -278,7 +335,7 @@ export class Pagination implements LocalizedComponent {
     return (
       <Fragment>
         <button
-          aria-label={this.textLabelPrevious}
+          aria-label={this.messages.previous}
           class={{
             [CSS.previous]: true,
             [CSS.disabled]: prevDisabled
@@ -294,7 +351,7 @@ export class Pagination implements LocalizedComponent {
         {this.renderRightEllipsis()}
         {this.renderPage(this.getLastStart())}
         <button
-          aria-label={this.textLabelNext}
+          aria-label={this.messages.next}
           class={{
             [CSS.next]: true,
             [CSS.disabled]: nextDisabled
