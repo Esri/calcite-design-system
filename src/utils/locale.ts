@@ -96,10 +96,6 @@ export const getSupportedNumberingSystem = (numberingSystem: string): NumberingS
   isNumberingSystemSupported(numberingSystem) ? numberingSystem : defaultNumberingSystem;
 
 export function getSupportedLocale(locale: string): string {
-  if (!locale) {
-    return defaultLocale;
-  }
-
   locale = locale.toLowerCase();
 
   // we support both 'nb' and 'no' (BCP 47) for Norwegian

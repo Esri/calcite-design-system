@@ -196,7 +196,7 @@ export class Button
           class={this.loading ? CSS.loadingIn : CSS.loadingOut}
           inline
           label={this.messages.loading}
-          scale="m"
+          scale={this.scale === "l" ? "m" : "s"}
         />
       </div>
     ) : null;
@@ -206,7 +206,7 @@ export class Button
         class={{ [CSS.icon]: true, [CSS.iconStart]: true }}
         flipRtl={this.iconFlipRtl === "start" || this.iconFlipRtl === "both"}
         icon={this.iconStart}
-        scale="s"
+        scale={this.scale === "l" ? "m" : "s"}
       />
     );
 
@@ -215,7 +215,7 @@ export class Button
         class={{ [CSS.icon]: true, [CSS.iconEnd]: true }}
         flipRtl={this.iconFlipRtl === "end" || this.iconFlipRtl === "both"}
         icon={this.iconEnd}
-        scale="s"
+        scale={this.scale === "l" ? "m" : "s"}
       />
     );
 
