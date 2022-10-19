@@ -899,8 +899,6 @@ export class InputDatePicker
     const newEndDate = valueIsArray ? value[1] : "";
     const newEndDateISO = valueIsArray ? dateToISO(newEndDate) : "";
 
-    // TODO: ensure start and end dates are within min and max
-    // TODO: ensure start is before end and end is after start
     const newValue = newStartDateISO || newEndDateISO ? [newStartDateISO, newEndDateISO] : "";
 
     if (newValue === oldValue) {
