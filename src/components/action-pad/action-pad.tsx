@@ -37,7 +37,8 @@ import { Messages } from "./assets/action-pad/t9n";
 @Component({
   tag: "calcite-action-pad",
   styleUrl: "action-pad.scss",
-  shadow: true
+  shadow: true,
+  assetsDirs: ["assets"]
 })
 export class ActionPad implements ConditionalSlotComponent, LocalizedComponent, T9nComponent {
   // --------------------------------------------------------------------------
