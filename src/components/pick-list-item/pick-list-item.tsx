@@ -147,7 +147,7 @@ export class PickListItem
    *
    * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`
    */
-  @Prop({ reflect: true }) intlRemove;
+  @Prop({ reflect: true }) intlRemove: string;
 
   /**
    * The component's value.
