@@ -197,7 +197,7 @@ export class InputTimePicker
    *
    * @deprecated - translations are now built-in, if you need to override a string, please use `messageOverrides`
    */
-  @Prop() messagesOverride: Partial<Messages>;
+  @Prop() messagesOverrides: Partial<Messages>;
 
   /**
    * BCP 47 language tag for desired language and country format.
@@ -618,21 +618,8 @@ export class InputTimePicker
           triggerDisabled={true}
         >
           <calcite-time-picker
-            //t9n props are used here to forward the messages only.
-            intlHour={this.intlHour}
-            intlHourDown={this.intlHourDown}
-            intlHourUp={this.intlHourUp}
-            intlMeridiem={this.intlMeridiem}
-            intlMeridiemDown={this.intlMeridiemDown}
-            intlMeridiemUp={this.intlMeridiemUp}
-            intlMinute={this.intlMinute}
-            intlMinuteDown={this.intlMinuteDown}
-            intlMinuteUp={this.intlMinuteUp}
-            intlSecond={this.intlSecond}
-            intlSecondDown={this.intlSecondDown}
-            intlSecondUp={this.intlSecondUp}
             lang={this.effectiveLocale}
-            messageOverrides={this.messagesOverride}
+            messageOverrides={this.messagesOverrides}
             numberingSystem={this.numberingSystem}
             onCalciteInternalTimePickerChange={this.timePickerChangeHandler}
             ref={this.setCalciteTimePickerEl}
