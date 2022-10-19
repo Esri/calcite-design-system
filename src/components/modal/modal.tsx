@@ -171,7 +171,7 @@ export class Modal
 
     // when modal initially renders, if active was set we need to open as watcher doesn't fire
     if (this.open) {
-      requestAnimationFrame(async () => this.openModal());
+      requestAnimationFrame(() => this.openModal());
     }
   }
 
