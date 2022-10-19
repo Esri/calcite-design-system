@@ -70,6 +70,11 @@ export class ListItem implements InteractiveComponent {
   @Prop() label: string;
 
   /**
+   * Provides additional metadata to the component. Primary use is for a filter on the parent list.
+   */
+  @Prop() metadata?: Record<string, unknown>;
+
+  /**
    * When `true`, prevents the content of the component from user interaction.
    *
    * @deprecated no longer necessary.

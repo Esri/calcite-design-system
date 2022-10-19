@@ -1,4 +1,4 @@
-import { Component, Element, h, VNode, Prop, Method, Listen, Watch } from "@stencil/core";
+import { Component, Element, h, VNode, Prop, Method, Listen, Watch, State } from "@stencil/core";
 import { CSS, debounceTimeout, SelectionAppearance, SelectionMode } from "./resources";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { createObserver } from "../../utils/observers";
@@ -6,6 +6,8 @@ import { getListItemChildren, updateListItemChildren } from "../list-item/utils"
 import { toAriaBoolean } from "../../utils/dom";
 import { debounce } from "lodash-es";
 import { HeadingLevel } from "../functional/Heading";
+import { ItemData } from "../list-item/interfaces";
+import { MAX_COLUMNS } from "../list-item/resources";
 
 const listItemSelector = "calcite-list-item";
 
@@ -30,6 +32,21 @@ export class List implements InteractiveComponent {
    * When `true`, interaction is prevented and the component is displayed with lower opacity.
    */
   @Prop({ reflect: true }) disabled = false;
+
+  /**
+   * When true, an input appears at the top of the list that can be used by end users to filter items in the list.
+   */
+  @Prop({ reflect: true }) filterEnabled = false;
+
+  @Watch("filterEnabled")
+  handleFilterEnabledChange(): void {
+    this.updateListItems();
+  }
+
+  /**
+   * Placeholder text for the filter input field.
+   */
+  @Prop({ reflect: true }) filterPlaceholder: string;
 
   /**
    * Specifies the number at which section headings should start.
@@ -81,13 +98,13 @@ export class List implements InteractiveComponent {
   handleCalciteInternalFocusPreviousItem(event: CustomEvent): void {
     event.stopPropagation();
 
-    const { listItems } = this;
-    const currentIndex = listItems.findIndex((listItem) => listItem.active);
+    const { enabledListItems } = this;
+    const currentIndex = enabledListItems.findIndex((listItem) => listItem.active);
 
     const prevIndex = currentIndex - 1;
 
-    if (listItems[prevIndex]) {
-      this.focusRow(listItems[prevIndex]);
+    if (enabledListItems[prevIndex]) {
+      this.focusRow(enabledListItems[prevIndex]);
     }
   }
 
@@ -135,7 +152,13 @@ export class List implements InteractiveComponent {
 
   listItems: HTMLCalciteListItemElement[] = [];
 
+  enabledListItems: HTMLCalciteListItemElement[] = [];
+
   mutationObserver = createObserver("mutation", () => this.updateListItems());
+
+  @State() dataForFilter: ItemData = [];
+
+  filterEl: HTMLCalciteFilterElement;
 
   // --------------------------------------------------------------------------
   //
@@ -146,7 +169,7 @@ export class List implements InteractiveComponent {
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    this.listItems.find((listItem) => listItem.active)?.setFocus();
+    this.enabledListItems.find((listItem) => listItem.active)?.setFocus();
   }
 
   // --------------------------------------------------------------------------
@@ -156,7 +179,7 @@ export class List implements InteractiveComponent {
   // --------------------------------------------------------------------------
 
   render(): VNode {
-    const { loading, label } = this;
+    const { loading, label, disabled, dataForFilter, filterEnabled, filterPlaceholder } = this;
     return (
       <div class={CSS.container}>
         {loading ? <calcite-scrim class={CSS.scrim} loading={loading} /> : null}
@@ -167,6 +190,22 @@ export class List implements InteractiveComponent {
           onKeyDown={this.handleListKeydown}
           role="treegrid"
         >
+          {filterEnabled ? (
+            <thead>
+              <tr class={{ [CSS.sticky]: true }}>
+                <th colSpan={MAX_COLUMNS}>
+                  <calcite-filter
+                    aria-label={filterPlaceholder}
+                    disabled={loading || disabled}
+                    items={dataForFilter}
+                    onCalciteFilterChange={this.handleFilter}
+                    placeholder={filterPlaceholder}
+                    ref={(el) => (this.filterEl = el)}
+                  />
+                </th>
+              </tr>
+            </thead>
+          ) : null}
           <tbody class={CSS.tableContainer}>
             <slot onSlotchange={this.handleDefaultSlotChange} />
           </tbody>
@@ -186,18 +225,57 @@ export class List implements InteractiveComponent {
   };
 
   setActiveListItem = (): void => {
-    const { listItems } = this;
+    const { enabledListItems } = this;
 
-    if (!listItems.some((item) => item.active)) {
-      if (listItems[0]) {
-        listItems[0].active = true;
+    if (!enabledListItems.some((item) => item.active)) {
+      if (enabledListItems[0]) {
+        enabledListItems[0].active = true;
       }
     }
   };
 
   private updateSelectedItems = debounce((): void => {
-    this.selectedItems = this.listItems.filter((item) => item.selected);
+    this.selectedItems = this.enabledListItems.filter((item) => item.selected);
   }, debounceTimeout);
+
+  handleFilter = (event: CustomEvent): void => {
+    let groups: Set<HTMLCalcitePickListGroupElement>;
+    const { filteredItems } = event.currentTarget as HTMLCalciteFilterElement;
+    const values = filteredItems.map((item: ItemData[number]) => item.value);
+    let hasSelectedMatch = false;
+
+    if (!groups) {
+      groups = new Set<HTMLCalcitePickListGroupElement>();
+    }
+
+    this.listItems?.filter((item) => {
+      const parent = item.parentElement;
+      const grouped = parent.matches("calcite-pick-list-group");
+
+      if (grouped) {
+        groups.add(parent as HTMLCalcitePickListGroupElement);
+      }
+
+      const matches = values.includes(item.value);
+
+      item.hidden = !matches;
+
+      if (!hasSelectedMatch) {
+        hasSelectedMatch = matches && item.selected;
+      }
+
+      return matches;
+    });
+  };
+
+  getItemData = (): ItemData => {
+    return this.listItems.map((item) => ({
+      label: item.label,
+      description: item.description,
+      metadata: item.metadata,
+      value: item.value
+    }));
+  };
 
   private updateListItems = debounce((): void => {
     const { selectionAppearance, selectionMode } = this;
@@ -206,7 +284,11 @@ export class List implements InteractiveComponent {
       item.selectionAppearance = selectionAppearance;
       item.selectionMode = selectionMode;
     });
-    this.listItems = items.filter((item) => !item.disabled);
+    this.listItems = items;
+    this.enabledListItems = items.filter((item) => !item.disabled);
+    if (this.filterEnabled) {
+      this.dataForFilter = this.getItemData();
+    }
     this.setActiveListItem();
     this.updateSelectedItems();
   }, debounceTimeout);
@@ -216,13 +298,13 @@ export class List implements InteractiveComponent {
   };
 
   focusRow = (focusEl: HTMLCalciteListItemElement): void => {
-    const { listItems } = this;
+    const { enabledListItems } = this;
 
     if (!focusEl) {
       return;
     }
 
-    listItems.forEach((listItem) => (listItem.active = listItem === focusEl));
+    enabledListItems.forEach((listItem) => (listItem.active = listItem === focusEl));
 
     focusEl.setFocus();
   };
@@ -239,7 +321,7 @@ export class List implements InteractiveComponent {
 
   handleListKeydown = (event: KeyboardEvent): void => {
     const { key } = event;
-    const filteredItems = this.listItems.filter((listItem) => this.isNavigable(listItem));
+    const filteredItems = this.enabledListItems.filter((listItem) => this.isNavigable(listItem));
     const currentIndex = filteredItems.findIndex((listItem) => listItem.active);
 
     if (key === "ArrowDown") {
