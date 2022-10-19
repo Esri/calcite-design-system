@@ -101,31 +101,3 @@ export const flipPlacements_TestOnly = (): string => html`
     document.querySelector(".my-popover").flipPlacements = ["right"];
   </script>
 `;
-
-export const correctInitialPosition_TestOnly = stepStory(
-  (): string => html`
-    <calcite-panel>
-      <button id="popover-button">Ref</button>
-      <calcite-popover
-        id="popover"
-        label="Example label"
-        reference-element="popover-button"
-        overlay-positioning="fixed"
-      >
-        <p style="padding:0 10px;display:flex;flex-direction:row">Floating</p>
-      </calcite-popover>
-    </calcite-panel>
-  `,
-  createSteps("calcite-popover")
-    .wait(repositionDebounceTimeout * 2)
-    .executeScript(
-      // we hijack styling to ensure initial positioning is captured in the screenshot
-      `
-        const popover = document.querySelector("calcite-popover");
-        popover.style = "border: 1px solid red";
-        popover.setAttribute("calcite-hydrated", "");
-        popover.removeAttribute("calcite-hydrated-hidden");
-    `
-    )
-    .snapshot("correct initial position")
-);
