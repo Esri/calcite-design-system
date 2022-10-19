@@ -50,7 +50,7 @@ export class ActionMenu {
   // --------------------------------------------------------------------------
 
   /**
-   * When true, the component is expanded.
+   * When `true`, the component is expanded.
    */
   @Prop({ reflect: true }) expanded = false;
 
@@ -71,7 +71,7 @@ export class ActionMenu {
   @Prop() label!: string;
 
   /**
-   * When true, the component is open.
+   * When `true`, the component is open.
    */
   @Prop({ reflect: true, mutable: true }) open = false;
 

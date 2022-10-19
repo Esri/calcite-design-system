@@ -31,6 +31,7 @@ import { throttle } from "lodash-es";
 import { clamp } from "../../utils/math";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { isActivationKey } from "../../utils/key";
+import { NumberingSystem } from "../../utils/locale";
 
 const throttleFor60FpsInMs = 16;
 const defaultValue = normalizeHex(DEFAULT_COLOR.hex());
@@ -258,12 +259,8 @@ export class ColorPicker implements InteractiveComponent {
    */
   @Prop({ reflect: true }) storageId: string;
 
-  /**
-   * Specifies the Unicode numeral system used by the component for localization.
-   *
-   * @mdn [numberingSystem](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/Locale/numberingSystem)
-   */
-  @Prop() numberingSystem?: string;
+  /** Specifies the Unicode numeral system used by the component for localization. */
+  @Prop({ reflect: true }) numberingSystem?: NumberingSystem;
 
   /**
    * The component's value.

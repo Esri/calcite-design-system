@@ -64,7 +64,7 @@ export class Tooltip implements FloatingUIComponent {
   }
 
   /**
-   * When true, the component is open.
+   * When `true`, the component is open.
    */
   @Prop({ reflect: true }) open = false;
 
@@ -101,7 +101,11 @@ export class Tooltip implements FloatingUIComponent {
   }
 
   /**
-   * The `referenceElement` to position the component according to its "placement" value. Setting to the `HTMLElement` is preferred so the component does not need to query the DOM for the `referenceElement`. However, a string ID of the reference element can be used.
+   * The `referenceElement` to position the component according to its `"placement"` value.
+   *
+   * Setting to the `HTMLElement` is preferred so the component does not need to query the DOM for the `referenceElement`.
+   *
+   * However, a string ID of the reference element can be used.
    */
   @Prop() referenceElement: ReferenceElement | string;
 

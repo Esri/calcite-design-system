@@ -62,7 +62,7 @@ export class Rating
   /** Specifies the number of previous ratings to display. */
   @Prop({ reflect: true }) count?: number;
 
-  /** When true, interaction is prevented and the component is displayed with lower opacity. */
+  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @Prop({ reflect: true }) disabled = false;
 
   /**
@@ -102,11 +102,11 @@ export class Rating
   /** Specifies the name of the component on form submission. */
   @Prop({ reflect: true }) name: string;
 
-  /** When true, the component's value can be read, but cannot be modified. */
+  /** When `true`, the component's value can be read, but cannot be modified. */
   @Prop({ reflect: true }) readOnly = false;
 
   /**
-   * When true, the component must have a value in order for the form to submit.
+   * When `true`, the component must have a value in order for the form to submit.
    *
    * @internal
    */
@@ -115,7 +115,7 @@ export class Rating
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
 
-  /** When true, and if available, displays the "average" and/or "count" data summary in a `calcite-chip`. */
+  /** When `true`, and if available, displays the `average` and/or `count` data summary in a `calcite-chip`. */
   @Prop({ reflect: true }) showChip = false;
 
   /** The component's value. */

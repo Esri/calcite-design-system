@@ -9,7 +9,7 @@ import {
 import readme from "./readme.md";
 import groupReadme from "../tip-group/readme.md";
 import { TEXT } from "./resources";
-import { placeholderImage } from "../../../.storybook/utils";
+import { placeholderImage } from "../../../.storybook/placeholderImage";
 import { storyFilters } from "../../../.storybook/helpers";
 
 export default {
