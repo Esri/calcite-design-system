@@ -256,3 +256,5 @@ export const wordBreakDoesNotAffectLabels_TestOnly = (): string =>
     label-ticks
     style="word-break: break-all"
   ></calcite-slider>`;
+
+export const WithLabelHandlesAndNoValue_TestOnly = (): string => html` <calcite-slider max="750"></calcite-slider> `;

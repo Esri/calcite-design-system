@@ -69,6 +69,13 @@
     font-medium;
 }
 
+:host([selectable]) {
+  .header {
+    // prevents overlap with checkbox (default header padding + no-overlap spacing)
+    padding-inline-end: theme("spacing.8");
+  }
+}
+
 @include slotted("subtitle", "*") {
   @apply text-color-2
     text-n2-wrap

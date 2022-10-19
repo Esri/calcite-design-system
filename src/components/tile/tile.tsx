@@ -33,7 +33,7 @@ export class Tile implements ConditionalSlotComponent, InteractiveComponent {
   //--------------------------------------------------------------------------
 
   /**
-   * When true, the component is active.
+   * When `true`, the component is active.
    */
   @Prop({ reflect: true }) active = false;
 
@@ -43,14 +43,14 @@ export class Tile implements ConditionalSlotComponent, InteractiveComponent {
   @Prop({ reflect: true }) description?: string;
 
   /**
-   * When true, interaction is prevented and the component is displayed with lower opacity.
+   * When `true`, interaction is prevented and the component is displayed with lower opacity.
    */
   @Prop({ reflect: true }) disabled = false;
 
   /**
    * The component's embed mode.
    *
-   * When true, renders without a border and padding for use by other components.
+   * When `true`, renders without a border and padding for use by other components.
    */
   @Prop({ reflect: true }) embed = false;
 
@@ -64,10 +64,10 @@ export class Tile implements ConditionalSlotComponent, InteractiveComponent {
   /** The component header text, which displays between the icon and description. */
   @Prop({ reflect: true }) heading?: string;
 
-  /** When true, the component is not displayed and is not focusable.  */
+  /** When `true`, the component is not displayed and is not focusable.  */
   @Prop({ reflect: true }) hidden = false;
 
-  /** When embed is "false", the url for the component. */
+  /** When embed is `"false"`, the URL for the component. */
   @Prop({ reflect: true }) href?: string;
 
   /** Specifies an icon to display. */

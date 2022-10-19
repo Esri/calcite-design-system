@@ -44,7 +44,7 @@ export class ValueListItem implements ConditionalSlotComponent, InteractiveCompo
   @Prop({ reflect: true }) description?: string;
 
   /**
-   * When true, interaction is prevented and the component is displayed with lower opacity.
+   * When `true`, interaction is prevented and the component is displayed with lower opacity.
    */
   @Prop({ reflect: true }) disabled = false;
 
@@ -54,7 +54,7 @@ export class ValueListItem implements ConditionalSlotComponent, InteractiveCompo
   @Prop() disableDeselect = false;
 
   /**
-   * When true, prevents the content of the component from user interaction.
+   * When `true`, prevents the content of the component from user interaction.
    */
   @Prop({ reflect: true }) nonInteractive = false;
 
@@ -81,12 +81,12 @@ export class ValueListItem implements ConditionalSlotComponent, InteractiveCompo
   @Prop() metadata?: Record<string, unknown>;
 
   /**
-   * When true, adds an action to remove the component.
+   * When `true`, adds an action to remove the component.
    */
   @Prop({ reflect: true }) removable = false;
 
   /**
-   * When true, the component is selected.
+   * When `true`, the component is selected.
    */
   @Prop({ reflect: true, mutable: true }) selected = false;
 

@@ -203,7 +203,7 @@ export const arabicLocale_TestOnly = (): string => html`
     dir="rtl"
     icon="banana"
     lang="ar"
-    locale="ar-EG"
+    lang="ar-EG"
     text="لكن لا بد أن أوضح لك أن كل"
     text-enabled
   ></calcite-action>

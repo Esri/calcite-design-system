@@ -31,6 +31,7 @@ import { throttle } from "lodash-es";
 import { clamp } from "../../utils/math";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { isActivationKey } from "../../utils/key";
+import { NumberingSystem } from "../../utils/locale";
 
 const throttleFor60FpsInMs = 16;
 const defaultValue = normalizeHex(DEFAULT_COLOR.hex());
@@ -258,18 +259,19 @@ export class ColorPicker implements InteractiveComponent {
    */
   @Prop({ reflect: true }) storageId: string;
 
-  /** standard UniCode numeral system tag for localization */
-  @Prop({ reflect: true }) numberingSystem?: string;
+  /** Specifies the Unicode numeral system used by the component for localization. */
+  @Prop({ reflect: true }) numberingSystem?: NumberingSystem;
 
   /**
-   * The color value.
+   * The component's value.
    *
-   * This value can be either a {@link https://developer.mozilla.org/en-US/docs/Web/CSS/color|CSS string}
+   * This value can be either a CSS color string,
    * a RGB, HSL or HSV object.
    *
    * The type will be preserved as the color is updated.
    *
    * @default "#007ac2"
+   * @see [CSS Color](https://developer.mozilla.org/en-US/docs/Web/CSS/color)
    * @see [ColorValue](https://github.com/Esri/calcite-components/blob/master/src/components/color-picker/interfaces.ts#L10)
    */
   @Prop({ mutable: true }) value: ColorValue | null = defaultValue;

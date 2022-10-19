@@ -25,12 +25,13 @@ Calcite stepper can be used to present a stepper workflow to a user. It has conf
 
 ## Properties
 
-| Property   | Attribute  | Description                                                                | Type                         | Default        |
-| ---------- | ---------- | -------------------------------------------------------------------------- | ---------------------------- | -------------- |
-| `icon`     | `icon`     | When true, displays a status icon in the `calcite-stepper-item` heading.   | `boolean`                    | `false`        |
-| `layout`   | `layout`   | Defines the layout of the component.                                       | `"horizontal" \| "vertical"` | `"horizontal"` |
-| `numbered` | `numbered` | When true, displays the step number in the `calcite-stepper-item` heading. | `boolean`                    | `false`        |
-| `scale`    | `scale`    | Specifies the size of the component.                                       | `"l" \| "m" \| "s"`          | `"m"`          |
+| Property          | Attribute          | Description                                                                  | Type                                                                                                                                                                                                                                    | Default        |
+| ----------------- | ------------------ | ---------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------- |
+| `icon`            | `icon`             | When `true`, displays a status icon in the `calcite-stepper-item` heading.   | `boolean`                                                                                                                                                                                                                               | `false`        |
+| `layout`          | `layout`           | Defines the layout of the component.                                         | `"horizontal" \| "vertical"`                                                                                                                                                                                                            | `"horizontal"` |
+| `numbered`        | `numbered`         | When `true`, displays the step number in the `calcite-stepper-item` heading. | `boolean`                                                                                                                                                                                                                               | `false`        |
+| `numberingSystem` | `numbering-system` | Specifies the Unicode numeral system used by the component for localization. | `"arab" \| "arabext" \| "bali" \| "beng" \| "deva" \| "fullwide" \| "gujr" \| "guru" \| "hanidec" \| "khmr" \| "knda" \| "laoo" \| "latn" \| "limb" \| "mlym" \| "mong" \| "mymr" \| "orya" \| "tamldec" \| "telu" \| "thai" \| "tibt"` | `undefined`    |
+| `scale`           | `scale`            | Specifies the size of the component.                                         | `"l" \| "m" \| "s"`                                                                                                                                                                                                                     | `"m"`          |
 
 ## Events
 

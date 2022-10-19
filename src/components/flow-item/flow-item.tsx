@@ -138,12 +138,24 @@ export class FlowItem implements InteractiveComponent {
   /**
    * Fires when the back button is clicked.
    */
+  @Event({ cancelable: false }) calciteFlowItemBack: EventEmitter<void>;
+
+  /**
+   * Fires when the back button is clicked.
+   *
+   * @deprecated use calciteFlowItemBack instead.
+   */
   @Event({ cancelable: false }) calciteFlowItemBackClick: EventEmitter<void>;
 
   /**
    * @internal
    */
   @Event({ cancelable: false }) calciteInternalFlowItemOpenChange: EventEmitter<void>;
+
+  /**
+   * Fires when the close button is clicked.
+   */
+  @Event({ cancelable: false }) calciteFlowItemClose: EventEmitter<void>;
 
   // --------------------------------------------------------------------------
   //
@@ -182,19 +194,17 @@ export class FlowItem implements InteractiveComponent {
   /**
    * Scrolls the component's content to a specified set of coordinates.
    *
-   * ```
-   *   myCalciteFlowItem.scrollContentTo({
-   *     left: 0, // Specifies the number of pixels along the X axis to scroll the window or element.
-   *     top: 0, // Specifies the number of pixels along the Y axis to scroll the window or element
-   *     behavior: "auto" // Specifies whether the scrolling should animate smoothly (smooth), or happen instantly in a single jump (auto, the default value).
-   *   });
-   * ```
-   *
+   * @example
+   * myCalciteFlowItem.scrollContentTo({
+   *   left: 0, // Specifies the number of pixels along the X axis to scroll the window or element.
+   *   top: 0, // Specifies the number of pixels along the Y axis to scroll the window or element
+   *   behavior: "auto" // Specifies whether the scrolling should animate smoothly (smooth), or happen instantly in a single jump (auto, the default value).
+   * });
    * @param options
    */
   @Method()
   async scrollContentTo(options?: ScrollToOptions): Promise<void> {
-    this.containerEl?.scrollContentTo(options);
+    await this.containerEl?.scrollContentTo(options);
   }
 
   // --------------------------------------------------------------------------
@@ -203,12 +213,22 @@ export class FlowItem implements InteractiveComponent {
   //
   // --------------------------------------------------------------------------
 
+  handlePanelClose = (event: CustomEvent<void>): void => {
+    event.stopPropagation();
+    this.calciteFlowItemClose.emit();
+  };
+
   backButtonClick = (): void => {
     this.calciteFlowItemBackClick.emit();
+    this.calciteFlowItemBack.emit();
   };
 
   setBackRef = (node: HTMLCalciteActionElement): void => {
     this.backButtonEl = node;
+  };
+
+  setContainerRef = (node: HTMLCalcitePanelElement): void => {
+    this.containerEl = node;
   };
 
   getBackLabel = (): string => {
@@ -277,8 +297,11 @@ export class FlowItem implements InteractiveComponent {
           intlOptions={intlOptions}
           loading={loading}
           menuOpen={menuOpen}
+          onCalcitePanelClose={this.handlePanelClose}
+          ref={this.setContainerRef}
           widthScale={widthScale}
         >
+          {this.renderBackButton()}
           <slot name={SLOTS.headerActionsStart} slot={PANEL_SLOTS.headerActionsStart} />
           <slot name={SLOTS.headerActionsEnd} slot={PANEL_SLOTS.headerActionsEnd} />
           <slot name={SLOTS.headerContent} slot={PANEL_SLOTS.headerContent} />
@@ -287,7 +310,6 @@ export class FlowItem implements InteractiveComponent {
           <slot name={SLOTS.footerActions} slot={PANEL_SLOTS.footerActions} />
           <slot name={SLOTS.footer} slot={PANEL_SLOTS.footer} />
           <slot />
-          {this.renderBackButton()}
         </calcite-panel>
         {backButtonEl ? (
           <calcite-tooltip label={label} placement="auto" referenceElement={backButtonEl}>

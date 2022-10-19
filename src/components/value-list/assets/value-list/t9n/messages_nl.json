@@ -1,0 +1,7 @@
+{
+  "filterResults": "Ĳ_Filter results_______________ä",
+  "dragHandleActive": "Ĳ_Reordering ${itemLabel}, current position ${position} of ${total}__________________________________ä.",
+  "dragHandleChange": "Ĳ_${itemLabel}, new position ${position} of ${total}. Press space to confirm_______________________________________ä.",
+  "dragHandleCommit": "Ĳ_${itemLabel}, current position ${position} of ${total}_____________________________ä.",
+  "dragHandleIdle": "Ĳ_${itemLabel}, press space and use arrow keys to reorder content. Current position ${position} of ${total}______________________________________________________ä."
+}

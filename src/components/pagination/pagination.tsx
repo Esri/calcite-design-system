@@ -12,11 +12,12 @@ import {
 } from "@stencil/core";
 import { Scale } from "../interfaces";
 import {
-  GlobalAttrComponent,
-  unwatchGlobalAttributes,
-  watchGlobalAttributes
-} from "../../utils/globalAttributes";
-import { localizeNumberString } from "../../utils/locale";
+  connectLocalized,
+  disconnectLocalized,
+  LocalizedComponent,
+  numberStringFormatter,
+  NumberingSystem
+} from "../../utils/locale";
 import { CSS, TEXT } from "./resources";
 
 const maxPagesDisplayed = 5;
@@ -31,7 +32,7 @@ export interface PaginationDetail {
   styleUrl: "pagination.scss",
   shadow: true
 })
-export class Pagination implements GlobalAttrComponent {
+export class Pagination implements LocalizedComponent {
   //--------------------------------------------------------------------------
   //
   //  Public Properties
@@ -39,7 +40,7 @@ export class Pagination implements GlobalAttrComponent {
   //--------------------------------------------------------------------------
 
   /**
-   * When true, number values are displayed with a group separator corresponding to the language and country format.
+   * When `true`, number values are displayed with a group separator corresponding to the language and country format.
    */
   @Prop({ reflect: true }) groupSeparator = false;
 
@@ -48,10 +49,8 @@ export class Pagination implements GlobalAttrComponent {
 
   /**
    * Specifies the Unicode numeral system used by the component for localization.
-   *
-   * @mdn [numberingSystem](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/Locale/numberingSystem)
    */
-  @Prop() numberingSystem?: string;
+  @Prop() numberingSystem?: NumberingSystem;
 
   /** Specifies the starting item number. */
   @Prop({ mutable: true, reflect: true }) start = 1;
@@ -88,7 +87,8 @@ export class Pagination implements GlobalAttrComponent {
   //  State
   //
   //--------------------------------------------------------------------------
-  @State() globalAttributes = {};
+
+  @State() effectiveLocale = "";
 
   //--------------------------------------------------------------------------
   //
@@ -117,11 +117,11 @@ export class Pagination implements GlobalAttrComponent {
   // --------------------------------------------------------------------------
 
   connectedCallback(): void {
-    watchGlobalAttributes(this, ["lang"]);
+    connectLocalized(this);
   }
 
   disconnectedCallback(): void {
-    unwatchGlobalAttributes(this);
+    disconnectLocalized(this);
   }
 
   // --------------------------------------------------------------------------
@@ -186,11 +186,16 @@ export class Pagination implements GlobalAttrComponent {
    *
    * @param value
    */
-  private determineGroupSeparator = (value): string => {
-    const lang = this.globalAttributes["lang"] || document.documentElement.lang || "en";
+  private determineGroupSeparator = (value: number): string => {
+    numberStringFormatter.numberFormatOptions = {
+      locale: this.effectiveLocale,
+      numberingSystem: this.numberingSystem,
+      useGrouping: this.groupSeparator
+    };
+
     return this.groupSeparator
-      ? localizeNumberString(value.toString(), lang, this.groupSeparator, this.numberingSystem)
-      : value;
+      ? numberStringFormatter.localize(value.toString())
+      : value.toString();
   };
 
   //--------------------------------------------------------------------------

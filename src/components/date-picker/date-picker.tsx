@@ -24,6 +24,7 @@ import { HeadingLevel } from "../functional/Heading";
 
 import { DateRangeChange } from "./interfaces";
 import { HEADING_LEVEL, TEXT } from "./resources";
+import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 
 @Component({
   assetsDirs: ["assets"],
@@ -31,7 +32,7 @@ import { HEADING_LEVEL, TEXT } from "./resources";
   styleUrl: "date-picker.scss",
   shadow: true
 })
-export class DatePicker {
+export class DatePicker implements LocalizedComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -136,8 +137,13 @@ export class DatePicker {
    */
   @Prop() intlYear?: string = TEXT.year;
 
-  /** BCP 47 language tag for desired language and country format */
-  @Prop() locale?: string = document.documentElement.lang || "en";
+  /**
+   * Specifies the BCP 47 language tag for the desired language and country format.
+   *
+   * @deprecated set the global `lang` attribute on the element instead.
+   * @mdn [lang](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/lang)
+   */
+  @Prop() locale?: string;
 
   /** specify the scale of the date picker */
   @Prop({ reflect: true }) scale: "s" | "m" | "l" = "m";
@@ -194,12 +200,16 @@ export class DatePicker {
    */
   @State() activeEndDate: Date;
 
+  @State() globalAttributes = {};
+
   // --------------------------------------------------------------------------
   //
   //  Lifecycle
   //
   // --------------------------------------------------------------------------
   connectedCallback(): void {
+    connectLocalized(this);
+
     if (Array.isArray(this.value)) {
       this.valueAsDate = getValueAsDateRange(this.value);
       this.start = this.value[0];
@@ -223,6 +233,10 @@ export class DatePicker {
     if (this.max) {
       this.maxAsDate = dateFromISO(this.max);
     }
+  }
+
+  disconnectedCallback(): void {
+    disconnectLocalized(this);
   }
 
   async componentWillLoad(): Promise<void> {
@@ -281,6 +295,9 @@ export class DatePicker {
   //  Private State/Props
   //
   //--------------------------------------------------------------------------
+
+  @State() effectiveLocale = "";
+
   @State() private localeData: DateLocaleData;
 
   @State() private hoverRange: HoverRange;
@@ -322,14 +339,13 @@ export class DatePicker {
     this.setEndAsDate(dateFromISO(end));
   }
 
-  @Watch("locale")
+  @Watch("effectiveLocale")
   private async loadLocaleData(): Promise<void> {
     if (!Build.isBrowser) {
       return;
     }
 
-    const { locale } = this;
-    this.localeData = await getLocaleData(locale);
+    this.localeData = await getLocaleData(this.effectiveLocale);
   }
 
   monthHeaderSelectChange = (event: CustomEvent<Date>): void => {

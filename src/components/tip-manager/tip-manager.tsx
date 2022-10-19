@@ -30,7 +30,7 @@ export class TipManager {
   //
   // --------------------------------------------------------------------------
   /**
-   * When true, does not display or position the component.
+   * When `true`, does not display or position the component.
    */
   @Prop({ reflect: true, mutable: true }) closed = false;
 
@@ -144,7 +144,7 @@ export class TipManager {
   /**
    * Emits when the component has been open or closed.
    *
-   * @deprecated use "calciteTipManagerClose" instead.
+   * @deprecated use `calciteTipManagerClose` instead.
    */
   @Event({ cancelable: false }) calciteTipManagerToggle: EventEmitter<void>;
 

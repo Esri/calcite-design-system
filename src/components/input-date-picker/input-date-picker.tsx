@@ -56,6 +56,7 @@ import {
   connectOpenCloseComponent,
   disconnectOpenCloseComponent
 } from "../../utils/openCloseComponent";
+import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import { debounce } from "lodash-es";
 
 @Component({
@@ -69,7 +70,8 @@ export class InputDatePicker
     FormComponent,
     InteractiveComponent,
     OpenCloseComponent,
-    FloatingUIComponent
+    FloatingUIComponent,
+    LocalizedComponent
 {
   //--------------------------------------------------------------------------
   //
@@ -84,12 +86,12 @@ export class InputDatePicker
   //
   //--------------------------------------------------------------------------
   /**
-   * When false, the component won't be interactive.
+   * When true, interaction is prevented and the component is displayed with lower opacity.
    */
   @Prop({ reflect: true }) disabled = false;
 
   /**
-   * When true, still focusable but controls are gone and the value cannot be modified.
+   * When true, the component's value can be read, but controls are not accessible and the value cannot be modified.
    *
    * @mdn [readOnly](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/readonly)
    */
@@ -103,7 +105,7 @@ export class InputDatePicker
     }
   }
 
-  /** Selected date */
+  /** The component's value. */
   @Prop({ mutable: true }) value: string | string[];
 
   @Watch("value")
@@ -135,35 +137,35 @@ export class InputDatePicker
   }
 
   /**
-   * Number at which section headings should start for this component.
+   * Specifies the number at which section headings should start.
    */
   @Prop({ reflect: true }) headingLevel: HeadingLevel;
 
-  /** Selected date as full date object*/
+  /** The component's value as a full date object. */
   @Prop({ mutable: true }) valueAsDate?: Date | Date[];
 
   /**
-   * Selected start date as full date object
+   * The component's start date as a full date object.
    *
-   * @deprecated use valueAsDate instead
+   * @deprecated use `valueAsDate` instead.
    */
   @Prop({ mutable: true }) startAsDate?: Date;
 
   /**
-   * Selected end date as full date object
+   * The component's end date as a full date object.
    *
-   * @deprecated use valueAsDate instead
+   * @deprecated use `valueAsDate` instead.
    */
   @Prop({ mutable: true }) endAsDate?: Date;
 
-  /** Earliest allowed date as full date object */
+  /** Specifies the earliest allowed date as a full date object. */
   @Prop({ mutable: true }) minAsDate?: Date;
 
-  /** Latest allowed date as full date object */
+  /** Specifies the latest allowed date as a full date object. */
   @Prop({ mutable: true }) maxAsDate?: Date;
 
-  /** Earliest allowed date ("yyyy-mm-dd") */
-  @Prop({ mutable: true, reflect: true }) min?: string;
+  /** Specifies the earliest allowed date ("yyyy-mm-dd"). */
+  @Prop({ mutable: true }) min?: string;
 
   @Watch("min")
   onMinChanged(min: string): void {
@@ -172,8 +174,8 @@ export class InputDatePicker
     }
   }
 
-  /** Latest allowed date ("yyyy-mm-dd") */
-  @Prop({ mutable: true, reflect: true }) max?: string;
+  /** Specifies the latest allowed date ("yyyy-mm-dd"). */
+  @Prop({ mutable: true }) max?: string;
 
   @Watch("max")
   onMaxChanged(max: string): void {
@@ -183,9 +185,9 @@ export class InputDatePicker
   }
 
   /**
-   * Expand or collapse when calendar does not have input
+   * When true, the component is active.
    *
-   * @deprecated use open instead
+   * @deprecated use `open` instead.
    */
   @Prop({ mutable: true, reflect: true }) active = false;
 
@@ -194,7 +196,7 @@ export class InputDatePicker
     this.open = value;
   }
 
-  /** Expand or collapse when calendar does not have input */
+  /** When true, displays the `calcite-date-picker` component. */
   @Prop({ mutable: true, reflect: true }) open = false;
 
   @Watch("open")
@@ -210,72 +212,79 @@ export class InputDatePicker
   }
 
   /**
-   * The picker's name. Gets submitted with the form.
+   * Specifies the name of the component on form submission.
    */
   @Prop({ reflect: true }) name: string;
 
   /**
-   * Localized string for "previous month" (used for aria label)
+   * Accessible name for the component's previous month button.
    *
    * @default "Previous month"
    */
   @Prop() intlPrevMonth?: string = TEXT.prevMonth;
 
   /**
-   * Localized string for "next month" (used for aria label)
+   * Accessible name for the component's next month button.
    *
    * @default "Next month"
    */
   @Prop() intlNextMonth?: string = TEXT.nextMonth;
 
   /**
-   * Localized string for "year" (used for aria label)
+   * Accessible name for the component's year input.
    *
    * @default "Year"
    */
   @Prop() intlYear?: string = TEXT.year;
 
-  /** BCP 47 language tag for desired language and country format */
-  @Prop() locale?: string = document.documentElement.lang || "en";
+  /**
+   * Specifies the BCP 47 language tag for the desired language and country format.
+   *
+   * @deprecated set the global `lang` attribute on the element instead.
+   * @mdn [lang](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/lang)
+   */
+  @Prop() locale?: string;
 
-  /** specify the scale of the date picker */
+  /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: "s" | "m" | "l" = "m";
 
   /**
-   * Determines where the date-picker component will be positioned relative to the input.
+   * Specifies the placement of the `calcite-date-picker` relative to the component.
    *
    * @default "bottom-start"
    */
   @Prop({ reflect: true }) placement: MenuPlacement = defaultMenuPlacement;
 
-  /** Range mode activation */
+  /** When true, activates a range for the component. */
   @Prop({ reflect: true }) range = false;
 
   /**
-   * When true, makes the component required for form-submission.
+   * When true, the component must have a value in order for the form to submit.
    *
    * @internal
    */
   @Prop({ reflect: true }) required = false;
 
   /**
-   * Selected start date
+   * The component's start date.
    *
-   * @deprecated use value instead
+   * @deprecated use `value` instead.
    */
   @Prop({ mutable: true, reflect: true }) start?: string;
 
   /**
-   * Selected end date
+   * The component's end date.
    *
-   * @deprecated use value instead
+   * @deprecated use `value` instead.
    */
   @Prop({ mutable: true, reflect: true }) end?: string;
 
   /**
    * Determines the type of positioning to use for the overlaid content.
    *
-   * Using the "absolute" value will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout. The "fixed" value should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is "fixed".
+   * Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.
+   *
+   * `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
    *
    */
   @Prop({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
@@ -285,10 +294,13 @@ export class InputDatePicker
     this.debouncedReposition();
   }
 
-  /** Disables the default behaviour on the third click of narrowing or extending the range and instead starts a new range. */
-  @Prop({ reflect: true }) proximitySelectionDisabled = false;
+  /**
+   * When true, disables the default behavior on the third click of narrowing or extending the range.
+   * Instead starts a new range.
+   */
+  @Prop() proximitySelectionDisabled = false;
 
-  /** Layout */
+  /** Defines the layout of the component. */
   @Prop({ reflect: true }) layout: "horizontal" | "vertical" = "horizontal";
 
   //--------------------------------------------------------------------------
@@ -318,22 +330,22 @@ export class InputDatePicker
   //
   //--------------------------------------------------------------------------
   /**
-   * Trigger calcite date change when a user changes the date.
+   * Fires when a user changes the date.
    *
    * @deprecated use `calciteInputDatePickerChange` instead.
    */
   @Event({ cancelable: false }) calciteDatePickerChange: EventEmitter<Date>;
 
   /**
-   * Trigger calcite date change when a user changes the date range.
+   * Fires when a user changes the date range.
    *
-   * @see [DateRangeChange](https://github.com/Esri/calcite-components/blob/master/src/components/calcite-date-picker/interfaces.ts#L1)
+   * @see [DateRangeChange](https://github.com/Esri/calcite-components/blob/master/src/components/date-picker/interfaces.ts#L1)
    * @deprecated use `calciteInputDatePickerChange` instead.
    */
   @Event({ cancelable: false }) calciteDatePickerRangeChange: EventEmitter<DateRangeChange>;
 
   /**
-   * This event fires when the input date picker value changes.
+   * Fires when the component's value changes.
    */
   @Event({ cancelable: false }) calciteInputDatePickerChange: EventEmitter<void>;
 
@@ -355,7 +367,7 @@ export class InputDatePicker
   //
   // --------------------------------------------------------------------------
 
-  /** Updates the position of the component. */
+  /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
     this.startInput?.setFocus();
@@ -383,6 +395,8 @@ export class InputDatePicker
   // --------------------------------------------------------------------------
 
   connectedCallback(): void {
+    connectLocalized(this);
+
     const isOpen = this.active || this.open;
     isOpen && this.activeHandler(isOpen);
     isOpen && this.openHandler(isOpen);
@@ -415,6 +429,7 @@ export class InputDatePicker
     connectLabel(this);
     connectForm(this);
     connectOpenCloseComponent(this);
+
     this.setFilteredPlacements();
     this.debouncedReposition();
   }
@@ -434,6 +449,7 @@ export class InputDatePicker
     disconnectForm(this);
     disconnectFloatingUI(this, this.referenceEl, this.floatingEl);
     disconnectOpenCloseComponent(this);
+    disconnectLocalized(this);
   }
 
   componentDidRender(): void {
@@ -450,8 +466,9 @@ export class InputDatePicker
     const endDate = this.range
       ? dateFromRange(this.endAsDate, this.minAsDate, this.maxAsDate)
       : null;
-    const formattedEndDate = endDate ? endDate.toLocaleDateString(this.locale) : "";
-    const formattedDate = date ? date.toLocaleDateString(this.locale) : "";
+    const locale = this.effectiveLocale;
+    const formattedEndDate = endDate ? endDate.toLocaleDateString(locale) : "";
+    const formattedDate = date ? date.toLocaleDateString(locale) : "";
 
     return (
       <Host onBlur={this.deactivate} onKeyDown={this.keyDownHandler} role="application">
@@ -503,7 +520,6 @@ export class InputDatePicker
                   intlNextMonth={this.intlNextMonth}
                   intlPrevMonth={this.intlPrevMonth}
                   intlYear={this.intlYear}
-                  locale={this.locale}
                   max={this.max}
                   maxAsDate={this.maxAsDate}
                   min={this.min}
@@ -573,7 +589,11 @@ export class InputDatePicker
 
   defaultValue: InputDatePicker["value"];
 
+  @State() effectiveLocale = "";
+
   @State() focusedInput: "start" | "end" = "start";
+
+  @State() globalAttributes = {};
 
   @State() private localeData: DateLocaleData;
 
@@ -612,7 +632,7 @@ export class InputDatePicker
   //
   //--------------------------------------------------------------------------
 
-  debouncedReposition = debounce(() => this.reposition(), repositionDebounceTimeout);
+  private debouncedReposition = debounce(() => this.reposition(), repositionDebounceTimeout);
 
   setFilteredPlacements = (): void => {
     const { el, flipPlacements } = this;
@@ -721,14 +741,13 @@ export class InputDatePicker
     this.endAsDate = end ? setEndOfDay(dateFromISO(end)) : dateFromISO(end);
   }
 
-  @Watch("locale")
+  @Watch("effectiveLocale")
   private async loadLocaleData(): Promise<void> {
     if (!Build.isBrowser) {
       return;
     }
 
-    const { locale } = this;
-    this.localeData = await getLocaleData(locale);
+    this.localeData = await getLocaleData(this.effectiveLocale);
   }
 
   private clearCurrentValue(): void {
@@ -811,7 +830,8 @@ export class InputDatePicker
    * @param target
    */
   private blur(target: HTMLCalciteInputElement): void {
-    const { locale, focusedInput, endAsDate, range, startAsDate, valueAsDate } = this;
+    const { focusedInput, endAsDate, range, startAsDate, valueAsDate } = this;
+    const locale = this.effectiveLocale;
     const date = this.getDateFromInput(target.value);
     if (!date) {
       if (!range && valueAsDate) {
