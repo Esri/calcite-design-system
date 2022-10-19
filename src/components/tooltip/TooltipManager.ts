@@ -1,3 +1,4 @@
+import { isPrimaryPointerButton } from "../../utils/dom";
 import { ReferenceElement } from "../../utils/floating-ui";
 import { TOOLTIP_DELAY_MS } from "./resources";
 
@@ -78,7 +79,7 @@ export default class TooltipManager {
   };
 
   private clickHandler = (event: PointerEvent): void => {
-    if (!event.isPrimary) {
+    if (!isPrimaryPointerButton(event)) {
       return;
     }
 

@@ -12,7 +12,13 @@ import {
   VNode,
   Watch
 } from "@stencil/core";
-import { getElementDir, getElementProp, getSlotted, setRequestedIcon } from "../../utils/dom";
+import {
+  getElementDir,
+  getElementProp,
+  getSlotted,
+  isPrimaryPointerButton,
+  setRequestedIcon
+} from "../../utils/dom";
 
 import { CSS, INPUT_TYPE_ICONS, SLOTS, TEXT } from "./resources";
 import { InputPlacement } from "./interfaces";
@@ -715,12 +721,16 @@ export class Input
     }, valueNudgeDelayInMs);
   };
 
-  private numberButtonPointerUpAndOutHandler = (): void => {
+  private numberButtonPointerUpAndOutHandler = (event: PointerEvent): void => {
+    if (!isPrimaryPointerButton(event)) {
+      return;
+    }
+
     window.clearInterval(this.nudgeNumberValueIntervalId);
   };
 
   private numberButtonPointerDownHandler = (event: PointerEvent): void => {
-    if (!event.isPrimary) {
+    if (!isPrimaryPointerButton(event)) {
       return;
     }
 

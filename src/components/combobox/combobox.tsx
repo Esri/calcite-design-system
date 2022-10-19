@@ -44,7 +44,7 @@ import {
 } from "../../utils/form";
 import { createObserver } from "../../utils/observers";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
-import { toAriaBoolean } from "../../utils/dom";
+import { isPrimaryPointerButton, toAriaBoolean } from "../../utils/dom";
 import {
   OpenCloseComponent,
   connectOpenCloseComponent,
@@ -235,7 +235,7 @@ export class Combobox
 
   @Listen("pointerdown", { target: "document" })
   documentClickHandler(event: PointerEvent): void {
-    if (!event.isPrimary) {
+    if (!isPrimaryPointerButton(event)) {
       return;
     }
 

@@ -1,3 +1,4 @@
+import { isPrimaryPointerButton } from "../../utils/dom";
 import { ReferenceElement } from "../../utils/floating-ui";
 import { isActivationKey } from "../../utils/key";
 
@@ -76,7 +77,7 @@ export default class PopoverManager {
   };
 
   private clickHandler = (event: PointerEvent): void => {
-    if (event.isPrimary) {
+    if (isPrimaryPointerButton(event)) {
       this.togglePopovers(event);
     }
   };

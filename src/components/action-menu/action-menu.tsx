@@ -11,7 +11,7 @@ import {
   State
 } from "@stencil/core";
 import { CSS, SLOTS, ICONS } from "./resources";
-import { focusElement, toAriaBoolean } from "../../utils/dom";
+import { focusElement, isPrimaryPointerButton, toAriaBoolean } from "../../utils/dom";
 import { Fragment, VNode } from "@stencil/core/internal";
 import { getRoundRobinIndex } from "../../utils/array";
 import { guid } from "../../utils/guid";
@@ -122,7 +122,7 @@ export class ActionMenu {
 
   @Listen("pointerdown", { target: "window" })
   closeCalciteActionMenuOnClick(event: PointerEvent): void {
-    if (!event.isPrimary) {
+    if (!isPrimaryPointerButton(event)) {
       return;
     }
 
@@ -334,7 +334,7 @@ export class ActionMenu {
   };
 
   menuButtonClick = (event: PointerEvent): void => {
-    if (!event.isPrimary) {
+    if (!isPrimaryPointerButton(event)) {
       return;
     }
 

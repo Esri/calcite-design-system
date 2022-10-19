@@ -13,7 +13,7 @@ import {
 } from "@stencil/core";
 import { ItemKeyboardEvent, Selection } from "./interfaces";
 
-import { focusElement, toAriaBoolean } from "../../utils/dom";
+import { focusElement, isPrimaryPointerButton, toAriaBoolean } from "../../utils/dom";
 import {
   positionFloatingUI,
   FloatingCSS,
@@ -292,7 +292,7 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent, Float
 
   @Listen("pointerdown", { target: "window" })
   closeCalciteDropdownOnClick(event: PointerEvent): void {
-    if (!event.isPrimary || !this.open || event.composedPath().includes(this.el)) {
+    if (!isPrimaryPointerButton(event) || !this.open || event.composedPath().includes(this.el)) {
       return;
     }
 
