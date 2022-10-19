@@ -14,6 +14,7 @@ import {
 } from "@floating-ui/dom";
 import { getElementDir } from "./dom";
 import { debounce } from "lodash-es";
+import { Build } from "@stencil/core";
 
 /**
  * Exported for testing purposes only
@@ -435,9 +436,18 @@ export function connectFloatingUI(
   // ensure position matches for initial positioning
   floatingEl.style.position = component.overlayPositioning;
 
+  const runAutoUpdate = Build.isBrowser
+    ? autoUpdate
+    : (_refEl: HTMLElement, _floatingEl: HTMLElement, updateCallback: Function): (() => void) => {
+        updateCallback();
+        return () => {
+          /* noop */
+        };
+      };
+
   cleanupMap.set(
     component,
-    autoUpdate(referenceEl, floatingEl, () => component.reposition())
+    runAutoUpdate(referenceEl, floatingEl, () => component.reposition())
   );
 }
 

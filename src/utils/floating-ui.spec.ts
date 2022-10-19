@@ -95,22 +95,6 @@ describe("repositioning", () => {
   });
 
   describe("connect/disconnect helpers", () => {
-    class ResizeObserverStub {
-      observe(): void {
-        /* noop */
-      }
-
-      unobserve(): void {
-        /* noop */
-      }
-
-      disconnect(): void {
-        /* noop */
-      }
-    }
-
-    global.ResizeObserver = ResizeObserverStub;
-
     it("has connectedCallback and disconnectedCallback helpers", () => {
       expect(cleanupMap.has(fakeFloatingUiComponent)).toBe(false);
       expect(floatingEl.style.position).toBe("");
