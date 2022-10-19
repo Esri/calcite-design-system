@@ -1022,9 +1022,9 @@ export async function t9n(
       const props: Partial<MessageBundle> = {};
 
       for (const prop of nonIntlProps) {
-        const index = nonIntlProps.indexOf(prop);
-        props[prop] = `${index}`;
-        component.setProperty(prop, `${index}`);
+        const index = nonIntlProps.indexOf(prop).toString();
+        props[prop] = index;
+        component.setProperty(prop, index);
         await page.waitForChanges();
       }
       expect(props).toEqual(await getCurrentMessages());
