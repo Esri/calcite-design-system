@@ -197,7 +197,7 @@ export class DatePicker implements LocalizedComponent, T9nComponent {
   @Watch("defaultMessages")
   @Watch("messageOverrides")
   onMessagesChange(): void {
-    /** referred in t9n util */
+    /* wired up by t9n util */
   }
 
   //--------------------------------------------------------------------------
