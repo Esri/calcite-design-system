@@ -29,8 +29,12 @@ import {
   connectLocalized,
   disconnectLocalized,
   LocalizedComponent,
+  NumberingSystem,
+  numberStringFormatter,
   updateEffectiveLocale
 } from "../../utils/locale";
+import { Messages } from "../time-picker/assets/time-picker/t9n";
+import { numberKeys } from "../../utils/key";
 
 @Component({
   tag: "calcite-input-time-picker",
@@ -60,7 +64,7 @@ export class InputTimePicker
   //--------------------------------------------------------------------------
 
   /**
-   * When true, the component is active.
+   * When `true`, the component is active.
    *
    * @deprecated Use `open` instead.
    */
@@ -71,7 +75,7 @@ export class InputTimePicker
     this.open = value;
   }
 
-  /** When true, displays the `calcite-time-picker` component. */
+  /** When `true`, displays the `calcite-time-picker` component. */
 
   @Prop({ reflect: true, mutable: true }) open = false;
 
@@ -86,11 +90,11 @@ export class InputTimePicker
     this.reposition();
   }
 
-  /** When true, interaction is prevented and the component is displayed with lower opacity. */
+  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @Prop({ reflect: true }) disabled = false;
 
   /**
-   * When true, the component's value can be read, but controls are not accessible and the value cannot be modified.
+   * When `true`, the component's value can be read, but controls are not accessible and the value cannot be modified.
    *
    * @mdn [readOnly](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/readonly)
    */
@@ -104,41 +108,96 @@ export class InputTimePicker
     }
   }
 
-  /** Accessible name for the component's hour input. */
+  /**
+   * Accessible name for the component's hour input.
+   *
+   * @deprecated - translations are now built-in, if you need to override a string, please use `messageOverrides`
+   */
   @Prop() intlHour?: string;
 
-  /** Accessible name for the component's hour down button. */
+  /**
+   * Accessible name for the component's hour down button.
+   *
+   * @deprecated - translations are now built-in, if you need to override a string, please use `messageOverrides`
+   */
   @Prop() intlHourDown?: string;
 
-  /** Accessible name for the component's hour up button. */
+  /**
+   * Accessible name for the component's hour up button.
+   *
+   * @deprecated - translations are now built-in, if you need to override a string, please use `messageOverrides`
+   */
   @Prop() intlHourUp?: string;
 
-  /** Accessible name for the component's meridiem (am/pm) input. */
+  /**
+   * Accessible name for the component's meridiem (am/pm) input.
+   *
+   * @deprecated - translations are now built-in, if you need to override a string, please use `messageOverrides`
+   */
   @Prop() intlMeridiem?: string;
 
-  /** Accessible name for the component's meridiem (am/pm) down button. */
+  /**
+   * Accessible name for the component's meridiem (am/pm) down button.
+   *
+   * @deprecated - translations are now built-in, if you need to override a string, please use `messageOverrides`
+   */
   @Prop() intlMeridiemDown?: string;
 
-  /** Accessible name for the component's meridiem (am/pm) up button. */
+  /**
+   * Accessible name for the component's meridiem (am/pm) up button.
+   *
+   * @deprecated - translations are now built-in, if you need to override a string, please use `messageOverrides`
+   */
   @Prop() intlMeridiemUp?: string;
 
-  /** Accessible name for the component's minute input. */
+  /**
+   * Accessible name for the component's minute input.
+   *
+   * @deprecated - translations are now built-in, if you need to override a string, please use `messageOverrides`
+   */
   @Prop() intlMinute?: string;
 
-  /** Accessible name for the component's minute down button. */
+  /**
+   * Accessible name for the component's minute down button.
+   *
+   * @deprecated - translations are now built-in, if you need to override a string, please use `messageOverrides`
+   */
   @Prop() intlMinuteDown?: string;
 
-  /** Accessible name for the component's minute up button. */
+  /**
+   * Accessible name for the component's minute up button.
+   *
+   * @deprecated - translations are now built-in, if you need to override a string, please use `messageOverrides`
+   */
   @Prop() intlMinuteUp?: string;
 
-  /** Accessible name for the component's second input. */
+  /**
+   * Accessible name for the component's second input.
+   *
+   * @deprecated - translations are now built-in, if you need to override a string, please use `messageOverrides`
+   */
   @Prop() intlSecond?: string;
 
-  /** Accessible name for the component's second down button. */
+  /**
+   * Accessible name for the component's second down button.
+   *
+   * @deprecated - translations are now built-in, if you need to override a string, please use `messageOverrides`
+   */
   @Prop() intlSecondDown?: string;
 
-  /** Accessible name for the component's second up button. */
+  /**
+   * Accessible name for the component's second up button.
+   *
+   * @deprecated - translations are now built-in, if you need to override a string, please use `messageOverrides`
+   */
   @Prop() intlSecondUp?: string;
+
+  /**
+   * Use this property to override individual strings used by the component.
+   *
+   * @deprecated - translations are now built-in, if you need to override a string, please use `messageOverrides`
+   */
+  @Prop() messagesOverrides: Partial<Messages>;
 
   /**
    * BCP 47 language tag for desired language and country format.
@@ -156,6 +215,11 @@ export class InputTimePicker
 
   /** Specifies the name of the component on form submission. */
   @Prop() name: string;
+
+  /**
+   * Specifies the Unicode numeral system used by the component for localization.
+   */
+  @Prop() numberingSystem?: NumberingSystem;
 
   /**
    * When true, the component must have a value in order for the form to submit.
@@ -234,7 +298,12 @@ export class InputTimePicker
   @Watch("effectiveLocale")
   effectiveLocaleWatcher(): void {
     this.setInputValue(
-      localizeTimeString(this.value, this.effectiveLocale, this.shouldIncludeSeconds())
+      localizeTimeString({
+        value: this.value,
+        locale: this.effectiveLocale,
+        numberingSystem: this.numberingSystem,
+        includeSeconds: this.shouldIncludeSeconds()
+      })
     );
   }
 
@@ -260,15 +329,25 @@ export class InputTimePicker
   private calciteInternalInputBlurHandler = (): void => {
     this.open = false;
     const shouldIncludeSeconds = this.shouldIncludeSeconds();
-    const locale = this.effectiveLocale;
+    const { effectiveLocale: locale, numberingSystem, value, calciteInputEl } = this;
 
-    const localizedInputValue = localizeTimeString(
-      this.calciteInputEl.value,
+    numberStringFormatter.numberFormatOptions = {
       locale,
-      shouldIncludeSeconds
-    );
+      numberingSystem,
+      useGrouping: false
+    };
+
+    const delocalizedValue = numberStringFormatter.delocalize(calciteInputEl.value);
+
+    const localizedInputValue = localizeTimeString({
+      value: delocalizedValue,
+      includeSeconds: shouldIncludeSeconds,
+      locale,
+      numberingSystem
+    });
     this.setInputValue(
-      localizedInputValue || localizeTimeString(this.value, locale, shouldIncludeSeconds)
+      localizedInputValue ||
+        localizeTimeString({ value, locale, numberingSystem, includeSeconds: shouldIncludeSeconds })
     );
   };
 
@@ -281,7 +360,27 @@ export class InputTimePicker
 
   private calciteInputInputHandler = (event: CustomEvent): void => {
     const target = event.target as HTMLCalciteTimePickerElement;
-    this.setValue({ value: target.value });
+
+    numberStringFormatter.numberFormatOptions = {
+      locale: this.effectiveLocale,
+      numberingSystem: this.numberingSystem,
+      useGrouping: false
+    };
+
+    const delocalizedValue = numberStringFormatter.delocalize(target.value);
+    this.setValue({ value: delocalizedValue });
+
+    // only translate the numerals until blur
+    const localizedValue = delocalizedValue
+      .split("")
+      .map((char) =>
+        numberKeys.includes(char)
+          ? numberStringFormatter.numberFormatter.format(Number(char))
+          : char
+      )
+      .join("");
+
+    this.setInputValue(localizedValue);
   };
 
   @Listen("click")
@@ -394,11 +493,12 @@ export class InputTimePicker
   }): void => {
     const previousValue = this.value;
     const newValue = formatTimeString(value);
-    const newLocalizedValue = localizeTimeString(
-      newValue,
-      this.effectiveLocale,
-      this.shouldIncludeSeconds()
-    );
+    const newLocalizedValue = localizeTimeString({
+      value: newValue,
+      locale: this.effectiveLocale,
+      numberingSystem: this.numberingSystem,
+      includeSeconds: this.shouldIncludeSeconds()
+    });
     this.internalValueChange = origin !== "external" && origin !== "loading";
 
     const shouldEmit =
@@ -518,6 +618,7 @@ export class InputTimePicker
           triggerDisabled={true}
         >
           <calcite-time-picker
+            //t9n props are used here to forward the messages only.
             intlHour={this.intlHour}
             intlHourDown={this.intlHourDown}
             intlHourUp={this.intlHourUp}
@@ -530,6 +631,9 @@ export class InputTimePicker
             intlSecond={this.intlSecond}
             intlSecondDown={this.intlSecondDown}
             intlSecondUp={this.intlSecondUp}
+            lang={this.effectiveLocale}
+            messageOverrides={this.messagesOverrides}
+            numberingSystem={this.numberingSystem}
             onCalciteInternalTimePickerChange={this.timePickerChangeHandler}
             ref={this.setCalciteTimePickerEl}
             scale={this.scale}

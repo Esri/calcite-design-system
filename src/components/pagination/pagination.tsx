@@ -16,7 +16,8 @@ import {
   connectLocalized,
   disconnectLocalized,
   LocalizedComponent,
-  localizeNumberString
+  numberStringFormatter,
+  NumberingSystem
 } from "../../utils/locale";
 import { CSS } from "./resources";
 import { Messages } from "./assets/pagination/t9n";
@@ -49,7 +50,7 @@ export class Pagination implements LocalizedComponent, T9nComponent {
   //--------------------------------------------------------------------------
 
   /**
-   * When true, number values are displayed with a group separator corresponding to the language and country format.
+   * When `true`, number values are displayed with a group separator corresponding to the language and country format.
    */
   @Prop({ reflect: true }) groupSeparator = false;
 
@@ -85,10 +86,8 @@ export class Pagination implements LocalizedComponent, T9nComponent {
 
   /**
    * Specifies the Unicode numeral system used by the component for localization.
-   *
-   * @mdn [numberingSystem](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/Locale/numberingSystem)
    */
-  @Prop() numberingSystem?: string;
+  @Prop() numberingSystem?: NumberingSystem;
 
   /** Specifies the starting item number. */
   @Prop({ mutable: true, reflect: true }) start = 1;
@@ -244,15 +243,16 @@ export class Pagination implements LocalizedComponent, T9nComponent {
    *
    * @param value
    */
-  private determineGroupSeparator = (value): string => {
+  private determineGroupSeparator = (value: number): string => {
+    numberStringFormatter.numberFormatOptions = {
+      locale: this.effectiveLocale,
+      numberingSystem: this.numberingSystem,
+      useGrouping: this.groupSeparator
+    };
+
     return this.groupSeparator
-      ? localizeNumberString(
-          value.toString(),
-          this.effectiveLocale,
-          this.groupSeparator,
-          this.numberingSystem
-        )
-      : value;
+      ? numberStringFormatter.localize(value.toString())
+      : value.toString();
   };
 
   //--------------------------------------------------------------------------

@@ -13,7 +13,7 @@ import {
   Watch
 } from "@stencil/core";
 import { getSlotted, setRequestedIcon, toAriaBoolean } from "../../utils/dom";
-import { DURATIONS, SLOTS, TEXT } from "./resources";
+import { DURATIONS, SLOTS } from "./resources";
 import { Scale } from "../interfaces";
 import { AlertDuration, AlertPlacement, StatusColor, StatusIcons, Sync } from "./interfaces";
 import {
@@ -22,11 +22,20 @@ import {
   disconnectOpenCloseComponent
 } from "../../utils/openCloseComponent";
 import {
-  createLocaleNumberFormatter,
   LocalizedComponent,
   connectLocalized,
-  disconnectLocalized
+  disconnectLocalized,
+  NumberingSystem,
+  numberStringFormatter
 } from "../../utils/locale";
+import {
+  connectMessages,
+  disconnectMessages,
+  setUpMessages,
+  T9nComponent,
+  updateMessages
+} from "../../utils/t9n";
+import { Messages } from "./assets/alert/t9n";
 
 /**
  * Alerts are meant to provide a way to communicate urgent or important information to users, frequently as a result of an action they took in your app. Alerts are positioned
@@ -42,9 +51,10 @@ import {
 @Component({
   tag: "calcite-alert",
   styleUrl: "alert.scss",
-  shadow: true
+  shadow: true,
+  assetsDirs: ["assets"]
 })
-export class Alert implements OpenCloseComponent, LocalizedComponent {
+export class Alert implements OpenCloseComponent, LocalizedComponent, T9nComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -60,13 +70,13 @@ export class Alert implements OpenCloseComponent, LocalizedComponent {
   //---------------------------------------------------------------------------
 
   /**
-   * When true, opens the combobox
+   * When `true`, displays and positions the component.
    *
-   * @deprecated use open instead
+   * @deprecated use `open` instead.
    */
   @Prop({ reflect: true, mutable: true }) active = false;
 
-  /** When true, opens the dropdown */
+  /** When `true`, displays and positions the component. */
   @Prop({ reflect: true, mutable: true }) open = false;
 
   @Watch("active")
@@ -87,7 +97,7 @@ export class Alert implements OpenCloseComponent, LocalizedComponent {
     }
   }
 
-  /** When true, the component closes automatically (recommended for passive, non-blocking alerts). */
+  /** When `true`, the component closes automatically (recommended for passive, non-blocking alerts). */
   @Prop({ reflect: true }) autoDismiss = false;
 
   /** Specifies the duration before the component automatically closes (only use with `autoDismiss`). */
@@ -97,7 +107,7 @@ export class Alert implements OpenCloseComponent, LocalizedComponent {
   @Prop({ reflect: true }) color: StatusColor = "blue";
 
   /**
-   * When true, shows a default recommended icon. Alternatively,
+   * When `true`, shows a default recommended icon. Alternatively,
    * pass a Calcite UI Icon name to display a specific icon.
    */
   @Prop({ reflect: true }) icon: string | boolean;
@@ -106,24 +116,42 @@ export class Alert implements OpenCloseComponent, LocalizedComponent {
    * Specifies the text label for the close button.
    *
    * @default "Close"
+   * @deprecated - translations are now built-in, if you need to override a string, please use `messageOverrides`
    */
-  @Prop() intlClose: string = TEXT.intlClose;
+  @Prop() intlClose: string;
 
   /** Specifies an accessible name for the component. */
   @Prop() label!: string;
 
   /**
    * Specifies the Unicode numeral system used by the component for localization.
-   *
-   * @mdn [numberingSystem](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/Locale/numberingSystem)
    */
-  @Prop({ reflect: true }) numberingSystem?: string;
+  @Prop({ reflect: true }) numberingSystem?: NumberingSystem;
 
   /** Specifies the placement of the component */
   @Prop({ reflect: true }) placement: AlertPlacement = "bottom";
 
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
+
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @internal
+   */
+  @Prop({ mutable: true }) messages: Messages;
+
+  /**
+   * Use this property to override individual strings used by the component.
+   */
+  @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
+
+  @Watch("intlClose")
+  @Watch("defaultMessages")
+  @Watch("messageOverrides")
+  onMessagesChange(): void {
+    /* wired up by t9n util */
+  }
 
   @Watch("icon")
   @Watch("color")
@@ -150,6 +178,7 @@ export class Alert implements OpenCloseComponent, LocalizedComponent {
 
   connectedCallback(): void {
     connectLocalized(this);
+    connectMessages(this);
     const open = this.open || this.active;
     if (open && !this.queued) {
       this.activeHandler(open);
@@ -159,20 +188,22 @@ export class Alert implements OpenCloseComponent, LocalizedComponent {
     connectOpenCloseComponent(this);
   }
 
-  componentWillLoad(): void {
+  async componentWillLoad(): Promise<void> {
     this.requestedIcon = setRequestedIcon(StatusIcons, this.icon, this.color);
+    await setUpMessages(this);
   }
 
   disconnectedCallback(): void {
     window.clearTimeout(this.autoDismissTimeoutId);
     disconnectOpenCloseComponent(this);
     disconnectLocalized(this);
+    disconnectMessages(this);
   }
 
   render(): VNode {
     const closeButton = (
       <button
-        aria-label={this.intlClose}
+        aria-label={this.messages.close}
         class="alert-close"
         onClick={this.closeAlert}
         ref={(el) => (this.closeButton = el)}
@@ -181,13 +212,15 @@ export class Alert implements OpenCloseComponent, LocalizedComponent {
         <calcite-icon icon="x" scale={this.scale === "l" ? "m" : "s"} />
       </button>
     );
-    const formatter = createLocaleNumberFormatter(
-      this.effectiveLocale,
-      this.numberingSystem,
-      "always"
-    );
+
+    numberStringFormatter.numberFormatOptions = {
+      locale: this.effectiveLocale,
+      numberingSystem: this.numberingSystem,
+      signDisplay: "always"
+    };
+
     const queueNumber = this.queueLength > 2 ? this.queueLength - 1 : 1;
-    const queueText = formatter.format(queueNumber);
+    const queueText = numberStringFormatter.numberFormatter.format(queueNumber);
 
     const queueCount = (
       <div class={`${this.queueLength > 1 ? "active " : ""}alert-queue-count`}>
@@ -314,6 +347,13 @@ export class Alert implements OpenCloseComponent, LocalizedComponent {
   //--------------------------------------------------------------------------
 
   @State() effectiveLocale = "";
+
+  @Watch("effectiveLocale")
+  effectiveLocaleChange(): void {
+    updateMessages(this, this.effectiveLocale);
+  }
+
+  @State() defaultMessages: Messages;
 
   /** the list of queued alerts */
   @State() queue: HTMLCalciteAlertElement[] = [];

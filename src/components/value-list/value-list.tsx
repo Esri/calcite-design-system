@@ -9,7 +9,8 @@ import {
   Method,
   Prop,
   State,
-  VNode
+  VNode,
+  Watch
 } from "@stencil/core";
 import { CSS, ICON_TYPES } from "./resources";
 import {
@@ -37,6 +38,15 @@ import List from "../pick-list/shared-list-render";
 import { createObserver } from "../../utils/observers";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { getHandleAndItemElement, getScreenReaderText } from "./utils";
+import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
+import {
+  connectMessages,
+  disconnectMessages,
+  setUpMessages,
+  T9nComponent,
+  updateMessages
+} from "../../utils/t9n";
+import { Messages } from "./assets/value-list/t9n";
 
 /**
  * @slot - A slot for adding `calcite-value-list-item` elements. List items are displayed as a vertical list.
@@ -45,11 +55,12 @@ import { getHandleAndItemElement, getScreenReaderText } from "./utils";
 @Component({
   tag: "calcite-value-list",
   styleUrl: "value-list.scss",
-  shadow: true
+  shadow: true,
+  assetsDirs: ["assets"]
 })
 export class ValueList<
   ItemElement extends HTMLCalciteValueListItemElement = HTMLCalciteValueListItemElement
-> implements InteractiveComponent
+> implements InteractiveComponent, LocalizedComponent, T9nComponent
 {
   // --------------------------------------------------------------------------
   //
@@ -58,17 +69,17 @@ export class ValueList<
   // --------------------------------------------------------------------------
 
   /**
-   * When true, interaction is prevented and the component is displayed with lower opacity.
+   * When `true`, interaction is prevented and the component is displayed with lower opacity.
    */
   @Prop({ reflect: true }) disabled = false;
 
   /**
-   * When true, `calcite-value-list-item`s are sortable via a draggable button.
+   * When `true`, `calcite-value-list-item`s are sortable via a draggable button.
    */
   @Prop({ reflect: true }) dragEnabled = false;
 
   /**
-   * When true, an input appears at the top of the component that can be used by end users to filter list items.
+   * When `true`, an input appears at the top of the component that can be used by end users to filter list items.
    */
   @Prop({ reflect: true }) filterEnabled = false;
 
@@ -85,50 +96,80 @@ export class ValueList<
   @Prop({ reflect: true }) group?: string;
 
   /**
-   * When true, a busy indicator is displayed.
+   * When `true`, a busy indicator is displayed.
    */
   @Prop({ reflect: true }) loading = false;
 
   /**
    * Similar to standard radio buttons and checkboxes.
-   * When true, a user can select multiple `calcite-value-list-item`s at a time.
-   * When false, only a single `calcite-value-list-item` can be selected at a time,
+   * When `true`, a user can select multiple `calcite-value-list-item`s at a time.
+   * When `false`, only a single `calcite-value-list-item` can be selected at a time,
    * and a new selection will deselect previous selections.
    */
   @Prop({ reflect: true }) multiple = false;
 
   /**
-   * When true and single-selection is enabled, the selection changes when navigating `calcite-value-list-item`s via keyboard.
+   * When `true` and single-selection is enabled, the selection changes when navigating `calcite-value-list-item`s via keyboard.
    */
   @Prop({ reflect: true }) selectionFollowsFocus = false;
-
-  /**
-   * When "drag-enabled" is true and active, specifies accessible context to the `calcite-value-list-item`'s initial position.
-   *
-   * Use ${position} of ${total} as placeholder for displaying indices and ${item.label} as placeholder for displaying label of `calcite-value-list-item`.
-   */
-  @Prop() intlDragHandleIdle?: string;
 
   /**
    * When "drag-enabled" is true and active, specifies accessible context to the component.
    *
    * Use ${position} of ${total} as placeholder for displaying indices and ${item.label} as placeholder for displaying label of `calcite-value-list-item`.
+   *
+   * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`
    */
-  @Prop() intlDragHandleActive?: string;
+  @Prop() intlDragHandleActive: string;
 
   /**
    * When "drag-enabled" is true and active, specifies accessible context to the `calcite-value-list-item`'s new position.
    *
    * Use ${position} of ${total} as placeholder for displaying indices and ${item.label} as placeholder for displaying label of `calcite-value-list-item`.
+   *
+   * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`
    */
-  @Prop() intlDragHandleChange?: string;
+  @Prop() intlDragHandleChange: string;
 
   /**
    * When "drag-enabled" is true and active, specifies accessible context to the `calcite-value-list-item`'s current position after commit.
    *
    * Use ${position} of ${total} as placeholder for displaying indices and ${item.label} as placeholder for displaying label of `calcite-value-list-item`.
+   *
+   * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`
    */
-  @Prop() intlDragHandleCommit?: string;
+  @Prop() intlDragHandleCommit: string;
+
+  /**
+   * When "drag-enabled" is true and active, specifies accessible context to the `calcite-value-list-item`'s initial position.
+   *
+   * Use ${position} of ${total} as placeholder for displaying indices and ${item.label} as placeholder for displaying label of `calcite-value-list-item`.
+   *
+   * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`
+   */
+  @Prop() intlDragHandleIdle: string;
+
+  /**
+   * Use this property to override individual strings used by the component.
+   */
+  @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
+
+  @Watch("intlDragHandleActive")
+  @Watch("intlDragHandleChange")
+  @Watch("intlDragHandleCommit")
+  @Watch("intlDragHandleIdle")
+  @Watch("defaultMessages")
+  @Watch("messageOverrides")
+  onMessagesChange(): void {
+    /* wired up by t9n util */
+  }
+
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @internal
+   */
+  @Prop({ mutable: true }) messages: Messages;
 
   // --------------------------------------------------------------------------
   //
@@ -136,9 +177,18 @@ export class ValueList<
   //
   // --------------------------------------------------------------------------
 
-  @State() selectedValues: Map<string, ItemElement> = new Map();
-
   @State() dataForFilter: ItemData = [];
+
+  @State() defaultMessages: Messages;
+
+  @State() effectiveLocale = "";
+
+  @Watch("effectiveLocale")
+  effectiveLocaleChange(): void {
+    updateMessages(this, this.effectiveLocale);
+  }
+
+  @State() selectedValues: Map<string, ItemElement> = new Map();
 
   items: ItemElement[];
 
@@ -163,8 +213,14 @@ export class ValueList<
   // --------------------------------------------------------------------------
 
   connectedCallback(): void {
+    connectLocalized(this);
+    connectMessages(this);
     initialize.call(this);
     initializeObserver.call(this);
+  }
+
+  async componentWillLoad(): Promise<void> {
+    await setUpMessages(this);
   }
 
   componentDidLoad(): void {
@@ -176,6 +232,8 @@ export class ValueList<
   }
 
   disconnectedCallback(): void {
+    disconnectLocalized(this);
+    disconnectMessages(this);
     cleanUpObserver.call(this);
     this.cleanUpDragAndDrop();
   }

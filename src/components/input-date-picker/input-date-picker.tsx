@@ -24,8 +24,6 @@ import {
   setEndOfDay
 } from "../../utils/date";
 import { HeadingLevel } from "../functional/Heading";
-
-import { TEXT } from "../date-picker/resources";
 import { CSS } from "./resources";
 import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
 import {
@@ -58,6 +56,7 @@ import {
 } from "../../utils/openCloseComponent";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import { debounce } from "lodash-es";
+import { Messages } from "../date-picker/assets/date-picker/t9n";
 
 @Component({
   tag: "calcite-input-date-picker",
@@ -220,22 +219,25 @@ export class InputDatePicker
    * Accessible name for the component's previous month button.
    *
    * @default "Previous month"
+   * @deprecated - translations are now built-in, if you need to override a string, please use `messageOverrides`
    */
-  @Prop() intlPrevMonth?: string = TEXT.prevMonth;
+  @Prop() intlPrevMonth?: string;
 
   /**
    * Accessible name for the component's next month button.
    *
    * @default "Next month"
+   * @deprecated - translations are now built-in, if you need to override a string, please use `messageOverrides`
    */
-  @Prop() intlNextMonth?: string = TEXT.nextMonth;
+  @Prop() intlNextMonth?: string;
 
   /**
    * Accessible name for the component's year input.
    *
    * @default "Year"
+   * @deprecated - translations are now built-in, if you need to override a string, please use `messageOverrides`
    */
-  @Prop() intlYear?: string = TEXT.year;
+  @Prop() intlYear?: string;
 
   /**
    * Specifies the BCP 47 language tag for the desired language and country format.
@@ -302,6 +304,11 @@ export class InputDatePicker
 
   /** Defines the layout of the component. */
   @Prop({ reflect: true }) layout: "horizontal" | "vertical" = "horizontal";
+
+  /**
+   * Use this property to override individual strings used by the component.
+   */
+  @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
 
   //--------------------------------------------------------------------------
   //
@@ -517,11 +524,13 @@ export class InputDatePicker
                   activeRange={this.focusedInput}
                   endAsDate={this.endAsDate}
                   headingLevel={this.headingLevel}
+                  //t9n props are used here to forward the messages only.
                   intlNextMonth={this.intlNextMonth}
                   intlPrevMonth={this.intlPrevMonth}
                   intlYear={this.intlYear}
                   max={this.max}
                   maxAsDate={this.maxAsDate}
+                  messageOverrides={this.messageOverrides}
                   min={this.min}
                   minAsDate={this.minAsDate}
                   onCalciteDatePickerChange={this.handleDateChange}

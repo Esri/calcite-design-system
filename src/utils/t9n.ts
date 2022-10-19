@@ -40,14 +40,11 @@ export function overridesFromIntlProps(component: T9nComponent): MessageBundle {
   Object.keys(el.constructor.prototype)
     .filter((prop) => prop.startsWith("intl"))
     .forEach((prop) => {
-      if (prop.startsWith("intl")) {
-        const assignedValue = el[prop];
-
-        if (assignedValue) {
-          let mappedProp = prop.replace("intl", "");
-          mappedProp = `${mappedProp[0].toLowerCase()}${mappedProp.slice(1)}`;
-          overrides[mappedProp] = assignedValue;
-        }
+      const assignedValue = el[prop];
+      if (assignedValue) {
+        let mappedProp = prop.replace("intl", "");
+        mappedProp = `${mappedProp[0].toLowerCase()}${mappedProp.slice(1)}`;
+        overrides[mappedProp] = assignedValue;
       }
     });
 
@@ -97,6 +94,7 @@ async function fetchMessages(component: T9nComponent, lang: string): Promise<Mes
  */
 export async function updateMessages(component: T9nComponent, lang: string): Promise<void> {
   component.defaultMessages = await fetchMessages(component, lang);
+  mergeMessages(component);
 }
 
 /**
@@ -143,8 +141,6 @@ export interface T9nComponent extends LocalizedComponent {
 
   /**
    * This property holds the component's default messages.
-   *
-   * This prop should use the `@State` decorator.
    */
   defaultMessages: MessageBundle;
 
@@ -162,7 +158,6 @@ export interface T9nComponent extends LocalizedComponent {
    *
    * @Watch("intlMyPropA")
    * @Watch("intlMyPropZ")
-   * @Watch("defaultMessages")
    * @Watch("messageOverrides")
    * onMessagesChange(): void {
    *  \/* wired up by t9n util *\/

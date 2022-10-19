@@ -6,11 +6,11 @@ import {
   h,
   Method,
   Prop,
+  State,
   VNode,
   Watch
 } from "@stencil/core";
-
-import { CSS, SLOTS, TEXT } from "./resources";
+import { CSS, SLOTS } from "./resources";
 import { Scale, Width } from "../interfaces";
 import { StatusColor, StatusIcons } from "../alert/interfaces";
 import { getSlotted, setRequestedIcon } from "../../utils/dom";
@@ -19,6 +19,15 @@ import {
   connectConditionalSlotComponent,
   disconnectConditionalSlotComponent
 } from "../../utils/conditionalSlot";
+import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
+import {
+  connectMessages,
+  disconnectMessages,
+  setUpMessages,
+  T9nComponent,
+  updateMessages
+} from "../../utils/t9n";
+import { Messages } from "./assets/notice/t9n";
 
 /**
  * Notices are intended to be used to present users with important-but-not-crucial contextual tips or copy. Because
@@ -37,9 +46,10 @@ import {
 @Component({
   tag: "calcite-notice",
   styleUrl: "notice.scss",
-  shadow: true
+  shadow: true,
+  assetsDirs: ["assets"]
 })
-export class Notice implements ConditionalSlotComponent {
+export class Notice implements ConditionalSlotComponent, LocalizedComponent, T9nComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -55,9 +65,9 @@ export class Notice implements ConditionalSlotComponent {
   //---------------------------------------------------------------------------
 
   /**
-   * When true, the component is active.
+   * When `true`, the component is active.
    *
-   * @deprecated Use open instead.
+   * @deprecated Use `open` instead.
    */
   @Prop({ reflect: true, mutable: true }) active = false;
 
@@ -66,7 +76,7 @@ export class Notice implements ConditionalSlotComponent {
     this.open = value;
   }
 
-  /** When true, the component is visible */
+  /** When `true`, the component is visible. */
   @Prop({ reflect: true, mutable: true }) open = false;
 
   @Watch("open")
@@ -78,9 +88,9 @@ export class Notice implements ConditionalSlotComponent {
   @Prop({ reflect: true }) color: StatusColor = "blue";
 
   /**
-   * When true, a close button is added to the component.
+   * When `true`, a close button is added to the component.
    *
-   * @deprecated use closable instead
+   * @deprecated use `closable` instead.
    */
   @Prop({ reflect: true }) dismissible? = false;
 
@@ -89,7 +99,7 @@ export class Notice implements ConditionalSlotComponent {
     this.closable = value;
   }
 
-  /** When true, displays a button user can click to dismiss the `calcite-notice` */
+  /** When `true`, a close button is added to the component. */
   @Prop({ reflect: true }) closable? = false;
 
   @Watch("closable")
@@ -98,7 +108,7 @@ export class Notice implements ConditionalSlotComponent {
   }
 
   /**
-   * When true, shows a default recommended icon. Alternatively, pass a Calcite UI Icon name to display a specific icon.
+   * When `true`, shows a default recommended icon. Alternatively, pass a Calcite UI Icon name to display a specific icon.
    */
   @Prop({ reflect: true }) icon: string | boolean;
 
@@ -106,14 +116,34 @@ export class Notice implements ConditionalSlotComponent {
    * Accessible name for the close button.
    *
    * @default "Close"
+   * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`.
    */
-  @Prop({ reflect: false }) intlClose: string = TEXT.close;
+  @Prop({ reflect: false }) intlClose: string;
 
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
 
   /** Specifies the width of the component. */
   @Prop({ reflect: true }) width: Width = "auto";
+
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @internal
+   */
+  @Prop({ mutable: true }) messages: Messages;
+
+  /**
+   * Use this property to override individual strings used by the component.
+   */
+  @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
+
+  @Watch("intlClose")
+  @Watch("defaultMessages")
+  @Watch("messageOverrides")
+  onMessagesChange(): void {
+    /* wired up by t9n util */
+  }
 
   @Watch("icon")
   @Watch("color")
@@ -129,6 +159,9 @@ export class Notice implements ConditionalSlotComponent {
 
   connectedCallback(): void {
     connectConditionalSlotComponent(this);
+    connectLocalized(this);
+    connectMessages(this);
+
     const isOpen = this.active || this.open;
 
     if (isOpen) {
@@ -145,17 +178,20 @@ export class Notice implements ConditionalSlotComponent {
 
   disconnectedCallback(): void {
     disconnectConditionalSlotComponent(this);
+    disconnectLocalized(this);
+    disconnectMessages(this);
   }
 
-  componentWillLoad(): void {
+  async componentWillLoad(): Promise<void> {
     this.requestedIcon = setRequestedIcon(StatusIcons, this.icon, this.color);
+    await setUpMessages(this);
   }
 
   render(): VNode {
     const { el } = this;
     const closeButton = (
       <button
-        aria-label={this.intlClose}
+        aria-label={this.messages.close}
         class={CSS.close}
         onClick={this.close}
         ref={(el) => (this.closeButton = el)}
@@ -242,4 +278,13 @@ export class Notice implements ConditionalSlotComponent {
 
   /** The computed icon to render. */
   private requestedIcon?: string;
+
+  @State() effectiveLocale: string;
+
+  @Watch("effectiveLocale")
+  effectiveLocaleChange(): void {
+    updateMessages(this, this.effectiveLocale);
+  }
+
+  @State() defaultMessages: Messages;
 }

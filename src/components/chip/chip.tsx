@@ -7,11 +7,12 @@ import {
   Element,
   VNode,
   Method,
-  Watch
+  Watch,
+  State
 } from "@stencil/core";
 import { getSlotted } from "../../utils/dom";
 import { guid } from "../../utils/guid";
-import { CSS, TEXT, SLOTS, ICONS } from "./resources";
+import { CSS, SLOTS, ICONS } from "./resources";
 import { ChipColor } from "./interfaces";
 import { Appearance, DeprecatedEventPayload, Scale } from "../interfaces";
 import {
@@ -19,6 +20,14 @@ import {
   connectConditionalSlotComponent,
   disconnectConditionalSlotComponent
 } from "../../utils/conditionalSlot";
+import { Messages } from "./assets/chip/t9n";
+import {
+  connectMessages,
+  disconnectMessages,
+  setUpMessages,
+  updateMessages
+} from "../../utils/t9n";
+import { connectLocalized, disconnectLocalized } from "../../utils/locale";
 
 /**
  * @slot - A slot for adding text.
@@ -27,7 +36,8 @@ import {
 @Component({
   tag: "calcite-chip",
   styleUrl: "chip.scss",
-  shadow: true
+  shadow: true,
+  assetsDirs: ["assets"]
 })
 export class Chip implements ConditionalSlotComponent {
   //--------------------------------------------------------------------------
@@ -66,8 +76,9 @@ export class Chip implements ConditionalSlotComponent {
    * Aria label for the "x" button
    *
    * @default "Close"
+   * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`
    */
-  @Prop() dismissLabel?: string = TEXT.close;
+  @Prop() dismissLabel?: string;
 
   /** Specifies an icon to display. */
   @Prop({ reflect: true }) icon?: string;
@@ -84,13 +95,41 @@ export class Chip implements ConditionalSlotComponent {
   /** When true, hides the chip  */
   @Prop({ reflect: true, mutable: true }) closed = false;
 
+  /**
+   * Use this property to override individual strings used by the component.
+   */
+  @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
+
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @internal
+   */
+  @Prop({ mutable: true }) messages: Messages;
+
+  @Watch("dismissLabel")
+  @Watch("defaultMessages")
+  @Watch("messageOverrides")
+  onMessagesChange(): void {
+    /* wired up by t9n util */
+  }
+
   // --------------------------------------------------------------------------
   //
-  //  Private Properties
+  //  Private State/Properties
   //
   // --------------------------------------------------------------------------
 
   @Element() el: HTMLCalciteChipElement;
+
+  @State() defaultMessages: Messages;
+
+  @State() effectiveLocale: string;
+
+  @Watch("effectiveLocale")
+  effectiveLocaleChange(): void {
+    updateMessages(this, this.effectiveLocale);
+  }
 
   // --------------------------------------------------------------------------
   //
@@ -106,12 +145,19 @@ export class Chip implements ConditionalSlotComponent {
     if (this.closable) {
       this.handleClosable(this.closable);
     }
+    connectLocalized(this);
+    connectMessages(this);
   }
 
   disconnectedCallback(): void {
     disconnectConditionalSlotComponent(this);
+    disconnectLocalized(this);
+    disconnectMessages(this);
   }
 
+  async componentWillLoad(): Promise<void> {
+    await setUpMessages(this);
+  }
   //--------------------------------------------------------------------------
   //
   //  Public Methods
@@ -153,6 +199,16 @@ export class Chip implements ConditionalSlotComponent {
 
   private guid: string = guid();
 
+  getExtraMessageOverrides(): Partial<Messages> {
+    const extraOverrides: Partial<Messages> = {};
+
+    if (this.dismissLabel) {
+      extraOverrides.dismissLabel = this.dismissLabel;
+    }
+
+    return extraOverrides;
+  }
+
   //--------------------------------------------------------------------------
   //
   //  Render Methods
@@ -178,7 +234,7 @@ export class Chip implements ConditionalSlotComponent {
     const closeButton = (
       <button
         aria-describedby={this.guid}
-        aria-label={this.dismissLabel}
+        aria-label={this.messages.dismissLabel}
         class={CSS.close}
         onClick={this.closeClickHandler}
         ref={(el) => (this.closeButton = el)}
