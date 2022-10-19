@@ -89,7 +89,7 @@ export class Tab {
 
     return (
       <Host aria-labelledby={this.labeledBy} id={id}>
-        <div role="tabpanel" tabIndex={this.selected ? 0 : -1}>
+        <div class="container" role="tabpanel" tabIndex={this.selected ? 0 : -1}>
           <section>
             <slot />
           </section>
