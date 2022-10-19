@@ -112,3 +112,9 @@ export const darkThemeRTL_TestOnly = (): string =>
   );
 
 darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };
+
+export const largeScaleFabRendersMediumIcon = (): string => html`
+  <calcite-fab scale="l">
+    <calcite-icon icon="layer"></calcite-icon>
+  </calcite-fab>
+`;
