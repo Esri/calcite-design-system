@@ -144,7 +144,7 @@
     "storybook": "6.5.12",
     "storybook-addon-themes": "6.1.0",
     "storybook-rtl-addon": "0.3.3",
-    "stylelint": "14.13.0",
+    "stylelint": "14.14.0",
     "stylelint-config-recommended-scss": "7.0.0",
     "stylelint-use-logical-spec": "4.1.0",
     "tailwindcss": "3.1.8",
