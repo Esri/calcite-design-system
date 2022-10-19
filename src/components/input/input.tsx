@@ -721,11 +721,7 @@ export class Input
     }, valueNudgeDelayInMs);
   };
 
-  private numberButtonPointerUpAndOutHandler = (event: PointerEvent): void => {
-    if (!isPrimaryPointerButton(event)) {
-      return;
-    }
-
+  private numberButtonPointerUpAndOutHandler = (): void => {
     window.clearInterval(this.nudgeNumberValueIntervalId);
   };
 
