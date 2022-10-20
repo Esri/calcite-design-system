@@ -22,11 +22,11 @@ import {
   disconnectOpenCloseComponent
 } from "../../utils/openCloseComponent";
 import {
-  getSupportedNumberingSystem,
   LocalizedComponent,
   connectLocalized,
   disconnectLocalized,
-  NumberingSystem
+  NumberingSystem,
+  numberStringFormatter
 } from "../../utils/locale";
 
 /**
@@ -61,13 +61,13 @@ export class Alert implements OpenCloseComponent, LocalizedComponent {
   //---------------------------------------------------------------------------
 
   /**
-   * When true, opens the combobox
+   * When `true`, displays and positions the component.
    *
-   * @deprecated use open instead
+   * @deprecated use `open` instead.
    */
   @Prop({ reflect: true, mutable: true }) active = false;
 
-  /** When true, opens the dropdown */
+  /** When `true`, displays and positions the component. */
   @Prop({ reflect: true, mutable: true }) open = false;
 
   @Watch("active")
@@ -88,7 +88,7 @@ export class Alert implements OpenCloseComponent, LocalizedComponent {
     }
   }
 
-  /** When true, the component closes automatically (recommended for passive, non-blocking alerts). */
+  /** When `true`, the component closes automatically (recommended for passive, non-blocking alerts). */
   @Prop({ reflect: true }) autoDismiss = false;
 
   /** Specifies the duration before the component automatically closes (only use with `autoDismiss`). */
@@ -98,7 +98,7 @@ export class Alert implements OpenCloseComponent, LocalizedComponent {
   @Prop({ reflect: true }) color: StatusColor = "blue";
 
   /**
-   * When true, shows a default recommended icon. Alternatively,
+   * When `true`, shows a default recommended icon. Alternatively,
    * pass a Calcite UI Icon name to display a specific icon.
    */
   @Prop({ reflect: true }) icon: string | boolean;
@@ -180,15 +180,15 @@ export class Alert implements OpenCloseComponent, LocalizedComponent {
         <calcite-icon icon="x" scale={this.scale === "l" ? "m" : "s"} />
       </button>
     );
-    const formatter = new Intl.NumberFormat(this.effectiveLocale, {
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 20,
-      numberingSystem: getSupportedNumberingSystem(this.numberingSystem),
+
+    numberStringFormatter.numberFormatOptions = {
+      locale: this.effectiveLocale,
+      numberingSystem: this.numberingSystem,
       signDisplay: "always"
-    } as Intl.NumberFormatOptions);
+    };
 
     const queueNumber = this.queueLength > 2 ? this.queueLength - 1 : 1;
-    const queueText = formatter.format(queueNumber);
+    const queueText = numberStringFormatter.numberFormatter.format(queueNumber);
 
     const queueCount = (
       <div class={`${this.queueLength > 1 ? "active " : ""}alert-queue-count`}>

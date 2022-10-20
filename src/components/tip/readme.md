@@ -22,11 +22,11 @@ Renders a non-dismissible tip with a heading, thumbnail, info and a link.
 
 | Property         | Attribute         | Description                                                                                                                                              | Type                         | Default     |
 | ---------------- | ----------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------- | ----------- |
-| `dismissed`      | `dismissed`       | When true, the component does not display.                                                                                                               | `boolean`                    | `false`     |
+| `dismissed`      | `dismissed`       | When `true`, the component does not display.                                                                                                             | `boolean`                    | `false`     |
 | `heading`        | `heading`         | The component header text.                                                                                                                               | `string`                     | `undefined` |
 | `headingLevel`   | `heading-level`   | Specifies the number at which section headings should start.                                                                                             | `1 \| 2 \| 3 \| 4 \| 5 \| 6` | `undefined` |
 | `intlClose`      | `intl-close`      | Accessible name for the component's close button.                                                                                                        | `string`                     | `undefined` |
-| `nonDismissible` | `non-dismissible` | When true, the close button is not present on the component.                                                                                             | `boolean`                    | `false`     |
+| `nonDismissible` | `non-dismissible` | When `true`, the close button is not present on the component.                                                                                           | `boolean`                    | `false`     |
 | `selected`       | `selected`        | When true and if it has a parent `calcite-tip-manager`, the component is selected. Only one tip can be selected within the `calcite-tip-manager` parent. | `boolean`                    | `false`     |
 
 ## Events

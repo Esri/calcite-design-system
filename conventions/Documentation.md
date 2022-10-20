@@ -13,8 +13,7 @@ Follow these conventions when adding or editing API reference:
 - Verbs must be in present tense.
 - Use the full tag name when referencing other Calcite Components (prefix with `calcite-`), e.g. `calcite-button` instead of `button`.
 - For plural context, use `calcite-button`s instead of `calcite-button` elements.
-- Use backticks (`` ` ``) for the names of slots, events, properties, CSS variables, and component names (e.g. `calcite-button` instead of calcite-button).
-- Use double quotes (`"`) for the values of properties/attributes and event details.
+- Use backticks (`` ` ``) for the names of slots, events, properties, CSS variables, and component names (e.g. `calcite-button` instead of calcite-button and `selectionMode` instead of "selectionMode"). Also use backticks for the values of properties and event details (e.g. `true`). If the value is a string, use both backticks and double quotes (e.g. `"single-persist"`).
 - Only use single quotes (`'`) as apostrophes.
 - No links or URLs allowed in descriptions. If a link is necessary, a [custom JSDoc tag](https://stenciljs.com/docs/docs-json#custom-jsdocs-tags) should be added and parsed in the SDK site.
 - Refrain from using "e.g." or "i.e." references. Leverage "such as" (or similar) where examples are referenced.

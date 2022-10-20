@@ -14,7 +14,7 @@
 
 | Slot | Description                                                                               |
 | ---- | ----------------------------------------------------------------------------------------- |
-|      | A slot for adding elements that reference a 'calcite-tooltip' by the 'selector' property. |
+|      | A slot for adding elements that reference a `calcite-tooltip` by the `selector` property. |
 
 ---
 

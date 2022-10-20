@@ -67,7 +67,7 @@ export const koreanLocale_TestOnly = (): string => html`
   </calcite-input-time-picker>
 `;
 
-export const arabicLocale_TestOnly = (): string => html`
+export const arabicLocaleNumberingSystem_TestOnly = (): string => html`
   <calcite-input-time-picker
     id="reference-element"
     ${boolean("disabled", false)}
@@ -75,8 +75,9 @@ export const arabicLocale_TestOnly = (): string => html`
     name="${text("name", "light")}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
     step="${number("step", 1)}"
-    value="${text("value", "10:37")}"
+    value="${text("value", "1:33:7")}"
     lang="ar"
+    numbering-system="arab"
     dir="rtl"
     open
   >
