@@ -10,7 +10,8 @@ import {
   forceUpdate,
   VNode,
   Watch,
-  State
+  State,
+  Build
 } from "@stencil/core";
 
 import { Alignment, Appearance, Scale } from "../interfaces";
@@ -169,8 +170,11 @@ export class Action implements InteractiveComponent, LocalizedComponent, T9nComp
   // --------------------------------------------------------------------------
 
   connectedCallback(): void {
-    connectLocalized(this);
-    connectMessages(this);
+    if (Build.isBrowser) {
+      connectLocalized(this);
+      connectMessages(this);
+    }
+
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
   }
 
@@ -185,7 +189,9 @@ export class Action implements InteractiveComponent, LocalizedComponent, T9nComp
   }
 
   async componentWillLoad(): Promise<void> {
-    await setUpMessages(this);
+    if (Build.isBrowser) {
+      await setUpMessages(this);
+    }
   }
 
   // --------------------------------------------------------------------------
