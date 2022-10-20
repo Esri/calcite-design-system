@@ -87,7 +87,7 @@ export class Button implements LabelableComponent, InteractiveComponent, FormOwn
   /**
    * The form ID to associate with the component.
    *
-   * @deprecated – This property is no longer needed if the component is placed inside a form.
+   * @deprecated – The property is no longer needed if the component is placed inside a form.
    */
   @Prop() form?: string;
 

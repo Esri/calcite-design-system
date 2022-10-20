@@ -52,7 +52,7 @@ export class BlockSection {
    *
    * `"button"` (selectable header), or
    *
-   * `"switch"` (switch).
+   * `"switch"` (toggle switch).
    */
   @Prop({ reflect: true }) toggleDisplay: BlockSectionToggleDisplay = "button";
 

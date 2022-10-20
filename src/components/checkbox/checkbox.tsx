@@ -55,9 +55,7 @@ export class Checkbox implements LabelableComponent, CheckableFormComponent, Int
   @Prop({ reflect: true, mutable: true }) hovered = false;
 
   /**
-   * When `true`, the component is initially indeterminate,
-   *
-   * which is independent from its `checked` value.
+   * When `true`, the component is initially indeterminate, which is independent from its `checked` value.
    *
    * The state is visual only, and can look different across browsers.
    *

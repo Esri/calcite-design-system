@@ -184,14 +184,14 @@ export class Combobox
    * Specifies the selection mode -
    * `"multi"` (allow any number of selected items),
    * `"single"` (allow only one selection), or
-   * `"ancestors"` (like `"multi"`, but show ancestors of selected items as selected, where only deepest children shown in `calcite-chip`s).
+   * `"ancestors"` (like `"multi"`, but show ancestors of selected items as selected. Only the deepest children are shown in `calcite-chip`s).
    */
   @Prop({ reflect: true }) selectionMode: ComboboxSelectionMode = "multi";
 
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
 
-  /** The component's value(s) of the selected `calcite-combobox-item`(s). */
+  /** The component's value(s) from the selected `calcite-combobox-item`(s). */
   @Prop({ mutable: true }) value: string | string[] = null;
 
   @Watch("value")
@@ -210,7 +210,7 @@ export class Combobox
   }
 
   /**
-   * Accessible name for the component's remove tag for when a `calcite-combobox-item` is selected.
+   * Accessible name for the component's remove tag when a `calcite-combobox-item` is selected.
    *
    * @default "Remove tag"
    */
@@ -299,7 +299,7 @@ export class Combobox
     selectedItems: HTMLCalciteComboboxItemElement[];
   }>;
 
-  /** Fires when entering text to filter the options list. */
+  /** Fires when text is added to filter the options list. */
   @Event({ cancelable: false }) calciteComboboxFilterChange: EventEmitter<{
     visibleItems: HTMLCalciteComboboxItemElement[];
     text: string;
