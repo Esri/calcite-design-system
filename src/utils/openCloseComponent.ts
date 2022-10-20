@@ -81,19 +81,15 @@ export function onToggleOpenCloseComponent(component: OpenCloseComponent): void 
       } else {
         component.transitionEl.addEventListener(
           "transitionstart",
-          (event: TransitionEvent) => {
-            if (event.propertyName === this.openTransitionProp && event.target === this.transitionEl) {
-              this.open ? this.onBeforeOpen() : this.onBeforeClose();
-            }
+          () => {
+            component.open ? component.onBeforeOpen() : component.onBeforeClose();
           },
           { once: true }
         );
         component.transitionEl.addEventListener(
           "transitionend",
-          (event: TransitionEvent) => {
-            if (event.propertyName === this.openTransitionProp && event.target === this.transitionEl) {
-              this.open ? this.onOpen() : this.onClose();
-            }
+          () => {
+            component.open ? component.onOpen() : component.onClose();
           },
           { once: true }
         );
