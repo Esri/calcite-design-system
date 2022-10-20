@@ -3,7 +3,6 @@ import { boolean, storyFilters } from "../../../.storybook/helpers";
 import { themesDarkDefault } from "../../../.storybook/utils";
 import readme from "./readme.md";
 import { html } from "../../../support/formatting";
-import "../../components";
 
 export default {
   title: "Components/Controls/Slider",
