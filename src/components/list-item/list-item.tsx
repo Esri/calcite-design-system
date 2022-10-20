@@ -166,8 +166,6 @@ export class ListItem implements InteractiveComponent {
 
   @State() parentListEl: HTMLCalciteListElement;
 
-  @State() parentListItemEl: HTMLCalciteListItemElement;
-
   @State() openable = false;
 
   @State() hasActionsStart = false;
@@ -242,7 +240,7 @@ export class ListItem implements InteractiveComponent {
     }
 
     return (
-      <td class={CSS.selectionContainer} onClick={this.toggleSelected}>
+      <td class={CSS.selectionContainer} key="selection-container" onClick={this.toggleSelected}>
         <calcite-icon
           icon={
             selected
@@ -258,15 +256,19 @@ export class ListItem implements InteractiveComponent {
   }
 
   renderOpen(): VNode {
-    const { el, open, openable } = this;
+    const { el, open, openable, parentListEl } = this;
     const dir = getElementDir(el);
 
     return openable ? (
-      <td class={CSS.openContainer} onClick={this.toggleOpen}>
+      <td class={CSS.openContainer} key="open-container" onClick={this.toggleOpen}>
         <calcite-icon
           icon={open ? ICONS.open : dir === "rtl" ? ICONS.closedRTL : ICONS.closedLTR}
           scale="s"
         />
+      </td>
+    ) : parentListEl?.openable ? (
+      <td class={CSS.openContainer} key="open-container">
+        <calcite-icon icon={ICONS.blank} scale="s" />
       </td>
     ) : null;
   }
@@ -278,6 +280,7 @@ export class ListItem implements InteractiveComponent {
         aria-label={label}
         class={CSS.actionsStart}
         hidden={!hasActionsStart}
+        key="actions-start-container"
         ref={(el) => (this.actionsStartEl = el)}
         role="gridcell"
       >
@@ -293,6 +296,7 @@ export class ListItem implements InteractiveComponent {
         aria-label={label}
         class={CSS.actionsEnd}
         hidden={!hasActionsEnd}
+        key="actions-end-container"
         ref={(el) => (this.actionsEndEl = el)}
         role="gridcell"
       >
@@ -323,9 +327,17 @@ export class ListItem implements InteractiveComponent {
     const { label, description } = this;
 
     return !!label || !!description ? (
-      <div class={CSS.content}>
-        {label ? <div class={CSS.label}>{label}</div> : null}
-        {description ? <div class={CSS.description}>{description}</div> : null}
+      <div class={CSS.content} key="content">
+        {label ? (
+          <div class={CSS.label} key="label">
+            {label}
+          </div>
+        ) : null}
+        {description ? (
+          <div class={CSS.description} key="description">
+            {description}
+          </div>
+        ) : null}
       </div>
     ) : null;
   }
@@ -343,6 +355,7 @@ export class ListItem implements InteractiveComponent {
           [CSS.contentContainerSelectable]: selectionMode !== "none",
           [CSS.contentContainerHasCenterContent]: hasCenterContent
         }}
+        key="content-container"
         onClick={this.toggleSelected}
         ref={(el) => (this.contentEl = el)}
         role="gridcell"
@@ -463,10 +476,17 @@ export class ListItem implements InteractiveComponent {
   }
 
   handleDefaultSlotChange = (event: Event): void => {
+    const { parentListEl } = this;
     const listItemChildren = getListItemChildren(event);
     updateListItemChildren(listItemChildren);
     const openable = !!listItemChildren.length;
+
+    if (openable && parentListEl && !parentListEl.openable) {
+      parentListEl.openable = true;
+    }
+
     this.openable = openable;
+
     if (!openable) {
       this.open = false;
     }

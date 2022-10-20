@@ -33,5 +33,6 @@ export const ICONS = {
   unselected: "blank",
   closedLTR: "caret-right",
   closedRTL: "caret-left",
-  open: "caret-down"
+  open: "caret-down",
+  blank: "blank"
 };

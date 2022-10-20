@@ -66,6 +66,13 @@ export class List implements InteractiveComponent {
   @Prop({ reflect: true }) loading = false;
 
   /**
+   * One of the items within the list can be opened.
+   *
+   * @internal
+   */
+  @Prop() openable = false;
+
+  /**
    * **read-only** The currently selected items
    *
    * @readonly
