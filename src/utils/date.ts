@@ -86,8 +86,8 @@ export function dateFromLocalizedString(value: string, localeData: DateLocaleDat
   }
   const { separator } = localeData;
   const { day, month, year } = parseDateString(value, localeData);
-  const date = new Date(year as number, month as number, day as number);
-  date.setFullYear(year as number);
+  const date = new Date(year, month, day);
+  date.setFullYear(year);
 
   const validDay = day > 0;
   const validMonth = month > -1;
