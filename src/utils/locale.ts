@@ -3,6 +3,50 @@ import { createObserver } from "./observers";
 import { closestElementCrossShadowBoundary, containsCrossShadowBoundary } from "./dom";
 
 const defaultLocale = "en";
+
+export const t9nLocales = [
+  "ar",
+  "bg",
+  "bs",
+  "ca",
+  "cs",
+  "da",
+  "de",
+  "el",
+  defaultLocale,
+  "es",
+  "et",
+  "fi",
+  "fr",
+  "he",
+  "hr",
+  "hu",
+  "id",
+  "it",
+  "ja",
+  "ko",
+  "lt",
+  "lv",
+  "no",
+  "nl",
+  "pl",
+  "pt-BR",
+  "pt-PT",
+  "ro",
+  "ru",
+  "sk",
+  "sl",
+  "sr",
+  "sv",
+  "th",
+  "tr",
+  "uk",
+  "vi",
+  "zh-CN",
+  "zh-HK",
+  "zh-TW"
+];
+
 export const locales = [
   "ar",
   "bg",
@@ -35,7 +79,7 @@ export const locales = [
   "lt",
   "lv",
   "mk",
-  "nb",
+  "no",
   "nl",
   "pl",
   "pt",
@@ -95,27 +139,41 @@ export const defaultNumberingSystem =
 export const getSupportedNumberingSystem = (numberingSystem: string): NumberingSystem =>
   isNumberingSystemSupported(numberingSystem) ? numberingSystem : defaultNumberingSystem;
 
-export function getSupportedLocale(locale: string): string {
-  if (locales.indexOf(locale) > -1) {
+/**
+ * Gets the locale that best matches the context.
+ *
+ * @param locale – the BCP 47 locale code
+ * @param context - specifies whether the locale code should match in the context of CLDR or T9N (translation)
+ */
+export function getSupportedLocale(locale: string, context: "cldr" | "t9n" = "cldr"): string {
+  const contextualLocales = context === "cldr" ? locales : t9nLocales;
+  
+  if (contextualLocales.includes(locale)) {
     return locale;
   }
 
   locale = locale.toLowerCase();
-
-  // we support both 'nb' and 'no' (BCP 47) for Norwegian
-  if (locale === "nb") {
+  
+  // we support both 'nb' and 'no' (BCP 47) for Norwegian but only `no` has corresponding bundle
+  if (locale === "nb" ) {
     return "no";
+  }
+
+
+  // we use `pt-BR` as it will have the same translations as `pt`, which has no corresponding bundle
+  if (context === "t9n" && locale === "pt") {
+    return "pt-BR";
   }
 
   if (locale.includes("-")) {
     locale = locale.replace(/(\w+)-(\w+)/, (_match, language, region) => `${language}-${region.toUpperCase()}`);
 
-    if (!locales.includes(locale)) {
+    if (!contextualLocales.includes(locale)) {
       locale = locale.split("-")[0];
     }
   }
 
-  return locales.includes(locale) ? locale : "en";
+  return contextualLocales.includes(locale) ? locale : defaultLocale;
 }
 
 /**

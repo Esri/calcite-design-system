@@ -31,7 +31,7 @@ import {
 import { guid } from "../../utils/guid";
 import { DeprecatedEventPayload, Scale } from "../interfaces";
 import { ComboboxSelectionMode, ComboboxChildElement } from "./interfaces";
-import { ComboboxChildSelector, ComboboxItem, ComboboxItemGroup, TEXT } from "./resources";
+import { ComboboxChildSelector, ComboboxItem, ComboboxItemGroup } from "./resources";
 import { getItemAncestors, getItemChildren, hasActiveChildren } from "./utils";
 import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
 import {
@@ -50,6 +50,15 @@ import {
   connectOpenCloseComponent,
   disconnectOpenCloseComponent
 } from "../../utils/openCloseComponent";
+import {
+  connectMessages,
+  disconnectMessages,
+  setUpMessages,
+  T9nComponent,
+  updateMessages
+} from "../../utils/t9n";
+import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
+import { Messages } from "./assets/combobox/t9n";
 interface ItemData {
   label: string;
   value: string;
@@ -70,7 +79,8 @@ const inputUidPrefix = "combobox-input-";
 @Component({
   tag: "calcite-combobox",
   styleUrl: "combobox.scss",
-  shadow: true
+  shadow: true,
+  assetsDirs: ["assets"]
 })
 export class Combobox
   implements
@@ -78,7 +88,9 @@ export class Combobox
     FormComponent,
     InteractiveComponent,
     OpenCloseComponent,
-    FloatingUIComponent
+    FloatingUIComponent,
+    T9nComponent,
+    LocalizedComponent
 {
   //--------------------------------------------------------------------------
   //
@@ -213,13 +225,33 @@ export class Combobox
    * string to override the English "Remove tag" text for when an item is selected.
    *
    * @default "Remove tag"
+   * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`.
    */
-  @Prop({ reflect: false }) intlRemoveTag: string = TEXT.removeTag;
+  @Prop({ reflect: false }) intlRemoveTag: string;
 
   /**
    * Defines the available placements that can be used when a flip occurs.
    */
   @Prop() flipPlacements?: EffectivePlacement[];
+
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @internal
+   */
+  @Prop({ mutable: true }) messages: Messages;
+
+  /**
+   * Use this property to override individual strings used by the component.
+   */
+  @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
+
+  @Watch("intlRemoveTag")
+  @Watch("defaultMessages")
+  @Watch("messageOverrides")
+  onMessagesChange(): void {
+    /*  wired up by t9n util */
+  }
 
   @Watch("flipPlacements")
   flipPlacementsHandler(): void {
@@ -331,6 +363,8 @@ export class Combobox
   // --------------------------------------------------------------------------
 
   connectedCallback(): void {
+    connectLocalized(this);
+    connectMessages(this);
     this.internalValueChangeFlag = true;
     this.value = this.getValue();
     this.internalValueChangeFlag = false;
@@ -348,8 +382,9 @@ export class Combobox
     }
   }
 
-  componentWillLoad(): void {
+  async componentWillLoad(): Promise<void> {
     this.updateItems();
+    await setUpMessages(this);
   }
 
   componentDidLoad(): void {
@@ -373,6 +408,8 @@ export class Combobox
     disconnectForm(this);
     disconnectFloatingUI(this, this.referenceEl, this.floatingEl);
     disconnectOpenCloseComponent(this);
+    disconnectLocalized(this);
+    disconnectMessages(this);
   }
 
   //--------------------------------------------------------------------------
@@ -423,6 +460,15 @@ export class Combobox
   textHandler(): void {
     this.updateActiveItemIndex(-1);
   }
+
+  @State() effectiveLocale: string;
+
+  @Watch("effectiveLocale")
+  effectiveLocaleChange(): void {
+    updateMessages(this, this.effectiveLocale);
+  }
+
+  @State() defaultMessages: Messages;
 
   textInput: HTMLInputElement = null;
 
@@ -1032,7 +1078,7 @@ export class Combobox
   //--------------------------------------------------------------------------
 
   renderChips(): VNode[] {
-    const { activeChipIndex, scale, selectionMode, intlRemoveTag } = this;
+    const { activeChipIndex, scale, selectionMode, messages } = this;
     return this.selectedItems.map((item, i) => {
       const chipClasses = {
         chip: true,
@@ -1044,7 +1090,7 @@ export class Combobox
       return (
         <calcite-chip
           class={chipClasses}
-          dismissLabel={intlRemoveTag}
+          dismissLabel={messages.removeTag}
           dismissible
           icon={item.icon}
           id={item.guid ? `${chipUidPrefix}${item.guid}` : null}

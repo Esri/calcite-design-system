@@ -1,5 +1,4 @@
 {
-  "filterResults": "ng_Filter results_______________ny",
   "dragHandleActive": "ng_Reordering ${itemLabel}, current position ${position} of ${total}__________________________________ny.",
   "dragHandleChange": "ng_${itemLabel}, new position ${position} of ${total}. Press space to confirm_______________________________________ny.",
   "dragHandleCommit": "ng_${itemLabel}, current position ${position} of ${total}_____________________________ny.",
