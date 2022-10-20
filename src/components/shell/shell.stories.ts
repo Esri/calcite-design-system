@@ -21,10 +21,7 @@ export default {
   ...storyFilters()
 };
 
-const createAttributes: (group: string, options?: { exceptions: string[] }) => Attributes = (
-  group,
-  { exceptions } = { exceptions: [] }
-) => {
+const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ exceptions } = { exceptions: [] }) => {
   return filterComponentAttributes([], exceptions);
 };
 
@@ -303,7 +300,7 @@ const advancedTrailingPanelHTMl = html`
 export const simple = (): string =>
   create(
     "calcite-shell",
-    createAttributes("Shell"),
+    createAttributes(),
     html`
       ${headerHTML}
       ${create("calcite-shell-panel", createShellPanelAttributes("Leading Panel", true), advancedLeadingPanelHTML)}
@@ -317,7 +314,7 @@ export const simple = (): string =>
 export const darkThemeRTL_TestOnly = (): string =>
   create(
     "calcite-shell",
-    createAttributes("Shell", { exceptions: ["dir", "class"] }).concat(
+    createAttributes({ exceptions: ["dir", "class"] }).concat(
       { name: "dir", value: "rtl" },
       { name: "class", value: "calcite-theme-dark" }
     ),
