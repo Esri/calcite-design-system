@@ -30,7 +30,7 @@ export class TipManager {
   //
   // --------------------------------------------------------------------------
   /**
-   * When true, does not display or position the component.
+   * When `true`, does not display or position the component.
    */
   @Prop({ reflect: true, mutable: true }) closed = false;
 

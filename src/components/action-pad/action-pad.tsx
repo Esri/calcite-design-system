@@ -37,12 +37,12 @@ export class ActionPad implements ConditionalSlotComponent {
   // --------------------------------------------------------------------------
 
   /**
-   * When true, the expand-toggling behavior is disabled.
+   * When `true`, the expand-toggling behavior is disabled.
    */
   @Prop({ reflect: true }) expandDisabled = false;
 
   /**
-   * When true, the component is expanded.
+   * When `true`, the component is expanded.
    */
   @Prop({ reflect: true, mutable: true }) expanded = false;
 
