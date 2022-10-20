@@ -102,6 +102,25 @@ export function dateFromLocalizedString(value: string, localeData: DateLocaleDat
 }
 
 /**
+ * Retrieve day, month, and year strings from a localized string
+ *
+ * @param string
+ * @param localeData
+ */
+export function datePartsFromLocalizedString(
+  string: string,
+  localeData: DateLocaleData
+): { day: string; month: string; year: string } {
+  const { separator, unitOrder } = localeData;
+  const order = getOrder(unitOrder);
+  const values = replaceArabicNumerals(string).split(separator);
+  const day = values[order.indexOf("d")];
+  const month = values[order.indexOf("m")];
+  const year = values[order.indexOf("y")];
+  return { day, month, year };
+}
+
+/**
  * Return first portion of ISO string (YYYY-mm-dd)
  *
  * @param date
@@ -201,30 +220,16 @@ export function parseNumber(str: string, localeData: DateLocaleData): number {
  *
  * @param string
  * @param localeData
- * @param returnType
  */
 export function parseDateString(
   string: string,
-  localeData: DateLocaleData,
-  returnType: "number" | "string" = "number"
-): { day: number | string; month: number | string; year: number | string } {
-  const { separator, unitOrder } = localeData;
-  const order = getOrder(unitOrder);
-  const values = replaceArabicNumerals(string).split(separator);
-  const day = values[order.indexOf("d")];
-  const month = values[order.indexOf("m")];
-  const year = values[order.indexOf("y")];
-  if (returnType === "number") {
-    return {
-      day: parseInt(day),
-      month: parseInt(month) - 1, // this subtracts by 1 because the month in the Date contructor is zero-based https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/getMonth
-      year: parseInt(year)
-    };
-  }
+  localeData: DateLocaleData
+): { day: number; month: number; year: number } {
+  const { day, month, year } = datePartsFromLocalizedString(string, localeData);
   return {
-    day,
-    month,
-    year
+    day: parseInt(day),
+    month: parseInt(month) - 1, // this subtracts by 1 because the month in the Date contructor is zero-based https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/getMonth
+    year: parseInt(year)
   };
 }
 

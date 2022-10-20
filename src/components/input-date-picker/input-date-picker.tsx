@@ -19,9 +19,9 @@ import {
   inRange,
   dateFromISO,
   dateToISO,
-  parseDateString,
   setEndOfDay,
-  dateFromLocalizedString
+  dateFromLocalizedString,
+  datePartsFromLocalizedString
 } from "../../utils/date";
 import { HeadingLevel } from "../functional/Heading";
 
@@ -326,9 +326,9 @@ export class InputDatePicker
   private calciteInternalInputInputHandler = (event: CustomEvent<any>): void => {
     const target = event.target as HTMLCalciteInputElement;
     const value = target.value;
-    const { year: yearAsString } = parseDateString(value, this.localeData, "string");
+    const { year } = datePartsFromLocalizedString(value, this.localeData);
 
-    if (yearAsString && (yearAsString as string).length < 4) {
+    if (year && year.length < 4) {
       return;
     }
 
