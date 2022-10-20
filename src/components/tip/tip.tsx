@@ -44,7 +44,7 @@ export class Tip implements ConditionalSlotComponent {
   @Prop({ reflect: true }) headingLevel: HeadingLevel;
 
   /**
-   * When true and if it has a parent `calcite-tip-manager`, the component is selected.
+   * When `true` and if it has a parent `calcite-tip-manager`, the component is selected.
    *
    * Only one tip can be selected within the `calcite-tip-manager` parent.
    */
