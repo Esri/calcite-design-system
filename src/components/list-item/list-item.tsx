@@ -267,7 +267,7 @@ export class ListItem implements InteractiveComponent {
         />
       </td>
     ) : parentListEl?.openable ? (
-      <td class={CSS.openContainer} key="open-container">
+      <td class={CSS.openContainer} key="open-container" onClick={this.toggleSelected}>
         <calcite-icon icon={ICONS.blank} scale="s" />
       </td>
     ) : null;
