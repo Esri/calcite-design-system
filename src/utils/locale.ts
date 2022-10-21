@@ -338,23 +338,30 @@ class NumberStringFormat {
   }
 
   delocalize = (numberString: string) =>
-    sanitizeExponentialNumberString(numberString, (nonExpoNumString: string): string =>
-      nonExpoNumString
-        .trim()
-        .replace(new RegExp(`[${this._minusSign}]`, "g"), "-")
-        .replace(new RegExp(`[${this._group}]`, "g"), "")
-        .replace(new RegExp(`[${this._decimal}]`, "g"), ".")
-        .replace(new RegExp(`[${this._digits.join("")}]`, "g"), this._getDigitIndex)
-    );
+    // For performance, (de)localization is skipped if the formatter isn't initialized.
+    // In order to localize/delocalize, e.g. when lang/numberingSystem props are not default values,
+    // `numberFormatOptions` must be set in a component to create and cache the formatter.
+    Object.keys(this._numberFormatOptions).length
+      ? sanitizeExponentialNumberString(numberString, (nonExpoNumString: string): string =>
+          nonExpoNumString
+            .trim()
+            .replace(new RegExp(`[${this._minusSign}]`, "g"), "-")
+            .replace(new RegExp(`[${this._group}]`, "g"), "")
+            .replace(new RegExp(`[${this._decimal}]`, "g"), ".")
+            .replace(new RegExp(`[${this._digits.join("")}]`, "g"), this._getDigitIndex)
+        )
+      : numberString;
 
   localize = (numberString: string) =>
-    sanitizeExponentialNumberString(numberString, (nonExpoNumString: string): string =>
-      isValidNumber(nonExpoNumString.trim())
-        ? new BigDecimal(nonExpoNumString.trim())
-            .format(this._numberFormatter)
-            .replace(new RegExp(`[${this._actualGroup}]`, "g"), this._group)
-        : nonExpoNumString
-    );
+    Object.keys(this._numberFormatOptions).length
+      ? sanitizeExponentialNumberString(numberString, (nonExpoNumString: string): string =>
+          isValidNumber(nonExpoNumString.trim())
+            ? new BigDecimal(nonExpoNumString.trim())
+                .format(this._numberFormatter)
+                .replace(new RegExp(`[${this._actualGroup}]`, "g"), this._group)
+            : nonExpoNumString
+        )
+      : numberString;
 }
 
 export const numberStringFormatter = new NumberStringFormat();

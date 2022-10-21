@@ -1,15 +1,8 @@
 import { disabled } from "../../tests/commonTests";
 import { newProgrammaticE2EPage } from "../../tests/utils";
-import { numberStringFormatter } from "../../utils/locale";
 
 describe("calcite-date-picker-day", () => {
   it("can be disabled", async () => {
-    numberStringFormatter.numberFormatOptions = {
-      locale: "ar",
-      numberingSystem: "arab",
-      useGrouping: false
-    };
-
     const page = await newProgrammaticE2EPage();
     await page.evaluate(() => {
       const dateEl = document.createElement("calcite-date-picker-day") as HTMLCalciteDatePickerDayElement;
