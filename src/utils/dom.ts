@@ -299,5 +299,5 @@ export function toAriaBoolean(value: boolean): string {
  * @returns {boolean}
  */
 export function isPrimaryPointerButton(event: PointerEvent): boolean {
-  return event.isPrimary && event.button === 0;
+  return !!(event.isPrimary && event.button === 0);
 }

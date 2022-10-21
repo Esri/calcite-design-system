@@ -847,7 +847,7 @@ export class Slider
       }
     }
     this.lastDragPropValue = this[prop];
-    this.pointerDownDragStart(event, prop);
+    this.dragStart(prop);
     const isThumbActive = this.el.shadowRoot.querySelector(".thumb:active");
     if (!isThumbActive) {
       this.setValue(prop, this.clamp(position, prop));
@@ -998,6 +998,10 @@ export class Slider
       return;
     }
 
+    this.dragStart(prop);
+  }
+
+  private dragStart(prop: ActiveSliderProperty): void {
     this.dragProp = prop;
     this.lastDragProp = this.dragProp;
     this.activeProp = prop;
