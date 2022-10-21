@@ -67,26 +67,25 @@ describe("calcite-tooltip", () => {
 
   it("tooltip positions when referenceElement is set", async () => {
     const page = await newE2EPage();
-
-    await page.setContent(`<calcite-tooltip open></calcite-tooltip><div>referenceElement</div>`);
-
+    await page.setContent(
+      html`<calcite-tooltip open></calcite-tooltip>
+        <div id="ref">referenceElement</div>`
+    );
     const element = await page.find("calcite-tooltip");
 
     let computedStyle: CSSStyleDeclaration = await element.getComputedStyle();
 
-    expect(computedStyle.transform).toBe("matrix(0, 0, 0, 0, 0, 0)");
+    expect(computedStyle.transform).toBe("none");
 
-    await page.$eval("calcite-tooltip", (elm: any) => {
-      const referenceElement = document.createElement("div");
-      document.body.appendChild(referenceElement);
-      elm.referenceElement = referenceElement;
+    await page.$eval("calcite-tooltip", (el: HTMLCalciteTooltipElement): void => {
+      const referenceElement = document.getElementById("ref");
+      el.referenceElement = referenceElement;
     });
-
     await page.waitForChanges();
 
     computedStyle = await element.getComputedStyle();
 
-    expect(computedStyle.transform).not.toBe("matrix(0, 0, 0, 0, 0, 0)");
+    expect(computedStyle.transform).not.toBe("none");
   });
 
   it("open tooltip should be visible", async () => {
