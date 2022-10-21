@@ -1,5 +1,5 @@
 :host {
-  @apply flex flex-col;
+  @apply flex flex-col bg-foreground-1;
 }
 
 @include disabled();
@@ -9,7 +9,7 @@
 }
 
 ::slotted(calcite-list-item-group) {
-  padding-inline-start: theme("spacing.2");
+  padding-inline-start: theme("spacing.4");
 }
 
 ::slotted(calcite-list-item) {
