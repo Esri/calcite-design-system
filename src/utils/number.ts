@@ -78,9 +78,13 @@ export class BigDecimal {
     const i = s.slice(0, -BigDecimal.DECIMALS);
     const d = s.slice(-BigDecimal.DECIMALS).replace(/\.?0+$/, "");
 
-    const iFormatted = `${this.isNegative ? numberStringFormatter.minusSign : ""}${formatter.format(BigInt(i))}`;
-    const dFormatted = d.length ? `${numberStringFormatter.decimal}${formatter.format(BigInt(d))}` : "";
-    return `${iFormatted}${dFormatted}`;
+    try {
+      const iFormatted = `${this.isNegative ? numberStringFormatter.minusSign : ""}${formatter.format(BigInt(i))}`;
+      const dFormatted = d.length ? `${numberStringFormatter.decimal}${formatter.format(BigInt(d))}` : "";
+      return `${iFormatted}${dFormatted}`;
+    } catch {
+      return `${this.isNegative ? "-" + i : i}${d ? "." + d : ""}`;
+    }
   }
 
   add(num: string): bigint {

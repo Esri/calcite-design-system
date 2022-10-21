@@ -76,4 +76,10 @@ describe("NumberStringFormat", () => {
       expect(delocalizedNumberString).toBe(numberString);
     });
   });
+  it(`number isn't changed when the formatter isn't initialize by setting numberFormatOptions`, () => {
+    const numberString = "12345678.9";
+    const localizedNumberString = numberStringFormatter.localize(numberString);
+    const delocalizedNumberString = numberStringFormatter.delocalize(localizedNumberString);
+    expect(delocalizedNumberString).toBe(numberString);
+  });
 });
