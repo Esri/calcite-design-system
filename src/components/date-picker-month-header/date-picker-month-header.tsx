@@ -112,7 +112,7 @@ export class DatePickerMonthHeader {
     return (
       <Fragment>
         <a
-          aria-disabled={(this.prevMonthDate.getMonth() === activeMonth).toString()}
+          aria-disabled={`${this.prevMonthDate.getMonth() === activeMonth}`}
           aria-label={this.intlPrevMonth}
           class="chevron"
           href="#"
@@ -149,7 +149,7 @@ export class DatePickerMonthHeader {
           </span>
         </div>
         <a
-          aria-disabled={(this.nextMonthDate.getMonth() === activeMonth).toString()}
+          aria-disabled={`${this.nextMonthDate.getMonth() === activeMonth}`}
           aria-label={this.intlNextMonth}
           class="chevron"
           href="#"
@@ -218,8 +218,8 @@ export class DatePickerMonthHeader {
     const { localeData } = this;
     const buddhistCalendar = localeData["default-calendar"] === "buddhist";
     const yearOffset = buddhistCalendar ? BUDDHIST_CALENDAR_YEAR_OFFSET : 0;
-    
-    return numberStringFormatter.localize((year + yearOffset).toString());
+
+    return numberStringFormatter.localize(`${year + yearOffset}`);
   }
 
   private parseCalendarYear(year: string): string {
@@ -228,7 +228,7 @@ export class DatePickerMonthHeader {
     const yearOffset = buddhistCalendar ? BUDDHIST_CALENDAR_YEAR_OFFSET : 0;
 
     const parsedYear = Number(numberStringFormatter.delocalize(year)) - yearOffset;
-    return numberStringFormatter.localize(parsedYear.toString());
+    return numberStringFormatter.localize(`${parsedYear}`);
   }
 
   private onYearChange = (event: Event): void => {

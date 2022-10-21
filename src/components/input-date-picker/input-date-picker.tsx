@@ -740,16 +740,16 @@ export class InputDatePicker
     this.focusedInput = "end";
   };
 
-  startInputInput = (event: CustomEvent<any>): void => {
-    const parsedValue = this.parseNumerals(event.detail.value);
+  startInputInput = (): void => {
+    const parsedValue = this.parseNumerals(this.startInput.value);
     const formattedValue = this.formatNumerals(parsedValue);
 
     this.startInput.value = formattedValue;
     this.input(parsedValue);
   };
 
-  endInputInput = (event: CustomEvent<any>): void => {
-    const parsedValue = this.parseNumerals(event.detail.value);
+  endInputInput = (): void => {
+    const parsedValue = this.parseNumerals(this.endInput.value);
     const formattedValue = this.formatNumerals(parsedValue);
 
     this.endInput.value = formattedValue;

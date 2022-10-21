@@ -4,7 +4,7 @@ import { inRange, dateFromRange, dateFromISO, sameDate, prevMonth, nextMonth, pa
 import arabic from "../components/date-picker/assets/date-picker/nls/ar.json";
 import french from "../components/date-picker/assets/date-picker/nls/fr.json";
 import korean from "../components/date-picker/assets/date-picker/nls/ko.json";
-import { numberStringFormatter } from "./locale";
+import { NumberingSystem, numberStringFormatter } from "./locale";
 
 describe("inRange", () => {
   it("returns true if no min/max", () => {
@@ -135,7 +135,7 @@ describe("parse number", () => {
   it("correctly parses number string", () => {
     numberStringFormatter.numberFormatOptions = {
       locale: "dummyLocale",
-      numberingSystem: "dummyNumberingSystem" as any
+      numberingSystem: "dummyNumberingSystem" as NumberingSystem
     };
     expect(numberStringFormatter.localize("123")).toEqual("123");
   });
