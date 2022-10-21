@@ -312,15 +312,15 @@ class NumberStringFormat {
     options.numberingSystem = getSupportedNumberingSystem(options?.numberingSystem);
 
     if (
-      // cache formatter by only recreating when options change
-      JSON.stringify(this._numberFormatOptions) === JSON.stringify(options) ||
-      // Also no need to create the formatter if `locale` and `numberingSystem`
+      // No need to create the formatter if `locale` and `numberingSystem`
       // are the default values and `numberFormatOptions` has not been set
       (!this._numberFormatOptions &&
         options.locale === defaultLocale &&
         options.numberingSystem === defaultNumberingSystem &&
         // don't skip initialization if any options besides locale/numberingSystem are set
-        Object.keys(options).length === 2)
+        Object.keys(options).length === 2) ||
+      // cache formatter by only recreating when options change
+      JSON.stringify(this._numberFormatOptions) === JSON.stringify(options)
     ) {
       return;
     }
