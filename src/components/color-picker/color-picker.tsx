@@ -24,7 +24,7 @@ import {
   RGB_LIMITS,
   TEXT
 } from "./resources";
-import { Direction, focusElement, getElementDir } from "../../utils/dom";
+import { Direction, focusElement, getElementDir, isPrimaryPointerButton } from "../../utils/dom";
 import { colorEqual, CSSColorMode, Format, normalizeHex, parseMode, SupportedMode } from "./utils";
 import { throttle } from "lodash-es";
 
@@ -552,6 +552,10 @@ export class ColorPicker implements InteractiveComponent {
   };
 
   private handleColorFieldAndSliderPointerDown = (event: PointerEvent): void => {
+    if (!isPrimaryPointerButton(event)) {
+      return;
+    }
+
     const { offsetX, offsetY } = event;
     const region = this.getCanvasRegion(offsetY);
 
@@ -575,7 +579,11 @@ export class ColorPicker implements InteractiveComponent {
       this.fieldAndSliderRenderingContext.canvas.getBoundingClientRect();
   };
 
-  private globalPointerUpHandler = (): void => {
+  private globalPointerUpHandler = (event: PointerEvent): void => {
+    if (!isPrimaryPointerButton(event)) {
+      return;
+    }
+
     const previouslyDragging = this.sliderThumbState === "drag" || this.hueThumbState === "drag";
 
     this.hueThumbState = "idle";
