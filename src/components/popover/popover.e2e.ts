@@ -322,13 +322,9 @@ describe("calcite-popover", () => {
 
   it("should emit open and beforeOpen events", async () => {
     const page = await newE2EPage();
-
     await page.setContent(
       `<calcite-popover placement="auto" reference-element="ref">content</calcite-popover><div id="ref">referenceElement</div>`
     );
-
-    await page.waitForChanges();
-
     const popover = await page.find("calcite-popover");
 
     const openEvent = await popover.spyOnEvent("calcitePopoverOpen");
@@ -340,10 +336,8 @@ describe("calcite-popover", () => {
     const popoverOpenEvent = page.waitForEvent("calcitePopoverOpen");
     const popoverBeforeOpenEvent = page.waitForEvent("calcitePopoverBeforeOpen");
 
-    await page.evaluate(() => {
-      const popover = document.querySelector("calcite-popover");
-      popover.open = true;
-    });
+    await popover.setProperty("open", true);
+    await page.waitForChanges();
 
     await popoverOpenEvent;
     await popoverBeforeOpenEvent;
