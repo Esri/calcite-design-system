@@ -260,7 +260,7 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
     if (this.referenceElement && !this.effectiveReferenceElement) {
       this.setUpReferenceElement();
     }
-    this.reposition(true);
+    this.reposition();
     this.hasLoaded = true;
   }
 
