@@ -18,6 +18,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### Bug Fixes
 
+- components should only react to primary button pointer events. ([#5519](https://github.com/Esri/calcite-components/issues/5519)) ([ed55933](https://github.com/Esri/calcite-components/commit/ed55933c120083fed79e5bd683fc37b3910296cc))
 - **alert, date-picker-month-header, input-date-picker, loader, panel:** adds RTL equivalent CSS ([#5368](https://github.com/Esri/calcite-components/issues/5368)) ([9582c04](https://github.com/Esri/calcite-components/commit/9582c04f54da5639ae86f32f234427ca19a33e12))
 - **block:** improve content layout ([#5473](https://github.com/Esri/calcite-components/issues/5473)) ([2cc0a5f](https://github.com/Esri/calcite-components/commit/2cc0a5f9c40236f1c628c796e3c3e69acbdc8479)), closes [#5422](https://github.com/Esri/calcite-components/issues/5422)
 - **button, fab:** bumping the scale of icon to M when the parent Button / FAB is scale L ([#5521](https://github.com/Esri/calcite-components/issues/5521)) ([fa508e8](https://github.com/Esri/calcite-components/commit/fa508e85966a536416e61d1282288e4b1165e247))
