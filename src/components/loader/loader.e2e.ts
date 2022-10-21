@@ -3,8 +3,8 @@ import { renders, hidden } from "../../tests/commonTests";
 
 describe("calcite-loader", () => {
   it("renders", async () => {
-    await renders("calcite-loader", { display: "none", visible: false });
-    await renders(`<calcite-loader active></calcite-loader>`, { display: "flex", visible: true });
+    await renders(`<calcite-loader hidden></calcite-loader>`, { display: "none", visible: false });
+    await renders(`<calcite-loader></calcite-loader>`, { display: "flex", visible: true });
   });
 
   it("honors hidden attribute", async () => hidden("calcite-loader"));
