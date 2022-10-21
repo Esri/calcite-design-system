@@ -1,4 +1,4 @@
-import { select, number, text, boolean } from "@storybook/addon-knobs";
+import { select, number, text } from "@storybook/addon-knobs";
 
 import { themesDarkDefault } from "../../../.storybook/utils";
 import readme from "./readme.md";

@@ -830,7 +830,6 @@ export class Slider
   @Listen("pointerdown")
   pointerDownHandler(event: PointerEvent): void {
     const x = event.clientX || event.pageX;
-    this.focusActiveHandle(x);
     const position = this.translate(x);
     let prop: ActiveSliderProperty = "value";
     if (isRange(this.value)) {
@@ -848,6 +847,7 @@ export class Slider
     if (!isThumbActive) {
       this.setValue(prop, this.clamp(position, prop));
     }
+    this.focusActiveHandle(x);
   }
 
   handleTouchStart(event: TouchEvent): void {
@@ -913,6 +913,8 @@ export class Slider
 
   defaultValue: Slider["value"];
 
+  private activeProp: ActiveSliderProperty = "value";
+
   private guid = `calcite-slider-${guid()}`;
 
   private dragProp: ActiveSliderProperty;
@@ -928,8 +930,6 @@ export class Slider
   private trackEl: HTMLDivElement;
 
   @State() effectiveLocale = "";
-
-  @State() private activeProp: ActiveSliderProperty = "value";
 
   @State() private minMaxValueRange: number = null;
 
@@ -1004,6 +1004,7 @@ export class Slider
         this.minHandle.focus();
         break;
       case "maxValue":
+      case "value":
         this.maxHandle.focus();
         break;
       case "minMaxValue":

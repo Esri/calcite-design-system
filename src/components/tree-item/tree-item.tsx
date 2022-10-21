@@ -129,7 +129,7 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
-    this.parentTreeItem = this.el.parentElement.closest("calcite-tree-item");
+    this.parentTreeItem = this.el.parentElement?.closest("calcite-tree-item");
     if (this.parentTreeItem) {
       const { expanded } = this.parentTreeItem;
       this.updateParentIsExpanded(this.parentTreeItem, expanded);
@@ -144,7 +144,6 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
   componentWillRender(): void {
     this.hasChildren = !!this.el.querySelector("calcite-tree");
     this.depth = 0;
-
     let parentTree = this.el.closest("calcite-tree");
 
     if (!parentTree) {
@@ -157,7 +156,7 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
 
     let nextParentTree;
     while (parentTree) {
-      nextParentTree = parentTree.parentElement.closest("calcite-tree");
+      nextParentTree = parentTree.parentElement?.closest("calcite-tree");
       if (nextParentTree === parentTree) {
         break;
       } else {
@@ -410,7 +409,7 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
       let parent = this.parentTreeItem;
       while (parent) {
         ancestors.push(parent);
-        parent = parent.parentElement.closest("calcite-tree-item");
+        parent = parent.parentElement?.closest("calcite-tree-item");
       }
       ancestors.forEach((item) => (item.indeterminate = true));
       return;

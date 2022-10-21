@@ -72,7 +72,7 @@ export class Tree {
   //--------------------------------------------------------------------------
 
   componentWillRender(): void {
-    const parent: HTMLCalciteTreeElement = this.el.parentElement.closest("calcite-tree");
+    const parent: HTMLCalciteTreeElement = this.el.parentElement?.closest("calcite-tree");
     this.lines = parent ? parent.lines : this.lines;
     this.scale = parent ? parent.scale : this.scale;
     this.selectionMode = parent ? parent.selectionMode : this.selectionMode;
