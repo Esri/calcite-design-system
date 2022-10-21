@@ -12,7 +12,13 @@ import {
   VNode,
   Watch
 } from "@stencil/core";
-import { getElementDir, getElementProp, getSlotted, setRequestedIcon } from "../../utils/dom";
+import {
+  getElementDir,
+  getElementProp,
+  getSlotted,
+  isPrimaryPointerButton,
+  setRequestedIcon
+} from "../../utils/dom";
 
 import { CSS, INPUT_TYPE_ICONS, SLOTS, TEXT } from "./resources";
 import { InputPlacement } from "./interfaces";
@@ -720,6 +726,10 @@ export class Input
   };
 
   private numberButtonPointerDownHandler = (event: PointerEvent): void => {
+    if (!isPrimaryPointerButton(event)) {
+      return;
+    }
+
     event.preventDefault();
     const direction = (event.target as HTMLDivElement).dataset.adjustment as NumberNudgeDirection;
     if (!this.disabled) {

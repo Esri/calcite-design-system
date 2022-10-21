@@ -15,7 +15,7 @@ import {
 import { guid } from "../../utils/guid";
 
 import { ColorStop, DataSeries } from "../graph/interfaces";
-import { intersects } from "../../utils/dom";
+import { intersects, isPrimaryPointerButton } from "../../utils/dom";
 import { clamp, decimalPlaces } from "../../utils/math";
 import { Scale } from "../interfaces";
 import { LabelableComponent, connectLabel, disconnectLabel } from "../../utils/label";
@@ -251,7 +251,7 @@ export class Slider
         }}
         onBlur={() => (this.activeProp = null)}
         onFocus={() => (this.activeProp = maxProp)}
-        onPointerDown={() => this.dragStart(maxProp)}
+        onPointerDown={(event) => this.pointerDownDragStart(event, maxProp)}
         ref={(el) => (this.maxHandle = el as HTMLDivElement)}
         role="slider"
         style={{ right: rightThumbOffset }}
@@ -276,7 +276,7 @@ export class Slider
         }}
         onBlur={() => (this.activeProp = null)}
         onFocus={() => (this.activeProp = maxProp)}
-        onPointerDown={() => this.dragStart(maxProp)}
+        onPointerDown={(event) => this.pointerDownDragStart(event, maxProp)}
         ref={(el) => (this.maxHandle = el as HTMLDivElement)}
         role="slider"
         style={{ right: rightThumbOffset }}
@@ -310,7 +310,7 @@ export class Slider
         }}
         onBlur={() => (this.activeProp = null)}
         onFocus={() => (this.activeProp = maxProp)}
-        onPointerDown={() => this.dragStart(maxProp)}
+        onPointerDown={(event) => this.pointerDownDragStart(event, maxProp)}
         ref={(el) => (this.maxHandle = el as HTMLDivElement)}
         role="slider"
         style={{ right: rightThumbOffset }}
@@ -345,7 +345,7 @@ export class Slider
         }}
         onBlur={() => (this.activeProp = null)}
         onFocus={() => (this.activeProp = maxProp)}
-        onPointerDown={() => this.dragStart(maxProp)}
+        onPointerDown={(event) => this.pointerDownDragStart(event, maxProp)}
         ref={(el) => (this.maxHandle = el as HTMLDivElement)}
         role="slider"
         style={{ right: rightThumbOffset }}
@@ -372,7 +372,7 @@ export class Slider
         }}
         onBlur={() => (this.activeProp = null)}
         onFocus={() => (this.activeProp = maxProp)}
-        onPointerDown={() => this.dragStart(maxProp)}
+        onPointerDown={(event) => this.pointerDownDragStart(event, maxProp)}
         ref={(el) => (this.maxHandle = el as HTMLDivElement)}
         role="slider"
         style={{ right: rightThumbOffset }}
@@ -399,7 +399,7 @@ export class Slider
         }}
         onBlur={() => (this.activeProp = null)}
         onFocus={() => (this.activeProp = maxProp)}
-        onPointerDown={() => this.dragStart(maxProp)}
+        onPointerDown={(event) => this.pointerDownDragStart(event, maxProp)}
         ref={(el) => (this.maxHandle = el as HTMLDivElement)}
         role="slider"
         style={{ right: rightThumbOffset }}
@@ -435,7 +435,7 @@ export class Slider
         }}
         onBlur={() => (this.activeProp = null)}
         onFocus={() => (this.activeProp = maxProp)}
-        onPointerDown={() => this.dragStart(maxProp)}
+        onPointerDown={(event) => this.pointerDownDragStart(event, maxProp)}
         ref={(el) => (this.maxHandle = el as HTMLDivElement)}
         role="slider"
         style={{ right: rightThumbOffset }}
@@ -470,7 +470,7 @@ export class Slider
         }}
         onBlur={() => (this.activeProp = null)}
         onFocus={() => (this.activeProp = "minValue")}
-        onPointerDown={() => this.dragStart("minValue")}
+        onPointerDown={(event) => this.pointerDownDragStart(event, "minValue")}
         ref={(el) => (this.minHandle = el as HTMLDivElement)}
         role="slider"
         style={{ left: leftThumbOffset }}
@@ -495,7 +495,7 @@ export class Slider
         }}
         onBlur={() => (this.activeProp = null)}
         onFocus={() => (this.activeProp = "minValue")}
-        onPointerDown={() => this.dragStart("minValue")}
+        onPointerDown={(event) => this.pointerDownDragStart(event, "minValue")}
         ref={(el) => (this.minHandle = el as HTMLDivElement)}
         role="slider"
         style={{ left: leftThumbOffset }}
@@ -529,7 +529,7 @@ export class Slider
         }}
         onBlur={() => (this.activeProp = null)}
         onFocus={() => (this.activeProp = "minValue")}
-        onPointerDown={() => this.dragStart("minValue")}
+        onPointerDown={(event) => this.pointerDownDragStart(event, "minValue")}
         ref={(el) => (this.minHandle = el as HTMLDivElement)}
         role="slider"
         style={{ left: leftThumbOffset }}
@@ -564,7 +564,7 @@ export class Slider
         }}
         onBlur={() => (this.activeProp = null)}
         onFocus={() => (this.activeProp = "minValue")}
-        onPointerDown={() => this.dragStart("minValue")}
+        onPointerDown={(event) => this.pointerDownDragStart(event, "minValue")}
         ref={(el) => (this.minHandle = el as HTMLDivElement)}
         role="slider"
         style={{ left: leftThumbOffset }}
@@ -591,7 +591,7 @@ export class Slider
         }}
         onBlur={() => (this.activeProp = null)}
         onFocus={() => (this.activeProp = "minValue")}
-        onPointerDown={() => this.dragStart("minValue")}
+        onPointerDown={(event) => this.pointerDownDragStart(event, "minValue")}
         ref={(el) => (this.minHandle = el as HTMLDivElement)}
         role="slider"
         style={{ left: leftThumbOffset }}
@@ -624,7 +624,7 @@ export class Slider
           <div class="track" ref={this.storeTrackRef}>
             <div
               class="track__range"
-              onPointerDown={() => this.dragStart("minMaxValue")}
+              onPointerDown={(event) => this.pointerDownDragStart(event, "minMaxValue")}
               style={{
                 left: `${mirror ? 100 - maxInterval : minInterval}%`,
                 right: `${mirror ? minInterval : 100 - maxInterval}%`
@@ -829,6 +829,10 @@ export class Slider
 
   @Listen("pointerdown")
   pointerDownHandler(event: PointerEvent): void {
+    if (!isPrimaryPointerButton(event)) {
+      return;
+    }
+
     const x = event.clientX || event.pageX;
     const position = this.translate(x);
     let prop: ActiveSliderProperty = "value";
@@ -989,12 +993,20 @@ export class Slider
     return ticks;
   }
 
+  private pointerDownDragStart(event: PointerEvent, prop: ActiveSliderProperty): void {
+    if (!isPrimaryPointerButton(event)) {
+      return;
+    }
+
+    this.dragStart(prop);
+  }
+
   private dragStart(prop: ActiveSliderProperty): void {
     this.dragProp = prop;
     this.lastDragProp = this.dragProp;
     this.activeProp = prop;
     document.addEventListener("pointermove", this.dragUpdate);
-    document.addEventListener("pointerup", this.dragEnd);
+    document.addEventListener("pointerup", this.pointerUpDragEnd);
     document.addEventListener("pointercancel", this.dragEnd);
   }
 
@@ -1051,6 +1063,14 @@ export class Slider
     this.calciteSliderChange.emit();
   }
 
+  private pointerUpDragEnd = (event: PointerEvent): void => {
+    if (!isPrimaryPointerButton(event)) {
+      return;
+    }
+
+    this.dragEnd(event);
+  };
+
   private dragEnd = (event: PointerEvent): void => {
     this.removeDragListeners();
     this.focusActiveHandle(event.clientX);
@@ -1066,7 +1086,7 @@ export class Slider
 
   private removeDragListeners() {
     document.removeEventListener("pointermove", this.dragUpdate);
-    document.removeEventListener("pointerup", this.dragEnd);
+    document.removeEventListener("pointerup", this.pointerUpDragEnd);
     document.removeEventListener("pointercancel", this.dragEnd);
   }
 
