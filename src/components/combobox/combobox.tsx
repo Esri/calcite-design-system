@@ -25,7 +25,8 @@ import {
   EffectivePlacement,
   defaultMenuPlacement,
   filterComputedPlacements,
-  reposition
+  reposition,
+  updateAfterClose
 } from "../../utils/floating-ui";
 import { guid } from "../../utils/guid";
 import { DeprecatedEventPayload, Scale } from "../interfaces";
@@ -114,11 +115,16 @@ export class Combobox
 
   @Watch("open")
   openHandler(value: boolean): void {
+    if (!value) {
+      updateAfterClose(this.floatingEl);
+    }
+
     if (this.disabled) {
       this.active = false;
       this.open = false;
       return;
     }
+
     this.active = value;
     this.setMaxScrollerHeight();
   }

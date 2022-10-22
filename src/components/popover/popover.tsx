@@ -31,7 +31,8 @@ import {
   defaultOffsetDistance,
   filterComputedPlacements,
   ReferenceElement,
-  reposition
+  reposition,
+  updateAfterClose
 } from "../../utils/floating-ui";
 
 import { guid } from "../../utils/guid";
@@ -156,8 +157,13 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
   @Prop({ reflect: true, mutable: true }) open = false;
 
   @Watch("open")
-  openHandler(): void {
-    this.reposition(true);
+  openHandler(value: boolean): void {
+    if (value) {
+      this.reposition(true);
+    } else {
+      updateAfterClose(this.el);
+    }
+
     this.setExpandedAttr();
   }
 

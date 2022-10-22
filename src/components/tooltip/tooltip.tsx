@@ -10,7 +10,8 @@ import {
   defaultOffsetDistance,
   ReferenceElement,
   reposition,
-  FloatingCSS
+  FloatingCSS,
+  updateAfterClose
 } from "../../utils/floating-ui";
 import { queryElementRoots, toAriaBoolean } from "../../utils/dom";
 
@@ -67,8 +68,12 @@ export class Tooltip implements FloatingUIComponent {
   @Prop({ reflect: true }) open = false;
 
   @Watch("open")
-  openHandler(): void {
-    this.reposition(true);
+  openHandler(value: boolean): void {
+    if (value) {
+      this.reposition(true);
+    } else {
+      updateAfterClose(this.el);
+    }
   }
 
   /**

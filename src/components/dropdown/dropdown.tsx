@@ -24,7 +24,8 @@ import {
   MenuPlacement,
   defaultMenuPlacement,
   filterComputedPlacements,
-  reposition
+  reposition,
+  updateAfterClose
 } from "../../utils/floating-ui";
 import { Scale } from "../interfaces";
 import { SLOTS } from "./resources";
@@ -81,9 +82,17 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent, Float
   @Watch("open")
   openHandler(value: boolean): void {
     if (!this.disabled) {
-      this.reposition(true);
+      if (value) {
+        this.reposition(true);
+      } else {
+        updateAfterClose(this.floatingEl);
+      }
       this.active = value;
       return;
+    }
+
+    if (!value) {
+      updateAfterClose(this.floatingEl);
     }
 
     this.open = false;

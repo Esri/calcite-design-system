@@ -86,7 +86,9 @@ export class InputTimePicker
       return;
     }
 
-    this.reposition(true);
+    if (value) {
+      this.reposition(true);
+    }
   }
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */

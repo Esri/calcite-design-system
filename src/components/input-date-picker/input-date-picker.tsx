@@ -45,7 +45,8 @@ import {
   MenuPlacement,
   defaultMenuPlacement,
   filterComputedPlacements,
-  reposition
+  reposition,
+  updateAfterClose
 } from "../../utils/floating-ui";
 import { DateRangeChange } from "../date-picker/interfaces";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
@@ -202,11 +203,18 @@ export class InputDatePicker
     this.active = value;
 
     if (this.disabled || this.readOnly) {
+      if (!value) {
+        updateAfterClose(this.floatingEl);
+      }
       this.open = false;
       return;
     }
 
-    this.reposition(true);
+    if (value) {
+      this.reposition(true);
+    } else {
+      updateAfterClose(this.floatingEl);
+    }
   }
 
   /**
