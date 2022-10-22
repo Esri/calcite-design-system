@@ -1,5 +1,4 @@
 import { boolean, select, text } from "@storybook/addon-knobs";
-
 import { themesDarkDefault } from "../../../.storybook/utils";
 import readme from "./readme.md";
 import { html } from "../../../support/formatting";
@@ -70,27 +69,20 @@ export const flipPlacements_TestOnly = (): string => html`
 `;
 
 export const laoNumberingSystem_TestOnly = (): string => html`
-  <div dir="rtl" style="width: 400px">
+  <div style="width: 400px">
     <calcite-input-date-picker
-      scale="m"
       value="1/1/1"
-      min="2016-08-09"
-      max="2023-12-18"
       lang="zh-CN"
       numbering-system="laoo"
     ></calcite-input-date-picker
   </div>`;
 
 export const darkThemeRTL_TestOnly = (): string => html`
-  <div dir="rtl" style="width: 400px">
+  <div style="width: 400px">
     <calcite-input-date-picker
-      scale="m"
+      class="calcite-theme-dark"
+      dir="rtl"
       value="2020-12-12"
-      min="2016-08-09"
-      max="2023-12-18"
-      lang=en"
-      intl-next-month="Next month"
-      intl-prev-month="Prevoius month"
     ></calcite-input-date-picker
   </div>
 `;
