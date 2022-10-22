@@ -8,7 +8,7 @@ import {
 } from "../../../.storybook/utils";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import readme from "./readme.md";
-import { SLOTS, TEXT } from "./resources";
+import { SLOTS } from "./resources";
 import { TEXT as PANEL_TEXT } from "../panel/resources";
 import { html } from "../../../support/formatting";
 import { storyFilters } from "../../../.storybook/helpers";
