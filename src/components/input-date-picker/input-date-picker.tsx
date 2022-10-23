@@ -93,12 +93,12 @@ export class InputDatePicker
   //
   //--------------------------------------------------------------------------
   /**
-   * When true, interaction is prevented and the component is displayed with lower opacity.
+   * When `true`, interaction is prevented and the component is displayed with lower opacity.
    */
   @Prop({ reflect: true }) disabled = false;
 
   /**
-   * When true, the component's value can be read, but controls are not accessible and the value cannot be modified.
+   * When `true`, the component's value can be read, but controls are not accessible and the value cannot be modified.
    *
    * @mdn [readOnly](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/readonly)
    */
@@ -192,7 +192,7 @@ export class InputDatePicker
   }
 
   /**
-   * When true, the component is active.
+   * When `true`, the component is active.
    *
    * @deprecated use `open` instead.
    */
@@ -203,7 +203,7 @@ export class InputDatePicker
     this.open = value;
   }
 
-  /** When true, displays the `calcite-date-picker` component. */
+  /** When `true`, displays the `calcite-date-picker` component. */
   @Prop({ mutable: true, reflect: true }) open = false;
 
   @Watch("open")
@@ -268,11 +268,11 @@ export class InputDatePicker
    */
   @Prop({ reflect: true }) placement: MenuPlacement = defaultMenuPlacement;
 
-  /** When true, activates a range for the component. */
+  /** When `true`, activates a range for the component. */
   @Prop({ reflect: true }) range = false;
 
   /**
-   * When true, the component must have a value in order for the form to submit.
+   * When `true`, the component must have a value in order for the form to submit.
    *
    * @internal
    */
@@ -308,7 +308,7 @@ export class InputDatePicker
   }
 
   /**
-   * When true, disables the default behavior on the third click of narrowing or extending the range.
+   * When `true`, disables the default behavior on the third click of narrowing or extending the range.
    * Instead starts a new range.
    */
   @Prop() proximitySelectionDisabled = false;

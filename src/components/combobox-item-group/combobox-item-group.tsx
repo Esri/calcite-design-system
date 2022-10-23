@@ -21,10 +21,10 @@ export class ComboboxItemGroup {
   //
   // --------------------------------------------------------------------------
 
-  /** Parent and grandparent combobox items, this is set internally for use from combobox */
+  /** Specifies the parent and grandparent `calcite-combobox-item`s, which are set on `calcite-combobox`. */
   @Prop({ mutable: true }) ancestors: ComboboxChildElement[];
 
-  /** Title of the group */
+  /** Specifies the title of the component. */
   @Prop() label!: string;
 
   // --------------------------------------------------------------------------

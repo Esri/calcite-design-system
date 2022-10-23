@@ -166,7 +166,7 @@ export class InputTimePicker
   @Prop() numberingSystem?: NumberingSystem;
 
   /**
-   * When true, the component must have a value in order for the form to submit.
+   * When `true`, the component must have a value in order for the form to submit.
    *
    * @internal
    */

@@ -33,72 +33,88 @@ export class Button implements LabelableComponent, InteractiveComponent, FormOwn
   //
   //--------------------------------------------------------------------------
 
-  /** optionally specify alignment of button elements. */
+  /** Specifies the alignment of the component's elements. */
   @Prop({ reflect: true }) alignment?: ButtonAlignment = "center";
 
-  /** specify the appearance style of the button, defaults to solid. */
+  /** Specifies the appearance style of the component. */
   @Prop({ reflect: true }) appearance: ButtonAppearance = "solid";
 
-  /** Applies to the aria-label attribute on the button or hyperlink */
+  /** Accessible name for the component. */
   @Prop() label?: string;
 
-  /** specify the color of the button, defaults to blue */
+  /** Specifies the color of the component. */
   @Prop({ reflect: true }) color: ButtonColor = "blue";
 
-  /** is the button disabled  */
+  /**  When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @Prop({ reflect: true }) disabled = false;
 
-  /** optionally pass a href - used to determine if the component should render as a button or an anchor */
+  /**
+   * Specifies the URL of the linked resource, which can be set as an absolute or relative path.
+   */
   @Prop({ reflect: true }) href?: string;
 
   /** Specifies an icon to display at the end of the component. */
   @Prop({ reflect: true }) iconEnd?: string;
 
-  /** When true, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
+  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @Prop({ reflect: true }) iconFlipRtl?: FlipContext;
 
   /** Specifies an icon to display at the start of the component. */
   @Prop({ reflect: true }) iconStart?: string;
 
   /**
-   * string to override English loading text
+   * Accessible name when the component is loading.
    *
    * @default "Loading"
    */
   @Prop() intlLoading?: string = TEXT.loading;
 
-  /** optionally add a calcite-loader component to the button, disabling interaction.  */
+  /**
+   * When `true`, a busy indicator is displayed and interaction is disabled.
+   */
   @Prop({ reflect: true }) loading = false;
 
-  /** The name attribute to apply to the button */
+  /** Specifies the name of the component on form submission. */
   @Prop({ reflect: true }) name?: string;
 
-  /** The rel attribute to apply to the hyperlink */
+  /**
+   * Defines the relationship between the `href` value and the current document.
+   *
+   * @mdn [rel](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/rel)
+   */
   @Prop({ reflect: true }) rel?: string;
 
   /**
-   * The form ID to associate with the component
+   * The form ID to associate with the component.
    *
-   * @deprecated – this property is no longer needed if placed inside a form.
+   * @deprecated – The property is no longer needed if the component is placed inside a form.
    */
   @Prop() form?: string;
 
-  /** optionally add a round style to the button  */
+  /** When `true`, adds a round style to the component. */
   @Prop({ reflect: true }) round = false;
 
-  /** specify the scale of the button, defaults to m */
+  /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
 
-  /** is the button a child of a calcite-split-button */
+  /** Specifies if the component is a child of a `calcite-split-button`. */
   @Prop({ reflect: true }) splitChild?: "primary" | "secondary" | false = false;
 
-  /** The target attribute to apply to the hyperlink */
+  /**
+   * Specifies where to open the linked document defined in the `href` property.
+   *
+   * @mdn [target](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#attr-target)
+   */
   @Prop({ reflect: true }) target?: string;
 
-  /** The type attribute to apply to the button */
+  /**
+   * Specifies the default behavior of the button.
+   *
+   * @mdn [type](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button#attr-type)
+   */
   @Prop({ mutable: true, reflect: true }) type = "button";
 
-  /** specify the width of the button, defaults to auto */
+  /** Specifies the width of the component. */
   @Prop({ reflect: true }) width: Width = "auto";
 
   @Watch("loading")
