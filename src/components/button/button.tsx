@@ -70,7 +70,7 @@ export class Button implements LabelableComponent, InteractiveComponent, FormOwn
   @Prop() intlLoading?: string = TEXT.loading;
 
   /**
-   * When `true`, a busy indicator is displayed and disables interaction.
+   * When `true`, a busy indicator is displayed and interaction is disabled.
    */
   @Prop({ reflect: true }) loading = false;
 

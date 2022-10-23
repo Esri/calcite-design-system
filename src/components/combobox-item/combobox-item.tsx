@@ -49,7 +49,7 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
   /** When `true`, the component is active. */
   @Prop({ reflect: true }) active = false;
 
-  /** Specifies the parent and grandparent items, which is set on `calcite-combobox`. */
+  /** Specifies the parent and grandparent items, which are set on `calcite-combobox`. */
   @Prop({ mutable: true }) ancestors: ComboboxChildElement[];
 
   /** The `id` attribute of the component. When omitted, a globally unique identifier is used. */
@@ -120,7 +120,7 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
   // --------------------------------------------------------------------------
 
   /**
-   * Emitted whenever the component is selected or unselected.
+   * Emits whenever the component is selected or unselected.
    *
    * **Note:**: The event's payload is deprecated, please use the event's `target`/`currentTarget` instead
    */

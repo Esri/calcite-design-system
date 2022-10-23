@@ -60,7 +60,7 @@ export class ColorPicker implements InteractiveComponent {
   /**
    * When `false`, an empty color (`null`) will be allowed as a `value`. Otherwise, a color value is enforced on the component.
    *
-   * When `true`, clearing the input and blurring will restore the last valid `value`. When `false`, it will set the `value` to empty.
+   * When `true`, a color value is enforced, and clearing the input or blurring will restore the last valid `value`. When `false`, an empty color (`null`) will be allowed as a `value`.
    */
   @Prop({ reflect: true }) allowEmpty = false;
 
@@ -115,14 +115,14 @@ export class ColorPicker implements InteractiveComponent {
   @Prop({ reflect: true }) hideSaved = false;
 
   /**
-   * Accessible name for the RGB's blue channel.
+   * Accessible name for the RGB section's blue channel.
    *
    * @default "B"
    */
   @Prop() intlB = TEXT.b;
 
   /**
-   * Accessible name for the RGB's blue channel description.
+   * Accessible name for the RGB section's blue channel description.
    *
    * @default "Blue"
    */
@@ -136,21 +136,21 @@ export class ColorPicker implements InteractiveComponent {
   @Prop() intlDeleteColor = TEXT.deleteColor;
 
   /**
-   * Accessible name for the RGB's green channel.
+   * Accessible name for the RGB section's green channel.
    *
    * @default "G"
    */
   @Prop() intlG = TEXT.g;
 
   /**
-   * Accessible name for the RGB's green channel description.
+   * Accessible name for the RGB section's green channel description.
    *
    * @default "Green"
    */
   @Prop() intlGreen = TEXT.green;
 
   /**
-   * Accessible name for the HSV's hue channel.
+   * Accessible name for the HSV section's hue channel.
    *
    * @default "H"
    */
@@ -171,7 +171,7 @@ export class ColorPicker implements InteractiveComponent {
   @Prop() intlHex = TEXT.hex;
 
   /**
-   * Accessible name for the HSV's hue channel description.
+   * Accessible name for the HSV section's hue channel description.
    *
    * @default "Hue"
    */
@@ -185,14 +185,14 @@ export class ColorPicker implements InteractiveComponent {
   @Prop() intlNoColor = TEXT.noColor;
 
   /**
-   * Accessible name for the RGB's red channel.
+   * Accessible name for the RGB section's red channel.
    *
    * @default "R"
    */
   @Prop() intlR = TEXT.r;
 
   /**
-   * Accessible name for the RGB's red channel description.
+   * Accessible name for the RGB section's red channel description.
    *
    * @default "Red"
    */
@@ -206,14 +206,14 @@ export class ColorPicker implements InteractiveComponent {
   @Prop() intlRgb = TEXT.rgb;
 
   /**
-   * Accessible name for the HSV's saturation channel.
+   * Accessible name for the HSV section's saturation channel.
    *
    * @default "S"
    */
   @Prop() intlS = TEXT.s;
 
   /**
-   * Accessible name for the HSV's saturation channel description.
+   * Accessible name for the HSV section's saturation channel description.
    *
    * @default "Saturation"
    */
@@ -234,14 +234,14 @@ export class ColorPicker implements InteractiveComponent {
   @Prop() intlSaved = TEXT.saved;
 
   /**
-   * Accessible name for the HSV's value channel.
+   * Accessible name for the HSV section's value channel.
    *
    * @default "V"
    */
   @Prop() intlV = TEXT.v;
 
   /**
-   * Accessible name for the HSV's value channel description.
+   * Accessible name for the HSV section's value channel description.
    *
    * @default "Value"
    */
