@@ -26,18 +26,16 @@ export function updateListItemChildren(listItemChildren: HTMLCalciteListItemElem
   });
 }
 
-export function getDepth(element: HTMLElement): number {
+export function getDepth(element: HTMLElement, includeGroup = false): number {
   if (!Build.isBrowser) {
     return 0;
   }
 
-  const result = document.evaluate(
-    "ancestor::calcite-list-item",
-    element,
-    null,
-    XPathResult.UNORDERED_NODE_SNAPSHOT_TYPE,
-    null
-  );
+  const expression = includeGroup
+    ? "ancestor::calcite-list-item | ancestor::calcite-list-item-group"
+    : "ancestor::calcite-list-item";
+
+  const result = document.evaluate(expression, element, null, XPathResult.UNORDERED_NODE_SNAPSHOT_TYPE, null);
 
   return result.snapshotLength;
 }

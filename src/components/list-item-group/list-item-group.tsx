@@ -1,8 +1,9 @@
-import { Component, Prop, h, VNode, Host, Element } from "@stencil/core";
+import { Component, Prop, h, VNode, Host, Element, State } from "@stencil/core";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { CSS } from "./resources";
 import { MAX_COLUMNS } from "../list-item/resources";
 import { HeadingLevel } from "../functional/Heading";
+import { getDepth } from "../list-item/utils";
 
 /**
  * @slot - A slot for adding `calcite-list-item` and `calcite-list-item-group` elements.
@@ -43,6 +44,11 @@ export class ListItemGroup implements InteractiveComponent {
   //
   // --------------------------------------------------------------------------
 
+  connectedCallback(): void {
+    const { el } = this;
+    this.visualLevel = getDepth(el, true);
+  }
+
   componentDidRender(): void {
     updateHostInteraction(this);
   }
@@ -55,6 +61,8 @@ export class ListItemGroup implements InteractiveComponent {
 
   @Element() el: HTMLCalciteListItemGroupElement;
 
+  @State() visualLevel: number = null;
+
   // --------------------------------------------------------------------------
   //
   //  Render Methods
@@ -62,12 +70,17 @@ export class ListItemGroup implements InteractiveComponent {
   // --------------------------------------------------------------------------
 
   render(): VNode {
-    const { heading } = this;
+    const { heading, visualLevel } = this;
 
     return (
       <Host>
-        <tr class={CSS.heading}>
-          <td colSpan={MAX_COLUMNS}>{heading}</td>
+        <tr
+          class={CSS.container}
+          style={{ "--calcite-list-item-spacing-indent-multiplier": `${visualLevel}` }}
+        >
+          <td class={CSS.heading} colSpan={MAX_COLUMNS}>
+            {heading}
+          </td>
         </tr>
         <slot />
       </Host>

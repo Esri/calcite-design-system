@@ -1,6 +1,7 @@
 :host {
   @apply flex flex-col;
   --calcite-list-item-icon-color: theme("colors.brand");
+  --calcite-list-item-spacing-indent: theme("spacing.4");
 }
 
 @include disabled();
@@ -13,6 +14,9 @@
   * {
     @apply box-border;
   }
+  padding-inline-start: calc(
+    var(--calcite-list-item-spacing-indent) * var(--calcite-list-item-spacing-indent-multiplier)
+  );
 }
 
 .container--border-selected {
@@ -132,11 +136,6 @@ td:focus {
 
     color: inherit;
   }
-}
-
-::slotted(calcite-list-item-group),
-::slotted(calcite-list-item) {
-  padding-inline-start: theme("spacing.4");
 }
 
 ::slotted(calcite-list-item) {

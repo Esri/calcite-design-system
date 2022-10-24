@@ -164,6 +164,8 @@ export class ListItem implements InteractiveComponent {
 
   @State() level: number = null;
 
+  @State() visualLevel: number = null;
+
   @State() parentListEl: HTMLCalciteListElement;
 
   @State() openable = false;
@@ -194,6 +196,7 @@ export class ListItem implements InteractiveComponent {
     const { el } = this;
     this.parentListEl = el.closest(listSelector);
     this.level = getDepth(el) + 1;
+    this.visualLevel = getDepth(el, true);
     this.setSelectionDefaults();
   }
 
@@ -401,6 +404,7 @@ export class ListItem implements InteractiveComponent {
           onKeyDown={this.handleItemKeyDown}
           ref={(el) => (this.containerEl = el)}
           role="row"
+          style={{ "--calcite-list-item-spacing-indent-multiplier": `${this.visualLevel}` }}
           tabIndex={active ? 0 : -1}
         >
           {this.renderSelected()}
