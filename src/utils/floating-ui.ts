@@ -15,6 +15,7 @@ import {
 } from "@floating-ui/dom";
 import { getElementDir } from "./dom";
 import { Build } from "@stencil/core";
+import { config } from "./config";
 
 const floatingUIBrowserCheck = patchFloatingUiForNonChromiumBrowsers();
 
@@ -37,6 +38,7 @@ async function patchFloatingUiForNonChromiumBrowsers(): Promise<void> {
 
   if (
     Build.isBrowser &&
+    config.floatingUINonChromiumPositioningFix &&
     // ⚠️ browser-sniffing is not a best practice and should be avoided ⚠️
     /firefox|safari/i.test(getUAString())
   ) {
