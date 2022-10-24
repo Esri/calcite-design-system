@@ -14,7 +14,6 @@ import {
   VirtualElement
 } from "@floating-ui/dom";
 import { getElementDir } from "./dom";
-import { debounce } from "lodash-es";
 import { Build } from "@stencil/core";
 
 const floatingUIBrowserCheck = patchFloatingUiForNonChromiumBrowsers();
