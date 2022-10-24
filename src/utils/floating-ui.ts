@@ -36,7 +36,7 @@ async function patchFloatingUiForNonChromiumBrowsers(): Promise<void> {
   }
 
   if (
-    !Build.isBrowser ||
+    Build.isBrowser &&
     // ⚠️ browser-sniffing is not a best practice and should be avoided ⚠️
     /firefox|safari/i.test(getUAString())
   ) {
