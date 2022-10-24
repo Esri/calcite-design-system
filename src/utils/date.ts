@@ -1,4 +1,5 @@
 import { DateLocaleData } from "../components/date-picker/utils";
+import { numberStringFormatter } from "./locale";
 
 export interface HoverRange {
   focused: "end" | "start";
@@ -113,7 +114,7 @@ export function datePartsFromLocalizedString(
 ): { day: string; month: string; year: string } {
   const { separator, unitOrder } = localeData;
   const order = getOrder(unitOrder);
-  const values = replaceArabicNumerals(string).split(separator);
+  const values = string.split(separator).map((part) => numberStringFormatter.delocalize(part));
   const day = values[order.indexOf("d")];
   const month = values[order.indexOf("m")];
   const year = values[order.indexOf("y")];
@@ -184,37 +185,7 @@ export function nextMonth(date: Date): Date {
 }
 
 /**
- * Translate a number into a given locals numeral system
- *
- * @param num
- * @param localeData
- */
-export function localizeNumber(num: number, localeData: DateLocaleData): string {
-  return String(num)
-    .split("")
-    .map((i) => localeData.numerals[i])
-    .join("");
-}
-
-/**
- * Calculate actual number from localized string
- *
- * @param str
- * @param localeData
- */
-export function parseNumber(str: string, localeData: DateLocaleData): number {
-  const numerals = "0123456789";
-  return parseInt(
-    str
-      .split("")
-      .map((i) => numerals[localeData.numerals.indexOf(i)])
-      .filter((num) => num)
-      .join("")
-  );
-}
-
-/**
- * Parse day, month, and year from a localized string
+ * Parse numeric units for day, month, and year from a localized string
  * month starts at 0 (can pass to date constructor)
  * can return values as number or string
  *
@@ -231,17 +202,6 @@ export function parseDateString(
     month: parseInt(month) - 1, // this subtracts by 1 because the month in the Date contructor is zero-based https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/getMonth
     year: parseInt(year)
   };
-}
-
-/**
- * Convert eastern arabic numerals
- *
- * @param str
- */
-export function replaceArabicNumerals(str = ""): string {
-  return str
-    .replace(/[\u0660-\u0669]/g, (c) => (c.charCodeAt(0) - 0x0660) as any)
-    .replace(/[\u06f0-\u06f9]/g, (c) => (c.charCodeAt(0) - 0x06f0) as any);
 }
 
 type unitOrderSignifier = "m" | "d" | "y";

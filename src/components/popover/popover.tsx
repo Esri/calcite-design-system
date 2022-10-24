@@ -65,7 +65,7 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
   // --------------------------------------------------------------------------
 
   /**
-   * When true and clicking outside of the component, automatically closes open `calcite-popover`s.
+   * When `true`, clicking outside of the component automatically closes open `calcite-popover`s.
    */
   @Prop({ reflect: true }) autoClose = false;
 

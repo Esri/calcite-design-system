@@ -9,6 +9,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### Features
 
+- **date-picker, input-date-picker:** add numberingSystem property ([#5488](https://github.com/Esri/calcite-components/issues/5488)) ([2e025d8](https://github.com/Esri/calcite-components/commit/2e025d8fd867319f0347f1a447fefb2f91e520ef))
 - **stepper, stepper-item:** add numberingSystem property ([#5467](https://github.com/Esri/calcite-components/issues/5467)) ([9ca3117](https://github.com/Esri/calcite-components/commit/9ca311759e66ace9c412faa4cc0585b7fc725cdd))
 - **time-picker, input-time-picker:** add numberingSystem property ([#5301](https://github.com/Esri/calcite-components/issues/5301)) ([7eaf051](https://github.com/Esri/calcite-components/commit/7eaf051327d55dd725de53dbf310ef8cec93d83e))
 - **tree-item:** allow disabling tree-item ([#5194](https://github.com/Esri/calcite-components/issues/5194)) ([a16bea2](https://github.com/Esri/calcite-components/commit/a16bea2d0da14b9cd0c5d734ffc24cdf83eb22a9)), closes [#3772](https://github.com/Esri/calcite-components/issues/3772)
@@ -18,6 +19,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### Bug Fixes
 
+- components should only react to primary button pointer events. ([#5519](https://github.com/Esri/calcite-components/issues/5519)) ([ed55933](https://github.com/Esri/calcite-components/commit/ed55933c120083fed79e5bd683fc37b3910296cc))
 - **alert, date-picker-month-header, input-date-picker, loader, panel:** adds RTL equivalent CSS ([#5368](https://github.com/Esri/calcite-components/issues/5368)) ([9582c04](https://github.com/Esri/calcite-components/commit/9582c04f54da5639ae86f32f234427ca19a33e12))
 - **block:** improve content layout ([#5473](https://github.com/Esri/calcite-components/issues/5473)) ([2cc0a5f](https://github.com/Esri/calcite-components/commit/2cc0a5f9c40236f1c628c796e3c3e69acbdc8479)), closes [#5422](https://github.com/Esri/calcite-components/issues/5422)
 - **button, fab:** bumping the scale of icon to M when the parent Button / FAB is scale L ([#5521](https://github.com/Esri/calcite-components/issues/5521)) ([fa508e8](https://github.com/Esri/calcite-components/commit/fa508e85966a536416e61d1282288e4b1165e247))

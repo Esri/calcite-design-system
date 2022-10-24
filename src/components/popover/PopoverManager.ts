@@ -1,3 +1,4 @@
+import { isPrimaryPointerButton } from "../../utils/dom";
 import { ReferenceElement } from "../../utils/floating-ui";
 import { isActivationKey } from "../../utils/key";
 
@@ -52,7 +53,7 @@ export default class PopoverManager {
     return registeredElements.get(registeredElement);
   };
 
-  private togglePopovers = (event: KeyboardEvent | MouseEvent): void => {
+  private togglePopovers = (event: KeyboardEvent | PointerEvent): void => {
     const composedPath = event.composedPath();
     const togglePopover = this.queryPopover(composedPath);
 
@@ -75,8 +76,10 @@ export default class PopoverManager {
     this.togglePopovers(event);
   };
 
-  private clickHandler = (event: MouseEvent): void => {
-    this.togglePopovers(event);
+  private clickHandler = (event: PointerEvent): void => {
+    if (isPrimaryPointerButton(event)) {
+      this.togglePopovers(event);
+    }
   };
 
   private addListeners(): void {
