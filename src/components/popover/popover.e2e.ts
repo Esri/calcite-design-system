@@ -634,7 +634,7 @@ describe("calcite-popover", () => {
 
   it("owns a floating-ui", () =>
     floatingUIOwner(
-      `<calcite-popover placement="auto" reference-element="ref" open>content</calcite-popover><div id="ref">referenceElement</div>`,
+      `<calcite-popover placement="auto" reference-element="ref">content</calcite-popover><div id="ref">referenceElement</div>`,
       "open"
     ));
 
