@@ -8,7 +8,8 @@ export const CSS = {
   hasHeader: "has-header",
   header: "header",
   headerContent: "header-content",
-  heading: "heading"
+  heading: "heading",
+  iconClose: "close-icon"
 };
 
 export const TEXT = {
