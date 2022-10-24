@@ -8,6 +8,7 @@ import {
   Middleware,
   offset,
   Placement,
+  platform,
   shift,
   Strategy,
   VirtualElement
@@ -15,6 +16,42 @@ import {
 import { closestElementCrossShadowBoundary, getElementDir } from "./dom";
 import { debounce } from "lodash-es";
 import { Build } from "@stencil/core";
+import { config } from "./config";
+
+const floatingUIBrowserCheck = patchFloatingUiForNonChromiumBrowsers();
+
+async function patchFloatingUiForNonChromiumBrowsers(): Promise<void> {
+  interface NavigatorUAData {
+    brands: Array<{ brand: string; version: string }>;
+    mobile: boolean;
+    platform: string;
+  }
+
+  function getUAString(): string {
+    const uaData = (navigator as any).userAgentData as NavigatorUAData | undefined;
+
+    if (uaData?.brands) {
+      return uaData.brands.map((item) => `${item.brand}/${item.version}`).join(" ");
+    }
+
+    return navigator.userAgent;
+  }
+
+  if (
+    Build.isBrowser &&
+    config.floatingUINonChromiumPositioningFix &&
+    // ⚠️ browser-sniffing is not a best practice and should be avoided ⚠️
+    /firefox|safari/i.test(getUAString())
+  ) {
+    const { getClippingRect, getElementRects, getOffsetParent } = await import(
+      "./floating-ui/nonChromiumPlatformUtils"
+    );
+
+    platform.getClippingRect = getClippingRect;
+    platform.getOffsetParent = getOffsetParent;
+    platform.getElementRects = getElementRects as any;
+  }
+}
 
 const placementDataAttribute = "data-placement";
 
@@ -360,6 +397,8 @@ export async function positionFloatingUI({
   if (!referenceEl || !floatingEl || (includeArrow && !arrowEl)) {
     return null;
   }
+
+  await floatingUIBrowserCheck;
 
   const {
     x,
