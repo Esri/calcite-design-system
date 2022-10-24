@@ -80,7 +80,6 @@ $floating-ui-default-z-index: 900;
   display: block;
   position: absolute;
   z-index: $zIndex;
-  transform: scale(0);
 }
 
 @mixin floatingUIWrapper {

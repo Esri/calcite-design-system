@@ -113,7 +113,8 @@ export const create: () => Config = () => ({
   ],
   testing: {
     moduleNameMapper: {
-      "^/assets/(.*)$": "<rootDir>/src/tests/iconPathDataStub.ts"
+      "^/assets/(.*)$": "<rootDir>/src/tests/iconPathDataStub.ts",
+      "^lodash-es$": "lodash"
     },
     setupFilesAfterEnv: ["<rootDir>/src/tests/setupTests.ts"]
   },
