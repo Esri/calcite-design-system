@@ -28,13 +28,6 @@ export class Loader {
    */
   @Prop({ reflect: true }) active = false;
 
-  /**
-   * When `true`, the component will not be visible.
-   *
-   * @mdn [hidden](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/hidden)
-   */
-  @Prop({ reflect: true }) hidden = false;
-
   /** When `true`, displays smaller and appears to the left of the text. */
   @Prop({ reflect: true }) inline = false;
 

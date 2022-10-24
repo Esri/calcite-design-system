@@ -33,13 +33,6 @@ export class InputMessage {
    */
   @Prop({ reflect: true }) active = false;
 
-  /**
-   * When `true`, the component will not be visible.
-   *
-   * @mdn [hidden](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/hidden)
-   */
-  @Prop({ reflect: true }) hidden = false;
-
   /** Specifies an icon to display. */
   @Prop({ reflect: true }) icon: boolean | string;
 
