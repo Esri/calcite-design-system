@@ -13,7 +13,8 @@ import {
   Strategy,
   VirtualElement
 } from "@floating-ui/dom";
-import { getElementDir } from "./dom";
+import { closestElementCrossShadowBoundary, getElementDir } from "./dom";
+import { debounce } from "lodash-es";
 import { Build } from "@stencil/core";
 import { config } from "./config";
 
@@ -52,6 +53,11 @@ async function patchFloatingUiForNonChromiumBrowsers(): Promise<void> {
   }
 }
 
+const placementDataAttribute = "data-placement";
+
+/**
+ * Exported for testing purposes only
+ */
 export const repositionDebounceTimeout = 100;
 
 export type ReferenceElement = VirtualElement | Element;
@@ -200,8 +206,10 @@ export interface FloatingUIComponent {
 
   /**
    * Updates the position of the component.
+   *
+   * @param delayed – (internal) when true, it will reposition the component after a delay. the default is false. This is useful for components that have multiple watched properties that schedule repositioning.
    */
-  reposition(): Promise<void>;
+  reposition(delayed?: boolean): Promise<void>;
 }
 
 export const FloatingCSS = {
@@ -307,7 +315,45 @@ export function getEffectivePlacement(floatingEl: HTMLElement, placement: Logica
 }
 
 /**
+ * Convenience function to manage `reposition` calls for FloatingUIComponents that use `positionFloatingUI.
+ *
+ * Note: this is not needed for components that use `calcite-popover`.
+ *
+ * @param component
+ * @param options
+ * @param options.referenceEl
+ * @param options.floatingEl
+ * @param options.overlayPositioning
+ * @param options.placement
+ * @param options.disableFlip
+ * @param options.flipPlacements
+ * @param options.offsetDistance
+ * @param options.offsetSkidding
+ * @param options.arrowEl
+ * @param options.type
+ * @param delayed
+ */
+export async function reposition(
+  component: FloatingUIComponent,
+  options: Parameters<typeof positionFloatingUI>[0],
+  delayed = false
+): Promise<void> {
+  if (!component.open) {
+    return;
+  }
+
+  return delayed ? debouncedReposition(options) : positionFloatingUI(options);
+}
+
+const debouncedReposition = debounce(positionFloatingUI, repositionDebounceTimeout, {
+  leading: true,
+  maxWait: repositionDebounceTimeout
+});
+
+/**
  * Positions the floating element relative to the reference element.
+ *
+ * **Note:** exported for testing purposes only
  *
  * @param root0
  * @param root0.referenceEl
@@ -320,6 +366,7 @@ export function getEffectivePlacement(floatingEl: HTMLElement, placement: Logica
  * @param root0.offsetSkidding
  * @param root0.arrowEl
  * @param root0.type
+ * @param root0.includeArrow
  */
 export async function positionFloatingUI({
   referenceEl,
@@ -330,6 +377,7 @@ export async function positionFloatingUI({
   flipPlacements,
   offsetDistance,
   offsetSkidding,
+  includeArrow = false,
   arrowEl,
   type
 }: {
@@ -343,9 +391,10 @@ export async function positionFloatingUI({
   offsetDistance?: number;
   offsetSkidding?: number;
   arrowEl?: HTMLElement;
+  includeArrow?: boolean;
   type: UIType;
 }): Promise<void> {
-  if (!referenceEl || !floatingEl) {
+  if (!referenceEl || !floatingEl || (includeArrow && !arrowEl)) {
     return null;
   }
 
@@ -387,7 +436,7 @@ export async function positionFloatingUI({
   const visibility = referenceHidden ? "hidden" : null;
   const pointerEvents = visibility ? "none" : null;
 
-  floatingEl.setAttribute("data-placement", effectivePlacement);
+  floatingEl.setAttribute(placementDataAttribute, effectivePlacement);
 
   const transform = `translate(${Math.round(x)}px,${Math.round(y)}px)`;
 
@@ -401,7 +450,12 @@ export async function positionFloatingUI({
   });
 }
 
-const cleanupMap = new WeakMap<FloatingUIComponent, () => void>();
+/**
+ * Exported for testing purposes only
+ *
+ * @internal
+ */
+export const cleanupMap = new WeakMap<FloatingUIComponent, () => void>();
 
 /**
  * Helper to set up floating element interactions on connectedCallback.
@@ -421,13 +475,27 @@ export function connectFloatingUI(
 
   disconnectFloatingUI(component, referenceEl, floatingEl);
 
+  const position = component.overlayPositioning;
+
+  // ensure position matches for initial positioning
+  floatingEl.style.position = position;
+
+  if (position === "absolute") {
+    moveOffScreen(floatingEl);
+  }
+
+  const runAutoUpdate = Build.isBrowser
+    ? autoUpdate
+    : (_refEl: HTMLElement, _floatingEl: HTMLElement, updateCallback: Function): (() => void) => {
+        updateCallback();
+        return () => {
+          /* noop */
+        };
+      };
+
   cleanupMap.set(
     component,
-    autoUpdate(referenceEl, floatingEl, () => {
-      if (component.open) {
-        component.reposition();
-      }
-    })
+    runAutoUpdate(referenceEl, floatingEl, () => component.reposition())
   );
 }
 
@@ -447,6 +515,8 @@ export function disconnectFloatingUI(
     return;
   }
 
+  getTransitionTarget(floatingEl).removeEventListener("transitionend", handleTransitionElTransitionEnd);
+
   const cleanup = cleanupMap.get(component);
 
   if (cleanup) {
@@ -464,3 +534,47 @@ const visiblePointerSize = 4;
  * @default 6
  */
 export const defaultOffsetDistance = Math.ceil(Math.hypot(visiblePointerSize, visiblePointerSize));
+
+/**
+ * This utils applies floating element styles to avoid affecting layout when closed.
+ *
+ * This should be called when the closing transition will start.
+ *
+ * @param floatingEl
+ */
+export function updateAfterClose(floatingEl: HTMLElement): void {
+  if (!floatingEl || floatingEl.style.position !== "absolute") {
+    return;
+  }
+
+  getTransitionTarget(floatingEl).addEventListener("transitionend", handleTransitionElTransitionEnd);
+}
+
+function getTransitionTarget(floatingEl: HTMLElement): ShadowRoot | HTMLElement {
+  // assumes floatingEl w/ shadowRoot is a FloatingUIComponent
+  return floatingEl.shadowRoot || floatingEl;
+}
+
+function handleTransitionElTransitionEnd(event: TransitionEvent): void {
+  const floatingTransitionEl = event.target as HTMLElement;
+
+  if (
+    // using any prop from floating-ui transition
+    event.propertyName === "opacity" &&
+    floatingTransitionEl.classList.contains(FloatingCSS.animation)
+  ) {
+    const floatingEl = getFloatingElFromTransitionTarget(floatingTransitionEl);
+    moveOffScreen(floatingEl);
+    getTransitionTarget(floatingEl).removeEventListener("transitionend", handleTransitionElTransitionEnd);
+  }
+}
+
+function moveOffScreen(floatingEl: HTMLElement): void {
+  floatingEl.style.transform = "";
+  floatingEl.style.top = "-99999px";
+  floatingEl.style.left = "-99999px";
+}
+
+function getFloatingElFromTransitionTarget(floatingTransitionEl: HTMLElement): HTMLElement {
+  return closestElementCrossShadowBoundary(floatingTransitionEl, `[${placementDataAttribute}]`);
+}
