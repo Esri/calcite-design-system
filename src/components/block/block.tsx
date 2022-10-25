@@ -12,10 +12,10 @@ import { InteractiveComponent, updateHostInteraction } from "../../utils/interac
 import { guid } from "../../utils/guid";
 
 /**
- * @slot - A slot for adding content to the block.
- * @slot icon - A slot for adding a leading header icon.
+ * @slot - A slot for adding content to the component.
+ * @slot icon - A slot for adding a leading header icon with `calcite-icon`.
  * @slot control - A slot for adding a single HTML input element in a header.
- * @slot header-menu-actions - a slot for adding an overflow menu with actions inside a dropdown.
+ * @slot header-menu-actions - A slot for adding an overflow menu with `calcite-action`s inside a dropdown.
  */
 @Component({
   tag: "calcite-block",
@@ -30,85 +30,87 @@ export class Block implements ConditionalSlotComponent, InteractiveComponent {
   // --------------------------------------------------------------------------
 
   /**
-   * When true, this block will be collapsible.
+   * When `true`, the component is collapsible.
    */
   @Prop({ reflect: true }) collapsible = false;
 
   /**
-   * When true, disabled prevents interaction. This state shows items with lower opacity/grayed.
+   * When `true`, interaction is prevented and the component is displayed with lower opacity.
    */
   @Prop({ reflect: true }) disabled = false;
 
   /**
-   * When true, displays a drag handle in the header.
+   * When `true`, displays a drag handle in the header.
    */
   @Prop({ reflect: true }) dragHandle = false;
 
   /**
-   * Block heading.
+   * The component header text.
    */
   @Prop() heading!: string;
 
   /**
-   * Number at which section headings should start for this component.
+   * Specifies the number at which section headings should start.
    */
   @Prop({ reflect: true }) headingLevel: HeadingLevel;
 
   /**
-   * Aria-label for collapsing the toggle and tooltip used for the toggle when expanded.
+   * Accessible name for the component's collapse button.
    *
    * @default "Collapse"
    */
   @Prop() intlCollapse?: string = TEXT.collapse;
 
   /**
-   * Aria-label for expanding the toggle and tooltip used for the toggle when collapsed.
+   * Accessible name for the component's expand button.
    *
    * @default "Expand"
    */
   @Prop() intlExpand?: string = TEXT.expand;
 
   /**
-   * string to override English loading text
+   * Accessible name when the component is loading.
    *
    * @default "Loading"
    */
   @Prop() intlLoading?: string = TEXT.loading;
 
   /**
-   * Text string used for the actions menu
+   * Accessible name for the component's options button.
    *
    * @default "Options"
    */
   @Prop() intlOptions?: string = TEXT.options;
 
   /**
-   * When true, content is waiting to be loaded. This state shows a busy indicator.
+   * When `true`, a busy indicator is displayed.
    */
   @Prop({ reflect: true }) loading = false;
 
   /**
-   * When true, the block's content will be displayed.
+   * When `true`, expands the component and its contents.
    */
   @Prop({ reflect: true, mutable: true }) open = false;
 
   /**
-   * Block status. Updates or adds icon to show related icon and color.
+   * Displays a status-related indicator icon.
    */
   @Prop({ reflect: true }) status?: Status;
 
   /**
-   * Block summary.
+   * A description for the component, which displays below the heading.
    *
-   * @deprecated use description instead
+   * @deprecated use `description` instead
    */
   @Prop() summary: string;
 
-  /**Block description */
+  /**
+   * A description for the component, which displays below the heading.
+   */
   @Prop() description: string;
 
   /**
-   * When true, removes padding for the slotted content
+   * When `true`, removes padding for the slotted content.
    *
    * @deprecated Use `--calcite-block-padding` CSS variable instead.
    */
@@ -155,7 +157,7 @@ export class Block implements ConditionalSlotComponent, InteractiveComponent {
   // --------------------------------------------------------------------------
 
   /**
-   * Emitted when the header has been clicked.
+   * Emits when the component's header is clicked.
    */
   @Event({ cancelable: false }) calciteBlockToggle: EventEmitter<void>;
 

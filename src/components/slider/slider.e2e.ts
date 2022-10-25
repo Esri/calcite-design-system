@@ -270,6 +270,60 @@ describe("calcite-slider", () => {
     expect(changeEvent).toHaveReceivedEventTimes(1);
   });
 
+  describe("thumb focus for single value", () => {
+    const sliderForThumbFocusTests = html`<calcite-slider
+      style="width:${sliderWidthFor1To1PixelValueTrack}"
+      min="0"
+      max="100"
+      snap
+      ticks="10"
+      value="50"
+    ></calcite-slider>`;
+
+    it("should focus thumb when clicked near", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html`${sliderForThumbFocusTests}`);
+      const slider = await page.find("calcite-slider");
+      const [trackX, trackY] = await getElementXY(page, "calcite-slider", ".track");
+
+      await page.mouse.move(trackX + 50, trackY);
+      await page.mouse.down();
+      await page.mouse.up();
+      await page.waitForChanges();
+
+      let isThumbFocused = await page.$eval("calcite-slider", (slider) =>
+        slider.shadowRoot.activeElement?.classList.contains("thumb--value")
+      );
+
+      expect(isThumbFocused).toBe(true);
+      expect(await slider.getProperty("value")).toBe(50);
+
+      await page.mouse.move(trackX + 40, trackY);
+      await page.mouse.down();
+      await page.mouse.up();
+      await page.waitForChanges();
+
+      isThumbFocused = await page.$eval("calcite-slider", (slider) =>
+        slider.shadowRoot.activeElement?.classList.contains("thumb--value")
+      );
+
+      expect(isThumbFocused).toBe(true);
+      expect(await slider.getProperty("value")).toBe(40);
+
+      await page.mouse.move(trackX + 60, trackY);
+      await page.mouse.down();
+      await page.mouse.up();
+      await page.waitForChanges();
+
+      isThumbFocused = await page.$eval("calcite-slider", (slider) =>
+        slider.shadowRoot.activeElement?.classList.contains("thumb--value")
+      );
+
+      expect(isThumbFocused).toBe(true);
+      expect(await slider.getProperty("value")).toBe(60);
+    });
+  });
+
   describe("thumb focus in range", () => {
     const sliderForThumbFocusTests = html`<calcite-slider
       style="width:${sliderWidthFor1To1PixelValueTrack}"

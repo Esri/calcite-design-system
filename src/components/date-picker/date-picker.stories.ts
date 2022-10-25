@@ -4,12 +4,13 @@ import {
   Attribute,
   filterComponentAttributes,
   Attributes,
-  createComponentHTML as create
+  createComponentHTML as create,
+  themesDarkDefault
 } from "../../../.storybook/utils";
 import readme from "./readme.md";
 import { html } from "../../../support/formatting";
 import { locales } from "../../utils/locale";
-import { createSteps, setKnobs, setTheme, stepStory, storyFilters } from "../../../.storybook/helpers";
+import { createSteps, setKnobs, stepStory, storyFilters } from "../../../.storybook/helpers";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 const { scale } = ATTRIBUTES;
 
@@ -133,57 +134,142 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
   );
 };
 
-export const simple = stepStory(
+export const simple = (): string =>
+  html`<div style="width: 400px">${create("calcite-date-picker", createAttributes())}</div>`;
+
+export const range = (): string =>
+  html`<div style="width: 400px">
+    ${create(
+      "calcite-date-picker",
+      createAttributes({ exceptions: ["end", "min", "range", "start"] }).concat([
+        { name: "end", value: "2020-02-16" },
+        { name: "min", value: "2016-08-09" },
+        { name: "range", value: "true" },
+        { name: "start", value: "2020-02-12" }
+      ])
+    )}
+  </div>`;
+
+export const rangeRTL_TestOnly = (): string =>
+  html`<div style="width: 400px">
+    ${create(
+      "calcite-date-picker",
+      createAttributes({ exceptions: ["end", "min", "range", "start", "dir"] }).concat([
+        { name: "dir", value: "rtl" },
+        { name: "end", value: "2020-02-16" },
+        { name: "min", value: "2016-08-09" },
+        { name: "range", value: "true" },
+        { name: "start", value: "2020-02-12" }
+      ])
+    )}
+  </div>`;
+
+export const darkThemeRTL_TestOnly = (): string =>
+  html`<div style="width: 400px">
+    ${create(
+      "calcite-date-picker",
+      createAttributes({ exceptions: ["class", "dir"] }).concat([
+        { name: "dir", value: "rtl" },
+        { name: "class", value: "calcite-theme-dark" }
+      ])
+    )}
+  </div>`;
+
+darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };
+
+export const bgLocale_TestOnly = (): string =>
+  html`<div style="width: 400px">
+    ${create("calcite-date-picker", createAttributes({ exceptions: ["lang"] }).concat([{ name: "lang", value: "bg" }]))}
+  </div>`;
+
+export const ptPTLocale_TestOnly = (): string =>
+  html`<div style="width: 400px">
+    ${create(
+      "calcite-date-picker",
+      createAttributes({ exceptions: ["lang"] }).concat([{ name: "lang", value: "pt-PT" }])
+    )}
+  </div>`;
+
+export const germanLocale_TestOnly = (): string =>
+  html`<div style="width: 400px">
+    ${create(
+      "calcite-date-picker",
+      createAttributes({ exceptions: ["lang", "value"] }).concat([
+        { name: "lang", value: "de" },
+        { name: "value", value: "2022-08-11" }
+      ])
+    )}
+  </div>`;
+
+export const spanishLocale_TestOnly = (): string =>
+  html`<div style="width: 400px">
+    ${create(
+      "calcite-date-picker",
+      createAttributes({ exceptions: ["lang", "value"] }).concat([
+        { name: "lang", value: "es" },
+        { name: "value", value: "2023-05-11" }
+      ])
+    )}
+  </div>`;
+
+export const norwegianLocale_TestOnly = (): string =>
+  html`<div style="width: 400px">
+    ${create(
+      "calcite-date-picker",
+      createAttributes({ exceptions: ["lang", "value"] }).concat([
+        { name: "lang", value: "nb" },
+        { name: "value", value: "2023-05-11" }
+      ])
+    )}
+  </div>`;
+
+export const britishLocale_TestOnly = (): string =>
+  html`<div style="width: 400px">
+    ${create(
+      "calcite-date-picker",
+      createAttributes({ exceptions: ["lang", "value"] }).concat([
+        { name: "lang", value: "en-gb" },
+        { name: "value", value: "2024-01-11" }
+      ])
+    )}
+  </div>`;
+
+export const chineseLocale_TestOnly = (): string =>
+  html`<div style="width: 400px">
+    ${create(
+      "calcite-date-picker",
+      createAttributes({ exceptions: ["lang", "value"] }).concat([
+        { name: "lang", value: "zh-cn" },
+        { name: "value", value: "2024-01-11" }
+      ])
+    )}
+  </div>`;
+
+export const arabLocaleNumberingSystem_TestOnly = (): string =>
+  html`<div style="width: 400px">
+    ${create(
+      "calcite-date-picker",
+      createAttributes({ exceptions: ["lang", "numberingSystem"] }).concat([
+        { name: "lang", value: "ar" },
+        { name: "numbering-system", value: "arab" }
+      ])
+    )}
+  </div>`;
+
+export const thaiLocaleNumberingSystem_TestOnly = (): string =>
+  html`<div style="width: 400px">
+    ${create(
+      "calcite-date-picker",
+      createAttributes({ exceptions: ["lang", "numberingSystem"] }).concat([
+        { name: "lang", value: "th" },
+        { name: "numbering-system", value: "thai" }
+      ])
+    )}
+  </div>`;
+
+export const interactions_TestOnly = stepStory(
   (): string => html`<div style="width: 400px">${create("calcite-date-picker", createAttributes())}</div>`,
-
   createSteps("calcite-date-picker")
-    .snapshot("Default")
-
-    .executeScript(
-      setKnobs({
-        story: "components-controls-datepicker--simple",
-        knobs: [{ name: "dir", value: "rtl" }]
-      })
-    )
-    .snapshot("Default RTL")
-
-    .executeScript(
-      setKnobs({
-        story: "components-controls-datepicker--simple",
-        knobs: []
-      })
-    )
-    .executeScript(setTheme("dark"))
-    .snapshot("Dark")
-
-    .executeScript(setTheme("light"))
-    .executeScript(
-      setKnobs({
-        story: "components-controls-datepicker--simple",
-        knobs: [
-          { name: "end", value: "2020-02-16" },
-          { name: "min", value: "2016-08-09" },
-          { name: "range", value: "true" },
-          { name: "start", value: "2020-02-12" }
-        ]
-      })
-    )
-    .snapshot("Range")
-
-    .executeScript(
-      setKnobs({
-        story: "components-controls-datepicker--simple",
-        knobs: [
-          { name: "dir", value: "rtl" },
-          { name: "end", value: "2020-02-16" },
-          { name: "min", value: "2016-08-09" },
-          { name: "range", value: "true" },
-          { name: "start", value: "2020-02-12" }
-        ]
-      })
-    )
-    .snapshot("Range RTL")
-
     .executeScript(
       setKnobs({
         story: "components-controls-datepicker--simple",
@@ -197,91 +283,5 @@ export const simple = stepStory(
       datePicker.minAsDate = new Date(2022, 2, 10);
     `
     )
-    .snapshot(" set maxAsDate & minAsDate")
-
-    .executeScript(
-      setKnobs({
-        story: "components-controls-datepicker--simple",
-        knobs: [{ name: "locale", value: "bg" }]
-      })
-    )
-    .snapshot("bg locale")
-
-    .executeScript(
-      setKnobs({
-        story: "components-controls-datepicker--simple",
-        knobs: [{ name: "locale", value: "pt-PT" }]
-      })
-    )
-    .snapshot("pt-PT locale")
-
-    .executeScript(
-      setKnobs({
-        story: "components-controls-datepicker--simple",
-        knobs: [{ name: "locale", value: "ru" }]
-      })
-    )
-    .snapshot("ru locale")
-
-    .executeScript(
-      setKnobs({
-        story: "components-controls-datepicker--simple",
-        knobs: [{ name: "locale", value: "th" }]
-      })
-    )
-    .snapshot("th locale (Buddhist calendar)")
-
-    .executeScript(
-      setKnobs({
-        story: "components-controls-datepicker--simple",
-        knobs: [
-          { name: "locale", value: "de" },
-          { name: "value", value: "2022-08-11" }
-        ]
-      })
-    )
-    .snapshot("german locale")
-
-    .executeScript(
-      setKnobs({
-        story: "components-controls-datepicker--simple",
-        knobs: [
-          { name: "locale", value: "es" },
-          { name: "value", value: "2023-05-11" }
-        ]
-      })
-    )
-    .snapshot("spanish locale")
-
-    .executeScript(
-      setKnobs({
-        story: "components-controls-datepicker--simple",
-        knobs: [
-          { name: "locale", value: "nb" },
-          { name: "value", value: "2023-05-11" }
-        ]
-      })
-    )
-    .snapshot("norwegian locale")
-
-    .executeScript(
-      setKnobs({
-        story: "components-controls-datepicker--simple",
-        knobs: [
-          { name: "locale", value: "en-gb" },
-          { name: "value", value: "2024-01-11" }
-        ]
-      })
-    )
-    .snapshot("british english locale")
-    .executeScript(
-      setKnobs({
-        story: "components-controls-datepicker--simple",
-        knobs: [
-          { name: "locale", value: "zh-cn" },
-          { name: "value", value: "2024-01-11" }
-        ]
-      })
-    )
-    .snapshot("chinese locale")
+    .snapshot("set maxAsDate & minAsDate")
 );

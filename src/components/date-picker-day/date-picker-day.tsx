@@ -11,11 +11,11 @@ import {
 } from "@stencil/core";
 
 import { getElementDir } from "../../utils/dom";
-import { DateLocaleData } from "../date-picker/utils";
 import { Scale } from "../interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { isActivationKey } from "../../utils/key";
+import { numberStringFormatter } from "../../utils/locale";
 
 @Component({
   tag: "calcite-date-picker-day",
@@ -38,7 +38,7 @@ export class DatePickerDay implements InteractiveComponent {
   //--------------------------------------------------------------------------
 
   /** Day of the month to be shown. */
-  @Prop() day: number;
+  @Prop() day!: number;
 
   /** Date is outside of range and can't be selected */
   @Prop({ reflect: true }) disabled = false;
@@ -66,10 +66,6 @@ export class DatePickerDay implements InteractiveComponent {
 
   /** Date is actively in focus for keyboard navigation */
   @Prop({ reflect: true }) active = false;
-
-  /** CLDR data for current locale */
-  /* @internal */
-  @Prop() localeData: DateLocaleData;
 
   /** specify the scale of the date picker */
   @Prop({ reflect: true }) scale: Scale;
@@ -123,10 +119,7 @@ export class DatePickerDay implements InteractiveComponent {
   //
   //--------------------------------------------------------------------------
   render(): VNode {
-    const formattedDay = String(this.day)
-      .split("")
-      .map((i) => this.localeData.numerals[i])
-      .join("");
+    const formattedDay = numberStringFormatter.localize(String(this.day));
     const dir = getElementDir(this.el);
     return (
       <Host onClick={this.onClick} onKeyDown={this.keyDownHandler} role="gridcell">
