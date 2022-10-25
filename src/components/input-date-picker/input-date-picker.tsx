@@ -895,8 +895,10 @@ export class InputDatePicker
       ? dateFromRange(this.endAsDate, this.minAsDate, this.maxAsDate)
       : null;
 
-    const localizedDate = date && date.toLocaleDateString(this.effectiveLocale);
-    const localizedEndDate = endDate && endDate.toLocaleDateString(this.effectiveLocale);
+    const localizedDate =
+      date && this.formatNumerals(date.toLocaleDateString(this.effectiveLocale));
+    const localizedEndDate =
+      endDate && this.formatNumerals(endDate.toLocaleDateString(this.effectiveLocale));
 
     localizedDate && this.setInputValue(localizedDate, "start");
     this.range && localizedEndDate && this.setInputValue(localizedEndDate, "end");
@@ -1003,16 +1005,6 @@ export class InputDatePicker
               : numberKeys.includes(char)
               ? numberStringFormatter.numberFormatter.format(Number(char))
               : char
-          )
-          .join("")
-      : "";
-
-  private parseNumerals = (value: string): string =>
-    value
-      ? value
-          .split("")
-          .map((char: string) =>
-            numberKeys.includes(char) ? numberStringFormatter.delocalize(char) : char
           )
           .join("")
       : "";
