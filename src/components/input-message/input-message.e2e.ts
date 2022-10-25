@@ -3,7 +3,10 @@ import { accessible, renders, hidden } from "../../tests/commonTests";
 import { StatusIconDefaults } from "./interfaces";
 
 describe("calcite-input-message", () => {
-  it("renders", async () => renders("calcite-input-message", { visible: false, display: "flex" }));
+  it("renders", async () => {
+    await renders(`<calcite-input-message hidden></calcite-input-message>`, { display: "none", visible: false });
+    await renders(`<calcite-input-message></calcite-input-message>`, { display: "flex", visible: true });
+  });
 
   it("honors hidden attribute", async () => hidden(`<calcite-input-message active>Text</calcite-input-message>`));
 
