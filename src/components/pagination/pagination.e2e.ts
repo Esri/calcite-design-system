@@ -1,6 +1,7 @@
 import { newE2EPage, E2EElement, E2EPage } from "@stencil/core/testing";
 import { accessible, hidden, renders } from "../../tests/commonTests";
 import { CSS } from "./resources";
+import { html } from "../../../support/formatting";
 
 describe("calcite-pagination", () => {
   it("renders", async () => renders("calcite-pagination", { display: "flex" }));
@@ -177,6 +178,68 @@ describe("calcite-pagination", () => {
       await page.waitForChanges();
 
       expect(toggleSpy).toHaveReceivedEventTimes(0);
+    });
+  });
+
+  describe("number locale support", () => {
+    let page: E2EPage;
+    let element: E2EElement;
+    const expectedNotSeparatedValueArray: string[] = ["14999997", "14999998", "14999999", "15000000"];
+
+    const formattedValuesPerLanguageObject = {
+      "de-CH": ["14’999’997", "14’999’998", "14’999’999", "15’000’000"],
+      en: ["14,999,997", "14,999,998", "14,999,999", "15,000,000"],
+      es: ["14.999.997", "14.999.998", "14.999.999", "15.000.000"],
+      fr: ["14 999 997", "14 999 998", "14 999 999", "15 000 000"],
+      hi: ["1,49,99,997", "1,49,99,998", "1,49,99,999", "1,50,00,000"]
+    };
+
+    async function getDisplayedValues(): Promise<string[]> {
+      const buttons = await page.findAll("calcite-pagination >>> .page");
+      const buttonsTestedForSeparator = buttons.slice(-4);
+      return buttonsTestedForSeparator.map((button) => button.innerText);
+    }
+
+    beforeEach(async () => {
+      page = await newE2EPage();
+      await page.setContent(
+        html`<calcite-pagination lang="en" group-separator total="150000000" num="10"></calcite-pagination>`
+      );
+      element = await page.find("calcite-pagination");
+
+      const buttons = await page.findAll(`calcite-pagination >>> .${CSS.page}`);
+      const last = buttons[buttons.length - 1];
+      await last.click();
+    });
+
+    it("does not render separated when groupSeparator prop is false", async () => {
+      element.setProperty("groupSeparator", false);
+      await page.waitForChanges();
+
+      let noSeparator = await getDisplayedValues();
+      expect(noSeparator).toEqual(expectedNotSeparatedValueArray);
+      expect(await element.getProperty("groupSeparator")).toBe(false);
+
+      element.setProperty("lang", "fr");
+      await page.waitForChanges();
+
+      noSeparator = await getDisplayedValues();
+      expect(noSeparator).toEqual(expectedNotSeparatedValueArray);
+      expect(await element.getProperty("groupSeparator")).toBe(false);
+    });
+
+    it("displays group separator for multiple locales", async () => {
+      const testLocalizedGroupSeparator = async (lang: string, formattedValuesArr: string[]): Promise<void> => {
+        element.setProperty("lang", lang);
+        await page.waitForChanges();
+
+        const withSeparator = await getDisplayedValues();
+        expect(withSeparator).toEqual(formattedValuesArr);
+      };
+
+      for (const lang in formattedValuesPerLanguageObject) {
+        await testLocalizedGroupSeparator(lang, formattedValuesPerLanguageObject[lang]);
+      }
     });
   });
 });

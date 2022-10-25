@@ -1,5 +1,5 @@
 import { isValidNumber } from "./number";
-
+import { getSupportedLocale, getSupportedNumberingSystem, NumberingSystem } from "./locale";
 export type HourCycle = "12" | "24";
 
 export interface LocalizedTime {
@@ -26,17 +26,22 @@ export type TimePart = "hour" | "hourSuffix" | "minute" | "minuteSuffix" | "seco
 
 export const maxTenthForMinuteAndSecond = 5;
 
-function createLocaleDateTimeFormatter(locale: string, includeSeconds = true): Intl.DateTimeFormat {
+function createLocaleDateTimeFormatter(
+  locale = "en",
+  numberingSystem: NumberingSystem = "latn",
+  includeSeconds = true
+): Intl.DateTimeFormat {
   try {
-    const options: any = {
+    const options: Intl.DateTimeFormatOptions = {
       hour: "2-digit",
       minute: "2-digit",
-      timeZone: "UTC"
+      timeZone: "UTC",
+      numberingSystem: getSupportedNumberingSystem(numberingSystem)
     };
     if (includeSeconds) {
       options.second = "2-digit";
     }
-    return new Intl.DateTimeFormat(locale, options);
+    return new Intl.DateTimeFormat(getSupportedLocale(locale), options);
   } catch (error) {
     throw new Error(`Invalid locale supplied while attempting to create a DateTime formatter: ${locale}`);
   }
@@ -61,8 +66,8 @@ export function formatTimeString(value: string): string {
   return `${hour}:${minute}`;
 }
 
-export function getLocaleHourCycle(locale: string): HourCycle {
-  const formatter = createLocaleDateTimeFormatter(locale);
+export function getLocaleHourCycle(locale: string, numberingSystem: NumberingSystem = "latn"): HourCycle {
+  const formatter = createLocaleDateTimeFormatter(locale, numberingSystem);
   const parts = formatter.formatToParts(new Date(Date.UTC(0, 0, 0, 0, 0, 0)));
   return getLocalizedTimePart("meridiem", parts) ? "12" : "24";
 }
@@ -165,7 +170,19 @@ function isValidTimePart(value: string, part: TimePart): boolean {
   return part === "hour" ? valueAsNumber >= 0 && valueAsNumber < 24 : valueAsNumber >= 0 && valueAsNumber < 60;
 }
 
-export function localizeTimePart(value: string, part: TimePart, locale: string): string {
+interface LocalizeTimePartParameters {
+  value: string;
+  part: TimePart;
+  locale: string;
+  numberingSystem?: NumberingSystem;
+}
+
+export function localizeTimePart({
+  value,
+  part,
+  locale,
+  numberingSystem = "latn"
+}: LocalizeTimePartParameters): string {
   if (!isValidTimePart(value, part)) {
     return;
   }
@@ -183,22 +200,44 @@ export function localizeTimePart(value: string, part: TimePart, locale: string):
   if (!date) {
     return;
   }
-  const formatter = createLocaleDateTimeFormatter(locale);
+  const formatter = createLocaleDateTimeFormatter(locale, numberingSystem);
   const parts = formatter.formatToParts(date);
   return getLocalizedTimePart(part, parts);
 }
 
-export function localizeTimeString(value: string, locale = "en", includeSeconds = true): string {
+interface LocalizeTimeStringParameters {
+  value: string;
+  includeSeconds?: boolean;
+  locale: string;
+  numberingSystem: NumberingSystem;
+}
+
+export function localizeTimeString({
+  value,
+  locale,
+  numberingSystem,
+  includeSeconds = true
+}: LocalizeTimeStringParameters): string {
   if (!isValidTime(value)) {
     return null;
   }
   const { hour, minute, second = "0" } = parseTimeString(value);
   const dateFromTimeString = new Date(Date.UTC(0, 0, 0, parseInt(hour), parseInt(minute), parseInt(second)));
-  const formatter = createLocaleDateTimeFormatter(locale, includeSeconds);
+  const formatter = createLocaleDateTimeFormatter(locale, numberingSystem, includeSeconds);
   return formatter?.format(dateFromTimeString) || null;
 }
 
-export function localizeTimeStringToParts(value: string, locale = "en"): LocalizedTime {
+interface LocalizeTimeStringToPartsParameters {
+  value: string;
+  locale: string;
+  numberingSystem?: NumberingSystem;
+}
+
+export function localizeTimeStringToParts({
+  value,
+  locale = "en",
+  numberingSystem = "latn"
+}: LocalizeTimeStringToPartsParameters): LocalizedTime {
   const emptyLocalizedTime = {
     localizedHour: null,
     localizedHourSuffix: null,
@@ -211,10 +250,11 @@ export function localizeTimeStringToParts(value: string, locale = "en"): Localiz
   if (!isValidTime(value)) {
     return emptyLocalizedTime;
   }
+
   const { hour, minute, second = "0" } = parseTimeString(value);
   const dateFromTimeString = new Date(Date.UTC(0, 0, 0, parseInt(hour), parseInt(minute), parseInt(second)));
   if (dateFromTimeString) {
-    const formatter = createLocaleDateTimeFormatter(locale);
+    const formatter = createLocaleDateTimeFormatter(locale, numberingSystem);
     const parts = formatter.formatToParts(dateFromTimeString);
     return {
       localizedHour: getLocalizedTimePart("hour", parts),
@@ -229,14 +269,23 @@ export function localizeTimeStringToParts(value: string, locale = "en"): Localiz
   return emptyLocalizedTime;
 }
 
-export function getTimeParts(value: string, locale = "en"): Intl.DateTimeFormatPart[] {
+interface GetTimePartsParameters {
+  value: string;
+  locale: string;
+  numberingSystem?: NumberingSystem;
+}
+export function getTimeParts({
+  value,
+  locale,
+  numberingSystem = "latn"
+}: GetTimePartsParameters): Intl.DateTimeFormatPart[] {
   if (!isValidTime(value)) {
     return null;
   }
   const { hour, minute, second = "0" } = parseTimeString(value);
   const dateFromTimeString = new Date(Date.UTC(0, 0, 0, parseInt(hour), parseInt(minute), parseInt(second)));
   if (dateFromTimeString) {
-    const formatter = createLocaleDateTimeFormatter(locale);
+    const formatter = createLocaleDateTimeFormatter(locale, numberingSystem);
     const parts = formatter.formatToParts(dateFromTimeString);
     return parts;
   }

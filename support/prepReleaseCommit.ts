@@ -1,10 +1,9 @@
 import type { Options } from "standard-version";
-
-import pify from "pify";
 import yargs from "yargs";
 
 (async function prepReleaseCommit(): Promise<void> {
   const childProcess = await import("child_process");
+  const { promisify } = await import("util");
   const { promises: fs } = await import("fs");
   const { default: gitSemverTags } = await import("git-semver-tags");
   const { dirname, normalize } = await import("path");
@@ -13,8 +12,8 @@ import yargs from "yargs";
   const { quote } = await import("shell-quote");
   const { default: standardVersion } = await import("standard-version");
   const { fileURLToPath } = await import("url");
+  const exec = promisify(childProcess.exec);
 
-  const exec = pify(childProcess.exec);
   const header = `# Changelog\n\nThis document maintains a list of released versions and changes introduced by them.\nThis project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)\n`;
   const unreleasedSectionTokenStart = "<!--@unreleased-section-start-->";
   const unreleasedSectionTokenEnd = "<!--@unreleased-section-end-->";
@@ -23,6 +22,19 @@ import yargs from "yargs";
   const changelogPath = quote([normalize(`${__dirname}/../CHANGELOG.md`)]);
   const readmePath = quote([normalize(`${__dirname}/../readme.md`)]);
 
+  // git sanity checks to prevent unapproved changes from making it into a release
+  if ((await exec("git rev-parse --abbrev-ref HEAD")).stdout.trim() !== "master") {
+    throw new Error("The master branch must be checked out before releasing.");
+  }
+  if (
+    (await exec("git rev-parse master")).stdout.trim() !== (await exec("git rev-parse origin/master")).stdout.trim()
+  ) {
+    throw new Error("The master branch must be in sync with origin before releasing.");
+  }
+  if ((await exec("git status --porcelain=v1")).stdout.trim()) {
+    throw new Error("There cannot be any uncommitted changes before releasing.");
+  }
+
   const { next } = yargs(process.argv.slice(2))
     .options({ next: { type: "boolean", default: false } })
     .parseSync();
@@ -30,10 +42,10 @@ import yargs from "yargs";
   // deepen the history when fetching tags due to shallow clone
   await exec("git fetch --deepen=250 --tags");
 
-  const previousReleasedTag = (await exec("git describe --abbrev=0 --tags", { encoding: "utf-8" })).trim();
+  const previousReleasedTag = (await exec("git describe --abbrev=0 --tags", { encoding: "utf-8" })).stdout.trim();
   const prereleaseVersionPattern = /-next\.\d+$/;
   const previousReleaseIsPrerelease = prereleaseVersionPattern.test(previousReleasedTag);
-  const semverTags = await pify(gitSemverTags)();
+  const semverTags = await promisify(gitSemverTags)();
   let standardVersionOptions: Options;
 
   const baseErrorMessage = "an error occurred generating the changelog";
@@ -84,6 +96,10 @@ import yargs from "yargs";
     const targetDescendingOrderTags = semverTags.filter((tag) => targetVersionPattern.test(tag)).sort(semver.rcompare);
     const targetReleaseVersion = semver.inc(targetDescendingOrderTags[0], "prerelease", target);
 
+    if (!targetReleaseVersion) {
+      throw new Error("an error occurred determining the target release version");
+    }
+
     if (!targetVersionPattern.test(targetReleaseVersion)) {
       throw new Error(`target release version does not have prerelease identifier (${target})`);
     }
@@ -109,6 +125,9 @@ import yargs from "yargs";
       await appendUnreleasedNotesToChangelog();
       await exec(`git add ${changelogPath}`);
     } else {
+      if (!standardVersionOptions.releaseAs) {
+        throw new Error("an error occurred determining the target release version");
+      }
       await updateReadmeCdnUrls(standardVersionOptions.releaseAs);
       await exec(`git add ${readmePath}`);
     }
@@ -156,7 +175,7 @@ import yargs from "yargs";
         "npx conventional-changelog --release-count 1 --output-unreleased --preset conventionalcommits --context support/.unreleased-changelog-context.json",
         { encoding: "utf-8" }
       )
-    ).trim();
+    ).stdout.trim();
   }
 
   async function updateReadmeCdnUrls(version: string): Promise<void> {

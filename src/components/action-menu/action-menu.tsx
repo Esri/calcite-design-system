@@ -11,7 +11,7 @@ import {
   State
 } from "@stencil/core";
 import { CSS, SLOTS, ICONS } from "./resources";
-import { focusElement, toAriaBoolean } from "../../utils/dom";
+import { focusElement, isPrimaryPointerButton, toAriaBoolean } from "../../utils/dom";
 import { Fragment, VNode } from "@stencil/core/internal";
 import { getRoundRobinIndex } from "../../utils/array";
 import { guid } from "../../utils/guid";
@@ -50,7 +50,7 @@ export class ActionMenu {
   // --------------------------------------------------------------------------
 
   /**
-   * When true, the component is expanded.
+   * When `true`, the component is expanded.
    */
   @Prop({ reflect: true }) expanded = false;
 
@@ -71,7 +71,7 @@ export class ActionMenu {
   @Prop() label!: string;
 
   /**
-   * When true, the component is open.
+   * When `true`, the component is open.
    */
   @Prop({ reflect: true, mutable: true }) open = false;
 
@@ -89,10 +89,11 @@ export class ActionMenu {
   /**
    * Determines the type of positioning to use for the overlaid content.
    *
-   * Using the "absolute" value will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout. The "fixed" value should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is "fixed".
+   * Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.
+   * `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
    *
    */
-  @Prop() overlayPositioning: OverlayPositioning = "absolute";
+  @Prop({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
   /**
    * Determines where the component will be positioned relative to the `referenceElement`.
@@ -120,7 +121,11 @@ export class ActionMenu {
   @Event({ cancelable: false }) calciteActionMenuOpenChange: EventEmitter<DeprecatedEventPayload>;
 
   @Listen("pointerdown", { target: "window" })
-  closeCalciteActionMenuOnClick(event: Event): void {
+  closeCalciteActionMenuOnClick(event: PointerEvent): void {
+    if (!isPrimaryPointerButton(event)) {
+      return;
+    }
+
     const composedPath = event.composedPath();
 
     if (composedPath.includes(this.el)) {
@@ -328,7 +333,11 @@ export class ActionMenu {
     this.setFocus();
   };
 
-  menuButtonClick = (): void => {
+  menuButtonClick = (event: PointerEvent): void => {
+    if (!isPrimaryPointerButton(event)) {
+      return;
+    }
+
     this.toggleOpen();
   };
 

@@ -159,7 +159,7 @@ export class DatePickerMonth {
     this.activeFocus = false;
   };
 
-  @Listen("mouseout")
+  @Listen("pointerout")
   mouseoutHandler(): void {
     this.calciteInternalDatePickerMouseOut.emit();
   }
@@ -415,7 +415,6 @@ export class DatePickerMonth {
         endOfRange={this.isEndOfRange(date)}
         highlighted={this.betweenSelectedRange(date)}
         key={date.toDateString()}
-        localeData={this.localeData}
         onCalciteDaySelect={this.daySelect}
         onCalciteInternalDayHover={this.dayHover}
         range={!!this.startDate && !!this.endDate && !sameDate(this.startDate, this.endDate)}

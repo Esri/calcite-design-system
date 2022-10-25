@@ -52,11 +52,11 @@ export class RadioGroup implements LabelableComponent, FormComponent, Interactiv
   /** Specifies the appearance style of the component. */
   @Prop({ reflect: true }) appearance: RadioAppearance = "solid";
 
-  /** When true, interaction is prevented and the component is displayed with lower opacity. */
+  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @Prop({ reflect: true }) disabled = false;
 
   /**
-   * When true, the component must have a value on form submission.
+   * When `true`, the component must have a value in order for the form to submit.
    *
    * @internal
    */
@@ -68,12 +68,12 @@ export class RadioGroup implements LabelableComponent, FormComponent, Interactiv
   /**
    * Specifies the name of the component on form submission.
    */
-  @Prop() name: string;
+  @Prop({ reflect: true }) name: string;
 
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
 
-  /** The component's "selectedItem" value. */
+  /** The component's `selectedItem` value. */
   @Prop({ mutable: true }) value: string = null;
 
   @Watch("value")

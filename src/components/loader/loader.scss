@@ -3,7 +3,7 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-loader-font-size: When type is "determinate", the font size of the loading percentage.
+ * @prop --calcite-loader-font-size: Specifies the font size of the loading percentage when type is `"determinate"`.
  * @prop --calcite-loader-size: The width and height of a non-inline loader.
  * @prop --calcite-loader-size-inline: The width and height of an inline loader.
  */
@@ -20,7 +20,8 @@ $loader-circumference: ($loader-scale - (2 * $stroke-width)) * 3.14159;
   stroke-width: $stroke-width;
   fill: none;
   transform: scale(1, 1);
-  animation: loader-color-shift 6s alternate-reverse infinite linear;
+  animation: loader-color-shift calc(var(--calcite-internal-animation-timing-slow) * 2) alternate-reverse infinite
+    linear;
   padding-block: var(--calcite-loader-padding, theme("spacing.16"));
 }
 
@@ -47,10 +48,6 @@ $loader-circumference: ($loader-scale - (2 * $stroke-width)) * 3.14159;
 }
 
 :host {
-  @apply hidden;
-}
-
-:host([active]) {
   @apply flex;
 }
 
@@ -82,7 +79,8 @@ $loader-circumference: ($loader-scale - (2 * $stroke-width)) * 3.14159;
 }
 
 .loader__svg {
-  @apply absolute top-0 left-0 origin-center overflow-visible;
+  @apply absolute top-0 origin-center overflow-visible;
+  inset-inline-start: 0;
   inline-size: var(--calcite-loader-size);
   block-size: var(--calcite-loader-size);
   animation-iteration-count: infinite;
@@ -124,12 +122,13 @@ $loader-circumference: ($loader-scale - (2 * $stroke-width)) * 3.14159;
   vertical-align: calc(var(--calcite-loader-size-inline) * -1 * 0.2);
 }
 
-:host([active][inline]) {
+:host([inline]) {
   @apply inline-block;
 }
 
 :host([inline]) .loader__svgs {
-  @apply top-0 left-0 m-0;
+  @apply top-0 m-0;
+  inset-inline-start: 0;
   inline-size: var(--calcite-loader-size-inline);
   block-size: var(--calcite-loader-size-inline);
 }
@@ -195,9 +194,9 @@ $loader-circumference: ($loader-scale - (2 * $stroke-width)) * 3.14159;
   }
 }
 
-@include generateSegment(1, 10, 40, 0.72s);
-@include generateSegment(2, 20, 30, 0.96s);
-@include generateSegment(3, 05, 45, 1.16s);
+@include generateSegment(1, 10, 40, calc(var(--calcite-internal-animation-timing-slow) * 2.4));
+@include generateSegment(2, 20, 30, calc(var(--calcite-internal-animation-timing-slow) * 3.2));
+@include generateSegment(3, 05, 45, calc(var(--calcite-internal-animation-timing-slow) * 3.867));
 
 @keyframes loader-color-shift {
   0% {

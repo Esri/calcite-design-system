@@ -13,7 +13,7 @@ import {
 
 import { Alignment, Appearance, Scale } from "../interfaces";
 
-import { CSS, TEXT } from "./resources";
+import { CSS, TEXT, SLOTS } from "./resources";
 
 import { createObserver } from "../../utils/observers";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
@@ -35,7 +35,7 @@ export class Action implements InteractiveComponent {
   // --------------------------------------------------------------------------
 
   /**
-   * When true, the component is highlighted.
+   * When `true`, the component is highlighted.
    */
   @Prop({ reflect: true }) active = false;
 
@@ -48,20 +48,20 @@ export class Action implements InteractiveComponent {
   @Prop({ reflect: true }) appearance: Extract<"solid" | "clear", Appearance> = "solid";
 
   /**
-   * When true, the side padding of the component is reduced. Compact mode is used internally by components, e.g. `calcite-block-section`.
+   * When `true`, the side padding of the component is reduced. Compact mode is used internally by components, e.g. `calcite-block-section`.
    */
   @Prop({ reflect: true }) compact = false;
 
   /**
-   * When true, interaction is prevented and the component is displayed with lower opacity.
+   * When `true`, interaction is prevented and the component is displayed with lower opacity.
    */
   @Prop({ reflect: true }) disabled = false;
 
-  /** Specifies an icon to display - accepts Calcite UI icon names.  */
+  /** Specifies an icon to display. */
   @Prop() icon?: string;
 
   /**
-   * When true, indicates unread changes.
+   * When `true`, indicates unread changes.
    */
   @Prop({ reflect: true }) indicator = false;
 
@@ -78,7 +78,7 @@ export class Action implements InteractiveComponent {
   @Prop() label?: string;
 
   /**
-   * When true, a busy indicator is displayed.
+   * When `true`, a busy indicator is displayed.
    */
   @Prop({ reflect: true }) loading = false;
 
@@ -106,7 +106,7 @@ export class Action implements InteractiveComponent {
   /**
    * Emits when the component has been clicked.
    *
-   * @deprecated use onClick instead.
+   * @deprecated use `onClick` instead.
    */
   @Event({ cancelable: false }) calciteActionClick: EventEmitter<void>;
 
@@ -227,6 +227,7 @@ export class Action implements InteractiveComponent {
           {this.renderIconContainer()}
           {this.renderTextContainer()}
         </button>
+        <slot name={SLOTS.tooltip} onSlotchange={this.handleTooltipSlotChange} />
       </Host>
     );
   }
@@ -236,6 +237,20 @@ export class Action implements InteractiveComponent {
   //  Private Methods
   //
   // --------------------------------------------------------------------------
+
+  handleTooltipSlotChange = (event: Event): void => {
+    const tooltips = (event.target as HTMLSlotElement)
+      .assignedElements({
+        flatten: true
+      })
+      .filter((el) => el?.matches("calcite-tooltip")) as HTMLCalciteTooltipElement[];
+
+    const tooltip = tooltips[0];
+
+    if (tooltip) {
+      tooltip.referenceElement = this.buttonEl;
+    }
+  };
 
   calciteActionClickHandler = (): void => {
     if (!this.disabled) {

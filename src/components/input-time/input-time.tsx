@@ -583,7 +583,7 @@ export class InputTime implements LabelableComponent, FormComponent, Interactive
     const oldValue = this.value;
     const { hour, minute, second } = parseTimeString(formattedNewValue);
     const { localizedHour, localizedMinute, localizedSecond, localizedMeridiem } =
-      localizeTimeStringToParts(formattedNewValue, this.locale);
+      localizeTimeStringToParts({ value: formattedNewValue, locale: this.locale });
 
     this.userChangedValue = context === "user";
 
@@ -604,7 +604,7 @@ export class InputTime implements LabelableComponent, FormComponent, Interactive
     if (localizedMeridiem) {
       this.meridiem = getMeridiem(this.hour);
       this.localizedMeridiem = localizedMeridiem;
-      const formatParts = getTimeParts(newValue, this.locale);
+      const formatParts = getTimeParts({ value: newValue, locale: this.locale });
       this.meridiemOrder = this.getMeridiemOrder(formatParts);
     }
 
@@ -628,6 +628,7 @@ export class InputTime implements LabelableComponent, FormComponent, Interactive
     key: "hour" | "minute" | "second" | "meridiem",
     value: number | string | Meridiem
   ): void => {
+    const { locale } = this;
     if (key === "meridiem") {
       this.meridiem = value as Meridiem;
       if (isValidNumber(this.hour)) {
@@ -644,11 +645,19 @@ export class InputTime implements LabelableComponent, FormComponent, Interactive
             }
             break;
         }
-        this.localizedHour = localizeTimePart(this.hour, "hour", this.locale);
+        this.localizedHour = localizeTimePart({
+          value: this.hour,
+          part: "hour",
+          locale
+        });
       }
     } else {
       this[key] = typeof value === "number" ? formatTimePart(value) : value;
-      this[`localized${capitalize(key)}`] = localizeTimePart(this[key], key, this.locale);
+      this[`localized${capitalize(key)}`] = localizeTimePart({
+        value: this[key],
+        part: key,
+        locale
+      });
     }
     if (this.hour && this.minute) {
       const showSeconds = this.second && this.showSecond;
@@ -660,8 +669,8 @@ export class InputTime implements LabelableComponent, FormComponent, Interactive
       this.value = null;
     }
     this.localizedMeridiem = this.value
-      ? localizeTimeStringToParts(this.value, this.locale)?.localizedMeridiem || null
-      : localizeTimePart(this.meridiem, "meridiem", this.locale);
+      ? localizeTimeStringToParts({ value: this.value, locale })?.localizedMeridiem || null
+      : localizeTimePart({ value: this.meridiem, part: "meridiem", locale });
   };
 
   private timePartFocusHandler = (event: FocusEvent): void => {

@@ -30,7 +30,7 @@ export class TipManager {
   //
   // --------------------------------------------------------------------------
   /**
-   * When true, does not display or position the component.
+   * When `true`, does not display or position the component.
    */
   @Prop({ reflect: true, mutable: true }) closed = false;
 
@@ -43,7 +43,7 @@ export class TipManager {
   /**
    * Specifies the number at which section headings should start.
    */
-  @Prop() headingLevel: HeadingLevel;
+  @Prop({ reflect: true }) headingLevel: HeadingLevel;
 
   /**
    * Accessible name for the component's close button.
@@ -144,7 +144,7 @@ export class TipManager {
   /**
    * Emits when the component has been open or closed.
    *
-   * @deprecated use "calciteTipManagerClose" instead.
+   * @deprecated use `calciteTipManagerClose` instead.
    */
   @Event({ cancelable: false }) calciteTipManagerToggle: EventEmitter<void>;
 

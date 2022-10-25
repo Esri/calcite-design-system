@@ -3,11 +3,11 @@ import {
   Attributes,
   filterComponentAttributes,
   createComponentHTML as create,
-  themesDarkDefault,
-  placeholderImage
+  themesDarkDefault
 } from "../../../.storybook/utils";
+import { placeholderImage } from "../../../.storybook/placeholderImage";
 import { ATTRIBUTES } from "../../../.storybook/resources";
-import { iconNames } from "../../../.storybook/helpers";
+import { iconNames, storyFilters } from "../../../.storybook/helpers";
 import { select, text } from "@storybook/addon-knobs";
 import accordionReadme from "./readme.md";
 import accordionItemReadme from "../accordion-item/readme.md";
@@ -107,12 +107,10 @@ const createAccordionItemAttributes: (options?: {
 
   if (iconEnd && iconStart) {
     return iconStartAttribute.concat(defaultAttributes, iconEndAttribute);
-  } else if (icon) {
-    return iconAttribute.concat(defaultAttributes);
   } else if (iconStart || iconEnd) {
     return iconStart ? iconStartAttribute.concat(defaultAttributes) : iconEndAttribute.concat(defaultAttributes);
-  } else if (iconEnd && iconStart) {
-    return iconEndAttribute.concat(defaultAttributes, iconStartAttribute);
+  } else if (icon) {
+    return iconAttribute.concat(defaultAttributes);
   }
 
   return defaultAttributes;
@@ -133,10 +131,11 @@ export default {
     backgrounds: {
       values: [{ name: "transparent", value: "#0000ffff" }]
     }
-  }
+  },
+  ...storyFilters()
 };
 
-export const basic = (): string =>
+export const simple = (): string =>
   create(
     "calcite-accordion",
     createAccordionAttributes(),
@@ -167,7 +166,7 @@ export const basic = (): string =>
     `
   );
 
-export const icon = (): string =>
+export const icon_NoTest = (): string =>
   create(
     "calcite-accordion",
     createAccordionAttributes(),
@@ -198,13 +197,42 @@ export const icon = (): string =>
     `
   );
 
-export const darkThemeIcon = (): string =>
+export const withActions = (): string => html`
+  <calcite-accordion scale="s">
+    <calcite-accordion-item scale="m" heading="Accordion Item">
+      <calcite-action scale="s" icon="brush-tip" label="Paint" slot="actions-start"></calcite-action
+      >${accordionItemContent}
+      <calcite-action scale="s" icon="banana" label="Banana" slot="actions-end"></calcite-action>
+      <calcite-action scale="s" icon="sound" label="Volume" slot="actions-end"></calcite-action>
+    </calcite-accordion-item>
+    <calcite-accordion-item scale="m" heading="Accordion Item">
+      <calcite-action scale="s" icon="brush-tip" label="Paint" slot="actions-start"></calcite-action
+      >${accordionItemContent}
+      <calcite-action scale="s" icon="banana" label="Banana" slot="actions-end"></calcite-action>
+      <calcite-action scale="s" icon="sound" label="Volume" slot="actions-end"></calcite-action>
+    </calcite-accordion-item>
+    <calcite-accordion-item scale="m" heading="Accordion Item">
+      <calcite-action scale="s" icon="brush-tip" label="Paint" slot="actions-start"></calcite-action
+      >${accordionItemContent}
+      <calcite-action scale="s" icon="banana" label="Banana" slot="actions-end"></calcite-action>
+      <calcite-action scale="s" icon="sound" label="Volume" slot="actions-end"></calcite-action>
+    </calcite-accordion-item>
+  </calcite-accordion>
+`;
+
+export const darkThemeRTL_TestOnly = (): string =>
   create(
     "calcite-accordion",
-    createAccordionAttributes({ exceptions: ["class"] }).concat({
-      name: "class",
-      value: "calcite-theme-dark"
-    }),
+    createAccordionAttributes({ exceptions: ["class", "dir"] }).concat(
+      {
+        name: "class",
+        value: "calcite-theme-dark"
+      },
+      {
+        name: "dir",
+        value: "rtl"
+      }
+    ),
     html`
       ${create(
         "calcite-accordion-item",
@@ -232,43 +260,9 @@ export const darkThemeIcon = (): string =>
     `
   );
 
-darkThemeIcon.parameters = { themes: themesDarkDefault };
+darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };
 
-export const RTL = (): string =>
-  create(
-    "calcite-accordion",
-    createAccordionAttributes({ exceptions: ["dir"] }).concat({
-      name: "dir",
-      value: "rtl"
-    }),
-    html`
-      ${create(
-        "calcite-accordion-item",
-        createAccordionItemAttributes({ group: "accordion-item-1" }),
-        accordionItemContent
-      )}
-      ${create(
-        "calcite-accordion-item",
-        createAccordionItemAttributes({ group: "accordion-item-2" }),
-        accordionItemContent
-      )}
-      ${create(
-        "calcite-accordion-item",
-        createAccordionItemAttributes({ group: "accordion-item-3" }),
-        accordionItemContent
-      )}
-      ${create(
-        "calcite-accordion-item",
-        createAccordionItemAttributes({ group: "accordion-item-4" }).concat({
-          name: "expanded",
-          value: true
-        }),
-        accordionItemContent
-      )}
-    `
-  );
-
-export const TransparentAppearance = (): string =>
+export const transparentAppearance_TestOnly = (): string =>
   create(
     "calcite-accordion",
     createAccordionAttributes({ exceptions: ["appearance"] }).concat({
@@ -302,7 +296,7 @@ export const TransparentAppearance = (): string =>
     `
   );
 
-export const WithIconStartAndEnd = (): string =>
+export const withIconStartAndEnd_TestOnly = (): string =>
   create(
     "calcite-accordion",
     createAccordionAttributes({ exceptions: ["appearance"] }).concat({
@@ -340,25 +334,3 @@ export const WithIconStartAndEnd = (): string =>
       )}
     `
   );
-export const WithActions = (): string => html`
-  <calcite-accordion scale="s">
-    <calcite-accordion-item scale="m" heading="Accordion Item">
-      <calcite-action scale="s" icon="brush-tip" label="Paint" slot="actions-start"></calcite-action
-      >${accordionItemContent}
-      <calcite-action scale="s" icon="banana" label="Banana" slot="actions-end"></calcite-action>
-      <calcite-action scale="s" icon="sound" label="Volume" slot="actions-end"></calcite-action>
-    </calcite-accordion-item>
-    <calcite-accordion-item scale="m" heading="Accordion Item">
-      <calcite-action scale="s" icon="brush-tip" label="Paint" slot="actions-start"></calcite-action
-      >${accordionItemContent}
-      <calcite-action scale="s" icon="banana" label="Banana" slot="actions-end"></calcite-action>
-      <calcite-action scale="s" icon="sound" label="Volume" slot="actions-end"></calcite-action>
-    </calcite-accordion-item>
-    <calcite-accordion-item scale="m" heading="Accordion Item">
-      <calcite-action scale="s" icon="brush-tip" label="Paint" slot="actions-start"></calcite-action
-      >${accordionItemContent}
-      <calcite-action scale="s" icon="banana" label="Banana" slot="actions-end"></calcite-action>
-      <calcite-action scale="s" icon="sound" label="Volume" slot="actions-end"></calcite-action>
-    </calcite-accordion-item>
-  </calcite-accordion>
-`;

@@ -10,12 +10,14 @@ import { ATTRIBUTES } from "../../../.storybook/resources";
 import readme from "./readme.md";
 import { SLOTS, TEXT } from "./resources";
 import { html } from "../../../support/formatting";
+import { storyFilters } from "../../../.storybook/helpers";
 
 export default {
   title: "Components/Panel",
   parameters: {
     notes: readme
-  }
+  },
+  ...storyFilters()
 };
 
 const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ exceptions } = { exceptions: [] }) => {
@@ -114,9 +116,7 @@ const panelContent = `${headerHTML}
   ${contentHTML}
   ${footerHTML}`;
 
-export const basic = (): string => create("calcite-panel", createAttributes(), panelContent);
-
-export const withButton = (): string =>
+export const simple = (): string =>
   create(
     "calcite-panel",
     createAttributes(),
@@ -134,19 +134,26 @@ export const onlyProps = (): string => html`
   <div style="width: 300px;">
     <calcite-panel
       height-scale="s"
-      heading="Panel title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum"
-      summary="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+      heading-level="${text("heading-level", "2")}"
+      summary="${text(
+        "summary",
+        "Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+      )}"
+      heading="${text(
+        "heading",
+        "Panel title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum"
+      )}"
     />
   </div>
 `;
 
-export const withStyledSlot = (): string => html`
-  <calcite-panel style="height: 100%;" heading="Heading">
+export const disabledWithStyledSlot_TestOnly = (): string => html`
+  <calcite-panel style="height: 100%;" heading="Heading" disabled>
     <div id="content" style="height: 100%;">${contentHTML}</div>
   </calcite-panel>
 `;
 
-export const darkThemeRTL = (): string =>
+export const darkThemeRTL_TestOnly = (): string =>
   create(
     "calcite-panel",
     createAttributes({ exceptions: ["dir", "class"] }).concat([
@@ -162,9 +169,51 @@ export const darkThemeRTL = (): string =>
     panelContent
   );
 
-darkThemeRTL.parameters = { themes: themesDarkDefault };
+darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };
 
-export const disabled = (): string => html`<calcite-panel heading="Heading" disabled>disabled</calcite-panel>`;
+export const noDoubleScrollbars_TestOnly = (): string => html`
+  <style>
+    #container {
+      display: flex;
+      max-height: 540px;
+      width: 300px;
+    }
 
-export const headingLevel2 = (): string =>
-  html`<calcite-panel heading-level="2" heading="Heading">My Panel</calcite-panel>`;
+    .content {
+      height: 100%;
+      display: flex;
+      padding: 10px;
+      overflow-y: auto; /* Control scrollbar via child */
+    }
+  </style>
+  <div id="container">
+    <calcite-flow>
+      <calcite-panel heading="Example">
+        <div>### Stickied Content e.g. toolbar</div>
+        <div class="content">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus sapien lectus, ultricies a molestie nec,
+          sollicitudin ac nulla. Pellentesque tincidunt malesuada arcu et placerat. In malesuada neque lectus, at congue
+          est malesuada quis. Proin tincidunt lacus laoreet mauris fringilla accumsan. Cras nec enim eu lectus suscipit
+          vestibulum a laoreet arcu. Duis posuere nunc vel enim blandit, nec vehicula orci aliquam. Vestibulum hendrerit
+          mi vel nisi posuere accumsan. Aenean efficitur est id cursus convallis. Morbi turpis ante, sodales eu tortor
+          eu, mattis bibendum purus. Morbi iaculis nisl nunc, quis accumsan quam laoreet vitae. Aliquam ex ligula,
+          ornare eu ex vitae, tincidunt venenatis lacus. Phasellus risus quam, elementum sed justo porttitor,
+          ullamcorper mattis nisl. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia
+          curae; Nulla non dui at metus porta lacinia congue sit amet quam. Mauris viverra diam neque, in blandit leo
+          vehicula et. Donec non purus vitae nunc tincidunt egestas. Nunc pretium enim magna, sed fringilla lacus
+          viverra in. Nam et pretium nisi. Ut bibendum, ipsum sit amet egestas hendrerit, quam orci sollicitudin purus,
+          sit amet finibus mauris erat in eros. Integer est dui, vehicula a ipsum id, pellentesque semper elit. Fusce
+          euismod volutpat eros vitae imperdiet. Nam suscipit lacus id posuere pharetra. Cras eros ipsum, feugiat non
+          leo non, ornare malesuada eros. Donec egestas purus non quam tempus commodo. Maecenas ex augue, euismod eget
+          magna in, dapibus fermentum felis. Phasellus justo felis, sollicitudin ut ex sed, lobortis scelerisque sem.
+          Pellentesque semper placerat velit, sit amet viverra tortor ultricies eu. Pellentesque habitant morbi
+          tristique senectus et netus et malesuada fames ac turpis egestas. Phasellus feugiat, augue in molestie
+          imperdiet, felis turpis facilisis tortor, at tempus purus risus et sapien. Fusce id nisi id orci elementum
+          sollicitudin. Nam id libero eu odio efficitur rutrum maximus porta lorem. Nunc tristique interdum augue,
+          sodales viverra lectus efficitur vitae. Nam molestie, neque consequat mollis pulvinar, sapien sem semper nunc,
+          et euismod enim sem vitae ligula.
+        </div>
+      </calcite-panel>
+    </calcite-flow>
+  </div>
+`;

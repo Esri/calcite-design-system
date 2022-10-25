@@ -141,7 +141,7 @@ export class Filter implements InteractiveComponent {
   //
   // --------------------------------------------------------------------------
 
-  filter = debounce(
+  private filter = debounce(
     (value: string, emit = false): void => this.updateFiltered(filter(this.items, value), emit),
     DEBOUNCE_TIMEOUT
   );

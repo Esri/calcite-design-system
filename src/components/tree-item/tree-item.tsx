@@ -28,6 +28,7 @@ import {
   connectConditionalSlotComponent,
   disconnectConditionalSlotComponent
 } from "../../utils/conditionalSlot";
+import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 
 /**
  * @slot - A slot for adding the component's content.
@@ -38,7 +39,7 @@ import {
   styleUrl: "tree-item.scss",
   shadow: true
 })
-export class TreeItem implements ConditionalSlotComponent {
+export class TreeItem implements ConditionalSlotComponent, InteractiveComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -53,10 +54,15 @@ export class TreeItem implements ConditionalSlotComponent {
   //
   //--------------------------------------------------------------------------
 
-  /** When true, the component is selected. */
+  /**
+   * When `true`, interaction is prevented and the component is displayed with lower opacity.
+   */
+  @Prop({ reflect: true }) disabled = false;
+
+  /** When `true`, the component is selected. */
   @Prop({ mutable: true, reflect: true }) selected = false;
 
-  /** When true, the component is expanded. */
+  /** When `true`, the component is expanded. */
   @Prop({ mutable: true, reflect: true }) expanded = false;
 
   @Watch("expanded")
@@ -88,7 +94,7 @@ export class TreeItem implements ConditionalSlotComponent {
    * Displays checkboxes (set on parent).
    *
    * @internal
-   * @deprecated Use "ancestors" selection-mode on parent for checkbox input.
+   * @deprecated Use `selectionMode="ancestors"` for checkbox input.
    */
   @Prop() inputEnabled: boolean;
 
@@ -123,7 +129,7 @@ export class TreeItem implements ConditionalSlotComponent {
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
-    this.parentTreeItem = this.el.parentElement.closest("calcite-tree-item");
+    this.parentTreeItem = this.el.parentElement?.closest("calcite-tree-item");
     if (this.parentTreeItem) {
       const { expanded } = this.parentTreeItem;
       this.updateParentIsExpanded(this.parentTreeItem, expanded);
@@ -138,7 +144,6 @@ export class TreeItem implements ConditionalSlotComponent {
   componentWillRender(): void {
     this.hasChildren = !!this.el.querySelector("calcite-tree");
     this.depth = 0;
-
     let parentTree = this.el.closest("calcite-tree");
 
     if (!parentTree) {
@@ -151,7 +156,7 @@ export class TreeItem implements ConditionalSlotComponent {
 
     let nextParentTree;
     while (parentTree) {
-      nextParentTree = parentTree.parentElement.closest("calcite-tree");
+      nextParentTree = parentTree.parentElement?.closest("calcite-tree");
       if (nextParentTree === parentTree) {
         break;
       } else {
@@ -163,6 +168,10 @@ export class TreeItem implements ConditionalSlotComponent {
 
   componentDidLoad(): void {
     this.updateAncestorTree();
+  }
+
+  componentDidRender(): void {
+    updateHostInteraction(this, () => this.parentExpanded || this.depth === 1);
   }
 
   //--------------------------------------------------------------------------
@@ -181,6 +190,7 @@ export class TreeItem implements ConditionalSlotComponent {
     const showCheckmark =
       this.selectionMode === TreeSelectionMode.Multi ||
       this.selectionMode === TreeSelectionMode.MultiChildren;
+    const showBlank = this.selectionMode === TreeSelectionMode.None && !this.hasChildren;
     const chevron = this.hasChildren ? (
       <calcite-icon
         class={{
@@ -212,6 +222,8 @@ export class TreeItem implements ConditionalSlotComponent {
       ? ICONS.bulletPoint
       : showCheckmark
       ? ICONS.checkmark
+      : showBlank
+      ? ICONS.blank
       : null;
     const itemIndicator = selectedIcon ? (
       <calcite-icon
@@ -234,7 +246,6 @@ export class TreeItem implements ConditionalSlotComponent {
         aria-selected={this.selected ? "true" : showCheckmark ? "false" : undefined}
         calcite-hydrated-hidden={hidden}
         role="treeitem"
-        tabindex={this.parentExpanded || this.depth === 1 ? "0" : "-1"}
       >
         <div
           class={{
@@ -398,7 +409,7 @@ export class TreeItem implements ConditionalSlotComponent {
       let parent = this.parentTreeItem;
       while (parent) {
         ancestors.push(parent);
-        parent = parent.parentElement.closest("calcite-tree-item");
+        parent = parent.parentElement?.closest("calcite-tree-item");
       }
       ancestors.forEach((item) => (item.indeterminate = true));
       return;
