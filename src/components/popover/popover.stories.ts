@@ -113,7 +113,6 @@ export const scaleConsistencyPopoverHeadingActionSlottedIcon = stepStory(
         ${boolean("open", true)}
         ${boolean("dismissible", true)}
         scale="${select("scale", ["s", "m", "l"], "m")}"
-        style="width: 25vw"
       >
         ${contentHTML}
       </calcite-popover>
@@ -125,4 +124,6 @@ export const scaleConsistencyPopoverHeadingActionSlottedIcon = stepStory(
     .snapshot("Popover Heading & Icon at 's' scale")
     .executeScript(`document.querySelector("calcite-popover").scale = "l"`)
     .snapshot("Popover Heading & Icon at 'l' scale")
+    .executeScript(`document.querySelector("calcite-popover").dismissible = "false"`)
+    .snapshot("Popover Heading height at 'l' scale collapsed")
 );
