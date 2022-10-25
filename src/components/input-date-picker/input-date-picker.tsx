@@ -36,7 +36,6 @@ import {
   submitForm
 } from "../../utils/form";
 import {
-  positionFloatingUI,
   FloatingCSS,
   OverlayPositioning,
   FloatingUIComponent,
@@ -46,7 +45,8 @@ import {
   MenuPlacement,
   defaultMenuPlacement,
   filterComputedPlacements,
-  repositionDebounceTimeout
+  reposition,
+  updateAfterClose
 } from "../../utils/floating-ui";
 import { DateRangeChange } from "../date-picker/interfaces";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
@@ -63,7 +63,6 @@ import {
   NumberingSystem,
   numberStringFormatter
 } from "../../utils/locale";
-import { debounce } from "lodash-es";
 import { numberKeys } from "../../utils/key";
 
 @Component({
@@ -145,7 +144,7 @@ export class InputDatePicker
   @Watch("flipPlacements")
   flipPlacementsHandler(): void {
     this.setFilteredPlacements();
-    this.debouncedReposition();
+    this.reposition(true);
   }
 
   /**
@@ -216,11 +215,18 @@ export class InputDatePicker
     this.active = value;
 
     if (this.disabled || this.readOnly) {
+      if (!value) {
+        updateAfterClose(this.floatingEl);
+      }
       this.open = false;
       return;
     }
 
-    this.debouncedReposition();
+    if (value) {
+      this.reposition(true);
+    } else {
+      updateAfterClose(this.floatingEl);
+    }
   }
 
   /**
@@ -309,7 +315,7 @@ export class InputDatePicker
 
   @Watch("overlayPositioning")
   overlayPositioningHandler(): void {
-    this.debouncedReposition();
+    this.reposition(true);
   }
 
   /**
@@ -405,19 +411,27 @@ export class InputDatePicker
     this.startInput?.setFocus();
   }
 
-  /** Updates the position of the component. */
+  /**
+   * Updates the position of the component.
+   *
+   * @param delayed
+   */
   @Method()
-  async reposition(): Promise<void> {
+  async reposition(delayed = false): Promise<void> {
     const { floatingEl, referenceEl, placement, overlayPositioning, filteredFlipPlacements } = this;
 
-    return positionFloatingUI({
-      floatingEl,
-      referenceEl,
-      overlayPositioning,
-      placement,
-      flipPlacements: filteredFlipPlacements,
-      type: "menu"
-    });
+    return reposition(
+      this,
+      {
+        floatingEl,
+        referenceEl,
+        overlayPositioning,
+        placement,
+        flipPlacements: filteredFlipPlacements,
+        type: "menu"
+      },
+      delayed
+    );
   }
 
   // --------------------------------------------------------------------------
@@ -468,7 +482,7 @@ export class InputDatePicker
     connectOpenCloseComponent(this);
 
     this.setFilteredPlacements();
-    this.debouncedReposition();
+    this.reposition(true);
 
     numberStringFormatter.numberFormatOptions = {
       numberingSystem: this.numberingSystem,
@@ -485,7 +499,7 @@ export class InputDatePicker
 
   componentDidLoad(): void {
     this.localizeInputValues();
-    this.debouncedReposition();
+    this.reposition(true);
   }
 
   disconnectedCallback(): void {
@@ -672,8 +686,6 @@ export class InputDatePicker
   //  Private Methods
   //
   //--------------------------------------------------------------------------
-
-  private debouncedReposition = debounce(() => this.reposition(), repositionDebounceTimeout);
 
   setFilteredPlacements = (): void => {
     const { el, flipPlacements } = this;
