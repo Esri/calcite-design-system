@@ -19,6 +19,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### Bug Fixes
 
+- **calcite-loader, calcite-input-message:** drop active in favor of hidden ([#5537](https://github.com/Esri/calcite-components/issues/5537)) ([4cb0ea1](https://github.com/Esri/calcite-components/commit/4cb0ea11f345151a7cc356183f961097c8042ed4))
 - add custom logic for floating-ui positioning across shadow DOM in non-Chromium browsers ([#5542](https://github.com/Esri/calcite-components/issues/5542)) ([04cb8cb](https://github.com/Esri/calcite-components/commit/04cb8cba2f02bdb8df6942d1378a89c64c65b7ed))
 - components should only react to primary button pointer events. ([#5519](https://github.com/Esri/calcite-components/issues/5519)) ([ed55933](https://github.com/Esri/calcite-components/commit/ed55933c120083fed79e5bd683fc37b3910296cc))
 - fix jarring positioning when a closed component is first opened ([#5484](https://github.com/Esri/calcite-components/issues/5484)) ([4c939ea](https://github.com/Esri/calcite-components/commit/4c939ea9ae5a9f1a518186d6ee416337b7cee46c))
