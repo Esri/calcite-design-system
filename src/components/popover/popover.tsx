@@ -494,7 +494,7 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
   // --------------------------------------------------------------------------
 
   renderCloseButton(): VNode {
-    const { closeButton, intlClose, heading, closable } = this;
+    const { closeButton, intlClose, closable } = this;
 
     return closable || closeButton ? (
       <div class={CSS.closeButtonContainer}>
@@ -505,11 +505,7 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
           scale={this.scale}
           text={intlClose}
         >
-          <calcite-icon
-            class={CSS.iconClose}
-            icon="x"
-            scale={this.scale === "l" ? "m" : this.scale}
-          />
+          <calcite-icon icon="x" scale={this.scale === "l" ? "m" : this.scale} />
         </calcite-action>
       </div>
     ) : null;
