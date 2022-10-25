@@ -101,3 +101,29 @@ export const flipPlacements_TestOnly = (): string => html`
     document.querySelector(".my-popover").flipPlacements = ["right"];
   </script>
 `;
+
+export const scaleConsistencyPopoverHeadingActionSlottedIcon = stepStory(
+  (): string => html`
+    <div style="width: 400px;">
+      ${referenceElementHTML}
+      <calcite-popover
+        heading="Dreams didn't make us kings. Dragons did. 🐉"
+        label="right end popover"
+        reference-element="reference-element"
+        placement="${select("placement", placements, defaultPopoverPlacement)}"
+        ${boolean("open", true)}
+        ${boolean("dismissible", true)}
+        scale="${select("scale", ["s", "m", "l"], "m")}"
+        style="width: 25vw"
+      >
+        ${contentHTML}
+      </calcite-popover>
+    </div>
+  `,
+  createSteps("calcite-popover")
+    .snapshot("Popover Heading & Icon at 'm' scale")
+    .executeScript(`document.querySelector("calcite-popover").scale = "s"`)
+    .snapshot("Popover Heading & Icon at 's' scale")
+    .executeScript(`document.querySelector("calcite-popover").scale = "l"`)
+    .snapshot("Popover Heading & Icon at 'l' scale")
+);
