@@ -108,7 +108,6 @@ export const scaleConsistencyPopoverHeadingActionSlottedIcon = stepStory(
       ${referenceElementHTML}
       <calcite-popover
         heading="Dreams didn't make us kings. Dragons did. 🐉"
-        label="right end popover"
         reference-element="reference-element"
         placement="${select("placement", placements, defaultPopoverPlacement)}"
         ${boolean("open", true)}
