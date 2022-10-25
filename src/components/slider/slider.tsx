@@ -824,7 +824,7 @@ export class Slider
     }
     event.preventDefault();
     const fixedDecimalAdjustment = Number(adjustment.toFixed(decimalPlaces(step)));
-    this.setValue(activeProp, this.clamp(fixedDecimalAdjustment, activeProp));
+    this.setValue({ [activeProp]: this.clamp(fixedDecimalAdjustment, activeProp) });
   }
 
   @Listen("pointerdown")
@@ -849,7 +849,7 @@ export class Slider
     this.dragStart(prop);
     const isThumbActive = this.el.shadowRoot.querySelector(".thumb:active");
     if (!isThumbActive) {
-      this.setValue(prop, this.clamp(position, prop));
+      this.setValue({ [prop]: this.clamp(position, prop) });
     }
     this.focusActiveHandle(x);
   }
@@ -1040,8 +1040,10 @@ export class Slider
             newMinValue >= this.min &&
             newMaxValue - newMinValue === this.minMaxValueRange
           ) {
-            this.minValue = this.clamp(newMinValue, "minValue");
-            this.maxValue = this.clamp(newMaxValue, "maxValue");
+            this.setValue({
+              minValue: this.clamp(newMinValue, "minValue"),
+              maxValue: this.clamp(newMaxValue, "maxValue")
+            });
           }
         } else {
           this.minValueDragRange = value - this.minValue;
@@ -1049,7 +1051,7 @@ export class Slider
           this.minMaxValueRange = this.maxValue - this.minValue;
         }
       } else {
-        this.setValue(this.dragProp, this.clamp(value, this.dragProp));
+        this.setValue({ [this.dragProp]: this.clamp(value, this.dragProp) });
       }
     }
   };
@@ -1091,19 +1093,30 @@ export class Slider
   }
 
   /**
-   * Set the prop value if changed at the component level
+   * Set prop value(s) if changed at the component level
    *
-   * @param valueProp
-   * @param value
+   * @param {object} values - a set of key/value pairs delineating what properties in the component to update
+   * @example
+   * // returns void
+   * this.setValue({ min: 10, max: 400});
    */
-  private setValue(valueProp: string, value: number): void {
-    const oldValue = this[valueProp];
-    const valueChanged = oldValue !== value;
+
+  private setValue(values: { [key: string]: string | number }): void {
+    let valueChanged;
+    Object.keys(values).forEach((val) => {
+      if (!this.hasOwnProperty(val)) {
+        return;
+      }
+      if (!valueChanged) {
+        const oldValue = this[val];
+        valueChanged = oldValue !== values[val];
+      }
+      this[val] = values[val];
+    });
 
     if (!valueChanged) {
       return;
     }
-    this[valueProp] = value;
     const dragging = this.dragProp;
     if (!dragging) {
       this.emitChange();
