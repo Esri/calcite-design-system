@@ -74,7 +74,7 @@
       // example for alerts appended to dom
       function createExampleAlert(id) {
         const exampleAlert = [
-          "<calcite-alert id=" + id + " color='red'>",
+          "<calcite-alert " + id + " color='red'>",
           "<div slot='title'>Something failed</div>",
           "<div slot='message'>" + id + " That thing you wanted to do didn't work as expected</div>",
           "<calcite-link slot='link' title='my action' appearance='inline'>Take action</calcite-link>",
@@ -838,23 +838,42 @@
     -->
       <!-- Test prop for small info-->
       <div>
-        <calcite-alert label="this is a default alert" id="default-s" scale="s">
+        <calcite-alert numbering-system="arab" label="this is a default alert" id="default-s" scale="s">
           <div slot="title">Hello there!</div>
           <div slot="message">This is an alert with a general piece of information. Cool, innit?</div>
         </calcite-alert>
 
-        <calcite-alert label="this is an alert" id="default-s-autodismiss" scale="s" auto-dismiss icon>
+        <calcite-alert
+          numbering-system="arab"
+          label="this is an alert"
+          id="default-s-autodismiss"
+          scale="s"
+          auto-dismiss
+          icon
+        >
           <div slot="title">Hello there!</div>
           <div slot="message">This is an auto-dismiss message</div>
           <calcite-link slot="link" title="my action"> Do thing </calcite-link>
         </calcite-alert>
 
-        <calcite-alert label="this is a default alert with icon" id="default-s-icon" scale="s" icon>
+        <calcite-alert
+          numbering-system="arab"
+          label="this is a default alert with icon"
+          id="default-s-icon"
+          scale="s"
+          icon
+        >
           <div slot="title">Hello there!</div>
           <div slot="message">This is a default alert message with an alert.</div>
         </calcite-alert>
 
-        <calcite-alert label="this is a default alert with icon and link" id="default-s-icon-link" scale="s" icon>
+        <calcite-alert
+          numbering-system="arab"
+          label="this is a default alert with icon and link"
+          id="default-s-icon-link"
+          scale="s"
+          icon
+        >
           <div slot="title">Hello there!</div>
           <div slot="message">This is a default alert message with an an icon and link.</div>
           <calcite-link slot="link" title="my action"> Do thing </calcite-link>
@@ -863,7 +882,13 @@
 
       <!-- Test prop for small success-->
       <div>
-        <calcite-alert label="this is a default success" id="default-s-success" scale="s" color="green">
+        <calcite-alert
+          numbering-system="arab"
+          label="this is a default success"
+          id="default-s-success"
+          scale="s"
+          color="green"
+        >
           <div slot="title">Hello there!</div>
           <div slot="message">Success, let's goo!!</div>
         </calcite-alert>
@@ -907,7 +932,13 @@
 
       <!-- Test prop for small warning-->
       <div>
-        <calcite-alert label="this is a default warning" id="default-s-warning" scale="s" color="yellow">
+        <calcite-alert
+          numbering-system="arab"
+          label="this is a default warning"
+          id="default-s-warning"
+          scale="s"
+          color="yellow"
+        >
           <div slot="title">Hello there!</div>
           <div slot="message">This is a warning!</div>
         </calcite-alert>
@@ -951,7 +982,13 @@
 
       <!-- Test prop for small danger-->
       <div>
-        <calcite-alert label="this is a default danger" id="default-s-danger" scale="s" color="red">
+        <calcite-alert
+          numbering-system="arab"
+          label="this is a default danger"
+          id="default-s-danger"
+          scale="s"
+          color="red"
+        >
           <div slot="title">Hello there!</div>
           <div slot="message">This is a danger area.</div>
         </calcite-alert>
@@ -969,7 +1006,14 @@
           <calcite-link slot="link" title="my action"> Do thing </calcite-link>
         </calcite-alert>
 
-        <calcite-alert label="this is a default danger with icon" id="default-s-danger-icon" scale="s" color="red" icon>
+        <calcite-alert
+          numbering-system="arab"
+          label="this is a default danger with icon"
+          id="default-s-danger-icon"
+          scale="s"
+          color="red"
+          icon
+        >
           <div slot="title">Hello there!</div>
           <div slot="message">Access denied.</div>
         </calcite-alert>
@@ -994,23 +1038,42 @@
       -->
       <!-- Test prop for medium info-->
       <div>
-        <calcite-alert label="this is a default alert" id="default-m" scale="m">
+        <calcite-alert numbering-system="arab" label="this is a default alert" id="default-m" scale="m">
           <div slot="title">Hello there!</div>
           <div slot="message">This is an alert with a general piece of information. Cool, innit?</div>
         </calcite-alert>
 
-        <calcite-alert label="this is an alert" id="default-m-autodismiss" scale="m" auto-dismiss icon>
+        <calcite-alert
+          numbering-system="arab"
+          label="this is an alert"
+          id="default-m-autodismiss"
+          scale="m"
+          auto-dismiss
+          icon
+        >
           <div slot="title">Hello there!</div>
           <div slot="message">This is an auto-dismiss message</div>
           <calcite-link slot="link" title="my action"> Do thing </calcite-link>
         </calcite-alert>
 
-        <calcite-alert label="this is a default alert with icon" id="default-m-icon" scale="m" icon>
+        <calcite-alert
+          numbering-system="arab"
+          label="this is a default alert with icon"
+          id="default-m-icon"
+          scale="m"
+          icon
+        >
           <div slot="title">Hello there!</div>
           <div slot="message">This is a default alert message with an alert.</div>
         </calcite-alert>
 
-        <calcite-alert label="this is a default alert with icon and link" id="default-m-icon-link" scale="m" icon>
+        <calcite-alert
+          numbering-system="arab"
+          label="this is a default alert with icon and link"
+          id="default-m-icon-link"
+          scale="m"
+          icon
+        >
           <div slot="title">Hello there!</div>
           <div slot="message">This is a default alert message with an an icon and link.</div>
           <calcite-link slot="link" title="my action"> Do thing </calcite-link>
@@ -1019,7 +1082,13 @@
 
       <!-- Test prop for medium success-->
       <div>
-        <calcite-alert label="this is a default success" id="default-m-success" scale="m" color="green">
+        <calcite-alert
+          numbering-system="arab"
+          label="this is a default success"
+          id="default-m-success"
+          scale="m"
+          color="green"
+        >
           <div slot="title">Hello there!</div>
           <div slot="message">Success, let's goo!!</div>
         </calcite-alert>
@@ -1063,7 +1132,13 @@
 
       <!-- Test prop for medium warning-->
       <div>
-        <calcite-alert label="this is a default warning" id="default-m-warning" scale="m" color="yellow">
+        <calcite-alert
+          numbering-system="arab"
+          label="this is a default warning"
+          id="default-m-warning"
+          scale="m"
+          color="yellow"
+        >
           <div slot="title">Hello there!</div>
           <div slot="message">This is a warning!</div>
         </calcite-alert>
@@ -1107,7 +1182,13 @@
 
       <!-- Test prop for medium danger-->
       <div>
-        <calcite-alert label="this is a default danger" id="default-m-danger" scale="m" color="red">
+        <calcite-alert
+          numbering-system="arab"
+          label="this is a default danger"
+          id="default-m-danger"
+          scale="m"
+          color="red"
+        >
           <div slot="title">Hello there!</div>
           <div slot="message">This is a danger area.</div>
         </calcite-alert>
@@ -1125,7 +1206,14 @@
           <calcite-link slot="link" title="my action"> Do thing </calcite-link>
         </calcite-alert>
 
-        <calcite-alert label="this is a default danger with icon" id="default-m-danger-icon" scale="m" color="red" icon>
+        <calcite-alert
+          numbering-system="arab"
+          label="this is a default danger with icon"
+          id="default-m-danger-icon"
+          scale="m"
+          color="red"
+          icon
+        >
           <div slot="title">Hello there!</div>
           <div slot="message">Access denied.</div>
         </calcite-alert>
@@ -1150,23 +1238,42 @@
       -->
       <!-- Test prop for large info-->
       <div>
-        <calcite-alert label="this is a default alert" id="default-l" scale="l">
+        <calcite-alert numbering-system="arab" label="this is a default alert" id="default-l" scale="l">
           <div slot="title">Hello there!</div>
           <div slot="message">This is an alert with a general piece of information. Cool, innit?</div>
         </calcite-alert>
 
-        <calcite-alert label="this is an alert" id="default-l-autodismiss" scale="l" auto-dismiss icon>
+        <calcite-alert
+          numbering-system="arab"
+          label="this is an alert"
+          id="default-l-autodismiss"
+          scale="l"
+          auto-dismiss
+          icon
+        >
           <div slot="title">Hello there!</div>
           <div slot="message">This is an auto-dismiss message</div>
           <calcite-link slot="link" title="my action"> Do thing </calcite-link>
         </calcite-alert>
 
-        <calcite-alert label="this is a default alert with icon" id="default-l-icon" scale="l" icon>
+        <calcite-alert
+          numbering-system="arab"
+          label="this is a default alert with icon"
+          id="default-l-icon"
+          scale="l"
+          icon
+        >
           <div slot="title">Hello there!</div>
           <div slot="message">This is a default alert message with an alert.</div>
         </calcite-alert>
 
-        <calcite-alert label="this is a default alert with icon and link" id="default-l-icon-link" scale="l" icon>
+        <calcite-alert
+          numbering-system="arab"
+          label="this is a default alert with icon and link"
+          id="default-l-icon-link"
+          scale="l"
+          icon
+        >
           <div slot="title">Hello there!</div>
           <div slot="message">This is a default alert message with an an icon and link.</div>
           <calcite-link slot="link" title="my action"> Do thing </calcite-link>
@@ -1175,7 +1282,13 @@
 
       <!-- Test prop for large success-->
       <div>
-        <calcite-alert label="this is a default success" id="default-l-success" scale="l" color="green">
+        <calcite-alert
+          numbering-system="arab"
+          label="this is a default success"
+          id="default-l-success"
+          scale="l"
+          color="green"
+        >
           <div slot="title">Hello there!</div>
           <div slot="message">Success, let's goo!!</div>
         </calcite-alert>
@@ -1219,7 +1332,13 @@
 
       <!-- Test prop for large warning-->
       <div>
-        <calcite-alert label="this is a default warning" id="default-l-warning" scale="l" color="yellow">
+        <calcite-alert
+          numbering-system="arab"
+          label="this is a default warning"
+          id="default-l-warning"
+          scale="l"
+          color="yellow"
+        >
           <div slot="title">Hello there!</div>
           <div slot="message">This is a warning!</div>
         </calcite-alert>
@@ -1263,7 +1382,13 @@
 
       <!-- Test prop for large danger-->
       <div>
-        <calcite-alert label="this is a default danger" id="default-l-danger" scale="l" color="red">
+        <calcite-alert
+          numbering-system="arab"
+          label="this is a default danger"
+          id="default-l-danger"
+          scale="l"
+          color="red"
+        >
           <div slot="title">Hello there!</div>
           <div slot="message">This is a danger area.</div>
         </calcite-alert>
@@ -1281,7 +1406,14 @@
           <calcite-link slot="link" title="my action"> Do thing </calcite-link>
         </calcite-alert>
 
-        <calcite-alert label="this is a default danger with icon" id="default-l-danger-icon" scale="l" color="red" icon>
+        <calcite-alert
+          numbering-system="arab"
+          label="this is a default danger with icon"
+          id="default-l-danger-icon"
+          scale="l"
+          color="red"
+          icon
+        >
           <div slot="title">Hello there!</div>
           <div slot="message">Access denied.</div>
         </calcite-alert>
