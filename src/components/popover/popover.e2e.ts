@@ -94,26 +94,25 @@ describe("calcite-popover", () => {
 
   it("popover positions when referenceElement is set", async () => {
     const page = await newE2EPage();
-
-    await page.setContent(`<calcite-popover open placement="auto"></calcite-popover><div>referenceElement</div>`);
-
+    await page.setContent(
+      html`<calcite-popover open placement="auto"></calcite-popover>
+        <div id="ref">referenceElement</div>`
+    );
     const element = await page.find("calcite-popover");
 
     let computedStyle: CSSStyleDeclaration = await element.getComputedStyle();
 
-    expect(computedStyle.transform).toBe("matrix(0, 0, 0, 0, 0, 0)");
+    expect(computedStyle.transform).toBe("none");
 
-    await page.$eval("calcite-popover", (elm: any) => {
-      const referenceElement = document.createElement("div");
-      document.body.appendChild(referenceElement);
-      elm.referenceElement = referenceElement;
+    await page.$eval("calcite-popover", (el: HTMLCalcitePopoverElement): void => {
+      const referenceElement = document.getElementById("ref");
+      el.referenceElement = referenceElement;
     });
-
     await page.waitForChanges();
 
     computedStyle = await element.getComputedStyle();
 
-    expect(computedStyle.transform).not.toBe("matrix(0, 0, 0, 0, 0, 0)");
+    expect(computedStyle.transform).not.toBe("none");
   });
 
   it("open popover should be visible", async () => {
@@ -322,13 +321,9 @@ describe("calcite-popover", () => {
 
   it("should emit open and beforeOpen events", async () => {
     const page = await newE2EPage();
-
     await page.setContent(
       `<calcite-popover placement="auto" reference-element="ref">content</calcite-popover><div id="ref">referenceElement</div>`
     );
-
-    await page.waitForChanges();
-
     const popover = await page.find("calcite-popover");
 
     const openEvent = await popover.spyOnEvent("calcitePopoverOpen");
@@ -340,10 +335,8 @@ describe("calcite-popover", () => {
     const popoverOpenEvent = page.waitForEvent("calcitePopoverOpen");
     const popoverBeforeOpenEvent = page.waitForEvent("calcitePopoverBeforeOpen");
 
-    await page.evaluate(() => {
-      const popover = document.querySelector("calcite-popover");
-      popover.open = true;
-    });
+    await popover.setProperty("open", true);
+    await page.waitForChanges();
 
     await popoverOpenEvent;
     await popoverBeforeOpenEvent;
@@ -641,7 +634,7 @@ describe("calcite-popover", () => {
 
   it("owns a floating-ui", () =>
     floatingUIOwner(
-      `<calcite-popover placement="auto" reference-element="ref" open>content</calcite-popover><div id="ref">referenceElement</div>`,
+      `<calcite-popover placement="auto" reference-element="ref">content</calcite-popover><div id="ref">referenceElement</div>`,
       "open"
     ));
 
