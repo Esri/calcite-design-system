@@ -571,8 +571,6 @@ describe("calcite-tooltip", () => {
       `
     );
 
-    await page.waitForChanges();
-
     const tooltip = await page.find("calcite-tooltip");
 
     expect(await tooltip.getProperty("open")).toBe(false);
