@@ -19,7 +19,6 @@ import { DeprecatedEventPayload, Scale } from "../interfaces";
 import { LogicalPlacement, EffectivePlacement, OverlayPositioning } from "../../utils/floating-ui";
 import { isActivationKey } from "../../utils/key";
 
-const SUPPORTED_BUTTON_NAV_KEYS = ["ArrowUp", "ArrowDown"];
 const SUPPORTED_MENU_NAV_KEYS = ["ArrowUp", "ArrowDown", "End", "Home"];
 
 /**
@@ -302,7 +301,6 @@ export class ActionMenu {
           class={CSS.menu}
           id={menuId}
           onClick={this.handleCalciteActionClick}
-          onKeyDown={this.menuActionsContainerKeyDown}
           role="menu"
           tabIndex={-1}
         >
@@ -394,7 +392,7 @@ export class ActionMenu {
 
   menuButtonKeyDown = (event: KeyboardEvent): void => {
     const { key } = event;
-    const { actionElements } = this;
+    const { actionElements, activeMenuItemIndex, open } = this;
 
     if (!actionElements.length) {
       return;
@@ -402,33 +400,18 @@ export class ActionMenu {
 
     if (isActivationKey(key)) {
       event.preventDefault();
-      this.toggleOpen();
-      return;
+
+      if (!open) {
+        this.toggleOpen();
+        return;
+      }
+
+      const action = actionElements[activeMenuItemIndex];
+      action ? action.click() : this.toggleOpen(false);
     }
-
-    if (!this.isValidKey(key, SUPPORTED_BUTTON_NAV_KEYS)) {
-      return;
-    }
-
-    event.preventDefault();
-
-    this.toggleOpen(true);
-    this.handleActionNavigation(key, actionElements);
-  };
-
-  menuActionsContainerKeyDown = (event: KeyboardEvent): void => {
-    const { key } = event;
-    const { actionElements, activeMenuItemIndex } = this;
 
     if (key === "Tab") {
       this.open = false;
-      return;
-    }
-
-    if (isActivationKey(key)) {
-      event.preventDefault();
-      const action = actionElements[activeMenuItemIndex];
-      action ? action.click() : this.toggleOpen(false);
       return;
     }
 
@@ -438,23 +421,33 @@ export class ActionMenu {
       return;
     }
 
-    if (!actionElements.length) {
-      return;
-    }
-
-    if (this.isValidKey(key, SUPPORTED_MENU_NAV_KEYS)) {
-      event.preventDefault();
-    }
-
-    this.handleActionNavigation(key, actionElements);
+    this.handleActionNavigation(event, key, actionElements);
   };
 
-  handleActionNavigation = (key: string, actions: HTMLCalciteActionElement[]): void => {
-    if (!this.open) {
+  handleActionNavigation = (
+    event: KeyboardEvent,
+    key: string,
+    actions: HTMLCalciteActionElement[]
+  ): void => {
+    if (!this.isValidKey(key, SUPPORTED_MENU_NAV_KEYS)) {
       return;
     }
 
-    const currentIndex = this.activeMenuItemIndex;
+    event.preventDefault();
+
+    if (!this.open) {
+      this.toggleOpen();
+
+      if (key === "Home" || key === "ArrowDown") {
+        this.activeMenuItemIndex = 0;
+      }
+
+      if (key === "End" || key === "ArrowUp") {
+        this.activeMenuItemIndex = actions.length - 1;
+      }
+
+      return;
+    }
 
     if (key === "Home") {
       this.activeMenuItemIndex = 0;
@@ -463,6 +456,8 @@ export class ActionMenu {
     if (key === "End") {
       this.activeMenuItemIndex = actions.length - 1;
     }
+
+    const currentIndex = this.activeMenuItemIndex;
 
     if (key === "ArrowUp") {
       this.activeMenuItemIndex = getRoundRobinIndex(Math.max(currentIndex - 1, -1), actions.length);
