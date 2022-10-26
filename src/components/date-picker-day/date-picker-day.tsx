@@ -127,14 +127,15 @@ export class DatePickerDay implements InteractiveComponent {
   }
 
   render(): VNode {
-    const { numberingSystem, lang: locale } = this.parentDatePickerEl;
+    if (this.parentDatePickerEl) {
+      const { numberingSystem, lang: locale } = this.parentDatePickerEl;
 
-    numberStringFormatter.numberFormatOptions = {
-      useGrouping: false,
-      ...(numberingSystem && { numberingSystem }),
-      ...(locale && { locale })
-    };
-
+      numberStringFormatter.numberFormatOptions = {
+        useGrouping: false,
+        ...(numberingSystem && { numberingSystem }),
+        ...(locale && { locale })
+      };
+    }
     const formattedDay = numberStringFormatter.localize(String(this.day));
     const dir = getElementDir(this.el);
     return (

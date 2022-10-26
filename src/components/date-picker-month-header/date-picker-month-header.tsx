@@ -115,14 +115,15 @@ export class DatePickerMonthHeader {
       return null;
     }
 
-    const { numberingSystem, lang: locale } = this.parentDatePickerEl;
+    if (this.parentDatePickerEl) {
+      const { numberingSystem, lang: locale } = this.parentDatePickerEl;
 
-    numberStringFormatter.numberFormatOptions = {
-      useGrouping: false,
-      ...(numberingSystem && { numberingSystem }),
-      ...(locale && { locale })
-    };
-
+      numberStringFormatter.numberFormatOptions = {
+        useGrouping: false,
+        ...(numberingSystem && { numberingSystem }),
+        ...(locale && { locale })
+      };
+    }
     const activeMonth = this.activeDate.getMonth();
     const { months, unitOrder } = this.localeData;
     const localizedMonth = (months.wide || months.narrow || months.abbreviated)[activeMonth];
