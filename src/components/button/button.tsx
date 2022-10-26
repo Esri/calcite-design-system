@@ -168,10 +168,8 @@ export class Button
   //--------------------------------------------------------------------------
 
   async connectedCallback(): Promise<void> {
-    if (Build.isBrowser) {
-      connectLocalized(this);
-      connectMessages(this);
-    }
+    connectLocalized(this);
+    connectMessages(this);
     this.hasLoader = this.loading;
     this.setupTextContentObserver();
     connectLabel(this);

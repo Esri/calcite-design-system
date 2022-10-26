@@ -99,7 +99,7 @@ export function getSupportedLocale(locale: string): string {
   if (!locale) {
     return defaultLocale;
   }
-  
+
   if (locales.indexOf(locale) > -1) {
     return locale;
   }
@@ -169,7 +169,7 @@ export function connectLocalized(component: LocalizedComponent): void {
   updateEffectiveLocale(component);
 
   if (connectedComponents.size === 0) {
-    mutationObserver.observe(document.documentElement, {
+    mutationObserver?.observe(document.documentElement, {
       attributes: true,
       attributeFilter: ["lang"],
       subtree: true
