@@ -84,7 +84,6 @@ export default class TooltipManager {
 
     if (clickedTooltip?.closeOnClick) {
       this.toggleTooltip(clickedTooltip, false);
-      this.clearHoverTimeout(clickedTooltip);
     }
   };
 

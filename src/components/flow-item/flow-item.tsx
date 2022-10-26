@@ -189,11 +189,6 @@ export class FlowItem implements InteractiveComponent, LocalizedComponent, T9nCo
   @Event({ cancelable: false }) calciteFlowItemBackClick: EventEmitter<void>;
 
   /**
-   * Fires when the content is scrolled.
-   */
-  @Event({ cancelable: false }) calciteFlowItemScroll: EventEmitter<void>;
-
-  /**
    * Fires when the close button is clicked.
    */
   @Event({ cancelable: false }) calciteFlowItemClose: EventEmitter<void>;
@@ -262,11 +257,6 @@ export class FlowItem implements InteractiveComponent, LocalizedComponent, T9nCo
   //  Private Methods
   //
   // --------------------------------------------------------------------------
-
-  handlePanelScroll = (event: CustomEvent<void>): void => {
-    event.stopPropagation();
-    this.calciteFlowItemScroll.emit();
-  };
 
   handlePanelClose = (event: CustomEvent<void>): void => {
     event.stopPropagation();
@@ -345,7 +335,6 @@ export class FlowItem implements InteractiveComponent, LocalizedComponent, T9nCo
           menuOpen={menuOpen}
           messageOverrides={messages}
           onCalcitePanelClose={this.handlePanelClose}
-          onCalcitePanelScroll={this.handlePanelScroll}
           ref={this.setContainerRef}
           widthScale={widthScale}
         >
