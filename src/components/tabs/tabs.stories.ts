@@ -70,7 +70,7 @@ simpleDarkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };
 
 export const bordered = (): string => html`
   <calcite-tabs
-    layout="inline"
+    layout="${select("layout", ["inline", "center"], "inline")}"
     position="${select("position", ["above", "below"], "above")}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
     bordered
