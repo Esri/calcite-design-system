@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { focusable, renders, slots, hidden } from "../../tests/commonTests";
+import { focusable, renders, slots, hidden, t9n } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS, SLOTS } from "./resources";
 import { newProgrammaticE2EPage, skipAnimations } from "../../tests/utils";
@@ -439,4 +439,6 @@ describe("calcite-modal accessibility checks", () => {
     closeIcon = await page.find('calcite-modal >>> calcite-icon[scale="l"]');
     expect(closeIcon).not.toBe(null);
   });
+
+  it("supports translation", () => t9n("calcite-modal"));
 });

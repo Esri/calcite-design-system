@@ -21,8 +21,7 @@ import {
   DEFAULT_STORAGE_KEY_PREFIX,
   DIMENSIONS,
   HSV_LIMITS,
-  RGB_LIMITS,
-  TEXT
+  RGB_LIMITS
 } from "./resources";
 import { Direction, focusElement, getElementDir, isPrimaryPointerButton } from "../../utils/dom";
 import { colorEqual, CSSColorMode, Format, normalizeHex, parseMode, SupportedMode } from "./utils";
@@ -30,7 +29,16 @@ import { throttle } from "lodash-es";
 
 import { clamp } from "../../utils/math";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import { Messages } from "./assets/color-picker/t9n";
 import { isActivationKey } from "../../utils/key";
+import {
+  connectMessages,
+  disconnectMessages,
+  setUpMessages,
+  T9nComponent,
+  updateMessages
+} from "../../utils/t9n";
+import { connectLocalized, disconnectLocalized } from "../../utils/locale";
 import { NumberingSystem } from "../../utils/locale";
 
 const throttleFor60FpsInMs = 16;
@@ -40,9 +48,10 @@ const defaultFormat = "auto";
 @Component({
   tag: "calcite-color-picker",
   styleUrl: "color-picker.scss",
-  shadow: true
+  shadow: true,
+  assetsDirs: ["assets"]
 })
-export class ColorPicker implements InteractiveComponent {
+export class ColorPicker implements InteractiveComponent, T9nComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -117,135 +126,136 @@ export class ColorPicker implements InteractiveComponent {
   /**
    * Accessible name for the RGB section's blue channel.
    *
-   * @default "B"
+   * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`
    */
-  @Prop() intlB = TEXT.b;
+  @Prop() intlB: string;
 
   /**
    * Accessible name for the RGB section's blue channel description.
    *
-   * @default "Blue"
+   * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`
    */
-  @Prop() intlBlue = TEXT.blue;
+  @Prop() intlBlue: string;
 
   /**
    * Accessible name for the delete color button.
    *
-   * @default "Delete color"
+   * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`
    */
-  @Prop() intlDeleteColor = TEXT.deleteColor;
+  @Prop() intlDeleteColor: string;
 
   /**
    * Accessible name for the RGB section's green channel.
    *
    * @default "G"
+   * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`
    */
-  @Prop() intlG = TEXT.g;
+  @Prop() intlG: string;
 
   /**
    * Accessible name for the RGB section's green channel description.
    *
-   * @default "Green"
+   * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`
    */
-  @Prop() intlGreen = TEXT.green;
+  @Prop() intlGreen: string;
 
   /**
    * Accessible name for the HSV section's hue channel.
    *
-   * @default "H"
+   * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`
    */
-  @Prop() intlH = TEXT.h;
+  @Prop() intlH: string;
 
   /**
    * Accessible name for the HSV mode.
    *
-   * @default "HSV"
+   * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`
    */
-  @Prop() intlHsv = TEXT.hsv;
+  @Prop() intlHsv: string;
 
   /**
    * Accessible name for the Hex input.
    *
-   * @default "Hex"
+   * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`
    */
-  @Prop() intlHex = TEXT.hex;
+  @Prop() intlHex: string;
 
   /**
    * Accessible name for the HSV section's hue channel description.
    *
-   * @default "Hue"
+   * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`
    */
-  @Prop() intlHue = TEXT.hue;
+  @Prop() intlHue: string;
 
   /**
    * Accessible name for the Hex input when there is no color selected.
    *
-   * @default "No color"
+   * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`
    */
-  @Prop() intlNoColor = TEXT.noColor;
+  @Prop() intlNoColor: string;
 
   /**
    * Accessible name for the RGB section's red channel.
    *
-   * @default "R"
+   * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`
    */
-  @Prop() intlR = TEXT.r;
+  @Prop() intlR: string;
 
   /**
    * Accessible name for the RGB section's red channel description.
    *
-   * @default "Red"
+   * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`
    */
-  @Prop() intlRed = TEXT.red;
+  @Prop() intlRed: string;
 
   /**
    * Accessible name for the RGB mode.
    *
-   * @default "RGB"
+   * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`
    */
-  @Prop() intlRgb = TEXT.rgb;
+  @Prop() intlRgb: string;
 
   /**
    * Accessible name for the HSV section's saturation channel.
    *
-   * @default "S"
+   * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`
    */
-  @Prop() intlS = TEXT.s;
+  @Prop() intlS: string;
 
   /**
    * Accessible name for the HSV section's saturation channel description.
    *
-   * @default "Saturation"
+   * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`
    */
-  @Prop() intlSaturation = TEXT.saturation;
+  @Prop() intlSaturation: string;
 
   /**
    * Accessible name for the save color button.
    *
-   * @default "Save color"
+   * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`
    */
-  @Prop() intlSaveColor = TEXT.saveColor;
+  @Prop() intlSaveColor: string;
 
   /**
    * Accessible name for the saved colors section.
    *
-   * @default "Saved"
+   * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`
    */
-  @Prop() intlSaved = TEXT.saved;
+  @Prop() intlSaved: string;
 
   /**
    * Accessible name for the HSV section's value channel.
    *
-   * @default "V"
+   * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`
    */
-  @Prop() intlV = TEXT.v;
+  @Prop() intlV: string;
 
   /**
    * Accessible name for the HSV section's value channel description.
    *
-   * @default "Value"
+   * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`
    */
-  @Prop() intlValue = TEXT.value;
+  @Prop() intlValue: string;
 
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
@@ -258,6 +268,37 @@ export class ColorPicker implements InteractiveComponent {
 
   /** Specifies the storage ID for colors. */
   @Prop({ reflect: true }) storageId: string;
+
+  /**
+   * Use this property to override individual strings used by the component.
+   */
+  @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
+
+  @Watch("intlG")
+  @Watch("intlB")
+  @Watch("intlV")
+  @Watch("intlBlue")
+  @Watch("intlDeleteColor")
+  @Watch("intlGreen")
+  @Watch("intlH")
+  @Watch("intlHsv")
+  @Watch("intlHex")
+  @Watch("intlHue")
+  @Watch("intlNoColor")
+  @Watch("intlR")
+  @Watch("intlRed")
+  @Watch("intlRgb")
+  @Watch("intlS")
+  @Watch("intlSaturation")
+  @Watch("intlSaveColor")
+  @Watch("intlSaved")
+  @Watch("intlV")
+  @Watch("intlValue")
+  @Watch("defaultMessages")
+  @Watch("messageOverrides")
+  onMessagesChange(): void {
+    /* wired up by t9n util */
+  }
 
   /** Specifies the Unicode numeral system used by the component for localization. */
   @Prop({ reflect: true }) numberingSystem?: NumberingSystem;
@@ -346,6 +387,8 @@ export class ColorPicker implements InteractiveComponent {
 
   private sliderThumbState: "idle" | "hover" | "drag" = "idle";
 
+  @State() defaultMessages: Messages;
+
   @State() colorFieldAndSliderInteractive = false;
 
   @State() channelMode: ColorMode = "rgb";
@@ -353,6 +396,20 @@ export class ColorPicker implements InteractiveComponent {
   @State() channels: [number, number, number] = this.toChannels(DEFAULT_COLOR);
 
   @State() dimensions = DIMENSIONS.m;
+
+  @State() effectiveLocale = "";
+
+  @Watch("effectiveLocale")
+  effectiveLocaleChange(): void {
+    updateMessages(this, this.effectiveLocale);
+  }
+
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @internal
+   */
+  @Prop({ mutable: true }) messages: Messages;
 
   @State() savedColors: string[] = [];
 
@@ -739,7 +796,7 @@ export class ColorPicker implements InteractiveComponent {
   //
   //--------------------------------------------------------------------------
 
-  componentWillLoad(): void {
+  async componentWillLoad(): Promise<void> {
     const { allowEmpty, color, format, value } = this;
 
     const willSetNoColor = allowEmpty && !value;
@@ -762,11 +819,20 @@ export class ColorPicker implements InteractiveComponent {
     if (this.storageId && localStorage.getItem(storageKey)) {
       this.savedColors = JSON.parse(localStorage.getItem(storageKey));
     }
+
+    await setUpMessages(this);
+  }
+
+  connectedCallback(): void {
+    connectLocalized(this);
+    connectMessages(this);
   }
 
   disconnectedCallback(): void {
     document.removeEventListener("pointermove", this.globalPointerMoveHandler);
     document.removeEventListener("pointerup", this.globalPointerUpHandler);
+    disconnectLocalized(this);
+    disconnectMessages(this);
   }
 
   componentDidRender(): void {
@@ -780,19 +846,8 @@ export class ColorPicker implements InteractiveComponent {
   //--------------------------------------------------------------------------
 
   render(): VNode {
-    const {
-      allowEmpty,
-      color,
-      intlDeleteColor,
-      hideHex,
-      hideChannels,
-      hideSaved,
-      intlHex,
-      intlSaved,
-      intlSaveColor,
-      savedColors,
-      scale
-    } = this;
+    const { allowEmpty, color, messages, hideHex, hideChannels, hideSaved, savedColors, scale } =
+      this;
     const selectedColorInHex = color ? color.hex() : null;
     const hexInputScale = scale === "l" ? "m" : "s";
     const {
@@ -826,7 +881,7 @@ export class ColorPicker implements InteractiveComponent {
             ref={this.initColorFieldAndSlider}
           />
           <div
-            aria-label={vertical ? this.intlValue : this.intlSaturation}
+            aria-label={vertical ? messages.value : messages.saturation}
             aria-valuemax={vertical ? HSV_LIMITS.v : HSV_LIMITS.s}
             aria-valuemin="0"
             aria-valuenow={(vertical ? color?.saturationv() : color?.value()) || "0"}
@@ -838,7 +893,7 @@ export class ColorPicker implements InteractiveComponent {
             tabindex="0"
           />
           <div
-            aria-label={this.intlHue}
+            aria-label={messages.hue}
             aria-valuemax={HSV_LIMITS.h}
             aria-valuemin="0"
             aria-valuenow={color?.round().hue() || DEFAULT_COLOR.round().hue()}
@@ -865,7 +920,7 @@ export class ColorPicker implements InteractiveComponent {
                     [CSS.headerHex]: true
                   }}
                 >
-                  {intlHex}
+                  {messages.hex}
                 </span>
                 <calcite-color-picker-hex-input
                   allowEmpty={allowEmpty}
@@ -898,7 +953,7 @@ export class ColorPicker implements InteractiveComponent {
         {hideSaved ? null : (
           <div class={{ [CSS.savedColorsSection]: true, [CSS.section]: true }}>
             <div class={CSS.header}>
-              <label>{intlSaved}</label>
+              <label>{messages.saved}</label>
               <div class={CSS.savedColorsButtons}>
                 <calcite-button
                   appearance="transparent"
@@ -906,7 +961,7 @@ export class ColorPicker implements InteractiveComponent {
                   color="neutral"
                   disabled={noColor}
                   iconStart="minus"
-                  label={intlDeleteColor}
+                  label={messages.deleteColor}
                   onClick={this.deleteColor}
                   scale={hexInputScale}
                   type="button"
@@ -917,7 +972,7 @@ export class ColorPicker implements InteractiveComponent {
                   color="neutral"
                   disabled={noColor}
                   iconStart="plus"
-                  label={intlSaveColor}
+                  label={messages.saveColor}
                   onClick={this.saveColor}
                   scale={hexInputScale}
                   type="button"
@@ -957,9 +1012,9 @@ export class ColorPicker implements InteractiveComponent {
   };
 
   private renderChannelsTabTitle = (channelMode: this["channelMode"]): VNode => {
-    const { channelMode: activeChannelMode, intlRgb, intlHsv } = this;
+    const { channelMode: activeChannelMode, messages } = this;
     const active = channelMode === activeChannelMode;
-    const label = channelMode === "rgb" ? intlRgb : intlHsv;
+    const label = channelMode === "rgb" ? messages.rgb : messages.hsv;
 
     return (
       <calcite-tab-title
@@ -975,29 +1030,15 @@ export class ColorPicker implements InteractiveComponent {
   };
 
   private renderChannelsTab = (channelMode: this["channelMode"]): VNode => {
-    const {
-      channelMode: activeChannelMode,
-      channels,
-      intlB,
-      intlBlue,
-      intlG,
-      intlGreen,
-      intlH,
-      intlHue,
-      intlR,
-      intlRed,
-      intlS,
-      intlSaturation,
-      intlV,
-      intlValue
-    } = this;
-
+    const { channelMode: activeChannelMode, channels, messages } = this;
     const active = channelMode === activeChannelMode;
     const isRgb = channelMode === "rgb";
-    const channelLabels = isRgb ? [intlR, intlG, intlB] : [intlH, intlS, intlV];
+    const channelLabels = isRgb
+      ? [messages.r, messages.g, messages.b]
+      : [messages.h, messages.s, messages.v];
     const channelAriaLabels = isRgb
-      ? [intlRed, intlGreen, intlBlue]
-      : [intlHue, intlSaturation, intlValue];
+      ? [messages.red, messages.green, messages.blue]
+      : [messages.hue, messages.saturation, messages.value];
     const direction = getElementDir(this.el);
 
     return (
@@ -1031,6 +1072,7 @@ export class ColorPicker implements InteractiveComponent {
       data-channel-index={index}
       dir={direction}
       label={ariaLabel}
+      lang={this.effectiveLocale}
       numberButtonType="none"
       numberingSystem={this.numberingSystem}
       onCalciteInputChange={this.handleChannelChange}

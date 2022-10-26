@@ -58,7 +58,8 @@ export function overridesFromIntlProps(component: T9nComponent): MessageBundle {
 function mergeMessages(component: T9nComponent): void {
   component.messages = {
     ...component.defaultMessages,
-    ...getEffectiveMessageOverrides(component)
+    ...getEffectiveMessageOverrides(component),
+    ...component.getExtraMessageOverrides?.()
   };
 }
 
@@ -81,7 +82,7 @@ async function fetchMessages(component: T9nComponent, lang: string): Promise<Mes
   const tag = el.tagName.toLowerCase();
   const componentName = tag.replace("calcite-", "");
 
-  return getMessageBundle(getSupportedLocale(lang), componentName);
+  return getMessageBundle(getSupportedLocale(lang, "t9n"), componentName);
 }
 
 /**
@@ -97,6 +98,7 @@ async function fetchMessages(component: T9nComponent, lang: string): Promise<Mes
  */
 export async function updateMessages(component: T9nComponent, lang: string): Promise<void> {
   component.defaultMessages = await fetchMessages(component, lang);
+  mergeMessages(component);
 }
 
 /**
@@ -143,8 +145,6 @@ export interface T9nComponent extends LocalizedComponent {
 
   /**
    * This property holds the component's default messages.
-   *
-   * This prop should use the `@State` decorator.
    */
   defaultMessages: MessageBundle;
 
@@ -162,13 +162,19 @@ export interface T9nComponent extends LocalizedComponent {
    *
    * @Watch("intlMyPropA")
    * @Watch("intlMyPropZ")
-   * @Watch("defaultMessages")
    * @Watch("messageOverrides")
    * onMessagesChange(): void {
    *  \/* wired up by t9n util *\/
    * }
    */
   onMessagesChange(): void;
+
+  /**
+   * This private method provides a hook for non-intl props to be merged into `messages`.
+   *
+   * For example, this helps merge strings from props exclusive for screen reader markup.
+   */
+  getExtraMessageOverrides?(): Partial<MessageBundle>;
 }
 
 function defaultOnMessagesChange(this: T9nComponent): void {

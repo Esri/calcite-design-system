@@ -24,7 +24,7 @@ import { queryShadowRoot } from "@a11y/focus-trap/shadow";
 import { isFocusable, isHidden } from "@a11y/focus-trap/focusable";
 import { Scale } from "../interfaces";
 import { ModalBackgroundColor } from "./interfaces";
-import { CSS, ICONS, SLOTS, TEXT } from "./resources";
+import { CSS, ICONS, SLOTS } from "./resources";
 import { createObserver } from "../../utils/observers";
 import {
   ConditionalSlotComponent,
@@ -36,6 +36,15 @@ import {
   connectOpenCloseComponent,
   disconnectOpenCloseComponent
 } from "../../utils/openCloseComponent";
+import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
+import {
+  connectMessages,
+  disconnectMessages,
+  setUpMessages,
+  T9nComponent,
+  updateMessages
+} from "../../utils/t9n";
+import { Messages } from "./assets/modal/t9n";
 
 const isFocusableExtended = (el: FocusableElement): boolean => {
   return isCalciteFocusable(el) || isFocusable(el);
@@ -56,9 +65,12 @@ const getFocusableElements = (el: HTMLElement | ShadowRoot): HTMLElement[] => {
 @Component({
   tag: "calcite-modal",
   styleUrl: "modal.scss",
-  shadow: true
+  shadow: true,
+  assetsDirs: ["assets"]
 })
-export class Modal implements ConditionalSlotComponent, OpenCloseComponent {
+export class Modal
+  implements ConditionalSlotComponent, OpenCloseComponent, LocalizedComponent, T9nComponent
+{
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -92,8 +104,12 @@ export class Modal implements ConditionalSlotComponent, OpenCloseComponent {
   /** When `true`, disables the closing of the component when clicked outside. */
   @Prop({ reflect: true }) disableOutsideClose = false;
 
-  /** Accessible name for the component's close button. */
-  @Prop() intlClose = TEXT.close;
+  /**
+   * Accessible name for the component's close button.
+   *
+   * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`.
+   */
+  @Prop() intlClose: string;
 
   /** When `true`, prevents the component from expanding to the entire screen on mobile devices. */
   @Prop({ reflect: true }) docked: boolean;
@@ -126,12 +142,33 @@ export class Modal implements ConditionalSlotComponent, OpenCloseComponent {
    */
   @Prop({ reflect: true }) noPadding = false;
 
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @internal
+   */
+  @Prop({ mutable: true }) messages: Messages;
+
+  /**
+   * Use this property to override individual strings used by the component.
+   */
+  @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
+
+  @Watch("intlClose")
+  @Watch("defaultMessages")
+  @Watch("messageOverrides")
+  onMessagesChange(): void {
+    /* wired up by t9n util */
+  }
+
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
   //
   //--------------------------------------------------------------------------
-  componentWillLoad(): void {
+  async componentWillLoad(): Promise<void> {
+    await setUpMessages(this);
+
     // when modal initially renders, if active was set we need to open as watcher doesn't fire
     if (this.open) {
       requestAnimationFrame(() => this.openModal());
@@ -143,6 +180,8 @@ export class Modal implements ConditionalSlotComponent, OpenCloseComponent {
     this.updateFooterVisibility();
     connectConditionalSlotComponent(this);
     connectOpenCloseComponent(this);
+    connectLocalized(this);
+    connectMessages(this);
     if (this.open) {
       this.active = this.open;
     }
@@ -156,6 +195,8 @@ export class Modal implements ConditionalSlotComponent, OpenCloseComponent {
     this.mutationObserver?.disconnect();
     disconnectConditionalSlotComponent(this);
     disconnectOpenCloseComponent(this);
+    disconnectLocalized(this);
+    disconnectMessages(this);
   }
 
   render(): VNode {
@@ -218,12 +259,12 @@ export class Modal implements ConditionalSlotComponent, OpenCloseComponent {
   renderCloseButton(): VNode {
     return !this.disableCloseButton ? (
       <button
-        aria-label={this.intlClose}
+        aria-label={this.messages.close}
         class={CSS.close}
         key="button"
         onClick={this.close}
         ref={(el) => (this.closeButtonEl = el)}
-        title={this.intlClose}
+        title={this.messages.close}
       >
         <calcite-icon
           icon={ICONS.close}
@@ -273,18 +314,7 @@ export class Modal implements ConditionalSlotComponent, OpenCloseComponent {
 
   contentId: string;
 
-  /**
-   * We use internal variable to make sure initially open modal can transition from closed state when rendered
-   *
-   * @private
-   */
-  @State() isOpen = false;
-
   modalContent: HTMLDivElement;
-
-  private mutationObserver: MutationObserver = createObserver("mutation", () =>
-    this.updateFooterVisibility()
-  );
 
   previousActiveElement: HTMLElement;
 
@@ -293,6 +323,32 @@ export class Modal implements ConditionalSlotComponent, OpenCloseComponent {
   openTransitionProp = "opacity";
 
   transitionEl: HTMLDivElement;
+
+  //--------------------------------------------------------------------------
+  //
+  //  Private State/Properties
+  //
+  //--------------------------------------------------------------------------
+
+  @State() effectiveLocale: string;
+
+  @Watch("effectiveLocale")
+  effectiveLocaleChange(): void {
+    updateMessages(this, this.effectiveLocale);
+  }
+
+  @State() defaultMessages: Messages;
+
+  /**
+   * We use internal variable to make sure initially open modal can transition from closed state when rendered
+   *
+   * @private
+   */
+  @State() isOpen = false;
+
+  private mutationObserver: MutationObserver = createObserver("mutation", () =>
+    this.updateFooterVisibility()
+  );
 
   //--------------------------------------------------------------------------
   //
