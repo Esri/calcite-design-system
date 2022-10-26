@@ -206,6 +206,12 @@ export class StepperItem implements InteractiveComponent, LocalizedComponent {
     if (this.selected) {
       this.emitRequestedItem();
     }
+
+    numberStringFormatter.numberFormatOptions = {
+      locale: this.effectiveLocale,
+      numberingSystem: this.parentStepperEl?.numberingSystem,
+      useGrouping: false
+    };
   }
 
   componentDidRender(): void {
