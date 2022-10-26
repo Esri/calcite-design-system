@@ -82,7 +82,7 @@ describe("calcite-input-time", () => {
 
     const expectedValue = "14:59:30";
     const { localizedHour, localizedHourSuffix, localizedMinute, localizedMinuteSuffix, localizedSecond } =
-      localizeTimeStringToParts(expectedValue, lang);
+      localizeTimeStringToParts({ value: expectedValue, locale: lang });
 
     inputTimeEl.setProperty("value", expectedValue);
 
@@ -116,7 +116,7 @@ describe("calcite-input-time", () => {
 
     const expectedValue = "14:59:30";
     const { localizedHour, localizedHourSuffix, localizedMinute, localizedMinuteSuffix, localizedSecond } =
-      localizeTimeStringToParts(expectedValue, lang);
+      localizeTimeStringToParts({ value: expectedValue, locale: lang });
 
     inputTimeEl.setProperty("value", expectedValue);
 
@@ -146,7 +146,7 @@ describe("calcite-input-time", () => {
 
     const expectedValue = "14:59:30";
     const { localizedHour, localizedHourSuffix, localizedMinute, localizedMinuteSuffix, localizedSecond } =
-      localizeTimeStringToParts(expectedValue, lang);
+      localizeTimeStringToParts({ value: expectedValue, locale: lang });
 
     inputTimeEl.setProperty("value", expectedValue);
 
@@ -180,7 +180,7 @@ describe("calcite-input-time", () => {
 
     const expectedValue = "16:49:20";
     const { localizedHour, localizedHourSuffix, localizedMinute, localizedMinuteSuffix, localizedSecond } =
-      localizeTimeStringToParts(expectedValue, lang);
+      localizeTimeStringToParts({ value: expectedValue, locale: lang });
 
     inputTimeEl.setProperty("value", expectedValue);
 
