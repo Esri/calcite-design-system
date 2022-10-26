@@ -10,7 +10,3 @@ export const CSS = {
   iconStartEmpty: "icon-start-empty",
   iconEndEmpty: "icon-end-empty"
 };
-
-export const TEXT = {
-  loading: "Loading"
-};

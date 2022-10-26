@@ -147,18 +147,17 @@ export const getSupportedNumberingSystem = (numberingSystem: string): NumberingS
  */
 export function getSupportedLocale(locale: string, context: "cldr" | "t9n" = "cldr"): string {
   const contextualLocales = context === "cldr" ? locales : t9nLocales;
-  
+
   if (contextualLocales.includes(locale)) {
     return locale;
   }
 
   locale = locale.toLowerCase();
-  
+
   // we support both 'nb' and 'no' (BCP 47) for Norwegian but only `no` has corresponding bundle
-  if (locale === "nb" ) {
+  if (locale === "nb") {
     return "no";
   }
-
 
   // we use `pt-BR` as it will have the same translations as `pt`, which has no corresponding bundle
   if (context === "t9n" && locale === "pt") {
