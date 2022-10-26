@@ -10,20 +10,14 @@ import {
   Watch,
   Fragment
 } from "@stencil/core";
-import {
-  dateFromRange,
-  nextMonth,
-  prevMonth,
-  localizeNumber,
-  parseNumber,
-  getOrder
-} from "../../utils/date";
+import { dateFromRange, nextMonth, prevMonth, getOrder } from "../../utils/date";
 
 import { DateLocaleData } from "../date-picker/utils";
 import { Scale } from "../interfaces";
 import { HeadingLevel, Heading } from "../functional/Heading";
 import { BUDDHIST_CALENDAR_YEAR_OFFSET } from "./resources";
 import { isActivationKey } from "../../utils/key";
+import { numberStringFormatter } from "../../utils/locale";
 
 @Component({
   tag: "calcite-date-picker-month-header",
@@ -118,7 +112,7 @@ export class DatePickerMonthHeader {
     return (
       <Fragment>
         <a
-          aria-disabled={(this.prevMonthDate.getMonth() === activeMonth).toString()}
+          aria-disabled={`${this.prevMonthDate.getMonth() === activeMonth}`}
           aria-label={this.intlPrevMonth}
           class="chevron"
           href="#"
@@ -155,7 +149,7 @@ export class DatePickerMonthHeader {
           </span>
         </div>
         <a
-          aria-disabled={(this.nextMonthDate.getMonth() === activeMonth).toString()}
+          aria-disabled={`${this.nextMonthDate.getMonth() === activeMonth}`}
           aria-label={this.intlNextMonth}
           class="chevron"
           href="#"
@@ -224,7 +218,8 @@ export class DatePickerMonthHeader {
     const { localeData } = this;
     const buddhistCalendar = localeData["default-calendar"] === "buddhist";
     const yearOffset = buddhistCalendar ? BUDDHIST_CALENDAR_YEAR_OFFSET : 0;
-    return localizeNumber(year + yearOffset, localeData);
+
+    return numberStringFormatter.localize(`${year + yearOffset}`);
   }
 
   private parseCalendarYear(year: string): string {
@@ -232,7 +227,8 @@ export class DatePickerMonthHeader {
     const buddhistCalendar = localeData["default-calendar"] === "buddhist";
     const yearOffset = buddhistCalendar ? BUDDHIST_CALENDAR_YEAR_OFFSET : 0;
 
-    return localizeNumber(parseNumber(year, localeData) - yearOffset, localeData);
+    const parsedYear = Number(numberStringFormatter.delocalize(year)) - yearOffset;
+    return numberStringFormatter.localize(`${parsedYear}`);
   }
 
   private onYearChange = (event: Event): void => {
@@ -283,8 +279,8 @@ export class DatePickerMonthHeader {
     localizedYear: string;
     offset?: number;
   }): Date {
-    const { min, max, activeDate, localeData } = this;
-    const parsedYear = parseNumber(localizedYear, localeData);
+    const { min, max, activeDate } = this;
+    const parsedYear = Number(numberStringFormatter.delocalize(localizedYear));
     const length = parsedYear.toString().length;
     const year = isNaN(parsedYear) ? false : parsedYear + offset;
     const inRange =

@@ -16,7 +16,6 @@ import { filter } from "../../utils/filter";
 import { debounce } from "lodash-es";
 
 import {
-  positionFloatingUI,
   FloatingCSS,
   OverlayPositioning,
   FloatingUIComponent,
@@ -26,7 +25,8 @@ import {
   EffectivePlacement,
   defaultMenuPlacement,
   filterComputedPlacements,
-  repositionDebounceTimeout
+  reposition,
+  updateAfterClose
 } from "../../utils/floating-ui";
 import { guid } from "../../utils/guid";
 import { DeprecatedEventPayload, Scale } from "../interfaces";
@@ -44,7 +44,7 @@ import {
 } from "../../utils/form";
 import { createObserver } from "../../utils/observers";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
-import { toAriaBoolean } from "../../utils/dom";
+import { isPrimaryPointerButton, toAriaBoolean } from "../../utils/dom";
 import {
   OpenCloseComponent,
   connectOpenCloseComponent,
@@ -106,9 +106,9 @@ export class Combobox
   //--------------------------------------------------------------------------
 
   /**
-   * When true, opens the combobox
+   * When `true`, displays and positions the component.
    *
-   * @deprecated use open instead
+   * @deprecated use `open` instead.
    */
   @Prop({ reflect: true, mutable: true }) active = false;
 
@@ -122,21 +122,26 @@ export class Combobox
     this.open = value;
   }
 
-  /**When true, opens the combobox */
+  /**When `true`, displays and positions the component. */
   @Prop({ reflect: true, mutable: true }) open = false;
 
   @Watch("open")
   openHandler(value: boolean): void {
+    if (!value) {
+      updateAfterClose(this.floatingEl);
+    }
+
     if (this.disabled) {
       this.active = false;
       this.open = false;
       return;
     }
+
     this.active = value;
     this.setMaxScrollerHeight();
   }
 
-  /** Disable combobox input */
+  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @Prop({ reflect: true }) disabled = false;
 
   @Watch("disabled")
@@ -147,16 +152,16 @@ export class Combobox
     }
   }
 
-  /** Aria label for combobox (required) */
+  /** Accessible name for the component. */
   @Prop() label!: string;
 
-  /** Placeholder text for input */
+  /** Specifies the placeholder text for the input. */
   @Prop() placeholder?: string;
 
-  /** Placeholder icon for input  */
+  /** Specifies the placeholder icon for the input. */
   @Prop({ reflect: true }) placeholderIcon?: string;
 
-  /** Specify the maximum number of combobox items (including nested children) to display before showing the scroller */
+  /** Specifies the maximum number of `calcite-combobox-item`s (including nested children) to display before displaying a scrollbar. */
   @Prop({ reflect: true }) maxItems = 0;
 
   @Watch("maxItems")
@@ -164,10 +169,10 @@ export class Combobox
     this.setMaxScrollerHeight();
   }
 
-  /** The name of the switch input */
+  /** Specifies the name of the component on form submission. */
   @Prop({ reflect: true }) name: string;
 
-  /** Allow entry of custom values which are not in the original set of items */
+  /** When `true`, allows entry of custom values, which are not in the original set of items. */
   @Prop({ reflect: true }) allowCustomValues: boolean;
 
   /**
@@ -182,28 +187,28 @@ export class Combobox
 
   @Watch("overlayPositioning")
   overlayPositioningHandler(): void {
-    this.debouncedReposition();
+    this.reposition(true);
   }
 
   /**
-   * When true, the component must have a value in order for the form to submit.
+   * When `true`, the component must have a value in order for the form to submit.
    *
    * @internal
    */
   @Prop({ reflect: true }) required = false;
 
   /**
-   * specify the selection mode
-   * - multi: allow any number of selected items (default)
-   * - single: only one selection)
-   * - ancestors: like multi, but show ancestors of selected items as selected, only deepest children shown in chips
+   * Specifies the selection mode -
+   * `"multi"` (allow any number of selected items),
+   * `"single"` (allow only one selection), or
+   * `"ancestors"` (like `"multi"`, but show ancestors of selected items as selected. Only the deepest children are shown in `calcite-chip`s).
    */
   @Prop({ reflect: true }) selectionMode: ComboboxSelectionMode = "multi";
 
-  /** Specify the scale of the combobox, defaults to m */
+  /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
 
-  /** The value(s) of the selectedItem(s) */
+  /** The component's value(s) from the selected `calcite-combobox-item`(s). */
   @Prop({ mutable: true }) value: string | string[] = null;
 
   @Watch("value")
@@ -222,7 +227,7 @@ export class Combobox
   }
 
   /**
-   * string to override the English "Remove tag" text for when an item is selected.
+   * Accessible name for the component's remove tag when a `calcite-combobox-item` is selected.
    *
    * @default "Remove tag"
    * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`.
@@ -256,7 +261,7 @@ export class Combobox
   @Watch("flipPlacements")
   flipPlacementsHandler(): void {
     this.setFilteredPlacements();
-    this.debouncedReposition();
+    this.reposition(true);
   }
 
   //--------------------------------------------------------------------------
@@ -266,7 +271,11 @@ export class Combobox
   //--------------------------------------------------------------------------
 
   @Listen("pointerdown", { target: "document" })
-  documentClickHandler(event: Event): void {
+  documentClickHandler(event: PointerEvent): void {
+    if (!isPrimaryPointerButton(event)) {
+      return;
+    }
+
     this.setInactiveIfNotContained(event);
   }
 
@@ -288,19 +297,27 @@ export class Combobox
   //
   //--------------------------------------------------------------------------
 
-  /** Updates the position of the component. */
+  /**
+   * Updates the position of the component.
+   *
+   * @param delayed
+   */
   @Method()
-  async reposition(): Promise<void> {
+  async reposition(delayed = false): Promise<void> {
     const { floatingEl, referenceEl, placement, overlayPositioning, filteredFlipPlacements } = this;
 
-    return positionFloatingUI({
-      floatingEl,
-      referenceEl,
-      overlayPositioning,
-      placement,
-      flipPlacements: filteredFlipPlacements,
-      type: "menu"
-    });
+    return reposition(
+      this,
+      {
+        floatingEl,
+        referenceEl,
+        overlayPositioning,
+        placement,
+        flipPlacements: filteredFlipPlacements,
+        type: "menu"
+      },
+      delayed
+    );
   }
 
   /** Sets focus on the component. */
@@ -318,33 +335,33 @@ export class Combobox
   // --------------------------------------------------------------------------
 
   /**
-   * Called when the selected items set changes
+   * Fires when the selected items set changes.
    *
-   * @deprecated use calciteComboboxChange instead
+   * @deprecated use `calciteComboboxChange` instead.
    */
   @Event({ cancelable: false }) calciteLookupChange: EventEmitter<HTMLCalciteComboboxItemElement[]>;
 
   /**
-   * Called when the selected item(s) changes.
+   * Fires when the selected item(s) changes.
    */
   @Event({ cancelable: false }) calciteComboboxChange: EventEmitter<{
     selectedItems: HTMLCalciteComboboxItemElement[];
   }>;
 
-  /** Called when the user has entered text to filter the options list */
+  /** Fires when text is added to filter the options list. */
   @Event({ cancelable: false }) calciteComboboxFilterChange: EventEmitter<{
     visibleItems: HTMLCalciteComboboxItemElement[];
     text: string;
   }>;
 
   /**
-   * Called when a selected item in the combobox is dismissed via its chip
+   * Fires when a selected item in the component is dismissed via its `calcite-chip`.
    *
-   * **Note:**: The event payload is deprecated, please use the `value` property on the component to determine removed value instead
+   * **Note:**: The event payload is deprecated, please use the `value` property on the component to determine the removed value instead.
    */
   @Event({ cancelable: false }) calciteComboboxChipDismiss: EventEmitter<DeprecatedEventPayload>;
 
-  /** Fires when the component is requested to be closed and before the closing transition begins. */
+  /** Fires when the component is requested to be closed, and before the closing transition begins. */
   @Event({ cancelable: false }) calciteComboboxBeforeClose: EventEmitter<void>;
 
   /** Fires when the component is closed and animation is complete. */
@@ -373,7 +390,7 @@ export class Combobox
     connectForm(this);
     connectOpenCloseComponent(this);
     this.setFilteredPlacements();
-    this.debouncedReposition();
+    this.reposition(true);
     if (this.active) {
       this.activeHandler(this.active);
     }
@@ -389,12 +406,12 @@ export class Combobox
 
   componentDidLoad(): void {
     afterConnectDefaultValueSet(this, this.getValue());
-    this.debouncedReposition();
+    this.reposition(true);
   }
 
   componentDidRender(): void {
     if (this.el.offsetHeight !== this.inputHeight) {
-      this.debouncedReposition();
+      this.reposition(true);
       this.inputHeight = this.el.offsetHeight;
     }
 
@@ -499,8 +516,6 @@ export class Combobox
   //  Private Methods
   //
   // --------------------------------------------------------------------------
-
-  private debouncedReposition = debounce(() => this.reposition(), repositionDebounceTimeout);
 
   setFilteredPlacements = (): void => {
     const { el, flipPlacements } = this;
@@ -664,11 +679,11 @@ export class Combobox
       return;
     }
 
-    await this.debouncedReposition();
+    await this.reposition(true);
     const maxScrollerHeight = this.getMaxScrollerHeight();
     listContainerEl.style.maxHeight = maxScrollerHeight > 0 ? `${maxScrollerHeight}px` : "";
     listContainerEl.style.minWidth = `${referenceEl.clientWidth}px`;
-    await this.debouncedReposition();
+    await this.reposition(true);
   };
 
   calciteChipDismissHandler = (

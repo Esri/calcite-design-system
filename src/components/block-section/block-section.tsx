@@ -28,7 +28,7 @@ import { Messages } from "./assets/block-section/t9n";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 
 /**
- * @slot - A slot for adding content to the block section.
+ * @slot - A slot for adding content to the component.
  */
 @Component({
   tag: "calcite-block-section",
@@ -44,38 +44,40 @@ export class BlockSection implements LocalizedComponent, T9nComponent {
   // --------------------------------------------------------------------------
 
   /**
-   * Tooltip used for the toggle when expanded.
+   * Accessible name for the component's collapse button.
    *
    * @deprecated - translations are now built-in, if you need to override a string, please use `messageOverrides`
    */
   @Prop() intlCollapse?: string;
 
   /**
-   * Tooltip used for the toggle when collapsed.
+   * Accessible name for the component's expand button.
    *
    * @deprecated - translations are now built-in, if you need to override a string, please use `messageOverrides`
    */
   @Prop() intlExpand?: string;
 
   /**
-   * When true, the block's section content will be displayed.
+   * When `true`, expands the component and its contents.
    */
   @Prop({ reflect: true, mutable: true }) open = false;
 
   /**
-   * BlockSection status. Adds indicator to show valid or invalid status.
+   * Displays a status-related indicator icon.
    */
   @Prop({ reflect: true }) status?: Status;
 
   /**
-   * Text displayed in the button.
+   * The component header text.
    */
   @Prop() text: string;
 
   /**
-   * This property determines the look of the section toggle.
-   * If the value is "switch", a toggle-switch will be displayed.
-   * If the value is "button", a clickable header is displayed.
+   * Specifies the component's toggle display -
+   *
+   * `"button"` (selectable header), or
+   *
+   * `"switch"` (toggle switch).
    */
   @Prop({ reflect: true }) toggleDisplay: BlockSectionToggleDisplay = "button";
 
@@ -125,7 +127,7 @@ export class BlockSection implements LocalizedComponent, T9nComponent {
   // --------------------------------------------------------------------------
 
   /**
-   * Emitted when the header has been clicked.
+   * Emits when the header has been clicked.
    */
   @Event({ cancelable: false }) calciteBlockSectionToggle: EventEmitter<void>;
 

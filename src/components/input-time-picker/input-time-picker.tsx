@@ -87,7 +87,9 @@ export class InputTimePicker
       return;
     }
 
-    this.reposition();
+    if (value) {
+      this.reposition(true);
+    }
   }
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
@@ -222,7 +224,7 @@ export class InputTimePicker
   @Prop() numberingSystem?: NumberingSystem;
 
   /**
-   * When true, the component must have a value in order for the form to submit.
+   * When `true`, the component must have a value in order for the form to submit.
    *
    * @internal
    */
@@ -426,10 +428,14 @@ export class InputTimePicker
     this.calciteInputEl?.setFocus();
   }
 
-  /** Updates the position of the component. */
+  /**
+   * Updates the position of the component.
+   *
+   * @param delayed
+   */
   @Method()
-  async reposition(): Promise<void> {
-    this.popoverEl?.reposition();
+  async reposition(delayed = false): Promise<void> {
+    this.popoverEl?.reposition(delayed);
   }
 
   // --------------------------------------------------------------------------

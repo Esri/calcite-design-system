@@ -34,9 +34,9 @@ import { Messages } from "./assets/card/t9n";
 
 /**
  * @slot - A slot for adding subheader/description content.
- * @slot thumbnail - A slot for adding a thumbnail to the card.
- * @slot title - A slot for adding a card title.
- * @slot subtitle - A slot for adding a card subtitle or short summary.
+ * @slot thumbnail - A slot for adding a thumbnail to the component.
+ * @slot title - A slot for adding a title.
+ * @slot subtitle - A slot for adding a subtitle or short summary.
  * @slot footer-leading - A slot for adding a leading footer.
  * @slot footer-trailing - A slot for adding a trailing footer.
  */
@@ -62,17 +62,17 @@ export class Card implements ConditionalSlotComponent, LocalizedComponent, T9nCo
   //
   //--------------------------------------------------------------------------
 
-  /**  When true, the cards content is waiting to be loaded. This state shows a busy indicator.*/
+  /**  When `true`, a busy indicator is displayed. */
   @Prop({ reflect: true }) loading = false;
 
-  /** Indicates whether the card is selected. */
+  /** When `true`, the component is selected. */
   @Prop({ reflect: true, mutable: true }) selected = false;
 
-  /** Indicates whether the card is selectable. */
+  /** When `true`, the component is selectable. */
   @Prop({ reflect: true }) selectable = false;
 
   /**
-   * string to override English loading text
+   * Accessible name when the component is loading.
    *
    * @default "Loading"
    * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`
@@ -80,19 +80,20 @@ export class Card implements ConditionalSlotComponent, LocalizedComponent, T9nCo
   @Prop() intlLoading?: string;
 
   /**
-   * string to override English select text for checkbox when selectable is true
+   * When `selectable` is `true`, the accessible name for the component's checkbox for selection.
    *
    * @default "Select"
    */
   @Prop({ reflect: false }) intlSelect: string;
 
   /**
-   * string to override English deselect text for checkbox when selectable is true
+   * When `selectable` is `true`, the accessible name for the component's checkbox for deselection.
    *
    * @default "Deselect"
    */
   @Prop({ reflect: false }) intlDeselect: string;
 
+  /** Sets the placement of the thumbnail defined in the `thumbnail` slot. */
   @Prop({ reflect: true }) thumbnailPosition: LogicalFlowPosition = "block-start";
 
   /**
@@ -122,7 +123,7 @@ export class Card implements ConditionalSlotComponent, LocalizedComponent, T9nCo
   //
   //--------------------------------------------------------------------------
 
-  /** Fired when a selectable card is selected */
+  /** Fires when `selectable` is `true` and the component is selected. */
   @Event({ cancelable: false }) calciteCardSelect: EventEmitter<void>;
 
   // --------------------------------------------------------------------------
