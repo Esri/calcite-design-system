@@ -1,7 +1,6 @@
 @include floatingUIHost();
 @include floatingUIArrow();
 
-// scale variants for child
 :host([scale="s"]) {
   .heading {
     @apply text-n1-wrap

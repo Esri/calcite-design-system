@@ -102,28 +102,18 @@ export const flipPlacements_TestOnly = (): string => html`
   </script>
 `;
 
-export const scaleConsistencyPopoverHeadingActionSlottedIcon = stepStory(
-  (): string => html`
-    <div style="width: 400px;">
-      ${referenceElementHTML}
-      <calcite-popover
-        heading="Dreams didn't make us kings. Dragons did. 🐉"
-        reference-element="reference-element"
-        placement="${select("placement", placements, defaultPopoverPlacement)}"
-        ${boolean("open", true)}
-        ${boolean("dismissible", true)}
-        scale="${select("scale", ["s", "m", "l"], "m")}"
-      >
-        ${contentHTML}
-      </calcite-popover>
-    </div>
-  `,
-  createSteps("calcite-popover")
-    .snapshot("Popover Heading & Icon at 'm' scale")
-    .executeScript(`document.querySelector("calcite-popover").scale = "s"`)
-    .snapshot("Popover Heading & Icon at 's' scale")
-    .executeScript(`document.querySelector("calcite-popover").scale = "l"`)
-    .snapshot("Popover Heading & Icon at 'l' scale")
-    .executeScript(`document.querySelector("calcite-popover").dismissible = "false"`)
-    .snapshot("Popover Heading height at 'l' scale collapsed")
-);
+export const scaleConsistencyPopoverHeadingActionSlottedIcon_TestOnly = (): string => html`
+  <div style="width: 400px;">
+    ${referenceElementHTML}
+    <calcite-popover
+      heading="Dreams didn't make us kings. Dragons did. 🐉"
+      reference-element="reference-element"
+      placement="auto"
+      open
+      dismissible
+      scale="m"
+    >
+      ${contentHTML}
+    </calcite-popover>
+  </div>
+`;
