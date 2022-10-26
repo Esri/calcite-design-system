@@ -172,11 +172,9 @@ export class Button
       connectLocalized(this);
       connectMessages(this);
     }
-
-    connectLabel(this);
     this.hasLoader = this.loading;
     this.setupTextContentObserver();
-
+    connectLabel(this);
     this.formEl = closestElementCrossShadowBoundary<HTMLFormElement>(
       this.el,
       this.form ? `#${this.form}` : "form"
