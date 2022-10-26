@@ -38,6 +38,7 @@ import {
 import { CSS } from "./resources";
 
 type ActiveSliderProperty = "minValue" | "maxValue" | "value" | "minMaxValue";
+type SetValueProperty = Exclude<ActiveSliderProperty, "minMaxValue">;
 
 function isRange(value: number | number[]): value is number[] {
   return Array.isArray(value);
@@ -824,7 +825,9 @@ export class Slider
     }
     event.preventDefault();
     const fixedDecimalAdjustment = Number(adjustment.toFixed(decimalPlaces(step)));
-    this.setValue(activeProp, this.clamp(fixedDecimalAdjustment, activeProp));
+    this.setValue({
+      [activeProp as SetValueProperty]: this.clamp(fixedDecimalAdjustment, activeProp)
+    });
   }
 
   @Listen("pointerdown")
@@ -849,7 +852,7 @@ export class Slider
     this.dragStart(prop);
     const isThumbActive = this.el.shadowRoot.querySelector(".thumb:active");
     if (!isThumbActive) {
-      this.setValue(prop, this.clamp(position, prop));
+      this.setValue({ [prop as SetValueProperty]: this.clamp(position, prop) });
     }
     this.focusActiveHandle(x);
   }
@@ -1040,8 +1043,10 @@ export class Slider
             newMinValue >= this.min &&
             newMaxValue - newMinValue === this.minMaxValueRange
           ) {
-            this.minValue = this.clamp(newMinValue, "minValue");
-            this.maxValue = this.clamp(newMaxValue, "maxValue");
+            this.setValue({
+              minValue: this.clamp(newMinValue, "minValue"),
+              maxValue: this.clamp(newMaxValue, "maxValue")
+            });
           }
         } else {
           this.minValueDragRange = value - this.minValue;
@@ -1049,7 +1054,7 @@ export class Slider
           this.minMaxValueRange = this.maxValue - this.minValue;
         }
       } else {
-        this.setValue(this.dragProp, this.clamp(value, this.dragProp));
+        this.setValue({ [this.dragProp as SetValueProperty]: this.clamp(value, this.dragProp) });
       }
     }
   };
@@ -1091,19 +1096,32 @@ export class Slider
   }
 
   /**
-   * Set the prop value if changed at the component level
+   * Set prop value(s) if changed at the component level
    *
-   * @param valueProp
-   * @param value
+   * @param {object} values - a set of key/value pairs delineating what properties in the component to update
    */
-  private setValue(valueProp: string, value: number): void {
-    const oldValue = this[valueProp];
-    const valueChanged = oldValue !== value;
+  private setValue(
+    values: Partial<{
+      [Property in keyof Pick<Slider, "maxValue" | "minValue" | "value">]: number;
+    }>
+  ): void {
+    let valueChanged: boolean;
+
+    Object.keys(values).forEach((propName) => {
+      const newValue = values[propName];
+
+      if (!valueChanged) {
+        const oldValue = this[propName];
+        valueChanged = oldValue !== newValue;
+      }
+
+      this[propName] = newValue;
+    });
 
     if (!valueChanged) {
       return;
     }
-    this[valueProp] = value;
+
     const dragging = this.dragProp;
     if (!dragging) {
       this.emitChange();
