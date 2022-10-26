@@ -490,7 +490,14 @@ export class InputDatePicker
   }
 
   render(): VNode {
-    const { disabled, readOnly } = this;
+    const { disabled, readOnly, numberingSystem, effectiveLocale } = this;
+
+    numberStringFormatter.numberFormatOptions = {
+      numberingSystem,
+      locale: effectiveLocale,
+      useGrouping: false
+    };
+
     const date = dateFromRange(
       this.range ? this.startAsDate : this.valueAsDate,
       this.minAsDate,
@@ -501,12 +508,10 @@ export class InputDatePicker
       : null;
 
     const formattedEndDate = endDate
-      ? this.formatNumerals(endDate.toLocaleDateString(this.effectiveLocale))
+      ? this.formatNumerals(endDate.toLocaleDateString(effectiveLocale))
       : "";
 
-    const formattedDate = date
-      ? this.formatNumerals(date.toLocaleDateString(this.effectiveLocale))
-      : "";
+    const formattedDate = date ? this.formatNumerals(date.toLocaleDateString(effectiveLocale)) : "";
 
     return (
       <Host onBlur={this.deactivate} onKeyDown={this.keyDownHandler} role="application">
@@ -521,9 +526,9 @@ export class InputDatePicker
                   disabled={disabled}
                   icon="calendar"
                   label={getLabelText(this)}
-                  lang={this.effectiveLocale}
+                  lang={effectiveLocale}
                   number-button-type="none"
-                  numberingSystem={this.numberingSystem}
+                  numberingSystem={numberingSystem}
                   onCalciteInputInput={this.startInputInput}
                   onCalciteInternalInputBlur={this.inputBlur}
                   onCalciteInternalInputFocus={this.startInputFocus}
@@ -560,12 +565,12 @@ export class InputDatePicker
                   intlNextMonth={this.intlNextMonth}
                   intlPrevMonth={this.intlPrevMonth}
                   intlYear={this.intlYear}
-                  lang={this.effectiveLocale}
+                  lang={effectiveLocale}
                   max={this.max}
                   maxAsDate={this.maxAsDate}
                   min={this.min}
                   minAsDate={this.minAsDate}
-                  numberingSystem={this.numberingSystem}
+                  numberingSystem={numberingSystem}
                   onCalciteDatePickerChange={this.handleDateChange}
                   onCalciteDatePickerRangeChange={this.handleDateRangeChange}
                   proximitySelectionDisabled={this.proximitySelectionDisabled}
@@ -597,9 +602,9 @@ export class InputDatePicker
                   }}
                   disabled={disabled}
                   icon="calendar"
-                  lang={this.effectiveLocale}
+                  lang={effectiveLocale}
                   number-button-type="none"
-                  numberingSystem={this.numberingSystem}
+                  numberingSystem={numberingSystem}
                   onCalciteInputInput={this.endInputInput}
                   onCalciteInternalInputBlur={this.inputBlur}
                   onCalciteInternalInputFocus={this.endInputFocus}
