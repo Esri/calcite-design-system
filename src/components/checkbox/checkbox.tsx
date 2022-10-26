@@ -38,13 +38,13 @@ export class Checkbox implements LabelableComponent, CheckableFormComponent, Int
   //
   //--------------------------------------------------------------------------
 
-  /** When `true`, the component is checked. */
+  /** The checked state of the checkbox. */
   @Prop({ reflect: true, mutable: true }) checked = false;
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  /** True if the checkbox is disabled */
   @Prop({ reflect: true }) disabled = false;
 
-  /** The `id` attribute of the component. When omitted, a globally unique identifier is used. */
+  /** The id attribute of the checkbox.  When omitted, a globally unique identifier is used. */
   @Prop({ reflect: true, mutable: true }) guid: string;
 
   /**
@@ -55,35 +55,33 @@ export class Checkbox implements LabelableComponent, CheckableFormComponent, Int
   @Prop({ reflect: true, mutable: true }) hovered = false;
 
   /**
-   * When `true`, the component is initially indeterminate, which is independent from its `checked` value.
-   *
-   * The state is visual only, and can look different across browsers.
-   *
-   * @mdn [indeterminate](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox#indeterminate_state_checkboxes)
+   * True if the checkbox is initially indeterminate,
+   * which is independent from its checked state
+   * https://css-tricks.com/indeterminate-checkboxes/
    */
   @Prop({ reflect: true, mutable: true }) indeterminate = false;
 
   /**
-   * Accessible name for the component.
+   * The label of the checkbox input
    *
    * @internal
    */
   @Prop() label?: string;
 
-  /** Specifies the name of the component on form submission. */
+  /** The name of the checkbox input */
   @Prop({ reflect: true }) name;
 
   /**
-   * When `true`, the component must have a value in order for the form to submit.
+   * When true, the component must have a value in order for the form to submit.
    *
    * @internal
    */
   @Prop({ reflect: true }) required = false;
 
-  /** Specifies the size of the component. */
+  /** specify the scale of the checkbox, defaults to m */
   @Prop({ reflect: true }) scale: Scale = "m";
 
-  /** The component's value. */
+  /** The value of the checkbox input */
   @Prop() value: any;
 
   //--------------------------------------------------------------------------
@@ -154,17 +152,17 @@ export class Checkbox implements LabelableComponent, CheckableFormComponent, Int
   //--------------------------------------------------------------------------
 
   /**
-   * Emits when the component is blurred.
+   * Emitted when the checkbox is blurred
    *
    * @internal
    */
   @Event({ cancelable: false }) calciteInternalCheckboxBlur: EventEmitter<boolean>;
 
-  /** Emits when the component's `checked` status changes. */
+  /** Emitted when the checkbox checked status changes */
   @Event({ cancelable: false }) calciteCheckboxChange: EventEmitter<void>;
 
   /**
-   * Emits when the component is focused.
+   * Emitted when the checkbox is focused
    *
    * @internal
    */

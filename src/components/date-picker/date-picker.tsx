@@ -23,14 +23,8 @@ import {
 import { HeadingLevel } from "../functional/Heading";
 
 import { DateRangeChange } from "./interfaces";
-import { HEADING_LEVEL, TEXT } from "./resources";
-import {
-  connectLocalized,
-  disconnectLocalized,
-  LocalizedComponent,
-  NumberingSystem,
-  numberStringFormatter
-} from "../../utils/locale";
+import { HEADING_LEVEL } from "./resources";
+import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import { Messages } from "./assets/date-picker/t9n";
 import {
   connectMessages,
@@ -39,7 +33,6 @@ import {
   T9nComponent,
   updateMessages
 } from "../../utils/t9n";
-
 
 @Component({
   assetsDirs: ["assets"],
@@ -163,12 +156,6 @@ export class DatePicker implements LocalizedComponent, T9nComponent {
    */
   @Prop() locale?: string;
 
-  /**
-   * Specifies the Unicode numeral system used by the component for localization. This property cannot be dynamically changed.
-   *
-   */
-  @Prop({ reflect: true }) numberingSystem?: NumberingSystem;
-
   /** specify the scale of the date picker */
   @Prop({ reflect: true }) scale: "s" | "m" | "l" = "m";
 
@@ -277,12 +264,6 @@ export class DatePicker implements LocalizedComponent, T9nComponent {
     if (this.max) {
       this.maxAsDate = dateFromISO(this.max);
     }
-
-    numberStringFormatter.numberFormatOptions = {
-      numberingSystem: this.numberingSystem,
-      locale: this.effectiveLocale,
-      useGrouping: false
-    };
   }
 
   disconnectedCallback(): void {
@@ -403,12 +384,6 @@ export class DatePicker implements LocalizedComponent, T9nComponent {
     if (!Build.isBrowser) {
       return;
     }
-
-    numberStringFormatter.numberFormatOptions = {
-      numberingSystem: this.numberingSystem,
-      locale: this.effectiveLocale,
-      useGrouping: false
-    };
 
     this.localeData = await getLocaleData(this.effectiveLocale);
   }

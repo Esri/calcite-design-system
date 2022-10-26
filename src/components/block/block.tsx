@@ -32,10 +32,10 @@ import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../..
 import { Messages } from "./assets/block/t9n";
 
 /**
- * @slot - A slot for adding content to the component.
- * @slot icon - A slot for adding a leading header icon with `calcite-icon`.
+ * @slot - A slot for adding content to the block.
+ * @slot icon - A slot for adding a leading header icon.
  * @slot control - A slot for adding a single HTML input element in a header.
- * @slot header-menu-actions - A slot for adding an overflow menu with `calcite-action`s inside a dropdown.
+ * @slot header-menu-actions - a slot for adding an overflow menu with actions inside a dropdown.
  */
 @Component({
   tag: "calcite-block",
@@ -53,32 +53,32 @@ export class Block
   // --------------------------------------------------------------------------
 
   /**
-   * When `true`, the component is collapsible.
+   * When true, this block will be collapsible.
    */
   @Prop({ reflect: true }) collapsible = false;
 
   /**
-   * When `true`, interaction is prevented and the component is displayed with lower opacity.
+   * When true, disabled prevents interaction. This state shows items with lower opacity/grayed.
    */
   @Prop({ reflect: true }) disabled = false;
 
   /**
-   * When `true`, displays a drag handle in the header.
+   * When true, displays a drag handle in the header.
    */
   @Prop({ reflect: true }) dragHandle = false;
 
   /**
-   * The component header text.
+   * Block heading.
    */
   @Prop() heading!: string;
 
   /**
-   * Specifies the number at which section headings should start.
+   * Number at which section headings should start for this component.
    */
   @Prop({ reflect: true }) headingLevel: HeadingLevel;
 
   /**
-   * Accessible name for the component's collapse button.
+   * Aria-label for collapsing the toggle and tooltip used for the toggle when expanded.
    *
    * @default "Collapse"
    * @deprecated - translations are now built-in, if you need to override a string, please use `messageOverrides`
@@ -86,7 +86,7 @@ export class Block
   @Prop() intlCollapse?: string;
 
   /**
-   * Accessible name for the component's expand button.
+   * Aria-label for expanding the toggle and tooltip used for the toggle when collapsed.
    *
    * @default "Expand"
    * @deprecated - translations are now built-in, if you need to override a string, please use `messageOverrides`
@@ -94,7 +94,7 @@ export class Block
   @Prop() intlExpand?: string;
 
   /**
-   * Accessible name when the component is loading.
+   * string to override English loading text
    *
    * @default "Loading"
    * @deprecated - translations are now built-in, if you need to override a string, please use `messageOverrides`
@@ -102,7 +102,7 @@ export class Block
   @Prop() intlLoading?: string;
 
   /**
-   * Accessible name for the component's options button.
+   * Text string used for the actions menu
    *
    * @default "Options"
    * @deprecated - translations are now built-in, if you need to override a string, please use `messageOverrides`
@@ -110,34 +110,32 @@ export class Block
   @Prop() intlOptions?: string;
 
   /**
-   * When `true`, a busy indicator is displayed.
+   * When true, content is waiting to be loaded. This state shows a busy indicator.
    */
   @Prop({ reflect: true }) loading = false;
 
   /**
-   * When `true`, expands the component and its contents.
+   * When true, the block's content will be displayed.
    */
   @Prop({ reflect: true, mutable: true }) open = false;
 
   /**
-   * Displays a status-related indicator icon.
+   * Block status. Updates or adds icon to show related icon and color.
    */
   @Prop({ reflect: true }) status?: Status;
 
   /**
-   * A description for the component, which displays below the heading.
+   * Block summary.
    *
-   * @deprecated use `description` instead
+   * @deprecated use description instead
    */
   @Prop() summary: string;
 
-  /**
-   * A description for the component, which displays below the heading.
-   */
+  /**Block description */
   @Prop() description: string;
 
   /**
-   * When `true`, removes padding for the slotted content.
+   * When true, removes padding for the slotted content
    *
    * @deprecated Use `--calcite-block-padding` CSS variable instead.
    */
@@ -217,7 +215,7 @@ export class Block
   // --------------------------------------------------------------------------
 
   /**
-   * Emits when the component's header is clicked.
+   * Emitted when the header has been clicked.
    */
   @Event({ cancelable: false }) calciteBlockToggle: EventEmitter<void>;
 

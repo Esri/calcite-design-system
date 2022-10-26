@@ -38,24 +38,22 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
   //
   // --------------------------------------------------------------------------
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  /** When true, the item cannot be clicked and is visually muted. */
   @Prop({ reflect: true }) disabled = false;
 
-  /**
-   * When `true`, the component is selected.
-   */
+  /** Set this to true to pre-select an item. Toggles when an item is checked/unchecked. */
   @Prop({ reflect: true, mutable: true }) selected = false;
 
-  /** When `true`, the component is active. */
+  /** True when item is highlighted either from keyboard or mouse hover */
   @Prop({ reflect: true }) active = false;
 
-  /** Specifies the parent and grandparent items, which are set on `calcite-combobox`. */
+  /** Parent and grandparent combobox items, this is set internally for use from combobox */
   @Prop({ mutable: true }) ancestors: ComboboxChildElement[];
 
-  /** The `id` attribute of the component. When omitted, a globally unique identifier is used. */
+  /** Unique identifier, used for accessibility */
   @Prop({ reflect: true }) guid = guid();
 
-  /** Specifies an icon to display. */
+  /** Custom icon to display both in combobox chips and next to combobox item text */
   @Prop({ reflect: true }) icon?: string;
 
   @Watch("selected")
@@ -63,21 +61,21 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
     this.calciteComboboxItemChange.emit(this.el);
   }
 
-  /** The component's text. */
+  /** The main label for this item. */
   @Prop({ reflect: true }) textLabel!: string;
 
-  /** The component's value. */
+  /** The item's associated value */
   @Prop() value!: any;
 
   /**
-   * When `true`, omits the component from the `calcite-combobox` filtered search results.
+   * Don't filter this item based on the search text
    *
-   * @deprecated use `filterDisabled` instead.
+   * @deprecated use filterDisabled instead
    */
   @Prop({ reflect: true }) constant: boolean;
 
   /**
-   * When `true`, omits the component from the `calcite-combobox` filtered search results.
+   * Do not filter this item based on the search text
    */
   @Prop({ reflect: true }) filterDisabled: boolean;
 
@@ -120,7 +118,7 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
   // --------------------------------------------------------------------------
 
   /**
-   * Emits whenever the component is selected or unselected.
+   * Emitted whenever the item is selected or unselected.
    *
    * **Note:**: The event's payload is deprecated, please use the event's `target`/`currentTarget` instead
    */

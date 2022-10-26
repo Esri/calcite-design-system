@@ -20,6 +20,7 @@ import {
   defaultPopoverPlacement
 } from "./resources";
 import {
+  positionFloatingUI,
   FloatingCSS,
   OverlayPositioning,
   FloatingUIComponent,
@@ -30,8 +31,7 @@ import {
   defaultOffsetDistance,
   filterComputedPlacements,
   ReferenceElement,
-  reposition,
-  updateAfterClose
+  repositionDebounceTimeout
 } from "../../utils/floating-ui";
 
 import { guid } from "../../utils/guid";
@@ -55,7 +55,6 @@ import {
 } from "../../utils/t9n";
 import { Messages } from "./assets/popover/t9n";
 
-
 const manager = new PopoverManager();
 
 /**
@@ -77,7 +76,7 @@ export class Popover
   // --------------------------------------------------------------------------
 
   /**
-   * When `true`, clicking outside of the component automatically closes open `calcite-popover`s.
+   * When true and clicking outside of the component, automatically closes open `calcite-popover`s.
    */
   @Prop({ reflect: true }) autoClose = false;
 
@@ -126,7 +125,7 @@ export class Popover
   @Watch("flipPlacements")
   flipPlacementsHandler(): void {
     this.setFilteredPlacements();
-    this.reposition(true);
+    this.debouncedReposition();
   }
 
   /**
@@ -176,7 +175,7 @@ export class Popover
 
   @Watch("offsetDistance")
   offsetDistanceOffsetHandler(): void {
-    this.reposition(true);
+    this.debouncedReposition();
   }
 
   /**
@@ -186,7 +185,7 @@ export class Popover
 
   @Watch("offsetSkidding")
   offsetSkiddingHandler(): void {
-    this.reposition(true);
+    this.debouncedReposition();
   }
 
   /**
@@ -195,13 +194,8 @@ export class Popover
   @Prop({ reflect: true, mutable: true }) open = false;
 
   @Watch("open")
-  openHandler(value: boolean): void {
-    if (value) {
-      this.reposition(true);
-    } else {
-      updateAfterClose(this.el);
-    }
-
+  openHandler(): void {
+    this.debouncedReposition();
     this.setExpandedAttr();
   }
 
@@ -217,7 +211,7 @@ export class Popover
 
   @Watch("overlayPositioning")
   overlayPositioningHandler(): void {
-    this.reposition(true);
+    this.debouncedReposition();
   }
 
   /**
@@ -229,7 +223,7 @@ export class Popover
 
   @Watch("placement")
   placementHandler(): void {
-    this.reposition(true);
+    this.debouncedReposition();
   }
 
   /**
@@ -240,7 +234,7 @@ export class Popover
   @Watch("referenceElement")
   referenceElementHandler(): void {
     this.setUpReferenceElement();
-    this.reposition(true);
+    this.debouncedReposition();
   }
 
   /**
@@ -312,7 +306,7 @@ export class Popover
     if (this.referenceElement && !this.effectiveReferenceElement) {
       this.setUpReferenceElement();
     }
-    this.reposition();
+    this.debouncedReposition();
     this.hasLoaded = true;
   }
 
@@ -348,13 +342,9 @@ export class Popover
   //
   // --------------------------------------------------------------------------
 
-  /**
-   * Updates the position of the component.
-   *
-   * @param delayed
-   */
+  /** Updates the position of the component. */
   @Method()
-  async reposition(delayed = false): Promise<void> {
+  async reposition(): Promise<void> {
     const {
       el,
       effectiveReferenceElement,
@@ -366,23 +356,19 @@ export class Popover
       offsetSkidding,
       arrowEl
     } = this;
-    return reposition(
-      this,
-      {
-        floatingEl: el,
-        referenceEl: effectiveReferenceElement,
-        overlayPositioning,
-        placement,
-        disableFlip,
-        flipPlacements: filteredFlipPlacements,
-        offsetDistance,
-        offsetSkidding,
-        includeArrow: !this.disablePointer,
-        arrowEl,
-        type: "popover"
-      },
-      delayed
-    );
+
+    return positionFloatingUI({
+      floatingEl: el,
+      referenceEl: effectiveReferenceElement,
+      overlayPositioning,
+      placement,
+      disableFlip,
+      flipPlacements: filteredFlipPlacements,
+      offsetDistance,
+      offsetSkidding,
+      arrowEl,
+      type: "popover"
+    });
   }
 
   /**
@@ -419,6 +405,8 @@ export class Popover
   //  Private Methods
   //
   // --------------------------------------------------------------------------
+
+  private debouncedReposition = debounce(() => this.reposition(), repositionDebounceTimeout);
 
   private setTransitionEl = (el): void => {
     this.transitionEl = el;
@@ -528,7 +516,7 @@ export class Popover
 
   storeArrowEl = (el: HTMLDivElement): void => {
     this.arrowEl = el;
-    this.reposition(true);
+    this.debouncedReposition();
   };
 
   // --------------------------------------------------------------------------

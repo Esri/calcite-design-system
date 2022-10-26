@@ -2,7 +2,7 @@ import { BigDecimal, isValidNumber, sanitizeExponentialNumberString } from "./nu
 import { createObserver } from "./observers";
 import { closestElementCrossShadowBoundary, containsCrossShadowBoundary } from "./dom";
 
-export const defaultLocale = "en";
+const defaultLocale = "en";
 
 export const t9nLocales = [
   "ar",
@@ -139,7 +139,6 @@ export const defaultNumberingSystem =
 export const getSupportedNumberingSystem = (numberingSystem: string): NumberingSystem =>
   isNumberingSystemSupported(numberingSystem) ? numberingSystem : defaultNumberingSystem;
 
-
 /**
  * Gets the locale that best matches the context.
  *
@@ -148,22 +147,17 @@ export const getSupportedNumberingSystem = (numberingSystem: string): NumberingS
  */
 export function getSupportedLocale(locale: string, context: "cldr" | "t9n" = "cldr"): string {
   const contextualLocales = context === "cldr" ? locales : t9nLocales;
-  
-  if (!locale) {
-    return defaultLocale;
-  }
 
   if (contextualLocales.includes(locale)) {
     return locale;
   }
 
   locale = locale.toLowerCase();
-  
+
   // we support both 'nb' and 'no' (BCP 47) for Norwegian but only `no` has corresponding bundle
-  if (locale === "nb" ) {
+  if (locale === "nb") {
     return "no";
   }
-
 
   // we use `pt-BR` as it will have the same translations as `pt`, which has no corresponding bundle
   if (context === "t9n" && locale === "pt") {
@@ -228,7 +222,7 @@ export function connectLocalized(component: LocalizedComponent): void {
   updateEffectiveLocale(component);
 
   if (connectedComponents.size === 0) {
-    mutationObserver?.observe(document.documentElement, {
+    mutationObserver.observe(document.documentElement, {
       attributes: true,
       attributeFilter: ["lang"],
       subtree: true
@@ -308,7 +302,7 @@ function getLocale(component: LocalizedComponent): string {
   );
 }
 
-export interface NumberStringFormatOptions extends Intl.NumberFormatOptions {
+interface NumberStringFormatOptions extends Intl.NumberFormatOptions {
   numberingSystem: NumberingSystem;
   locale: string;
 }
@@ -367,20 +361,11 @@ class NumberStringFormat {
    * numberFormatOptions needs to be set before localize/delocalize is called to ensure the options are up to date
    */
   set numberFormatOptions(options: NumberStringFormatOptions) {
-    options.locale = getSupportedLocale(options?.locale);
-    options.numberingSystem = getSupportedNumberingSystem(options?.numberingSystem);
+    options.locale = getSupportedLocale(options.locale);
+    options.numberingSystem = getSupportedNumberingSystem(options.numberingSystem);
 
-    if (
-      // No need to create the formatter if `locale` and `numberingSystem`
-      // are the default values and `numberFormatOptions` has not been set
-      (!this._numberFormatOptions &&
-        options.locale === defaultLocale &&
-        options.numberingSystem === defaultNumberingSystem &&
-        // don't skip initialization if any options besides locale/numberingSystem are set
-        Object.keys(options).length === 2) ||
-      // cache formatter by only recreating when options change
-      JSON.stringify(this._numberFormatOptions) === JSON.stringify(options)
-    ) {
+    // cache formatter by only recreating when options change
+    if (JSON.stringify(this._numberFormatOptions) === JSON.stringify(options)) {
       return;
     }
 
@@ -410,30 +395,23 @@ class NumberStringFormat {
   }
 
   delocalize = (numberString: string) =>
-    // For performance, (de)localization is skipped if the formatter isn't initialized.
-    // In order to localize/delocalize, e.g. when lang/numberingSystem props are not default values,
-    // `numberFormatOptions` must be set in a component to create and cache the formatter.
-    this._numberFormatOptions
-      ? sanitizeExponentialNumberString(numberString, (nonExpoNumString: string): string =>
-          nonExpoNumString
-            .trim()
-            .replace(new RegExp(`[${this._minusSign}]`, "g"), "-")
-            .replace(new RegExp(`[${this._group}]`, "g"), "")
-            .replace(new RegExp(`[${this._decimal}]`, "g"), ".")
-            .replace(new RegExp(`[${this._digits.join("")}]`, "g"), this._getDigitIndex)
-        )
-      : numberString;
+    sanitizeExponentialNumberString(numberString, (nonExpoNumString: string): string =>
+      nonExpoNumString
+        .trim()
+        .replace(new RegExp(`[${this._minusSign}]`, "g"), "-")
+        .replace(new RegExp(`[${this._group}]`, "g"), "")
+        .replace(new RegExp(`[${this._decimal}]`, "g"), ".")
+        .replace(new RegExp(`[${this._digits.join("")}]`, "g"), this._getDigitIndex)
+    );
 
   localize = (numberString: string) =>
-    this._numberFormatOptions
-      ? sanitizeExponentialNumberString(numberString, (nonExpoNumString: string): string =>
-          isValidNumber(nonExpoNumString.trim())
-            ? new BigDecimal(nonExpoNumString.trim())
-                .format(this._numberFormatter)
-                .replace(new RegExp(`[${this._actualGroup}]`, "g"), this._group)
-            : nonExpoNumString
-        )
-      : numberString;
+    sanitizeExponentialNumberString(numberString, (nonExpoNumString: string): string =>
+      isValidNumber(nonExpoNumString)
+        ? new BigDecimal(nonExpoNumString.trim())
+            .format(this._numberFormatter)
+            .replace(new RegExp(`[${this._actualGroup}]`, "g"), this._group)
+        : nonExpoNumString
+    );
 }
 
 export const numberStringFormatter = new NumberStringFormat();

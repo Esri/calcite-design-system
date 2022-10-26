@@ -46,16 +46,16 @@ export class Chip implements ConditionalSlotComponent {
   //
   //--------------------------------------------------------------------------
 
-  /** Specifies the appearance style of the component. */
+  /** specify the appearance style of the button, defaults to solid. */
   @Prop({ reflect: true }) appearance: Extract<"solid" | "clear", Appearance> = "solid";
 
-  /** Specifies the color for the component. */
+  /** specify the color of the button, defaults to blue */
   @Prop({ reflect: true }) color: ChipColor = "grey";
 
   /**
-   * When `true`, a close button is added to the component.
+   * Optionally show a button the user can click to dismiss the chip
    *
-   * @deprecated use `closable` instead.
+   * @deprecated use closable instead
    */
   @Prop({ reflect: true, mutable: true }) dismissible = false;
 
@@ -64,7 +64,7 @@ export class Chip implements ConditionalSlotComponent {
     this.closable = value;
   }
 
-  /** When `true`, a close button is added to the component. */
+  /** When true, show abutton user can click to dismiss the chip. */
   @Prop({ reflect: true, mutable: true }) closable = false;
 
   @Watch("closable")
@@ -73,7 +73,7 @@ export class Chip implements ConditionalSlotComponent {
   }
 
   /**
-   * Accessible name for the component's close button.
+   * Aria label for the "x" button
    *
    * @default "Close"
    * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`
@@ -83,16 +83,16 @@ export class Chip implements ConditionalSlotComponent {
   /** Specifies an icon to display. */
   @Prop({ reflect: true }) icon?: string;
 
-  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
+  /** When true, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @Prop({ reflect: true }) iconFlipRtl = false;
 
-  /** Specifies the size of the component. */
+  /** specify the scale of the chip, defaults to m */
   @Prop({ reflect: true }) scale: Scale = "m";
 
-  /** The component's value. */
+  /** The assigned value for the chip */
   @Prop() value!: any;
 
-  /** When `true`, hides the component. */
+  /** When true, hides the chip  */
   @Prop({ reflect: true, mutable: true }) closed = false;
 
   /**
@@ -177,9 +177,9 @@ export class Chip implements ConditionalSlotComponent {
   // --------------------------------------------------------------------------
 
   /**
-   * Fires when the dismiss button is clicked.
+   * Emitted when the dismiss button is clicked
    *
-   * **Note:**: The `el` event payload props is deprecated, please use the event's `target`/`currentTarget` instead.
+   * **Note:**: The `el` event payload props is deprecated, please use the event's `target`/`currentTarget` instead
    */
   @Event({ cancelable: false }) calciteChipDismiss: EventEmitter<DeprecatedEventPayload>;
 

@@ -23,7 +23,7 @@ import {
   HSV_LIMITS,
   RGB_LIMITS
 } from "./resources";
-import { Direction, focusElement, getElementDir, isPrimaryPointerButton } from "../../utils/dom";
+import { Direction, focusElement, getElementDir } from "../../utils/dom";
 import { colorEqual, CSSColorMode, Format, normalizeHex, parseMode, SupportedMode } from "./utils";
 import { throttle } from "lodash-es";
 
@@ -67,17 +67,13 @@ export class ColorPicker implements InteractiveComponent, T9nComponent {
   //--------------------------------------------------------------------------
 
   /**
-   * When `false`, an empty color (`null`) will be allowed as a `value`. Otherwise, a color value is enforced on the component.
+   * When false, empty color (null) will be allowed as a value. Otherwise, a color value is always enforced by the component.
    *
-   * When `true`, a color value is enforced, and clearing the input or blurring will restore the last valid `value`. When `false`, an empty color (`null`) will be allowed as a `value`.
+   * When true, clearing the input and blurring will restore the last valid color set. When false, it will set it to empty.
    */
   @Prop({ reflect: true }) allowEmpty = false;
 
-  /**
-   * Specifies the appearance style of the component -
-   *
-   * `"solid"` (containing border) or `"minimal"` (no containing border).
-   */
+  /** specify the appearance - solid (containing border), or minimal (no containing border) */
   @Prop({ reflect: true }) appearance: ColorAppearance = "solid";
 
   /**
@@ -95,14 +91,14 @@ export class ColorPicker implements InteractiveComponent, T9nComponent {
   }
 
   /**
-   * When `true`, interaction is prevented and the component is displayed with lower opacity.
+   * When true, disabled prevents user interaction.
    */
   @Prop({ reflect: true }) disabled = false;
 
   /**
-   * The format of `value`.
+   * The format of the value property.
    *
-   * When `"auto"`, the format will be inferred from `value` when set.
+   * When "auto", the format will be inferred from `value` when set.
    *
    * @default "auto"
    */
@@ -114,38 +110,38 @@ export class ColorPicker implements InteractiveComponent, T9nComponent {
     this.internalColorSet(this.color, false, "internal");
   }
 
-  /** When `true`, hides the Hex input. */
+  /** When true, hides the hex input */
   @Prop({ reflect: true }) hideHex = false;
 
-  /** When `true`, hides the RGB/HSV channel inputs. */
+  /** When true, hides the RGB/HSV channel inputs */
   @Prop({ reflect: true }) hideChannels = false;
 
-  /** When `true`, hides the saved colors section. */
+  /** When true, hides the saved colors section */
   @Prop({ reflect: true }) hideSaved = false;
 
   /**
-   * Accessible name for the RGB section's blue channel.
+   * Label used for the blue channel
    *
    * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`
    */
   @Prop() intlB: string;
 
   /**
-   * Accessible name for the RGB section's blue channel description.
+   * Label used for the blue channel description
    *
    * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`
    */
   @Prop() intlBlue: string;
 
   /**
-   * Accessible name for the delete color button.
+   * Label used for the delete color button.
    *
    * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`
    */
   @Prop() intlDeleteColor: string;
 
   /**
-   * Accessible name for the RGB section's green channel.
+   * Label used for the green channel
    *
    * @default "G"
    * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`
@@ -153,111 +149,113 @@ export class ColorPicker implements InteractiveComponent, T9nComponent {
   @Prop() intlG: string;
 
   /**
-   * Accessible name for the RGB section's green channel description.
+   * Label used for the green channel description
    *
    * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`
    */
   @Prop() intlGreen: string;
 
   /**
-   * Accessible name for the HSV section's hue channel.
+   * Label used for the hue channel
    *
    * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`
    */
   @Prop() intlH: string;
 
   /**
-   * Accessible name for the HSV mode.
+   * Label used for the HSV mode
    *
    * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`
    */
   @Prop() intlHsv: string;
 
   /**
-   * Accessible name for the Hex input.
+   * Label used for the hex input
    *
    * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`
    */
   @Prop() intlHex: string;
 
   /**
-   * Accessible name for the HSV section's hue channel description.
+   * Label used for the hue channel description
    *
    * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`
    */
   @Prop() intlHue: string;
 
   /**
-   * Accessible name for the Hex input when there is no color selected.
+   * Label used for the hex input when there is no color selected.
    *
    * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`
    */
   @Prop() intlNoColor: string;
 
   /**
-   * Accessible name for the RGB section's red channel.
+   * Label used for the red channel
    *
    * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`
    */
   @Prop() intlR: string;
 
   /**
-   * Accessible name for the RGB section's red channel description.
+   * Label used for the red channel description
    *
    * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`
    */
   @Prop() intlRed: string;
 
   /**
-   * Accessible name for the RGB mode.
+   * Label used for the RGB mode
    *
    * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`
    */
   @Prop() intlRgb: string;
 
   /**
-   * Accessible name for the HSV section's saturation channel.
+   * Label used for the saturation channel
    *
    * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`
    */
   @Prop() intlS: string;
 
   /**
-   * Accessible name for the HSV section's saturation channel description.
+   * Label used for the saturation channel description
    *
    * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`
    */
   @Prop() intlSaturation: string;
 
   /**
-   * Accessible name for the save color button.
+   * Label used for the save color button.
    *
    * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`
    */
   @Prop() intlSaveColor: string;
 
   /**
-   * Accessible name for the saved colors section.
+   * Label used for the saved colors section
    *
    * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`
    */
   @Prop() intlSaved: string;
 
   /**
-   * Accessible name for the HSV section's value channel.
+   * Label used for the value channel
    *
    * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`
    */
   @Prop() intlV: string;
 
   /**
-   * Accessible name for the HSV section's value channel description.
+   * Label used for the
    *
    * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`
    */
   @Prop() intlValue: string;
 
-  /** Specifies the size of the component. */
+  /**
+   * The scale of the color picker.
+   */
   @Prop({ reflect: true }) scale: Scale = "m";
 
   @Watch("scale")
@@ -266,7 +264,9 @@ export class ColorPicker implements InteractiveComponent, T9nComponent {
     this.updateCanvasSize(this.fieldAndSliderRenderingContext?.canvas);
   }
 
-  /** Specifies the storage ID for colors. */
+  /**
+   * Storage ID for colors.
+   */
   @Prop({ reflect: true }) storageId: string;
 
   /**
@@ -304,7 +304,10 @@ export class ColorPicker implements InteractiveComponent, T9nComponent {
   @Prop({ reflect: true }) numberingSystem?: NumberingSystem;
 
   /**
-   * The component's value, where the value can be a CSS color string, or a RGB, HSL or HSV object.
+   * The component's value.
+   *
+   * This value can be either a CSS color string,
+   * a RGB, HSL or HSV object.
    *
    * The type will be preserved as the color is updated.
    *
@@ -437,7 +440,7 @@ export class ColorPicker implements InteractiveComponent, T9nComponent {
   /**
    * Fires as the color value changes.
    *
-   * Similar to the `calciteColorPickerChange` event with the exception of dragging. When dragging the color field or hue slider thumb, this event fires as the thumb is moved.
+   * This is similar to the change event with the exception of dragging. When dragging the color field or hue slider thumb, this event fires as the thumb is moved.
    */
   @Event({ cancelable: false }) calciteColorPickerInput: EventEmitter<void>;
 
@@ -606,10 +609,6 @@ export class ColorPicker implements InteractiveComponent, T9nComponent {
   };
 
   private handleColorFieldAndSliderPointerDown = (event: PointerEvent): void => {
-    if (!isPrimaryPointerButton(event)) {
-      return;
-    }
-
     const { offsetX, offsetY } = event;
     const region = this.getCanvasRegion(offsetY);
 
@@ -633,11 +632,7 @@ export class ColorPicker implements InteractiveComponent, T9nComponent {
       this.fieldAndSliderRenderingContext.canvas.getBoundingClientRect();
   };
 
-  private globalPointerUpHandler = (event: PointerEvent): void => {
-    if (!isPrimaryPointerButton(event)) {
-      return;
-    }
-
+  private globalPointerUpHandler = (): void => {
     const previouslyDragging = this.sliderThumbState === "drag" || this.hueThumbState === "drag";
 
     this.hueThumbState = "idle";

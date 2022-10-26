@@ -80,6 +80,7 @@ export class BigDecimal {
 
     const iFormatted = `${this.isNegative ? numberStringFormatter.minusSign : ""}${formatter.format(BigInt(i))}`;
     const dFormatted = d.length ? `${numberStringFormatter.decimal}${formatter.format(BigInt(d))}` : "";
+
     return `${iFormatted}${dFormatted}`;
   }
 
@@ -154,10 +155,6 @@ export function sanitizeExponentialNumberString(numberString: string, func: (s: 
   }
 
   const firstE = numberString.toLowerCase().indexOf("e") + 1;
-
-  if (!firstE) {
-    return func(numberString);
-  }
 
   return numberString
     .replace(/[eE]*$/g, "")

@@ -17,7 +17,7 @@ export class ColorPickerSwatch {
   //--------------------------------------------------------------------------
 
   /**
-   * When `true`, the component is active.
+   * Used to display whether the swatch is active or not.
    */
   @Prop({
     reflect: true
@@ -38,7 +38,7 @@ export class ColorPickerSwatch {
   }
 
   /**
-   * Specifies the size of the component.
+   * The component scale.
    */
   @Prop({
     reflect: true

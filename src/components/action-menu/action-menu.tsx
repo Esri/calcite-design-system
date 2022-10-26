@@ -11,7 +11,7 @@ import {
   State
 } from "@stencil/core";
 import { CSS, SLOTS, ICONS } from "./resources";
-import { focusElement, isPrimaryPointerButton, toAriaBoolean } from "../../utils/dom";
+import { focusElement, toAriaBoolean } from "../../utils/dom";
 import { Fragment, VNode } from "@stencil/core/internal";
 import { getRoundRobinIndex } from "../../utils/array";
 import { guid } from "../../utils/guid";
@@ -121,11 +121,7 @@ export class ActionMenu {
   @Event({ cancelable: false }) calciteActionMenuOpenChange: EventEmitter<DeprecatedEventPayload>;
 
   @Listen("pointerdown", { target: "window" })
-  closeCalciteActionMenuOnClick(event: PointerEvent): void {
-    if (!isPrimaryPointerButton(event)) {
-      return;
-    }
-
+  closeCalciteActionMenuOnClick(event: Event): void {
     const composedPath = event.composedPath();
 
     if (composedPath.includes(this.el)) {
@@ -333,11 +329,7 @@ export class ActionMenu {
     this.setFocus();
   };
 
-  menuButtonClick = (event: PointerEvent): void => {
-    if (!isPrimaryPointerButton(event)) {
-      return;
-    }
-
+  menuButtonClick = (): void => {
     this.toggleOpen();
   };
 

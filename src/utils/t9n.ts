@@ -1,4 +1,4 @@
-import { Build, getAssetPath } from "@stencil/core";
+import { getAssetPath } from "@stencil/core";
 import { getSupportedLocale, LocalizedComponent } from "./locale";
 
 export type MessageBundle = Record<string, string>;
@@ -7,10 +7,6 @@ export const componentLangToMessageBundleCache: Record<string, Promise<MessageBu
 
 async function getMessageBundle(lang: string, component: string): Promise<MessageBundle> {
   const key = `${component}_${lang}`;
-
-  if (!Build.isBrowser) {
-    return;
-  }
 
   if (componentLangToMessageBundleCache[key]) {
     return componentLangToMessageBundleCache[key];

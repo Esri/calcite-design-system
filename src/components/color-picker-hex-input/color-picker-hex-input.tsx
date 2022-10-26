@@ -67,31 +67,33 @@ export class ColorPickerHexInput {
   //--------------------------------------------------------------------------
 
   /**
-   * When `false`, an empty color (`null`) will be allowed as a `value`. Otherwise, a color value is enforced on the component.
+   * When false, empty color (null) will be allowed as a value. Otherwise, a color value is always enforced by the component.
    *
-   * When `true`, a color value is enforced, and clearing the input or blurring will restore the last valid `value`. When `false`, an empty color (`null`) will be allowed as a `value`.
+   * When true, clearing the input and blurring will restore the last valid color set. When false, it will set it to empty.
    */
   @Prop() allowEmpty = false;
 
   /**
-   * Accessible name for the Hex input.
+   * Label used for the hex input.
    *
    * @default "Hex"
    */
   @Prop() intlHex = TEXT.hex;
 
   /**
-   * Accessible name for the Hex input when there is no color selected.
+   * Label used for the hex input when there is no color selected.
    *
    * @default "No color"
    */
   @Prop() intlNoColor = TEXT.noColor;
 
-  /** Specifies the size of the component. */
+  /**
+   * The component's scale.
+   */
   @Prop({ reflect: true }) scale: Scale = "m";
 
   /**
-   * The Hex value.
+   * The hex value.
    */
   @Prop({ mutable: true, reflect: true }) value: string = normalizeHex(DEFAULT_COLOR.hex());
 
