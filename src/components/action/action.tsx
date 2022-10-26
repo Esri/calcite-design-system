@@ -8,16 +8,28 @@ import {
   Prop,
   h,
   forceUpdate,
-  VNode
+  VNode,
+  Watch,
+  State,
+  Build
 } from "@stencil/core";
 
 import { Alignment, Appearance, Scale } from "../interfaces";
 
-import { CSS, TEXT, SLOTS } from "./resources";
+import { CSS, SLOTS } from "./resources";
 
 import { createObserver } from "../../utils/observers";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { toAriaBoolean } from "../../utils/dom";
+import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
+import { Messages } from "./assets/action/t9n";
+import {
+  connectMessages,
+  disconnectMessages,
+  setUpMessages,
+  T9nComponent,
+  updateMessages
+} from "../../utils/t9n";
 
 /**
  * @slot - A slot for adding a `calcite-icon`.
@@ -25,9 +37,10 @@ import { toAriaBoolean } from "../../utils/dom";
 @Component({
   tag: "calcite-action",
   styleUrl: "action.scss",
-  shadow: true
+  shadow: true,
+  assetsDirs: ["assets"]
 })
-export class Action implements InteractiveComponent {
+export class Action implements InteractiveComponent, LocalizedComponent, T9nComponent {
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -69,8 +82,9 @@ export class Action implements InteractiveComponent {
    * Specifies the text label to display while loading.
    *
    * @default "Loading"
+   * @deprecated - translations are now built-in, if you need to override a string, please use `messageOverrides`
    */
-  @Prop() intlLoading?: string = TEXT.loading;
+  @Prop() intlLoading?: string;
 
   /**
    * Specifies the label of the component. If no label is provided, the label inherits what's provided for the `text` prop.
@@ -97,6 +111,25 @@ export class Action implements InteractiveComponent {
    */
   @Prop({ reflect: true }) textEnabled = false;
 
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @internal
+   */
+  @Prop({ mutable: true }) messages: Messages;
+
+  /**
+   * Use this property to override individual strings used by the component.
+   */
+  @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
+
+  @Watch("intlLoading")
+  @Watch("defaultMessages")
+  @Watch("messageOverrides")
+  onMessagesChange(): void {
+    /* wired up by t9n util */
+  }
+
   // --------------------------------------------------------------------------
   //
   //  Events
@@ -122,6 +155,14 @@ export class Action implements InteractiveComponent {
 
   mutationObserver = createObserver("mutation", () => forceUpdate(this));
 
+  @State() effectiveLocale = "";
+
+  @Watch("effectiveLocale")
+  effectiveLocaleChange(): void {
+    updateMessages(this, this.effectiveLocale);
+  }
+
+  @State() defaultMessages: Messages;
   // --------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -129,15 +170,25 @@ export class Action implements InteractiveComponent {
   // --------------------------------------------------------------------------
 
   connectedCallback(): void {
+    connectLocalized(this);
+    connectMessages(this);
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
   }
 
   disconnectedCallback(): void {
+    disconnectLocalized(this);
+    disconnectMessages(this);
     this.mutationObserver?.disconnect();
   }
 
   componentDidRender(): void {
     updateHostInteraction(this);
+  }
+
+  async componentWillLoad(): Promise<void> {
+    if (Build.isBrowser) {
+      await setUpMessages(this);
+    }
   }
 
   // --------------------------------------------------------------------------
@@ -174,11 +225,11 @@ export class Action implements InteractiveComponent {
   }
 
   renderIconContainer(): VNode {
-    const { loading, icon, scale, el, intlLoading } = this;
+    const { loading, icon, scale, el } = this;
     const iconScale = scale === "l" ? "m" : "s";
     const loaderScale = scale === "l" ? "l" : "m";
     const calciteLoaderNode = loading ? (
-      <calcite-loader active inline label={intlLoading} scale={loaderScale} />
+      <calcite-loader active inline label={this.messages.loading} scale={loaderScale} />
     ) : null;
     const calciteIconNode = icon ? <calcite-icon icon={icon} scale={iconScale} /> : null;
     const iconNode = calciteLoaderNode || calciteIconNode;

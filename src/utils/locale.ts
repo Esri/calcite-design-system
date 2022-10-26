@@ -222,7 +222,7 @@ export function connectLocalized(component: LocalizedComponent): void {
   updateEffectiveLocale(component);
 
   if (connectedComponents.size === 0) {
-    mutationObserver.observe(document.documentElement, {
+    mutationObserver?.observe(document.documentElement, {
       attributes: true,
       attributeFilter: ["lang"],
       subtree: true

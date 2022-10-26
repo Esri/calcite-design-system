@@ -8,11 +8,12 @@ import {
   Watch,
   h,
   VNode,
-  Method
+  Method,
+  State
 } from "@stencil/core";
 import { Position, Scale, Layout } from "../interfaces";
 import { ExpandToggle, toggleChildActionText } from "../functional/ExpandToggle";
-import { CSS, SLOTS, TEXT } from "./resources";
+import { CSS, SLOTS } from "./resources";
 import { getSlotted, focusElement } from "../../utils/dom";
 import {
   geActionDimensions,
@@ -28,6 +29,15 @@ import {
   disconnectConditionalSlotComponent,
   ConditionalSlotComponent
 } from "../../utils/conditionalSlot";
+import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
+import {
+  connectMessages,
+  disconnectMessages,
+  setUpMessages,
+  T9nComponent,
+  updateMessages
+} from "../../utils/t9n";
+import { Messages } from "./assets/action-bar/t9n";
 
 /**
  * @slot - A slot for adding `calcite-action`s that will appear at the top of the action bar.
@@ -37,9 +47,10 @@ import {
 @Component({
   tag: "calcite-action-bar",
   styleUrl: "action-bar.scss",
-  shadow: true
+  shadow: true,
+  assetsDirs: ["assets"]
 })
-export class ActionBar implements ConditionalSlotComponent {
+export class ActionBar implements ConditionalSlotComponent, LocalizedComponent, T9nComponent {
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -69,11 +80,15 @@ export class ActionBar implements ConditionalSlotComponent {
 
   /**
    * Specifies the label of the expand icon when the component is collapsed.
+   *
+   * @deprecated - translations are now built-in, if you need to override a string, please use `messageOverrides`
    */
   @Prop() intlExpand?: string;
 
   /**
    * Specifies the label of the collapse icon when the component is expanded.
+   *
+   * @deprecated - translations are now built-in, if you need to override a string, please use `messageOverrides`
    */
   @Prop() intlCollapse?: string;
 
@@ -104,6 +119,26 @@ export class ActionBar implements ConditionalSlotComponent {
    */
   @Prop({ reflect: true }) scale: Scale;
 
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @internal
+   */
+  @Prop({ mutable: true }) messages: Messages;
+
+  /**
+   * Use this property to override individual strings used by the component.
+   */
+  @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
+
+  @Watch("intlCollapse")
+  @Watch("intlExpand")
+  @Watch("defaultMessages")
+  @Watch("messageOverrides")
+  onMessagesChange(): void {
+    /* wired up by t9n util */
+  }
+
   // --------------------------------------------------------------------------
   //
   //  Events
@@ -133,6 +168,15 @@ export class ActionBar implements ConditionalSlotComponent {
 
   expandToggleEl: HTMLCalciteActionElement;
 
+  @State() effectiveLocale: string;
+
+  @Watch("effectiveLocale")
+  effectiveLocaleChange(): void {
+    updateMessages(this, this.effectiveLocale);
+  }
+
+  @State() defaultMessages: Messages;
+
   // --------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -146,6 +190,8 @@ export class ActionBar implements ConditionalSlotComponent {
   connectedCallback(): void {
     const { el, expanded } = this;
 
+    connectLocalized(this);
+    connectMessages(this);
     toggleChildActionText({ parent: el, expanded });
 
     this.mutationObserver?.observe(el, { childList: true, subtree: true });
@@ -158,10 +204,16 @@ export class ActionBar implements ConditionalSlotComponent {
     connectConditionalSlotComponent(this);
   }
 
+  async componentWillLoad(): Promise<void> {
+    await setUpMessages(this);
+  }
+
   disconnectedCallback(): void {
     this.mutationObserver?.disconnect();
     this.resizeObserver?.disconnect();
     disconnectConditionalSlotComponent(this);
+    disconnectLocalized(this);
+    disconnectMessages(this);
   }
 
   // --------------------------------------------------------------------------
@@ -277,28 +329,16 @@ export class ActionBar implements ConditionalSlotComponent {
   // --------------------------------------------------------------------------
 
   renderBottomActionGroup(): VNode {
-    const {
-      expanded,
-      expandDisabled,
-      intlExpand,
-      intlCollapse,
-      el,
-      position,
-      toggleExpand,
-      scale,
-      layout
-    } = this;
+    const { expanded, expandDisabled, el, position, toggleExpand, scale, layout, messages } = this;
 
     const tooltip = getSlotted(el, SLOTS.expandTooltip) as HTMLCalciteTooltipElement;
-    const expandLabel = intlExpand || TEXT.expand;
-    const collapseLabel = intlCollapse || TEXT.collapse;
 
     const expandToggleNode = !expandDisabled ? (
       <ExpandToggle
         el={el}
         expanded={expanded}
-        intlCollapse={collapseLabel}
-        intlExpand={expandLabel}
+        intlCollapse={messages.collapse}
+        intlExpand={messages.expand}
         position={position}
         ref={this.setExpandToggleRef}
         scale={scale}
