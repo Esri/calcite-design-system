@@ -88,13 +88,6 @@ export class DatePickerMonthHeader {
   //
   //--------------------------------------------------------------------------
 
-  closestElement(selector: string, el: any = this.el): any {
-    return (
-      (el && el != document && el != window && el.closest(selector)) ||
-      this.closestElement(selector, el.getRootNode().host)
-    );
-  }
-
   componentWillLoad(): void {
     this.parentDatePickerEl = closestElementCrossShadowBoundary(
       this.el,
@@ -124,6 +117,7 @@ export class DatePickerMonthHeader {
         ...(locale && { locale })
       };
     }
+
     const activeMonth = this.activeDate.getMonth();
     const { months, unitOrder } = this.localeData;
     const localizedMonth = (months.wide || months.narrow || months.abbreviated)[activeMonth];
