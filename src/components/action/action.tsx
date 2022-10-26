@@ -170,11 +170,8 @@ export class Action implements InteractiveComponent, LocalizedComponent, T9nComp
   // --------------------------------------------------------------------------
 
   connectedCallback(): void {
-    if (Build.isBrowser) {
-      connectLocalized(this);
-      connectMessages(this);
-    }
-
+    connectLocalized(this);
+    connectMessages(this);
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
   }
 
