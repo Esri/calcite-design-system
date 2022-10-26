@@ -216,8 +216,6 @@ describe("calcite-action-menu", () => {
       const actionMenu = await page.find("calcite-action-menu");
       const actions = await page.findAll("calcite-action");
 
-      expect(actions).toHaveLength(3);
-
       expect(await actionMenu.getProperty("open")).toBe(false);
 
       await actionMenu.callMethod("setFocus");
@@ -254,8 +252,6 @@ describe("calcite-action-menu", () => {
       const actionMenu = await page.find("calcite-action-menu");
       const actions = await page.findAll("calcite-action");
 
-      expect(actions).toHaveLength(3);
-
       expect(await actionMenu.getProperty("open")).toBe(false);
 
       await actionMenu.callMethod("setFocus");
@@ -291,8 +287,6 @@ describe("calcite-action-menu", () => {
 
       const actionMenu = await page.find("calcite-action-menu");
       const actions = await page.findAll("calcite-action");
-
-      expect(actions).toHaveLength(3);
 
       expect(await actionMenu.getProperty("open")).toBe(false);
 
@@ -352,8 +346,6 @@ describe("calcite-action-menu", () => {
       const actionMenu = await page.find("calcite-action-menu");
       const actions = await page.findAll("calcite-action");
 
-      expect(actions).toHaveLength(3);
-
       expect(await actionMenu.getProperty("open")).toBe(false);
 
       await actionMenu.callMethod("setFocus");
@@ -387,8 +379,6 @@ describe("calcite-action-menu", () => {
 
       const actionMenu = await page.find("calcite-action-menu");
       const actions = await page.findAll("calcite-action");
-
-      expect(actions).toHaveLength(3);
 
       expect(await actionMenu.getProperty("open")).toBe(false);
 
