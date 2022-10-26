@@ -1,6 +1,39 @@
-import { locales, numberStringFormatter } from "./locale";
+import {
+  locales,
+  numberStringFormatter,
+  defaultLocale,
+  defaultNumberingSystem,
+  NumberStringFormatOptions
+} from "./locale";
 
 describe("NumberStringFormat", () => {
+  it("NumberFormat formatter is not initialized until necessary", () => {
+    const num = "123.456";
+
+    // should still work with options set
+    expect(numberStringFormatter.numberFormatOptions).toBeUndefined();
+    expect(numberStringFormatter.delocalize(numberStringFormatter.localize(num))).toBe(num);
+
+    // adding the default locale/numberingSystem should
+    // not create the formatter
+    numberStringFormatter.numberFormatOptions = {
+      locale: defaultLocale,
+      numberingSystem: defaultNumberingSystem
+    };
+    expect(numberStringFormatter.numberFormatter).toBeUndefined();
+    expect(numberStringFormatter.numberFormatOptions).toBeUndefined();
+
+    // setting a non-locale/numberingSystem option creates the formatter
+    // with the default locale/numberingSystem values
+    numberStringFormatter.numberFormatOptions = {
+      useGrouping: true
+    } as NumberStringFormatOptions;
+
+    expect(numberStringFormatter.numberFormatter).toBeDefined();
+    expect(numberStringFormatter.numberFormatOptions.numberingSystem).toBe(defaultNumberingSystem);
+    expect(numberStringFormatter.numberFormatOptions.locale).toBe(defaultLocale);
+  });
+
   locales.forEach((locale) => {
     it(`integers localize and delocalize in "${locale}"`, () => {
       const numberString = "555";
