@@ -18,6 +18,7 @@ import { HeadingLevel, Heading } from "../functional/Heading";
 import { BUDDHIST_CALENDAR_YEAR_OFFSET } from "./resources";
 import { isActivationKey } from "../../utils/key";
 import { numberStringFormatter } from "../../utils/locale";
+import { closestElementCrossShadowBoundary } from "../../utils/dom";
 
 @Component({
   tag: "calcite-date-picker-month-header",
@@ -87,6 +88,20 @@ export class DatePickerMonthHeader {
   //
   //--------------------------------------------------------------------------
 
+  closestElement(selector: string, el: any = this.el): any {
+    return (
+      (el && el != document && el != window && el.closest(selector)) ||
+      this.closestElement(selector, el.getRootNode().host)
+    );
+  }
+
+  componentWillLoad(): void {
+    this.parentDatePickerEl = closestElementCrossShadowBoundary(
+      this.el,
+      "calcite-date-picker"
+    ) as HTMLCalciteDatePickerElement;
+  }
+
   connectedCallback(): void {
     this.setNextPrevMonthDates();
   }
@@ -99,6 +114,14 @@ export class DatePickerMonthHeader {
     if (!this.activeDate || !this.localeData) {
       return null;
     }
+
+    const { numberingSystem, lang: locale } = this.parentDatePickerEl;
+
+    numberStringFormatter.numberFormatOptions = {
+      useGrouping: false,
+      ...(numberingSystem && { numberingSystem }),
+      ...(locale && { locale })
+    };
 
     const activeMonth = this.activeDate.getMonth();
     const { months, unitOrder } = this.localeData;
@@ -173,6 +196,8 @@ export class DatePickerMonthHeader {
   @State() globalAttributes = {};
 
   private yearInput: HTMLInputElement;
+
+  private parentDatePickerEl: HTMLCalciteDatePickerElement;
 
   @State() nextMonthDate: Date;
 
