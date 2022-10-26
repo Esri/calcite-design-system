@@ -219,18 +219,17 @@ const connectedComponents = new Set<LocalizedComponent>();
  * @param component
  */
 export function connectLocalized(component: LocalizedComponent): void {
-  console.log(component);
-  // updateEffectiveLocale(component);
+  updateEffectiveLocale(component);
 
-  // if (connectedComponents.size === 0) {
-  //   mutationObserver.observe(document.documentElement, {
-  //     attributes: true,
-  //     attributeFilter: ["lang"],
-  //     subtree: true
-  //   });
-  // }
+  if (connectedComponents.size === 0) {
+    mutationObserver?.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["lang"],
+      subtree: true
+    });
+  }
 
-  // connectedComponents.add(component);
+  connectedComponents.add(component);
 }
 
 /**
