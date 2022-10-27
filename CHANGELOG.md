@@ -3,6 +3,15 @@
 This document maintains a list of released versions and changes introduced by them.
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
+<!--@unreleased-section-start-->
+
+## Unreleased
+
+### Bug Fixes
+
+- **input-message,loader:** reverts breaking change ([#5656](https://github.com/Esri/calcite-components/issues/5656)) ([80376a8](https://github.com/Esri/calcite-components/commit/80376a8253b6433b75365453cb67fa0040954dd6))
+<!--@unreleased-section-end-->
+
 ## [1.0.0-beta.96](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.95...v1.0.0-beta.96) (2022-10-27)
 
 ### Features
