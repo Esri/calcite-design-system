@@ -9,6 +9,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### Bug Fixes
 
+- **date-picker:** cached formatter does not conflict with our numberingSystem components ([#5645](https://github.com/Esri/calcite-components/issues/5645)) ([8f459c7](https://github.com/Esri/calcite-components/commit/8f459c7ed170a7555bb2412b79748636b61743b1))
 - **input-message,loader:** reverts breaking change ([#5656](https://github.com/Esri/calcite-components/issues/5656)) ([80376a8](https://github.com/Esri/calcite-components/commit/80376a8253b6433b75365453cb67fa0040954dd6))
 <!--@unreleased-section-end-->
 
