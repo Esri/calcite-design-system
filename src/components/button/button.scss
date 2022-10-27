@@ -657,7 +657,7 @@
 }
 :host([scale="l"]:not([appearance="transparent"])) button.content--slotted,
 :host([scale="l"]:not([appearance="transparent"])) a.content--slotted {
-  --calcite-button-padding-y: 11px;
+  --calcite-button-padding-y: 9px;
 }
 // accommodate for transparent buttons not having borders
 :host([scale="l"][appearance="transparent"]) button.content--slotted,
