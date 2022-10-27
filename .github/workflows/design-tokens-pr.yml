@@ -2,7 +2,7 @@ name: Automate PR for Designers Action
 on:
   push:
     branches:
-      - brunoaires
+      - designer/*
       
 jobs:
   create-pull-request:
