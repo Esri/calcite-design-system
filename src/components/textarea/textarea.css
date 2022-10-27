@@ -5,3 +5,13 @@
 .textarea {
   width: 50%;
 }
+
+.character-limit {
+  width: 50%;
+  display: flex;
+  justify-content: right;
+}
+
+.resize-disabled {
+  resize: none;
+}

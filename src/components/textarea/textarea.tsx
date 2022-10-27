@@ -1,5 +1,6 @@
-import { Component, Host, h, Prop, Element } from "@stencil/core";
-import { FormComponent } from "../../utils/form";
+import { Component, Host, h, Prop, Element, Fragment } from "@stencil/core";
+import { connectForm, disconnectForm, FormComponent } from "../../utils/form";
+import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 // import { FormComponent } from "../../utils/form";
 import { CSS } from "./resources";
 @Component({
@@ -7,7 +8,7 @@ import { CSS } from "./resources";
   styleUrl: "textarea.css",
   shadow: true
 })
-export class Textarea {
+export class Textarea implements FormComponent, LabelableComponent {
   @Element() el: HTMLCalciteTextareaElement;
 
   @Prop() autofocus: boolean;
@@ -40,7 +41,39 @@ export class Textarea {
 
   @Prop() footer = false;
 
-  @Prop() defaultValue: string;
+  @Prop() disableResize: boolean;
+
+  @Prop() required: boolean;
+
+  @Prop() form: string;
+
+  @Prop() label: string;
+
+  formEl: HTMLFormElement;
+
+  defaultValue: Textarea["value"];
+
+  labelEl: HTMLCalciteLabelElement;
+
+  textareaEl: HTMLTextAreaElement;
+
+  onFormReset(): void {
+    this.value = this.defaultValue;
+  }
+
+  onLabelClick(): void {
+    this.textareaEl.focus();
+  }
+
+  connectedCallback(): void {
+    connectLabel(this);
+    connectForm(this);
+  }
+
+  disconnectedCallback(): void {
+    disconnectLabel(this);
+    disconnectForm(this);
+  }
 
   render() {
     const footerCount = (
@@ -49,18 +82,24 @@ export class Textarea {
       </span>
     );
     return (
-      <Host>
+      <Fragment>
         <textarea
+          aria-label={getLabelText(this)}
           autofocus={this.autofocus}
-          // autocomplete={this.autocomplete}
-          class="textarea"
+          class={{
+            textarea: true,
+            "resize-disabled": this.disableResize
+          }}
           cols={this.cols}
           disabled={this.disabled}
+          form={this.form}
           maxlength={this.maxlength}
           minlength={this.minlength}
           name={this.name}
           placeholder={this.placeholder}
           readonly={this.readonly}
+          ref={(el) => (this.textareaEl = el as HTMLTextAreaElement)}
+          required={this.required}
           rows={this.rows}
           value={this.value}
           wrap={this.wrap}
@@ -72,7 +111,7 @@ export class Textarea {
             <slot name={CSS.footerTrailing} />
           </footer>
         )}
-      </Host>
+      </Fragment>
     );
   }
 }
