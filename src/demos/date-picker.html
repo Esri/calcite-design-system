@@ -361,11 +361,7 @@
           })
         );
 
-        // wait for the rest of the date-pickers to load before setting the options for numberStringFormatter
-        // otherwise they will all render with the lang/numberingSystem specified above
-        setTimeout(() => {
-          createLocaleDatePicker({ lang: selectedLang, numberingSystem: selectedNumberingSystem });
-        }, 2000);
+        createLocaleDatePicker({ lang: selectedLang, numberingSystem: selectedNumberingSystem });
       </script>
     </demo-dom-swapper>
   </body>
