@@ -74,11 +74,9 @@ body:
     attributes:
       label: Esri team
       multiple: false
-      description: If you work at Esri, please select your product team. Otherwise choose "N/A".
+      description: If you work at Esri, please select your product team. Otherwise choose "N/A". If your team is not listed, choose "N/A", and then edit the line after submitting the issue.
       options:
         - N/A
-        - Calcite (dev)
-        - Calcite (design)
         - ArcGIS API for JavaScript
         - ArcGIS AppStudio
         - ArcGIS Business/Community Analyst
@@ -106,3 +104,5 @@ body:
         - ArcGIS Survey123
         - ArcGIS Urban
         - Marketing UI
+        - Calcite (dev)
+        - Calcite (design)
