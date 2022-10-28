@@ -98,6 +98,8 @@ describe("repositioning", () => {
     it("has connectedCallback and disconnectedCallback helpers", () => {
       expect(cleanupMap.has(fakeFloatingUiComponent)).toBe(false);
       expect(floatingEl.style.position).toBe("");
+      expect(floatingEl.style.visibility).toBe("");
+      expect(floatingEl.style.pointerEvents).toBe("");
 
       connectFloatingUI(fakeFloatingUiComponent, referenceEl, floatingEl);
 
