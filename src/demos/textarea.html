@@ -9,6 +9,22 @@
     <script src="./_assets/head.js"></script>
   </head>
   <body>
-    <calcite-label> Add Notes <calcite-textarea maxlength="50" footer></calcite-textarea></calcite-label>
+    <calcite-label>
+      Add Notes
+      <calcite-textarea maxlength="50" footer>
+        <button slot="footer-leading">NEXT</button>
+        <calcite-button slot="footer-trailing">RESET </calcite-button>
+      </calcite-textarea></calcite-label
+    >
+    <script>
+      const textArea = document.querySelector("calcite-textarea");
+      textArea?.addEventListener("calciteTextareaInput", () => {
+        console.log(textArea.value);
+      });
+
+      textArea?.addEventListener("calciteTextareaChange", () => {
+        console.log(textArea.value);
+      });
+    </script>
   </body>
 </html>

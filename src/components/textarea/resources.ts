@@ -1,6 +1,10 @@
 export const CSS = {
-  footerLeading: "footer-leading",
-  footerTrailing: "footer-trailing",
   characterLimit: "character-limit",
-  footer: "footer"
+  footer: "footer",
+  resizeDisabled: "resize-disabled"
+};
+
+export const SLOTS = {
+  footerLeading: "footer-leading",
+  footerTrailing: "footer-trailing"
 };

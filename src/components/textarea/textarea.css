@@ -3,15 +3,18 @@
 }
 
 .textarea {
-  width: 50%;
+  outline-width: 1px;
+  @apply text-color-1 border-color-input bg-foreground-1;
 }
 
 .character-limit {
-  width: 50%;
   display: flex;
   justify-content: right;
 }
 
 .resize-disabled {
   resize: none;
+}
+.footer {
+  @apply flex flex-row;
 }
