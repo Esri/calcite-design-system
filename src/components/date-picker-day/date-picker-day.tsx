@@ -10,7 +10,7 @@ import {
   VNode
 } from "@stencil/core";
 
-import { getElementDir } from "../../utils/dom";
+import { closestElementCrossShadowBoundary, getElementDir } from "../../utils/dom";
 import { Scale } from "../interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
@@ -118,7 +118,24 @@ export class DatePickerDay implements InteractiveComponent {
   //  Lifecycle
   //
   //--------------------------------------------------------------------------
+
+  componentWillLoad(): void {
+    this.parentDatePickerEl = closestElementCrossShadowBoundary(
+      this.el,
+      "calcite-date-picker"
+    ) as HTMLCalciteDatePickerElement;
+  }
+
   render(): VNode {
+    if (this.parentDatePickerEl) {
+      const { numberingSystem, lang: locale } = this.parentDatePickerEl;
+
+      numberStringFormatter.numberFormatOptions = {
+        useGrouping: false,
+        ...(numberingSystem && { numberingSystem }),
+        ...(locale && { locale })
+      };
+    }
     const formattedDay = numberStringFormatter.localize(String(this.day));
     const dir = getElementDir(this.el);
     return (
@@ -141,4 +158,12 @@ export class DatePickerDay implements InteractiveComponent {
   isTabbable(): boolean {
     return this.active;
   }
+
+  //--------------------------------------------------------------------------
+  //
+  //  Private State/Props
+  //
+  //--------------------------------------------------------------------------
+
+  private parentDatePickerEl: HTMLCalciteDatePickerElement;
 }
