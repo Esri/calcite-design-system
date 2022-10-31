@@ -12,7 +12,7 @@ $floating-ui-default-z-index: 900;
   .calcite-floating-ui-anim {
     position: relative;
     transition: var(--calcite-floating-ui-transition);
-    transition-property: transform, opacity;
+    transition-property: transform, visibility, opacity;
     opacity: 0;
     box-shadow: $shadow-2;
     @apply rounded z-default;
