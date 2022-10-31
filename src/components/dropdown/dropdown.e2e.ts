@@ -711,14 +711,14 @@ describe("calcite-dropdown", () => {
     const element = await page.find("calcite-dropdown");
     const trigger = await element.find("#trigger");
     const item1 = await element.find("calcite-dropdown-item[id='item-1']");
-    const dropdownWrapper = await page.find("calcite-dropdown >>> .calcite-dropdown-wrapper");
-    expect(await dropdownWrapper.isVisible()).toBe(false);
+    const dropdownContent = await page.find("calcite-dropdown >>> .calcite-dropdown-content");
+    expect(await dropdownContent.isVisible()).toBe(false);
     await trigger.click();
     await page.waitForChanges();
-    expect(await dropdownWrapper.isVisible()).toBe(true);
+    expect(await dropdownContent.isVisible()).toBe(true);
     await item1.click();
     await page.waitForChanges();
-    expect(await dropdownWrapper.isVisible()).toBe(false);
+    expect(await dropdownContent.isVisible()).toBe(false);
   });
 
   it("remains open when disable-close-on-select is requested and selected item is not in a selection-mode:none group", async () => {
@@ -738,17 +738,17 @@ describe("calcite-dropdown", () => {
     const trigger = await element.find("#trigger");
     const item1 = await element.find("#item-1");
     const item3 = await element.find("#item-3");
-    const dropdownWrapper = await page.find("calcite-dropdown >>> .calcite-dropdown-wrapper");
-    expect(await dropdownWrapper.isVisible()).toBe(false);
+    const dropdownContent = await page.find("calcite-dropdown >>> .calcite-dropdown-content");
+    expect(await dropdownContent.isVisible()).toBe(false);
     await trigger.click();
     await page.waitForChanges();
-    expect(await dropdownWrapper.isVisible()).toBe(true);
+    expect(await dropdownContent.isVisible()).toBe(true);
     await item1.click();
     await page.waitForChanges();
-    expect(await dropdownWrapper.isVisible()).toBe(true);
+    expect(await dropdownContent.isVisible()).toBe(true);
     await item3.click();
     await page.waitForChanges();
-    expect(await dropdownWrapper.isVisible()).toBe(true);
+    expect(await dropdownContent.isVisible()).toBe(true);
   });
 
   it("closes when disable-close-on-select is requested and selected item is in a selection-mode:none group", async () => {
@@ -767,14 +767,14 @@ describe("calcite-dropdown", () => {
     const element = await page.find("calcite-dropdown");
     const trigger = await element.find("#trigger");
     const item1 = await element.find("#item-1");
-    const dropdownWrapper = await page.find("calcite-dropdown >>> .calcite-dropdown-wrapper");
-    expect(await dropdownWrapper.isVisible()).toBe(false);
+    const dropdownContent = await page.find("calcite-dropdown >>> .calcite-dropdown-content");
+    expect(await dropdownContent.isVisible()).toBe(false);
     await trigger.click();
     await page.waitForChanges();
-    expect(await dropdownWrapper.isVisible()).toBe(true);
+    expect(await dropdownContent.isVisible()).toBe(true);
     await item1.click();
     await page.waitForChanges();
-    expect(await dropdownWrapper.isVisible()).toBe(false);
+    expect(await dropdownContent.isVisible()).toBe(false);
   });
 
   describe("toggles the dropdown with click, enter, or space", () => {
@@ -791,16 +791,16 @@ describe("calcite-dropdown", () => {
       `);
       const element = await page.find("calcite-dropdown");
       const trigger = await element.find("calcite-button[slot='dropdown-trigger']");
-      const dropdownWrapper = await page.find(`calcite-dropdown >>> .calcite-dropdown-wrapper`);
+      const dropdownContent = await page.find(`calcite-dropdown >>> .calcite-dropdown-content`);
       const calciteDropdownOpen = await element.spyOnEvent("calciteDropdownOpen");
       const calciteDropdownClose = await element.spyOnEvent("calciteDropdownClose");
       let waitForCalciteDropdownOpen = page.waitForEvent("calciteDropdownOpen");
       const waitForCalciteDropdownClose = page.waitForEvent("calciteDropdownClose");
 
-      expect(await dropdownWrapper.isVisible()).toBe(false);
+      expect(await dropdownContent.isVisible()).toBe(false);
       await trigger.click();
       await page.waitForChanges();
-      expect(await dropdownWrapper.isVisible()).toBe(true);
+      expect(await dropdownContent.isVisible()).toBe(true);
       await waitForCalciteDropdownOpen;
       expect(calciteDropdownOpen).toHaveReceivedEventTimes(1);
       expect(calciteDropdownClose).toHaveReceivedEventTimes(0);
@@ -808,8 +808,8 @@ describe("calcite-dropdown", () => {
       await trigger.focus();
       await page.keyboard.press("Space");
       await page.waitForChanges();
-      expect(await dropdownWrapper.isVisible()).toBe(false);
       await waitForCalciteDropdownClose;
+      expect(await dropdownContent.isVisible()).toBe(false);
       expect(calciteDropdownOpen).toHaveReceivedEventTimes(1);
       expect(calciteDropdownClose).toHaveReceivedEventTimes(1);
 
@@ -817,7 +817,7 @@ describe("calcite-dropdown", () => {
 
       await page.keyboard.press("Enter");
       await page.waitForChanges();
-      expect(await dropdownWrapper.isVisible()).toBe(true);
+      expect(await dropdownContent.isVisible()).toBe(true);
       await waitForCalciteDropdownOpen;
       expect(calciteDropdownOpen).toHaveReceivedEventTimes(2);
       expect(calciteDropdownClose).toHaveReceivedEventTimes(1);
@@ -836,16 +836,16 @@ describe("calcite-dropdown", () => {
       `);
       const element = await page.find("calcite-dropdown");
       const trigger = await element.find("calcite-action[slot='dropdown-trigger'] >>> button");
-      const dropdownWrapper = await page.find(`calcite-dropdown >>> .calcite-dropdown-wrapper`);
+      const dropdownContent = await page.find(`calcite-dropdown >>> .calcite-dropdown-content`);
       const calciteDropdownOpen = await element.spyOnEvent("calciteDropdownOpen");
       const calciteDropdownClose = await element.spyOnEvent("calciteDropdownClose");
       let waitForCalciteDropdownOpen = page.waitForEvent("calciteDropdownOpen");
       const waitForCalciteDropdownClose = page.waitForEvent("calciteDropdownClose");
 
-      expect(await dropdownWrapper.isVisible()).toBe(false);
+      expect(await dropdownContent.isVisible()).toBe(false);
       await trigger.click();
       await page.waitForChanges();
-      expect(await dropdownWrapper.isVisible()).toBe(true);
+      expect(await dropdownContent.isVisible()).toBe(true);
       await waitForCalciteDropdownOpen;
       expect(calciteDropdownOpen).toHaveReceivedEventTimes(1);
       expect(calciteDropdownClose).toHaveReceivedEventTimes(0);
@@ -853,8 +853,8 @@ describe("calcite-dropdown", () => {
       await trigger.focus();
       await page.keyboard.press("Space");
       await page.waitForChanges();
-      expect(await dropdownWrapper.isVisible()).toBe(false);
       await waitForCalciteDropdownClose;
+      expect(await dropdownContent.isVisible()).toBe(false);
       expect(calciteDropdownOpen).toHaveReceivedEventTimes(1);
       expect(calciteDropdownClose).toHaveReceivedEventTimes(1);
 
@@ -862,7 +862,7 @@ describe("calcite-dropdown", () => {
 
       await page.keyboard.press("Enter");
       await page.waitForChanges();
-      expect(await dropdownWrapper.isVisible()).toBe(true);
+      expect(await dropdownContent.isVisible()).toBe(true);
       await waitForCalciteDropdownOpen;
       expect(calciteDropdownOpen).toHaveReceivedEventTimes(2);
       expect(calciteDropdownClose).toHaveReceivedEventTimes(1);
@@ -892,18 +892,18 @@ describe("calcite-dropdown", () => {
     const element2 = await page.find("calcite-dropdown[id='dropdown-2']");
     const trigger1 = await element1.find("#trigger");
     const trigger2 = await element2.find("#trigger");
-    const dropdownWrapper1 = await page.find("calcite-dropdown[id='dropdown-1'] >>> .calcite-dropdown-wrapper");
-    const dropdownWrapper2 = await page.find("calcite-dropdown[id='dropdown-2'] >>> .calcite-dropdown-wrapper");
-    expect(await dropdownWrapper1.isVisible()).toBe(false);
-    expect(await dropdownWrapper2.isVisible()).toBe(false);
+    const dropdownContent1 = await page.find("calcite-dropdown[id='dropdown-1'] >>> .calcite-dropdown-content");
+    const dropdownContent2 = await page.find("calcite-dropdown[id='dropdown-2'] >>> .calcite-dropdown-content");
+    expect(await dropdownContent1.isVisible()).toBe(false);
+    expect(await dropdownContent2.isVisible()).toBe(false);
     await trigger1.click();
     await page.waitForChanges();
-    expect(await dropdownWrapper1.isVisible()).toBe(true);
-    expect(await dropdownWrapper2.isVisible()).toBe(false);
+    expect(await dropdownContent1.isVisible()).toBe(true);
+    expect(await dropdownContent2.isVisible()).toBe(false);
     await trigger2.click();
     await page.waitForChanges();
-    expect(await dropdownWrapper1.isVisible()).toBe(false);
-    expect(await dropdownWrapper2.isVisible()).toBe(true);
+    expect(await dropdownContent1.isVisible()).toBe(false);
+    expect(await dropdownContent2.isVisible()).toBe(true);
   });
 
   it("focus is returned to trigger after close", async () => {
@@ -922,14 +922,14 @@ describe("calcite-dropdown", () => {
     const element = await page.find("calcite-dropdown");
     const trigger = await element.find("#trigger");
     const item1 = await element.find("calcite-dropdown-item[id='item-1']");
-    const dropdownWrapper = await page.find("calcite-dropdown >>> .calcite-dropdown-wrapper");
-    expect(await dropdownWrapper.isVisible()).toBe(false);
+    const dropdownContent = await page.find("calcite-dropdown >>> .calcite-dropdown-content");
+    expect(await dropdownContent.isVisible()).toBe(false);
     await trigger.click();
     await page.waitForChanges();
-    expect(await dropdownWrapper.isVisible()).toBe(true);
+    expect(await dropdownContent.isVisible()).toBe(true);
     await item1.click();
     await page.waitForChanges();
-    expect(await dropdownWrapper.isVisible()).toBe(false);
+    expect(await dropdownContent.isVisible()).toBe(false);
     expect(await page.evaluate(() => document.activeElement.id)).toEqual("trigger");
   });
 
@@ -949,18 +949,18 @@ describe("calcite-dropdown", () => {
 
     const element = await page.find("calcite-dropdown");
     const trigger = await element.findAll(".trigger");
-    const dropdownWrapper = await page.find("calcite-dropdown >>> .calcite-dropdown-wrapper");
+    const dropdownContent = await page.find("calcite-dropdown >>> .calcite-dropdown-content");
     await trigger[0].click();
-    expect(await dropdownWrapper.isVisible()).toBe(true);
+    expect(await dropdownContent.isVisible()).toBe(true);
     await trigger[0].click();
     await page.waitForChanges();
-    expect(await dropdownWrapper.isVisible()).toBe(false);
+    expect(await dropdownContent.isVisible()).toBe(false);
     await page.waitForChanges();
     await trigger[1].click();
-    expect(await dropdownWrapper.isVisible()).toBe(true);
+    expect(await dropdownContent.isVisible()).toBe(true);
     await trigger[1].click();
     await page.waitForChanges();
-    expect(await dropdownWrapper.isVisible()).toBe(false);
+    expect(await dropdownContent.isVisible()).toBe(false);
   });
 
   it("is accessible", async () => {
