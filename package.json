@@ -17,9 +17,9 @@
     "hydrate/"
   ],
   "scripts": {
-    "build": "npm run util:prep-build-reqs && stencil build && npm run util:patch",
-    "build:watch": "npm run util:prep-build-reqs && stencil build --watch",
-    "build:watch-dev": "npm run util:prep-build-reqs && stencil build --dev --watch",
+    "build": "npm run util:prep-build-reqs && stencil build --no-docs && npm run util:patch",
+    "build:watch": "npm run util:prep-build-reqs && stencil build --no-docs --watch",
+    "build:watch-dev": "npm run util:prep-build-reqs && stencil build --no-docs --dev --watch",
     "build-storybook": "npm run util:build-docs && build-storybook --output-dir ./docs",
     "deps:update": "updtr --exclude chalk cheerio typescript @types/jest jest jest-cli ts-jest puppeteer && npm audit fix",
     "docs": "concurrently --kill-others --raw \"npm run build-storybook\" \"ts-node --esm ./support/cleanOnProcessExit.ts --path ./__docs-temp__\"",
@@ -45,7 +45,7 @@
     "test:prerender": "stencil build --no-docs --prerender",
     "test:storybook": "concurrently --raw \"npm:util:build-docs && screener-storybook --conf .storybook/screener.config.js\"",
     "test:watch": "npm run test -- -- --watchAll",
-    "util:build-docs": "npm run util:copy-icons && stencil build --config stencil.storybook.config.ts",
+    "util:build-docs": "npm run util:copy-icons && stencil build --docs --config stencil.storybook.config.ts",
     "util:clean-tested-build": "npm ci && npm test && npm run build",
     "util:copy-icons": "cpy \"./node_modules/@esri/calcite-ui-icons/js/*.json\" \"./src/components/icon/assets/icon/\" --flat",
     "util:deploy-next": "npm run util:prep-next && npm run util:publish-next",
