@@ -515,7 +515,12 @@ export class InputDatePicker
   }
 
   render(): VNode {
-    const { disabled, readOnly } = this;
+    const { disabled, effectiveLocale, numberingSystem, readOnly } = this;
+    numberStringFormatter.numberFormatOptions = {
+      numberingSystem,
+      locale: effectiveLocale,
+      useGrouping: false
+    };
     return (
       <Host onBlur={this.deactivate} onKeyDown={this.keyDownHandler} role="application">
         {this.localeData && (
@@ -529,9 +534,9 @@ export class InputDatePicker
                   disabled={disabled}
                   icon="calendar"
                   label={getLabelText(this)}
-                  lang={this.effectiveLocale}
+                  lang={effectiveLocale}
                   number-button-type="none"
-                  numberingSystem={this.numberingSystem}
+                  numberingSystem={numberingSystem}
                   onCalciteInputInput={this.calciteInternalInputInputHandler}
                   onCalciteInternalInputBlur={this.calciteInternalInputBlurHandler}
                   onCalciteInternalInputFocus={this.startInputFocus}
@@ -568,12 +573,12 @@ export class InputDatePicker
                   intlNextMonth={this.intlNextMonth}
                   intlPrevMonth={this.intlPrevMonth}
                   intlYear={this.intlYear}
-                  lang={this.effectiveLocale}
+                  lang={effectiveLocale}
                   max={this.max}
                   maxAsDate={this.maxAsDate}
                   min={this.min}
                   minAsDate={this.minAsDate}
-                  numberingSystem={this.numberingSystem}
+                  numberingSystem={numberingSystem}
                   onCalciteDatePickerChange={this.handleDateChange}
                   onCalciteDatePickerRangeChange={this.handleDateRangeChange}
                   proximitySelectionDisabled={this.proximitySelectionDisabled}
@@ -605,9 +610,9 @@ export class InputDatePicker
                   }}
                   disabled={disabled}
                   icon="calendar"
-                  lang={this.effectiveLocale}
+                  lang={effectiveLocale}
                   number-button-type="none"
-                  numberingSystem={this.numberingSystem}
+                  numberingSystem={numberingSystem}
                   onCalciteInputInput={this.calciteInternalInputInputHandler}
                   onCalciteInternalInputBlur={this.calciteInternalInputBlurHandler}
                   onCalciteInternalInputFocus={this.endInputFocus}

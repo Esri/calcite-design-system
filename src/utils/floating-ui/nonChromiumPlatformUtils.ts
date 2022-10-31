@@ -1,6 +1,5 @@
 import { rectToClientRect, Strategy } from "@floating-ui/core";
-import type { ElementRects } from "@floating-ui/dom";
-import { FloatingElement, ReferenceElement } from "@floating-ui/dom/src/types";
+import type { ElementRects, FloatingElement, ReferenceElement } from "@floating-ui/dom";
 
 /**
  * This module provides utils to fix positioning across shadow DOM in non-Chromium browsers

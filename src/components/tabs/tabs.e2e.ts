@@ -222,11 +222,11 @@ describe("calcite-tabs", () => {
     });
   });
 
-  it("should ignore bordered attribute when layout is center", async () => {
+  it("should not ignore bordered attribute when layout is center", async () => {
     const page = await newE2EPage({
       html: `<calcite-tabs layout="center" bordered>${tabsContent}</calcite-tabs>`
     });
-    expect(await page.find("calcite-tabs")).not.toHaveAttribute("bordered");
+    expect(await page.find("calcite-tabs")).toHaveAttribute("bordered");
   });
 
   it("item selection should work when placed inside shadow DOM (#992)", async () => {
