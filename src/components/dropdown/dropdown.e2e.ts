@@ -1065,7 +1065,7 @@ describe("calcite-dropdown", () => {
     await expect(finalSelectedItem).toBe("item-3");
   });
 
-  it("dropdown should not overflow when wrapped inside a tab #3007", async () => {
+  it.skip("dropdown should not overflow when wrapped inside a tab #3007", async () => {
     const page = await newE2EPage({
       html: html`<calcite-tabs>
         <calcite-tab-nav slot="tab-nav">
