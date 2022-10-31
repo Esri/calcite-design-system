@@ -93,6 +93,7 @@ export class Rating implements LabelableComponent, FormComponent, InteractiveCom
   connectedCallback(): void {
     connectLabel(this);
     connectForm(this);
+    this.focusValue = this.value;
   }
 
   disconnectedCallback(): void {
@@ -139,6 +140,7 @@ export class Rating implements LabelableComponent, FormComponent, InteractiveCom
       const hovered = i <= this.hoverValue;
       const fraction = this.average && this.average + 1 - i;
       const partial = !this.value && !hovered && fraction > 0 && fraction < 1;
+      const focusable = !this.disabled && !this.readOnly && (this.focusValue || 1) === i;
       const focused = this.hasFocus && this.focusValue === i;
       return (
         <span class={{ wrapper: true }}>
@@ -175,9 +177,8 @@ export class Rating implements LabelableComponent, FormComponent, InteractiveCom
             }
             onFocus={() => this.onFocusChange(i)}
             onKeyDown={this.onKeyboardPressed}
-            ref={(el) =>
-              (i === 1 || i === this.value) && (this.inputFocusRef = el as HTMLInputElement)
-            }
+            ref={(el) => focusable && (this.inputFocusRef = el as HTMLInputElement)}
+            tabIndex={focusable ? 0 : -1}
             type="radio"
             value={i}
           />
@@ -229,15 +230,28 @@ export class Rating implements LabelableComponent, FormComponent, InteractiveCom
 
   private onKeyboardPressed = (event: KeyboardEvent): void => {
     if (!this.required && isActivationKey(event.key)) {
+      this.updateValue(this.value);
+      event.preventDefault();
+    }
+
+    if (!this.required && (event.key === "Escape" || event.key === "Delete")) {
       event.preventDefault();
       this.updateValue(0);
+      this.focusValue = 0;
+    }
+
+    if (!this.required && event.key === "Backspace") {
+      event.preventDefault();
+      const newValue = Math.max(this.value - 1, 0);
+      this.updateValue(newValue);
+      this.focusValue = newValue;
     }
   };
 
   private onFocusChange = (selectedRatingValue: number): void => {
     this.hasFocus = true;
     if (!this.required && this.focusValue === selectedRatingValue) {
-      this.updateValue(0);
+      this.updateValue(selectedRatingValue);
     } else {
       this.focusValue = selectedRatingValue;
     }

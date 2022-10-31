@@ -330,10 +330,10 @@ describe("calcite-rating", () => {
       value: 4
     });
     await labels[3].click();
-    expect(element).toEqualAttribute("value", "0");
+    expect(element).toEqualAttribute("value", "4");
     expect(changeEvent).toHaveReceivedEventTimes(3);
     expect(changeEvent).toHaveReceivedEventDetail({
-      value: 0
+      value: 4
     });
   });
 
@@ -373,7 +373,7 @@ describe("calcite-rating", () => {
     await page.keyboard.press("Enter");
     expect(changeEvent).toHaveReceivedEventTimes(6);
     expect(changeEvent).toHaveReceivedEventDetail({
-      value: 0
+      value: 1
     });
     await labels[3].click();
     expect(element).toEqualAttribute("value", "4");
@@ -382,10 +382,10 @@ describe("calcite-rating", () => {
       value: 4
     });
     await labels[3].click();
-    expect(element).toEqualAttribute("value", "0");
+    expect(element).toEqualAttribute("value", "4");
     expect(changeEvent).toHaveReceivedEventTimes(8);
     expect(changeEvent).toHaveReceivedEventDetail({
-      value: 0
+      value: 4
     });
   });
 
