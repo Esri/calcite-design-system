@@ -275,12 +275,6 @@ export class DatePicker implements LocalizedComponent, T9nComponent {
     if (this.max) {
       this.maxAsDate = dateFromISO(this.max);
     }
-
-    numberStringFormatter.numberFormatOptions = {
-      numberingSystem: this.numberingSystem,
-      locale: this.effectiveLocale,
-      useGrouping: false
-    };
   }
 
   disconnectedCallback(): void {

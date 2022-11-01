@@ -42,6 +42,7 @@ import {
   disconnectOpenCloseComponent
 } from "../../utils/openCloseComponent";
 import { HeadingLevel, Heading } from "../functional/Heading";
+import { Scale } from "../interfaces";
 
 import PopoverManager from "./PopoverManager";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
@@ -240,6 +241,9 @@ export class Popover
     this.setUpReferenceElement();
     this.reposition(true);
   }
+
+  /** Specifies the size of the component. */
+  @Prop({ reflect: true }) scale: Scale = "m";
 
   /**
    * When `true`, disables automatically toggling the component when its `referenceElement` has been triggered.
@@ -536,18 +540,17 @@ export class Popover
   // --------------------------------------------------------------------------
 
   renderCloseButton(): VNode {
-    const { closeButton, messages, heading, closable } = this;
-
+    const { closeButton, messages, closable } = this;
     return closable || closeButton ? (
       <div class={CSS.closeButtonContainer}>
         <calcite-action
           class={CSS.closeButton}
           onClick={this.hide}
           ref={(closeButtonEl) => (this.closeButtonEl = closeButtonEl)}
-          scale={heading ? "s" : "m"}
-          text={messages.close}
+          scale={this.scale}
+          text={intlClose}
         >
-          <calcite-icon icon="x" scale={heading ? "s" : "m"} />
+          <calcite-icon icon="x" scale={this.scale === "l" ? "m" : this.scale} />
         </calcite-action>
       </div>
     ) : null;
