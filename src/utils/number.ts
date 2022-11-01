@@ -1,11 +1,5 @@
 import { numberKeys } from "./key";
-import { createLocaleNumberFormatter, getDecimalSeparator, getMinusSign } from "./locale";
-
-// regex for number sanitization
-const allLeadingZerosOptionallyNegative = /^([-0])0+(?=\d)/;
-const decimalOnlyAtEndOfString = /(?!^\.)\.$/;
-const allHyphensExceptTheStart = /(?!^-)-/g;
-const isNegativeDecimalOnlyZeros = /^-\b0\b\.?0*$/;
+import { numberStringFormatter } from "./locale";
 
 // adopted from https://stackoverflow.com/a/66939244
 export class BigDecimal {
@@ -52,12 +46,10 @@ export class BigDecimal {
     const i = s.slice(0, -BigDecimal.DECIMALS);
     const d = s.slice(-BigDecimal.DECIMALS).replace(/\.?0+$/, "");
     const value = i.concat(d.length ? "." + d : "");
-    return (this.isNegative ? "-" : "").concat(value);
+    return `${this.isNegative ? "-" : ""}${value}`;
   }
 
-  formatToParts(locale: string, numberingSystem?: string): Intl.NumberFormatPart[] {
-    const formatter = createLocaleNumberFormatter(locale, numberingSystem);
-
+  formatToParts(formatter: Intl.NumberFormat): Intl.NumberFormatPart[] {
     const s = this.value
       .toString()
       .replace(new RegExp("-", "g"), "")
@@ -67,14 +59,28 @@ export class BigDecimal {
     const d = s.slice(-BigDecimal.DECIMALS).replace(/\.?0+$/, "");
 
     const parts = formatter.formatToParts(BigInt(i));
-    this.isNegative && parts.unshift({ type: "minusSign", value: getMinusSign(locale) });
+    this.isNegative && parts.unshift({ type: "minusSign", value: numberStringFormatter.minusSign });
 
     if (d.length) {
-      parts.push({ type: "decimal", value: getDecimalSeparator(locale) });
+      parts.push({ type: "decimal", value: numberStringFormatter.decimal });
       d.split("").forEach((char: string) => parts.push({ type: "fraction", value: char }));
     }
 
     return parts;
+  }
+
+  format(formatter: Intl.NumberFormat): string {
+    const s = this.value
+      .toString()
+      .replace(new RegExp("-", "g"), "")
+      .padStart(BigDecimal.DECIMALS + 1, "0");
+
+    const i = s.slice(0, -BigDecimal.DECIMALS);
+    const d = s.slice(-BigDecimal.DECIMALS).replace(/\.?0+$/, "");
+
+    const iFormatted = `${this.isNegative ? numberStringFormatter.minusSign : ""}${formatter.format(BigInt(i))}`;
+    const dFormatted = d.length ? `${numberStringFormatter.decimal}${formatter.format(BigInt(d))}` : "";
+    return `${iFormatted}${dFormatted}`;
   }
 
   add(num: string): bigint {
@@ -122,21 +128,18 @@ export function parseNumberString(numberString?: string): string {
   });
 }
 
-export function sanitizeDecimalString(decimalString: string): string {
-  return decimalString.replace(decimalOnlyAtEndOfString, "");
-}
+// regex for number sanitization
+const allLeadingZerosOptionallyNegative = /^([-0])0+(?=\d)/;
+const decimalOnlyAtEndOfString = /(?!^\.)\.$/;
+const allHyphensExceptTheStart = /(?!^-)-/g;
+const isNegativeDecimalOnlyZeros = /^-\b0\b\.?0*$/;
 
-export function sanitizeNegativeString(negativeString: string): string {
-  return negativeString.replace(allHyphensExceptTheStart, "");
-}
-
-export function sanitizeLeadingZeroString(zeroString: string): string {
-  return zeroString.replace(allLeadingZerosOptionallyNegative, "$1");
-}
-
-export function sanitizeNumberString(numberString: string): string {
-  return sanitizeExponentialNumberString(numberString, (nonExpoNumString) => {
-    const sanitizedValue = sanitizeNegativeString(sanitizeDecimalString(sanitizeLeadingZeroString(nonExpoNumString)));
+export const sanitizeNumberString = (numberString: string): string =>
+  sanitizeExponentialNumberString(numberString, (nonExpoNumString) => {
+    const sanitizedValue = nonExpoNumString
+      .replace(allHyphensExceptTheStart, "")
+      .replace(decimalOnlyAtEndOfString, "")
+      .replace(allLeadingZerosOptionallyNegative, "$1");
 
     return isValidNumber(sanitizedValue)
       ? isNegativeDecimalOnlyZeros.test(sanitizedValue)
@@ -144,7 +147,6 @@ export function sanitizeNumberString(numberString: string): string {
         : new BigDecimal(sanitizedValue).toString()
       : nonExpoNumString;
   });
-}
 
 export function sanitizeExponentialNumberString(numberString: string, func: (s: string) => string): string {
   if (!numberString) {
@@ -152,6 +154,10 @@ export function sanitizeExponentialNumberString(numberString: string, func: (s: 
   }
 
   const firstE = numberString.toLowerCase().indexOf("e") + 1;
+
+  if (!firstE) {
+    return func(numberString);
+  }
 
   return numberString
     .replace(/[eE]*$/g, "")

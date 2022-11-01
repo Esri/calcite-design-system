@@ -64,7 +64,7 @@ describe("calcite-modal properties", () => {
 });
 
 describe("opening and closing behavior", () => {
-  it("opens and closes", async () => {
+  it.skip("opens and closes", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-modal></calcite-modal>`);
     const modal = await page.find("calcite-modal");

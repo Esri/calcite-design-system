@@ -22,7 +22,7 @@ export class SplitButton implements InteractiveComponent {
   /** Specifies the color of the component. */
   @Prop({ reflect: true }) color: ButtonColor = "blue";
 
-  /** When true, interaction is prevented and the component is displayed with lower opacity. */
+  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @Prop({ reflect: true }) disabled = false;
 
   @Watch("disabled")
@@ -33,7 +33,7 @@ export class SplitButton implements InteractiveComponent {
   }
 
   /**
-   * When true, the component is active.
+   * When `true`, the component is active.
    *
    * @internal
    */
@@ -53,7 +53,7 @@ export class SplitButton implements InteractiveComponent {
   @Prop({ reflect: true }) dropdownLabel?: string;
 
   /**
-    When true, a busy indicator is displayed on the primary button.
+    When `true`, a busy indicator is displayed on the primary button.
    */
   @Prop({ reflect: true }) loading = false;
 
@@ -70,7 +70,7 @@ export class SplitButton implements InteractiveComponent {
   /** Specifies an icon to display at the end of the primary button. */
   @Prop({ reflect: true }) primaryIconEnd?: string;
 
-  /**  When true, the primary button icon will be flipped when the element direction is right-to-left (`"rtl"`). */
+  /**  When `true`, the primary button icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @Prop({ reflect: true }) primaryIconFlipRtl?: FlipContext;
 
   /** Specifies an icon to display at the start of the primary button. */

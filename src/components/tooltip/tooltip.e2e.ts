@@ -67,26 +67,25 @@ describe("calcite-tooltip", () => {
 
   it("tooltip positions when referenceElement is set", async () => {
     const page = await newE2EPage();
-
-    await page.setContent(`<calcite-tooltip open></calcite-tooltip><div>referenceElement</div>`);
-
+    await page.setContent(
+      html`<calcite-tooltip open></calcite-tooltip>
+        <div id="ref">referenceElement</div>`
+    );
     const element = await page.find("calcite-tooltip");
 
     let computedStyle: CSSStyleDeclaration = await element.getComputedStyle();
 
-    expect(computedStyle.transform).toBe("matrix(0, 0, 0, 0, 0, 0)");
+    expect(computedStyle.transform).toBe("none");
 
-    await page.$eval("calcite-tooltip", (elm: any) => {
-      const referenceElement = document.createElement("div");
-      document.body.appendChild(referenceElement);
-      elm.referenceElement = referenceElement;
+    await page.$eval("calcite-tooltip", (el: HTMLCalciteTooltipElement): void => {
+      const referenceElement = document.getElementById("ref");
+      el.referenceElement = referenceElement;
     });
-
     await page.waitForChanges();
 
     computedStyle = await element.getComputedStyle();
 
-    expect(computedStyle.transform).not.toBe("matrix(0, 0, 0, 0, 0, 0)");
+    expect(computedStyle.transform).not.toBe("none");
   });
 
   it("open tooltip should be visible", async () => {
@@ -556,6 +555,33 @@ describe("calcite-tooltip", () => {
     await page.waitForChanges();
 
     await referenceElement.click();
+
+    await page.waitForChanges();
+
+    expect(await tooltip.getProperty("open")).toBe(false);
+  });
+
+  it("should close tooltip when closeOnClick is true and referenceElement is clicked quickly", async () => {
+    const page = await newE2EPage();
+
+    await page.setContent(
+      html`
+        <calcite-tooltip reference-element="ref" close-on-click>Content</calcite-tooltip>
+        <button id="ref">Button</button>
+      `
+    );
+
+    const tooltip = await page.find("calcite-tooltip");
+
+    expect(await tooltip.getProperty("open")).toBe(false);
+
+    const referenceElement = await page.find("#ref");
+
+    await referenceElement.hover();
+
+    await referenceElement.click();
+
+    await page.waitForTimeout(TOOLTIP_DELAY_MS);
 
     await page.waitForChanges();
 
