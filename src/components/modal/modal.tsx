@@ -340,10 +340,10 @@ export class Modal implements ConditionalSlotComponent, OpenCloseComponent {
    */
   @Method()
   async setFocus(focusId?: "close-button"): Promise<void> {
-    const closeButton = this.closeButtonEl;
+    const { closeButtonEl } = this;
 
-    if (closeButton && focusId === "close-button") {
-      return focusElement(closeButton);
+    if (closeButtonEl && focusId === "close-button") {
+      return focusElement(closeButtonEl);
     }
 
     this.trap.activate();

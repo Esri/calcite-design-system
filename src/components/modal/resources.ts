@@ -34,3 +34,5 @@ export const SLOTS = {
 export const TEXT = {
   close: "Close"
 };
+
+export const ANIMATION_TIMEOUT = 300;

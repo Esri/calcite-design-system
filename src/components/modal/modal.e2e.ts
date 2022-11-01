@@ -1,7 +1,7 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { focusable, renders, slots, hidden } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
-import { CSS, SLOTS } from "./resources";
+import { CSS, SLOTS, ANIMATION_TIMEOUT } from "./resources";
 import { newProgrammaticE2EPage, skipAnimations } from "../../tests/utils";
 
 describe("calcite-modal properties", () => {
@@ -253,7 +253,8 @@ describe("calcite-modal accessibility checks", () => {
 
     it("focuses content if there is no close button", async () =>
       focusable(createModalHTML(focusableContentHTML, "disable-close-button"), {
-        focusTargetSelector: `.${focusableContentTargetClass}`
+        focusTargetSelector: `.${focusableContentTargetClass}`,
+        delay: ANIMATION_TIMEOUT
       }));
 
     it.skip("can focus close button directly", async () =>

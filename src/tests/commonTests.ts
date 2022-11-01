@@ -196,6 +196,11 @@ interface FocusableOptions {
    * selector used to assert the focused shadow DOM element
    */
   shadowFocusTargetSelector?: string;
+
+  /**
+   * Used to delay setFocus call in ms.
+   */
+  delay?: number;
 }
 
 /**
@@ -209,6 +214,10 @@ export async function focusable(componentTagOrHTML: TagOrHTML, options?: Focusab
   const tag = getTag(componentTagOrHTML);
   const element = await page.find(tag);
   const focusTargetSelector = options?.focusTargetSelector || tag;
+
+  if (options.delay) {
+    await page.waitForTimeout(options.delay);
+  }
 
   await element.callMethod("setFocus", options?.focusId); // assumes element is FocusableElement
 
