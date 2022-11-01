@@ -175,8 +175,6 @@ export class Button implements LabelableComponent, InteractiveComponent, FormOwn
         />
       </div>
     ) : null;
-    const appearanceOptions = ["solid", "outline", "clear", "transparent", "minimal"];
-    const invalidAppearanceOption = !appearanceOptions.includes(this.appearance);
 
     const iconStartEl = (
       <calcite-icon
@@ -211,7 +209,6 @@ export class Button implements LabelableComponent, InteractiveComponent, FormOwn
           [CSS.buttonPadding]: !this.iconStart && !this.iconEnd,
           [CSS.buttonPaddingShrunk]: !(!this.iconStart && !this.iconEnd),
           [CSS.contentSlotted]: this.hasContent,
-          [CSS.defaultAppearance]: invalidAppearanceOption,
           [CSS.iconStartEmpty]: !this.iconStart,
           [CSS.iconEndEmpty]: !this.iconEnd
         }}

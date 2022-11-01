@@ -229,7 +229,6 @@
 }
 
 // button styles
-// default appearance is 'solid', defaults to 'solid' when not set
 :host([appearance="solid"]),
 :host([appearance=""]) {
   button,
@@ -237,17 +236,6 @@
     @apply border-color-transparent
       border
       border-solid;
-  }
-}
-// defaults to 'solid' when appearance is set to an invalid option
-:host {
-  button,
-  a {
-    &.default-appearance {
-      @apply border-color-transparent
-      border
-      border-solid;
-    }
   }
 }
 

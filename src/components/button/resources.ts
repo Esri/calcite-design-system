@@ -12,8 +12,7 @@ export const CSS = {
   buttonPadding: "button-padding",
   buttonNoBorderPadding: "button-no-border-padding",
   buttonPaddingShrunk: "button-padding-shrunk",
-  buttonNoBorderPaddingShrunk: "button-no-border-padding-shrunk",
-  defaultAppearance: "default-appearance"
+  buttonNoBorderPaddingShrunk: "button-no-border-padding-shrunk"
 };
 
 export const TEXT = {
