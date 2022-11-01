@@ -14,7 +14,7 @@ jobs:
       - name: Set up Node
         uses: actions/setup-node@v3
         with:
-          node-version: 12
+          node-version: 16
       - name: Opening pull request
         id: pull
         uses: tretuna/sync-branches@1.4.0
@@ -22,6 +22,7 @@ jobs:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
           FROM_BRANCH: 'feature/design-tokens'
           TO_BRANCH: 'designer/brunoaires'
+          LABELS: 'automerge'
       - name: Opening pull request
         id: pull
         uses: tretuna/sync-branches@1.4.0
@@ -29,6 +30,7 @@ jobs:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
           FROM_BRANCH: 'feature/design-tokens'
           TO_BRANCH: 'designer/manuelacosta'
+          LABELS: 'automerge'
       - name: Opening pull request
         id: pull
         uses: tretuna/sync-branches@1.4.0
@@ -36,3 +38,12 @@ jobs:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
           FROM_BRANCH: 'feature/design-tokens'
           TO_BRANCH: 'designer/jacqueskeet'
+          LABELS: 'automerge'
+      - name: Opening pull request
+        id: pull
+        uses: tretuna/sync-branches@1.4.0
+        with:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+          FROM_BRANCH: 'feature/design-tokens'
+          TO_BRANCH: 'designer/test'
+          LABELS: 'automerge'
