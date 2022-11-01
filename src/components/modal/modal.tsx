@@ -12,7 +12,7 @@ import {
   VNode,
   Watch
 } from "@stencil/core";
-import { ensureId, focusElement, getSlotted } from "../../utils/dom";
+import { ensureId, FocusableElement, focusElement, getSlotted } from "../../utils/dom";
 
 import { Scale } from "../interfaces";
 import { ModalBackgroundColor } from "./interfaces";
@@ -376,6 +376,13 @@ export class Modal implements ConditionalSlotComponent, OpenCloseComponent {
   private setTransitionEl = (el): void => {
     this.transitionEl = el;
     this.trap = focusTrap.createFocusTrap(this.transitionEl, {
+      escapeDeactivates: false,
+      clickOutsideDeactivates: false,
+      allowOutsideClick: true,
+      setReturnFocus: (el) => {
+        focusElement(el as FocusableElement);
+        return false;
+      },
       tabbableOptions: {
         getShadowRoot: true
       }
