@@ -67,6 +67,13 @@ body:
       placeholder: beta.1
     validations:
       required: false
+  - type: textarea
+    id: impact
+    attributes:
+      label: Impact
+      description: How does the issue effect your team, or your work? Can range from minor to blocking or prohibiting workflows. Helps Calcite Design System team members with prioritization.
+    validations:
+      required: false
   - type: dropdown
     id: esri-team
     validations:
