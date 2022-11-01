@@ -8,7 +8,12 @@ export const CSS = {
   loadingIn: "loading-in",
   loadingOut: "loading-out",
   iconStartEmpty: "icon-start-empty",
-  iconEndEmpty: "icon-end-empty"
+  iconEndEmpty: "icon-end-empty",
+  buttonPadding: "button-padding",
+  buttonNoBorderPadding: "button-no-border-padding",
+  buttonPaddingShrunk: "button-padding-shrunk",
+  buttonNoBorderPaddingShrunk: "button-no-border-padding-shrunk",
+  defaultAppearance: "default-appearance"
 };
 
 export const TEXT = {
