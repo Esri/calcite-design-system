@@ -12,16 +12,8 @@ import {
   VNode,
   Watch
 } from "@stencil/core";
-import {
-  ensureId,
-  FocusableElement,
-  focusElement,
-  getSlotted,
-  isCalciteFocusable
-} from "../../utils/dom";
+import { ensureId, focusElement, getSlotted } from "../../utils/dom";
 
-import { queryShadowRoot } from "@a11y/focus-trap/shadow";
-import { isFocusable, isHidden } from "@a11y/focus-trap/focusable";
 import { Scale } from "../interfaces";
 import { ModalBackgroundColor } from "./interfaces";
 import { CSS, ICONS, SLOTS, TEXT } from "./resources";
@@ -36,14 +28,7 @@ import {
   connectOpenCloseComponent,
   disconnectOpenCloseComponent
 } from "../../utils/openCloseComponent";
-
-const isFocusableExtended = (el: FocusableElement): boolean => {
-  return isCalciteFocusable(el) || isFocusable(el);
-};
-
-const getFocusableElements = (el: HTMLElement | ShadowRoot): HTMLElement[] => {
-  return queryShadowRoot(el, isHidden, isFocusableExtended);
-};
+import * as focusTrap from "focus-trap";
 
 /**
  * @slot header - A slot for adding header text.
@@ -175,7 +160,6 @@ export class Modal implements ConditionalSlotComponent, OpenCloseComponent {
           }}
           ref={this.setTransitionEl}
         >
-          <div data-focus-fence onFocus={this.focusLastElement} tabindex="0" />
           <div class={CSS.header}>
             {this.renderCloseButton()}
             <header class={CSS.title}>
@@ -193,7 +177,6 @@ export class Modal implements ConditionalSlotComponent, OpenCloseComponent {
             <slot name={SLOTS.content} />
           </div>
           {this.renderFooter()}
-          <div data-focus-fence onFocus={this.focusFirstElement} tabindex="0" />
         </div>
       </Host>
     );
@@ -294,6 +277,8 @@ export class Modal implements ConditionalSlotComponent, OpenCloseComponent {
 
   transitionEl: HTMLDivElement;
 
+  trap: focusTrap.FocusTrap;
+
   //--------------------------------------------------------------------------
   //
   //  Event Listeners
@@ -357,9 +342,11 @@ export class Modal implements ConditionalSlotComponent, OpenCloseComponent {
   async setFocus(focusId?: "close-button"): Promise<void> {
     const closeButton = this.closeButtonEl;
 
-    return focusElement(
-      focusId === "close-button" ? closeButton : getFocusableElements(this.el)[0] || closeButton
-    );
+    if (closeButton && focusId === "close-button") {
+      return focusElement(closeButton);
+    }
+
+    this.trap.activate();
   }
 
   /**
@@ -388,6 +375,11 @@ export class Modal implements ConditionalSlotComponent, OpenCloseComponent {
 
   private setTransitionEl = (el): void => {
     this.transitionEl = el;
+    this.trap = focusTrap.createFocusTrap(this.transitionEl, {
+      tabbableOptions: {
+        getShadowRoot: true
+      }
+    });
     connectOpenCloseComponent(this);
   };
 
@@ -409,6 +401,7 @@ export class Modal implements ConditionalSlotComponent, OpenCloseComponent {
   onClose(): void {
     this.transitionEl.classList.remove(CSS.closingIdle, CSS.closingActive);
     this.calciteModalClose.emit();
+    this.trap.deactivate();
   }
 
   @Watch("active")
@@ -431,6 +424,7 @@ export class Modal implements ConditionalSlotComponent, OpenCloseComponent {
   private openEnd = (): void => {
     this.setFocus();
     this.el.removeEventListener("calciteModalOpen", this.openEnd);
+    this.trap.activate();
   };
 
   /** Open the modal */
@@ -464,21 +458,6 @@ export class Modal implements ConditionalSlotComponent, OpenCloseComponent {
       focusElement(this.previousActiveElement);
       this.removeOverflowHiddenClass();
     });
-  };
-
-  focusFirstElement = (): void => {
-    focusElement(this.disableCloseButton ? getFocusableElements(this.el)[0] : this.closeButtonEl);
-  };
-
-  focusLastElement = (): void => {
-    const focusableElements = getFocusableElements(this.el).filter(
-      (el) => !el.getAttribute("data-focus-fence")
-    );
-    if (focusableElements.length > 0) {
-      focusElement(focusableElements[focusableElements.length - 1]);
-    } else {
-      focusElement(this.closeButtonEl);
-    }
   };
 
   private removeOverflowHiddenClass(): void {
