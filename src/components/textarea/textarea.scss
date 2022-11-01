@@ -4,6 +4,8 @@
 
 .textarea {
   outline-width: 1px;
+  inline-size: 25rem;
+  block-size: 15rem;
   @apply text-color-1 border-color-input bg-foreground-1;
 }
 
@@ -15,6 +17,9 @@
 .resize-disabled {
   resize: none;
 }
+
 .footer {
   @apply flex flex-row;
 }
+
+@include hidden-input-form();

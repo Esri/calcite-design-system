@@ -8,19 +8,26 @@ import {
   VNode,
   Watch,
   Method,
-  Host
+  Host,
+  State
 } from "@stencil/core";
-import { connectForm, disconnectForm, FormComponent } from "../../utils/form";
+import { connectForm, disconnectForm, FormComponent, HiddenFormInputSlot } from "../../utils/form";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import { getSlotted } from "../../utils/dom";
-
 import { CSS, SLOTS } from "./resources";
+import {
+  connectLocalized,
+  disconnectLocalized,
+  LocalizedComponent,
+  NumberingSystem,
+  numberStringFormatter
+} from "../../utils/locale";
 @Component({
   tag: "calcite-textarea",
-  styleUrl: "textarea.css",
+  styleUrl: "textarea.scss",
   shadow: true
 })
-export class Textarea implements FormComponent, LabelableComponent {
+export class Textarea implements FormComponent, LabelableComponent, LocalizedComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -58,7 +65,7 @@ export class Textarea implements FormComponent, LabelableComponent {
   /** Specifies minimum number of characters allowed. */
   @Prop() minlength: number;
 
-  /** Specifies name of the form the component is associated with. */
+  /** Specifies name of the component  */
   @Prop() name: string;
 
   /** Specifies the size of `textarea` component. */
@@ -94,6 +101,8 @@ export class Textarea implements FormComponent, LabelableComponent {
     }
   }
 
+  @Prop() numberingSystem?: NumberingSystem;
+
   //--------------------------------------------------------------------------
   //
   //  Event Emitters
@@ -115,11 +124,13 @@ export class Textarea implements FormComponent, LabelableComponent {
     if (this.disabled) {
       this.disableSlottedElements();
     }
+    connectLocalized(this);
   }
 
   disconnectedCallback(): void {
     disconnectLabel(this);
     disconnectForm(this);
+    disconnectLocalized(this);
   }
 
   render(): VNode {
@@ -154,6 +165,7 @@ export class Textarea implements FormComponent, LabelableComponent {
             {this.renderFooterTrailing()}
           </footer>
         )}
+        <HiddenFormInputSlot component={this} />
       </Host>
     );
   }
@@ -177,7 +189,7 @@ export class Textarea implements FormComponent, LabelableComponent {
   }
   //--------------------------------------------------------------------------
   //
-  //  Private Properties
+  //  Private Properties/ State
   //
   //--------------------------------------------------------------------------
 
@@ -188,6 +200,8 @@ export class Textarea implements FormComponent, LabelableComponent {
   labelEl: HTMLCalciteLabelElement;
 
   textareaEl: HTMLTextAreaElement;
+
+  @State() effectiveLocale: string;
 
   //--------------------------------------------------------------------------
   //
@@ -223,16 +237,28 @@ export class Textarea implements FormComponent, LabelableComponent {
   renderCharacterLimit(): VNode {
     return this.maxlength ? (
       <span class={CSS.characterLimit}>
-        {this.value?.length ?? 0}/ {this.maxlength}
+        {this.getLocalizedCharacterLength()}/
+        {numberStringFormatter.localize(this.maxlength.toString())}
       </span>
     ) : null;
   }
 
+  private getLocalizedCharacterLength(): string {
+    numberStringFormatter.numberFormatOptions = {
+      locale: this.effectiveLocale,
+      numberingSystem: this.numberingSystem
+    };
+    return numberStringFormatter.localize(this.value?.length.toString());
+  }
+
   private disableSlottedElements(): void {
-    console.log("disable slotted elements");
     const slottedEl = getSlotted(this.el, [SLOTS.footerLeading, SLOTS.footerTrailing], {
       all: true
     });
     slottedEl.forEach((el) => (el["disabled"] = true));
+  }
+
+  syncHiddenFormInput(input: HTMLInputElement): void {
+    input.maxLength = this.maxlength;
   }
 }
