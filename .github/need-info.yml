@@ -15,5 +15,6 @@ requiredItems:
       - "ember-twiddle.com/"
       - "jsfiddle.net/"
       - "github.com/"
+      - "w3.org/WAI/"
 commentFooter: "Issues without reproduction samples may not be prioritized. If you were unable to create a sample, please try to answer any questions that arise once development begins. Thanks for your understanding."
 excludeComments: true

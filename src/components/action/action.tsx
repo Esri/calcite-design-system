@@ -35,7 +35,7 @@ export class Action implements InteractiveComponent {
   // --------------------------------------------------------------------------
 
   /**
-   * When true, the component is highlighted.
+   * When `true`, the component is highlighted.
    */
   @Prop({ reflect: true }) active = false;
 
@@ -48,12 +48,12 @@ export class Action implements InteractiveComponent {
   @Prop({ reflect: true }) appearance: Extract<"solid" | "clear", Appearance> = "solid";
 
   /**
-   * When true, the side padding of the component is reduced. Compact mode is used internally by components, e.g. `calcite-block-section`.
+   * When `true`, the side padding of the component is reduced. Compact mode is used internally by components, e.g. `calcite-block-section`.
    */
   @Prop({ reflect: true }) compact = false;
 
   /**
-   * When true, interaction is prevented and the component is displayed with lower opacity.
+   * When `true`, interaction is prevented and the component is displayed with lower opacity.
    */
   @Prop({ reflect: true }) disabled = false;
 
@@ -61,7 +61,7 @@ export class Action implements InteractiveComponent {
   @Prop() icon?: string;
 
   /**
-   * When true, indicates unread changes.
+   * When `true`, indicates unread changes.
    */
   @Prop({ reflect: true }) indicator = false;
 
@@ -78,7 +78,7 @@ export class Action implements InteractiveComponent {
   @Prop() label?: string;
 
   /**
-   * When true, a busy indicator is displayed.
+   * When `true`, a busy indicator is displayed.
    */
   @Prop({ reflect: true }) loading = false;
 
@@ -106,7 +106,7 @@ export class Action implements InteractiveComponent {
   /**
    * Emits when the component has been clicked.
    *
-   * @deprecated use onClick instead.
+   * @deprecated use `onClick` instead.
    */
   @Event({ cancelable: false }) calciteActionClick: EventEmitter<void>;
 

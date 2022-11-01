@@ -1,6 +1,7 @@
 import { select, optionsKnob } from "@storybook/addon-knobs";
 import { createSteps, iconNames, stepStory, storyFilters } from "../../../.storybook/helpers";
-import { placeholderImage, themesDarkDefault } from "../../../.storybook/utils";
+import { themesDarkDefault } from "../../../.storybook/utils";
+import { placeholderImage } from "../../../.storybook/placeholderImage";
 import readme1 from "./readme.md";
 import readme2 from "../tab/readme.md";
 import readme3 from "../tab-nav/readme.md";
@@ -69,7 +70,7 @@ simpleDarkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };
 
 export const bordered = (): string => html`
   <calcite-tabs
-    layout="inline"
+    layout="${select("layout", ["inline", "center"], "inline")}"
     position="${select("position", ["above", "below"], "above")}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
     bordered
@@ -213,14 +214,20 @@ export const disabledTabs_TestOnly = (): string => {
     `;
 };
 
-export const layoutCenter_TestOnly = (): string => html`<calcite-tabs layout="center">
-  <calcite-tab-nav slot="tab-nav">
-    <calcite-tab-title>Tab 1 Title</calcite-tab-title>
-    <calcite-tab-title>Tab 2 Title</calcite-tab-title>
-    <calcite-tab-title>Tab 3 Title</calcite-tab-title>
-    <calcite-tab-title>Tab 4 Title</calcite-tab-title>
-  </calcite-tab-nav>
-</calcite-tabs>`;
+export const layoutCenterAndBorderedCenter_TestOnly = stepStory(
+  (): string => html`<calcite-tabs layout="center">
+    <calcite-tab-nav slot="tab-nav">
+      <calcite-tab-title>Tab 1 Title</calcite-tab-title>
+      <calcite-tab-title>Tab 2 Title</calcite-tab-title>
+      <calcite-tab-title>Tab 3 Title</calcite-tab-title>
+      <calcite-tab-title>Tab 4 Title</calcite-tab-title>
+    </calcite-tab-nav>
+  </calcite-tabs>`,
+  createSteps("calcite-tabs")
+    .snapshot("Center Layout.")
+    .executeScript(`document.querySelector("calcite-tabs").bordered = "true"`)
+    .snapshot("Bordered state when layout is center.")
+);
 
 export const WithIconStart_TestOnly = stepStory(
   (): string => html`
@@ -247,3 +254,14 @@ export const WithIconStart_TestOnly = stepStory(
     .click("calcite-button")
     .snapshot("WithIconStart")
 );
+
+export const TabChilrenWithPercentageHeights = (): string => html`
+  <calcite-tabs style="height: 250px;">
+    <calcite-tab-nav slot="tab-nav">
+      <calcite-tab-title selected>Boats</calcite-tab-title>
+    </calcite-tab-nav>
+    <calcite-tab style="background: pink;">
+      <div style="background: red; height: 100%;">Tab 1 content</div>
+    </calcite-tab>
+  </calcite-tabs>
+`;

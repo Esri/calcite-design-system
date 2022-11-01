@@ -289,3 +289,15 @@ export function intersects(rect1: DOMRect, rect2: DOMRect): boolean {
 export function toAriaBoolean(value: boolean): string {
   return Boolean(value).toString();
 }
+
+/**
+ * This helper returns true if the pointer event fired from the primary button of the device.
+ *
+ * See https://www.w3.org/TR/pointerevents/#the-button-property.
+ *
+ * @param event
+ * @returns {boolean}
+ */
+export function isPrimaryPointerButton(event: PointerEvent): boolean {
+  return !!(event.isPrimary && event.button === 0);
+}
