@@ -16,7 +16,7 @@ jobs:
         with:
           node-version: 16
       - name: Opening pull request
-        id: pull
+        id: pullbrunoaires
         uses: tretuna/sync-branches@1.4.0
         with:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
@@ -24,7 +24,7 @@ jobs:
           TO_BRANCH: 'designer/brunoaires'
           LABELS: 'automerge'
       - name: Opening pull request
-        id: pull
+        id: pullmanuelacosta
         uses: tretuna/sync-branches@1.4.0
         with:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
@@ -32,7 +32,7 @@ jobs:
           TO_BRANCH: 'designer/manuelacosta'
           LABELS: 'automerge'
       - name: Opening pull request
-        id: pull
+        id: pulljacqueskeet
         uses: tretuna/sync-branches@1.4.0
         with:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
@@ -40,7 +40,7 @@ jobs:
           TO_BRANCH: 'designer/jacqueskeet'
           LABELS: 'automerge'
       - name: Opening pull request
-        id: pull
+        id: pulltest
         uses: tretuna/sync-branches@1.4.0
         with:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
