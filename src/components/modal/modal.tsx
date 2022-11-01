@@ -12,8 +12,7 @@ import {
   VNode,
   Watch
 } from "@stencil/core";
-import { ensureId, FocusableElement, focusElement, getSlotted } from "../../utils/dom";
-
+import { ensureId, focusElement, getSlotted } from "../../utils/dom";
 import { Scale } from "../interfaces";
 import { ModalBackgroundColor } from "./interfaces";
 import { CSS, ICONS, SLOTS, TEXT } from "./resources";
@@ -28,7 +27,13 @@ import {
   connectOpenCloseComponent,
   disconnectOpenCloseComponent
 } from "../../utils/openCloseComponent";
-import * as focusTrap from "focus-trap";
+import {
+  FocusTrapComponent,
+  FocusTrap,
+  connectFocusTrap,
+  activateFocusTrap,
+  deactivateFocusTrap
+} from "../../utils/focusTrapComponent";
 
 /**
  * @slot header - A slot for adding header text.
@@ -43,7 +48,7 @@ import * as focusTrap from "focus-trap";
   styleUrl: "modal.scss",
   shadow: true
 })
-export class Modal implements ConditionalSlotComponent, OpenCloseComponent {
+export class Modal implements ConditionalSlotComponent, OpenCloseComponent, FocusTrapComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -141,6 +146,7 @@ export class Modal implements ConditionalSlotComponent, OpenCloseComponent {
     this.mutationObserver?.disconnect();
     disconnectConditionalSlotComponent(this);
     disconnectOpenCloseComponent(this);
+    deactivateFocusTrap(this);
   }
 
   render(): VNode {
@@ -277,7 +283,9 @@ export class Modal implements ConditionalSlotComponent, OpenCloseComponent {
 
   transitionEl: HTMLDivElement;
 
-  trap: focusTrap.FocusTrap;
+  focusTrap: FocusTrap;
+
+  focusTrapEl: HTMLDivElement;
 
   //--------------------------------------------------------------------------
   //
@@ -346,7 +354,7 @@ export class Modal implements ConditionalSlotComponent, OpenCloseComponent {
       return focusElement(closeButtonEl);
     }
 
-    this.trap.activate();
+    activateFocusTrap(this);
   }
 
   /**
@@ -373,21 +381,11 @@ export class Modal implements ConditionalSlotComponent, OpenCloseComponent {
   //
   //--------------------------------------------------------------------------
 
-  private setTransitionEl = (el): void => {
+  private setTransitionEl = (el: HTMLDivElement): void => {
     this.transitionEl = el;
-    this.trap = focusTrap.createFocusTrap(this.transitionEl, {
-      escapeDeactivates: false,
-      clickOutsideDeactivates: false,
-      allowOutsideClick: true,
-      setReturnFocus: (el) => {
-        focusElement(el as FocusableElement);
-        return false;
-      },
-      tabbableOptions: {
-        getShadowRoot: true
-      }
-    });
     connectOpenCloseComponent(this);
+    this.focusTrapEl = el;
+    connectFocusTrap(this);
   };
 
   onBeforeOpen(): void {
@@ -408,7 +406,7 @@ export class Modal implements ConditionalSlotComponent, OpenCloseComponent {
   onClose(): void {
     this.transitionEl.classList.remove(CSS.closingIdle, CSS.closingActive);
     this.calciteModalClose.emit();
-    this.trap.deactivate();
+    deactivateFocusTrap(this);
   }
 
   @Watch("active")
@@ -431,7 +429,7 @@ export class Modal implements ConditionalSlotComponent, OpenCloseComponent {
   private openEnd = (): void => {
     this.setFocus();
     this.el.removeEventListener("calciteModalOpen", this.openEnd);
-    this.trap.activate();
+    activateFocusTrap(this);
   };
 
   /** Open the modal */
