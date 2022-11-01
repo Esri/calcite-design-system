@@ -205,9 +205,9 @@ export class Button implements LabelableComponent, InteractiveComponent, FormOwn
         aria-label={getLabelText(this)}
         class={{
           [CSS.buttonNoBorderPadding]: !this.iconStart && !this.iconEnd,
-          [CSS.buttonNoBorderPaddingShrunk]: !!this.iconStart && !!this.iconEnd,
+          [CSS.buttonNoBorderPaddingShrunk]: !(!this.iconStart && !this.iconEnd),
           [CSS.buttonPadding]: !this.iconStart && !this.iconEnd,
-          [CSS.buttonPaddingShrunk]: !!this.iconStart && !!this.iconEnd,
+          [CSS.buttonPaddingShrunk]: !(!this.iconStart && !this.iconEnd),
           [CSS.contentSlotted]: this.hasContent,
           [CSS.iconStartEmpty]: !this.iconStart,
           [CSS.iconEndEmpty]: !this.iconEnd
