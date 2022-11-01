@@ -229,8 +229,9 @@
 }
 
 // button styles
-// solid
-:host([appearance="solid"]) {
+// default appearance is 'solid', defaults to 'solid' when not set
+:host([appearance="solid"]),
+:host([appearance=""]) {
   button,
   a {
     @apply border-color-transparent
@@ -238,6 +239,18 @@
       border-solid;
   }
 }
+// defaults to 'solid' when appearance is set to an invalid option
+:host {
+  button,
+  a {
+    &.default-appearance {
+      @apply border-color-transparent
+      border
+      border-solid;
+    }
+  }
+}
+
 :host([color="blue"]) {
   button,
   a {
@@ -655,29 +668,30 @@
   --calcite-button-padding-x: 15px;
   @apply text-0h;
 }
-:host([scale="l"]:not([appearance="transparent"])) button.content--slotted,
-:host([scale="l"]:not([appearance="transparent"])) a.content--slotted {
-  --calcite-button-padding-y: 11px;
-}
-//for 'l' solid buttons shrink the padding if icon is present to preserve the height
-:host([scale="l"][icon-start]:not([appearance="transparent"])) button.content--slotted,
-:host([scale="l"][icon-end]:not([appearance="transparent"])) button.content--slotted,
-:host([scale="l"][icon-start]:not([appearance="transparent"])) a.content--slotted,
-:host([scale="l"][icon-end]:not([appearance="transparent"])) a.content--slotted {
-  --calcite-button-padding-y: 9px;
+
+:host([scale="l"]:not([appearance="transparent"])) {
+  .button-padding {
+    --calcite-button-padding-y: 11px;
+    color: blue;
+  }
+  //shrink the padding if icon is present to preserve the height
+  .button-padding-shrunk {
+    --calcite-button-padding-y: 9px;
+    color: green;
+  }
 }
 // accommodate for transparent buttons not having borders
-:host([scale="l"][appearance="transparent"]) button.content--slotted,
-:host([scale="l"][appearance="transparent"]) a.content--slotted {
-  --calcite-button-padding-x: theme("padding.4");
-  --calcite-button-padding-y: theme("padding.3");
-}
-//for 'l' transparent buttons (w/t borders) shrink the padding if icon is present to preserve the height
-:host([scale="l"][icon-start][appearance="transparent"]) button.content--slotted,
-:host([scale="l"][icon-end][appearance="transparent"]) button.content--slotted,
-:host([scale="l"][icon-start][appearance="transparent"]) a.content--slotted,
-:host([scale="l"][icon-end][appearance="transparent"]) a.content--slotted {
-  --calcite-button-padding-y: theme("padding[2.5]");
+:host([scale="l"][appearance="transparent"]) {
+  .button-no-border-padding {
+    --calcite-button-padding-x: theme("padding.4");
+    --calcite-button-padding-y: theme("padding.3"); //12px
+    color: red;
+  }
+  //shrink the padding if icon is present to preserve the height
+  .button-no-border-padding-shrunk {
+    --calcite-button-padding-y: theme("padding[2.5]"); //10px
+    color: orange;
+  }
 }
 
 // generate fab scales (scenario: 1 icon, ie., should be square)
