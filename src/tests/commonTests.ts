@@ -215,7 +215,7 @@ export async function focusable(componentTagOrHTML: TagOrHTML, options?: Focusab
   const element = await page.find(tag);
   const focusTargetSelector = options?.focusTargetSelector || tag;
 
-  if (options.delay) {
+  if (options?.delay) {
     await page.waitForTimeout(options.delay);
   }
 
