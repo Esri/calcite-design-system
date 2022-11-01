@@ -3,11 +3,12 @@ import {
   h,
   Prop,
   Element,
-  Fragment,
   Event,
   EventEmitter,
   VNode,
-  Watch
+  Watch,
+  Method,
+  Host
 } from "@stencil/core";
 import { connectForm, disconnectForm, FormComponent } from "../../utils/form";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
@@ -64,7 +65,7 @@ export class Textarea implements FormComponent, LabelableComponent {
   @Prop() size: "l" | "m" | "s";
 
   /** Specifies wrapping mechanism for the text.  */
-  @Prop() wrap: "soft" | " hard";
+  @Prop() wrap: "soft" | "hard";
 
   // @Prop() autocomplete: boolean;
 
@@ -123,7 +124,7 @@ export class Textarea implements FormComponent, LabelableComponent {
 
   render(): VNode {
     return (
-      <Fragment>
+      <Host>
         <textarea
           aria-label={getLabelText(this)}
           autofocus={this.autofocus}
@@ -138,7 +139,6 @@ export class Textarea implements FormComponent, LabelableComponent {
           name={this.name}
           onChange={this.handleChange}
           onInput={this.handleInput}
-          onKeyDown={this.keyDownHandler}
           placeholder={this.placeholder}
           readonly={this.readonly}
           ref={(el) => (this.textareaEl = el as HTMLTextAreaElement)}
@@ -154,10 +154,27 @@ export class Textarea implements FormComponent, LabelableComponent {
             {this.renderFooterTrailing()}
           </footer>
         )}
-      </Fragment>
+      </Host>
     );
   }
 
+  //--------------------------------------------------------------------------
+  //
+  //  Public Methods
+  //
+  //--------------------------------------------------------------------------
+
+  /** Set's focus on the `textarea`. */
+  @Method()
+  async setFocus(): Promise<void> {
+    this.textareaEl.focus();
+  }
+
+  /** Selects all text of the component's `value`. */
+  @Method()
+  async selectText(): Promise<void> {
+    this.textareaEl.select();
+  }
   //--------------------------------------------------------------------------
   //
   //  Private Properties
@@ -183,7 +200,7 @@ export class Textarea implements FormComponent, LabelableComponent {
   }
 
   onLabelClick(): void {
-    this.textareaEl.focus();
+    this.setFocus();
   }
 
   handleInput = (event: InputEvent): void => {
@@ -193,10 +210,6 @@ export class Textarea implements FormComponent, LabelableComponent {
 
   handleChange = (): void => {
     this.calciteTextareaChange.emit();
-  };
-
-  keyDownHandler = (event: KeyboardEvent): void => {
-    console.log(event.key);
   };
 
   renderFooterLeading(): VNode {
