@@ -53,6 +53,7 @@ export const parameters = {
     storySort: {
       order: ["Overview", "Components", "App Components"]
     },
-    diffThreshold: 0.08 // for chromatic
+    // https://www.chromatic.com/docs/threshold
+    diffThreshold: process.env.CHROMATIC_DIFF_THRESHOLD || 0.08
   }
 };
