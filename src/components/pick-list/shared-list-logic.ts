@@ -4,12 +4,18 @@ import { debounce } from "lodash-es";
 import { focusElement, getSlotted } from "../../utils/dom";
 import { getRoundRobinIndex } from "../../utils/array";
 import { SLOTS } from "../pick-list-group/resources";
+import { CalciteFilterChangeDetail } from "../filter/resources";
 
 type Lists = PickList | ValueList;
 type ListItemElement<T> = T extends PickList ? HTMLCalcitePickListItemElement : HTMLCalciteValueListItemElement;
 type List<T> = T extends PickList ? PickList : ValueList;
 
 export type ListFocusId = "filter";
+
+export interface CalciteListFilterDetail {
+  calciteListFilter: ItemData[];
+  filterText: string;
+}
 
 export function mutationObserverCallback<T extends Lists>(this: List<T>): void {
   this.setUpItems();
@@ -29,6 +35,7 @@ export function initialize<T extends Lists>(this: List<T>): void {
   this.setUpItems();
   this.setUpFilter();
   this.emitCalciteListChange = debounce(internalCalciteListChangeEvent.bind(this), 0);
+  this.emitCalciteListFilter = debounce(internalCalciteListFilterEvent.bind(this), 0);
 }
 
 export function initializeObserver<T extends Lists>(this: List<T>): void {
@@ -185,6 +192,17 @@ function filterOutDisabled<T extends Lists>(items: ListItemElement<T>[]): ListIt
   return items.filter((item) => !item.disabled);
 }
 
+export function internalCalciteListFilterEvent<T extends Lists>(
+  this: List<T>,
+  event: CustomEvent<CalciteFilterChangeDetail>
+): void {
+  const { filtered: calciteListFilter, value: filterText } = event.detail;
+  this.calciteListFilter.emit({
+    calciteListFilter,
+    filterText
+  });
+}
+
 export function internalCalciteListChangeEvent<T extends Lists>(this: List<T>): void {
   this.calciteListChange.emit(this.selectedValues as any);
 }
@@ -328,6 +346,7 @@ export function selectSiblings<T extends Lists>(this: List<T>, item: ListItemEle
 let groups: Set<HTMLCalcitePickListGroupElement>;
 
 export function handleFilter<T extends Lists>(this: List<T>, event: CustomEvent): void {
+  event.stopPropagation();
   const { filteredItems } = event.currentTarget as HTMLCalciteFilterElement;
   const values = filteredItems.map((item: ItemData[number]) => item.value);
   let hasSelectedMatch = false;
@@ -381,6 +400,8 @@ export function handleFilter<T extends Lists>(this: List<T>, event: CustomEvent)
   if (matchedItems.length > 0 && !hasSelectedMatch && !this.multiple) {
     toggleSingleSelectItemTabbing(matchedItems[0], true);
   }
+
+  this.emitCalciteListFilter(event);
 }
 
 export type ItemData = {

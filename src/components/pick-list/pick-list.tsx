@@ -29,7 +29,8 @@ import {
   keyDownHandler,
   setFocus,
   ItemData,
-  removeItem
+  removeItem,
+  CalciteListFilterDetail
 } from "./shared-list-logic";
 import List from "./shared-list-render";
 import { HeadingLevel } from "../functional/Heading";
@@ -113,6 +114,8 @@ export class PickList<
 
   emitCalciteListChange: () => void;
 
+  emitCalciteListFilter: (event: CustomEvent<CalciteListFilterDetail>) => void;
+
   filterEl: HTMLCalciteFilterElement;
 
   // --------------------------------------------------------------------------
@@ -146,6 +149,11 @@ export class PickList<
   @Event({ cancelable: false }) calciteListChange: EventEmitter<
     Map<string, HTMLCalcitePickListItemElement>
   >;
+
+  /**
+   * Emits when a filter has changed.
+   */
+  @Event({ cancelable: false }) calciteListFilter: EventEmitter<CalciteListFilterDetail>;
 
   @Listen("calciteListItemRemove")
   calciteListItemRemoveHandler(event: CustomEvent<void>): void {

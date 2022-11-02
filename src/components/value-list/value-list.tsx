@@ -31,7 +31,8 @@ import {
   selectSiblings,
   setFocus,
   setUpItems,
-  moveItemIndex
+  moveItemIndex,
+  CalciteListFilterDetail
 } from "../pick-list/shared-list-logic";
 import List from "../pick-list/shared-list-render";
 import { createObserver } from "../../utils/observers";
@@ -152,6 +153,8 @@ export class ValueList<
 
   emitCalciteListChange: () => void;
 
+  emitCalciteListFilter: (event: CustomEvent<CalciteListFilterDetail>) => void;
+
   filterEl: HTMLCalciteFilterElement;
 
   assistiveTextEl: HTMLSpanElement;
@@ -197,6 +200,11 @@ export class ValueList<
    * Emits when the order of the list has changed.
    */
   @Event({ cancelable: false }) calciteListOrderChange: EventEmitter<any[]>;
+
+  /**
+   * Emits when a filter has changed.
+   */
+  @Event({ cancelable: false }) calciteListFilter: EventEmitter<CalciteListFilterDetail>;
 
   @Listen("focusout")
   calciteListFocusOutHandler(event: FocusEvent): void {

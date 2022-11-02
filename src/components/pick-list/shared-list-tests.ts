@@ -177,11 +177,17 @@ export function keyboardNavigation(listType: ListType): void {
         </calcite-${listType}-list>
       `
       });
+      const filterSpy = await page.spyOnEvent("calciteListFilter");
       const filter = await page.find(`calcite-${listType}-list >>> calcite-filter`);
       await filter.callMethod("setFocus");
 
+      const calciteFilterChangeEvent = filter.waitForEvent("calciteFilterChange");
+      const calciteListFilterEvent = page.waitForEvent("calciteListFilter");
       await page.keyboard.type("one");
-      await page.waitForEvent("calciteFilterChange");
+      await calciteFilterChangeEvent;
+      await calciteListFilterEvent;
+      expect(filterSpy.lastEvent.detail.filterText).toBe("one");
+      expect(filterSpy.lastEvent.detail.calciteListFilter).toHaveLength(1);
 
       await page.keyboard.press("Tab");
       expect(await getFocusedItemValue(page)).toEqual("one");
@@ -194,11 +200,27 @@ export function keyboardNavigation(listType: ListType): void {
       await page.keyboard.press("Backspace");
       await page.waitForChanges();
 
+      const calciteFilterChangeEvent2 = filter.waitForEvent("calciteFilterChange");
+      const calciteListFilterEvent2 = page.waitForEvent("calciteListFilter");
       await page.keyboard.type("two");
-      await page.waitForEvent("calciteFilterChange");
+      await calciteFilterChangeEvent2;
+      await calciteListFilterEvent2;
+      expect(filterSpy.lastEvent.detail.filterText).toBe("two");
+      expect(filterSpy.lastEvent.detail.calciteListFilter).toHaveLength(1);
 
       await page.keyboard.press("Tab");
       expect(await getFocusedItemValue(page)).toEqual("two");
+
+      await filter.callMethod("setFocus");
+      await page.waitForChanges();
+
+      const calciteFilterChangeEvent3 = filter.waitForEvent("calciteFilterChange");
+      const calciteListFilterEvent3 = page.waitForEvent("calciteListFilter");
+      await page.keyboard.type("blah");
+      await calciteFilterChangeEvent3;
+      await calciteListFilterEvent3;
+      expect(filterSpy.lastEvent.detail.filterText).toBe("twoblah");
+      expect(filterSpy.lastEvent.detail.calciteListFilter).toHaveLength(0);
     });
 
     it("resets tabindex to selected item when focusing out of list", async () => {

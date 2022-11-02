@@ -11,7 +11,7 @@ import {
   Watch
 } from "@stencil/core";
 import { debounce } from "lodash-es";
-import { CSS, DEBOUNCE_TIMEOUT, ICONS, TEXT } from "./resources";
+import { CalciteFilterChangeDetail, CSS, DEBOUNCE_TIMEOUT, ICONS, TEXT } from "./resources";
 import { Scale } from "../interfaces";
 import { focusElement } from "../../utils/dom";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
@@ -111,7 +111,7 @@ export class Filter implements InteractiveComponent {
   /**
    * This event fires when the filter text changes.
    */
-  @Event({ cancelable: false }) calciteFilterChange: EventEmitter<void>;
+  @Event({ cancelable: false }) calciteFilterChange: EventEmitter<CalciteFilterChangeDetail>;
 
   //--------------------------------------------------------------------------
   //
@@ -142,7 +142,8 @@ export class Filter implements InteractiveComponent {
   // --------------------------------------------------------------------------
 
   private filter = debounce(
-    (value: string, emit = false): void => this.updateFiltered(filter(this.items, value), emit),
+    (value: string, emit = false): void =>
+      this.updateFiltered(filter(this.items, value), value, emit),
     DEBOUNCE_TIMEOUT
   );
 
@@ -169,11 +170,14 @@ export class Filter implements InteractiveComponent {
     this.setFocus();
   };
 
-  updateFiltered(filtered: any[], emit = false): void {
+  updateFiltered(filtered: any[], value: string, emit = false): void {
     this.filteredItems.length = 0;
     this.filteredItems = this.filteredItems.concat(filtered);
     if (emit) {
-      this.calciteFilterChange.emit();
+      this.calciteFilterChange.emit({
+        filtered,
+        value
+      });
     }
   }
 
