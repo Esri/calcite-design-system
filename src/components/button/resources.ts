@@ -10,9 +10,7 @@ export const CSS = {
   iconStartEmpty: "icon-start-empty",
   iconEndEmpty: "icon-end-empty",
   buttonPadding: "button-padding",
-  buttonNoBorderPadding: "button-no-border-padding",
-  buttonPaddingShrunk: "button-padding-shrunk",
-  buttonNoBorderPaddingShrunk: "button-no-border-padding-shrunk"
+  buttonPaddingShrunk: "button-padding--shrunk"
 };
 
 export const TEXT = {

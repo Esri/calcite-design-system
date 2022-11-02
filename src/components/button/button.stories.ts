@@ -119,7 +119,7 @@ export const withIconEndEmpty_TestOnly = (): string => html` <calcite-button ico
 withIconEndEmpty_TestOnly.storyName = "With icon-end set to empty";
 
 export const largeWithMediumIcons_TestOnly = stepStory(
-  (): string => html`<calcite-button icon-start="arrow-left" icon-end="arrow-right" scale="l">Button</calcite-button>`,
+  (): string => html`<calcite-button scale="l">Button</calcite-button>`,
   createSteps("calcite-button")
     .snapshot("Appearance not set, no icon.")
     .executeScript(`document.querySelector("calcite-button").appearance = "solid"`)
