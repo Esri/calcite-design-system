@@ -42,37 +42,37 @@ export class Textarea implements FormComponent, LabelableComponent, LocalizedCom
   //--------------------------------------------------------------------------
 
   /** When `true`, focuses the `textarea` element on page render. */
-  @Prop() autofocus: boolean;
+  @Prop({ reflect: true }) autofocus: boolean;
 
   /** When `true`, disables the component. */
-  @Prop() disabled: boolean;
+  @Prop({ reflect: true }) disabled: boolean;
 
   /** Specifies the placeholder text for the input. */
-  @Prop() placeholder: string;
+  @Prop({ reflect: true }) placeholder: string;
 
   /** Whne `true`, the component's value can be read, but cannot be modified.  */
-  @Prop() readonly: boolean;
+  @Prop({ reflect: true }) readonly: boolean;
 
   /** Specifies number or rows allowed. */
-  @Prop() rows: number;
+  @Prop({ reflect: true }) rows: number;
 
   /** Specifies number or columns allowed. */
-  @Prop() cols: number;
+  @Prop({ reflect: true }) cols: number;
 
   /** Specifies maximum number of characters allowed. */
-  @Prop() maxlength: number;
+  @Prop({ reflect: true }) maxlength: number;
 
   /** Specifies minimum number of characters allowed. */
-  @Prop() minlength: number;
+  @Prop({ reflect: true }) minlength: number;
 
   /** Specifies name of the component  */
-  @Prop() name: string;
+  @Prop({ reflect: true }) name: string;
 
   /** Specifies the size of `textarea` component. */
-  @Prop() size: "l" | "m" | "s";
+  @Prop({ reflect: true }) size: "l" | "m" | "s" = "m";
 
   /** Specifies wrapping mechanism for the text.  */
-  @Prop() wrap: "soft" | "hard";
+  @Prop({ reflect: true }) wrap: "soft" | "hard" = "soft";
 
   // @Prop() autocomplete: boolean;
 
@@ -80,19 +80,26 @@ export class Textarea implements FormComponent, LabelableComponent, LocalizedCom
   @Prop({ mutable: true }) value: string;
 
   /** When `true` , footer will be added to the component. */
-  @Prop() footer = false;
+  @Prop({ reflect: true }) footer = false;
 
   /** When `true`, disables the resizing handle. */
-  @Prop() resizeDisabled: boolean;
+  @Prop({ reflect: true }) resizeDisabled: boolean;
 
   /** When `true`, marks this component as required in form. */
-  @Prop() required: boolean;
+  @Prop({ reflect: true }) required: boolean;
 
   /** The id of the form `textarea` is associated with. */
-  @Prop() form: string;
+  @Prop({ reflect: true }) form: string;
 
   /** The label of the component */
-  @Prop() label: string;
+  @Prop({ reflect: true }) label: string;
+
+  /**
+   * When `true`, the component will not be visible.
+   *
+   * @mdn [hidden](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/hidden)
+   */
+  @Prop({ reflect: true }) hidden = false;
 
   @Watch("disabled")
   disabledHandler(value: boolean): void {
@@ -146,6 +153,7 @@ export class Textarea implements FormComponent, LabelableComponent, LocalizedCom
           cols={this.cols}
           disabled={this.disabled}
           form={this.form}
+          hidden={this.hidden}
           minlength={this.minlength}
           name={this.name}
           onChange={this.handleChange}
@@ -259,6 +267,9 @@ export class Textarea implements FormComponent, LabelableComponent, LocalizedCom
   }
 
   syncHiddenFormInput(input: HTMLInputElement): void {
-    input.maxLength = this.maxlength;
+    input.setCustomValidity("");
+    if (this.value && this.value?.length > this.maxlength) {
+      input.setCustomValidity("Over the character limit");
+    }
   }
 }
