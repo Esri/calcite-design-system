@@ -4,7 +4,6 @@ import { debounce } from "lodash-es";
 import { focusElement, getSlotted } from "../../utils/dom";
 import { getRoundRobinIndex } from "../../utils/array";
 import { SLOTS } from "../pick-list-group/resources";
-import { CalciteFilterChangeDetail } from "../filter/resources";
 
 type Lists = PickList | ValueList;
 type ListItemElement<T> = T extends PickList ? HTMLCalcitePickListItemElement : HTMLCalciteValueListItemElement;
@@ -194,12 +193,12 @@ function filterOutDisabled<T extends Lists>(items: ListItemElement<T>[]): ListIt
 
 export function internalCalciteListFilterEvent<T extends Lists>(
   this: List<T>,
-  event: CustomEvent<CalciteFilterChangeDetail>
+  value: string,
+  filteredItems: ItemData[]
 ): void {
-  const { filtered: calciteListFilter, value: filterText } = event.detail;
   this.calciteListFilter.emit({
-    calciteListFilter,
-    filterText
+    calciteListFilter: filteredItems,
+    filterText: value
   });
 }
 
@@ -347,7 +346,7 @@ let groups: Set<HTMLCalcitePickListGroupElement>;
 
 export function handleFilter<T extends Lists>(this: List<T>, event: CustomEvent): void {
   event.stopPropagation();
-  const { filteredItems } = event.currentTarget as HTMLCalciteFilterElement;
+  const { filteredItems, value } = event.currentTarget as HTMLCalciteFilterElement;
   const values = filteredItems.map((item: ItemData[number]) => item.value);
   let hasSelectedMatch = false;
 
@@ -401,7 +400,7 @@ export function handleFilter<T extends Lists>(this: List<T>, event: CustomEvent)
     toggleSingleSelectItemTabbing(matchedItems[0], true);
   }
 
-  this.emitCalciteListFilter(event);
+  this.emitCalciteListFilter(value, filteredItems as ItemData[]);
 }
 
 export type ItemData = {

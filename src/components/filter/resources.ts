@@ -14,8 +14,3 @@ export const ICONS = {
 };
 
 export const DEBOUNCE_TIMEOUT = 250;
-
-export interface CalciteFilterChangeDetail {
-  filtered: any[];
-  value: string;
-}

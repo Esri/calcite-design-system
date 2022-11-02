@@ -153,7 +153,7 @@ export class ValueList<
 
   emitCalciteListChange: () => void;
 
-  emitCalciteListFilter: (event: CustomEvent<CalciteListFilterDetail>) => void;
+  emitCalciteListFilter: (value: string, filteredItems: ItemData[]) => void;
 
   filterEl: HTMLCalciteFilterElement;
 

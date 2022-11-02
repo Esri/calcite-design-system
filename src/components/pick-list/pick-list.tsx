@@ -114,7 +114,7 @@ export class PickList<
 
   emitCalciteListChange: () => void;
 
-  emitCalciteListFilter: (event: CustomEvent<CalciteListFilterDetail>) => void;
+  emitCalciteListFilter: (value: string, filteredItems: ItemData[]) => void;
 
   filterEl: HTMLCalciteFilterElement;
 
