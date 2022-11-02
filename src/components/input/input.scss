@@ -565,7 +565,7 @@ input[type="time"]::-webkit-clear-button {
 :host .inline-child:not(.editing-enabled) {
   @apply border-color-transparent
     flex
-    cursor-pointer;
+    cursor-pointer text-ellipsis;
   padding-inline-start: 0;
 }
 
