@@ -42,13 +42,13 @@ export class Panel implements InteractiveComponent {
   // --------------------------------------------------------------------------
 
   /**
-   * When true, hides the component.
+   * When `true`, hides the component.
    *
-   * @deprecated use closed instead
+   * @deprecated use `closed` instead.
    */
   @Prop({ mutable: true, reflect: true }) dismissed = false;
 
-  /** When true, panel will be hidden */
+  /** When `true`, the component will be hidden. */
   @Prop({ mutable: true, reflect: true }) closed = false;
 
   @Watch("dismissed")
@@ -70,14 +70,14 @@ export class Panel implements InteractiveComponent {
   @Prop() beforeBack?: () => Promise<void>;
 
   /**
-   *  When true, interaction is prevented and the component is displayed with lower opacity.
+   *  When `true`, interaction is prevented and the component is displayed with lower opacity.
    */
   @Prop({ reflect: true }) disabled = false;
 
   /**
-   * When true, a close button is added to the component.
+   * When `true`, a close button is added to the component.
    *
-   * @deprecated use closable instead
+   * @deprecated use `closable` instead
    */
   @Prop({ mutable: true, reflect: true }) dismissible = false;
 
@@ -86,7 +86,7 @@ export class Panel implements InteractiveComponent {
     this.closable = value;
   }
 
-  /** When true, displays a close button in the trailing side of the header */
+  /** When `true`, displays a close button in the trailing side of the header. */
   @Prop({ mutable: true, reflect: true }) closable = false;
 
   @Watch("closable")
@@ -100,14 +100,14 @@ export class Panel implements InteractiveComponent {
   @Prop({ reflect: true }) headingLevel: HeadingLevel;
 
   /**
-   * When true, displays a back button in the header.
+   * When `true`, displays a back button in the header.
    *
    * @deprecated use `calcite-flow-item` instead.
    */
   @Prop({ reflect: true }) showBackButton = false;
 
   /**
-   * Accessible name for the component's back button. The back button will only be shown when 'showBackButton' is true.
+   * Accessible name for the component's back button. The back button will only be shown when `showBackButton` is `true`.
    *
    * @deprecated use `calcite-flow-item` instead.
    */
@@ -124,12 +124,12 @@ export class Panel implements InteractiveComponent {
   @Prop({ reflect: true }) widthScale?: Scale;
 
   /**
-   * When true, a busy indicator is displayed.
+   * When `true`, a busy indicator is displayed.
    */
   @Prop({ reflect: true }) loading = false;
 
   /**
-   * Accessible name for the component's close button. The close button will only be shown when 'dismissible' is true.
+   * Accessible name for the component's close button. The close button will only be shown when `closeable` is `true`.
    */
   @Prop() intlClose?: string;
 
@@ -146,7 +146,7 @@ export class Panel implements InteractiveComponent {
   /**
    * Summary text. A description displayed underneath the heading.
    *
-   * @deprecated use description instead
+   * @deprecated use `description` instead.
    */
   @Prop() summary?: string;
 
@@ -154,7 +154,7 @@ export class Panel implements InteractiveComponent {
   @Prop() description: string;
 
   /**
-   * When true, the action menu items in the `header-menu-actions` slot are open.
+   * When `true`, the action menu items in the `header-menu-actions` slot are open.
    */
   @Prop({ reflect: true }) menuOpen = false;
 
@@ -239,14 +239,14 @@ export class Panel implements InteractiveComponent {
   /**
    * Fires when the close button is clicked.
    *
-   * @deprecated use calcitePanelClose instead.
+   * @deprecated use `calcitePanelClose` instead.
    */
   @Event({ cancelable: false }) calcitePanelDismiss: EventEmitter<void>;
 
   /**
    * Fires when there is a change to the `dismissed` property value .
    *
-   * @deprecated use calcitePanelClose instead.
+   * @deprecated use `calcitePanelClose` instead.
    */
   @Event({ cancelable: false }) calcitePanelDismissedChange: EventEmitter<void>;
 
@@ -412,14 +412,12 @@ export class Panel implements InteractiveComponent {
   /**
    * Scrolls the component's content to a specified set of coordinates.
    *
-   * ```
-   *   myCalcitePanel.scrollContentTo({
-   *     left: 0, // Specifies the number of pixels along the X axis to scroll the window or element.
-   *     top: 0, // Specifies the number of pixels along the Y axis to scroll the window or element
-   *     behavior: "auto" // Specifies whether the scrolling should animate smoothly (smooth), or happen instantly in a single jump (auto, the default value).
-   *   });
-   * ```
-   *
+   * @example
+   * myCalciteFlowItem.scrollContentTo({
+   *   left: 0, // Specifies the number of pixels along the X axis to scroll the window or element.
+   *   top: 0, // Specifies the number of pixels along the Y axis to scroll the window or element
+   *   behavior: "auto" // Specifies whether the scrolling should animate smoothly (smooth), or happen instantly in a single jump (auto, the default value).
+   * });
    * @param options
    */
   @Method()
@@ -599,7 +597,7 @@ export class Panel implements InteractiveComponent {
     const showFooter = hasFooterContent || hasFooterActions;
 
     return (
-      <footer class={CSS.footer} hidden={!showFooter} key="footer">
+      <footer class={CSS.footer} hidden={!showFooter}>
         <slot key="footer-slot" name={SLOTS.footer} onSlotchange={this.handleFooterSlotChange} />
         <slot
           key="footer-actions-slot"
@@ -624,8 +622,6 @@ export class Panel implements InteractiveComponent {
     const { hasFab } = this;
 
     const defaultSlotNode: VNode = <slot key="default-slot" />;
-    const contentWrapperKey = "content-wrapper";
-
     const containerNode = hasFab ? (
       <section class={CSS.contentContainer}>{defaultSlotNode}</section>
     ) : (
@@ -634,8 +630,11 @@ export class Panel implements InteractiveComponent {
 
     return (
       <div
-        class={{ [CSS.contentWrapper]: true, [CSS.contentHeight]: true }}
-        key={contentWrapperKey}
+        class={{
+          [CSS.contentWrapper]: true,
+          [CSS.contentContainer]: !hasFab,
+          [CSS.contentHeight]: hasFab
+        }}
         onScroll={this.panelScrollHandler}
         ref={this.setPanelScrollEl}
       >

@@ -12,7 +12,7 @@ import {
 } from "@stencil/core";
 import { CSS, SLOTS, TEXT } from "./resources";
 import { Position, Scale } from "../interfaces";
-import { getSlotted, getElementDir } from "../../utils/dom";
+import { getSlotted, getElementDir, isPrimaryPointerButton } from "../../utils/dom";
 import { clamp } from "../../utils/math";
 import {
   ConditionalSlotComponent,
@@ -37,7 +37,7 @@ export class ShellPanel implements ConditionalSlotComponent {
   // --------------------------------------------------------------------------
 
   /**
-   * When true, hides the component's content area.
+   * When `true`, hides the component's content area.
    */
   @Prop({ reflect: true }) collapsed = false;
 
@@ -47,12 +47,12 @@ export class ShellPanel implements ConditionalSlotComponent {
   }
 
   /**
-   * When true, the content area displays like a floating panel.
+   * When `true`, the content area displays like a floating panel.
    */
   @Prop({ reflect: true }) detached = false;
 
   /**
-   * When "detached", specifies the maximum height of the component.
+   * When `detached`, specifies the maximum height of the component.
    */
   @Prop({ reflect: true }) detachedHeightScale: Scale = "l";
 
@@ -63,7 +63,7 @@ export class ShellPanel implements ConditionalSlotComponent {
   @Prop({ reflect: true }) widthScale: Scale = "m";
 
   /**
-   * Specifies the component's position. Will be flipped when the element direction is right-to-left ("rtl").
+   * Specifies the component's position. Will be flipped when the element direction is right-to-left (`"rtl"`).
    */
   @Prop({ reflect: true }) position: Position;
 
@@ -75,7 +75,7 @@ export class ShellPanel implements ConditionalSlotComponent {
   @Prop() intlResize = TEXT.resize;
 
   /**
-   * When true and not "detached", the component's content area is resizable.
+   * When `true` and not `detached`, the component's content area is resizable.
    */
   @Prop({ reflect: true }) resizable = false;
 
@@ -133,7 +133,7 @@ export class ShellPanel implements ConditionalSlotComponent {
   /**
    * Emitted when collapse has been toggled.
    *
-   * @deprecated use a resizeObserver on the component to listen for changes to its size.
+   * @deprecated use a `ResizeObserver` on the component to listen for changes to its size.
    */
   @Event({ cancelable: false }) calciteShellPanelToggle: EventEmitter<void>;
 
@@ -357,6 +357,10 @@ export class ShellPanel implements ConditionalSlotComponent {
   };
 
   separatorPointerUp = (event: PointerEvent): void => {
+    if (!isPrimaryPointerButton(event)) {
+      return;
+    }
+
     event.preventDefault();
     document.removeEventListener("pointerup", this.separatorPointerUp);
     document.removeEventListener("pointermove", this.separatorPointerMove);
@@ -367,6 +371,10 @@ export class ShellPanel implements ConditionalSlotComponent {
   };
 
   separatorPointerDown = (event: PointerEvent): void => {
+    if (!isPrimaryPointerButton(event)) {
+      return;
+    }
+
     event.preventDefault();
     const { separatorEl } = this;
 

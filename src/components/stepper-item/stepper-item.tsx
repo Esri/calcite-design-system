@@ -8,6 +8,7 @@ import {
   Listen,
   Method,
   Prop,
+  State,
   VNode,
   Watch
 } from "@stencil/core";
@@ -19,6 +20,12 @@ import {
   StepperItemEventDetail,
   StepperItemKeyEventDetail
 } from "../stepper/interfaces";
+import {
+  numberStringFormatter,
+  LocalizedComponent,
+  disconnectLocalized,
+  connectLocalized
+} from "../../utils/locale";
 
 /**
  * @slot - A slot for adding custom content.
@@ -28,7 +35,7 @@ import {
   styleUrl: "stepper-item.scss",
   shadow: true
 })
-export class StepperItem implements InteractiveComponent {
+export class StepperItem implements InteractiveComponent, LocalizedComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -44,9 +51,9 @@ export class StepperItem implements InteractiveComponent {
   //--------------------------------------------------------------------------
 
   /**
-   *  is the step active
+   *  When `true`, the component is selected.
    *
-   * @deprecated Use selected instead.
+   * @deprecated Use `selected` instead.
    */
   @Prop({ reflect: true, mutable: true }) active = false;
 
@@ -56,7 +63,7 @@ export class StepperItem implements InteractiveComponent {
   }
 
   /**
-   * When true, step is selected
+   * When `true`, the component is selected.
    */
   @Prop({ reflect: true, mutable: true }) selected = false;
 
@@ -68,19 +75,19 @@ export class StepperItem implements InteractiveComponent {
     }
   }
 
-  /** has the step been completed */
+  /** When `true`, the step has been completed. */
   @Prop({ reflect: true }) complete = false;
 
-  /** When true, the component contains an error that requires resolution from the user. */
+  /** When `true`, the component contains an error that requires resolution from the user. */
   @Prop({ reflect: true }) error = false;
 
-  /** When true, interaction is prevented and the component is displayed with lower opacity. */
+  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @Prop({ reflect: true }) disabled = false;
 
   /**
    * The component header text.
    *
-   * @deprecated use "heading" instead.
+   * @deprecated use `heading` instead.
    */
   @Prop() itemTitle?: string;
 
@@ -90,7 +97,7 @@ export class StepperItem implements InteractiveComponent {
   /**
    * A description for the component. Displays below the header text.
    *
-   * @deprecated use "description" instead.
+   * @deprecated use `description` instead.
    */
   @Prop() itemSubtitle?: string;
 
@@ -103,11 +110,11 @@ export class StepperItem implements InteractiveComponent {
   @Prop({ reflect: true, mutable: true }) layout?: Extract<"horizontal" | "vertical", Layout> =
     "horizontal";
 
-  /** When true, displays a status icon in the `calcite-stepper-item` heading. */
+  /** When `true`, displays a status icon in the component's heading. */
   /** @internal */
   @Prop({ mutable: true }) icon = false;
 
-  /** When true, displays the step number in the `calcite-stepper-item` heading. */
+  /** When `true`, displays the step number in the component's heading. */
   /** @internal */
   @Prop({ mutable: true }) numbered = false;
 
@@ -126,6 +133,17 @@ export class StepperItem implements InteractiveComponent {
   //  Internal State/Props
   //
   //--------------------------------------------------------------------------
+
+  @State() effectiveLocale = "";
+
+  @Watch("effectiveLocale")
+  effectiveLocaleWatcher(locale: string): void {
+    numberStringFormatter.numberFormatOptions = {
+      locale,
+      numberingSystem: this.parentStepperEl?.numberingSystem,
+      useGrouping: false
+    };
+  }
 
   headerEl: HTMLDivElement;
 
@@ -166,6 +184,7 @@ export class StepperItem implements InteractiveComponent {
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
+    connectLocalized(this);
     const { selected, active } = this;
 
     if (selected) {
@@ -187,10 +206,20 @@ export class StepperItem implements InteractiveComponent {
     if (this.selected) {
       this.emitRequestedItem();
     }
+
+    numberStringFormatter.numberFormatOptions = {
+      locale: this.effectiveLocale,
+      numberingSystem: this.parentStepperEl?.numberingSystem,
+      useGrouping: false
+    };
   }
 
   componentDidRender(): void {
     updateHostInteraction(this, true);
+  }
+
+  disconnectedCallback(): void {
+    disconnectLocalized(this);
   }
 
   render(): VNode {
@@ -210,7 +239,11 @@ export class StepperItem implements InteractiveComponent {
             }
           >
             {this.icon ? this.renderIcon() : null}
-            {this.numbered ? <div class="stepper-item-number">{this.itemPosition + 1}.</div> : null}
+            {this.numbered ? (
+              <div class="stepper-item-number">
+                {numberStringFormatter.numberFormatter.format(this.itemPosition + 1)}.
+              </div>
+            ) : null}
             <div class="stepper-item-header-text">
               <span class="stepper-item-heading">{this.heading || this.itemTitle}</span>
               <span class="stepper-item-description">{this.description || this.itemSubtitle}</span>

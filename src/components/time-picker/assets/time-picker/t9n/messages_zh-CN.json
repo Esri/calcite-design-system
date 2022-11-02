@@ -1,0 +1,14 @@
+{
+  "hour": "试_Hour_________验",
+  "hourDown": "试_Decrease hour______________验",
+  "hourUp": "试_Increase hour______________验",
+  "meridiem": "试_AM/PM___________验",
+  "meridiemDown": "试_Decrease AM/PM_______________验",
+  "meridiemUp": "试_Increase AM/PM_______________验",
+  "minute": "试_Minute_____________验",
+  "minuteDown": "试_Decrease minute________________验",
+  "minuteUp": "试_Increase minute________________验",
+  "second": "试_Second_____________验",
+  "secondDown": "试_Decrease second________________验",
+  "secondUp": "试_Increase second________________验"
+}

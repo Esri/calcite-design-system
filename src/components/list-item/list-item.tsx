@@ -28,7 +28,7 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
   // --------------------------------------------------------------------------
 
   /**
-   * When true, prevents the content of the component from user interaction.
+   * When `true`, prevents the content of the component from user interaction.
    */
   @Prop({ reflect: true }) nonInteractive = false;
 
@@ -38,7 +38,7 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
   @Prop() description?: string;
 
   /**
-   * When true, interaction is prevented and the component is displayed with lower opacity.
+   * When `true`, interaction is prevented and the component is displayed with lower opacity.
    */
   @Prop({ reflect: true }) disabled = false;
 

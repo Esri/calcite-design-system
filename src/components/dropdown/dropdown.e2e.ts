@@ -1,4 +1,4 @@
-import { E2EPage, EventSpy, newE2EPage } from "@stencil/core/testing";
+import { E2EPage, newE2EPage } from "@stencil/core/testing";
 import { accessible, defaults, disabled, floatingUIOwner, renders, hidden } from "../../tests/commonTests";
 import dedent from "dedent";
 import { html } from "../../../support/formatting";
@@ -1065,7 +1065,7 @@ describe("calcite-dropdown", () => {
     await expect(finalSelectedItem).toBe("item-3");
   });
 
-  it("dropdown should not overflow when wrapped inside a tab #3007", async () => {
+  it.skip("dropdown should not overflow when wrapped inside a tab #3007", async () => {
     const page = await newE2EPage({
       html: html`<calcite-tabs>
         <calcite-tab-nav slot="tab-nav">

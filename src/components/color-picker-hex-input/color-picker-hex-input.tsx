@@ -18,6 +18,7 @@ import { Scale } from "../interfaces";
 import { RGB } from "../color-picker/interfaces";
 import { focusElement } from "../../utils/dom";
 import { TEXT } from "../color-picker/resources";
+import { NumberingSystem } from "../../utils/locale";
 
 const DEFAULT_COLOR = Color();
 
@@ -66,38 +67,36 @@ export class ColorPickerHexInput {
   //--------------------------------------------------------------------------
 
   /**
-   * When false, empty color (null) will be allowed as a value. Otherwise, a color value is always enforced by the component.
+   * When `false`, an empty color (`null`) will be allowed as a `value`. Otherwise, a color value is enforced on the component.
    *
-   * When true, clearing the input and blurring will restore the last valid color set. When false, it will set it to empty.
+   * When `true`, a color value is enforced, and clearing the input or blurring will restore the last valid `value`. When `false`, an empty color (`null`) will be allowed as a `value`.
    */
   @Prop() allowEmpty = false;
 
   /**
-   * Label used for the hex input.
+   * Accessible name for the Hex input.
    *
    * @default "Hex"
    */
   @Prop() intlHex = TEXT.hex;
 
   /**
-   * Label used for the hex input when there is no color selected.
+   * Accessible name for the Hex input when there is no color selected.
    *
    * @default "No color"
    */
   @Prop() intlNoColor = TEXT.noColor;
 
-  /**
-   * The component's scale.
-   */
+  /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
 
   /**
-   * The hex value.
+   * The Hex value.
    */
   @Prop({ mutable: true, reflect: true }) value: string = normalizeHex(DEFAULT_COLOR.hex());
 
-  /** standard UniCode numeral system tag for localization */
-  @Prop() numberingSystem?: string;
+  /** Specifies the Unicode numeral system used by the component for localization. */
+  @Prop() numberingSystem?: NumberingSystem;
 
   @Watch("value")
   handleValueChange(value: string, oldValue: string): void {

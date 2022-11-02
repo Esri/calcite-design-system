@@ -270,6 +270,60 @@ describe("calcite-slider", () => {
     expect(changeEvent).toHaveReceivedEventTimes(1);
   });
 
+  describe("thumb focus for single value", () => {
+    const sliderForThumbFocusTests = html`<calcite-slider
+      style="width:${sliderWidthFor1To1PixelValueTrack}"
+      min="0"
+      max="100"
+      snap
+      ticks="10"
+      value="50"
+    ></calcite-slider>`;
+
+    it("should focus thumb when clicked near", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html`${sliderForThumbFocusTests}`);
+      const slider = await page.find("calcite-slider");
+      const [trackX, trackY] = await getElementXY(page, "calcite-slider", ".track");
+
+      await page.mouse.move(trackX + 50, trackY);
+      await page.mouse.down();
+      await page.mouse.up();
+      await page.waitForChanges();
+
+      let isThumbFocused = await page.$eval("calcite-slider", (slider) =>
+        slider.shadowRoot.activeElement?.classList.contains("thumb--value")
+      );
+
+      expect(isThumbFocused).toBe(true);
+      expect(await slider.getProperty("value")).toBe(50);
+
+      await page.mouse.move(trackX + 40, trackY);
+      await page.mouse.down();
+      await page.mouse.up();
+      await page.waitForChanges();
+
+      isThumbFocused = await page.$eval("calcite-slider", (slider) =>
+        slider.shadowRoot.activeElement?.classList.contains("thumb--value")
+      );
+
+      expect(isThumbFocused).toBe(true);
+      expect(await slider.getProperty("value")).toBe(40);
+
+      await page.mouse.move(trackX + 60, trackY);
+      await page.mouse.down();
+      await page.mouse.up();
+      await page.waitForChanges();
+
+      isThumbFocused = await page.$eval("calcite-slider", (slider) =>
+        slider.shadowRoot.activeElement?.classList.contains("thumb--value")
+      );
+
+      expect(isThumbFocused).toBe(true);
+      expect(await slider.getProperty("value")).toBe(60);
+    });
+  });
+
   describe("thumb focus in range", () => {
     const sliderForThumbFocusTests = html`<calcite-slider
       style="width:${sliderWidthFor1To1PixelValueTrack}"
@@ -507,6 +561,38 @@ describe("calcite-slider", () => {
       expect(inputEvent).toHaveReceivedEventTimes(5);
       expect(changeEvent).toHaveReceivedEventTimes(1);
     });
+
+    it("range: clicking and dragging the range changes minValue and maxValue on mousedown, emits on mouseup", async () => {
+      const page = await newE2EPage();
+      await page.setContent(
+        html`<calcite-slider
+          min-value="0"
+          max-value="50"
+          snap
+          style="width:${sliderWidthFor1To1PixelValueTrack}"
+        ></calcite-slider>`
+      );
+      const slider = await page.find("calcite-slider");
+      const inputEvent = await slider.spyOnEvent("calciteSliderInput");
+      const changeEvent = await slider.spyOnEvent("calciteSliderChange");
+      const [trackX, trackY] = await getElementXY(page, "calcite-slider", ".track");
+
+      await page.mouse.move(trackX + 25, trackY);
+      await page.mouse.down();
+      await page.mouse.move(trackX + 26, trackY);
+      await page.mouse.move(trackX + 27, trackY);
+      await page.mouse.move(trackX + 28, trackY);
+      await page.mouse.move(trackX + 29, trackY);
+      await page.mouse.move(trackX + 30, trackY);
+      await page.mouse.move(trackX + 31, trackY);
+      await page.mouse.up();
+      await page.waitForChanges();
+
+      expect(await slider.getProperty("minValue")).toBe(5);
+      expect(await slider.getProperty("maxValue")).toBe(55);
+      expect(inputEvent).toHaveReceivedEventTimes(6);
+      expect(changeEvent).toHaveReceivedEventTimes(1);
+    });
   });
 
   describe("histogram", () => {
@@ -678,7 +764,10 @@ describe("calcite-slider", () => {
   describe("number locale support", () => {
     let page: E2EPage;
     let noSeparator: string[];
-    const expectedNotSeparatedValueArray: string[] = ["2500", "500000.5", "1000", "1000000.5"];
+    const expectedNotSeparatedValueArray = {
+      en: ["2500", "500000.5", "1000", "1000000.5"],
+      fr: ["2500", "500000,5", "1000", "1000000,5"]
+    };
     let withSeparator: string[];
     let getDisplayedValuesArray;
     let element: E2EElement;
@@ -728,7 +817,7 @@ describe("calcite-slider", () => {
         return await getDisplayedValuesArray();
       });
       expect(await element.getProperty("groupSeparator")).toBe(false);
-      expect(noSeparator).toEqual(expectedNotSeparatedValueArray);
+      expect(noSeparator).toEqual(expectedNotSeparatedValueArray.en);
 
       element.setProperty("lang", "fr");
       await page.waitForChanges();
@@ -736,7 +825,7 @@ describe("calcite-slider", () => {
       noSeparator = await page.$eval("calcite-slider", async (): Promise<string[]> => {
         return await getDisplayedValuesArray();
       });
-      expect(noSeparator).toEqual(expectedNotSeparatedValueArray);
+      expect(noSeparator).toEqual(expectedNotSeparatedValueArray.fr);
     });
 
     it("displays group separator for multiple locales", async () => {

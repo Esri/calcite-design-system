@@ -11,7 +11,7 @@ import {
   State
 } from "@stencil/core";
 import { CSS, SLOTS, ICONS } from "./resources";
-import { focusElement, toAriaBoolean } from "../../utils/dom";
+import { focusElement, isPrimaryPointerButton, toAriaBoolean } from "../../utils/dom";
 import { Fragment, VNode } from "@stencil/core/internal";
 import { getRoundRobinIndex } from "../../utils/array";
 import { guid } from "../../utils/guid";
@@ -19,7 +19,6 @@ import { DeprecatedEventPayload, Scale } from "../interfaces";
 import { LogicalPlacement, EffectivePlacement, OverlayPositioning } from "../../utils/floating-ui";
 import { isActivationKey } from "../../utils/key";
 
-const SUPPORTED_BUTTON_NAV_KEYS = ["ArrowUp", "ArrowDown"];
 const SUPPORTED_MENU_NAV_KEYS = ["ArrowUp", "ArrowDown", "End", "Home"];
 
 /**
@@ -50,7 +49,7 @@ export class ActionMenu {
   // --------------------------------------------------------------------------
 
   /**
-   * When true, the component is expanded.
+   * When `true`, the component is expanded.
    */
   @Prop({ reflect: true }) expanded = false;
 
@@ -71,7 +70,7 @@ export class ActionMenu {
   @Prop() label!: string;
 
   /**
-   * When true, the component is open.
+   * When `true`, the component is open.
    */
   @Prop({ reflect: true, mutable: true }) open = false;
 
@@ -89,7 +88,8 @@ export class ActionMenu {
   /**
    * Determines the type of positioning to use for the overlaid content.
    *
-   * Using the "absolute" value will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout. The "fixed" value should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is "fixed".
+   * Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.
+   * `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
    *
    */
   @Prop({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
@@ -120,7 +120,11 @@ export class ActionMenu {
   @Event({ cancelable: false }) calciteActionMenuOpenChange: EventEmitter<DeprecatedEventPayload>;
 
   @Listen("pointerdown", { target: "window" })
-  closeCalciteActionMenuOnClick(event: Event): void {
+  closeCalciteActionMenuOnClick(event: PointerEvent): void {
+    if (!isPrimaryPointerButton(event)) {
+      return;
+    }
+
     const composedPath = event.composedPath();
 
     if (composedPath.includes(this.el)) {
@@ -297,7 +301,6 @@ export class ActionMenu {
           class={CSS.menu}
           id={menuId}
           onClick={this.handleCalciteActionClick}
-          onKeyDown={this.menuActionsContainerKeyDown}
           role="menu"
           tabIndex={-1}
         >
@@ -328,7 +331,11 @@ export class ActionMenu {
     this.setFocus();
   };
 
-  menuButtonClick = (): void => {
+  menuButtonClick = (event: PointerEvent): void => {
+    if (!isPrimaryPointerButton(event)) {
+      return;
+    }
+
     this.toggleOpen();
   };
 
@@ -385,7 +392,7 @@ export class ActionMenu {
 
   menuButtonKeyDown = (event: KeyboardEvent): void => {
     const { key } = event;
-    const { actionElements } = this;
+    const { actionElements, activeMenuItemIndex, open } = this;
 
     if (!actionElements.length) {
       return;
@@ -393,33 +400,18 @@ export class ActionMenu {
 
     if (isActivationKey(key)) {
       event.preventDefault();
-      this.toggleOpen();
-      return;
+
+      if (!open) {
+        this.toggleOpen();
+        return;
+      }
+
+      const action = actionElements[activeMenuItemIndex];
+      action ? action.click() : this.toggleOpen(false);
     }
-
-    if (!this.isValidKey(key, SUPPORTED_BUTTON_NAV_KEYS)) {
-      return;
-    }
-
-    event.preventDefault();
-
-    this.toggleOpen(true);
-    this.handleActionNavigation(key, actionElements);
-  };
-
-  menuActionsContainerKeyDown = (event: KeyboardEvent): void => {
-    const { key } = event;
-    const { actionElements, activeMenuItemIndex } = this;
 
     if (key === "Tab") {
       this.open = false;
-      return;
-    }
-
-    if (isActivationKey(key)) {
-      event.preventDefault();
-      const action = actionElements[activeMenuItemIndex];
-      action ? action.click() : this.toggleOpen(false);
       return;
     }
 
@@ -429,23 +421,33 @@ export class ActionMenu {
       return;
     }
 
-    if (!actionElements.length) {
-      return;
-    }
-
-    if (this.isValidKey(key, SUPPORTED_MENU_NAV_KEYS)) {
-      event.preventDefault();
-    }
-
-    this.handleActionNavigation(key, actionElements);
+    this.handleActionNavigation(event, key, actionElements);
   };
 
-  handleActionNavigation = (key: string, actions: HTMLCalciteActionElement[]): void => {
-    if (!this.open) {
+  handleActionNavigation = (
+    event: KeyboardEvent,
+    key: string,
+    actions: HTMLCalciteActionElement[]
+  ): void => {
+    if (!this.isValidKey(key, SUPPORTED_MENU_NAV_KEYS)) {
       return;
     }
 
-    const currentIndex = this.activeMenuItemIndex;
+    event.preventDefault();
+
+    if (!this.open) {
+      this.toggleOpen();
+
+      if (key === "Home" || key === "ArrowDown") {
+        this.activeMenuItemIndex = 0;
+      }
+
+      if (key === "End" || key === "ArrowUp") {
+        this.activeMenuItemIndex = actions.length - 1;
+      }
+
+      return;
+    }
 
     if (key === "Home") {
       this.activeMenuItemIndex = 0;
@@ -454,6 +456,8 @@ export class ActionMenu {
     if (key === "End") {
       this.activeMenuItemIndex = actions.length - 1;
     }
+
+    const currentIndex = this.activeMenuItemIndex;
 
     if (key === "ArrowUp") {
       this.activeMenuItemIndex = getRoundRobinIndex(Math.max(currentIndex - 1, -1), actions.length);

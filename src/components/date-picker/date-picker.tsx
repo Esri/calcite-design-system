@@ -25,11 +25,12 @@ import { HeadingLevel } from "../functional/Heading";
 import { DateRangeChange } from "./interfaces";
 import { HEADING_LEVEL, TEXT } from "./resources";
 import {
-  GlobalAttrComponent,
-  unwatchGlobalAttributes,
-  watchGlobalAttributes
-} from "../../utils/globalAttributes";
-import { getLocale, LangComponent } from "../../utils/locale";
+  connectLocalized,
+  disconnectLocalized,
+  LocalizedComponent,
+  NumberingSystem,
+  numberStringFormatter
+} from "../../utils/locale";
 
 @Component({
   assetsDirs: ["assets"],
@@ -37,7 +38,7 @@ import { getLocale, LangComponent } from "../../utils/locale";
   styleUrl: "date-picker.scss",
   shadow: true
 })
-export class DatePicker implements GlobalAttrComponent, LangComponent {
+export class DatePicker implements LocalizedComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -143,12 +144,18 @@ export class DatePicker implements GlobalAttrComponent, LangComponent {
   @Prop() intlYear?: string = TEXT.year;
 
   /**
-   * BCP 47 language tag for desired language and country format
+   * Specifies the BCP 47 language tag for the desired language and country format.
    *
    * @deprecated set the global `lang` attribute on the element instead.
    * @mdn [lang](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/lang)
    */
   @Prop() locale?: string;
+
+  /**
+   * Specifies the Unicode numeral system used by the component for localization. This property cannot be dynamically changed.
+   *
+   */
+  @Prop({ reflect: true }) numberingSystem?: NumberingSystem;
 
   /** specify the scale of the date picker */
   @Prop({ reflect: true }) scale: "s" | "m" | "l" = "m";
@@ -213,6 +220,8 @@ export class DatePicker implements GlobalAttrComponent, LangComponent {
   //
   // --------------------------------------------------------------------------
   connectedCallback(): void {
+    connectLocalized(this);
+
     if (Array.isArray(this.value)) {
       this.valueAsDate = getValueAsDateRange(this.value);
       this.start = this.value[0];
@@ -236,12 +245,10 @@ export class DatePicker implements GlobalAttrComponent, LangComponent {
     if (this.max) {
       this.maxAsDate = dateFromISO(this.max);
     }
-
-    watchGlobalAttributes(this, ["lang"]);
   }
 
   disconnectedCallback(): void {
-    unwatchGlobalAttributes(this);
+    disconnectLocalized(this);
   }
 
   async componentWillLoad(): Promise<void> {
@@ -300,6 +307,9 @@ export class DatePicker implements GlobalAttrComponent, LangComponent {
   //  Private State/Props
   //
   //--------------------------------------------------------------------------
+
+  @State() effectiveLocale = "";
+
   @State() private localeData: DateLocaleData;
 
   @State() private hoverRange: HoverRange;
@@ -341,14 +351,19 @@ export class DatePicker implements GlobalAttrComponent, LangComponent {
     this.setEndAsDate(dateFromISO(end));
   }
 
-  @Watch("globalAttributes")
-  @Watch("locale")
+  @Watch("effectiveLocale")
   private async loadLocaleData(): Promise<void> {
     if (!Build.isBrowser) {
       return;
     }
 
-    this.localeData = await getLocaleData(getLocale(this));
+    numberStringFormatter.numberFormatOptions = {
+      numberingSystem: this.numberingSystem,
+      locale: this.effectiveLocale,
+      useGrouping: false
+    };
+
+    this.localeData = await getLocaleData(this.effectiveLocale);
   }
 
   monthHeaderSelectChange = (event: CustomEvent<Date>): void => {

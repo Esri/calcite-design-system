@@ -24,12 +24,12 @@ export class Tip implements ConditionalSlotComponent {
   //
   // --------------------------------------------------------------------------
   /**
-   * When true, the component does not display.
+   * When `true`, the component does not display.
    */
   @Prop({ reflect: true, mutable: true }) dismissed = false;
 
   /**
-   * When true, the close button is not present on the component.
+   * When `true`, the close button is not present on the component.
    */
   @Prop({ reflect: true }) nonDismissible = false;
 
@@ -44,7 +44,7 @@ export class Tip implements ConditionalSlotComponent {
   @Prop({ reflect: true }) headingLevel: HeadingLevel;
 
   /**
-   * When true and if it has a parent `calcite-tip-manager`, the component is selected.
+   * When `true`, the component is selected if it has a parent `calcite-tip-manager`.
    *
    * Only one tip can be selected within the `calcite-tip-manager` parent.
    */
