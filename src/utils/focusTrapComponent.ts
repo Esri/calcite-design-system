@@ -17,9 +17,11 @@ export interface FocusTrapComponent {
 }
 
 const focusTrapOptions: FocusTrapOptions = {
-  escapeDeactivates: false,
-  clickOutsideDeactivates: false,
   allowOutsideClick: true,
+  clickOutsideDeactivates: false,
+  delayInitialFocus: true,
+  escapeDeactivates: false,
+  returnFocusOnDeactivate: true,
   setReturnFocus: (el) => {
     focusElement(el as FocusableElement);
     return false;
