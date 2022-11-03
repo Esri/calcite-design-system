@@ -12,7 +12,6 @@ $floating-ui-default-z-index: 900;
   .calcite-floating-ui-anim {
     position: relative;
     transition: var(--calcite-floating-ui-transition);
-    visibility: hidden;
     transition-property: transform, visibility, opacity;
     opacity: 0;
     box-shadow: $shadow-2;
@@ -22,7 +21,6 @@ $floating-ui-default-z-index: 900;
 
 @mixin floatingUIAnimActive {
   opacity: 1;
-  visibility: visible;
   transform: translate(0);
 }
 
@@ -84,14 +82,12 @@ $floating-ui-default-z-index: 900;
 
 @mixin floatingUIWrapper {
   visibility: hidden;
-  pointer-events: none;
   inline-size: 0;
   block-size: 0;
   overflow: hidden;
 }
 
 @mixin floatingUIWrapperActive {
-  pointer-events: initial;
   visibility: visible;
   inline-size: unset;
   block-size: unset;
