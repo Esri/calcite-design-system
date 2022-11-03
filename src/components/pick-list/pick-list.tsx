@@ -62,6 +62,13 @@ export class PickList<
   @Prop({ reflect: true }) disabled = false;
 
   /**
+   * **read-only** The currently filtered items
+   *
+   * @readonly
+   */
+  @Prop({ mutable: true }) filteredItems: HTMLCalcitePickListItemElement[] = [];
+
+  /**
    * When `true`, an input appears at the top of the list that can be used by end users to filter items in the list.
    */
   @Prop({ reflect: true }) filterEnabled = false;
@@ -114,7 +121,7 @@ export class PickList<
 
   emitCalciteListChange: () => void;
 
-  emitCalciteListFilter: (value: string, filteredItems: ItemData[]) => void;
+  emitCalciteListFilter: (value: string, filteredItems: ItemData) => void;
 
   filterEl: HTMLCalciteFilterElement;
 
@@ -200,6 +207,10 @@ export class PickList<
 
   setFilterEl = (el: HTMLCalciteFilterElement): void => {
     this.filterEl = el;
+  };
+
+  setFilteredItems = (filteredItems: any[]): void => {
+    this.filteredItems = filteredItems;
   };
 
   deselectRemovedItems = deselectRemovedItems.bind(this);

@@ -12,7 +12,7 @@ type List<T> = T extends PickList ? PickList : ValueList;
 export type ListFocusId = "filter";
 
 export interface CalciteListFilterDetail {
-  calciteListFilter: ItemData[];
+  calciteListFilter: ItemData;
   filterText: string;
 }
 
@@ -194,7 +194,7 @@ function filterOutDisabled<T extends Lists>(items: ListItemElement<T>[]): ListIt
 export function internalCalciteListFilterEvent<T extends Lists>(
   this: List<T>,
   value: string,
-  filteredItems: ItemData[]
+  filteredItems: ItemData
 ): void {
   this.calciteListFilter.emit({
     calciteListFilter: filteredItems,
@@ -400,7 +400,9 @@ export function handleFilter<T extends Lists>(this: List<T>, event: CustomEvent)
     toggleSingleSelectItemTabbing(matchedItems[0], true);
   }
 
-  this.emitCalciteListFilter(value, filteredItems as ItemData[]);
+  this.setFilteredItems(matchedItems as any[]);
+
+  this.emitCalciteListFilter(value, filteredItems as ItemData);
 }
 
 export type ItemData = {

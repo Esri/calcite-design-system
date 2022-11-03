@@ -14,6 +14,9 @@ interface ListProps extends DOMAttributes<any> {
   filterPlaceholder: string;
   el: HTMLCalcitePickListElement | HTMLCalciteValueListElement;
   setFilterEl: (el: HTMLCalciteFilterElement) => void;
+  setFilteredItems: (
+    filteredItems: HTMLCalcitePickListItemElement | HTMLCalciteValueListItemElement[]
+  ) => void;
   dragEnabled?: boolean;
   storeAssistiveEl?: (el: HTMLSpanElement) => void;
 }

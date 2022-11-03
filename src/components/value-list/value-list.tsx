@@ -69,6 +69,13 @@ export class ValueList<
   @Prop({ reflect: true }) dragEnabled = false;
 
   /**
+   * **read-only** The currently filtered items
+   *
+   * @readonly
+   */
+  @Prop({ mutable: true }) filteredItems: HTMLCalciteValueListItemElement[] = [];
+
+  /**
    * When `true`, an input appears at the top of the component that can be used by end users to filter list items.
    */
   @Prop({ reflect: true }) filterEnabled = false;
@@ -153,7 +160,7 @@ export class ValueList<
 
   emitCalciteListChange: () => void;
 
-  emitCalciteListFilter: (value: string, filteredItems: ItemData[]) => void;
+  emitCalciteListFilter: (value: string, filteredItems: ItemData) => void;
 
   filterEl: HTMLCalciteFilterElement;
 
@@ -255,6 +262,10 @@ export class ValueList<
 
   setFilterEl = (el: HTMLCalciteFilterElement): void => {
     this.filterEl = el;
+  };
+
+  setFilteredItems = (filteredItems: HTMLCalciteValueListItemElement[]): void => {
+    this.filteredItems = filteredItems;
   };
 
   setUpDragAndDrop(): void {
