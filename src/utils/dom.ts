@@ -305,3 +305,15 @@ export const hasAssignedElement = (event: Event): boolean => {
     flatten: true
   }).length;
 };
+
+/**
+ * This helper returns true if the pointer event fired from the primary button of the device.
+ *
+ * See https://www.w3.org/TR/pointerevents/#the-button-property.
+ *
+ * @param event
+ * @returns {boolean}
+ */
+export function isPrimaryPointerButton(event: PointerEvent): boolean {
+  return !!(event.isPrimary && event.button === 0);
+}

@@ -137,6 +137,11 @@ export class FlowItem implements InteractiveComponent {
   @Event({ cancelable: false }) calciteFlowItemBackClick: EventEmitter<void>;
 
   /**
+   * Fires when the content is scrolled.
+   */
+  @Event({ cancelable: false }) calciteFlowItemScroll: EventEmitter<void>;
+
+  /**
    * Fires when the close button is clicked.
    */
   @Event({ cancelable: false }) calciteFlowItemClose: EventEmitter<void>;
@@ -196,6 +201,11 @@ export class FlowItem implements InteractiveComponent {
   //  Private Methods
   //
   // --------------------------------------------------------------------------
+
+  handlePanelScroll = (event: CustomEvent<void>): void => {
+    event.stopPropagation();
+    this.calciteFlowItemScroll.emit();
+  };
 
   handlePanelClose = (event: CustomEvent<void>): void => {
     event.stopPropagation();
@@ -282,9 +292,11 @@ export class FlowItem implements InteractiveComponent {
           loading={loading}
           menuOpen={menuOpen}
           onCalcitePanelClose={this.handlePanelClose}
+          onCalcitePanelScroll={this.handlePanelScroll}
           ref={this.setContainerRef}
           widthScale={widthScale}
         >
+          {this.renderBackButton()}
           <slot name={SLOTS.headerActionsStart} slot={PANEL_SLOTS.headerActionsStart} />
           <slot name={SLOTS.headerActionsEnd} slot={PANEL_SLOTS.headerActionsEnd} />
           <slot name={SLOTS.headerContent} slot={PANEL_SLOTS.headerContent} />
@@ -293,7 +305,6 @@ export class FlowItem implements InteractiveComponent {
           <slot name={SLOTS.footerActions} slot={PANEL_SLOTS.footerActions} />
           <slot name={SLOTS.footer} slot={PANEL_SLOTS.footer} />
           <slot />
-          {this.renderBackButton()}
         </calcite-panel>
         {backButtonEl ? (
           <calcite-tooltip label={label} placement="auto" referenceElement={backButtonEl}>

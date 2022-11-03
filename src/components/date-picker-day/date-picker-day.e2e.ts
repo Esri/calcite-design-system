@@ -8,7 +8,6 @@ describe("calcite-date-picker-day", () => {
       const dateEl = document.createElement("calcite-date-picker-day") as HTMLCalciteDatePickerDayElement;
       dateEl.active = true;
       dateEl.day = 3;
-      dateEl.localeData = { numerals: "0123456789" } as HTMLCalciteDatePickerDayElement["localeData"];
       document.body.append(dateEl);
     });
     await page.waitForChanges();

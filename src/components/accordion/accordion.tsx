@@ -1,5 +1,5 @@
 import { Component, Element, Event, EventEmitter, h, Listen, Prop, VNode } from "@stencil/core";
-import { AccordionAppearance, RequestedItem } from "./interfaces";
+import { AccordionAppearance, AccordionSelectionMode, RequestedItem } from "./interfaces";
 import { Position, Scale } from "../interfaces";
 
 /**
@@ -38,10 +38,10 @@ export class Accordion {
   @Prop({ reflect: true }) scale: Scale = "m";
 
   /**
-   * Specifies the selection mode - `"multi"` (allow any number of open items), `"single"` (allow one open item),
-   * or `"single-persist"` (allow and require one open item).
+   * Specifies the selection mode - "multiple" (allow any number of open items), "single" (allow one open item),
+   * or "single-persist" (allow and require one open item).
    */
-  @Prop({ reflect: true }) selectionMode: "multi" | "single" | "single-persist" = "multi";
+  @Prop({ reflect: true }) selectionMode: AccordionSelectionMode = "multi";
 
   //--------------------------------------------------------------------------
   //
