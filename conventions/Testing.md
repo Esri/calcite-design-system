@@ -14,7 +14,7 @@ In most cases, when working with components, you will need to write end-to-end t
 
 ### Unit (spec) tests
 
-If you are adding or updating shared utilities or shared modules (including 3rd-party modules) you should make sure that there are unit tests covering those use-cases.
+If you are adding or updating shared utilities or shared modules you should make sure that there are unit tests covering those use cases.
 
 ### Visual regression tests
 
