@@ -104,7 +104,7 @@ export class Textarea implements FormComponent, LabelableComponent, LocalizedCom
   @Watch("disabled")
   disabledHandler(value: boolean): void {
     if (value) {
-      this.disableSlottedElements();
+      this.disableSlottedElements(value);
     }
   }
 
@@ -129,7 +129,7 @@ export class Textarea implements FormComponent, LabelableComponent, LocalizedCom
     connectLabel(this);
     connectForm(this);
     if (this.disabled) {
-      this.disableSlottedElements();
+      this.disableSlottedElements(this.disabled);
     }
     connectLocalized(this);
   }
@@ -260,11 +260,11 @@ export class Textarea implements FormComponent, LabelableComponent, LocalizedCom
     return numberStringFormatter.localize(this.value?.length.toString());
   }
 
-  private disableSlottedElements(): void {
+  private disableSlottedElements(disabled: boolean): void {
     const slottedEl = getSlotted(this.el, [SLOTS.footerLeading, SLOTS.footerTrailing], {
       all: true
     });
-    slottedEl.forEach((el) => (el["disabled"] = true));
+    slottedEl.forEach((el) => (el["disabled"] = disabled));
   }
 
   syncHiddenFormInput(input: HTMLInputElement): void {

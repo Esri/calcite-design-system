@@ -1,3 +1,4 @@
+/* eslint-disable jest/no-focused-tests */
 import { newE2EPage } from "@stencil/core/testing";
 import {
   accessible,
@@ -80,5 +81,102 @@ describe("calcite-textarea", () => {
       submitsOnEnter: false
     }));
 
-  // it("should emit calciteTextareaInput event when user starts typing", async () => {});
+  it("should emit calciteTextareaInput event when user starts typing", async () => {
+    const page = await newE2EPage();
+    await page.setContent("<calcite-textarea></calcite-textarea>");
+
+    const element = await page.find("calcite-textarea");
+    const eventSpy = await element.spyOnEvent("calciteTextareaInput");
+    await page.waitForChanges();
+
+    await element.callMethod("setFocus");
+    await page.waitForChanges();
+
+    await page.keyboard.type("rocky");
+    await page.waitForChanges();
+
+    expect(eventSpy).toHaveReceivedEventTimes(5);
+  });
+
+  it("should emit calciteTextareaInput event when user tabs into textarea  and type", async () => {
+    const page = await newE2EPage();
+    await page.setContent("<calcite-textarea></calcite-textarea>");
+
+    const element = await page.find("calcite-textarea");
+    const eventSpy = await element.spyOnEvent("calciteTextareaInput");
+    await page.waitForChanges();
+
+    await page.keyboard.press("Tab");
+    await page.waitForChanges();
+
+    await page.keyboard.type("rocky");
+    await page.waitForChanges();
+
+    expect(eventSpy).toHaveReceivedEventTimes(5);
+  });
+
+  it("should emit calciteTextareaChange event when user tabs out of the textarea", async () => {
+    const page = await newE2EPage();
+    await page.setContent("<calcite-textarea></calcite-textarea>");
+
+    const element = await page.find("calcite-textarea");
+    const eventSpy = await element.spyOnEvent("calciteTextareaChange");
+    await page.waitForChanges();
+
+    await page.keyboard.press("Tab");
+    await page.waitForChanges();
+
+    await page.keyboard.type("rocky mountains");
+    await page.waitForChanges();
+
+    await page.keyboard.press("Tab");
+    await page.waitForChanges();
+
+    expect(eventSpy).toHaveReceivedEventTimes(1);
+  });
+
+  it("should not emit calciteTextareaChange & calciteTextareaInput event when user tabs out of the textarea without typing", async () => {
+    const page = await newE2EPage();
+    await page.setContent("<calcite-textarea></calcite-textarea>");
+
+    const element = await page.find("calcite-textarea");
+    const changeEventSpy = await element.spyOnEvent("calciteTextareaChange");
+    const inputEventSpy = await element.spyOnEvent("calciteTextareaInput");
+    await page.waitForChanges();
+
+    await page.keyboard.press("Tab");
+    await page.waitForChanges();
+
+    await page.keyboard.press("Tab");
+    await page.waitForChanges();
+
+    expect(changeEventSpy).not.toHaveReceivedEvent();
+    expect(inputEventSpy).not.toHaveReceivedEvent();
+  });
+
+  it("should be able to enter characters beyond maxlength", async () => {
+    const page = await newE2EPage();
+    await page.setContent("<calcite-textarea></calcite-textarea>");
+
+    const element = await page.find("calcite-textarea");
+    element.setAttribute("maxlength", 5);
+    await page.waitForChanges();
+
+    await page.keyboard.press("Tab");
+    await page.waitForChanges();
+
+    await page.keyboard.type("rocky mountains");
+    await page.waitForChanges();
+
+    expect(await element.getProperty("value")).toBe("rocky mountains");
+  });
+
+  it("should focus textarea on pageload when autofocus is true", async () => {
+    const page = await newE2EPage();
+    await page.setContent(` <calcite-textarea autofocus> </calcite-textarea>`);
+    await page.waitForChanges();
+    await page.waitForTimeout(12000);
+
+    // expect(await page.evaluate((selector) => document.activeElement.matches(selector), "calcite-textarea")).toBe(true);
+  });
 });
