@@ -135,13 +135,17 @@ $pointer_offset: -$pointer_size * 0.5;
     inset-block-start: $pointer_offset;
   }
 
+  :host([data-placement^="right"]) .arrow,
   :host([data-placement^="left"]) .arrow {
     direction: ltr;
+    text-align: start;
+  }
+
+  :host([data-placement^="left"]) .arrow {
     inset-inline-end: $pointer_offset;
   }
 
   :host([data-placement^="right"]) .arrow {
-    direction: ltr;
     inset-inline-start: $pointer_offset;
   }
 }
