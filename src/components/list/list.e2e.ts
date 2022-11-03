@@ -47,13 +47,14 @@ describe("calcite-list", () => {
 
   it("navigating items after filtering", async () => {
     const page = await newE2EPage({
-      html: `
+      html: html`
         <calcite-list filter-enabled>
-          <calcite-list-item value="one" label="One" selected></calcite-list-item>
-          <calcite-list-item value="two" label="Two"></calcite-list-item>
+          <calcite-list-item value="one" label="One" description="hello world"></calcite-list-item>
+          <calcite-list-item value="two" label="Two" description="hello world"></calcite-list-item>
         </calcite-list>
       `
     });
+    await page.waitForChanges();
     const filterSpy = await page.spyOnEvent("calciteListFilter");
     const filter = await page.find(`calcite-list >>> calcite-filter`);
     await filter.callMethod("setFocus");
