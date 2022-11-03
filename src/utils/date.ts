@@ -1,4 +1,5 @@
 import { DateLocaleData } from "../components/date-picker/utils";
+import { numberStringFormatter } from "./locale";
 
 export interface HoverRange {
   focused: "end" | "start";
@@ -134,36 +135,6 @@ export function nextMonth(date: Date): Date {
 }
 
 /**
- * Translate a number into a given locals numeral system
- *
- * @param num
- * @param localeData
- */
-export function localizeNumber(num: number, localeData: DateLocaleData): string {
-  return String(num)
-    .split("")
-    .map((i) => localeData.numerals[i])
-    .join("");
-}
-
-/**
- * Calculate actual number from localized string
- *
- * @param str
- * @param localeData
- */
-export function parseNumber(str: string, localeData: DateLocaleData): number {
-  const numerals = "0123456789";
-  return parseInt(
-    str
-      .split("")
-      .map((i) => numerals[localeData.numerals.indexOf(i)])
-      .filter((num) => num)
-      .join("")
-  );
-}
-
-/**
  * Parse numeric units for day, month, and year from a localized string
  * month starts at 0 (can pass to date constructor)
  *
@@ -173,23 +144,12 @@ export function parseNumber(str: string, localeData: DateLocaleData): number {
 export function parseDateString(str: string, localeData: DateLocaleData): { day: number; month: number; year: number } {
   const { separator, unitOrder } = localeData;
   const order = getOrder(unitOrder);
-  const values = replaceArabicNumerals(str).split(separator);
+  const values = str.split(separator).map((part) => numberStringFormatter.delocalize(part));
   return {
     day: parseInt(values[order.indexOf("d")]),
     month: parseInt(values[order.indexOf("m")]) - 1,
     year: parseInt(values[order.indexOf("y")])
   };
-}
-
-/**
- * Convert eastern arbic numerals
- *
- * @param str
- */
-export function replaceArabicNumerals(str = ""): string {
-  return str
-    .replace(/[\u0660-\u0669]/g, (c) => (c.charCodeAt(0) - 0x0660) as any)
-    .replace(/[\u06f0-\u06f9]/g, (c) => (c.charCodeAt(0) - 0x06f0) as any);
 }
 
 type unitOrderSignifier = "m" | "d" | "y";

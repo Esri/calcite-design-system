@@ -94,7 +94,7 @@ describe("calcite-accordion", () => {
     expect(await item3Content.isVisible()).toBe(false);
   });
 
-  it("renders multiple expanded items when in multi selection mode", async () => {
+  it("renders multiple expanded items when in multiple selection mode", async () => {
     const page = await newE2EPage();
     await page.setContent(`
     <calcite-accordion>

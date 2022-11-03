@@ -1,5 +1,4 @@
 {
-  "filterResults": "Å_Filter results_______________ö",
   "dragHandleActive": "Å_Reordering ${itemLabel}, current position ${position} of ${total}__________________________________ö.",
   "dragHandleChange": "Å_${itemLabel}, new position ${position} of ${total}. Press space to confirm_______________________________________ö.",
   "dragHandleCommit": "Å_${itemLabel}, current position ${position} of ${total}_____________________________ö.",

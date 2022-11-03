@@ -12,7 +12,6 @@ $floating-ui-default-z-index: 900;
   .calcite-floating-ui-anim {
     position: relative;
     transition: var(--calcite-floating-ui-transition);
-    visibility: hidden;
     transition-property: transform, visibility, opacity;
     opacity: 0;
     box-shadow: $shadow-2;
@@ -22,7 +21,6 @@ $floating-ui-default-z-index: 900;
 
 @mixin floatingUIAnimActive {
   opacity: 1;
-  visibility: visible;
   transform: translate(0);
 }
 
@@ -80,19 +78,16 @@ $floating-ui-default-z-index: 900;
   display: block;
   position: absolute;
   z-index: $zIndex;
-  transform: scale(0);
 }
 
 @mixin floatingUIWrapper {
   visibility: hidden;
-  pointer-events: none;
   inline-size: 0;
   block-size: 0;
   overflow: hidden;
 }
 
 @mixin floatingUIWrapperActive {
-  pointer-events: initial;
   visibility: visible;
   inline-size: unset;
   block-size: unset;
@@ -136,13 +131,17 @@ $pointer_offset: -$pointer_size * 0.5;
     inset-block-start: $pointer_offset;
   }
 
+  :host([data-placement^="right"]) .arrow,
   :host([data-placement^="left"]) .arrow {
     direction: ltr;
+    text-align: start;
+  }
+
+  :host([data-placement^="left"]) .arrow {
     inset-inline-end: $pointer_offset;
   }
 
   :host([data-placement^="right"]) .arrow {
-    direction: ltr;
     inset-inline-start: $pointer_offset;
   }
 }
