@@ -6,6 +6,10 @@ We encourage writing expressive test cases and code that indicates intent. Use c
 
 Please see Stencil's doc for more info on [end-to-end](https://stenciljs.com/docs/end-to-end-testing) testing. See one of our test examples [here](https://github.com/Esri/calcite-components/blob/master/src/components/block/block.e2e.ts).
 
+## Should write end-to-end or unit tests?
+
+In most cases, when working with components, you will only need to write end-to-end tests. However, if you are adding or updating shared utilities or shared modules (including 3rd-party) you should make sure there are unit tests covering those use-cases.
+
 ## Writing Tests
 
 ### Helpers and utilities
