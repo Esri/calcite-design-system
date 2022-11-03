@@ -69,7 +69,7 @@ export class Textarea implements FormComponent, LabelableComponent, LocalizedCom
   @Prop({ reflect: true }) name: string;
 
   /** Specifies the size of `textarea` component. */
-  @Prop({ reflect: true }) size: "l" | "m" | "s" = "m";
+  @Prop({ reflect: true }) scale: "l" | "m" | "s" = "m";
 
   /** Specifies wrapping mechanism for the text.  */
   @Prop({ reflect: true }) wrap: "soft" | "hard" = "soft";
@@ -144,6 +144,7 @@ export class Textarea implements FormComponent, LabelableComponent, LocalizedCom
     return (
       <Host>
         <textarea
+          aria-disabled={this.disabled}
           aria-label={getLabelText(this)}
           autofocus={this.autofocus}
           class={{
