@@ -278,21 +278,23 @@ export class List implements InteractiveComponent {
   }, debounceTimeout);
 
   private updateFilteredItems = debounce((): void => {
-    const values = this.filteredData?.map((item) => item.value);
+    const { listItems, filteredData } = this;
+
+    const values = filteredData?.map((item) => item.value);
 
     if (!values?.length) {
       return;
     }
 
-    const groups = new Set<HTMLCalcitePickListGroupElement>();
+    const groups = new Set<HTMLCalciteListItemGroupElement>();
     let hasSelectedMatch = false;
 
-    this.filteredItems = this.listItems?.filter((item) => {
+    const filteredItems = listItems?.filter((item) => {
       const parent = item.parentElement;
-      const grouped = parent.matches("calcite-pick-list-group");
+      const grouped = parent.matches("calcite-list-item-group");
 
       if (grouped) {
-        groups.add(parent as HTMLCalcitePickListGroupElement);
+        groups.add(parent as HTMLCalciteListItemGroupElement);
       }
 
       const matches = values.includes(item.value);
@@ -305,6 +307,31 @@ export class List implements InteractiveComponent {
 
       return matches;
     });
+
+    this.filteredItems = filteredItems;
+
+    groups.forEach((group) => {
+      const hasAtLeastOneMatch = filteredItems.some((item) => group.contains(item));
+      group.hidden = !hasAtLeastOneMatch;
+
+      if (!hasAtLeastOneMatch) {
+        return;
+      }
+
+      const parentItem = group.closest("calcite-list-item");
+
+      if (parentItem) {
+        parentItem.hidden = false;
+
+        if (filteredItems.includes(parentItem)) {
+          Array.from(group.querySelectorAll("calcite-list-item")).forEach(
+            (child) => (child.hidden = false)
+          );
+        }
+      }
+    });
+
+    groups.clear();
   });
 
   handleFilter = (event: CustomEvent): void => {
