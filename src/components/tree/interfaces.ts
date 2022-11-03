@@ -7,7 +7,7 @@ export enum TreeSelectionMode {
   Multi = "multi",
   None = "none",
   Children = "children",
-  MultiChildren = "multi-children",
+  MultiChildren = "multichildren",
   Ancestors = "ancestors",
   Multiple = "multiple"
 }
