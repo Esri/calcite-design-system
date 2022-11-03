@@ -62,6 +62,13 @@ export class List implements InteractiveComponent {
   }
 
   /**
+   * **read-only** The currently filtered items
+   *
+   * @readonly
+   */
+  @Prop({ mutable: true }) filteredItems: HTMLCalciteListItemElement[] = [];
+
+  /**
    * Placeholder text for the filter input field.
    */
   @Prop({ reflect: true }) filterPlaceholder: string;
@@ -190,6 +197,8 @@ export class List implements InteractiveComponent {
 
   filterEl: HTMLCalciteFilterElement;
 
+  filteredData: ItemData;
+
   // --------------------------------------------------------------------------
   //
   //  Public Methods
@@ -268,18 +277,17 @@ export class List implements InteractiveComponent {
     this.selectedItems = this.enabledListItems.filter((item) => item.selected);
   }, debounceTimeout);
 
-  handleFilter = (event: CustomEvent): void => {
-    event.stopPropagation();
-    let groups: Set<HTMLCalcitePickListGroupElement>;
-    const { filteredItems, value } = event.currentTarget as HTMLCalciteFilterElement;
-    const values = filteredItems.map((item: ItemData[number]) => item.value);
-    let hasSelectedMatch = false;
+  private updateFilteredItems = debounce((): void => {
+    const values = this.filteredData?.map((item) => item.value);
 
-    if (!groups) {
-      groups = new Set<HTMLCalcitePickListGroupElement>();
+    if (!values?.length) {
+      return;
     }
 
-    this.listItems?.filter((item) => {
+    const groups = new Set<HTMLCalcitePickListGroupElement>();
+    let hasSelectedMatch = false;
+
+    this.filteredItems = this.listItems?.filter((item) => {
       const parent = item.parentElement;
       const grouped = parent.matches("calcite-pick-list-group");
 
@@ -297,9 +305,18 @@ export class List implements InteractiveComponent {
 
       return matches;
     });
+  });
+
+  handleFilter = (event: CustomEvent): void => {
+    event.stopPropagation();
+    const { filteredItems, value } = event.currentTarget as HTMLCalciteFilterElement;
+
+    const calciteListFilter = filteredItems as ItemData;
+    this.filteredData = calciteListFilter;
+    this.updateFilteredItems();
 
     this.calciteListFilter.emit({
-      calciteListFilter: filteredItems as ItemData[],
+      calciteListFilter,
       filterText: value
     });
   };
@@ -327,6 +344,7 @@ export class List implements InteractiveComponent {
     }
     this.setActiveListItem();
     this.updateSelectedItems();
+    this.updateFilteredItems();
   }, debounceTimeout);
 
   queryListItems = (): HTMLCalciteListItemElement[] => {

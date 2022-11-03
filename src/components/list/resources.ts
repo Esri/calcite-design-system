@@ -15,6 +15,6 @@ export type SelectionMode = "single" | "multiple" | "none";
 import { ItemData } from "../list-item/interfaces";
 
 export interface CalciteListFilterDetail {
-  calciteListFilter: ItemData[];
+  calciteListFilter: ItemData;
   filterText: string;
 }
