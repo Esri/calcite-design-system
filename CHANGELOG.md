@@ -7,6 +7,10 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## Unreleased
 
+### Features
+
+- **accordion,combobox,dropdown-group,tree:** deprecate multi selectionMode and add support for multiple selectionMode ([#5251](https://github.com/Esri/calcite-components/issues/5251)) ([e89820e](https://github.com/Esri/calcite-components/commit/e89820e922cc03d0cf43338273ba48a0773d02c8))
+
 ### Bug Fixes
 
 - **dropdown:** fix calculation of max-items for non-Chromium browsers. ([#5677](https://github.com/Esri/calcite-components/issues/5677)) ([3e4a575](https://github.com/Esri/calcite-components/commit/3e4a575887bbcf337f9439d17f9410acb3ad38e8)), closes [#5663](https://github.com/Esri/calcite-components/issues/5663)
