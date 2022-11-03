@@ -1,5 +1,23 @@
-import { Component, Element, h, VNode, Prop, Method, Listen, Watch, State } from "@stencil/core";
-import { CSS, debounceTimeout, SelectionAppearance, SelectionMode } from "./resources";
+import {
+  Component,
+  Element,
+  h,
+  VNode,
+  Prop,
+  Method,
+  Listen,
+  Watch,
+  State,
+  Event,
+  EventEmitter
+} from "@stencil/core";
+import {
+  CSS,
+  debounceTimeout,
+  SelectionAppearance,
+  SelectionMode,
+  CalciteListFilterDetail
+} from "./resources";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { createObserver } from "../../utils/observers";
 import { getListItemChildren, updateListItemChildren } from "../list-item/utils";
@@ -100,6 +118,11 @@ export class List implements InteractiveComponent {
   //  Events
   //
   //--------------------------------------------------------------------------
+
+  /**
+   * Emits when a filter has changed.
+   */
+  @Event({ cancelable: false }) calciteListFilter: EventEmitter<CalciteListFilterDetail>;
 
   @Listen("calciteInternalFocusPreviousItem")
   handleCalciteInternalFocusPreviousItem(event: CustomEvent): void {
@@ -246,8 +269,9 @@ export class List implements InteractiveComponent {
   }, debounceTimeout);
 
   handleFilter = (event: CustomEvent): void => {
+    event.stopPropagation();
     let groups: Set<HTMLCalcitePickListGroupElement>;
-    const { filteredItems } = event.currentTarget as HTMLCalciteFilterElement;
+    const { filteredItems, value } = event.currentTarget as HTMLCalciteFilterElement;
     const values = filteredItems.map((item: ItemData[number]) => item.value);
     let hasSelectedMatch = false;
 
@@ -272,6 +296,11 @@ export class List implements InteractiveComponent {
       }
 
       return matches;
+    });
+
+    this.calciteListFilter.emit({
+      calciteListFilter: filteredItems as ItemData[],
+      filterText: value
     });
   };
 

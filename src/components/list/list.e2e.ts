@@ -1,6 +1,7 @@
 import { accessible, hidden, renders, focusable, disabled } from "../../tests/commonTests";
 import { placeholderImage } from "../../../.storybook/placeholderImage";
 import { html } from "../../../support/formatting";
+import { newE2EPage } from "@stencil/core/testing";
 
 const placeholder = placeholderImage({
   width: 140,
@@ -43,4 +44,47 @@ describe("calcite-list", () => {
       </calcite-list>`,
       { focusTarget: "child" }
     ));
+
+  it("navigating items after filtering", async () => {
+    const page = await newE2EPage({
+      html: `
+        <calcite-list filter-enabled>
+          <calcite-list-item value="one" label="One" selected></calcite-list-item>
+          <calcite-list-item value="two" label="Two"></calcite-list-item>
+        </calcite-list>
+      `
+    });
+    const filterSpy = await page.spyOnEvent("calciteListFilter");
+    const filter = await page.find(`calcite-list >>> calcite-filter`);
+    await filter.callMethod("setFocus");
+
+    const calciteFilterChangeEvent = filter.waitForEvent("calciteFilterChange");
+    const calciteListFilterEvent = page.waitForEvent("calciteListFilter");
+    await page.keyboard.type("one");
+    await calciteFilterChangeEvent;
+    await calciteListFilterEvent;
+    expect(filterSpy.lastEvent.detail.filterText).toBe("one");
+    expect(filterSpy.lastEvent.detail.calciteListFilter).toHaveLength(1);
+
+    await page.keyboard.press("Backspace");
+    await page.keyboard.press("Backspace");
+    await page.keyboard.press("Backspace");
+    await page.waitForChanges();
+
+    const calciteFilterChangeEvent2 = filter.waitForEvent("calciteFilterChange");
+    const calciteListFilterEvent2 = page.waitForEvent("calciteListFilter");
+    await page.keyboard.type("two");
+    await calciteFilterChangeEvent2;
+    await calciteListFilterEvent2;
+    expect(filterSpy.lastEvent.detail.filterText).toBe("two");
+    expect(filterSpy.lastEvent.detail.calciteListFilter).toHaveLength(1);
+
+    const calciteFilterChangeEvent3 = filter.waitForEvent("calciteFilterChange");
+    const calciteListFilterEvent3 = page.waitForEvent("calciteListFilter");
+    await page.keyboard.type("blah");
+    await calciteFilterChangeEvent3;
+    await calciteListFilterEvent3;
+    expect(filterSpy.lastEvent.detail.filterText).toBe("twoblah");
+    expect(filterSpy.lastEvent.detail.calciteListFilter).toHaveLength(0);
+  });
 });
