@@ -186,10 +186,10 @@ export class Combobox
   @Prop({ reflect: true }) required = false;
 
   /**
-   * Specifies the selection mode -
-   * `"multi"` (allow any number of selected items),
-   * `"single"` (allow only one selection), or
-   * `"ancestors"` (like `"multi"`, but show ancestors of selected items as selected. Only the deepest children are shown in `calcite-chip`s).
+   * specify the selection mode
+   * - multiple: allow any number of selected items (default)
+   * - single: only one selection)
+   * - ancestors: like multiple, but show ancestors of selected items as selected, only deepest children shown in chips
    */
   @Prop({ reflect: true }) selectionMode: ComboboxSelectionMode = "multi";
 

@@ -183,7 +183,7 @@ export class DropdownItem {
       ? null
       : this.selectionMode === "single"
       ? "menuitemradio"
-      : this.selectionMode === "multi"
+      : this.selectionMode === "multiple" || this.selectionMode === "multi"
       ? "menuitemcheckbox"
       : "menuitem";
 
@@ -198,7 +198,8 @@ export class DropdownItem {
             [CSS.containerSmall]: scale === "s",
             [CSS.containerMedium]: scale === "m",
             [CSS.containerLarge]: scale === "l",
-            [CSS.containerMulti]: this.selectionMode === "multi",
+            [CSS.containerMulti]:
+              this.selectionMode === "multiple" || this.selectionMode === "multi",
             [CSS.containerSingle]: this.selectionMode === "single",
             [CSS.containerNone]: this.selectionMode === "none"
           }}
@@ -206,7 +207,11 @@ export class DropdownItem {
           {this.selectionMode !== "none" ? (
             <calcite-icon
               class="dropdown-item-icon"
-              icon={this.selectionMode === "multi" ? "check" : "bullet-point"}
+              icon={
+                this.selectionMode === "multiple" || this.selectionMode === "multi"
+                  ? "check"
+                  : "bullet-point"
+              }
               scale="s"
             />
           ) : null}
@@ -304,6 +309,7 @@ export class DropdownItem {
   private determineActiveItem(): void {
     switch (this.selectionMode) {
       case "multi":
+      case "multiple":
         if (this.el === this.requestedDropdownItem) {
           this.selected = !this.selected;
         }
