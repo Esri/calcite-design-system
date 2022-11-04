@@ -330,6 +330,7 @@ export class AccordionItem implements ConditionalSlotComponent {
   private determineActiveItem(): void {
     switch (this.selectionMode) {
       case "multi":
+      case "multiple":
         if (this.el === this.requestedAccordionItem) {
           this.expanded = !this.expanded;
         }

@@ -561,6 +561,38 @@ describe("calcite-slider", () => {
       expect(inputEvent).toHaveReceivedEventTimes(5);
       expect(changeEvent).toHaveReceivedEventTimes(1);
     });
+
+    it("range: clicking and dragging the range changes minValue and maxValue on mousedown, emits on mouseup", async () => {
+      const page = await newE2EPage();
+      await page.setContent(
+        html`<calcite-slider
+          min-value="0"
+          max-value="50"
+          snap
+          style="width:${sliderWidthFor1To1PixelValueTrack}"
+        ></calcite-slider>`
+      );
+      const slider = await page.find("calcite-slider");
+      const inputEvent = await slider.spyOnEvent("calciteSliderInput");
+      const changeEvent = await slider.spyOnEvent("calciteSliderChange");
+      const [trackX, trackY] = await getElementXY(page, "calcite-slider", ".track");
+
+      await page.mouse.move(trackX + 25, trackY);
+      await page.mouse.down();
+      await page.mouse.move(trackX + 26, trackY);
+      await page.mouse.move(trackX + 27, trackY);
+      await page.mouse.move(trackX + 28, trackY);
+      await page.mouse.move(trackX + 29, trackY);
+      await page.mouse.move(trackX + 30, trackY);
+      await page.mouse.move(trackX + 31, trackY);
+      await page.mouse.up();
+      await page.waitForChanges();
+
+      expect(await slider.getProperty("minValue")).toBe(5);
+      expect(await slider.getProperty("maxValue")).toBe(55);
+      expect(inputEvent).toHaveReceivedEventTimes(6);
+      expect(changeEvent).toHaveReceivedEventTimes(1);
+    });
   });
 
   describe("histogram", () => {
