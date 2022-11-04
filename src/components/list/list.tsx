@@ -186,12 +186,14 @@ export class List implements InteractiveComponent {
   }
 
   componentDidLoad(): void {
-    const { filterEl, filterText } = this;
+    const { filterEl } = this;
     const filteredItems = filterEl?.filteredItems as ItemData;
-    if (filterText && filteredItems) {
+
+    if (filteredItems) {
       this.filteredData = filteredItems;
-      this.updateFilteredItems();
     }
+
+    this.updateFilteredItems();
   }
 
   // --------------------------------------------------------------------------
