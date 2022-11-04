@@ -193,8 +193,8 @@ export function keyboardNavigation(listType: ListType): void {
       `
       });
       const list = await page.find(`calcite-${listType}-list`);
-      expect(await list.getProperty("filteredItems")).toHaveLength(0);
-      expect(await list.getProperty("filteredData")).toHaveLength(0);
+      expect(await list.getProperty("filteredItems")).toHaveLength(2);
+      expect(await list.getProperty("filteredData")).toHaveLength(2);
       expect(await list.getProperty("filterText")).toBe(undefined);
       const filter = await page.find(`calcite-${listType}-list >>> calcite-filter`);
       await filter.callMethod("setFocus");

@@ -333,33 +333,34 @@ export function selectSiblings<T extends Lists>(this: List<T>, item: ListItemEle
 let groups: Set<HTMLCalcitePickListGroupElement>;
 
 export function handleFilter<T extends Lists>(this: List<T>, emit = false): void {
-  const { filteredData } = this;
+  const { filteredData, filterText } = this;
 
-  const values = filteredData?.map((item: ItemData[number]) => item.value);
+  const values = filteredData.map((item: ItemData[number]) => item.value);
   let hasSelectedMatch = false;
 
   if (!groups) {
     groups = new Set<HTMLCalcitePickListGroupElement>();
   }
 
-  const matchedItems = (this.items as ListItemElement<T>[]).filter((item) => {
-    const parent = item.parentElement;
-    const grouped = parent.matches("calcite-pick-list-group");
+  const matchedItems =
+    (this.items as ListItemElement<T>[])?.filter((item) => {
+      const parent = item.parentElement;
+      const grouped = parent.matches("calcite-pick-list-group");
 
-    if (grouped) {
-      groups.add(parent as HTMLCalcitePickListGroupElement);
-    }
+      if (grouped) {
+        groups.add(parent as HTMLCalcitePickListGroupElement);
+      }
 
-    const matches = values?.includes(item.value);
+      const matches = filterText ? values.includes(item.value) : true;
 
-    item.hidden = !matches;
+      item.hidden = !matches;
 
-    if (!hasSelectedMatch) {
-      hasSelectedMatch = matches && item.selected;
-    }
+      if (!hasSelectedMatch) {
+        hasSelectedMatch = matches && item.selected;
+      }
 
-    return matches;
-  });
+      return matches;
+    }) || [];
 
   groups.forEach((group) => {
     const hasAtLeastOneMatch = matchedItems.some((item) => group.contains(item));
@@ -397,10 +398,12 @@ export function handleFilter<T extends Lists>(this: List<T>, emit = false): void
 
 export function handleInitialFilter<T extends Lists>(this: List<T>): void {
   const filteredItems = this.filterEl?.filteredItems as ItemData;
-  if (this.filterText && filteredItems) {
+
+  if (filteredItems) {
     this.filteredData = filteredItems;
-    this.handleFilter();
   }
+
+  this.handleFilter();
 }
 
 export function handleFilterEvent<T extends Lists>(this: List<T>, event: CustomEvent): void {
