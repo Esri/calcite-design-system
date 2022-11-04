@@ -22,6 +22,7 @@ import {
   deselectRemovedItems,
   getItemData,
   handleFilter,
+  handleFilterEvent,
   initialize,
   initializeObserver,
   ItemData,
@@ -31,8 +32,7 @@ import {
   selectSiblings,
   setFocus,
   setUpItems,
-  moveItemIndex,
-  CalciteListFilterDetail
+  moveItemIndex
 } from "../pick-list/shared-list-logic";
 import List from "../pick-list/shared-list-render";
 import { createObserver } from "../../utils/observers";
@@ -76,6 +76,13 @@ export class ValueList<
   @Prop({ mutable: true }) filteredItems: HTMLCalciteValueListItemElement[] = [];
 
   /**
+   * **read-only** The currently filtered items
+   *
+   * @readonly
+   */
+  @Prop({ mutable: true }) filteredData: ItemData = [];
+
+  /**
    * When `true`, an input appears at the top of the component that can be used by end users to filter list items.
    */
   @Prop({ reflect: true }) filterEnabled = false;
@@ -84,6 +91,11 @@ export class ValueList<
    * Placeholder text for the filter's input field.
    */
   @Prop({ reflect: true }) filterPlaceholder: string;
+
+  /**
+   * Text for the filter input field.
+   */
+  @Prop({ reflect: true, mutable: true }) filterText: string;
 
   /**
    * The component's group identifier.
@@ -160,7 +172,7 @@ export class ValueList<
 
   emitCalciteListChange: () => void;
 
-  emitCalciteListFilter: (value: string, filteredItems: ItemData) => void;
+  emitCalciteListFilter: () => void;
 
   filterEl: HTMLCalciteFilterElement;
 
@@ -179,6 +191,11 @@ export class ValueList<
 
   componentDidLoad(): void {
     this.setUpDragAndDrop();
+    const filteredItems = this.filterEl?.filteredItems as ItemData;
+    if (this.filterText && filteredItems) {
+      this.filteredData = filteredItems;
+      this.handleFilter();
+    }
   }
 
   componentDidRender(): void {
@@ -211,7 +228,7 @@ export class ValueList<
   /**
    * Emits when a filter has changed.
    */
-  @Event({ cancelable: false }) calciteListFilter: EventEmitter<CalciteListFilterDetail>;
+  @Event({ cancelable: false }) calciteListFilter: EventEmitter<void>;
 
   @Listen("focusout")
   calciteListFocusOutHandler(event: FocusEvent): void {
@@ -300,6 +317,8 @@ export class ValueList<
   selectSiblings = selectSiblings.bind(this);
 
   handleFilter = handleFilter.bind(this);
+
+  handleFilterEvent = handleFilterEvent.bind(this);
 
   getItemData = getItemData.bind(this);
 

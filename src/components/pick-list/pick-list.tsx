@@ -20,6 +20,7 @@ import {
   deselectRemovedItems,
   getItemData,
   handleFilter,
+  handleFilterEvent,
   calciteListFocusOutHandler,
   initialize,
   initializeObserver,
@@ -29,8 +30,7 @@ import {
   keyDownHandler,
   setFocus,
   ItemData,
-  removeItem,
-  CalciteListFilterDetail
+  removeItem
 } from "./shared-list-logic";
 import List from "./shared-list-render";
 import { HeadingLevel } from "../functional/Heading";
@@ -69,6 +69,13 @@ export class PickList<
   @Prop({ mutable: true }) filteredItems: HTMLCalcitePickListItemElement[] = [];
 
   /**
+   * **read-only** The currently filtered items
+   *
+   * @readonly
+   */
+  @Prop({ mutable: true }) filteredData: ItemData = [];
+
+  /**
    * When `true`, an input appears at the top of the list that can be used by end users to filter items in the list.
    */
   @Prop({ reflect: true }) filterEnabled = false;
@@ -77,6 +84,11 @@ export class PickList<
    * Placeholder text for the filter input field.
    */
   @Prop({ reflect: true }) filterPlaceholder: string;
+
+  /**
+   * Text for the filter input field.
+   */
+  @Prop({ reflect: true, mutable: true }) filterText: string;
 
   /**
    * Specifies the number at which section headings should start.
@@ -121,7 +133,7 @@ export class PickList<
 
   emitCalciteListChange: () => void;
 
-  emitCalciteListFilter: (value: string, filteredItems: ItemData) => void;
+  emitCalciteListFilter: () => void;
 
   filterEl: HTMLCalciteFilterElement;
 
@@ -138,6 +150,14 @@ export class PickList<
 
   disconnectedCallback(): void {
     cleanUpObserver.call(this);
+  }
+
+  componentDidLoad(): void {
+    const filteredItems = this.filterEl?.filteredItems as ItemData;
+    if (this.filterText && filteredItems) {
+      this.filteredData = filteredItems;
+      this.handleFilter();
+    }
   }
 
   componentDidRender(): void {
@@ -160,7 +180,7 @@ export class PickList<
   /**
    * Emits when a filter has changed.
    */
-  @Event({ cancelable: false }) calciteListFilter: EventEmitter<CalciteListFilterDetail>;
+  @Event({ cancelable: false }) calciteListFilter: EventEmitter<void>;
 
   @Listen("calciteListItemRemove")
   calciteListItemRemoveHandler(event: CustomEvent<void>): void {
@@ -220,6 +240,8 @@ export class PickList<
   selectSiblings = selectSiblings.bind(this);
 
   handleFilter = handleFilter.bind(this);
+
+  handleFilterEvent = handleFilterEvent.bind(this);
 
   getItemData = getItemData.bind(this);
 

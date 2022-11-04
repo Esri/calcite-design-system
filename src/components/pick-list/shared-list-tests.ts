@@ -168,6 +168,21 @@ export function keyboardNavigation(listType: ListType): void {
       });
     });
 
+    it("should honor filterText", async () => {
+      const page = await newE2EPage({
+        html: `
+        <calcite-${listType}-list filter-enabled filter-text="one">
+          <calcite-${listType}-list-item value="one" label="One" selected></calcite-${listType}-list-item>
+          <calcite-${listType}-list-item value="two" label="Two"></calcite-${listType}-list-item>
+        </calcite-${listType}-list>
+      `
+      });
+      const list = await page.find(`calcite-${listType}-list`);
+      expect(await list.getProperty("filteredItems")).toHaveLength(1);
+      expect(await list.getProperty("filteredData")).toHaveLength(1);
+      expect(await list.getProperty("filterText")).toBe("one");
+    });
+
     it("navigating items after filtering", async () => {
       const page = await newE2EPage({
         html: `
@@ -179,7 +194,8 @@ export function keyboardNavigation(listType: ListType): void {
       });
       const list = await page.find(`calcite-${listType}-list`);
       expect(await list.getProperty("filteredItems")).toHaveLength(0);
-      const filterSpy = await page.spyOnEvent("calciteListFilter");
+      expect(await list.getProperty("filteredData")).toHaveLength(0);
+      expect(await list.getProperty("filterText")).toBe(undefined);
       const filter = await page.find(`calcite-${listType}-list >>> calcite-filter`);
       await filter.callMethod("setFocus");
 
@@ -188,9 +204,9 @@ export function keyboardNavigation(listType: ListType): void {
       await page.keyboard.type("one");
       await calciteFilterChangeEvent;
       await calciteListFilterEvent;
-      expect(filterSpy.lastEvent.detail.filterText).toBe("one");
-      expect(filterSpy.lastEvent.detail.calciteListFilter).toHaveLength(1);
       expect(await list.getProperty("filteredItems")).toHaveLength(1);
+      expect(await list.getProperty("filteredData")).toHaveLength(1);
+      expect(await list.getProperty("filterText")).toBe("one");
 
       await page.keyboard.press("Tab");
       expect(await getFocusedItemValue(page)).toEqual("one");
@@ -208,9 +224,9 @@ export function keyboardNavigation(listType: ListType): void {
       await page.keyboard.type("two");
       await calciteFilterChangeEvent2;
       await calciteListFilterEvent2;
-      expect(filterSpy.lastEvent.detail.filterText).toBe("two");
-      expect(filterSpy.lastEvent.detail.calciteListFilter).toHaveLength(1);
       expect(await list.getProperty("filteredItems")).toHaveLength(1);
+      expect(await list.getProperty("filteredData")).toHaveLength(1);
+      expect(await list.getProperty("filterText")).toBe("two");
 
       await page.keyboard.press("Tab");
       expect(await getFocusedItemValue(page)).toEqual("two");
@@ -223,9 +239,9 @@ export function keyboardNavigation(listType: ListType): void {
       await page.keyboard.type("blah");
       await calciteFilterChangeEvent3;
       await calciteListFilterEvent3;
-      expect(filterSpy.lastEvent.detail.filterText).toBe("twoblah");
-      expect(filterSpy.lastEvent.detail.calciteListFilter).toHaveLength(0);
       expect(await list.getProperty("filteredItems")).toHaveLength(0);
+      expect(await list.getProperty("filteredData")).toHaveLength(0);
+      expect(await list.getProperty("filterText")).toBe("twoblah");
     });
 
     it("resets tabindex to selected item when focusing out of list", async () => {

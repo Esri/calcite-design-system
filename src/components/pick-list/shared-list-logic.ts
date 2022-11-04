@@ -11,11 +11,6 @@ type List<T> = T extends PickList ? PickList : ValueList;
 
 export type ListFocusId = "filter";
 
-export interface CalciteListFilterDetail {
-  calciteListFilter: ItemData;
-  filterText: string;
-}
-
 export function mutationObserverCallback<T extends Lists>(this: List<T>): void {
   this.setUpItems();
   this.setUpFilter();
@@ -191,15 +186,8 @@ function filterOutDisabled<T extends Lists>(items: ListItemElement<T>[]): ListIt
   return items.filter((item) => !item.disabled);
 }
 
-export function internalCalciteListFilterEvent<T extends Lists>(
-  this: List<T>,
-  value: string,
-  filteredItems: ItemData
-): void {
-  this.calciteListFilter.emit({
-    calciteListFilter: filteredItems,
-    filterText: value
-  });
+export function internalCalciteListFilterEvent<T extends Lists>(this: List<T>): void {
+  this.calciteListFilter.emit();
 }
 
 export function internalCalciteListChangeEvent<T extends Lists>(this: List<T>): void {
@@ -344,10 +332,10 @@ export function selectSiblings<T extends Lists>(this: List<T>, item: ListItemEle
 
 let groups: Set<HTMLCalcitePickListGroupElement>;
 
-export function handleFilter<T extends Lists>(this: List<T>, event: CustomEvent): void {
-  event.stopPropagation();
-  const { filteredItems, value } = event.currentTarget as HTMLCalciteFilterElement;
-  const values = filteredItems.map((item: ItemData[number]) => item.value);
+export function handleFilter<T extends Lists>(this: List<T>, emit = false): void {
+  const { filteredData } = this;
+
+  const values = filteredData?.map((item: ItemData[number]) => item.value);
   let hasSelectedMatch = false;
 
   if (!groups) {
@@ -362,7 +350,7 @@ export function handleFilter<T extends Lists>(this: List<T>, event: CustomEvent)
       groups.add(parent as HTMLCalcitePickListGroupElement);
     }
 
-    const matches = values.includes(item.value);
+    const matches = values?.includes(item.value);
 
     item.hidden = !matches;
 
@@ -402,7 +390,19 @@ export function handleFilter<T extends Lists>(this: List<T>, event: CustomEvent)
 
   this.setFilteredItems(matchedItems as any[]);
 
-  this.emitCalciteListFilter(value, filteredItems as ItemData);
+  if (emit) {
+    this.emitCalciteListFilter();
+  }
+}
+
+export function handleFilterEvent<T extends Lists>(this: List<T>, event: CustomEvent): void {
+  event.stopPropagation();
+  const { filteredItems, value } = event.currentTarget as HTMLCalciteFilterElement;
+
+  this.filterText = value;
+  this.filteredData = filteredItems as ItemData;
+
+  this.handleFilter(true);
 }
 
 export type ItemData = {
