@@ -11,13 +11,7 @@ import {
   Event,
   EventEmitter
 } from "@stencil/core";
-import {
-  CSS,
-  debounceTimeout,
-  SelectionAppearance,
-  SelectionMode,
-  CalciteListFilterDetail
-} from "./resources";
+import { CSS, debounceTimeout, SelectionAppearance, SelectionMode } from "./resources";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { createObserver } from "../../utils/observers";
 import { getListItemChildren, updateListItemChildren } from "../list-item/utils";
@@ -69,9 +63,21 @@ export class List implements InteractiveComponent {
   @Prop({ mutable: true }) filteredItems: HTMLCalciteListItemElement[] = [];
 
   /**
+   * **read-only** The currently filtered items
+   *
+   * @readonly
+   */
+  @Prop({ mutable: true }) filteredData: ItemData = [];
+
+  /**
    * Placeholder text for the filter input field.
    */
   @Prop({ reflect: true }) filterPlaceholder: string;
+
+  /**
+   * Text for the filter input field.
+   */
+  @Prop({ reflect: true, mutable: true }) filterText: string;
 
   /**
    * Specifies the number at which section headings should start.
@@ -129,7 +135,7 @@ export class List implements InteractiveComponent {
   /**
    * Emits when a filter has changed.
    */
-  @Event({ cancelable: false }) calciteListFilter: EventEmitter<CalciteListFilterDetail>;
+  @Event({ cancelable: false }) calciteListFilter: EventEmitter<void>;
 
   @Listen("calciteInternalFocusPreviousItem")
   handleCalciteInternalFocusPreviousItem(event: CustomEvent): void {
@@ -179,6 +185,15 @@ export class List implements InteractiveComponent {
     updateHostInteraction(this);
   }
 
+  componentDidLoad(): void {
+    const { filterEl, filterText } = this;
+    const filteredItems = filterEl?.filteredItems as ItemData;
+    if (filterText && filteredItems) {
+      this.filteredData = filteredItems;
+      this.updateFilteredItems();
+    }
+  }
+
   // --------------------------------------------------------------------------
   //
   //  Private Properties
@@ -196,8 +211,6 @@ export class List implements InteractiveComponent {
   @State() dataForFilter: ItemData = [];
 
   filterEl: HTMLCalciteFilterElement;
-
-  filteredData: ItemData;
 
   // --------------------------------------------------------------------------
   //
@@ -218,7 +231,15 @@ export class List implements InteractiveComponent {
   // --------------------------------------------------------------------------
 
   render(): VNode {
-    const { loading, label, disabled, dataForFilter, filterEnabled, filterPlaceholder } = this;
+    const {
+      loading,
+      label,
+      disabled,
+      dataForFilter,
+      filterEnabled,
+      filterPlaceholder,
+      filterText
+    } = this;
     return (
       <div class={CSS.container}>
         {loading ? <calcite-scrim class={CSS.scrim} loading={loading} /> : null}
@@ -240,6 +261,7 @@ export class List implements InteractiveComponent {
                     onCalciteFilterChange={this.handleFilter}
                     placeholder={filterPlaceholder}
                     ref={(el) => (this.filterEl = el)}
+                    value={filterText}
                   />
                 </th>
               </tr>
@@ -278,35 +300,32 @@ export class List implements InteractiveComponent {
   }, debounceTimeout);
 
   private updateFilteredItems = debounce((): void => {
-    const { listItems, filteredData } = this;
+    const { listItems, filteredData, filterText } = this;
 
-    const values = filteredData?.map((item) => item.value);
-
-    if (!values?.length) {
-      return;
-    }
+    const values = filteredData.map((item) => item.value);
 
     const groups = new Set<HTMLCalciteListItemGroupElement>();
     let hasSelectedMatch = false;
 
-    const filteredItems = listItems?.filter((item) => {
-      const parent = item.parentElement;
-      const grouped = parent.matches("calcite-list-item-group");
+    const filteredItems =
+      listItems?.filter((item) => {
+        const parent = item.parentElement;
+        const grouped = parent.matches("calcite-list-item-group");
 
-      if (grouped) {
-        groups.add(parent as HTMLCalciteListItemGroupElement);
-      }
+        if (grouped) {
+          groups.add(parent as HTMLCalciteListItemGroupElement);
+        }
 
-      const matches = values.includes(item.value);
+        const matches = filterText ? values.includes(item.value) : true;
 
-      item.hidden = !matches;
+        item.hidden = !matches;
 
-      if (!hasSelectedMatch) {
-        hasSelectedMatch = matches && item.selected;
-      }
+        if (!hasSelectedMatch) {
+          hasSelectedMatch = matches && item.selected;
+        }
 
-      return matches;
-    });
+        return matches;
+      }) || [];
 
     this.filteredItems = filteredItems;
 
@@ -338,14 +357,11 @@ export class List implements InteractiveComponent {
     event.stopPropagation();
     const { filteredItems, value } = event.currentTarget as HTMLCalciteFilterElement;
 
-    const calciteListFilter = filteredItems as ItemData;
-    this.filteredData = calciteListFilter;
+    this.filteredData = filteredItems as ItemData;
+    this.filterText = value;
     this.updateFilteredItems();
 
-    this.calciteListFilter.emit({
-      calciteListFilter,
-      filterText: value
-    });
+    this.calciteListFilter.emit();
   };
 
   getItemData = (): ItemData => {

@@ -2,6 +2,7 @@ import { accessible, hidden, renders, focusable, disabled } from "../../tests/co
 import { placeholderImage } from "../../../.storybook/placeholderImage";
 import { html } from "../../../support/formatting";
 import { newE2EPage } from "@stencil/core/testing";
+import { debounceTimeout } from "./resources";
 
 const placeholder = placeholderImage({
   width: 140,
@@ -55,17 +56,23 @@ describe("calcite-list", () => {
       `
     });
     await page.waitForChanges();
-    const filterSpy = await page.spyOnEvent("calciteListFilter");
+    const list = await page.find("calcite-list");
     const filter = await page.find(`calcite-list >>> calcite-filter`);
+    expect(await list.getProperty("filteredItems")).toHaveLength(2);
+    expect(await list.getProperty("filteredData")).toHaveLength(0);
+    expect(await list.getProperty("filterText")).toBeUndefined();
+
     await filter.callMethod("setFocus");
 
     const calciteFilterChangeEvent = filter.waitForEvent("calciteFilterChange");
     const calciteListFilterEvent = page.waitForEvent("calciteListFilter");
     await page.keyboard.type("one");
+    await page.waitForTimeout(debounceTimeout);
     await calciteFilterChangeEvent;
     await calciteListFilterEvent;
-    expect(filterSpy.lastEvent.detail.filterText).toBe("one");
-    expect(filterSpy.lastEvent.detail.calciteListFilter).toHaveLength(1);
+    expect(await list.getProperty("filteredItems")).toHaveLength(1);
+    expect(await list.getProperty("filteredData")).toHaveLength(1);
+    expect(await list.getProperty("filterText")).toBe("one");
 
     await page.keyboard.press("Backspace");
     await page.keyboard.press("Backspace");
@@ -75,17 +82,21 @@ describe("calcite-list", () => {
     const calciteFilterChangeEvent2 = filter.waitForEvent("calciteFilterChange");
     const calciteListFilterEvent2 = page.waitForEvent("calciteListFilter");
     await page.keyboard.type("two");
+    await page.waitForTimeout(debounceTimeout);
     await calciteFilterChangeEvent2;
     await calciteListFilterEvent2;
-    expect(filterSpy.lastEvent.detail.filterText).toBe("two");
-    expect(filterSpy.lastEvent.detail.calciteListFilter).toHaveLength(1);
+    expect(await list.getProperty("filteredItems")).toHaveLength(1);
+    expect(await list.getProperty("filteredData")).toHaveLength(1);
+    expect(await list.getProperty("filterText")).toBe("two");
 
     const calciteFilterChangeEvent3 = filter.waitForEvent("calciteFilterChange");
     const calciteListFilterEvent3 = page.waitForEvent("calciteListFilter");
     await page.keyboard.type("blah");
+    await page.waitForTimeout(debounceTimeout);
     await calciteFilterChangeEvent3;
     await calciteListFilterEvent3;
-    expect(filterSpy.lastEvent.detail.filterText).toBe("twoblah");
-    expect(filterSpy.lastEvent.detail.calciteListFilter).toHaveLength(0);
+    expect(await list.getProperty("filteredItems")).toHaveLength(0);
+    expect(await list.getProperty("filteredData")).toHaveLength(0);
+    expect(await list.getProperty("filterText")).toBe("twoblah");
   });
 });
