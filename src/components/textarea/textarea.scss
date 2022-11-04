@@ -1,11 +1,14 @@
 :host {
   display: block;
+  inline-size: 20rem;
+  block-size: 8rem;
 }
 
 .textarea {
-  outline-width: 1px;
-  inline-size: 25rem;
-  block-size: 15rem;
+  // outline-width: 1px;
+  // inline-size: 25rem;
+  // block-size: 15rem;
+
   @apply text-color-1 border-color-input bg-foreground-1;
 }
 

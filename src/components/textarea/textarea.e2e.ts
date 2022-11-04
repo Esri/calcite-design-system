@@ -59,6 +59,10 @@ describe("calcite-textarea", () => {
       {
         propertyName: "scale",
         value: "s"
+      },
+      {
+        propertyName: "placeholder",
+        value: "add additional notes"
       }
     ]));
 
@@ -171,12 +175,30 @@ describe("calcite-textarea", () => {
     expect(await element.getProperty("value")).toBe("rocky mountains");
   });
 
-  it("should focus textarea on pageload when autofocus is true", async () => {
-    const page = await newE2EPage();
-    await page.setContent(` <calcite-textarea autofocus> </calcite-textarea>`);
-    await page.waitForChanges();
-    await page.waitForTimeout(12000);
+  // it("should focus textarea on pageload when autofocus is true", async () => {
+  //   const page = await newE2EPage();
+  //   await page.setContent(` <calcite-textarea autofocus> </calcite-textarea>`);
+  //   await page.waitForChanges();
+  //   await page.waitForTimeout(12000);
 
-    // expect(await page.evaluate((selector) => document.activeElement.matches(selector), "calcite-textarea")).toBe(true);
+  //   expect(
+  //     await page.evaluate(() => {
+  //       const a = document.querySelector("calcite-textarea");
+  //       console.log(document.activeElement);
+  //       document.activeElement.contains(a);
+  //     })
+  //   ).toBe(true);
+  // });
+
+  it("should be disable slotted elements when disabled", async () => {
+    const page = await newE2EPage();
+    await page.setContent(
+      `<calcite-textarea footer disabled><calcite-button slot="footer-trailing">Add</calcite-button></calcite-textarea>`
+    );
+
+    const element = await page.find("calcite-button");
+    await page.waitForChanges();
+    expect(element).toHaveAttribute("disabled");
+    expect(element.getAttribute("aria-disabled")).toBe("true");
   });
 });

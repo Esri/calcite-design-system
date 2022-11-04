@@ -140,6 +140,8 @@ export class Textarea implements FormComponent, LabelableComponent, LocalizedCom
     disconnectLocalized(this);
   }
 
+  // componentDidrender(): void {}
+
   render(): VNode {
     return (
       <Host>
@@ -269,8 +271,11 @@ export class Textarea implements FormComponent, LabelableComponent, LocalizedCom
 
   syncHiddenFormInput(input: HTMLInputElement): void {
     input.setCustomValidity("");
-    if (this.value && this.value?.length > this.maxlength) {
+    if (this.value?.length > this.maxlength) {
       input.setCustomValidity("Over the character limit");
+    }
+    if (this.value?.length < this.minlength) {
+      input.setCustomValidity("Under the character limit");
     }
   }
 }
