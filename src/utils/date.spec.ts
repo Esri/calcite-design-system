@@ -1,6 +1,7 @@
 import { DateLocaleData } from "../components/date-picker/utils";
 import { inRange, dateFromRange, dateFromISO, sameDate, prevMonth, nextMonth, parseDateString, getOrder } from "./date";
 
+import english from "../components/date-picker/assets/date-picker/nls/en.json";
 import arabic from "../components/date-picker/assets/date-picker/nls/ar.json";
 import french from "../components/date-picker/assets/date-picker/nls/fr.json";
 import korean from "../components/date-picker/assets/date-picker/nls/ko.json";
@@ -149,6 +150,34 @@ describe("parse number", () => {
 });
 
 describe("parseDateString", () => {
+  it("parses MM/DD/YYYY date format with single-digit day and month", () => {
+    const parsed = parseDateString("3/7/2003", english as DateLocaleData);
+    expect(parsed.month).toEqual(2);
+    expect(parsed.day).toEqual(7);
+    expect(parsed.year).toEqual(2003);
+  });
+
+  it("parses MM/DD/YYYY date format with single-digit day and month and triple-digit year", () => {
+    const parsed = parseDateString("3/7/200", english as DateLocaleData);
+    expect(parsed.month).toEqual(2);
+    expect(parsed.day).toEqual(7);
+    expect(parsed.year).toEqual(200);
+  });
+
+  it("parses MM/DD/YYYY date format with double-digit day and month", () => {
+    const parsed = parseDateString("10/31/2022", english as DateLocaleData);
+    expect(parsed.month).toEqual(9);
+    expect(parsed.day).toEqual(31);
+    expect(parsed.year).toEqual(2022);
+  });
+
+  it("parses MM/DD/YYYY date format with double-digit day and month and triple-digit year", () => {
+    const parsed = parseDateString("10/31/200", english as DateLocaleData);
+    expect(parsed.month).toEqual(9);
+    expect(parsed.day).toEqual(31);
+    expect(parsed.year).toEqual(200);
+  });
+
   it("parses arabic date", () => {
     const parsed = parseDateString("٢٧‏/١١‏/٢٠٠٠", arabic as DateLocaleData);
     expect(parsed.day).toEqual(27);
