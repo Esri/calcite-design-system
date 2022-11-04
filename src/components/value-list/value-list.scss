@@ -35,3 +35,7 @@ calcite-value-list-item:last-of-type {
 calcite-filter {
   @apply mb-px;
 }
+
+.assistive-text {
+  @apply sr-only;
+}
