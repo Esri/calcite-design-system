@@ -275,8 +275,6 @@ export class Modal implements ConditionalSlotComponent, OpenCloseComponent, Focu
     this.updateFooterVisibility()
   );
 
-  previousActiveElement: HTMLElement;
-
   titleId: string;
 
   openTransitionProp = "opacity";
@@ -434,7 +432,6 @@ export class Modal implements ConditionalSlotComponent, OpenCloseComponent, Focu
 
   /** Open the modal */
   private openModal() {
-    this.previousActiveElement = document.activeElement as HTMLElement;
     this.el.addEventListener("calciteModalOpen", this.openEnd);
     this.open = true;
     this.isOpen = true;
@@ -460,7 +457,6 @@ export class Modal implements ConditionalSlotComponent, OpenCloseComponent, Focu
     return this.beforeClose(this.el).then(() => {
       this.open = false;
       this.isOpen = false;
-      focusElement(this.previousActiveElement);
       this.removeOverflowHiddenClass();
     });
   };
