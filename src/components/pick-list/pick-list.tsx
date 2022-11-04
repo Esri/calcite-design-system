@@ -21,6 +21,7 @@ import {
   getItemData,
   handleFilter,
   handleFilterEvent,
+  handleInitialFilter,
   calciteListFocusOutHandler,
   initialize,
   initializeObserver,
@@ -153,11 +154,7 @@ export class PickList<
   }
 
   componentDidLoad(): void {
-    const filteredItems = this.filterEl?.filteredItems as ItemData;
-    if (this.filterText && filteredItems) {
-      this.filteredData = filteredItems;
-      this.handleFilter();
-    }
+    handleInitialFilter.call(this);
   }
 
   componentDidRender(): void {

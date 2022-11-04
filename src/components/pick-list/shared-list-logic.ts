@@ -395,6 +395,14 @@ export function handleFilter<T extends Lists>(this: List<T>, emit = false): void
   }
 }
 
+export function handleInitialFilter<T extends Lists>(this: List<T>): void {
+  const filteredItems = this.filterEl?.filteredItems as ItemData;
+  if (this.filterText && filteredItems) {
+    this.filteredData = filteredItems;
+    this.handleFilter();
+  }
+}
+
 export function handleFilterEvent<T extends Lists>(this: List<T>, event: CustomEvent): void {
   event.stopPropagation();
   const { filteredItems, value } = event.currentTarget as HTMLCalciteFilterElement;

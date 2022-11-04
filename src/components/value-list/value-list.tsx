@@ -23,6 +23,7 @@ import {
   getItemData,
   handleFilter,
   handleFilterEvent,
+  handleInitialFilter,
   initialize,
   initializeObserver,
   ItemData,
@@ -191,11 +192,7 @@ export class ValueList<
 
   componentDidLoad(): void {
     this.setUpDragAndDrop();
-    const filteredItems = this.filterEl?.filteredItems as ItemData;
-    if (this.filterText && filteredItems) {
-      this.filteredData = filteredItems;
-      this.handleFilter();
-    }
+    handleInitialFilter.call(this);
   }
 
   componentDidRender(): void {
