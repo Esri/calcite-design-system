@@ -13,6 +13,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### Bug Fixes
 
+- **input-date-picker:** commit value and refresh calendar on blur or Enter keypress in the input ([#5459](https://github.com/Esri/calcite-components/issues/5459)) ([b991c89](https://github.com/Esri/calcite-components/commit/b991c89cdd9afddbc29bcff756e5d37d40b50a61))
 - Floating-ui should handle visibility and pointer-events on the floating element. ([#5666](https://github.com/Esri/calcite-components/issues/5666)) ([349c0e5](https://github.com/Esri/calcite-components/commit/349c0e574473114cc3d99a6066a61a235ab8f51e))
 - **dropdown:** fix calculation of max-items for non-Chromium browsers. ([#5677](https://github.com/Esri/calcite-components/issues/5677)) ([3e4a575](https://github.com/Esri/calcite-components/commit/3e4a575887bbcf337f9439d17f9410acb3ad38e8)), closes [#5663](https://github.com/Esri/calcite-components/issues/5663)
 - **link:** fix link underline and icon placement when used with calcite fonts 2.x ([#5650](https://github.com/Esri/calcite-components/issues/5650)) ([3a756e5](https://github.com/Esri/calcite-components/commit/3a756e505791a516225b29740c40d0d063ad95c2))
