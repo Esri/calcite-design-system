@@ -196,10 +196,10 @@
   }
 }
 
-// dropdown selected (for children, multi-children selected parents)
+// dropdown selected (for children, multichildren selected parents)
 :host([has-children][selected]) > .node-container {
   &[data-selection-mode="children"],
-  &[data-selection-mode="multi-children"] {
+  &[data-selection-mode="multichildren"] {
     color: var(--calcite-ui-brand);
   }
 }
