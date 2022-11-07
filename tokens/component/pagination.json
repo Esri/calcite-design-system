@@ -13,13 +13,25 @@
         "value": "$semantic.font.default.regular.0h",
         "type": "typography"
       },
-      "light": {
-        "value": "$semantic.ui.color.text.link.light",
-        "type": "color"
+      "active": {
+        "light": {
+          "value": "$semantic.ui.color.text.1.light",
+          "type": "color"
+        },
+        "dark": {
+          "value": "$semantic.ui.color.text.1.dark",
+          "type": "color"
+        }
       },
-      "dark": {
-        "value": "$semantic.ui.color.text.link.dark",
-        "type": "color"
+      "inactive": {
+        "dark": {
+          "value": "$semantic.ui.color.text.3.dark",
+          "type": "color"
+        },
+        "light": {
+          "value": "$semantic.ui.color.text.3.light",
+          "type": "color"
+        }
       }
     },
     "icon": {
