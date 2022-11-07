@@ -9,7 +9,7 @@
         "value": "$semantic.ui.color.text.1.dark",
         "type": "color"
       },
-      "text": {
+      "standard": {
         "value": "$semantic.font.wrap.regular.-2",
         "type": "typography"
       },
@@ -89,7 +89,7 @@
           "type": "spacing"
         }
       },
-      "space-arround": {
+      "space-around": {
         "sm": {
           "value": "$core.spacing.2",
           "type": "spacing"
