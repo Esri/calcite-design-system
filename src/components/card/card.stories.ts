@@ -1,11 +1,12 @@
 import { boolean, select, text } from "@storybook/addon-knobs";
-import { placeholderImage, themesDarkDefault } from "../../../.storybook/utils";
+import { placeholderImage } from "../../../.storybook/placeholderImage";
 import { html } from "../../../support/formatting";
 import readme from "./readme.md";
 import {
   Attribute,
-  filterComponentAttributes,
   Attributes,
+  filterComponentAttributes,
+  themesDarkDefault,
   createComponentHTML as create
 } from "../../../.storybook/utils";
 import { storyFilters } from "../../../.storybook/helpers";

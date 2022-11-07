@@ -141,4 +141,22 @@ describe("calcite-flow-item", () => {
 
     expect(await top.isIntersectingViewport()).toBe(true);
   });
+
+  it("honors calciteFlowItemScroll event", async () => {
+    const page = await newE2EPage({
+      html: "<calcite-flow-item>test</calcite-flow-item>"
+    });
+
+    const scrollSpy = await page.spyOnEvent("calciteFlowItemScroll");
+
+    await page.evaluate(() => {
+      const panel = document.querySelector("calcite-flow-item").shadowRoot.querySelector("calcite-panel");
+
+      panel.dispatchEvent(new CustomEvent("calcitePanelScroll"));
+    });
+
+    await page.waitForChanges();
+
+    expect(scrollSpy).toHaveReceivedEventTimes(1);
+  });
 });

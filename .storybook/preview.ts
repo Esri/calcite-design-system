@@ -16,7 +16,7 @@ const themeBodyClassDecorator = (Story: () => any, context: any) => {
     if (Array.isArray(theme.class)) {
       theme.class.forEach((className) => document.body.classList.toggle(className, isDefault));
     } else {
-      document.body.classList.toggle(theme.class, isDefault);
+      theme.class && document.body.classList.toggle(theme.class, isDefault);
     }
   });
 
