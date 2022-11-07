@@ -16,7 +16,7 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: lts/*
-      - run: npm ci --legacy-peer-deps
+      - run: npm i --legacy-peer-deps
       - if: steps.one.outputs.skip == 'false'
         name: Publish to Chromatic
         uses: chromaui/action@v1
