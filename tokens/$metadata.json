@@ -11,6 +11,7 @@
     "component/radio",
     "component/rating",
     "component/tooltip",
+    "component/[template-comp-name]",
     "calcite/light",
     "calcite/dark",
     "brand/global",

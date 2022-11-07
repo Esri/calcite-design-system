@@ -343,8 +343,8 @@
       }
     },
     "border-width": {
-        "value": "$core.border.border-width.0",
-        "type": "borderWidth"
+      "value": "$core.border.border-width.0",
+      "type": "borderWidth"
     }
   }
 }

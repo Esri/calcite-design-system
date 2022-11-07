@@ -219,7 +219,8 @@
       "component/rating": "enabled",
       "component/label": "enabled",
       "component/tooltip": "enabled",
-      "component/input-time": "enabled"
+      "component/input-time": "enabled",
+      "component/[template-comp-name]": "enabled"
     },
     "$figmaStyleReferences": {
       "semantic.ui.color.brand.default.light": "S:959c4907a32cb62f2227db1c3fb7a88c3eedcbb9,",
