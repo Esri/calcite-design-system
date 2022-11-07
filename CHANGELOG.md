@@ -7,9 +7,19 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## Unreleased
 
+### Features
+
+- **accordion,combobox,dropdown-group,tree:** deprecate multi selectionMode and add support for multiple selectionMode ([#5251](https://github.com/Esri/calcite-components/issues/5251)) ([e89820e](https://github.com/Esri/calcite-components/commit/e89820e922cc03d0cf43338273ba48a0773d02c8))
+
 ### Bug Fixes
 
+- **dropdown:** fix calculation of max-items for non-Chromium browsers. ([#5677](https://github.com/Esri/calcite-components/issues/5677)) ([3e4a575](https://github.com/Esri/calcite-components/commit/3e4a575887bbcf337f9439d17f9410acb3ad38e8)), closes [#5663](https://github.com/Esri/calcite-components/issues/5663)
+- **input-date-picker:** commit value and refresh calendar on blur or Enter keypress in the input ([#5459](https://github.com/Esri/calcite-components/issues/5459)) ([b991c89](https://github.com/Esri/calcite-components/commit/b991c89cdd9afddbc29bcff756e5d37d40b50a61))
+- **link:** fix link underline and icon placement when used with calcite fonts 2.x ([#5650](https://github.com/Esri/calcite-components/issues/5650)) ([3a756e5](https://github.com/Esri/calcite-components/commit/3a756e505791a516225b29740c40d0d063ad95c2))
 - **popover:** adds a new `scale` prop ([#5560](https://github.com/Esri/calcite-components/issues/5560)) ([38a0d34](https://github.com/Esri/calcite-components/commit/38a0d34ad67967abceac0f1ea010418c2b0f86c1))
+- **tooltip, popover:** Fix pointer when text-align is right ([#5682](https://github.com/Esri/calcite-components/issues/5682)) ([e7e5a4d](https://github.com/Esri/calcite-components/commit/e7e5a4de0a81f870c7ce9c0b946bd3c4b2ac4c14)), closes [#5680](https://github.com/Esri/calcite-components/issues/5680)
+- **value-list:** no longer display screen reader only text when drag-enabled ([#5691](https://github.com/Esri/calcite-components/issues/5691)) ([1e64df1](https://github.com/Esri/calcite-components/commit/1e64df144850624bce63e5943ef085efc186e26a))
+- Floating-ui should handle visibility and pointer-events on the floating element. ([#5666](https://github.com/Esri/calcite-components/issues/5666)) ([349c0e5](https://github.com/Esri/calcite-components/commit/349c0e574473114cc3d99a6066a61a235ab8f51e))
 <!--@unreleased-section-end-->
 
 ## [1.0.0-beta.97](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.96...v1.0.0-beta.97) (2022-10-27)
@@ -20,6 +30,11 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - **input-message,loader:** Revert unintended breaking change to the active property ([#5656](https://github.com/Esri/calcite-components/issues/5656)) ([80376a8](https://github.com/Esri/calcite-components/commit/80376a8253b6433b75365453cb67fa0040954dd6))
 
 ## [1.0.0-beta.96](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.95...v1.0.0-beta.96) (2022-10-27)
+
+### ⚠ BREAKING CHANGES
+
+- **build:** dropped ES5 build output – this was disabled as legacy browsers are no longer supported, any `nomodule` scripts should be removed ([#5412](https://github.com/Esri/calcite-components/issues/5412))
+- **build:** dropped `dist-custom-elements-bundle` output target – this is deprecated by Stencil and developers should use the `custom-elements` output target instead ([#5411](https://github.com/Esri/calcite-components/issues/5411))
 
 ### Features
 
