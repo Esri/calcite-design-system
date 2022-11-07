@@ -72,7 +72,7 @@ export class Tree {
   //--------------------------------------------------------------------------
 
   componentWillRender(): void {
-    const parent: HTMLCalciteTreeElement = this.el.parentElement.closest("calcite-tree");
+    const parent: HTMLCalciteTreeElement = this.el.parentElement?.closest("calcite-tree");
     this.lines = parent ? parent.lines : this.lines;
     this.scale = parent ? parent.scale : this.scale;
     this.selectionMode = parent ? parent.selectionMode : this.selectionMode;
@@ -87,6 +87,7 @@ export class Tree {
             ? undefined
             : (
                 this.selectionMode === TreeSelectionMode.Multi ||
+                this.selectionMode === TreeSelectionMode.Multiple ||
                 this.selectionMode === TreeSelectionMode.MultiChildren
               ).toString()
         }
@@ -167,6 +168,7 @@ export class Tree {
       !isNoneSelectionMode &&
       event.detail.modifyCurrentSelection &&
       (this.selectionMode === TreeSelectionMode.Multi ||
+        this.selectionMode === TreeSelectionMode.Multiple ||
         this.selectionMode === TreeSelectionMode.MultiChildren);
 
     const shouldSelectChildren =
@@ -176,7 +178,8 @@ export class Tree {
     const shouldClearCurrentSelection =
       !shouldModifyToCurrentSelection &&
       (((this.selectionMode === TreeSelectionMode.Single ||
-        this.selectionMode === TreeSelectionMode.Multi) &&
+        this.selectionMode === TreeSelectionMode.Multi ||
+        this.selectionMode === TreeSelectionMode.Multiple) &&
         childItems.length <= 0) ||
         this.selectionMode === TreeSelectionMode.Children ||
         this.selectionMode === TreeSelectionMode.MultiChildren);
@@ -396,7 +399,7 @@ export class Tree {
   //--------------------------------------------------------------------------
 
   /**
-   * Fires when the user selects/deselects `calcite-tree-items`. An object including an array of selected items will be passed in the event's "detail" property.
+   * Fires when the user selects/deselects `calcite-tree-items`. An object including an array of selected items will be passed in the event's `detail` property.
    *
    * @see [TreeSelectDetail](https://github.com/Esri/calcite-components/blob/master/src/components/tree/interfaces.ts#L1)
    */

@@ -40,8 +40,8 @@ calcite-icon {
 }
 
 .calcite-link--icon {
-  @apply transition-default align-text-top;
-  margin-block-start: 0.125rem;
+  @apply transition-default align-middle;
+  margin-block-start: -0.25em;
 }
 
 // icon positioning and styles
@@ -67,7 +67,8 @@ calcite-icon {
     white-space: initial;
     background-image: linear-gradient(currentColor, currentColor),
       linear-gradient(var(--calcite-link-blue-underline), var(--calcite-link-blue-underline));
-    background-position: 0% 100%, 100% 100%;
+    background-position-x: 0%, 100%;
+    background-position-y: min(1.5em, 100%);
     background-repeat: no-repeat, no-repeat;
     background-size: 0% 1px, 100% 1px;
 

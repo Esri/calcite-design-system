@@ -21,7 +21,6 @@ import {
   defaultPopoverPlacement
 } from "./resources";
 import {
-  positionFloatingUI,
   FloatingCSS,
   OverlayPositioning,
   FloatingUIComponent,
@@ -32,7 +31,8 @@ import {
   defaultOffsetDistance,
   filterComputedPlacements,
   ReferenceElement,
-  repositionDebounceTimeout
+  reposition,
+  updateAfterClose
 } from "../../utils/floating-ui";
 
 import { guid } from "../../utils/guid";
@@ -43,9 +43,9 @@ import {
   disconnectOpenCloseComponent
 } from "../../utils/openCloseComponent";
 import { HeadingLevel, Heading } from "../functional/Heading";
+import { Scale } from "../interfaces";
 
 import PopoverManager from "./PopoverManager";
-import { debounce } from "lodash-es";
 
 const manager = new PopoverManager();
 
@@ -65,21 +65,21 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
   // --------------------------------------------------------------------------
 
   /**
-   * When true and clicking outside of the component, automatically closes open `calcite-popover`s.
+   * When `true`, clicking outside of the component automatically closes open `calcite-popover`s.
    */
   @Prop({ reflect: true }) autoClose = false;
 
   /**
-   * When true, a close button is added to the component.
+   * When `true`, a close button is added to the component.
    *
    * @deprecated use dismissible instead.
    */
   @Prop({ reflect: true }) closeButton = false;
 
   /**
-   * When true, a close button is added to the component.
+   * When `true`, a close button is added to the component.
    *
-   * @deprecated use closable instead
+   * @deprecated use `closable` instead.
    */
   @Prop({ mutable: true, reflect: true }) dismissible = false;
 
@@ -88,7 +88,7 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
     this.closable = value;
   }
 
-  /** When true, display a close button within the Popover */
+  /** When `true`, display a close button within the component. */
   @Prop({ mutable: true, reflect: true }) closable = false;
 
   @Watch("closable")
@@ -97,12 +97,12 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
   }
 
   /**
-   * When true, prevents flipping the component's placement when overlapping its `referenceElement`.
+   * When `true`, prevents flipping the component's placement when overlapping its `referenceElement`.
    */
   @Prop({ reflect: true }) disableFlip = false;
 
   /**
-   * When true, removes the caret pointer.
+   * When `true`, removes the caret pointer.
    */
   @Prop({ reflect: true }) disablePointer = false;
 
@@ -114,7 +114,7 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
   @Watch("flipPlacements")
   flipPlacementsHandler(): void {
     this.setFilteredPlacements();
-    this.debouncedReposition();
+    this.reposition(true);
   }
 
   /**
@@ -131,7 +131,7 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
   @Prop() label!: string;
 
   /**
-   * Offsets the position of the popover away from the `referenceElement`.
+   * Offsets the position of the component away from the `referenceElement`.
    *
    * @default 6
    */
@@ -139,27 +139,32 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
 
   @Watch("offsetDistance")
   offsetDistanceOffsetHandler(): void {
-    this.debouncedReposition();
+    this.reposition(true);
   }
 
   /**
-   * Offsets the position of the popover along the `referenceElement`.
+   * Offsets the position of the component along the `referenceElement`.
    */
   @Prop({ reflect: true }) offsetSkidding = 0;
 
   @Watch("offsetSkidding")
   offsetSkiddingHandler(): void {
-    this.debouncedReposition();
+    this.reposition(true);
   }
 
   /**
-   * When true, displays and positions the component.
+   * When `true`, displays and positions the component.
    */
   @Prop({ reflect: true, mutable: true }) open = false;
 
   @Watch("open")
-  openHandler(): void {
-    this.debouncedReposition();
+  openHandler(value: boolean): void {
+    if (value) {
+      this.reposition(true);
+    } else {
+      updateAfterClose(this.el);
+    }
+
     this.setExpandedAttr();
   }
 
@@ -175,7 +180,7 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
 
   @Watch("overlayPositioning")
   overlayPositioningHandler(): void {
-    this.debouncedReposition();
+    this.reposition(true);
   }
 
   /**
@@ -187,22 +192,27 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
 
   @Watch("placement")
   placementHandler(): void {
-    this.debouncedReposition();
+    this.reposition(true);
   }
 
   /**
-   *  The `referenceElement` used to position the component according to its "placement" value. Setting to an `HTMLElement` is preferred so the component does not need to query the DOM. However, a string `id` of the reference element can also be used.
+   *  The `referenceElement` used to position the component according to its `placement` value. Setting to an `HTMLElement` is preferred so the component does not need to query the DOM. However, a string `id` of the reference element can also be used.
    */
   @Prop() referenceElement!: ReferenceElement | string;
 
   @Watch("referenceElement")
   referenceElementHandler(): void {
     this.setUpReferenceElement();
-    this.debouncedReposition();
+    this.reposition(true);
   }
 
+  /** Specifies the size of the component. */
+  @Prop({ reflect: true }) scale: Scale = "m";
+
   /**
-   * When true, disables automatically toggling the component when its `referenceElement` has been triggered. This property can be set to "true" to manage when a popover is open.
+   * When `true`, disables automatically toggling the component when its `referenceElement` has been triggered.
+   *
+   * This property can be set to `true` to manage when the component is open.
    */
   @Prop({ reflect: true }) triggerDisabled = false;
 
@@ -260,7 +270,7 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
     if (this.referenceElement && !this.effectiveReferenceElement) {
       this.setUpReferenceElement();
     }
-    this.debouncedReposition();
+    this.reposition();
     this.hasLoaded = true;
   }
 
@@ -294,9 +304,13 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
   //
   // --------------------------------------------------------------------------
 
-  /** Updates the position of the component. */
+  /**
+   * Updates the position of the component.
+   *
+   * @param delayed
+   */
   @Method()
-  async reposition(): Promise<void> {
+  async reposition(delayed = false): Promise<void> {
     const {
       el,
       effectiveReferenceElement,
@@ -308,19 +322,23 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
       offsetSkidding,
       arrowEl
     } = this;
-
-    return positionFloatingUI({
-      floatingEl: el,
-      referenceEl: effectiveReferenceElement,
-      overlayPositioning,
-      placement,
-      disableFlip,
-      flipPlacements: filteredFlipPlacements,
-      offsetDistance,
-      offsetSkidding,
-      arrowEl,
-      type: "popover"
-    });
+    return reposition(
+      this,
+      {
+        floatingEl: el,
+        referenceEl: effectiveReferenceElement,
+        overlayPositioning,
+        placement,
+        disableFlip,
+        flipPlacements: filteredFlipPlacements,
+        offsetDistance,
+        offsetSkidding,
+        includeArrow: !this.disablePointer,
+        arrowEl,
+        type: "popover"
+      },
+      delayed
+    );
   }
 
   /**
@@ -357,8 +375,6 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
   //  Private Methods
   //
   // --------------------------------------------------------------------------
-
-  private debouncedReposition = debounce(() => this.reposition(), repositionDebounceTimeout);
 
   private setTransitionEl = (el): void => {
     this.transitionEl = el;
@@ -468,7 +484,7 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
 
   storeArrowEl = (el: HTMLDivElement): void => {
     this.arrowEl = el;
-    this.debouncedReposition();
+    this.reposition(true);
   };
 
   // --------------------------------------------------------------------------
@@ -478,7 +494,7 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
   // --------------------------------------------------------------------------
 
   renderCloseButton(): VNode {
-    const { closeButton, intlClose, heading, closable } = this;
+    const { closeButton, intlClose, closable } = this;
 
     return closable || closeButton ? (
       <div class={CSS.closeButtonContainer}>
@@ -486,10 +502,10 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
           class={CSS.closeButton}
           onClick={this.hide}
           ref={(closeButtonEl) => (this.closeButtonEl = closeButtonEl)}
-          scale={heading ? "s" : "m"}
+          scale={this.scale}
           text={intlClose}
         >
-          <calcite-icon icon="x" scale={heading ? "s" : "m"} />
+          <calcite-icon icon="x" scale={this.scale === "l" ? "m" : this.scale} />
         </calcite-action>
       </div>
     ) : null;

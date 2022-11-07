@@ -25,7 +25,7 @@ export class Scrim {
   @Prop() intlLoading?: string = TEXT.loading;
 
   /**
-   * When true, a busy indicator is displayed.
+   * When `true`, a busy indicator is displayed.
    */
   @Prop({ reflect: true }) loading = false;
 

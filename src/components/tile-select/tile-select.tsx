@@ -40,7 +40,7 @@ export class TileSelect implements InteractiveComponent {
   //
   //--------------------------------------------------------------------------
 
-  /** When true, the component is checked. */
+  /** When `true`, the component is checked. */
   @Prop({ reflect: true, mutable: true }) checked = false;
 
   @Watch("checked")
@@ -51,13 +51,13 @@ export class TileSelect implements InteractiveComponent {
   /** A description for the component, which displays below the heading. */
   @Prop({ reflect: true }) description?: string;
 
-  /** When true, interaction is prevented and the component is displayed with lower opacity. */
+  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @Prop({ reflect: true }) disabled = false;
 
   /** The component header text, which displays between the icon and description. */
   @Prop({ reflect: true }) heading?: string;
 
-  /** When true, the component is not displayed and is not focusable or checkable. */
+  /** When `true`, the component is not displayed and is not focusable or checkable. */
   @Prop({ reflect: true }) hidden = false;
 
   /** Specifies an icon to display. */
@@ -71,10 +71,10 @@ export class TileSelect implements InteractiveComponent {
     this.input.name = newName;
   }
 
-  /** When true, displays an interactive input based on the "type" property. */
+  /** When `true`, displays an interactive input based on the `type` property. */
   @Prop({ reflect: true }) inputEnabled = false;
 
-  /** When inputEnabled is true, the placement of the interactive input on the component. */
+  /** When `inputEnabled` is `true`, specifies the placement of the interactive input on the component. */
   @Prop({ reflect: true }) inputAlignment: Extract<"end" | "start", Alignment> = "start";
 
   /**
