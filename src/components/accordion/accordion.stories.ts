@@ -197,6 +197,10 @@ export const icon_NoTest = (): string =>
     `
   );
 
+icon_NoTest.parameters = {
+  chromatic: { disableSnapshot: true }
+};
+
 export const withActions = (): string => html`
   <calcite-accordion scale="s">
     <calcite-accordion-item scale="m" heading="Accordion Item">

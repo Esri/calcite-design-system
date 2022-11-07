@@ -1,3 +1,4 @@
+import isChromatic from "chromatic/isChromatic";
 import * as icons from "@esri/calcite-ui-icons";
 import { boolean as booleanKnob } from "@storybook/addon-knobs";
 import { Steps } from "screener-storybook/src/screener";
@@ -11,7 +12,7 @@ export const iconNames = Object.keys(icons)
   .map((iconName) => iconName.replace("16", ""));
 
 // custom boolean will start up a knob but only add the prop if it is true
-// if you'd insead like `attr="true|false" set the standalone option to false
+// if you'd instead like `attr="true|false" set the standalone option to false
 export const boolean = (prop, value, standalone = true) => {
   const knob = booleanKnob(prop, value);
   const propValue = (standalone && knob) || !standalone ? prop : "";
@@ -65,6 +66,6 @@ export function storyFilters(): {
   excludeStories: RegExp | string[];
 } {
   return {
-    excludeStories: process.env.STORYBOOK_SCREENSHOT_TEST_BUILD ? /.*_NoTest$/ : /.*_TestOnly$/
+    excludeStories: isChromatic() ? /.*_NoTest$/ : /.*_TestOnly$/
   };
 }
