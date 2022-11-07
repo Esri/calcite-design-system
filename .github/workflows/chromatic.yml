@@ -1,10 +1,10 @@
 name: "Chromatic"
 on:
   push:
-    branches: [master]
+    branches: [benelan/chromatic]
   workflow_dispatch:
   pull_request:
-    branches: [master]
+    branches: [benelan/chromatic]
     types: [labeled, synchronize, ready_for_review]
 jobs:
   run_snapshot_tests:
