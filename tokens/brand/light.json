@@ -1,0 +1,20 @@
+{
+  "core": {
+    "font": {
+      "font-size": {
+        "6": {
+          "value": "26px",
+          "type": "fontSizes"
+        }
+      }
+    }
+  },
+  "breakpoint": {
+    "width": {
+      "lg": {
+        "value": "$core.breakpoint.width.lg",
+        "type": "sizing"
+      }
+    }
+  }
+}

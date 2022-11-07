@@ -1,5 +1,21 @@
 {
   "tokenSetOrder": [
-    "global"
+    "core",
+    "semantic",
+    "component/avatar",
+    "component/checkbox",
+    "component/chip",
+    "component/input-time",
+    "component/label",
+    "component/loader",
+    "component/radio",
+    "component/rating",
+    "component/tooltip",
+    "calcite/light",
+    "calcite/dark",
+    "brand/global",
+    "brand/light",
+    "brand/dark",
+    "component/[template-comp-name]"
   ]
 }
