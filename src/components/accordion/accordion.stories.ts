@@ -56,7 +56,7 @@ const createAccordionAttributes: (options?: { exceptions: string[] }) => Attribu
       {
         name: "selection-mode",
         commit(): Attribute {
-          this.value = select("selection-mode", ["multi", "single", "single-persist"], "multi", group);
+          this.value = select("selection-mode", ["multi", "single", "single-persist", "multiple"], "multiple", group);
           delete this.build;
           return this;
         }

@@ -478,7 +478,11 @@ export function connectFloatingUI(
   const position = component.overlayPositioning;
 
   // ensure position matches for initial positioning
-  floatingEl.style.position = position;
+  Object.assign(floatingEl.style, {
+    visibility: "hidden",
+    pointerEvents: "none",
+    position
+  });
 
   if (position === "absolute") {
     moveOffScreen(floatingEl);
