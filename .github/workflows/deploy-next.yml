@@ -17,7 +17,6 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version-file: package.json
-          cache: npm
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       - name: e2e test

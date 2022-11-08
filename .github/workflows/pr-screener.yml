@@ -40,7 +40,6 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version-file: package.json
-          cache: npm
       - run: npm ci --legacy-peer-deps
       - if: steps.one.outputs.skip == 'screen'
         name: run screener check
@@ -80,7 +79,7 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version-file: package.json
-          cache: npm
+
       - run: npm ci --legacy-peer-deps
       - name: run screener check
         env:

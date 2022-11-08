@@ -10,7 +10,6 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version-file: package.json
-          cache: npm
       - name: audit dependencies
         run: |
           npm ci --legacy-peer-deps
