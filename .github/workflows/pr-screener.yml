@@ -4,7 +4,7 @@ on:
     branches: [master]
   pull_request:
     branches: [master]
-    types: [labeled, synchronize, ready_for_review]
+    types: [labeled, ready_for_review]
   workflow_dispatch:
 jobs:
   screenshot_tests:
@@ -60,7 +60,7 @@ jobs:
           state: success
           sha: ${{github.event.pull_request.head.sha || github.sha}}
   skip_screenshot_tests:
-    if: "(github.event_name == 'pull_request' && (github.event.action == 'synchronize' && contains(github.event.pull_request.labels.*.name, 'pr ready for visual snapshots'))) || (github.actor == 'dependabot[bot]' && github.event.action != 'labeled')"
+    if: "(github.event_name == 'pull_request' && github.actor == 'dependabot[bot]' && github.event.action != 'labeled')"
     runs-on: ubuntu-latest
     steps:
       - name: skip screener for dependabot PRs or no visual changes
@@ -71,21 +71,3 @@ jobs:
           description: Screener run skipped (not ready for snapshots or dependabot PR)
           state: success
           sha: ${{github.event.pull_request.head.sha || github.sha}}
-  manual_screenshot_tests:
-    if: "github.event_name == 'workflow_dispatch'"
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version-file: package.json
-
-      - run: npm ci --legacy-peer-deps
-      - name: run screener check
-        env:
-          SCREENER_API_KEY: ${{ secrets.SCREENER_API_KEY }}
-          COMMIT_SHA: ${{github.event.pull_request.head.sha || github.sha}}
-          SAUCE_ACCESS_NAME: ${{ secrets.SAUCE_ACCESS_NAME}}
-          SAUCE_ACCESS_KEY: ${{ secrets.SAUCE_ACCESS_KEY }}
-          STORYBOOK_SCREENSHOT_TEST_BUILD: true
-        run: npm run test:storybook || true
