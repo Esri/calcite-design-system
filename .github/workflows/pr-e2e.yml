@@ -19,10 +19,10 @@ jobs:
           # skip if there are only md changes
           if [ -z "$testable_changes" ]; then
             echo "skip e2e"
-            echo "SKIP=true" >> $GITHUB.OUTPUT
+            echo "SKIP=true" >> $GITHUB_OUTPUT
           else
             echo "run e2e"
-            echo "SKIP=false" >> $GITHUB.OUTPUT
+            echo "SKIP=false" >> $GITHUB_OUTPUT
           fi
       - uses: actions/setup-node@v3
         with:
