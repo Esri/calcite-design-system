@@ -10,7 +10,7 @@ jobs:
         with:
           fetch-depth: 0
       - name: skip for markdown only prs
-        id: testable
+        id: markdown-check
         run: |
           current_branch=$(git rev-parse --abbrev-ref HEAD)
           # diff of branch excluding md
@@ -19,14 +19,14 @@ jobs:
           # skip if there are only md changes
           if [ -z "$testable_changes" ]; then
             echo "skip e2e"
-            echo "skip=true" >> $GITHUB.ENV
+            echo "SKIP=true" >> $GITHUB_OUTPUT
           else
             echo "run e2e"
-            echo "skip=false" >> $GITHUB.ENV
+            echo "SKIP=false" >> $GITHUB_OUTPUT
           fi
       - uses: actions/setup-node@v3
         with:
           node-version-file: package.json
       - run: npm ci --legacy-peer-deps
-      - if: env.skip == 'false'
+      - if: steps.markdown-check.outputs.SKIP == 'false'
         run: npm test
