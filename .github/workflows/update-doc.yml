@@ -1,23 +1,23 @@
 name: "Update component doc"
 on:
+  workflow_dispatch:
   schedule:
     - cron: "45 0 * * *"
 jobs:
   update-component-doc:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with:
-          node-version: lts/*
-          cache: npm
+          node-version-file: package.json
       - name: generate doc
         run: |
           npm ci --legacy-peer-deps
           npx stencil build --docs
           npm run lint:md
       - name: commit readme files/create pull request
-        uses: peter-evans/create-pull-request@v3
+        uses: peter-evans/create-pull-request@v4
         with:
           base: master
           branch: doc-update
