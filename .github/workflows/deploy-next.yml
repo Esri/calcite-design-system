@@ -3,18 +3,19 @@ concurrency:
   group: deploy_next
   cancel-in-progress: true
 on:
+  workflow_dispatch:
   push:
     branches: [master]
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           fetch-depth: 0
           token: ${{ secrets.ADMIN_TOKEN }}
           ref: master
-      - uses: actions/setup-node@v2
+      - uses: actions/setup-node@v3
         with:
           node-version: lts/*
           registry-url: https://registry.npmjs.org/
