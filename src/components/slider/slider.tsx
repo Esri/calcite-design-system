@@ -15,7 +15,7 @@ import {
 import { guid } from "../../utils/guid";
 
 import { ColorStop, DataSeries } from "../graph/interfaces";
-import { intersects } from "../../utils/dom";
+import { intersects, isPrimaryPointerButton } from "../../utils/dom";
 import { clamp, decimalPlaces } from "../../utils/math";
 import { Scale } from "../interfaces";
 import { LabelableComponent, connectLabel, disconnectLabel } from "../../utils/label";
@@ -38,6 +38,7 @@ import {
 import { CSS } from "./resources";
 
 type ActiveSliderProperty = "minValue" | "maxValue" | "value" | "minMaxValue";
+type SetValueProperty = Exclude<ActiveSliderProperty, "minMaxValue">;
 
 function isRange(value: number | number[]): value is number[] {
   return Array.isArray(value);
@@ -251,7 +252,7 @@ export class Slider
         }}
         onBlur={() => (this.activeProp = null)}
         onFocus={() => (this.activeProp = maxProp)}
-        onPointerDown={() => this.dragStart(maxProp)}
+        onPointerDown={(event) => this.pointerDownDragStart(event, maxProp)}
         ref={(el) => (this.maxHandle = el as HTMLDivElement)}
         role="slider"
         style={{ right: rightThumbOffset }}
@@ -276,7 +277,7 @@ export class Slider
         }}
         onBlur={() => (this.activeProp = null)}
         onFocus={() => (this.activeProp = maxProp)}
-        onPointerDown={() => this.dragStart(maxProp)}
+        onPointerDown={(event) => this.pointerDownDragStart(event, maxProp)}
         ref={(el) => (this.maxHandle = el as HTMLDivElement)}
         role="slider"
         style={{ right: rightThumbOffset }}
@@ -310,7 +311,7 @@ export class Slider
         }}
         onBlur={() => (this.activeProp = null)}
         onFocus={() => (this.activeProp = maxProp)}
-        onPointerDown={() => this.dragStart(maxProp)}
+        onPointerDown={(event) => this.pointerDownDragStart(event, maxProp)}
         ref={(el) => (this.maxHandle = el as HTMLDivElement)}
         role="slider"
         style={{ right: rightThumbOffset }}
@@ -345,7 +346,7 @@ export class Slider
         }}
         onBlur={() => (this.activeProp = null)}
         onFocus={() => (this.activeProp = maxProp)}
-        onPointerDown={() => this.dragStart(maxProp)}
+        onPointerDown={(event) => this.pointerDownDragStart(event, maxProp)}
         ref={(el) => (this.maxHandle = el as HTMLDivElement)}
         role="slider"
         style={{ right: rightThumbOffset }}
@@ -372,7 +373,7 @@ export class Slider
         }}
         onBlur={() => (this.activeProp = null)}
         onFocus={() => (this.activeProp = maxProp)}
-        onPointerDown={() => this.dragStart(maxProp)}
+        onPointerDown={(event) => this.pointerDownDragStart(event, maxProp)}
         ref={(el) => (this.maxHandle = el as HTMLDivElement)}
         role="slider"
         style={{ right: rightThumbOffset }}
@@ -399,7 +400,7 @@ export class Slider
         }}
         onBlur={() => (this.activeProp = null)}
         onFocus={() => (this.activeProp = maxProp)}
-        onPointerDown={() => this.dragStart(maxProp)}
+        onPointerDown={(event) => this.pointerDownDragStart(event, maxProp)}
         ref={(el) => (this.maxHandle = el as HTMLDivElement)}
         role="slider"
         style={{ right: rightThumbOffset }}
@@ -435,7 +436,7 @@ export class Slider
         }}
         onBlur={() => (this.activeProp = null)}
         onFocus={() => (this.activeProp = maxProp)}
-        onPointerDown={() => this.dragStart(maxProp)}
+        onPointerDown={(event) => this.pointerDownDragStart(event, maxProp)}
         ref={(el) => (this.maxHandle = el as HTMLDivElement)}
         role="slider"
         style={{ right: rightThumbOffset }}
@@ -470,7 +471,7 @@ export class Slider
         }}
         onBlur={() => (this.activeProp = null)}
         onFocus={() => (this.activeProp = "minValue")}
-        onPointerDown={() => this.dragStart("minValue")}
+        onPointerDown={(event) => this.pointerDownDragStart(event, "minValue")}
         ref={(el) => (this.minHandle = el as HTMLDivElement)}
         role="slider"
         style={{ left: leftThumbOffset }}
@@ -495,7 +496,7 @@ export class Slider
         }}
         onBlur={() => (this.activeProp = null)}
         onFocus={() => (this.activeProp = "minValue")}
-        onPointerDown={() => this.dragStart("minValue")}
+        onPointerDown={(event) => this.pointerDownDragStart(event, "minValue")}
         ref={(el) => (this.minHandle = el as HTMLDivElement)}
         role="slider"
         style={{ left: leftThumbOffset }}
@@ -529,7 +530,7 @@ export class Slider
         }}
         onBlur={() => (this.activeProp = null)}
         onFocus={() => (this.activeProp = "minValue")}
-        onPointerDown={() => this.dragStart("minValue")}
+        onPointerDown={(event) => this.pointerDownDragStart(event, "minValue")}
         ref={(el) => (this.minHandle = el as HTMLDivElement)}
         role="slider"
         style={{ left: leftThumbOffset }}
@@ -564,7 +565,7 @@ export class Slider
         }}
         onBlur={() => (this.activeProp = null)}
         onFocus={() => (this.activeProp = "minValue")}
-        onPointerDown={() => this.dragStart("minValue")}
+        onPointerDown={(event) => this.pointerDownDragStart(event, "minValue")}
         ref={(el) => (this.minHandle = el as HTMLDivElement)}
         role="slider"
         style={{ left: leftThumbOffset }}
@@ -591,7 +592,7 @@ export class Slider
         }}
         onBlur={() => (this.activeProp = null)}
         onFocus={() => (this.activeProp = "minValue")}
-        onPointerDown={() => this.dragStart("minValue")}
+        onPointerDown={(event) => this.pointerDownDragStart(event, "minValue")}
         ref={(el) => (this.minHandle = el as HTMLDivElement)}
         role="slider"
         style={{ left: leftThumbOffset }}
@@ -624,7 +625,7 @@ export class Slider
           <div class="track" ref={this.storeTrackRef}>
             <div
               class="track__range"
-              onPointerDown={() => this.dragStart("minMaxValue")}
+              onPointerDown={(event) => this.pointerDownDragStart(event, "minMaxValue")}
               style={{
                 left: `${mirror ? 100 - maxInterval : minInterval}%`,
                 right: `${mirror ? minInterval : 100 - maxInterval}%`
@@ -824,13 +825,18 @@ export class Slider
     }
     event.preventDefault();
     const fixedDecimalAdjustment = Number(adjustment.toFixed(decimalPlaces(step)));
-    this.setValue(activeProp, this.clamp(fixedDecimalAdjustment, activeProp));
+    this.setValue({
+      [activeProp as SetValueProperty]: this.clamp(fixedDecimalAdjustment, activeProp)
+    });
   }
 
   @Listen("pointerdown")
   pointerDownHandler(event: PointerEvent): void {
+    if (!isPrimaryPointerButton(event)) {
+      return;
+    }
+
     const x = event.clientX || event.pageX;
-    this.focusActiveHandle(x);
     const position = this.translate(x);
     let prop: ActiveSliderProperty = "value";
     if (isRange(this.value)) {
@@ -846,8 +852,9 @@ export class Slider
     this.dragStart(prop);
     const isThumbActive = this.el.shadowRoot.querySelector(".thumb:active");
     if (!isThumbActive) {
-      this.setValue(prop, this.clamp(position, prop));
+      this.setValue({ [prop as SetValueProperty]: this.clamp(position, prop) });
     }
+    this.focusActiveHandle(x);
   }
 
   handleTouchStart(event: TouchEvent): void {
@@ -913,6 +920,8 @@ export class Slider
 
   defaultValue: Slider["value"];
 
+  private activeProp: ActiveSliderProperty = "value";
+
   private guid = `calcite-slider-${guid()}`;
 
   private dragProp: ActiveSliderProperty;
@@ -928,8 +937,6 @@ export class Slider
   private trackEl: HTMLDivElement;
 
   @State() effectiveLocale = "";
-
-  @State() private activeProp: ActiveSliderProperty = "value";
 
   @State() private minMaxValueRange: number = null;
 
@@ -989,12 +996,20 @@ export class Slider
     return ticks;
   }
 
+  private pointerDownDragStart(event: PointerEvent, prop: ActiveSliderProperty): void {
+    if (!isPrimaryPointerButton(event)) {
+      return;
+    }
+
+    this.dragStart(prop);
+  }
+
   private dragStart(prop: ActiveSliderProperty): void {
     this.dragProp = prop;
     this.lastDragProp = this.dragProp;
     this.activeProp = prop;
     document.addEventListener("pointermove", this.dragUpdate);
-    document.addEventListener("pointerup", this.dragEnd);
+    document.addEventListener("pointerup", this.pointerUpDragEnd);
     document.addEventListener("pointercancel", this.dragEnd);
   }
 
@@ -1004,6 +1019,7 @@ export class Slider
         this.minHandle.focus();
         break;
       case "maxValue":
+      case "value":
         this.maxHandle.focus();
         break;
       case "minMaxValue":
@@ -1027,8 +1043,10 @@ export class Slider
             newMinValue >= this.min &&
             newMaxValue - newMinValue === this.minMaxValueRange
           ) {
-            this.minValue = this.clamp(newMinValue, "minValue");
-            this.maxValue = this.clamp(newMaxValue, "maxValue");
+            this.setValue({
+              minValue: this.clamp(newMinValue, "minValue"),
+              maxValue: this.clamp(newMaxValue, "maxValue")
+            });
           }
         } else {
           this.minValueDragRange = value - this.minValue;
@@ -1036,7 +1054,7 @@ export class Slider
           this.minMaxValueRange = this.maxValue - this.minValue;
         }
       } else {
-        this.setValue(this.dragProp, this.clamp(value, this.dragProp));
+        this.setValue({ [this.dragProp as SetValueProperty]: this.clamp(value, this.dragProp) });
       }
     }
   };
@@ -1049,6 +1067,14 @@ export class Slider
   private emitChange(): void {
     this.calciteSliderChange.emit();
   }
+
+  private pointerUpDragEnd = (event: PointerEvent): void => {
+    if (!isPrimaryPointerButton(event)) {
+      return;
+    }
+
+    this.dragEnd(event);
+  };
 
   private dragEnd = (event: PointerEvent): void => {
     this.removeDragListeners();
@@ -1065,24 +1091,37 @@ export class Slider
 
   private removeDragListeners() {
     document.removeEventListener("pointermove", this.dragUpdate);
-    document.removeEventListener("pointerup", this.dragEnd);
+    document.removeEventListener("pointerup", this.pointerUpDragEnd);
     document.removeEventListener("pointercancel", this.dragEnd);
   }
 
   /**
-   * Set the prop value if changed at the component level
+   * Set prop value(s) if changed at the component level
    *
-   * @param valueProp
-   * @param value
+   * @param {object} values - a set of key/value pairs delineating what properties in the component to update
    */
-  private setValue(valueProp: string, value: number): void {
-    const oldValue = this[valueProp];
-    const valueChanged = oldValue !== value;
+  private setValue(
+    values: Partial<{
+      [Property in keyof Pick<Slider, "maxValue" | "minValue" | "value">]: number;
+    }>
+  ): void {
+    let valueChanged: boolean;
+
+    Object.keys(values).forEach((propName) => {
+      const newValue = values[propName];
+
+      if (!valueChanged) {
+        const oldValue = this[propName];
+        valueChanged = oldValue !== newValue;
+      }
+
+      this[propName] = newValue;
+    });
 
     if (!valueChanged) {
       return;
     }
-    this[valueProp] = value;
+
     const dragging = this.dragProp;
     if (!dragging) {
       this.emitChange();

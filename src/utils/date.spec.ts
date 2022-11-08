@@ -1,20 +1,11 @@
 import { DateLocaleData } from "../components/date-picker/utils";
-import {
-  inRange,
-  dateFromRange,
-  dateFromISO,
-  sameDate,
-  prevMonth,
-  nextMonth,
-  localizeNumber,
-  parseNumber,
-  parseDateString,
-  getOrder
-} from "./date";
+import { inRange, dateFromRange, dateFromISO, sameDate, prevMonth, nextMonth, parseDateString, getOrder } from "./date";
 
+import english from "../components/date-picker/assets/date-picker/nls/en.json";
 import arabic from "../components/date-picker/assets/date-picker/nls/ar.json";
 import french from "../components/date-picker/assets/date-picker/nls/fr.json";
 import korean from "../components/date-picker/assets/date-picker/nls/ko.json";
+import { NumberingSystem, numberStringFormatter } from "./locale";
 
 describe("inRange", () => {
   it("returns true if no min/max", () => {
@@ -124,27 +115,69 @@ describe("nextMonth", () => {
   });
 });
 
-describe("localizeNumber", () => {
+describe("format number", () => {
   it("preserves standard numerals", () => {
-    const dummyLocale = { numerals: "0123456789" };
-    expect(localizeNumber(123, dummyLocale as DateLocaleData)).toEqual("123");
+    numberStringFormatter.numberFormatOptions = {
+      locale: "dummyLocale",
+      numberingSystem: "dummyNumberingSystem" as any
+    };
+    expect(numberStringFormatter.localize("123")).toEqual("123");
   });
   it("converts standard numerals to arabic", () => {
-    expect(localizeNumber(123, arabic as DateLocaleData)).toEqual("١٢٣");
+    numberStringFormatter.numberFormatOptions = {
+      locale: "ar",
+      numberingSystem: "arab"
+    };
+    expect(numberStringFormatter.localize("123")).toEqual("١٢٣");
   });
 });
 
-describe("parseNumber", () => {
+describe("parse number", () => {
   it("correctly parses number string", () => {
-    const dummyLocale = { numerals: "0123456789" };
-    expect(parseNumber("123", dummyLocale as DateLocaleData)).toEqual(123);
+    numberStringFormatter.numberFormatOptions = {
+      locale: "dummyLocale",
+      numberingSystem: "dummyNumberingSystem" as NumberingSystem
+    };
+    expect(numberStringFormatter.localize("123")).toEqual("123");
   });
   it("parses arabic number", () => {
-    expect(parseNumber("٧٨٩", arabic as DateLocaleData)).toEqual(789);
+    numberStringFormatter.numberFormatOptions = {
+      locale: "ar",
+      numberingSystem: "arab"
+    };
+    expect(numberStringFormatter.delocalize("٧٨٩")).toEqual("789");
   });
 });
 
 describe("parseDateString", () => {
+  it("parses MM/DD/YYYY date format with single-digit day and month", () => {
+    const parsed = parseDateString("3/7/2003", english as DateLocaleData);
+    expect(parsed.month).toEqual(2);
+    expect(parsed.day).toEqual(7);
+    expect(parsed.year).toEqual(2003);
+  });
+
+  it("parses MM/DD/YYYY date format with single-digit day and month and triple-digit year", () => {
+    const parsed = parseDateString("3/7/200", english as DateLocaleData);
+    expect(parsed.month).toEqual(2);
+    expect(parsed.day).toEqual(7);
+    expect(parsed.year).toEqual(200);
+  });
+
+  it("parses MM/DD/YYYY date format with double-digit day and month", () => {
+    const parsed = parseDateString("10/31/2022", english as DateLocaleData);
+    expect(parsed.month).toEqual(9);
+    expect(parsed.day).toEqual(31);
+    expect(parsed.year).toEqual(2022);
+  });
+
+  it("parses MM/DD/YYYY date format with double-digit day and month and triple-digit year", () => {
+    const parsed = parseDateString("10/31/200", english as DateLocaleData);
+    expect(parsed.month).toEqual(9);
+    expect(parsed.day).toEqual(31);
+    expect(parsed.year).toEqual(200);
+  });
+
   it("parses arabic date", () => {
     const parsed = parseDateString("٢٧‏/١١‏/٢٠٠٠", arabic as DateLocaleData);
     expect(parsed.day).toEqual(27);

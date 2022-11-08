@@ -140,6 +140,10 @@ export function sanitizeExponentialNumberString(numberString: string, func: (s: 
 
   const firstE = numberString.toLowerCase().indexOf("e") + 1;
 
+  if (!firstE) {
+    return func(numberString);
+  }
+
   return numberString
     .replace(/[eE]*$/g, "")
     .substring(0, firstE)

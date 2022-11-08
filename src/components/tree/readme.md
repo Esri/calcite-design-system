@@ -37,7 +37,7 @@
 
 | Event               | Description                                                                                                                                                 | Type                            |
 | ------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------- |
-| `calciteTreeSelect` | Fires when the user selects/deselects `calcite-tree-items`. An object including an array of selected items will be passed in the event's "detail" property. | `CustomEvent<TreeSelectDetail>` |
+| `calciteTreeSelect` | Fires when the user selects/deselects `calcite-tree-items`. An object including an array of selected items will be passed in the event's `detail` property. | `CustomEvent<TreeSelectDetail>` |
 
 ## Slots
 

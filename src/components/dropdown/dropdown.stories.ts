@@ -27,7 +27,7 @@ export const simple = (): string => html`
   >
     <calcite-button slot="dropdown-trigger">Open Dropdown</calcite-button>
     <calcite-dropdown-group
-      selection-mode="${select("group selection mode", ["single", "multi", "none"], "single")}"
+      selection-mode="${select("group selection mode", ["single", "multi", "none", "multiple"], "single")}"
       group-title="Sort by"
     >
       <calcite-dropdown-item>Relevance</calcite-dropdown-item>
@@ -48,7 +48,7 @@ export const simpleAutoWidth = (): string => html`
   >
     <calcite-button slot="dropdown-trigger">Open Dropdown</calcite-button>
     <calcite-dropdown-group
-      selection-mode="${select("group selection mode", ["single", "multi", "none"], "single")}"
+      selection-mode="${select("group selection mode", ["single", "multi", "none", "multiple"], "single")}"
       group-title="Sort by"
     >
       <calcite-dropdown-item>Relevance</calcite-dropdown-item>
@@ -72,7 +72,7 @@ export const simpleFullWidth = (): string => html`
     >
       <calcite-button width="full" slot="dropdown-trigger">Open Dropdown</calcite-button>
       <calcite-dropdown-group
-        selection-mode="${select("group selection mode", ["single", "multi", "none"], "single")}"
+        selection-mode="${select("group selection mode", ["single", "multi", "none", "multiple"], "single")}"
         group-title="Sort by"
       >
         <calcite-dropdown-item>Relevance</calcite-dropdown-item>
@@ -95,7 +95,7 @@ export const withIcons = (): string => html`
   >
     <calcite-button slot="dropdown-trigger">Open Dropdown</calcite-button>
     <calcite-dropdown-group
-      selection-mode="${select("group selection mode", ["single", "multi", "none"], "single")}"
+      selection-mode="${select("group selection mode", ["single", "multi", "none", "multiple"], "single")}"
       group-title="Icon Start"
     >
       <calcite-dropdown-item icon-start="list">List</calcite-dropdown-item>
@@ -103,7 +103,7 @@ export const withIcons = (): string => html`
       <calcite-dropdown-item icon-start="table">Table</calcite-dropdown-item>
     </calcite-dropdown-group>
     <calcite-dropdown-group
-      selection-mode="${select("group selection mode", ["single", "multi", "none"], "single")}"
+      selection-mode="${select("group selection mode", ["single", "multi", "none", "multiple"], "single")}"
       group-title="Icon End"
     >
       <calcite-dropdown-item icon-end="list">List</calcite-dropdown-item>
@@ -111,7 +111,7 @@ export const withIcons = (): string => html`
       <calcite-dropdown-item icon-end="table">Table</calcite-dropdown-item>
     </calcite-dropdown-group>
     <calcite-dropdown-group
-      selection-mode="${select("group selection mode", ["single", "multi", "none"], "single")}"
+      selection-mode="${select("group selection mode", ["single", "multi", "none", "multiple"], "single")}"
       group-title="Icon Both"
     >
       <calcite-dropdown-item icon-start="list" icon-end="data-check">List</calcite-dropdown-item>
@@ -137,7 +137,7 @@ export const groupsAndSelectionModes = (): string => html`
       <calcite-dropdown-item selected>Orange</calcite-dropdown-item>
       <calcite-dropdown-item>Grape</calcite-dropdown-item>
     </calcite-dropdown-group>
-    <calcite-dropdown-group group-title="Select multi" selection-mode="multi">
+    <calcite-dropdown-group group-title="Select multi" selection-mode="multiple">
       <calcite-dropdown-item>Asparagus</calcite-dropdown-item>
       <calcite-dropdown-item selected>Potato</calcite-dropdown-item>
       <calcite-dropdown-item selected>Yam</calcite-dropdown-item>
@@ -213,6 +213,7 @@ export const darkThemeRTL_TestOnly = (): string => html`
     </calcite-dropdown-group>
   </calcite-dropdown>
 `;
+
 darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };
 
 export const itemsAsLinksDarkTheme = (): string => html`
@@ -282,7 +283,7 @@ export const scrollingWithoutMaxItems_TestOnly = (): string => html`
   <calcite-dropdown open>
     <calcite-button slot="dropdown-trigger">Open Dropdown</calcite-button>
     <calcite-dropdown-group
-      selection-mode="${select("group selection mode", ["single", "multi", "none"], "single")}"
+      selection-mode="${select("group selection mode", ["single", "multi", "none", "multiple"], "single")}"
       group-title="Sort by"
     >
       <calcite-dropdown-item>Relevance</calcite-dropdown-item>
@@ -364,7 +365,7 @@ export const alignedCenter_TestOnly = (): string => html`
     >
       <calcite-button slot="dropdown-trigger">Open Dropdown</calcite-button>
       <calcite-dropdown-group
-        selection-mode="${select("group selection mode", ["single", "multi", "none"], "single")}"
+        selection-mode="${select("group selection mode", ["single", "multi", "none", "multiple"], "single")}"
         group-title="Sort by"
       >
         <calcite-dropdown-item>Relevance</calcite-dropdown-item>
@@ -388,7 +389,7 @@ export const alignedCenterRTL_TestOnly = (): string => html`
     >
       <calcite-button slot="dropdown-trigger">Open Dropdown</calcite-button>
       <calcite-dropdown-group
-        selection-mode="${select("group selection mode", ["single", "multi", "none"], "single")}"
+        selection-mode="${select("group selection mode", ["single", "multi", "none", "multiple"], "single")}"
         group-title="Sort by"
       >
         <calcite-dropdown-item>Relevance</calcite-dropdown-item>

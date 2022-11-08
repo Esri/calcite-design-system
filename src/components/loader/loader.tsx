@@ -20,6 +20,7 @@ export class Loader {
   //  Properties
   //
   //--------------------------------------------------------------------------
+
   /** When `true`, the component is active. */
   @Prop({ reflect: true }) active = false;
 

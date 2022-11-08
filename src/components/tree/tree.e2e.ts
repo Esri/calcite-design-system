@@ -1,9 +1,10 @@
 import { E2EPage, newE2EPage } from "@stencil/core/testing";
-import { accessible, renders, defaults, hidden } from "../../tests/commonTests";
+import { accessible, defaults, hidden, renders } from "../../tests/commonTests";
 import { GlobalTestProps } from "../../tests/utils";
 import { html } from "../../../support/formatting";
 import { CSS } from "../tree-item/resources";
 import { TreeSelectionMode } from "./interfaces";
+import SpyInstance = jest.SpyInstance;
 
 describe("calcite-tree", () => {
   it("renders", () => renders("calcite-tree", { display: "block" }));
@@ -270,7 +271,7 @@ describe("calcite-tree", () => {
     it("does not emit calciteTreeSelect on toggling the caret icon", async () => {
       const page = await newE2EPage();
       await page.setContent(html`
-        <calcite-tree selection-mode="multi-children">
+        <calcite-tree selection-mode="multichildren">
           <calcite-tree-item id="cables">
             Cables
             <calcite-tree slot="children">
@@ -290,9 +291,9 @@ describe("calcite-tree", () => {
     });
 
     describe("has selected items in the selection event payload", () => {
-      it("contains current selection when selection=multi", async () => {
+      it("contains current selection when selection=multiple", async () => {
         const page = await newE2EPage({
-          html: html` <calcite-tree selection-mode="multi">
+          html: html` <calcite-tree selection-mode="multiple">
             <calcite-tree-item id="1">1</calcite-tree-item>
             <calcite-tree-item id="2">2</calcite-tree-item>
           </calcite-tree>`
@@ -329,10 +330,10 @@ describe("calcite-tree", () => {
         expect(await getSelectedIds()).toEqual([]);
       });
 
-      it("contains current selection when selection=multi-children", async () => {
+      it("contains current selection when selection=multichildren", async () => {
         const page = await newE2EPage();
         await page.setContent(
-          html`<calcite-tree lines selection-mode="multi-children" scale="s">
+          html`<calcite-tree lines selection-mode="multichildren" scale="s">
             <calcite-tree-item id="1"> Child 1 </calcite-tree-item>
             <calcite-tree-item id="2">
               Child 2
@@ -903,6 +904,39 @@ describe("calcite-tree", () => {
       await page.waitForChanges();
 
       expect(await getActiveElementId(page)).toEqual("child-1");
+    });
+  });
+
+  describe("not throwing if tree doesn't have a parent element on initial render (#5333)", () => {
+    let consoleSpy: SpyInstance;
+
+    beforeAll(() => (consoleSpy = jest.spyOn(console, "error")));
+
+    afterAll(() => consoleSpy.mockRestore());
+
+    it("does not throw when tree is the topmost element in a shadow root", async () => {
+      const page = await newE2EPage();
+      await page.setContent("<test-tree-element></test-tree-element>");
+
+      await page.evaluate(async (): Promise<void> => {
+        customElements.define(
+          "test-tree-element",
+          class extends HTMLElement {
+            constructor() {
+              super();
+
+              const shadow = this.attachShadow({ mode: "open" });
+              shadow.innerHTML = `<calcite-tree>
+                  <calcite-tree-item>Child</calcite-tree-item>
+                </calcite-tree>`;
+            }
+          }
+        );
+      });
+      await page.waitForChanges();
+
+      // Stencil swallows the expected error, so we assert on the error message instead
+      expect(consoleSpy).toHaveBeenCalledTimes(0);
     });
   });
 });

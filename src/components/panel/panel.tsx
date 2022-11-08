@@ -597,7 +597,7 @@ export class Panel implements InteractiveComponent {
     const showFooter = hasFooterContent || hasFooterActions;
 
     return (
-      <footer class={CSS.footer} hidden={!showFooter} key="footer">
+      <footer class={CSS.footer} hidden={!showFooter}>
         <slot key="footer-slot" name={SLOTS.footer} onSlotchange={this.handleFooterSlotChange} />
         <slot
           key="footer-actions-slot"
@@ -622,8 +622,6 @@ export class Panel implements InteractiveComponent {
     const { hasFab } = this;
 
     const defaultSlotNode: VNode = <slot key="default-slot" />;
-    const contentWrapperKey = "content-wrapper";
-
     const containerNode = hasFab ? (
       <section class={CSS.contentContainer}>{defaultSlotNode}</section>
     ) : (
@@ -632,8 +630,11 @@ export class Panel implements InteractiveComponent {
 
     return (
       <div
-        class={{ [CSS.contentWrapper]: true, [CSS.contentHeight]: true }}
-        key={contentWrapperKey}
+        class={{
+          [CSS.contentWrapper]: true,
+          [CSS.contentContainer]: !hasFab,
+          [CSS.contentHeight]: hasFab
+        }}
         onScroll={this.panelScrollHandler}
         ref={this.setPanelScrollEl}
       >
