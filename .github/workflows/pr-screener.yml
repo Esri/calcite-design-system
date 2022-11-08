@@ -32,7 +32,7 @@ jobs:
           # skip if there are only md changes
           if [ -z "$screenable_changes" ]; then
             echo "skip screener"
-           echo "skip=true" >> $GITHUB.ENV
+            echo "skip=true" >> $GITHUB.ENV
           else
             echo "run screener"
             echo "skip=false" >> $GITHUB.ENV
