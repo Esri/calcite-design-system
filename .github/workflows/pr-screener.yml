@@ -32,16 +32,16 @@ jobs:
           # skip if there are only md changes
           if [ -z "$screenable_changes" ]; then
             echo "skip screener"
-           echo "skip=true" >> $GITHUB.ENV
+            echo "::set-output name=skip::skip"
           else
             echo "run screener"
-            echo "skip=false" >> $GITHUB.ENV
+            echo "::set-output name=skip::screen"
           fi
       - uses: actions/setup-node@v3
         with:
           node-version-file: package.json
       - run: npm ci --legacy-peer-deps
-      - if: env.skip == 'false'
+      - if: steps.one.outputs.skip == 'screen'
         name: run screener check
         env:
           SCREENER_API_KEY: ${{ secrets.SCREENER_API_KEY }}
