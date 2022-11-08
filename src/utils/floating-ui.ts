@@ -53,7 +53,10 @@ async function patchFloatingUiForNonChromiumBrowsers(): Promise<void> {
   }
 }
 
-const placementDataAttribute = "data-placement";
+/**
+ * Exported for testing purposes only
+ */
+export const placementDataAttribute = "data-placement";
 
 /**
  * Exported for testing purposes only
@@ -485,7 +488,7 @@ export function connectFloatingUI(
   });
 
   if (position === "absolute") {
-    moveOffScreen(floatingEl);
+    resetPosition(floatingEl);
   }
 
   const runAutoUpdate = Build.isBrowser
@@ -568,15 +571,16 @@ function handleTransitionElTransitionEnd(event: TransitionEvent): void {
     floatingTransitionEl.classList.contains(FloatingCSS.animation)
   ) {
     const floatingEl = getFloatingElFromTransitionTarget(floatingTransitionEl);
-    moveOffScreen(floatingEl);
+    resetPosition(floatingEl);
     getTransitionTarget(floatingEl).removeEventListener("transitionend", handleTransitionElTransitionEnd);
   }
 }
 
-function moveOffScreen(floatingEl: HTMLElement): void {
+function resetPosition(floatingEl: HTMLElement): void {
+  // resets position to better match https://floating-ui.com/docs/computePosition#initial-layout
   floatingEl.style.transform = "";
-  floatingEl.style.top = "-99999px";
-  floatingEl.style.left = "-99999px";
+  floatingEl.style.top = "0";
+  floatingEl.style.left = "0";
 }
 
 function getFloatingElFromTransitionTarget(floatingTransitionEl: HTMLElement): HTMLElement {
