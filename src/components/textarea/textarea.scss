@@ -1,16 +1,32 @@
 :host {
-  @apply block;
+  @apply inline-block;
   max-inline-size: 20rem;
   block-size: 10rem;
 }
 
-:host.container {
-  @apply max-w-full max-h-full;
+.wrapper:focus {
+  // border-color: var(--calcite-ui-brand);
+  // border-width: 2px;
+  // border-style: solid;
+  // border: none;
+  outline-width: 2px;
+  outline-style: solid;
+  outline-color: var(--calcite-ui-brand);
+  // outline: none;
+}
+
+.wrapper:focus .textarea {
+  border: none;
+}
+
+.wrapper:focus .footer {
+  border-inline-start: none;
+  border-inline-end: none;
+  border-block-end: none;
 }
 
 textarea {
   @apply block text-color-1 border-color-input  border min-w-full bg-foreground-1 box-border;
-  block-size: 8rem;
 }
 
 :host([footer]) .textarea {
@@ -18,13 +34,32 @@ textarea {
 }
 
 textarea:focus {
-  @apply border-2 rounded-none;
-  //figure tailwind util usage for brand color
-  border-color: var(--calcite-ui-brand);
+  // @apply border-2;
+  //replace with tailwind util usage for brand color
+  // border-color: var(--calcite-ui-brand);
+  // outline-color: var(--calcite-ui-brand);
 }
 
-// :host([invalid]) .textarea {
-// }
+.textarea--invalid :focus {
+  //@apply border-color-danger;
+  // @apply border-2;
+  // border-color: var(--calcite-ui-danger);
+  // outline-color: var(--calcite-ui-danger);
+}
+
+:host([readonly]) {
+  textarea,
+  .footer {
+    @apply bg-background;
+  }
+}
+
+:host([disabled]) {
+  textarea,
+  footer {
+    @apply opacity-50;
+  }
+}
 
 .resize-disabled {
   resize: none;
@@ -34,15 +69,6 @@ textarea:focus {
   @apply flex flex-row bg-foreground-1 box-border border-color-input  border  border-solid border-t;
   border-block-start: solid var(--calcite-ui-border-3);
   justify-content: space-between;
-  block-size: 2rem;
-}
-
-:host([scale="s"]) .footer {
-  @apply py-1 px-2;
-}
-
-:host([scale="m"]) .footer {
-  @apply py-2 px-3;
 }
 
 @include slotted("title", "*") {
@@ -52,25 +78,50 @@ textarea:focus {
     font-medium;
 }
 
-.character-limit {
-  @apply flex justify-end text-color-2 grow;
-  font-size: 14px;
-}
-
 :host([scale="m"]) .character-limit {
   @apply px-2;
 }
 
-// slot[name="footer-leading"]::slotted(*),
-// slot[name="footer-trailing"]::slotted(*) {
-//   @apply flex gap-1;
-// }
+:host([scale="s"]) {
+  @apply text-n2;
+  textarea {
+    @apply py-1 px-2;
+    block-size: theme("spacing.33");
+  }
+  .footer {
+    @apply py-1 px-2 h-7;
+  }
+}
 
-// @include slotted("footer-leading", "*") {
-//   @apply text-n2-wrap self-center;
-// }
-// @include slotted("footer-trailing", "*") {
-//   @apply text-n2-wrap self-center;
-// }
+:host([scale="m"]) {
+  @apply text-n1;
+  textarea {
+    @apply py-2 px-3;
+    block-size: theme("spacing.31");
+  }
+  .footer {
+    @apply py-2 px-3 h-9;
+  }
+}
+
+:host([scale="l"]) {
+  @apply text-0;
+  textarea {
+    @apply py-3 px-4;
+    block-size: theme("spacing.29");
+  }
+  .footer {
+    @apply py-3 px-4 h-11;
+  }
+}
+
+.character-limit {
+  @apply flex justify-end text-color-2 grow;
+}
+
+.character-overlimit {
+  @apply font-bold;
+  color: var(--calcite-ui-danger);
+}
 
 @include hidden-form-input();

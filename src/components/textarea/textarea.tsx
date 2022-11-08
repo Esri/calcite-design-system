@@ -147,38 +147,43 @@ export class Textarea implements FormComponent, LabelableComponent, LocalizedCom
   render(): VNode {
     return (
       <Host>
-        <textarea
-          aria-disabled={this.disabled}
-          aria-label={getLabelText(this)}
-          autofocus={this.autofocus}
-          class={{
-            textarea: true,
-            [CSS.resizeDisabled]: this.resizeDisabled
-          }}
-          cols={this.cols}
-          disabled={this.disabled}
-          form={this.form}
-          hidden={this.hidden}
-          minlength={this.minlength}
-          name={this.name}
-          onChange={this.handleChange}
-          onInput={this.handleInput}
-          placeholder={this.placeholder}
-          readonly={this.readonly}
-          ref={(el) => (this.textareaEl = el as HTMLTextAreaElement)}
-          required={this.required}
-          rows={this.rows}
-          value={this.value}
-          wrap={this.wrap}
-        />
-        <slot />
-        {this.footer && (
-          <footer class={CSS.footer}>
-            {this.renderFooterLeading()}
-            {this.renderCharacterLimit()}
-            {this.renderFooterTrailing()}
-          </footer>
-        )}
+        <div
+          class={{ "textarea--invalid": this.invalid, wrapper: true }}
+          tabindex={!!this.renderFooterLeading() || !!this.renderFooterTrailing() ? "-1" : "1"}
+        >
+          <textarea
+            aria-disabled={this.disabled}
+            aria-label={getLabelText(this)}
+            autofocus={this.autofocus}
+            class={{
+              textarea: true,
+              [CSS.resizeDisabled]: this.resizeDisabled
+            }}
+            cols={this.cols}
+            disabled={this.disabled}
+            form={this.form}
+            hidden={this.hidden}
+            minlength={this.minlength}
+            name={this.name}
+            onChange={this.handleChange}
+            onInput={this.handleInput}
+            placeholder={this.placeholder}
+            readonly={this.readonly}
+            ref={(el) => (this.textareaEl = el as HTMLTextAreaElement)}
+            required={this.required}
+            rows={this.rows}
+            value={this.value}
+            wrap={this.wrap}
+          />
+          <slot />
+          {this.footer && (
+            <footer class={CSS.footer}>
+              {this.renderFooterLeading()}
+              {this.renderCharacterLimit()}
+              {this.renderFooterTrailing()}
+            </footer>
+          )}
+        </div>
         <HiddenFormInputSlot component={this} />
       </Host>
     );
@@ -251,7 +256,10 @@ export class Textarea implements FormComponent, LabelableComponent, LocalizedCom
   renderCharacterLimit(): VNode {
     return this.maxlength ? (
       <span class={CSS.characterLimit}>
-        {this.getLocalizedCharacterLength()}/
+        <span class={{ [CSS.characterOverlimit]: this.value?.length > this.maxlength }}>
+          {this.getLocalizedCharacterLength()}
+        </span>
+        {"/"}
         {numberStringFormatter.localize(this.maxlength.toString())}
       </span>
     ) : null;
