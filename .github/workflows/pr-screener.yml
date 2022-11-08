@@ -15,7 +15,7 @@ jobs:
         with:
           fetch-depth: 0
       - name: skip for markdown only prs
-        id: markdown-check
+        id: one
         run: |
           current_branch=$(git rev-parse --abbrev-ref HEAD)
           echo "branch: $current_branch"
@@ -32,16 +32,16 @@ jobs:
           # skip if there are only md changes
           if [ -z "$screenable_changes" ]; then
             echo "skip screener"
-            echo "SKIP=true" >> $GITHUB_OUTPUT
+            echo "skip=true" >> $GITHUB.ENV
           else
             echo "run screener"
-            echo "SKIP=false" >> $GITHUB_OUTPUT
+            echo "skip=false" >> $GITHUB.ENV
           fi
       - uses: actions/setup-node@v3
         with:
           node-version-file: package.json
       - run: npm ci --legacy-peer-deps
-      - if: steps.markdown-check.outputs.SKIP == 'false'
+      - if: env.skip == 'false'
         name: run screener check
         env:
           SCREENER_API_KEY: ${{ secrets.SCREENER_API_KEY }}
@@ -50,7 +50,7 @@ jobs:
           SAUCE_ACCESS_KEY: ${{ secrets.SAUCE_ACCESS_KEY }}
           STORYBOOK_SCREENSHOT_TEST_BUILD: true
         run: npm run test:storybook || true
-      - if: steps.markdown-check.outputs.SKIP == 'true'
+      - if: env.skip == 'true'
         name: skip screener for markdown PRs
         uses: Sibz/github-status-action@v1
         with:
