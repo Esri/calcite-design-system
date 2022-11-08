@@ -101,6 +101,8 @@ export class Textarea implements FormComponent, LabelableComponent, LocalizedCom
    */
   @Prop({ reflect: true }) hidden = false;
 
+  @Prop({ reflect: true }) invalid = false;
+
   @Watch("disabled")
   disabledHandler(value: boolean): void {
     if (value) {
@@ -169,6 +171,7 @@ export class Textarea implements FormComponent, LabelableComponent, LocalizedCom
           value={this.value}
           wrap={this.wrap}
         />
+        <slot />
         {this.footer && (
           <footer class={CSS.footer}>
             {this.renderFooterLeading()}
