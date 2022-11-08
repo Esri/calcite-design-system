@@ -54,7 +54,7 @@ jobs:
 
               labels.push(product);
 
-              await github.issues.restsetLabels({
+              await github.issues.rest.setLabels({
                 issue_number,
                 owner,
                 repo,
