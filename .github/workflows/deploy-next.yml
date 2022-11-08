@@ -17,9 +17,7 @@ jobs:
           ref: master
       - uses: actions/setup-node@v3
         with:
-          node-version: lts/*
-          registry-url: https://registry.npmjs.org/
-          cache: npm
+          node-version-file: package.json
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       - name: e2e test
