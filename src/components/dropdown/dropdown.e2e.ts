@@ -73,6 +73,7 @@ describe("calcite-dropdown", () => {
     page: E2EPage,
     { expectedItemIds, mostRecentId }: SelectedItemsAssertionOptions
   ): Promise<void> {
+    await page.waitForTimeout(100);
     const selectedItemIds = await page.evaluate(() => {
       const dropdown = document.querySelector<HTMLCalciteDropdownElement>("calcite-dropdown");
       return dropdown.selectedItems.map((item) => item.id);
