@@ -19,14 +19,15 @@ jobs:
           # skip if there are only md changes
           if [ -z "$testable_changes" ]; then
             echo "skip e2e"
+            echo "skip=true" >> $GITHUB.ENV
           else
             echo "run e2e"
-            echo "::set-output name=skip::false"
+            echo "skip=false" >> $GITHUB.ENV
           fi
       - uses: actions/setup-node@v2
         with:
           node-version: lts/*
           cache: npm
       - run: npm ci --legacy-peer-deps
-      - if: steps.testable.outputs.skip == 'false'
+      - if: env.skip == 'false'
         run: npm test
