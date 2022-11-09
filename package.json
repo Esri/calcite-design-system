@@ -58,7 +58,7 @@
     "util:patch-tree-shaking": "ts-node --esm support/patchTreeShaking.ts",
     "util:prep-build-reqs": "npm run util:copy-icons && npm run util:generate-t9n-types",
     "util:prep-next": "ts-node --esm support/prepReleaseCommit.ts --next && npm run build",
-    "util:publish-next": "npm run util:test-types && npm run util:push-tags && npm publish --tag next",
+    "util:publish-next": "npm run util:test-types && npm publish --tag next && npm run util:push-tags",
     "util:check-squash-mergeable-branch": "ts-node --esm support/checkSquashMergeableBranch.ts",
     "util:push-tags": "git push --atomic --follow-tags origin master",
     "util:sync-t9n-en-bundles": "ts-node --esm support/syncEnT9nBundles.ts",
