@@ -564,7 +564,6 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent, FocusTr
             [FloatingCSS.animationActive]: displayed
           }}
           ref={this.setTransitionEl}
-          tabIndex={-1}
         >
           {arrowNode}
           <div
