@@ -1,19 +1,5 @@
 {
   "switch": {
-    "font": {
-      "sm": {
-        "value": "$semantic.font.default.bold.-3h",
-        "type": "typography"
-      },
-      "md": {
-        "value": "$semantic.font.default.bold.-1h",
-        "type": "typography"
-      },
-      "lg": {
-        "value": "$semantic.font.default.bold.0h",
-        "type": "typography"
-      }
-    },
     "background": {
       "default": {
         "light": {
@@ -38,15 +24,15 @@
     },
     "border-radius": {
       "sm": {
-        "value": "$core.border.border-radius.4",
+        "value": "$core.border.border-radius.full",
         "type": "borderRadius"
       },
       "md": {
-        "value": "$core.border.border-radius.5",
+        "value": "$core.border.border-radius.full",
         "type": "borderRadius"
       },
       "lg": {
-        "value": "$core.border.border-radius.6",
+        "value": "$core.border.border-radius.full",
         "type": "borderRadius"
       }
     },
@@ -147,15 +133,15 @@
       },
       "border-radius": {
         "sm": {
-          "value": "$core.border.border-radius.4",
+          "value": "$core.border.border-radius.half",
           "type": "borderRadius"
         },
         "md": {
-          "value": "$core.border.border-radius.5",
+          "value": "$core.border.border-radius.half",
           "type": "borderRadius"
         },
         "lg": {
-          "value": "$core.border.border-radius.6",
+          "value": "$core.border.border-radius.half",
           "type": "borderRadius"
         }
       }
