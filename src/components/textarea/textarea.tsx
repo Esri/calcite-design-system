@@ -22,6 +22,7 @@ import {
   NumberingSystem,
   numberStringFormatter
 } from "../../utils/locale";
+import { createObserver } from "../../utils/observers";
 @Component({
   tag: "calcite-textarea",
   styleUrl: "textarea.scss",
@@ -146,9 +147,8 @@ export class Textarea implements FormComponent, LabelableComponent, LocalizedCom
     disconnectLabel(this);
     disconnectForm(this);
     disconnectLocalized(this);
+    this.resizeObserver?.disconnect();
   }
-
-  // componentDidrender(): void {}
 
   render(): VNode {
     return (
@@ -178,7 +178,7 @@ export class Textarea implements FormComponent, LabelableComponent, LocalizedCom
             onInput={this.handleInput}
             placeholder={this.placeholder}
             readonly={this.readonly}
-            ref={(el) => (this.textareaEl = el as HTMLTextAreaElement)}
+            ref={this.setTextareaEl}
             required={this.required}
             rows={this.rows}
             value={this.value}
@@ -186,7 +186,10 @@ export class Textarea implements FormComponent, LabelableComponent, LocalizedCom
           />
           <slot />
           {this.footer && (
-            <footer class={{ [CSS.footer]: true, [CSS.readonly]: this.readonly }}>
+            <footer
+              class={{ [CSS.footer]: true, [CSS.readonly]: this.readonly }}
+              ref={(el) => (this.footerEl = el as HTMLElement)}
+            >
               {this.renderFooterLeading()}
               {this.renderCharacterLimit()}
               {this.renderFooterTrailing()}
@@ -229,7 +232,11 @@ export class Textarea implements FormComponent, LabelableComponent, LocalizedCom
 
   textareaEl: HTMLTextAreaElement;
 
+  footerEl: HTMLElement;
+
   @State() effectiveLocale: string;
+
+  resizeObserver = createObserver("resize", () => this.setFooterWidth());
 
   //--------------------------------------------------------------------------
   //
@@ -274,7 +281,7 @@ export class Textarea implements FormComponent, LabelableComponent, LocalizedCom
     ) : null;
   }
 
-  private getLocalizedCharacterLength(): string {
+  getLocalizedCharacterLength(): string {
     numberStringFormatter.numberFormatOptions = {
       locale: this.effectiveLocale,
       numberingSystem: this.numberingSystem
@@ -282,7 +289,7 @@ export class Textarea implements FormComponent, LabelableComponent, LocalizedCom
     return numberStringFormatter.localize(this.value?.length.toString());
   }
 
-  private disableSlottedElements(disabled: boolean): void {
+  disableSlottedElements(disabled: boolean): void {
     const slottedEl = getSlotted(this.el, [SLOTS.footerLeading, SLOTS.footerTrailing], {
       all: true
     });
@@ -298,4 +305,14 @@ export class Textarea implements FormComponent, LabelableComponent, LocalizedCom
       input.setCustomValidity("Under the character limit");
     }
   }
+
+  setFooterWidth(): void {
+    const { left, right } = this.textareaEl.getBoundingClientRect();
+    this.footerEl.style.width = `${right - left}px`;
+  }
+
+  setTextareaEl = (el: HTMLTextAreaElement): void => {
+    this.textareaEl = el;
+    this.resizeObserver.observe(el);
+  };
 }
