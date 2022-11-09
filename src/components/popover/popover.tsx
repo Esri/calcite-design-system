@@ -109,6 +109,11 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent, FocusTr
   @Prop({ reflect: true }) disableFlip = false;
 
   /**
+   * When `true`, prevents focus trapping.
+   */
+  @Prop({ reflect: true }) disableFocusTrap = false;
+
+  /**
    * When `true`, removes the caret pointer.
    */
   @Prop({ reflect: true }) disablePointer = false;
@@ -486,7 +491,9 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent, FocusTr
 
   onOpen(): void {
     this.calcitePopoverOpen.emit();
-    activateFocusTrap(this);
+    if (!this.disableFocusTrap) {
+      activateFocusTrap(this);
+    }
   }
 
   onBeforeClose(): void {

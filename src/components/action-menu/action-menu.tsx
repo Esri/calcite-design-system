@@ -286,7 +286,8 @@ export class ActionMenu {
 
     return (
       <calcite-popover
-        disablePointer
+        disableFocusTrap={true}
+        disablePointer={true}
         flipPlacements={flipPlacements}
         label={label}
         offsetDistance={0}
