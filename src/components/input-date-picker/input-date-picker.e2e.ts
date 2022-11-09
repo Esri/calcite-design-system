@@ -394,6 +394,21 @@ describe("calcite-input-date-picker", () => {
     });
   });
 
+  it("should set internal value and input value when valueAsDate is set for range", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html` <calcite-input-date-picker range />`);
+
+    const expectedStartDate = "2022-10-01";
+    const expectedEndDate = "2022-10-31";
+    const expectedValue = [expectedStartDate, expectedEndDate];
+
+    const inputDatePickerEl = await page.find("calcite-input-date-picker");
+    inputDatePickerEl.setProperty("valueAsDate", expectedValue);
+    await page.waitForChanges();
+
+    expect(await inputDatePickerEl.getProperty("value")).toEqual(expectedValue);
+  });
+
   it("should return endDate time as 23:59:999 when valueAsDate property is parsed", async () => {
     const page = await newE2EPage();
     await page.setContent(html` <calcite-input-date-picker layout="horizontal" range />`);

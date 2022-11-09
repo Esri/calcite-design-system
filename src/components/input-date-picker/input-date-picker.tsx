@@ -134,6 +134,10 @@ export class InputDatePicker
   @Watch("valueAsDate")
   valueAsDateWatcher(valueAsDate: Date): void {
     this.datePickerActiveDate = valueAsDate;
+    if (!this.userChangedValue) {
+      this.localizeInputValues();
+    }
+    this.userChangedValue = false;
   }
 
   /**
@@ -459,6 +463,8 @@ export class InputDatePicker
       }
       this.start = "";
       this.end = "";
+    } else if (this.range && this.valueAsDate) {
+      this.setRangeValue(this.valueAsDate as Date[]);
     }
 
     if (this.start) {
