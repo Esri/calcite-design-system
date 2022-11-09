@@ -39,7 +39,7 @@ jobs:
 
               # remove the build to docs after storybook deploys to gh-pages
               # if there are changes the git sanity checks will prevent deployment
-              git clean -fd && git reset --hard && git checkout master && git pull
+              git reset --hard && git checkout master && git pull
               npm run util:deploy-next-from-ci
             fi
           else
