@@ -5,17 +5,73 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>TextArea</title>
+    <style>
+      .parent {
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: row;
+        color: var(--calcite-ui-text-3);
+        font-family: var(--calcite-sans-family);
+        font-size: var(--calcite-font-size-0);
+        font-weight: var(--calcite-font-weight-medium);
+        padding: 15px;
+        margin: 0 7% 0 7%;
+      }
 
+      .child {
+        display: inline-flex;
+        width: 260px;
+        flex-basis: 300px;
+        flex-direction: column;
+        flex-flow: column;
+        margin: 15px;
+        padding: 0 18px;
+      }
+
+      .rounded {
+        --calcite-border-radius-base: 5px;
+      }
+    </style>
     <script src="./_assets/head.js"></script>
   </head>
   <body>
-    <calcite-label>
-      Add Notes
-      <calcite-textarea maxlength="50" footer>
-        <button slot="footer-leading">NEXT</button>
-        <calcite-button slot="footer-trailing">RESET </calcite-button>
-      </calcite-textarea></calcite-label
-    >
+    <div class="parent">
+      <div class="child">
+        <calcite-textarea maxlength="50" placeholder="add notes" scale="s" footer>
+          <calcite-button slot="footer-leading" size="s">NEXT</calcite-button>
+          <calcite-button slot="footer-trailing" size="s">RESET </calcite-button>
+        </calcite-textarea>
+      </div>
+
+      <div class="child">
+        <calcite-textarea footer maxlength="50" placeholder="add notes" scale="m" value="anveshreddy mekala">
+          <calcite-button slot="footer-leading" appearance="transparent">NEXT</calcite-button>
+          <calcite-button slot="footer-trailing" appearance="transparent">RESET </calcite-button>
+        </calcite-textarea>
+      </div>
+
+      <div class="child">
+        <calcite-textarea footer maxlength="50" placeholder="add notes" scale="l">
+          <calcite-button slot="footer-leading">NEXT</calcite-button>
+          <calcite-button slot="footer-trailing">RESET </calcite-button>
+        </calcite-textarea>
+      </div>
+    </div>
+    <div class="parent">
+      <div class="child">
+        <calcite-textarea maxlength="50" placeholder="add notes" scale="s" footer> </calcite-textarea>
+      </div>
+    </div>
+    <div class="parent">
+      <div class="child">
+        <calcite-textarea maxlength="50" placeholder="add notes" scale="s"> </calcite-textarea>
+      </div>
+    </div>
+    <div class="parent">
+      <div class="child">
+        <calcite-textarea maxlength="50" footer placeholder="add notes" scale="s" invalid> </calcite-textarea>
+      </div>
+    </div>
     <script>
       const textArea = document.querySelector("calcite-textarea");
       textArea?.addEventListener("calciteTextareaInput", () => {

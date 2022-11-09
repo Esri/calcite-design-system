@@ -85,6 +85,12 @@ export class Textarea implements FormComponent, LabelableComponent, LocalizedCom
   /** When `true`, disables the resizing handle. */
   @Prop({ reflect: true }) resizeDisabled: boolean;
 
+  /** When `true`, disables resizing textarea horizantally. */
+  @Prop({ reflect: true }) horizantalResizeDisabled: boolean;
+
+  /** When `true`, disables resizing textarea vertically. */
+  @Prop({ reflect: true }) verticalResizeDisabled: boolean;
+
   /** When `true`, marks this component as required in form. */
   @Prop({ reflect: true }) required: boolean;
 
@@ -148,7 +154,7 @@ export class Textarea implements FormComponent, LabelableComponent, LocalizedCom
     return (
       <Host>
         <div
-          class={{ "textarea--invalid": this.invalid, wrapper: true }}
+          class={{ "textarea--invalid": this.invalid, container: true }}
           tabindex={!!this.renderFooterLeading() || !!this.renderFooterTrailing() ? "-1" : "1"}
         >
           <textarea
@@ -157,7 +163,10 @@ export class Textarea implements FormComponent, LabelableComponent, LocalizedCom
             autofocus={this.autofocus}
             class={{
               textarea: true,
-              [CSS.resizeDisabled]: this.resizeDisabled
+              [CSS.resizeDisabled]: this.resizeDisabled,
+              [CSS.resizeDisabledX]: this.horizantalResizeDisabled,
+              [CSS.resizeDisabledY]: this.verticalResizeDisabled,
+              [CSS.readonly]: this.readonly
             }}
             cols={this.cols}
             disabled={this.disabled}
@@ -177,7 +186,7 @@ export class Textarea implements FormComponent, LabelableComponent, LocalizedCom
           />
           <slot />
           {this.footer && (
-            <footer class={CSS.footer}>
+            <footer class={{ [CSS.footer]: true, [CSS.readonly]: this.readonly }}>
               {this.renderFooterLeading()}
               {this.renderCharacterLimit()}
               {this.renderFooterTrailing()}

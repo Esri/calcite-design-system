@@ -4,82 +4,80 @@
   block-size: 10rem;
 }
 
-.wrapper:focus {
-  // border-color: var(--calcite-ui-brand);
-  // border-width: 2px;
-  // border-style: solid;
-  // border: none;
-  outline-width: 2px;
-  outline-style: solid;
-  outline-color: var(--calcite-ui-brand);
-  // outline: none;
+.container:focus {
+  @apply outline-none border-color-brand border-2 border-solid;
 }
 
-.wrapper:focus .textarea {
-  border: none;
+.container:focus textarea {
+  @apply border-none;
 }
 
-.wrapper:focus .footer {
-  border-inline-start: none;
-  border-inline-end: none;
-  border-block-end: none;
+.container:focus .footer {
+  @apply border-none;
+  border-block-start: 1px solid var(--calcite-ui-border-3);
 }
 
 textarea {
-  @apply block text-color-1 border-color-input  border min-w-full bg-foreground-1 box-border;
+  @apply block 
+  text-color-1 
+  min-w-full 
+  bg-foreground-1 
+  box-border
+  border-color-input  
+  border;
 }
 
-:host([footer]) .textarea {
-  border-block-end: 0;
+.footer {
+  @apply flex 
+  flex-row 
+  bg-foreground-1 
+  box-border 
+  border-color-input  
+  border  
+  border-solid
+   justify-between;
+  border-block-start: 1px solid var(--calcite-ui-border-3);
+}
+
+:host([footer]:not(:focus)) textarea {
+  @apply border-b-0;
 }
 
 textarea:focus {
-  // @apply border-2;
-  //replace with tailwind util usage for brand color
-  // border-color: var(--calcite-ui-brand);
-  // outline-color: var(--calcite-ui-brand);
+  @apply outline-none border-color-brand border-2 border-solid;
 }
 
-.textarea--invalid :focus {
-  //@apply border-color-danger;
-  // @apply border-2;
-  // border-color: var(--calcite-ui-danger);
-  // outline-color: var(--calcite-ui-danger);
-}
-
-:host([readonly]) {
+.textarea--invalid {
+  @apply border-color-danger border border-solid;
   textarea,
   .footer {
-    @apply bg-background;
+    @apply border-none;
+  }
+  .footer {
+    border-block-start: 1px solid var(--calcite-ui-border-3);
   }
 }
 
-:host([disabled]) {
-  textarea,
-  footer {
-    @apply opacity-50;
-  }
+.textarea--invalid:focus {
+  @apply border-color-danger border-2 border-solid;
+}
+
+.character-limit {
+  @apply flex justify-end text-color-2 grow items-center;
+}
+
+.character-overlimit {
+  @apply font-bold text-danger;
 }
 
 .resize-disabled {
   resize: none;
 }
-
-.footer {
-  @apply flex flex-row bg-foreground-1 box-border border-color-input  border  border-solid border-t;
-  border-block-start: solid var(--calcite-ui-border-3);
-  justify-content: space-between;
+.resize-disabled--x {
+  resize: vertical;
 }
-
-@include slotted("title", "*") {
-  @apply text-color-1
-    text-n1-wrap
-    m-0
-    font-medium;
-}
-
-:host([scale="m"]) .character-limit {
-  @apply px-2;
+.resize-dsiabled--y {
+  resize: horizontal;
 }
 
 :host([scale="s"]) {
@@ -91,16 +89,37 @@ textarea:focus {
   .footer {
     @apply py-1 px-2 h-7;
   }
+  .character-limit {
+    @apply px-2;
+  }
+}
+
+:host([scale="s"]) {
+  textarea,
+  .footer,
+  .character-limit {
+    @apply text-n2;
+  }
 }
 
 :host([scale="m"]) {
-  @apply text-n1;
   textarea {
     @apply py-2 px-3;
     block-size: theme("spacing.31");
   }
   .footer {
     @apply py-2 px-3 h-9;
+  }
+  .character-limit {
+    @apply px-3;
+  }
+}
+
+:host([scale="m"]) {
+  textarea,
+  .footer,
+  .character-limit {
+    @apply text-n1;
   }
 }
 
@@ -113,15 +132,28 @@ textarea:focus {
   .footer {
     @apply py-3 px-4 h-11;
   }
+  .character-limit {
+    @apply px-4;
+  }
 }
 
-.character-limit {
-  @apply flex justify-end text-color-2 grow;
-}
-
-.character-overlimit {
-  @apply font-bold;
-  color: var(--calcite-ui-danger);
+:host([scale="l"]) {
+  textarea,
+  .footer,
+  .character-limit {
+    @apply text-0;
+  }
 }
 
 @include hidden-form-input();
+
+.readonly {
+  @apply bg-background font-medium;
+}
+
+:host([disabled]) {
+  textarea,
+  footer {
+    @apply opacity-50;
+  }
+}
