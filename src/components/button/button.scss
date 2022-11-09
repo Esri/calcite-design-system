@@ -229,7 +229,7 @@
 }
 
 // button styles
-:host([appearance="solid"]) {
+:host([appearance]) {
   button,
   a {
     @apply border-color-transparent
