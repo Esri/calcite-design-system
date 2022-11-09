@@ -223,6 +223,26 @@ export class TabNav {
     event.preventDefault();
   }
 
+  @Listen("calciteInternalTabsFocusFirst")
+  focusFirstTabHandler(event: CustomEvent): void {
+    const firstTab = this.enabledTabTitles[0];
+
+    firstTab?.focus();
+
+    event.stopPropagation();
+    event.preventDefault();
+  }
+
+  @Listen("calciteInternalTabsFocusLast")
+  focusLastTabHandler(event: CustomEvent): void {
+    const lastTab = this.enabledTabTitles[this.enabledTabTitles.length - 1];
+
+    lastTab?.focus();
+
+    event.stopPropagation();
+    event.preventDefault();
+  }
+
   @Listen("calciteInternalTabsActivate")
   internalActivateTabHandler(event: CustomEvent<TabChangeEventDetail>): void {
     this.selectedTab = event.detail.tab
