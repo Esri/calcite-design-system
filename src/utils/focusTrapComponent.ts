@@ -16,21 +16,6 @@ export interface FocusTrapComponent {
   focusTrapEl: HTMLElement;
 }
 
-const focusTrapOptions: FocusTrapOptions = {
-  allowOutsideClick: true,
-  clickOutsideDeactivates: false,
-  delayInitialFocus: true,
-  escapeDeactivates: false,
-  returnFocusOnDeactivate: true,
-  setReturnFocus: (el) => {
-    focusElement(el as FocusableElement);
-    return false;
-  },
-  tabbableOptions: {
-    getShadowRoot: true
-  }
-};
-
 export type FocusTrap = _FocusTrap;
 
 /**
@@ -44,6 +29,22 @@ export function connectFocusTrap(component: FocusTrapComponent): void {
   if (!focusTrapEl) {
     return;
   }
+
+  const focusTrapOptions: FocusTrapOptions = {
+    allowOutsideClick: true,
+    clickOutsideDeactivates: false,
+    delayInitialFocus: true,
+    escapeDeactivates: false,
+    returnFocusOnDeactivate: true,
+    fallbackFocus: focusTrapEl,
+    setReturnFocus: (el) => {
+      focusElement(el as FocusableElement);
+      return false;
+    },
+    tabbableOptions: {
+      getShadowRoot: true
+    }
+  };
 
   component.focusTrap = createFocusTrap(focusTrapEl, focusTrapOptions);
 }
