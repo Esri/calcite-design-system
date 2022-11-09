@@ -30,6 +30,8 @@ export function connectFocusTrap(component: FocusTrapComponent): void {
     return;
   }
 
+  focusTrapEl.tabIndex = -1;
+
   const focusTrapOptions: FocusTrapOptions = {
     allowOutsideClick: true,
     clickOutsideDeactivates: false,
