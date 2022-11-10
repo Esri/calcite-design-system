@@ -153,7 +153,7 @@ export const longItems_TestOnly = (): string => html`<style>
       width: 260px;
     }
   </style>
-  <calcite-combobox>
+  <calcite-combobox open>
     <calcite-combobox-item text-label="Layers">
       <calcite-combobox-item text-label="Enriched USA Census Tract Areas Aug29"></calcite-combobox-item>
       <calcite-combobox-item text-label="Viewer_Reservable_Equipments_Capacity_V2_WFL1"></calcite-combobox-item>
