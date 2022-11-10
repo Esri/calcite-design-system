@@ -82,16 +82,10 @@ $floating-ui-default-z-index: 900;
 
 @mixin floatingUIWrapper {
   visibility: hidden;
-  inline-size: 0;
-  block-size: 0;
-  overflow: hidden;
 }
 
 @mixin floatingUIWrapperActive {
   visibility: visible;
-  inline-size: unset;
-  block-size: unset;
-  overflow: unset;
 }
 
 @mixin floatingUIHost($zIndex: $floating-ui-default-z-index) {

@@ -9,7 +9,7 @@ jobs:
   close-milestone:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/github-script@v4
+      - uses: actions/github-script@v6
         with:
           script: |
             const {
@@ -28,7 +28,7 @@ jobs:
               return;
             }
 
-            const { data: milestone } = await github.issues.getMilestone({
+            const { data: milestone } = await github.rest.issues.getMilestone({
               owner,
               repo,
               milestone_number,
@@ -41,7 +41,7 @@ jobs:
             !milestone.open_issues &&
               milestone.due_on &&
               new Date(milestone.due_on) < currentDate &&
-              (await github.issues.updateMilestone({
+              (await github.rest.issues.updateMilestone({
                 owner,
                 repo,
                 milestone_number,
