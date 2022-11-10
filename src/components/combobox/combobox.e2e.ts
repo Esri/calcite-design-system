@@ -509,7 +509,7 @@ describe("calcite-combobox", () => {
       expect(await item2.getProperty("selected")).toBe(true);
     });
 
-    it("should auto-select new custom values in multi selection mode", async () => {
+    it("should auto-select new custom values in multiple selection mode", async () => {
       const page = await newE2EPage();
       await page.setContent(
         html`
@@ -792,7 +792,7 @@ describe("calcite-combobox", () => {
       const page = await newE2EPage();
       await page.setContent(
         html`
-          <calcite-combobox selection-mode="multi">
+          <calcite-combobox selection-mode="multiple">
             <calcite-combobox-item id="one" value="one" text-label="one" selected></calcite-combobox-item>
             <calcite-combobox-item id="two" value="two" text-label="two"></calcite-combobox-item>
             <calcite-combobox-item id="three" value="three" text-label="three"></calcite-combobox-item>

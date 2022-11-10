@@ -43,6 +43,7 @@ import {
   disconnectOpenCloseComponent
 } from "../../utils/openCloseComponent";
 import { HeadingLevel, Heading } from "../functional/Heading";
+import { Scale } from "../interfaces";
 
 import PopoverManager from "./PopoverManager";
 
@@ -204,6 +205,9 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
     this.setUpReferenceElement();
     this.reposition(true);
   }
+
+  /** Specifies the size of the component. */
+  @Prop({ reflect: true }) scale: Scale = "m";
 
   /**
    * When `true`, disables automatically toggling the component when its `referenceElement` has been triggered.
@@ -490,7 +494,7 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
   // --------------------------------------------------------------------------
 
   renderCloseButton(): VNode {
-    const { closeButton, intlClose, heading, closable } = this;
+    const { closeButton, intlClose, closable } = this;
 
     return closable || closeButton ? (
       <div class={CSS.closeButtonContainer}>
@@ -498,10 +502,10 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
           class={CSS.closeButton}
           onClick={this.hide}
           ref={(closeButtonEl) => (this.closeButtonEl = closeButtonEl)}
-          scale={heading ? "s" : "m"}
+          scale={this.scale}
           text={intlClose}
         >
-          <calcite-icon icon="x" scale={heading ? "s" : "m"} />
+          <calcite-icon icon="x" scale={this.scale === "l" ? "m" : this.scale} />
         </calcite-action>
       </div>
     ) : null;

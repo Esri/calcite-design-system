@@ -101,3 +101,19 @@ export const flipPlacements_TestOnly = (): string => html`
     document.querySelector(".my-popover").flipPlacements = ["right"];
   </script>
 `;
+
+export const scaleConsistencyPopoverHeadingActionSlottedIcon_TestOnly = (): string => html`
+  <div style="width: 400px;">
+    ${referenceElementHTML}
+    <calcite-popover
+      heading="Dreams didn't make us kings. Dragons did. 🐉"
+      reference-element="reference-element"
+      placement="auto"
+      open
+      dismissible
+      scale="m"
+    >
+      ${contentHTML}
+    </calcite-popover>
+  </div>
+`;
