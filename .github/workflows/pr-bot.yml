@@ -4,6 +4,7 @@ on:
     branches: [master]
 jobs:
   assign-author:
+    if: github.actor != 'dependabot[bot]'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/github-script@v6
