@@ -1,4 +1,3 @@
-import isChromatic from "chromatic/isChromatic";
 import * as icons from "@esri/calcite-ui-icons";
 import { boolean as booleanKnob } from "@storybook/addon-knobs";
 import { Steps } from "screener-storybook/src/screener";
@@ -66,6 +65,6 @@ export function storyFilters(): {
   excludeStories: RegExp | string[];
 } {
   return {
-    excludeStories: isChromatic() ? /.*_NoTest$/ : /.*_TestOnly$/
+    excludeStories: process.env.STORYBOOK_SCREENSHOT_TEST_BUILD ? /.*_NoTest$/ : /.*_TestOnly$/
   };
 }
