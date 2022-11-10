@@ -246,7 +246,7 @@ describe("calcite-value-list", () => {
       expect(await ninth.getProperty("value")).toBe("f");
     });
 
-    it("is drag and drop list accessible", async () => {
+    it.skip("is drag and drop list accessible", async () => {
       const page = await createSimpleValueList();
       let startIndex = 0;
 
