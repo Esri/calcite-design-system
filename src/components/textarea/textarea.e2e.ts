@@ -3,7 +3,7 @@ import { newE2EPage } from "@stencil/core/testing";
 import {
   accessible,
   defaults,
-  disabled,
+  // disabled,
   focusable,
   formAssociated,
   hidden,
@@ -11,6 +11,7 @@ import {
   labelable,
   reflects
 } from "../../tests/commonTests";
+import { CSS } from "./resources";
 
 describe("calcite-textarea", () => {
   it("renders", async () => {
@@ -200,5 +201,14 @@ describe("calcite-textarea", () => {
     await page.waitForChanges();
     expect(element).toHaveAttribute("disabled");
     expect(element.getAttribute("aria-disabled")).toBe("true");
+  });
+  it("should have invalid class when user set's invalid property", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<calcite-textarea invalid></calcite-textarea>`);
+
+    const element = await page.find("calcite-textarea >>> .div");
+    await page.waitForChanges();
+
+    expect(element).toHaveClass(CSS.textareaInvalid);
   });
 });

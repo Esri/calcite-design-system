@@ -47,7 +47,7 @@ textarea:focus {
   @apply outline-none border-color-brand border-2 border-solid;
 }
 
-.textarea--invalid {
+.textarea-invalid {
   @apply border-color-danger border border-solid;
   textarea,
   .footer {
@@ -58,7 +58,7 @@ textarea:focus {
   }
 }
 
-.textarea--invalid:focus {
+.textarea-invalid:focus {
   @apply border-color-danger border-2 border-solid;
 }
 

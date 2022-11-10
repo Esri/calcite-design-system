@@ -14,7 +14,7 @@ import {
 import { connectForm, disconnectForm, FormComponent, HiddenFormInputSlot } from "../../utils/form";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import { getSlotted } from "../../utils/dom";
-import { CSS, SLOTS } from "./resources";
+import { CSS, ERROR_MESSAGES, SLOTS } from "./resources";
 import {
   connectLocalized,
   disconnectLocalized,
@@ -108,6 +108,7 @@ export class Textarea implements FormComponent, LabelableComponent, LocalizedCom
    */
   @Prop({ reflect: true }) hidden = false;
 
+  /** When true, the `textarea` will be marked as invalid. */
   @Prop({ reflect: true }) invalid = false;
 
   @Watch("disabled")
@@ -154,11 +155,12 @@ export class Textarea implements FormComponent, LabelableComponent, LocalizedCom
     return (
       <Host>
         <div
-          class={{ "textarea--invalid": this.invalid, container: true }}
+          class={{ [CSS.textareaInvalid]: this.invalid, container: true }}
           tabindex={!!this.renderFooterLeading() || !!this.renderFooterTrailing() ? "-1" : "1"}
         >
           <textarea
             aria-disabled={this.disabled}
+            aria-invalid={this.invalid}
             aria-label={getLabelText(this)}
             autofocus={this.autofocus}
             class={{
@@ -236,7 +238,11 @@ export class Textarea implements FormComponent, LabelableComponent, LocalizedCom
 
   @State() effectiveLocale: string;
 
-  resizeObserver = createObserver("resize", () => this.setFooterWidth());
+  resizeObserver = createObserver("resize", () => {
+    if (this.footer) {
+      return this.setFooterWidth();
+    }
+  });
 
   //--------------------------------------------------------------------------
   //
@@ -299,10 +305,13 @@ export class Textarea implements FormComponent, LabelableComponent, LocalizedCom
   syncHiddenFormInput(input: HTMLInputElement): void {
     input.setCustomValidity("");
     if (this.value?.length > this.maxlength) {
-      input.setCustomValidity("Over the character limit");
+      input.setCustomValidity(ERROR_MESSAGES.overLimit);
     }
     if (this.value?.length < this.minlength) {
-      input.setCustomValidity("Under the character limit");
+      input.setCustomValidity(ERROR_MESSAGES.underLimit);
+    }
+    if (this.invalid) {
+      input.setCustomValidity(ERROR_MESSAGES.invalid);
     }
   }
 
