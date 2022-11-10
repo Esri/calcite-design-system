@@ -1,13 +1,13 @@
 module.exports = {
   addons: [
-    "@storybook/addon-docs",
-    "@storybook/addon-knobs",
     "@storybook/addon-a11y",
-    "@whitespace/storybook-addon-html",
-    "storybook-rtl-addon",
-    "storybook-addon-themes",
+    "@storybook/addon-docs",
     "@storybook/addon-interactions",
-    "@storybook/testing-library"
+    "@storybook/addon-knobs",
+    "@storybook/testing-library",
+    "@whitespace/storybook-addon-html",
+    "storybook-addon-themes",
+    "storybook-rtl-addon"
   ],
   staticDirs: ["../__docs-temp__"],
   stories: ["../src/**/*.stories.@(mdx|ts)"],
