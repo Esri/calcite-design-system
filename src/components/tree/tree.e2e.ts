@@ -271,7 +271,7 @@ describe("calcite-tree", () => {
     it("does not emit calciteTreeSelect on toggling the caret icon", async () => {
       const page = await newE2EPage();
       await page.setContent(html`
-        <calcite-tree selection-mode="multi-children">
+        <calcite-tree selection-mode="multichildren">
           <calcite-tree-item id="cables">
             Cables
             <calcite-tree slot="children">
@@ -291,9 +291,9 @@ describe("calcite-tree", () => {
     });
 
     describe("has selected items in the selection event payload", () => {
-      it("contains current selection when selection=multi", async () => {
+      it("contains current selection when selection=multiple", async () => {
         const page = await newE2EPage({
-          html: html` <calcite-tree selection-mode="multi">
+          html: html` <calcite-tree selection-mode="multiple">
             <calcite-tree-item id="1">1</calcite-tree-item>
             <calcite-tree-item id="2">2</calcite-tree-item>
           </calcite-tree>`
@@ -330,10 +330,10 @@ describe("calcite-tree", () => {
         expect(await getSelectedIds()).toEqual([]);
       });
 
-      it("contains current selection when selection=multi-children", async () => {
+      it("contains current selection when selection=multichildren", async () => {
         const page = await newE2EPage();
         await page.setContent(
-          html`<calcite-tree lines selection-mode="multi-children" scale="s">
+          html`<calcite-tree lines selection-mode="multichildren" scale="s">
             <calcite-tree-item id="1"> Child 1 </calcite-tree-item>
             <calcite-tree-item id="2">
               Child 2

@@ -1,5 +1,4 @@
 {
-  "filterResults": "بيت_Filter results_______________لاحقة",
   "dragHandleActive": "بيت_Reordering ${itemLabel}, current position ${position} of ${total}__________________________________لاحقة.",
   "dragHandleChange": "بيت_${itemLabel}, new position ${position} of ${total}. Press space to confirm_______________________________________لاحقة.",
   "dragHandleCommit": "بيت_${itemLabel}, current position ${position} of ${total}_____________________________لاحقة.",

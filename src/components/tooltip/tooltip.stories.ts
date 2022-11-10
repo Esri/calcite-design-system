@@ -65,3 +65,10 @@ export const darkThemeRTL_TestOnly = (): string => html`
 `;
 
 darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };
+
+export const rightAligned_TestOnly = (): string => html`<div style="text-align: right">
+  <a href="#" id="tooltip-button">Hover for Tooltip</a>
+  <calcite-tooltip open label="Example label" reference-element="tooltip-button">
+    <span>Tooltip content lorem ipsum</span>
+  </calcite-tooltip>
+</div>`;

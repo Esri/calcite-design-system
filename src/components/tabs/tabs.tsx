@@ -44,7 +44,7 @@ export class Tabs {
   @Prop({ reflect: true }) scale: Scale = "m";
 
   /**
-   * When `true` and `layout` is set to `"inline"`, the component will display with a folder style menu.
+   * When `true`, the component will display with a folder style menu.
    */
   @Prop({ reflect: true, mutable: true }) bordered = false;
 
@@ -53,12 +53,6 @@ export class Tabs {
   //  Lifecycle
   //
   //--------------------------------------------------------------------------
-
-  connectedCallback(): void {
-    if (this.layout === "center") {
-      this.bordered = false;
-    }
-  }
 
   render(): VNode {
     return (

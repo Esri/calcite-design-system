@@ -1,5 +1,4 @@
 {
-  "filterResults": "ķ_Filter results_______________ū",
   "dragHandleActive": "ķ_Reordering ${itemLabel}, current position ${position} of ${total}__________________________________ū.",
   "dragHandleChange": "ķ_${itemLabel}, new position ${position} of ${total}. Press space to confirm_______________________________________ū.",
   "dragHandleCommit": "ķ_${itemLabel}, current position ${position} of ${total}_____________________________ū.",

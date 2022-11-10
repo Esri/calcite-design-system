@@ -48,6 +48,10 @@ $loader-circumference: ($loader-scale - (2 * $stroke-width)) * 3.14159;
 }
 
 :host {
+  @apply hidden;
+}
+
+:host([active]) {
   @apply flex;
 }
 
@@ -122,7 +126,7 @@ $loader-circumference: ($loader-scale - (2 * $stroke-width)) * 3.14159;
   vertical-align: calc(var(--calcite-loader-size-inline) * -1 * 0.2);
 }
 
-:host([inline]) {
+:host([active][inline]) {
   @apply inline-block;
 }
 

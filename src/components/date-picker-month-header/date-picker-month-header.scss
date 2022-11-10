@@ -73,6 +73,7 @@
 .text {
   @apply my-auto
     w-full
+    flex
     flex-auto
     items-center
     justify-center
@@ -80,7 +81,7 @@
     leading-none;
 }
 
-.text-nreverse {
+.text--reverse {
   @apply flex-row-reverse;
 }
 
