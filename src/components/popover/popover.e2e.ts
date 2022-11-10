@@ -734,4 +734,35 @@ describe("calcite-popover", () => {
 
     expect(await popover.isVisible()).toBe(true);
   });
+
+  it("should close popovers with ESC key", async () => {
+    const page = await newE2EPage();
+
+    await page.setContent(
+      html`
+        <calcite-popover reference-element="ref">Content</calcite-popover>
+        <button id="ref">Button</button>
+      `
+    );
+
+    await page.waitForChanges();
+
+    const popover = await page.find("calcite-popover");
+
+    expect(await popover.getProperty("open")).toBe(false);
+
+    const referenceElement = await page.find("#ref");
+
+    await referenceElement.click();
+
+    await page.waitForChanges();
+
+    expect(await popover.getProperty("open")).toBe(true);
+
+    await referenceElement.press("Escape");
+
+    await page.waitForChanges();
+
+    expect(await popover.getProperty("open")).toBe(false);
+  });
 });
