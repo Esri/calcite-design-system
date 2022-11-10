@@ -175,6 +175,7 @@ export class Button implements LabelableComponent, InteractiveComponent, FormOwn
         />
       </div>
     ) : null;
+    const noStartEndIcons = !this.iconStart && !this.iconEnd;
 
     const iconStartEl = (
       <calcite-icon
@@ -204,6 +205,8 @@ export class Button implements LabelableComponent, InteractiveComponent, FormOwn
       <Tag
         aria-label={getLabelText(this)}
         class={{
+          [CSS.buttonPadding]: noStartEndIcons,
+          [CSS.buttonPaddingShrunk]: !noStartEndIcons,
           [CSS.contentSlotted]: this.hasContent,
           [CSS.iconStartEmpty]: !this.iconStart,
           [CSS.iconEndEmpty]: !this.iconEnd
