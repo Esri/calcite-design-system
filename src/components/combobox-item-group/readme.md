@@ -4,10 +4,10 @@
 
 ## Properties
 
-| Property             | Attribute | Description                                                                         | Type     | Default     |
-| -------------------- | --------- | ----------------------------------------------------------------------------------- | -------- | ----------- |
-| `ancestors`          | --        | Parent and grandparent combobox items, this is set internally for use from combobox | `any[]`  | `undefined` |
-| `label` _(required)_ | `label`   | Title of the group                                                                  | `string` | `undefined` |
+| Property             | Attribute | Description                                                                                         | Type     | Default     |
+| -------------------- | --------- | --------------------------------------------------------------------------------------------------- | -------- | ----------- |
+| `ancestors`          | --        | Specifies the parent and grandparent `calcite-combobox-item`s, which are set on `calcite-combobox`. | `any[]`  | `undefined` |
+| `label` _(required)_ | `label`   | Specifies the title of the component.                                                               | `string` | `undefined` |
 
 ## Slots
 
