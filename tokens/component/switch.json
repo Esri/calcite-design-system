@@ -144,6 +144,34 @@
           "value": "$core.border.border-radius.half",
           "type": "borderRadius"
         }
+      },
+      "border-width": {
+        "sm": {
+          "value": "{core.border.border-width.1}",
+          "type": "borderWidth"
+        },
+        "md": {
+          "value": "{core.border.border-width.1}",
+          "type": "borderWidth"
+        },
+        "lg": {
+          "value": "{core.border.border-width.1}",
+          "type": "borderWidth"
+        }
+      }
+    },
+    "border-width": {
+      "sm": {
+        "value": "{core.border.border-width.0}",
+        "type": "borderWidth"
+      },
+      "md": {
+        "value": "{core.border.border-width.0}",
+        "type": "borderWidth"
+      },
+      "lg": {
+        "value": "{core.border.border-width.0}",
+        "type": "borderWidth"
       }
     }
   }
