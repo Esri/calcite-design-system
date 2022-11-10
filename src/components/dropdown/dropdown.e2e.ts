@@ -73,6 +73,7 @@ describe("calcite-dropdown", () => {
     page: E2EPage,
     { expectedItemIds, mostRecentId }: SelectedItemsAssertionOptions
   ): Promise<void> {
+    await page.waitForTimeout(100);
     const selectedItemIds = await page.evaluate(() => {
       const dropdown = document.querySelector<HTMLCalciteDropdownElement>("calcite-dropdown");
       return dropdown.selectedItems.map((item) => item.id);
@@ -107,7 +108,7 @@ describe("calcite-dropdown", () => {
   const dropdownSelectionModeContent = html`
     <calcite-dropdown>
       <calcite-button slot="dropdown-trigger" id="trigger">Open dropdown</calcite-button>
-      <calcite-dropdown-group id="group-1" selection-mode="multi">
+      <calcite-dropdown-group id="group-1" selection-mode="multiple">
         <calcite-dropdown-item id="item-1"> Dropdown Item Content </calcite-dropdown-item>
         <calcite-dropdown-item id="item-2" selected> Dropdown Item Content </calcite-dropdown-item>
         <calcite-dropdown-item id="item-3" selected> Dropdown Item Content </calcite-dropdown-item>
@@ -145,7 +146,7 @@ describe("calcite-dropdown", () => {
     const page = await newE2EPage();
     await page.setContent(html`<calcite-dropdown placement="bottom-end" scale="l" width="l">
       <calcite-button slot="dropdown-trigger">Open dropdown</calcite-button>
-      <calcite-dropdown-group id="group-1" selection-mode="multi">
+      <calcite-dropdown-group id="group-1" selection-mode="multiple">
         <calcite-dropdown-item id="item-1"> Dropdown Item Content </calcite-dropdown-item>
         <calcite-dropdown-item id="item-2" selected> Dropdown Item Content </calcite-dropdown-item>
         <calcite-dropdown-item id="item-3"> Dropdown Item Content </calcite-dropdown-item>
@@ -157,7 +158,7 @@ describe("calcite-dropdown", () => {
     expect(element).toEqualAttribute("scale", "l");
     expect(element).toEqualAttribute("width", "l");
     expect(element).toEqualAttribute("placement", "bottom-end");
-    expect(group1).toEqualAttribute("selection-mode", "multi");
+    expect(group1).toEqualAttribute("selection-mode", "multiple");
   });
 
   it("renders icons if requested and does not render icons if not requested", async () => {
@@ -237,11 +238,11 @@ describe("calcite-dropdown", () => {
     expect(item3).not.toHaveAttribute("selected");
   });
 
-  it("renders multiple selected items when group is in multi selection mode", async () => {
+  it("renders multiple selected items when group is in multiple selection mode", async () => {
     const page = await newE2EPage();
     await page.setContent(html`<calcite-dropdown>
       <calcite-button id="trigger" slot="dropdown-trigger">Open dropdown</calcite-button>
-      <calcite-dropdown-group id="group-1" selection-mode="multi">
+      <calcite-dropdown-group id="group-1" selection-mode="multiple">
         <calcite-dropdown-item id="item-1"> Dropdown Item Content </calcite-dropdown-item>
         <calcite-dropdown-item id="item-2" selected> Dropdown Item Content </calcite-dropdown-item>
         <calcite-dropdown-item id="item-3"> Dropdown Item Content </calcite-dropdown-item>
@@ -256,7 +257,7 @@ describe("calcite-dropdown", () => {
     const item3 = await element.find("calcite-dropdown-item[id='item-3']");
     const itemChangeSpy = await element.spyOnEvent("calciteDropdownSelect");
     await assertSelectedItems.setUpEvents(page);
-    expect(group1).toEqualAttribute("selection-mode", "multi");
+    expect(group1).toEqualAttribute("selection-mode", "multiple");
     await trigger.click();
     await page.waitForChanges();
     await assertSelectedItems(page, { expectedItemIds: ["item-2"] });
@@ -391,7 +392,7 @@ describe("calcite-dropdown", () => {
     const page = await newE2EPage();
     await page.setContent(html`<calcite-dropdown>
       <calcite-button slot="dropdown-trigger" id="trigger">Open dropdown</calcite-button>
-      <calcite-dropdown-group id="group-1" selection-mode="multi">
+      <calcite-dropdown-group id="group-1" selection-mode="multiple">
         <calcite-dropdown-item id="item-1"> Dropdown Item Content </calcite-dropdown-item>
         <calcite-dropdown-item id="item-2" selected> Dropdown Item Content </calcite-dropdown-item>
         <calcite-dropdown-item id="item-3"> Dropdown Item Content </calcite-dropdown-item>
@@ -425,7 +426,7 @@ describe("calcite-dropdown", () => {
     const itemChangeSpy = await element.spyOnEvent("calciteDropdownSelect");
     await assertSelectedItems.setUpEvents(page);
 
-    expect(group1).toEqualAttribute("selection-mode", "multi");
+    expect(group1).toEqualAttribute("selection-mode", "multiple");
     expect(group2).toEqualAttribute("selection-mode", "single");
     expect(group3).toEqualAttribute("selection-mode", "none");
     await assertSelectedItems(page, { expectedItemIds: ["item-2", "item-5"] });
@@ -574,7 +575,7 @@ describe("calcite-dropdown", () => {
     const page = await newE2EPage({
       html: html`<calcite-dropdown>
         <calcite-button slot="dropdown-trigger">Open Dropdown</calcite-button>
-        <calcite-dropdown-group selection-mode="multi">
+        <calcite-dropdown-group selection-mode="multiple">
           <calcite-dropdown-item id="item-1">1</calcite-dropdown-item>
           <calcite-dropdown-item id="item-2" selected>2</calcite-dropdown-item>
           <calcite-dropdown-item id="item-3">3</calcite-dropdown-item>
@@ -1098,7 +1099,7 @@ describe("calcite-dropdown", () => {
     ).toBe(false);
   });
 
-  it("dropdown wrapper shouldn't have height when filter results empty and combined with a PickList in Panel  #3048", async () => {
+  it("dropdown wrapper should have height when filter results empty and combined with a PickList in Panel  #3048", async () => {
     const page = await newE2EPage({
       html: html`<calcite-panel heading="Issue #3048">
         <calcite-pick-list filter-enabled>
@@ -1126,7 +1127,7 @@ describe("calcite-dropdown", () => {
       filterInput.value = "nums";
     });
 
-    expect(dropdownContentHeight.height).toBe("0px");
+    expect(dropdownContentHeight.height).toBe("64px");
   });
 
   it("owns a floating-ui", () =>

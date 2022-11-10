@@ -15,6 +15,9 @@ export interface HoverRange {
  * @param max
  */
 export function inRange(date: Date, min?: Date | string, max?: Date | string): boolean {
+  if (!date) {
+    return;
+  }
   const time = date.getTime();
   const afterMin = !(min instanceof Date) || time >= min.getTime();
   const beforeMax = !(max instanceof Date) || time <= max.getTime();
@@ -69,6 +72,53 @@ export function dateFromISO(iso8601: string | Date, isEndDate = false): Date | n
     return setEndOfDay(date);
   }
   return date;
+}
+
+/**
+ * Parse a localized date string into a valid Date.
+ * return false if date is invalid, or out of range
+ *
+ * @param value
+ * @param localeData
+ */
+export function dateFromLocalizedString(value: string, localeData: DateLocaleData): Date {
+  if (!localeData) {
+    return null;
+  }
+  const { separator } = localeData;
+  const { day, month, year } = parseDateString(value, localeData);
+  const date = new Date(year, month, day);
+  date.setFullYear(year);
+
+  const validDay = day > 0;
+  const validMonth = month > -1;
+  const validDate = !isNaN(date.getTime());
+  const validLength = value.split(separator).filter((c) => c).length > 2;
+  const validYear = year.toString().length > 0;
+
+  if (validDay && validMonth && validDate && validLength && validYear) {
+    return date;
+  }
+  return null;
+}
+
+/**
+ * Retrieve day, month, and year strings from a localized string
+ *
+ * @param string
+ * @param localeData
+ */
+export function datePartsFromLocalizedString(
+  string: string,
+  localeData: DateLocaleData
+): { day: string; month: string; year: string } {
+  const { separator, unitOrder } = localeData;
+  const order = getOrder(unitOrder);
+  const values = string.split(separator).map((part) => numberStringFormatter.delocalize(part));
+  const day = values[order.indexOf("d")];
+  const month = values[order.indexOf("m")];
+  const year = values[order.indexOf("y")];
+  return { day, month, year };
 }
 
 /**
@@ -137,18 +187,20 @@ export function nextMonth(date: Date): Date {
 /**
  * Parse numeric units for day, month, and year from a localized string
  * month starts at 0 (can pass to date constructor)
+ * can return values as number or string
  *
- * @param str
+ * @param string
  * @param localeData
  */
-export function parseDateString(str: string, localeData: DateLocaleData): { day: number; month: number; year: number } {
-  const { separator, unitOrder } = localeData;
-  const order = getOrder(unitOrder);
-  const values = str.split(separator).map((part) => numberStringFormatter.delocalize(part));
+export function parseDateString(
+  string: string,
+  localeData: DateLocaleData
+): { day: number; month: number; year: number } {
+  const { day, month, year } = datePartsFromLocalizedString(string, localeData);
   return {
-    day: parseInt(values[order.indexOf("d")]),
-    month: parseInt(values[order.indexOf("m")]) - 1,
-    year: parseInt(values[order.indexOf("y")])
+    day: parseInt(day),
+    month: parseInt(month) - 1, // this subtracts by 1 because the month in the Date contructor is zero-based https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/getMonth
+    year: parseInt(year)
   };
 }
 

@@ -6,7 +6,7 @@ jobs:
   label:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/github-script@v4
+      - uses: actions/github-script@6
         with:
           script: |
             const {
@@ -32,13 +32,13 @@ jobs:
             if (product && product !== "N/A") {
               /** Creates a label if it does not exist */
               try {
-                await github.issues.getLabel({
+                await github.rest.issues.getLabel({
                   owner,
                   repo,
                   name: product,
                 });
               } catch (e) {
-                await github.issues.createLabel({
+                await github.rest.issues.createLabel({
                   owner,
                   repo,
                   name: product,
@@ -54,7 +54,7 @@ jobs:
 
               labels.push(product);
 
-              await github.issues.setLabels({
+              await github.rest.issues.setLabels({
                 issue_number,
                 owner,
                 repo,
