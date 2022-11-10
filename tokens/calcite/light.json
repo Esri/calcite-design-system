@@ -329,7 +329,7 @@
       },
       "label": {
         "font": {
-          "value": "{pagination.font.active.light}",
+          "value": "$pagination.font.active.light",
           "type": "color"
         }
       },
@@ -404,6 +404,54 @@
         },
         "font": {
           "value": "$tooltip.font.light",
+          "type": "color"
+        }
+      },
+      "link": {
+        "font": {
+          "value": "$link.font.light",
+          "type": "color"
+        },
+        "icon": {
+          "value": "$link.font.light",
+          "type": "color"
+        }
+      },
+      "pagination": {
+        "font": {
+          "active": {
+            "value": "$pagination.font.active.light",
+            "type": "color"
+          },
+          "inactive": {
+            "value": "$pagination.font.inactive.light",
+            "type": "color"
+          }
+        },
+        "icon": {
+          "value": "$pagination.icon.light",
+          "type": "color"
+        },
+        "border": {
+          "value": "$pagination.border.light",
+          "type": "color"
+        }
+      },
+      "progress": {
+        "background": {
+          "track": {
+            "idle": {
+              "value": "$progress.background.track.idle.light",
+              "type": "color"
+            },
+            "active": {
+              "value": "$progress.background.track.active.light",
+              "type": "color"
+            }
+          }
+        },
+        "font": {
+          "value": "$progress.font.light",
           "type": "color"
         }
       }

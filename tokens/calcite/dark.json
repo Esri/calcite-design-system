@@ -406,6 +406,54 @@
           "value": "$tooltip.font.dark",
           "type": "color"
         }
+      },
+      "link": {
+        "font": {
+          "value": "$link.font.dark",
+          "type": "color"
+        },
+        "icon": {
+          "value": "$link.font.dark",
+          "type": "color"
+        }
+      },
+      "pagination": {
+        "font": {
+          "active": {
+            "value": "$pagination.font.active.dark",
+            "type": "color"
+          },
+          "inactive": {
+            "value": "$pagination.font.inactive.dark",
+            "type": "color"
+          }
+        },
+        "icon": {
+          "value": "$pagination.icon.dark",
+          "type": "color"
+        },
+        "border": {
+          "value": "$pagination.border.dark",
+          "type": "color"
+        }
+      },
+      "progress": {
+        "background": {
+          "track": {
+            "idle": {
+              "value": "$progress.background.track.idle.dark",
+              "type": "color"
+            },
+            "active": {
+              "value": "$progress.background.track.active.dark",
+              "type": "color"
+            }
+          }
+        },
+        "font": {
+          "value": "$progress.font.dark",
+          "type": "color"
+        }
       }
     }
   }
