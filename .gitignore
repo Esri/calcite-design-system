@@ -3,6 +3,7 @@ dist/
 www/
 hydrate/
 node_modules/
+docs/
 
 # Compiled files
 src/**/components.d.ts

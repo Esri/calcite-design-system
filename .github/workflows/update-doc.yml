@@ -10,8 +10,7 @@ jobs:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
-          node-version: lts/*
-          cache: npm
+          node-version-file: package.json
       - name: generate doc
         run: |
           npm ci --legacy-peer-deps
