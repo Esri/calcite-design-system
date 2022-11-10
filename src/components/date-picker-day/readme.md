@@ -4,21 +4,20 @@
 
 ## Properties
 
-| Property       | Attribute        | Description                                        | Type                | Default     |
-| -------------- | ---------------- | -------------------------------------------------- | ------------------- | ----------- |
-| `active`       | `active`         | Date is actively in focus for keyboard navigation  | `boolean`           | `false`     |
-| `currentMonth` | `current-month`  | Date is in the current month.                      | `boolean`           | `false`     |
-| `day`          | `day`            | Day of the month to be shown.                      | `number`            | `undefined` |
-| `disabled`     | `disabled`       | Date is outside of range and can't be selected     | `boolean`           | `false`     |
-| `endOfRange`   | `end-of-range`   | Date is the end of date range                      | `boolean`           | `false`     |
-| `highlighted`  | `highlighted`    | Date is currently highlighted as part of the range | `boolean`           | `false`     |
-| `localeData`   | --               | CLDR data for current locale                       | `DateLocaleData`    | `undefined` |
-| `range`        | `range`          | Showing date range                                 | `boolean`           | `false`     |
-| `rangeHover`   | `range-hover`    | Date is being hovered and within the set range     | `boolean`           | `false`     |
-| `scale`        | `scale`          | specify the scale of the date picker               | `"l" \| "m" \| "s"` | `undefined` |
-| `selected`     | `selected`       | Date is the current selected date of the picker    | `boolean`           | `false`     |
-| `startOfRange` | `start-of-range` | Date is the start of date range                    | `boolean`           | `false`     |
-| `value`        | --               | Date value for the day.                            | `Date`              | `undefined` |
+| Property           | Attribute        | Description                                        | Type                | Default     |
+| ------------------ | ---------------- | -------------------------------------------------- | ------------------- | ----------- |
+| `active`           | `active`         | Date is actively in focus for keyboard navigation  | `boolean`           | `false`     |
+| `currentMonth`     | `current-month`  | Date is in the current month.                      | `boolean`           | `false`     |
+| `day` _(required)_ | `day`            | Day of the month to be shown.                      | `number`            | `undefined` |
+| `disabled`         | `disabled`       | Date is outside of range and can't be selected     | `boolean`           | `false`     |
+| `endOfRange`       | `end-of-range`   | Date is the end of date range                      | `boolean`           | `false`     |
+| `highlighted`      | `highlighted`    | Date is currently highlighted as part of the range | `boolean`           | `false`     |
+| `range`            | `range`          | Showing date range                                 | `boolean`           | `false`     |
+| `rangeHover`       | `range-hover`    | Date is being hovered and within the set range     | `boolean`           | `false`     |
+| `scale`            | `scale`          | specify the scale of the date picker               | `"l" \| "m" \| "s"` | `undefined` |
+| `selected`         | `selected`       | Date is the current selected date of the picker    | `boolean`           | `false`     |
+| `startOfRange`     | `start-of-range` | Date is the start of date range                    | `boolean`           | `false`     |
+| `value`            | --               | Date value for the day.                            | `Date`              | `undefined` |
 
 ## Events
 
