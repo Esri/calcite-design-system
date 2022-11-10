@@ -93,7 +93,7 @@
     "@storybook/addon-docs": "6.5.12",
     "@storybook/addon-knobs": "6.4.0",
     "@storybook/html": "6.5.12",
-    "@storybook/storybook-deployer": "2.8.12",
+    "@storybook/storybook-deployer": "2.8.16",
     "@types/dedent": "0.7.0",
     "@types/git-semver-tags": "4.1.1",
     "@types/jest": "27.0.3",
