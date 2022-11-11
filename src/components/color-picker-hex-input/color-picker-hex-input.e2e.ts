@@ -1,12 +1,13 @@
 import { E2EElement, E2EPage, newE2EPage } from "@stencil/core/testing";
-import { accessible, defaults, focusable, reflects, renders } from "../../tests/commonTests";
-import { canConvertToHexa, isValidHex, normalizeHex } from "../color-picker/utils";
+import { accessible, defaults, focusable, reflects, renders, hidden } from "../../tests/commonTests";
 import { CSS } from "./resources";
 import { TEXT } from "../color-picker/resources";
 import { selectText } from "../../tests/utils";
 
 describe("calcite-color-picker-hex-input", () => {
   it("renders", () => renders("calcite-color-picker-hex-input", { display: "block" }));
+
+  it("honors hidden attribute", async () => hidden("calcite-color-picker-hex-input"));
 
   it("is accessible", async () => {
     await accessible("calcite-color-picker-hex-input");

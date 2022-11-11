@@ -3,18 +3,19 @@ import {
   Element,
   Event,
   EventEmitter,
-  Prop,
-  h,
-  VNode,
-  Method,
   Fragment,
+  h,
+  Method,
+  Prop,
+  VNode,
   Watch
 } from "@stencil/core";
-import { debounce, forIn } from "lodash-es";
-import { CSS, ICONS, TEXT, DEBOUNCE_TIMEOUT } from "./resources";
+import { debounce } from "lodash-es";
+import { CSS, DEBOUNCE_TIMEOUT, ICONS, TEXT } from "./resources";
 import { Scale } from "../interfaces";
 import { focusElement } from "../../utils/dom";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import { filter } from "../../utils/filter";
 
 @Component({
   tag: "calcite-filter",
@@ -110,7 +111,7 @@ export class Filter implements InteractiveComponent {
   /**
    * This event fires when the filter text changes.
    */
-  @Event() calciteFilterChange: EventEmitter<void>;
+  @Event({ cancelable: false }) calciteFilterChange: EventEmitter<void>;
 
   //--------------------------------------------------------------------------
   //
@@ -140,38 +141,10 @@ export class Filter implements InteractiveComponent {
   //
   // --------------------------------------------------------------------------
 
-  filter = debounce((value: string, emit = false): void => {
-    const regex = new RegExp(value, "i");
-
-    if (this.items.length === 0) {
-      this.updateFiltered([], emit);
-      return;
-    }
-
-    const find = (input: object, RE: RegExp): any => {
-      let found = false;
-      forIn(input, (val) => {
-        if (typeof val === "function") {
-          return;
-        }
-        if (Array.isArray(val) || (typeof val === "object" && val !== null)) {
-          if (find(val, RE)) {
-            found = true;
-          }
-        } else if (RE.test(val)) {
-          found = true;
-        }
-      });
-
-      return found;
-    };
-
-    const result = this.items.filter((item) => {
-      return find(item, regex);
-    });
-
-    this.updateFiltered(result, emit);
-  }, DEBOUNCE_TIMEOUT);
+  private filter = debounce(
+    (value: string, emit = false): void => this.updateFiltered(filter(this.items, value), emit),
+    DEBOUNCE_TIMEOUT
+  );
 
   inputHandler = (event: CustomEvent): void => {
     const target = event.target as HTMLCalciteInputElement;
@@ -179,9 +152,14 @@ export class Filter implements InteractiveComponent {
     this.filter(target.value, true);
   };
 
-  keyDownHandler = ({ key }: KeyboardEvent): void => {
-    if (key === "Escape") {
+  keyDownHandler = (event: KeyboardEvent): void => {
+    if (event.key === "Escape") {
       this.clear();
+      event.preventDefault();
+    }
+
+    if (event.key === "Enter") {
+      event.preventDefault();
     }
   };
 
@@ -214,8 +192,10 @@ export class Filter implements InteractiveComponent {
           <label>
             <calcite-input
               aria-label={this.intlLabel || TEXT.filterLabel}
+              clearable={true}
               disabled={disabled}
               icon={ICONS.search}
+              intlClear={this.intlClear || TEXT.clear}
               onCalciteInputInput={this.inputHandler}
               onKeyDown={this.keyDownHandler}
               placeholder={this.placeholder}
@@ -227,16 +207,6 @@ export class Filter implements InteractiveComponent {
               value={this.value}
             />
           </label>
-          {this.value ? (
-            <button
-              aria-label={this.intlClear || TEXT.clear}
-              class={CSS.clearButton}
-              disabled={disabled}
-              onClick={this.clear}
-            >
-              <calcite-icon icon={ICONS.close} scale={scale} />
-            </button>
-          ) : null}
         </div>
       </Fragment>
     );

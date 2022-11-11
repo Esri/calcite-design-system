@@ -4,18 +4,18 @@
 
 ## Properties
 
-| Property      | Attribute      | Description                                                          | Type                | Default |
-| ------------- | -------------- | -------------------------------------------------------------------- | ------------------- | ------- |
-| `detached`    | `detached`     | This property makes the content area appear like a "floating" panel. | `boolean`           | `false` |
-| `heightScale` | `height-scale` | Specifies the maximum height of the row.                             | `"l" \| "m" \| "s"` | `"s"`   |
-| `position`    | `position`     | Arranges the component depending on the elements 'dir' property.     | `"end" \| "start"`  | `"end"` |
+| Property      | Attribute      | Description                                                                                                | Type                | Default |
+| ------------- | -------------- | ---------------------------------------------------------------------------------------------------------- | ------------------- | ------- |
+| `detached`    | `detached`     | When `true`, the content area displays like a floating panel.                                              | `boolean`           | `false` |
+| `heightScale` | `height-scale` | Specifies the maximum height of the component.                                                             | `"l" \| "m" \| "s"` | `"s"`   |
+| `position`    | `position`     | Specifies the component's position. Will be flipped when the element direction is right-to-left (`"rtl"`). | `"end" \| "start"`  | `"end"` |
 
 ## Slots
 
-| Slot           | Description                                            |
-| -------------- | ------------------------------------------------------ |
-|                | A slot for adding content to the shell panel.          |
-| `"action-bar"` | A slot for adding a `calcite-action-bar` to the panel. |
+| Slot           | Description                                                            |
+| -------------- | ---------------------------------------------------------------------- |
+|                | A slot for adding content to the `calcite-shell-panel`.                |
+| `"action-bar"` | A slot for adding a `calcite-action-bar` to the `calcite-shell-panel`. |
 
 ---
 

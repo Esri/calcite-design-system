@@ -20,17 +20,18 @@ import {
   disconnectConditionalSlotComponent
 } from "../../utils/conditionalSlot";
 
-/** Notices are intended to be used to present users with important-but-not-crucial contextual tips or copy. Because
+/**
+ * Notices are intended to be used to present users with important-but-not-crucial contextual tips or copy. Because
  * notices are displayed inline, a common use case is displaying them on page-load to present users with short hints or contextual copy.
  * They are optionally dismissible - useful for keeping track of whether or not a user has dismissed the notice. You can also choose not
  * to display a notice on page load and set the "active" attribute as needed to contextually provide inline messaging to users.
  */
 
 /**
- * @slot title - Title of the notice (optional)
- * @slot message - Main text of the notice
- * @slot link - Optional action to take from the notice (undo, try again, link to page, etc.)
- * @slot actions-end - Allows adding a `calcite-action` at the end of the notice. It is recommended to use 2 or less actions.
+ * @slot title - A slot for adding the title.
+ * @slot message - A slot for adding the message.
+ * @slot link - A slot for adding actions to take, such as: undo, try again, link to page, etc.
+ * @slot actions-end - A slot for adding actions to the end of the component. It is recommended to use two or less actions.
  */
 
 @Component({
@@ -53,28 +54,65 @@ export class Notice implements ConditionalSlotComponent {
   //
   //---------------------------------------------------------------------------
 
-  /** Is the notice currently active or not */
+  /**
+   * When `true`, the component is active.
+   *
+   * @deprecated Use `open` instead.
+   */
   @Prop({ reflect: true, mutable: true }) active = false;
 
-  /** Color for the notice (will apply to top border and icon) */
+  @Watch("active")
+  activeHandler(value: boolean): void {
+    this.open = value;
+  }
+
+  /** When `true`, the component is visible. */
+  @Prop({ reflect: true, mutable: true }) open = false;
+
+  @Watch("open")
+  openHandler(value: boolean): void {
+    this.active = value;
+  }
+
+  /** The color for the component's top border and icon. */
   @Prop({ reflect: true }) color: StatusColor = "blue";
 
-  /** Optionally show a button the user can click to dismiss the notice */
-  @Prop({ reflect: true }) dismissible = false;
+  /**
+   * When `true`, a close button is added to the component.
+   *
+   * @deprecated use `closable` instead.
+   */
+  @Prop({ reflect: true }) dismissible? = false;
 
-  /** when used as a boolean set to true, show a default recommended icon. You can
-   * also pass a calcite-ui-icon name to this prop to display a requested icon */
+  @Watch("dismissible")
+  handleDismissible(value: boolean): void {
+    this.closable = value;
+  }
+
+  /** When `true`, a close button is added to the component. */
+  @Prop({ reflect: true }) closable? = false;
+
+  @Watch("closable")
+  handleClosable(value: boolean): void {
+    this.dismissible = value;
+  }
+
+  /**
+   * When `true`, shows a default recommended icon. Alternatively, pass a Calcite UI Icon name to display a specific icon.
+   */
   @Prop({ reflect: true }) icon: string | boolean;
 
-  /** String for the close button.
+  /**
+   * Accessible name for the close button.
+   *
    * @default "Close"
    */
   @Prop({ reflect: false }) intlClose: string = TEXT.close;
 
-  /** specify the scale of the notice, defaults to m */
+  /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
 
-  /** specify the width of the notice, defaults to auto */
+  /** Specifies the width of the component. */
   @Prop({ reflect: true }) width: Width = "auto";
 
   @Watch("icon")
@@ -91,6 +129,18 @@ export class Notice implements ConditionalSlotComponent {
 
   connectedCallback(): void {
     connectConditionalSlotComponent(this);
+    const isOpen = this.active || this.open;
+
+    if (isOpen) {
+      this.activeHandler(isOpen);
+      this.openHandler(isOpen);
+    }
+    if (this.dismissible) {
+      this.handleDismissible(this.dismissible);
+    }
+    if (this.closable) {
+      this.handleClosable(this.closable);
+    }
   }
 
   disconnectedCallback(): void {
@@ -133,7 +183,7 @@ export class Notice implements ConditionalSlotComponent {
             <slot name={SLOTS.actionsEnd} />
           </div>
         ) : null}
-        {this.dismissible ? closeButton : null}
+        {this.closable ? closeButton : null}
       </div>
     );
   }
@@ -144,11 +194,11 @@ export class Notice implements ConditionalSlotComponent {
   //
   //--------------------------------------------------------------------------
 
-  /** Fired when an notice is closed */
-  @Event() calciteNoticeClose: EventEmitter;
+  /** Fired when the component is closed. */
+  @Event({ cancelable: false }) calciteNoticeClose: EventEmitter<void>;
 
-  /** Fired when an Notice is opened */
-  @Event() calciteNoticeOpen: EventEmitter;
+  /** Fired when the component is opened. */
+  @Event({ cancelable: false }) calciteNoticeOpen: EventEmitter<void>;
 
   //--------------------------------------------------------------------------
   //
@@ -177,7 +227,7 @@ export class Notice implements ConditionalSlotComponent {
   //
   //--------------------------------------------------------------------------
   private close = (): void => {
-    this.active = false;
+    this.open = false;
     this.calciteNoticeClose.emit();
   };
 
@@ -187,9 +237,9 @@ export class Notice implements ConditionalSlotComponent {
   //
   //--------------------------------------------------------------------------
 
-  /** the close button element */
+  /** The close button element. */
   private closeButton?: HTMLButtonElement;
 
-  /** the computed icon to render */
+  /** The computed icon to render. */
   private requestedIcon?: string;
 }

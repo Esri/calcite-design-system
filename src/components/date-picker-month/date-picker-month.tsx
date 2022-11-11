@@ -73,23 +73,24 @@ export class DatePickerMonth {
   /**
    * Event emitted when user selects the date.
    */
-  @Event() calciteDatePickerSelect: EventEmitter;
+  @Event({ cancelable: false }) calciteDatePickerSelect: EventEmitter<Date>;
 
   /**
    * Event emitted when user hovers the date.
+   *
    * @internal
    */
-  @Event() calciteDatePickerHover: EventEmitter;
+  @Event({ cancelable: false }) calciteInternalDatePickerHover: EventEmitter<Date>;
 
   /**
    * Active date for the user keyboard access.
    */
-  @Event() calciteDatePickerActiveDateChange: EventEmitter;
+  @Event({ cancelable: false }) calciteDatePickerActiveDateChange: EventEmitter<Date>;
 
   /**
    * @internal
    */
-  @Event() calciteDatePickerMouseOut: EventEmitter;
+  @Event({ cancelable: false }) calciteInternalDatePickerMouseOut: EventEmitter<void>;
 
   //--------------------------------------------------------------------------
   //
@@ -97,40 +98,45 @@ export class DatePickerMonth {
   //
   //--------------------------------------------------------------------------
 
-  keyDownHandler = (e: KeyboardEvent): void => {
+  keyDownHandler = (event: KeyboardEvent): void => {
+    if (event.defaultPrevented) {
+      return;
+    }
+
     const isRTL = this.el.dir === "rtl";
-    switch (e.key) {
+
+    switch (event.key) {
       case "ArrowUp":
-        e.preventDefault();
+        event.preventDefault();
         this.addDays(-7);
         break;
       case "ArrowRight":
-        e.preventDefault();
+        event.preventDefault();
         this.addDays(isRTL ? -1 : 1);
         break;
       case "ArrowDown":
-        e.preventDefault();
+        event.preventDefault();
         this.addDays(7);
         break;
       case "ArrowLeft":
-        e.preventDefault();
+        event.preventDefault();
         this.addDays(isRTL ? 1 : -1);
         break;
       case "PageUp":
-        e.preventDefault();
+        event.preventDefault();
         this.addMonths(-1);
         break;
       case "PageDown":
-        e.preventDefault();
+        event.preventDefault();
         this.addMonths(1);
         break;
       case "Home":
-        e.preventDefault();
+        event.preventDefault();
         this.activeDate.setDate(1);
         this.addDays();
         break;
       case "End":
-        e.preventDefault();
+        event.preventDefault();
         this.activeDate.setDate(
           new Date(this.activeDate.getFullYear(), this.activeDate.getMonth() + 1, 0).getDate()
         );
@@ -138,7 +144,7 @@ export class DatePickerMonth {
         break;
       case "Enter":
       case " ":
-        e.preventDefault();
+        event.preventDefault();
         break;
       case "Tab":
         this.activeFocus = false;
@@ -153,9 +159,9 @@ export class DatePickerMonth {
     this.activeFocus = false;
   };
 
-  @Listen("mouseout")
+  @Listen("pointerout")
   mouseoutHandler(): void {
-    this.calciteDatePickerMouseOut.emit();
+    this.calciteInternalDatePickerMouseOut.emit();
   }
 
   //--------------------------------------------------------------------------
@@ -229,6 +235,8 @@ export class DatePickerMonth {
   //--------------------------------------------------------------------------
   /**
    * Add n months to the current month
+   *
+   * @param step
    */
   private addMonths(step: number) {
     const nextDate = new Date(this.activeDate);
@@ -239,6 +247,8 @@ export class DatePickerMonth {
 
   /**
    * Add n days to the current date
+   *
+   * @param step
    */
   private addDays(step = 0) {
     const nextDate = new Date(this.activeDate);
@@ -249,6 +259,10 @@ export class DatePickerMonth {
 
   /**
    * Get dates for last days of the previous month
+   *
+   * @param month
+   * @param year
+   * @param startOfWeek
    */
   private getPrevMonthdays(month: number, year: number, startOfWeek: number): number[] {
     const lastDate = new Date(year, month, 0);
@@ -258,7 +272,7 @@ export class DatePickerMonth {
     if (day - 6 === startOfWeek) {
       return days;
     }
-    for (let i = lastDate.getDay(); i >= startOfWeek; i--) {
+    for (let i = lastDate.getDay() - startOfWeek; i >= 0; i--) {
       days.push(date - i);
     }
     return days;
@@ -266,6 +280,9 @@ export class DatePickerMonth {
 
   /**
    * Get dates for the current month
+   *
+   * @param month
+   * @param year
    */
   private getCurrentMonthDays(month: number, year: number): number[] {
     const num = new Date(year, month + 1, 0).getDate();
@@ -278,6 +295,10 @@ export class DatePickerMonth {
 
   /**
    * Get dates for first days of the next month
+   *
+   * @param month
+   * @param year
+   * @param startOfWeek
    */
   private getNextMonthDays(month: number, year: number, startOfWeek: number): number[] {
     const endDay = new Date(year, month + 1, 0).getDay();
@@ -293,6 +314,8 @@ export class DatePickerMonth {
 
   /**
    * Determine if the date is in between the start and end dates
+   *
+   * @param date
    */
   private betweenSelectedRange(date: Date): boolean {
     return !!(
@@ -306,6 +329,8 @@ export class DatePickerMonth {
 
   /**
    * Determine if the date should be in selected state
+   *
+   * @param date
    */
   private isSelected(date: Date): boolean {
     return !!(
@@ -317,6 +342,8 @@ export class DatePickerMonth {
 
   /**
    * Determine if the date is the start of the date range
+   *
+   * @param date
    */
   private isStartOfRange(date: Date): boolean {
     return !!(
@@ -337,22 +364,29 @@ export class DatePickerMonth {
     );
   }
 
-  dayHover = (e: CustomEvent): void => {
-    const target = e.target as HTMLCalciteDatePickerDayElement;
-    if (e.detail.disabled) {
-      this.calciteDatePickerMouseOut.emit();
+  dayHover = (event: CustomEvent): void => {
+    const target = event.target as HTMLCalciteDatePickerDayElement;
+    if (target.disabled) {
+      this.calciteInternalDatePickerMouseOut.emit();
     } else {
-      this.calciteDatePickerHover.emit(target.value);
+      this.calciteInternalDatePickerHover.emit(target.value);
     }
+    event.stopPropagation();
   };
 
-  daySelect = (e: CustomEvent): void => {
-    const target = e.target as HTMLCalciteDatePickerDayElement;
+  daySelect = (event: CustomEvent): void => {
+    const target = event.target as HTMLCalciteDatePickerDayElement;
     this.calciteDatePickerSelect.emit(target.value);
   };
 
   /**
    * Render calcite-date-picker-day
+   *
+   * @param active
+   * @param day
+   * @param date
+   * @param currentMonth
+   * @param ref
    */
   private renderDateDay(
     active: boolean,
@@ -381,9 +415,8 @@ export class DatePickerMonth {
         endOfRange={this.isEndOfRange(date)}
         highlighted={this.betweenSelectedRange(date)}
         key={date.toDateString()}
-        localeData={this.localeData}
-        onCalciteDayHover={this.dayHover}
         onCalciteDaySelect={this.daySelect}
+        onCalciteInternalDayHover={this.dayHover}
         range={!!this.startDate && !!this.endDate && !sameDate(this.startDate, this.endDate)}
         rangeHover={this.isRangeHover(date)}
         ref={(el: HTMLCalciteDatePickerDayElement) => {

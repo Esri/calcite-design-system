@@ -1,6 +1,7 @@
 export const CSS = {
-  article: "article",
+  container: "container",
   content: "content",
+  contentSpaced: "content--spaced",
   headerContainer: "header-container",
   icon: "icon",
   statusIcon: "status-icon",
@@ -11,6 +12,7 @@ export const CSS = {
   header: "header",
   button: "button",
   summary: "summary",
+  description: "description",
   controlContainer: "control-container",
   valid: "valid",
   invalid: "invalid",

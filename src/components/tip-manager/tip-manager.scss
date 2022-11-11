@@ -3,8 +3,8 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-tip-manager-height: the maximum height of the tip-manager
- * @prop --calcite-tip-max-width: the maximum width of a slotted tip within tip-manager
+ * @prop --calcite-tip-manager-height: The maximum height of the component.
+ * @prop --calcite-tip-max-width: The maximum width of a slotted `calcite-tip` within the component.
  */
 
 :host {
@@ -37,7 +37,7 @@
   padding-inline-end: theme("padding.0");
   padding-inline-start: theme("padding.4");
 
-  h2.heading {
+  .heading {
     @apply text-color-1
       text-1h
       p-0
@@ -49,7 +49,7 @@
   @apply focus-base
     relative
     overflow-hidden;
-  min-height: 150px;
+  min-block-size: 150px;
   &:focus {
     @apply focus-outset;
   }
@@ -64,7 +64,7 @@
     overflow-auto;
   animation-name: none;
   animation-duration: var(--calcite-animation-timing);
-  height: var(--calcite-tip-manager-height);
+  block-size: var(--calcite-tip-manager-height);
   &:focus {
     @apply focus-outset;
   }
@@ -72,7 +72,7 @@
 
 ::slotted(calcite-tip) {
   @apply border-none p-3;
-  max-width: var(--calcite-tip-max-width);
+  max-inline-size: var(--calcite-tip-max-width);
 }
 
 .tip-container--advancing {

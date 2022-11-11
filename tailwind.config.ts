@@ -205,6 +205,20 @@ export default {
       },
       transitionTimingFunction: {
         cubic: "cubic-bezier(0.215, 0.440, 0.420, 0.880)"
+      },
+      maxHeight: {
+        menu: "45vh"
+      },
+      zIndex: {
+        deep: "-999999",
+        default: "1",
+        sticky: "300",
+        header: "400",
+        toast: "500",
+        dropdown: "600",
+        overlay: "700",
+        modal: "800",
+        popup: "900"
       }
     }
   },
@@ -216,9 +230,7 @@ export default {
           "word-break": "break-word"
         },
         ".focus-base": {
-          "outline-offset": 0,
-          "outline-color": "transparent",
-          transition: "outline-offset 100ms ease-in-out, outline-color 100ms ease-in-out"
+          "outline-color": "transparent"
         },
         ".focus-outset": {
           outline: "2px solid var(--calcite-ui-brand)",
@@ -237,15 +249,12 @@ export default {
           "outline-offset": "-2px"
         },
         ".transition-default": {
-          "transition-property": "all",
-          "transition-duration": "var(--calcite-animation-timing)",
-          "transition-timing-function": "ease-in-out",
-          "transition-delay": "0s"
+          transition: "all var(--calcite-animation-timing) ease-in-out 0s, outline 0s, outline-offset 0s"
         }
       };
       addUtilities(newUtilities);
     }),
-    plugin(({ addUtilities, theme, variants }) => {
+    plugin(({ addUtilities, theme }) => {
       const colors = flattenColorPalette(theme("borderColor"));
       delete colors["default"];
 
@@ -257,7 +266,7 @@ export default {
       }));
       const utilities = Object.assign({}, ...colorMap);
 
-      addUtilities(utilities, variants("borderColor"));
+      addUtilities(utilities);
     })
   ]
 };

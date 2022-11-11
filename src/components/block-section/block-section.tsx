@@ -1,13 +1,14 @@
 import { Component, Element, Event, EventEmitter, Prop, h, VNode, Host } from "@stencil/core";
 
-import { getElementDir } from "../../utils/dom";
+import { getElementDir, toAriaBoolean } from "../../utils/dom";
 import { CSS, ICONS, TEXT } from "./resources";
 import { BlockSectionToggleDisplay } from "./interfaces";
 import { Status } from "../interfaces";
 import { guid } from "../../utils/guid";
+import { isActivationKey } from "../../utils/key";
 
 /**
- * @slot - A slot for adding content to the block section.
+ * @slot - A slot for adding content to the component.
  */
 @Component({
   tag: "calcite-block-section",
@@ -22,34 +23,36 @@ export class BlockSection {
   // --------------------------------------------------------------------------
 
   /**
-   * Tooltip used for the toggle when expanded.
+   * Accessible name for the component's collapse button.
    */
   @Prop() intlCollapse?: string;
 
   /**
-   * Tooltip used for the toggle when collapsed.
+   * Accessible name for the component's expand button.
    */
   @Prop() intlExpand?: string;
 
   /**
-   * When true, the block's section content will be displayed.
+   * When `true`, expands the component and its contents.
    */
   @Prop({ reflect: true, mutable: true }) open = false;
 
   /**
-   * BlockSection status. Adds indicator to show valid or invalid status.
+   * Displays a status-related indicator icon.
    */
   @Prop({ reflect: true }) status?: Status;
 
   /**
-   * Text displayed in the button.
+   * The component header text.
    */
   @Prop() text: string;
 
   /**
-   * This property determines the look of the section toggle.
-   * If the value is "switch", a toggle-switch will be displayed.
-   * If the value is "button", a clickable header is displayed.
+   * Specifies the component's toggle display -
+   *
+   * `"button"` (selectable header), or
+   *
+   * `"switch"` (toggle switch).
    */
   @Prop({ reflect: true }) toggleDisplay: BlockSectionToggleDisplay = "button";
 
@@ -70,9 +73,9 @@ export class BlockSection {
   // --------------------------------------------------------------------------
 
   /**
-   * Emitted when the header has been clicked.
+   * Emits when the header has been clicked.
    */
-  @Event() calciteBlockSectionToggle: EventEmitter;
+  @Event({ cancelable: false }) calciteBlockSectionToggle: EventEmitter<void>;
 
   // --------------------------------------------------------------------------
   //
@@ -81,7 +84,7 @@ export class BlockSection {
   // --------------------------------------------------------------------------
 
   handleHeaderKeyDown = (event: KeyboardEvent): void => {
-    if (event.key === " " || event.key === "Enter") {
+    if (isActivationKey(event.key)) {
       this.toggleSection();
       event.preventDefault();
       event.stopPropagation();
@@ -170,7 +173,7 @@ export class BlockSection {
       <Host>
         {headerNode}
         <section
-          aria-expanded={open.toString()}
+          aria-expanded={toAriaBoolean(open)}
           aria-labelledby={buttonId}
           class={CSS.content}
           hidden={!open}

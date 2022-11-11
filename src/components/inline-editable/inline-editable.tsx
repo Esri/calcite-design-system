@@ -69,17 +69,23 @@ export class InlineEditable implements InteractiveComponent, LabelableComponent 
   /** specify whether save/cancel controls should be displayed when editingEnabled is true, defaults to false */
   @Prop({ reflect: true }) controls = false;
 
-  /** specify text to be user for the enable editing button's aria-label, defaults to `Click to edit`
+  /**
+   * specify text to be user for the enable editing button's aria-label, defaults to `Click to edit`
+   *
    * @default "Click to edit"
    */
   @Prop({ reflect: true }) intlEnableEditing = TEXT.intlEnablingEditing;
 
-  /** specify text to be user for the cancel editing button's aria-label, defaults to `Cancel`
+  /**
+   * specify text to be user for the cancel editing button's aria-label, defaults to `Cancel`
+   *
    * @default "Cancel"
    */
   @Prop({ reflect: true }) intlCancelEditing = TEXT.intlCancelEditing;
 
-  /** specify text to be user for the confirm changes button's aria-label, defaults to `Save`
+  /**
+   * specify text to be user for the confirm changes button's aria-label, defaults to `Save`
+   *
    * @default "Save"
    */
   @Prop({ reflect: true }) intlConfirmChanges = TEXT.intlConfirmChanges;
@@ -117,7 +123,6 @@ export class InlineEditable implements InteractiveComponent, LabelableComponent 
         class={CSS.wrapper}
         onClick={this.enableEditingHandler}
         onKeyDown={this.escapeKeyHandler}
-        onTransitionEnd={this.transitionEnd}
       >
         <div class={CSS.inputWrapper}>
           <slot />
@@ -182,17 +187,18 @@ export class InlineEditable implements InteractiveComponent, LabelableComponent 
   /**
    * Emitted when the cancel button gets clicked.
    */
-  @Event() calciteInlineEditableEditCancel: EventEmitter<void>;
+  @Event({ cancelable: false }) calciteInlineEditableEditCancel: EventEmitter<void>;
 
   /**
    * Emitted when the check button gets clicked.
    */
-  @Event() calciteInlineEditableEditConfirm: EventEmitter<void>;
+  @Event({ cancelable: false }) calciteInlineEditableEditConfirm: EventEmitter<void>;
 
   /**
    * @internal
    */
-  @Event() calciteInlineEditableEnableEditingChange: EventEmitter;
+  @Event({ cancelable: false })
+  calciteInternalInlineEditableEnableEditingChange: EventEmitter<void>;
 
   //--------------------------------------------------------------------------
   //
@@ -200,7 +206,7 @@ export class InlineEditable implements InteractiveComponent, LabelableComponent 
   //
   //--------------------------------------------------------------------------
 
-  @Listen("calciteInputBlur")
+  @Listen("calciteInternalInputBlur")
   blurHandler(): void {
     if (!this.controls) {
       this.disableEditing();
@@ -275,12 +281,6 @@ export class InlineEditable implements InteractiveComponent, LabelableComponent 
     this.inputElement.label = this.inputElement.label || getLabelText(this);
   }
 
-  transitionEnd = (): void => {
-    if (!this.editingEnabled && !!this.shouldEmitCancel) {
-      this.calciteInlineEditableEditCancel.emit();
-    }
-  };
-
   private get shouldShowControls(): boolean {
     return this.editingEnabled && this.controls;
   }
@@ -289,7 +289,7 @@ export class InlineEditable implements InteractiveComponent, LabelableComponent 
     this.valuePriorToEditing = this.inputElement?.value;
     this.editingEnabled = true;
     this.inputElement?.setFocus();
-    this.calciteInlineEditableEnableEditingChange.emit();
+    this.calciteInternalInlineEditableEnableEditingChange.emit();
   };
 
   private disableEditing = () => {
@@ -302,47 +302,55 @@ export class InlineEditable implements InteractiveComponent, LabelableComponent 
     }
     this.disableEditing();
     this.enableEditingButton.setFocus();
+    if (!this.editingEnabled && !!this.shouldEmitCancel) {
+      this.calciteInlineEditableEditCancel.emit();
+    }
   };
 
-  private escapeKeyHandler = async (e: KeyboardEvent) => {
-    if (e.key !== "Escape") {
-      if (e.key === "Tab" && this.shouldShowControls) {
-        if (!e.shiftKey && e.target === this.inputElement) {
-          e.preventDefault();
-          this.cancelEditingButton.setFocus();
-        }
-        if (!!e.shiftKey && e.target === this.cancelEditingButton) {
-          e.preventDefault();
-          this.inputElement?.setFocus();
-        }
-      }
+  private escapeKeyHandler = async (event: KeyboardEvent) => {
+    if (event.defaultPrevented) {
       return;
     }
+
+    if (event.key === "Escape") {
+      event.preventDefault();
+      this.cancelEditing();
+    }
+
+    if (event.key === "Tab" && this.shouldShowControls) {
+      if (!event.shiftKey && event.target === this.inputElement) {
+        event.preventDefault();
+        this.cancelEditingButton.setFocus();
+      }
+      if (!!event.shiftKey && event.target === this.cancelEditingButton) {
+        event.preventDefault();
+        this.inputElement?.setFocus();
+      }
+    }
+  };
+
+  private cancelEditingHandler = async (event: MouseEvent) => {
+    event.preventDefault();
     this.cancelEditing();
   };
 
-  private cancelEditingHandler = async (e: MouseEvent) => {
-    e.preventDefault();
-    this.cancelEditing();
-  };
-
-  private enableEditingHandler = async (e: MouseEvent) => {
+  private enableEditingHandler = async (event: MouseEvent) => {
     if (
       this.disabled ||
-      e.target === this.cancelEditingButton ||
-      e.target === this.confirmEditingButton
+      event.target === this.cancelEditingButton ||
+      event.target === this.confirmEditingButton
     ) {
       return;
     }
 
-    e.preventDefault();
+    event.preventDefault();
     if (!this.editingEnabled) {
       this.enableEditing();
     }
   };
 
-  private confirmChangesHandler = async (e: MouseEvent) => {
-    e.preventDefault();
+  private confirmChangesHandler = async (event: MouseEvent) => {
+    event.preventDefault();
     this.calciteInlineEditableEditConfirm.emit();
     try {
       if (this.afterConfirm) {
@@ -351,7 +359,7 @@ export class InlineEditable implements InteractiveComponent, LabelableComponent 
         this.disableEditing();
         this.enableEditingButton.setFocus();
       }
-    } catch (e) {
+    } catch (error) {
     } finally {
       this.loading = false;
     }

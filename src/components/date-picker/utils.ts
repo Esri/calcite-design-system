@@ -1,12 +1,14 @@
 import { getAssetPath } from "@stencil/core";
-import { locales } from "../../utils/locale";
+import { getSupportedLocale } from "../../utils/locale";
+import { dateFromISO } from "../../utils/date";
 
 /**
  * Translation resource data structure
+ *
  * @private
  */
 export interface DateLocaleData {
-  "default-calendar": "gregorian";
+  "default-calendar": "gregorian" | "buddhist";
   separator: string;
   unitOrder: string;
   weekStart: number;
@@ -29,30 +31,9 @@ export interface DateLocaleData {
 }
 
 /**
- * Get supported locale code from raw user input
- * Exported for testing purposes.
- * @private
- */
-function getSupportedLocale(lang = "") {
-  if (locales.indexOf(lang) > -1) {
-    return lang;
-  }
-
-  lang = lang.toLowerCase();
-
-  if (lang.includes("-")) {
-    lang = lang.replace(/(\w+)-(\w+)/, (_match, language, region) => `${language}-${region.toUpperCase()}`);
-
-    if (!locales.includes(lang)) {
-      lang = lang.split("-")[0];
-    }
-  }
-  return locales.includes(lang) ? lang : "en";
-}
-
-/**
  * CLDR cache.
  * Exported for testing purposes.
+ *
  * @private
  */
 export const translationCache: Record<string, DateLocaleData> = {};
@@ -60,12 +41,15 @@ export const translationCache: Record<string, DateLocaleData> = {};
 /**
  * CLDR request cache.
  * Exported for testing purposes.
+ *
  * @private
  */
 export const requestCache: Record<string, Promise<DateLocaleData>> = {};
 
 /**
  * Fetch calendar data for a given locale from list of supported languages
+ *
+ * @param lang
  * @public
  */
 export async function getLocaleData(lang: string): Promise<DateLocaleData> {
@@ -86,4 +70,14 @@ export async function getLocaleData(lang: string): Promise<DateLocaleData> {
   translationCache[locale] = data;
 
   return data;
+}
+
+/**
+ *  Maps value to valueAsDate
+ *
+ * @param value
+ */
+
+export function getValueAsDateRange(value: string[]): Date[] {
+  return value.map((v, index) => dateFromISO(v, index === 1));
 }

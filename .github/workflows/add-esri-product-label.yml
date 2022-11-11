@@ -1,0 +1,63 @@
+name: Add Esri Product Label
+on:
+  issues:
+    types: [opened, edited]
+jobs:
+  label:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@6
+        with:
+          script: |
+            const {
+              repo: { owner, repo },
+              payload: {
+                issue: { body, labels: currentLabels, number: issue_number },
+              },
+            } = context;
+
+            if (!body) {
+              throw new Error("Could not determine the issue body");
+            }
+
+            const productRegex = new RegExp("(?<=### Esri team\r\n\r\n).+", "m");
+            const productRegexMatch = body.match(productRegex);
+
+            if (!productRegexMatch || !productRegexMatch[0]) {
+              throw new Error("Could not determine the Esri product");
+            }
+
+            const product = productRegexMatch[0].trim();
+
+            if (product && product !== "N/A") {
+              /** Creates a label if it does not exist */
+              try {
+                await github.rest.issues.getLabel({
+                  owner,
+                  repo,
+                  name: product,
+                });
+              } catch (e) {
+                await github.rest.issues.createLabel({
+                  owner,
+                  repo,
+                  name: product,
+                  color: "006B75",
+                  description: `Issues logged by ${product} team members.`,
+                });
+              }
+
+              /** remove any existing product label(s) */
+              const labels = currentLabels
+                .filter((l) => !/Issues logged by/.test(l.description))
+                .map((l) => l.name);
+
+              labels.push(product);
+
+              await github.rest.issues.setLabels({
+                issue_number,
+                owner,
+                repo,
+                labels,
+              });
+            }

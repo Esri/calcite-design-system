@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, renders, defaults, disabled } from "../../tests/commonTests";
+import { accessible, renders, defaults, disabled, hidden } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
 
@@ -19,6 +19,8 @@ describe("calcite-split-button", () => {
   </calcite-dropdown-group>`;
 
   it("renders", () => renders("calcite-split-button", { display: "inline-block" }));
+
+  it("honors hidden attribute", async () => hidden("calcite-split-button"));
 
   it("is accessible", async () =>
     accessible(`<calcite-split-button
@@ -75,7 +77,9 @@ describe("calcite-split-button", () => {
 
     expect(buttons).toHaveLength(2);
 
-    buttons.forEach(async (button) => expect(await button.getProperty("type")).toBe("button"));
+    for (const button of buttons) {
+      expect(await button.getProperty("type")).toBe("button");
+    }
   });
 
   it("renders requested props when valid props are provided", async () => {
@@ -204,5 +208,31 @@ describe("calcite-split-button", () => {
     element.setAttribute("width", "full");
     await page.waitForChanges();
     expect(container).toHaveClass(CSS.widthFull);
+  });
+
+  it("should support dropdown item keyboard navigation", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<calcite-split-button scale="s" primary-text="Button">
+    <calcite-dropdown-group selection-mode="none">
+      <calcite-dropdown-item id="item-1">Option 2</calcite-dropdown-item>
+      <calcite-dropdown-item id="item-2">Option 3</calcite-dropdown-item>
+      <calcite-dropdown-item id="item-3">Option 4</calcite-dropdown-item>
+    </calcite-dropdown-group>
+  </calcite-split-button>`);
+    const group = await page.find("calcite-dropdown-group");
+    const secondary = await page.find(`calcite-split-button >>> calcite-button[split-child="secondary"]`);
+    const dropdownOpenEvent = page.waitForEvent("calciteDropdownOpen");
+    await secondary.click();
+    await dropdownOpenEvent;
+    expect(await group.isVisible()).toBe(true);
+    expect(await page.evaluate(() => document.activeElement.id)).toEqual("item-1");
+    await page.keyboard.press("ArrowDown");
+    expect(await page.evaluate(() => document.activeElement.id)).toEqual("item-2");
+    await page.keyboard.press("ArrowDown");
+    expect(await page.evaluate(() => document.activeElement.id)).toEqual("item-3");
+    const dropdownCloseEvent = page.waitForEvent("calciteDropdownClose");
+    await page.keyboard.press("Enter");
+    await dropdownCloseEvent;
+    expect(await group.isVisible()).toBe(false);
   });
 });

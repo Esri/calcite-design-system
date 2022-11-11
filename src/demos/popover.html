@@ -16,6 +16,7 @@
         margin-left: 10%;
         padding: 15px 0;
       }
+
       .child {
         display: inline-flex;
         flex-direction: column;
@@ -27,10 +28,10 @@
   </head>
 
   <body>
-    <h1 style="margin: 0 auto; text-align: center">Popover</h1>
+    <demo-dom-swapper>
+      <h1 style="margin: 0 auto; text-align: center">Popover</h1>
 
-    <!-- clickable popover -->
-    <calcite-popover-manager>
+      <!-- clickable popover -->
       <div class="parent">
         <div class="child">Clickable popover</div>
 
@@ -79,11 +80,9 @@
         <div class="child">Tooltip and popover test</div>
 
         <div class="child">
-          <calcite-tooltip-manager>
-            <calcite-button appearance="outline" id="tooltip-and-popover" icon-start="popup">
-              Tooltip and popover test</calcite-button
-            >
-          </calcite-tooltip-manager>
+          <calcite-button appearance="outline" id="tooltip-and-popover" icon-start="popup">
+            Tooltip and popover test</calcite-button
+          >
         </div>
       </div>
       <calcite-tooltip label="bottom placed tooltip" reference-element="tooltip-and-popover" placement="bottom">
@@ -212,6 +211,6 @@
           </calcite-tabs>
         </div>
       </div>
-    </calcite-popover-manager>
+    </demo-dom-swapper>
   </body>
 </html>

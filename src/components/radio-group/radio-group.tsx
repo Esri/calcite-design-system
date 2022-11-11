@@ -1,22 +1,28 @@
 import {
-  Component,
-  Event,
-  h,
-  EventEmitter,
-  Listen,
-  Element,
-  Prop,
-  Watch,
-  Host,
   Build,
+  Component,
+  Element,
+  Event,
+  EventEmitter,
+  h,
+  Host,
+  Listen,
   Method,
-  VNode
+  Prop,
+  VNode,
+  Watch
 } from "@stencil/core";
 
 import { getElementDir } from "../../utils/dom";
 import { Layout, Scale, Width } from "../interfaces";
-import { LabelableComponent, connectLabel, disconnectLabel } from "../../utils/label";
-import { connectForm, disconnectForm, FormComponent, HiddenFormInputSlot } from "../../utils/form";
+import { connectLabel, disconnectLabel, LabelableComponent } from "../../utils/label";
+import {
+  afterConnectDefaultValueSet,
+  connectForm,
+  disconnectForm,
+  FormComponent,
+  HiddenFormInputSlot
+} from "../../utils/form";
 import { RadioAppearance } from "./interfaces";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 
@@ -43,31 +49,31 @@ export class RadioGroup implements LabelableComponent, FormComponent, Interactiv
   //
   //--------------------------------------------------------------------------
 
-  /** specify the appearance style of the radio group, defaults to solid. */
+  /** Specifies the appearance style of the component. */
   @Prop({ reflect: true }) appearance: RadioAppearance = "solid";
 
-  /** is the radio group disabled  */
+  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @Prop({ reflect: true }) disabled = false;
 
   /**
-   * When true, makes the component required for form-submission.
+   * When `true`, the component must have a value in order for the form to submit.
    *
    * @internal
    */
   @Prop({ reflect: true }) required = false;
 
-  /** specify the layout of the radio group, defaults to horizontal */
+  /** Defines the layout of the component. */
   @Prop({ reflect: true }) layout: Layout = "horizontal";
 
   /**
-   * The group's name. Gets submitted with the form.
+   * Specifies the name of the component on form submission.
    */
-  @Prop() name: string;
+  @Prop({ reflect: true }) name: string;
 
-  /** The scale of the radio group */
+  /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
 
-  /** The value of the selectedItem */
+  /** The component's `selectedItem` value. */
   @Prop({ mutable: true }) value: string = null;
 
   @Watch("value")
@@ -77,7 +83,9 @@ export class RadioGroup implements LabelableComponent, FormComponent, Interactiv
   }
 
   /**
-   * The group's selected item.
+   * The component's selected item `HTMLElement`.
+   *
+   * @readonly
    */
   @Prop({ mutable: true }) selectedItem: HTMLCalciteRadioGroupItemElement;
 
@@ -102,7 +110,7 @@ export class RadioGroup implements LabelableComponent, FormComponent, Interactiv
     }
   }
 
-  /** specify the width of the group, defaults to auto */
+  /** Specifies the width of the component. */
   @Prop({ reflect: true }) width: Extract<"auto" | "full", Width> = "auto";
 
   //--------------------------------------------------------------------------
@@ -122,6 +130,10 @@ export class RadioGroup implements LabelableComponent, FormComponent, Interactiv
     } else if (items[0]) {
       items[0].tabIndex = 0;
     }
+  }
+
+  componentDidLoad(): void {
+    afterConnectDefaultValueSet(this, this.value);
   }
 
   connectedCallback(): void {
@@ -159,17 +171,17 @@ export class RadioGroup implements LabelableComponent, FormComponent, Interactiv
     }
   };
 
-  @Listen("calciteRadioGroupItemChange")
+  @Listen("calciteInternalRadioGroupItemChange")
   protected handleSelected(event: Event): void {
-    event.stopPropagation();
     event.preventDefault();
     this.selectItem(event.target as HTMLCalciteRadioGroupItemElement);
+    event.stopPropagation();
   }
 
   @Listen("keydown")
   protected handleKeyDown(event: KeyboardEvent): void {
     const keys = ["ArrowLeft", "ArrowUp", "ArrowRight", "ArrowDown", " "];
-    const key = event.key;
+    const { key } = event;
     const { el, selectedItem } = this;
 
     if (keys.indexOf(key) === -1) {
@@ -226,8 +238,8 @@ export class RadioGroup implements LabelableComponent, FormComponent, Interactiv
   //
   //--------------------------------------------------------------------------
 
-  /** Fired when the selected option changes, event detail is the new value */
-  @Event() calciteRadioGroupChange: EventEmitter<string>;
+  /** Fires when the selected option changes, where the event detail is the new value. */
+  @Event({ cancelable: false }) calciteRadioGroupChange: EventEmitter<string>;
 
   // --------------------------------------------------------------------------
   //

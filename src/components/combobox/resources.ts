@@ -5,3 +5,9 @@ export const ComboboxChildSelector = `${ComboboxItem}, ${ComboboxItemGroup}`;
 export const TEXT = {
   removeTag: "Remove tag"
 };
+
+export const CSS = {
+  labelActive: "label--active",
+  labelSelected: "label--selected",
+  listContainer: "list-container"
+};

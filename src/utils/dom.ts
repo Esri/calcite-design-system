@@ -6,6 +6,7 @@ import { guid } from "./guid";
  *
  * If it already has an ID, it will be preserved, otherwise a unique one will be generated and assigned.
  *
+ * @param el
  * @returns {string} The element's ID.
  */
 export function ensureId(el: Element): string {
@@ -52,43 +53,14 @@ export function getHost(root: Document | ShadowRoot): Element | null {
 }
 
 /**
- * This helper queries an element's rootNodes and any ancestor rootNodes.
- *
- * @returns {Element[]} The elements.
- */
-export function queryElementsRoots<T extends Element = Element>(element: Element, selector: string): T[] {
-  // Gets the rootNode and any ancestor rootNodes (shadowRoot or document) of an element and queries them for a selector.
-  // Based on: https://stackoverflow.com/q/54520554/194216
-  function queryFromAll<T extends Element = Element>(el: Element, allResults: T[]): T[] {
-    if (!el) {
-      return allResults;
-    }
-
-    if ((el as Slottable).assignedSlot) {
-      el = (el as Slottable).assignedSlot;
-    }
-
-    const rootNode = getRootNode(el);
-
-    const results = Array.from(rootNode.querySelectorAll(selector)) as T[];
-
-    const uniqueResults = results.filter((result) => !allResults.includes(result));
-
-    allResults = [...allResults, ...uniqueResults];
-
-    const host = getHost(rootNode);
-
-    return host ? queryFromAll(host, allResults) : allResults;
-  }
-
-  return queryFromAll(element, []);
-}
-
-/**
  * This helper queries an element's rootNode and any ancestor rootNodes.
  *
  * If both an 'id' and 'selector' are supplied, 'id' will take precedence over 'selector'.
  *
+ * @param element
+ * @param root0
+ * @param root0.selector
+ * @param root0.id
  * @returns {Element} The element.
  */
 export function queryElementRoots<T extends Element = Element>(
@@ -144,6 +116,37 @@ export function closestElementCrossShadowBoundary<T extends Element = Element>(
   }
 
   return closestFrom(element);
+}
+
+/**
+ * This utility helps invoke a callback as it traverses a node and its ancestors until reaching the root document.
+ *
+ * Returning early or undefined in `onVisit` will continue traversing up the DOM tree. Otherwise, traversal will halt with the returned value as the result of the function
+ *
+ * @param element
+ * @param onVisit
+ */
+export function walkUpAncestry<T = any>(element: Element, onVisit: (node: Node) => T): T {
+  return visit(element, onVisit);
+}
+
+function visit<T = any>(node: Node, onVisit: (node: Node) => T): T {
+  if (!node) {
+    return;
+  }
+
+  const result = onVisit(node);
+  if (result !== undefined) {
+    return result;
+  }
+
+  const { parentNode } = node;
+
+  return visit(parentNode instanceof ShadowRoot ? parentNode.host : parentNode, onVisit);
+}
+
+export function containsCrossShadowBoundary(element: Element, maybeDescendant: Element): boolean {
+  return !!walkUpAncestry(maybeDescendant, (node) => (node === element ? true : undefined));
 }
 
 export interface FocusableElement extends HTMLElement {
@@ -273,4 +276,28 @@ export function intersects(rect1: DOMRect, rect2: DOMRect): boolean {
     rect2.top > rect1.bottom ||
     rect2.bottom < rect1.top
   );
+}
+
+/**
+ * This helper makes sure that boolean aria attributes are properly converted to a string.
+ *
+ * It should only be used for aria attributes that require a string value of "true" or "false".
+ *
+ * @param value
+ * @returns {string} The string conversion of a boolean value ("true" | "false").
+ */
+export function toAriaBoolean(value: boolean): string {
+  return Boolean(value).toString();
+}
+
+/**
+ * This helper returns true if the pointer event fired from the primary button of the device.
+ *
+ * See https://www.w3.org/TR/pointerevents/#the-button-property.
+ *
+ * @param event
+ * @returns {boolean}
+ */
+export function isPrimaryPointerButton(event: PointerEvent): boolean {
+  return !!(event.isPrimary && event.button === 0);
 }

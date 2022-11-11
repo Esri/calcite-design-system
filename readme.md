@@ -12,12 +12,12 @@ The most common approach for loading Calcite Components is to use the version ho
 ```html
 <script
   type="module"
-  src="https://unpkg.com/@esri/calcite-components@1.0.0-beta.80/dist/calcite/calcite.esm.js"
+  src="https://unpkg.com/@esri/calcite-components@1.0.0-beta.98/dist/calcite/calcite.esm.js"
 ></script>
 <link
   rel="stylesheet"
   type="text/css"
-  href="https://unpkg.com/@esri/calcite-components@1.0.0-beta.80/dist/calcite/calcite.css"
+  href="https://unpkg.com/@esri/calcite-components@1.0.0-beta.98/dist/calcite/calcite.css"
 />
 ```
 
@@ -107,12 +107,20 @@ This will provide autocomplete of component names/properties, as well as additio
 // created elements will implicitly have the correct type already
 const loader = document.createElement("calcite-loader");
 document.body.appendChild(loader);
-loader.isActive = true;
+loader.active = true;
 
 // you can also explicitly type an element using the generated types
 // the type name will always be formatted like HTML{CamelCaseComponentName}Element
 const loader = document.querySelector(".my-loader-element") as HTMLCalciteLoaderElement;
-loader.isActive = true;
+loader.active = true;
+```
+
+## `@stencil/core` Version
+
+When using Stencil, make sure the `@stencil/core` version in your project matches the one used by Calcite Components. You may run into type errors if the `@stencil/core` versions are different. You can install the same Stencil version used by `@esri/calcite-components`:
+
+```bash
+npm install @stencil/core@$(npm view @esri/calcite-components dependencies["@stencil/core"])
 ```
 
 ## Browser Support

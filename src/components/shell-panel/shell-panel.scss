@@ -35,7 +35,6 @@
   absolute
   bottom-0
   top-0
-  z-10
   flex
   h-full
   w-0.5
@@ -63,8 +62,8 @@
 ::slotted(calcite-panel),
 ::slotted(calcite-flow) {
   @apply h-full w-full flex-auto;
-  max-height: unset;
-  max-width: unset;
+  max-block-size: unset;
+  max-inline-size: unset;
 }
 
 ::slotted(.calcite-match-height) {
@@ -81,10 +80,10 @@
   self-stretch
   p-0;
 
-  width: var(--calcite-shell-panel-width);
-  max-width: var(--calcite-shell-panel-max-width);
-  min-width: var(--calcite-shell-panel-min-width);
-  transition: max-height var(--calcite-animation-timing), max-width var(--calcite-animation-timing);
+  inline-size: var(--calcite-shell-panel-width);
+  max-inline-size: var(--calcite-shell-panel-max-width);
+  min-inline-size: var(--calcite-shell-panel-min-width);
+  transition: max-block-size var(--calcite-animation-timing), max-inline-size var(--calcite-animation-timing);
 }
 
 .content__header {
@@ -141,10 +140,10 @@
   overflow-hidden
   rounded;
 
-  max-height: var(--calcite-shell-panel-detached-max-height);
+  max-block-size: var(--calcite-shell-panel-detached-max-height);
   ::slotted(calcite-panel),
   ::slotted(calcite-flow) {
-    max-height: unset;
+    max-block-size: unset;
   }
 }
 
@@ -162,7 +161,7 @@
 
 slot[name="action-bar"]::slotted(calcite-action-bar),
 .content ::slotted(calcite-flow),
-.content ::slotted(calcite-panel) {
+.content ::slotted(calcite-panel:not([dismissed])) {
   @apply border-color-3 border border-solid;
 }
 

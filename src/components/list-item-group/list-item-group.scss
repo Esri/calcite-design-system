@@ -11,5 +11,5 @@
 }
 
 ::slotted(calcite-list-item-group) {
-  @apply pl-2;
+  padding-inline-start: theme("spacing.2");
 }

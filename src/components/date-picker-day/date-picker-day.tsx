@@ -10,11 +10,12 @@ import {
   VNode
 } from "@stencil/core";
 
-import { getElementDir } from "../../utils/dom";
-import { DateLocaleData } from "../date-picker/utils";
+import { closestElementCrossShadowBoundary, getElementDir } from "../../utils/dom";
 import { Scale } from "../interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import { isActivationKey } from "../../utils/key";
+import { numberStringFormatter } from "../../utils/locale";
 
 @Component({
   tag: "calcite-date-picker-day",
@@ -37,7 +38,7 @@ export class DatePickerDay implements InteractiveComponent {
   //--------------------------------------------------------------------------
 
   /** Day of the month to be shown. */
-  @Prop() day: number;
+  @Prop() day!: number;
 
   /** Date is outside of range and can't be selected */
   @Prop({ reflect: true }) disabled = false;
@@ -66,10 +67,6 @@ export class DatePickerDay implements InteractiveComponent {
   /** Date is actively in focus for keyboard navigation */
   @Prop({ reflect: true }) active = false;
 
-  /** CLDR data for current locale */
-  /* @internal */
-  @Prop() localeData: DateLocaleData;
-
   /** specify the scale of the date picker */
   @Prop({ reflect: true }) scale: Scale;
 
@@ -86,18 +83,16 @@ export class DatePickerDay implements InteractiveComponent {
     !this.disabled && this.calciteDaySelect.emit();
   };
 
-  keyDownHandler = (e: KeyboardEvent): void => {
-    const key = e.key;
-    if (key === " " || key === "Enter") {
+  keyDownHandler = (event: KeyboardEvent): void => {
+    if (isActivationKey(event.key)) {
       !this.disabled && this.calciteDaySelect.emit();
+      event.preventDefault();
     }
   };
 
-  @Listen("mouseover")
+  @Listen("pointerover")
   mouseoverHandler(): void {
-    this.calciteDayHover.emit({
-      disabled: this.disabled
-    });
+    this.calciteInternalDayHover.emit();
   }
 
   //--------------------------------------------------------------------------
@@ -109,24 +104,39 @@ export class DatePickerDay implements InteractiveComponent {
   /**
    * Emitted when user selects day
    */
-  @Event() calciteDaySelect: EventEmitter;
+  @Event({ cancelable: false }) calciteDaySelect: EventEmitter<void>;
 
   /**
    * Emitted when user hovers over a day
+   *
    * @internal
    */
-  @Event() calciteDayHover: EventEmitter;
+  @Event({ cancelable: false }) calciteInternalDayHover: EventEmitter<void>;
 
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
   //
   //--------------------------------------------------------------------------
+
+  componentWillLoad(): void {
+    this.parentDatePickerEl = closestElementCrossShadowBoundary(
+      this.el,
+      "calcite-date-picker"
+    ) as HTMLCalciteDatePickerElement;
+  }
+
   render(): VNode {
-    const formattedDay = String(this.day)
-      .split("")
-      .map((i) => this.localeData.numerals[i])
-      .join("");
+    if (this.parentDatePickerEl) {
+      const { numberingSystem, lang: locale } = this.parentDatePickerEl;
+
+      numberStringFormatter.numberFormatOptions = {
+        useGrouping: false,
+        ...(numberingSystem && { numberingSystem }),
+        ...(locale && { locale })
+      };
+    }
+    const formattedDay = numberStringFormatter.localize(String(this.day));
     const dir = getElementDir(this.el);
     return (
       <Host onClick={this.onClick} onKeyDown={this.keyDownHandler} role="gridcell">
@@ -148,4 +158,12 @@ export class DatePickerDay implements InteractiveComponent {
   isTabbable(): boolean {
     return this.active;
   }
+
+  //--------------------------------------------------------------------------
+  //
+  //  Private State/Props
+  //
+  //--------------------------------------------------------------------------
+
+  private parentDatePickerEl: HTMLCalciteDatePickerElement;
 }

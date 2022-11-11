@@ -1,0 +1,6 @@
+{
+  "dragHandleActive": "ķ_Reordering ${itemLabel}, current position ${position} of ${total}__________________________________ū.",
+  "dragHandleChange": "ķ_${itemLabel}, new position ${position} of ${total}. Press space to confirm_______________________________________ū.",
+  "dragHandleCommit": "ķ_${itemLabel}, current position ${position} of ${total}_____________________________ū.",
+  "dragHandleIdle": "ķ_${itemLabel}, press space and use arrow keys to reorder content. Current position ${position} of ${total}______________________________________________________ū."
+}

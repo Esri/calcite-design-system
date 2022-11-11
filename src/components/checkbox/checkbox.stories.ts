@@ -1,18 +1,26 @@
 import { select, text } from "@storybook/addon-knobs";
-import { boolean } from "../../../.storybook/helpers";
+import { boolean, storyFilters } from "../../../.storybook/helpers";
 import { themesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import readme from "./readme.md";
 
-export default {
-  title: "Components/Controls/Checkbox",
+import { filterComponentAttributes, Attributes, createComponentHTML as create } from "../../../.storybook/utils";
+import { createSteps, stepStory } from "../../../.storybook/helpers";
+import { Keys } from "screener-storybook/src/screener";
 
-  parameters: {
-    notes: readme
-  }
+const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ exceptions } = { exceptions: [] }) => {
+  return filterComponentAttributes([], exceptions);
 };
 
-export const Simple = (): string => html`
+export default {
+  title: "Components/Controls/Checkbox",
+  parameters: {
+    notes: readme
+  },
+  ...storyFilters()
+};
+
+export const simple = (): string => html`
   <calcite-label layout="inline">
     <calcite-checkbox
       ${boolean("checked", true)}
@@ -23,8 +31,11 @@ export const Simple = (): string => html`
     ${text("label", "Checkbox")}
   </calcite-label>
 `;
-export const DarkMode = (): string => html`
-  <calcite-label layout="inline" class="calcite-theme-dark">
+
+export const disabled_TestOnly = (): string => html`<calcite-checkbox checked disabled></calcite-checkbox>`;
+
+export const darkThemeRTL_TestOnly = (): string => html`
+  <calcite-label dir="rtl" layout="inline" class="calcite-theme-dark">
     <calcite-checkbox
       ${boolean("checked", true)}
       ${boolean("disabled", false)}
@@ -35,19 +46,9 @@ export const DarkMode = (): string => html`
   </calcite-label>
 `;
 
-DarkMode.storyName = "Dark mode";
-DarkMode.parameters = { themes: themesDarkDefault };
+darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };
 
-export const RTL = (): string => html`
-  <calcite-label layout="inline" dir="rtl">
-    <calcite-checkbox
-      ${boolean("checked", true)}
-      ${boolean("disabled", false)}
-      ${boolean("indeterminate", false)}
-      scale="${select("scale", ["s", "m", "l"], "m")}"
-    ></calcite-checkbox>
-    ${text("label", "Checkbox")}
-  </calcite-label>
-`;
-
-export const disabled = (): string => html`<calcite-checkbox checked disabled></calcite-checkbox>`;
+export const keyboardNavigation_TestOnly = stepStory(
+  (): string => html`${create("calcite-checkbox", createAttributes())}`,
+  createSteps("calcite-checkbox").keys("body", Keys.tab).snapshot("focus")
+);

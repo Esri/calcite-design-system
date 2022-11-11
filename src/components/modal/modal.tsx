@@ -13,8 +13,8 @@ import {
   Watch
 } from "@stencil/core";
 import {
-  FocusableElement,
   ensureId,
+  FocusableElement,
   focusElement,
   getSlotted,
   isCalciteFocusable
@@ -24,13 +24,18 @@ import { queryShadowRoot } from "@a11y/focus-trap/shadow";
 import { isFocusable, isHidden } from "@a11y/focus-trap/focusable";
 import { Scale } from "../interfaces";
 import { ModalBackgroundColor } from "./interfaces";
-import { TEXT, SLOTS, CSS, ICONS } from "./resources";
+import { CSS, ICONS, SLOTS, TEXT } from "./resources";
 import { createObserver } from "../../utils/observers";
 import {
   ConditionalSlotComponent,
   connectConditionalSlotComponent,
   disconnectConditionalSlotComponent
 } from "../../utils/conditionalSlot";
+import {
+  OpenCloseComponent,
+  connectOpenCloseComponent,
+  disconnectOpenCloseComponent
+} from "../../utils/openCloseComponent";
 
 const isFocusableExtended = (el: FocusableElement): boolean => {
   return isCalciteFocusable(el) || isFocusable(el);
@@ -41,11 +46,11 @@ const getFocusableElements = (el: HTMLElement | ShadowRoot): HTMLElement[] => {
 };
 
 /**
- * @slot header - a slot for adding a modal header
- * @slot content - a slot for adding modal content
- * @slot primary - a slot for adding a primary button
- * @slot secondary - a slot for adding a secondary button
- * @slot back - a slot for adding a back button
+ * @slot header - A slot for adding header text.
+ * @slot content - A slot for adding the component's content.
+ * @slot primary - A slot for adding a primary button.
+ * @slot secondary - A slot for adding a secondary button.
+ * @slot back - A slot for adding a back button.
  */
 
 @Component({
@@ -53,7 +58,7 @@ const getFocusableElements = (el: HTMLElement | ShadowRoot): HTMLElement[] => {
   styleUrl: "modal.scss",
   shadow: true
 })
-export class Modal implements ConditionalSlotComponent {
+export class Modal implements ConditionalSlotComponent, OpenCloseComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -66,48 +71,60 @@ export class Modal implements ConditionalSlotComponent {
   //  Properties
   //
   //--------------------------------------------------------------------------
-  /** Add the active attribute to open the modal */
+
+  /**
+   * When `true`, the component is active.
+   *
+   * @deprecated use `open` instead.
+   */
   @Prop({ mutable: true, reflect: true }) active = false;
 
-  /** Optionally pass a function to run before close */
-  @Prop() beforeClose: (el: HTMLElement) => Promise<void> = () => Promise.resolve();
+  /** When `true`, displays and positions the component.  */
+  @Prop({ mutable: true, reflect: true }) open = false;
 
-  /** Disables the display a close button within the Modal */
-  @Prop() disableCloseButton = false;
+  /** Passes a function to run before the component closes. */
+  @Prop()
+  beforeClose?: (el: HTMLElement) => Promise<void> = () => Promise.resolve();
 
-  /** Disables the closing of the Modal when clicked outside. */
-  @Prop() disableOutsideClose = false;
+  /** When `true`, disables the component's close button. */
+  @Prop({ reflect: true }) disableCloseButton = false;
 
-  /** Aria label for the close button */
+  /** When `true`, disables the closing of the component when clicked outside. */
+  @Prop({ reflect: true }) disableOutsideClose = false;
+
+  /** Accessible name for the component's close button. */
   @Prop() intlClose = TEXT.close;
 
-  /** Prevent the modal from taking up the entire screen on mobile */
+  /** When `true`, prevents the component from expanding to the entire screen on mobile devices. */
   @Prop({ reflect: true }) docked: boolean;
 
-  /** Specify an element to focus when the modal is first opened */
-  @Prop() firstFocus?: HTMLElement;
+  /** When `true`, disables the default close on escape behavior. */
+  @Prop({ reflect: true }) disableEscape = false;
 
-  /** Flag to disable the default close on escape behavior */
-  @Prop() disableEscape = false;
-
-  /** specify the scale of modal, defaults to m */
+  /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
 
-  /** Set the width of the modal. Can use stock sizes or pass a number (in pixels) */
+  /** Specifies the width of the component. Can use scale sizes or pass a number (displays in pixels). */
   @Prop({ reflect: true }) width: Scale | number = "m";
 
-  /** Set the modal to always be fullscreen (overrides width) */
+  /** Sets the component to always be fullscreen (overrides `width`). */
   @Prop({ reflect: true }) fullscreen: boolean;
 
-  /** Adds a color bar at the top for visual impact,
-   * Use color to add importance to destructive/workflow dialogs. */
+  /**
+   * Adds a color bar to the top of component for visual impact.
+   * Use color to add importance to destructive or workflow dialogs.
+   */
   @Prop({ reflect: true }) color?: "red" | "blue";
 
-  /** Background color of modal content */
+  /** Sets the background color of the component's content. */
   @Prop({ reflect: true }) backgroundColor: ModalBackgroundColor = "white";
 
-  /** Turn off spacing around the content area slot */
-  @Prop() noPadding = false;
+  /**
+   * When `true`, disables spacing to the content area slot.
+   *
+   * @deprecated  Use `--calcite-modal-padding` CSS variable instead.
+   */
+  @Prop({ reflect: true }) noPadding = false;
 
   //--------------------------------------------------------------------------
   //
@@ -116,8 +133,8 @@ export class Modal implements ConditionalSlotComponent {
   //--------------------------------------------------------------------------
   componentWillLoad(): void {
     // when modal initially renders, if active was set we need to open as watcher doesn't fire
-    if (this.active) {
-      this.open();
+    if (this.open) {
+      requestAnimationFrame(() => this.openModal());
     }
   }
 
@@ -125,12 +142,20 @@ export class Modal implements ConditionalSlotComponent {
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
     this.updateFooterVisibility();
     connectConditionalSlotComponent(this);
+    connectOpenCloseComponent(this);
+    if (this.open) {
+      this.active = this.open;
+    }
+    if (this.active) {
+      this.activeHandler(this.active);
+    }
   }
 
   disconnectedCallback(): void {
     this.removeOverflowHiddenClass();
     this.mutationObserver?.disconnect();
     disconnectConditionalSlotComponent(this);
+    disconnectOpenCloseComponent(this);
   }
 
   render(): VNode {
@@ -143,7 +168,13 @@ export class Modal implements ConditionalSlotComponent {
       >
         <calcite-scrim class={CSS.scrim} onClick={this.handleOutsideClose} />
         {this.renderStyle()}
-        <div class="modal" onTransitionEnd={this.transitionEnd}>
+        <div
+          class={{
+            [CSS.modal]: true,
+            [CSS.modalOpen]: this.isOpen
+          }}
+          ref={this.setTransitionEl}
+        >
           <div data-focus-fence onFocus={this.focusLastElement} tabindex="0" />
           <div class={CSS.header}>
             {this.renderCloseButton()}
@@ -209,11 +240,11 @@ export class Modal implements ConditionalSlotComponent {
     return hasCustomWidth ? (
       <style>
         {`
-        .modal {
+        .${CSS.modal} {
           max-width: ${this.width}px !important;
         }
         @media screen and (max-width: ${this.width}px) {
-          .modal {
+          .${CSS.modal} {
             height: 100% !important;
             max-height: 100% !important;
             width: 100% !important;
@@ -242,6 +273,13 @@ export class Modal implements ConditionalSlotComponent {
 
   contentId: string;
 
+  /**
+   * We use internal variable to make sure initially open modal can transition from closed state when rendered
+   *
+   * @private
+   */
+  @State() isOpen = false;
+
   modalContent: HTMLDivElement;
 
   private mutationObserver: MutationObserver = createObserver("mutation", () =>
@@ -252,17 +290,21 @@ export class Modal implements ConditionalSlotComponent {
 
   titleId: string;
 
-  private activeTransitionProp = "opacity";
+  openTransitionProp = "opacity";
+
+  transitionEl: HTMLDivElement;
 
   //--------------------------------------------------------------------------
   //
   //  Event Listeners
   //
   //--------------------------------------------------------------------------
-  @Listen("keyup", { target: "window" })
-  handleEscape(e: KeyboardEvent): void {
-    if (this.active && !this.disableEscape && e.key === "Escape") {
+
+  @Listen("keydown", { target: "window" })
+  handleEscape(event: KeyboardEvent): void {
+    if (this.open && !this.disableEscape && event.key === "Escape" && !event.defaultPrevented) {
       this.close();
+      event.preventDefault();
     }
   }
 
@@ -271,11 +313,17 @@ export class Modal implements ConditionalSlotComponent {
   //  Events
   //
   //--------------------------------------------------------------------------
-  /** Fired when the modal finishes the open animation */
-  @Event() calciteModalOpen: EventEmitter;
+  /** Fires when the component is requested to be closed and before the closing transition begins. */
+  @Event({ cancelable: false }) calciteModalBeforeClose: EventEmitter<void>;
 
-  /** Fired when the modal finishes the close animation */
-  @Event() calciteModalClose: EventEmitter;
+  /** Fires when the component is closed and animation is complete. */
+  @Event({ cancelable: false }) calciteModalClose: EventEmitter<void>;
+
+  /** Fires when the component is added to the DOM but not rendered, and before the opening transition begins. */
+  @Event({ cancelable: false }) calciteModalBeforeOpen: EventEmitter<void>;
+
+  /** Fires when the component is open and animation is complete. */
+  @Event({ cancelable: false }) calciteModalOpen: EventEmitter<void>;
 
   //--------------------------------------------------------------------------
   //
@@ -283,7 +331,9 @@ export class Modal implements ConditionalSlotComponent {
   //
   //--------------------------------------------------------------------------
   /**
-   * Focus first interactive element
+   * Focus the first interactive element.
+   *
+   * @param el
    * @deprecated use `setFocus` instead.
    */
   @Method()
@@ -298,8 +348,10 @@ export class Modal implements ConditionalSlotComponent {
   /**
    * Sets focus on the component.
    *
-   * By default, will try to focus on any focusable content. If there is none, it will focus on the close button.
-   * If you want to focus on the close button, you can use the `close-button` focus ID.
+   * By default, tries to focus on focusable content. If there is none, it will focus on the close button.
+   * To focus on the close button, use the `close-button` focus ID.
+   *
+   * @param focusId
    */
   @Method()
   async setFocus(focusId?: "close-button"): Promise<void> {
@@ -310,7 +362,12 @@ export class Modal implements ConditionalSlotComponent {
     );
   }
 
-  /** Set the scroll top of the modal content */
+  /**
+   * Sets the scroll top of the component's content.
+   *
+   * @param top
+   * @param left
+   */
   @Method()
   async scrollContent(top = 0, left = 0): Promise<void> {
     if (this.modalContent) {
@@ -328,20 +385,46 @@ export class Modal implements ConditionalSlotComponent {
   //  Private Methods
   //
   //--------------------------------------------------------------------------
-  transitionEnd = (event: TransitionEvent): void => {
-    if (event.propertyName === this.activeTransitionProp) {
-      this.active ? this.calciteModalOpen.emit() : this.calciteModalClose.emit();
-    }
+
+  private setTransitionEl = (el): void => {
+    this.transitionEl = el;
+    connectOpenCloseComponent(this);
   };
 
+  onBeforeOpen(): void {
+    this.transitionEl.classList.add(CSS.openingActive);
+    this.calciteModalBeforeOpen.emit();
+  }
+
+  onOpen(): void {
+    this.transitionEl.classList.remove(CSS.openingIdle, CSS.openingActive);
+    this.calciteModalOpen.emit();
+  }
+
+  onBeforeClose(): void {
+    this.transitionEl.classList.add(CSS.closingActive);
+    this.calciteModalBeforeClose.emit();
+  }
+
+  onClose(): void {
+    this.transitionEl.classList.remove(CSS.closingIdle, CSS.closingActive);
+    this.calciteModalClose.emit();
+  }
+
   @Watch("active")
-  async toggleModal(value: boolean, oldValue: boolean): Promise<void> {
-    if (value !== oldValue) {
-      if (value) {
-        this.open();
-      } else if (!value) {
-        this.close();
-      }
+  activeHandler(value: boolean): void {
+    this.open = value;
+  }
+
+  @Watch("open")
+  async toggleModal(value: boolean): Promise<void> {
+    this.active = value;
+    if (value) {
+      this.transitionEl?.classList.add(CSS.openingIdle);
+      this.openModal();
+    } else {
+      this.transitionEl?.classList.add(CSS.closingIdle);
+      this.close();
     }
   }
 
@@ -351,11 +434,11 @@ export class Modal implements ConditionalSlotComponent {
   };
 
   /** Open the modal */
-  private open() {
+  private openModal() {
     this.previousActiveElement = document.activeElement as HTMLElement;
     this.el.addEventListener("calciteModalOpen", this.openEnd);
-    this.active = true;
-
+    this.open = true;
+    this.isOpen = true;
     const titleEl = getSlotted(this.el, SLOTS.header);
     const contentEl = getSlotted(this.el, SLOTS.content);
 
@@ -376,7 +459,8 @@ export class Modal implements ConditionalSlotComponent {
   /** Close the modal, first running the `beforeClose` method */
   close = (): Promise<void> => {
     return this.beforeClose(this.el).then(() => {
-      this.active = false;
+      this.open = false;
+      this.isOpen = false;
       focusElement(this.previousActiveElement);
       this.removeOverflowHiddenClass();
     });

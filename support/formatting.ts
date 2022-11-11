@@ -2,8 +2,8 @@ import dedent from "dedent";
 
 /**
  * Use this tagged template to help Prettier format any HTML template literals.
- * @param strings the
  *
+ * @param strings the
  * @example
  *
  * ```ts

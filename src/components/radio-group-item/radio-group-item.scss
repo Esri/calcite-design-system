@@ -35,14 +35,12 @@
 
 .label--scale-s {
   @apply text-n2h px-2;
-  padding-top: 0.125rem;
-  padding-bottom: 0.125rem;
+  padding-block: 0.125rem;
 }
 
 .label--scale-m {
   @apply text-n1h px-3;
-  padding-top: 0.375rem;
-  padding-bottom: 0.375rem;
+  padding-block: 0.375rem;
 }
 
 .label--scale-l {
@@ -70,6 +68,18 @@
 
 ::slotted(input) {
   @apply hidden;
+}
+
+@media (forced-colors: active) {
+  :host([checked]) label {
+    background-color: highlight;
+  }
+  :host([checked]) .label--outline {
+    @apply outline-none;
+  }
+  :host([checked]) label:not([class~="label--outline"]) .radio-group-item-icon {
+    color: highlightText;
+  }
 }
 
 // icon
@@ -105,5 +115,28 @@
 
 :host([icon-position="end"]) .label--scale-l .radio-group-item-icon {
   margin-inline-end: unset;
+  margin-inline-start: theme("margin.4");
+}
+
+:host([icon-start]) .label--scale-s .radio-group-item-icon {
+  margin-inline-end: theme("margin.2");
+}
+
+:host([icon-end]) .label--scale-s .radio-group-item-icon {
+  margin-inline-start: theme("margin.2");
+}
+
+:host([icon-start]) .label--scale-m .radio-group-item-icon {
+  margin-inline-end: theme("margin.3");
+}
+
+:host([icon-end]) .label--scale-m .radio-group-item-icon {
+  margin-inline-start: theme("margin.3");
+}
+
+:host([icon-start]) .label--scale-l .radio-group-item-icon {
+  margin-inline-end: theme("margin.4");
+}
+:host([icon-end]) .label--scale-l .radio-group-item-icon {
   margin-inline-start: theme("margin.4");
 }

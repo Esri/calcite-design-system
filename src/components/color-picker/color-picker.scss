@@ -13,7 +13,7 @@ $inline-input-width: 31%;
 
 :host([scale="s"]) {
   .container {
-    width: 160px;
+    inline-size: 160px;
   }
 
   .saved-colors {
@@ -25,26 +25,26 @@ $inline-input-width: 31%;
   }
 
   .channel {
-    width: 100%;
-    margin-bottom: $gap--small;
+    inline-size: 100%;
+    margin-block-end: $gap--small;
 
     &:last-child {
-      margin-bottom: 0;
+      margin-block-end: 0;
     }
   }
 
   .opacity-input {
-    width: $inline-input-width + 20%;
+    inline-size: $inline-input-width + 20%;
   }
 }
 
 :host([scale="m"]) {
   .container {
-    width: 272px;
+    inline-size: 272px;
   }
 
   .opacity-input {
-    width: $inline-input-width;
+    inline-size: $inline-input-width;
   }
 }
 
@@ -58,25 +58,26 @@ $inline-input-width: 31%;
   @apply text-n1h;
 
   .container {
-    width: 464px;
+    inline-size: 464px;
   }
 
   .color-field-and-slider {
-    margin-bottom: -20px;
+    margin-block-end: -20px;
   }
 
   .section {
-    padding: 0 $section-padding--large $section-padding--large;
+    padding-block: 0 $section-padding--large;
+    padding-inline: $section-padding--large;
 
     &:first-of-type {
-      padding-top: $section-padding--large;
+      padding-block-start: $section-padding--large;
     }
   }
 
   .saved-colors {
     grid-template-columns: repeat(auto-fill, minmax(28px, 1fr));
     grid-gap: $gap--large;
-    padding-top: $section-padding--large;
+    padding-block-start: $section-padding--large;
   }
 
   .control-section {
@@ -92,7 +93,7 @@ $inline-input-width: 31%;
   }
 
   .opacity-input {
-    width: 25%;
+    inline-size: 25%;
   }
 
   .color-hex-options {
@@ -100,8 +101,8 @@ $inline-input-width: 31%;
       flex-shrink
       flex-col
       justify-around;
-    min-height: 98px;
-    width: 160px;
+    min-block-size: 98px;
+    inline-size: 160px;
   }
 
   .color-mode-container {
@@ -129,25 +130,19 @@ $inline-input-width: 31%;
   @apply text-n1
     focus-base
     pointer-events-none
-    absolute
-    mb-0
-    mr-0
-    h-2
-    w-2
-    p-0;
+    absolute;
 
-  margin-top: -0.25rem;
-  margin-left: -0.25rem;
-  outline-offset: 10px;
+  outline-offset: 14px;
 
   &:focus {
     @apply focus-outset;
-    outline-offset: 12px;
+    outline-offset: 16px;
   }
 }
 
 .color-field-and-slider {
-  margin-bottom: -16px;
+  margin-block-end: -16px;
+  touch-action: none;
 
   &--interactive {
     cursor: pointer;
@@ -165,10 +160,11 @@ $inline-input-width: 31%;
 }
 
 .section {
-  padding: 0 $section-padding $section-padding;
+  padding-block: 0 $section-padding;
+  padding-inline: $section-padding;
 
   &:first-of-type {
-    padding-top: $section-padding;
+    padding-block-start: $section-padding;
   }
 }
 
@@ -197,7 +193,7 @@ $inline-input-width: 31%;
 
 .header--spaced,
 .color-mode-container {
-  padding-top: $section-padding;
+  padding-block-start: $section-padding;
 }
 
 .channels {
@@ -206,16 +202,16 @@ $inline-input-width: 31%;
 }
 
 .channel {
-  width: $inline-input-width;
+  inline-size: $inline-input-width;
 }
 
 .saved-colors {
-  padding-top: $section-padding;
+  padding-block-start: $section-padding;
   display: -ms-grid;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(24px, 1fr));
   grid-gap: $gap;
-  width: 100%;
+  inline-size: 100%;
 }
 
 .saved-colors-buttons {

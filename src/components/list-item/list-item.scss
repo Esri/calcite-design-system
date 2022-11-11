@@ -108,7 +108,7 @@
 .content-start,
 .content-end {
   ::slotted(calcite-icon) {
-    @apply self-center px-3;
+    @apply self-center mx-3;
   }
 }
 
@@ -123,5 +123,5 @@
 
 ::slotted(calcite-list-item-group),
 ::slotted(calcite-list-item) {
-  @apply pl-2;
+  padding-inline-start: theme("spacing.2");
 }

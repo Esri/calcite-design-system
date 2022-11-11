@@ -9,13 +9,15 @@ import {
 import readme from "./readme.md";
 import { TEXT } from "./resources";
 import { html } from "../../../support/formatting";
-import { placeholderImage } from "../../../.storybook/utils";
+import { placeholderImage } from "../../../.storybook/placeholderImage";
+import { storyFilters } from "../../../.storybook/helpers";
 
 export default {
   title: "Components/Tips/Tip Manager",
   parameters: {
     notes: readme
-  }
+  },
+  ...storyFilters()
 };
 
 const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ exceptions } = { exceptions: [] }) => {
@@ -77,7 +79,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
 
 const tipContent = html`
   <calcite-tip-group group-title="Astronomy">
-    <calcite-tip heading="The Red Rocks and Blue Water">
+    <calcite-tip heading="The Red Rocks and Blue Water" heading-level="2">
       <img slot="thumbnail" src="${placeholderImage({ width: 1000, height: 600 })}" alt="This is an image." />
       <p>
         This tip is how a tip should really look. It has a landscape or square image and a small amount of text content.
@@ -119,9 +121,9 @@ const tipContent = html`
   </calcite-tip>
 `;
 
-export const basic = (): string => create("calcite-tip-manager", createAttributes(), tipContent);
+export const simple = (): string => create("calcite-tip-manager", createAttributes(), tipContent);
 
-export const darkThemeRTL = (): string =>
+export const darkThemeRTL_TestOnly = (): string =>
   create(
     "calcite-tip-manager",
     createAttributes({ exceptions: ["dir", "class"] }).concat([
@@ -130,5 +132,4 @@ export const darkThemeRTL = (): string =>
     ]),
     tipContent
   );
-
-darkThemeRTL.parameters = { themes: themesDarkDefault };
+darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };

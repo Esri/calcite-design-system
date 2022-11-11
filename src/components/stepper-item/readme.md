@@ -6,14 +6,25 @@ individual `calcite-stepper-item` item
 
 ## Properties
 
-| Property       | Attribute       | Description                                                          | Type      | Default     |
-| -------------- | --------------- | -------------------------------------------------------------------- | --------- | ----------- |
-| `active`       | `active`        | is the step active                                                   | `boolean` | `false`     |
-| `complete`     | `complete`      | has the step been completed                                          | `boolean` | `false`     |
-| `disabled`     | `disabled`      | is the step disabled and not navigable to by a user                  | `boolean` | `false`     |
-| `error`        | `error`         | does the step contain an error that needs to be resolved by the user | `boolean` | `false`     |
-| `itemSubtitle` | `item-subtitle` | pass a title for the stepper item                                    | `string`  | `undefined` |
-| `itemTitle`    | `item-title`    | pass a title for the stepper item                                    | `string`  | `undefined` |
+| Property       | Attribute       | Description                                                                                                                                          | Type      | Default     |
+| -------------- | --------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- | --------- | ----------- |
+| `active`       | `active`        | <span style="color:red">**[DEPRECATED]**</span> Use `selected` instead.<br/><br/>When `true`, the component is selected.                             | `boolean` | `false`     |
+| `complete`     | `complete`      | When `true`, the step has been completed.                                                                                                            | `boolean` | `false`     |
+| `description`  | `description`   | A description for the component. Displays below the header text.                                                                                     | `string`  | `undefined` |
+| `disabled`     | `disabled`      | When `true`, interaction is prevented and the component is displayed with lower opacity.                                                             | `boolean` | `false`     |
+| `error`        | `error`         | When `true`, the component contains an error that requires resolution from the user.                                                                 | `boolean` | `false`     |
+| `heading`      | `heading`       | The component header text.                                                                                                                           | `string`  | `undefined` |
+| `itemSubtitle` | `item-subtitle` | <span style="color:red">**[DEPRECATED]**</span> use `description` instead.<br/><br/>A description for the component. Displays below the header text. | `string`  | `undefined` |
+| `itemTitle`    | `item-title`    | <span style="color:red">**[DEPRECATED]**</span> use `heading` instead.<br/><br/>The component header text.                                           | `string`  | `undefined` |
+| `selected`     | `selected`      | When `true`, the component is selected.                                                                                                              | `boolean` | `false`     |
+
+## Methods
+
+### `setFocus() => Promise<void>`
+
+#### Returns
+
+Type: `Promise<void>`
 
 ## Slots
 

@@ -13,3 +13,7 @@ export const SLOTS = {
   message: "message",
   link: "link"
 };
+
+export const CSS = {
+  container: "container"
+};

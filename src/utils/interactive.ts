@@ -9,8 +9,8 @@ export interface InteractiveComponent {
    *
    * Notes:
    *
-   * * This prop should use the @Prop decorator and reflect.
-   * * The `disabled` Sass mixin must be added to the component's stylesheet.
+   * This prop should use the @Prop decorator and reflect.
+   * The `disabled` Sass mixin must be added to the component's stylesheet.
    */
   disabled: boolean;
 }
@@ -18,7 +18,7 @@ export interface InteractiveComponent {
 type HostIsTabbablePredicate = () => boolean;
 
 function noopClick(): void {
-  /** noop **/
+  /** noop */
 }
 
 /**
@@ -28,8 +28,11 @@ function noopClick(): void {
  *
  * **Notes**
  *
- * * this util is not needed for simple components whose root element or elements are an interactive component (custom element or native control). For those cases, set the `disabled` props on the root components instead.
- * * technically, users can override `tabindex` and restore keyboard navigation, but this will be considered user error
+ * this util is not needed for simple components whose root element or elements are an interactive component (custom element or native control). For those cases, set the `disabled` props on the root components instead.
+ * technically, users can override `tabindex` and restore keyboard navigation, but this will be considered user error
+ *
+ * @param component
+ * @param hostIsTabbable
  */
 export function updateHostInteraction(
   component: InteractiveComponent,

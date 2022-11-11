@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, renders, defaults } from "../../tests/commonTests";
+import { accessible, renders, defaults, hidden } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 
 describe("calcite-tabs", () => {
@@ -19,10 +19,12 @@ describe("calcite-tabs", () => {
 
   it("renders", async () => renders(tabsSnippet, { display: "flex" }));
 
+  it("honors hidden attribute", async () => hidden("calcite-tabs"));
+
   it("has defaults", async () =>
     defaults("calcite-tabs", [
       { propertyName: "layout", defaultValue: "inline" },
-      { propertyName: "position", defaultValue: "above" },
+      { propertyName: "position", defaultValue: "top" },
       { propertyName: "scale", defaultValue: "m" }
     ]));
 
@@ -52,10 +54,10 @@ describe("calcite-tabs", () => {
     const tabs = await page.findAll("calcite-tab");
     const titles = await page.findAll("calcite-tab-title");
 
-    expect(tabs[0]).toEqualAttribute("aria-expanded", "true");
-    expect(tabs[1]).toEqualAttribute("aria-expanded", "false");
-    expect(tabs[2]).toEqualAttribute("aria-expanded", "false");
-    expect(tabs[3]).toEqualAttribute("aria-expanded", "false");
+    expect(titles[0]).toEqualAttribute("aria-selected", "true");
+    expect(titles[1]).toEqualAttribute("aria-selected", "false");
+    expect(titles[2]).toEqualAttribute("aria-selected", "false");
+    expect(titles[3]).toEqualAttribute("aria-selected", "false");
 
     for (let index = 0; index < tabs.length; index++) {
       const tab = tabs[index];
@@ -181,7 +183,7 @@ describe("calcite-tabs", () => {
       expect(indicatorStyles.bottom).not.toEqual("0px");
     });
 
-    it("should render tab-nav's blue active indicator on bottom when position is below", async () => {
+    it("should render tab-nav's blue active indicator on bottom when position is below (deprecated)", async () => {
       const page = await newE2EPage({
         html: `
         <calcite-tabs bordered position="below">
@@ -199,13 +201,32 @@ describe("calcite-tabs", () => {
       expect(indicatorStyles.bottom).toEqual("0px");
       expect(indicatorStyles.top).not.toEqual("0px");
     });
+
+    it("should render tab-nav's blue active indicator on bottom when position is bottom", async () => {
+      const page = await newE2EPage({
+        html: `
+        <calcite-tabs bordered position="bottom">
+          <calcite-tab-nav slot="tab-nav">
+            <calcite-tab-title icon-start="arrow-left" icon-end="arrow-right">Tab 1 Title</calcite-tab-title>
+            <calcite-tab-title icon-start="arrow-left" icon-end="arrow-right" >Tab 2 Title</calcite-tab-title>
+          </calcite-tab-nav>
+          <calcite-tab>Tab 1 Content</calcite-tab>
+          <calcite-tab>Tab 2 Content</calcite-tab>
+        </calcite-tabs>
+        `
+      });
+      const indicator = await page.find("calcite-tab-nav >>> .tab-nav-active-indicator-container");
+      const indicatorStyles = await indicator.getComputedStyle();
+      expect(indicatorStyles.bottom).toEqual("0px");
+      expect(indicatorStyles.top).not.toEqual("0px");
+    });
   });
 
-  it("should ignore bordered attribute when layout is center", async () => {
+  it("should not ignore bordered attribute when layout is center", async () => {
     const page = await newE2EPage({
       html: `<calcite-tabs layout="center" bordered>${tabsContent}</calcite-tabs>`
     });
-    expect(await page.find("calcite-tabs")).not.toHaveAttribute("bordered");
+    expect(await page.find("calcite-tabs")).toHaveAttribute("bordered");
   });
 
   it("item selection should work when placed inside shadow DOM (#992)", async () => {
@@ -290,7 +311,7 @@ describe("calcite-tabs", () => {
     await page.waitForChanges();
 
     const kidB = await page.find("#kidB");
-    kidB.click();
+    await kidB.click();
 
     await page.waitForChanges();
 

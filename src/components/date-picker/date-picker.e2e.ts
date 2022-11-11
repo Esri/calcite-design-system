@@ -2,6 +2,7 @@ import { E2EPage, newE2EPage } from "@stencil/core/testing";
 import { renders, defaults, hidden } from "../../tests/commonTests";
 import { TEXT } from "./resources";
 import { html } from "../../../support/formatting";
+import { skipAnimations } from "../../tests/utils";
 
 describe("calcite-date-picker", () => {
   it("renders", async () => renders("calcite-date-picker", { display: "inline-block" }));
@@ -108,6 +109,28 @@ describe("calcite-date-picker", () => {
     expect(changedEvent).toHaveReceivedEventTimes(2);
   });
 
+  it("doesn't fire calciteDatePickerChange when the selected day is selected", async () => {
+    const page = await newE2EPage();
+    await page.setContent("<calcite-date-picker value='2000-11-27' open></calcite-date-picker>");
+    const changedEvent = await page.spyOnEvent("calciteDatePickerChange");
+
+    await skipAnimations(page);
+
+    await selectSelectedDay(page, "mouse");
+    expect(changedEvent).toHaveReceivedEventTimes(0);
+    await selectSelectedDay(page, "mouse");
+    expect(changedEvent).toHaveReceivedEventTimes(0);
+    await selectSelectedDay(page, "mouse");
+    expect(changedEvent).toHaveReceivedEventTimes(0);
+
+    await selectSelectedDay(page, "keyboard");
+    expect(changedEvent).toHaveReceivedEventTimes(0);
+    await selectSelectedDay(page, "keyboard");
+    expect(changedEvent).toHaveReceivedEventTimes(0);
+    await selectSelectedDay(page, "keyboard");
+    expect(changedEvent).toHaveReceivedEventTimes(0);
+  });
+
   async function selectFirstAvailableDay(page: E2EPage, method: "mouse" | "keyboard"): Promise<void> {
     await page.$eval(
       "calcite-date-picker",
@@ -115,6 +138,25 @@ describe("calcite-date-picker", () => {
         const day = datePicker.shadowRoot
           .querySelector<HTMLCalciteDatePickerMonthElement>("calcite-date-picker-month")
           .shadowRoot.querySelector<HTMLCalciteDatePickerDayElement>("calcite-date-picker-day:not([selected])");
+
+        if (method === "mouse") {
+          day.click();
+        } else {
+          day.dispatchEvent(new KeyboardEvent("keydown", { key: "Enter" }));
+        }
+      },
+      method
+    );
+    await page.waitForChanges();
+  }
+
+  async function selectSelectedDay(page: E2EPage, method: "mouse" | "keyboard"): Promise<void> {
+    await page.$eval(
+      "calcite-date-picker",
+      (datePicker: HTMLCalciteDatePickerElement, method: "mouse" | "keyboard") => {
+        const day = datePicker.shadowRoot
+          .querySelector<HTMLCalciteDatePickerMonthElement>("calcite-date-picker-month")
+          .shadowRoot.querySelector<HTMLCalciteDatePickerDayElement>("calcite-date-picker-day[selected]");
 
         if (method === "mouse") {
           day.click();
@@ -200,7 +242,7 @@ describe("calcite-date-picker", () => {
   describe("when the locale is set to Slovak calendar", () => {
     it("should start the week on Monday", async () => {
       const page = await newE2EPage({
-        html: `<calcite-date-picker scale="m" locale="sk" value="2000-11-27"></calcite-date-picker>`
+        html: `<calcite-date-picker scale="m" lang="sk" value="2000-11-27"></calcite-date-picker>`
       });
       await page.waitForChanges();
       const text: string = await page.evaluate(
@@ -217,7 +259,7 @@ describe("calcite-date-picker", () => {
 
   it("updates internally when min attribute is updated after initialization", async () => {
     const page = await newE2EPage();
-    page.emulateTimezone("America/Los_Angeles");
+    await page.emulateTimezone("America/Los_Angeles");
     await page.setContent(
       html`<calcite-date-picker value="2022-11-27" min="2022-11-15" max="2024-11-15"></calcite-date-picker>`
     );

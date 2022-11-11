@@ -3,7 +3,7 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-alert-width: the width of the alert
+ * @prop --calcite-alert-width: Specifies the width of the component.
  */
 
 // scale variables
@@ -87,17 +87,16 @@
       flex
       items-center
       justify-center
-      opacity-0;
+      opacity-0
+      z-toast;
     border-radius: var(--calcite-border-radius);
-    border-top: 0px solid transparent;
-    border-left: 1px solid var(--calcite-ui-border-3);
-    border-right: 1px solid var(--calcite-ui-border-3);
-    border-bottom: 1px solid var(--calcite-ui-border-3);
-    min-height: var(--calcite-alert-min-height);
-    width: var(--calcite-alert-width);
-    max-width: calc(100% - (var(--calcite-alert-edge-distance) * 2 + 2px));
-    max-height: 0;
-    z-index: 101;
+    border-block-start: 0px solid transparent;
+    border-inline: 1px solid var(--calcite-ui-border-3);
+    border-block-end: 1px solid var(--calcite-ui-border-3);
+    min-block-size: var(--calcite-alert-min-height);
+    inline-size: var(--calcite-alert-width);
+    max-inline-size: calc(100% - (var(--calcite-alert-edge-distance) * 2 + 2px));
+    max-block-size: 0;
     transition: var(--calcite-internal-animation-timing-slow) $easing-function,
       opacity var(--calcite-internal-animation-timing-slow) $easing-function,
       all var(--calcite-animation-timing) ease-in-out;
@@ -125,6 +124,8 @@
   }
 }
 
+@include calciteHydratedHidden();
+
 .container {
   @apply flex
     w-full
@@ -140,7 +141,7 @@
   }
 }
 
-:host([active]) {
+:host([open]) {
   .container:not(.queued) {
     @apply max-h-full border-t-2 opacity-100;
     pointer-events: initial;
@@ -174,7 +175,8 @@
 
 @mixin alert-element-base() {
   @apply transition-default;
-  padding: var(--calcite-alert-spacing-token-small) var(--calcite-alert-spacing-token-large);
+  padding-block: var(--calcite-alert-spacing-token-small);
+  padding-inline: var(--calcite-alert-spacing-token-large);
   flex: 0 0 auto;
 }
 
@@ -182,11 +184,11 @@
   @include alert-element-base;
   @apply bg-foreground-1 break-words;
   flex: 1 1 auto;
-  min-width: 0;
+  min-inline-size: 0;
   padding-block: var(--calcite-alert-spacing-token-small);
   padding-inline: 0 var(--calcite-alert-spacing-token-small);
-  border-bottom-left-radius: var(--calcite-border-radius);
-  border-bottom-right-radius: var(--calcite-border-radius);
+  border-end-start-radius: var(--calcite-border-radius);
+  border-end-end-radius: var(--calcite-border-radius);
 
   &:first-of-type:not(:only-child) {
     padding-inline-start: var(--calcite-alert-spacing-token-large);
@@ -222,7 +224,7 @@
     @apply text-color-1 bg-foreground-2;
   }
 
-  &:active {
+  &:open {
     @apply bg-foreground-3;
   }
 }
@@ -241,9 +243,8 @@
     text-center
     font-medium
     opacity-0;
-  border-left: 0px solid transparent;
-  border-right: 0px solid transparent;
-  border-top-right-radius: 0;
+  border-inline: 0px solid transparent;
+  border-start-end-radius: 0;
 
   &.active {
     @apply visible opacity-100;
@@ -256,23 +257,20 @@
 
 .alert-dismiss-progress {
   @apply absolute
-    left-0
-    right-0
     block
     w-full
     overflow-hidden;
-  top: -2px;
-  height: 2px;
-  z-index: 103;
+  inset-inline: 0;
+  inset-block-start: -2px;
+  block-size: 2px;
   border-radius: var(--calcite-border-radius) var(--calcite-border-radius) 0 0;
   &:after {
     @apply absolute
     top-0
     block;
-    height: 2px;
+    block-size: 2px;
     content: "";
     background-color: var(--calcite-alert-dismiss-progress-background);
-    z-index: 104;
     inset-inline-end: 0;
   }
 }
@@ -286,7 +284,7 @@ $alertColors: "blue" var(--calcite-ui-info), "red" var(--calcite-ui-danger), "ye
 
   :host([color="#{$name}"]) {
     .container {
-      border-top-color: $color;
+      border-block-start-color: $color;
 
       & .alert-icon {
         color: $color;

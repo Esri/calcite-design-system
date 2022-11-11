@@ -10,11 +10,12 @@ import {
   VNode,
   Method
 } from "@stencil/core";
-import { Position, Scale } from "../interfaces";
+import { Position, Scale, Layout } from "../interfaces";
 import { ExpandToggle, toggleChildActionText } from "../functional/ExpandToggle";
 import { CSS, SLOTS, TEXT } from "./resources";
 import { getSlotted, focusElement } from "../../utils/dom";
 import {
+  geActionDimensions,
   getOverflowCount,
   overflowActions,
   queryActions,
@@ -46,7 +47,7 @@ export class ActionBar implements ConditionalSlotComponent {
   // --------------------------------------------------------------------------
 
   /**
-   * When set to true, the expand-toggling behavior will be disabled.
+   * When `true`, the expand-toggling behavior is disabled.
    */
   @Prop({ reflect: true }) expandDisabled = false;
 
@@ -56,30 +57,35 @@ export class ActionBar implements ConditionalSlotComponent {
   }
 
   /**
-   * Indicates whether widget is expanded.
+   * When `true`, the component is expanded.
    */
   @Prop({ reflect: true, mutable: true }) expanded = false;
 
   @Watch("expanded")
   expandedHandler(expanded: boolean): void {
     toggleChildActionText({ parent: this.el, expanded });
-    this.calciteActionBarToggle.emit();
+    this.conditionallyOverflowActions();
   }
 
   /**
-   * Updates the label of the expand icon when the component is not expanded.
+   * Specifies the label of the expand icon when the component is collapsed.
    */
   @Prop() intlExpand?: string;
 
   /**
-   * Updates the label of the collapse icon when the component is expanded.
+   * Specifies the label of the collapse icon when the component is expanded.
    */
   @Prop() intlCollapse?: string;
 
   /**
-   * Disables automatically overflowing actions that won't fit into menus.
+   *  The layout direction of the actions.
    */
-  @Prop() overflowActionsDisabled = false;
+  @Prop({ reflect: true }) layout: Extract<"horizontal" | "vertical", Layout> = "vertical";
+
+  /**
+   * Disables automatically overflowing `calcite-action`s that won't fit into menus.
+   */
+  @Prop({ reflect: true }) overflowActionsDisabled = false;
 
   @Watch("overflowActionsDisabled")
   overflowDisabledHandler(overflowActionsDisabled: boolean): void {
@@ -89,12 +95,12 @@ export class ActionBar implements ConditionalSlotComponent {
   }
 
   /**
-   * Arranges the component depending on the elements 'dir' property.
+   * Arranges the component depending on the element's `dir` property.
    */
   @Prop({ reflect: true }) position: Position;
 
   /**
-   * Specifies the size of the expand action.
+   * Specifies the size of the expand `calcite-action`.
    */
   @Prop({ reflect: true }) scale: Scale;
 
@@ -105,9 +111,9 @@ export class ActionBar implements ConditionalSlotComponent {
   // --------------------------------------------------------------------------
 
   /**
-   * Emitted when expanded has been toggled.
+   * Emits when the `expanded` property is toggled.
    */
-  @Event() calciteActionBarToggle: EventEmitter;
+  @Event({ cancelable: false }) calciteActionBarToggle: EventEmitter<void>;
 
   // --------------------------------------------------------------------------
   //
@@ -166,14 +172,19 @@ export class ActionBar implements ConditionalSlotComponent {
 
   /**
    * Overflows actions that won't fit into menus.
+   *
    * @internal
    */
   @Method()
   async overflowActions(): Promise<void> {
-    this.resize(this.el.clientHeight);
+    this.resize({ width: this.el.clientWidth, height: this.el.clientHeight });
   }
 
-  /** Sets focus on the component. */
+  /**
+   * Sets focus on the component.
+   *
+   * @param focusId
+   */
   @Method()
   async setFocus(focusId?: "expand-toggle"): Promise<void> {
     if (focusId === "expand-toggle") {
@@ -181,7 +192,7 @@ export class ActionBar implements ConditionalSlotComponent {
       return;
     }
 
-    this.el.focus();
+    this.el?.focus();
   }
 
   // --------------------------------------------------------------------------
@@ -206,14 +217,14 @@ export class ActionBar implements ConditionalSlotComponent {
   };
 
   resizeHandler = (entry: ResizeObserverEntry): void => {
-    const { height } = entry.contentRect;
-    this.resize(height);
+    const { width, height } = entry.contentRect;
+    this.resize({ width, height });
   };
 
-  resize = debounce((height: number): void => {
-    const { el, expanded, expandDisabled } = this;
+  private resize = debounce(({ width, height }: { width: number; height: number }): void => {
+    const { el, expanded, expandDisabled, layout } = this;
 
-    if (!height) {
+    if ((layout === "vertical" && !height) || (layout === "horizontal" && !width)) {
       return;
     }
 
@@ -225,10 +236,15 @@ export class ActionBar implements ConditionalSlotComponent {
         ? actionGroups.length + 1
         : actionGroups.length;
 
+    const { actionHeight, actionWidth } = geActionDimensions(actions);
+
     const overflowCount = getOverflowCount({
+      layout,
       actionCount,
-      actionHeight: actions[0]?.clientHeight,
+      actionHeight,
+      actionWidth,
       height,
+      width,
       groupCount
     });
 
@@ -247,6 +263,7 @@ export class ActionBar implements ConditionalSlotComponent {
 
   toggleExpand = (): void => {
     this.expanded = !this.expanded;
+    this.calciteActionBarToggle.emit();
   };
 
   setExpandToggleRef = (el: HTMLCalciteActionElement): void => {
@@ -268,7 +285,8 @@ export class ActionBar implements ConditionalSlotComponent {
       el,
       position,
       toggleExpand,
-      scale
+      scale,
+      layout
     } = this;
 
     const tooltip = getSlotted(el, SLOTS.expandTooltip) as HTMLCalciteTooltipElement;
@@ -290,7 +308,7 @@ export class ActionBar implements ConditionalSlotComponent {
     ) : null;
 
     return getSlotted(el, SLOTS.bottomActions) || expandToggleNode ? (
-      <calcite-action-group class={CSS.actionGroupBottom} scale={scale}>
+      <calcite-action-group class={CSS.actionGroupBottom} layout={layout} scale={scale}>
         <slot name={SLOTS.bottomActions} />
         <slot name={SLOTS.expandTooltip} />
         {expandToggleNode}

@@ -46,7 +46,6 @@
     cursor-pointer
     items-center
     no-underline
-    outline-none
     duration-150
     ease-in-out;
 }
@@ -60,6 +59,7 @@
 
 .container {
   @include itemStyling;
+  text-align: start;
 }
 
 .dropdown-item-content {
@@ -74,7 +74,7 @@
   @apply focus-base;
 }
 :host(:focus) {
-  @apply focus-inset;
+  @apply focus-inset outline-none;
 }
 
 // when used as link move styling anchor
@@ -127,8 +127,8 @@
   @apply opacity-100;
 }
 
-:host([active]) .container:not(.container--none-selection),
-:host([active]) .container--link .dropdown-link {
+:host([selected]) .container:not(.container--none-selection),
+:host([selected]) .container--link .dropdown-link {
   @apply text-color-1 font-medium;
   &:before {
     @apply opacity-100;

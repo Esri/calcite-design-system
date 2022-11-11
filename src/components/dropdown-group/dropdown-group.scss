@@ -1,5 +1,10 @@
 :host {
-  @apply block;
+  // we make the host relative, so items can consistently compute their offsetTop based on the group
+  @apply block relative;
+}
+
+.container {
+  text-align: start;
 }
 
 .container--s {

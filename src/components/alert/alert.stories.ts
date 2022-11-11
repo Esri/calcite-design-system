@@ -1,24 +1,24 @@
 import { select } from "@storybook/addon-knobs";
-import { boolean, iconNames } from "../../../.storybook/helpers";
+import { boolean, iconNames, storyFilters } from "../../../.storybook/helpers";
 import { themesDarkDefault } from "../../../.storybook/utils";
 import readme from "./readme.md";
 import { html } from "../../../support/formatting";
 
 export default {
   title: "Components/Alert",
-
   parameters: {
     notes: readme
-  }
+  },
+  ...storyFilters()
 };
 
-export const TitleMessageLink = (): string => html`
+export const titleMessageLink = (): string => html`
 <calcite-alert
 ${boolean("icon", true)}
 ${boolean("auto-dismiss", false)}
 auto-dismiss-duration="${select("auto-dismiss-duration", ["fast", "medium", "slow"], "medium")}"
 placement="${select("placement", ["bottom-start", "bottom", "bottom-end", "top-start", "top", "top-end"], "bottom")}"
-${boolean("active", true)}
+${boolean("open", true)}
 scale="${select("scale", ["s", "m", "l"], "m")}"
 color="${select("color", ["green", "red", "yellow", "blue"], "blue")}">
 <div slot="title">Here's a general bit of information</div></div>
@@ -29,9 +29,9 @@ color="${select("color", ["green", "red", "yellow", "blue"], "blue")}">
 </calcite-alert>
 `;
 
-TitleMessageLink.storyName = "Title, message, link";
+titleMessageLink.storyName = "Title, message, link";
 
-export const TitleMessage = (): string => html`
+export const titleMessage = (): string => html`
   <calcite-alert
     ${boolean("icon", true)}
     ${boolean("auto-dismiss", false)}
@@ -41,7 +41,7 @@ export const TitleMessage = (): string => html`
       ["bottom-start", "bottom", "bottom-end", "top-start", "top", "top-end"],
       "bottom"
     )}"
-    ${boolean("active", true)}
+    ${boolean("open", true)}
     scale="${select("scale", ["s", "m", "l"], "m")}"
     color="${select("color", ["green", "red", "yellow", "blue"], "red")}"
   >
@@ -50,9 +50,9 @@ export const TitleMessage = (): string => html`
   </calcite-alert>
 `;
 
-TitleMessage.storyName = "Title, message";
+titleMessage.storyName = "Title, message";
 
-export const MessageLink = (): string => html`
+export const messageLink = (): string => html`
   <calcite-alert
     ${boolean("icon", true)}
     ${boolean("auto-dismiss", false)}
@@ -62,7 +62,7 @@ export const MessageLink = (): string => html`
       ["bottom-start", "bottom", "bottom-end", "top-start", "top", "top-end"],
       "bottom"
     )}"
-    ${boolean("active", true)}
+    ${boolean("open", true)}
     scale="${select("scale", ["s", "m", "l"], "m")}"
     color="${select("color", ["green", "red", "yellow", "blue"], "green")}"
   >
@@ -71,9 +71,9 @@ export const MessageLink = (): string => html`
   </calcite-alert>
 `;
 
-MessageLink.storyName = "Message, link";
+messageLink.storyName = "Message, link";
 
-export const Message = (): string => html`
+export const message = (): string => html`
   <calcite-alert
     ${boolean("icon", true)}
     ${boolean("auto-dismiss", false)}
@@ -91,7 +91,7 @@ export const Message = (): string => html`
   </calcite-alert>
 `;
 
-export const CustomIcon = (): string => html`
+export const customIcon = (): string => html`
   <calcite-alert
     icon="${select("icon", iconNames, iconNames[0])}"
     ${boolean("auto-dismiss", false)}
@@ -110,26 +110,24 @@ export const CustomIcon = (): string => html`
   </calcite-alert>
 `;
 
-CustomIcon.storyName = "Custom icon";
-
-export const Queue = (): string => html`
+export const queue_NoTest = (): string => html`
   <div>
     <h5>Open or add to queue</h5>
-    <calcite-button onclick='document.querySelector("#one").setAttribute("active", "")'>Open Alert 1</calcite-button>
-    <calcite-button onclick='document.querySelector("#two").setAttribute("active", "")'>Open Alert 2</calcite-button>
-    <calcite-button onclick='document.querySelector("[data-custom-id=my-id]").setAttribute("active", "")'
+    <calcite-button onclick='document.querySelector("#one").setAttribute("open", "")'>Open Alert 1</calcite-button>
+    <calcite-button onclick='document.querySelector("#two").setAttribute("open", "")'>Open Alert 2</calcite-button>
+    <calcite-button onclick='document.querySelector("[data-custom-id=my-id]").setAttribute("open", "")'
       >Open Alert 3</calcite-button
     >
     <br />
     <br />
     <h5>Close or remove from queue</h5>
-    <calcite-button color="red" onclick='document.querySelector("#one").removeAttribute("active")'
+    <calcite-button color="red" onclick='document.querySelector("#one").removeAttribute("open")'
       >Close Alert 1</calcite-button
     >
-    <calcite-button color="red" onclick='document.querySelector("#two").removeAttribute("active")'
+    <calcite-button color="red" onclick='document.querySelector("#two").removeAttribute("open")'
       >Close Alert 2</calcite-button
     >
-    <calcite-button color="red" onclick='document.querySelector("[data-custom-id=my-id]").removeAttribute("active")'
+    <calcite-button color="red" onclick='document.querySelector("[data-custom-id=my-id]").removeAttribute("open")'
       >Close Alert 3</calcite-button
     >
     <calcite-alert id="one" icon color="${select("color", ["green", "red", "yellow", "blue"], "green")}">
@@ -150,7 +148,7 @@ export const Queue = (): string => html`
   </div>
 `;
 
-export const DarkTheme = (): string => html`
+export const darkThemeRTL_TestOnly = (): string => html`
   <calcite-alert
     class="calcite-theme-dark"
     ${boolean("icon", true)}
@@ -161,7 +159,7 @@ export const DarkTheme = (): string => html`
       ["bottom-start", "bottom", "bottom-end", "top-start", "top", "top-end"],
       "bottom"
     )}"
-    ${boolean("active", true)}
+    ${boolean("open", true)}
     scale="${select("scale", ["s", "m", "l"], "m")}"
     color="${select("color", ["green", "red", "yellow", "blue"], "red")}"
   >
@@ -171,93 +169,4 @@ export const DarkTheme = (): string => html`
   </calcite-alert>
 `;
 
-DarkTheme.parameters = { themes: themesDarkDefault };
-
-export const DarkThemeQueue = (): string => html`
-  <div>
-    <h5 style="color:white">Open or add to queue</h5>
-    <calcite-button class="calcite-theme-dark" onclick='document.querySelector("#one").setAttribute("active", "")'
-      >Open Alert 1</calcite-button
-    >
-    <calcite-button class="calcite-theme-dark" onclick='document.querySelector("#two").setAttribute("active", "")'
-      >Open Alert 2</calcite-button
-    >
-    <calcite-button
-      class="calcite-theme-dark"
-      onclick='document.querySelector("[data-custom-id=my-id]").setAttribute("active", "")'
-      >Open Alert 3</calcite-button
-    >
-    <br />
-    <br />
-    <h5 style="color:white">Close or remove from queue</h5>
-    <calcite-button
-      class="calcite-theme-dark"
-      color="red"
-      onclick='document.querySelector("#one").removeAttribute("active")'
-      >Close Alert 1</calcite-button
-    >
-    <calcite-button
-      class="calcite-theme-dark"
-      color="red"
-      onclick='document.querySelector("#two").removeAttribute("active")'
-      >Close Alert 2</calcite-button
-    >
-    <calcite-button
-      class="calcite-theme-dark"
-      color="red"
-      onclick='document.querySelector("[data-custom-id=my-id]").removeAttribute("active")'
-      >Close Alert 3</calcite-button
-    >
-    <calcite-alert
-      id="one"
-      class="calcite-theme-dark"
-      icon
-      color="${select("color", ["green", "red", "yellow", "blue"], "green")}"
-    >
-      <div slot="title">Your great thing happened</div>
-      <div slot="message">Successfully duplicated <strong>2019 Sales Demographics by County</strong> layer</div>
-      <calcite-link class="calcite-theme-dark" slot="link" title="my action">My action</calcite-link>
-    </calcite-alert>
-    <calcite-alert
-      id="two"
-      class="calcite-theme-dark"
-      icon
-      color="${select("color-2", ["green", "red", "yellow", "blue"], "blue")}"
-    >
-      <div slot="title">Your great thing happened</div>
-      <div slot="message">Successfully duplicated <strong>2019 Sales Demographics by County</strong> layer</div>
-      <calcite-link class="calcite-theme-dark" slot="link" title="my action">My action</calcite-link>
-    </calcite-alert>
-    <calcite-alert
-      data-custom-id="my-id"
-      class="calcite-theme-dark"
-      icon
-      color="${select("color-3", ["green", "red", "yellow", "blue"], "red")}"
-    >
-      <div slot="message">That thing you wanted to do didn't work out so well.</div>
-    </calcite-alert>
-  </div>
-`;
-
-DarkThemeQueue.parameters = { themes: themesDarkDefault };
-
-export const Rtl = (): string => html`
-<div dir="rtl">
-<calcite-alert
-${boolean("icon", true)}
-${boolean("auto-dismiss", false)}
-auto-dismiss-duration="${select("auto-dismiss-duration", ["fast", "medium", "slow"], "medium")}"
-placement="${select("placement", ["bottom-start", "bottom", "bottom-end", "top-start", "top", "top-end"], "bottom")}"
-${boolean("active", true)}
-scale="${select("scale", ["s", "m", "l"], "m")}"
-color="${select("color", ["green", "red", "yellow", "blue"], "blue")}">
-<div slot="title">Something failed</div>
-<div slot="message">
-  That thing you wanted to do didn't work as expected
-</div>
-<calcite-link slot="link" title="my action">Retry</calcite-button>
-</calcite-alert>
-</div>
-`;
-
-Rtl.storyName = "RTL";
+darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };

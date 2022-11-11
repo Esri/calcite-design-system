@@ -1,0 +1,14 @@
+{
+  "hour": "Ř_Hour_________ů",
+  "hourDown": "Ř_Decrease hour______________ů",
+  "hourUp": "Ř_Increase hour______________ů",
+  "meridiem": "Ř_AM/PM___________ů",
+  "meridiemDown": "Ř_Decrease AM/PM_______________ů",
+  "meridiemUp": "Ř_Increase AM/PM_______________ů",
+  "minute": "Ř_Minute_____________ů",
+  "minuteDown": "Ř_Decrease minute________________ů",
+  "minuteUp": "Ř_Increase minute________________ů",
+  "second": "Ř_Second_____________ů",
+  "secondDown": "Ř_Decrease second________________ů",
+  "secondUp": "Ř_Increase second________________ů"
+}

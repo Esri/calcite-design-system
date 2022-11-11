@@ -85,7 +85,7 @@ describe("calcite-action-pad", () => {
       expect(pad).toHaveAttribute("expanded");
     });
 
-    it("should fire expanded event", async () => {
+    it("should fire not expanded event when expanded programmatically", async () => {
       const page = await newE2EPage();
 
       await page.setContent("<calcite-action-pad></calcite-action-pad>");
@@ -95,6 +95,23 @@ describe("calcite-action-pad", () => {
       const eventSpy = await element.spyOnEvent("calciteActionPadToggle");
 
       element.setProperty("expanded", true);
+
+      await page.waitForChanges();
+
+      expect(eventSpy).not.toHaveReceivedEvent();
+    });
+
+    it("should fire expanded event on user interaction", async () => {
+      const page = await newE2EPage();
+
+      await page.setContent("<calcite-action-pad></calcite-action-pad>");
+
+      const element = await page.find("calcite-action-pad");
+      const actionElement = await page.find("calcite-action-pad >>> calcite-action");
+
+      const eventSpy = await element.spyOnEvent("calciteActionPadToggle");
+
+      await actionElement.click();
 
       await page.waitForChanges();
 

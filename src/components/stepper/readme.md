@@ -25,26 +25,33 @@ Calcite stepper can be used to present a stepper workflow to a user. It has conf
 
 ## Properties
 
-| Property   | Attribute  | Description                                             | Type                                   | Default        |
-| ---------- | ---------- | ------------------------------------------------------- | -------------------------------------- | -------------- |
-| `icon`     | `icon`     | optionally display a status icon next to the step title | `boolean`                              | `false`        |
-| `layout`   | `layout`   | specify the layout of stepper, defaults to horizontal   | `"grid" \| "horizontal" \| "vertical"` | `"horizontal"` |
-| `numbered` | `numbered` | optionally display the number next to the step title    | `boolean`                              | `false`        |
-| `scale`    | `scale`    | specify the scale of stepper, defaults to m             | `"l" \| "m" \| "s"`                    | `"m"`          |
+| Property          | Attribute          | Description                                                                  | Type                                                                                                                                                                                                                                    | Default        |
+| ----------------- | ------------------ | ---------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------- |
+| `icon`            | `icon`             | When `true`, displays a status icon in the `calcite-stepper-item` heading.   | `boolean`                                                                                                                                                                                                                               | `false`        |
+| `layout`          | `layout`           | Defines the layout of the component.                                         | `"horizontal" \| "vertical"`                                                                                                                                                                                                            | `"horizontal"` |
+| `numbered`        | `numbered`         | When `true`, displays the step number in the `calcite-stepper-item` heading. | `boolean`                                                                                                                                                                                                                               | `false`        |
+| `numberingSystem` | `numbering-system` | Specifies the Unicode numeral system used by the component for localization. | `"arab" \| "arabext" \| "bali" \| "beng" \| "deva" \| "fullwide" \| "gujr" \| "guru" \| "hanidec" \| "khmr" \| "knda" \| "laoo" \| "latn" \| "limb" \| "mlym" \| "mong" \| "mymr" \| "orya" \| "tamldec" \| "telu" \| "thai" \| "tibt"` | `undefined`    |
+| `scale`           | `scale`            | Specifies the size of the component.                                         | `"l" \| "m" \| "s"`                                                                                                                                                                                                                     | `"m"`          |
+
+## Events
+
+| Event                      | Description                                           | Type                                        |
+| -------------------------- | ----------------------------------------------------- | ------------------------------------------- |
+| `calciteStepperItemChange` | Fires when the active `calcite-stepper-item` changes. | `CustomEvent<StepperItemChangeEventDetail>` |
 
 ## Methods
 
 ### `endStep() => Promise<void>`
 
-set the last step as active
+Set the last `calcite-stepper-item` as active.
 
 #### Returns
 
 Type: `Promise<void>`
 
-### `goToStep(num: number) => Promise<void>`
+### `goToStep(step: number) => Promise<void>`
 
-set the requested step as active
+Set a specified `calcite-stepper-item` as active.
 
 #### Returns
 
@@ -52,7 +59,7 @@ Type: `Promise<void>`
 
 ### `nextStep() => Promise<void>`
 
-set the next step as active
+Set the next `calcite-stepper-item` as active.
 
 #### Returns
 
@@ -60,7 +67,7 @@ Type: `Promise<void>`
 
 ### `prevStep() => Promise<void>`
 
-set the previous step as active
+Set the previous `calcite-stepper-item` as active.
 
 #### Returns
 
@@ -68,7 +75,7 @@ Type: `Promise<void>`
 
 ### `startStep() => Promise<void>`
 
-set the first step as active
+Set the first `calcite-stepper-item` as active.
 
 #### Returns
 

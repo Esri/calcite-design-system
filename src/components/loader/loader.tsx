@@ -20,29 +20,39 @@ export class Loader {
   //  Properties
   //
   //--------------------------------------------------------------------------
-  /** Show the loader */
+
+  /** When `true`, the component is active. */
   @Prop({ reflect: true }) active = false;
 
-  /** Inline loaders are smaller and will appear to the left of the text */
+  /** When `true`, displays smaller and appears to the left of the text. */
   @Prop({ reflect: true }) inline = false;
 
-  /** Accessible name for the component */
+  /** Accessible name for the component. */
   @Prop() label!: string;
 
-  /** Speficy the scale of the loader. Defaults to "m" */
+  /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
 
-  /** Use indeterminate if finding actual progress value is impossible */
+  /**
+   * Specifies the component type.
+   *
+   * Use `"indeterminate"` if finding actual progress value is impossible.
+   *
+   */
   @Prop({ reflect: true }) type: "indeterminate" | "determinate";
 
-  /** Percent complete of 100, only valid for determinate indicators */
+  /** The component's value. Valid only for `"determinate"` indicators. Percent complete of 100. */
   @Prop() value = 0;
 
-  /** Text which should appear under the loading indicator (optional) */
-  @Prop() text = "";
+  /** Text that displays under the component's indicator. */
+  @Prop() text? = "";
 
-  /** Turn off spacing around the loader */
-  @Prop() noPadding = false;
+  /**
+   * Disables spacing around the component.
+   *
+   * @deprecated Use `--calcite-loader-padding` CSS variable instead.
+   */
+  @Prop({ reflect: true }) noPadding = false;
 
   //--------------------------------------------------------------------------
   //
@@ -106,6 +116,8 @@ export class Loader {
 
   /**
    * Return the proper sizes based on the scale property
+   *
+   * @param scale
    */
   private getSize(scale: string) {
     return {

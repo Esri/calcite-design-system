@@ -1,15 +1,14 @@
 import { Config } from "@stencil/core";
 import { postcss } from "@stencil/postcss";
 import { sass } from "@stencil/sass";
-import babel from "@rollup/plugin-babel";
 import autoprefixer from "autoprefixer";
-import tailwindcss from "tailwindcss";
+import tailwindcss, { Config as TailwindConfig } from "tailwindcss";
 import tailwindConfig from "./tailwind.config";
 import { generatePreactTypes } from "./support/preact";
+import stylelint from "stylelint";
 import { version } from "./package.json";
 
 export const create: () => Config = () => ({
-  buildEs5: "prod",
   namespace: "calcite",
   bundles: [
     { components: ["calcite-accordion", "calcite-accordion-item"] },
@@ -38,6 +37,7 @@ export const create: () => Config = () => ({
     { components: ["calcite-icon"] },
     { components: ["calcite-inline-editable"] },
     { components: ["calcite-input"] },
+    { components: ["calcite-input-number"] },
     { components: ["calcite-input-date-picker"] },
     { components: ["calcite-input-message"] },
     { components: ["calcite-input-time-picker", "calcite-time-picker"] },
@@ -76,7 +76,6 @@ export const create: () => Config = () => ({
   ],
   outputTargets: [
     { type: "dist-hydrate-script" },
-    { type: "dist-custom-elements-bundle" },
     { type: "dist-custom-elements", autoDefineCustomElements: true },
     { type: "dist" },
     { type: "docs-readme" },
@@ -96,26 +95,26 @@ export const create: () => Config = () => ({
     }
   ],
   globalStyle: "src/assets/styles/global.scss",
+  globalScript: "src/utils/globalScript.ts",
   plugins: [
     sass({
       injectGlobalPaths: ["src/assets/styles/includes.scss"]
     }),
     postcss({
-      plugins: [tailwindcss(tailwindConfig), autoprefixer()]
+      plugins: [
+        tailwindcss(tailwindConfig as any as TailwindConfig),
+        autoprefixer(),
+        stylelint({
+          configFile: ".stylelintrc-postcss.json",
+          fix: true
+        })
+      ]
     })
   ],
-  rollupPlugins: {
-    after: [
-      babel({
-        babelHelpers: "bundled",
-        include: [/\/color\//],
-        plugins: ["@babel/plugin-proposal-numeric-separator"]
-      })
-    ]
-  },
   testing: {
     moduleNameMapper: {
-      "^/assets/(.*)$": "<rootDir>/src/tests/iconPathDataStub.ts"
+      "^/assets/(.*)$": "<rootDir>/src/tests/iconPathDataStub.ts",
+      "^lodash-es$": "lodash"
     },
     setupFilesAfterEnv: ["<rootDir>/src/tests/setupTests.ts"],
     browserHeadless: false

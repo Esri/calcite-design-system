@@ -1,5 +1,5 @@
-import { Component, h, Prop, Watch, Element } from "@stencil/core";
-import { SLOTS, TEXT, ICONS } from "./resources";
+import { Component, Element, h, Prop, Watch } from "@stencil/core";
+import { ICONS, SLOTS, TEXT } from "./resources";
 import { Fragment, VNode } from "@stencil/core/internal";
 import { getSlotted } from "../../utils/dom";
 import { SLOTS as ACTION_MENU_SLOTS } from "../action-menu/resources";
@@ -9,11 +9,12 @@ import {
   connectConditionalSlotComponent,
   disconnectConditionalSlotComponent
 } from "../../utils/conditionalSlot";
+import { CalciteActionMenuCustomEvent } from "../../components";
 
 /**
  * @slot - A slot for adding a group of `calcite-action`s.
- * @slot menu-actions - a slot for adding an overflow menu with actions inside a dropdown.
- * @slot menu-tooltip - a slot for adding an tooltip for the menu.
+ * @slot menu-actions - A slot for adding an overflow menu with `calcite-action`s inside a `calcite-dropdown`.
+ * @slot menu-tooltip - A slot for adding a `calcite-tooltip` for the menu.
  */
 @Component({
   tag: "calcite-action-group",
@@ -28,7 +29,7 @@ export class ActionGroup implements ConditionalSlotComponent {
   // --------------------------------------------------------------------------
 
   /**
-   * Indicates whether widget is expanded.
+   * When `true`, the component is expanded.
    */
   @Prop({ reflect: true }) expanded = false;
 
@@ -38,7 +39,7 @@ export class ActionGroup implements ConditionalSlotComponent {
   }
 
   /**
-   * Indicates the horizontal, vertical, or grid layout of the component.
+   * Indicates the layout of the component.
    */
   @Prop({ reflect: true }) layout: Layout = "vertical";
 
@@ -48,17 +49,17 @@ export class ActionGroup implements ConditionalSlotComponent {
   @Prop({ reflect: true }) columns?: Columns;
 
   /**
-   * Text string for the actions menu.
+   * Specifies a text string for the `calcite-action-menu`.
    */
   @Prop() intlMore?: string;
 
   /**
-   * Opens the action menu.
+   * When `true`, the `calcite-action-menu` is open.
    */
   @Prop({ reflect: true, mutable: true }) menuOpen = false;
 
   /**
-   * Specifies the size of the action-menu.
+   * Specifies the size of the `calcite-action-menu`.
    */
   @Prop({ reflect: true }) scale: Scale;
 
@@ -98,7 +99,7 @@ export class ActionGroup implements ConditionalSlotComponent {
   }
 
   renderMenu(): VNode {
-    const { el, expanded, intlMore, menuOpen, scale } = this;
+    const { el, expanded, intlMore, menuOpen, scale, layout } = this;
 
     const hasMenuItems = getSlotted(el, SLOTS.menuActions);
 
@@ -109,7 +110,7 @@ export class ActionGroup implements ConditionalSlotComponent {
         label={intlMore || TEXT.more}
         onCalciteActionMenuOpenChange={this.setMenuOpen}
         open={menuOpen}
-        placement="leading-start"
+        placement={layout === "horizontal" ? "bottom-leading" : "leading-start"}
         scale={scale}
       >
         <calcite-action
@@ -140,7 +141,7 @@ export class ActionGroup implements ConditionalSlotComponent {
   //
   // --------------------------------------------------------------------------
 
-  setMenuOpen = (event: CustomEvent<boolean>): void => {
+  setMenuOpen = (event: CalciteActionMenuCustomEvent<boolean>): void => {
     this.menuOpen = !!event.detail;
   };
 }

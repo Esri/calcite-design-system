@@ -4,10 +4,10 @@
 
 ## Properties
 
-| Property       | Attribute       | Description                                                       | Type                         | Default     |
-| -------------- | --------------- | ----------------------------------------------------------------- | ---------------------------- | ----------- |
-| `heading`      | `heading`       | The title used for all nested `calcite-list-item` rows.           | `string`                     | `undefined` |
-| `headingLevel` | `heading-level` | Number at which section headings should start for this component. | `1 \| 2 \| 3 \| 4 \| 5 \| 6` | `undefined` |
+| Property       | Attribute       | Description                                                  | Type                         | Default     |
+| -------------- | --------------- | ------------------------------------------------------------ | ---------------------------- | ----------- |
+| `heading`      | `heading`       | The header text for all nested `calcite-list-item` rows.     | `string`                     | `undefined` |
+| `headingLevel` | `heading-level` | Specifies the number at which section headings should start. | `1 \| 2 \| 3 \| 4 \| 5 \| 6` | `undefined` |
 
 ## Slots
 

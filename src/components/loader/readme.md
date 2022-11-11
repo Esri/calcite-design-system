@@ -32,24 +32,24 @@ If you can calculate your progress, it's best to use the determinate version of 
 
 ## Properties
 
-| Property             | Attribute    | Description                                                        | Type                               | Default     |
-| -------------------- | ------------ | ------------------------------------------------------------------ | ---------------------------------- | ----------- |
-| `active`             | `active`     | Show the loader                                                    | `boolean`                          | `false`     |
-| `inline`             | `inline`     | Inline loaders are smaller and will appear to the left of the text | `boolean`                          | `false`     |
-| `label` _(required)_ | `label`      | Accessible name for the component                                  | `string`                           | `undefined` |
-| `noPadding`          | `no-padding` | Turn off spacing around the loader                                 | `boolean`                          | `false`     |
-| `scale`              | `scale`      | Speficy the scale of the loader. Defaults to "m"                   | `"l" \| "m" \| "s"`                | `"m"`       |
-| `text`               | `text`       | Text which should appear under the loading indicator (optional)    | `string`                           | `""`        |
-| `type`               | `type`       | Use indeterminate if finding actual progress value is impossible   | `"determinate" \| "indeterminate"` | `undefined` |
-| `value`              | `value`      | Percent complete of 100, only valid for determinate indicators     | `number`                           | `0`         |
+| Property             | Attribute    | Description                                                                                                                                          | Type                               | Default     |
+| -------------------- | ------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------- | ----------- |
+| `active`             | `active`     | When `true`, the component is active.                                                                                                                | `boolean`                          | `false`     |
+| `inline`             | `inline`     | When `true`, displays smaller and appears to the left of the text.                                                                                   | `boolean`                          | `false`     |
+| `label` _(required)_ | `label`      | Accessible name for the component.                                                                                                                   | `string`                           | `undefined` |
+| `noPadding`          | `no-padding` | <span style="color:red">**[DEPRECATED]**</span> Use `--calcite-loader-padding` CSS variable instead.<br/><br/>Disables spacing around the component. | `boolean`                          | `false`     |
+| `scale`              | `scale`      | Specifies the size of the component.                                                                                                                 | `"l" \| "m" \| "s"`                | `"m"`       |
+| `text`               | `text`       | Text that displays under the component's indicator.                                                                                                  | `string`                           | `""`        |
+| `type`               | `type`       | Specifies the component type. Use `"indeterminate"` if finding actual progress value is impossible.                                                  | `"determinate" \| "indeterminate"` | `undefined` |
+| `value`              | `value`      | The component's value. Valid only for `"determinate"` indicators. Percent complete of 100.                                                           | `number`                           | `0`         |
 
 ## CSS Custom Properties
 
-| Name                           | Description                                                      |
-| ------------------------------ | ---------------------------------------------------------------- |
-| `--calcite-loader-font-size`   | when type is determinate, the font-size of the loader percentage |
-| `--calcite-loader-size`        | the width and height of a non-inline loader                      |
-| `--calcite-loader-size-inline` | the width and height of an inline loader                         |
+| Name                           | Description                                                                     |
+| ------------------------------ | ------------------------------------------------------------------------------- |
+| `--calcite-loader-font-size`   | Specifies the font size of the loading percentage when type is `"determinate"`. |
+| `--calcite-loader-size`        | The width and height of a non-inline loader.                                    |
+| `--calcite-loader-size-inline` | The width and height of an inline loader.                                       |
 
 ## Dependencies
 

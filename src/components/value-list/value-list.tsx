@@ -16,7 +16,7 @@ import {
   ListFocusId,
   calciteListFocusOutHandler,
   calciteListItemChangeHandler,
-  calciteListItemValueChangeHandler,
+  calciteInternalListItemValueChangeHandler,
   cleanUpObserver,
   deselectSiblingItems,
   deselectRemovedItems,
@@ -36,10 +36,11 @@ import {
 import List from "../pick-list/shared-list-render";
 import { createObserver } from "../../utils/observers";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import { getHandleAndItemElement, getScreenReaderText } from "./utils";
 
 /**
- * @slot - A slot for adding `calcite-value-list-item` elements. Items are displayed as a vertical list.
- * @slot menu-actions - A slot for adding a button + menu combo for performing actions like sorting.
+ * @slot - A slot for adding `calcite-value-list-item` elements. List items are displayed as a vertical list.
+ * @slot menu-actions - A slot for adding a button and menu combination for performing actions, such as sorting.
  */
 @Component({
   tag: "calcite-value-list",
@@ -57,49 +58,77 @@ export class ValueList<
   // --------------------------------------------------------------------------
 
   /**
-   * When true, disabled prevents interaction. This state shows items with lower opacity/grayed.
+   * When `true`, interaction is prevented and the component is displayed with lower opacity.
    */
   @Prop({ reflect: true }) disabled = false;
 
   /**
-   * When true, the items will be sortable via drag and drop.
+   * When `true`, `calcite-value-list-item`s are sortable via a draggable button.
    */
   @Prop({ reflect: true }) dragEnabled = false;
 
   /**
-   * When true, an input appears at the top of the list that can be used by end users to filter items in the list.
+   * When `true`, an input appears at the top of the component that can be used by end users to filter list items.
    */
   @Prop({ reflect: true }) filterEnabled = false;
 
   /**
-   * Placeholder text for the filter input field.
+   * Placeholder text for the filter's input field.
    */
   @Prop({ reflect: true }) filterPlaceholder: string;
 
   /**
-   * The list's group identifier.
+   * The component's group identifier.
    *
    * To drag elements from one list into another, both lists must have the same group value.
    */
-  @Prop() group?: string;
+  @Prop({ reflect: true }) group?: string;
 
   /**
-   * When true, content is waiting to be loaded. This state shows a busy indicator.
+   * When `true`, a busy indicator is displayed.
    */
   @Prop({ reflect: true }) loading = false;
 
   /**
-   * Multiple Works similar to standard radio buttons and checkboxes.
-   * When true, a user can select multiple items at a time.
-   * When false, only a single item can be selected at a time
-   * and selecting a new item will deselect any other selected items.
+   * Similar to standard radio buttons and checkboxes.
+   * When `true`, a user can select multiple `calcite-value-list-item`s at a time.
+   * When `false`, only a single `calcite-value-list-item` can be selected at a time,
+   * and a new selection will deselect previous selections.
    */
   @Prop({ reflect: true }) multiple = false;
 
   /**
-   * When true and single-selection is enabled, the selection will change when navigating items via the keyboard.
+   * When `true` and single-selection is enabled, the selection changes when navigating `calcite-value-list-item`s via keyboard.
    */
-  @Prop() selectionFollowsFocus = false;
+  @Prop({ reflect: true }) selectionFollowsFocus = false;
+
+  /**
+   * When `dragEnabled` is `true` and active, specifies accessible context to the `calcite-value-list-item`s initial position.
+   *
+   * Use "`${position}` of `${total}`" as a placeholder for displaying indices and `${item.label}` as a placeholder for displaying the `calcite-value-list-item` label.
+   */
+  @Prop() intlDragHandleIdle?: string;
+
+  /**
+   * When `dragEnabled` is `true` and active, specifies accessible context to the component.
+   *
+   * Use "`${position}` of `${total}`" as a placeholder for displaying indices and `${item.label}` as a placeholder for displaying the `calcite-value-list-item` label.
+   */
+  @Prop() intlDragHandleActive?: string;
+
+  /**
+   * When `dragEnabled` is `true` and active, specifies accessible context to the `calcite-value-list-item`s new position.
+   *
+   * Use "`${position}` of `${total}`" as a placeholder for displaying indices and `${item.label}` as a placeholder for displaying the `calcite-value-list-item` label.
+   */
+  @Prop() intlDragHandleChange?: string;
+
+  /**
+   * When `dragEnabled` is `true` and active, specifies accessible context to the `calcite-value-list-item`s current position after commit.
+   *
+   * Use "`${position}` of `${total}`" as a placeholder for displaying indices and `${item.label}` as a placeholder for displaying the `calcite-value-list-item` label.
+   */
+  @Prop() intlDragHandleCommit?: string;
 
   // --------------------------------------------------------------------------
   //
@@ -124,6 +153,8 @@ export class ValueList<
   emitCalciteListChange: () => void;
 
   filterEl: HTMLCalciteFilterElement;
+
+  assistiveTextEl: HTMLSpanElement;
 
   // --------------------------------------------------------------------------
   //
@@ -156,14 +187,16 @@ export class ValueList<
   // --------------------------------------------------------------------------
 
   /**
-   * Emitted when any of the item selections have changed.
+   * Emits when any of the list item selections have changed.
    */
-  @Event() calciteListChange: EventEmitter<Map<string, HTMLCalciteValueListItemElement>>;
+  @Event({ cancelable: false }) calciteListChange: EventEmitter<
+    Map<string, HTMLCalciteValueListItemElement>
+  >;
 
   /**
-   * Emitted when the order of the list has changed.
+   * Emits when the order of the list has changed.
    */
-  @Event() calciteListOrderChange: EventEmitter<any[]>;
+  @Event({ cancelable: false }) calciteListOrderChange: EventEmitter<any[]>;
 
   @Listen("focusout")
   calciteListFocusOutHandler(event: FocusEvent): void {
@@ -180,15 +213,16 @@ export class ValueList<
     calciteListItemChangeHandler.call(this, event);
   }
 
-  @Listen("calciteListItemPropsChange")
-  calciteListItemPropsChangeHandler(event: CustomEvent): void {
+  @Listen("calciteInternalListItemPropsChange")
+  calciteInternalListItemPropsChangeHandler(event: CustomEvent): void {
     event.stopPropagation();
     this.setUpFilter();
   }
 
-  @Listen("calciteListItemValueChange")
-  calciteListItemValueChangeHandler(event: CustomEvent): void {
-    calciteListItemValueChangeHandler.call(this, event);
+  @Listen("calciteInternalListItemValueChange")
+  calciteInternalListItemValueChangeHandler(event: CustomEvent): void {
+    calciteInternalListItemValueChangeHandler.call(this, event);
+    event.stopPropagation();
   }
 
   // --------------------------------------------------------------------------
@@ -251,25 +285,25 @@ export class ValueList<
   getItemData = getItemData.bind(this);
 
   keyDownHandler = (event: KeyboardEvent): void => {
-    const handleElement = event
-      .composedPath()
-      .find(
-        (item: HTMLElement) => item.dataset?.jsHandle !== undefined
-      ) as HTMLCalciteHandleElement;
+    if (event.defaultPrevented) {
+      return;
+    }
 
-    const item = event
-      .composedPath()
-      .find(
-        (item: HTMLElement) => item.tagName?.toLowerCase() === "calcite-value-list-item"
-      ) as ItemElement;
+    const { handle, item } = getHandleAndItemElement(event);
+    if (handle && !item.handleActivated && event.key === " ") {
+      this.updateScreenReaderText(getScreenReaderText(item, "commit", this));
+    }
 
-    // Only trigger keyboard sorting when the internal drag handle is focused and activated
-    if (!handleElement || !item.handleActivated) {
+    if (!handle || !item.handleActivated) {
       keyDownHandler.call(this, event);
       return;
     }
 
     const { items } = this;
+
+    if (event.key === " ") {
+      this.updateScreenReaderText(getScreenReaderText(item, "active", this));
+    }
 
     if ((event.key !== "ArrowUp" && event.key !== "ArrowDown") || items.length <= 1) {
       return;
@@ -279,7 +313,6 @@ export class ValueList<
 
     const { el } = this;
     const nextIndex = moveItemIndex(this, item, event.key === "ArrowUp" ? "up" : "down");
-
     if (nextIndex === items.length - 1) {
       el.appendChild(item);
     } else {
@@ -294,9 +327,17 @@ export class ValueList<
     this.items = this.getItems();
     this.calciteListOrderChange.emit(this.items.map(({ value }) => value));
 
-    requestAnimationFrame(() => handleElement.focus());
+    requestAnimationFrame(() => handle?.focus());
     item.handleActivated = true;
+
+    this.updateHandleAriaLabel(handle, getScreenReaderText(item, "change", this));
   };
+
+  handleBlur(): void {
+    if (this.dragEnabled) {
+      this.updateScreenReaderText("");
+    }
+  }
 
   // --------------------------------------------------------------------------
   //
@@ -310,7 +351,11 @@ export class ValueList<
     return this.selectedValues;
   }
 
-  /** Sets focus on the component. */
+  /**
+   * Sets focus on the component.
+   *
+   * @param focusId
+   */
   @Method()
   async setFocus(focusId?: ListFocusId): Promise<void> {
     return setFocus.call(this, focusId);
@@ -330,7 +375,33 @@ export class ValueList<
     return type;
   }
 
+  updateScreenReaderText(text: string): void {
+    this.assistiveTextEl.textContent = text;
+  }
+
+  updateHandleAriaLabel(handleElement: HTMLSpanElement, text: string): void {
+    handleElement.ariaLabel = text;
+  }
+
+  storeAssistiveEl = (el: HTMLSpanElement): void => {
+    this.assistiveTextEl = el;
+  };
+
+  handleFocusIn = (event: FocusEvent): void => {
+    const { handle, item } = getHandleAndItemElement(event);
+    if (!item?.handleActivated && item && handle) {
+      this.updateHandleAriaLabel(handle, getScreenReaderText(item, "idle", this));
+    }
+  };
+
   render(): VNode {
-    return <List onKeyDown={this.keyDownHandler} props={this} />;
+    return (
+      <List
+        onBlur={this.handleBlur}
+        onFocusin={this.handleFocusIn}
+        onKeyDown={this.keyDownHandler}
+        props={this}
+      />
+    );
   }
 }

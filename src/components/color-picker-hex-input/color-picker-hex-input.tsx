@@ -27,6 +27,7 @@ import { Scale } from "../interfaces";
 import { RGB, RGBA } from "../color-picker/interfaces";
 import { focusElement } from "../../utils/dom";
 import { TEXT } from "../color-picker/resources";
+import { NumberingSystem } from "../../utils/locale";
 
 const DEFAULT_COLOR = Color();
 
@@ -75,9 +76,9 @@ export class ColorPickerHexInput {
   //--------------------------------------------------------------------------
 
   /**
-   * When false, empty color (null) will be allowed as a value. Otherwise, a color value is always enforced by the component.
+   * When `false`, an empty color (`null`) will be allowed as a `value`. Otherwise, a color value is enforced on the component.
    *
-   * When true, clearing the input and blurring will restore the last valid color set. When false, it will set it to empty.
+   * When `true`, a color value is enforced, and clearing the input or blurring will restore the last valid `value`. When `false`, an empty color (`null`) will be allowed as a `value`.
    */
   @Prop() allowEmpty = false;
 
@@ -88,27 +89,31 @@ export class ColorPickerHexInput {
 
   /**
    * Label used for the hex input.
+   * Accessible name for the Hex input.
+   *
    * @default "Hex"
    */
   @Prop() intlHex = TEXT.hex;
 
   /**
-   * Label used for the hex input when there is no color selected.
+   * Accessible name for the Hex input when there is no color selected.
+   *
    * @default "No color"
    */
   @Prop() intlNoColor = TEXT.noColor;
 
-  /**
-   * The component's scale.
-   */
+  /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
 
   /**
-   * The hex value.
+   * The Hex value.
    */
   @Prop({ mutable: true, reflect: true }) value: string = normalizeHex(
     hexify(DEFAULT_COLOR, this.alphaEnabled)
   );
+
+  /** Specifies the Unicode numeral system used by the component for localization. */
+  @Prop() numberingSystem?: NumberingSystem;
 
   @Watch("value")
   handleValueChange(value: string, oldValue: string): void {
@@ -124,9 +129,9 @@ export class ColorPickerHexInput {
   /**
    * Emitted when the hex value changes.
    */
-  @Event() calciteColorPickerHexInputChange: EventEmitter;
+  @Event({ cancelable: false }) calciteColorPickerHexInputChange: EventEmitter<void>;
 
-  private onCalciteInputBlur = (): void => {
+  private onCalciteInternalInputBlur = (): void => {
     const node = this.inputNode;
     const inputValue = node.value;
     const hex = `#${inputValue}`;
@@ -168,7 +173,7 @@ export class ColorPickerHexInput {
   protected onInputKeyDown(event: KeyboardEvent): void {
     const { altKey, ctrlKey, metaKey, shiftKey } = event;
     const { alphaEnabled, internalColor, value } = this;
-    const key = event.key;
+    const { key } = event;
 
     if (key === "Tab" || key === "Enter") {
       this.onInputChange();
@@ -206,6 +211,15 @@ export class ColorPickerHexInput {
     }
   }
 
+  private onPaste(event: ClipboardEvent): void {
+    const hex = event.clipboardData.getData("text");
+
+    if (isValidHex(hex)) {
+      event.preventDefault();
+      this.inputNode.value = hex.slice(1);
+    }
+  }
+
   //--------------------------------------------------------------------------
   //
   //  Private State/Props
@@ -237,8 +251,11 @@ export class ColorPickerHexInput {
           class={CSS.input}
           label={intlHex}
           maxLength={alphaEnabled ? 8 : 6}
-          onCalciteInputBlur={this.onCalciteInputBlur}
+          numberingSystem={this.numberingSystem}
           onCalciteInputChange={this.onInputChange}
+          onCalciteInternalInputBlur={this.onCalciteInternalInputBlur}
+          onKeyDown={this.handleKeyDown}
+          onPaste={this.onPaste}
           prefixText="#"
           ref={this.storeInputRef}
           scale={this.scale}
@@ -328,5 +345,11 @@ export class ColorPickerHexInput {
     const nudgedColor = Color.rgb(nudgedRGBChannels);
 
     return this.alphaEnabled ? nudgedColor.alpha(color.alpha()) : nudgedColor;
+  }
+
+  handleKeyDown(event: KeyboardEvent): void {
+    if (event.key === "Enter") {
+      event.preventDefault();
+    }
   }
 }

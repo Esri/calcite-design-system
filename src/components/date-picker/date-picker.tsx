@@ -11,12 +11,26 @@ import {
   VNode,
   Build
 } from "@stencil/core";
-import { getLocaleData, DateLocaleData } from "./utils";
-import { dateFromRange, dateFromISO, dateToISO, getDaysDiff, HoverRange } from "../../utils/date";
+import { getLocaleData, DateLocaleData, getValueAsDateRange } from "./utils";
+import {
+  dateFromRange,
+  dateFromISO,
+  dateToISO,
+  getDaysDiff,
+  HoverRange,
+  setEndOfDay
+} from "../../utils/date";
 import { HeadingLevel } from "../functional/Heading";
 
 import { DateRangeChange } from "./interfaces";
 import { HEADING_LEVEL, TEXT } from "./resources";
+import {
+  connectLocalized,
+  disconnectLocalized,
+  LocalizedComponent,
+  NumberingSystem,
+  numberStringFormatter
+} from "../../utils/locale";
 
 @Component({
   assetsDirs: ["assets"],
@@ -24,7 +38,7 @@ import { HEADING_LEVEL, TEXT } from "./resources";
   styleUrl: "date-picker.scss",
   shadow: true
 })
-export class DatePicker {
+export class DatePicker implements LocalizedComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -37,8 +51,19 @@ export class DatePicker {
   //  Public Properties
   //
   //--------------------------------------------------------------------------
+
+  /** Active date */
+  @Prop({ mutable: true }) activeDate: Date;
+
+  @Watch("activeDate")
+  activeDateWatcher(newActiveDate: Date): void {
+    if (this.activeRange === "end") {
+      this.activeEndDate = newActiveDate;
+    }
+  }
+
   /** Active range */
-  @Prop() activeRange?: "start" | "end";
+  @Prop({ reflect: true }) activeRange?: "start" | "end";
 
   /** Selected date */
   @Prop({ mutable: true }) value?: string | string[];
@@ -46,7 +71,7 @@ export class DatePicker {
   /**
    * Number at which section headings should start for this component.
    */
-  @Prop() headingLevel: HeadingLevel;
+  @Prop({ reflect: true }) headingLevel: HeadingLevel;
 
   /** Selected date as full date object*/
   @Prop({ mutable: true }) valueAsDate?: Date | Date[];
@@ -60,12 +85,14 @@ export class DatePicker {
 
   /**
    * Selected start date as full date object
+   *
    * @deprecated use valueAsDate instead
    */
   @Prop({ mutable: true }) startAsDate?: Date;
 
   /**
    * Selected end date as full date object
+   *
    * @deprecated use valueAsDate instead
    */
   @Prop({ mutable: true }) endAsDate?: Date;
@@ -86,38 +113,59 @@ export class DatePicker {
   }
 
   /** Earliest allowed date ("yyyy-mm-dd") */
-  @Prop({ mutable: true }) min?: string;
+  @Prop({ mutable: true, reflect: true }) min?: string;
 
   @Watch("min")
   onMinChanged(min: string): void {
-    this.minAsDate = dateFromISO(min);
+    if (min) {
+      this.minAsDate = dateFromISO(min);
+    }
   }
 
   /** Latest allowed date ("yyyy-mm-dd") */
-  @Prop({ mutable: true }) max?: string;
+  @Prop({ mutable: true, reflect: true }) max?: string;
 
   @Watch("max")
   onMaxChanged(max: string): void {
-    this.maxAsDate = dateFromISO(max);
+    if (max) {
+      this.maxAsDate = dateFromISO(max);
+    }
   }
 
-  /** Localized string for "previous month" (used for aria label)
+  /**
+   * Localized string for "previous month" (used for aria label)
+   *
    * @default "Previous month"
    */
   @Prop() intlPrevMonth?: string = TEXT.prevMonth;
 
-  /** Localized string for "next month" (used for aria label)
+  /**
+   * Localized string for "next month" (used for aria label)
+   *
    * @default "Next month"
    */
   @Prop() intlNextMonth?: string = TEXT.nextMonth;
 
-  /** Localized string for "year" (used for aria label)
+  /**
+   * Localized string for "year" (used for aria label)
+   *
    * @default "Year"
    */
   @Prop() intlYear?: string = TEXT.year;
 
-  /** BCP 47 language tag for desired language and country format */
-  @Prop() locale?: string = document.documentElement.lang || "en";
+  /**
+   * Specifies the BCP 47 language tag for the desired language and country format.
+   *
+   * @deprecated set the global `lang` attribute on the element instead.
+   * @mdn [lang](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/lang)
+   */
+  @Prop() locale?: string;
+
+  /**
+   * Specifies the Unicode numeral system used by the component for localization. This property cannot be dynamically changed.
+   *
+   */
+  @Prop({ reflect: true }) numberingSystem?: NumberingSystem;
 
   /** specify the scale of the date picker */
   @Prop({ reflect: true }) scale: "s" | "m" | "l" = "m";
@@ -127,18 +175,20 @@ export class DatePicker {
 
   /**
    * Selected start date
+   *
    * @deprecated use value instead
    */
-  @Prop({ mutable: true }) start?: string;
+  @Prop({ mutable: true, reflect: true }) start?: string;
 
   /**
    * Selected end date
+   *
    * @deprecated use value instead
    */
-  @Prop({ mutable: true }) end?: string;
+  @Prop({ mutable: true, reflect: true }) end?: string;
 
   /** Disables the default behaviour on the third click of narrowing or extending the range and instead starts a new range. */
-  @Prop() proximitySelectionDisabled = false;
+  @Prop({ reflect: true }) proximitySelectionDisabled = false;
 
   //--------------------------------------------------------------------------
   //
@@ -148,18 +198,14 @@ export class DatePicker {
   /**
    * Trigger calcite date change when a user changes the date.
    */
-  @Event() calciteDatePickerChange: EventEmitter<Date>;
+  @Event({ cancelable: false }) calciteDatePickerChange: EventEmitter<Date>;
 
   /**
    * Trigger calcite date change when a user changes the date range.
+   *
    * @see [DateRangeChange](https://github.com/Esri/calcite-components/blob/master/src/components/date-picker/interfaces.ts#L1)
    */
-  @Event() calciteDatePickerRangeChange: EventEmitter<DateRangeChange>;
-
-  /**
-   * Active date.
-   */
-  @State() activeDate: Date;
+  @Event({ cancelable: false }) calciteDatePickerRangeChange: EventEmitter<DateRangeChange>;
 
   /**
    * Active start date.
@@ -171,14 +217,18 @@ export class DatePicker {
    */
   @State() activeEndDate: Date;
 
+  @State() globalAttributes = {};
+
   // --------------------------------------------------------------------------
   //
   //  Lifecycle
   //
   // --------------------------------------------------------------------------
   connectedCallback(): void {
+    connectLocalized(this);
+
     if (Array.isArray(this.value)) {
-      this.valueAsDate = this.value.map((v) => dateFromISO(v));
+      this.valueAsDate = getValueAsDateRange(this.value);
       this.start = this.value[0];
       this.end = this.value[1];
     } else if (this.value) {
@@ -202,6 +252,10 @@ export class DatePicker {
     }
   }
 
+  disconnectedCallback(): void {
+    disconnectLocalized(this);
+  }
+
   async componentWillLoad(): Promise<void> {
     await this.loadLocaleData();
     this.onMinChanged(this.min);
@@ -210,17 +264,15 @@ export class DatePicker {
 
   render(): VNode {
     const date = dateFromRange(
-      this.range ? this.startAsDate : this.valueAsDate,
+      this.range && Array.isArray(this.valueAsDate) ? this.valueAsDate[0] : this.valueAsDate,
       this.minAsDate,
       this.maxAsDate
     );
-    const activeStartDate = this.range
-      ? this.getActiveStartDate(date, this.minAsDate, this.maxAsDate)
-      : this.getActiveDate(date, this.minAsDate, this.maxAsDate);
-    let activeDate = activeStartDate;
-    const endDate = this.range
-      ? dateFromRange(this.endAsDate, this.minAsDate, this.maxAsDate)
-      : null;
+    let activeDate = this.getActiveDate(date, this.minAsDate, this.maxAsDate);
+    const endDate =
+      this.range && Array.isArray(this.valueAsDate)
+        ? dateFromRange(this.valueAsDate[1], this.minAsDate, this.maxAsDate)
+        : null;
     const activeEndDate = this.getActiveEndDate(endDate, this.minAsDate, this.maxAsDate);
     if (
       (this.activeRange === "end" ||
@@ -246,9 +298,8 @@ export class DatePicker {
           ? endDate || this.maxAsDate
           : this.maxAsDate
         : this.maxAsDate;
-
     return (
-      <Host onBlur={this.reset} onKeyUp={this.keyUpHandler} role="application">
+      <Host onBlur={this.reset} onKeyDown={this.keyDownHandler} role="application">
         {this.renderCalendar(activeDate, maxDate, minDate, date, endDate)}
       </Host>
     );
@@ -259,6 +310,9 @@ export class DatePicker {
   //  Private State/Props
   //
   //--------------------------------------------------------------------------
+
+  @State() effectiveLocale = "";
+
   @State() private localeData: DateLocaleData;
 
   @State() private hoverRange: HoverRange;
@@ -271,8 +325,8 @@ export class DatePicker {
   //
   //--------------------------------------------------------------------------
 
-  keyUpHandler = (e: KeyboardEvent): void => {
-    if (e.key === "Escape") {
+  keyDownHandler = (event: KeyboardEvent): void => {
+    if (event.key === "Escape") {
       this.reset();
     }
   };
@@ -280,7 +334,7 @@ export class DatePicker {
   @Watch("value")
   valueHandler(value: string | string[]): void {
     if (Array.isArray(value)) {
-      this.valueAsDate = value.map((v) => dateFromISO(v));
+      this.valueAsDate = getValueAsDateRange(value);
       this.start = value[0];
       this.end = value[1];
     } else if (value) {
@@ -300,18 +354,23 @@ export class DatePicker {
     this.setEndAsDate(dateFromISO(end));
   }
 
-  @Watch("locale")
+  @Watch("effectiveLocale")
   private async loadLocaleData(): Promise<void> {
     if (!Build.isBrowser) {
       return;
     }
 
-    const { locale } = this;
-    this.localeData = await getLocaleData(locale);
+    numberStringFormatter.numberFormatOptions = {
+      numberingSystem: this.numberingSystem,
+      locale: this.effectiveLocale,
+      useGrouping: false
+    };
+
+    this.localeData = await getLocaleData(this.effectiveLocale);
   }
 
-  monthHeaderSelectChange = (e: CustomEvent<Date>): void => {
-    const date = new Date(e.detail);
+  monthHeaderSelectChange = (event: CustomEvent<Date>): void => {
+    const date = new Date(event.detail);
     if (!this.range) {
       this.activeDate = date;
     } else {
@@ -324,8 +383,8 @@ export class DatePicker {
     }
   };
 
-  monthActiveDateChange = (e: CustomEvent<Date>): void => {
-    const date = new Date(e.detail);
+  monthActiveDateChange = (event: CustomEvent<Date>): void => {
+    const date = new Date(event.detail);
     if (!this.range) {
       this.activeDate = date;
     } else {
@@ -338,12 +397,12 @@ export class DatePicker {
     }
   };
 
-  monthHoverChange = (e: CustomEvent<Date>): void => {
+  monthHoverChange = (event: CustomEvent<Date>): void => {
     if (!this.startAsDate) {
       this.hoverRange = undefined;
       return;
     }
-    const date = new Date(e.detail);
+    const date = new Date(event.detail);
     this.hoverRange = {
       focused: this.activeRange || "start",
       start: this.startAsDate,
@@ -394,6 +453,7 @@ export class DatePicker {
         this.hoverRange = undefined;
       }
     }
+    event.stopPropagation();
   };
 
   monthMouseOutChange = (): void => {
@@ -404,6 +464,12 @@ export class DatePicker {
 
   /**
    * Render calcite-date-picker-month-header and calcite-date-picker-month
+   *
+   * @param activeDate
+   * @param maxDate
+   * @param minDate
+   * @param date
+   * @param endDate
    */
   private renderCalendar(
     activeDate: Date,
@@ -435,9 +501,9 @@ export class DatePicker {
           max={maxDate}
           min={minDate}
           onCalciteDatePickerActiveDateChange={this.monthActiveDateChange}
-          onCalciteDatePickerHover={this.monthHoverChange}
-          onCalciteDatePickerMouseOut={this.monthMouseOutChange}
           onCalciteDatePickerSelect={this.monthDateChange}
+          onCalciteInternalDatePickerHover={this.monthHoverChange}
+          onCalciteInternalDatePickerMouseOut={this.monthMouseOutChange}
           scale={this.scale}
           selectedDate={this.activeRange === "end" ? endDate : date}
           startDate={this.range ? date : undefined}
@@ -448,6 +514,9 @@ export class DatePicker {
 
   /**
    * Update date instance of start if valid
+   *
+   * @param startDate
+   * @param emit
    */
   private setStartAsDate(startDate: Date, emit?: boolean): void {
     this.startAsDate = startDate;
@@ -462,9 +531,12 @@ export class DatePicker {
 
   /**
    * Update date instance of end if valid
+   *
+   * @param endDate
+   * @param emit
    */
   private setEndAsDate(endDate: Date, emit?: boolean): void {
-    this.endAsDate = endDate;
+    this.endAsDate = endDate ? setEndOfDay(endDate) : endDate;
     this.mostRecentRangeValue = this.endAsDate;
     if (emit) {
       this.calciteDatePickerRangeChange.emit({
@@ -507,11 +579,19 @@ export class DatePicker {
 
   /**
    * Event handler for when the selected date changes
+   *
+   * @param event
    */
-  private monthDateChange = (e: CustomEvent<Date>): void => {
-    const date = new Date(e.detail);
+  private monthDateChange = (event: CustomEvent<Date>): void => {
+    const date = new Date(event.detail);
+    const isoDate = dateToISO(date);
+
+    if (!this.range && isoDate === dateToISO(this.valueAsDate as Date)) {
+      return;
+    }
+
     if (!this.range) {
-      this.value = date ? dateToISO(date) : "";
+      this.value = isoDate || "";
       this.valueAsDate = date || null;
       this.activeDate = date || null;
       this.calciteDatePickerChange.emit(date);
@@ -560,15 +640,13 @@ export class DatePicker {
 
   /**
    * Get an active date using the value, or current date as default
+   *
+   * @param value
+   * @param min
+   * @param max
    */
   private getActiveDate(value: Date | null, min: Date | null, max: Date | null): Date {
     return dateFromRange(this.activeDate, min, max) || value || dateFromRange(new Date(), min, max);
-  }
-
-  private getActiveStartDate(value: Date | null, min: Date | null, max: Date | null): Date {
-    return (
-      dateFromRange(this.activeStartDate, min, max) || value || dateFromRange(new Date(), min, max)
-    );
   }
 
   private getActiveEndDate(value: Date | null, min: Date | null, max: Date | null): Date {

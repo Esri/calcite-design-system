@@ -1,12 +1,14 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { disabled, HYDRATED_ATTR, renders } from "../../tests/commonTests";
+import { disabled, HYDRATED_ATTR, renders, hidden } from "../../tests/commonTests";
 
 describe("calcite-tab-title", () => {
   const tabTitleHtml = "<calcite-tab-title></calcite-tab-title>";
 
   it("renders", async () => renders(tabTitleHtml, { display: "block" }));
 
-  it("can be disabled", () => disabled("calcite-tab-title"));
+  it("honors hidden attribute", async () => hidden("calcite-tab-title"));
+
+  it("can be disabled", () => disabled("<calcite-tab-title selected></calcite-tab-title>"));
 
   it("renders with an icon-start", async () => {
     const page = await newE2EPage();
@@ -41,6 +43,23 @@ describe("calcite-tab-title", () => {
     expect(iconEnd).not.toBeNull();
   });
 
+  it.skip("emits active event on user interaction only", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<calcite-tab-title>Title</calcite-tab-title>`);
+    const activeEventSpy = await page.spyOnEvent("calciteTabsActivate");
+    const title = await page.find("calcite-tab-title");
+
+    title.setProperty("selected", true);
+    await page.waitForChanges();
+    expect(activeEventSpy).toHaveReceivedEventTimes(0);
+
+    await title.click();
+    expect(activeEventSpy).toHaveReceivedEventTimes(1);
+
+    await page.keyboard.press("Enter");
+    expect(activeEventSpy).toHaveReceivedEventTimes(2);
+  });
+
   describe("when parent element is tab-nav", () => {
     describe("when position is above, default", () => {
       it("should render with bottom border on hover", async () => {
@@ -54,14 +73,14 @@ describe("calcite-tab-title", () => {
         const element = await page.find("#for-hover");
         await element.hover();
 
-        const linkTag = await page.find("#for-hover >>> a");
-        const linkStyles = await linkTag.getComputedStyle();
-        expect(linkStyles["border-top-width"]).toEqual("0px");
-        expect(linkStyles["border-bottom-width"]).not.toEqual("0px");
+        const container = await page.find("#for-hover >>> .container");
+        const containerStyles = await container.getComputedStyle();
+        expect(containerStyles["border-top-width"]).toEqual("0px");
+        expect(containerStyles["border-bottom-width"]).not.toEqual("0px");
       });
     });
 
-    describe("when position is below", () => {
+    describe("when position is below (deprecated)", () => {
       it("should render with top border on hover", async () => {
         const page = await newE2EPage({
           html: `
@@ -74,10 +93,30 @@ describe("calcite-tab-title", () => {
         const element = await page.find("#for-hover");
         await element.hover();
 
-        const linkTag = await page.find("#for-hover >>> a");
-        const linkStyles = await linkTag.getComputedStyle();
-        expect(linkStyles["border-top-width"]).not.toEqual("0px");
-        expect(linkStyles["border-bottom-width"]).toEqual("0px");
+        const container = await page.find("#for-hover >>> .container");
+        const containerStyles = await container.getComputedStyle();
+        expect(containerStyles["border-top-width"]).not.toEqual("0px");
+        expect(containerStyles["border-bottom-width"]).toEqual("0px");
+      });
+    });
+
+    describe("when position is bottom", () => {
+      it("should render with top border on hover", async () => {
+        const page = await newE2EPage({
+          html: `
+          <calcite-tab-nav position="bottom">
+            <calcite-tab-title active>Tab 1 Title</calcite-tab-title>
+            <calcite-tab-title id="for-hover">Tab 2 Title</calcite-tab-title>
+          </calcite-tab-nav>
+          `
+        });
+        const element = await page.find("#for-hover");
+        await element.hover();
+
+        const container = await page.find("#for-hover >>> .container");
+        const containerStyles = await container.getComputedStyle();
+        expect(containerStyles["border-top-width"]).not.toEqual("0px");
+        expect(containerStyles["border-bottom-width"]).toEqual("0px");
       });
     });
 
@@ -90,11 +129,11 @@ describe("calcite-tab-title", () => {
           </calcite-tab-nav>`
         });
         const element = await page.find("calcite-tab-title");
-        const linkTag = await page.find("calcite-tab-title >>> a");
-        const linkStyles = await linkTag.getComputedStyle();
+        const container = await page.find("calcite-tab-title >>> .container");
+        const containerStyles = await container.getComputedStyle();
         expect(element).toEqualAttribute("scale", "s");
-        expect(linkStyles.fontSize).toEqual("12px");
-        expect(linkStyles.lineHeight).toEqual("16px"); // 1rem
+        expect(containerStyles.fontSize).toEqual("12px");
+        expect(containerStyles.lineHeight).toEqual("16px"); // 1rem
       });
 
       it("should inherit medium scale from tab-nav", async () => {
@@ -105,11 +144,11 @@ describe("calcite-tab-title", () => {
           </calcite-tab-nav>`
         });
         const element = await page.find("calcite-tab-title");
-        const linkTag = await page.find("calcite-tab-title >>> a");
-        const linkStyles = await linkTag.getComputedStyle();
+        const container = await page.find("calcite-tab-title >>> .container");
+        const containerStyles = await container.getComputedStyle();
         expect(element).toEqualAttribute("scale", "m");
-        expect(linkStyles.fontSize).toEqual("14px");
-        expect(linkStyles.lineHeight).toEqual("16px"); // 1rem
+        expect(containerStyles.fontSize).toEqual("14px");
+        expect(containerStyles.lineHeight).toEqual("16px"); // 1rem
       });
 
       it("should inherit large scale from tab-nav", async () => {
@@ -120,11 +159,11 @@ describe("calcite-tab-title", () => {
           </calcite-tab-nav>`
         });
         const element = await page.find("calcite-tab-title");
-        const linkTag = await page.find("calcite-tab-title >>> a");
-        const linkStyles = await linkTag.getComputedStyle();
+        const container = await page.find("calcite-tab-title >>> .container");
+        const containerStyles = await container.getComputedStyle();
         expect(element).toEqualAttribute("scale", "l");
-        expect(linkStyles.fontSize).toEqual("16px");
-        expect(linkStyles.lineHeight).toEqual("20px"); // 1.25rem
+        expect(containerStyles.fontSize).toEqual("16px");
+        expect(containerStyles.lineHeight).toEqual("20px"); // 1.25rem
       });
     });
   });

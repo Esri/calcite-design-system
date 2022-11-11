@@ -7,6 +7,7 @@
     "plugin:@stencil/recommended",
     "plugin:@typescript-eslint/recommended",
     "plugin:jest/recommended",
+    "plugin:jsdoc/recommended",
     "prettier"
   ],
   "ignorePatterns": ["dist", "docs", "www"],
@@ -16,8 +17,27 @@
     "ecmaVersion": 2018,
     "sourceType": "module"
   },
-  "plugins": ["@esri/calcite-components", "@typescript-eslint", "eslint-plugin-react", "jest", "prettier", "unicorn"],
+  "plugins": [
+    "@esri/calcite-components",
+    "@typescript-eslint",
+    "eslint-plugin-react",
+    "jest",
+    "jsdoc",
+    "prettier",
+    "unicorn"
+  ],
   "rules": {
+    "@esri/calcite-components/ban-events": [
+      "warn",
+      {
+        "event": "keyup",
+        "message": "Use keydown instead for consistent interaction behavior (e.g., closing, moving focus, etc.)."
+      },
+      {
+        "event": "keypress",
+        "message": "Use keydown instead for consistent interaction behavior (e.g., closing, moving focus, etc.)."
+      }
+    ],
     "@stencil/decorators-context": "off",
     "@stencil/decorators-style": "warn",
     "@stencil/no-unused-watch": "off",
@@ -48,14 +68,63 @@
     "curly": "error",
     "jest/expect-expect": "off",
     "jest/no-export": "warn",
+    "jsdoc/require-jsdoc": "off",
+    "jsdoc/check-tag-names": "off",
     "lines-between-class-members": ["error", "always"],
     "no-multiple-empty-lines": ["error", { "max": 1 }],
     "no-unneeded-ternary": "error",
+    "no-eval": "error",
+    "no-implied-eval": "error",
+    "no-new-func": "error",
+    "react/forbid-component-props": [
+      "warn",
+      {
+        "forbid": [
+          {
+            "propName": "onKeyPress",
+            "message": "Use onKeyDown instead for consistent interaction behavior (e.g., closing, moving focus, etc.)."
+          },
+          {
+            "propName": "onKeyUp",
+            "message": "Use onKeyDown instead for consistent interaction behavior (e.g., closing, moving focus, etc.)."
+          }
+        ]
+      }
+    ],
+    "react/forbid-dom-props": [
+      "warn",
+      {
+        "forbid": [
+          {
+            "propName": "onKeyPress",
+            "message": "Use onKeyDown instead for consistent interaction behavior (e.g., closing, moving focus, etc.)."
+          },
+          {
+            "propName": "onKeyUp",
+            "message": "Use onKeyDown instead for consistent interaction behavior (e.g., closing, moving focus, etc)."
+          }
+        ]
+      }
+    ],
     "react/jsx-sort-props": "error",
     "react/jsx-uses-react": "error",
     "react/jsx-uses-vars": "error",
     "react/self-closing-comp": "error",
-    "unicorn/prefer-ternary": "error"
+    "unicorn/prefer-ternary": "error",
+    "unicorn/prevent-abbreviations": [
+      "error",
+      {
+        "extendDefaultReplacements": false,
+        "replacements": {
+          "e": {
+            "error": true,
+            "event": true
+          }
+        },
+        "checkProperties": false,
+        "checkFilenames": false
+      }
+    ]
   },
   "settings": {
     "react": {

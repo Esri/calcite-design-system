@@ -4,12 +4,12 @@
 
 ## Properties
 
-| Property   | Attribute  | Description                                            | Type      | Default     |
-| ---------- | ---------- | ------------------------------------------------------ | --------- | ----------- |
-| `disabled` | `disabled` | When true, it prevents the option from being selected. | `boolean` | `false`     |
-| `label`    | `label`    | The option label.                                      | `string`  | `undefined` |
-| `selected` | `selected` | When true, this option is selected. Otherwise, false.  | `boolean` | `undefined` |
-| `value`    | `value`    | The value associated with this option.                 | `any`     | `undefined` |
+| Property   | Attribute  | Description                                                                              | Type      | Default     |
+| ---------- | ---------- | ---------------------------------------------------------------------------------------- | --------- | ----------- |
+| `disabled` | `disabled` | When `true`, interaction is prevented and the component is displayed with lower opacity. | `boolean` | `false`     |
+| `label`    | `label`    | Accessible name for the component.                                                       | `string`  | `undefined` |
+| `selected` | `selected` | When `true`, the component is selected.                                                  | `boolean` | `undefined` |
+| `value`    | `value`    | The component's value.                                                                   | `any`     | `undefined` |
 
 ---
 

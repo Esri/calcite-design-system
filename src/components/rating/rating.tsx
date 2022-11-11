@@ -17,6 +17,7 @@ import { LabelableComponent, connectLabel, disconnectLabel } from "../../utils/l
 import { connectForm, disconnectForm, FormComponent, HiddenFormInputSlot } from "../../utils/form";
 import { TEXT } from "./resources";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import { isActivationKey } from "../../utils/key";
 
 @Component({
   tag: "calcite-rating",
@@ -38,42 +39,46 @@ export class Rating implements LabelableComponent, FormComponent, InteractiveCom
   //
   // --------------------------------------------------------------------------
 
-  /** specify the scale of the component, defaults to m */
+  /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
 
-  /** the value of the rating component */
+  /** The component's value. */
   @Prop({ reflect: true, mutable: true }) value = 0;
 
-  /** is the rating component in a selectable mode */
+  /** When `true`, the component's value can be read, but cannot be modified. */
   @Prop({ reflect: true }) readOnly = false;
 
-  /** is the rating component in a selectable mode */
+  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @Prop({ reflect: true }) disabled = false;
 
-  /** Show average and count data summary chip (if available) */
+  /** When `true`, and if available, displays the `average` and/or `count` data summary in a `calcite-chip`. */
   @Prop({ reflect: true }) showChip = false;
 
-  /** optionally pass a number of previous ratings to display */
+  /** Specifies the number of previous ratings to display. */
   @Prop({ reflect: true }) count?: number;
 
-  /** optionally pass a cumulative average rating to display */
+  /** Specifies a cumulative average from previous ratings to display. */
   @Prop({ reflect: true }) average?: number;
 
-  /** The name of the rating */
+  /** Specifies the name of the component on form submission. */
   @Prop({ reflect: true }) name: string;
 
-  /** Localized string for "Rating" (used for aria label)
+  /**
+   * Accessible name for the component.
+   *
    * @default "Rating"
    */
   @Prop() intlRating?: string = TEXT.rating;
 
-  /** Localized string for labelling each star, `${num}` in the string will be replaced by the number
+  /**
+   * Accessible name for each star. The `${num}` in the string will be replaced by the number.
+   *
    * @default "Stars: ${num}"
    */
   @Prop() intlStars?: string = TEXT.stars;
 
   /**
-   * When true, makes the component required for form-submission.
+   * When `true`, the component must have a value in order for the form to submit.
    *
    * @internal
    */
@@ -106,9 +111,9 @@ export class Rating implements LabelableComponent, FormComponent, InteractiveCom
   //--------------------------------------------------------------------------
 
   /**
-   * Fires when the rating value has changed.
+   * Fires when the component's value changes.
    */
-  @Event() calciteRatingChange: EventEmitter<{ value: number }>;
+  @Event({ cancelable: false }) calciteRatingChange: EventEmitter<{ value: number }>;
 
   //--------------------------------------------------------------------------
   //
@@ -116,7 +121,8 @@ export class Rating implements LabelableComponent, FormComponent, InteractiveCom
   //
   //--------------------------------------------------------------------------
 
-  @Listen("blur") blurHandler(): void {
+  @Listen("blur")
+  blurHandler(): void {
     this.hasFocus = false;
   }
 
@@ -139,7 +145,7 @@ export class Rating implements LabelableComponent, FormComponent, InteractiveCom
           <label
             class={{ star: true, focused, selected, average, hovered, partial }}
             htmlFor={`${this.guid}-${i}`}
-            onMouseOver={() => {
+            onPointerOver={() => {
               this.hoverValue = i;
             }}
           >
@@ -164,13 +170,11 @@ export class Rating implements LabelableComponent, FormComponent, InteractiveCom
             name={this.guid}
             onChange={() => this.updateValue(i)}
             onClick={(event) =>
-              // click is fired from the the component's label, so we treat this as an internal event
+              // click is fired from the component's label, so we treat this as an internal event
               event.stopPropagation()
             }
-            onFocus={() => {
-              this.hasFocus = true;
-              this.focusValue = i;
-            }}
+            onFocus={() => this.onFocusChange(i)}
+            onKeyDown={this.onKeyboardPressed}
             ref={(el) =>
               (i === 1 || i === this.value) && (this.inputFocusRef = el as HTMLInputElement)
             }
@@ -191,7 +195,7 @@ export class Rating implements LabelableComponent, FormComponent, InteractiveCom
           class="fieldset"
           disabled={disabled}
           onBlur={() => (this.hoverValue = null)}
-          onMouseLeave={() => (this.hoverValue = null)}
+          onPointerLeave={() => (this.hoverValue = null)}
           onTouchEnd={() => (this.hoverValue = null)}
         >
           <legend class="visually-hidden">{intlRating}</legend>
@@ -223,6 +227,22 @@ export class Rating implements LabelableComponent, FormComponent, InteractiveCom
     this.calciteRatingChange.emit({ value });
   }
 
+  private onKeyboardPressed = (event: KeyboardEvent): void => {
+    if (!this.required && isActivationKey(event.key)) {
+      event.preventDefault();
+      this.updateValue(0);
+    }
+  };
+
+  private onFocusChange = (selectedRatingValue: number): void => {
+    this.hasFocus = true;
+    if (!this.required && this.focusValue === selectedRatingValue) {
+      this.updateValue(0);
+    } else {
+      this.focusValue = selectedRatingValue;
+    }
+  };
+
   //--------------------------------------------------------------------------
   //
   //  Public Methods
@@ -232,7 +252,7 @@ export class Rating implements LabelableComponent, FormComponent, InteractiveCom
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    this.inputFocusRef.focus();
+    this.inputFocusRef?.focus();
   }
 
   // --------------------------------------------------------------------------

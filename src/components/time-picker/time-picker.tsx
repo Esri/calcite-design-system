@@ -1,15 +1,15 @@
 import {
   Component,
   Element,
-  h,
-  Prop,
-  VNode,
   Event,
   EventEmitter,
-  Watch,
-  State,
+  h,
   Listen,
-  Method
+  Method,
+  Prop,
+  State,
+  VNode,
+  Watch
 } from "@stencil/core";
 import { Scale } from "../interfaces";
 import { isActivationKey, numberKeys } from "../../utils/key";
@@ -17,20 +17,27 @@ import { isValidNumber } from "../../utils/number";
 
 import {
   formatTimePart,
-  MinuteOrSecond,
-  maxTenthForMinuteAndSecond,
-  TimePart,
+  getLocaleHourCycle,
   getMeridiem,
+  getTimeParts,
   HourCycle,
   isValidTime,
-  localizeTimeStringToParts,
-  parseTimeString,
   localizeTimePart,
+  localizeTimeStringToParts,
+  maxTenthForMinuteAndSecond,
   Meridiem,
-  getLocaleHourCycle,
-  getTimeParts
+  MinuteOrSecond,
+  parseTimeString,
+  TimePart
 } from "../../utils/time";
 import { CSS, TEXT } from "./resources";
+import {
+  connectLocalized,
+  disconnectLocalized,
+  LocalizedComponent,
+  NumberingSystem,
+  updateEffectiveLocale
+} from "../../utils/locale";
 
 function capitalize(str: string): string {
   return str.charAt(0).toUpperCase() + str.slice(1);
@@ -41,7 +48,7 @@ function capitalize(str: string): string {
   styleUrl: "time-picker.scss",
   shadow: true
 })
-export class TimePicker {
+export class TimePicker implements LocalizedComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -56,86 +63,117 @@ export class TimePicker {
   //
   //--------------------------------------------------------------------------
 
-  /** aria-label for the hour input
+  /**
+   * Accessible name for the component's hour input.
+   *
    * @default "Hour"
    */
   @Prop() intlHour = TEXT.hour;
 
-  /** aria-label for the hour down button
+  /**
+   * Accessible name for the component's hour down button.
+   *
    * @default "Decrease hour"
    */
   @Prop() intlHourDown = TEXT.hourDown;
 
-  /** aria-label for the hour up button
+  /**
+   * Accessible name for the component's hour up button.
+   *
    * @default "Increase hour"
    */
   @Prop() intlHourUp = TEXT.hourUp;
 
-  /** aria-label for the meridiem (am/pm) input
+  /**
+   * Accessible name for the component's meridiem (AM/PM) input.
+   *
    * @default "AM/PM"
    */
   @Prop() intlMeridiem = TEXT.meridiem;
 
-  /** aria-label for the meridiem (am/pm) down button
+  /**
+   * Accessible name for the component's meridiem (AM/PM) down button.
+   *
    * @default "Decrease AM/PM"
    */
   @Prop() intlMeridiemDown = TEXT.meridiemDown;
 
-  /** aria-label for the meridiem (am/pm) up button
+  /**
+   * Accessible name for the component's meridiem (AM/PM) up button.
+   *
    * @default "Increase AM/PM"
    */
   @Prop() intlMeridiemUp = TEXT.meridiemUp;
 
-  /** aria-label for the minute input
+  /**
+   * Accessible name for the component's minute input.
+   *
    * @default "Minute"
    */
   @Prop() intlMinute = TEXT.minute;
 
-  /** aria-label for the minute down button
+  /**
+   * Accessible name for the component's minute down button.
+   *
    * @default "Decrease minute"
    */
   @Prop() intlMinuteDown = TEXT.minuteDown;
 
-  /** aria-label for the minute up button
+  /**
+   * Accessible name for the component's minute up button.
+   *
    * @default "Increase minute"
    */
   @Prop() intlMinuteUp = TEXT.minuteUp;
 
-  /** aria-label for the second input
+  /**
+   * Accessible name for the component's second input.
+   *
    * @default "Second"
    */
   @Prop() intlSecond = TEXT.second;
 
-  /** aria-label for the second down button
+  /**
+   * Accessible name for the component's second down button.
+   *
    * @default "Decrease second"
    */
   @Prop() intlSecondDown = TEXT.secondDown;
 
-  /** aria-label for the second up button
+  /**
+   * Accessible name for the component's second up button.
+   *
    * @default "Increase second"
    */
   @Prop() intlSecondUp = TEXT.secondUp;
 
   /**
-   * BCP 47 language tag for desired language and country format
+   * BCP 47 language tag for desired language and country format.
+   *
    * @internal
+   * @deprecated set the global `lang` attribute on the element instead.
+   * @mdn [lang](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/lang)
    */
-  @Prop({ attribute: "lang", mutable: true }) locale: string =
-    document.documentElement.lang || navigator.language || "en";
+  @Prop({ mutable: true }) locale: string;
 
   @Watch("locale")
-  localeWatcher(newLocale: string): void {
-    this.hourCycle = getLocaleHourCycle(newLocale);
-    this.setValue(this.value, false);
+  localeChanged(): void {
+    updateEffectiveLocale(this);
   }
 
-  /** The scale (size) of the time picker */
-  @Prop() scale: Scale = "m";
+  /** Specifies the size of the component. */
+  @Prop({ reflect: true }) scale: Scale = "m";
 
-  /** number (seconds) that specifies the granularity that the value must adhere to */
-  @Prop() step = 60;
+  /** Specifies the granularity the `value` must adhere to (in seconds). */
+  @Prop({ reflect: true }) step = 60;
 
-  /** The selected time in UTC (always 24-hour format) */
+  /**
+   * Specifies the Unicode numeral system used by the component for localization.
+   *
+   */
+  @Prop() numberingSystem?: NumberingSystem;
+
+  /** The component's value in UTC (always 24-hour format). */
   @Prop({ mutable: true }) value: string = null;
 
   @Watch("value")
@@ -166,6 +204,13 @@ export class TimePicker {
   //  State
   //
   // --------------------------------------------------------------------------
+
+  @State() effectiveLocale = "";
+
+  @Watch("effectiveLocale")
+  effectiveLocaleWatcher(): void {
+    this.updateLocale();
+  }
 
   @State() hour: string;
 
@@ -202,17 +247,17 @@ export class TimePicker {
   /**
    * @internal
    */
-  @Event() calciteTimePickerBlur: EventEmitter<void>;
+  @Event({ cancelable: false }) calciteInternalTimePickerBlur: EventEmitter<void>;
 
   /**
    * @internal
    */
-  @Event() calciteTimePickerChange: EventEmitter<string>;
+  @Event({ cancelable: false }) calciteInternalTimePickerChange: EventEmitter<string>;
 
   /**
    * @internal
    */
-  @Event() calciteTimePickerFocus: EventEmitter<void>;
+  @Event({ cancelable: false }) calciteInternalTimePickerFocus: EventEmitter<void>;
 
   //--------------------------------------------------------------------------
   //
@@ -222,33 +267,42 @@ export class TimePicker {
 
   @Listen("blur")
   hostBlurHandler(): void {
-    this.calciteTimePickerBlur.emit();
+    this.calciteInternalTimePickerBlur.emit();
   }
 
   @Listen("focus")
   hostFocusHandler(): void {
-    this.calciteTimePickerFocus.emit();
+    this.calciteInternalTimePickerFocus.emit();
   }
 
   @Listen("keydown")
   keyDownHandler(event: KeyboardEvent): void {
-    const key = event.key;
+    const { defaultPrevented, key } = event;
+
+    if (defaultPrevented) {
+      return;
+    }
+
     switch (this.activeEl) {
       case this.hourEl:
         if (key === "ArrowRight") {
           this.setFocus("minute");
+          event.preventDefault();
         }
         break;
       case this.minuteEl:
         switch (key) {
           case "ArrowLeft":
             this.setFocus("hour");
+            event.preventDefault();
             break;
           case "ArrowRight":
             if (this.step !== 60) {
               this.setFocus("second");
+              event.preventDefault();
             } else if (this.hourCycle === "12") {
               this.setFocus("meridiem");
+              event.preventDefault();
             }
             break;
         }
@@ -257,10 +311,12 @@ export class TimePicker {
         switch (key) {
           case "ArrowLeft":
             this.setFocus("minute");
+            event.preventDefault();
             break;
           case "ArrowRight":
             if (this.hourCycle === "12") {
               this.setFocus("meridiem");
+              event.preventDefault();
             }
             break;
         }
@@ -270,8 +326,10 @@ export class TimePicker {
           case "ArrowLeft":
             if (this.step !== 60) {
               this.setFocus("second");
+              event.preventDefault();
             } else {
               this.setFocus("minute");
+              event.preventDefault();
             }
             break;
         }
@@ -285,7 +343,11 @@ export class TimePicker {
   //
   //--------------------------------------------------------------------------
 
-  /** Sets focus on the component. */
+  /**
+   * Sets focus on the component.
+   *
+   * @param target
+   */
   @Method()
   async setFocus(target: TimePart): Promise<void> {
     this[`${target || "hour"}El`]?.focus();
@@ -298,7 +360,7 @@ export class TimePicker {
   // --------------------------------------------------------------------------
 
   private buttonActivated(event: KeyboardEvent): boolean {
-    const key = event.key;
+    const { key } = event;
 
     if (key === " ") {
       event.preventDefault();
@@ -347,7 +409,7 @@ export class TimePicker {
   };
 
   private hourKeyDownHandler = (event: KeyboardEvent): void => {
-    const key = event.key;
+    const { key } = event;
     if (numberKeys.includes(key)) {
       const keyAsNumber = parseInt(key);
       let newHour;
@@ -388,7 +450,6 @@ export class TimePicker {
           this.incrementHour();
           break;
         case " ":
-        case "Spacebar":
           event.preventDefault();
           break;
       }
@@ -459,7 +520,6 @@ export class TimePicker {
         this.decrementMeridiem();
         break;
       case " ":
-      case "Spacebar":
         event.preventDefault();
         break;
     }
@@ -478,7 +538,7 @@ export class TimePicker {
   };
 
   private minuteKeyDownHandler = (event: KeyboardEvent): void => {
-    const key = event.key;
+    const { key } = event;
     if (numberKeys.includes(key)) {
       const keyAsNumber = parseInt(key);
       let newMinute;
@@ -507,7 +567,6 @@ export class TimePicker {
           this.incrementMinute();
           break;
         case " ":
-        case "Spacebar":
           event.preventDefault();
           break;
       }
@@ -527,7 +586,7 @@ export class TimePicker {
   };
 
   private secondKeyDownHandler = (event: KeyboardEvent): void => {
-    const key = event.key;
+    const { key } = event;
     if (numberKeys.includes(key)) {
       const keyAsNumber = parseInt(key);
       let newSecond;
@@ -556,7 +615,6 @@ export class TimePicker {
           this.incrementSecond();
           break;
         case " ":
-        case "Spacebar":
           event.preventDefault();
           break;
       }
@@ -580,6 +638,7 @@ export class TimePicker {
   private setValue = (value: string, emit = true): void => {
     if (isValidTime(value)) {
       const { hour, minute, second } = parseTimeString(value);
+      const { effectiveLocale: locale, numberingSystem } = this;
       const {
         localizedHour,
         localizedHourSuffix,
@@ -588,7 +647,7 @@ export class TimePicker {
         localizedSecond,
         localizedSecondSuffix,
         localizedMeridiem
-      } = localizeTimeStringToParts(value, this.locale);
+      } = localizeTimeStringToParts({ value, locale, numberingSystem });
       this.localizedHour = localizedHour;
       this.localizedHourSuffix = localizedHourSuffix;
       this.localizedMinute = localizedMinute;
@@ -601,7 +660,7 @@ export class TimePicker {
       if (localizedMeridiem) {
         this.localizedMeridiem = localizedMeridiem;
         this.meridiem = getMeridiem(this.hour);
-        const formatParts = getTimeParts(value, this.locale);
+        const formatParts = getTimeParts({ value, locale, numberingSystem });
         this.meridiemOrder = this.getMeridiemOrder(formatParts);
       }
     } else {
@@ -619,7 +678,7 @@ export class TimePicker {
       this.value = null;
     }
     if (emit) {
-      this.calciteTimePickerChange.emit();
+      this.calciteInternalTimePickerChange.emit();
     }
   };
 
@@ -628,6 +687,7 @@ export class TimePicker {
     value: number | string | Meridiem,
     emit = true
   ): void => {
+    const { effectiveLocale: locale, numberingSystem } = this;
     if (key === "meridiem") {
       this.meridiem = value as Meridiem;
       if (isValidNumber(this.hour)) {
@@ -644,11 +704,21 @@ export class TimePicker {
             }
             break;
         }
-        this.localizedHour = localizeTimePart(this.hour, "hour", this.locale);
+        this.localizedHour = localizeTimePart({
+          value: this.hour,
+          part: "hour",
+          locale,
+          numberingSystem
+        });
       }
     } else {
       this[key] = typeof value === "number" ? formatTimePart(value) : value;
-      this[`localized${capitalize(key)}`] = localizeTimePart(this[key], key, this.locale);
+      this[`localized${capitalize(key)}`] = localizeTimePart({
+        value: this[key],
+        part: key,
+        locale,
+        numberingSystem
+      });
     }
     if (this.hour && this.minute) {
       const showSeconds = this.second && this.showSecond;
@@ -657,15 +727,17 @@ export class TimePicker {
       this.value = null;
     }
     this.localizedMeridiem = this.value
-      ? localizeTimeStringToParts(this.value, this.locale)?.localizedMeridiem || null
-      : localizeTimePart(this.meridiem, "meridiem", this.locale);
+      ? localizeTimeStringToParts({ value: this.value, locale, numberingSystem })
+          ?.localizedMeridiem || null
+      : localizeTimePart({ value: this.meridiem, part: "meridiem", locale, numberingSystem });
     if (emit) {
-      this.calciteTimePickerChange.emit();
+      this.calciteInternalTimePickerChange.emit();
     }
   };
 
   private getMeridiemOrder(formatParts: Intl.DateTimeFormatPart[]): number {
-    const isRTLKind = this.locale === "ar" || this.locale === "he";
+    const locale = this.effectiveLocale;
+    const isRTLKind = locale === "ar" || locale === "he";
     if (formatParts && !isRTLKind) {
       const index = formatParts.findIndex((parts: { type: string; value: string }) => {
         return parts.value === this.localizedMeridiem;
@@ -675,6 +747,11 @@ export class TimePicker {
     return 0;
   }
 
+  private updateLocale() {
+    this.hourCycle = getLocaleHourCycle(this.effectiveLocale, this.numberingSystem);
+    this.setValue(this.value, false);
+  }
+
   // --------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -682,8 +759,19 @@ export class TimePicker {
   // --------------------------------------------------------------------------
 
   connectedCallback() {
-    this.setValue(this.value, false);
-    this.hourCycle = getLocaleHourCycle(this.locale);
+    connectLocalized(this);
+    this.updateLocale();
+    this.meridiemOrder = this.getMeridiemOrder(
+      getTimeParts({
+        value: "0:00:00",
+        locale: this.effectiveLocale,
+        numberingSystem: this.numberingSystem
+      })
+    );
+  }
+
+  disconnectedCallback(): void {
+    disconnectLocalized(this);
   }
 
   // --------------------------------------------------------------------------

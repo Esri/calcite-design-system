@@ -1,9 +1,9 @@
 labelToAdd: "incomplete issue report"
 labelsToCheck:
   - bug
-commentHeader: "More information is required to proceed with this issue:"
+commentHeader: "It looks like this issue is missing some information:"
 requiredItems:
-  - response: "- Provide a [codepen](https://codepen.io/pen?template=RwgrjEx), [codesandbox](https://codesandbox.io/s/calcite-template-p95kp?file=/src/App.js), or [jsbin](https://jsbin.com/wiguxohisa/edit?html,output) that reproduces the issue. Alternatively, a [documentation](https://developers.arcgis.com/calcite-design-system/components/) sample can be used if the issue is reproducible."
+  - response: "- A [codepen](https://codepen.io/pen?template=RwgrjEx), [codesandbox](https://codesandbox.io/s/calcite-template-p95kp?file=/src/App.js), or [jsbin](https://jsbin.com/wiguxohisa/edit?html,output) that reproduces the issue. Alternatively, a [documentation](https://developers.arcgis.com/calcite-design-system/components/) sample can be used if the issue is reproducible. If you are experiencing build or Node related errors, please provide a GitHub repo for the sample."
     requireAll: false
     content:
       - "jsbin.com/"
@@ -14,5 +14,7 @@ requiredItems:
       - "developers.arcgis.com/calcite-design-system/components/"
       - "ember-twiddle.com/"
       - "jsfiddle.net/"
-commentFooter: "This issue will be automatically closed in five days if the information is not provided. Thanks for your understanding."
+      - "github.com/"
+      - "w3.org/WAI/"
+commentFooter: "Issues without reproduction samples may not be prioritized. If you were unable to create a sample, please try to answer any questions that arise once development begins. Thanks for your understanding."
 excludeComments: true

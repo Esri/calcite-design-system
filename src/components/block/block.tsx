@@ -1,6 +1,6 @@
 import { Component, Element, Event, EventEmitter, h, Host, Prop, VNode } from "@stencil/core";
 import { CSS, HEADING_LEVEL, ICONS, SLOTS, TEXT } from "./resources";
-import { getSlotted } from "../../utils/dom";
+import { getSlotted, toAriaBoolean } from "../../utils/dom";
 import { Heading, HeadingLevel } from "../functional/Heading";
 import { Status } from "../interfaces";
 import {
@@ -12,10 +12,10 @@ import { InteractiveComponent, updateHostInteraction } from "../../utils/interac
 import { guid } from "../../utils/guid";
 
 /**
- * @slot - A slot for adding content to the block.
- * @slot icon - A slot for adding a leading header icon.
+ * @slot - A slot for adding content to the component.
+ * @slot icon - A slot for adding a leading header icon with `calcite-icon`.
  * @slot control - A slot for adding a single HTML input element in a header.
- * @slot header-menu-actions - a slot for adding an overflow menu with actions inside a dropdown.
+ * @slot header-menu-actions - A slot for adding an overflow menu with `calcite-action`s inside a dropdown.
  */
 @Component({
   tag: "calcite-block",
@@ -30,69 +30,91 @@ export class Block implements ConditionalSlotComponent, InteractiveComponent {
   // --------------------------------------------------------------------------
 
   /**
-   * When true, this block will be collapsible.
+   * When `true`, the component is collapsible.
    */
-  @Prop() collapsible = false;
+  @Prop({ reflect: true }) collapsible = false;
 
   /**
-   * When true, disabled prevents interaction. This state shows items with lower opacity/grayed.
+   * When `true`, interaction is prevented and the component is displayed with lower opacity.
    */
   @Prop({ reflect: true }) disabled = false;
 
   /**
-   * When true, displays a drag handle in the header.
+   * When `true`, displays a drag handle in the header.
    */
   @Prop({ reflect: true }) dragHandle = false;
 
   /**
-   * Block heading.
+   * The component header text.
    */
   @Prop() heading!: string;
 
   /**
-   * Number at which section headings should start for this component.
+   * Specifies the number at which section headings should start.
    */
-  @Prop() headingLevel: HeadingLevel;
+  @Prop({ reflect: true }) headingLevel: HeadingLevel;
 
   /**
-   * Tooltip used for the toggle when expanded.
+   * Accessible name for the component's collapse button.
+   *
+   * @default "Collapse"
    */
-  @Prop() intlCollapse?: string;
+  @Prop() intlCollapse?: string = TEXT.collapse;
 
   /**
-   * Tooltip used for the toggle when collapsed.
+   * Accessible name for the component's expand button.
+   *
+   * @default "Expand"
    */
-  @Prop() intlExpand?: string;
+  @Prop() intlExpand?: string = TEXT.expand;
 
-  /** string to override English loading text
+  /**
+   * Accessible name when the component is loading.
+   *
    * @default "Loading"
    */
   @Prop() intlLoading?: string = TEXT.loading;
 
-  /** Text string used for the actions menu
+  /**
+   * Accessible name for the component's options button.
+   *
    * @default "Options"
    */
   @Prop() intlOptions?: string = TEXT.options;
 
   /**
-   * When true, content is waiting to be loaded. This state shows a busy indicator.
+   * When `true`, a busy indicator is displayed.
    */
   @Prop({ reflect: true }) loading = false;
 
   /**
-   * When true, the block's content will be displayed.
+   * When `true`, expands the component and its contents.
    */
   @Prop({ reflect: true, mutable: true }) open = false;
 
   /**
-   * Block status. Updates or adds icon to show related icon and color.
+   * Displays a status-related indicator icon.
    */
   @Prop({ reflect: true }) status?: Status;
 
   /**
-   * Block summary.
+   * A description for the component, which displays below the heading.
+   *
+   * @deprecated use `description` instead
    */
   @Prop() summary: string;
+
+  /**
+   * A description for the component, which displays below the heading.
+   */
+  @Prop() description: string;
+
+  /**
+   * When `true`, removes padding for the slotted content.
+   *
+   * @deprecated Use `--calcite-block-padding` CSS variable instead.
+   */
+  @Prop({ reflect: true }) disablePadding = false;
 
   //--------------------------------------------------------------------------
   //
@@ -135,9 +157,9 @@ export class Block implements ConditionalSlotComponent, InteractiveComponent {
   // --------------------------------------------------------------------------
 
   /**
-   * Emitted when the header has been clicked.
+   * Emits when the component's header is clicked.
    */
-  @Event() calciteBlockToggle: EventEmitter;
+  @Event({ cancelable: false }) calciteBlockToggle: EventEmitter<void>;
 
   // --------------------------------------------------------------------------
   //
@@ -191,13 +213,15 @@ export class Block implements ConditionalSlotComponent, InteractiveComponent {
   }
 
   renderTitle(): VNode {
-    const { heading, headingLevel, summary } = this;
-    return heading || summary ? (
+    const { heading, headingLevel, summary, description } = this;
+    return heading || summary || description ? (
       <div class={CSS.title}>
         <Heading class={CSS.heading} level={headingLevel || HEADING_LEVEL}>
           {heading}
         </Heading>
-        {summary ? <div class={CSS.summary}>{summary}</div> : null}
+        {summary || description ? (
+          <div class={CSS.description}>{summary || description}</div>
+        ) : null}
       </div>
     ) : null;
   }
@@ -228,7 +252,7 @@ export class Block implements ConditionalSlotComponent, InteractiveComponent {
         {collapsible ? (
           <button
             aria-controls={regionId}
-            aria-expanded={collapsible ? open.toString() : null}
+            aria-expanded={collapsible ? toAriaBoolean(open) : null}
             aria-label={toggleLabel}
             class={CSS.toggle}
             id={buttonId}
@@ -266,16 +290,19 @@ export class Block implements ConditionalSlotComponent, InteractiveComponent {
     return (
       <Host>
         <article
-          aria-busy={loading.toString()}
+          aria-busy={toAriaBoolean(loading)}
           class={{
-            [CSS.article]: true
+            [CSS.container]: true
           }}
         >
           {headerNode}
           <section
-            aria-expanded={this.open.toString()}
+            aria-expanded={toAriaBoolean(open)}
             aria-labelledby={buttonId}
-            class={CSS.content}
+            class={{
+              [CSS.content]: true,
+              [CSS.contentSpaced]: !this.disablePadding
+            }}
             hidden={!open}
             id={regionId}
           >

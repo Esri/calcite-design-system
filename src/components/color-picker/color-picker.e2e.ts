@@ -4,25 +4,20 @@ import { CSS, DEFAULT_COLOR, DEFAULT_STORAGE_KEY_PREFIX, DIMENSIONS, TEXT } from
 import { E2EElement, E2EPage, EventSpy, newE2EPage } from "@stencil/core/testing";
 import { ColorValue } from "./interfaces";
 import SpyInstance = jest.SpyInstance;
-import { GlobalTestProps, selectText } from "../../tests/utils";
+import { GlobalTestProps, selectText, getElementXY } from "../../tests/utils";
 
 describe("calcite-color-picker", () => {
   let consoleSpy: SpyInstance;
 
-  async function getElementXY(
-    page: E2EPage,
-    elementSelector: string,
-    shadowSelector?: string
-  ): Promise<[number, number]> {
-    return page.evaluate(
-      ([elementSelector, shadowSelector]): [number, number] => {
-        const element = document.querySelector(elementSelector);
-        const measureTarget = shadowSelector ? element.shadowRoot.querySelector(shadowSelector) : element;
-        const { x, y } = measureTarget.getBoundingClientRect();
-
-        return [x, y];
+  async function clickScope(page: E2EPage, scope: "hue" | "color-field"): Promise<void> {
+    // helps workaround puppeteer not being able to click on a 0x0 element
+    // https://github.com/puppeteer/puppeteer/issues/4147#issuecomment-473208182
+    await page.$eval(
+      `calcite-color-picker`,
+      (colorPicker: HTMLCalciteColorPickerElement, scopeSelector: string): void => {
+        colorPicker.shadowRoot.querySelector<HTMLElement>(scopeSelector).click();
       },
-      [elementSelector, shadowSelector]
+      `.${scope === "hue" ? CSS.hueScope : CSS.colorFieldScope}`
     );
   }
 
@@ -75,7 +70,7 @@ describe("calcite-color-picker", () => {
       },
       {
         propertyName: "appearance",
-        defaultValue: "default"
+        defaultValue: "solid"
       },
       {
         propertyName: "channelsDisabled",
@@ -202,10 +197,12 @@ describe("calcite-color-picker", () => {
 
     expect(buttons).toHaveLength(2);
 
-    buttons.forEach(async (button) => expect(await button.getProperty("type")).toBe("button"));
+    for (const button of buttons) {
+      expect(await button.getProperty("type")).toBe("button");
+    }
   });
 
-  it("emits event when value changes via user interaction and not programmatically", async () => {
+  it.skip("emits event when value changes via user interaction and not programmatically", async () => {
     const page = await newE2EPage();
     await page.setContent("<calcite-color-picker></calcite-color-picker>");
     const picker = await page.find("calcite-color-picker");
@@ -228,7 +225,9 @@ describe("calcite-color-picker", () => {
     expect(inputSpy).toHaveReceivedEventTimes(1);
 
     // change by clicking on hue
-    await (await page.find(`calcite-color-picker >>> .${CSS.hueScope}`)).click();
+    let [hueScopeX, hueScopeY] = await getElementXY(page, "calcite-color-picker", `.${CSS.hueScope}`);
+    await page.mouse.click(hueScopeX + 10, hueScopeY);
+    await page.waitForChanges();
     expect(changeSpy).toHaveReceivedEventTimes(2);
     expect(inputSpy).toHaveReceivedEventTimes(2);
 
@@ -254,7 +253,6 @@ describe("calcite-color-picker", () => {
     expect(inputSpy).toHaveReceivedEventTimes(5);
 
     // change by dragging color field thumb
-    const thumbRadius = DIMENSIONS.m.thumb.radius;
     const mouseDragSteps = 10;
     const [colorFieldScopeX, colorFieldScopeY] = await getElementXY(
       page,
@@ -262,9 +260,9 @@ describe("calcite-color-picker", () => {
       `.${CSS.colorFieldScope}`
     );
 
-    await page.mouse.move(colorFieldScopeX + thumbRadius, colorFieldScopeY + thumbRadius);
+    await page.mouse.move(colorFieldScopeX, colorFieldScopeY);
     await page.mouse.down();
-    await page.mouse.move(colorFieldScopeX + thumbRadius + 10, colorFieldScopeY + thumbRadius, {
+    await page.mouse.move(colorFieldScopeX + 10, colorFieldScopeY, {
       steps: mouseDragSteps
     });
     await page.mouse.up();
@@ -274,17 +272,28 @@ describe("calcite-color-picker", () => {
     expect(inputSpy.length).toBeGreaterThan(6); // input event fires more than once
 
     // change by dragging hue slider thumb
-    const [hueScopeX, hueScopeY] = await getElementXY(page, "calcite-color-picker", `.${CSS.hueScope}`);
-    const previousInputEventLength = inputSpy.length;
+    [hueScopeX, hueScopeY] = await getElementXY(page, "calcite-color-picker", `.${CSS.hueScope}`);
+    let previousInputEventLength = inputSpy.length;
 
-    await page.mouse.move(hueScopeX + thumbRadius, hueScopeY + thumbRadius);
+    await page.mouse.move(hueScopeX, hueScopeY);
     await page.mouse.down();
-    await page.mouse.move(hueScopeX + thumbRadius + 10, hueScopeY + thumbRadius, { steps: mouseDragSteps });
+    await page.mouse.move(hueScopeX + 10, hueScopeY, { steps: mouseDragSteps });
     await page.mouse.up();
     await page.waitForChanges();
 
     expect(changeSpy).toHaveReceivedEventTimes(7);
     expect(inputSpy.length).toBeGreaterThan(previousInputEventLength + 1); // input event fires more than once
+
+    previousInputEventLength = inputSpy.length;
+
+    // this portion covers an odd scenario where setting twice would cause the component to emit
+    picker.setProperty("value", "colorFieldCenterValueHex");
+    await page.waitForChanges();
+    picker.setProperty("value", "#fff");
+    await page.waitForChanges();
+
+    expect(changeSpy).toHaveReceivedEventTimes(7);
+    expect(inputSpy.length).toBe(previousInputEventLength);
   });
 
   it("does not emit on initialization", async () => {
@@ -344,7 +353,7 @@ describe("calcite-color-picker", () => {
   };
 
   function assertUnsupportedValueMessage(value: string | object | null, format: string): void {
-    expect(consoleSpy).toBeCalledTimes(1);
+    expect(consoleSpy).toHaveBeenCalledTimes(1);
     expect(consoleSpy).toHaveBeenCalledWith(
       expect.stringMatching(
         new RegExp(
@@ -551,7 +560,7 @@ describe("calcite-color-picker", () => {
     // set to corner right value that's not red (first value)
     picker.setProperty("value", "#ff0");
     await page.waitForChanges();
-    expect(spy).toHaveReceivedEventTimes(++changes);
+    expect(spy).toHaveReceivedEventTimes(changes);
 
     // clicking on color slider to set hue
     const colorsToSample = 7;
@@ -563,13 +572,13 @@ describe("calcite-color-picker", () => {
 
     const expectedColorSamples = [
       "#ff0000",
-      "#ffdd00",
+      "#ffd900",
       "#48ff00",
       "#00ff91",
       "#0095ff",
       "#4800ff",
       "#ff00dd",
-      "#ff0000"
+      "#ff0004"
     ];
 
     for (let i = 0; i < expectedColorSamples.length; i++) {
@@ -585,8 +594,9 @@ describe("calcite-color-picker", () => {
     // clicking on the slider when the color won't change by hue adjustments
 
     picker.setProperty("value", "#000");
-    changes++;
     await page.waitForChanges();
+    expect(spy).toHaveReceivedEventTimes(changes);
+
     x = 0;
 
     type TestWindow = GlobalTestProps<{
@@ -1286,7 +1296,7 @@ describe("calcite-color-picker", () => {
           expect(() => assertUnsupportedValueMessage(hexa, "auto")).toThrow();
         });
 
-        it.only("supports rgb", async () => {
+        it("supports rgb", async () => {
           await page.waitForTimeout(30000);
           const rgbCss = supportedFormatToSampleValue["rgb-css"];
           picker.setProperty("value", rgbCss);
@@ -2106,14 +2116,16 @@ describe("calcite-color-picker", () => {
     });
 
     it("allows nudging color's saturation even if it does not change RGB value", async () => {
-      const page = await newE2EPage();
+      const page = await newE2EPage({
+        html: `<calcite-color-picker value="#000"></calcite-color-picker>`
+      });
       await page.setContent(`<calcite-color-picker value="#000"></calcite-color-picker>`);
-      const scope = await page.find(`calcite-color-picker >>> .${CSS.scope}`);
+      const scope = await page.find(`calcite-color-picker >>> .${CSS.colorFieldScope}`);
 
       const initialStyle = await scope.getComputedStyle();
       expect(initialStyle.left).toBe("0px");
 
-      await scope.click();
+      await clickScope(page, "color-field");
 
       let nudgesToTheEdge = 25;
 
@@ -2145,7 +2157,7 @@ describe("calcite-color-picker", () => {
 
       expect(await getScopeLeftOffset()).toBe(0);
 
-      await scope.click();
+      await clickScope(page, "hue");
       await nudgeAThirdOfSlider();
 
       expect(await getScopeLeftOffset()).toBeCloseTo(DIMENSIONS.m.colorField.width / 2);

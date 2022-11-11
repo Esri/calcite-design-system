@@ -55,35 +55,37 @@ modal.beforeClose = beforeClose;
 
 ## Properties
 
-| Property              | Attribute               | Description                                                                                                 | Type                                 | Default                   |
-| --------------------- | ----------------------- | ----------------------------------------------------------------------------------------------------------- | ------------------------------------ | ------------------------- |
-| `active`              | `active`                | Add the active attribute to open the modal                                                                  | `boolean`                            | `false`                   |
-| `backgroundColor`     | `background-color`      | Background color of modal content                                                                           | `"grey" \| "white"`                  | `"white"`                 |
-| `beforeClose`         | --                      | Optionally pass a function to run before close                                                              | `(el: HTMLElement) => Promise<void>` | `() => Promise.resolve()` |
-| `color`               | `color`                 | Adds a color bar at the top for visual impact, Use color to add importance to destructive/workflow dialogs. | `"blue" \| "red"`                    | `undefined`               |
-| `disableCloseButton`  | `disable-close-button`  | Disables the display a close button within the Modal                                                        | `boolean`                            | `false`                   |
-| `disableEscape`       | `disable-escape`        | Flag to disable the default close on escape behavior                                                        | `boolean`                            | `false`                   |
-| `disableOutsideClose` | `disable-outside-close` | Disables the closing of the Modal when clicked outside.                                                     | `boolean`                            | `false`                   |
-| `docked`              | `docked`                | Prevent the modal from taking up the entire screen on mobile                                                | `boolean`                            | `undefined`               |
-| `firstFocus`          | --                      | Specify an element to focus when the modal is first opened                                                  | `HTMLElement`                        | `undefined`               |
-| `fullscreen`          | `fullscreen`            | Set the modal to always be fullscreen (overrides width)                                                     | `boolean`                            | `undefined`               |
-| `intlClose`           | `intl-close`            | Aria label for the close button                                                                             | `string`                             | `TEXT.close`              |
-| `noPadding`           | `no-padding`            | Turn off spacing around the content area slot                                                               | `boolean`                            | `false`                   |
-| `scale`               | `scale`                 | specify the scale of modal, defaults to m                                                                   | `"l" \| "m" \| "s"`                  | `"m"`                     |
-| `width`               | `width`                 | Set the width of the modal. Can use stock sizes or pass a number (in pixels)                                | `"l" \| "m" \| "s" \| number`        | `"m"`                     |
+| Property              | Attribute               | Description                                                                                                                                                          | Type                                 | Default                   |
+| --------------------- | ----------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------ | ------------------------- |
+| `active`              | `active`                | <span style="color:red">**[DEPRECATED]**</span> use `open` instead.<br/><br/>When `true`, the component is active.                                                   | `boolean`                            | `false`                   |
+| `backgroundColor`     | `background-color`      | Sets the background color of the component's content.                                                                                                                | `"grey" \| "white"`                  | `"white"`                 |
+| `beforeClose`         | --                      | Passes a function to run before the component closes.                                                                                                                | `(el: HTMLElement) => Promise<void>` | `() => Promise.resolve()` |
+| `color`               | `color`                 | Adds a color bar to the top of component for visual impact. Use color to add importance to destructive or workflow dialogs.                                          | `"blue" \| "red"`                    | `undefined`               |
+| `disableCloseButton`  | `disable-close-button`  | When `true`, disables the component's close button.                                                                                                                  | `boolean`                            | `false`                   |
+| `disableEscape`       | `disable-escape`        | When `true`, disables the default close on escape behavior.                                                                                                          | `boolean`                            | `false`                   |
+| `disableOutsideClose` | `disable-outside-close` | When `true`, disables the closing of the component when clicked outside.                                                                                             | `boolean`                            | `false`                   |
+| `docked`              | `docked`                | When `true`, prevents the component from expanding to the entire screen on mobile devices.                                                                           | `boolean`                            | `undefined`               |
+| `fullscreen`          | `fullscreen`            | Sets the component to always be fullscreen (overrides `width`).                                                                                                      | `boolean`                            | `undefined`               |
+| `intlClose`           | `intl-close`            | Accessible name for the component's close button.                                                                                                                    | `string`                             | `TEXT.close`              |
+| `noPadding`           | `no-padding`            | <span style="color:red">**[DEPRECATED]**</span> Use `--calcite-modal-padding` CSS variable instead.<br/><br/>When `true`, disables spacing to the content area slot. | `boolean`                            | `false`                   |
+| `open`                | `open`                  | When `true`, displays and positions the component.                                                                                                                   | `boolean`                            | `false`                   |
+| `scale`               | `scale`                 | Specifies the size of the component.                                                                                                                                 | `"l" \| "m" \| "s"`                  | `"m"`                     |
+| `width`               | `width`                 | Specifies the width of the component. Can use scale sizes or pass a number (displays in pixels).                                                                     | `"l" \| "m" \| "s" \| number`        | `"m"`                     |
 
 ## Events
 
-| Event               | Description                                       | Type               |
-| ------------------- | ------------------------------------------------- | ------------------ |
-| `calciteModalClose` | Fired when the modal finishes the close animation | `CustomEvent<any>` |
-| `calciteModalOpen`  | Fired when the modal finishes the open animation  | `CustomEvent<any>` |
+| Event                     | Description                                                                                              | Type                |
+| ------------------------- | -------------------------------------------------------------------------------------------------------- | ------------------- |
+| `calciteModalBeforeClose` | Fires when the component is requested to be closed and before the closing transition begins.             | `CustomEvent<void>` |
+| `calciteModalBeforeOpen`  | Fires when the component is added to the DOM but not rendered, and before the opening transition begins. | `CustomEvent<void>` |
+| `calciteModalClose`       | Fires when the component is closed and animation is complete.                                            | `CustomEvent<void>` |
+| `calciteModalOpen`        | Fires when the component is open and animation is complete.                                              | `CustomEvent<void>` |
 
 ## Methods
 
 ### `focusElement(el?: HTMLElement) => Promise<void>`
 
-<span style="color:red">**[DEPRECATED]**</span> use `setFocus` instead.<br/><br/>Focus first interactive element
+<span style="color:red">**[DEPRECATED]**</span> use `setFocus` instead.<br/><br/>Focus the first interactive element.
 
 #### Returns
 
@@ -91,7 +93,7 @@ Type: `Promise<void>`
 
 ### `scrollContent(top?: number, left?: number) => Promise<void>`
 
-Set the scroll top of the modal content
+Sets the scroll top of the component's content.
 
 #### Returns
 
@@ -101,8 +103,8 @@ Type: `Promise<void>`
 
 Sets focus on the component.
 
-By default, will try to focus on any focusable content. If there is none, it will focus on the close button.
-If you want to focus on the close button, you can use the `close-button` focus ID.
+By default, tries to focus on focusable content. If there is none, it will focus on the close button.
+To focus on the close button, use the `close-button` focus ID.
 
 #### Returns
 
@@ -110,23 +112,23 @@ Type: `Promise<void>`
 
 ## Slots
 
-| Slot          | Description                          |
-| ------------- | ------------------------------------ |
-| `"back"`      | a slot for adding a back button      |
-| `"content"`   | a slot for adding modal content      |
-| `"header"`    | a slot for adding a modal header     |
-| `"primary"`   | a slot for adding a primary button   |
-| `"secondary"` | a slot for adding a secondary button |
+| Slot          | Description                                |
+| ------------- | ------------------------------------------ |
+| `"back"`      | A slot for adding a back button.           |
+| `"content"`   | A slot for adding the component's content. |
+| `"header"`    | A slot for adding header text.             |
+| `"primary"`   | A slot for adding a primary button.        |
+| `"secondary"` | A slot for adding a secondary button.      |
 
 ## CSS Custom Properties
 
-| Name                            | Description                                        |
-| ------------------------------- | -------------------------------------------------- |
-| `--calcite-modal-content-text`  | the font-size of the modal content                 |
-| `--calcite-modal-padding`       | the top/bottom padding around items in the modal   |
-| `--calcite-modal-padding-large` | the left/right padding around items in the modal   |
-| `--calcite-modal-title-text`    | the font-size of the modal title                   |
-| `--calcite-scrim-background`    | the semi-transparent background color behind modal |
+| Name                            | Description                                                            |
+| ------------------------------- | ---------------------------------------------------------------------- |
+| `--calcite-modal-content-text`  | [Deprecated] The component content's font size.                        |
+| `--calcite-modal-padding`       | [Deprecated] The padding around content area slot.                     |
+| `--calcite-modal-padding-large` | [Deprecated] The left/right padding around items within the component. |
+| `--calcite-modal-title-text`    | [Deprecated] The component title's font size.                          |
+| `--calcite-scrim-background`    | [Deprecated] The component's semi-transparent background color.        |
 
 ## Dependencies
 

@@ -3,12 +3,12 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-rating-spacing-unit: the amount of left/right margin between each rating star
+ * @prop --calcite-rating-spacing-unit: The amount of left and right margin spacing between each rating star.
  */
 
 :host {
   @apply relative flex items-center;
-  width: fit-content;
+  inline-size: fit-content;
 }
 
 @include disabled();
@@ -43,15 +43,11 @@
 
 .star {
   @apply focus-base
-    relative
-    flex
-    cursor-pointer;
+  relative
+  flex
+  cursor-pointer
+  transition-default;
   color: theme("borderColor.color.input");
-  transition: var(--calcite-animation-timing);
-  transform: scale(1);
-  &:active {
-    transform: scale(1.1);
-  }
 }
 
 .focused {
@@ -70,16 +66,12 @@
   color: theme("colors.brand");
 }
 
-.hovered:not(.selected) {
-  transform: scale(0.9);
-}
-
 :host .fraction {
   @apply pointer-events-none
     absolute
     top-0
-    overflow-hidden;
-  transition: var(--calcite-animation-timing);
+    overflow-hidden
+    transition-default;
   inset-inline-start: 0;
 }
 

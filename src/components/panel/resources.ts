@@ -4,6 +4,7 @@ export const CSS = {
   header: "header",
   heading: "heading",
   summary: "summary",
+  description: "description",
   headerContent: "header-content",
   headerActions: "header-actions",
   headerActionsEnd: "header-actions--end",
@@ -12,11 +13,7 @@ export const CSS = {
   contentContainer: "content-container",
   contentHeight: "content-height",
   fabContainer: "fab-container",
-  footer: "footer",
-  menuContainer: "menu-container",
-  menuButton: "menu-button",
-  menu: "menu",
-  menuOpen: "menu--open"
+  footer: "footer"
 };
 
 export const ICONS = {

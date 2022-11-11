@@ -79,9 +79,57 @@ Only attach additional data to your event if that data cannot be determined from
 
 `<calcite-tab-nav>` is also an example of this. The `event.details.tab` item contains the index of the selected tab or the tab name which cannot be easily determined from the state of `<calcite-tab-nav>` in some cases so it makes sense to include in the event.
 
-## Props
+### Native event cancelation
 
-Private/internal props should be annotated accordingly to avoid exposing them in the doc and/or API. You can do this by using the `@private`/`@internal` [JSDoc](https://jsdoc.app/) tags.
+When a component **handles events for its own interaction** (e.g., moving between list items, closing an open menu), if the event is tied to default browser behavior (e.g., space key scrolling the page), `Event.preventDefault()` must be called to avoid mixed behavior.
+
+```tsx
+class SomeInputTypeComponent {
+  handleKeyDown(event: KeyboardEvent): void {
+    if (event.key === "Escape") {
+      /* clear text/close popover */
+      event.preventDefault(); // let browser or other components know that the event has been handled
+    }
+    // ...
+  }
+}
+```
+
+For composite components or components that support children (either light or shadow DOM), they may need to check if an event has been canceled (`Event.defaultPrevented`) before handling it.
+
+```tsx
+class CompositeOrParentComponent {
+  handleKeyDown(event: KeyboardEvent): void {
+    if (
+      event.key === "Escape" &&
+      !event.defaultPrevented // check if child component has already handled this
+    ) {
+      /* close */
+      event.preventDefault(); // let browser or other components know that the event has been handled
+    }
+    // ...
+  }
+}
+```
+
+### Interaction events
+
+Pointer events should be used in favor of mouse events to maximize device compatibility.
+
+## Properties
+
+Private/internal properties should be annotated accordingly to avoid exposing them in the doc and/or API. You can do this by using the `@private`/`@internal` [JSDoc](https://jsdoc.app/) tags.
+
+### Reflecting to attributes
+
+It is recommended to reflect properties that fit the following criteria:
+
+- are static or will not be updated frequently during the component lifespan (e.g., a number that represents a range min or max would be reflected, but a number that represents a value that will constantly be updated by the user would not)
+- value represents non-rich data or booleans/numbers/strings that are not used as content (e.g., a string that represents a mode would be reflected, but a string that represents a placeholder, title or summary would not)
+- are public and belong to a public component
+- required for internal styling or would make internal styling easier
+
+Doing so will give developers more flexibility when querying the DOM. This is important in framework environments where we can't safely assume components will have their attributes set vs properties.
 
 ## Focus support
 
@@ -271,3 +319,57 @@ focusMenu(): void => {
   this.menuFocusTimeout = window.setTimeout(() => focusElement(this.menuEl), 100);
 }
 ```
+
+## Layering
+
+Avoid setting z-index ad hoc and instead use a contextual z-index layer from the [Tailwind z-index extension](../tailwind.config.ts#L212-L222). This will ensure proper layering across components.
+
+## Utils
+
+There are utilities for common workflows in [`src/utils`](../src/utils).
+
+### Global attributes
+
+The [`globalAttributes`](../src/utils/globalAttributes.ts) util was specifically made to access the `lang` global attribute when set on a Calcite component. However, it can be extended to allow additional [global attributes](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes#list_of_global_attributes) by adding to the [`allowedGlobalAttributes`](https://github.com/Esri/calcite-components/blob/a33aa0df0c5bf103f91187826e6b12b8ff266d90/src/utils/globalAttributes.ts#L4-L5) array. The util is used in [`calcite-pagination`](../src/components/pagination/pagination.tsx), which you can use as a reference.
+
+#### Usage steps
+
+1. Import the interface and watch/unwatch methods
+
+   ```js
+   import { GlobalAttrComponent, watchGlobalAttributes, unwatchGlobalAttributes } from "../../utils/globalAttributes";
+   ```
+
+2. Implement the interface
+
+   ```js
+   export class ComponentName implements GlobalAttrComponent {
+   ```
+
+3. Add `globalAttributes` state
+
+   ```js
+   @State() globalAttributes = {};
+   ```
+
+4. Add connect/disconnect callbacks
+
+   ```js
+   connectedCallback(): void {
+       watchGlobalAttributes(this, ["lang"]);
+   }
+
+   disconnectedCallback(): void {
+       unwatchGlobalAttributes(this);
+   }
+   ```
+
+5. Use the state to access `lang` (or another global attribute that may be allowed in the future).
+
+   ```js
+   const lang = this.globalAttributes["lang"] || document.documentElement.lang || "en";
+   ```
+
+### BigDecimal
+
+`BigDecimal` is a [number util](https://github.com/Esri/calcite-components/blob/master/src/utils/number.ts) that helps with [arbitrary precision arithmetic](https://en.wikipedia.org/wiki/Arbitrary-precision_arithmetic). The util is adopted from a [Stack Overflow answer](https://stackoverflow.com/a/66939244) with some small changes. There are some usage examples in [`number.spec.ts`](../src/utils/number.spec.ts).

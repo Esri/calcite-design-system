@@ -12,7 +12,7 @@ import {
 } from "@stencil/core";
 import { CSS, ICONS, SLOTS, TEXT } from "./resources";
 import { ICON_TYPES } from "../pick-list/resources";
-import { getSlotted } from "../../utils/dom";
+import { getSlotted, toAriaBoolean } from "../../utils/dom";
 import {
   ConditionalSlotComponent,
   connectConditionalSlotComponent,
@@ -21,8 +21,8 @@ import {
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 
 /**
- * @slot actions-end - a slot for adding actions or content to the end side of the item.
- * @slot actions-start - a slot for adding actions or content to the start side of the item.
+ * @slot actions-end - A slot for adding `calcite-action`s or content to the end side of the component.
+ * @slot actions-start - A slot for adding `calcite-action`s or content to the start side of the component.
  */
 @Component({
   tag: "calcite-pick-list-item",
@@ -37,63 +37,64 @@ export class PickListItem implements ConditionalSlotComponent, InteractiveCompon
   // --------------------------------------------------------------------------
 
   /**
-   * An optional description for this item.  This will appear below the label text.
+   * A description for the component that displays below the label text.
    */
   @Prop({ reflect: true }) description?: string;
 
   @Watch("description")
   descriptionWatchHandler(): void {
-    this.calciteListItemPropsChange.emit();
+    this.calciteInternalListItemPropsChange.emit();
   }
 
   /**
-   * When true, the item cannot be clicked and is visually muted.
+   * When `true`, interaction is prevented and the component is displayed with lower opacity.
    */
   @Prop({ reflect: true }) disabled = false;
 
   /**
-   * When false, the item cannot be deselected by user interaction.
+   * When `false`, the component cannot be deselected by user interaction.
    */
-  @Prop() disableDeselect = false;
+  @Prop({ reflect: true }) disableDeselect = false;
 
   /**
-   * @internal When true, the item cannot be selected by user interaction.
+   * @internal
    */
   @Prop({ reflect: true }) nonInteractive = false;
 
   /**
-   * Determines the icon SVG symbol that will be shown. Options are circle, square, grip or null.
+   * Determines the icon SVG symbol that will be shown. Options are `"circle"`, `"square"`, `"grip"` or `null`.
+   *
    * @see [ICON_TYPES](https://github.com/Esri/calcite-components/blob/master/src/components/pick-list/resources.ts#L5)
    */
   @Prop({ reflect: true }) icon?: ICON_TYPES | null = null;
 
   /**
-   * The main label for this item. This will appear next to the icon.
+   * Label and accessible name for the component. Appears next to the icon.
    */
-  @Prop({ reflect: true }) label: string;
+  @Prop({ reflect: true }) label!: string;
 
   @Watch("label")
   labelWatchHandler(): void {
-    this.calciteListItemPropsChange.emit();
+    this.calciteInternalListItemPropsChange.emit();
   }
 
   /**
-   * Used to provide additional metadata to an item, primarily used when the parent list has a filter.
+   * Provides additional metadata to the component. Primary use is for a filter on the parent list.
    */
   @Prop() metadata?: Record<string, unknown>;
 
   @Watch("metadata")
   metadataWatchHandler(): void {
-    this.calciteListItemPropsChange.emit();
+    this.calciteInternalListItemPropsChange.emit();
   }
 
   /**
-   * Set this to true to display a remove action that removes the item from the list.
+   * When `true`, displays a remove action that removes the item from the list.
    */
   @Prop({ reflect: true }) removable? = false;
 
   /**
-   * Set this to true to pre-select an item. Toggles when an item is checked/unchecked.
+   * When `true`, selects an item. Toggles when an item is checked/unchecked.
    */
   @Prop({ reflect: true, mutable: true }) selected = false;
 
@@ -110,19 +111,20 @@ export class PickListItem implements ConditionalSlotComponent, InteractiveCompon
   }
 
   /**
-   * Used as an accessible label (aria-label) for the "remove item" action. Only applicable if removable is true.
+   * When `removable` is `true`, the accessible name for the component's remove button.
+   *
    * @default "Remove"
    */
   @Prop({ reflect: true }) intlRemove = TEXT.remove;
 
   /**
-   * The item's associated value.
+   * The component's value.
    */
   @Prop() value!: any;
 
   @Watch("value")
   valueWatchHandler(newValue: any, oldValue: any): void {
-    this.calciteListItemValueChange.emit({ oldValue, newValue });
+    this.calciteInternalListItemValueChange.emit({ oldValue, newValue });
   }
 
   // --------------------------------------------------------------------------
@@ -162,9 +164,9 @@ export class PickListItem implements ConditionalSlotComponent, InteractiveCompon
   // --------------------------------------------------------------------------
 
   /**
-   * Emitted whenever the item is selected or unselected.
+   * Fires when the component is selected or unselected.
    */
-  @Event() calciteListItemChange: EventEmitter<{
+  @Event({ cancelable: false }) calciteListItemChange: EventEmitter<{
     item: HTMLCalcitePickListItemElement;
     value: any;
     selected: boolean;
@@ -172,21 +174,23 @@ export class PickListItem implements ConditionalSlotComponent, InteractiveCompon
   }>;
 
   /**
-   * Emitted whenever the remove button is pressed.
+   * Fires when the remove button is pressed.
    */
-  @Event() calciteListItemRemove: EventEmitter<void>;
+  @Event({ cancelable: true }) calciteListItemRemove: EventEmitter<void>;
 
   /**
-   * Emitted whenever the the item's label, description, value or metadata properties are modified.
+   * Emits when the component's label, description, value, or metadata properties are modified.
+   *
    * @internal
    */
-  @Event() calciteListItemPropsChange: EventEmitter<void>;
+  @Event({ cancelable: false }) calciteInternalListItemPropsChange: EventEmitter<void>;
 
   /**
-   * Emitted whenever the the item's value property is modified.
+   * Emits when the component's value property is modified.
+   *
    * @internal
    */
-  @Event() calciteListItemValueChange: EventEmitter<{
+  @Event({ cancelable: false }) calciteInternalListItemValueChange: EventEmitter<{
     oldValue: any;
     newValue: any;
   }>;
@@ -198,8 +202,10 @@ export class PickListItem implements ConditionalSlotComponent, InteractiveCompon
   // --------------------------------------------------------------------------
 
   /**
-   * Used to toggle the selection state. By default this won't trigger an event.
+   * Toggles the selection state. By default this won't trigger an event.
    * The first argument allows the value to be coerced, rather than swapping values.
+   *
+   * @param coerce
    */
   @Method()
   async toggleSelected(coerce?: boolean): Promise<void> {
@@ -318,7 +324,7 @@ export class PickListItem implements ConditionalSlotComponent, InteractiveCompon
           tabIndex={0}
         >
           <div
-            aria-checked={this.selected.toString()}
+            aria-checked={toAriaBoolean(this.selected)}
             class={CSS.textContainer}
             role="menuitemcheckbox"
           >

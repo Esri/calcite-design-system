@@ -1,7 +1,10 @@
 import { E2EPage, newE2EPage } from "@stencil/core/testing";
-import { accessible, defaults, disabled, popperOwner, renders } from "../../tests/commonTests";
+import { accessible, defaults, disabled, floatingUIOwner, renders, hidden } from "../../tests/commonTests";
 import dedent from "dedent";
 import { html } from "../../../support/formatting";
+import { CSS } from "./resources";
+import { GlobalTestProps } from "../../tests/utils";
+import { Selection } from "./interfaces";
 
 describe("calcite-dropdown", () => {
   it("renders", () =>
@@ -10,12 +13,14 @@ describe("calcite-dropdown", () => {
         <calcite-button slot="dropdown-trigger">Open dropdown</calcite-button>
         <calcite-dropdown-group id="group-1">
           <calcite-dropdown-item id="item-1"> Dropdown Item Content </calcite-dropdown-item>
-          <calcite-dropdown-item id="item-2" active> Dropdown Item Content </calcite-dropdown-item>
+          <calcite-dropdown-item id="item-2" selected> Dropdown Item Content </calcite-dropdown-item>
           <calcite-dropdown-item id="item-3"> Dropdown Item Content </calcite-dropdown-item>
         </calcite-dropdown-group>
       </calcite-dropdown>`,
       { display: "inline-flex" }
     ));
+
+  it("honors hidden attribute", async () => hidden("calcite-dropdown"));
 
   it("defaults", async () =>
     defaults("calcite-dropdown", [
@@ -35,38 +40,82 @@ describe("calcite-dropdown", () => {
         <calcite-button slot="dropdown-trigger">Open dropdown</calcite-button>
         <calcite-dropdown-group id="group-1">
           <calcite-dropdown-item id="item-1"> Dropdown Item Content </calcite-dropdown-item>
-          <calcite-dropdown-item id="item-2" active> Dropdown Item Content </calcite-dropdown-item>
+          <calcite-dropdown-item id="item-2" selected> Dropdown Item Content </calcite-dropdown-item>
           <calcite-dropdown-item id="item-3"> Dropdown Item Content </calcite-dropdown-item>
         </calcite-dropdown-group>
       </calcite-dropdown>`,
       { focusTarget: "child" }
     ));
 
+  interface SelectedItemsAssertionOptions {
+    /**
+     * IDs from items to assert selection
+     */
+    expectedItemIds: string[];
+
+    /**
+     * If testing on the event payload, the most recent ID is used to assert the
+     */
+    mostRecentId?: string;
+  }
+
   /**
    * Test helper for selected calcite-dropdown items. Expects items to have IDs to test against.
+   *
+   * Note: assertSelectedItems.setUpEvents must be called before using this method
+   *
+   * @param page
+   * @param root0
+   * @param root0.expectedItemIds
+   * @param root0.mostRecentId
    */
-  async function assertSelectedItems(page: E2EPage, expectedItemIds: string[]): Promise<void> {
+  async function assertSelectedItems(
+    page: E2EPage,
+    { expectedItemIds, mostRecentId }: SelectedItemsAssertionOptions
+  ): Promise<void> {
+    await page.waitForTimeout(100);
     const selectedItemIds = await page.evaluate(() => {
       const dropdown = document.querySelector<HTMLCalciteDropdownElement>("calcite-dropdown");
       return dropdown.selectedItems.map((item) => item.id);
     });
 
+    if (mostRecentId) {
+      const selectedItemId = await page.evaluate(() => {
+        return (window as SelectionEventTestWindow).eventDetail.item.id;
+      });
+      expect(selectedItemId).toBe(mostRecentId);
+    }
     expect(selectedItemIds).toHaveLength(expectedItemIds.length);
 
     expectedItemIds.forEach((itemId, index) => expect(selectedItemIds[index]).toEqual(itemId));
   }
 
+  type SelectionEventTestWindow = GlobalTestProps<{ eventDetail: Selection }>;
+
+  /**
+   * Helper to wire up the page to assert on the event detail
+   *
+   * @param page
+   */
+  assertSelectedItems.setUpEvents = async (page: E2EPage) => {
+    await page.evaluate(() => {
+      document.addEventListener("calciteDropdownSelect", ({ detail }: CustomEvent<Selection>) => {
+        (window as SelectionEventTestWindow).eventDetail = detail;
+      });
+    });
+  };
+
   const dropdownSelectionModeContent = html`
     <calcite-dropdown>
       <calcite-button slot="dropdown-trigger" id="trigger">Open dropdown</calcite-button>
-      <calcite-dropdown-group id="group-1" selection-mode="multi">
+      <calcite-dropdown-group id="group-1" selection-mode="multiple">
         <calcite-dropdown-item id="item-1"> Dropdown Item Content </calcite-dropdown-item>
-        <calcite-dropdown-item id="item-2" active> Dropdown Item Content </calcite-dropdown-item>
-        <calcite-dropdown-item id="item-3" active> Dropdown Item Content </calcite-dropdown-item>
+        <calcite-dropdown-item id="item-2" selected> Dropdown Item Content </calcite-dropdown-item>
+        <calcite-dropdown-item id="item-3" selected> Dropdown Item Content </calcite-dropdown-item>
       </calcite-dropdown-group>
       <calcite-dropdown-group id="group-2" selection-mode="single">
         <calcite-dropdown-item id="item-4"> Dropdown Item Content </calcite-dropdown-item>
-        <calcite-dropdown-item id="item-5" active> Dropdown Item Content </calcite-dropdown-item>
+        <calcite-dropdown-item id="item-5" selected> Dropdown Item Content </calcite-dropdown-item>
       </calcite-dropdown-group>
       <calcite-dropdown-group id="group-3" selection-mode="none">
         <calcite-dropdown-item id="item-6"> Dropdown Item Content </calcite-dropdown-item>
@@ -81,7 +130,7 @@ describe("calcite-dropdown", () => {
       <calcite-button slot="dropdown-trigger">Open dropdown</calcite-button>
       <calcite-dropdown-group id="group-1">
         <calcite-dropdown-item id="item-1"> Dropdown Item Content </calcite-dropdown-item>
-        <calcite-dropdown-item id="item-2" active> Dropdown Item Content </calcite-dropdown-item>
+        <calcite-dropdown-item id="item-2" selected> Dropdown Item Content </calcite-dropdown-item>
         <calcite-dropdown-item id="item-3"> Dropdown Item Content </calcite-dropdown-item>
       </calcite-dropdown-group>
     </calcite-dropdown>`);
@@ -89,18 +138,17 @@ describe("calcite-dropdown", () => {
     const element = await page.find("calcite-dropdown");
     const group1 = await element.find("calcite-dropdown-group[id='group-1']");
     expect(element).toEqualAttribute("scale", "m");
-    expect(element).toEqualAttribute("width", "m");
-    expect(element).toEqualAttribute("placement", "bottom-leading");
+    expect(element).toEqualAttribute("placement", "bottom-start");
     expect(group1).toEqualAttribute("selection-mode", "single");
   });
 
   it("renders requested props when valid props are provided", async () => {
     const page = await newE2EPage();
-    await page.setContent(html`<calcite-dropdown placement="bottom-trailing" scale="l" width="l">
+    await page.setContent(html`<calcite-dropdown placement="bottom-end" scale="l" width="l">
       <calcite-button slot="dropdown-trigger">Open dropdown</calcite-button>
-      <calcite-dropdown-group id="group-1" selection-mode="multi">
+      <calcite-dropdown-group id="group-1" selection-mode="multiple">
         <calcite-dropdown-item id="item-1"> Dropdown Item Content </calcite-dropdown-item>
-        <calcite-dropdown-item id="item-2" active> Dropdown Item Content </calcite-dropdown-item>
+        <calcite-dropdown-item id="item-2" selected> Dropdown Item Content </calcite-dropdown-item>
         <calcite-dropdown-item id="item-3"> Dropdown Item Content </calcite-dropdown-item>
       </calcite-dropdown-group>
     </calcite-dropdown>`);
@@ -109,8 +157,8 @@ describe("calcite-dropdown", () => {
     const group1 = await element.find("calcite-dropdown-group[id='group-1']");
     expect(element).toEqualAttribute("scale", "l");
     expect(element).toEqualAttribute("width", "l");
-    expect(element).toEqualAttribute("placement", "bottom-trailing");
-    expect(group1).toEqualAttribute("selection-mode", "multi");
+    expect(element).toEqualAttribute("placement", "bottom-end");
+    expect(group1).toEqualAttribute("selection-mode", "multiple");
   });
 
   it("renders icons if requested and does not render icons if not requested", async () => {
@@ -119,7 +167,7 @@ describe("calcite-dropdown", () => {
       <calcite-button slot="dropdown-trigger">Open dropdown</calcite-button>
       <calcite-dropdown-group>
         <calcite-dropdown-item icon-start="grid" id="item-1"> Dropdown Item Content </calcite-dropdown-item>
-        <calcite-dropdown-item icon-end="grid" id="item-2" active> Dropdown Item Content </calcite-dropdown-item>
+        <calcite-dropdown-item icon-end="grid" id="item-2" selected> Dropdown Item Content </calcite-dropdown-item>
         <calcite-dropdown-item icon-start="grid" icon-end="grid" id="item-3">
           Dropdown Item Content
         </calcite-dropdown-item>
@@ -151,11 +199,11 @@ describe("calcite-dropdown", () => {
       <calcite-button slot="dropdown-trigger">Open dropdown</calcite-button>
       <calcite-dropdown-group id="group-1" group-title="My Group 1 Title">
         <calcite-dropdown-item id="item-1"> Dropdown Item Content </calcite-dropdown-item>
-        <calcite-dropdown-item id="item-2" active> Dropdown Item Content </calcite-dropdown-item>
+        <calcite-dropdown-item id="item-2" selected> Dropdown Item Content </calcite-dropdown-item>
       </calcite-dropdown-group>
       <calcite-dropdown-group id="group-2">
         <calcite-dropdown-item id="item-3"> Dropdown Item Content </calcite-dropdown-item>
-        <calcite-dropdown-item id="item-4" active> Dropdown Item Content </calcite-dropdown-item>
+        <calcite-dropdown-item id="item-4" selected> Dropdown Item Content </calcite-dropdown-item>
       </calcite-dropdown-group>
     </calcite-dropdown>`);
 
@@ -165,13 +213,13 @@ describe("calcite-dropdown", () => {
     expect(group2Title).toBeNull();
   });
 
-  it("renders active item based on attribute in dom", async () => {
+  it("renders selected item based on attribute in dom", async () => {
     const page = await newE2EPage();
     await page.setContent(html`<calcite-dropdown>
       <calcite-button slot="dropdown-trigger">Open dropdown</calcite-button>
       <calcite-dropdown-group id="group-1">
         <calcite-dropdown-item id="item-1"> Dropdown Item Content </calcite-dropdown-item>
-        <calcite-dropdown-item id="item-2" active> Dropdown Item Content </calcite-dropdown-item>
+        <calcite-dropdown-item id="item-2" selected> Dropdown Item Content </calcite-dropdown-item>
         <calcite-dropdown-item id="item-3"> Dropdown Item Content </calcite-dropdown-item>
       </calcite-dropdown-group>
     </calcite-dropdown>`);
@@ -180,18 +228,23 @@ describe("calcite-dropdown", () => {
     const item1 = await element.find("calcite-dropdown-item[id='item-1']");
     const item2 = await element.find("calcite-dropdown-item[id='item-2']");
     const item3 = await element.find("calcite-dropdown-item[id='item-3']");
+
+    //active prop is deprecated
     expect(item1).not.toHaveAttribute("active");
-    expect(item2).toHaveAttribute("active");
     expect(item3).not.toHaveAttribute("active");
+
+    expect(item1).not.toHaveAttribute("selected");
+    expect(item2).toHaveAttribute("selected");
+    expect(item3).not.toHaveAttribute("selected");
   });
 
-  it("renders multiple active items when group is in multi selection mode", async () => {
+  it("renders multiple selected items when group is in multiple selection mode", async () => {
     const page = await newE2EPage();
     await page.setContent(html`<calcite-dropdown>
       <calcite-button id="trigger" slot="dropdown-trigger">Open dropdown</calcite-button>
-      <calcite-dropdown-group id="group-1" selection-mode="multi">
+      <calcite-dropdown-group id="group-1" selection-mode="multiple">
         <calcite-dropdown-item id="item-1"> Dropdown Item Content </calcite-dropdown-item>
-        <calcite-dropdown-item id="item-2" active> Dropdown Item Content </calcite-dropdown-item>
+        <calcite-dropdown-item id="item-2" selected> Dropdown Item Content </calcite-dropdown-item>
         <calcite-dropdown-item id="item-3"> Dropdown Item Content </calcite-dropdown-item>
       </calcite-dropdown-group>
     </calcite-dropdown>`);
@@ -203,36 +256,52 @@ describe("calcite-dropdown", () => {
     const item2 = await element.find("calcite-dropdown-item[id='item-2']");
     const item3 = await element.find("calcite-dropdown-item[id='item-3']");
     const itemChangeSpy = await element.spyOnEvent("calciteDropdownSelect");
-    expect(group1).toEqualAttribute("selection-mode", "multi");
+    await assertSelectedItems.setUpEvents(page);
+    expect(group1).toEqualAttribute("selection-mode", "multiple");
     await trigger.click();
     await page.waitForChanges();
-    await assertSelectedItems(page, ["item-2"]);
+    await assertSelectedItems(page, { expectedItemIds: ["item-2"] });
     await item1.click();
     await page.waitForChanges();
-    await assertSelectedItems(page, ["item-1", "item-2"]);
+    await assertSelectedItems(page, {
+      expectedItemIds: ["item-1", "item-2"],
+      mostRecentId: "item-1"
+    });
     await trigger.click();
     await page.waitForChanges();
     await item2.click();
     await page.waitForChanges();
-    await assertSelectedItems(page, ["item-1"]);
+    await assertSelectedItems(page, {
+      expectedItemIds: ["item-1"],
+      mostRecentId: "item-2"
+    });
     await trigger.click();
     await page.waitForChanges();
     await item3.click();
     await page.waitForChanges();
-    await assertSelectedItems(page, ["item-1", "item-3"]);
+    await assertSelectedItems(page, {
+      expectedItemIds: ["item-1", "item-3"],
+      mostRecentId: "item-3"
+    });
+
+    // active prop is deprecated
     expect(item1).toHaveAttribute("active");
     expect(item2).not.toHaveAttribute("active");
     expect(item3).toHaveAttribute("active");
+
+    expect(item1).toHaveAttribute("selected");
+    expect(item2).not.toHaveAttribute("selected");
+    expect(item3).toHaveAttribute("selected");
     expect(itemChangeSpy).toHaveReceivedEventTimes(3);
   });
 
-  it("renders just one active item when group is in single selection mode", async () => {
+  it("renders just one selected item when group is in single selection mode", async () => {
     const page = await newE2EPage();
     await page.setContent(html`<calcite-dropdown>
       <calcite-button id="trigger" slot="dropdown-trigger">Open dropdown</calcite-button>
       <calcite-dropdown-group id="group-1" selection-mode="single">
         <calcite-dropdown-item id="item-1"> Dropdown Item Content </calcite-dropdown-item>
-        <calcite-dropdown-item id="item-2" active> Dropdown Item Content </calcite-dropdown-item>
+        <calcite-dropdown-item id="item-2" selected> Dropdown Item Content </calcite-dropdown-item>
         <calcite-dropdown-item id="item-3"> Dropdown Item Content </calcite-dropdown-item>
       </calcite-dropdown-group>
     </calcite-dropdown>`);
@@ -244,32 +313,44 @@ describe("calcite-dropdown", () => {
     const item2 = await element.find("calcite-dropdown-item[id='item-2']");
     const item3 = await element.find("calcite-dropdown-item[id='item-3']");
     const itemChangeSpy = await element.spyOnEvent("calciteDropdownSelect");
+    await assertSelectedItems.setUpEvents(page);
     expect(group1).toEqualAttribute("selection-mode", "single");
-    await assertSelectedItems(page, ["item-2"]);
+    await assertSelectedItems(page, { expectedItemIds: ["item-2"] });
     await trigger.click();
     await page.waitForChanges();
     await item1.click();
     await page.waitForChanges();
-    await assertSelectedItems(page, ["item-1"]);
+    await assertSelectedItems(page, {
+      expectedItemIds: ["item-1"],
+      mostRecentId: "item-1"
+    });
     await trigger.click();
     await page.waitForChanges();
     await item3.click();
     await page.waitForChanges();
-    await assertSelectedItems(page, ["item-3"]);
+    await assertSelectedItems(page, {
+      expectedItemIds: ["item-3"],
+      mostRecentId: "item-3"
+    });
 
+    //active prop is deprecated
     expect(item1).not.toHaveAttribute("active");
     expect(item2).not.toHaveAttribute("active");
     expect(item3).toHaveAttribute("active");
+
+    expect(item1).not.toHaveAttribute("selected");
+    expect(item2).not.toHaveAttribute("selected");
+    expect(item3).toHaveAttribute("selected");
     expect(itemChangeSpy).toHaveReceivedEventTimes(2);
   });
 
-  it("renders no active item when group is in none selection mode (and removes any active state set in dom on load)", async () => {
+  it("renders no selected item when group is in none selection mode (and removes any selected state set in dom on load)", async () => {
     const page = await newE2EPage();
     await page.setContent(html`<calcite-dropdown>
       <calcite-button id="trigger" slot="dropdown-trigger">Open dropdown</calcite-button>
       <calcite-dropdown-group id="group-1" selection-mode="none">
         <calcite-dropdown-item id="item-1"> Dropdown Item Content </calcite-dropdown-item>
-        <calcite-dropdown-item id="item-2" active> Dropdown Item Content </calcite-dropdown-item>
+        <calcite-dropdown-item id="item-2" selected> Dropdown Item Content </calcite-dropdown-item>
         <calcite-dropdown-item id="item-3"> Dropdown Item Content </calcite-dropdown-item>
       </calcite-dropdown-group>
     </calcite-dropdown>`);
@@ -281,38 +362,44 @@ describe("calcite-dropdown", () => {
     const item2 = await element.find("calcite-dropdown-item[id='item-2']");
     const item3 = await element.find("calcite-dropdown-item[id='item-3']");
     const itemChangeSpy = await element.spyOnEvent("calciteDropdownSelect");
+    await assertSelectedItems.setUpEvents(page);
     expect(group1).toEqualAttribute("selection-mode", "none");
-    await assertSelectedItems(page, []);
     await trigger.click();
     await item1.click();
     await page.waitForChanges();
-    await assertSelectedItems(page, []);
+    await assertSelectedItems(page, { expectedItemIds: [], mostRecentId: "item-1" });
     await trigger.click();
     await item2.click();
     await page.waitForChanges();
-    await assertSelectedItems(page, []);
+    await assertSelectedItems(page, { expectedItemIds: [], mostRecentId: "item-2" });
     await trigger.click();
     await item3.click();
     await page.waitForChanges();
-    await assertSelectedItems(page, []);
+    await assertSelectedItems(page, { expectedItemIds: [], mostRecentId: "item-3" });
+
+    //active prop is deprecated
     expect(item1).not.toHaveAttribute("active");
     expect(item2).not.toHaveAttribute("active");
     expect(item3).not.toHaveAttribute("active");
+
+    expect(item1).not.toHaveAttribute("selected");
+    expect(item2).not.toHaveAttribute("selected");
+    expect(item3).not.toHaveAttribute("selected");
     expect(itemChangeSpy).toHaveReceivedEventTimes(3);
   });
 
-  it("renders the correct active state when parent contains groups of assorted selection modes", async () => {
+  it("renders the correct selected state when parent contains groups of assorted selection modes", async () => {
     const page = await newE2EPage();
     await page.setContent(html`<calcite-dropdown>
       <calcite-button slot="dropdown-trigger" id="trigger">Open dropdown</calcite-button>
-      <calcite-dropdown-group id="group-1" selection-mode="multi">
+      <calcite-dropdown-group id="group-1" selection-mode="multiple">
         <calcite-dropdown-item id="item-1"> Dropdown Item Content </calcite-dropdown-item>
-        <calcite-dropdown-item id="item-2" active> Dropdown Item Content </calcite-dropdown-item>
+        <calcite-dropdown-item id="item-2" selected> Dropdown Item Content </calcite-dropdown-item>
         <calcite-dropdown-item id="item-3"> Dropdown Item Content </calcite-dropdown-item>
       </calcite-dropdown-group>
       <calcite-dropdown-group id="group-2" selection-mode="single">
         <calcite-dropdown-item id="item-4"> Dropdown Item Content </calcite-dropdown-item>
-        <calcite-dropdown-item id="item-5" active> Dropdown Item Content </calcite-dropdown-item>
+        <calcite-dropdown-item id="item-5" selected> Dropdown Item Content </calcite-dropdown-item>
         <calcite-dropdown-item id="item-6"> Dropdown Item Content </calcite-dropdown-item>
       </calcite-dropdown-group>
       <calcite-dropdown-group id="group-3" selection-mode="none">
@@ -337,48 +424,71 @@ describe("calcite-dropdown", () => {
     const item8 = await element.find("calcite-dropdown-item[id='item-8']");
     const item9 = await element.find("calcite-dropdown-item[id='item-9']");
     const itemChangeSpy = await element.spyOnEvent("calciteDropdownSelect");
+    await assertSelectedItems.setUpEvents(page);
 
-    expect(group1).toEqualAttribute("selection-mode", "multi");
+    expect(group1).toEqualAttribute("selection-mode", "multiple");
     expect(group2).toEqualAttribute("selection-mode", "single");
     expect(group3).toEqualAttribute("selection-mode", "none");
-    await assertSelectedItems(page, ["item-2", "item-5"]);
+    await assertSelectedItems(page, { expectedItemIds: ["item-2", "item-5"] });
 
     await trigger.click();
     await page.waitForChanges();
     await item1.click();
     await page.waitForChanges();
-    await assertSelectedItems(page, ["item-1", "item-2", "item-5"]);
+    await assertSelectedItems(page, {
+      expectedItemIds: ["item-1", "item-2", "item-5"],
+      mostRecentId: "item-1"
+    });
     await trigger.click();
     await page.waitForChanges();
     await item2.click();
     await page.waitForChanges();
-    await assertSelectedItems(page, ["item-1", "item-5"]);
+    await assertSelectedItems(page, {
+      expectedItemIds: ["item-1", "item-5"],
+      mostRecentId: "item-2"
+    });
     await trigger.click();
     await page.waitForChanges();
     await item3.click();
     await page.waitForChanges();
-    await assertSelectedItems(page, ["item-1", "item-3", "item-5"]);
+    await assertSelectedItems(page, {
+      expectedItemIds: ["item-1", "item-3", "item-5"],
+      mostRecentId: "item-3"
+    });
     await trigger.click();
     await page.waitForChanges();
     await item4.click();
     await page.waitForChanges();
-    await assertSelectedItems(page, ["item-1", "item-3", "item-4"]);
+    await assertSelectedItems(page, {
+      expectedItemIds: ["item-1", "item-3", "item-4"],
+      mostRecentId: "item-4"
+    });
     await trigger.click();
     await page.waitForChanges();
     await item6.click();
     await page.waitForChanges();
-    await assertSelectedItems(page, ["item-1", "item-3", "item-6"]);
+    await assertSelectedItems(page, {
+      expectedItemIds: ["item-1", "item-3", "item-6"],
+      mostRecentId: "item-6"
+    });
     await trigger.click();
     await page.waitForChanges();
     await item7.click();
     await page.waitForChanges();
-    await assertSelectedItems(page, ["item-1", "item-3", "item-6"]);
+    await assertSelectedItems(page, {
+      expectedItemIds: ["item-1", "item-3", "item-6"],
+      mostRecentId: "item-7"
+    });
     await trigger.click();
     await page.waitForChanges();
     await item9.click();
     await page.waitForChanges();
-    await assertSelectedItems(page, ["item-1", "item-3", "item-6"]);
+    await assertSelectedItems(page, {
+      expectedItemIds: ["item-1", "item-3", "item-6"],
+      mostRecentId: "item-9"
+    });
 
+    //active is deprecated
     expect(item1).toHaveAttribute("active");
     expect(item2).not.toHaveAttribute("active");
     expect(item3).toHaveAttribute("active");
@@ -388,6 +498,16 @@ describe("calcite-dropdown", () => {
     expect(item7).not.toHaveAttribute("active");
     expect(item8).not.toHaveAttribute("active");
     expect(item9).not.toHaveAttribute("active");
+
+    expect(item1).toHaveAttribute("selected");
+    expect(item2).not.toHaveAttribute("selected");
+    expect(item3).toHaveAttribute("selected");
+    expect(item4).not.toHaveAttribute("selected");
+    expect(item5).not.toHaveAttribute("selected");
+    expect(item6).toHaveAttribute("selected");
+    expect(item7).not.toHaveAttribute("selected");
+    expect(item8).not.toHaveAttribute("selected");
+    expect(item9).not.toHaveAttribute("selected");
     expect(itemChangeSpy).toHaveReceivedEventTimes(7);
   });
 
@@ -410,7 +530,7 @@ describe("calcite-dropdown", () => {
     expect(elementAsLink).toEqualAttribute("target", "_blank");
   });
 
-  it("should focus the first item on open when there is no active item", async () => {
+  it("should focus the first item on open when there is no selected item", async () => {
     const page = await newE2EPage({
       html: html`<calcite-dropdown>
         <calcite-button slot="dropdown-trigger">Open Dropdown</calcite-button>
@@ -425,19 +545,19 @@ describe("calcite-dropdown", () => {
 
     const element = await page.find("calcite-dropdown");
     const dropdownOpenEvent = page.waitForEvent("calciteDropdownOpen");
-    element.click();
+    await element.click();
     await dropdownOpenEvent;
     expect(await page.evaluate(() => document.activeElement.id)).toEqual("item-1");
   });
 
-  it("should focus the first active item on open", async () => {
+  it("should focus the first selected item on open", async () => {
     const page = await newE2EPage({
       html: html`<calcite-dropdown>
         <calcite-button slot="dropdown-trigger">Open Dropdown</calcite-button>
         <calcite-dropdown-group>
           <calcite-dropdown-item id="item-1">1</calcite-dropdown-item>
           <calcite-dropdown-item id="item-2">2</calcite-dropdown-item>
-          <calcite-dropdown-item id="item-3" active>3</calcite-dropdown-item>
+          <calcite-dropdown-item id="item-3" selected>3</calcite-dropdown-item>
           <calcite-dropdown-item id="item-4">4</calcite-dropdown-item>
         </calcite-dropdown-group>
       </calcite-dropdown>`
@@ -445,28 +565,28 @@ describe("calcite-dropdown", () => {
 
     const element = await page.find("calcite-dropdown");
     const dropdownOpenEvent = page.waitForEvent("calciteDropdownOpen");
-    element.click();
+    await element.click();
     await dropdownOpenEvent;
 
     expect(await page.evaluate(() => document.activeElement.id)).toEqual("item-3");
   });
 
-  it("should focus the first active item on open (multi)", async () => {
+  it("should focus the first selected item on open (multi)", async () => {
     const page = await newE2EPage({
       html: html`<calcite-dropdown>
         <calcite-button slot="dropdown-trigger">Open Dropdown</calcite-button>
-        <calcite-dropdown-group selection-mode="multi">
+        <calcite-dropdown-group selection-mode="multiple">
           <calcite-dropdown-item id="item-1">1</calcite-dropdown-item>
-          <calcite-dropdown-item id="item-2" active>2</calcite-dropdown-item>
+          <calcite-dropdown-item id="item-2" selected>2</calcite-dropdown-item>
           <calcite-dropdown-item id="item-3">3</calcite-dropdown-item>
-          <calcite-dropdown-item id="item-4" active>4</calcite-dropdown-item>
+          <calcite-dropdown-item id="item-4" selected>4</calcite-dropdown-item>
         </calcite-dropdown-group>
       </calcite-dropdown>`
     });
 
     const element = await page.find("calcite-dropdown");
     const dropdownOpenEvent = page.waitForEvent("calciteDropdownOpen");
-    element.click();
+    await element.click();
     await dropdownOpenEvent;
 
     expect(await page.evaluate(() => document.activeElement.id)).toEqual("item-2");
@@ -518,14 +638,14 @@ describe("calcite-dropdown", () => {
           <calcite-dropdown-item id="item-47">47</calcite-dropdown-item>
           <calcite-dropdown-item id="item-48">48</calcite-dropdown-item>
           <calcite-dropdown-item id="item-49">49</calcite-dropdown-item>
-          <calcite-dropdown-item id="item-50" active>50</calcite-dropdown-item>
+          <calcite-dropdown-item id="item-50" selected>50</calcite-dropdown-item>
         </calcite-dropdown-group>
       </calcite-dropdown>`);
       await page.waitForChanges();
 
       const element = await page.find("calcite-dropdown");
       const dropdownOpenEvent = page.waitForEvent("calciteDropdownOpen");
-      element.click();
+      await element.click();
       await dropdownOpenEvent;
 
       expect(await page.evaluate(() => document.activeElement.id)).toEqual("item-50");
@@ -559,7 +679,7 @@ describe("calcite-dropdown", () => {
 
       const element = await page.find("calcite-dropdown");
       const dropdownOpenEvent = page.waitForEvent("calciteDropdownOpen");
-      element.click();
+      await element.click();
       await dropdownOpenEvent;
 
       const items = await page.findAll("calcite-dropdown-item");
@@ -584,7 +704,7 @@ describe("calcite-dropdown", () => {
       <calcite-button id="trigger" slot="dropdown-trigger">Open dropdown</calcite-button>
       <calcite-dropdown-group id="group-1" selection-mode="single">
         <calcite-dropdown-item id="item-1"> Dropdown Item Content </calcite-dropdown-item>
-        <calcite-dropdown-item id="item-2" active> Dropdown Item Content </calcite-dropdown-item>
+        <calcite-dropdown-item id="item-2" selected> Dropdown Item Content </calcite-dropdown-item>
         <calcite-dropdown-item id="item-3"> Dropdown Item Content </calcite-dropdown-item>
       </calcite-dropdown-group>
     </calcite-dropdown>`);
@@ -608,7 +728,7 @@ describe("calcite-dropdown", () => {
       <calcite-button id="trigger" slot="dropdown-trigger">Open dropdown</calcite-button>
       <calcite-dropdown-group id="group-1" selection-mode="single">
         <calcite-dropdown-item id="item-1"> Dropdown Item Content </calcite-dropdown-item>
-        <calcite-dropdown-item id="item-2" active> Dropdown Item Content </calcite-dropdown-item>
+        <calcite-dropdown-item id="item-2" selected> Dropdown Item Content </calcite-dropdown-item>
         <calcite-dropdown-item>
           <div id="item-3">Dropdown Item Content</div>
         </calcite-dropdown-item>
@@ -666,7 +786,7 @@ describe("calcite-dropdown", () => {
           <calcite-button slot="dropdown-trigger">Open dropdown</calcite-button>
           <calcite-dropdown-group selection-mode="single">
             <calcite-dropdown-item id="item-1"> Dropdown Item Content </calcite-dropdown-item>
-            <calcite-dropdown-item id="item-2" active> Dropdown Item Content </calcite-dropdown-item>
+            <calcite-dropdown-item id="item-2" selected> Dropdown Item Content </calcite-dropdown-item>
           </calcite-dropdown-group>
         </calcite-dropdown>
       `);
@@ -711,7 +831,7 @@ describe("calcite-dropdown", () => {
           <calcite-action slot="dropdown-trigger">Open dropdown</calcite-action>
           <calcite-dropdown-group selection-mode="single">
             <calcite-dropdown-item id="item-1"> Dropdown Item Content</calcite-dropdown-item>
-            <calcite-dropdown-item id="item-2" active> Dropdown Item Content</calcite-dropdown-item>
+            <calcite-dropdown-item id="item-2" selected> Dropdown Item Content</calcite-dropdown-item>
           </calcite-dropdown-group>
         </calcite-dropdown>
       `);
@@ -756,7 +876,7 @@ describe("calcite-dropdown", () => {
         <calcite-button id="trigger" slot="dropdown-trigger">Open dropdown</calcite-button>
         <calcite-dropdown-group id="group-1" selection-mode="single">
           <calcite-dropdown-item id="item-1"> Dropdown Item Content </calcite-dropdown-item>
-          <calcite-dropdown-item id="item-2" active> Dropdown Item Content </calcite-dropdown-item>
+          <calcite-dropdown-item id="item-2" selected> Dropdown Item Content </calcite-dropdown-item>
           <calcite-dropdown-item id="item-3"> Dropdown Item Content </calcite-dropdown-item>
         </calcite-dropdown-group>
       </calcite-dropdown>
@@ -764,7 +884,7 @@ describe("calcite-dropdown", () => {
         <calcite-button id="trigger" slot="dropdown-trigger">Open dropdown</calcite-button>
         <calcite-dropdown-group id="group-1" selection-mode="single">
           <calcite-dropdown-item id="item-1"> Dropdown Item Content </calcite-dropdown-item>
-          <calcite-dropdown-item id="item-2" active> Dropdown Item Content </calcite-dropdown-item>
+          <calcite-dropdown-item id="item-2" selected> Dropdown Item Content </calcite-dropdown-item>
           <calcite-dropdown-item id="item-3"> Dropdown Item Content </calcite-dropdown-item>
         </calcite-dropdown-group>
       </calcite-dropdown>`);
@@ -794,7 +914,7 @@ describe("calcite-dropdown", () => {
         <calcite-button id="trigger" slot="dropdown-trigger">Open dropdown</calcite-button>
         <calcite-dropdown-group id="group-1" selection-mode="single">
           <calcite-dropdown-item id="item-1"> Dropdown Item Content </calcite-dropdown-item>
-          <calcite-dropdown-item id="item-2" active> Dropdown Item Content </calcite-dropdown-item>
+          <calcite-dropdown-item id="item-2" selected> Dropdown Item Content </calcite-dropdown-item>
           <calcite-dropdown-item id="item-3"> Dropdown Item Content </calcite-dropdown-item>
         </calcite-dropdown-group>
       </calcite-dropdown>
@@ -822,7 +942,7 @@ describe("calcite-dropdown", () => {
         <calcite-icon class="trigger" icon="caretDown" scale="s" slot="dropdown-trigger"></calcite-icon>
         <calcite-dropdown-group id="group-1" selection-mode="single">
           <calcite-dropdown-item id="item-1"> Dropdown Item Content </calcite-dropdown-item>
-          <calcite-dropdown-item id="item-2" active> Dropdown Item Content </calcite-dropdown-item>
+          <calcite-dropdown-item id="item-2" selected> Dropdown Item Content </calcite-dropdown-item>
           <calcite-dropdown-item id="item-3"> Dropdown Item Content </calcite-dropdown-item>
         </calcite-dropdown-group>
       </calcite-dropdown>
@@ -865,9 +985,9 @@ describe("calcite-dropdown", () => {
     const item6 = await element.find("calcite-dropdown-item[id='item-6']");
     const item7 = await element.find("calcite-dropdown-item[id='item-7']");
 
-    expect(group1).toEqualAttribute("role", "menu");
-    expect(group2).toEqualAttribute("role", "menu");
-    expect(group3).toEqualAttribute("role", "menu");
+    expect(group1).toEqualAttribute("role", "group");
+    expect(group2).toEqualAttribute("role", "group");
+    expect(group3).toEqualAttribute("role", "group");
 
     expect(item1).toEqualAttribute("role", "menuitemcheckbox");
     expect(item1).toEqualAttribute("aria-checked", "false");
@@ -896,7 +1016,7 @@ describe("calcite-dropdown", () => {
       <calcite-dropdown disable-close-on-select>
         <calcite-button slot="dropdown-trigger">Open</calcite-button>
         <calcite-dropdown-group selection-mode="single">
-          <calcite-dropdown-item id="item-1" active>1</calcite-dropdown-item>
+          <calcite-dropdown-item id="item-1" selected>1</calcite-dropdown-item>
           <calcite-dropdown-item id="item-2">2</calcite-dropdown-item>
           <calcite-dropdown-item id="item-3">3</calcite-dropdown-item>
         </calcite-dropdown-group>
@@ -908,13 +1028,12 @@ describe("calcite-dropdown", () => {
       // so they're available in the browser-evaluated fn below
       html: wrappedDropdownTemplateHTML
     });
-
     await page.waitForChanges();
 
-    const finalSelectedItem = await page.evaluate(
-      async (templateHTML: string): Promise<string> => {
-        const wrapperName = "dropdown-wrapping-component";
+    const wrapperName = "dropdown-wrapping-component";
 
+    await page.evaluate(
+      async (templateHTML: string, wrapperName: string): Promise<void> => {
         customElements.define(
           wrapperName,
           class extends HTMLElement {
@@ -931,19 +1050,23 @@ describe("calcite-dropdown", () => {
         document.body.innerHTML = `<${wrapperName}></${wrapperName}>`;
 
         const wrapper = document.querySelector(wrapperName);
-        wrapper.shadowRoot.querySelector<HTMLElement>("#item-3").click();
-        await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
-        await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
-
-        return wrapper.shadowRoot.querySelector("calcite-dropdown-item[active]").id;
+        wrapper.shadowRoot.querySelector<HTMLCalciteDropdownItemElement>("#item-3").click();
       },
-      [wrappedDropdownTemplateHTML]
+      wrappedDropdownTemplateHTML,
+      wrapperName
     );
 
-    expect(finalSelectedItem).toBe("item-3");
+    await page.waitForChanges();
+
+    const finalSelectedItem = await page.evaluate(async (wrapperName: string): Promise<string> => {
+      const wrapper = document.querySelector(wrapperName);
+      return wrapper.shadowRoot.querySelector("calcite-dropdown-item[selected]").id;
+    }, wrapperName);
+
+    await expect(finalSelectedItem).toBe("item-3");
   });
 
-  it("dropdown should not overflow when wrapped inside a tab #3007", async () => {
+  it.skip("dropdown should not overflow when wrapped inside a tab #3007", async () => {
     const page = await newE2EPage({
       html: html`<calcite-tabs>
         <calcite-tab-nav slot="tab-nav">
@@ -976,11 +1099,11 @@ describe("calcite-dropdown", () => {
     ).toBe(false);
   });
 
-  it("dropdown wrapper shouldn't have height when filter results empty and combined with a PickList in Panel  #3048", async () => {
+  it("dropdown wrapper should have height when filter results empty and combined with a PickList in Panel  #3048", async () => {
     const page = await newE2EPage({
       html: html`<calcite-panel heading="Issue #3048">
         <calcite-pick-list filter-enabled>
-          <calcite-dropdown slot="menu-actions" placement="bottom-trailing" type="click">
+          <calcite-dropdown slot="menu-actions" placement="bottom-end" type="click">
             <calcite-action slot="dropdown-trigger" title="Sort" icon="sort-descending"> </calcite-action>
             <calcite-dropdown-group selection-mode="single">
               <calcite-dropdown-item>Display name</calcite-dropdown-item>
@@ -1004,22 +1127,75 @@ describe("calcite-dropdown", () => {
       filterInput.value = "nums";
     });
 
-    expect(dropdownContentHeight.height).toBe("0px");
+    expect(dropdownContentHeight.height).toBe("64px");
   });
 
-  it("owns a popper", () =>
-    popperOwner(
+  it("owns a floating-ui", () =>
+    floatingUIOwner(
       html` <calcite-dropdown>
         <calcite-button slot="dropdown-trigger">Open</calcite-button>
         <calcite-dropdown-group selection-mode="single">
-          <calcite-dropdown-item id="item-1" active>1</calcite-dropdown-item>
+          <calcite-dropdown-item id="item-1" selected>1</calcite-dropdown-item>
           <calcite-dropdown-item id="item-2">2</calcite-dropdown-item>
           <calcite-dropdown-item id="item-3">3</calcite-dropdown-item>
         </calcite-dropdown-group>
       </calcite-dropdown>`,
-      "active",
+      "open",
       {
-        shadowPopperSelector: ".calcite-dropdown-wrapper"
+        shadowSelector: ".calcite-dropdown-wrapper"
       }
     ));
+
+  it("should emit component status for transition-chained events: 'calciteDropdownBeforeOpen', 'calciteDropdownOpen', 'calciteDropdownBeforeClose', 'calciteDropdownClose'", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html`
+      <calcite-dropdown>
+        <calcite-button slot="dropdown-trigger">Open dropdown</calcite-button>
+        <calcite-dropdown-group id="group-1">
+          <calcite-dropdown-item id="item-1"> Dropdown Item Content </calcite-dropdown-item>
+          <calcite-dropdown-item id="item-2" selected> Dropdown Item Content </calcite-dropdown-item>
+          <calcite-dropdown-item id="item-3"> Dropdown Item Content </calcite-dropdown-item>
+        </calcite-dropdown-group>
+      </calcite-dropdown>
+    `);
+    const element = await page.find(`calcite-dropdown`);
+    const group = await page.find(`calcite-dropdown >>> .${CSS.calciteDropdownContent}`);
+
+    expect(await group.isVisible()).toBe(false);
+
+    const calciteDropdownBeforeOpenEvent = page.waitForEvent("calciteDropdownBeforeOpen");
+    const calciteDropdownOpenEvent = page.waitForEvent("calciteDropdownOpen");
+
+    const calciteDropdownBeforeOpenSpy = await element.spyOnEvent("calciteDropdownBeforeOpen");
+    const calciteDropdownOpenSpy = await element.spyOnEvent("calciteDropdownOpen");
+
+    await element.setProperty("active", true);
+    await page.waitForChanges();
+
+    expect(await element.getProperty("open")).toBe(true);
+    await calciteDropdownBeforeOpenEvent;
+    await calciteDropdownOpenEvent;
+
+    expect(calciteDropdownBeforeOpenSpy).toHaveReceivedEventTimes(1);
+    expect(calciteDropdownOpenSpy).toHaveReceivedEventTimes(1);
+
+    expect(await group.isVisible()).toBe(true);
+
+    const calciteDropdownBeforeCloseEvent = page.waitForEvent("calciteDropdownBeforeClose");
+    const calciteDropdownCloseEvent = page.waitForEvent("calciteDropdownClose");
+
+    const calciteDropdownBeforeCloseSpy = await element.spyOnEvent("calciteDropdownBeforeClose");
+    const calciteDropdownCloseSpy = await element.spyOnEvent("calciteDropdownClose");
+
+    await element.setProperty("active", false);
+    await page.waitForChanges();
+
+    await calciteDropdownBeforeCloseEvent;
+    await calciteDropdownCloseEvent;
+
+    expect(calciteDropdownBeforeCloseSpy).toHaveReceivedEventTimes(1);
+    expect(calciteDropdownCloseSpy).toHaveReceivedEventTimes(1);
+
+    expect(await group.isVisible()).toBe(false);
+  });
 });

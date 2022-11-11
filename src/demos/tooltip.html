@@ -31,9 +31,9 @@
   </head>
 
   <body>
-    <h1 style="margin: 0 auto; text-align: center">Tooltip</h1>
+    <demo-dom-swapper>
+      <h1 style="margin: 0 auto; text-align: center">Tooltip</h1>
 
-    <calcite-tooltip-manager>
       <div class="parent">
         <div class="child"></div>
         <div class="child">default</div>
@@ -153,6 +153,38 @@
 
         <div class="child">
           <calcite-button appearance="outline" id="tooltip-trailing-end-ref">trailing-end</calcite-button>
+        </div>
+      </div>
+
+      <!-- disabled -->
+      <div class="parent">
+        <div class="child right-aligned-text">disabled</div>
+
+        <div class="child">
+          <calcite-button disabled appearance="outline" id="tooltip-auto-disabled-ref">auto</calcite-button>
+        </div>
+
+        <div class="child">
+          <calcite-button disabled appearance="outline" id="tooltip-auto-start-disabled-ref">auto-start</calcite-button>
+        </div>
+        <div class="child">
+          <calcite-button disabled appearance="outline" id="tooltip-auto-end-disabled-ref">auto-end</calcite-button>
+        </div>
+      </div>
+
+      <!-- disabled native -->
+      <div class="parent">
+        <div class="child right-aligned-text">disabled</div>
+
+        <div class="child">
+          <button disabled id="tooltip-auto-disabled-native-ref">auto</button>
+        </div>
+
+        <div class="child">
+          <button disabled id="tooltip-auto-start-disabled-native-ref">auto</button>
+        </div>
+        <div class="child">
+          <button disabled id="tooltip-auto-end-disabled-native-ref">auto</button>
         </div>
       </div>
 
@@ -287,7 +319,55 @@
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
           magna aliqua.
         </calcite-tooltip>
+
+        <calcite-tooltip label="tooltip - auto" placement="auto" reference-element="tooltip-auto-disabled-ref">
+          <p>placement: auto</p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+          magna aliqua.
+        </calcite-tooltip>
+        <calcite-tooltip
+          label="tooltip - auto-start"
+          placement="auto-start"
+          reference-element="tooltip-auto-start-disabled-ref"
+        >
+          <p>placement: auto-start</p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+          magna aliqua.
+        </calcite-tooltip>
+        <calcite-tooltip
+          label="tooltip - auto-end"
+          placement="auto-end"
+          reference-element="tooltip-auto-end-disabled-ref"
+        >
+          <p>placement: auto-end</p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+          magna aliqua.
+        </calcite-tooltip>
+
+        <calcite-tooltip label="tooltip - auto" placement="auto" reference-element="tooltip-auto-disabled-native-ref">
+          <p>placement: auto</p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+          magna aliqua.
+        </calcite-tooltip>
+        <calcite-tooltip
+          label="tooltip - auto-start"
+          placement="auto-start"
+          reference-element="tooltip-auto-start-disabled-native-ref"
+        >
+          <p>placement: auto-start</p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+          magna aliqua.
+        </calcite-tooltip>
+        <calcite-tooltip
+          label="tooltip - auto-end"
+          placement="auto-end"
+          reference-element="tooltip-auto-end-disabled-native-ref"
+        >
+          <p>placement: auto-end</p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+          magna aliqua.
+        </calcite-tooltip>
       </div>
-    </calcite-tooltip-manager>
+    </demo-dom-swapper>
   </body>
 </html>

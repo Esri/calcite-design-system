@@ -18,6 +18,8 @@ const observerOptions: Pick<Parameters<MutationObserver["observe"]>[1], "childLi
 
 /**
  * Helper to set up a conditional slot component on connectedCallback.
+ *
+ * @param component
  */
 export function connectConditionalSlotComponent(component: ConditionalSlotComponent): void {
   if (!mutationObserver) {
@@ -29,6 +31,8 @@ export function connectConditionalSlotComponent(component: ConditionalSlotCompon
 
 /**
  * Helper to tear down a conditional slot component on disconnectedCallback.
+ *
+ * @param component
  */
 export function disconnectConditionalSlotComponent(component: ConditionalSlotComponent): void {
   observed.delete(component.el);

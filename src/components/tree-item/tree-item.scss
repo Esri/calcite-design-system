@@ -2,9 +2,11 @@
   @apply text-color-3
     block
     max-w-full
-    cursor-pointer
-    outline-none;
+    cursor-pointer;
 }
+
+@include calciteHydratedHidden();
+@include disabled();
 
 :host([scale="s"]) {
   @apply text-n2h;
@@ -54,12 +56,12 @@
         absolute
         top-0
         w-px
-        transition-colors;
+        transition-colors
+        z-default;
     // ensure lines don't overlap focus outline
-    height: 96%;
+    block-size: 96%;
     content: "";
     background-color: var(--calcite-ui-border-2);
-    z-index: -1;
   }
 }
 
@@ -84,17 +86,20 @@
 :host {
   @apply focus-base;
 }
-:host(:focus) {
-  @apply focus-inset;
+:host(:focus:not([disabled])) {
+  @apply focus-inset outline-none;
 }
 
 .checkbox {
-  @apply outline-none;
   line-height: 0;
 }
 
 .checkbox-label {
   @apply pointer-events-none flex items-center;
+}
+
+.checkbox:focus {
+  @apply outline-none;
 }
 
 .children-container {
@@ -109,13 +114,14 @@
   :host([expanded]) > & {
     transform: scaleY(1);
     opacity: 1;
-    height: auto;
+    block-size: auto;
   }
 }
 
 .node-container {
   @apply relative flex items-center;
-  padding: var(--calcite-tree-padding-y) 0;
+  padding-block: var(--calcite-tree-padding-y);
+  padding-inline: 0;
 
   .checkmark,
   .bullet-point {
@@ -126,7 +132,7 @@
 
 .node-container:hover,
 :host([selected]) .node-container:hover,
-:host(:focus) .node-container {
+:host(:focus:not([disabled])) .node-container {
   .checkmark,
   .bullet-point {
     @apply opacity-100;
@@ -141,6 +147,18 @@
   .checkmark {
     @apply opacity-100;
     color: theme("colors.brand");
+  }
+}
+
+:host([selection-mode="none"]:not([has-children])) {
+  &:host([scale="s"]) > .node-container {
+    padding-inline-start: theme("padding.2");
+  }
+  &:host([scale="m"]) > .node-container {
+    padding-inline-start: theme("padding.4");
+  }
+  &:host([scale="l"]) > .node-container {
+    padding-inline-start: theme("padding.6");
   }
 }
 
@@ -172,16 +190,16 @@
 }
 
 // dropdown expanded and not selected
-:host([has-children][expanded]:not([selected])) > .node-container {
+:host([has-children][expanded]:not([selected]):not([selection-mode="none"])) > .node-container {
   ::slotted(*) {
     @apply text-color-1 font-medium;
   }
 }
 
-// dropdown selected (for children, multi-children selected parents)
+// dropdown selected (for children, multichildren selected parents)
 :host([has-children][selected]) > .node-container {
   &[data-selection-mode="children"],
-  &[data-selection-mode="multi-children"] {
+  &[data-selection-mode="multichildren"] {
     color: var(--calcite-ui-brand);
   }
 }

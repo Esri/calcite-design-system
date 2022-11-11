@@ -1,0 +1,67 @@
+name: Test
+description: Associate issue for a test (e.g., a new test, an unstable test that was skipped, Screener, etc.)
+labels: ["testing", "0 - new", "p - high"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        - Please [check for existing issues](https://github.com/Esri/calcite-components/issues) to avoid duplicates. If someone has already opened an issue for what you are experiencing, please add a 👍 reaction to the existing issue instead of creating a new one.
+        - For support, please check the [community forum](https://developers.arcgis.com/calcite-design-system/community/).
+  - type: input
+    id: type
+    attributes:
+      label: Test type
+      description: What type of test is being requested?
+      placeholder: "e.g., new test, unstable test, Screener, etc."
+    validations:
+      required: true
+  - type: input
+    id: component
+    attributes:
+      label: Which Component(s)
+    validations:
+      required: true
+  - type: textarea
+    id: tests
+    attributes:
+      label: Unstable Tests
+      description: List the unstable test(s) or suite(s), if applicable
+      placeholder: "calcite-foo a11y check › setFocus › can focus some button"
+    validations:
+      required: false
+  - type: textarea
+    id: error
+    attributes:
+      label: Test error, if applicable
+      description: Copy and paste the error stack trace.
+      placeholder: |
+        FAIL src/components/calcite-foo/calcite-foo.e2e.ts (32.825 s)
+        ● calcite-foo a11y check › setFocus › can focus some button
+          expect(received).toBe(expected) // Object.is equality
+          Expected: true
+          Received: false
+            165 |   }
+            166 |
+          > 167 |   expect(await page.evaluate((selector) => document.activeElement.matches(selector), focusTargetSelector)).toBe(true);
+                |                                                                                                            ^
+            168 | }
+            169 |
+            at Object.focusable (src/tests/commonTests.ts:167:108)
+                at runMicrotasks (<anonymous>)
+    validations:
+      required: false
+  - type: input
+    id: pr
+    attributes:
+      label: PR skipped, if applicable
+      description: Which PR skipped the unstable test(s)?
+      value: "#"
+    validations:
+      required: false
+  - type: textarea
+    id: info
+    attributes:
+      label: Additional Info
+      description: Any info that may help fix the test.
+    validations:
+      required: false

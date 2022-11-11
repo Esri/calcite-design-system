@@ -4,21 +4,21 @@
 
 ## Properties
 
-| Property             | Attribute             | Description                                                                                                                        | Type                                        | Default      |
-| -------------------- | --------------------- | ---------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------- | ------------ |
-| `expanded`           | `expanded`            | Indicates whether widget is expanded.                                                                                              | `boolean`                                   | `false`      |
-| `flipPlacements`     | --                    | Defines the available placements that can be used when a flip occurs.                                                              | `ComputedPlacement[]`                       | `undefined`  |
-| `label` _(required)_ | `label`               | Text string for the actions menu.                                                                                                  | `string`                                    | `undefined`  |
-| `open`               | `open`                | Opens the action menu.                                                                                                             | `boolean`                                   | `false`      |
-| `overlayPositioning` | `overlay-positioning` | Describes the type of positioning to use for the overlaid content. If your element is in a fixed container, use the 'fixed' value. | `"absolute" \| "fixed"`                     | `"absolute"` |
-| `placement`          | `placement`           | Determines where the component will be positioned relative to the referenceElement.                                                | `Placement \| PlacementRtl \| VariationRtl` | `"auto"`     |
-| `scale`              | `scale`               | Specifies the size of the menu trigger action.                                                                                     | `"l" \| "m" \| "s"`                         | `undefined`  |
+| Property             | Attribute             | Description                                                                                                                                                                                                                                                                                                                                                                 | Type                                                                      | Default      |
+| -------------------- | --------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------- | ------------ |
+| `expanded`           | `expanded`            | When `true`, the component is expanded.                                                                                                                                                                                                                                                                                                                                     | `boolean`                                                                 | `false`      |
+| `flipPlacements`     | --                    | Defines the available placements that can be used when a flip occurs.                                                                                                                                                                                                                                                                                                       | `Placement[]`                                                             | `undefined`  |
+| `label` _(required)_ | `label`               | Specifies the text string for the component.                                                                                                                                                                                                                                                                                                                                | `string`                                                                  | `undefined`  |
+| `open`               | `open`                | When `true`, the component is open.                                                                                                                                                                                                                                                                                                                                         | `boolean`                                                                 | `false`      |
+| `overlayPositioning` | `overlay-positioning` | Determines the type of positioning to use for the overlaid content. Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout. `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`. | `"absolute" \| "fixed"`                                                   | `"absolute"` |
+| `placement`          | `placement`           | Determines where the component will be positioned relative to the `referenceElement`.                                                                                                                                                                                                                                                                                       | `Placement \| VariationPlacement \| AutoPlacement \| DeprecatedPlacement` | `"auto"`     |
+| `scale`              | `scale`               | Specifies the size of the component's trigger `calcite-action`.                                                                                                                                                                                                                                                                                                             | `"l" \| "m" \| "s"`                                                       | `undefined`  |
 
 ## Events
 
-| Event                         | Description                                 | Type               |
-| ----------------------------- | ------------------------------------------- | ------------------ |
-| `calciteActionMenuOpenChange` | Emitted when the open property has changed. | `CustomEvent<any>` |
+| Event                         | Description                                                                                                                                     | Type               |
+| ----------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- | ------------------ |
+| `calciteActionMenuOpenChange` | Emits when the `open` property has changed. **Note:**: The event payload is deprecated, please use the `open` property on the component instead | `CustomEvent<any>` |
 
 ## Methods
 
@@ -49,7 +49,6 @@ Type: `Promise<void>`
 ### Depends on
 
 - [calcite-action](../action)
-- [calcite-tooltip-manager](../tooltip-manager)
 - [calcite-popover](../popover)
 
 ### Graph
@@ -57,7 +56,6 @@ Type: `Promise<void>`
 ```mermaid
 graph TD;
   calcite-action-menu --> calcite-action
-  calcite-action-menu --> calcite-tooltip-manager
   calcite-action-menu --> calcite-popover
   calcite-action --> calcite-loader
   calcite-action --> calcite-icon

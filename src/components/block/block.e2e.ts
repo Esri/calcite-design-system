@@ -137,11 +137,11 @@ describe("calcite-block", () => {
       expect(heading).toBeTruthy();
       expect(heading.innerText).toBe("test-heading");
 
-      const summary = await page.find(`calcite-block >>> .${CSS.summary}`);
-      expect(summary).toBeNull();
+      const description = await page.find(`calcite-block >>> .${CSS.description}`);
+      expect(description).toBeNull();
     });
 
-    it("renders a heading with optional summary", async () => {
+    it("renders a heading with optional summary (deprecated)", async () => {
       const page = await newE2EPage();
 
       await page.setContent(`<calcite-block heading="test-heading" summary="test-summary"></calcite-block>`);
@@ -149,8 +149,20 @@ describe("calcite-block", () => {
       const heading = await page.find(`calcite-block >>> .${CSS.heading}`);
       expect(heading).toBeTruthy();
 
-      const summary = await page.find(`calcite-block >>> .${CSS.summary}`);
+      const summary = await page.find(`calcite-block >>> .${CSS.description}`);
       expect(summary.innerText).toBe("test-summary");
+    });
+
+    it("renders a heading with optional description", async () => {
+      const page = await newE2EPage();
+
+      await page.setContent(`<calcite-block heading="test-heading" description="test-summary"></calcite-block>`);
+
+      const heading = await page.find(`calcite-block >>> .${CSS.heading}`);
+      expect(heading).toBeTruthy();
+
+      const description = await page.find(`calcite-block >>> .${CSS.description}`);
+      expect(description.innerText).toBe("test-summary");
     });
 
     it("allows users to add a control in a collapsible block", async () => {

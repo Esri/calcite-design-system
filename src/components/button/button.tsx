@@ -7,6 +7,7 @@ import { FlipContext, Scale, Width } from "../interfaces";
 import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
 import { createObserver } from "../../utils/observers";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import { submitForm, resetForm, FormOwner } from "../../utils/form";
 
 /** Passing a 'href' will render an anchor link, instead of a button. Role will be set to link, or button, depending on this. */
 /** It is the consumers responsibility to add aria information, rel, target, for links, and any button attributes for form submission */
@@ -17,7 +18,7 @@ import { InteractiveComponent, updateHostInteraction } from "../../utils/interac
   styleUrl: "button.scss",
   shadow: true
 })
-export class Button implements LabelableComponent, InteractiveComponent {
+export class Button implements LabelableComponent, InteractiveComponent, FormOwner {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -32,70 +33,88 @@ export class Button implements LabelableComponent, InteractiveComponent {
   //
   //--------------------------------------------------------------------------
 
-  /** optionally specify alignment of button elements. */
+  /** Specifies the alignment of the component's elements. */
   @Prop({ reflect: true }) alignment?: ButtonAlignment = "center";
 
-  /** specify the appearance style of the button, defaults to solid. */
+  /** Specifies the appearance style of the component. */
   @Prop({ reflect: true }) appearance: ButtonAppearance = "solid";
 
-  /** Applies to the aria-label attribute on the button or hyperlink */
+  /** Accessible name for the component. */
   @Prop() label?: string;
 
-  /** specify the color of the button, defaults to blue */
+  /** Specifies the color of the component. */
   @Prop({ reflect: true }) color: ButtonColor = "blue";
 
-  /** is the button disabled  */
+  /**  When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @Prop({ reflect: true }) disabled = false;
 
-  /** optionally pass a href - used to determine if the component should render as a button or an anchor */
+  /**
+   * Specifies the URL of the linked resource, which can be set as an absolute or relative path.
+   */
   @Prop({ reflect: true }) href?: string;
 
-  /** optionally pass an icon to display at the end of a button - accepts calcite ui icon names  */
+  /** Specifies an icon to display at the end of the component. */
   @Prop({ reflect: true }) iconEnd?: string;
 
-  /** flip the icon(s) in rtl */
+  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @Prop({ reflect: true }) iconFlipRtl?: FlipContext;
 
-  /** optionally pass an icon to display at the start of a button - accepts calcite ui icon names  */
+  /** Specifies an icon to display at the start of the component. */
   @Prop({ reflect: true }) iconStart?: string;
 
-  /** string to override English loading text
+  /**
+   * Accessible name when the component is loading.
+   *
    * @default "Loading"
    */
   @Prop() intlLoading?: string = TEXT.loading;
 
-  /** optionally add a calcite-loader component to the button, disabling interaction.  */
+  /**
+   * When `true`, a busy indicator is displayed and interaction is disabled.
+   */
   @Prop({ reflect: true }) loading = false;
 
-  /** The name attribute to apply to the button */
-  @Prop() name?: string;
-
-  /** The rel attribute to apply to the hyperlink */
-  @Prop() rel?: string;
+  /** Specifies the name of the component on form submission. */
+  @Prop({ reflect: true }) name?: string;
 
   /**
-   * The form ID to associate with the component
+   * Defines the relationship between the `href` value and the current document.
    *
-   * @deprecated – this property is no longer needed if placed inside a form.
+   * @mdn [rel](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/rel)
+   */
+  @Prop({ reflect: true }) rel?: string;
+
+  /**
+   * The form ID to associate with the component.
+   *
+   * @deprecated – The property is no longer needed if the component is placed inside a form.
    */
   @Prop() form?: string;
 
-  /** optionally add a round style to the button  */
+  /** When `true`, adds a round style to the component. */
   @Prop({ reflect: true }) round = false;
 
-  /** specify the scale of the button, defaults to m */
+  /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
 
-  /** is the button a child of a calcite-split-button */
+  /** Specifies if the component is a child of a `calcite-split-button`. */
   @Prop({ reflect: true }) splitChild?: "primary" | "secondary" | false = false;
 
-  /** The target attribute to apply to the hyperlink */
-  @Prop() target?: string;
+  /**
+   * Specifies where to open the linked document defined in the `href` property.
+   *
+   * @mdn [target](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#attr-target)
+   */
+  @Prop({ reflect: true }) target?: string;
 
-  /** The type attribute to apply to the button */
-  @Prop({ mutable: true }) type = "button";
+  /**
+   * Specifies the default behavior of the button.
+   *
+   * @mdn [type](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button#attr-type)
+   */
+  @Prop({ mutable: true, reflect: true }) type = "button";
 
-  /** specify the width of the button, defaults to auto */
+  /** Specifies the width of the component. */
   @Prop({ reflect: true }) width: Width = "auto";
 
   @Watch("loading")
@@ -152,17 +171,18 @@ export class Button implements LabelableComponent, InteractiveComponent {
           class={this.loading ? CSS.loadingIn : CSS.loadingOut}
           inline
           label={this.intlLoading}
-          scale="m"
+          scale={this.scale === "l" ? "m" : "s"}
         />
       </div>
     ) : null;
+    const noStartEndIcons = !this.iconStart && !this.iconEnd;
 
     const iconStartEl = (
       <calcite-icon
         class={{ [CSS.icon]: true, [CSS.iconStart]: true }}
         flipRtl={this.iconFlipRtl === "start" || this.iconFlipRtl === "both"}
         icon={this.iconStart}
-        scale="s"
+        scale={this.scale === "l" ? "m" : "s"}
       />
     );
 
@@ -171,7 +191,7 @@ export class Button implements LabelableComponent, InteractiveComponent {
         class={{ [CSS.icon]: true, [CSS.iconEnd]: true }}
         flipRtl={this.iconFlipRtl === "end" || this.iconFlipRtl === "both"}
         icon={this.iconEnd}
-        scale="s"
+        scale={this.scale === "l" ? "m" : "s"}
       />
     );
 
@@ -185,6 +205,8 @@ export class Button implements LabelableComponent, InteractiveComponent {
       <Tag
         aria-label={getLabelText(this)}
         class={{
+          [CSS.buttonPadding]: noStartEndIcons,
+          [CSS.buttonPaddingShrunk]: !noStartEndIcons,
           [CSS.contentSlotted]: this.hasContent,
           [CSS.iconStartEmpty]: !this.iconStart,
           [CSS.iconEndEmpty]: !this.iconEnd
@@ -216,7 +238,7 @@ export class Button implements LabelableComponent, InteractiveComponent {
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    this.childEl.focus();
+    this.childEl?.focus();
   }
 
   //--------------------------------------------------------------------------
@@ -229,7 +251,7 @@ export class Button implements LabelableComponent, InteractiveComponent {
 
   labelEl: HTMLCalciteLabelElement;
 
-  /** watches for changing text content **/
+  /** watches for changing text content */
   private mutationObserver = createObserver("mutation", () => this.updateHasContent());
 
   /** the rendered child element */
@@ -266,7 +288,7 @@ export class Button implements LabelableComponent, InteractiveComponent {
 
   // act on a requested or nearby form based on type
   private handleClick = (): void => {
-    const { formEl, type } = this;
+    const { type } = this;
 
     if (this.href) {
       return;
@@ -274,9 +296,9 @@ export class Button implements LabelableComponent, InteractiveComponent {
 
     // this.type refers to type attribute, not child element type
     if (type === "submit") {
-      formEl?.requestSubmit();
+      submitForm(this);
     } else if (type === "reset") {
-      formEl?.reset();
+      resetForm(this);
     }
   };
 }

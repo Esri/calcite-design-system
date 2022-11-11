@@ -11,8 +11,9 @@
     self-stretch
     border-none
     bg-transparent;
-  color: theme("borderColor.color.3");
-  padding: theme("spacing.3") theme("spacing.1");
+  color: theme("borderColor.color.input");
+  padding-block: theme("spacing.3");
+  padding-inline: theme("spacing.1");
   line-height: 0;
   &:hover {
     @apply bg-foreground-2 text-color-1;

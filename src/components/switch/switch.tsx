@@ -10,23 +10,24 @@ import {
   VNode,
   Watch
 } from "@stencil/core";
-import { focusElement } from "../../utils/dom";
-import { Scale } from "../interfaces";
+import { focusElement, toAriaBoolean } from "../../utils/dom";
+import { DeprecatedEventPayload, Scale } from "../interfaces";
 import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
 import {
   connectForm,
   disconnectForm,
-  CheckableFormCompoment,
+  CheckableFormComponent,
   HiddenFormInputSlot
 } from "../../utils/form";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import { isActivationKey } from "../../utils/key";
 
 @Component({
   tag: "calcite-switch",
   styleUrl: "switch.scss",
   shadow: true
 })
-export class Switch implements LabelableComponent, CheckableFormCompoment, InteractiveComponent {
+export class Switch implements LabelableComponent, CheckableFormComponent, InteractiveComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -41,32 +42,34 @@ export class Switch implements LabelableComponent, CheckableFormCompoment, Inter
   //
   //--------------------------------------------------------------------------
 
-  /** True if the switch is disabled */
+  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @Prop({ reflect: true }) disabled = false;
 
-  /** Applies to the aria-label attribute on the switch */
+  /** Accessible name for the component. */
   @Prop() label?: string;
 
-  /** The name of the switch input */
+  /** Specifies the name of the component on form submission. */
   @Prop({ reflect: true }) name: string;
 
-  /** The scale of the switch */
+  /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
 
-  /** True if the switch is initially on
-   * @deprecated use 'checked' instead.
+  /**
+   * When `true`, the component is checked.
+   *
+   * @deprecated use `checked` instead.
    */
-  @Prop({ mutable: true }) switched = false;
+  @Prop({ mutable: true, reflect: true }) switched = false;
 
   @Watch("switched")
   switchedWatcher(switched: boolean): void {
     this.checked = switched;
   }
 
-  /** True if the switch is initially on */
+  /** When `true`, the component is checked. */
   @Prop({ reflect: true, mutable: true }) checked = false;
 
-  /** The value of the switch input */
+  /** The component's value. */
   @Prop() value: any;
 
   //--------------------------------------------------------------------------
@@ -103,11 +106,10 @@ export class Switch implements LabelableComponent, CheckableFormCompoment, Inter
   //
   //--------------------------------------------------------------------------
 
-  keyDownHandler = (e: KeyboardEvent): void => {
-    const key = e.key;
-    if (!this.disabled && (key === " " || key === "Enter")) {
+  keyDownHandler = (event: KeyboardEvent): void => {
+    if (!this.disabled && isActivationKey(event.key)) {
       this.toggle();
-      e.preventDefault();
+      event.preventDefault();
     }
   };
 
@@ -121,8 +123,6 @@ export class Switch implements LabelableComponent, CheckableFormCompoment, Inter
   private toggle(): void {
     this.checked = !this.checked;
     this.calciteSwitchChange.emit({
-      // todo: We should remove emmitting redudant props in event payload.
-      // https://github.com/Esri/calcite-components/issues/3163
       switched: this.checked
     });
   }
@@ -142,9 +142,11 @@ export class Switch implements LabelableComponent, CheckableFormCompoment, Inter
   //--------------------------------------------------------------------------
 
   /**
-   * Fires when the checked value has changed.
+   * Fires when the `checked` value has changed.
+   *
+   * **Note:** The event payload is deprecated, use the component's `checked` property instead.
    */
-  @Event() calciteSwitchChange: EventEmitter;
+  @Event({ cancelable: false }) calciteSwitchChange: EventEmitter<DeprecatedEventPayload>;
 
   //--------------------------------------------------------------------------
   //
@@ -183,7 +185,7 @@ export class Switch implements LabelableComponent, CheckableFormCompoment, Inter
     return (
       <Host onClick={this.clickHandler} onKeyDown={this.keyDownHandler}>
         <div
-          aria-checked={this.checked.toString()}
+          aria-checked={toAriaBoolean(this.checked)}
           aria-label={getLabelText(this)}
           class="container"
           ref={this.setSwitchEl}

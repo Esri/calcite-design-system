@@ -11,17 +11,19 @@ import {
 } from "@stencil/core";
 import { guid } from "../../utils/guid";
 import { Scale } from "../interfaces";
-import { CheckableFormCompoment, HiddenFormInputSlot } from "../../utils/form";
+import { CheckableFormComponent, HiddenFormInputSlot } from "../../utils/form";
 import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
 import { connectForm, disconnectForm } from "../../utils/form";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import { toAriaBoolean } from "../../utils/dom";
+import { isActivationKey } from "../../utils/key";
 
 @Component({
   tag: "calcite-checkbox",
   styleUrl: "checkbox.scss",
   shadow: true
 })
-export class Checkbox implements LabelableComponent, CheckableFormCompoment, InteractiveComponent {
+export class Checkbox implements LabelableComponent, CheckableFormComponent, InteractiveComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -36,48 +38,52 @@ export class Checkbox implements LabelableComponent, CheckableFormCompoment, Int
   //
   //--------------------------------------------------------------------------
 
-  /** The checked state of the checkbox. */
+  /** When `true`, the component is checked. */
   @Prop({ reflect: true, mutable: true }) checked = false;
 
-  /** True if the checkbox is disabled */
+  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @Prop({ reflect: true }) disabled = false;
 
-  /** The id attribute of the checkbox.  When omitted, a globally unique identifier is used. */
+  /** The `id` attribute of the component. When omitted, a globally unique identifier is used. */
   @Prop({ reflect: true, mutable: true }) guid: string;
 
   /**
    * The hovered state of the checkbox.
+   *
    * @internal
    */
   @Prop({ reflect: true, mutable: true }) hovered = false;
 
   /**
-   * True if the checkbox is initially indeterminate,
-   * which is independent from its checked state
-   * https://css-tricks.com/indeterminate-checkboxes/
-   * */
+   * When `true`, the component is initially indeterminate, which is independent from its `checked` value.
+   *
+   * The state is visual only, and can look different across browsers.
+   *
+   * @mdn [indeterminate](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox#indeterminate_state_checkboxes)
+   */
   @Prop({ reflect: true, mutable: true }) indeterminate = false;
 
   /**
-   * The label of the checkbox input
+   * Accessible name for the component.
+   *
    * @internal
    */
   @Prop() label?: string;
 
-  /** The name of the checkbox input */
+  /** Specifies the name of the component on form submission. */
   @Prop({ reflect: true }) name;
 
   /**
-   * When true, makes the component required for form-submission.
+   * When `true`, the component must have a value in order for the form to submit.
    *
    * @internal
    */
   @Prop({ reflect: true }) required = false;
 
-  /** specify the scale of the checkbox, defaults to m */
+  /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
 
-  /** The value of the checkbox input */
+  /** The component's value. */
   @Prop() value: any;
 
   //--------------------------------------------------------------------------
@@ -93,6 +99,8 @@ export class Checkbox implements LabelableComponent, CheckableFormCompoment, Int
   labelEl: HTMLCalciteLabelElement;
 
   formEl: HTMLFormElement;
+
+  defaultChecked: boolean;
 
   defaultValue: Checkbox["checked"];
 
@@ -129,7 +137,7 @@ export class Checkbox implements LabelableComponent, CheckableFormCompoment, Int
   };
 
   keyDownHandler = (event: KeyboardEvent): void => {
-    if (event.key === " " || event.key === "Enter") {
+    if (isActivationKey(event.key)) {
       this.toggle();
       event.preventDefault();
     }
@@ -146,21 +154,21 @@ export class Checkbox implements LabelableComponent, CheckableFormCompoment, Int
   //--------------------------------------------------------------------------
 
   /**
-   * Emitted when the checkbox is blurred
+   * Emits when the component is blurred.
    *
    * @internal
    */
-  @Event() calciteInternalCheckboxBlur: EventEmitter;
+  @Event({ cancelable: false }) calciteInternalCheckboxBlur: EventEmitter<boolean>;
 
-  /** Emitted when the checkbox checked status changes */
-  @Event() calciteCheckboxChange: EventEmitter;
+  /** Emits when the component's `checked` status changes. */
+  @Event({ cancelable: false }) calciteCheckboxChange: EventEmitter<void>;
 
   /**
-   * Emitted when the checkbox is focused
+   * Emits when the component is focused.
    *
    * @internal
    */
-  @Event() calciteInternalCheckboxFocus: EventEmitter;
+  @Event({ cancelable: false }) calciteInternalCheckboxFocus: EventEmitter<boolean>;
 
   //--------------------------------------------------------------------------
   //
@@ -211,7 +219,7 @@ export class Checkbox implements LabelableComponent, CheckableFormCompoment, Int
     return (
       <Host onClick={this.clickHandler} onKeyDown={this.keyDownHandler}>
         <div
-          aria-checked={this.checked.toString()}
+          aria-checked={toAriaBoolean(this.checked)}
           aria-label={getLabelText(this)}
           class="toggle"
           onBlur={this.onToggleBlur}
@@ -220,7 +228,7 @@ export class Checkbox implements LabelableComponent, CheckableFormCompoment, Int
           role="checkbox"
           tabIndex={this.disabled ? undefined : 0}
         >
-          <svg class="check-svg" viewBox="0 0 16 16">
+          <svg aria-hidden="true" class="check-svg" viewBox="0 0 16 16">
             <path d={this.getPath()} />
           </svg>
           <slot />

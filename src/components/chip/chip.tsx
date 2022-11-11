@@ -1,9 +1,19 @@
-import { Component, h, Prop, Event, EventEmitter, Element, VNode, Method } from "@stencil/core";
+import {
+  Component,
+  h,
+  Prop,
+  Event,
+  EventEmitter,
+  Element,
+  VNode,
+  Method,
+  Watch
+} from "@stencil/core";
 import { getSlotted } from "../../utils/dom";
 import { guid } from "../../utils/guid";
 import { CSS, TEXT, SLOTS, ICONS } from "./resources";
 import { ChipColor } from "./interfaces";
-import { Appearance, Scale } from "../interfaces";
+import { Appearance, DeprecatedEventPayload, Scale } from "../interfaces";
 import {
   ConditionalSlotComponent,
   connectConditionalSlotComponent,
@@ -26,31 +36,53 @@ export class Chip implements ConditionalSlotComponent {
   //
   //--------------------------------------------------------------------------
 
-  /** specify the appearance style of the button, defaults to solid. */
+  /** Specifies the appearance style of the component. */
   @Prop({ reflect: true }) appearance: Extract<"solid" | "clear", Appearance> = "solid";
 
-  /** specify the color of the button, defaults to blue */
+  /** Specifies the color for the component. */
   @Prop({ reflect: true }) color: ChipColor = "grey";
 
-  /** Optionally show a button the user can click to dismiss the chip */
-  @Prop({ reflect: true }) dismissible = false;
+  /**
+   * When `true`, a close button is added to the component.
+   *
+   * @deprecated use `closable` instead.
+   */
+  @Prop({ reflect: true, mutable: true }) dismissible = false;
 
-  /** Aria label for the "x" button
+  @Watch("dismissible")
+  handleDismissible(value: boolean): void {
+    this.closable = value;
+  }
+
+  /** When `true`, a close button is added to the component. */
+  @Prop({ reflect: true, mutable: true }) closable = false;
+
+  @Watch("closable")
+  handleClosable(value: boolean): void {
+    this.dismissible = value;
+  }
+
+  /**
+   * Accessible name for the component's close button.
+   *
    * @default "Close"
    */
   @Prop() dismissLabel?: string = TEXT.close;
 
-  /** optionally pass an icon to display - accepts Calcite UI icon names  */
+  /** Specifies an icon to display. */
   @Prop({ reflect: true }) icon?: string;
 
-  /** flip the icon in rtl */
+  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @Prop({ reflect: true }) iconFlipRtl = false;
 
-  /** specify the scale of the chip, defaults to m */
+  /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
 
-  /** The assigned value for the chip */
+  /** The component's value. */
   @Prop() value!: any;
+
+  /** When `true`, hides the component. */
+  @Prop({ reflect: true, mutable: true }) closed = false;
 
   // --------------------------------------------------------------------------
   //
@@ -68,6 +100,12 @@ export class Chip implements ConditionalSlotComponent {
 
   connectedCallback(): void {
     connectConditionalSlotComponent(this);
+    if (this.dismissible) {
+      this.handleDismissible(this.dismissible);
+    }
+    if (this.closable) {
+      this.handleClosable(this.closable);
+    }
   }
 
   disconnectedCallback(): void {
@@ -92,8 +130,12 @@ export class Chip implements ConditionalSlotComponent {
   //
   // --------------------------------------------------------------------------
 
-  /** Emitted when the dismiss button is clicked */
-  @Event() calciteChipDismiss: EventEmitter;
+  /**
+   * Fires when the dismiss button is clicked.
+   *
+   * **Note:**: The `el` event payload props is deprecated, please use the event's `target`/`currentTarget` instead.
+   */
+  @Event({ cancelable: false }) calciteChipDismiss: EventEmitter<DeprecatedEventPayload>;
 
   // --------------------------------------------------------------------------
   //
@@ -104,6 +146,7 @@ export class Chip implements ConditionalSlotComponent {
   closeClickHandler = (event: MouseEvent): void => {
     event.preventDefault();
     this.calciteChipDismiss.emit(this.el);
+    this.closed = true;
   };
 
   private closeButton: HTMLButtonElement;
@@ -121,7 +164,7 @@ export class Chip implements ConditionalSlotComponent {
     const hasChipImage = getSlotted(el, SLOTS.image);
 
     return hasChipImage ? (
-      <div class={CSS.chipImageContainer} key="image">
+      <div class={CSS.imageContainer} key="image">
         <slot name={SLOTS.image} />
       </div>
     ) : null;
@@ -129,12 +172,7 @@ export class Chip implements ConditionalSlotComponent {
 
   render(): VNode {
     const iconEl = (
-      <calcite-icon
-        class={CSS.calciteChipIcon}
-        flipRtl={this.iconFlipRtl}
-        icon={this.icon}
-        scale="s"
-      />
+      <calcite-icon class={CSS.chipIcon} flipRtl={this.iconFlipRtl} icon={this.icon} scale="s" />
     );
 
     const closeButton = (
@@ -145,7 +183,7 @@ export class Chip implements ConditionalSlotComponent {
         onClick={this.closeClickHandler}
         ref={(el) => (this.closeButton = el)}
       >
-        <calcite-icon icon={ICONS.close} scale="s" />
+        <calcite-icon class={CSS.closeIcon} icon={ICONS.close} scale="s" />
       </button>
     );
 
@@ -156,7 +194,7 @@ export class Chip implements ConditionalSlotComponent {
         <span class={CSS.title} id={this.guid}>
           <slot />
         </span>
-        {this.dismissible ? closeButton : null}
+        {this.closable ? closeButton : null}
       </div>
     );
   }

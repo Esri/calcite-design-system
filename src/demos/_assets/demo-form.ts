@@ -20,7 +20,6 @@ class DemoForm extends HTMLElement {
       data[pair[0]] = pair[1];
     }
     console.log(data);
-    alert(JSON.stringify(data, null, 2));
   }
 }
 customElements.define("demo-form", DemoForm);

@@ -1,9 +1,11 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, defaults, disabled, hidden, reflects, renders, slots } from "../../tests/commonTests";
+import { accessible, defaults, disabled, reflects, renders, slots, hidden } from "../../tests/commonTests";
 import { SLOTS } from "./resources";
 
 describe("calcite-tile", () => {
   it("renders", async () => renders("calcite-tile", { display: "inline-block" }));
+
+  it("honors hidden attribute", async () => hidden("calcite-tile"));
 
   it("is accessible", async () => accessible(`<calcite-tile></calcite-tile>`));
 
@@ -26,8 +28,6 @@ describe("calcite-tile", () => {
       { propertyName: "href", value: "http://www.esri.com" },
       { propertyName: "icon", value: "layers" }
     ]));
-
-  it("honors hidden attribute", async () => hidden("calcite-tile"));
 
   it("can be disabled", () => disabled("<calcite-tile heading='test' href='http://www.esri.com'></calcite-tile>"));
 

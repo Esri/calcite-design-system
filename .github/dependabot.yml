@@ -7,7 +7,7 @@ updates:
     # Check the npm registry for updates every week (Tuesdays)
     schedule:
       interval: "weekly"
-      day: "thursday"
+      day: "tuesday"
       time: "05:00"
       timezone: "America/Los_Angeles"
     # Conventional commits
@@ -15,6 +15,8 @@ updates:
       prefix: "build(deps): "
     # Ignore updates to packages below
     ignore:
+      - dependency-name: "chalk"
+      - dependency-name: "cheerio"
       - dependency-name: "typescript"
       - dependency-name: "@types/jest"
       - dependency-name: "jest"
