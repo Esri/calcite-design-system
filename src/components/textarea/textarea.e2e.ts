@@ -202,13 +202,45 @@ describe("calcite-textarea", () => {
     expect(element).toHaveAttribute("disabled");
     expect(element.getAttribute("aria-disabled")).toBe("true");
   });
+
   it("should have invalid class when user set's invalid property", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-textarea invalid></calcite-textarea>`);
 
-    const element = await page.find("calcite-textarea >>> .div");
+    const element = await page.find("calcite-textarea >>> textarea");
     await page.waitForChanges();
 
     expect(element).toHaveClass(CSS.textareaInvalid);
+  });
+
+  describe("resize disabled", () => {
+    it("should have resize-disabled class", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`<calcite-textarea resize-disabled></calcite-textarea>`);
+
+      const element = await page.find("calcite-textarea >>> textarea");
+      await page.waitForChanges();
+
+      expect(element).toHaveClass(CSS.resizeDisabled);
+    });
+
+    it("should have resize-disabled--x class when horizantal-resize-disabled property is parsed", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`<calcite-textarea horizantal-resize-disabled></calcite-textarea>`);
+
+      const element = await page.find("calcite-textarea >>> textarea");
+      await page.waitForChanges();
+
+      expect(element).toHaveClass(CSS.resizeDisabledX);
+    });
+    it("should have resize-disabled--y class when vertical-resize-disabled property is parsed", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`<calcite-textarea vertical-resize-disabled></calcite-textarea>`);
+
+      const element = await page.find("calcite-textarea >>> textarea");
+      await page.waitForChanges();
+
+      expect(element).toHaveClass(CSS.resizeDisabledY);
+    });
   });
 });

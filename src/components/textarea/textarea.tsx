@@ -154,50 +154,46 @@ export class Textarea implements FormComponent, LabelableComponent, LocalizedCom
   render(): VNode {
     return (
       <Host>
-        <div
-          class={{ [CSS.textareaInvalid]: this.invalid, container: true }}
-          tabindex={!!this.renderFooterLeading() || !!this.renderFooterTrailing() ? "-1" : "1"}
-        >
-          <textarea
-            aria-disabled={this.disabled}
-            aria-invalid={this.invalid}
-            aria-label={getLabelText(this)}
-            autofocus={this.autofocus}
-            class={{
-              textarea: true,
-              [CSS.resizeDisabled]: this.resizeDisabled,
-              [CSS.resizeDisabledX]: this.horizantalResizeDisabled,
-              [CSS.resizeDisabledY]: this.verticalResizeDisabled,
-              [CSS.readonly]: this.readonly
-            }}
-            cols={this.cols}
-            disabled={this.disabled}
-            form={this.form}
-            hidden={this.hidden}
-            minlength={this.minlength}
-            name={this.name}
-            onChange={this.handleChange}
-            onInput={this.handleInput}
-            placeholder={this.placeholder}
-            readonly={this.readonly}
-            ref={this.setTextareaEl}
-            required={this.required}
-            rows={this.rows}
-            value={this.value}
-            wrap={this.wrap}
-          />
-          <slot />
-          {this.footer && (
-            <footer
-              class={{ [CSS.footer]: true, [CSS.readonly]: this.readonly }}
-              ref={(el) => (this.footerEl = el as HTMLElement)}
-            >
-              {this.renderFooterLeading()}
-              {this.renderCharacterLimit()}
-              {this.renderFooterTrailing()}
-            </footer>
-          )}
-        </div>
+        <textarea
+          aria-disabled={this.disabled}
+          aria-invalid={this.invalid}
+          aria-label={getLabelText(this)}
+          autofocus={this.autofocus}
+          class={{
+            textarea: true,
+            [CSS.resizeDisabled]: this.resizeDisabled,
+            [CSS.resizeDisabledX]: this.horizantalResizeDisabled,
+            [CSS.resizeDisabledY]: this.verticalResizeDisabled,
+            [CSS.readonly]: this.readonly,
+            [CSS.textareaInvalid]: this.invalid
+          }}
+          cols={this.cols}
+          disabled={this.disabled}
+          form={this.form}
+          hidden={this.hidden}
+          minlength={this.minlength}
+          name={this.name}
+          onChange={this.handleChange}
+          onInput={this.handleInput}
+          placeholder={this.placeholder}
+          readonly={this.readonly}
+          ref={this.setTextareaEl}
+          required={this.required}
+          rows={this.rows}
+          value={this.value}
+          wrap={this.wrap}
+        />
+        <slot />
+        {this.footer && (
+          <footer
+            class={{ [CSS.footer]: true, [CSS.readonly]: this.readonly }}
+            ref={(el) => (this.footerEl = el as HTMLElement)}
+          >
+            {this.renderFooterLeading()}
+            {this.renderCharacterLimit()}
+            {this.renderFooterTrailing()}
+          </footer>
+        )}
         <HiddenFormInputSlot component={this} />
       </Host>
     );

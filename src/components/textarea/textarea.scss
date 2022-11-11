@@ -4,18 +4,18 @@
   block-size: 10rem;
 }
 
-.container:focus {
-  @apply outline-none border-color-brand border-2 border-solid;
-}
+// .container:focus {
+//   @apply outline-none border-color-brand border-2 border-solid;
+// }
 
-.container:focus textarea {
-  @apply border-none;
-}
+// .container:focus textarea {
+//   @apply border-none;
+// }
 
-.container:focus .footer {
-  @apply border-none;
-  border-block-start: 1px solid var(--calcite-ui-border-3);
-}
+// .container:focus .footer {
+//   @apply border-none;
+//   border-block-start: 1px solid var(--calcite-ui-border-3);
+// }
 
 textarea {
   @apply block 
@@ -24,7 +24,15 @@ textarea {
   bg-foreground-1 
   box-border
   border-color-input  
-  border;
+  border
+  border-b-0;
+}
+
+:host(:not([footer])) textarea {
+  @apply border-b;
+  &:focus {
+    @apply border-b-2;
+  }
 }
 
 .footer {
@@ -39,23 +47,12 @@ textarea {
   border-block-start: 1px solid var(--calcite-ui-border-3);
 }
 
-:host([footer]:not(:focus)) textarea {
-  @apply border-b-0;
-}
-
 textarea:focus {
-  @apply outline-none border-color-brand border-2 border-solid;
+  @apply outline-none border-color-brand border-2 border-solid border-b-2;
 }
 
 .textarea-invalid {
-  @apply border-color-danger border border-solid;
-  textarea,
-  .footer {
-    @apply border-none;
-  }
-  .footer {
-    border-block-start: 1px solid var(--calcite-ui-border-3);
-  }
+  @apply border-color-danger border border-solid border-b;
 }
 
 .textarea-invalid:focus {
