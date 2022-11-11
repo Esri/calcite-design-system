@@ -257,7 +257,7 @@ export interface NumberStringFormatOptions extends Intl.NumberFormatOptions {
 /**
  * This util formats and parses numbers for localization
  */
-class NumberStringFormat {
+export class NumberStringFormat {
   /**
    * The actual group separator for the specified locale.
    * Some white space group separators don't render correctly in the browser,
@@ -350,7 +350,7 @@ class NumberStringFormat {
     this._getDigitIndex = (d: string) => index.get(d);
   }
 
-  delocalize = (numberString: string) =>
+  delocalize = (numberString: string): string =>
     // For performance, (de)localization is skipped if the formatter isn't initialized.
     // In order to localize/delocalize, e.g. when lang/numberingSystem props are not default values,
     // `numberFormatOptions` must be set in a component to create and cache the formatter.
@@ -365,12 +365,12 @@ class NumberStringFormat {
         )
       : numberString;
 
-  localize = (numberString: string) =>
+  localize = (numberString: string): string =>
     this._numberFormatOptions
       ? sanitizeExponentialNumberString(numberString, (nonExpoNumString: string): string =>
           isValidNumber(nonExpoNumString.trim())
             ? new BigDecimal(nonExpoNumString.trim())
-                .format(this._numberFormatter)
+                .format(this)
                 .replace(new RegExp(`[${this._actualGroup}]`, "g"), this._group)
             : nonExpoNumString
         )

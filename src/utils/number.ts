@@ -1,5 +1,5 @@
 import { numberKeys } from "./key";
-import { numberStringFormatter } from "./locale";
+import { NumberStringFormat } from "./locale";
 
 const defaultMinusSignRegex = new RegExp("-", "g");
 const unnecessaryDecimalRegex = new RegExp("\\.?0+$");
@@ -52,26 +52,29 @@ export class BigDecimal {
     return `${this.isNegative ? "-" : ""}${integers}${decimals.length ? "." + decimals : ""}`;
   }
 
-  formatToParts(formatter: Intl.NumberFormat): Intl.NumberFormatPart[] {
+  formatToParts(formatter: NumberStringFormat): Intl.NumberFormatPart[] {
     const { integers, decimals } = this.getIntegersAndDecimals();
-    const parts = formatter.formatToParts(BigInt(integers));
-    this.isNegative && parts.unshift({ type: "minusSign", value: numberStringFormatter.minusSign });
+    const parts = formatter.numberFormatter.formatToParts(BigInt(integers));
+    this.isNegative && parts.unshift({ type: "minusSign", value: formatter.minusSign });
 
     if (decimals.length) {
-      parts.push({ type: "decimal", value: numberStringFormatter.decimal });
+      parts.push({ type: "decimal", value: formatter.decimal });
       decimals.split("").forEach((char: string) => parts.push({ type: "fraction", value: char }));
     }
 
     return parts;
   }
 
-  format(formatter: Intl.NumberFormat): string {
+  format(formatter: NumberStringFormat): string {
     const { integers, decimals } = this.getIntegersAndDecimals();
-    const integersFormatted = `${this.isNegative ? numberStringFormatter.minusSign : ""}${formatter.format(
+    const integersFormatted = `${this.isNegative ? formatter.minusSign : ""}${formatter.numberFormatter.format(
       BigInt(integers)
     )}`;
     const decimalsFormatted = decimals.length
-      ? `${numberStringFormatter.decimal}${formatter.format(BigInt(decimals))}`
+      ? `${formatter.decimal}${decimals
+          .split("")
+          .map((char: string) => formatter.numberFormatter.format(Number(char)))
+          .join("")}`
       : "";
     return `${integersFormatted}${decimalsFormatted}`;
   }
