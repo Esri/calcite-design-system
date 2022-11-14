@@ -13,6 +13,7 @@
     "component/radio",
     "component/rating",
     "component/tooltip",
+    "component/tile",
     "calcite/light",
     "calcite/dark",
     "brand/global",
