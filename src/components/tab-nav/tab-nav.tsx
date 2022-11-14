@@ -198,14 +198,11 @@ export class TabNav {
       this.enabledTabTitles
     );
 
-    const previousTab =
+    this.handleTabFocus(
+      event,
       this.enabledTabTitles[currentIndex - 1] ||
-      this.enabledTabTitles[this.enabledTabTitles.length - 1];
-
-    previousTab?.focus();
-
-    event.stopPropagation();
-    event.preventDefault();
+        this.enabledTabTitles[this.enabledTabTitles.length - 1]
+    );
   }
 
   @Listen("calciteInternalTabsFocusNext")
@@ -215,32 +212,17 @@ export class TabNav {
       this.enabledTabTitles
     );
 
-    const nextTab = this.enabledTabTitles[currentIndex + 1] || this.enabledTabTitles[0];
-
-    nextTab?.focus();
-
-    event.stopPropagation();
-    event.preventDefault();
+    this.handleTabFocus(event, this.enabledTabTitles[currentIndex + 1] || this.enabledTabTitles[0]);
   }
 
   @Listen("calciteInternalTabsFocusFirst")
   focusFirstTabHandler(event: CustomEvent): void {
-    const firstTab = this.enabledTabTitles[0];
-
-    firstTab?.focus();
-
-    event.stopPropagation();
-    event.preventDefault();
+    this.handleTabFocus(event, this.enabledTabTitles[0]);
   }
 
   @Listen("calciteInternalTabsFocusLast")
   focusLastTabHandler(event: CustomEvent): void {
-    const lastTab = this.enabledTabTitles[this.enabledTabTitles.length - 1];
-
-    lastTab?.focus();
-
-    event.stopPropagation();
-    event.preventDefault();
+    this.handleTabFocus(event, this.enabledTabTitles[this.enabledTabTitles.length - 1]);
   }
 
   @Listen("calciteInternalTabsActivate")
@@ -343,6 +325,13 @@ export class TabNav {
   //  Private Methods
   //
   //--------------------------------------------------------------------------
+
+  handleTabFocus = (event: CustomEvent, tabTitle: HTMLCalciteTabTitleElement): void => {
+    tabTitle?.focus();
+
+    event.stopPropagation();
+    event.preventDefault();
+  };
 
   handleContainerScroll = (): void => {
     // remove active indicator transition duration while container is scrolling to prevent wobble
