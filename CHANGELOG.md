@@ -10,12 +10,17 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ### Features
 
 - **popover:** Escape key should close open popovers. ([#5726](https://github.com/Esri/calcite-components/issues/5726)) ([2e2621d](https://github.com/Esri/calcite-components/commit/2e2621d57c4701f7a7e84f74d801c543ad4f45c0))
+- **tabs:** Add support for navigating with Home and End keys ([#5727](https://github.com/Esri/calcite-components/issues/5727)) ([823c429](https://github.com/Esri/calcite-components/commit/823c429439ec9f8cd1d6a1ff2aedf0b2da9c741b)), closes [#5661](https://github.com/Esri/calcite-components/issues/5661)
 
 ### Bug Fixes
 
 - **button, fab:** adjust padding on 'l' scale button to accommodate 'm' scale icon without change in height ([#5659](https://github.com/Esri/calcite-components/issues/5659)) ([d68d95c](https://github.com/Esri/calcite-components/commit/d68d95cda10ad819e52b048479780590f21ac479))
 - **flow-item:** Position back tooltip above ([#5688](https://github.com/Esri/calcite-components/issues/5688)) ([bb67992](https://github.com/Esri/calcite-components/commit/bb67992fa9f113709482a69fff0f36032dbfad35))
 - **value-list-item:** Prevent scrolling when space is pressed on drag button ([#5709](https://github.com/Esri/calcite-components/issues/5709)) ([81d4c71](https://github.com/Esri/calcite-components/commit/81d4c71a815ff66ef540a77f223c2ffa31cc2899))
+
+### Reverts
+
+- bump semver-regex and screener-storybook ([#5741](https://github.com/Esri/calcite-components/issues/5741)) ([#5742](https://github.com/Esri/calcite-components/issues/5742)) ([5718b8d](https://github.com/Esri/calcite-components/commit/5718b8d3551426bcbec3d3c289dd04cddf1e1e34))
 <!--@unreleased-section-end-->
 
 ## [1.0.0-beta.98](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.97...v1.0.0-beta.98) (2022-11-09)
