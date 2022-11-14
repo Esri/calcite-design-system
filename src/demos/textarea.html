@@ -19,59 +19,221 @@
       }
 
       .child {
-        display: inline-flex;
-        width: 260px;
-        flex-basis: 300px;
+        display: flex;
+        flex-basis: 320px;
         flex-direction: column;
         flex-flow: column;
         margin: 15px;
         padding: 0 18px;
       }
 
-      .rounded {
-        --calcite-border-radius-base: 5px;
+      .child-text {
+        flex-direction: column;
+        flex-flow: column;
+        display: inline-flex;
+        flex-basis: 160px;
+        padding: 0 10px;
+        justify-content: center;
       }
     </style>
     <script src="./_assets/head.js"></script>
   </head>
   <body>
+    <!-- Scale-->
     <div class="parent">
+      <div class="child-text"></div>
+      <div class="child">Small</div>
+      <div class="child">Medium</div>
+      <div class="child">Large</div>
+    </div>
+
+    <!-- Default -->
+    <div class="parent">
+      <div class="child-text">Default</div>
+      <div class="child">
+        <calcite-textarea placeholder="add notes" scale="s"> </calcite-textarea>
+      </div>
+      <div class="child">
+        <calcite-textarea placeholder="add notes" scale="m"> </calcite-textarea>
+      </div>
+      <div class="child">
+        <calcite-textarea placeholder="add notes" scale="l"> </calcite-textarea>
+      </div>
+    </div>
+
+    <!-- Default With Value-->
+    <div class="parent">
+      <div class="child-text">Default with Value</div>
+      <div class="child">
+        <calcite-textarea placeholder="add notes" scale="s" value="Rocky Mountain National Park ⛰️"> </calcite-textarea>
+      </div>
+      <div class="child">
+        <calcite-textarea placeholder="add notes" scale="m" value="Rocky Mountain National Park ⛰️"> </calcite-textarea>
+      </div>
+      <div class="child">
+        <calcite-textarea placeholder="add notes" scale="l" value="Rocky Mountain National Park ⛰️"> </calcite-textarea>
+      </div>
+    </div>
+
+    <!-- resize-disabled-->
+    <div class="parent">
+      <div class="child-text">resize-disabled</div>
+      <div class="child">
+        <calcite-textarea placeholder="add notes" scale="s" resize-disabled> </calcite-textarea>
+      </div>
+      <div class="child">
+        <calcite-textarea placeholder="add notes" scale="m" resize-disabled> </calcite-textarea>
+      </div>
+      <div class="child">
+        <calcite-textarea placeholder="add notes" scale="l" resize-disabled> </calcite-textarea>
+      </div>
+    </div>
+
+    <!--  horizantal-resize-disabled-->
+    <div class="parent">
+      <div class="child-text">horizantal-resize-disabled</div>
+      <div class="child">
+        <calcite-textarea placeholder="add notes" scale="s" horizantal-resize-disabled> </calcite-textarea>
+      </div>
+      <div class="child">
+        <calcite-textarea placeholder="add notes" scale="m" horizantal-resize-disabled> </calcite-textarea>
+      </div>
+      <div class="child">
+        <calcite-textarea placeholder="add notes" scale="l" horizantal-resize-disabled> </calcite-textarea>
+      </div>
+    </div>
+
+    <!--  vertical-resize-disabled-->
+    <div class="parent">
+      <div class="child-text">vertical-resize-disabled</div>
+      <div class="child">
+        <calcite-textarea placeholder="add notes" scale="s" vertical-resize-disabled> </calcite-textarea>
+      </div>
+      <div class="child">
+        <calcite-textarea placeholder="add notes" scale="m" vertical-resize-disabled> </calcite-textarea>
+      </div>
+      <div class="child">
+        <calcite-textarea placeholder="add notes" scale="l" horizantal-resize-disabled> </calcite-textarea>
+      </div>
+    </div>
+
+    <!-- Default With Footer & max-length -->
+    <div class="parent">
+      <div class="child-text">Default With Footer & max-length</div>
+      <div class="child">
+        <calcite-textarea maxlength="50" placeholder="add notes" scale="s" footer> </calcite-textarea>
+      </div>
+      <div class="child">
+        <calcite-textarea maxlength="50" placeholder="add notes" scale="m" footer> </calcite-textarea>
+      </div>
+      <div class="child">
+        <calcite-textarea maxlength="50" placeholder="add notes" scale="l" footer> </calcite-textarea>
+      </div>
+    </div>
+
+    <!-- Readonly -->
+    <div class="parent">
+      <div class="child-text">Readonly</div>
+      <div class="child">
+        <calcite-textarea maxlength="50" footer placeholder="add notes" scale="s" readonly> </calcite-textarea>
+      </div>
+      <div class="child">
+        <calcite-textarea maxlength="50" footer placeholder="add notes" scale="m" readonly> </calcite-textarea>
+      </div>
+      <div class="child">
+        <calcite-textarea maxlength="50" footer placeholder="add notes" scale="l" readonly> </calcite-textarea>
+      </div>
+    </div>
+
+    <!-- Disabled -->
+    <div class="parent">
+      <div class="child-text">Disabled</div>
+      <div class="child">
+        <calcite-textarea maxlength="50" footer placeholder="add notes" scale="s" disabled> </calcite-textarea>
+      </div>
+      <div class="child">
+        <calcite-textarea maxlength="50" footer placeholder="add notes" scale="m" disabled> </calcite-textarea>
+      </div>
+      <div class="child">
+        <calcite-textarea maxlength="50" footer placeholder="add notes" scale="l" disabled> </calcite-textarea>
+      </div>
+    </div>
+
+    <!-- Invalid -->
+    <div class="parent">
+      <div class="child-text">Invalid</div>
+      <div class="child">
+        <calcite-textarea placeholder="add notes" scale="s" invalid> </calcite-textarea>
+      </div>
+      <div class="child">
+        <calcite-textarea placeholder="add notes" scale="m" invalid> </calcite-textarea>
+      </div>
+      <div class="child">
+        <calcite-textarea placeholder="add notes" scale="l" invalid> </calcite-textarea>
+      </div>
+    </div>
+
+    <!-- Invalid with Footer -->
+    <div class="parent">
+      <div class="child-text">Invalid with Footer</div>
+      <div class="child">
+        <calcite-textarea maxlength="50" footer placeholder="add notes" scale="s" invalid> </calcite-textarea>
+      </div>
+      <div class="child">
+        <calcite-textarea maxlength="50" footer placeholder="add notes" scale="m" invalid> </calcite-textarea>
+      </div>
+      <div class="child">
+        <calcite-textarea maxlength="50" footer placeholder="add notes" scale="l" invalid> </calcite-textarea>
+      </div>
+    </div>
+
+    <!--  With Slotted at footer-leading -->
+    <div class="parent">
+      <div class="child-text">With Slotted at footer-leading</div>
       <div class="child">
         <calcite-textarea maxlength="50" placeholder="add notes" scale="s" footer>
-          <calcite-button slot="footer-leading" size="s">NEXT</calcite-button>
-          <calcite-button slot="footer-trailing" size="s">RESET </calcite-button>
+          <calcite-button slot="footer-leading" appearance="transparent" scale="s">CLEAR</calcite-button>
         </calcite-textarea>
       </div>
 
       <div class="child">
-        <calcite-textarea footer maxlength="50" placeholder="add notes" scale="m" value="anveshreddy mekala">
-          <calcite-button slot="footer-leading" appearance="transparent">NEXT</calcite-button>
+        <calcite-textarea footer maxlength="50" placeholder="add notes" scale="m">
+          <calcite-button slot="footer-leading" appearance="transparent">CLEAR</calcite-button>
+        </calcite-textarea>
+      </div>
+
+      <div class="child">
+        <calcite-textarea footer maxlength="50" placeholder="add notes" scale="l">
+          <calcite-button slot="footer-leading" appearance="transparent" scale="l">CLEAR</calcite-button>
+        </calcite-textarea>
+      </div>
+    </div>
+
+    <!--  With two Slotted items -->
+    <div class="parent">
+      <div class="child-text">With two Slotted items</div>
+      <div class="child">
+        <calcite-textarea maxlength="50" placeholder="add notes" scale="s" footer>
+          <calcite-button slot="footer-leading" appearance="transparent" scale="s">CLEAR</calcite-button>
+          <calcite-button slot="footer-trailing" appearance="transparent" scale="s">RESET </calcite-button>
+        </calcite-textarea>
+      </div>
+
+      <div class="child">
+        <calcite-textarea footer maxlength="50" placeholder="add notes">
+          <calcite-button slot="footer-leading" appearance="transparent">CLEAR</calcite-button>
           <calcite-button slot="footer-trailing" appearance="transparent">RESET </calcite-button>
         </calcite-textarea>
       </div>
 
       <div class="child">
         <calcite-textarea footer maxlength="50" placeholder="add notes" scale="l">
-          <calcite-button slot="footer-leading">NEXT</calcite-button>
-          <calcite-button slot="footer-trailing">RESET </calcite-button>
+          <calcite-button slot="footer-leading" appearance="transparent" scale="l">CLEAR</calcite-button>
+          <calcite-button slot="footer-trailing" appearance="transparent" scale="l">RESET </calcite-button>
         </calcite-textarea>
       </div>
     </div>
-    <div class="parent">
-      <div class="child">
-        <calcite-textarea maxlength="50" placeholder="add notes" scale="s" footer> </calcite-textarea>
-      </div>
-    </div>
-    <div class="parent">
-      <div class="child">
-        <calcite-textarea maxlength="50" placeholder="add notes" scale="s"> </calcite-textarea>
-      </div>
-    </div>
-    <div class="parent">
-      <div class="child">
-        <calcite-textarea maxlength="50" footer placeholder="add notes" scale="s" invalid> </calcite-textarea>
-      </div>
-    </div>
+
     <script>
       const textArea = document.querySelector("calcite-textarea");
       textArea?.addEventListener("calciteTextareaInput", () => {

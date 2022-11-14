@@ -1,6 +1,6 @@
 :host {
   @apply inline-block;
-  max-inline-size: 20rem;
+  inline-size: 20rem;
   block-size: 10rem;
 }
 
@@ -20,19 +20,13 @@
 textarea {
   @apply block 
   text-color-1 
-  min-w-full 
+  min-w-full
   bg-foreground-1 
   box-border
   border-color-input  
   border
-  border-b-0;
-}
-
-:host(:not([footer])) textarea {
-  @apply border-b;
-  &:focus {
-    @apply border-b-2;
-  }
+  border-b-0
+  font-sans;
 }
 
 .footer {
@@ -43,7 +37,7 @@ textarea {
   border-color-input  
   border  
   border-solid
-   justify-between;
+  justify-between;
   border-block-start: 1px solid var(--calcite-ui-border-3);
 }
 
@@ -139,6 +133,14 @@ textarea:focus {
   .footer,
   .character-limit {
     @apply text-0;
+  }
+}
+
+:host(:not([footer])) textarea {
+  @apply border-b;
+  block-size: 100%;
+  &:focus {
+    @apply border-b-2;
   }
 }
 
