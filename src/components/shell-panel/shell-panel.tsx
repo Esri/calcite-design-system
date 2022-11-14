@@ -12,7 +12,7 @@ import {
 } from "@stencil/core";
 import { CSS, SLOTS, TEXT } from "./resources";
 import { Position, Scale } from "../interfaces";
-import { getSlotted, getElementDir } from "../../utils/dom";
+import { getSlotted, getElementDir, isPrimaryPointerButton } from "../../utils/dom";
 import { clamp } from "../../utils/math";
 import {
   ConditionalSlotComponent,
@@ -357,6 +357,10 @@ export class ShellPanel implements ConditionalSlotComponent {
   };
 
   separatorPointerUp = (event: PointerEvent): void => {
+    if (!isPrimaryPointerButton(event)) {
+      return;
+    }
+
     event.preventDefault();
     document.removeEventListener("pointerup", this.separatorPointerUp);
     document.removeEventListener("pointermove", this.separatorPointerMove);
@@ -367,6 +371,10 @@ export class ShellPanel implements ConditionalSlotComponent {
   };
 
   separatorPointerDown = (event: PointerEvent): void => {
+    if (!isPrimaryPointerButton(event)) {
+      return;
+    }
+
     event.preventDefault();
     const { separatorEl } = this;
 

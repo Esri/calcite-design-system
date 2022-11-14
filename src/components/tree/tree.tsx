@@ -87,6 +87,7 @@ export class Tree {
             ? undefined
             : (
                 this.selectionMode === TreeSelectionMode.Multi ||
+                this.selectionMode === TreeSelectionMode.Multiple ||
                 this.selectionMode === TreeSelectionMode.MultiChildren
               ).toString()
         }
@@ -167,6 +168,7 @@ export class Tree {
       !isNoneSelectionMode &&
       event.detail.modifyCurrentSelection &&
       (this.selectionMode === TreeSelectionMode.Multi ||
+        this.selectionMode === TreeSelectionMode.Multiple ||
         this.selectionMode === TreeSelectionMode.MultiChildren);
 
     const shouldSelectChildren =
@@ -176,7 +178,8 @@ export class Tree {
     const shouldClearCurrentSelection =
       !shouldModifyToCurrentSelection &&
       (((this.selectionMode === TreeSelectionMode.Single ||
-        this.selectionMode === TreeSelectionMode.Multi) &&
+        this.selectionMode === TreeSelectionMode.Multi ||
+        this.selectionMode === TreeSelectionMode.Multiple) &&
         childItems.length <= 0) ||
         this.selectionMode === TreeSelectionMode.Children ||
         this.selectionMode === TreeSelectionMode.MultiChildren);
@@ -283,7 +286,7 @@ export class Tree {
       }
 
       // When focus is on a child node that is also either an end node or a closed node, moves focus to its parent node.
-      const parentItem = target.parentElement?.closest("calcite-tree-item");
+      const parentItem = target.parentElement.closest("calcite-tree-item");
 
       if (parentItem && (!target.hasChildren || target.expanded === false)) {
         parentItem.focus();
@@ -320,10 +323,10 @@ export class Tree {
     }
 
     const ancestors: HTMLCalciteTreeItemElement[] = [];
-    let parent = item.parentElement?.closest<HTMLCalciteTreeItemElement>("calcite-tree-item");
+    let parent = item.parentElement.closest<HTMLCalciteTreeItemElement>("calcite-tree-item");
     while (parent) {
       ancestors.push(parent);
-      parent = parent.parentElement?.closest<HTMLCalciteTreeItemElement>("calcite-tree-item");
+      parent = parent.parentElement.closest<HTMLCalciteTreeItemElement>("calcite-tree-item");
     }
 
     const childItems = Array.from(

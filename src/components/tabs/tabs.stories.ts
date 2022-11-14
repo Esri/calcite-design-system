@@ -70,7 +70,7 @@ simpleDarkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };
 
 export const bordered = (): string => html`
   <calcite-tabs
-    layout="inline"
+    layout="${select("layout", ["inline", "center"], "inline")}"
     position="${select("position", ["above", "below"], "above")}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
     bordered
@@ -214,14 +214,20 @@ export const disabledTabs_TestOnly = (): string => {
     `;
 };
 
-export const layoutCenter_TestOnly = (): string => html`<calcite-tabs layout="center">
-  <calcite-tab-nav slot="tab-nav">
-    <calcite-tab-title>Tab 1 Title</calcite-tab-title>
-    <calcite-tab-title>Tab 2 Title</calcite-tab-title>
-    <calcite-tab-title>Tab 3 Title</calcite-tab-title>
-    <calcite-tab-title>Tab 4 Title</calcite-tab-title>
-  </calcite-tab-nav>
-</calcite-tabs>`;
+export const layoutCenterAndBorderedCenter_TestOnly = stepStory(
+  (): string => html`<calcite-tabs layout="center">
+    <calcite-tab-nav slot="tab-nav">
+      <calcite-tab-title>Tab 1 Title</calcite-tab-title>
+      <calcite-tab-title>Tab 2 Title</calcite-tab-title>
+      <calcite-tab-title>Tab 3 Title</calcite-tab-title>
+      <calcite-tab-title>Tab 4 Title</calcite-tab-title>
+    </calcite-tab-nav>
+  </calcite-tabs>`,
+  createSteps("calcite-tabs")
+    .snapshot("Center Layout.")
+    .executeScript(`document.querySelector("calcite-tabs").bordered = "true"`)
+    .snapshot("Bordered state when layout is center.")
+);
 
 export const WithIconStart_TestOnly = stepStory(
   (): string => html`

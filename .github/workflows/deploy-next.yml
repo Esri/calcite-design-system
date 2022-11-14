@@ -3,22 +3,22 @@ concurrency:
   group: deploy_next
   cancel-in-progress: true
 on:
+  workflow_dispatch:
   push:
     branches: [master]
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           fetch-depth: 0
           token: ${{ secrets.ADMIN_TOKEN }}
           ref: master
-      - uses: actions/setup-node@v2
+      - uses: actions/setup-node@v3
         with:
-          node-version: lts/*
-          registry-url: https://registry.npmjs.org/
-          cache: npm
+          node-version-file: package.json
+          registry-url: "https://registry.npmjs.org"
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       - name: e2e test
@@ -40,7 +40,7 @@ jobs:
 
               # remove the build to docs after storybook deploys to gh-pages
               # if there are changes the git sanity checks will prevent deployment
-              git clean -fd && git reset --hard && git checkout master && git pull
+              git reset --hard && git checkout master && git pull
               npm run util:deploy-next-from-ci
             fi
           else
