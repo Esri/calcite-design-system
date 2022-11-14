@@ -165,7 +165,6 @@ export class Modal implements ConditionalSlotComponent, OpenCloseComponent, Focu
             [CSS.modalOpen]: this.isOpen
           }}
           ref={this.setTransitionEl}
-          tabIndex={-1}
         >
           <div class={CSS.header}>
             {this.renderCloseButton()}
