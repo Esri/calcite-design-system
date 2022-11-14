@@ -5,6 +5,7 @@
     "component/avatar",
     "component/checkbox",
     "component/chip",
+    "component/input-message",
     "component/input-time",
     "component/label",
     "component/loader",
