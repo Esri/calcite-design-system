@@ -148,6 +148,9 @@ export const simpleWithFooterTextButtonTooltip_NoTest = (): string => html`
   </div>
   ${tooltipHtml}
 `;
+simpleWithFooterTextButtonTooltip_NoTest.parameters = {
+  chromatic: { disableSnapshot: true }
+};
 
 export const thumbnail = (): string => html`
   <div style="width:260px">
