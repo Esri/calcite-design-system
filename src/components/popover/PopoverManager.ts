@@ -68,12 +68,20 @@ export default class PopoverManager {
       .forEach((popover) => popover.toggle(false));
   };
 
+  private closeAllPopovers(): void {
+    Array.from(this.registeredElements.values()).forEach((popover) => popover.toggle(false));
+  }
+
   private keyHandler = (event: KeyboardEvent): void => {
-    if (event.defaultPrevented || !isActivationKey(event.key)) {
+    if (event.defaultPrevented) {
       return;
     }
 
-    this.togglePopovers(event);
+    if (event.key === "Escape") {
+      this.closeAllPopovers();
+    } else if (isActivationKey(event.key)) {
+      this.togglePopovers(event);
+    }
   };
 
   private clickHandler = (event: PointerEvent): void => {

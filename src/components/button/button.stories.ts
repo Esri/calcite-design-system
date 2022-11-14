@@ -1,5 +1,6 @@
 import { text, select } from "@storybook/addon-knobs";
-import { iconNames, boolean, storyFilters } from "../../../.storybook/helpers";
+import { iconNames, boolean, storyFilters, createSteps, stepStory } from "../../../.storybook/helpers";
+
 import { themesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import readme from "./readme.md";
@@ -116,6 +117,24 @@ withIconStartEmpty_TestOnly.storyName = "With icon-start set to empty";
 export const withIconEndEmpty_TestOnly = (): string => html` <calcite-button icon-end> Button </calcite-button>`;
 
 withIconEndEmpty_TestOnly.storyName = "With icon-end set to empty";
+
+export const largeWithMediumIcons_TestOnly = stepStory(
+  (): string => html`<calcite-button scale="l">Button</calcite-button>`,
+  createSteps("calcite-button")
+    .snapshot("Appearance not set, no icon.")
+    .executeScript(`document.querySelector("calcite-button").appearance = "solid"`)
+    .snapshot("Default solid appearance, no icon.")
+    .executeScript(`document.querySelector("calcite-button").iconStart = "arrow-left"`)
+    .snapshot("Default solid appearance with one icon.")
+    .executeScript(`document.querySelector("calcite-button").iconEnd = "arrow-right"`)
+    .snapshot("Default solid appearance with both icons.")
+    .executeScript(`document.querySelector("calcite-button").appearance = "transparent"`)
+    .snapshot("Transparent appearance, both icons.")
+    .executeScript(`document.querySelector("calcite-button").iconStart = ""`)
+    .snapshot("Transparent appearance with one icon.")
+    .executeScript(`document.querySelector("calcite-button").iconEnd = ""`)
+    .snapshot("Transparent appearance, no icons.")
+);
 
 export const sideBySide_TestOnly = (): string => html`
   <div style="width: 300px; max-width: 100%; display: flex; flex-direction: row; background-color: #fff">
