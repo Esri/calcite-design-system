@@ -518,7 +518,7 @@ describe("calcite-tree", () => {
       expect(keydownSpy).toHaveReceivedEventTimes(1);
     });
 
-    it("should allow ArrowRight and ArrowLeft keydown events to propagate outside the root tree", async () => {
+    it.skip("should allow ArrowRight and ArrowLeft keydown events to propagate outside the root tree", async () => {
       const page = await newE2EPage({
         html: html`<div id="container">
           <calcite-tree id="root">

@@ -276,6 +276,14 @@ export class TabTitle implements InteractiveComponent {
           this.calciteInternalTabsFocusNext.emit();
         }
         break;
+      case "Home":
+        event.preventDefault();
+        this.calciteInternalTabsFocusFirst.emit();
+        break;
+      case "End":
+        event.preventDefault();
+        this.calciteInternalTabsFocusLast.emit();
+        break;
     }
   }
 
@@ -309,6 +317,16 @@ export class TabTitle implements InteractiveComponent {
    * @internal
    */
   @Event({ cancelable: false }) calciteInternalTabsFocusPrevious: EventEmitter<void>;
+
+  /**
+   * @internal
+   */
+  @Event({ cancelable: false }) calciteInternalTabsFocusFirst: EventEmitter<void>;
+
+  /**
+   * @internal
+   */
+  @Event({ cancelable: false }) calciteInternalTabsFocusLast: EventEmitter<void>;
 
   /**
    * @internal
