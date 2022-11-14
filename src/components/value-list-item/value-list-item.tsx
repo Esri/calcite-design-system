@@ -176,6 +176,7 @@ export class ValueListItem implements ConditionalSlotComponent, InteractiveCompo
 
   handleKeyDown = (event: KeyboardEvent): void => {
     if (event.key === " ") {
+      event.preventDefault();
       this.handleActivated = !this.handleActivated;
     }
   };

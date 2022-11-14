@@ -5,12 +5,15 @@ import {
   disconnectFloatingUI,
   effectivePlacements,
   filterComputedPlacements,
+  FloatingCSS,
   FloatingUIComponent,
   getEffectivePlacement,
+  placementDataAttribute,
   placements,
   positionFloatingUI,
   reposition,
-  repositionDebounceTimeout
+  repositionDebounceTimeout,
+  updateAfterClose
 } from "./floating-ui";
 import { waitForAnimationFrame } from "../tests/utils";
 
@@ -62,14 +65,26 @@ describe("repositioning", () => {
     };
   });
 
+  function assertPreOpenPositionining(floatingEl: HTMLElement): void {
+    expect(floatingEl.style.transform).toBe("");
+    expect(floatingEl.style.top).toBe("");
+    expect(floatingEl.style.left).toBe("");
+  }
+
+  function assertOpenPositionining(floatingEl: HTMLElement): void {
+    expect(floatingEl.style.transform).not.toBe("");
+    expect(floatingEl.style.top).toBe("0");
+    expect(floatingEl.style.left).toBe("0");
+  }
+
   it("repositions only for open components", async () => {
     await reposition(fakeFloatingUiComponent, positionOptions);
-    expect(floatingEl.style.transform).toBe("");
+    assertPreOpenPositionining(floatingEl);
 
     fakeFloatingUiComponent.open = true;
 
     await reposition(fakeFloatingUiComponent, positionOptions);
-    expect(floatingEl.style.transform).not.toBe("");
+    assertOpenPositionining(floatingEl);
   });
 
   it("repositions immediately by default", async () => {
@@ -77,10 +92,10 @@ describe("repositioning", () => {
 
     reposition(fakeFloatingUiComponent, positionOptions);
 
-    expect(floatingEl.style.transform).toBe("");
+    assertPreOpenPositionining(floatingEl);
 
     await waitForAnimationFrame();
-    expect(floatingEl.style.transform).not.toBe("");
+    assertOpenPositionining(floatingEl);
   });
 
   it("can reposition after a delay", async () => {
@@ -88,21 +103,25 @@ describe("repositioning", () => {
 
     reposition(fakeFloatingUiComponent, positionOptions, true);
 
-    expect(floatingEl.style.transform).toBe("");
+    assertPreOpenPositionining(floatingEl);
 
     await new Promise<void>((resolve) => setTimeout(resolve, repositionDebounceTimeout));
-    expect(floatingEl.style.transform).not.toBe("");
+    assertOpenPositionining(floatingEl);
   });
 
   describe("connect/disconnect helpers", () => {
     it("has connectedCallback and disconnectedCallback helpers", () => {
       expect(cleanupMap.has(fakeFloatingUiComponent)).toBe(false);
       expect(floatingEl.style.position).toBe("");
+      expect(floatingEl.style.visibility).toBe("");
+      expect(floatingEl.style.pointerEvents).toBe("");
 
       connectFloatingUI(fakeFloatingUiComponent, referenceEl, floatingEl);
 
       expect(cleanupMap.has(fakeFloatingUiComponent)).toBe(true);
       expect(floatingEl.style.position).toBe("absolute");
+      expect(floatingEl.style.visibility).toBe("hidden");
+      expect(floatingEl.style.pointerEvents).toBe("none");
 
       disconnectFloatingUI(fakeFloatingUiComponent, referenceEl, floatingEl);
 
@@ -114,11 +133,70 @@ describe("repositioning", () => {
 
       expect(cleanupMap.has(fakeFloatingUiComponent)).toBe(true);
       expect(floatingEl.style.position).toBe("fixed");
+      expect(floatingEl.style.visibility).toBe("hidden");
+      expect(floatingEl.style.pointerEvents).toBe("none");
 
       disconnectFloatingUI(fakeFloatingUiComponent, referenceEl, floatingEl);
 
       expect(cleanupMap.has(fakeFloatingUiComponent)).toBe(false);
       expect(floatingEl.style.position).toBe("fixed");
+    });
+  });
+
+  describe("afterClose helper", () => {
+    beforeAll(() => {
+      class TransitionEvent extends globalThis.Event {
+        readonly elapsedTime: number;
+
+        readonly propertyName: string;
+
+        readonly pseudoElement: string;
+
+        constructor(type: string, transitionEventInitDict: TransitionEventInit = {}) {
+          super(type, transitionEventInitDict);
+
+          this.elapsedTime = transitionEventInitDict.elapsedTime || 0.0;
+          this.propertyName = transitionEventInitDict.propertyName || "";
+          this.pseudoElement = transitionEventInitDict.pseudoElement || "";
+        }
+      }
+
+      // polyfilled as it is not available via JSDOM
+      globalThis.TransitionEvent = TransitionEvent;
+    });
+
+    describe("resets positioning when closed", () => {
+      function emitTransitionEnd() {
+        const closingFloatingUITransitionEvent = new TransitionEvent("transitionend", { propertyName: "opacity" });
+        floatingEl.dispatchEvent(closingFloatingUITransitionEvent);
+      }
+
+      beforeEach(() => {
+        floatingEl.setAttribute(placementDataAttribute, "fake-placement");
+        floatingEl.classList.add(FloatingCSS.animation);
+      });
+
+      it("resets for absolute positioning strategy", async () => {
+        floatingEl.style.position = "absolute";
+
+        updateAfterClose(floatingEl);
+        emitTransitionEnd();
+
+        expect(floatingEl.style.transform).toBe("");
+        expect(floatingEl.style.top).toBe("0");
+        expect(floatingEl.style.left).toBe("0");
+      });
+
+      it("does not reset for fixed positioning strategy", async () => {
+        floatingEl.style.position = "fixed";
+
+        updateAfterClose(floatingEl);
+        emitTransitionEnd();
+
+        expect(floatingEl.style.transform).toBe("");
+        expect(floatingEl.style.top).not.toBe("0");
+        expect(floatingEl.style.left).not.toBe("0");
+      });
     });
   });
 });
