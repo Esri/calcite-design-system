@@ -2,11 +2,11 @@
   "input-message": {
     "font": {
       "light": {
-        "value": "$semantic.ui.color.text.3.light",
+        "value": "$semantic.ui.color.text.1.light",
         "type": "color"
       },
       "dark": {
-        "value": "$semantic.ui.color.text.3.dark",
+        "value": "$semantic.ui.color.text.1.dark",
         "type": "color"
       },
       "sm": {
@@ -14,48 +14,44 @@
         "type": "typography"
       },
       "md": {
-        "value": "$semantic.font.default.bold.-1h",
+        "value": "$semantic.font.default.bold.-2h",
         "type": "typography"
       },
       "lg": {
-        "value": "$semantic.font.default.bold.0h",
+        "value": "$semantic.font.default.bold.-1h",
         "type": "typography"
       }
     },
     "icon": {
-      "light": {
-        "value": "$semantic.ui.color.text.3.light",
-        "type": "color"
-      },
-      "dark": {
-        "value": "$semantic.ui.color.text.3.dark",
-        "type": "color"
-      }
-    },
-    "background": {
-      "default": {
+      "idle": {
         "light": {
-          "value": "$semantic.ui.color.foreground.2.light",
+          "value": "$semantic.ui.color.brand.default.light",
           "type": "color"
         },
         "dark": {
-          "value": "$semantic.ui.color.foreground.2.dark",
+          "value": "$semantic.ui.color.brand.default.dark",
           "type": "color"
         }
-      }
-    },
-    "border-radius": {
-      "sm": {
-        "value": "$core.border.border-radius.4",
-        "type": "borderRadius"
       },
-      "md": {
-        "value": "$core.border.border-radius.5",
-        "type": "borderRadius"
+      "invalid": {
+        "light": {
+          "value": "$semantic.ui.color.danger.default.light",
+          "type": "color"
+        },
+        "dark": {
+          "value": "$semantic.ui.color.danger.default.dark",
+          "type": "color"
+        }
       },
-      "lg": {
-        "value": "$core.border.border-radius.6",
-        "type": "borderRadius"
+      "valid": {
+        "light": {
+          "value": "$semantic.ui.color.success.default.light",
+          "type": "color"
+        },
+        "dark": {
+          "value": "$semantic.ui.color.success.default.dark",
+          "type": "color"
+        }
       }
     },
     "comp-size": {
@@ -78,11 +74,11 @@
         "type": "sizing"
       },
       "md": {
-        "value": "$core.sizing.9",
+        "value": "$core.sizing.7",
         "type": "sizing"
       },
       "lg": {
-        "value": "$core.sizing.11",
+        "value": "$core.sizing.7",
         "type": "sizing"
       }
     }
