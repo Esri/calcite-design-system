@@ -117,7 +117,7 @@ describe("BigDecimal", () => {
       numberingSystem: "latn",
       useGrouping: true
     };
-    expect(new BigDecimal("123.123456789").format(numberStringFormatter)).toBe("123.123456789");
+    expect(new BigDecimal("123.0123456789").format(numberStringFormatter)).toBe("123.0123456789");
   });
 
   locales.forEach((locale) => {
