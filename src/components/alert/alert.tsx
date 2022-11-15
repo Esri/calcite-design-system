@@ -236,7 +236,7 @@ export class Alert implements OpenCloseComponent, LocalizedComponent {
               <slot name={SLOTS.actionsEnd} />
             </div>
           ) : null}
-          {queueCount}
+          {this.queueLength > 1 ? queueCount : null}
           {!autoDismiss ? closeButton : null}
           {active && !queued && autoDismiss ? <div class="alert-dismiss-progress" /> : null}
         </div>
