@@ -253,8 +253,7 @@ describe("calcite-modal accessibility checks", () => {
 
     it("focuses content if there is no close button", async () =>
       focusable(createModalHTML(focusableContentHTML, "disable-close-button"), {
-        focusTargetSelector: `.${focusableContentTargetClass}`,
-        delay: ANIMATION_TIMEOUT
+        focusTargetSelector: `.${focusableContentTargetClass}`
       }));
 
     it.skip("can focus close button directly", async () =>

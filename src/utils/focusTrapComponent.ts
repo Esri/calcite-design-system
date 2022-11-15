@@ -1,3 +1,4 @@
+import { Build } from "@stencil/core";
 import { FocusTrap as _FocusTrap, Options as FocusTrapOptions, createFocusTrap } from "focus-trap";
 import { FocusableElement, focusElement } from "./dom";
 
@@ -37,9 +38,8 @@ export function connectFocusTrap(component: FocusTrapComponent): void {
   const focusTrapOptions: FocusTrapOptions = {
     allowOutsideClick: true,
     clickOutsideDeactivates: false,
-    delayInitialFocus: true,
     escapeDeactivates: false,
-    returnFocusOnDeactivate: true,
+    delayInitialFocus: !Build.isTesting,
     fallbackFocus: focusTrapEl,
     setReturnFocus: (el) => {
       focusElement(el as FocusableElement);
