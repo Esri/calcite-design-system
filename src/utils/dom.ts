@@ -174,6 +174,18 @@ interface GetSlottedOptions {
 
 const defaultSlotSelector = ":not([slot])";
 
+/**
+ * Gets slotted elements for a named slot.
+ *
+ * @param element
+ * @param slotName
+ * @param options
+ * @deprecated Use `onSlotchange` event instead.
+ *
+ * ```
+ * <slot onSlotchange={(event) => this.myElements = getAssignedElements(event)) />}
+ * ```
+ */
 export function getSlotted<T extends Element = Element>(
   element: Element,
   slotName: string | string[] | (GetSlottedOptions & { all: true }),
@@ -304,6 +316,22 @@ export const hasAssignedElement = (event: Event): boolean => {
   return !!(event.target as HTMLSlotElement).assignedElements({
     flatten: true
   }).length;
+};
+
+/**
+ * This helper returns the assigned elements on a `slot` element from the `onSlotchange` event.
+ *
+ * ```
+ * <slot onSlotchange={(event) => this.mySlotElements = getAssignedElements(event)) />}
+ * ```
+ *
+ * @param event
+ * @returns {boolean} Whether the slot has any assigned elements.
+ */
+export const getAssignedElements = (event: Event): Element[] => {
+  return (event.target as HTMLSlotElement).assignedElements({
+    flatten: true
+  });
 };
 
 /**
