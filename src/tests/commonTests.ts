@@ -7,6 +7,7 @@ import { GlobalTestProps, skipAnimations } from "./utils";
 import { hiddenFormInputSlotName } from "../utils/form";
 import { html } from "../../support/formatting";
 import { MessageBundle } from "../utils/t9n";
+import { Build } from "@stencil/core";
 
 expect.extend(toHaveNoViolations);
 
@@ -196,11 +197,6 @@ interface FocusableOptions {
    * selector used to assert the focused shadow DOM element
    */
   shadowFocusTargetSelector?: string;
-
-  /**
-   * Used to delay setFocus call in ms.
-   */
-  delay?: number;
 }
 
 /**
@@ -214,10 +210,8 @@ export async function focusable(componentTagOrHTML: TagOrHTML, options?: Focusab
   const tag = getTag(componentTagOrHTML);
   const element = await page.find(tag);
   const focusTargetSelector = options?.focusTargetSelector || tag;
-
-  if (options?.delay) {
-    await page.waitForTimeout(options.delay);
-  }
+  const isTesting = Build.isTesting;
+  Build.isTesting = true;
 
   await element.callMethod("setFocus", options?.focusId); // assumes element is FocusableElement
 
@@ -232,6 +226,8 @@ export async function focusable(componentTagOrHTML: TagOrHTML, options?: Focusab
   }
 
   expect(await page.evaluate((selector) => document.activeElement.matches(selector), focusTargetSelector)).toBe(true);
+
+  Build.isTesting = isTesting;
 }
 
 /**
