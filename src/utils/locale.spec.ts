@@ -1,6 +1,5 @@
 import {
   locales,
-  numberingSystems,
   numberStringFormatter,
   defaultLocale,
   defaultNumberingSystem,
@@ -36,7 +35,7 @@ describe("NumberStringFormat", () => {
   });
 
   locales.forEach((locale) => {
-    it(`locale: integers localize and delocalize in "${locale}"`, () => {
+    it(`integers localize and delocalize in "${locale}"`, () => {
       const numberString = "555";
       numberStringFormatter.numberFormatOptions = {
         locale,
@@ -48,7 +47,7 @@ describe("NumberStringFormat", () => {
       expect(delocalizedNumberString).toBe(numberString);
     });
 
-    it(`locale: negative numbers localize and delocalize in "${locale}"`, () => {
+    it(`negative numbers localize and delocalize in "${locale}"`, () => {
       const numberString = "-123";
       numberStringFormatter.numberFormatOptions = {
         locale,
@@ -60,7 +59,7 @@ describe("NumberStringFormat", () => {
       expect(delocalizedNumberString).toBe(numberString);
     });
 
-    it(`locale: floating point numbers localize and delocalize in "${locale}"`, () => {
+    it(`floating point numbers localize and delocalize in "${locale}"`, () => {
       const numberString = "4.321";
       numberStringFormatter.numberFormatOptions = {
         locale,
@@ -72,7 +71,7 @@ describe("NumberStringFormat", () => {
       expect(delocalizedNumberString).toBe(numberString);
     });
 
-    it(`locale: exponential numbers localize and delocalize in "${locale}"`, () => {
+    it(`exponential numbers localize and delocalize in "${locale}"`, () => {
       const numberString = "2.5e-3";
       numberStringFormatter.numberFormatOptions = {
         locale,
@@ -84,7 +83,7 @@ describe("NumberStringFormat", () => {
       expect(delocalizedNumberString).toBe(numberString);
     });
 
-    it(`locale: numbers with group separators localize and delocalize in "${locale}"`, () => {
+    it(`numbers with group separators localize and delocalize in "${locale}"`, () => {
       const numberString = "1234567890";
       numberStringFormatter.numberFormatOptions = {
         locale,
@@ -97,26 +96,12 @@ describe("NumberStringFormat", () => {
       expect(delocalizedNumberString).toBe(numberString);
     });
 
-    it(`locale: floating point numbers with group separators localize and delocalize in "${locale}"`, () => {
-      const numberString = "12345678.0123456789";
+    it(`floating point numbers with group separators localize and delocalize in "${locale}"`, () => {
+      const numberString = "12345678.9";
       numberStringFormatter.numberFormatOptions = {
         locale,
         // the group separator is different in arabic depending on the numberingSystem
         numberingSystem: locale === "ar" ? "arab" : "latn",
-        useGrouping: true
-      };
-      const localizedNumberString = numberStringFormatter.localize(numberString);
-      const delocalizedNumberString = numberStringFormatter.delocalize(localizedNumberString);
-      expect(delocalizedNumberString).toBe(numberString);
-    });
-  });
-
-  numberingSystems.forEach((numberingSystem) => {
-    const numberString = "0.0123456789";
-    it(`numberingSystem: floating point numbers with group separators localize and delocalize in "${numberingSystem}"`, () => {
-      numberStringFormatter.numberFormatOptions = {
-        locale: numberingSystem === "arab" ? "ar" : "en",
-        numberingSystem,
         useGrouping: true
       };
       const localizedNumberString = numberStringFormatter.localize(numberString);
