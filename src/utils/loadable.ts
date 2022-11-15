@@ -13,9 +13,9 @@ export function connectLoadableComponent(component: LoadableComponent): void {
 }
 
 export function setComponentLoaded(component: LoadableComponent): void {
-  resolveMap.get(component)?.();
+  resolveMap.get(component)();
 }
 
-export async function componentLoaded(component: LoadableComponent): Promise<void> {
-  await promiseMap.get(component);
+export function componentLoaded(component: LoadableComponent): Promise<void> {
+  return promiseMap.get(component);
 }

@@ -22,7 +22,6 @@ import {
   LoadableComponent,
   componentLoaded
 } from "../../utils/loadable";
-import { FocusableComponent } from "../../utils/focusable";
 
 /**
  * @slot - A slot for adding custom content.
@@ -39,7 +38,7 @@ import { FocusableComponent } from "../../utils/focusable";
   styleUrl: "flow-item.scss",
   shadow: true
 })
-export class FlowItem implements InteractiveComponent, FocusableComponent, LoadableComponent {
+export class FlowItem implements InteractiveComponent, LoadableComponent {
   // --------------------------------------------------------------------------
   //
   //  Properties
