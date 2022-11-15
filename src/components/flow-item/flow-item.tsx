@@ -20,7 +20,7 @@ import {
   connectLoadableComponent,
   setComponentLoaded,
   LoadableComponent,
-  loadComponent
+  componentLoaded
 } from "../../utils/loadable";
 import { FocusableComponent } from "../../utils/focusable";
 
@@ -185,7 +185,7 @@ export class FlowItem implements InteractiveComponent, FocusableComponent, Loada
    */
   @Method()
   async setFocus(): Promise<void> {
-    await loadComponent(this);
+    await componentLoaded(this);
 
     const { backButtonEl, containerEl } = this;
 

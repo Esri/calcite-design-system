@@ -16,6 +16,6 @@ export function setComponentLoaded(component: LoadableComponent): void {
   resolveMap.get(component)?.();
 }
 
-export async function loadComponent(component: LoadableComponent): Promise<void> {
+export async function componentLoaded(component: LoadableComponent): Promise<void> {
   await promiseMap.get(component);
 }
