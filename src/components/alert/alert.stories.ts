@@ -174,3 +174,27 @@ export const darkThemeRTL_TestOnly = (): string => html`
 `;
 
 darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };
+
+export const actionsEndNoQueue_TestOnly = (): string => html`
+  <calcite-alert label="this is a default danger with icon and link" scale="l" color="red" icon open>
+    <div slot="title">Hello there!</div>
+    <div slot="message">Do you really want to proceed?</div>
+    <calcite-action scale="l" slot="actions-end" title="Tips" icon="lightbulb"></calcite-action>
+    <calcite-action scale="l" slot="actions-end" title="Get info" icon="attachment"></calcite-action>
+  </calcite-alert>
+`;
+
+export const actionsEndQueued_TestOnly = (): string => html`
+  <calcite-alert id="one" label="One" scale="l" color="red" icon open>
+    <div slot="title">Hello there, alert one!</div>
+    <div slot="message">Do you really want to proceed?</div>
+    <calcite-action scale="l" slot="actions-end" title="Tips" icon="lightbulb"></calcite-action>
+    <calcite-action scale="l" slot="actions-end" title="Get info" icon="attachment"></calcite-action>
+  </calcite-alert>
+  <calcite-alert id="two" label="Two" scale="l" color="red" icon open>
+    <div slot="title">Hello there, alert two!</div>
+    <div slot="message">Do you really want to proceed?</div>
+    <calcite-action scale="l" slot="actions-end" title="Tips" icon="lightbulb"></calcite-action>
+    <calcite-action scale="l" slot="actions-end" title="Get info" icon="attachment"></calcite-action>
+  </calcite-alert>
+`;

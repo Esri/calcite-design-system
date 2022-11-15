@@ -38,7 +38,7 @@ import {
  * @slot title - A slot for optionally adding a title to the component.
  * @slot message - A slot for adding main text to the component.
  * @slot link - A slot for optionally adding an action to take from the alert (undo, try again, link to page, etc.)
- * @slot actions-end - A slot for adding actions to the end of the component. It is recommended to use two or less actions.
+ * @slot actions-end - A slot for adding actions to the end of the component. It is recommended to use two or fewer actions.
  */
 
 @Component({
