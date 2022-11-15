@@ -17,14 +17,16 @@ jobs:
             } = context;
 
             if (!body) {
-              throw new Error("Could not determine the issue body");
+              console.log("could not determine the issue body");
+              return;
             }
 
-            const productRegex = new RegExp("(?<=### Esri team\r\n\r\n).+", "m");
+            const productRegex = new RegExp("(?<=### Esri team)(\r\n?|\n)(\r\n?|\n).+$", "m");
             const productRegexMatch = body.match(productRegex);
 
             if (!productRegexMatch || !productRegexMatch[0]) {
-              throw new Error("Could not determine the Esri product");
+              console.log("Could not determine the Esri product");
+              return;
             }
 
             const product = productRegexMatch[0].trim();
