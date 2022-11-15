@@ -21,7 +21,7 @@ jobs:
               return;
             }
 
-            const productRegex = new RegExp("(?<=### Esri team)(\r\n?|\n)(\r\n?|\n).+$", "m");
+            const productRegex = new RegExp("(?<=### Esri team[\r\n?|\n][\r\n?|\n]).+$", "m");
             const productRegexMatch = body.match(productRegex);
 
             if (!productRegexMatch || !productRegexMatch[0]) {
