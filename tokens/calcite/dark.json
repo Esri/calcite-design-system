@@ -454,6 +454,24 @@
           "value": "$progress.font.dark",
           "type": "color"
         }
+      },
+      "tile": {
+        "foreground": {
+          "value": "$tile.foreground.dark",
+          "type": "color"
+        },
+        "font": {
+          "value": "$tile.font.dark",
+          "type": "color"
+        },
+        "icon": {
+          "value": "$tile.icon.dark",
+          "type": "color"
+        },
+        "border": {
+          "value": "$tile.border.dark",
+          "type": "color"
+        }
       }
     }
   }

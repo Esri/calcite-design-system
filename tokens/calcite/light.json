@@ -454,6 +454,24 @@
           "value": "$progress.font.light",
           "type": "color"
         }
+      },
+      "tile": {
+        "foreground": {
+          "value": "$tile.foreground.light",
+          "type": "color"
+        },
+        "font": {
+          "value": "$tile.font.light",
+          "type": "color"
+        },
+        "icon": {
+          "value": "$tile.icon.light",
+          "type": "color"
+        },
+        "border": {
+          "value": "$tile.border.light",
+          "type": "color"
+        }
       }
     }
   }

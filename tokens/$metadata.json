@@ -4,6 +4,7 @@
     "semantic",
     "component/avatar",
     "component/checkbox",
+    "component/button",
     "component/chip",
     "component/label",
     "component/link",
