@@ -1,7 +1,5 @@
 :host {
-  @apply inline-block;
-  inline-size: 20rem;
-  block-size: 10rem;
+  // @apply relative;
 }
 
 // .container:focus {
@@ -18,15 +16,14 @@
 // }
 
 textarea {
-  @apply block 
-  text-color-1 
-  min-w-full
+  @apply block text-color-1 
   bg-foreground-1 
   box-border
   border-color-input  
   border
   border-b-0
   font-sans;
+  inline-size: 20rem;
 }
 
 .footer {
@@ -138,7 +135,7 @@ textarea:focus {
 
 :host(:not([footer])) textarea {
   @apply border-b;
-  block-size: 100%;
+  block-size: 10rem;
   &:focus {
     @apply border-b-2;
   }
