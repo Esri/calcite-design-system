@@ -12,6 +12,7 @@ jobs:
             const {
               repo: { owner, repo },
               payload: {
+                action,
                 issue: { body, labels: currentLabels, number: issue_number },
               },
             } = context;
@@ -21,15 +22,21 @@ jobs:
               return;
             }
 
-            const productRegex = new RegExp("(?<=### Esri team[\r\n?|\n][\r\n?|\n]).+$", "m");
+            const productRegex = new RegExp(
+              action === "edited"
+                ? // the way GitHub parses the issue body into plaintext
+                  // requires this exact format for edits
+                  "(?<=### Esri team\r\n\r\n).+"
+                : // otherwise it depends on the submitter's OS
+                  "(?<=### Esri team[\r\n|\r|\n]{2}).+$",
+              "m"
+            );
+
             const productRegexMatch = body.match(productRegex);
 
-            if (!productRegexMatch || !productRegexMatch[0]) {
-              console.log("Could not determine the Esri product");
-              return;
-            }
-
-            const product = productRegexMatch[0].trim();
+            const product = (
+              productRegexMatch && productRegexMatch[0] ? productRegexMatch[0] : ""
+            ).trim();
 
             if (product && product !== "N/A") {
               /** Creates a label if it does not exist */
