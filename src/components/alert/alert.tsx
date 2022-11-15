@@ -13,7 +13,7 @@ import {
   Watch
 } from "@stencil/core";
 import { getSlotted, setRequestedIcon, toAriaBoolean } from "../../utils/dom";
-import { DURATIONS, SLOTS, TEXT } from "./resources";
+import { CSS, DURATIONS, SLOTS, TEXT } from "./resources";
 import { Scale } from "../interfaces";
 import { AlertDuration, AlertPlacement, StatusColor, StatusIcons, Sync } from "./interfaces";
 import {
@@ -38,6 +38,7 @@ import {
  * @slot title - A slot for optionally adding a title to the component.
  * @slot message - A slot for adding main text to the component.
  * @slot link - A slot for optionally adding an action to take from the alert (undo, try again, link to page, etc.)
+ * @slot actions-end - A slot for adding actions to the end of the component. It is recommended to use two or less actions.
  */
 
 @Component({
@@ -169,6 +170,7 @@ export class Alert implements OpenCloseComponent, LocalizedComponent {
   }
 
   render(): VNode {
+    const { el } = this;
     const closeButton = (
       <button
         aria-label={this.intlClose}
@@ -201,6 +203,9 @@ export class Alert implements OpenCloseComponent, LocalizedComponent {
     const { active, autoDismiss, label, placement, queued, requestedIcon } = this;
     const role = autoDismiss ? "alert" : "alertdialog";
     const hidden = !active;
+
+    const hasActionEnd = getSlotted(el, SLOTS.actionsEnd);
+
     return (
       <Host
         aria-hidden={toAriaBoolean(hidden)}
@@ -226,6 +231,11 @@ export class Alert implements OpenCloseComponent, LocalizedComponent {
             <slot name={SLOTS.message} />
             <slot name={SLOTS.link} />
           </div>
+          {hasActionEnd ? (
+            <div class={CSS.actionsEnd}>
+              <slot name={SLOTS.actionsEnd} />
+            </div>
+          ) : null}
           {queueCount}
           {!autoDismiss ? closeButton : null}
           {active && !queued && autoDismiss ? <div class="alert-dismiss-progress" /> : null}
