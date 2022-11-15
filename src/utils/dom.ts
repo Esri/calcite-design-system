@@ -313,9 +313,7 @@ export function toAriaBoolean(value: boolean): string {
  * @returns {boolean} Whether the slot has any assigned elements.
  */
 export const hasAssignedElement = (event: Event): boolean => {
-  return !!(event.target as HTMLSlotElement).assignedElements({
-    flatten: true
-  }).length;
+  return !!getAssignedElements(event).length;
 };
 
 /**
