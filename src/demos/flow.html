@@ -1,81 +1,84 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
 
-    <title>Flow</title>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
 
-    <style>
-      .parent {
-        display: flex;
-        align-items: center;
-        margin: 25px 0;
-      }
+  <title>Flow</title>
 
-      .child {
-        flex: 0 0 40%;
-        margin: 0 25px;
-        color: var(--calcite-ui-text-3);
-        font-family: var(--calcite-sans-family);
-        font-size: var(--calcite-font-size-0);
-        font-weight: var(--calcite-font-weight-medium);
-        padding: 10px 0;
-      }
+  <style>
+    .parent {
+      display: flex;
+      align-items: center;
+      margin: 25px 0;
+    }
 
-      .right-aligned-text {
-        text-align: right;
-        flex: 0 0 15%;
-      }
-    </style>
+    .child {
+      flex: 0 0 40%;
+      margin: 0 25px;
+      color: var(--calcite-ui-text-3);
+      font-family: var(--calcite-sans-family);
+      font-size: var(--calcite-font-size-0);
+      font-weight: var(--calcite-font-weight-medium);
+      padding: 10px 0;
+    }
 
-    <script src="./_assets/head.js"></script>
-    <script>
-      window.onload = () => {
-        const myFunc = () => {
-          setTimeout(async () => {
-            await document.getElementById("test")?.setFocus();
-            console.log(document.activeElement);
-          }, 1000);
-        };
-        myFunc();
+    .right-aligned-text {
+      text-align: right;
+      flex: 0 0 15%;
+    }
+
+  </style>
+
+  <script src="./_assets/head.js"></script>
+  <script>
+    window.onload = () => {
+      const myFunc = () => {
+        setTimeout(async () => {
+          await document.getElementById("test")?.setFocus();
+          console.log(document.activeElement);
+        }, 1000);
       };
-    </script>
-  </head>
+      myFunc();
+    };
+  </script>
+</head>
 
-  <body>
-    <demo-dom-swapper>
-      <!-- basic -->
-      <div class="parent">
-        <div class="child right-aligned-text">basic</div>
+<body>
+  <demo-dom-swapper>
+    <!-- basic -->
+    <div class="parent">
+      <div class="child right-aligned-text">basic</div>
 
-        <div class="child">
-          <calcite-flow>
-            <calcite-flow-item heading="one, two, three, four">
-              <!-- image -->
-            </calcite-flow-item>
-            <calcite-flow-item id="test" heading="tell me that you love me more">
-              <!-- image -->
-            </calcite-flow-item>
-          </calcite-flow>
-        </div>
+      <div class="child">
+        <calcite-flow>
+          <calcite-flow-item heading="one, two, three, four">
+            <!-- image -->
+          </calcite-flow-item>
+          <calcite-flow-item id="test" heading="tell me that you love me more">
+            <!-- image -->
+          </calcite-flow-item>
+        </calcite-flow>
       </div>
+    </div>
 
-      <!-- menu-actions & footer-actions -->
-      <div class="parent">
-        <div class="child right-aligned-text">menu-actions & footer-actions</div>
+    <!-- menu-actions & footer-actions -->
+    <div class="parent">
+      <div class="child right-aligned-text">menu-actions & footer-actions</div>
 
-        <div class="child">
-          <calcite-flow>
-            <calcite-flow-item heading="What are the most popular commute alternatives?">
-              <button slot="header-menu-actions">Reset</button>
-              <button slot="header-menu-actions">Rename</button>
-              <button slot="footer-actions">Save</button>
-              <button slot="footer-actions">Cancel</button>
-            </calcite-flow-item>
-          </calcite-flow>
-        </div>
+      <div class="child">
+        <calcite-flow>
+          <calcite-flow-item heading="What are the most popular commute alternatives?">
+            <button slot="header-menu-actions">Reset</button>
+            <button slot="header-menu-actions">Rename</button>
+            <button slot="footer-actions">Save</button>
+            <button slot="footer-actions">Cancel</button>
+          </calcite-flow-item>
+        </calcite-flow>
       </div>
-    </demo-dom-swapper>
-  </body>
+    </div>
+  </demo-dom-swapper>
+</body>
+
 </html>
