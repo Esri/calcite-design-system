@@ -18,7 +18,7 @@ import { SLOTS as PANEL_SLOTS } from "../panel/resources";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import {
   connectLoadableComponent,
-  enableLoadableComponent,
+  setComponentLoaded,
   LoadableComponent,
   loadComponent
 } from "../../utils/loadable";
@@ -130,7 +130,7 @@ export class FlowItem implements InteractiveComponent, FocusableComponent, Loada
   }
 
   componentDidLoad(): void {
-    enableLoadableComponent(this);
+    setComponentLoaded(this);
   }
 
   // --------------------------------------------------------------------------

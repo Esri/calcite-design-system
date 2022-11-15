@@ -12,7 +12,7 @@ export function connectLoadableComponent(component: LoadableComponent): void {
   promiseMap.set(component, new Promise((resolve) => resolveMap.set(component, resolve)));
 }
 
-export function enableLoadableComponent(component: LoadableComponent): void {
+export function setComponentLoaded(component: LoadableComponent): void {
   resolveMap.get(component)?.();
 }
 
