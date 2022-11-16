@@ -1,4 +1,4 @@
 {
-  "rating": "須_Rating_____________鷗",
-  "stars": "須_Stars: ${num}______________鷗"
+  "rating": "評価",
+  "stars": "星: ${num}"
 }

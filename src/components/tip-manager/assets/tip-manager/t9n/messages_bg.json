@@ -1,7 +1,7 @@
 {
-  "defaultGroupTitle": "й_Tips_________й",
-  "defaultPaginationLabel": "й_Tip_______й",
-  "close": "й_Close___________й",
-  "previous": "й_Previous_________________й",
-  "next": "й_Next_________й"
+  "defaultGroupTitle": "Съвети",
+  "defaultPaginationLabel": "Съвет",
+  "close": "Затваряне",
+  "previous": "Предишна",
+  "next": "Напред"
 }

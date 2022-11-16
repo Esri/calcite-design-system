@@ -1,6 +1,6 @@
 {
-  "dragHandleActive": "Ă_Reordering ${itemLabel}, current position ${position} of ${total}__________________________________ș.",
-  "dragHandleChange": "Ă_${itemLabel}, new position ${position} of ${total}. Press space to confirm_______________________________________ș.",
-  "dragHandleCommit": "Ă_${itemLabel}, current position ${position} of ${total}_____________________________ș.",
-  "dragHandleIdle": "Ă_${itemLabel}, press space and use arrow keys to reorder content. Current position ${position} of ${total}______________________________________________________ș."
+  "dragHandleActive": "Se reordonează ${itemLabel}, poziția actuală ${position} din ${total}.",
+  "dragHandleChange": "${itemLabel}, poziția nouă ${position} din ${total}. Apăsați pe tasta spațiu pentru a confirma.",
+  "dragHandleCommit": "${itemLabel}, poziția actuală ${position} din ${total}.",
+  "dragHandleIdle": "${itemLabel}, apăsați pe tasta spațiu și folosiți tastele cu săgeți pentru a reordona conținutul. Poziția actuală ${position} din ${total}."
 }

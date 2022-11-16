@@ -1,5 +1,5 @@
 {
-  "enableEditing": "須_Click to edit______________鷗",
-  "cancelEditing": "須_Cancel_____________鷗",
-  "confirmChanges": "須_Save_________鷗"
+  "enableEditing": "クリックして編集",
+  "cancelEditing": "キャンセル",
+  "confirmChanges": "保存"
 }

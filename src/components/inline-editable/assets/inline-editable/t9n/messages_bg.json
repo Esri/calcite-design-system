@@ -1,5 +1,5 @@
 {
-  "enableEditing": "й_Click to edit______________й",
-  "cancelEditing": "й_Cancel_____________й",
-  "confirmChanges": "й_Save_________й"
+  "enableEditing": "Натиснете, за да редактирате",
+  "cancelEditing": "Отказ",
+  "confirmChanges": "Запазване"
 }

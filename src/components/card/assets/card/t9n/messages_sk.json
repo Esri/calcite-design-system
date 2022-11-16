@@ -1,5 +1,5 @@
 {
-  "select": "ĺ_Select_____________ľ",
-  "deselect": "ĺ_Deselect_________________ľ",
-  "loading": "ĺ_Loading_______________ľ"
+  "select": "Vybrať",
+  "deselect": "Zrušiť výber",
+  "loading": "Načítava sa"
 }

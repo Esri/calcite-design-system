@@ -1,5 +1,5 @@
 {
-  "select": "ķ_Select_____________ū",
-  "deselect": "ķ_Deselect_________________ū",
-  "loading": "ķ_Loading_______________ū"
+  "select": "Izvēlēties",
+  "deselect": "Noņemt izvēli",
+  "loading": "Ielādē"
 }

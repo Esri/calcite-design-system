@@ -1,5 +1,5 @@
 {
-  "select": "ก้_Select_____________ษฺ",
-  "deselect": "ก้_Deselect_________________ษฺ",
-  "loading": "ก้_Loading_______________ษฺ"
+  "select": "เลือก",
+  "deselect": "ไม่เลือก",
+  "loading": "กำลังโหลด"
 }

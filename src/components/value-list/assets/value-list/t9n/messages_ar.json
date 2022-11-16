@@ -1,6 +1,6 @@
 {
-  "dragHandleActive": "بيت_Reordering ${itemLabel}, current position ${position} of ${total}__________________________________لاحقة.",
-  "dragHandleChange": "بيت_${itemLabel}, new position ${position} of ${total}. Press space to confirm_______________________________________لاحقة.",
-  "dragHandleCommit": "بيت_${itemLabel}, current position ${position} of ${total}_____________________________لاحقة.",
-  "dragHandleIdle": "بيت_${itemLabel}, press space and use arrow keys to reorder content. Current position ${position} of ${total}______________________________________________________لاحقة."
+  "dragHandleActive": "إعادة ترتيب ${itemLabel}، الموضع الحالي ${position} من ${total}.",
+  "dragHandleChange": "${itemLabel}، الموضع الجديد ${position} من ${total} اضغط على مفتاح المسافة للتأكيد.",
+  "dragHandleCommit": "${itemLabel}، الموضع الحالي ${position} من ${total}.",
+  "dragHandleIdle": "${itemLabel}، اضغط على مفتاح المسافة واستخدام مفاتيح الأسهم لإعادة ترتيب المحتوى. الموضع الحالي ${position} من ${total}."
 }

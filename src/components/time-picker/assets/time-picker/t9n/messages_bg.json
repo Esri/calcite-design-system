@@ -1,14 +1,14 @@
 {
-  "hour": "й_Hour_________й",
-  "hourDown": "й_Decrease hour______________й",
-  "hourUp": "й_Increase hour______________й",
-  "meridiem": "й_AM/PM___________й",
-  "meridiemDown": "й_Decrease AM/PM_______________й",
-  "meridiemUp": "й_Increase AM/PM_______________й",
-  "minute": "й_Minute_____________й",
-  "minuteDown": "й_Decrease minute________________й",
-  "minuteUp": "й_Increase minute________________й",
-  "second": "й_Second_____________й",
-  "secondDown": "й_Decrease second________________й",
-  "secondUp": "й_Increase second________________й"
+  "hour": "Час",
+  "hourDown": "Намаляване на часа",
+  "hourUp": "Увеличаване на часа",
+  "meridiem": "AM/PM",
+  "meridiemDown": "Намаляване AM/PM",
+  "meridiemUp": "Увеличаване AM/PM",
+  "minute": "Минута",
+  "minuteDown": "Намаляване на минута",
+  "minuteUp": "Увеличаване на минута",
+  "second": "Секунда",
+  "secondDown": "Намаляване на секунда",
+  "secondUp": "Увеличаване на секунда"
 }
