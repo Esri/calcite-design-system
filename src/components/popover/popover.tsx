@@ -12,7 +12,14 @@ import {
   h,
   VNode
 } from "@stencil/core";
-import { CSS, ARIA_CONTROLS, ARIA_EXPANDED, TEXT, defaultPopoverPlacement } from "./resources";
+import {
+  CSS,
+  ARIA_CONTROLS,
+  ARIA_EXPANDED,
+  HEADING_LEVEL,
+  TEXT,
+  defaultPopoverPlacement
+} from "./resources";
 import {
   FloatingCSS,
   OverlayPositioning,
@@ -507,7 +514,7 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
   renderHeader(): VNode {
     const { heading, headingLevel } = this;
     const headingNode = heading ? (
-      <Heading class={CSS.heading} level={headingLevel}>
+      <Heading class={CSS.heading} level={headingLevel || HEADING_LEVEL}>
         {heading}
       </Heading>
     ) : null;

@@ -11,7 +11,7 @@ import {
   Fragment,
   State
 } from "@stencil/core";
-import { CSS, ICONS, SLOTS, TEXT } from "./resources";
+import { CSS, HEADING_LEVEL, ICONS, SLOTS, TEXT } from "./resources";
 import { getElementDir, toAriaBoolean } from "../../utils/dom";
 import { Scale } from "../interfaces";
 import { HeadingLevel, Heading } from "../functional/Heading";
@@ -457,7 +457,7 @@ export class Panel implements InteractiveComponent {
   renderHeaderContent(): VNode {
     const { heading, headingLevel, summary, description, hasHeaderContent } = this;
     const headingNode = heading ? (
-      <Heading class={CSS.heading} level={headingLevel}>
+      <Heading class={CSS.heading} level={headingLevel || HEADING_LEVEL}>
         {heading}
       </Heading>
     ) : null;

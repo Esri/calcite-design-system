@@ -1,5 +1,5 @@
 import { Component, Element, Event, EventEmitter, h, Host, Prop, VNode } from "@stencil/core";
-import { CSS, ICONS, SLOTS, TEXT } from "./resources";
+import { CSS, HEADING_LEVEL, ICONS, SLOTS, TEXT } from "./resources";
 import { getSlotted, toAriaBoolean } from "../../utils/dom";
 import { Heading, HeadingLevel } from "../functional/Heading";
 import { Status } from "../interfaces";
@@ -216,7 +216,7 @@ export class Block implements ConditionalSlotComponent, InteractiveComponent {
     const { heading, headingLevel, summary, description } = this;
     return heading || summary || description ? (
       <div class={CSS.title}>
-        <Heading class={CSS.heading} level={headingLevel}>
+        <Heading class={CSS.heading} level={headingLevel || HEADING_LEVEL}>
           {heading}
         </Heading>
         {summary || description ? (

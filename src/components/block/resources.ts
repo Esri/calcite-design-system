@@ -39,3 +39,5 @@ export const ICONS = {
   invalid: "exclamation-mark-triangle",
   refresh: "refresh"
 };
+
+export const HEADING_LEVEL = 4;

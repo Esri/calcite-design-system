@@ -1,5 +1,6 @@
 import { Component, Element, Prop, h, VNode, Fragment } from "@stencil/core";
 import { CSS, SLOTS } from "./resources";
+import { HEADING_LEVEL } from "./resources";
 import { getSlotted } from "../../utils/dom";
 import { HeadingLevel, Heading, constrainHeadingLevel } from "../functional/Heading";
 import {
@@ -73,7 +74,7 @@ export class PickListGroup implements ConditionalSlotComponent {
     const title = groupTitle;
     const parentLevel = el.closest("calcite-pick-list")?.headingLevel;
     const relativeLevel = parentLevel ? constrainHeadingLevel(parentLevel + 1) : null;
-    const level = headingLevel || relativeLevel;
+    const level = headingLevel || relativeLevel || HEADING_LEVEL;
 
     return (
       <Fragment>
