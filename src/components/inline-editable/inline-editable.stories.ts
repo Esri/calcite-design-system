@@ -62,7 +62,7 @@ export const darkThemeRTL_TestOnly = (): string => html`
         </calcite-input>
       </calcite-inline-editable>
       <calcite-input-message
-        ${boolean("active", false, "InputMessage") && "active"}
+        ${boolean("hidden", true, "InputMessage") && "active"}
         ${boolean("icon", false, "InputMessage") && "icon"}
         status="${select("status", ["idle", "valid", "invalid"], "idle", "InputMessage")}"
       >

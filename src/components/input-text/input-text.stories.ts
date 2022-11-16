@@ -72,7 +72,7 @@ export const withSlottedAction = (): string => html`
       <calcite-button slot="action">${text("action button text", "Go")}</calcite-button>
     </calcite-input-text>
     <calcite-input-message
-      ${boolean("input-message-active", false)}
+      ${boolean("hidden", true)}
       status="${select("input message status", ["idle", "valid", "invalid"], "idle")}"
       >${text("input message text", "My great input message")}</calcite-input-message
     >
