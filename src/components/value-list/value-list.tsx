@@ -197,12 +197,11 @@ export class ValueList<
   }
 
   componentWillLoad(): void {
-    setComponentLoaded(this);
     setUpLoadableComponent(this);
   }
 
   componentDidLoad(): void {
-    setUpLoadableComponent(this);
+    setComponentLoaded(this);
     this.setUpDragAndDrop();
     handleInitialFilter.call(this);
   }
