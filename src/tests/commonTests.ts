@@ -7,7 +7,6 @@ import { GlobalTestProps, skipAnimations } from "./utils";
 import { hiddenFormInputSlotName } from "../utils/form";
 import { html } from "../../support/formatting";
 import { MessageBundle } from "../utils/t9n";
-import { Build } from "@stencil/core";
 
 expect.extend(toHaveNoViolations);
 
@@ -206,8 +205,6 @@ interface FocusableOptions {
  * @param {FocusableOptions} [options] - additional options for asserting focus
  */
 export async function focusable(componentTagOrHTML: TagOrHTML, options?: FocusableOptions): Promise<void> {
-  const originalIsBrowser = Build.isBrowser;
-  Build.isBrowser = false;
   const page = await simplePageSetup(componentTagOrHTML);
   const tag = getTag(componentTagOrHTML);
   const element = await page.find(tag);
@@ -229,8 +226,6 @@ export async function focusable(componentTagOrHTML: TagOrHTML, options?: Focusab
   await page.waitForTimeout(0);
 
   expect(await page.evaluate((selector) => document.activeElement.matches(selector), focusTargetSelector)).toBe(true);
-
-  Build.isBrowser = originalIsBrowser;
 }
 
 /**
