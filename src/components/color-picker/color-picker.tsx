@@ -48,7 +48,7 @@ const defaultFormat = "auto";
   styleUrl: "color-picker.scss",
   shadow: true
 })
-export class ColorPicker implements InteractiveComponent {
+export class ColorPicker implements InteractiveComponent, LoadableComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
