@@ -1,5 +1,5 @@
 import { Component, Element, Event, EventEmitter, Prop, h, VNode, Fragment } from "@stencil/core";
-import { CSS, ICONS, SLOTS, TEXT, HEADING_LEVEL } from "./resources";
+import { CSS, ICONS, SLOTS, TEXT } from "./resources";
 import { getSlotted } from "../../utils/dom";
 import { HeadingLevel, Heading, constrainHeadingLevel } from "../functional/Heading";
 import {
@@ -110,7 +110,7 @@ export class Tip implements ConditionalSlotComponent {
     const { heading, headingLevel, el } = this;
     const parentLevel = el.closest("calcite-tip-manager")?.headingLevel;
     const relativeLevel = parentLevel ? constrainHeadingLevel(parentLevel + 1) : null;
-    const level = headingLevel || relativeLevel || HEADING_LEVEL;
+    const level = headingLevel || relativeLevel;
 
     return heading ? (
       <header class={CSS.header}>

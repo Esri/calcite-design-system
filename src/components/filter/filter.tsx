@@ -107,7 +107,7 @@ export class Filter implements InteractiveComponent, LoadableComponent {
   componentWillLoad(): void {
     setUpLoadableComponent(this);
 
-    this.filter(this.value);
+    this.updateFiltered(filter(this.items, this.value));
   }
 
   componentDidLoad(): void {

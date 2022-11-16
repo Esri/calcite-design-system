@@ -20,6 +20,8 @@ import {
   deselectRemovedItems,
   getItemData,
   handleFilter,
+  handleFilterEvent,
+  handleInitialFilter,
   calciteListFocusOutHandler,
   initialize,
   initializeObserver,
@@ -67,6 +69,20 @@ export class PickList<
   @Prop({ reflect: true }) disabled = false;
 
   /**
+   * **read-only** The currently filtered items
+   *
+   * @readonly
+   */
+  @Prop({ mutable: true }) filteredItems: HTMLCalcitePickListItemElement[] = [];
+
+  /**
+   * **read-only** The currently filtered items
+   *
+   * @readonly
+   */
+  @Prop({ mutable: true }) filteredData: ItemData = [];
+
+  /**
    * When `true`, an input appears at the top of the list that can be used by end users to filter items in the list.
    */
   @Prop({ reflect: true }) filterEnabled = false;
@@ -75,6 +91,11 @@ export class PickList<
    * Placeholder text for the filter input field.
    */
   @Prop({ reflect: true }) filterPlaceholder: string;
+
+  /**
+   * Text for the filter input field.
+   */
+  @Prop({ reflect: true, mutable: true }) filterText: string;
 
   /**
    * Specifies the number at which section headings should start.
@@ -119,6 +140,8 @@ export class PickList<
 
   emitCalciteListChange: () => void;
 
+  emitCalciteListFilter: () => void;
+
   filterEl: HTMLCalciteFilterElement;
 
   // --------------------------------------------------------------------------
@@ -142,6 +165,7 @@ export class PickList<
 
   componentDidLoad(): void {
     setComponentLoaded(this);
+    handleInitialFilter.call(this);
   }
 
   componentDidRender(): void {
@@ -160,6 +184,11 @@ export class PickList<
   @Event({ cancelable: false }) calciteListChange: EventEmitter<
     Map<string, HTMLCalcitePickListItemElement>
   >;
+
+  /**
+   * Emits when a filter has changed.
+   */
+  @Event({ cancelable: false }) calciteListFilter: EventEmitter<void>;
 
   @Listen("calciteListItemRemove")
   calciteListItemRemoveHandler(event: CustomEvent<void>): void {
@@ -208,6 +237,10 @@ export class PickList<
     this.filterEl = el;
   };
 
+  setFilteredItems = (filteredItems: any[]): void => {
+    this.filteredItems = filteredItems;
+  };
+
   deselectRemovedItems = deselectRemovedItems.bind(this);
 
   deselectSiblingItems = deselectSiblingItems.bind(this);
@@ -215,6 +248,8 @@ export class PickList<
   selectSiblings = selectSiblings.bind(this);
 
   handleFilter = handleFilter.bind(this);
+
+  handleFilterEvent = handleFilterEvent.bind(this);
 
   getItemData = getItemData.bind(this);
 
