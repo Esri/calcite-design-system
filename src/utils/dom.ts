@@ -183,7 +183,7 @@ const defaultSlotSelector = ":not([slot])";
  * @deprecated Use `onSlotchange` event instead.
  *
  * ```
- * <slot onSlotchange={(event) => this.myElements = getAssignedElements(event)) />}
+ * <slot onSlotchange={(event) => this.myElements = getSlotChangeAssignedElements(event)} />}
  * ```
  */
 export function getSlotted<T extends Element = Element>(
@@ -306,31 +306,31 @@ export function toAriaBoolean(value: boolean): string {
  * This helper returns `true` if the target `slot` element from the `onSlotchange` event has an assigned element.
  *
  * ```
- * <slot onSlotchange={(event) => this.mySlotHasElement = hasAssignedElement(event)) />}
+ * <slot onSlotchange={(event) => this.mySlotHasElement = slotChangeHasAssignedElement(event)} />}
  * ```
  *
  * @param event
  * @returns {boolean} Whether the slot has any assigned elements.
  */
-export const hasAssignedElement = (event: Event): boolean => {
-  return !!getAssignedElements(event).length;
-};
+export function slotChangeHasAssignedElement(event: Event): boolean {
+  return !!getSlotChangeAssignedElements(event).length;
+}
 
 /**
  * This helper returns the assigned elements on a `slot` element from the `onSlotchange` event.
  *
  * ```
- * <slot onSlotchange={(event) => this.mySlotElements = getAssignedElements(event)) />}
+ * <slot onSlotchange={(event) => this.mySlotElements = getSlotChangeAssignedElements(event)} />}
  * ```
  *
  * @param event
  * @returns {boolean} Whether the slot has any assigned elements.
  */
-export const getAssignedElements = (event: Event): Element[] => {
+export function getSlotChangeAssignedElements(event: Event): Element[] {
   return (event.target as HTMLSlotElement).assignedElements({
     flatten: true
   });
-};
+}
 
 /**
  * This helper returns true if the pointer event fired from the primary button of the device.
