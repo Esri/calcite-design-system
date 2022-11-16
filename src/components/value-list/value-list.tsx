@@ -197,6 +197,7 @@ export class ValueList<
   }
 
   componentWillLoad(): void {
+    setComponentLoaded(this);
     setUpLoadableComponent(this);
   }
 
