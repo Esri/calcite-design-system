@@ -16,6 +16,12 @@ import { TileSelectType } from "./interfaces";
 import { guid } from "../../utils/guid";
 import { CSS } from "./resources";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import {
+  setUpLoadableComponent,
+  setComponentLoaded,
+  LoadableComponent,
+  componentLoaded
+} from "../../utils/loadable";
 
 /**
  * @slot - A slot for adding custom content.
@@ -25,7 +31,7 @@ import { InteractiveComponent, updateHostInteraction } from "../../utils/interac
   styleUrl: "tile-select.scss",
   shadow: true
 })
-export class TileSelect implements InteractiveComponent {
+export class TileSelect implements InteractiveComponent, LoadableComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -133,6 +139,8 @@ export class TileSelect implements InteractiveComponent {
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
+    await componentLoaded(this);
+
     this.input?.setFocus();
   }
 
@@ -228,6 +236,14 @@ export class TileSelect implements InteractiveComponent {
 
   connectedCallback(): void {
     this.renderInput();
+  }
+
+  componentWillLoad(): void {
+    setUpLoadableComponent(this);
+  }
+
+  componentDidLoad(): void {
+    setComponentLoaded(this);
   }
 
   disconnectedCallback(): void {

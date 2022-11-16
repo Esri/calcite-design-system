@@ -18,6 +18,12 @@ import { CSS, TEXT, SLOTS } from "./resources";
 import { createObserver } from "../../utils/observers";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { toAriaBoolean } from "../../utils/dom";
+import {
+  setUpLoadableComponent,
+  setComponentLoaded,
+  LoadableComponent,
+  componentLoaded
+} from "../../utils/loadable";
 
 /**
  * @slot - A slot for adding a `calcite-icon`.
@@ -27,7 +33,7 @@ import { toAriaBoolean } from "../../utils/dom";
   styleUrl: "action.scss",
   shadow: true
 })
-export class Action implements InteractiveComponent {
+export class Action implements InteractiveComponent, LoadableComponent {
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -132,6 +138,14 @@ export class Action implements InteractiveComponent {
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
   }
 
+  componentWillLoad(): void {
+    setUpLoadableComponent(this);
+  }
+
+  componentDidLoad(): void {
+    setComponentLoaded(this);
+  }
+
   disconnectedCallback(): void {
     this.mutationObserver?.disconnect();
   }
@@ -149,6 +163,8 @@ export class Action implements InteractiveComponent {
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
+    await componentLoaded(this);
+
     this.buttonEl?.focus();
   }
 

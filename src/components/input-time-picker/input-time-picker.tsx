@@ -34,6 +34,12 @@ import {
   updateEffectiveLocale
 } from "../../utils/locale";
 import { numberKeys } from "../../utils/key";
+import {
+  setUpLoadableComponent,
+  setComponentLoaded,
+  LoadableComponent,
+  componentLoaded
+} from "../../utils/loadable";
 
 @Component({
   tag: "calcite-input-time-picker",
@@ -46,7 +52,8 @@ export class InputTimePicker
     FormComponent,
     InteractiveComponent,
     FloatingUIComponent,
-    LocalizedComponent
+    LocalizedComponent,
+    LoadableComponent
 {
   //--------------------------------------------------------------------------
   //
@@ -369,6 +376,8 @@ export class InputTimePicker
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
+    await componentLoaded(this);
+
     this.calciteInputEl?.setFocus();
   }
 
@@ -512,7 +521,12 @@ export class InputTimePicker
     }
   }
 
+  componentWillLoad(): void {
+    setUpLoadableComponent(this);
+  }
+
   componentDidLoad() {
+    setComponentLoaded(this);
     this.setInputValue(this.localizedValue);
   }
 

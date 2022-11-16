@@ -17,13 +17,21 @@ import { connectForm, disconnectForm } from "../../utils/form";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { toAriaBoolean } from "../../utils/dom";
 import { isActivationKey } from "../../utils/key";
+import {
+  setUpLoadableComponent,
+  setComponentLoaded,
+  LoadableComponent,
+  componentLoaded
+} from "../../utils/loadable";
 
 @Component({
   tag: "calcite-checkbox",
   styleUrl: "checkbox.scss",
   shadow: true
 })
-export class Checkbox implements LabelableComponent, CheckableFormComponent, InteractiveComponent {
+export class Checkbox
+  implements LabelableComponent, CheckableFormComponent, InteractiveComponent, LoadableComponent
+{
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -115,6 +123,8 @@ export class Checkbox implements LabelableComponent, CheckableFormComponent, Int
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
+    await componentLoaded(this);
+
     this.toggleEl?.focus();
   }
 
@@ -203,6 +213,14 @@ export class Checkbox implements LabelableComponent, CheckableFormComponent, Int
   disconnectedCallback(): void {
     disconnectLabel(this);
     disconnectForm(this);
+  }
+
+  componentWillLoad(): void {
+    setUpLoadableComponent(this);
+  }
+
+  componentDidLoad(): void {
+    setComponentLoaded(this);
   }
 
   componentDidRender(): void {

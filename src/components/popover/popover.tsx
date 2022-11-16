@@ -47,6 +47,13 @@ import { Scale } from "../interfaces";
 
 import PopoverManager from "./PopoverManager";
 
+import {
+  setUpLoadableComponent,
+  setComponentLoaded,
+  LoadableComponent,
+  componentLoaded
+} from "../../utils/loadable";
+
 const manager = new PopoverManager();
 
 /**
@@ -57,7 +64,7 @@ const manager = new PopoverManager();
   styleUrl: "popover.scss",
   shadow: true
 })
-export class Popover implements FloatingUIComponent, OpenCloseComponent {
+export class Popover implements FloatingUIComponent, OpenCloseComponent, LoadableComponent {
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -266,7 +273,12 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
     this.setUpReferenceElement(this.hasLoaded);
   }
 
+  componentWillLoad(): void {
+    setUpLoadableComponent(this);
+  }
+
   componentDidLoad(): void {
+    setComponentLoaded(this);
     if (this.referenceElement && !this.effectiveReferenceElement) {
       this.setUpReferenceElement();
     }
@@ -348,6 +360,8 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
    */
   @Method()
   async setFocus(focusId?: "close-button"): Promise<void> {
+    await componentLoaded(this);
+
     const { closeButtonEl } = this;
 
     if (focusId === "close-button" && closeButtonEl) {

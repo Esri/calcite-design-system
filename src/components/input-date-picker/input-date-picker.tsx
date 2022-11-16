@@ -64,6 +64,12 @@ import {
   numberStringFormatter
 } from "../../utils/locale";
 import { numberKeys } from "../../utils/key";
+import {
+  setUpLoadableComponent,
+  setComponentLoaded,
+  LoadableComponent,
+  componentLoaded
+} from "../../utils/loadable";
 
 @Component({
   tag: "calcite-input-date-picker",
@@ -77,7 +83,8 @@ export class InputDatePicker
     InteractiveComponent,
     OpenCloseComponent,
     FloatingUIComponent,
-    LocalizedComponent
+    LocalizedComponent,
+    LoadableComponent
 {
   //--------------------------------------------------------------------------
   //
@@ -408,6 +415,8 @@ export class InputDatePicker
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
+    await componentLoaded(this);
+
     this.startInput?.setFocus();
   }
 
@@ -492,12 +501,14 @@ export class InputDatePicker
   }
 
   async componentWillLoad(): Promise<void> {
+    setUpLoadableComponent(this);
     await this.loadLocaleData();
     this.onMinChanged(this.min);
     this.onMaxChanged(this.max);
   }
 
   componentDidLoad(): void {
+    setComponentLoaded(this);
     this.localizeInputValues();
     this.reposition(true);
   }
