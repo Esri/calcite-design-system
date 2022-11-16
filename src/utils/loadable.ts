@@ -8,7 +8,7 @@ const resolveMap = new WeakMap<LoadableComponent, (value: void | PromiseLike<voi
 
 const promiseMap = new WeakMap<LoadableComponent, Promise<void>>();
 
-export function connectLoadableComponent(component: LoadableComponent): void {
+export function setUpLoadableComponent(component: LoadableComponent): void {
   promiseMap.set(component, new Promise((resolve) => resolveMap.set(component, resolve)));
 }
 

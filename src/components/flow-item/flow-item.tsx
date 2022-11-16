@@ -17,7 +17,7 @@ import { CSS, ICONS, TEXT, SLOTS } from "./resources";
 import { SLOTS as PANEL_SLOTS } from "../panel/resources";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import {
-  connectLoadableComponent,
+  setUpLoadableComponent,
   setComponentLoaded,
   LoadableComponent,
   componentLoaded
@@ -121,7 +121,7 @@ export class FlowItem implements InteractiveComponent, LoadableComponent {
   //--------------------------------------------------------------------------
 
   componentWillLoad(): void {
-    connectLoadableComponent(this);
+    setUpLoadableComponent(this);
   }
 
   componentDidRender(): void {
