@@ -1,7 +1,7 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { focusable, renders, slots, hidden } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
-import { CSS, SLOTS, ANIMATION_TIMEOUT } from "./resources";
+import { CSS, SLOTS } from "./resources";
 import { newProgrammaticE2EPage, skipAnimations } from "../../tests/utils";
 
 describe("calcite-modal properties", () => {
