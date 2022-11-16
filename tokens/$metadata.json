@@ -3,6 +3,7 @@
     "core",
     "semantic",
     "component/accordion-item",
+    "component/alert",
     "component/avatar",
     "component/checkbox",
     "component/chip",
