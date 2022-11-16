@@ -161,4 +161,29 @@ describe("calcite-tab-nav", () => {
       });
     });
   });
+
+  it("focuses on keyboard interaction", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html`<calcite-tab-nav>
+      <calcite-tab-title id="tab1">Tab 1 Title</calcite-tab-title>
+      <calcite-tab-title id="tab2">Tab 2 Title</calcite-tab-title>
+      <calcite-tab-title id="tab3">Tab 3 Title</calcite-tab-title>
+    </calcite-tab-nav>`);
+
+    const tab1 = await page.find("#tab1");
+    await tab1.focus();
+    expect(await page.evaluate(() => document.activeElement.id)).toBe("tab1");
+
+    await page.keyboard.press("ArrowRight");
+    expect(await page.evaluate(() => document.activeElement.id)).toBe("tab2");
+
+    await page.keyboard.press("ArrowLeft");
+    expect(await page.evaluate(() => document.activeElement.id)).toBe("tab1");
+
+    await page.keyboard.press("End");
+    expect(await page.evaluate(() => document.activeElement.id)).toBe("tab3");
+
+    await page.keyboard.press("Home");
+    expect(await page.evaluate(() => document.activeElement.id)).toBe("tab1");
+  });
 });

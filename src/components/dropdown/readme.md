@@ -87,7 +87,7 @@ You can combine groups in a single dropdown, with varying selection modes:
 
 ## Methods
 
-### `reposition() => Promise<void>`
+### `reposition(delayed?: boolean) => Promise<void>`
 
 Updates the position of the component.
 

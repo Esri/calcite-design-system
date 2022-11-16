@@ -12,24 +12,24 @@
 
 ## Properties
 
-| Property             | Attribute       | Description                                                                                                                                   | Type                                               | Default      |
-| -------------------- | --------------- | --------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------- | ------------ |
-| `appearance`         | `appearance`    | specify the appearance style of the button, defaults to solid.                                                                                | `"clear" \| "solid"`                               | `"solid"`    |
-| `closable`           | `closable`      | When true, show abutton user can click to dismiss the chip.                                                                                   | `boolean`                                          | `false`      |
-| `closed`             | `closed`        | When true, hides the chip                                                                                                                     | `boolean`                                          | `false`      |
-| `color`              | `color`         | specify the color of the button, defaults to blue                                                                                             | `"blue" \| "green" \| "grey" \| "red" \| "yellow"` | `"grey"`     |
-| `dismissLabel`       | `dismiss-label` | Aria label for the "x" button                                                                                                                 | `string`                                           | `TEXT.close` |
-| `dismissible`        | `dismissible`   | <span style="color:red">**[DEPRECATED]**</span> use closable instead<br/><br/>Optionally show a button the user can click to dismiss the chip | `boolean`                                          | `false`      |
-| `icon`               | `icon`          | Specifies an icon to display.                                                                                                                 | `string`                                           | `undefined`  |
-| `iconFlipRtl`        | `icon-flip-rtl` | When true, the icon will be flipped when the element direction is right-to-left (`"rtl"`).                                                    | `boolean`                                          | `false`      |
-| `scale`              | `scale`         | specify the scale of the chip, defaults to m                                                                                                  | `"l" \| "m" \| "s"`                                | `"m"`        |
-| `value` _(required)_ | `value`         | The assigned value for the chip                                                                                                               | `any`                                              | `undefined`  |
+| Property             | Attribute       | Description                                                                                                                             | Type                                               | Default      |
+| -------------------- | --------------- | --------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------- | ------------ |
+| `appearance`         | `appearance`    | Specifies the appearance style of the component.                                                                                        | `"clear" \| "solid"`                               | `"solid"`    |
+| `closable`           | `closable`      | When `true`, a close button is added to the component.                                                                                  | `boolean`                                          | `false`      |
+| `closed`             | `closed`        | When `true`, hides the component.                                                                                                       | `boolean`                                          | `false`      |
+| `color`              | `color`         | Specifies the color for the component.                                                                                                  | `"blue" \| "green" \| "grey" \| "red" \| "yellow"` | `"grey"`     |
+| `dismissLabel`       | `dismiss-label` | Accessible name for the component's close button.                                                                                       | `string`                                           | `TEXT.close` |
+| `dismissible`        | `dismissible`   | <span style="color:red">**[DEPRECATED]**</span> use `closable` instead.<br/><br/>When `true`, a close button is added to the component. | `boolean`                                          | `false`      |
+| `icon`               | `icon`          | Specifies an icon to display.                                                                                                           | `string`                                           | `undefined`  |
+| `iconFlipRtl`        | `icon-flip-rtl` | When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).                                            | `boolean`                                          | `false`      |
+| `scale`              | `scale`         | Specifies the size of the component.                                                                                                    | `"l" \| "m" \| "s"`                                | `"m"`        |
+| `value` _(required)_ | `value`         | The component's value.                                                                                                                  | `any`                                              | `undefined`  |
 
 ## Events
 
 | Event                | Description                                                                                                                                               | Type               |
 | -------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------ |
-| `calciteChipDismiss` | Emitted when the dismiss button is clicked **Note:**: The `el` event payload props is deprecated, please use the event's `target`/`currentTarget` instead | `CustomEvent<any>` |
+| `calciteChipDismiss` | Fires when the dismiss button is clicked. **Note:**: The `el` event payload props is deprecated, please use the event's `target`/`currentTarget` instead. | `CustomEvent<any>` |
 
 ## Methods
 

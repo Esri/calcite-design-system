@@ -174,3 +174,7 @@ export const withTooltip_NoTest = (): string =>
       <calcite-action text="Add" icon="plus"></calcite-action>
     `
   );
+
+withTooltip_NoTest.parameters = {
+  chromatic: { disableSnapshot: true }
+};

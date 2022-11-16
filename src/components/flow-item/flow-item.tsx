@@ -307,7 +307,12 @@ export class FlowItem implements InteractiveComponent {
           <slot />
         </calcite-panel>
         {backButtonEl ? (
-          <calcite-tooltip label={label} placement="auto" referenceElement={backButtonEl}>
+          <calcite-tooltip
+            label={label}
+            overlayPositioning="fixed"
+            placement="top"
+            referenceElement={backButtonEl}
+          >
             {label}
           </calcite-tooltip>
         ) : null}
