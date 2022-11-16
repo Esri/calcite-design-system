@@ -25,5 +25,3 @@ export const TEXT = {
   previous: "Previous",
   next: "Next"
 };
-
-export const HEADING_LEVEL = 2;
