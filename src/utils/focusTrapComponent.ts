@@ -39,7 +39,7 @@ export function connectFocusTrap(component: FocusTrapComponent): void {
     allowOutsideClick: true,
     clickOutsideDeactivates: false,
     escapeDeactivates: false,
-    delayInitialFocus: !Build.isTesting,
+    delayInitialFocus: Build.isBrowser,
     fallbackFocus: focusTrapEl,
     setReturnFocus: (el) => {
       focusElement(el as FocusableElement);
