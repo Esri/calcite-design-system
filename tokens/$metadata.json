@@ -2,6 +2,7 @@
   "tokenSetOrder": [
     "core",
     "semantic",
+    "component/accordion-item",
     "component/avatar",
     "component/checkbox",
     "component/chip",
