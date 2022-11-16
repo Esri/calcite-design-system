@@ -1,14 +1,14 @@
 {
-  "hour": "試_Hour_________驗",
-  "hourDown": "試_Decrease hour______________驗",
-  "hourUp": "試_Increase hour______________驗",
-  "meridiem": "試_AM/PM___________驗",
-  "meridiemDown": "試_Decrease AM/PM_______________驗",
-  "meridiemUp": "試_Increase AM/PM_______________驗",
-  "minute": "試_Minute_____________驗",
-  "minuteDown": "試_Decrease minute________________驗",
-  "minuteUp": "試_Increase minute________________驗",
-  "second": "試_Second_____________驗",
-  "secondDown": "試_Decrease second________________驗",
-  "secondUp": "試_Increase second________________驗"
+  "hour": "小時",
+  "hourDown": "減少小時",
+  "hourUp": "增加小時",
+  "meridiem": "AM/PM",
+  "meridiemDown": "減少 AM/PM",
+  "meridiemUp": "增加 AM/PM",
+  "minute": "分鐘",
+  "minuteDown": "減少分鐘",
+  "minuteUp": "增加分鐘",
+  "second": "秒",
+  "secondDown": "減少秒",
+  "secondUp": "增加秒"
 }

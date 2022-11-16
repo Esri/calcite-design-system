@@ -1,5 +1,5 @@
 {
-  "select": "ґ_Select_____________Ї",
-  "deselect": "ґ_Deselect_________________Ї",
-  "loading": "ґ_Loading_______________Ї"
+  "select": "Вибрати",
+  "deselect": "Скасувати вибір",
+  "loading": "Завантажується"
 }

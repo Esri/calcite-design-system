@@ -1,6 +1,6 @@
 {
-  "dragHandleActive": "Ř_Reordering ${itemLabel}, current position ${position} of ${total}__________________________________ů.",
-  "dragHandleChange": "Ř_${itemLabel}, new position ${position} of ${total}. Press space to confirm_______________________________________ů.",
-  "dragHandleCommit": "Ř_${itemLabel}, current position ${position} of ${total}_____________________________ů.",
-  "dragHandleIdle": "Ř_${itemLabel}, press space and use arrow keys to reorder content. Current position ${position} of ${total}______________________________________________________ů."
+  "dragHandleActive": "Změna pořadí ${itemLabel}, aktuální pozice ${position} z ${total}.",
+  "dragHandleChange": "${itemLabel}, nová pozice ${position} z ${total}. Potvrďte stisknutím mezerníku.",
+  "dragHandleCommit": "${itemLabel}, aktuální pozice ${position} z ${total}.",
+  "dragHandleIdle": "${itemLabel}, stiskněte mezerník a pomocí šipek změňte pořadí obsahu. Aktuální pozice ${position} z ${total}."
 }

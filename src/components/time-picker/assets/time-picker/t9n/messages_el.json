@@ -1,14 +1,14 @@
 {
-  "hour": "Đ_Hour_________ớ",
-  "hourDown": "Đ_Decrease hour______________ớ",
-  "hourUp": "Đ_Increase hour______________ớ",
-  "meridiem": "Đ_AM/PM___________ớ",
-  "meridiemDown": "Đ_Decrease AM/PM_______________ớ",
-  "meridiemUp": "Đ_Increase AM/PM_______________ớ",
-  "minute": "Đ_Minute_____________ớ",
-  "minuteDown": "Đ_Decrease minute________________ớ",
-  "minuteUp": "Đ_Increase minute________________ớ",
-  "second": "Đ_Second_____________ớ",
-  "secondDown": "Đ_Decrease second________________ớ",
-  "secondUp": "Đ_Increase second________________ớ"
+  "hour": "Ωρών",
+  "hourDown": "Μείωση ώρας",
+  "hourUp": "Αύξηση ώρας",
+  "meridiem": "π.μ./μ.μ.",
+  "meridiemDown": "Μείωση π.μ./μ.μ.",
+  "meridiemUp": "Αύξηση π.μ./μ.μ.",
+  "minute": "Λεπτό",
+  "minuteDown": "Μείωση λεπτού",
+  "minuteUp": "Αύξηση λεπτού",
+  "second": "Δεύτερο",
+  "secondDown": "Μείωση δευτερολέπτου",
+  "secondUp": "Αύξηση δευτερολέπτου"
 }

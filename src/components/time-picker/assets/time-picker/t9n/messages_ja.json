@@ -1,14 +1,14 @@
 {
-  "hour": "須_Hour_________鷗",
-  "hourDown": "須_Decrease hour______________鷗",
-  "hourUp": "須_Increase hour______________鷗",
-  "meridiem": "須_AM/PM___________鷗",
-  "meridiemDown": "須_Decrease AM/PM_______________鷗",
-  "meridiemUp": "須_Increase AM/PM_______________鷗",
-  "minute": "須_Minute_____________鷗",
-  "minuteDown": "須_Decrease minute________________鷗",
-  "minuteUp": "須_Increase minute________________鷗",
-  "second": "須_Second_____________鷗",
-  "secondDown": "須_Decrease second________________鷗",
-  "secondUp": "須_Increase second________________鷗"
+  "hour": "時間",
+  "hourDown": "時間を減らす",
+  "hourUp": "時間を増やす",
+  "meridiem": "AM/PM",
+  "meridiemDown": "AM/PM を減らす",
+  "meridiemUp": "AM/PM を増やす",
+  "minute": "分",
+  "minuteDown": "分を減らす",
+  "minuteUp": "分を増やす",
+  "second": "秒",
+  "secondDown": "秒を減らす",
+  "secondUp": "秒を増やす"
 }
