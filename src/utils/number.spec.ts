@@ -111,6 +111,15 @@ describe("BigDecimal", () => {
     expect(negativeZero).toBe("-0");
   });
 
+  it("correctly formats long decimal numbers", () => {
+    numberStringFormatter.numberFormatOptions = {
+      locale: "en",
+      numberingSystem: "latn",
+      useGrouping: true
+    };
+    expect(new BigDecimal("123.0123456789").format(numberStringFormatter)).toBe("123.0123456789");
+  });
+
   locales.forEach((locale) => {
     it(`correctly localizes number parts - ${locale}`, () => {
       numberStringFormatter.numberFormatOptions = {
@@ -120,7 +129,7 @@ describe("BigDecimal", () => {
         useGrouping: true
       };
 
-      const parts = new BigDecimal("-12345678.9").formatToParts(numberStringFormatter.numberFormatter);
+      const parts = new BigDecimal("-12345678.9").formatToParts(numberStringFormatter);
       const groupPart = parts.find((part) => part.type === "group").value;
       expect(groupPart.trim().length === 0 ? " " : groupPart).toBe(numberStringFormatter.group);
       expect(parts.find((part) => part.type === "decimal").value).toBe(numberStringFormatter.decimal);

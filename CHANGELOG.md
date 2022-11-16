@@ -7,18 +7,25 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## Unreleased
 
+### ⚠ BREAKING CHANGES
+
+- **block, date-picker, list-item-group, panel, pick-list-group, popover, tip, tip-manager:** Set default internal heading to a div. (#5728)
+
 ### Features
 
+- **pick-list, value-list:** Add calciteListFilter event, filteredItems prop, filterText prop and filteredData prop. ([#5681](https://github.com/Esri/calcite-components/issues/5681)) ([943d208](https://github.com/Esri/calcite-components/commit/943d2088b7cf447a12ebcd0babab145f543538a2)), closes [#4333](https://github.com/Esri/calcite-components/issues/4333)
 - **popover:** Escape key should close open popovers. ([#5726](https://github.com/Esri/calcite-components/issues/5726)) ([2e2621d](https://github.com/Esri/calcite-components/commit/2e2621d57c4701f7a7e84f74d801c543ad4f45c0))
 - **tabs:** Add support for navigating with Home and End keys ([#5727](https://github.com/Esri/calcite-components/issues/5727)) ([823c429](https://github.com/Esri/calcite-components/commit/823c429439ec9f8cd1d6a1ff2aedf0b2da9c741b)), closes [#5661](https://github.com/Esri/calcite-components/issues/5661)
 
 ### Bug Fixes
 
+- **block, date-picker, list-item-group, panel, pick-list-group, popover, tip, tip-manager:** Set default internal heading to a div. ([#5728](https://github.com/Esri/calcite-components/issues/5728)) ([38ca639](https://github.com/Esri/calcite-components/commit/38ca639010b8bd1d1fe32c9cf9b54dfc38cf9877)), closes [#5099](https://github.com/Esri/calcite-components/issues/5099)
 - **button, fab:** adjust padding on 'l' scale button to accommodate 'm' scale icon without change in height ([#5659](https://github.com/Esri/calcite-components/issues/5659)) ([d68d95c](https://github.com/Esri/calcite-components/commit/d68d95cda10ad819e52b048479780590f21ac479))
 - **combobox:** Wrap and break text on long items ([#5672](https://github.com/Esri/calcite-components/issues/5672)) ([4a4d776](https://github.com/Esri/calcite-components/commit/4a4d7767e7cc39cc1561432c74d99d0783d3997a)), closes [#5419](https://github.com/Esri/calcite-components/issues/5419)
 - **flow-item:** Position back tooltip above ([#5688](https://github.com/Esri/calcite-components/issues/5688)) ([bb67992](https://github.com/Esri/calcite-components/commit/bb67992fa9f113709482a69fff0f36032dbfad35))
 - **inline-editable:** Add text-ellipsis when not editing ([#5679](https://github.com/Esri/calcite-components/issues/5679)) ([2524e6f](https://github.com/Esri/calcite-components/commit/2524e6f6a8cbc7c2a35c635ce34ad0c9dbc6874f)), closes [#5489](https://github.com/Esri/calcite-components/issues/5489)
 - **input-date-picker:** restores mouse clicks on date-picker popup ([#5760](https://github.com/Esri/calcite-components/issues/5760)) ([98f28c6](https://github.com/Esri/calcite-components/commit/98f28c6a9ae48b12bee7fc78fb7cdc4ceb456d3e))
+- **input, input-number:** decimals no longer contain groupSeparators and remove leading zeros ([#5490](https://github.com/Esri/calcite-components/issues/5490)) ([07142f3](https://github.com/Esri/calcite-components/commit/07142f35d1d6678bc28101245638046658922c22))
 - **value-list-item:** Prevent scrolling when space is pressed on drag button ([#5709](https://github.com/Esri/calcite-components/issues/5709)) ([81d4c71](https://github.com/Esri/calcite-components/commit/81d4c71a815ff66ef540a77f223c2ffa31cc2899))
 
 ### Reverts

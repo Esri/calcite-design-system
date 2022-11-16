@@ -174,6 +174,18 @@ interface GetSlottedOptions {
 
 const defaultSlotSelector = ":not([slot])";
 
+/**
+ * Gets slotted elements for a named slot.
+ *
+ * @param element
+ * @param slotName
+ * @param options
+ * @deprecated Use `onSlotchange` event instead.
+ *
+ * ```
+ * <slot onSlotchange={(event) => this.myElements = slotChangeGetAssignedElements(event)} />}
+ * ```
+ */
 export function getSlotted<T extends Element = Element>(
   element: Element,
   slotName: string | string[] | (GetSlottedOptions & { all: true }),
@@ -288,6 +300,36 @@ export function intersects(rect1: DOMRect, rect2: DOMRect): boolean {
  */
 export function toAriaBoolean(value: boolean): string {
   return Boolean(value).toString();
+}
+
+/**
+ * This helper returns `true` if the target `slot` element from the `onSlotchange` event has an assigned element.
+ *
+ * ```
+ * <slot onSlotchange={(event) => this.mySlotHasElement = slotChangeHasAssignedElement(event)} />}
+ * ```
+ *
+ * @param event
+ * @returns {boolean} Whether the slot has any assigned elements.
+ */
+export function slotChangeHasAssignedElement(event: Event): boolean {
+  return !!slotChangeGetAssignedElements(event).length;
+}
+
+/**
+ * This helper returns the assigned elements on a `slot` element from the `onSlotchange` event.
+ *
+ * ```
+ * <slot onSlotchange={(event) => this.mySlotElements = slotChangeGetAssignedElements(event)} />}
+ * ```
+ *
+ * @param event
+ * @returns {boolean} Whether the slot has any assigned elements.
+ */
+export function slotChangeGetAssignedElements(event: Event): Element[] {
+  return (event.target as HTMLSlotElement).assignedElements({
+    flatten: true
+  });
 }
 
 /**
