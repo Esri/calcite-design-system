@@ -206,12 +206,12 @@ interface FocusableOptions {
  * @param {FocusableOptions} [options] - additional options for asserting focus
  */
 export async function focusable(componentTagOrHTML: TagOrHTML, options?: FocusableOptions): Promise<void> {
+  const originalIsBrowser = Build.isBrowser;
+  Build.isBrowser = false;
   const page = await simplePageSetup(componentTagOrHTML);
   const tag = getTag(componentTagOrHTML);
   const element = await page.find(tag);
   const focusTargetSelector = options?.focusTargetSelector || tag;
-  const originalIsTesting = Build.isTesting;
-  Build.isTesting = false;
 
   await element.callMethod("setFocus", options?.focusId); // assumes element is FocusableElement
 
@@ -225,9 +225,12 @@ export async function focusable(componentTagOrHTML: TagOrHTML, options?: Focusab
     ).toBe(true);
   }
 
+  // wait for next frame before checking focus
+  await page.waitForTimeout(0);
+
   expect(await page.evaluate((selector) => document.activeElement.matches(selector), focusTargetSelector)).toBe(true);
 
-  Build.isTesting = originalIsTesting;
+  Build.isBrowser = originalIsBrowser;
 }
 
 /**
