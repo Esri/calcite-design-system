@@ -25,6 +25,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - **flow-item:** Position back tooltip above ([#5688](https://github.com/Esri/calcite-components/issues/5688)) ([bb67992](https://github.com/Esri/calcite-components/commit/bb67992fa9f113709482a69fff0f36032dbfad35))
 - **inline-editable:** Add text-ellipsis when not editing ([#5679](https://github.com/Esri/calcite-components/issues/5679)) ([2524e6f](https://github.com/Esri/calcite-components/commit/2524e6f6a8cbc7c2a35c635ce34ad0c9dbc6874f)), closes [#5489](https://github.com/Esri/calcite-components/issues/5489)
 - **input-date-picker:** restores mouse clicks on date-picker popup ([#5760](https://github.com/Esri/calcite-components/issues/5760)) ([98f28c6](https://github.com/Esri/calcite-components/commit/98f28c6a9ae48b12bee7fc78fb7cdc4ceb456d3e))
+- **input, input-number:** decimals no longer contain groupSeparators and remove leading zeros ([#5490](https://github.com/Esri/calcite-components/issues/5490)) ([07142f3](https://github.com/Esri/calcite-components/commit/07142f35d1d6678bc28101245638046658922c22))
 - **value-list-item:** Prevent scrolling when space is pressed on drag button ([#5709](https://github.com/Esri/calcite-components/issues/5709)) ([81d4c71](https://github.com/Esri/calcite-components/commit/81d4c71a815ff66ef540a77f223c2ffa31cc2899))
 
 ### Reverts
