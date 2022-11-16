@@ -225,6 +225,9 @@ export async function focusable(componentTagOrHTML: TagOrHTML, options?: Focusab
     ).toBe(true);
   }
 
+  // wait for next frame before checking focus
+  await page.waitForTimeout(0);
+
   expect(await page.evaluate((selector) => document.activeElement.matches(selector), focusTargetSelector)).toBe(true);
 
   Build.isTesting = isTesting;
