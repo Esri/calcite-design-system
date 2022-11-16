@@ -1,6 +1,5 @@
 import { Component, Element, Prop, h, VNode, Host } from "@stencil/core";
 import { CSS } from "./resources";
-import { HEADING_LEVEL } from "./resources";
 import { HeadingLevel, Heading, constrainHeadingLevel } from "../functional/Heading";
 
 /**
@@ -50,7 +49,7 @@ export class ListItemGroup {
       "calcite-list, calcite-list-item-group"
     )?.headingLevel;
     const relativeLevel = parentLevel ? constrainHeadingLevel(parentLevel + 1) : null;
-    const level = headingLevel || relativeLevel || HEADING_LEVEL;
+    const level = headingLevel || relativeLevel;
 
     return (
       <Host>
