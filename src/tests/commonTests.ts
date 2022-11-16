@@ -210,8 +210,8 @@ export async function focusable(componentTagOrHTML: TagOrHTML, options?: Focusab
   const tag = getTag(componentTagOrHTML);
   const element = await page.find(tag);
   const focusTargetSelector = options?.focusTargetSelector || tag;
-  const originalIsBrowser = Build.isBrowser;
-  Build.isBrowser = false;
+  const originalIsTesting = Build.isTesting;
+  Build.isTesting = false;
 
   await element.callMethod("setFocus", options?.focusId); // assumes element is FocusableElement
 
@@ -227,7 +227,7 @@ export async function focusable(componentTagOrHTML: TagOrHTML, options?: Focusab
 
   expect(await page.evaluate((selector) => document.activeElement.matches(selector), focusTargetSelector)).toBe(true);
 
-  Build.isBrowser = originalIsBrowser;
+  Build.isTesting = originalIsTesting;
 }
 
 /**
