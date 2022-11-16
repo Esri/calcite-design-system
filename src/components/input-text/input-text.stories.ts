@@ -71,9 +71,7 @@ export const withSlottedAction = (): string => html`
     >
       <calcite-button slot="action">${text("action button text", "Go")}</calcite-button>
     </calcite-input-text>
-    <calcite-input-message
-      ${boolean("hidden", true)}
-      status="${select("input message status", ["idle", "valid", "invalid"], "idle")}"
+    <calcite-input-message hidden status="${select("input message status", ["idle", "valid", "invalid"], "idle")}"
       >${text("input message text", "My great input message")}</calcite-input-message
     >
   </div>
@@ -94,9 +92,7 @@ export const darkThemeRTL_TestOnly = (): string => html`
       placeholder="${text("placeholder", "Placeholder text")}"
     >
     </calcite-input-text>
-    <calcite-input-message
-      ${boolean("calcite-input-message-active", true)}
-      status="${select("input message status", ["idle", "valid", "invalid"], "idle")}"
+    <calcite-input-message status="${select("input message status", ["idle", "valid", "invalid"], "idle")}"
       >${text("input message text", "My great input message")}</calcite-input-message
     >
   </div>
