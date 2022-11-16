@@ -30,4 +30,4 @@ export const darkThemeRTL_TestOnly = (): string => html`
   ></calcite-progress>
 `;
 
-darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };
+darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault, chromatic: { disableSnapshot: true } };

@@ -4,7 +4,6 @@ import { CSS } from "./resources";
 import { MAX_COLUMNS } from "../list-item/resources";
 import { HeadingLevel } from "../functional/Heading";
 import { getDepth } from "../list-item/utils";
-
 /**
  * @slot - A slot for adding `calcite-list-item` and `calcite-list-item-group` elements.
  */
@@ -71,7 +70,6 @@ export class ListItemGroup implements InteractiveComponent {
 
   render(): VNode {
     const { heading, visualLevel } = this;
-
     return (
       <Host>
         <tr

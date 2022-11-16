@@ -23,7 +23,7 @@ import {
 import { HeadingLevel } from "../functional/Heading";
 
 import { DateRangeChange } from "./interfaces";
-import { HEADING_LEVEL, TEXT } from "./resources";
+import { TEXT } from "./resources";
 import {
   connectLocalized,
   disconnectLocalized,
@@ -482,7 +482,7 @@ export class DatePicker implements LocalizedComponent {
       this.localeData && [
         <calcite-date-picker-month-header
           activeDate={activeDate}
-          headingLevel={this.headingLevel || HEADING_LEVEL}
+          headingLevel={this.headingLevel}
           intlNextMonth={this.intlNextMonth}
           intlPrevMonth={this.intlPrevMonth}
           intlYear={this.intlYear}
