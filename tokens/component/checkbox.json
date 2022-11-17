@@ -16,15 +16,15 @@
     },
     "space-between": {
       "sm": {
-        "value": "$core.sizing.1",
+        "value": "$core.spacing.1",
         "type": "spacing"
       },
       "md": {
-        "value": "$core.sizing.3",
+        "value": "$core.spacing.3",
         "type": "spacing"
       },
       "lg": {
-        "value": "$core.sizing.3",
+        "value": "$core.spacing.3",
         "type": "spacing"
       }
     },
@@ -102,7 +102,7 @@
     },
     "space-around": {
       "standard": {
-        "value": "$core.sizing.5",
+        "value": "$core.spacing.5",
         "type": "spacing"
       }
     }
