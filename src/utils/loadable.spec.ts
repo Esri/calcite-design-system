@@ -1,8 +1,12 @@
 import { setUpLoadableComponent, setComponentLoaded, componentLoaded } from "./loadable";
 
 describe("loadable", () => {
-  it("lifecycle", async () => {
-    const status = {
+  it("should honor loadable component lifecyce", async () => {
+    const status: {
+      willLoad: boolean;
+      loaded: boolean;
+      promise: Promise<void>;
+    } = {
       willLoad: false,
       loaded: false,
       promise: null
