@@ -85,6 +85,34 @@
         "value": "$core.sizing.11",
         "type": "sizing"
       }
+    },
+    "space-between": {
+      "sm": {
+        "value": "$core.spacing.9",
+        "type": "spacing"
+      },
+      "md": {
+        "value": "$core.spacing.11",
+        "type": "spacing"
+      },
+      "lg": {
+        "value": "$core.spacing.14",
+        "type": "spacing"
+      }
+    },
+    "space-around": {
+      "sm": {
+        "value": "$core.spacing.7",
+        "type": "spacing"
+      },
+      "md": {
+        "value": "$core.spacing.9",
+        "type": "spacing"
+      },
+      "lg": {
+        "value": "$core.spacing.11",
+        "type": "spacing"
+      }
     }
   }
 }
