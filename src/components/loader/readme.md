@@ -6,14 +6,6 @@ The `calcite-loader` component can act as a determinate or indeterminate loading
 
 ## Usage
 
-### Basic
-
-You can use the global attribute hidden to toggle visibility:
-
-```html
-<calcite-loader hidden text="Fetching data..."></calcite-loader>
-```
-
 ### Compact
 
 For instances when you don't have room for the full loader, you can use the smaller `inline` version of the loader. The inline version is meant to sit to the left of text:
