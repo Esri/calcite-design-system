@@ -58,6 +58,20 @@
         "type": "borderRadius"
       }
     },
+    "border-width": {
+      "sm": {
+        "value": "$core.border.border-width.4",
+        "type": "borderWidth"
+      },
+      "md": {
+        "value": "$core.border.border-width.5",
+        "type": "borderWidth"
+      },
+      "lg": {
+        "value": "$core.border.border-width.6",
+        "type": "borderWidth"
+      }
+    },
     "comp-size": {
       "sm": {
         "value": "$core.sizing.9",
