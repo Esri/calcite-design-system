@@ -112,9 +112,7 @@ export const textarea = (): string => html`
       placeholder="${text("placeholder", "Placeholder text")}"
     >
     </calcite-input>
-    <calcite-input-message
-      ${boolean("hidden", true)}
-      status="${select("input message status", ["idle", "valid", "invalid"], "idle")}"
+    <calcite-input-message status="${select("input message status", ["idle", "valid", "invalid"], "idle")}"
       >${text("input message text", "My great input message")}</calcite-input-message
     >
   </div>
