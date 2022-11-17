@@ -27,6 +27,9 @@ export class Loader {
    * @deprecated use global `hidden` attribute instead.
    * @mdn [hidden](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/hidden)
    */
+  @Prop({ reflect: true }) active = false;
+
+  /** When `true`, displays smaller and appears to the left of the text. */
   @Prop({ reflect: true }) inline = false;
 
   /** Accessible name for the component. */
