@@ -9,7 +9,7 @@ Developers building Esri applications are encouraged to use the default theme as
   }
 </style>
 <div class="my-theme">
-  <calcite-loader active>
+  <calcite-loader>
 </div>
 ```
 
