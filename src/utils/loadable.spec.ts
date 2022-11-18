@@ -19,34 +19,8 @@ describe("loadable", () => {
     await waitForAnimationFrame();
     expect(afterLoad).not.toHaveBeenCalled();
 
-    componentLoaded(fakeComponent)?.then(afterLoad);
+    componentLoaded(fakeComponent).then(afterLoad);
     await waitForAnimationFrame();
     expect(afterLoad).toHaveBeenCalledTimes(1);
-
-    // expect(status.willLoad).toBe(false);
-    // expect(status.loaded).toBe(false);
-    // expect(status.promise).toBeNull();
-
-    // fakeComponent.componentWillLoad();
-
-    // expect(status.willLoad).toBe(true);
-    // expect(status.loaded).toBe(false);
-    // expect(status.promise).toBeNull();
-
-    // fakeComponent.load();
-
-    // expect(status.willLoad).toBe(true);
-    // expect(status.loaded).toBe(false);
-    // expect(status.promise).toBeDefined();
-    // expect(status.promise).toBeInstanceOf(Promise);
-
-    // fakeComponent.componentDidLoad();
-
-    // await status.promise;
-
-    // expect(status.willLoad).toBe(true);
-    // expect(status.loaded).toBe(true);
-    // expect(status.promise).toBeDefined();
-    // expect(status.promise).toBeInstanceOf(Promise);
   });
 });
