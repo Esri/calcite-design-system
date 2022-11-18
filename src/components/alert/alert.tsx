@@ -170,7 +170,7 @@ export class Alert implements OpenCloseComponent, LocalizedComponent {
   }
 
   render(): VNode {
-    const { el } = this;
+    const { hasEndActions } = this;
     const closeButton = (
       <button
         aria-label={this.intlClose}
@@ -204,7 +204,9 @@ export class Alert implements OpenCloseComponent, LocalizedComponent {
     const role = autoDismiss ? "alert" : "alertdialog";
     const hidden = !active;
 
-    const hasActionEnd = getSlotted(el, SLOTS.actionsEnd);
+    const slotNode = (
+      <slot name={SLOTS.actionsEnd} onSlotchange={this.handleActionsEndSlotChange} />
+    );
 
     return (
       <Host
@@ -231,11 +233,9 @@ export class Alert implements OpenCloseComponent, LocalizedComponent {
             <slot name={SLOTS.message} />
             <slot name={SLOTS.link} />
           </div>
-          {hasActionEnd ? (
-            <div class={CSS.actionsEnd}>
-              <slot name={SLOTS.actionsEnd} />
-            </div>
-          ) : null}
+          <div class={CSS.actionsEnd} hidden={!hasEndActions}>
+            {slotNode}
+          </div>
           {this.queueLength > 1 ? queueCount : null}
           {!autoDismiss ? closeButton : null}
           {active && !queued && autoDismiss ? <div class="alert-dismiss-progress" /> : null}
@@ -326,6 +326,8 @@ export class Alert implements OpenCloseComponent, LocalizedComponent {
 
   @State() effectiveLocale = "";
 
+  @State() hasEndActions = false;
+
   /** the list of queued alerts */
   @State() queue: HTMLCalciteAlertElement[] = [];
 
@@ -410,4 +412,12 @@ export class Alert implements OpenCloseComponent, LocalizedComponent {
     window.clearTimeout(this.queueTimeout);
     this.queueTimeout = window.setTimeout(() => (this.queued = false), 300);
   }
+
+  handleActionsEndSlotChange = (event: Event): void => {
+    const elements = (event.target as HTMLSlotElement).assignedElements({
+      flatten: true
+    });
+
+    this.hasEndActions = !!elements.length;
+  };
 }
