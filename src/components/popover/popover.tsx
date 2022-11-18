@@ -27,6 +27,13 @@ import {
   reposition,
   updateAfterClose
 } from "../../utils/floating-ui";
+import {
+  FocusTrapComponent,
+  FocusTrap,
+  connectFocusTrap,
+  activateFocusTrap,
+  deactivateFocusTrap
+} from "../../utils/focusTrapComponent";
 
 import { guid } from "../../utils/guid";
 import { queryElementRoots, toAriaBoolean } from "../../utils/dom";
@@ -50,7 +57,7 @@ const manager = new PopoverManager();
   styleUrl: "popover.scss",
   shadow: true
 })
-export class Popover implements FloatingUIComponent, OpenCloseComponent {
+export class Popover implements FloatingUIComponent, OpenCloseComponent, FocusTrapComponent {
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -93,6 +100,11 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
    * When `true`, prevents flipping the component's placement when overlapping its `referenceElement`.
    */
   @Prop({ reflect: true }) disableFlip = false;
+
+  /**
+   * When `true`, prevents focus trapping.
+   */
+  @Prop({ reflect: true }) disableFocusTrap = false;
 
   /**
    * When `true`, removes the caret pointer.
@@ -240,6 +252,10 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
 
   hasLoaded = false;
 
+  focusTrap: FocusTrap;
+
+  focusTrapEl: HTMLDivElement;
+
   // --------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -271,6 +287,7 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
     this.removeReferences();
     disconnectFloatingUI(this, this.effectiveReferenceElement, this.el);
     disconnectOpenCloseComponent(this);
+    deactivateFocusTrap(this);
   }
 
   //--------------------------------------------------------------------------
@@ -350,7 +367,7 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
       return;
     }
 
-    this.el?.focus();
+    activateFocusTrap(this);
   }
 
   /**
@@ -369,9 +386,11 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
   //
   // --------------------------------------------------------------------------
 
-  private setTransitionEl = (el): void => {
+  private setTransitionEl = (el: HTMLDivElement): void => {
     this.transitionEl = el;
     connectOpenCloseComponent(this);
+    this.focusTrapEl = el;
+    connectFocusTrap(this);
   };
 
   setFilteredPlacements = (): void => {
@@ -465,6 +484,9 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
 
   onOpen(): void {
     this.calcitePopoverOpen.emit();
+    if (!this.disableFocusTrap) {
+      activateFocusTrap(this);
+    }
   }
 
   onBeforeClose(): void {
@@ -473,6 +495,7 @@ export class Popover implements FloatingUIComponent, OpenCloseComponent {
 
   onClose(): void {
     this.calcitePopoverClose.emit();
+    deactivateFocusTrap(this);
   }
 
   storeArrowEl = (el: HTMLDivElement): void => {
