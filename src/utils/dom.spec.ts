@@ -5,7 +5,9 @@ import {
   ensureId,
   getThemeName,
   toAriaBoolean,
-  isPrimaryPointerButton
+  isPrimaryPointerButton,
+  slotChangeGetAssignedElements,
+  slotChangeHasAssignedElement
 } from "./dom";
 import { guidPattern } from "./guid.spec";
 import { html } from "../../support/formatting";
@@ -377,6 +379,42 @@ describe("dom", () => {
       expect(isPrimaryPointerButton({ button: 1, isPrimary: true } as PointerEvent)).toBe(false);
       expect(isPrimaryPointerButton({ button: 0, isPrimary: false } as PointerEvent)).toBe(false);
       expect(isPrimaryPointerButton({} as PointerEvent)).toBe(false);
+    });
+  });
+
+  describe("slotChangeGetAssignedElements()", () => {
+    it("handles slotted elements", () => {
+      const target = document.createElement("slot");
+      target.assignedElements = () => [document.createElement("div"), document.createElement("div")];
+      const event = new Event("onSlotchange");
+      target.dispatchEvent(event);
+      expect(slotChangeGetAssignedElements(event)).toHaveLength(2);
+    });
+
+    it("handles no slotted elements", () => {
+      const target = document.createElement("slot");
+      target.assignedElements = () => [];
+      const event = new Event("onSlotchange");
+      target.dispatchEvent(event);
+      expect(slotChangeGetAssignedElements(event)).toHaveLength(0);
+    });
+  });
+
+  describe("slotChangeHasAssignedElement()", () => {
+    it("handles slotted elements", () => {
+      const target = document.createElement("slot");
+      target.assignedElements = () => [document.createElement("div"), document.createElement("div")];
+      const event = new Event("onSlotchange");
+      target.dispatchEvent(event);
+      expect(slotChangeHasAssignedElement(event)).toBe(true);
+    });
+
+    it("handles no slotted elements", () => {
+      const target = document.createElement("slot");
+      target.assignedElements = () => [];
+      const event = new Event("onSlotchange");
+      target.dispatchEvent(event);
+      expect(slotChangeHasAssignedElement(event)).toBe(false);
     });
   });
 });

@@ -105,7 +105,7 @@ export class Card implements ConditionalSlotComponent {
       <div class={{ "calcite-card-container": true, inline: thumbnailInline }}>
         {this.loading ? (
           <div class="calcite-card-loader-container">
-            <calcite-loader active label={this.intlLoading} />
+            <calcite-loader label={this.intlLoading} />
           </div>
         ) : null}
         {thumbnailStart && this.renderThumbnail()}
