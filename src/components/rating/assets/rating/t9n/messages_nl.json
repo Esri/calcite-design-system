@@ -1,4 +1,4 @@
 {
-  "rating": "Ĳ_Rating_____________ä",
-  "stars": "Ĳ_Stars: ${num}______________ä"
+  "rating": "Beoordeling",
+  "stars": "Sterren: ${num}"
 }

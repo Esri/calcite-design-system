@@ -1,4 +1,4 @@
 {
-  "rating": "ĺ_Rating_____________ľ",
-  "stars": "ĺ_Stars: ${num}______________ľ"
+  "rating": "Hodnotenie",
+  "stars": "Hviezdičky: ${num}"
 }

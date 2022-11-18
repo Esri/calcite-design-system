@@ -1,5 +1,5 @@
 {
-  "enableEditing": "ng_Click to edit______________ny",
-  "cancelEditing": "ng_Cancel_____________ny",
-  "confirmChanges": "ng_Save_________ny"
+  "enableEditing": "Klik untuk mengedit",
+  "cancelEditing": "Batalkan",
+  "confirmChanges": "Simpan"
 }

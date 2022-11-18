@@ -1,7 +1,7 @@
 {
-  "defaultGroupTitle": "כן_Tips_________ש",
-  "defaultPaginationLabel": "כן_Tip_______ש",
-  "close": "כן_Close___________ש",
-  "previous": "כן_Previous_________________ש",
-  "next": "כן_Next_________ש"
+  "defaultGroupTitle": "עצות",
+  "defaultPaginationLabel": "טיפ",
+  "close": "סגירה",
+  "previous": "קודם",
+  "next": "הבא"
 }
