@@ -20,11 +20,14 @@
 
       .child {
         display: flex;
-        flex-basis: 320px;
         flex-direction: column;
         flex-flow: column;
         margin: 15px;
         padding: 0 18px;
+      }
+
+      .scale-text {
+        flex-basis: 320px;
       }
 
       .child-text {
@@ -35,6 +38,11 @@
         padding: 0 10px;
         justify-content: center;
       }
+
+      calcite-textarea {
+        width: 320px;
+        height: 160px;
+      }
     </style>
     <script src="./_assets/head.js"></script>
   </head>
@@ -42,9 +50,9 @@
     <!-- Scale-->
     <div class="parent">
       <div class="child-text"></div>
-      <div class="child">Small</div>
-      <div class="child">Medium</div>
-      <div class="child">Large</div>
+      <div class="child scale-text">Small</div>
+      <div class="child scale-text">Medium</div>
+      <div class="child scale-text">Large</div>
     </div>
 
     <!-- Default -->
@@ -187,6 +195,29 @@
       </div>
     </div>
 
+    <!-- With Label -->
+    <div class="parent">
+      <div class="child-text">With Label</div>
+
+      <div class="child">
+        <calcite-label>
+          Add Notes <calcite-textarea placeholder="add notes" scale="s"> </calcite-textarea>
+        </calcite-label>
+      </div>
+      <div class="child">
+        <calcite-label>
+          Add Notes
+          <calcite-textarea placeholder="add notes" scale="m"> </calcite-textarea>
+        </calcite-label>
+      </div>
+      <div class="child">
+        <calcite-label>
+          Add Notes
+          <calcite-textarea placeholder="add notes" scale="l"> </calcite-textarea>
+        </calcite-label>
+      </div>
+    </div>
+
     <!--  With Slotted at footer-leading -->
     <div class="parent">
       <div class="child-text">With Slotted at footer-leading</div>
@@ -205,6 +236,28 @@
       <div class="child">
         <calcite-textarea footer maxlength="50" placeholder="add notes" scale="l">
           <calcite-button slot="footer-leading" appearance="transparent" scale="l">CLEAR</calcite-button>
+        </calcite-textarea>
+      </div>
+    </div>
+
+    <!--  With Slotted at footer-trailing -->
+    <div class="parent">
+      <div class="child-text">With Slotted at footer-trailing</div>
+      <div class="child">
+        <calcite-textarea maxlength="50" placeholder="add notes" scale="s" footer>
+          <calcite-button slot="footer-trailing" appearance="transparent" scale="s">CLEAR</calcite-button>
+        </calcite-textarea>
+      </div>
+
+      <div class="child">
+        <calcite-textarea footer maxlength="50" placeholder="add notes" scale="m">
+          <calcite-button slot="footer-trailing" appearance="transparent">CLEAR</calcite-button>
+        </calcite-textarea>
+      </div>
+
+      <div class="child">
+        <calcite-textarea footer maxlength="50" placeholder="add notes" scale="l">
+          <calcite-button slot="footer-trailing" appearance="transparent" scale="l">CLEAR</calcite-button>
         </calcite-textarea>
       </div>
     </div>

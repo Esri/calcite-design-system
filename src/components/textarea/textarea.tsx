@@ -63,9 +63,6 @@ export class Textarea implements FormComponent, LabelableComponent, LocalizedCom
   /** Specifies maximum number of characters allowed. */
   @Prop({ reflect: true }) maxlength: number;
 
-  /** Specifies minimum number of characters allowed. */
-  @Prop({ reflect: true }) minlength: number;
-
   /** Specifies name of the component  */
   @Prop({ reflect: true }) name: string;
 
@@ -103,8 +100,6 @@ export class Textarea implements FormComponent, LabelableComponent, LocalizedCom
 
   /**
    * When `true`, the component will not be visible.
-   *
-   * @mdn [hidden](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/hidden)
    */
   @Prop({ reflect: true }) hidden = false;
 
@@ -171,7 +166,6 @@ export class Textarea implements FormComponent, LabelableComponent, LocalizedCom
           disabled={this.disabled}
           form={this.form}
           hidden={this.hidden}
-          minlength={this.minlength}
           name={this.name}
           onChange={this.handleChange}
           onInput={this.handleInput}
@@ -302,9 +296,6 @@ export class Textarea implements FormComponent, LabelableComponent, LocalizedCom
     input.setCustomValidity("");
     if (this.value?.length > this.maxlength) {
       input.setCustomValidity(ERROR_MESSAGES.overLimit);
-    }
-    if (this.value?.length < this.minlength) {
-      input.setCustomValidity(ERROR_MESSAGES.underLimit);
     }
     if (this.invalid) {
       input.setCustomValidity(ERROR_MESSAGES.invalid);

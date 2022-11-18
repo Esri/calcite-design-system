@@ -1,53 +1,36 @@
 :host {
-  // @apply relative;
+  @apply flex flex-col;
 }
 
-// .container:focus {
-//   @apply outline-none border-color-brand border-2 border-solid;
-// }
-
-// .container:focus textarea {
-//   @apply border-none;
-// }
-
-// .container:focus .footer {
-//   @apply border-none;
-//   border-block-start: 1px solid var(--calcite-ui-border-3);
-// }
-
-textarea {
-  @apply block text-color-1 
+:host textarea {
+  @apply text-color-1 relative
   bg-foreground-1 
   box-border
   border-color-input  
   border
-  border-b-0
-  font-sans;
-  inline-size: 20rem;
+  font-sans
+  w-full h-full;
+  min-inline-size: theme("spacing.48");
+  border-block-end: 1px solid var(--calcite-ui-border-3);
+  &:focus {
+    @apply outline-none border-color-brand border-2 border-solid border-b-2;
+  }
+  &.textarea-invalid {
+    @apply border-color-danger border border-solid border-b;
+    &:focus {
+      @apply border-color-danger border-2 border-solid;
+    }
+  }
 }
 
-.footer {
-  @apply flex 
-  flex-row 
-  bg-foreground-1 
-  box-border 
-  border-color-input  
-  border  
+:host .footer {
+  @apply flex bg-foreground-1
+  box-border
+  border-color-input
+  border
   border-solid
-  justify-between;
-  border-block-start: 1px solid var(--calcite-ui-border-3);
-}
-
-textarea:focus {
-  @apply outline-none border-color-brand border-2 border-solid border-b-2;
-}
-
-.textarea-invalid {
-  @apply border-color-danger border border-solid border-b;
-}
-
-.textarea-invalid:focus {
-  @apply border-color-danger border-2 border-solid;
+  justify-between
+  border-t-0;
 }
 
 .character-limit {
@@ -72,13 +55,16 @@ textarea:focus {
   @apply text-n2;
   textarea {
     @apply py-1 px-2;
-    block-size: theme("spacing.33");
+    min-block-size: theme("spacing.16");
   }
   .footer {
     @apply py-1 px-2 h-7;
   }
-  .character-limit {
-    @apply px-2;
+  @include slotted("footer-leading", "*") {
+    @apply pr-2;
+  }
+  @include slotted("footer-trailing", "*") {
+    @apply pl-2;
   }
 }
 
@@ -93,13 +79,16 @@ textarea:focus {
 :host([scale="m"]) {
   textarea {
     @apply py-2 px-3;
-    block-size: theme("spacing.31");
+    min-block-size: theme("spacing.20");
   }
   .footer {
     @apply py-2 px-3 h-9;
   }
-  .character-limit {
-    @apply px-3;
+  @include slotted("footer-leading", "*") {
+    @apply pr-3;
+  }
+  @include slotted("footer-trailing", "*") {
+    @apply pl-3;
   }
 }
 
@@ -115,13 +104,16 @@ textarea:focus {
   @apply text-0;
   textarea {
     @apply py-3 px-4;
-    block-size: theme("spacing.29");
+    min-block-size: theme("spacing.24");
   }
   .footer {
     @apply py-3 px-4 h-11;
   }
-  .character-limit {
-    @apply px-4;
+  @include slotted("footer-leading", "*") {
+    @apply pr-4;
+  }
+  @include slotted("footer-trailing", "*") {
+    @apply pl-4;
   }
 }
 
@@ -134,8 +126,7 @@ textarea:focus {
 }
 
 :host(:not([footer])) textarea {
-  @apply border-b;
-  block-size: 10rem;
+  @apply border-b border-color-input;
   &:focus {
     @apply border-b-2;
   }
@@ -153,3 +144,8 @@ textarea:focus {
     @apply opacity-50;
   }
 }
+
+// :host slot[name="footer-trailing"] textarea,
+// :host slot[name="footer-leading"] textarea {
+//   min-inline-size: theme("spacing.64");
+// }
