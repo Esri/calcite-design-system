@@ -394,7 +394,7 @@ describe("calcite-input-date-picker", () => {
     });
   });
 
-  it("should set internal value and input value when valueAsDate is set for range", async () => {
+  it("should update both input values when valueAsDate is set for range", async () => {
     const page = await newE2EPage();
     await page.setContent(html` <calcite-input-date-picker range />`);
 
@@ -409,7 +409,7 @@ describe("calcite-input-date-picker", () => {
 
     expect(await inputDatePickerEl.getProperty("value")).toEqual(expectedValue);
 
-    const expectedStartDateInputValue = "10/01/2022";
+    const expectedStartDateInputValue = "10/1/2022";
     const expectedEndDateInputValue = "10/31/2022";
 
     const startDateInputValue = await page.evaluate(() => {
