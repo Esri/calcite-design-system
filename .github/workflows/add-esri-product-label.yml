@@ -6,28 +6,37 @@ jobs:
   label:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/github-script@6
+      - uses: actions/github-script@v6
         with:
           script: |
             const {
               repo: { owner, repo },
               payload: {
+                action,
                 issue: { body, labels: currentLabels, number: issue_number },
               },
             } = context;
 
             if (!body) {
-              throw new Error("Could not determine the issue body");
+              console.log("could not determine the issue body");
+              return;
             }
 
-            const productRegex = new RegExp("(?<=### Esri team\r\n\r\n).+", "m");
+            const productRegex = new RegExp(
+              action === "edited"
+                ? // the way GitHub parses the issue body into plaintext
+                  // requires this exact format for edits
+                  "(?<=### Esri team\r\n\r\n).+"
+                : // otherwise it depends on the submitter's OS
+                  "(?<=### Esri team[\r\n|\r|\n]{2}).+$",
+              "m"
+            );
+
             const productRegexMatch = body.match(productRegex);
 
-            if (!productRegexMatch || !productRegexMatch[0]) {
-              throw new Error("Could not determine the Esri product");
-            }
-
-            const product = productRegexMatch[0].trim();
+            const product = (
+              productRegexMatch && productRegexMatch[0] ? productRegexMatch[0] : ""
+            ).trim();
 
             if (product && product !== "N/A") {
               /** Creates a label if it does not exist */

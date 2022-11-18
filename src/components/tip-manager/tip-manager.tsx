@@ -10,7 +10,7 @@ import {
   h,
   VNode
 } from "@stencil/core";
-import { CSS, ICONS, TEXT, HEADING_LEVEL } from "./resources";
+import { CSS, ICONS, TEXT } from "./resources";
 import { getElementDir, toAriaBoolean } from "../../utils/dom";
 import { HeadingLevel, Heading } from "../functional/Heading";
 import { createObserver } from "../../utils/observers";
@@ -288,7 +288,7 @@ export class TipManager {
         tabIndex={0}
       >
         <header class={CSS.header}>
-          <Heading class={CSS.heading} level={headingLevel || HEADING_LEVEL}>
+          <Heading class={CSS.heading} level={headingLevel}>
             {groupTitle}
           </Heading>
           <calcite-action

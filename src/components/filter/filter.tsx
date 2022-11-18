@@ -120,7 +120,7 @@ export class Filter implements InteractiveComponent {
   //--------------------------------------------------------------------------
 
   componentWillLoad(): void {
-    this.filter(this.value);
+    this.updateFiltered(filter(this.items, this.value));
   }
 
   // --------------------------------------------------------------------------

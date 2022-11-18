@@ -1,5 +1,8 @@
 import { numberKeys } from "./key";
-import { numberStringFormatter } from "./locale";
+import { NumberStringFormat } from "./locale";
+
+const defaultMinusSignRegex = new RegExp("-", "g");
+const unnecessaryDecimalRegex = new RegExp("\\.?0+$");
 
 // adopted from https://stackoverflow.com/a/66939244
 export class BigDecimal {
@@ -27,77 +30,62 @@ export class BigDecimal {
     this.isNegative = input.charAt(0) === "-";
   }
 
-  static _divRound(dividend: bigint, divisor: bigint): bigint {
-    return BigDecimal.fromBigInt(
+  static _divRound = (dividend: bigint, divisor: bigint): bigint =>
+    BigDecimal.fromBigInt(
       dividend / divisor + (BigDecimal.ROUNDED ? ((dividend * BigInt(2)) / divisor) % BigInt(2) : BigInt(0))
     );
-  }
 
-  static fromBigInt(bigint: bigint): bigint {
-    return Object.assign(Object.create(BigDecimal.prototype), { value: bigint });
+  static fromBigInt = (bigint: bigint): bigint => Object.assign(Object.create(BigDecimal.prototype), { value: bigint });
+
+  getIntegersAndDecimals(): { integers: string; decimals: string } {
+    const s = this.value
+      .toString()
+      .replace(defaultMinusSignRegex, "")
+      .padStart(BigDecimal.DECIMALS + 1, "0");
+    const integers = s.slice(0, -BigDecimal.DECIMALS);
+    const decimals = s.slice(-BigDecimal.DECIMALS).replace(unnecessaryDecimalRegex, "");
+    return { integers, decimals };
   }
 
   toString(): string {
-    const s = this.value
-      .toString()
-      .replace(new RegExp("-", "g"), "")
-      .padStart(BigDecimal.DECIMALS + 1, "0");
-
-    const i = s.slice(0, -BigDecimal.DECIMALS);
-    const d = s.slice(-BigDecimal.DECIMALS).replace(/\.?0+$/, "");
-    const value = i.concat(d.length ? "." + d : "");
-    return `${this.isNegative ? "-" : ""}${value}`;
+    const { integers, decimals } = this.getIntegersAndDecimals();
+    return `${this.isNegative ? "-" : ""}${integers}${decimals.length ? "." + decimals : ""}`;
   }
 
-  formatToParts(formatter: Intl.NumberFormat): Intl.NumberFormatPart[] {
-    const s = this.value
-      .toString()
-      .replace(new RegExp("-", "g"), "")
-      .padStart(BigDecimal.DECIMALS + 1, "0");
+  formatToParts(formatter: NumberStringFormat): Intl.NumberFormatPart[] {
+    const { integers, decimals } = this.getIntegersAndDecimals();
+    const parts = formatter.numberFormatter.formatToParts(BigInt(integers));
+    this.isNegative && parts.unshift({ type: "minusSign", value: formatter.minusSign });
 
-    const i = s.slice(0, -BigDecimal.DECIMALS);
-    const d = s.slice(-BigDecimal.DECIMALS).replace(/\.?0+$/, "");
-
-    const parts = formatter.formatToParts(BigInt(i));
-    this.isNegative && parts.unshift({ type: "minusSign", value: numberStringFormatter.minusSign });
-
-    if (d.length) {
-      parts.push({ type: "decimal", value: numberStringFormatter.decimal });
-      d.split("").forEach((char: string) => parts.push({ type: "fraction", value: char }));
+    if (decimals.length) {
+      parts.push({ type: "decimal", value: formatter.decimal });
+      decimals.split("").forEach((char: string) => parts.push({ type: "fraction", value: char }));
     }
 
     return parts;
   }
 
-  format(formatter: Intl.NumberFormat): string {
-    const s = this.value
-      .toString()
-      .replace(new RegExp("-", "g"), "")
-      .padStart(BigDecimal.DECIMALS + 1, "0");
-
-    const i = s.slice(0, -BigDecimal.DECIMALS);
-    const d = s.slice(-BigDecimal.DECIMALS).replace(/\.?0+$/, "");
-
-    const iFormatted = `${this.isNegative ? numberStringFormatter.minusSign : ""}${formatter.format(BigInt(i))}`;
-    const dFormatted = d.length ? `${numberStringFormatter.decimal}${formatter.format(BigInt(d))}` : "";
-    return `${iFormatted}${dFormatted}`;
+  format(formatter: NumberStringFormat): string {
+    const { integers, decimals } = this.getIntegersAndDecimals();
+    const integersFormatted = `${this.isNegative ? formatter.minusSign : ""}${formatter.numberFormatter.format(
+      BigInt(integers)
+    )}`;
+    const decimalsFormatted = decimals.length
+      ? `${formatter.decimal}${decimals
+          .split("")
+          .map((char: string) => formatter.numberFormatter.format(Number(char)))
+          .join("")}`
+      : "";
+    return `${integersFormatted}${decimalsFormatted}`;
   }
 
-  add(num: string): bigint {
-    return BigDecimal.fromBigInt(this.value + new BigDecimal(num).value);
-  }
+  add = (num: string): bigint => BigDecimal.fromBigInt(this.value + new BigDecimal(num).value);
 
-  subtract(num: string): bigint {
-    return BigDecimal.fromBigInt(this.value - new BigDecimal(num).value);
-  }
+  subtract = (num: string): bigint => BigDecimal.fromBigInt(this.value - new BigDecimal(num).value);
 
-  multiply(num: string): bigint {
-    return BigDecimal._divRound(this.value * new BigDecimal(num).value, BigDecimal.SHIFT);
-  }
+  multiply = (num: string): bigint => BigDecimal._divRound(this.value * new BigDecimal(num).value, BigDecimal.SHIFT);
 
-  divide(num: string): bigint {
-    return BigDecimal._divRound(this.value * BigDecimal.SHIFT, new BigDecimal(num).value);
-  }
+  divide = (num: string): bigint => BigDecimal._divRound(this.value * BigDecimal.SHIFT, new BigDecimal(num).value);
 }
 
 export function isValidNumber(numberString: string): boolean {
