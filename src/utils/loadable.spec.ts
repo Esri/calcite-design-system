@@ -1,54 +1,52 @@
+import { waitForAnimationFrame } from "../tests/utils";
 import { setUpLoadableComponent, setComponentLoaded, componentLoaded } from "./loadable";
 
 describe("loadable", () => {
   it("should honor loadable component lifecyce", async () => {
-    const status: {
-      willLoad: boolean;
-      loaded: boolean;
-      promise: Promise<void>;
-    } = {
-      willLoad: false,
-      loaded: false,
-      promise: null
-    };
-    const fakeComponent: any = {
-      componentWillLoad: () => {
-        setUpLoadableComponent(fakeComponent);
-        status.willLoad = true;
-      },
-      componentDidLoad: () => {
-        setComponentLoaded(fakeComponent);
-        status.loaded = true;
-      },
-      load: () => {
-        status.promise = componentLoaded(fakeComponent);
-      }
-    };
+    const fakeComponent: any = {};
 
-    expect(status.willLoad).toBe(false);
-    expect(status.loaded).toBe(false);
-    expect(status.promise).toBeNull();
+    const afterLoad = jest.fn();
+    componentLoaded(fakeComponent)?.then(afterLoad);
 
-    fakeComponent.componentWillLoad();
+    await waitForAnimationFrame();
+    expect(afterLoad).not.toHaveBeenCalled();
 
-    expect(status.willLoad).toBe(true);
-    expect(status.loaded).toBe(false);
-    expect(status.promise).toBeNull();
+    setUpLoadableComponent(fakeComponent);
+    await waitForAnimationFrame();
+    expect(afterLoad).not.toHaveBeenCalled();
 
-    fakeComponent.load();
+    setComponentLoaded(fakeComponent);
+    await waitForAnimationFrame();
+    expect(afterLoad).not.toHaveBeenCalled();
 
-    expect(status.willLoad).toBe(true);
-    expect(status.loaded).toBe(false);
-    expect(status.promise).toBeDefined();
-    expect(status.promise).toBeInstanceOf(Promise);
+    componentLoaded(fakeComponent)?.then(afterLoad);
+    await waitForAnimationFrame();
+    expect(afterLoad).toHaveBeenCalledTimes(1);
 
-    fakeComponent.componentDidLoad();
+    // expect(status.willLoad).toBe(false);
+    // expect(status.loaded).toBe(false);
+    // expect(status.promise).toBeNull();
 
-    await status.promise;
+    // fakeComponent.componentWillLoad();
 
-    expect(status.willLoad).toBe(true);
-    expect(status.loaded).toBe(true);
-    expect(status.promise).toBeDefined();
-    expect(status.promise).toBeInstanceOf(Promise);
+    // expect(status.willLoad).toBe(true);
+    // expect(status.loaded).toBe(false);
+    // expect(status.promise).toBeNull();
+
+    // fakeComponent.load();
+
+    // expect(status.willLoad).toBe(true);
+    // expect(status.loaded).toBe(false);
+    // expect(status.promise).toBeDefined();
+    // expect(status.promise).toBeInstanceOf(Promise);
+
+    // fakeComponent.componentDidLoad();
+
+    // await status.promise;
+
+    // expect(status.willLoad).toBe(true);
+    // expect(status.loaded).toBe(true);
+    // expect(status.promise).toBeDefined();
+    // expect(status.promise).toBeInstanceOf(Promise);
   });
 });
