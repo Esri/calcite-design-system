@@ -181,7 +181,6 @@ export class Button
     const loaderNode = this.hasLoader ? (
       <div class={CSS.buttonLoader}>
         <calcite-loader
-          active
           class={this.loading ? CSS.loadingIn : CSS.loadingOut}
           inline
           label={this.intlLoading}

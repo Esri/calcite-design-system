@@ -302,7 +302,8 @@ export class ActionMenu implements LoadableComponent {
 
     return (
       <calcite-popover
-        disablePointer
+        disableFocusTrap={true}
+        disablePointer={true}
         flipPlacements={flipPlacements}
         label={label}
         offsetDistance={0}
