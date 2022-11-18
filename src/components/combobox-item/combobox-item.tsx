@@ -126,6 +126,13 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
    */
   @Event({ cancelable: false }) calciteComboboxItemChange: EventEmitter<DeprecatedEventPayload>;
 
+  /**
+   * Emits whenever the component is focused.
+   *
+   * **Note:**: The event's payload is deprecated, please use the event's `target`/`currentTarget` instead
+   */
+  @Event({ cancelable: false }) calciteComboboxItemFocus: EventEmitter<DeprecatedEventPayload>;
+
   // --------------------------------------------------------------------------
   //
   //  Public Methods
@@ -158,6 +165,7 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
       return;
     }
     this.selected = !this.selected;
+    this.calciteComboboxItemFocus.emit(this.el);
   };
 
   // --------------------------------------------------------------------------

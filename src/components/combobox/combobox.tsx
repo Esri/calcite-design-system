@@ -259,6 +259,11 @@ export class Combobox
     this.toggleSelection(target, target.selected);
   }
 
+  @Listen("calciteComboboxItemFocus")
+  calciteComboboxItemFocusHandler(): void {
+    this.comboboxFocusHandler();
+  }
+
   //--------------------------------------------------------------------------
   //
   //  Public Methods
@@ -695,7 +700,6 @@ export class Combobox
   setContainerEl = (el: HTMLDivElement): void => {
     this.resizeObserver.observe(el);
     this.listContainerEl = el;
-
     this.transitionEl = el;
     connectOpenCloseComponent(this);
   };
@@ -1024,7 +1028,6 @@ export class Combobox
     this.activeDescendant = activeDescendant;
     if (this.activeItemIndex > -1) {
       this.activeChipIndex = -1;
-      this.textInput?.focus();
     }
   }
 
