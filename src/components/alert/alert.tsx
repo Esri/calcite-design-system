@@ -36,6 +36,12 @@ import {
   updateMessages
 } from "../../utils/t9n";
 import { Messages } from "./assets/alert/t9n";
+import {
+  setUpLoadableComponent,
+  setComponentLoaded,
+  LoadableComponent,
+  componentLoaded
+} from "../../utils/loadable";
 
 /**
  * Alerts are meant to provide a way to communicate urgent or important information to users, frequently as a result of an action they took in your app. Alerts are positioned
@@ -54,7 +60,9 @@ import { Messages } from "./assets/alert/t9n";
   shadow: true,
   assetsDirs: ["assets"]
 })
-export class Alert implements OpenCloseComponent, LocalizedComponent, T9nComponent {
+export class Alert
+  implements OpenCloseComponent, LocalizedComponent, LoadableComponent, T9nComponent
+{
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -189,8 +197,13 @@ export class Alert implements OpenCloseComponent, LocalizedComponent, T9nCompone
   }
 
   async componentWillLoad(): Promise<void> {
+    setUpLoadableComponent(this);
     this.requestedIcon = setRequestedIcon(StatusIcons, this.icon, this.color);
     await setUpMessages(this);
+  }
+
+  componentDidLoad(): void {
+    setComponentLoaded(this);
   }
 
   disconnectedCallback(): void {
@@ -329,6 +342,8 @@ export class Alert implements OpenCloseComponent, LocalizedComponent, T9nCompone
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
+    await componentLoaded(this);
+
     const alertLinkEl: HTMLCalciteLinkElement = getSlotted(this.el, { selector: "calcite-link" });
 
     if (!this.closeButton && !alertLinkEl) {

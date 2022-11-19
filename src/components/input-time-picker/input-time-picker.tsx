@@ -35,6 +35,12 @@ import {
 } from "../../utils/locale";
 import { Messages } from "../time-picker/assets/time-picker/t9n";
 import { numberKeys } from "../../utils/key";
+import {
+  setUpLoadableComponent,
+  setComponentLoaded,
+  LoadableComponent,
+  componentLoaded
+} from "../../utils/loadable";
 
 @Component({
   tag: "calcite-input-time-picker",
@@ -47,7 +53,8 @@ export class InputTimePicker
     FormComponent,
     InteractiveComponent,
     FloatingUIComponent,
-    LocalizedComponent
+    LocalizedComponent,
+    LoadableComponent
 {
   //--------------------------------------------------------------------------
   //
@@ -425,6 +432,8 @@ export class InputTimePicker
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
+    await componentLoaded(this);
+
     this.calciteInputEl?.setFocus();
   }
 
@@ -568,7 +577,12 @@ export class InputTimePicker
     }
   }
 
+  componentWillLoad(): void {
+    setUpLoadableComponent(this);
+  }
+
   componentDidLoad() {
+    setComponentLoaded(this);
     this.setInputValue(this.localizedValue);
   }
 
@@ -614,6 +628,7 @@ export class InputTimePicker
           />
         </div>
         <calcite-popover
+          disableFocusTrap={true}
           id={popoverId}
           label="Time Picker"
           open={this.open}

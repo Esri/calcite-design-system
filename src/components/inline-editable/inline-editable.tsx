@@ -17,14 +17,21 @@ import { CSS } from "./resources";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import { createObserver } from "../../utils/observers";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
-import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
+import { connectLocalized, disconnectLocalized } from "../../utils/locale";
 import {
   connectMessages,
   disconnectMessages,
   setUpMessages,
+  T9nComponent,
   updateMessages
 } from "../../utils/t9n";
 import { Messages } from "./assets/inline-editable/t9n";
+import {
+  setUpLoadableComponent,
+  setComponentLoaded,
+  LoadableComponent,
+  componentLoaded
+} from "../../utils/loadable";
 
 /**
  * @slot - A slot for adding a `calcite-input`.
@@ -36,7 +43,7 @@ import { Messages } from "./assets/inline-editable/t9n";
   assetsDirs: ["assets"]
 })
 export class InlineEditable
-  implements InteractiveComponent, LabelableComponent, LocalizedComponent
+  implements InteractiveComponent, LabelableComponent, LoadableComponent, T9nComponent
 {
   //--------------------------------------------------------------------------
   //
@@ -146,6 +153,15 @@ export class InlineEditable
     this.mutationObserverCallback();
   }
 
+  async componentWillLoad(): Promise<void> {
+    setUpLoadableComponent(this);
+    await setUpMessages(this);
+  }
+
+  componentDidLoad(): void {
+    setComponentLoaded(this);
+  }
+
   disconnectedCallback() {
     disconnectLabel(this);
     disconnectLocalized(this);
@@ -155,10 +171,6 @@ export class InlineEditable
 
   componentDidRender(): void {
     updateHostInteraction(this);
-  }
-
-  async componentWillLoad(): Promise<void> {
-    await setUpMessages(this);
   }
 
   render(): VNode {
@@ -296,6 +308,8 @@ export class InlineEditable
 
   @Method()
   async setFocus(): Promise<void> {
+    await componentLoaded(this);
+
     if (this.editingEnabled) {
       this.inputElement?.setFocus();
     } else {

@@ -36,6 +36,12 @@ import {
   updateMessages
 } from "../../utils/t9n";
 import { Messages } from "./assets/input-text/t9n";
+import {
+  setUpLoadableComponent,
+  setComponentLoaded,
+  LoadableComponent,
+  componentLoaded
+} from "../../utils/loadable";
 
 type SetValueOrigin = "initial" | "connected" | "user" | "reset" | "direct";
 
@@ -53,7 +59,7 @@ export class InputText
     LabelableComponent,
     FormComponent,
     InteractiveComponent,
-    LocalizedComponent,
+    LoadableComponent,
     T9nComponent
 {
   //--------------------------------------------------------------------------
@@ -308,8 +314,13 @@ export class InputText
   }
 
   async componentWillLoad(): Promise<void> {
+    setUpLoadableComponent(this);
     this.requestedIcon = setRequestedIcon({}, this.icon, "text");
     await setUpMessages(this);
+  }
+
+  componentDidLoad(): void {
+    setComponentLoaded(this);
   }
 
   componentDidRender(): void {
@@ -358,6 +369,8 @@ export class InputText
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
+    await componentLoaded(this);
+
     this.childEl?.focus();
   }
 

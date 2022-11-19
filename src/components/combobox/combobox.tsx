@@ -57,8 +57,15 @@ import {
   T9nComponent,
   updateMessages
 } from "../../utils/t9n";
-import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
+import { connectLocalized, disconnectLocalized } from "../../utils/locale";
 import { Messages } from "./assets/combobox/t9n";
+import {
+  setUpLoadableComponent,
+  setComponentLoaded,
+  LoadableComponent,
+  componentLoaded
+} from "../../utils/loadable";
+
 interface ItemData {
   label: string;
   value: string;
@@ -90,7 +97,7 @@ export class Combobox
     OpenCloseComponent,
     FloatingUIComponent,
     T9nComponent,
-    LocalizedComponent
+    LoadableComponent
 {
   //--------------------------------------------------------------------------
   //
@@ -198,10 +205,10 @@ export class Combobox
   @Prop({ reflect: true }) required = false;
 
   /**
-   * Specifies the selection mode -
-   * `"multi"` (allow any number of selected items),
-   * `"single"` (allow only one selection), or
-   * `"ancestors"` (like `"multi"`, but show ancestors of selected items as selected. Only the deepest children are shown in `calcite-chip`s).
+   * specify the selection mode
+   * - multiple: allow any number of selected items (default)
+   * - single: only one selection)
+   * - ancestors: like multiple, but show ancestors of selected items as selected, only deepest children shown in chips
    */
   @Prop({ reflect: true }) selectionMode: ComboboxSelectionMode = "multi";
 
@@ -323,6 +330,8 @@ export class Combobox
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
+    await componentLoaded(this);
+
     this.textInput?.focus();
     this.activeChipIndex = -1;
     this.activeItemIndex = -1;
@@ -400,6 +409,7 @@ export class Combobox
   }
 
   async componentWillLoad(): Promise<void> {
+    setUpLoadableComponent(this);
     this.updateItems();
     await setUpMessages(this);
   }
@@ -407,6 +417,7 @@ export class Combobox
   componentDidLoad(): void {
     afterConnectDefaultValueSet(this, this.getValue());
     this.reposition(true);
+    setComponentLoaded(this);
   }
 
   componentDidRender(): void {

@@ -2,18 +2,23 @@ import { FunctionalComponent, h, Host, VNode } from "@stencil/core";
 import { JSXBase } from "@stencil/core/internal";
 import { toAriaBoolean } from "../../utils/dom";
 import { CSS, SLOTS } from "./resources";
-import { handleFilter } from "./shared-list-logic";
+import { handleFilter, handleFilterEvent } from "./shared-list-logic";
 import DOMAttributes = JSXBase.DOMAttributes;
 
 interface ListProps extends DOMAttributes<any> {
   disabled: boolean;
   loading: boolean;
   filterEnabled: boolean;
+  filterText: string;
   dataForFilter: any;
   handleFilter: typeof handleFilter;
+  handleFilterEvent: typeof handleFilterEvent;
   filterPlaceholder: string;
   el: HTMLCalcitePickListElement | HTMLCalciteValueListElement;
   setFilterEl: (el: HTMLCalciteFilterElement) => void;
+  setFilteredItems: (
+    filteredItems: HTMLCalcitePickListItemElement | HTMLCalciteValueListItemElement[]
+  ) => void;
   dragEnabled?: boolean;
   storeAssistiveEl?: (el: HTMLSpanElement) => void;
 }
@@ -24,8 +29,9 @@ export const List: FunctionalComponent<{ props: ListProps } & DOMAttributes<any>
     loading,
     filterEnabled,
     dataForFilter,
-    handleFilter,
+    handleFilterEvent,
     filterPlaceholder,
+    filterText,
     setFilterEl,
     dragEnabled,
     storeAssistiveEl
@@ -45,9 +51,10 @@ export const List: FunctionalComponent<{ props: ListProps } & DOMAttributes<any>
               aria-label={filterPlaceholder}
               disabled={loading || disabled}
               items={dataForFilter}
-              onCalciteFilterChange={handleFilter}
+              onCalciteFilterChange={handleFilterEvent}
               placeholder={filterPlaceholder}
               ref={setFilterEl}
+              value={filterText}
             />
           ) : null}
           <slot name={SLOTS.menuActions} />

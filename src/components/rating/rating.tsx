@@ -27,6 +27,12 @@ import {
   updateMessages
 } from "../../utils/t9n";
 import { Messages } from "./assets/rating/t9n";
+import {
+  setUpLoadableComponent,
+  setComponentLoaded,
+  LoadableComponent,
+  componentLoaded
+} from "../../utils/loadable";
 
 @Component({
   tag: "calcite-rating",
@@ -39,7 +45,7 @@ export class Rating
     LabelableComponent,
     FormComponent,
     InteractiveComponent,
-    LocalizedComponent,
+    LoadableComponent,
     T9nComponent
 {
   //--------------------------------------------------------------------------
@@ -136,6 +142,11 @@ export class Rating
 
   async componentWillLoad(): Promise<void> {
     await setUpMessages(this);
+    setUpLoadableComponent(this);
+  }
+
+  componentDidLoad(): void {
+    setComponentLoaded(this);
   }
 
   disconnectedCallback(): void {
@@ -297,6 +308,8 @@ export class Rating
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
+    await componentLoaded(this);
+
     this.inputFocusRef?.focus();
   }
 

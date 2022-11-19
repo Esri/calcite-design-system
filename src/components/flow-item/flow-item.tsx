@@ -17,7 +17,7 @@ import { Scale } from "../interfaces";
 import { CSS, ICONS, SLOTS } from "./resources";
 import { SLOTS as PANEL_SLOTS } from "../panel/resources";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
-import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
+import { connectLocalized, disconnectLocalized } from "../../utils/locale";
 import {
   connectMessages,
   disconnectMessages,
@@ -26,6 +26,12 @@ import {
   updateMessages
 } from "../../utils/t9n";
 import { Messages } from "./assets/flow-item/t9n";
+import {
+  setUpLoadableComponent,
+  setComponentLoaded,
+  LoadableComponent,
+  componentLoaded
+} from "../../utils/loadable";
 
 /**
  * @slot - A slot for adding custom content.
@@ -43,7 +49,7 @@ import { Messages } from "./assets/flow-item/t9n";
   shadow: true,
   assetsDirs: ["assets"]
 })
-export class FlowItem implements InteractiveComponent, LocalizedComponent, T9nComponent {
+export class FlowItem implements InteractiveComponent, LoadableComponent, T9nComponent {
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -159,6 +165,7 @@ export class FlowItem implements InteractiveComponent, LocalizedComponent, T9nCo
 
   async componentWillLoad(): Promise<void> {
     await setUpMessages(this);
+    setUpLoadableComponent(this);
   }
 
   componentDidRender(): void {
@@ -168,6 +175,10 @@ export class FlowItem implements InteractiveComponent, LocalizedComponent, T9nCo
   disconnectedCallback(): void {
     disconnectLocalized(this);
     disconnectMessages(this);
+  }
+
+  componentDidLoad(): void {
+    setComponentLoaded(this);
   }
 
   // --------------------------------------------------------------------------
@@ -231,6 +242,8 @@ export class FlowItem implements InteractiveComponent, LocalizedComponent, T9nCo
    */
   @Method()
   async setFocus(): Promise<void> {
+    await componentLoaded(this);
+
     const { backButtonEl, containerEl } = this;
 
     if (backButtonEl) {
@@ -360,7 +373,12 @@ export class FlowItem implements InteractiveComponent, LocalizedComponent, T9nCo
           <slot />
         </calcite-panel>
         {backButtonEl ? (
-          <calcite-tooltip label={label} placement="auto" referenceElement={backButtonEl}>
+          <calcite-tooltip
+            label={label}
+            overlayPositioning="fixed"
+            placement="top"
+            referenceElement={backButtonEl}
+          >
             {label}
           </calcite-tooltip>
         ) : null}

@@ -23,6 +23,8 @@ import {
   deselectRemovedItems,
   getItemData,
   handleFilter,
+  handleFilterEvent,
+  handleInitialFilter,
   initialize,
   initializeObserver,
   ItemData,
@@ -47,6 +49,12 @@ import {
   updateMessages
 } from "../../utils/t9n";
 import { Messages } from "./assets/value-list/t9n";
+import {
+  setUpLoadableComponent,
+  setComponentLoaded,
+  LoadableComponent,
+  componentLoaded
+} from "../../utils/loadable";
 
 /**
  * @slot - A slot for adding `calcite-value-list-item` elements. List items are displayed as a vertical list.
@@ -60,7 +68,7 @@ import { Messages } from "./assets/value-list/t9n";
 })
 export class ValueList<
   ItemElement extends HTMLCalciteValueListItemElement = HTMLCalciteValueListItemElement
-> implements InteractiveComponent, LocalizedComponent, T9nComponent
+> implements InteractiveComponent, LoadableComponent, T9nComponent
 {
   // --------------------------------------------------------------------------
   //
@@ -79,6 +87,20 @@ export class ValueList<
   @Prop({ reflect: true }) dragEnabled = false;
 
   /**
+   * **read-only** The currently filtered items
+   *
+   * @readonly
+   */
+  @Prop({ mutable: true }) filteredItems: HTMLCalciteValueListItemElement[] = [];
+
+  /**
+   * **read-only** The currently filtered items
+   *
+   * @readonly
+   */
+  @Prop({ mutable: true }) filteredData: ItemData = [];
+
+  /**
    * When `true`, an input appears at the top of the component that can be used by end users to filter list items.
    */
   @Prop({ reflect: true }) filterEnabled = false;
@@ -87,6 +109,11 @@ export class ValueList<
    * Placeholder text for the filter's input field.
    */
   @Prop({ reflect: true }) filterPlaceholder: string;
+
+  /**
+   * Text for the filter input field.
+   */
+  @Prop({ reflect: true, mutable: true }) filterText: string;
 
   /**
    * The component's group identifier.
@@ -202,6 +229,8 @@ export class ValueList<
 
   emitCalciteListChange: () => void;
 
+  emitCalciteListFilter: () => void;
+
   filterEl: HTMLCalciteFilterElement;
 
   assistiveTextEl: HTMLSpanElement;
@@ -221,10 +250,13 @@ export class ValueList<
 
   async componentWillLoad(): Promise<void> {
     await setUpMessages(this);
+    setUpLoadableComponent(this);
   }
 
   componentDidLoad(): void {
+    setComponentLoaded(this);
     this.setUpDragAndDrop();
+    handleInitialFilter.call(this);
   }
 
   componentDidRender(): void {
@@ -255,6 +287,11 @@ export class ValueList<
    * Emits when the order of the list has changed.
    */
   @Event({ cancelable: false }) calciteListOrderChange: EventEmitter<any[]>;
+
+  /**
+   * Emits when a filter has changed.
+   */
+  @Event({ cancelable: false }) calciteListFilter: EventEmitter<void>;
 
   @Listen("focusout")
   calciteListFocusOutHandler(event: FocusEvent): void {
@@ -307,6 +344,10 @@ export class ValueList<
     this.filterEl = el;
   };
 
+  setFilteredItems = (filteredItems: HTMLCalciteValueListItemElement[]): void => {
+    this.filteredItems = filteredItems;
+  };
+
   setUpDragAndDrop(): void {
     this.cleanUpDragAndDrop();
 
@@ -339,6 +380,8 @@ export class ValueList<
   selectSiblings = selectSiblings.bind(this);
 
   handleFilter = handleFilter.bind(this);
+
+  handleFilterEvent = handleFilterEvent.bind(this);
 
   getItemData = getItemData.bind(this);
 
@@ -416,6 +459,8 @@ export class ValueList<
    */
   @Method()
   async setFocus(focusId?: ListFocusId): Promise<void> {
+    await componentLoaded(this);
+
     return setFocus.call(this, focusId);
   }
 

@@ -29,6 +29,12 @@ import {
   updateMessages
 } from "../../utils/t9n";
 import { Messages } from "./assets/action-pad/t9n";
+import {
+  setUpLoadableComponent,
+  setComponentLoaded,
+  LoadableComponent,
+  componentLoaded
+} from "../../utils/loadable";
 
 /**
  * @slot - A slot for adding `calcite-action`s to the component.
@@ -40,7 +46,9 @@ import { Messages } from "./assets/action-pad/t9n";
   shadow: true,
   assetsDirs: ["assets"]
 })
-export class ActionPad implements ConditionalSlotComponent, LocalizedComponent, T9nComponent {
+export class ActionPad
+  implements ConditionalSlotComponent, LoadableComponent, LocalizedComponent, T9nComponent
+{
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -160,9 +168,14 @@ export class ActionPad implements ConditionalSlotComponent, LocalizedComponent, 
   }
 
   async componentWillLoad(): Promise<void> {
+    setUpLoadableComponent(this);
     const { el, expanded } = this;
     await setUpMessages(this);
     toggleChildActionText({ parent: el, expanded });
+  }
+
+  componentDidLoad(): void {
+    setComponentLoaded(this);
   }
 
   // --------------------------------------------------------------------------
@@ -178,6 +191,8 @@ export class ActionPad implements ConditionalSlotComponent, LocalizedComponent, 
    */
   @Method()
   async setFocus(focusId?: "expand-toggle"): Promise<void> {
+    await componentLoaded(this);
+
     if (focusId === "expand-toggle") {
       await focusElement(this.expandToggleEl);
       return;

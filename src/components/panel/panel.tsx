@@ -11,7 +11,7 @@ import {
   Fragment,
   State
 } from "@stencil/core";
-import { CSS, HEADING_LEVEL, ICONS, SLOTS } from "./resources";
+import { CSS, ICONS, SLOTS } from "./resources";
 import { getElementDir, toAriaBoolean } from "../../utils/dom";
 import { Scale } from "../interfaces";
 import { HeadingLevel, Heading } from "../functional/Heading";
@@ -27,6 +27,12 @@ import {
   updateMessages
 } from "../../utils/t9n";
 import { Messages } from "./assets/panel/t9n";
+import {
+  setUpLoadableComponent,
+  setComponentLoaded,
+  LoadableComponent,
+  componentLoaded
+} from "../../utils/loadable";
 
 /**
  * @slot - A slot for adding custom content.
@@ -44,7 +50,7 @@ import { Messages } from "./assets/panel/t9n";
   shadow: true,
   assetsDirs: ["assets"]
 })
-export class Panel implements InteractiveComponent, LocalizedComponent, T9nComponent {
+export class Panel implements InteractiveComponent, LoadableComponent, T9nComponent {
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -195,6 +201,49 @@ export class Panel implements InteractiveComponent, LocalizedComponent, T9nCompo
 
   // --------------------------------------------------------------------------
   //
+  //  Lifecycle
+  //
+  // --------------------------------------------------------------------------
+
+  connectedCallback(): void {
+    connectLocalized(this);
+    connectMessages(this);
+
+    const isClosed = this.dismissed || this.closed;
+    const isClosable = this.dismissible || this.closable;
+
+    if (isClosed) {
+      this.dismissedHandler(isClosed);
+      this.closedHandler(isClosed);
+    }
+
+    if (isClosable) {
+      this.dismissibleHandler(isClosable);
+      this.closableHandler(isClosable);
+    }
+  }
+
+  async componentWillLoad(): Promise<void> {
+    setUpLoadableComponent(this);
+    await setUpMessages(this);
+  }
+
+  componentDidRender(): void {
+    updateHostInteraction(this);
+  }
+
+  componentDidLoad(): void {
+    setComponentLoaded(this);
+  }
+
+  disconnectedCallback(): void {
+    disconnectLocalized(this);
+    disconnectMessages(this);
+    this.resizeObserver?.disconnect();
+  }
+
+  // --------------------------------------------------------------------------
+  //
   //  Private Properties
   //
   // --------------------------------------------------------------------------
@@ -233,44 +282,6 @@ export class Panel implements InteractiveComponent, LocalizedComponent, T9nCompo
   @State() hasFooterActions = false;
 
   @State() hasFab = false;
-
-  // --------------------------------------------------------------------------
-  //
-  //  Lifecycle
-  //
-  // --------------------------------------------------------------------------
-
-  connectedCallback(): void {
-    connectLocalized(this);
-    connectMessages(this);
-
-    const isClosed = this.dismissed || this.closed;
-    const isClosable = this.dismissible || this.closable;
-
-    if (isClosed) {
-      this.dismissedHandler(isClosed);
-      this.closedHandler(isClosed);
-    }
-
-    if (isClosable) {
-      this.dismissibleHandler(isClosable);
-      this.closableHandler(isClosable);
-    }
-  }
-
-  async componentWillLoad(): Promise<void> {
-    await setUpMessages(this);
-  }
-
-  componentDidRender(): void {
-    updateHostInteraction(this);
-  }
-
-  disconnectedCallback(): void {
-    disconnectLocalized(this);
-    disconnectMessages(this);
-    this.resizeObserver?.disconnect();
-  }
 
   // --------------------------------------------------------------------------
   //
@@ -431,6 +442,8 @@ export class Panel implements InteractiveComponent, LocalizedComponent, T9nCompo
    */
   @Method()
   async setFocus(focusId?: "back-button" | "dismiss-button"): Promise<void> {
+    await componentLoaded(this);
+
     const { backButtonEl, closeButtonEl, containerEl } = this;
 
     if (focusId === "back-button") {
@@ -504,7 +517,7 @@ export class Panel implements InteractiveComponent, LocalizedComponent, T9nCompo
   renderHeaderContent(): VNode {
     const { heading, headingLevel, summary, description, hasHeaderContent } = this;
     const headingNode = heading ? (
-      <Heading class={CSS.heading} level={headingLevel || HEADING_LEVEL}>
+      <Heading class={CSS.heading} level={headingLevel}>
         {heading}
       </Heading>
     ) : null;

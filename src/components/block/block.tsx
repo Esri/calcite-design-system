@@ -10,7 +10,7 @@ import {
   VNode,
   Watch
 } from "@stencil/core";
-import { CSS, HEADING_LEVEL, ICONS, SLOTS } from "./resources";
+import { CSS, ICONS, SLOTS } from "./resources";
 import { getSlotted, toAriaBoolean } from "../../utils/dom";
 import { Heading, HeadingLevel } from "../functional/Heading";
 import { Status } from "../interfaces";
@@ -276,7 +276,7 @@ export class Block
     const { heading, headingLevel, summary, description } = this;
     return heading || summary || description ? (
       <div class={CSS.title}>
-        <Heading class={CSS.heading} level={headingLevel || HEADING_LEVEL}>
+        <Heading class={CSS.heading} level={headingLevel}>
           {heading}
         </Heading>
         {summary || description ? (

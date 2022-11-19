@@ -20,7 +20,7 @@ import {
   disconnectConditionalSlotComponent
 } from "../../utils/conditionalSlot";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
-import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
+import { connectLocalized, disconnectLocalized } from "../../utils/locale";
 import {
   connectMessages,
   disconnectMessages,
@@ -29,6 +29,12 @@ import {
   updateMessages
 } from "../../utils/t9n";
 import { Messages } from "./assets/pick-list-item/t9n";
+import {
+  setUpLoadableComponent,
+  setComponentLoaded,
+  LoadableComponent,
+  componentLoaded
+} from "../../utils/loadable";
 
 /**
  * @slot actions-end - A slot for adding `calcite-action`s or content to the end side of the component.
@@ -41,7 +47,7 @@ import { Messages } from "./assets/pick-list-item/t9n";
   assetsDirs: ["assets"]
 })
 export class PickListItem
-  implements ConditionalSlotComponent, InteractiveComponent, LocalizedComponent, T9nComponent
+  implements ConditionalSlotComponent, InteractiveComponent, LoadableComponent, T9nComponent
 {
   // --------------------------------------------------------------------------
   //
@@ -194,6 +200,11 @@ export class PickListItem
 
   async componentWillLoad(): Promise<void> {
     await setUpMessages(this);
+    setUpLoadableComponent(this);
+  }
+
+  componentDidLoad(): void {
+    setComponentLoaded(this);
   }
 
   disconnectedCallback(): void {
@@ -264,6 +275,8 @@ export class PickListItem
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
+    await componentLoaded(this);
+
     this.focusEl?.focus();
   }
 

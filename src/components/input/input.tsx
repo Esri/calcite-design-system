@@ -35,7 +35,6 @@ import {
   NumberingSystem,
   defaultNumberingSystem,
   numberStringFormatter,
-  LocalizedComponent,
   disconnectLocalized,
   connectLocalized,
   updateEffectiveLocale
@@ -54,6 +53,12 @@ import {
   updateMessages
 } from "../../utils/t9n";
 import { Messages } from "./assets/input/t9n";
+import {
+  setUpLoadableComponent,
+  setComponentLoaded,
+  LoadableComponent,
+  componentLoaded
+} from "../../utils/loadable";
 
 type NumberNudgeDirection = "up" | "down";
 type SetValueOrigin = "initial" | "connected" | "user" | "reset" | "direct";
@@ -72,8 +77,8 @@ export class Input
     LabelableComponent,
     FormComponent,
     InteractiveComponent,
-    LocalizedComponent,
-    T9nComponent
+    T9nComponent,
+    LoadableComponent
 {
   //--------------------------------------------------------------------------
   //
@@ -465,11 +470,16 @@ export class Input
   }
 
   async componentWillLoad(): Promise<void> {
+    setUpLoadableComponent(this);
     this.childElType = this.type === "textarea" ? "textarea" : "input";
     this.maxString = this.max?.toString();
     this.minString = this.min?.toString();
     this.requestedIcon = setRequestedIcon(INPUT_TYPE_ICONS, this.icon, this.type);
     await setUpMessages(this);
+  }
+
+  componentDidLoad(): void {
+    setComponentLoaded(this);
   }
 
   componentShouldUpdate(newValue: string, oldValue: string, property: string): boolean {
@@ -524,6 +534,8 @@ export class Input
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
+    await componentLoaded(this);
+
     if (this.type === "number") {
       this.childNumberEl?.focus();
     } else {

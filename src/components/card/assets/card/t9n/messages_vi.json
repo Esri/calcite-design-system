@@ -1,5 +1,5 @@
 {
-  "select": "Đ_Select_____________ớ",
-  "deselect": "Đ_Deselect_________________ớ",
-  "loading": "Đ_Loading_______________ớ"
+  "select": "Chọn",
+  "deselect": "Bỏ chọn",
+  "loading": "Đang tải"
 }

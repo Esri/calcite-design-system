@@ -30,6 +30,12 @@ import {
   T9nComponent,
   updateMessages
 } from "../../utils/t9n";
+import {
+  setUpLoadableComponent,
+  setComponentLoaded,
+  LoadableComponent,
+  componentLoaded
+} from "../../utils/loadable";
 
 /**
  * @slot - A slot for adding a `calcite-icon`.
@@ -40,7 +46,9 @@ import {
   shadow: true,
   assetsDirs: ["assets"]
 })
-export class Action implements InteractiveComponent, LocalizedComponent, T9nComponent {
+export class Action
+  implements InteractiveComponent, LocalizedComponent, T9nComponent, LoadableComponent
+{
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -175,6 +183,17 @@ export class Action implements InteractiveComponent, LocalizedComponent, T9nComp
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
   }
 
+  async componentWillLoad(): Promise<void> {
+    setUpLoadableComponent(this);
+    if (Build.isBrowser) {
+      await setUpMessages(this);
+    }
+  }
+
+  componentDidLoad(): void {
+    setComponentLoaded(this);
+  }
+
   disconnectedCallback(): void {
     disconnectLocalized(this);
     disconnectMessages(this);
@@ -183,12 +202,6 @@ export class Action implements InteractiveComponent, LocalizedComponent, T9nComp
 
   componentDidRender(): void {
     updateHostInteraction(this);
-  }
-
-  async componentWillLoad(): Promise<void> {
-    if (Build.isBrowser) {
-      await setUpMessages(this);
-    }
   }
 
   // --------------------------------------------------------------------------
@@ -200,6 +213,8 @@ export class Action implements InteractiveComponent, LocalizedComponent, T9nComp
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
+    await componentLoaded(this);
+
     this.buttonEl?.focus();
   }
 
@@ -229,7 +244,7 @@ export class Action implements InteractiveComponent, LocalizedComponent, T9nComp
     const iconScale = scale === "l" ? "m" : "s";
     const loaderScale = scale === "l" ? "l" : "m";
     const calciteLoaderNode = loading ? (
-      <calcite-loader active inline label={this.messages.loading} scale={loaderScale} />
+      <calcite-loader inline label={this.messages.loading} scale={loaderScale} />
     ) : null;
     const calciteIconNode = icon ? <calcite-icon icon={icon} scale={iconScale} /> : null;
     const iconNode = calciteLoaderNode || calciteIconNode;

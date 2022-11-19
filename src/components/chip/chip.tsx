@@ -25,9 +25,16 @@ import {
   connectMessages,
   disconnectMessages,
   setUpMessages,
+  T9nComponent,
   updateMessages
 } from "../../utils/t9n";
 import { connectLocalized, disconnectLocalized } from "../../utils/locale";
+import {
+  setUpLoadableComponent,
+  setComponentLoaded,
+  LoadableComponent,
+  componentLoaded
+} from "../../utils/loadable";
 
 /**
  * @slot - A slot for adding text.
@@ -39,7 +46,7 @@ import { connectLocalized, disconnectLocalized } from "../../utils/locale";
   shadow: true,
   assetsDirs: ["assets"]
 })
-export class Chip implements ConditionalSlotComponent {
+export class Chip implements ConditionalSlotComponent, LoadableComponent, T9nComponent {
   //--------------------------------------------------------------------------
   //
   //  Public Properties
@@ -149,6 +156,10 @@ export class Chip implements ConditionalSlotComponent {
     connectMessages(this);
   }
 
+  componentDidLoad(): void {
+    setComponentLoaded(this);
+  }
+
   disconnectedCallback(): void {
     disconnectConditionalSlotComponent(this);
     disconnectLocalized(this);
@@ -156,6 +167,7 @@ export class Chip implements ConditionalSlotComponent {
   }
 
   async componentWillLoad(): Promise<void> {
+    setUpLoadableComponent(this);
     await setUpMessages(this);
   }
   //--------------------------------------------------------------------------
@@ -167,6 +179,8 @@ export class Chip implements ConditionalSlotComponent {
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
+    await componentLoaded(this);
+
     this.closeButton?.focus();
   }
 

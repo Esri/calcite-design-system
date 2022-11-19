@@ -148,6 +148,10 @@ export const queue_NoTest = (): string => html`
   </div>
 `;
 
+queue_NoTest.parameters = {
+  chromatic: { disableSnapshot: true }
+};
+
 export const darkThemeRTL_TestOnly = (): string => html`
   <calcite-alert
     class="calcite-theme-dark"

@@ -14,5 +14,3 @@ export const CSS = {
 export const defaultPopoverPlacement = "auto";
 export const ARIA_CONTROLS = "aria-controls";
 export const ARIA_EXPANDED = "aria-expanded";
-
-export const HEADING_LEVEL = 2;

@@ -1,14 +1,14 @@
 {
-  "hour": "Å_Hour_________ö",
-  "hourDown": "Å_Decrease hour______________ö",
-  "hourUp": "Å_Increase hour______________ö",
-  "meridiem": "Å_AM/PM___________ö",
-  "meridiemDown": "Å_Decrease AM/PM_______________ö",
-  "meridiemUp": "Å_Increase AM/PM_______________ö",
-  "minute": "Å_Minute_____________ö",
-  "minuteDown": "Å_Decrease minute________________ö",
-  "minuteUp": "Å_Increase minute________________ö",
-  "second": "Å_Second_____________ö",
-  "secondDown": "Å_Decrease second________________ö",
-  "secondUp": "Å_Increase second________________ö"
+  "hour": "Tunti",
+  "hourDown": "Lasku tunti",
+  "hourUp": "Kasvu tunti",
+  "meridiem": "AP/IP",
+  "meridiemDown": "Lasku AP/IP",
+  "meridiemUp": "Kasvu AP/IP",
+  "minute": "Minuutti",
+  "minuteDown": "Lasku minuutti",
+  "minuteUp": "Kasvu minuutti",
+  "second": "Sekunti",
+  "secondDown": "Lasku sekunti",
+  "secondUp": "Kasvu sekunti"
 }

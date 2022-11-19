@@ -2,6 +2,12 @@ import { Component, Element, h, VNode, Host, Prop, Method } from "@stencil/core"
 import { CSS } from "./resources";
 import { HeadingLevel } from "../functional/Heading";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import {
+  setUpLoadableComponent,
+  setComponentLoaded,
+  LoadableComponent,
+  componentLoaded
+} from "../../utils/loadable";
 
 /**
  * A general purpose list that enables users to construct list items that conform to Calcite styling.
@@ -13,7 +19,7 @@ import { InteractiveComponent, updateHostInteraction } from "../../utils/interac
   styleUrl: "list.scss",
   shadow: true
 })
-export class List implements InteractiveComponent {
+export class List implements InteractiveComponent, LoadableComponent {
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -36,6 +42,14 @@ export class List implements InteractiveComponent {
   //
   //--------------------------------------------------------------------------
 
+  componentWillLoad(): void {
+    setUpLoadableComponent(this);
+  }
+
+  componentDidLoad(): void {
+    setComponentLoaded(this);
+  }
+
   componentDidRender(): void {
     updateHostInteraction(this);
   }
@@ -57,6 +71,8 @@ export class List implements InteractiveComponent {
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
+    await componentLoaded(this);
+
     const firstListItem: HTMLCalciteListItemElement = this.el.querySelector(
       `calcite-list-item:not([non-interactive])`
     );

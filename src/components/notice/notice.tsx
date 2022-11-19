@@ -28,6 +28,12 @@ import {
   updateMessages
 } from "../../utils/t9n";
 import { Messages } from "./assets/notice/t9n";
+import {
+  setUpLoadableComponent,
+  setComponentLoaded,
+  LoadableComponent,
+  componentLoaded
+} from "../../utils/loadable";
 
 /**
  * Notices are intended to be used to present users with important-but-not-crucial contextual tips or copy. Because
@@ -49,7 +55,7 @@ import { Messages } from "./assets/notice/t9n";
   shadow: true,
   assetsDirs: ["assets"]
 })
-export class Notice implements ConditionalSlotComponent, LocalizedComponent, T9nComponent {
+export class Notice implements ConditionalSlotComponent, LoadableComponent, T9nComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -183,8 +189,13 @@ export class Notice implements ConditionalSlotComponent, LocalizedComponent, T9n
   }
 
   async componentWillLoad(): Promise<void> {
+    setUpLoadableComponent(this);
     this.requestedIcon = setRequestedIcon(StatusIcons, this.icon, this.color);
     await setUpMessages(this);
+  }
+
+  componentDidLoad(): void {
+    setComponentLoaded(this);
   }
 
   render(): VNode {
@@ -245,6 +256,8 @@ export class Notice implements ConditionalSlotComponent, LocalizedComponent, T9n
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
+    await componentLoaded(this);
+
     const noticeLinkEl = this.el.querySelector("calcite-link");
 
     if (!this.closeButton && !noticeLinkEl) {

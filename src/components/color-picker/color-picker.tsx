@@ -40,6 +40,12 @@ import {
 } from "../../utils/t9n";
 import { connectLocalized, disconnectLocalized } from "../../utils/locale";
 import { NumberingSystem } from "../../utils/locale";
+import {
+  setUpLoadableComponent,
+  setComponentLoaded,
+  LoadableComponent,
+  componentLoaded
+} from "../../utils/loadable";
 
 const throttleFor60FpsInMs = 16;
 const defaultValue = normalizeHex(DEFAULT_COLOR.hex());
@@ -51,7 +57,7 @@ const defaultFormat = "auto";
   shadow: true,
   assetsDirs: ["assets"]
 })
-export class ColorPicker implements InteractiveComponent, T9nComponent {
+export class ColorPicker implements InteractiveComponent, LoadableComponent, T9nComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -787,6 +793,8 @@ export class ColorPicker implements InteractiveComponent, T9nComponent {
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
+    await componentLoaded(this);
+
     return focusElement(this.colorFieldScopeNode);
   }
 
@@ -797,6 +805,8 @@ export class ColorPicker implements InteractiveComponent, T9nComponent {
   //--------------------------------------------------------------------------
 
   async componentWillLoad(): Promise<void> {
+    setUpLoadableComponent(this);
+
     const { allowEmpty, color, format, value } = this;
 
     const willSetNoColor = allowEmpty && !value;
@@ -826,6 +836,10 @@ export class ColorPicker implements InteractiveComponent, T9nComponent {
   connectedCallback(): void {
     connectLocalized(this);
     connectMessages(this);
+  }
+
+  componentDidLoad(): void {
+    setComponentLoaded(this);
   }
 
   disconnectedCallback(): void {

@@ -38,6 +38,12 @@ import {
   updateMessages
 } from "../../utils/t9n";
 import { Messages } from "./assets/action-bar/t9n";
+import {
+  setUpLoadableComponent,
+  setComponentLoaded,
+  LoadableComponent,
+  componentLoaded
+} from "../../utils/loadable";
 
 /**
  * @slot - A slot for adding `calcite-action`s that will appear at the top of the action bar.
@@ -50,7 +56,9 @@ import { Messages } from "./assets/action-bar/t9n";
   shadow: true,
   assetsDirs: ["assets"]
 })
-export class ActionBar implements ConditionalSlotComponent, LocalizedComponent, T9nComponent {
+export class ActionBar
+  implements ConditionalSlotComponent, LoadableComponent, LocalizedComponent, T9nComponent
+{
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -184,6 +192,7 @@ export class ActionBar implements ConditionalSlotComponent, LocalizedComponent, 
   // --------------------------------------------------------------------------
 
   componentDidLoad(): void {
+    setComponentLoaded(this);
     this.conditionallyOverflowActions();
   }
 
@@ -205,6 +214,7 @@ export class ActionBar implements ConditionalSlotComponent, LocalizedComponent, 
   }
 
   async componentWillLoad(): Promise<void> {
+    setUpLoadableComponent(this);
     await setUpMessages(this);
   }
 
@@ -239,6 +249,8 @@ export class ActionBar implements ConditionalSlotComponent, LocalizedComponent, 
    */
   @Method()
   async setFocus(focusId?: "expand-toggle"): Promise<void> {
+    await componentLoaded(this);
+
     if (focusId === "expand-toggle") {
       await focusElement(this.expandToggleEl);
       return;

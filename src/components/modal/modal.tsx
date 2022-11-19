@@ -12,16 +12,7 @@ import {
   VNode,
   Watch
 } from "@stencil/core";
-import {
-  ensureId,
-  FocusableElement,
-  focusElement,
-  getSlotted,
-  isCalciteFocusable
-} from "../../utils/dom";
-
-import { queryShadowRoot } from "@a11y/focus-trap/shadow";
-import { isFocusable, isHidden } from "@a11y/focus-trap/focusable";
+import { ensureId, focusElement, getSlotted } from "../../utils/dom";
 import { Scale } from "../interfaces";
 import { ModalBackgroundColor } from "./interfaces";
 import { CSS, ICONS, SLOTS } from "./resources";
@@ -36,7 +27,21 @@ import {
   connectOpenCloseComponent,
   disconnectOpenCloseComponent
 } from "../../utils/openCloseComponent";
-import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
+import {
+  FocusTrapComponent,
+  FocusTrap,
+  connectFocusTrap,
+  activateFocusTrap,
+  deactivateFocusTrap
+} from "../../utils/focusTrapComponent";
+import {
+  setUpLoadableComponent,
+  setComponentLoaded,
+  LoadableComponent,
+  componentLoaded
+} from "../../utils/loadable";
+
+import { connectLocalized, disconnectLocalized } from "../../utils/locale";
 import {
   connectMessages,
   disconnectMessages,
@@ -45,14 +50,6 @@ import {
   updateMessages
 } from "../../utils/t9n";
 import { Messages } from "./assets/modal/t9n";
-
-const isFocusableExtended = (el: FocusableElement): boolean => {
-  return isCalciteFocusable(el) || isFocusable(el);
-};
-
-const getFocusableElements = (el: HTMLElement | ShadowRoot): HTMLElement[] => {
-  return queryShadowRoot(el, isHidden, isFocusableExtended);
-};
 
 /**
  * @slot header - A slot for adding header text.
@@ -69,7 +66,12 @@ const getFocusableElements = (el: HTMLElement | ShadowRoot): HTMLElement[] => {
   assetsDirs: ["assets"]
 })
 export class Modal
-  implements ConditionalSlotComponent, OpenCloseComponent, LocalizedComponent, T9nComponent
+  implements
+    ConditionalSlotComponent,
+    OpenCloseComponent,
+    FocusTrapComponent,
+    LoadableComponent,
+    T9nComponent
 {
   //--------------------------------------------------------------------------
   //
@@ -166,13 +168,18 @@ export class Modal
   //  Lifecycle
   //
   //--------------------------------------------------------------------------
+
   async componentWillLoad(): Promise<void> {
     await setUpMessages(this);
-
+    setUpLoadableComponent(this);
     // when modal initially renders, if active was set we need to open as watcher doesn't fire
     if (this.open) {
       requestAnimationFrame(() => this.openModal());
     }
+  }
+
+  componentDidLoad(): void {
+    setComponentLoaded(this);
   }
 
   connectedCallback(): void {
@@ -180,14 +187,14 @@ export class Modal
     this.updateFooterVisibility();
     connectConditionalSlotComponent(this);
     connectOpenCloseComponent(this);
-    connectLocalized(this);
-    connectMessages(this);
     if (this.open) {
       this.active = this.open;
     }
     if (this.active) {
       this.activeHandler(this.active);
     }
+    connectLocalized(this);
+    connectMessages(this);
   }
 
   disconnectedCallback(): void {
@@ -195,6 +202,7 @@ export class Modal
     this.mutationObserver?.disconnect();
     disconnectConditionalSlotComponent(this);
     disconnectOpenCloseComponent(this);
+    deactivateFocusTrap(this);
     disconnectLocalized(this);
     disconnectMessages(this);
   }
@@ -216,7 +224,6 @@ export class Modal
           }}
           ref={this.setTransitionEl}
         >
-          <div data-focus-fence onFocus={this.focusLastElement} tabindex="0" />
           <div class={CSS.header}>
             {this.renderCloseButton()}
             <header class={CSS.title}>
@@ -234,7 +241,6 @@ export class Modal
             <slot name={SLOTS.content} />
           </div>
           {this.renderFooter()}
-          <div data-focus-fence onFocus={this.focusFirstElement} tabindex="0" />
         </div>
       </Host>
     );
@@ -305,18 +311,15 @@ export class Modal
 
   //--------------------------------------------------------------------------
   //
-  //  Variables
+  //  Private Properties/ State
   //
   //--------------------------------------------------------------------------
-  @State() hasFooter = true;
-
-  closeButtonEl: HTMLButtonElement;
-
-  contentId: string;
 
   modalContent: HTMLDivElement;
 
-  previousActiveElement: HTMLElement;
+  private mutationObserver: MutationObserver = createObserver("mutation", () =>
+    this.updateFooterVisibility()
+  );
 
   titleId: string;
 
@@ -324,11 +327,22 @@ export class Modal
 
   transitionEl: HTMLDivElement;
 
-  //--------------------------------------------------------------------------
-  //
-  //  Private State/Properties
-  //
-  //--------------------------------------------------------------------------
+  focusTrap: FocusTrap;
+
+  focusTrapEl: HTMLDivElement;
+
+  closeButtonEl: HTMLButtonElement;
+
+  contentId: string;
+
+  @State() hasFooter = true;
+
+  /**
+   * We use internal variable to make sure initially open modal can transition from closed state when rendered
+   *
+   * @private
+   */
+  @State() isOpen = false;
 
   @State() effectiveLocale: string;
 
@@ -338,17 +352,6 @@ export class Modal
   }
 
   @State() defaultMessages: Messages;
-
-  /**
-   * We use internal variable to make sure initially open modal can transition from closed state when rendered
-   *
-   * @private
-   */
-  @State() isOpen = false;
-
-  private mutationObserver: MutationObserver = createObserver("mutation", () =>
-    this.updateFooterVisibility()
-  );
 
   //--------------------------------------------------------------------------
   //
@@ -411,11 +414,15 @@ export class Modal
    */
   @Method()
   async setFocus(focusId?: "close-button"): Promise<void> {
-    const closeButton = this.closeButtonEl;
+    await componentLoaded(this);
 
-    return focusElement(
-      focusId === "close-button" ? closeButton : getFocusableElements(this.el)[0] || closeButton
-    );
+    const { closeButtonEl } = this;
+
+    if (closeButtonEl && focusId === "close-button") {
+      return focusElement(closeButtonEl);
+    }
+
+    activateFocusTrap(this);
   }
 
   /**
@@ -442,9 +449,11 @@ export class Modal
   //
   //--------------------------------------------------------------------------
 
-  private setTransitionEl = (el): void => {
+  private setTransitionEl = (el: HTMLDivElement): void => {
     this.transitionEl = el;
     connectOpenCloseComponent(this);
+    this.focusTrapEl = el;
+    connectFocusTrap(this);
   };
 
   onBeforeOpen(): void {
@@ -465,6 +474,7 @@ export class Modal
   onClose(): void {
     this.transitionEl.classList.remove(CSS.closingIdle, CSS.closingActive);
     this.calciteModalClose.emit();
+    deactivateFocusTrap(this);
   }
 
   @Watch("active")
@@ -487,11 +497,11 @@ export class Modal
   private openEnd = (): void => {
     this.setFocus();
     this.el.removeEventListener("calciteModalOpen", this.openEnd);
+    activateFocusTrap(this);
   };
 
   /** Open the modal */
   private openModal() {
-    this.previousActiveElement = document.activeElement as HTMLElement;
     this.el.addEventListener("calciteModalOpen", this.openEnd);
     this.open = true;
     this.isOpen = true;
@@ -517,24 +527,8 @@ export class Modal
     return this.beforeClose(this.el).then(() => {
       this.open = false;
       this.isOpen = false;
-      focusElement(this.previousActiveElement);
       this.removeOverflowHiddenClass();
     });
-  };
-
-  focusFirstElement = (): void => {
-    focusElement(this.disableCloseButton ? getFocusableElements(this.el)[0] : this.closeButtonEl);
-  };
-
-  focusLastElement = (): void => {
-    const focusableElements = getFocusableElements(this.el).filter(
-      (el) => !el.getAttribute("data-focus-fence")
-    );
-    if (focusableElements.length > 0) {
-      focusElement(focusableElements[focusableElements.length - 1]);
-    } else {
-      focusElement(this.closeButtonEl);
-    }
   };
 
   private removeOverflowHiddenClass(): void {

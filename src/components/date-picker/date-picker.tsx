@@ -59,6 +59,16 @@ export class DatePicker implements LocalizedComponent, T9nComponent {
   //
   //--------------------------------------------------------------------------
 
+  /** Active date */
+  @Prop({ mutable: true }) activeDate: Date;
+
+  @Watch("activeDate")
+  activeDateWatcher(newActiveDate: Date): void {
+    if (this.activeRange === "end") {
+      this.activeEndDate = newActiveDate;
+    }
+  }
+
   /** Active range */
   @Prop({ reflect: true }) activeRange?: "start" | "end";
 
@@ -229,11 +239,6 @@ export class DatePicker implements LocalizedComponent, T9nComponent {
   @Event({ cancelable: false }) calciteDatePickerRangeChange: EventEmitter<DateRangeChange>;
 
   /**
-   * Active date.
-   */
-  @State() activeDate: Date;
-
-  /**
    * Active start date.
    */
   @State() activeStartDate: Date;
@@ -291,17 +296,15 @@ export class DatePicker implements LocalizedComponent, T9nComponent {
 
   render(): VNode {
     const date = dateFromRange(
-      this.range ? this.startAsDate : this.valueAsDate,
+      this.range && Array.isArray(this.valueAsDate) ? this.valueAsDate[0] : this.valueAsDate,
       this.minAsDate,
       this.maxAsDate
     );
-    const activeStartDate = this.range
-      ? this.getActiveStartDate(date, this.minAsDate, this.maxAsDate)
-      : this.getActiveDate(date, this.minAsDate, this.maxAsDate);
-    let activeDate = activeStartDate;
-    const endDate = this.range
-      ? dateFromRange(this.endAsDate, this.minAsDate, this.maxAsDate)
-      : null;
+    let activeDate = this.getActiveDate(date, this.minAsDate, this.maxAsDate);
+    const endDate =
+      this.range && Array.isArray(this.valueAsDate)
+        ? dateFromRange(this.valueAsDate[1], this.minAsDate, this.maxAsDate)
+        : null;
     const activeEndDate = this.getActiveEndDate(endDate, this.minAsDate, this.maxAsDate);
     if (
       (this.activeRange === "end" ||
@@ -621,8 +624,14 @@ export class DatePicker implements LocalizedComponent, T9nComponent {
    */
   private monthDateChange = (event: CustomEvent<Date>): void => {
     const date = new Date(event.detail);
+    const isoDate = dateToISO(date);
+
+    if (!this.range && isoDate === dateToISO(this.valueAsDate as Date)) {
+      return;
+    }
+
     if (!this.range) {
-      this.value = date ? dateToISO(date) : "";
+      this.value = isoDate || "";
       this.valueAsDate = date || null;
       this.activeDate = date || null;
       this.calciteDatePickerChange.emit(date);
@@ -678,12 +687,6 @@ export class DatePicker implements LocalizedComponent, T9nComponent {
    */
   private getActiveDate(value: Date | null, min: Date | null, max: Date | null): Date {
     return dateFromRange(this.activeDate, min, max) || value || dateFromRange(new Date(), min, max);
-  }
-
-  private getActiveStartDate(value: Date | null, min: Date | null, max: Date | null): Date {
-    return (
-      dateFromRange(this.activeStartDate, min, max) || value || dateFromRange(new Date(), min, max)
-    );
   }
 
   private getActiveEndDate(value: Date | null, min: Date | null, max: Date | null): Date {

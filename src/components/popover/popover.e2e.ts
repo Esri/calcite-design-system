@@ -1,7 +1,7 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { html } from "../../../support/formatting";
 
-import { accessible, defaults, hidden, renders, floatingUIOwner, t9n } from "../../tests/commonTests";
+import { accessible, defaults, hidden, renders, floatingUIOwner, focusable, t9n } from "../../tests/commonTests";
 import { CSS } from "./resources";
 
 describe("calcite-popover", () => {
@@ -735,5 +735,57 @@ describe("calcite-popover", () => {
     await ref.click();
 
     expect(await popover.isVisible()).toBe(true);
+  });
+
+  it("should close popovers with ESC key", async () => {
+    const page = await newE2EPage();
+
+    await page.setContent(
+      html`
+        <calcite-popover reference-element="ref">Content</calcite-popover>
+        <button id="ref">Button</button>
+      `
+    );
+
+    await page.waitForChanges();
+
+    const popover = await page.find("calcite-popover");
+
+    expect(await popover.getProperty("open")).toBe(false);
+
+    const referenceElement = await page.find("#ref");
+
+    await referenceElement.click();
+
+    await page.waitForChanges();
+
+    expect(await popover.getProperty("open")).toBe(true);
+
+    await referenceElement.press("Escape");
+
+    await page.waitForChanges();
+
+    expect(await popover.getProperty("open")).toBe(false);
+  });
+
+  describe("setFocus", () => {
+    const createPopoverHTML = (contentHTML?: string, attrs?: string) =>
+      `<calcite-popover open ${attrs} reference-element="ref">${contentHTML}</calcite-popover><button id="ref">Button</button>`;
+
+    const closeButtonFocusId = "close-button";
+
+    const contentButtonClass = "my-button";
+    const contentHTML = `<button class="${contentButtonClass}">My Button</button>`;
+
+    it("should focus content by default", async () =>
+      focusable(createPopoverHTML(contentHTML), {
+        focusTargetSelector: `.${contentButtonClass}`
+      }));
+
+    it("should focus close button", async () =>
+      focusable(createPopoverHTML(contentHTML, "closable"), {
+        focusId: closeButtonFocusId,
+        shadowFocusTargetSelector: `.${CSS.closeButton}`
+      }));
   });
 });

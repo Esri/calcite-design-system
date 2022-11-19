@@ -53,6 +53,12 @@ import {
   updateMessages
 } from "../../utils/t9n";
 import { Messages } from "./assets/input-number/t9n";
+import {
+  setUpLoadableComponent,
+  setComponentLoaded,
+  LoadableComponent,
+  componentLoaded
+} from "../../utils/loadable";
 
 type NumberNudgeDirection = "up" | "down";
 type setNumberValueOrigin = "initial" | "connected" | "user" | "reset" | "direct";
@@ -71,8 +77,8 @@ export class InputNumber
     LabelableComponent,
     FormComponent,
     InteractiveComponent,
-    LocalizedComponent,
-    T9nComponent
+    T9nComponent,
+    LoadableComponent
 {
   //--------------------------------------------------------------------------
   //
@@ -406,6 +412,10 @@ export class InputNumber
     this.el.addEventListener("calciteInternalHiddenInputChange", this.hiddenInputChangeHandler);
   }
 
+  componentDidLoad(): void {
+    setComponentLoaded(this);
+  }
+
   disconnectedCallback(): void {
     disconnectLabel(this);
     disconnectForm(this);
@@ -417,6 +427,7 @@ export class InputNumber
   }
 
   async componentWillLoad(): Promise<void> {
+    setUpLoadableComponent(this);
     this.maxString = this.max?.toString();
     this.minString = this.min?.toString();
     this.requestedIcon = setRequestedIcon({}, this.icon, "number");
@@ -475,6 +486,8 @@ export class InputNumber
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
+    await componentLoaded(this);
+
     this.childNumberEl?.focus();
   }
 

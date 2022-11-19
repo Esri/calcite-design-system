@@ -7,6 +7,12 @@ import {
   disconnectConditionalSlotComponent
 } from "../../utils/conditionalSlot";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import {
+  setUpLoadableComponent,
+  setComponentLoaded,
+  LoadableComponent,
+  componentLoaded
+} from "../../utils/loadable";
 
 /**
  * @slot - A slot for adding `calcite-list-item` and `calcite-list-item-group` elements.
@@ -20,7 +26,7 @@ import { InteractiveComponent, updateHostInteraction } from "../../utils/interac
   styleUrl: "list-item.scss",
   shadow: true
 })
-export class ListItem implements ConditionalSlotComponent, InteractiveComponent {
+export class ListItem implements ConditionalSlotComponent, InteractiveComponent, LoadableComponent {
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -63,15 +69,17 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
   //
   //--------------------------------------------------------------------------
 
+  componentWillLoad(): void {
+    setUpLoadableComponent(this);
+  }
+
+  componentDidLoad(): void {
+    setComponentLoaded(this);
+  }
+
   componentDidRender(): void {
     updateHostInteraction(this);
   }
-
-  // --------------------------------------------------------------------------
-  //
-  //  Lifecycle
-  //
-  // --------------------------------------------------------------------------
 
   connectedCallback(): void {
     connectConditionalSlotComponent(this);
@@ -90,6 +98,8 @@ export class ListItem implements ConditionalSlotComponent, InteractiveComponent 
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
+    await componentLoaded(this);
+
     this.focusEl?.focus();
   }
 
