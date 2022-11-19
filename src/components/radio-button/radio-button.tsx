@@ -24,6 +24,12 @@ import {
 import { CSS } from "./resources";
 import { getRoundRobinIndex } from "../../utils/array";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import {
+  setUpLoadableComponent,
+  setComponentLoaded,
+  LoadableComponent,
+  componentLoaded
+} from "../../utils/loadable";
 
 @Component({
   tag: "calcite-radio-button",
@@ -31,7 +37,7 @@ import { InteractiveComponent, updateHostInteraction } from "../../utils/interac
   shadow: true
 })
 export class RadioButton
-  implements LabelableComponent, CheckableFormComponent, InteractiveComponent
+  implements LabelableComponent, CheckableFormComponent, InteractiveComponent, LoadableComponent
 {
   //--------------------------------------------------------------------------
   //
@@ -133,6 +139,8 @@ export class RadioButton
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
+    await componentLoaded(this);
+
     if (!this.disabled) {
       focusElement(this.containerEl);
     }
@@ -390,7 +398,13 @@ export class RadioButton
     connectForm(this);
   }
 
+  componentWillLoad(): void {
+    setUpLoadableComponent(this);
+  }
+
   componentDidLoad(): void {
+    setComponentLoaded(this);
+
     if (this.focused && !this.disabled) {
       this.setFocus();
     }

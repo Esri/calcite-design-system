@@ -19,6 +19,12 @@ import {
   disconnectConditionalSlotComponent
 } from "../../utils/conditionalSlot";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import {
+  setUpLoadableComponent,
+  setComponentLoaded,
+  LoadableComponent,
+  componentLoaded
+} from "../../utils/loadable";
 
 /**
  * @slot actions-end - A slot for adding `calcite-action`s or content to the end side of the component.
@@ -29,7 +35,9 @@ import { InteractiveComponent, updateHostInteraction } from "../../utils/interac
   styleUrl: "pick-list-item.scss",
   shadow: true
 })
-export class PickListItem implements ConditionalSlotComponent, InteractiveComponent {
+export class PickListItem
+  implements ConditionalSlotComponent, InteractiveComponent, LoadableComponent
+{
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -149,6 +157,14 @@ export class PickListItem implements ConditionalSlotComponent, InteractiveCompon
     connectConditionalSlotComponent(this);
   }
 
+  componentWillLoad(): void {
+    setUpLoadableComponent(this);
+  }
+
+  componentDidLoad(): void {
+    setComponentLoaded(this);
+  }
+
   disconnectedCallback(): void {
     disconnectConditionalSlotComponent(this);
   }
@@ -215,6 +231,8 @@ export class PickListItem implements ConditionalSlotComponent, InteractiveCompon
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
+    await componentLoaded(this);
+
     this.focusEl?.focus();
   }
 

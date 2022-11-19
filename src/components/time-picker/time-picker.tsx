@@ -39,6 +39,13 @@ import {
   updateEffectiveLocale
 } from "../../utils/locale";
 
+import {
+  setUpLoadableComponent,
+  setComponentLoaded,
+  LoadableComponent,
+  componentLoaded
+} from "../../utils/loadable";
+
 function capitalize(str: string): string {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
@@ -48,7 +55,7 @@ function capitalize(str: string): string {
   styleUrl: "time-picker.scss",
   shadow: true
 })
-export class TimePicker implements LocalizedComponent {
+export class TimePicker implements LocalizedComponent, LoadableComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -350,6 +357,8 @@ export class TimePicker implements LocalizedComponent {
    */
   @Method()
   async setFocus(target: TimePart): Promise<void> {
+    await componentLoaded(this);
+
     this[`${target || "hour"}El`]?.focus();
   }
 
@@ -768,6 +777,14 @@ export class TimePicker implements LocalizedComponent {
         numberingSystem: this.numberingSystem
       })
     );
+  }
+
+  componentWillLoad(): void {
+    setUpLoadableComponent(this);
+  }
+
+  componentDidLoad(): void {
+    setComponentLoaded(this);
   }
 
   disconnectedCallback(): void {

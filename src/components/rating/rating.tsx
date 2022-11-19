@@ -18,13 +18,21 @@ import { connectForm, disconnectForm, FormComponent, HiddenFormInputSlot } from 
 import { TEXT } from "./resources";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { isActivationKey } from "../../utils/key";
+import {
+  setUpLoadableComponent,
+  setComponentLoaded,
+  LoadableComponent,
+  componentLoaded
+} from "../../utils/loadable";
 
 @Component({
   tag: "calcite-rating",
   styleUrl: "rating.scss",
   shadow: true
 })
-export class Rating implements LabelableComponent, FormComponent, InteractiveComponent {
+export class Rating
+  implements LabelableComponent, FormComponent, InteractiveComponent, LoadableComponent
+{
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -93,6 +101,14 @@ export class Rating implements LabelableComponent, FormComponent, InteractiveCom
   connectedCallback(): void {
     connectLabel(this);
     connectForm(this);
+  }
+
+  componentWillLoad(): void {
+    setUpLoadableComponent(this);
+  }
+
+  componentDidLoad(): void {
+    setComponentLoaded(this);
   }
 
   disconnectedCallback(): void {
@@ -252,6 +268,8 @@ export class Rating implements LabelableComponent, FormComponent, InteractiveCom
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
+    await componentLoaded(this);
+
     this.inputFocusRef?.focus();
   }
 
