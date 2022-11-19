@@ -205,7 +205,11 @@ export class Alert implements OpenCloseComponent, LocalizedComponent {
     const hidden = !active;
 
     const slotNode = (
-      <slot name={SLOTS.actionsEnd} onSlotchange={this.handleActionsEndSlotChange} />
+      <slot
+        key="actionsEndSlot"
+        name={SLOTS.actionsEnd}
+        onSlotchange={this.handleActionsEndSlotChange}
+      />
     );
 
     return (
