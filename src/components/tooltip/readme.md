@@ -56,6 +56,15 @@
 | `placement`          | `placement`           | Determines where the component will be positioned relative to the `referenceElement`.                                                                                                                                                                                                                                                                                                 | `Placement \| VariationPlacement \| AutoPlacement \| DeprecatedPlacement` | `"auto"`                |
 | `referenceElement`   | `reference-element`   | The `referenceElement` to position the component according to its `"placement"` value. Setting to the `HTMLElement` is preferred so the component does not need to query the DOM for the `referenceElement`. However, a string ID of the reference element can be used.                                                                                                               | `Element \| VirtualElement \| string`                                     | `undefined`             |
 
+## Events
+
+| Event                       | Description                                                                                              | Type                |
+| --------------------------- | -------------------------------------------------------------------------------------------------------- | ------------------- |
+| `calciteTooltipBeforeClose` | Fires when the component is requested to be closed and before the closing transition begins.             | `CustomEvent<void>` |
+| `calciteTooltipBeforeOpen`  | Fires when the component is added to the DOM but not rendered, and before the opening transition begins. | `CustomEvent<void>` |
+| `calciteTooltipClose`       | Fires when the component is closed and animation is complete.                                            | `CustomEvent<void>` |
+| `calciteTooltipOpen`        | Fires when the component is open and animation is complete.                                              | `CustomEvent<void>` |
+
 ## Methods
 
 ### `reposition(delayed?: boolean) => Promise<void>`

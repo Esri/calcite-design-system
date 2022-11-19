@@ -26,7 +26,12 @@ export class InputMessage {
   //
   //--------------------------------------------------------------------------
 
-  /** When `true`, the component is active. */
+  /**
+   * When `true`, the component is active.
+   *
+   * @deprecated use global `hidden` attribute instead.
+   * @mdn [hidden](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/hidden)
+   */
   @Prop({ reflect: true }) active = false;
 
   /** Specifies an icon to display. */

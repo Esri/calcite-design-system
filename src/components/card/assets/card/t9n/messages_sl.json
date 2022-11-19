@@ -1,5 +1,5 @@
 {
-  "select": "Š_Select_____________č",
-  "deselect": "Š_Deselect_________________č",
-  "loading": "Š_Loading_______________č"
+  "select": "Izberi",
+  "deselect": "Prekliči izbiro",
+  "loading": "Nalaganje"
 }

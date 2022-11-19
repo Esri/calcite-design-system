@@ -1,5 +1,5 @@
 {
-  "select": "ng_Select_____________ny",
-  "deselect": "ng_Deselect_________________ny",
-  "loading": "ng_Loading_______________ny"
+  "select": "Pilih",
+  "deselect": "Batalkan pilihan",
+  "loading": "Memuat"
 }

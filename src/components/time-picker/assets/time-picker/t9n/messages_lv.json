@@ -1,14 +1,14 @@
 {
-  "hour": "ķ_Hour_________ū",
-  "hourDown": "ķ_Decrease hour______________ū",
-  "hourUp": "ķ_Increase hour______________ū",
-  "meridiem": "ķ_AM/PM___________ū",
-  "meridiemDown": "ķ_Decrease AM/PM_______________ū",
-  "meridiemUp": "ķ_Increase AM/PM_______________ū",
-  "minute": "ķ_Minute_____________ū",
-  "minuteDown": "ķ_Decrease minute________________ū",
-  "minuteUp": "ķ_Increase minute________________ū",
-  "second": "ķ_Second_____________ū",
-  "secondDown": "ķ_Decrease second________________ū",
-  "secondUp": "ķ_Increase second________________ū"
+  "hour": "Stunda",
+  "hourDown": "Samazināt stundas",
+  "hourUp": "Palielināt stundas",
+  "meridiem": "AM/PM",
+  "meridiemDown": "Samazināt AM/PM",
+  "meridiemUp": "Palielināt AM/PM",
+  "minute": "Minūte",
+  "minuteDown": "Samazināt minūtes",
+  "minuteUp": "Palielināt minūtes",
+  "second": "Sekunde",
+  "secondDown": "Samazināt sekundes",
+  "secondUp": "Palielināt sekundes"
 }

@@ -21,7 +21,12 @@ export class Loader {
   //
   //--------------------------------------------------------------------------
 
-  /** When `true`, the component is active. */
+  /**
+   * When `true`, the component is active.
+   *
+   * @deprecated use global `hidden` attribute instead.
+   * @mdn [hidden](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/hidden)
+   */
   @Prop({ reflect: true }) active = false;
 
   /** When `true`, displays smaller and appears to the left of the text. */

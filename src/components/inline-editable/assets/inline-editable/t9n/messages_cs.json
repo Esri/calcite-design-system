@@ -1,5 +1,5 @@
 {
-  "enableEditing": "Ř_Click to edit______________ů",
-  "cancelEditing": "Ř_Cancel_____________ů",
-  "confirmChanges": "Ř_Save_________ů"
+  "enableEditing": "Upravit kliknutím",
+  "cancelEditing": "Storno",
+  "confirmChanges": "Uložit"
 }

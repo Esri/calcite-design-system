@@ -1,4 +1,4 @@
 {
-  "rating": "ı_Rating_____________İ",
-  "stars": "ı_Stars: ${num}______________İ"
+  "rating": "Derecelendirme",
+  "stars": "Yıldız: ${num}"
 }

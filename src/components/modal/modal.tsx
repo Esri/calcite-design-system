@@ -30,6 +30,12 @@ import {
   activateFocusTrap,
   deactivateFocusTrap
 } from "../../utils/focusTrapComponent";
+import {
+  setUpLoadableComponent,
+  setComponentLoaded,
+  LoadableComponent,
+  componentLoaded
+} from "../../utils/loadable";
 
 /**
  * @slot header - A slot for adding header text.
@@ -44,7 +50,9 @@ import {
   styleUrl: "modal.scss",
   shadow: true
 })
-export class Modal implements ConditionalSlotComponent, OpenCloseComponent, FocusTrapComponent {
+export class Modal
+  implements ConditionalSlotComponent, OpenCloseComponent, FocusTrapComponent, LoadableComponent
+{
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -119,11 +127,16 @@ export class Modal implements ConditionalSlotComponent, OpenCloseComponent, Focu
   //--------------------------------------------------------------------------
 
   componentWillLoad(): void {
-    // when modal initially renders, if open was set we need to open as watcher doesn't fire
+    setUpLoadableComponent(this);
+    // when modal initially renders, if active was set we need to open as watcher doesn't fire
     if (this.open) {
       onToggleOpenCloseComponent(this);
       requestAnimationFrame(() => this.openModal());
     }
+  }
+
+  componentDidLoad(): void {
+    setComponentLoaded(this);
   }
 
   connectedCallback(): void {
@@ -342,6 +355,8 @@ export class Modal implements ConditionalSlotComponent, OpenCloseComponent, Focu
    */
   @Method()
   async setFocus(focusId?: "close-button"): Promise<void> {
+    await componentLoaded(this);
+
     const { closeButtonEl } = this;
 
     if (closeButtonEl && focusId === "close-button") {
