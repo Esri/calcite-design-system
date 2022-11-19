@@ -191,10 +191,15 @@ export const actionsEndQueued_TestOnly = (): string => html`
     <calcite-action scale="l" slot="actions-end" title="Tips" icon="lightbulb"></calcite-action>
     <calcite-action scale="l" slot="actions-end" title="Get info" icon="attachment"></calcite-action>
   </calcite-alert>
-  <calcite-alert id="two" label="Two" scale="l" color="red" icon open>
+  <calcite-alert id="two" label="Two" scale="l" color="red" icon>
     <div slot="title">Hello there, alert two!</div>
     <div slot="message">Do you really want to proceed?</div>
     <calcite-action scale="l" slot="actions-end" title="Tips" icon="lightbulb"></calcite-action>
     <calcite-action scale="l" slot="actions-end" title="Get info" icon="attachment"></calcite-action>
   </calcite-alert>
+  <script>
+    setTimeout(() => {
+      document.querySelector("#two").open = true;
+    }, "1000");
+  </script>
 `;
