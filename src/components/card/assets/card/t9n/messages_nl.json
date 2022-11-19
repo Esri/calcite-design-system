@@ -1,5 +1,5 @@
 {
-  "select": "Ĳ_Select_____________ä",
-  "deselect": "Ĳ_Deselect_________________ä",
-  "loading": "Ĳ_Loading_______________ä"
+  "select": "Selecteren",
+  "deselect": "Selectie opheffen",
+  "loading": "Bezig met laden"
 }

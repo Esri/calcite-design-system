@@ -1,14 +1,14 @@
 {
-  "hour": "Đ_Hour_________ớ",
-  "hourDown": "Đ_Decrease hour______________ớ",
-  "hourUp": "Đ_Increase hour______________ớ",
-  "meridiem": "Đ_AM/PM___________ớ",
-  "meridiemDown": "Đ_Decrease AM/PM_______________ớ",
-  "meridiemUp": "Đ_Increase AM/PM_______________ớ",
-  "minute": "Đ_Minute_____________ớ",
-  "minuteDown": "Đ_Decrease minute________________ớ",
-  "minuteUp": "Đ_Increase minute________________ớ",
-  "second": "Đ_Second_____________ớ",
-  "secondDown": "Đ_Decrease second________________ớ",
-  "secondUp": "Đ_Increase second________________ớ"
+  "hour": "Giờ",
+  "hourDown": "Giảm giờ",
+  "hourUp": "Tăng giờ",
+  "meridiem": "SA/CH",
+  "meridiemDown": "Giảm SA/CH",
+  "meridiemUp": "Tăng SA/CH",
+  "minute": "Phút",
+  "minuteDown": "Giảm phút",
+  "minuteUp": "Tăng phút",
+  "second": "Giây",
+  "secondDown": "Giảm giây",
+  "secondUp": "Tăng giây"
 }

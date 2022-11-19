@@ -1,5 +1,5 @@
 {
-  "select": "須_Select_____________鷗",
-  "deselect": "須_Deselect_________________鷗",
-  "loading": "須_Loading_______________鷗"
+  "select": "選択",
+  "deselect": "選択解除",
+  "loading": "読み込んでいます"
 }

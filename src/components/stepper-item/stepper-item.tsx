@@ -26,6 +26,12 @@ import {
   disconnectLocalized,
   connectLocalized
 } from "../../utils/locale";
+import {
+  setUpLoadableComponent,
+  setComponentLoaded,
+  LoadableComponent,
+  componentLoaded
+} from "../../utils/loadable";
 
 /**
  * @slot - A slot for adding custom content.
@@ -35,7 +41,7 @@ import {
   styleUrl: "stepper-item.scss",
   shadow: true
 })
-export class StepperItem implements InteractiveComponent, LocalizedComponent {
+export class StepperItem implements InteractiveComponent, LocalizedComponent, LoadableComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -195,6 +201,7 @@ export class StepperItem implements InteractiveComponent, LocalizedComponent {
   }
 
   componentWillLoad(): void {
+    setUpLoadableComponent(this);
     this.icon = getElementProp(this.el, "icon", false);
     this.numbered = getElementProp(this.el, "numbered", false);
     this.layout = getElementProp(this.el, "layout", false);
@@ -212,6 +219,10 @@ export class StepperItem implements InteractiveComponent, LocalizedComponent {
       numberingSystem: this.parentStepperEl?.numberingSystem,
       useGrouping: false
     };
+  }
+
+  componentDidLoad(): void {
+    setComponentLoaded(this);
   }
 
   componentDidRender(): void {
@@ -282,6 +293,8 @@ export class StepperItem implements InteractiveComponent, LocalizedComponent {
 
   @Method()
   async setFocus(): Promise<void> {
+    await componentLoaded(this);
+
     (this.layout === "vertical" ? this.el : this.headerEl)?.focus();
   }
 

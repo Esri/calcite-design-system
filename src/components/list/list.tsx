@@ -13,6 +13,7 @@ import {
 } from "@stencil/core";
 import { CSS, debounceTimeout, SelectionAppearance, SelectionMode } from "./resources";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+
 import { createObserver } from "../../utils/observers";
 import { getListItemChildren, updateListItemChildren } from "../list-item/utils";
 import { toAriaBoolean } from "../../utils/dom";
@@ -22,6 +23,13 @@ import { ItemData } from "../list-item/interfaces";
 import { MAX_COLUMNS } from "../list-item/resources";
 
 const listItemSelector = "calcite-list-item";
+
+import {
+  setUpLoadableComponent,
+  setComponentLoaded,
+  LoadableComponent,
+  componentLoaded
+} from "../../utils/loadable";
 
 /**
  * A general purpose list that enables users to construct list items that conform to Calcite styling.
@@ -33,7 +41,7 @@ const listItemSelector = "calcite-list-item";
   styleUrl: "list.scss",
   shadow: true
 })
-export class List implements InteractiveComponent {
+export class List implements InteractiveComponent, LoadableComponent {
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -181,11 +189,16 @@ export class List implements InteractiveComponent {
     this.mutationObserver?.disconnect();
   }
 
+  componentWillLoad(): void {
+    setUpLoadableComponent(this);
+  }
+
   componentDidRender(): void {
     updateHostInteraction(this);
   }
 
   componentDidLoad(): void {
+    setComponentLoaded(this);
     const { filterEl } = this;
     const filteredItems = filterEl?.filteredItems as ItemData;
 
@@ -223,6 +236,7 @@ export class List implements InteractiveComponent {
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
+    await componentLoaded(this);
     this.enabledListItems.find((listItem) => listItem.active)?.setFocus();
   }
 

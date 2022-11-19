@@ -1,14 +1,14 @@
 {
-  "hour": "כן_Hour_________ש",
-  "hourDown": "כן_Decrease hour______________ש",
-  "hourUp": "כן_Increase hour______________ש",
-  "meridiem": "כן_AM/PM___________ש",
-  "meridiemDown": "כן_Decrease AM/PM_______________ש",
-  "meridiemUp": "כן_Increase AM/PM_______________ש",
-  "minute": "כן_Minute_____________ש",
-  "minuteDown": "כן_Decrease minute________________ש",
-  "minuteUp": "כן_Increase minute________________ש",
-  "second": "כן_Second_____________ש",
-  "secondDown": "כן_Decrease second________________ש",
-  "secondUp": "כן_Increase second________________ש"
+  "hour": "שעה",
+  "hourDown": "הקטן שעה",
+  "hourUp": "הגדל שעה",
+  "meridiem": "AM/PM",
+  "meridiemDown": "הקטן AM/PM",
+  "meridiemUp": "הגדל AM/PM",
+  "minute": "דקה",
+  "minuteDown": "הקטן דקה",
+  "minuteUp": "הגדל דקה",
+  "second": "שנייה",
+  "secondDown": "הקטן שנייה",
+  "secondUp": "הגדל שנייה"
 }

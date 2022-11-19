@@ -1,14 +1,14 @@
 {
-  "hour": "ł_Hour_________ą",
-  "hourDown": "ł_Decrease hour______________ą",
-  "hourUp": "ł_Increase hour______________ą",
-  "meridiem": "ł_AM/PM___________ą",
-  "meridiemDown": "ł_Decrease AM/PM_______________ą",
-  "meridiemUp": "ł_Increase AM/PM_______________ą",
-  "minute": "ł_Minute_____________ą",
-  "minuteDown": "ł_Decrease minute________________ą",
-  "minuteUp": "ł_Increase minute________________ą",
-  "second": "ł_Second_____________ą",
-  "secondDown": "ł_Decrease second________________ą",
-  "secondUp": "ł_Increase second________________ą"
+  "hour": "Godzina",
+  "hourDown": "Zmniejsz o godzinę",
+  "hourUp": "Zwiększ o godzinę",
+  "meridiem": "Rano/Po południu",
+  "meridiemDown": "Zmniejsz AM/PM",
+  "meridiemUp": "Zwiększ AM/PM",
+  "minute": "Minuta",
+  "minuteDown": "Zmniejsz o minutę",
+  "minuteUp": "Zwiększ o minutę",
+  "second": "Sekunda",
+  "secondDown": "Zmniejsz o sekundę",
+  "secondUp": "Zwiększ o sekundę"
 }

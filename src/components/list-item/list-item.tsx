@@ -14,12 +14,20 @@ import {
 import { SLOTS, CSS, ICONS } from "./resources";
 import { getElementDir, toAriaBoolean } from "../../utils/dom";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+
 import { getDepth, getListItemChildren, updateListItemChildren } from "./utils";
 import { SelectionAppearance, SelectionMode } from "../list/resources";
 
 const focusMap = new Map<HTMLCalciteListElement, number>();
 
 const listSelector = "calcite-list";
+
+import {
+  setUpLoadableComponent,
+  setComponentLoaded,
+  LoadableComponent,
+  componentLoaded
+} from "../../utils/loadable";
 
 /**
  * @slot - A slot for adding `calcite-list-item` and `calcite-list-item-group` elements.
@@ -33,7 +41,7 @@ const listSelector = "calcite-list";
   styleUrl: "list-item.scss",
   shadow: true
 })
-export class ListItem implements InteractiveComponent {
+export class ListItem implements InteractiveComponent, LoadableComponent {
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -186,18 +194,20 @@ export class ListItem implements InteractiveComponent {
 
   actionsEndEl: HTMLTableCellElement;
 
-  // --------------------------------------------------------------------------
-  //
-  //  Lifecycle
-  //
-  // --------------------------------------------------------------------------
-
   connectedCallback(): void {
     const { el } = this;
     this.parentListEl = el.closest(listSelector);
     this.level = getDepth(el) + 1;
     this.visualLevel = getDepth(el, true);
     this.setSelectionDefaults();
+  }
+
+  componentWillLoad(): void {
+    setUpLoadableComponent(this);
+  }
+
+  componentDidLoad(): void {
+    setComponentLoaded(this);
   }
 
   componentDidRender(): void {
@@ -213,6 +223,7 @@ export class ListItem implements InteractiveComponent {
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
+    await componentLoaded(this);
     const { containerEl, contentEl, actionsStartEl, actionsEndEl, parentListEl } = this;
     const focusIndex = focusMap.get(parentListEl);
 

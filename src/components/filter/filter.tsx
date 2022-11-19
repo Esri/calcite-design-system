@@ -16,13 +16,19 @@ import { Scale } from "../interfaces";
 import { focusElement } from "../../utils/dom";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { filter } from "../../utils/filter";
+import {
+  setUpLoadableComponent,
+  setComponentLoaded,
+  LoadableComponent,
+  componentLoaded
+} from "../../utils/loadable";
 
 @Component({
   tag: "calcite-filter",
   styleUrl: "filter.scss",
   shadow: true
 })
-export class Filter implements InteractiveComponent {
+export class Filter implements InteractiveComponent, LoadableComponent {
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -98,6 +104,16 @@ export class Filter implements InteractiveComponent {
   //
   //--------------------------------------------------------------------------
 
+  componentWillLoad(): void {
+    setUpLoadableComponent(this);
+
+    this.updateFiltered(filter(this.items, this.value));
+  }
+
+  componentDidLoad(): void {
+    setComponentLoaded(this);
+  }
+
   componentDidRender(): void {
     updateHostInteraction(this);
   }
@@ -113,16 +129,6 @@ export class Filter implements InteractiveComponent {
    */
   @Event({ cancelable: false }) calciteFilterChange: EventEmitter<void>;
 
-  //--------------------------------------------------------------------------
-  //
-  //  Lifecycle
-  //
-  //--------------------------------------------------------------------------
-
-  componentWillLoad(): void {
-    this.updateFiltered(filter(this.items, this.value));
-  }
-
   // --------------------------------------------------------------------------
   //
   //  Public Methods
@@ -132,6 +138,8 @@ export class Filter implements InteractiveComponent {
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
+    await componentLoaded(this);
+
     focusElement(this.textInput);
   }
 
