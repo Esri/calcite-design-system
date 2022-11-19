@@ -259,11 +259,6 @@ export class Combobox
     this.toggleSelection(target, target.selected);
   }
 
-  @Listen("calciteComboboxItemFocus")
-  calciteComboboxItemFocusHandler(): void {
-    this.comboboxFocusHandler();
-  }
-
   //--------------------------------------------------------------------------
   //
   //  Public Methods
@@ -1204,7 +1199,7 @@ export class Combobox
     const single = this.selectionMode === "single";
 
     return (
-      <Host>
+      <Host onClick={this.comboboxFocusHandler}>
         <div
           aria-autocomplete="list"
           aria-controls={`${listboxUidPrefix}${guid}`}
