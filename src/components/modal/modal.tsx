@@ -120,8 +120,8 @@ export class Modal implements ConditionalSlotComponent, OpenCloseComponent, Focu
 
   componentWillLoad(): void {
     // when modal initially renders, if open was set we need to open as watcher doesn't fire
-    onToggleOpenCloseComponent(this);
     if (this.open) {
+      onToggleOpenCloseComponent(this);
       requestAnimationFrame(() => this.openModal());
     }
   }
