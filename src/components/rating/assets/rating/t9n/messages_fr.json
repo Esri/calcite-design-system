@@ -1,4 +1,4 @@
 {
-  "rating": "æ_Rating_____________Â",
-  "stars": "æ_Stars: ${num}______________Â"
+  "rating": "Évaluation",
+  "stars": "Étoiles : ${num}"
 }

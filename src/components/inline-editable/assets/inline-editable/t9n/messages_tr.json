@@ -1,5 +1,5 @@
 {
-  "enableEditing": "ı_Click to edit______________İ",
-  "cancelEditing": "ı_Cancel_____________İ",
-  "confirmChanges": "ı_Save_________İ"
+  "enableEditing": "Düzenlemek için tıkla",
+  "cancelEditing": "İptal",
+  "confirmChanges": "Kaydet"
 }

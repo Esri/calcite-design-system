@@ -1,7 +1,7 @@
 {
-  "defaultGroupTitle": "Å_Tips_________ö",
-  "defaultPaginationLabel": "Å_Tip_______ö",
-  "close": "Å_Close___________ö",
-  "previous": "Å_Previous_________________ö",
-  "next": "Å_Next_________ö"
+  "defaultGroupTitle": "Vinkkejä",
+  "defaultPaginationLabel": "Vihje",
+  "close": "Sulje",
+  "previous": "Edellinen",
+  "next": "Seuraava"
 }

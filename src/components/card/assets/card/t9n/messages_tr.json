@@ -1,5 +1,5 @@
 {
-  "select": "ı_Select_____________İ",
-  "deselect": "ı_Deselect_________________İ",
-  "loading": "ı_Loading_______________İ"
+  "select": "Seç",
+  "deselect": "Seçimi Kaldır",
+  "loading": "Yükleniyor"
 }

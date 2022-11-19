@@ -1,6 +1,6 @@
 {
-  "dragHandleActive": "Ĳ_Reordering ${itemLabel}, current position ${position} of ${total}__________________________________ä.",
-  "dragHandleChange": "Ĳ_${itemLabel}, new position ${position} of ${total}. Press space to confirm_______________________________________ä.",
-  "dragHandleCommit": "Ĳ_${itemLabel}, current position ${position} of ${total}_____________________________ä.",
-  "dragHandleIdle": "Ĳ_${itemLabel}, press space and use arrow keys to reorder content. Current position ${position} of ${total}______________________________________________________ä."
+  "dragHandleActive": "${itemLabel} opnieuw rangschikken, huidige positie ${position} van ${total}.",
+  "dragHandleChange": "${itemLabel}, nieuwe positie ${position} van ${total}. Druk op de spatiebalk om te bevestigen.",
+  "dragHandleCommit": "${itemLabel}, huidige positie ${position} van ${total}.",
+  "dragHandleIdle": "${itemLabel}, druk op spatiebalk en gebruik pijltjestoetsen om content opnieuw te rangschikken. Huidige positie ${position} van ${total}."
 }

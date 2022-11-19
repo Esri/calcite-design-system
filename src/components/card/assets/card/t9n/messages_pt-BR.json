@@ -1,5 +1,5 @@
 {
-  "select": "ã_Select_____________Ç",
-  "deselect": "ã_Deselect_________________Ç",
-  "loading": "ã_Loading_______________Ç"
+  "select": "Selecionar",
+  "deselect": "Cancelar Seleção",
+  "loading": "Carregando"
 }

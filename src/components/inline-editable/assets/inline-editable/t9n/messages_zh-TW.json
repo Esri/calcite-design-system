@@ -1,5 +1,5 @@
 {
-  "enableEditing": "試_Click to edit______________驗",
-  "cancelEditing": "試_Cancel_____________驗",
-  "confirmChanges": "試_Save_________驗"
+  "enableEditing": "按一下以編輯",
+  "cancelEditing": "取消",
+  "confirmChanges": "儲存"
 }
