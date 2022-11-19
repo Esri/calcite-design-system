@@ -10,6 +10,26 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ### ⚠ BREAKING CHANGES
 
 - **calcite-loader, calcite-input-message:** use hidden native global attribute to toggle visibility on the components instead of the deprecated active prop.
+
+- fix(calcite-loader, calcite-input-message)! : drop active in favor of hidden
+
+- same for loader
+
+- Remove instance of active prop used with loader throughout components
+
+- cleanup
+
+- more cleanup
+
+- test fix for screener failures related to loader visibility changes in other components
+
+- Remove active knob from stories and sub the ones set to false with static hidden for consistency, as we don't provide knobs for native global attributes
+
+- cleanup: remove input-message from slotted stories, remove redundant loader render test, fix a doc typo
+
+- cleanup: restore visibility on some cases of input-message
+
+- clean loader readme file
 - **block, date-picker, list-item-group, panel, pick-list-group, popover, tip, tip-manager:** Set default internal heading to a div. (#5728)
 
 ### Features
@@ -22,6 +42,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### Bug Fixes
 
+- setFocus methods should wait for the component to be loaded ([#5749](https://github.com/Esri/calcite-components/issues/5749)) ([06d4767](https://github.com/Esri/calcite-components/commit/06d4767dad8918e7677b9754f6ff26312d07cb96))
 - **block, date-picker, list-item-group, panel, pick-list-group, popover, tip, tip-manager:** Set default internal heading to a div. ([#5728](https://github.com/Esri/calcite-components/issues/5728)) ([38ca639](https://github.com/Esri/calcite-components/commit/38ca639010b8bd1d1fe32c9cf9b54dfc38cf9877)), closes [#5099](https://github.com/Esri/calcite-components/issues/5099)
 - **button, fab:** adjust padding on 'l' scale button to accommodate 'm' scale icon without change in height ([#5659](https://github.com/Esri/calcite-components/issues/5659)) ([d68d95c](https://github.com/Esri/calcite-components/commit/d68d95cda10ad819e52b048479780590f21ac479))
 - **calcite-loader, calcite-input-message:** drop active in favor of hidden ([#5761](https://github.com/Esri/calcite-components/issues/5761)) ([c2e05d1](https://github.com/Esri/calcite-components/commit/c2e05d149bfa3d0f7b81eff2b55405f792cab16c))
