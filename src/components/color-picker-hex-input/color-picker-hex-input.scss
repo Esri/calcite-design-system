@@ -3,27 +3,14 @@
 }
 
 .container {
-  @apply inline-grid w-full items-center;
-  grid-template-columns: 1fr auto;
+  @apply flex w-full items-center flex-nowrap;
 }
 
-.preview {
-  grid-column: 2 / 3;
-
-  @apply pointer-events-none
-    my-0
-    mx-1
-    flex
-    items-center;
+.hex-input {
+  @apply grow uppercase;
 }
 
-.preview,
-.input {
-  grid-row: 1;
-}
-
-.input {
-  grid-column: 1 / 3;
-
-  @apply w-full uppercase;
+.opacity-input {
+  inline-size: 30%;
+  margin-inline-start: -1px;
 }

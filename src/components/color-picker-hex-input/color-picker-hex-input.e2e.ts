@@ -2,6 +2,7 @@ import { E2EElement, E2EPage, newE2EPage } from "@stencil/core/testing";
 import { accessible, defaults, focusable, reflects, renders, hidden } from "../../tests/commonTests";
 import { CSS } from "./resources";
 import { TEXT } from "../color-picker/resources";
+import { canConvertToHexa, isValidHex, normalizeHex } from "../color-picker/utils";
 import { selectText } from "../../tests/utils";
 
 describe("calcite-color-picker-hex-input", () => {
@@ -60,11 +61,8 @@ describe("calcite-color-picker-hex-input", () => {
     expect(await input.getProperty("value")).toBe(null);
     expect(input.getAttribute("value")).toBe(null);
 
-    const internalInput = await page.find(`calcite-color-picker-hex-input >>> .${CSS.input}`);
+    const internalInput = await page.find(`calcite-color-picker-hex-input >>> .${CSS.hexInput}`);
     expect(await internalInput.getProperty("value")).toBe("");
-
-    const internalSwatch = await page.find(`calcite-color-picker-hex-input >>> .${CSS.preview}`);
-    expect(internalSwatch).toBe(null);
   });
 
   it("accepts shorthand hex", async () => {

@@ -262,7 +262,7 @@ export class ColorPickerHexInput implements LoadableComponent {
     return (
       <div class={CSS.container}>
         <calcite-input
-          class={CSS.input}
+          class={CSS.hexInput}
           label={intlHex}
           maxLength={alphaEnabled ? 8 : 6}
           numberingSystem={this.numberingSystem}
@@ -275,12 +275,17 @@ export class ColorPickerHexInput implements LoadableComponent {
           scale={this.scale}
           value={hexInputValue}
         />
-        {hexInputValue ? (
-          <calcite-color-picker-swatch
-            active
-            class={CSS.preview}
-            color={`#${hexInputValue}`}
+        {alphaEnabled ? (
+          <calcite-input
+            class={CSS.opacityInput}
+            label={"OPACITY"}
+            maxLength={3}
+            numberingSystem={this.numberingSystem}
+            onCalciteInputChange={this.onInputChange}
+            onKeyDown={this.handleKeyDown}
             scale={this.scale}
+            suffixText="%"
+            value="100"
           />
         ) : null}
       </div>
