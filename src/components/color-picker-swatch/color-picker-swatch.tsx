@@ -71,16 +71,24 @@ export class ColorPickerSwatch {
   }
 
   render(): VNode {
-    const { active, el, internalColor } = this;
-    const borderRadius = active ? "100%" : "0";
+    const { el, internalColor } = this;
     const alpha = internalColor.alpha();
-    const hex = hexify(internalColor, alpha < 1);
+    const hex = hexify(internalColor);
+    const hexa = hexify(internalColor, alpha < 1);
     const theme = getThemeName(el);
     const borderColor = theme === "light" ? COLORS.borderLight : COLORS.borderDark;
+    const commonSwatchProps = {
+      height: "100%",
+      stroke: borderColor,
+      // stroke-width and clip-path are needed to hide overflowing portion of stroke
+      // see https://stackoverflow.com/a/7273346/194216
+      strokeWidth: "2",
+      width: "100%"
+    };
 
     return (
       <svg class={CSS.swatch} xmlns="http://www.w3.org/2000/svg">
-        <title>{hex}</title>
+        <title>{hexa}</title>
         <defs>
           <pattern
             height={CHECKER_SIZE_IN_PX}
@@ -106,18 +114,16 @@ export class ColorPickerSwatch {
             />
           </pattern>
         </defs>
-        <rect fill="url(#checker)" height="100%" rx={borderRadius} width="100%" />
+        <rect fill="url(#checker)" height="100%" width="100%" />
         <rect
           fill={hex}
-          height="100%"
-          id="swatch"
-          rx={borderRadius}
-          stroke={borderColor}
-          // stroke-width and clip-path are needed to hide overflowing portion of stroke
-          // see https://stackoverflow.com/a/7273346/194216
-          stroke-width="2"
-          style={{ "clip-path": `inset(0 round ${borderRadius})` }}
-          width="100%"
+          style={{ "clip-path": "polygon(100% 0, 0 0, 0 100%)" }}
+          {...commonSwatchProps}
+        />
+        <rect
+          fill={hexa}
+          style={{ "clip-path": "polygon(100% 0, 100% 100%, 0 100%)" }}
+          {...commonSwatchProps}
         />
       </svg>
     );
