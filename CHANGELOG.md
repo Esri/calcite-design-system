@@ -42,6 +42,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### Bug Fixes
 
+- **block:** slow down loading icon spin ([#5778](https://github.com/Esri/calcite-components/issues/5778)) ([7b990dc](https://github.com/Esri/calcite-components/commit/7b990dc350b5b8a2fb5cea8a049e904761eec167)), closes [#5776](https://github.com/Esri/calcite-components/issues/5776)
 - setFocus methods should wait for the component to be loaded ([#5749](https://github.com/Esri/calcite-components/issues/5749)) ([06d4767](https://github.com/Esri/calcite-components/commit/06d4767dad8918e7677b9754f6ff26312d07cb96))
 - **block, date-picker, list-item-group, panel, pick-list-group, popover, tip, tip-manager:** Set default internal heading to a div. ([#5728](https://github.com/Esri/calcite-components/issues/5728)) ([38ca639](https://github.com/Esri/calcite-components/commit/38ca639010b8bd1d1fe32c9cf9b54dfc38cf9877)), closes [#5099](https://github.com/Esri/calcite-components/issues/5099)
 - **button, fab:** adjust padding on 'l' scale button to accommodate 'm' scale icon without change in height ([#5659](https://github.com/Esri/calcite-components/issues/5659)) ([d68d95c](https://github.com/Esri/calcite-components/commit/d68d95cda10ad819e52b048479780590f21ac479))
