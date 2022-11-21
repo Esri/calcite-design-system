@@ -20,7 +20,7 @@ const thumbnailImage = placeholderImage({ width: 44, height: 44 });
 const knobsHTML = (): string => html`selection-mode="${select(
   "selection-mode",
   ["single", "multiple", "none"],
-  "single"
+  "none"
 )}"
 selection-appearance="${select("selection-appearance", ["icon", "border"], "icon")}" ${boolean("loading", false)}
 ${boolean("filterEnabled", false)} ${boolean("disabled", false)} ${text("label", "My List")}`;
