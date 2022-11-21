@@ -12,7 +12,12 @@ import {
   VNode,
   Watch
 } from "@stencil/core";
-import { getSlotted, setRequestedIcon, toAriaBoolean } from "../../utils/dom";
+import {
+  getSlotted,
+  setRequestedIcon,
+  toAriaBoolean,
+  slotChangeHasAssignedElement
+} from "../../utils/dom";
 import { CSS, DURATIONS, SLOTS, TEXT } from "./resources";
 import { Scale } from "../interfaces";
 import { AlertDuration, AlertPlacement, StatusColor, StatusIcons, Sync } from "./interfaces";
@@ -219,7 +224,7 @@ export class Alert implements OpenCloseComponent, LocalizedComponent, LoadableCo
       <slot
         key="actionsEndSlot"
         name={SLOTS.actionsEnd}
-        onSlotchange={this.handleActionsEndSlotChange}
+        onSlotchange={this.actionsEndSlotChangeHandler}
       />
     );
 
@@ -430,11 +435,7 @@ export class Alert implements OpenCloseComponent, LocalizedComponent, LoadableCo
     this.queueTimeout = window.setTimeout(() => (this.queued = false), 300);
   }
 
-  handleActionsEndSlotChange = (event: Event): void => {
-    const elements = (event.target as HTMLSlotElement).assignedElements({
-      flatten: true
-    });
-
-    this.hasEndActions = !!elements.length;
+  private actionsEndSlotChangeHandler = (event: Event): void => {
+    this.hasEndActions = slotChangeHasAssignedElement(event);
   };
 }
