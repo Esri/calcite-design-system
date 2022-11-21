@@ -1,0 +1,41 @@
+name: Automate Designers Branches Sync
+on:
+  push:
+    branches:
+      - feature/design-tokens
+
+jobs:
+  sync-branches:
+    runs-on: ubuntu-latest
+    name: Syncing branches for designers
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Set up Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - name: Opening pull request
+        id: pullbrunoaires
+        uses: tretuna/sync-branches@1.4.0
+        with:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+          FROM_BRANCH: 'feature/design-tokens'
+          TO_BRANCH: 'designer/brunoaires'
+          LABELS: 'automated-tokens-pr'
+      - name: Opening pull request
+        id: pullmanuelacosta
+        uses: tretuna/sync-branches@1.4.0
+        with:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+          FROM_BRANCH: 'feature/design-tokens'
+          TO_BRANCH: 'designer/manuelacosta'
+          LABELS: 'automated-tokens-pr'
+      - name: Opening pull request
+        id: pulljacqueskeet
+        uses: tretuna/sync-branches@1.4.0
+        with:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+          FROM_BRANCH: 'feature/design-tokens'
+          TO_BRANCH: 'designer/jacqueskeet'
+          LABELS: 'automated-tokens-pr'
