@@ -54,10 +54,6 @@ describe("calcite-textarea", () => {
         value: "50"
       },
       {
-        propertyName: "minlength",
-        value: "10"
-      },
-      {
         propertyName: "scale",
         value: "s"
       },
