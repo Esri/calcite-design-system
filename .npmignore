@@ -9,9 +9,17 @@ node_modules
 # macOS metadata
 .DS_Store
 
-# Node Package distribution
-build
-
-# Transformation Directory
-sd-tokens
+# Pre-Build Folders
 sd-example
+tokens
+sd-transform
+
+# Documentation
+CONTRIBUTING.md
+
+# Configurations
+.editorconfig
+.gitignore
+config.bak.json
+config.json
+

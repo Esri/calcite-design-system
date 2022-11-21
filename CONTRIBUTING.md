@@ -1,4 +1,4 @@
-# Contributing to calcite-tailwind
+# Contributing to calcite-design-tokens
 
 You want to contribute? Nice! Below are some guidelines for ensuring that your contribution makes sense for everybody.
 
@@ -16,11 +16,11 @@ Pull requests are the greatest contributions, so be sure they are focused in sco
 1. To begin, [fork this project](fork), clone your fork, and add our upstream.
 ```bash
 # Clone your fork of the repo into the current directory
-git clone https://github.com/<your-user>/calcite-tailwind
+git clone https://github.com/<your-user>/calcite-design-tokens
 # Navigate to the newly cloned directory
-cd calcite-tailwind
+cd calcite-design-tokens
 # Assign the original repo to a remote called "upstream"
-git remote add upstream https://github.com/esri/calcite-tailwind
+git remote add upstream https://github.com/esri/calcite-design-tokens
 # Install the tools necessary for development
 npm install
 ```
@@ -35,19 +35,13 @@ git checkout -b feature/thing
 git checkout -b fix/something
 ```
 
-3. Start up a local development server:
-```bash
-# Use the start script to run the default dev environment
-npm start
-```
-
-4. Be sure your code follows our practices.
+3. Be sure your code follows our practices.
 ```bash
 # Test current code
 npm run test
 ```
 
-5. Push your branch up to your fork:
+4. Push your branch up to your fork:
 ```bash
 # Push a feature branch
 git push origin feature/thing
@@ -57,16 +51,12 @@ git push origin feature/thing
 git push origin fix/something
 ```
 
-6. Now [open a pull request](https://help.github.com/articles/using-pull-requests/) with a clear title and description.
+5. Now [open a pull request](https://help.github.com/articles/using-pull-requests/) with a clear title and description.
 
 ## Bumping the Version
 
 1. Change the version number in `package.json` to the desired version number.
 2. Write a description of the changes, additions, and bug fixes in `CHANGELOG.md`.
-3. Run `npm run dist` to make sure the `dist/` files are updated.
-4. Make sure `Esri/calcite-tailwind` is up-to-date with your changes (via Pull Request).
+3. Run `npm run build` to make sure the `build/` files are updated.
+4. Make sure `Esri/calcite-design-tokens` is up-to-date with your changes (via Pull Request).
 5. Run `npm run release`. If prompted enter your GitHub credentials.
-
-## Updating the documentation
-
-1. `npm run gh-pages` to build the docs and deploy to https://esri.github.io/calcite-tailwind
