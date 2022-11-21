@@ -38,7 +38,7 @@
         <div class="child right-aligned-text">simple list single selection</div>
 
         <div class="child">
-          <calcite-list label="test" filter-enabled>
+          <calcite-list selection-mode="single" label="test" filter-enabled>
             <calcite-list-item label="test1" value="test1" description="hello world 1">
               <calcite-icon icon="banana" slot="content-start" style="color: var(--calcite-ui-success)"></calcite-icon>
             </calcite-list-item>
@@ -60,7 +60,7 @@
         <div class="child right-aligned-text">simple list single selection border</div>
 
         <div class="child">
-          <calcite-list label="test" selection-appearance="border">
+          <calcite-list selection-mode="single" label="test" selection-appearance="border">
             <calcite-list-item label="test" description="hello world">
               <calcite-icon icon="banana" slot="content-start" style="color: var(--calcite-ui-success)"></calcite-icon>
             </calcite-list-item>
@@ -148,7 +148,7 @@
         <div class="child right-aligned-text">rich content</div>
 
         <div class="child">
-          <calcite-list label="test" selection-appearance="border">
+          <calcite-list selection-mode="single" label="test" selection-appearance="border">
             <calcite-list-item label="Princess Bubblegum" description="Ruler of The Candy Kingdom">
               <calcite-action appearance="clear" icon="drag" text="drag" label="drag" scale="s" slot="actions-start">
               </calcite-action>
@@ -222,7 +222,7 @@
         <div class="child right-aligned-text">grouped</div>
 
         <div class="child">
-          <calcite-list>
+          <calcite-list selection-mode="single">
             <calcite-list-item-group heading="Digits">
               <calcite-list-item label="One" description="1"></calcite-list-item>
               <calcite-list-item label="Two" description="2"></calcite-list-item>
@@ -241,7 +241,7 @@
         <div class="child right-aligned-text">grouped and nested</div>
 
         <div class="child">
-          <calcite-list>
+          <calcite-list selection-mode="single">
             <calcite-list-item heading="test" description="hello world">
               <calcite-icon icon="embark" slot="content-start" style="color: var(--calcite-ui-success)"></calcite-icon>
               <calcite-list-item heading="test" description="hello world">
@@ -294,7 +294,7 @@
         <div class="child right-aligned-text">inline editing</div>
 
         <div class="child">
-          <calcite-list>
+          <calcite-list selection-mode="single">
             <calcite-list-item label="Jake the Dog" description="Is yellow and magical.">
               <calcite-action appearance="clear" label="edit" text="edit" slot="actions-end" icon="pencil">
               </calcite-action>
@@ -322,7 +322,7 @@
         </style>
         <div class="child right-aligned-text">start/end content slots</div>
         <div class="child">
-          <calcite-list label="test">
+          <calcite-list selection-mode="single" label="test">
             <calcite-list-item>
               <calcite-action appearance="clear" text="more" label="more" slot="actions-end" icon="ellipsis">
               </calcite-action>
