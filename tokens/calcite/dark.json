@@ -472,6 +472,80 @@
           "value": "$tile.border.dark",
           "type": "color"
         }
+      },
+      "button": {
+        "background": {
+          "blue": {
+            "value": "$button.background.blue.light",
+            "type": "color"
+          },
+          "inverse": {
+            "value": "$button.background.inverse.light",
+            "type": "color"
+          },
+          "red": {
+            "value": "$button.background.red.light",
+            "type": "color"
+          },
+          "neutral": {
+            "value": "$button.background.neutral.light",
+            "type": "color"
+          }
+        },
+        "border": {
+          "blue": {
+            "value": "$button.border.blue.light",
+            "type": "color"
+          },
+          "inverse": {
+            "value": "$button.border.inverse.light",
+            "type": "color"
+          },
+          "red": {
+            "value": "$button.border.red.light",
+            "type": "color"
+          },
+          "neutral": {
+            "value": "$button.border.neutral.light",
+            "type": "color"
+          }
+        },
+        "font": {
+          "blue": {
+            "value": "$button.font.blue.light",
+            "type": "color"
+          },
+          "inverse": {
+            "value": "$button.font.inverse.light",
+            "type": "color"
+          },
+          "red": {
+            "value": "$button.font.red.light",
+            "type": "color"
+          },
+          "neutral": {
+            "value": "$button.font.neutral.light",
+            "type": "color"
+          }
+        },
+        "icon": {
+          "blue": {
+            "value": "$button.icon.blue.light",
+            "type": "color"
+          },
+          "inverse": {
+            "value": "$button.icon.inverse.light",
+            "type": "color"
+          },
+          "red": {
+            "value": "$button.icon.red.light",
+            "type": "color"
+          },
+          "neutral": {
+            "value": "$button.icon.neutral.light",
+            "type": "color"
+          }
+        }
       }
     }
   }

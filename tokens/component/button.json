@@ -51,11 +51,11 @@
       },
       "red": {
         "light": {
-          "value": "$semantic.ui.color.foreground.1.light",
+          "value": "$semantic.ui.color.danger.default.light",
           "type": "color"
         },
         "dark": {
-          "value": "$semantic.ui.color.foreground.1.dark",
+          "value": "$semantic.ui.color.danger.default.dark",
           "type": "color"
         }
       },
