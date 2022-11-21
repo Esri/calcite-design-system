@@ -1,26 +1,26 @@
 {
   "accordion-item": {
-    "heading": {
-      "light": {
-        "value": "$semantic.ui.color.text.1.light",
-        "type": "color"
-      },
-      "dark": {
-        "value": "$semantic.ui.color.text.1.dark",
-        "type": "color"
-      }
-    },
-    "description": {
-      "light": {
-        "value": "$semantic.ui.color.text.3.light",
-        "type": "color"
-      },
-      "dark": {
-        "value": "$semantic.ui.color.text.3.dark",
-        "type": "color"
-      }
-    },
     "font": {
+      "heading": {
+        "light": {
+          "value": "$semantic.ui.color.text.1.light",
+          "type": "color"
+        },
+        "dark": {
+          "value": "$semantic.ui.color.text.1.dark",
+          "type": "color"
+        }
+      },
+      "description": {
+        "light": {
+          "value": "$semantic.ui.color.text.3.light",
+          "type": "color"
+        },
+        "dark": {
+          "value": "$semantic.ui.color.text.3.dark",
+          "type": "color"
+        }
+      },
       "sm": {
         "value": "$semantic.font.default.bold.-2h",
         "type": "typography"
