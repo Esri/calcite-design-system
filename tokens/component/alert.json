@@ -8,18 +8,36 @@
       "dark": {
         "value": "$semantic.ui.color.text.1.dark",
         "type": "color"
+      }
+    },
+    "font": {
+      "title": {
+        "sm": {
+          "value": "$semantic.font.default.bold.-1h",
+          "type": "typography"
+        },
+        "md": {
+          "value": "$semantic.font.default.bold.0h",
+          "type": "typography"
+        },
+        "lg": {
+          "value": "$semantic.font.default.bold.1h",
+          "type": "typography"
+        }
       },
-      "sm": {
-        "value": "$semantic.font.default.bold.-1h",
-        "type": "typography"
-      },
-      "md": {
-        "value": "$semantic.font.default.bold.0h",
-        "type": "typography"
-      },
-      "lg": {
-        "value": "$semantic.font.default.bold.1h",
-        "type": "typography"
+      "message": {
+        "sm": {
+          "value": "$semantic.font.default.bold.-2h",
+          "type": "typography"
+        },
+        "md": {
+          "value": "$semantic.font.default.bold.-1h",
+          "type": "typography"
+        },
+        "lg": {
+          "value": "$semantic.font.default.bold.0h",
+          "type": "typography"
+        }
       }
     },
     "message": {
@@ -30,18 +48,6 @@
       "dark": {
         "value": "$semantic.ui.color.text.3.dark",
         "type": "color"
-      },
-      "sm": {
-        "value": "$semantic.font.default.bold.-2h",
-        "type": "typography"
-      },
-      "md": {
-        "value": "$semantic.font.default.bold.-1h",
-        "type": "typography"
-      },
-      "lg": {
-        "value": "$semantic.font.default.bold.0h",
-        "type": "typography"
       }
     },
     "background": {
