@@ -1,12 +1,13 @@
 export const CSS = {
   characterLimit: "character-limit",
   footer: "footer",
-  resizeDisabled: "resize-disabled",
-  resizeDisabledX: "resize-disabled--x",
-  resizeDisabledY: "resize-disabled--y",
-  characterOverlimit: "character-overlimit",
+  resizeDisabled: "resize--disabled",
+  resizeDisabledX: "resize--disabled-x",
+  resizeDisabledY: "resize--disabled-y",
+  characterOverlimit: "character--overlimit",
   readonly: "readonly",
-  textareaInvalid: "textarea-invalid"
+  textareaInvalid: "textarea--invalid",
+  footerSlotted: "footer-slotted"
 };
 
 export const SLOTS = {

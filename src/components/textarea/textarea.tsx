@@ -160,7 +160,8 @@ export class Textarea implements FormComponent, LabelableComponent, LocalizedCom
             [CSS.resizeDisabledX]: this.horizantalResizeDisabled,
             [CSS.resizeDisabledY]: this.verticalResizeDisabled,
             [CSS.readonly]: this.readonly,
-            [CSS.textareaInvalid]: this.invalid
+            [CSS.textareaInvalid]: this.invalid,
+            [CSS.footerSlotted]: !!this.renderFooterLeading() && !!this.renderFooterTrailing()
           }}
           cols={this.cols}
           disabled={this.disabled}

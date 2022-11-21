@@ -15,11 +15,14 @@
   &:focus {
     @apply outline-none border-color-brand border-2 border-solid border-b-2;
   }
-  &.textarea-invalid {
+  &.textarea--invalid {
     @apply border-color-danger border border-solid border-b;
     &:focus {
       @apply border-color-danger border-2 border-solid;
     }
+  }
+  &.footer-slotted {
+    min-inline-size: theme("spacing.72");
   }
 }
 
@@ -37,17 +40,17 @@
   @apply flex justify-end text-color-2 grow items-center;
 }
 
-.character-overlimit {
+.character--overlimit {
   @apply font-bold text-danger;
 }
 
-.resize-disabled {
+.resize--disabled {
   resize: none;
 }
-.resize-disabled--x {
+.resize--disabled-x {
   resize: vertical;
 }
-.resize-dsiabled--y {
+.resize--dsiabled-y {
   resize: horizontal;
 }
 
@@ -144,8 +147,3 @@
     @apply opacity-50;
   }
 }
-
-// :host slot[name="footer-trailing"] textarea,
-// :host slot[name="footer-leading"] textarea {
-//   min-inline-size: theme("spacing.64");
-// }
