@@ -3,6 +3,7 @@
     "core",
     "semantic",
     "component/accordion-item",
+    "component/accordion",
     "component/alert",
     "component/avatar",
     "component/checkbox",
@@ -20,6 +21,7 @@
     "brand/global",
     "brand/light",
     "brand/dark",
-    "component/[template-comp-name]"
+    "component/[template-comp-name]",
+    "component/accordion_backup"
   ]
 }
