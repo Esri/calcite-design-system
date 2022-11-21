@@ -121,7 +121,7 @@ export class List implements InteractiveComponent, LoadableComponent {
   /**
    * specify the selection mode - multiple (allow any number of (or no) selected items), single (allow and require one selected item), none (no selected items), defaults to single
    */
-  @Prop({ reflect: true }) selectionMode: SelectionMode = "single";
+  @Prop({ reflect: true }) selectionMode: SelectionMode = "none";
 
   /**
    * specify the selection appearance - icon (displays a checkmark or dot), border (displays a border), defaults to icon

@@ -1,4 +1,4 @@
-import { accessible, hidden, renders, focusable, disabled } from "../../tests/commonTests";
+import { accessible, hidden, renders, focusable, disabled, defaults } from "../../tests/commonTests";
 import { placeholderImage } from "../../../.storybook/placeholderImage";
 import { html } from "../../../support/formatting";
 import { newE2EPage } from "@stencil/core/testing";
@@ -10,6 +10,54 @@ const placeholder = placeholderImage({
 });
 
 describe("calcite-list", () => {
+  it("defaults", async () =>
+    defaults("calcite-list", [
+      {
+        propertyName: "disabled",
+        defaultValue: false
+      },
+      {
+        propertyName: "label",
+        defaultValue: undefined
+      },
+      {
+        propertyName: "loading",
+        defaultValue: false
+      },
+      {
+        propertyName: "selectionMode",
+        defaultValue: "none"
+      },
+      {
+        propertyName: "selectedItems",
+        defaultValue: []
+      },
+      {
+        propertyName: "selectionAppearance",
+        defaultValue: "icon"
+      },
+      {
+        propertyName: "filterEnabled",
+        defaultValue: false
+      },
+      {
+        propertyName: "filteredData",
+        defaultValue: []
+      },
+      {
+        propertyName: "filteredItems",
+        defaultValue: []
+      },
+      {
+        propertyName: "filterText",
+        defaultValue: undefined
+      },
+      {
+        propertyName: "filterPlaceholder",
+        defaultValue: undefined
+      }
+    ]));
+
   it("renders", async () => renders("calcite-list", { display: "block" }));
 
   it("is focusable", () =>

@@ -17,6 +17,10 @@ describe("calcite-list-item-group", () => {
       {
         propertyName: "headingLevel",
         defaultValue: undefined
+      },
+      {
+        propertyName: "disabled",
+        defaultValue: false
       }
     ]));
 });

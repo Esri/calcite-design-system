@@ -26,6 +26,18 @@ describe("calcite-list-item", () => {
       {
         propertyName: "label",
         defaultValue: undefined
+      },
+      {
+        propertyName: "selected",
+        defaultValue: false
+      },
+      {
+        propertyName: "value",
+        defaultValue: undefined
+      },
+      {
+        propertyName: "open",
+        defaultValue: false
       }
     ]));
 
