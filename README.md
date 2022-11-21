@@ -10,6 +10,7 @@ npm run build
 
 This will generate build artifacts from tokens created with the Figma Token Plugin
 
+```
 scss
 ✔︎  build/scss/_variables.scss
 
@@ -40,3 +41,4 @@ ios-swift
 ios-swift-separate-enums
 ✔︎  build/ios-swift/StyleDictionaryColor.swift
 ✔︎  build/ios-swift/StyleDictionarySize.swift
+```
