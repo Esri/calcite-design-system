@@ -19,7 +19,7 @@ import {
   connectConditionalSlotComponent,
   disconnectConditionalSlotComponent
 } from "../../utils/conditionalSlot";
-import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
+import { connectLocalized, disconnectLocalized } from "../../utils/locale";
 import {
   connectMessages,
   disconnectMessages,

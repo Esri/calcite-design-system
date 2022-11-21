@@ -18,7 +18,7 @@ import { LabelableComponent, connectLabel, disconnectLabel } from "../../utils/l
 import { connectForm, disconnectForm, FormComponent, HiddenFormInputSlot } from "../../utils/form";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { isActivationKey } from "../../utils/key";
-import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
+import { connectLocalized, disconnectLocalized } from "../../utils/locale";
 import {
   connectMessages,
   disconnectMessages,

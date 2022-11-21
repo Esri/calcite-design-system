@@ -34,7 +34,6 @@ import {
   NumberingSystem,
   numberStringFormatter,
   defaultNumberingSystem,
-  LocalizedComponent,
   disconnectLocalized,
   connectLocalized,
   updateEffectiveLocale

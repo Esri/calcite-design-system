@@ -18,7 +18,7 @@ import { HeadingLevel, Heading } from "../functional/Heading";
 import { SLOTS as ACTION_MENU_SLOTS } from "../action-menu/resources";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { createObserver } from "../../utils/observers";
-import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
+import { connectLocalized, disconnectLocalized } from "../../utils/locale";
 import {
   connectMessages,
   disconnectMessages,

@@ -40,7 +40,7 @@ import List from "../pick-list/shared-list-render";
 import { createObserver } from "../../utils/observers";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { getHandleAndItemElement, getScreenReaderText } from "./utils";
-import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
+import { connectLocalized, disconnectLocalized } from "../../utils/locale";
 import {
   connectMessages,
   disconnectMessages,
