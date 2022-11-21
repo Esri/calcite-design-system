@@ -11,25 +11,6 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 - **calcite-loader, calcite-input-message:** use hidden native global attribute to toggle visibility on the components instead of the deprecated active prop.
 
-- fix(calcite-loader, calcite-input-message)! : drop active in favor of hidden
-
-- same for loader
-
-- Remove instance of active prop used with loader throughout components
-
-- cleanup
-
-- more cleanup
-
-- test fix for screener failures related to loader visibility changes in other components
-
-- Remove active knob from stories and sub the ones set to false with static hidden for consistency, as we don't provide knobs for native global attributes
-
-- cleanup: remove input-message from slotted stories, remove redundant loader render test, fix a doc typo
-
-- cleanup: restore visibility on some cases of input-message
-
-- clean loader readme file
 - **block, date-picker, list-item-group, panel, pick-list-group, popover, tip, tip-manager:** Set default internal heading to a div. (#5728)
 
 ### Features
