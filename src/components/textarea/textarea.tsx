@@ -120,8 +120,14 @@ export class Textarea implements FormComponent, LabelableComponent, LocalizedCom
   //  Event Emitters
   //
   //--------------------------------------------------------------------------
+  /**
+   * Fires each time a new `value` is typed.
+   */
   @Event({ cancelable: true }) calciteTextareaInput: EventEmitter<void>;
 
+  /**
+   * Fires each time a new `value` is typed and committed.
+   */
   @Event({ cancelable: true }) calciteTextareaChange: EventEmitter<void>;
 
   //--------------------------------------------------------------------------
