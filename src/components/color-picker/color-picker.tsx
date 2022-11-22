@@ -13,7 +13,15 @@ import {
 } from "@stencil/core";
 
 import Color from "color";
-import { ColorAppearance, ColorMode, ColorValue, InternalColor } from "./interfaces";
+import {
+  ColorAppearance,
+  ColorMode,
+  ColorValue,
+  HSLA,
+  HSVA,
+  InternalColor,
+  RGBA
+} from "./interfaces";
 import { Scale } from "../interfaces";
 import {
   CSS,
@@ -24,8 +32,24 @@ import {
   RGB_LIMITS,
   TEXT
 } from "./resources";
+
 import { Direction, focusElement, getElementDir, isPrimaryPointerButton } from "../../utils/dom";
-import { colorEqual, CSSColorMode, Format, normalizeHex, parseMode, SupportedMode } from "./utils";
+import {
+  alphaCompatible,
+  alphaToOpacity,
+  colorEqual,
+  CSSColorMode,
+  Format,
+  hexify,
+  normalizeAlpha,
+  normalizeColor,
+  normalizeHex,
+  opacityToAlpha,
+  parseMode,
+  SupportedMode,
+  toAlphaMode,
+  toNonAlphaMode
+} from "./utils";
 import { throttle } from "lodash-es";
 
 import { clamp } from "../../utils/math";
@@ -40,8 +64,6 @@ import {
 } from "../../utils/loadable";
 
 const throttleFor60FpsInMs = 16;
-const defaultValue = normalizeHex(DEFAULT_COLOR.hex());
-const defaultFormat = "auto";
 
 @Component({
   tag: "calcite-color-picker",
@@ -71,6 +93,23 @@ export class ColorPicker implements InteractiveComponent, LoadableComponent {
   @Prop({ reflect: true }) allowEmpty = false;
 
   /**
+   * When true, the color picker will process and display alpha characters.
+   */
+  @Prop() alphaEnabled = false;
+
+  @Watch("alphaEnabled")
+  handleAlphaEnabledChange(alphaEnabled: boolean): void {
+    const { format } = this;
+
+    if (alphaEnabled && format !== "auto" && !alphaCompatible(format)) {
+      console.warn(
+        `ignoring alphaEnabled as the current format (${format}) does not support alpha`
+      );
+      this.alphaEnabled = false;
+    }
+  }
+
+  /**
    * Specifies the appearance style of the component -
    *
    * `"solid"` (containing border) or `"minimal"` (no containing border).
@@ -91,6 +130,9 @@ export class ColorPicker implements InteractiveComponent, LoadableComponent {
     this.previousColor = oldColor;
   }
 
+  /** When true, hides the RGB/HSV channel inputs */
+  @Prop() channelsDisabled = false;
+
   /**
    * When `true`, interaction is prevented and the component is displayed with lower opacity.
    */
@@ -103,21 +145,36 @@ export class ColorPicker implements InteractiveComponent, LoadableComponent {
    *
    * @default "auto"
    */
-  @Prop({ reflect: true }) format: Format = defaultFormat;
+  @Prop({ reflect: true }) format: Format = "auto";
 
   @Watch("format")
-  handleFormatChange(format: ColorPicker["format"]): void {
+  handleFormatChange(format: Format): void {
     this.setMode(format);
     this.internalColorSet(this.color, false, "internal");
   }
 
-  /** When `true`, hides the Hex input. */
+  /** When true, hides the hex input */
+  @Prop() hexDisabled = false;
+
+  /**
+   * When `true`, hides the Hex input.
+   *
+   * @deprecated use `hexDisabled` instead
+   */
   @Prop({ reflect: true }) hideHex = false;
 
-  /** When `true`, hides the RGB/HSV channel inputs. */
+  /**
+   * When `true`, hides the RGB/HSV channel inputs.
+   *
+   * @deprecated use `channelsDisabled` instead
+   */
   @Prop({ reflect: true }) hideChannels = false;
 
-  /** When `true`, hides the saved colors section. */
+  /**
+   * When `true`, hides the saved colors section.
+   *
+   * @deprecated use `savedDisabled` instead
+   */
   @Prop({ reflect: true }) hideSaved = false;
 
   /**
@@ -191,6 +248,14 @@ export class ColorPicker implements InteractiveComponent, LoadableComponent {
   @Prop() intlNoColor = TEXT.noColor;
 
   /**
+   * Label used for the opacity description.
+   *
+   * @default "Opacity"
+   */
+  @Prop() intlOpacity = TEXT.opacity;
+
+  /**
+   * Label used for the red channel
    * Accessible name for the RGB section's red channel.
    *
    * @default "R"
@@ -253,6 +318,9 @@ export class ColorPicker implements InteractiveComponent, LoadableComponent {
    */
   @Prop() intlValue = TEXT.value;
 
+  /** When true, hides the saved colors section */
+  @Prop({ reflect: true }) savedDisabled = false;
+
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
 
@@ -277,7 +345,9 @@ export class ColorPicker implements InteractiveComponent, LoadableComponent {
    * @see [CSS Color](https://developer.mozilla.org/en-US/docs/Web/CSS/color)
    * @see [ColorValue](https://github.com/Esri/calcite-components/blob/master/src/components/color-picker/interfaces.ts#L10)
    */
-  @Prop({ mutable: true }) value: ColorValue | null = defaultValue;
+  @Prop({ mutable: true }) value: ColorValue | null = normalizeHex(
+    hexify(DEFAULT_COLOR, this.alphaEnabled)
+  );
 
   @Watch("value")
   handleValueChange(value: ColorValue | null, oldValue: ColorValue | null): void {
@@ -295,7 +365,7 @@ export class ColorPicker implements InteractiveComponent, LoadableComponent {
       }
 
       modeChanged = this.mode !== nextMode;
-      this.setMode(nextMode);
+      this.setMode(nextMode, true, this.internalColorUpdateContext === null);
     }
 
     const dragging = this.sliderThumbState === "drag" || this.hueThumbState === "drag";
@@ -313,7 +383,14 @@ export class ColorPicker implements InteractiveComponent, LoadableComponent {
       return;
     }
 
-    const color = allowEmpty && !value ? null : Color(value);
+    const color =
+      allowEmpty && !value
+        ? null
+        : Color(
+            value != null && typeof value === "object" && alphaCompatible(this.mode)
+              ? normalizeColor(value as RGBA | HSVA | HSLA)
+              : value
+          );
     const colorChanged = !colorEqual(color, this.color);
 
     if (modeChanged || colorChanged) {
@@ -448,7 +525,7 @@ export class ColorPicker implements InteractiveComponent, LoadableComponent {
       return;
     }
 
-    const normalizedHex = color && normalizeHex(color.hex());
+    const normalizedHex = color && normalizeHex(hexify(color, alphaCompatible(this.mode)));
 
     if (hex !== normalizedHex) {
       this.internalColorSet(Color(hex));
@@ -494,7 +571,14 @@ export class ColorPicker implements InteractiveComponent, LoadableComponent {
 
     if (
       (key !== "ArrowUp" && key !== "ArrowDown") ||
-      !event.composedPath().some((node: HTMLElement) => node.classList?.contains(CSS.channel))
+      !event
+        .composedPath()
+        .some(
+          (node: HTMLElement) =>
+            node.classList?.contains(CSS.channel) ||
+            node.classList?.contains(CSS.opacityInput) ||
+            node.classList?.contains(CSS.opacitySlider)
+        )
     ) {
       return;
     }
@@ -534,6 +618,62 @@ export class ColorPicker implements InteractiveComponent, LoadableComponent {
 
     channels[channelIndex] = Number(input.value);
     this.updateColorFromChannels(channels);
+  };
+
+  private handleOpacityInputChange = (event: CustomEvent): void => {
+    const input = event.currentTarget as HTMLCalciteInputElement;
+    const shouldClearInput = this.allowEmpty && !input.value;
+
+    if (shouldClearInput) {
+      this.value = "";
+      this.internalColorSet(null);
+      return;
+    }
+
+    const alpha = Number(input.value);
+
+    if (!this.color) {
+      this.internalColorSet(this.previousColor.alpha(opacityToAlpha(alpha)));
+      event.stopPropagation();
+      return;
+    }
+
+    this.color = this.color.alpha(opacityToAlpha(alpha));
+  };
+
+  private handleOpacityInputInput = (event: CustomEvent): void => {
+    const input = event.currentTarget as HTMLCalciteInputElement;
+    const internalInput = event.detail.nativeEvent.target as HTMLInputElement;
+    const limit = 100;
+
+    let inputValue: string;
+
+    if (this.allowEmpty && !input.value) {
+      inputValue = "";
+    } else {
+      const value = Number(input.value) + this.shiftKeyChannelAdjustment;
+      const clamped = clamp(value, 0, limit);
+
+      inputValue = clamped.toString();
+    }
+
+    input.value = inputValue;
+    internalInput.value = inputValue;
+  };
+
+  private handleOpacitySliderInput = (event: CustomEvent): void => {
+    const alpha =
+      Number((event.currentTarget as HTMLCalciteInputElement).value) +
+      this.shiftKeyChannelAdjustment;
+    const clamped = clamp(alpha, 0, 100);
+
+    if (!this.color) {
+      this.internalColorSet(this.previousColor.alpha(opacityToAlpha(clamped)));
+      event.stopPropagation();
+      return;
+    }
+
+    this.color = this.color.alpha(opacityToAlpha(clamped));
   };
 
   private handleSavedColorKeyDown = (event: KeyboardEvent): void => {
@@ -762,7 +902,7 @@ export class ColorPicker implements InteractiveComponent, LoadableComponent {
       this.showIncompatibleColorWarning(value, format);
     }
 
-    this.setMode(format);
+    this.setMode(format, false, false);
     this.internalColorSet(initialColor, false, "initial");
 
     this.updateDimensions(this.scale);
@@ -795,9 +935,12 @@ export class ColorPicker implements InteractiveComponent, LoadableComponent {
 
   render(): VNode {
     const {
+      alphaEnabled,
       allowEmpty,
+      channelsDisabled,
       color,
       intlDeleteColor,
+      hexDisabled,
       hideHex,
       hideChannels,
       hideSaved,
@@ -805,9 +948,10 @@ export class ColorPicker implements InteractiveComponent, LoadableComponent {
       intlSaved,
       intlSaveColor,
       savedColors,
+      savedDisabled,
       scale
     } = this;
-    const selectedColorInHex = color ? color.hex() : null;
+    const selectedColorInHex = color ? hexify(color, alphaEnabled) : null;
     const hexInputScale = scale === "l" ? "m" : "s";
     const {
       colorFieldAndSliderInteractive,
@@ -825,6 +969,10 @@ export class ColorPicker implements InteractiveComponent, LoadableComponent {
     const hueLeft = hueScopeLeft ?? (colorFieldWidth * DEFAULT_COLOR.hue()) / HSV_LIMITS.h;
     const noColor = color === null;
     const vertical = scopeOrientation === "vertical";
+    const noHex = hexDisabled || hideHex;
+    const noChannels = channelsDisabled || hideChannels;
+    const noSaved = savedDisabled || hideSaved;
+
     return (
       <div class={CSS.container}>
         <div class={CSS.colorFieldAndSliderWrap}>
@@ -864,52 +1012,56 @@ export class ColorPicker implements InteractiveComponent, LoadableComponent {
             tabindex="0"
           />
         </div>
-        {hideHex && hideChannels ? null : (
+        {noHex && noChannels ? null : (
           <div
             class={{
               [CSS.controlSection]: true,
               [CSS.section]: true
             }}
           >
-            {hideHex ? null : (
-              <div class={CSS.hexOptions}>
-                <span
+            <div class={CSS.hexAndChannelsGroup}>
+              {noHex ? null : (
+                <div class={CSS.hexOptions}>
+                  <span
+                    class={{
+                      [CSS.header]: true,
+                      [CSS.headerSpaced]: true
+                    }}
+                  >
+                    {intlHex}
+                  </span>
+                  <calcite-color-picker-hex-input
+                    allowEmpty={allowEmpty}
+                    alphaEnabled={alphaEnabled}
+                    class={CSS.control}
+                    numberingSystem={this.numberingSystem}
+                    onCalciteColorPickerHexInputChange={this.handleHexInputChange}
+                    scale={hexInputScale}
+                    value={selectedColorInHex}
+                  />
+                </div>
+              )}
+              {noChannels ? null : (
+                <calcite-tabs
                   class={{
-                    [CSS.header]: true,
-                    [CSS.headerHex]: true
+                    [CSS.colorModeContainer]: true,
+                    [CSS.splitSection]: true
                   }}
-                >
-                  {intlHex}
-                </span>
-                <calcite-color-picker-hex-input
-                  allowEmpty={allowEmpty}
-                  class={CSS.control}
-                  numberingSystem={this.numberingSystem}
-                  onCalciteColorPickerHexInputChange={this.handleHexInputChange}
                   scale={hexInputScale}
-                  value={selectedColorInHex}
-                />
-              </div>
-            )}
-            {hideChannels ? null : (
-              <calcite-tabs
-                class={{
-                  [CSS.colorModeContainer]: true,
-                  [CSS.splitSection]: true
-                }}
-                scale={hexInputScale}
-              >
-                <calcite-tab-nav slot="tab-nav">
-                  {this.renderChannelsTabTitle("rgb")}
-                  {this.renderChannelsTabTitle("hsv")}
-                </calcite-tab-nav>
-                {this.renderChannelsTab("rgb")}
-                {this.renderChannelsTab("hsv")}
-              </calcite-tabs>
-            )}
+                >
+                  <calcite-tab-nav slot="tab-nav">
+                    {this.renderChannelsTabTitle("rgb")}
+                    {this.renderChannelsTabTitle("hsv")}
+                  </calcite-tab-nav>
+                  {this.renderChannelsTab("rgb")}
+                  {this.renderChannelsTab("hsv")}
+                </calcite-tabs>
+              )}
+            </div>
+            {alphaEnabled ? this.renderOpacitySection() : null}
           </div>
         )}
-        {hideSaved ? null : (
+        {noSaved ? null : (
           <div class={{ [CSS.savedColorsSection]: true, [CSS.section]: true }}>
             <div class={CSS.header}>
               <label>{intlSaved}</label>
@@ -958,6 +1110,50 @@ export class ColorPicker implements InteractiveComponent, LoadableComponent {
             ) : null}
           </div>
         )}
+      </div>
+    );
+  }
+
+  private renderOpacitySection(): VNode {
+    const { color, intlOpacity, previousColor } = this;
+    const sliderOpacity = alphaToOpacity((color ? color : previousColor).alpha()); // slider keeps previous alpha when null
+    const inputOpacity = color ? alphaToOpacity(color.alpha()).toString() : undefined;
+
+    return (
+      <div class={CSS.hexOptions} key="opacity">
+        <span
+          class={{
+            [CSS.header]: true,
+            [CSS.headerSpaced]: true
+          }}
+        >
+          {intlOpacity}
+        </span>
+        <div class={CSS.opacityControlGroup}>
+          <calcite-slider
+            aria-label={intlOpacity}
+            class={CSS.opacitySlider}
+            max={100}
+            min={0}
+            onCalciteSliderInput={this.handleOpacitySliderInput}
+            step={1}
+            value={sliderOpacity}
+          />
+          <calcite-input
+            aria-label={intlOpacity}
+            class={CSS.opacityInput}
+            max={100}
+            min={0}
+            numberButtonType="none"
+            onCalciteInputChange={this.handleOpacityInputChange}
+            onCalciteInputInput={this.handleOpacityInputInput}
+            scale={this.scale === "l" ? "m" : "s"}
+            step={1}
+            suffixText="%"
+            type="number"
+            value={inputOpacity}
+          />
+        </div>
       </div>
     );
   }
@@ -1075,8 +1271,40 @@ export class ColorPicker implements InteractiveComponent, LoadableComponent {
     );
   }
 
-  private setMode(format: ColorPicker["format"]): void {
-    this.mode = format === "auto" ? this.mode : format;
+  private setMode(format: ColorPicker["format"], _force = false, warn = true): void {
+    const mode = format === "auto" ? this.mode : format;
+    this.mode = this.ensureCompatibleMode(mode, warn);
+  }
+
+  private ensureCompatibleMode(mode: SupportedMode, warn): SupportedMode {
+    const { alphaEnabled } = this;
+    const isAlphaCompatible = alphaCompatible(mode);
+
+    if (alphaEnabled && !isAlphaCompatible) {
+      const alphaMode = toAlphaMode(mode);
+
+      if (warn) {
+        console.warn(
+          `setting format to (${alphaMode}) as the provided one (${mode}) does not support alpha`
+        );
+      }
+
+      return alphaMode;
+    }
+
+    if (!alphaEnabled && isAlphaCompatible) {
+      const nonAlphaMode = toNonAlphaMode(mode);
+
+      if (warn) {
+        console.warn(
+          `setting format to (${nonAlphaMode}) as the provided one (${mode}) does not support alpha`
+        );
+      }
+
+      return nonAlphaMode;
+    }
+
+    return mode;
   }
 
   private captureHueSliderColor(x: number): void {
@@ -1132,19 +1360,20 @@ export class ColorPicker implements InteractiveComponent, LoadableComponent {
     const hexMode = "hex";
 
     if (format.includes(hexMode)) {
-      return normalizeHex(color.round()[hexMode]());
+      const hasAlpha = format === CSSColorMode.HEXA;
+      return normalizeHex(hexify(color.round(), hasAlpha), hasAlpha);
     }
 
     if (format.includes("-css")) {
       return color[format.replace("-css", "").replace("a", "")]().round().string();
     }
 
-    const colorObject = color[format]().round().object();
+    const colorObject =
+      /* Color() does not support hsva, hsla nor rgba, so we use the non-alpha mode */
+      color[toNonAlphaMode(format)]().round().object();
 
     if (format.endsWith("a")) {
-      // normalize alpha prop
-      colorObject.a = colorObject.alpha;
-      delete colorObject.alpha;
+      return normalizeAlpha(colorObject);
     }
 
     return colorObject;
@@ -1166,7 +1395,7 @@ export class ColorPicker implements InteractiveComponent, LoadableComponent {
   }
 
   private deleteColor = (): void => {
-    const colorToDelete = this.color.hex();
+    const colorToDelete = hexify(this.color, this.alphaEnabled);
     const inStorage = this.savedColors.indexOf(colorToDelete) > -1;
 
     if (!inStorage) {
@@ -1185,7 +1414,7 @@ export class ColorPicker implements InteractiveComponent, LoadableComponent {
   };
 
   private saveColor = (): void => {
-    const colorToSave = this.color.hex();
+    const colorToSave = hexify(this.color, this.alphaEnabled);
     const alreadySaved = this.savedColors.indexOf(colorToSave) > -1;
 
     if (alreadySaved) {
@@ -1220,7 +1449,12 @@ export class ColorPicker implements InteractiveComponent, LoadableComponent {
       }
     } = this;
 
-    context.fillStyle = this.baseColorFieldColor.hsv().saturationv(100).value(100).string();
+    context.fillStyle = this.baseColorFieldColor
+      .hsv()
+      .saturationv(100)
+      .value(100)
+      .alpha(1)
+      .string();
     context.fillRect(0, 0, width, height);
 
     const whiteGradient = context.createLinearGradient(0, 0, width, 0);
@@ -1351,7 +1585,7 @@ export class ColorPicker implements InteractiveComponent, LoadableComponent {
     context.arc(x, y, radius - 3, startAngle, endAngle);
     context.shadowBlur = 0;
     context.shadowColor = "transparent";
-    context.fillStyle = color.rgb().string();
+    context.fillStyle = color.rgb().alpha(1).string();
     context.fill();
   }
 
@@ -1419,7 +1653,12 @@ export class ColorPicker implements InteractiveComponent, LoadableComponent {
   }
 
   private updateColorFromChannels(channels: this["channels"]): void {
-    this.internalColorSet(Color(channels, this.channelMode));
+    this.internalColorSet(
+      Color(
+        this.alphaEnabled && this.color ? [...channels, this.color.alpha()] : channels,
+        this.channelMode
+      )
+    );
   }
 
   private updateChannelsFromColor(color: Color | null): void {
@@ -1431,6 +1670,7 @@ export class ColorPicker implements InteractiveComponent, LoadableComponent {
 
     return color[channelMode]()
       .array()
+      .slice(0, 3) // drop any alpha channel value since we have a slider for that
       .map((value) => Math.floor(value)) as [number, number, number];
   }
 }

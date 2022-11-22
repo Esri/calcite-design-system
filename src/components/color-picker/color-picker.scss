@@ -3,6 +3,7 @@ $section-padding--large: 16px;
 $gap: 8px;
 $gap--small: 4px;
 $gap--large: 12px;
+$inline-input-width: 31%;
 
 :host {
   @apply text-n2h inline-block font-normal;
@@ -31,11 +32,19 @@ $gap--large: 12px;
       margin-block-end: 0;
     }
   }
+
+  .opacity-input {
+    inline-size: $inline-input-width + 20%;
+  }
 }
 
 :host([scale="m"]) {
   .container {
     inline-size: 272px;
+  }
+
+  .opacity-input {
+    inline-size: $inline-input-width;
   }
 }
 
@@ -77,6 +86,14 @@ $gap--large: 12px;
     > :nth-child(2) {
       margin-inline-start: $gap--large;
     }
+  }
+
+  .control-section {
+    @apply flex-wrap;
+  }
+
+  .opacity-input {
+    inline-size: 25%;
   }
 
   .color-hex-options {
@@ -132,10 +149,14 @@ $gap--large: 12px;
   }
 }
 
+.opacity-control-group,
+.hex-and-channels-group {
+  @apply w-full;
+}
+
+.hex-and-channels-group,
 .control-section {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
+  @apply flex flex-row flex-wrap;
 }
 
 .section {
@@ -152,6 +173,16 @@ $gap--large: 12px;
   flex-grow: 1;
 }
 
+.opacity-control-group {
+  @apply flex
+  items-center
+  gap-4;
+}
+
+.opacity-slider {
+  @apply flex-grow;
+}
+
 .header {
   @apply text-color-1
     flex
@@ -160,7 +191,7 @@ $gap--large: 12px;
     pb-1;
 }
 
-.header--hex,
+.header--spaced,
 .color-mode-container {
   padding-block-start: $section-padding;
 }
@@ -171,7 +202,7 @@ $gap--large: 12px;
 }
 
 .channel {
-  inline-size: 31%;
+  inline-size: $inline-input-width;
 }
 
 .saved-colors {

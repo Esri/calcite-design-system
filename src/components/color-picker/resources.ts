@@ -17,14 +17,18 @@ export const CSS = {
   saveColor: "save-color",
   deleteColor: "delete-color",
   savedColorsButtons: "saved-colors-buttons",
-  headerHex: "header--hex",
+  headerSpaced: "header--spaced",
   colorFieldAndSlider: "color-field-and-slider",
   colorFieldAndSliderInteractive: "color-field-and-slider--interactive",
   colorFieldAndSliderWrap: "color-field-and-slider-wrap",
   scope: "scope",
   hueScope: "scope--hue",
   colorFieldScope: "scope--color-field",
-  savedColor: "saved-color"
+  savedColor: "saved-color",
+  opacityControlGroup: "opacity-control-group",
+  opacitySlider: "opacity-slider",
+  opacityInput: "opacity-input",
+  hexAndChannelsGroup: "hex-and-channels-group"
 };
 
 export const DEFAULT_COLOR = Color("#007AC2");
@@ -53,6 +57,7 @@ export const TEXT = {
   hex: "Hex",
   hue: "Hue",
   noColor: "No color",
+  opacity: "Opacity",
   r: "R",
   red: "Red",
   rgb: "RGB",

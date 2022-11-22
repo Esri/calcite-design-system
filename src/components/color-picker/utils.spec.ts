@@ -42,23 +42,47 @@ describe("utils", () => {
     expect(hexToRGB("#00ff00")).toMatchObject({ r: 0, g: 255, b: 0 });
     expect(hexToRGB("0f0")).toBeNull();
     expect(hexToRGB("00ff00")).toBeNull();
+
+    expect(hexToRGB("#0f0f", true)).toMatchObject({ r: 0, g: 255, b: 0, a: 1 });
+    expect(hexToRGB("#00ff00ff", true)).toMatchObject({ r: 0, g: 255, b: 0, a: 1 });
   });
 
-  it("can convert RGB to hex", () =>
+  it("can convert RGB to hex", () => {
     expect(
       rgbToHex({
         r: 0,
         g: 255,
         b: 0
       })
-    ).toBe("#00ff00"));
+    ).toBe("#00ff00");
+
+    expect(
+      rgbToHex({
+        r: 0,
+        g: 255,
+        b: 0,
+        a: 1
+      })
+    ).toBe("#00ff00ff");
+  });
 
   it("can determine shorthand hex", () => {
     expect(isShorthandHex("#0f0")).toBe(true);
-
-    expect(isShorthandHex("#0f00")).toBe(false);
+    expect(isShorthandHex("")).toBe(false);
+    expect(isShorthandHex("#")).toBe(false);
+    expect(isShorthandHex("#0")).toBe(false);
     expect(isShorthandHex("#0f")).toBe(false);
+    expect(isShorthandHex("#0f00")).toBe(false);
     expect(isShorthandHex("#00ff00")).toBe(false);
+
+    expect(isShorthandHex("#0f0f", true)).toBe(true);
+    expect(isShorthandHex("", true)).toBe(false);
+    expect(isShorthandHex("#", true)).toBe(false);
+    expect(isShorthandHex("#0", true)).toBe(false);
+    expect(isShorthandHex("#0f", true)).toBe(false);
+    expect(isShorthandHex("#0f0", true)).toBe(false);
+    expect(isShorthandHex("#0f0f0", true)).toBe(false);
+    expect(isShorthandHex("#00ff00", true)).toBe(false);
   });
 
   it("can normalize hex", () => {
@@ -66,25 +90,63 @@ describe("utils", () => {
     expect(normalizeHex("f00")).toBe("#ff0000");
     expect(normalizeHex("#ff0000")).toBe("#ff0000");
     expect(normalizeHex("ff0000")).toBe("#ff0000");
+
+    expect(normalizeHex("#f00f", true)).toBe("#ff0000ff");
+    expect(normalizeHex("f00f", true)).toBe("#ff0000ff");
+    expect(normalizeHex("#ff0000ff", true)).toBe("#ff0000ff");
+    expect(normalizeHex("ff0000ff", true)).toBe("#ff0000ff");
+
+    expect(normalizeHex("#f00", true, true)).toBe("#ff0000ff");
+    expect(normalizeHex("f00", true, true)).toBe("#ff0000ff");
+    expect(normalizeHex("#ff0000", true, true)).toBe("#ff0000ff");
+    expect(normalizeHex("ff0000", true, true)).toBe("#ff0000ff");
   });
 
   it("can validate hex", () => {
     expect(isValidHex("#ff0")).toBe(true);
     expect(isValidHex("#ffff00")).toBe(true);
-
+    expect(isValidHex("")).toBe(false);
+    expect(isValidHex("#")).toBe(false);
+    expect(isValidHex("#f")).toBe(false);
     expect(isValidHex("#f0")).toBe(false);
     expect(isValidHex("#ff00")).toBe(false);
     expect(isValidHex("#ffff0")).toBe(false);
     expect(isValidHex("#ffff000")).toBe(false);
     expect(isValidHex("ff0")).toBe(false);
     expect(isValidHex("ffff00")).toBe(false);
+
+    expect(isValidHex("#ff00", true)).toBe(true);
+    expect(isValidHex("#ffff0000", true)).toBe(true);
+    expect(isValidHex("")).toBe(false);
+    expect(isValidHex("#")).toBe(false);
+    expect(isValidHex("#f")).toBe(false);
+    expect(isValidHex("#f0", true)).toBe(false);
+    expect(isValidHex("#ff0", true)).toBe(false);
+    expect(isValidHex("#ffff0", true)).toBe(false);
+    expect(isValidHex("#ffff000", true)).toBe(false);
+    expect(isValidHex("ff00", true)).toBe(false);
+    expect(isValidHex("ffff0000", true)).toBe(false);
   });
 
   it("can determine longhand hex", () => {
     expect(isLonghandHex("#00ff00")).toBe(true);
-
-    expect(isLonghandHex("#00ff000")).toBe(false);
-    expect(isLonghandHex("#00ff0")).toBe(false);
+    expect(isLonghandHex("")).toBe(false);
+    expect(isLonghandHex("#")).toBe(false);
+    expect(isLonghandHex("#0f")).toBe(false);
     expect(isLonghandHex("#0f0")).toBe(false);
+    expect(isLonghandHex("#00ff")).toBe(false);
+    expect(isLonghandHex("#00ff0")).toBe(false);
+    expect(isLonghandHex("#00ff000")).toBe(false);
+
+    expect(isLonghandHex("#00ff00ff", true)).toBe(true);
+    expect(isLonghandHex("", true)).toBe(false);
+    expect(isLonghandHex("#", true)).toBe(false);
+    expect(isLonghandHex("#0", true)).toBe(false);
+    expect(isLonghandHex("#0f", true)).toBe(false);
+    expect(isLonghandHex("#0f0", true)).toBe(false);
+    expect(isLonghandHex("#0f0f", true)).toBe(false);
+    expect(isLonghandHex("#00ff00", true)).toBe(false);
+    expect(isLonghandHex("#00ff00f", true)).toBe(false);
+    expect(isLonghandHex("#00ff00ff0", true)).toBe(false);
   });
 });

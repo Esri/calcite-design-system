@@ -116,7 +116,8 @@ export const create: () => Config = () => ({
       "^/assets/(.*)$": "<rootDir>/src/tests/iconPathDataStub.ts",
       "^lodash-es$": "lodash"
     },
-    setupFilesAfterEnv: ["<rootDir>/src/tests/setupTests.ts"]
+    setupFilesAfterEnv: ["<rootDir>/src/tests/setupTests.ts"],
+    browserHeadless: false
   },
   hydratedFlag: {
     selector: "attribute",
