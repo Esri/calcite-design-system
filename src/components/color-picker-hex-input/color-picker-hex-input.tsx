@@ -19,6 +19,12 @@ import { RGB } from "../color-picker/interfaces";
 import { focusElement } from "../../utils/dom";
 import { TEXT } from "../color-picker/resources";
 import { NumberingSystem } from "../../utils/locale";
+import {
+  setUpLoadableComponent,
+  setComponentLoaded,
+  LoadableComponent,
+  componentLoaded
+} from "../../utils/loadable";
 
 const DEFAULT_COLOR = Color();
 
@@ -27,7 +33,7 @@ const DEFAULT_COLOR = Color();
   styleUrl: "color-picker-hex-input.scss",
   shadow: true
 })
-export class ColorPickerHexInput {
+export class ColorPickerHexInput implements LoadableComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -58,6 +64,14 @@ export class ColorPickerHexInput {
     if (allowEmpty) {
       this.internalSetValue(null, null, false);
     }
+  }
+
+  componentWillLoad(): void {
+    setUpLoadableComponent(this);
+  }
+
+  componentDidLoad(): void {
+    setComponentLoaded(this);
   }
 
   //--------------------------------------------------------------------------
@@ -249,6 +263,8 @@ export class ColorPickerHexInput {
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
+    await componentLoaded(this);
+
     focusElement(this.inputNode);
   }
 

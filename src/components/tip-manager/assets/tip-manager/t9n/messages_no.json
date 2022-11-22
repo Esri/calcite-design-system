@@ -1,7 +1,7 @@
 {
-  "defaultGroupTitle": "å_Tips_________ø",
-  "defaultPaginationLabel": "å_Tip_______ø",
-  "close": "å_Close___________ø",
-  "previous": "å_Previous_________________ø",
-  "next": "å_Next_________ø"
+  "defaultGroupTitle": "Tips",
+  "defaultPaginationLabel": "Tips:",
+  "close": "Lukk",
+  "previous": "Forrige",
+  "next": "Neste"
 }

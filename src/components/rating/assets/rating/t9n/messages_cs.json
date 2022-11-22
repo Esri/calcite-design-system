@@ -1,4 +1,4 @@
 {
-  "rating": "Ř_Rating_____________ů",
-  "stars": "Ř_Stars: ${num}______________ů"
+  "rating": "Hodnocení",
+  "stars": "Počet hvězdiček: ${num}"
 }

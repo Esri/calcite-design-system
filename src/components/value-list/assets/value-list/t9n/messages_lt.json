@@ -1,6 +1,6 @@
 {
-  "dragHandleActive": "Į_Reordering ${itemLabel}, current position ${position} of ${total}__________________________________š.",
-  "dragHandleChange": "Į_${itemLabel}, new position ${position} of ${total}. Press space to confirm_______________________________________š.",
-  "dragHandleCommit": "Į_${itemLabel}, current position ${position} of ${total}_____________________________š.",
-  "dragHandleIdle": "Į_${itemLabel}, press space and use arrow keys to reorder content. Current position ${position} of ${total}______________________________________________________š."
+  "dragHandleActive": "Keičiama tvarka ${itemLabel}, dabartinė pozicija ${position} iš ${total}.",
+  "dragHandleChange": "${itemLabel}, nauja pozicija ${position} iš ${total}. Norėdami patvirtinti, paspauskite tarpo klavišą.",
+  "dragHandleCommit": "${itemLabel}, dabartinė pozicija ${position} iš ${total}.",
+  "dragHandleIdle": "${itemLabel}, norėdami keisti turinio tvarką, paspauskite tarpo klavišą ir naudokite rodyklių klavišus. Dabartinė padėtis: ${position} iš ${total}."
 }

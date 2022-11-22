@@ -1,4 +1,4 @@
 {
-  "rating": "Đ_Rating_____________ớ",
-  "stars": "Đ_Stars: ${num}______________ớ"
+  "rating": "Xếp loại",
+  "stars": "Sao: ${num}"
 }

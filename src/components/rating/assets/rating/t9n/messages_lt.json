@@ -1,4 +1,4 @@
 {
-  "rating": "Į_Rating_____________š",
-  "stars": "Į_Stars: ${num}______________š"
+  "rating": "Vertinimas",
+  "stars": "Žvaigždutės ${num}"
 }

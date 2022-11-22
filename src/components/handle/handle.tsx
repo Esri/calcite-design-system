@@ -2,13 +2,19 @@ import { Component, Element, Event, EventEmitter, Method, Prop, h, VNode } from 
 import { toAriaBoolean } from "../../utils/dom";
 import { CSS, ICONS } from "./resources";
 import { DeprecatedEventPayload } from "../interfaces";
+import {
+  setUpLoadableComponent,
+  setComponentLoaded,
+  LoadableComponent,
+  componentLoaded
+} from "../../utils/loadable";
 
 @Component({
   tag: "calcite-handle",
   styleUrl: "handle.scss",
   shadow: true
 })
-export class Handle {
+export class Handle implements LoadableComponent {
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -24,6 +30,20 @@ export class Handle {
    * Value for the button title attribute
    */
   @Prop({ reflect: true }) textTitle = "handle";
+
+  //--------------------------------------------------------------------------
+  //
+  //  Lifecycle
+  //
+  //--------------------------------------------------------------------------
+
+  componentWillLoad(): void {
+    setUpLoadableComponent(this);
+  }
+
+  componentDidLoad(): void {
+    setComponentLoaded(this);
+  }
 
   // --------------------------------------------------------------------------
   //
@@ -57,6 +77,8 @@ export class Handle {
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
+    await componentLoaded(this);
+
     this.handleButton?.focus();
   }
 
