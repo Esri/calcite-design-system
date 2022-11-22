@@ -89,7 +89,7 @@ Our code base is written in TypeScript and must adhere to specific conventions a
 
 ## Getting a development environment set up
 
-An installation of Node is required for development. If you don't have Node installed, we recommend [Volta](https://docs.volta.sh/guide/getting-started), which will automatically use the Node/NPM versions we pinned at the bottom of [`package.json`](./package.json). If you prefer a different Node version manager, make sure you are using the major versions of Node/NPM specified in `package.json`.
+An installation of Node is required for development. If you don't have Node installed, we recommend [Volta](https://docs.volta.sh/guide/getting-started), which will automatically use the Node/NPM versions we pinned at the bottom of [`package.json`](./package.json). If you prefer a different Node version manager, make sure you are using the major versions of Node/NPM specified in [`package.json`](./package.json).
 
 We also recommend installing the following extensions in your editor of choice: TypeScript, TailwindCSS, ESLint, Stylelint, and Prettier. If you use VS Code, you will see a pop up in the bottom right corner prompting you to install or view the workspaces's recommended extensions. Here are instructions for manually installing the extensions in a variety of editors:
 
@@ -110,10 +110,21 @@ npm install
 
 > **NOTE**
 >
-> The first time installing dependencies, you may need to use the `legacy-peer-deps` flag due to an Stencil/ESLint dependency conflict: `npm install --legacy-peer-deps`.
-> The conflict won't affect the components since ESLint is in `devDependencies`. Hopefully this will no longer be an issue once [`@stencil/eslint-plugin`](https://github.com/ionic-team/stencil-eslint) supports ESLint v8.
+> The first time installing dependencies, you may need to use the `legacy-peer-deps` flag due to an Stencil/ESLint dependency conflict:
+>
+> ```sh
+> npm install --legacy-peer-deps
+> ```
+>
+> Hopefully this will no longer be an issue once [`@stencil/eslint-plugin`](https://github.com/ionic-team/stencil-eslint) supports ESLint v8.
 
-Next, run `npm start`, which will start the local Stencil development server on `localhost` and open it in the browser. From there, you can view the current demo pages and make changes in [`src/demos`](./src/demos). When adding a new demo page, make sure to add a link in [index.html](./src/index.html) so others can find it.
+Next, start the local Stencil development server on `localhost`, which will open the demos in the browser.
+
+```sh
+npm start
+```
+
+From there, you can view the current demo pages and make changes in [`src/demos`](./src/demos). When adding a new demo page, make sure to add a link in [index.html](./src/index.html) so others can find it.
 
 ## Linting
 
