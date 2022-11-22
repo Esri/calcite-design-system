@@ -93,7 +93,7 @@
     "@storybook/addon-docs": "6.5.12",
     "@storybook/addon-interactions": "6.5.13",
     "@storybook/addon-knobs": "6.4.0",
-    "@storybook/html": "6.5.12",
+    "@storybook/html": "6.5.13",
     "@storybook/storybook-deployer": "2.8.16",
     "@storybook/testing-library": "0.0.12",
     "@types/dedent": "0.7.0",
