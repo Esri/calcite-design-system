@@ -1,4 +1,4 @@
-name: Automate Designers Branches Sync
+name: Sync designer branches with main
 on:
   push:
     branches:
@@ -7,43 +7,46 @@ on:
 jobs:
   sync-branches:
     runs-on: ubuntu-latest
-    name: Syncing branches for designers
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-      - name: Set up Node
-        uses: actions/setup-node@v3
+      - name: Create Pull Requests
+        uses: actions/github-script@v6
         with:
-          node-version: 16
-      - name: Opening pull request
-        id: pullbrunoaires
-        uses: tretuna/sync-branches@1.4.0
-        with:
-          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
-          FROM_BRANCH: 'feature/design-tokens'
-          TO_BRANCH: 'designer/brunoaires'
-          LABELS: 'automated-tokens-pr'
-      - name: Opening pull request
-        id: pullmanuelacosta
-        uses: tretuna/sync-branches@1.4.0
-        with:
-          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
-          FROM_BRANCH: 'feature/design-tokens'
-          TO_BRANCH: 'designer/manuelacosta'
-          LABELS: 'automated-tokens-pr'
-      - name: Opening pull request
-        id: pulljacqueskeet
-        uses: tretuna/sync-branches@1.4.0
-        with:
-          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
-          FROM_BRANCH: 'feature/design-tokens'
-          TO_BRANCH: 'designer/jacqueskeet'
-          LABELS: 'automated-tokens-pr'
-      - name: Opening pull request
-        id: pulltest
-        uses: tretuna/sync-branches@1.4.0
-        with:
-          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
-          FROM_BRANCH: 'feature/design-tokens'
-          TO_BRANCH: 'designer/test'
-          LABELS: 'automated-tokens-pr'
+          script: |
+            const { repo, owner } = context.repo;
+            const branches = await github.rest.branches({ owner, repo });
+            const designerBranches = branches.filter((b) => {
+              return b.name.includes('designer/')
+            });
+            const automergeLabel = 'automated-tokens-pr';
+
+            for (const branch of designerBranches) {
+              const newPR = await github.rest.pulls.create({
+                title: 'chore(automerge): Design Token Updates',
+                owner,
+                repo,
+                head: '${{ github.ref_name }}',
+                base: 'feature/design-tokens',
+                body: [
+                  'auto-generated: FigmaTokens PR',
+                  '',
+                ].join('\n')
+              });
+
+              const updatedIssueInformation = await github.rest.issues({
+                owner,
+                repo,
+                issue_number: newPR.issue_number
+              });
+
+              const labels = updatedIssueInformation.data.labels.map(label => label.name);
+              if(!labels.includes(automergeLabel)) {
+                labels.push(automergeLabel)
+              }
+
+              await github.rest.issues.update({
+                owner,
+                repo,
+                issue_number: newPR.issue_number,
+                labels,
+              });
+            }
