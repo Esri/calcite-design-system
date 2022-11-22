@@ -9,12 +9,51 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### ⚠ BREAKING CHANGES
 
+- **list, list-item, list-item-group:** To know when `calcite-list-item` content is selected, listen to the event `calciteListItemSelect` instead of `click`.
+
+* `List`
+  - Adds `label` property to specify an accessible name for the component.
+  - Adds `loading` property to show a busy indicator.
+  - Adds `selectionMode` and `selectionAppearance` properties to handle configuration of selection.
+  - Adds `filterEnabled`, `filteredData`, `filteredItems`, `filterText`, and `filterPlaceholder` properties to support filtering.
+  - Adds `calciteListFilter` event to notify when a filter has changed.
+  - Deprecates `headingLevel` property.
+* `ListItemGroup`
+  - Adds `disabled` property to prevent user interaction.
+  - Deprecates `headingLevel` property.
+* `ListItem`
+  - Adds `calciteListItemSelect` event to notify when list item content is selected.
+  - Adds `selected` and `value` properties to handle selection.
+  - Adds `open` property to show child components.
+  - Deprecates `nonInteractive` property.
+
 - **calcite-loader, calcite-input-message:** use hidden native global attribute to toggle visibility on the components instead of the deprecated active prop.
 
+- fix(calcite-loader, calcite-input-message)! : drop active in favor of hidden
+
+- same for loader
+
+- Remove instance of active prop used with loader throughout components
+
+- cleanup
+
+- more cleanup
+
+- test fix for screener failures related to loader visibility changes in other components
+
+- Remove active knob from stories and sub the ones set to false with static hidden for consistency, as we don't provide knobs for native global attributes
+
+- cleanup: remove input-message from slotted stories, remove redundant loader render test, fix a doc typo
+
+- cleanup: restore visibility on some cases of input-message
+
+- clean loader readme file
 - **block, date-picker, list-item-group, panel, pick-list-group, popover, tip, tip-manager:** Set default internal heading to a div. (#5728)
 
 ### Features
 
+- **alert:** support actions-end ([#5750](https://github.com/Esri/calcite-components/issues/5750)) ([2447e16](https://github.com/Esri/calcite-components/commit/2447e167eb731f3a59775a5692530137bf9a70fd))
+- **list, list-item, list-item-group:** Adds support for selecting and filtering list items. Improves accessibility by using aria "treegrid" role. ([#4527](https://github.com/Esri/calcite-components/issues/4527)) ([f489c57](https://github.com/Esri/calcite-components/commit/f489c57095ec21df1f427176d2d635675eea95d3))
 - **pick-list, value-list:** Add calciteListFilter event, filteredItems prop, filterText prop and filteredData prop. ([#5681](https://github.com/Esri/calcite-components/issues/5681)) ([943d208](https://github.com/Esri/calcite-components/commit/943d2088b7cf447a12ebcd0babab145f543538a2)), closes [#4333](https://github.com/Esri/calcite-components/issues/4333)
 - **popover:** Add focus-trap to popover and disableFocusTrap property. ([#5725](https://github.com/Esri/calcite-components/issues/5725)) ([a8ef353](https://github.com/Esri/calcite-components/commit/a8ef353bc031630b373f2bdd1bdc1cafd7e35be9)), closes [#2133](https://github.com/Esri/calcite-components/issues/2133)
 - **popover:** Escape key should close open popovers. ([#5726](https://github.com/Esri/calcite-components/issues/5726)) ([2e2621d](https://github.com/Esri/calcite-components/commit/2e2621d57c4701f7a7e84f74d801c543ad4f45c0))

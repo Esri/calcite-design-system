@@ -1,4 +1,4 @@
 export const CSS = {
-  heading: "heading",
-  container: "container"
+  container: "container",
+  heading: "heading"
 };
