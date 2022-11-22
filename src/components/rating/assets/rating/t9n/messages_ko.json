@@ -1,4 +1,4 @@
 {
-  "rating": "한_Rating_____________빠",
-  "stars": "한_Stars: ${num}______________빠"
+  "rating": "평점",
+  "stars": "별: ${num}개"
 }

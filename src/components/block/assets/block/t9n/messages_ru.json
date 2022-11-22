@@ -1,6 +1,6 @@
 {
-  "collapse": "Ж_Collapse_________________Я",
-  "expand": "Ж_Expand_____________Я",
-  "loading": "Ж_Loading_______________Я",
-  "options": "Ж_Options_______________Я"
+  "collapse": "Свернуть",
+  "expand": "Развернуть",
+  "loading": "Загрузка",
+  "options": "Опции"
 }

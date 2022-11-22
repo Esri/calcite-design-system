@@ -50,6 +50,13 @@ import {
   connectOpenCloseComponent,
   disconnectOpenCloseComponent
 } from "../../utils/openCloseComponent";
+import {
+  setUpLoadableComponent,
+  setComponentLoaded,
+  LoadableComponent,
+  componentLoaded
+} from "../../utils/loadable";
+
 interface ItemData {
   label: string;
   value: string;
@@ -78,7 +85,8 @@ export class Combobox
     FormComponent,
     InteractiveComponent,
     OpenCloseComponent,
-    FloatingUIComponent
+    FloatingUIComponent,
+    LoadableComponent
 {
   //--------------------------------------------------------------------------
   //
@@ -291,6 +299,8 @@ export class Combobox
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
+    await componentLoaded(this);
+
     this.textInput?.focus();
     this.activeChipIndex = -1;
     this.activeItemIndex = -1;
@@ -366,12 +376,14 @@ export class Combobox
   }
 
   componentWillLoad(): void {
+    setUpLoadableComponent(this);
     this.updateItems();
   }
 
   componentDidLoad(): void {
     afterConnectDefaultValueSet(this, this.getValue());
     this.reposition(true);
+    setComponentLoaded(this);
   }
 
   componentDidRender(): void {

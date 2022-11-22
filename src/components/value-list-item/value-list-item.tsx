@@ -21,6 +21,12 @@ import {
   disconnectConditionalSlotComponent
 } from "../../utils/conditionalSlot";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import {
+  setUpLoadableComponent,
+  setComponentLoaded,
+  LoadableComponent,
+  componentLoaded
+} from "../../utils/loadable";
 
 /**
  * @slot actions-end - A slot for adding actions or content to the end side of the component.
@@ -31,7 +37,9 @@ import { InteractiveComponent, updateHostInteraction } from "../../utils/interac
   styleUrl: "value-list-item.scss",
   shadow: true
 })
-export class ValueListItem implements ConditionalSlotComponent, InteractiveComponent {
+export class ValueListItem
+  implements ConditionalSlotComponent, InteractiveComponent, LoadableComponent
+{
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -121,6 +129,14 @@ export class ValueListItem implements ConditionalSlotComponent, InteractiveCompo
     disconnectConditionalSlotComponent(this);
   }
 
+  componentWillLoad(): void {
+    setUpLoadableComponent(this);
+  }
+
+  componentDidLoad(): void {
+    setComponentLoaded(this);
+  }
+
   componentDidRender(): void {
     updateHostInteraction(this, this.el.closest("calcite-value-list") ? "managed" : false);
   }
@@ -145,6 +161,8 @@ export class ValueListItem implements ConditionalSlotComponent, InteractiveCompo
   /** Set focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
+    await componentLoaded(this);
+
     this.pickListItem?.setFocus();
   }
 

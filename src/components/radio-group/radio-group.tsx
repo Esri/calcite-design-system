@@ -25,6 +25,12 @@ import {
 } from "../../utils/form";
 import { RadioAppearance } from "./interfaces";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import {
+  setUpLoadableComponent,
+  setComponentLoaded,
+  LoadableComponent,
+  componentLoaded
+} from "../../utils/loadable";
 
 /**
  * @slot - A slot for adding `calcite-radio-group-item`s.
@@ -34,7 +40,9 @@ import { InteractiveComponent, updateHostInteraction } from "../../utils/interac
   styleUrl: "radio-group.scss",
   shadow: true
 })
-export class RadioGroup implements LabelableComponent, FormComponent, InteractiveComponent {
+export class RadioGroup
+  implements LabelableComponent, FormComponent, InteractiveComponent, LoadableComponent
+{
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -120,6 +128,8 @@ export class RadioGroup implements LabelableComponent, FormComponent, Interactiv
   //--------------------------------------------------------------------------
 
   componentWillLoad(): void {
+    setUpLoadableComponent(this);
+
     const items = this.getItems();
     const lastChecked = Array.from(items)
       .filter((item) => item.checked)
@@ -134,6 +144,7 @@ export class RadioGroup implements LabelableComponent, FormComponent, Interactiv
 
   componentDidLoad(): void {
     afterConnectDefaultValueSet(this, this.value);
+    setComponentLoaded(this);
   }
 
   connectedCallback(): void {
@@ -250,6 +261,8 @@ export class RadioGroup implements LabelableComponent, FormComponent, Interactiv
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
+    await componentLoaded(this);
+
     (this.selectedItem || this.getItems()[0])?.focus();
   }
 
