@@ -12,7 +12,7 @@ import {
   State
 } from "@stencil/core";
 import { SLOTS, CSS, ICONS } from "./resources";
-import { getElementDir, toAriaBoolean } from "../../utils/dom";
+import { getElementDir, slotChangeHasAssignedElement, toAriaBoolean } from "../../utils/dom";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 
 import { getDepth, getListItemChildren, updateListItemChildren } from "./utils";
@@ -443,35 +443,19 @@ export class ListItem implements InteractiveComponent, LoadableComponent {
   // --------------------------------------------------------------------------
 
   handleActionsStartSlotChange = (event: Event): void => {
-    const elements = (event.target as HTMLSlotElement).assignedElements({
-      flatten: true
-    });
-
-    this.hasActionsStart = !!elements.length;
+    this.hasActionsStart = slotChangeHasAssignedElement(event);
   };
 
   handleActionsEndSlotChange = (event: Event): void => {
-    const elements = (event.target as HTMLSlotElement).assignedElements({
-      flatten: true
-    });
-
-    this.hasActionsEnd = !!elements.length;
+    this.hasActionsEnd = slotChangeHasAssignedElement(event);
   };
 
   handleContentStartSlotChange = (event: Event): void => {
-    const elements = (event.target as HTMLSlotElement).assignedElements({
-      flatten: true
-    });
-
-    this.hasContentStart = !!elements.length;
+    this.hasContentStart = slotChangeHasAssignedElement(event);
   };
 
   handleContentEndSlotChange = (event: Event): void => {
-    const elements = (event.target as HTMLSlotElement).assignedElements({
-      flatten: true
-    });
-
-    this.hasContentEnd = !!elements.length;
+    this.hasContentEnd = slotChangeHasAssignedElement(event);
   };
 
   setSelectionDefaults(): void {
