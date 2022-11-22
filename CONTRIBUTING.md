@@ -89,7 +89,7 @@ Our code base is written in TypeScript and must adhere to specific conventions a
 
 ## Getting a development environment set up
 
-An installation of Node is required for development. If you don't have Node installed, we recommend [Volta](https://docs.volta.sh/guide/getting-started), which will automatically use the Node/NPM versions we pinned at the bottom of [`package.json`](./package.json). If you prefer a different Node version manager, make sure you are using the major versions of Node/NPM specified in [`package.json`](./package.json).
+An installation of Node is required for development. If you don't have Node installed, we recommend [Volta](https://docs.volta.sh/guide/getting-started), which will automatically use the Node/NPM versions pinned at the bottom of [`package.json`](./package.json). If you prefer a different Node version manager, make sure to use the major versions of Node/NPM specified in [`package.json`](./package.json).
 
 We also recommend installing the following extensions in your editor of choice: TypeScript, TailwindCSS, ESLint, Stylelint, and Prettier. If you use VS Code, you will see a pop up in the bottom right corner prompting you to install or view the workspaces's recommended extensions. Here are instructions for manually installing the extensions in a variety of editors:
 
@@ -120,17 +120,17 @@ npm install
 >
 > Hopefully this will no longer be an issue once [`@stencil/eslint-plugin`](https://github.com/ionic-team/stencil-eslint) supports ESLint v8.
 
-Next, start the local Stencil development server on `localhost`:
+Next, start the local Stencil development server on localhost:
 
 ```sh
 npm start
 ```
 
-The demos will open in the browser after building. Edit the pages in [`src/demos`](./src/demos) modify the component demos, such as changing attributes or adding content to slots. When adding a new demo page, make sure to add a link in [index.html](./src/index.html) so others can find it. You can also edit the component code in [`src/components`](./src/components), and the changes will be reflected in the demos.
+The demos will open in the browser after building. Edit the pages in [`src/demos`](./src/demos) to modify the component demos, such as changing attributes or adding content to slots. When adding a new demo page, make sure to add a link in [`index.html`](./src/index.html) so others can find it. You can also edit the component code in [`src/components`](./src/components), and the changes will be reflected in the demos.
 
 ## Linting
 
-This project uses [lint-staged](https://www.npmjs.com/package/lint-staged) to automatically format code on commit, making it easier to contribute. There are also NPM scripts in [`package.json`](./package.json)] to lint a variety of filetypes. To run them all:
+This project uses [lint-staged](https://www.npmjs.com/package/lint-staged) to automatically format code on commit, making it easier to contribute. There are also NPM scripts in [`package.json`](./package.json) to lint a variety of filetypes. To run them all:
 
 ```sh
 npm run lint
