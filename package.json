@@ -74,7 +74,7 @@
     "@stencil/core": "2.18.1",
     "@types/color": "3.0.3",
     "color": "4.2.3",
-    "focus-trap": "7.0.0",
+    "focus-trap": "7.1.0",
     "form-request-submit-polyfill": "2.0.0",
     "lodash-es": "4.17.21",
     "sortablejs": "1.15.0"
@@ -93,7 +93,7 @@
     "@storybook/addon-docs": "6.5.12",
     "@storybook/addon-interactions": "6.5.13",
     "@storybook/addon-knobs": "6.4.0",
-    "@storybook/html": "6.5.12",
+    "@storybook/html": "6.5.13",
     "@storybook/storybook-deployer": "2.8.16",
     "@storybook/testing-library": "0.0.12",
     "@types/dedent": "0.7.0",
@@ -110,7 +110,7 @@
     "@typescript-eslint/eslint-plugin": "5.40.1",
     "@typescript-eslint/parser": "5.42.1",
     "@whitespace/storybook-addon-html": "5.0.0",
-    "autoprefixer": "10.4.12",
+    "autoprefixer": "10.4.13",
     "axe-core": "4.4.3",
     "babel-loader": "8.2.5",
     "chalk": "4.1.2",
@@ -148,7 +148,7 @@
     "storybook": "6.5.12",
     "storybook-addon-themes": "6.1.0",
     "storybook-rtl-addon": "0.3.3",
-    "stylelint": "14.14.0",
+    "stylelint": "14.15.0",
     "stylelint-config-recommended-scss": "8.0.0",
     "stylelint-use-logical-spec": "4.1.0",
     "tailwindcss": "3.2.2",
@@ -158,7 +158,7 @@
     "typescript": "4.7.4",
     "updtr": "4.0.0",
     "workbox-build": "6.5.4",
-    "yargs": "17.6.0"
+    "yargs": "17.6.2"
   },
   "license": "SEE LICENSE IN copyright.txt",
   "volta": {
