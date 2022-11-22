@@ -106,14 +106,17 @@ export class Textarea implements FormComponent, LabelableComponent, LocalizedCom
   /** When true, the `textarea` will be marked as invalid. */
   @Prop({ reflect: true }) invalid = false;
 
+  /**
+   * Specifies the Unicode numeral system used by the component for localization.
+   */
+  @Prop() numberingSystem: NumberingSystem;
+
   @Watch("disabled")
   disabledHandler(value: boolean): void {
     if (value) {
       this.disableSlottedElements(value);
     }
   }
-
-  @Prop() numberingSystem?: NumberingSystem;
 
   //--------------------------------------------------------------------------
   //
