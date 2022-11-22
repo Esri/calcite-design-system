@@ -11,44 +11,24 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 - **list, list-item, list-item-group:** To know when `calcite-list-item` content is selected, listen to the event `calciteListItemSelect` instead of `click`.
 
-* `List`
-  - Adds `label` property to specify an accessible name for the component.
-  - Adds `loading` property to show a busy indicator.
-  - Adds `selectionMode` and `selectionAppearance` properties to handle configuration of selection.
-  - Adds `filterEnabled`, `filteredData`, `filteredItems`, `filterText`, and `filterPlaceholder` properties to support filtering.
-  - Adds `calciteListFilter` event to notify when a filter has changed.
-  - Deprecates `headingLevel` property.
-* `ListItemGroup`
-  - Adds `disabled` property to prevent user interaction.
-  - Deprecates `headingLevel` property.
-* `ListItem`
-  - Adds `calciteListItemSelect` event to notify when list item content is selected.
-  - Adds `selected` and `value` properties to handle selection.
-  - Adds `open` property to show child components.
-  - Deprecates `nonInteractive` property.
+  - `List`
+    - Adds `label` property to specify an accessible name for the component.
+    - Adds `loading` property to show a busy indicator.
+    - Adds `selectionMode` and `selectionAppearance` properties to handle configuration of selection.
+    - Adds `filterEnabled`, `filteredData`, `filteredItems`, `filterText`, and `filterPlaceholder` properties to support filtering.
+    - Adds `calciteListFilter` event to notify when a filter has changed.
+    - Deprecates `headingLevel` property.
+  - `ListItemGroup`
+    - Adds `disabled` property to prevent user interaction.
+    - Deprecates `headingLevel` property.
+  - `ListItem`
+    - Adds `calciteListItemSelect` event to notify when list item content is selected.
+    - Adds `selected` and `value` properties to handle selection.
+    - Adds `open` property to show child components.
+    - Deprecates `nonInteractive` property.
 
 - **calcite-loader, calcite-input-message:** use hidden native global attribute to toggle visibility on the components instead of the deprecated active prop.
-
-- fix(calcite-loader, calcite-input-message)! : drop active in favor of hidden
-
-- same for loader
-
-- Remove instance of active prop used with loader throughout components
-
-- cleanup
-
-- more cleanup
-
-- test fix for screener failures related to loader visibility changes in other components
-
-- Remove active knob from stories and sub the ones set to false with static hidden for consistency, as we don't provide knobs for native global attributes
-
-- cleanup: remove input-message from slotted stories, remove redundant loader render test, fix a doc typo
-
-- cleanup: restore visibility on some cases of input-message
-
-- clean loader readme file
-- **block, date-picker, list-item-group, panel, pick-list-group, popover, tip, tip-manager:** Set default internal heading to a div. (#5728)
+- **block, date-picker, list-item-group, panel, pick-list-group, popover, tip, tip-manager:** Sets internal heading HTML element to be a div by default. If users would like to retain an internal H1-H6 HTML element, they will need to set the headingLevel property on the component. Users already setting the headingLevel property are not affected. ([#5728](https://github.com/Esri/calcite-components/pull/5728)) ([38ca639](https://github.com/Esri/calcite-components/commit/38ca639010b8bd1d1fe32c9cf9b54dfc38cf9877)), closes [5099](https://github.com/Esri/calcite-components/issues/5099)
 
 ### Features
 
