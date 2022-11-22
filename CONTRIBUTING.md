@@ -102,9 +102,11 @@ If your IDE supports the [Language Server Protocol (LSP) specification](https://
 
 ## Starting the demos
 
-First, install the NPM dependencies from within the `calcite-components` directory:
+First, clone the repo and install the NPM dependencies from within the `calcite-components` directory:
 
 ```sh
+git clone git@github.com:Esri/calcite-components.git
+cd calcite-components
 npm install
 ```
 
@@ -118,17 +120,17 @@ npm install
 >
 > Hopefully this will no longer be an issue once [`@stencil/eslint-plugin`](https://github.com/ionic-team/stencil-eslint) supports ESLint v8.
 
-Next, start the local Stencil development server on `localhost`, which will open the demos in the browser.
+Next, start the local Stencil development server on `localhost`:
 
 ```sh
 npm start
 ```
 
-From there, you can view the current demo pages and make changes in [`src/demos`](./src/demos). When adding a new demo page, make sure to add a link in [index.html](./src/index.html) so others can find it.
+The demos will open in the browser after building. Edit the pages in [`src/demos`](./src/demos) modify the component demos, such as changing attributes or adding content to slots. When adding a new demo page, make sure to add a link in [index.html](./src/index.html) so others can find it. You can also edit the component code in [`src/components`](./src/components), and the changes will be reflected in the demos.
 
 ## Linting
 
-This project uses [lint-staged](https://www.npmjs.com/package/lint-staged) to automatically format code on commit, making it easier to contribute. There are also NPM scripts in [`package.json`(./package.json)] to lint a variety of filetypes. To run them all:
+This project uses [lint-staged](https://www.npmjs.com/package/lint-staged) to automatically format code on commit, making it easier to contribute. There are also NPM scripts in [`package.json`](./package.json)] to lint a variety of filetypes. To run them all:
 
 ```sh
 npm run lint
