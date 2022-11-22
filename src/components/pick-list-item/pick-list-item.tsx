@@ -296,7 +296,7 @@ export class PickListItem
       <calcite-action
         class={CSS.remove}
         icon={ICONS.remove}
-        onCalciteActionClick={this.removeClickHandler}
+        onClick={this.removeClickHandler}
         slot={SLOTS.actionsEnd}
         text={this.intlRemove}
       />
