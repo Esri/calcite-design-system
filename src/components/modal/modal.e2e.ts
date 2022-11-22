@@ -66,7 +66,7 @@ describe("calcite-modal properties", () => {
 describe("opening and closing behavior", () => {
   it("opens and closes", async () => {
     const page = await newE2EPage();
-    await page.setContent(`<calcite-modal></calcite-modal>`);
+    await page.setContent(`<calcite-modal style="transition: opacity 0.3ms"></calcite-modal>`);
     const modal = await page.find("calcite-modal");
     const beforeOpenSpy = await modal.spyOnEvent("calciteModalBeforeOpen");
     const openSpy = await modal.spyOnEvent("calciteModalOpen");
@@ -116,6 +116,15 @@ describe("opening and closing behavior", () => {
     waitForEvent = page.waitForEvent("calciteModalBeforeClose");
     await page.waitForChanges();
     await waitForEvent;
+
+    const opacityTransition = await page.evaluate(() => {
+      const modal = document.querySelector("calcite-modal");
+      const { transitionDuration } = window.getComputedStyle(modal);
+      return {
+        duration: transitionDuration
+      };
+    });
+    expect(opacityTransition.duration).toEqual("0.0003s");
 
     expect(beforeOpenSpy).toHaveReceivedEventTimes(1);
     expect(openSpy).toHaveReceivedEventTimes(1);
