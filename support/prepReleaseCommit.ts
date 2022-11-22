@@ -22,26 +22,16 @@ import yargs from "yargs";
   const changelogPath = quote([normalize(`${__dirname}/../CHANGELOG.md`)]);
   const readmePath = quote([normalize(`${__dirname}/../readme.md`)]);
 
-  // git sanity checks to prevent unapproved changes from making it into a release
-  if ((await exec("git rev-parse --abbrev-ref HEAD")).stdout.trim() !== "master") {
-    throw new Error("The master branch must be checked out before releasing.");
-  }
-  if (
-    (await exec("git rev-parse master")).stdout.trim() !== (await exec("git rev-parse origin/master")).stdout.trim()
-  ) {
-    throw new Error("The master branch must be in sync with origin before releasing.");
-  }
-  if ((await exec("git status --porcelain=v1")).stdout.trim()) {
-    throw new Error("There cannot be any uncommitted changes before releasing.");
-  }
-
   const { next } = yargs(process.argv.slice(2))
     .options({ next: { type: "boolean", default: false } })
     .parseSync();
 
   // deepen the history when fetching tags due to shallow clone
   await exec("git fetch --deepen=250 --tags");
+
+  const prereleaseVersionPattern = /-next\.\d+$/;
   const semverTags = await promisify(gitSemverTags)();
+  const lastNonNextTag = semverTags.find((tag) => !prereleaseVersionPattern.test(tag));
   let standardVersionOptions: Options;
 
   const baseErrorMessage = "an error occurred generating the changelog";
@@ -85,13 +75,9 @@ import yargs from "yargs";
       noVerify: true,
       header,
       releaseAs: targetReleaseVersion,
-      releaseCommitMessageFormat: "{{currentTag}}"
+      releaseCommitMessageFormat: "{{currentTag}}",
+      skip: { changelog: true }
     };
-
-    if (next) {
-      // prerelease changelogs are updated in a separate method
-      standardVersionOptions.skip = { changelog: true };
-    }
 
     return standardVersionOptions;
   }
@@ -99,16 +85,29 @@ import yargs from "yargs";
   async function runStandardVersion(next: boolean, standardVersionOptions: Options): Promise<void> {
     if (next) {
       await appendUnreleasedNotesToChangelog();
-      await exec(`git add ${changelogPath}`);
     } else {
       if (!standardVersionOptions.releaseAs) {
         throw new Error("an error occurred determining the target release version");
       }
+      await convertUnreleasedChangelogContent(standardVersionOptions.releaseAs);
       await updateReadmeCdnUrls(standardVersionOptions.releaseAs);
       await exec(`git add ${readmePath}`);
     }
-
+    await exec(`git add ${changelogPath}`);
     await standardVersion(standardVersionOptions);
+  }
+
+  async function convertUnreleasedChangelogContent(releaseVersion: string): Promise<void> {
+    const changelogContent: string = await fs.readFile(changelogPath, { encoding: "utf8" });
+    const date = new Date();
+    const adjustedDate = new Date(date.getTime() - date.getTimezoneOffset() * 60 * 1000).toISOString().split("T")[0];
+    const versionHeader = `## [${releaseVersion}](https://github.com/Esri/calcite-components/compare/${lastNonNextTag}...${releaseVersion}) (${adjustedDate})`;
+    const unreleasedSectionPatternStart = new RegExp(`${unreleasedSectionTokenStart}.*## Unreleased`, "s");
+    const updatedChangelogContent = `${header}${versionHeader}\n${changelogContent
+      .replace(header, "")
+      .replace(unreleasedSectionPatternStart, "")
+      .replace(unreleasedSectionTokenEnd, "")}`;
+    await fs.writeFile(changelogPath, updatedChangelogContent);
   }
 
   async function appendUnreleasedNotesToChangelog(): Promise<void> {
@@ -155,8 +154,8 @@ import yargs from "yargs";
         unreleasedSectionTokenEnd
       );
       const combinedUnreleasedContent = combineUnreleasedChangelogContent(
-        existingUnreleasedSectionContent,
         // append the endPattern used for determining sections
+        `${existingUnreleasedSectionContent}\n##`,
         `${unreleasedSectionContent}\n##`
       );
 
