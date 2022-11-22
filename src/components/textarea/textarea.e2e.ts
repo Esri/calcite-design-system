@@ -190,7 +190,7 @@ describe("calcite-textarea", () => {
   it("should be disable slotted elements when disabled", async () => {
     const page = await newE2EPage();
     await page.setContent(
-      `<calcite-textarea footer disabled><calcite-button slot="footer-trailing">Add</calcite-button></calcite-textarea>`
+      `<calcite-textarea footer disabled><calcite-button slot="footer-trailing">CLEAR</calcite-button></calcite-textarea>`
     );
 
     const element = await page.find("calcite-button");
@@ -207,6 +207,18 @@ describe("calcite-textarea", () => {
     await page.waitForChanges();
 
     expect(element).toHaveClass(CSS.textareaInvalid);
+  });
+
+  it("should have footer-slotted class when slotted at both trailing and leading", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<calcite-textarea invalid>
+    <calcite-button slot="footer-trailing">CLEAR</calcite-button>
+    <calcite-button slot="footer-leading">RESET</calcite-button></calcite-textarea>`);
+
+    const element = await page.find("calcite-textarea >>> textarea");
+    await page.waitForChanges();
+
+    expect(element).toHaveClass(CSS.footerSlotted);
   });
 
   describe("resize disabled", () => {
