@@ -799,6 +799,62 @@ describe("calcite-tree", () => {
       expect(keydownSpy).toHaveReceivedEventTimes(14);
     });
 
+    it("does prevent space/enter keyboard event on actions with selectionMode of single", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html`<div id="container">
+        <calcite-tree selection-mode="single">
+          <calcite-tree-item>
+            <button>My button</button>
+          </calcite-tree-item>
+        </calcite-tree>
+      </div>`);
+
+      const container = await page.find("#container");
+      const button = await page.find("button");
+      const keydownSpy = await container.spyOnEvent("keydown");
+
+      expect(keydownSpy).toHaveReceivedEventTimes(0);
+
+      await button.focus();
+      await page.keyboard.press("Enter");
+
+      expect(keydownSpy).toHaveReceivedEventTimes(1);
+      expect(keydownSpy.lastEvent.defaultPrevented).toBe(true);
+
+      await page.keyboard.press("Space");
+
+      expect(keydownSpy).toHaveReceivedEventTimes(2);
+      expect(keydownSpy.lastEvent.defaultPrevented).toBe(true);
+    });
+
+    it("does not prevent space/enter keyboard event on actions with selectionMode of none", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html`<div id="container">
+        <calcite-tree selection-mode="none">
+          <calcite-tree-item>
+            <button>My button</button>
+          </calcite-tree-item>
+        </calcite-tree>
+      </div>`);
+
+      const container = await page.find("#container");
+      const button = await page.find("button");
+      const keydownSpy = await container.spyOnEvent("keydown");
+
+      expect(keydownSpy).toHaveReceivedEventTimes(0);
+
+      await button.focus();
+      await page.keyboard.press("Enter");
+
+      expect(keydownSpy).toHaveReceivedEventTimes(1);
+      expect(keydownSpy.lastEvent.defaultPrevented).toBe(false);
+
+      await page.keyboard.press("Space");
+
+      expect(keydownSpy).toHaveReceivedEventTimes(2);
+      expect(keydownSpy.lastEvent.defaultPrevented).toBe(false);
+    });
+
     it("honors disabled items when navigating the tree", async () => {
       const page = await newE2EPage();
       await page.setContent(
