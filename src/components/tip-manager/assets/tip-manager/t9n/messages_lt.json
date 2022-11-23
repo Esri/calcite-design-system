@@ -1,7 +1,7 @@
 {
-  "defaultGroupTitle": "Į_Tips_________š",
-  "defaultPaginationLabel": "Į_Tip_______š",
-  "close": "Į_Close___________š",
-  "previous": "Į_Previous_________________š",
-  "next": "Į_Next_________š"
+  "defaultGroupTitle": "Patarimai",
+  "defaultPaginationLabel": "Patarimas",
+  "close": "Uždaryti",
+  "previous": "Atgal",
+  "next": "Kitas"
 }

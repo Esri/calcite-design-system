@@ -1,4 +1,4 @@
 {
-  "rating": "å_Rating_____________ø",
-  "stars": "å_Stars: ${num}______________ø"
+  "rating": "Vurdering",
+  "stars": "Stjerner: ${num}"
 }

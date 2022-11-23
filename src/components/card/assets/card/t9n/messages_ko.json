@@ -1,5 +1,5 @@
 {
-  "select": "한_Select_____________빠",
-  "deselect": "한_Deselect_________________빠",
-  "loading": "한_Loading_______________빠"
+  "select": "선택",
+  "deselect": "선택 해제",
+  "loading": "불러오는 중"
 }

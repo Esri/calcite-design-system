@@ -1,5 +1,5 @@
 {
-  "select": "Å_Select_____________ö",
-  "deselect": "Å_Deselect_________________ö",
-  "loading": "Å_Loading_______________ö"
+  "select": "Välj",
+  "deselect": "Avmarkera",
+  "loading": "Läser in"
 }

@@ -27,6 +27,12 @@ import { CSS_UTILITY, TEXT as COMMON_TEXT } from "../../utils/resources";
 
 import { createObserver } from "../../utils/observers";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import {
+  setUpLoadableComponent,
+  setComponentLoaded,
+  LoadableComponent,
+  componentLoaded
+} from "../../utils/loadable";
 
 type SetValueOrigin = "initial" | "connected" | "user" | "reset" | "direct";
 
@@ -38,7 +44,9 @@ type SetValueOrigin = "initial" | "connected" | "user" | "reset" | "direct";
   styleUrl: "input-text.scss",
   shadow: true
 })
-export class InputText implements LabelableComponent, FormComponent, InteractiveComponent {
+export class InputText
+  implements LabelableComponent, FormComponent, InteractiveComponent, LoadableComponent
+{
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -253,7 +261,13 @@ export class InputText implements LabelableComponent, FormComponent, Interactive
   }
 
   componentWillLoad(): void {
+    setUpLoadableComponent(this);
+
     this.requestedIcon = setRequestedIcon({}, this.icon, "text");
+  }
+
+  componentDidLoad(): void {
+    setComponentLoaded(this);
   }
 
   componentDidRender(): void {
@@ -302,6 +316,8 @@ export class InputText implements LabelableComponent, FormComponent, Interactive
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
+    await componentLoaded(this);
+
     this.childEl?.focus();
   }
 

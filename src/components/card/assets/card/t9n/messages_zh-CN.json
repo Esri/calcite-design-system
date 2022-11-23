@@ -1,5 +1,5 @@
 {
-  "select": "试_Select_____________验",
-  "deselect": "试_Deselect_________________验",
-  "loading": "试_Loading_______________验"
+  "select": "选择",
+  "deselect": "取消选择",
+  "loading": "正在加载"
 }

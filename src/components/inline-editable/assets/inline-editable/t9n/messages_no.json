@@ -1,5 +1,5 @@
 {
-  "enableEditing": "å_Click to edit______________ø",
-  "cancelEditing": "å_Cancel_____________ø",
-  "confirmChanges": "å_Save_________ø"
+  "enableEditing": "Klikk for å redigere",
+  "cancelEditing": "Avbryt",
+  "confirmChanges": "Lagre"
 }

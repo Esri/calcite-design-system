@@ -8,6 +8,12 @@ import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from 
 import { createObserver } from "../../utils/observers";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { submitForm, resetForm, FormOwner } from "../../utils/form";
+import {
+  setUpLoadableComponent,
+  setComponentLoaded,
+  LoadableComponent,
+  componentLoaded
+} from "../../utils/loadable";
 
 /** Passing a 'href' will render an anchor link, instead of a button. Role will be set to link, or button, depending on this. */
 /** It is the consumers responsibility to add aria information, rel, target, for links, and any button attributes for form submission */
@@ -18,7 +24,9 @@ import { submitForm, resetForm, FormOwner } from "../../utils/form";
   styleUrl: "button.scss",
   shadow: true
 })
-export class Button implements LabelableComponent, InteractiveComponent, FormOwner {
+export class Button
+  implements LabelableComponent, InteractiveComponent, FormOwner, LoadableComponent
+{
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -152,9 +160,15 @@ export class Button implements LabelableComponent, InteractiveComponent, FormOwn
   }
 
   componentWillLoad(): void {
+    setUpLoadableComponent(this);
+
     if (Build.isBrowser) {
       this.updateHasContent();
     }
+  }
+
+  componentDidLoad(): void {
+    setComponentLoaded(this);
   }
 
   componentDidRender(): void {
@@ -167,7 +181,6 @@ export class Button implements LabelableComponent, InteractiveComponent, FormOwn
     const loaderNode = this.hasLoader ? (
       <div class={CSS.buttonLoader}>
         <calcite-loader
-          active
           class={this.loading ? CSS.loadingIn : CSS.loadingOut}
           inline
           label={this.intlLoading}
@@ -175,6 +188,7 @@ export class Button implements LabelableComponent, InteractiveComponent, FormOwn
         />
       </div>
     ) : null;
+    const noStartEndIcons = !this.iconStart && !this.iconEnd;
 
     const iconStartEl = (
       <calcite-icon
@@ -204,6 +218,8 @@ export class Button implements LabelableComponent, InteractiveComponent, FormOwn
       <Tag
         aria-label={getLabelText(this)}
         class={{
+          [CSS.buttonPadding]: noStartEndIcons,
+          [CSS.buttonPaddingShrunk]: !noStartEndIcons,
           [CSS.contentSlotted]: this.hasContent,
           [CSS.iconStartEmpty]: !this.iconStart,
           [CSS.iconEndEmpty]: !this.iconEnd
@@ -235,6 +251,8 @@ export class Button implements LabelableComponent, InteractiveComponent, FormOwn
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
+    await componentLoaded(this);
+
     this.childEl?.focus();
   }
 

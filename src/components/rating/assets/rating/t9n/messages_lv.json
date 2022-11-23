@@ -1,4 +1,4 @@
 {
-  "rating": "ķ_Rating_____________ū",
-  "stars": "ķ_Stars: ${num}______________ū"
+  "rating": "Novērtējums",
+  "stars": "Zvaigznes: ${num}"
 }

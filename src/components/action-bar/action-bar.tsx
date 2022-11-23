@@ -28,6 +28,12 @@ import {
   disconnectConditionalSlotComponent,
   ConditionalSlotComponent
 } from "../../utils/conditionalSlot";
+import {
+  setUpLoadableComponent,
+  setComponentLoaded,
+  LoadableComponent,
+  componentLoaded
+} from "../../utils/loadable";
 
 /**
  * @slot - A slot for adding `calcite-action`s that will appear at the top of the action bar.
@@ -39,7 +45,7 @@ import {
   styleUrl: "action-bar.scss",
   shadow: true
 })
-export class ActionBar implements ConditionalSlotComponent {
+export class ActionBar implements ConditionalSlotComponent, LoadableComponent {
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -139,7 +145,12 @@ export class ActionBar implements ConditionalSlotComponent {
   //
   // --------------------------------------------------------------------------
 
+  componentWillLoad(): void {
+    setUpLoadableComponent(this);
+  }
+
   componentDidLoad(): void {
+    setComponentLoaded(this);
     this.conditionallyOverflowActions();
   }
 
@@ -187,6 +198,8 @@ export class ActionBar implements ConditionalSlotComponent {
    */
   @Method()
   async setFocus(focusId?: "expand-toggle"): Promise<void> {
+    await componentLoaded(this);
+
     if (focusId === "expand-toggle") {
       await focusElement(this.expandToggleEl);
       return;

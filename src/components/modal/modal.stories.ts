@@ -37,7 +37,7 @@ export const simple = (): string => html`
   </calcite-modal>
 `;
 
-export const darkThemeRTLCustomSize_NoTest = (): string => html`
+export const darkThemeRTLCustomSize_TestOnly = (): string => html`
   <calcite-modal
     class="calcite-theme-dark"
     dir="rtl"
@@ -67,4 +67,4 @@ export const darkThemeRTLCustomSize_NoTest = (): string => html`
   </calcite-modal>
 `;
 
-darkThemeRTLCustomSize_NoTest.parameters = { themes: themesDarkDefault };
+darkThemeRTLCustomSize_TestOnly.parameters = { themes: themesDarkDefault };
