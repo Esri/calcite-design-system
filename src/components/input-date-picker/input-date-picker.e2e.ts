@@ -394,7 +394,34 @@ describe("calcite-input-date-picker", () => {
     });
   });
 
-  it("should update both input values when valueAsDate is set for range", async () => {
+  it("should update this.value and input value when valueAsDate is set", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html` <calcite-input-date-picker></calcite-input-date-picker>`);
+
+    const inputDatePickerEl = await page.find("calcite-input-date-picker");
+
+    await page.$eval("calcite-input-date-picker", (elm: any) => {
+      elm.valueAsDate = new Date("2022-10-1");
+    });
+
+    await page.waitForChanges();
+
+    const expectedValue = "2022-10-01";
+    const expectedInputValue = "10/1/2022";
+
+    expect(await inputDatePickerEl.getProperty("value")).toEqual(expectedValue);
+
+    const inputValue = await page.evaluate(() => {
+      const inputDatePicker = document.querySelector("calcite-input-date-picker");
+      const calciteInput = inputDatePicker.shadowRoot.querySelector("calcite-input");
+      const input = calciteInput.shadowRoot.querySelector("input");
+      return input.value;
+    });
+
+    expect(inputValue).toEqual(expectedInputValue);
+  });
+
+  it("should update this.value and both input values when valueAsDate is set for range", async () => {
     const page = await newE2EPage();
     await page.setContent(html` <calcite-input-date-picker range />`);
 
