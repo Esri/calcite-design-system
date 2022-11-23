@@ -1,6 +1,6 @@
 {
-  "dragHandleActive": "Š_Reordering ${itemLabel}, current position ${position} of ${total}__________________________________ä.",
-  "dragHandleChange": "Š_${itemLabel}, new position ${position} of ${total}. Press space to confirm_______________________________________ä.",
-  "dragHandleCommit": "Š_${itemLabel}, current position ${position} of ${total}_____________________________ä.",
-  "dragHandleIdle": "Š_${itemLabel}, press space and use arrow keys to reorder content. Current position ${position} of ${total}______________________________________________________ä."
+  "dragHandleActive": "Üksuse ${itemLabel} ümberjärjestamine, praegune asukoht ${position}/${total}.",
+  "dragHandleChange": "${itemLabel}, uus asukoht ${position}/${total}. Kinnitamiseks vajutage tühikuklahvi.",
+  "dragHandleCommit": "${itemLabel}, praegune asukoht ${position}/${total}.",
+  "dragHandleIdle": "${itemLabel}, sisu ümberjärjestamiseks vajutage tühikuklahvi ja kasutage nooleklahve. Praegune asukoht ${position}/${total}."
 }

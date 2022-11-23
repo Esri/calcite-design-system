@@ -16,6 +16,12 @@ import { Scale } from "../interfaces";
 import { CSS, ICONS, TEXT, SLOTS } from "./resources";
 import { SLOTS as PANEL_SLOTS } from "../panel/resources";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import {
+  setUpLoadableComponent,
+  setComponentLoaded,
+  LoadableComponent,
+  componentLoaded
+} from "../../utils/loadable";
 
 /**
  * @slot - A slot for adding custom content.
@@ -32,7 +38,7 @@ import { InteractiveComponent, updateHostInteraction } from "../../utils/interac
   styleUrl: "flow-item.scss",
   shadow: true
 })
-export class FlowItem implements InteractiveComponent {
+export class FlowItem implements InteractiveComponent, LoadableComponent {
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -114,8 +120,16 @@ export class FlowItem implements InteractiveComponent {
   //
   //--------------------------------------------------------------------------
 
+  componentWillLoad(): void {
+    setUpLoadableComponent(this);
+  }
+
   componentDidRender(): void {
     updateHostInteraction(this);
+  }
+
+  componentDidLoad(): void {
+    setComponentLoaded(this);
   }
 
   // --------------------------------------------------------------------------
@@ -170,6 +184,8 @@ export class FlowItem implements InteractiveComponent {
    */
   @Method()
   async setFocus(): Promise<void> {
+    await componentLoaded(this);
+
     const { backButtonEl, containerEl } = this;
 
     if (backButtonEl) {

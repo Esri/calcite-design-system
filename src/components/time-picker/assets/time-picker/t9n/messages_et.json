@@ -1,14 +1,14 @@
 {
-  "hour": "Š_Hour_________ä",
-  "hourDown": "Š_Decrease hour______________ä",
-  "hourUp": "Š_Increase hour______________ä",
-  "meridiem": "Š_AM/PM___________ä",
-  "meridiemDown": "Š_Decrease AM/PM_______________ä",
-  "meridiemUp": "Š_Increase AM/PM_______________ä",
-  "minute": "Š_Minute_____________ä",
-  "minuteDown": "Š_Decrease minute________________ä",
-  "minuteUp": "Š_Increase minute________________ä",
-  "second": "Š_Second_____________ä",
-  "secondDown": "Š_Decrease second________________ä",
-  "secondUp": "Š_Increase second________________ä"
+  "hour": "Tund",
+  "hourDown": "Vähenda tunde",
+  "hourUp": "Suurenda tunde",
+  "meridiem": "AM/PM",
+  "meridiemDown": "Vähenda AM/PM-i",
+  "meridiemUp": "Suurenda AM/PM-i",
+  "minute": "Minut",
+  "minuteDown": "Vähenda minuteid",
+  "minuteUp": "Suurenda minuteid",
+  "second": "Sekund",
+  "secondDown": "Vähenda sekundeid",
+  "secondUp": "Suurenda sekundeid"
 }

@@ -1,8 +1,12 @@
 export const CSS = {
   container: "container",
+  containerBorderSelected: "container--border-selected",
+  containerBorderUnselected: "container--border-unselected",
   contentContainer: "content-container",
+  contentContainerSelectable: "content-container--selectable",
+  contentContainerHasCenterContent: "content-container--has-center-content",
   nestedContainer: "nested-container",
-  contentContainerButton: "content-container--button",
+  nestedContainerHidden: "nested-container--hidden",
   content: "content",
   actionsStart: "actions-start",
   contentStart: "content-start",
@@ -10,7 +14,8 @@ export const CSS = {
   description: "description",
   contentEnd: "content-end",
   actionsEnd: "actions-end",
-  hasCenterContent: "has-center-content"
+  selectionContainer: "selection-container",
+  openContainer: "open-container"
 };
 
 export const SLOTS = {
@@ -18,4 +23,16 @@ export const SLOTS = {
   contentStart: "content-start",
   contentEnd: "content-end",
   actionsEnd: "actions-end"
+};
+
+export const MAX_COLUMNS = 5;
+
+export const ICONS = {
+  selectedMultiple: "check-circle-f",
+  selectedSingle: "circle-f",
+  unselected: "blank",
+  closedLTR: "caret-right",
+  closedRTL: "caret-left",
+  open: "caret-down",
+  blank: "blank"
 };

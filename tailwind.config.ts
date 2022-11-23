@@ -232,6 +232,9 @@ export default {
         ".focus-base": {
           "outline-color": "transparent"
         },
+        ".focus-normal": {
+          outline: "2px solid var(--calcite-ui-brand)"
+        },
         ".focus-outset": {
           outline: "2px solid var(--calcite-ui-brand)",
           "outline-offset": "2px"

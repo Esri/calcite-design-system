@@ -8,12 +8,22 @@ If you are looking for a list that handles more advanced usage like selection, s
 
 ## Properties
 
-| Property         | Attribute         | Description                                                                              | Type      | Default     |
-| ---------------- | ----------------- | ---------------------------------------------------------------------------------------- | --------- | ----------- |
-| `description`    | `description`     | A description for the component. Displays below the label text.                          | `string`  | `undefined` |
-| `disabled`       | `disabled`        | When `true`, interaction is prevented and the component is displayed with lower opacity. | `boolean` | `false`     |
-| `label`          | `label`           | The label text of the component. Displays above the description text.                    | `string`  | `undefined` |
-| `nonInteractive` | `non-interactive` | When `true`, prevents the content of the component from user interaction.                | `boolean` | `false`     |
+| Property         | Attribute         | Description                                                                                                                                             | Type                        | Default     |
+| ---------------- | ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------- | ----------- |
+| `description`    | `description`     | A description for the component. Displays below the label text.                                                                                         | `string`                    | `undefined` |
+| `disabled`       | `disabled`        | When `true`, interaction is prevented and the component is displayed with lower opacity.                                                                | `boolean`                   | `false`     |
+| `label`          | `label`           | The label text of the component. Displays above the description text.                                                                                   | `string`                    | `undefined` |
+| `metadata`       | --                | Provides additional metadata to the component. Primary use is for a filter on the parent list.                                                          | `{ [x: string]: unknown; }` | `undefined` |
+| `nonInteractive` | `non-interactive` | <span style="color:red">**[DEPRECATED]**</span> no longer necessary.<br/><br/>When `true`, prevents the content of the component from user interaction. | `boolean`                   | `false`     |
+| `open`           | `open`            | When true, item is open to show child components.                                                                                                       | `boolean`                   | `false`     |
+| `selected`       | `selected`        | When true, the component is selected.                                                                                                                   | `boolean`                   | `false`     |
+| `value`          | `value`           | The component's value.                                                                                                                                  | `any`                       | `undefined` |
+
+## Events
+
+| Event                   | Description                                         | Type                |
+| ----------------------- | --------------------------------------------------- | ------------------- |
+| `calciteListItemSelect` | Emitted whenever the list item content is selected. | `CustomEvent<void>` |
 
 ## Methods
 
@@ -34,6 +44,20 @@ Type: `Promise<void>`
 | `"actions-start"` | A slot for adding actionable `calcite-action` elements before the content of the component.  |
 | `"content-end"`   | A slot for adding non-actionable elements after the label and description of the component.  |
 | `"content-start"` | A slot for adding non-actionable elements before the label and description of the component. |
+
+## Dependencies
+
+### Depends on
+
+- [calcite-icon](../icon)
+
+### Graph
+
+```mermaid
+graph TD;
+  calcite-list-item --> calcite-icon
+  style calcite-list-item fill:#f9f,stroke:#333,stroke-width:4px
+```
 
 ---
 

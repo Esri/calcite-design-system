@@ -19,6 +19,12 @@ import {
   connectConditionalSlotComponent,
   disconnectConditionalSlotComponent
 } from "../../utils/conditionalSlot";
+import {
+  setUpLoadableComponent,
+  setComponentLoaded,
+  LoadableComponent,
+  componentLoaded
+} from "../../utils/loadable";
 
 /**
  * @slot - A slot for adding `calcite-action`s to the component.
@@ -29,7 +35,7 @@ import {
   styleUrl: "action-pad.scss",
   shadow: true
 })
-export class ActionPad implements ConditionalSlotComponent {
+export class ActionPad implements ConditionalSlotComponent, LoadableComponent {
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -112,9 +118,14 @@ export class ActionPad implements ConditionalSlotComponent {
   }
 
   componentWillLoad(): void {
+    setUpLoadableComponent(this);
     const { el, expanded } = this;
 
     toggleChildActionText({ parent: el, expanded });
+  }
+
+  componentDidLoad(): void {
+    setComponentLoaded(this);
   }
 
   // --------------------------------------------------------------------------
@@ -130,6 +141,8 @@ export class ActionPad implements ConditionalSlotComponent {
    */
   @Method()
   async setFocus(focusId?: "expand-toggle"): Promise<void> {
+    await componentLoaded(this);
+
     if (focusId === "expand-toggle") {
       await focusElement(this.expandToggleEl);
       return;

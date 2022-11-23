@@ -178,6 +178,8 @@ Commit messages for breaking changes should use both the header (`!`) and body (
 BREAKING CHANGE: <details about the change and migration options (this can span multiple lines)>
 ```
 
+When adding a `BREAKING CHANGE:` note to the summary block right before confirming a squash merge, remove all the info except the `BREAKING CHANGE:` note itself, or else everything ends up being added to the changelog.
+
 See the [conventional commits doc](https://www.conventionalcommits.org/en/v1.0.0/) for more helpful information.
 
 ## Pull requests

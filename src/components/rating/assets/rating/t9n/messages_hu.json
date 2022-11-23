@@ -1,4 +1,4 @@
 {
-  "rating": "í_Rating_____________ő",
-  "stars": "í_Stars: ${num}______________ő"
+  "rating": "Értékelés",
+  "stars": "Csillagok: ${num}"
 }

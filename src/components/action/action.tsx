@@ -1,15 +1,4 @@
-import {
-  Component,
-  Element,
-  Event,
-  EventEmitter,
-  Host,
-  Method,
-  Prop,
-  h,
-  forceUpdate,
-  VNode
-} from "@stencil/core";
+import { Component, Element, Host, Method, Prop, h, forceUpdate, VNode } from "@stencil/core";
 
 import { Alignment, Appearance, Scale } from "../interfaces";
 
@@ -18,6 +7,12 @@ import { CSS, TEXT, SLOTS } from "./resources";
 import { createObserver } from "../../utils/observers";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { toAriaBoolean } from "../../utils/dom";
+import {
+  setUpLoadableComponent,
+  setComponentLoaded,
+  LoadableComponent,
+  componentLoaded
+} from "../../utils/loadable";
 
 /**
  * @slot - A slot for adding a `calcite-icon`.
@@ -27,7 +22,7 @@ import { toAriaBoolean } from "../../utils/dom";
   styleUrl: "action.scss",
   shadow: true
 })
-export class Action implements InteractiveComponent {
+export class Action implements InteractiveComponent, LoadableComponent {
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -45,7 +40,7 @@ export class Action implements InteractiveComponent {
   @Prop({ reflect: true }) alignment?: Alignment;
 
   /** Specifies the appearance of the component. */
-  @Prop({ reflect: true }) appearance: Extract<"solid" | "clear", Appearance> = "solid";
+  @Prop({ reflect: true }) appearance: Extract<"solid" | "transparent", Appearance> = "solid";
 
   /**
    * When `true`, the side padding of the component is reduced. Compact mode is used internally by components, e.g. `calcite-block-section`.
@@ -99,19 +94,6 @@ export class Action implements InteractiveComponent {
 
   // --------------------------------------------------------------------------
   //
-  //  Events
-  //
-  // --------------------------------------------------------------------------
-
-  /**
-   * Emits when the component has been clicked.
-   *
-   * @deprecated use `onClick` instead.
-   */
-  @Event({ cancelable: false }) calciteActionClick: EventEmitter<void>;
-
-  // --------------------------------------------------------------------------
-  //
   //  Private Properties
   //
   // --------------------------------------------------------------------------
@@ -132,6 +114,14 @@ export class Action implements InteractiveComponent {
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
   }
 
+  componentWillLoad(): void {
+    setUpLoadableComponent(this);
+  }
+
+  componentDidLoad(): void {
+    setComponentLoaded(this);
+  }
+
   disconnectedCallback(): void {
     this.mutationObserver?.disconnect();
   }
@@ -149,6 +139,8 @@ export class Action implements InteractiveComponent {
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
+    await componentLoaded(this);
+
     this.buttonEl?.focus();
   }
 
@@ -178,7 +170,7 @@ export class Action implements InteractiveComponent {
     const iconScale = scale === "l" ? "m" : "s";
     const loaderScale = scale === "l" ? "l" : "m";
     const calciteLoaderNode = loading ? (
-      <calcite-loader active inline label={intlLoading} scale={loaderScale} />
+      <calcite-loader inline label={intlLoading} scale={loaderScale} />
     ) : null;
     const calciteIconNode = icon ? <calcite-icon icon={icon} scale={iconScale} /> : null;
     const iconNode = calciteLoaderNode || calciteIconNode;
@@ -215,7 +207,7 @@ export class Action implements InteractiveComponent {
     };
 
     return (
-      <Host onClick={this.calciteActionClickHandler}>
+      <Host>
         <button
           aria-busy={toAriaBoolean(loading)}
           aria-disabled={toAriaBoolean(disabled)}
@@ -249,12 +241,6 @@ export class Action implements InteractiveComponent {
 
     if (tooltip) {
       tooltip.referenceElement = this.buttonEl;
-    }
-  };
-
-  calciteActionClickHandler = (): void => {
-    if (!this.disabled) {
-      this.calciteActionClick.emit();
     }
   };
 }

@@ -1,14 +1,14 @@
 {
-  "hour": "å_Hour_________ø",
-  "hourDown": "å_Decrease hour______________ø",
-  "hourUp": "å_Increase hour______________ø",
-  "meridiem": "å_AM/PM___________ø",
-  "meridiemDown": "å_Decrease AM/PM_______________ø",
-  "meridiemUp": "å_Increase AM/PM_______________ø",
-  "minute": "å_Minute_____________ø",
-  "minuteDown": "å_Decrease minute________________ø",
-  "minuteUp": "å_Increase minute________________ø",
-  "second": "å_Second_____________ø",
-  "secondDown": "å_Decrease second________________ø",
-  "secondUp": "å_Increase second________________ø"
+  "hour": "Time",
+  "hourDown": "Reduser time",
+  "hourUp": "Øk time",
+  "meridiem": "AM/PM",
+  "meridiemDown": "Reduser AM/PM",
+  "meridiemUp": "Øk AM/PM",
+  "minute": "Minutt",
+  "minuteDown": "Reduser minutt",
+  "minuteUp": "Øk minutt",
+  "second": "Sekund",
+  "secondDown": "Reduser sekund",
+  "secondUp": "Øk sekund"
 }
