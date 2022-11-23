@@ -522,7 +522,7 @@ describe("calcite-input-number", () => {
       expect(await input.getProperty("value")).toBe(`${finalNudgedValue}`);
     });
 
-    it("when both 'ArrowUp' and 'ArrowDown' are pressed at the same time most recently pressed key takes over", async () => {
+    it.skip("when both 'ArrowUp' and 'ArrowDown' are pressed at the same time most recently pressed key takes over", async () => {
       await page.setContent(html`<calcite-input-number value="0"></calcite-input-number>`);
       const element = await page.find("calcite-input-number");
       await element.callMethod("setFocus");
