@@ -126,6 +126,10 @@
 
 @include calciteHydratedHidden();
 
+[hidden] {
+  @apply hidden;
+}
+
 .container {
   @apply flex
     w-full
@@ -273,6 +277,10 @@
     background-color: var(--calcite-alert-dismiss-progress-background);
     inset-inline-end: 0;
   }
+}
+
+.actions-end {
+  @apply flex self-stretch;
 }
 
 $alertColors: "blue" var(--calcite-ui-info), "red" var(--calcite-ui-danger), "yellow" var(--calcite-ui-warning),

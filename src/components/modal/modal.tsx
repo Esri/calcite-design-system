@@ -12,16 +12,7 @@ import {
   VNode,
   Watch
 } from "@stencil/core";
-import {
-  ensureId,
-  FocusableElement,
-  focusElement,
-  getSlotted,
-  isCalciteFocusable
-} from "../../utils/dom";
-
-import { queryShadowRoot } from "@a11y/focus-trap/shadow";
-import { isFocusable, isHidden } from "@a11y/focus-trap/focusable";
+import { ensureId, focusElement, getSlotted } from "../../utils/dom";
 import { Scale } from "../interfaces";
 import { ModalBackgroundColor } from "./interfaces";
 import { CSS, ICONS, SLOTS, TEXT } from "./resources";
@@ -36,14 +27,19 @@ import {
   connectOpenCloseComponent,
   disconnectOpenCloseComponent
 } from "../../utils/openCloseComponent";
-
-const isFocusableExtended = (el: FocusableElement): boolean => {
-  return isCalciteFocusable(el) || isFocusable(el);
-};
-
-const getFocusableElements = (el: HTMLElement | ShadowRoot): HTMLElement[] => {
-  return queryShadowRoot(el, isHidden, isFocusableExtended);
-};
+import {
+  FocusTrapComponent,
+  FocusTrap,
+  connectFocusTrap,
+  activateFocusTrap,
+  deactivateFocusTrap
+} from "../../utils/focusTrapComponent";
+import {
+  setUpLoadableComponent,
+  setComponentLoaded,
+  LoadableComponent,
+  componentLoaded
+} from "../../utils/loadable";
 
 /**
  * @slot header - A slot for adding header text.
@@ -58,7 +54,9 @@ const getFocusableElements = (el: HTMLElement | ShadowRoot): HTMLElement[] => {
   styleUrl: "modal.scss",
   shadow: true
 })
-export class Modal implements ConditionalSlotComponent, OpenCloseComponent {
+export class Modal
+  implements ConditionalSlotComponent, OpenCloseComponent, FocusTrapComponent, LoadableComponent
+{
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -131,11 +129,17 @@ export class Modal implements ConditionalSlotComponent, OpenCloseComponent {
   //  Lifecycle
   //
   //--------------------------------------------------------------------------
+
   componentWillLoad(): void {
+    setUpLoadableComponent(this);
     // when modal initially renders, if active was set we need to open as watcher doesn't fire
     if (this.open) {
       requestAnimationFrame(() => this.openModal());
     }
+  }
+
+  componentDidLoad(): void {
+    setComponentLoaded(this);
   }
 
   connectedCallback(): void {
@@ -156,6 +160,7 @@ export class Modal implements ConditionalSlotComponent, OpenCloseComponent {
     this.mutationObserver?.disconnect();
     disconnectConditionalSlotComponent(this);
     disconnectOpenCloseComponent(this);
+    deactivateFocusTrap(this);
   }
 
   render(): VNode {
@@ -175,7 +180,6 @@ export class Modal implements ConditionalSlotComponent, OpenCloseComponent {
           }}
           ref={this.setTransitionEl}
         >
-          <div data-focus-fence onFocus={this.focusLastElement} tabindex="0" />
           <div class={CSS.header}>
             {this.renderCloseButton()}
             <header class={CSS.title}>
@@ -193,7 +197,6 @@ export class Modal implements ConditionalSlotComponent, OpenCloseComponent {
             <slot name={SLOTS.content} />
           </div>
           {this.renderFooter()}
-          <div data-focus-fence onFocus={this.focusFirstElement} tabindex="0" />
         </div>
       </Host>
     );
@@ -286,13 +289,15 @@ export class Modal implements ConditionalSlotComponent, OpenCloseComponent {
     this.updateFooterVisibility()
   );
 
-  previousActiveElement: HTMLElement;
-
   titleId: string;
 
   openTransitionProp = "opacity";
 
   transitionEl: HTMLDivElement;
+
+  focusTrap: FocusTrap;
+
+  focusTrapEl: HTMLDivElement;
 
   //--------------------------------------------------------------------------
   //
@@ -355,11 +360,15 @@ export class Modal implements ConditionalSlotComponent, OpenCloseComponent {
    */
   @Method()
   async setFocus(focusId?: "close-button"): Promise<void> {
-    const closeButton = this.closeButtonEl;
+    await componentLoaded(this);
 
-    return focusElement(
-      focusId === "close-button" ? closeButton : getFocusableElements(this.el)[0] || closeButton
-    );
+    const { closeButtonEl } = this;
+
+    if (closeButtonEl && focusId === "close-button") {
+      return focusElement(closeButtonEl);
+    }
+
+    activateFocusTrap(this);
   }
 
   /**
@@ -386,9 +395,11 @@ export class Modal implements ConditionalSlotComponent, OpenCloseComponent {
   //
   //--------------------------------------------------------------------------
 
-  private setTransitionEl = (el): void => {
+  private setTransitionEl = (el: HTMLDivElement): void => {
     this.transitionEl = el;
     connectOpenCloseComponent(this);
+    this.focusTrapEl = el;
+    connectFocusTrap(this);
   };
 
   onBeforeOpen(): void {
@@ -409,6 +420,7 @@ export class Modal implements ConditionalSlotComponent, OpenCloseComponent {
   onClose(): void {
     this.transitionEl.classList.remove(CSS.closingIdle, CSS.closingActive);
     this.calciteModalClose.emit();
+    deactivateFocusTrap(this);
   }
 
   @Watch("active")
@@ -431,11 +443,11 @@ export class Modal implements ConditionalSlotComponent, OpenCloseComponent {
   private openEnd = (): void => {
     this.setFocus();
     this.el.removeEventListener("calciteModalOpen", this.openEnd);
+    activateFocusTrap(this);
   };
 
   /** Open the modal */
   private openModal() {
-    this.previousActiveElement = document.activeElement as HTMLElement;
     this.el.addEventListener("calciteModalOpen", this.openEnd);
     this.open = true;
     this.isOpen = true;
@@ -461,24 +473,8 @@ export class Modal implements ConditionalSlotComponent, OpenCloseComponent {
     return this.beforeClose(this.el).then(() => {
       this.open = false;
       this.isOpen = false;
-      focusElement(this.previousActiveElement);
       this.removeOverflowHiddenClass();
     });
-  };
-
-  focusFirstElement = (): void => {
-    focusElement(this.disableCloseButton ? getFocusableElements(this.el)[0] : this.closeButtonEl);
-  };
-
-  focusLastElement = (): void => {
-    const focusableElements = getFocusableElements(this.el).filter(
-      (el) => !el.getAttribute("data-focus-fence")
-    );
-    if (focusableElements.length > 0) {
-      focusElement(focusableElements[focusableElements.length - 1]);
-    } else {
-      focusElement(this.closeButtonEl);
-    }
   };
 
   private removeOverflowHiddenClass(): void {

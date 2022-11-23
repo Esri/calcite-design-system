@@ -1,5 +1,5 @@
 {
-  "enableEditing": "Å_Click to edit______________ö",
-  "cancelEditing": "Å_Cancel_____________ö",
-  "confirmChanges": "Å_Save_________ö"
+  "enableEditing": "Muokkaa napsauttamalla",
+  "cancelEditing": "Peruuta",
+  "confirmChanges": "Tallenna"
 }

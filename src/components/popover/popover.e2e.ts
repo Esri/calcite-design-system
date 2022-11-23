@@ -1,7 +1,7 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { html } from "../../../support/formatting";
 
-import { accessible, defaults, hidden, renders, floatingUIOwner } from "../../tests/commonTests";
+import { accessible, defaults, hidden, renders, floatingUIOwner, focusable } from "../../tests/commonTests";
 import { CSS } from "./resources";
 
 describe("calcite-popover", () => {
@@ -764,5 +764,26 @@ describe("calcite-popover", () => {
     await page.waitForChanges();
 
     expect(await popover.getProperty("open")).toBe(false);
+  });
+
+  describe("setFocus", () => {
+    const createPopoverHTML = (contentHTML?: string, attrs?: string) =>
+      `<calcite-popover open ${attrs} reference-element="ref">${contentHTML}</calcite-popover><button id="ref">Button</button>`;
+
+    const closeButtonFocusId = "close-button";
+
+    const contentButtonClass = "my-button";
+    const contentHTML = `<button class="${contentButtonClass}">My Button</button>`;
+
+    it("should focus content by default", async () =>
+      focusable(createPopoverHTML(contentHTML), {
+        focusTargetSelector: `.${contentButtonClass}`
+      }));
+
+    it("should focus close button", async () =>
+      focusable(createPopoverHTML(contentHTML, "closable"), {
+        focusId: closeButtonFocusId,
+        shadowFocusTargetSelector: `.${CSS.closeButton}`
+      }));
   });
 });

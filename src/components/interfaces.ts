@@ -1,5 +1,6 @@
 /* Note: using `.d.ts` file extension will exclude it from the output build */
 export type Alignment = "start" | "center" | "end";
+/* Note: "clear" has been deprecated and should be removed before 1.0 */
 export type Appearance = "solid" | "clear" | "outline" | "transparent" | "minimal";
 export type Columns = 1 | 2 | 3 | 4 | 5 | 6;
 export type FlipContext = "both" | "start" | "end";

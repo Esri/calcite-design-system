@@ -1,6 +1,6 @@
 {
-  "dragHandleActive": "й_Reordering ${itemLabel}, current position ${position} of ${total}__________________________________й.",
-  "dragHandleChange": "й_${itemLabel}, new position ${position} of ${total}. Press space to confirm_______________________________________й.",
-  "dragHandleCommit": "й_${itemLabel}, current position ${position} of ${total}_____________________________й.",
-  "dragHandleIdle": "й_${itemLabel}, press space and use arrow keys to reorder content. Current position ${position} of ${total}______________________________________________________й."
+  "dragHandleActive": "Пренареждане ${itemLabel}, текущата позиция е ${position} от ${total}.",
+  "dragHandleChange": "${itemLabel}, новата позиция е${position} от ${total}. Натиснете интервала за потвърждаване.",
+  "dragHandleCommit": "${itemLabel}, текущата позиция е ${position} от ${total}.",
+  "dragHandleIdle": "${itemLabel}, натиснете интервал и използвайте клавишите със стрелки, за да промените реда на съдържанието. Текущата позиция е ${position} от ${total}."
 }

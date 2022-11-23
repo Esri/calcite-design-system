@@ -257,6 +257,26 @@ describe("calcite-input-date-picker", () => {
     expect(await calendar.isVisible()).toBe(true);
   });
 
+  it("allows clicking a date in the calendar popup", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<calcite-input-date-picker value="2023-01-31"></calcite-input-date-picker>`);
+    const inputDatePicker = await page.find("calcite-input-date-picker");
+
+    await inputDatePicker.callMethod("setFocus");
+    await page.waitForChanges();
+
+    await page.evaluate(() => {
+      const inputDatePicker = document.querySelector("calcite-input-date-picker");
+      const datePicker = inputDatePicker.shadowRoot.querySelector("calcite-date-picker");
+      const datePickerMonth = datePicker.shadowRoot.querySelector("calcite-date-picker-month");
+      const datePickerDay = datePickerMonth.shadowRoot.querySelector("calcite-date-picker-day");
+
+      datePickerDay.click();
+    });
+
+    expect(await inputDatePicker.getProperty("value")).toBe("2023-01-01");
+  });
+
   describe("is form-associated", () => {
     it("supports single value", () =>
       formAssociated("calcite-input-date-picker", { testValue: "1985-03-23", submitsOnEnter: true }));

@@ -6,7 +6,8 @@ import { html } from "../../../support/formatting";
 export default {
   title: "Components/Loader",
   parameters: {
-    notes: readme
+    notes: readme,
+    chromatic: { disableSnapshot: true }
   },
   ...storyFilters()
 };

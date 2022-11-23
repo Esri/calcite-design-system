@@ -1,14 +1,14 @@
 {
-  "hour": "Č_Hour_________ž",
-  "hourDown": "Č_Decrease hour______________ž",
-  "hourUp": "Č_Increase hour______________ž",
-  "meridiem": "Č_AM/PM___________ž",
-  "meridiemDown": "Č_Decrease AM/PM_______________ž",
-  "meridiemUp": "Č_Increase AM/PM_______________ž",
-  "minute": "Č_Minute_____________ž",
-  "minuteDown": "Č_Decrease minute________________ž",
-  "minuteUp": "Č_Increase minute________________ž",
-  "second": "Č_Second_____________ž",
-  "secondDown": "Č_Decrease second________________ž",
-  "secondUp": "Č_Increase second________________ž"
+  "hour": "Sat",
+  "hourDown": "Smanji sat",
+  "hourUp": "Povećaj sat",
+  "meridiem": "AM/PM",
+  "meridiemDown": "Smanji AM/PM",
+  "meridiemUp": "Povećaj AM/PM",
+  "minute": "Minuta",
+  "minuteDown": "Smanji minutu",
+  "minuteUp": "Povećaj minutu",
+  "second": "Sekunda",
+  "secondDown": "Smanji sekundu",
+  "secondUp": "Povećaj sekundu"
 }
