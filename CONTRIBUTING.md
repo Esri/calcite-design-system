@@ -67,7 +67,7 @@ Milestones are used to manage sprints, which are two weeks long. Sprint mileston
 
 ### Estimates
 
-[ZenHub](https://www.zenhub.com/) estimates are used to determine how much work needs to go into an issue. The total estimate helps the product managers triage issues effectively so developers are not overwhelmed during sprints. If you are not on the team, please do not add estimates when creating cases. Here are some guidelines for the numbering system:
+Estimates are used to determine how much work needs to go into an issue. The total estimate helps the product managers triage issues effectively so developers are not overwhelmed during sprints. If you are not on the team, please do not add estimates when creating cases. You can add an estimate label to your ticket `estimate-` to track your estimate. Here are some guidelines for the numbering system:
 
 - **1:** Fixing a typo, small syntax issue, or tweaking a css property. Something that can be done in a couple minutes.
 - **5:** Fixing bugs or adding small features that don't require comprehensive planning.
