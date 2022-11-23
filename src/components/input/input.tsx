@@ -273,7 +273,7 @@ export class Input
    *
    * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete)
    */
-  @Prop({ reflect: true }) autocomplete?: "string";
+  @Prop() autocomplete: string;
 
   /**
    * Specifies a regex pattern the component's `value` must match for validation.
@@ -281,7 +281,7 @@ export class Input
    *
    * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/pattern)
    */
-  @Prop({ reflect: true }) pattern?: "string";
+  @Prop() pattern: string;
 
   /**
    * Specifies a comma separated list of unique file type specifiers for limiting accepted file types.
@@ -290,7 +290,7 @@ export class Input
    *
    * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/pattern)
    */
-  @Prop({ reflect: true }) accept?: "string";
+  @Prop() accept: string;
 
   /**
    * When `true`, the component can accept more than one value.
@@ -299,7 +299,7 @@ export class Input
    *
    * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/multiple)
    */
-  @Prop({ reflect: true }) multiple = false;
+  @Prop() multiple = false;
 
   /** Adds text to the end of the component. */
   @Prop() suffixText?: string;

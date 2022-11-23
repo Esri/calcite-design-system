@@ -174,7 +174,7 @@ export class InputText
    *
    * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete)
    */
-  @Prop({ reflect: true }) autocomplete?: "string";
+  @Prop() autocomplete: string;
 
   /**
    * Specifies a regex pattern the component's `value` must match for validation.
@@ -182,7 +182,7 @@ export class InputText
    *
    * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/pattern)
    */
-  @Prop({ reflect: true }) pattern?: "string";
+  @Prop() pattern: string;
 
   /** Adds text to the end of the component.  */
   @Prop() suffixText?: string;

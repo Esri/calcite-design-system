@@ -264,7 +264,7 @@ export class InputNumber
    *
    * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete)
    */
-  @Prop({ reflect: true }) autocomplete?: "string";
+  @Prop() autocomplete: string;
 
   /** Adds text to the end of the component.  */
   @Prop() suffixText?: string;
