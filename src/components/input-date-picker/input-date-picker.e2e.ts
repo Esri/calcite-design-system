@@ -400,11 +400,9 @@ describe("calcite-input-date-picker", () => {
 
     const inputDatePickerEl = await page.find("calcite-input-date-picker");
 
-    await page.$eval("calcite-input-date-picker", (elm: any) => {
-      elm.valueAsDate = new Date("2022-10-1");
+    await page.$eval("calcite-input-date-picker", (element: any) => {
+      element.valueAsDate = new Date("2022-10-1");
     });
-
-    await page.waitForChanges();
 
     const expectedValue = "2022-10-01";
     const expectedInputValue = "10/1/2022";
@@ -423,21 +421,22 @@ describe("calcite-input-date-picker", () => {
 
   it("should update this.value and both input values when valueAsDate is set for range", async () => {
     const page = await newE2EPage();
-    await page.setContent(html` <calcite-input-date-picker range />`);
-
-    const expectedStartDateValue = "2022-10-01";
-    const expectedEndDateValue = "2022-10-31";
-    const expectedValue = [expectedStartDateValue, expectedEndDateValue];
+    await page.setContent(html` <calcite-input-date-picker range></calcite-input-date-picker>`);
 
     const inputDatePickerEl = await page.find("calcite-input-date-picker");
 
-    inputDatePickerEl.setProperty("valueAsDate", expectedValue);
-    await page.waitForChanges();
+    await page.$eval("calcite-input-date-picker", (element: any) => {
+      element.valueAsDate = [new Date("2022-10-1"), new Date("2022-10-2")];
+    });
+
+    const expectedStartDateValue = "2022-10-01";
+    const expectedEndDateValue = "2022-10-02";
+    const expectedValue = [expectedStartDateValue, expectedEndDateValue];
 
     expect(await inputDatePickerEl.getProperty("value")).toEqual(expectedValue);
 
     const expectedStartDateInputValue = "10/1/2022";
-    const expectedEndDateInputValue = "10/31/2022";
+    const expectedEndDateInputValue = "10/2/2022";
 
     const startDateInputValue = await page.evaluate(() => {
       const inputDatePicker = document.querySelector("calcite-input-date-picker");
