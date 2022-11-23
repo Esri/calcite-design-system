@@ -3,7 +3,6 @@ import { accessible, defaults, hidden, renders } from "../../tests/commonTests";
 import { GlobalTestProps } from "../../tests/utils";
 import { html } from "../../../support/formatting";
 import { CSS } from "../tree-item/resources";
-import { TreeSelectionMode } from "./interfaces";
 import SpyInstance = jest.SpyInstance;
 
 describe("calcite-tree", () => {
@@ -25,7 +24,7 @@ describe("calcite-tree", () => {
       },
       {
         propertyName: "selectionMode",
-        defaultValue: TreeSelectionMode.Single
+        defaultValue: "single"
       }
     ]));
 
@@ -395,11 +394,11 @@ describe("calcite-tree", () => {
       expect(selectEventSpy).toHaveReceivedEventTimes(2);
     });
 
-    describe(`when tree-item selection-mode is ${TreeSelectionMode.Ancestors}`, () => {
+    describe(`when tree-item selection-mode is "ancestors"`, () => {
       it("should render checkbox inputs", async () => {
         const page = await newE2EPage({
           html: `
-          <calcite-tree selection-mode=${TreeSelectionMode.Ancestors}>
+          <calcite-tree selection-mode="ancestors">
             <calcite-tree-item>1</calcite-tree-item>
             <calcite-tree-item>2</calcite-tree-item>
           </calcite-tree>
@@ -412,11 +411,11 @@ describe("calcite-tree", () => {
       });
     });
 
-    describe(`when tree-item selection-mode is ${TreeSelectionMode.None}`, () => {
+    describe(`when tree-item selection-mode is "none"`, () => {
       it("allows selecting items without a selection", async () => {
         const page = await newE2EPage();
         await page.setContent(html`
-          <calcite-tree selection-mode=${TreeSelectionMode.None}>
+          <calcite-tree selection-mode="none">
             <calcite-tree-item id="1">1</calcite-tree-item>
             <calcite-tree-item id="2">2</calcite-tree-item>
           </calcite-tree>
