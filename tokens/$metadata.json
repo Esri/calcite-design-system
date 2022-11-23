@@ -1,0 +1,15 @@
+{
+  "tokenSetOrder": [
+    "core",
+    "semantic",
+    "comp/avatar",
+    "comp/checkbox",
+    "comp/chip",
+    "comp/radio",
+    "calcite/light",
+    "calcite/dark",
+    "brand/global",
+    "brand/light",
+    "brand/dark"
+  ]
+}
