@@ -39,9 +39,9 @@ const createBlockAttributes: (options?: { exceptions: string[] }) => Attributes 
       },
 
       {
-        name: "summary",
+        name: "description",
         commit(): Attribute {
-          this.value = text("summary", "summary", group);
+          this.value = text("description", "description", group);
           delete this.build;
           return this;
         }
@@ -164,7 +164,7 @@ export const withIconAndHeader = (): string =>
 
 export const disabled_TestOnly = (): string => html`<calcite-block
   heading="heading"
-  summary="summary"
+  description="description"
   open
   collapsible
   disabled
@@ -173,12 +173,6 @@ export const disabled_TestOnly = (): string => html`<calcite-block
     <img alt="demo" src="${placeholderImage({ width: 320, height: 240 })}" />
   </calcite-block-section>
 </calcite-block>`;
-
-export const paddingDisabled_TestOnly = (): string => html` <calcite-panel heading="Properties">
-  <calcite-block heading="Example block heading" summary="example summary heading" collapsible open disable-padding>
-    <div>calcite components ninja</div>
-  </calcite-block>
-</calcite-panel>`;
 
 export const darkThemeRTL_TestOnly = (): string =>
   create(
@@ -204,6 +198,6 @@ export const darkThemeRTL_TestOnly = (): string =>
   );
 
 export const contentCanTakeFullHeight_TestOnly = (): string =>
-  html`<calcite-block open heading="Heading" summary="summary" style="height: 250px">
+  html`<calcite-block open heading="Heading" description="description" style="height: 250px">
     <div style="background: red; height: 100%;">should take full width of the content area</div>
   </calcite-block>`;
