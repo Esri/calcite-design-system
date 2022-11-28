@@ -23,7 +23,7 @@ import {
 import { HeadingLevel } from "../functional/Heading";
 
 import { DateRangeChange } from "./interfaces";
-import { HEADING_LEVEL, TEXT } from "./resources";
+import { TEXT } from "./resources";
 import {
   connectLocalized,
   disconnectLocalized,
@@ -52,8 +52,20 @@ export class DatePicker implements LocalizedComponent {
   //
   //--------------------------------------------------------------------------
 
-  /** When `range` is true, specifies the active `range`. Where `"start"` specifies the starting range date and `"end"` the ending range date. */
-  @Prop({ reflect: true }) activeRange: "start" | "end";
+  /** Active date */
+  @Prop({ mutable: true }) activeDate: Date;
+
+  @Watch("activeDate")
+  activeDateWatcher(newActiveDate: Date): void {
+    if (this.activeRange === "end") {
+      this.activeEndDate = newActiveDate;
+    }
+  }
+
+  /**
+   * When `range` is true, specifies the active `range`. Where `"start"` specifies the starting range date and `"end"` the ending range date.
+   */
+  @Prop({ reflect: true }) activeRange?: "start" | "end";
 
   /**
    * Specifies the selected date as a string (`"yyyy-mm-dd"`), or an array of strings for `range` values (`["yyyy-mm-dd", "yyyy-mm-dd"]`).
@@ -200,11 +212,6 @@ export class DatePicker implements LocalizedComponent {
   @Event({ cancelable: false }) calciteDatePickerRangeChange: EventEmitter<DateRangeChange>;
 
   /**
-   * Active date.
-   */
-  @State() activeDate: Date;
-
-  /**
    * Active start date.
    */
   @State() activeStartDate: Date;
@@ -261,17 +268,15 @@ export class DatePicker implements LocalizedComponent {
 
   render(): VNode {
     const date = dateFromRange(
-      this.range ? this.startAsDate : this.valueAsDate,
+      this.range && Array.isArray(this.valueAsDate) ? this.valueAsDate[0] : this.valueAsDate,
       this.minAsDate,
       this.maxAsDate
     );
-    const activeStartDate = this.range
-      ? this.getActiveStartDate(date, this.minAsDate, this.maxAsDate)
-      : this.getActiveDate(date, this.minAsDate, this.maxAsDate);
-    let activeDate = activeStartDate;
-    const endDate = this.range
-      ? dateFromRange(this.endAsDate, this.minAsDate, this.maxAsDate)
-      : null;
+    let activeDate = this.getActiveDate(date, this.minAsDate, this.maxAsDate);
+    const endDate =
+      this.range && Array.isArray(this.valueAsDate)
+        ? dateFromRange(this.valueAsDate[1], this.minAsDate, this.maxAsDate)
+        : null;
     const activeEndDate = this.getActiveEndDate(endDate, this.minAsDate, this.maxAsDate);
     if (
       (this.activeRange === "end" ||
@@ -481,7 +486,7 @@ export class DatePicker implements LocalizedComponent {
       this.localeData && [
         <calcite-date-picker-month-header
           activeDate={activeDate}
-          headingLevel={this.headingLevel || HEADING_LEVEL}
+          headingLevel={this.headingLevel}
           intlNextMonth={this.intlNextMonth}
           intlPrevMonth={this.intlPrevMonth}
           intlYear={this.intlYear}
@@ -583,8 +588,14 @@ export class DatePicker implements LocalizedComponent {
    */
   private monthDateChange = (event: CustomEvent<Date>): void => {
     const date = new Date(event.detail);
+    const isoDate = dateToISO(date);
+
+    if (!this.range && isoDate === dateToISO(this.valueAsDate as Date)) {
+      return;
+    }
+
     if (!this.range) {
-      this.value = date ? dateToISO(date) : "";
+      this.value = isoDate || "";
       this.valueAsDate = date || null;
       this.activeDate = date || null;
       this.calciteDatePickerChange.emit(date);
@@ -640,12 +651,6 @@ export class DatePicker implements LocalizedComponent {
    */
   private getActiveDate(value: Date | null, min: Date | null, max: Date | null): Date {
     return dateFromRange(this.activeDate, min, max) || value || dateFromRange(new Date(), min, max);
-  }
-
-  private getActiveStartDate(value: Date | null, min: Date | null, max: Date | null): Date {
-    return (
-      dateFromRange(this.activeStartDate, min, max) || value || dateFromRange(new Date(), min, max)
-    );
   }
 
   private getActiveEndDate(value: Date | null, min: Date | null, max: Date | null): Date {

@@ -46,7 +46,7 @@ Renders a `calcite-action` that displays only an icon.
 | ------------------- | -------------- | --------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------ | -------------- |
 | `active`            | `active`       | When `true`, the component is highlighted.                                                                                              | `boolean`                      | `false`        |
 | `alignment`         | `alignment`    | Specifies the horizontal alignment of button elements with text content.                                                                | `"center" \| "end" \| "start"` | `undefined`    |
-| `appearance`        | `appearance`   | Specifies the appearance of the component.                                                                                              | `"clear" \| "solid"`           | `"solid"`      |
+| `appearance`        | `appearance`   | Specifies the appearance of the component.                                                                                              | `"solid" \| "transparent"`     | `"solid"`      |
 | `compact`           | `compact`      | When `true`, the side padding of the component is reduced. Compact mode is used internally by components, e.g. `calcite-block-section`. | `boolean`                      | `false`        |
 | `disabled`          | `disabled`     | When `true`, interaction is prevented and the component is displayed with lower opacity.                                                | `boolean`                      | `false`        |
 | `icon`              | `icon`         | Specifies an icon to display.                                                                                                           | `string`                       | `undefined`    |
@@ -57,12 +57,6 @@ Renders a `calcite-action` that displays only an icon.
 | `scale`             | `scale`        | Specifies the size of the component.                                                                                                    | `"l" \| "m" \| "s"`            | `"m"`          |
 | `text` _(required)_ | `text`         | Specifies text that accompanies the icon.                                                                                               | `string`                       | `undefined`    |
 | `textEnabled`       | `text-enabled` | Indicates whether the text is displayed.                                                                                                | `boolean`                      | `false`        |
-
-## Events
-
-| Event                | Description                                                                                                                | Type                |
-| -------------------- | -------------------------------------------------------------------------------------------------------------------------- | ------------------- |
-| `calciteActionClick` | <span style="color:red">**[DEPRECATED]**</span> use `onClick` instead.<br/><br/>Emits when the component has been clicked. | `CustomEvent<void>` |
 
 ## Methods
 

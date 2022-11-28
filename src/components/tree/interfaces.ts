@@ -2,11 +2,4 @@ export interface TreeSelectDetail {
   selected: HTMLCalciteTreeItemElement[];
 }
 
-export enum TreeSelectionMode {
-  Single = "single",
-  Multi = "multi",
-  None = "none",
-  Children = "children",
-  MultiChildren = "multi-children",
-  Ancestors = "ancestors"
-}
+export type TreeSelectionMode = "single" | "multi" | "none" | "children" | "multichildren" | "ancestors" | "multiple";

@@ -1,4 +1,4 @@
 {
-  "rating": "Š_Rating_____________č",
-  "stars": "Š_Stars: ${num}______________č"
+  "rating": "Ocena",
+  "stars": "Zvezde: ${num}"
 }

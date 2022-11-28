@@ -1,6 +1,6 @@
 {
-  "collapse": "试_Collapse_________________验",
-  "expand": "试_Expand_____________验",
-  "loading": "试_Loading_______________验",
-  "options": "试_Options_______________验"
+  "collapse": "折叠",
+  "expand": "展开",
+  "loading": "正在加载",
+  "options": "选项"
 }

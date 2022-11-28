@@ -56,38 +56,38 @@ Renders a header and icon with the icon.
 
 ## Properties
 
-| Property               | Attribute         | Description                                                                                                                                                     | Type                             | Default         |
-| ---------------------- | ----------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------- | --------------- |
-| `collapsible`          | `collapsible`     | When true, this block will be collapsible.                                                                                                                      | `boolean`                        | `false`         |
-| `description`          | `description`     | Block description                                                                                                                                               | `string`                         | `undefined`     |
-| `disablePadding`       | `disable-padding` | <span style="color:red">**[DEPRECATED]**</span> Use `--calcite-block-padding` CSS variable instead.<br/><br/>When true, removes padding for the slotted content | `boolean`                        | `false`         |
-| `disabled`             | `disabled`        | When true, disabled prevents interaction. This state shows items with lower opacity/grayed.                                                                     | `boolean`                        | `false`         |
-| `dragHandle`           | `drag-handle`     | When true, displays a drag handle in the header.                                                                                                                | `boolean`                        | `false`         |
-| `heading` _(required)_ | `heading`         | Block heading.                                                                                                                                                  | `string`                         | `undefined`     |
-| `headingLevel`         | `heading-level`   | Number at which section headings should start for this component.                                                                                               | `1 \| 2 \| 3 \| 4 \| 5 \| 6`     | `undefined`     |
-| `intlCollapse`         | `intl-collapse`   | Aria-label for collapsing the toggle and tooltip used for the toggle when expanded.                                                                             | `string`                         | `TEXT.collapse` |
-| `intlExpand`           | `intl-expand`     | Aria-label for expanding the toggle and tooltip used for the toggle when collapsed.                                                                             | `string`                         | `TEXT.expand`   |
-| `intlLoading`          | `intl-loading`    | string to override English loading text                                                                                                                         | `string`                         | `TEXT.loading`  |
-| `intlOptions`          | `intl-options`    | Text string used for the actions menu                                                                                                                           | `string`                         | `TEXT.options`  |
-| `loading`              | `loading`         | When true, content is waiting to be loaded. This state shows a busy indicator.                                                                                  | `boolean`                        | `false`         |
-| `open`                 | `open`            | When true, the block's content will be displayed.                                                                                                               | `boolean`                        | `false`         |
-| `status`               | `status`          | Block status. Updates or adds icon to show related icon and color.                                                                                              | `"idle" \| "invalid" \| "valid"` | `undefined`     |
-| `summary`              | `summary`         | <span style="color:red">**[DEPRECATED]**</span> use description instead<br/><br/>Block summary.                                                                 | `string`                         | `undefined`     |
+| Property               | Attribute         | Description                                                                                                                                                        | Type                             | Default         |
+| ---------------------- | ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------- | --------------- |
+| `collapsible`          | `collapsible`     | When `true`, the component is collapsible.                                                                                                                         | `boolean`                        | `false`         |
+| `description`          | `description`     | A description for the component, which displays below the heading.                                                                                                 | `string`                         | `undefined`     |
+| `disablePadding`       | `disable-padding` | <span style="color:red">**[DEPRECATED]**</span> Use `--calcite-block-padding` CSS variable instead.<br/><br/>When `true`, removes padding for the slotted content. | `boolean`                        | `false`         |
+| `disabled`             | `disabled`        | When `true`, interaction is prevented and the component is displayed with lower opacity.                                                                           | `boolean`                        | `false`         |
+| `dragHandle`           | `drag-handle`     | When `true`, displays a drag handle in the header.                                                                                                                 | `boolean`                        | `false`         |
+| `heading` _(required)_ | `heading`         | The component header text.                                                                                                                                         | `string`                         | `undefined`     |
+| `headingLevel`         | `heading-level`   | Specifies the number at which section headings should start.                                                                                                       | `1 \| 2 \| 3 \| 4 \| 5 \| 6`     | `undefined`     |
+| `intlCollapse`         | `intl-collapse`   | Accessible name for the component's collapse button.                                                                                                               | `string`                         | `TEXT.collapse` |
+| `intlExpand`           | `intl-expand`     | Accessible name for the component's expand button.                                                                                                                 | `string`                         | `TEXT.expand`   |
+| `intlLoading`          | `intl-loading`    | Accessible name when the component is loading.                                                                                                                     | `string`                         | `TEXT.loading`  |
+| `intlOptions`          | `intl-options`    | Accessible name for the component's options button.                                                                                                                | `string`                         | `TEXT.options`  |
+| `loading`              | `loading`         | When `true`, a busy indicator is displayed.                                                                                                                        | `boolean`                        | `false`         |
+| `open`                 | `open`            | When `true`, expands the component and its contents.                                                                                                               | `boolean`                        | `false`         |
+| `status`               | `status`          | Displays a status-related indicator icon.                                                                                                                          | `"idle" \| "invalid" \| "valid"` | `undefined`     |
+| `summary`              | `summary`         | <span style="color:red">**[DEPRECATED]**</span> use `description` instead<br/><br/>A description for the component, which displays below the heading.              | `string`                         | `undefined`     |
 
 ## Events
 
-| Event                | Description                               | Type                |
-| -------------------- | ----------------------------------------- | ------------------- |
-| `calciteBlockToggle` | Emitted when the header has been clicked. | `CustomEvent<void>` |
+| Event                | Description                                   | Type                |
+| -------------------- | --------------------------------------------- | ------------------- |
+| `calciteBlockToggle` | Emits when the component's header is clicked. | `CustomEvent<void>` |
 
 ## Slots
 
-| Slot                    | Description                                                        |
-| ----------------------- | ------------------------------------------------------------------ |
-|                         | A slot for adding content to the block.                            |
-| `"control"`             | A slot for adding a single HTML input element in a header.         |
-| `"header-menu-actions"` | a slot for adding an overflow menu with actions inside a dropdown. |
-| `"icon"`                | A slot for adding a leading header icon.                           |
+| Slot                    | Description                                                                  |
+| ----------------------- | ---------------------------------------------------------------------------- |
+|                         | A slot for adding content to the component.                                  |
+| `"control"`             | A slot for adding a single HTML input element in a header.                   |
+| `"header-menu-actions"` | A slot for adding an overflow menu with `calcite-action`s inside a dropdown. |
+| `"icon"`                | A slot for adding a leading header icon with `calcite-icon`.                 |
 
 ## Dependencies
 

@@ -1,7 +1,7 @@
 {
-  "defaultGroupTitle": "ä_Tips_________Ü",
-  "defaultPaginationLabel": "ä_Tip_______Ü",
-  "close": "ä_Close___________Ü",
-  "previous": "ä_Previous_________________Ü",
-  "next": "ä_Next_________Ü"
+  "defaultGroupTitle": "Tipps",
+  "defaultPaginationLabel": "Tipp",
+  "close": "Schließen",
+  "previous": "Zurück",
+  "next": "Weiter"
 }

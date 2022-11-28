@@ -1,4 +1,4 @@
 {
-  "rating": "試_Rating_____________驗",
-  "stars": "試_Stars: ${num}______________驗"
+  "rating": "評級次數",
+  "stars": "星星: ${num}"
 }

@@ -19,6 +19,12 @@ import {
   connectConditionalSlotComponent,
   disconnectConditionalSlotComponent
 } from "../../utils/conditionalSlot";
+import {
+  setUpLoadableComponent,
+  setComponentLoaded,
+  LoadableComponent,
+  componentLoaded
+} from "../../utils/loadable";
 
 /**
  * @slot - A slot for adding text.
@@ -29,7 +35,7 @@ import {
   styleUrl: "chip.scss",
   shadow: true
 })
-export class Chip implements ConditionalSlotComponent {
+export class Chip implements ConditionalSlotComponent, LoadableComponent {
   //--------------------------------------------------------------------------
   //
   //  Public Properties
@@ -108,6 +114,14 @@ export class Chip implements ConditionalSlotComponent {
     }
   }
 
+  componentWillLoad(): void {
+    setUpLoadableComponent(this);
+  }
+
+  componentDidLoad(): void {
+    setComponentLoaded(this);
+  }
+
   disconnectedCallback(): void {
     disconnectConditionalSlotComponent(this);
   }
@@ -121,6 +135,8 @@ export class Chip implements ConditionalSlotComponent {
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
+    await componentLoaded(this);
+
     this.closeButton?.focus();
   }
 

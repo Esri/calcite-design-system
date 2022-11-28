@@ -118,10 +118,26 @@
 
 ## Properties
 
-| Property       | Attribute       | Description                                                                              | Type                         | Default     |
-| -------------- | --------------- | ---------------------------------------------------------------------------------------- | ---------------------------- | ----------- |
-| `disabled`     | `disabled`      | When `true`, interaction is prevented and the component is displayed with lower opacity. | `boolean`                    | `false`     |
-| `headingLevel` | `heading-level` | Specifies the number at which section headings should start.                             | `1 \| 2 \| 3 \| 4 \| 5 \| 6` | `undefined` |
+| Property              | Attribute              | Description                                                                                                                                                                    | Type                                                                                          | Default     |
+| --------------------- | ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------- | ----------- |
+| `disabled`            | `disabled`             | When `true`, interaction is prevented and the component is displayed with lower opacity.                                                                                       | `boolean`                                                                                     | `false`     |
+| `filterEnabled`       | `filter-enabled`       | When true, an input appears at the top of the list that can be used by end users to filter items in the list.                                                                  | `boolean`                                                                                     | `false`     |
+| `filterPlaceholder`   | `filter-placeholder`   | Placeholder text for the filter input field.                                                                                                                                   | `string`                                                                                      | `undefined` |
+| `filterText`          | `filter-text`          | Text for the filter input field.                                                                                                                                               | `string`                                                                                      | `undefined` |
+| `filteredData`        | --                     | **read-only** The currently filtered items                                                                                                                                     | `{ label: string; description: string; metadata: Record<string, unknown>; value: string; }[]` | `[]`        |
+| `filteredItems`       | --                     | **read-only** The currently filtered items                                                                                                                                     | `HTMLCalciteListItemElement[]`                                                                | `[]`        |
+| `headingLevel`        | `heading-level`        | <span style="color:red">**[DEPRECATED]**</span> no longer necessary.<br/><br/>Specifies the number at which section headings should start.                                     | `1 \| 2 \| 3 \| 4 \| 5 \| 6`                                                                  | `undefined` |
+| `label`               | `label`                | Specifies an accessible name for the component.                                                                                                                                | `string`                                                                                      | `undefined` |
+| `loading`             | `loading`              | When true, content is waiting to be loaded. This state shows a busy indicator.                                                                                                 | `boolean`                                                                                     | `false`     |
+| `selectedItems`       | --                     | **read-only** The currently selected items                                                                                                                                     | `HTMLCalciteListItemElement[]`                                                                | `[]`        |
+| `selectionAppearance` | `selection-appearance` | specify the selection appearance - icon (displays a checkmark or dot), border (displays a border), defaults to icon                                                            | `"border" \| "icon"`                                                                          | `"icon"`    |
+| `selectionMode`       | `selection-mode`       | specify the selection mode - multiple (allow any number of (or no) selected items), single (allow and require one selected item), none (no selected items), defaults to single | `"multiple" \| "none" \| "single"`                                                            | `"none"`    |
+
+## Events
+
+| Event               | Description                      | Type                |
+| ------------------- | -------------------------------- | ------------------- |
+| `calciteListFilter` | Emits when a filter has changed. | `CustomEvent<void>` |
 
 ## Methods
 
@@ -138,6 +154,26 @@ Type: `Promise<void>`
 | Slot | Description                                     |
 | ---- | ----------------------------------------------- |
 |      | A slot for adding `calcite-list-item` elements. |
+
+## Dependencies
+
+### Depends on
+
+- [calcite-scrim](../scrim)
+- [calcite-filter](../filter)
+
+### Graph
+
+```mermaid
+graph TD;
+  calcite-list --> calcite-scrim
+  calcite-list --> calcite-filter
+  calcite-scrim --> calcite-loader
+  calcite-filter --> calcite-input
+  calcite-input --> calcite-progress
+  calcite-input --> calcite-icon
+  style calcite-list fill:#f9f,stroke:#333,stroke-width:4px
+```
 
 ---
 

@@ -54,10 +54,7 @@ export const withInputMessage = (): string => html`
       placeholder="${text("placeholder", "Placeholder text", "Input")}"
     >
     </calcite-input-number>
-    <calcite-input-message
-      ${boolean("active", true)}
-      ${boolean("icon", false)}
-      icon="${select("icon", iconNames, "", "Input Message")}"
+    <calcite-input-message ${boolean("icon", false)} icon="${select("icon", iconNames, "", "Input Message")}"
       >${text("input message text", "My great input message", "Input Message")}</calcite-input-message
     >
   </div>
@@ -83,11 +80,6 @@ export const withSlottedAction = (): string => html`
     >
       <calcite-button slot="action">${text("action button text", "Go")}</calcite-button>
     </calcite-input-number>
-    <calcite-input-message
-      ${boolean("input-message-active", false)}
-      status="${select("input message status", ["idle", "valid", "invalid"], "idle")}"
-      >${text("input message text", "My great input message")}</calcite-input-message
-    >
   </div>
 `;
 
@@ -116,9 +108,7 @@ export const darkThemeRTL_TestOnly = (): string => html`
         placeholder="${text("placeholder", "Placeholder text")}"
       >
       </calcite-input-number>
-      <calcite-input-message
-        ${boolean("calcite-input-message-active", true)}
-        status="${select("input message status", ["idle", "valid", "invalid"], "idle")}"
+      <calcite-input-message status="${select("input message status", ["idle", "valid", "invalid"], "idle")}"
         >${text("input message text", "My great input message")}</calcite-input-message
       >
     </calcite-label>

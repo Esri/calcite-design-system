@@ -50,6 +50,13 @@ import {
   connectOpenCloseComponent,
   disconnectOpenCloseComponent
 } from "../../utils/openCloseComponent";
+import {
+  setUpLoadableComponent,
+  setComponentLoaded,
+  LoadableComponent,
+  componentLoaded
+} from "../../utils/loadable";
+
 interface ItemData {
   label: string;
   value: string;
@@ -78,7 +85,8 @@ export class Combobox
     FormComponent,
     InteractiveComponent,
     OpenCloseComponent,
-    FloatingUIComponent
+    FloatingUIComponent,
+    LoadableComponent
 {
   //--------------------------------------------------------------------------
   //
@@ -186,10 +194,10 @@ export class Combobox
   @Prop({ reflect: true }) required = false;
 
   /**
-   * Specifies the selection mode -
-   * `"multi"` (allow any number of selected items),
-   * `"single"` (allow only one selection), or
-   * `"ancestors"` (like `"multi"`, but show ancestors of selected items as selected. Only the deepest children are shown in `calcite-chip`s).
+   * specify the selection mode
+   * - multiple: allow any number of selected items (default)
+   * - single: only one selection)
+   * - ancestors: like multiple, but show ancestors of selected items as selected, only deepest children shown in chips
    */
   @Prop({ reflect: true }) selectionMode: ComboboxSelectionMode = "multi";
 
@@ -291,6 +299,8 @@ export class Combobox
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
+    await componentLoaded(this);
+
     this.textInput?.focus();
     this.activeChipIndex = -1;
     this.activeItemIndex = -1;
@@ -366,12 +376,14 @@ export class Combobox
   }
 
   componentWillLoad(): void {
+    setUpLoadableComponent(this);
     this.updateItems();
   }
 
   componentDidLoad(): void {
     afterConnectDefaultValueSet(this, this.getValue());
     this.reposition(true);
+    setComponentLoaded(this);
   }
 
   componentDidRender(): void {
@@ -695,7 +707,6 @@ export class Combobox
   setContainerEl = (el: HTMLDivElement): void => {
     this.resizeObserver.observe(el);
     this.listContainerEl = el;
-
     this.transitionEl = el;
     connectOpenCloseComponent(this);
   };
@@ -1024,7 +1035,6 @@ export class Combobox
     this.activeDescendant = activeDescendant;
     if (this.activeItemIndex > -1) {
       this.activeChipIndex = -1;
-      this.textInput?.focus();
     }
   }
 
@@ -1201,7 +1211,7 @@ export class Combobox
     const single = this.selectionMode === "single";
 
     return (
-      <Host>
+      <Host onClick={this.comboboxFocusHandler}>
         <div
           aria-autocomplete="list"
           aria-controls={`${listboxUidPrefix}${guid}`}

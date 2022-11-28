@@ -45,6 +45,12 @@ import { CSS_UTILITY, TEXT as COMMON_TEXT } from "../../utils/resources";
 import { decimalPlaces } from "../../utils/math";
 import { createObserver } from "../../utils/observers";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import {
+  setUpLoadableComponent,
+  setComponentLoaded,
+  LoadableComponent,
+  componentLoaded
+} from "../../utils/loadable";
 
 type NumberNudgeDirection = "up" | "down";
 type setNumberValueOrigin = "initial" | "connected" | "user" | "reset" | "direct";
@@ -58,7 +64,12 @@ type setNumberValueOrigin = "initial" | "connected" | "user" | "reset" | "direct
   shadow: true
 })
 export class InputNumber
-  implements LabelableComponent, FormComponent, InteractiveComponent, LocalizedComponent
+  implements
+    LabelableComponent,
+    FormComponent,
+    InteractiveComponent,
+    LocalizedComponent,
+    LoadableComponent
 {
   //--------------------------------------------------------------------------
   //
@@ -247,6 +258,14 @@ export class InputNumber
    */
   @Prop({ reflect: true }) step?: number | "any";
 
+  /**
+   * Specifies the type of content to autocomplete, for use in forms.
+   * Read the native attribute's documentation on MDN for more info.
+   *
+   * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete)
+   */
+  @Prop() autocomplete: string;
+
   /** Adds text to the end of the component.  */
   @Prop() suffixText?: string;
 
@@ -362,6 +381,10 @@ export class InputNumber
     this.el.addEventListener("calciteInternalHiddenInputChange", this.hiddenInputChangeHandler);
   }
 
+  componentDidLoad(): void {
+    setComponentLoaded(this);
+  }
+
   disconnectedCallback(): void {
     disconnectLabel(this);
     disconnectForm(this);
@@ -372,6 +395,8 @@ export class InputNumber
   }
 
   componentWillLoad(): void {
+    setUpLoadableComponent(this);
+
     this.maxString = this.max?.toString();
     this.minString = this.min?.toString();
     this.requestedIcon = setRequestedIcon({}, this.icon, "number");
@@ -429,6 +454,8 @@ export class InputNumber
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
+    await componentLoaded(this);
+
     this.childNumberEl?.focus();
   }
 
@@ -884,6 +911,7 @@ export class InputNumber
     const childEl = (
       <input
         aria-label={getLabelText(this)}
+        autocomplete={this.autocomplete}
         autofocus={this.autofocus ? true : null}
         defaultValue={this.defaultValue}
         disabled={this.disabled ? true : null}

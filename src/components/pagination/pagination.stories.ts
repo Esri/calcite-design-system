@@ -24,7 +24,7 @@ export const simple = (): string => html`
   </calcite-pagination>
 `;
 
-export const darkThemeFrenchLocaleAndRTL_NoTest = (): string => html`
+export const darkThemeFrenchLocaleAndRTL_TestOnly = (): string => html`
   <calcite-pagination
     class="calcite-theme-dark"
     scale="${select("scale", ["s", "m", "l"], "m")}"
@@ -38,4 +38,4 @@ export const darkThemeFrenchLocaleAndRTL_NoTest = (): string => html`
   </calcite-pagination>
 `;
 
-darkThemeFrenchLocaleAndRTL_NoTest.parameters = { themes: themesDarkDefault };
+darkThemeFrenchLocaleAndRTL_TestOnly.parameters = { themes: themesDarkDefault };

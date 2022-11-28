@@ -54,6 +54,7 @@ ul:focus {
     no-underline
     duration-150
     ease-in-out;
+  @include word-break();
   padding-block: var(--calcite-combobox-item-spacing-unit-s);
   padding-inline: var(--calcite-combobox-item-spacing-unit-l);
 }

@@ -16,6 +16,12 @@ import { TEXT, CSS } from "./resources";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import { createObserver } from "../../utils/observers";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import {
+  setUpLoadableComponent,
+  setComponentLoaded,
+  LoadableComponent,
+  componentLoaded
+} from "../../utils/loadable";
 
 /**
  * @slot - A slot for adding a `calcite-input`.
@@ -25,7 +31,7 @@ import { InteractiveComponent, updateHostInteraction } from "../../utils/interac
   shadow: true,
   styleUrl: "inline-editable.scss"
 })
-export class InlineEditable implements InteractiveComponent, LabelableComponent {
+export class InlineEditable implements InteractiveComponent, LabelableComponent, LoadableComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -110,6 +116,14 @@ export class InlineEditable implements InteractiveComponent, LabelableComponent 
     connectLabel(this);
     this.mutationObserver?.observe(this.el, { childList: true });
     this.mutationObserverCallback();
+  }
+
+  componentWillLoad(): void {
+    setUpLoadableComponent(this);
+  }
+
+  componentDidLoad(): void {
+    setComponentLoaded(this);
   }
 
   disconnectedCallback() {
@@ -247,6 +261,8 @@ export class InlineEditable implements InteractiveComponent, LabelableComponent 
 
   @Method()
   async setFocus(): Promise<void> {
+    await componentLoaded(this);
+
     if (this.editingEnabled) {
       this.inputElement?.setFocus();
     } else {

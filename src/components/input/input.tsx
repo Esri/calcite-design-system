@@ -46,6 +46,12 @@ import { CSS_UTILITY, TEXT as COMMON_TEXT } from "../../utils/resources";
 import { decimalPlaces } from "../../utils/math";
 import { createObserver } from "../../utils/observers";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import {
+  setUpLoadableComponent,
+  setComponentLoaded,
+  LoadableComponent,
+  componentLoaded
+} from "../../utils/loadable";
 
 type NumberNudgeDirection = "up" | "down";
 type SetValueOrigin = "initial" | "connected" | "user" | "reset" | "direct";
@@ -59,7 +65,12 @@ type SetValueOrigin = "initial" | "connected" | "user" | "reset" | "direct";
   shadow: true
 })
 export class Input
-  implements LabelableComponent, FormComponent, InteractiveComponent, LocalizedComponent
+  implements
+    LabelableComponent,
+    FormComponent,
+    InteractiveComponent,
+    LocalizedComponent,
+    LoadableComponent
 {
   //--------------------------------------------------------------------------
   //
@@ -256,6 +267,40 @@ export class Input
    */
   @Prop({ reflect: true }) step?: number | "any";
 
+  /**
+   * Specifies the type of content to autocomplete, for use in forms.
+   * Read the native attribute's documentation on MDN for more info.
+   *
+   * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete)
+   */
+  @Prop() autocomplete: string;
+
+  /**
+   * Specifies a regex pattern the component's `value` must match for validation.
+   * Read the native attribute's documentation on MDN for more info.
+   *
+   * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/pattern)
+   */
+  @Prop() pattern: string;
+
+  /**
+   * Specifies a comma separated list of unique file type specifiers for limiting accepted file types.
+   * This property only has an effect when `type` is "file".
+   * Read the native attribute's documentation on MDN for more info.
+   *
+   * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/pattern)
+   */
+  @Prop() accept: string;
+
+  /**
+   * When `true`, the component can accept more than one value.
+   * This property only has an effect when `type` is "email" or "file".
+   * Read the native attribute's documentation on MDN for more info.
+   *
+   * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/multiple)
+   */
+  @Prop() multiple = false;
+
   /** Adds text to the end of the component. */
   @Prop() suffixText?: string;
 
@@ -419,10 +464,15 @@ export class Input
   }
 
   componentWillLoad(): void {
+    setUpLoadableComponent(this);
     this.childElType = this.type === "textarea" ? "textarea" : "input";
     this.maxString = this.max?.toString();
     this.minString = this.min?.toString();
     this.requestedIcon = setRequestedIcon(INPUT_TYPE_ICONS, this.icon, this.type);
+  }
+
+  componentDidLoad(): void {
+    setComponentLoaded(this);
   }
 
   componentShouldUpdate(newValue: string, oldValue: string, property: string): boolean {
@@ -477,6 +527,8 @@ export class Input
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
+    await componentLoaded(this);
+
     if (this.type === "number") {
       this.childNumberEl?.focus();
     } else {
@@ -998,7 +1050,9 @@ export class Input
     const localeNumberInput =
       this.type === "number" ? (
         <input
+          accept={this.accept}
           aria-label={getLabelText(this)}
+          autocomplete={this.autocomplete}
           autofocus={this.autofocus ? true : null}
           defaultValue={this.defaultValue}
           disabled={this.disabled ? true : null}
@@ -1007,12 +1061,14 @@ export class Input
           key="localized-input"
           maxLength={this.maxLength}
           minLength={this.minLength}
+          multiple={this.multiple}
           name={undefined}
           onBlur={this.inputBlurHandler}
           onFocus={this.inputFocusHandler}
           onInput={this.inputNumberInputHandler}
           onKeyDown={this.inputNumberKeyDownHandler}
           onKeyUp={this.inputKeyUpHandler}
+          pattern={this.pattern}
           placeholder={this.placeholder || ""}
           readOnly={this.readOnly}
           ref={this.setChildNumberElRef}
@@ -1025,7 +1081,9 @@ export class Input
       this.type !== "number"
         ? [
             <this.childElType
+              accept={this.accept}
               aria-label={getLabelText(this)}
+              autocomplete={this.autocomplete}
               autofocus={this.autofocus ? true : null}
               class={{
                 [CSS.editingEnabled]: this.editingEnabled,
@@ -1039,12 +1097,14 @@ export class Input
               maxLength={this.maxLength}
               min={this.minString}
               minLength={this.minLength}
+              multiple={this.multiple}
               name={this.name}
               onBlur={this.inputBlurHandler}
               onFocus={this.inputFocusHandler}
               onInput={this.inputInputHandler}
               onKeyDown={this.inputKeyDownHandler}
               onKeyUp={this.inputKeyUpHandler}
+              pattern={this.pattern}
               placeholder={this.placeholder || ""}
               readOnly={this.readOnly}
               ref={this.setChildElRef}

@@ -27,6 +27,12 @@ import { CSS_UTILITY, TEXT as COMMON_TEXT } from "../../utils/resources";
 
 import { createObserver } from "../../utils/observers";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import {
+  setUpLoadableComponent,
+  setComponentLoaded,
+  LoadableComponent,
+  componentLoaded
+} from "../../utils/loadable";
 
 type SetValueOrigin = "initial" | "connected" | "user" | "reset" | "direct";
 
@@ -38,7 +44,9 @@ type SetValueOrigin = "initial" | "connected" | "user" | "reset" | "direct";
   styleUrl: "input-text.scss",
   shadow: true
 })
-export class InputText implements LabelableComponent, FormComponent, InteractiveComponent {
+export class InputText
+  implements LabelableComponent, FormComponent, InteractiveComponent, LoadableComponent
+{
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -160,6 +168,22 @@ export class InputText implements LabelableComponent, FormComponent, Interactive
   /** Specifies the status of the input field, which determines message and icons. */
   @Prop({ mutable: true, reflect: true }) status: Status = "idle";
 
+  /**
+   * Specifies the type of content to autocomplete, for use in forms.
+   * Read the native attribute's documentation on MDN for more info.
+   *
+   * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete)
+   */
+  @Prop() autocomplete: string;
+
+  /**
+   * Specifies a regex pattern the component's `value` must match for validation.
+   * Read the native attribute's documentation on MDN for more info.
+   *
+   * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/pattern)
+   */
+  @Prop() pattern: string;
+
   /** Adds text to the end of the component.  */
   @Prop() suffixText?: string;
 
@@ -253,7 +277,13 @@ export class InputText implements LabelableComponent, FormComponent, Interactive
   }
 
   componentWillLoad(): void {
+    setUpLoadableComponent(this);
+
     this.requestedIcon = setRequestedIcon({}, this.icon, "text");
+  }
+
+  componentDidLoad(): void {
+    setComponentLoaded(this);
   }
 
   componentDidRender(): void {
@@ -302,6 +332,8 @@ export class InputText implements LabelableComponent, FormComponent, Interactive
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
+    await componentLoaded(this);
+
     this.childEl?.focus();
   }
 
@@ -527,6 +559,7 @@ export class InputText implements LabelableComponent, FormComponent, Interactive
     const childEl = (
       <input
         aria-label={getLabelText(this)}
+        autocomplete={this.autocomplete}
         autofocus={this.autofocus ? true : null}
         class={{
           [CSS.editingEnabled]: this.editingEnabled,
@@ -543,6 +576,7 @@ export class InputText implements LabelableComponent, FormComponent, Interactive
         onFocus={this.inputTextFocusHandler}
         onInput={this.inputTextInputHandler}
         onKeyDown={this.inputTextKeyDownHandler}
+        pattern={this.pattern}
         placeholder={this.placeholder || ""}
         readOnly={this.readOnly}
         ref={this.setChildElRef}

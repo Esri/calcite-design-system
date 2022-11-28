@@ -11,13 +11,19 @@ import {
   Fragment,
   State
 } from "@stencil/core";
-import { CSS, HEADING_LEVEL, ICONS, SLOTS, TEXT } from "./resources";
+import { CSS, ICONS, SLOTS, TEXT } from "./resources";
 import { getElementDir, toAriaBoolean } from "../../utils/dom";
 import { Scale } from "../interfaces";
 import { HeadingLevel, Heading } from "../functional/Heading";
 import { SLOTS as ACTION_MENU_SLOTS } from "../action-menu/resources";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { createObserver } from "../../utils/observers";
+import {
+  setUpLoadableComponent,
+  setComponentLoaded,
+  LoadableComponent,
+  componentLoaded
+} from "../../utils/loadable";
 
 /**
  * @slot - A slot for adding custom content.
@@ -34,7 +40,7 @@ import { createObserver } from "../../utils/observers";
   styleUrl: "panel.scss",
   shadow: true
 })
-export class Panel implements InteractiveComponent {
+export class Panel implements InteractiveComponent, LoadableComponent {
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -163,6 +169,14 @@ export class Panel implements InteractiveComponent {
   //  Lifecycle
   //
   //--------------------------------------------------------------------------
+
+  componentWillLoad(): void {
+    setUpLoadableComponent(this);
+  }
+
+  componentDidLoad(): void {
+    setComponentLoaded(this);
+  }
 
   componentDidRender(): void {
     updateHostInteraction(this);
@@ -384,6 +398,8 @@ export class Panel implements InteractiveComponent {
    */
   @Method()
   async setFocus(focusId?: "back-button" | "dismiss-button"): Promise<void> {
+    await componentLoaded(this);
+
     const { backButtonEl, closeButtonEl, containerEl } = this;
 
     if (focusId === "back-button") {
@@ -457,7 +473,7 @@ export class Panel implements InteractiveComponent {
   renderHeaderContent(): VNode {
     const { heading, headingLevel, summary, description, hasHeaderContent } = this;
     const headingNode = heading ? (
-      <Heading class={CSS.heading} level={headingLevel || HEADING_LEVEL}>
+      <Heading class={CSS.heading} level={headingLevel}>
         {heading}
       </Heading>
     ) : null;

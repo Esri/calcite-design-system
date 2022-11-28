@@ -509,7 +509,7 @@ describe("calcite-combobox", () => {
       expect(await item2.getProperty("selected")).toBe(true);
     });
 
-    it("should auto-select new custom values in multi selection mode", async () => {
+    it("should auto-select new custom values in multiple selection mode", async () => {
       const page = await newE2EPage();
       await page.setContent(
         html`
@@ -792,7 +792,7 @@ describe("calcite-combobox", () => {
       const page = await newE2EPage();
       await page.setContent(
         html`
-          <calcite-combobox selection-mode="multi">
+          <calcite-combobox selection-mode="multiple">
             <calcite-combobox-item id="one" value="one" text-label="one" selected></calcite-combobox-item>
             <calcite-combobox-item id="two" value="two" text-label="two"></calcite-combobox-item>
             <calcite-combobox-item id="three" value="three" text-label="three"></calcite-combobox-item>
@@ -1302,5 +1302,52 @@ describe("calcite-combobox", () => {
     await page.waitForChanges();
 
     expect(await inputEl.getProperty("value")).toBe("Blue");
+  });
+
+  it("should not focus on the combobox when items are programmatically selected", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html` <calcite-combobox id="demoId">
+      <calcite-combobox-item value="test-value" text-label="test"> </calcite-combobox-item>
+    </calcite-combobox>`);
+    const item = await page.find("calcite-combobox-item");
+
+    await item.callMethod("toggleSelected");
+    const focusedId = await page.evaluate(() => {
+      const el = document.activeElement;
+      return el.id;
+    });
+    await page.waitForChanges();
+
+    expect(focusedId).toBe("");
+  });
+
+  it("should gain focus when it's items are selected via click", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html` <calcite-combobox id="demoId">
+      <calcite-combobox-item value="test-value" text-label="test"> </calcite-combobox-item>
+    </calcite-combobox>`);
+    const item = await page.find("calcite-combobox-item");
+    await item.click();
+    await page.waitForChanges();
+    const focusedId = await page.evaluate(() => {
+      const el = document.activeElement;
+      return el.id;
+    });
+
+    expect(focusedId).toBe("demoId");
+  });
+
+  it("should gain focus when it's items are selected via keyboard interaction", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html` <calcite-combobox id="demoId">
+      <calcite-combobox-item value="test-value" text-label="test"> </calcite-combobox-item>
+    </calcite-combobox>`);
+    await page.keyboard.press("Tab");
+    await page.keyboard.press("ArrowDown");
+    await page.keyboard.press("Enter");
+    await page.keyboard.press("Escape");
+    await page.waitForChanges();
+    const focusedId = await page.evaluate(() => document.activeElement.id);
+    expect(focusedId).toBe("demoId");
   });
 });

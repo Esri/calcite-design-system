@@ -32,6 +32,12 @@ import { clamp } from "../../utils/math";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { isActivationKey } from "../../utils/key";
 import { NumberingSystem } from "../../utils/locale";
+import {
+  setUpLoadableComponent,
+  setComponentLoaded,
+  LoadableComponent,
+  componentLoaded
+} from "../../utils/loadable";
 
 const throttleFor60FpsInMs = 16;
 const defaultValue = normalizeHex(DEFAULT_COLOR.hex());
@@ -42,7 +48,7 @@ const defaultFormat = "auto";
   styleUrl: "color-picker.scss",
   shadow: true
 })
-export class ColorPicker implements InteractiveComponent {
+export class ColorPicker implements InteractiveComponent, LoadableComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -730,6 +736,8 @@ export class ColorPicker implements InteractiveComponent {
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
+    await componentLoaded(this);
+
     return focusElement(this.colorFieldScopeNode);
   }
 
@@ -740,6 +748,8 @@ export class ColorPicker implements InteractiveComponent {
   //--------------------------------------------------------------------------
 
   componentWillLoad(): void {
+    setUpLoadableComponent(this);
+
     const { allowEmpty, color, format, value } = this;
 
     const willSetNoColor = allowEmpty && !value;
@@ -762,6 +772,10 @@ export class ColorPicker implements InteractiveComponent {
     if (this.storageId && localStorage.getItem(storageKey)) {
       this.savedColors = JSON.parse(localStorage.getItem(storageKey));
     }
+  }
+
+  componentDidLoad(): void {
+    setComponentLoaded(this);
   }
 
   disconnectedCallback(): void {

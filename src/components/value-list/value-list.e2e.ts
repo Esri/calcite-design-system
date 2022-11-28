@@ -25,6 +25,25 @@ describe("calcite-value-list", () => {
       </calcite-value-list>
     `));
 
+  it("should not display screen reader only text when drag-enabled", async () => {
+    const page = await newE2EPage({});
+    await page.setContent(`<calcite-value-list drag-enabled>
+      <calcite-value-list-item label="Lakes" description="Summary lorem ipsum" value="lakes">
+      </calcite-value-list-item>
+    </calcite-value-list>`);
+
+    const srOnlyElement = await page.find("calcite-value-list >>> span");
+    await page.keyboard.press("Tab");
+    await page.waitForChanges();
+    await page.keyboard.press("Space");
+    await page.waitForChanges();
+    expect(srOnlyElement.getAttribute("aria-live")).toBe("assertive");
+
+    const srElementStyle = await srOnlyElement.getComputedStyle();
+    expect(srElementStyle.height).toBe("1px");
+    expect(srElementStyle.width).toBe("1px");
+  });
+
   describe("disabling", () => {
     disabling("value");
   });
@@ -227,7 +246,7 @@ describe("calcite-value-list", () => {
       expect(await ninth.getProperty("value")).toBe("f");
     });
 
-    it("is drag and drop list accessible", async () => {
+    it.skip("is drag and drop list accessible", async () => {
       const page = await createSimpleValueList();
       let startIndex = 0;
 

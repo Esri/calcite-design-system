@@ -98,7 +98,7 @@ calcite-handle {
 }
 
 .status-icon.loading {
-  animation: spin var(--calcite-internal-animation-timing-medium) linear infinite;
+  animation: spin calc(var(--calcite-internal-animation-timing-slow) * 2) linear infinite;
 }
 
 @keyframes spin {
@@ -130,7 +130,7 @@ calcite-handle {
 }
 
 .container {
-  @apply flex flex-col h-full;
+  @apply flex flex-col h-full relative;
 }
 
 .content {
