@@ -52,7 +52,7 @@ export class DatePicker implements LocalizedComponent {
   //
   //--------------------------------------------------------------------------
 
-  /** Active date */
+  /** Specifies the component's active date. */
   @Prop({ mutable: true }) activeDate: Date;
 
   @Watch("activeDate")
@@ -65,7 +65,7 @@ export class DatePicker implements LocalizedComponent {
   /**
    * When `range` is true, specifies the active `range`. Where `"start"` specifies the starting range date and `"end"` the ending range date.
    */
-  @Prop({ reflect: true }) activeRange?: "start" | "end";
+  @Prop({ reflect: true }) activeRange: "start" | "end";
 
   /**
    * Specifies the selected date as a string (`"yyyy-mm-dd"`), or an array of strings for `range` values (`["yyyy-mm-dd", "yyyy-mm-dd"]`).
