@@ -47,26 +47,26 @@ export class DatePickerMonthHeader {
   @Prop() activeDate: Date;
 
   /**
-   * Number at which section headings should start for this component.
+   * Specifies the number at which section headings should start.
    */
   @Prop() headingLevel: HeadingLevel;
 
-  /** Minimum date of the calendar below which is disabled. */
+  /** Specifies the earliest allowed date (`"yyyy-mm-dd"`). */
   @Prop() min: Date;
 
-  /** Maximum date of the calendar above which is disabled. */
+  /** Specifies the latest allowed date (`"yyyy-mm-dd"`). */
   @Prop() max: Date;
 
-  /** Localized string for previous month. */
+  /** Accessible name for the component's previous month button. */
   @Prop() intlPrevMonth: string;
 
-  /** Localized string for next month. */
+  /** Accessible name for the component's next month button. */
   @Prop() intlNextMonth: string;
 
-  /** Localized string for year. */
+  /** Accessible name for the component's year input. */
   @Prop() intlYear: string;
 
-  /** specify the scale of the date picker */
+  /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale;
 
   /** CLDR locale data for translated calendar info */
