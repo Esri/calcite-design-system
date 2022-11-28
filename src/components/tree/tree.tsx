@@ -62,8 +62,7 @@ export class Tree {
    * @default "single"
    * @see [TreeSelectionMode](https://github.com/Esri/calcite-components/blob/master/src/components/tree/interfaces.ts#L5)
    */
-  @Prop({ mutable: true, reflect: true }) selectionMode: TreeSelectionMode =
-    TreeSelectionMode.Single;
+  @Prop({ mutable: true, reflect: true }) selectionMode: TreeSelectionMode = "single";
 
   //--------------------------------------------------------------------------
   //
@@ -86,9 +85,9 @@ export class Tree {
           this.child
             ? undefined
             : (
-                this.selectionMode === TreeSelectionMode.Multi ||
-                this.selectionMode === TreeSelectionMode.Multiple ||
-                this.selectionMode === TreeSelectionMode.MultiChildren
+                this.selectionMode === "multi" ||
+                this.selectionMode === "multiple" ||
+                this.selectionMode === "multichildren"
               ).toString()
         }
         role={!this.child ? "tree" : undefined}
@@ -150,43 +149,40 @@ export class Tree {
       event.stopPropagation();
     }
 
-    if (this.selectionMode === TreeSelectionMode.Ancestors && !this.child) {
+    if (this.selectionMode === "ancestors" && !this.child) {
       this.updateAncestorTree(event);
       return;
     }
 
-    const isNoneSelectionMode = this.selectionMode === TreeSelectionMode.None;
+    const isNoneSelectionMode = this.selectionMode === "none";
 
     const shouldSelect =
       this.selectionMode !== null &&
       (!target.hasChildren ||
         (target.hasChildren &&
-          (this.selectionMode === TreeSelectionMode.Children ||
-            this.selectionMode === TreeSelectionMode.MultiChildren)));
+          (this.selectionMode === "children" || this.selectionMode === "multichildren")));
 
     const shouldModifyToCurrentSelection =
       !isNoneSelectionMode &&
       event.detail.modifyCurrentSelection &&
-      (this.selectionMode === TreeSelectionMode.Multi ||
-        this.selectionMode === TreeSelectionMode.Multiple ||
-        this.selectionMode === TreeSelectionMode.MultiChildren);
+      (this.selectionMode === "multi" ||
+        this.selectionMode === "multiple" ||
+        this.selectionMode === "multichildren");
 
     const shouldSelectChildren =
-      this.selectionMode === TreeSelectionMode.MultiChildren ||
-      this.selectionMode === TreeSelectionMode.Children;
+      this.selectionMode === "multichildren" || this.selectionMode === "children";
 
     const shouldClearCurrentSelection =
       !shouldModifyToCurrentSelection &&
-      (((this.selectionMode === TreeSelectionMode.Single ||
-        this.selectionMode === TreeSelectionMode.Multi ||
-        this.selectionMode === TreeSelectionMode.Multiple) &&
+      (((this.selectionMode === "single" ||
+        this.selectionMode === "multi" ||
+        this.selectionMode === "multiple") &&
         childItems.length <= 0) ||
-        this.selectionMode === TreeSelectionMode.Children ||
-        this.selectionMode === TreeSelectionMode.MultiChildren);
+        this.selectionMode === "children" ||
+        this.selectionMode === "multichildren");
 
     const shouldExpandTarget =
-      this.selectionMode === TreeSelectionMode.Children ||
-      this.selectionMode === TreeSelectionMode.MultiChildren;
+      this.selectionMode === "children" || this.selectionMode === "multichildren";
 
     if (!this.child) {
       const targetItems: HTMLCalciteTreeItemElement[] = [];

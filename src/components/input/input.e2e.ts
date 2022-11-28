@@ -312,7 +312,7 @@ describe("calcite-input", () => {
       expect(await element.getProperty("value")).toBe("25");
     });
 
-    it("correctly increments and decrements on long hold on mousedown and step is set to a decimal", async () => {
+    it.skip("correctly increments and decrements on long hold on mousedown and step is set to a decimal", async () => {
       await page.setContent(html`<calcite-input type="number" value="0" step="0.01"></calcite-input>`);
       const input = await page.find("calcite-input");
       const [buttonUpLocationX, buttonUpLocationY] = await getElementXY(
@@ -519,7 +519,7 @@ describe("calcite-input", () => {
       expect(await input.getProperty("value")).toBe(`${finalNudgedValue}`);
     });
 
-    it("on input type number, when both 'ArrowUp' and 'ArrowDown' are pressed at the same time most recently pressed key takes over", async () => {
+    it.skip("on input type number, when both 'ArrowUp' and 'ArrowDown' are pressed at the same time most recently pressed key takes over", async () => {
       await page.setContent(html`<calcite-input type="number" value="0"></calcite-input>`);
       const element = await page.find("calcite-input");
       await element.callMethod("setFocus");
