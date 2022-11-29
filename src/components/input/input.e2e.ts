@@ -1433,6 +1433,13 @@ describe("calcite-input", () => {
     }
   });
 
+  it("sets internals to multiple when the attribute is used", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html`<calcite-input type="file" multiple></calcite-input>`);
+    const input = await page.find("calcite-input >>> input");
+    expect(await input.getProperty("multiple")).toBe(true);
+  });
+
   it("input event fires when number ends with a decimal", async () => {
     const page = await newE2EPage();
     await page.setContent(`
