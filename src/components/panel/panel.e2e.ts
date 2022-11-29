@@ -49,6 +49,8 @@ describe("calcite-panel", () => {
 
     await page.waitForChanges();
 
+    expect(await element.getProperty("closed")).toBe(true);
+
     expect(await container.isVisible()).toBe(false);
   });
 
