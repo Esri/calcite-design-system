@@ -258,6 +258,14 @@ export class InputNumber
    */
   @Prop({ reflect: true }) step?: number | "any";
 
+  /**
+   * Specifies the type of content to autocomplete, for use in forms.
+   * Read the native attribute's documentation on MDN for more info.
+   *
+   * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete)
+   */
+  @Prop() autocomplete: string;
+
   /** Adds text to the end of the component.  */
   @Prop() suffixText?: string;
 
@@ -903,6 +911,7 @@ export class InputNumber
     const childEl = (
       <input
         aria-label={getLabelText(this)}
+        autocomplete={this.autocomplete}
         autofocus={this.autofocus ? true : null}
         defaultValue={this.defaultValue}
         disabled={this.disabled ? true : null}
