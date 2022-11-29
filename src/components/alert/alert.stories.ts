@@ -83,7 +83,7 @@ export const message = (): string => html`
       ["bottom-start", "bottom", "bottom-end", "top-start", "top", "top-end"],
       "bottom"
     )}"
-    ${boolean("active", true)}
+    ${boolean("open", true)}
     scale="${select("scale", ["s", "m", "l"], "m")}"
     color="${select("color", ["green", "red", "yellow", "blue"], "yellow")}"
   >
@@ -101,7 +101,7 @@ export const customIcon = (): string => html`
       ["bottom-start", "bottom", "bottom-end", "top-start", "top", "top-end"],
       "bottom"
     )}"
-    ${boolean("active", true)}
+    ${boolean("open", true)}
     scale="${select("scale", ["s", "m", "l"], "m")}"
     color="${select("color", ["green", "red", "yellow", "blue"], "green")}"
   >
