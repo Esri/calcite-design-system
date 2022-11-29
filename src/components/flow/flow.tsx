@@ -98,11 +98,10 @@ export class Flow {
   updateFlowProps = (): void => {
     const { el, items } = this;
 
-    const newItems: (HTMLCalciteFlowItemElement | HTMLCalcitePanelElement)[] = Array.from(
+    const newItems: HTMLCalciteFlowItemElement[] = Array.from(
       el.querySelectorAll("calcite-flow-item, calcite-panel")
     ).filter(
-      (flowItem) =>
-        !flowItem.matches("calcite-flow-item calcite-flow-item, calcite-panel calcite-panel")
+      (flowItem) => !flowItem.matches("calcite-flow-item calcite-flow-item")
     ) as HTMLCalciteFlowItemElement[];
 
     const oldItemCount = items.length;

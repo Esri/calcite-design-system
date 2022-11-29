@@ -283,7 +283,6 @@ export class FlowItem implements InteractiveComponent, LoadableComponent {
       heading,
       headingLevel,
       heightScale,
-      intlBack,
       intlClose,
       intlOptions,
       loading,
@@ -302,7 +301,6 @@ export class FlowItem implements InteractiveComponent, LoadableComponent {
           heading={heading}
           headingLevel={headingLevel}
           heightScale={heightScale}
-          intlBack={intlBack}
           intlClose={intlClose}
           intlOptions={intlOptions}
           loading={loading}
