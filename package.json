@@ -109,7 +109,7 @@
     "@types/yargs": "17.0.13",
     "@typescript-eslint/eslint-plugin": "5.40.1",
     "@typescript-eslint/parser": "5.42.1",
-    "@whitespace/storybook-addon-html": "5.0.0",
+    "@whitespace/storybook-addon-html": "5.0.3",
     "autoprefixer": "10.4.13",
     "axe-core": "4.4.3",
     "babel-loader": "8.2.5",
