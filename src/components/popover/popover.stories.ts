@@ -29,7 +29,7 @@ export const simple = (): string => html`
   <div style="width: 400px;">
     ${referenceElementHTML}
     <calcite-popover
-      ${boolean("dismissible", false)}
+      ${boolean("closable", false)}
       ${boolean("disable-flip", false)}
       ${boolean("disable-pointer", false)}
       reference-element="reference-element"
@@ -47,7 +47,7 @@ export const simple = (): string => html`
 export const darkThemeRTL_TestOnly = (): string => html` <div style="width: 400px;">
   ${referenceElementHTML}
   <calcite-popover
-    ${boolean("dismissible", false)}
+    ${boolean("closable", false)}
     ${boolean("disable-flip", false)}
     ${boolean("disable-pointer", false)}
     reference-element="reference-element"
@@ -69,7 +69,7 @@ export const nested = (): string => html`
   <div style="width: 400px;">
     ${referenceElementHTML}
     <calcite-popover
-      ${boolean("dismissible", true)}
+      ${boolean("closable", true)}
       reference-element="reference-element"
       placement="${select("placement", placements, defaultPopoverPlacement)}"
       ${boolean("open", true)}
@@ -77,7 +77,7 @@ export const nested = (): string => html`
       <div style="width: 300px; padding:12px 16px;">${nestedReferenceElementHTML}</div>
       <calcite-popover
         heading="${text("heading", "Heading")}"
-        ${boolean("dismissible", true)}
+        ${boolean("closable", true)}
         reference-element="reference-element-nested"
         placement="${select("placement", placements, defaultPopoverPlacement)}"
         ${boolean("open", true)}
@@ -110,7 +110,7 @@ export const scaleConsistencyPopoverHeadingActionSlottedIcon_TestOnly = (): stri
       reference-element="reference-element"
       placement="auto"
       open
-      dismissible
+      closable
       scale="m"
     >
       ${contentHTML}
