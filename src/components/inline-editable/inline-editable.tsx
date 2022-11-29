@@ -203,12 +203,12 @@ export class InlineEditable implements InteractiveComponent, LabelableComponent,
   //--------------------------------------------------------------------------
 
   /**
-   * Emits when the cancel editing button is pressed.
+   * Emits when the component's cancel editing button is pressed.
    */
   @Event({ cancelable: false }) calciteInlineEditableEditCancel: EventEmitter<void>;
 
   /**
-   * Emits when the confirm edits button is pressed.
+   * Emits when the component's confirm edits button is pressed.
    */
   @Event({ cancelable: false }) calciteInlineEditableEditConfirm: EventEmitter<void>;
 
