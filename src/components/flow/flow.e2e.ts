@@ -71,7 +71,7 @@ describe("calcite-flow", () => {
 
         await page.$eval(
           itemTag,
-          (elm: HTMLCalcitePanelElement) =>
+          (elm: HTMLCalciteFlowItemElement) =>
             (elm.beforeBack = (window as typeof window & Pick<typeof elm, "beforeBack">).beforeBack)
         );
 
@@ -193,7 +193,7 @@ describe("calcite-flow", () => {
         expect(frame).not.toHaveClass(CSS.frameAdvancing);
       });
 
-      it("panel properties should be set", async () => {
+      it("item properties should be set", async () => {
         const page = await newE2EPage();
 
         await page.setContent("<calcite-flow></calcite-flow>");
@@ -240,10 +240,10 @@ describe("calcite-flow", () => {
         const page = await newE2EPage();
 
         await page.setContent(html`<calcite-flow>
-      <${itemTag}>Valid panel</${itemTag}>
-      <${itemTag}>Valid panel</${itemTag}>
+      <${itemTag}>Valid item</${itemTag}>
+      <${itemTag}>Valid item</${itemTag}>
       <div>
-        <${itemTag}>Allowed panel <${itemTag}>Disallowed panel</${itemTag}></${itemTag}>
+        <${itemTag}>Allowed item <${itemTag}>Disallowed item</${itemTag}></${itemTag}>
       </div>
     </calcite-flow>`);
 

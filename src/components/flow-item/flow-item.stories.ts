@@ -27,9 +27,9 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
   return filterComponentAttributes(
     [
       {
-        name: "dismissed",
+        name: "closed",
         commit(): Attribute {
-          this.value = boolean("dismissed", false);
+          this.value = boolean("closed", false);
           delete this.build;
           return this;
         }
@@ -43,9 +43,9 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
         }
       },
       {
-        name: "dismissible",
+        name: "closable",
         commit(): Attribute {
-          this.value = boolean("dismissible", false);
+          this.value = boolean("closable", false);
           delete this.build;
           return this;
         }
@@ -140,8 +140,8 @@ export const onlyProps = (): string => html`
     <calcite-flow-item
       height-scale="s"
       heading-level="${text("heading-level", "2")}"
-      summary="${text(
-        "summary",
+      description="${text(
+        "description",
         "Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
       )}"
       heading="${text(
