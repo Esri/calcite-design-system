@@ -48,25 +48,8 @@ export class Chip implements ConditionalSlotComponent, LoadableComponent {
   /** Specifies the color for the component. */
   @Prop({ reflect: true }) color: ChipColor = "grey";
 
-  /**
-   * When `true`, a close button is added to the component.
-   *
-   * @deprecated use `closable` instead.
-   */
-  @Prop({ reflect: true, mutable: true }) dismissible = false;
-
-  @Watch("dismissible")
-  handleDismissible(value: boolean): void {
-    this.closable = value;
-  }
-
   /** When `true`, a close button is added to the component. */
   @Prop({ reflect: true, mutable: true }) closable = false;
-
-  @Watch("closable")
-  handleClosable(value: boolean): void {
-    this.dismissible = value;
-  }
 
   /**
    * Accessible name for the component's close button.
@@ -106,12 +89,6 @@ export class Chip implements ConditionalSlotComponent, LoadableComponent {
 
   connectedCallback(): void {
     connectConditionalSlotComponent(this);
-    if (this.dismissible) {
-      this.handleDismissible(this.dismissible);
-    }
-    if (this.closable) {
-      this.handleClosable(this.closable);
-    }
   }
 
   componentWillLoad(): void {
