@@ -76,7 +76,6 @@ describe("calcite-tip-manager", () => {
       isVisible = await container.isVisible();
       expect(isVisible).toBe(false);
 
-      expect(toggleEventSpy).toHaveReceivedEvent();
       expect(closeEventSpy).toHaveReceivedEvent();
 
       const isClosed = await tipManager.getProperty("closed");
