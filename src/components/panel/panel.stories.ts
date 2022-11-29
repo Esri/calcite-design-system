@@ -135,8 +135,8 @@ export const onlyProps = (): string => html`
     <calcite-panel
       height-scale="s"
       heading-level="${text("heading-level", "2")}"
-      summary="${text(
-        "summary",
+      description="${text(
+        "description",
         "Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
       )}"
       heading="${text(
