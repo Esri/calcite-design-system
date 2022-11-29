@@ -43,44 +43,6 @@ describe("calcite-shell", () => {
     </calcite-shell>
     `));
 
-  it("flex row should not be reversed", async () => {
-    const page = await newE2EPage();
-
-    await page.setContent(`<calcite-shell>
-    <calcite-shell-panel slot="${SLOTS.primaryPanel}" position="start">
-      <p>Primary Content</p>
-    </calcite-shell-panel>
-    <calcite-shell-panel slot="${SLOTS.contextualPanel}" position="end">
-      <p>Primary Content</p>
-    </calcite-shell-panel>
-  </calcite-shell>`);
-
-    await page.waitForChanges();
-
-    const mainReversed = await page.find(`calcite-shell >>> .${CSS.mainReversed}`);
-
-    expect(mainReversed).toBeNull();
-  });
-
-  it("flex row should be reversed", async () => {
-    const page = await newE2EPage();
-
-    await page.setContent(`<calcite-shell>
-    <calcite-shell-panel slot="${SLOTS.primaryPanel}" position="end">
-      <p>Primary Content</p>
-    </calcite-shell-panel>
-    <calcite-shell-panel slot="${SLOTS.contextualPanel}" position="start">
-      <p>Primary Content</p>
-    </calcite-shell-panel>
-  </calcite-shell>`);
-
-    await page.waitForChanges();
-
-    const mainReversed = await page.find(`calcite-shell >>> .${CSS.mainReversed}`);
-
-    expect(mainReversed).not.toBeNull();
-  });
-
   it("should place content behind", async () => {
     const page = await newE2EPage();
 
@@ -98,25 +60,6 @@ describe("calcite-shell", () => {
     const mainReversed = await page.find(`calcite-shell >>> .${CSS.contentBehind}`);
 
     expect(mainReversed).not.toBeNull();
-  });
-
-  it("flex row should not be reversed with start/end panels", async () => {
-    const page = await newE2EPage();
-
-    await page.setContent(`<calcite-shell>
-    <calcite-shell-panel slot="${SLOTS.panelStart}" position="end">
-      <p>Primary Content</p>
-    </calcite-shell-panel>
-    <calcite-shell-panel slot="${SLOTS.panelEnd}" position="start">
-      <p>Primary Content</p>
-    </calcite-shell-panel>
-  </calcite-shell>`);
-
-    await page.waitForChanges();
-
-    const mainReversed = await page.find(`calcite-shell >>> .${CSS.mainReversed}`);
-
-    expect(mainReversed).toBeNull();
   });
 
   it("should place the center-row inside the content node when content-behind is false", async () => {

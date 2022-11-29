@@ -13,8 +13,6 @@ import {
  * @slot footer - A slot for adding footer content. This content will be positioned at the bottom of the component.
  * @slot panel-start - A slot for adding the starting `calcite-shell-panel`.
  * @slot panel-end - A slot for adding the ending `calcite-shell-panel`.
- * @slot primary-panel - [DEPRECATED] A slot for adding the leading `calcite-shell-panel`.
- * @slot contextual-panel - [DEPRECATED] A slot for adding the trailing `calcite-shell-panel`.
  * @slot center-row - A slot for adding content to the center row.
  */
 @Component({
@@ -107,20 +105,11 @@ export class Shell implements ConditionalSlotComponent {
   }
 
   renderMain(): VNode {
-    const primaryPanel = getSlotted<HTMLCalciteShellPanelElement>(this.el, SLOTS.primaryPanel);
-
-    const mainClasses = {
-      [CSS.main]: true,
-      [CSS.mainReversed]: primaryPanel?.position === "end"
-    };
-
     return (
-      <div class={mainClasses}>
-        <slot name={SLOTS.primaryPanel} />
+      <div class={CSS.main}>
         <slot name={SLOTS.panelStart} />
         {this.renderContent()}
         <slot name={SLOTS.panelEnd} />
-        <slot name={SLOTS.contextualPanel} />
       </div>
     );
   }
