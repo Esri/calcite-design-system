@@ -9,14 +9,17 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### ⚠ BREAKING CHANGES
 
-- **action:** Removed the `calciteActionClick` event and the `clear`
+- **tip-manager:** Removed the `calciteTipManagerToggle` event, use
+  `calciteTipManagerClose` instead.
+
+* **action:** Removed the `calciteActionClick` event and the `clear`
   value for the `appearance` property.
 
-* Listen to the `click` event instead of `calciteActionClick.
-* Use the value `transparent` instead of `clear` for the property
+- Listen to the `click` event instead of `calciteActionClick.
+- Use the value `transparent` instead of `clear` for the property
   `appearance`.
 
-* **list, list-item, list-item-group:** To know when `calcite-list-item` content is selected, listen to the event `calciteListItemSelect` instead of `click`.
+- **list, list-item, list-item-group:** To know when `calcite-list-item` content is selected, listen to the event `calciteListItemSelect` instead of `click`.
 
   - `List`
     - Adds `label` property to specify an accessible name for the component.
@@ -34,8 +37,8 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
     - Adds `open` property to show child components.
     - Deprecates `nonInteractive` property.
 
-* **calcite-loader, calcite-input-message:** use hidden native global attribute to toggle visibility on the components instead of the deprecated active prop.
-* **block, date-picker, list-item-group, panel, pick-list-group, popover, tip, tip-manager:** Sets internal heading HTML element to be a div by default. If users would like to retain an internal H1-H6 HTML element, they will need to set the headingLevel property on the component. Users already setting the headingLevel property are not affected. ([#5728](https://github.com/Esri/calcite-components/pull/5728)) ([38ca639](https://github.com/Esri/calcite-components/commit/38ca639010b8bd1d1fe32c9cf9b54dfc38cf9877)), closes [5099](https://github.com/Esri/calcite-components/issues/5099)
+- **calcite-loader, calcite-input-message:** use hidden native global attribute to toggle visibility on the components instead of the deprecated active prop.
+- **block, date-picker, list-item-group, panel, pick-list-group, popover, tip, tip-manager:** Sets internal heading HTML element to be a div by default. If users would like to retain an internal H1-H6 HTML element, they will need to set the headingLevel property on the component. Users already setting the headingLevel property are not affected. ([#5728](https://github.com/Esri/calcite-components/pull/5728)) ([38ca639](https://github.com/Esri/calcite-components/commit/38ca639010b8bd1d1fe32c9cf9b54dfc38cf9877)), closes [5099](https://github.com/Esri/calcite-components/issues/5099)
 
 ### Features
 
