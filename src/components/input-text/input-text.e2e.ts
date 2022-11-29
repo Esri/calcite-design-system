@@ -335,6 +335,13 @@ describe("calcite-input-text", () => {
     }
   });
 
+  it("sets internals to pattern when the attribute is used", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html`<calcite-input-text type="file" pattern="[a-z]{4,8}"></calcite-input-text>`);
+    const input = await page.find("calcite-input-text >>> input");
+    expect(await input.getProperty("pattern")).toBe("[a-z]{4,8}");
+  });
+
   it("ArrowUp/ArrowDown function of moving caret to the beginning/end of text", async () => {
     const determineCaretIndex = (position?: number): Promise<boolean> => {
       return page.evaluate((position) => {
