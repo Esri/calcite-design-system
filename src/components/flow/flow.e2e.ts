@@ -22,12 +22,10 @@ describe("calcite-flow", () => {
     expect(element).not.toHaveClass(CSS.frameRetreating);
   });
 
-  describe("works with flow-items and panels (deprecated)", () => {
+  describe("works with flow-items", () => {
     testItemBehavior("flow-item");
 
-    testItemBehavior("panel");
-
-    function testItemBehavior(itemType: "flow-item" | "panel"): void {
+    function testItemBehavior(itemType: "flow-item"): void {
       const itemTag = `calcite-${itemType}`;
 
       it("back() method should remove item", async () => {
