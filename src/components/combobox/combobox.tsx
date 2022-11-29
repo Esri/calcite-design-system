@@ -1069,8 +1069,8 @@ export class Combobox
       return (
         <calcite-chip
           class={chipClasses}
+          closable
           dismissLabel={intlRemoveTag}
-          dismissible
           icon={item.icon}
           id={item.guid ? `${chipUidPrefix}${item.guid}` : null}
           key={item.textLabel}
