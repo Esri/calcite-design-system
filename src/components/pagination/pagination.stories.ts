@@ -28,9 +28,9 @@ export const darkThemeFrenchLocale_TestOnly = (): string => html`<calcite-pagina
   class="calcite-theme-dark"
   start="1"
   lang="fr"
+  group-separator
   total="123456789"
   num="10"
-  }
 >
 </calcite-pagination>`;
 
@@ -43,6 +43,5 @@ export const arabicNumberingSystemAndRTL_TestOnly = (): string => html`<calcite-
   lang="fr"
   total="123456789"
   num="10"
-  }
 >
 </calcite-pagination>`;
