@@ -83,13 +83,6 @@ export class ListItem implements InteractiveComponent, LoadableComponent {
   @Prop() metadata?: Record<string, unknown>;
 
   /**
-   * When `true`, prevents the content of the component from user interaction.
-   *
-   * @deprecated no longer necessary.
-   */
-  @Prop({ reflect: true }) nonInteractive = false;
-
-  /**
    * When true, item is open to show child components.
    */
   @Prop({ mutable: true, reflect: true }) open = false;
