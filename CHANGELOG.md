@@ -9,6 +9,52 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### ⚠ BREAKING CHANGES
 
+- **popover:** Removed the `closeButton` and `dismissible` properties.
+
+* Removed the property `closeButton`, use `closable` instead.
+* Removed the property `dismissible`, use `closable` instead.
+
+- **tooltip-manager:** Removed the `calcite-tooltip-manager` component. This
+  component is no longer necessary for `calcite-tooltip`s.
+- **alert:** Removed the deprecated `active` property.
+
+* Removed the property `active`, use `open` instead.
+
+- Removed the `*-leading` and `*-trailing` values for
+  component `placement` properties.
+
+* There is no need for "_-leading" and "_-trailing" values anymore since
+  `*-start` and `*-end` are already flipped in right-to-left direction.
+
+- **list, list-item, list-item-group:** Removed the `headingLevel` and `nonInteractive`
+  properties.
+
+* `headingLevel ` property on the `list` and `list-item-group` is no
+  longer necessary.
+* `nonInteractive` property on the `list-item` is no longer necessary.
+
+- **shell:** Removed the `primary-panel` and `contextual-panel`
+  slots.
+
+* Removed the slot `primary-panel`, use `panel-start` instead.
+* Removed the slot `contextual-panel`, use `panel-end` instead.
+
+- **shell-panel:** Removed the `calciteShellPanelToggle` event.
+
+* Use a `ResizeObserver` on the component to listen for changes to its
+  size. (https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver)
+
+- **flow, flow-item:** Removed the `calciteFlowItemBackClick` event and
+  support for slotting `calcite-panel`s.
+
+* Removed support for slotting `calcite-panel` components, use the
+  `calcite-flow-item` component instead.
+* Removed the event `calciteFlowItemBackClick`, use
+  `calciteFlowItemBack` instead.
+
+* **tip-manager:** Removed the `calciteTipManagerToggle` event, use
+  `calciteTipManagerClose` instead.
+
 - **action:** Removed the `calciteActionClick` event and the `clear`
   value for the `appearance` property.
 
