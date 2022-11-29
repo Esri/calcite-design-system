@@ -4,7 +4,7 @@ import { FlowDirection } from "./interfaces";
 import { createObserver } from "../../utils/observers";
 
 /**
- * @slot - A slot for adding `calcite-flow-item` or `calcite-panel`s (deprecated) to the flow.
+ * @slot - A slot for adding `calcite-flow-item` to the component.
  */
 @Component({
   tag: "calcite-flow",
@@ -19,7 +19,7 @@ export class Flow {
   // --------------------------------------------------------------------------
 
   /**
-   * Removes the currently active `calcite-flow-item` or `calcite-panel`.
+   * Removes the currently active `calcite-flow-item`.
    */
   @Method()
   async back(): Promise<HTMLCalciteFlowItemElement> {
@@ -79,8 +79,7 @@ export class Flow {
   //
   // --------------------------------------------------------------------------
 
-  @Listen("calciteFlowItemBackClick")
-  @Listen("calcitePanelBackClick")
+  @Listen("calciteFlowItemBack")
   handleItemBackClick(): void {
     this.back();
   }
@@ -99,11 +98,10 @@ export class Flow {
   updateFlowProps = (): void => {
     const { el, items } = this;
 
-    const newItems: (HTMLCalciteFlowItemElement | HTMLCalcitePanelElement)[] = Array.from(
-      el.querySelectorAll("calcite-flow-item, calcite-panel")
+    const newItems: HTMLCalciteFlowItemElement[] = Array.from(
+      el.querySelectorAll("calcite-flow-item")
     ).filter(
-      (flowItem) =>
-        !flowItem.matches("calcite-flow-item calcite-flow-item, calcite-panel calcite-panel")
+      (flowItem) => !flowItem.matches("calcite-flow-item calcite-flow-item")
     ) as HTMLCalciteFlowItemElement[];
 
     const oldItemCount = items.length;

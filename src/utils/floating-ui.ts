@@ -81,28 +81,7 @@ type VariationPlacement = "leading-start" | "leading" | "leading-end" | "trailin
 
 type AutoPlacement = "auto" | "auto-start" | "auto-end";
 
-/**
- * Use "*-start" and "*-end" instead.
- *
- * There is no need for our "*-leading" and "*-trailing" values anymore since "*-start" and "*-end" are already flipped in RTL.
- *
- * @deprecated
- */
-type DeprecatedPlacement =
-  | "leading-leading"
-  | "leading-trailing"
-  | "trailing-leading"
-  | "trailing-trailing"
-  | "top-leading"
-  | "top-trailing"
-  | "bottom-leading"
-  | "bottom-trailing"
-  | "right-leading"
-  | "right-trailing"
-  | "left-leading"
-  | "left-trailing";
-
-export type LogicalPlacement = AutoPlacement | Placement | VariationPlacement | DeprecatedPlacement;
+export type LogicalPlacement = AutoPlacement | Placement | VariationPlacement;
 export type EffectivePlacement = Placement;
 
 export const placements: LogicalPlacement[] = [
@@ -170,21 +149,10 @@ export const flipPlacements: EffectivePlacement[] = [
   "left-end"
 ];
 
-/**
- * Use "*-start" and "*-end" instead.
- *
- * There is no need for our "*-leading" and "*-trailing" values anymore since "*-start" and "*-end" are already flipped in RTL.
- *
- * @deprecated
- */
-type DeprecatedMenuPlacement = Extract<
-  DeprecatedPlacement,
-  "top-leading" | "top-trailing" | "bottom-leading" | "bottom-trailing"
+export type MenuPlacement = Extract<
+  LogicalPlacement,
+  "top-start" | "top" | "top-end" | "bottom-start" | "bottom" | "bottom-end"
 >;
-
-export type MenuPlacement =
-  | DeprecatedMenuPlacement
-  | Extract<LogicalPlacement, "top-start" | "top" | "top-end" | "bottom-start" | "bottom" | "bottom-end">;
 
 export const defaultMenuPlacement: MenuPlacement = "bottom-start";
 
@@ -297,12 +265,6 @@ export function filterComputedPlacements(placements: string[], el: HTMLElement):
   return filteredPlacements;
 }
 
-/*
-In floating-ui, "*-start" and "*-end" are already flipped in RTL.
-There is no need for our "*-leading" and "*-trailing" values anymore.
-https://github.com/floating-ui/floating-ui/issues/1530
-https://github.com/floating-ui/floating-ui/issues/1563
-*/
 export function getEffectivePlacement(floatingEl: HTMLElement, placement: LogicalPlacement): EffectivePlacement {
   const placements = ["left", "right"];
 
@@ -310,11 +272,7 @@ export function getEffectivePlacement(floatingEl: HTMLElement, placement: Logica
     placements.reverse();
   }
 
-  return placement
-    .replace(/-leading/gi, "-start")
-    .replace(/-trailing/gi, "-end")
-    .replace(/leading/gi, placements[0])
-    .replace(/trailing/gi, placements[1]) as EffectivePlacement;
+  return placement.replace(/leading/gi, placements[0]).replace(/trailing/gi, placements[1]) as EffectivePlacement;
 }
 
 /**

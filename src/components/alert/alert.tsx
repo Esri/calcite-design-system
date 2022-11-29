@@ -72,31 +72,17 @@ export class Alert implements OpenCloseComponent, LocalizedComponent, LoadableCo
   //
   //---------------------------------------------------------------------------
 
-  /**
-   * When `true`, displays and positions the component.
-   *
-   * @deprecated use `open` instead.
-   */
-  @Prop({ reflect: true, mutable: true }) active = false;
-
   /** When `true`, displays and positions the component. */
   @Prop({ reflect: true, mutable: true }) open = false;
 
-  @Watch("active")
-  activeHandler(value: boolean): void {
-    this.open = value;
-  }
-
   @Watch("open")
-  openHandler(value: boolean): void {
+  openHandler(): void {
     if (this.open && !this.queued) {
       this.calciteInternalAlertRegister.emit();
-      this.active = value;
     }
     if (!this.open) {
       this.queue = this.queue.filter((el) => el !== this.el);
       this.calciteInternalAlertSync.emit({ queue: this.queue });
-      this.active = false;
     }
   }
 
@@ -161,10 +147,9 @@ export class Alert implements OpenCloseComponent, LocalizedComponent, LoadableCo
 
   connectedCallback(): void {
     connectLocalized(this);
-    const open = this.open || this.active;
+    const open = this.open;
     if (open && !this.queued) {
-      this.activeHandler(open);
-      this.openHandler(open);
+      this.openHandler();
       this.calciteInternalAlertRegister.emit();
     }
     connectOpenCloseComponent(this);
@@ -216,9 +201,9 @@ export class Alert implements OpenCloseComponent, LocalizedComponent, LoadableCo
       </div>
     );
 
-    const { active, autoDismiss, label, placement, queued, requestedIcon } = this;
+    const { open, autoDismiss, label, placement, queued, requestedIcon } = this;
     const role = autoDismiss ? "alert" : "alertdialog";
-    const hidden = !active;
+    const hidden = !open;
 
     const slotNode = (
       <slot
@@ -258,7 +243,7 @@ export class Alert implements OpenCloseComponent, LocalizedComponent, LoadableCo
           </div>
           {this.queueLength > 1 ? queueCount : null}
           {!autoDismiss ? closeButton : null}
-          {active && !queued && autoDismiss ? <div class="alert-dismiss-progress" /> : null}
+          {open && !queued && autoDismiss ? <div class="alert-dismiss-progress" /> : null}
         </div>
       </Host>
     );
