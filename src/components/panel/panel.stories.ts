@@ -26,9 +26,9 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
   return filterComponentAttributes(
     [
       {
-        name: "dismissed",
+        name: "closed",
         commit(): Attribute {
-          this.value = boolean("dismissed", false);
+          this.value = boolean("closed", false);
           delete this.build;
           return this;
         }
@@ -42,9 +42,9 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
         }
       },
       {
-        name: "dismissible",
+        name: "closable",
         commit(): Attribute {
-          this.value = boolean("dismissible", false);
+          this.value = boolean("closable", false);
           delete this.build;
           return this;
         }
