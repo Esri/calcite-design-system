@@ -57,8 +57,8 @@ Add `calcite-match-height` to a wrapping element to ensure proper height, scroll
     <calcite-action text="Layers" icon="layers"></calcite-action>
   </calcite-action-bar>
   <calcite-flow>
-    <calcite-panel> ... </calcite-panel>
-    <calcite-panel> ... </calcite-panel>
+    <calcite-flow-item> ... </calcite-flow-item>
+    <calcite-flow-item> ... </calcite-flow-item>
   </calcite-flow>
 </calcite-shell-panel>
 ```

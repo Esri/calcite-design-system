@@ -1303,4 +1303,51 @@ describe("calcite-combobox", () => {
 
     expect(await inputEl.getProperty("value")).toBe("Blue");
   });
+
+  it("should not focus on the combobox when items are programmatically selected", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html` <calcite-combobox id="demoId">
+      <calcite-combobox-item value="test-value" text-label="test"> </calcite-combobox-item>
+    </calcite-combobox>`);
+    const item = await page.find("calcite-combobox-item");
+
+    await item.callMethod("toggleSelected");
+    const focusedId = await page.evaluate(() => {
+      const el = document.activeElement;
+      return el.id;
+    });
+    await page.waitForChanges();
+
+    expect(focusedId).toBe("");
+  });
+
+  it("should gain focus when it's items are selected via click", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html` <calcite-combobox id="demoId">
+      <calcite-combobox-item value="test-value" text-label="test"> </calcite-combobox-item>
+    </calcite-combobox>`);
+    const item = await page.find("calcite-combobox-item");
+    await item.click();
+    await page.waitForChanges();
+    const focusedId = await page.evaluate(() => {
+      const el = document.activeElement;
+      return el.id;
+    });
+
+    expect(focusedId).toBe("demoId");
+  });
+
+  it("should gain focus when it's items are selected via keyboard interaction", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html` <calcite-combobox id="demoId">
+      <calcite-combobox-item value="test-value" text-label="test"> </calcite-combobox-item>
+    </calcite-combobox>`);
+    await page.keyboard.press("Tab");
+    await page.keyboard.press("ArrowDown");
+    await page.keyboard.press("Enter");
+    await page.keyboard.press("Escape");
+    await page.waitForChanges();
+    const focusedId = await page.evaluate(() => document.activeElement.id);
+    expect(focusedId).toBe("demoId");
+  });
 });

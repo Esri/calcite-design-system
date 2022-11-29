@@ -707,7 +707,6 @@ export class Combobox
   setContainerEl = (el: HTMLDivElement): void => {
     this.resizeObserver.observe(el);
     this.listContainerEl = el;
-
     this.transitionEl = el;
     connectOpenCloseComponent(this);
   };
@@ -1036,7 +1035,6 @@ export class Combobox
     this.activeDescendant = activeDescendant;
     if (this.activeItemIndex > -1) {
       this.activeChipIndex = -1;
-      this.textInput?.focus();
     }
   }
 
@@ -1213,7 +1211,7 @@ export class Combobox
     const single = this.selectionMode === "single";
 
     return (
-      <Host>
+      <Host onClick={this.comboboxFocusHandler}>
         <div
           aria-autocomplete="list"
           aria-controls={`${listboxUidPrefix}${guid}`}
