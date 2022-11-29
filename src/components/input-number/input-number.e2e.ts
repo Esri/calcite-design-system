@@ -1226,6 +1226,13 @@ describe("calcite-input-number", () => {
     }
   });
 
+  it("sets internals to autocomplete when the attribute is used", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html`<calcite-input-number autocomplete="cc-number"></calcite-input-number>`);
+    const input = await page.find("calcite-input-number >>> input");
+    expect(await input.getProperty("autocomplete")).toBe("cc-number");
+  });
+
   it("input event fires when number ends with a decimal", async () => {
     const page = await newE2EPage();
     await page.setContent(`
