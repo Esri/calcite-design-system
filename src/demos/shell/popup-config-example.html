@@ -179,17 +179,13 @@
                     padding-right: 0.25rem;
                   }
                 </style>
-                <calcite-flow-item heading="cool" summary="Popular Demographics in the United States (Beta) - County">
+                <calcite-flow-item
+                  heading="cool"
+                  description="Popular Demographics in the United States (Beta) - County"
+                >
                   I'm this panel's content.
                 </calcite-flow-item>
-                <calcite-flow-item heading="Configure popup" dismissible>
-                  <!-- <div style="padding: 0.75rem">
-                  <calcite-notice active dismissible scale="s">
-                    <span slot="notice-message"
-                      >The message we've been putting up here. I don't remember what it is.</span
-                    >
-                  </calcite-notice>
-                </div> -->
+                <calcite-flow-item heading="Configure popup" closable>
                   <calcite-action
                     slot="header-menu-actions"
                     text-enabled
@@ -233,12 +229,6 @@
 
                   <h4 class="demo-heading" style="margin: 0.75rem">Contents</h4>
 
-                  <!-- <div style="padding: 0.75rem">
-                    <calcite-notice active dismissible scale="s" icon>
-                      <span slot="notice-message">Enable pop-ups to add images, charts, text, and fields.</span>
-                    </calcite-notice>
-                  </div> -->
-                  <!-- <calcite-sortable-list> -->
                   <calcite-block drag-handle heading="Media" summary="Multiple (2)" collapsible>
                     <calcite-icon icon="images" scale="m" slot="icon"></calcite-icon>
                     <calcite-action label="ellipsis" slot="control" icon="ellipsis" scale="m"></calcite-action>

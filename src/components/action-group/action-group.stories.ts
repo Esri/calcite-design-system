@@ -17,7 +17,7 @@ export const gridCenteringOfActionsInAGroup = (): string => html`
       <calcite-action
         alignment="${select("alignment", ["start", "center", "end"], "center")}"
         scale="${select("scale", ["s", "m", "l"], "m")}"
-        appearance="${select("appearance", ["solid", "clear", "outline"], "solid")}"
+        appearance="${select("appearance", ["solid", "transparent", "outline"], "solid")}"
         icon="${select("icon", iconNames, "polygon")}"
         ${text("text", "polygon")}
       >
@@ -25,7 +25,7 @@ export const gridCenteringOfActionsInAGroup = (): string => html`
       <calcite-action
         alignment="${select("alignment", ["start", "center", "end"], "center")}"
         scale="${select("scale", ["s", "m", "l"], "m")}"
-        appearance="${select("appearance", ["solid", "clear", "outline"], "solid")}"
+        appearance="${select("appearance", ["solid", "transparent", "outline"], "solid")}"
         icon="${select("icon", iconNames, "rectangle")}"
         ${text("text", "rectangle")}
       >
@@ -33,7 +33,7 @@ export const gridCenteringOfActionsInAGroup = (): string => html`
       <calcite-action
         alignment="${select("alignment", ["start", "center", "end"], "center")}"
         scale="${select("scale", ["s", "m", "l"], "m")}"
-        appearance="${select("appearance", ["solid", "clear", "outline"], "solid")}"
+        appearance="${select("appearance", ["solid", "transparent", "outline"], "solid")}"
         icon="${select("icon", iconNames, "trash")}"
         ${text("text", "trash")}
       >
