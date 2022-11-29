@@ -29,10 +29,6 @@
     overflow-hidden;
 }
 
-.main--reversed {
-  @apply flex-row-reverse;
-}
-
 .content {
   @apply flex
     h-full
