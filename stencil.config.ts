@@ -72,6 +72,7 @@ export const create: () => Config = () => ({
     { components: ["calcite-tile-select-group", "calcite-tile-select"] },
     { components: ["calcite-tooltip", "calcite-tooltip-manager"] },
     { components: ["calcite-tree", "calcite-tree-item"] },
+    { components: ["calcite-textarea"] },
     { components: ["calcite-value-list", "calcite-value-list-item"] }
   ],
   outputTargets: [

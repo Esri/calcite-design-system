@@ -13,7 +13,7 @@ import {
 } from "@stencil/core";
 import { connectForm, disconnectForm, FormComponent, HiddenFormInputSlot } from "../../utils/form";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
-import { getSlotted } from "../../utils/dom";
+import { getSlotted, slotChangeHasAssignedElement } from "../../utils/dom";
 import { CSS, ERROR_MESSAGES, SLOTS } from "./resources";
 import {
   connectLocalized,
@@ -23,12 +23,20 @@ import {
   numberStringFormatter
 } from "../../utils/locale";
 import { createObserver } from "../../utils/observers";
+import {
+  componentLoaded,
+  LoadableComponent,
+  setComponentLoaded,
+  setUpLoadableComponent
+} from "../../utils/loadable";
 @Component({
   tag: "calcite-textarea",
   styleUrl: "textarea.scss",
   shadow: true
 })
-export class Textarea implements FormComponent, LabelableComponent, LocalizedComponent {
+export class Textarea
+  implements FormComponent, LabelableComponent, LocalizedComponent, LoadableComponent
+{
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -72,8 +80,6 @@ export class Textarea implements FormComponent, LabelableComponent, LocalizedCom
   /** Specifies wrapping mechanism for the text.  */
   @Prop({ reflect: true }) wrap: "soft" | "hard" = "soft";
 
-  // @Prop() autocomplete: boolean;
-
   /** The component's value. */
   @Prop({ mutable: true }) value: string;
 
@@ -92,16 +98,8 @@ export class Textarea implements FormComponent, LabelableComponent, LocalizedCom
   /** When `true`, marks this component as required in form. */
   @Prop({ reflect: true }) required: boolean;
 
-  /** The id of the form `textarea` is associated with. */
-  @Prop({ reflect: true }) form: string;
-
   /** The label of the component */
   @Prop({ reflect: true }) label: string;
-
-  /**
-   * When `true`, the component will not be visible.
-   */
-  @Prop({ reflect: true }) hidden = false;
 
   /** When true, the `textarea` will be marked as invalid. */
   @Prop({ reflect: true }) invalid = false;
@@ -148,6 +146,14 @@ export class Textarea implements FormComponent, LabelableComponent, LocalizedCom
     connectLocalized(this);
   }
 
+  componentWillLoad(): void {
+    setUpLoadableComponent(this);
+  }
+
+  componentDidLoad(): void {
+    setComponentLoaded(this);
+  }
+
   disconnectedCallback(): void {
     disconnectLabel(this);
     disconnectForm(this);
@@ -170,12 +176,10 @@ export class Textarea implements FormComponent, LabelableComponent, LocalizedCom
             [CSS.resizeDisabledY]: this.verticalResizeDisabled,
             [CSS.readonly]: this.readonly,
             [CSS.textareaInvalid]: this.invalid,
-            [CSS.footerSlotted]: !!this.renderFooterLeading() && !!this.renderFooterTrailing()
+            [CSS.footerSlotted]: this.leadingSlotHasElement && this.trailingSlotHasElement
           }}
           cols={this.cols}
           disabled={this.disabled}
-          form={this.form}
-          hidden={this.hidden}
           name={this.name}
           onChange={this.handleChange}
           onInput={this.handleInput}
@@ -191,11 +195,22 @@ export class Textarea implements FormComponent, LabelableComponent, LocalizedCom
         {this.footer && (
           <footer
             class={{ [CSS.footer]: true, [CSS.readonly]: this.readonly }}
+            key="footer"
             ref={(el) => (this.footerEl = el as HTMLElement)}
           >
-            {this.renderFooterLeading()}
+            <slot
+              name={SLOTS.footerLeading}
+              onSlotchange={(event) =>
+                (this.leadingSlotHasElement = slotChangeHasAssignedElement(event))
+              }
+            />
             {this.renderCharacterLimit()}
-            {this.renderFooterTrailing()}
+            <slot
+              name={SLOTS.footerTrailing}
+              onSlotchange={(event) =>
+                (this.trailingSlotHasElement = slotChangeHasAssignedElement(event))
+              }
+            />
           </footer>
         )}
         <HiddenFormInputSlot component={this} />
@@ -212,6 +227,7 @@ export class Textarea implements FormComponent, LabelableComponent, LocalizedCom
   /** Set's focus on the `textarea`. */
   @Method()
   async setFocus(): Promise<void> {
+    await componentLoaded(this);
     this.textareaEl.focus();
   }
 
@@ -235,6 +251,10 @@ export class Textarea implements FormComponent, LabelableComponent, LocalizedCom
   textareaEl: HTMLTextAreaElement;
 
   footerEl: HTMLElement;
+
+  leadingSlotHasElement: boolean;
+
+  trailingSlotHasElement: boolean;
 
   @State() effectiveLocale: string;
 
@@ -266,14 +286,6 @@ export class Textarea implements FormComponent, LabelableComponent, LocalizedCom
   handleChange = (): void => {
     this.calciteTextareaChange.emit();
   };
-
-  renderFooterLeading(): VNode {
-    return getSlotted(this.el, SLOTS.footerLeading) ? <slot name={SLOTS.footerLeading} /> : null;
-  }
-
-  renderFooterTrailing(): VNode {
-    return getSlotted(this.el, SLOTS.footerTrailing) ? <slot name={SLOTS.footerTrailing} /> : null;
-  }
 
   renderCharacterLimit(): VNode {
     return this.maxlength ? (
