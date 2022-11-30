@@ -17,11 +17,7 @@ const { scale } = ATTRIBUTES;
 export default {
   title: "Components/Controls/DatePicker",
   parameters: {
-    notes: readme,
-    chromatic: {
-      // https://www.chromatic.com/docs/threshold
-      diffThreshold: 0.65
-    }
+    notes: readme
   },
   ...storyFilters()
 };
