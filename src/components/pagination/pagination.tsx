@@ -188,12 +188,14 @@ export class Pagination implements LocalizedComponent, T9nComponent {
   // --------------------------------------------------------------------------
 
   /** Go to the next page of results. */
-  @Method() async nextPage(): Promise<void> {
+  @Method()
+  async nextPage(): Promise<void> {
     this.start = Math.min(this.getLastStart(), this.start + this.num);
   }
 
   /** Go to the previous page of results. */
-  @Method() async previousPage(): Promise<void> {
+  @Method()
+  async previousPage(): Promise<void> {
     this.start = Math.max(1, this.start - this.num);
   }
 
@@ -238,22 +240,13 @@ export class Pagination implements LocalizedComponent, T9nComponent {
     this.calcitePaginationUpdate.emit(changePayload);
   }
 
-  /**
-   * Returns a string representing the localized label value based on groupSeparator prop being on or off.
-   *
-   * @param value
-   */
-  private determineGroupSeparator = (value: number): string => {
+  effectiveLocaleWatcher(): void {
     numberStringFormatter.numberFormatOptions = {
       locale: this.effectiveLocale,
       numberingSystem: this.numberingSystem,
       useGrouping: this.groupSeparator
     };
-
-    return this.groupSeparator
-      ? numberStringFormatter.localize(value.toString())
-      : value.toString();
-  };
+  }
 
   //--------------------------------------------------------------------------
   //
@@ -298,7 +291,13 @@ export class Pagination implements LocalizedComponent, T9nComponent {
 
   renderPage(start: number): VNode {
     const page = Math.floor(start / this.num) + (this.num === 1 ? 0 : 1);
-    const displayedPage = this.determineGroupSeparator(page);
+    numberStringFormatter.numberFormatOptions = {
+      locale: this.effectiveLocale,
+      numberingSystem: this.numberingSystem,
+      useGrouping: this.groupSeparator
+    };
+
+    const displayedPage = numberStringFormatter.localize(page.toString());
 
     return (
       <button

@@ -98,9 +98,7 @@ export class FlowItem implements InteractiveComponent, LoadableComponent, T9nCom
   @Prop() intlBack: string;
 
   /**
-   * Accessible name for the component's close button. The close button will only be shown when 'dismissible' is true.
-   *
-   * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`
+   * Accessible name for the component's close button. The close button will only be shown when 'closable' is true.
    */
   @Prop() intlClose: string;
 
@@ -193,13 +191,6 @@ export class FlowItem implements InteractiveComponent, LoadableComponent, T9nCom
   @Event({ cancelable: false }) calciteFlowItemBack: EventEmitter<void>;
 
   /**
-   * Fires when the back button is clicked.
-   *
-   * @deprecated use calciteFlowItemBack instead.
-   */
-  @Event({ cancelable: false }) calciteFlowItemBackClick: EventEmitter<void>;
-
-  /**
    * Fires when the content is scrolled.
    */
   @Event({ cancelable: false }) calciteFlowItemScroll: EventEmitter<void>;
@@ -287,7 +278,6 @@ export class FlowItem implements InteractiveComponent, LoadableComponent, T9nCom
   };
 
   backButtonClick = (): void => {
-    this.calciteFlowItemBackClick.emit();
     this.calciteFlowItemBack.emit();
   };
 

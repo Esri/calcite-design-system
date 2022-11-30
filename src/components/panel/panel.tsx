@@ -5,19 +5,26 @@ import {
   EventEmitter,
   Method,
   Prop,
-  Watch,
   h,
   VNode,
   Fragment,
-  State
+  State,
+  Watch
 } from "@stencil/core";
-import { CSS, ICONS, SLOTS } from "./resources";
-import { getElementDir, toAriaBoolean } from "../../utils/dom";
+import { CSS, ICONS, SLOTS, TEXT } from "./resources";
+import { toAriaBoolean } from "../../utils/dom";
 import { Scale } from "../interfaces";
 import { HeadingLevel, Heading } from "../functional/Heading";
 import { SLOTS as ACTION_MENU_SLOTS } from "../action-menu/resources";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { createObserver } from "../../utils/observers";
+import {
+  setUpLoadableComponent,
+  setComponentLoaded,
+  LoadableComponent,
+  componentLoaded
+} from "../../utils/loadable";
+
 import { connectLocalized, disconnectLocalized } from "../../utils/locale";
 import {
   connectMessages,
@@ -27,12 +34,6 @@ import {
   updateMessages
 } from "../../utils/t9n";
 import { Messages } from "./assets/panel/t9n";
-import {
-  setUpLoadableComponent,
-  setComponentLoaded,
-  LoadableComponent,
-  componentLoaded
-} from "../../utils/loadable";
 
 /**
  * @slot - A slot for adding custom content.
@@ -47,8 +48,7 @@ import {
 @Component({
   tag: "calcite-panel",
   styleUrl: "panel.scss",
-  shadow: true,
-  assetsDirs: ["assets"]
+  shadow: true
 })
 export class Panel implements InteractiveComponent, LoadableComponent, T9nComponent {
   // --------------------------------------------------------------------------
@@ -57,66 +57,16 @@ export class Panel implements InteractiveComponent, LoadableComponent, T9nCompon
   //
   // --------------------------------------------------------------------------
 
-  /**
-   * When provided, this method will be called before it is removed from the parent flow.
-   *
-   * @deprecated use `calcite-flow-item` instead.
-   */
-  @Prop() beforeBack?: () => Promise<void>;
-
-  /** When true, displays a close button in the trailing side of the header */
-  @Prop({ mutable: true, reflect: true }) closable = false;
-
   /** When `true`, the component will be hidden. */
   @Prop({ mutable: true, reflect: true }) closed = false;
 
-  @Watch("closable")
-  closableHandler(value: boolean): void {
-    this.dismissible = value;
-  }
-
-  @Watch("closed")
-  closedHandler(value: boolean): void {
-    this.dismissed = value;
-  }
-
   /**
-   *  When true, interaction is prevented and the component is displayed with lower opacity.
+   *  When `true`, interaction is prevented and the component is displayed with lower opacity.
    */
   @Prop({ reflect: true }) disabled = false;
 
-  /**
-   * When true, hides the component.
-   *
-   * @deprecated use closed instead
-   */
-  @Prop({ mutable: true, reflect: true }) dismissed = false;
-
-  @Watch("dismissed")
-  dismissedHandler(value: boolean): void {
-    this.closed = value;
-    this.calcitePanelDismissedChange.emit();
-  }
-
-  /**
-   * When `true`, a close button is added to the component.
-   *
-   * @deprecated use `closable` instead
-   */
-  @Prop({ mutable: true, reflect: true }) dismissible = false;
-
-  @Watch("dismissible")
-  dismissibleHandler(value: boolean): void {
-    this.closable = value;
-  }
-
-  /** A description for the component. */
-  @Prop() description: string;
-
-  /**
-   * The component header text.
-   */
-  @Prop() heading?: string;
+  /** When `true`, displays a close button in the trailing side of the header. */
+  @Prop({ mutable: true, reflect: true }) closable = false;
 
   /**
    * Specifies the number at which section headings should start.
@@ -129,25 +79,9 @@ export class Panel implements InteractiveComponent, LoadableComponent, T9nCompon
   @Prop({ reflect: true }) heightScale?: Scale;
 
   /**
-   * Accessible name for the component's back button. The back button will only be shown when `showBackButton` is `true`.
-   *
-   * @deprecated use `calcite-flow-item` instead.
+   * Specifies the width of the component.
    */
-  @Prop() intlBack: string;
-
-  /**
-   * Accessible name for the component's close button. The close button will only be shown when 'dismissible' is true.
-   *
-   * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`
-   */
-  @Prop() intlClose: string;
-
-  /**
-   * Accessible name for the component's actions menu.
-   *
-   * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`
-   */
-  @Prop() intlOptions: string;
+  @Prop({ reflect: true }) widthScale?: Scale;
 
   /**
    * When `true`, a busy indicator is displayed.
@@ -155,7 +89,29 @@ export class Panel implements InteractiveComponent, LoadableComponent, T9nCompon
   @Prop({ reflect: true }) loading = false;
 
   /**
-   * When true, the action menu items in the `header-menu-actions` slot are open.
+   * Accessible name for the component's close button. The close button will only be shown when `closeable` is `true`.
+   *
+   * @deprecated use `calcite-flow-item` instead.
+   */
+  @Prop() intlClose?: string;
+
+  /**
+   * Accessible name for the component's actions menu.
+   *
+   * @deprecated use `calcite-flow-item` instead.
+   */
+  @Prop() intlOptions?: string;
+
+  /**
+   * The component header text.
+   */
+  @Prop() heading?: string;
+
+  /** A description for the component. */
+  @Prop() description: string;
+
+  /**
+   * When `true`, the action menu items in the `header-menu-actions` slot are open.
    */
   @Prop({ reflect: true }) menuOpen = false;
 
@@ -164,7 +120,13 @@ export class Panel implements InteractiveComponent, LoadableComponent, T9nCompon
    */
   @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
 
-  @Watch("intlBack")
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @internal
+   */
+  @Prop({ mutable: true }) messages: Messages;
+
   @Watch("intlClose")
   @Watch("intlOptions")
   @Watch("defaultMessages")
@@ -173,67 +135,27 @@ export class Panel implements InteractiveComponent, LoadableComponent, T9nCompon
     /* wired up by t9n util */
   }
 
-  /**
-   * Made into a prop for testing purposes only
-   *
-   * @internal
-   */
-  @Prop({ mutable: true }) messages: Messages;
-
-  /**
-   * When true, displays a back button in the header.
-   *
-   * @deprecated use `calcite-flow-item` instead.
-   */
-  @Prop({ reflect: true }) showBackButton = false;
-
-  /**
-   * Summary text. A description displayed underneath the heading.
-   *
-   * @deprecated use `description` instead.
-   */
-  @Prop() summary?: string;
-
-  /**
-   * Specifies the width of the component.
-   */
-  @Prop({ reflect: true }) widthScale?: Scale;
-
-  // --------------------------------------------------------------------------
+  //--------------------------------------------------------------------------
   //
   //  Lifecycle
   //
-  // --------------------------------------------------------------------------
+  //--------------------------------------------------------------------------
 
   connectedCallback(): void {
     connectLocalized(this);
     connectMessages(this);
-
-    const isClosed = this.dismissed || this.closed;
-    const isClosable = this.dismissible || this.closable;
-
-    if (isClosed) {
-      this.dismissedHandler(isClosed);
-      this.closedHandler(isClosed);
-    }
-
-    if (isClosable) {
-      this.dismissibleHandler(isClosable);
-      this.closableHandler(isClosable);
-    }
   }
 
-  async componentWillLoad(): Promise<void> {
+  componentWillLoad(): void {
     setUpLoadableComponent(this);
-    await setUpMessages(this);
-  }
-
-  componentDidRender(): void {
-    updateHostInteraction(this);
   }
 
   componentDidLoad(): void {
     setComponentLoaded(this);
+  }
+
+  componentDidRender(): void {
+    updateHostInteraction(this);
   }
 
   disconnectedCallback(): void {
@@ -260,15 +182,6 @@ export class Panel implements InteractiveComponent, LoadableComponent, T9nCompon
 
   resizeObserver = createObserver("resize", () => this.resizeHandler());
 
-  @State() defaultMessages: Messages;
-
-  @State() effectiveLocale = "";
-
-  @Watch("effectiveLocale")
-  effectiveLocaleChange(): void {
-    updateMessages(this, this.effectiveLocale);
-  }
-
   @State() hasStartActions = false;
 
   @State() hasEndActions = false;
@@ -283,6 +196,15 @@ export class Panel implements InteractiveComponent, LoadableComponent, T9nCompon
 
   @State() hasFab = false;
 
+  @State() defaultMessages: Messages;
+
+  @State() effectiveLocale = "";
+
+  @Watch("effectiveLocale")
+  effectiveLocaleChange(): void {
+    updateMessages(this, this.effectiveLocale);
+  }
+
   // --------------------------------------------------------------------------
   //
   //  Events
@@ -295,30 +217,9 @@ export class Panel implements InteractiveComponent, LoadableComponent, T9nCompon
   @Event({ cancelable: false }) calcitePanelClose: EventEmitter<void>;
 
   /**
-   * Fires when the close button is clicked.
-   *
-   * @deprecated use `calcitePanelClose` instead.
-   */
-  @Event({ cancelable: false }) calcitePanelDismiss: EventEmitter<void>;
-
-  /**
-   * Fires when there is a change to the `dismissed` property value .
-   *
-   * @deprecated use `calcitePanelClose` instead.
-   */
-  @Event({ cancelable: false }) calcitePanelDismissedChange: EventEmitter<void>;
-
-  /**
    * Fires when the content is scrolled.
    */
   @Event({ cancelable: false }) calcitePanelScroll: EventEmitter<void>;
-
-  /**
-   * Fires when the back button is clicked.
-   *
-   * @deprecated use `calcite-flow-item` instead.
-   */
-  @Event({ cancelable: false }) calcitePanelBackClick: EventEmitter<void>;
 
   // --------------------------------------------------------------------------
   //
@@ -361,16 +262,11 @@ export class Panel implements InteractiveComponent, LoadableComponent, T9nCompon
 
   close = (): void => {
     this.closed = true;
-    this.calcitePanelDismiss.emit();
     this.calcitePanelClose.emit();
   };
 
   panelScrollHandler = (): void => {
     this.calcitePanelScroll.emit();
-  };
-
-  backButtonClick = (): void => {
-    this.calcitePanelBackClick.emit();
   };
 
   handleHeaderActionsStartSlotChange = (event: Event): void => {
@@ -491,39 +387,15 @@ export class Panel implements InteractiveComponent, LoadableComponent, T9nCompon
   //
   // --------------------------------------------------------------------------
 
-  renderBackButton(): VNode {
-    const { el } = this;
-
-    const rtl = getElementDir(el) === "rtl";
-    const { showBackButton, messages, backButtonClick } = this;
-    const label = messages.back;
-    const icon = rtl ? ICONS.backRight : ICONS.backLeft;
-
-    return showBackButton ? (
-      <calcite-action
-        aria-label={label}
-        class={CSS.backButton}
-        icon={icon}
-        key="back-button"
-        onClick={backButtonClick}
-        ref={this.setBackRef}
-        scale="s"
-        slot={SLOTS.headerActionsStart}
-        text={label}
-      />
-    ) : null;
-  }
-
   renderHeaderContent(): VNode {
-    const { heading, headingLevel, summary, description, hasHeaderContent } = this;
+    const { heading, headingLevel, description, hasHeaderContent } = this;
     const headingNode = heading ? (
       <Heading class={CSS.heading} level={headingLevel}>
         {heading}
       </Heading>
     ) : null;
 
-    const descriptionNode =
-      description || summary ? <span class={CSS.description}>{description || summary}</span> : null;
+    const descriptionNode = description ? <span class={CSS.description}>{description}</span> : null;
 
     return !hasHeaderContent && (headingNode || descriptionNode) ? (
       <div class={CSS.headerContent} key="header-content">
@@ -562,8 +434,8 @@ export class Panel implements InteractiveComponent, LoadableComponent, T9nCompon
   }
 
   renderHeaderActionsEnd(): VNode {
-    const { close, hasEndActions, messages, closable } = this;
-    const text = messages.close;
+    const { close, hasEndActions, closable } = this;
+    const text = this.messages.close;
 
     const closableNode = closable ? (
       <calcite-action
@@ -619,19 +491,11 @@ export class Panel implements InteractiveComponent, LoadableComponent, T9nCompon
   }
 
   renderHeaderNode(): VNode {
-    const {
-      showBackButton,
-      hasHeaderContent,
-      hasStartActions,
-      hasEndActions,
-      closable,
-      hasMenuItems
-    } = this;
+    const { hasHeaderContent, hasStartActions, hasEndActions, closable, hasMenuItems } = this;
 
     const headerContentNode = this.renderHeaderContent();
 
     const showHeader =
-      showBackButton ||
       hasHeaderContent ||
       headerContentNode ||
       hasStartActions ||
@@ -641,7 +505,6 @@ export class Panel implements InteractiveComponent, LoadableComponent, T9nCompon
 
     return (
       <header class={CSS.header} hidden={!showHeader}>
-        {this.renderBackButton()}
         {this.renderHeaderStartActions()}
         {this.renderHeaderSlottedContent()}
         {headerContentNode}

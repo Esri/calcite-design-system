@@ -123,15 +123,21 @@ export class InputDatePicker
   @Watch("value")
   valueWatcher(newValue: string | string[]): void {
     if (!this.userChangedValue) {
+      let newValueAsDate;
       if (Array.isArray(newValue)) {
-        this.valueAsDate = getValueAsDateRange(newValue);
+        newValueAsDate = getValueAsDateRange(newValue);
         this.start = newValue[0];
         this.end = newValue[1];
       } else if (newValue) {
-        this.valueAsDate = dateFromISO(newValue);
+        newValueAsDate = dateFromISO(newValue);
       } else {
-        this.valueAsDate = undefined;
+        newValueAsDate = undefined;
       }
+
+      if (!this.valueAsDateChangedExternally && newValueAsDate !== this.valueAsDate) {
+        this.valueAsDate = newValueAsDate;
+      }
+
       this.localizeInputValues();
     }
     this.userChangedValue = false;
@@ -140,6 +146,15 @@ export class InputDatePicker
   @Watch("valueAsDate")
   valueAsDateWatcher(valueAsDate: Date): void {
     this.datePickerActiveDate = valueAsDate;
+    const newValue =
+      this.range && Array.isArray(valueAsDate)
+        ? [dateToISO(valueAsDate[0]), dateToISO(valueAsDate[1])]
+        : dateToISO(valueAsDate);
+    if (this.value !== newValue) {
+      this.valueAsDateChangedExternally = true;
+      this.value = newValue;
+      this.valueAsDateChangedExternally = false;
+    }
   }
 
   /**
@@ -475,6 +490,8 @@ export class InputDatePicker
       }
       this.start = "";
       this.end = "";
+    } else if (this.range && this.valueAsDate) {
+      this.setRangeValue(this.valueAsDate as Date[]);
     }
 
     if (this.start) {
@@ -705,6 +722,8 @@ export class InputDatePicker
 
     connectFloatingUI(this, this.referenceEl, this.floatingEl);
   }
+
+  private valueAsDateChangedExternally = false;
 
   //--------------------------------------------------------------------------
   //

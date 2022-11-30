@@ -1,8 +1,6 @@
 import {
   Component,
   Element,
-  Event,
-  EventEmitter,
   Host,
   Method,
   Prop,
@@ -13,11 +11,8 @@ import {
   State,
   Build
 } from "@stencil/core";
-
 import { Alignment, Appearance, Scale } from "../interfaces";
-
 import { CSS, SLOTS } from "./resources";
-
 import { createObserver } from "../../utils/observers";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { toAriaBoolean } from "../../utils/dom";
@@ -66,7 +61,7 @@ export class Action
   @Prop({ reflect: true }) alignment?: Alignment;
 
   /** Specifies the appearance of the component. */
-  @Prop({ reflect: true }) appearance: Extract<"solid" | "clear", Appearance> = "solid";
+  @Prop({ reflect: true }) appearance: Extract<"solid" | "transparent", Appearance> = "solid";
 
   /**
    * When `true`, the side padding of the component is reduced. Compact mode is used internally by components, e.g. `calcite-block-section`.
@@ -137,19 +132,6 @@ export class Action
   onMessagesChange(): void {
     /* wired up by t9n util */
   }
-
-  // --------------------------------------------------------------------------
-  //
-  //  Events
-  //
-  // --------------------------------------------------------------------------
-
-  /**
-   * Emits when the component has been clicked.
-   *
-   * @deprecated use `onClick` instead.
-   */
-  @Event({ cancelable: false }) calciteActionClick: EventEmitter<void>;
 
   // --------------------------------------------------------------------------
   //
@@ -281,7 +263,7 @@ export class Action
     };
 
     return (
-      <Host onClick={this.calciteActionClickHandler}>
+      <Host>
         <button
           aria-busy={toAriaBoolean(loading)}
           aria-disabled={toAriaBoolean(disabled)}
@@ -315,12 +297,6 @@ export class Action
 
     if (tooltip) {
       tooltip.referenceElement = this.buttonEl;
-    }
-  };
-
-  calciteActionClickHandler = (): void => {
-    if (!this.disabled) {
-      this.calciteActionClick.emit();
     }
   };
 }

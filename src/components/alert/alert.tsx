@@ -12,8 +12,13 @@ import {
   VNode,
   Watch
 } from "@stencil/core";
-import { getSlotted, setRequestedIcon, toAriaBoolean } from "../../utils/dom";
-import { DURATIONS, SLOTS } from "./resources";
+import {
+  getSlotted,
+  setRequestedIcon,
+  toAriaBoolean,
+  slotChangeHasAssignedElement
+} from "../../utils/dom";
+import { CSS, DURATIONS, SLOTS } from "./resources";
 import { Scale } from "../interfaces";
 import { AlertDuration, AlertPlacement, StatusColor, StatusIcons, Sync } from "./interfaces";
 import {
@@ -22,7 +27,6 @@ import {
   disconnectOpenCloseComponent
 } from "../../utils/openCloseComponent";
 import {
-  LocalizedComponent,
   connectLocalized,
   disconnectLocalized,
   NumberingSystem,
@@ -52,6 +56,7 @@ import {
  * @slot title - A slot for optionally adding a title to the component.
  * @slot message - A slot for adding main text to the component.
  * @slot link - A slot for optionally adding an action to take from the alert (undo, try again, link to page, etc.)
+ * @slot actions-end - A slot for adding actions to the end of the component. It is recommended to use two or fewer actions.
  */
 
 @Component({
@@ -60,9 +65,7 @@ import {
   shadow: true,
   assetsDirs: ["assets"]
 })
-export class Alert
-  implements OpenCloseComponent, LocalizedComponent, LoadableComponent, T9nComponent
-{
+export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -77,31 +80,17 @@ export class Alert
   //
   //---------------------------------------------------------------------------
 
-  /**
-   * When `true`, displays and positions the component.
-   *
-   * @deprecated use `open` instead.
-   */
-  @Prop({ reflect: true, mutable: true }) active = false;
-
   /** When `true`, displays and positions the component. */
   @Prop({ reflect: true, mutable: true }) open = false;
 
-  @Watch("active")
-  activeHandler(value: boolean): void {
-    this.open = value;
-  }
-
   @Watch("open")
-  openHandler(value: boolean): void {
+  openHandler(): void {
     if (this.open && !this.queued) {
       this.calciteInternalAlertRegister.emit();
-      this.active = value;
     }
     if (!this.open) {
       this.queue = this.queue.filter((el) => el !== this.el);
       this.calciteInternalAlertSync.emit({ queue: this.queue });
-      this.active = false;
     }
   }
 
@@ -187,10 +176,9 @@ export class Alert
   connectedCallback(): void {
     connectLocalized(this);
     connectMessages(this);
-    const open = this.open || this.active;
+    const open = this.open;
     if (open && !this.queued) {
-      this.activeHandler(open);
-      this.openHandler(open);
+      this.openHandler();
       this.calciteInternalAlertRegister.emit();
     }
     connectOpenCloseComponent(this);
@@ -214,6 +202,7 @@ export class Alert
   }
 
   render(): VNode {
+    const { hasEndActions } = this;
     const closeButton = (
       <button
         aria-label={this.messages.close}
@@ -243,9 +232,18 @@ export class Alert
       </div>
     );
 
-    const { active, autoDismiss, label, placement, queued, requestedIcon } = this;
+    const { open, autoDismiss, label, placement, queued, requestedIcon } = this;
     const role = autoDismiss ? "alert" : "alertdialog";
-    const hidden = !active;
+    const hidden = !open;
+
+    const slotNode = (
+      <slot
+        key="actionsEndSlot"
+        name={SLOTS.actionsEnd}
+        onSlotchange={this.actionsEndSlotChangeHandler}
+      />
+    );
+
     return (
       <Host
         aria-hidden={toAriaBoolean(hidden)}
@@ -271,9 +269,12 @@ export class Alert
             <slot name={SLOTS.message} />
             <slot name={SLOTS.link} />
           </div>
-          {queueCount}
+          <div class={CSS.actionsEnd} hidden={!hasEndActions}>
+            {slotNode}
+          </div>
+          {this.queueLength > 1 ? queueCount : null}
           {!autoDismiss ? closeButton : null}
-          {active && !queued && autoDismiss ? <div class="alert-dismiss-progress" /> : null}
+          {open && !queued && autoDismiss ? <div class="alert-dismiss-progress" /> : null}
         </div>
       </Host>
     );
@@ -370,6 +371,8 @@ export class Alert
 
   @State() defaultMessages: Messages;
 
+  @State() hasEndActions = false;
+
   /** the list of queued alerts */
   @State() queue: HTMLCalciteAlertElement[] = [];
 
@@ -454,4 +457,8 @@ export class Alert
     window.clearTimeout(this.queueTimeout);
     this.queueTimeout = window.setTimeout(() => (this.queued = false), 300);
   }
+
+  private actionsEndSlotChangeHandler = (event: Event): void => {
+    this.hasEndActions = slotChangeHasAssignedElement(event);
+  };
 }

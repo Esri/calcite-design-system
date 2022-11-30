@@ -5,11 +5,13 @@ export const DURATIONS = {
 };
 
 export const SLOTS = {
+  actionsEnd: "actions-end",
   title: "title",
   message: "message",
   link: "link"
 };
 
 export const CSS = {
+  actionsEnd: "actions-end",
   container: "container"
 };

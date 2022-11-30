@@ -52,6 +52,7 @@ jobs:
           exitOnceUploaded: true
         env:
           STORYBOOK_SCREENSHOT_TEST_BUILD: true
+          CHROMATIC_DIFF_THRESHOLD: ${{ secrets.CHROMATIC_DIFF_THRESHOLD }}
       - if: steps.markdown-check.outputs.SKIP == 'true'
         name: skip chromatic for markdown PRs
         uses: Sibz/github-status-action@v1

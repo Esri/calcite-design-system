@@ -278,6 +278,40 @@ export class Input
    */
   @Prop({ reflect: true }) step?: number | "any";
 
+  /**
+   * Specifies the type of content to autocomplete, for use in forms.
+   * Read the native attribute's documentation on MDN for more info.
+   *
+   * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete)
+   */
+  @Prop() autocomplete: string;
+
+  /**
+   * Specifies a regex pattern the component's `value` must match for validation.
+   * Read the native attribute's documentation on MDN for more info.
+   *
+   * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/pattern)
+   */
+  @Prop() pattern: string;
+
+  /**
+   * Specifies a comma separated list of unique file type specifiers for limiting accepted file types.
+   * This property only has an effect when `type` is "file".
+   * Read the native attribute's documentation on MDN for more info.
+   *
+   * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/pattern)
+   */
+  @Prop() accept: string;
+
+  /**
+   * When `true`, the component can accept more than one value.
+   * This property only has an effect when `type` is "email" or "file".
+   * Read the native attribute's documentation on MDN for more info.
+   *
+   * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/multiple)
+   */
+  @Prop() multiple = false;
+
   /** Adds text to the end of the component. */
   @Prop() suffixText?: string;
 
@@ -1058,7 +1092,9 @@ export class Input
     const localeNumberInput =
       this.type === "number" ? (
         <input
+          accept={this.accept}
           aria-label={getLabelText(this)}
+          autocomplete={this.autocomplete}
           autofocus={this.autofocus ? true : null}
           defaultValue={this.defaultValue}
           disabled={this.disabled ? true : null}
@@ -1067,12 +1103,14 @@ export class Input
           key="localized-input"
           maxLength={this.maxLength}
           minLength={this.minLength}
+          multiple={this.multiple}
           name={undefined}
           onBlur={this.inputBlurHandler}
           onFocus={this.inputFocusHandler}
           onInput={this.inputNumberInputHandler}
           onKeyDown={this.inputNumberKeyDownHandler}
           onKeyUp={this.inputKeyUpHandler}
+          pattern={this.pattern}
           placeholder={this.placeholder || ""}
           readOnly={this.readOnly}
           ref={this.setChildNumberElRef}
@@ -1085,7 +1123,9 @@ export class Input
       this.type !== "number"
         ? [
             <this.childElType
+              accept={this.accept}
               aria-label={getLabelText(this)}
+              autocomplete={this.autocomplete}
               autofocus={this.autofocus ? true : null}
               class={{
                 [CSS.editingEnabled]: this.editingEnabled,
@@ -1099,12 +1139,14 @@ export class Input
               maxLength={this.maxLength}
               min={this.minString}
               minLength={this.minLength}
+              multiple={this.multiple}
               name={this.name}
               onBlur={this.inputBlurHandler}
               onFocus={this.inputFocusHandler}
               onInput={this.inputInputHandler}
               onKeyDown={this.inputKeyDownHandler}
               onKeyUp={this.inputKeyUpHandler}
+              pattern={this.pattern}
               placeholder={this.placeholder || ""}
               readOnly={this.readOnly}
               ref={this.setChildElRef}

@@ -118,9 +118,9 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
   @Watch("selectionMode")
   getselectionMode(): void {
     this.isSelectionMultiLike =
-      this.selectionMode === TreeSelectionMode.Multiple ||
-      this.selectionMode === TreeSelectionMode.Multi ||
-      this.selectionMode === TreeSelectionMode.MultiChildren;
+      this.selectionMode === "multiple" ||
+      this.selectionMode === "multi" ||
+      this.selectionMode === "multichildren";
   }
 
   //--------------------------------------------------------------------------
@@ -185,14 +185,12 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
 
   render(): VNode {
     const rtl = getElementDir(this.el) === "rtl";
-    const showBulletPoint =
-      this.selectionMode === TreeSelectionMode.Single ||
-      this.selectionMode === TreeSelectionMode.Children;
+    const showBulletPoint = this.selectionMode === "single" || this.selectionMode === "children";
     const showCheckmark =
-      this.selectionMode === TreeSelectionMode.Multi ||
-      this.selectionMode === TreeSelectionMode.Multiple ||
-      this.selectionMode === TreeSelectionMode.MultiChildren;
-    const showBlank = this.selectionMode === TreeSelectionMode.None && !this.hasChildren;
+      this.selectionMode === "multi" ||
+      this.selectionMode === "multiple" ||
+      this.selectionMode === "multichildren";
+    const showBlank = this.selectionMode === "none" && !this.hasChildren;
     const chevron = this.hasChildren ? (
       <calcite-icon
         class={{
@@ -207,7 +205,7 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
     ) : null;
     const defaultSlotNode: VNode = <slot key="default-slot" />;
     const checkbox =
-      this.selectionMode === TreeSelectionMode.Ancestors ? (
+      this.selectionMode === "ancestors" ? (
         <label class={CSS.checkboxLabel} key="checkbox-label">
           <calcite-checkbox
             checked={this.selected}
@@ -293,8 +291,7 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
       window.open(link.href, target);
     }
     this.calciteInternalTreeItemSelect.emit({
-      modifyCurrentSelection:
-        this.selectionMode === TreeSelectionMode.Ancestors || this.isSelectionMultiLike,
+      modifyCurrentSelection: this.selectionMode === "ancestors" || this.isSelectionMultiLike,
       forceToggle: false
     });
   }
@@ -312,6 +309,9 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
 
     switch (event.key) {
       case " ":
+        if (this.selectionMode === "none") {
+          return;
+        }
         this.calciteInternalTreeItemSelect.emit({
           modifyCurrentSelection: this.isSelectionMultiLike,
           forceToggle: false
@@ -319,6 +319,9 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
         event.preventDefault();
         break;
       case "Enter":
+        if (this.selectionMode === "none") {
+          return;
+        }
         // activates a node, i.e., performs its default action. For parent nodes, one possible default action is to open or close the node. In single-select trees where selection does not follow focus (see note below), the default action is typically to select the focused node.
         const link = nodeListToArray(this.el.children).find((el) =>
           el.matches("a")
@@ -406,7 +409,7 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
   };
 
   private updateAncestorTree = (): void => {
-    if (this.selected && this.selectionMode === TreeSelectionMode.Ancestors) {
+    if (this.selected && this.selectionMode === "ancestors") {
       const ancestors: HTMLCalciteTreeItemElement[] = [];
       let parent = this.parentTreeItem;
       while (parent) {
