@@ -67,12 +67,16 @@ Milestones are used to manage sprints, which are two weeks long. Sprint mileston
 
 ### Estimates
 
-Estimates are used to determine how much work needs to go into an issue. The total estimate helps the product managers triage issues effectively so developers are not overwhelmed during sprints. If you are not on the team, please do not add estimates when creating cases. You can add an estimate label to your ticket `estimate-` to track your estimate. Here are some guidelines for the numbering system:
+Estimates are used to determine how much work needs to go into an issue. The total estimate helps product managers triage issues effectively so developers are not overwhelmed during sprints. If you are not on the team, please do not add estimates when creating cases. Here are some guidelines for time estimates using an `estimate-#` label for tracking:
 
-- **1:** Fixing a typo, small syntax issue, or tweaking a css property. Something that can be done in a couple minutes.
-- **5:** Fixing bugs or adding small features that don't require comprehensive planning.
-- **13:** Issues that are more complicated and need some workflow or design planning. These issues usually need additional unit tests written.
-- **40:** If an issue is this complicated it should be converted into an epic.
+- `estimate - 1`: Very small fix or change, a one line update.
+- `estimate - 2`: Small fix or update, does not require updates to tests.
+- `estimate - 3`: A day or two of work, may require changes to tests.
+- `estimate - 5`: A few days of work, requires updates to tests.
+- `estimate - 8`: Requires input from team, consider smaller steps.
+- `estimate - 13`: Requires planning and input from team, consider smaller steps.
+- `estimate - 21`: Requires planning, input from team members and possibly others.
+- `estimate - 34`: Issue should be converted into an epic. Requires all hands on deck.
 
 ### Epics
 
