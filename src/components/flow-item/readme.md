@@ -15,7 +15,7 @@
 | `headingLevel`   | `heading-level`    | Specifies the number at which section headings should start.                                                       | `1 \| 2 \| 3 \| 4 \| 5 \| 6` | `undefined` |
 | `heightScale`    | `height-scale`     | Specifies the maximum height of the component.                                                                     | `"l" \| "m" \| "s"`          | `undefined` |
 | `intlBack`       | `intl-back`        | Accessible name for the component's back button. The back button will only be shown when 'showBackButton' is true. | `string`                     | `undefined` |
-| `intlClose`      | `intl-close`       | Accessible name for the component's close button. The close button will only be shown when 'dismissible' is true.  | `string`                     | `undefined` |
+| `intlClose`      | `intl-close`       | Accessible name for the component's close button. The close button will only be shown when 'closable' is true.     | `string`                     | `undefined` |
 | `intlOptions`    | `intl-options`     | Accessible name for the component's actions menu.                                                                  | `string`                     | `undefined` |
 | `loading`        | `loading`          | When true, a busy indicator is displayed.                                                                          | `boolean`                    | `false`     |
 | `menuOpen`       | `menu-open`        | When true, the action menu items in the `header-menu-actions` slot are open.                                       | `boolean`                    | `false`     |
@@ -24,12 +24,11 @@
 
 ## Events
 
-| Event                      | Description                                                                                                                      | Type                |
-| -------------------------- | -------------------------------------------------------------------------------------------------------------------------------- | ------------------- |
-| `calciteFlowItemBack`      | Fires when the back button is clicked.                                                                                           | `CustomEvent<void>` |
-| `calciteFlowItemBackClick` | <span style="color:red">**[DEPRECATED]**</span> use calciteFlowItemBack instead.<br/><br/>Fires when the back button is clicked. | `CustomEvent<void>` |
-| `calciteFlowItemClose`     | Fires when the close button is clicked.                                                                                          | `CustomEvent<void>` |
-| `calciteFlowItemScroll`    | Fires when the content is scrolled.                                                                                              | `CustomEvent<void>` |
+| Event                   | Description                             | Type                |
+| ----------------------- | --------------------------------------- | ------------------- |
+| `calciteFlowItemBack`   | Fires when the back button is clicked.  | `CustomEvent<void>` |
+| `calciteFlowItemClose`  | Fires when the close button is clicked. | `CustomEvent<void>` |
+| `calciteFlowItemScroll` | Fires when the content is scrolled.     | `CustomEvent<void>` |
 
 ## Methods
 
