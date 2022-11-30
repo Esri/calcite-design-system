@@ -17,7 +17,7 @@ export const simple = (): string => html`
   <div style="background-color:white;padding:100px">
     <calcite-chip
       scale="${select("scale", ["s", "m", "l"], "m")}"
-      appearance="${select("appearance", ["solid", "clear"], "solid")}"
+      appearance="${select("appearance", ["solid", "transparent"], "solid")}"
       color="${select("color", ["blue", "red", "yellow", "green", "grey"], "grey")}"
       ${boolean("closable", false)}
       >My great chip</calcite-chip
@@ -30,7 +30,7 @@ export const withIcon = (): string => html`
     <calcite-chip
       icon="${select("icon", iconNames, iconNames[0])}"
       scale="${select("scale", ["s", "m", "l"], "m")}"
-      appearance="${select("appearance", ["solid", "clear"], "solid")}"
+      appearance="${select("appearance", ["solid", "transparent"], "solid")}"
       color="${select("color", ["blue", "red", "yellow", "green", "grey"], "grey")}"
       ${boolean("closable", false)}
     >
@@ -43,7 +43,7 @@ export const withImage = (): string => html`
   <div style="background-color:white;padding:100px">
     <calcite-chip
       scale="${select("scale", ["s", "m", "l"], "m")}"
-      appearance="${select("appearance", ["solid", "clear"], "solid")}"
+      appearance="${select("appearance", ["solid", "transparent"], "solid")}"
       color="${select("color", ["blue", "red", "yellow", "green", "grey"], "grey")}"
       ${boolean("closable", false)}
     >
@@ -60,7 +60,7 @@ export const withAvatar = (): string => {
     <div style="background-color:white;padding:100px">
       <calcite-chip
         scale="${scale}"
-        appearance="${select("appearance", ["solid", "clear"], "solid")}"
+        appearance="${select("appearance", ["solid", "transparent"], "solid")}"
         color="${select("color", ["blue", "red", "yellow", "green", "grey"], "grey")}"
         ${boolean("closable", false)}
       >
@@ -84,7 +84,7 @@ export const darkThemeRTL_TestOnly = (): string => html`
     <calcite-chip
       class="calcite-theme-dark"
       scale="${select("scale", ["s", "m", "l"], "m")}"
-      appearance="${select("appearance", ["solid", "clear"], "solid")}"
+      appearance="${select("appearance", ["solid", "transparent"], "solid")}"
       color="${select("color", ["blue", "red", "yellow", "green", "grey"], "grey")}"
       ${boolean("closable", false)}
       >My great chip</calcite-chip
