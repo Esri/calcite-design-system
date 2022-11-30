@@ -1,6 +1,6 @@
 import { Meta, Description, Canvas, Story } from "@storybook/addon-docs";
 import { color } from "@storybook/addon-knobs";
-
+import { placeholderImage } from "../.storybook/placeholderImage"
 import markdown from "./custom-theme.md";
 
 <Meta title="Theming/Custom Theme" />
@@ -123,7 +123,12 @@ export const Template = () =>
       <div class="demo-column">
         <div>
           <calcite-card selected selectable>
-            <img alt="" slot="thumbnail" src="https://placem.at/places?w=260&h=160&txt=0" style="width: 260px;" />
+            <img
+              alt="thumbnail"
+              slot="thumbnail"
+              style="width:260px"
+              src="${placeholderImage({ width: 260, height: 160 })}"
+            />
             <h3 slot="title">Selectable card</h3>
             <calcite-link slot="footer-leading">Lead füt</calcite-link>
             <calcite-link slot="footer-trailing">Trail füt</calcite-link>

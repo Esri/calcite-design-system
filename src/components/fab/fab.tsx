@@ -24,17 +24,17 @@ export class Fab implements InteractiveComponent, LoadableComponent {
   // --------------------------------------------------------------------------
 
   /**
-   * Used to set the button's appearance. Default is outline.
+   * Specifies the appearance style of the component.
    */
   @Prop({ reflect: true }) appearance: Extract<"solid" | "outline", Appearance> = "outline";
 
   /**
-   * Used to set the button's color. Default is light.
+   * Specifies the color of the component.
    */
   @Prop({ reflect: true }) color: ButtonColor = "neutral";
 
   /**
-   * When true, disabled prevents interaction. This state shows items with lower opacity/grayed.
+   * When `true`, interaction is prevented and the component is displayed with lower opacity.
    */
   @Prop({ reflect: true }) disabled = false;
 
@@ -43,30 +43,30 @@ export class Fab implements InteractiveComponent, LoadableComponent {
    *
    * @default "plus"
    */
-  @Prop({ reflect: true }) icon?: string = ICONS.plus;
+  @Prop({ reflect: true }) icon: string = ICONS.plus;
 
   /**
-   * Label of the FAB, exposed on hover when textEnabled is false. If no label is provided, the label inherits what's provided for the `text` prop.
+   * Accessible name for the component.
    */
-  @Prop() label?: string;
+  @Prop() label: string;
 
   /**
-   * When true, content is waiting to be loaded. This state shows a busy indicator.
+   * When `true`, a busy indicator is displayed.
    */
   @Prop({ reflect: true }) loading = false;
 
   /**
-   * Specifies the size of the fab.
+   * Specifies the size of the component.
    */
   @Prop({ reflect: true }) scale: Scale = "m";
 
   /**
-   * Text that accompanies the FAB icon.
+   * Specifies text to accompany the component's icon.
    */
-  @Prop() text?: string;
+  @Prop() text: string;
 
   /**
-   * Indicates whether the text is displayed.
+   * When `true`, displays the `text` value in the component.
    */
   @Prop({ reflect: true }) textEnabled = false;
 
