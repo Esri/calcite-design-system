@@ -2,6 +2,10 @@
 
 <!-- Auto Generated Below -->
 
+## Overview
+
+A general purpose list that enables users to construct list items that conform to Calcite styling.
+
 ## Usage
 
 ### Advanced
@@ -126,7 +130,6 @@
 | `filterText`          | `filter-text`          | Text for the filter input field.                                                                                                                                               | `string`                                                                                      | `undefined` |
 | `filteredData`        | --                     | **read-only** The currently filtered items                                                                                                                                     | `{ label: string; description: string; metadata: Record<string, unknown>; value: string; }[]` | `[]`        |
 | `filteredItems`       | --                     | **read-only** The currently filtered items                                                                                                                                     | `HTMLCalciteListItemElement[]`                                                                | `[]`        |
-| `headingLevel`        | `heading-level`        | <span style="color:red">**[DEPRECATED]**</span> no longer necessary.<br/><br/>Specifies the number at which section headings should start.                                     | `1 \| 2 \| 3 \| 4 \| 5 \| 6`                                                                  | `undefined` |
 | `label`               | `label`                | Specifies an accessible name for the component.                                                                                                                                | `string`                                                                                      | `undefined` |
 | `loading`             | `loading`              | When true, content is waiting to be loaded. This state shows a busy indicator.                                                                                                 | `boolean`                                                                                     | `false`     |
 | `selectedItems`       | --                     | **read-only** The currently selected items                                                                                                                                     | `HTMLCalciteListItemElement[]`                                                                | `[]`        |
