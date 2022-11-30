@@ -66,18 +66,6 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent, Float
 
   /**
    * When `true`, displays and positions the component.
-   *
-   * @deprecated use `open` instead.
-   */
-  @Prop({ reflect: true, mutable: true }) active = false;
-
-  @Watch("active")
-  activeHandler(value: boolean): void {
-    this.open = value;
-  }
-
-  /**
-   * When `true`, displays and positions the component.
    */
   @Prop({ reflect: true, mutable: true }) open = false;
 
@@ -89,7 +77,6 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent, Float
       } else {
         updateAfterClose(this.floatingEl);
       }
-      this.active = value;
       return;
     }
 
@@ -203,9 +190,6 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent, Float
     this.reposition(true);
     if (this.open) {
       this.openHandler(this.open);
-    }
-    if (this.active) {
-      this.activeHandler(this.active);
     }
     connectOpenCloseComponent(this);
   }
