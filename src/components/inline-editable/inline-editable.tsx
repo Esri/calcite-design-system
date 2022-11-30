@@ -46,7 +46,9 @@ export class InlineEditable implements InteractiveComponent, LabelableComponent,
   //
   //--------------------------------------------------------------------------
 
-  /** specify whether editing can be enabled */
+  /**
+   * When `true`, interaction is prevented and the component is displayed with lower opacity.
+   */
   @Prop({ reflect: true }) disabled = false;
 
   @Watch("disabled")
@@ -56,7 +58,9 @@ export class InlineEditable implements InteractiveComponent, LabelableComponent,
     }
   }
 
-  /** specify whether the wrapped input element is editable, defaults to false */
+  /**
+   * When `true`, inline editing is enabled on the component.
+   */
   @Prop({ mutable: true, reflect: true }) editingEnabled = false;
 
   @Watch("editingEnabled")
@@ -69,38 +73,38 @@ export class InlineEditable implements InteractiveComponent, LabelableComponent,
     }
   }
 
-  /** specify whether the confirm button should display a loading state, defaults to false */
+  /** When `true`, a busy indicator is displayed. */
   @Prop({ mutable: true, reflect: true }) loading = false;
 
-  /** specify whether save/cancel controls should be displayed when editingEnabled is true, defaults to false */
+  /** When `true` and `editingEnabled` is `true`, displays save and cancel controls on the component. */
   @Prop({ reflect: true }) controls = false;
 
   /**
-   * specify text to be user for the enable editing button's aria-label, defaults to `Click to edit`
+   * Accessible name for the component's enable editing button.
    *
    * @default "Click to edit"
    */
   @Prop({ reflect: true }) intlEnableEditing = TEXT.intlEnablingEditing;
 
   /**
-   * specify text to be user for the cancel editing button's aria-label, defaults to `Cancel`
+   * Accessible name for the component's cancel editing button.
    *
    * @default "Cancel"
    */
   @Prop({ reflect: true }) intlCancelEditing = TEXT.intlCancelEditing;
 
   /**
-   * specify text to be user for the confirm changes button's aria-label, defaults to `Save`
+   * Accessible name for the component's confirm edits button.
    *
    * @default "Save"
    */
   @Prop({ reflect: true }) intlConfirmChanges = TEXT.intlConfirmChanges;
 
-  /** specify the scale of the inline-editable component, defaults to the scale of the wrapped calcite-input or the scale of the closest wrapping component with a set scale */
-  @Prop({ reflect: true, mutable: true }) scale?: Scale;
+  /** Specifies the size of the component. Defaults to the scale of the wrapped `calcite-input` or the scale of the closest wrapping component with a set scale. */
+  @Prop({ reflect: true, mutable: true }) scale: Scale;
 
-  /** when controls, specify a callback to be executed prior to disabling editing. when provided, loading state will be handled automatically. */
-  @Prop() afterConfirm?: () => Promise<void>;
+  /** Specifies a callback to be executed prior to disabling editing via the controls. When provided, the component's loading state will be handled automatically. */
+  @Prop() afterConfirm: () => Promise<void>;
 
   //--------------------------------------------------------------------------
   //
@@ -199,12 +203,12 @@ export class InlineEditable implements InteractiveComponent, LabelableComponent,
   //--------------------------------------------------------------------------
 
   /**
-   * Emitted when the cancel button gets clicked.
+   * Emits when the component's "cancel editing" button is pressed.
    */
   @Event({ cancelable: false }) calciteInlineEditableEditCancel: EventEmitter<void>;
 
   /**
-   * Emitted when the check button gets clicked.
+   * Emits when the component's "confirm edits" button is pressed.
    */
   @Event({ cancelable: false }) calciteInlineEditableEditConfirm: EventEmitter<void>;
 

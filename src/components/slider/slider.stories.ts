@@ -7,7 +7,11 @@ import { html } from "../../../support/formatting";
 export default {
   title: "Components/Controls/Slider",
   parameters: {
-    notes: readme
+    notes: readme,
+    chromatic: {
+      // https://www.chromatic.com/docs/threshold
+      diffThreshold: Number(process.env.CHROMATIC_DIFF_THRESHOLD) || 0.3
+    }
   },
   ...storyFilters()
 };

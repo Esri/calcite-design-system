@@ -65,9 +65,9 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent, Float
   //--------------------------------------------------------------------------
 
   /**
-   * Opens or closes the dropdown
+   * When `true`, displays and positions the component.
    *
-   * @deprecated use open instead.
+   * @deprecated use `open` instead.
    */
   @Prop({ reflect: true, mutable: true }) active = false;
 
@@ -76,7 +76,9 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent, Float
     this.open = value;
   }
 
-  /** When true, opens the dropdown */
+  /**
+   * When `true`, displays and positions the component.
+   */
   @Prop({ reflect: true, mutable: true }) open = false;
 
   @Watch("open")
@@ -99,12 +101,16 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent, Float
   }
 
   /**
-   allow the dropdown to remain open after a selection is made
-   if the selection-mode of the selected item's containing group is "none", the dropdown will always close
+   * When `true`, the component will remain open after a selection is made.
+   *
+   * If the `selectionMode` of the selected `calcite-dropdown-item`'s containing `calcite-dropdown-group` is `"none"`, the component will always close.
+   *
    */
   @Prop({ reflect: true }) disableCloseOnSelect = false;
 
-  /** is the dropdown disabled  */
+  /**
+   * When `true`, interaction is prevented and the component is displayed with lower opacity.
+   */
   @Prop({ reflect: true }) disabled = false;
 
   @Watch("disabled")
@@ -117,7 +123,7 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent, Float
   /**
    * Defines the available placements that can be used when a flip occurs.
    */
-  @Prop() flipPlacements?: EffectivePlacement[];
+  @Prop() flipPlacements: EffectivePlacement[];
 
   @Watch("flipPlacements")
   flipPlacementsHandler(): void {
@@ -126,8 +132,8 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent, Float
   }
 
   /**
-   specify the maximum number of calcite-dropdown-items to display before showing the scroller, must be greater than 0 -
-   this value does not include groupTitles passed to calcite-dropdown-group
+   * Specifies the maximum number of `calcite-dropdown-item`s to display before showing a scroller.
+   * Value must be greater than `0`, and does not include `groupTitle`'s from `calcite-dropdown-group`.
    */
   @Prop({ reflect: true }) maxItems = 0;
 
@@ -152,7 +158,7 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent, Float
   }
 
   /**
-   * Determines where the dropdown will be positioned relative to the button.
+   * Determines where the component will be positioned relative to the container element.
    *
    * @default "bottom-start"
    */
@@ -163,21 +169,27 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent, Float
     this.reposition(true);
   }
 
-  /** specify the scale of dropdown, defaults to m */
+  /**
+   * Specifies the size of the component.
+   */
   @Prop({ reflect: true }) scale: Scale = "m";
 
   /**
-   * **read-only** The currently selected items
+   * Specifies the component's selected items.
    *
    * @readonly
    */
   @Prop({ mutable: true }) selectedItems: HTMLCalciteDropdownItemElement[] = [];
 
-  /** specify whether the dropdown is opened by hover or click of a trigger element */
+  /**
+   * Specifies the action to open the component from the container element.
+   */
   @Prop({ reflect: true }) type: "hover" | "click" = "click";
 
-  /** specify the width of dropdown */
-  @Prop({ reflect: true }) width?: Scale;
+  /**
+   * Specifies the width of the component.
+   */
+  @Prop({ reflect: true }) width: Scale;
 
   //--------------------------------------------------------------------------
   //
@@ -290,7 +302,7 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent, Float
   //
   //--------------------------------------------------------------------------
 
-  /** fires when a dropdown item has been selected or deselected */
+  /** Fires when a `calcite-dropdown-item`'s selection changes. */
   @Event({ cancelable: false }) calciteDropdownSelect: EventEmitter<Selection>;
 
   /** Fires when the component is requested to be closed and before the closing transition begins. */

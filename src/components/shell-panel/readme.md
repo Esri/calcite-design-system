@@ -88,12 +88,6 @@ Add `calcite-match-height` to a wrapping element to ensure proper height, scroll
 | `resizable`           | `resizable`             | When `true` and not `detached`, the component's content area is resizable.                                 | `boolean`           | `false`       |
 | `widthScale`          | `width-scale`           | Specifies the width of the component's content area.                                                       | `"l" \| "m" \| "s"` | `"m"`         |
 
-## Events
-
-| Event                     | Description                                                                                                                                                                 | Type                |
-| ------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------- |
-| `calciteShellPanelToggle` | <span style="color:red">**[DEPRECATED]**</span> use a `ResizeObserver` on the component to listen for changes to its size.<br/><br/>Emitted when collapse has been toggled. | `CustomEvent<void>` |
-
 ## Slots
 
 | Slot           | Description                                                |
