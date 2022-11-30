@@ -52,7 +52,7 @@ export class DatePicker implements LocalizedComponent {
   //
   //--------------------------------------------------------------------------
 
-  /** Active date */
+  /** Specifies the component's active date. */
   @Prop({ mutable: true }) activeDate: Date;
 
   @Watch("activeDate")
@@ -62,19 +62,23 @@ export class DatePicker implements LocalizedComponent {
     }
   }
 
-  /** Active range */
-  @Prop({ reflect: true }) activeRange?: "start" | "end";
-
-  /** Selected date */
-  @Prop({ mutable: true }) value?: string | string[];
+  /**
+   * When `range` is true, specifies the active `range`. Where `"start"` specifies the starting range date and `"end"` the ending range date.
+   */
+  @Prop({ reflect: true }) activeRange: "start" | "end";
 
   /**
-   * Number at which section headings should start for this component.
+   * Specifies the selected date as a string (`"yyyy-mm-dd"`), or an array of strings for `range` values (`["yyyy-mm-dd", "yyyy-mm-dd"]`).
+   */
+  @Prop({ mutable: true }) value: string | string[];
+
+  /**
+   * Specifies the number at which section headings should start.
    */
   @Prop({ reflect: true }) headingLevel: HeadingLevel;
 
-  /** Selected date as full date object*/
-  @Prop({ mutable: true }) valueAsDate?: Date | Date[];
+  /** Specifies the selected date as a full date object (`new Date("yyyy-mm-dd")`), or an array containing full date objects (`[new Date("yyyy-mm-dd"), new Date("yyyy-mm-dd")]`). */
+  @Prop({ mutable: true }) valueAsDate: Date | Date[];
 
   @Watch("valueAsDate")
   handleValueAsDate(date: Date | Date[]): void {
@@ -84,24 +88,24 @@ export class DatePicker implements LocalizedComponent {
   }
 
   /**
-   * Selected start date as full date object
+   * Specifies the selected start date as a full date object.
    *
-   * @deprecated use valueAsDate instead
+   * @deprecated use `valueAsDate` instead.
    */
-  @Prop({ mutable: true }) startAsDate?: Date;
+  @Prop({ mutable: true }) startAsDate: Date;
 
   /**
-   * Selected end date as full date object
+   * Specifies the selected end date as a full date object.
    *
-   * @deprecated use valueAsDate instead
+   * @deprecated use `valueAsDate` instead.
    */
-  @Prop({ mutable: true }) endAsDate?: Date;
+  @Prop({ mutable: true }) endAsDate: Date;
 
-  /** Earliest allowed date as full date object */
-  @Prop({ mutable: true }) minAsDate?: Date;
+  /** Specifies the earliest allowed date as a full date object (`new Date("yyyy-mm-dd")`). */
+  @Prop({ mutable: true }) minAsDate: Date;
 
-  /** Latest allowed date as full date object */
-  @Prop({ mutable: true }) maxAsDate?: Date;
+  /** Specifies the latest allowed date as a full date object (`new Date("yyyy-mm-dd")`). */
+  @Prop({ mutable: true }) maxAsDate: Date;
 
   @Watch("startAsDate")
   @Watch("endAsDate")
@@ -112,8 +116,8 @@ export class DatePicker implements LocalizedComponent {
     this.activeStartDate = startDate;
   }
 
-  /** Earliest allowed date ("yyyy-mm-dd") */
-  @Prop({ mutable: true, reflect: true }) min?: string;
+  /** Specifies the earliest allowed date (`"yyyy-mm-dd"`). */
+  @Prop({ mutable: true, reflect: true }) min: string;
 
   @Watch("min")
   onMinChanged(min: string): void {
@@ -122,8 +126,8 @@ export class DatePicker implements LocalizedComponent {
     }
   }
 
-  /** Latest allowed date ("yyyy-mm-dd") */
-  @Prop({ mutable: true, reflect: true }) max?: string;
+  /** Specifies the latest allowed date (`"yyyy-mm-dd"`). */
+  @Prop({ mutable: true, reflect: true }) max: string;
 
   @Watch("max")
   onMaxChanged(max: string): void {
@@ -133,25 +137,25 @@ export class DatePicker implements LocalizedComponent {
   }
 
   /**
-   * Localized string for "previous month" (used for aria label)
+   * Accessible name for the component's previous month button.
    *
    * @default "Previous month"
    */
-  @Prop() intlPrevMonth?: string = TEXT.prevMonth;
+  @Prop() intlPrevMonth: string = TEXT.prevMonth;
 
   /**
-   * Localized string for "next month" (used for aria label)
+   * Accessible name for the component's next month button.
    *
    * @default "Next month"
    */
-  @Prop() intlNextMonth?: string = TEXT.nextMonth;
+  @Prop() intlNextMonth: string = TEXT.nextMonth;
 
   /**
-   * Localized string for "year" (used for aria label)
+   * Accessible name for the component's year input.
    *
    * @default "Year"
    */
-  @Prop() intlYear?: string = TEXT.year;
+  @Prop() intlYear: string = TEXT.year;
 
   /**
    * Specifies the BCP 47 language tag for the desired language and country format.
@@ -159,35 +163,35 @@ export class DatePicker implements LocalizedComponent {
    * @deprecated set the global `lang` attribute on the element instead.
    * @mdn [lang](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/lang)
    */
-  @Prop() locale?: string;
+  @Prop() locale: string;
 
   /**
    * Specifies the Unicode numeral system used by the component for localization. This property cannot be dynamically changed.
    *
    */
-  @Prop({ reflect: true }) numberingSystem?: NumberingSystem;
+  @Prop({ reflect: true }) numberingSystem: NumberingSystem;
 
-  /** specify the scale of the date picker */
+  /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: "s" | "m" | "l" = "m";
 
-  /** Range mode activation */
+  /** When `true`, activates the component's range mode to allow a start and end date. */
   @Prop({ reflect: true }) range = false;
 
   /**
-   * Selected start date
+   * Specifies the selected start date.
    *
-   * @deprecated use value instead
+   * @deprecated use `value` instead.
    */
-  @Prop({ mutable: true, reflect: true }) start?: string;
+  @Prop({ mutable: true, reflect: true }) start: string;
 
   /**
-   * Selected end date
+   * Specifies the selected end date.
    *
-   * @deprecated use value instead
+   * @deprecated use `value` instead.
    */
-  @Prop({ mutable: true, reflect: true }) end?: string;
+  @Prop({ mutable: true, reflect: true }) end: string;
 
-  /** Disables the default behaviour on the third click of narrowing or extending the range and instead starts a new range. */
+  /** When `true`, disables the default behavior on the third click of narrowing or extending the range and instead starts a new range. */
   @Prop({ reflect: true }) proximitySelectionDisabled = false;
 
   //--------------------------------------------------------------------------
@@ -196,12 +200,12 @@ export class DatePicker implements LocalizedComponent {
   //
   //--------------------------------------------------------------------------
   /**
-   * Trigger calcite date change when a user changes the date.
+   * Emits when a user changes the component's date. For `range` events, use `calciteDatePickerRangeChange`.
    */
   @Event({ cancelable: false }) calciteDatePickerChange: EventEmitter<Date>;
 
   /**
-   * Trigger calcite date change when a user changes the date range.
+   * Emits when a user changes the component's date `range`. For components without `range` use `calciteDatePickerChange`.
    *
    * @see [DateRangeChange](https://github.com/Esri/calcite-components/blob/master/src/components/date-picker/interfaces.ts#L1)
    */

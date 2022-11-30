@@ -25,13 +25,13 @@ import {
 
 /**
  * @slot - A slot for adding custom content.
- * @slot header-actions-start - A slot for adding actions or content to the start side of the header.
- * @slot header-actions-end - A slot for adding actions or content to the end side of the header.
- * @slot header-content - A slot for adding custom content to the header.
- * @slot header-menu-actions - A slot for adding an overflow menu with actions inside a `calcite-dropdown`.
+ * @slot header-actions-start - A slot for adding `calcite-action`s or content to the start side of the component's header.
+ * @slot header-actions-end - A slot for adding `calcite-action`s or content to the end side of the component's header.
+ * @slot header-content - A slot for adding custom content to the component's header.
+ * @slot header-menu-actions - A slot for adding an overflow menu with `calcite-action`s inside a `calcite-dropdown`.
  * @slot fab - A slot for adding a `calcite-fab` (floating action button) to perform an action.
- * @slot footer-actions - A slot for adding buttons to the footer.
- * @slot footer - A slot for adding custom content to the footer.
+ * @slot footer-actions - A slot for adding `calcite-button`s to the component's footer.
+ * @slot footer - A slot for adding custom content to the component's footer.
  */
 @Component({
   tag: "calcite-flow-item",
@@ -45,29 +45,29 @@ export class FlowItem implements InteractiveComponent, LoadableComponent {
   //
   // --------------------------------------------------------------------------
 
-  /** When true, displays a close button in the trailing side of the header */
+  /** When `true`, displays a close button in the trailing side of the component's header. */
   @Prop({ mutable: true, reflect: true }) closable = false;
 
-  /** When true, flow-item will be hidden */
+  /** When `true`, the component will be hidden. */
   @Prop({ mutable: true, reflect: true }) closed = false;
 
   /**
-   * When provided, this method will be called before it is removed from the parent flow.
+   * When provided, the method will be called before it is removed from its parent `calcite-flow`.
    */
-  @Prop() beforeBack?: () => Promise<void>;
+  @Prop() beforeBack: () => Promise<void>;
 
   /** A description for the component. */
   @Prop() description: string;
 
   /**
-   *  When true, interaction is prevented and the component is displayed with lower opacity.
+   *  When `true`, interaction is prevented and the component is displayed with lower opacity.
    */
   @Prop({ reflect: true }) disabled = false;
 
   /**
    * The component header text.
    */
-  @Prop() heading?: string;
+  @Prop() heading: string;
 
   /**
    * Specifies the number at which section headings should start.
@@ -77,42 +77,42 @@ export class FlowItem implements InteractiveComponent, LoadableComponent {
   /**
    * Specifies the maximum height of the component.
    */
-  @Prop({ reflect: true }) heightScale?: Scale;
+  @Prop({ reflect: true }) heightScale: Scale;
 
   /**
-   * Accessible name for the component's back button. The back button will only be shown when 'showBackButton' is true.
+   * When `showBackButton` is `true`, the accessible name for the component's back button.
    */
-  @Prop() intlBack?: string;
+  @Prop() intlBack: string;
 
   /**
-   * Accessible name for the component's close button. The close button will only be shown when 'closable' is true.
+   * When `closable` is `true`, the accessible name for the component's close button.
    */
-  @Prop() intlClose?: string;
+  @Prop() intlClose: string;
 
   /**
    * Accessible name for the component's actions menu.
    */
-  @Prop() intlOptions?: string;
+  @Prop() intlOptions: string;
 
   /**
-   * When true, a busy indicator is displayed.
+   * When `true`, a busy indicator is displayed.
    */
   @Prop({ reflect: true }) loading = false;
 
   /**
-   * When true, the action menu items in the `header-menu-actions` slot are open.
+   * When `true`, the action menu items in the `header-menu-actions` slot are open.
    */
   @Prop({ reflect: true }) menuOpen = false;
 
   /**
-   * When true, displays a back button in the header.
+   * When `true`, displays a back button in the component's header.
    */
   @Prop({ reflect: true }) showBackButton = false;
 
   /**
    * Specifies the width of the component.
    */
-  @Prop({ reflect: true }) widthScale?: Scale;
+  @Prop({ reflect: true }) widthScale: Scale;
 
   //--------------------------------------------------------------------------
   //
