@@ -20,7 +20,8 @@ export default {
     notes: readme,
     chromatic: {
       // https://www.chromatic.com/docs/threshold
-      diffThreshold: 0.7
+      diffThreshold: 0.8,
+      disableSnapshot: false
     }
   },
   ...storyFilters()
@@ -259,12 +260,6 @@ export const arabLocaleNumberingSystem_TestOnly = (): string =>
       ])
     )}
   </div>`;
-
-arabLocaleNumberingSystem_TestOnly.parameters = {
-  chromatic: {
-    disableSnapshot: false
-  }
-};
 
 export const thaiLocaleNumberingSystem_TestOnly = (): string =>
   html`<div style="width: 400px">

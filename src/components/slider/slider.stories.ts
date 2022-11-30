@@ -10,7 +10,8 @@ export default {
     notes: readme,
     chromatic: {
       // https://www.chromatic.com/docs/threshold
-      diffThreshold: 0.8
+      diffThreshold: 0.8,
+      disableSnapshot: false
     }
   },
   ...storyFilters()
@@ -109,11 +110,7 @@ export const rangeLabeledTicksOverlappingAtMax_TestOnly = (): string => html`
     ${boolean("snap", true)}
   ></calcite-slider>
 `;
-rangeLabeledTicksOverlappingAtMax_TestOnly.parameters = {
-  chromatic: {
-    disableSnapshot: false
-  }
-};
+
 export const rangeLabeledTicksOverlappingAtMin_TestOnly = (): string => html`
   <calcite-slider
     min="${number("min", 5)}"
