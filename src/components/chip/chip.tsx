@@ -5,6 +5,11 @@ import { CSS, TEXT, SLOTS, ICONS } from "./resources";
 import { ChipColor } from "./interfaces";
 import { Appearance, DeprecatedEventPayload, Scale } from "../interfaces";
 import {
+  ConditionalSlotComponent,
+  connectConditionalSlotComponent,
+  disconnectConditionalSlotComponent
+} from "../../utils/conditionalSlot";
+import {
   setUpLoadableComponent,
   setComponentLoaded,
   LoadableComponent,
@@ -20,7 +25,7 @@ import {
   styleUrl: "chip.scss",
   shadow: true
 })
-export class Chip implements LoadableComponent {
+export class Chip implements ConditionalSlotComponent, LoadableComponent {
   //--------------------------------------------------------------------------
   //
   //  Public Properties
@@ -72,6 +77,10 @@ export class Chip implements LoadableComponent {
   //
   // --------------------------------------------------------------------------
 
+  connectedCallback(): void {
+    connectConditionalSlotComponent(this);
+  }
+
   componentWillLoad(): void {
     setUpLoadableComponent(this);
   }
@@ -80,6 +89,9 @@ export class Chip implements LoadableComponent {
     setComponentLoaded(this);
   }
 
+  disconnectedCallback(): void {
+    disconnectConditionalSlotComponent(this);
+  }
   //--------------------------------------------------------------------------
   //
   //  Public Methods
