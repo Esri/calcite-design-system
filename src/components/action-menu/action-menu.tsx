@@ -76,7 +76,7 @@ export class ActionMenu implements LoadableComponent {
   /**
    * Defines the available placements that can be used when a flip occurs.
    */
-  @Prop() flipPlacements?: EffectivePlacement[];
+  @Prop() flipPlacements: EffectivePlacement[];
 
   /**
    *  Specifies the text string for the component.

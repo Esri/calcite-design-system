@@ -59,28 +59,28 @@ export class Block implements ConditionalSlotComponent, InteractiveComponent {
    *
    * @default "Collapse"
    */
-  @Prop() intlCollapse?: string = TEXT.collapse;
+  @Prop() intlCollapse: string = TEXT.collapse;
 
   /**
    * Accessible name for the component's expand button.
    *
    * @default "Expand"
    */
-  @Prop() intlExpand?: string = TEXT.expand;
+  @Prop() intlExpand: string = TEXT.expand;
 
   /**
    * Accessible name when the component is loading.
    *
    * @default "Loading"
    */
-  @Prop() intlLoading?: string = TEXT.loading;
+  @Prop() intlLoading: string = TEXT.loading;
 
   /**
    * Accessible name for the component's options button.
    *
    * @default "Options"
    */
-  @Prop() intlOptions?: string = TEXT.options;
+  @Prop() intlOptions: string = TEXT.options;
 
   /**
    * When `true`, a busy indicator is displayed.
@@ -95,7 +95,7 @@ export class Block implements ConditionalSlotComponent, InteractiveComponent {
   /**
    * Displays a status-related indicator icon.
    */
-  @Prop({ reflect: true }) status?: Status;
+  @Prop({ reflect: true }) status: Status;
 
   /**
    * A description for the component, which displays below the heading.

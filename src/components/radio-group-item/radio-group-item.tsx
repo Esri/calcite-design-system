@@ -48,7 +48,7 @@ export class RadioGroupItem {
    *
    * @deprecated Use either `iconStart` or `iconEnd` but do not combine them with `icon` and `iconPosition`.
    */
-  @Prop({ reflect: true }) icon?: string;
+  @Prop({ reflect: true }) icon: string;
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @Prop({ reflect: true }) iconFlipRtl = false;
@@ -58,13 +58,13 @@ export class RadioGroupItem {
    *
    * @deprecated Use either `iconStart` or `iconEnd` but do not combine them with `icon` and `iconPosition`.
    */
-  @Prop({ reflect: true }) iconPosition?: Position = "start";
+  @Prop({ reflect: true }) iconPosition: Position = "start";
 
   /** Specifies an icon to display at the start of the component. */
-  @Prop({ reflect: true }) iconStart?: string;
+  @Prop({ reflect: true }) iconStart: string;
 
   /** Specifies an icon to display at the end of the component. */
-  @Prop({ reflect: true }) iconEnd?: string;
+  @Prop({ reflect: true }) iconEnd: string;
 
   /**
    * The component's value.

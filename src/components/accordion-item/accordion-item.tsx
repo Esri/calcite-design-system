@@ -71,17 +71,17 @@ export class AccordionItem implements ConditionalSlotComponent {
    * @deprecated Use `heading` instead.
    */
   @Prop()
-  itemTitle?: string;
+  itemTitle: string;
 
   /**
    * Specifies a subtitle for the component.
    *
    * @deprecated Use `description` instead.
    */
-  @Prop() itemSubtitle?: string;
+  @Prop() itemSubtitle: string;
 
   /** Specifies heading text for the component. */
-  @Prop() heading?: string;
+  @Prop() heading: string;
 
   /** Specifies a description for the component. */
   @Prop() description: string;
@@ -91,7 +91,7 @@ export class AccordionItem implements ConditionalSlotComponent {
    *
    * @deprecated use `iconStart` or `iconEnd` instead.
    */
-  @Prop({ mutable: true, reflect: true }) icon?: string;
+  @Prop({ mutable: true, reflect: true }) icon: string;
 
   @Watch("icon")
   iconHandler(value: string): void {
@@ -99,7 +99,7 @@ export class AccordionItem implements ConditionalSlotComponent {
   }
 
   /** Specifies an icon to display at the start of the component. */
-  @Prop({ reflect: true }) iconStart?: string;
+  @Prop({ reflect: true }) iconStart: string;
 
   @Watch("iconStart")
   iconStartHandler(value: string): void {
@@ -107,7 +107,7 @@ export class AccordionItem implements ConditionalSlotComponent {
   }
 
   /** Specifies an icon to display at the end of the component. */
-  @Prop({ reflect: true }) iconEnd?: string;
+  @Prop({ reflect: true }) iconEnd: string;
 
   //--------------------------------------------------------------------------
   //

@@ -76,12 +76,12 @@ export class ActionBar implements ConditionalSlotComponent, LoadableComponent {
   /**
    * Specifies the label of the expand icon when the component is collapsed.
    */
-  @Prop() intlExpand?: string;
+  @Prop() intlExpand: string;
 
   /**
    * Specifies the label of the collapse icon when the component is expanded.
    */
-  @Prop() intlCollapse?: string;
+  @Prop() intlCollapse: string;
 
   /**
    *  The layout direction of the actions.

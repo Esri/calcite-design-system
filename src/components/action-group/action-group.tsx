@@ -46,12 +46,12 @@ export class ActionGroup implements ConditionalSlotComponent {
   /**
    * Indicates number of columns.
    */
-  @Prop({ reflect: true }) columns?: Columns;
+  @Prop({ reflect: true }) columns: Columns;
 
   /**
    * Specifies a text string for the `calcite-action-menu`.
    */
-  @Prop() intlMore?: string;
+  @Prop() intlMore: string;
 
   /**
    * When `true`, the `calcite-action-menu` is open.

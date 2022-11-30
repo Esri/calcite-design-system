@@ -77,13 +77,13 @@ export class TabTitle implements InteractiveComponent {
   @Prop({ reflect: true }) disabled = false;
 
   /** Specifies an icon to display at the end of the component. */
-  @Prop({ reflect: true }) iconEnd?: string;
+  @Prop({ reflect: true }) iconEnd: string;
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
-  @Prop({ reflect: true }) iconFlipRtl?: FlipContext;
+  @Prop({ reflect: true }) iconFlipRtl: FlipContext;
 
   /** Specifies an icon to display at the start of the component. */
-  @Prop({ reflect: true }) iconStart?: string;
+  @Prop({ reflect: true }) iconStart: string;
 
   /**
    * @internal
@@ -110,7 +110,7 @@ export class TabTitle implements InteractiveComponent {
    *
    * When specified, use the same value on the `calcite-tab`.
    */
-  @Prop({ reflect: true }) tab?: string;
+  @Prop({ reflect: true }) tab: string;
 
   //--------------------------------------------------------------------------
   //
