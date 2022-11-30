@@ -10,7 +10,7 @@ export default {
     notes: readme,
     chromatic: {
       // https://www.chromatic.com/docs/threshold
-      diffThreshold: 1
+      diffThreshold: 0.4
     }
   },
   ...storyFilters()
@@ -35,12 +35,6 @@ export const simple = (): string => html`
   ></calcite-slider>
 `;
 
-simple.parameters = {
-  chromatic: {
-    diffThreshold: 1
-  }
-};
-
 export const range = (): string => html`
   <calcite-slider
     min="${number("min", 0)}"
@@ -59,12 +53,6 @@ export const range = (): string => html`
     scale="${select("scale", ["s", "m", "l"], "m")}"
   ></calcite-slider>
 `;
-
-range.parameters = {
-  chromatic: {
-    diffThreshold: 1
-  }
-};
 
 export const darkThemeMirroredRange_TestOnly = (): string => html`
   <calcite-slider
@@ -87,9 +75,6 @@ export const darkThemeMirroredRange_TestOnly = (): string => html`
 `;
 
 darkThemeMirroredRange_TestOnly.parameters = {
-  chromatic: {
-    diffThreshold: 1
-  },
   themes: themesDarkDefault
 };
 
@@ -109,12 +94,6 @@ export const rangeLabeledTicks_TestOnly = (): string => html`
   ></calcite-slider>
 `;
 
-rangeLabeledTicks_TestOnly.parameters = {
-  chromatic: {
-    diffThreshold: 1
-  }
-};
-
 export const rangeLabeledTicksOverlappingAtMax_TestOnly = (): string => html`
   <calcite-slider
     min="${number("min", 5)}"
@@ -130,13 +109,11 @@ export const rangeLabeledTicksOverlappingAtMax_TestOnly = (): string => html`
     ${boolean("snap", true)}
   ></calcite-slider>
 `;
-
 rangeLabeledTicksOverlappingAtMax_TestOnly.parameters = {
   chromatic: {
-    diffThreshold: 1
+    disableSnapshot: false
   }
 };
-
 export const rangeLabeledTicksOverlappingAtMin_TestOnly = (): string => html`
   <calcite-slider
     min="${number("min", 5)}"
@@ -152,12 +129,6 @@ export const rangeLabeledTicksOverlappingAtMin_TestOnly = (): string => html`
     ${boolean("snap", true)}
   ></calcite-slider>
 `;
-
-rangeLabeledTicksOverlappingAtMin_TestOnly.parameters = {
-  chromatic: {
-    diffThreshold: 1
-  }
-};
 
 export const rangeLabeledTicksEdgePositioningAtMax_TestOnly = (): string => html`
   <calcite-slider
@@ -175,12 +146,6 @@ export const rangeLabeledTicksEdgePositioningAtMax_TestOnly = (): string => html
   ></calcite-slider>
 `;
 
-rangeLabeledTicksEdgePositioningAtMax_TestOnly.parameters = {
-  chromatic: {
-    diffThreshold: 1
-  }
-};
-
 export const rangeLabeledTicksEdgePositioningAtMin_TestOnly = (): string => html`
   <calcite-slider
     min="${number("min", 5)}"
@@ -196,12 +161,6 @@ export const rangeLabeledTicksEdgePositioningAtMin_TestOnly = (): string => html
     ${boolean("snap", true)}
   ></calcite-slider>
 `;
-
-rangeLabeledTicksOverlappingAtMin_TestOnly.parameters = {
-  chromatic: {
-    diffThreshold: 1
-  }
-};
 
 export const Histogram = (): any => {
   const slider = document.createElement("calcite-slider") as any;
@@ -229,12 +188,6 @@ export const Histogram = (): any => {
   slider.scale = select("scale", ["s", "m", "l"], "m");
   slider.style.minWidth = "60vw";
   return slider;
-};
-
-Histogram.parameters = {
-  chromatic: {
-    diffThreshold: 1
-  }
 };
 
 export const HistogramWithColors = (): any => {
@@ -266,12 +219,6 @@ export const HistogramWithColors = (): any => {
   return slider;
 };
 
-HistogramWithColors.parameters = {
-  chromatic: {
-    diffThreshold: 1
-  }
-};
-
 export const darkThemeHistogramRTL_TestOnly = (): any => {
   const slider = document.createElement("calcite-slider") as any;
   slider.min = number("min", 0);
@@ -297,12 +244,7 @@ export const darkThemeHistogramRTL_TestOnly = (): any => {
   return slider;
 };
 
-darkThemeHistogramRTL_TestOnly.parameters = {
-  themes: themesDarkDefault,
-  chromatic: {
-    diffThreshold: 1
-  }
-};
+darkThemeHistogramRTL_TestOnly.parameters = { themes: themesDarkDefault };
 
 export const disabled_TestOnly = (): string => html`<calcite-slider disabled value="5"></calcite-slider>`;
 
@@ -319,16 +261,4 @@ export const wordBreakDoesNotAffectLabels_TestOnly = (): string =>
     style="word-break: break-all"
   ></calcite-slider>`;
 
-wordBreakDoesNotAffectLabels_TestOnly.parameters = {
-  chromatic: {
-    diffThreshold: 1
-  }
-};
-
 export const withLabelHandlesAndNoValue_TestOnly = (): string => html` <calcite-slider max="750"></calcite-slider> `;
-
-withLabelHandlesAndNoValue_TestOnly.parameters = {
-  chromatic: {
-    diffThreshold: 1
-  }
-};
