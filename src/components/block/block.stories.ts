@@ -174,6 +174,18 @@ export const disabled_TestOnly = (): string => html`<calcite-block
   </calcite-block-section>
 </calcite-block>`;
 
+export const paddingDisabled_TestOnly = (): string => html` <calcite-panel heading="Properties">
+  <calcite-block
+    heading="Example block heading"
+    description="example summary heading"
+    collapsible
+    open
+    style="--calcite-block-padding: 0;"
+  >
+    <div>calcite components ninja</div>
+  </calcite-block>
+</calcite-panel>`;
+
 export const darkThemeRTL_TestOnly = (): string =>
   create(
     "calcite-block",
