@@ -34,7 +34,7 @@ jobs:
       - uses: actions/github-script@v6
         with:
           script: |
-            const { title, labels, number} = context.payload.pull_request;
+            const { title, number } = context.payload.pull_request;
 
             const conventionalCommitRegex =
               /^(build|chore|ci|docs|feat|fix|perf|refactor|revert|style|test)(\([\w ,-]+\))?(!?:\s+)([\w ]+[\s\S]*)/i;
@@ -47,16 +47,13 @@ jobs:
             const match = title.match(conventionalCommitRegex);
             if (match && match.length > 1) {
               // commit type is in the first match group
-              const newLabel = getLabelName(match[1]);
-              // make sure there aren't any duplicates
-              const updatedLabels = labels.map((l) => l.name).filter((l) => l !== newLabel);
-              updatedLabels.push(newLabel);
+              const typeLabel = getLabelName(match[1]);
 
-              await github.rest.issues.setLabels({
+              await github.rest.issues.addLabels({
                 issue_number: number,
                 owner: context.repo.owner,
                 repo: context.repo.repo,
-                labels: updatedLabels,
+                labels: [typeLabel],
               });
 
               function getLabelName(type) {
