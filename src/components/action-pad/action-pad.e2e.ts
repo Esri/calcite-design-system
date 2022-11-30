@@ -232,6 +232,7 @@ describe("calcite-action-pad", () => {
     groups[0].setProperty("menuOpen", true);
 
     await page.waitForChanges();
+    await page.waitForChanges();
 
     expect(eventSpy).toHaveReceivedEventTimes(2);
 

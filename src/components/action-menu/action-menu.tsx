@@ -15,7 +15,7 @@ import { focusElement, isPrimaryPointerButton, toAriaBoolean } from "../../utils
 import { Fragment, VNode } from "@stencil/core/internal";
 import { getRoundRobinIndex } from "../../utils/array";
 import { guid } from "../../utils/guid";
-import { DeprecatedEventPayload, Scale } from "../interfaces";
+import { Scale } from "../interfaces";
 import { LogicalPlacement, EffectivePlacement, OverlayPositioning } from "../../utils/floating-ui";
 import { isActivationKey } from "../../utils/key";
 import {
@@ -94,7 +94,7 @@ export class ActionMenu implements LoadableComponent {
     if (this.menuButtonEl) {
       this.menuButtonEl.active = open;
     }
-    this.calciteActionMenuOpenChange.emit(open);
+    this.calciteActionMenuOpenChange.emit();
 
     this.setTooltipReferenceElement();
   }
@@ -129,9 +129,8 @@ export class ActionMenu implements LoadableComponent {
   /**
    * Emits when the `open` property has changed.
    *
-   * **Note:**: The event payload is deprecated, please use the `open` property on the component instead
    */
-  @Event({ cancelable: false }) calciteActionMenuOpenChange: EventEmitter<DeprecatedEventPayload>;
+  @Event({ cancelable: false }) calciteActionMenuOpenChange: EventEmitter<void>;
 
   @Listen("pointerdown", { target: "window" })
   closeCalciteActionMenuOnClick(event: PointerEvent): void {
