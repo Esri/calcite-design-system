@@ -242,7 +242,7 @@ export class Alert implements OpenCloseComponent, LocalizedComponent, LoadableCo
             {slotNode}
           </div>
           {this.queueLength > 1 ? queueCount : null}
-          {!autoDismiss ? closeButton : null}
+          {closeButton}
           {open && !queued && autoDismiss ? <div class="alert-dismiss-progress" /> : null}
         </div>
       </Host>
