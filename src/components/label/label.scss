@@ -27,7 +27,7 @@
     @apply text-n2h gap-1;
   }
 }
-:host(:not([disable-spacing])[scale="s"]) {
+:host([scale="s"]) {
   .container {
     margin-block-end: var(--calcite-label-margin-bottom, theme("spacing.2"));
   }
@@ -37,7 +37,7 @@
     @apply text-n1h gap-2;
   }
 }
-:host(:not([disable-spacing])[scale="m"]) {
+:host([scale="m"]) {
   .container {
     margin-block-end: var(--calcite-label-margin-bottom, theme("spacing.3"));
   }
@@ -47,7 +47,7 @@
     @apply text-0h gap-2;
   }
 }
-:host(:not([disable-spacing])[scale="l"]) {
+:host([scale="l"]) {
   .container {
     margin-block-end: var(--calcite-label-margin-bottom, theme("spacing.4"));
   }
@@ -99,11 +99,5 @@
   }
   ::slotted(calcite-input-message:not([active])) {
     @apply bg-opacity-0;
-  }
-}
-
-:host([disable-spacing]) {
-  .container {
-    @apply m-0 gap-0;
   }
 }

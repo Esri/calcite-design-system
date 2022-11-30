@@ -254,7 +254,6 @@ export class InputText
 
   connectedCallback(): void {
     this.scale = getElementProp(this.el, "scale", this.scale);
-    this.status = getElementProp(this.el, "status", this.status);
     this.inlineEditableEl = this.el.closest("calcite-inline-editable");
     if (this.inlineEditableEl) {
       this.editingEnabled = this.inlineEditableEl.editingEnabled || false;
