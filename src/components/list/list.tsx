@@ -70,7 +70,7 @@ export class List implements InteractiveComponent, LoadableComponent {
   @Prop({ mutable: true }) filteredItems: HTMLCalciteListItemElement[] = [];
 
   /**
-   * The currently filtered `calcite-list-item`s.
+   * The currently filtered `calcite-list-item` data.
    *
    * @readonly
    */
