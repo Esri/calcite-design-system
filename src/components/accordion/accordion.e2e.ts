@@ -10,7 +10,7 @@ describe("calcite-accordion", () => {
       Content
       <calcite-action scale="s" icon="sound" label="Volume" slot="actions-end"></calcite-action>
     </calcite-accordion-item>
-    <calcite-accordion-item heading="Accordion Title 1" id="2" active>Accordion Item Content </calcite-accordion-item>
+    <calcite-accordion-item heading="Accordion Title 1" id="2" expanded>Accordion Item Content </calcite-accordion-item>
     <calcite-accordion-item heading="Accordion Title 3" id="3">Accordion Item Content </calcite-accordion-item>
   `;
   it("renders", async () => renders("calcite-accordion", { display: "block" }));
@@ -51,11 +51,11 @@ describe("calcite-accordion", () => {
     const page = await newE2EPage();
     await page.setContent(`
     <calcite-accordion appearance="minimal" icon-position="start"  scale="l" selection-mode="single-persist" icon-type="caret">
-    <calcite-accordion-item heading="Accordion Title 1" icon="car" id="1">Accordion Item Content
+    <calcite-accordion-item heading="Accordion Title 1" icon-start="car" id="1">Accordion Item Content
     </calcite-accordion-item>
-    <calcite-accordion-item item-title="Accordion Title 1" id="2" expanded>Accordion Item Content 
+    <calcite-accordion-item heading="Accordion Title 1" id="2" expanded>Accordion Item Content
     </calcite-accordion-item>
-    <calcite-accordion-item heading="Accordion Title 3" icon="car" id="3">Accordion Item Content
+    <calcite-accordion-item heading="Accordion Title 3" icon-start="car" id="3">Accordion Item Content
     </calcite-accordion-item>
     </calcite-accordion>`);
     const icon1 = await page.find(`calcite-accordion-item[id='1'] >>> .${CSS.iconStart}`);
@@ -81,13 +81,10 @@ describe("calcite-accordion", () => {
     const item3Content = await element.find(`calcite-accordion-item[id='3'] >>> .${CSS.content} `);
 
     expect(item1).not.toHaveAttribute("expanded");
-    expect(item1).not.toHaveAttribute("active");
 
     expect(item2).toHaveAttribute("expanded");
-    expect(item2).toHaveAttribute("active");
 
     expect(item3).not.toHaveAttribute("expanded");
-    expect(item3).not.toHaveAttribute("active");
 
     expect(await item1Content.isVisible()).toBe(false);
     expect(await item2Content.isVisible()).toBe(true);
@@ -111,13 +108,10 @@ describe("calcite-accordion", () => {
     await item1.click();
     await item3.click();
     expect(item1).toHaveAttribute("expanded");
-    expect(item1).toHaveAttribute("active");
 
     expect(item2).toHaveAttribute("expanded");
-    expect(item2).toHaveAttribute("active");
 
     expect(item3).toHaveAttribute("expanded");
-    expect(item3).toHaveAttribute("active");
 
     expect(await item1Content.isVisible()).toBe(true);
     expect(await item2Content.isVisible()).toBe(true);
@@ -142,13 +136,10 @@ describe("calcite-accordion", () => {
     await item3.click();
 
     expect(item1).not.toHaveAttribute("expanded");
-    expect(item1).not.toHaveAttribute("active");
 
     expect(item2).not.toHaveAttribute("expanded");
-    expect(item2).not.toHaveAttribute("active");
 
     expect(item3).toHaveAttribute("expanded");
-    expect(item3).toHaveAttribute("active");
 
     expect(await item1Content.isVisible()).toBe(false);
     expect(await item2Content.isVisible()).toBe(false);
@@ -166,17 +157,14 @@ describe("calcite-accordion", () => {
     const item1FirstAccordion = await firstAccordion.find("calcite-accordion-item[id='1']");
     await item1FirstAccordion.click();
     await page.waitForChanges();
-    expect(await item1FirstAccordion.getProperty("active")).toBe(true);
     expect(await item1FirstAccordion.getProperty("expanded")).toBe(true);
 
     const secondAccordion = await page.find("calcite-accordion[id='second']");
     const item1SecondAccordion = await secondAccordion.find("calcite-accordion-item[id='1']");
     await item1SecondAccordion.click();
     await page.waitForChanges();
-    expect(await item1SecondAccordion.getProperty("active")).toBe(true);
     expect(await item1SecondAccordion.getProperty("expanded")).toBe(true);
 
-    expect(await item1FirstAccordion.getProperty("active")).toBe(true);
     expect(await item1FirstAccordion.getProperty("expanded")).toBe(true);
   });
 
@@ -198,13 +186,10 @@ describe("calcite-accordion", () => {
     await item2.click();
 
     expect(item1).not.toHaveAttribute("expanded");
-    expect(item1).not.toHaveAttribute("active");
 
     expect(item2).toHaveAttribute("expanded");
-    expect(item2).toHaveAttribute("active");
 
     expect(item3).not.toHaveAttribute("expanded");
-    expect(item3).not.toHaveAttribute("active");
 
     expect(await item1Content.isVisible()).toBe(false);
     expect(await item2Content.isVisible()).toBe(true);
