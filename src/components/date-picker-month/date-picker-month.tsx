@@ -45,13 +45,13 @@ export class DatePickerMonth {
   /** End date currently active  */
   @Prop() endDate?: Date;
 
-  /** Minimum date of the calendar below which is disabled.*/
+  /** Specifies the earliest allowed date (`"yyyy-mm-dd"`). */
   @Prop() min: Date;
 
-  /** Maximum date of the calendar above which is disabled.*/
+  /** Specifies the latest allowed date (`"yyyy-mm-dd"`). */
   @Prop() max: Date;
 
-  /** specify the scale of the date picker */
+  /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale;
 
   /**

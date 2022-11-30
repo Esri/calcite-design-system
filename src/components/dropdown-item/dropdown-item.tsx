@@ -48,9 +48,9 @@ export class DropdownItem implements LoadableComponent {
   //--------------------------------------------------------------------------
 
   /**
-   * Indicates whether the item is active.
+   * When `true`, the component is selected.
    *
-   * @deprecated Use selected instead.
+   * @deprecated Use `selected` instead.
    */
   @Prop({ reflect: true, mutable: true }) active = false;
 
@@ -59,7 +59,7 @@ export class DropdownItem implements LoadableComponent {
     this.selected = value;
   }
 
-  /** When true, item is selected  */
+  /** When `true`, the component is selected. */
   @Prop({ reflect: true, mutable: true }) selected = false;
 
   @Watch("selected")
@@ -67,26 +67,30 @@ export class DropdownItem implements LoadableComponent {
     this.active = value;
   }
 
-  /** When true, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
-  @Prop({ reflect: true }) iconFlipRtl?: FlipContext;
+  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
+  @Prop({ reflect: true }) iconFlipRtl: FlipContext;
 
   /** Specifies an icon to display at the start of the component. */
-  @Prop({ reflect: true }) iconStart?: string;
+  @Prop({ reflect: true }) iconStart: string;
 
   /** Specifies an icon to display at the end of the component. */
-  @Prop({ reflect: true }) iconEnd?: string;
+  @Prop({ reflect: true }) iconEnd: string;
 
-  /** optionally pass a href - used to determine if the component should render as anchor */
-  @Prop({ reflect: true }) href?: string;
+  /**
+   *  Specifies the URL of the linked resource, which can be set as an absolute or relative path.
+   *
+   * Determines if the component will render as an anchor.
+   */
+  @Prop({ reflect: true }) href: string;
 
-  /** Applies to the aria-label attribute on the button or hyperlink */
-  @Prop() label?: string;
+  /** Accessible name for the component. */
+  @Prop() label: string;
 
-  /** The rel attribute to apply to the hyperlink */
-  @Prop({ reflect: true }) rel?: string;
+  /** Specifies the relationship to the linked document defined in `href`. */
+  @Prop({ reflect: true }) rel: string;
 
-  /** The target attribute to apply to the hyperlink */
-  @Prop({ reflect: true }) target?: string;
+  /** Specifies the frame or window to open the linked document. */
+  @Prop({ reflect: true }) target: string;
 
   //--------------------------------------------------------------------------
   //
