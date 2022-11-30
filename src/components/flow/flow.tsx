@@ -4,12 +4,7 @@ import { FlowDirection } from "./interfaces";
 import { createObserver } from "../../utils/observers";
 
 /**
-<<<<<<< HEAD
- *
- * @slot - A slot for adding `calcite-flow-item` or `calcite-panel`s (deprecated) to the component.
-=======
  * @slot - A slot for adding `calcite-flow-item` to the component.
->>>>>>> master
  */
 @Component({
   tag: "calcite-flow",

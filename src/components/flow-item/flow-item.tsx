@@ -144,16 +144,6 @@ export class FlowItem implements InteractiveComponent, LoadableComponent {
   @Event({ cancelable: false }) calciteFlowItemBack: EventEmitter<void>;
 
   /**
-<<<<<<< HEAD
-   * Fires when the back button is clicked.
-   *
-   * @deprecated use `calciteFlowItemBack` instead.
-   */
-  @Event({ cancelable: false }) calciteFlowItemBackClick: EventEmitter<void>;
-
-  /**
-=======
->>>>>>> master
    * Fires when the content is scrolled.
    */
   @Event({ cancelable: false }) calciteFlowItemScroll: EventEmitter<void>;
