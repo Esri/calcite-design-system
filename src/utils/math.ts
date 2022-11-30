@@ -13,3 +13,20 @@ export const decimalPlaces = (value: number): number => {
       (match[2] ? +match[2] : 0)
   );
 };
+
+export const bigIntMax = (...args: Array<bigint>): bigint => args.reduce((prev, curr) => (curr > prev ? curr : prev));
+
+export const bigDecimalPlaces = (value: string): bigint => {
+  const match = value.match(/(?:\.(\d+))?(?:[eE]([+-]?\d+))?$/);
+  if (!match) {
+    return BigInt(0);
+  }
+
+  return bigIntMax(
+    BigInt(0),
+    // Number of digits right of decimal point.
+    BigInt(match[1] ? match[1].length : 0) -
+      // Adjust for scientific notation.
+      BigInt(match[2] ? +match[2] : 0)
+  );
+};

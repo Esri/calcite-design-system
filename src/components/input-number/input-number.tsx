@@ -40,9 +40,14 @@ import {
   updateEffectiveLocale
 } from "../../utils/locale";
 import { numberKeys } from "../../utils/key";
-import { isValidNumber, parseNumberString, sanitizeNumberString } from "../../utils/number";
+import {
+  BigDecimal,
+  isValidNumber,
+  parseNumberString,
+  sanitizeNumberString
+} from "../../utils/number";
 import { CSS_UTILITY, TEXT as COMMON_TEXT } from "../../utils/resources";
-import { decimalPlaces } from "../../utils/math";
+import { decimalPlaces, bigDecimalPlaces, bigIntMax } from "../../utils/math";
 import { createObserver } from "../../utils/observers";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import {
@@ -497,24 +502,31 @@ export class InputNumber
   ): void {
     const { value } = this;
     const inputStep = this.step === "any" ? 1 : Math.abs(this.step || 1);
-    const inputVal = value && value !== "" ? parseFloat(value) : 0;
+    const inputVal = new BigDecimal(value && value !== "" ? value : "0");
 
     const adjustment = direction === "up" ? 1 : -1;
-    const nudgedValue = inputVal + inputStep * adjustment;
-    const finalValue =
-      (typeof inputMin === "number" && !isNaN(inputMin) && nudgedValue < inputMin) ||
-      (typeof inputMax === "number" && !isNaN(inputMax) && nudgedValue > inputMax)
-        ? inputVal
-        : nudgedValue;
+    const nudgedValue = inputVal.add(`${inputStep * adjustment}`);
+    const nudgedValueBelowInputMin =
+      typeof inputMin === "number" &&
+      !isNaN(inputMin) &&
+      nudgedValue.subtract(`${inputMin}`).isNegative;
 
-    const inputValPlaces = decimalPlaces(inputVal);
-    const inputStepPlaces = decimalPlaces(inputStep);
+    const nudgedValueAboveInputMax =
+      typeof inputMin === "number" &&
+      !isNaN(inputMin) &&
+      !nudgedValue.subtract(`${inputMax}`).isNegative;
+
+    const finalValue =
+      nudgedValueBelowInputMin || nudgedValueAboveInputMax ? inputVal : nudgedValue;
+
+    const inputValPlaces = bigDecimalPlaces(inputVal.toString());
+    const inputStepPlaces = bigDecimalPlaces(inputStep.toString());
 
     this.setNumberValue({
       committing: true,
       nativeEvent,
       origin: "user",
-      value: finalValue.toFixed(Math.max(inputValPlaces, inputStepPlaces))
+      value: finalValue.toFixed(bigIntMax(inputValPlaces, inputStepPlaces))
     });
   }
 

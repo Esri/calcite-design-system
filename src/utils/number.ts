@@ -30,12 +30,13 @@ export class BigDecimal {
     this.isNegative = input.charAt(0) === "-";
   }
 
-  static _divRound = (dividend: bigint, divisor: bigint): bigint =>
+  static _divRound = (dividend: bigint, divisor: bigint): BigDecimal =>
     BigDecimal.fromBigInt(
       dividend / divisor + (BigDecimal.ROUNDED ? ((dividend * BigInt(2)) / divisor) % BigInt(2) : BigInt(0))
     );
 
-  static fromBigInt = (bigint: bigint): bigint => Object.assign(Object.create(BigDecimal.prototype), { value: bigint });
+  static fromBigInt = (bigint: bigint): BigDecimal =>
+    Object.assign(Object.create(BigDecimal.prototype), { value: bigint });
 
   getIntegersAndDecimals(): { integers: string; decimals: string } {
     const s = this.value
@@ -51,6 +52,9 @@ export class BigDecimal {
     const { integers, decimals } = this.getIntegersAndDecimals();
     return `${this.isNegative ? "-" : ""}${integers}${decimals.length ? "." + decimals : ""}`;
   }
+
+  toFixed = (decimalPlaces: bigint): string =>
+    this.value.toString().replace(new RegExp(`-?\d+\.?\d{0, ${decimalPlaces}}`), "");
 
   formatToParts(formatter: NumberStringFormat): Intl.NumberFormatPart[] {
     const { integers, decimals } = this.getIntegersAndDecimals();
@@ -79,13 +83,14 @@ export class BigDecimal {
     return `${integersFormatted}${decimalsFormatted}`;
   }
 
-  add = (num: string): bigint => BigDecimal.fromBigInt(this.value + new BigDecimal(num).value);
+  add = (num: string): BigDecimal => BigDecimal.fromBigInt(this.value + new BigDecimal(num).value);
 
-  subtract = (num: string): bigint => BigDecimal.fromBigInt(this.value - new BigDecimal(num).value);
+  subtract = (num: string): BigDecimal => BigDecimal.fromBigInt(this.value - new BigDecimal(num).value);
 
-  multiply = (num: string): bigint => BigDecimal._divRound(this.value * new BigDecimal(num).value, BigDecimal.SHIFT);
+  multiply = (num: string): BigDecimal =>
+    BigDecimal._divRound(this.value * new BigDecimal(num).value, BigDecimal.SHIFT);
 
-  divide = (num: string): bigint => BigDecimal._divRound(this.value * BigDecimal.SHIFT, new BigDecimal(num).value);
+  divide = (num: string): BigDecimal => BigDecimal._divRound(this.value * BigDecimal.SHIFT, new BigDecimal(num).value);
 }
 
 export function isValidNumber(numberString: string): boolean {
