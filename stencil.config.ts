@@ -51,7 +51,7 @@ export const create: () => Config = () => ({
     { components: ["calcite-fab"] },
     { components: ["calcite-flow"] },
     { components: ["calcite-panel"] },
-    { components: ["calcite-popover", "calcite-popover-manager"] },
+    { components: ["calcite-popover"] },
     { components: ["calcite-progress"] },
     { components: ["calcite-pick-list", "calcite-pick-list-group", "calcite-pick-list-item"] },
     { components: ["calcite-radio-button"] },
