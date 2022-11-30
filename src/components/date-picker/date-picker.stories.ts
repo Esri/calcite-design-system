@@ -20,7 +20,7 @@ export default {
     notes: readme,
     chromatic: {
       // https://www.chromatic.com/docs/threshold
-      diffThreshold: Number(process.env.CHROMATIC_DIFF_THRESHOLD) || 0.3
+      diffThreshold: 1
     }
   },
   ...storyFilters()
