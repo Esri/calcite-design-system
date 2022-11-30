@@ -18,7 +18,6 @@ import { createObserver } from "../../utils/observers";
 import { getListItemChildren, updateListItemChildren } from "../list-item/utils";
 import { toAriaBoolean } from "../../utils/dom";
 import { debounce } from "lodash-es";
-import { HeadingLevel } from "../functional/Heading";
 import { ItemData } from "../list-item/interfaces";
 import { MAX_COLUMNS } from "../list-item/resources";
 
@@ -86,13 +85,6 @@ export class List implements InteractiveComponent, LoadableComponent {
    * Text for the filter input field.
    */
   @Prop({ reflect: true, mutable: true }) filterText: string;
-
-  /**
-   * Specifies the number at which section headings should start.
-   *
-   * @deprecated no longer necessary.
-   */
-  @Prop({ reflect: true }) headingLevel: HeadingLevel;
 
   /**
    * Specifies an accessible name for the component.

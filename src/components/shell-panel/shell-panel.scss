@@ -161,7 +161,7 @@
 
 slot[name="action-bar"]::slotted(calcite-action-bar),
 .content ::slotted(calcite-flow),
-.content ::slotted(calcite-panel:not([dismissed])) {
+.content ::slotted(calcite-panel:not([closed])) {
   @apply border-color-3 border border-solid;
 }
 

@@ -24,18 +24,24 @@ export const simple = (): string => html`
   </calcite-pagination>
 `;
 
-export const darkThemeFrenchLocaleAndRTL_TestOnly = (): string => html`
-  <calcite-pagination
-    class="calcite-theme-dark"
-    scale="${select("scale", ["s", "m", "l"], "m")}"
-    start="${number("start", 1)}"
-    lang="fr"
-    total="${number("total", 123456789)}"
-    num="${number("num", 10)}"
-    dir="rtl"
-    }
-  >
-  </calcite-pagination>
-`;
+export const darkThemeFrenchLocale_TestOnly = (): string => html`<calcite-pagination
+  class="calcite-theme-dark"
+  start="1"
+  lang="fr"
+  group-separator
+  total="123456789"
+  num="10"
+>
+</calcite-pagination>`;
 
-darkThemeFrenchLocaleAndRTL_TestOnly.parameters = { themes: themesDarkDefault };
+darkThemeFrenchLocale_TestOnly.parameters = { themes: themesDarkDefault };
+
+export const arabicNumberingSystemAndRTL_TestOnly = (): string => html`<calcite-pagination
+  dir="rtl"
+  numbering-system="arab"
+  start="1"
+  lang="fr"
+  total="123456789"
+  num="10"
+>
+</calcite-pagination>`;

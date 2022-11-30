@@ -78,32 +78,8 @@ export class Popover
    */
   @Prop({ reflect: true }) autoClose = false;
 
-  /**
-   * When `true`, a close button is added to the component.
-   *
-   * @deprecated use dismissible instead.
-   */
-  @Prop({ reflect: true }) closeButton = false;
-
-  /**
-   * When `true`, a close button is added to the component.
-   *
-   * @deprecated use `closable` instead.
-   */
-  @Prop({ mutable: true, reflect: true }) dismissible = false;
-
-  @Watch("dismissible")
-  handleDismissible(value: boolean): void {
-    this.closable = value;
-  }
-
   /** When `true`, display a close button within the component. */
   @Prop({ mutable: true, reflect: true }) closable = false;
-
-  @Watch("closable")
-  handleClosable(value: boolean): void {
-    this.dismissible = value;
-  }
 
   /**
    * When `true`, prevents flipping the component's placement when overlapping its `referenceElement`.
@@ -274,13 +250,6 @@ export class Popover
   connectedCallback(): void {
     this.setFilteredPlacements();
     connectOpenCloseComponent(this);
-    const closable = this.closable || this.dismissible;
-    if (closable) {
-      this.handleDismissible(closable);
-    }
-    if (closable) {
-      this.handleClosable(closable);
-    }
     this.setUpReferenceElement(this.hasLoaded);
   }
 
@@ -526,9 +495,9 @@ export class Popover
   // --------------------------------------------------------------------------
 
   renderCloseButton(): VNode {
-    const { closeButton, intlClose, closable } = this;
+    const { intlClose, closable } = this;
 
-    return closable || closeButton ? (
+    return closable ? (
       <div class={CSS.closeButtonContainer}>
         <calcite-action
           class={CSS.closeButton}

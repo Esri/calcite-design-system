@@ -85,7 +85,7 @@ export class FlowItem implements InteractiveComponent, LoadableComponent {
   @Prop() intlBack: string;
 
   /**
-   * When `dismissible` is `true`, the accessible name for the component's close button.
+   * When `closable` is `true`, the accessible name for the component's close button.
    */
   @Prop() intlClose: string;
 
@@ -144,6 +144,7 @@ export class FlowItem implements InteractiveComponent, LoadableComponent {
   @Event({ cancelable: false }) calciteFlowItemBack: EventEmitter<void>;
 
   /**
+<<<<<<< HEAD
    * Fires when the back button is clicked.
    *
    * @deprecated use `calciteFlowItemBack` instead.
@@ -151,6 +152,8 @@ export class FlowItem implements InteractiveComponent, LoadableComponent {
   @Event({ cancelable: false }) calciteFlowItemBackClick: EventEmitter<void>;
 
   /**
+=======
+>>>>>>> master
    * Fires when the content is scrolled.
    */
   @Event({ cancelable: false }) calciteFlowItemScroll: EventEmitter<void>;
@@ -229,7 +232,6 @@ export class FlowItem implements InteractiveComponent, LoadableComponent {
   };
 
   backButtonClick = (): void => {
-    this.calciteFlowItemBackClick.emit();
     this.calciteFlowItemBack.emit();
   };
 
@@ -283,7 +285,6 @@ export class FlowItem implements InteractiveComponent, LoadableComponent {
       heading,
       headingLevel,
       heightScale,
-      intlBack,
       intlClose,
       intlOptions,
       loading,
@@ -302,7 +303,6 @@ export class FlowItem implements InteractiveComponent, LoadableComponent {
           heading={heading}
           headingLevel={headingLevel}
           heightScale={heightScale}
-          intlBack={intlBack}
           intlClose={intlClose}
           intlOptions={intlOptions}
           loading={loading}
