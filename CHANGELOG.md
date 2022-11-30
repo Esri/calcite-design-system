@@ -9,6 +9,28 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### ⚠ BREAKING CHANGES
 
+- **action-menu:** Removed the `event.detail` value from the
+  `calciteActionMenuOpenChange` event on the `action-menu` component.
+
+* When listening to `calciteActionMenuOpenChange`, use the `open`
+  property on the `event.target` instead of `event.detail`.
+
+- **block:** Removed the `summary` and `disablePadding` properties.
+
+* Removed the property `summary`, use `description` instead.
+* Removed the property `disablePadding`, use the CSS variable
+  `--calcite-block-padding` instead.
+
+* **popover-manager:** Removed the `calcite-popover-manager` component. This
+  component is no longer necessary for `calcite-popover`s.
+* **accordion-item:** Removed the properties `active`, `itemTitle`,
+  `itemSubtitle`, and `icon`.
+
+- Removed the property `active`, use `expanded` instead.
+- Removed the property `itemTitle`, use `heading` instead.
+- Removed the property `itemSubtitle`, use `description` instead.
+- Removed the property `icon`, use `iconStart` or `iconEnd` instead.
+
 - **panel:** Removed deprecated events and properties.
 
 * Removed the property `dismissed`, use `closed` instead.
