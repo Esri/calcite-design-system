@@ -1,7 +1,7 @@
 module.exports = {
   projectRepo: "Esri/calcite-components",
   storybookConfigDir: ".storybook",
-  apiKey: process.env.SCREENER_API_KEY,
+  // apiKey: process.env.SCREENER_API_KEY,
   commit: process.env.COMMIT_SHA,
   resolution: "1024x768",
   baseBranch: "master",
@@ -14,6 +14,6 @@ module.exports = {
     minLayoutDimension: 1,
     minLayoutPosition: 1
   },
-  excludeRules: [/^Overview/, /No Test$/],
+  excludeRules: [/^Overview/, /No Test$/, /^.*$/],
   resolution: "1920x1440"
 };
