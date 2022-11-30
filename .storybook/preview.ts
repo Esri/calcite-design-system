@@ -55,7 +55,6 @@ export const parameters = {
     }
   },
   chromatic: {
-    disableSnapshot: true,
-    diffThreshold: 0.15
+    diffThreshold: 0.35
   }
 };
