@@ -141,7 +141,7 @@ export class ActionGroup implements ConditionalSlotComponent {
   //
   // --------------------------------------------------------------------------
 
-  setMenuOpen = (event: CalciteActionMenuCustomEvent<boolean>): void => {
-    this.menuOpen = !!event.detail;
+  setMenuOpen = (event: CalciteActionMenuCustomEvent<void>): void => {
+    this.menuOpen = !!(event.target as HTMLCalciteActionMenuElement).open;
   };
 }
