@@ -11,7 +11,7 @@ The `calcite-action` component lives in either a `calcite-action-bar` or `calcit
 Renders a `calcite-action` that has a clear background.
 
 ```html
-<calcite-action appearance="clear" text="Layers" icon="layers"></calcite-action>
+<calcite-action appearance="transparent" text="Layers" icon="layers"></calcite-action>
 ```
 
 ### With-text-displayed

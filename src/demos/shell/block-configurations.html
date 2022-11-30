@@ -140,10 +140,13 @@
                 It's a header button with really long text that should wrap, you know?
               </calcite-button>
               <calcite-flow id="flow">
-                <calcite-flow-item heading="cool" summary="Popular Demographics in the United States (Beta) - County">
+                <calcite-flow-item
+                  heading="cool"
+                  description="Popular Demographics in the United States (Beta) - County"
+                >
                   I'm this panel's content.
                 </calcite-flow-item>
-                <calcite-flow-item heading="Configure popup" dismissible>
+                <calcite-flow-item heading="Configure popup" closable>
                   <calcite-block heading="Basic" summary="Collapsible with section" collapsible open>
                     <calcite-list id="one" multiple style="margin-bottom: var(--calcite-spacing-double)">
                       <calcite-list-item label="Population 2018" description="{ POP_2018 }" value="dogs">
