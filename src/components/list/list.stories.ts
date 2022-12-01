@@ -23,7 +23,7 @@ const knobsHTML = (): string => html`selection-mode="${select(
   "none"
 )}"
 selection-appearance="${select("selection-appearance", ["icon", "border"], "icon")}" ${boolean("loading", false)}
-${boolean("filterEnabled", false)} ${boolean("disabled", false)} ${text("label", "My List")}`;
+${boolean("filter-enabled", false)} ${boolean("disabled", false)} ${text("label", "My List")}`;
 
 export const simple = (): string => html`
   <calcite-list ${knobsHTML()}>

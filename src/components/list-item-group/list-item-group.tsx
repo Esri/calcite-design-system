@@ -2,7 +2,6 @@ import { Component, Prop, h, VNode, Host, Element, State } from "@stencil/core";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { CSS } from "./resources";
 import { MAX_COLUMNS } from "../list-item/resources";
-import { HeadingLevel } from "../functional/Heading";
 import { getDepth } from "../list-item/utils";
 /**
  * @slot - A slot for adding `calcite-list-item` and `calcite-list-item-group` elements.
@@ -29,13 +28,6 @@ export class ListItemGroup implements InteractiveComponent {
    *
    */
   @Prop({ reflect: true }) heading: string;
-
-  /**
-   * Specifies the number at which section headings should start.
-   *
-   * @deprecated no longer necessary.
-   */
-  @Prop({ reflect: true }) headingLevel: HeadingLevel;
 
   // --------------------------------------------------------------------------
   //

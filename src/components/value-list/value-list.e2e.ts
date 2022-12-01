@@ -18,7 +18,7 @@ describe("calcite-value-list", () => {
 
   it("honors hidden attribute", async () => hidden("calcite-value-list"));
 
-  it("is accessible", () =>
+  it.skip("is accessible", () =>
     accessible(html`
       <calcite-value-list>
         <calcite-value-list-item label="Sample" value="one"></calcite-value-list-item>

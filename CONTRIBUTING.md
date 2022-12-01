@@ -67,12 +67,16 @@ Milestones are used to manage sprints, which are two weeks long. Sprint mileston
 
 ### Estimates
 
-[ZenHub](https://www.zenhub.com/) estimates are used to determine how much work needs to go into an issue. The total estimate helps the product managers triage issues effectively so developers are not overwhelmed during sprints. If you are not on the team, please do not add estimates when creating cases. Here are some guidelines for the numbering system:
+Estimates are used to determine how much work needs to go into an issue. The total estimate helps product managers triage issues effectively so developers are not overwhelmed during sprints. If you are not on the team, please do not add estimates when creating cases. Here are some guidelines for time estimates using an `estimate-#` label for tracking:
 
-- **1:** Fixing a typo, small syntax issue, or tweaking a css property. Something that can be done in a couple minutes.
-- **5:** Fixing bugs or adding small features that don't require comprehensive planning.
-- **13:** Issues that are more complicated and need some workflow or design planning. These issues usually need additional unit tests written.
-- **40:** If an issue is this complicated it should be converted into an epic.
+- `estimate - 1`: Very small fix or change, a one line update.
+- `estimate - 2`: Small fix or update, does not require updates to tests.
+- `estimate - 3`: A day or two of work, may require changes to tests.
+- `estimate - 5`: A few days of work, requires updates to tests.
+- `estimate - 8`: Requires input from team, consider smaller steps.
+- `estimate - 13`: Requires planning and input from team, consider smaller steps.
+- `estimate - 21`: Requires planning, input from team members and possibly others.
+- `estimate - 34`: Issue should be converted into an epic. Requires all hands on deck.
 
 ### Epics
 
@@ -89,24 +93,52 @@ Our code base is written in TypeScript and must adhere to specific conventions a
 
 ## Getting a development environment set up
 
-An installation of Node is required for development. If you don't have Node installed, we recommend [Volta], which will automatically use the Node versions we pinned in `package.json`. We also recommend installing the following extensions in your editor of choice: TypeScript, TailwindCSS, ESLint, Stylelint, and Prettier. If you use VS Code, you will see a pop up in the bottom right corner prompting you to install or view the workspaces's recommended extensions. Here are instructions for manually installing the extensions in a variety of editors:
+An installation of Node is required for development. If you don't have Node installed, we recommend [Volta](https://docs.volta.sh/guide/getting-started), which will automatically use the Node/NPM versions pinned at the bottom of [`package.json`](./package.json). If you prefer a different Node version manager, make sure to use the major versions of Node/NPM specified in [`package.json`](./package.json).
+
+We also recommend installing the following extensions in your editor of choice: TypeScript, TailwindCSS, ESLint, Stylelint, and Prettier. If you use VS Code, you will see a pop up in the bottom right corner prompting you to install or view the workspaces's recommended extensions. Here are instructions for manually installing the extensions in a variety of editors:
 
 - https://tailwindcss.com/docs/intellisense
 - https://eslint.org/docs/latest/user-guide/integrations
 - https://stylelint.io/user-guide/integrations/editor
 - https://prettier.io/docs/en/editors.html
 
-The first time installing dependencies, you need to use the `--legacy-peer-deps` flag due to an ESLint dependency conflict. The conflict won't affect the components since ESLint is only in `devDependencies`. Hopefully this will no longer be an issue once [`@stencil/eslint-plugin`](https://github.com/ionic-team/stencil-eslint) supports ESLint v8.
+If your IDE supports the [Language Server Protocol (LSP) specification](https://microsoft.github.io/language-server-protocol/) but isn't mentioned in the links above, ask Ben for help getting set up.
+
+## Starting the demos
+
+First, clone the repo and install the NPM dependencies from within the `calcite-components` directory:
 
 ```sh
-npm install --legacy-peer-deps
+git clone git@github.com:Esri/calcite-components.git
+cd calcite-components
+npm install
 ```
 
-To start the local development environment, run `npm start`, which will start the local Stencil development server on localhost. You can modify the [index.html](./src/index.html) to add and test your new component. Just add another HTML file to the `demos` folder and link to this new page from `index.html`.
+> **NOTE**
+>
+> The first time installing dependencies, you may need to use the `legacy-peer-deps` flag due to an Stencil/ESLint dependency conflict:
+>
+> ```sh
+> npm install --legacy-peer-deps
+> ```
+>
+> Hopefully this will no longer be an issue once [`@stencil/eslint-plugin`](https://github.com/ionic-team/stencil-eslint) supports ESLint v8.
+
+Next, start the local Stencil development server on localhost:
+
+```sh
+npm start
+```
+
+The demos will open in the browser after building. Edit the pages in [`src/demos`](./src/demos) to modify the component demos, such as changing attributes or adding content to slots. When adding a new demo page, make sure to add a link in [`index.html`](./src/index.html) so others can find it. You can also edit the component code in [`src/components`](./src/components), and the changes will be reflected in the demos.
 
 ## Linting
 
-This project uses [lint-staged](https://www.npmjs.com/package/lint-staged) to automatically format code on commit, making it easier to contribute.
+This project uses [lint-staged](https://www.npmjs.com/package/lint-staged) to automatically format code on commit, making it easier to contribute. There are also NPM scripts in [`package.json`](./package.json) to lint a variety of filetypes. To run them all:
+
+```sh
+npm run lint
+```
 
 ## Running the tests
 
