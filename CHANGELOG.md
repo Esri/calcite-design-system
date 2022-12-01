@@ -9,6 +9,34 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### ⚠ BREAKING CHANGES
 
+- **radio-group-item:** Removed deprecated properties.
+
+* Removed the property `icon`, use either `iconStart` or `iconEnd`
+  instead.
+* Removed the property `iconPosition`, use either `iconStart` or
+  `iconEnd` instead.
+
+* **split-button:** Removed the `event.detail` payload from the events
+  `calciteSplitButtonPrimaryClick` and `calciteSplitButtonSecondaryClick`.
+  Use separate mouse event listeners to get information about `click`
+  events.
+* **slider:** Removed deprecated event.
+
+- Removed the event `calciteSliderUpdate`, use `calciteSliderInput`
+  instead.
+
+* **dropdown, dropdown-item:** Removed deprecated properties.
+
+- Removed the property `active` on `calcite-dropdown-item`, use
+  `selected` instead.
+- Removed the property `active`, on `calcite-dropdown`, use `open`
+  instead.
+
+* **tree:** Removed the `inputEnabled` property.
+
+- Removed the property `inputEnabled`, use `selectionMode="ancestors"`
+  instead.
+
 - **chip:** Removed the `dismissible` property and the `clear`
   value for the `appearance` property.
 
