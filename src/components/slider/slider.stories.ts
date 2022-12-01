@@ -155,7 +155,7 @@ export const rangeLabeledTicksEdgePositioningAtMin_TestOnly = (): string => html
   ></calcite-slider>
 `;
 
-export const Histogram = (): any => {
+export const histogram = (): any => {
   const slider = document.createElement("calcite-slider") as any;
   slider.min = number("min", -100);
   slider.minValue = number("min-value", -33.32);
@@ -180,6 +180,35 @@ export const Histogram = (): any => {
   slider.snap = booleanFn("snap", false);
   slider.scale = select("scale", ["s", "m", "l"], "m");
   slider.style.minWidth = "60vw";
+  return slider;
+};
+
+export const histogramWithColors = (): any => {
+  const slider = document.createElement("calcite-slider") as any;
+  slider.min = number("min", 0);
+  slider.minValue = number("min-value", 35);
+  slider.max = number("max", 100);
+  slider.maxValue = number("max-value", 55);
+  slider.histogram = array(
+    "histogram",
+    [
+      [0, 0],
+      [20, 12],
+      [40, 25],
+      [60, 55],
+      [80, 10],
+      [100, 0]
+    ] as any,
+    "  "
+  ) as any;
+  slider.style.minWidth = "60vw";
+  const colors = array("histogram colors", ["red", "green", "blue"]);
+  const offsets = array(
+    "histogram color offsets",
+    colors.map((_, i) => `${(1 / (colors.length - 1)) * i}`)
+  );
+  slider.histogramStops = colors.map((color, i) => ({ offset: parseFloat(offsets[i]), color }));
+  slider.scale = select("scale", ["s", "m", "l"], "m");
   return slider;
 };
 
