@@ -25,30 +25,18 @@
 :host([scale="s"]) {
   .container {
     @apply text-n2h gap-1;
-  }
-}
-:host([scale="s"]) {
-  .container {
     margin-block-end: var(--calcite-label-margin-bottom, theme("spacing.2"));
   }
 }
 :host([scale="m"]) {
   .container {
     @apply text-n1h gap-2;
-  }
-}
-:host([scale="m"]) {
-  .container {
     margin-block-end: var(--calcite-label-margin-bottom, theme("spacing.3"));
   }
 }
 :host([scale="l"]) {
   .container {
     @apply text-0h gap-2;
-  }
-}
-:host([scale="l"]) {
-  .container {
     margin-block-end: var(--calcite-label-margin-bottom, theme("spacing.4"));
   }
 }
