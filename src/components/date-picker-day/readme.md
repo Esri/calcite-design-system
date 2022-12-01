@@ -4,20 +4,20 @@
 
 ## Properties
 
-| Property           | Attribute        | Description                                        | Type                | Default     |
-| ------------------ | ---------------- | -------------------------------------------------- | ------------------- | ----------- |
-| `active`           | `active`         | Date is actively in focus for keyboard navigation  | `boolean`           | `false`     |
-| `currentMonth`     | `current-month`  | Date is in the current month.                      | `boolean`           | `false`     |
-| `day` _(required)_ | `day`            | Day of the month to be shown.                      | `number`            | `undefined` |
-| `disabled`         | `disabled`       | Date is outside of range and can't be selected     | `boolean`           | `false`     |
-| `endOfRange`       | `end-of-range`   | Date is the end of date range                      | `boolean`           | `false`     |
-| `highlighted`      | `highlighted`    | Date is currently highlighted as part of the range | `boolean`           | `false`     |
-| `range`            | `range`          | Showing date range                                 | `boolean`           | `false`     |
-| `rangeHover`       | `range-hover`    | Date is being hovered and within the set range     | `boolean`           | `false`     |
-| `scale`            | `scale`          | specify the scale of the date picker               | `"l" \| "m" \| "s"` | `undefined` |
-| `selected`         | `selected`       | Date is the current selected date of the picker    | `boolean`           | `false`     |
-| `startOfRange`     | `start-of-range` | Date is the start of date range                    | `boolean`           | `false`     |
-| `value`            | --               | Date value for the day.                            | `Date`              | `undefined` |
+| Property           | Attribute        | Description                                                                              | Type                | Default     |
+| ------------------ | ---------------- | ---------------------------------------------------------------------------------------- | ------------------- | ----------- |
+| `active`           | `active`         | When `true`, the component is active.                                                    | `boolean`           | `false`     |
+| `currentMonth`     | `current-month`  | Date is in the current month.                                                            | `boolean`           | `false`     |
+| `day` _(required)_ | `day`            | Day of the month to be shown.                                                            | `number`            | `undefined` |
+| `disabled`         | `disabled`       | When `true`, interaction is prevented and the component is displayed with lower opacity. | `boolean`           | `false`     |
+| `endOfRange`       | `end-of-range`   | Date is the end of date range                                                            | `boolean`           | `false`     |
+| `highlighted`      | `highlighted`    | Date is currently highlighted as part of the range                                       | `boolean`           | `false`     |
+| `range`            | `range`          | When `true`, activates the component's range mode to allow a start and end date.         | `boolean`           | `false`     |
+| `rangeHover`       | `range-hover`    | Date is being hovered and within the set range                                           | `boolean`           | `false`     |
+| `scale`            | `scale`          | Specifies the size of the component.                                                     | `"l" \| "m" \| "s"` | `undefined` |
+| `selected`         | `selected`       | When `true`, the component is selected.                                                  | `boolean`           | `false`     |
+| `startOfRange`     | `start-of-range` | Date is the start of date range                                                          | `boolean`           | `false`     |
+| `value`            | --               | The component's value.                                                                   | `Date`              | `undefined` |
 
 ## Events
 

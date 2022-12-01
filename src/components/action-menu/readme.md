@@ -16,9 +16,9 @@
 
 ## Events
 
-| Event                         | Description                                                                                                                                     | Type               |
-| ----------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- | ------------------ |
-| `calciteActionMenuOpenChange` | Emits when the `open` property has changed. **Note:**: The event payload is deprecated, please use the `open` property on the component instead | `CustomEvent<any>` |
+| Event                         | Description                                 | Type                |
+| ----------------------------- | ------------------------------------------- | ------------------- |
+| `calciteActionMenuOpenChange` | Emits when the `open` property has changed. | `CustomEvent<void>` |
 
 ## Methods
 
