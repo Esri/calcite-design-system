@@ -2,7 +2,7 @@ import { E2EPage, newE2EPage } from "@stencil/core/testing";
 import { renders, hidden } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 
-// todo test the automatic setting of first item to active
+// todo test the automatic setting of first item to selected
 describe("calcite-stepper", () => {
   it("renders", () =>
     renders(
@@ -91,20 +91,16 @@ describe("calcite-stepper", () => {
     const step2 = await page.find("#step-2");
     const step3 = await page.find("#step-3");
     const step4 = await page.find("#step-4");
-    expect(step1).not.toHaveAttribute("active");
     expect(step1).not.toHaveAttribute("selected");
 
-    expect(step2).not.toHaveAttribute("active");
     expect(step2).not.toHaveAttribute("selected");
 
-    expect(step3).toHaveAttribute("active");
     expect(step3).toHaveAttribute("selected");
 
-    expect(step4).not.toHaveAttribute("active");
     expect(step4).not.toHaveAttribute("selected");
   });
 
-  it("adds active attribute to first item if none are requested", async () => {
+  it("adds selected attribute to first item if none are requested", async () => {
     const page = await newE2EPage();
     await page.setContent(html`<calcite-stepper layout="vertical" scale="l" numbered icon>
       <calcite-stepper-item heading="Step 1" id="step-1">
@@ -124,16 +120,12 @@ describe("calcite-stepper", () => {
     const step2 = await page.find("#step-2");
     const step3 = await page.find("#step-3");
     const step4 = await page.find("#step-4");
-    expect(step1).toHaveAttribute("active");
     expect(step1).toHaveAttribute("selected");
 
-    expect(step2).not.toHaveAttribute("active");
     expect(step2).not.toHaveAttribute("selected");
 
-    expect(step3).not.toHaveAttribute("active");
     expect(step3).not.toHaveAttribute("selected");
 
-    expect(step4).not.toHaveAttribute("active");
     expect(step4).not.toHaveAttribute("selected");
   });
 
@@ -163,13 +155,9 @@ describe("calcite-stepper", () => {
       const step2Content = await page.find("#step-2 >>> .stepper-item-content");
       const step3Content = await page.find("#step-3 >>> .stepper-item-content");
       const step4Content = await page.find("#step-4 >>> .stepper-item-content");
-      expect(step1).not.toHaveAttribute("active");
       expect(step1).not.toHaveAttribute("selected");
-      expect(step2).toHaveAttribute("active");
       expect(step2).toHaveAttribute("selected");
-      expect(step3).not.toHaveAttribute("active");
       expect(step3).not.toHaveAttribute("selected");
-      expect(step4).not.toHaveAttribute("active");
       expect(step4).not.toHaveAttribute("selected");
       expect(await step1Content.isVisible()).toBe(false);
       expect(await step2Content.isVisible()).toBe(true);
@@ -177,13 +165,9 @@ describe("calcite-stepper", () => {
       expect(await step4Content.isVisible()).toBe(false);
       await element.callMethod("nextStep");
       await page.waitForChanges();
-      expect(step1).not.toHaveAttribute("active");
       expect(step1).not.toHaveAttribute("selected");
-      expect(step2).not.toHaveAttribute("active");
       expect(step2).not.toHaveAttribute("selected");
-      expect(step3).toHaveAttribute("active");
       expect(step3).toHaveAttribute("selected");
-      expect(step4).not.toHaveAttribute("active");
       expect(step4).not.toHaveAttribute("selected");
       expect(await step1Content.isVisible()).toBe(false);
       expect(await step2Content.isVisible()).toBe(false);
@@ -191,13 +175,9 @@ describe("calcite-stepper", () => {
       expect(await step4Content.isVisible()).toBe(false);
       await element.callMethod("prevStep");
       await page.waitForChanges();
-      expect(step1).not.toHaveAttribute("active");
       expect(step1).not.toHaveAttribute("selected");
-      expect(step2).toHaveAttribute("active");
       expect(step2).toHaveAttribute("selected");
-      expect(step3).not.toHaveAttribute("active");
       expect(step3).not.toHaveAttribute("selected");
-      expect(step4).not.toHaveAttribute("active");
       expect(step4).not.toHaveAttribute("selected");
       expect(await step1Content.isVisible()).toBe(false);
       expect(await step2Content.isVisible()).toBe(true);
@@ -225,33 +205,24 @@ describe("calcite-stepper", () => {
       const step1Content = await page.find("#step-1 >>> .stepper-item-content");
       const step2Content = await page.find("#step-2 >>> .stepper-item-content");
       const step3Content = await page.find("#step-3 >>> .stepper-item-content");
-      expect(step1).toHaveAttribute("active");
       expect(step1).toHaveAttribute("selected");
-      expect(step2).not.toHaveAttribute("active");
       expect(step2).not.toHaveAttribute("selected");
-      expect(step3).not.toHaveAttribute("active");
       expect(step3).not.toHaveAttribute("selected");
       expect(await step1Content.isVisible()).toBe(true);
       expect(await step2Content.isVisible()).toBe(false);
       expect(await step3Content.isVisible()).toBe(false);
       await element.callMethod("nextStep");
       await page.waitForChanges();
-      expect(step1).not.toHaveAttribute("active");
-      expect(step1).not.toHaveAttribute("active");
-      expect(step2).not.toHaveAttribute("active");
-      expect(step2).not.toHaveAttribute("active");
-      expect(step3).toHaveAttribute("active");
-      expect(step3).toHaveAttribute("active");
+      expect(step1).not.toHaveAttribute("selected");
+      expect(step2).not.toHaveAttribute("selected");
+      expect(step3).toHaveAttribute("selected");
       expect(await step1Content.isVisible()).toBe(false);
       expect(await step2Content.isVisible()).toBe(false);
       expect(await step3Content.isVisible()).toBe(true);
       await element.callMethod("prevStep");
       await page.waitForChanges();
-      expect(step1).toHaveAttribute("active");
       expect(step1).toHaveAttribute("selected");
-      expect(step2).not.toHaveAttribute("active");
       expect(step2).not.toHaveAttribute("selected");
-      expect(step3).not.toHaveAttribute("active");
       expect(step3).not.toHaveAttribute("selected");
       expect(await step1Content.isVisible()).toBe(true);
       expect(await step2Content.isVisible()).toBe(false);
@@ -285,13 +256,9 @@ describe("calcite-stepper", () => {
       const step4Content = await page.find("#step-4 >>> .stepper-item-content");
       await element.callMethod("startStep");
       await page.waitForChanges();
-      expect(step1).toHaveAttribute("active");
       expect(step1).toHaveAttribute("selected");
-      expect(step2).not.toHaveAttribute("active");
       expect(step2).not.toHaveAttribute("selected");
-      expect(step3).not.toHaveAttribute("active");
       expect(step3).not.toHaveAttribute("selected");
-      expect(step4).not.toHaveAttribute("active");
       expect(step4).not.toHaveAttribute("selected");
       expect(await step1Content.isVisible()).toBe(true);
       expect(await step2Content.isVisible()).toBe(false);
@@ -299,13 +266,9 @@ describe("calcite-stepper", () => {
       expect(await step4Content.isVisible()).toBe(false);
       await element.callMethod("endStep");
       await page.waitForChanges();
-      expect(step1).not.toHaveAttribute("active");
       expect(step1).not.toHaveAttribute("selected");
-      expect(step2).not.toHaveAttribute("active");
       expect(step2).not.toHaveAttribute("selected");
-      expect(step3).not.toHaveAttribute("active");
       expect(step3).not.toHaveAttribute("selected");
-      expect(step4).toHaveAttribute("active");
       expect(step4).toHaveAttribute("selected");
       expect(await step1Content.isVisible()).toBe(false);
       expect(await step2Content.isVisible()).toBe(false);
@@ -340,13 +303,9 @@ describe("calcite-stepper", () => {
       const step4Content = await page.find("#step-4 >>> .stepper-item-content");
       await element.callMethod("endStep");
       await page.waitForChanges();
-      expect(step1).not.toHaveAttribute("active");
       expect(step1).not.toHaveAttribute("selected");
-      expect(step2).not.toHaveAttribute("active");
       expect(step2).not.toHaveAttribute("selected");
-      expect(step3).toHaveAttribute("active");
       expect(step3).toHaveAttribute("selected");
-      expect(step4).not.toHaveAttribute("active");
       expect(step4).not.toHaveAttribute("selected");
       expect(await step1Content.isVisible()).toBe(false);
       expect(await step2Content.isVisible()).toBe(false);
@@ -354,13 +313,9 @@ describe("calcite-stepper", () => {
       expect(await step4Content.isVisible()).toBe(false);
       await element.callMethod("startStep");
       await page.waitForChanges();
-      expect(step1).not.toHaveAttribute("active");
       expect(step1).not.toHaveAttribute("selected");
-      expect(step2).toHaveAttribute("active");
       expect(step2).toHaveAttribute("selected");
-      expect(step3).not.toHaveAttribute("active");
       expect(step3).not.toHaveAttribute("selected");
-      expect(step4).not.toHaveAttribute("active");
       expect(step4).not.toHaveAttribute("selected");
       expect(await step1Content.isVisible()).toBe(false);
       expect(await step2Content.isVisible()).toBe(true);
@@ -395,13 +350,9 @@ describe("calcite-stepper", () => {
       const step4Content = await page.find("#step-4 >>> .stepper-item-content");
       await element.callMethod("goToStep", 4);
       await page.waitForChanges();
-      expect(step1).not.toHaveAttribute("active");
       expect(step1).not.toHaveAttribute("selected");
-      expect(step2).not.toHaveAttribute("active");
       expect(step2).not.toHaveAttribute("selected");
-      expect(step3).not.toHaveAttribute("active");
       expect(step3).not.toHaveAttribute("selected");
-      expect(step4).toHaveAttribute("active");
       expect(step4).toHaveAttribute("selected");
       expect(await step1Content.isVisible()).toBe(false);
       expect(await step2Content.isVisible()).toBe(false);
@@ -409,13 +360,9 @@ describe("calcite-stepper", () => {
       expect(await step4Content.isVisible()).toBe(true);
       await element.callMethod("goToStep", 2);
       await page.waitForChanges();
-      expect(step1).not.toHaveAttribute("active");
       expect(step1).not.toHaveAttribute("selected");
-      expect(step2).toHaveAttribute("active");
       expect(step2).toHaveAttribute("selected");
-      expect(step3).not.toHaveAttribute("active");
       expect(step3).not.toHaveAttribute("selected");
-      expect(step4).not.toHaveAttribute("active");
       expect(step4).not.toHaveAttribute("selected");
       expect(await step1Content.isVisible()).toBe(false);
       expect(await step2Content.isVisible()).toBe(true);
@@ -496,7 +443,7 @@ describe("calcite-stepper", () => {
       let expectedEvents = 0;
 
       // non user interaction
-      firstItem.setProperty("active", true);
+      firstItem.setProperty("selected", true);
       await page.waitForChanges();
       expect(eventSpy).toHaveReceivedEventTimes(expectedEvents);
 
