@@ -226,6 +226,8 @@ export class Alert implements OpenCloseComponent, LocalizedComponent, LoadableCo
             queued,
             [placement]: true
           }}
+          onMouseLeave={this.handleMouseLeave}
+          onMouseOver={this.handleMouseOver}
           ref={this.setTransitionEl}
         >
           {requestedIcon ? (
@@ -351,7 +353,9 @@ export class Alert implements OpenCloseComponent, LocalizedComponent, LoadableCo
 
   private queueTimeout: number;
 
-  private trackTimer = Date.now();
+  private trackTimer: number;
+
+  private remainingPausedTimeout = 0;
 
   /** the computed icon to render */
   /* @internal */
@@ -422,5 +426,20 @@ export class Alert implements OpenCloseComponent, LocalizedComponent, LoadableCo
 
   private actionsEndSlotChangeHandler = (event: Event): void => {
     this.hasEndActions = slotChangeHasAssignedElement(event);
+  };
+
+  private handleMouseOver = (): void => {
+    this.remainingPausedTimeout = DURATIONS[this.autoDismissDuration];
+    window.clearTimeout(this.autoDismissTimeoutId);
+    this.autoDismissTimeoutId = null;
+    this.remainingPausedTimeout -= Date.now() - this.trackTimer;
+  };
+
+  private handleMouseLeave = (): void => {
+    this.trackTimer = Date.now();
+    this.autoDismissTimeoutId = window.setTimeout(
+      () => this.closeAlert(),
+      this.remainingPausedTimeout
+    );
   };
 }
