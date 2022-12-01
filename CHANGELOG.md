@@ -11,9 +11,9 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 - **radio-group-item:** Removed deprecated properties.
 
-* Removed the property `icon`, use either `iconStart` or `iconEnd`
+  * Removed the property `icon`, use either `iconStart` or `iconEnd`
   instead.
-* Removed the property `iconPosition`, use either `iconStart` or
+  * Removed the property `iconPosition`, use either `iconStart` or
   `iconEnd` instead.
 
 * **split-button:** Removed the `event.detail` payload from the events
@@ -22,110 +22,110 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
   events.
 * **slider:** Removed deprecated event.
 
-- Removed the event `calciteSliderUpdate`, use `calciteSliderInput`
+  - Removed the event `calciteSliderUpdate`, use `calciteSliderInput`
   instead.
 
 * **dropdown, dropdown-item:** Removed deprecated properties.
 
-- Removed the property `active` on `calcite-dropdown-item`, use
+  - Removed the property `active` on `calcite-dropdown-item`, use
   `selected` instead.
-- Removed the property `active`, on `calcite-dropdown`, use `open`
+  - Removed the property `active`, on `calcite-dropdown`, use `open`
   instead.
 
 * **tree:** Removed the `inputEnabled` property.
 
-- Removed the property `inputEnabled`, use `selectionMode="ancestors"`
+  - Removed the property `inputEnabled`, use `selectionMode="ancestors"`
   instead.
 
 - **chip:** Removed the `dismissible` property and the `clear`
   value for the `appearance` property.
 
-* Removed the property `dismissible`, use `closable` instead.
-* Use the value `transparent` instead of `clear` for `appearance`
+  * Removed the property `dismissible`, use `closable` instead.
+  * Use the value `transparent` instead of `clear` for `appearance`
   property.
 
 * **action-menu:** Removed the `event.detail` value from the
   `calciteActionMenuOpenChange` event on the `action-menu` component.
 
-- When listening to `calciteActionMenuOpenChange`, use the `open`
+  - When listening to `calciteActionMenuOpenChange`, use the `open`
   property on the `event.target` instead of `event.detail`.
 
 * **block:** Removed the `summary` and `disablePadding` properties.
 
-- Removed the property `summary`, use `description` instead.
-- Removed the property `disablePadding`, use the CSS variable
+  - Removed the property `summary`, use `description` instead.
+  - Removed the property `disablePadding`, use the CSS variable
   `--calcite-block-padding` instead.
 
 - **popover-manager:** Removed the `calcite-popover-manager` component. This
   component is no longer necessary for `calcite-popover`s.
+
 - **accordion-item:** Removed the properties `active`, `itemTitle`,
   `itemSubtitle`, and `icon`.
 
-* Removed the property `active`, use `expanded` instead.
-* Removed the property `itemTitle`, use `heading` instead.
-* Removed the property `itemSubtitle`, use `description` instead.
-* Removed the property `icon`, use `iconStart` or `iconEnd` instead.
+  * Removed the property `active`, use `expanded` instead.
+  * Removed the property `itemTitle`, use `heading` instead.
+  * Removed the property `itemSubtitle`, use `description` instead.
+  * Removed the property `icon`, use `iconStart` or `iconEnd` instead.
 
 * **panel:** Removed deprecated events and properties.
-
-- Removed the property `dismissed`, use `closed` instead.
-- Removed the property `dismissible`, use `closable` instead.
-- Removed the property `summary`, use `description` instead.
-- Removed the property `intlBack`, use the `calcite-flow-item` component
-  instead.
-- Removed the property `showBackButton`, use the `calcite-flow-item`
-  component instead.
-- Removed the property `beforeBack`, use the `calcite-flow-item`
-  component instead.
-- Removed the event `calcitePanelDismiss`, use `calcitePanelClose`
-  instead.
-- Removed the event `calcitePanelDismissedChange`, use
-  `calcitePanelClose` instead.
-- Removed the event `calcitePanelBackClick`, use the `calcite-flow-item`
-  component instead.
+  - Removed the property `dismissed`, use `closed` instead.
+  - Removed the property `dismissible`, use `closable` instead.
+  - Removed the property `summary`, use `description` instead.
+  - Removed the property `intlBack`, use the `calcite-flow-item` component
+    instead.
+  - Removed the property `showBackButton`, use the `calcite-flow-item`
+    component instead.
+  - Removed the property `beforeBack`, use the `calcite-flow-item`
+    component instead.
+  - Removed the event `calcitePanelDismiss`, use `calcitePanelClose`
+    instead.
+  - Removed the event `calcitePanelDismissedChange`, use
+    `calcitePanelClose` instead.
+  - Removed the event `calcitePanelBackClick`, use the `calcite-flow-item`
+    component instead.
 
 - **popover:** Removed the `closeButton` and `dismissible` properties.
 
-* Removed the property `closeButton`, use `closable` instead.
-* Removed the property `dismissible`, use `closable` instead.
+  * Removed the property `closeButton`, use `closable` instead.
+  * Removed the property `dismissible`, use `closable` instead.
 
 - **tooltip-manager:** Removed the `calcite-tooltip-manager` component. This
   component is no longer necessary for `calcite-tooltip`s.
 - **alert:** Removed the deprecated `active` property.
 
-* Removed the property `active`, use `open` instead.
+  * Removed the property `active`, use `open` instead.
 
-- Removed the `*-leading` and `*-trailing` values for
-  component `placement` properties.
+  - Removed the `*-leading` and `*-trailing` values for
+    component `placement` properties.
 
-* There is no need for "_-leading" and "_-trailing" values anymore since
+  * There is no need for "_-leading" and "_-trailing" values anymore since
   `*-start` and `*-end` are already flipped in right-to-left direction.
 
-- **list, list-item, list-item-group:** Removed the `headingLevel` and `nonInteractive`
-  properties.
+  - **list, list-item, list-item-group:** Removed the `headingLevel` and `nonInteractive`
+    properties.
 
-* `headingLevel ` property on the `list` and `list-item-group` is no
-  longer necessary.
-* `nonInteractive` property on the `list-item` is no longer necessary.
+  * `headingLevel ` property on the `list` and `list-item-group` is no
+    longer necessary.
+  * `nonInteractive` property on the `list-item` is no longer necessary.
 
 - **shell:** Removed the `primary-panel` and `contextual-panel`
   slots.
 
-* Removed the slot `primary-panel`, use `panel-start` instead.
-* Removed the slot `contextual-panel`, use `panel-end` instead.
+  * Removed the slot `primary-panel`, use `panel-start` instead.
+  * Removed the slot `contextual-panel`, use `panel-end` instead.
 
 - **shell-panel:** Removed the `calciteShellPanelToggle` event.
 
-* Use a `ResizeObserver` on the component to listen for changes to its
+  * Use a `ResizeObserver` on the component to listen for changes to its
   size. (https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver)
 
 - **flow, flow-item:** Removed the `calciteFlowItemBackClick` event and
   support for slotting `calcite-panel`s.
 
-* Removed support for slotting `calcite-panel` components, use the
-  `calcite-flow-item` component instead.
-* Removed the event `calciteFlowItemBackClick`, use
-  `calciteFlowItemBack` instead.
+  * Removed support for slotting `calcite-panel` components, use the
+    `calcite-flow-item` component instead.
+  * Removed the event `calciteFlowItemBackClick`, use
+    `calciteFlowItemBack` instead.
 
 * **tip-manager:** Removed the `calciteTipManagerToggle` event, use
   `calciteTipManagerClose` instead.
@@ -133,9 +133,9 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - **action:** Removed the `calciteActionClick` event and the `clear`
   value for the `appearance` property.
 
-* Listen to the `click` event instead of `calciteActionClick.
-* Use the value `transparent` instead of `clear` for the property
-  `appearance`.
+  * Listen to the `click` event instead of `calciteActionClick.
+  * Use the value `transparent` instead of `clear` for the property
+    `appearance`.
 
 * **list, list-item, list-item-group:** To know when `calcite-list-item` content is selected, listen to the event `calciteListItemSelect` instead of `click`.
 
