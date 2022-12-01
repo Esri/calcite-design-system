@@ -21,6 +21,7 @@ export const CSS = {
 export const SLOTS = {
   actionsStart: "actions-start",
   contentStart: "content-start",
+  content: "content",
   contentEnd: "content-end",
   actionsEnd: "actions-end"
 };
