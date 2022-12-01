@@ -1,9 +1,7 @@
-/* eslint-disable jest/no-focused-tests */
 import { newE2EPage } from "@stencil/core/testing";
 import {
   accessible,
   defaults,
-  // disabled,
   focusable,
   formAssociated,
   hidden,
@@ -70,8 +68,6 @@ describe("calcite-textarea", () => {
     );
     await accessible("calcite-textarea", page);
   });
-
-  // it("can be disabled", () => disabled("calcite-textarea"));
 
   it("is focusable", () => focusable("calcite-textarea"));
 
@@ -172,21 +168,6 @@ describe("calcite-textarea", () => {
     expect(await element.getProperty("value")).toBe("rocky mountains");
   });
 
-  // it("should focus textarea on pageload when autofocus is true", async () => {
-  //   const page = await newE2EPage();
-  //   await page.setContent(` <calcite-textarea autofocus> </calcite-textarea>`);
-  //   await page.waitForChanges();
-  //   await page.waitForTimeout(12000);
-
-  //   expect(
-  //     await page.evaluate(() => {
-  //       const a = document.querySelector("calcite-textarea");
-  //       console.log(document.activeElement);
-  //       document.activeElement.contains(a);
-  //     })
-  //   ).toBe(true);
-  // });
-
   it("should be disable slotted elements when disabled", async () => {
     const page = await newE2EPage();
     await page.setContent(
@@ -207,18 +188,6 @@ describe("calcite-textarea", () => {
     await page.waitForChanges();
 
     expect(element).toHaveClass(CSS.textareaInvalid);
-  });
-
-  it("should have footer-slotted class when slotted at both trailing and leading", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-textarea invalid>
-    <calcite-button slot="footer-trailing">CLEAR</calcite-button>
-    <calcite-button slot="footer-leading">RESET</calcite-button></calcite-textarea>`);
-
-    const element = await page.find("calcite-textarea >>> textarea");
-    await page.waitForChanges();
-
-    expect(element).toHaveClass(CSS.footerSlotted);
   });
 
   describe("resize disabled", () => {

@@ -29,6 +29,12 @@ import {
   setComponentLoaded,
   setUpLoadableComponent
 } from "../../utils/loadable";
+
+/**
+ * @slot - A slot for adding text.
+ * @slot footer-leading - A slot for adding a leading footer.
+ * @slot footer-trailing - A slot for adding a trailing footer.
+ */
 @Component({
   tag: "calcite-textarea",
   styleUrl: "textarea.scss",
@@ -152,6 +158,8 @@ export class Textarea
 
   componentDidLoad(): void {
     setComponentLoaded(this);
+    console.log("innerHtml", this.el.innerText);
+    // const hasSlottedValue = this.slo;
   }
 
   disconnectedCallback(): void {
@@ -175,8 +183,7 @@ export class Textarea
             [CSS.resizeDisabledX]: this.horizantalResizeDisabled,
             [CSS.resizeDisabledY]: this.verticalResizeDisabled,
             [CSS.readonly]: this.readonly,
-            [CSS.textareaInvalid]: this.invalid,
-            [CSS.footerSlotted]: this.leadingSlotHasElement && this.trailingSlotHasElement
+            [CSS.textareaInvalid]: this.invalid
           }}
           cols={this.cols}
           disabled={this.disabled}
@@ -191,26 +198,19 @@ export class Textarea
           value={this.value}
           wrap={this.wrap}
         />
-        <slot />
+        <span class="content">
+          <slot onSlotchange={this.contentSlotChangeHandler} />
+        </span>
+
         {this.footer && (
           <footer
             class={{ [CSS.footer]: true, [CSS.readonly]: this.readonly }}
-            key="footer"
+            key={CSS.footer}
             ref={(el) => (this.footerEl = el as HTMLElement)}
           >
-            <slot
-              name={SLOTS.footerLeading}
-              onSlotchange={(event) =>
-                (this.leadingSlotHasElement = slotChangeHasAssignedElement(event))
-              }
-            />
+            <slot name={SLOTS.footerLeading} onSlotchange={this.footerTrailingSlotChangeHandler} />
             {this.renderCharacterLimit()}
-            <slot
-              name={SLOTS.footerTrailing}
-              onSlotchange={(event) =>
-                (this.trailingSlotHasElement = slotChangeHasAssignedElement(event))
-              }
-            />
+            <slot name={SLOTS.footerTrailing} onSlotchange={this.footerLeadingSlotChangeHandler} />
           </footer>
         )}
         <HiddenFormInputSlot component={this} />
@@ -285,6 +285,25 @@ export class Textarea
 
   handleChange = (): void => {
     this.calciteTextareaChange.emit();
+  };
+
+  footerTrailingSlotChangeHandler = (event: Event): void => {
+    this.trailingSlotHasElement = slotChangeHasAssignedElement(event);
+  };
+
+  footerLeadingSlotChangeHandler = (event: Event): void => {
+    this.leadingSlotHasElement = slotChangeHasAssignedElement(event);
+  };
+
+  contentSlotChangeHandler = (): void => {
+    if (!this.value) {
+      const nodes = this.el.childNodes;
+      nodes.forEach((el) => {
+        if (el.nodeName === "#text") {
+          this.value = el.nodeValue.trim();
+        }
+      });
+    }
   };
 
   renderCharacterLimit(): VNode {

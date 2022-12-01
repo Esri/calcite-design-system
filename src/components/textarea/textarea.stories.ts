@@ -24,10 +24,8 @@ export const simple = (): string => html`
       ${boolean("horizantal-resize-disabled", false)}
       ${boolean("vertical-resize-disabled", false)}
       ${boolean("required", false)}
-      ${boolean("hidden", false)}
       ${boolean("invalid", false)}
       label="${text("label", "")}"
-      form="${text("form", "")}"
       name="${text("name", "")}"
     >
     </calcite-textarea>

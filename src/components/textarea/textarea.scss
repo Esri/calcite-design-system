@@ -2,7 +2,7 @@
   @apply flex flex-col;
 }
 
-:host textarea {
+textarea {
   @apply text-color-1 relative
   bg-foreground-1 
   box-border
@@ -21,12 +21,9 @@
       @apply border-color-danger border-2 border-solid;
     }
   }
-  &.footer-slotted {
-    min-inline-size: theme("spacing.72");
-  }
 }
 
-:host .footer {
+.footer {
   @apply flex bg-foreground-1
   box-border
   border-color-input
@@ -146,4 +143,8 @@
   footer {
     @apply opacity-50;
   }
+}
+
+.content {
+  @apply hidden;
 }
