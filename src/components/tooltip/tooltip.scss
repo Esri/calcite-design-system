@@ -1,4 +1,8 @@
-@include floatingUIHost(999);
+:host {
+  --calcite-floating-ui-z-index: theme("zIndex.tooltip");
+}
+
+@include floatingUIHost();
 @include floatingUIArrow();
 
 .container {

@@ -1,3 +1,7 @@
+:host {
+  --calcite-floating-ui-z-index: theme("zIndex.popover");
+}
+
 @include floatingUIHost();
 @include floatingUIArrow();
 

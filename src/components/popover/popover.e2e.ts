@@ -13,7 +13,7 @@ describe("calcite-popover", () => {
     );
   });
 
-  it("should have zIndex of 900", async () => {
+  it("should have zIndex of 700", async () => {
     const page = await newE2EPage();
 
     await page.setContent(
@@ -28,7 +28,7 @@ describe("calcite-popover", () => {
 
     const style = await popover.getComputedStyle();
 
-    expect(style.zIndex).toBe("900");
+    expect(style.zIndex).toBe("700");
   });
 
   it("is accessible when closed", async () =>
