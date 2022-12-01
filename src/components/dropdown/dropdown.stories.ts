@@ -311,7 +311,7 @@ export const noScrollingWhenMaxItemsEqualsItems_TestOnly = (): string => html` <
   <calcite-button slot="dropdown-trigger">Activate Dropdown</calcite-button>
   <calcite-dropdown-group selection-mode="single" group-title="Selection Mode: Single">
     <calcite-dropdown-item>Relevance</calcite-dropdown-item>
-    <calcite-dropdown-item active>Date modified</calcite-dropdown-item>
+    <calcite-dropdown-item selected>Date modified</calcite-dropdown-item>
     <calcite-dropdown-item>Title</calcite-dropdown-item>
   </calcite-dropdown-group>
 </calcite-dropdown>`;
@@ -411,12 +411,12 @@ export const flipPlacements_TestOnly = (): string => html`
       <calcite-button slot="dropdown-trigger">Open Dropdown</calcite-button>
       <calcite-dropdown-group group-title="Sort by">
         <calcite-dropdown-item>Relevance</calcite-dropdown-item>
-        <calcite-dropdown-item active>Date modified</calcite-dropdown-item>
+        <calcite-dropdown-item selected>Date modified</calcite-dropdown-item>
         <calcite-dropdown-item>Title</calcite-dropdown-item>
       </calcite-dropdown-group>
       <calcite-dropdown-group group-title="Sort by">
         <calcite-dropdown-item>Relevance</calcite-dropdown-item>
-        <calcite-dropdown-item active>Date modified</calcite-dropdown-item>
+        <calcite-dropdown-item selected>Date modified</calcite-dropdown-item>
         <calcite-dropdown-item>Title</calcite-dropdown-item>
       </calcite-dropdown-group>
     </calcite-dropdown>
