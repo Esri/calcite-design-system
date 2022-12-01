@@ -8,8 +8,7 @@ import {
   Listen,
   Method,
   Prop,
-  VNode,
-  Watch
+  VNode
 } from "@stencil/core";
 import { getElementProp, toAriaBoolean } from "../../utils/dom";
 import { ItemKeyboardEvent } from "../dropdown/interfaces";
@@ -47,25 +46,8 @@ export class DropdownItem implements LoadableComponent {
   //
   //--------------------------------------------------------------------------
 
-  /**
-   * When `true`, the component is selected.
-   *
-   * @deprecated Use `selected` instead.
-   */
-  @Prop({ reflect: true, mutable: true }) active = false;
-
-  @Watch("active")
-  activeHandler(value: boolean): void {
-    this.selected = value;
-  }
-
   /** When `true`, the component is selected. */
   @Prop({ reflect: true, mutable: true }) selected = false;
-
-  @Watch("selected")
-  selectedHandler(value: boolean): void {
-    this.active = value;
-  }
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @Prop({ reflect: true }) iconFlipRtl: FlipContext;
@@ -139,12 +121,6 @@ export class DropdownItem implements LoadableComponent {
   }
 
   connectedCallback(): void {
-    const isSelected = this.selected || this.active;
-
-    if (isSelected) {
-      this.activeHandler(isSelected);
-      this.selectedHandler(isSelected);
-    }
     this.initialize();
   }
 
