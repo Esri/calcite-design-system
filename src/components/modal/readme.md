@@ -128,7 +128,7 @@ Type: `Promise<void>`
 | `--calcite-modal-padding`       | [Deprecated] The padding around content area slot.                     |
 | `--calcite-modal-padding-large` | [Deprecated] The left/right padding around items within the component. |
 | `--calcite-modal-title-text`    | [Deprecated] The component title's font size.                          |
-| `--calcite-scrim-background`    | [Deprecated] The component's semi-transparent background color.        |
+| `--calcite-scrim-background`    | The component's semi-transparent background color.                     |
 
 ## Dependencies
 
