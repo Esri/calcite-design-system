@@ -29,7 +29,9 @@ export class Icon {
   //--------------------------------------------------------------------------
 
   /**
-   * The name of the icon to display. The value of this property must match the icon name from https://esri.github.io/calcite-ui-icons/.
+   * Displays a specific icon.
+   *
+   * @see [Icons](https://esri.github.io/calcite-ui-icons)
    */
   @Prop({
     reflect: true
@@ -37,7 +39,7 @@ export class Icon {
   icon: string = null;
 
   /**
-   * When true, the icon will be flipped when the element direction is 'rtl'.
+   * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
    */
   @Prop({
     reflect: true
@@ -45,7 +47,7 @@ export class Icon {
   flipRtl = false;
 
   /**
-   * Icon scale.
+   * Specifies the size of the component.
    */
   @Prop({
     reflect: true
@@ -53,7 +55,7 @@ export class Icon {
   scale: Scale = "m";
 
   /**
-   * The icon label.
+   * Accessible name for the component.
    *
    * It is recommended to set this value if your icon is semantic.
    */

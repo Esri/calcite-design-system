@@ -7,8 +7,7 @@ import {
   Host,
   Listen,
   Prop,
-  VNode,
-  Watch
+  VNode
 } from "@stencil/core";
 import { getElementDir, getElementProp, getSlotted, toAriaBoolean } from "../../utils/dom";
 import {
@@ -44,41 +43,8 @@ export class AccordionItem implements ConditionalSlotComponent {
   //
   //--------------------------------------------------------------------------
 
-  /**
-   * When `true`, the component is active.
-   *
-   * @deprecated use `expanded` instead.
-   */
-
-  @Prop({ reflect: true, mutable: true }) active = false;
-
-  @Watch("active")
-  activeHandler(value: boolean): void {
-    this.expanded = value;
-  }
-
   /** When `true`, the component is expanded. */
   @Prop({ reflect: true, mutable: true }) expanded = false;
-
-  @Watch("expanded")
-  expandedHandler(value: boolean): void {
-    this.active = value;
-  }
-
-  /**
-   * Specifies a title for the component.
-   *
-   * @deprecated Use `heading` instead.
-   */
-  @Prop()
-  itemTitle?: string;
-
-  /**
-   * Specifies a subtitle for the component.
-   *
-   * @deprecated Use `description` instead.
-   */
-  @Prop() itemSubtitle?: string;
 
   /** Specifies heading text for the component. */
   @Prop() heading?: string;
@@ -86,25 +52,8 @@ export class AccordionItem implements ConditionalSlotComponent {
   /** Specifies a description for the component. */
   @Prop() description: string;
 
-  /**
-   * Specifies an icon to display.
-   *
-   * @deprecated use `iconStart` or `iconEnd` instead.
-   */
-  @Prop({ mutable: true, reflect: true }) icon?: string;
-
-  @Watch("icon")
-  iconHandler(value: string): void {
-    this.iconStart = value;
-  }
-
   /** Specifies an icon to display at the start of the component. */
   @Prop({ reflect: true }) iconStart?: string;
-
-  @Watch("iconStart")
-  iconStartHandler(value: string): void {
-    this.icon = value;
-  }
 
   /** Specifies an icon to display at the end of the component. */
   @Prop({ reflect: true }) iconEnd?: string;
@@ -146,17 +95,6 @@ export class AccordionItem implements ConditionalSlotComponent {
     this.selectionMode = getElementProp(this.el, "selection-mode", "multi");
     this.iconType = getElementProp(this.el, "icon-type", "chevron");
     this.iconPosition = getElementProp(this.el, "icon-position", this.iconPosition);
-    const isExpanded = this.active || this.expanded;
-    if (isExpanded) {
-      this.activeHandler(isExpanded);
-      this.expandedHandler(isExpanded);
-    }
-
-    if (this.iconStart) {
-      this.icon = this.iconStart;
-    } else if (this.icon) {
-      this.iconStart = this.icon;
-    }
 
     connectConditionalSlotComponent(this);
   }
@@ -205,7 +143,7 @@ export class AccordionItem implements ConditionalSlotComponent {
     const iconEndEl = this.iconEnd ? (
       <calcite-icon class={CSS.iconEnd} icon={this.iconEnd} key="icon-end" scale="s" />
     ) : null;
-    const description = this.description || this.itemSubtitle;
+    const { description } = this;
     return (
       <Host>
         <div
@@ -217,7 +155,7 @@ export class AccordionItem implements ConditionalSlotComponent {
           <div class={{ [CSS.header]: true, [CSS_UTILITY.rtl]: dir === "rtl" }}>
             {this.renderActionsStart()}
             <div
-              aria-expanded={toAriaBoolean(this.active || this.expanded)}
+              aria-expanded={toAriaBoolean(this.expanded)}
               class={CSS.headerContent}
               onClick={this.itemHeaderClickHandler}
               role="button"
@@ -226,7 +164,7 @@ export class AccordionItem implements ConditionalSlotComponent {
               <div class={CSS.headerContainer}>
                 {iconStartEl}
                 <div class={CSS.headerText}>
-                  <span class={CSS.heading}>{this.heading || this.itemTitle}</span>
+                  <span class={CSS.heading}>{this.heading}</span>
                   {description ? <span class={CSS.description}>{description}</span> : null}
                 </div>
                 {iconEndEl}
@@ -238,7 +176,7 @@ export class AccordionItem implements ConditionalSlotComponent {
                     ? "chevronDown"
                     : this.iconType === "caret"
                     ? "caretDown"
-                    : this.expanded || this.active
+                    : this.expanded
                     ? "minus"
                     : "plus"
                 }

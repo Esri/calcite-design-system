@@ -12,7 +12,7 @@ import {
   State
 } from "@stencil/core";
 import { SLOTS, CSS, ICONS } from "./resources";
-import { getElementDir, toAriaBoolean } from "../../utils/dom";
+import { getElementDir, slotChangeHasAssignedElement, toAriaBoolean } from "../../utils/dom";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 
 import { getDepth, getListItemChildren, updateListItemChildren } from "./utils";
@@ -81,13 +81,6 @@ export class ListItem implements InteractiveComponent, LoadableComponent {
    * Provides additional metadata to the component. Primary use is for a filter on the parent list.
    */
   @Prop() metadata?: Record<string, unknown>;
-
-  /**
-   * When `true`, prevents the content of the component from user interaction.
-   *
-   * @deprecated no longer necessary.
-   */
-  @Prop({ reflect: true }) nonInteractive = false;
 
   /**
    * When true, item is open to show child components.
@@ -443,35 +436,19 @@ export class ListItem implements InteractiveComponent, LoadableComponent {
   // --------------------------------------------------------------------------
 
   handleActionsStartSlotChange = (event: Event): void => {
-    const elements = (event.target as HTMLSlotElement).assignedElements({
-      flatten: true
-    });
-
-    this.hasActionsStart = !!elements.length;
+    this.hasActionsStart = slotChangeHasAssignedElement(event);
   };
 
   handleActionsEndSlotChange = (event: Event): void => {
-    const elements = (event.target as HTMLSlotElement).assignedElements({
-      flatten: true
-    });
-
-    this.hasActionsEnd = !!elements.length;
+    this.hasActionsEnd = slotChangeHasAssignedElement(event);
   };
 
   handleContentStartSlotChange = (event: Event): void => {
-    const elements = (event.target as HTMLSlotElement).assignedElements({
-      flatten: true
-    });
-
-    this.hasContentStart = !!elements.length;
+    this.hasContentStart = slotChangeHasAssignedElement(event);
   };
 
   handleContentEndSlotChange = (event: Event): void => {
-    const elements = (event.target as HTMLSlotElement).assignedElements({
-      flatten: true
-    });
-
-    this.hasContentEnd = !!elements.length;
+    this.hasContentEnd = slotChangeHasAssignedElement(event);
   };
 
   setSelectionDefaults(): void {

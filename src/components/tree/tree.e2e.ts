@@ -3,7 +3,6 @@ import { accessible, defaults, hidden, renders } from "../../tests/commonTests";
 import { GlobalTestProps } from "../../tests/utils";
 import { html } from "../../../support/formatting";
 import { CSS } from "../tree-item/resources";
-import { TreeSelectionMode } from "./interfaces";
 import SpyInstance = jest.SpyInstance;
 
 describe("calcite-tree", () => {
@@ -25,7 +24,7 @@ describe("calcite-tree", () => {
       },
       {
         propertyName: "selectionMode",
-        defaultValue: TreeSelectionMode.Single
+        defaultValue: "single"
       }
     ]));
 
@@ -395,11 +394,11 @@ describe("calcite-tree", () => {
       expect(selectEventSpy).toHaveReceivedEventTimes(2);
     });
 
-    describe(`when tree-item selection-mode is ${TreeSelectionMode.Ancestors}`, () => {
+    describe(`when tree-item selection-mode is "ancestors"`, () => {
       it("should render checkbox inputs", async () => {
         const page = await newE2EPage({
           html: `
-          <calcite-tree selection-mode=${TreeSelectionMode.Ancestors}>
+          <calcite-tree selection-mode="ancestors">
             <calcite-tree-item>1</calcite-tree-item>
             <calcite-tree-item>2</calcite-tree-item>
           </calcite-tree>
@@ -412,11 +411,11 @@ describe("calcite-tree", () => {
       });
     });
 
-    describe(`when tree-item selection-mode is ${TreeSelectionMode.None}`, () => {
+    describe(`when tree-item selection-mode is "none"`, () => {
       it("allows selecting items without a selection", async () => {
         const page = await newE2EPage();
         await page.setContent(html`
-          <calcite-tree selection-mode=${TreeSelectionMode.None}>
+          <calcite-tree selection-mode="none">
             <calcite-tree-item id="1">1</calcite-tree-item>
             <calcite-tree-item id="2">2</calcite-tree-item>
           </calcite-tree>
@@ -798,6 +797,62 @@ describe("calcite-tree", () => {
 
       expect(await getActiveElementId(page)).toEqual("root-item-1");
       expect(keydownSpy).toHaveReceivedEventTimes(14);
+    });
+
+    it("does prevent space/enter keyboard event on actions with selectionMode of single", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html`<div id="container">
+        <calcite-tree selection-mode="single">
+          <calcite-tree-item>
+            <button>My button</button>
+          </calcite-tree-item>
+        </calcite-tree>
+      </div>`);
+
+      const container = await page.find("#container");
+      const button = await page.find("button");
+      const keydownSpy = await container.spyOnEvent("keydown");
+
+      expect(keydownSpy).toHaveReceivedEventTimes(0);
+
+      await button.focus();
+      await page.keyboard.press("Enter");
+
+      expect(keydownSpy).toHaveReceivedEventTimes(1);
+      expect(keydownSpy.lastEvent.defaultPrevented).toBe(true);
+
+      await page.keyboard.press("Space");
+
+      expect(keydownSpy).toHaveReceivedEventTimes(2);
+      expect(keydownSpy.lastEvent.defaultPrevented).toBe(true);
+    });
+
+    it("does not prevent space/enter keyboard event on actions with selectionMode of none", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html`<div id="container">
+        <calcite-tree selection-mode="none">
+          <calcite-tree-item>
+            <button>My button</button>
+          </calcite-tree-item>
+        </calcite-tree>
+      </div>`);
+
+      const container = await page.find("#container");
+      const button = await page.find("button");
+      const keydownSpy = await container.spyOnEvent("keydown");
+
+      expect(keydownSpy).toHaveReceivedEventTimes(0);
+
+      await button.focus();
+      await page.keyboard.press("Enter");
+
+      expect(keydownSpy).toHaveReceivedEventTimes(1);
+      expect(keydownSpy.lastEvent.defaultPrevented).toBe(false);
+
+      await page.keyboard.press("Space");
+
+      expect(keydownSpy).toHaveReceivedEventTimes(2);
+      expect(keydownSpy.lastEvent.defaultPrevented).toBe(false);
     });
 
     it("honors disabled items when navigating the tree", async () => {

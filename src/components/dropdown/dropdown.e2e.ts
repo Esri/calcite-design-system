@@ -229,10 +229,6 @@ describe("calcite-dropdown", () => {
     const item2 = await element.find("calcite-dropdown-item[id='item-2']");
     const item3 = await element.find("calcite-dropdown-item[id='item-3']");
 
-    //active prop is deprecated
-    expect(item1).not.toHaveAttribute("active");
-    expect(item3).not.toHaveAttribute("active");
-
     expect(item1).not.toHaveAttribute("selected");
     expect(item2).toHaveAttribute("selected");
     expect(item3).not.toHaveAttribute("selected");
@@ -284,11 +280,6 @@ describe("calcite-dropdown", () => {
       mostRecentId: "item-3"
     });
 
-    // active prop is deprecated
-    expect(item1).toHaveAttribute("active");
-    expect(item2).not.toHaveAttribute("active");
-    expect(item3).toHaveAttribute("active");
-
     expect(item1).toHaveAttribute("selected");
     expect(item2).not.toHaveAttribute("selected");
     expect(item3).toHaveAttribute("selected");
@@ -333,11 +324,6 @@ describe("calcite-dropdown", () => {
       mostRecentId: "item-3"
     });
 
-    //active prop is deprecated
-    expect(item1).not.toHaveAttribute("active");
-    expect(item2).not.toHaveAttribute("active");
-    expect(item3).toHaveAttribute("active");
-
     expect(item1).not.toHaveAttribute("selected");
     expect(item2).not.toHaveAttribute("selected");
     expect(item3).toHaveAttribute("selected");
@@ -376,11 +362,6 @@ describe("calcite-dropdown", () => {
     await item3.click();
     await page.waitForChanges();
     await assertSelectedItems(page, { expectedItemIds: [], mostRecentId: "item-3" });
-
-    //active prop is deprecated
-    expect(item1).not.toHaveAttribute("active");
-    expect(item2).not.toHaveAttribute("active");
-    expect(item3).not.toHaveAttribute("active");
 
     expect(item1).not.toHaveAttribute("selected");
     expect(item2).not.toHaveAttribute("selected");
@@ -487,17 +468,6 @@ describe("calcite-dropdown", () => {
       expectedItemIds: ["item-1", "item-3", "item-6"],
       mostRecentId: "item-9"
     });
-
-    //active is deprecated
-    expect(item1).toHaveAttribute("active");
-    expect(item2).not.toHaveAttribute("active");
-    expect(item3).toHaveAttribute("active");
-    expect(item4).not.toHaveAttribute("active");
-    expect(item5).not.toHaveAttribute("active");
-    expect(item6).toHaveAttribute("active");
-    expect(item7).not.toHaveAttribute("active");
-    expect(item8).not.toHaveAttribute("active");
-    expect(item9).not.toHaveAttribute("active");
 
     expect(item1).toHaveAttribute("selected");
     expect(item2).not.toHaveAttribute("selected");
@@ -1169,7 +1139,7 @@ describe("calcite-dropdown", () => {
     const calciteDropdownBeforeOpenSpy = await element.spyOnEvent("calciteDropdownBeforeOpen");
     const calciteDropdownOpenSpy = await element.spyOnEvent("calciteDropdownOpen");
 
-    await element.setProperty("active", true);
+    element.setProperty("open", true);
     await page.waitForChanges();
 
     expect(await element.getProperty("open")).toBe(true);
@@ -1187,7 +1157,7 @@ describe("calcite-dropdown", () => {
     const calciteDropdownBeforeCloseSpy = await element.spyOnEvent("calciteDropdownBeforeClose");
     const calciteDropdownCloseSpy = await element.spyOnEvent("calciteDropdownClose");
 
-    await element.setProperty("active", false);
+    element.setProperty("open", false);
     await page.waitForChanges();
 
     await calciteDropdownBeforeCloseEvent;

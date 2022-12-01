@@ -23,3 +23,4 @@ updates:
       - dependency-name: "jest-cli"
       - dependency-name: "ts-jest"
       - dependency-name: "puppeteer"
+      - dependency-name: "@whitespace/storybook-addon-html"

@@ -1,14 +1,4 @@
-import {
-  Component,
-  h,
-  Prop,
-  Event,
-  EventEmitter,
-  Element,
-  VNode,
-  Method,
-  Watch
-} from "@stencil/core";
+import { Component, h, Prop, Event, EventEmitter, Element, VNode, Method } from "@stencil/core";
 import { getSlotted } from "../../utils/dom";
 import { guid } from "../../utils/guid";
 import { CSS, TEXT, SLOTS, ICONS } from "./resources";
@@ -43,30 +33,13 @@ export class Chip implements ConditionalSlotComponent, LoadableComponent {
   //--------------------------------------------------------------------------
 
   /** Specifies the appearance style of the component. */
-  @Prop({ reflect: true }) appearance: Extract<"solid" | "clear", Appearance> = "solid";
+  @Prop({ reflect: true }) appearance: Extract<"solid" | "transparent", Appearance> = "solid";
 
   /** Specifies the color for the component. */
   @Prop({ reflect: true }) color: ChipColor = "grey";
 
-  /**
-   * When `true`, a close button is added to the component.
-   *
-   * @deprecated use `closable` instead.
-   */
-  @Prop({ reflect: true, mutable: true }) dismissible = false;
-
-  @Watch("dismissible")
-  handleDismissible(value: boolean): void {
-    this.closable = value;
-  }
-
   /** When `true`, a close button is added to the component. */
   @Prop({ reflect: true, mutable: true }) closable = false;
-
-  @Watch("closable")
-  handleClosable(value: boolean): void {
-    this.dismissible = value;
-  }
 
   /**
    * Accessible name for the component's close button.
@@ -106,12 +79,6 @@ export class Chip implements ConditionalSlotComponent, LoadableComponent {
 
   connectedCallback(): void {
     connectConditionalSlotComponent(this);
-    if (this.dismissible) {
-      this.handleDismissible(this.dismissible);
-    }
-    if (this.closable) {
-      this.handleClosable(this.closable);
-    }
   }
 
   componentWillLoad(): void {
@@ -125,7 +92,6 @@ export class Chip implements ConditionalSlotComponent, LoadableComponent {
   disconnectedCallback(): void {
     disconnectConditionalSlotComponent(this);
   }
-
   //--------------------------------------------------------------------------
   //
   //  Public Methods

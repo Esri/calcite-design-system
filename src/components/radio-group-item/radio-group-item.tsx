@@ -11,7 +11,7 @@ import {
 } from "@stencil/core";
 import { getElementProp, toAriaBoolean } from "../../utils/dom";
 import { RadioAppearance } from "../radio-group/interfaces";
-import { Position, Layout, Scale } from "../interfaces";
+import { Layout, Scale } from "../interfaces";
 import { SLOTS, CSS } from "./resources";
 
 @Component({
@@ -43,22 +43,8 @@ export class RadioGroupItem {
     this.calciteInternalRadioGroupItemChange.emit();
   }
 
-  /**
-   * Specifies an icon to display.
-   *
-   * @deprecated Use either `iconStart` or `iconEnd` but do not combine them with `icon` and `iconPosition`.
-   */
-  @Prop({ reflect: true }) icon?: string;
-
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @Prop({ reflect: true }) iconFlipRtl = false;
-
-  /**
-   * Specifies the placement of the icon.
-   *
-   * @deprecated Use either `iconStart` or `iconEnd` but do not combine them with `icon` and `iconPosition`.
-   */
-  @Prop({ reflect: true }) iconPosition?: Position = "start";
 
   /** Specifies an icon to display at the start of the component. */
   @Prop({ reflect: true }) iconStart?: string;
@@ -98,20 +84,6 @@ export class RadioGroupItem {
       />
     ) : null;
 
-    const iconEl = (
-      <calcite-icon
-        class={CSS.radioGroupItemIcon}
-        flipRtl={this.iconFlipRtl}
-        icon={this.icon}
-        key="icon"
-        scale="s"
-      />
-    );
-
-    const iconAtStart =
-      this.icon && this.iconPosition === "start" && !this.iconStart ? iconEl : null;
-    const iconAtEnd = this.icon && this.iconPosition === "end" && !this.iconEnd ? iconEl : null;
-
     return (
       <Host aria-checked={toAriaBoolean(checked)} aria-label={value} role="radio">
         <label
@@ -123,11 +95,9 @@ export class RadioGroupItem {
             "label--outline": appearance === "outline"
           }}
         >
-          {iconAtStart}
           {this.iconStart ? iconStartEl : null}
           <slot>{value}</slot>
           <slot name={SLOTS.input} />
-          {iconAtEnd}
           {this.iconEnd ? iconEndEl : null}
         </label>
       </Host>

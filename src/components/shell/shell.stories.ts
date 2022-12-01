@@ -330,7 +330,7 @@ export const darkThemeRTL_TestOnly = (): string =>
 
 darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };
 
-export const dismissedPanels = (): string => html`<calcite-shell content-behind>
+export const closedPanels = (): string => html`<calcite-shell content-behind>
   <calcite-shell-panel slot="panel-start" detached>
     <calcite-action-bar slot="action-bar">
       <calcite-action data-action-id="layers" icon="layers" text="Layers"></calcite-action>
@@ -339,19 +339,19 @@ export const dismissedPanels = (): string => html`<calcite-shell content-behind>
       <calcite-action data-action-id="bookmarks" icon="bookmark" text="Bookmarks"></calcite-action>
       <calcite-action data-action-id="print" icon="print" text="Print"></calcite-action>
     </calcite-action-bar>
-    <calcite-panel heading="Layers" height-scale="l" data-panel-id="layers" dismissible dismissed>
+    <calcite-panel heading="Layers" height-scale="l" data-panel-id="layers" closable closed>
       <div id="layers-container"></div>
     </calcite-panel>
-    <calcite-panel heading="Basemaps" height-scale="l" data-panel-id="basemaps" dismissible dismissed>
+    <calcite-panel heading="Basemaps" height-scale="l" data-panel-id="basemaps" closable closed>
       <div id="basemaps-container"></div>
     </calcite-panel>
-    <calcite-panel heading="Legend" height-scale="l" data-panel-id="legend" dismissible dismissed>
+    <calcite-panel heading="Legend" height-scale="l" data-panel-id="legend" closable closed>
       <div id="legend-container"></div>
     </calcite-panel>
-    <calcite-panel heading="Bookmarks" height-scale="l" data-panel-id="bookmarks" dismissible dismissed>
+    <calcite-panel heading="Bookmarks" height-scale="l" data-panel-id="bookmarks" closable closed>
       <div id="bookmarks-container"></div>
     </calcite-panel>
-    <calcite-panel heading="Print" height-scale="l" data-panel-id="print" dismissible dismissed>
+    <calcite-panel heading="Print" height-scale="l" data-panel-id="print" closable closed>
       <div id="print-container"></div>
     </calcite-panel>
   </calcite-shell-panel>
