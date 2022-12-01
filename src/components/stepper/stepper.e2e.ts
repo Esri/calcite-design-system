@@ -7,16 +7,16 @@ describe("calcite-stepper", () => {
   it("renders", () =>
     renders(
       html`<calcite-stepper>
-        <calcite-stepper-item item-title="Step 1" id="step-1">
+        <calcite-stepper-item heading="Step 1" id="step-1">
           <div>Step 1 content</div>
         </calcite-stepper-item>
-        <calcite-stepper-item item-title="Step 2" id="step-2">
+        <calcite-stepper-item heading="Step 2" id="step-2">
           <div>Step 2 content</div>
         </calcite-stepper-item>
-        <calcite-stepper-item item-title="Step 3" id="step-3">
+        <calcite-stepper-item heading="Step 3" id="step-3">
           <div>Step 3 content</div>
         </calcite-stepper-item>
-        <calcite-stepper-item item-title="Step 4" id="step-4">
+        <calcite-stepper-item heading="Step 4" id="step-4">
           <div>Step 4 content</div>
         </calcite-stepper-item>
       </calcite-stepper>`,
@@ -26,16 +26,16 @@ describe("calcite-stepper", () => {
   it("renders default props when none are provided", async () => {
     const page = await newE2EPage();
     await page.setContent(html`<calcite-stepper>
-      <calcite-stepper-item item-title="Step 1" id="step-1">
+      <calcite-stepper-item heading="Step 1" id="step-1">
         <div>Step 1 content</div>
       </calcite-stepper-item>
-      <calcite-stepper-item item-title="Step 2" id="step-2">
+      <calcite-stepper-item heading="Step 2" id="step-2">
         <div>Step 2 content</div>
       </calcite-stepper-item>
-      <calcite-stepper-item item-title="Step 3" id="step-3">
+      <calcite-stepper-item heading="Step 3" id="step-3">
         <div>Step 3 content</div>
       </calcite-stepper-item>
-      <calcite-stepper-item item-title="Step 4" id="step-4">
+      <calcite-stepper-item heading="Step 4" id="step-4">
         <div>Step 4 content</div>
       </calcite-stepper-item>
     </calcite-stepper>`);
@@ -49,16 +49,16 @@ describe("calcite-stepper", () => {
   it("renders requested props when valid props are provided", async () => {
     const page = await newE2EPage();
     await page.setContent(html`<calcite-stepper layout="vertical" scale="l" numbered icon>
-      <calcite-stepper-item item-title="Step 1" id="step-1">
+      <calcite-stepper-item heading="Step 1" id="step-1">
         <div>Step 1 content</div>
       </calcite-stepper-item>
-      <calcite-stepper-item item-title="Step 2" id="step-2">
+      <calcite-stepper-item heading="Step 2" id="step-2">
         <div>Step 2 content</div>
       </calcite-stepper-item>
-      <calcite-stepper-item item-title="Step 3" id="step-3">
+      <calcite-stepper-item heading="Step 3" id="step-3">
         <div>Step 3 content</div>
       </calcite-stepper-item>
-      <calcite-stepper-item item-title="Step 4" id="step-4">
+      <calcite-stepper-item heading="Step 4" id="step-4">
         <div>Step 4 content</div>
       </calcite-stepper-item>
     </calcite-stepper>`);
@@ -74,16 +74,16 @@ describe("calcite-stepper", () => {
   it("adds selected attribute to requested item", async () => {
     const page = await newE2EPage();
     await page.setContent(html`<calcite-stepper layout="vertical" scale="l" numbered icon>
-      <calcite-stepper-item item-title="Step 1" id="step-1">
+      <calcite-stepper-item heading="Step 1" id="step-1">
         <div>Step 1 content</div>
       </calcite-stepper-item>
-      <calcite-stepper-item item-title="Step 2" id="step-2">
+      <calcite-stepper-item heading="Step 2" id="step-2">
         <div>Step 2 content</div>
       </calcite-stepper-item>
-      <calcite-stepper-item item-title="Step 3" id="step-3" selected>
+      <calcite-stepper-item heading="Step 3" id="step-3" selected>
         <div>Step 3 content</div>
       </calcite-stepper-item>
-      <calcite-stepper-item item-title="Step 4" id="step-4">
+      <calcite-stepper-item heading="Step 4" id="step-4">
         <div>Step 4 content</div>
       </calcite-stepper-item>
     </calcite-stepper>`);
@@ -107,16 +107,16 @@ describe("calcite-stepper", () => {
   it("adds active attribute to first item if none are requested", async () => {
     const page = await newE2EPage();
     await page.setContent(html`<calcite-stepper layout="vertical" scale="l" numbered icon>
-      <calcite-stepper-item item-title="Step 1" id="step-1">
+      <calcite-stepper-item heading="Step 1" id="step-1">
         <div>Step 1 content</div>
       </calcite-stepper-item>
-      <calcite-stepper-item item-title="Step 2" id="step-2">
+      <calcite-stepper-item heading="Step 2" id="step-2">
         <div>Step 2 content</div>
       </calcite-stepper-item>
-      <calcite-stepper-item item-title="Step 3" id="step-3">
+      <calcite-stepper-item heading="Step 3" id="step-3">
         <div>Step 3 content</div>
       </calcite-stepper-item>
-      <calcite-stepper-item item-title="Step 4" id="step-4">
+      <calcite-stepper-item heading="Step 4" id="step-4">
         <div>Step 4 content</div>
       </calcite-stepper-item>
     </calcite-stepper>`);
@@ -141,16 +141,16 @@ describe("calcite-stepper", () => {
     it("navigates correctly with nextStep and prevStep methods", async () => {
       const page = await newE2EPage();
       await page.setContent(html`<calcite-stepper>
-        <calcite-stepper-item item-title="Step 1" id="step-1">
+        <calcite-stepper-item heading="Step 1" id="step-1">
           <div>Step 1 content</div>
         </calcite-stepper-item>
-        <calcite-stepper-item item-title="Step 2" id="step-2" selected>
+        <calcite-stepper-item heading="Step 2" id="step-2" selected>
           <div>Step 2 content</div>
         </calcite-stepper-item>
-        <calcite-stepper-item item-title="Step 3" id="step-3">
+        <calcite-stepper-item heading="Step 3" id="step-3">
           <div>Step 3 content</div>
         </calcite-stepper-item>
-        <calcite-stepper-item item-title="Step 4" id="step-4">
+        <calcite-stepper-item heading="Step 4" id="step-4">
           <div>Step 4 content</div>
         </calcite-stepper-item>
       </calcite-stepper>`);
@@ -208,13 +208,13 @@ describe("calcite-stepper", () => {
     it("navigates disabled items correctly with nextStep and prevStep methods", async () => {
       const page = await newE2EPage();
       await page.setContent(html`<calcite-stepper>
-        <calcite-stepper-item item-title="Step 1" id="step-1" selected>
+        <calcite-stepper-item heading="Step 1" id="step-1" selected>
           <div>Step 1 content</div>
         </calcite-stepper-item>
-        <calcite-stepper-item item-title="Step 2" id="step-2" disabled>
+        <calcite-stepper-item heading="Step 2" id="step-2" disabled>
           <div>Step 2 content</div>
         </calcite-stepper-item>
-        <calcite-stepper-item item-title="Step 3" id="step-3">
+        <calcite-stepper-item heading="Step 3" id="step-3">
           <div>Step 3 content</div>
         </calcite-stepper-item>
       </calcite-stepper>`);
@@ -261,16 +261,16 @@ describe("calcite-stepper", () => {
     it("navigates correctly with startStep and endStep methods", async () => {
       const page = await newE2EPage();
       await page.setContent(html`<calcite-stepper>
-        <calcite-stepper-item item-title="Step 1" id="step-1">
+        <calcite-stepper-item heading="Step 1" id="step-1">
           <div>Step 1 content</div>
         </calcite-stepper-item>
-        <calcite-stepper-item item-title="Step 2" id="step-2">
+        <calcite-stepper-item heading="Step 2" id="step-2">
           <div>Step 2 content</div>
         </calcite-stepper-item>
-        <calcite-stepper-item item-title="Step 3" id="step-3">
+        <calcite-stepper-item heading="Step 3" id="step-3">
           <div>Step 3 content</div>
         </calcite-stepper-item>
-        <calcite-stepper-item item-title="Step 4" id="step-4">
+        <calcite-stepper-item heading="Step 4" id="step-4">
           <div>Step 4 content</div>
         </calcite-stepper-item>
       </calcite-stepper>`);
@@ -316,16 +316,16 @@ describe("calcite-stepper", () => {
     it("navigates disabled items correctly with startStep and endStep methods", async () => {
       const page = await newE2EPage();
       await page.setContent(html`<calcite-stepper>
-        <calcite-stepper-item item-title="Step 1" id="step-1" disabled>
+        <calcite-stepper-item heading="Step 1" id="step-1" disabled>
           <div>Step 1 content</div>
         </calcite-stepper-item>
-        <calcite-stepper-item item-title="Step 2" id="step-2">
+        <calcite-stepper-item heading="Step 2" id="step-2">
           <div>Step 2 content</div>
         </calcite-stepper-item>
-        <calcite-stepper-item item-title="Step 3" id="step-3">
+        <calcite-stepper-item heading="Step 3" id="step-3">
           <div id="step-3 >>> .stepper-item-content">Step 3 content</div>
         </calcite-stepper-item>
-        <calcite-stepper-item item-title="Step 4" id="step-4" disabled>
+        <calcite-stepper-item heading="Step 4" id="step-4" disabled>
           <div>Step 4 content</div>
         </calcite-stepper-item>
       </calcite-stepper>`);
@@ -371,16 +371,16 @@ describe("calcite-stepper", () => {
     it("navigates to requested step with goToStep method", async () => {
       const page = await newE2EPage();
       await page.setContent(html`<calcite-stepper>
-        <calcite-stepper-item item-title="Step 1" id="step-1">
+        <calcite-stepper-item heading="Step 1" id="step-1">
           <div>Step 1 content</div>
         </calcite-stepper-item>
-        <calcite-stepper-item item-title="Step 2" id="step-2">
+        <calcite-stepper-item heading="Step 2" id="step-2">
           <div>Step 2 content</div>
         </calcite-stepper-item>
-        <calcite-stepper-item item-title="Step 3" id="step-3">
+        <calcite-stepper-item heading="Step 3" id="step-3">
           <div>Step 3 content</div>
         </calcite-stepper-item>
-        <calcite-stepper-item item-title="Step 4" id="step-4">
+        <calcite-stepper-item heading="Step 4" id="step-4">
           <div>Step 4 content</div>
         </calcite-stepper-item>
       </calcite-stepper>`);
@@ -426,16 +426,16 @@ describe("calcite-stepper", () => {
     it("next/previous methods work when placed inside shadow DOM (#992)", async () => {
       const templateHTML = html`
         <calcite-stepper id="stepper">
-          <calcite-stepper-item id="item-1" selected item-title="Add info" item-subtitle="Subtitle lorem ipsum" complete
+          <calcite-stepper-item id="item-1" selected heading="Add info" description="Subtitle lorem ipsum" complete
             >Step 1 Content here lorem ipsum</calcite-stepper-item
           >
-          <calcite-stepper-item id="item-2" item-title="Add data" item-subtitle="Error example" error
+          <calcite-stepper-item id="item-2" heading="Add data" description="Error example" error
             >Step 2 Content here error</calcite-stepper-item
           >
-          <calcite-stepper-item id="item-3" item-title="Upload images" item-subtitle="Subtitle lorem ipsum">
+          <calcite-stepper-item id="item-3" heading="Upload images" description="Subtitle lorem ipsum">
             Step 3 Content here dolor set amet et geographica</calcite-stepper-item
           >
-          <calcite-stepper-item id="item-4" item-title="Review" item-subtitle="Disabled example" disabled
+          <calcite-stepper-item id="item-4" heading="Review" description="Disabled example" disabled
             >Step 4 Content here</calcite-stepper-item
           >
         </calcite-stepper>
@@ -549,16 +549,16 @@ describe("calcite-stepper", () => {
         const page = await newE2EPage();
         await page.setContent(
           html`<calcite-stepper layout="${layout}">
-            <calcite-stepper-item item-title="Step 1" id="step-1">
+            <calcite-stepper-item heading="Step 1" id="step-1">
               <div>Step 1 content</div>
             </calcite-stepper-item>
-            <calcite-stepper-item item-title="Step 2" id="step-2">
+            <calcite-stepper-item heading="Step 2" id="step-2">
               <div>Step 2 content</div>
             </calcite-stepper-item>
-            <calcite-stepper-item item-title="Step 3" id="step-3" disabled>
+            <calcite-stepper-item heading="Step 3" id="step-3" disabled>
               <div>Step 3 content</div>
             </calcite-stepper-item>
-            <calcite-stepper-item item-title="Step 4" id="step-4">
+            <calcite-stepper-item heading="Step 4" id="step-4">
               <div>Step 4 content</div>
             </calcite-stepper-item>
           </calcite-stepper>`
@@ -571,10 +571,10 @@ describe("calcite-stepper", () => {
         const page = await newE2EPage();
         await page.setContent(
           html`<calcite-stepper layout="${layout}">
-            <calcite-stepper-item item-title="Step 1" id="step-1"></calcite-stepper-item>
-            <calcite-stepper-item item-title="Step 2" id="step-2"></calcite-stepper-item>
-            <calcite-stepper-item item-title="Step 3" id="step-3" disabled></calcite-stepper-item>
-            <calcite-stepper-item item-title="Step 4" id="step-4"></calcite-stepper-item>
+            <calcite-stepper-item heading="Step 1" id="step-1"></calcite-stepper-item>
+            <calcite-stepper-item heading="Step 2" id="step-2"></calcite-stepper-item>
+            <calcite-stepper-item heading="Step 3" id="step-3" disabled></calcite-stepper-item>
+            <calcite-stepper-item heading="Step 4" id="step-4"></calcite-stepper-item>
           </calcite-stepper>`
         );
 
@@ -591,16 +591,16 @@ describe("calcite-stepper", () => {
         const page = await newE2EPage();
         await page.setContent(
           html`<calcite-stepper layout="${layout}">
-            <calcite-stepper-item item-title="Step 1" id="step-1">
+            <calcite-stepper-item heading="Step 1" id="step-1">
               <div>Step 1 content</div>
             </calcite-stepper-item>
-            <calcite-stepper-item item-title="Step 2" id="step-2">
+            <calcite-stepper-item heading="Step 2" id="step-2">
               <div>Step 2 content</div>
             </calcite-stepper-item>
-            <calcite-stepper-item item-title="Step 3" id="step-3" disabled>
+            <calcite-stepper-item heading="Step 3" id="step-3" disabled>
               <div>Step 3 content</div>
             </calcite-stepper-item>
-            <calcite-stepper-item item-title="Step 4" id="step-4">
+            <calcite-stepper-item heading="Step 4" id="step-4">
               <div>Step 4 content</div>
             </calcite-stepper-item>
           </calcite-stepper>`
@@ -613,10 +613,10 @@ describe("calcite-stepper", () => {
         const page = await newE2EPage();
         await page.setContent(
           html`<calcite-stepper layout="${layout}">
-            <calcite-stepper-item item-title="Step 1" id="step-1"></calcite-stepper-item>
-            <calcite-stepper-item item-title="Step 2" id="step-2"></calcite-stepper-item>
-            <calcite-stepper-item item-title="Step 3" id="step-3" disabled></calcite-stepper-item>
-            <calcite-stepper-item item-title="Step 4" id="step-4"></calcite-stepper-item>
+            <calcite-stepper-item heading="Step 1" id="step-1"></calcite-stepper-item>
+            <calcite-stepper-item heading="Step 2" id="step-2"></calcite-stepper-item>
+            <calcite-stepper-item heading="Step 3" id="step-3" disabled></calcite-stepper-item>
+            <calcite-stepper-item heading="Step 4" id="step-4"></calcite-stepper-item>
           </calcite-stepper>`
         );
 
