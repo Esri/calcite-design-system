@@ -186,8 +186,8 @@
 
 .alert-content {
   @include alert-element-base;
-  @apply bg-foreground-1 break-words;
-  flex: 1 1 auto;
+  @apply bg-foreground-1 break-words flex flex-col;
+  flex: 1 1 0;
   min-inline-size: 0;
   padding-block: var(--calcite-alert-spacing-token-small);
   padding-inline: 0 var(--calcite-alert-spacing-token-small);

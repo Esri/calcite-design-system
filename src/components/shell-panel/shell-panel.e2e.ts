@@ -75,24 +75,6 @@ describe("calcite-shell-panel", () => {
     expect(isVisible).toBe(false);
   });
 
-  it("collapsed change should fire event", async () => {
-    const page = await newE2EPage();
-
-    await page.setContent(
-      '<calcite-shell-panel><div slot="action-bar">bar</div><div>content</div></calcite-shell-panel>'
-    );
-
-    const element = await page.find(`calcite-shell-panel`);
-
-    const eventSpy = await page.spyOnEvent("calciteShellPanelToggle", "window");
-
-    element.setProperty("collapsed", true);
-
-    await page.waitForChanges();
-
-    expect(eventSpy).toHaveReceivedEvent();
-  });
-
   it("start position property should have action slot first", async () => {
     const page = await newE2EPage();
     await page.setContent(

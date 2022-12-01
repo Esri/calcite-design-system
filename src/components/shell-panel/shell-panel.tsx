@@ -1,15 +1,4 @@
-import {
-  Component,
-  Element,
-  Event,
-  EventEmitter,
-  Prop,
-  Watch,
-  h,
-  VNode,
-  State,
-  forceUpdate
-} from "@stencil/core";
+import { Component, Element, Prop, h, VNode, State, forceUpdate } from "@stencil/core";
 import { CSS, SLOTS, TEXT } from "./resources";
 import { Position, Scale } from "../interfaces";
 import { getSlotted, getElementDir, isPrimaryPointerButton } from "../../utils/dom";
@@ -40,11 +29,6 @@ export class ShellPanel implements ConditionalSlotComponent {
    * When `true`, hides the component's content area.
    */
   @Prop({ reflect: true }) collapsed = false;
-
-  @Watch("collapsed")
-  watchHandler(): void {
-    this.calciteShellPanelToggle.emit();
-  }
 
   /**
    * When `true`, the content area displays like a floating panel.
@@ -123,19 +107,6 @@ export class ShellPanel implements ConditionalSlotComponent {
   step = 1;
 
   stepMultiplier = 10;
-
-  // --------------------------------------------------------------------------
-  //
-  //  Events
-  //
-  // --------------------------------------------------------------------------
-
-  /**
-   * Emitted when collapse has been toggled.
-   *
-   * @deprecated use a `ResizeObserver` on the component to listen for changes to its size.
-   */
-  @Event({ cancelable: false }) calciteShellPanelToggle: EventEmitter<void>;
 
   // --------------------------------------------------------------------------
   //

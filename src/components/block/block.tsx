@@ -99,22 +99,8 @@ export class Block implements ConditionalSlotComponent, InteractiveComponent {
 
   /**
    * A description for the component, which displays below the heading.
-   *
-   * @deprecated use `description` instead
-   */
-  @Prop() summary: string;
-
-  /**
-   * A description for the component, which displays below the heading.
    */
   @Prop() description: string;
-
-  /**
-   * When `true`, removes padding for the slotted content.
-   *
-   * @deprecated Use `--calcite-block-padding` CSS variable instead.
-   */
-  @Prop({ reflect: true }) disablePadding = false;
 
   //--------------------------------------------------------------------------
   //
@@ -213,15 +199,13 @@ export class Block implements ConditionalSlotComponent, InteractiveComponent {
   }
 
   renderTitle(): VNode {
-    const { heading, headingLevel, summary, description } = this;
-    return heading || summary || description ? (
+    const { heading, headingLevel, description } = this;
+    return heading || description ? (
       <div class={CSS.title}>
         <Heading class={CSS.heading} level={headingLevel}>
           {heading}
         </Heading>
-        {summary || description ? (
-          <div class={CSS.description}>{summary || description}</div>
-        ) : null}
+        {description ? <div class={CSS.description}>{description}</div> : null}
       </div>
     ) : null;
   }
@@ -299,10 +283,7 @@ export class Block implements ConditionalSlotComponent, InteractiveComponent {
           <section
             aria-expanded={toAriaBoolean(open)}
             aria-labelledby={buttonId}
-            class={{
-              [CSS.content]: true,
-              [CSS.contentSpaced]: !this.disablePadding
-            }}
+            class={CSS.content}
             hidden={!open}
             id={regionId}
           >

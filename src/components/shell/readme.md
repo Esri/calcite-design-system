@@ -55,7 +55,7 @@ Renders a shell with leading and trailing floating panels, action bar/pad, block
         <calcite-action slot="bottom-actions" text="Tips" icon="lightbulb"></calcite-action>
       </calcite-action-bar>
       <calcite-flow>
-        <calcite-panel heading="Layer settings">
+        <calcite-flow-item heading="Layer settings">
           <calcite-block collapsible open heading="Contextual Content" summary="Select goodness">
             <calcite-value-list multiple filter-enabled>
               <calcite-value-list-item label="2018 Population Density (Esri)" description="{POPDENS_CY}" value="POPDENS_CY">
@@ -69,7 +69,7 @@ Renders a shell with leading and trailing floating panels, action bar/pad, block
               </calcite-value-list-item>
             </calcite-value-list>
           </calcite-block>
-        </calcite-panel>
+        </calcite-flow-item>
       </calcite-flow>
   </calcite-shell-panel>
   <calcite-tip-manager slot="center-row">
@@ -145,16 +145,14 @@ Renders a shell with a header and panels on the left and right sides of the app.
 
 ## Slots
 
-| Slot                 | Description                                                                                                                                         |
-| -------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
-|                      | A slot for adding content to the component. This content will appear between any leading and trailing panels added to the component, such as a map. |
-| `"center-row"`       | A slot for adding content to the center row.                                                                                                        |
-| `"contextual-panel"` | [DEPRECATED] A slot for adding the trailing `calcite-shell-panel`.                                                                                  |
-| `"footer"`           | A slot for adding footer content. This content will be positioned at the bottom of the component.                                                   |
-| `"header"`           | A slot for adding header content. This content will be positioned at the top of the component.                                                      |
-| `"panel-end"`        | A slot for adding the ending `calcite-shell-panel`.                                                                                                 |
-| `"panel-start"`      | A slot for adding the starting `calcite-shell-panel`.                                                                                               |
-| `"primary-panel"`    | [DEPRECATED] A slot for adding the leading `calcite-shell-panel`.                                                                                   |
+| Slot            | Description                                                                                                                                         |
+| --------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
+|                 | A slot for adding content to the component. This content will appear between any leading and trailing panels added to the component, such as a map. |
+| `"center-row"`  | A slot for adding content to the center row.                                                                                                        |
+| `"footer"`      | A slot for adding footer content. This content will be positioned at the bottom of the component.                                                   |
+| `"header"`      | A slot for adding header content. This content will be positioned at the top of the component.                                                      |
+| `"panel-end"`   | A slot for adding the ending `calcite-shell-panel`.                                                                                                 |
+| `"panel-start"` | A slot for adding the starting `calcite-shell-panel`.                                                                                               |
 
 ## CSS Custom Properties
 

@@ -26,7 +26,7 @@ describe("calcite-pick-list", () => {
 
   it("honors hidden attribute", async () => hidden("calcite-pick-list"));
 
-  it("is accessible", async () =>
+  it.skip("is accessible", async () =>
     accessible(html`
       <calcite-pick-list>
         <calcite-pick-list-item label="Sample" value="one"></calcite-pick-list-item>

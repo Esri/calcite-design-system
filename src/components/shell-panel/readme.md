@@ -57,8 +57,8 @@ Add `calcite-match-height` to a wrapping element to ensure proper height, scroll
     <calcite-action text="Layers" icon="layers"></calcite-action>
   </calcite-action-bar>
   <calcite-flow>
-    <calcite-panel> ... </calcite-panel>
-    <calcite-panel> ... </calcite-panel>
+    <calcite-flow-item> ... </calcite-flow-item>
+    <calcite-flow-item> ... </calcite-flow-item>
   </calcite-flow>
 </calcite-shell-panel>
 ```
@@ -87,12 +87,6 @@ Add `calcite-match-height` to a wrapping element to ensure proper height, scroll
 | `position`            | `position`              | Specifies the component's position. Will be flipped when the element direction is right-to-left (`"rtl"`). | `"end" \| "start"`  | `undefined`   |
 | `resizable`           | `resizable`             | When `true` and not `detached`, the component's content area is resizable.                                 | `boolean`           | `false`       |
 | `widthScale`          | `width-scale`           | Specifies the width of the component's content area.                                                       | `"l" \| "m" \| "s"` | `"m"`         |
-
-## Events
-
-| Event                     | Description                                                                                                                                                                 | Type                |
-| ------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------- |
-| `calciteShellPanelToggle` | <span style="color:red">**[DEPRECATED]**</span> use a `ResizeObserver` on the component to listen for changes to its size.<br/><br/>Emitted when collapse has been toggled. | `CustomEvent<void>` |
 
 ## Slots
 

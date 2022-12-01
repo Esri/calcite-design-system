@@ -51,7 +51,7 @@ export const create: () => Config = () => ({
     { components: ["calcite-fab"] },
     { components: ["calcite-flow"] },
     { components: ["calcite-panel"] },
-    { components: ["calcite-popover", "calcite-popover-manager"] },
+    { components: ["calcite-popover"] },
     { components: ["calcite-progress"] },
     { components: ["calcite-pick-list", "calcite-pick-list-group", "calcite-pick-list-item"] },
     { components: ["calcite-radio-button"] },
@@ -70,7 +70,7 @@ export const create: () => Config = () => ({
     { components: ["calcite-tip", "calcite-tip-group", "calcite-tip-manager"] },
     { components: ["calcite-tile"] },
     { components: ["calcite-tile-select-group", "calcite-tile-select"] },
-    { components: ["calcite-tooltip", "calcite-tooltip-manager"] },
+    { components: ["calcite-tooltip"] },
     { components: ["calcite-tree", "calcite-tree-item"] },
     { components: ["calcite-value-list", "calcite-value-list-item"] }
   ],

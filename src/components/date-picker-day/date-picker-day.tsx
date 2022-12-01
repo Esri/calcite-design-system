@@ -40,19 +40,19 @@ export class DatePickerDay implements InteractiveComponent {
   /** Day of the month to be shown. */
   @Prop() day!: number;
 
-  /** Date is outside of range and can't be selected */
+  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @Prop({ reflect: true }) disabled = false;
 
   /** Date is in the current month. */
   @Prop({ reflect: true }) currentMonth = false;
 
-  /** Date is the current selected date of the picker */
+  /**  When `true`, the component is selected. */
   @Prop({ reflect: true }) selected = false;
 
   /** Date is currently highlighted as part of the range */
   @Prop({ reflect: true }) highlighted = false;
 
-  /** Showing date range */
+  /** When `true`, activates the component's range mode to allow a start and end date. */
   @Prop({ reflect: true }) range = false;
 
   /** Date is the start of date range */
@@ -64,13 +64,13 @@ export class DatePickerDay implements InteractiveComponent {
   /** Date is being hovered and within the set range */
   @Prop({ reflect: true }) rangeHover = false;
 
-  /** Date is actively in focus for keyboard navigation */
+  /** When `true`, the component is active. */
   @Prop({ reflect: true }) active = false;
 
-  /** specify the scale of the date picker */
+  /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale;
 
-  /** Date value for the day. */
+  /** The component's value. */
   @Prop() value: Date;
 
   //--------------------------------------------------------------------------

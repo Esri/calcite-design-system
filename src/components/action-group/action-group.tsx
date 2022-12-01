@@ -110,7 +110,7 @@ export class ActionGroup implements ConditionalSlotComponent {
         label={intlMore || TEXT.more}
         onCalciteActionMenuOpenChange={this.setMenuOpen}
         open={menuOpen}
-        placement={layout === "horizontal" ? "bottom-leading" : "leading-start"}
+        placement={layout === "horizontal" ? "bottom-start" : "leading-start"}
         scale={scale}
       >
         <calcite-action
@@ -141,7 +141,7 @@ export class ActionGroup implements ConditionalSlotComponent {
   //
   // --------------------------------------------------------------------------
 
-  setMenuOpen = (event: CalciteActionMenuCustomEvent<boolean>): void => {
-    this.menuOpen = !!event.detail;
+  setMenuOpen = (event: CalciteActionMenuCustomEvent<void>): void => {
+    this.menuOpen = !!(event.target as HTMLCalciteActionMenuElement).open;
   };
 }
