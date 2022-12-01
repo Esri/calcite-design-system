@@ -7,14 +7,14 @@
 ### Basic
 
 ```html
-<calcite-chip value="Global" dismissible icon="globe" appearance="clear" color="green">Global</calcite-chip>
+<calcite-chip value="Global" closable icon="globe" appearance="clear" color="green">Global</calcite-chip>
 ```
 
 ## Properties
 
 | Property             | Attribute       | Description                                                                                  | Type                                               | Default      |
 | -------------------- | --------------- | -------------------------------------------------------------------------------------------- | -------------------------------------------------- | ------------ |
-| `appearance`         | `appearance`    | Specifies the appearance style of the component.                                             | `"clear" \| "solid"`                               | `"solid"`    |
+| `appearance`         | `appearance`    | Specifies the appearance style of the component.                                             | `"solid" \| "transparent"`                         | `"solid"`    |
 | `closable`           | `closable`      | When `true`, a close button is added to the component.                                       | `boolean`                                          | `false`      |
 | `closed`             | `closed`        | When `true`, hides the component.                                                            | `boolean`                                          | `false`      |
 | `color`              | `color`         | Specifies the color for the component.                                                       | `"blue" \| "green" \| "grey" \| "red" \| "yellow"` | `"grey"`     |
