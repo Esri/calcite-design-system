@@ -216,10 +216,10 @@ export default {
         header: "400",
         toast: "500",
         dropdown: "600",
-        popover: "700",
-        tooltip: "701",
-        overlay: "800",
-        modal: "900"
+        overlay: "700",
+        modal: "800",
+        popover: "900",
+        tooltip: "901"
       }
     }
   },

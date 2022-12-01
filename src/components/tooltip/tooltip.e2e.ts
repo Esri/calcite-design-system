@@ -47,7 +47,7 @@ describe("calcite-tooltip", () => {
       }
     ]));
 
-  it("should have zIndex of 701", async () => {
+  it("should have zIndex of 901", async () => {
     const page = await newE2EPage();
 
     await page.setContent(
@@ -62,7 +62,7 @@ describe("calcite-tooltip", () => {
 
     const style = await tooltip.getComputedStyle();
 
-    expect(style.zIndex).toBe("701");
+    expect(style.zIndex).toBe("901");
   });
 
   it("tooltip positions when referenceElement is set", async () => {

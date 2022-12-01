@@ -1,5 +1,5 @@
 :host {
-  --calcite-floating-ui-z-index: theme("zIndex.tooltip");
+  --calcite-floating-ui-z-index: var(--calcite-tooltip-z-index, theme("zIndex.tooltip"));
 }
 
 @include floatingUIHost();

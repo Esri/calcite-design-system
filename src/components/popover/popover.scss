@@ -1,5 +1,5 @@
 :host {
-  --calcite-floating-ui-z-index: theme("zIndex.popover");
+  --calcite-floating-ui-z-index: var(--calcite-popover-z-index, theme("zIndex.popover"));
 }
 
 @include floatingUIHost();

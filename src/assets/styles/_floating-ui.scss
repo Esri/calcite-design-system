@@ -5,7 +5,7 @@ $floating-ui-transform-right: translateX(-5px);
 
 :root {
   --calcite-floating-ui-transition: var(--calcite-animation-timing);
-  --calcite-floating-ui-z-index: theme("zIndex.popover");
+  --calcite-floating-ui-z-index: theme("zIndex.dropdown");
 }
 
 @mixin floatingUIAnim {
