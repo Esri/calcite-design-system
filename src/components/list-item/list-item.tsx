@@ -249,7 +249,6 @@ export class ListItem implements InteractiveComponent, LoadableComponent {
     return (
       <td class={CSS.selectionContainer} key="selection-container" onClick={this.toggleSelected}>
         <calcite-icon
-          flipRtl={selectionMode === "multiple"}
           icon={
             selected
               ? selectionMode === "multiple"

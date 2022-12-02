@@ -151,7 +151,6 @@ export class InlineEditable implements InteractiveComponent, LabelableComponent,
             class={CSS.enableEditingButton}
             color="neutral"
             disabled={this.disabled}
-            iconFlipRtl="start"
             iconStart="pencil"
             label={this.intlEnableEditing}
             onClick={this.enableEditingHandler}
@@ -183,7 +182,6 @@ export class InlineEditable implements InteractiveComponent, LabelableComponent,
               class={CSS.confirmChangesButton}
               color="blue"
               disabled={this.disabled}
-              iconFlipRtl="start"
               iconStart="check"
               label={this.intlConfirmChanges}
               loading={this.loading}
