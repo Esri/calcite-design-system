@@ -6,7 +6,8 @@ export const CSS = {
   resizeDisabledY: "resize--disabled-y",
   characterOverlimit: "character--overlimit",
   readonly: "readonly",
-  textareaInvalid: "textarea--invalid"
+  textareaInvalid: "textarea--invalid",
+  footerSlotted: "footer-slotted"
 };
 
 export const SLOTS = {

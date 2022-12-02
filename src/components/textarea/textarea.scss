@@ -21,6 +21,9 @@ textarea {
       @apply border-color-danger border-2 border-solid;
     }
   }
+  &.footer-slotted {
+    min-inline-size: theme("spacing.72");
+  }
 }
 
 .footer {

@@ -158,8 +158,6 @@ export class Textarea
 
   componentDidLoad(): void {
     setComponentLoaded(this);
-    console.log("innerHtml", this.el.innerText);
-    // const hasSlottedValue = this.slo;
   }
 
   disconnectedCallback(): void {
@@ -183,7 +181,8 @@ export class Textarea
             [CSS.resizeDisabledX]: this.horizantalResizeDisabled,
             [CSS.resizeDisabledY]: this.verticalResizeDisabled,
             [CSS.readonly]: this.readonly,
-            [CSS.textareaInvalid]: this.invalid
+            [CSS.textareaInvalid]: this.invalid,
+            [CSS.footerSlotted]: this.trailingSlotHasElement && this.leadingSlotHasElement
           }}
           cols={this.cols}
           disabled={this.disabled}
@@ -252,11 +251,11 @@ export class Textarea
 
   footerEl: HTMLElement;
 
-  leadingSlotHasElement: boolean;
-
-  trailingSlotHasElement: boolean;
-
   @State() effectiveLocale: string;
+
+  @State() trailingSlotHasElement: boolean;
+
+  @State() leadingSlotHasElement: boolean;
 
   resizeObserver = createObserver("resize", () => {
     if (this.footer) {
