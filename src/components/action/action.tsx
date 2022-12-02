@@ -55,6 +55,9 @@ export class Action implements InteractiveComponent, LoadableComponent {
   /** Specifies an icon to display. */
   @Prop() icon?: string;
 
+  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
+  @Prop({ reflect: true }) iconFlipRtl = false;
+
   /**
    * When `true`, indicates unread changes.
    */
@@ -166,13 +169,15 @@ export class Action implements InteractiveComponent, LoadableComponent {
   }
 
   renderIconContainer(): VNode {
-    const { loading, icon, scale, el, intlLoading } = this;
+    const { loading, icon, scale, el, intlLoading, iconFlipRtl } = this;
     const iconScale = scale === "l" ? "m" : "s";
     const loaderScale = scale === "l" ? "l" : "m";
     const calciteLoaderNode = loading ? (
       <calcite-loader inline label={intlLoading} scale={loaderScale} />
     ) : null;
-    const calciteIconNode = icon ? <calcite-icon icon={icon} scale={iconScale} /> : null;
+    const calciteIconNode = icon ? (
+      <calcite-icon flipRtl={iconFlipRtl} icon={icon} scale={iconScale} />
+    ) : null;
     const iconNode = calciteLoaderNode || calciteIconNode;
     const hasIconToDisplay = iconNode || el.children?.length;
 

@@ -108,6 +108,9 @@ export class Notice implements ConditionalSlotComponent, LoadableComponent {
    */
   @Prop({ reflect: true }) icon: string | boolean;
 
+  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
+  @Prop({ reflect: true }) iconFlipRtl = false;
+
   /**
    * Accessible name for the close button.
    *
@@ -181,7 +184,11 @@ export class Notice implements ConditionalSlotComponent, LoadableComponent {
       <div class={CSS.container}>
         {this.requestedIcon ? (
           <div class={CSS.icon}>
-            <calcite-icon icon={this.requestedIcon} scale={this.scale === "l" ? "m" : "s"} />
+            <calcite-icon
+              flipRtl={this.iconFlipRtl}
+              icon={this.requestedIcon}
+              scale={this.scale === "l" ? "m" : "s"}
+            />
           </div>
         ) : null}
         <div class={CSS.content}>
