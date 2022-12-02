@@ -168,6 +168,7 @@ export class Textarea
   }
 
   render(): VNode {
+    const hasFooter = this.leadingSlotHasElement || this.trailingSlotHasElement || !!this.maxlength;
     return (
       <Host>
         <textarea
@@ -182,7 +183,8 @@ export class Textarea
             [CSS.resizeDisabledY]: this.verticalResizeDisabled,
             [CSS.readonly]: this.readonly,
             [CSS.textareaInvalid]: this.invalid,
-            [CSS.footerSlotted]: this.trailingSlotHasElement && this.leadingSlotHasElement
+            [CSS.footerSlotted]: this.trailingSlotHasElement && this.leadingSlotHasElement,
+            [CSS.borderColor]: !hasFooter
           }}
           cols={this.cols}
           disabled={this.disabled}
@@ -200,10 +202,13 @@ export class Textarea
         <span class="content">
           <slot onSlotchange={this.contentSlotChangeHandler} />
         </span>
-
         {this.footer && (
           <footer
-            class={{ [CSS.footer]: true, [CSS.readonly]: this.readonly }}
+            class={{
+              [CSS.footer]: true,
+              [CSS.readonly]: this.readonly,
+              [CSS.hide]: !hasFooter
+            }}
             key={CSS.footer}
             ref={(el) => (this.footerEl = el as HTMLElement)}
           >
@@ -305,7 +310,7 @@ export class Textarea
     }
   };
 
-  renderCharacterLimit(): VNode {
+  renderCharacterLimit = (): VNode => {
     return this.maxlength ? (
       <span class={CSS.characterLimit}>
         <span class={{ [CSS.characterOverlimit]: this.value?.length > this.maxlength }}>
@@ -315,7 +320,7 @@ export class Textarea
         {numberStringFormatter.localize(this.maxlength.toString())}
       </span>
     ) : null;
-  }
+  };
 
   getLocalizedCharacterLength(): string {
     numberStringFormatter.numberFormatOptions = {
@@ -344,7 +349,9 @@ export class Textarea
 
   setFooterWidth(): void {
     const { left, right } = this.textareaEl.getBoundingClientRect();
-    this.footerEl.style.width = `${right - left}px`;
+    if (this.footerEl) {
+      this.footerEl.style.width = `${right - left}px`;
+    }
   }
 
   setTextareaEl = (el: HTMLTextAreaElement): void => {

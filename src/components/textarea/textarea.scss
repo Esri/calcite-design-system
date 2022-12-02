@@ -128,13 +128,6 @@ textarea {
   }
 }
 
-:host(:not([footer])) textarea {
-  @apply border-b border-color-input;
-  &:focus {
-    @apply border-b-2;
-  }
-}
-
 @include hidden-form-input();
 
 .readonly {
@@ -148,6 +141,17 @@ textarea {
   }
 }
 
+.border--color {
+  @apply border-b border-color-input;
+  &:focus {
+    @apply border-b-2;
+  }
+}
+
 .content {
+  @apply hidden;
+}
+
+.hide {
   @apply hidden;
 }

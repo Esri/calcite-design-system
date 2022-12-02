@@ -7,7 +7,9 @@ export const CSS = {
   characterOverlimit: "character--overlimit",
   readonly: "readonly",
   textareaInvalid: "textarea--invalid",
-  footerSlotted: "footer-slotted"
+  footerSlotted: "footer-slotted",
+  borderColor: "border--color",
+  hide: "hide"
 };
 
 export const SLOTS = {
