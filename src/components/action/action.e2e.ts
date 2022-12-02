@@ -175,7 +175,7 @@ describe("calcite-action", () => {
     await page.waitForChanges();
 
     const action = await page.find("calcite-action");
-    const liveRegion = await page.find(`calcite-action >>> ${CSS.indicatorText}`);
+    const liveRegion = await page.find(`calcite-action >>> .${CSS.indicatorText}`);
 
     expect(liveRegion.getAttribute("aria-live")).toBe("polite");
     expect(liveRegion.getAttribute("role")).toBe("region");
