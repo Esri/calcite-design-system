@@ -8,6 +8,7 @@ export const CSS = {
   nestedContainer: "nested-container",
   nestedContainerHidden: "nested-container--hidden",
   content: "content",
+  customContent: "custom-content",
   actionsStart: "actions-start",
   contentStart: "content-start",
   label: "label",

@@ -175,7 +175,7 @@ export class ListItem implements InteractiveComponent, LoadableComponent {
 
   @State() hasActionsEnd = false;
 
-  @State() hasContent = false;
+  @State() hasCustomContent = false;
 
   @State() hasContentStart = false;
 
@@ -323,10 +323,10 @@ export class ListItem implements InteractiveComponent, LoadableComponent {
     );
   }
 
-  renderContent(): VNode {
-    const { hasContent } = this;
+  renderCustomContent(): VNode {
+    const { hasCustomContent } = this;
     return (
-      <div class={CSS.content} hidden={!hasContent}>
+      <div class={CSS.customContent} hidden={!hasCustomContent}>
         <slot name={SLOTS.content} onSlotchange={this.handleContentSlotChange} />
       </div>
     );
@@ -342,9 +342,9 @@ export class ListItem implements InteractiveComponent, LoadableComponent {
   }
 
   renderContentProperties(): VNode {
-    const { label, description, hasContent } = this;
+    const { label, description, hasCustomContent } = this;
 
-    return !hasContent && (!!label || !!description) ? (
+    return !hasCustomContent && (!!label || !!description) ? (
       <div class={CSS.content} key="content">
         {label ? (
           <div class={CSS.label} key="label">
@@ -361,11 +361,11 @@ export class ListItem implements InteractiveComponent, LoadableComponent {
   }
 
   renderContentContainer(): VNode {
-    const { description, label, selectionMode, hasContent } = this;
-    const hasCenterContent = hasContent || !!label || !!description;
+    const { description, label, selectionMode, hasCustomContent } = this;
+    const hasCenterContent = hasCustomContent || !!label || !!description;
     const content = [
       this.renderContentStart(),
-      this.renderContent(),
+      this.renderCustomContent(),
       this.renderContentProperties(),
       this.renderContentEnd()
     ];
@@ -452,7 +452,7 @@ export class ListItem implements InteractiveComponent, LoadableComponent {
   // --------------------------------------------------------------------------
 
   handleContentSlotChange = (event: Event): void => {
-    this.hasContent = slotChangeHasAssignedElement(event);
+    this.hasCustomContent = slotChangeHasAssignedElement(event);
   };
 
   handleActionsStartSlotChange = (event: Event): void => {
