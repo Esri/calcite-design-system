@@ -26,12 +26,11 @@
 
 ## Properties
 
-| Property        | Attribute        | Description                                                                                                                | Type                                                                                          | Default    |
-| --------------- | ---------------- | -------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- | ---------- |
-| `inputEnabled`  | `input-enabled`  | <span style="color:red">**[DEPRECATED]**</span> Use `selectionMode="ancestors"` for checkbox input.<br/><br/>Display input | `boolean`                                                                                     | `false`    |
-| `lines`         | `lines`          | Displays indentation guide lines.                                                                                          | `boolean`                                                                                     | `false`    |
-| `scale`         | `scale`          | Specifies the size of the component.                                                                                       | `"l" \| "m" \| "s"`                                                                           | `"m"`      |
-| `selectionMode` | `selection-mode` | Customize how the component's selection works.                                                                             | `"ancestors" \| "children" \| "multi" \| "multichildren" \| "multiple" \| "none" \| "single"` | `"single"` |
+| Property        | Attribute        | Description                                    | Type                                                                                          | Default    |
+| --------------- | ---------------- | ---------------------------------------------- | --------------------------------------------------------------------------------------------- | ---------- |
+| `lines`         | `lines`          | Displays indentation guide lines.              | `boolean`                                                                                     | `false`    |
+| `scale`         | `scale`          | Specifies the size of the component.           | `"l" \| "m" \| "s"`                                                                           | `"m"`      |
+| `selectionMode` | `selection-mode` | Customize how the component's selection works. | `"ancestors" \| "children" \| "multi" \| "multichildren" \| "multiple" \| "none" \| "single"` | `"single"` |
 
 ## Events
 
