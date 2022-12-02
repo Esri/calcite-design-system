@@ -62,6 +62,11 @@ export class Action implements InteractiveComponent, LoadableComponent {
 
   /**
    * Specifies the text label to display `indicator` is `true`.
+   */
+  @Prop() indicatorMessage = "";
+
+  /**
+   * Specifies the text label to display `indicator` is `true`.
    *
    * @default "Unread changes"
    */
@@ -179,7 +184,7 @@ export class Action implements InteractiveComponent, LoadableComponent {
   }
 
   renderIndicatorText(): VNode {
-    const { indicator, intlIndicator, indicatorId, buttonId } = this;
+    const { indicator, intlIndicator, indicatorMessage, indicatorId, buttonId } = this;
     return (
       <div
         aria-labelledby={buttonId}
@@ -188,7 +193,7 @@ export class Action implements InteractiveComponent, LoadableComponent {
         id={indicatorId}
         role="region"
       >
-        {indicator ? intlIndicator : null}
+        {indicator ? indicatorMessage ?? intlIndicator : null}
       </div>
     );
   }
