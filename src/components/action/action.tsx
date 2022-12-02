@@ -115,6 +115,8 @@ export class Action implements InteractiveComponent, LoadableComponent {
 
   indicatorId = `${this.guid}-indicator`;
 
+  buttonId = `${this.guid}-button`;
+
   // --------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -177,9 +179,15 @@ export class Action implements InteractiveComponent, LoadableComponent {
   }
 
   renderIndicatorText(): VNode {
-    const { indicator, intlIndicator, indicatorId } = this;
+    const { indicator, intlIndicator, indicatorId, buttonId } = this;
     return (
-      <div aria-live="polite" class={CSS.indicatorText} id={indicatorId} role="region">
+      <div
+        aria-labelledby={buttonId}
+        aria-live="polite"
+        class={CSS.indicatorText}
+        id={indicatorId}
+        role="region"
+      >
         {indicator ? intlIndicator : null}
       </div>
     );
@@ -216,8 +224,18 @@ export class Action implements InteractiveComponent, LoadableComponent {
   }
 
   render(): VNode {
-    const { active, compact, disabled, loading, textEnabled, label, text, indicator, indicatorId } =
-      this;
+    const {
+      active,
+      compact,
+      disabled,
+      loading,
+      textEnabled,
+      label,
+      text,
+      indicator,
+      indicatorId,
+      buttonId
+    } = this;
 
     const ariaLabel = label || text;
 
@@ -237,6 +255,7 @@ export class Action implements InteractiveComponent, LoadableComponent {
           aria-pressed={toAriaBoolean(active)}
           class={buttonClasses}
           disabled={disabled}
+          id={buttonId}
           ref={(buttonEl): HTMLButtonElement => (this.buttonEl = buttonEl)}
         >
           {this.renderIconContainer()}
