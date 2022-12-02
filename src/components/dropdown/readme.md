@@ -13,7 +13,7 @@ A `calcite-dropdown` can be used to provide an absolutely positioned set of sele
   <calcite-button slot="dropdown-trigger">Open Dropdown</calcite-button>
   <calcite-dropdown-group>
     <calcite-dropdown-item>Relevance</calcite-dropdown-item>
-    <calcite-dropdown-item active>Date modified</calcite-dropdown-item>
+    <calcite-dropdown-item selected>Date modified</calcite-dropdown-item>
     <calcite-dropdown-item>Title</calcite-dropdown-item>
   </calcite-dropdown-group>
 </calcite-dropdown>
@@ -28,7 +28,7 @@ You can choose to leave the dropdown open when an item is selected with the `dis
   <calcite-button id="trigger" slot="dropdown-trigger">Open dropdown</calcite-button>
   <calcite-dropdown-group id="group-1" selection-mode="single">
     <calcite-dropdown-item id="item-1"> Dropdown Item Content </calcite-dropdown-item>
-    <calcite-dropdown-item id="item-2" active> Dropdown Item Content </calcite-dropdown-item>
+    <calcite-dropdown-item id="item-2" selected> Dropdown Item Content </calcite-dropdown-item>
     <calcite-dropdown-item id="item-3"> Dropdown Item Content </calcite-dropdown-item>
   </calcite-dropdown-group>
 </calcite-dropdown>
@@ -43,17 +43,17 @@ You can combine groups in a single dropdown, with varying selection modes:
   <calcite-button slot="dropdown-trigger">Open Dropdown</calcite-button>
   <calcite-dropdown-group group-title="Select one">
     <calcite-dropdown-item>Apple</calcite-dropdown-item>
-    <calcite-dropdown-item active>Orange</calcite-dropdown-item>
+    <calcite-dropdown-item selected>Orange</calcite-dropdown-item>
     <calcite-dropdown-item>Grape</calcite-dropdown-item>
   </calcite-dropdown-group>
   <calcite-dropdown-group group-title="Select multi" selection-mode="multi">
     <calcite-dropdown-item>Asparagus</calcite-dropdown-item>
-    <calcite-dropdown-item active>Potato</calcite-dropdown-item>
+    <calcite-dropdown-item selected>Potato</calcite-dropdown-item>
     <calcite-dropdown-item>Yam</calcite-dropdown-item>
   </calcite-dropdown-group>
   <calcite-dropdown-group group-title="Select none (useful for actions)" selection-mode="none">
     <calcite-dropdown-item>Plant beans</calcite-dropdown-item>
-    <calcite-dropdown-item active>Add peas</calcite-dropdown-item>
+    <calcite-dropdown-item selected>Add peas</calcite-dropdown-item>
   </calcite-dropdown-group>
 </calcite-dropdown>
 ```
@@ -62,7 +62,6 @@ You can combine groups in a single dropdown, with varying selection modes:
 
 | Property               | Attribute                 | Description                                                                                                                                                                                                                                                                                                                                                                 | Type                                                                              | Default                |
 | ---------------------- | ------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------- | ---------------------- |
-| `active`               | `active`                  | <span style="color:red">**[DEPRECATED]**</span> use `open` instead.<br/><br/>When `true`, displays and positions the component.                                                                                                                                                                                                                                             | `boolean`                                                                         | `false`                |
 | `disableCloseOnSelect` | `disable-close-on-select` | When `true`, the component will remain open after a selection is made. If the `selectionMode` of the selected `calcite-dropdown-item`'s containing `calcite-dropdown-group` is `"none"`, the component will always close.                                                                                                                                                   | `boolean`                                                                         | `false`                |
 | `disabled`             | `disabled`                | When `true`, interaction is prevented and the component is displayed with lower opacity.                                                                                                                                                                                                                                                                                    | `boolean`                                                                         | `false`                |
 | `flipPlacements`       | --                        | Defines the available placements that can be used when a flip occurs.                                                                                                                                                                                                                                                                                                       | `Placement[]`                                                                     | `undefined`            |
