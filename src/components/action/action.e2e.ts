@@ -182,7 +182,7 @@ describe("calcite-action", () => {
     expect(liveRegion.textContent).toBe("");
 
     action.setProperty("indicator", true);
-    action.setProperty("indicatorText", indicatorText);
+    action.setProperty("indicatorMessage", indicatorText);
     await page.waitForChanges();
 
     expect(liveRegion.getAttribute("aria-live")).toBe("polite");
