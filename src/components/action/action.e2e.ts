@@ -4,7 +4,7 @@ import { CSS, SLOTS } from "./resources";
 
 describe("calcite-action", () => {
   it("has property defaults", async () =>
-    defaults("calcite-tree", [
+    defaults("calcite-action", [
       {
         propertyName: "active",
         defaultValue: false
