@@ -257,6 +257,39 @@ describe("calcite-input-date-picker", () => {
     expect(await calendar.isVisible()).toBe(true);
   });
 
+  it("syncs locale changes to internal date-picker", async () => {
+    const lang = "en";
+    const newLang = "ar";
+    const month = 4;
+    const langMonthTranslation = (await import(`../date-picker/assets/date-picker/nls/${lang}.json`)).months.wide[
+      month - 1
+    ];
+    const newLangMonthTranslation = (await import(`../date-picker/assets/date-picker/nls/${newLang}.json`)).months.wide[
+      month - 1
+    ];
+
+    const page = await newE2EPage();
+    await page.setContent(
+      `<calcite-input-date-picker lang=${lang} value="2020-${month}-19"></calcite-input-date-picker>`
+    );
+    const inputDatePicker = await page.find("calcite-input-date-picker");
+
+    const getLocalizedMonth = async () =>
+      await page.evaluate(
+        async () =>
+          document
+            .querySelector("calcite-input-date-picker")
+            .shadowRoot.querySelector("calcite-date-picker")
+            .shadowRoot.querySelector("calcite-date-picker-month-header")
+            .shadowRoot.querySelector(".month").textContent
+      );
+
+    expect(await getLocalizedMonth()).toEqual(langMonthTranslation);
+    inputDatePicker.setProperty("lang", newLang);
+    await page.waitForChanges();
+    expect(await getLocalizedMonth()).toEqual(newLangMonthTranslation);
+  });
+
   it("allows clicking a date in the calendar popup", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-input-date-picker value="2023-01-31"></calcite-input-date-picker>`);
