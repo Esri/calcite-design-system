@@ -315,7 +315,7 @@ describe("calcite-input-number", () => {
       await page.mouse.up();
       await page.waitForChanges();
       const totalNudgesUp = inputEventSpy.length;
-      expect(await input.getProperty("value")).toBe(`0.0${totalNudgesUp}`);
+      expect(await input.getProperty("value")).toBe(`${totalNudgesUp * 0.01}`);
 
       const [buttonDownLocationX, buttonDownLocationY] = await getElementXY(
         page,
@@ -330,7 +330,7 @@ describe("calcite-input-number", () => {
       await page.waitForChanges();
       const totalNudgesDown = inputEventSpy.length - totalNudgesUp;
       const finalNudgedValue = totalNudgesUp - totalNudgesDown;
-      expect(await input.getProperty("value")).toBe(finalNudgedValue === 0 ? "0" : `0.0${finalNudgedValue}`);
+      expect(await input.getProperty("value")).toBe(`${finalNudgedValue * 0.01}`);
     });
 
     it("correctly increments and decrements value by one when any is set for step", async () => {
