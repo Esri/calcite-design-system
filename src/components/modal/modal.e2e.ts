@@ -117,14 +117,14 @@ describe("opening and closing behavior", () => {
     await page.waitForChanges();
     await waitForEvent;
 
-    const opacityTransition = await page.evaluate(() => {
+    const opacityTransitionDuration = await page.evaluate(() => {
       const modal = document.querySelector("calcite-modal");
       const { transitionDuration } = window.getComputedStyle(modal);
       return {
         duration: transitionDuration
       };
     });
-    expect(opacityTransition.duration).toEqual("0.0003s");
+    expect(opacityTransitionDuration.duration).toEqual("0.0003s");
 
     expect(beforeOpenSpy).toHaveReceivedEventTimes(1);
     expect(openSpy).toHaveReceivedEventTimes(1);
@@ -144,46 +144,110 @@ describe("opening and closing behavior", () => {
     expect(await modal.getProperty("open")).toBe(false);
   });
 
-  it("emits when set up to open on initial render", async () => {
+  it("emits when set to open on initial render", async () => {
     const page = await newProgrammaticE2EPage();
-    const waitForOpen = page.waitForEvent("calciteModalOpen");
+
     const beforeOpenSpy = await page.spyOnEvent("calciteModalBeforeOpen");
     const openSpy = await page.spyOnEvent("calciteModalOpen");
 
-    await page.evaluate(() => {
+    const opacityTransitionDuration = await page.evaluate(() => {
       const modal = document.createElement("calcite-modal");
       modal.open = true;
+
       document.body.append(modal);
+      modal.style.transition = "opacity 0.3s";
+
+      if (modal) {
+        const { transitionDuration } = window.getComputedStyle(modal);
+        return transitionDuration === "0.3s";
+      }
     });
-    await waitForOpen;
+
+    const waitForOpenEvent = page.waitForEvent("calciteModalOpen");
+    const waitForBeforeOpenEvent = page.waitForEvent("calciteModalBeforeOpen");
+
+    await page.waitForChanges();
+    await waitForBeforeOpenEvent;
+    await waitForOpenEvent;
+
+    expect(opacityTransitionDuration).toBeTruthy();
 
     expect(beforeOpenSpy).toHaveReceivedEventTimes(1);
     expect(openSpy).toHaveReceivedEventTimes(1);
   });
 
-  it("emits when setting --calcite-duration-factor to 0", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-modal open></calcite-modal>`);
+  it("emits when set to open on initial render and duration is 0", async () => {
+    const page = await newProgrammaticE2EPage();
     await skipAnimations(page);
 
     const beforeOpenSpy = await page.spyOnEvent("calciteModalBeforeOpen");
     const openSpy = await page.spyOnEvent("calciteModalOpen");
-    const beforeCloseSpy = await page.spyOnEvent("calciteModalBeforeClose");
-    const closeSpy = await page.spyOnEvent("calciteModalClose");
 
-    const modal = await page.find("calcite-modal");
+    const opacityTransition = await page.evaluate(() => {
+      const modal = document.createElement("calcite-modal");
+      modal.open = true;
+      document.body.append(modal);
 
-    await modal.setProperty("open", false);
+      if (modal) {
+        const { transitionDuration } = window.getComputedStyle(modal);
+        return transitionDuration === "0s";
+      }
+    });
+
+    const waitForOpenEvent = page.waitForEvent("calciteModalOpen");
+    const waitForBeforeOpenEvent = page.waitForEvent("calciteModalBeforeOpen");
+
     await page.waitForChanges();
+    await waitForBeforeOpenEvent;
+    await waitForOpenEvent;
 
-    expect(beforeCloseSpy).toHaveReceivedEventTimes(1);
-    expect(closeSpy).toHaveReceivedEventTimes(1);
-
-    await modal.setProperty("open", true);
-    await page.waitForChanges();
+    expect(opacityTransition).toBeTruthy();
 
     expect(beforeOpenSpy).toHaveReceivedEventTimes(1);
     expect(openSpy).toHaveReceivedEventTimes(1);
+  });
+
+  it("emits when duration is set to 0", async () => {
+    const page = await newProgrammaticE2EPage();
+    await skipAnimations(page);
+
+    const beforeOpenSpy = await page.spyOnEvent("calciteModalBeforeOpen");
+    const openSpy = await page.spyOnEvent("calciteModalOpen");
+
+    const beforeCloseSpy = await page.spyOnEvent("calciteModalBeforeClose");
+    const closeSpy = await page.spyOnEvent("calciteModalClose");
+
+    const opacityTransitionDuration = await page.evaluate(() => {
+      const modal = document.createElement("calcite-modal");
+      modal.open = true;
+      document.body.append(modal);
+
+      if (modal) {
+        const { transitionDuration } = window.getComputedStyle(modal);
+        return transitionDuration === "0s";
+      }
+    });
+
+    await page.waitForChanges();
+    await beforeOpenSpy;
+    await openSpy;
+
+    expect(opacityTransitionDuration).toBeTruthy();
+
+    expect(beforeOpenSpy).toHaveReceivedEventTimes(1);
+    expect(openSpy).toHaveReceivedEventTimes(1);
+
+    await page.evaluate(() => {
+      const modal = document.querySelector("calcite-modal");
+      modal.open = false;
+    });
+
+    await page.waitForChanges();
+    await beforeCloseSpy;
+    await closeSpy;
+
+    expect(beforeCloseSpy).toHaveReceivedEventTimes(1);
+    expect(closeSpy).toHaveReceivedEventTimes(1);
   });
 });
 
