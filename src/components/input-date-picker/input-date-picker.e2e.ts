@@ -10,7 +10,10 @@ import {
 } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
+import { CSS as MONTH_HEADER_CSS } from "../date-picker-month-header/resources";
 import { dateFromISO, setEndOfDay } from "../../utils/date";
+import englishTranslations from "../date-picker/assets/date-picker/nls/en.json";
+import arabicTranslations from "../date-picker/assets/date-picker/nls/ar.json";
 
 const animationDurationInMs = 200;
 
@@ -261,12 +264,6 @@ describe("calcite-input-date-picker", () => {
     const lang = "en";
     const newLang = "ar";
     const month = 4;
-    const langMonthTranslation = (await import(`../date-picker/assets/date-picker/nls/${lang}.json`)).months.wide[
-      month - 1
-    ];
-    const newLangMonthTranslation = (await import(`../date-picker/assets/date-picker/nls/${newLang}.json`)).months.wide[
-      month - 1
-    ];
 
     const page = await newE2EPage();
     await page.setContent(
@@ -276,18 +273,19 @@ describe("calcite-input-date-picker", () => {
 
     const getLocalizedMonth = async () =>
       await page.evaluate(
-        async () =>
+        async (MONTH_HEADER_CSS) =>
           document
             .querySelector("calcite-input-date-picker")
             .shadowRoot.querySelector("calcite-date-picker")
             .shadowRoot.querySelector("calcite-date-picker-month-header")
-            .shadowRoot.querySelector(".month").textContent
+            .shadowRoot.querySelector(`.${MONTH_HEADER_CSS.month}`).textContent,
+        MONTH_HEADER_CSS
       );
 
-    expect(await getLocalizedMonth()).toEqual(langMonthTranslation);
+    expect(await getLocalizedMonth()).toEqual(englishTranslations.months.wide[month - 1]);
     inputDatePicker.setProperty("lang", newLang);
     await page.waitForChanges();
-    expect(await getLocalizedMonth()).toEqual(newLangMonthTranslation);
+    expect(await getLocalizedMonth()).toEqual(arabicTranslations.months.wide[month - 1]);
   });
 
   it("allows clicking a date in the calendar popup", async () => {
