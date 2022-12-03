@@ -173,7 +173,7 @@ describe("calcite-filter", () => {
       });
     });
 
-    it("updates filtered items after filtering", async () => {
+    it.skip("updates filtered items after filtering", async () => {
       const filterChangeSpy = await page.spyOnEvent("calciteFilterChange");
       const waitForEvent = page.waitForEvent("calciteFilterChange");
       const filter = await page.find("calcite-filter");
