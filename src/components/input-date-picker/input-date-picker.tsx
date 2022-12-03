@@ -1040,12 +1040,17 @@ export class InputDatePicker
     );
   }
 
+  private commonDateSeparators = [".", "-", "/"];
+
   private formatNumerals = (value: string): string =>
     value
       ? value
           .split("")
           .map((char: string) =>
-            numberKeys.includes(char)
+            // convert common separators to the locale's
+            this.commonDateSeparators.includes(char)
+              ? this.localeData.separator
+              : numberKeys.includes(char)
               ? numberStringFormatter.numberFormatter.format(Number(char))
               : char
           )
