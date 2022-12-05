@@ -240,10 +240,10 @@ describe("calcite-flow", () => {
         const page = await newE2EPage();
 
         await page.setContent(html`<calcite-flow>
-      <${itemTag}>Valid item</${itemTag}>
-      <${itemTag}>Valid item</${itemTag}>
+      <${itemTag}>Assigned item</${itemTag}>
+      <${itemTag}>Assigned item</${itemTag}>
       <div>
-        <${itemTag}>Allowed item <${itemTag}>Allowed item</${itemTag}><calcite-flow><${itemTag}>Disallowed item</${itemTag}></calcite-flow></${itemTag}>
+        <${itemTag}>Assigned item <${itemTag}>Assigned item</${itemTag}><calcite-flow><${itemTag}>Unassigned item</${itemTag}></calcite-flow></${itemTag}>
       </div>
     </calcite-flow>`);
 
