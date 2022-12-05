@@ -35,26 +35,6 @@ describe("calcite-panel", () => {
 
   it("supports translations", () => t9n("calcite-panel"));
 
-  it("honors dismissed prop (deprecated)", async () => {
-    const page = await newE2EPage();
-
-    await page.setContent("<calcite-panel dismissible>test</calcite-panel>");
-
-    const element = await page.find("calcite-panel");
-    const container = await page.find(`calcite-panel >>> .${CSS.container}`);
-
-    await page.waitForChanges();
-
-    expect(await container.isVisible()).toBe(true);
-
-    element.setProperty("dismissed", true);
-
-    await page.waitForChanges();
-
-    expect(await element.getProperty("closed")).toBe(true);
-    expect(await container.isVisible()).toBe(false);
-  });
-
   it("honors closed prop", async () => {
     const page = await newE2EPage();
 

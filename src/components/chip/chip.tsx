@@ -129,6 +129,8 @@ export class Chip implements ConditionalSlotComponent, LoadableComponent, T9nCom
 
   connectedCallback(): void {
     connectConditionalSlotComponent(this);
+    connectLocalized(this);
+    connectMessages(this);
   }
 
   componentDidLoad(): void {

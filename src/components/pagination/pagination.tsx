@@ -134,6 +134,15 @@ export class Pagination implements LocalizedComponent, T9nComponent {
     updateMessages(this, this.effectiveLocale);
   }
 
+  @Watch("effectiveLocale")
+  effectiveLocaleWatcher(): void {
+    numberStringFormatter.numberFormatOptions = {
+      locale: this.effectiveLocale,
+      numberingSystem: this.numberingSystem,
+      useGrouping: this.groupSeparator
+    };
+  }
+
   /**
    * Made into a prop for testing purposes only
    *
@@ -238,14 +247,6 @@ export class Pagination implements LocalizedComponent, T9nComponent {
 
     this.calcitePaginationChange.emit(changePayload);
     this.calcitePaginationUpdate.emit(changePayload);
-  }
-
-  effectiveLocaleWatcher(): void {
-    numberStringFormatter.numberFormatOptions = {
-      locale: this.effectiveLocale,
-      numberingSystem: this.numberingSystem,
-      useGrouping: this.groupSeparator
-    };
   }
 
   //--------------------------------------------------------------------------

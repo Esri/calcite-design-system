@@ -11,7 +11,7 @@ import {
   State,
   Watch
 } from "@stencil/core";
-import { CSS, ICONS, SLOTS, TEXT } from "./resources";
+import { CSS, ICONS, SLOTS } from "./resources";
 import { toAriaBoolean } from "../../utils/dom";
 import { Scale } from "../interfaces";
 import { HeadingLevel, Heading } from "../functional/Heading";
@@ -48,7 +48,8 @@ import { Messages } from "./assets/panel/t9n";
 @Component({
   tag: "calcite-panel",
   styleUrl: "panel.scss",
-  shadow: true
+  shadow: true,
+  assetsDirs: ["assets"]
 })
 export class Panel implements InteractiveComponent, LoadableComponent, T9nComponent {
   // --------------------------------------------------------------------------
@@ -146,8 +147,9 @@ export class Panel implements InteractiveComponent, LoadableComponent, T9nCompon
     connectMessages(this);
   }
 
-  componentWillLoad(): void {
+  async componentWillLoad(): Promise<void> {
     setUpLoadableComponent(this);
+    await setUpMessages(this);
   }
 
   componentDidLoad(): void {
@@ -434,8 +436,8 @@ export class Panel implements InteractiveComponent, LoadableComponent, T9nCompon
   }
 
   renderHeaderActionsEnd(): VNode {
-    const { close, hasEndActions, closable } = this;
-    const text = this.messages.close;
+    const { close, hasEndActions, messages, closable } = this;
+    const text = messages.close;
 
     const closableNode = closable ? (
       <calcite-action
