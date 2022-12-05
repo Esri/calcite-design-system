@@ -91,14 +91,6 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
   @Prop({ reflect: true, mutable: true }) lines: boolean;
 
   /**
-   * Displays checkboxes (set on parent).
-   *
-   * @internal
-   * @deprecated Use `selectionMode="ancestors"` for checkbox input.
-   */
-  @Prop() inputEnabled: boolean;
-
-  /**
    * @internal
    */
   @Prop({ reflect: true, mutable: true }) scale: Scale;

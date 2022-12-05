@@ -273,7 +273,7 @@ describe("calcite-action-bar", () => {
 
     await page.$eval("calcite-action-group", (firstActionGroup: HTMLCalciteActionGroupElement) => {
       firstActionGroup.menuOpen = true;
-      const event = new CustomEvent("calciteActionMenuOpenChange", { bubbles: true, detail: true });
+      const event = new CustomEvent("calciteActionMenuOpenChange", { bubbles: true });
       firstActionGroup.dispatchEvent(event);
     });
 

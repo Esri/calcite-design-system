@@ -207,8 +207,8 @@ export class ActionPad
   //
   // --------------------------------------------------------------------------
 
-  actionMenuOpenChangeHandler = (event: CustomEvent<boolean>): void => {
-    if (event.detail) {
+  actionMenuOpenChangeHandler = (event: CustomEvent<void>): void => {
+    if ((event.target as HTMLCalciteActionGroupElement).menuOpen) {
       const composedPath = event.composedPath();
       Array.from(this.el.querySelectorAll("calcite-action-group")).forEach((group) => {
         if (!composedPath.includes(group)) {

@@ -42,13 +42,6 @@ export class Tree {
   @Prop({ mutable: true, reflect: true }) lines = false;
 
   /**
-   * Display input
-   *
-   * @deprecated Use `selectionMode="ancestors"` for checkbox input.
-   */
-  @Prop() inputEnabled = false;
-
-  /**
    * @internal
    */
   @Prop({ reflect: true, mutable: true }) child: boolean;

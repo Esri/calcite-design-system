@@ -37,10 +37,10 @@ describe("calcite-chip", () => {
 
   it("renders requested props when valid props are provided", async () => {
     const page = await newE2EPage();
-    await page.setContent(`<calcite-chip appearance="clear" color="blue" scale="l">Chip content</calcite-chip>`);
+    await page.setContent(`<calcite-chip appearance="transparent" color="blue" scale="l">Chip content</calcite-chip>`);
 
     const element = await page.find("calcite-chip");
-    expect(element).toEqualAttribute("appearance", "clear");
+    expect(element).toEqualAttribute("appearance", "transparent");
     expect(element).toEqualAttribute("color", "blue");
     expect(element).toEqualAttribute("scale", "l");
   });
@@ -84,7 +84,7 @@ describe("calcite-chip", () => {
       <calcite-chip
         class="layers"
         icon="layer"
-        appearance="clear"
+        appearance="transparent"
         color="green"
         closable
       >
