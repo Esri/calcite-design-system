@@ -569,7 +569,6 @@ export class InputDatePicker
                   disabled={disabled}
                   icon="calendar"
                   label={getLabelText(this)}
-                  lang={effectiveLocale}
                   number-button-type="none"
                   numberingSystem={numberingSystem}
                   onCalciteInputInput={this.calciteInternalInputInputHandler}
@@ -609,7 +608,6 @@ export class InputDatePicker
                   intlNextMonth={this.intlNextMonth}
                   intlPrevMonth={this.intlPrevMonth}
                   intlYear={this.intlYear}
-                  lang={effectiveLocale}
                   max={this.max}
                   maxAsDate={this.maxAsDate}
                   messageOverrides={this.messageOverrides}
@@ -647,7 +645,6 @@ export class InputDatePicker
                   }}
                   disabled={disabled}
                   icon="calendar"
-                  lang={effectiveLocale}
                   number-button-type="none"
                   numberingSystem={numberingSystem}
                   onCalciteInputInput={this.calciteInternalInputInputHandler}
@@ -884,7 +881,11 @@ export class InputDatePicker
     if (!Build.isBrowser) {
       return;
     }
-
+    numberStringFormatter.numberFormatOptions = {
+      numberingSystem: this.numberingSystem,
+      locale: this.effectiveLocale,
+      useGrouping: false
+    };
     this.localeData = await getLocaleData(this.effectiveLocale);
   }
 
@@ -1048,17 +1049,12 @@ export class InputDatePicker
     );
   }
 
-  private commonDateSeparators = [".", "-", "/"];
-
   private formatNumerals = (value: string): string =>
     value
       ? value
           .split("")
           .map((char: string) =>
-            // convert common separators to the locale's
-            this.commonDateSeparators.includes(char)
-              ? this.localeData.separator
-              : numberKeys.includes(char)
+            numberKeys.includes(char)
               ? numberStringFormatter.numberFormatter.format(Number(char))
               : char
           )

@@ -174,6 +174,10 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### Bug Fixes
 
+- **list-item:** Add hover styling ([#5891](https://github.com/Esri/calcite-components/issues/5891)) ([063d6e9](https://github.com/Esri/calcite-components/commit/063d6e955eddb82a5b3ea2e93eca3aa03feef2ae)), closes [#5880](https://github.com/Esri/calcite-components/issues/5880)
+
+* **input-time-picker, input-date-picker:** internal pickers update when changing locales ([#5887](https://github.com/Esri/calcite-components/issues/5887)) ([9c2dc42](https://github.com/Esri/calcite-components/commit/9c2dc42e581b6399b909d41ce6ae5b77ffa12831)), closes [#5855](https://github.com/Esri/calcite-components/issues/5855)
+
 - **modal:** restore deprecated scrim background css property ([#5868](https://github.com/Esri/calcite-components/issues/5868)) ([7717127](https://github.com/Esri/calcite-components/commit/7717127fd25510126ad7d2b3def2c9d00753d60f)), closes [#5866](https://github.com/Esri/calcite-components/issues/5866)
 
 * **alert:** placement of link consistent with notice ([#5852](https://github.com/Esri/calcite-components/issues/5852)) ([56e35ab](https://github.com/Esri/calcite-components/commit/56e35ab3e07c9562d83eee04559a1e8b15662b3d)), closes [#5254](https://github.com/Esri/calcite-components/issues/5254)

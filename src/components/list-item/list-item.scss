@@ -18,6 +18,9 @@
     var(--calcite-list-item-spacing-indent) * var(--calcite-list-item-spacing-indent-multiplier)
   );
 }
+.container:hover {
+  @apply bg-foreground-2;
+}
 
 .container--border-selected {
   border-inline-start: theme("borderWidth.4") solid theme("colors.brand");
