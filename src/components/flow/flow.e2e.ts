@@ -243,7 +243,7 @@ describe("calcite-flow", () => {
       <${itemTag}>Valid item</${itemTag}>
       <${itemTag}>Valid item</${itemTag}>
       <div>
-        <${itemTag}>Allowed item <${itemTag}>Disallowed item</${itemTag}></${itemTag}>
+        <${itemTag}>Allowed item <${itemTag}>Allowed item</${itemTag}></${itemTag}>
       </div>
     </calcite-flow>`);
 
@@ -257,11 +257,11 @@ describe("calcite-flow", () => {
         expect(items[1].getAttribute("hidden")).toBe("");
         expect(await items[1].getProperty("showBackButton")).toBe(false);
 
-        expect(items[2].getAttribute("hidden")).toBe(null);
-        expect(await items[2].getProperty("showBackButton")).toBe(true);
+        expect(items[2].getAttribute("hidden")).toBe("");
+        expect(await items[2].getProperty("showBackButton")).toBe(false);
 
         expect(items[3].getAttribute("hidden")).toBe(null);
-        expect(await items[3].getProperty("showBackButton")).toBe(false);
+        expect(await items[3].getProperty("showBackButton")).toBe(true);
       });
     }
   });
