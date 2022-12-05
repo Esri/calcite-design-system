@@ -243,13 +243,13 @@ describe("calcite-flow", () => {
       <${itemTag}>Valid item</${itemTag}>
       <${itemTag}>Valid item</${itemTag}>
       <div>
-        <${itemTag}>Allowed item <${itemTag}>Disallowed item</${itemTag}></${itemTag}>
+        <${itemTag}>Allowed item <${itemTag}>Allowed item</${itemTag}><calcite-flow><${itemTag}>Disallowed item</${itemTag}></calcite-flow></${itemTag}>
       </div>
     </calcite-flow>`);
 
         const items = await page.findAll(itemTag);
 
-        expect(items).toHaveLength(4);
+        expect(items).toHaveLength(5);
 
         expect(items[0].getAttribute("hidden")).toBe("");
         expect(await items[0].getProperty("showBackButton")).toBe(false);
@@ -257,11 +257,14 @@ describe("calcite-flow", () => {
         expect(items[1].getAttribute("hidden")).toBe("");
         expect(await items[1].getProperty("showBackButton")).toBe(false);
 
-        expect(items[2].getAttribute("hidden")).toBe(null);
-        expect(await items[2].getProperty("showBackButton")).toBe(true);
+        expect(items[2].getAttribute("hidden")).toBe("");
+        expect(await items[2].getProperty("showBackButton")).toBe(false);
 
         expect(items[3].getAttribute("hidden")).toBe(null);
         expect(await items[3].getProperty("showBackButton")).toBe(false);
+
+        expect(items[4].getAttribute("hidden")).toBe(null);
+        expect(await items[4].getProperty("showBackButton")).toBe(false);
       });
     }
   });
