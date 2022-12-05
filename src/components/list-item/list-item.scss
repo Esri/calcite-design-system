@@ -62,7 +62,8 @@ td:focus {
   @apply focus-normal z-sticky;
 }
 
-.content {
+.content,
+.custom-content {
   @apply text-n2-wrap
     flex
     flex-auto

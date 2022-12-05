@@ -69,6 +69,22 @@ describe("calcite-list-item", () => {
     expect(contentNode).toBeNull();
   });
 
+  it("renders custom content in place of label and description", async () => {
+    const page = await newE2EPage({
+      html: `<calcite-list-item label="test" description="test"><div slot="content">My custom content</div></calcite-list-item>`
+    });
+
+    await page.waitForChanges();
+
+    const contentNode = await page.find(`calcite-list-item >>> .${CSS.content}`);
+
+    expect(contentNode).toBeNull();
+
+    const customContentNode = await page.find(`calcite-list-item >>> .${CSS.customContent}`);
+
+    expect(customContentNode).not.toBeNull();
+  });
+
   it("emits calciteListItemSelect on click", async () => {
     const page = await newE2EPage({
       html: `<calcite-list-item label="hello" description="world"></calcite-list-item>`
