@@ -261,7 +261,7 @@ describe("calcite-flow", () => {
         expect(await items[2].getProperty("showBackButton")).toBe(false);
 
         expect(items[3].getAttribute("hidden")).toBe(null);
-        expect(await items[3].getProperty("showBackButton")).toBe(false);
+        expect(await items[3].getProperty("showBackButton")).toBe(true);
 
         expect(items[4].getAttribute("hidden")).toBe(null);
         expect(await items[4].getProperty("showBackButton")).toBe(false);
