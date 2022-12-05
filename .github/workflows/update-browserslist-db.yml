@@ -20,7 +20,7 @@ jobs:
           git config --global user.name "github-actions[bot]"
           npm install --save-dev caniuse-lite --legacy-peer-deps
           npx update-browserslist-db@latest
-          npm uninstall caniuse-lite
+          npm uninstall --legacy-peer-deps caniuse-lite
       - name: create pull request
         uses: peter-evans/create-pull-request@v4
         with:
