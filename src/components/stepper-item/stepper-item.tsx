@@ -57,25 +57,12 @@ export class StepperItem implements InteractiveComponent, LocalizedComponent, Lo
   //--------------------------------------------------------------------------
 
   /**
-   *  When `true`, the component is selected.
-   *
-   * @deprecated Use `selected` instead.
-   */
-  @Prop({ reflect: true, mutable: true }) active = false;
-
-  @Watch("active")
-  activeHandler(value: boolean): void {
-    this.selected = value;
-  }
-
-  /**
    * When `true`, the component is selected.
    */
   @Prop({ reflect: true, mutable: true }) selected = false;
 
   @Watch("selected")
-  selectedHandler(value: boolean): void {
-    this.active = value;
+  selectedHandler(): void {
     if (this.selected) {
       this.emitRequestedItem();
     }
@@ -90,22 +77,8 @@ export class StepperItem implements InteractiveComponent, LocalizedComponent, Lo
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @Prop({ reflect: true }) disabled = false;
 
-  /**
-   * The component header text.
-   *
-   * @deprecated use `heading` instead.
-   */
-  @Prop() itemTitle?: string;
-
   /** The component header text. */
   @Prop() heading?: string;
-
-  /**
-   * A description for the component. Displays below the header text.
-   *
-   * @deprecated use `description` instead.
-   */
-  @Prop() itemSubtitle?: string;
 
   /** A description for the component. Displays below the header text. */
   @Prop() description: string;
@@ -191,13 +164,6 @@ export class StepperItem implements InteractiveComponent, LocalizedComponent, Lo
 
   connectedCallback(): void {
     connectLocalized(this);
-    const { selected, active } = this;
-
-    if (selected) {
-      this.active = selected;
-    } else if (active) {
-      this.selected = active;
-    }
   }
 
   componentWillLoad(): void {
@@ -236,7 +202,7 @@ export class StepperItem implements InteractiveComponent, LocalizedComponent, Lo
   render(): VNode {
     return (
       <Host
-        aria-expanded={toAriaBoolean(this.active)}
+        aria-expanded={toAriaBoolean(this.selected)}
         onClick={this.handleItemClick}
         onKeyDown={this.keyDownHandler}
       >
@@ -256,8 +222,8 @@ export class StepperItem implements InteractiveComponent, LocalizedComponent, Lo
               </div>
             ) : null}
             <div class="stepper-item-header-text">
-              <span class="stepper-item-heading">{this.heading || this.itemTitle}</span>
-              <span class="stepper-item-description">{this.description || this.itemSubtitle}</span>
+              <span class="stepper-item-heading">{this.heading}</span>
+              <span class="stepper-item-description">{this.description}</span>
             </div>
           </div>
           <div class="stepper-item-content">
