@@ -182,7 +182,7 @@
   @apply opacity-100;
 }
 
-:host([active]) .dropdown-item-icon {
+:host([selected]) .dropdown-item-icon {
   color: theme("backgroundColor.brand");
   @apply opacity-100;
 }
