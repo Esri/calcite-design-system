@@ -1,8 +1,8 @@
 name: Create New Milestone
 on:
   workflow_dispatch:
-  schedule:
-    - cron: "0 9 1,15 * *"
+  # schedule:
+  #   - cron: "0 9 1,15 * *"
 jobs:
   create-milestone:
     runs-on: ubuntu-latest
