@@ -239,10 +239,14 @@ export class Action implements InteractiveComponent, LoadableComponent {
       text,
       indicator,
       indicatorId,
-      buttonId
+      buttonId,
+      indicatorMessage,
+      intlIndicator
     } = this;
 
-    const ariaLabel = label || text;
+    const ariaLabel = `${label || text}${
+      indicator ? ` (${indicatorMessage || intlIndicator})` : ""
+    }`;
 
     const buttonClasses = {
       [CSS.button]: true,
