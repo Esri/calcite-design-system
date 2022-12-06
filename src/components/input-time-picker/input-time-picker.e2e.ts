@@ -267,6 +267,38 @@ describe("calcite-input-time-picker", () => {
     expect(inputTimePickerValue).toBe(expectedValue);
   });
 
+  it("value displays correctly in the time-picker after changing locales", async () => {
+    const lang = "en";
+    const newLang = "ar";
+    const time = "11:59";
+    const numberingSystem = "latn";
+
+    const page = await newE2EPage({
+      html: `<calcite-input-time-picker lang="${lang}" numbering-system="${numberingSystem}" value="${time}"></calcite-input-time-picker>`
+    });
+    const inputTimePicker = await page.find("calcite-input-time-picker");
+
+    const getLocalizedTime = async () =>
+      await page.evaluate(
+        async () =>
+          document.querySelector("calcite-input-time-picker").shadowRoot.querySelector("calcite-time-picker").value
+      );
+
+    const langLocalized = localizeTimeString({ value: time, locale: lang, numberingSystem, includeSeconds: false });
+    expect(await getLocalizedTime()).toBe(langLocalized.substring(0, langLocalized.indexOf(" ")));
+
+    inputTimePicker.setProperty("lang", newLang);
+    await page.waitForChanges();
+
+    const newLangLocalized = localizeTimeString({
+      value: time,
+      locale: newLang,
+      numberingSystem,
+      includeSeconds: false
+    });
+    expect(await getLocalizedTime()).toBe(newLangLocalized.substring(0, newLangLocalized.indexOf(" ")));
+  });
+
   it("appropriately triggers calciteInputTimePickerChange event when the user types a value", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-input-time-picker step="1"></calcite-input-time-picker>`);
