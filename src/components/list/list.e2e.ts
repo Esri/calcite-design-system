@@ -157,8 +157,8 @@ describe("calcite-list", () => {
       </calcite-list>`
     });
 
-    await page.waitForChanges();
     await page.waitForTimeout(debounceTimeout);
+    await page.waitForChanges();
 
     const items = await page.findAll("calcite-list-item");
 
@@ -170,8 +170,8 @@ describe("calcite-list", () => {
 
     await items[1].click();
 
-    await page.waitForChanges();
     await page.waitForTimeout(debounceTimeout);
+    await page.waitForChanges();
     expect(eventSpy).toHaveReceivedEventTimes(1);
 
     expect(items[0].getProperty("active")).toBe(false);
