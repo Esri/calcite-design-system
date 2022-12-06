@@ -50,7 +50,7 @@ export class Loader {
   @Prop() value = 0;
 
   /** Text that displays under the component's indicator. */
-  @Prop() text? = "";
+  @Prop() text = "";
 
   /**
    * Disables spacing around the component.

@@ -19,7 +19,7 @@ export class TipGroup {
    * The component header text for all nested `calcite-tip`s.
    *
    */
-  @Prop() groupTitle?: string;
+  @Prop() groupTitle: string;
 
   render(): VNode {
     return <slot />;
