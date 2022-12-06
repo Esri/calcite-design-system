@@ -36,13 +36,14 @@ Type: `Promise<void>`
 
 ## Slots
 
-| Slot              | Description                                                                                  |
-| ----------------- | -------------------------------------------------------------------------------------------- |
-|                   | A slot for adding `calcite-list-item` and `calcite-list-item-group` elements.                |
-| `"actions-end"`   | A slot for adding actionable `calcite-action` elements after the content of the component.   |
-| `"actions-start"` | A slot for adding actionable `calcite-action` elements before the content of the component.  |
-| `"content-end"`   | A slot for adding non-actionable elements after the label and description of the component.  |
-| `"content-start"` | A slot for adding non-actionable elements before the label and description of the component. |
+| Slot              | Description                                                                                                    |
+| ----------------- | -------------------------------------------------------------------------------------------------------------- |
+|                   | A slot for adding `calcite-list-item` and `calcite-list-item-group` elements.                                  |
+| `"actions-end"`   | A slot for adding actionable `calcite-action` elements after the content of the component.                     |
+| `"actions-start"` | A slot for adding actionable `calcite-action` elements before the content of the component.                    |
+| `"content"`       | A slot for adding non-actionable, centered content in place of the `label` and `description` of the component. |
+| `"content-end"`   | A slot for adding non-actionable elements after the label and description of the component.                    |
+| `"content-start"` | A slot for adding non-actionable elements before the label and description of the component.                   |
 
 ## Dependencies
 
