@@ -4,6 +4,6 @@ Using a wrapping `calcite-label` component lets consumers set the status attribu
 <calcite-label status="invalid" for="invalid-input">
   Invalid input
   <calcite-input id="invalid-input" placeholder="Filter your files" value="adfo2h2"></calcite-input>
-  <calcite-input-message active icon> Something doesn't look right </calcite-input-message>
+  <calcite-input-message icon> Something doesn't look right </calcite-input-message>
 </calcite-label>
 ```

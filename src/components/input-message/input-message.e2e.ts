@@ -8,7 +8,7 @@ describe("calcite-input-message", () => {
     await renders(`<calcite-input-message></calcite-input-message>`, { display: "flex", visible: true });
   });
 
-  it("honors hidden attribute", async () => hidden(`<calcite-input-message active>Text</calcite-input-message>`));
+  it("honors hidden attribute", async () => hidden(`<calcite-input-message>Text</calcite-input-message>`));
 
   it("is accessible", async () => accessible(`<calcite-input-message>Text</calcite-input-message>`));
   it("is accessible with icon", async () => accessible(`<calcite-input-message icon>Text</calcite-input-message>`));

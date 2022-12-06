@@ -4,6 +4,6 @@ It also allows consumers to set a `status` attribute for child `calcite-input` a
 <calcite-label status="invalid">
   Invalid input
   <calcite-input type="search" placeholder="Filter your files" value="adfo2h2"></calcite-input>
-  <calcite-input-message active icon> Something doesn't look right </calcite-input-message>
+  <calcite-input-message icon> Something doesn't look right </calcite-input-message>
 </calcite-label>
 ```
