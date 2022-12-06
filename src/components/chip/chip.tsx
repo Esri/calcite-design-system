@@ -46,10 +46,10 @@ export class Chip implements ConditionalSlotComponent, LoadableComponent {
    *
    * @default "Close"
    */
-  @Prop() dismissLabel?: string = TEXT.close;
+  @Prop() dismissLabel: string = TEXT.close;
 
   /** Specifies an icon to display. */
-  @Prop({ reflect: true }) icon?: string;
+  @Prop({ reflect: true }) icon: string;
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @Prop({ reflect: true }) iconFlipRtl = false;

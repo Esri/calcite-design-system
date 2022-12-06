@@ -22,7 +22,7 @@ export class Scrim {
    *
    * @default "Loading"
    */
-  @Prop() intlLoading?: string = TEXT.loading;
+  @Prop() intlLoading: string = TEXT.loading;
 
   /**
    * When `true`, a busy indicator is displayed.

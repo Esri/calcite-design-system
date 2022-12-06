@@ -37,7 +37,7 @@ export class Action implements InteractiveComponent, LoadableComponent {
   /**
    * Specifies the horizontal alignment of button elements with text content.
    */
-  @Prop({ reflect: true }) alignment?: Alignment;
+  @Prop({ reflect: true }) alignment: Alignment;
 
   /** Specifies the appearance of the component. */
   @Prop({ reflect: true }) appearance: Extract<"solid" | "transparent", Appearance> = "solid";
@@ -53,7 +53,7 @@ export class Action implements InteractiveComponent, LoadableComponent {
   @Prop({ reflect: true }) disabled = false;
 
   /** Specifies an icon to display. */
-  @Prop() icon?: string;
+  @Prop() icon: string;
 
   /**
    * When `true`, indicates unread changes.
@@ -65,12 +65,12 @@ export class Action implements InteractiveComponent, LoadableComponent {
    *
    * @default "Loading"
    */
-  @Prop() intlLoading?: string = TEXT.loading;
+  @Prop() intlLoading: string = TEXT.loading;
 
   /**
    * Specifies the label of the component. If no label is provided, the label inherits what's provided for the `text` prop.
    */
-  @Prop() label?: string;
+  @Prop() label: string;
 
   /**
    * When `true`, a busy indicator is displayed.

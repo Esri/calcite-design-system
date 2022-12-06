@@ -66,7 +66,7 @@ export class ListItem implements InteractiveComponent, LoadableComponent {
   /**
    * A description for the component. Displays below the label text.
    */
-  @Prop() description?: string;
+  @Prop() description: string;
 
   /**
    * When `true`, interaction is prevented and the component is displayed with lower opacity.
@@ -79,12 +79,12 @@ export class ListItem implements InteractiveComponent, LoadableComponent {
   @Prop() label: string;
 
   /**
-   * Provides additional metadata to the component. Primary use is for a filter on the parent list.
+   * Provides additional metadata to the component. Primary use is for a filter on the parent `calcite-list`.
    */
-  @Prop() metadata?: Record<string, unknown>;
+  @Prop() metadata: Record<string, unknown>;
 
   /**
-   * When true, item is open to show child components.
+   * When `true`, the item is open to show child components.
    */
   @Prop({ mutable: true, reflect: true }) open = false;
 
@@ -103,7 +103,7 @@ export class ListItem implements InteractiveComponent, LoadableComponent {
   @Prop() setPosition: number = null;
 
   /**
-   * When true, the component is selected.
+   * When `true`, the component is selected.
    */
   @Prop({ reflect: true, mutable: true }) selected = false;
 
@@ -120,14 +120,14 @@ export class ListItem implements InteractiveComponent, LoadableComponent {
   @Prop() value: any;
 
   /**
-   * specify the selection mode - multiple (allow any number of (or no) selected items), single (allow and require one selected item), none (no selected items), defaults to single
+   * Specifies the selection mode - `"multiple"` (allow any number of selected items), `"single"` (allows and require one selected item), `"none"` (no selected items).
    *
    * @internal
    */
   @Prop({ mutable: true }) selectionMode: SelectionMode = null;
 
   /**
-   * specify the selection appearance - icon (displays a checkmark or dot), border (displays a border), defaults to icon
+   * Specifies the selection appearance - `"icon"` (displays a checkmark or dot) or `"border"` (displays a border).
    *
    * @internal
    */
@@ -140,7 +140,7 @@ export class ListItem implements InteractiveComponent, LoadableComponent {
   //--------------------------------------------------------------------------
 
   /**
-   * Emitted whenever the list item content is selected.
+   * Emits when the item's content is selected.
    */
   @Event({ cancelable: false }) calciteListItemSelect: EventEmitter<void>;
 
