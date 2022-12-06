@@ -438,7 +438,6 @@ export class Modal
   private openEnd = (): void => {
     this.setFocus();
     this.el.removeEventListener("calciteModalOpen", this.openEnd);
-    activateFocusTrap(this);
   };
 
   /** Open the modal */
