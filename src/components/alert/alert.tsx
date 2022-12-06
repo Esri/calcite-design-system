@@ -226,8 +226,10 @@ export class Alert implements OpenCloseComponent, LocalizedComponent, LoadableCo
             queued,
             [placement]: true
           }}
-          onMouseLeave={this.handleMouseLeave}
-          onMouseOver={this.handleMouseOver}
+          onMouseLeave={
+            this.autoDismiss && this.autoDismissTimeoutId ? this.handleMouseLeave : null
+          }
+          onMouseOver={this.autoDismiss && this.autoDismissTimeoutId ? this.handleMouseOver : null}
           ref={this.setTransitionEl}
         >
           {requestedIcon ? (
