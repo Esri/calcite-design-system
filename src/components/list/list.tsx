@@ -151,13 +151,22 @@ export class List implements InteractiveComponent, LoadableComponent {
     }
   }
 
+  @Listen("calciteInternalListItemActive")
+  handleCalciteListItemActive(event: CustomEvent): void {
+    const target = event.target as HTMLCalciteListItemElement;
+    const { listItems } = this;
+
+    listItems.forEach((listItem) => {
+      listItem.active = listItem === target;
+    });
+  }
+
   @Listen("calciteInternalListItemSelect")
   handleCalciteListItemSelect(event: CustomEvent): void {
     const target = event.target as HTMLCalciteListItemElement;
     const { listItems, selectionMode } = this;
 
     listItems.forEach((listItem) => {
-      listItem.active = listItem === target;
       if (selectionMode === "single") {
         listItem.selected = listItem === target;
       }

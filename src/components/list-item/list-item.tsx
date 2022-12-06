@@ -154,6 +154,12 @@ export class ListItem implements InteractiveComponent, LoadableComponent {
    *
    * @internal
    */
+  @Event({ cancelable: false }) calciteInternalListItemActive: EventEmitter<void>;
+
+  /**
+   *
+   * @internal
+   */
   @Event({ cancelable: false }) calciteInternalFocusPreviousItem: EventEmitter<void>;
 
   // --------------------------------------------------------------------------
@@ -250,7 +256,7 @@ export class ListItem implements InteractiveComponent, LoadableComponent {
     }
 
     return (
-      <td class={CSS.selectionContainer} key="selection-container" onClick={this.toggleSelected}>
+      <td class={CSS.selectionContainer} key="selection-container" onClick={this.itemClicked}>
         <calcite-icon
           icon={
             selected
@@ -277,7 +283,7 @@ export class ListItem implements InteractiveComponent, LoadableComponent {
         />
       </td>
     ) : parentListEl?.openable ? (
-      <td class={CSS.openContainer} key="open-container" onClick={this.toggleSelected}>
+      <td class={CSS.openContainer} key="open-container" onClick={this.itemClicked}>
         <calcite-icon icon={ICONS.blank} scale="s" />
       </td>
     ) : null;
@@ -380,7 +386,7 @@ export class ListItem implements InteractiveComponent, LoadableComponent {
           [CSS.contentContainerHasCenterContent]: hasCenterContent
         }}
         key="content-container"
-        onClick={this.toggleSelected}
+        onClick={this.itemClicked}
         ref={(el) => (this.contentEl = el)}
         role="gridcell"
       >
@@ -507,6 +513,11 @@ export class ListItem implements InteractiveComponent, LoadableComponent {
 
   toggleOpen = (): void => {
     this.open = !this.open;
+  };
+
+  itemClicked = (): void => {
+    this.toggleSelected();
+    this.calciteInternalListItemActive.emit();
   };
 
   toggleSelected = (): void => {
