@@ -1,4 +1,4 @@
-import { newE2EPage } from "@stencil/core/testing";
+import { E2EPage, newE2EPage } from "@stencil/core/testing";
 import { renders, accessible, HYDRATED_ATTR, hidden } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
@@ -50,12 +50,10 @@ describe("calcite-alert", () => {
     </calcite-alert>`);
 
     const element = await page.find("calcite-alert");
-    const close = await page.find("calcite-alert >>> .alert-close");
     const icon = await page.find("calcite-alert >>> .alert-icon");
 
     expect(element).toEqualAttribute("color", "yellow");
     expect(element).toEqualAttribute("auto-dismiss-duration", "fast");
-    expect(close).toBeTruthy();
     expect(icon).toBeNull();
   });
 
@@ -345,5 +343,41 @@ describe("calcite-alert", () => {
       expect(await chip.getProperty("value")).toEqual(chipQueueCount);
       expect(chip.textContent).toEqual(chipQueueCount);
     });
+  });
+  describe("auto-dismiss behavior", () => {
+    let page: E2EPage;
+
+    beforeEach(async () => {
+      page = await newE2EPage();
+      await page.setContent(html`<calcite-alert auto-dismiss-duration="fast">${alertContent}</calcite-alert>`);
+      await page.waitForChanges();
+    });
+
+    it("should render close button", async () => {
+      const close = await page.find("calcite-alert >>> .alert-close");
+      expect(close).toBeTruthy();
+    });
+
+    it("should pause on mouseover and resume on mouseleave", async () => {
+      const alert = await page.find("calcite-alert");
+
+      expect(await alert.getProperty("autoDismissDuration")).not.toBeFalsy();
+
+      const playState = await page.evaluate(async () => {
+        const alert = document.querySelector("calcite-alert");
+        return window.getComputedStyle(alert).animationPlayState;
+      });
+      expect(playState).toEqual("running");
+
+      await page.evaluate(() => {
+        const el: HTMLElement = document.querySelector("calcite-alert") as HTMLElement;
+        el.hover();
+      });
+      await page.waitForChanges();
+
+      expect(await alert.getProperty("autoDismiss")).toBe(true);
+      expect(await alert.getProperty("autoDismiss")).toBe(null);
+    });
+    // it("should pause on mouseover and resume on mouseleave when multiple alerts are queued", async () => {});
   });
 });
