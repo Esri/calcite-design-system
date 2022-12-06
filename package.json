@@ -70,7 +70,7 @@
     "url": "git+https://github.com/Esri/calcite-components.git"
   },
   "dependencies": {
-    "@floating-ui/dom": "1.0.7",
+    "@floating-ui/dom": "1.0.8",
     "@stencil/core": "2.20.0",
     "@types/color": "3.0.3",
     "color": "4.2.3",
