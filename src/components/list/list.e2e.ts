@@ -162,9 +162,9 @@ describe("calcite-list", () => {
 
     const items = await page.findAll("calcite-list-item");
 
-    expect(items[0].getProperty("active")).toBe(true);
-    expect(items[1].getProperty("active")).toBe(false);
-    expect(items[2].getProperty("active")).toBe(false);
+    expect(await items[0].getProperty("active")).toBe(true);
+    expect(await items[1].getProperty("active")).toBe(false);
+    expect(await items[2].getProperty("active")).toBe(false);
 
     const eventSpy = await page.spyOnEvent("calciteInternalListItemActive");
 
@@ -174,8 +174,8 @@ describe("calcite-list", () => {
     await page.waitForChanges();
     expect(eventSpy).toHaveReceivedEventTimes(1);
 
-    expect(items[0].getProperty("active")).toBe(false);
-    expect(items[1].getProperty("active")).toBe(true);
-    expect(items[2].getProperty("active")).toBe(false);
+    expect(await items[0].getProperty("active")).toBe(false);
+    expect(await items[1].getProperty("active")).toBe(true);
+    expect(await items[2].getProperty("active")).toBe(false);
   });
 });
