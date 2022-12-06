@@ -36,8 +36,7 @@ import {
   defaultNumberingSystem,
   LocalizedComponent,
   disconnectLocalized,
-  connectLocalized,
-  updateEffectiveLocale
+  connectLocalized
 } from "../../utils/locale";
 import { numberKeys } from "../../utils/key";
 import { isValidNumber, parseNumberString, sanitizeNumberString } from "../../utils/number";
