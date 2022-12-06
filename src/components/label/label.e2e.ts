@@ -14,7 +14,6 @@ describe("calcite-label", () => {
     `);
 
     const element = await page.find("calcite-label");
-    expect(element).toEqualAttribute("status", "idle");
     expect(element).toEqualAttribute("layout", "default");
   });
 
