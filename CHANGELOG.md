@@ -9,58 +9,64 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### ⚠ BREAKING CHANGES
 
-- **radio-group-item:** Removed deprecated properties.
+- **stepper-item:** Removed deprecated properties.
+
+* Removed the property `active`, use `selected` instead.
+* Removed the property `itemTitle`, use `heading` instead.
+* Removed the property `itemSubtitle`, use `description` instead.
+
+* **radio-group-item:** Removed deprecated properties.
 
   - Removed the property `icon`, use either `iconStart` or `iconEnd`
     instead.
   - Removed the property `iconPosition`, use either `iconStart` or
     `iconEnd` instead.
 
-- **split-button:** Removed the `event.detail` payload from the events
+* **split-button:** Removed the `event.detail` payload from the events
   `calciteSplitButtonPrimaryClick` and `calciteSplitButtonSecondaryClick`.
   Use separate mouse event listeners to get information about `click`
   events.
 
-- **slider:** Removed deprecated event.
+* **slider:** Removed deprecated event.
 
   - Removed the event `calciteSliderUpdate`, use `calciteSliderInput`
     instead.
 
-- **dropdown, dropdown-item:** Removed deprecated properties.
+* **dropdown, dropdown-item:** Removed deprecated properties.
 
   - Removed the property `active` on `calcite-dropdown-item`, use
     `selected` instead.
   - Removed the property `active`, on `calcite-dropdown`, use `open`
     instead.
 
-- **tree:** Removed the `inputEnabled` property.
+* **tree:** Removed the `inputEnabled` property.
 
   - Removed the property `inputEnabled`, use `selectionMode="ancestors"`
     instead.
 
-- **chip:** Removed the `dismissible` property and the `clear`
+* **chip:** Removed the `dismissible` property and the `clear`
   value for the `appearance` property.
 
   - Removed the property `dismissible`, use `closable` instead.
   - Use the value `transparent` instead of `clear` for `appearance`
     property.
 
-- **action-menu:** Removed the `event.detail` value from the
+* **action-menu:** Removed the `event.detail` value from the
   `calciteActionMenuOpenChange` event on the `action-menu` component.
 
   - When listening to `calciteActionMenuOpenChange`, use the `open`
     property on the `event.target` instead of `event.detail`.
 
-- **block:** Removed the `summary` and `disablePadding` properties.
+* **block:** Removed the `summary` and `disablePadding` properties.
 
   - Removed the property `summary`, use `description` instead.
   - Removed the property `disablePadding`, use the CSS variable
     `--calcite-block-padding` instead.
 
-- **popover-manager:** Removed the `calcite-popover-manager` component. This
+* **popover-manager:** Removed the `calcite-popover-manager` component. This
   component is no longer necessary for `calcite-popover`s.
 
-- **accordion-item:** Removed the properties `active`, `itemTitle`,
+* **accordion-item:** Removed the properties `active`, `itemTitle`,
   `itemSubtitle`, and `icon`.
 
   - Removed the property `active`, use `expanded` instead.
@@ -68,7 +74,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
   - Removed the property `itemSubtitle`, use `description` instead.
   - Removed the property `icon`, use `iconStart` or `iconEnd` instead.
 
-- **panel:** Removed deprecated events and properties.
+* **panel:** Removed deprecated events and properties.
 
   - Removed the property `dismissed`, use `closed` instead.
   - Removed the property `dismissible`, use `closable` instead.
@@ -86,14 +92,14 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
   - Removed the event `calcitePanelBackClick`, use the `calcite-flow-item`
     component instead.
 
-- **popover:** Removed the `closeButton` and `dismissible` properties.
+* **popover:** Removed the `closeButton` and `dismissible` properties.
 
   - Removed the property `closeButton`, use `closable` instead.
   - Removed the property `dismissible`, use `closable` instead.
 
-- **tooltip-manager:** Removed the `calcite-tooltip-manager` component. This
+* **tooltip-manager:** Removed the `calcite-tooltip-manager` component. This
   component is no longer necessary for `calcite-tooltip`s.
-- **alert:** Removed the deprecated `active` property.
+* **alert:** Removed the deprecated `active` property.
 
   - Removed the property `active`, use `open` instead.
 
@@ -110,18 +116,18 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
     longer necessary.
   - `nonInteractive` property on the `list-item` is no longer necessary.
 
-- **shell:** Removed the `primary-panel` and `contextual-panel`
+* **shell:** Removed the `primary-panel` and `contextual-panel`
   slots.
 
   - Removed the slot `primary-panel`, use `panel-start` instead.
   - Removed the slot `contextual-panel`, use `panel-end` instead.
 
-- **shell-panel:** Removed the `calciteShellPanelToggle` event.
+* **shell-panel:** Removed the `calciteShellPanelToggle` event.
 
   - Use a `ResizeObserver` on the component to listen for changes to its
     size. (https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver)
 
-- **flow, flow-item:** Removed the `calciteFlowItemBackClick` event and
+* **flow, flow-item:** Removed the `calciteFlowItemBackClick` event and
   support for slotting `calcite-panel`s.
 
   - Removed support for slotting `calcite-panel` components, use the
@@ -129,17 +135,17 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
   - Removed the event `calciteFlowItemBackClick`, use
     `calciteFlowItemBack` instead.
 
-- **tip-manager:** Removed the `calciteTipManagerToggle` event, use
+* **tip-manager:** Removed the `calciteTipManagerToggle` event, use
   `calciteTipManagerClose` instead.
 
-- **action:** Removed the `calciteActionClick` event and the `clear`
+* **action:** Removed the `calciteActionClick` event and the `clear`
   value for the `appearance` property.
 
   - Listen to the `click` event instead of `calciteActionClick.
   - Use the value `transparent` instead of `clear` for the property
     `appearance`.
 
-- **list, list-item, list-item-group:** To know when `calcite-list-item` content is selected, listen to the event `calciteListItemSelect` instead of `click`.
+* **list, list-item, list-item-group:** To know when `calcite-list-item` content is selected, listen to the event `calciteListItemSelect` instead of `click`.
 
   - `List`
     - Adds `label` property to specify an accessible name for the component.
@@ -157,24 +163,32 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
     - Adds `open` property to show child components.
     - Deprecates `nonInteractive` property.
 
-- **calcite-loader, calcite-input-message:** use hidden native global attribute to toggle visibility on the components instead of the deprecated active prop.
-- **block, date-picker, list-item-group, panel, pick-list-group, popover, tip, tip-manager:** Sets internal heading HTML element to be a div by default. If users would like to retain an internal H1-H6 HTML element, they will need to set the headingLevel property on the component. Users already setting the headingLevel property are not affected. ([#5728](https://github.com/Esri/calcite-components/pull/5728)) ([38ca639](https://github.com/Esri/calcite-components/commit/38ca639010b8bd1d1fe32c9cf9b54dfc38cf9877)), closes [5099](https://github.com/Esri/calcite-components/issues/5099)
+* **calcite-loader, calcite-input-message:** use hidden native global attribute to toggle visibility on the components instead of the deprecated active prop.
+* **block, date-picker, list-item-group, panel, pick-list-group, popover, tip, tip-manager:** Sets internal heading HTML element to be a div by default. If users would like to retain an internal H1-H6 HTML element, they will need to set the headingLevel property on the component. Users already setting the headingLevel property are not affected. ([#5728](https://github.com/Esri/calcite-components/pull/5728)) ([38ca639](https://github.com/Esri/calcite-components/commit/38ca639010b8bd1d1fe32c9cf9b54dfc38cf9877)), closes [5099](https://github.com/Esri/calcite-components/issues/5099)
 
 ### Features
 
-- **textarea:** add default message bundle ([#5870](https://github.com/Esri/calcite-components/issues/5870)) ([c7a8495](https://github.com/Esri/calcite-components/commit/c7a84955b4f3cd09dbf7315ea59e0edaa7be2a6c)), closes [#863](https://github.com/Esri/calcite-components/issues/863)
+- **list-item:** Add content slot for specialized content ([#5876](https://github.com/Esri/calcite-components/issues/5876)) ([a510773](https://github.com/Esri/calcite-components/commit/a510773ba87994010e84184f7709c84ce40f2d2c)), closes [#3032](https://github.com/Esri/calcite-components/issues/3032) [#3032](https://github.com/Esri/calcite-components/issues/3032)
 
-* **input, input-text, input-number:** add attributes autocomplete, accept, multiple, pattern ([#5807](https://github.com/Esri/calcite-components/issues/5807)) ([feb4fce](https://github.com/Esri/calcite-components/commit/feb4fce9528920041d836446ef437f0f1c0e8ce2)), closes [#4079](https://github.com/Esri/calcite-components/issues/4079)
+* **textarea:** add default message bundle ([#5870](https://github.com/Esri/calcite-components/issues/5870)) ([c7a8495](https://github.com/Esri/calcite-components/commit/c7a84955b4f3cd09dbf7315ea59e0edaa7be2a6c)), closes [#863](https://github.com/Esri/calcite-components/issues/863)
 
-* **alert:** support actions-end ([#5750](https://github.com/Esri/calcite-components/issues/5750)) ([2447e16](https://github.com/Esri/calcite-components/commit/2447e167eb731f3a59775a5692530137bf9a70fd))
-* **list, list-item, list-item-group:** Adds support for selecting and filtering list items. Improves accessibility by using aria "treegrid" role. ([#4527](https://github.com/Esri/calcite-components/issues/4527)) ([f489c57](https://github.com/Esri/calcite-components/commit/f489c57095ec21df1f427176d2d635675eea95d3))
-* **pick-list, value-list:** Add calciteListFilter event, filteredItems prop, filterText prop and filteredData prop. ([#5681](https://github.com/Esri/calcite-components/issues/5681)) ([943d208](https://github.com/Esri/calcite-components/commit/943d2088b7cf447a12ebcd0babab145f543538a2)), closes [#4333](https://github.com/Esri/calcite-components/issues/4333)
-* **popover:** Add focus-trap to popover and disableFocusTrap property. ([#5725](https://github.com/Esri/calcite-components/issues/5725)) ([a8ef353](https://github.com/Esri/calcite-components/commit/a8ef353bc031630b373f2bdd1bdc1cafd7e35be9)), closes [#2133](https://github.com/Esri/calcite-components/issues/2133)
-* **popover:** Escape key should close open popovers. ([#5726](https://github.com/Esri/calcite-components/issues/5726)) ([2e2621d](https://github.com/Esri/calcite-components/commit/2e2621d57c4701f7a7e84f74d801c543ad4f45c0))
-* **tabs:** Add support for navigating with Home and End keys ([#5727](https://github.com/Esri/calcite-components/issues/5727)) ([823c429](https://github.com/Esri/calcite-components/commit/823c429439ec9f8cd1d6a1ff2aedf0b2da9c741b)), closes [#5661](https://github.com/Esri/calcite-components/issues/5661)
-* **tooltip:** Add tooltip open, close, beforeOpen, and beforeClose events ([#5772](https://github.com/Esri/calcite-components/issues/5772)) ([64b5675](https://github.com/Esri/calcite-components/commit/64b56751d68f69d31ea943415f5d0d08bae634cc)), closes [#5734](https://github.com/Esri/calcite-components/issues/5734)
+- **input, input-text, input-number:** add attributes autocomplete, accept, multiple, pattern ([#5807](https://github.com/Esri/calcite-components/issues/5807)) ([feb4fce](https://github.com/Esri/calcite-components/commit/feb4fce9528920041d836446ef437f0f1c0e8ce2)), closes [#4079](https://github.com/Esri/calcite-components/issues/4079)
+
+- **alert:** support actions-end ([#5750](https://github.com/Esri/calcite-components/issues/5750)) ([2447e16](https://github.com/Esri/calcite-components/commit/2447e167eb731f3a59775a5692530137bf9a70fd))
+- **list, list-item, list-item-group:** Adds support for selecting and filtering list items. Improves accessibility by using aria "treegrid" role. ([#4527](https://github.com/Esri/calcite-components/issues/4527)) ([f489c57](https://github.com/Esri/calcite-components/commit/f489c57095ec21df1f427176d2d635675eea95d3))
+- **pick-list, value-list:** Add calciteListFilter event, filteredItems prop, filterText prop and filteredData prop. ([#5681](https://github.com/Esri/calcite-components/issues/5681)) ([943d208](https://github.com/Esri/calcite-components/commit/943d2088b7cf447a12ebcd0babab145f543538a2)), closes [#4333](https://github.com/Esri/calcite-components/issues/4333)
+- **popover:** Add focus-trap to popover and disableFocusTrap property. ([#5725](https://github.com/Esri/calcite-components/issues/5725)) ([a8ef353](https://github.com/Esri/calcite-components/commit/a8ef353bc031630b373f2bdd1bdc1cafd7e35be9)), closes [#2133](https://github.com/Esri/calcite-components/issues/2133)
+- **popover:** Escape key should close open popovers. ([#5726](https://github.com/Esri/calcite-components/issues/5726)) ([2e2621d](https://github.com/Esri/calcite-components/commit/2e2621d57c4701f7a7e84f74d801c543ad4f45c0))
+- **tabs:** Add support for navigating with Home and End keys ([#5727](https://github.com/Esri/calcite-components/issues/5727)) ([823c429](https://github.com/Esri/calcite-components/commit/823c429439ec9f8cd1d6a1ff2aedf0b2da9c741b)), closes [#5661](https://github.com/Esri/calcite-components/issues/5661)
+- **tooltip:** Add tooltip open, close, beforeOpen, and beforeClose events ([#5772](https://github.com/Esri/calcite-components/issues/5772)) ([64b5675](https://github.com/Esri/calcite-components/commit/64b56751d68f69d31ea943415f5d0d08bae634cc)), closes [#5734](https://github.com/Esri/calcite-components/issues/5734)
 
 ### Bug Fixes
+
+- **flow:** Allow nested flows. ([#5897](https://github.com/Esri/calcite-components/issues/5897)) ([214e3be](https://github.com/Esri/calcite-components/commit/214e3be13fbac955a8a67543f8b067789a722f52)), closes [#5896](https://github.com/Esri/calcite-components/issues/5896)
+- **list, list-item:** Fix focus behavior when clicking on an item ([#5901](https://github.com/Esri/calcite-components/issues/5901)) ([552e28f](https://github.com/Esri/calcite-components/commit/552e28f0107b0a492901790b59d34f178ce08619)), closes [#5899](https://github.com/Esri/calcite-components/issues/5899)
+- **modal:** OpenCloseComponent emits when setting `--calcite-duration-factor` to 0 ([#5326](https://github.com/Esri/calcite-components/issues/5326)) ([ff19420](https://github.com/Esri/calcite-components/commit/ff19420bbfc1a78277dfdefaea04498bf8f17a08)), closes [#5206](https://github.com/Esri/calcite-components/issues/5206)
+
+* **tooltip:** Prevent tooltip from appearing above modal overlay ([#5873](https://github.com/Esri/calcite-components/issues/5873)) ([f7a5de2](https://github.com/Esri/calcite-components/commit/f7a5de25f8ca2aa9f84d2c99039e93248f8ef144)), closes [#5388](https://github.com/Esri/calcite-components/issues/5388) [#5388](https://github.com/Esri/calcite-components/issues/5388)
 
 - **list-item:** Add hover styling ([#5891](https://github.com/Esri/calcite-components/issues/5891)) ([063d6e9](https://github.com/Esri/calcite-components/commit/063d6e955eddb82a5b3ea2e93eca3aa03feef2ae)), closes [#5880](https://github.com/Esri/calcite-components/issues/5880)
 
