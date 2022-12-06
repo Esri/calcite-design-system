@@ -1,6 +1,6 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { accessible, disabled, hidden, renders, slots, defaults } from "../../tests/commonTests";
-import { CSS, SLOTS } from "./resources";
+import { CSS, SLOTS, TEXT } from "./resources";
 
 describe("calcite-action", () => {
   it("has property defaults", async () =>
@@ -129,6 +129,25 @@ describe("calcite-action", () => {
 
     const button = await page.find(`calcite-action >>> .${CSS.button}`);
     expect(button.getAttribute("aria-label")).toBe("hello world");
+  });
+
+  it("should set aria-label with indicator", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<calcite-action indicator text="hello world"></calcite-action>`);
+
+    const button = await page.find(`calcite-action >>> .${CSS.button}`);
+    expect(button.getAttribute("aria-label")).toBe(`hello world (${TEXT.indicator})`);
+  });
+
+  it("should set aria-label with indicator and indicatorMessage", async () => {
+    const page = await newE2EPage();
+    const indicatorMessage = "Save me!";
+    await page.setContent(
+      `<calcite-action indicator indicator-message="${indicatorMessage}" text="hello world"></calcite-action>`
+    );
+
+    const button = await page.find(`calcite-action >>> .${CSS.button}`);
+    expect(button.getAttribute("aria-label")).toBe(`hello world (${indicatorMessage})`);
   });
 
   it("should have label", async () => {
