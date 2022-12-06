@@ -163,8 +163,8 @@ export const spacingWithLabel_TestOnly = (): string => html`
     css variable to 0.
     <calcite-input></calcite-input>
   </calcite-label>
-  <calcite-label disable-spacing class="css-var">
-    I should still not have a bottom margin because I'm using the disable-spacing prop.
+  <calcite-label class="css-var">
+    I should still not have a bottom margin because I'm using the CSS variable.
     <calcite-input></calcite-input>
   </calcite-label>
   <calcite-label>
@@ -175,12 +175,12 @@ export const spacingWithLabel_TestOnly = (): string => html`
     I should also have a bottom margin
     <calcite-input></calcite-input>
   </calcite-label>
-  <calcite-label disable-spacing>
-    I should not have a bottom margin because I have disable-spacing set.
+  <calcite-label class="css-var">
+    I should not have a bottom margin because I have the CSS variable set.
     <calcite-input></calcite-input>
   </calcite-label>
-  <calcite-label disable-spacing>
-    I should not have a bottom margin because I have disable-spacing set.
+  <calcite-label class="css-var">
+    I should not have a bottom margin because I have the CSS variable set.
     <calcite-input></calcite-input>
   </calcite-label>
 `;
