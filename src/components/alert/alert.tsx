@@ -431,14 +431,12 @@ export class Alert implements OpenCloseComponent, LocalizedComponent, LoadableCo
   };
 
   private handleMouseOver = (): void => {
-    this.remainingPausedTimeout = DURATIONS[this.autoDismissDuration];
     window.clearTimeout(this.autoDismissTimeoutId);
-    this.autoDismissTimeoutId = null;
-    this.remainingPausedTimeout -= Date.now() - this.trackTimer;
+    this.remainingPausedTimeout =
+      DURATIONS[this.autoDismissDuration] - Date.now() - this.trackTimer;
   };
 
   private handleMouseLeave = (): void => {
-    this.trackTimer = Date.now();
     this.autoDismissTimeoutId = window.setTimeout(
       () => this.closeAlert(),
       this.remainingPausedTimeout
