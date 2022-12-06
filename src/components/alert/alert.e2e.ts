@@ -55,7 +55,7 @@ describe("calcite-alert", () => {
 
     expect(element).toEqualAttribute("color", "yellow");
     expect(element).toEqualAttribute("auto-dismiss-duration", "fast");
-    expect(close).toBeNull();
+    expect(close).toBeTruthy();
     expect(icon).toBeNull();
   });
 
