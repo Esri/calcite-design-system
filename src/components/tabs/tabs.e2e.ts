@@ -5,12 +5,12 @@ import { html } from "../../../support/formatting";
 describe("calcite-tabs", () => {
   const tabsContent = `
     <calcite-tab-nav slot="tab-nav">
-      <calcite-tab-title active>Tab 1 Title</calcite-tab-title>
+      <calcite-tab-title selected>Tab 1 Title</calcite-tab-title>
       <calcite-tab-title>Tab 2 Title</calcite-tab-title>
       <calcite-tab-title>Tab 3 Title</calcite-tab-title>
       <calcite-tab-title>Tab 4 Title</calcite-tab-title>
     </calcite-tab-nav>
-    <calcite-tab active>Tab 1 Content</calcite-tab>
+    <calcite-tab selected>Tab 1 Content</calcite-tab>
     <calcite-tab>Tab 2 Content</calcite-tab>
     <calcite-tab>Tab 3 Content</calcite-tab>
     <calcite-tab>Tab 4 Content</calcite-tab>
@@ -36,13 +36,13 @@ describe("calcite-tabs", () => {
     await page.setContent(`
       <calcite-tabs>
         <calcite-tab-nav slot="tab-nav">
-          <calcite-tab-title id="title-1" active>Tab 1 Title</calcite-tab-title>
+          <calcite-tab-title id="title-1" selected>Tab 1 Title</calcite-tab-title>
           <calcite-tab-title id="title-2" >Tab 2 Title</calcite-tab-title>
           <calcite-tab-title id="title-3" >Tab 3 Title</calcite-tab-title>
           <calcite-tab-title id="title-4" >Tab 4 Title</calcite-tab-title>
         </calcite-tab-nav>
 
-        <calcite-tab id="tab-1" active>Tab 1 Content</calcite-tab>
+        <calcite-tab id="tab-1" selected>Tab 1 Content</calcite-tab>
         <calcite-tab id="tab-2">Tab 2 Content</calcite-tab>
         <calcite-tab id="tab-3">Tab 3 Content</calcite-tab>
         <calcite-tab id="tab-4">Tab 4 Content</calcite-tab>
@@ -73,13 +73,13 @@ describe("calcite-tabs", () => {
     await page.setContent(`
       <calcite-tabs>
         <calcite-tab-nav slot="tab-nav">
-          <calcite-tab-title active>Tab 1 Title</calcite-tab-title>
+          <calcite-tab-title selected>Tab 1 Title</calcite-tab-title>
           <calcite-tab-title id="insert-after-title">Tab 2 Title</calcite-tab-title>
           <calcite-tab-title>Tab 3 Title</calcite-tab-title>
           <calcite-tab-title>Tab 4 Title</calcite-tab-title>
         </calcite-tab-nav>
 
-        <calcite-tab active>Tab 1 Content</calcite-tab>
+        <calcite-tab selected>Tab 1 Content</calcite-tab>
         <calcite-tab id="insert-after-tab">Tab 2 Content</calcite-tab>
         <calcite-tab>Tab 3 Content</calcite-tab>
         <calcite-tab>Tab 4 Content</calcite-tab>
@@ -214,10 +214,10 @@ describe("calcite-tabs", () => {
     const wrappedTabTemplateHTML = html`
       <calcite-tabs>
         <calcite-tab-nav slot="tab-nav">
-          <calcite-tab-title id="title-1" active>Tab 1 Title</calcite-tab-title>
+          <calcite-tab-title id="title-1" selected>Tab 1 Title</calcite-tab-title>
           <calcite-tab-title id="title-2">Tab 2 Title</calcite-tab-title>
         </calcite-tab-nav>
-        <calcite-tab id="tab-1" active>Tab 1 Content</calcite-tab>
+        <calcite-tab id="tab-1" selected>Tab 1 Content</calcite-tab>
         <calcite-tab id="tab-2">Tab 2 Content</calcite-tab>
       </calcite-tabs>
     `;
@@ -254,8 +254,8 @@ describe("calcite-tabs", () => {
         await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
         await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
 
-        const titleTab = wrapper.shadowRoot.querySelector("calcite-tab-title[active]").id;
-        const contentTab = wrapper.shadowRoot.querySelector("calcite-tab[active]").id;
+        const titleTab = wrapper.shadowRoot.querySelector("calcite-tab-title[selected]").id;
+        const contentTab = wrapper.shadowRoot.querySelector("calcite-tab[selected]").id;
         return { titleTab, contentTab };
       },
       [wrappedTabTemplateHTML]
@@ -297,12 +297,12 @@ describe("calcite-tabs", () => {
     await page.waitForChanges();
 
     const parentTabA = await page.find("#parentTabA");
-    const childTitle = (await parentTabA.find("calcite-tab-title[active]")).getAttribute("id");
-    const childContent = (await parentTabA.find("calcite-tab[active]")).getAttribute("id");
+    const childTitle = (await parentTabA.find("calcite-tab-title[selected]")).getAttribute("id");
+    const childContent = (await parentTabA.find("calcite-tab[selected]")).getAttribute("id");
 
     const parentTabs = await page.find("#parentTabs");
-    const parentTitle = (await parentTabs.find("calcite-tab-title[active]")).getAttribute("id");
-    const parentContent = (await parentTabs.find("calcite-tab[active]")).getAttribute("id");
+    const parentTitle = (await parentTabs.find("calcite-tab-title[selected]")).getAttribute("id");
+    const parentContent = (await parentTabs.find("calcite-tab[selected]")).getAttribute("id");
 
     expect(childTitle).toBe("kidB");
     expect(childContent).toBe("kidBTab");
