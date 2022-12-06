@@ -61,7 +61,6 @@ export function connectFocusTrap(component: FocusTrapComponent): void {
  * @param component
  */
 export function activateFocusTrap(component: FocusTrapComponent): void {
-  deactivateFocusTrap(component);
   component.focusTrap?.activate();
 }
 
