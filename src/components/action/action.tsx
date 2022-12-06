@@ -65,7 +65,7 @@ export class Action implements InteractiveComponent, LoadableComponent {
    *
    * @default "Unread changes"
    */
-  @Prop() intlIndicator?: string = TEXT.indicator;
+  @Prop() intlIndicator: string = TEXT.indicator;
 
   /**
    * Specifies the text label to display while loading.

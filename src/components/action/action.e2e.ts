@@ -159,9 +159,6 @@ describe("calcite-action", () => {
     await accessible(`<calcite-action text="hello world"></calcite-action>`);
     await accessible(`<calcite-action text="hello world" disabled text-enabled></calcite-action>`);
     await accessible(`<calcite-action indicator text="hello world"></calcite-action>`);
-    await accessible(
-      `<calcite-action indicator indicator-message="Unsaved changes" text="hello world"></calcite-action>`
-    );
   });
 
   it("should have a tooltip", async () => {

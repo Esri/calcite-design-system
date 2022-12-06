@@ -12,7 +12,7 @@ export const CSS = {
 
 export const TEXT = {
   loading: "Loading",
-  indicator: "Unread changes"
+  indicator: "indicator present"
 };
 
 export const SLOTS = {
