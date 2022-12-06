@@ -78,7 +78,7 @@ export class Modal
 
   /** Passes a function to run before the component closes. */
   @Prop()
-  beforeClose?: (el: HTMLElement) => Promise<void> = () => Promise.resolve();
+  beforeClose: (el: HTMLElement) => Promise<void> = () => Promise.resolve();
 
   /** When `true`, disables the component's close button. */
   @Prop({ reflect: true }) disableCloseButton = false;
@@ -108,7 +108,7 @@ export class Modal
    * Adds a color bar to the top of component for visual impact.
    * Use color to add importance to destructive or workflow dialogs.
    */
-  @Prop({ reflect: true }) color?: "red" | "blue";
+  @Prop({ reflect: true }) color: "red" | "blue";
 
   /** Sets the background color of the component's content. */
   @Prop({ reflect: true }) backgroundColor: ModalBackgroundColor = "white";

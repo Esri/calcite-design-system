@@ -46,9 +46,9 @@ import {
  */
 
 /**
- * @slot title - A slot for optionally adding a title to the component.
+ * @slot title - A slot for adding a title to the component.
  * @slot message - A slot for adding main text to the component.
- * @slot link - A slot for optionally adding an action to take from the alert (undo, try again, link to page, etc.)
+ * @slot link - A slot for adding a `calcite-action` to take from the component such as: "undo", "try again", "link to page", etc.
  * @slot actions-end - A slot for adding actions to the end of the component. It is recommended to use two or fewer actions.
  */
 
@@ -114,7 +114,7 @@ export class Alert implements OpenCloseComponent, LocalizedComponent, LoadableCo
   /**
    * Specifies the Unicode numeral system used by the component for localization.
    */
-  @Prop({ reflect: true }) numberingSystem?: NumberingSystem;
+  @Prop({ reflect: true }) numberingSystem: NumberingSystem;
 
   /** Specifies the placement of the component */
   @Prop({ reflect: true }) placement: AlertPlacement = "bottom";
