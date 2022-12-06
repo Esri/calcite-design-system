@@ -7,8 +7,7 @@ import {
   Host,
   Method,
   Prop,
-  VNode,
-  Watch
+  VNode
 } from "@stencil/core";
 import { focusElement, toAriaBoolean } from "../../utils/dom";
 import { Scale } from "../interfaces";
