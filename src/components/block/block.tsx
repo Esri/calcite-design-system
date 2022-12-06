@@ -283,7 +283,7 @@ export class Block implements ConditionalSlotComponent, InteractiveComponent {
           <section
             aria-expanded={toAriaBoolean(open)}
             aria-labelledby={buttonId}
-            class={CSS.content}
+            class={{ [CSS.content]: true, [CSS.contentSpaced]: true }}
             hidden={!open}
             id={regionId}
           >
