@@ -61,7 +61,7 @@ describe("calcite-tab-title", () => {
   });
 
   describe("when parent element is tab-nav", () => {
-    describe("when position is above, default", () => {
+    describe("when position is top, default", () => {
       it("should render with bottom border on hover", async () => {
         const page = await newE2EPage({
           html: `
@@ -77,26 +77,6 @@ describe("calcite-tab-title", () => {
         const containerStyles = await container.getComputedStyle();
         expect(containerStyles["border-top-width"]).toEqual("0px");
         expect(containerStyles["border-bottom-width"]).not.toEqual("0px");
-      });
-    });
-
-    describe("when position is below (deprecated)", () => {
-      it("should render with top border on hover", async () => {
-        const page = await newE2EPage({
-          html: `
-          <calcite-tab-nav position="below">
-            <calcite-tab-title active>Tab 1 Title</calcite-tab-title>
-            <calcite-tab-title id="for-hover">Tab 2 Title</calcite-tab-title>
-          </calcite-tab-nav>
-          `
-        });
-        const element = await page.find("#for-hover");
-        await element.hover();
-
-        const container = await page.find("#for-hover >>> .container");
-        const containerStyles = await container.getComputedStyle();
-        expect(containerStyles["border-top-width"]).not.toEqual("0px");
-        expect(containerStyles["border-bottom-width"]).toEqual("0px");
       });
     });
 

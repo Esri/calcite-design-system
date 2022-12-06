@@ -20,7 +20,7 @@ export const simple = stepStory(
   (): string => html`
     <calcite-tabs
       layout="${select("layout", ["inline", "center"], "inline")}"
-      position="${select("position", ["above", "below"], "above")}"
+      position="${select("position", ["top", "bottom"], "top")}"
       scale="${select("scale", ["s", "m", "l"], "m")}"
     >
       <calcite-tab-nav slot="tab-nav">
@@ -30,7 +30,7 @@ export const simple = stepStory(
         <calcite-tab-title>Tab 4 Title</calcite-tab-title>
       </calcite-tab-nav>
 
-      <calcite-tab active>
+      <calcite-tab selected>
         <p>Tab 1 Content</p><br />
       </calcite-tab>
       <calcite-tab><p>Tab 2 Content</p>
@@ -51,7 +51,7 @@ export const simpleDarkThemeRTL_TestOnly = (): string => html`
     dir="rtl"
     class="calcite-theme-dark"
     layout="${select("layout", ["inline", "center"], "inline")}"
-    position="${select("position", ["above", "below"], "above")}"
+    position="${select("position", ["top", "bottom"], "top")}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
   >
     <calcite-tab-nav slot="tab-nav">
@@ -71,7 +71,7 @@ simpleDarkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };
 export const bordered = (): string => html`
   <calcite-tabs
     layout="${select("layout", ["inline", "center"], "inline")}"
-    position="${select("position", ["above", "below"], "above")}"
+    position="${select("position", ["top", "bottom"], "top")}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
     bordered
   >
@@ -91,7 +91,7 @@ export const bordered = (): string => html`
 export const borderedDarkThemeRTL_TestOnly = (): string => html`
   <calcite-tabs
     layout="inline"
-    position="${select("position", ["above", "below"], "above")}"
+    position="${select("position", ["top", "bottom"], "top")}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
     bordered
     dir="rtl"
@@ -116,7 +116,7 @@ const selectedIcon = iconNames[0];
 export const withIcons = (): string => html`
   <calcite-tabs
     layout="${select("layout", ["inline", "center"], "inline")}"
-    position="${select("position", ["above", "below"], "above")}"
+    position="${select("position", ["top", "bottom"], "top")}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
   >
     <calcite-tab-nav slot="tab-nav">
@@ -143,7 +143,7 @@ export const setWidth = (): string => html`
   <div style="width: 400px;">
     <calcite-tabs
     layout="${select("layout", ["inline", "center"], "inline")}"
-    position="${select("position", ["above", "below"], "above")}"
+    position="${select("position", ["top", "bottom"], "top")}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
     >
     <calcite-tab-nav slot="tab-nav">
@@ -170,7 +170,7 @@ export const setWidth = (): string => html`
 
 export const justTabNav = (): string => html`
   <calcite-tab-nav
-    position="${select("position", ["above", "below"], "below")}"
+    position="${select("position", ["top", "bottom"], "top")}"
     scale="${select("scale", ["s", "m", "l"], "l")}"
   >
     <calcite-tab-title>Tab 1 Title</calcite-tab-title>
