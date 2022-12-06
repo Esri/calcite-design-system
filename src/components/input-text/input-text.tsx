@@ -312,11 +312,7 @@ export class InputText
   /**
    * Fires each time a new value is typed.
    */
-  @Event({ cancelable: true }) calciteInputTextInput: EventEmitter<{
-    element: HTMLInputElement;
-    nativeEvent: MouseEvent | KeyboardEvent | InputEvent;
-    value: string;
-  }>;
+  @Event({ cancelable: true }) calciteInputTextInput: EventEmitter<void>;
 
   /**
    * Fires each time a new value is typed and committed.
@@ -504,11 +500,7 @@ export class InputText
     }
 
     if (nativeEvent) {
-      const calciteInputTextInputEvent = this.calciteInputTextInput.emit({
-        element: this.childEl,
-        nativeEvent,
-        value: this.value
-      });
+      const calciteInputTextInputEvent = this.calciteInputTextInput.emit();
 
       if (calciteInputTextInputEvent.defaultPrevented) {
         this.value = this.previousValue;
