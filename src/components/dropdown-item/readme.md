@@ -6,7 +6,6 @@
 
 | Property      | Attribute       | Description                                                                                                                                       | Type                         | Default     |
 | ------------- | --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------- | ----------- |
-| `active`      | `active`        | <span style="color:red">**[DEPRECATED]**</span> Use `selected` instead.<br/><br/>When `true`, the component is selected.                          | `boolean`                    | `false`     |
 | `href`        | `href`          | Specifies the URL of the linked resource, which can be set as an absolute or relative path. Determines if the component will render as an anchor. | `string`                     | `undefined` |
 | `iconEnd`     | `icon-end`      | Specifies an icon to display at the end of the component.                                                                                         | `string`                     | `undefined` |
 | `iconFlipRtl` | `icon-flip-rtl` | When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).                                                      | `"both" \| "end" \| "start"` | `undefined` |
