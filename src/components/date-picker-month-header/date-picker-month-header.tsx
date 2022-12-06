@@ -15,7 +15,7 @@ import { dateFromRange, nextMonth, prevMonth, getOrder } from "../../utils/date"
 import { DateLocaleData } from "../date-picker/utils";
 import { Scale } from "../interfaces";
 import { HeadingLevel, Heading } from "../functional/Heading";
-import { BUDDHIST_CALENDAR_YEAR_OFFSET } from "./resources";
+import { BUDDHIST_CALENDAR_YEAR_OFFSET, CSS, ICON } from "./resources";
 import { isActivationKey } from "../../utils/key";
 import { numberStringFormatter } from "../../utils/locale";
 import { closestElementCrossShadowBoundary } from "../../utils/dom";
@@ -100,7 +100,7 @@ export class DatePickerMonthHeader {
   }
 
   render(): VNode {
-    return <div class="header">{this.renderContent()}</div>;
+    return <div class={CSS.header}>{this.renderContent()}</div>;
   }
 
   renderContent(): VNode {
@@ -132,25 +132,25 @@ export class DatePickerMonthHeader {
         <a
           aria-disabled={`${this.prevMonthDate.getMonth() === activeMonth}`}
           aria-label={this.intlPrevMonth}
-          class="chevron"
+          class={CSS.chevron}
           href="#"
           onClick={this.prevMonthClick}
           onKeyDown={this.prevMonthKeydown}
           role="button"
           tabindex={this.prevMonthDate.getMonth() === activeMonth ? -1 : 0}
         >
-          <calcite-icon flip-rtl icon="chevron-left" scale={iconScale} />
+          <calcite-icon flip-rtl icon={ICON.chevronLeft} scale={iconScale} />
         </a>
-        <div class={{ text: true, "text--reverse": reverse }}>
-          <Heading class="month" level={this.headingLevel}>
+        <div class={{ text: true, [CSS.textReverse]: reverse }}>
+          <Heading class={CSS.month} level={this.headingLevel}>
             {localizedMonth}
           </Heading>
-          <span class="year-wrap">
+          <span class={CSS.yearWrap}>
             <input
               aria-label={this.intlYear}
               class={{
                 year: true,
-                "year--suffix": !!suffix
+                [CSS.yearSuffix]: !!suffix
               }}
               inputmode="numeric"
               maxlength="4"
@@ -163,20 +163,20 @@ export class DatePickerMonthHeader {
               type="text"
               value={localizedYear}
             />
-            {suffix && <span class="suffix">{suffix}</span>}
+            {suffix && <span class={CSS.suffix}>{suffix}</span>}
           </span>
         </div>
         <a
           aria-disabled={`${this.nextMonthDate.getMonth() === activeMonth}`}
           aria-label={this.intlNextMonth}
-          class="chevron"
+          class={CSS.chevron}
           href="#"
           onClick={this.nextMonthClick}
           onKeyDown={this.nextMonthKeydown}
           role="button"
           tabindex={this.nextMonthDate.getMonth() === activeMonth ? -1 : 0}
         >
-          <calcite-icon flip-rtl icon="chevron-right" scale={iconScale} />
+          <calcite-icon flip-rtl icon={ICON.chevronRight} scale={iconScale} />
         </a>
       </Fragment>
     );

@@ -33,6 +33,7 @@ import {
  * @slot - A slot for adding `calcite-list-item` and `calcite-list-item-group` elements.
  * @slot actions-start - A slot for adding actionable `calcite-action` elements before the content of the component.
  * @slot content-start - A slot for adding non-actionable elements before the label and description of the component.
+ * @slot content - A slot for adding non-actionable, centered content in place of the `label` and `description` of the component.
  * @slot content-end - A slot for adding non-actionable elements after the label and description of the component.
  * @slot actions-end - A slot for adding actionable `calcite-action` elements after the content of the component.
  */
@@ -153,6 +154,12 @@ export class ListItem implements InteractiveComponent, LoadableComponent {
    *
    * @internal
    */
+  @Event({ cancelable: false }) calciteInternalListItemActive: EventEmitter<void>;
+
+  /**
+   *
+   * @internal
+   */
   @Event({ cancelable: false }) calciteInternalFocusPreviousItem: EventEmitter<void>;
 
   // --------------------------------------------------------------------------
@@ -174,6 +181,8 @@ export class ListItem implements InteractiveComponent, LoadableComponent {
   @State() hasActionsStart = false;
 
   @State() hasActionsEnd = false;
+
+  @State() hasCustomContent = false;
 
   @State() hasContentStart = false;
 
@@ -247,7 +256,7 @@ export class ListItem implements InteractiveComponent, LoadableComponent {
     }
 
     return (
-      <td class={CSS.selectionContainer} key="selection-container" onClick={this.toggleSelected}>
+      <td class={CSS.selectionContainer} key="selection-container" onClick={this.itemClicked}>
         <calcite-icon
           icon={
             selected
@@ -274,7 +283,7 @@ export class ListItem implements InteractiveComponent, LoadableComponent {
         />
       </td>
     ) : parentListEl?.openable ? (
-      <td class={CSS.openContainer} key="open-container" onClick={this.toggleSelected}>
+      <td class={CSS.openContainer} key="open-container" onClick={this.itemClicked}>
         <calcite-icon icon={ICONS.blank} scale="s" />
       </td>
     ) : null;
@@ -321,6 +330,15 @@ export class ListItem implements InteractiveComponent, LoadableComponent {
     );
   }
 
+  renderCustomContent(): VNode {
+    const { hasCustomContent } = this;
+    return (
+      <div class={CSS.customContent} hidden={!hasCustomContent}>
+        <slot name={SLOTS.content} onSlotchange={this.handleContentSlotChange} />
+      </div>
+    );
+  }
+
   renderContentEnd(): VNode {
     const { hasContentEnd } = this;
     return (
@@ -330,10 +348,10 @@ export class ListItem implements InteractiveComponent, LoadableComponent {
     );
   }
 
-  renderContent(): VNode {
-    const { label, description } = this;
+  renderContentProperties(): VNode {
+    const { label, description, hasCustomContent } = this;
 
-    return !!label || !!description ? (
+    return !hasCustomContent && (!!label || !!description) ? (
       <div class={CSS.content} key="content">
         {label ? (
           <div class={CSS.label} key="label">
@@ -350,9 +368,14 @@ export class ListItem implements InteractiveComponent, LoadableComponent {
   }
 
   renderContentContainer(): VNode {
-    const { description, label, selectionMode } = this;
-    const hasCenterContent = !!label || !!description;
-    const content = [this.renderContentStart(), this.renderContent(), this.renderContentEnd()];
+    const { description, label, selectionMode, hasCustomContent } = this;
+    const hasCenterContent = hasCustomContent || !!label || !!description;
+    const content = [
+      this.renderContentStart(),
+      this.renderCustomContent(),
+      this.renderContentProperties(),
+      this.renderContentEnd()
+    ];
 
     return (
       <td
@@ -363,7 +386,7 @@ export class ListItem implements InteractiveComponent, LoadableComponent {
           [CSS.contentContainerHasCenterContent]: hasCenterContent
         }}
         key="content-container"
-        onClick={this.toggleSelected}
+        onClick={this.itemClicked}
         ref={(el) => (this.contentEl = el)}
         role="gridcell"
       >
@@ -435,6 +458,10 @@ export class ListItem implements InteractiveComponent, LoadableComponent {
   //
   // --------------------------------------------------------------------------
 
+  handleContentSlotChange = (event: Event): void => {
+    this.hasCustomContent = slotChangeHasAssignedElement(event);
+  };
+
   handleActionsStartSlotChange = (event: Event): void => {
     this.hasActionsStart = slotChangeHasAssignedElement(event);
   };
@@ -486,6 +513,11 @@ export class ListItem implements InteractiveComponent, LoadableComponent {
 
   toggleOpen = (): void => {
     this.open = !this.open;
+  };
+
+  itemClicked = (): void => {
+    this.toggleSelected();
+    this.calciteInternalListItemActive.emit();
   };
 
   toggleSelected = (): void => {

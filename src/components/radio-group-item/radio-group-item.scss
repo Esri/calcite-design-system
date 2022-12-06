@@ -90,34 +90,6 @@
   line-height: inherit;
 }
 
-// icon positioning and styles
-:host([icon-position="start"]) .label--scale-s .radio-group-item-icon {
-  margin-inline-end: theme("margin.2");
-}
-
-:host([icon-position="end"]) .label--scale-s .radio-group-item-icon {
-  margin-inline-end: unset;
-  margin-inline-start: theme("margin.2");
-}
-
-:host([icon-position="start"]) .label--scale-m .radio-group-item-icon {
-  margin-inline-end: theme("margin.3");
-}
-
-:host([icon-position="end"]) .label--scale-m .radio-group-item-icon {
-  margin-inline-end: unset;
-  margin-inline-start: theme("margin.3");
-}
-
-:host([icon-position="start"]) .label--scale-l .radio-group-item-icon {
-  margin-inline-end: theme("margin.4");
-}
-
-:host([icon-position="end"]) .label--scale-l .radio-group-item-icon {
-  margin-inline-end: unset;
-  margin-inline-start: theme("margin.4");
-}
-
 :host([icon-start]) .label--scale-s .radio-group-item-icon {
   margin-inline-end: theme("margin.2");
 }

@@ -81,6 +81,12 @@ Type: `Promise<void>`
 | ---- | ----------------------- |
 |      | A slot for adding text. |
 
+## CSS Custom Properties
+
+| Name                        | Description                               |
+| --------------------------- | ----------------------------------------- |
+| `--calcite-tooltip-z-index` | Sets the z-index value for the component. |
+
 ## Dependencies
 
 ### Used by

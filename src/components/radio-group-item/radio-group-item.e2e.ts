@@ -37,14 +37,6 @@ describe("calcite-radio-group-item", () => {
     expect(label).toEqualText("test-value");
   });
 
-  it("renders icon if requested (deprecated)", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
-    <calcite-radio-group-item icon="car">Content</calcite-accordion-item>`);
-    const icon = await page.find("calcite-radio-group-item >>> .radio-group-item-icon");
-    expect(icon).not.toBe(null);
-  });
-
   it("renders icon at start if requested", async () => {
     const page = await newE2EPage();
     await page.setContent(`
@@ -110,9 +102,7 @@ describe("calcite-radio-group-item", () => {
 
       const element = await page.find("calcite-radio-group-item");
       expect(element).not.toHaveAttribute("checked");
-      expect(element).not.toHaveAttribute("icon");
       expect(element).not.toHaveAttribute("icon-flip-rtl");
-      expect(element).toEqualAttribute("icon-position", "start");
       expect(element).not.toHaveAttribute("value");
       expect(element).not.toHaveAttribute("icon-start");
       expect(element).not.toHaveAttribute("icon-end");

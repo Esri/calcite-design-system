@@ -900,17 +900,6 @@ export class Slider
    */
   @Event({ cancelable: false }) calciteSliderChange: EventEmitter<void>;
 
-  /**
-   * Fires on all updates to the component.
-   *
-   * **Note:** Will be fired frequently during drag. If you are performing any
-   * expensive operations consider using a debounce or throttle to avoid
-   * locking up the main thread.
-   *
-   * @deprecated use `calciteSliderInput` instead.
-   */
-  @Event({ cancelable: false }) calciteSliderUpdate: EventEmitter<void>;
-
   //--------------------------------------------------------------------------
   //
   //  Public Methods
@@ -1079,7 +1068,6 @@ export class Slider
 
   private emitInput(): void {
     this.calciteSliderInput.emit();
-    this.calciteSliderUpdate.emit();
   }
 
   private emitChange(): void {
