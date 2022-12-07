@@ -105,3 +105,15 @@ export const colorFieldAndHueSliderAreResizedAfterScaleChange_TestOnly = stepSto
     .executeScript(`document.querySelector("calcite-color-picker").scale = "s"`)
     .snapshot("Color field and hue slider are resized after scale change")
 );
+
+export const ArabicLocale_TestOnly = (): string => html` <calcite-color-picker lang="ar"></calcite-color-picker> `;
+
+export const NorwegianLocale_TestOnly = (): string => html` <calcite-color-picker lang="no"></calcite-color-picker> `;
+
+export const SpanishLocale_TestOnly = (): string => html` <calcite-color-picker lang="es"></calcite-color-picker> `;
+
+export const JapaneseLocale_TestOnly = (): string => html` <calcite-color-picker lang="ja"></calcite-color-picker> `;
+
+export const RussianLocale_TestOnly = (): string => html` <calcite-color-picker lang="ru"></calcite-color-picker> `;
+
+export const ThaiLocale_TestOnly = (): string => html` <calcite-color-picker lang="th"></calcite-color-picker> `;

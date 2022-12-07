@@ -178,3 +178,33 @@ export const withTooltip_NoTest = (): string =>
 withTooltip_NoTest.parameters = {
   chromatic: { disableSnapshot: true }
 };
+
+export const hebrewLocale_TestOnly = (): string => `<calcite-action-bar expanded lang="he">
+<calcite-action text="Information" icon="information"></calcite-action>
+<calcite-action text="Feedback" slot="bottom-actions" icon="mega-phone"></calcite-action>
+</calcite-action-bar>`;
+
+export const norwegianLocale_TestOnly = (): string => `<calcite-action-bar expanded lang="nb">
+<calcite-action text="Information" icon="information"></calcite-action>
+<calcite-action text="Feedback" slot="bottom-actions" icon="mega-phone"></calcite-action>
+</calcite-action-bar>`;
+
+export const FrenchLocale_TestOnly = (): string => `<calcite-action-bar expanded lang="fr">
+<calcite-action text="Information" icon="information"></calcite-action>
+<calcite-action text="Feedback" slot="bottom-actions" icon="mega-phone"></calcite-action>
+</calcite-action-bar>`;
+
+export const hongKongLocale_TestOnly = (): string => `<calcite-action-bar expanded lang="zh-HK">
+<calcite-action text="Information" icon="information"></calcite-action>
+<calcite-action text="Feedback" slot="bottom-actions" icon="mega-phone"></calcite-action>
+</calcite-action-bar>`;
+
+export const ukranianLocale_TestOnly = (): string => `<calcite-action-bar expanded lang="uk">
+<calcite-action text="Information" icon="information"></calcite-action>
+<calcite-action text="Feedback" slot="bottom-actions" icon="mega-phone"></calcite-action>
+</calcite-action-bar>`;
+
+export const bosnianLocale_TestOnly = (): string => `<calcite-action-bar expanded lang="bs">
+<calcite-action text="Information" icon="information"></calcite-action>
+<calcite-action text="Feedback" slot="bottom-actions" icon="mega-phone"></calcite-action>
+</calcite-action-bar>`;
