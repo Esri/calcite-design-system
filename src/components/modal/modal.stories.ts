@@ -68,3 +68,24 @@ export const darkThemeRTLCustomSize_TestOnly = (): string => html`
 `;
 
 darkThemeRTLCustomSize_TestOnly.parameters = { themes: themesDarkDefault };
+
+export const withTooltips_TestOnly = (): string => html`
+  <button id="button">Open</button>
+  <calcite-tooltip style="--calcite-tooltip-z-index: 600;" open label="Open modal" reference-element="button"
+    >Open modal</calcite-tooltip
+  >
+  <calcite-modal open aria-labelledby="modal-title" id="modal">
+    <div slot="header" id="modal-title">Modal title</div>
+    <div slot="content">
+      Modal content lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
+      et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+      commodo consequat.
+    </div>
+    <calcite-button id="back-button-modal" slot="back" color="neutral" icon="chevron-left" width="full"
+      >Back
+    </calcite-button>
+    <calcite-button slot="secondary" width="full" appearance="outline">Cancel</calcite-button>
+    <calcite-button slot="primary" width="full">Save</calcite-button>
+  </calcite-modal>
+  <calcite-tooltip open label="Back" reference-element="back-button-modal">Back</calcite-tooltip>
+`;

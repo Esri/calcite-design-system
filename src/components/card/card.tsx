@@ -56,7 +56,7 @@ export class Card implements ConditionalSlotComponent {
    *
    * @default "Loading"
    */
-  @Prop() intlLoading?: string = TEXT.loading;
+  @Prop() intlLoading: string = TEXT.loading;
 
   /**
    * When `selectable` is `true`, the accessible name for the component's checkbox for selection.

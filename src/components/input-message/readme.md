@@ -9,10 +9,10 @@ Displays a contextual message to a user. Allows the passing of content, links, e
 ### Basic
 
 ```html
-<calcite-label status="“invalid”">
+<calcite-label>
   My great label
-  <calcite-input placeholder="“Enter" your information”></calcite-input>
-  <calcite-input-message active
+  <calcite-input status="invalid" placeholder="“Enter" your information”></calcite-input>
+  <calcite-input-message status="invalid" active
     >That's not going to work out.
     <calcite-button appearance="inline" href="">Learn more</calcite-button></calcite-input-message
   >

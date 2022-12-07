@@ -47,16 +47,16 @@ export class AccordionItem implements ConditionalSlotComponent {
   @Prop({ reflect: true, mutable: true }) expanded = false;
 
   /** Specifies heading text for the component. */
-  @Prop() heading?: string;
+  @Prop() heading: string;
 
   /** Specifies a description for the component. */
   @Prop() description: string;
 
   /** Specifies an icon to display at the start of the component. */
-  @Prop({ reflect: true }) iconStart?: string;
+  @Prop({ reflect: true }) iconStart: string;
 
   /** Specifies an icon to display at the end of the component. */
-  @Prop({ reflect: true }) iconEnd?: string;
+  @Prop({ reflect: true }) iconEnd: string;
 
   //--------------------------------------------------------------------------
   //

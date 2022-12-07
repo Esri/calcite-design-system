@@ -60,15 +60,14 @@ describe("calcite-input-text", () => {
   it("inherits requested props when from wrapping calcite-label when props are provided", async () => {
     const page = await newE2EPage();
     await page.setContent(html`
-      <calcite-label status="invalid" scale="s">
+      <calcite-label scale="s">
         Label text
         <calcite-input-text></calcite-input-text>
       </calcite-label>
     `);
 
-    const deprecatedLabelStatusElement = await page.find("calcite-input-text");
-    expect(await deprecatedLabelStatusElement.getProperty("status")).toEqual("invalid");
-    expect(await deprecatedLabelStatusElement.getProperty("scale")).toEqual("s");
+    const inputTextElement = await page.find("calcite-input-text");
+    expect(await inputTextElement.getProperty("scale")).toEqual("s");
   });
 
   it("renders an icon when explicit Calcite UI is requested, and is a type without a default icon", async () => {

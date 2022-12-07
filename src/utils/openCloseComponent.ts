@@ -1,3 +1,4 @@
+import { readTask } from "@stencil/core";
 /**
  * Defines interface for components with open/close public emitter.
  * All implementations of this interface must handle the following events: `beforeOpen`, `open`, `beforeClose`, `close`.
@@ -54,11 +55,47 @@ function transitionStart(event: TransitionEvent): void {
     this.open ? this.onBeforeOpen() : this.onBeforeClose();
   }
 }
-
 function transitionEnd(event: TransitionEvent): void {
   if (event.propertyName === this.openTransitionProp && event.target === this.transitionEl) {
     this.open ? this.onOpen() : this.onClose();
   }
+}
+
+/**
+ * Helper to determine globally set transition duration on the given openTransitionProp, which is imported and set in the @Watch("open").
+ * Used to emit (before)open/close events both for when the opacity transition is present and when there is none (transition-duration is set to 0).
+ *
+ * @param component
+ */
+export function onToggleOpenCloseComponent(component: OpenCloseComponent): void {
+  readTask((): void => {
+    if (component.transitionEl) {
+      const allTransitionPropsArray = getComputedStyle(component.transitionEl).transition.split(" ");
+      const openTransitionPropIndex = allTransitionPropsArray.findIndex(
+        (item) => item === component.openTransitionProp
+      );
+      const transitionDuration = allTransitionPropsArray[openTransitionPropIndex + 1];
+      if (transitionDuration === "0s") {
+        component.open ? component.onBeforeOpen() : component.onBeforeClose();
+        component.open ? component.onOpen() : component.onClose();
+      } else {
+        component.transitionEl.addEventListener(
+          "transitionstart",
+          () => {
+            component.open ? component.onBeforeOpen() : component.onBeforeClose();
+          },
+          { once: true }
+        );
+        component.transitionEl.addEventListener(
+          "transitionend",
+          () => {
+            component.open ? component.onOpen() : component.onClose();
+          },
+          { once: true }
+        );
+      }
+    }
+  });
 }
 /**
  * Helper to keep track of transition listeners on setTransitionEl and connectedCallback on OpenCloseComponent components.

@@ -17,6 +17,22 @@ import {
 } from "./floating-ui";
 import { waitForAnimationFrame } from "../tests/utils";
 
+import * as floatingUIDOM from "@floating-ui/dom";
+
+(floatingUIDOM as any).computePosition = async (referenceEl: HTMLElement, floatingEl: HTMLElement) => {
+  floatingEl.style.transform = "some value";
+  floatingEl.style.top = "0";
+  floatingEl.style.left = "0";
+
+  return {
+    x: 0,
+    y: 0,
+    placement: "bottom",
+    strategy: "absolute",
+    middlewareData: {}
+  };
+};
+
 it("should set calcite placement to FloatingUI placement", () => {
   const el = document.createElement("div");
 

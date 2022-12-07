@@ -54,7 +54,7 @@ export class Switch
   @Prop({ reflect: true }) disabled = false;
 
   /** Accessible name for the component. */
-  @Prop() label?: string;
+  @Prop() label: string;
 
   /** Specifies the name of the component on form submission. */
   @Prop({ reflect: true }) name: string;
