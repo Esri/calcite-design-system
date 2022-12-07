@@ -3,7 +3,7 @@ import { Component, Element, Host, Method, Prop, h, forceUpdate, VNode } from "@
 import { Alignment, Appearance, Scale } from "../interfaces";
 
 import { CSS, TEXT, SLOTS } from "./resources";
-
+import { guid } from "../../utils/guid";
 import { createObserver } from "../../utils/observers";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { toAriaBoolean } from "../../utils/dom";
@@ -61,6 +61,13 @@ export class Action implements InteractiveComponent, LoadableComponent {
   @Prop({ reflect: true }) indicator = false;
 
   /**
+   * Specifies the text label to display `indicator` is `true`.
+   *
+   * @default "Unread changes"
+   */
+  @Prop() intlIndicator: string = TEXT.indicator;
+
+  /**
    * Specifies the text label to display while loading.
    *
    * @default "Loading"
@@ -103,6 +110,12 @@ export class Action implements InteractiveComponent, LoadableComponent {
   buttonEl: HTMLButtonElement;
 
   mutationObserver = createObserver("mutation", () => forceUpdate(this));
+
+  guid = `calcite-action-${guid()}`;
+
+  indicatorId = `${this.guid}-indicator`;
+
+  buttonId = `${this.guid}-button`;
 
   // --------------------------------------------------------------------------
   //
@@ -165,6 +178,21 @@ export class Action implements InteractiveComponent, LoadableComponent {
     ) : null;
   }
 
+  renderIndicatorText(): VNode {
+    const { indicator, intlIndicator, indicatorId, buttonId } = this;
+    return (
+      <div
+        aria-labelledby={buttonId}
+        aria-live="polite"
+        class={CSS.indicatorText}
+        id={indicatorId}
+        role="region"
+      >
+        {indicator ? intlIndicator : null}
+      </div>
+    );
+  }
+
   renderIconContainer(): VNode {
     const { loading, icon, scale, el, intlLoading } = this;
     const iconScale = scale === "l" ? "m" : "s";
@@ -196,9 +224,21 @@ export class Action implements InteractiveComponent, LoadableComponent {
   }
 
   render(): VNode {
-    const { compact, disabled, loading, textEnabled, label, text } = this;
+    const {
+      active,
+      compact,
+      disabled,
+      loading,
+      textEnabled,
+      label,
+      text,
+      indicator,
+      indicatorId,
+      buttonId,
+      intlIndicator
+    } = this;
 
-    const ariaLabel = label || text;
+    const ariaLabel = `${label || text}${indicator ? ` (${intlIndicator})` : ""}`;
 
     const buttonClasses = {
       [CSS.button]: true,
@@ -210,16 +250,20 @@ export class Action implements InteractiveComponent, LoadableComponent {
       <Host>
         <button
           aria-busy={toAriaBoolean(loading)}
+          aria-controls={indicator ? indicatorId : null}
           aria-disabled={toAriaBoolean(disabled)}
           aria-label={ariaLabel}
+          aria-pressed={toAriaBoolean(active)}
           class={buttonClasses}
           disabled={disabled}
+          id={buttonId}
           ref={(buttonEl): HTMLButtonElement => (this.buttonEl = buttonEl)}
         >
           {this.renderIconContainer()}
           {this.renderTextContainer()}
         </button>
         <slot name={SLOTS.tooltip} onSlotchange={this.handleTooltipSlotChange} />
+        {this.renderIndicatorText()}
       </Host>
     );
   }
