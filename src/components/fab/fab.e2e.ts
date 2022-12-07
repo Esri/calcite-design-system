@@ -123,21 +123,5 @@ describe("calcite-fab", () => {
         expect(fab.getAttribute("appearance")).toBe("outline");
       });
     });
-
-    describe("when value is 'clear'", () => {
-      it("should render with default 'outline' appearance", async () => {
-        const page = await newE2EPage({
-          html: `
-          <calcite-fab
-            text="FAB"
-            text-enabled
-            appearance="clear"
-          ></calcite-fab>
-          `
-        });
-        const fab = await page.find(`calcite-fab >>> .${CSS.button}`);
-        expect(fab.getAttribute("appearance")).toBe("outline");
-      });
-    });
   });
 });

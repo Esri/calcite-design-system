@@ -402,8 +402,7 @@
     }
   }
 }
-// clear is deprecated. use minimal instead
-:host([appearance="clear"]),
+
 :host([appearance="minimal"]) {
   button,
   a {
@@ -411,7 +410,6 @@
     box-shadow: inset 0 0 0 1px transparent;
   }
 }
-:host([appearance="clear"][color="blue"]),
 :host([appearance="minimal"][color="blue"]) {
   button,
   a {
@@ -437,7 +435,6 @@
     }
   }
 }
-:host([appearance="clear"][color="red"]),
 :host([appearance="minimal"][color="red"]) {
   button,
   a {
@@ -463,7 +460,6 @@
     }
   }
 }
-:host([appearance="clear"][color="neutral"]),
 :host([appearance="minimal"][color="neutral"]) {
   button,
   a {
@@ -483,7 +479,6 @@
     }
   }
 }
-:host([appearance="clear"][color="inverse"]),
 :host([appearance="minimal"][color="inverse"]) {
   button,
   a {
@@ -508,14 +503,12 @@
 }
 
 :host([appearance="outline"][split-child="primary"]) button,
-:host([appearance="clear"][split-child="primary"]) button,
 :host([appearance="minimal"][split-child="primary"]) button {
   border-inline-end-width: 0;
   border-inline-start-width: theme("borderWidth.DEFAULT");
 }
 
 :host([appearance="outline"][split-child="secondary"]) button,
-:host([appearance="clear"][split-child="secondary"]) button,
 :host([appearance="minimal"][split-child="secondary"]) button {
   border-inline-start-width: 0;
   border-inline-end-width: theme("borderWidth.DEFAULT");

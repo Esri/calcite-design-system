@@ -45,7 +45,6 @@
   }
 }
 
-:host([appearance="clear"]),
 :host([appearance="transparent"]) {
   --calcite-split-button-background: transparent;
 }
@@ -54,7 +53,7 @@
   --calcite-split-button-background: theme("colors.background.foreground.1");
 }
 
-:host([appearance="clear"]),
+:host([appearance="transparent"]),
 :host([appearance="outline"]) {
   &:host([color="blue"]) {
     --calcite-split-button-divider: theme("colors.brand");
@@ -93,7 +92,7 @@
 }
 
 :host([appearance="outline"]),
-:host([appearance="clear"]),
+:host([appearance="transparent"]),
 :host([appearance="minimal"]) {
   .split-button__divider-container {
     border-block: 1px solid var(--calcite-split-button-divider);
@@ -104,7 +103,7 @@
 }
 
 :host([appearance="outline"]:hover),
-:host([appearance="clear"]:hover),
+:host([appearance="transparent"]:hover),
 :host([appearance="minimal"]):hover {
   .split-button__divider-container {
     background-color: var(--calcite-split-button-divider);
@@ -112,7 +111,7 @@
 }
 
 :host([appearance="outline"]:focus-within),
-:host([appearance="clear"]:focus-within),
+:host([appearance="transparent"]:focus-within),
 :host([appearance="minimal"]:focus-within) {
   &:host([color="blue"]) {
     --calcite-split-button-divider: theme("colors.brand-press");

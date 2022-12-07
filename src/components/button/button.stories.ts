@@ -15,7 +15,7 @@ export default {
 
 export const simple = (): string => html`
   <calcite-button
-    appearance="${select("appearance", ["solid", "clear", "outline", "transparent"], "solid")}"
+    appearance="${select("appearance", ["solid", "outline", "transparent"], "solid")}"
     color="${select("color", ["blue", "red", "neutral", "inverse"], "blue")}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
     ${boolean("round", false)}
@@ -35,7 +35,7 @@ export const withIconStart = (): string => html`
       ["start", "end", "center", "space-between", "icon-start-space-between", "icon-end-space-between"],
       "center"
     )}"
-    appearance="${select("appearance", ["solid", "clear", "outline", "transparent"], "solid")}"
+    appearance="${select("appearance", ["solid", "outline", "transparent"], "solid")}"
     color="${select("color", ["blue", "red", "neutral", "inverse"], "blue")}"
     icon-start="${select("icon-start", iconNames, iconNames[0])}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
@@ -57,7 +57,7 @@ export const withIconEnd = (): string => html`
       ["start", "end", "center", "space-between", "icon-start-space-between", "icon-end-space-between"],
       "center"
     )}"
-    appearance="${select("appearance", ["solid", "clear", "outline", "transparent"], "solid")}"
+    appearance="${select("appearance", ["solid", "outline", "transparent"], "solid")}"
     icon-end="${select("icon-end", iconNames, iconNames[0])}"
     color="${select("color", ["blue", "red", "neutral", "inverse"], "blue")}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
@@ -80,7 +80,7 @@ export const withIconStartAndIconEnd = (): string => html`
       ["start", "end", "center", "space-between", "icon-start-space-between", "icon-end-space-between"],
       "center"
     )}"
-    appearance="${select("appearance", ["solid", "clear", "outline", "transparent"], "solid")}"
+    appearance="${select("appearance", ["solid", "outline", "transparent"], "solid")}"
     color="${select("color", ["blue", "red", "neutral", "inverse"], "blue")}"
     icon-start="${select("icon-start", iconNames, iconNames[0])}"
     icon-end="${select("icon-end", iconNames, iconNames[0])}"
@@ -140,14 +140,14 @@ export const sideBySide_TestOnly = (): string => html`
   <div style="width: 300px; max-width: 100%; display: flex; flex-direction: row; background-color: #fff">
     <calcite-button
       width="half"
-      appearance="${select("appearance", ["solid", "clear", "outline", "transparent"], "outline")}"
+      appearance="${select("appearance", ["solid", "outline", "transparent"], "outline")}"
       color="${select("color", ["blue", "red", "neutral", "inverse"], "blue")}"
     >
       ${text("text", "Back")}
     </calcite-button>
     <calcite-button
       width="half"
-      appearance="${select("appearance-2", ["solid", "clear", "outline", "transparent"], "solid")}"
+      appearance="${select("appearance-2", ["solid", "outline", "transparent"], "solid")}"
       color="${select("color-2", ["blue", "red", "neutral", "inverse"], "blue")}"
       icon-start="${select("icon-start", iconNames, iconNames[0])}"
     >
@@ -160,7 +160,7 @@ export const darkThemeRTL_TestOnly = (): string => html`
   <calcite-button
     class="calcite-theme-dark"
     dir="rtl"
-    appearance="${select("appearance", ["solid", "clear", "outline", "transparent"], "solid")}"
+    appearance="${select("appearance", ["solid", "outline", "transparent"], "solid")}"
     color="${select("color", ["blue", "red", "neutral", "inverse"], "blue")}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
     ${boolean("round", false)}

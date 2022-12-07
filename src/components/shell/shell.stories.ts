@@ -257,7 +257,7 @@ const advancedTrailingPanelHTMl = html`
           </calcite-block-section>
         </calcite-block-content>
       </calcite-block>
-      <calcite-button slot="footer-actions" width="half" appearance="clear">Cancel</calcite-button>
+      <calcite-button slot="footer-actions" width="half" appearance="minimal">Cancel</calcite-button>
       <calcite-button slot="footer-actions" width="half">Save</calcite-button>
     </calcite-flow-item>
     <calcite-flow-item heading="Deeper flow item">
@@ -291,7 +291,7 @@ const advancedTrailingPanelHTMl = html`
           </calcite-block-section>
         </calcite-block-content>
       </calcite-block>
-      <calcite-button slot="footer-actions" width="half" appearance="clear">Cancel</calcite-button>
+      <calcite-button slot="footer-actions" width="half" appearance="minimal">Cancel</calcite-button>
       <calcite-button slot="footer-actions" width="half">Save</calcite-button>
     </calcite-flow-item>
   </calcite-flow>
@@ -441,7 +441,7 @@ background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
           <calcite-button
             slot="footer-actions"
             width="half"
-            appearance="clear"
+            appearance="minimal"
             alignment="center"
             color="blue"
             scale="m"
