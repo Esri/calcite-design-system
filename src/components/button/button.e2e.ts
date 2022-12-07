@@ -60,10 +60,6 @@ describe("calcite-button", () => {
         defaultValue: undefined
       },
       {
-        propertyName: "form",
-        defaultValue: undefined
-      },
-      {
         propertyName: "round",
         defaultValue: false
       },

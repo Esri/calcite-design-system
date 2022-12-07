@@ -1,6 +1,7 @@
 import "form-request-submit-polyfill/form-request-submit-polyfill";
 import { Component, Element, h, Method, Prop, Build, State, VNode, Watch } from "@stencil/core";
 import { CSS, TEXT } from "./resources";
+import { closestElementCrossShadowBoundary } from "../../utils/dom";
 import { ButtonAlignment, ButtonAppearance, ButtonColor } from "./interfaces";
 import { FlipContext, Scale, Width } from "../interfaces";
 import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
@@ -139,11 +140,13 @@ export class Button
     this.hasLoader = this.loading;
     this.setupTextContentObserver();
     connectLabel(this);
+    this.formEl = closestElementCrossShadowBoundary<HTMLFormElement>(this.el, "form");
   }
 
   disconnectedCallback(): void {
     this.mutationObserver?.disconnect();
     disconnectLabel(this);
+    this.formEl = null;
   }
 
   componentWillLoad(): void {
@@ -249,9 +252,9 @@ export class Button
   //
   //--------------------------------------------------------------------------
 
-  labelEl: HTMLCalciteLabelElement;
-
   formEl: HTMLFormElement;
+
+  labelEl: HTMLCalciteLabelElement;
 
   /** watches for changing text content */
   private mutationObserver = createObserver("mutation", () => this.updateHasContent());
