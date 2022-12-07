@@ -7,6 +7,7 @@ import {
   LoadableComponent,
   componentLoaded
 } from "../../utils/loadable";
+import { HandleNudge } from "./interfaces";
 
 @Component({
   tag: "calcite-handle",
@@ -61,14 +62,9 @@ export class Handle implements LoadableComponent {
   // --------------------------------------------------------------------------
 
   /**
-   * Emitted when the handle is activated and the up arrow key is pressed.
+   * Emitted when the handle is activated and the up or down arrow key is pressed.
    */
-  @Event({ cancelable: false }) calciteHandleNudgePrevious: EventEmitter<void>;
-
-  /**
-   * Emitted when the handle is activated and down arrow key is pressed.
-   */
-  @Event({ cancelable: false }) calciteHandleNudgeNext: EventEmitter<void>;
+  @Event({ cancelable: false }) calciteHandleNudge: EventEmitter<HandleNudge>;
 
   // --------------------------------------------------------------------------
   //
@@ -101,14 +97,14 @@ export class Handle implements LoadableComponent {
           return;
         }
         event.preventDefault();
-        this.calciteHandleNudgePrevious.emit();
+        this.calciteHandleNudge.emit({ direction: "up" });
         break;
       case "ArrowDown":
         if (!this.activated) {
           return;
         }
         event.preventDefault();
-        this.calciteHandleNudgeNext.emit();
+        this.calciteHandleNudge.emit({ direction: "down" });
         break;
     }
   };

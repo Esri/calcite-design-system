@@ -14,6 +14,7 @@ import { createObserver } from "../../utils/observers";
 import { Layout } from "../interfaces";
 import { CSS } from "./resources";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import { HandleNudge } from "../handle/interfaces";
 
 /**
  * @slot - A slot for adding sortable items.
@@ -114,14 +115,9 @@ export class SortableList implements InteractiveComponent {
    */
   @Event({ cancelable: false }) calciteListOrderChange: EventEmitter<void>;
 
-  @Listen("calciteHandleNudgeNext")
-  calciteHandleNudgeNextHandler(event: CustomEvent): void {
-    this.handleNudgeEvent(event, "next");
-  }
-
-  @Listen("calciteHandleNudgePrevious")
-  calciteHandleNudgePreviousHandler(event: CustomEvent): void {
-    this.handleNudgeEvent(event, "previous");
+  @Listen("calciteHandleNudge")
+  calciteHandleNudgeNextHandler(event: CustomEvent<HandleNudge>): void {
+    this.handleNudgeEvent(event);
   }
 
   // --------------------------------------------------------------------------
@@ -130,7 +126,8 @@ export class SortableList implements InteractiveComponent {
   //
   // --------------------------------------------------------------------------
 
-  handleNudgeEvent(event: CustomEvent, direction: "previous" | "next"): void {
+  handleNudgeEvent(event: CustomEvent<HandleNudge>): void {
+    const { direction } = event.detail;
     const handle = event.target as HTMLCalciteHandleElement;
 
     const sortItem = this.items.find((item) => {
@@ -142,7 +139,7 @@ export class SortableList implements InteractiveComponent {
     let appendInstead = false;
     let buddyIndex: number;
 
-    if (direction === "previous") {
+    if (direction === "up") {
       if (startingIndex === 0) {
         appendInstead = true;
       } else {
