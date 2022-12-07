@@ -1,7 +1,8 @@
-import { E2EPage, newE2EPage } from "@stencil/core/testing";
+import { E2EElement, E2EPage, newE2EPage } from "@stencil/core/testing";
 import { renders, accessible, HYDRATED_ATTR, hidden } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
-import { CSS } from "./resources";
+import { CSS, DURATIONS } from "./resources";
+import { getElementXY } from "../../tests/utils";
 
 describe("calcite-alert", () => {
   const alertContent = `
@@ -335,7 +336,7 @@ describe("calcite-alert", () => {
         `
       });
       await page.addScriptTag({
-        content: `document.querySelector("#alert-to-be-queued").setAttribute("open", "");`
+        content: `document.querySelector("#alert-to-be-queued").setProperty("open", "");`
       });
       await page.waitForTimeout(animationDurationInMs);
       const chip = await page.find("calcite-alert[id='first-open'] >>> calcite-chip");
@@ -344,40 +345,59 @@ describe("calcite-alert", () => {
       expect(chip.textContent).toEqual(chipQueueCount);
     });
   });
+
   describe("auto-dismiss behavior", () => {
-    let page: E2EPage;
+    let alert, button, page, buttonClose;
+    const animationDurationInMs = 400;
+    let playState;
 
     beforeEach(async () => {
       page = await newE2EPage();
-      await page.setContent(html`<calcite-alert auto-dismiss-duration="fast">${alertContent}</calcite-alert>`);
-      await page.waitForChanges();
-    });
+      await page.setContent(html`
+        <div>
+          <calcite-button id="button" onclick="document.querySelector('#alert').setAttribute('open', '')"
+            >open alert</calcite-button
+          >
+          <calcite-alert label="this is a success" id="alert" auto-dismiss icon color="green">
+            ${alertContent}</calcite-alert
+          >
+        </div>
+      `);
+      alert = await page.find("#alert");
+      button = await page.find("#button");
+      buttonClose = await page.find("#alert >>> .alert-close");
 
-    it("should render close button", async () => {
-      const close = await page.find("calcite-alert >>> .alert-close");
-      expect(close).toBeTruthy();
-    });
-
-    it("should pause on mouseover and resume on mouseleave", async () => {
-      const alert = await page.find("calcite-alert");
-
-      expect(await alert.getProperty("autoDismissDuration")).not.toBeFalsy();
-
-      const playState = await page.evaluate(async () => {
+      playState = await page.evaluate(async () => {
         const alert = document.querySelector("calcite-alert");
         return window.getComputedStyle(alert).animationPlayState;
       });
+    });
+
+    it("should render close button", async () => {
+      await button.click();
+      await page.waitForTimeout(animationDurationInMs);
+
+      expect(await alert.isVisible()).toBe(true);
+      expect(buttonClose).toBeTruthy();
+    });
+
+    it("pauses on mouseOver and resumes on mouseLeave", async () => {
+      await button.click();
+
+      expect(await alert.isVisible()).toBe(true);
+      expect(await alert.getProperty("autoDismissDuration")).toEqual("medium");
       expect(playState).toEqual("running");
 
-      await page.evaluate(() => {
-        const el: HTMLElement = document.querySelector("calcite-alert") as HTMLElement;
-        el.hover();
-      });
-      await page.waitForChanges();
+      const [alertLocationX, alertLocationY] = await getElementXY(page, "calcite-alert", `.${CSS.close}`);
+      await page.mouse.move(alertLocationX, alertLocationY);
 
-      expect(await alert.getProperty("autoDismiss")).toBe(true);
-      expect(await alert.getProperty("autoDismiss")).toBe(null);
+      await page.waitForTimeout(DURATIONS.medium);
+      expect(await alert.isVisible()).toBe(true);
+
+      await page.mouse.move(0, 0);
+
+      await page.waitForTimeout(DURATIONS.medium + animationDurationInMs);
+      await page.waitForSelector("#alert", { visible: false });
     });
-    // it("should pause on mouseover and resume on mouseleave when multiple alerts are queued", async () => {});
   });
 });
