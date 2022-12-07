@@ -4,10 +4,10 @@
 
 ## Properties
 
-| Property   | Attribute  | Description                                                                            | Type      | Default     |
-| ---------- | ---------- | -------------------------------------------------------------------------------------- | --------- | ----------- |
-| `disabled` | `disabled` | When true, interaction is prevented and the component is displayed with lower opacity. | `boolean` | `false`     |
-| `heading`  | `heading`  | The header text for all nested `calcite-list-item` rows.                               | `string`  | `undefined` |
+| Property   | Attribute  | Description                                                                              | Type      | Default     |
+| ---------- | ---------- | ---------------------------------------------------------------------------------------- | --------- | ----------- |
+| `disabled` | `disabled` | When `true`, interaction is prevented and the component is displayed with lower opacity. | `boolean` | `false`     |
+| `heading`  | `heading`  | The header text for all nested `calcite-list-item` rows.                                 | `string`  | `undefined` |
 
 ## Slots
 
