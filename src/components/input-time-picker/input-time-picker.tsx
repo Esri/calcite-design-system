@@ -117,40 +117,40 @@ export class InputTimePicker
   }
 
   /** Accessible name for the component's hour input. */
-  @Prop() intlHour?: string;
+  @Prop() intlHour: string;
 
   /** Accessible name for the component's hour down button. */
-  @Prop() intlHourDown?: string;
+  @Prop() intlHourDown: string;
 
   /** Accessible name for the component's hour up button. */
-  @Prop() intlHourUp?: string;
+  @Prop() intlHourUp: string;
 
   /** Accessible name for the component's meridiem (am/pm) input. */
-  @Prop() intlMeridiem?: string;
+  @Prop() intlMeridiem: string;
 
   /** Accessible name for the component's meridiem (am/pm) down button. */
-  @Prop() intlMeridiemDown?: string;
+  @Prop() intlMeridiemDown: string;
 
   /** Accessible name for the component's meridiem (am/pm) up button. */
-  @Prop() intlMeridiemUp?: string;
+  @Prop() intlMeridiemUp: string;
 
   /** Accessible name for the component's minute input. */
-  @Prop() intlMinute?: string;
+  @Prop() intlMinute: string;
 
   /** Accessible name for the component's minute down button. */
-  @Prop() intlMinuteDown?: string;
+  @Prop() intlMinuteDown: string;
 
   /** Accessible name for the component's minute up button. */
-  @Prop() intlMinuteUp?: string;
+  @Prop() intlMinuteUp: string;
 
   /** Accessible name for the component's second input. */
-  @Prop() intlSecond?: string;
+  @Prop() intlSecond: string;
 
   /** Accessible name for the component's second down button. */
-  @Prop() intlSecondDown?: string;
+  @Prop() intlSecondDown: string;
 
   /** Accessible name for the component's second up button. */
-  @Prop() intlSecondUp?: string;
+  @Prop() intlSecondUp: string;
 
   /**
    * BCP 47 language tag for desired language and country format.
@@ -172,7 +172,7 @@ export class InputTimePicker
   /**
    * Specifies the Unicode numeral system used by the component for localization.
    */
-  @Prop() numberingSystem?: NumberingSystem;
+  @Prop() numberingSystem: NumberingSystem;
 
   /**
    * When `true`, the component must have a value in order for the form to submit.

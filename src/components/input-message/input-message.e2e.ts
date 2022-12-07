@@ -33,19 +33,6 @@ describe("calcite-input-message", () => {
     expect(element).toEqualAttribute("status", "valid");
   });
 
-  it("inherits requested props when from wrapping calcite-label when props are provided", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
-    <calcite-label status="invalid">
-    Label text
-    <calcite-input-message>Text</calcite-input-message>
-    </calcite-label>
-    `);
-
-    const deprecatedLabelStatusElement = await page.find("calcite-input-message");
-    expect(deprecatedLabelStatusElement).toEqualAttribute("status", "invalid");
-  });
-
   it("does not render an icon if not requested", async () => {
     const page = await newE2EPage();
     await page.setContent(`

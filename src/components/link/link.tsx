@@ -46,22 +46,22 @@ export class Link implements InteractiveComponent, LoadableComponent {
   @Prop({ reflect: true }) download: string | boolean = false;
 
   /** Specifies the URL of the linked resource, which can be set as an absolute or relative path. */
-  @Prop({ reflect: true }) href?: string;
+  @Prop({ reflect: true }) href: string;
 
   /** Specifies an icon to display at the end of the component. */
-  @Prop({ reflect: true }) iconEnd?: string;
+  @Prop({ reflect: true }) iconEnd: string;
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
-  @Prop({ reflect: true }) iconFlipRtl?: FlipContext;
+  @Prop({ reflect: true }) iconFlipRtl: FlipContext;
 
   /** Specifies an icon to display at the start of the component. */
-  @Prop({ reflect: true }) iconStart?: string;
+  @Prop({ reflect: true }) iconStart: string;
 
   /** Specifies the relationship to the linked document defined in `href`. */
-  @Prop() rel?: string;
+  @Prop() rel: string;
 
   /** Specifies the frame or window to open the linked document. */
-  @Prop() target?: string;
+  @Prop() target: string;
 
   //--------------------------------------------------------------------------
   //

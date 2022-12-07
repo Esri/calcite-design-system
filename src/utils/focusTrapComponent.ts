@@ -1,6 +1,8 @@
 import { FocusTrap as _FocusTrap, Options as FocusTrapOptions, createFocusTrap } from "focus-trap";
 import { FocusableElement, focusElement } from "./dom";
 
+const trapStack: _FocusTrap[] = [];
+
 /**
  * Defines interface for components with a focus trap.
  */
@@ -37,6 +39,7 @@ export function connectFocusTrap(component: FocusTrapComponent): void {
   const focusTrapOptions: FocusTrapOptions = {
     allowOutsideClick: true,
     clickOutsideDeactivates: false,
+    document: focusTrapEl.ownerDocument,
     escapeDeactivates: false,
     fallbackFocus: focusTrapEl,
     setReturnFocus: (el) => {
@@ -45,7 +48,8 @@ export function connectFocusTrap(component: FocusTrapComponent): void {
     },
     tabbableOptions: {
       getShadowRoot: true
-    }
+    },
+    trapStack
   };
 
   component.focusTrap = createFocusTrap(focusTrapEl, focusTrapOptions);

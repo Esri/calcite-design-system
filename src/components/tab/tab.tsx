@@ -45,7 +45,7 @@ export class Tab {
    *
    * When specified, use the same value on the `calcite-tab-title`.
    */
-  @Prop({ reflect: true }) tab?: string;
+  @Prop({ reflect: true }) tab: string;
 
   /**
    * When `true`, the component's contents are selected.
