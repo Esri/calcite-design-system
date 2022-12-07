@@ -42,7 +42,7 @@ describe("calcite-handle", () => {
     expect(await calciteHandleNudgeSpy.lastEvent.detail.direction).toBe("up");
 
     await page.keyboard.press("ArrowDown");
-    expect(await calciteHandleNudgeSpy.lastEvent.detail.direction).toBe("up");
+    expect(await calciteHandleNudgeSpy.lastEvent.detail.direction).toBe("down");
     expect(calciteHandleNudgeSpy).toHaveReceivedEventTimes(2);
   });
 });
