@@ -8,21 +8,21 @@ If you are looking for a list that handles more advanced usage like selection, s
 
 ## Properties
 
-| Property      | Attribute     | Description                                                                                    | Type                        | Default     |
-| ------------- | ------------- | ---------------------------------------------------------------------------------------------- | --------------------------- | ----------- |
-| `description` | `description` | A description for the component. Displays below the label text.                                | `string`                    | `undefined` |
-| `disabled`    | `disabled`    | When `true`, interaction is prevented and the component is displayed with lower opacity.       | `boolean`                   | `false`     |
-| `label`       | `label`       | The label text of the component. Displays above the description text.                          | `string`                    | `undefined` |
-| `metadata`    | --            | Provides additional metadata to the component. Primary use is for a filter on the parent list. | `{ [x: string]: unknown; }` | `undefined` |
-| `open`        | `open`        | When true, item is open to show child components.                                              | `boolean`                   | `false`     |
-| `selected`    | `selected`    | When true, the component is selected.                                                          | `boolean`                   | `false`     |
-| `value`       | `value`       | The component's value.                                                                         | `any`                       | `undefined` |
+| Property      | Attribute     | Description                                                                                              | Type                        | Default     |
+| ------------- | ------------- | -------------------------------------------------------------------------------------------------------- | --------------------------- | ----------- |
+| `description` | `description` | A description for the component. Displays below the label text.                                          | `string`                    | `undefined` |
+| `disabled`    | `disabled`    | When `true`, interaction is prevented and the component is displayed with lower opacity.                 | `boolean`                   | `false`     |
+| `label`       | `label`       | The label text of the component. Displays above the description text.                                    | `string`                    | `undefined` |
+| `metadata`    | --            | Provides additional metadata to the component. Primary use is for a filter on the parent `calcite-list`. | `{ [x: string]: unknown; }` | `undefined` |
+| `open`        | `open`        | When `true`, the item is open to show child components.                                                  | `boolean`                   | `false`     |
+| `selected`    | `selected`    | When `true`, the component is selected.                                                                  | `boolean`                   | `false`     |
+| `value`       | `value`       | The component's value.                                                                                   | `any`                       | `undefined` |
 
 ## Events
 
-| Event                   | Description                                         | Type                |
-| ----------------------- | --------------------------------------------------- | ------------------- |
-| `calciteListItemSelect` | Emitted whenever the list item content is selected. | `CustomEvent<void>` |
+| Event                   | Description                                | Type                |
+| ----------------------- | ------------------------------------------ | ------------------- |
+| `calciteListItemSelect` | Emits when the item's content is selected. | `CustomEvent<void>` |
 
 ## Methods
 

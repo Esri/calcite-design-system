@@ -1,6 +1,6 @@
 {
   "name": "@esri/calcite-components",
-  "version": "1.0.0-next.659",
+  "version": "1.0.0-next.660",
   "description": "Web Components for Esri's Calcite Design System.",
   "main": "dist/index.cjs.js",
   "module": "dist/index.js",
@@ -70,7 +70,7 @@
     "url": "git+https://github.com/Esri/calcite-components.git"
   },
   "dependencies": {
-    "@floating-ui/dom": "1.0.7",
+    "@floating-ui/dom": "1.0.8",
     "@stencil/core": "2.20.0",
     "@types/color": "3.0.3",
     "color": "4.2.3",
@@ -127,7 +127,7 @@
     "eslint-plugin-jsdoc": "39.6.4",
     "eslint-plugin-prettier": "4.2.1",
     "eslint-plugin-react": "7.31.11",
-    "eslint-plugin-unicorn": "44.0.2",
+    "eslint-plugin-unicorn": "45.0.1",
     "gh-release": "6.0.4",
     "git-semver-tags": "4.1.1",
     "husky": "8.0.2",

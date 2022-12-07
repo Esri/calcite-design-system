@@ -83,7 +83,7 @@ describe("opening and closing behavior", () => {
     };
   };
 
-  it("opens and closes", async () => {
+  it.skip("opens and closes", async () => {
     const page = await newE2EPage();
     await page.setContent(html`<calcite-modal style="transition: opacity ${DURATIONS.test}s"></calcite-modal>`);
     const modal = await page.find("calcite-modal");
