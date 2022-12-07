@@ -307,7 +307,7 @@ export class ColorPicker implements InteractiveComponent, LoadableComponent, T9n
   }
 
   /** Specifies the Unicode numeral system used by the component for localization. */
-  @Prop({ reflect: true }) numberingSystem?: NumberingSystem;
+  @Prop({ reflect: true }) numberingSystem: NumberingSystem;
 
   /**
    * The component's value, where the value can be a CSS color string, or a RGB, HSL or HSV object.

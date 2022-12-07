@@ -105,6 +105,12 @@ Type: `Promise<void>`
 | ---- | --------------------------------- |
 |      | A slot for adding custom content. |
 
+## CSS Custom Properties
+
+| Name                        | Description                               |
+| --------------------------- | ----------------------------------------- |
+| `--calcite-popover-z-index` | Sets the z-index value for the component. |
+
 ## Dependencies
 
 ### Used by

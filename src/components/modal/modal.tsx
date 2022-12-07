@@ -22,11 +22,7 @@ import {
   connectConditionalSlotComponent,
   disconnectConditionalSlotComponent
 } from "../../utils/conditionalSlot";
-import {
-  OpenCloseComponent,
-  connectOpenCloseComponent,
-  disconnectOpenCloseComponent
-} from "../../utils/openCloseComponent";
+import { OpenCloseComponent, onToggleOpenCloseComponent } from "../../utils/openCloseComponent";
 import {
   FocusTrapComponent,
   FocusTrap,
@@ -98,7 +94,7 @@ export class Modal
 
   /** Passes a function to run before the component closes. */
   @Prop()
-  beforeClose?: (el: HTMLElement) => Promise<void> = () => Promise.resolve();
+  beforeClose: (el: HTMLElement) => Promise<void> = () => Promise.resolve();
 
   /** When `true`, disables the component's close button. */
   @Prop({ reflect: true }) disableCloseButton = false;
@@ -132,7 +128,7 @@ export class Modal
    * Adds a color bar to the top of component for visual impact.
    * Use color to add importance to destructive or workflow dialogs.
    */
-  @Prop({ reflect: true }) color?: "red" | "blue";
+  @Prop({ reflect: true }) color: "red" | "blue";
 
   /** Sets the background color of the component's content. */
   @Prop({ reflect: true }) backgroundColor: ModalBackgroundColor = "white";
@@ -174,6 +170,7 @@ export class Modal
     setUpLoadableComponent(this);
     // when modal initially renders, if active was set we need to open as watcher doesn't fire
     if (this.open) {
+      onToggleOpenCloseComponent(this);
       requestAnimationFrame(() => this.openModal());
     }
   }
@@ -186,7 +183,6 @@ export class Modal
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
     this.updateFooterVisibility();
     connectConditionalSlotComponent(this);
-    connectOpenCloseComponent(this);
     if (this.open) {
       this.active = this.open;
     }
@@ -201,7 +197,6 @@ export class Modal
     this.removeOverflowHiddenClass();
     this.mutationObserver?.disconnect();
     disconnectConditionalSlotComponent(this);
-    disconnectOpenCloseComponent(this);
     deactivateFocusTrap(this);
     disconnectLocalized(this);
     disconnectMessages(this);
@@ -451,7 +446,6 @@ export class Modal
 
   private setTransitionEl = (el: HTMLDivElement): void => {
     this.transitionEl = el;
-    connectOpenCloseComponent(this);
     this.focusTrapEl = el;
     connectFocusTrap(this);
   };
@@ -485,6 +479,7 @@ export class Modal
   @Watch("open")
   async toggleModal(value: boolean): Promise<void> {
     this.active = value;
+    onToggleOpenCloseComponent(this);
     if (value) {
       this.transitionEl?.classList.add(CSS.openingIdle);
       this.openModal();
@@ -497,7 +492,6 @@ export class Modal
   private openEnd = (): void => {
     this.setFocus();
     this.el.removeEventListener("calciteModalOpen", this.openEnd);
-    activateFocusTrap(this);
   };
 
   /** Open the modal */

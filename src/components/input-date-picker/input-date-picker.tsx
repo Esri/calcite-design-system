@@ -160,7 +160,7 @@ export class InputDatePicker
   /**
    * Defines the available placements that can be used when a flip occurs.
    */
-  @Prop() flipPlacements?: EffectivePlacement[];
+  @Prop() flipPlacements: EffectivePlacement[];
 
   @Watch("flipPlacements")
   flipPlacementsHandler(): void {
@@ -174,30 +174,30 @@ export class InputDatePicker
   @Prop({ reflect: true }) headingLevel: HeadingLevel;
 
   /** The component's value as a full date object. */
-  @Prop({ mutable: true }) valueAsDate?: Date | Date[];
+  @Prop({ mutable: true }) valueAsDate: Date | Date[];
 
   /**
    * The component's start date as a full date object.
    *
    * @deprecated use `valueAsDate` instead.
    */
-  @Prop({ mutable: true }) startAsDate?: Date;
+  @Prop({ mutable: true }) startAsDate: Date;
 
   /**
    * The component's end date as a full date object.
    *
    * @deprecated use `valueAsDate` instead.
    */
-  @Prop({ mutable: true }) endAsDate?: Date;
+  @Prop({ mutable: true }) endAsDate: Date;
 
   /** Specifies the earliest allowed date as a full date object. */
-  @Prop({ mutable: true }) minAsDate?: Date;
+  @Prop({ mutable: true }) minAsDate: Date;
 
   /** Specifies the latest allowed date as a full date object. */
-  @Prop({ mutable: true }) maxAsDate?: Date;
+  @Prop({ mutable: true }) maxAsDate: Date;
 
   /** Specifies the earliest allowed date ("yyyy-mm-dd"). */
-  @Prop({ mutable: true }) min?: string;
+  @Prop({ mutable: true }) min: string;
 
   @Watch("min")
   onMinChanged(min: string): void {
@@ -207,7 +207,7 @@ export class InputDatePicker
   }
 
   /** Specifies the latest allowed date ("yyyy-mm-dd"). */
-  @Prop({ mutable: true }) max?: string;
+  @Prop({ mutable: true }) max: string;
 
   @Watch("max")
   onMaxChanged(max: string): void {
@@ -285,13 +285,13 @@ export class InputDatePicker
    * @deprecated set the global `lang` attribute on the element instead.
    * @mdn [lang](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/lang)
    */
-  @Prop() locale?: string;
+  @Prop() locale: string;
 
   /**
    * Specifies the Unicode numeral system used by the component for localization. This property cannot be dynamically changed.
    *
    */
-  @Prop({ reflect: true }) numberingSystem?: NumberingSystem;
+  @Prop({ reflect: true }) numberingSystem: NumberingSystem;
 
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: "s" | "m" | "l" = "m";
@@ -318,14 +318,14 @@ export class InputDatePicker
    *
    * @deprecated use `value` instead.
    */
-  @Prop({ mutable: true, reflect: true }) start?: string;
+  @Prop({ mutable: true, reflect: true }) start: string;
 
   /**
    * The component's end date.
    *
    * @deprecated use `value` instead.
    */
-  @Prop({ mutable: true, reflect: true }) end?: string;
+  @Prop({ mutable: true, reflect: true }) end: string;
 
   /**
    * Determines the type of positioning to use for the overlaid content.

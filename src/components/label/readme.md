@@ -11,19 +11,21 @@ Renders a `<label>` around its children and can be used with any [labelable nati
 It also allows consumers to set a `status` attribute for child `calcite-input` and `calcite-input-message` components to use to set their own properties.
 
 ```html
-<calcite-label status="invalid">
+<calcite-label>
   Invalid input
-  <calcite-input type="search" placeholder="Filter your files" value="adfo2h2"></calcite-input>
-  <calcite-input-message active icon> Something doesn't look right </calcite-input-message>
-</calcite-label>
+  <calcite-input status="invalid" type="search" placeholder="Filter your files" value="adfo2h2"></calcite-input>
+  <calcite-input-message active icon status="invalid">
+    Something doesn't look right
+  </calcite-input-message></calcite-label
+>
 ```
 
 ### Browser-caveat
 
-When using the `default`, `inline` or `inline-space-between` layout option with [browsers that do not support the CSS `gap` property when used with flexbox](https://caniuse.com/flexbox-gap), you will need to use the `disable-spacing` attribute and apply spacing manually to the label by wrapping it in a styled span like so:
+When using the `default`, `inline` or `inline-space-between` layout option with [browsers that do not support the CSS `gap` property when used with flexbox](https://caniuse.com/flexbox-gap), you will need to use the `--calcite-label-margin-bottom` CSS variable and apply spacing manually to the label by wrapping it in a styled span like so:
 
 ```html
-<calcite-label layout="inline" disable-spacing>
+<calcite-label layout="inline" style="--calcite-label-margin-bottom:0;">
   <span style="margin-right: 0.75rem">Text leading inline</span>
   <calcite-checkbox></calcite-checkbox>
 </calcite-label>

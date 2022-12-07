@@ -122,7 +122,7 @@ export class Block
   /**
    * Displays a status-related indicator icon.
    */
-  @Prop({ reflect: true }) status?: Status;
+  @Prop({ reflect: true }) status: Status;
 
   /**
    * A description for the component, which displays below the heading.

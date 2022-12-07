@@ -48,14 +48,14 @@ export class BlockSection implements LocalizedComponent, T9nComponent {
    *
    * @deprecated - translations are now built-in, if you need to override a string, please use `messageOverrides`
    */
-  @Prop() intlCollapse?: string;
+  @Prop() intlCollapse: string;
 
   /**
    * Accessible name for the component's expand button.
    *
    * @deprecated - translations are now built-in, if you need to override a string, please use `messageOverrides`
    */
-  @Prop() intlExpand?: string;
+  @Prop() intlExpand: string;
 
   /**
    * When `true`, expands the component and its contents.
@@ -65,7 +65,7 @@ export class BlockSection implements LocalizedComponent, T9nComponent {
   /**
    * Displays a status-related indicator icon.
    */
-  @Prop({ reflect: true }) status?: Status;
+  @Prop({ reflect: true }) status: Status;
 
   /**
    * The component header text.

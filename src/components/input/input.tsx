@@ -143,7 +143,7 @@ export class Input
    *
    * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`.
    */
-  @Prop() intlClear?: string;
+  @Prop() intlClear: string;
 
   /**
    * Accessible name when the component is loading.
@@ -157,7 +157,7 @@ export class Input
   @Prop({ reflect: true }) iconFlipRtl = false;
 
   /** Accessible name for the component. */
-  @Prop() label?: string;
+  @Prop() label: string;
 
   /** When `true`, a busy indicator is displayed. */
   @Prop({ reflect: true }) loading = false;
@@ -179,7 +179,7 @@ export class Input
    * Specifies the Unicode numeral system used by the component for localization.
    *
    */
-  @Prop({ reflect: true }) numberingSystem?: NumberingSystem;
+  @Prop({ reflect: true }) numberingSystem: NumberingSystem;
 
   /**
    * When `true`, uses locale formatting for numbers.
@@ -193,7 +193,7 @@ export class Input
    *
    * @mdn [max](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#max)
    */
-  @Prop({ reflect: true }) max?: number;
+  @Prop({ reflect: true }) max: number;
 
   /** watcher to update number-to-string for max */
   @Watch("max")
@@ -206,7 +206,7 @@ export class Input
    *
    * @mdn [min](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#min)
    */
-  @Prop({ reflect: true }) min?: number;
+  @Prop({ reflect: true }) min: number;
 
   /** watcher to update number-to-string for min */
   @Watch("min")
@@ -219,21 +219,21 @@ export class Input
    *
    * @deprecated use `maxLength` instead.
    */
-  @Prop({ reflect: true }) maxlength?: number;
+  @Prop({ reflect: true }) maxlength: number;
 
   /**
    * Specifies the maximum length of text for the component's value.
    *
    * @mdn [maxlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#maxlength)
    */
-  @Prop({ reflect: true }) maxLength?: number;
+  @Prop({ reflect: true }) maxLength: number;
 
   /**
    * Specifies the minimum length of text for the component's value.
    *
    * @mdn [minlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#minlength)
    */
-  @Prop({ reflect: true }) minLength?: number;
+  @Prop({ reflect: true }) minLength: number;
 
   /**
    * Specifies the name of the component on form submission.
@@ -243,7 +243,7 @@ export class Input
   @Prop({ reflect: true }) name: string;
 
   /** Specifies the placement of the buttons for `type="number"`. */
-  @Prop({ reflect: true }) numberButtonType?: InputPlacement = "vertical";
+  @Prop({ reflect: true }) numberButtonType: InputPlacement = "vertical";
 
   /**
    * Specifies placeholder text for the component.
@@ -253,7 +253,7 @@ export class Input
   @Prop() placeholder: string;
 
   /** Adds text to the start of the component. */
-  @Prop() prefixText?: string;
+  @Prop() prefixText: string;
 
   /**
    * When `true`, the component's value can be read, but cannot be modified.
@@ -276,7 +276,7 @@ export class Input
    *
    * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/step)
    */
-  @Prop({ reflect: true }) step?: number | "any";
+  @Prop({ reflect: true }) step: number | "any";
 
   /**
    * Specifies the type of content to autocomplete, for use in forms.
@@ -313,7 +313,7 @@ export class Input
   @Prop() multiple = false;
 
   /** Adds text to the end of the component. */
-  @Prop() suffixText?: string;
+  @Prop() suffixText: string;
 
   /**
    * @internal

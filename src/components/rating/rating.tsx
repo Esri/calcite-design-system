@@ -66,10 +66,13 @@ export class Rating
   @Prop({ reflect: true }) average?: number;
 
   /** Specifies the number of previous ratings to display. */
-  @Prop({ reflect: true }) count?: number;
+  @Prop({ reflect: true }) count: number;
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @Prop({ reflect: true }) disabled = false;
+
+  /** Specifies the name of the component on form submission. */
+  @Prop({ reflect: true }) name: string;
 
   /**
    * Accessible name for the component.
@@ -104,9 +107,6 @@ export class Rating
   onMessagesChange(): void {
     /* wired up by t9n util */
   }
-
-  /** Specifies the name of the component on form submission. */
-  @Prop({ reflect: true }) name: string;
 
   /** When `true`, the component's value can be read, but cannot be modified. */
   @Prop({ reflect: true }) readOnly = false;

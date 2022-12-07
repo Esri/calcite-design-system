@@ -12,7 +12,8 @@ import {
   Build
 } from "@stencil/core";
 import { Alignment, Appearance, Scale } from "../interfaces";
-import { CSS, SLOTS } from "./resources";
+import { CSS, TEXT, SLOTS } from "./resources";
+import { guid } from "../../utils/guid";
 import { createObserver } from "../../utils/observers";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { toAriaBoolean } from "../../utils/dom";
@@ -58,7 +59,7 @@ export class Action
   /**
    * Specifies the horizontal alignment of button elements with text content.
    */
-  @Prop({ reflect: true }) alignment?: Alignment;
+  @Prop({ reflect: true }) alignment: Alignment;
 
   /** Specifies the appearance of the component. */
   @Prop({ reflect: true }) appearance: Extract<"solid" | "transparent", Appearance> = "solid";
@@ -74,12 +75,19 @@ export class Action
   @Prop({ reflect: true }) disabled = false;
 
   /** Specifies an icon to display. */
-  @Prop() icon?: string;
+  @Prop() icon: string;
 
   /**
    * When `true`, indicates unread changes.
    */
   @Prop({ reflect: true }) indicator = false;
+
+  /**
+   * Specifies the text label to display `indicator` is `true`.
+   *
+   * @default "Unread changes"
+   */
+  @Prop() intlIndicator: string = TEXT.indicator;
 
   /**
    * Specifies the text label to display while loading.
@@ -92,7 +100,7 @@ export class Action
   /**
    * Specifies the label of the component. If no label is provided, the label inherits what's provided for the `text` prop.
    */
-  @Prop() label?: string;
+  @Prop() label: string;
 
   /**
    * When `true`, a busy indicator is displayed.
@@ -153,6 +161,13 @@ export class Action
   }
 
   @State() defaultMessages: Messages;
+
+  guid = `calcite-action-${guid()}`;
+
+  indicatorId = `${this.guid}-indicator`;
+
+  buttonId = `${this.guid}-button`;
+
   // --------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -221,6 +236,21 @@ export class Action
     ) : null;
   }
 
+  renderIndicatorText(): VNode {
+    const { indicator, intlIndicator, indicatorId, buttonId } = this;
+    return (
+      <div
+        aria-labelledby={buttonId}
+        aria-live="polite"
+        class={CSS.indicatorText}
+        id={indicatorId}
+        role="region"
+      >
+        {indicator ? intlIndicator : null}
+      </div>
+    );
+  }
+
   renderIconContainer(): VNode {
     const { loading, icon, scale, el } = this;
     const iconScale = scale === "l" ? "m" : "s";
@@ -252,9 +282,21 @@ export class Action
   }
 
   render(): VNode {
-    const { compact, disabled, loading, textEnabled, label, text } = this;
+    const {
+      active,
+      compact,
+      disabled,
+      loading,
+      textEnabled,
+      label,
+      text,
+      indicator,
+      indicatorId,
+      buttonId,
+      intlIndicator
+    } = this;
 
-    const ariaLabel = label || text;
+    const ariaLabel = `${label || text}${indicator ? ` (${intlIndicator})` : ""}`;
 
     const buttonClasses = {
       [CSS.button]: true,
@@ -266,16 +308,20 @@ export class Action
       <Host>
         <button
           aria-busy={toAriaBoolean(loading)}
+          aria-controls={indicator ? indicatorId : null}
           aria-disabled={toAriaBoolean(disabled)}
           aria-label={ariaLabel}
+          aria-pressed={toAriaBoolean(active)}
           class={buttonClasses}
           disabled={disabled}
+          id={buttonId}
           ref={(buttonEl): HTMLButtonElement => (this.buttonEl = buttonEl)}
         >
           {this.renderIconContainer()}
           {this.renderTextContainer()}
         </button>
         <slot name={SLOTS.tooltip} onSlotchange={this.handleTooltipSlotChange} />
+        {this.renderIndicatorText()}
       </Host>
     );
   }

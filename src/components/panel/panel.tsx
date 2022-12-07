@@ -77,12 +77,12 @@ export class Panel implements InteractiveComponent, LoadableComponent, T9nCompon
   /**
    * Specifies the maximum height of the component.
    */
-  @Prop({ reflect: true }) heightScale?: Scale;
+  @Prop({ reflect: true }) heightScale: Scale;
 
   /**
    * Specifies the width of the component.
    */
-  @Prop({ reflect: true }) widthScale?: Scale;
+  @Prop({ reflect: true }) widthScale: Scale;
 
   /**
    * When `true`, a busy indicator is displayed.
@@ -94,19 +94,19 @@ export class Panel implements InteractiveComponent, LoadableComponent, T9nCompon
    *
    * @deprecated use `calcite-flow-item` instead.
    */
-  @Prop() intlClose?: string;
+  @Prop() intlClose: string;
 
   /**
    * Accessible name for the component's actions menu.
    *
    * @deprecated use `calcite-flow-item` instead.
    */
-  @Prop() intlOptions?: string;
+  @Prop() intlOptions: string;
 
   /**
    * The component header text.
    */
-  @Prop() heading?: string;
+  @Prop() heading: string;
 
   /** A description for the component. */
   @Prop() description: string;

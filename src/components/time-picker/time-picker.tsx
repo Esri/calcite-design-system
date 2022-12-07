@@ -198,7 +198,7 @@ export class TimePicker implements LocalizedComponent, LoadableComponent, T9nCom
    * Specifies the Unicode numeral system used by the component for localization.
    *
    */
-  @Prop() numberingSystem?: NumberingSystem;
+  @Prop() numberingSystem: NumberingSystem;
 
   /** The component's value in UTC (always 24-hour format). */
   @Prop({ mutable: true }) value: string = null;

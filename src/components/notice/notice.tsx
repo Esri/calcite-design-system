@@ -98,7 +98,7 @@ export class Notice implements ConditionalSlotComponent, LoadableComponent, T9nC
    *
    * @deprecated use `closable` instead.
    */
-  @Prop({ reflect: true }) dismissible? = false;
+  @Prop({ reflect: true }) dismissible = false;
 
   @Watch("dismissible")
   handleDismissible(value: boolean): void {
@@ -106,7 +106,7 @@ export class Notice implements ConditionalSlotComponent, LoadableComponent, T9nC
   }
 
   /** When `true`, a close button is added to the component. */
-  @Prop({ reflect: true }) closable? = false;
+  @Prop({ reflect: true }) closable = false;
 
   @Watch("closable")
   handleClosable(value: boolean): void {

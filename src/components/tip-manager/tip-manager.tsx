@@ -47,27 +47,27 @@ export class TipManager {
   /**
    * Accessible name for the component's close button.
    */
-  @Prop() intlClose?: string;
+  @Prop() intlClose: string;
 
   /**
    * Accessible name for the `calcite-tip-group` title.
    */
-  @Prop() intlDefaultTitle?: string;
+  @Prop() intlDefaultTitle: string;
 
   /**
    * Accessible name for navigating to the next tip.
    */
-  @Prop() intlNext?: string;
+  @Prop() intlNext: string;
 
   /**
    * Text that accompanies the component's pagination.
    */
-  @Prop() intlPaginationLabel?: string;
+  @Prop() intlPaginationLabel: string;
 
   /**
    * Accessible name for navigating to the previous tip.
    */
-  @Prop() intlPrevious?: string;
+  @Prop() intlPrevious: string;
 
   // --------------------------------------------------------------------------
   //

@@ -71,7 +71,7 @@ export class Chip implements ConditionalSlotComponent, LoadableComponent, T9nCom
   @Prop() dismissLabel?: string;
 
   /** Specifies an icon to display. */
-  @Prop({ reflect: true }) icon?: string;
+  @Prop({ reflect: true }) icon: string;
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @Prop({ reflect: true }) iconFlipRtl = false;

@@ -163,10 +163,10 @@ export class Combobox
   @Prop() label!: string;
 
   /** Specifies the placeholder text for the input. */
-  @Prop() placeholder?: string;
+  @Prop() placeholder: string;
 
   /** Specifies the placeholder icon for the input. */
-  @Prop({ reflect: true }) placeholderIcon?: string;
+  @Prop({ reflect: true }) placeholderIcon: string;
 
   /** Specifies the maximum number of `calcite-combobox-item`s (including nested children) to display before displaying a scrollbar. */
   @Prop({ reflect: true }) maxItems = 0;
@@ -244,7 +244,7 @@ export class Combobox
   /**
    * Defines the available placements that can be used when a flip occurs.
    */
-  @Prop() flipPlacements?: EffectivePlacement[];
+  @Prop() flipPlacements: EffectivePlacement[];
 
   /**
    * Made into a prop for testing purposes only

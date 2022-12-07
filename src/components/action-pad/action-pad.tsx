@@ -80,14 +80,14 @@ export class ActionPad
    *
    * @deprecated - translations are now built-in, if you need to override a string, please use `messageOverrides`
    */
-  @Prop() intlExpand?: string;
+  @Prop() intlExpand: string;
 
   /**
    * Specifies the label of the collapse icon when the component is expanded.
    *
    * @deprecated - translations are now built-in, if you need to override a string, please use `messageOverrides`
    */
-  @Prop() intlCollapse?: string;
+  @Prop() intlCollapse: string;
 
   /**
    * Arranges the component depending on the element's `dir` property.
