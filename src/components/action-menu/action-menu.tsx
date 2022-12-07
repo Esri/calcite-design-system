@@ -16,7 +16,12 @@ import { Fragment, VNode } from "@stencil/core/internal";
 import { getRoundRobinIndex } from "../../utils/array";
 import { guid } from "../../utils/guid";
 import { Scale } from "../interfaces";
-import { LogicalPlacement, EffectivePlacement, OverlayPositioning } from "../../utils/floating-ui";
+import {
+  LogicalPlacement,
+  EffectivePlacement,
+  OverlayPositioning,
+  defaultAutoPlacement
+} from "../../utils/floating-ui";
 import { isActivationKey } from "../../utils/key";
 import {
   setUpLoadableComponent,
@@ -110,10 +115,8 @@ export class ActionMenu implements LoadableComponent {
 
   /**
    * Determines where the component will be positioned relative to the `referenceElement`.
-   *
-   * @see [LogicalPlacement](https://github.com/Esri/calcite-components/blob/master/src/utils/floating-ui.ts#L25)
    */
-  @Prop({ reflect: true }) placement: LogicalPlacement = "auto";
+  @Prop({ reflect: true }) placement: LogicalPlacement = defaultAutoPlacement;
 
   /**
    * Specifies the size of the component's trigger `calcite-action`.
