@@ -27,11 +27,12 @@ describe("calcite-handle", () => {
     expect(await handle.getProperty("activated")).toBe(true);
   });
 
-  it("fires calciteHandleNudge event when focused and up or down key is pressed", async () => {
+  it("fires calciteHandleNudgePrevious/calciteHandleNudgeNext event when focused and up or down key is pressed", async () => {
     const page = await newE2EPage();
     await page.setContent("<calcite-handle></calcite-handle>");
 
-    const eventSpy = await page.spyOnEvent("calciteHandleNudge");
+    const previousSpy = await page.spyOnEvent("calciteHandleNudgePrevious");
+    const nextSpy = await page.spyOnEvent("calciteHandleNudgeNext");
 
     const button = await page.find(`calcite-handle >>> .${CSS.handle}`);
 
@@ -41,6 +42,7 @@ describe("calcite-handle", () => {
     await page.keyboard.press("ArrowUp");
     await page.keyboard.press("ArrowDown");
 
-    expect(eventSpy).toHaveReceivedEventTimes(2);
+    expect(previousSpy).toHaveReceivedEventTimes(1);
+    expect(nextSpy).toHaveReceivedEventTimes(1);
   });
 });
