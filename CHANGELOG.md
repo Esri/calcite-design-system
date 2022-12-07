@@ -11,18 +11,18 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 - **label:** Removed deprecated properties.
 
-* Removed the property `status`, set the `status` property on the
-  component the label is bound to instead.
-* Removed the property `disabled`, set the `disabled` property on the
-  component the label is bound to instead.
-* Removed the property `disableSpacing`, use the CSS variable
-  `--calcite-label-margin-bottom` instead.
+  - Removed the property `status`, set the `status` property on the
+    component the label is bound to instead.
+  - Removed the property `disabled`, set the `disabled` property on the
+    component the label is bound to instead.
+  - Removed the property `disableSpacing`, use the CSS variable
+    `--calcite-label-margin-bottom` instead.
 
-* **stepper-item:** Removed deprecated properties.
+- **stepper-item:** Removed deprecated properties.
 
-- Removed the property `active`, use `selected` instead.
-- Removed the property `itemTitle`, use `heading` instead.
-- Removed the property `itemSubtitle`, use `description` instead.
+  - Removed the property `active`, use `selected` instead.
+  - Removed the property `itemTitle`, use `heading` instead.
+  - Removed the property `itemSubtitle`, use `description` instead.
 
 - **radio-group-item:** Removed deprecated properties.
 
