@@ -37,8 +37,7 @@ import {
   numberStringFormatter,
   LocalizedComponent,
   disconnectLocalized,
-  connectLocalized,
-  updateEffectiveLocale
+  connectLocalized
 } from "../../utils/locale";
 import { numberKeys } from "../../utils/key";
 import { isValidNumber, parseNumberString, sanitizeNumberString } from "../../utils/number";
@@ -152,19 +151,6 @@ export class Input
   @Prop({ reflect: true }) loading = false;
 
   /**
-   * BCP 47 language tag for desired language and country format
-   *
-   * @deprecated set the global `lang` attribute on the element instead.
-   * @mdn [lang](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/lang)
-   */
-  @Prop() locale: string;
-
-  @Watch("locale")
-  localeChanged(): void {
-    updateEffectiveLocale(this);
-  }
-
-  /**
    * Specifies the Unicode numeral system used by the component for localization.
    *
    */
@@ -202,13 +188,6 @@ export class Input
   minWatcher(): void {
     this.minString = this.min?.toString() || null;
   }
-
-  /**
-   * Specifies the maximum length of text for the component's value.
-   *
-   * @deprecated use `maxLength` instead.
-   */
-  @Prop({ reflect: true }) maxlength: number;
 
   /**
    * Specifies the maximum length of text for the component's value.
@@ -506,10 +485,11 @@ export class Input
    */
   @Event({ cancelable: false }) calciteInternalInputBlur: EventEmitter<void>;
 
+  // TODO: refactor color-picker to not use the deprecated
+  // nativeEvent payload property in handleChannelInput()
   /**
    * Fires each time a new `value` is typed.
-   *
-   * **Note:**: The `el` and `value` event payload properties are deprecated, use the event's `target`/`currentTarget` instead.
+   * NOTE: `nativeEvent` payload property is deprecated
    */
   @Event({ cancelable: true }) calciteInputInput: EventEmitter<DeprecatedEventPayload>;
 
@@ -934,11 +914,8 @@ export class Input
 
     if (nativeEvent) {
       const calciteInputInputEvent = this.calciteInputInput.emit({
-        element: this.childEl,
-        nativeEvent,
-        value: this.value
+        nativeEvent
       });
-
       if (calciteInputInputEvent.defaultPrevented) {
         this.value = this.previousValue;
         this.localizedValue =
