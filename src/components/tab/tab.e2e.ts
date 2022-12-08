@@ -14,7 +14,6 @@ describe("calcite-tab", () => {
   it("has defaults", async () =>
     defaults("calcite-tab", [
       { propertyName: "tab", defaultValue: undefined },
-      { propertyName: "active", defaultValue: false },
       { propertyName: "selected", defaultValue: false },
       { propertyName: "scale", defaultValue: undefined }
     ]));
