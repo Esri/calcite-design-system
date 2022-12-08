@@ -146,7 +146,7 @@ export class TabNav {
     // if every tab title is active select the first tab.
     if (
       this.tabTitles.length &&
-      this.tabTitles.every((title) => !title.active) &&
+      this.tabTitles.every((title) => !title.selected) &&
       !this.selectedTab
     ) {
       this.tabTitles[0].getTabIdentifier().then((tab) => {
@@ -252,7 +252,7 @@ export class TabNav {
    */
   @Listen("calciteInternalTabTitleRegister")
   updateTabTitles(event: CustomEvent<TabID>): void {
-    if ((event.target as HTMLCalciteTabTitleElement).active) {
+    if ((event.target as HTMLCalciteTabTitleElement).selected) {
       this.selectedTab = event.detail;
     }
   }

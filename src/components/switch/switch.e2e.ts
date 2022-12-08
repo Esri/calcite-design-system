@@ -59,16 +59,6 @@ describe("calcite-switch", () => {
     expect(await calciteSwitch.getProperty("checked")).toBe(false);
   });
 
-  it("can be checked via the switched property (deprecated)", async () => {
-    const page = await newE2EPage();
-    await page.setContent("<calcite-switch switched></calcite-switch>");
-
-    const calciteSwitch = await page.find("calcite-switch");
-
-    expect(await calciteSwitch.getProperty("checked")).toBe(true);
-    expect(await calciteSwitch.getProperty("switched")).toBe(true);
-  });
-
   it("appropriately triggers the custom change event", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-switch></calcite-switch>`);
@@ -82,7 +72,6 @@ describe("calcite-switch", () => {
     await calciteSwitch.click();
 
     expect(changeEvent).toHaveReceivedEventTimes(1);
-    expect(changeEvent).toHaveFirstReceivedEventDetail({ switched: true });
   });
 
   it("doesn't emit when controlling checked attribute", async () => {

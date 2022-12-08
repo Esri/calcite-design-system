@@ -152,7 +152,7 @@
       <script>
         const basicSwitch = document.getElementById("basicSwitch");
         basicSwitch.addEventListener("calciteSwitchChange", function (e) {
-          console.log("Basic switch changed by <calcite-switch>", e.detail.switched);
+          console.log("Basic switch changed by <calcite-switch>", e.target.checked);
         });
       </script>
     </demo-dom-swapper>
