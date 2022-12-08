@@ -78,14 +78,14 @@ export class Action
   @Prop() icon: string;
 
   /**
-   * When `true`, indicates unread changes.
+   * When `true`, displays a visual indicator.
    */
   @Prop({ reflect: true }) indicator = false;
 
   /**
-   * Specifies the text label to display `indicator` is `true`.
+   * When `indicator` is `true`, specifies the accessible context of the `indicator`.
    *
-   * @default "Unread changes"
+   * @default "Indicator present"
    */
   @Prop() intlIndicator: string = TEXT.indicator;
 

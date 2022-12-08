@@ -1,6 +1,6 @@
 {
   "name": "@esri/calcite-components",
-  "version": "1.0.0-next.660",
+  "version": "1.0.0-next.661",
   "description": "Web Components for Esri's Calcite Design System.",
   "main": "dist/index.cjs.js",
   "module": "dist/index.js",
@@ -140,7 +140,7 @@
     "puppeteer": "10.0.0",
     "quicktype-core": "6.1.0",
     "rimraf": "3.0.2",
-    "screener-storybook": "0.23.0",
+    "screener-storybook": "0.24.0",
     "semver": "7.3.8",
     "shell-quote": "1.7.4",
     "standard-version": "9.5.0",

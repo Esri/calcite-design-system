@@ -1026,17 +1026,17 @@ export class ColorPicker implements InteractiveComponent, LoadableComponent, T9n
   };
 
   private renderChannelsTabTitle = (channelMode: this["channelMode"]): VNode => {
-    const { channelMode: activeChannelMode, messages } = this;
-    const active = channelMode === activeChannelMode;
-    const label = channelMode === "rgb" ? messages.rgb : messages.hsv;
+    const { channelMode: activeChannelMode, intlRgb, intlHsv } = this;
+    const selected = channelMode === activeChannelMode;
+    const label = channelMode === "rgb" ? intlRgb : intlHsv;
 
     return (
       <calcite-tab-title
-        active={active}
         class={CSS.colorMode}
         data-color-mode={channelMode}
         key={channelMode}
         onCalciteTabsActivate={this.handleTabActivate}
+        selected={selected}
       >
         {label}
       </calcite-tab-title>
@@ -1045,7 +1045,7 @@ export class ColorPicker implements InteractiveComponent, LoadableComponent, T9n
 
   private renderChannelsTab = (channelMode: this["channelMode"]): VNode => {
     const { channelMode: activeChannelMode, channels, messages } = this;
-    const active = channelMode === activeChannelMode;
+    const selected = channelMode === activeChannelMode;
     const isRgb = channelMode === "rgb";
     const channelLabels = isRgb
       ? [messages.r, messages.g, messages.b]
@@ -1056,7 +1056,7 @@ export class ColorPicker implements InteractiveComponent, LoadableComponent, T9n
     const direction = getElementDir(this.el);
 
     return (
-      <calcite-tab active={active} class={CSS.control} key={channelMode}>
+      <calcite-tab class={CSS.control} key={channelMode} selected={selected}>
         {/* channel order should not be mirrored */}
         <div class={CSS.channels} dir="ltr">
           {channels.map((channel, index) =>
