@@ -19,7 +19,7 @@ import {
   connectConditionalSlotComponent,
   disconnectConditionalSlotComponent
 } from "../../utils/conditionalSlot";
-import { connectLocalized, disconnectLocalized } from "../../utils/locale";
+import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import {
   connectMessages,
   disconnectMessages,
@@ -55,7 +55,9 @@ import {
   shadow: true,
   assetsDirs: ["assets"]
 })
-export class Notice implements ConditionalSlotComponent, LoadableComponent, T9nComponent {
+export class Notice
+  implements ConditionalSlotComponent, LoadableComponent, T9nComponent, LocalizedComponent
+{
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -145,7 +147,6 @@ export class Notice implements ConditionalSlotComponent, LoadableComponent, T9nC
   @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
 
   @Watch("intlClose")
-  @Watch("defaultMessages")
   @Watch("messageOverrides")
   onMessagesChange(): void {
     /* wired up by t9n util */

@@ -154,7 +154,7 @@ export interface T9nComponent extends LocalizedComponent {
   /**
    * This private method ensures messages are kept in sync.
    *
-   * This method should be empty and configured to watch for changes on `defaultMessages`, `messageOverrides` and any associated Intl prop.
+   * This method should be empty and configured to watch for changes on  `messageOverrides` and any associated Intl prop.
    *
    * @Watch("intlMyPropA")
    * @Watch("intlMyPropZ")

@@ -144,7 +144,6 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
   @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
 
   @Watch("intlClose")
-  @Watch("defaultMessages")
   @Watch("messageOverrides")
   onMessagesChange(): void {
     /* wired up by t9n util */

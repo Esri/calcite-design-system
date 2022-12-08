@@ -18,7 +18,7 @@ import { LabelableComponent, connectLabel, disconnectLabel } from "../../utils/l
 import { connectForm, disconnectForm, FormComponent, HiddenFormInputSlot } from "../../utils/form";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { isActivationKey } from "../../utils/key";
-import { connectLocalized, disconnectLocalized } from "../../utils/locale";
+import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import {
   connectMessages,
   disconnectMessages,
@@ -46,6 +46,7 @@ export class Rating
     FormComponent,
     InteractiveComponent,
     LoadableComponent,
+    LocalizedComponent,
     T9nComponent
 {
   //--------------------------------------------------------------------------
@@ -62,14 +63,26 @@ export class Rating
   //
   // --------------------------------------------------------------------------
 
-  /** Specifies a cumulative average from previous ratings to display. */
-  @Prop({ reflect: true }) average?: number;
+  /** Specifies the size of the component. */
+  @Prop({ reflect: true }) scale: Scale = "m";
+
+  /** The component's value. */
+  @Prop({ reflect: true, mutable: true }) value = 0;
+
+  /** When `true`, the component's value can be read, but cannot be modified. */
+  @Prop({ reflect: true }) readOnly = false;
+
+  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  @Prop({ reflect: true }) disabled = false;
+
+  /** When `true`, and if available, displays the `average` and/or `count` data summary in a `calcite-chip`. */
+  @Prop({ reflect: true }) showChip = false;
 
   /** Specifies the number of previous ratings to display. */
   @Prop({ reflect: true }) count: number;
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
-  @Prop({ reflect: true }) disabled = false;
+  /** Specifies a cumulative average from previous ratings to display. */
+  @Prop({ reflect: true }) average: number;
 
   /** Specifies the name of the component on form submission. */
   @Prop({ reflect: true }) name: string;
@@ -100,17 +113,6 @@ export class Rating
    */
   @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
 
-  @Watch("intlRating")
-  @Watch("intlStars")
-  @Watch("defaultMessages")
-  @Watch("messageOverrides")
-  onMessagesChange(): void {
-    /* wired up by t9n util */
-  }
-
-  /** When `true`, the component's value can be read, but cannot be modified. */
-  @Prop({ reflect: true }) readOnly = false;
-
   /**
    * When `true`, the component must have a value in order for the form to submit.
    *
@@ -118,14 +120,12 @@ export class Rating
    */
   @Prop({ reflect: true }) required = false;
 
-  /** Specifies the size of the component. */
-  @Prop({ reflect: true }) scale: Scale = "m";
-
-  /** When `true`, and if available, displays the `average` and/or `count` data summary in a `calcite-chip`. */
-  @Prop({ reflect: true }) showChip = false;
-
-  /** The component's value. */
-  @Prop({ reflect: true, mutable: true }) value = 0;
+  @Watch("intlRating")
+  @Watch("intlStars")
+  @Watch("messageOverrides")
+  onMessagesChange(): void {
+    /* wired up by t9n util */
+  }
 
   //--------------------------------------------------------------------------
   //

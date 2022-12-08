@@ -130,13 +130,6 @@ export class Block
   @Prop() description: string;
 
   /**
-   * When `true`, removes padding for the slotted content.
-   *
-   * @deprecated Use `--calcite-block-padding` CSS variable instead.
-   */
-  @Prop({ reflect: true }) disablePadding = false;
-
-  /**
    * Made into a prop for testing purposes only
    *
    * @internal
@@ -152,7 +145,6 @@ export class Block
   @Watch("intlExpand")
   @Watch("intlLoading")
   @Watch("intlOptions")
-  @Watch("defaultMessages")
   @Watch("messageOverrides")
   onMessagesChange(): void {
     /* wired up by t9n util */

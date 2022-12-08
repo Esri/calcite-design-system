@@ -113,7 +113,6 @@ export class ActionPad
 
   @Watch("intlCollapse")
   @Watch("intlExpand")
-  @Watch("defaultMessages")
   @Watch("messageOverrides")
   onMessagesChange(): void {
     /* wired up by t9n util */

@@ -1,6 +1,6 @@
 import { Component, Element, Prop, h, VNode, Watch, State } from "@stencil/core";
 import { CSS } from "./resources";
-import { connectLocalized, disconnectLocalized } from "../../utils/locale";
+import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import {
   connectMessages,
   disconnectMessages,
@@ -19,7 +19,7 @@ import { Messages } from "./assets/scrim/t9n";
   shadow: true,
   assetsDirs: ["assets"]
 })
-export class Scrim implements T9nComponent {
+export class Scrim implements LocalizedComponent, T9nComponent {
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -51,7 +51,6 @@ export class Scrim implements T9nComponent {
   @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
 
   @Watch("intlLoading")
-  @Watch("defaultMessages")
   @Watch("messageOverrides")
   onMessagesChange(): void {
     /* wired up by t9n util */

@@ -38,7 +38,7 @@ import {
   T9nComponent,
   updateMessages
 } from "../../utils/t9n";
-import { connectLocalized, disconnectLocalized } from "../../utils/locale";
+import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import { NumberingSystem } from "../../utils/locale";
 import {
   setUpLoadableComponent,
@@ -57,7 +57,9 @@ const defaultFormat = "auto";
   shadow: true,
   assetsDirs: ["assets"]
 })
-export class ColorPicker implements InteractiveComponent, LoadableComponent, T9nComponent {
+export class ColorPicker
+  implements InteractiveComponent, LoadableComponent, LocalizedComponent, T9nComponent
+{
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -300,7 +302,6 @@ export class ColorPicker implements InteractiveComponent, LoadableComponent, T9n
   @Watch("intlSaved")
   @Watch("intlV")
   @Watch("intlValue")
-  @Watch("defaultMessages")
   @Watch("messageOverrides")
   onMessagesChange(): void {
     /* wired up by t9n util */

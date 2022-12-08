@@ -37,7 +37,7 @@ import {
   componentLoaded
 } from "../../utils/loadable";
 
-import { connectLocalized, disconnectLocalized } from "../../utils/locale";
+import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import {
   connectMessages,
   disconnectMessages,
@@ -67,6 +67,7 @@ export class Modal
     OpenCloseComponent,
     FocusTrapComponent,
     LoadableComponent,
+    LocalizedComponent,
     T9nComponent
 {
   //--------------------------------------------------------------------------
@@ -153,7 +154,6 @@ export class Modal
   @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
 
   @Watch("intlClose")
-  @Watch("defaultMessages")
   @Watch("messageOverrides")
   onMessagesChange(): void {
     /* wired up by t9n util */

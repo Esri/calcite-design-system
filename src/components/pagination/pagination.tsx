@@ -42,7 +42,7 @@ export interface PaginationDetail {
   shadow: true,
   assetsDirs: ["assets"]
 })
-export class Pagination implements LocalizedComponent, T9nComponent {
+export class Pagination implements LocalizedComponent, LocalizedComponent, T9nComponent {
   //--------------------------------------------------------------------------
   //
   //  Public Properties
@@ -61,7 +61,6 @@ export class Pagination implements LocalizedComponent, T9nComponent {
 
   @Watch("textLabelNext")
   @Watch("textLabelPrevious")
-  @Watch("defaultMessages")
   @Watch("messageOverrides")
   onMessagesChange(): void {
     /* wired up by t9n util */

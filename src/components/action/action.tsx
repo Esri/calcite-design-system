@@ -135,7 +135,6 @@ export class Action
   @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
 
   @Watch("intlLoading")
-  @Watch("defaultMessages")
   @Watch("messageOverrides")
   onMessagesChange(): void {
     /* wired up by t9n util */

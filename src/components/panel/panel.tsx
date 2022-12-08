@@ -25,7 +25,7 @@ import {
   componentLoaded
 } from "../../utils/loadable";
 
-import { connectLocalized, disconnectLocalized } from "../../utils/locale";
+import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import {
   connectMessages,
   disconnectMessages,
@@ -51,7 +51,9 @@ import { Messages } from "./assets/panel/t9n";
   shadow: true,
   assetsDirs: ["assets"]
 })
-export class Panel implements InteractiveComponent, LoadableComponent, T9nComponent {
+export class Panel
+  implements InteractiveComponent, LoadableComponent, LocalizedComponent, T9nComponent
+{
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -130,7 +132,6 @@ export class Panel implements InteractiveComponent, LoadableComponent, T9nCompon
 
   @Watch("intlClose")
   @Watch("intlOptions")
-  @Watch("defaultMessages")
   @Watch("messageOverrides")
   onMessagesChange(): void {
     /* wired up by t9n util */

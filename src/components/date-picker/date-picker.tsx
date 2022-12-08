@@ -219,7 +219,6 @@ export class DatePicker implements LocalizedComponent, T9nComponent {
   @Watch("intlNextMonth")
   @Watch("intlPrevMonth")
   @Watch("intlYear")
-  @Watch("defaultMessages")
   @Watch("messageOverrides")
   onMessagesChange(): void {
     /* wired up by t9n util */

@@ -27,7 +27,7 @@ import {
 import { CSS_UTILITY } from "../../utils/resources";
 import { createObserver } from "../../utils/observers";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
-import { connectLocalized, disconnectLocalized } from "../../utils/locale";
+import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import {
   connectMessages,
   disconnectMessages,
@@ -60,6 +60,7 @@ export class InputText
     FormComponent,
     InteractiveComponent,
     LoadableComponent,
+    LocalizedComponent,
     T9nComponent
 {
   //--------------------------------------------------------------------------
@@ -227,7 +228,6 @@ export class InputText
 
   @Watch("intlClear")
   @Watch("intlLoading")
-  @Watch("defaultMessages")
   @Watch("messageOverrides")
   onMessagesChange(): void {
     /* wired up by t9n util */

@@ -17,7 +17,7 @@ import { Scale } from "../interfaces";
 import { CSS, ICONS, SLOTS } from "./resources";
 import { SLOTS as PANEL_SLOTS } from "../panel/resources";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
-import { connectLocalized, disconnectLocalized } from "../../utils/locale";
+import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import {
   connectMessages,
   disconnectMessages,
@@ -49,7 +49,9 @@ import {
   shadow: true,
   assetsDirs: ["assets"]
 })
-export class FlowItem implements InteractiveComponent, LoadableComponent, T9nComponent {
+export class FlowItem
+  implements InteractiveComponent, LoadableComponent, LocalizedComponent, T9nComponent
+{
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -127,7 +129,6 @@ export class FlowItem implements InteractiveComponent, LoadableComponent, T9nCom
   @Watch("intlBack")
   @Watch("intlClose")
   @Watch("intlOptions")
-  @Watch("defaultMessages")
   @Watch("messageOverrides")
   onMessagesChange(): void {
     /* wired up by t9n util */

@@ -167,7 +167,6 @@ export class Button
   }
 
   @Watch("intlLoading")
-  @Watch("defaultMessages")
   @Watch("messageOverrides")
   onMessagesChange(): void {
     /** referred in t9n util */

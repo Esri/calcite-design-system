@@ -88,7 +88,6 @@ export class ActionGroup implements ConditionalSlotComponent, LocalizedComponent
   @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
 
   @Watch("intlMore")
-  @Watch("defaultMessages")
   @Watch("messageOverrides")
   onMessagesChange(): void {
     /* wired up by t9n util */
@@ -99,8 +98,7 @@ export class ActionGroup implements ConditionalSlotComponent, LocalizedComponent
   //  Private Properties
   //
   // --------------------------------------------------------------------------
-  @Element()
-  el: HTMLCalciteActionGroupElement;
+  @Element() el: HTMLCalciteActionGroupElement;
 
   @State() effectiveLocale = "";
 

@@ -64,7 +64,9 @@ function capitalize(str: string): string {
   shadow: true,
   assetsDirs: ["assets"]
 })
-export class TimePicker implements LocalizedComponent, LoadableComponent, T9nComponent {
+export class TimePicker
+  implements LocalizedComponent, LoadableComponent, LocalizedComponent, T9nComponent
+{
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -233,7 +235,6 @@ export class TimePicker implements LocalizedComponent, LoadableComponent, T9nCom
   @Watch("intlSecondDown")
   @Watch("intlSecondUp")
   @Watch("messageOverrides")
-  @Watch("defaultMessages")
   onMessagesChange(): void {
     /* wired up by t9n util */
   }

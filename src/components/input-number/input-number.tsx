@@ -35,7 +35,8 @@ import {
   numberStringFormatter,
   defaultNumberingSystem,
   disconnectLocalized,
-  connectLocalized
+  connectLocalized,
+  LocalizedComponent
 } from "../../utils/locale";
 import { numberKeys } from "../../utils/key";
 import { isValidNumber, parseNumberString, sanitizeNumberString } from "../../utils/number";
@@ -75,6 +76,7 @@ export class InputNumber
     LabelableComponent,
     FormComponent,
     InteractiveComponent,
+    LocalizedComponent,
     T9nComponent,
     LoadableComponent
 {
@@ -288,7 +290,6 @@ export class InputNumber
 
   @Watch("intlClear")
   @Watch("intlLoading")
-  @Watch("defaultMessages")
   @Watch("messageOverrides")
   onMessagesChange(): void {
     /* wired up by t9n util */

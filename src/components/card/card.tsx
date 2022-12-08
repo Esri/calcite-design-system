@@ -84,14 +84,14 @@ export class Card implements ConditionalSlotComponent, LocalizedComponent, T9nCo
    *
    * @default "Select"
    */
-  @Prop({ reflect: false }) intlSelect: string;
+  @Prop({ reflect: false }) intlSelect?: string;
 
   /**
    * When `selectable` is `true`, the accessible name for the component's checkbox for deselection.
    *
    * @default "Deselect"
    */
-  @Prop({ reflect: false }) intlDeselect: string;
+  @Prop({ reflect: false }) intlDeselect?: string;
 
   /** Sets the placement of the thumbnail defined in the `thumbnail` slot. */
   @Prop({ reflect: true }) thumbnailPosition: LogicalFlowPosition = "block-start";
@@ -111,7 +111,6 @@ export class Card implements ConditionalSlotComponent, LocalizedComponent, T9nCo
   @Watch("intlLoading")
   @Watch("intlDeselect")
   @Watch("intlSelect")
-  @Watch("defaultMessages")
   @Watch("messageOverrides")
   onMessagesChange(): void {
     /* wired up by t9n util */

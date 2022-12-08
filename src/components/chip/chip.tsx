@@ -28,7 +28,7 @@ import {
   T9nComponent,
   updateMessages
 } from "../../utils/t9n";
-import { connectLocalized, disconnectLocalized } from "../../utils/locale";
+import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import {
   setUpLoadableComponent,
   setComponentLoaded,
@@ -46,7 +46,9 @@ import {
   shadow: true,
   assetsDirs: ["assets"]
 })
-export class Chip implements ConditionalSlotComponent, LoadableComponent, T9nComponent {
+export class Chip
+  implements ConditionalSlotComponent, LoadableComponent, LocalizedComponent, T9nComponent
+{
   //--------------------------------------------------------------------------
   //
   //  Public Properties
@@ -98,7 +100,6 @@ export class Chip implements ConditionalSlotComponent, LoadableComponent, T9nCom
   @Prop({ mutable: true }) messages: Messages;
 
   @Watch("dismissLabel")
-  @Watch("defaultMessages")
   @Watch("messageOverrides")
   onMessagesChange(): void {
     /* wired up by t9n util */

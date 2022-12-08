@@ -40,7 +40,7 @@ import List from "../pick-list/shared-list-render";
 import { createObserver } from "../../utils/observers";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { getHandleAndItemElement, getScreenReaderText } from "./utils";
-import { connectLocalized, disconnectLocalized } from "../../utils/locale";
+import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import {
   connectMessages,
   disconnectMessages,
@@ -68,7 +68,7 @@ import {
 })
 export class ValueList<
   ItemElement extends HTMLCalciteValueListItemElement = HTMLCalciteValueListItemElement
-> implements InteractiveComponent, LoadableComponent, T9nComponent
+> implements InteractiveComponent, LoadableComponent, LocalizedComponent, T9nComponent
 {
   // --------------------------------------------------------------------------
   //
@@ -185,7 +185,6 @@ export class ValueList<
   @Watch("intlDragHandleChange")
   @Watch("intlDragHandleCommit")
   @Watch("intlDragHandleIdle")
-  @Watch("defaultMessages")
   @Watch("messageOverrides")
   onMessagesChange(): void {
     /* wired up by t9n util */

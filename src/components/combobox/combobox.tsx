@@ -259,7 +259,6 @@ export class Combobox
   @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
 
   @Watch("intlRemoveTag")
-  @Watch("defaultMessages")
   @Watch("messageOverrides")
   onMessagesChange(): void {
     /*  wired up by t9n util */

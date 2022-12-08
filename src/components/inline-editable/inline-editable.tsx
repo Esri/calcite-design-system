@@ -17,7 +17,7 @@ import { CSS } from "./resources";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import { createObserver } from "../../utils/observers";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
-import { connectLocalized, disconnectLocalized } from "../../utils/locale";
+import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import {
   connectMessages,
   disconnectMessages,
@@ -43,7 +43,12 @@ import {
   assetsDirs: ["assets"]
 })
 export class InlineEditable
-  implements InteractiveComponent, LabelableComponent, LoadableComponent, T9nComponent
+  implements
+    InteractiveComponent,
+    LabelableComponent,
+    LoadableComponent,
+    LocalizedComponent,
+    T9nComponent
 {
   //--------------------------------------------------------------------------
   //
@@ -137,7 +142,6 @@ export class InlineEditable
   @Watch("intlCancelEditing")
   @Watch("intlConfirmChanges")
   @Watch("intlEnableEditing")
-  @Watch("defaultMessages")
   @Watch("messageOverrides")
   onMessagesChange(): void {
     /* wired up by t9n util */

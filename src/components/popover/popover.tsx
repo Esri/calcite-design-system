@@ -46,7 +46,7 @@ import { HeadingLevel, Heading } from "../functional/Heading";
 import { Scale } from "../interfaces";
 
 import PopoverManager from "./PopoverManager";
-import { connectLocalized, disconnectLocalized } from "../../utils/locale";
+import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import {
   connectMessages,
   disconnectMessages,
@@ -80,6 +80,7 @@ export class Popover
     OpenCloseComponent,
     FocusTrapComponent,
     LoadableComponent,
+    LocalizedComponent,
     T9nComponent
 {
   // --------------------------------------------------------------------------
