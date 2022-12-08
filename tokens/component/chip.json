@@ -230,6 +230,20 @@
       "dark": {
         "value": "$semantic.ui.color.text.3.dark",
         "type": "color"
+      },
+      "space-around": {
+        "sm": {
+          "value": "$core.spacing.1",
+          "type": "spacing"
+        },
+        "md": {
+          "value": "$core.spacing.2",
+          "type": "spacing"
+        },
+        "lg": {
+          "value": "$core.spacing.3",
+          "type": "spacing"
+        }
       }
     },
     "border": {
@@ -286,7 +300,7 @@
         }
       }
     },
-    "comp-height": {
+    "comp-size": {
       "sm": {
         "value": "$core.sizing.9",
         "type": "sizing"
@@ -299,6 +313,38 @@
         "value": "$core.sizing.14",
         "type": "sizing"
       }
+    },
+    "space-around": {
+      "sm": {
+        "value": "$core.spacing.3",
+        "type": "spacing"
+      },
+      "md": {
+        "value": "$core.spacing.5",
+        "type": "spacing"
+      },
+      "lg": {
+        "value": "$core.spacing.7",
+        "type": "spacing"
+      }
+    },
+    "space-between": {
+      "sm": {
+        "value": "$core.spacing.3",
+        "type": "spacing"
+      },
+      "md": {
+        "value": "$core.spacing.5",
+        "type": "spacing"
+      },
+      "lg": {
+        "value": "$core.spacing.7",
+        "type": "spacing"
+      }
+    },
+    "border-width": {
+      "value": "$core.border.border-width.0",
+      "type": "borderWidth"
     }
   }
 }
