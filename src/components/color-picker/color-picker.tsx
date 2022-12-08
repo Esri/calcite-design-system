@@ -1027,9 +1027,9 @@ export class ColorPicker
   };
 
   private renderChannelsTabTitle = (channelMode: this["channelMode"]): VNode => {
-    const { channelMode: activeChannelMode, intlRgb, intlHsv } = this;
+    const { channelMode: activeChannelMode, messages } = this;
     const selected = channelMode === activeChannelMode;
-    const label = channelMode === "rgb" ? intlRgb : intlHsv;
+    const label = channelMode === "rgb" ? messages.rgb : messages.hsv;
 
     return (
       <calcite-tab-title
