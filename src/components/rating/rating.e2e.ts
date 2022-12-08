@@ -182,147 +182,159 @@ describe("calcite-rating", () => {
     });
   });
 
-  it("clicking on an icon will correctly set the value", async () => {
-    const page = await newE2EPage();
-    await page.setContent("<calcite-rating></calcite-rating>");
-    const element = await page.find("calcite-rating");
-    const icons = await page.findAll("calcite-rating >>> .icon");
-    const labels = await page.findAll("calcite-rating >>> .star");
+  describe("mouse events", () => {
+    it("clicking on an icon will correctly set the value", async () => {
+      const page = await newE2EPage();
+      await page.setContent("<calcite-rating></calcite-rating>");
+      const element = await page.find("calcite-rating");
+      const icons = await page.findAll("calcite-rating >>> .icon");
+      const labels = await page.findAll("calcite-rating >>> .star");
 
-    await labels[2].click();
-    await page.waitForChanges();
-    expect(icons[0]).toEqualAttribute("icon", "star-f");
-    expect(icons[1]).toEqualAttribute("icon", "star-f");
-    expect(icons[2]).toEqualAttribute("icon", "star-f");
-    expect(icons[3]).toEqualAttribute("icon", "star");
-    expect(icons[4]).toEqualAttribute("icon", "star");
-    expect(labels[0]).toHaveClass("selected");
-    expect(labels[1]).toHaveClass("selected");
-    expect(labels[2]).toHaveClass("selected");
-    expect(labels[3]).not.toHaveClass("selected");
-    expect(labels[4]).not.toHaveClass("selected");
-    expect(element).toEqualAttribute("value", "3");
-  });
-
-  it("setting a value will remove displayed average and partial average", async () => {
-    const page = await newE2EPage();
-    await page.setContent("<calcite-rating average=3.5></calcite-rating>");
-    const element = await page.find("calcite-rating");
-    const icons = await page.findAll("calcite-rating >>> .icon");
-    const labels = await page.findAll("calcite-rating >>> .star");
-
-    await labels[3].click();
-    await page.waitForChanges();
-
-    const partialStarContainer = await page.find("calcite-rating >>> .fraction");
-    expect(partialStarContainer).toBeNull();
-    expect(icons[0]).toEqualAttribute("icon", "star-f");
-    expect(icons[1]).toEqualAttribute("icon", "star-f");
-    expect(icons[2]).toEqualAttribute("icon", "star-f");
-    expect(icons[3]).toEqualAttribute("icon", "star-f");
-    expect(icons[4]).toEqualAttribute("icon", "star");
-    expect(labels[0]).toHaveClass("selected");
-    expect(labels[1]).toHaveClass("selected");
-    expect(labels[2]).toHaveClass("selected");
-    expect(labels[3]).toHaveClass("selected");
-    expect(labels[4]).not.toHaveClass("selected");
-    expect(labels[0]).not.toHaveClass("average");
-    expect(labels[1]).not.toHaveClass("average");
-    expect(labels[2]).not.toHaveClass("average");
-    expect(labels[3]).not.toHaveClass("average");
-    expect(labels[4]).not.toHaveClass("average");
-    expect(element).toEqualAttribute("value", "4");
-  });
-
-  it("uses the correct data attributes while hovering over an unselected star with no value", async () => {
-    const page = await newE2EPage();
-    await page.setContent("<calcite-rating></calcite-rating>");
-    const icons = await page.findAll("calcite-rating >>> .icon");
-    const labels = await page.findAll("calcite-rating >>> .star");
-
-    await labels[3].hover();
-    await page.waitForChanges();
-    expect(icons[0]).toEqualAttribute("icon", "star");
-    expect(icons[1]).toEqualAttribute("icon", "star");
-    expect(icons[2]).toEqualAttribute("icon", "star");
-    expect(icons[3]).toEqualAttribute("icon", "star");
-    expect(icons[4]).toEqualAttribute("icon", "star");
-    expect(labels[0]).toHaveClass("hovered");
-    expect(labels[1]).toHaveClass("hovered");
-    expect(labels[2]).toHaveClass("hovered");
-    expect(labels[3]).toHaveClass("hovered");
-    expect(labels[4]).not.toHaveClass("hovered");
-  });
-
-  it("correctly sets classes while hovering over an unselected star with value", async () => {
-    const page = await newE2EPage();
-    await page.setContent("<calcite-rating value=3></calcite-rating>");
-    const icons = await page.findAll("calcite-rating >>> .icon");
-    const labels = await page.findAll("calcite-rating >>> .star");
-
-    await labels[3].hover();
-    await page.waitForChanges();
-
-    expect(icons[0]).toEqualAttribute("icon", "star-f");
-    expect(icons[1]).toEqualAttribute("icon", "star-f");
-    expect(icons[2]).toEqualAttribute("icon", "star-f");
-    expect(icons[3]).toEqualAttribute("icon", "star");
-    expect(icons[4]).toEqualAttribute("icon", "star");
-
-    expect(labels[0]).toHaveClass("hovered");
-    expect(labels[1]).toHaveClass("hovered");
-    expect(labels[2]).toHaveClass("hovered");
-    expect(labels[3]).toHaveClass("hovered");
-    expect(labels[4]).not.toHaveClass("hovered");
-  });
-
-  it("correctly sets classes while hovering over an unselected star with average", async () => {
-    const page = await newE2EPage();
-    await page.setContent("<calcite-rating average=4.2></calcite-rating>");
-    const icons = await page.findAll("calcite-rating >>> .icon");
-    const labels = await page.findAll("calcite-rating >>> .star");
-
-    await labels[4].hover();
-    await page.waitForChanges();
-    const partialStarContainer = await page.find("calcite-rating >>> .fraction");
-    expect(partialStarContainer).toBeNull();
-    expect(icons[0]).toEqualAttribute("icon", "star-f");
-    expect(icons[1]).toEqualAttribute("icon", "star-f");
-    expect(icons[2]).toEqualAttribute("icon", "star-f");
-    expect(icons[3]).toEqualAttribute("icon", "star-f");
-    expect(icons[4]).toEqualAttribute("icon", "star");
-    expect(labels[0]).toHaveClass("hovered");
-    expect(labels[1]).toHaveClass("hovered");
-    expect(labels[2]).toHaveClass("hovered");
-    expect(labels[3]).toHaveClass("hovered");
-    expect(labels[4]).toHaveClass("hovered");
-  });
-
-  it("emits expected event when user clicks to choose value", async () => {
-    const page = await newE2EPage();
-    await page.setContent("<calcite-rating></calcite-rating>");
-    const element = await page.find("calcite-rating");
-    const labels = await page.findAll("calcite-rating >>> .star");
-
-    const changeEvent = await element.spyOnEvent("calciteRatingChange");
-    expect(changeEvent).toHaveReceivedEventTimes(0);
-    await labels[0].click();
-    expect(element).toEqualAttribute("value", "1");
-    expect(changeEvent).toHaveReceivedEventTimes(1);
-    expect(changeEvent).toHaveReceivedEventDetail({
-      value: 1
+      await labels[2].click();
+      await page.waitForChanges();
+      expect(icons[0]).toEqualAttribute("icon", "star-f");
+      expect(icons[1]).toEqualAttribute("icon", "star-f");
+      expect(icons[2]).toEqualAttribute("icon", "star-f");
+      expect(icons[3]).toEqualAttribute("icon", "star");
+      expect(icons[4]).toEqualAttribute("icon", "star");
+      expect(labels[0]).toHaveClass("selected");
+      expect(labels[1]).toHaveClass("selected");
+      expect(labels[2]).toHaveClass("selected");
+      expect(labels[3]).not.toHaveClass("selected");
+      expect(labels[4]).not.toHaveClass("selected");
+      expect(element).toEqualAttribute("value", "3");
     });
-    await labels[3].click();
-    expect(element).toEqualAttribute("value", "4");
-    expect(changeEvent).toHaveReceivedEventTimes(2);
-    expect(changeEvent).toHaveReceivedEventDetail({
-      value: 4
+
+    it("setting a value will remove displayed average and partial average", async () => {
+      const page = await newE2EPage();
+      await page.setContent("<calcite-rating average=3.5></calcite-rating>");
+      const element = await page.find("calcite-rating");
+      const icons = await page.findAll("calcite-rating >>> .icon");
+      const labels = await page.findAll("calcite-rating >>> .star");
+
+      await labels[3].click();
+      await page.waitForChanges();
+
+      const partialStarContainer = await page.find("calcite-rating >>> .fraction");
+      expect(partialStarContainer).toBeNull();
+      expect(icons[0]).toEqualAttribute("icon", "star-f");
+      expect(icons[1]).toEqualAttribute("icon", "star-f");
+      expect(icons[2]).toEqualAttribute("icon", "star-f");
+      expect(icons[3]).toEqualAttribute("icon", "star-f");
+      expect(icons[4]).toEqualAttribute("icon", "star");
+      expect(labels[0]).toHaveClass("selected");
+      expect(labels[1]).toHaveClass("selected");
+      expect(labels[2]).toHaveClass("selected");
+      expect(labels[3]).toHaveClass("selected");
+      expect(labels[4]).not.toHaveClass("selected");
+      expect(labels[0]).not.toHaveClass("average");
+      expect(labels[1]).not.toHaveClass("average");
+      expect(labels[2]).not.toHaveClass("average");
+      expect(labels[3]).not.toHaveClass("average");
+      expect(labels[4]).not.toHaveClass("average");
+      expect(element).toEqualAttribute("value", "4");
     });
-    await labels[3].click();
-    expect(element).toEqualAttribute("value", "0");
-    expect(changeEvent).toHaveReceivedEventTimes(3);
-    expect(changeEvent).toHaveReceivedEventDetail({
-      value: 0
+
+    it("uses the correct data attributes while hovering over an unselected star with no value", async () => {
+      const page = await newE2EPage();
+      await page.setContent("<calcite-rating></calcite-rating>");
+      const icons = await page.findAll("calcite-rating >>> .icon");
+      const labels = await page.findAll("calcite-rating >>> .star");
+
+      await labels[3].hover();
+      await page.waitForChanges();
+      expect(icons[0]).toEqualAttribute("icon", "star");
+      expect(icons[1]).toEqualAttribute("icon", "star");
+      expect(icons[2]).toEqualAttribute("icon", "star");
+      expect(icons[3]).toEqualAttribute("icon", "star");
+      expect(icons[4]).toEqualAttribute("icon", "star");
+      expect(labels[0]).toHaveClass("hovered");
+      expect(labels[1]).toHaveClass("hovered");
+      expect(labels[2]).toHaveClass("hovered");
+      expect(labels[3]).toHaveClass("hovered");
+      expect(labels[4]).not.toHaveClass("hovered");
+    });
+
+    it("correctly sets classes while hovering over an unselected star with value", async () => {
+      const page = await newE2EPage();
+      await page.setContent("<calcite-rating value=3></calcite-rating>");
+      const icons = await page.findAll("calcite-rating >>> .icon");
+      const labels = await page.findAll("calcite-rating >>> .star");
+
+      await labels[3].hover();
+      await page.waitForChanges();
+
+      expect(icons[0]).toEqualAttribute("icon", "star-f");
+      expect(icons[1]).toEqualAttribute("icon", "star-f");
+      expect(icons[2]).toEqualAttribute("icon", "star-f");
+      expect(icons[3]).toEqualAttribute("icon", "star");
+      expect(icons[4]).toEqualAttribute("icon", "star");
+
+      expect(labels[0]).toHaveClass("hovered");
+      expect(labels[1]).toHaveClass("hovered");
+      expect(labels[2]).toHaveClass("hovered");
+      expect(labels[3]).toHaveClass("hovered");
+      expect(labels[4]).not.toHaveClass("hovered");
+    });
+
+    it("correctly sets classes while hovering over an unselected star with average", async () => {
+      const page = await newE2EPage();
+      await page.setContent("<calcite-rating average=4.2></calcite-rating>");
+      const icons = await page.findAll("calcite-rating >>> .icon");
+      const labels = await page.findAll("calcite-rating >>> .star");
+
+      await labels[4].hover();
+      await page.waitForChanges();
+      const partialStarContainer = await page.find("calcite-rating >>> .fraction");
+      expect(partialStarContainer).toBeNull();
+      expect(icons[0]).toEqualAttribute("icon", "star-f");
+      expect(icons[1]).toEqualAttribute("icon", "star-f");
+      expect(icons[2]).toEqualAttribute("icon", "star-f");
+      expect(icons[3]).toEqualAttribute("icon", "star-f");
+      expect(icons[4]).toEqualAttribute("icon", "star");
+      expect(labels[0]).toHaveClass("hovered");
+      expect(labels[1]).toHaveClass("hovered");
+      expect(labels[2]).toHaveClass("hovered");
+      expect(labels[3]).toHaveClass("hovered");
+      expect(labels[4]).toHaveClass("hovered");
+    });
+
+    it("emits expected event when user clicks to choose value", async () => {
+      const page = await newE2EPage();
+      await page.setContent("<calcite-rating></calcite-rating>");
+      const element = await page.find("calcite-rating");
+      const labels = await page.findAll("calcite-rating >>> .star");
+
+      const changeEvent = await element.spyOnEvent("calciteRatingChange");
+      expect(changeEvent).toHaveReceivedEventTimes(0);
+      await labels[0].click();
+      expect(element).toEqualAttribute("value", "1");
+      expect(changeEvent).toHaveReceivedEventTimes(1);
+      expect(changeEvent).toHaveReceivedEventDetail({
+        value: 1
+      });
+      await labels[3].click();
+      expect(element).toEqualAttribute("value", "4");
+      expect(changeEvent).toHaveReceivedEventTimes(2);
+      expect(changeEvent).toHaveReceivedEventDetail({
+        value: 4
+      });
+      await labels[3].click();
+      expect(element).toEqualAttribute("value", "0");
+      expect(changeEvent).toHaveReceivedEventTimes(3);
+      expect(changeEvent).toHaveReceivedEventDetail({
+        value: 0
+      });
+    });
+
+    it("disables click interaction when readonly is requested", async () => {
+      const page = await newE2EPage();
+      await page.setContent("<calcite-rating value=4 read-only></calcite-rating>");
+      const element = await page.find("calcite-rating");
+      const ratingItem1 = await page.find("calcite-rating >>> .star");
+      expect(element).toEqualAttribute("value", "4");
+      await ratingItem1.click();
+      expect(element).toEqualAttribute("value", "4");
     });
   });
 
@@ -402,22 +414,5 @@ describe("calcite-rating", () => {
     expect(changeEvent).toHaveReceivedEventDetail({
       value: 4
     });
-  });
-
-  it("disables click interaction when readonly is requested", async () => {
-    const page = await newE2EPage();
-    await page.setContent("<calcite-rating value=4 read-only></calcite-rating>");
-    const element = await page.find("calcite-rating");
-    const ratingItem1 = await page.find("calcite-rating >>> .star");
-    expect(element).toEqualAttribute("value", "4");
-    await ratingItem1.click();
-    expect(element).toEqualAttribute("value", "4");
-  });
-
-  describe("when setFocus method is called", () => {
-    it("should focus input element in shadow DOM", () =>
-      focusable("calcite-rating", {
-        shadowFocusTargetSelector: "input"
-      }));
   });
 });
