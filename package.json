@@ -73,7 +73,7 @@
     "@floating-ui/dom": "1.0.8",
     "@stencil/core": "2.20.0",
     "@types/color": "3.0.3",
-    "@types/estree": "1.0.0",
+    "@types/estree": "0.0.45",
     "color": "4.2.3",
     "focus-trap": "7.2.0",
     "form-request-submit-polyfill": "2.0.0",
