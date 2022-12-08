@@ -23,114 +23,163 @@ describe("calcite-rating", () => {
       }));
   });
 
-  it("renders outlined star when no value or average is set", async () => {
-    const page = await newE2EPage();
-    await page.setContent("<calcite-rating></calcite-rating>");
-    const icons = await page.findAll("calcite-rating >>> .icon");
-    const labels = await page.findAll("calcite-rating >>> .star");
-    const partialStarContainer = await page.find("calcite-rating >>> .fraction");
+  describe("rendering", () => {
+    it("renders outlined star when no value or average is set", async () => {
+      const page = await newE2EPage();
+      await page.setContent("<calcite-rating></calcite-rating>");
+      const icons = await page.findAll("calcite-rating >>> .icon");
+      const labels = await page.findAll("calcite-rating >>> .star");
+      const partialStarContainer = await page.find("calcite-rating >>> .fraction");
 
-    expect(partialStarContainer).toBeNull();
-    expect(icons[0]).toEqualAttribute("icon", "star");
-    expect(icons[1]).toEqualAttribute("icon", "star");
-    expect(icons[2]).toEqualAttribute("icon", "star");
-    expect(icons[3]).toEqualAttribute("icon", "star");
-    expect(icons[4]).toEqualAttribute("icon", "star");
-    expect(labels[0]).not.toHaveClass("selected");
-    expect(labels[1]).not.toHaveClass("selected");
-    expect(labels[2]).not.toHaveClass("selected");
-    expect(labels[3]).not.toHaveClass("selected");
-    expect(labels[4]).not.toHaveClass("selected");
-  });
+      expect(partialStarContainer).toBeNull();
+      expect(icons[0]).toEqualAttribute("icon", "star");
+      expect(icons[1]).toEqualAttribute("icon", "star");
+      expect(icons[2]).toEqualAttribute("icon", "star");
+      expect(icons[3]).toEqualAttribute("icon", "star");
+      expect(icons[4]).toEqualAttribute("icon", "star");
+      expect(labels[0]).not.toHaveClass("selected");
+      expect(labels[1]).not.toHaveClass("selected");
+      expect(labels[2]).not.toHaveClass("selected");
+      expect(labels[3]).not.toHaveClass("selected");
+      expect(labels[4]).not.toHaveClass("selected");
+    });
 
-  it("displays the correct stars as filled and selected when called with a value", async () => {
-    const page = await newE2EPage();
-    await page.setContent("<calcite-rating value=3></calcite-rating>");
-    const icons = await page.findAll("calcite-rating >>> .icon");
-    const labels = await page.findAll("calcite-rating >>> .star");
-    const partialStarContainer = await page.find("calcite-rating >>> .fraction");
+    it("displays the correct stars as filled and selected when called with a value", async () => {
+      const page = await newE2EPage();
+      await page.setContent("<calcite-rating value=3></calcite-rating>");
+      const icons = await page.findAll("calcite-rating >>> .icon");
+      const labels = await page.findAll("calcite-rating >>> .star");
+      const partialStarContainer = await page.find("calcite-rating >>> .fraction");
 
-    expect(partialStarContainer).toBeNull();
-    expect(icons[0]).toEqualAttribute("icon", "star-f");
-    expect(icons[1]).toEqualAttribute("icon", "star-f");
-    expect(icons[2]).toEqualAttribute("icon", "star-f");
-    expect(icons[3]).toEqualAttribute("icon", "star");
-    expect(icons[4]).toEqualAttribute("icon", "star");
-    expect(labels[0]).toHaveClass("selected");
-    expect(labels[1]).toHaveClass("selected");
-    expect(labels[2]).toHaveClass("selected");
-    expect(labels[3]).not.toHaveClass("selected");
-    expect(labels[4]).not.toHaveClass("selected");
-  });
+      expect(partialStarContainer).toBeNull();
+      expect(icons[0]).toEqualAttribute("icon", "star-f");
+      expect(icons[1]).toEqualAttribute("icon", "star-f");
+      expect(icons[2]).toEqualAttribute("icon", "star-f");
+      expect(icons[3]).toEqualAttribute("icon", "star");
+      expect(icons[4]).toEqualAttribute("icon", "star");
+      expect(labels[0]).toHaveClass("selected");
+      expect(labels[1]).toHaveClass("selected");
+      expect(labels[2]).toHaveClass("selected");
+      expect(labels[3]).not.toHaveClass("selected");
+      expect(labels[4]).not.toHaveClass("selected");
+    });
 
-  it("displays the average when value is not present", async () => {
-    const page = await newE2EPage();
-    await page.setContent("<calcite-rating average=2></calcite-rating>");
-    const icons = await page.findAll("calcite-rating >>> .icon");
-    const labels = await page.findAll("calcite-rating >>> .star");
-    const partialStarContainer = await page.find("calcite-rating >>> .fraction");
-    expect(partialStarContainer).toBeNull();
-    expect(icons[0]).toEqualAttribute("icon", "star-f");
-    expect(icons[1]).toEqualAttribute("icon", "star-f");
-    expect(icons[2]).toEqualAttribute("icon", "star");
-    expect(icons[3]).toEqualAttribute("icon", "star");
-    expect(icons[4]).toEqualAttribute("icon", "star");
-    expect(labels[0]).not.toHaveClass("selected");
-    expect(labels[1]).not.toHaveClass("selected");
-    expect(labels[2]).not.toHaveClass("selected");
-    expect(labels[3]).not.toHaveClass("selected");
-    expect(labels[4]).not.toHaveClass("selected");
-    expect(labels[0]).toHaveClass("average");
-    expect(labels[1]).toHaveClass("average");
-    expect(labels[2]).not.toHaveClass("average");
-    expect(labels[3]).not.toHaveClass("average");
-    expect(labels[4]).not.toHaveClass("average");
-  });
+    it("displays the average when value is not present", async () => {
+      const page = await newE2EPage();
+      await page.setContent("<calcite-rating average=2></calcite-rating>");
+      const icons = await page.findAll("calcite-rating >>> .icon");
+      const labels = await page.findAll("calcite-rating >>> .star");
+      const partialStarContainer = await page.find("calcite-rating >>> .fraction");
+      expect(partialStarContainer).toBeNull();
+      expect(icons[0]).toEqualAttribute("icon", "star-f");
+      expect(icons[1]).toEqualAttribute("icon", "star-f");
+      expect(icons[2]).toEqualAttribute("icon", "star");
+      expect(icons[3]).toEqualAttribute("icon", "star");
+      expect(icons[4]).toEqualAttribute("icon", "star");
+      expect(labels[0]).not.toHaveClass("selected");
+      expect(labels[1]).not.toHaveClass("selected");
+      expect(labels[2]).not.toHaveClass("selected");
+      expect(labels[3]).not.toHaveClass("selected");
+      expect(labels[4]).not.toHaveClass("selected");
+      expect(labels[0]).toHaveClass("average");
+      expect(labels[1]).toHaveClass("average");
+      expect(labels[2]).not.toHaveClass("average");
+      expect(labels[3]).not.toHaveClass("average");
+      expect(labels[4]).not.toHaveClass("average");
+    });
 
-  it("displays the value when average and value are present", async () => {
-    const page = await newE2EPage();
-    await page.setContent("<calcite-rating average=3 value=1></calcite-rating>");
-    const icons = await page.findAll("calcite-rating >>> .icon");
-    const labels = await page.findAll("calcite-rating >>> .star");
-    expect(icons[0]).toEqualAttribute("icon", "star-f");
-    expect(icons[1]).toEqualAttribute("icon", "star");
-    expect(icons[2]).toEqualAttribute("icon", "star");
-    expect(icons[3]).toEqualAttribute("icon", "star");
-    expect(icons[4]).toEqualAttribute("icon", "star");
-    expect(labels[0]).toHaveClass("selected");
-    expect(labels[1]).not.toHaveClass("selected");
-    expect(labels[2]).not.toHaveClass("selected");
-    expect(labels[3]).not.toHaveClass("selected");
-    expect(labels[4]).not.toHaveClass("selected");
-    expect(labels[0]).not.toHaveClass("average");
-    expect(labels[1]).not.toHaveClass("average");
-    expect(labels[2]).not.toHaveClass("average");
-    expect(labels[3]).not.toHaveClass("average");
-    expect(labels[4]).not.toHaveClass("average");
-  });
+    it("displays the value when average and value are present", async () => {
+      const page = await newE2EPage();
+      await page.setContent("<calcite-rating average=3 value=1></calcite-rating>");
+      const icons = await page.findAll("calcite-rating >>> .icon");
+      const labels = await page.findAll("calcite-rating >>> .star");
+      expect(icons[0]).toEqualAttribute("icon", "star-f");
+      expect(icons[1]).toEqualAttribute("icon", "star");
+      expect(icons[2]).toEqualAttribute("icon", "star");
+      expect(icons[3]).toEqualAttribute("icon", "star");
+      expect(icons[4]).toEqualAttribute("icon", "star");
+      expect(labels[0]).toHaveClass("selected");
+      expect(labels[1]).not.toHaveClass("selected");
+      expect(labels[2]).not.toHaveClass("selected");
+      expect(labels[3]).not.toHaveClass("selected");
+      expect(labels[4]).not.toHaveClass("selected");
+      expect(labels[0]).not.toHaveClass("average");
+      expect(labels[1]).not.toHaveClass("average");
+      expect(labels[2]).not.toHaveClass("average");
+      expect(labels[3]).not.toHaveClass("average");
+      expect(labels[4]).not.toHaveClass("average");
+    });
 
-  it("displays a partial star when average is present and contains a partial value", async () => {
-    const page = await newE2EPage();
-    await page.setContent("<calcite-rating average=3.45></calcite-rating>");
-    const icons = await page.findAll("calcite-rating >>> .icon");
-    const labels = await page.findAll("calcite-rating >>> .star");
-    const partialStarContainer = await page.find("calcite-rating >>> .fraction");
-    expect(partialStarContainer).not.toBeNull();
-    expect(icons[0]).toEqualAttribute("icon", "star-f");
-    expect(icons[1]).toEqualAttribute("icon", "star-f");
-    expect(icons[2]).toEqualAttribute("icon", "star-f");
-    expect(icons[3]).toEqualAttribute("icon", "star");
-    expect(icons[4]).toEqualAttribute("icon", "star");
-    expect(labels[0]).not.toHaveClass("selected");
-    expect(labels[1]).not.toHaveClass("selected");
-    expect(labels[2]).not.toHaveClass("selected");
-    expect(labels[3]).not.toHaveClass("selected");
-    expect(labels[4]).not.toHaveClass("selected");
-    expect(labels[0]).toHaveClass("average");
-    expect(labels[1]).toHaveClass("average");
-    expect(labels[2]).toHaveClass("average");
-    expect(labels[3]).not.toHaveClass("average");
-    expect(labels[4]).not.toHaveClass("average");
+    it("displays a partial star when average is present and contains a partial value", async () => {
+      const page = await newE2EPage();
+      await page.setContent("<calcite-rating average=3.45></calcite-rating>");
+      const icons = await page.findAll("calcite-rating >>> .icon");
+      const labels = await page.findAll("calcite-rating >>> .star");
+      const partialStarContainer = await page.find("calcite-rating >>> .fraction");
+      expect(partialStarContainer).not.toBeNull();
+      expect(icons[0]).toEqualAttribute("icon", "star-f");
+      expect(icons[1]).toEqualAttribute("icon", "star-f");
+      expect(icons[2]).toEqualAttribute("icon", "star-f");
+      expect(icons[3]).toEqualAttribute("icon", "star");
+      expect(icons[4]).toEqualAttribute("icon", "star");
+      expect(labels[0]).not.toHaveClass("selected");
+      expect(labels[1]).not.toHaveClass("selected");
+      expect(labels[2]).not.toHaveClass("selected");
+      expect(labels[3]).not.toHaveClass("selected");
+      expect(labels[4]).not.toHaveClass("selected");
+      expect(labels[0]).toHaveClass("average");
+      expect(labels[1]).toHaveClass("average");
+      expect(labels[2]).toHaveClass("average");
+      expect(labels[3]).not.toHaveClass("average");
+      expect(labels[4]).not.toHaveClass("average");
+    });
+
+    it("does not render the calcite chip when count and average are not present", async () => {
+      const page = await newE2EPage();
+      await page.setContent("<calcite-rating show-chip></calcite-rating>");
+      const calciteChip = await page.find("calcite-rating >>> calcite-chip");
+      expect(calciteChip).toBeNull();
+    });
+
+    it("does not render the calcite chip when show-chip is false", async () => {
+      const page = await newE2EPage();
+      await page.setContent("<calcite-rating count=240 average=3 value=2></calcite-rating>");
+      const calciteChip = await page.find("calcite-rating >>> calcite-chip");
+      expect(calciteChip).toBeNull();
+    });
+
+    it("renders the calcite chip and the count span when count is present and average is not", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`<calcite-rating count=15 show-chip></calcite-rating>`);
+      const calciteChip = await page.find("calcite-rating >>> calcite-chip");
+      const countSpan = await page.find("calcite-rating >>> .number--count");
+      const averageSpan = await page.find("calcite-rating >>> .number--average");
+      expect(calciteChip).not.toBeNull();
+      expect(countSpan).not.toBeNull();
+      expect(averageSpan).toBeNull();
+    });
+
+    it("renders the calcite chip and the average span when average is present and count is not", async () => {
+      const page = await newE2EPage();
+      await page.setContent("<calcite-rating average=4.2 show-chip></calcite-rating>");
+      const calciteChip = await page.find("calcite-rating >>> calcite-chip");
+      const countSpan = await page.find("calcite-rating >>> .number---count");
+      const averageSpan = await page.find("calcite-rating >>> .number--average");
+      expect(calciteChip).not.toBeNull();
+      expect(countSpan).toBeNull();
+      expect(averageSpan).not.toBeNull();
+    });
+
+    it("renders the calcite chip and both the average and count spans when average and count are present", async () => {
+      const page = await newE2EPage();
+      await page.setContent("<calcite-rating count=15 average=4.2 show-chip></calcite-rating>");
+      const calciteChip = await page.find("calcite-rating >>> calcite-chip");
+      const countSpan = await page.find("calcite-rating >>> .number--count");
+      const averageSpan = await page.find("calcite-rating >>> .number--average");
+      expect(calciteChip).not.toBeNull();
+      expect(countSpan).not.toBeNull();
+      expect(averageSpan).not.toBeNull();
+    });
   });
 
   it("clicking on an icon will correctly set the value", async () => {
@@ -363,53 +412,6 @@ describe("calcite-rating", () => {
     expect(element).toEqualAttribute("value", "4");
     await ratingItem1.click();
     expect(element).toEqualAttribute("value", "4");
-  });
-
-  it("does not render the calcite chip when count and average are not present", async () => {
-    const page = await newE2EPage();
-    await page.setContent("<calcite-rating show-chip></calcite-rating>");
-    const calciteChip = await page.find("calcite-rating >>> calcite-chip");
-    expect(calciteChip).toBeNull();
-  });
-
-  it("does not render the calcite chip when show-chip is false", async () => {
-    const page = await newE2EPage();
-    await page.setContent("<calcite-rating count=240 average=3 value=2></calcite-rating>");
-    const calciteChip = await page.find("calcite-rating >>> calcite-chip");
-    expect(calciteChip).toBeNull();
-  });
-
-  it("renders the calcite chip and the count span when count is present and average is not", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-rating count=15 show-chip></calcite-rating>`);
-    const calciteChip = await page.find("calcite-rating >>> calcite-chip");
-    const countSpan = await page.find("calcite-rating >>> .number--count");
-    const averageSpan = await page.find("calcite-rating >>> .number--average");
-    expect(calciteChip).not.toBeNull();
-    expect(countSpan).not.toBeNull();
-    expect(averageSpan).toBeNull();
-  });
-
-  it("renders the calcite chip and the average span when average is present and count is not", async () => {
-    const page = await newE2EPage();
-    await page.setContent("<calcite-rating average=4.2 show-chip></calcite-rating>");
-    const calciteChip = await page.find("calcite-rating >>> calcite-chip");
-    const countSpan = await page.find("calcite-rating >>> .number---count");
-    const averageSpan = await page.find("calcite-rating >>> .number--average");
-    expect(calciteChip).not.toBeNull();
-    expect(countSpan).toBeNull();
-    expect(averageSpan).not.toBeNull();
-  });
-
-  it("renders the calcite chip and both the average and count spans when average and count are present", async () => {
-    const page = await newE2EPage();
-    await page.setContent("<calcite-rating count=15 average=4.2 show-chip></calcite-rating>");
-    const calciteChip = await page.find("calcite-rating >>> calcite-chip");
-    const countSpan = await page.find("calcite-rating >>> .number--count");
-    const averageSpan = await page.find("calcite-rating >>> .number--average");
-    expect(calciteChip).not.toBeNull();
-    expect(countSpan).not.toBeNull();
-    expect(averageSpan).not.toBeNull();
   });
 
   describe("when setFocus method is called", () => {
