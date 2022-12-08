@@ -135,6 +135,7 @@ export class Action
   @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
 
   @Watch("intlLoading")
+  @Watch("intlIndicator")
   @Watch("messageOverrides")
   onMessagesChange(): void {
     /* wired up by t9n util */
@@ -236,7 +237,7 @@ export class Action
   }
 
   renderIndicatorText(): VNode {
-    const { indicator, intlIndicator, indicatorId, buttonId } = this;
+    const { indicator, messages, indicatorId, buttonId } = this;
     return (
       <div
         aria-labelledby={buttonId}
@@ -245,7 +246,7 @@ export class Action
         id={indicatorId}
         role="region"
       >
-        {indicator ? intlIndicator : null}
+        {indicator ? messages.indicator : null}
       </div>
     );
   }
@@ -292,10 +293,10 @@ export class Action
       indicator,
       indicatorId,
       buttonId,
-      intlIndicator
+      messages
     } = this;
 
-    const ariaLabel = `${label || text}${indicator ? ` (${intlIndicator})` : ""}`;
+    const ariaLabel = `${label || text}${indicator ? ` (${messages.indicator})` : ""}`;
 
     const buttonClasses = {
       [CSS.button]: true,
