@@ -182,6 +182,58 @@ describe("calcite-rating", () => {
     });
   });
 
+  describe("set props", () => {
+    it("should render the expected UI when the value is updated programatically without emitting an event", async () => {
+      const page = await newE2EPage();
+      await page.setContent("<calcite-rating></calcite-rating>");
+      const element = await page.find("calcite-rating");
+      const icons = await page.findAll("calcite-rating >>> .icon");
+      const labels = await page.findAll("calcite-rating >>> .star");
+      const changeEvent = await element.spyOnEvent("calciteRatingChange");
+
+      await element.setProperty("value", 3);
+      await page.waitForChanges();
+
+      expect(icons[0]).toEqualAttribute("icon", "star-f");
+      expect(icons[1]).toEqualAttribute("icon", "star-f");
+      expect(icons[2]).toEqualAttribute("icon", "star-f");
+      expect(icons[3]).toEqualAttribute("icon", "star");
+      expect(icons[4]).toEqualAttribute("icon", "star");
+      expect(labels[0]).toHaveClass("selected");
+      expect(labels[1]).toHaveClass("selected");
+      expect(labels[2]).toHaveClass("selected");
+      expect(labels[3]).not.toHaveClass("selected");
+      expect(labels[4]).not.toHaveClass("selected");
+      expect(element).toEqualAttribute("value", "3");
+      expect(changeEvent).toHaveReceivedEventTimes(0);
+    });
+
+    it("should render the expected UI when the value is updated programatically after an average is already set", async () => {
+      const page = await newE2EPage();
+      await page.setContent("<calcite-rating average=4.25></calcite-rating>");
+      const element = await page.find("calcite-rating");
+      const icons = await page.findAll("calcite-rating >>> .icon");
+      const labels = await page.findAll("calcite-rating >>> .star");
+
+      await element.setProperty("value", 3);
+      await page.waitForChanges();
+
+      expect(icons[0]).toEqualAttribute("icon", "star-f");
+      expect(icons[1]).toEqualAttribute("icon", "star-f");
+      expect(icons[2]).toEqualAttribute("icon", "star-f");
+      expect(icons[3]).toEqualAttribute("icon", "star");
+      expect(icons[4]).toEqualAttribute("icon", "star");
+      expect(labels[0]).toHaveClass("selected");
+      expect(labels[1]).toHaveClass("selected");
+      expect(labels[2]).toHaveClass("selected");
+      expect(labels[3]).not.toHaveClass("selected");
+      expect(labels[4]).not.toHaveClass("selected");
+      expect(labels[3]).not.toHaveClass("average");
+      expect(labels[4]).not.toHaveClass("partial");
+      expect(element).toEqualAttribute("value", "3");
+    });
+  });
+
   describe("mouse interaction", () => {
     it("should update the rating on a click event triggers on a rating label", async () => {
       const page = await newE2EPage();
