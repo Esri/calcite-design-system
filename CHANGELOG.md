@@ -9,13 +9,35 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### ⚠ BREAKING CHANGES
 
-- **input-number:** remove deprecated property and event payload
+- **handle:** Removed deprecated event payload property on `calciteHandleNudge`.
 
-* Removed `locale` property, use `lang` instead.
-* Removed `calciteInputNumberInput` event payload properties, use the
+* Removed the `event.detail.handle` property on the event `calciteHandleNudge`, use `event.target` instead.
+
+- **tabs, tab-nav, tab-title, tab:** Removed deprecated properties and values.
+
+* Removed the property `active` from `calcite-tab-title`, use `selected`
+  instead.
+* Removed the property `active` from `calcite-tab`, use `selected`
+  instead.
+* Removed the `above` value from the `position` property on
+  `calcite-tabs`, use `top` instead.
+* Removed the `below` value from the `position` property on
+  `calcite-tabs`, use `bottom` instead.
+
+- **switch:** Removed deprecated `switched` property and
+  `calciteSwitchChange` event payload.
+
+* Removed the property `switched`, use `checked` instead.
+* Removed the `event.detail` from `calciteSwitchChange`, use
+  `event.target.checked` instead.
+
+* **input-number:** remove deprecated property and event payload
+
+- Removed `locale` property, use `lang` instead.
+- Removed `calciteInputNumberInput` event payload properties, use the
   event's `target`/`currentTarget` instead.
 
-* **label:** Removed deprecated properties.
+- **label:** Removed deprecated properties.
 
   - Removed the property `status`, set the `status` property on the
     component the label is bound to instead.
@@ -24,64 +46,64 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
   - Removed the property `disableSpacing`, use the CSS variable
     `--calcite-label-margin-bottom` instead.
 
-* **stepper-item:** Removed deprecated properties.
+- **stepper-item:** Removed deprecated properties.
 
   - Removed the property `active`, use `selected` instead.
   - Removed the property `itemTitle`, use `heading` instead.
   - Removed the property `itemSubtitle`, use `description` instead.
 
-* **radio-group-item:** Removed deprecated properties.
+- **radio-group-item:** Removed deprecated properties.
 
   - Removed the property `icon`, use either `iconStart` or `iconEnd`
     instead.
   - Removed the property `iconPosition`, use either `iconStart` or
     `iconEnd` instead.
 
-* **split-button:** Removed the `event.detail` payload from the events
+- **split-button:** Removed the `event.detail` payload from the events
   `calciteSplitButtonPrimaryClick` and `calciteSplitButtonSecondaryClick`.
   Use separate mouse event listeners to get information about `click`
   events.
 
-* **slider:** Removed deprecated event.
+- **slider:** Removed deprecated event.
 
   - Removed the event `calciteSliderUpdate`, use `calciteSliderInput`
     instead.
 
-* **dropdown, dropdown-item:** Removed deprecated properties.
+- **dropdown, dropdown-item:** Removed deprecated properties.
 
   - Removed the property `active` on `calcite-dropdown-item`, use
     `selected` instead.
   - Removed the property `active`, on `calcite-dropdown`, use `open`
     instead.
 
-* **tree:** Removed the `inputEnabled` property.
+- **tree:** Removed the `inputEnabled` property.
 
   - Removed the property `inputEnabled`, use `selectionMode="ancestors"`
     instead.
 
-* **chip:** Removed the `dismissible` property and the `clear`
+- **chip:** Removed the `dismissible` property and the `clear`
   value for the `appearance` property.
 
   - Removed the property `dismissible`, use `closable` instead.
   - Use the value `transparent` instead of `clear` for `appearance`
     property.
 
-* **action-menu:** Removed the `event.detail` value from the
+- **action-menu:** Removed the `event.detail` value from the
   `calciteActionMenuOpenChange` event on the `action-menu` component.
 
   - When listening to `calciteActionMenuOpenChange`, use the `open`
     property on the `event.target` instead of `event.detail`.
 
-* **block:** Removed the `summary` and `disablePadding` properties.
+- **block:** Removed the `summary` and `disablePadding` properties.
 
   - Removed the property `summary`, use `description` instead.
   - Removed the property `disablePadding`, use the CSS variable
     `--calcite-block-padding` instead.
 
-* **popover-manager:** Removed the `calcite-popover-manager` component. This
+- **popover-manager:** Removed the `calcite-popover-manager` component. This
   component is no longer necessary for `calcite-popover`s.
 
-* **accordion-item:** Removed the properties `active`, `itemTitle`,
+- **accordion-item:** Removed the properties `active`, `itemTitle`,
   `itemSubtitle`, and `icon`.
 
   - Removed the property `active`, use `expanded` instead.
@@ -89,7 +111,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
   - Removed the property `itemSubtitle`, use `description` instead.
   - Removed the property `icon`, use `iconStart` or `iconEnd` instead.
 
-* **panel:** Removed deprecated events and properties.
+- **panel:** Removed deprecated events and properties.
 
   - Removed the property `dismissed`, use `closed` instead.
   - Removed the property `dismissible`, use `closable` instead.
@@ -107,14 +129,14 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
   - Removed the event `calcitePanelBackClick`, use the `calcite-flow-item`
     component instead.
 
-* **popover:** Removed the `closeButton` and `dismissible` properties.
+- **popover:** Removed the `closeButton` and `dismissible` properties.
 
   - Removed the property `closeButton`, use `closable` instead.
   - Removed the property `dismissible`, use `closable` instead.
 
-* **tooltip-manager:** Removed the `calcite-tooltip-manager` component. This
+- **tooltip-manager:** Removed the `calcite-tooltip-manager` component. This
   component is no longer necessary for `calcite-tooltip`s.
-* **alert:** Removed the deprecated `active` property.
+- **alert:** Removed the deprecated `active` property.
 
   - Removed the property `active`, use `open` instead.
 
@@ -131,18 +153,18 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
     longer necessary.
   - `nonInteractive` property on the `list-item` is no longer necessary.
 
-* **shell:** Removed the `primary-panel` and `contextual-panel`
+- **shell:** Removed the `primary-panel` and `contextual-panel`
   slots.
 
   - Removed the slot `primary-panel`, use `panel-start` instead.
   - Removed the slot `contextual-panel`, use `panel-end` instead.
 
-* **shell-panel:** Removed the `calciteShellPanelToggle` event.
+- **shell-panel:** Removed the `calciteShellPanelToggle` event.
 
   - Use a `ResizeObserver` on the component to listen for changes to its
     size. (https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver)
 
-* **flow, flow-item:** Removed the `calciteFlowItemBackClick` event and
+- **flow, flow-item:** Removed the `calciteFlowItemBackClick` event and
   support for slotting `calcite-panel`s.
 
   - Removed support for slotting `calcite-panel` components, use the
@@ -150,17 +172,17 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
   - Removed the event `calciteFlowItemBackClick`, use
     `calciteFlowItemBack` instead.
 
-* **tip-manager:** Removed the `calciteTipManagerToggle` event, use
+- **tip-manager:** Removed the `calciteTipManagerToggle` event, use
   `calciteTipManagerClose` instead.
 
-* **action:** Removed the `calciteActionClick` event and the `clear`
+- **action:** Removed the `calciteActionClick` event and the `clear`
   value for the `appearance` property.
 
   - Listen to the `click` event instead of `calciteActionClick.
   - Use the value `transparent` instead of `clear` for the property
     `appearance`.
 
-* **list, list-item, list-item-group:** To know when `calcite-list-item` content is selected, listen to the event `calciteListItemSelect` instead of `click`.
+- **list, list-item, list-item-group:** To know when `calcite-list-item` content is selected, listen to the event `calciteListItemSelect` instead of `click`.
 
   - `List`
     - Adds `label` property to specify an accessible name for the component.
@@ -178,8 +200,8 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
     - Adds `open` property to show child components.
     - Deprecates `nonInteractive` property.
 
-* **calcite-loader, calcite-input-message:** use hidden native global attribute to toggle visibility on the components instead of the deprecated active prop.
-* **block, date-picker, list-item-group, panel, pick-list-group, popover, tip, tip-manager:** Sets internal heading HTML element to be a div by default. If users would like to retain an internal H1-H6 HTML element, they will need to set the headingLevel property on the component. Users already setting the headingLevel property are not affected. ([#5728](https://github.com/Esri/calcite-components/pull/5728)) ([38ca639](https://github.com/Esri/calcite-components/commit/38ca639010b8bd1d1fe32c9cf9b54dfc38cf9877)), closes [5099](https://github.com/Esri/calcite-components/issues/5099)
+- **calcite-loader, calcite-input-message:** use hidden native global attribute to toggle visibility on the components instead of the deprecated active prop.
+- **block, date-picker, list-item-group, panel, pick-list-group, popover, tip, tip-manager:** Sets internal heading HTML element to be a div by default. If users would like to retain an internal H1-H6 HTML element, they will need to set the headingLevel property on the component. Users already setting the headingLevel property are not affected. ([#5728](https://github.com/Esri/calcite-components/pull/5728)) ([38ca639](https://github.com/Esri/calcite-components/commit/38ca639010b8bd1d1fe32c9cf9b54dfc38cf9877)), closes [5099](https://github.com/Esri/calcite-components/issues/5099)
 
 ### Features
 
