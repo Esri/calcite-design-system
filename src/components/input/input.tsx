@@ -489,7 +489,7 @@ export class Input
   // nativeEvent payload property in handleChannelInput()
   /**
    * Fires each time a new `value` is typed.
-   * NOTE: nativeEvent payload property is deprecated
+   * NOTE: `nativeEvent` payload property is deprecated
    */
   @Event({ cancelable: true }) calciteInputInput: EventEmitter<DeprecatedEventPayload>;
 
