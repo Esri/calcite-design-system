@@ -3,9 +3,8 @@ import {
   Element,
   Event,
   EventEmitter,
-  Fragment,
   h,
-  Listen,
+  Host,
   Method,
   Prop,
   State,
@@ -69,6 +68,20 @@ export class Rating
   /** The component's value. */
   @Prop({ reflect: true, mutable: true }) value = 0;
 
+  @Watch("value")
+  setValue(newValue: number, oldValue: number): void {
+    if (newValue == oldValue && !this.required) {
+      this.value = 0;
+    }
+
+    if (this.emit) {
+      this.calciteRatingChange.emit({ value: newValue });
+    }
+
+    this.focusValue = null;
+    this.hoverValue = null;
+  }
+
   /** When `true`, the component's value can be read, but cannot be modified. */
   @Prop({ reflect: true }) readOnly = false;
 
@@ -122,6 +135,7 @@ export class Rating
     connectMessages(this);
     connectLabel(this);
     connectForm(this);
+    this.renderArray = Array.from({ length: this.max }, (_, i) => i + 1);
   }
 
   async componentWillLoad(): Promise<void> {
@@ -153,18 +167,7 @@ export class Rating
   /**
    * Fires when the component's value changes.
    */
-  @Event({ cancelable: false }) calciteRatingChange: EventEmitter<void>;
-
-  //--------------------------------------------------------------------------
-  //
-  //  Event Listeners
-  //
-  //--------------------------------------------------------------------------
-
-  @Listen("blur")
-  blurHandler(): void {
-    this.hasFocus = false;
-  }
+  @Event({ cancelable: false }) calciteRatingChange: EventEmitter<{ value: number }>;
 
   // --------------------------------------------------------------------------
   //
@@ -173,21 +176,20 @@ export class Rating
   // --------------------------------------------------------------------------
 
   renderStars(): VNode[] {
-    return [1, 2, 3, 4, 5].map((i) => {
+    return this.renderArray.map((i) => {
       const selected = this.value >= i;
       const average = this.average && !this.value && i <= this.average;
       const hovered = i <= this.hoverValue;
       const fraction = this.average && this.average + 1 - i;
       const partial = !this.value && !hovered && fraction > 0 && fraction < 1;
-      const focused = this.hasFocus && this.focusValue === i;
+      const focused = this.isKeyboardInteraction && this.hasFocus && Number(this.focusValue) === i;
       return (
         <span class={{ wrapper: true }}>
           <label
             class={{ star: true, focused, selected, average, hovered, partial }}
             htmlFor={`${this.guid}-${i}`}
-            onPointerOver={() => {
-              this.hoverValue = i;
-            }}
+            onPointerDown={this.handleLabelPointerDown}
+            onPointerOver={this.handleLabelPointerOver}
           >
             <calcite-icon
               aria-hidden="true"
@@ -204,17 +206,12 @@ export class Rating
           </label>
           <input
             checked={i === this.value}
-            class="visually-hidden"
+            // class="visually-hidden"
             disabled={this.disabled || this.readOnly}
             id={`${this.guid}-${i}`}
             name={this.guid}
-            onChange={() => this.updateValue(i)}
-            onClick={(event) =>
-              // click is fired from the component's label, so we treat this as an internal event
-              event.stopPropagation()
-            }
-            onFocus={() => this.onFocusChange(i)}
-            onKeyDown={this.onKeyboardPressed}
+            onChange={this.handleInputChange}
+            onKeyDown={this.handleKeyDown}
             ref={(el) =>
               (i === 1 || i === this.value) && (this.inputFocusRef = el as HTMLInputElement)
             }
@@ -227,28 +224,27 @@ export class Rating
   }
 
   render() {
-    const { disabled, messages, showChip, scale, count, average } = this;
-
     return (
-      <Fragment>
-        <fieldset
-          class="fieldset"
-          disabled={disabled}
-          onBlur={() => (this.hoverValue = null)}
-          onPointerLeave={() => (this.hoverValue = null)}
-          onTouchEnd={() => (this.hoverValue = null)}
-        >
-          <legend class="visually-hidden">{messages.rating}</legend>
+      <Host
+        onBlur={this.handleRatingFocusLeave}
+        onFocus={this.handleRatingFocusIn}
+        onKeyDown={this.handleKeyDown}
+        onPointerOut={this.handleRatingPointerOut}
+        onPointerOver={this.handleRatingPointerOver}
+        tabindex="0"
+      >
+        <fieldset class="fieldset" disabled={this.disabled}>
+          <legend class="visually-hidden">{this.messages.rating}</legend>
           {this.renderStars()}
         </fieldset>
-        {(count || average) && showChip ? (
-          <calcite-chip scale={scale} value={count?.toString()}>
-            {!!average && <span class="number--average">{average.toString()}</span>}
-            {!!count && <span class="number--count">({count?.toString()})</span>}
+        {(this.count || this.average) && this.showChip ? (
+          <calcite-chip scale={this.scale} value={this.count?.toString()}>
+            {!!this.average && <span class="number--average">{this.average.toString()}</span>}
+            {!!this.count && <span class="number--count">({this.count?.toString()})</span>}
           </calcite-chip>
         ) : null}
         <HiddenFormInputSlot component={this} />
-      </Fragment>
+      </Host>
     );
   }
 
@@ -267,20 +263,83 @@ export class Rating
     this.calciteRatingChange.emit();
   }
 
-  private onKeyboardPressed = (event: KeyboardEvent): void => {
-    if (!this.required && isActivationKey(event.key)) {
-      event.preventDefault();
-      this.updateValue(0);
+  private handleRatingPointerOver = () => {
+    this.isKeyboardInteraction = false;
+  };
+
+  private handleRatingPointerOut = () => {
+    this.isKeyboardInteraction = true;
+    this.hoverValue = null;
+    this.focusValue = null;
+  };
+
+  private handleRatingFocusLeave = (): void => {
+    this.focusValue = null;
+    this.hasFocus = false;
+    this.hoverValue = null;
+  };
+
+  private handleRatingFocusIn = (): void => {
+    this.focusValue = this.value > 0 ? this.value : 1;
+    this.hasFocus = true;
+    this.hoverValue = this.value > 0 ? this.value : 1;
+  };
+
+  private handleLabelPointerOver = (ev: PointerEvent) => {
+    const newPointerValue = ev.currentTarget["nextElementSibling"]["value"] || this.value || 0;
+    this.hoverValue = newPointerValue;
+    //  when switching from keyboard to mouse this prop change is required to remove the focus styles from the element which are needed when navigating with a keyboard.
+    this.focusValue = null;
+  };
+
+  private handleKeyDown = (ev: KeyboardEvent) => {
+    if (ev.target["nodeName"] === "CALCITE-RATING") {
+      this.isKeyboardInteraction = true;
+    } else {
+      const inputVal = Number(ev.target["value"]);
+      const key = ev.key;
+      const numberKey = Number(key);
+
+      this.emit = true;
+
+      if (isNaN(numberKey)) {
+        switch (key) {
+          case "ArrowLeft":
+            this.value = inputVal - 1;
+            break;
+          case "ArrowRight":
+            this.value = inputVal + 1;
+            break;
+          default:
+            break;
+        }
+      } else {
+        if (numberKey >= 0 && numberKey <= this.max) {
+          this.value = numberKey;
+        }
+      }
+
+      this.emit = false;
+      this.focusValue = null;
     }
   };
 
-  private onFocusChange = (selectedRatingValue: number): void => {
-    this.hasFocus = true;
-    if (!this.required && this.focusValue === selectedRatingValue) {
-      this.updateValue(0);
-    } else {
-      this.focusValue = selectedRatingValue;
+  private handleInputChange = (ev: Event) => {
+    if (this.isKeyboardInteraction === true) {
+      const inputVal = Number(ev.target["value"]);
+      this.focusValue = inputVal;
+      this.hoverValue = inputVal;
     }
+  };
+
+  private handleLabelPointerDown = (ev: PointerEvent) => {
+    const inputVal = Number(ev.target["parentElement"]["nextElementSibling"]["value"]);
+
+    this.focusValue = null;
+    this.hoverValue = null;
+    this.emit = true;
+    this.value = this.value === inputVal ? 0 : inputVal;
+    this.emit = false;
   };
 
   //--------------------------------------------------------------------------
@@ -302,6 +361,11 @@ export class Rating
   //  Private State / Properties
   //
   // --------------------------------------------------------------------------
+  private emit = false;
+
+  renderArray: number[];
+
+  isKeyboardInteraction = true;
 
   labelEl: HTMLCalciteLabelElement;
 
