@@ -50,7 +50,7 @@ export class SplitButton implements InteractiveComponent {
   @Prop({ reflect: true }) dropdownIconType: DropdownIconType = "chevron";
 
   /** Accessible name for the dropdown menu. */
-  @Prop({ reflect: true }) dropdownLabel?: string;
+  @Prop({ reflect: true }) dropdownLabel: string;
 
   /**
     When `true`, a busy indicator is displayed on the primary button.
@@ -68,16 +68,16 @@ export class SplitButton implements InteractiveComponent {
   @Prop({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
   /** Specifies an icon to display at the end of the primary button. */
-  @Prop({ reflect: true }) primaryIconEnd?: string;
+  @Prop({ reflect: true }) primaryIconEnd: string;
 
   /**  When `true`, the primary button icon will be flipped when the element direction is right-to-left (`"rtl"`). */
-  @Prop({ reflect: true }) primaryIconFlipRtl?: FlipContext;
+  @Prop({ reflect: true }) primaryIconFlipRtl: FlipContext;
 
   /** Specifies an icon to display at the start of the primary button. */
-  @Prop({ reflect: true }) primaryIconStart?: string;
+  @Prop({ reflect: true }) primaryIconStart: string;
 
   /** Accessible name for the primary button. */
-  @Prop({ reflect: true }) primaryLabel?: string;
+  @Prop({ reflect: true }) primaryLabel: string;
 
   /** Text displayed in the primary button. */
   @Prop({ reflect: true }) primaryText: string;

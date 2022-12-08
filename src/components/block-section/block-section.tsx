@@ -25,12 +25,12 @@ export class BlockSection {
   /**
    * Accessible name for the component's collapse button.
    */
-  @Prop() intlCollapse?: string;
+  @Prop() intlCollapse: string;
 
   /**
    * Accessible name for the component's expand button.
    */
-  @Prop() intlExpand?: string;
+  @Prop() intlExpand: string;
 
   /**
    * When `true`, expands the component and its contents.
@@ -40,7 +40,7 @@ export class BlockSection {
   /**
    * Displays a status-related indicator icon.
    */
-  @Prop({ reflect: true }) status?: Status;
+  @Prop({ reflect: true }) status: Status;
 
   /**
    * The component header text.

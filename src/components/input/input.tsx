@@ -37,8 +37,7 @@ import {
   numberStringFormatter,
   LocalizedComponent,
   disconnectLocalized,
-  connectLocalized,
-  updateEffectiveLocale
+  connectLocalized
 } from "../../utils/locale";
 import { numberKeys } from "../../utils/key";
 import { isValidNumber, parseNumberString, sanitizeNumberString } from "../../utils/number";
@@ -133,42 +132,29 @@ export class Input
   /**
    * Accessible name for the component's clear button.
    */
-  @Prop() intlClear?: string;
+  @Prop() intlClear: string;
 
   /**
    * Accessible name when the component is loading.
    *
    * @default "Loading"
    */
-  @Prop() intlLoading?: string = COMMON_TEXT.loading;
+  @Prop() intlLoading: string = COMMON_TEXT.loading;
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @Prop({ reflect: true }) iconFlipRtl = false;
 
   /** Accessible name for the component. */
-  @Prop() label?: string;
+  @Prop() label: string;
 
   /** When `true`, a busy indicator is displayed. */
   @Prop({ reflect: true }) loading = false;
 
   /**
-   * BCP 47 language tag for desired language and country format
-   *
-   * @deprecated set the global `lang` attribute on the element instead.
-   * @mdn [lang](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/lang)
-   */
-  @Prop() locale: string;
-
-  @Watch("locale")
-  localeChanged(): void {
-    updateEffectiveLocale(this);
-  }
-
-  /**
    * Specifies the Unicode numeral system used by the component for localization.
    *
    */
-  @Prop({ reflect: true }) numberingSystem?: NumberingSystem;
+  @Prop({ reflect: true }) numberingSystem: NumberingSystem;
 
   /**
    * When `true`, uses locale formatting for numbers.
@@ -182,7 +168,7 @@ export class Input
    *
    * @mdn [max](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#max)
    */
-  @Prop({ reflect: true }) max?: number;
+  @Prop({ reflect: true }) max: number;
 
   /** watcher to update number-to-string for max */
   @Watch("max")
@@ -195,7 +181,7 @@ export class Input
    *
    * @mdn [min](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#min)
    */
-  @Prop({ reflect: true }) min?: number;
+  @Prop({ reflect: true }) min: number;
 
   /** watcher to update number-to-string for min */
   @Watch("min")
@@ -206,23 +192,16 @@ export class Input
   /**
    * Specifies the maximum length of text for the component's value.
    *
-   * @deprecated use `maxLength` instead.
-   */
-  @Prop({ reflect: true }) maxlength?: number;
-
-  /**
-   * Specifies the maximum length of text for the component's value.
-   *
    * @mdn [maxlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#maxlength)
    */
-  @Prop({ reflect: true }) maxLength?: number;
+  @Prop({ reflect: true }) maxLength: number;
 
   /**
    * Specifies the minimum length of text for the component's value.
    *
    * @mdn [minlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#minlength)
    */
-  @Prop({ reflect: true }) minLength?: number;
+  @Prop({ reflect: true }) minLength: number;
 
   /**
    * Specifies the name of the component on form submission.
@@ -232,7 +211,7 @@ export class Input
   @Prop({ reflect: true }) name: string;
 
   /** Specifies the placement of the buttons for `type="number"`. */
-  @Prop({ reflect: true }) numberButtonType?: InputPlacement = "vertical";
+  @Prop({ reflect: true }) numberButtonType: InputPlacement = "vertical";
 
   /**
    * Specifies placeholder text for the component.
@@ -242,7 +221,7 @@ export class Input
   @Prop() placeholder: string;
 
   /** Adds text to the start of the component. */
-  @Prop() prefixText?: string;
+  @Prop() prefixText: string;
 
   /**
    * When `true`, the component's value can be read, but cannot be modified.
@@ -265,7 +244,7 @@ export class Input
    *
    * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/step)
    */
-  @Prop({ reflect: true }) step?: number | "any";
+  @Prop({ reflect: true }) step: number | "any";
 
   /**
    * Specifies the type of content to autocomplete, for use in forms.
@@ -302,7 +281,7 @@ export class Input
   @Prop() multiple = false;
 
   /** Adds text to the end of the component. */
-  @Prop() suffixText?: string;
+  @Prop() suffixText: string;
 
   /**
    * @internal
@@ -506,10 +485,11 @@ export class Input
    */
   @Event({ cancelable: false }) calciteInternalInputBlur: EventEmitter<void>;
 
+  // TODO: refactor color-picker to not use the deprecated
+  // nativeEvent payload property in handleChannelInput()
   /**
    * Fires each time a new `value` is typed.
-   *
-   * **Note:**: The `el` and `value` event payload properties are deprecated, use the event's `target`/`currentTarget` instead.
+   * NOTE: `nativeEvent` payload property is deprecated
    */
   @Event({ cancelable: true }) calciteInputInput: EventEmitter<DeprecatedEventPayload>;
 
@@ -934,11 +914,8 @@ export class Input
 
     if (nativeEvent) {
       const calciteInputInputEvent = this.calciteInputInput.emit({
-        element: this.childEl,
-        nativeEvent,
-        value: this.value
+        nativeEvent
       });
-
       if (calciteInputInputEvent.defaultPrevented) {
         this.value = this.previousValue;
         this.localizedValue =

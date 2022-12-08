@@ -78,7 +78,7 @@ export class StepperItem implements InteractiveComponent, LocalizedComponent, Lo
   @Prop({ reflect: true }) disabled = false;
 
   /** The component header text. */
-  @Prop() heading?: string;
+  @Prop() heading: string;
 
   /** A description for the component. Displays below the header text. */
   @Prop() description: string;
@@ -86,7 +86,7 @@ export class StepperItem implements InteractiveComponent, LocalizedComponent, Lo
   // internal props inherited from wrapping calcite-stepper
   /** Defines the layout of the component. */
   /** @internal */
-  @Prop({ reflect: true, mutable: true }) layout?: Extract<"horizontal" | "vertical", Layout> =
+  @Prop({ reflect: true, mutable: true }) layout: Extract<"horizontal" | "vertical", Layout> =
     "horizontal";
 
   /** When `true`, displays a status icon in the component's heading. */
