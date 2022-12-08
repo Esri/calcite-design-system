@@ -9,8 +9,7 @@ import {
   h,
   State,
   Host,
-  VNode,
-  Watch
+  VNode
 } from "@stencil/core";
 import { TabChangeEventDetail } from "./interfaces";
 import { guid } from "../../utils/guid";
@@ -51,27 +50,8 @@ export class Tab {
    * When `true`, the component's contents are selected.
    *
    * Only one tab can be selected within the `calcite-tabs` parent.
-   *
-   * @deprecated Use `selected` instead.
-   */
-  @Prop({ reflect: true, mutable: true }) active = false;
-
-  @Watch("active")
-  activeHandler(value: boolean): void {
-    this.selected = value;
-  }
-
-  /**
-   * When `true`, the component's contents are selected.
-   *
-   * Only one tab can be selected within the `calcite-tabs` parent.
    */
   @Prop({ reflect: true, mutable: true }) selected = false;
-
-  @Watch("selected")
-  selectedHandler(value: boolean): void {
-    this.active = value;
-  }
 
   /**
    * @internal
@@ -100,12 +80,6 @@ export class Tab {
 
   connectedCallback(): void {
     this.parentTabsEl = this.el.closest("calcite-tabs");
-    const isSelected = this.selected || this.active;
-
-    if (isSelected) {
-      this.activeHandler(isSelected);
-      this.selectedHandler(isSelected);
-    }
   }
 
   componentDidLoad(): void {

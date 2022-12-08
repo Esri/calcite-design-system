@@ -7,11 +7,10 @@ import {
   Host,
   Method,
   Prop,
-  VNode,
-  Watch
+  VNode
 } from "@stencil/core";
 import { focusElement, toAriaBoolean } from "../../utils/dom";
-import { DeprecatedEventPayload, Scale } from "../interfaces";
+import { Scale } from "../interfaces";
 import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
 import {
   connectForm,
@@ -61,18 +60,6 @@ export class Switch
 
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
-
-  /**
-   * When `true`, the component is checked.
-   *
-   * @deprecated use `checked` instead.
-   */
-  @Prop({ mutable: true, reflect: true }) switched = false;
-
-  @Watch("switched")
-  switchedWatcher(switched: boolean): void {
-    this.checked = switched;
-  }
 
   /** When `true`, the component is checked. */
   @Prop({ reflect: true, mutable: true }) checked = false;
@@ -132,9 +119,7 @@ export class Switch
 
   private toggle(): void {
     this.checked = !this.checked;
-    this.calciteSwitchChange.emit({
-      switched: this.checked
-    });
+    this.calciteSwitchChange.emit();
   }
 
   private clickHandler = (): void => {
@@ -156,7 +141,7 @@ export class Switch
    *
    * **Note:** The event payload is deprecated, use the component's `checked` property instead.
    */
-  @Event({ cancelable: false }) calciteSwitchChange: EventEmitter<DeprecatedEventPayload>;
+  @Event({ cancelable: false }) calciteSwitchChange: EventEmitter<void>;
 
   //--------------------------------------------------------------------------
   //
@@ -165,13 +150,6 @@ export class Switch
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
-    const initiallyChecked = this.checked || this.switched;
-
-    if (initiallyChecked) {
-      // if either prop is set, we ensure both are synced initially
-      this.switched = this.checked = initiallyChecked;
-    }
-
     connectLabel(this);
     connectForm(this);
   }
