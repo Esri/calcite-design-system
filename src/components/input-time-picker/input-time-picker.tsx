@@ -15,12 +15,7 @@ import {
 import { guid } from "../../utils/guid";
 import { formatTimeString, isValidTime, localizeTimeString } from "../../utils/time";
 import { Scale } from "../interfaces";
-import {
-  defaultAutoPlacement,
-  FloatingUIComponent,
-  LogicalPlacement,
-  OverlayPositioning
-} from "../../utils/floating-ui";
+import { FloatingUIComponent, LogicalPlacement, OverlayPositioning } from "../../utils/floating-ui";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import {
   connectForm,
@@ -201,8 +196,10 @@ export class InputTimePicker
 
   /**
    * Determines where the popover will be positioned relative to the input.
+   *
+   * @see [LogicalPlacement](https://github.com/Esri/calcite-components/blob/master/src/utils/floating-ui.ts#L25)
    */
-  @Prop({ reflect: true }) placement: LogicalPlacement = defaultAutoPlacement;
+  @Prop({ reflect: true }) placement: LogicalPlacement = "auto";
 
   /** Specifies the granularity the component's `value` must adhere to (in seconds). */
   @Prop() step = 60;

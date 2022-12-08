@@ -12,7 +12,7 @@ import {
   h,
   VNode
 } from "@stencil/core";
-import { CSS, ARIA_CONTROLS, ARIA_EXPANDED, TEXT } from "./resources";
+import { CSS, ARIA_CONTROLS, ARIA_EXPANDED, TEXT, defaultPopoverPlacement } from "./resources";
 import {
   FloatingCSS,
   OverlayPositioning,
@@ -25,8 +25,7 @@ import {
   filterComputedPlacements,
   ReferenceElement,
   reposition,
-  updateAfterClose,
-  defaultAutoPlacement
+  updateAfterClose
 } from "../../utils/floating-ui";
 import {
   FocusTrapComponent,
@@ -176,8 +175,10 @@ export class Popover
 
   /**
    * Determines where the component will be positioned relative to the `referenceElement`.
+   *
+   * @see [LogicalPlacement](https://github.com/Esri/calcite-components/blob/master/src/utils/floating-ui.ts#L25)
    */
-  @Prop({ reflect: true }) placement: LogicalPlacement = defaultAutoPlacement;
+  @Prop({ reflect: true }) placement: LogicalPlacement = defaultPopoverPlacement;
 
   @Watch("placement")
   placementHandler(): void {

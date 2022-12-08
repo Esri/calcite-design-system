@@ -154,7 +154,6 @@ export type MenuPlacement = Extract<
   "top-start" | "top" | "top-end" | "bottom-start" | "bottom" | "bottom-end"
 >;
 
-export const defaultAutoPlacement: LogicalPlacement = "auto";
 export const defaultMenuPlacement: MenuPlacement = "bottom-start";
 
 export interface FloatingUIComponent {
