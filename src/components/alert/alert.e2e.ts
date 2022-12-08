@@ -319,36 +319,54 @@ describe("calcite-alert", () => {
     expect(await container.isVisible()).toBe(false);
   });
 
-  describe("when multiple alerts are queued", () => {
+  describe("auto-dismiss behavior on queued items", () => {
     it("should display number of queued alerts with a calcite-chip", async () => {
-      const page = await newE2EPage({
-        html: `
-        <calcite-alert open id="first-open" icon="3d-glasses" auto-dismiss-duration="fast" scale="l">
-          <div slot="title">Title of alert #1</div>
-          <div slot="message">Message text of the alert</div>
+      const page = await newE2EPage();
+      await page.setContent(html`
+        <calcite-button id="buttonOne" onclick="document.querySelector('#first-open').setAttribute('open', '')"
+          >open alert</calcite-button
+        >
+        <calcite-button id="buttonTwo" onclick="document.querySelector('#alert-to-be-queued').setAttribute('open', '')"
+          >open alert</calcite-button
+        >
+
+        <calcite-alert open id="first-open" icon="3d-glasses" auto-dismiss scale="l">
+          <div slot="title">Title of alert Uno</div>
+          <div slot="message">Message text of the alert Uno</div>
           <a slot="link" href="#">Retry</a>
         </calcite-alert>
+
         <calcite-alert id="alert-to-be-queued" icon auto-dismiss scale="l">
-          <div slot="title">Title of alert #2</div>
-          <div slot="message">Message text of the alert</div>
+          <div slot="title">Title of alert Dos</div>
+          <div slot="message">Message text of the alert Dos</div>
           <a slot="link" href="#">Retry</a>
         </calcite-alert>
-        `
-      });
-      await page.addScriptTag({
-        content: `document.querySelector("#alert-to-be-queued").setProperty("open", "");`
-      });
+      `);
+      const buttonOne = await page.find("#buttonOne");
+      const buttonTwo = await page.find("#buttonTwo");
+      const alertOne = await page.find("#first-open");
+      const alertTwo = await page.find("#alert-to-be-queued");
+
+      await buttonOne.click();
       await page.waitForTimeout(animationDurationInMs);
+      expect(await alertOne.isVisible()).toBe(true);
+
+      await buttonTwo.click();
+      expect(await alertTwo.isVisible()).toBe(true);
+
       const chip = await page.find("calcite-alert[id='first-open'] >>> calcite-chip");
       const chipQueueCount = "+1";
       expect(await chip.getProperty("value")).toEqual(chipQueueCount);
       expect(chip.textContent).toEqual(chipQueueCount);
+
+      await page.waitForTimeout(DURATIONS.medium * 2 + animationDurationInMs * 5);
+      await page.waitForSelector("#first-open", { visible: false });
+      await page.waitForSelector("#alert-to-be-queued", { visible: false });
     });
   });
 
   describe("auto-dismiss behavior", () => {
     let alert, button, page, buttonClose;
-    const animationDurationInMs = 400;
     let playState;
 
     beforeEach(async () => {
@@ -373,7 +391,7 @@ describe("calcite-alert", () => {
       });
     });
 
-    it("should render close button", async () => {
+    it("should render close btton", async () => {
       await button.click();
       await page.waitForTimeout(animationDurationInMs);
 
