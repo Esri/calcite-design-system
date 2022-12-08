@@ -166,6 +166,7 @@ export class Alert implements OpenCloseComponent, LocalizedComponent, LoadableCo
 
   disconnectedCallback(): void {
     window.clearTimeout(this.autoDismissTimeoutId);
+    window.clearTimeout(this.queueTimeout);
     disconnectOpenCloseComponent(this);
     disconnectLocalized(this);
   }
@@ -226,10 +227,12 @@ export class Alert implements OpenCloseComponent, LocalizedComponent, LoadableCo
             queued,
             [placement]: true
           }}
-          onMouseLeave={
+          onPointerOut={
             this.autoDismiss && this.autoDismissTimeoutId ? this.handleMouseLeave : null
           }
-          onMouseOver={this.autoDismiss && this.autoDismissTimeoutId ? this.handleMouseOver : null}
+          onPointerOver={
+            this.autoDismiss && this.autoDismissTimeoutId ? this.handleMouseOver : null
+          }
           ref={this.setTransitionEl}
         >
           {requestedIcon ? (
