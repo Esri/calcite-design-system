@@ -192,7 +192,7 @@ describe("calcite-rating", () => {
     });
   });
 
-  describe("mouse events", () => {
+  describe("mouse interaction", () => {
     it("clicking on an icon will correctly set the value", async () => {
       const page = await newE2EPage();
       await page.setContent("<calcite-rating></calcite-rating>");
@@ -348,39 +348,56 @@ describe("calcite-rating", () => {
     });
   });
 
-  it("can be edited with keyboard like a set of radio inputs", async () => {
-    const page = await newE2EPage();
-    await page.setContent("<calcite-rating></calcite-rating>");
-    const element = await page.find("calcite-rating");
-    const changeEvent = await element.spyOnEvent("calciteRatingChange");
-    await page.keyboard.press("Tab");
-    expect(changeEvent).toHaveReceivedEventTimes(0);
-    await element.press(" ");
-    expect(changeEvent).toHaveReceivedEventTimes(1);
-    await page.keyboard.press("ArrowRight");
-    expect(changeEvent).toHaveReceivedEventTimes(2);
-    await page.keyboard.press("ArrowLeft");
-    expect(changeEvent).toHaveReceivedEventTimes(3);
-    await page.keyboard.press("ArrowLeft");
-    expect(changeEvent).toHaveReceivedEventTimes(4);
-    await page.keyboard.press("ArrowRight");
-    expect(changeEvent).toHaveReceivedEventTimes(5);
-    await page.keyboard.press("Enter");
-    expect(changeEvent).toHaveReceivedEventTimes(6);
-    expect(changeEvent).toHaveReceivedEventDetail({
-      value: 0
+  describe("keyboard interaction", () => {
+    it("can be edited with keyboard like a set of radio inputs", async () => {
+      const page = await newE2EPage();
+      await page.setContent("<calcite-rating></calcite-rating>");
+      const element = await page.find("calcite-rating");
+      const changeEvent = await element.spyOnEvent("calciteRatingChange");
+      await page.keyboard.press("Tab");
+      expect(changeEvent).toHaveReceivedEventTimes(0);
+      await element.press(" ");
+      expect(changeEvent).toHaveReceivedEventTimes(1);
+      expect(changeEvent).toHaveReceivedEventDetail({
+        value: 0
+      });
+      await page.keyboard.press("ArrowRight");
+      expect(changeEvent).toHaveReceivedEventTimes(2);
+      expect(changeEvent).toHaveReceivedEventDetail({
+        value: 2
+      });
+      await page.keyboard.press("ArrowLeft");
+      expect(changeEvent).toHaveReceivedEventTimes(3);
+      expect(changeEvent).toHaveReceivedEventDetail({
+        value: 1
+      });
+      await page.keyboard.press("ArrowLeft");
+      expect(changeEvent).toHaveReceivedEventTimes(4);
+      expect(changeEvent).toHaveReceivedEventDetail({
+        value: 5
+      });
+      await page.keyboard.press("ArrowRight");
+      expect(changeEvent).toHaveReceivedEventTimes(5);
+      expect(changeEvent).toHaveReceivedEventDetail({
+        value: 1
+      });
+      await page.keyboard.press("Enter");
+      expect(changeEvent).toHaveReceivedEventTimes(6);
+      expect(changeEvent).toHaveReceivedEventDetail({
+        value: 0
+      });
     });
-  });
 
-  it("cannot be cleared/reset when required props is set true", async () => {
-    const page = await newE2EPage();
-    await page.setContent("<calcite-rating></calcite-rating>");
-    const element = await page.find("calcite-rating");
-    element.setProperty("required", true);
-    await page.waitForChanges();
-    const changeEvent = await element.spyOnEvent("calciteRatingChange");
-    await element.press(" ");
-    await element.press("Enter");
-    expect(changeEvent).toHaveReceivedEventTimes(0);
+    it("cannot be cleared/reset when required props is set true", async () => {
+      const page = await newE2EPage();
+      await page.setContent("<calcite-rating></calcite-rating>");
+      const element = await page.find("calcite-rating");
+      element.setProperty("required", true);
+      await page.waitForChanges();
+      const changeEvent = await element.spyOnEvent("calciteRatingChange");
+      await element.press(" ");
+      await element.press("Enter");
+      expect(changeEvent).toHaveReceivedEventTimes(0);
+    });
   });
 });
