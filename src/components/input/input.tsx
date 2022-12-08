@@ -1,4 +1,4 @@
-import { Scale, Status } from "../interfaces";
+import { DeprecatedEventPayload, Scale, Status } from "../interfaces";
 import {
   Component,
   Element,
@@ -485,10 +485,13 @@ export class Input
    */
   @Event({ cancelable: false }) calciteInternalInputBlur: EventEmitter<void>;
 
+  // TODO: refactor color-picker to not use the deprecated
+  // nativeEvent payload property in handleChannelInput()
   /**
    * Fires each time a new `value` is typed.
+   * NOTE: nativeEvent payload property is deprecated
    */
-  @Event({ cancelable: true }) calciteInputInput: EventEmitter<void>;
+  @Event({ cancelable: true }) calciteInputInput: EventEmitter<DeprecatedEventPayload>;
 
   /**
    * Fires each time a new `value` is typed and committed.
@@ -910,8 +913,9 @@ export class Input
     this.previousValueOrigin = origin;
 
     if (nativeEvent) {
-      const calciteInputInputEvent = this.calciteInputInput.emit();
-
+      const calciteInputInputEvent = this.calciteInputInput.emit({
+        nativeEvent
+      });
       if (calciteInputInputEvent.defaultPrevented) {
         this.value = this.previousValue;
         this.localizedValue =

@@ -462,6 +462,7 @@ export class ColorPicker implements InteractiveComponent, LoadableComponent {
 
   private handleChannelInput = (event: CustomEvent): void => {
     const input = event.currentTarget as HTMLCalciteInputElement;
+    const internalInput = event.detail.nativeEvent.target as HTMLInputElement;
     const channelIndex = Number(input.getAttribute("data-channel-index"));
 
     const limit =
@@ -481,6 +482,7 @@ export class ColorPicker implements InteractiveComponent, LoadableComponent {
     }
 
     input.value = inputValue;
+    internalInput.value = inputValue;
   };
 
   // using @Listen as a workaround for VDOM listener not firing
