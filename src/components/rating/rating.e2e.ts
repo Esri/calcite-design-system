@@ -342,7 +342,6 @@ describe("calcite-rating", () => {
     const page = await newE2EPage();
     await page.setContent("<calcite-rating></calcite-rating>");
     const element = await page.find("calcite-rating");
-    const labels = await page.findAll("calcite-rating >>> .star");
     const changeEvent = await element.spyOnEvent("calciteRatingChange");
     await page.keyboard.press("Tab");
     expect(changeEvent).toHaveReceivedEventTimes(0);
@@ -376,43 +375,17 @@ describe("calcite-rating", () => {
     expect(changeEvent).toHaveReceivedEventDetail({
       value: 0
     });
-    await labels[3].click();
-    expect(element).toEqualAttribute("value", "4");
-    expect(changeEvent).toHaveReceivedEventTimes(7);
-    expect(changeEvent).toHaveReceivedEventDetail({
-      value: 4
-    });
-    await labels[3].click();
-    expect(element).toEqualAttribute("value", "0");
-    expect(changeEvent).toHaveReceivedEventTimes(8);
-    expect(changeEvent).toHaveReceivedEventDetail({
-      value: 0
-    });
   });
 
   it("cannot be cleared/reset when required props is set true", async () => {
     const page = await newE2EPage();
     await page.setContent("<calcite-rating></calcite-rating>");
     const element = await page.find("calcite-rating");
-    const labels = await page.findAll("calcite-rating >>> .star");
     element.setProperty("required", true);
     await page.waitForChanges();
     const changeEvent = await element.spyOnEvent("calciteRatingChange");
     await element.press(" ");
-    expect(changeEvent).toHaveReceivedEventTimes(0);
     await element.press("Enter");
     expect(changeEvent).toHaveReceivedEventTimes(0);
-    await labels[3].click();
-    expect(element).toEqualAttribute("value", "4");
-    expect(changeEvent).toHaveReceivedEventTimes(1);
-    expect(changeEvent).toHaveReceivedEventDetail({
-      value: 4
-    });
-    await labels[3].click();
-    expect(element).toEqualAttribute("value", "4");
-    expect(changeEvent).toHaveReceivedEventTimes(1);
-    expect(changeEvent).toHaveReceivedEventDetail({
-      value: 4
-    });
   });
 });
