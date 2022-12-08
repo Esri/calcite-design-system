@@ -11,10 +11,10 @@ import {
 } from "../../tests/commonTests";
 
 describe("calcite-rating", () => {
-  it("renders", async () => renders("<calcite-rating></calcite-rating>", { display: "flex" }));
-  it("honors hidden attribute", async () => hidden("calcite-rating"));
-  it("should be accessible", async () => accessible(`<calcite-rating></calcite-rating>`));
-  describe("labelable", () => {
+  describe("common tests", () => {
+    it("renders", async () => renders("<calcite-rating></calcite-rating>", { display: "flex" }));
+    it("honors hidden attribute", async () => hidden("calcite-rating"));
+    it("should be accessible", async () => accessible(`<calcite-rating></calcite-rating>`));
     it("is labelable", async () => labelable("calcite-rating"));
     it("focuses the first star when the label is clicked and no-rating value exists", () =>
       labelable("calcite-rating", {
@@ -25,13 +25,13 @@ describe("calcite-rating", () => {
       labelable("<calcite-rating value='3'></calcite-rating>", {
         shadowFocusTargetSelector: "input[value='3']"
       }));
+    it("can be disabled", () => disabled("<calcite-rating value='3'></calcite-rating>"));
+    it("is form-associated", () => formAssociated("calcite-rating", { testValue: 3 }));
+    it("should focus input element in shadow DOM", () =>
+      focusable("calcite-rating", {
+        shadowFocusTargetSelector: "input"
+      }));
   });
-  it("can be disabled", () => disabled("<calcite-rating value='3'></calcite-rating>"));
-  it("is form-associated", () => formAssociated("calcite-rating", { testValue: 3 }));
-  it("should focus input element in shadow DOM", () =>
-    focusable("calcite-rating", {
-      shadowFocusTargetSelector: "input"
-    }));
 
   it("supports translations", () => t9n("calcite-rating"));
 
