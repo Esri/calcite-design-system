@@ -366,8 +366,11 @@ describe("calcite-alert", () => {
   });
 
   describe("auto-dismiss behavior", () => {
-    let alert, button, page, buttonClose;
-    let playState;
+    let page: E2EPage;
+    let alert: E2EElement;
+    let button: E2EElement;
+    let buttonClose: E2EElement;
+    let playState: string;
 
     beforeEach(async () => {
       page = await newE2EPage();
@@ -383,7 +386,7 @@ describe("calcite-alert", () => {
       `);
       alert = await page.find("#alert");
       button = await page.find("#button");
-      buttonClose = await page.find("#alert >>> .alert-close");
+      buttonClose = await page.find(`#alert >>> .${CSS.close}`);
 
       playState = await page.evaluate(async () => {
         const alert = document.querySelector("calcite-alert");
@@ -391,7 +394,7 @@ describe("calcite-alert", () => {
       });
     });
 
-    it("should render close btton", async () => {
+    it("should render close button", async () => {
       await button.click();
       await page.waitForTimeout(animationDurationInMs);
 
