@@ -11,31 +11,31 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 - **handle:** Removed deprecated event payload property on `calciteHandleNudge`.
 
-* Removed the `event.detail.handle` property on the event `calciteHandleNudge`, use `event.target` instead.
+  - Removed the `event.detail.handle` property on the event `calciteHandleNudge`, use `event.target` instead.
 
 - **tabs, tab-nav, tab-title, tab:** Removed deprecated properties and values.
 
-* Removed the property `active` from `calcite-tab-title`, use `selected`
-  instead.
-* Removed the property `active` from `calcite-tab`, use `selected`
-  instead.
-* Removed the `above` value from the `position` property on
-  `calcite-tabs`, use `top` instead.
-* Removed the `below` value from the `position` property on
-  `calcite-tabs`, use `bottom` instead.
+  - Removed the property `active` from `calcite-tab-title`, use `selected`
+    instead.
+  - Removed the property `active` from `calcite-tab`, use `selected`
+    instead.
+  - Removed the `above` value from the `position` property on
+    `calcite-tabs`, use `top` instead.
+  - Removed the `below` value from the `position` property on
+    `calcite-tabs`, use `bottom` instead.
 
 - **switch:** Removed deprecated `switched` property and
   `calciteSwitchChange` event payload.
 
-* Removed the property `switched`, use `checked` instead.
-* Removed the `event.detail` from `calciteSwitchChange`, use
-  `event.target.checked` instead.
+  - Removed the property `switched`, use `checked` instead.
+  - Removed the `event.detail` from `calciteSwitchChange`, use
+    `event.target.checked` instead.
 
 * **input-number:** remove deprecated property and event payload
 
-- Removed `locale` property, use `lang` instead.
-- Removed `calciteInputNumberInput` event payload properties, use the
-  event's `target`/`currentTarget` instead.
+  - Removed `locale` property, use `lang` instead.
+  - Removed `calciteInputNumberInput` event payload properties, use the
+    event's `target`/`currentTarget` instead.
 
 - **label:** Removed deprecated properties.
 
