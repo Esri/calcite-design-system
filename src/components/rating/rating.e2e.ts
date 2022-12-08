@@ -34,7 +34,7 @@ describe("calcite-rating", () => {
   });
 
   describe("rendering", () => {
-    it("renders outlined star when no value or average is set", async () => {
+    it("should render the expected UI when a value is set", async () => {
       const page = await newE2EPage();
       await page.setContent("<calcite-rating></calcite-rating>");
       const icons = await page.findAll("calcite-rating >>> .icon");
@@ -54,7 +54,7 @@ describe("calcite-rating", () => {
       expect(labels[4]).not.toHaveClass("selected");
     });
 
-    it("displays the correct stars as filled and selected when called with a value", async () => {
+    it("should display the correct stars as filled and selected when called with a value", async () => {
       const page = await newE2EPage();
       await page.setContent("<calcite-rating value=3></calcite-rating>");
       const icons = await page.findAll("calcite-rating >>> .icon");
@@ -74,7 +74,7 @@ describe("calcite-rating", () => {
       expect(labels[4]).not.toHaveClass("selected");
     });
 
-    it("displays the average when value is not present", async () => {
+    it("should render with expected average rating when a value is not present", async () => {
       const page = await newE2EPage();
       await page.setContent("<calcite-rating average=2></calcite-rating>");
       const icons = await page.findAll("calcite-rating >>> .icon");
@@ -98,7 +98,7 @@ describe("calcite-rating", () => {
       expect(labels[4]).not.toHaveClass("average");
     });
 
-    it("displays the value when average and value are present", async () => {
+    it("should render with the expected rating when average and the value are present", async () => {
       const page = await newE2EPage();
       await page.setContent("<calcite-rating average=3 value=1></calcite-rating>");
       const icons = await page.findAll("calcite-rating >>> .icon");
@@ -120,7 +120,7 @@ describe("calcite-rating", () => {
       expect(labels[4]).not.toHaveClass("average");
     });
 
-    it("displays a partial star when average is present and contains a partial value", async () => {
+    it("should display a partial star when average is present and contains a partial value", async () => {
       const page = await newE2EPage();
       await page.setContent("<calcite-rating average=3.45></calcite-rating>");
       const icons = await page.findAll("calcite-rating >>> .icon");
@@ -144,21 +144,21 @@ describe("calcite-rating", () => {
       expect(labels[4]).not.toHaveClass("average");
     });
 
-    it("does not render the calcite chip when count and average are not present", async () => {
+    it("should render without the calcite chip when count and average are not present", async () => {
       const page = await newE2EPage();
       await page.setContent("<calcite-rating show-chip></calcite-rating>");
       const calciteChip = await page.find("calcite-rating >>> calcite-chip");
       expect(calciteChip).toBeNull();
     });
 
-    it("does not render the calcite chip when show-chip is false", async () => {
+    it("should not render the calcite chip when show-chip is false", async () => {
       const page = await newE2EPage();
       await page.setContent("<calcite-rating count=240 average=3 value=2></calcite-rating>");
       const calciteChip = await page.find("calcite-rating >>> calcite-chip");
       expect(calciteChip).toBeNull();
     });
 
-    it("renders the calcite chip and the count span when count is present and average is not", async () => {
+    it("should render with the calcite chip and the count span when count attribute is present and average attribute is not", async () => {
       const page = await newE2EPage();
       await page.setContent(`<calcite-rating count=15 show-chip></calcite-rating>`);
       const calciteChip = await page.find("calcite-rating >>> calcite-chip");
@@ -169,7 +169,7 @@ describe("calcite-rating", () => {
       expect(averageSpan).toBeNull();
     });
 
-    it("renders the calcite chip and the average span when average is present and count is not", async () => {
+    it("should render with the calcite chip and the average span when average attribute is present and  count attribute is not", async () => {
       const page = await newE2EPage();
       await page.setContent("<calcite-rating average=4.2 show-chip></calcite-rating>");
       const calciteChip = await page.find("calcite-rating >>> calcite-chip");
@@ -180,7 +180,7 @@ describe("calcite-rating", () => {
       expect(averageSpan).not.toBeNull();
     });
 
-    it("renders the calcite chip and both the average and count spans when average and count are present", async () => {
+    it("should render the calcite chip with both the average and count spans when the average and count attributes are present", async () => {
       const page = await newE2EPage();
       await page.setContent("<calcite-rating count=15 average=4.2 show-chip></calcite-rating>");
       const calciteChip = await page.find("calcite-rating >>> calcite-chip");
@@ -193,7 +193,7 @@ describe("calcite-rating", () => {
   });
 
   describe("mouse interaction", () => {
-    it("clicking on an icon will correctly set the value", async () => {
+    it("should update the rating on a click event triggers on a rating label", async () => {
       const page = await newE2EPage();
       await page.setContent("<calcite-rating></calcite-rating>");
       const element = await page.find("calcite-rating");
@@ -215,7 +215,7 @@ describe("calcite-rating", () => {
       expect(element).toEqualAttribute("value", "3");
     });
 
-    it("setting a value will remove displayed average and partial average", async () => {
+    it("should remove displayed average and partial average when input label is clicked", async () => {
       const page = await newE2EPage();
       await page.setContent("<calcite-rating average=3.5></calcite-rating>");
       const element = await page.find("calcite-rating");
@@ -245,7 +245,7 @@ describe("calcite-rating", () => {
       expect(element).toEqualAttribute("value", "4");
     });
 
-    it("uses the correct data attributes while hovering over an unselected star with no value", async () => {
+    it("should update the rating on a hover event triggers on a rating label", async () => {
       const page = await newE2EPage();
       await page.setContent("<calcite-rating></calcite-rating>");
       const icons = await page.findAll("calcite-rating >>> .icon");
@@ -265,7 +265,7 @@ describe("calcite-rating", () => {
       expect(labels[4]).not.toHaveClass("hovered");
     });
 
-    it("correctly sets classes while hovering over an unselected star with value", async () => {
+    it("should update the rating on a hover event triggers on a rating label on a value has been set", async () => {
       const page = await newE2EPage();
       await page.setContent("<calcite-rating value=3></calcite-rating>");
       const icons = await page.findAll("calcite-rating >>> .icon");
@@ -287,7 +287,7 @@ describe("calcite-rating", () => {
       expect(labels[4]).not.toHaveClass("hovered");
     });
 
-    it("correctly sets classes while hovering over an unselected star with average", async () => {
+    it("should update the rating on a hover event triggers on a rating label when the average has been set", async () => {
       const page = await newE2EPage();
       await page.setContent("<calcite-rating average=4.2></calcite-rating>");
       const icons = await page.findAll("calcite-rating >>> .icon");
@@ -309,7 +309,7 @@ describe("calcite-rating", () => {
       expect(labels[4]).toHaveClass("hovered");
     });
 
-    it("emits expected event when user clicks to choose value", async () => {
+    it("should emits the expected event on a click event", async () => {
       const page = await newE2EPage();
       await page.setContent("<calcite-rating></calcite-rating>");
       const element = await page.find("calcite-rating");
@@ -337,7 +337,7 @@ describe("calcite-rating", () => {
       });
     });
 
-    it("disables click interaction when readonly is requested", async () => {
+    it("should not update the rating on a click event when the readonly attribute is set", async () => {
       const page = await newE2EPage();
       await page.setContent("<calcite-rating value=4 read-only></calcite-rating>");
       const element = await page.find("calcite-rating");
@@ -349,7 +349,7 @@ describe("calcite-rating", () => {
   });
 
   describe("keyboard interaction", () => {
-    it("can be edited with keyboard like a set of radio inputs", async () => {
+    it("should update the rating when the element's focusedIn event is triggered", async () => {
       const page = await newE2EPage();
       await page.setContent("<calcite-rating></calcite-rating>");
       const element = await page.find("calcite-rating");
@@ -388,7 +388,7 @@ describe("calcite-rating", () => {
       });
     });
 
-    it("cannot be cleared/reset when required props is set true", async () => {
+    it("should update the rating when the space-bar key is pressed", async () => {
       const page = await newE2EPage();
       await page.setContent("<calcite-rating></calcite-rating>");
       const element = await page.find("calcite-rating");
