@@ -530,7 +530,7 @@
           let input = document.createElement("calcite-input-number");
           (locale === "ar" || locale === "he") && input.setAttribute("dir", "rtl");
           input.setAttribute("id", locale);
-          input.setAttribute("locale", locale);
+          input.setAttribute("lang", locale);
           input.setAttribute("name", locale);
           input.setAttribute("scale", "s");
           input.setAttribute("value", "1234.56");
@@ -547,7 +547,7 @@
           (locale === "ar" || locale === "he") && input.setAttribute("dir", "rtl");
           input.setAttribute("group-separator", true);
           input.setAttribute("id", `${locale}-group-separator`);
-          input.setAttribute("locale", locale);
+          input.setAttribute("lang", locale);
           input.setAttribute("name", `${locale}-group-separator`);
           input.setAttribute("scale", "s");
           input.setAttribute("value", "1234.56");
