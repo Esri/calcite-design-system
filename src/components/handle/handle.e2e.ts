@@ -31,7 +31,7 @@ describe("calcite-handle", () => {
     const page = await newE2EPage();
     await page.setContent("<calcite-handle></calcite-handle>");
 
-    const eventSpy = await page.spyOnEvent("calciteHandleNudge");
+    const calciteHandleNudgeSpy = await page.spyOnEvent("calciteHandleNudge");
 
     const button = await page.find(`calcite-handle >>> .${CSS.handle}`);
 
@@ -39,8 +39,10 @@ describe("calcite-handle", () => {
 
     await page.keyboard.press(" ");
     await page.keyboard.press("ArrowUp");
-    await page.keyboard.press("ArrowDown");
+    expect(await calciteHandleNudgeSpy.lastEvent.detail.direction).toBe("up");
 
-    expect(eventSpy).toHaveReceivedEventTimes(2);
+    await page.keyboard.press("ArrowDown");
+    expect(await calciteHandleNudgeSpy.lastEvent.detail.direction).toBe("down");
+    expect(calciteHandleNudgeSpy).toHaveReceivedEventTimes(2);
   });
 });
