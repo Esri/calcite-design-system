@@ -525,12 +525,9 @@ export class DatePicker implements LocalizedComponent, T9nComponent {
         <calcite-date-picker-month-header
           activeDate={activeDate}
           headingLevel={this.headingLevel || HEADING_LEVEL}
-          //t9n props are used here to forward the messages only.
-          intlNextMonth={this.messages.nextMonth}
-          intlPrevMonth={this.messages.prevMonth}
-          intlYear={this.messages.year}
           localeData={this.localeData}
           max={maxDate}
+          messages={this.messages}
           min={minDate}
           onCalciteDatePickerSelect={this.monthHeaderSelectChange}
           scale={this.scale}

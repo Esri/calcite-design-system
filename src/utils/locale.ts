@@ -130,8 +130,6 @@ export type NumberingSystem = typeof numberingSystems[number];
 
 export type SupportedLocales = typeof supportedLocales[number];
 
-console.log(supportedLocales);
-
 const isNumberingSystemSupported = (numberingSystem: string): numberingSystem is NumberingSystem =>
   numberingSystems.includes(numberingSystem as NumberingSystem);
 
@@ -152,7 +150,6 @@ export const getSupportedNumberingSystem = (numberingSystem: string): NumberingS
  * @param context - specifies whether the locale code should match in the context of CLDR or T9N (translation)
  */
 export function getSupportedLocale(locale: string, context: "cldr" | "t9n" = "cldr"): SupportedLocales {
-  console.log(supportedLocales);
   const contextualLocales = context === "cldr" ? locales : t9nLocales;
 
   if (!locale) {

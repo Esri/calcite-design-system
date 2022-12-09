@@ -987,7 +987,6 @@ export class Input
   // --------------------------------------------------------------------------
 
   render(): VNode {
-    console.log("messages", this.messages);
     const dir = getElementDir(this.el);
     const loader = (
       <div class={CSS.loader}>
