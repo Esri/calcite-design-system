@@ -38,7 +38,9 @@ import {
 @Component({
   tag: "calcite-radio-group",
   styleUrl: "radio-group.scss",
-  shadow: true
+  shadow: {
+    delegatesFocus: true
+  }
 })
 export class RadioGroup
   implements LabelableComponent, FormComponent, InteractiveComponent, LoadableComponent
@@ -262,8 +264,7 @@ export class RadioGroup
   @Method()
   async setFocus(): Promise<void> {
     await componentLoaded(this);
-
-    (this.selectedItem || this.getItems()[0])?.focus();
+    this.el.focus();
   }
 
   //--------------------------------------------------------------------------
@@ -285,7 +286,7 @@ export class RadioGroup
   //--------------------------------------------------------------------------
 
   onLabelClick(): void {
-    this.setFocus();
+    this.el.focus();
   }
 
   private getItems(): NodeListOf<HTMLCalciteRadioGroupItemElement> {
