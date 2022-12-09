@@ -32,7 +32,8 @@ import {
   FocusTrap,
   connectFocusTrap,
   activateFocusTrap,
-  deactivateFocusTrap
+  deactivateFocusTrap,
+  focusFirstTabbable
 } from "../../utils/focusTrapComponent";
 
 import { guid } from "../../utils/guid";
@@ -90,6 +91,15 @@ export class Popover
    * When `true`, prevents focus trapping.
    */
   @Prop({ reflect: true }) disableFocusTrap = false;
+
+  @Watch("disableFocusTrap")
+  handleDisableFocusTrap(disableFocusTrap: boolean): void {
+    if (!this.open) {
+      return;
+    }
+
+    disableFocusTrap ? deactivateFocusTrap(this) : activateFocusTrap(this);
+  }
 
   /**
    * When `true`, removes the caret pointer.
@@ -350,7 +360,7 @@ export class Popover
       return;
     }
 
-    activateFocusTrap(this);
+    focusFirstTabbable(this);
   }
 
   /**
@@ -467,9 +477,7 @@ export class Popover
 
   onOpen(): void {
     this.calcitePopoverOpen.emit();
-    if (!this.disableFocusTrap) {
-      activateFocusTrap(this);
-    }
+    activateFocusTrap(this);
   }
 
   onBeforeClose(): void {
