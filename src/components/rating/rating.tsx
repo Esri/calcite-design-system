@@ -189,7 +189,7 @@ export class Rating
           </label>
           <input
             checked={i === this.value}
-            // class="visually-hidden"
+            class="visually-hidden"
             disabled={this.disabled || this.readOnly}
             id={`${this.guid}-${i}`}
             name={this.guid}
