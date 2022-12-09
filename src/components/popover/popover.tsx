@@ -33,7 +33,8 @@ import {
   connectFocusTrap,
   activateFocusTrap,
   deactivateFocusTrap,
-  focusFirstTabbable
+  focusFirstTabbable,
+  toggleFocusTrapActivation
 } from "../../utils/focusTrapComponent";
 
 import { guid } from "../../utils/guid";
@@ -91,6 +92,15 @@ export class Popover
    * When `true`, prevents focus trapping.
    */
   @Prop({ reflect: true }) disableFocusTrap = false;
+
+  @Watch("disableFocusTrap")
+  handleDisableFocusTrap(): void {
+    if (!this.open) {
+      return;
+    }
+
+    toggleFocusTrapActivation(this);
+  }
 
   /**
    * When `true`, removes the caret pointer.

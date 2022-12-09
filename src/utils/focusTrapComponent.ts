@@ -82,11 +82,19 @@ export function deactivateFocusTrap(component: FocusTrapComponent): void {
 }
 
 /**
- * Helper to focus the first tabbable element.
+ * Helper to focus the first tabbable element within the "focusTrapEl".
  *
  * @param component
  */
 export function focusFirstTabbable(component: FocusTrapComponent): void {
-  const elements = tabbable(component.focusTrapEl);
-  elements[0]?.focus();
+  tabbable(component.focusTrapEl)[0]?.focus();
+}
+
+/**
+ * Helper to toggle activation of focus trap component depending on "disableFocusTrap".
+ *
+ * @param component
+ */
+export function toggleFocusTrapActivation(component: FocusTrapComponent): void {
+  component.disableFocusTrap ? deactivateFocusTrap(component) : activateFocusTrap(component);
 }
