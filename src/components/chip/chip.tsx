@@ -1,8 +1,17 @@
-import { Component, h, Prop, Event, EventEmitter, Element, VNode, Method } from "@stencil/core";
-import { getSlotted } from "../../utils/dom";
-import { guid } from "../../utils/guid";
+import {
+  Component,
+  h,
+  Prop,
+  Event,
+  EventEmitter,
+  Element,
+  VNode,
+  Method,
+  Listen
+} from "@stencil/core";
+import { getElementProp, getSlotted, toAriaBoolean } from "../../utils/dom";
 import { CSS, TEXT, SLOTS, ICONS } from "./resources";
-import { ChipColor } from "./interfaces";
+import { ChipColor, ItemKeyEvent, RegistryEntry, RequestedItem } from "./interfaces";
 import { Appearance, DeprecatedEventPayload, Scale } from "../interfaces";
 import {
   ConditionalSlotComponent,
@@ -28,6 +37,14 @@ import {
 export class Chip implements ConditionalSlotComponent, LoadableComponent {
   //--------------------------------------------------------------------------
   //
+  //  Element
+  //
+  //--------------------------------------------------------------------------
+
+  @Element() el: HTMLCalciteChipElement;
+
+  //--------------------------------------------------------------------------
+  //
   //  Public Properties
   //
   //--------------------------------------------------------------------------
@@ -35,8 +52,8 @@ export class Chip implements ConditionalSlotComponent, LoadableComponent {
   /** Specifies the appearance style of the component. */
   @Prop({ reflect: true }) appearance: Extract<"solid" | "transparent", Appearance> = "solid";
 
-  /** Specifies the color for the component. */
-  @Prop({ reflect: true }) color: ChipColor = "grey";
+  /** specify the color of the chip */
+  @Prop({ reflect: true }) color: ChipColor = "neutral";
 
   /** When `true`, a close button is added to the component. */
   @Prop({ reflect: true, mutable: true }) closable = false;
@@ -63,48 +80,30 @@ export class Chip implements ConditionalSlotComponent, LoadableComponent {
   /** When `true`, hides the component. */
   @Prop({ reflect: true, mutable: true }) closed = false;
 
+  /** Is the chip selectable  */
+  @Prop({ reflect: true, mutable: true }) selectable = false;
+
+  /** Is the chip selected  */
+  @Prop({ reflect: true, mutable: true }) selected = false;
+
   // --------------------------------------------------------------------------
   //
   //  Private Properties
   //
   // --------------------------------------------------------------------------
 
-  @Element() el: HTMLCalciteChipElement;
+  private containerEl: HTMLDivElement;
 
-  // --------------------------------------------------------------------------
-  //
-  //  Lifecycle
-  //
-  // --------------------------------------------------------------------------
+  private closeButton: HTMLButtonElement;
 
-  connectedCallback(): void {
-    connectConditionalSlotComponent(this);
-  }
+  /** the containing accordion element */
+  private parent: HTMLCalciteChipGroupElement;
 
-  componentWillLoad(): void {
-    setUpLoadableComponent(this);
-  }
+  /** position within parent */
+  private itemPosition: number;
 
-  componentDidLoad(): void {
-    setComponentLoaded(this);
-  }
-
-  disconnectedCallback(): void {
-    disconnectConditionalSlotComponent(this);
-  }
-  //--------------------------------------------------------------------------
-  //
-  //  Public Methods
-  //
-  //--------------------------------------------------------------------------
-
-  /** Sets focus on the component. */
-  @Method()
-  async setFocus(): Promise<void> {
-    await componentLoaded(this);
-
-    this.closeButton?.focus();
-  }
+  /** what selection mode is the parent accordion in */
+  private selectionMode: string;
 
   // --------------------------------------------------------------------------
   //
@@ -119,21 +118,152 @@ export class Chip implements ConditionalSlotComponent, LoadableComponent {
    */
   @Event({ cancelable: false }) calciteChipDismiss: EventEmitter<DeprecatedEventPayload>;
 
+  /**
+   *
+   * @internal
+   */
+  @Event({ cancelable: false }) calciteInternalChipRegister: EventEmitter<RegistryEntry>;
+
+  /**
+   * @internal
+   */
+  @Event({ cancelable: false }) calciteInternalChipKeyEvent: EventEmitter<ItemKeyEvent>;
+
+  /**
+   * @internal
+   */
+  @Event({ cancelable: false }) calciteInternalChipSelect: EventEmitter<RequestedItem>;
+
+  // --------------------------------------------------------------------------
+  //
+  //  Lifecycle
+  //
+  // --------------------------------------------------------------------------
+
+  connectedCallback(): void {
+    this.parent = this.el.parentElement as HTMLCalciteChipGroupElement;
+    this.selectionMode = getElementProp(this.el, "selection-mode", "none");
+    connectConditionalSlotComponent(this);
+  }
+
+  componentWillLoad(): void {
+    setUpLoadableComponent(this);
+  }
+
+  componentDidLoad(): void {
+    setComponentLoaded(this);
+    this.itemPosition = this.getItemPosition();
+    this.calciteInternalChipRegister.emit({
+      parent: this.parent,
+      position: this.itemPosition
+    });
+  }
+
+  disconnectedCallback(): void {
+    disconnectConditionalSlotComponent(this);
+  }
+  //--------------------------------------------------------------------------
+  //
+  //  Event Listeners
+  //
+  //--------------------------------------------------------------------------
+
+  @Listen("keydown", { capture: true })
+  keyDownHandler(event: KeyboardEvent): void {
+    if (
+      (event as any).path.includes(this.closeButton) &&
+      (event.key === " " || event.key === "Enter")
+    ) {
+      this.closeHandler();
+    }
+    if (event.target === this.el) {
+      switch (event.key) {
+        case " ":
+        case "Enter":
+          this.itemSelectHandler();
+          event.preventDefault();
+          break;
+        case "ArrowRight":
+        case "ArrowLeft":
+        case "Home":
+        case "End":
+          this.calciteInternalChipKeyEvent.emit({
+            parent: this.parent,
+            item: event
+          });
+          event.preventDefault();
+          break;
+      }
+    }
+  }
+
+  @Listen("calciteChipInternalSelectionChange", { target: "body" })
+  updateActiveItemOnChange(event: CustomEvent): void {
+    if (this.el.parentNode !== event.detail.requestedChip.parentNode) {
+      return;
+    }
+    this.determineActiveItem(event.detail.requestedChip);
+    event.stopPropagation();
+  }
+
+  //--------------------------------------------------------------------------
+  //
+  //  Public Methods
+  //
+  //--------------------------------------------------------------------------
+
+  /** Sets focus on the component. */
+  @Method()
+  async setFocus(): Promise<void> {
+    await componentLoaded(this);
+
+    this.containerEl?.focus();
+  }
+
   // --------------------------------------------------------------------------
   //
   //  Private Methods
   //
   // --------------------------------------------------------------------------
 
-  closeClickHandler = (event: MouseEvent): void => {
-    event.preventDefault();
-    this.calciteChipDismiss.emit(this.el);
+  private closeHandler = (): void => {
     this.closed = true;
+    this.selected = false;
+    this.itemSelectHandler();
+    this.calciteChipDismiss.emit(this.el);
+    event.stopPropagation();
   };
 
-  private closeButton: HTMLButtonElement;
+  private getItemPosition(): number {
+    return Array.prototype.indexOf.call(this.parent.querySelectorAll("calcite-chip"), this.el);
+  }
 
-  private guid: string = guid();
+  private itemSelectHandler = (): void => {
+    // q - expected to not interact when "none" ?
+    if (this.selectionMode !== "none") {
+      this.calciteInternalChipSelect.emit({
+        requestedChip: this.el as HTMLCalciteChipElement
+      });
+    }
+  };
+
+  private determineActiveItem(requestedChip): void {
+    switch (this.selectionMode) {
+      case "multiple":
+        if (this.el === requestedChip) {
+          this.selected = !this.selected;
+        }
+        break;
+
+      case "single":
+        this.selected = this.el === requestedChip ? !this.selected : false;
+        break;
+
+      case "single-persist":
+        this.selected = this.el === requestedChip;
+        break;
+    }
+  }
 
   //--------------------------------------------------------------------------
   //
@@ -141,42 +271,87 @@ export class Chip implements ConditionalSlotComponent, LoadableComponent {
   //
   //--------------------------------------------------------------------------
 
-  renderChipImage(): VNode {
-    const { el } = this;
-    const hasChipImage = getSlotted(el, SLOTS.image);
+  renderSelectionIcon(): VNode {
+    const icon =
+      this.selectionMode === "multiple" && this.selected
+        ? "check-circle-f"
+        : this.selectionMode === "multiple"
+        ? "circle"
+        : this.selected && "circle-f";
 
-    return hasChipImage ? (
-      <div class={CSS.imageContainer} key="image">
-        <slot name={SLOTS.image} />
+    return (
+      <div
+        class={`select-icon ${this.selectionMode === "multiple" || this.selected ? "active" : ""}`}
+      >
+        <calcite-icon class={CSS.chipIcon} icon={icon} scale={this.scale === "l" ? "m" : "s"} />
       </div>
-    ) : null;
+    );
   }
 
-  render(): VNode {
-    const iconEl = (
-      <calcite-icon class={CSS.chipIcon} flipRtl={this.iconFlipRtl} icon={this.icon} scale="s" />
-    );
-
-    const closeButton = (
+  renderCloseButton(): VNode {
+    return (
       <button
-        aria-describedby={this.guid}
         aria-label={this.dismissLabel}
         class={CSS.close}
-        onClick={this.closeClickHandler}
+        onClick={() => this.closeHandler()}
         ref={(el) => (this.closeButton = el)}
       >
         <calcite-icon class={CSS.closeIcon} icon={ICONS.close} scale="s" />
       </button>
     );
+  }
+
+  renderImageSlot(): VNode {
+    return (
+      <div class={CSS.imageContainer} key="image">
+        <slot name={SLOTS.image} />
+      </div>
+    );
+  }
+
+  renderIcon(): VNode {
+    return (
+      <calcite-icon class={CSS.chipIcon} flipRtl={this.iconFlipRtl} icon={this.icon} scale="s" />
+    );
+  }
+
+  render(): VNode {
+    const hasImageSlot = getSlotted(this.el, SLOTS.image);
+
+    let aria = {};
+    switch (this.selectionMode) {
+      case "single":
+      case "single-persist":
+        aria = {
+          "aria-checked": toAriaBoolean(this.selected),
+          "aria-labelledby": this.parent,
+          role: "radio"
+        };
+        break;
+      case "multiple":
+        aria = {
+          "aria-checked": toAriaBoolean(this.selected),
+          "aria-labelledby": this.parent,
+          role: "checkbox"
+        };
+        break;
+    }
 
     return (
-      <div class="container">
-        {this.renderChipImage()}
-        {this.icon ? iconEl : null}
-        <span class={CSS.title} id={this.guid}>
+      <div
+        {...aria}
+        class={`container ${this.selectable ? "cursor-pointer" : ""}`}
+        onClick={this.itemSelectHandler}
+        ref={(el) => (this.containerEl = el)}
+        tabIndex={0}
+      >
+        {this.selectable && this.selectionMode !== "none" && this.renderSelectionIcon()}
+        {hasImageSlot && this.renderImageSlot()}
+        {this.icon && this.renderIcon()}
+        <span class={CSS.title}>
           <slot />
         </span>
-        {this.closable ? closeButton : null}
+        {this.closable && this.renderCloseButton()}
       </div>
     );
   }
