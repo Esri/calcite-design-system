@@ -241,10 +241,6 @@ export class Rating
     this.setFocus();
   }
 
-  private updateValue(value: number) {
-    this.value = value;
-  }
-
   private handleRatingPointerOver = () => {
     this.isKeyboardInteraction = false;
   };
