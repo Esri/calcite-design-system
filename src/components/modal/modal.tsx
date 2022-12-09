@@ -29,8 +29,7 @@ import {
   connectFocusTrap,
   activateFocusTrap,
   deactivateFocusTrap,
-  focusFirstTabbable,
-  toggleFocusTrap
+  focusFirstTabbable
 } from "../../utils/focusTrapComponent";
 import {
   setUpLoadableComponent,
@@ -96,7 +95,7 @@ export class Modal
       return;
     }
 
-    toggleFocusTrap(this, !disableFocusTrap);
+    disableFocusTrap ? deactivateFocusTrap(this) : activateFocusTrap(this);
   }
 
   /** When `true`, disables the closing of the component when clicked outside. */

@@ -33,8 +33,7 @@ import {
   connectFocusTrap,
   activateFocusTrap,
   deactivateFocusTrap,
-  focusFirstTabbable,
-  toggleFocusTrap
+  focusFirstTabbable
 } from "../../utils/focusTrapComponent";
 
 import { guid } from "../../utils/guid";
@@ -99,7 +98,7 @@ export class Popover
       return;
     }
 
-    toggleFocusTrap(this, !disableFocusTrap);
+    disableFocusTrap ? deactivateFocusTrap(this) : activateFocusTrap(this);
   }
 
   /**
