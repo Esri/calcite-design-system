@@ -1,5 +1,6 @@
 import { FocusTrap as _FocusTrap, Options as FocusTrapOptions, createFocusTrap } from "focus-trap";
 import { FocusableElement, focusElement } from "./dom";
+import { tabbable } from "tabbable";
 
 const trapStack: _FocusTrap[] = [];
 
@@ -7,6 +8,11 @@ const trapStack: _FocusTrap[] = [];
  * Defines interface for components with a focus trap.
  */
 export interface FocusTrapComponent {
+  /**
+   * When `true`, prevents focus trapping.
+   */
+  disableFocusTrap: boolean;
+
   /**
    * The focus trap instance.
    */
@@ -61,7 +67,9 @@ export function connectFocusTrap(component: FocusTrapComponent): void {
  * @param component
  */
 export function activateFocusTrap(component: FocusTrapComponent): void {
-  component.focusTrap?.activate();
+  if (!component.disableFocusTrap) {
+    component.focusTrap?.activate();
+  }
 }
 
 /**
@@ -71,4 +79,14 @@ export function activateFocusTrap(component: FocusTrapComponent): void {
  */
 export function deactivateFocusTrap(component: FocusTrapComponent): void {
   component.focusTrap?.deactivate();
+}
+
+/**
+ * Helper to focus the first tabbable element.
+ *
+ * @param component
+ */
+export function focusFirstTabbable(component: FocusTrapComponent): void {
+  const elements = tabbable(component.focusTrapEl);
+  elements[0]?.focus();
 }

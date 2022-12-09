@@ -28,7 +28,8 @@ import {
   FocusTrap,
   connectFocusTrap,
   activateFocusTrap,
-  deactivateFocusTrap
+  deactivateFocusTrap,
+  focusFirstTabbable
 } from "../../utils/focusTrapComponent";
 import {
   setUpLoadableComponent,
@@ -82,6 +83,18 @@ export class Modal
 
   /** When `true`, disables the component's close button. */
   @Prop({ reflect: true }) disableCloseButton = false;
+
+  /**
+   * When `true`, prevents focus trapping.
+   */
+  @Prop({ reflect: true }) disableFocusTrap = false;
+
+  @Watch("disableFocusTrap")
+  handleDisableFocusTrap(disableFocusTrap: boolean): void {
+    if (disableFocusTrap) {
+      deactivateFocusTrap(this);
+    }
+  }
 
   /** When `true`, disables the closing of the component when clicked outside. */
   @Prop({ reflect: true }) disableOutsideClose = false;
@@ -363,7 +376,7 @@ export class Modal
       return focusElement(closeButtonEl);
     }
 
-    activateFocusTrap(this);
+    focusFirstTabbable(this);
   }
 
   /**
@@ -404,6 +417,7 @@ export class Modal
   onOpen(): void {
     this.transitionEl.classList.remove(CSS.openingIdle, CSS.openingActive);
     this.calciteModalOpen.emit();
+    activateFocusTrap(this);
   }
 
   onBeforeClose(): void {
