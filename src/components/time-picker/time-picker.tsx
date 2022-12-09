@@ -35,8 +35,7 @@ import {
   connectLocalized,
   disconnectLocalized,
   LocalizedComponent,
-  NumberingSystem,
-  updateEffectiveLocale
+  NumberingSystem
 } from "../../utils/locale";
 
 import {
