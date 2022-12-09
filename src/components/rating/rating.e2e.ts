@@ -215,18 +215,6 @@ describe("calcite-rating", () => {
       expect(element).toEqualAttribute("value", "3");
     });
 
-    it.skip("should reset the rating when the same value is set twice", async () => {
-      const page = await newE2EPage();
-      await page.setContent("<calcite-rating value=3></calcite-rating>");
-      const element = await page.find("calcite-rating");
-      const changeEvent = await element.spyOnEvent("calciteRatingChange");
-
-      await element.setProperty("value", 3);
-      await page.waitForChanges();
-
-      expect(await element.getProperty("value")).toBe(0);
-    });
-
     it("should not reset the rating when rating is required", async () => {
       const page = await newE2EPage();
       await page.setContent("<calcite-rating value=3 required></calcite-rating>");
@@ -249,6 +237,7 @@ describe("calcite-rating", () => {
 
       await labels[2].click();
       await page.waitForChanges();
+
       expect(element).toEqualAttribute("value", "3");
       expect(changeEvent).toHaveReceivedEventTimes(1);
     });
@@ -338,21 +327,36 @@ describe("calcite-rating", () => {
 
       expect(element).toEqualAttribute("value", "4");
     });
-  });
 
-  describe("keyboard interaction", () => {
-    it.skip("should update the UI when the element's focusedIn event is triggered", async () => {
+    it("should reset the rating when the current value is equal to the value of the clicked input", async () => {
       const page = await newE2EPage();
       await page.setContent("<calcite-rating value=3></calcite-rating>");
       const element = await page.find("calcite-rating");
+      const labels = await page.findAll("calcite-rating >>> .star");
+
+      await labels[2].click();
+      await page.waitForChanges();
+
+      expect(await element.getProperty("value")).toBe(0);
+    });
+  });
+
+  describe("keyboard interaction", () => {
+    it("should update the UI when the element's focusedIn event is triggered", async () => {
+      const page = await newE2EPage();
+      await page.setContent("<calcite-rating value=3></calcite-rating>");
+      const element = await page.find("calcite-rating");
+
       await page.keyboard.press("Tab");
       await page.waitForChanges();
+
       const focusedEl = await page.findAll("calcite-rating >>> .star.focused");
       const hoveredEl = await page.findAll("calcite-rating >>> .star.hovered");
       const selectedEl = await page.findAll("calcite-rating >>> .star.selected");
-      expect(hoveredEl.length).toBe(1);
+
+      expect(hoveredEl.length).toBe(3);
       expect(focusedEl.length).toBe(1);
-      expect(selectedEl.length).toBe(1);
+      expect(selectedEl.length).toBe(3);
       expect(element).toEqualAttribute("value", "3");
     });
 
@@ -372,87 +376,73 @@ describe("calcite-rating", () => {
       expect(element).toEqualAttribute("value", "0");
     });
 
-    it.skip("should retain the rating value when the element's blur event is triggered and then the element is re-focused", async () => {
+    it("should retain the rating value when the element's blur event is triggered and then the element is re-focused", async () => {
       const page = await newE2EPage();
       await page.setContent('<calcite-rating value="3"></calcite-rating>');
       const element = await page.find("calcite-rating");
+
       await page.keyboard.press("Tab");
       await page.keyboard.press("Tab");
       await page.keyboard.down("Shift");
       await page.keyboard.press("Tab");
       await page.keyboard.up("Shift");
       await page.waitForChanges();
+
       const focusedEl = await page.findAll("calcite-rating >>> .star.focused");
       const hoveredEl = await page.findAll("calcite-rating >>> .star.hovered");
       const selectedEl = await page.findAll("calcite-rating >>> .star.selected");
-      expect(hoveredEl.length).toBe(0);
-      expect(focusedEl.length).toBe(0);
+
+      expect(hoveredEl.length).toBe(3);
+      expect(focusedEl.length).toBe(1);
       expect(selectedEl.length).toBe(3);
       expect(element).toEqualAttribute("value", "3");
     });
 
-    it.skip("should update the rating when the space-bar key is pressed", async () => {
-      const page = await newE2EPage();
-      await page.setContent("<calcite-rating></calcite-rating>");
-      const element = await page.find("calcite-rating");
-      const changeEvent = await element.spyOnEvent("calciteRatingChange");
-      await page.keyboard.press("Tab");
-      await element.press(" ");
-      expect(element).toEqualAttribute("value", "1");
-      expect(changeEvent).toHaveReceivedEventTimes(1);
-    });
-
-    it.skip("should update the rating when the enter key is pressed", async () => {
-      const page = await newE2EPage();
-      await page.setContent("<calcite-rating></calcite-rating>");
-      const element = await page.find("calcite-rating");
-      const changeEvent = await element.spyOnEvent("calciteRatingChange");
-      await page.keyboard.press("Tab");
-      await element.press("Enter");
-      expect(element).toEqualAttribute("value", "1");
-      expect(changeEvent).toHaveReceivedEventTimes(1);
-    });
-
-    it.skip("should update the UI when the arrow keys are pressed", async () => {
+    it("should update the UI when the arrow keys are pressed", async () => {
       const page = await newE2EPage();
       await page.setContent("<calcite-rating></calcite-rating>");
       const element = await page.find("calcite-rating");
       const icons = await page.findAll("calcite-rating >>> .icon");
       const labels = await page.findAll("calcite-rating >>> .star");
+      const changeEvent = await element.spyOnEvent("calciteRatingChange");
+
       await page.keyboard.press("Tab");
       await page.keyboard.press("ArrowRight");
       await page.keyboard.press("ArrowRight");
       await page.keyboard.press("ArrowLeft");
       await page.waitForChanges();
 
-      expect(element).toEqualAttribute("value", "0");
-      expect(icons[0]).toEqualAttribute("icon", "star");
-      expect(icons[1]).toEqualAttribute("icon", "star");
+      expect(icons[0]).toEqualAttribute("icon", "star-f");
+      expect(icons[1]).toEqualAttribute("icon", "star-f");
       expect(icons[2]).toEqualAttribute("icon", "star");
       expect(icons[3]).toEqualAttribute("icon", "star");
       expect(icons[4]).toEqualAttribute("icon", "star");
       expect(labels[0]).toHaveClass("hovered");
       expect(labels[1]).toHaveClass("hovered");
-      expect(labels[2]).toHaveClass("hovered");
+      expect(labels[2]).not.toHaveClass("hovered");
       expect(labels[3]).not.toHaveClass("hovered");
       expect(labels[4]).not.toHaveClass("hovered");
-      expect(labels[0]).not.toHaveClass("selected");
-      expect(labels[1]).not.toHaveClass("selected");
+      expect(labels[0]).toHaveClass("selected");
+      expect(labels[1]).toHaveClass("selected");
       expect(labels[2]).not.toHaveClass("selected");
       expect(labels[3]).not.toHaveClass("selected");
       expect(labels[4]).not.toHaveClass("selected");
+      expect(element).toEqualAttribute("value", "2");
+      expect(changeEvent).toHaveReceivedEventTimes(3);
     });
 
-    it.skip("should update the rating when a number key is pressed", async () => {
+    it("should update the rating when a number key is pressed", async () => {
       const page = await newE2EPage();
       await page.setContent("<calcite-rating></calcite-rating>");
       const element = await page.find("calcite-rating");
       const changeEvent = await element.spyOnEvent("calciteRatingChange");
+
       await page.keyboard.press("Tab");
       await page.keyboard.press("5");
       await page.keyboard.press("1");
       await page.keyboard.press("3");
       await page.waitForChanges();
+
       expect(element).toEqualAttribute("value", "3");
       expect(changeEvent).toHaveReceivedEventTimes(3);
       expect(changeEvent).toHaveReceivedEventDetail({
