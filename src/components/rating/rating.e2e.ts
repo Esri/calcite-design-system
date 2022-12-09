@@ -449,5 +449,28 @@ describe("calcite-rating", () => {
         value: 3
       });
     });
+
+    it("should update the rating when the enter key is pressed", async () => {
+      const page = await newE2EPage();
+      await page.setContent("<calcite-rating></calcite-rating>");
+      const element = await page.find("calcite-rating");
+      const changeEvent = await element.spyOnEvent("calciteRatingChange");
+      await page.keyboard.press("Tab");
+      await element.press("Enter");
+      expect(element).toEqualAttribute("value", "1");
+      expect(changeEvent).toHaveReceivedEventTimes(1);
+    });
+
+    it("should reset the rating when the enter key is triggered on an element with the same value as the current value", async () => {
+      const page = await newE2EPage();
+      await page.setContent("<calcite-rating value=3></calcite-rating>");
+      const element = await page.find("calcite-rating");
+
+      await page.keyboard.press("Tab");
+      await page.keyboard.press("Enter");
+      await page.waitForChanges();
+
+      expect(await element.getProperty("value")).toBe(0);
+    });
   });
 });
