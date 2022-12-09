@@ -13,5 +13,6 @@ export const SLOTS = {
 
 export const CSS = {
   actionsEnd: "actions-end",
-  container: "container"
+  container: "container",
+  close: "alert-close"
 };
