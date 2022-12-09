@@ -11,13 +11,11 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 - **time-picker:** Removed the `locale` property, use `lang` instead.
 
-* **input:** remove deprecated properties and event payload
+* **input:** remove deprecated properties and event payload.
 
-      - Removed `maxlength` property, use `maxLength` instead.
-      - Removed `locale` property, use `lang` instead.
-      - Removed `calciteInputInput`'s `el`/`value` event payload properties,
-
-  use the event's `target`/`currentTarget` instead.
+  - Removed `maxlength` property, use `maxLength` instead.
+  - Removed `locale` property, use `lang` instead.
+  - Removed `calciteInputInput`'s `el`/`value` event payload properties, use the event's `target`/`currentTarget` instead.
 
 - **handle:** Removed deprecated event payload property on `calciteHandleNudge`.
 
