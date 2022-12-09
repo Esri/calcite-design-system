@@ -453,8 +453,8 @@ export class InputDatePicker
   connectedCallback(): void {
     connectLocalized(this);
 
-    const isOpen = this.open;
-    isOpen && this.openHandler(isOpen);
+    const { open } = this;
+    open && this.openHandler(open);
     if (Array.isArray(this.value)) {
       this.valueAsDate = getValueAsDateRange(this.value);
       this.start = this.value[0];
