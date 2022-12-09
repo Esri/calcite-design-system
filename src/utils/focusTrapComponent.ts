@@ -1,8 +1,13 @@
-import { FocusTrap as _FocusTrap, Options as FocusTrapOptions, createFocusTrap } from "focus-trap";
+import {
+  FocusTrap as _FocusTrap,
+  Options as FocusTrapOptions,
+  createFocusTrap,
+  FocusTrapTabbableOptions
+} from "focus-trap";
 import { FocusableElement, focusElement } from "./dom";
 import { tabbable } from "tabbable";
 
-const tabbableOptions = {
+const tabbableOptions: FocusTrapTabbableOptions = {
   getShadowRoot: true
 };
 
