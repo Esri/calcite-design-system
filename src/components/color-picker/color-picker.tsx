@@ -24,7 +24,7 @@ import {
   RGB_LIMITS,
   TEXT
 } from "./resources";
-import { Direction, focusElement, getElementDir, isPrimaryPointerButton } from "../../utils/dom";
+import { Direction, getElementDir, isPrimaryPointerButton } from "../../utils/dom";
 import { colorEqual, CSSColorMode, Format, normalizeHex, parseMode, SupportedMode } from "./utils";
 import { throttle } from "lodash-es";
 
@@ -46,7 +46,9 @@ const defaultFormat = "auto";
 @Component({
   tag: "calcite-color-picker",
   styleUrl: "color-picker.scss",
-  shadow: true
+  shadow: {
+    delegatesFocus: true
+  }
 })
 export class ColorPicker implements InteractiveComponent, LoadableComponent {
   //--------------------------------------------------------------------------
@@ -737,8 +739,7 @@ export class ColorPicker implements InteractiveComponent, LoadableComponent {
   @Method()
   async setFocus(): Promise<void> {
     await componentLoaded(this);
-
-    return focusElement(this.colorFieldScopeNode);
+    this.el.focus();
   }
 
   //--------------------------------------------------------------------------
