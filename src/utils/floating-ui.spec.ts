@@ -19,7 +19,7 @@ import { waitForAnimationFrame } from "../tests/utils";
 
 import * as floatingUIDOM from "@floating-ui/dom";
 
-(floatingUIDOM as any).computePosition = async (referenceEl: HTMLElement, floatingEl: HTMLElement) => {
+(floatingUIDOM as any).computePosition = async (_: HTMLElement, floatingEl: HTMLElement) => {
   floatingEl.style.transform = "some value";
   floatingEl.style.top = "0";
   floatingEl.style.left = "0";
@@ -222,7 +222,7 @@ it("should have correct value for defaultOffsetDistance", () => {
 });
 
 it("should filter computed placements", () => {
-  expect(new Set(filterComputedPlacements(placements, document.createElement("div")))).toEqual(
+  expect(new Set(filterComputedPlacements([...placements], document.createElement("div")))).toEqual(
     new Set(effectivePlacements)
   );
 });
