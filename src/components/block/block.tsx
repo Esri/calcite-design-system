@@ -316,7 +316,7 @@ export class Block
           headerContent
         )}
         {loading ? (
-          <calcite-loader inline is-active label={messages.loading} />
+          <calcite-loader inline label={messages.loading} />
         ) : hasControl ? (
           <div class={CSS.controlContainer}>
             <slot name={SLOTS.control} />
