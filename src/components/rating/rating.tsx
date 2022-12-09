@@ -304,6 +304,9 @@ export class Rating
 
       if (isNaN(numberKey)) {
         switch (key) {
+          case "Enter":
+            this.value = this.value === inputVal ? 0 : inputVal;
+            break;
           case "ArrowLeft":
             this.value = inputVal - 1;
             break;
