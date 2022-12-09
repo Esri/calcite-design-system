@@ -267,7 +267,11 @@ describe("calcite-date-picker", () => {
     await page.setContent(html`<calcite-date-picker value="2000-11-27" active></calcite-date-picker>`);
     const date = await page.find(`calcite-date-picker >>> calcite-date-picker-month-header`);
 
-    expect(await date.getProperty("messages.year")).toEqual("Year");
+    expect(await date.getProperty("messages")).toEqual({
+      nextMonth: "Next month",
+      prevMonth: "Previous month",
+      year: "Year"
+    });
   });
 
   it("supports translations", () => t9n("calcite-date-picker"));
