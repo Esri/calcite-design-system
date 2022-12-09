@@ -53,7 +53,9 @@ function capitalize(str: string): string {
 @Component({
   tag: "calcite-time-picker",
   styleUrl: "time-picker.scss",
-  shadow: true
+  shadow: {
+    delegatesFocus: true
+  }
 })
 export class TimePicker implements LocalizedComponent, LoadableComponent {
   //--------------------------------------------------------------------------

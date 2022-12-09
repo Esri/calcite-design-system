@@ -44,7 +44,9 @@ import {
 @Component({
   tag: "calcite-input-time-picker",
   styleUrl: "input-time-picker.scss",
-  shadow: true
+  shadow: {
+    delegatesFocus: true
+  }
 })
 export class InputTimePicker
   implements
@@ -376,7 +378,7 @@ export class InputTimePicker
   async setFocus(): Promise<void> {
     await componentLoaded(this);
 
-    this.calciteInputEl?.setFocus();
+    this.el.focus();
   }
 
   /**
