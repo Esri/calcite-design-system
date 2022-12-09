@@ -12,7 +12,7 @@ import {
   VNode,
   Watch
 } from "@stencil/core";
-import { ensureId, focusElement, getSlotted } from "../../utils/dom";
+import { ensureId, getSlotted } from "../../utils/dom";
 import { Scale } from "../interfaces";
 import { ModalBackgroundColor } from "./interfaces";
 import { CSS, ICONS, SLOTS, TEXT } from "./resources";
@@ -48,7 +48,9 @@ import {
 @Component({
   tag: "calcite-modal",
   styleUrl: "modal.scss",
-  shadow: true
+  shadow: {
+    delegatesFocus: true
+  }
 })
 export class Modal
   implements ConditionalSlotComponent, OpenCloseComponent, FocusTrapComponent, LoadableComponent
@@ -330,20 +332,6 @@ export class Modal
   //  Public Methods
   //
   //--------------------------------------------------------------------------
-  /**
-   * Focus the first interactive element.
-   *
-   * @param el
-   * @deprecated use `setFocus` instead.
-   */
-  @Method()
-  async focusElement(el?: HTMLElement): Promise<void> {
-    if (el) {
-      el.focus();
-    }
-
-    return this.setFocus();
-  }
 
   /**
    * Sets focus on the component.
@@ -354,15 +342,10 @@ export class Modal
    * @param focusId
    */
   @Method()
-  async setFocus(focusId?: "close-button"): Promise<void> {
+  async setFocus(): Promise<void> {
     await componentLoaded(this);
 
-    const { closeButtonEl } = this;
-
-    if (closeButtonEl && focusId === "close-button") {
-      return focusElement(closeButtonEl);
-    }
-
+    this.el.focus();
     activateFocusTrap(this);
   }
 
@@ -436,7 +419,7 @@ export class Modal
   }
 
   private openEnd = (): void => {
-    this.setFocus();
+    this.el.focus();
     this.el.removeEventListener("calciteModalOpen", this.openEnd);
   };
 
