@@ -91,6 +91,13 @@ export class Popover
    */
   @Prop({ reflect: true }) disableFocusTrap = false;
 
+  @Watch("disableFocusTrap")
+  handleDisableFocusTrap(disableFocusTrap: boolean): void {
+    if (disableFocusTrap) {
+      deactivateFocusTrap(this);
+    }
+  }
+
   /**
    * When `true`, removes the caret pointer.
    */
