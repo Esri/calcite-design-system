@@ -36,9 +36,9 @@ export interface FocusTrapComponent {
 export type FocusTrap = _FocusTrap;
 
 /**
- * Helper to set up focus trap component.
+ * Helper to set up the FocusTrap component.
  *
- * @param {FocusTrapComponent} component The focus trap component.
+ * @param {FocusTrapComponent} component The FocusTrap component.
  */
 export function connectFocusTrap(component: FocusTrapComponent): void {
   const { focusTrapEl } = component;
@@ -69,9 +69,9 @@ export function connectFocusTrap(component: FocusTrapComponent): void {
 }
 
 /**
- * Helper to activate focus trap component.
+ * Helper to activate the FocusTrap component.
  *
- * @param {FocusTrapComponent} component The focus trap component.
+ * @param {FocusTrapComponent} component The FocusTrap component.
  */
 export function activateFocusTrap(component: FocusTrapComponent): void {
   if (!component.disableFocusTrap) {
@@ -80,27 +80,27 @@ export function activateFocusTrap(component: FocusTrapComponent): void {
 }
 
 /**
- * Helper to tear deactivate focus trap component.
+ * Helper to deactivate the FocusTrap component.
  *
- * @param {FocusTrapComponent} component The focus trap component.
+ * @param {FocusTrapComponent} component The FocusTrap component.
  */
 export function deactivateFocusTrap(component: FocusTrapComponent): void {
   component.focusTrap?.deactivate();
 }
 
 /**
- * Helper to focus the first tabbable element within the "focusTrapEl".
+ * Helper to focus the first tabbable element within the FocusTrap component.
  *
- * @param {FocusTrapComponent} component The focus trap component.
+ * @param {FocusTrapComponent} component The FocusTrap component.
  */
 export function focusFirstTabbable(component: FocusTrapComponent): void {
   tabbable(component.focusTrapEl, tabbableOptions)[0]?.focus();
 }
 
 /**
- * Helper to toggle activation of the focus trap component.
+ * Helper to toggle activation of the FocusTrap component.
  *
- * @param {FocusTrapComponent} component The focus trap component.
+ * @param {FocusTrapComponent} component The FocusTrap component.
  * @param {boolean} value Whether to activate the focus trap.
  */
 export function toggleFocusTrap(component: FocusTrapComponent, value = false): void {
