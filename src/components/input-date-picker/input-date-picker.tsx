@@ -217,25 +217,11 @@ export class InputDatePicker
     }
   }
 
-  /**
-   * When `true`, the component is active.
-   *
-   * @deprecated use `open` instead.
-   */
-  @Prop({ mutable: true, reflect: true }) active = false;
-
-  @Watch("active")
-  activeHandler(value: boolean): void {
-    this.open = value;
-  }
-
   /** When `true`, displays the `calcite-date-picker` component. */
   @Prop({ mutable: true, reflect: true }) open = false;
 
   @Watch("open")
   openHandler(value: boolean): void {
-    this.active = value;
-
     if (this.disabled || this.readOnly) {
       if (!value) {
         updateAfterClose(this.floatingEl);
@@ -467,8 +453,7 @@ export class InputDatePicker
   connectedCallback(): void {
     connectLocalized(this);
 
-    const isOpen = this.active || this.open;
-    isOpen && this.activeHandler(isOpen);
+    const isOpen = this.open;
     isOpen && this.openHandler(isOpen);
     if (Array.isArray(this.value)) {
       this.valueAsDate = getValueAsDateRange(this.value);
@@ -820,7 +805,6 @@ export class InputDatePicker
         event.preventDefault();
       }
     } else if (key === "Escape" && !defaultPrevented) {
-      this.active = false;
       this.open = false;
       event.preventDefault();
     }
