@@ -260,7 +260,7 @@ describe("calcite-input-date-picker", () => {
     expect(await calendar.isVisible()).toBe(true);
   });
 
-  it("syncs locale changes to internal date-picker", async () => {
+  it("syncs lang changes to internal date-picker", async () => {
     const lang = "en";
     const newLang = "ar";
     const month = 4;

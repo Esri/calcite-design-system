@@ -62,9 +62,9 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
         }
       },
       {
-        name: "locale",
+        name: "lang",
         commit(): Attribute {
-          this.value = select("locale", locales, "en");
+          this.value = select("lang", locales, "en");
           delete this.build;
           return this;
         }
@@ -181,12 +181,12 @@ export const darkThemeRTL_TestOnly = (): string =>
 
 darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };
 
-export const bgLocale_TestOnly = (): string =>
+export const bgLang_TestOnly = (): string =>
   html`<div style="width: 400px">
     ${create("calcite-date-picker", createAttributes({ exceptions: ["lang"] }).concat([{ name: "lang", value: "bg" }]))}
   </div>`;
 
-export const ptPTLocale_TestOnly = (): string =>
+export const ptPTLang_TestOnly = (): string =>
   html`<div style="width: 400px">
     ${create(
       "calcite-date-picker",
@@ -194,7 +194,7 @@ export const ptPTLocale_TestOnly = (): string =>
     )}
   </div>`;
 
-export const germanLocale_TestOnly = (): string =>
+export const germanLang_TestOnly = (): string =>
   html`<div style="width: 400px">
     ${create(
       "calcite-date-picker",
@@ -205,7 +205,7 @@ export const germanLocale_TestOnly = (): string =>
     )}
   </div>`;
 
-export const spanishLocale_TestOnly = (): string =>
+export const spanishLang_TestOnly = (): string =>
   html`<div style="width: 400px">
     ${create(
       "calcite-date-picker",
@@ -216,7 +216,7 @@ export const spanishLocale_TestOnly = (): string =>
     )}
   </div>`;
 
-export const norwegianLocale_TestOnly = (): string =>
+export const norwegianLang_TestOnly = (): string =>
   html`<div style="width: 400px">
     ${create(
       "calcite-date-picker",
@@ -227,7 +227,7 @@ export const norwegianLocale_TestOnly = (): string =>
     )}
   </div>`;
 
-export const britishLocale_TestOnly = (): string =>
+export const britishLang_TestOnly = (): string =>
   html`<div style="width: 400px">
     ${create(
       "calcite-date-picker",
@@ -238,7 +238,7 @@ export const britishLocale_TestOnly = (): string =>
     )}
   </div>`;
 
-export const chineseLocale_TestOnly = (): string =>
+export const chineseLang_TestOnly = (): string =>
   html`<div style="width: 400px">
     ${create(
       "calcite-date-picker",
@@ -249,7 +249,7 @@ export const chineseLocale_TestOnly = (): string =>
     )}
   </div>`;
 
-export const arabLocaleNumberingSystem_TestOnly = (): string =>
+export const arabLangNumberingSystem_TestOnly = (): string =>
   html`<div style="width: 400px">
     ${create(
       "calcite-date-picker",
@@ -260,7 +260,7 @@ export const arabLocaleNumberingSystem_TestOnly = (): string =>
     )}
   </div>`;
 
-export const thaiLocaleNumberingSystem_TestOnly = (): string =>
+export const thaiLangNumberingSystem_TestOnly = (): string =>
   html`<div style="width: 400px">
     ${create(
       "calcite-date-picker",
