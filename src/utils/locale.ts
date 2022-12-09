@@ -180,7 +180,17 @@ export function getSupportedLocale(locale: string, context: "cldr" | "t9n" = "cl
     }
   }
 
-  return contextualLocales.includes(locale) ? locale : defaultLocale;
+  // we can `zh-CN` as base translation for chinese locales which has no corresponding bundle.
+  if (locale === "zh") {
+    return "zh-CN";
+  }
+
+  if (!contextualLocales.includes(locale)) {
+    console.warn(`Translations for "${locale}" not found or invalid, falling back to english`);
+    return defaultLocale;
+  }
+
+  return locale;
 }
 
 /**
