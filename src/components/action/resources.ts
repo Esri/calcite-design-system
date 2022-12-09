@@ -2,6 +2,7 @@ export const CSS = {
   button: "button",
   buttonTextVisible: "button--text-visible",
   buttonCompact: "button--compact",
+  indicatorText: "indicator-text",
   iconContainer: "icon-container",
   slotContainer: "slot-container",
   slotContainerHidden: "slot-container--hidden",
@@ -10,7 +11,8 @@ export const CSS = {
 };
 
 export const TEXT = {
-  loading: "Loading"
+  loading: "Loading",
+  indicator: "indicator present"
 };
 
 export const SLOTS = {

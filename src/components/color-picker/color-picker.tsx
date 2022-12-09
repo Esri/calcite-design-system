@@ -334,7 +334,7 @@ export class ColorPicker implements InteractiveComponent, LoadableComponent {
   @Prop({ reflect: true }) storageId: string;
 
   /** Specifies the Unicode numeral system used by the component for localization. */
-  @Prop({ reflect: true }) numberingSystem?: NumberingSystem;
+  @Prop({ reflect: true }) numberingSystem: NumberingSystem;
 
   /**
    * The component's value, where the value can be a CSS color string, or a RGB, HSL or HSV object.
@@ -1168,16 +1168,16 @@ export class ColorPicker implements InteractiveComponent, LoadableComponent {
 
   private renderChannelsTabTitle = (channelMode: this["channelMode"]): VNode => {
     const { channelMode: activeChannelMode, intlRgb, intlHsv } = this;
-    const active = channelMode === activeChannelMode;
+    const selected = channelMode === activeChannelMode;
     const label = channelMode === "rgb" ? intlRgb : intlHsv;
 
     return (
       <calcite-tab-title
-        active={active}
         class={CSS.colorMode}
         data-color-mode={channelMode}
         key={channelMode}
         onCalciteTabsActivate={this.handleTabActivate}
+        selected={selected}
       >
         {label}
       </calcite-tab-title>
@@ -1202,7 +1202,7 @@ export class ColorPicker implements InteractiveComponent, LoadableComponent {
       intlValue
     } = this;
 
-    const active = channelMode === activeChannelMode;
+    const selected = channelMode === activeChannelMode;
     const isRgb = channelMode === "rgb";
     const channelLabels = isRgb ? [intlR, intlG, intlB] : [intlH, intlS, intlV];
     const channelAriaLabels = isRgb
@@ -1211,7 +1211,7 @@ export class ColorPicker implements InteractiveComponent, LoadableComponent {
     const direction = getElementDir(this.el);
 
     return (
-      <calcite-tab active={active} class={CSS.control} key={channelMode}>
+      <calcite-tab class={CSS.control} key={channelMode} selected={selected}>
         {/* channel order should not be mirrored */}
         <div class={CSS.channels} dir="ltr">
           {channels.map((channel, index) =>

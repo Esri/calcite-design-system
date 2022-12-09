@@ -59,28 +59,28 @@ export class Block implements ConditionalSlotComponent, InteractiveComponent {
    *
    * @default "Collapse"
    */
-  @Prop() intlCollapse?: string = TEXT.collapse;
+  @Prop() intlCollapse: string = TEXT.collapse;
 
   /**
    * Accessible name for the component's expand button.
    *
    * @default "Expand"
    */
-  @Prop() intlExpand?: string = TEXT.expand;
+  @Prop() intlExpand: string = TEXT.expand;
 
   /**
    * Accessible name when the component is loading.
    *
    * @default "Loading"
    */
-  @Prop() intlLoading?: string = TEXT.loading;
+  @Prop() intlLoading: string = TEXT.loading;
 
   /**
    * Accessible name for the component's options button.
    *
    * @default "Options"
    */
-  @Prop() intlOptions?: string = TEXT.options;
+  @Prop() intlOptions: string = TEXT.options;
 
   /**
    * When `true`, a busy indicator is displayed.
@@ -95,26 +95,12 @@ export class Block implements ConditionalSlotComponent, InteractiveComponent {
   /**
    * Displays a status-related indicator icon.
    */
-  @Prop({ reflect: true }) status?: Status;
-
-  /**
-   * A description for the component, which displays below the heading.
-   *
-   * @deprecated use `description` instead
-   */
-  @Prop() summary: string;
+  @Prop({ reflect: true }) status: Status;
 
   /**
    * A description for the component, which displays below the heading.
    */
   @Prop() description: string;
-
-  /**
-   * When `true`, removes padding for the slotted content.
-   *
-   * @deprecated Use `--calcite-block-padding` CSS variable instead.
-   */
-  @Prop({ reflect: true }) disablePadding = false;
 
   //--------------------------------------------------------------------------
   //
@@ -213,15 +199,13 @@ export class Block implements ConditionalSlotComponent, InteractiveComponent {
   }
 
   renderTitle(): VNode {
-    const { heading, headingLevel, summary, description } = this;
-    return heading || summary || description ? (
+    const { heading, headingLevel, description } = this;
+    return heading || description ? (
       <div class={CSS.title}>
         <Heading class={CSS.heading} level={headingLevel}>
           {heading}
         </Heading>
-        {summary || description ? (
-          <div class={CSS.description}>{summary || description}</div>
-        ) : null}
+        {description ? <div class={CSS.description}>{description}</div> : null}
       </div>
     ) : null;
   }
@@ -299,10 +283,7 @@ export class Block implements ConditionalSlotComponent, InteractiveComponent {
           <section
             aria-expanded={toAriaBoolean(open)}
             aria-labelledby={buttonId}
-            class={{
-              [CSS.content]: true,
-              [CSS.contentSpaced]: !this.disablePadding
-            }}
+            class={CSS.content}
             hidden={!open}
             id={regionId}
           >

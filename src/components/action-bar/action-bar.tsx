@@ -76,12 +76,12 @@ export class ActionBar implements ConditionalSlotComponent, LoadableComponent {
   /**
    * Specifies the label of the expand icon when the component is collapsed.
    */
-  @Prop() intlExpand?: string;
+  @Prop() intlExpand: string;
 
   /**
    * Specifies the label of the collapse icon when the component is expanded.
    */
-  @Prop() intlCollapse?: string;
+  @Prop() intlCollapse: string;
 
   /**
    *  The layout direction of the actions.
@@ -214,8 +214,8 @@ export class ActionBar implements ConditionalSlotComponent, LoadableComponent {
   //
   // --------------------------------------------------------------------------
 
-  actionMenuOpenChangeHandler = (event: CustomEvent<boolean>): void => {
-    if (event.detail) {
+  actionMenuOpenChangeHandler = (event: CustomEvent<void>): void => {
+    if ((event.target as HTMLCalciteActionGroupElement).menuOpen) {
       const composedPath = event.composedPath();
       Array.from(this.el.querySelectorAll("calcite-action-group")).forEach((group) => {
         if (!composedPath.includes(group)) {

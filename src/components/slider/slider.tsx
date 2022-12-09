@@ -92,7 +92,7 @@ export class Slider
    *
    * @see [DataSeries](https://github.com/Esri/calcite-components/blob/master/src/components/graph/interfaces.ts#L5)
    */
-  @Prop() histogram?: DataSeries;
+  @Prop() histogram: DataSeries;
 
   @Watch("histogram")
   histogramWatcher(newHistogram: DataSeries): void {
@@ -114,10 +114,10 @@ export class Slider
   @Prop({ reflect: true }) max = 100;
 
   /** For multiple selections, the accessible name for the second handle, such as `"Temperature, upper bound"`. */
-  @Prop() maxLabel?: string;
+  @Prop() maxLabel: string;
 
   /** For multiple selections, the component's upper value. */
-  @Prop({ mutable: true }) maxValue?: number;
+  @Prop({ mutable: true }) maxValue: number;
 
   /** The component's minimum selectable value. */
   @Prop({ reflect: true }) min = 0;
@@ -126,7 +126,7 @@ export class Slider
   @Prop() minLabel: string;
 
   /** For multiple selections, the component's lower value. */
-  @Prop({ mutable: true }) minValue?: number;
+  @Prop({ mutable: true }) minValue: number;
 
   /**
    * When `true`, the slider will display values from high to low.
@@ -141,10 +141,10 @@ export class Slider
   /**
    * Specifies the Unicode numeral system used by the component for localization.
    */
-  @Prop() numberingSystem?: NumberingSystem;
+  @Prop() numberingSystem: NumberingSystem;
 
   /** Specifies the interval to move with the page up, or page down keys. */
-  @Prop({ reflect: true }) pageStep?: number;
+  @Prop({ reflect: true }) pageStep: number;
 
   /** When `true`, sets a finer point for handles. */
   @Prop({ reflect: true }) precise = false;
@@ -158,10 +158,10 @@ export class Slider
   @Prop({ reflect: true }) snap = false;
 
   /** Specifies the interval to move with the up, or down keys. */
-  @Prop({ reflect: true }) step?: number = 1;
+  @Prop({ reflect: true }) step = 1;
 
   /** Displays tick marks on the number line at a specified interval. */
-  @Prop({ reflect: true }) ticks?: number;
+  @Prop({ reflect: true }) ticks: number;
 
   /** The component's value. */
   @Prop({ reflect: true, mutable: true }) value: null | number | number[] = 0;
@@ -900,17 +900,6 @@ export class Slider
    */
   @Event({ cancelable: false }) calciteSliderChange: EventEmitter<void>;
 
-  /**
-   * Fires on all updates to the component.
-   *
-   * **Note:** Will be fired frequently during drag. If you are performing any
-   * expensive operations consider using a debounce or throttle to avoid
-   * locking up the main thread.
-   *
-   * @deprecated use `calciteSliderInput` instead.
-   */
-  @Event({ cancelable: false }) calciteSliderUpdate: EventEmitter<void>;
-
   //--------------------------------------------------------------------------
   //
   //  Public Methods
@@ -1079,7 +1068,6 @@ export class Slider
 
   private emitInput(): void {
     this.calciteSliderInput.emit();
-    this.calciteSliderUpdate.emit();
   }
 
   private emitChange(): void {

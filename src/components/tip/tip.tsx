@@ -36,7 +36,7 @@ export class Tip implements ConditionalSlotComponent {
   /**
    * The component header text.
    */
-  @Prop() heading?: string;
+  @Prop() heading: string;
 
   /**
    * Specifies the number at which section headings should start.
@@ -53,7 +53,7 @@ export class Tip implements ConditionalSlotComponent {
   /**
    * Accessible name for the component's close button.
    */
-  @Prop() intlClose?: string;
+  @Prop() intlClose: string;
 
   // --------------------------------------------------------------------------
   //
