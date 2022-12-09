@@ -583,8 +583,8 @@ export class InputText
         }}
         defaultValue={this.defaultValue}
         disabled={this.disabled ? true : null}
-        enterKeyHint={this.el.enterKeyHint}
-        inputMode={this.el.inputMode}
+        enterKeyHint={this.enterKeyHint}
+        inputMode={this.inputMode}
         maxLength={this.maxLength}
         minLength={this.minLength}
         name={this.name}

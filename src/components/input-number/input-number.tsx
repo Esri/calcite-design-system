@@ -925,8 +925,8 @@ export class InputNumber
         autofocus={this.autofocus ? true : null}
         defaultValue={this.defaultValue}
         disabled={this.disabled ? true : null}
-        enterKeyHint={this.el.enterKeyHint}
-        inputMode={this.el.inputMode}
+        enterKeyHint={this.enterKeyHint}
+        inputMode={this.inputMode}
         key="localized-input"
         maxLength={this.maxLength}
         minLength={this.minLength}
