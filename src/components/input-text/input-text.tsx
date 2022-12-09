@@ -391,11 +391,14 @@ export class InputText
     this.emitChangeIfUserModified();
   };
 
-  private inputTextFocusHandler = (event: FocusEvent): void => {
+  private clickHandler = (event: MouseEvent): void => {
     const slottedActionEl = getSlotted(this.el, "action");
     if (event.target !== slottedActionEl) {
       this.setFocus();
     }
+  };
+
+  private inputTextFocusHandler = (): void => {
     this.calciteInternalInputTextFocus.emit({
       element: this.childEl,
       value: this.value
@@ -587,7 +590,7 @@ export class InputText
     );
 
     return (
-      <Host onClick={this.inputTextFocusHandler} onKeyDown={this.keyDownHandler}>
+      <Host onClick={this.clickHandler} onKeyDown={this.keyDownHandler}>
         <div class={{ [CSS.inputWrapper]: true, [CSS_UTILITY.rtl]: dir === "rtl" }}>
           {this.prefixText ? prefixText : null}
           <div class={CSS.wrapper}>
