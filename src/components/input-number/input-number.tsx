@@ -531,11 +531,14 @@ export class InputNumber
     this.emitChangeIfUserModified();
   };
 
-  private inputNumberFocusHandler = (event: FocusEvent): void => {
+  private clickHandler = (event: MouseEvent): void => {
     const slottedActionEl = getSlotted(this.el, "action");
     if (event.target !== slottedActionEl) {
       this.setFocus();
     }
+  };
+
+  private inputNumberFocusHandler = (): void => {
     this.calciteInternalInputNumberFocus.emit();
   };
 
@@ -923,7 +926,7 @@ export class InputNumber
     );
 
     return (
-      <Host onClick={this.inputNumberFocusHandler} onKeyDown={this.keyDownHandler}>
+      <Host onClick={this.clickHandler} onKeyDown={this.keyDownHandler}>
         <div class={{ [CSS.inputWrapper]: true, [CSS_UTILITY.rtl]: dir === "rtl" }}>
           {this.numberButtonType === "horizontal" && !this.readOnly
             ? numberButtonsHorizontalDown
