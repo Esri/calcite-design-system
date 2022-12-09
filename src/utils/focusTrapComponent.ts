@@ -2,6 +2,10 @@ import { FocusTrap as _FocusTrap, Options as FocusTrapOptions, createFocusTrap }
 import { FocusableElement, focusElement } from "./dom";
 import { tabbable } from "tabbable";
 
+const tabbableOptions = {
+  getShadowRoot: true
+};
+
 const trapStack: _FocusTrap[] = [];
 
 /**
@@ -52,9 +56,7 @@ export function connectFocusTrap(component: FocusTrapComponent): void {
       focusElement(el as FocusableElement);
       return false;
     },
-    tabbableOptions: {
-      getShadowRoot: true
-    },
+    tabbableOptions,
     trapStack
   };
 
@@ -87,7 +89,7 @@ export function deactivateFocusTrap(component: FocusTrapComponent): void {
  * @param component
  */
 export function focusFirstTabbable(component: FocusTrapComponent): void {
-  tabbable(component.focusTrapEl)[0]?.focus();
+  tabbable(component.focusTrapEl, tabbableOptions)[0]?.focus();
 }
 
 /**
