@@ -34,7 +34,7 @@ import {
   activateFocusTrap,
   deactivateFocusTrap,
   focusFirstTabbable,
-  toggleFocusTrapActivation
+  toggleFocusTrap
 } from "../../utils/focusTrapComponent";
 
 import { guid } from "../../utils/guid";
@@ -94,12 +94,12 @@ export class Popover
   @Prop({ reflect: true }) disableFocusTrap = false;
 
   @Watch("disableFocusTrap")
-  handleDisableFocusTrap(): void {
+  handleDisableFocusTrap(disableFocusTrap: boolean): void {
     if (!this.open) {
       return;
     }
 
-    toggleFocusTrapActivation(this);
+    toggleFocusTrap(this, !disableFocusTrap);
   }
 
   /**

@@ -33,7 +33,7 @@ export type FocusTrap = _FocusTrap;
 /**
  * Helper to set up focus trap component.
  *
- * @param component
+ * @param {FocusTrapComponent} component The focus trap component.
  */
 export function connectFocusTrap(component: FocusTrapComponent): void {
   const { focusTrapEl } = component;
@@ -66,7 +66,7 @@ export function connectFocusTrap(component: FocusTrapComponent): void {
 /**
  * Helper to activate focus trap component.
  *
- * @param component
+ * @param {FocusTrapComponent} component The focus trap component.
  */
 export function activateFocusTrap(component: FocusTrapComponent): void {
   if (!component.disableFocusTrap) {
@@ -77,7 +77,7 @@ export function activateFocusTrap(component: FocusTrapComponent): void {
 /**
  * Helper to tear deactivate focus trap component.
  *
- * @param component
+ * @param {FocusTrapComponent} component The focus trap component.
  */
 export function deactivateFocusTrap(component: FocusTrapComponent): void {
   component.focusTrap?.deactivate();
@@ -86,17 +86,18 @@ export function deactivateFocusTrap(component: FocusTrapComponent): void {
 /**
  * Helper to focus the first tabbable element within the "focusTrapEl".
  *
- * @param component
+ * @param {FocusTrapComponent} component The focus trap component.
  */
 export function focusFirstTabbable(component: FocusTrapComponent): void {
   tabbable(component.focusTrapEl, tabbableOptions)[0]?.focus();
 }
 
 /**
- * Helper to toggle activation of focus trap component depending on "disableFocusTrap".
+ * Helper to toggle activation of the focus trap component.
  *
- * @param component
+ * @param {FocusTrapComponent} component The focus trap component.
+ * @param {boolean} value Whether to activate the focus trap.
  */
-export function toggleFocusTrapActivation(component: FocusTrapComponent): void {
-  component.disableFocusTrap ? deactivateFocusTrap(component) : activateFocusTrap(component);
+export function toggleFocusTrap(component: FocusTrapComponent, value = false): void {
+  value ? activateFocusTrap(component) : deactivateFocusTrap(component);
 }

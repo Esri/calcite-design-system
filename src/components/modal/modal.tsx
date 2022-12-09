@@ -30,7 +30,7 @@ import {
   activateFocusTrap,
   deactivateFocusTrap,
   focusFirstTabbable,
-  toggleFocusTrapActivation
+  toggleFocusTrap
 } from "../../utils/focusTrapComponent";
 import {
   setUpLoadableComponent,
@@ -91,12 +91,12 @@ export class Modal
   @Prop({ reflect: true }) disableFocusTrap = false;
 
   @Watch("disableFocusTrap")
-  handleDisableFocusTrap(): void {
+  handleDisableFocusTrap(disableFocusTrap: boolean): void {
     if (!this.open) {
       return;
     }
 
-    toggleFocusTrapActivation(this);
+    toggleFocusTrap(this, !disableFocusTrap);
   }
 
   /** When `true`, disables the closing of the component when clicked outside. */
