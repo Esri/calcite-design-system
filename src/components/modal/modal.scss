@@ -10,7 +10,7 @@
  * @prop --calcite-scrim-background: The component's semi-transparent background color.
  */
 
-:host {
+.container {
   @apply text-color-2
     fixed
     inset-0
@@ -105,7 +105,7 @@
   }
 }
 
-:host([open]) {
+:host([open]) .container {
   @apply opacity-100;
   visibility: visible !important;
   transition-delay: 0ms;
@@ -196,7 +196,7 @@
   font-size: var(--calcite-modal-content-text, var(--calcite-modal-context-text-internal));
 }
 
-:host([background-color="grey"]) {
+:host([background-color="grey"]) .container {
   .content {
     @apply bg-background;
   }
@@ -245,13 +245,13 @@ slot[name="primary"] {
  * Sizes
  */
 @mixin modal-size($size, $width) {
-  :host([width="#{$size}"]) {
+  :host([width="#{$size}"]) .container {
     .modal {
       max-inline-size: $width;
     }
   }
   @media screen and (max-width: $width + 2 * $baseline) {
-    :host([width="#{$size}"]) {
+    :host([width="#{$size}"]) .container {
       .modal {
         @apply m-0 h-full max-h-full w-full max-w-full rounded-none;
       }
@@ -260,13 +260,13 @@ slot[name="primary"] {
         max-block-size: unset;
       }
     }
-    :host([width="#{$size}"][docked]) {
+    :host([width="#{$size}"][docked]) .container {
       @apply items-end;
     }
   }
 }
 
-:host([width="small"]) .modal {
+:host([width="small"]) .container .modal {
   @apply w-auto;
 }
 
@@ -277,7 +277,7 @@ slot[name="primary"] {
 /**
  * Fullscreen
  */
-:host([fullscreen]) {
+:host([fullscreen]) .container {
   background-color: transparent;
   .modal {
     @apply m-0 h-full max-h-full w-full max-w-full;
@@ -290,7 +290,7 @@ slot[name="primary"] {
   }
 }
 
-:host([open][fullscreen]) {
+:host([open][fullscreen]) .container {
   .header {
     border-radius: 0;
   }
@@ -302,7 +302,7 @@ slot[name="primary"] {
 /**
  * Docked
  */
-:host([docked]) {
+:host([docked]) .container {
   .modal {
     @apply h-auto;
   }
@@ -324,20 +324,20 @@ slot[name="primary"] {
 /**
  * Colors
  */
-:host([color="red"]) {
+:host([color="red"]) .container {
   .modal {
     @apply border-color-danger;
   }
 }
 
-:host([color="blue"]) {
+:host([color="blue"]) .container {
   .modal {
     @apply border-color-info;
   }
 }
 
-:host([color="red"]),
-:host([color="blue"]) {
+:host([color="red"]) .container,
+:host([color="blue"]) .container {
   .modal {
     @apply border-0 border-t-4 border-solid;
   }
@@ -368,5 +368,16 @@ slot[name="primary"] {
   .back,
   .secondary {
     @apply m-0 mb-1;
+  }
+}
+
+/**
+ * Conditional styles for when Modal is slotted in Shell
+ */
+
+.container.slotted-in-shell {
+  position: absolute;
+  calcite-scrim {
+    position: absolute;
   }
 }

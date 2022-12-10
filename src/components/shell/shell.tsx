@@ -14,7 +14,10 @@ import {
  * @slot panel-start - A slot for adding the starting `calcite-shell-panel`.
  * @slot panel-end - A slot for adding the ending `calcite-shell-panel`.
  * @slot center-row - A slot for adding content to the center row.
+ * @slot modal - A slot for adding a `calcite-modal`. When placed in this slot, the modal position will be constrained to the extent of the shell.
+ * @slot alerts - A slot for adding one or more `calcite-alert`. When placed in this slot, the alert position will be constrained to the extent of the shell.
  */
+
 @Component({
   tag: "calcite-shell",
   styleUrl: "shell.scss",
@@ -66,6 +69,16 @@ export class Shell implements ConditionalSlotComponent {
     return hasHeader ? <slot key="header" name={SLOTS.header} /> : null;
   }
 
+  renderAlerts(): VNode {
+    const hasAlerts = !!getSlotted(this.el, SLOTS.alerts, { matches: "calcite-alert" });
+    return hasAlerts ? <slot key="alerts" name={SLOTS.alerts} /> : null;
+  }
+
+  renderModal(): VNode {
+    const hasModal = !!getSlotted(this.el, SLOTS.modal, { matches: "calcite-modal" });
+    return hasModal ? <slot key="alerts" name={SLOTS.modal} /> : null;
+  }
+
   renderContent(): VNode[] {
     const defaultSlotNode: VNode = <slot key="default-slot" />;
     const centerRowSlotNode: VNode = <slot key="center-row-slot" name={SLOTS.centerRow} />;
@@ -114,12 +127,22 @@ export class Shell implements ConditionalSlotComponent {
     );
   }
 
+  renderPositionedSlots(): VNode {
+    return (
+      <div class={CSS.positionWrapper}>
+        {this.renderAlerts()}
+        {this.renderModal()}
+      </div>
+    );
+  }
+
   render(): VNode {
     return (
       <Fragment>
         {this.renderHeader()}
         {this.renderMain()}
         {this.renderFooter()}
+        {this.renderPositionedSlots()}
       </Fragment>
     );
   }

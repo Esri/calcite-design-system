@@ -153,6 +153,8 @@ export class Alert implements OpenCloseComponent, LocalizedComponent, LoadableCo
       this.calciteInternalAlertRegister.emit();
     }
     connectOpenCloseComponent(this);
+    this.isSlottedInShell =
+      this.el.slot === "alerts" && this.el.parentElement.nodeName === "CALCITE-SHELL";
   }
 
   componentWillLoad(): void {
@@ -225,7 +227,8 @@ export class Alert implements OpenCloseComponent, LocalizedComponent, LoadableCo
           class={{
             container: true,
             queued,
-            [placement]: true
+            [placement]: true,
+            [CSS.slottedInShell]: this.isSlottedInShell
           }}
           onPointerOut={
             this.autoDismiss && this.autoDismissTimeoutId ? this.handleMouseLeave : null
@@ -369,6 +372,8 @@ export class Alert implements OpenCloseComponent, LocalizedComponent, LoadableCo
   openTransitionProp = "opacity";
 
   transitionEl: HTMLDivElement;
+
+  private isSlottedInShell = false;
 
   //--------------------------------------------------------------------------
   //

@@ -93,3 +93,10 @@ slot[name="center-row"]::slotted(calcite-shell-center-row:not([detached])) {
   inset-block-end: theme("spacing.2");
   inset-inline: var(--calcite-shell-tip-spacing);
 }
+
+// positioning logic for expected slotted components
+.position-wrapper {
+  position: absolute;
+  pointer-events: none;
+  inset: 0;
+}

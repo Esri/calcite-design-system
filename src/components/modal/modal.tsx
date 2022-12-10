@@ -164,6 +164,8 @@ export class Modal
     if (this.active) {
       this.activeHandler(this.active);
     }
+    this.isSlottedInShell =
+      this.el.slot === "modal" && this.el.parentElement.nodeName === "CALCITE-SHELL";
   }
 
   disconnectedCallback(): void {
@@ -181,32 +183,35 @@ export class Modal
         aria-modal="true"
         role="dialog"
       >
-        <calcite-scrim class={CSS.scrim} onClick={this.handleOutsideClose} />
-        {this.renderStyle()}
-        <div
-          class={{
-            [CSS.modal]: true,
-            [CSS.modalOpen]: this.isOpen
-          }}
-          ref={this.setTransitionEl}
-        >
-          <div class={CSS.header}>
-            {this.renderCloseButton()}
-            <header class={CSS.title}>
-              <slot name={CSS.header} />
-            </header>
-          </div>
+        <div class={{ [CSS.container]: true, [CSS.slottedInShell]: this.isSlottedInShell }}>
+          <calcite-scrim class={CSS.scrim} onClick={this.handleOutsideClose} />
+          {this.renderStyle()}
           <div
             class={{
-              content: true,
-              "content--spaced": !this.noPadding,
-              "content--no-footer": !this.hasFooter
+              [CSS.modal]: true,
+              [CSS.modalOpen]: this.isOpen,
+              [CSS.slottedInShell]: this.isSlottedInShell
             }}
-            ref={(el) => (this.modalContent = el)}
+            ref={this.setTransitionEl}
           >
-            <slot name={SLOTS.content} />
+            <div class={CSS.header}>
+              {this.renderCloseButton()}
+              <header class={CSS.title}>
+                <slot name={CSS.header} />
+              </header>
+            </div>
+            <div
+              class={{
+                content: true,
+                "content--spaced": !this.noPadding,
+                "content--no-footer": !this.hasFooter
+              }}
+              ref={(el) => (this.modalContent = el)}
+            >
+              <slot name={SLOTS.content} />
+            </div>
+            {this.renderFooter()}
           </div>
-          {this.renderFooter()}
         </div>
       </Host>
     );
@@ -308,6 +313,8 @@ export class Modal
   focusTrap: FocusTrap;
 
   focusTrapEl: HTMLDivElement;
+
+  private isSlottedInShell = false;
 
   //--------------------------------------------------------------------------
   //
