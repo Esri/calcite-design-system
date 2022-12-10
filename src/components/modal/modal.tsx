@@ -474,7 +474,9 @@ export class Modal
     this.titleId = ensureId(titleEl);
     this.contentId = ensureId(contentEl);
 
-    document.documentElement.classList.add(CSS.overflowHidden);
+    if (!this.isSlottedInShell) {
+      document.documentElement.classList.add(CSS.overflowHidden);
+    }
   }
 
   handleOutsideClose = (): void => {

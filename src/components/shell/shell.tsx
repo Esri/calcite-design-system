@@ -41,7 +41,15 @@ export class Shell implements ConditionalSlotComponent {
   //
   // --------------------------------------------------------------------------
 
-  @Element() el: HTMLCalciteShellElement;
+  @Element() el!: HTMLCalciteShellElement;
+
+  private hasHeader = !!getSlotted(this.el, SLOTS.header);
+
+  private hasFooter = !!getSlotted(this.el, SLOTS.footer);
+
+  private hasModal = !!getSlotted(this.el, SLOTS.modal, { matches: "calcite-modal" });
+
+  private hasAlerts = !!getSlotted(this.el, SLOTS.alerts, { matches: "calcite-alert" });
 
   // --------------------------------------------------------------------------
   //
@@ -64,19 +72,23 @@ export class Shell implements ConditionalSlotComponent {
   // --------------------------------------------------------------------------
 
   renderHeader(): VNode {
-    const hasHeader = !!getSlotted(this.el, SLOTS.header);
+    return <slot key="header" name={SLOTS.header} />;
+  }
 
-    return hasHeader ? <slot key="header" name={SLOTS.header} /> : null;
+  renderFooter(): VNode {
+    return (
+      <div class={CSS.footer} key="footer">
+        <slot name={SLOTS.footer} />
+      </div>
+    );
   }
 
   renderAlerts(): VNode {
-    const hasAlerts = !!getSlotted(this.el, SLOTS.alerts, { matches: "calcite-alert" });
-    return hasAlerts ? <slot key="alerts" name={SLOTS.alerts} /> : null;
+    return <slot key="alerts" name={SLOTS.alerts} />;
   }
 
   renderModal(): VNode {
-    const hasModal = !!getSlotted(this.el, SLOTS.modal, { matches: "calcite-modal" });
-    return hasModal ? <slot key="alerts" name={SLOTS.modal} /> : null;
+    return <slot key="alerts" name={SLOTS.modal} />;
   }
 
   renderContent(): VNode[] {
@@ -107,16 +119,6 @@ export class Shell implements ConditionalSlotComponent {
     return content;
   }
 
-  renderFooter(): VNode {
-    const hasFooter = !!getSlotted(this.el, SLOTS.footer);
-
-    return hasFooter ? (
-      <div class={CSS.footer} key="footer">
-        <slot name={SLOTS.footer} />
-      </div>
-    ) : null;
-  }
-
   renderMain(): VNode {
     return (
       <div class={CSS.main}>
@@ -129,7 +131,7 @@ export class Shell implements ConditionalSlotComponent {
 
   renderPositionedSlots(): VNode {
     return (
-      <div class={CSS.positionWrapper}>
+      <div class={CSS.positionedSlotWrapper}>
         {this.renderAlerts()}
         {this.renderModal()}
       </div>
@@ -139,10 +141,10 @@ export class Shell implements ConditionalSlotComponent {
   render(): VNode {
     return (
       <Fragment>
-        {this.renderHeader()}
+        {this.hasHeader && this.renderHeader()}
         {this.renderMain()}
-        {this.renderFooter()}
-        {this.renderPositionedSlots()}
+        {this.hasFooter && this.renderFooter()}
+        {(this.hasAlerts || this.hasModal) && this.renderPositionedSlots()}
       </Fragment>
     );
   }

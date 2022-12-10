@@ -3,7 +3,7 @@ export const CSS = {
   content: "content",
   contentBehind: "content--behind",
   footer: "footer",
-  positionWrapper: "position-wrapper",
+  positionedSlotWrapper: "positioned-slot-wrapper",
   container: "container"
 };
 
