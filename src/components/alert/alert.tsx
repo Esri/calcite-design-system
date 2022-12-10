@@ -109,14 +109,6 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
    */
   @Prop({ reflect: true }) icon: string | boolean;
 
-  /**
-   * Specifies the text label for the close button.
-   *
-   * @default "Close"
-   * @deprecated - translations are now built-in, if you need to override a string, please use `messageOverrides`
-   */
-  @Prop() intlClose: string;
-
   /** Specifies an accessible name for the component. */
   @Prop() label!: string;
 
@@ -143,7 +135,6 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
    */
   @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
 
-  @Watch("intlClose")
   @Watch("messageOverrides")
   onMessagesChange(): void {
     /* wired up by t9n util */

@@ -59,13 +59,6 @@ export class ActionGroup implements ConditionalSlotComponent, LocalizedComponent
   @Prop({ reflect: true }) columns: Columns;
 
   /**
-   * Specifies a text string for the `calcite-action-menu`.
-   *
-   * @deprecated - translations are now built-in, if you need to override a string, please use `messageOverrides`
-   */
-  @Prop() intlMore: string;
-
-  /**
    * When `true`, the `calcite-action-menu` is open.
    */
   @Prop({ reflect: true, mutable: true }) menuOpen = false;
@@ -87,7 +80,6 @@ export class ActionGroup implements ConditionalSlotComponent, LocalizedComponent
    */
   @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
 
-  @Watch("intlMore")
   @Watch("messageOverrides")
   onMessagesChange(): void {
     /* wired up by t9n util */

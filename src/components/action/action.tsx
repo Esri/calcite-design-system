@@ -83,21 +83,6 @@ export class Action
   @Prop({ reflect: true }) indicator = false;
 
   /**
-   * When `indicator` is `true`, specifies the accessible context of the `indicator`.
-   *
-   * @default "Indicator present"
-   */
-  @Prop() intlIndicator: string = TEXT.indicator;
-
-  /**
-   * Specifies the text label to display while loading.
-   *
-   * @default "Loading"
-   * @deprecated - translations are now built-in, if you need to override a string, please use `messageOverrides`
-   */
-  @Prop() intlLoading?: string;
-
-  /**
    * Specifies the label of the component. If no label is provided, the label inherits what's provided for the `text` prop.
    */
   @Prop() label: string;
@@ -134,7 +119,6 @@ export class Action
    */
   @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
 
-  @Watch("intlLoading")
   @Watch("messageOverrides")
   onMessagesChange(): void {
     /* wired up by t9n util */
@@ -236,7 +220,7 @@ export class Action
   }
 
   renderIndicatorText(): VNode {
-    const { indicator, intlIndicator, indicatorId, buttonId } = this;
+    const { indicator, messages, indicatorId, buttonId } = this;
     return (
       <div
         aria-labelledby={buttonId}
@@ -245,7 +229,7 @@ export class Action
         id={indicatorId}
         role="region"
       >
-        {indicator ? intlIndicator : null}
+        {indicator ? messages.indicator : null}
       </div>
     );
   }
@@ -292,10 +276,10 @@ export class Action
       indicator,
       indicatorId,
       buttonId,
-      intlIndicator
+      messages
     } = this;
 
-    const ariaLabel = `${label || text}${indicator ? ` (${intlIndicator})` : ""}`;
+    const ariaLabel = `${label || text}${indicator ? ` (${messages.indicator})` : ""}`;
 
     const buttonClasses = {
       [CSS.button]: true,

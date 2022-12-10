@@ -76,20 +76,6 @@ export class ActionPad
   @Prop({ reflect: true }) layout: Layout = "vertical";
 
   /**
-   * Specifies the label of the expand icon when the component is collapsed.
-   *
-   * @deprecated - translations are now built-in, if you need to override a string, please use `messageOverrides`
-   */
-  @Prop() intlExpand: string;
-
-  /**
-   * Specifies the label of the collapse icon when the component is expanded.
-   *
-   * @deprecated - translations are now built-in, if you need to override a string, please use `messageOverrides`
-   */
-  @Prop() intlCollapse: string;
-
-  /**
    * Arranges the component depending on the element's `dir` property.
    */
   @Prop({ reflect: true }) position: Position;
@@ -111,8 +97,6 @@ export class ActionPad
    */
   @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
 
-  @Watch("intlCollapse")
-  @Watch("intlExpand")
   @Watch("messageOverrides")
   onMessagesChange(): void {
     /* wired up by t9n util */

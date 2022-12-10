@@ -9,7 +9,6 @@ import {
 import readme from "./readme.md";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { html } from "../../../support/formatting";
-import { TEXT } from "./resources";
 import { storyFilters } from "../../../.storybook/helpers";
 
 export default {
@@ -37,22 +36,6 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
         name: "expanded",
         commit(): Attribute {
           this.value = boolean("expanded", false);
-          delete this.build;
-          return this;
-        }
-      },
-      {
-        name: "intl-expand",
-        commit(): Attribute {
-          this.value = text("intlExpand", TEXT.expand);
-          delete this.build;
-          return this;
-        }
-      },
-      {
-        name: "intl-collapse",
-        commit(): Attribute {
-          this.value = text("intlCollapse", TEXT.collapse);
           delete this.build;
           return this;
         }
