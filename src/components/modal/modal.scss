@@ -377,6 +377,7 @@ slot[name="primary"] {
 
 .container.slotted-in-shell {
   position: absolute;
+  pointer-events: auto;
   calcite-scrim {
     position: absolute;
   }
