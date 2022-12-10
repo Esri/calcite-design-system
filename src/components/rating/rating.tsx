@@ -3,12 +3,12 @@ import {
   Element,
   Event,
   EventEmitter,
+  FunctionalComponent,
   h,
   Host,
   Method,
   Prop,
   State,
-  VNode,
   Watch
 } from "@stencil/core";
 import { guid } from "../../utils/guid";
@@ -23,6 +23,11 @@ import {
   LoadableComponent,
   componentLoaded
 } from "../../utils/loadable";
+import { Star, StarIconProps } from "./interfaces";
+
+const StarIcon: FunctionalComponent<StarIconProps> = ({ icon, scale, partial }) => (
+  <calcite-icon aria-hidden="true" class={partial ? undefined : "icon"} icon={icon} scale={scale} />
+);
 
 @Component({
   tag: "calcite-rating",
@@ -53,17 +58,12 @@ export class Rating
   @Prop({ reflect: true, mutable: true }) value = 0;
 
   @Watch("value")
-  setValue(newValue: number, oldValue: number): void {
-    if (newValue == oldValue && !this.required) {
-      this.value = 0;
-    }
-
+  handleValueUpdate(newValue: number): void {
     if (this.emit) {
       this.calciteRatingChange.emit({ value: newValue });
     }
 
-    this.focusValue = null;
-    this.hoverValue = null;
+    this.emit = false;
   }
 
   /** When `true`, the component's value can be read, but cannot be modified. */
@@ -105,13 +105,6 @@ export class Rating
    */
   @Prop({ reflect: true }) required = false;
 
-  /**
-   * Set the maximum number of stars
-   *
-   * @default 5
-   */
-  @Prop() max = 5;
-
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -121,11 +114,36 @@ export class Rating
   connectedCallback(): void {
     connectLabel(this);
     connectForm(this);
-    this.renderArray = Array.from({ length: this.max }, (_, i) => i + 1);
   }
 
   componentWillLoad(): void {
     setUpLoadableComponent(this);
+  }
+
+  componentWillRender(): void {
+    this.starsMap = Array.from({ length: this.max }, (_, i) => {
+      const value = i + 1;
+      const average = this.average && !this.value && value <= this.average;
+      const checked = value === this.value;
+      const focused = this.isKeyboardInteraction && this.hasFocus && this.focusValue === value;
+      const fraction = this.average && this.average + 1 - value;
+      const hovered = value <= this.hoverValue;
+      const id = `${this.guid}-${value}`;
+      const partial = !this.value && !hovered && fraction > 0 && fraction < 1;
+      const selected = this.value >= value;
+
+      return {
+        average,
+        checked,
+        focused,
+        fraction,
+        hovered,
+        id,
+        partial,
+        selected,
+        value
+      };
+    });
   }
 
   componentDidLoad(): void {
@@ -158,54 +176,6 @@ export class Rating
   //
   // --------------------------------------------------------------------------
 
-  renderStars(): VNode[] {
-    return this.renderArray.map((i) => {
-      const selected = this.value >= i;
-      const average = this.average && !this.value && i <= this.average;
-      const hovered = i <= this.hoverValue;
-      const fraction = this.average && this.average + 1 - i;
-      const partial = !this.value && !hovered && fraction > 0 && fraction < 1;
-      const focused = this.isKeyboardInteraction && this.hasFocus && Number(this.focusValue) === i;
-      return (
-        <span class={{ wrapper: true }}>
-          <label
-            class={{ star: true, focused, selected, average, hovered, partial }}
-            htmlFor={`${this.guid}-${i}`}
-            onPointerDown={this.handleLabelPointerDown}
-            onPointerOver={this.handleLabelPointerOver}
-          >
-            <calcite-icon
-              aria-hidden="true"
-              class="icon"
-              icon={selected || average || this.readOnly ? "star-f" : "star"}
-              scale={this.scale}
-            />
-            {partial && (
-              <div class="fraction" style={{ width: `${fraction * 100}%` }}>
-                <calcite-icon icon="star-f" scale={this.scale} />
-              </div>
-            )}
-            <span class="visually-hidden">{this.intlStars.replace("${num}", `${i}`)}</span>
-          </label>
-          <input
-            checked={i === this.value}
-            class="visually-hidden"
-            disabled={this.disabled || this.readOnly}
-            id={`${this.guid}-${i}`}
-            name={this.guid}
-            onChange={this.handleInputChange}
-            onKeyDown={this.handleKeyDown}
-            ref={(el) =>
-              (i === 1 || i === this.value) && (this.inputFocusRef = el as HTMLInputElement)
-            }
-            type="radio"
-            value={i}
-          />
-        </span>
-      );
-    });
-  }
-
   render() {
     return (
       <Host
@@ -214,19 +184,64 @@ export class Rating
         onKeyDown={this.handleKeyDown}
         onPointerOut={this.handleRatingPointerOut}
         onPointerOver={this.handleRatingPointerOver}
-        tabindex="0"
       >
-        <fieldset class="fieldset" disabled={this.disabled}>
-          <legend class="visually-hidden">{this.intlRating}</legend>
-          {this.renderStars()}
-        </fieldset>
-        {(this.count || this.average) && this.showChip ? (
-          <calcite-chip scale={this.scale} value={this.count?.toString()}>
-            {!!this.average && <span class="number--average">{this.average.toString()}</span>}
-            {!!this.count && <span class="number--count">({this.count?.toString()})</span>}
-          </calcite-chip>
-        ) : null}
-        <HiddenFormInputSlot component={this} />
+        <span class="wrapper">
+          <fieldset class="fieldset" disabled={this.disabled}>
+            <legend class="visually-hidden">{this.intlRating}</legend>
+            {this.starsMap.map(
+              ({ average, checked, focused, fraction, hovered, id, partial, selected, value }) => {
+                return (
+                  <label
+                    class={{
+                      star: true,
+                      focused,
+                      selected,
+                      hovered,
+                      average,
+                      partial
+                    }}
+                    htmlFor={id}
+                    onPointerDown={this.handleLabelPointerDown}
+                    onPointerOver={this.handleLabelPointerOver}
+                  >
+                    <input
+                      checked={checked}
+                      class="visually-hidden"
+                      disabled={this.disabled || this.readOnly}
+                      id={id}
+                      name={this.guid}
+                      onChange={this.handleInputChange}
+                      onKeyDown={this.handleKeyDown}
+                      ref={(el) =>
+                        (value === 1 || value === this.value) &&
+                        (this.inputFocusRef = el as HTMLInputElement)
+                      }
+                      type="radio"
+                      value={value}
+                    />
+                    <StarIcon icon={selected || average ? "star-f" : "star"} scale={this.scale} />
+                    {partial && (
+                      <div class="fraction" style={{ width: `${fraction * 100}%` }}>
+                        <StarIcon icon="star-f" partial scale={this.scale} />
+                      </div>
+                    )}
+                    <span class="visually-hidden">
+                      {this.intlStars.replace("${num}", `${value}`)}
+                    </span>
+                  </label>
+                );
+              }
+            )}
+
+            {(this.count || this.average) && this.showChip ? (
+              <calcite-chip scale={this.scale} value={this.count?.toString()}>
+                {!!this.average && <span class="number--average">{this.average.toString()}</span>}
+                {!!this.count && <span class="number--count">({this.count?.toString()})</span>}
+              </calcite-chip>
+            ) : null}
+          </fieldset>
+          <HiddenFormInputSlot component={this} />
+        </span>
       </Host>
     );
   }
@@ -249,40 +264,49 @@ export class Rating
     this.isKeyboardInteraction = true;
     this.hoverValue = null;
     this.focusValue = null;
+    this.hasFocus = false;
+  };
+
+  private handleRatingFocusIn = (): void => {
+    const inputs = this.starsMap.map((star) =>
+      this.el.shadowRoot.getElementById(star.id)
+    ) as unknown as HTMLInputElement;
+    let selectedInput = this.value > 0 ? this.value - 1 : 0;
+
+    if (selectedInput == 0) {
+      const average = this.starsMap.filter((i) => i.average);
+
+      if (average.length > 0) {
+        selectedInput = average[average.length - 1].value;
+      }
+    }
+
+    inputs[selectedInput].select();
+    this.focusValue = selectedInput + 1;
+    this.hoverValue = selectedInput + 1;
+    this.hasFocus = true;
   };
 
   private handleRatingFocusLeave = (): void => {
     this.focusValue = null;
-    this.hasFocus = false;
     this.hoverValue = null;
+    this.hasFocus = false;
   };
 
-  private handleRatingFocusIn = (): void => {
-    this.focusValue = this.value > 0 ? this.value : 1;
-    this.hasFocus = true;
-    this.hoverValue = this.value > 0 ? this.value : 1;
-  };
-
-  private handleLabelPointerOver = (ev: PointerEvent) => {
-    const newPointerValue = ev.currentTarget["nextElementSibling"]["value"] || this.value || 0;
-    this.hoverValue = newPointerValue;
-    //  when switching from keyboard to mouse this prop change is required to remove the focus styles from the element which are needed when navigating with a keyboard.
-    this.focusValue = null;
-  };
-
-  private handleKeyDown = (ev: KeyboardEvent) => {
-    if (ev.target["nodeName"] === "CALCITE-RATING") {
+  private handleKeyDown = (event: KeyboardEvent) => {
+    if (event.currentTarget === this.el) {
       this.isKeyboardInteraction = true;
-    } else {
-      const inputVal = Number(ev.target["value"]);
-      const key = ev.key;
-      const numberKey = Number(key);
+    } else if (event.currentTarget["nodeName"] === "INPUT") {
+      const target = event.currentTarget as HTMLInputElement;
+      const inputVal = Number(target.value);
+      const key = event.key;
+      const numberKey = key == " " ? undefined : Number(key);
 
       this.emit = true;
-
       if (isNaN(numberKey)) {
         switch (key) {
           case "Enter":
+          case " ":
             this.value = this.value === inputVal ? 0 : inputVal;
             break;
           case "ArrowLeft":
@@ -291,6 +315,12 @@ export class Rating
           case "ArrowRight":
             this.value = inputVal + 1;
             break;
+          case "Tab":
+            if (this.hasFocus) {
+              this.hasFocus = false;
+              this.focusValue = null;
+              this.hoverValue = null;
+            }
           default:
             break;
         }
@@ -299,28 +329,33 @@ export class Rating
           this.value = numberKey;
         }
       }
-
-      this.emit = false;
-      this.focusValue = null;
     }
   };
 
-  private handleInputChange = (ev: Event) => {
+  private handleInputChange = (event: InputEvent) => {
     if (this.isKeyboardInteraction === true) {
-      const inputVal = Number(ev.target["value"]);
+      const inputVal = Number(event.target["value"]);
       this.focusValue = inputVal;
       this.hoverValue = inputVal;
+      this.value = inputVal;
     }
   };
 
-  private handleLabelPointerDown = (ev: PointerEvent) => {
-    const inputVal = Number(ev.target["parentElement"]["nextElementSibling"]["value"]);
+  private handleLabelPointerOver = (event: PointerEvent) => {
+    const target = event.currentTarget as HTMLLabelElement;
+    const newPointerValue = Number(target.firstChild["value"] || 0);
+    this.hoverValue = newPointerValue;
+    this.focusValue = null;
+  };
+
+  private handleLabelPointerDown = (event: PointerEvent) => {
+    const target = event.currentTarget as HTMLLabelElement;
+    const inputVal = Number(target.firstChild["value"] || 0);
 
     this.focusValue = null;
     this.hoverValue = null;
     this.emit = true;
     this.value = this.value === inputVal ? 0 : inputVal;
-    this.emit = false;
   };
 
   //--------------------------------------------------------------------------
@@ -333,7 +368,6 @@ export class Rating
   @Method()
   async setFocus(): Promise<void> {
     await componentLoaded(this);
-
     this.inputFocusRef?.focus();
   }
 
@@ -344,9 +378,11 @@ export class Rating
   // --------------------------------------------------------------------------
   private emit = false;
 
-  renderArray: number[];
+  private max = 5;
 
-  isKeyboardInteraction = true;
+  private starsMap: Star[];
+
+  private isKeyboardInteraction = true;
 
   labelEl: HTMLCalciteLabelElement;
 
