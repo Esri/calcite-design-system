@@ -69,6 +69,10 @@
   @apply hidden;
 }
 
+[hidden] {
+  @apply hidden;
+}
+
 ::slotted(*) {
   @apply min-w-0 max-w-full break-words;
   color: inherit;
@@ -88,6 +92,10 @@
 }
 :host(:focus:not([disabled])) {
   @apply focus-inset outline-none;
+}
+
+.actions-end {
+  @apply flex self-stretch;
 }
 
 .checkbox {

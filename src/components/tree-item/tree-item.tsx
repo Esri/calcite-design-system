@@ -1,11 +1,12 @@
 import {
   Component,
   Element,
-  Prop,
-  Host,
   Event,
   EventEmitter,
+  Host,
   Listen,
+  Prop,
+  State,
   Watch,
   h,
   VNode
@@ -13,10 +14,11 @@ import {
 import { TreeItemSelectDetail } from "./interfaces";
 import { TreeSelectionMode } from "../tree/interfaces";
 import {
-  nodeListToArray,
-  getElementDir,
   filterDirectChildren,
+  getElementDir,
   getSlotted,
+  nodeListToArray,
+  slotChangeHasAssignedElement,
   toAriaBoolean
 } from "../../utils/dom";
 
@@ -33,6 +35,7 @@ import { InteractiveComponent, updateHostInteraction } from "../../utils/interac
 /**
  * @slot - A slot for adding the component's content.
  * @slot children - A slot for adding nested `calcite-tree` elements.
+ * @slot actions-end - A slot for adding actions to the end of the component. It is recommended to use two or fewer actions.
  */
 @Component({
   tag: "calcite-tree-item",
@@ -183,6 +186,7 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
       this.selectionMode === "multiple" ||
       this.selectionMode === "multichildren";
     const showBlank = this.selectionMode === "none" && !this.hasChildren;
+
     const chevron = this.hasChildren ? (
       <calcite-icon
         class={{
@@ -196,6 +200,7 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
       />
     ) : null;
     const defaultSlotNode: VNode = <slot key="default-slot" />;
+
     const checkbox =
       this.selectionMode === "ancestors" ? (
         <label class={CSS.checkboxLabel} key="checkbox-label">
@@ -230,6 +235,14 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
     ) : null;
 
     const hidden = !(this.parentExpanded || this.depth === 1);
+    const { hasEndActions } = this;
+    const slotNode = (
+      <slot
+        key="actionsEndSlot"
+        name={SLOTS.actionsEnd}
+        onSlotchange={this.actionsEndSlotChangeHandler}
+      />
+    );
 
     return (
       <Host
@@ -250,6 +263,9 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
           {chevron}
           {itemIndicator}
           {checkbox ? checkbox : defaultSlotNode}
+          <div class={CSS.actionsEnd} hidden={!hasEndActions}>
+            {slotNode}
+          </div>
         </div>
         <div
           class={{
@@ -386,6 +402,8 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
 
   private parentTreeItem?: HTMLCalciteTreeItemElement;
 
+  @State() hasEndActions = false;
+
   //--------------------------------------------------------------------------
   //
   //  Private Methods
@@ -411,5 +429,9 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
       ancestors.forEach((item) => (item.indeterminate = true));
       return;
     }
+  };
+
+  private actionsEndSlotChangeHandler = (event: Event): void => {
+    this.hasEndActions = slotChangeHasAssignedElement(event);
   };
 }
