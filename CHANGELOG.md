@@ -9,6 +9,10 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### ⚠ BREAKING CHANGES
 
+- **input-date-picker,date-picker:** Removed the `locale` property, use `lang` instead.
+
+* **input-date-picker:** Removed the `active` property, use `open` instead.
+
 - **input-time-picker:** Removed the `active` property, use `open` instead.
 
 * **time-picker:** Removed the `locale` property, use `lang` instead.
