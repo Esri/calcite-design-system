@@ -1,4 +1,3 @@
-import { Scale, Status } from "../interfaces";
 import {
   Component,
   Element,
@@ -14,7 +13,8 @@ import {
 import { getElementDir, getElementProp, getSlotted, setRequestedIcon } from "../../utils/dom";
 
 import { CSS, SLOTS, TEXT } from "./resources";
-import { Position } from "../interfaces";
+import { Position, Scale, Status } from "../interfaces";
+import { SetValueOrigin } from "../input/interfaces";
 import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
 import {
   connectForm,
@@ -33,8 +33,6 @@ import {
   LoadableComponent,
   componentLoaded
 } from "../../utils/loadable";
-
-type SetValueOrigin = "initial" | "connected" | "user" | "reset" | "direct";
 
 /**
  * @slot action - A slot for positioning a button next to the component.
@@ -175,6 +173,22 @@ export class InputText
    * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete)
    */
   @Prop() autocomplete: string;
+
+  /**
+   * Specifies the type of content to help devices display an appropriate virtual keyboard.
+   * Read the native attribute's documentation on MDN for more info.
+   *
+   * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/inputmode)
+   */
+  @Prop() inputMode = "text";
+
+  /**
+   * Specifies the action label or icon for the Enter key on virtual keyboards.
+   * Read the native attribute's documentation on MDN for more info.
+   *
+   * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/enterkeyhint)
+   */
+  @Prop() enterKeyHint: string;
 
   /**
    * Specifies a regex pattern the component's `value` must match for validation.
@@ -569,8 +583,8 @@ export class InputText
         }}
         defaultValue={this.defaultValue}
         disabled={this.disabled ? true : null}
-        enterKeyHint={this.el.enterKeyHint}
-        inputMode={this.el.inputMode}
+        enterKeyHint={this.enterKeyHint}
+        inputMode={this.inputMode}
         maxLength={this.maxLength}
         minLength={this.minLength}
         name={this.name}
