@@ -85,6 +85,20 @@ export class Modal
   /** When `true`, disables the component's close button. */
   @Prop({ reflect: true }) disableCloseButton = false;
 
+  /**
+   * When `true`, prevents focus trapping.
+   */
+  @Prop({ reflect: true }) disableFocusTrap = false;
+
+  @Watch("disableFocusTrap")
+  handleDisableFocusTrap(disableFocusTrap: boolean): void {
+    if (!this.open) {
+      return;
+    }
+
+    disableFocusTrap ? deactivateFocusTrap(this) : activateFocusTrap(this);
+  }
+
   /** When `true`, disables the closing of the component when clicked outside. */
   @Prop({ reflect: true }) disableOutsideClose = false;
 
@@ -338,15 +352,11 @@ export class Modal
    *
    * By default, tries to focus on focusable content. If there is none, it will focus on the close button.
    * To focus on the close button, use the `close-button` focus ID.
-   *
-   * @param focusId
    */
   @Method()
   async setFocus(): Promise<void> {
     await componentLoaded(this);
-
     this.el.focus();
-    activateFocusTrap(this);
   }
 
   /**
@@ -387,6 +397,7 @@ export class Modal
   onOpen(): void {
     this.transitionEl.classList.remove(CSS.openingIdle, CSS.openingActive);
     this.calciteModalOpen.emit();
+    activateFocusTrap(this);
   }
 
   onBeforeClose(): void {
@@ -419,7 +430,7 @@ export class Modal
   }
 
   private openEnd = (): void => {
-    this.el.focus();
+    this.setFocus();
     this.el.removeEventListener("calciteModalOpen", this.openEnd);
   };
 

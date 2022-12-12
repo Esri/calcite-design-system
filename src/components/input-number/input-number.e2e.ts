@@ -314,7 +314,7 @@ describe("calcite-input-number", () => {
       await page.mouse.up();
       await page.waitForChanges();
       const totalNudgesUp = inputEventSpy.length;
-      expect(await input.getProperty("value")).toBe(`0.0${totalNudgesUp}`);
+      expect(await input.getProperty("value")).toBe(`${totalNudgesUp * 0.01}`);
 
       const [buttonDownLocationX, buttonDownLocationY] = await getElementXY(
         page,
@@ -329,7 +329,7 @@ describe("calcite-input-number", () => {
       await page.waitForChanges();
       const totalNudgesDown = inputEventSpy.length - totalNudgesUp;
       const finalNudgedValue = totalNudgesUp - totalNudgesDown;
-      expect(await input.getProperty("value")).toBe(finalNudgedValue === 0 ? "0" : `0.0${finalNudgedValue}`);
+      expect(await input.getProperty("value")).toBe(`${finalNudgedValue * 0.01}`);
     });
 
     it("correctly increments and decrements value by one when any is set for step", async () => {
@@ -462,75 +462,98 @@ describe("calcite-input-number", () => {
       expect(await input.getProperty("value")).toBe(`${finalNudgedValue}`);
     });
 
-    it.skip("should emit an event on an interval when up/down buttons are down and stop on mouseup/mouseleave", async () => {
-      await page.setContent(html`<calcite-input-number value="0"></calcite-input-number>`);
-      const input = await page.find("calcite-input-number");
-      const calciteInputNumberInput = await page.spyOnEvent("calciteInputNumberInput");
-      const [buttonUpLocationX, buttonUpLocationY] = await getElementXY(
-        page,
-        "calcite-input-number",
-        ".number-button-item[data-adjustment='up']"
-      );
-      expect(calciteInputNumberInput).toHaveReceivedEventTimes(0);
-      await page.mouse.move(buttonUpLocationX, buttonUpLocationY);
-      await page.mouse.down();
-      await page.waitForTimeout(delayFor2UpdatesInMs);
-      await page.mouse.up();
-      await page.waitForChanges();
-      let totalNudgesUp = calciteInputNumberInput.length;
-      expect(await input.getProperty("value")).toBe(`${totalNudgesUp}`);
+    describe("mouse events on arrow buttons", () => {
+      let input;
+      let calciteInputNumberInput;
 
-      await page.mouse.down();
-      await page.waitForTimeout(delayFor2UpdatesInMs);
-      await page.mouse.move(buttonUpLocationX - 1, buttonUpLocationY - 1);
+      beforeEach(async () => {
+        await page.setContent(html`<calcite-input-number value="0"></calcite-input-number>`);
+        input = await page.find("calcite-input-number");
+        calciteInputNumberInput = await page.spyOnEvent("calciteInputNumberInput");
+      });
 
-      totalNudgesUp = calciteInputNumberInput.length;
-      expect(await input.getProperty("value")).toBe(`${totalNudgesUp}`);
+      describe("data-adjustment='up'", () => {
+        let buttonUpLocation;
 
-      // assert changes no longer emitted after moving away from stepper
-      await page.waitForTimeout(delayFor2UpdatesInMs);
-      expect(await input.getProperty("value")).toBe(`${totalNudgesUp}`);
-      await page.mouse.up(); // mouseleave assertion done, we release
+        beforeEach(async () => {
+          const [x, y] = await getElementXY(page, "calcite-input-number", ".number-button-item[data-adjustment='up']");
+          buttonUpLocation = [x, y];
+        });
 
-      const [buttonDownLocationX, buttonDownLocationY] = await getElementXY(
-        page,
-        "calcite-input-number",
-        ".number-button-item[data-adjustment='down']"
-      );
+        it.skip("should emit an event regularly on mousedown", async () => {
+          expect(calciteInputNumberInput).toHaveReceivedEventTimes(0);
+          await page.mouse.move(buttonUpLocation.x, buttonUpLocation.y);
+          await page.mouse.down();
+          await page.waitForTimeout(delayFor2UpdatesInMs);
+          await page.mouse.up();
+          await page.waitForChanges();
+          const totalNudgesUp = calciteInputNumberInput.length;
+          expect(await input.getProperty("value")).toBe(`${totalNudgesUp}`);
+        });
 
-      await page.mouse.move(buttonDownLocationX, buttonDownLocationY);
-      await page.mouse.down();
-      await page.waitForTimeout(delayFor2UpdatesInMs);
-      await page.mouse.up();
-      await page.waitForChanges();
+        it.skip("should stop emitting an event on mouseleave", async () => {
+          expect(calciteInputNumberInput).toHaveReceivedEventTimes(0);
+          await page.mouse.move(buttonUpLocation.x, buttonUpLocation.y);
+          await page.mouse.down();
+          await page.waitForTimeout(delayFor2UpdatesInMs);
+          await page.mouse.move(buttonUpLocation.x - 1, buttonUpLocation.y - 1);
 
-      let totalNudgesDown = calciteInputNumberInput.length - totalNudgesUp;
-      let finalNudgedValue = totalNudgesUp - totalNudgesDown;
-      expect(await input.getProperty("value")).toBe(`${finalNudgedValue}`);
+          const totalNudgesUp = calciteInputNumberInput.length;
+          // assert changes no longer emitted after moving away from stepper
+          await page.waitForTimeout(delayFor2UpdatesInMs);
+          await page.mouse.up(); // mouseleave assertion done, we release
+          expect(await input.getProperty("value")).toBe(`${totalNudgesUp}`);
+        });
+      });
 
-      await page.mouse.down();
-      await page.waitForTimeout(delayFor2UpdatesInMs);
-      await page.mouse.move(buttonDownLocationX - 1, buttonDownLocationY - 1);
+      describe("data-adjustment='down'", () => {
+        let buttonDownLocation;
 
-      totalNudgesDown = calciteInputNumberInput.length - totalNudgesUp;
-      finalNudgedValue = totalNudgesUp - totalNudgesDown;
-      expect(await input.getProperty("value")).toBe(`${finalNudgedValue}`);
+        beforeEach(async () => {
+          const [x, y] = await getElementXY(
+            page,
+            "calcite-input-number",
+            ".number-button-item[data-adjustment='down']"
+          );
+          buttonDownLocation = [x, y];
+        });
 
-      // assert changes no longer emitted after moving away from stepper
-      await page.waitForTimeout(delayFor2UpdatesInMs);
-      expect(await input.getProperty("value")).toBe(`${finalNudgedValue}`);
+        it.skip("should emit an event regularly on mousedown", async () => {
+          expect(calciteInputNumberInput).toHaveReceivedEventTimes(0);
+          await page.mouse.move(buttonDownLocation.x, buttonDownLocation.y);
+          await page.mouse.down();
+          await page.waitForTimeout(delayFor2UpdatesInMs);
+          await page.mouse.up();
+          await page.waitForChanges();
+          const totalNudgesUp = calciteInputNumberInput.length;
+          expect(await input.getProperty("value")).toBe(`${totalNudgesUp}`);
+        });
+
+        it.skip("should stop emitting an event on mouseleave", async () => {
+          expect(calciteInputNumberInput).toHaveReceivedEventTimes(0);
+          await page.mouse.move(buttonDownLocation.x, buttonDownLocation.y);
+          await page.mouse.down();
+          await page.waitForTimeout(delayFor2UpdatesInMs);
+          await page.mouse.move(buttonDownLocation.x - 1, buttonDownLocation.y - 1);
+
+          const totalNudgesUp = calciteInputNumberInput.length;
+          // assert changes no longer emitted after moving away from stepper
+          await page.waitForTimeout(delayFor2UpdatesInMs);
+          await page.mouse.up(); // mouseleave assertion done, we release
+          expect(await input.getProperty("value")).toBe(`${totalNudgesUp}`);
+        });
+      });
     });
 
-    it.skip("when both 'ArrowUp' and 'ArrowDown' are pressed at the same time most recently pressed key takes over", async () => {
+    it("when both 'ArrowUp' and 'ArrowDown' are pressed at the same time most recently pressed key takes over", async () => {
       await page.setContent(html`<calcite-input-number value="0"></calcite-input-number>`);
       const element = await page.find("calcite-input-number");
       await element.callMethod("setFocus");
 
-      const arrowUpDown = page.keyboard.down("ArrowUp");
-      const arrowDownDown = page.keyboard.down("ArrowDown");
-      await Promise.all([arrowUpDown, arrowDownDown]);
+      page.keyboard.press("ArrowUp");
+      page.keyboard.press("ArrowDown");
       await page.waitForTimeout(delayFor2UpdatesInMs);
-      expect(await element.getProperty("value")).toBe("-1");
+      expect(await element.getProperty("value")).toBe("0");
     });
 
     it("should emit event only twice when toggled fast between up/down arrows", async () => {

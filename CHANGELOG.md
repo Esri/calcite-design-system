@@ -9,13 +9,19 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### ⚠ BREAKING CHANGES
 
-- **input:** remove deprecated properties and event payload
+- **input-date-picker,date-picker:** Removed the `locale` property, use `lang` instead.
 
-      - Removed `maxlength` property, use `maxLength` instead.
-      - Removed `locale` property, use `lang` instead.
-      - Removed `calciteInputInput`'s `el`/`value` event payload properties,
+* **input-date-picker:** Removed the `active` property, use `open` instead.
 
-  use the event's `target`/`currentTarget` instead.
+- **input-time-picker:** Removed the `active` property, use `open` instead.
+
+* **time-picker:** Removed the `locale` property, use `lang` instead.
+
+- **input:** remove deprecated properties and event payload.
+
+  - Removed `maxlength` property, use `maxLength` instead.
+  - Removed `locale` property, use `lang` instead.
+  - Removed `calciteInputInput`'s `el`/`value` event payload properties, use the event's `target`/`currentTarget` instead.
 
 * **handle:** Removed deprecated event payload property on `calciteHandleNudge`.
 
@@ -230,6 +236,10 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 * **tooltip:** Add tooltip open, close, beforeOpen, and beforeClose events ([#5772](https://github.com/Esri/calcite-components/issues/5772)) ([64b5675](https://github.com/Esri/calcite-components/commit/64b56751d68f69d31ea943415f5d0d08bae634cc)), closes [#5734](https://github.com/Esri/calcite-components/issues/5734)
 
 ### Bug Fixes
+
+- **modal, popover:** Add `disableFocusTrap` property to toggle focus trapping. ([#5965](https://github.com/Esri/calcite-components/issues/5965)) ([7ee9e16](https://github.com/Esri/calcite-components/commit/7ee9e16fbc5a12c82f85a5e2fb07c0d1137d03ce))
+
+* **input, input-number, input-text:** Fix infinite loop crashing browser. [#5882](https://github.com/Esri/calcite-components/issues/5882) ([#5961](https://github.com/Esri/calcite-components/issues/5961)) ([190cfac](https://github.com/Esri/calcite-components/commit/190cfac2dbdc0c312ebf396d66894a07ae7086b9))
 
 - **alert:** auto-dismissible retains close button and dismisses timer while a user is hovering over ([#5872](https://github.com/Esri/calcite-components/issues/5872)) ([274b104](https://github.com/Esri/calcite-components/commit/274b10477f6aaf822d3cf2894b7848e36b36b057)), closes [#3338](https://github.com/Esri/calcite-components/issues/3338)
 
