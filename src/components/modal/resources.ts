@@ -19,6 +19,13 @@ export const CSS = {
   closingActive: "modal--closing-active"
 };
 
+export const DURATIONS = {
+  slow: 14000,
+  medium: 10000,
+  fast: 6000,
+  test: 300 / 1000
+};
+
 export const ICONS = {
   close: "x"
 };

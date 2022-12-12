@@ -305,3 +305,24 @@ export const disabled_TestOnly = (): string => html`<calcite-list disabled>
     "
   ></calcite-list-item>
 </calcite-list>`;
+
+export const customContent_TestOnly = (): string => html`<calcite-list disabled>
+  <calcite-list-item>
+    <div slot="content">
+      <strong>Cras iaculis ultricies nulla.</strong>
+      <div>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</div>
+    </div></calcite-list-item
+  >
+  <calcite-list-item disabled>
+    <div slot="content">
+      <strong>Cras iaculis ultricies nulla.</strong>
+      <div>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</div>
+    </div></calcite-list-item
+  >
+  <calcite-list-item
+    ><div slot="content">
+      <strong>Cras iaculis ultricies nulla.</strong>
+      <div>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</div>
+    </div></calcite-list-item
+  >
+</calcite-list>`;

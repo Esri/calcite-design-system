@@ -33,8 +33,7 @@ export class Tabs {
   @Prop({ reflect: true }) layout: TabLayout = "inline";
 
   /**
-   * Specifies the position of the component in relation to the `calcite-tab`s. The `"above"` and `"below"` values are deprecated.
-   *
+   * Specifies the position of the component in relation to the `calcite-tab`s.
    */
   @Prop({ reflect: true }) position: TabPosition = "top";
 

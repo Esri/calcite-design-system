@@ -63,6 +63,7 @@ modal.beforeClose = beforeClose;
 | `color`               | `color`                 | Adds a color bar to the top of component for visual impact. Use color to add importance to destructive or workflow dialogs.                                          | `"blue" \| "red"`                    | `undefined`               |
 | `disableCloseButton`  | `disable-close-button`  | When `true`, disables the component's close button.                                                                                                                  | `boolean`                            | `false`                   |
 | `disableEscape`       | `disable-escape`        | When `true`, disables the default close on escape behavior.                                                                                                          | `boolean`                            | `false`                   |
+| `disableFocusTrap`    | `disable-focus-trap`    | When `true`, prevents focus trapping.                                                                                                                                | `boolean`                            | `false`                   |
 | `disableOutsideClose` | `disable-outside-close` | When `true`, disables the closing of the component when clicked outside.                                                                                             | `boolean`                            | `false`                   |
 | `docked`              | `docked`                | When `true`, prevents the component from expanding to the entire screen on mobile devices.                                                                           | `boolean`                            | `undefined`               |
 | `fullscreen`          | `fullscreen`            | Sets the component to always be fullscreen (overrides `width`).                                                                                                      | `boolean`                            | `undefined`               |
@@ -128,7 +129,7 @@ Type: `Promise<void>`
 | `--calcite-modal-padding`       | [Deprecated] The padding around content area slot.                     |
 | `--calcite-modal-padding-large` | [Deprecated] The left/right padding around items within the component. |
 | `--calcite-modal-title-text`    | [Deprecated] The component title's font size.                          |
-| `--calcite-scrim-background`    | [Deprecated] The component's semi-transparent background color.        |
+| `--calcite-scrim-background`    | The component's semi-transparent background color.                     |
 
 ## Dependencies
 

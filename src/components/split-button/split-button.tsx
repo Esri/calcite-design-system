@@ -1,7 +1,7 @@
 import { Component, Element, Event, EventEmitter, h, Prop, VNode, Watch } from "@stencil/core";
 import { CSS } from "./resources";
 import { ButtonAppearance, ButtonColor, DropdownIconType } from "../button/interfaces";
-import { DeprecatedEventPayload, FlipContext, Scale, Width } from "../interfaces";
+import { FlipContext, Scale, Width } from "../interfaces";
 import { OverlayPositioning } from "../../utils/floating-ui";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 
@@ -50,7 +50,7 @@ export class SplitButton implements InteractiveComponent {
   @Prop({ reflect: true }) dropdownIconType: DropdownIconType = "chevron";
 
   /** Accessible name for the dropdown menu. */
-  @Prop({ reflect: true }) dropdownLabel?: string;
+  @Prop({ reflect: true }) dropdownLabel: string;
 
   /**
     When `true`, a busy indicator is displayed on the primary button.
@@ -68,16 +68,16 @@ export class SplitButton implements InteractiveComponent {
   @Prop({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
   /** Specifies an icon to display at the end of the primary button. */
-  @Prop({ reflect: true }) primaryIconEnd?: string;
+  @Prop({ reflect: true }) primaryIconEnd: string;
 
   /**  When `true`, the primary button icon will be flipped when the element direction is right-to-left (`"rtl"`). */
-  @Prop({ reflect: true }) primaryIconFlipRtl?: FlipContext;
+  @Prop({ reflect: true }) primaryIconFlipRtl: FlipContext;
 
   /** Specifies an icon to display at the start of the primary button. */
-  @Prop({ reflect: true }) primaryIconStart?: string;
+  @Prop({ reflect: true }) primaryIconStart: string;
 
   /** Accessible name for the primary button. */
-  @Prop({ reflect: true }) primaryLabel?: string;
+  @Prop({ reflect: true }) primaryLabel: string;
 
   /** Text displayed in the primary button. */
   @Prop({ reflect: true }) primaryText: string;
@@ -90,19 +90,15 @@ export class SplitButton implements InteractiveComponent {
 
   /**
    * Fires when the primary button is clicked.
-   *
-   * **Note:** The event payload is deprecated, use separate mouse event listeners to get info about click.
    */
   @Event({ cancelable: false })
-  calciteSplitButtonPrimaryClick: EventEmitter<DeprecatedEventPayload>;
+  calciteSplitButtonPrimaryClick: EventEmitter<void>;
 
   /**
    * Fires when the dropdown menu is clicked.
-   *
-   * **Note:** The event payload is deprecated, use separate mouse event listeners to get info about click.
    */
   @Event({ cancelable: false })
-  calciteSplitButtonSecondaryClick: EventEmitter<DeprecatedEventPayload>;
+  calciteSplitButtonSecondaryClick: EventEmitter<void>;
 
   //--------------------------------------------------------------------------
   //
@@ -146,9 +142,9 @@ export class SplitButton implements InteractiveComponent {
           <div class={CSS.divider} />
         </div>
         <calcite-dropdown
-          active={this.active}
           disabled={this.disabled}
           onClick={this.calciteSplitButtonSecondaryClickHandler}
+          open={this.active}
           overlayPositioning={this.overlayPositioning}
           placement="bottom-end"
           scale={this.scale}
@@ -171,11 +167,11 @@ export class SplitButton implements InteractiveComponent {
     );
   }
 
-  private calciteSplitButtonPrimaryClickHandler = (event: MouseEvent): CustomEvent =>
-    this.calciteSplitButtonPrimaryClick.emit(event);
+  private calciteSplitButtonPrimaryClickHandler = (): CustomEvent =>
+    this.calciteSplitButtonPrimaryClick.emit();
 
-  private calciteSplitButtonSecondaryClickHandler = (event: MouseEvent): CustomEvent =>
-    this.calciteSplitButtonSecondaryClick.emit(event);
+  private calciteSplitButtonSecondaryClickHandler = (): CustomEvent =>
+    this.calciteSplitButtonSecondaryClick.emit();
 
   private get dropdownIcon(): string {
     return this.dropdownIconType === "chevron"

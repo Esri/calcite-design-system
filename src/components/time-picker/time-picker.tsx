@@ -35,8 +35,7 @@ import {
   connectLocalized,
   disconnectLocalized,
   LocalizedComponent,
-  NumberingSystem,
-  updateEffectiveLocale
+  NumberingSystem
 } from "../../utils/locale";
 
 import {
@@ -154,20 +153,6 @@ export class TimePicker implements LocalizedComponent, LoadableComponent {
    */
   @Prop() intlSecondUp = TEXT.secondUp;
 
-  /**
-   * BCP 47 language tag for desired language and country format.
-   *
-   * @internal
-   * @deprecated set the global `lang` attribute on the element instead.
-   * @mdn [lang](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/lang)
-   */
-  @Prop({ mutable: true }) locale: string;
-
-  @Watch("locale")
-  localeChanged(): void {
-    updateEffectiveLocale(this);
-  }
-
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
 
@@ -178,7 +163,7 @@ export class TimePicker implements LocalizedComponent, LoadableComponent {
    * Specifies the Unicode numeral system used by the component for localization.
    *
    */
-  @Prop() numberingSystem?: NumberingSystem;
+  @Prop() numberingSystem: NumberingSystem;
 
   /** The component's value in UTC (always 24-hour format). */
   @Prop({ mutable: true }) value: string = null;

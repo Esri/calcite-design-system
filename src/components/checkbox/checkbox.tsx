@@ -76,7 +76,7 @@ export class Checkbox
    *
    * @internal
    */
-  @Prop() label?: string;
+  @Prop() label: string;
 
   /** Specifies the name of the component on form submission. */
   @Prop({ reflect: true }) name;

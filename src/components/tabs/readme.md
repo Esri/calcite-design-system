@@ -11,11 +11,11 @@
 ```html
 <calcite-tabs>
   <calcite-tab-nav slot="tab-nav">
-    <calcite-tab-title active>Tab 1 Title</calcite-tab-title>
+    <calcite-tab-title selected>Tab 1 Title</calcite-tab-title>
     <calcite-tab-title>Tab 2 Title</calcite-tab-title>
   </calcite-tab-nav>
 
-  <calcite-tab active>Tab 1 Content</calcite-tab>
+  <calcite-tab selected>Tab 1 Content</calcite-tab>
   <calcite-tab>Tab 2 Content</calcite-tab>
 </calcite-tabs>
 ```
@@ -28,23 +28,23 @@
     <calcite-tab-title tab="tab1">Tab 1 Title</calcite-tab-title>
     <calcite-tab-title tab="tab2">Tab 2 Title</calcite-tab-title>
     <calcite-tab-title tab="tab3">Tab 3 Title</calcite-tab-title>
-    <calcite-tab-title tab="tab4" active>Tab 4 Title</calcite-tab-title>
+    <calcite-tab-title tab="tab4" selected>Tab 4 Title</calcite-tab-title>
   </calcite-tab-nav>
   <calcite-tab tab="tab1">Tab 1 Content</calcite-tab>
   <calcite-tab tab="tab2">Tab 2 Content</calcite-tab>
   <calcite-tab tab="tab3">Tab 3 Content</calcite-tab>
-  <calcite-tab tab="tab4" active>Tab 4 Content</calcite-tab>
+  <calcite-tab tab="tab4" selected>Tab 4 Content</calcite-tab>
 </calcite-tabs>
 ```
 
 ## Properties
 
-| Property   | Attribute  | Description                                                                                                                                        | Type                                      | Default    |
-| ---------- | ---------- | -------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------- | ---------- |
-| `bordered` | `bordered` | When `true`, the component will display with a folder style menu.                                                                                  | `boolean`                                 | `false`    |
-| `layout`   | `layout`   | Specifies the layout of the `calcite-tab-nav`, justifying the `calcite-tab-title`s to the start (`"inline"`), or across and centered (`"center"`). | `"center" \| "inline"`                    | `"inline"` |
-| `position` | `position` | Specifies the position of the component in relation to the `calcite-tab`s. The `"above"` and `"below"` values are deprecated.                      | `"above" \| "below" \| "bottom" \| "top"` | `"top"`    |
-| `scale`    | `scale`    | Specifies the size of the component.                                                                                                               | `"l" \| "m" \| "s"`                       | `"m"`      |
+| Property   | Attribute  | Description                                                                                                                                        | Type                   | Default    |
+| ---------- | ---------- | -------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------- | ---------- |
+| `bordered` | `bordered` | When `true`, the component will display with a folder style menu.                                                                                  | `boolean`              | `false`    |
+| `layout`   | `layout`   | Specifies the layout of the `calcite-tab-nav`, justifying the `calcite-tab-title`s to the start (`"inline"`), or across and centered (`"center"`). | `"center" \| "inline"` | `"inline"` |
+| `position` | `position` | Specifies the position of the component in relation to the `calcite-tab`s.                                                                         | `"bottom" \| "top"`    | `"top"`    |
+| `scale`    | `scale`    | Specifies the size of the component.                                                                                                               | `"l" \| "m" \| "s"`    | `"m"`      |
 
 ## Slots
 

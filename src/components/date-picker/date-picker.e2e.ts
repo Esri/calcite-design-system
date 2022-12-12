@@ -239,7 +239,7 @@ describe("calcite-date-picker", () => {
     expect(changedEvent).toHaveReceivedEventTimes(1);
   });
 
-  describe("when the locale is set to Slovak calendar", () => {
+  describe("when the lang is set to Slovak calendar", () => {
     it("should start the week on Monday", async () => {
       const page = await newE2EPage({
         html: `<calcite-date-picker scale="m" lang="sk" value="2000-11-27"></calcite-date-picker>`
