@@ -14,7 +14,7 @@ import { getElementDir, getElementProp, getSlotted, setRequestedIcon } from "../
 
 import { CSS, SLOTS, TEXT } from "./resources";
 import { Position, Scale, Status } from "../interfaces";
-import { InputModes, EnterKeyHints, SetValueOrigin } from "../input/interfaces";
+import { SetValueOrigin } from "../input/interfaces";
 import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
 import {
   connectForm,
@@ -180,7 +180,7 @@ export class InputText
    *
    * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/inputmode)
    */
-  @Prop() inputMode: InputModes = "text";
+  @Prop() inputMode = "text";
 
   /**
    * Specifies the action label or icon for the Enter key on virtual keyboards.
@@ -188,7 +188,7 @@ export class InputText
    *
    * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/enterkeyhint)
    */
-  @Prop() enterKeyHint: EnterKeyHints;
+  @Prop() enterKeyHint: string;
 
   /**
    * Specifies a regex pattern the component's `value` must match for validation.

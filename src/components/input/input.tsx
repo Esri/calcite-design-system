@@ -21,13 +21,7 @@ import {
 } from "../../utils/dom";
 
 import { CSS, INPUT_TYPE_ICONS, SLOTS, TEXT } from "./resources";
-import {
-  InputPlacement,
-  InputModes,
-  EnterKeyHints,
-  NumberNudgeDirection,
-  SetValueOrigin
-} from "./interfaces";
+import { InputPlacement, NumberNudgeDirection, SetValueOrigin } from "./interfaces";
 import { Position } from "../interfaces";
 import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
 import {
@@ -289,7 +283,7 @@ export class Input
    *
    * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/inputmode)
    */
-  @Prop() inputMode: InputModes = "text";
+  @Prop() inputMode = "text";
 
   /**
    * Specifies the action label or icon for the Enter key on virtual keyboards.
@@ -297,7 +291,7 @@ export class Input
    *
    * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/enterkeyhint)
    */
-  @Prop() enterKeyHint: EnterKeyHints;
+  @Prop() enterKeyHint: string;
 
   /** Adds text to the end of the component. */
   @Prop() suffixText: string;
