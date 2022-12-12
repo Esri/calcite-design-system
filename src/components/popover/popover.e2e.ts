@@ -727,7 +727,7 @@ describe("calcite-popover", () => {
       }));
     it("should focus content when closable", async () =>
       focusable(createPopoverHTML(contentHTML, "closable"), {
-        shadowFocusTargetSelector: `.${contentButtonClass}`
+        focusTargetSelector: `.${contentButtonClass}`
       }));
     it("should close button when no focusable content", async () =>
       focusable(createPopoverHTML("Just some text", "closable"), {
