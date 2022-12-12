@@ -10,7 +10,10 @@ import { select, text } from "@storybook/addon-knobs";
 export default {
   title: "Components/List",
   parameters: {
-    notes: [readme, itemReadme, groupReadme]
+    notes: [readme, itemReadme, groupReadme],
+    chromatic: {
+      delay: 500
+    }
   },
   ...storyFilters()
 };
