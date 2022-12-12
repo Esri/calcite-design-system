@@ -109,7 +109,6 @@ export class PickListItem
    */
   @Prop({ mutable: true }) messages: Messages;
 
-  @Watch("intlRemove")
   @Watch("defaultMessages")
   @Watch("messageOverrides")
   onMessagesChange(): void {
@@ -147,13 +146,6 @@ export class PickListItem
 
     this.shiftPressed = false;
   }
-
-  /**
-   * When `removable` is `true`, the accessible name for the component's remove button.
-   *
-   * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`
-   */
-  @Prop({ reflect: true }) intlRemove: string;
 
   /**
    * The component's value.

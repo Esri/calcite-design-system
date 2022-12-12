@@ -26,7 +26,6 @@ export const simple = (): string => html`
     ${boolean("docked", false)}
     ${boolean("disable-escape", false)}
     ${boolean("no-padding", false)}
-    intl-close="${text("intl-close", "Close")}"
   >
     <h3 slot="header">Small Modal</h3>
     <div slot="content">
@@ -53,7 +52,6 @@ export const darkThemeRTLCustomSize_TestOnly = (): string => html`
     ${boolean("docked", false)}
     ${boolean("disable-escape", false)}
     ${boolean("no-padding", false)}
-    intl-close="${text("intl-close", "Close")}"
   >
     <h3 slot="header">Small Modal</h3>
     <div slot="content">

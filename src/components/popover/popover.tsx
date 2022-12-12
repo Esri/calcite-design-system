@@ -143,13 +143,6 @@ export class Popover
    */
   @Prop({ reflect: true }) headingLevel: HeadingLevel;
 
-  /**
-   * Accessible name for the component's close button.
-   *
-   * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`
-   */
-  @Prop() intlClose: string;
-
   /** Accessible name for the component. */
   @Prop() label!: string;
 
@@ -158,7 +151,6 @@ export class Popover
    */
   @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
 
-  @Watch("intlClose")
   @Watch("messageOverrides")
   onMessagesChange(): void {
     /* wired up by t9n util */
