@@ -135,7 +135,7 @@ export interface T9nComponent extends LocalizedComponent {
   /**
    * This property holds all messages used by the component's rendering.
    *
-   * This prop should use the `@State` decorator.
+   * This prop should use the `@Prop` decorator. It uses `@Prop` decorator for testing purpose only.
    */
   messages: MessageBundle;
 

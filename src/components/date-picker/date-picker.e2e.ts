@@ -226,7 +226,7 @@ describe("calcite-date-picker", () => {
     expect(changedEvent).toHaveReceivedEventTimes(1);
   });
 
-  describe("when the locale is set to Slovak calendar", () => {
+  describe("when the lang is set to Slovak calendar", () => {
     it("should start the week on Monday", async () => {
       const page = await newE2EPage({
         html: `<calcite-date-picker scale="m" lang="sk" value="2000-11-27"></calcite-date-picker>`
@@ -262,12 +262,16 @@ describe("calcite-date-picker", () => {
     expect(minDateAsTime).toEqual(new Date(minDateString).getTime());
   });
 
-  it("passes down the default intlYear prop to child date-picker-month-header", async () => {
+  it("passes down the default year prop to child date-picker-month-header", async () => {
     const page = await newE2EPage();
     await page.setContent(html`<calcite-date-picker value="2000-11-27" active></calcite-date-picker>`);
     const date = await page.find(`calcite-date-picker >>> calcite-date-picker-month-header`);
 
-    expect(await date.getProperty("intlYear")).toEqual("Year");
+    expect(await date.getProperty("messages")).toEqual({
+      nextMonth: "Next month",
+      prevMonth: "Previous month",
+      year: "Year"
+    });
   });
 
   it("supports translations", () => t9n("calcite-date-picker"));

@@ -35,8 +35,7 @@ import {
   connectLocalized,
   disconnectLocalized,
   LocalizedComponent,
-  NumberingSystem,
-  updateEffectiveLocale
+  NumberingSystem
 } from "../../utils/locale";
 import { Messages } from "./assets/time-picker/t9n";
 import {
@@ -175,20 +174,6 @@ export class TimePicker
    * @deprecated - translations are now built-in, if you need to override a string, please use `messageOverrides`
    */
   @Prop() intlSecondUp: string;
-
-  /**
-   * BCP 47 language tag for desired language and country format.
-   *
-   * @internal
-   * @deprecated set the global `lang` attribute on the element instead.
-   * @mdn [lang](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/lang)
-   */
-  @Prop({ mutable: true }) locale: string;
-
-  @Watch("locale")
-  localeChanged(): void {
-    updateEffectiveLocale(this);
-  }
 
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";

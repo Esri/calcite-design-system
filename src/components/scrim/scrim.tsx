@@ -108,7 +108,7 @@ export class Scrim implements LocalizedComponent, T9nComponent {
   render(): VNode {
     const { el, loading, messages } = this;
     const hasContent = el.innerHTML.trim().length > 0;
-    const loaderNode = loading ? <calcite-loader active label={messages.loading} /> : null;
+    const loaderNode = loading ? <calcite-loader label={messages.loading} /> : null;
     const contentNode = hasContent ? (
       <div class={CSS.content}>
         <slot />

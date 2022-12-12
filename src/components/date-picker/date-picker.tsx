@@ -168,14 +168,6 @@ export class DatePicker implements LocalizedComponent, T9nComponent {
   @Prop() intlYear?: string;
 
   /**
-   * Specifies the BCP 47 language tag for the desired language and country format.
-   *
-   * @deprecated set the global `lang` attribute on the element instead.
-   * @mdn [lang](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/lang)
-   */
-  @Prop() locale: string;
-
-  /**
    * Specifies the Unicode numeral system used by the component for localization. This property cannot be dynamically changed.
    *
    */
@@ -525,12 +517,9 @@ export class DatePicker implements LocalizedComponent, T9nComponent {
         <calcite-date-picker-month-header
           activeDate={activeDate}
           headingLevel={this.headingLevel || HEADING_LEVEL}
-          //t9n props are used here to forward the messages only.
-          intlNextMonth={this.messages.nextMonth}
-          intlPrevMonth={this.messages.prevMonth}
-          intlYear={this.messages.year}
           localeData={this.localeData}
           max={maxDate}
+          messages={this.messages}
           min={minDate}
           onCalciteDatePickerSelect={this.monthHeaderSelectChange}
           scale={this.scale}
