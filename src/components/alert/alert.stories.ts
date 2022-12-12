@@ -7,7 +7,10 @@ import { html } from "../../../support/formatting";
 export default {
   title: "Components/Alert",
   parameters: {
-    notes: readme
+    notes: readme,
+    chromatic: {
+      delay: 500
+    }
   },
   ...storyFilters()
 };
@@ -153,6 +156,11 @@ queue_NoTest.parameters = {
 };
 
 export const darkThemeRTL_TestOnly = (): string => html`
+  <style>
+    :root {
+      --calcite-duration-factor: 0;
+    }
+  </style>
   <calcite-alert
     class="calcite-theme-dark"
     ${boolean("icon", true)}
@@ -176,6 +184,11 @@ export const darkThemeRTL_TestOnly = (): string => html`
 darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };
 
 export const actionsEndNoQueue_TestOnly = (): string => html`
+  <style>
+    :root {
+      --calcite-duration-factor: 0;
+    }
+  </style>
   <calcite-alert label="this is a default danger with icon and link" scale="l" color="red" icon open>
     <div slot="title">Hello there!</div>
     <div slot="message">Do you really want to proceed?</div>
@@ -185,6 +198,11 @@ export const actionsEndNoQueue_TestOnly = (): string => html`
 `;
 
 export const actionsEndQueued_TestOnly = (): string => html`
+  <style>
+    :root {
+      --calcite-duration-factor: 0;
+    }
+  </style>
   <calcite-alert id="one" label="One" scale="l" color="red" icon open>
     <div slot="title">Hello there, alert one!</div>
     <div slot="message">Do you really want to proceed?</div>
@@ -205,6 +223,11 @@ export const actionsEndQueued_TestOnly = (): string => html`
 `;
 
 export const autoDismissableRetainsCloseButton_TestOnly = (): string => html`
+  <style>
+    :root {
+      --calcite-duration-factor: 0;
+    }
+  </style>
   <calcite-alert auto-dismiss auto-dismiss-duration="medium" open scale="m" color="blue">
     <div slot="title">Here's a general bit of information</div>
     <div slot="message">Some kind of contextually relevant content</div>
