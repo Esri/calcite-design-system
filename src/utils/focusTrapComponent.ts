@@ -1,5 +1,15 @@
-import { FocusTrap as _FocusTrap, Options as FocusTrapOptions, createFocusTrap } from "focus-trap";
+import {
+  FocusTrap as _FocusTrap,
+  Options as FocusTrapOptions,
+  createFocusTrap,
+  FocusTrapTabbableOptions
+} from "focus-trap";
 import { FocusableElement, focusElement } from "./dom";
+import { tabbable } from "tabbable";
+
+const tabbableOptions: FocusTrapTabbableOptions = {
+  getShadowRoot: true
+};
 
 const trapStack: _FocusTrap[] = [];
 
@@ -7,6 +17,11 @@ const trapStack: _FocusTrap[] = [];
  * Defines interface for components with a focus trap.
  */
 export interface FocusTrapComponent {
+  /**
+   * When `true`, prevents focus trapping.
+   */
+  disableFocusTrap: boolean;
+
   /**
    * The focus trap instance.
    */
@@ -21,9 +36,9 @@ export interface FocusTrapComponent {
 export type FocusTrap = _FocusTrap;
 
 /**
- * Helper to set up focus trap component.
+ * Helper to set up the FocusTrap component.
  *
- * @param component
+ * @param {FocusTrapComponent} component The FocusTrap component.
  */
 export function connectFocusTrap(component: FocusTrapComponent): void {
   const { focusTrapEl } = component;
@@ -46,9 +61,7 @@ export function connectFocusTrap(component: FocusTrapComponent): void {
       focusElement(el as FocusableElement);
       return false;
     },
-    tabbableOptions: {
-      getShadowRoot: true
-    },
+    tabbableOptions,
     trapStack
   };
 
@@ -56,19 +69,30 @@ export function connectFocusTrap(component: FocusTrapComponent): void {
 }
 
 /**
- * Helper to activate focus trap component.
+ * Helper to activate the FocusTrap component.
  *
- * @param component
+ * @param {FocusTrapComponent} component The FocusTrap component.
  */
 export function activateFocusTrap(component: FocusTrapComponent): void {
-  component.focusTrap?.activate();
+  if (!component.disableFocusTrap) {
+    component.focusTrap?.activate();
+  }
 }
 
 /**
- * Helper to tear deactivate focus trap component.
+ * Helper to deactivate the FocusTrap component.
  *
- * @param component
+ * @param {FocusTrapComponent} component The FocusTrap component.
  */
 export function deactivateFocusTrap(component: FocusTrapComponent): void {
   component.focusTrap?.deactivate();
+}
+
+/**
+ * Helper to focus the first tabbable element within the FocusTrap component.
+ *
+ * @param {FocusTrapComponent} component The FocusTrap component.
+ */
+export function focusFirstTabbable(component: FocusTrapComponent): void {
+  tabbable(component.focusTrapEl, tabbableOptions)[0]?.focus();
 }

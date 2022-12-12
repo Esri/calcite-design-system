@@ -217,25 +217,11 @@ export class InputDatePicker
     }
   }
 
-  /**
-   * When `true`, the component is active.
-   *
-   * @deprecated use `open` instead.
-   */
-  @Prop({ mutable: true, reflect: true }) active = false;
-
-  @Watch("active")
-  activeHandler(value: boolean): void {
-    this.open = value;
-  }
-
   /** When `true`, displays the `calcite-date-picker` component. */
   @Prop({ mutable: true, reflect: true }) open = false;
 
   @Watch("open")
   openHandler(value: boolean): void {
-    this.active = value;
-
     if (this.disabled || this.readOnly) {
       if (!value) {
         updateAfterClose(this.floatingEl);
@@ -276,14 +262,6 @@ export class InputDatePicker
    * @default "Year"
    */
   @Prop() intlYear: string = TEXT.year;
-
-  /**
-   * Specifies the BCP 47 language tag for the desired language and country format.
-   *
-   * @deprecated set the global `lang` attribute on the element instead.
-   * @mdn [lang](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/lang)
-   */
-  @Prop() locale: string;
 
   /**
    * Specifies the Unicode numeral system used by the component for localization. This property cannot be dynamically changed.
@@ -467,9 +445,8 @@ export class InputDatePicker
   connectedCallback(): void {
     connectLocalized(this);
 
-    const isOpen = this.active || this.open;
-    isOpen && this.activeHandler(isOpen);
-    isOpen && this.openHandler(isOpen);
+    const { open } = this;
+    open && this.openHandler(open);
     if (Array.isArray(this.value)) {
       this.valueAsDate = getValueAsDateRange(this.value);
       this.start = this.value[0];
@@ -820,7 +797,6 @@ export class InputDatePicker
         event.preventDefault();
       }
     } else if (key === "Escape" && !defaultPrevented) {
-      this.active = false;
       this.open = false;
       event.preventDefault();
     }
