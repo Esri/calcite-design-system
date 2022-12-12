@@ -65,18 +65,6 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
           delete this.build;
           return this;
         }
-      },
-      {
-        name: "intl-close",
-        commit(): Attribute {
-          this.value = text(
-            "intlClose",
-            /* reusing `calcite-panel`'s value due to the current implementation */
-            PANEL_TEXT.close
-          );
-          delete this.build;
-          return this;
-        }
       }
     ],
     exceptions
