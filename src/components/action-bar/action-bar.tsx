@@ -13,7 +13,7 @@ import {
 import { Position, Scale, Layout } from "../interfaces";
 import { ExpandToggle, toggleChildActionText } from "../functional/ExpandToggle";
 import { CSS, SLOTS, TEXT } from "./resources";
-import { getSlotted, focusElement } from "../../utils/dom";
+import { getSlotted } from "../../utils/dom";
 import {
   geActionDimensions,
   getOverflowCount,
@@ -43,7 +43,9 @@ import {
 @Component({
   tag: "calcite-action-bar",
   styleUrl: "action-bar.scss",
-  shadow: true
+  shadow: {
+    delegatesFocus: true
+  }
 })
 export class ActionBar implements ConditionalSlotComponent, LoadableComponent {
   // --------------------------------------------------------------------------
@@ -193,18 +195,10 @@ export class ActionBar implements ConditionalSlotComponent, LoadableComponent {
 
   /**
    * Sets focus on the component.
-   *
-   * @param focusId
    */
   @Method()
-  async setFocus(focusId?: "expand-toggle"): Promise<void> {
+  async setFocus(): Promise<void> {
     await componentLoaded(this);
-
-    if (focusId === "expand-toggle") {
-      await focusElement(this.expandToggleEl);
-      return;
-    }
-
     this.el?.focus();
   }
 

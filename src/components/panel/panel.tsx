@@ -37,7 +37,9 @@ import {
 @Component({
   tag: "calcite-panel",
   styleUrl: "panel.scss",
-  shadow: true
+  shadow: {
+    delegatesFocus: true
+  }
 })
 export class Panel implements InteractiveComponent, LoadableComponent {
   // --------------------------------------------------------------------------
@@ -288,36 +290,11 @@ export class Panel implements InteractiveComponent, LoadableComponent {
 
   /**
    * Sets focus on the component.
-   *
-   * @param focusId
    */
   @Method()
-  async setFocus(focusId?: "back-button" | "dismiss-button"): Promise<void> {
+  async setFocus(): Promise<void> {
     await componentLoaded(this);
-
-    const { backButtonEl, closeButtonEl, containerEl } = this;
-
-    if (focusId === "back-button") {
-      backButtonEl?.setFocus();
-      return;
-    }
-
-    if (focusId === "dismiss-button") {
-      closeButtonEl?.setFocus();
-      return;
-    }
-
-    if (backButtonEl) {
-      backButtonEl.setFocus();
-      return;
-    }
-
-    if (closeButtonEl) {
-      closeButtonEl.setFocus();
-      return;
-    }
-
-    containerEl?.focus();
+    this.el.focus();
   }
 
   /**

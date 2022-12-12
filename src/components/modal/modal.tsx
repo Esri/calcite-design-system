@@ -12,7 +12,7 @@ import {
   VNode,
   Watch
 } from "@stencil/core";
-import { ensureId, focusElement, getSlotted } from "../../utils/dom";
+import { ensureId, getSlotted } from "../../utils/dom";
 import { Scale } from "../interfaces";
 import { ModalBackgroundColor } from "./interfaces";
 import { CSS, ICONS, SLOTS, TEXT } from "./resources";
@@ -28,8 +28,7 @@ import {
   FocusTrap,
   connectFocusTrap,
   activateFocusTrap,
-  deactivateFocusTrap,
-  focusFirstTabbable
+  deactivateFocusTrap
 } from "../../utils/focusTrapComponent";
 import {
   setUpLoadableComponent,
@@ -49,7 +48,9 @@ import {
 @Component({
   tag: "calcite-modal",
   styleUrl: "modal.scss",
-  shadow: true
+  shadow: {
+    delegatesFocus: true
+  }
 })
 export class Modal
   implements ConditionalSlotComponent, OpenCloseComponent, FocusTrapComponent, LoadableComponent
@@ -362,23 +363,11 @@ export class Modal
 
   /**
    * Sets focus on the component.
-   *
-   * By default, tries to focus on focusable content. If there is none, it will focus on the close button.
-   * To focus on the close button, use the `close-button` focus ID.
-   *
-   * @param focusId
    */
   @Method()
-  async setFocus(focusId?: "close-button"): Promise<void> {
+  async setFocus(): Promise<void> {
     await componentLoaded(this);
-
-    const { closeButtonEl } = this;
-
-    if (closeButtonEl && focusId === "close-button") {
-      return focusElement(closeButtonEl);
-    }
-
-    focusFirstTabbable(this);
+    this.el.focus();
   }
 
   /**

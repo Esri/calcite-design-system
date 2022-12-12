@@ -12,7 +12,7 @@ import {
 } from "@stencil/core";
 import { Layout, Position, Scale } from "../interfaces";
 import { ExpandToggle, toggleChildActionText } from "../functional/ExpandToggle";
-import { focusElement, getSlotted } from "../../utils/dom";
+import { getSlotted } from "../../utils/dom";
 import { CSS, TEXT, SLOTS } from "./resources";
 import {
   ConditionalSlotComponent,
@@ -33,7 +33,9 @@ import {
 @Component({
   tag: "calcite-action-pad",
   styleUrl: "action-pad.scss",
-  shadow: true
+  shadow: {
+    delegatesFocus: true
+  }
 })
 export class ActionPad implements ConditionalSlotComponent, LoadableComponent {
   // --------------------------------------------------------------------------
@@ -136,18 +138,10 @@ export class ActionPad implements ConditionalSlotComponent, LoadableComponent {
 
   /**
    * Sets focus on the component.
-   *
-   * @param focusId
    */
   @Method()
-  async setFocus(focusId?: "expand-toggle"): Promise<void> {
+  async setFocus(): Promise<void> {
     await componentLoaded(this);
-
-    if (focusId === "expand-toggle") {
-      await focusElement(this.expandToggleEl);
-      return;
-    }
-
     this.el?.focus();
   }
 
