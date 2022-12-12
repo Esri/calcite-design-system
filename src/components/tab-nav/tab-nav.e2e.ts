@@ -19,7 +19,7 @@ describe("calcite-tab-nav", () => {
     const activeEventSpy = await page.spyOnEvent("calciteTabChange");
     const firstTabTitle = await page.find("calcite-tab-title");
 
-    firstTabTitle.setProperty("active", true);
+    firstTabTitle.setProperty("selected", true);
     await page.waitForChanges();
     expect(activeEventSpy).toHaveReceivedEventTimes(0);
 
@@ -30,9 +30,9 @@ describe("calcite-tab-nav", () => {
     expect(activeEventSpy).toHaveReceivedEventTimes(2);
   });
 
-  describe("active indicator", () => {
+  describe("selected indicator", () => {
     const tabTitles = html`
-      <calcite-tab-title active>Tab 1 Title</calcite-tab-title>
+      <calcite-tab-title selected>Tab 1 Title</calcite-tab-title>
       <calcite-tab-title>Tab 2 Title</calcite-tab-title>
       <calcite-tab-title>Tab 3 Title</calcite-tab-title>
       <calcite-tab-title>Tab 4 Title</calcite-tab-title>
@@ -87,7 +87,7 @@ describe("calcite-tab-nav", () => {
       it("should render with small scale", async () => {
         const page = await newE2EPage({
           html: `<calcite-tab-nav scale='s'>
-            <calcite-tab-title active>Tab 1 Title</calcite-tab-title>
+            <calcite-tab-title selected>Tab 1 Title</calcite-tab-title>
             <calcite-tab-title>Tab 2 Title</calcite-tab-title>
             <calcite-tab-title>Tab 3 Title</calcite-tab-title>
             <calcite-tab-title>Tab 4 Title</calcite-tab-title>
@@ -103,7 +103,7 @@ describe("calcite-tab-nav", () => {
       it("should render with medium scale", async () => {
         const page = await newE2EPage({
           html: `<calcite-tab-nav scale='m'>
-            <calcite-tab-title active>Tab 1 Title</calcite-tab-title>
+            <calcite-tab-title selected>Tab 1 Title</calcite-tab-title>
             <calcite-tab-title>Tab 2 Title</calcite-tab-title>
             <calcite-tab-title>Tab 3 Title</calcite-tab-title>
             <calcite-tab-title>Tab 4 Title</calcite-tab-title>
@@ -119,7 +119,7 @@ describe("calcite-tab-nav", () => {
       it("should render with medium scale", async () => {
         const page = await newE2EPage({
           html: `<calcite-tab-nav scale='l'>
-            <calcite-tab-title active>Tab 1 Title</calcite-tab-title>
+            <calcite-tab-title selected>Tab 1 Title</calcite-tab-title>
             <calcite-tab-title>Tab 2 Title</calcite-tab-title>
             <calcite-tab-title>Tab 3 Title</calcite-tab-title>
             <calcite-tab-title>Tab 4 Title</calcite-tab-title>

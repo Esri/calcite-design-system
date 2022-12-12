@@ -103,20 +103,20 @@ export class InputText
   /**
    * A text label that will appear on the clear button for screen readers.
    */
-  @Prop() intlClear?: string;
+  @Prop() intlClear: string;
 
   /**
    * Accessible name that will appear while loading.
    *
    * @default "Loading"
    */
-  @Prop() intlLoading?: string = COMMON_TEXT.loading;
+  @Prop() intlLoading: string = COMMON_TEXT.loading;
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @Prop({ reflect: true }) iconFlipRtl = false;
 
   /** Accessible name for the component's button or hyperlink. */
-  @Prop() label?: string;
+  @Prop() label: string;
 
   /** When `true`, the component is in the loading state and `calcite-progress` is displayed. */
   @Prop({ reflect: true }) loading = false;
@@ -126,14 +126,14 @@ export class InputText
    *
    * @mdn [maxlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#maxlength)
    */
-  @Prop({ reflect: true }) maxLength?: number;
+  @Prop({ reflect: true }) maxLength: number;
 
   /**
    * Specifies the minimum length of text for the component's value.
    *
    * @mdn [minlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#minlength)
    */
-  @Prop({ reflect: true }) minLength?: number;
+  @Prop({ reflect: true }) minLength: number;
 
   /**
    * Specifies the name of the component.
@@ -150,7 +150,7 @@ export class InputText
   @Prop() placeholder: string;
 
   /** Adds text to the start of the component. */
-  @Prop() prefixText?: string;
+  @Prop() prefixText: string;
 
   /**
    * When `true`, the component's value can be read, but cannot be modified.
@@ -185,7 +185,7 @@ export class InputText
   @Prop() pattern: string;
 
   /** Adds text to the end of the component.  */
-  @Prop() suffixText?: string;
+  @Prop() suffixText: string;
 
   /**
    * @internal
@@ -254,7 +254,6 @@ export class InputText
 
   connectedCallback(): void {
     this.scale = getElementProp(this.el, "scale", this.scale);
-    this.status = getElementProp(this.el, "status", this.status);
     this.inlineEditableEl = this.el.closest("calcite-inline-editable");
     if (this.inlineEditableEl) {
       this.editingEnabled = this.inlineEditableEl.editingEnabled || false;
@@ -392,11 +391,14 @@ export class InputText
     this.emitChangeIfUserModified();
   };
 
-  private inputTextFocusHandler = (event: FocusEvent): void => {
+  private clickHandler = (event: MouseEvent): void => {
     const slottedActionEl = getSlotted(this.el, "action");
     if (event.target !== slottedActionEl) {
       this.setFocus();
     }
+  };
+
+  private inputTextFocusHandler = (): void => {
     this.calciteInternalInputTextFocus.emit({
       element: this.childEl,
       value: this.value
@@ -588,7 +590,7 @@ export class InputText
     );
 
     return (
-      <Host onClick={this.inputTextFocusHandler} onKeyDown={this.keyDownHandler}>
+      <Host onClick={this.clickHandler} onKeyDown={this.keyDownHandler}>
         <div class={{ [CSS.inputWrapper]: true, [CSS_UTILITY.rtl]: dir === "rtl" }}>
           {this.prefixText ? prefixText : null}
           <div class={CSS.wrapper}>

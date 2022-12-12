@@ -110,8 +110,6 @@ export class Tooltip implements FloatingUIComponent, OpenCloseComponent {
 
   /**
    * Determines where the component will be positioned relative to the `referenceElement`.
-   *
-   * @see [LogicalPlacement](https://github.com/Esri/calcite-components/blob/master/src/utils/floating-ui.ts#L25)
    */
   @Prop({ reflect: true }) placement: LogicalPlacement = "auto";
 

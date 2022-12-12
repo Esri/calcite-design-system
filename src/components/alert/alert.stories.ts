@@ -203,3 +203,11 @@ export const actionsEndQueued_TestOnly = (): string => html`
     }, "1000");
   </script>
 `;
+
+export const autoDismissableRetainsCloseButton_TestOnly = (): string => html`
+  <calcite-alert auto-dismiss auto-dismiss-duration="medium" open scale="m" color="blue">
+    <div slot="title">Here's a general bit of information</div>
+    <div slot="message">Some kind of contextually relevant content</div>
+    <calcite-link slot="link" title="my action" role="presentation"> Take action </calcite-link>
+  </calcite-alert>
+`;

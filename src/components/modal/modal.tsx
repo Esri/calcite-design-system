@@ -28,7 +28,8 @@ import {
   FocusTrap,
   connectFocusTrap,
   activateFocusTrap,
-  deactivateFocusTrap
+  deactivateFocusTrap,
+  focusFirstTabbable
 } from "../../utils/focusTrapComponent";
 import {
   setUpLoadableComponent,
@@ -78,10 +79,24 @@ export class Modal
 
   /** Passes a function to run before the component closes. */
   @Prop()
-  beforeClose?: (el: HTMLElement) => Promise<void> = () => Promise.resolve();
+  beforeClose: (el: HTMLElement) => Promise<void> = () => Promise.resolve();
 
   /** When `true`, disables the component's close button. */
   @Prop({ reflect: true }) disableCloseButton = false;
+
+  /**
+   * When `true`, prevents focus trapping.
+   */
+  @Prop({ reflect: true }) disableFocusTrap = false;
+
+  @Watch("disableFocusTrap")
+  handleDisableFocusTrap(disableFocusTrap: boolean): void {
+    if (!this.open) {
+      return;
+    }
+
+    disableFocusTrap ? deactivateFocusTrap(this) : activateFocusTrap(this);
+  }
 
   /** When `true`, disables the closing of the component when clicked outside. */
   @Prop({ reflect: true }) disableOutsideClose = false;
@@ -108,7 +123,7 @@ export class Modal
    * Adds a color bar to the top of component for visual impact.
    * Use color to add importance to destructive or workflow dialogs.
    */
-  @Prop({ reflect: true }) color?: "red" | "blue";
+  @Prop({ reflect: true }) color: "red" | "blue";
 
   /** Sets the background color of the component's content. */
   @Prop({ reflect: true }) backgroundColor: ModalBackgroundColor = "white";
@@ -363,7 +378,7 @@ export class Modal
       return focusElement(closeButtonEl);
     }
 
-    activateFocusTrap(this);
+    focusFirstTabbable(this);
   }
 
   /**
@@ -404,6 +419,7 @@ export class Modal
   onOpen(): void {
     this.transitionEl.classList.remove(CSS.openingIdle, CSS.openingActive);
     this.calciteModalOpen.emit();
+    activateFocusTrap(this);
   }
 
   onBeforeClose(): void {
@@ -438,7 +454,6 @@ export class Modal
   private openEnd = (): void => {
     this.setFocus();
     this.el.removeEventListener("calciteModalOpen", this.openEnd);
-    activateFocusTrap(this);
   };
 
   /** Open the modal */

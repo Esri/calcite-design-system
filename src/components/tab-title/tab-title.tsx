@@ -48,26 +48,11 @@ export class TabTitle implements InteractiveComponent {
    * When `true`, the component and its respective `calcite-tab` contents are selected.
    *
    * Only one tab can be selected within the `calcite-tabs` parent.
-   *
-   * @deprecated Use `selected` instead.
-   */
-  @Prop({ reflect: true, mutable: true }) active = false;
-
-  @Watch("active")
-  activeHandler(value: boolean): void {
-    this.selected = value;
-  }
-
-  /**
-   * When `true`, the component and its respective `calcite-tab` contents are selected.
-   *
-   * Only one tab can be selected within the `calcite-tabs` parent.
    */
   @Prop({ reflect: true, mutable: true }) selected = false;
 
   @Watch("selected")
-  selectedHandler(value: boolean): void {
-    this.active = value;
+  selectedHandler(): void {
     if (this.selected) {
       this.emitActiveTab(false);
     }
@@ -77,13 +62,13 @@ export class TabTitle implements InteractiveComponent {
   @Prop({ reflect: true }) disabled = false;
 
   /** Specifies an icon to display at the end of the component. */
-  @Prop({ reflect: true }) iconEnd?: string;
+  @Prop({ reflect: true }) iconEnd: string;
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
-  @Prop({ reflect: true }) iconFlipRtl?: FlipContext;
+  @Prop({ reflect: true }) iconFlipRtl: FlipContext;
 
   /** Specifies an icon to display at the start of the component. */
-  @Prop({ reflect: true }) iconStart?: string;
+  @Prop({ reflect: true }) iconStart: string;
 
   /**
    * @internal
@@ -110,7 +95,7 @@ export class TabTitle implements InteractiveComponent {
    *
    * When specified, use the same value on the `calcite-tab`.
    */
-  @Prop({ reflect: true }) tab?: string;
+  @Prop({ reflect: true }) tab: string;
 
   //--------------------------------------------------------------------------
   //
@@ -119,14 +104,6 @@ export class TabTitle implements InteractiveComponent {
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
-    const { selected, active } = this;
-
-    if (selected) {
-      this.active = selected;
-    } else if (active) {
-      this.activeHandler(active);
-    }
-
     this.setupTextContentObserver();
     this.parentTabNavEl = this.el.closest("calcite-tab-nav");
     this.parentTabsEl = this.el.closest("calcite-tabs");

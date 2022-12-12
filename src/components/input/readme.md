@@ -39,13 +39,11 @@ function logChange() {
 
 ### With-label
 
-Using a wrapping `calcite-label` component lets consumers set the status attribute once and have it propagate to child `calcite-input` and `calcite-input-message` elements
-
 ```html
-<calcite-label status="invalid" for="invalid-input">
+<calcite-label for="invalid-input">
   Invalid input
-  <calcite-input id="invalid-input" placeholder="Filter your files" value="adfo2h2"></calcite-input>
-  <calcite-input-message active icon> Something doesn't look right </calcite-input-message>
+  <calcite-input status="invalid" id="invalid-input" placeholder="Filter your files" value="adfo2h2"></calcite-input>
+  <calcite-input-message status="invalid" active icon> Something doesn't look right </calcite-input-message>
 </calcite-label>
 ```
 
@@ -79,10 +77,8 @@ Using a wrapping `calcite-label` component lets consumers set the status attribu
 | `intlLoading`      | `intl-loading`       | Accessible name when the component is loading.                                                                                                                                                                            | `string`                                                                                                                                                                                                                                | `COMMON_TEXT.loading` |
 | `label`            | `label`              | Accessible name for the component.                                                                                                                                                                                        | `string`                                                                                                                                                                                                                                | `undefined`           |
 | `loading`          | `loading`            | When `true`, a busy indicator is displayed.                                                                                                                                                                               | `boolean`                                                                                                                                                                                                                               | `false`               |
-| `locale`           | `locale`             | <span style="color:red">**[DEPRECATED]**</span> set the global `lang` attribute on the element instead.<br/><br/>BCP 47 language tag for desired language and country format                                              | `string`                                                                                                                                                                                                                                | `undefined`           |
 | `max`              | `max`                | Specifies the maximum value for type "number".                                                                                                                                                                            | `number`                                                                                                                                                                                                                                | `undefined`           |
 | `maxLength`        | `max-length`         | Specifies the maximum length of text for the component's value.                                                                                                                                                           | `number`                                                                                                                                                                                                                                | `undefined`           |
-| `maxlength`        | `maxlength`          | <span style="color:red">**[DEPRECATED]**</span> use `maxLength` instead.<br/><br/>Specifies the maximum length of text for the component's value.                                                                         | `number`                                                                                                                                                                                                                                | `undefined`           |
 | `min`              | `min`                | Specifies the minimum value for `type="number"`.                                                                                                                                                                          | `number`                                                                                                                                                                                                                                | `undefined`           |
 | `minLength`        | `min-length`         | Specifies the minimum length of text for the component's value.                                                                                                                                                           | `number`                                                                                                                                                                                                                                | `undefined`           |
 | `multiple`         | `multiple`           | When `true`, the component can accept more than one value. This property only has an effect when `type` is "email" or "file". Read the native attribute's documentation on MDN for more info.                             | `boolean`                                                                                                                                                                                                                               | `false`               |
@@ -103,10 +99,10 @@ Using a wrapping `calcite-label` component lets consumers set the status attribu
 
 ## Events
 
-| Event                | Description                                                                                                                                                        | Type                |
-| -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------- |
-| `calciteInputChange` | Fires each time a new `value` is typed and committed.                                                                                                              | `CustomEvent<void>` |
-| `calciteInputInput`  | Fires each time a new `value` is typed. **Note:**: The `el` and `value` event payload properties are deprecated, use the event's `target`/`currentTarget` instead. | `CustomEvent<any>`  |
+| Event                | Description                                                                                | Type                |
+| -------------------- | ------------------------------------------------------------------------------------------ | ------------------- |
+| `calciteInputChange` | Fires each time a new `value` is typed and committed.                                      | `CustomEvent<void>` |
+| `calciteInputInput`  | Fires each time a new `value` is typed. NOTE: `nativeEvent` payload property is deprecated | `CustomEvent<any>`  |
 
 ## Methods
 

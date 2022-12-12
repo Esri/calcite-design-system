@@ -53,7 +53,7 @@ export class List implements InteractiveComponent, LoadableComponent {
   @Prop({ reflect: true }) disabled = false;
 
   /**
-   * When true, an input appears at the top of the list that can be used by end users to filter items in the list.
+   * When `true`, an input appears at the top of the component that can be used by end users to filter `calcite-list-item`s.
    */
   @Prop({ reflect: true }) filterEnabled = false;
 
@@ -63,36 +63,36 @@ export class List implements InteractiveComponent, LoadableComponent {
   }
 
   /**
-   * **read-only** The currently filtered items
+   * The currently filtered `calcite-list-item`s.
    *
    * @readonly
    */
   @Prop({ mutable: true }) filteredItems: HTMLCalciteListItemElement[] = [];
 
   /**
-   * **read-only** The currently filtered items
+   * The currently filtered `calcite-list-item` data.
    *
    * @readonly
    */
   @Prop({ mutable: true }) filteredData: ItemData = [];
 
   /**
-   * Placeholder text for the filter input field.
+   * Placeholder text for the component's filter input field.
    */
   @Prop({ reflect: true }) filterPlaceholder: string;
 
   /**
-   * Text for the filter input field.
+   * Text for the component's filter input field.
    */
   @Prop({ reflect: true, mutable: true }) filterText: string;
 
   /**
    * Specifies an accessible name for the component.
    */
-  @Prop() label?: string;
+  @Prop() label: string;
 
   /**
-   * When true, content is waiting to be loaded. This state shows a busy indicator.
+   * When `true`, a busy indicator is displayed.
    */
   @Prop({ reflect: true }) loading = false;
 
@@ -111,12 +111,12 @@ export class List implements InteractiveComponent, LoadableComponent {
   @Prop({ mutable: true }) selectedItems: HTMLCalciteListItemElement[] = [];
 
   /**
-   * specify the selection mode - multiple (allow any number of (or no) selected items), single (allow and require one selected item), none (no selected items), defaults to single
+   * Specifies the selection mode - `"multiple"` (allow any number of selected items), `"single"` (allows and require one selected item), `"none"` (no selected items).
    */
   @Prop({ reflect: true }) selectionMode: SelectionMode = "none";
 
   /**
-   * specify the selection appearance - icon (displays a checkmark or dot), border (displays a border), defaults to icon
+   * Specifies the selection appearance - `"icon"` (displays a checkmark or dot) or `"border"` (displays a border).
    */
   @Prop({ reflect: true }) selectionAppearance: SelectionAppearance = "icon";
 
@@ -133,7 +133,7 @@ export class List implements InteractiveComponent, LoadableComponent {
   //--------------------------------------------------------------------------
 
   /**
-   * Emits when a filter has changed.
+   * Emits when the component's filter has changed.
    */
   @Event({ cancelable: false }) calciteListFilter: EventEmitter<void>;
 

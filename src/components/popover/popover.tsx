@@ -32,7 +32,8 @@ import {
   FocusTrap,
   connectFocusTrap,
   activateFocusTrap,
-  deactivateFocusTrap
+  deactivateFocusTrap,
+  focusFirstTabbable
 } from "../../utils/focusTrapComponent";
 
 import { guid } from "../../utils/guid";
@@ -91,6 +92,15 @@ export class Popover
    */
   @Prop({ reflect: true }) disableFocusTrap = false;
 
+  @Watch("disableFocusTrap")
+  handleDisableFocusTrap(disableFocusTrap: boolean): void {
+    if (!this.open) {
+      return;
+    }
+
+    disableFocusTrap ? deactivateFocusTrap(this) : activateFocusTrap(this);
+  }
+
   /**
    * When `true`, removes the caret pointer.
    */
@@ -99,7 +109,7 @@ export class Popover
   /**
    * Defines the available placements that can be used when a flip occurs.
    */
-  @Prop() flipPlacements?: EffectivePlacement[];
+  @Prop() flipPlacements: EffectivePlacement[];
 
   @Watch("flipPlacements")
   flipPlacementsHandler(): void {
@@ -110,7 +120,7 @@ export class Popover
   /**
    * The component header text.
    */
-  @Prop() heading?: string;
+  @Prop() heading: string;
 
   /**
    * Specifies the number at which section headings should start.
@@ -175,8 +185,6 @@ export class Popover
 
   /**
    * Determines where the component will be positioned relative to the `referenceElement`.
-   *
-   * @see [LogicalPlacement](https://github.com/Esri/calcite-components/blob/master/src/utils/floating-ui.ts#L25)
    */
   @Prop({ reflect: true }) placement: LogicalPlacement = defaultPopoverPlacement;
 
@@ -352,7 +360,7 @@ export class Popover
       return;
     }
 
-    activateFocusTrap(this);
+    focusFirstTabbable(this);
   }
 
   /**
@@ -469,9 +477,7 @@ export class Popover
 
   onOpen(): void {
     this.calcitePopoverOpen.emit();
-    if (!this.disableFocusTrap) {
-      activateFocusTrap(this);
-    }
+    activateFocusTrap(this);
   }
 
   onBeforeClose(): void {
