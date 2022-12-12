@@ -311,7 +311,7 @@ describe("calcite-input", () => {
       expect(await element.getProperty("value")).toBe("25");
     });
 
-    it.skip("correctly increments and decrements on long hold on mousedown and step is set to a decimal", async () => {
+    it("correctly increments and decrements on long hold on mousedown and step is set to a decimal", async () => {
       await page.setContent(html`<calcite-input type="number" value="0" step="0.01"></calcite-input>`);
       const input = await page.find("calcite-input");
       const [buttonUpLocationX, buttonUpLocationY] = await getElementXY(
@@ -342,7 +342,7 @@ describe("calcite-input", () => {
       await page.waitForChanges();
       const totalNudgesDown = inputEventSpy.length - totalNudgesUp;
       const finalNudgedValue = totalNudgesUp - totalNudgesDown;
-      expect(await input.getProperty("value")).toBe(finalNudgedValue === 0 ? "0" : `0.0${finalNudgedValue}`);
+      expect(await input.getProperty("value")).toBe(`${finalNudgedValue * 0.01}`);
     });
 
     it("correctly increments and decrements value by one when any is set for step", async () => {
@@ -518,16 +518,15 @@ describe("calcite-input", () => {
       expect(await input.getProperty("value")).toBe(`${finalNudgedValue}`);
     });
 
-    it.skip("on input type number, when both 'ArrowUp' and 'ArrowDown' are pressed at the same time most recently pressed key takes over", async () => {
+    it("on input type number, when both 'ArrowUp' and 'ArrowDown' are pressed at the same time most recently pressed key takes over", async () => {
       await page.setContent(html`<calcite-input type="number" value="0"></calcite-input>`);
       const element = await page.find("calcite-input");
       await element.callMethod("setFocus");
 
-      const arrowUpDown = page.keyboard.down("ArrowUp");
-      const arrowDownDown = page.keyboard.down("ArrowDown");
-      await Promise.all([arrowUpDown, arrowDownDown]);
+      page.keyboard.press("ArrowUp");
+      page.keyboard.press("ArrowDown");
       await page.waitForTimeout(delayFor2UpdatesInMs);
-      expect(await element.getProperty("value")).toBe("-1");
+      expect(await element.getProperty("value")).toBe("0");
     });
 
     it("on input type number, should emit event only twice when toggled fast between up/down arrows", async () => {
