@@ -8,7 +8,9 @@ import { Position, Scale } from "../interfaces";
 @Component({
   tag: "calcite-accordion",
   styleUrl: "accordion.scss",
-  shadow: true
+  shadow: {
+    delegatesFocus: true
+  }
 })
 export class Accordion {
   //--------------------------------------------------------------------------

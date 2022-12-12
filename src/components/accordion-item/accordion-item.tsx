@@ -26,7 +26,9 @@ import { ItemKeyEvent, RegistryEntry, RequestedItem } from "./interfaces";
 @Component({
   tag: "calcite-accordion-item",
   styleUrl: "accordion-item.scss",
-  shadow: true
+  shadow: {
+    delegatesFocus: true
+  }
 })
 export class AccordionItem implements ConditionalSlotComponent {
   //--------------------------------------------------------------------------
