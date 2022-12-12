@@ -7,7 +7,10 @@ import { html } from "../../../support/formatting";
 export default {
   title: "Components/Modal",
   parameters: {
-    notes: readme
+    notes: readme,
+    chromatic: {
+      delay: 500
+    }
   },
   ...storyFilters()
 };
