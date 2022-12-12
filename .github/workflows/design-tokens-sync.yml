@@ -1,7 +1,7 @@
 name: Sync designer branches with main
 on: 
   pull_request:
-    branches: [feature/design-tokens]
+    branches: [master]
     types: [closed]
 jobs:
   sync-branches:
@@ -26,7 +26,7 @@ jobs:
                 owner,
                 repo,
                 head: '${{ github.ref_name }}',
-                base: 'feature/design-tokens',
+                base: 'master',
                 body: [
                   'auto-generated: FigmaTokens PR',
                   '',
