@@ -166,6 +166,7 @@ export class Alert implements OpenCloseComponent, LocalizedComponent, LoadableCo
 
   disconnectedCallback(): void {
     window.clearTimeout(this.autoDismissTimeoutId);
+    window.clearTimeout(this.queueTimeout);
     disconnectOpenCloseComponent(this);
     disconnectLocalized(this);
   }
@@ -226,6 +227,12 @@ export class Alert implements OpenCloseComponent, LocalizedComponent, LoadableCo
             queued,
             [placement]: true
           }}
+          onPointerOut={
+            this.autoDismiss && this.autoDismissTimeoutId ? this.handleMouseLeave : null
+          }
+          onPointerOver={
+            this.autoDismiss && this.autoDismissTimeoutId ? this.handleMouseOver : null
+          }
           ref={this.setTransitionEl}
         >
           {requestedIcon ? (
@@ -242,7 +249,7 @@ export class Alert implements OpenCloseComponent, LocalizedComponent, LoadableCo
             {slotNode}
           </div>
           {this.queueLength > 1 ? queueCount : null}
-          {!autoDismiss ? closeButton : null}
+          {closeButton}
           {open && !queued && autoDismiss ? <div class="alert-dismiss-progress" /> : null}
         </div>
       </Host>
@@ -351,7 +358,9 @@ export class Alert implements OpenCloseComponent, LocalizedComponent, LoadableCo
 
   private queueTimeout: number;
 
-  private trackTimer = Date.now();
+  private trackTimer: number;
+
+  private remainingPausedTimeout = 0;
 
   /** the computed icon to render */
   /* @internal */
@@ -422,5 +431,18 @@ export class Alert implements OpenCloseComponent, LocalizedComponent, LoadableCo
 
   private actionsEndSlotChangeHandler = (event: Event): void => {
     this.hasEndActions = slotChangeHasAssignedElement(event);
+  };
+
+  private handleMouseOver = (): void => {
+    window.clearTimeout(this.autoDismissTimeoutId);
+    this.remainingPausedTimeout =
+      DURATIONS[this.autoDismissDuration] - Date.now() - this.trackTimer;
+  };
+
+  private handleMouseLeave = (): void => {
+    this.autoDismissTimeoutId = window.setTimeout(
+      () => this.closeAlert(),
+      this.remainingPausedTimeout
+    );
   };
 }

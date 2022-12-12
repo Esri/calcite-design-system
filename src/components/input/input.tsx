@@ -21,7 +21,7 @@ import {
 } from "../../utils/dom";
 
 import { CSS, INPUT_TYPE_ICONS, SLOTS, TEXT } from "./resources";
-import { InputPlacement } from "./interfaces";
+import { InputPlacement, NumberNudgeDirection, SetValueOrigin } from "./interfaces";
 import { Position } from "../interfaces";
 import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
 import {
@@ -37,8 +37,7 @@ import {
   numberStringFormatter,
   LocalizedComponent,
   disconnectLocalized,
-  connectLocalized,
-  updateEffectiveLocale
+  connectLocalized
 } from "../../utils/locale";
 import { numberKeys } from "../../utils/key";
 import { isValidNumber, parseNumberString, sanitizeNumberString } from "../../utils/number";
@@ -52,9 +51,6 @@ import {
   LoadableComponent,
   componentLoaded
 } from "../../utils/loadable";
-
-type NumberNudgeDirection = "up" | "down";
-type SetValueOrigin = "initial" | "connected" | "user" | "reset" | "direct";
 
 /**
  * @slot action - A slot for positioning a `calcite-button` next to the component.
@@ -152,19 +148,6 @@ export class Input
   @Prop({ reflect: true }) loading = false;
 
   /**
-   * BCP 47 language tag for desired language and country format
-   *
-   * @deprecated set the global `lang` attribute on the element instead.
-   * @mdn [lang](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/lang)
-   */
-  @Prop() locale: string;
-
-  @Watch("locale")
-  localeChanged(): void {
-    updateEffectiveLocale(this);
-  }
-
-  /**
    * Specifies the Unicode numeral system used by the component for localization.
    *
    */
@@ -202,13 +185,6 @@ export class Input
   minWatcher(): void {
     this.minString = this.min?.toString() || null;
   }
-
-  /**
-   * Specifies the maximum length of text for the component's value.
-   *
-   * @deprecated use `maxLength` instead.
-   */
-  @Prop({ reflect: true }) maxlength: number;
 
   /**
    * Specifies the maximum length of text for the component's value.
@@ -300,6 +276,22 @@ export class Input
    * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/multiple)
    */
   @Prop() multiple = false;
+
+  /**
+   * Specifies the type of content to help devices display an appropriate virtual keyboard.
+   * Read the native attribute's documentation on MDN for more info.
+   *
+   * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/inputmode)
+   */
+  @Prop() inputMode = "text";
+
+  /**
+   * Specifies the action label or icon for the Enter key on virtual keyboards.
+   * Read the native attribute's documentation on MDN for more info.
+   *
+   * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/enterkeyhint)
+   */
+  @Prop() enterKeyHint: string;
 
   /** Adds text to the end of the component. */
   @Prop() suffixText: string;
@@ -506,10 +498,11 @@ export class Input
    */
   @Event({ cancelable: false }) calciteInternalInputBlur: EventEmitter<void>;
 
+  // TODO: refactor color-picker to not use the deprecated
+  // nativeEvent payload property in handleChannelInput()
   /**
    * Fires each time a new `value` is typed.
-   *
-   * **Note:**: The `el` and `value` event payload properties are deprecated, use the event's `target`/`currentTarget` instead.
+   * NOTE: `nativeEvent` payload property is deprecated
    */
   @Event({ cancelable: true }) calciteInputInput: EventEmitter<DeprecatedEventPayload>;
 
@@ -620,11 +613,14 @@ export class Input
     this.emitChangeIfUserModified();
   };
 
-  private inputFocusHandler = (event: FocusEvent): void => {
+  private clickHandler = (event: MouseEvent): void => {
     const slottedActionEl = getSlotted(this.el, "action");
     if (event.target !== slottedActionEl) {
       this.setFocus();
     }
+  };
+
+  private inputFocusHandler = (): void => {
     this.calciteInternalInputFocus.emit();
   };
 
@@ -934,11 +930,8 @@ export class Input
 
     if (nativeEvent) {
       const calciteInputInputEvent = this.calciteInputInput.emit({
-        element: this.childEl,
-        nativeEvent,
-        value: this.value
+        nativeEvent
       });
-
       if (calciteInputInputEvent.defaultPrevented) {
         this.value = this.previousValue;
         this.localizedValue =
@@ -1056,8 +1049,8 @@ export class Input
           autofocus={this.autofocus ? true : null}
           defaultValue={this.defaultValue}
           disabled={this.disabled ? true : null}
-          enterKeyHint={this.el.enterKeyHint}
-          inputMode={this.el.inputMode}
+          enterKeyHint={this.enterKeyHint}
+          inputMode={this.inputMode}
           key="localized-input"
           maxLength={this.maxLength}
           minLength={this.minLength}
@@ -1091,8 +1084,8 @@ export class Input
               }}
               defaultValue={this.defaultValue}
               disabled={this.disabled ? true : null}
-              enterKeyHint={this.el.enterKeyHint}
-              inputMode={this.el.inputMode}
+              enterKeyHint={this.enterKeyHint}
+              inputMode={this.inputMode}
               max={this.maxString}
               maxLength={this.maxLength}
               min={this.minString}
@@ -1125,7 +1118,7 @@ export class Input
         : null;
 
     return (
-      <Host onClick={this.inputFocusHandler} onKeyDown={this.keyDownHandler}>
+      <Host onClick={this.clickHandler} onKeyDown={this.keyDownHandler}>
         <div class={{ [CSS.inputWrapper]: true, [CSS_UTILITY.rtl]: dir === "rtl" }}>
           {this.type === "number" && this.numberButtonType === "horizontal" && !this.readOnly
             ? numberButtonsHorizontalDown
