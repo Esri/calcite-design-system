@@ -35,7 +35,6 @@ describe("calcite-input-time-picker", () => {
 
   it("reflects", async () =>
     reflects(`calcite-input-time-picker`, [
-      { propertyName: "active", value: true },
       { propertyName: "open", value: true },
       { propertyName: "disabled", value: true },
       { propertyName: "scale", value: "m" }
@@ -373,24 +372,4 @@ describe("calcite-input-time-picker", () => {
 
   it("is form-associated", () =>
     formAssociated("calcite-input-time-picker", { testValue: "03:23", submitsOnEnter: true }));
-
-  it("should set active prop to same value as open and vice-versa", async () => {
-    const page = await newE2EPage();
-    await page.setContent(html`<calcite-input-time-picker value="14:59"></calcite-input-time-picker>`);
-
-    const inputTimePicker = await page.find("calcite-input-time-picker");
-
-    expect(await inputTimePicker.getProperty("active")).toBe(false);
-    expect(await inputTimePicker.getProperty("open")).toBe(false);
-
-    inputTimePicker.setProperty("open", true);
-    await page.waitForChanges();
-
-    expect(await inputTimePicker.getProperty("active")).toBe(true);
-
-    inputTimePicker.setProperty("active", false);
-    await page.waitForChanges();
-
-    expect(await inputTimePicker.getProperty("open")).toBe(false);
-  });
 });

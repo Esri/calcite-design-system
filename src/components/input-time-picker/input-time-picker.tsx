@@ -69,25 +69,12 @@ export class InputTimePicker
   //
   //--------------------------------------------------------------------------
 
-  /**
-   * When `true`, the component is active.
-   *
-   * @deprecated Use `open` instead.
-   */
-  @Prop({ reflect: true, mutable: true }) active = false;
-
-  @Watch("active")
-  activeHandler(value: boolean): void {
-    this.open = value;
-  }
-
   /** When `true`, displays the `calcite-time-picker` component. */
 
   @Prop({ reflect: true, mutable: true }) open = false;
 
   @Watch("open")
   openHandler(value: boolean): void {
-    this.active = value;
     if (this.disabled || this.readOnly) {
       this.open = false;
       return;
@@ -505,18 +492,12 @@ export class InputTimePicker
   connectedCallback() {
     connectLocalized(this);
 
-    const { active, open } = this;
     if (this.value) {
       this.setValue({ value: isValidTime(this.value) ? this.value : undefined, origin: "loading" });
     }
+
     connectLabel(this);
     connectForm(this);
-
-    if (open) {
-      this.active = open;
-    } else if (active) {
-      this.open = active;
-    }
   }
 
   componentWillLoad(): void {
