@@ -37,8 +37,7 @@ export function connectFocusTrap(component: FocusTrapComponent): void {
   }
 
   const focusTrapOptions: FocusTrapOptions = {
-    allowOutsideClick: true,
-    clickOutsideDeactivates: false,
+    clickOutsideDeactivates: true,
     document: focusTrapEl.ownerDocument,
     escapeDeactivates: false,
     fallbackFocus: focusTrapEl,
