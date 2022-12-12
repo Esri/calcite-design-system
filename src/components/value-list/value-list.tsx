@@ -141,50 +141,10 @@ export class ValueList<
   @Prop({ reflect: true }) selectionFollowsFocus = false;
 
   /**
-   * When "drag-enabled" is true and active, specifies accessible context to the component.
-   *
-   * Use ${position} of ${total} as placeholder for displaying indices and ${item.label} as placeholder for displaying label of `calcite-value-list-item`.
-   *
-   * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`
-   */
-  @Prop() intlDragHandleActive: string;
-
-  /**
-   * When "drag-enabled" is true and active, specifies accessible context to the `calcite-value-list-item`'s new position.
-   *
-   * Use ${position} of ${total} as placeholder for displaying indices and ${item.label} as placeholder for displaying label of `calcite-value-list-item`.
-   *
-   * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`
-   */
-  @Prop() intlDragHandleChange: string;
-
-  /**
-   * When "drag-enabled" is true and active, specifies accessible context to the `calcite-value-list-item`'s current position after commit.
-   *
-   * Use ${position} of ${total} as placeholder for displaying indices and ${item.label} as placeholder for displaying label of `calcite-value-list-item`.
-   *
-   * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`
-   */
-  @Prop() intlDragHandleCommit: string;
-
-  /**
-   * When "drag-enabled" is true and active, specifies accessible context to the `calcite-value-list-item`'s initial position.
-   *
-   * Use ${position} of ${total} as placeholder for displaying indices and ${item.label} as placeholder for displaying label of `calcite-value-list-item`.
-   *
-   * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`
-   */
-  @Prop() intlDragHandleIdle: string;
-
-  /**
    * Use this property to override individual strings used by the component.
    */
   @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
 
-  @Watch("intlDragHandleActive")
-  @Watch("intlDragHandleChange")
-  @Watch("intlDragHandleCommit")
-  @Watch("intlDragHandleIdle")
   @Watch("messageOverrides")
   onMessagesChange(): void {
     /* wired up by t9n util */
