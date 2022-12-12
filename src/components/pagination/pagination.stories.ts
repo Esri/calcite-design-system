@@ -8,7 +8,10 @@ import { storyFilters } from "../../../.storybook/helpers";
 export default {
   title: "Components/Pagination",
   parameters: {
-    notes: readme
+    notes: readme,
+    chromatic: {
+      delay: 500
+    }
   },
   ...storyFilters()
 };
