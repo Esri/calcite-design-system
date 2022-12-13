@@ -20,7 +20,10 @@ const nestedReferenceElementHTML = `Ut enim ad minim veniam, quis <calcite-butto
 export default {
   title: "Components/Popover",
   parameters: {
-    notes: [readme]
+    notes: [readme],
+    chromatic: {
+      delay: 500
+    }
   },
   ...storyFilters()
 };
@@ -44,24 +47,29 @@ export const simple = (): string => html`
   </div>
 `;
 
-export const darkThemeRTL_TestOnly = (): string => html` <div style="width: 400px;">
-  ${referenceElementHTML}
-  <calcite-popover
-    ${boolean("closable", false)}
-    ${boolean("disable-flip", false)}
-    ${boolean("disable-pointer", false)}
-    reference-element="reference-element"
-    placement="${select("placement", placements, defaultPopoverPlacement)}"
-    offset-distance="${number("offset-distance", 6)}"
-    offset-skidding="${number("offset-skidding", 0)}"
-    ${boolean("open", true)}
-    text-close="${text("text-close", "Close")}"
-    dir="${select("dir", ["ltr", "rtl"], "rtl")}"
-    class="calcite-theme-dark"
-  >
-    ${contentHTML}
-  </calcite-popover>
-</div>`;
+export const darkThemeRTL_TestOnly = (): string => html` <style>
+    :root {
+      --calcite-duration-factor: 0;
+    }
+  </style>
+  <div style="width: 400px;">
+    ${referenceElementHTML}
+    <calcite-popover
+      ${boolean("closable", false)}
+      ${boolean("disable-flip", false)}
+      ${boolean("disable-pointer", false)}
+      reference-element="reference-element"
+      placement="${select("placement", placements, defaultPopoverPlacement)}"
+      offset-distance="${number("offset-distance", 6)}"
+      offset-skidding="${number("offset-skidding", 0)}"
+      ${boolean("open", true)}
+      text-close="${text("text-close", "Close")}"
+      dir="${select("dir", ["ltr", "rtl"], "rtl")}"
+      class="calcite-theme-dark"
+    >
+      ${contentHTML}
+    </calcite-popover>
+  </div>`;
 
 darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };
 
@@ -89,6 +97,11 @@ export const nested = (): string => html`
 `;
 
 export const flipPlacements_TestOnly = (): string => html`
+  <style>
+    :root {
+      --calcite-duration-factor: 0;
+    }
+  </style>
   <div style="height: 100px; overflow:scroll; width: 200px;">
     <div class="my-popover-reference">
       <calcite-button title="Reference Element" id="reference-element">nostrud exercitation</calcite-button>
@@ -103,6 +116,11 @@ export const flipPlacements_TestOnly = (): string => html`
 `;
 
 export const scaleConsistencyPopoverHeadingActionSlottedIcon_TestOnly = (): string => html`
+  <style>
+    :root {
+      --calcite-duration-factor: 0;
+    }
+  </style>
   <div style="width: 400px;">
     ${referenceElementHTML}
     <calcite-popover

@@ -11,7 +11,6 @@ import {
   renders,
   hidden
 } from "../../tests/commonTests";
-import { html } from "../../../support/formatting";
 
 describe("calcite-input-time-picker", () => {
   it("renders", async () => renders("calcite-input-time-picker", { display: "inline-block" }));
