@@ -18,7 +18,7 @@ If you are adding or updating shared utilities or shared modules you should make
 
 ### Visual regression tests
 
-You don't have to worry about writing visual regression tests. We cover those automatically using [Screener](https://screener.io/) in our build pipeline (we will be migrating to [Chromatic](https://www.chromatic.com/) in the future).
+You don't have to worry about writing visual regression tests. We cover those automatically using [Chromatic](https://www.chromatic.com/) in our build pipeline.
 
 ## Writing Tests
 

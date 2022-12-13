@@ -80,6 +80,9 @@ export class DropdownItem implements LoadableComponent {
   //
   //--------------------------------------------------------------------------
 
+  /** Fires when the component is selected. */
+  @Event({ cancelable: false }) calciteDropdownItemSelect: EventEmitter<void>;
+
   /**
    * @internal
    */
@@ -323,6 +326,7 @@ export class DropdownItem implements LoadableComponent {
   }
 
   private emitRequestedItem(): void {
+    this.calciteDropdownItemSelect.emit();
     this.calciteInternalDropdownItemSelect.emit({
       requestedDropdownItem: this.el,
       requestedDropdownGroup: this.parentDropdownGroupEl
