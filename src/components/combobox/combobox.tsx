@@ -308,7 +308,7 @@ export class Combobox
   /**
    * Fires when a selected item in the component is dismissed via its `calcite-chip`.
    */
-  @Event({ cancelable: false }) calciteComboboxChipDismiss: EventEmitter<void>;
+  @Event({ cancelable: false }) calciteComboboxChipClose: EventEmitter<void>;
 
   /** Fires when the component is requested to be closed, and before the closing transition begins. */
   @Event({ cancelable: false }) calciteComboboxBeforeClose: EventEmitter<void>;
@@ -629,7 +629,7 @@ export class Combobox
       this.toggleSelection(selection, false);
     }
 
-    this.calciteComboboxChipDismiss.emit();
+    this.calciteComboboxChipClose.emit();
   };
 
   clickHandler = (event: MouseEvent): void => {
