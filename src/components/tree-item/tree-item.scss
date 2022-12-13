@@ -5,6 +5,10 @@
     cursor-pointer;
 }
 
+[hidden] {
+  @apply hidden;
+}
+
 @include calciteHydratedHidden();
 @include disabled();
 
@@ -69,10 +73,6 @@
   @apply hidden;
 }
 
-[hidden] {
-  @apply hidden;
-}
-
 ::slotted(*) {
   @apply min-w-0 max-w-full break-words;
   color: inherit;
@@ -94,8 +94,12 @@
   @apply focus-inset outline-none;
 }
 
-.actions-end {
-  @apply flex self-stretch;
+::slotted(calcite-action) {
+  z-index: theme("zIndex.deep");
+}
+
+::slotted(calcite-dropdown) {
+  z-index: theme("zIndex.dropdown");
 }
 
 .checkbox {
@@ -111,7 +115,7 @@
 }
 
 .children-container {
-  @apply relative h-0 overflow-hidden;
+  @apply relative h-0;
   margin-inline-start: theme("margin.5");
   transform: scaleY(0);
   opacity: 0;
