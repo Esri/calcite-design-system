@@ -35,7 +35,9 @@ import {
 @Component({
   tag: "calcite-value-list-item",
   styleUrl: "value-list-item.scss",
-  shadow: true
+  shadow: {
+    delegatesFocus: true
+  }
 })
 export class ValueListItem
   implements ConditionalSlotComponent, InteractiveComponent, LoadableComponent
@@ -163,7 +165,7 @@ export class ValueListItem
   async setFocus(): Promise<void> {
     await componentLoaded(this);
 
-    this.pickListItem?.setFocus();
+    this.el.focus();
   }
 
   // --------------------------------------------------------------------------

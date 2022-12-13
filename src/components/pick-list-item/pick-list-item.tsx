@@ -33,7 +33,9 @@ import {
 @Component({
   tag: "calcite-pick-list-item",
   styleUrl: "pick-list-item.scss",
-  shadow: true
+  shadow: {
+    delegatesFocus: true
+  }
 })
 export class PickListItem
   implements ConditionalSlotComponent, InteractiveComponent, LoadableComponent
@@ -143,8 +145,6 @@ export class PickListItem
 
   @Element() el: HTMLCalcitePickListItemElement;
 
-  private focusEl: HTMLLabelElement;
-
   shiftPressed: boolean;
 
   // --------------------------------------------------------------------------
@@ -233,7 +233,7 @@ export class PickListItem
   async setFocus(): Promise<void> {
     await componentLoaded(this);
 
-    this.focusEl?.focus();
+    this.el?.focus();
   }
 
   // --------------------------------------------------------------------------
@@ -338,7 +338,6 @@ export class PickListItem
           class={CSS.label}
           onClick={this.pickListClickHandler}
           onKeyDown={this.pickListKeyDownHandler}
-          ref={(focusEl): HTMLLabelElement => (this.focusEl = focusEl)}
           tabIndex={0}
         >
           <div

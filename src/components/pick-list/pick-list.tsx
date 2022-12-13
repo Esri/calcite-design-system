@@ -12,7 +12,6 @@ import {
 } from "@stencil/core";
 import { ICON_TYPES } from "./resources";
 import {
-  ListFocusId,
   calciteListItemChangeHandler,
   calciteInternalListItemValueChangeHandler,
   cleanUpObserver,
@@ -29,7 +28,6 @@ import {
   selectSiblings,
   setUpItems,
   keyDownHandler,
-  setFocus,
   ItemData,
   removeItem
 } from "./shared-list-logic";
@@ -51,7 +49,9 @@ import {
 @Component({
   tag: "calcite-pick-list",
   styleUrl: "pick-list.scss",
-  shadow: true
+  shadow: {
+    delegatesFocus: true
+  }
 })
 export class PickList<
   ItemElement extends HTMLCalcitePickListItemElement = HTMLCalcitePickListItemElement
@@ -269,14 +269,11 @@ export class PickList<
 
   /**
    * Sets focus on the component.
-   *
-   * @param focusId
    */
   @Method()
-  async setFocus(focusId?: ListFocusId): Promise<void> {
+  async setFocus(): Promise<void> {
     await componentLoaded(this);
-
-    return setFocus.call(this, focusId);
+    this.el.focus();
   }
 
   // --------------------------------------------------------------------------

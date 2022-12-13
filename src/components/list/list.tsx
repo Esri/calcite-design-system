@@ -38,7 +38,9 @@ import {
 @Component({
   tag: "calcite-list",
   styleUrl: "list.scss",
-  shadow: true
+  shadow: {
+    delegatesFocus: true
+  }
 })
 export class List implements InteractiveComponent, LoadableComponent {
   // --------------------------------------------------------------------------
@@ -238,7 +240,7 @@ export class List implements InteractiveComponent, LoadableComponent {
   @Method()
   async setFocus(): Promise<void> {
     await componentLoaded(this);
-    this.enabledListItems.find((listItem) => listItem.active)?.setFocus();
+    this.el?.focus();
   }
 
   // --------------------------------------------------------------------------

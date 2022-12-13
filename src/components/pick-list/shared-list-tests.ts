@@ -619,7 +619,6 @@ export function focusing(listType: ListType): void {
         </calcite-${listType}-list>
       `,
         {
-          focusId: "filter",
           shadowFocusTargetSelector: "calcite-filter"
         }
       ));
