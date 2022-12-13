@@ -26,7 +26,14 @@ import {
 import { Star, StarIconProps } from "./interfaces";
 
 const StarIcon: FunctionalComponent<StarIconProps> = ({ icon, scale, partial }) => (
-  <calcite-icon aria-hidden="true" class={partial ? undefined : "icon"} icon={icon} scale={scale} />
+  <calcite-icon
+    {...{
+      "aria-hidden": "true",
+      class: !partial && "icon",
+      icon,
+      scale
+    }}
+  />
 );
 
 @Component({
@@ -183,7 +190,7 @@ export class Rating
       <Host
         onBlur={this.handleRatingFocusLeave}
         onFocus={this.handleRatingFocusIn}
-        onKeyDown={this.handleKeyDown}
+        onKeyDown={this.handleHostKeyDown}
         onPointerOut={this.handleRatingPointerOut}
         onPointerOver={this.handleRatingPointerOver}
       >
@@ -224,7 +231,7 @@ export class Rating
                       id={id}
                       name={this.guid}
                       onChange={this.handleInputChange}
-                      onKeyDown={this.handleKeyDown}
+                      onKeyDown={this.handleInputKeyDown}
                       ref={(el) => {
                         this.inputRefs[idx] = el;
                         return (
@@ -309,41 +316,41 @@ export class Rating
     this.hasFocus = false;
   };
 
-  private handleKeyDown = (event: KeyboardEvent) => {
-    if (event.currentTarget === this.el) {
-      this.isKeyboardInteraction = true;
-    } else if (event.currentTarget["nodeName"] === "INPUT") {
-      const target = event.currentTarget as HTMLInputElement;
-      const inputVal = Number(target.value);
-      const key = event.key;
-      const numberKey = key == " " ? undefined : Number(key);
+  private handleHostKeyDown = () => {
+    this.isKeyboardInteraction = true;
+  };
 
-      this.emit = true;
-      if (isNaN(numberKey)) {
-        switch (key) {
-          case "Enter":
-          case " ":
-            this.value = this.value === inputVal ? 0 : inputVal;
-            break;
-          case "ArrowLeft":
-            this.value = inputVal - 1;
-            break;
-          case "ArrowRight":
-            this.value = inputVal + 1;
-            break;
-          case "Tab":
-            if (this.hasFocus) {
-              this.hasFocus = false;
-              this.focusValue = null;
-              this.hoverValue = null;
-            }
-          default:
-            break;
-        }
-      } else {
-        if (numberKey >= 0 && numberKey <= this.max) {
-          this.value = numberKey;
-        }
+  private handleInputKeyDown = (event: KeyboardEvent) => {
+    const target = event.currentTarget as HTMLInputElement;
+    const inputVal = Number(target.value);
+    const key = event.key;
+    const numberKey = key == " " ? undefined : Number(key);
+
+    this.emit = true;
+    if (isNaN(numberKey)) {
+      switch (key) {
+        case "Enter":
+        case " ":
+          this.value = this.value === inputVal ? 0 : inputVal;
+          break;
+        case "ArrowLeft":
+          this.value = inputVal - 1;
+          break;
+        case "ArrowRight":
+          this.value = inputVal + 1;
+          break;
+        case "Tab":
+          if (this.hasFocus) {
+            this.hasFocus = false;
+            this.focusValue = null;
+            this.hoverValue = null;
+          }
+        default:
+          break;
+      }
+    } else {
+      if (numberKey >= 0 && numberKey <= this.max) {
+        this.value = numberKey;
       }
     }
   };
