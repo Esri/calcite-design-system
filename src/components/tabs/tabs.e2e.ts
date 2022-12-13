@@ -4,7 +4,7 @@ import { html } from "../../../support/formatting";
 
 describe("calcite-tabs", () => {
   const tabsContent = `
-    <calcite-tab-nav slot="tab-nav">
+    <calcite-tab-nav slot="title-group">
       <calcite-tab-title selected>Tab 1 Title</calcite-tab-title>
       <calcite-tab-title>Tab 2 Title</calcite-tab-title>
       <calcite-tab-title>Tab 3 Title</calcite-tab-title>
@@ -35,7 +35,7 @@ describe("calcite-tabs", () => {
 
     await page.setContent(`
       <calcite-tabs>
-        <calcite-tab-nav slot="tab-nav">
+        <calcite-tab-nav slot="title-group">
           <calcite-tab-title id="title-1" selected>Tab 1 Title</calcite-tab-title>
           <calcite-tab-title id="title-2" >Tab 2 Title</calcite-tab-title>
           <calcite-tab-title id="title-3" >Tab 3 Title</calcite-tab-title>
@@ -72,7 +72,7 @@ describe("calcite-tabs", () => {
 
     await page.setContent(`
       <calcite-tabs>
-        <calcite-tab-nav slot="tab-nav">
+        <calcite-tab-nav slot="title-group">
           <calcite-tab-title selected>Tab 1 Title</calcite-tab-title>
           <calcite-tab-title id="insert-after-title">Tab 2 Title</calcite-tab-title>
           <calcite-tab-title>Tab 3 Title</calcite-tab-title>
@@ -168,7 +168,7 @@ describe("calcite-tabs", () => {
       const page = await newE2EPage({
         html: `
         <calcite-tabs bordered>
-          <calcite-tab-nav slot="tab-nav">
+          <calcite-tab-nav slot="title-group">
             <calcite-tab-title icon-start="arrow-left" icon-end="arrow-right">Tab 1 Title</calcite-tab-title>
             <calcite-tab-title icon-start="arrow-left" icon-end="arrow-right" >Tab 2 Title</calcite-tab-title>
           </calcite-tab-nav>
@@ -187,7 +187,7 @@ describe("calcite-tabs", () => {
       const page = await newE2EPage({
         html: `
         <calcite-tabs bordered position="bottom">
-          <calcite-tab-nav slot="tab-nav">
+          <calcite-tab-nav slot="title-group">
             <calcite-tab-title icon-start="arrow-left" icon-end="arrow-right">Tab 1 Title</calcite-tab-title>
             <calcite-tab-title icon-start="arrow-left" icon-end="arrow-right" >Tab 2 Title</calcite-tab-title>
           </calcite-tab-nav>
@@ -213,7 +213,7 @@ describe("calcite-tabs", () => {
   it("item selection should work when placed inside shadow DOM (#992)", async () => {
     const wrappedTabTemplateHTML = html`
       <calcite-tabs>
-        <calcite-tab-nav slot="tab-nav">
+        <calcite-tab-nav slot="title-group">
           <calcite-tab-title id="title-1" selected>Tab 1 Title</calcite-tab-title>
           <calcite-tab-title id="title-2">Tab 2 Title</calcite-tab-title>
         </calcite-tab-nav>
@@ -268,13 +268,13 @@ describe("calcite-tabs", () => {
     const page = await newE2EPage({
       html: html`
         <calcite-tabs id="parentTabs">
-          <calcite-tab-nav slot="tab-nav">
+          <calcite-tab-nav slot="title-group">
             <calcite-tab-title id="parentA">Parent 1</calcite-tab-title>
             <calcite-tab-title>Parent 2</calcite-tab-title>
           </calcite-tab-nav>
           <calcite-tab id="parentTabA">
             <calcite-tabs>
-              <calcite-tab-nav slot="tab-nav">
+              <calcite-tab-nav slot="title-group">
                 <calcite-tab-title>Child 1</calcite-tab-title>
                 <calcite-tab-title id="kidB">Child 2</calcite-tab-title>
                 <calcite-tab-title>Child 3</calcite-tab-title>
