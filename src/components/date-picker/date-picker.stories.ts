@@ -119,14 +119,6 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
         }
       },
       {
-        name: "start",
-        commit(): Attribute {
-          this.value = text("start", "");
-          delete this.build;
-          return this;
-        }
-      },
-      {
         name: "value",
         commit(): Attribute {
           this.value = text("value", "2020-02-28");
@@ -146,11 +138,10 @@ export const range = (): string =>
   html`<div style="width: 400px">
     ${create(
       "calcite-date-picker",
-      createAttributes({ exceptions: ["end", "min", "range", "start"] }).concat([
+      createAttributes({ exceptions: ["end", "min", "range"] }).concat([
         { name: "end", value: "2020-02-16" },
         { name: "min", value: "2016-08-09" },
-        { name: "range", value: "true" },
-        { name: "start", value: "2020-02-12" }
+        { name: "range", value: "true" }
       ])
     )}
   </div>`;
@@ -159,12 +150,11 @@ export const rangeRTL_TestOnly = (): string =>
   html`<div style="width: 400px">
     ${create(
       "calcite-date-picker",
-      createAttributes({ exceptions: ["end", "min", "range", "start", "dir"] }).concat([
+      createAttributes({ exceptions: ["end", "min", "range", "dir"] }).concat([
         { name: "dir", value: "rtl" },
         { name: "end", value: "2020-02-16" },
         { name: "min", value: "2016-08-09" },
-        { name: "range", value: "true" },
-        { name: "start", value: "2020-02-12" }
+        { name: "range", value: "true" }
       ])
     )}
   </div>`;

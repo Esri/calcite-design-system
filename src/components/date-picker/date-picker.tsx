@@ -170,13 +170,6 @@ export class DatePicker implements LocalizedComponent {
   @Prop({ reflect: true }) range = false;
 
   /**
-   * Specifies the selected start date.
-   *
-   * @deprecated use `value` instead.
-   */
-  @Prop({ mutable: true, reflect: true }) start: string;
-
-  /**
    * Specifies the selected end date.
    *
    * @deprecated use `value` instead.
@@ -225,14 +218,9 @@ export class DatePicker implements LocalizedComponent {
 
     if (Array.isArray(this.value)) {
       this.valueAsDate = getValueAsDateRange(this.value);
-      this.start = this.value[0];
       this.end = this.value[1];
     } else if (this.value) {
       this.valueAsDate = dateFromISO(this.value);
-    }
-
-    if (this.start) {
-      this.setStartAsDate(dateFromISO(this.start));
     }
 
     if (this.end) {
@@ -331,18 +319,11 @@ export class DatePicker implements LocalizedComponent {
   valueHandler(value: string | string[]): void {
     if (Array.isArray(value)) {
       this.valueAsDate = getValueAsDateRange(value);
-      this.start = value[0];
       this.end = value[1];
     } else if (value) {
       this.valueAsDate = dateFromISO(value);
-      this.start = "";
       this.end = "";
     }
-  }
-
-  @Watch("start")
-  startWatcher(start: string): void {
-    this.setStartAsDate(dateFromISO(start));
   }
 
   @Watch("end")
@@ -568,7 +549,6 @@ export class DatePicker implements LocalizedComponent {
   }
 
   private setStartDate(date: Date): void {
-    this.start = date ? dateToISO(date) : "";
     this.setStartAsDate(date, true);
     this.activeStartDate = date || null;
   }
