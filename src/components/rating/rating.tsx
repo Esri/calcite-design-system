@@ -315,16 +315,7 @@ export class Rating
   };
 
   private handleRatingFocusIn = (): void => {
-    let selectedInput = this.value > 0 ? this.value - 1 : 0;
-
-    if (selectedInput == 0) {
-      const average = this.starsMap.filter((i) => i.average);
-
-      if (average.length > 0) {
-        selectedInput = average[average.length - 1].value;
-      }
-    }
-
+    const selectedInput = this.value > 0 ? this.value - 1 : 0;
     const focusInput = this.inputRefs[selectedInput];
     const focusValue = Number(focusInput.value);
 
