@@ -63,10 +63,10 @@ export class Rating
   @Prop({ reflect: true }) showChip = false;
 
   /** Specifies the number of previous ratings to display. */
-  @Prop({ reflect: true }) count?: number;
+  @Prop({ reflect: true }) count: number;
 
   /** Specifies a cumulative average from previous ratings to display. */
-  @Prop({ reflect: true }) average?: number;
+  @Prop({ reflect: true }) average: number;
 
   /** Specifies the name of the component on form submission. */
   @Prop({ reflect: true }) name: string;
@@ -76,14 +76,14 @@ export class Rating
    *
    * @default "Rating"
    */
-  @Prop() intlRating?: string = TEXT.rating;
+  @Prop() intlRating: string = TEXT.rating;
 
   /**
    * Accessible name for each star. The `${num}` in the string will be replaced by the number.
    *
    * @default "Stars: ${num}"
    */
-  @Prop() intlStars?: string = TEXT.stars;
+  @Prop() intlStars: string = TEXT.stars;
 
   /**
    * When `true`, the component must have a value in order for the form to submit.

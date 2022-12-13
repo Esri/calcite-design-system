@@ -237,3 +237,7 @@
 :host([indicator][active]) .button::after {
   border-color: theme("colors.background.foreground.3");
 }
+
+.indicator-text {
+  @apply sr-only;
+}

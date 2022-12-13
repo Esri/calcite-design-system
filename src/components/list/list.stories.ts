@@ -10,7 +10,10 @@ import { select, text } from "@storybook/addon-knobs";
 export default {
   title: "Components/List",
   parameters: {
-    notes: [readme, itemReadme, groupReadme]
+    notes: [readme, itemReadme, groupReadme],
+    chromatic: {
+      delay: 500
+    }
   },
   ...storyFilters()
 };
@@ -304,4 +307,25 @@ export const disabled_TestOnly = (): string => html`<calcite-list disabled>
     description="Vestibulum auctor dapibus neque.
     "
   ></calcite-list-item>
+</calcite-list>`;
+
+export const customContent_TestOnly = (): string => html`<calcite-list disabled>
+  <calcite-list-item>
+    <div slot="content">
+      <strong>Cras iaculis ultricies nulla.</strong>
+      <div>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</div>
+    </div></calcite-list-item
+  >
+  <calcite-list-item disabled>
+    <div slot="content">
+      <strong>Cras iaculis ultricies nulla.</strong>
+      <div>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</div>
+    </div></calcite-list-item
+  >
+  <calcite-list-item
+    ><div slot="content">
+      <strong>Cras iaculis ultricies nulla.</strong>
+      <div>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</div>
+    </div></calcite-list-item
+  >
 </calcite-list>`;

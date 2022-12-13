@@ -63,10 +63,7 @@ export const withInputMessage = (): string => html`
       placeholder="${text("placeholder", "Placeholder text", "Input")}"
     >
     </calcite-input>
-    <calcite-input-message
-      ${boolean("active", true)}
-      ${boolean("icon", false)}
-      icon="${select("icon", iconNames, "", "Input Message")}"
+    <calcite-input-message ${boolean("icon", false)} icon="${select("icon", iconNames, "", "Input Message")}"
       >${text("input message text", "My great input message", "Input Message")}</calcite-input-message
     >
   </div>

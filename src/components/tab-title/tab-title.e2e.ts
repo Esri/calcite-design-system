@@ -61,7 +61,7 @@ describe("calcite-tab-title", () => {
   });
 
   describe("when parent element is tab-nav", () => {
-    describe("when position is above, default", () => {
+    describe("when position is top, default", () => {
       it("should render with bottom border on hover", async () => {
         const page = await newE2EPage({
           html: `
@@ -80,32 +80,12 @@ describe("calcite-tab-title", () => {
       });
     });
 
-    describe("when position is below (deprecated)", () => {
-      it("should render with top border on hover", async () => {
-        const page = await newE2EPage({
-          html: `
-          <calcite-tab-nav position="below">
-            <calcite-tab-title active>Tab 1 Title</calcite-tab-title>
-            <calcite-tab-title id="for-hover">Tab 2 Title</calcite-tab-title>
-          </calcite-tab-nav>
-          `
-        });
-        const element = await page.find("#for-hover");
-        await element.hover();
-
-        const container = await page.find("#for-hover >>> .container");
-        const containerStyles = await container.getComputedStyle();
-        expect(containerStyles["border-top-width"]).not.toEqual("0px");
-        expect(containerStyles["border-bottom-width"]).toEqual("0px");
-      });
-    });
-
     describe("when position is bottom", () => {
       it("should render with top border on hover", async () => {
         const page = await newE2EPage({
           html: `
           <calcite-tab-nav position="bottom">
-            <calcite-tab-title active>Tab 1 Title</calcite-tab-title>
+            <calcite-tab-title selected>Tab 1 Title</calcite-tab-title>
             <calcite-tab-title id="for-hover">Tab 2 Title</calcite-tab-title>
           </calcite-tab-nav>
           `
@@ -124,7 +104,7 @@ describe("calcite-tab-title", () => {
       it("should inherit small scale from tab-nav", async () => {
         const page = await newE2EPage({
           html: `<calcite-tab-nav scale="s">
-            <calcite-tab-title active>Tab Title</calcite-tab-title>
+            <calcite-tab-title selected>Tab Title</calcite-tab-title>
             <calcite-tab-title>Tab 2 Title</calcite-tab-title>
           </calcite-tab-nav>`
         });
@@ -139,7 +119,7 @@ describe("calcite-tab-title", () => {
       it("should inherit medium scale from tab-nav", async () => {
         const page = await newE2EPage({
           html: `<calcite-tab-nav scale="m">
-            <calcite-tab-title active>Tab Title</calcite-tab-title>
+            <calcite-tab-title selected>Tab Title</calcite-tab-title>
             <calcite-tab-title>Tab 2 Title</calcite-tab-title>
           </calcite-tab-nav>`
         });
@@ -154,7 +134,7 @@ describe("calcite-tab-title", () => {
       it("should inherit large scale from tab-nav", async () => {
         const page = await newE2EPage({
           html: `<calcite-tab-nav scale="l">
-            <calcite-tab-title active>Tab 1 Title</calcite-tab-title>
+            <calcite-tab-title selected>Tab 1 Title</calcite-tab-title>
             <calcite-tab-title>Tab 2 Title</calcite-tab-title>
           </calcite-tab-nav>`
         });
@@ -173,7 +153,7 @@ describe("calcite-tab-title", () => {
       it("should inherit default m scale", async () => {
         const page = await newE2EPage({
           html: `<calcite-tabs>
-            <calcite-tab-title active>Tab Title</calcite-tab-title>
+            <calcite-tab-title selected>Tab Title</calcite-tab-title>
             <calcite-tab-title>Tab 2 Title</calcite-tab-title>
           </calcite-tabs>`
         });
@@ -184,7 +164,7 @@ describe("calcite-tab-title", () => {
       it("should inherit small scale from tabs", async () => {
         const page = await newE2EPage({
           html: `<calcite-tabs scale="s">
-            <calcite-tab-title active>Tab Title</calcite-tab-title>
+            <calcite-tab-title selected>Tab Title</calcite-tab-title>
             <calcite-tab-title>Tab 2 Title</calcite-tab-title>
           </calcite-tabs>`
         });
@@ -195,7 +175,7 @@ describe("calcite-tab-title", () => {
       it("should inherit large scale from tabs", async () => {
         const page = await newE2EPage({
           html: `<calcite-tabs scale="l">
-            <calcite-tab-title active>Tab 1 Title</calcite-tab-title>
+            <calcite-tab-title selected>Tab 1 Title</calcite-tab-title>
             <calcite-tab-title>Tab 2 Title</calcite-tab-title>
           </calcite-tabs>`
         });
@@ -212,12 +192,12 @@ describe("calcite-tab-title", () => {
         <calcite-tabs>
           <calcite-tab-nav slot="tab-nav">
             <calcite-tab-title class="title-1">Tab 1 Title</calcite-tab-title>
-            <calcite-tab-title class="title-2" active>Tab 2 Title</calcite-tab-title>
+            <calcite-tab-title class="title-2" selected>Tab 2 Title</calcite-tab-title>
             <calcite-tab-title>Tab 3 Title</calcite-tab-title>
             <calcite-tab-title>Tab 4 Title</calcite-tab-title>
           </calcite-tab-nav>
           <calcite-tab>Tab 1 Content</calcite-tab>
-          <calcite-tab active>Tab 2 Content</calcite-tab>
+          <calcite-tab selected>Tab 2 Content</calcite-tab>
           <calcite-tab>Tab 3 Content</calcite-tab>
           <calcite-tab>Tab 4 Content</calcite-tab>
         </calcite-tabs>
@@ -226,7 +206,7 @@ describe("calcite-tab-title", () => {
       const tabTitle1 = await page.find(".title-1");
       const tabTitle2 = await page.find(".title-2");
 
-      expect(await (await page.find("calcite-tab-title[active]")).innerText).toEqual("Tab 2 Title");
+      expect(await (await page.find("calcite-tab-title[selected]")).innerText).toEqual("Tab 2 Title");
       expect(
         await page.evaluate(() => {
           return (
@@ -237,12 +217,12 @@ describe("calcite-tab-title", () => {
         })
       ).not.toEqual("0px");
 
-      // toggle new active tab-title
-      await tabTitle2.removeAttribute("active");
-      await tabTitle1.setAttribute("active", true);
+      // toggle new selected tab-title
+      await tabTitle2.removeAttribute("selected");
+      await tabTitle1.setAttribute("selected", true);
       await page.waitForChanges();
 
-      expect(await (await page.find("calcite-tab-title[active]")).innerText).toEqual("Tab 1 Title");
+      expect(await (await page.find("calcite-tab-title[selected]")).innerText).toEqual("Tab 1 Title");
       expect(
         await page.evaluate(() => {
           return (

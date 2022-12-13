@@ -56,7 +56,7 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
   @Prop({ reflect: true }) guid = guid();
 
   /** Specifies an icon to display. */
-  @Prop({ reflect: true }) icon?: string;
+  @Prop({ reflect: true }) icon: string;
 
   @Watch("selected")
   selectedWatchHandler(): void {
