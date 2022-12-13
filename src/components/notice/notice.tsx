@@ -29,7 +29,7 @@ import {
 /**
  * Notices are intended to be used to present users with important-but-not-crucial contextual tips or copy. Because
  * notices are displayed inline, a common use case is displaying them on page-load to present users with short hints or contextual copy.
- * They are optionally dismissible - useful for keeping track of whether or not a user has dismissed the notice. You can also choose not
+ * They are optionally closable - useful for keeping track of whether or not a user has closed the notice. You can also choose not
  * to display a notice on page load and set the "active" attribute as needed to contextually provide inline messaging to users.
  */
 
@@ -60,13 +60,6 @@ export class Notice implements ConditionalSlotComponent, LoadableComponent {
   //
   //---------------------------------------------------------------------------
 
-  /**
-   * When `true`, the component is active.
-   *
-   * @deprecated Use `open` instead.
-   */
-  @Prop({ reflect: true, mutable: true }) active = false;
-
   @Watch("active")
   activeHandler(value: boolean): void {
     this.open = value;
@@ -75,33 +68,11 @@ export class Notice implements ConditionalSlotComponent, LoadableComponent {
   /** When `true`, the component is visible. */
   @Prop({ reflect: true, mutable: true }) open = false;
 
-  @Watch("open")
-  openHandler(value: boolean): void {
-    this.active = value;
-  }
-
   /** The color for the component's top border and icon. */
   @Prop({ reflect: true }) color: StatusColor = "blue";
 
-  /**
-   * When `true`, a close button is added to the component.
-   *
-   * @deprecated use `closable` instead.
-   */
-  @Prop({ reflect: true }) dismissible = false;
-
-  @Watch("dismissible")
-  handleDismissible(value: boolean): void {
-    this.closable = value;
-  }
-
   /** When `true`, a close button is added to the component. */
   @Prop({ reflect: true }) closable = false;
-
-  @Watch("closable")
-  handleClosable(value: boolean): void {
-    this.dismissible = value;
-  }
 
   /**
    * When `true`, shows a default recommended icon. Alternatively, pass a Calcite UI Icon name to display a specific icon.
@@ -135,18 +106,6 @@ export class Notice implements ConditionalSlotComponent, LoadableComponent {
 
   connectedCallback(): void {
     connectConditionalSlotComponent(this);
-    const isOpen = this.active || this.open;
-
-    if (isOpen) {
-      this.activeHandler(isOpen);
-      this.openHandler(isOpen);
-    }
-    if (this.dismissible) {
-      this.handleDismissible(this.dismissible);
-    }
-    if (this.closable) {
-      this.handleClosable(this.closable);
-    }
   }
 
   disconnectedCallback(): void {
