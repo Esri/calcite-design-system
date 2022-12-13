@@ -122,10 +122,6 @@ $loader-circumference: ($loader-scale - (2 * $stroke-width)) * 3.14159;
   vertical-align: calc(var(--calcite-loader-size-inline) * -1 * 0.2);
 }
 
-:host([inline]) {
-  @apply inline-block;
-}
-
 :host([inline]) .loader__svgs {
   @apply top-0 m-0;
   inset-inline-start: 0;

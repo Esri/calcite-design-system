@@ -2,7 +2,7 @@ You can combine groups in a single dropdown, with varying selection modes:
 
 ```html
 <calcite-dropdown>
-  <calcite-button slot="dropdown-trigger">Open Dropdown</calcite-button>
+  <calcite-button slot="trigger">Open Dropdown</calcite-button>
   <calcite-dropdown-group group-title="Select one">
     <calcite-dropdown-item>Apple</calcite-dropdown-item>
     <calcite-dropdown-item selected>Orange</calcite-dropdown-item>

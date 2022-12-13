@@ -56,7 +56,7 @@ export class Tabs {
   render(): VNode {
     return (
       <Fragment>
-        <slot name={SLOTS.tabNav} />
+        <slot name={SLOTS.titleGroup} />
         <section>
           <slot />
         </section>
