@@ -118,6 +118,7 @@ export class Rating
 
   componentWillLoad(): void {
     setUpLoadableComponent(this);
+    this.inputRefs = Array(this.max);
   }
 
   componentWillRender(): void {
@@ -139,6 +140,7 @@ export class Rating
         fraction,
         hovered,
         id,
+        idx: i,
         partial,
         selected,
         value
@@ -189,7 +191,18 @@ export class Rating
           <fieldset class="fieldset" disabled={this.disabled}>
             <legend class="visually-hidden">{this.intlRating}</legend>
             {this.starsMap.map(
-              ({ average, checked, focused, fraction, hovered, id, partial, selected, value }) => {
+              ({
+                average,
+                checked,
+                focused,
+                fraction,
+                hovered,
+                id,
+                idx,
+                partial,
+                selected,
+                value
+              }) => {
                 return (
                   <label
                     class={{
@@ -212,10 +225,13 @@ export class Rating
                       name={this.guid}
                       onChange={this.handleInputChange}
                       onKeyDown={this.handleKeyDown}
-                      ref={(el) =>
-                        (value === 1 || value === this.value) &&
-                        (this.inputFocusRef = el as HTMLInputElement)
-                      }
+                      ref={(el) => {
+                        this.inputRefs[idx] = el;
+                        return (
+                          (value === 1 || value === this.value) &&
+                          (this.inputFocusRef = el as HTMLInputElement)
+                        );
+                      }}
                       type="radio"
                       value={value}
                     />
@@ -268,9 +284,6 @@ export class Rating
   };
 
   private handleRatingFocusIn = (): void => {
-    const inputs = this.starsMap.map((star) =>
-      this.el.shadowRoot.getElementById(star.id)
-    ) as unknown as HTMLInputElement;
     let selectedInput = this.value > 0 ? this.value - 1 : 0;
 
     if (selectedInput == 0) {
@@ -281,9 +294,12 @@ export class Rating
       }
     }
 
-    inputs[selectedInput].select();
-    this.focusValue = selectedInput + 1;
-    this.hoverValue = selectedInput + 1;
+    const focusInput = this.inputRefs[selectedInput];
+    const focusValue = Number(focusInput.value);
+
+    focusInput.select();
+    this.focusValue = focusValue;
+    this.hoverValue = focusValue;
     this.hasFocus = true;
   };
 
@@ -399,4 +415,6 @@ export class Rating
   private guid = `calcite-ratings-${guid()}`;
 
   private inputFocusRef: HTMLInputElement;
+
+  private inputRefs: HTMLInputElement[];
 }
