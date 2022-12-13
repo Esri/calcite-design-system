@@ -25,12 +25,11 @@ import {
 } from "../../utils/loadable";
 import { Star, StarIconProps } from "./interfaces";
 
-const StarIcon: FunctionalComponent<StarIconProps> = ({ icon, scale, partial }) => (
+const StarIcon: FunctionalComponent<StarIconProps> = ({ full, scale, partial }) => (
   <calcite-icon
     {...{
-      "aria-hidden": "true",
-      class: !partial && "icon",
-      icon,
+      class: partial ? undefined : "icon",
+      icon: full ? "star-f" : "star",
       scale
     }}
   />
@@ -131,13 +130,24 @@ export class Rating
   componentWillRender(): void {
     this.starsMap = Array.from({ length: this.max }, (_, i) => {
       const value = i + 1;
-      const average = this.average && !this.value && value <= this.average;
+      const average =
+        !this.focusValue &&
+        !this.hoverValue &&
+        this.average &&
+        !this.value &&
+        value <= this.average;
       const checked = value === this.value;
       const focused = this.isKeyboardInteraction && this.hasFocus && this.focusValue === value;
       const fraction = this.average && this.average + 1 - value;
       const hovered = value <= this.hoverValue;
       const id = `${this.guid}-${value}`;
-      const partial = !this.value && !hovered && fraction > 0 && fraction < 1;
+      const partial =
+        !this.focusValue &&
+        !this.hoverValue &&
+        !this.value &&
+        !hovered &&
+        fraction > 0 &&
+        fraction < 1;
       const selected = this.value >= value;
 
       return {
@@ -242,10 +252,10 @@ export class Rating
                       type="radio"
                       value={value}
                     />
-                    <StarIcon icon={selected || average ? "star-f" : "star"} scale={this.scale} />
+                    <StarIcon full={selected || average} scale={this.scale} />
                     {partial && (
                       <div class="fraction" style={{ width: `${fraction * 100}%` }}>
-                        <StarIcon icon="star-f" partial scale={this.scale} />
+                        <StarIcon full partial scale={this.scale} />
                       </div>
                     )}
                     <span class="visually-hidden">
