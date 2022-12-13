@@ -167,10 +167,10 @@ export class ActionPad
   }
 
   async componentWillLoad(): Promise<void> {
-    await setUpMessages(this);
     setUpLoadableComponent(this);
     const { el, expanded } = this;
     toggleChildActionText({ parent: el, expanded });
+    await setUpMessages(this);
   }
 
   componentDidLoad(): void {

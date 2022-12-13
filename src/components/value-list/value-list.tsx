@@ -248,8 +248,8 @@ export class ValueList<
   }
 
   async componentWillLoad(): Promise<void> {
-    await setUpMessages(this);
     setUpLoadableComponent(this);
+    await setUpMessages(this);
   }
 
   componentDidLoad(): void {
