@@ -1,6 +1,5 @@
 import * as icons from "@esri/calcite-ui-icons";
 import { boolean as booleanKnob } from "@storybook/addon-knobs";
-import { Steps } from "screener-storybook/src/screener";
 import { THEMES } from "../src/utils/resources";
 import { ThemeName } from "../src/components/interfaces";
 import { Parameters } from "@storybook/api";
@@ -37,26 +36,6 @@ export const setTheme = (value: ThemeName) => `${THEMES.map(
 `;
 
 export const toggleCentered: string = `document.body.classList.toggle('sb-main-centered');`;
-
-export const createSteps = (componentSelector: string): Steps => {
-  return new Steps().wait(`${componentSelector}[calcite-hydrated]`);
-};
-
-export const stepStory = (story: Story, steps: Steps): Story => {
-  const stepsDecorator = (Story: Story) => {
-    const node = document.createRange().createContextualFragment(Story());
-    (node as any).steps = steps.end();
-    return node;
-  };
-
-  if (story.decorators) {
-    story.decorators.push(stepsDecorator);
-  } else {
-    story.decorators = [stepsDecorator];
-  }
-
-  return story;
-};
 
 /**
  * This helps create different storybook builds for internal and screenshot test environments
