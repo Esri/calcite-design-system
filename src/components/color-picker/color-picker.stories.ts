@@ -9,7 +9,7 @@ import {
 import colorReadme from "./readme.md";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { html } from "../../../support/formatting";
-import { createSteps, stepStory, storyFilters } from "../../../.storybook/helpers";
+import { storyFilters } from "../../../.storybook/helpers";
 
 export default {
   title: "Components/Controls/ColorPicker",
@@ -116,4 +116,4 @@ export const JapaneseLocale_TestOnly = (): string => html` <calcite-color-picker
 
 export const RussianLocale_TestOnly = (): string => html` <calcite-color-picker lang="ru"></calcite-color-picker> `;
 
-export const ThaiLocale_TestOnly = (): string => html` <calcite-color-picker lang="th"></calcite-color-picker> `;
+export const ThaiLocale_TestOnly = (): string => html` <calcite-color-picker lang="th"></calcite-color-picker> `
