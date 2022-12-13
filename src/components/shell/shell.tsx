@@ -1,6 +1,6 @@
-import { Component, Element, Prop, h, VNode, Fragment } from "@stencil/core";
+import { Component, Element, Prop, h, VNode, Fragment, State } from "@stencil/core";
 import { CSS, SLOTS } from "./resources";
-import { getSlotted } from "../../utils/dom";
+import { slotChangeHasAssignedElement } from "../../utils/dom";
 import {
   ConditionalSlotComponent,
   connectConditionalSlotComponent,
@@ -43,6 +43,14 @@ export class Shell implements ConditionalSlotComponent {
 
   @Element() el: HTMLCalciteShellElement;
 
+  @State() hasHeader = false;
+
+  @State() hasFooter = false;
+
+  @State() hasAlerts = false;
+
+  @State() hasModal = false;
+
   // --------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -59,32 +67,62 @@ export class Shell implements ConditionalSlotComponent {
 
   // --------------------------------------------------------------------------
   //
+  //  Private Methods
+  //
+  // --------------------------------------------------------------------------
+
+  handleHeaderSlotChange = (event: Event): void => {
+    this.hasHeader = !!slotChangeHasAssignedElement(event);
+  };
+
+  handleFooterSlotChange = (event: Event): void => {
+    this.hasFooter = !!slotChangeHasAssignedElement(event);
+  };
+
+  handleAlertsSlotChange = (event: Event): void => {
+    this.hasAlerts = !!slotChangeHasAssignedElement(event);
+  };
+
+  handleModalSlotChange = (event: Event): void => {
+    this.hasModal = !!slotChangeHasAssignedElement(event);
+  };
+
+  // --------------------------------------------------------------------------
+  //
   //  Render Methods
   //
   // --------------------------------------------------------------------------
 
   renderHeader(): VNode {
-    const hasHeader = !!getSlotted(this.el, SLOTS.header);
-
-    return hasHeader ? <slot key="header" name={SLOTS.header} /> : null;
+    return (
+      <div hidden={!this.hasHeader}>
+        <slot key="header" name={SLOTS.header} onSlotchange={this.handleHeaderSlotChange} />
+      </div>
+    );
   }
 
   renderFooter(): VNode {
-    const hasFooter = !!getSlotted(this.el, SLOTS.footer);
-
-    return hasFooter ? (
-      <div class={CSS.footer} key="footer">
-        <slot name={SLOTS.footer} />
+    return (
+      <div class={CSS.footer} hidden={!this.hasFooter} key="footer">
+        <slot name={SLOTS.footer} onSlotchange={this.handleFooterSlotChange} />
       </div>
-    ) : null;
+    );
   }
 
   renderAlerts(): VNode {
-    return <slot key="alerts" name={SLOTS.alerts} />;
+    return (
+      <div hidden={!this.hasAlerts}>
+        <slot key="alerts" name={SLOTS.alerts} onSlotchange={this.handleAlertsSlotChange} />
+      </div>
+    );
   }
 
   renderModal(): VNode {
-    return <slot key="alerts" name={SLOTS.modal} />;
+    return (
+      <div hidden={!this.hasModal}>
+        <slot key="modal" name={SLOTS.modal} onSlotchange={this.handleModalSlotChange} />
+      </div>
+    );
   }
 
   renderContent(): VNode[] {
@@ -126,15 +164,12 @@ export class Shell implements ConditionalSlotComponent {
   }
 
   renderPositionedSlots(): VNode {
-    const hasModal = !!getSlotted(this.el, SLOTS.modal, { matches: "calcite-modal" });
-    const hasAlerts = !!getSlotted(this.el, SLOTS.alerts, { matches: "calcite-alert" });
-
-    return hasModal || hasAlerts ? (
+    return (
       <div class={CSS.positionedSlotWrapper}>
         {this.renderAlerts()}
         {this.renderModal()}
       </div>
-    ) : null;
+    );
   }
 
   render(): VNode {
