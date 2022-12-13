@@ -54,19 +54,6 @@ describe("calcite-notice", () => {
     expect(icon).toBeNull();
   });
 
-  it("renders an icon and close button when requested (deprecated)", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
-    <calcite-notice icon closable>
-    ${noticeContent}
-    </calcite-notice>`);
-
-    const close = await page.find(`calcite-notice >>> .${CSS.close}`);
-    const icon = await page.find(`calcite-notice >>> .${CSS.icon}`);
-    expect(close).not.toBeNull();
-    expect(icon).not.toBeNull();
-  });
-
   it("renders an icon and close button when requested", async () => {
     const page = await newE2EPage();
     await page.setContent(`
