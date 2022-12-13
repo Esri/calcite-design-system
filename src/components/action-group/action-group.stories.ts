@@ -61,7 +61,7 @@ export const norwegianLocale_TestOnly = (): string => html`<div style="width:400
 </div>`;
 
 export const ChineseLocale_TestOnly = (): string => html`<div style="width:400px">
-  <calcite-action-group expanded lang="ch">
+  <calcite-action-group expanded lang="zh-CN">
     <calcite-dropdown slot="menu-actions"> </calcite-dropdown>
   </calcite-action-group>
 </div>`;
@@ -73,7 +73,7 @@ export const GreekLocale_TestOnly = (): string => html`<div style="width:400px">
 </div>`;
 
 export const TurkishLocale_TestOnly = (): string => html`<div style="width:400px">
-  <calcite-action-group expanded lang="tk">
+  <calcite-action-group expanded lang="tr">
     <calcite-dropdown slot="menu-actions"> </calcite-dropdown>
   </calcite-action-group>
 </div>`;
