@@ -533,7 +533,14 @@ export const slottedModalAndAlert = (): string => html` <main>
     taiyaki celiac pork belly migas, fashion axe beard shabby chic. Forage chia twee bushwick readymade yuccie praxis
     enamel pin cred mukbang bicycle rights VHS iPhone pour-over subway tile.
   </p>
-  <calcite-shell>
+  <calcite-shell
+    style="
+    width:100%;
+    height:500px;
+    max-height:80%;
+    position:relative;
+    "
+  >
     <div class="gnav" slot="header">Header Example</div>
     <calcite-modal open slot="modal" docked><span slot="header">Modal slotted in Shell</span></calcite-modal>
     <calcite-alert open slot="alerts" placement="top-end"
