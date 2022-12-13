@@ -206,7 +206,7 @@ export class ActionPad
   //
   // --------------------------------------------------------------------------
 
-  actionMenuOpenChangeHandler = (event: CustomEvent<void>): void => {
+  actionMenuOpenHandler = (event: CustomEvent<void>): void => {
     if ((event.target as HTMLCalciteActionGroupElement).menuOpen) {
       const composedPath = event.composedPath();
       Array.from(this.el.querySelectorAll("calcite-action-group")).forEach((group) => {
@@ -261,7 +261,7 @@ export class ActionPad
 
   render(): VNode {
     return (
-      <Host onCalciteActionMenuOpenChange={this.actionMenuOpenChangeHandler}>
+      <Host onCalciteActionMenuOpen={this.actionMenuOpenHandler}>
         <div class={CSS.container}>
           <slot />
           {this.renderBottomActionGroup()}

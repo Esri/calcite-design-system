@@ -199,7 +199,7 @@ describe("calcite-action-pad", () => {
 
   it("has slots", () => slots("calcite-action-pad", SLOTS));
 
-  it("'calciteActionMenuOpenChange' event should set other 'calcite-action-group' - 'menuOpen' to false", async () => {
+  it("'calciteActionMenuOpen' event should set other 'calcite-action-group' - 'menuOpen' to false", async () => {
     const page = await newE2EPage({
       html: `<calcite-action-pad>
           <calcite-action-group>
@@ -220,7 +220,7 @@ describe("calcite-action-pad", () => {
         </calcite-action-pad>`
     });
 
-    const eventSpy = await page.spyOnEvent("calciteActionMenuOpenChange", "window");
+    const eventSpy = await page.spyOnEvent("calciteActionMenuOpen", "window");
 
     await page.waitForChanges();
 
