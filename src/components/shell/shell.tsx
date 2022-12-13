@@ -41,15 +41,7 @@ export class Shell implements ConditionalSlotComponent {
   //
   // --------------------------------------------------------------------------
 
-  @Element() el!: HTMLCalciteShellElement;
-
-  private hasHeader = !!getSlotted(this.el, SLOTS.header);
-
-  private hasFooter = !!getSlotted(this.el, SLOTS.footer);
-
-  private hasModal = !!getSlotted(this.el, SLOTS.modal, { matches: "calcite-modal" });
-
-  private hasAlerts = !!getSlotted(this.el, SLOTS.alerts, { matches: "calcite-alert" });
+  @Element() el: HTMLCalciteShellElement;
 
   // --------------------------------------------------------------------------
   //
@@ -72,15 +64,19 @@ export class Shell implements ConditionalSlotComponent {
   // --------------------------------------------------------------------------
 
   renderHeader(): VNode {
-    return <slot key="header" name={SLOTS.header} />;
+    const hasHeader = !!getSlotted(this.el, SLOTS.header);
+
+    return hasHeader ? <slot key="header" name={SLOTS.header} /> : null;
   }
 
   renderFooter(): VNode {
-    return (
+    const hasFooter = !!getSlotted(this.el, SLOTS.footer);
+
+    return hasFooter ? (
       <div class={CSS.footer} key="footer">
         <slot name={SLOTS.footer} />
       </div>
-    );
+    ) : null;
   }
 
   renderAlerts(): VNode {
@@ -130,21 +126,24 @@ export class Shell implements ConditionalSlotComponent {
   }
 
   renderPositionedSlots(): VNode {
-    return (
+    const hasModal = !!getSlotted(this.el, SLOTS.modal, { matches: "calcite-modal" });
+    const hasAlerts = !!getSlotted(this.el, SLOTS.alerts, { matches: "calcite-alert" });
+
+    return hasModal || hasAlerts ? (
       <div class={CSS.positionedSlotWrapper}>
         {this.renderAlerts()}
         {this.renderModal()}
       </div>
-    );
+    ) : null;
   }
 
   render(): VNode {
     return (
       <Fragment>
-        {this.hasHeader && this.renderHeader()}
+        {this.renderHeader()}
         {this.renderMain()}
-        {this.hasFooter && this.renderFooter()}
-        {(this.hasAlerts || this.hasModal) && this.renderPositionedSlots()}
+        {this.renderFooter()}
+        {this.renderPositionedSlots()}
       </Fragment>
     );
   }

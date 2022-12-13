@@ -189,8 +189,7 @@ export class Modal
           <div
             class={{
               [CSS.modal]: true,
-              [CSS.modalOpen]: this.isOpen,
-              [CSS.slottedInShell]: this.isSlottedInShell
+              [CSS.modalOpen]: this.isOpen
             }}
             ref={this.setTransitionEl}
           >

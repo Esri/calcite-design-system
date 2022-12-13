@@ -10,6 +10,13 @@
  * @prop --calcite-scrim-background: The component's semi-transparent background color.
  */
 
+:host {
+  @apply absolute flex inset-0 opacity-0 z-overlay;
+  visibility: hidden !important;
+  transition: visibility 0ms linear var(--calcite-internal-animation-timing-slow),
+    opacity var(--calcite-internal-animation-timing-slow) $easing-function;
+}
+
 .container {
   @apply text-color-2
     fixed
@@ -103,6 +110,12 @@
       transform: var(--calcite-modal-hidden-position);
     }
   }
+}
+
+:host([open]) {
+  @apply opacity-100;
+  visibility: visible !important;
+  transition-delay: 0ms;
 }
 
 :host([open]) .container {
