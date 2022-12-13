@@ -348,6 +348,7 @@ export class ActionBar
       <ExpandToggle
         el={el}
         expanded={expanded}
+        // rename intl properties for 1.0
         intlCollapse={messages.collapse}
         intlExpand={messages.expand}
         position={position}
