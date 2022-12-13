@@ -14,7 +14,10 @@ import { storyFilters } from "../../../.storybook/helpers";
 export default {
   title: "Components/Action Pad",
   parameters: {
-    notes: readme
+    notes: readme,
+    chromatic: {
+      delay: 500
+    }
   },
   ...storyFilters()
 };
