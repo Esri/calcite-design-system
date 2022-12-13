@@ -60,11 +60,6 @@ export class Notice implements ConditionalSlotComponent, LoadableComponent {
   //
   //---------------------------------------------------------------------------
 
-  @Watch("active")
-  activeHandler(value: boolean): void {
-    this.open = value;
-  }
-
   /** When `true`, the component is visible. */
   @Prop({ reflect: true, mutable: true }) open = false;
 
