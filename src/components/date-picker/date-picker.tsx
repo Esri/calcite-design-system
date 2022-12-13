@@ -169,13 +169,6 @@ export class DatePicker implements LocalizedComponent {
   /** When `true`, activates the component's range mode to allow a start and end date. */
   @Prop({ reflect: true }) range = false;
 
-  /**
-   * Specifies the selected end date.
-   *
-   * @deprecated use `value` instead.
-   */
-  @Prop({ mutable: true, reflect: true }) end: string;
-
   /** When `true`, disables the default behavior on the third click of narrowing or extending the range and instead starts a new range. */
   @Prop({ reflect: true }) proximitySelectionDisabled = false;
 
@@ -218,13 +211,8 @@ export class DatePicker implements LocalizedComponent {
 
     if (Array.isArray(this.value)) {
       this.valueAsDate = getValueAsDateRange(this.value);
-      this.end = this.value[1];
     } else if (this.value) {
       this.valueAsDate = dateFromISO(this.value);
-    }
-
-    if (this.end) {
-      this.setEndAsDate(dateFromISO(this.end));
     }
 
     if (this.min) {
@@ -319,16 +307,9 @@ export class DatePicker implements LocalizedComponent {
   valueHandler(value: string | string[]): void {
     if (Array.isArray(value)) {
       this.valueAsDate = getValueAsDateRange(value);
-      this.end = value[1];
     } else if (value) {
       this.valueAsDate = dateFromISO(value);
-      this.end = "";
     }
-  }
-
-  @Watch("end")
-  endWatcher(end: string): void {
-    this.setEndAsDate(dateFromISO(end));
   }
 
   @Watch("effectiveLocale")
@@ -543,7 +524,6 @@ export class DatePicker implements LocalizedComponent {
   };
 
   private setEndDate(date: Date): void {
-    this.end = date ? dateToISO(date) : "";
     this.setEndAsDate(date, true);
     this.activeEndDate = date || null;
   }
