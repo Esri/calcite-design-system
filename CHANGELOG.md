@@ -249,6 +249,10 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### Bug Fixes
 
+- **popover, modal:** deactivate focus trap on outside click ([#5994](https://github.com/Esri/calcite-components/issues/5994)) ([2a66134](https://github.com/Esri/calcite-components/commit/2a661343f1ee9fc9afda347990f40d33ad41295d)), closes [#5993](https://github.com/Esri/calcite-components/issues/5993)
+
+* **loader:** no longer animates when reduced motion is enabled ([#5981](https://github.com/Esri/calcite-components/issues/5981)) ([4d994e5](https://github.com/Esri/calcite-components/commit/4d994e5f845b828df8f37b61923fc5cceed3819a)), closes [#3489](https://github.com/Esri/calcite-components/issues/3489)
+
 - **modal, popover:** Add `disableFocusTrap` property to toggle focus trapping. ([#5965](https://github.com/Esri/calcite-components/issues/5965)) ([7ee9e16](https://github.com/Esri/calcite-components/commit/7ee9e16fbc5a12c82f85a5e2fb07c0d1137d03ce))
 
 * **input, input-number, input-text:** Fix infinite loop crashing browser. [#5882](https://github.com/Esri/calcite-components/issues/5882) ([#5961](https://github.com/Esri/calcite-components/issues/5961)) ([190cfac](https://github.com/Esri/calcite-components/commit/190cfac2dbdc0c312ebf396d66894a07ae7086b9))
