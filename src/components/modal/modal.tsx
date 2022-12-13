@@ -12,7 +12,7 @@ import {
   VNode,
   Watch
 } from "@stencil/core";
-import { ensureId, getSlotted } from "../../utils/dom";
+import { ensureId, focusElement, getSlotted } from "../../utils/dom";
 import { Scale } from "../interfaces";
 import { ModalBackgroundColor } from "./interfaces";
 import { CSS, ICONS, SLOTS, TEXT } from "./resources";
