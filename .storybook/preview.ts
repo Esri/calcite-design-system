@@ -3,9 +3,7 @@ import { withDirection } from "storybook-rtl-addon";
 import { Theme } from "storybook-addon-themes/dist/models/Theme";
 
 declare global {
-  interface Window {
-    __screener_storybook__: any;
-  }
+  interface Window {}
 }
 
 const themeBodyClassDecorator = (Story: () => any, context: any) => {
