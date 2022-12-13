@@ -25,7 +25,7 @@
       .success,
       .warning,
       .danger,
-      .auto-dismiss-speed,
+      .auto-close-speed,
       .alert-insert-in-dom,
       .setfocus {
         margin: 0 auto;
@@ -35,7 +35,7 @@
         grid-gap: 50px;
       }
 
-      .auto-dismiss-speed {
+      .auto-close-speed {
         grid-template-columns: repeat(3, 1fr);
       }
 
@@ -773,7 +773,7 @@
           </div>
           <div class="second-container-margin">
             <!-- updates the speed of the autodismiss progress bar i.e. fast, medium, slow -->
-            <p>Auto-dismiss speed</p>
+            <p>auto-close speed</p>
             <calcite-radio-group width="full">
               <calcite-radio-group-item value="Fast" onclick="autoDismissSpeed('fast');">Fast</calcite-radio-group-item>
               <calcite-radio-group-item value="Medium" onclick="autoDismissSpeed('medium');" checked
@@ -783,9 +783,9 @@
             </calcite-radio-group>
             <script>
               const autoDismissSpeed = (speed) => {
-                const openAlerts = document.querySelectorAll("calcite-alert[auto-dismiss][open]");
+                const openAlerts = document.querySelectorAll("calcite-alert[auto-close][open]");
                 if (!openAlerts.length) return;
-                openAlerts.forEach((alert) => alert.setAttribute("auto-dismiss-duration", speed));
+                openAlerts.forEach((alert) => alert.setAttribute("auto-close-duration", speed));
               };
             </script>
           </div>
@@ -843,9 +843,9 @@
           <div slot="message">This is an alert with a general piece of information. Cool, innit?</div>
         </calcite-alert>
 
-        <calcite-alert label="this is an alert" id="default-s-autodismiss" scale="s" auto-dismiss icon>
+        <calcite-alert label="this is an alert" id="default-s-autodismiss" scale="s" auto-close icon>
           <div slot="title">Hello there!</div>
-          <div slot="message">This is an auto-dismiss message</div>
+          <div slot="message">This is an auto-close message</div>
           <calcite-link slot="link" title="my action"> Do thing </calcite-link>
         </calcite-alert>
 
@@ -873,7 +873,7 @@
           id="default-s-success-autodismiss"
           scale="s"
           color="green"
-          auto-dismiss
+          auto-close
           icon
         >
           <div slot="title">Hello there!</div>
@@ -917,7 +917,7 @@
           id="default-s-warning-autodismiss"
           scale="s"
           color="yellow"
-          auto-dismiss
+          auto-close
           icon
         >
           <div slot="title">Hello there!</div>
@@ -956,14 +956,7 @@
           <div slot="message">This is a danger area.</div>
         </calcite-alert>
 
-        <calcite-alert
-          label="this is a danger"
-          id="default-s-danger-autodismiss"
-          scale="s"
-          color="red"
-          auto-dismiss
-          icon
-        >
+        <calcite-alert label="this is a danger" id="default-s-danger-autodismiss" scale="s" color="red" auto-close icon>
           <div slot="title">Hello there!</div>
           <div slot="message">You can not enter here.</div>
           <calcite-link slot="link" title="my action"> Do thing </calcite-link>
@@ -999,9 +992,9 @@
           <div slot="message">This is an alert with a general piece of information. Cool, innit?</div>
         </calcite-alert>
 
-        <calcite-alert label="this is an alert" id="default-m-autodismiss" scale="m" auto-dismiss icon>
+        <calcite-alert label="this is an alert" id="default-m-autodismiss" scale="m" auto-close icon>
           <div slot="title">Hello there!</div>
-          <div slot="message">This is an auto-dismiss message</div>
+          <div slot="message">This is an auto-close message</div>
           <calcite-link slot="link" title="my action"> Do thing </calcite-link>
         </calcite-alert>
 
@@ -1029,7 +1022,7 @@
           id="default-m-success-autodismiss"
           scale="m"
           color="green"
-          auto-dismiss
+          auto-close
           icon
         >
           <div slot="title">Hello there!</div>
@@ -1073,7 +1066,7 @@
           id="default-m-warning-autodismiss"
           scale="m"
           color="yellow"
-          auto-dismiss
+          auto-close
           icon
         >
           <div slot="title">Hello there!</div>
@@ -1112,14 +1105,7 @@
           <div slot="message">This is a danger area.</div>
         </calcite-alert>
 
-        <calcite-alert
-          label="this is a danger"
-          id="default-m-danger-autodismiss"
-          scale="m"
-          color="red"
-          auto-dismiss
-          icon
-        >
+        <calcite-alert label="this is a danger" id="default-m-danger-autodismiss" scale="m" color="red" auto-close icon>
           <div slot="title">Hello there!</div>
           <div slot="message">You can not enter here.</div>
           <calcite-link slot="link" title="my action"> Do thing </calcite-link>
@@ -1155,9 +1141,9 @@
           <div slot="message">This is an alert with a general piece of information. Cool, innit?</div>
         </calcite-alert>
 
-        <calcite-alert label="this is an alert" id="default-l-autodismiss" scale="l" auto-dismiss icon>
+        <calcite-alert label="this is an alert" id="default-l-autodismiss" scale="l" auto-close icon>
           <div slot="title">Hello there!</div>
-          <div slot="message">This is an auto-dismiss message</div>
+          <div slot="message">This is an auto-close message</div>
           <calcite-link slot="link" title="my action"> Do thing </calcite-link>
         </calcite-alert>
 
@@ -1185,7 +1171,7 @@
           id="default-l-success-autodismiss"
           scale="l"
           color="green"
-          auto-dismiss
+          auto-close
           icon
         >
           <div slot="title">Hello there!</div>
@@ -1229,7 +1215,7 @@
           id="default-l-warning-autodismiss"
           scale="l"
           color="yellow"
-          auto-dismiss
+          auto-close
           icon
         >
           <div slot="title">Hello there!</div>
@@ -1268,14 +1254,7 @@
           <div slot="message">This is a danger area.</div>
         </calcite-alert>
 
-        <calcite-alert
-          label="this is a danger"
-          id="default-l-danger-autodismiss"
-          scale="l"
-          color="red"
-          auto-dismiss
-          icon
-        >
+        <calcite-alert label="this is a danger" id="default-l-danger-autodismiss" scale="l" color="red" auto-close icon>
           <div slot="title">Hello there!</div>
           <div slot="message">You can not enter here.</div>
           <calcite-link slot="link" title="my action"> Do thing </calcite-link>
