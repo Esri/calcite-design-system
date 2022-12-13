@@ -5,8 +5,6 @@ import { html } from "../../../support/formatting";
 import readme from "./readme.md";
 
 import { filterComponentAttributes, Attributes, createComponentHTML as create } from "../../../.storybook/utils";
-import { createSteps, stepStory } from "../../../.storybook/helpers";
-import { Keys } from "screener-storybook/src/screener";
 
 const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ exceptions } = { exceptions: [] }) => {
   return filterComponentAttributes([], exceptions);
@@ -47,8 +45,3 @@ export const darkThemeRTL_TestOnly = (): string => html`
 `;
 
 darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };
-
-export const keyboardNavigation_TestOnly = stepStory(
-  (): string => html`${create("calcite-checkbox", createAttributes())}`,
-  createSteps("calcite-checkbox").keys("body", Keys.tab).snapshot("focus")
-);
