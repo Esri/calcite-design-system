@@ -1039,7 +1039,7 @@ describe("calcite-dropdown", () => {
   it.skip("dropdown should not overflow when wrapped inside a tab #3007", async () => {
     const page = await newE2EPage({
       html: html`<calcite-tabs>
-        <calcite-tab-nav slot="tab-nav">
+        <calcite-tab-nav slot="title-group">
           <calcite-tab-title is-active>First tab</calcite-tab-title>
         </calcite-tab-nav>
         <calcite-tab is-active>
