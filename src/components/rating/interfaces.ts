@@ -14,7 +14,7 @@ export interface Star {
 }
 
 export interface StarIconProps {
-  icon: string;
+  full: boolean;
   scale: Scale;
   partial?: boolean;
 }

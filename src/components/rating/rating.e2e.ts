@@ -319,10 +319,10 @@ describe("calcite-rating", () => {
       expect(hoveredEl.length).toEqual(5);
       expect(selectedEl.length).toEqual(0);
       expect(await page.find("calcite-rating >>> .fraction")).toBeNull();
-      expect(icons[0]).toEqualAttribute("icon", "star-f");
-      expect(icons[1]).toEqualAttribute("icon", "star-f");
-      expect(icons[2]).toEqualAttribute("icon", "star-f");
-      expect(icons[3]).toEqualAttribute("icon", "star-f");
+      expect(icons[0]).toEqualAttribute("icon", "star");
+      expect(icons[1]).toEqualAttribute("icon", "star");
+      expect(icons[2]).toEqualAttribute("icon", "star");
+      expect(icons[3]).toEqualAttribute("icon", "star");
       expect(icons[4]).toEqualAttribute("icon", "star");
     });
 
@@ -411,6 +411,32 @@ describe("calcite-rating", () => {
       expect(element).toEqualAttribute("value", "3");
     });
 
+    it("should select the first star when tabbing into a rating with an average set", async () => {
+      const page = await newE2EPage();
+      await page.setContent('<calcite-rating average="3"></calcite-rating>');
+      const icons = await page.findAll("calcite-rating >>> .icon");
+      const labels = await page.findAll("calcite-rating >>> .star");
+
+      await page.keyboard.press("Tab");
+      await page.waitForChanges();
+
+      expect(icons[0]).toEqualAttribute("icon", "star");
+      expect(icons[1]).toEqualAttribute("icon", "star");
+      expect(icons[2]).toEqualAttribute("icon", "star");
+      expect(icons[3]).toEqualAttribute("icon", "star");
+      expect(icons[4]).toEqualAttribute("icon", "star");
+      expect(labels[0]).not.toHaveClass("selected");
+      expect(labels[1]).not.toHaveClass("selected");
+      expect(labels[2]).not.toHaveClass("selected");
+      expect(labels[3]).not.toHaveClass("selected");
+      expect(labels[4]).not.toHaveClass("selected");
+      expect(labels[1]).not.toHaveClass("average");
+      expect(labels[1]).not.toHaveClass("average");
+      expect(labels[2]).not.toHaveClass("average");
+      expect(labels[3]).not.toHaveClass("average");
+      expect(labels[4]).not.toHaveClass("average");
+    });
+
     it("should update the UI when the arrow keys are pressed", async () => {
       const page = await newE2EPage();
       await page.setContent("<calcite-rating></calcite-rating>");
@@ -440,6 +466,11 @@ describe("calcite-rating", () => {
       expect(labels[2]).not.toHaveClass("selected");
       expect(labels[3]).not.toHaveClass("selected");
       expect(labels[4]).not.toHaveClass("selected");
+      expect(labels[0]).not.toHaveClass("focused");
+      expect(labels[1]).toHaveClass("focused");
+      expect(labels[2]).not.toHaveClass("focused");
+      expect(labels[3]).not.toHaveClass("focused");
+      expect(labels[4]).not.toHaveClass("focused");
       expect(element).toEqualAttribute("value", "2");
       expect(changeEvent).toHaveReceivedEventTimes(3);
     });
