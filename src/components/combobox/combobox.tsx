@@ -620,7 +620,7 @@ export class Combobox
     await this.reposition(true);
   };
 
-  calciteChipDismissHandler = (comboboxItem: HTMLCalciteComboboxItemElement): void => {
+  calciteChipCloseHandler = (comboboxItem: HTMLCalciteComboboxItemElement): void => {
     this.open = false;
 
     const selection = this.items.find((item) => item === comboboxItem);
@@ -1030,7 +1030,7 @@ export class Combobox
           icon={item.icon}
           id={item.guid ? `${chipUidPrefix}${item.guid}` : null}
           key={item.textLabel}
-          onCalciteChipDismiss={() => this.calciteChipDismissHandler(item)}
+          onCalciteChipClose={() => this.calciteChipCloseHandler(item)}
           scale={scale}
           title={label}
           value={item.value}

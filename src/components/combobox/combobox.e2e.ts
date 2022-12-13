@@ -432,7 +432,7 @@ describe("calcite-combobox", () => {
 
       const chip = await page.find("calcite-combobox >>> calcite-chip");
 
-      chip.triggerEvent("calciteChipDismiss");
+      chip.triggerEvent("calciteChipClose");
 
       await page.waitForChanges();
 

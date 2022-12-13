@@ -117,7 +117,7 @@ export class Chip implements ConditionalSlotComponent, LoadableComponent {
    *
    * **Note:**: The `el` event payload props is deprecated, please use the event's `target`/`currentTarget` instead.
    */
-  @Event({ cancelable: false }) calciteChipDismiss: EventEmitter<DeprecatedEventPayload>;
+  @Event({ cancelable: false }) calciteChipClose: EventEmitter<DeprecatedEventPayload>;
 
   // --------------------------------------------------------------------------
   //
@@ -127,7 +127,7 @@ export class Chip implements ConditionalSlotComponent, LoadableComponent {
 
   closeClickHandler = (event: MouseEvent): void => {
     event.preventDefault();
-    this.calciteChipDismiss.emit(this.el);
+    this.calciteChipClose.emit(this.el);
     this.closed = true;
   };
 
