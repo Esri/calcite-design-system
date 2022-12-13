@@ -26,14 +26,6 @@ export class InputMessage {
   //
   //--------------------------------------------------------------------------
 
-  /**
-   * When `true`, the component is active.
-   *
-   * @deprecated use global `hidden` attribute instead.
-   * @mdn [hidden](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/hidden)
-   */
-  @Prop({ reflect: true }) active = false;
-
   /** Specifies an icon to display. */
   @Prop({ reflect: true }) icon: boolean | string;
 
@@ -45,13 +37,6 @@ export class InputMessage {
 
   /** Specifies the status of the input field, which determines message and icons. */
   @Prop({ reflect: true, mutable: true }) status: Status = "idle";
-
-  /**
-   * Specifies the appearance of a slotted message - `"default"` (displayed under the component), or `"floating"` (positioned absolutely under the component).
-   *
-   * @deprecated The `"floating"` type is no longer supported.
-   */
-  @Prop({ reflect: true }) type: "default";
 
   @Watch("status")
   @Watch("icon")
@@ -66,13 +51,12 @@ export class InputMessage {
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
-    this.status = getElementProp(this.el, "status", this.status);
     this.scale = getElementProp(this.el, "scale", this.scale);
     this.requestedIcon = setRequestedIcon(StatusIconDefaults, this.icon, this.status);
   }
 
   render(): VNode {
-    const hidden = !this.active;
+    const hidden = this.el.hidden;
     return (
       <Host calcite-hydrated-hidden={hidden}>
         {this.renderIcon(this.requestedIcon)}

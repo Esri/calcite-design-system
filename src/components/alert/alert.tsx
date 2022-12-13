@@ -46,9 +46,9 @@ import {
  */
 
 /**
- * @slot title - A slot for optionally adding a title to the component.
+ * @slot title - A slot for adding a title to the component.
  * @slot message - A slot for adding main text to the component.
- * @slot link - A slot for optionally adding an action to take from the alert (undo, try again, link to page, etc.)
+ * @slot link - A slot for adding a `calcite-action` to take from the component such as: "undo", "try again", "link to page", etc.
  * @slot actions-end - A slot for adding actions to the end of the component. It is recommended to use two or fewer actions.
  */
 
@@ -117,7 +117,7 @@ export class Alert implements OpenCloseComponent, LocalizedComponent, LoadableCo
   /**
    * Specifies the Unicode numeral system used by the component for localization.
    */
-  @Prop({ reflect: true }) numberingSystem?: NumberingSystem;
+  @Prop({ reflect: true }) numberingSystem: NumberingSystem;
 
   /** Specifies the placement of the component */
   @Prop({ reflect: true }) placement: AlertPlacement = "bottom";
@@ -169,6 +169,7 @@ export class Alert implements OpenCloseComponent, LocalizedComponent, LoadableCo
 
   disconnectedCallback(): void {
     window.clearTimeout(this.autoDismissTimeoutId);
+    window.clearTimeout(this.queueTimeout);
     disconnectOpenCloseComponent(this);
     disconnectLocalized(this);
   }
@@ -229,6 +230,12 @@ export class Alert implements OpenCloseComponent, LocalizedComponent, LoadableCo
             queued,
             [placement]: true
           }}
+          onPointerOut={
+            this.autoDismiss && this.autoDismissTimeoutId ? this.handleMouseLeave : null
+          }
+          onPointerOver={
+            this.autoDismiss && this.autoDismissTimeoutId ? this.handleMouseOver : null
+          }
           ref={this.setTransitionEl}
         >
           {requestedIcon ? (
@@ -249,7 +256,7 @@ export class Alert implements OpenCloseComponent, LocalizedComponent, LoadableCo
             {slotNode}
           </div>
           {this.queueLength > 1 ? queueCount : null}
-          {!autoDismiss ? closeButton : null}
+          {closeButton}
           {open && !queued && autoDismiss ? <div class="alert-dismiss-progress" /> : null}
         </div>
       </Host>
@@ -358,7 +365,9 @@ export class Alert implements OpenCloseComponent, LocalizedComponent, LoadableCo
 
   private queueTimeout: number;
 
-  private trackTimer = Date.now();
+  private trackTimer: number;
+
+  private remainingPausedTimeout = 0;
 
   /** the computed icon to render */
   /* @internal */
@@ -429,5 +438,18 @@ export class Alert implements OpenCloseComponent, LocalizedComponent, LoadableCo
 
   private actionsEndSlotChangeHandler = (event: Event): void => {
     this.hasEndActions = slotChangeHasAssignedElement(event);
+  };
+
+  private handleMouseOver = (): void => {
+    window.clearTimeout(this.autoDismissTimeoutId);
+    this.remainingPausedTimeout =
+      DURATIONS[this.autoDismissDuration] - Date.now() - this.trackTimer;
+  };
+
+  private handleMouseLeave = (): void => {
+    this.autoDismissTimeoutId = window.setTimeout(
+      () => this.closeAlert(),
+      this.remainingPausedTimeout
+    );
   };
 }

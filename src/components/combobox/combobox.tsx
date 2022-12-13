@@ -152,10 +152,10 @@ export class Combobox
   @Prop() label!: string;
 
   /** Specifies the placeholder text for the input. */
-  @Prop() placeholder?: string;
+  @Prop() placeholder: string;
 
   /** Specifies the placeholder icon for the input. */
-  @Prop({ reflect: true }) placeholderIcon?: string;
+  @Prop({ reflect: true }) placeholderIcon: string;
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @Prop({ reflect: true }) placeholderIconFlipRtl = false;
@@ -235,7 +235,7 @@ export class Combobox
   /**
    * Defines the available placements that can be used when a flip occurs.
    */
-  @Prop() flipPlacements?: EffectivePlacement[];
+  @Prop() flipPlacements: EffectivePlacement[];
 
   @Watch("flipPlacements")
   flipPlacementsHandler(): void {

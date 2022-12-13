@@ -47,7 +47,7 @@ export class PickListItem
   /**
    * A description for the component that displays below the label text.
    */
-  @Prop({ reflect: true }) description?: string;
+  @Prop({ reflect: true }) description: string;
 
   @Watch("description")
   descriptionWatchHandler(): void {
@@ -74,7 +74,7 @@ export class PickListItem
    *
    * @see [ICON_TYPES](https://github.com/Esri/calcite-components/blob/master/src/components/pick-list/resources.ts#L5)
    */
-  @Prop({ reflect: true }) icon?: ICON_TYPES | null = null;
+  @Prop({ reflect: true }) icon: ICON_TYPES | null = null;
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @Prop({ reflect: true }) iconFlipRtl = false;
@@ -92,7 +92,7 @@ export class PickListItem
   /**
    * Provides additional metadata to the component. Primary use is for a filter on the parent list.
    */
-  @Prop() metadata?: Record<string, unknown>;
+  @Prop() metadata: Record<string, unknown>;
 
   @Watch("metadata")
   metadataWatchHandler(): void {
@@ -102,7 +102,7 @@ export class PickListItem
   /**
    * When `true`, displays a remove action that removes the item from the list.
    */
-  @Prop({ reflect: true }) removable? = false;
+  @Prop({ reflect: true }) removable = false;
 
   /**
    * When `true`, selects an item. Toggles when an item is checked/unchecked.

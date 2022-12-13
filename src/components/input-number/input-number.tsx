@@ -1,4 +1,4 @@
-import { DeprecatedEventPayload, Position, Scale, Status } from "../interfaces";
+import { Position, Scale, Status } from "../interfaces";
 import {
   Component,
   Element,
@@ -21,7 +21,7 @@ import {
 } from "../../utils/dom";
 
 import { CSS, SLOTS, TEXT } from "./resources";
-import { InputPlacement } from "./interfaces";
+import { InputPlacement, NumberNudgeDirection, SetValueOrigin } from "../input/interfaces";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import {
   connectForm,
@@ -36,8 +36,7 @@ import {
   defaultNumberingSystem,
   LocalizedComponent,
   disconnectLocalized,
-  connectLocalized,
-  updateEffectiveLocale
+  connectLocalized
 } from "../../utils/locale";
 import { numberKeys } from "../../utils/key";
 import { isValidNumber, parseNumberString, sanitizeNumberString } from "../../utils/number";
@@ -51,9 +50,6 @@ import {
   LoadableComponent,
   componentLoaded
 } from "../../utils/loadable";
-
-type NumberNudgeDirection = "up" | "down";
-type setNumberValueOrigin = "initial" | "connected" | "user" | "reset" | "direct";
 
 /**
  * @slot action - A slot for positioning a button next to the component.
@@ -132,41 +128,28 @@ export class InputNumber
   /**
    * A text label that will appear on the clear button for screen readers.
    */
-  @Prop() intlClear?: string;
+  @Prop() intlClear: string;
 
   /**
    * Accessible name that will appear while loading.
    *
    * @default "Loading"
    */
-  @Prop() intlLoading?: string = COMMON_TEXT.loading;
+  @Prop() intlLoading: string = COMMON_TEXT.loading;
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @Prop({ reflect: true }) iconFlipRtl = false;
 
   /** Accessible name for the component's button or hyperlink. */
-  @Prop() label?: string;
+  @Prop() label: string;
 
   /** When `true`, the component is in the loading state and `calcite-progress` is displayed. */
   @Prop({ reflect: true }) loading = false;
 
   /**
-   * Specifies the BCP 47 language tag for the desired language and country format.
-   *
-   * @deprecated set the global `lang` attribute on the element instead.
-   * @mdn [lang](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/lang)
-   */
-  @Prop() locale: string;
-
-  @Watch("locale")
-  localeChanged(): void {
-    updateEffectiveLocale(this);
-  }
-
-  /**
    * Specifies the Unicode numeral system used by the component for localization.
    */
-  @Prop({ reflect: true }) numberingSystem?: NumberingSystem;
+  @Prop({ reflect: true }) numberingSystem: NumberingSystem;
 
   /**
    * Toggles locale formatting for numbers.
@@ -180,7 +163,7 @@ export class InputNumber
    *
    * @mdn [max](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#max)
    */
-  @Prop({ reflect: true }) max?: number;
+  @Prop({ reflect: true }) max: number;
 
   /** watcher to update number-to-string for max */
   @Watch("max")
@@ -193,7 +176,7 @@ export class InputNumber
    *
    * @mdn [min](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#min)
    */
-  @Prop({ reflect: true }) min?: number;
+  @Prop({ reflect: true }) min: number;
 
   /** watcher to update number-to-string for min */
   @Watch("min")
@@ -206,14 +189,14 @@ export class InputNumber
    *
    * @mdn [maxlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#maxlength)
    */
-  @Prop({ reflect: true }) maxLength?: number;
+  @Prop({ reflect: true }) maxLength: number;
 
   /**
    * Specifies the minimum length of text for the component's value.
    *
    * @mdn [minlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#minlength)
    */
-  @Prop({ reflect: true }) minLength?: number;
+  @Prop({ reflect: true }) minLength: number;
 
   /**
    * Specifies the name of the component.
@@ -223,7 +206,7 @@ export class InputNumber
   @Prop({ reflect: true }) name: string;
 
   /** Specifies the placement of the buttons. */
-  @Prop({ reflect: true }) numberButtonType?: InputPlacement = "vertical";
+  @Prop({ reflect: true }) numberButtonType: InputPlacement = "vertical";
 
   /**
    * Specifies placeholder text for the component.
@@ -233,7 +216,7 @@ export class InputNumber
   @Prop() placeholder: string;
 
   /** Adds text to the start of the component. */
-  @Prop() prefixText?: string;
+  @Prop() prefixText: string;
 
   /**
    * When `true`, the component's value can be read, but cannot be modified.
@@ -256,7 +239,7 @@ export class InputNumber
    *
    * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/step)
    */
-  @Prop({ reflect: true }) step?: number | "any";
+  @Prop({ reflect: true }) step: number | "any";
 
   /**
    * Specifies the type of content to autocomplete, for use in forms.
@@ -266,8 +249,24 @@ export class InputNumber
    */
   @Prop() autocomplete: string;
 
+  /**
+   * Specifies the type of content to help devices display an appropriate virtual keyboard.
+   * Read the native attribute's documentation on MDN for more info.
+   *
+   * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/inputmode)
+   */
+  @Prop() inputMode = "decimal";
+
+  /**
+   * Specifies the action label or icon for the Enter key on virtual keyboards.
+   * Read the native attribute's documentation on MDN for more info.
+   *
+   * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/enterkeyhint)
+   */
+  @Prop() enterKeyHint: string;
+
   /** Adds text to the end of the component.  */
-  @Prop() suffixText?: string;
+  @Prop() suffixText: string;
 
   /**
    * @internal
@@ -329,7 +328,7 @@ export class InputNumber
 
   private previousValue: string;
 
-  private previousValueOrigin: setNumberValueOrigin = "initial";
+  private previousValueOrigin: SetValueOrigin = "initial";
 
   /** the computed icon to render */
   private requestedIcon?: string;
@@ -348,6 +347,15 @@ export class InputNumber
 
   @State() effectiveLocale = "";
 
+  @Watch("effectiveLocale")
+  effectiveLocaleWatcher(locale: string): void {
+    numberStringFormatter.numberFormatOptions = {
+      locale,
+      numberingSystem: this.numberingSystem,
+      useGrouping: false
+    };
+  }
+
   @State() localizedValue: string;
 
   //--------------------------------------------------------------------------
@@ -360,7 +368,6 @@ export class InputNumber
     connectLocalized(this);
 
     this.scale = getElementProp(this.el, "scale", this.scale);
-    this.status = getElementProp(this.el, "status", this.status);
     this.inlineEditableEl = this.el.closest("calcite-inline-editable");
     if (this.inlineEditableEl) {
       this.editingEnabled = this.inlineEditableEl.editingEnabled || false;
@@ -435,10 +442,8 @@ export class InputNumber
 
   /**
    * Fires each time a new value is typed.
-   *
-   * **Note:**: The `el` and `value` event payload props are deprecated, please use the event's `target`/`currentTarget` instead
    */
-  @Event({ cancelable: true }) calciteInputNumberInput: EventEmitter<DeprecatedEventPayload>;
+  @Event({ cancelable: true }) calciteInputNumberInput: EventEmitter<void>;
 
   /**
    * Fires each time a new value is typed and committed.
@@ -539,11 +544,14 @@ export class InputNumber
     this.emitChangeIfUserModified();
   };
 
-  private inputNumberFocusHandler = (event: FocusEvent): void => {
+  private clickHandler = (event: MouseEvent): void => {
     const slottedActionEl = getSlotted(this.el, "action");
     if (event.target !== slottedActionEl) {
       this.setFocus();
     }
+  };
+
+  private inputNumberFocusHandler = (): void => {
     this.calciteInternalInputNumberFocus.emit();
   };
 
@@ -759,7 +767,7 @@ export class InputNumber
   }: {
     committing?: boolean;
     nativeEvent?: MouseEvent | KeyboardEvent | InputEvent;
-    origin: setNumberValueOrigin;
+    origin: SetValueOrigin;
     previousValue?: string;
     value: string;
   }): void => {
@@ -796,11 +804,7 @@ export class InputNumber
     }
 
     if (nativeEvent) {
-      const calciteInputNumberInputEvent = this.calciteInputNumberInput.emit({
-        element: this.childNumberEl,
-        nativeEvent,
-        value: this.value
-      });
+      const calciteInputNumberInputEvent = this.calciteInputNumberInput.emit();
 
       if (calciteInputNumberInputEvent.defaultPrevented) {
         const previousLocalizedValue = numberStringFormatter.localize(this.previousValue);
@@ -915,8 +919,8 @@ export class InputNumber
         autofocus={this.autofocus ? true : null}
         defaultValue={this.defaultValue}
         disabled={this.disabled ? true : null}
-        enterKeyHint={this.el.enterKeyHint}
-        inputMode={this.el.inputMode}
+        enterKeyHint={this.enterKeyHint}
+        inputMode={this.inputMode}
         key="localized-input"
         maxLength={this.maxLength}
         minLength={this.minLength}
@@ -935,7 +939,7 @@ export class InputNumber
     );
 
     return (
-      <Host onClick={this.inputNumberFocusHandler} onKeyDown={this.keyDownHandler}>
+      <Host onClick={this.clickHandler} onKeyDown={this.keyDownHandler}>
         <div class={{ [CSS.inputWrapper]: true, [CSS_UTILITY.rtl]: dir === "rtl" }}>
           {this.numberButtonType === "horizontal" && !this.readOnly
             ? numberButtonsHorizontalDown

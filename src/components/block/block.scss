@@ -135,6 +135,8 @@ calcite-handle {
 
 .content {
   @apply animate-in flex-1 relative;
+  padding-block: var(--calcite-block-padding, theme("spacing.2"));
+  padding-inline: var(--calcite-block-padding, theme("spacing[2.5]"));
 }
 
 .control-container {

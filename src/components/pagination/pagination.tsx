@@ -51,7 +51,7 @@ export class Pagination implements LocalizedComponent {
   /**
    * Specifies the Unicode numeral system used by the component for localization.
    */
-  @Prop() numberingSystem?: NumberingSystem;
+  @Prop() numberingSystem: NumberingSystem;
 
   /** Specifies the starting item number. */
   @Prop({ mutable: true, reflect: true }) start = 1;
