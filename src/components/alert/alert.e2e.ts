@@ -406,7 +406,7 @@ describe("calcite-alert", () => {
       await button.click();
 
       expect(await alert.isVisible()).toBe(true);
-      expect(await alert.getProperty("autoDismissDuration")).toEqual("medium");
+      expect(await alert.getProperty("autoCloseDuration")).toEqual("medium");
       expect(playState).toEqual("running");
 
       const [alertLocationX, alertLocationY] = await getElementXY(page, "calcite-alert", `.${CSS.close}`);
