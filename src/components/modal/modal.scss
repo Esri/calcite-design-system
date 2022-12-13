@@ -209,10 +209,8 @@
   font-size: var(--calcite-modal-content-text, var(--calcite-modal-context-text-internal));
 }
 
-:host([background-color="grey"]) .container {
-  .content {
-    @apply bg-background;
-  }
+:host([background-color="grey"]) .content {
+  @apply bg-background;
 }
 
 /**
@@ -258,13 +256,11 @@ slot[name="primary"] {
  * Sizes
  */
 @mixin modal-size($size, $width) {
-  :host([width="#{$size}"]) .container {
-    .modal {
-      max-inline-size: $width;
-    }
+  :host([width="#{$size}"]) .modal {
+    max-inline-size: $width;
   }
   @media screen and (max-width: $width + 2 * $baseline) {
-    :host([width="#{$size}"]) .container {
+    :host([width="#{$size}"]) {
       .modal {
         @apply m-0 h-full max-h-full w-full max-w-full rounded-none;
       }
@@ -279,7 +275,7 @@ slot[name="primary"] {
   }
 }
 
-:host([width="small"]) .container .modal {
+:host([width="small"]) .modal {
   @apply w-auto;
 }
 
@@ -290,8 +286,7 @@ slot[name="primary"] {
 /**
  * Fullscreen
  */
-:host([fullscreen]) .container {
-  background-color: transparent;
+:host([fullscreen]) {
   .modal {
     @apply m-0 h-full max-h-full w-full max-w-full;
     --calcite-modal-hidden-position: translate3D(0, 20px, 0) scale(0.95);
@@ -303,7 +298,7 @@ slot[name="primary"] {
   }
 }
 
-:host([open][fullscreen]) .container {
+:host([open][fullscreen]) {
   .header {
     border-radius: 0;
   }
@@ -315,7 +310,7 @@ slot[name="primary"] {
 /**
  * Docked
  */
-:host([docked]) .container {
+:host([docked]) {
   .modal {
     @apply h-auto;
   }
@@ -337,20 +332,16 @@ slot[name="primary"] {
 /**
  * Colors
  */
-:host([color="red"]) .container {
-  .modal {
-    @apply border-color-danger;
-  }
+:host([color="red"]) .modal {
+  @apply border-color-danger;
 }
 
-:host([color="blue"]) .container {
-  .modal {
-    @apply border-color-info;
-  }
+:host([color="blue"]) .modal {
+  @apply border-color-info;
 }
 
-:host([color="red"]) .container,
-:host([color="blue"]) .container {
+:host([color="red"]),
+:host([color="blue"]) {
   .modal {
     @apply border-0 border-t-4 border-solid;
   }
