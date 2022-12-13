@@ -1,5 +1,5 @@
 export const SLOTS = {
-  dropdownTrigger: "dropdown-trigger"
+  dropdownTrigger: "dropdown"
 };
 
 export const CSS = {
