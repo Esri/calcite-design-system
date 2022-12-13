@@ -136,7 +136,7 @@
     "jest-cli": "27.4.5",
     "lint-staged": "13.1.0",
     "postcss": "8.4.19",
-    "prettier": "2.8.0",
+    "prettier": "2.8.1",
     "puppeteer": "10.0.0",
     "quicktype-core": "6.1.0",
     "rimraf": "3.0.2",
