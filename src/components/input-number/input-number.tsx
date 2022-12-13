@@ -21,7 +21,7 @@ import {
 } from "../../utils/dom";
 
 import { CSS, SLOTS, TEXT } from "./resources";
-import { InputPlacement } from "./interfaces";
+import { InputPlacement, NumberNudgeDirection, SetValueOrigin } from "../input/interfaces";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import {
   connectForm,
@@ -50,9 +50,6 @@ import {
   LoadableComponent,
   componentLoaded
 } from "../../utils/loadable";
-
-type NumberNudgeDirection = "up" | "down";
-type setNumberValueOrigin = "initial" | "connected" | "user" | "reset" | "direct";
 
 /**
  * @slot action - A slot for positioning a button next to the component.
@@ -252,6 +249,22 @@ export class InputNumber
    */
   @Prop() autocomplete: string;
 
+  /**
+   * Specifies the type of content to help devices display an appropriate virtual keyboard.
+   * Read the native attribute's documentation on MDN for more info.
+   *
+   * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/inputmode)
+   */
+  @Prop() inputMode = "decimal";
+
+  /**
+   * Specifies the action label or icon for the Enter key on virtual keyboards.
+   * Read the native attribute's documentation on MDN for more info.
+   *
+   * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/enterkeyhint)
+   */
+  @Prop() enterKeyHint: string;
+
   /** Adds text to the end of the component.  */
   @Prop() suffixText: string;
 
@@ -315,7 +328,7 @@ export class InputNumber
 
   private previousValue: string;
 
-  private previousValueOrigin: setNumberValueOrigin = "initial";
+  private previousValueOrigin: SetValueOrigin = "initial";
 
   /** the computed icon to render */
   private requestedIcon?: string;
@@ -754,7 +767,7 @@ export class InputNumber
   }: {
     committing?: boolean;
     nativeEvent?: MouseEvent | KeyboardEvent | InputEvent;
-    origin: setNumberValueOrigin;
+    origin: SetValueOrigin;
     previousValue?: string;
     value: string;
   }): void => {
@@ -906,8 +919,8 @@ export class InputNumber
         autofocus={this.autofocus ? true : null}
         defaultValue={this.defaultValue}
         disabled={this.disabled ? true : null}
-        enterKeyHint={this.el.enterKeyHint}
-        inputMode={this.el.inputMode}
+        enterKeyHint={this.enterKeyHint}
+        inputMode={this.inputMode}
         key="localized-input"
         maxLength={this.maxLength}
         minLength={this.minLength}
