@@ -23,7 +23,7 @@ export const simple = stepStory(
       position="${select("position", ["top", "bottom"], "top")}"
       scale="${select("scale", ["s", "m", "l"], "m")}"
     >
-      <calcite-tab-nav slot="tab-nav">
+      <calcite-tab-nav slot="title-group">
         <calcite-tab-title selected>Tab 1 Title</calcite-tab-title>
         <calcite-tab-title id="reference-element">Tab 2 Title</calcite-tab-title>
         <calcite-tab-title disabled>Disabled Tab</calcite-tab-title>
@@ -54,7 +54,7 @@ export const simpleDarkThemeRTL_TestOnly = (): string => html`
     position="${select("position", ["top", "bottom"], "top")}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
   >
-    <calcite-tab-nav slot="tab-nav">
+    <calcite-tab-nav slot="title-group">
       <calcite-tab-title selected>Tab 1 Title</calcite-tab-title>
       <calcite-tab-title>Tab 2 Title</calcite-tab-title>
       <calcite-tab-title disabled>Disabled Tab</calcite-tab-title>
@@ -75,7 +75,7 @@ export const bordered = (): string => html`
     scale="${select("scale", ["s", "m", "l"], "m")}"
     bordered
   >
-    <calcite-tab-nav slot="tab-nav">
+    <calcite-tab-nav slot="title-group">
       <calcite-tab-title tab="tab1">Tab 1 Title</calcite-tab-title>
       <calcite-tab-title tab="tab2">Tab 2 Title</calcite-tab-title>
       <calcite-tab-title tab="tab3">Tab 3 Title</calcite-tab-title>
@@ -97,7 +97,7 @@ export const borderedDarkThemeRTL_TestOnly = (): string => html`
     dir="rtl"
     class="calcite-theme-dark"
   >
-    <calcite-tab-nav slot="tab-nav">
+    <calcite-tab-nav slot="title-group">
       <calcite-tab-title tab="tab1">Tab 1 Title</calcite-tab-title>
       <calcite-tab-title tab="tab2">Tab 2 Title</calcite-tab-title>
       <calcite-tab-title tab="tab3">Tab 3 Title</calcite-tab-title>
@@ -119,7 +119,7 @@ export const withIcons = (): string => html`
     position="${select("position", ["top", "bottom"], "top")}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
   >
-    <calcite-tab-nav slot="tab-nav">
+    <calcite-tab-nav slot="title-group">
       <calcite-tab-title selected icon-start="${select("tab 1 icon-start", iconNames, selectedIcon)}"
         >Tab 1 Title</calcite-tab-title
       >
@@ -146,7 +146,7 @@ export const setWidth = (): string => html`
     position="${select("position", ["top", "bottom"], "top")}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
     >
-    <calcite-tab-nav slot="tab-nav">
+    <calcite-tab-nav slot="title-group">
       <calcite-tab-title selected>Tab 1 Title</calcite-tab-title>
       <calcite-tab-title id="reference-element">Tab 2 Title</calcite-tab-title>
       <calcite-tab-title>Tab 3 Title</calcite-tab-title>
@@ -201,7 +201,7 @@ export const disabledTabs_TestOnly = (): string => {
 
   return `
       <calcite-tabs>
-        <calcite-tab-nav slot="tab-nav">
+        <calcite-tab-nav slot="title-group">
           <calcite-tab-title selected ${tab1disabled ? "disabled" : ""}>Tab 1 Title</calcite-tab-title>
           <calcite-tab-title ${tab2disabled ? "disabled" : ""}>Tab 2 Title</calcite-tab-title>
           <calcite-tab-title ${tab3disabled ? "disabled" : ""}>Tab 3 Title</calcite-tab-title>
@@ -216,7 +216,7 @@ export const disabledTabs_TestOnly = (): string => {
 
 export const layoutCenterAndBorderedCenter_TestOnly = stepStory(
   (): string => html`<calcite-tabs layout="center">
-    <calcite-tab-nav slot="tab-nav">
+    <calcite-tab-nav slot="title-group">
       <calcite-tab-title>Tab 1 Title</calcite-tab-title>
       <calcite-tab-title>Tab 2 Title</calcite-tab-title>
       <calcite-tab-title>Tab 3 Title</calcite-tab-title>
@@ -232,7 +232,7 @@ export const layoutCenterAndBorderedCenter_TestOnly = stepStory(
 export const WithIconStart_TestOnly = stepStory(
   (): string => html`
     <calcite-tabs>
-      <calcite-tab-nav slot="tab-nav">
+      <calcite-tab-nav slot="title-group">
         <calcite-tab-title selected id="tab-title">Boats</calcite-tab-title>
         <calcite-tab-title>Ships</calcite-tab-title>
         <calcite-tab-title>Yachts</calcite-tab-title>
@@ -257,7 +257,7 @@ export const WithIconStart_TestOnly = stepStory(
 
 export const TabChilrenWithPercentageHeights = (): string => html`
   <calcite-tabs style="height: 250px;">
-    <calcite-tab-nav slot="tab-nav">
+    <calcite-tab-nav slot="title-group">
       <calcite-tab-title selected>Boats</calcite-tab-title>
     </calcite-tab-nav>
     <calcite-tab style="background: pink;">
