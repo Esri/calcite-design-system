@@ -91,7 +91,6 @@ export class Chip
    */
   @Prop({ mutable: true }) messages: Messages;
 
-  @Watch("dismissLabel")
   @Watch("messageOverrides")
   onMessagesChange(): void {
     /* wired up by t9n util */
