@@ -6,10 +6,6 @@ export const CSS = {
   closeIcon: "close-icon"
 };
 
-export const TEXT = {
-  close: "Close"
-};
-
 export const SLOTS = {
   image: "image"
 };

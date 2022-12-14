@@ -1,5 +1,5 @@
 import { E2EElement, E2EPage, newE2EPage } from "@stencil/core/testing";
-import { renders, accessible, HYDRATED_ATTR, hidden } from "../../tests/commonTests";
+import { renders, accessible, HYDRATED_ATTR, hidden, t9n } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS, DURATIONS } from "./resources";
 import { getElementXY } from "../../tests/utils";
@@ -421,4 +421,6 @@ describe("calcite-alert", () => {
       await page.waitForSelector("#alert", { visible: false });
     });
   });
+
+  it("supports translation", () => t9n("calcite-alert"));
 });

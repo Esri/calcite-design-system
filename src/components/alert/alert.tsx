@@ -18,7 +18,7 @@ import {
   toAriaBoolean,
   slotChangeHasAssignedElement
 } from "../../utils/dom";
-import { CSS, DURATIONS, SLOTS, TEXT } from "./resources";
+import { CSS, DURATIONS, SLOTS } from "./resources";
 import { Scale } from "../interfaces";
 import { AlertDuration, AlertPlacement, StatusColor, StatusIcons, Sync } from "./interfaces";
 import {
@@ -27,12 +27,19 @@ import {
   disconnectOpenCloseComponent
 } from "../../utils/openCloseComponent";
 import {
-  LocalizedComponent,
   connectLocalized,
   disconnectLocalized,
   NumberingSystem,
   numberStringFormatter
 } from "../../utils/locale";
+import {
+  connectMessages,
+  disconnectMessages,
+  setUpMessages,
+  T9nComponent,
+  updateMessages
+} from "../../utils/t9n";
+import { Messages } from "./assets/alert/t9n";
 import {
   setUpLoadableComponent,
   setComponentLoaded,
@@ -55,9 +62,10 @@ import {
 @Component({
   tag: "calcite-alert",
   styleUrl: "alert.scss",
-  shadow: true
+  shadow: true,
+  assetsDirs: ["assets"]
 })
-export class Alert implements OpenCloseComponent, LocalizedComponent, LoadableComponent {
+export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -105,8 +113,9 @@ export class Alert implements OpenCloseComponent, LocalizedComponent, LoadableCo
    * Specifies the text label for the close button.
    *
    * @default "Close"
+   * @deprecated - translations are now built-in, if you need to override a string, please use `messageOverrides`
    */
-  @Prop() intlClose: string = TEXT.intlClose;
+  @Prop() intlClose: string;
 
   /** Specifies an accessible name for the component. */
   @Prop() label!: string;
@@ -121,6 +130,24 @@ export class Alert implements OpenCloseComponent, LocalizedComponent, LoadableCo
 
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
+
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @internal
+   */
+  @Prop({ mutable: true }) messages: Messages;
+
+  /**
+   * Use this property to override individual strings used by the component.
+   */
+  @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
+
+  @Watch("intlClose")
+  @Watch("messageOverrides")
+  onMessagesChange(): void {
+    /* wired up by t9n util */
+  }
 
   @Watch("icon")
   @Watch("color")
@@ -147,6 +174,7 @@ export class Alert implements OpenCloseComponent, LocalizedComponent, LoadableCo
 
   connectedCallback(): void {
     connectLocalized(this);
+    connectMessages(this);
     const open = this.open;
     if (open && !this.queued) {
       this.openHandler();
@@ -155,9 +183,10 @@ export class Alert implements OpenCloseComponent, LocalizedComponent, LoadableCo
     connectOpenCloseComponent(this);
   }
 
-  componentWillLoad(): void {
+  async componentWillLoad(): Promise<void> {
     setUpLoadableComponent(this);
     this.requestedIcon = setRequestedIcon(StatusIcons, this.icon, this.color);
+    await setUpMessages(this);
   }
 
   componentDidLoad(): void {
@@ -169,13 +198,14 @@ export class Alert implements OpenCloseComponent, LocalizedComponent, LoadableCo
     window.clearTimeout(this.queueTimeout);
     disconnectOpenCloseComponent(this);
     disconnectLocalized(this);
+    disconnectMessages(this);
   }
 
   render(): VNode {
     const { hasEndActions } = this;
     const closeButton = (
       <button
-        aria-label={this.intlClose}
+        aria-label={this.messages.close}
         class="alert-close"
         onClick={this.closeAlert}
         ref={(el) => (this.closeButton = el)}
@@ -335,6 +365,13 @@ export class Alert implements OpenCloseComponent, LocalizedComponent, LoadableCo
   //--------------------------------------------------------------------------
 
   @State() effectiveLocale = "";
+
+  @Watch("effectiveLocale")
+  effectiveLocaleChange(): void {
+    updateMessages(this, this.effectiveLocale);
+  }
+
+  @State() defaultMessages: Messages;
 
   @State() hasEndActions = false;
 

@@ -8,7 +8,7 @@ import {
 } from "../../../.storybook/utils";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import readme from "./readme.md";
-import { SLOTS, TEXT } from "./resources";
+import { SLOTS } from "./resources";
 import { html } from "../../../support/formatting";
 import { storyFilters } from "../../../.storybook/helpers";
 
@@ -61,14 +61,6 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
         name: "loading",
         commit(): Attribute {
           this.value = boolean("loading", false);
-          delete this.build;
-          return this;
-        }
-      },
-      {
-        name: "intl-close",
-        commit(): Attribute {
-          this.value = text("intlClose", TEXT.close);
           delete this.build;
           return this;
         }

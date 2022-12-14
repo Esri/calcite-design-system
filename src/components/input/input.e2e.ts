@@ -7,7 +7,8 @@ import {
   labelable,
   reflects,
   renders,
-  hidden
+  hidden,
+  t9n
 } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { letterKeys, numberKeys } from "../../utils/key";
@@ -1054,7 +1055,7 @@ describe("calcite-input", () => {
 
   describe("number locale support", () => {
     // "nb" and "es-MX" locales skipped per: https://github.com/Esri/calcite-components/issues/2323
-    const localesWithIssues = ["ar", "bs", "mk", "nb", "es-MX"];
+    const localesWithIssues = ["ar", "bs", "mk", "no", "es-MX"];
     locales
       .filter((locale) => !localesWithIssues.includes(locale))
       .forEach((locale) => {
@@ -1607,4 +1608,6 @@ describe("calcite-input", () => {
     it("supports type=number", () =>
       formAssociated("<calcite-input type='number'></calcite-input>", { testValue: 5, submitsOnEnter: true }));
   });
+
+  it("supports translation", () => t9n("calcite-input"));
 });
