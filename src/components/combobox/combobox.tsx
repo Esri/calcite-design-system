@@ -306,7 +306,7 @@ export class Combobox
   }>;
 
   /**
-   * Fires when a selected item in the component is dismissed via its `calcite-chip`.
+   * Fires when a selected item in the component is closed via its `calcite-chip`.
    */
   @Event({ cancelable: false }) calciteComboboxChipClose: EventEmitter<void>;
 
