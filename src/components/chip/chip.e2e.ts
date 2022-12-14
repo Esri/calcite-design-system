@@ -55,14 +55,6 @@ describe("calcite-chip", () => {
     expect(element).toEqualAttribute("scale", "l");
   });
 
-  it("renders a close button when requested (deprecated)", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-chip closable>Chip content</calcite-chip>`);
-
-    const close = await page.find("calcite-chip >>> button.close");
-    expect(close).not.toBeNull();
-  });
-
   it("renders a close button when requested", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-chip closable>Chip content</calcite-chip>`);

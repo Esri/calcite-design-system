@@ -15,7 +15,7 @@ import { CSS } from "./resources";
 import { guid } from "../../utils/guid";
 import { ComboboxChildElement } from "../combobox/interfaces";
 import { getAncestors, getDepth } from "../combobox/utils";
-import { DeprecatedEventPayload, Scale } from "../interfaces";
+import { Scale } from "../interfaces";
 import {
   connectConditionalSlotComponent,
   disconnectConditionalSlotComponent,
@@ -60,7 +60,7 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
 
   @Watch("selected")
   selectedWatchHandler(): void {
-    this.calciteComboboxItemChange.emit(this.el);
+    this.calciteComboboxItemChange.emit();
   }
 
   /** The component's text. */
@@ -115,9 +115,8 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
   /**
    * Emits whenever the component is selected or unselected.
    *
-   * **Note:**: The event's payload is deprecated, please use the event's `target`/`currentTarget` instead
    */
-  @Event({ cancelable: false }) calciteComboboxItemChange: EventEmitter<DeprecatedEventPayload>;
+  @Event({ cancelable: false }) calciteComboboxItemChange: EventEmitter<void>;
 
   // --------------------------------------------------------------------------
   //

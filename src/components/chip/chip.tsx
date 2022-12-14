@@ -3,7 +3,7 @@ import { getSlotted } from "../../utils/dom";
 import { guid } from "../../utils/guid";
 import { CSS, TEXT, SLOTS, ICONS } from "./resources";
 import { ChipColor } from "./interfaces";
-import { Appearance, DeprecatedEventPayload, Scale } from "../interfaces";
+import { Appearance, Scale } from "../interfaces";
 import {
   ConditionalSlotComponent,
   connectConditionalSlotComponent,
@@ -115,9 +115,8 @@ export class Chip implements ConditionalSlotComponent, LoadableComponent {
   /**
    * Fires when the dismiss button is clicked.
    *
-   * **Note:**: The `el` event payload props is deprecated, please use the event's `target`/`currentTarget` instead.
    */
-  @Event({ cancelable: false }) calciteChipDismiss: EventEmitter<DeprecatedEventPayload>;
+  @Event({ cancelable: false }) calciteChipDismiss: EventEmitter<void>;
 
   // --------------------------------------------------------------------------
   //
@@ -127,7 +126,7 @@ export class Chip implements ConditionalSlotComponent, LoadableComponent {
 
   closeClickHandler = (event: MouseEvent): void => {
     event.preventDefault();
-    this.calciteChipDismiss.emit(this.el);
+    this.calciteChipDismiss.emit();
     this.closed = true;
   };
 
