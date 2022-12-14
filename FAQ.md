@@ -53,13 +53,13 @@ The `option` elements are placed in `select`'s _default slot_. Additionally, the
 
 ```html
 <calcite-dropdown>
-  <calcite-button slot="dropdown-trigger">Open Dropdown</calcite-button>
+  <calcite-button slot="trigger">Open Dropdown</calcite-button>
   <calcite-dropdown-item active>Date modified</calcite-dropdown-item>
   <calcite-dropdown-item>Title</calcite-dropdown-item>
 </calcite-dropdown>
 ```
 
-The `calcite-dropdown-item`s are placed in `calcite-dropdown`'s default slot. In many cases a default slot is all that is needed. However, as components become more complicated, the need arises to position and style child components differently. This is where _named slots_ come into play. In the example above, we are passing `calcite-button` into the dropdown's `dropdown-trigger` slot. This informs the dropdown that the `calcite-button` component should be handled differently than the components in the default slot. If a Calcite Component has slots, they will be listed in the documentation. For example, [here are the slots](https://developers.arcgis.com/calcite-design-system/components/card/#component-api-slots) for `calcite-card`. For a more detailed explanation, I suggest reading the [MDN documentation](https://developer.mozilla.org/en-US/docs/Web/Web_Components/Using_templates_and_slots#adding_flexibility_with_slots) about slots.
+The `calcite-dropdown-item`s are placed in `calcite-dropdown`'s default slot. In many cases a default slot is all that is needed. However, as components become more complicated, the need arises to position and style child components differently. This is where _named slots_ come into play. In the example above, we are passing `calcite-button` into the dropdown's `trigger` slot. This informs the dropdown that the `calcite-button` component should be handled differently than the components in the default slot. If a Calcite Component has slots, they will be listed in the documentation. For example, [here are the slots](https://developers.arcgis.com/calcite-design-system/components/card/#component-api-slots) for `calcite-card`. For a more detailed explanation, I suggest reading the [MDN documentation](https://developer.mozilla.org/en-US/docs/Web/Web_Components/Using_templates_and_slots#adding_flexibility_with_slots) about slots.
 
 ### How do I change themes?
 
