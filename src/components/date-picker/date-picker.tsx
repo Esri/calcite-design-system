@@ -168,20 +168,6 @@ export class DatePicker implements LocalizedComponent {
   /** When `true`, activates the component's range mode to allow a start and end date. */
   @Prop({ reflect: true }) range = false;
 
-  /**
-   * Specifies the selected start date.
-   *
-   * @deprecated use `value` instead.
-   */
-  @Prop({ mutable: true, reflect: true }) start: string;
-
-  /**
-   * Specifies the selected end date.
-   *
-   * @deprecated use `value` instead.
-   */
-  @Prop({ mutable: true, reflect: true }) end: string;
-
   /** When `true`, disables the default behavior on the third click of narrowing or extending the range and instead starts a new range. */
   @Prop({ reflect: true }) proximitySelectionDisabled = false;
 
@@ -224,18 +210,8 @@ export class DatePicker implements LocalizedComponent {
 
     if (Array.isArray(this.value)) {
       this.valueAsDate = getValueAsDateRange(this.value);
-      this.start = this.value[0];
-      this.end = this.value[1];
     } else if (this.value) {
       this.valueAsDate = dateFromISO(this.value);
-    }
-
-    if (this.start) {
-      this.setStartAsDate(dateFromISO(this.start));
-    }
-
-    if (this.end) {
-      this.setEndAsDate(dateFromISO(this.end));
     }
 
     if (this.min) {
@@ -330,23 +306,9 @@ export class DatePicker implements LocalizedComponent {
   valueHandler(value: string | string[]): void {
     if (Array.isArray(value)) {
       this.valueAsDate = getValueAsDateRange(value);
-      this.start = value[0];
-      this.end = value[1];
     } else if (value) {
       this.valueAsDate = dateFromISO(value);
-      this.start = "";
-      this.end = "";
     }
-  }
-
-  @Watch("start")
-  startWatcher(start: string): void {
-    this.setStartAsDate(dateFromISO(start));
-  }
-
-  @Watch("end")
-  endWatcher(end: string): void {
-    this.setEndAsDate(dateFromISO(end));
   }
 
   @Watch("effectiveLocale")
@@ -555,13 +517,11 @@ export class DatePicker implements LocalizedComponent {
   };
 
   private setEndDate(date: Date): void {
-    this.end = date ? dateToISO(date) : "";
     this.setEndAsDate(date, true);
     this.activeEndDate = date || null;
   }
 
   private setStartDate(date: Date): void {
-    this.start = date ? dateToISO(date) : "";
     this.setStartAsDate(date, true);
     this.activeStartDate = date || null;
   }
@@ -621,7 +581,7 @@ export class DatePicker implements LocalizedComponent {
         }
       } else {
         this.setStartDate(date);
-        this.endAsDate = this.activeEndDate = this.end = undefined;
+        this.endAsDate = this.activeEndDate = undefined;
       }
     }
     this.calciteDatePickerChange.emit();
