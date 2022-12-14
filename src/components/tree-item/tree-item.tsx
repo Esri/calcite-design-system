@@ -276,8 +276,8 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
         >
           {chevron}
           {itemIndicator}
-          {checkbox ? checkbox : defaultSlotNode}
           {this.iconStart ? iconStartEl : null}
+          {checkbox ? checkbox : defaultSlotNode}
           <div class={CSS.actionsEnd} hidden={!hasEndActions}>
             {slotNode}
           </div>

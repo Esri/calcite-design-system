@@ -75,14 +75,12 @@ export const simple = (): string => html`
   </calcite-tree>
 `;
 
-const selectedIcon = iconNames[10];
-
 export const actionsEndDropdownsAndIconStart = (): string => html`<calcite-tree
   ${boolean("lines", false)}
   selection-mode="${select("selection-mode", selectionModes, "none")}"
   style="width: 350px"
 >
-  <calcite-tree-item icon-start="${select("icon-start", iconNames, selectedIcon)}">
+  <calcite-tree-item icon-start="${select("icon-start", iconNames, "palette")}">
     <a>Child 1</a>
     ${slottedDropdown} ${slottedDropdown}
   </calcite-tree-item>
@@ -96,7 +94,7 @@ export const actionsEndDropdownsAndIconStart = (): string => html`<calcite-tree
       <calcite-tree-item>
         <a>Grandchild 2</a>
         <calcite-tree slot="children">
-          <calcite-tree-item icon-start="${select("icon-start", iconNames, selectedIcon)}">
+          <calcite-tree-item icon-start="${select("icon-start", iconNames, "palette")}">
             <a>Great-Grandchild 1</a>
             ${slottedDropdown}
           </calcite-tree-item>
@@ -108,7 +106,7 @@ export const actionsEndDropdownsAndIconStart = (): string => html`<calcite-tree
       </calcite-tree-item>
     </calcite-tree>
   </calcite-tree-item>
-  <calcite-tree-item icon-start="${select("icon-start", iconNames, selectedIcon)}">
+  <calcite-tree-item icon-start="${select("icon-start", iconNames, "palette")}">
     <a>Child 3</a>
     ${slottedDropdown}
     <calcite-tree slot="children">
