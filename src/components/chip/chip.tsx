@@ -113,7 +113,7 @@ export class Chip implements ConditionalSlotComponent, LoadableComponent {
   // --------------------------------------------------------------------------
 
   /**
-   * Fires when the dismiss button is clicked.
+   * Fires when the close button is clicked.
    *
    * **Note:**: The `el` event payload props is deprecated, please use the event's `target`/`currentTarget` instead.
    */
