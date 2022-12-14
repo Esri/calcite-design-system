@@ -71,13 +71,6 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
 
   /**
    * When `true`, omits the component from the `calcite-combobox` filtered search results.
-   *
-   * @deprecated use `filterDisabled` instead.
-   */
-  @Prop({ reflect: true }) constant: boolean;
-
-  /**
-   * When `true`, omits the component from the `calcite-combobox` filtered search results.
    */
   @Prop({ reflect: true }) filterDisabled: boolean;
 

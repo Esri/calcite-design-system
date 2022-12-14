@@ -31,7 +31,7 @@ export class Tip implements ConditionalSlotComponent {
   /**
    * When `true`, the close button is not present on the component.
    */
-  @Prop({ reflect: true }) nonDismissible = false;
+  @Prop({ reflect: true }) closeDisabled = false;
 
   /**
    * The component header text.
@@ -122,11 +122,11 @@ export class Tip implements ConditionalSlotComponent {
   }
 
   renderDismissButton(): VNode {
-    const { nonDismissible, hideTip, intlClose } = this;
+    const { closeDisabled, hideTip, intlClose } = this;
 
     const text = intlClose || TEXT.close;
 
-    return !nonDismissible ? (
+    return !closeDisabled ? (
       <calcite-action
         class={CSS.close}
         icon={ICONS.close}
