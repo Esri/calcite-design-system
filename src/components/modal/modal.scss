@@ -3,10 +3,7 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-modal-content-text: [Deprecated] The component content's font size.
- * @prop --calcite-modal-padding: [Deprecated] The padding around content area slot.
- * @prop --calcite-modal-padding-large: [Deprecated] The left/right padding around items within the component.
- * @prop --calcite-modal-title-text: [Deprecated] The component title's font size.
+ * @prop --calcite-modal-padding:Specifies the padding of the modal.
  * @prop --calcite-scrim-background: The component's semi-transparent background color.
  */
 
@@ -182,9 +179,6 @@
 .content {
   @apply bg-foreground-1 relative box-border block h-full overflow-auto p-0;
   max-block-size: calc(100vh - 12rem);
-}
-
-.content--spaced {
   padding: var(--calcite-modal-padding);
 }
 
