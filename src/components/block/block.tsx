@@ -1,5 +1,16 @@
-import { Component, Element, Event, EventEmitter, h, Host, Prop, VNode } from "@stencil/core";
-import { CSS, ICONS, SLOTS, TEXT } from "./resources";
+import {
+  Component,
+  Element,
+  Event,
+  EventEmitter,
+  h,
+  Host,
+  Prop,
+  State,
+  VNode,
+  Watch
+} from "@stencil/core";
+import { CSS, ICONS, SLOTS } from "./resources";
 import { getSlotted, toAriaBoolean } from "../../utils/dom";
 import { Heading, HeadingLevel } from "../functional/Heading";
 import { Status } from "../interfaces";
@@ -10,6 +21,15 @@ import {
 } from "../../utils/conditionalSlot";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { guid } from "../../utils/guid";
+import {
+  connectMessages,
+  disconnectMessages,
+  setUpMessages,
+  T9nComponent,
+  updateMessages
+} from "../../utils/t9n";
+import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
+import { Messages } from "./assets/block/t9n";
 
 /**
  * @slot - A slot for adding content to the component.
@@ -20,9 +40,12 @@ import { guid } from "../../utils/guid";
 @Component({
   tag: "calcite-block",
   styleUrl: "block.scss",
-  shadow: true
+  shadow: true,
+  assetsDirs: ["assets"]
 })
-export class Block implements ConditionalSlotComponent, InteractiveComponent {
+export class Block
+  implements ConditionalSlotComponent, InteractiveComponent, LocalizedComponent, T9nComponent
+{
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -58,29 +81,33 @@ export class Block implements ConditionalSlotComponent, InteractiveComponent {
    * Accessible name for the component's collapse button.
    *
    * @default "Collapse"
+   * @deprecated - translations are now built-in, if you need to override a string, please use `messageOverrides`
    */
-  @Prop() intlCollapse: string = TEXT.collapse;
+  @Prop() intlCollapse?: string;
 
   /**
    * Accessible name for the component's expand button.
    *
    * @default "Expand"
+   * @deprecated - translations are now built-in, if you need to override a string, please use `messageOverrides`
    */
-  @Prop() intlExpand: string = TEXT.expand;
+  @Prop() intlExpand?: string;
 
   /**
    * Accessible name when the component is loading.
    *
    * @default "Loading"
+   * @deprecated - translations are now built-in, if you need to override a string, please use `messageOverrides`
    */
-  @Prop() intlLoading: string = TEXT.loading;
+  @Prop() intlLoading?: string;
 
   /**
    * Accessible name for the component's options button.
    *
    * @default "Options"
+   * @deprecated - translations are now built-in, if you need to override a string, please use `messageOverrides`
    */
-  @Prop() intlOptions: string = TEXT.options;
+  @Prop() intlOptions?: string;
 
   /**
    * When `true`, a busy indicator is displayed.
@@ -102,14 +129,25 @@ export class Block implements ConditionalSlotComponent, InteractiveComponent {
    */
   @Prop() description: string;
 
-  //--------------------------------------------------------------------------
-  //
-  //  Lifecycle
-  //
-  //--------------------------------------------------------------------------
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @internal
+   */
+  @Prop({ mutable: true }) messages: Messages;
 
-  componentDidRender(): void {
-    updateHostInteraction(this);
+  /**
+   * Use this property to override individual strings used by the component.
+   */
+  @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
+
+  @Watch("intlCollapse")
+  @Watch("intlExpand")
+  @Watch("intlLoading")
+  @Watch("intlOptions")
+  @Watch("messageOverrides")
+  onMessagesChange(): void {
+    /* wired up by t9n util */
   }
 
   // --------------------------------------------------------------------------
@@ -122,6 +160,15 @@ export class Block implements ConditionalSlotComponent, InteractiveComponent {
 
   private guid = guid();
 
+  @State() effectiveLocale: string;
+
+  @Watch("effectiveLocale")
+  effectiveLocaleChange(): void {
+    updateMessages(this, this.effectiveLocale);
+  }
+
+  @State() defaultMessages: Messages;
+
   // --------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -130,10 +177,22 @@ export class Block implements ConditionalSlotComponent, InteractiveComponent {
 
   connectedCallback(): void {
     connectConditionalSlotComponent(this);
+    connectLocalized(this);
+    connectMessages(this);
   }
 
   disconnectedCallback(): void {
+    disconnectLocalized(this);
+    disconnectMessages(this);
     disconnectConditionalSlotComponent(this);
+  }
+
+  componentDidRender(): void {
+    updateHostInteraction(this);
+  }
+
+  async componentWillLoad(): Promise<void> {
+    await setUpMessages(this);
   }
 
   // --------------------------------------------------------------------------
@@ -211,9 +270,9 @@ export class Block implements ConditionalSlotComponent, InteractiveComponent {
   }
 
   render(): VNode {
-    const { collapsible, el, intlCollapse, intlExpand, loading, open, intlLoading } = this;
+    const { collapsible, el, loading, open, messages } = this;
 
-    const toggleLabel = open ? intlCollapse || TEXT.collapse : intlExpand || TEXT.expand;
+    const toggleLabel = open ? messages.collapse : messages.expand;
 
     const headerContent = (
       <header class={CSS.header}>
@@ -257,14 +316,14 @@ export class Block implements ConditionalSlotComponent, InteractiveComponent {
           headerContent
         )}
         {loading ? (
-          <calcite-loader inline is-active label={intlLoading} />
+          <calcite-loader inline label={messages.loading} />
         ) : hasControl ? (
           <div class={CSS.controlContainer}>
             <slot name={SLOTS.control} />
           </div>
         ) : null}
         {hasMenuActions ? (
-          <calcite-action-menu label={this.intlOptions || TEXT.options}>
+          <calcite-action-menu label={messages.options}>
             <slot name={SLOTS.headerMenuActions} />
           </calcite-action-menu>
         ) : null}

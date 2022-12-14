@@ -7,15 +7,25 @@ import {
   h,
   Method,
   Prop,
+  State,
   VNode,
   Watch
 } from "@stencil/core";
 import { debounce } from "lodash-es";
-import { CSS, DEBOUNCE_TIMEOUT, ICONS, TEXT } from "./resources";
+import { CSS, DEBOUNCE_TIMEOUT, ICONS } from "./resources";
 import { Scale } from "../interfaces";
 import { focusElement } from "../../utils/dom";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { filter } from "../../utils/filter";
+import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
+import {
+  connectMessages,
+  disconnectMessages,
+  setUpMessages,
+  T9nComponent,
+  updateMessages
+} from "../../utils/t9n";
+import { Messages } from "./assets/filter/t9n";
 import {
   setUpLoadableComponent,
   setComponentLoaded,
@@ -26,9 +36,12 @@ import {
 @Component({
   tag: "calcite-filter",
   styleUrl: "filter.scss",
-  shadow: true
+  shadow: true,
+  assetsDirs: ["assets"]
 })
-export class Filter implements InteractiveComponent, LoadableComponent {
+export class Filter
+  implements InteractiveComponent, LoadableComponent, LocalizedComponent, T9nComponent
+{
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -63,12 +76,16 @@ export class Filter implements InteractiveComponent, LoadableComponent {
   @Prop({ mutable: true }) filteredItems: object[] = [];
 
   /**
-   * Accessible name for the component's clear button.
+   * A text label that will appear on the clear button.
+   *
+   * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`.
    */
   @Prop() intlClear: string;
 
   /**
    * Accessible name for the component.
+   *
+   * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`.
    */
   @Prop() intlLabel: string;
 
@@ -87,6 +104,25 @@ export class Filter implements InteractiveComponent, LoadableComponent {
    */
   @Prop({ mutable: true }) value = "";
 
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @internal
+   */
+  @Prop({ mutable: true }) messages: Messages;
+
+  /**
+   * Use this property to override individual strings used by the component.
+   */
+  @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
+
+  @Watch("intlClear")
+  @Watch("intlLabel")
+  @Watch("messageOverrides")
+  onMessagesChange(): void {
+    /* wired up by t9n util */
+  }
+
   @Watch("value")
   valueHandler(value: string): void {
     this.filter(value);
@@ -94,7 +130,7 @@ export class Filter implements InteractiveComponent, LoadableComponent {
 
   // --------------------------------------------------------------------------
   //
-  //  Private Properties
+  //  Private State/Properties
   //
   // --------------------------------------------------------------------------
 
@@ -102,25 +138,14 @@ export class Filter implements InteractiveComponent, LoadableComponent {
 
   textInput: HTMLCalciteInputElement;
 
-  //--------------------------------------------------------------------------
-  //
-  //  Lifecycle
-  //
-  //--------------------------------------------------------------------------
+  @State() effectiveLocale: string;
 
-  componentWillLoad(): void {
-    setUpLoadableComponent(this);
-
-    this.updateFiltered(filter(this.items, this.value));
+  @Watch("effectiveLocale")
+  effectiveLocaleChange(): void {
+    updateMessages(this, this.effectiveLocale);
   }
 
-  componentDidLoad(): void {
-    setComponentLoaded(this);
-  }
-
-  componentDidRender(): void {
-    updateHostInteraction(this);
-  }
+  @State() defaultMessages: Messages;
 
   // --------------------------------------------------------------------------
   //
@@ -129,9 +154,40 @@ export class Filter implements InteractiveComponent, LoadableComponent {
   // --------------------------------------------------------------------------
 
   /**
-   * Fires when the component's text changes.
+   * This event fires when the filter text changes.
    */
   @Event({ cancelable: false }) calciteFilterChange: EventEmitter<void>;
+
+  //--------------------------------------------------------------------------
+  //
+  //  Lifecycle
+  //
+  //--------------------------------------------------------------------------
+
+  async componentWillLoad(): Promise<void> {
+    setUpLoadableComponent(this);
+    this.updateFiltered(filter(this.items, this.value));
+    this.filter(this.value);
+    await setUpMessages(this);
+  }
+
+  connectedCallback(): void {
+    connectLocalized(this);
+    connectMessages(this);
+  }
+
+  componentDidRender(): void {
+    updateHostInteraction(this);
+  }
+
+  disconnectedCallback(): void {
+    disconnectLocalized(this);
+    disconnectMessages(this);
+  }
+
+  componentDidLoad(): void {
+    setComponentLoaded(this);
+  }
 
   // --------------------------------------------------------------------------
   //
@@ -203,11 +259,11 @@ export class Filter implements InteractiveComponent, LoadableComponent {
         <div class={CSS.container}>
           <label>
             <calcite-input
-              aria-label={this.intlLabel || TEXT.filterLabel}
+              aria-label={this.messages.label}
               clearable={true}
               disabled={disabled}
               icon={ICONS.search}
-              intlClear={this.intlClear || TEXT.clear}
+              intlClear={this.messages.clear}
               onCalciteInputInput={this.inputHandler}
               onKeyDown={this.keyDownHandler}
               placeholder={this.placeholder}

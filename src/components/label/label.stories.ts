@@ -1,7 +1,7 @@
 import { themesDarkDefault } from "../../../.storybook/utils";
 import readme from "./readme.md";
 import { html } from "../../../support/formatting";
-import { createSteps, stepStory, storyFilters } from "../../../.storybook/helpers";
+import { storyFilters } from "../../../.storybook/helpers";
 export default {
   title: "Components/Label",
   parameters: {
@@ -143,14 +143,6 @@ export const darkThemeRTL_TestOnly = (): string => html`
 `;
 
 darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };
-
-export const toggleSwitchWithLabel_TestOnly = stepStory(
-  (): string => html`<calcite-label layout="inline">
-    Toggle theme
-    <calcite-switch id="theme-switch"></calcite-switch>
-  </calcite-label>`,
-  createSteps("calcite-label").click("calcite-label").snapshot("Toggle switch with label")
-);
 
 export const spacingWithLabel_TestOnly = (): string => html`
   <style>

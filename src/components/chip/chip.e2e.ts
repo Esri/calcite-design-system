@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, renders, slots, hidden } from "../../tests/commonTests";
+import { accessible, renders, slots, hidden, t9n } from "../../tests/commonTests";
 
 import { CSS, SLOTS } from "./resources";
 
@@ -16,7 +16,7 @@ describe("calcite-chip", () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-chip closable>cheetos</calcite-chip>`);
 
-    const eventSpy = await page.spyOnEvent("calciteChipDismiss", "window");
+    const eventSpy = await page.spyOnEvent("calciteChipClose", "window");
 
     const closeButton = await page.find(`calcite-chip >>> .${CSS.close}`);
 
@@ -179,4 +179,6 @@ describe("calcite-chip", () => {
       expect(await chipEl.isVisible()).toBe(false);
     });
   });
+
+  it("supports translation", () => t9n("calcite-chip", false, ["dismissLabel"]));
 });

@@ -10,7 +10,7 @@ import {
 import readme from "./readme.md";
 import { html } from "../../../support/formatting";
 import { locales } from "../../utils/locale";
-import { createSteps, setKnobs, stepStory, storyFilters } from "../../../.storybook/helpers";
+import { storyFilters } from "../../../.storybook/helpers";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 const { scale } = ATTRIBUTES;
 
@@ -34,14 +34,6 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
         name: "dir",
         commit(): Attribute {
           this.value = text("dir", "");
-          delete this.build;
-          return this;
-        }
-      },
-      {
-        name: "end",
-        commit(): Attribute {
-          this.value = text("end", "");
           delete this.build;
           return this;
         }
@@ -119,14 +111,6 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
         }
       },
       {
-        name: "start",
-        commit(): Attribute {
-          this.value = text("start", "");
-          delete this.build;
-          return this;
-        }
-      },
-      {
         name: "value",
         commit(): Attribute {
           this.value = text("value", "2020-02-28");
@@ -146,11 +130,9 @@ export const range = (): string =>
   html`<div style="width: 400px">
     ${create(
       "calcite-date-picker",
-      createAttributes({ exceptions: ["end", "min", "range", "start"] }).concat([
-        { name: "end", value: "2020-02-16" },
+      createAttributes({ exceptions: ["min", "range"] }).concat([
         { name: "min", value: "2016-08-09" },
-        { name: "range", value: "true" },
-        { name: "start", value: "2020-02-12" }
+        { name: "range", value: "true" }
       ])
     )}
   </div>`;
@@ -159,12 +141,10 @@ export const rangeRTL_TestOnly = (): string =>
   html`<div style="width: 400px">
     ${create(
       "calcite-date-picker",
-      createAttributes({ exceptions: ["end", "min", "range", "start", "dir"] }).concat([
+      createAttributes({ exceptions: ["min", "range", "dir"] }).concat([
         { name: "dir", value: "rtl" },
-        { name: "end", value: "2020-02-16" },
         { name: "min", value: "2016-08-09" },
-        { name: "range", value: "true" },
-        { name: "start", value: "2020-02-12" }
+        { name: "range", value: "true" }
       ])
     )}
   </div>`;
@@ -271,22 +251,3 @@ export const thaiLangNumberingSystem_TestOnly = (): string =>
       ])
     )}
   </div>`;
-
-export const interactions_TestOnly = stepStory(
-  (): string => html`<div style="width: 400px">${create("calcite-date-picker", createAttributes())}</div>`,
-  createSteps("calcite-date-picker")
-    .executeScript(
-      setKnobs({
-        story: "components-controls-datepicker--simple",
-        knobs: [{ name: "value", value: "2022-03-15" }]
-      })
-    )
-    .executeScript(
-      `
-      const datePicker = document.querySelector("calcite-date-picker");
-      datePicker.maxAsDate = new Date(2022, 2, 18);
-      datePicker.minAsDate = new Date(2022, 2, 10);
-    `
-    )
-    .snapshot("set maxAsDate & minAsDate")
-);

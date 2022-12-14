@@ -20,7 +20,7 @@ import {
   setRequestedIcon
 } from "../../utils/dom";
 
-import { CSS, INPUT_TYPE_ICONS, SLOTS, TEXT } from "./resources";
+import { CSS, INPUT_TYPE_ICONS, SLOTS } from "./resources";
 import { InputPlacement, NumberNudgeDirection, SetValueOrigin } from "./interfaces";
 import { Position } from "../interfaces";
 import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
@@ -35,16 +35,24 @@ import {
   NumberingSystem,
   defaultNumberingSystem,
   numberStringFormatter,
-  LocalizedComponent,
   disconnectLocalized,
+  LocalizedComponent,
   connectLocalized
 } from "../../utils/locale";
 import { numberKeys } from "../../utils/key";
 import { isValidNumber, parseNumberString, sanitizeNumberString } from "../../utils/number";
-import { CSS_UTILITY, TEXT as COMMON_TEXT } from "../../utils/resources";
+import { CSS_UTILITY } from "../../utils/resources";
 import { decimalPlaces } from "../../utils/math";
 import { createObserver } from "../../utils/observers";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import {
+  connectMessages,
+  disconnectMessages,
+  setUpMessages,
+  T9nComponent,
+  updateMessages
+} from "../../utils/t9n";
+import { Messages } from "./assets/input/t9n";
 import {
   setUpLoadableComponent,
   setComponentLoaded,
@@ -58,13 +66,15 @@ import {
 @Component({
   tag: "calcite-input",
   styleUrl: "input.scss",
-  shadow: true
+  shadow: true,
+  assetsDirs: ["assets"]
 })
 export class Input
   implements
     LabelableComponent,
     FormComponent,
     InteractiveComponent,
+    T9nComponent,
     LocalizedComponent,
     LoadableComponent
 {
@@ -128,15 +138,18 @@ export class Input
 
   /**
    * Accessible name for the component's clear button.
+   *
+   * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`.
    */
   @Prop() intlClear: string;
 
   /**
    * Accessible name when the component is loading.
    *
+   * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`.
    * @default "Loading"
    */
-  @Prop() intlLoading: string = COMMON_TEXT.loading;
+  @Prop() intlLoading?: string;
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @Prop({ reflect: true }) iconFlipRtl = false;
@@ -327,6 +340,25 @@ export class Input
   /** The component's value. */
   @Prop({ mutable: true }) value = "";
 
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @internal
+   */
+  @Prop({ mutable: true }) messages: Messages;
+
+  /**
+   * Use this property to override individual strings used by the component.
+   */
+  @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
+
+  @Watch("intlClear")
+  @Watch("intlLoading")
+  @Watch("messageOverrides")
+  onMessagesChange(): void {
+    /* wired up by t9n util */
+  }
+
   @Watch("value")
   valueWatcher(newValue: string, previousValue: string): void {
     if (!this.userChangedValue) {
@@ -411,6 +443,13 @@ export class Input
 
   @State() effectiveLocale = "";
 
+  @Watch("effectiveLocale")
+  effectiveLocaleChange(): void {
+    updateMessages(this, this.effectiveLocale);
+  }
+
+  @State() defaultMessages: Messages;
+
   @State() localizedValue: string;
 
   //--------------------------------------------------------------------------
@@ -421,6 +460,7 @@ export class Input
 
   connectedCallback(): void {
     connectLocalized(this);
+    connectMessages(this);
 
     this.scale = getElementProp(this.el, "scale", this.scale);
     this.status = getElementProp(this.el, "status", this.status);
@@ -450,17 +490,19 @@ export class Input
     disconnectLabel(this);
     disconnectForm(this);
     disconnectLocalized(this);
+    disconnectMessages(this);
 
     this.mutationObserver?.disconnect();
     this.el.removeEventListener("calciteInternalHiddenInputChange", this.hiddenInputChangeHandler);
   }
 
-  componentWillLoad(): void {
+  async componentWillLoad(): Promise<void> {
     setUpLoadableComponent(this);
     this.childElType = this.type === "textarea" ? "textarea" : "input";
     this.maxString = this.max?.toString();
     this.minString = this.min?.toString();
     this.requestedIcon = setRequestedIcon(INPUT_TYPE_ICONS, this.icon, this.type);
+    await setUpMessages(this);
   }
 
   componentDidLoad(): void {
@@ -964,13 +1006,13 @@ export class Input
     const dir = getElementDir(this.el);
     const loader = (
       <div class={CSS.loader}>
-        <calcite-progress label={this.intlLoading} type="indeterminate" />
+        <calcite-progress label={this.messages.loading} type="indeterminate" />
       </div>
     );
 
     const inputClearButton = (
       <button
-        aria-label={this.intlClear || TEXT.clear}
+        aria-label={this.messages.clear}
         class={CSS.clearButton}
         disabled={this.disabled || this.readOnly}
         onClick={this.clearInputValue}

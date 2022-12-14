@@ -1,7 +1,7 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { html } from "../../../support/formatting";
 
-import { accessible, defaults, hidden, renders, floatingUIOwner, focusable } from "../../tests/commonTests";
+import { accessible, defaults, hidden, renders, floatingUIOwner, focusable, t9n } from "../../tests/commonTests";
 import { CSS } from "./resources";
 
 describe("calcite-popover", () => {
@@ -12,6 +12,8 @@ describe("calcite-popover", () => {
       { display: "block" }
     );
   });
+
+  it("supports translations", () => t9n("calcite-popover"));
 
   it("should have zIndex of 900", async () => {
     const page = await newE2EPage();

@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, disabled, hidden, renders, slots, defaults } from "../../tests/commonTests";
+import { accessible, disabled, hidden, renders, slots, t9n, defaults } from "../../tests/commonTests";
 import { CSS, SLOTS, TEXT } from "./resources";
 
 describe("calcite-action", () => {
@@ -172,6 +172,8 @@ describe("calcite-action", () => {
     const referenceElement: HTMLElement = await tooltip.getProperty("referenceElement");
     expect(referenceElement).toBeDefined();
   });
+
+  it("support translation", () => t9n("calcite-action"));
 
   it("should have a indicator live region", async () => {
     const page = await newE2EPage();
