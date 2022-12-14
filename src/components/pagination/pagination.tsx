@@ -109,13 +109,6 @@ export class Pagination implements LocalizedComponent {
   /**
    * Emits when the selected page changes.
    *
-   * @deprecated use calcitePaginationChange instead
-   */
-  @Event({ cancelable: false }) calcitePaginationUpdate: EventEmitter<PaginationDetail>;
-
-  /**
-   * Emits when the selected page changes.
-   *
    * @see [PaginationDetail](https://github.com/Esri/calcite-components/blob/master/src/components/pagination/pagination.tsx#L23)
    */
   @Event({ cancelable: false }) calcitePaginationChange: EventEmitter<PaginationDetail>;
@@ -190,7 +183,6 @@ export class Pagination implements LocalizedComponent {
     };
 
     this.calcitePaginationChange.emit(changePayload);
-    this.calcitePaginationUpdate.emit(changePayload);
   }
 
   //--------------------------------------------------------------------------
