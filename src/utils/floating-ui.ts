@@ -349,7 +349,6 @@ export async function positionFloatingUI({
   placement: LogicalPlacement;
   flipDisabled?: boolean;
   flipPlacements?: EffectivePlacement[];
-
   offsetDistance?: number;
   offsetSkidding?: number;
   arrowEl?: HTMLElement;
