@@ -5,7 +5,8 @@ import { StatusIconDefaults } from "./interfaces";
 describe("calcite-input-message", () => {
   it("renders", async () => {
     await renders(`<calcite-input-message hidden></calcite-input-message>`, { display: "none", visible: false });
-    await renders(`<calcite-input-message></calcite-input-message>`, { display: "flex", visible: true });
+    await renders(`<calcite-input-message></calcite-input-message>`, { display: "none", visible: false });
+    await renders(`<calcite-input-message>Text</calcite-input-message>`, { display: "flex", visible: true });
   });
 
   it("honors hidden attribute", async () => hidden(`<calcite-input-message>Text</calcite-input-message>`));

@@ -35,6 +35,9 @@ export class InputMessage {
   /** Specifies the status of the input field, which determines message and icons. */
   @Prop({ reflect: true, mutable: true }) status: Status = "idle";
 
+  /** Specifies if the message should be visible to the user */
+  @Prop({ reflect: true, mutable: true }) hidden = false;
+
   @Watch("status")
   @Watch("icon")
   handleIconEl(): void {
@@ -48,8 +51,13 @@ export class InputMessage {
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
-    this.scale = getElementProp(this.el, "scale", this.scale);
-    this.requestedIcon = setRequestedIcon(StatusIconDefaults, this.icon, this.status);
+    const content = this.el.textContent;
+    if (content === "" && !this.icon) {
+      this.hidden = true;
+    } else {
+      this.scale = getElementProp(this.el, "scale", this.scale);
+      this.requestedIcon = setRequestedIcon(StatusIconDefaults, this.icon, this.status);
+    }
   }
 
   render(): VNode {
