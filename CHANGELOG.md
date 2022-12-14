@@ -9,26 +9,32 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### ⚠ BREAKING CHANGES
 
-- **label:** The default display for label is now `flex` instead of
+- **loader:** Removed deprecated properties.
+
+* Removed the property `active`, use global attribute `hidden` instead.
+* Removed the property `noPadding`, use `--calcite-loader-padding` CSS
+  property instead.
+
+* **label:** The default display for label is now `flex` instead of
   `inline`.
 
-* Use `--calcite-label-margin-bottom` CSS variable to disable space when
+- Use `--calcite-label-margin-bottom` CSS variable to disable space when
   in `layout` is `inline`.
 
-- **tabs:** Removed slot.
+* **tabs:** Removed slot.
 
-* Removed the slot `tab-nav`, use `title-group` instead.
+- Removed the slot `tab-nav`, use `title-group` instead.
 
-- **dropdown:** Removed slot.
+* **dropdown:** Removed slot.
 
-* Removed the slot `dropdown-trigger`, use `trigger` instead.
+- Removed the slot `dropdown-trigger`, use `trigger` instead.
 
-- **action-menu:** Removed event.
+* **action-menu:** Removed event.
 
-* Removed the event `calciteActionMenuOpenChange`, use
+- Removed the event `calciteActionMenuOpenChange`, use
   `calciteActionMenuOpen` instead.
 
-- **combobox,combobox-item:** Removed deprecated properties, events, and event
+* **combobox,combobox-item:** Removed deprecated properties, events, and event
   payload.
 
 calcite-combobox :
