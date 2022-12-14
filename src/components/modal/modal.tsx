@@ -92,24 +92,24 @@ export class Modal
   beforeClose: (el: HTMLElement) => Promise<void> = () => Promise.resolve();
 
   /** When `true`, disables the component's close button. */
-  @Prop({ reflect: true }) disableCloseButton = false;
+  @Prop({ reflect: true }) closeButtonDisabled = false;
 
   /**
    * When `true`, prevents focus trapping.
    */
-  @Prop({ reflect: true }) disableFocusTrap = false;
+  @Prop({ reflect: true }) focusTrapDisabled = false;
 
-  @Watch("disableFocusTrap")
-  handleDisableFocusTrap(disableFocusTrap: boolean): void {
+  @Watch("focusTrapDisabled")
+  handlefocusTrapDisabled(focusTrapDisabled: boolean): void {
     if (!this.open) {
       return;
     }
 
-    disableFocusTrap ? deactivateFocusTrap(this) : activateFocusTrap(this);
+    focusTrapDisabled ? deactivateFocusTrap(this) : activateFocusTrap(this);
   }
 
   /** When `true`, disables the closing of the component when clicked outside. */
-  @Prop({ reflect: true }) disableOutsideClose = false;
+  @Prop({ reflect: true }) outsideCloseDisabled = false;
 
   /**
    * Accessible name for the component's close button.
@@ -122,7 +122,7 @@ export class Modal
   @Prop({ reflect: true }) docked: boolean;
 
   /** When `true`, disables the default close on escape behavior. */
-  @Prop({ reflect: true }) disableEscape = false;
+  @Prop({ reflect: true }) escapeDisabled = false;
 
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
@@ -252,7 +252,7 @@ export class Modal
   }
 
   renderCloseButton(): VNode {
-    return !this.disableCloseButton ? (
+    return !this.closeButtonDisabled ? (
       <button
         aria-label={this.messages.close}
         class={CSS.close}
@@ -350,7 +350,7 @@ export class Modal
 
   @Listen("keydown", { target: "window" })
   handleEscape(event: KeyboardEvent): void {
-    if (this.open && !this.disableEscape && event.key === "Escape" && !event.defaultPrevented) {
+    if (this.open && !this.escapeDisabled && event.key === "Escape" && !event.defaultPrevented) {
       this.close();
       event.preventDefault();
     }
@@ -484,7 +484,7 @@ export class Modal
   }
 
   handleOutsideClose = (): void => {
-    if (this.disableOutsideClose) {
+    if (this.outsideCloseDisabled) {
       return;
     }
 

@@ -9,57 +9,85 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### ⚠ BREAKING CHANGES
 
-- **date-picker:** Removed the `start` and `end` properties, set `value`
+- **popover, dropdown, modal, pick-list-item, value-list-item:** Renamed `disable*` properties.
+
+* Dropdown
+* Renamed the property `disableCloseOnSelect`, use
+  `closeOnSelectDisabled` instead.
+* Modal
+* Renamed the property `disableCloseButton`, use `closeButtonDisabled`
+  instead.
+* Renamed the property `disableFocusTrap`, use `focusTrapDisabled`
+  instead.
+* Renamed the property `disableOutsideClose`, use `outsideCloseDisabled`
+  instead.
+  - Renamed the property `disableEscape`, use `escapeDisabled` instead.
+* PickListItem
+* Renamed the property `disableDeselect`, use `deselectDisabled`
+  instead.
+* Popover
+  - Renamed the property `disableFlip`, use `flipDisabled` instead.
+* Renamed the property `disableFocusTrap`, use `focusTrapDisabled`
+  instead.
+* Renamed the property `disablePointer`, use `pointerDisabled` instead.
+* ValueListItem
+* Renamed the property `disableDeselect`, use `deselectDisabled`
+  instead.
+
+- **input-date-picker:** Removed the `calciteDatePickerChange` event, use
+  `calciteInputDatePickerChange` instead.
+
+* **date-picker:** Removed the `start` and `end` properties, set `value`
   as an array with the start as the first value and the end as the second
   value instead.
 
-* **combobox:** Renamed event.
+- **combobox:** Renamed event.
 
-- Renamed the event `calciteComboboxChipDismiss`, use
+* Renamed the event `calciteComboboxChipDismiss`, use
   `calciteComboboxChipClose` instead.
 
-* **alert:** Renamed properties.
+- **alert:** Renamed properties.
 
-- Renamed the property `autoDismiss`, use `autoClose` instead.
-- Renamed the property `autoDismissDuration`, use `autoCloseDuration`
+* Renamed the property `autoDismiss`, use `autoClose` instead.
+* Renamed the property `autoDismissDuration`, use `autoCloseDuration`
   instead.
 
-* **combobox:** Removed `event.detail` payload from events and added
+- **combobox:** Removed `event.detail` payload from events and added
   properties `selectedItems` and `filteredItems`.
 
-- Removed the `event.detail` property on the event
+* Removed the `event.detail` property on the event
   `calciteComboboxChange`, use `event.target.selectedItems` instead.
-- Removed the `event.detail` property on the event
+* Removed the `event.detail` property on the event
   `calciteComboboxFilterChange`, use `event.target.filteredItems` or
   `event.target.value` instead.
 
-* **chip:** Renamed event.
+- **chip:** Renamed event.
 
-- Renamed the event `calciteChipDismiss`, use `calciteChipClose`
+* Renamed the event `calciteChipDismiss`, use `calciteChipClose`
   instead.
 
-* **tip:** Renamed property.
+- **tip:** Renamed property.
 
-- Renamed the property `nonDismissible`, use `closeDisabled` instead.
+* Renamed the property `nonDismissible`, use `closeDisabled` instead.
 
-* **date-picker:** Removed `event.detail` payload from events.
+- **date-picker:** Removed `event.detail` payload from events.
 
-- Removed the `event.detail` property on the event
+* Removed the `event.detail` property on the event
   `calciteDatePickerChange`, use `event.target` instead.
-- Removed the `event.detail` property on the event
+* Removed the `event.detail` property on the event
   `calciteDatePickerRangeChange`, use `event.target` instead.
 
-- **modal:** Removed deprecated properties and method.
+* **modal:** Removed deprecated properties and method.
 
-* Removed the property `active`, use `open` instead.
-* Removed the property noPadding, use `--calcite-modal-padding` CSS
+- Removed the property `active`, use `open` instead.
+- Removed the property noPadding, use `--calcite-modal-padding` CSS
   property instead.
-* Removed the method `focusElement`, use `setFocus` method instead.
-* Removed the CSS property ` --calcite-modal-content-text`.
-* Removed the CSS property `--calcite-modal-padding-large`.
-* Removed the CSS property `--calcite-modal-title-text`.
+- Removed the method `focusElement`, use `setFocus` method instead.
+- Removed the CSS property ` --calcite-modal-content-text`.
+- Removed the CSS property `--calcite-modal-padding-large`.
+- Removed the CSS property `--calcite-modal-title-text`.
 
-- **pagination:** Removed deprecated event.
+* **pagination:** Removed deprecated event.
 
 Removed the event `calcitePaginationUpdate` event, use
 `calcitePaginationChange` event instead.
