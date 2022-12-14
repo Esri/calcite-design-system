@@ -177,7 +177,7 @@ export const darkThemeRTL_TestOnly = (): string => html`
     )}"
     ${boolean("open", true)}
     scale="${select("scale", ["s", "m", "l"], "m")}"
-    kind="${select("kind", ["brand", "info", "danger", "success", "warning"], "red")}"
+    kind="${select("kind", ["brand", "info", "danger", "success", "warning"], "danger")}"
   >
     <div slot="title">Something failed</div>
     <div slot="message">That thing you wanted to do didn't work as expected</div>
@@ -193,7 +193,7 @@ export const actionsEndNoQueue_TestOnly = (): string => html`
       --calcite-duration-factor: 0;
     }
   </style>
-  <calcite-alert label="this is a default danger with icon and link" scale="l" kind="red" icon open>
+  <calcite-alert label="this is a default danger with icon and link" scale="l" kind="danger" icon open>
     <div slot="title">Hello there!</div>
     <div slot="message">Do you really want to proceed?</div>
     <calcite-action scale="l" slot="actions-end" title="Tips" icon="lightbulb"></calcite-action>
@@ -207,13 +207,13 @@ export const actionsEndQueued_TestOnly = (): string => html`
       --calcite-duration-factor: 0;
     }
   </style>
-  <calcite-alert id="one" label="One" scale="l" kind="red" icon open>
+  <calcite-alert id="one" label="One" scale="l" kind="danger" icon open>
     <div slot="title">Hello there, alert one!</div>
     <div slot="message">Do you really want to proceed?</div>
     <calcite-action scale="l" slot="actions-end" title="Tips" icon="lightbulb"></calcite-action>
     <calcite-action scale="l" slot="actions-end" title="Get info" icon="attachment"></calcite-action>
   </calcite-alert>
-  <calcite-alert id="two" label="Two" scale="l" kind="red" icon>
+  <calcite-alert id="two" label="Two" scale="l" kind="danger" icon>
     <div slot="title">Hello there, alert two!</div>
     <div slot="message">Do you really want to proceed?</div>
     <calcite-action scale="l" slot="actions-end" title="Tips" icon="lightbulb"></calcite-action>
