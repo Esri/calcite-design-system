@@ -22,7 +22,7 @@ import {
   toAriaBoolean
 } from "../../utils/dom";
 
-import { Scale } from "../interfaces";
+import { FlipContext, Scale } from "../interfaces";
 import { CSS, SLOTS, ICONS } from "./resources";
 import { CSS_UTILITY } from "../../utils/resources";
 import {
@@ -62,11 +62,17 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
    */
   @Prop({ reflect: true }) disabled = false;
 
-  /** When `true`, the component is selected. */
-  @Prop({ mutable: true, reflect: true }) selected = false;
-
   /** When `true`, the component is expanded. */
   @Prop({ mutable: true, reflect: true }) expanded = false;
+
+  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
+  @Prop({ reflect: true }) iconFlipRtl: FlipContext;
+
+  /** Specifies an icon to display at the start of the component. */
+  @Prop({ reflect: true }) iconStart: string;
+
+  /** When `true`, the component is selected. */
+  @Prop({ mutable: true, reflect: true }) selected = false;
 
   @Watch("expanded")
   expandedHandler(newValue: boolean): void {
@@ -243,6 +249,14 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
         onSlotchange={this.actionsEndSlotChangeHandler}
       />
     );
+    const iconStartEl = (
+      <calcite-icon
+        class="calcite-tab-title--icon icon-start"
+        flipRtl={this.iconFlipRtl === "start" || this.iconFlipRtl === "both"}
+        icon={this.iconStart}
+        scale="s"
+      />
+    );
 
     return (
       <Host
@@ -263,6 +277,7 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
           {chevron}
           {itemIndicator}
           {checkbox ? checkbox : defaultSlotNode}
+          {this.iconStart ? iconStartEl : null}
           <div class={CSS.actionsEnd} hidden={!hasEndActions}>
             {slotNode}
           </div>

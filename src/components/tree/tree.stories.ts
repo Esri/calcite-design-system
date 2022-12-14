@@ -1,5 +1,5 @@
 import { select } from "@storybook/addon-knobs";
-import { boolean, storyFilters } from "../../../.storybook/helpers";
+import { iconNames, boolean, storyFilters } from "../../../.storybook/helpers";
 import { themesDarkDefault } from "../../../.storybook/utils";
 import readme from "./readme.md";
 import treeItemReadme from "../tree-item/readme.md";
@@ -43,7 +43,7 @@ const treeItems = `
 
 const slottedDropdown = `
 <calcite-dropdown slot="actions-end">
-  <calcite-action slot='dropdown-trigger' icon='ellipsis'></calcite-action>
+  <calcite-action slot='trigger' icon='ellipsis'></calcite-action>
   <calcite-dropdown-group group-title="Settings" selection-mode="multi">
     <calcite-dropdown-item>Group elements</calcite-dropdown-item>
   </calcite-dropdown-group>
@@ -75,11 +75,14 @@ export const simple = (): string => html`
   </calcite-tree>
 `;
 
-export const selectionActionsEndSlottedDropdowns = (): string => html`<calcite-tree
+const selectedIcon = iconNames[10];
+
+export const actionsEndDropdownsAndIconStart = (): string => html`<calcite-tree
   ${boolean("lines", false)}
   selection-mode="${select("selection-mode", selectionModes, "none")}"
+  style="width: 350px"
 >
-  <calcite-tree-item>
+  <calcite-tree-item icon-start="${select("icon-start", iconNames, selectedIcon)}">
     <a>Child 1</a>
     ${slottedDropdown} ${slottedDropdown}
   </calcite-tree-item>
@@ -93,7 +96,7 @@ export const selectionActionsEndSlottedDropdowns = (): string => html`<calcite-t
       <calcite-tree-item>
         <a>Grandchild 2</a>
         <calcite-tree slot="children">
-          <calcite-tree-item>
+          <calcite-tree-item icon-start="${select("icon-start", iconNames, selectedIcon)}">
             <a>Great-Grandchild 1</a>
             ${slottedDropdown}
           </calcite-tree-item>
@@ -105,7 +108,7 @@ export const selectionActionsEndSlottedDropdowns = (): string => html`<calcite-t
       </calcite-tree-item>
     </calcite-tree>
   </calcite-tree-item>
-  <calcite-tree-item>
+  <calcite-tree-item icon-start="${select("icon-start", iconNames, selectedIcon)}">
     <a>Child 3</a>
     ${slottedDropdown}
     <calcite-tree slot="children">
