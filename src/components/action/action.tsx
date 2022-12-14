@@ -12,7 +12,7 @@ import {
   Build
 } from "@stencil/core";
 import { Alignment, Appearance, Scale } from "../interfaces";
-import { CSS, TEXT, SLOTS } from "./resources";
+import { CSS, SLOTS } from "./resources";
 import { guid } from "../../utils/guid";
 import { createObserver } from "../../utils/observers";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
@@ -278,7 +278,6 @@ export class Action
       buttonId,
       messages
     } = this;
-
     const ariaLabel = `${label || text}${indicator ? ` (${messages.indicator})` : ""}`;
 
     const buttonClasses = {
