@@ -955,7 +955,7 @@ export class ColorPicker
                 }}
                 scale={hexInputScale}
               >
-                <calcite-tab-nav slot="tab-nav">
+                <calcite-tab-nav slot="title-group">
                   {this.renderChannelsTabTitle("rgb")}
                   {this.renderChannelsTabTitle("hsv")}
                 </calcite-tab-nav>

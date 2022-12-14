@@ -32,9 +32,9 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
         }
       },
       {
-        name: "non-dismissible",
+        name: "close-disabled",
         commit(): Attribute {
-          this.value = boolean("nonDismissible", false);
+          this.value = boolean("closeDisabled", false);
           delete this.build;
           return this;
         }

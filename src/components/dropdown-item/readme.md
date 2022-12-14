@@ -15,6 +15,12 @@
 | `selected`    | `selected`      | When `true`, the component is selected.                                                                                                           | `boolean`                    | `false`     |
 | `target`      | `target`        | Specifies the frame or window to open the linked document.                                                                                        | `string`                     | `undefined` |
 
+## Events
+
+| Event                       | Description                           | Type                |
+| --------------------------- | ------------------------------------- | ------------------- |
+| `calciteDropdownItemSelect` | Fires when the component is selected. | `CustomEvent<void>` |
+
 ## Methods
 
 ### `setFocus() => Promise<void>`

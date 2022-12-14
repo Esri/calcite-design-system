@@ -21,7 +21,6 @@ import {
   setEndOfDay
 } from "../../utils/date";
 import { HeadingLevel } from "../functional/Heading";
-import { DateRangeChange } from "./interfaces";
 import { Messages } from "./assets/date-picker/t9n";
 import {
   connectMessages,
@@ -179,20 +178,6 @@ export class DatePicker implements LocalizedComponent, T9nComponent {
   /** When `true`, activates the component's range mode to allow a start and end date. */
   @Prop({ reflect: true }) range = false;
 
-  /**
-   * Specifies the selected start date.
-   *
-   * @deprecated use `value` instead.
-   */
-  @Prop({ mutable: true, reflect: true }) start: string;
-
-  /**
-   * Specifies the selected end date.
-   *
-   * @deprecated use `value` instead.
-   */
-  @Prop({ mutable: true, reflect: true }) end: string;
-
   /** When `true`, disables the default behavior on the third click of narrowing or extending the range and instead starts a new range. */
   @Prop({ reflect: true }) proximitySelectionDisabled = false;
 
@@ -224,14 +209,14 @@ export class DatePicker implements LocalizedComponent, T9nComponent {
   /**
    * Emits when a user changes the component's date. For `range` events, use `calciteDatePickerRangeChange`.
    */
-  @Event({ cancelable: false }) calciteDatePickerChange: EventEmitter<Date>;
+  @Event({ cancelable: false }) calciteDatePickerChange: EventEmitter<void>;
 
   /**
    * Emits when a user changes the component's date `range`. For components without `range` use `calciteDatePickerChange`.
    *
    * @see [DateRangeChange](https://github.com/Esri/calcite-components/blob/master/src/components/date-picker/interfaces.ts#L1)
    */
-  @Event({ cancelable: false }) calciteDatePickerRangeChange: EventEmitter<DateRangeChange>;
+  @Event({ cancelable: false }) calciteDatePickerRangeChange: EventEmitter<void>;
 
   /**
    * Active start date.
@@ -254,18 +239,8 @@ export class DatePicker implements LocalizedComponent, T9nComponent {
 
     if (Array.isArray(this.value)) {
       this.valueAsDate = getValueAsDateRange(this.value);
-      this.start = this.value[0];
-      this.end = this.value[1];
     } else if (this.value) {
       this.valueAsDate = dateFromISO(this.value);
-    }
-
-    if (this.start) {
-      this.setStartAsDate(dateFromISO(this.start));
-    }
-
-    if (this.end) {
-      this.setEndAsDate(dateFromISO(this.end));
     }
 
     if (this.min) {
@@ -369,23 +344,9 @@ export class DatePicker implements LocalizedComponent, T9nComponent {
   valueHandler(value: string | string[]): void {
     if (Array.isArray(value)) {
       this.valueAsDate = getValueAsDateRange(value);
-      this.start = value[0];
-      this.end = value[1];
     } else if (value) {
       this.valueAsDate = dateFromISO(value);
-      this.start = "";
-      this.end = "";
     }
-  }
-
-  @Watch("start")
-  startWatcher(start: string): void {
-    this.setStartAsDate(dateFromISO(start));
-  }
-
-  @Watch("end")
-  endWatcher(end: string): void {
-    this.setEndAsDate(dateFromISO(end));
   }
 
   @Watch("effectiveLocale")
@@ -554,10 +515,7 @@ export class DatePicker implements LocalizedComponent, T9nComponent {
     this.startAsDate = startDate;
     this.mostRecentRangeValue = this.startAsDate;
     if (emit) {
-      this.calciteDatePickerRangeChange.emit({
-        startDate,
-        endDate: this.endAsDate
-      });
+      this.calciteDatePickerRangeChange.emit();
     }
   }
 
@@ -571,10 +529,7 @@ export class DatePicker implements LocalizedComponent, T9nComponent {
     this.endAsDate = endDate ? setEndOfDay(endDate) : endDate;
     this.mostRecentRangeValue = this.endAsDate;
     if (emit) {
-      this.calciteDatePickerRangeChange.emit({
-        startDate: this.startAsDate,
-        endDate
-      });
+      this.calciteDatePickerRangeChange.emit();
     }
   }
 
@@ -598,13 +553,11 @@ export class DatePicker implements LocalizedComponent, T9nComponent {
   };
 
   private setEndDate(date: Date): void {
-    this.end = date ? dateToISO(date) : "";
     this.setEndAsDate(date, true);
     this.activeEndDate = date || null;
   }
 
   private setStartDate(date: Date): void {
-    this.start = date ? dateToISO(date) : "";
     this.setStartAsDate(date, true);
     this.activeStartDate = date || null;
   }
@@ -626,7 +579,7 @@ export class DatePicker implements LocalizedComponent, T9nComponent {
       this.value = isoDate || "";
       this.valueAsDate = date || null;
       this.activeDate = date || null;
-      this.calciteDatePickerChange.emit(date);
+      this.calciteDatePickerChange.emit();
       return;
     }
 
@@ -664,10 +617,10 @@ export class DatePicker implements LocalizedComponent, T9nComponent {
         }
       } else {
         this.setStartDate(date);
-        this.endAsDate = this.activeEndDate = this.end = undefined;
+        this.endAsDate = this.activeEndDate = undefined;
       }
     }
-    this.calciteDatePickerChange.emit(date);
+    this.calciteDatePickerChange.emit();
   };
 
   /**

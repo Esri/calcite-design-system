@@ -2,7 +2,7 @@ You can choose to leave the dropdown open when an item is selected with the `dis
 
 ```html
 <calcite-dropdown disable-close-on-select>
-  <calcite-button id="trigger" slot="dropdown-trigger">Open dropdown</calcite-button>
+  <calcite-button id="trigger" slot="trigger">Open dropdown</calcite-button>
   <calcite-dropdown-group id="group-1" selection-mode="single">
     <calcite-dropdown-item id="item-1"> Dropdown Item Content </calcite-dropdown-item>
     <calcite-dropdown-item id="item-2" selected> Dropdown Item Content </calcite-dropdown-item>
