@@ -9,6 +9,21 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### ⚠ BREAKING CHANGES
 
+- **modal:** Removed deprecated properties and method.
+
+* Removed the property `active`, use `open` instead.
+* Removed the property noPadding, use `--calcite-modal-padding` CSS
+  property instead.
+* Removed the method `focusElement`, use `setFocus` method instead.
+* Removed the CSS property ` --calcite-modal-content-text`.
+* Removed the CSS property `--calcite-modal-padding-large`.
+* Removed the CSS property `--calcite-modal-title-text`.
+
+- **pagination:** Removed deprecated event.
+
+Removed the event `calcitePaginationUpdate` event, use
+`calcitePaginationChange` event instead.
+
 - **loader:** Removed deprecated properties.
 
 * Removed the property `active`, use global attribute `hidden` instead.
