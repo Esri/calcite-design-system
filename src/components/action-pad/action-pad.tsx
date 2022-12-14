@@ -139,8 +139,6 @@ export class ActionPad
   // --------------------------------------------------------------------------
 
   connectedCallback(): void {
-    connectLocalized(this);
-    connectMessages(this);
     connectConditionalSlotComponent(this);
     connectLocalized(this);
     connectMessages(this);
