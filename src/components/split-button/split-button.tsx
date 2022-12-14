@@ -157,7 +157,7 @@ export class SplitButton implements InteractiveComponent {
             icon-start={this.dropdownIcon}
             label={this.dropdownLabel}
             scale={this.scale}
-            slot="dropdown-trigger"
+            slot="trigger"
             splitChild={"secondary"}
             type="button"
           />

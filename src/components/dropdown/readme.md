@@ -10,7 +10,7 @@ A `calcite-dropdown` can be used to provide an absolutely positioned set of sele
 
 ```html
 <calcite-dropdown>
-  <calcite-button slot="dropdown-trigger">Open Dropdown</calcite-button>
+  <calcite-button slot="trigger">Open Dropdown</calcite-button>
   <calcite-dropdown-group>
     <calcite-dropdown-item>Relevance</calcite-dropdown-item>
     <calcite-dropdown-item selected>Date modified</calcite-dropdown-item>
@@ -25,7 +25,7 @@ You can choose to leave the dropdown open when an item is selected with the `dis
 
 ```html
 <calcite-dropdown disable-close-on-select>
-  <calcite-button id="trigger" slot="dropdown-trigger">Open dropdown</calcite-button>
+  <calcite-button id="trigger" slot="trigger">Open dropdown</calcite-button>
   <calcite-dropdown-group id="group-1" selection-mode="single">
     <calcite-dropdown-item id="item-1"> Dropdown Item Content </calcite-dropdown-item>
     <calcite-dropdown-item id="item-2" selected> Dropdown Item Content </calcite-dropdown-item>
@@ -40,7 +40,7 @@ You can combine groups in a single dropdown, with varying selection modes:
 
 ```html
 <calcite-dropdown>
-  <calcite-button slot="dropdown-trigger">Open Dropdown</calcite-button>
+  <calcite-button slot="trigger">Open Dropdown</calcite-button>
   <calcite-dropdown-group group-title="Select one">
     <calcite-dropdown-item>Apple</calcite-dropdown-item>
     <calcite-dropdown-item selected>Orange</calcite-dropdown-item>
@@ -96,10 +96,10 @@ Type: `Promise<void>`
 
 ## Slots
 
-| Slot                 | Description                                                                                                                                                                     |
-| -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-|                      | A slot for adding `calcite-dropdown-group` components. Every `calcite-dropdown-item` must have a parent `calcite-dropdown-group`, even if the `groupTitle` property is not set. |
-| `"dropdown-trigger"` | A slot for the element that triggers the `calcite-dropdown`.                                                                                                                    |
+| Slot        | Description                                                                                                                                                                     |
+| ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|             | A slot for adding `calcite-dropdown-group` components. Every `calcite-dropdown-item` must have a parent `calcite-dropdown-group`, even if the `groupTitle` property is not set. |
+| `"trigger"` | A slot for the element that triggers the `calcite-dropdown`.                                                                                                                    |
 
 ## CSS Custom Properties
 

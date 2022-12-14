@@ -184,7 +184,7 @@ export const thumbnail = (): string => html`
           <calcite-dropdown type="hover">
             <calcite-button
               id="card-icon-test-5"
-              slot="dropdown-trigger"
+              slot="trigger"
               scale="s"
               color="neutral"
               icon-start="circle"

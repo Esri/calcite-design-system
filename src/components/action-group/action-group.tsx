@@ -108,7 +108,7 @@ export class ActionGroup implements ConditionalSlotComponent {
         expanded={expanded}
         flipPlacements={["left", "right"]}
         label={intlMore || TEXT.more}
-        onCalciteActionMenuOpenChange={this.setMenuOpen}
+        onCalciteActionMenuOpen={this.setMenuOpen}
         open={menuOpen}
         placement={layout === "horizontal" ? "bottom-start" : "leading-start"}
         scale={scale}

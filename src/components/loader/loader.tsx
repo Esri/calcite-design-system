@@ -21,14 +21,6 @@ export class Loader {
   //
   //--------------------------------------------------------------------------
 
-  /**
-   * When `true`, the component is active.
-   *
-   * @deprecated use global `hidden` attribute instead.
-   * @mdn [hidden](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/hidden)
-   */
-  @Prop({ reflect: true }) active = false;
-
   /** When `true`, displays smaller and appears to the left of the text. */
   @Prop({ reflect: true }) inline = false;
 
@@ -51,13 +43,6 @@ export class Loader {
 
   /** Text that displays under the component's indicator. */
   @Prop() text = "";
-
-  /**
-   * Disables spacing around the component.
-   *
-   * @deprecated Use `--calcite-loader-padding` CSS variable instead.
-   */
-  @Prop({ reflect: true }) noPadding = false;
 
   //--------------------------------------------------------------------------
   //

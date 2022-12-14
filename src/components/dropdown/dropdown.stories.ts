@@ -28,7 +28,7 @@ export const simple = (): string => html`
     ${boolean("disable-close-on-select", false)}
     ${boolean("disabled", false)}
   >
-    <calcite-button slot="dropdown-trigger">Open Dropdown</calcite-button>
+    <calcite-button slot="trigger">Open Dropdown</calcite-button>
     <calcite-dropdown-group
       selection-mode="${select("group selection mode", ["single", "multi", "none", "multiple"], "single")}"
       group-title="Sort by"
@@ -49,7 +49,7 @@ export const simpleAutoWidth = (): string => html`
     ${boolean("disable-close-on-select", false)}
     ${boolean("disabled", false)}
   >
-    <calcite-button slot="dropdown-trigger">Open Dropdown</calcite-button>
+    <calcite-button slot="trigger">Open Dropdown</calcite-button>
     <calcite-dropdown-group
       selection-mode="${select("group selection mode", ["single", "multi", "none", "multiple"], "single")}"
       group-title="Sort by"
@@ -73,7 +73,7 @@ export const simpleFullWidth = (): string => html`
       ${boolean("disable-close-on-select", false)}
       ${boolean("disabled", false)}
     >
-      <calcite-button width="full" slot="dropdown-trigger">Open Dropdown</calcite-button>
+      <calcite-button width="full" slot="trigger">Open Dropdown</calcite-button>
       <calcite-dropdown-group
         selection-mode="${select("group selection mode", ["single", "multi", "none", "multiple"], "single")}"
         group-title="Sort by"
@@ -96,7 +96,7 @@ export const withIcons = (): string => html`
     ${boolean("disable-close-on-select", false)}
     ${boolean("disabled", false)}
   >
-    <calcite-button slot="dropdown-trigger">Open Dropdown</calcite-button>
+    <calcite-button slot="trigger">Open Dropdown</calcite-button>
     <calcite-dropdown-group
       selection-mode="${select("group selection mode", ["single", "multi", "none", "multiple"], "single")}"
       group-title="Icon Start"
@@ -134,7 +134,7 @@ export const groupsAndSelectionModes = (): string => html`
     ${boolean("disable-close-on-select", false)}
     ${boolean("disabled", false)}
   >
-    <calcite-button slot="dropdown-trigger">Open Dropdown</calcite-button>
+    <calcite-button slot="trigger">Open Dropdown</calcite-button>
     <calcite-dropdown-group group-title="Select one">
       <calcite-dropdown-item>Apple</calcite-dropdown-item>
       <calcite-dropdown-item selected>Orange</calcite-dropdown-item>
@@ -162,7 +162,7 @@ export const itemsAsLinks = (): string => html`
     ${boolean("disable-close-on-select", false)}
     ${boolean("disabled", false)}
   >
-    <calcite-button slot="dropdown-trigger">Open Dropdown</calcite-button>
+    <calcite-button slot="trigger">Open Dropdown</calcite-button>
     <calcite-dropdown-group selection-mode="none" group-title="Select one">
       <calcite-dropdown-item href="http://google.com" target="_blank" title="Test title"
         >Throw Apples</calcite-dropdown-item
@@ -200,7 +200,7 @@ export const darkThemeRTL_TestOnly = (): string => html`
     ${boolean("disable-close-on-select", false)}
     ${boolean("disabled", false)}
   >
-    <calcite-button slot="dropdown-trigger">Open Dropdown</calcite-button>
+    <calcite-button slot="trigger">Open Dropdown</calcite-button>
     <calcite-dropdown-group group-title="Select one">
       <calcite-dropdown-item icon-end="list">List</calcite-dropdown-item>
       <calcite-dropdown-item icon-end="grid" selected>Grid</calcite-dropdown-item>
@@ -235,7 +235,7 @@ export const itemsAsLinksDarkTheme = (): string => html`
     ${boolean("disable-close-on-select", false)}
     ${boolean("disabled", false)}
   >
-    <calcite-button slot="dropdown-trigger">Open Dropdown</calcite-button>
+    <calcite-button slot="trigger">Open Dropdown</calcite-button>
     <calcite-dropdown-group selection-mode="none" group-title="Select one">
       <calcite-dropdown-item href="http://google.com" target="_blank" title="Test title"
         >Throw Apples</calcite-dropdown-item
@@ -274,7 +274,7 @@ export const scrollingAfterCertainItems_TestOnly = (): string => html`
     ${boolean("disable-close-on-select", false)}
     ${boolean("disabled", false)}
   >
-    <calcite-button slot="dropdown-trigger">Open Dropdown</calcite-button>
+    <calcite-button slot="trigger">Open Dropdown</calcite-button>
     <calcite-dropdown-group group-title="First group">
       <calcite-dropdown-item>1</calcite-dropdown-item>
       <calcite-dropdown-item>2</calcite-dropdown-item>
@@ -299,7 +299,7 @@ export const scrollingWithoutMaxItems_TestOnly = (): string => html`
     }
   </style>
   <calcite-dropdown open>
-    <calcite-button slot="dropdown-trigger">Open Dropdown</calcite-button>
+    <calcite-button slot="trigger">Open Dropdown</calcite-button>
     <calcite-dropdown-group
       selection-mode="${select("group selection mode", ["single", "multi", "none", "multiple"], "single")}"
       group-title="Sort by"
@@ -331,7 +331,7 @@ export const noScrollingWhenMaxItemsEqualsItems_TestOnly = (): string => html` <
       --calcite-duration-factor: 0;
     }
   </style>
-  <calcite-button slot="dropdown-trigger">Activate Dropdown</calcite-button>
+  <calcite-button slot="trigger">Activate Dropdown</calcite-button>
   <calcite-dropdown-group selection-mode="single" group-title="Selection Mode: Single">
     <calcite-dropdown-item>Relevance</calcite-dropdown-item>
     <calcite-dropdown-item selected>Date modified</calcite-dropdown-item>
@@ -345,7 +345,7 @@ export const disabled_TestOnly = (): string => html` <style>
     }
   </style>
   <calcite-dropdown disabled>
-    <calcite-button slot="dropdown-trigger">Open Dropdown</calcite-button>
+    <calcite-button slot="trigger">Open Dropdown</calcite-button>
     <calcite-dropdown-group group-title="First group">
       <calcite-dropdown-item>1</calcite-dropdown-item>
       <calcite-dropdown-item>2</calcite-dropdown-item>
@@ -370,7 +370,7 @@ export const flipPositioning_TestOnly = (): string => html`
   </style>
   <div style="margin:10px;">
     <calcite-dropdown width="m" placement="${select("placement", menuPlacements, "top")}" open>
-      <calcite-button slot="dropdown-trigger">Open Dropdown</calcite-button>
+      <calcite-button slot="trigger">Open Dropdown</calcite-button>
       <calcite-dropdown-group>
         <calcite-dropdown-item>1</calcite-dropdown-item>
         <calcite-dropdown-item>2</calcite-dropdown-item>
@@ -401,7 +401,7 @@ export const alignedCenter_TestOnly = (): string => html`
       ${boolean("disable-close-on-select", false)}
       ${boolean("disabled", false)}
     >
-      <calcite-button slot="dropdown-trigger">Open Dropdown</calcite-button>
+      <calcite-button slot="trigger">Open Dropdown</calcite-button>
       <calcite-dropdown-group
         selection-mode="${select("group selection mode", ["single", "multi", "none", "multiple"], "single")}"
         group-title="Sort by"
@@ -430,7 +430,7 @@ export const alignedCenterRTL_TestOnly = (): string => html`
       ${boolean("disable-close-on-select", false)}
       ${boolean("disabled", false)}
     >
-      <calcite-button slot="dropdown-trigger">Open Dropdown</calcite-button>
+      <calcite-button slot="trigger">Open Dropdown</calcite-button>
       <calcite-dropdown-group
         selection-mode="${select("group selection mode", ["single", "multi", "none", "multiple"], "single")}"
         group-title="Sort by"
@@ -459,7 +459,7 @@ export const flipPlacements_TestOnly = (): string => html`
   </style>
   <div style="height: 100px; overflow:scroll;">
     <calcite-dropdown class="my-dropdown" open>
-      <calcite-button slot="dropdown-trigger">Open Dropdown</calcite-button>
+      <calcite-button slot="trigger">Open Dropdown</calcite-button>
       <calcite-dropdown-group group-title="Sort by">
         <calcite-dropdown-item>Relevance</calcite-dropdown-item>
         <calcite-dropdown-item selected>Date modified</calcite-dropdown-item>
