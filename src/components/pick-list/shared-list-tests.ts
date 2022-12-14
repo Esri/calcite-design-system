@@ -177,8 +177,6 @@ export function keyboardNavigation(listType: ListType): void {
         </calcite-${listType}-list>
       `
       });
-      await page.waitForChanges();
-
       const list = await page.find(`calcite-${listType}-list`);
       expect(await list.getProperty("filteredItems")).toHaveLength(1);
       expect(await list.getProperty("filteredData")).toHaveLength(1);
@@ -194,8 +192,6 @@ export function keyboardNavigation(listType: ListType): void {
         </calcite-${listType}-list>
       `
       });
-      await page.waitForChanges();
-
       const list = await page.find(`calcite-${listType}-list`);
       expect(await list.getProperty("filteredItems")).toHaveLength(2);
       expect(await list.getProperty("filteredData")).toHaveLength(2);
