@@ -7,11 +7,12 @@ import {
   labelable,
   floatingUIOwner,
   formAssociated,
-  disabled
+  disabled,
+  t9n
 } from "../../tests/commonTests";
 
 import { html } from "../../../support/formatting";
-import { TEXT, CSS } from "./resources";
+import { CSS } from "./resources";
 
 describe("calcite-combobox", () => {
   it("renders", async () => renders("calcite-combobox", { display: "block" }));
@@ -20,10 +21,6 @@ describe("calcite-combobox", () => {
       {
         propertyName: "overlayPositioning",
         defaultValue: "absolute"
-      },
-      {
-        propertyName: "intlRemoveTag",
-        defaultValue: TEXT.removeTag
       },
       {
         propertyName: "flipPlacements",
@@ -1268,6 +1265,8 @@ describe("calcite-combobox", () => {
 
     expect(await inputEl.getProperty("value")).toBe("Blue");
   });
+
+  it("supports translation", () => t9n("calcite-combobox"));
 
   it("should not focus on the combobox when items are programmatically selected", async () => {
     const page = await newE2EPage();

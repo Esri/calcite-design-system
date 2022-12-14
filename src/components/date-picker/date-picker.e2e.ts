@@ -1,6 +1,5 @@
 import { E2EPage, newE2EPage } from "@stencil/core/testing";
-import { renders, defaults, hidden } from "../../tests/commonTests";
-import { TEXT } from "./resources";
+import { renders, defaults, hidden, t9n } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { skipAnimations } from "../../tests/utils";
 
@@ -11,18 +10,6 @@ describe("calcite-date-picker", () => {
 
   it("has property defaults", async () =>
     defaults("calcite-date-picker", [
-      {
-        propertyName: "intlPrevMonth",
-        defaultValue: TEXT.prevMonth
-      },
-      {
-        propertyName: "headingLevel",
-        defaultValue: undefined
-      },
-      {
-        propertyName: "intlNextMonth",
-        defaultValue: TEXT.nextMonth
-      },
       {
         propertyName: "scale",
         defaultValue: "m"
@@ -269,11 +256,17 @@ describe("calcite-date-picker", () => {
     expect(minDateAsTime).toEqual(new Date(minDateString).getTime());
   });
 
-  it("passes down the default intlYear prop to child date-picker-month-header", async () => {
+  it("passes down the default year prop to child date-picker-month-header", async () => {
     const page = await newE2EPage();
     await page.setContent(html`<calcite-date-picker value="2000-11-27" active></calcite-date-picker>`);
     const date = await page.find(`calcite-date-picker >>> calcite-date-picker-month-header`);
 
-    expect(await date.getProperty("intlYear")).toEqual("Year");
+    expect(await date.getProperty("messages")).toEqual({
+      nextMonth: "Next month",
+      prevMonth: "Previous month",
+      year: "Year"
+    });
   });
+
+  it("supports translations", () => t9n("calcite-date-picker"));
 });

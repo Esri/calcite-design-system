@@ -12,7 +12,3 @@ export const CSS = {
   buttonPadding: "button-padding",
   buttonPaddingShrunk: "button-padding--shrunk"
 };
-
-export const TEXT = {
-  loading: "Loading"
-};

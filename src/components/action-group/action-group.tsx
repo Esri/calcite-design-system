@@ -1,6 +1,6 @@
 import { Component, Element, h, Prop, Watch } from "@stencil/core";
-import { ICONS, SLOTS, TEXT } from "./resources";
-import { Fragment, VNode } from "@stencil/core/internal";
+import { ICONS, SLOTS } from "./resources";
+import { Fragment, State, VNode } from "@stencil/core/internal";
 import { getSlotted } from "../../utils/dom";
 import { SLOTS as ACTION_MENU_SLOTS } from "../action-menu/resources";
 import { Columns, Layout, Scale } from "../interfaces";
@@ -10,6 +10,15 @@ import {
   disconnectConditionalSlotComponent
 } from "../../utils/conditionalSlot";
 import { CalciteActionMenuCustomEvent } from "../../components";
+import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
+import {
+  connectMessages,
+  disconnectMessages,
+  setUpMessages,
+  T9nComponent,
+  updateMessages
+} from "../../utils/t9n";
+import { Messages } from "./assets/action-group/t9n";
 
 /**
  * @slot - A slot for adding a group of `calcite-action`s.
@@ -19,9 +28,10 @@ import { CalciteActionMenuCustomEvent } from "../../components";
 @Component({
   tag: "calcite-action-group",
   styleUrl: "action-group.scss",
-  shadow: true
+  shadow: true,
+  assetsDirs: ["assets"]
 })
-export class ActionGroup implements ConditionalSlotComponent {
+export class ActionGroup implements ConditionalSlotComponent, LocalizedComponent, T9nComponent {
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -50,6 +60,8 @@ export class ActionGroup implements ConditionalSlotComponent {
 
   /**
    * Specifies a text string for the `calcite-action-menu`.
+   *
+   * @deprecated - translations are now built-in, if you need to override a string, please use `messageOverrides`
    */
   @Prop() intlMore: string;
 
@@ -63,13 +75,39 @@ export class ActionGroup implements ConditionalSlotComponent {
    */
   @Prop({ reflect: true }) scale: Scale;
 
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @internal
+   */
+  @Prop({ mutable: true }) messages: Messages;
+
+  /**
+   * Use this property to override individual strings used by the component.
+   */
+  @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
+
+  @Watch("intlMore")
+  @Watch("messageOverrides")
+  onMessagesChange(): void {
+    /* wired up by t9n util */
+  }
+
   // --------------------------------------------------------------------------
   //
   //  Private Properties
   //
   // --------------------------------------------------------------------------
-
   @Element() el: HTMLCalciteActionGroupElement;
+
+  @State() effectiveLocale = "";
+
+  @Watch("effectiveLocale")
+  effectiveLocaleChange(): void {
+    updateMessages(this, this.effectiveLocale);
+  }
+
+  @State() defaultMessages: Messages;
 
   // --------------------------------------------------------------------------
   //
@@ -78,11 +116,19 @@ export class ActionGroup implements ConditionalSlotComponent {
   // --------------------------------------------------------------------------
 
   connectedCallback(): void {
+    connectLocalized(this);
+    connectMessages(this);
     connectConditionalSlotComponent(this);
   }
 
   disconnectedCallback(): void {
+    disconnectLocalized(this);
+    disconnectMessages(this);
     disconnectConditionalSlotComponent(this);
+  }
+
+  async componentWillLoad(): Promise<void> {
+    await setUpMessages(this);
   }
 
   // --------------------------------------------------------------------------
@@ -99,7 +145,7 @@ export class ActionGroup implements ConditionalSlotComponent {
   }
 
   renderMenu(): VNode {
-    const { el, expanded, intlMore, menuOpen, scale, layout } = this;
+    const { el, expanded, menuOpen, scale, layout, messages } = this;
 
     const hasMenuItems = getSlotted(el, SLOTS.menuActions);
 
@@ -107,7 +153,7 @@ export class ActionGroup implements ConditionalSlotComponent {
       <calcite-action-menu
         expanded={expanded}
         flipPlacements={["left", "right"]}
-        label={intlMore || TEXT.more}
+        label={messages.more}
         onCalciteActionMenuOpen={this.setMenuOpen}
         open={menuOpen}
         placement={layout === "horizontal" ? "bottom-start" : "leading-start"}
@@ -117,7 +163,7 @@ export class ActionGroup implements ConditionalSlotComponent {
           icon={ICONS.menu}
           scale={scale}
           slot={ACTION_MENU_SLOTS.trigger}
-          text={intlMore || TEXT.more}
+          text={messages.more}
           textEnabled={expanded}
         />
         <slot name={SLOTS.menuActions} />

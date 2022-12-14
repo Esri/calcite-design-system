@@ -15,7 +15,7 @@ import {
 import { ensureId, focusElement, getSlotted } from "../../utils/dom";
 import { Scale } from "../interfaces";
 import { ModalBackgroundColor } from "./interfaces";
-import { CSS, ICONS, SLOTS, TEXT } from "./resources";
+import { CSS, ICONS, SLOTS } from "./resources";
 import { createObserver } from "../../utils/observers";
 import {
   ConditionalSlotComponent,
@@ -38,6 +38,16 @@ import {
   componentLoaded
 } from "../../utils/loadable";
 
+import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
+import {
+  connectMessages,
+  disconnectMessages,
+  setUpMessages,
+  T9nComponent,
+  updateMessages
+} from "../../utils/t9n";
+import { Messages } from "./assets/modal/t9n";
+
 /**
  * @slot header - A slot for adding header text.
  * @slot content - A slot for adding the component's content.
@@ -49,10 +59,17 @@ import {
 @Component({
   tag: "calcite-modal",
   styleUrl: "modal.scss",
-  shadow: true
+  shadow: true,
+  assetsDirs: ["assets"]
 })
 export class Modal
-  implements ConditionalSlotComponent, OpenCloseComponent, FocusTrapComponent, LoadableComponent
+  implements
+    ConditionalSlotComponent,
+    OpenCloseComponent,
+    FocusTrapComponent,
+    LoadableComponent,
+    LocalizedComponent,
+    T9nComponent
 {
   //--------------------------------------------------------------------------
   //
@@ -94,8 +111,12 @@ export class Modal
   /** When `true`, disables the closing of the component when clicked outside. */
   @Prop({ reflect: true }) disableOutsideClose = false;
 
-  /** Accessible name for the component's close button. */
-  @Prop() intlClose = TEXT.close;
+  /**
+   * Accessible name for the component's close button.
+   *
+   * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`.
+   */
+  @Prop() intlClose: string;
 
   /** When `true`, prevents the component from expanding to the entire screen on mobile devices. */
   @Prop({ reflect: true }) docked: boolean;
@@ -121,13 +142,32 @@ export class Modal
   /** Sets the background color of the component's content. */
   @Prop({ reflect: true }) backgroundColor: ModalBackgroundColor = "white";
 
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @internal
+   */
+  @Prop({ mutable: true }) messages: Messages;
+
+  /**
+   * Use this property to override individual strings used by the component.
+   */
+  @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
+
+  @Watch("intlClose")
+  @Watch("messageOverrides")
+  onMessagesChange(): void {
+    /* wired up by t9n util */
+  }
+
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
   //
   //--------------------------------------------------------------------------
 
-  componentWillLoad(): void {
+  async componentWillLoad(): Promise<void> {
+    await setUpMessages(this);
     setUpLoadableComponent(this);
     // when modal initially renders, if active was set we need to open as watcher doesn't fire
     if (this.open) {
@@ -144,6 +184,8 @@ export class Modal
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
     this.updateFooterVisibility();
     connectConditionalSlotComponent(this);
+    connectLocalized(this);
+    connectMessages(this);
   }
 
   disconnectedCallback(): void {
@@ -151,6 +193,8 @@ export class Modal
     this.mutationObserver?.disconnect();
     disconnectConditionalSlotComponent(this);
     deactivateFocusTrap(this);
+    disconnectLocalized(this);
+    disconnectMessages(this);
   }
 
   render(): VNode {
@@ -210,12 +254,12 @@ export class Modal
   renderCloseButton(): VNode {
     return !this.disableCloseButton ? (
       <button
-        aria-label={this.intlClose}
+        aria-label={this.messages.close}
         class={CSS.close}
         key="button"
         onClick={this.close}
         ref={(el) => (this.closeButtonEl = el)}
-        title={this.intlClose}
+        title={this.messages.close}
       >
         <calcite-icon
           icon={ICONS.close}
@@ -256,21 +300,9 @@ export class Modal
 
   //--------------------------------------------------------------------------
   //
-  //  Variables
+  //  Private Properties/ State
   //
   //--------------------------------------------------------------------------
-  @State() hasFooter = true;
-
-  closeButtonEl: HTMLButtonElement;
-
-  contentId: string;
-
-  /**
-   * We use internal variable to make sure initially open modal can transition from closed state when rendered
-   *
-   * @private
-   */
-  @State() isOpen = false;
 
   modalContent: HTMLDivElement;
 
@@ -287,6 +319,28 @@ export class Modal
   focusTrap: FocusTrap;
 
   focusTrapEl: HTMLDivElement;
+
+  closeButtonEl: HTMLButtonElement;
+
+  contentId: string;
+
+  @State() hasFooter = true;
+
+  /**
+   * We use internal variable to make sure initially open modal can transition from closed state when rendered
+   *
+   * @private
+   */
+  @State() isOpen = false;
+
+  @State() effectiveLocale: string;
+
+  @Watch("effectiveLocale")
+  effectiveLocaleChange(): void {
+    updateMessages(this, this.effectiveLocale);
+  }
+
+  @State() defaultMessages: Messages;
 
   //--------------------------------------------------------------------------
   //
