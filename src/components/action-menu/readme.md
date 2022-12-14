@@ -16,9 +16,9 @@
 
 ## Events
 
-| Event                         | Description                                 | Type                |
-| ----------------------------- | ------------------------------------------- | ------------------- |
-| `calciteActionMenuOpenChange` | Emits when the `open` property has changed. | `CustomEvent<void>` |
+| Event                   | Description                                | Type                |
+| ----------------------- | ------------------------------------------ | ------------------- |
+| `calciteActionMenuOpen` | Emits when the `open` property is toggled. | `CustomEvent<void>` |
 
 ## Methods
 
