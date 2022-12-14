@@ -87,10 +87,10 @@ export class Alert implements OpenCloseComponent, LocalizedComponent, LoadableCo
   }
 
   /** When `true`, the component closes automatically (recommended for passive, non-blocking alerts). */
-  @Prop({ reflect: true }) autoDismiss = false;
+  @Prop({ reflect: true }) autoClose = false;
 
-  /** Specifies the duration before the component automatically closes (only use with `autoDismiss`). */
-  @Prop({ reflect: true }) autoDismissDuration: AlertDuration = this.autoDismiss ? "medium" : null;
+  /** Specifies the duration before the component automatically closes (only use with `autoClose`). */
+  @Prop({ reflect: true }) autoCloseDuration: AlertDuration = this.autoClose ? "medium" : null;
 
   /** Specifies the color for the component (will apply to top border and icon). */
   @Prop({ reflect: true }) color: StatusColor = "blue";
@@ -128,13 +128,13 @@ export class Alert implements OpenCloseComponent, LocalizedComponent, LoadableCo
     this.requestedIcon = setRequestedIcon(StatusIcons, this.icon, this.color);
   }
 
-  @Watch("autoDismissDuration")
+  @Watch("autoCloseDuration")
   updateDuration(): void {
-    if (this.autoDismiss && this.autoDismissTimeoutId) {
-      window.clearTimeout(this.autoDismissTimeoutId);
-      this.autoDismissTimeoutId = window.setTimeout(
+    if (this.autoClose && this.autoCloseTimeoutId) {
+      window.clearTimeout(this.autoCloseTimeoutId);
+      this.autoCloseTimeoutId = window.setTimeout(
         () => this.closeAlert(),
-        DURATIONS[this.autoDismissDuration] - (Date.now() - this.trackTimer)
+        DURATIONS[this.autoCloseDuration] - (Date.now() - this.trackTimer)
       );
     }
   }
@@ -165,7 +165,7 @@ export class Alert implements OpenCloseComponent, LocalizedComponent, LoadableCo
   }
 
   disconnectedCallback(): void {
-    window.clearTimeout(this.autoDismissTimeoutId);
+    window.clearTimeout(this.autoCloseTimeoutId);
     window.clearTimeout(this.queueTimeout);
     disconnectOpenCloseComponent(this);
     disconnectLocalized(this);
@@ -202,8 +202,8 @@ export class Alert implements OpenCloseComponent, LocalizedComponent, LoadableCo
       </div>
     );
 
-    const { open, autoDismiss, label, placement, queued, requestedIcon } = this;
-    const role = autoDismiss ? "alert" : "alertdialog";
+    const { open, autoClose, label, placement, queued, requestedIcon } = this;
+    const role = autoClose ? "alert" : "alertdialog";
     const hidden = !open;
 
     const slotNode = (
@@ -227,12 +227,8 @@ export class Alert implements OpenCloseComponent, LocalizedComponent, LoadableCo
             queued,
             [placement]: true
           }}
-          onPointerOut={
-            this.autoDismiss && this.autoDismissTimeoutId ? this.handleMouseLeave : null
-          }
-          onPointerOver={
-            this.autoDismiss && this.autoDismissTimeoutId ? this.handleMouseOver : null
-          }
+          onPointerOut={this.autoClose && this.autoCloseTimeoutId ? this.handleMouseLeave : null}
+          onPointerOver={this.autoClose && this.autoCloseTimeoutId ? this.handleMouseOver : null}
           ref={this.setTransitionEl}
         >
           {requestedIcon ? (
@@ -250,7 +246,7 @@ export class Alert implements OpenCloseComponent, LocalizedComponent, LoadableCo
           </div>
           {this.queueLength > 1 ? queueCount : null}
           {closeButton}
-          {open && !queued && autoDismiss ? <div class="alert-dismiss-progress" /> : null}
+          {open && !queued && autoClose ? <div class="alert-dismiss-progress" /> : null}
         </div>
       </Host>
     );
@@ -354,7 +350,7 @@ export class Alert implements OpenCloseComponent, LocalizedComponent, LoadableCo
   /** the close button element */
   private closeButton?: HTMLButtonElement;
 
-  private autoDismissTimeoutId: number = null;
+  private autoCloseTimeoutId: number = null;
 
   private queueTimeout: number;
 
@@ -385,11 +381,11 @@ export class Alert implements OpenCloseComponent, LocalizedComponent, LoadableCo
   private determineActiveAlert(): void {
     if (this.queue?.[0] === this.el) {
       this.openAlert();
-      if (this.autoDismiss && !this.autoDismissTimeoutId) {
+      if (this.autoClose && !this.autoCloseTimeoutId) {
         this.trackTimer = Date.now();
-        this.autoDismissTimeoutId = window.setTimeout(
+        this.autoCloseTimeoutId = window.setTimeout(
           () => this.closeAlert(),
-          DURATIONS[this.autoDismissDuration]
+          DURATIONS[this.autoCloseDuration]
         );
       }
     } else {
@@ -399,7 +395,7 @@ export class Alert implements OpenCloseComponent, LocalizedComponent, LoadableCo
 
   /** close and emit calciteInternalAlertSync event with the updated queue payload */
   private closeAlert = (): void => {
-    this.autoDismissTimeoutId = null;
+    this.autoCloseTimeoutId = null;
     this.queued = false;
     this.open = false;
     this.queue = this.queue.filter((el) => el !== this.el);
@@ -434,13 +430,12 @@ export class Alert implements OpenCloseComponent, LocalizedComponent, LoadableCo
   };
 
   private handleMouseOver = (): void => {
-    window.clearTimeout(this.autoDismissTimeoutId);
-    this.remainingPausedTimeout =
-      DURATIONS[this.autoDismissDuration] - Date.now() - this.trackTimer;
+    window.clearTimeout(this.autoCloseTimeoutId);
+    this.remainingPausedTimeout = DURATIONS[this.autoCloseDuration] - Date.now() - this.trackTimer;
   };
 
   private handleMouseLeave = (): void => {
-    this.autoDismissTimeoutId = window.setTimeout(
+    this.autoCloseTimeoutId = window.setTimeout(
       () => this.closeAlert(),
       this.remainingPausedTimeout
     );

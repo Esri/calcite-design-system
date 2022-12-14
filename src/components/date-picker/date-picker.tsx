@@ -22,7 +22,6 @@ import {
 } from "../../utils/date";
 import { HeadingLevel } from "../functional/Heading";
 
-import { DateRangeChange } from "./interfaces";
 import { TEXT } from "./resources";
 import {
   connectLocalized,
@@ -180,14 +179,14 @@ export class DatePicker implements LocalizedComponent {
   /**
    * Emits when a user changes the component's date. For `range` events, use `calciteDatePickerRangeChange`.
    */
-  @Event({ cancelable: false }) calciteDatePickerChange: EventEmitter<Date>;
+  @Event({ cancelable: false }) calciteDatePickerChange: EventEmitter<void>;
 
   /**
    * Emits when a user changes the component's date `range`. For components without `range` use `calciteDatePickerChange`.
    *
    * @see [DateRangeChange](https://github.com/Esri/calcite-components/blob/master/src/components/date-picker/interfaces.ts#L1)
    */
-  @Event({ cancelable: false }) calciteDatePickerRangeChange: EventEmitter<DateRangeChange>;
+  @Event({ cancelable: false }) calciteDatePickerRangeChange: EventEmitter<void>;
 
   /**
    * Active start date.
@@ -480,10 +479,7 @@ export class DatePicker implements LocalizedComponent {
     this.startAsDate = startDate;
     this.mostRecentRangeValue = this.startAsDate;
     if (emit) {
-      this.calciteDatePickerRangeChange.emit({
-        startDate,
-        endDate: this.endAsDate
-      });
+      this.calciteDatePickerRangeChange.emit();
     }
   }
 
@@ -497,10 +493,7 @@ export class DatePicker implements LocalizedComponent {
     this.endAsDate = endDate ? setEndOfDay(endDate) : endDate;
     this.mostRecentRangeValue = this.endAsDate;
     if (emit) {
-      this.calciteDatePickerRangeChange.emit({
-        startDate: this.startAsDate,
-        endDate
-      });
+      this.calciteDatePickerRangeChange.emit();
     }
   }
 
@@ -550,7 +543,7 @@ export class DatePicker implements LocalizedComponent {
       this.value = isoDate || "";
       this.valueAsDate = date || null;
       this.activeDate = date || null;
-      this.calciteDatePickerChange.emit(date);
+      this.calciteDatePickerChange.emit();
       return;
     }
 
@@ -591,7 +584,7 @@ export class DatePicker implements LocalizedComponent {
         this.endAsDate = this.activeEndDate = undefined;
       }
     }
-    this.calciteDatePickerChange.emit(date);
+    this.calciteDatePickerChange.emit();
   };
 
   /**

@@ -22,9 +22,9 @@ describe("calcite-alert", () => {
     </calcite-alert>
   `));
 
-  it("is accessible with auto-dismiss", async () =>
+  it("is accessible with auto-close", async () =>
     accessible(`
-    <calcite-alert open auto-dismiss auto-dismiss-duration="slow" label="test">
+    <calcite-alert open auto-close auto-close-duration="slow" label="test">
     ${alertContent}
     </calcite-alert>
   `));
@@ -46,7 +46,7 @@ describe("calcite-alert", () => {
   it("renders requested props when valid props are provided", async () => {
     const page = await newE2EPage();
     await page.setContent(`
-    <calcite-alert color="yellow" auto-dismiss-duration="fast" auto-dismiss>
+    <calcite-alert color="yellow" auto-close-duration="fast" auto-close>
     ${alertContent}
     </calcite-alert>`);
 
@@ -54,7 +54,7 @@ describe("calcite-alert", () => {
     const icon = await page.find("calcite-alert >>> .alert-icon");
 
     expect(element).toEqualAttribute("color", "yellow");
-    expect(element).toEqualAttribute("auto-dismiss-duration", "fast");
+    expect(element).toEqualAttribute("auto-close-duration", "fast");
     expect(icon).toBeNull();
   });
 
@@ -80,7 +80,7 @@ describe("calcite-alert", () => {
         <calcite-button id="button-2" onclick="document.querySelector('#alert-2').setAttribute('open', '')"
           >open alert-1</calcite-button
         >
-        <calcite-alert label="this is a success" id="alert-2" scale="s" color="green" auto-dismiss icon>
+        <calcite-alert label="this is a success" id="alert-2" scale="s" color="green" auto-close icon>
           <div slot="title">Hello there!</div>
           <div slot="message">Get success!</div>
           <calcite-link slot="link" title="my action"> Do thing </calcite-link>
@@ -198,8 +198,8 @@ describe("calcite-alert", () => {
     const alertSnippet = `
       <calcite-alert
         icon="i2DExplore"
-        auto-dismiss
-        auto-dismiss-duration="slow"
+        auto-close
+        auto-close-duration="slow"
         color="red"
         open
       >
@@ -319,7 +319,7 @@ describe("calcite-alert", () => {
     expect(await container.isVisible()).toBe(false);
   });
 
-  describe("auto-dismiss behavior on queued items", () => {
+  describe("auto-close behavior on queued items", () => {
     it("should display number of queued alerts with a calcite-chip", async () => {
       const page = await newE2EPage();
       await page.setContent(html`
@@ -330,13 +330,13 @@ describe("calcite-alert", () => {
           >open alert</calcite-button
         >
 
-        <calcite-alert open id="first-open" icon="3d-glasses" auto-dismiss scale="l">
+        <calcite-alert open id="first-open" icon="3d-glasses" auto-close scale="l">
           <div slot="title">Title of alert Uno</div>
           <div slot="message">Message text of the alert Uno</div>
           <a slot="link" href="#">Retry</a>
         </calcite-alert>
 
-        <calcite-alert id="alert-to-be-queued" icon auto-dismiss scale="l">
+        <calcite-alert id="alert-to-be-queued" icon auto-close scale="l">
           <div slot="title">Title of alert Dos</div>
           <div slot="message">Message text of the alert Dos</div>
           <a slot="link" href="#">Retry</a>
@@ -365,7 +365,7 @@ describe("calcite-alert", () => {
     });
   });
 
-  describe("auto-dismiss behavior", () => {
+  describe("auto-close behavior", () => {
     let page: E2EPage;
     let alert: E2EElement;
     let button: E2EElement;
@@ -379,7 +379,7 @@ describe("calcite-alert", () => {
           <calcite-button id="button" onclick="document.querySelector('#alert').setAttribute('open', '')"
             >open alert</calcite-button
           >
-          <calcite-alert label="this is a success" id="alert" auto-dismiss icon color="green">
+          <calcite-alert label="this is a success" id="alert" auto-close icon color="green">
             ${alertContent}</calcite-alert
           >
         </div>
@@ -406,7 +406,7 @@ describe("calcite-alert", () => {
       await button.click();
 
       expect(await alert.isVisible()).toBe(true);
-      expect(await alert.getProperty("autoDismissDuration")).toEqual("medium");
+      expect(await alert.getProperty("autoCloseDuration")).toEqual("medium");
       expect(playState).toEqual("running");
 
       const [alertLocationX, alertLocationY] = await getElementXY(page, "calcite-alert", `.${CSS.close}`);
