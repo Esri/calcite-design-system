@@ -6,18 +6,18 @@
 
 ## Properties
 
-| Property             | Attribute          | Description                                                                                                | Type                                                        | Default       |
-| -------------------- | ------------------ | ---------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------- | ------------- |
-| `description`        | `description`      | A description for the component that displays below the label text.                                        | `string`                                                    | `undefined`   |
-| `disableDeselect`    | `disable-deselect` | When `false`, the component cannot be deselected by user interaction.                                      | `boolean`                                                   | `false`       |
-| `disabled`           | `disabled`         | When `true`, interaction is prevented and the component is displayed with lower opacity.                   | `boolean`                                                   | `false`       |
-| `icon`               | `icon`             | Determines the icon SVG symbol that will be shown. Options are `"circle"`, `"square"`, `"grip"` or `null`. | `ICON_TYPES.circle \| ICON_TYPES.grip \| ICON_TYPES.square` | `null`        |
-| `intlRemove`         | `intl-remove`      | When `removable` is `true`, the accessible name for the component's remove button.                         | `string`                                                    | `TEXT.remove` |
-| `label` _(required)_ | `label`            | Label and accessible name for the component. Appears next to the icon.                                     | `string`                                                    | `undefined`   |
-| `metadata`           | --                 | Provides additional metadata to the component. Primary use is for a filter on the parent list.             | `{ [x: string]: unknown; }`                                 | `undefined`   |
-| `removable`          | `removable`        | When `true`, displays a remove action that removes the item from the list.                                 | `boolean`                                                   | `false`       |
-| `selected`           | `selected`         | When `true`, selects an item. Toggles when an item is checked/unchecked.                                   | `boolean`                                                   | `false`       |
-| `value` _(required)_ | `value`            | The component's value.                                                                                     | `any`                                                       | `undefined`   |
+| Property             | Attribute           | Description                                                                                                | Type                                                        | Default       |
+| -------------------- | ------------------- | ---------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------- | ------------- |
+| `description`        | `description`       | A description for the component that displays below the label text.                                        | `string`                                                    | `undefined`   |
+| `deselectDisabled`   | `deselect-disabled` | When `false`, the component cannot be deselected by user interaction.                                      | `boolean`                                                   | `false`       |
+| `disabled`           | `disabled`          | When `true`, interaction is prevented and the component is displayed with lower opacity.                   | `boolean`                                                   | `false`       |
+| `icon`               | `icon`              | Determines the icon SVG symbol that will be shown. Options are `"circle"`, `"square"`, `"grip"` or `null`. | `ICON_TYPES.circle \| ICON_TYPES.grip \| ICON_TYPES.square` | `null`        |
+| `intlRemove`         | `intl-remove`       | When `removable` is `true`, the accessible name for the component's remove button.                         | `string`                                                    | `TEXT.remove` |
+| `label` _(required)_ | `label`             | Label and accessible name for the component. Appears next to the icon.                                     | `string`                                                    | `undefined`   |
+| `metadata`           | --                  | Provides additional metadata to the component. Primary use is for a filter on the parent list.             | `{ [x: string]: unknown; }`                                 | `undefined`   |
+| `removable`          | `removable`         | When `true`, displays a remove action that removes the item from the list.                                 | `boolean`                                                   | `false`       |
+| `selected`           | `selected`          | When `true`, selects an item. Toggles when an item is checked/unchecked.                                   | `boolean`                                                   | `false`       |
+| `value` _(required)_ | `value`             | The component's value.                                                                                     | `any`                                                       | `undefined`   |
 
 ## Events
 

@@ -62,7 +62,7 @@ export class PickListItem
   /**
    * When `false`, the component cannot be deselected by user interaction.
    */
-  @Prop({ reflect: true }) disableDeselect = false;
+  @Prop({ reflect: true }) deselectDisabled = false;
 
   /**
    * @internal
@@ -243,7 +243,7 @@ export class PickListItem
   // --------------------------------------------------------------------------
 
   pickListClickHandler = (event: MouseEvent): void => {
-    if (this.disabled || (this.disableDeselect && this.selected) || this.nonInteractive) {
+    if (this.disabled || (this.deselectDisabled && this.selected) || this.nonInteractive) {
       return;
     }
 
@@ -254,7 +254,7 @@ export class PickListItem
   pickListKeyDownHandler = (event: KeyboardEvent): void => {
     if (event.key === " ") {
       event.preventDefault();
-      if ((this.disableDeselect && this.selected) || this.nonInteractive) {
+      if ((this.deselectDisabled && this.selected) || this.nonInteractive) {
         return;
       }
       this.selected = !this.selected;

@@ -551,7 +551,7 @@ export class InputTimePicker
           />
         </div>
         <calcite-popover
-          disableFocusTrap={true}
+          focusTrapDisabled={true}
           id={popoverId}
           label="Time Picker"
           open={this.open}

@@ -20,7 +20,7 @@ export interface FocusTrapComponent {
   /**
    * When `true`, prevents focus trapping.
    */
-  disableFocusTrap: boolean;
+  focusTrapDisabled: boolean;
 
   /**
    * The focus trap instance.
@@ -73,7 +73,7 @@ export function connectFocusTrap(component: FocusTrapComponent): void {
  * @param {FocusTrapComponent} component The FocusTrap component.
  */
 export function activateFocusTrap(component: FocusTrapComponent): void {
-  if (!component.disableFocusTrap) {
+  if (!component.focusTrapDisabled) {
     component.focusTrap?.activate();
   }
 }
