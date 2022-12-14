@@ -1,5 +1,5 @@
 name: Test
-description: Associate issue for a test (e.g., a new test, an unstable test that was skipped, Screener, etc.)
+description: Associate issue for a test (e.g., a new test, an unstable test that was skipped, Chromatic, etc.)
 labels: ["testing", "0 - new", "p - high"]
 body:
   - type: markdown
@@ -12,7 +12,7 @@ body:
     attributes:
       label: Test type
       description: What type of test is being requested?
-      placeholder: "e.g., new test, unstable test, Screener, etc."
+      placeholder: "e.g., new test, unstable test, Chromatic, etc."
     validations:
       required: true
   - type: input
