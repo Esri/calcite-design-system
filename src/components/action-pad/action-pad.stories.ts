@@ -16,7 +16,7 @@ export default {
   parameters: {
     notes: readme,
     chromatic: {
-      delay: 1500
+      delay: 5000
     }
   },
   ...storyFilters()
