@@ -94,12 +94,12 @@
   @apply focus-inset outline-none;
 }
 
-::slotted(calcite-action) {
-  z-index: theme("zIndex.deep");
-}
-
-::slotted(calcite-dropdown) {
-  z-index: theme("zIndex.dropdown");
+slot[name="actions-end"]::slotted(*),
+.actions-end {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  overflow: visible;
 }
 
 .checkbox {
@@ -115,14 +115,13 @@
 }
 
 .children-container {
-  @apply relative h-0;
+  @apply relative h-0 z-default;
   margin-inline-start: theme("margin.5");
   transform: scaleY(0);
   opacity: 0;
   transition: var(--calcite-animation-timing) $easing-function, opacity var(--calcite-animation-timing) $easing-function,
     all var(--calcite-animation-timing) ease-in-out; // note that we're transitioning transform, not height!
   transform-origin: top; // keep the top of the element in the same place. this is optional.
-
   :host([expanded]) > & {
     transform: scaleY(1);
     opacity: 1;

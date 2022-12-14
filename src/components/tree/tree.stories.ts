@@ -75,20 +75,20 @@ export const simple = (): string => html`
   </calcite-tree>
 `;
 
-export const actionsEndSlottedDropdown = (): string => html`<calcite-tree
+export const selectionActionsEndSlottedDropdowns = (): string => html`<calcite-tree
   ${boolean("lines", false)}
   selection-mode="${select("selection-mode", selectionModes, "none")}"
 >
   <calcite-tree-item>
     <a>Child 1</a>
-    ${slottedDropdown}
+    ${slottedDropdown} ${slottedDropdown}
   </calcite-tree-item>
   <calcite-tree-item>
     <a>Child 2</a>
     <calcite-tree slot="children">
       <calcite-tree-item>
         <a>Grandchild 1</a>
-        ${slottedDropdown}
+        ${slottedDropdown} ${slottedDropdown}
       </calcite-tree-item>
       <calcite-tree-item>
         <a>Grandchild 2</a>
@@ -99,6 +99,7 @@ export const actionsEndSlottedDropdown = (): string => html`<calcite-tree
           </calcite-tree-item>
           <calcite-tree-item>
             <a>Great-Grandchild 2</a>
+            ${slottedDropdown} ${slottedDropdown}
           </calcite-tree-item>
         </calcite-tree>
       </calcite-tree-item>
