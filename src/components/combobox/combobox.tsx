@@ -235,11 +235,11 @@ export class Combobox
   }
 
   /**
-   * Specifies the component's visible items.
+   * Specifies the component's filtered items.
    *
    * @readonly
    */
-  @Prop({ mutable: true }) visibleItems: HTMLCalciteComboboxItemElement[] = [];
+  @Prop({ mutable: true }) filteredItems: HTMLCalciteComboboxItemElement[] = [];
 
   //--------------------------------------------------------------------------
   //
@@ -263,7 +263,7 @@ export class Combobox
     }
 
     const target = event.target as HTMLCalciteComboboxItemElement;
-    const newIndex = this.visibleItems.indexOf(target);
+    const newIndex = this.filteredItems.indexOf(target);
     this.updateActiveItemIndex(newIndex);
     this.toggleSelection(target, target.selected);
   }
@@ -546,7 +546,7 @@ export class Combobox
           return;
         }
         event.preventDefault();
-        this.updateActiveItemIndex(this.visibleItems.length - 1);
+        this.updateActiveItemIndex(this.filteredItems.length - 1);
         this.scrollToActiveItem();
         if (!this.comboboxInViewport()) {
           this.el.scrollIntoView();
@@ -558,7 +558,7 @@ export class Combobox
         break;
       case "Enter":
         if (this.activeItemIndex > -1) {
-          this.toggleSelection(this.visibleItems[this.activeItemIndex]);
+          this.toggleSelection(this.filteredItems[this.activeItemIndex]);
           event.preventDefault();
         } else if (this.activeChipIndex > -1) {
           this.removeActiveChip();
@@ -765,7 +765,7 @@ export class Combobox
         }
       });
 
-      this.visibleItems = this.getVisibleItems();
+      this.filteredItems = this.getfilteredItems();
       this.calciteComboboxFilterChange.emit();
     }, 100);
   })();
@@ -824,7 +824,7 @@ export class Combobox
     }
   }
 
-  getVisibleItems(): HTMLCalciteComboboxItemElement[] {
+  getfilteredItems(): HTMLCalciteComboboxItemElement[] {
     return this.items.filter((item) => !item.hidden);
   }
 
@@ -857,7 +857,7 @@ export class Combobox
     this.groupItems = this.getGroupItems();
     this.data = this.getData();
     this.selectedItems = this.getSelectedItems();
-    this.visibleItems = this.getVisibleItems();
+    this.filteredItems = this.getfilteredItems();
     this.needsIcon = this.getNeedsIcon();
     if (!this.allowCustomValues) {
       this.setMaxScrollerHeight();
@@ -964,7 +964,7 @@ export class Combobox
   }
 
   private scrollToActiveItem = (): void => {
-    const activeItem = this.visibleItems[this.activeItemIndex];
+    const activeItem = this.filteredItems[this.activeItemIndex];
     const height = this.calculateSingleItemHeight(activeItem);
     const { offsetHeight, scrollTop } = this.listContainerEl;
     if (offsetHeight + scrollTop < activeItem.offsetTop + height) {
@@ -975,7 +975,7 @@ export class Combobox
   };
 
   shiftActiveItemIndex(delta: number): void {
-    const { length } = this.visibleItems;
+    const { length } = this.filteredItems;
     const newIndex = (this.activeItemIndex + length + delta) % length;
     this.updateActiveItemIndex(newIndex);
     this.scrollToActiveItem();
@@ -984,7 +984,7 @@ export class Combobox
   updateActiveItemIndex(index: number): void {
     this.activeItemIndex = index;
     let activeDescendant: string = null;
-    this.visibleItems.forEach((el, i) => {
+    this.filteredItems.forEach((el, i) => {
       if (i === index) {
         el.active = true;
         activeDescendant = `${itemUidPrefix}${el.guid}`;
@@ -1095,7 +1095,7 @@ export class Combobox
   }
 
   renderListBoxOptions(): VNode[] {
-    return this.visibleItems.map((item) => (
+    return this.filteredItems.map((item) => (
       <li
         aria-selected={toAriaBoolean(item.selected)}
         id={item.guid ? `${itemUidPrefix}${item.guid}` : null}

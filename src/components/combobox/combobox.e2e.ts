@@ -120,7 +120,7 @@ describe("calcite-combobox", () => {
     expect(await items[2].isVisible()).toBe(true);
     expect(await items[3].isVisible()).toBe(true);
 
-    expect((await combobox.getProperty("visibleItems")).length).toBe(4);
+    expect((await combobox.getProperty("filteredItems")).length).toBe(4);
 
     await input.press("i");
     await page.waitForChanges();
@@ -131,7 +131,7 @@ describe("calcite-combobox", () => {
     expect(await items[2].isVisible()).toBe(false);
     expect(await items[3].isVisible()).toBe(true);
 
-    expect((await combobox.getProperty("visibleItems")).length).toBe(3);
+    expect((await combobox.getProperty("filteredItems")).length).toBe(3);
 
     await input.press("n");
     await page.waitForChanges();
@@ -142,7 +142,7 @@ describe("calcite-combobox", () => {
     expect(await items[2].isVisible()).toBe(false);
     expect(await items[3].isVisible()).toBe(false);
 
-    expect((await combobox.getProperty("visibleItems")).length).toBe(2);
+    expect((await combobox.getProperty("filteredItems")).length).toBe(2);
   });
 
   it("should control max items displayed", async () => {
