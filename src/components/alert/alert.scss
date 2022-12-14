@@ -255,7 +255,7 @@
   }
 }
 
-:host([auto-dismiss]) > .alert-queue-count {
+:host([auto-close]) > .alert-queue-count {
   border-inline-end: 0px solid transparent;
 }
 
@@ -307,10 +307,10 @@ $alertDurations: "fast" 6000ms, "medium" 10000ms, "slow" 14000ms;
   $name: nth($alertDuration, 1);
   $duration: nth($alertDuration, 2);
 
-  :host([auto-dismiss-duration="#{$name}"]) .alert-dismiss-progress:after {
+  :host([auto-close-duration="#{$name}"]) .alert-dismiss-progress:after {
     animation: dismissProgress $duration ease-out;
   }
-  :host(:hover[auto-dismiss-duration="#{$name}"]) .alert-dismiss-progress:after {
+  :host(:hover[auto-close-duration="#{$name}"]) .alert-dismiss-progress:after {
     animation-play-state: paused;
   }
 }

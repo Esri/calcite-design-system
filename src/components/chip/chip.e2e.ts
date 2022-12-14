@@ -16,7 +16,7 @@ describe("calcite-chip", () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-chip closable>cheetos</calcite-chip>`);
 
-    const eventSpy = await page.spyOnEvent("calciteChipDismiss", "window");
+    const eventSpy = await page.spyOnEvent("calciteChipClose", "window");
 
     const closeButton = await page.find(`calcite-chip >>> .${CSS.close}`);
 
