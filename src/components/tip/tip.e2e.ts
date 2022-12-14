@@ -19,10 +19,10 @@ describe("calcite-tip", () => {
 
   it("has slots", () => slots("calcite-tip", SLOTS));
 
-  it("should remove the closeButton if nonDismissible prop is true", async () => {
+  it("should remove the closeButton if closeDisabled prop is true", async () => {
     const page = await newE2EPage();
 
-    await page.setContent(`<calcite-tip non-dismissible><p>not dismissible</p></calcite-tip>`);
+    await page.setContent(`<calcite-tip close-disabled><p>not dismissible</p></calcite-tip>`);
 
     const closeButton = await page.find(`calcite-tip >>> .${CSS.close}`);
     expect(closeButton).toBeNull();

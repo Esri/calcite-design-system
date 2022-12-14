@@ -163,7 +163,7 @@ export class TipManager {
     this.selectedIndex = selectedTip ? tips.indexOf(selectedTip) : 0;
 
     tips.forEach((tip) => {
-      tip.nonDismissible = true;
+      tip.closeDisabled = true;
     });
     this.showSelectedTip();
     this.updateGroupTitle();
