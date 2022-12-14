@@ -861,14 +861,14 @@ export class InputDatePicker
    *
    * @param event CalciteDatePicker custom change event
    */
-  handleDateChange = (event: CustomEvent<Date>): void => {
+  handleDateChange = (event: CustomEvent<void>): void => {
     if (this.range) {
       return;
     }
 
     event.stopPropagation();
 
-    this.setValue(event.detail);
+    this.setValue((event.target as HTMLCalciteDatePickerElement).valueAsDate as Date);
     this.localizeInputValues();
   };
 
@@ -890,16 +890,16 @@ export class InputDatePicker
     );
   }
 
-  private handleDateRangeChange = (event: CustomEvent<DateRangeChange>): void => {
-    if (!this.range || !event.detail) {
+  private handleDateRangeChange = (event: CustomEvent<void>): void => {
+    if (!this.range) {
       return;
     }
 
     event.stopPropagation();
 
-    const { startDate, endDate } = event.detail;
+    const value = (event.target as HTMLCalciteDatePickerElement).valueAsDate as Date[];
 
-    this.setRangeValue([startDate, endDate]);
+    this.setRangeValue(value);
     this.localizeInputValues();
 
     if (this.shouldFocusRangeEnd()) {
