@@ -421,14 +421,14 @@ describe("calcite-combobox", () => {
       expect(await cbox.getProperty("open")).toBe(false);
     });
 
-    it("should honor calciteComboboxChipDismiss", async () => {
+    it("should honor calciteComboboxChipClose", async () => {
       const page = await newE2EPage({
         html: `<calcite-combobox>
         <calcite-combobox-item value="one" selected text-label="one"></calcite-combobox-item>
       </calcite-combobox>`
       });
 
-      const eventSpy = await page.spyOnEvent("calciteComboboxChipDismiss", "window");
+      const eventSpy = await page.spyOnEvent("calciteComboboxChipClose", "window");
 
       const chip = await page.find("calcite-combobox >>> calcite-chip");
 
