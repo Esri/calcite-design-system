@@ -67,13 +67,6 @@ export class Modal
   //
   //--------------------------------------------------------------------------
 
-  /**
-   * When `true`, the component is active.
-   *
-   * @deprecated use `open` instead.
-   */
-  @Prop({ mutable: true, reflect: true }) active = false;
-
   /** When `true`, displays and positions the component.  */
   @Prop({ mutable: true, reflect: true }) open = false;
 
@@ -128,13 +121,6 @@ export class Modal
   /** Sets the background color of the component's content. */
   @Prop({ reflect: true }) backgroundColor: ModalBackgroundColor = "white";
 
-  /**
-   * When `true`, disables spacing to the content area slot.
-   *
-   * @deprecated  Use `--calcite-modal-padding` CSS variable instead.
-   */
-  @Prop({ reflect: true }) noPadding = false;
-
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -158,12 +144,6 @@ export class Modal
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
     this.updateFooterVisibility();
     connectConditionalSlotComponent(this);
-    if (this.open) {
-      this.active = this.open;
-    }
-    if (this.active) {
-      this.activeHandler(this.active);
-    }
   }
 
   disconnectedCallback(): void {
@@ -199,7 +179,6 @@ export class Modal
           <div
             class={{
               content: true,
-              "content--spaced": !this.noPadding,
               "content--no-footer": !this.hasFooter
             }}
             ref={(el) => (this.modalContent = el)}
@@ -345,20 +324,6 @@ export class Modal
   //  Public Methods
   //
   //--------------------------------------------------------------------------
-  /**
-   * Focus the first interactive element.
-   *
-   * @param el
-   * @deprecated use `setFocus` instead.
-   */
-  @Method()
-  async focusElement(el?: HTMLElement): Promise<void> {
-    if (el) {
-      el.focus();
-    }
-
-    return this.setFocus();
-  }
 
   /**
    * Sets focus on the component.
@@ -433,14 +398,8 @@ export class Modal
     deactivateFocusTrap(this);
   }
 
-  @Watch("active")
-  activeHandler(value: boolean): void {
-    this.open = value;
-  }
-
   @Watch("open")
   async toggleModal(value: boolean): Promise<void> {
-    this.active = value;
     onToggleOpenCloseComponent(this);
     if (value) {
       this.transitionEl?.classList.add(CSS.openingIdle);
