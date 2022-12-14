@@ -40,10 +40,9 @@ For example, after querying the search API, you'll get back a response similar t
 
 ## Events
 
-| Event                     | Description                                                                                                                        | Type                            |
-| ------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- | ------------------------------- |
-| `calcitePaginationChange` | Emits when the selected page changes.                                                                                              | `CustomEvent<PaginationDetail>` |
-| `calcitePaginationUpdate` | <span style="color:red">**[DEPRECATED]**</span> use calcitePaginationChange instead<br/><br/>Emits when the selected page changes. | `CustomEvent<PaginationDetail>` |
+| Event                     | Description                           | Type                            |
+| ------------------------- | ------------------------------------- | ------------------------------- |
+| `calcitePaginationChange` | Emits when the selected page changes. | `CustomEvent<PaginationDetail>` |
 
 ## Methods
 
