@@ -186,7 +186,9 @@ export function getSupportedLocale(locale: string, context: "cldr" | "t9n" = "cl
   }
 
   if (!contextualLocales.includes(locale)) {
-    console.warn(`Translations for "${locale}" not found or invalid, falling back to english`);
+    console.warn(
+      `Translations for the "${locale}" locale are not available and will fall back to the default, English (en).`
+    );
     return defaultLocale;
   }
 

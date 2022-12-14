@@ -155,9 +155,9 @@ export class ActionPad
   // --------------------------------------------------------------------------
 
   connectedCallback(): void {
+    connectConditionalSlotComponent(this);
     connectLocalized(this);
     connectMessages(this);
-    connectConditionalSlotComponent(this);
   }
 
   disconnectedCallback(): void {
@@ -169,8 +169,8 @@ export class ActionPad
   async componentWillLoad(): Promise<void> {
     setUpLoadableComponent(this);
     const { el, expanded } = this;
-    await setUpMessages(this);
     toggleChildActionText({ parent: el, expanded });
+    await setUpMessages(this);
   }
 
   componentDidLoad(): void {
@@ -206,7 +206,7 @@ export class ActionPad
   //
   // --------------------------------------------------------------------------
 
-  actionMenuOpenChangeHandler = (event: CustomEvent<void>): void => {
+  actionMenuOpenHandler = (event: CustomEvent<void>): void => {
     if ((event.target as HTMLCalciteActionGroupElement).menuOpen) {
       const composedPath = event.composedPath();
       Array.from(this.el.querySelectorAll("calcite-action-group")).forEach((group) => {
@@ -261,7 +261,7 @@ export class ActionPad
 
   render(): VNode {
     return (
-      <Host onCalciteActionMenuOpenChange={this.actionMenuOpenChangeHandler}>
+      <Host onCalciteActionMenuOpen={this.actionMenuOpenHandler}>
         <div class={CSS.container}>
           <slot />
           {this.renderBottomActionGroup()}

@@ -3,5 +3,5 @@ To open a modal, add the `active` prop. Once the opening animation is complete, 
 To close the modal, simply remove the attribute. This will run your before close method (if provided, see below) and fire the `calciteModalClose` event after the animation and teardown is complete.
 
 ```html
-<calcite-modal active></calcite-modal>
+<calcite-modal open></calcite-modal>
 ```

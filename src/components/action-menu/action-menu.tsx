@@ -94,7 +94,7 @@ export class ActionMenu implements LoadableComponent {
     if (this.menuButtonEl) {
       this.menuButtonEl.active = open;
     }
-    this.calciteActionMenuOpenChange.emit();
+    this.calciteActionMenuOpen.emit();
 
     this.setTooltipReferenceElement();
   }
@@ -125,10 +125,10 @@ export class ActionMenu implements LoadableComponent {
   // --------------------------------------------------------------------------
 
   /**
-   * Emits when the `open` property has changed.
+   * Emits when the `open` property is toggled.
    *
    */
-  @Event({ cancelable: false }) calciteActionMenuOpenChange: EventEmitter<void>;
+  @Event({ cancelable: false }) calciteActionMenuOpen: EventEmitter<void>;
 
   @Listen("pointerdown", { target: "window" })
   closeCalciteActionMenuOnClick(event: PointerEvent): void {
