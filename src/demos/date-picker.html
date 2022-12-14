@@ -125,7 +125,7 @@
             const dateSample = document.getElementById("dateSample");
             const dateDisplay = document.getElementById("dateDisplay");
             dateSample.addEventListener("calciteDatePickerChange", function (e) {
-              dateDisplay.innerHTML = e.detail;
+              dateDisplay.innerHTML = e.target.valueAsDate;
             });
           </script>
         </div>
@@ -140,7 +140,7 @@
             const dateSample_m = document.getElementById("dateSample_m");
             const dateDisplay_m = document.getElementById("dateDisplay_m");
             dateSample_m.addEventListener("calciteDatePickerChange", function (e) {
-              dateDisplay_m.innerHTML = e.detail;
+              dateDisplay_m.innerHTML = e.target.valueAsDate;
             });
           </script>
         </div>
@@ -155,7 +155,7 @@
             const dateSample_l = document.getElementById("dateSample_l");
             const dateDisplay_l = document.getElementById("dateDisplay_l");
             dateSample_l.addEventListener("calciteDatePickerChange", function (e) {
-              dateDisplay_l.innerHTML = e.detail;
+              dateDisplay_l.innerHTML = e.target.valueAsDate;
             });
           </script>
         </div>
