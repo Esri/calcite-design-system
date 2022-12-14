@@ -32,18 +32,17 @@
   @apply pointer-events-none;
 }
 
-fieldset {
+.fieldset {
   margin: 0;
   display: flex;
   border-width: 0;
   padding: 0;
-  margin-inline-end: var(--calcite-rating-spacing-unit);
   align-items: center;
+  gap: var(--calcite-rating-spacing-unit);
 }
 
 .wrapper {
   display: inline-block;
-  margin-inline-end: var(--calcite-rating-spacing-unit);
 }
 
 .star {
@@ -57,10 +56,6 @@ fieldset {
 
 .focused {
   @apply focus-outset;
-}
-
-input {
-  @apply sr-only;
 }
 
 .average,
