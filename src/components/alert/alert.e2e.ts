@@ -38,7 +38,7 @@ describe("calcite-alert", () => {
     const element = await page.find("calcite-alert");
     const close = await page.find("calcite-alert >>> .alert-close");
     const icon = await page.find("calcite-alert >>> .alert-icon");
-    expect(element).toEqualAttribute("color", "blue");
+    expect(element).toEqualAttribute("kind", "brand");
     expect(close).not.toBeNull();
     expect(icon).toBeNull();
   });
@@ -46,14 +46,14 @@ describe("calcite-alert", () => {
   it("renders requested props when valid props are provided", async () => {
     const page = await newE2EPage();
     await page.setContent(`
-    <calcite-alert color="yellow" auto-close-duration="fast" auto-close>
+    <calcite-alert kind="warning" auto-close-duration="fast" auto-close>
     ${alertContent}
     </calcite-alert>`);
 
     const element = await page.find("calcite-alert");
     const icon = await page.find("calcite-alert >>> .alert-icon");
 
-    expect(element).toEqualAttribute("color", "yellow");
+    expect(element).toEqualAttribute("kind", "warning");
     expect(element).toEqualAttribute("auto-close-duration", "fast");
     expect(icon).toBeNull();
   });
@@ -80,7 +80,7 @@ describe("calcite-alert", () => {
         <calcite-button id="button-2" onclick="document.querySelector('#alert-2').setAttribute('open', '')"
           >open alert-1</calcite-button
         >
-        <calcite-alert label="this is a success" id="alert-2" scale="s" color="green" auto-close icon>
+        <calcite-alert label="this is a success" id="alert-2" scale="s" kind="success" auto-close icon>
           <div slot="title">Hello there!</div>
           <div slot="message">Get success!</div>
           <calcite-link slot="link" title="my action"> Do thing </calcite-link>
@@ -200,7 +200,7 @@ describe("calcite-alert", () => {
         icon="i2DExplore"
         auto-close
         auto-close-duration="slow"
-        color="red"
+        kind="danger"
         open
       >
         <div slot="message">
@@ -379,7 +379,7 @@ describe("calcite-alert", () => {
           <calcite-button id="button" onclick="document.querySelector('#alert').setAttribute('open', '')"
             >open alert</calcite-button
           >
-          <calcite-alert label="this is a success" id="alert" auto-close icon color="green">
+          <calcite-alert label="this is a success" id="alert" auto-close icon kind="success">
             ${alertContent}</calcite-alert
           >
         </div>
