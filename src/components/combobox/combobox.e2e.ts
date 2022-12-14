@@ -120,7 +120,7 @@ describe("calcite-combobox", () => {
     expect(await items[2].isVisible()).toBe(true);
     expect(await items[3].isVisible()).toBe(true);
 
-    expect(await filterEventSpy.lastEvent.detail.visibleItems.length).toBe(4);
+    expect(await filterEventSpy.lastEvent.currentTarget.visibleItems.length).toBe(4);
 
     await input.press("i");
     await page.waitForChanges();
@@ -131,7 +131,7 @@ describe("calcite-combobox", () => {
     expect(await items[2].isVisible()).toBe(false);
     expect(await items[3].isVisible()).toBe(true);
 
-    expect(await filterEventSpy.lastEvent.detail.visibleItems.length).toBe(3);
+    expect(await filterEventSpy.lastEvent.currentTarget.visibleItems.length).toBe(3);
 
     await input.press("n");
     await page.waitForChanges();
@@ -142,7 +142,7 @@ describe("calcite-combobox", () => {
     expect(await items[2].isVisible()).toBe(false);
     expect(await items[3].isVisible()).toBe(false);
 
-    expect(await filterEventSpy.lastEvent.detail.visibleItems.length).toBe(2);
+    expect(await filterEventSpy.lastEvent.currentTarget.visibleItems.length).toBe(2);
   });
 
   it("should control max items displayed", async () => {
@@ -463,7 +463,7 @@ describe("calcite-combobox", () => {
       const label = await page.find("calcite-combobox >>> .label");
 
       expect(label.textContent).toBe("K");
-      expect(eventSpy.lastEvent.detail.selectedItems.length).toBe(1);
+      expect(eventSpy.lastEvent.currentTarget.selectedItems.length).toBe(1);
       expect(await item.getProperty("selected")).toBe(true);
     });
 
@@ -492,7 +492,7 @@ describe("calcite-combobox", () => {
       const label = await page.find("calcite-combobox >>> .label");
 
       expect(label.textContent).toBe("K");
-      expect(eventSpy.lastEvent.detail.selectedItems.length).toBe(1);
+      expect(eventSpy.lastEvent.currentTarget.selectedItems.length).toBe(1);
       expect(await item1.getProperty("selected")).toBe(false);
       expect(await item2.getProperty("selected")).toBe(true);
     });
@@ -522,7 +522,7 @@ describe("calcite-combobox", () => {
       const item3 = await page.find("calcite-combobox-item:last-child");
       const chips = await page.findAll("calcite-combobox >>> calcite-chip");
 
-      expect(eventSpy.lastEvent.detail.selectedItems.length).toBe(3);
+      expect(eventSpy.lastEvent.currentTarget.selectedItems.length).toBe(3);
       expect(chips[2].textContent).toBe("K");
       expect(await item1.getProperty("selected")).toBe(true);
       expect(await item2.getProperty("selected")).toBe(true);
@@ -773,7 +773,7 @@ describe("calcite-combobox", () => {
       await event;
 
       expect(eventSpy).toHaveReceivedEventTimes(1);
-      expect(eventSpy.lastEvent.detail.selectedItems.length).toBe(1);
+      expect(eventSpy.lastEvent.currentTarget.selectedItems.length).toBe(1);
     });
 
     it("should have 2 selectedItems when not in single select", async () => {
@@ -800,7 +800,7 @@ describe("calcite-combobox", () => {
       await event;
 
       expect(eventSpy).toHaveReceivedEventTimes(1);
-      expect(eventSpy.lastEvent.detail.selectedItems.length).toBe(2);
+      expect(eventSpy.lastEvent.currentTarget.selectedItems.length).toBe(2);
     });
   });
 

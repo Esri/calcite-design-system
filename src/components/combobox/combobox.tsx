@@ -220,6 +220,27 @@ export class Combobox
     this.reposition(true);
   }
 
+  /**
+   * Specifies the component's selected items.
+   *
+   * @readonly
+   */
+  @Prop({ mutable: true }) selectedItems: HTMLCalciteComboboxItemElement[] = [];
+
+  @Watch("selectedItems")
+  selectedItemsHandler(): void {
+    this.internalValueChangeFlag = true;
+    this.value = this.getValue();
+    this.internalValueChangeFlag = false;
+  }
+
+  /**
+   * Specifies the component's visible items.
+   *
+   * @readonly
+   */
+  @Prop({ mutable: true }) visibleItems: HTMLCalciteComboboxItemElement[] = [];
+
   //--------------------------------------------------------------------------
   //
   //  Event Listeners
@@ -295,15 +316,10 @@ export class Combobox
   /**
    * Fires when the selected item(s) changes.
    */
-  @Event({ cancelable: false }) calciteComboboxChange: EventEmitter<{
-    selectedItems: HTMLCalciteComboboxItemElement[];
-  }>;
+  @Event({ cancelable: false }) calciteComboboxChange: EventEmitter<void>;
 
   /** Fires when text is added to filter the options list. */
-  @Event({ cancelable: false }) calciteComboboxFilterChange: EventEmitter<{
-    visibleItems: HTMLCalciteComboboxItemElement[];
-    text: string;
-  }>;
+  @Event({ cancelable: false }) calciteComboboxFilterChange: EventEmitter<void>;
 
   /**
    * Fires when a selected item in the component is dismissed via its `calcite-chip`.
@@ -393,17 +409,6 @@ export class Combobox
   @State() items: HTMLCalciteComboboxItemElement[] = [];
 
   @State() groupItems: HTMLCalciteComboboxItemGroupElement[] = [];
-
-  @State() selectedItems: HTMLCalciteComboboxItemElement[] = [];
-
-  @Watch("selectedItems")
-  selectedItemsHandler(): void {
-    this.internalValueChangeFlag = true;
-    this.value = this.getValue();
-    this.internalValueChangeFlag = false;
-  }
-
-  @State() visibleItems: HTMLCalciteComboboxItemElement[] = [];
 
   @State() needsIcon: boolean;
 
@@ -761,13 +766,12 @@ export class Combobox
       });
 
       this.visibleItems = this.getVisibleItems();
-      this.calciteComboboxFilterChange.emit({ visibleItems: [...this.visibleItems], text: text });
+      this.calciteComboboxFilterChange.emit();
     }, 100);
   })();
 
   internalComboboxChangeEvent = (): void => {
-    const { selectedItems } = this;
-    this.calciteComboboxChange.emit({ selectedItems });
+    this.calciteComboboxChange.emit();
   };
 
   private emitComboboxChange = debounce(this.internalComboboxChangeEvent, 0);
