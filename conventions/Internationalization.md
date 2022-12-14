@@ -52,7 +52,7 @@ This pattern enables components to support built-in translations. In order to su
 - If a message string has a matching `intl` prop, its translation bundle message keys must match the same prop name without the `intl` prefix (e.g., `intlClose` -> `close`)
 - You can also look at the interface and util documentation for additional info.
 - The internal `messages` property should be used as the source of truth for translations in rendering.
-- [Localization support page](https://developers.arcgis.com/calcite-design-system/localization/#locale-support).
+- List of supported locales can be found on our [Localization support page](https://developers.arcgis.com/calcite-design-system/localization/#locale-support).
 
 ## Translated strings
 
