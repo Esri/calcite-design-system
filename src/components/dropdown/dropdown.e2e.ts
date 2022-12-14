@@ -692,9 +692,9 @@ describe("calcite-dropdown", () => {
     expect(await dropdownWrapper.isVisible()).toBe(false);
   });
 
-  it("remains open when disable-close-on-select is requested and selected item is not in a selection-mode:none group", async () => {
+  it("remains open when close-on-select-disabled is requested and selected item is not in a selection-mode:none group", async () => {
     const page = await newE2EPage();
-    await page.setContent(html`<calcite-dropdown disable-close-on-select>
+    await page.setContent(html`<calcite-dropdown close-on-select-disabled>
       <calcite-button id="trigger" slot="trigger">Open dropdown</calcite-button>
       <calcite-dropdown-group id="group-1" selection-mode="single">
         <calcite-dropdown-item id="item-1"> Dropdown Item Content </calcite-dropdown-item>
@@ -722,9 +722,9 @@ describe("calcite-dropdown", () => {
     expect(await dropdownWrapper.isVisible()).toBe(true);
   });
 
-  it("closes when disable-close-on-select is requested and selected item is in a selection-mode:none group", async () => {
+  it("closes when close-on-select-disabled is requested and selected item is in a selection-mode:none group", async () => {
     const page = await newE2EPage();
-    await page.setContent(html`<calcite-dropdown disable-close-on-select>
+    await page.setContent(html`<calcite-dropdown close-on-select-disabled>
       <calcite-button id="trigger" slot="trigger">Open dropdown</calcite-button>
       <calcite-dropdown-group id="group-1" selection-mode="none">
         <calcite-dropdown-item>
@@ -983,7 +983,7 @@ describe("calcite-dropdown", () => {
 
   it("item selection should work when placed inside shadow DOM (#992)", async () => {
     const wrappedDropdownTemplateHTML = html`
-      <calcite-dropdown disable-close-on-select>
+      <calcite-dropdown close-on-select-disabled>
         <calcite-button slot="trigger">Open</calcite-button>
         <calcite-dropdown-group selection-mode="single">
           <calcite-dropdown-item id="item-1" selected>1</calcite-dropdown-item>
