@@ -27,12 +27,7 @@ export class Scrim implements LocalizedComponent, T9nComponent {
   // --------------------------------------------------------------------------
 
   /**
-   * Accessible name when the component is loading.
-   *
-   * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`
-   */
-  @Prop() intlLoading: string;
-
+   
   /**
    * When `true`, a busy indicator is displayed.
    */
@@ -50,7 +45,6 @@ export class Scrim implements LocalizedComponent, T9nComponent {
    */
   @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
 
-  @Watch("intlLoading")
   @Watch("messageOverrides")
   onMessagesChange(): void {
     /* wired up by t9n util */
