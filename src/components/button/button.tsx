@@ -2,8 +2,8 @@ import "form-request-submit-polyfill/form-request-submit-polyfill";
 import { Component, Element, h, Method, Prop, Build, State, VNode, Watch } from "@stencil/core";
 import { CSS } from "./resources";
 import { closestElementCrossShadowBoundary } from "../../utils/dom";
-import { ButtonAlignment, ButtonAppearance, ButtonColor } from "./interfaces";
-import { FlipContext, Scale, Width } from "../interfaces";
+import { ButtonAlignment } from "./interfaces";
+import { Appearance, FlipContext, Kind, Scale, Width } from "../interfaces";
 import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
 import { createObserver } from "../../utils/observers";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
@@ -61,13 +61,17 @@ export class Button
   @Prop({ reflect: true }) alignment: ButtonAlignment = "center";
 
   /** Specifies the appearance style of the component. */
-  @Prop({ reflect: true }) appearance: ButtonAppearance = "solid";
+  @Prop({ reflect: true }) appearance: Extract<
+    "outline" | "outline-fill" | "solid" | "transparent",
+    Appearance
+  > = "solid";
 
   /** Accessible name for the component. */
   @Prop() label: string;
 
-  /** Specifies the color of the component. */
-  @Prop({ reflect: true }) color: ButtonColor = "blue";
+  /** Specifies the kind of the component (will apply to border and background if applicable). */
+  @Prop({ reflect: true }) kind: Extract<"brand" | "danger" | "inverse" | "neutral", Kind> =
+    "brand";
 
   /**  When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @Prop({ reflect: true }) disabled = false;
@@ -100,13 +104,6 @@ export class Button
    * @mdn [rel](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/rel)
    */
   @Prop({ reflect: true }) rel: string;
-
-  /**
-   * The form ID to associate with the component.
-   *
-   * @deprecated – The property is no longer needed if the component is placed inside a form.
-   */
-  @Prop() form: string;
 
   /** When `true`, adds a round style to the component. */
   @Prop({ reflect: true }) round = false;
@@ -175,10 +172,7 @@ export class Button
     this.hasLoader = this.loading;
     this.setupTextContentObserver();
     connectLabel(this);
-    this.formEl = closestElementCrossShadowBoundary<HTMLFormElement>(
-      this.el,
-      this.form ? `#${this.form}` : "form"
-    );
+    this.formEl = closestElementCrossShadowBoundary<HTMLFormElement>(this.el, "form");
   }
 
   disconnectedCallback(): void {

@@ -73,7 +73,7 @@ const action = html`
     slot="actions-end"
     label="click-me"
     onClick="console.log('clicked');"
-    appearance="clear"
+    appearance="outline"
     scale="s"
     icon="information"
   ></calcite-action>

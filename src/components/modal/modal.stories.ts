@@ -31,7 +31,7 @@ export const simple = (): string => html`
     <div slot="content">
       <p>The small modal is perfect for short confirmation dialogs or very compact interfaces with few elements.</p>
     </div>
-    <calcite-button slot="back" color="neutral" appearance="outline" icon="chevron-left" width="full"
+    <calcite-button slot="back" kind="neutral" appearance="outline" icon="chevron-left" width="full"
       >Back</calcite-button
     >
     <calcite-button slot="secondary" width="full" appearance="outline">Cancel</calcite-button>
@@ -60,7 +60,7 @@ export const darkThemeRTLCustomSize_TestOnly = (): string => html`
         customize the size using the width attribute.
       </p>
     </div>
-    <calcite-button slot="back" color="neutral" appearance="outline" icon="chevron-left" width="full"
+    <calcite-button slot="back" kind="neutral" appearance="outline" icon="chevron-left" width="full"
       >Back</calcite-button
     >
     <calcite-button slot="secondary" width="full" appearance="outline">Cancel</calcite-button>
@@ -82,7 +82,7 @@ export const withTooltips_TestOnly = (): string => html`
       et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
       commodo consequat.
     </div>
-    <calcite-button id="back-button-modal" slot="back" color="neutral" icon="chevron-left" width="full"
+    <calcite-button id="back-button-modal" slot="back" kind="neutral" icon="chevron-left" width="full"
       >Back
     </calcite-button>
     <calcite-button slot="secondary" width="full" appearance="outline">Cancel</calcite-button>
