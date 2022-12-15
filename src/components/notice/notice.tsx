@@ -11,8 +11,8 @@ import {
   Watch
 } from "@stencil/core";
 import { CSS, SLOTS } from "./resources";
-import { Scale, Width } from "../interfaces";
-import { StatusColor, StatusIcons } from "../alert/interfaces";
+import { Kind, Scale, Width } from "../interfaces";
+import { KindIcons } from "../resources";
 import { getSlotted, setRequestedIcon } from "../../utils/dom";
 import {
   ConditionalSlotComponent,
@@ -75,8 +75,8 @@ export class Notice
   /** When `true`, the component is visible. */
   @Prop({ reflect: true, mutable: true }) open = false;
 
-  /** The color for the component's top border and icon. */
-  @Prop({ reflect: true }) color: StatusColor = "blue";
+  /** Specifies the kind of the component (will apply to top border and icon). */
+  @Prop({ reflect: true }) kind: Kind = "brand";
 
   /** When `true`, a close button is added to the component. */
   @Prop({ reflect: true }) closable = false;
@@ -119,9 +119,9 @@ export class Notice
   }
 
   @Watch("icon")
-  @Watch("color")
+  @Watch("kind")
   updateRequestedIcon(): void {
-    this.requestedIcon = setRequestedIcon(StatusIcons, this.icon, this.color);
+    this.requestedIcon = setRequestedIcon(KindIcons, this.icon, this.kind);
   }
 
   //--------------------------------------------------------------------------
@@ -144,7 +144,7 @@ export class Notice
 
   async componentWillLoad(): Promise<void> {
     setUpLoadableComponent(this);
-    this.requestedIcon = setRequestedIcon(StatusIcons, this.icon, this.color);
+    this.requestedIcon = setRequestedIcon(KindIcons, this.icon, this.kind);
     await setUpMessages(this);
   }
 
