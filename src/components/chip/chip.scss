@@ -46,12 +46,12 @@
   @apply inline-flex h-full max-w-full items-center;
 }
 
-:host .title {
+.title {
   @apply truncate;
   padding-block: 0;
 }
 
-:host .content--slotted .title {
+.content--slotted .title {
   padding-inline: var(--calcite-chip-spacing-unit-l);
 }
 
@@ -118,7 +118,7 @@
   margin-inline-end: theme("spacing.2");
 }
 
-:host button {
+button {
   @apply focus-base
     transition-default
     text-color-1
@@ -154,7 +154,7 @@
   @apply rounded-half inline-flex overflow-hidden;
 }
 
-:host slot[name="image"]::slotted(*) {
+slot[name="image"]::slotted(*) {
   @apply rounded-half flex h-full w-full overflow-hidden;
 }
 
@@ -167,10 +167,6 @@
     ease-in-out;
   margin-inline-end: 0;
   margin-inline-start: var(--calcite-chip-spacing-unit-l);
-}
-
-:host {
-  @apply text-color-1 bg-transparent;
 }
 
 :host([kind="neutral"]) {
