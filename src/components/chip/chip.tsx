@@ -13,7 +13,7 @@ import {
 } from "@stencil/core";
 import { guid } from "../../utils/guid";
 import { CSS, SLOTS, ICONS } from "./resources";
-import { Appearance, DeprecatedEventPayload, Kind, Scale } from "../interfaces";
+import { Appearance, Kind, Scale } from "../interfaces";
 import {
   ConditionalSlotComponent,
   connectConditionalSlotComponent,
