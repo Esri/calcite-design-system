@@ -121,7 +121,7 @@ export const sideBySide_TestOnly = (): string => html`
   <div style="width: 300px; max-width: 100%; display: flex; flex-direction: row; background-color: #fff">
     <calcite-button
       width="half"
-      appearance="${select("appearance", ["solid", "outline", "outline-fill", "transparent"], "solid")}"
+      appearance="${select("appearance", ["solid", "outline", "outline-fill", "transparent"], "outline-fill")}"
       kind="${select("kind", ["brand", "danger", "inverse", "neutral"], "brand")}"
     >
       ${text("text", "Back")}
