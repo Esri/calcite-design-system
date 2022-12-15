@@ -6,16 +6,16 @@
   --calcite-chip-spacing-unit-s: theme("spacing.1");
   .image-container {
     @apply h-5 w-5;
-    padding-inline-start: 1px;
+    padding-inline-start: theme("spacing[0.5]");
   }
 }
 :host([scale="m"]) {
   @apply text-n1 h-8;
   --calcite-chip-spacing-unit-l: theme("spacing.3");
-  --calcite-chip-spacing-unit-s: 6px;
+  --calcite-chip-spacing-unit-s: calc(theme("spacing.3") / 2);
   .image-container {
     @apply h-6 w-6;
-    padding-inline-start: theme("padding.1");
+    padding-inline-start: theme("spacing.1");
   }
 }
 
@@ -55,31 +55,67 @@
   padding-inline: var(--calcite-chip-spacing-unit-l);
 }
 
-:host([icon]) .content--slotted .title {
-  padding-inline: var(--calcite-chip-spacing-unit-l);
+:host([closable][icon]) .container:not(.content--slotted) .title {
+  padding-inline: 0 var(--calcite-chip-spacing-unit-s);
+}
+
+:host(:not([closable])) .container:not(.content--slotted) .chip-icon {
+  margin-inline: auto;
+}
+
+:host([scale="s"][closable]) .container:not(.content--slotted) .image-container {
+  margin-inline-end: theme("spacing[0.5]");
+}
+
+:host([scale="m"][closable]) .container:not(.content--slotted) .image-container {
+  margin-inline-end: theme("spacing.1");
+}
+
+:host([scale="l"][closable]) .container:not(.content--slotted) .image-container {
+  margin-inline-end: theme("spacing.2");
+}
+
+:host([scale="s"]:not([closable])) .container:not(.content--slotted) {
+  @apply w-6 h-6;
+  & .image-container {
+    padding-inline: theme("spacing[0.5]");
+  }
+}
+
+:host([scale="m"]:not([closable])) .container:not(.content--slotted) {
+  @apply w-8 h-8;
+  & .image-container {
+    padding-inline: theme("spacing.1");
+  }
+}
+
+:host([scale="l"]:not([closable])) .container:not(.content--slotted) {
+  @apply w-11 h-11;
+  & .image-container {
+    padding-inline: calc(theme("spacing.3") / 2);
+  }
 }
 
 :host([closable]) .content--slotted .title {
   padding-inline: var(--calcite-chip-spacing-unit-l) var(--calcite-chip-spacing-unit-s);
 }
 
-:host([closable][icon]) .container:not(.content--slotted) .title {
-  padding-inline: 0 var(--calcite-chip-spacing-unit-s);
+:host([scale="s"]) button {
+  inline-size: theme("spacing.4");
+  block-size: theme("spacing.4");
+  margin-inline-end: theme("spacing[0.5]");
 }
 
-:host([icon]:not([closable])) .container:not(.content--slotted) .chip-icon {
-  margin-block: 0;
-  margin-inline: auto;
+:host([scale="m"]) button {
+  inline-size: theme("spacing.6");
+  block-size: theme("spacing.6");
+  margin-inline-end: theme("spacing.1");
 }
 
-:host([scale="s"][icon]:not([closable])) .container:not(.content--slotted) {
-  @apply w-6 h-6;
-}
-:host([scale="m"][icon]:not([closable])) .container:not(.content--slotted) {
-  @apply w-8 h-8;
-}
-:host([scale="l"][icon]:not([closable])) .container:not(.content--slotted) {
-  @apply w-11 h-11;
+:host([scale="l"]) button {
+  inline-size: theme("spacing.8");
+  block-size: theme("spacing.8");
+  margin-inline-end: theme("spacing.2");
 }
 
 :host button {
@@ -99,7 +135,6 @@
   align-content: center;
   justify-content: center;
 
-  // close button focus styles
   --calcite-chip-transparent-hover: var(--calcite-button-transparent-hover);
   --calcite-chip-transparent-press: var(--calcite-button-transparent-press);
   &:hover {
@@ -112,27 +147,6 @@
   &:active {
     background-color: var(--calcite-chip-transparent-press);
   }
-}
-:host([closable]) .content--slotted .title {
-  padding-inline: var(--calcite-chip-spacing-unit-l) var(--calcite-chip-spacing-unit-s);
-}
-
-:host([scale="s"]) button {
-  inline-size: 16px;
-  block-size: 16px;
-  margin-inline-end: 2px;
-}
-
-:host([scale="m"]) button {
-  inline-size: 24px;
-  block-size: 24px;
-  margin-inline-end: 4px;
-}
-
-:host([scale="l"]) button {
-  inline-size: 32px;
-  block-size: 32px;
-  margin-inline-end: 8px;
 }
 
 //slotted image

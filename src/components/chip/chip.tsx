@@ -187,7 +187,8 @@ export class Chip
   private updateHasContent() {
     const slottedContent = this.el.textContent.trim().length > 0 || this.el.childNodes.length > 0;
     this.hasContent =
-      this.el.childNodes.length === 1 && this.el.childNodes[0]?.nodeName === "#text"
+      (getSlotted(this.el, SLOTS.image) || this.el.childNodes.length === 1) &&
+      this.el.childNodes[0]?.nodeName === "#text"
         ? this.el.textContent?.trim().length > 0
         : slottedContent;
   }
