@@ -33,8 +33,8 @@ export const simple = (): string => html`
     ${referenceElementHTML}
     <calcite-popover
       ${boolean("closable", false)}
-      ${boolean("disable-flip", false)}
-      ${boolean("disable-pointer", false)}
+      ${boolean("flip-disabled", false)}
+      ${boolean("pointer-disabled", false)}
       reference-element="reference-element"
       placement="${select("placement", placements, defaultPopoverPlacement)}"
       offset-distance="${number("offset-distance", 6)}"
@@ -56,8 +56,8 @@ export const darkThemeRTL_TestOnly = (): string => html` <style>
     ${referenceElementHTML}
     <calcite-popover
       ${boolean("closable", false)}
-      ${boolean("disable-flip", false)}
-      ${boolean("disable-pointer", false)}
+      ${boolean("flip-disabled", false)}
+      ${boolean("pointer-disabled", false)}
       reference-element="reference-element"
       placement="${select("placement", placements, defaultPopoverPlacement)}"
       offset-distance="${number("offset-distance", 6)}"

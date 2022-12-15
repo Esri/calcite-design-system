@@ -10,7 +10,6 @@ import {
   createComponentHTML as create
 } from "../../../.storybook/utils";
 import { storyFilters } from "../../../.storybook/helpers";
-import { TEXT } from "./resources";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 
 export default {
@@ -45,30 +44,6 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
         name: "selectable",
         commit(): Attribute {
           this.value = boolean("selectable", false);
-          delete this.build;
-          return this;
-        }
-      },
-      {
-        name: "intl-loading",
-        commit(): Attribute {
-          this.value = text("intl-loading", TEXT.loading);
-          delete this.build;
-          return this;
-        }
-      },
-      {
-        name: "intl-select",
-        commit(): Attribute {
-          this.value = text("intl-select", TEXT.select);
-          delete this.build;
-          return this;
-        }
-      },
-      {
-        name: "intl-deselect",
-        commit(): Attribute {
-          this.value = text("intl-deselect", TEXT.deselect);
           delete this.build;
           return this;
         }

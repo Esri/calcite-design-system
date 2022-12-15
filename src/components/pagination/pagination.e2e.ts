@@ -1,13 +1,16 @@
 import { newE2EPage, E2EElement, E2EPage } from "@stencil/core/testing";
-import { accessible, hidden, renders } from "../../tests/commonTests";
+import { accessible, hidden, renders, t9n } from "../../tests/commonTests";
 import { CSS } from "./resources";
 import { html } from "../../../support/formatting";
 
 describe("calcite-pagination", () => {
   it("renders", async () => renders("calcite-pagination", { display: "flex" }));
+
   it("honors hidden attribute", async () => hidden("calcite-pagination"));
 
   it("is accessible", async () => accessible(`<calcite-pagination></calcite-pagination>`));
+
+  it("supports translations", () => t9n("calcite-pagination"));
 
   describe("page links", () => {
     it("should render only one page when total is less than num", async () => {
@@ -111,13 +114,6 @@ describe("calcite-pagination", () => {
       const page = await newE2EPage();
       await page.setContent(`<calcite-pagination start="1" total="36" num="10"></calcite-pagination>`);
       const toggleSpy = await page.spyOnEvent("calcitePaginationChange");
-
-      await page.evaluate(() => {
-        document.addEventListener("calcitePaginationChange", (event: CustomEvent): void => {
-          (window as any).eventDetail = event.detail;
-        });
-      });
-
       const pages = await page.findAll("calcite-pagination >>> .page");
       await pages[1].click();
       await page.waitForChanges();
@@ -125,20 +121,6 @@ describe("calcite-pagination", () => {
       let selectedPage = await page.find(`calcite-pagination >>> .${CSS.page}.${CSS.selected}`);
       expect(selectedPage.innerText).toBe("2");
       expect(toggleSpy).toHaveReceivedEventTimes(1);
-
-      const eventDetail: any = await page.evaluateHandle(() => {
-        const detail = (window as any).eventDetail;
-        return {
-          num: detail.num,
-          start: detail.start,
-          total: detail.total
-        };
-      });
-      const properties = await eventDetail.getProperties();
-      expect(eventDetail).toBeDefined();
-      expect(properties.get("num")._remoteObject.value).toBe(10);
-      expect(properties.get("start")._remoteObject.value).toBe(11);
-      expect(properties.get("total")._remoteObject.value).toBe(36);
 
       await pages[2].click();
       await page.waitForChanges();

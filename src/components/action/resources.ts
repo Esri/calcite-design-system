@@ -10,11 +10,6 @@ export const CSS = {
   textContainerVisible: "text-container--visible"
 };
 
-export const TEXT = {
-  loading: "Loading",
-  indicator: "indicator present"
-};
-
 export const SLOTS = {
   tooltip: "tooltip"
 };
