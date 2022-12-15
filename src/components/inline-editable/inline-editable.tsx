@@ -97,30 +97,6 @@ export class InlineEditable
   /** When `true` and `editingEnabled` is `true`, displays save and cancel controls on the component. */
   @Prop({ reflect: true }) controls = false;
 
-  /**
-   * Accessible name for the component's enable editing button.
-   *
-   * @default "Click to edit"
-   * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`.
-   */
-  @Prop({ reflect: true }) intlEnableEditing: string;
-
-  /**
-   * Accessible name for the component's cancel editing button.
-   *
-   * @default "Cancel"
-   * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`.
-   */
-  @Prop({ reflect: true }) intlCancelEditing: string;
-
-  /**
-   * Accessible name for the component's confirm edits button.
-   *
-   * @default "Save"
-   * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`.
-   */
-  @Prop({ reflect: true }) intlConfirmChanges: string;
-
   /** Specifies the size of the component. Defaults to the scale of the wrapped `calcite-input` or the scale of the closest wrapping component with a set scale. */
   @Prop({ reflect: true, mutable: true }) scale: Scale;
 
@@ -139,9 +115,6 @@ export class InlineEditable
    */
   @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
 
-  @Watch("intlCancelEditing")
-  @Watch("intlConfirmChanges")
-  @Watch("intlEnableEditing")
   @Watch("messageOverrides")
   onMessagesChange(): void {
     /* wired up by t9n util */
