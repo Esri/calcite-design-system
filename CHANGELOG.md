@@ -9,56 +9,72 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### ⚠ BREAKING CHANGES
 
-- **pagination:** Removed `event.detail` payload from events.
+- **tab-nav, tab-title:** Removed `event.detail` payload from events.
+
+* TabNav
+* Removed the `event.detail` property on the event `calciteTabChange`,
+  use `event.target` instead.
+* TabTitle
+* Removed the `event.detail` property on the event
+  `calciteTabsActivate`, use `event.target` instead.
+
+- **tree:** Removed `event.detail` payload from events and added
+  `selectedItems` property.
+
+* Added property `selectedItems`.
+* Removed the `event.detail` property on the event `calciteTreeSelect`,
+  use `event.target` instead.
+
+* **pagination:** Removed `event.detail` payload from events.
 
   - Removed the `event.detail` property on the event
     `calcitePaginationChange`, use `event.target` instead.
 
-- **dropdown:** Removed `event.detail` payload from events.
+* **dropdown:** Removed `event.detail` payload from events.
 
   - Removed the `event.detail` property on the event
     `calciteDropdownSelect`, use `event.target` instead.
 
-- **rating:** Removed `event.detail` payload from events.
+* **rating:** Removed `event.detail` payload from events.
 
   - Removed the `event.detail` property on the event
     `calciteRatingChange`, use `event.target` instead.
 
-- **inline-editable,input,input-text,input-number:** Removed deprecated `intl\*` & accessible label properties.
+* **inline-editable,input,input-text,input-number:** Removed deprecated `intl\*` & accessible label properties.
 
-- **inline-editable:**
+* **inline-editable:**
 
   - Removed the property` intlEnableEditing`, use `messsageOverrides.enableEditing` instead.
   - Removed the property `intlCancelEditing`, use `messageOverrides.cancelEditing` instead.
   - Removed the property `intlConfirmChanges`, use `messageOverrides.confirmChanges` instead.
 
-- **input-number:**
+* **input-number:**
 
   - Removed the property `intlClear`, use `messsageOverrides.clear` instead.
   - Removed the property `intlLoading`, use `messsageOverrides.loading` instead.
 
-- **input-text:**
+* **input-text:**
 
   - Removed the property `intlClear`, use `messsageOverrides.clear` instead.
   - Removed the property `intlLoading`, use `messsageOverrides.loading` instead.
 
-- **input:**
+* **input:**
 
   - Removed the property `intlClear`, use `messsageOverrides.clear` instead.
   - Removed the property `intlLoading`, use `messsageOverrides.loading` instead.
 
-- **scrim,rating,time-picker,input-time-picker,value-list:** Removed deprecated `intl\*` & accessible label properties.
+* **scrim,rating,time-picker,input-time-picker,value-list:** Removed deprecated `intl\*` & accessible label properties.
 
-- **rating:**
+* **rating:**
 
   - Removed the property `intlStars` , use `messsageOverrides.stars` instead.
   - Removed the property `intlRating` , use `messsageOverrides.rating` instead.
 
-- **scrim:**
+* **scrim:**
 
   - Removed the property `intlLoading` , use `messsageOverrides.loading` instead.
 
-- **time-picker:**
+* **time-picker:**
 
   - Removed the property `intlHour`, use `messsageOverrides.hour` instead.
   - Removed the property `intlHourDown`, use `messsageOverrides.hourDown` instead.
@@ -73,7 +89,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
   - Removed the property `intlSecondUp`, use `messsageOverrides.secondUp` instead.
   - Removed the property `intlSecondDown`, use `messsageOverrides.secondDown` instead.
 
-- **input-time-picker:**
+* **input-time-picker:**
 
   - Removed the property `intlHour`, use `messsageOverrides.hour` instead.
   - Removed the property `intlHourDown`, use `messsageOverrides.hourDown` instead.
@@ -88,16 +104,16 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
   - Removed the property `intlSecondUp`, use `messsageOverrides.secondUp` instead.
   - Removed the property `intlSecondDown`, use `messsageOverrides.secondDown` instead.
 
-- **value-list:**
+* **value-list:**
 
   - Removed the property `intlDragHandleActive`, use `messsageOverrides.dragHandleActive` instead.
   - Removed the property `intlDragHandleChange`, use `messsageOverrides.dragHandleChange` instead.
   - Removed the property `intlDragHandleCommit`, use `messsageOverrides.dragHandleCommit` instead.
   - Removed the property `intlDragHandleIdle`, use `messsageOverrides.dragHandleIdle` instead.
 
-- **chip,card,combobox,date-picker,flow,flow-item,filter, input-date-picker:** Removed deprecated `intl\*` & accessible label properties.
+* **chip,card,combobox,date-picker,flow,flow-item,filter, input-date-picker:** Removed deprecated `intl\*` & accessible label properties.
 
-- **card**:
+* **card**:
 
   - Removed the property `intlLoading` , use `messsageOverrides.loading`
     instead.
@@ -106,12 +122,12 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
   - Removed the property `intlDeselect` use `messageOverrides.deselect`
     instead.
 
-- **chip**:
+* **chip**:
 
   - Removed the property `dismissLabel` , use
     `messsageOverrides.dismissLabel ` instead.
 
-- **color-picker:**
+* **color-picker:**
 
   - Removed the property `intlB` , use `messsageOverrides.b` instead.
   - Removed the property `intlBlue` , use `messsageOverrides.blue`
@@ -141,12 +157,12 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
   - Removed the property `intlValue` , use `messsageOverrides.value`
     instead.
 
-- **combobox:**
+* **combobox:**
 
   - Removed the property `intlRemoveTag` , use
     `messsageOverrides.removeTag` instead.
 
-- **date-picker:**
+* **date-picker:**
 
   - Removed the property `intlNextMonth`, use `messageOverrides.nextMonth`
     instead.
@@ -154,7 +170,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
     instead.
   - Removed the property `intlYear`, use `messageOverrides.year` instead.
 
-- **flow-item:**
+* **flow-item:**
 
   - Removed the property `intlBack` , use `messsageOverrides.back`
     instead.
@@ -163,14 +179,14 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
   - Removed the property `intlOptions` , use `messsageOverrides.options`
     instead.
 
-- **filter:**
+* **filter:**
 
   - Removed the property `intlClear`, use `messsageOverrides.clear`
     instead.
   - Removed the property `intlLabel`, use `messageOverrides.label`
     instead.
 
-- **input-date-picker:**
+* **input-date-picker:**
 
   - Removed the property `intlNextMonth`, use `messageOverrides.nextMonth`
     instead.
@@ -178,41 +194,41 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
     instead.
   - Removed the property `intlYear`, use `messageOverrides.year` instead.
 
-- **action,action-bar,action-group,action-pad,alert,block-section,block,button:** Removed deprecated `intl*` properties , use
+* **action,action-bar,action-group,action-pad,alert,block-section,block,button:** Removed deprecated `intl*` properties , use
   `messageOverrides` property instead.
 
-- **action:**
+* **action:**
 
   - Removed the property `intlLoading` , use `messsageOverrides.loading`
     instead.
   - Removed the property `intlIndicator`, use `messageOverrides.indicator`
     instead.
 
-- **action-bar:**
+* **action-bar:**
 
   - Removed the property `intlExpand` , use `messsageOverrides.expand`
     instead.
   - Removed the property `intlCollapse`, use `messageOverrides.collapse`
     instead.
 
-- **action-group:**
+* **action-group:**
 
   - Removed the property `intlMore` , use `messsageOverrides.more`
     instead.
 
-- **action-pad**:
+* **action-pad**:
 
   - Removed the property `intlExpand` , use `messsageOverrides.expand`
     instead.
   - Removed the property `intlCollapse`, use `messageOverrides.collapse`
     instead.
 
-- **alert**:
+* **alert**:
 
   - Removed the property `intlClose`, use `messageOverrides.close`
     instead.
 
-- **block**:
+* **block**:
 
   - Removed the property `intlExpand` , use `messsageOverrides.expand`
     instead.
@@ -223,26 +239,26 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
   - Removed the property `intlOptions`, use `messageOverrides.options`
     instead.
 
-- **block-section:**
+* **block-section:**
 
   - Removed the property `intlExpand` , use `messsageOverrides.expand`
     instead.
   - Removed the property `intlCollapse`, use `messageOverrides.collapse`
     instead.
 
-- **button:**
+* **button:**
 
   - Removed the property `intlLoading` , use `messsageOverrides.loading`
     instead.
 
-- **popover, dropdown, modal, pick-list-item, value-list-item:** Renamed `disable*` properties.
+* **popover, dropdown, modal, pick-list-item, value-list-item:** Renamed `disable*` properties.
 
-- **dropdown:**
+* **dropdown:**
 
   - Renamed the property `disableCloseOnSelect`, use
     `closeOnSelectDisabled` instead.
 
-- **modal:**
+* **modal:**
 
   - Renamed the property `disableCloseButton`, use `closeButtonDisabled`
     instead.
@@ -252,42 +268,42 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
     instead.
   - Renamed the property `disableEscape`, use `escapeDisabled` instead.
 
-- **pick-list-item:**
+* **pick-list-item:**
 
   - Renamed the property `disableDeselect`, use `deselectDisabled`
     instead.
 
-- **popover:**
+* **popover:**
 
   - Renamed the property `disableFlip`, use `flipDisabled` instead.
   - Renamed the property `disableFocusTrap`, use `focusTrapDisabled`
     instead.
   - Renamed the property `disablePointer`, use `pointerDisabled` instead.
 
-- **value-list-item:**
+* **value-list-item:**
 
   - Renamed the property `disableDeselect`, use `deselectDisabled`
     instead.
 
-- **input-date-picker:** Removed the `calciteDatePickerChange` event, use
+* **input-date-picker:** Removed the `calciteDatePickerChange` event, use
   `calciteInputDatePickerChange` instead.
 
-- **date-picker:** Removed the `start` and `end` properties, set `value`
+* **date-picker:** Removed the `start` and `end` properties, set `value`
   as an array with the start as the first value and the end as the second
   value instead.
 
-- **combobox:** Renamed event.
+* **combobox:** Renamed event.
 
   - Renamed the event `calciteComboboxChipDismiss`, use
     `calciteComboboxChipClose` instead.
 
-- **alert:** Renamed properties.
+* **alert:** Renamed properties.
 
   - Renamed the property `autoDismiss`, use `autoClose` instead.
   - Renamed the property `autoDismissDuration`, use `autoCloseDuration`
     instead.
 
-- **combobox:** Removed `event.detail` payload from events and added
+* **combobox:** Removed `event.detail` payload from events and added
   properties `selectedItems` and `filteredItems`.
 
   - Removed the `event.detail` property on the event
@@ -296,23 +312,23 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
     `calciteComboboxFilterChange`, use `event.target.filteredItems` or
     `event.target.value` instead.
 
-- **chip:** Renamed event.
+* **chip:** Renamed event.
 
   - Renamed the event `calciteChipDismiss`, use `calciteChipClose`
     instead.
 
-- **tip:** Renamed property.
+* **tip:** Renamed property.
 
   - Renamed the property `nonDismissible`, use `closeDisabled` instead.
 
-- **date-picker:** Removed `event.detail` payload from events.
+* **date-picker:** Removed `event.detail` payload from events.
 
   - Removed the `event.detail` property on the event
     `calciteDatePickerChange`, use `event.target` instead.
   - Removed the `event.detail` property on the event
     `calciteDatePickerRangeChange`, use `event.target` instead.
 
-- **modal:** Removed deprecated properties and method.
+* **modal:** Removed deprecated properties and method.
 
   - Removed the property `active`, use `open` instead.
   - Removed the property noPadding, use `--calcite-modal-padding` CSS
@@ -322,37 +338,37 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
   - Removed the CSS property `--calcite-modal-padding-large`.
   - Removed the CSS property `--calcite-modal-title-text`.
 
-- **pagination:** Removed deprecated event.
+* **pagination:** Removed deprecated event.
 
   - Removed the event `calcitePaginationUpdate` event, use
     `calcitePaginationChange` event instead.
 
-- **loader:** Removed deprecated properties.
+* **loader:** Removed deprecated properties.
 
   - Removed the property `active`, use global attribute `hidden` instead.
   - Removed the property `noPadding`, use `--calcite-loader-padding` CSS
     property instead.
 
-- **label:** The default display for label is now `flex` instead of
+* **label:** The default display for label is now `flex` instead of
   `inline`.
 
   - Use `--calcite-label-margin-bottom` CSS variable to disable space when
     in `layout` is `inline`.
 
-- **tabs:** Removed slot.
+* **tabs:** Removed slot.
 
   - Removed the slot `tab-nav`, use `title-group` instead.
 
-- **dropdown:** Removed slot.
+* **dropdown:** Removed slot.
 
   - Removed the slot `dropdown-trigger`, use `trigger` instead.
 
-- **action-menu:** Removed event.
+* **action-menu:** Removed event.
 
   - Removed the event `calciteActionMenuOpenChange`, use
     `calciteActionMenuOpen` instead.
 
-- **combobox:** Removed deprecated properties, events, and event
+* **combobox:** Removed deprecated properties, events, and event
   payload.
 
   - Removed the property `active`, use `open` instead.
@@ -362,53 +378,53 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
     `calciteComboboxChipDismiss`, use the `value` property on the
     component to determine the removed value instead.
 
-- **combobox-item:** Removed deprecated property.
+* **combobox-item:** Removed deprecated property.
 
   - Removed the property `constant`, use `filterDisable` instead.
 
-- **action-menu:** Removed event.
+* **action-menu:** Removed event.
 
   - Removed the event `calciteActionMenuOpenChange`, use
     `calciteActionMenuOpen` instead.
 
-- **input-message:** removed deprecated properties
+* **input-message:** removed deprecated properties
 
   - Removed `active` property, use the global `hidden` attribute instead.
   - Removed `type` property, "floating" is no longer supported.
 
-- **input-text:** remove deprecated event payload
+* **input-text:** remove deprecated event payload
 
   - Removed `calciteInputTextInput` event payload, use the event's
     `target`/`currentTarget` instead.
 
-- **date-picker:** Removed deprecated properties
+* **date-picker:** Removed deprecated properties
 
   - Removed the `locale` property, use `lang` instead.
 
-- **input-date-picker:** Removed deprecated properties
+* **input-date-picker:** Removed deprecated properties
 
   - Removed the `active` property, use `open` instead.
   - Removed the `locale` property, use `lang` instead.
 
-- **input-time-picker:** Removed deprecated property
+* **input-time-picker:** Removed deprecated property
 
   - Removed the `active` property, use `open` instead.
 
-- **time-picker:** Removed deprecated property
+* **time-picker:** Removed deprecated property
 
   Removed the `locale` property, use `lang` instead.
 
-- **input:** remove deprecated properties and event payload.
+* **input:** remove deprecated properties and event payload.
 
   - Removed `maxlength` property, use `maxLength` instead.
   - Removed `locale` property, use `lang` instead.
   - Removed `calciteInputInput`'s `el`/`value` event payload properties, use the event's `target`/`currentTarget` instead.
 
-- **handle:** Removed deprecated event payload property on `calciteHandleNudge`.
+* **handle:** Removed deprecated event payload property on `calciteHandleNudge`.
 
   - Removed the `event.detail.handle` property on the event `calciteHandleNudge`, use `event.target` instead.
 
-- **tabs, tab-nav, tab-title, tab:** Removed deprecated properties and values.
+* **tabs, tab-nav, tab-title, tab:** Removed deprecated properties and values.
 
   - Removed the property `active` from `calcite-tab-title`, use `selected`
     instead.
@@ -419,20 +435,20 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
   - Removed the `below` value from the `position` property on
     `calcite-tabs`, use `bottom` instead.
 
-- **switch:** Removed deprecated `switched` property and
+* **switch:** Removed deprecated `switched` property and
   `calciteSwitchChange` event payload.
 
   - Removed the property `switched`, use `checked` instead.
   - Removed the `event.detail` from `calciteSwitchChange`, use
     `event.target.checked` instead.
 
-- **input-number:** remove deprecated property and event payload
+* **input-number:** remove deprecated property and event payload
 
   - Removed `locale` property, use `lang` instead.
   - Removed `calciteInputNumberInput` event payload properties, use the
     event's `target`/`currentTarget` instead.
 
-- **label:** Removed deprecated properties.
+* **label:** Removed deprecated properties.
 
   - Removed the property `status`, set the `status` property on the
     component the label is bound to instead.
@@ -441,64 +457,64 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
   - Removed the property `disableSpacing`, use the CSS variable
     `--calcite-label-margin-bottom` instead.
 
-- **stepper-item:** Removed deprecated properties.
+* **stepper-item:** Removed deprecated properties.
 
   - Removed the property `active`, use `selected` instead.
   - Removed the property `itemTitle`, use `heading` instead.
   - Removed the property `itemSubtitle`, use `description` instead.
 
-- **radio-group-item:** Removed deprecated properties.
+* **radio-group-item:** Removed deprecated properties.
 
   - Removed the property `icon`, use either `iconStart` or `iconEnd`
     instead.
   - Removed the property `iconPosition`, use either `iconStart` or
     `iconEnd` instead.
 
-- **split-button:** Removed the `event.detail` payload from the events
+* **split-button:** Removed the `event.detail` payload from the events
   `calciteSplitButtonPrimaryClick` and `calciteSplitButtonSecondaryClick`.
   Use separate mouse event listeners to get information about `click`
   events.
 
-- **slider:** Removed deprecated event.
+* **slider:** Removed deprecated event.
 
   - Removed the event `calciteSliderUpdate`, use `calciteSliderInput`
     instead.
 
-- **dropdown, dropdown-item:** Removed deprecated properties.
+* **dropdown, dropdown-item:** Removed deprecated properties.
 
   - Removed the property `active` on `calcite-dropdown-item`, use
     `selected` instead.
   - Removed the property `active`, on `calcite-dropdown`, use `open`
     instead.
 
-- **tree:** Removed the `inputEnabled` property.
+* **tree:** Removed the `inputEnabled` property.
 
   - Removed the property `inputEnabled`, use `selectionMode="ancestors"`
     instead.
 
-- **chip:** Removed the `dismissible` property and the `clear`
+* **chip:** Removed the `dismissible` property and the `clear`
   value for the `appearance` property.
 
   - Removed the property `dismissible`, use `closable` instead.
   - Use the value `transparent` instead of `clear` for `appearance`
     property.
 
-- **action-menu:** Removed the `event.detail` value from the
+* **action-menu:** Removed the `event.detail` value from the
   `calciteActionMenuOpenChange` event on the `action-menu` component.
 
   - When listening to `calciteActionMenuOpenChange`, use the `open`
     property on the `event.target` instead of `event.detail`.
 
-- **block:** Removed the `summary` and `disablePadding` properties.
+* **block:** Removed the `summary` and `disablePadding` properties.
 
   - Removed the property `summary`, use `description` instead.
   - Removed the property `disablePadding`, use the CSS variable
     `--calcite-block-padding` instead.
 
-- **popover-manager:** Removed the `calcite-popover-manager` component. This
+* **popover-manager:** Removed the `calcite-popover-manager` component. This
   component is no longer necessary for `calcite-popover`s.
 
-- **accordion-item:** Removed the properties `active`, `itemTitle`,
+* **accordion-item:** Removed the properties `active`, `itemTitle`,
   `itemSubtitle`, and `icon`.
 
   - Removed the property `active`, use `expanded` instead.
@@ -506,7 +522,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
   - Removed the property `itemSubtitle`, use `description` instead.
   - Removed the property `icon`, use `iconStart` or `iconEnd` instead.
 
-- **panel:** Removed deprecated events and properties.
+* **panel:** Removed deprecated events and properties.
 
   - Removed the property `dismissed`, use `closed` instead.
   - Removed the property `dismissible`, use `closable` instead.
@@ -524,14 +540,14 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
   - Removed the event `calcitePanelBackClick`, use the `calcite-flow-item`
     component instead.
 
-- **popover:** Removed the `closeButton` and `dismissible` properties.
+* **popover:** Removed the `closeButton` and `dismissible` properties.
 
   - Removed the property `closeButton`, use `closable` instead.
   - Removed the property `dismissible`, use `closable` instead.
 
-- **tooltip-manager:** Removed the `calcite-tooltip-manager` component. This
+* **tooltip-manager:** Removed the `calcite-tooltip-manager` component. This
   component is no longer necessary for `calcite-tooltip`s.
-- **alert:** Removed the deprecated `active` property.
+* **alert:** Removed the deprecated `active` property.
 
   - Removed the property `active`, use `open` instead.
 
@@ -548,18 +564,18 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
     longer necessary.
   - `nonInteractive` property on the `list-item` is no longer necessary.
 
-- **shell:** Removed the `primary-panel` and `contextual-panel`
+* **shell:** Removed the `primary-panel` and `contextual-panel`
   slots.
 
   - Removed the slot `primary-panel`, use `panel-start` instead.
   - Removed the slot `contextual-panel`, use `panel-end` instead.
 
-- **shell-panel:** Removed the `calciteShellPanelToggle` event.
+* **shell-panel:** Removed the `calciteShellPanelToggle` event.
 
   - Use a `ResizeObserver` on the component to listen for changes to its
     size. (https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver)
 
-- **flow, flow-item:** Removed the `calciteFlowItemBackClick` event and
+* **flow, flow-item:** Removed the `calciteFlowItemBackClick` event and
   support for slotting `calcite-panel`s.
 
   - Removed support for slotting `calcite-panel` components, use the
@@ -567,17 +583,17 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
   - Removed the event `calciteFlowItemBackClick`, use
     `calciteFlowItemBack` instead.
 
-- **tip-manager:** Removed the `calciteTipManagerToggle` event, use
+* **tip-manager:** Removed the `calciteTipManagerToggle` event, use
   `calciteTipManagerClose` instead.
 
-- **action:** Removed the `calciteActionClick` event and the `clear`
+* **action:** Removed the `calciteActionClick` event and the `clear`
   value for the `appearance` property.
 
   - Listen to the `click` event instead of `calciteActionClick.
   - Use the value `transparent` instead of `clear` for the property
     `appearance`.
 
-- **list, list-item, list-item-group:** To know when `calcite-list-item` content is selected, listen to the event `calciteListItemSelect` instead of `click`.
+* **list, list-item, list-item-group:** To know when `calcite-list-item` content is selected, listen to the event `calciteListItemSelect` instead of `click`.
 
   - `List`
     - Adds `label` property to specify an accessible name for the component.
@@ -595,8 +611,8 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
     - Adds `open` property to show child components.
     - Deprecates `nonInteractive` property.
 
-- **calcite-loader, calcite-input-message:** use hidden native global attribute to toggle visibility on the components instead of the deprecated active prop.
-- **block, date-picker, list-item-group, panel, pick-list-group, popover, tip, tip-manager:** Sets internal heading HTML element to be a div by default. If users would like to retain an internal H1-H6 HTML element, they will need to set the headingLevel property on the component. Users already setting the headingLevel property are not affected. ([#5728](https://github.com/Esri/calcite-components/pull/5728)) ([38ca639](https://github.com/Esri/calcite-components/commit/38ca639010b8bd1d1fe32c9cf9b54dfc38cf9877)), closes [5099](https://github.com/Esri/calcite-components/issues/5099)
+* **calcite-loader, calcite-input-message:** use hidden native global attribute to toggle visibility on the components instead of the deprecated active prop.
+* **block, date-picker, list-item-group, panel, pick-list-group, popover, tip, tip-manager:** Sets internal heading HTML element to be a div by default. If users would like to retain an internal H1-H6 HTML element, they will need to set the headingLevel property on the component. Users already setting the headingLevel property are not affected. ([#5728](https://github.com/Esri/calcite-components/pull/5728)) ([38ca639](https://github.com/Esri/calcite-components/commit/38ca639010b8bd1d1fe32c9cf9b54dfc38cf9877)), closes [5099](https://github.com/Esri/calcite-components/issues/5099)
 
 ### Features
 

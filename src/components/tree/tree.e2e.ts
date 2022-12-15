@@ -298,35 +298,25 @@ describe("calcite-tree", () => {
           </calcite-tree>`
         });
 
+        const tree = await page.find("calcite-tree");
+
         const [item1, item2] = await page.findAll("calcite-tree-item");
 
-        type TestWindow = GlobalTestProps<{
-          selectedIds: string[];
-        }>;
-
-        await page.evaluateHandle(() =>
-          document.addEventListener("calciteTreeSelect", ({ detail }: CustomEvent) => {
-            (window as TestWindow).selectedIds = detail.selected.map((item) => item.id);
-          })
-        );
-
-        const getSelectedIds = async (): Promise<any> => page.evaluate(() => (window as TestWindow).selectedIds);
-
         await item1.click();
 
-        expect(await getSelectedIds()).toEqual(["1"]);
+        expect(await tree.getProperty("selectedItems")).toHaveLength(1);
 
         await item2.click();
 
-        expect(await getSelectedIds()).toEqual(["1", "2"]);
+        expect(await tree.getProperty("selectedItems")).toHaveLength(2);
 
         await item2.click();
 
-        expect(await getSelectedIds()).toEqual(["1"]);
+        expect(await tree.getProperty("selectedItems")).toHaveLength(1);
 
         await item1.click();
 
-        expect(await getSelectedIds()).toEqual([]);
+        expect(await tree.getProperty("selectedItems")).toEqual([]);
       });
 
       it("contains current selection when selection=multichildren", async () => {
@@ -344,35 +334,25 @@ describe("calcite-tree", () => {
           </calcite-tree>`
         );
 
+        const tree = await page.find("calcite-tree");
+
         const [item1, item2, item3, item4] = await page.findAll("calcite-tree-item");
-
-        type TestWindow = GlobalTestProps<{
-          selectedIds: string[];
-        }>;
-
-        await page.evaluateHandle(() =>
-          document.addEventListener("calciteTreeSelect", ({ detail }: CustomEvent) => {
-            (window as TestWindow).selectedIds = detail.selected.map((item) => item.id);
-          })
-        );
-
-        const getSelectedIds = async (): Promise<any> => page.evaluate(() => (window as TestWindow).selectedIds);
 
         await item1.click();
 
-        expect(await getSelectedIds()).toEqual(["1"]);
+        expect(await tree.getProperty("selectedItems")).toHaveLength(1);
 
         await item2.click();
 
-        expect(await getSelectedIds()).toEqual(["1", "2", "4"]);
+        expect(await tree.getProperty("selectedItems")).toHaveLength(3);
 
         await item3.click();
 
-        expect(await getSelectedIds()).toEqual(["1", "2", "4"]);
+        expect(await tree.getProperty("selectedItems")).toHaveLength(3);
 
         await item4.click();
 
-        expect(await getSelectedIds()).toEqual(["1", "2"]);
+        expect(await tree.getProperty("selectedItems")).toHaveLength(2);
       });
     });
 
@@ -421,30 +401,18 @@ describe("calcite-tree", () => {
           </calcite-tree>
         `);
 
-        type TestWindow = GlobalTestProps<{
-          selectedIds: string[];
-        }>;
-
-        await page.evaluateHandle(() =>
-          document.addEventListener("calciteTreeSelect", ({ detail }: CustomEvent) => {
-            (window as TestWindow).selectedIds = detail.selected.map((item) => item.id);
-          })
-        );
-
-        const getSelectedIds = async (): Promise<any> => page.evaluate(() => (window as TestWindow).selectedIds);
-
         const tree = await page.find(`calcite-tree`);
         const selectEventSpy = await tree.spyOnEvent("calciteTreeSelect");
         const [item1, item2] = await page.findAll(`calcite-tree-item`);
 
         await item1.click();
         expect(selectEventSpy).toHaveReceivedEventTimes(1);
-        expect(await getSelectedIds()).toEqual(["1"]);
+        expect(await tree.getProperty("selectedItems")).toHaveLength(1);
         expect(await page.findAll("calcite-tree-item[selected]")).toHaveLength(0);
 
         await item2.click();
         expect(selectEventSpy).toHaveReceivedEventTimes(2);
-        expect(await getSelectedIds()).toEqual(["2"]);
+        expect(await tree.getProperty("selectedItems")).toHaveLength(1);
         expect(await page.findAll("calcite-tree-item[selected]")).toHaveLength(0);
       });
     });
