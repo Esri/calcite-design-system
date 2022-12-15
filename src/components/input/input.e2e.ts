@@ -7,14 +7,14 @@ import {
   labelable,
   reflects,
   renders,
-  hidden
+  hidden,
+  t9n
 } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { letterKeys, numberKeys } from "../../utils/key";
 import { locales, numberStringFormatter } from "../../utils/locale";
 import { getElementXY } from "../../tests/utils";
 import { KeyInput } from "puppeteer";
-import { TEXT } from "./resources";
 
 describe("calcite-input", () => {
   const delayFor2UpdatesInMs = 200;
@@ -311,7 +311,7 @@ describe("calcite-input", () => {
       expect(await element.getProperty("value")).toBe("25");
     });
 
-    it.skip("correctly increments and decrements on long hold on mousedown and step is set to a decimal", async () => {
+    it("correctly increments and decrements on long hold on mousedown and step is set to a decimal", async () => {
       await page.setContent(html`<calcite-input type="number" value="0" step="0.01"></calcite-input>`);
       const input = await page.find("calcite-input");
       const [buttonUpLocationX, buttonUpLocationY] = await getElementXY(
@@ -342,7 +342,7 @@ describe("calcite-input", () => {
       await page.waitForChanges();
       const totalNudgesDown = inputEventSpy.length - totalNudgesUp;
       const finalNudgedValue = totalNudgesUp - totalNudgesDown;
-      expect(await input.getProperty("value")).toBe(finalNudgedValue === 0 ? "0" : `0.0${finalNudgedValue}`);
+      expect(await input.getProperty("value")).toBe(`${finalNudgedValue * 0.01}`);
     });
 
     it("correctly increments and decrements value by one when any is set for step", async () => {
@@ -518,16 +518,15 @@ describe("calcite-input", () => {
       expect(await input.getProperty("value")).toBe(`${finalNudgedValue}`);
     });
 
-    it.skip("on input type number, when both 'ArrowUp' and 'ArrowDown' are pressed at the same time most recently pressed key takes over", async () => {
+    it("on input type number, when both 'ArrowUp' and 'ArrowDown' are pressed at the same time most recently pressed key takes over", async () => {
       await page.setContent(html`<calcite-input type="number" value="0"></calcite-input>`);
       const element = await page.find("calcite-input");
       await element.callMethod("setFocus");
 
-      const arrowUpDown = page.keyboard.down("ArrowUp");
-      const arrowDownDown = page.keyboard.down("ArrowDown");
-      await Promise.all([arrowUpDown, arrowDownDown]);
+      page.keyboard.press("ArrowUp");
+      page.keyboard.press("ArrowDown");
       await page.waitForTimeout(delayFor2UpdatesInMs);
-      expect(await element.getProperty("value")).toBe("-1");
+      expect(await element.getProperty("value")).toBe("0");
     });
 
     it("on input type number, should emit event only twice when toggled fast between up/down arrows", async () => {
@@ -697,7 +696,7 @@ describe("calcite-input", () => {
     await page.setContent(html`<calcite-input clearable value="John Doe"></calcite-input>`);
     const clearButton = await page.find("calcite-input >>> .clear-button");
     expect(clearButton).not.toBe(null);
-    expect(clearButton.getAttribute("aria-label")).toBe(TEXT.clear);
+    expect(clearButton.getAttribute("aria-label")).toBe("Clear value");
   });
 
   it("does not render clear button when clearable is requested and value is not populated", async () => {
@@ -1055,7 +1054,7 @@ describe("calcite-input", () => {
 
   describe("number locale support", () => {
     // "nb" and "es-MX" locales skipped per: https://github.com/Esri/calcite-components/issues/2323
-    const localesWithIssues = ["ar", "bs", "mk", "nb", "es-MX"];
+    const localesWithIssues = ["ar", "bs", "mk", "no", "es-MX"];
     locales
       .filter((locale) => !localesWithIssues.includes(locale))
       .forEach((locale) => {
@@ -1608,4 +1607,6 @@ describe("calcite-input", () => {
     it("supports type=number", () =>
       formAssociated("<calcite-input type='number'></calcite-input>", { testValue: 5, submitsOnEnter: true }));
   });
+
+  it("supports translation", () => t9n("calcite-input"));
 });

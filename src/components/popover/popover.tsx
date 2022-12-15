@@ -12,7 +12,7 @@ import {
   h,
   VNode
 } from "@stencil/core";
-import { CSS, ARIA_CONTROLS, ARIA_EXPANDED, TEXT, defaultPopoverPlacement } from "./resources";
+import { CSS, ARIA_CONTROLS, ARIA_EXPANDED, defaultPopoverPlacement } from "./resources";
 import {
   FloatingCSS,
   OverlayPositioning,
@@ -32,7 +32,8 @@ import {
   FocusTrap,
   connectFocusTrap,
   activateFocusTrap,
-  deactivateFocusTrap
+  deactivateFocusTrap,
+  focusFirstTabbable
 } from "../../utils/focusTrapComponent";
 
 import { guid } from "../../utils/guid";
@@ -46,6 +47,15 @@ import { HeadingLevel, Heading } from "../functional/Heading";
 import { Scale } from "../interfaces";
 
 import PopoverManager from "./PopoverManager";
+import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
+import {
+  connectMessages,
+  disconnectMessages,
+  setUpMessages,
+  T9nComponent,
+  updateMessages
+} from "../../utils/t9n";
+import { Messages } from "./assets/popover/t9n";
 
 import {
   setUpLoadableComponent,
@@ -62,10 +72,17 @@ const manager = new PopoverManager();
 @Component({
   tag: "calcite-popover",
   styleUrl: "popover.scss",
-  shadow: true
+  shadow: true,
+  assetsDirs: ["assets"]
 })
 export class Popover
-  implements FloatingUIComponent, OpenCloseComponent, FocusTrapComponent, LoadableComponent
+  implements
+    FloatingUIComponent,
+    OpenCloseComponent,
+    FocusTrapComponent,
+    LoadableComponent,
+    LocalizedComponent,
+    T9nComponent
 {
   // --------------------------------------------------------------------------
   //
@@ -84,17 +101,26 @@ export class Popover
   /**
    * When `true`, prevents flipping the component's placement when overlapping its `referenceElement`.
    */
-  @Prop({ reflect: true }) disableFlip = false;
+  @Prop({ reflect: true }) flipDisabled = false;
 
   /**
    * When `true`, prevents focus trapping.
    */
-  @Prop({ reflect: true }) disableFocusTrap = false;
+  @Prop({ reflect: true }) focusTrapDisabled = false;
+
+  @Watch("focusTrapDisabled")
+  handlefocusTrapDisabled(focusTrapDisabled: boolean): void {
+    if (!this.open) {
+      return;
+    }
+
+    focusTrapDisabled ? deactivateFocusTrap(this) : activateFocusTrap(this);
+  }
 
   /**
    * When `true`, removes the caret pointer.
    */
-  @Prop({ reflect: true }) disablePointer = false;
+  @Prop({ reflect: true }) pointerDisabled = false;
 
   /**
    * Defines the available placements that can be used when a flip occurs.
@@ -117,11 +143,36 @@ export class Popover
    */
   @Prop({ reflect: true }) headingLevel: HeadingLevel;
 
+  /**
+   * Accessible name for the component's close button.
+   *
+   * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`
+   */
+  @Prop() intlClose: string;
+
   /** Accessible name for the component. */
   @Prop() label!: string;
 
   /**
-   * Offsets the position of the component away from the `referenceElement`.
+   * Use this property to override individual strings used by the component.
+   */
+  @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
+
+  @Watch("intlClose")
+  @Watch("messageOverrides")
+  onMessagesChange(): void {
+    /* wired up by t9n util */
+  }
+
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @internal
+   */
+  @Prop({ mutable: true }) messages: Messages;
+
+  /**
+   * Offsets the position of the popover away from the `referenceElement`.
    *
    * @default 6
    */
@@ -204,13 +255,6 @@ export class Popover
    */
   @Prop({ reflect: true }) triggerDisabled = false;
 
-  /**
-   * Accessible name for the component's close button.
-   *
-   * @default "Close"
-   */
-  @Prop() intlClose = TEXT.close;
-
   // --------------------------------------------------------------------------
   //
   //  Private Properties
@@ -221,7 +265,16 @@ export class Popover
 
   @Element() el: HTMLCalcitePopoverElement;
 
+  @State() effectiveLocale = "";
+
+  @Watch("effectiveLocale")
+  effectiveLocaleChange(): void {
+    updateMessages(this, this.effectiveLocale);
+  }
+
   @State() effectiveReferenceElement: ReferenceElement;
+
+  @State() defaultMessages: Messages;
 
   arrowEl: HTMLDivElement;
 
@@ -247,11 +300,14 @@ export class Popover
 
   connectedCallback(): void {
     this.setFilteredPlacements();
+    connectLocalized(this);
+    connectMessages(this);
     connectOpenCloseComponent(this);
     this.setUpReferenceElement(this.hasLoaded);
   }
 
-  componentWillLoad(): void {
+  async componentWillLoad(): Promise<void> {
+    await setUpMessages(this);
     setUpLoadableComponent(this);
   }
 
@@ -266,6 +322,8 @@ export class Popover
 
   disconnectedCallback(): void {
     this.removeReferences();
+    disconnectLocalized(this);
+    disconnectMessages(this);
     disconnectFloatingUI(this, this.effectiveReferenceElement, this.el);
     disconnectOpenCloseComponent(this);
     deactivateFocusTrap(this);
@@ -307,7 +365,7 @@ export class Popover
       effectiveReferenceElement,
       placement,
       overlayPositioning,
-      disableFlip,
+      flipDisabled,
       filteredFlipPlacements,
       offsetDistance,
       offsetSkidding,
@@ -320,11 +378,11 @@ export class Popover
         referenceEl: effectiveReferenceElement,
         overlayPositioning,
         placement,
-        disableFlip,
+        flipDisabled,
         flipPlacements: filteredFlipPlacements,
         offsetDistance,
         offsetSkidding,
-        includeArrow: !this.disablePointer,
+        includeArrow: !this.pointerDisabled,
         arrowEl,
         type: "popover"
       },
@@ -350,7 +408,7 @@ export class Popover
       return;
     }
 
-    activateFocusTrap(this);
+    focusFirstTabbable(this);
   }
 
   /**
@@ -467,9 +525,7 @@ export class Popover
 
   onOpen(): void {
     this.calcitePopoverOpen.emit();
-    if (!this.disableFocusTrap) {
-      activateFocusTrap(this);
-    }
+    activateFocusTrap(this);
   }
 
   onBeforeClose(): void {
@@ -493,8 +549,7 @@ export class Popover
   // --------------------------------------------------------------------------
 
   renderCloseButton(): VNode {
-    const { intlClose, closable } = this;
-
+    const { messages, closable } = this;
     return closable ? (
       <div class={CSS.closeButtonContainer}>
         <calcite-action
@@ -502,7 +557,7 @@ export class Popover
           onClick={this.hide}
           ref={(closeButtonEl) => (this.closeButtonEl = closeButtonEl)}
           scale={this.scale}
-          text={intlClose}
+          text={messages.close}
         >
           <calcite-icon icon="x" scale={this.scale === "l" ? "m" : this.scale} />
         </calcite-action>
@@ -527,10 +582,10 @@ export class Popover
   }
 
   render(): VNode {
-    const { effectiveReferenceElement, heading, label, open, disablePointer } = this;
+    const { effectiveReferenceElement, heading, label, open, pointerDisabled } = this;
     const displayed = effectiveReferenceElement && open;
     const hidden = !displayed;
-    const arrowNode = !disablePointer ? <div class={CSS.arrow} ref={this.storeArrowEl} /> : null;
+    const arrowNode = !pointerDisabled ? <div class={CSS.arrow} ref={this.storeArrowEl} /> : null;
 
     return (
       <Host

@@ -190,7 +190,7 @@ describe("calcite-tab-title", () => {
       const page = await newE2EPage({
         html: `
         <calcite-tabs>
-          <calcite-tab-nav slot="tab-nav">
+          <calcite-tab-nav slot="title-group">
             <calcite-tab-title class="title-1">Tab 1 Title</calcite-tab-title>
             <calcite-tab-title class="title-2" selected>Tab 2 Title</calcite-tab-title>
             <calcite-tab-title>Tab 3 Title</calcite-tab-title>
