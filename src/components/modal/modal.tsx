@@ -13,7 +13,7 @@ import {
   Watch
 } from "@stencil/core";
 import { ensureId, focusElement, getSlotted } from "../../utils/dom";
-import { Scale } from "../interfaces";
+import { Kind, Scale } from "../interfaces";
 import { ModalBackgroundColor } from "./interfaces";
 import { CSS, ICONS, SLOTS } from "./resources";
 import { createObserver } from "../../utils/observers";
@@ -133,11 +133,8 @@ export class Modal
   /** Sets the component to always be fullscreen (overrides `width`). */
   @Prop({ reflect: true }) fullscreen: boolean;
 
-  /**
-   * Adds a color bar to the top of component for visual impact.
-   * Use color to add importance to destructive or workflow dialogs.
-   */
-  @Prop({ reflect: true }) color: "red" | "blue";
+  /** Specifies the kind of the component (will apply to top border). */
+  @Prop({ reflect: true }) kind: Kind;
 
   /** Sets the background color of the component's content. */
   @Prop({ reflect: true }) backgroundColor: ModalBackgroundColor = "white";
