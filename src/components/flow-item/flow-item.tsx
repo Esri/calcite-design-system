@@ -93,25 +93,6 @@ export class FlowItem
   @Prop({ reflect: true }) heightScale: Scale;
 
   /**
-   * When `showBackButton` is `true`, the accessible name for the component's back button.
-   *
-   * @deprecated use `calcite-flow-item` instead.
-   */
-  @Prop() intlBack: string;
-
-  /**
-   * When `closable` is `true`, the accessible name for the component's close button.
-   */
-  @Prop() intlClose: string;
-
-  /**
-   * Accessible name for the component's actions menu.
-   *
-   * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`
-   */
-  @Prop() intlOptions: string;
-
-  /**
    * When `true`, a busy indicator is displayed.
    */
   @Prop({ reflect: true }) loading = false;
@@ -126,9 +107,6 @@ export class FlowItem
    */
   @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
 
-  @Watch("intlBack")
-  @Watch("intlClose")
-  @Watch("intlOptions")
   @Watch("messageOverrides")
   onMessagesChange(): void {
     /* wired up by t9n util */

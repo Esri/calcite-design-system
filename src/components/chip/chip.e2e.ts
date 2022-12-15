@@ -180,5 +180,5 @@ describe("calcite-chip", () => {
     });
   });
 
-  it("supports translation", () => t9n("calcite-chip", false, ["dismissLabel"]));
+  it("supports translation", () => t9n("calcite-chip"));
 });

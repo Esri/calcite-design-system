@@ -78,38 +78,6 @@ export class Block
   @Prop({ reflect: true }) headingLevel: HeadingLevel;
 
   /**
-   * Accessible name for the component's collapse button.
-   *
-   * @default "Collapse"
-   * @deprecated - translations are now built-in, if you need to override a string, please use `messageOverrides`
-   */
-  @Prop() intlCollapse?: string;
-
-  /**
-   * Accessible name for the component's expand button.
-   *
-   * @default "Expand"
-   * @deprecated - translations are now built-in, if you need to override a string, please use `messageOverrides`
-   */
-  @Prop() intlExpand?: string;
-
-  /**
-   * Accessible name when the component is loading.
-   *
-   * @default "Loading"
-   * @deprecated - translations are now built-in, if you need to override a string, please use `messageOverrides`
-   */
-  @Prop() intlLoading?: string;
-
-  /**
-   * Accessible name for the component's options button.
-   *
-   * @default "Options"
-   * @deprecated - translations are now built-in, if you need to override a string, please use `messageOverrides`
-   */
-  @Prop() intlOptions?: string;
-
-  /**
    * When `true`, a busy indicator is displayed.
    */
   @Prop({ reflect: true }) loading = false;
@@ -141,10 +109,6 @@ export class Block
    */
   @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
 
-  @Watch("intlCollapse")
-  @Watch("intlExpand")
-  @Watch("intlLoading")
-  @Watch("intlOptions")
   @Watch("messageOverrides")
   onMessagesChange(): void {
     /* wired up by t9n util */
