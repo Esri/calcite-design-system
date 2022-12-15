@@ -45,6 +45,9 @@ export class Fab implements InteractiveComponent, LoadableComponent {
    */
   @Prop({ reflect: true }) icon: string = ICONS.plus;
 
+  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
+  @Prop({ reflect: true }) iconFlipRtl = false;
+
   /**
    * Accessible name for the component.
    */
@@ -119,7 +122,19 @@ export class Fab implements InteractiveComponent, LoadableComponent {
   // --------------------------------------------------------------------------
 
   render(): VNode {
-    const { appearance, kind, disabled, loading, scale, textEnabled, icon, label, text } = this;
+    const {
+      appearance,
+      kind,
+      disabled,
+      loading,
+      scale,
+      textEnabled,
+      icon,
+      label,
+      text,
+      iconFlipRtl
+    } = this;
+
     const title = !textEnabled ? label || text || null : null;
 
     return (
@@ -127,6 +142,7 @@ export class Fab implements InteractiveComponent, LoadableComponent {
         appearance={appearance === "solid" ? "solid" : "outline-fill"}
         class={CSS.button}
         disabled={disabled}
+        iconFlipRtl={iconFlipRtl ? "start" : null}
         iconStart={icon}
         kind={kind}
         label={label}

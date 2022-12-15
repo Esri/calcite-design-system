@@ -58,6 +58,9 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
   /** Specifies an icon to display. */
   @Prop({ reflect: true }) icon: string;
 
+  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
+  @Prop({ reflect: true }) iconFlipRtl = false;
+
   @Watch("selected")
   selectedWatchHandler(): void {
     this.calciteComboboxItemChange.emit();
@@ -156,7 +159,7 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
   // --------------------------------------------------------------------------
 
   renderIcon(isSingle: boolean): VNode {
-    const { icon, disabled, selected } = this;
+    const { icon, disabled, selected, iconFlipRtl } = this;
     const level = `${CSS.icon}--indent`;
     const defaultIcon = isSingle ? "dot" : "check";
     const iconPath = disabled ? "circle-disallowed" : defaultIcon;
@@ -177,6 +180,7 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
           [CSS.iconActive]: icon && selected,
           [level]: true
         }}
+        flipRtl={iconFlipRtl}
         icon={icon || iconPath}
         scale="s"
       />
