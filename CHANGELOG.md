@@ -9,6 +9,44 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### ⚠ BREAKING CHANGES
 
+- **pagination:** Removed `event.detail` payload from events.
+
+  - Removed the `event.detail` property on the event
+    `calcitePaginationChange`, use `event.target` instead.
+
+- **dropdown:** Removed `event.detail` payload from events.
+
+  - Removed the `event.detail` property on the event
+    `calciteDropdownSelect`, use `event.target` instead.
+
+- **rating:** Removed `event.detail` payload from events.
+
+  - Removed the `event.detail` property on the event
+    `calciteRatingChange`, use `event.target` instead.
+
+- **inline-editable,input,input-text,input-number:** Removed deprecated `intl\*` & accessible label properties.
+
+- **inline-editable:**
+
+  - Removed the property` intlEnableEditing`, use `messsageOverrides.enableEditing` instead.
+  - Removed the property `intlCancelEditing`, use `messageOverrides.cancelEditing` instead.
+  - Removed the property `intlConfirmChanges`, use `messageOverrides.confirmChanges` instead.
+
+- **input-number:**
+
+  - Removed the property `intlClear`, use `messsageOverrides.clear` instead.
+  - Removed the property `intlLoading`, use `messsageOverrides.loading` instead.
+
+- **input-text:**
+
+  - Removed the property `intlClear`, use `messsageOverrides.clear` instead.
+  - Removed the property `intlLoading`, use `messsageOverrides.loading` instead.
+
+- **input:**
+
+  - Removed the property `intlClear`, use `messsageOverrides.clear` instead.
+  - Removed the property `intlLoading`, use `messsageOverrides.loading` instead.
+
 - **scrim,rating,time-picker,input-time-picker,value-list:** Removed deprecated `intl\*` & accessible label properties.
 
 - **rating:**
