@@ -68,7 +68,7 @@
               slot="back"
               width="full"
               scale="s"
-              color="neutral"
+              kind="neutral"
               appearance="outline"
               icon-start="chevron-left"
               >Back</calcite-button
@@ -95,7 +95,7 @@
               slot="back"
               width="full"
               scale="m"
-              color="neutral"
+              kind="neutral"
               appearance="outline"
               icon-start="chevron-left"
               >Back</calcite-button
@@ -122,7 +122,7 @@
               slot="back"
               width="full"
               scale="l"
-              color="neutral"
+              kind="neutral"
               appearance="outline"
               icon-start="chevron-left"
               >Back</calcite-button
@@ -170,7 +170,7 @@
               slot="back"
               width="full"
               scale="s"
-              color="neutral"
+              kind="neutral"
               appearance="outline"
               icon-start="chevron-left"
               >Back</calcite-button
@@ -209,7 +209,7 @@
               slot="back"
               width="full"
               scale="m"
-              color="neutral"
+              kind="neutral"
               appearance="outline"
               icon-start="chevron-left"
               >Back</calcite-button
@@ -248,7 +248,7 @@
               slot="back"
               width="full"
               scale="l"
-              color="neutral"
+              kind="neutral"
               appearance="outline"
               icon-start="chevron-left"
               >Back</calcite-button
@@ -285,7 +285,7 @@
               slot="back"
               width="full"
               scale="s"
-              color="neutral"
+              kind="neutral"
               appearance="outline"
               icon-start="chevron-left"
             >
@@ -314,7 +314,7 @@
               slot="back"
               width="full"
               scale="m"
-              color="neutral"
+              kind="neutral"
               appearance="outline"
               icon-start="chevron-left"
             >
@@ -343,7 +343,7 @@
               slot="back"
               width="full"
               scale="l"
-              color="neutral"
+              kind="neutral"
               appearance="outline"
               icon-start="chevron-left"
             >
@@ -376,7 +376,7 @@
             <div slot="content">
               <p>This is some great content</p>
             </div>
-            <calcite-button slot="secondary" width="full" scale="s" appearance="outline" color="red"
+            <calcite-button slot="secondary" width="full" scale="s" appearance="outline" kind="danger"
               >Cancel</calcite-button
             >
             <calcite-button slot="primary" width="full" scale="s">Add members now</calcite-button>
@@ -394,7 +394,7 @@
             <div slot="content">
               <p>This is some great content</p>
             </div>
-            <calcite-button slot="secondary" width="full" scale="m" appearance="outline" color="red"
+            <calcite-button slot="secondary" width="full" scale="m" appearance="outline" kind="danger"
               >Cancel</calcite-button
             >
             <calcite-button slot="primary" width="full" scale="m">Add members now</calcite-button>
@@ -412,7 +412,7 @@
             <div slot="content">
               <p>This is some great content</p>
             </div>
-            <calcite-button slot="secondary" width="full" scale="l" appearance="outline" color="red"
+            <calcite-button slot="secondary" width="full" scale="l" appearance="outline" kind="danger"
               >Cancel</calcite-button
             >
             <calcite-button slot="primary" width="full" scale="l">Add members now</calcite-button>
@@ -438,10 +438,10 @@
             <div slot="content">
               <p>This will delete things and perform some desctructive action, do you wish to continue?</p>
             </div>
-            <calcite-button slot="secondary" width="full" scale="s" appearance="outline" color="red"
+            <calcite-button slot="secondary" width="full" scale="s" appearance="outline" kind="danger"
               >Cancel</calcite-button
             >
-            <calcite-button slot="primary" width="full" scale="s" color="red">Delete</calcite-button>
+            <calcite-button slot="primary" width="full" scale="s" kind="danger">Delete</calcite-button>
           </calcite-modal>
 
           <calcite-button onClick="openModal('.js-modal-danger-s')" appearance="outline" scale="s">
@@ -456,10 +456,10 @@
             <div slot="content">
               <p>This will delete things and perform some desctructive action, do you wish to continue?</p>
             </div>
-            <calcite-button slot="secondary" width="full" scale="m" appearance="outline" color="red"
+            <calcite-button slot="secondary" width="full" scale="m" appearance="outline" kind="danger"
               >Cancel</calcite-button
             >
-            <calcite-button slot="primary" width="full" scale="m" color="red">Delete</calcite-button>
+            <calcite-button slot="primary" width="full" scale="m" kind="danger">Delete</calcite-button>
           </calcite-modal>
 
           <calcite-button onClick="openModal('.js-modal-danger-m')" appearance="outline" scale="s">
@@ -474,10 +474,10 @@
             <div slot="content">
               <p>This will delete things and perform some desctructive action, do you wish to continue?</p>
             </div>
-            <calcite-button slot="secondary" width="full" scale="l" appearance="outline" color="red"
+            <calcite-button slot="secondary" width="full" scale="l" appearance="outline" kind="danger"
               >Cancel</calcite-button
             >
-            <calcite-button slot="primary" width="full" scale="l" color="red">Delete</calcite-button>
+            <calcite-button slot="primary" width="full" scale="l" kind="danger">Delete</calcite-button>
           </calcite-modal>
 
           <calcite-button onClick="openModal('.js-modal-danger-l')" appearance="outline" scale="s">
@@ -563,7 +563,7 @@
             <div slot="content">
               <p>Something successful happened</p>
             </div>
-            <calcite-button slot="secondary" width="full" scale="s" appearance="outline" color="red"
+            <calcite-button slot="secondary" width="full" scale="s" appearance="outline" kind="danger"
               >Cancel</calcite-button
             >
             <calcite-button slot="primary" width="full" scale="s">Next</calcite-button>
@@ -581,7 +581,7 @@
             <div slot="content">
               <p>Something successful happened</p>
             </div>
-            <calcite-button slot="secondary" width="full" scale="m" appearance="outline" color="red"
+            <calcite-button slot="secondary" width="full" scale="m" appearance="outline" kind="danger"
               >Cancel</calcite-button
             >
             <calcite-button slot="primary" width="full" scale="m">Next</calcite-button>
@@ -599,7 +599,7 @@
             <div slot="content">
               <p>Something successful happened</p>
             </div>
-            <calcite-button slot="secondary" width="full" scale="l" appearance="outline" color="red"
+            <calcite-button slot="secondary" width="full" scale="l" appearance="outline" kind="danger"
               >Cancel</calcite-button
             >
             <calcite-button slot="primary" width="full" scale="l">Next</calcite-button>
@@ -625,7 +625,7 @@
             <div slot="content">
               <p>Something warningful happened</p>
             </div>
-            <calcite-button slot="secondary" width="full" scale="s" appearance="outline" color="red"
+            <calcite-button slot="secondary" width="full" scale="s" appearance="outline" kind="danger"
               >Cancel</calcite-button
             >
             <calcite-button slot="primary" width="full" scale="l">Next</calcite-button>
@@ -643,7 +643,7 @@
             <div slot="content">
               <p>Something warningful happened</p>
             </div>
-            <calcite-button slot="secondary" width="full" scale="m" appearance="outline" color="red"
+            <calcite-button slot="secondary" width="full" scale="m" appearance="outline" kind="danger"
               >Cancel</calcite-button
             >
             <calcite-button slot="primary" width="full" scale="l">Next</calcite-button>
@@ -661,7 +661,7 @@
             <div slot="content">
               <p>Something warningful happened</p>
             </div>
-            <calcite-button slot="secondary" width="full" scale="l" appearance="outline" color="red"
+            <calcite-button slot="secondary" width="full" scale="l" appearance="outline" kind="danger"
               >Cancel</calcite-button
             >
             <calcite-button slot="primary" width="full" scale="l">Next</calcite-button>
@@ -851,7 +851,7 @@
                 your modal need the full screen real estate (maps, etc)
               </p>
             </div>
-            <calcite-button slot="back" width="full" color="neutral" appearance="outline" icon-left="chevron-left"
+            <calcite-button slot="back" width="full" kind="neutral" appearance="outline" icon-left="chevron-left"
               >Back</calcite-button
             >
             <calcite-button slot="secondary" width="full" appearance="outline">Cancel</calcite-button>
@@ -986,7 +986,7 @@
               scale="m"
               slot="back"
               width="full"
-              color="neutral"
+              kind="neutral"
               appearance="outline"
               icon-left="chevron-left"
               width="full"
