@@ -8,13 +8,12 @@ import {
   VNode,
   Method,
   Watch,
-  State
+  State,
+  Build
 } from "@stencil/core";
-import { getSlotted } from "../../utils/dom";
 import { guid } from "../../utils/guid";
 import { CSS, SLOTS, ICONS } from "./resources";
-import { ChipColor } from "./interfaces";
-import { Appearance, Scale } from "../interfaces";
+import { Appearance, Kind, Scale } from "../interfaces";
 import {
   ConditionalSlotComponent,
   connectConditionalSlotComponent,
@@ -35,6 +34,8 @@ import {
   LoadableComponent,
   componentLoaded
 } from "../../utils/loadable";
+import { createObserver } from "../../utils/observers";
+import { slotChangeHasAssignedElement } from "../../utils/dom";
 
 /**
  * @slot - A slot for adding text.
@@ -56,10 +57,11 @@ export class Chip
   //--------------------------------------------------------------------------
 
   /** Specifies the appearance style of the component. */
-  @Prop({ reflect: true }) appearance: Extract<"solid" | "transparent", Appearance> = "solid";
+  @Prop({ reflect: true }) appearance: Extract<"outline" | "outline-fill" | "solid", Appearance> =
+    "solid";
 
-  /** Specifies the color for the component. */
-  @Prop({ reflect: true }) color: ChipColor = "grey";
+  /** Specifies the kind of the component (will apply to border and background if applicable). */
+  @Prop({ reflect: true }) kind: Extract<"brand" | "inverse" | "neutral", Kind> = "neutral";
 
   /** When `true`, a close button is added to the component. */
   @Prop({ reflect: true, mutable: true }) closable = false;
@@ -123,6 +125,7 @@ export class Chip
     connectConditionalSlotComponent(this);
     connectLocalized(this);
     connectMessages(this);
+    this.setupTextContentObserver();
   }
 
   componentDidLoad(): void {
@@ -137,7 +140,10 @@ export class Chip
 
   async componentWillLoad(): Promise<void> {
     setUpLoadableComponent(this);
-    await setUpMessages(this);
+    if (Build.isBrowser) {
+      await setUpMessages(this);
+      this.updateHasContent();
+    }
   }
   //--------------------------------------------------------------------------
   //
@@ -176,10 +182,40 @@ export class Chip
     this.closed = true;
   };
 
+  private updateHasContent() {
+    const slottedContent = this.el.textContent.trim().length > 0 || this.el.childNodes.length > 0;
+    this.hasContent =
+      this.el.childNodes.length > 0 && this.el.childNodes[0]?.nodeName === "#text"
+        ? this.el.textContent?.trim().length > 0
+        : slottedContent;
+  }
+
+  private setupTextContentObserver() {
+    this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
+  }
+
+  private handleSlotImageChange = (event: Event): void => {
+    this.hasImage = slotChangeHasAssignedElement(event);
+  };
+
+  //--------------------------------------------------------------------------
+  //
+  //  Private State/Props
+  //
+  //--------------------------------------------------------------------------
+
+  /** watches for changing text content */
+  private mutationObserver = createObserver("mutation", () => this.updateHasContent());
+
   private closeButton: HTMLButtonElement;
 
   private guid: string = guid();
 
+  /** determine if there is slotted content for styling purposes */
+  @State() private hasContent = false;
+
+  /** determine if there is slotted image for styling purposes */
+  @State() private hasImage = false;
   //--------------------------------------------------------------------------
   //
   //  Render Methods
@@ -187,19 +223,21 @@ export class Chip
   //--------------------------------------------------------------------------
 
   renderChipImage(): VNode {
-    const { el } = this;
-    const hasChipImage = getSlotted(el, SLOTS.image);
-
-    return hasChipImage ? (
+    return (
       <div class={CSS.imageContainer} key="image">
-        <slot name={SLOTS.image} />
+        <slot name={SLOTS.image} onSlotchange={this.handleSlotImageChange} />
       </div>
-    ) : null;
+    );
   }
 
   render(): VNode {
     const iconEl = (
-      <calcite-icon class={CSS.chipIcon} flipRtl={this.iconFlipRtl} icon={this.icon} scale="s" />
+      <calcite-icon
+        class={CSS.chipIcon}
+        flipRtl={this.iconFlipRtl}
+        icon={this.icon}
+        scale={this.scale === "l" ? "m" : "s"}
+      />
     );
 
     const closeButton = (
@@ -210,12 +248,22 @@ export class Chip
         onClick={this.closeClickHandler}
         ref={(el) => (this.closeButton = el)}
       >
-        <calcite-icon class={CSS.closeIcon} icon={ICONS.close} scale="s" />
+        <calcite-icon
+          class={CSS.closeIcon}
+          icon={ICONS.close}
+          scale={this.scale === "l" ? "m" : "s"}
+        />
       </button>
     );
 
     return (
-      <div class="container">
+      <div
+        class={{
+          [CSS.container]: true,
+          [CSS.contentSlotted]: this.hasContent,
+          [CSS.imageSlotted]: this.hasImage
+        }}
+      >
         {this.renderChipImage()}
         {this.icon ? iconEl : null}
         <span class={CSS.title} id={this.guid}>
