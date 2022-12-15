@@ -1,5 +1,14 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { renders, accessible, focusable, labelable, formAssociated, disabled, hidden } from "../../tests/commonTests";
+import {
+  renders,
+  accessible,
+  focusable,
+  labelable,
+  formAssociated,
+  disabled,
+  hidden,
+  t9n
+} from "../../tests/commonTests";
 
 describe("calcite-rating", () => {
   it("renders", async () => renders("<calcite-rating></calcite-rating>", { display: "flex" }));
@@ -11,6 +20,8 @@ describe("calcite-rating", () => {
   it("is labelable", async () => labelable("calcite-rating"));
 
   it("can be disabled", () => disabled("<calcite-rating value='3'></calcite-rating>"));
+
+  it("supports translations", () => t9n("calcite-rating"));
 
   it("renders outlined star when no value or average is set", async () => {
     const page = await newE2EPage();

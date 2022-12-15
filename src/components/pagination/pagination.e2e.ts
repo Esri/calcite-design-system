@@ -1,13 +1,16 @@
 import { newE2EPage, E2EElement, E2EPage } from "@stencil/core/testing";
-import { accessible, hidden, renders } from "../../tests/commonTests";
+import { accessible, hidden, renders, t9n } from "../../tests/commonTests";
 import { CSS } from "./resources";
 import { html } from "../../../support/formatting";
 
 describe("calcite-pagination", () => {
   it("renders", async () => renders("calcite-pagination", { display: "flex" }));
+
   it("honors hidden attribute", async () => hidden("calcite-pagination"));
 
   it("is accessible", async () => accessible(`<calcite-pagination></calcite-pagination>`));
+
+  it("supports translations", () => t9n("calcite-pagination"));
 
   describe("page links", () => {
     it("should render only one page when total is less than num", async () => {

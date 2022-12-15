@@ -1,5 +1,5 @@
 import { E2EElement, newE2EPage } from "@stencil/core/testing";
-import { accessible, disabled, HYDRATED_ATTR, labelable, defaults, hidden } from "../../tests/commonTests";
+import { accessible, disabled, HYDRATED_ATTR, labelable, defaults, hidden, t9n } from "../../tests/commonTests";
 import { CSS } from "./resources";
 import { GlobalTestProps } from "../../tests/utils";
 import { html } from "../../../support/formatting";
@@ -42,10 +42,6 @@ describe("calcite-button", () => {
       {
         propertyName: "iconStart",
         defaultValue: undefined
-      },
-      {
-        propertyName: "intlLoading",
-        defaultValue: "Loading"
       },
       {
         propertyName: "loading",
@@ -601,4 +597,6 @@ describe("calcite-button", () => {
     it("submits", async () => assertOnFormButtonType("submit"));
     it("resets", async () => assertOnFormButtonType("reset"));
   });
+
+  it("supports translation", () => t9n("calcite-button"));
 });

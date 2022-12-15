@@ -1,5 +1,1 @@
-export const TEXT = {
-  nextMonth: "Next month",
-  prevMonth: "Previous month",
-  year: "Year"
-};
+export const HEADING_LEVEL = 2;

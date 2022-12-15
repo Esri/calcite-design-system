@@ -9,6 +9,191 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### ⚠ BREAKING CHANGES
 
+- **chip,card,combobox,date-picker,flow,flow-item,filter, input-date-picker:** Removed deprecated intl\* & accessible label properties.
+
+* card:
+
+- Removed the property` intlLoading` , use `messsageOverrides.loading`
+  instead.
+- Removed the property `intlSelect` use `messageOverrides.select`
+  instead.
+- Removed the property `intlDeselect` use `messageOverrides.deselect`
+  instead.
+
+* chip:
+
+- Removed the property `dismissLabel` , use
+  `messsageOverrides.dismissLabel ` instead.
+
+* color-picker:
+  - Removed the property `intlB` , use `messsageOverrides.b` instead.
+
+- Removed the property `intlBlue` , use `messsageOverrides.blue`
+  instead.
+- Removed the property `intlDeleteColor` , use
+  `messsageOverrides.deleteColor` instead.
+  - Removed the property `intlG` , use `messsageOverrides.g` instead.
+- Removed the property `intlGreen` , use `messsageOverrides.green`
+  instead.
+  - Removed the property `intlH` , use `messsageOverrides.h` instead.
+- Removed the property `intlHsv` , use `messsageOverrides.hsv` instead.
+- Removed the property `intlHex` , use `messsageOverrides.hex` instead.
+- Removed the property `intlHue` , use `messsageOverrides.hue` instead.
+- Removed the property `intlNoColor` , use `messsageOverrides.noColor`
+  instead.
+  - Removed the property `intlR` , use `messsageOverrides.r` instead.
+- Removed the property `intlRed` , use `messsageOverrides.red` instead.
+- Removed the property `intlRgb` , use `messsageOverrides.rgb` instead.
+  - Removed the property `intlS` , use `messsageOverrides.s` instead.
+- Removed the property `intlSaturation` , use
+  `messsageOverrides.saturation` instead.
+- Removed the property `intlSaveColor` , use
+  `messsageOverrides.saveColor` instead.
+- Removed the property `intlSaved` , use `messsageOverrides.saved`
+  instead.
+  - Removed the property `intlV` , use `messsageOverrides.v` instead.
+- Removed the property `intlValue` , use `messsageOverrides.value`
+  instead.
+
+* combobox:
+
+- Removed the property `intlRemoveTag` , use
+  `messsageOverrides.removeTag` instead.
+
+* date-picker
+
+- Removed the property `intlNextMonth`, use `messageOverrides.nextMonth`
+  instead.
+- Removed the property `intlPrevMonth`, use `messageOverrides.prevMonth`
+  instead.
+- Removed the property `intlYear`, use `messageOverrides.year` instead.
+
+* flow-item:
+
+- Removed the property `intlBack` , use `messsageOverrides.back`
+  instead.
+- Removed the property `intlClose`, use `messageOverrides.close`
+  instead.
+- Removed the property `intlOptions` , use `messsageOverrides.options`
+  instead.
+
+* filter:
+
+- Removed the property `intlClear`, use `messsageOverrides.clear`
+  instead.
+- Removed the property `intlLabel`, use `messageOverrides.label`
+  instead.
+
+* input-date-picker:
+
+- Removed the property `intlNextMonth`, use `messageOverrides.nextMonth`
+  instead.
+- Removed the property `intlPrevMonth`, use `messageOverrides.prevMonth`
+  instead.
+- Removed the property `intlYear`, use `messageOverrides.year` instead.
+- **action,action-bar,action-group,action-pad,alert,block-section,block,button:** Removed deprecated `intl*` properties , use
+  `messageOverrides` property instead.
+
+* action:
+
+- Removed the property `intlLoading` , use `messsageOverrides.loading`
+  instead.
+- Removed the property `intlIndicator`, use `messageOverrides.indicator`
+  instead.
+
+* action-bar:
+
+- Removed the property `intlExpand` , use `messsageOverrides.expand`
+  instead.
+- Removed the property `intlCollapse`, use `messageOverrides.collapse`
+  instead.
+
+* action-group:
+
+- Removed the property `intlMore` , use `messsageOverrides.more`
+  instead.
+
+* action-pad:
+
+- Removed the property `intlExpand` , use `messsageOverrides.expand`
+  instead.
+- Removed the property `intlCollapse`, use `messageOverrides.collapse`
+  instead.
+
+* alert:
+
+- Removed the property `intlClose`, use `messageOverrides.close`
+  instead.
+
+* block:
+
+- Removed the property `intlExpand` , use `messsageOverrides.expand`
+  instead.
+- Removed the property `intlCollapse`, use `messageOverrides.collapse`
+  instead.
+- Removed the property `intlLoading` , use `messsageOverrides.loading`
+  instead.
+- Removed the property `intlOptions`, use `messageOverrides.options`
+  instead.
+
+* block-section:
+
+- Removed the property `intlExpand` , use `messsageOverrides.expand`
+  instead.
+- Removed the property `intlCollapse`, use `messageOverrides.collapse`
+  instead.
+
+* button:
+
+- Removed the property `intlLoading` , use `messsageOverrides.loading`
+  instead.
+
+Signed-off-by: dependabot[bot] <support@github.com>
+Co-authored-by: JC Franco <jfranco@esri.com>
+Co-authored-by: Ben Elan <benelan@users.noreply.github.com>
+Co-authored-by: jona7150 <jturpin@esri.com>
+Co-authored-by: Ben Elan <belan@esri.com>
+Co-authored-by: Calcite Admin <calcite-admin@esri.com>
+Co-authored-by: jcfranco <jcfranco@users.noreply.github.com>
+Co-authored-by: Kitty Hurley <khurley@esri.com>
+Co-authored-by: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>
+Co-authored-by: Eliza Khachatryan <eli97736@esri.com>
+Co-authored-by: github-actions[bot] <github-actions[bot]@users.noreply.github.com>
+Co-authored-by: Matt Driscoll <mdriscoll@esri.com>
+Co-authored-by: Alison Stump <alisonailea@users.noreply.github.com>
+
+- **popover, dropdown, modal, pick-list-item, value-list-item:** Renamed `disable*` properties.
+
+* Dropdown
+* Renamed the property `disableCloseOnSelect`, use
+  `closeOnSelectDisabled` instead.
+* Modal
+* Renamed the property `disableCloseButton`, use `closeButtonDisabled`
+  instead.
+* Renamed the property `disableFocusTrap`, use `focusTrapDisabled`
+  instead.
+* Renamed the property `disableOutsideClose`, use `outsideCloseDisabled`
+  instead.
+  - Renamed the property `disableEscape`, use `escapeDisabled` instead.
+* PickListItem
+* Renamed the property `disableDeselect`, use `deselectDisabled`
+  instead.
+* Popover
+  - Renamed the property `disableFlip`, use `flipDisabled` instead.
+* Renamed the property `disableFocusTrap`, use `focusTrapDisabled`
+  instead.
+* Renamed the property `disablePointer`, use `pointerDisabled` instead.
+* ValueListItem
+* Renamed the property `disableDeselect`, use `deselectDisabled`
+  instead.
+
+- **input-date-picker:** Removed the `calciteDatePickerChange` event, use
+  `calciteInputDatePickerChange` instead.
+
+* **date-picker:** Removed the `start` and `end` properties, set `value`
+  as an array with the start as the first value and the end as the second
+  value instead.
+
 - **combobox:** Renamed event.
 
 * Renamed the event `calciteComboboxChipDismiss`, use
@@ -333,25 +518,27 @@ Removed the event `calcitePaginationUpdate` event, use
 
 ### Features
 
-- **dropdown-item:** Add `calciteDropdownItemSelect` event ([#6015](https://github.com/Esri/calcite-components/issues/6015)) ([b565ac9](https://github.com/Esri/calcite-components/commit/b565ac97e0d8b63527767fa10a75dce78d7f5a4b)), closes [#5940](https://github.com/Esri/calcite-components/issues/5940) [#5940](https://github.com/Esri/calcite-components/issues/5940)
+- add built-in translations ([#5471](https://github.com/Esri/calcite-components/issues/5471)) ([d754b29](https://github.com/Esri/calcite-components/commit/d754b29467d40f8081eb7793fb13c1b4de9f7ebf)), closes [#4961](https://github.com/Esri/calcite-components/issues/4961)
 
-- **input, input-number, input-text:** add inputMode and enterKeyHint properties ([#5976](https://github.com/Esri/calcite-components/issues/5976)) ([d567a9f](https://github.com/Esri/calcite-components/commit/d567a9fde5b3619f308133555ba0bae20ca85168)), closes [#5917](https://github.com/Esri/calcite-components/issues/5917)
+* **dropdown-item:** Add `calciteDropdownItemSelect` event ([#6015](https://github.com/Esri/calcite-components/issues/6015)) ([b565ac9](https://github.com/Esri/calcite-components/commit/b565ac97e0d8b63527767fa10a75dce78d7f5a4b)), closes [#5940](https://github.com/Esri/calcite-components/issues/5940) [#5940](https://github.com/Esri/calcite-components/issues/5940)
 
-- **action:** add built-in translation support for indicator text ([#5895](https://github.com/Esri/calcite-components/issues/5895)) ([704db6d](https://github.com/Esri/calcite-components/commit/704db6dfbe3a875fbd5b20c9b0eb0975aca24258)), closes [#4813](https://github.com/Esri/calcite-components/issues/4813)
+* **input, input-number, input-text:** add inputMode and enterKeyHint properties ([#5976](https://github.com/Esri/calcite-components/issues/5976)) ([d567a9f](https://github.com/Esri/calcite-components/commit/d567a9fde5b3619f308133555ba0bae20ca85168)), closes [#5917](https://github.com/Esri/calcite-components/issues/5917)
 
-- **list-item:** Add content slot for specialized content ([#5876](https://github.com/Esri/calcite-components/issues/5876)) ([a510773](https://github.com/Esri/calcite-components/commit/a510773ba87994010e84184f7709c84ce40f2d2c)), closes [#3032](https://github.com/Esri/calcite-components/issues/3032) [#3032](https://github.com/Esri/calcite-components/issues/3032)
+* **action:** add built-in translation support for indicator text ([#5895](https://github.com/Esri/calcite-components/issues/5895)) ([704db6d](https://github.com/Esri/calcite-components/commit/704db6dfbe3a875fbd5b20c9b0eb0975aca24258)), closes [#4813](https://github.com/Esri/calcite-components/issues/4813)
 
-- **textarea:** add default message bundle ([#5870](https://github.com/Esri/calcite-components/issues/5870)) ([c7a8495](https://github.com/Esri/calcite-components/commit/c7a84955b4f3cd09dbf7315ea59e0edaa7be2a6c)), closes [#863](https://github.com/Esri/calcite-components/issues/863)
+* **list-item:** Add content slot for specialized content ([#5876](https://github.com/Esri/calcite-components/issues/5876)) ([a510773](https://github.com/Esri/calcite-components/commit/a510773ba87994010e84184f7709c84ce40f2d2c)), closes [#3032](https://github.com/Esri/calcite-components/issues/3032) [#3032](https://github.com/Esri/calcite-components/issues/3032)
 
-- **input, input-text, input-number:** add attributes autocomplete, accept, multiple, pattern ([#5807](https://github.com/Esri/calcite-components/issues/5807)) ([feb4fce](https://github.com/Esri/calcite-components/commit/feb4fce9528920041d836446ef437f0f1c0e8ce2)), closes [#4079](https://github.com/Esri/calcite-components/issues/4079)
+* **textarea:** add default message bundle ([#5870](https://github.com/Esri/calcite-components/issues/5870)) ([c7a8495](https://github.com/Esri/calcite-components/commit/c7a84955b4f3cd09dbf7315ea59e0edaa7be2a6c)), closes [#863](https://github.com/Esri/calcite-components/issues/863)
 
-- **alert:** support actions-end ([#5750](https://github.com/Esri/calcite-components/issues/5750)) ([2447e16](https://github.com/Esri/calcite-components/commit/2447e167eb731f3a59775a5692530137bf9a70fd))
-- **list, list-item, list-item-group:** Adds support for selecting and filtering list items. Improves accessibility by using aria "treegrid" role. ([#4527](https://github.com/Esri/calcite-components/issues/4527)) ([f489c57](https://github.com/Esri/calcite-components/commit/f489c57095ec21df1f427176d2d635675eea95d3))
-- **pick-list, value-list:** Add calciteListFilter event, filteredItems prop, filterText prop and filteredData prop. ([#5681](https://github.com/Esri/calcite-components/issues/5681)) ([943d208](https://github.com/Esri/calcite-components/commit/943d2088b7cf447a12ebcd0babab145f543538a2)), closes [#4333](https://github.com/Esri/calcite-components/issues/4333)
-- **popover:** Add focus-trap to popover and disableFocusTrap property. ([#5725](https://github.com/Esri/calcite-components/issues/5725)) ([a8ef353](https://github.com/Esri/calcite-components/commit/a8ef353bc031630b373f2bdd1bdc1cafd7e35be9)), closes [#2133](https://github.com/Esri/calcite-components/issues/2133)
-- **popover:** Escape key should close open popovers. ([#5726](https://github.com/Esri/calcite-components/issues/5726)) ([2e2621d](https://github.com/Esri/calcite-components/commit/2e2621d57c4701f7a7e84f74d801c543ad4f45c0))
-- **tabs:** Add support for navigating with Home and End keys ([#5727](https://github.com/Esri/calcite-components/issues/5727)) ([823c429](https://github.com/Esri/calcite-components/commit/823c429439ec9f8cd1d6a1ff2aedf0b2da9c741b)), closes [#5661](https://github.com/Esri/calcite-components/issues/5661)
-- **tooltip:** Add tooltip open, close, beforeOpen, and beforeClose events ([#5772](https://github.com/Esri/calcite-components/issues/5772)) ([64b5675](https://github.com/Esri/calcite-components/commit/64b56751d68f69d31ea943415f5d0d08bae634cc)), closes [#5734](https://github.com/Esri/calcite-components/issues/5734)
+* **input, input-text, input-number:** add attributes autocomplete, accept, multiple, pattern ([#5807](https://github.com/Esri/calcite-components/issues/5807)) ([feb4fce](https://github.com/Esri/calcite-components/commit/feb4fce9528920041d836446ef437f0f1c0e8ce2)), closes [#4079](https://github.com/Esri/calcite-components/issues/4079)
+
+* **alert:** support actions-end ([#5750](https://github.com/Esri/calcite-components/issues/5750)) ([2447e16](https://github.com/Esri/calcite-components/commit/2447e167eb731f3a59775a5692530137bf9a70fd))
+* **list, list-item, list-item-group:** Adds support for selecting and filtering list items. Improves accessibility by using aria "treegrid" role. ([#4527](https://github.com/Esri/calcite-components/issues/4527)) ([f489c57](https://github.com/Esri/calcite-components/commit/f489c57095ec21df1f427176d2d635675eea95d3))
+* **pick-list, value-list:** Add calciteListFilter event, filteredItems prop, filterText prop and filteredData prop. ([#5681](https://github.com/Esri/calcite-components/issues/5681)) ([943d208](https://github.com/Esri/calcite-components/commit/943d2088b7cf447a12ebcd0babab145f543538a2)), closes [#4333](https://github.com/Esri/calcite-components/issues/4333)
+* **popover:** Add focus-trap to popover and disableFocusTrap property. ([#5725](https://github.com/Esri/calcite-components/issues/5725)) ([a8ef353](https://github.com/Esri/calcite-components/commit/a8ef353bc031630b373f2bdd1bdc1cafd7e35be9)), closes [#2133](https://github.com/Esri/calcite-components/issues/2133)
+* **popover:** Escape key should close open popovers. ([#5726](https://github.com/Esri/calcite-components/issues/5726)) ([2e2621d](https://github.com/Esri/calcite-components/commit/2e2621d57c4701f7a7e84f74d801c543ad4f45c0))
+* **tabs:** Add support for navigating with Home and End keys ([#5727](https://github.com/Esri/calcite-components/issues/5727)) ([823c429](https://github.com/Esri/calcite-components/commit/823c429439ec9f8cd1d6a1ff2aedf0b2da9c741b)), closes [#5661](https://github.com/Esri/calcite-components/issues/5661)
+* **tooltip:** Add tooltip open, close, beforeOpen, and beforeClose events ([#5772](https://github.com/Esri/calcite-components/issues/5772)) ([64b5675](https://github.com/Esri/calcite-components/commit/64b56751d68f69d31ea943415f5d0d08bae634cc)), closes [#5734](https://github.com/Esri/calcite-components/issues/5734)
 
 ### Bug Fixes
 

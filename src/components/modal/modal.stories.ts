@@ -24,7 +24,7 @@ export const simple = (): string => html`
     width="${select("width", ["s", "m", "l"], "s")}"
     ${boolean("fullscreen", false)}
     ${boolean("docked", false)}
-    ${boolean("disable-escape", false)}
+    ${boolean("escape-disabled", false)}
     intl-close="${text("intl-close", "Close")}"
   >
     <h3 slot="header">Small Modal</h3>
@@ -50,7 +50,7 @@ export const darkThemeRTLCustomSize_TestOnly = (): string => html`
     width="${number("width", 300)}"
     ${boolean("fullscreen", false)}
     ${boolean("docked", false)}
-    ${boolean("disable-escape", false)}
+    ${boolean("escape-disabled", false)}
     intl-close="${text("intl-close", "Close")}"
   >
     <h3 slot="header">Small Modal</h3>

@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, focusable, renders, slots, hidden } from "../../tests/commonTests";
+import { accessible, focusable, renders, slots, hidden, t9n } from "../../tests/commonTests";
 import { CSS, SLOTS } from "./resources";
 import { html } from "../../../support/formatting";
 
@@ -103,4 +103,6 @@ describe("calcite-notice", () => {
         }
       ));
   });
+
+  it("supports translations", () => t9n("calcite-notice"));
 });
