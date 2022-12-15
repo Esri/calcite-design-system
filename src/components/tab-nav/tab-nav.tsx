@@ -237,9 +237,7 @@ export class TabNav {
   @Listen("calciteTabsActivate") activateTabHandler(
     event: CustomEvent<TabChangeEventDetail>
   ): void {
-    this.calciteTabChange.emit({
-      tab: this.selectedTab
-    });
+    this.calciteTabChange.emit();
 
     event.stopPropagation();
     event.preventDefault();
@@ -286,7 +284,7 @@ export class TabNav {
    *
    * @see [TabChangeEventDetail](https://github.com/Esri/calcite-components/blob/master/src/components/tab/interfaces.ts#L1)
    */
-  @Event({ cancelable: false }) calciteTabChange: EventEmitter<TabChangeEventDetail>;
+  @Event({ cancelable: false }) calciteTabChange: EventEmitter<void>;
 
   /**
    * @internal
