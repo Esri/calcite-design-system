@@ -304,15 +304,15 @@ describe("calcite-tree", () => {
 
         await item1.click();
 
-        expect(await tree.getProperty("selectedItems")).toEqual(["1"]);
+        expect(await tree.getProperty("selectedItems")).toHaveLength(1);
 
         await item2.click();
 
-        expect(await tree.getProperty("selectedItems")).toEqual(["1", "2"]);
+        expect(await tree.getProperty("selectedItems")).toHaveLength(2);
 
         await item2.click();
 
-        expect(await tree.getProperty("selectedItems")).toEqual(["1"]);
+        expect(await tree.getProperty("selectedItems")).toHaveLength(1);
 
         await item1.click();
 
@@ -340,19 +340,19 @@ describe("calcite-tree", () => {
 
         await item1.click();
 
-        expect(tree.getProperty("selectedItems")).toEqual(["1"]);
+        expect(tree.getProperty("selectedItems")).toHaveLength(1);
 
         await item2.click();
 
-        expect(tree.getProperty("selectedItems")).toEqual(["1", "2", "4"]);
+        expect(tree.getProperty("selectedItems")).toHaveLength(3);
 
         await item3.click();
 
-        expect(tree.getProperty("selectedItems")).toEqual(["1", "2", "4"]);
+        expect(tree.getProperty("selectedItems")).toHaveLength(3);
 
         await item4.click();
 
-        expect(tree.getProperty("selectedItems")).toEqual(["1", "2"]);
+        expect(tree.getProperty("selectedItems")).toHaveLength(2);
       });
     });
 
@@ -407,12 +407,12 @@ describe("calcite-tree", () => {
 
         await item1.click();
         expect(selectEventSpy).toHaveReceivedEventTimes(1);
-        expect(tree.getProperty("selectedItems")).toEqual(["1"]);
+        expect(tree.getProperty("selectedItems")).toHaveLength(1);
         expect(await page.findAll("calcite-tree-item[selected]")).toHaveLength(0);
 
         await item2.click();
         expect(selectEventSpy).toHaveReceivedEventTimes(2);
-        expect(tree.getProperty("selectedItems")).toEqual(["2"]);
+        expect(tree.getProperty("selectedItems")).toHaveLength(1);
         expect(await page.findAll("calcite-tree-item[selected]")).toHaveLength(0);
       });
     });
