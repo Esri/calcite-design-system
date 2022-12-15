@@ -4,7 +4,6 @@ import dedent from "dedent";
 import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
 import { GlobalTestProps } from "../../tests/utils";
-import { Selection } from "./interfaces";
 
 describe("calcite-dropdown", () => {
   it("renders", () =>
@@ -52,11 +51,6 @@ describe("calcite-dropdown", () => {
      * IDs from items to assert selection
      */
     expectedItemIds: string[];
-
-    /**
-     * If testing on the event payload, the most recent ID is used to assert the
-     */
-    mostRecentId?: string;
   }
 
   /**
@@ -67,24 +61,14 @@ describe("calcite-dropdown", () => {
    * @param page
    * @param root0
    * @param root0.expectedItemIds
-   * @param root0.mostRecentId
    */
-  async function assertSelectedItems(
-    page: E2EPage,
-    { expectedItemIds, mostRecentId }: SelectedItemsAssertionOptions
-  ): Promise<void> {
+  async function assertSelectedItems(page: E2EPage, { expectedItemIds }: SelectedItemsAssertionOptions): Promise<void> {
     await page.waitForTimeout(100);
     const selectedItemIds = await page.evaluate(() => {
       const dropdown = document.querySelector<HTMLCalciteDropdownElement>("calcite-dropdown");
       return dropdown.selectedItems.map((item) => item.id);
     });
 
-    if (mostRecentId) {
-      const selectedItemId = await page.evaluate(() => {
-        return (window as SelectionEventTestWindow).eventDetail.item.id;
-      });
-      expect(selectedItemId).toBe(mostRecentId);
-    }
     expect(selectedItemIds).toHaveLength(expectedItemIds.length);
 
     expectedItemIds.forEach((itemId, index) => expect(selectedItemIds[index]).toEqual(itemId));
@@ -260,24 +244,21 @@ describe("calcite-dropdown", () => {
     await item1.click();
     await page.waitForChanges();
     await assertSelectedItems(page, {
-      expectedItemIds: ["item-1", "item-2"],
-      mostRecentId: "item-1"
+      expectedItemIds: ["item-1", "item-2"]
     });
     await trigger.click();
     await page.waitForChanges();
     await item2.click();
     await page.waitForChanges();
     await assertSelectedItems(page, {
-      expectedItemIds: ["item-1"],
-      mostRecentId: "item-2"
+      expectedItemIds: ["item-1"]
     });
     await trigger.click();
     await page.waitForChanges();
     await item3.click();
     await page.waitForChanges();
     await assertSelectedItems(page, {
-      expectedItemIds: ["item-1", "item-3"],
-      mostRecentId: "item-3"
+      expectedItemIds: ["item-1", "item-3"]
     });
 
     expect(item1).toHaveAttribute("selected");
@@ -312,16 +293,14 @@ describe("calcite-dropdown", () => {
     await item1.click();
     await page.waitForChanges();
     await assertSelectedItems(page, {
-      expectedItemIds: ["item-1"],
-      mostRecentId: "item-1"
+      expectedItemIds: ["item-1"]
     });
     await trigger.click();
     await page.waitForChanges();
     await item3.click();
     await page.waitForChanges();
     await assertSelectedItems(page, {
-      expectedItemIds: ["item-3"],
-      mostRecentId: "item-3"
+      expectedItemIds: ["item-3"]
     });
 
     expect(item1).not.toHaveAttribute("selected");
@@ -353,15 +332,15 @@ describe("calcite-dropdown", () => {
     await trigger.click();
     await item1.click();
     await page.waitForChanges();
-    await assertSelectedItems(page, { expectedItemIds: [], mostRecentId: "item-1" });
+    await assertSelectedItems(page, { expectedItemIds: [] });
     await trigger.click();
     await item2.click();
     await page.waitForChanges();
-    await assertSelectedItems(page, { expectedItemIds: [], mostRecentId: "item-2" });
+    await assertSelectedItems(page, { expectedItemIds: [] });
     await trigger.click();
     await item3.click();
     await page.waitForChanges();
-    await assertSelectedItems(page, { expectedItemIds: [], mostRecentId: "item-3" });
+    await assertSelectedItems(page, { expectedItemIds: [] });
 
     expect(item1).not.toHaveAttribute("selected");
     expect(item2).not.toHaveAttribute("selected");
@@ -417,56 +396,49 @@ describe("calcite-dropdown", () => {
     await item1.click();
     await page.waitForChanges();
     await assertSelectedItems(page, {
-      expectedItemIds: ["item-1", "item-2", "item-5"],
-      mostRecentId: "item-1"
+      expectedItemIds: ["item-1", "item-2", "item-5"]
     });
     await trigger.click();
     await page.waitForChanges();
     await item2.click();
     await page.waitForChanges();
     await assertSelectedItems(page, {
-      expectedItemIds: ["item-1", "item-5"],
-      mostRecentId: "item-2"
+      expectedItemIds: ["item-1", "item-5"]
     });
     await trigger.click();
     await page.waitForChanges();
     await item3.click();
     await page.waitForChanges();
     await assertSelectedItems(page, {
-      expectedItemIds: ["item-1", "item-3", "item-5"],
-      mostRecentId: "item-3"
+      expectedItemIds: ["item-1", "item-3", "item-5"]
     });
     await trigger.click();
     await page.waitForChanges();
     await item4.click();
     await page.waitForChanges();
     await assertSelectedItems(page, {
-      expectedItemIds: ["item-1", "item-3", "item-4"],
-      mostRecentId: "item-4"
+      expectedItemIds: ["item-1", "item-3", "item-4"]
     });
     await trigger.click();
     await page.waitForChanges();
     await item6.click();
     await page.waitForChanges();
     await assertSelectedItems(page, {
-      expectedItemIds: ["item-1", "item-3", "item-6"],
-      mostRecentId: "item-6"
+      expectedItemIds: ["item-1", "item-3", "item-6"]
     });
     await trigger.click();
     await page.waitForChanges();
     await item7.click();
     await page.waitForChanges();
     await assertSelectedItems(page, {
-      expectedItemIds: ["item-1", "item-3", "item-6"],
-      mostRecentId: "item-7"
+      expectedItemIds: ["item-1", "item-3", "item-6"]
     });
     await trigger.click();
     await page.waitForChanges();
     await item9.click();
     await page.waitForChanges();
     await assertSelectedItems(page, {
-      expectedItemIds: ["item-1", "item-3", "item-6"],
-      mostRecentId: "item-9"
+      expectedItemIds: ["item-1", "item-3", "item-6"]
     });
 
     expect(item1).toHaveAttribute("selected");
@@ -692,9 +664,9 @@ describe("calcite-dropdown", () => {
     expect(await dropdownWrapper.isVisible()).toBe(false);
   });
 
-  it("remains open when disable-close-on-select is requested and selected item is not in a selection-mode:none group", async () => {
+  it("remains open when close-on-select-disabled is requested and selected item is not in a selection-mode:none group", async () => {
     const page = await newE2EPage();
-    await page.setContent(html`<calcite-dropdown disable-close-on-select>
+    await page.setContent(html`<calcite-dropdown close-on-select-disabled>
       <calcite-button id="trigger" slot="trigger">Open dropdown</calcite-button>
       <calcite-dropdown-group id="group-1" selection-mode="single">
         <calcite-dropdown-item id="item-1"> Dropdown Item Content </calcite-dropdown-item>
@@ -722,9 +694,9 @@ describe("calcite-dropdown", () => {
     expect(await dropdownWrapper.isVisible()).toBe(true);
   });
 
-  it("closes when disable-close-on-select is requested and selected item is in a selection-mode:none group", async () => {
+  it("closes when close-on-select-disabled is requested and selected item is in a selection-mode:none group", async () => {
     const page = await newE2EPage();
-    await page.setContent(html`<calcite-dropdown disable-close-on-select>
+    await page.setContent(html`<calcite-dropdown close-on-select-disabled>
       <calcite-button id="trigger" slot="trigger">Open dropdown</calcite-button>
       <calcite-dropdown-group id="group-1" selection-mode="none">
         <calcite-dropdown-item>
@@ -983,7 +955,7 @@ describe("calcite-dropdown", () => {
 
   it("item selection should work when placed inside shadow DOM (#992)", async () => {
     const wrappedDropdownTemplateHTML = html`
-      <calcite-dropdown disable-close-on-select>
+      <calcite-dropdown close-on-select-disabled>
         <calcite-button slot="trigger">Open</calcite-button>
         <calcite-dropdown-group selection-mode="single">
           <calcite-dropdown-item id="item-1" selected>1</calcite-dropdown-item>

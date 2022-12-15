@@ -39,22 +39,6 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
         }
       },
       {
-        name: "intl-next-month",
-        commit(): Attribute {
-          this.value = text("intl-next-month", "Next month");
-          delete this.build;
-          return this;
-        }
-      },
-      {
-        name: "intl-prev-month",
-        commit(): Attribute {
-          this.value = text("intl-prev-month", "Previous month");
-          delete this.build;
-          return this;
-        }
-      },
-      {
         name: "lang",
         commit(): Attribute {
           this.value = select("lang", locales, "en");
