@@ -89,9 +89,9 @@ const thumbnailHtml = html`<img
 
 const footerTrailingButtonsHtml = html`
   <div slot="footer-trailing">
-    <calcite-button id="card-icon-test-6" scale="s" appearance="transparent" color="neutral" icon-start="circle">
+    <calcite-button id="card-icon-test-6" scale="s" appearance="transparent" kind="neutral" icon-start="circle">
     </calcite-button>
-    <calcite-button id="card-icon-test-7" scale="s" appearance="transparent" color="neutral" icon-start="circle">
+    <calcite-button id="card-icon-test-7" scale="s" appearance="transparent" kind="neutral" icon-start="circle">
     </calcite-button>
   </div>
 `;
@@ -148,20 +148,20 @@ export const thumbnail = (): string => html`
         </div>
         <calcite-button
           slot="footer-leading"
-          color="neutral"
+          kind="neutral"
           scale="s"
           id="card-icon-test-1"
           icon-start="circle"
         ></calcite-button>
         <div slot="footer-trailing">
-          <calcite-button scale="s" color="neutral" id="card-icon-test-2" icon-start="circle"></calcite-button>
-          <calcite-button scale="s" color="neutral" id="card-icon-test-3" icon-start="circle"></calcite-button>
+          <calcite-button scale="s" kind="neutral" id="card-icon-test-2" icon-start="circle"></calcite-button>
+          <calcite-button scale="s" kind="neutral" id="card-icon-test-3" icon-start="circle"></calcite-button>
           <calcite-dropdown type="hover">
             <calcite-button
               id="card-icon-test-5"
               slot="trigger"
               scale="s"
-              color="neutral"
+              kind="neutral"
               icon-start="circle"
             ></calcite-button>
             <calcite-dropdown-group selection-mode="none">
@@ -205,7 +205,7 @@ export const thumbnailRounded = (): string => html`
       </div>
       <calcite-button
         slot="footer-leading"
-        color="neutral"
+        kind="neutral"
         scale="s"
         id="card-icon-test-1"
         icon-start="circle"

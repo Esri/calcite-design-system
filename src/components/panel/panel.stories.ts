@@ -98,7 +98,7 @@ const contentHTML = html`
 `;
 
 const footerHTML = html`
-  <calcite-button slot="${SLOTS.footer}" width="half" appearance="clear">Naw.</calcite-button>
+  <calcite-button slot="${SLOTS.footer}" width="half" appearance="outline">Naw.</calcite-button>
   <calcite-button slot="${SLOTS.footer}" width="half">Yeah!</calcite-button>
 `;
 

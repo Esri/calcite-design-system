@@ -485,7 +485,7 @@ describe("calcite-modal accessibility checks", () => {
       <calcite-modal aria-labelledby="modal-title" is-active>
         <h3 slot="header" id="modal-title">Title of the modal</h3>
         <div slot="content">The actual content of the modal</div>
-        <calcite-button slot="back" color="neutral" appearance="outline" icon="chevron-left" width="full">
+        <calcite-button slot="back" kind="neutral" appearance="outline" icon="chevron-left" width="full">
           Back
         </calcite-button>
         <calcite-button slot="secondary" width="full" appearance="outline"> Cancel </calcite-button>

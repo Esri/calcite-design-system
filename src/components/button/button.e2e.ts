@@ -20,8 +20,8 @@ describe("calcite-button", () => {
         defaultValue: undefined
       },
       {
-        propertyName: "color",
-        defaultValue: "blue"
+        propertyName: "kind",
+        defaultValue: "brand"
       },
       {
         propertyName: "disabled",
@@ -99,7 +99,7 @@ describe("calcite-button", () => {
     const loader = await page.find(`calcite-button >>> .${CSS.buttonLoader} calcite-loader`);
 
     expect(element).toHaveAttribute(HYDRATED_ATTR);
-    expect(element).toEqualAttribute("color", "blue");
+    expect(element).toEqualAttribute("kind", "brand");
     expect(element).toEqualAttribute("appearance", "solid");
     expect(element).toEqualAttribute("scale", "m");
     expect(element).toEqualAttribute("width", "auto");
@@ -115,7 +115,7 @@ describe("calcite-button", () => {
   it("is accessible: href", async () => accessible(`<calcite-button href="/">Continue</calcite-button>`));
 
   it("is accessible: style props", async () =>
-    accessible(`<calcite-button color="red" scale="l" width="half" appearance="outline">Continue</calcite-button>`));
+    accessible(`<calcite-button kind="danger" scale="l" width="half" appearance="outline">Continue</calcite-button>`));
 
   it("is accessible: href and target", async () =>
     accessible(
@@ -160,7 +160,7 @@ describe("calcite-button", () => {
     const loader = await page.find(`calcite-button >>> .${CSS.buttonLoader} calcite-loader`);
 
     expect(element).toHaveAttribute(HYDRATED_ATTR);
-    expect(element).toEqualAttribute("color", "blue");
+    expect(element).toEqualAttribute("kind", "brand");
     expect(element).toEqualAttribute("appearance", "solid");
     expect(element).toEqualAttribute("scale", "m");
     expect(element).toEqualAttribute("width", "auto");
@@ -174,7 +174,7 @@ describe("calcite-button", () => {
   it("renders as a button with requested props", async () => {
     const page = await newE2EPage();
     await page.setContent(
-      `<calcite-button color="red" scale="l" width="half" appearance="outline">Continue</calcite-button>`
+      `<calcite-button kind="danger" scale="l" width="half" appearance="outline">Continue</calcite-button>`
     );
     const element = await page.find("calcite-button");
     const elementAsButton = await page.find("calcite-button >>> button");
@@ -184,7 +184,7 @@ describe("calcite-button", () => {
     const loader = await page.find(`calcite-button >>> .${CSS.buttonLoader} calcite-loader`);
 
     expect(element).toHaveAttribute(HYDRATED_ATTR);
-    expect(element).toEqualAttribute("color", "red");
+    expect(element).toEqualAttribute("kind", "danger");
     expect(element).toEqualAttribute("appearance", "outline");
     expect(element).toEqualAttribute("scale", "l");
     expect(element).toEqualAttribute("width", "half");
@@ -198,7 +198,7 @@ describe("calcite-button", () => {
   it("renders as a link with requested props", async () => {
     const page = await newE2EPage();
     await page.setContent(
-      `<calcite-button href="/" color="red" scale="l" width="half" appearance="outline">Continue</calcite-button>`
+      `<calcite-button href="/" kind="danger" scale="l" width="half" appearance="outline">Continue</calcite-button>`
     );
     const element = await page.find("calcite-button");
     const elementAsButton = await page.find("calcite-button >>> button");
@@ -208,7 +208,7 @@ describe("calcite-button", () => {
     const loader = await page.find(`calcite-button >>> .${CSS.buttonLoader} calcite-loader`);
 
     expect(element).toHaveAttribute(HYDRATED_ATTR);
-    expect(element).toEqualAttribute("color", "red");
+    expect(element).toEqualAttribute("kind", "danger");
     expect(element).toEqualAttribute("appearance", "outline");
     expect(element).toEqualAttribute("scale", "l");
     expect(element).toEqualAttribute("width", "half");
@@ -421,7 +421,7 @@ describe("calcite-button", () => {
         icon-start="layer"
         icon-end="chevron-down"
         appearance="transparent"
-        color="blue"
+        kind="brand"
       >
         Layers
       </calcite-button>

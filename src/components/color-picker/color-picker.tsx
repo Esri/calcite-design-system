@@ -820,9 +820,9 @@ export class ColorPicker
                 <calcite-button
                   appearance="transparent"
                   class={CSS.deleteColor}
-                  color="neutral"
                   disabled={noColor}
                   iconStart="minus"
+                  kind="neutral"
                   label={messages.deleteColor}
                   onClick={this.deleteColor}
                   scale={hexInputScale}
@@ -831,9 +831,9 @@ export class ColorPicker
                 <calcite-button
                   appearance="transparent"
                   class={CSS.saveColor}
-                  color="neutral"
                   disabled={noColor}
                   iconStart="plus"
+                  kind="neutral"
                   label={messages.saveColor}
                   onClick={this.saveColor}
                   scale={hexInputScale}

@@ -1,6 +1,5 @@
 import { Component, Element, Method, Prop, h, VNode } from "@stencil/core";
-import { Appearance, Scale } from "../interfaces";
-import { ButtonColor } from "../button/interfaces";
+import { Appearance, Kind, Scale } from "../interfaces";
 import { CSS, ICONS } from "./resources";
 import { focusElement } from "../../utils/dom";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
@@ -26,12 +25,13 @@ export class Fab implements InteractiveComponent, LoadableComponent {
   /**
    * Specifies the appearance style of the component.
    */
-  @Prop({ reflect: true }) appearance: Extract<"solid" | "outline", Appearance> = "outline";
+  @Prop({ reflect: true }) appearance: Extract<"solid" | "outline-fill", Appearance> = "solid";
 
   /**
-   * Specifies the color of the component.
+   * Specifies the kind of the component (will apply to border and background).
    */
-  @Prop({ reflect: true }) color: ButtonColor = "neutral";
+  @Prop({ reflect: true }) kind: Extract<"brand" | "danger" | "inverse" | "neutral", Kind> =
+    "brand";
 
   /**
    * When `true`, interaction is prevented and the component is displayed with lower opacity.
@@ -119,16 +119,16 @@ export class Fab implements InteractiveComponent, LoadableComponent {
   // --------------------------------------------------------------------------
 
   render(): VNode {
-    const { appearance, color, disabled, loading, scale, textEnabled, icon, label, text } = this;
+    const { appearance, kind, disabled, loading, scale, textEnabled, icon, label, text } = this;
     const title = !textEnabled ? label || text || null : null;
 
     return (
       <calcite-button
-        appearance={appearance === "solid" ? "solid" : "outline"}
+        appearance={appearance === "solid" ? "solid" : "outline-fill"}
         class={CSS.button}
-        color={color}
         disabled={disabled}
         iconStart={icon}
+        kind={kind}
         label={label}
         loading={loading}
         ref={(buttonEl): void => {
