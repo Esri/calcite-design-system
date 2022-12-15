@@ -17,6 +17,7 @@
         font-size: var(--calcite-font-size-0);
         font-weight: var(--calcite-font-weight-medium);
       }
+
       .control,
       .parent-flex,
       span {
@@ -80,8 +81,8 @@
         <div class="child-flex right-aligned-text"></div>
         <div class="child-flex">Solid default</div>
         <div class="child-flex">Solid with text</div>
-        <div class="child-flex">Outline default</div>
-        <div class="child-flex">Outline with text</div>
+        <div class="child-flex">outline-fill default</div>
+        <div class="child-flex">outline-fill with text</div>
       </div>
 
       <!--
@@ -95,15 +96,15 @@
         <!-- solid default -->
         <div class="child-flex">
           <div>
-            <calcite-fab scale="s" icon="arrow-right" label="FAB" color="blue" appearance="solid"></calcite-fab>
+            <calcite-fab scale="s" icon="arrow-right" label="FAB" kind="brand" appearance="solid"></calcite-fab>
           </div>
 
           <div>
-            <calcite-fab scale="m" icon="arrow-right" label="FAB" color="blue" appearance="solid"></calcite-fab>
+            <calcite-fab scale="m" icon="arrow-right" label="FAB" kind="brand" appearance="solid"></calcite-fab>
           </div>
 
           <div>
-            <calcite-fab scale="l" icon="arrow-right" label="FAB" color="blue" appearance="solid"></calcite-fab>
+            <calcite-fab scale="l" icon="arrow-right" label="FAB" kind="brand" appearance="solid"></calcite-fab>
           </div>
         </div>
 
@@ -116,7 +117,7 @@
               label="FAB"
               text="FAB"
               text-enabled
-              color="blue"
+              kind="brand"
               appearance="solid"
             ></calcite-fab>
           </div>
@@ -128,7 +129,7 @@
               label="FAB"
               text="FAB"
               text-enabled
-              color="blue"
+              kind="brand"
               appearance="solid"
             ></calcite-fab>
           </div>
@@ -140,28 +141,28 @@
               label="FAB"
               text="FAB"
               text-enabled
-              color="blue"
+              kind="brand"
               appearance="solid"
             ></calcite-fab>
           </div>
         </div>
 
-        <!-- outline default -->
+        <!-- outline-fill default -->
         <div class="child-flex">
           <div>
-            <calcite-fab scale="s" icon="arrow-right" label="FAB" color="blue" appearance="outline"></calcite-fab>
+            <calcite-fab scale="s" icon="arrow-right" label="FAB" kind="brand" appearance="outline-fill"></calcite-fab>
           </div>
 
           <div>
-            <calcite-fab scale="m" icon="arrow-right" label="FAB" color="blue" appearance="outline"></calcite-fab>
+            <calcite-fab scale="m" icon="arrow-right" label="FAB" kind="brand" appearance="outline-fill"></calcite-fab>
           </div>
 
           <div>
-            <calcite-fab scale="l" icon="arrow-right" label="FAB" color="blue" appearance="outline"></calcite-fab>
+            <calcite-fab scale="l" icon="arrow-right" label="FAB" kind="brand" appearance="outline-fill"></calcite-fab>
           </div>
         </div>
 
-        <!-- outline with text -->
+        <!-- outline-fill with text -->
         <div class="child-flex">
           <div>
             <calcite-fab
@@ -170,8 +171,8 @@
               label="FAB"
               text="FAB"
               text-enabled
-              color="blue"
-              appearance="outline"
+              kind="brand"
+              appearance="outline-fill"
             ></calcite-fab>
           </div>
 
@@ -182,8 +183,8 @@
               label="FAB"
               text="FAB"
               text-enabled
-              color="blue"
-              appearance="outline"
+              kind="brand"
+              appearance="outline-fill"
             ></calcite-fab>
           </div>
 
@@ -194,8 +195,8 @@
               label="FAB"
               text="FAB"
               text-enabled
-              color="blue"
-              appearance="outline"
+              kind="brand"
+              appearance="outline-fill"
             ></calcite-fab>
           </div>
         </div>
@@ -214,15 +215,15 @@
         <!-- neutral default -->
         <div class="child-flex">
           <div>
-            <calcite-fab scale="s" icon="arrow-right" label="FAB" color="neutral" appearance="solid"></calcite-fab>
+            <calcite-fab scale="s" icon="arrow-right" label="FAB" kind="neutral" appearance="solid"></calcite-fab>
           </div>
 
           <div>
-            <calcite-fab scale="m" icon="arrow-right" label="FAB" color="neutral" appearance="solid"></calcite-fab>
+            <calcite-fab scale="m" icon="arrow-right" label="FAB" kind="neutral" appearance="solid"></calcite-fab>
           </div>
 
           <div>
-            <calcite-fab scale="l" icon="arrow-right" label="FAB" color="neutral" appearance="solid"></calcite-fab>
+            <calcite-fab scale="l" icon="arrow-right" label="FAB" kind="neutral" appearance="solid"></calcite-fab>
           </div>
         </div>
 
@@ -235,7 +236,7 @@
               label="FAB"
               text="FAB"
               text-enabled
-              color="neutral"
+              kind="neutral"
               appearance="solid"
             ></calcite-fab>
           </div>
@@ -247,7 +248,7 @@
               label="FAB"
               text="FAB"
               text-enabled
-              color="neutral"
+              kind="neutral"
               appearance="solid"
             ></calcite-fab>
           </div>
@@ -259,28 +260,46 @@
               label="FAB"
               text="FAB"
               text-enabled
-              color="neutral"
+              kind="neutral"
               appearance="solid"
             ></calcite-fab>
           </div>
         </div>
 
-        <!-- outline default -->
+        <!-- outline-fill default -->
         <div class="child-flex">
           <div>
-            <calcite-fab scale="s" icon="arrow-right" label="FAB" color="neutral" appearance="outline"></calcite-fab>
+            <calcite-fab
+              scale="s"
+              icon="arrow-right"
+              label="FAB"
+              kind="neutral"
+              appearance="outline-fill"
+            ></calcite-fab>
           </div>
 
           <div>
-            <calcite-fab scale="m" icon="arrow-right" label="FAB" color="neutral" appearance="outline"></calcite-fab>
+            <calcite-fab
+              scale="m"
+              icon="arrow-right"
+              label="FAB"
+              kind="neutral"
+              appearance="outline-fill"
+            ></calcite-fab>
           </div>
 
           <div>
-            <calcite-fab scale="l" icon="arrow-right" label="FAB" color="neutral" appearance="outline"></calcite-fab>
+            <calcite-fab
+              scale="l"
+              icon="arrow-right"
+              label="FAB"
+              kind="neutral"
+              appearance="outline-fill"
+            ></calcite-fab>
           </div>
         </div>
 
-        <!-- outline with text -->
+        <!-- outline-fill with text -->
         <div class="child-flex">
           <div>
             <calcite-fab
@@ -289,8 +308,8 @@
               label="FAB"
               text="FAB"
               text-enabled
-              color="neutral"
-              appearance="outline"
+              kind="neutral"
+              appearance="outline-fill"
             ></calcite-fab>
           </div>
 
@@ -301,8 +320,8 @@
               label="FAB"
               text="FAB"
               text-enabled
-              color="neutral"
-              appearance="outline"
+              kind="neutral"
+              appearance="outline-fill"
             ></calcite-fab>
           </div>
 
@@ -313,8 +332,8 @@
               label="FAB"
               text="FAB"
               text-enabled
-              color="neutral"
-              appearance="outline"
+              kind="neutral"
+              appearance="outline-fill"
             ></calcite-fab>
           </div>
         </div>
@@ -333,15 +352,15 @@
         <!-- inverse default -->
         <div class="child-flex">
           <div>
-            <calcite-fab scale="s" icon="arrow-right" label="FAB" color="inverse" appearance="solid"></calcite-fab>
+            <calcite-fab scale="s" icon="arrow-right" label="FAB" kind="inverse" appearance="solid"></calcite-fab>
           </div>
 
           <div>
-            <calcite-fab scale="m" icon="arrow-right" label="FAB" color="inverse" appearance="solid"></calcite-fab>
+            <calcite-fab scale="m" icon="arrow-right" label="FAB" kind="inverse" appearance="solid"></calcite-fab>
           </div>
 
           <div>
-            <calcite-fab scale="l" icon="arrow-right" label="FAB" color="inverse" appearance="solid"></calcite-fab>
+            <calcite-fab scale="l" icon="arrow-right" label="FAB" kind="inverse" appearance="solid"></calcite-fab>
           </div>
         </div>
 
@@ -354,7 +373,7 @@
               label="FAB"
               text="FAB"
               text-enabled
-              color="inverse"
+              kind="inverse"
               appearance="solid"
             ></calcite-fab>
           </div>
@@ -366,7 +385,7 @@
               label="FAB"
               text="FAB"
               text-enabled
-              color="inverse"
+              kind="inverse"
               appearance="solid"
             ></calcite-fab>
           </div>
@@ -378,28 +397,46 @@
               label="FAB"
               text="FAB"
               text-enabled
-              color="inverse"
+              kind="inverse"
               appearance="solid"
             ></calcite-fab>
           </div>
         </div>
 
-        <!-- outline default -->
+        <!-- outline-fill default -->
         <div class="child-flex">
           <div>
-            <calcite-fab scale="s" icon="arrow-right" label="FAB" color="inverse" appearance="outline"></calcite-fab>
+            <calcite-fab
+              scale="s"
+              icon="arrow-right"
+              label="FAB"
+              kind="inverse"
+              appearance="outline-fill"
+            ></calcite-fab>
           </div>
 
           <div>
-            <calcite-fab scale="m" icon="arrow-right" label="FAB" color="inverse" appearance="outline"></calcite-fab>
+            <calcite-fab
+              scale="m"
+              icon="arrow-right"
+              label="FAB"
+              kind="inverse"
+              appearance="outline-fill"
+            ></calcite-fab>
           </div>
 
           <div>
-            <calcite-fab scale="l" icon="arrow-right" label="FAB" color="inverse" appearance="outline"></calcite-fab>
+            <calcite-fab
+              scale="l"
+              icon="arrow-right"
+              label="FAB"
+              kind="inverse"
+              appearance="outline-fill"
+            ></calcite-fab>
           </div>
         </div>
 
-        <!-- outline with text -->
+        <!-- outline-fill with text -->
         <div class="child-flex">
           <div>
             <calcite-fab
@@ -408,8 +445,8 @@
               label="FAB"
               text="FAB"
               text-enabled
-              color="inverse"
-              appearance="outline"
+              kind="inverse"
+              appearance="outline-fill"
             ></calcite-fab>
           </div>
 
@@ -420,8 +457,8 @@
               label="FAB"
               text="FAB"
               text-enabled
-              color="inverse"
-              appearance="outline"
+              kind="inverse"
+              appearance="outline-fill"
             ></calcite-fab>
           </div>
 
@@ -432,8 +469,8 @@
               label="FAB"
               text="FAB"
               text-enabled
-              color="inverse"
-              appearance="outline"
+              kind="inverse"
+              appearance="outline-fill"
             ></calcite-fab>
           </div>
         </div>
@@ -452,15 +489,15 @@
         <!-- inverse default -->
         <div class="child-flex">
           <div>
-            <calcite-fab scale="s" icon="arrow-right" label="FAB" color="red" appearance="solid"></calcite-fab>
+            <calcite-fab scale="s" icon="arrow-right" label="FAB" kind="danger" appearance="solid"></calcite-fab>
           </div>
 
           <div>
-            <calcite-fab scale="m" icon="arrow-right" label="FAB" color="red" appearance="solid"></calcite-fab>
+            <calcite-fab scale="m" icon="arrow-right" label="FAB" kind="danger" appearance="solid"></calcite-fab>
           </div>
 
           <div>
-            <calcite-fab scale="l" icon="arrow-right" label="FAB" color="red" appearance="solid"></calcite-fab>
+            <calcite-fab scale="l" icon="arrow-right" label="FAB" kind="danger" appearance="solid"></calcite-fab>
           </div>
         </div>
 
@@ -473,7 +510,7 @@
               label="FAB"
               text="FAB"
               text-enabled
-              color="red"
+              kind="danger"
               appearance="solid"
             ></calcite-fab>
           </div>
@@ -485,7 +522,7 @@
               label="FAB"
               text="FAB"
               text-enabled
-              color="red"
+              kind="danger"
               appearance="solid"
             ></calcite-fab>
           </div>
@@ -497,28 +534,28 @@
               label="FAB"
               text="FAB"
               text-enabled
-              color="red"
+              kind="danger"
               appearance="solid"
             ></calcite-fab>
           </div>
         </div>
 
-        <!-- outline default -->
+        <!-- outline-fill default -->
         <div class="child-flex">
           <div>
-            <calcite-fab scale="s" icon="arrow-right" label="FAB" color="red" appearance="outline"></calcite-fab>
+            <calcite-fab scale="s" icon="arrow-right" label="FAB" kind="danger" appearance="outline-fill"></calcite-fab>
           </div>
 
           <div>
-            <calcite-fab scale="m" icon="arrow-right" label="FAB" color="red" appearance="outline"></calcite-fab>
+            <calcite-fab scale="m" icon="arrow-right" label="FAB" kind="danger" appearance="outline-fill"></calcite-fab>
           </div>
 
           <div>
-            <calcite-fab scale="l" icon="arrow-right" label="FAB" color="red" appearance="outline"></calcite-fab>
+            <calcite-fab scale="l" icon="arrow-right" label="FAB" kind="danger" appearance="outline-fill"></calcite-fab>
           </div>
         </div>
 
-        <!-- outline with text -->
+        <!-- outline-fill with text -->
         <div class="child-flex">
           <div>
             <calcite-fab
@@ -527,8 +564,8 @@
               label="FAB"
               text="FAB"
               text-enabled
-              color="red"
-              appearance="outline"
+              kind="danger"
+              appearance="outline-fill"
             ></calcite-fab>
           </div>
 
@@ -539,8 +576,8 @@
               label="FAB"
               text="FAB"
               text-enabled
-              color="red"
-              appearance="outline"
+              kind="danger"
+              appearance="outline-fill"
             ></calcite-fab>
           </div>
 
@@ -551,8 +588,8 @@
               label="FAB"
               text="FAB"
               text-enabled
-              color="red"
-              appearance="outline"
+              kind="danger"
+              appearance="outline-fill"
             ></calcite-fab>
           </div>
         </div>

@@ -38,7 +38,9 @@ import {
  */
 @Component({
   tag: "calcite-inline-editable",
-  shadow: true,
+  shadow: {
+    delegatesFocus: true
+  },
   styleUrl: "inline-editable.scss",
   assetsDirs: ["assets"]
 })
@@ -168,9 +170,9 @@ export class InlineEditable
           <calcite-button
             appearance="transparent"
             class={CSS.enableEditingButton}
-            color="neutral"
             disabled={this.disabled}
             iconStart="pencil"
+            kind="neutral"
             label={this.messages.enableEditing}
             onClick={this.enableEditingHandler}
             ref={(el) => (this.enableEditingButton = el)}
@@ -186,9 +188,9 @@ export class InlineEditable
               <calcite-button
                 appearance="transparent"
                 class={CSS.cancelEditingButton}
-                color="neutral"
                 disabled={this.disabled}
                 iconStart="x"
+                kind="neutral"
                 label={this.messages.cancelEditing}
                 onClick={this.cancelEditingHandler}
                 ref={(el) => (this.cancelEditingButton = el)}
@@ -199,9 +201,9 @@ export class InlineEditable
             <calcite-button
               appearance="solid"
               class={CSS.confirmChangesButton}
-              color="blue"
               disabled={this.disabled}
               iconStart="check"
+              kind="brand"
               label={this.messages.confirmChanges}
               loading={this.loading}
               onClick={this.confirmChangesHandler}
@@ -291,11 +293,7 @@ export class InlineEditable
   async setFocus(): Promise<void> {
     await componentLoaded(this);
 
-    if (this.editingEnabled) {
-      this.inputElement?.setFocus();
-    } else {
-      this.enableEditingButton?.setFocus();
-    }
+    this.el?.focus();
   }
 
   //--------------------------------------------------------------------------

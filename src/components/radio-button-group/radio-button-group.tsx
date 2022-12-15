@@ -19,7 +19,9 @@ import { Layout, Scale } from "../interfaces";
 @Component({
   tag: "calcite-radio-button-group",
   styleUrl: "radio-button-group.scss",
-  shadow: true
+  shadow: {
+    delegatesFocus: true
+  }
 })
 export class RadioButtonGroup {
   //--------------------------------------------------------------------------
