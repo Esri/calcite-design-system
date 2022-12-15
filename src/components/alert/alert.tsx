@@ -19,7 +19,8 @@ import {
   slotChangeHasAssignedElement
 } from "../../utils/dom";
 import { CSS, DURATIONS, SLOTS } from "./resources";
-import { Kind, KindIcons, Scale } from "../interfaces";
+import { Kind, Scale } from "../interfaces";
+import { KindIcons } from "../resources";
 import { AlertDuration, Sync } from "./interfaces";
 import {
   OpenCloseComponent,

@@ -11,7 +11,8 @@ import {
   Watch
 } from "@stencil/core";
 import { CSS, SLOTS } from "./resources";
-import { Kind, KindIcons, Scale, Width } from "../interfaces";
+import { Kind, Scale, Width } from "../interfaces";
+import { KindIcons } from "../resources";
 import { getSlotted, setRequestedIcon } from "../../utils/dom";
 import {
   ConditionalSlotComponent,
