@@ -214,14 +214,6 @@ export class Combobox
   }
 
   /**
-   * Accessible name for the component's remove tag when a `calcite-combobox-item` is selected.
-   *
-   * @default "Remove tag"
-   * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`.
-   */
-  @Prop({ reflect: false }) intlRemoveTag: string;
-
-  /**
    * Defines the available placements that can be used when a flip occurs.
    */
   @Prop() flipPlacements: EffectivePlacement[];
@@ -238,7 +230,6 @@ export class Combobox
    */
   @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
 
-  @Watch("intlRemoveTag")
   @Watch("messageOverrides")
   onMessagesChange(): void {
     /*  wired up by t9n util */
@@ -1074,10 +1065,10 @@ export class Combobox
         <calcite-chip
           class={chipClasses}
           closable
-          dismissLabel={messages.removeTag}
           icon={item.icon}
           id={item.guid ? `${chipUidPrefix}${item.guid}` : null}
           key={item.textLabel}
+          messageOverrides={{ dismissLabel: messages.removeTag }}
           onCalciteChipClose={() => this.calciteChipCloseHandler(item)}
           scale={scale}
           title={label}

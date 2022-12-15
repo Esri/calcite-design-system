@@ -88,20 +88,6 @@ export class Rating
   @Prop({ reflect: true }) name: string;
 
   /**
-   * Accessible name for the component.
-   *
-   * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`
-   */
-  @Prop() intlRating: string;
-
-  /**
-   * Accessible name for each star. The `${num}` in the string will be replaced by the number.
-   *
-   * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`
-   */
-  @Prop() intlStars: string;
-
-  /**
    * Made into a prop for testing purposes only
    *
    * @internal
@@ -120,8 +106,6 @@ export class Rating
    */
   @Prop({ reflect: true }) required = false;
 
-  @Watch("intlRating")
-  @Watch("intlStars")
   @Watch("messageOverrides")
   onMessagesChange(): void {
     /* wired up by t9n util */
@@ -169,7 +153,7 @@ export class Rating
   /**
    * Fires when the component's value changes.
    */
-  @Event({ cancelable: false }) calciteRatingChange: EventEmitter<{ value: number }>;
+  @Event({ cancelable: false }) calciteRatingChange: EventEmitter<void>;
 
   //--------------------------------------------------------------------------
   //
@@ -280,7 +264,7 @@ export class Rating
 
   private updateValue(value: number) {
     this.value = value;
-    this.calciteRatingChange.emit({ value });
+    this.calciteRatingChange.emit();
   }
 
   private onKeyboardPressed = (event: KeyboardEvent): void => {
