@@ -247,7 +247,7 @@ export class Filter
               clearable={true}
               disabled={disabled}
               icon={ICONS.search}
-              intlClear={this.messages.clear}
+              messageOverrides={{ clear: this.messages.clear }}
               onCalciteInputInput={this.inputHandler}
               onKeyDown={this.keyDownHandler}
               placeholder={this.placeholder}
