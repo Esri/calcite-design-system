@@ -136,7 +136,7 @@ describe("calcite-action", () => {
     await page.setContent(`<calcite-action indicator text="hello world"></calcite-action>`);
 
     const button = await page.find(`calcite-action >>> .${CSS.button}`);
-    expect(button.getAttribute("aria-label")).toBe(`hello world Indicator present`);
+    expect(button.getAttribute("aria-label")).toBe(`hello world (Indicator present)`);
   });
 
   it("should have label", async () => {
