@@ -19,6 +19,7 @@ import { BUDDHIST_CALENDAR_YEAR_OFFSET, CSS, ICON } from "./resources";
 import { isActivationKey } from "../../utils/key";
 import { numberStringFormatter } from "../../utils/locale";
 import { closestElementCrossShadowBoundary } from "../../utils/dom";
+import { Messages } from "../date-picker/assets/date-picker/t9n";
 
 @Component({
   tag: "calcite-date-picker-month-header",
@@ -57,20 +58,20 @@ export class DatePickerMonthHeader {
   /** Specifies the latest allowed date (`"yyyy-mm-dd"`). */
   @Prop() max: Date;
 
-  /** Accessible name for the component's previous month button. */
-  @Prop() intlPrevMonth: string;
-
-  /** Accessible name for the component's next month button. */
-  @Prop() intlNextMonth: string;
-
-  /** Accessible name for the component's year input. */
-  @Prop() intlYear: string;
-
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale;
 
   /** CLDR locale data for translated calendar info */
   @Prop() localeData: DateLocaleData;
+
+  /**
+   * This property specifies accessible strings for the component's previous month button ,next month button & year input elements.
+   * Made into a prop for testing purposes only.
+   *
+   * @internal
+   * @readonly
+   */
+  @Prop({ mutable: true }) messages: Messages;
 
   //--------------------------------------------------------------------------
   //
@@ -79,8 +80,10 @@ export class DatePickerMonthHeader {
   //--------------------------------------------------------------------------
   /**
    *  Changes to active date
+   *
+   * @internal
    */
-  @Event({ cancelable: false }) calciteDatePickerSelect: EventEmitter<Date>;
+  @Event({ cancelable: false }) calciteInternalDatePickerSelect: EventEmitter<Date>;
 
   //--------------------------------------------------------------------------
   //
@@ -104,7 +107,8 @@ export class DatePickerMonthHeader {
   }
 
   renderContent(): VNode {
-    if (!this.activeDate || !this.localeData) {
+    const { messages, localeData, activeDate } = this;
+    if (!activeDate || !localeData) {
       return null;
     }
 
@@ -118,20 +122,20 @@ export class DatePickerMonthHeader {
       };
     }
 
-    const activeMonth = this.activeDate.getMonth();
-    const { months, unitOrder } = this.localeData;
+    const activeMonth = activeDate.getMonth();
+    const { months, unitOrder } = localeData;
     const localizedMonth = (months.wide || months.narrow || months.abbreviated)[activeMonth];
-    const localizedYear = this.formatCalendarYear(this.activeDate.getFullYear());
+    const localizedYear = this.formatCalendarYear(activeDate.getFullYear());
     const iconScale = this.scale === "l" ? "m" : "s";
 
     const order = getOrder(unitOrder);
     const reverse = order.indexOf("y") < order.indexOf("m");
-    const suffix = this.localeData.year?.suffix;
+    const suffix = localeData.year?.suffix;
     return (
       <Fragment>
         <a
           aria-disabled={`${this.prevMonthDate.getMonth() === activeMonth}`}
-          aria-label={this.intlPrevMonth}
+          aria-label={messages.prevMonth}
           class={CSS.chevron}
           href="#"
           onClick={this.prevMonthClick}
@@ -147,7 +151,7 @@ export class DatePickerMonthHeader {
           </Heading>
           <span class={CSS.yearWrap}>
             <input
-              aria-label={this.intlYear}
+              aria-label={messages.year}
               class={{
                 year: true,
                 [CSS.yearSuffix]: !!suffix
@@ -168,7 +172,7 @@ export class DatePickerMonthHeader {
         </div>
         <a
           aria-disabled={`${this.nextMonthDate.getMonth() === activeMonth}`}
-          aria-label={this.intlNextMonth}
+          aria-label={messages.nextMonth}
           class={CSS.chevron}
           href="#"
           onClick={this.nextMonthClick}
@@ -289,7 +293,7 @@ export class DatePickerMonthHeader {
    */
   private handleArrowClick = (event: MouseEvent | KeyboardEvent, date: Date): void => {
     event.preventDefault();
-    this.calciteDatePickerSelect.emit(date);
+    this.calciteInternalDatePickerSelect.emit(date);
   };
 
   private getInRangeDate({
@@ -336,7 +340,7 @@ export class DatePickerMonthHeader {
 
     // if you've supplied a year and it's in range, update active date
     if (inRangeDate) {
-      this.calciteDatePickerSelect.emit(inRangeDate);
+      this.calciteInternalDatePickerSelect.emit(inRangeDate);
     }
 
     if (commit) {

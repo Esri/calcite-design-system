@@ -85,22 +85,6 @@ const createBlockAttributes: (options?: { exceptions: string[] }) => Attributes 
           delete this.build;
           return this;
         }
-      },
-      {
-        name: "intl-collapse",
-        commit(): Attribute {
-          this.value = text("intlCollapse", "Collapse", group);
-          delete this.build;
-          return this;
-        }
-      },
-      {
-        name: "intl-expand",
-        commit(): Attribute {
-          this.value = text("intlExpand", "Expand", group);
-          delete this.build;
-          return this;
-        }
       }
     ],
     exceptions
@@ -123,14 +107,6 @@ const createSectionAttributes: () => Attributes = () => {
     {
       name: "toggle-display",
       value: select("toggleDisplay", toggleDisplayOptions, toggleDisplayOptions[0], group)
-    },
-    {
-      name: "intl-collapse",
-      value: text("intlCollapse", "Collapse", group)
-    },
-    {
-      name: "intl-expand",
-      value: text("intlExpand", "Expand", group)
     }
   ];
 };

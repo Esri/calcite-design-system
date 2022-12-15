@@ -18,27 +18,36 @@ import {
   toAriaBoolean,
   slotChangeHasAssignedElement
 } from "../../utils/dom";
-import { CSS, DURATIONS, SLOTS, TEXT } from "./resources";
-import { Scale } from "../interfaces";
-import { AlertDuration, AlertPlacement, StatusColor, StatusIcons, Sync } from "./interfaces";
+import { CSS, DURATIONS, SLOTS } from "./resources";
+import { Kind, Scale } from "../interfaces";
+import { KindIcons } from "../resources";
+import { AlertDuration, Sync } from "./interfaces";
 import {
   OpenCloseComponent,
   connectOpenCloseComponent,
   disconnectOpenCloseComponent
 } from "../../utils/openCloseComponent";
 import {
-  LocalizedComponent,
   connectLocalized,
   disconnectLocalized,
   NumberingSystem,
   numberStringFormatter
 } from "../../utils/locale";
 import {
+  connectMessages,
+  disconnectMessages,
+  setUpMessages,
+  T9nComponent,
+  updateMessages
+} from "../../utils/t9n";
+import { Messages } from "./assets/alert/t9n";
+import {
   setUpLoadableComponent,
   setComponentLoaded,
   LoadableComponent,
   componentLoaded
 } from "../../utils/loadable";
+import { MenuPlacement } from "../../utils/floating-ui";
 
 /**
  * Alerts are meant to provide a way to communicate urgent or important information to users, frequently as a result of an action they took in your app. Alerts are positioned
@@ -55,9 +64,10 @@ import {
 @Component({
   tag: "calcite-alert",
   styleUrl: "alert.scss",
-  shadow: true
+  shadow: true,
+  assetsDirs: ["assets"]
 })
-export class Alert implements OpenCloseComponent, LocalizedComponent, LoadableComponent {
+export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -92,8 +102,8 @@ export class Alert implements OpenCloseComponent, LocalizedComponent, LoadableCo
   /** Specifies the duration before the component automatically closes (only use with `autoClose`). */
   @Prop({ reflect: true }) autoCloseDuration: AlertDuration = this.autoClose ? "medium" : null;
 
-  /** Specifies the color for the component (will apply to top border and icon). */
-  @Prop({ reflect: true }) color: StatusColor = "blue";
+  /** Specifies the kind of the component (will apply to top border and icon). */
+  @Prop({ reflect: true }) kind: Kind = "brand";
 
   /**
    * When `true`, shows a default recommended icon. Alternatively,
@@ -104,13 +114,6 @@ export class Alert implements OpenCloseComponent, LocalizedComponent, LoadableCo
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @Prop({ reflect: true }) iconFlipRtl = false;
 
-  /**
-   * Specifies the text label for the close button.
-   *
-   * @default "Close"
-   */
-  @Prop() intlClose: string = TEXT.intlClose;
-
   /** Specifies an accessible name for the component. */
   @Prop() label!: string;
 
@@ -120,15 +123,32 @@ export class Alert implements OpenCloseComponent, LocalizedComponent, LoadableCo
   @Prop({ reflect: true }) numberingSystem: NumberingSystem;
 
   /** Specifies the placement of the component */
-  @Prop({ reflect: true }) placement: AlertPlacement = "bottom";
+  @Prop({ reflect: true }) placement: MenuPlacement = "bottom";
 
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
 
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @internal
+   */
+  @Prop({ mutable: true }) messages: Messages;
+
+  /**
+   * Use this property to override individual strings used by the component.
+   */
+  @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
+
+  @Watch("messageOverrides")
+  onMessagesChange(): void {
+    /* wired up by t9n util */
+  }
+
   @Watch("icon")
-  @Watch("color")
+  @Watch("kind")
   updateRequestedIcon(): void {
-    this.requestedIcon = setRequestedIcon(StatusIcons, this.icon, this.color);
+    this.requestedIcon = setRequestedIcon(KindIcons, this.icon, this.kind);
   }
 
   @Watch("autoCloseDuration")
@@ -150,6 +170,7 @@ export class Alert implements OpenCloseComponent, LocalizedComponent, LoadableCo
 
   connectedCallback(): void {
     connectLocalized(this);
+    connectMessages(this);
     const open = this.open;
     if (open && !this.queued) {
       this.openHandler();
@@ -158,9 +179,10 @@ export class Alert implements OpenCloseComponent, LocalizedComponent, LoadableCo
     connectOpenCloseComponent(this);
   }
 
-  componentWillLoad(): void {
+  async componentWillLoad(): Promise<void> {
     setUpLoadableComponent(this);
-    this.requestedIcon = setRequestedIcon(StatusIcons, this.icon, this.color);
+    this.requestedIcon = setRequestedIcon(KindIcons, this.icon, this.kind);
+    await setUpMessages(this);
   }
 
   componentDidLoad(): void {
@@ -172,13 +194,14 @@ export class Alert implements OpenCloseComponent, LocalizedComponent, LoadableCo
     window.clearTimeout(this.queueTimeout);
     disconnectOpenCloseComponent(this);
     disconnectLocalized(this);
+    disconnectMessages(this);
   }
 
   render(): VNode {
     const { hasEndActions } = this;
     const closeButton = (
       <button
-        aria-label={this.intlClose}
+        aria-label={this.messages.close}
         class="alert-close"
         onClick={this.closeAlert}
         ref={(el) => (this.closeButton = el)}
@@ -204,7 +227,7 @@ export class Alert implements OpenCloseComponent, LocalizedComponent, LoadableCo
         </calcite-chip>
       </div>
     );
-    
+
     const { open, autoClose, label, placement, queued, requestedIcon, iconFlipRtl } = this;
     const role = autoClose ? "alert" : "alertdialog";
     const hidden = !open;
@@ -342,6 +365,13 @@ export class Alert implements OpenCloseComponent, LocalizedComponent, LoadableCo
   //--------------------------------------------------------------------------
 
   @State() effectiveLocale = "";
+
+  @Watch("effectiveLocale")
+  effectiveLocaleChange(): void {
+    updateMessages(this, this.effectiveLocale);
+  }
+
+  @State() defaultMessages: Messages;
 
   @State() hasEndActions = false;
 

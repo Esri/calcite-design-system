@@ -8,11 +8,12 @@ import {
   Watch,
   h,
   VNode,
-  Method
+  Method,
+  State
 } from "@stencil/core";
 import { Position, Scale, Layout } from "../interfaces";
 import { ExpandToggle, toggleChildActionText } from "../functional/ExpandToggle";
-import { CSS, SLOTS, TEXT } from "./resources";
+import { CSS, SLOTS } from "./resources";
 import { getSlotted, focusElement } from "../../utils/dom";
 import {
   geActionDimensions,
@@ -28,6 +29,15 @@ import {
   disconnectConditionalSlotComponent,
   ConditionalSlotComponent
 } from "../../utils/conditionalSlot";
+import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
+import {
+  connectMessages,
+  disconnectMessages,
+  setUpMessages,
+  T9nComponent,
+  updateMessages
+} from "../../utils/t9n";
+import { Messages } from "./assets/action-bar/t9n";
 import {
   setUpLoadableComponent,
   setComponentLoaded,
@@ -43,9 +53,12 @@ import {
 @Component({
   tag: "calcite-action-bar",
   styleUrl: "action-bar.scss",
-  shadow: true
+  shadow: true,
+  assetsDirs: ["assets"]
 })
-export class ActionBar implements ConditionalSlotComponent, LoadableComponent {
+export class ActionBar
+  implements ConditionalSlotComponent, LoadableComponent, LocalizedComponent, T9nComponent
+{
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -74,16 +87,6 @@ export class ActionBar implements ConditionalSlotComponent, LoadableComponent {
   }
 
   /**
-   * Specifies the label of the expand icon when the component is collapsed.
-   */
-  @Prop() intlExpand: string;
-
-  /**
-   * Specifies the label of the collapse icon when the component is expanded.
-   */
-  @Prop() intlCollapse: string;
-
-  /**
    *  The layout direction of the actions.
    */
   @Prop({ reflect: true }) layout: Extract<"horizontal" | "vertical", Layout> = "vertical";
@@ -109,6 +112,23 @@ export class ActionBar implements ConditionalSlotComponent, LoadableComponent {
    * Specifies the size of the expand `calcite-action`.
    */
   @Prop({ reflect: true }) scale: Scale;
+
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @internal
+   */
+  @Prop({ mutable: true }) messages: Messages;
+
+  /**
+   * Use this property to override individual strings used by the component.
+   */
+  @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
+
+  @Watch("messageOverrides")
+  onMessagesChange(): void {
+    /* wired up by t9n util */
+  }
 
   // --------------------------------------------------------------------------
   //
@@ -139,15 +159,20 @@ export class ActionBar implements ConditionalSlotComponent, LoadableComponent {
 
   expandToggleEl: HTMLCalciteActionElement;
 
+  @State() effectiveLocale: string;
+
+  @Watch("effectiveLocale")
+  effectiveLocaleChange(): void {
+    updateMessages(this, this.effectiveLocale);
+  }
+
+  @State() defaultMessages: Messages;
+
   // --------------------------------------------------------------------------
   //
   //  Lifecycle
   //
   // --------------------------------------------------------------------------
-
-  componentWillLoad(): void {
-    setUpLoadableComponent(this);
-  }
 
   componentDidLoad(): void {
     setComponentLoaded(this);
@@ -157,6 +182,8 @@ export class ActionBar implements ConditionalSlotComponent, LoadableComponent {
   connectedCallback(): void {
     const { el, expanded } = this;
 
+    connectLocalized(this);
+    connectMessages(this);
     toggleChildActionText({ parent: el, expanded });
 
     this.mutationObserver?.observe(el, { childList: true, subtree: true });
@@ -169,10 +196,17 @@ export class ActionBar implements ConditionalSlotComponent, LoadableComponent {
     connectConditionalSlotComponent(this);
   }
 
+  async componentWillLoad(): Promise<void> {
+    setUpLoadableComponent(this);
+    await setUpMessages(this);
+  }
+
   disconnectedCallback(): void {
     this.mutationObserver?.disconnect();
     this.resizeObserver?.disconnect();
     disconnectConditionalSlotComponent(this);
+    disconnectLocalized(this);
+    disconnectMessages(this);
   }
 
   // --------------------------------------------------------------------------
@@ -290,28 +324,16 @@ export class ActionBar implements ConditionalSlotComponent, LoadableComponent {
   // --------------------------------------------------------------------------
 
   renderBottomActionGroup(): VNode {
-    const {
-      expanded,
-      expandDisabled,
-      intlExpand,
-      intlCollapse,
-      el,
-      position,
-      toggleExpand,
-      scale,
-      layout
-    } = this;
+    const { expanded, expandDisabled, el, position, toggleExpand, scale, layout, messages } = this;
 
     const tooltip = getSlotted(el, SLOTS.expandTooltip) as HTMLCalciteTooltipElement;
-    const expandLabel = intlExpand || TEXT.expand;
-    const collapseLabel = intlCollapse || TEXT.collapse;
 
     const expandToggleNode = !expandDisabled ? (
       <ExpandToggle
         el={el}
         expanded={expanded}
-        intlCollapse={collapseLabel}
-        intlExpand={expandLabel}
+        intlCollapse={messages.collapse}
+        intlExpand={messages.expand}
         position={position}
         ref={this.setExpandToggleRef}
         scale={scale}

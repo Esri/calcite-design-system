@@ -24,8 +24,6 @@ import {
   datePartsFromLocalizedString
 } from "../../utils/date";
 import { HeadingLevel } from "../functional/Heading";
-
-import { TEXT } from "../date-picker/resources";
 import { CSS } from "./resources";
 import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
 import {
@@ -56,6 +54,7 @@ import {
   connectOpenCloseComponent,
   disconnectOpenCloseComponent
 } from "../../utils/openCloseComponent";
+import { Messages } from "../date-picker/assets/date-picker/t9n";
 import {
   connectLocalized,
   disconnectLocalized,
@@ -243,27 +242,6 @@ export class InputDatePicker
   @Prop({ reflect: true }) name: string;
 
   /**
-   * Accessible name for the component's previous month button.
-   *
-   * @default "Previous month"
-   */
-  @Prop() intlPrevMonth: string = TEXT.prevMonth;
-
-  /**
-   * Accessible name for the component's next month button.
-   *
-   * @default "Next month"
-   */
-  @Prop() intlNextMonth: string = TEXT.nextMonth;
-
-  /**
-   * Accessible name for the component's year input.
-   *
-   * @default "Year"
-   */
-  @Prop() intlYear: string = TEXT.year;
-
-  /**
    * Specifies the Unicode numeral system used by the component for localization. This property cannot be dynamically changed.
    *
    */
@@ -327,6 +305,11 @@ export class InputDatePicker
   /** Defines the layout of the component. */
   @Prop({ reflect: true }) layout: "horizontal" | "vertical" = "horizontal";
 
+  /**
+   * Use this property to override individual strings used by the component.
+   */
+  @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
+
   //--------------------------------------------------------------------------
   //
   //  Event Listeners
@@ -367,12 +350,6 @@ export class InputDatePicker
   //  Events
   //
   //--------------------------------------------------------------------------
-  /**
-   * Fires when a user changes the date.
-   *
-   * @deprecated use `calciteInputDatePickerChange` instead.
-   */
-  @Event({ cancelable: false }) calciteDatePickerChange: EventEmitter<Date>;
 
   /**
    * Fires when a user changes the date range.
@@ -574,11 +551,9 @@ export class InputDatePicker
                   activeRange={this.focusedInput}
                   endAsDate={this.endAsDate}
                   headingLevel={this.headingLevel}
-                  intlNextMonth={this.intlNextMonth}
-                  intlPrevMonth={this.intlPrevMonth}
-                  intlYear={this.intlYear}
                   max={this.max}
                   maxAsDate={this.maxAsDate}
+                  messageOverrides={this.messageOverrides}
                   min={this.min}
                   minAsDate={this.minAsDate}
                   numberingSystem={numberingSystem}
@@ -1002,9 +977,8 @@ export class InputDatePicker
     this.value = newValue || "";
 
     const changeEvent = this.calciteInputDatePickerChange.emit();
-    const deprecatedDatePickerChangeEvent = this.calciteDatePickerChange.emit(value as Date);
 
-    if (changeEvent.defaultPrevented || deprecatedDatePickerChangeEvent.defaultPrevented) {
+    if (changeEvent.defaultPrevented) {
       this.value = oldValue;
       this.setInputValue(oldValue as string);
     }

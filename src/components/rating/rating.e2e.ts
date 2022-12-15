@@ -1,5 +1,14 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { renders, accessible, focusable, labelable, formAssociated, disabled, hidden } from "../../tests/commonTests";
+import {
+  renders,
+  accessible,
+  focusable,
+  labelable,
+  formAssociated,
+  disabled,
+  hidden,
+  t9n
+} from "../../tests/commonTests";
 
 describe("calcite-rating", () => {
   it("renders", async () => renders("<calcite-rating></calcite-rating>", { display: "flex" }));
@@ -11,6 +20,8 @@ describe("calcite-rating", () => {
   it("is labelable", async () => labelable("calcite-rating"));
 
   it("can be disabled", () => disabled("<calcite-rating value='3'></calcite-rating>"));
+
+  it("supports translations", () => t9n("calcite-rating"));
 
   it("renders outlined star when no value or average is set", async () => {
     const page = await newE2EPage();
@@ -320,21 +331,12 @@ describe("calcite-rating", () => {
     await labels[0].click();
     expect(element).toEqualAttribute("value", "1");
     expect(changeEvent).toHaveReceivedEventTimes(1);
-    expect(changeEvent).toHaveReceivedEventDetail({
-      value: 1
-    });
     await labels[3].click();
     expect(element).toEqualAttribute("value", "4");
     expect(changeEvent).toHaveReceivedEventTimes(2);
-    expect(changeEvent).toHaveReceivedEventDetail({
-      value: 4
-    });
     await labels[3].click();
     expect(element).toEqualAttribute("value", "0");
     expect(changeEvent).toHaveReceivedEventTimes(3);
-    expect(changeEvent).toHaveReceivedEventDetail({
-      value: 0
-    });
   });
 
   it("can be edited with keyboard like a set of radio inputs", async () => {
@@ -347,46 +349,22 @@ describe("calcite-rating", () => {
     expect(changeEvent).toHaveReceivedEventTimes(0);
     await element.press(" ");
     expect(changeEvent).toHaveReceivedEventTimes(1);
-    expect(changeEvent).toHaveReceivedEventDetail({
-      value: 0
-    });
     await page.keyboard.press("ArrowRight");
     expect(changeEvent).toHaveReceivedEventTimes(2);
-    expect(changeEvent).toHaveReceivedEventDetail({
-      value: 2
-    });
     await page.keyboard.press("ArrowLeft");
     expect(changeEvent).toHaveReceivedEventTimes(3);
-    expect(changeEvent).toHaveReceivedEventDetail({
-      value: 1
-    });
     await page.keyboard.press("ArrowLeft");
     expect(changeEvent).toHaveReceivedEventTimes(4);
-    expect(changeEvent).toHaveReceivedEventDetail({
-      value: 5
-    });
     await page.keyboard.press("ArrowRight");
     expect(changeEvent).toHaveReceivedEventTimes(5);
-    expect(changeEvent).toHaveReceivedEventDetail({
-      value: 1
-    });
     await page.keyboard.press("Enter");
     expect(changeEvent).toHaveReceivedEventTimes(6);
-    expect(changeEvent).toHaveReceivedEventDetail({
-      value: 0
-    });
     await labels[3].click();
     expect(element).toEqualAttribute("value", "4");
     expect(changeEvent).toHaveReceivedEventTimes(7);
-    expect(changeEvent).toHaveReceivedEventDetail({
-      value: 4
-    });
     await labels[3].click();
     expect(element).toEqualAttribute("value", "0");
     expect(changeEvent).toHaveReceivedEventTimes(8);
-    expect(changeEvent).toHaveReceivedEventDetail({
-      value: 0
-    });
   });
 
   it("cannot be cleared/reset when required props is set true", async () => {
@@ -404,15 +382,9 @@ describe("calcite-rating", () => {
     await labels[3].click();
     expect(element).toEqualAttribute("value", "4");
     expect(changeEvent).toHaveReceivedEventTimes(1);
-    expect(changeEvent).toHaveReceivedEventDetail({
-      value: 4
-    });
     await labels[3].click();
     expect(element).toEqualAttribute("value", "4");
     expect(changeEvent).toHaveReceivedEventTimes(1);
-    expect(changeEvent).toHaveReceivedEventDetail({
-      value: 4
-    });
   });
 
   it("disables click interaction when readonly is requested", async () => {

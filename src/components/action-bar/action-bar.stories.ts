@@ -9,7 +9,6 @@ import {
 import readme from "./readme.md";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { html } from "../../../support/formatting";
-import { TEXT } from "./resources";
 import { storyFilters } from "../../../.storybook/helpers";
 
 export default {
@@ -37,22 +36,6 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
         name: "expanded",
         commit(): Attribute {
           this.value = boolean("expanded", false);
-          delete this.build;
-          return this;
-        }
-      },
-      {
-        name: "intl-expand",
-        commit(): Attribute {
-          this.value = text("intlExpand", TEXT.expand);
-          delete this.build;
-          return this;
-        }
-      },
-      {
-        name: "intl-collapse",
-        commit(): Attribute {
-          this.value = text("intlCollapse", TEXT.collapse);
           delete this.build;
           return this;
         }
@@ -178,3 +161,33 @@ export const withTooltip_NoTest = (): string =>
 withTooltip_NoTest.parameters = {
   chromatic: { disableSnapshot: true }
 };
+
+export const hebrewLocale_TestOnly = (): string => `<calcite-action-bar expanded lang="he">
+<calcite-action text="Information" icon="information"></calcite-action>
+<calcite-action text="Feedback" slot="bottom-actions" icon="mega-phone"></calcite-action>
+</calcite-action-bar>`;
+
+export const norwegianLocale_TestOnly = (): string => `<calcite-action-bar expanded lang="nb">
+<calcite-action text="Information" icon="information"></calcite-action>
+<calcite-action text="Feedback" slot="bottom-actions" icon="mega-phone"></calcite-action>
+</calcite-action-bar>`;
+
+export const FrenchLocale_TestOnly = (): string => `<calcite-action-bar expanded lang="fr">
+<calcite-action text="Information" icon="information"></calcite-action>
+<calcite-action text="Feedback" slot="bottom-actions" icon="mega-phone"></calcite-action>
+</calcite-action-bar>`;
+
+export const hongKongLocale_TestOnly = (): string => `<calcite-action-bar expanded lang="zh-HK">
+<calcite-action text="Information" icon="information"></calcite-action>
+<calcite-action text="Feedback" slot="bottom-actions" icon="mega-phone"></calcite-action>
+</calcite-action-bar>`;
+
+export const ukranianLocale_TestOnly = (): string => `<calcite-action-bar expanded lang="uk">
+<calcite-action text="Information" icon="information"></calcite-action>
+<calcite-action text="Feedback" slot="bottom-actions" icon="mega-phone"></calcite-action>
+</calcite-action-bar>`;
+
+export const bosnianLocale_TestOnly = (): string => `<calcite-action-bar expanded lang="bs">
+<calcite-action text="Information" icon="information"></calcite-action>
+<calcite-action text="Feedback" slot="bottom-actions" icon="mega-phone"></calcite-action>
+</calcite-action-bar>`;

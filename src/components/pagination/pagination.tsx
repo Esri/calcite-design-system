@@ -19,7 +19,15 @@ import {
   numberStringFormatter,
   NumberingSystem
 } from "../../utils/locale";
-import { CSS, TEXT } from "./resources";
+import { CSS } from "./resources";
+import { Messages } from "./assets/pagination/t9n";
+import {
+  connectMessages,
+  disconnectMessages,
+  setUpMessages,
+  T9nComponent,
+  updateMessages
+} from "../../utils/t9n";
 
 const maxPagesDisplayed = 5;
 export interface PaginationDetail {
@@ -31,9 +39,10 @@ export interface PaginationDetail {
 @Component({
   tag: "calcite-pagination",
   styleUrl: "pagination.scss",
-  shadow: true
+  shadow: true,
+  assetsDirs: ["assets"]
 })
-export class Pagination implements LocalizedComponent {
+export class Pagination implements LocalizedComponent, LocalizedComponent, T9nComponent {
   //--------------------------------------------------------------------------
   //
   //  Public Properties
@@ -44,6 +53,16 @@ export class Pagination implements LocalizedComponent {
    * When `true`, number values are displayed with a group separator corresponding to the language and country format.
    */
   @Prop({ reflect: true }) groupSeparator = false;
+
+  /**
+   * Use this property to override individual strings used by the component.
+   */
+  @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
+
+  @Watch("messageOverrides")
+  onMessagesChange(): void {
+    /* wired up by t9n util */
+  }
 
   /** Specifies the number of items per page. */
   @Prop({ reflect: true }) num = 20;
@@ -58,20 +77,6 @@ export class Pagination implements LocalizedComponent {
 
   /** Specifies the total number of items. */
   @Prop({ reflect: true }) total = 0;
-
-  /**
-   * Accessible name for the component's next button.
-   *
-   * @default "Next"
-   */
-  @Prop() textLabelNext: string = TEXT.nextLabel;
-
-  /**
-   * Accessible name for the component's previous button.
-   *
-   * @default "Previous"
-   */
-  @Prop() textLabelPrevious: string = TEXT.previousLabel;
 
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
@@ -89,7 +94,14 @@ export class Pagination implements LocalizedComponent {
   //
   //--------------------------------------------------------------------------
 
+  @State() defaultMessages: Messages;
+
   @State() effectiveLocale = "";
+
+  @Watch("effectiveLocale")
+  effectiveLocaleChange(): void {
+    updateMessages(this, this.effectiveLocale);
+  }
 
   @Watch("effectiveLocale")
   effectiveLocaleWatcher(): void {
@@ -100,6 +112,13 @@ export class Pagination implements LocalizedComponent {
     };
   }
 
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @internal
+   */
+  @Prop({ mutable: true }) messages: Messages;
+
   //--------------------------------------------------------------------------
   //
   //  Events
@@ -108,10 +127,8 @@ export class Pagination implements LocalizedComponent {
 
   /**
    * Emits when the selected page changes.
-   *
-   * @see [PaginationDetail](https://github.com/Esri/calcite-components/blob/master/src/components/pagination/pagination.tsx#L23)
    */
-  @Event({ cancelable: false }) calcitePaginationChange: EventEmitter<PaginationDetail>;
+  @Event({ cancelable: false }) calcitePaginationChange: EventEmitter<void>;
 
   // --------------------------------------------------------------------------
   //
@@ -121,10 +138,16 @@ export class Pagination implements LocalizedComponent {
 
   connectedCallback(): void {
     connectLocalized(this);
+    connectMessages(this);
+  }
+
+  async componentWillLoad(): Promise<void> {
+    await setUpMessages(this);
   }
 
   disconnectedCallback(): void {
     disconnectLocalized(this);
+    disconnectMessages(this);
   }
 
   // --------------------------------------------------------------------------
@@ -176,13 +199,7 @@ export class Pagination implements LocalizedComponent {
   }
 
   private emitUpdate() {
-    const changePayload = {
-      start: this.start,
-      total: this.total,
-      num: this.num
-    };
-
-    this.calcitePaginationChange.emit(changePayload);
+    this.calcitePaginationChange.emit();
   }
 
   //--------------------------------------------------------------------------
@@ -271,7 +288,7 @@ export class Pagination implements LocalizedComponent {
     return (
       <Fragment>
         <button
-          aria-label={this.textLabelPrevious}
+          aria-label={this.messages.previous}
           class={{
             [CSS.previous]: true,
             [CSS.disabled]: prevDisabled
@@ -287,7 +304,7 @@ export class Pagination implements LocalizedComponent {
         {this.renderRightEllipsis()}
         {this.renderPage(this.getLastStart())}
         <button
-          aria-label={this.textLabelNext}
+          aria-label={this.messages.next}
           class={{
             [CSS.next]: true,
             [CSS.disabled]: nextDisabled

@@ -7,14 +7,14 @@ import {
   labelable,
   reflects,
   renders,
-  hidden
+  hidden,
+  t9n
 } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { letterKeys, numberKeys } from "../../utils/key";
 import { locales, numberStringFormatter } from "../../utils/locale";
 import { getElementXY } from "../../tests/utils";
 import { KeyInput } from "puppeteer";
-import { TEXT } from "./resources";
 
 describe("calcite-input", () => {
   const delayFor2UpdatesInMs = 200;
@@ -696,7 +696,7 @@ describe("calcite-input", () => {
     await page.setContent(html`<calcite-input clearable value="John Doe"></calcite-input>`);
     const clearButton = await page.find("calcite-input >>> .clear-button");
     expect(clearButton).not.toBe(null);
-    expect(clearButton.getAttribute("aria-label")).toBe(TEXT.clear);
+    expect(clearButton.getAttribute("aria-label")).toBe("Clear value");
   });
 
   it("does not render clear button when clearable is requested and value is not populated", async () => {
@@ -1054,7 +1054,7 @@ describe("calcite-input", () => {
 
   describe("number locale support", () => {
     // "nb" and "es-MX" locales skipped per: https://github.com/Esri/calcite-components/issues/2323
-    const localesWithIssues = ["ar", "bs", "mk", "nb", "es-MX"];
+    const localesWithIssues = ["ar", "bs", "mk", "no", "es-MX"];
     locales
       .filter((locale) => !localesWithIssues.includes(locale))
       .forEach((locale) => {
@@ -1607,4 +1607,6 @@ describe("calcite-input", () => {
     it("supports type=number", () =>
       formAssociated("<calcite-input type='number'></calcite-input>", { testValue: 5, submitsOnEnter: true }));
   });
+
+  it("supports translation", () => t9n("calcite-input"));
 });
