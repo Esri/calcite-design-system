@@ -334,15 +334,9 @@ describe("calcite-rating", () => {
     await labels[3].click();
     expect(element).toEqualAttribute("value", "4");
     expect(changeEvent).toHaveReceivedEventTimes(2);
-    expect(changeEvent).toHaveReceivedEventDetail({
-      value: 4
-    });
     await labels[3].click();
     expect(element).toEqualAttribute("value", "0");
     expect(changeEvent).toHaveReceivedEventTimes(3);
-    expect(changeEvent).toHaveReceivedEventDetail({
-      value: 0
-    });
   });
 
   it("can be edited with keyboard like a set of radio inputs", async () => {
