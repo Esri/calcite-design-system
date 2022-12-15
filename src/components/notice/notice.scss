@@ -163,17 +163,17 @@
   @apply flex self-stretch;
 }
 
-$noticeColors: "blue" var(--calcite-ui-brand), "red" var(--calcite-ui-danger), "yellow" var(--calcite-ui-warning),
-  "green" var(--calcite-ui-success);
+$noticeKinds: "brand" var(--calcite-ui-brand), "info" var(--calcite-ui-info), "danger" var(--calcite-ui-danger),
+  "success" var(--calcite-ui-success), "warning" var(--calcite-ui-warning);
 
-@each $noticeColor in $noticeColors {
-  $name: nth($noticeColor, 1);
-  $color: nth($noticeColor, 2);
+@each $noticeKind in $noticeKinds {
+  $name: nth($noticeKind, 1);
+  $kind: nth($noticeKind, 2);
 
-  :host([color="#{$name}"]) .container {
-    border-color: $color;
+  :host([kind="#{$name}"]) .container {
+    border-color: $kind;
     & .notice-icon {
-      color: $color;
+      color: $kind;
     }
   }
 }
