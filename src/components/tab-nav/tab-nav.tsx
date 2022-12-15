@@ -279,8 +279,6 @@ export class TabNav {
 
   /**
    * Emits when the selected `calcite-tab` changes.
-   *
-   * @see [TabChangeEventDetail](https://github.com/Esri/calcite-components/blob/master/src/components/tab/interfaces.ts#L1)
    */
   @Event({ cancelable: false }) calciteTabChange: EventEmitter<void>;
 
