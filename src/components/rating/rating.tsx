@@ -88,20 +88,6 @@ export class Rating
   @Prop({ reflect: true }) name: string;
 
   /**
-   * Accessible name for the component.
-   *
-   * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`
-   */
-  @Prop() intlRating: string;
-
-  /**
-   * Accessible name for each star. The `${num}` in the string will be replaced by the number.
-   *
-   * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`
-   */
-  @Prop() intlStars: string;
-
-  /**
    * Made into a prop for testing purposes only
    *
    * @internal
@@ -120,8 +106,6 @@ export class Rating
    */
   @Prop({ reflect: true }) required = false;
 
-  @Watch("intlRating")
-  @Watch("intlStars")
   @Watch("messageOverrides")
   onMessagesChange(): void {
     /* wired up by t9n util */
