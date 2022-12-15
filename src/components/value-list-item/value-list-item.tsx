@@ -59,7 +59,7 @@ export class ValueListItem
   /**
    * @internal
    */
-  @Prop() disableDeselect = false;
+  @Prop() deselectDisabled = false;
 
   /**
    * When `true`, prevents the content of the component from user interaction.
@@ -258,7 +258,7 @@ export class ValueListItem
         {this.renderHandle()}
         <calcite-pick-list-item
           description={this.description}
-          disableDeselect={this.disableDeselect}
+          deselectDisabled={this.deselectDisabled}
           disabled={this.disabled}
           label={this.label}
           metadata={this.metadata}

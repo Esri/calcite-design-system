@@ -93,7 +93,7 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent, Float
    * If the `selectionMode` of the selected `calcite-dropdown-item`'s containing `calcite-dropdown-group` is `"none"`, the component will always close.
    *
    */
-  @Prop({ reflect: true }) disableCloseOnSelect = false;
+  @Prop({ reflect: true }) closeOnSelectDisabled = false;
 
   /**
    * When `true`, interaction is prevented and the component is displayed with lower opacity.
@@ -384,7 +384,7 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent, Float
       item: event.detail.requestedDropdownItem
     });
     if (
-      !this.disableCloseOnSelect ||
+      !this.closeOnSelectDisabled ||
       event.detail.requestedDropdownGroup.selectionMode === "none"
     ) {
       this.closeCalciteDropdown();

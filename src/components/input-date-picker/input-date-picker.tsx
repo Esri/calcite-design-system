@@ -242,30 +242,6 @@ export class InputDatePicker
   @Prop({ reflect: true }) name: string;
 
   /**
-   * Accessible name for the component's previous month button.
-   *
-   * @default "Previous month"
-   * @deprecated - translations are now built-in, if you need to override a string, please use `messageOverrides`
-   */
-  @Prop() intlPrevMonth?: string;
-
-  /**
-   * Accessible name for the component's next month button.
-   *
-   * @default "Next month"
-   * @deprecated - translations are now built-in, if you need to override a string, please use `messageOverrides`
-   */
-  @Prop() intlNextMonth?: string;
-
-  /**
-   * Accessible name for the component's year input.
-   *
-   * @default "Year"
-   * @deprecated - translations are now built-in, if you need to override a string, please use `messageOverrides`
-   */
-  @Prop() intlYear?: string;
-
-  /**
    * Specifies the Unicode numeral system used by the component for localization. This property cannot be dynamically changed.
    *
    */
@@ -374,12 +350,6 @@ export class InputDatePicker
   //  Events
   //
   //--------------------------------------------------------------------------
-  /**
-   * Fires when a user changes the date.
-   *
-   * @deprecated use `calciteInputDatePickerChange` instead.
-   */
-  @Event({ cancelable: false }) calciteDatePickerChange: EventEmitter<Date>;
 
   /**
    * Fires when a user changes the date range.
@@ -581,10 +551,6 @@ export class InputDatePicker
                   activeRange={this.focusedInput}
                   endAsDate={this.endAsDate}
                   headingLevel={this.headingLevel}
-                  //t9n props are used here to forward the messages only.
-                  intlNextMonth={this.intlNextMonth}
-                  intlPrevMonth={this.intlPrevMonth}
-                  intlYear={this.intlYear}
                   max={this.max}
                   maxAsDate={this.maxAsDate}
                   messageOverrides={this.messageOverrides}
@@ -1011,9 +977,8 @@ export class InputDatePicker
     this.value = newValue || "";
 
     const changeEvent = this.calciteInputDatePickerChange.emit();
-    const deprecatedDatePickerChangeEvent = this.calciteDatePickerChange.emit(value as Date);
 
-    if (changeEvent.defaultPrevented || deprecatedDatePickerChangeEvent.defaultPrevented) {
+    if (changeEvent.defaultPrevented) {
       this.value = oldValue;
       this.setInputValue(oldValue as string);
     }

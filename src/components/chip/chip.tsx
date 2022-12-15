@@ -64,14 +64,6 @@ export class Chip
   /** When `true`, a close button is added to the component. */
   @Prop({ reflect: true, mutable: true }) closable = false;
 
-  /**
-   * Accessible name for the component's close button.
-   *
-   * @default "Close"
-   * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`
-   */
-  @Prop() dismissLabel?: string;
-
   /** Specifies an icon to display. */
   @Prop({ reflect: true }) icon: string;
 
@@ -99,7 +91,6 @@ export class Chip
    */
   @Prop({ mutable: true }) messages: Messages;
 
-  @Watch("dismissLabel")
   @Watch("messageOverrides")
   onMessagesChange(): void {
     /* wired up by t9n util */
@@ -190,16 +181,6 @@ export class Chip
   private closeButton: HTMLButtonElement;
 
   private guid: string = guid();
-
-  getExtraMessageOverrides(): Partial<Messages> {
-    const extraOverrides: Partial<Messages> = {};
-
-    if (this.dismissLabel) {
-      extraOverrides.dismissLabel = this.dismissLabel;
-    }
-
-    return extraOverrides;
-  }
 
   //--------------------------------------------------------------------------
   //

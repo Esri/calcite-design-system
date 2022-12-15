@@ -9,57 +9,238 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### ⚠ BREAKING CHANGES
 
-- **date-picker:** Removed the `start` and `end` properties, set `value`
+- **chip,card,combobox,date-picker,flow,flow-item,filter, input-date-picker:** Removed deprecated intl\* & accessible label properties.
+
+* card:
+
+- Removed the property` intlLoading` , use `messsageOverrides.loading`
+  instead.
+- Removed the property `intlSelect` use `messageOverrides.select`
+  instead.
+- Removed the property `intlDeselect` use `messageOverrides.deselect`
+  instead.
+
+* chip:
+
+- Removed the property `dismissLabel` , use
+  `messsageOverrides.dismissLabel ` instead.
+
+* color-picker:
+  - Removed the property `intlB` , use `messsageOverrides.b` instead.
+
+- Removed the property `intlBlue` , use `messsageOverrides.blue`
+  instead.
+- Removed the property `intlDeleteColor` , use
+  `messsageOverrides.deleteColor` instead.
+  - Removed the property `intlG` , use `messsageOverrides.g` instead.
+- Removed the property `intlGreen` , use `messsageOverrides.green`
+  instead.
+  - Removed the property `intlH` , use `messsageOverrides.h` instead.
+- Removed the property `intlHsv` , use `messsageOverrides.hsv` instead.
+- Removed the property `intlHex` , use `messsageOverrides.hex` instead.
+- Removed the property `intlHue` , use `messsageOverrides.hue` instead.
+- Removed the property `intlNoColor` , use `messsageOverrides.noColor`
+  instead.
+  - Removed the property `intlR` , use `messsageOverrides.r` instead.
+- Removed the property `intlRed` , use `messsageOverrides.red` instead.
+- Removed the property `intlRgb` , use `messsageOverrides.rgb` instead.
+  - Removed the property `intlS` , use `messsageOverrides.s` instead.
+- Removed the property `intlSaturation` , use
+  `messsageOverrides.saturation` instead.
+- Removed the property `intlSaveColor` , use
+  `messsageOverrides.saveColor` instead.
+- Removed the property `intlSaved` , use `messsageOverrides.saved`
+  instead.
+  - Removed the property `intlV` , use `messsageOverrides.v` instead.
+- Removed the property `intlValue` , use `messsageOverrides.value`
+  instead.
+
+* combobox:
+
+- Removed the property `intlRemoveTag` , use
+  `messsageOverrides.removeTag` instead.
+
+* date-picker
+
+- Removed the property `intlNextMonth`, use `messageOverrides.nextMonth`
+  instead.
+- Removed the property `intlPrevMonth`, use `messageOverrides.prevMonth`
+  instead.
+- Removed the property `intlYear`, use `messageOverrides.year` instead.
+
+* flow-item:
+
+- Removed the property `intlBack` , use `messsageOverrides.back`
+  instead.
+- Removed the property `intlClose`, use `messageOverrides.close`
+  instead.
+- Removed the property `intlOptions` , use `messsageOverrides.options`
+  instead.
+
+* filter:
+
+- Removed the property `intlClear`, use `messsageOverrides.clear`
+  instead.
+- Removed the property `intlLabel`, use `messageOverrides.label`
+  instead.
+
+* input-date-picker:
+
+- Removed the property `intlNextMonth`, use `messageOverrides.nextMonth`
+  instead.
+- Removed the property `intlPrevMonth`, use `messageOverrides.prevMonth`
+  instead.
+- Removed the property `intlYear`, use `messageOverrides.year` instead.
+- **action,action-bar,action-group,action-pad,alert,block-section,block,button:** Removed deprecated `intl*` properties , use
+  `messageOverrides` property instead.
+
+* action:
+
+- Removed the property `intlLoading` , use `messsageOverrides.loading`
+  instead.
+- Removed the property `intlIndicator`, use `messageOverrides.indicator`
+  instead.
+
+* action-bar:
+
+- Removed the property `intlExpand` , use `messsageOverrides.expand`
+  instead.
+- Removed the property `intlCollapse`, use `messageOverrides.collapse`
+  instead.
+
+* action-group:
+
+- Removed the property `intlMore` , use `messsageOverrides.more`
+  instead.
+
+* action-pad:
+
+- Removed the property `intlExpand` , use `messsageOverrides.expand`
+  instead.
+- Removed the property `intlCollapse`, use `messageOverrides.collapse`
+  instead.
+
+* alert:
+
+- Removed the property `intlClose`, use `messageOverrides.close`
+  instead.
+
+* block:
+
+- Removed the property `intlExpand` , use `messsageOverrides.expand`
+  instead.
+- Removed the property `intlCollapse`, use `messageOverrides.collapse`
+  instead.
+- Removed the property `intlLoading` , use `messsageOverrides.loading`
+  instead.
+- Removed the property `intlOptions`, use `messageOverrides.options`
+  instead.
+
+* block-section:
+
+- Removed the property `intlExpand` , use `messsageOverrides.expand`
+  instead.
+- Removed the property `intlCollapse`, use `messageOverrides.collapse`
+  instead.
+
+* button:
+
+- Removed the property `intlLoading` , use `messsageOverrides.loading`
+  instead.
+
+Signed-off-by: dependabot[bot] <support@github.com>
+Co-authored-by: JC Franco <jfranco@esri.com>
+Co-authored-by: Ben Elan <benelan@users.noreply.github.com>
+Co-authored-by: jona7150 <jturpin@esri.com>
+Co-authored-by: Ben Elan <belan@esri.com>
+Co-authored-by: Calcite Admin <calcite-admin@esri.com>
+Co-authored-by: jcfranco <jcfranco@users.noreply.github.com>
+Co-authored-by: Kitty Hurley <khurley@esri.com>
+Co-authored-by: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>
+Co-authored-by: Eliza Khachatryan <eli97736@esri.com>
+Co-authored-by: github-actions[bot] <github-actions[bot]@users.noreply.github.com>
+Co-authored-by: Matt Driscoll <mdriscoll@esri.com>
+Co-authored-by: Alison Stump <alisonailea@users.noreply.github.com>
+
+- **popover, dropdown, modal, pick-list-item, value-list-item:** Renamed `disable*` properties.
+
+* Dropdown
+* Renamed the property `disableCloseOnSelect`, use
+  `closeOnSelectDisabled` instead.
+* Modal
+* Renamed the property `disableCloseButton`, use `closeButtonDisabled`
+  instead.
+* Renamed the property `disableFocusTrap`, use `focusTrapDisabled`
+  instead.
+* Renamed the property `disableOutsideClose`, use `outsideCloseDisabled`
+  instead.
+  - Renamed the property `disableEscape`, use `escapeDisabled` instead.
+* PickListItem
+* Renamed the property `disableDeselect`, use `deselectDisabled`
+  instead.
+* Popover
+  - Renamed the property `disableFlip`, use `flipDisabled` instead.
+* Renamed the property `disableFocusTrap`, use `focusTrapDisabled`
+  instead.
+* Renamed the property `disablePointer`, use `pointerDisabled` instead.
+* ValueListItem
+* Renamed the property `disableDeselect`, use `deselectDisabled`
+  instead.
+
+- **input-date-picker:** Removed the `calciteDatePickerChange` event, use
+  `calciteInputDatePickerChange` instead.
+
+* **date-picker:** Removed the `start` and `end` properties, set `value`
   as an array with the start as the first value and the end as the second
   value instead.
 
-* **combobox:** Renamed event.
+- **combobox:** Renamed event.
 
-- Renamed the event `calciteComboboxChipDismiss`, use
+* Renamed the event `calciteComboboxChipDismiss`, use
   `calciteComboboxChipClose` instead.
 
-* **alert:** Renamed properties.
+- **alert:** Renamed properties.
 
-- Renamed the property `autoDismiss`, use `autoClose` instead.
-- Renamed the property `autoDismissDuration`, use `autoCloseDuration`
+* Renamed the property `autoDismiss`, use `autoClose` instead.
+* Renamed the property `autoDismissDuration`, use `autoCloseDuration`
   instead.
 
-* **combobox:** Removed `event.detail` payload from events and added
+- **combobox:** Removed `event.detail` payload from events and added
   properties `selectedItems` and `filteredItems`.
 
-- Removed the `event.detail` property on the event
+* Removed the `event.detail` property on the event
   `calciteComboboxChange`, use `event.target.selectedItems` instead.
-- Removed the `event.detail` property on the event
+* Removed the `event.detail` property on the event
   `calciteComboboxFilterChange`, use `event.target.filteredItems` or
   `event.target.value` instead.
 
-* **chip:** Renamed event.
+- **chip:** Renamed event.
 
-- Renamed the event `calciteChipDismiss`, use `calciteChipClose`
+* Renamed the event `calciteChipDismiss`, use `calciteChipClose`
   instead.
 
-* **tip:** Renamed property.
+- **tip:** Renamed property.
 
-- Renamed the property `nonDismissible`, use `closeDisabled` instead.
+* Renamed the property `nonDismissible`, use `closeDisabled` instead.
 
-* **date-picker:** Removed `event.detail` payload from events.
+- **date-picker:** Removed `event.detail` payload from events.
 
-- Removed the `event.detail` property on the event
+* Removed the `event.detail` property on the event
   `calciteDatePickerChange`, use `event.target` instead.
-- Removed the `event.detail` property on the event
+* Removed the `event.detail` property on the event
   `calciteDatePickerRangeChange`, use `event.target` instead.
 
-- **modal:** Removed deprecated properties and method.
+* **modal:** Removed deprecated properties and method.
 
-* Removed the property `active`, use `open` instead.
-* Removed the property noPadding, use `--calcite-modal-padding` CSS
+- Removed the property `active`, use `open` instead.
+- Removed the property noPadding, use `--calcite-modal-padding` CSS
   property instead.
-* Removed the method `focusElement`, use `setFocus` method instead.
-* Removed the CSS property ` --calcite-modal-content-text`.
-* Removed the CSS property `--calcite-modal-padding-large`.
-* Removed the CSS property `--calcite-modal-title-text`.
+- Removed the method `focusElement`, use `setFocus` method instead.
+- Removed the CSS property ` --calcite-modal-content-text`.
+- Removed the CSS property `--calcite-modal-padding-large`.
+- Removed the CSS property `--calcite-modal-title-text`.
 
-- **pagination:** Removed deprecated event.
+* **pagination:** Removed deprecated event.
 
 Removed the event `calcitePaginationUpdate` event, use
 `calcitePaginationChange` event instead.

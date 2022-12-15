@@ -45,7 +45,6 @@ describe("calcite-input-date-picker", () => {
 
       const input = await page.find("calcite-input-date-picker");
       const changeEvent = await page.spyOnEvent("calciteInputDatePickerChange");
-      const deprecatedChangeEvent = await page.spyOnEvent("calciteDatePickerChange");
 
       expect(await input.getProperty("value")).toBe("");
 
@@ -67,7 +66,6 @@ describe("calcite-input-date-picker", () => {
       expect(await input.getProperty("valueAsDate")).toBeDefined();
 
       expect(changeEvent).toHaveReceivedEventTimes(1);
-      expect(deprecatedChangeEvent).toHaveReceivedEventTimes(1);
 
       await page.keyboard.press("Backspace");
       await page.keyboard.press("Backspace");
@@ -83,7 +81,6 @@ describe("calcite-input-date-picker", () => {
       await page.waitForChanges();
 
       expect(changeEvent).toHaveReceivedEventTimes(2);
-      expect(deprecatedChangeEvent).toHaveReceivedEventTimes(2);
 
       expect(await input.getProperty("value")).toBe("");
       expect(await input.getProperty("valueAsDate")).toBeUndefined();
@@ -96,10 +93,8 @@ describe("calcite-input-date-picker", () => {
       element.setProperty("value", "");
       await page.waitForChanges();
       const changeEvent = await page.spyOnEvent("calciteInputDatePickerChange");
-      const deprecatedChangeEvent = await page.spyOnEvent("calciteDatePickerChange");
 
       expect(changeEvent).toHaveReceivedEventTimes(0);
-      expect(deprecatedChangeEvent).toHaveReceivedEventTimes(0);
       expect(await element.getProperty("value")).toBe("");
       expect(await element.getProperty("valueAsDate")).toBeUndefined();
     });
