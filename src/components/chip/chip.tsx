@@ -167,10 +167,8 @@ export class Chip
 
   /**
    * Fires when the close button is clicked.
-   *
-   * **Note:**: The `el` event payload props is deprecated, please use the event's `target`/`currentTarget` instead.
    */
-  @Event({ cancelable: false }) calciteChipClose: EventEmitter<DeprecatedEventPayload>;
+  @Event({ cancelable: false }) calciteChipClose: EventEmitter<void>;
 
   // --------------------------------------------------------------------------
   //
@@ -180,7 +178,7 @@ export class Chip
 
   closeClickHandler = (event: MouseEvent): void => {
     event.preventDefault();
-    this.calciteChipClose.emit(this.el);
+    this.calciteChipClose.emit();
     this.closed = true;
   };
 

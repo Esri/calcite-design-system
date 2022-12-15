@@ -111,13 +111,6 @@ export class Modal
   /** When `true`, disables the closing of the component when clicked outside. */
   @Prop({ reflect: true }) outsideCloseDisabled = false;
 
-  /**
-   * Accessible name for the component's close button.
-   *
-   * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`.
-   */
-  @Prop() intlClose: string;
-
   /** When `true`, prevents the component from expanding to the entire screen on mobile devices. */
   @Prop({ reflect: true }) docked: boolean;
 
@@ -151,7 +144,6 @@ export class Modal
    */
   @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
 
-  @Watch("intlClose")
   @Watch("messageOverrides")
   onMessagesChange(): void {
     /* wired up by t9n util */
