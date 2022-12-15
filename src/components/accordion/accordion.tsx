@@ -1,6 +1,17 @@
-import { Component, Element, Event, EventEmitter, h, Listen, Prop, VNode } from "@stencil/core";
+import {
+  Component,
+  Element,
+  Event,
+  EventEmitter,
+  h,
+  Listen,
+  Prop,
+  VNode,
+  Watch
+} from "@stencil/core";
 import { AccordionAppearance, AccordionSelectionMode, RequestedItem } from "./interfaces";
 import { Position, Scale } from "../interfaces";
+import { createObserver } from "../../utils/observers";
 
 /**
  * @slot - A slot for adding `calcite-accordion-item`s. `calcite-accordion` cannot be nested, however `calcite-accordion-item`s can.
@@ -37,6 +48,11 @@ export class Accordion {
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
 
+  @Watch("scale")
+  onScaleChange(): void {
+    this.passPropsToAccordionItems();
+  }
+
   /**
    * Specifies the selection mode - `"multiple"` (allow any number of open items), `"single"` (allow one open item),
    * or `"single-persist"` (allow and require one open item).
@@ -60,11 +76,20 @@ export class Accordion {
   //
   //--------------------------------------------------------------------------
 
+  connectedCallback(): void {
+    this.passPropsToAccordionItems();
+    this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
+  }
+
   componentDidLoad(): void {
     if (!this.sorted) {
       this.items = this.sortItems(this.items);
       this.sorted = true;
     }
+  }
+
+  disconnectedCallback(): void {
+    this.mutationObserver?.disconnect();
   }
 
   render(): VNode {
@@ -155,11 +180,13 @@ export class Accordion {
   /** created list of Accordion items */
   private items = [];
 
+  /** keep track of the requested item for multi mode */
+  private requestedAccordionItem: HTMLCalciteAccordionItemElement;
+
   /** keep track of whether the items have been sorted so we don't re-sort */
   private sorted = false;
 
-  /** keep track of the requested item for multi mode */
-  private requestedAccordionItem: HTMLCalciteAccordionItemElement;
+  mutationObserver = createObserver("mutation", () => this.passPropsToAccordionItems());
 
   //--------------------------------------------------------------------------
   //
@@ -200,4 +227,13 @@ export class Accordion {
 
   private sortItems = (items: any[]): any[] =>
     items.sort((a, b) => a.position - b.position).map((a) => a.item);
+
+  private passPropsToAccordionItems = (): void => {
+    const accordionItems = this.el.querySelectorAll("calcite-accordion-item");
+    if (accordionItems.length > 0) {
+      accordionItems.forEach((accordionItem) => {
+        accordionItem.scale = this.scale;
+      });
+    }
+  };
 }

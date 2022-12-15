@@ -17,7 +17,7 @@ import {
 } from "../../utils/conditionalSlot";
 import { CSS_UTILITY } from "../../utils/resources";
 import { SLOTS, CSS } from "./resources";
-import { Position } from "../interfaces";
+import { Position, Scale } from "../interfaces";
 import { ItemKeyEvent, RegistryEntry, RequestedItem } from "./interfaces";
 
 /**
@@ -43,20 +43,23 @@ export class AccordionItem implements ConditionalSlotComponent {
   //
   //--------------------------------------------------------------------------
 
+  /** Specifies a description for the component. */
+  @Prop() description: string;
+
   /** When `true`, the component is expanded. */
   @Prop({ reflect: true, mutable: true }) expanded = false;
 
   /** Specifies heading text for the component. */
   @Prop() heading: string;
 
-  /** Specifies a description for the component. */
-  @Prop() description: string;
-
   /** Specifies an icon to display at the start of the component. */
   @Prop({ reflect: true }) iconStart: string;
 
   /** Specifies an icon to display at the end of the component. */
   @Prop({ reflect: true }) iconEnd: string;
+
+  /** Specifies the size of the component inherited from the `accordion`. */
+  @Prop({ reflect: true }) scale: Scale = "m";
 
   //--------------------------------------------------------------------------
   //
@@ -135,13 +138,25 @@ export class AccordionItem implements ConditionalSlotComponent {
     ) : null;
   }
 
+  iconScaleAdjustment: Scale = this.scale === "l" ? "m" : "s";
+
   render(): VNode {
     const dir = getElementDir(this.el);
     const iconStartEl = this.iconStart ? (
-      <calcite-icon class={CSS.iconStart} icon={this.iconStart} key="icon-start" scale="s" />
+      <calcite-icon
+        class={CSS.iconStart}
+        icon={this.iconStart}
+        key="icon-start"
+        scale={this.iconScaleAdjustment}
+      />
     ) : null;
     const iconEndEl = this.iconEnd ? (
-      <calcite-icon class={CSS.iconEnd} icon={this.iconEnd} key="icon-end" scale="s" />
+      <calcite-icon
+        class={CSS.iconEnd}
+        icon={this.iconEnd}
+        key="icon-end"
+        scale={this.iconScaleAdjustment}
+      />
     ) : null;
     const { description } = this;
     return (
@@ -180,7 +195,7 @@ export class AccordionItem implements ConditionalSlotComponent {
                     ? "minus"
                     : "plus"
                 }
-                scale="s"
+                scale={this.iconScaleAdjustment}
               />
             </div>
             {this.renderActionsEnd()}
