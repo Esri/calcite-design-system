@@ -76,20 +76,6 @@ export class Filter
   @Prop({ mutable: true }) filteredItems: object[] = [];
 
   /**
-   * A text label that will appear on the clear button.
-   *
-   * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`.
-   */
-  @Prop() intlClear: string;
-
-  /**
-   * Accessible name for the component.
-   *
-   * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`.
-   */
-  @Prop() intlLabel: string;
-
-  /**
    * Specifies placeholder text for the input element.
    */
   @Prop() placeholder: string;
@@ -116,8 +102,6 @@ export class Filter
    */
   @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
 
-  @Watch("intlClear")
-  @Watch("intlLabel")
   @Watch("messageOverrides")
   onMessagesChange(): void {
     /* wired up by t9n util */
