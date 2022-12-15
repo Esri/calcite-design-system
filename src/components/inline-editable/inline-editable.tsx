@@ -38,7 +38,9 @@ import {
  */
 @Component({
   tag: "calcite-inline-editable",
-  shadow: true,
+  shadow: {
+    delegatesFocus: true
+  },
   styleUrl: "inline-editable.scss",
   assetsDirs: ["assets"]
 })
@@ -318,11 +320,7 @@ export class InlineEditable
   async setFocus(): Promise<void> {
     await componentLoaded(this);
 
-    if (this.editingEnabled) {
-      this.inputElement?.setFocus();
-    } else {
-      this.enableEditingButton?.setFocus();
-    }
+    this.el?.focus();
   }
 
   //--------------------------------------------------------------------------
