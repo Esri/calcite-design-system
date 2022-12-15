@@ -8,9 +8,10 @@ import {
   h,
   VNode,
   Fragment,
-  State
+  State,
+  Watch
 } from "@stencil/core";
-import { CSS, ICONS, SLOTS, TEXT } from "./resources";
+import { CSS, ICONS, SLOTS } from "./resources";
 import { toAriaBoolean } from "../../utils/dom";
 import { Scale } from "../interfaces";
 import { HeadingLevel, Heading } from "../functional/Heading";
@@ -23,6 +24,16 @@ import {
   LoadableComponent,
   componentLoaded
 } from "../../utils/loadable";
+
+import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
+import {
+  connectMessages,
+  disconnectMessages,
+  setUpMessages,
+  T9nComponent,
+  updateMessages
+} from "../../utils/t9n";
+import { Messages } from "./assets/panel/t9n";
 
 /**
  * @slot - A slot for adding custom content.
@@ -37,9 +48,12 @@ import {
 @Component({
   tag: "calcite-panel",
   styleUrl: "panel.scss",
-  shadow: true
+  shadow: true,
+  assetsDirs: ["assets"]
 })
-export class Panel implements InteractiveComponent, LoadableComponent {
+export class Panel
+  implements InteractiveComponent, LoadableComponent, LocalizedComponent, T9nComponent
+{
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -79,11 +93,15 @@ export class Panel implements InteractiveComponent, LoadableComponent {
 
   /**
    * Accessible name for the component's close button. The close button will only be shown when `closeable` is `true`.
+   *
+   * @deprecated use `calcite-flow-item` instead.
    */
   @Prop() intlClose: string;
 
   /**
    * Accessible name for the component's actions menu.
+   *
+   * @deprecated use `calcite-flow-item` instead.
    */
   @Prop() intlOptions: string;
 
@@ -100,14 +118,39 @@ export class Panel implements InteractiveComponent, LoadableComponent {
    */
   @Prop({ reflect: true }) menuOpen = false;
 
+  /**
+   * Use this property to override individual strings used by the component.
+   */
+  @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
+
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @internal
+   */
+  @Prop({ mutable: true }) messages: Messages;
+
+  @Watch("intlClose")
+  @Watch("intlOptions")
+  @Watch("messageOverrides")
+  onMessagesChange(): void {
+    /* wired up by t9n util */
+  }
+
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
   //
   //--------------------------------------------------------------------------
 
-  componentWillLoad(): void {
+  connectedCallback(): void {
+    connectLocalized(this);
+    connectMessages(this);
+  }
+
+  async componentWillLoad(): Promise<void> {
     setUpLoadableComponent(this);
+    await setUpMessages(this);
   }
 
   componentDidLoad(): void {
@@ -116,6 +159,12 @@ export class Panel implements InteractiveComponent, LoadableComponent {
 
   componentDidRender(): void {
     updateHostInteraction(this);
+  }
+
+  disconnectedCallback(): void {
+    disconnectLocalized(this);
+    disconnectMessages(this);
+    this.resizeObserver?.disconnect();
   }
 
   // --------------------------------------------------------------------------
@@ -150,14 +199,13 @@ export class Panel implements InteractiveComponent, LoadableComponent {
 
   @State() hasFab = false;
 
-  // --------------------------------------------------------------------------
-  //
-  //  Lifecycle
-  //
-  // --------------------------------------------------------------------------
+  @State() defaultMessages: Messages;
 
-  disconnectedCallback(): void {
-    this.resizeObserver?.disconnect();
+  @State() effectiveLocale = "";
+
+  @Watch("effectiveLocale")
+  effectiveLocaleChange(): void {
+    updateMessages(this, this.effectiveLocale);
   }
 
   // --------------------------------------------------------------------------
@@ -389,8 +437,8 @@ export class Panel implements InteractiveComponent, LoadableComponent {
   }
 
   renderHeaderActionsEnd(): VNode {
-    const { close, hasEndActions, intlClose, closable } = this;
-    const text = intlClose || TEXT.close;
+    const { close, hasEndActions, messages, closable } = this;
+    const text = messages.close;
 
     const closableNode = closable ? (
       <calcite-action
@@ -421,21 +469,21 @@ export class Panel implements InteractiveComponent, LoadableComponent {
   }
 
   renderMenu(): VNode {
-    const { hasMenuItems, intlOptions, menuOpen } = this;
+    const { hasMenuItems, messages, menuOpen } = this;
 
     return (
       <calcite-action-menu
         flipPlacements={["top", "bottom"]}
         hidden={!hasMenuItems}
         key="menu"
-        label={intlOptions || TEXT.options}
+        label={messages.options}
         open={menuOpen}
         placement="bottom-end"
       >
         <calcite-action
           icon={ICONS.menu}
           slot={ACTION_MENU_SLOTS.trigger}
-          text={intlOptions || TEXT.options}
+          text={messages.options}
         />
         <slot
           name={SLOTS.headerMenuActions}

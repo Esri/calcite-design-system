@@ -22,8 +22,6 @@ export const simple = (): string => html`
       min="${text("min", "2016-08-09")}"
       max="${text("max", "2023-12-18")}"
       lang="${select("locale", locales, "en")}"
-      intl-next-month="${text("intl-next-month", "Next month")}"
-      intl-prev-month="${text("intl-prev-month", "Previous month")}"
       placement="${select("placement", menuPlacements, defaultMenuPlacement)}"
     ></calcite-input-date-picker
   </div>

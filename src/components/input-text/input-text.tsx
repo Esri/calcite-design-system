@@ -1,4 +1,3 @@
-import { Scale, Status } from "../interfaces";
 import {
   Component,
   Element,
@@ -8,13 +7,14 @@ import {
   Host,
   Method,
   Prop,
+  State,
   VNode,
   Watch
 } from "@stencil/core";
 import { getElementDir, getElementProp, getSlotted, setRequestedIcon } from "../../utils/dom";
-
-import { CSS, SLOTS, TEXT } from "./resources";
-import { Position } from "../interfaces";
+import { CSS, SLOTS } from "./resources";
+import { Position, Scale, Status } from "../interfaces";
+import { SetValueOrigin } from "../input/interfaces";
 import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
 import {
   connectForm,
@@ -23,10 +23,18 @@ import {
   HiddenFormInputSlot,
   submitForm
 } from "../../utils/form";
-import { CSS_UTILITY, TEXT as COMMON_TEXT } from "../../utils/resources";
-
+import { CSS_UTILITY } from "../../utils/resources";
 import { createObserver } from "../../utils/observers";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
+import {
+  connectMessages,
+  disconnectMessages,
+  setUpMessages,
+  T9nComponent,
+  updateMessages
+} from "../../utils/t9n";
+import { Messages } from "./assets/input-text/t9n";
 import {
   setUpLoadableComponent,
   setComponentLoaded,
@@ -34,18 +42,23 @@ import {
   componentLoaded
 } from "../../utils/loadable";
 
-type SetValueOrigin = "initial" | "connected" | "user" | "reset" | "direct";
-
 /**
  * @slot action - A slot for positioning a button next to the component.
  */
 @Component({
   tag: "calcite-input-text",
   styleUrl: "input-text.scss",
-  shadow: true
+  shadow: true,
+  assetsDirs: ["assets"]
 })
 export class InputText
-  implements LabelableComponent, FormComponent, InteractiveComponent, LoadableComponent
+  implements
+    LabelableComponent,
+    FormComponent,
+    InteractiveComponent,
+    LoadableComponent,
+    LocalizedComponent,
+    T9nComponent
 {
   //--------------------------------------------------------------------------
   //
@@ -99,18 +112,6 @@ export class InputText
    * When `true`, shows a default recommended icon. Alternatively, pass a Calcite UI Icon name to display a specific icon.
    */
   @Prop({ reflect: true }) icon: string | boolean;
-
-  /**
-   * A text label that will appear on the clear button for screen readers.
-   */
-  @Prop() intlClear: string;
-
-  /**
-   * Accessible name that will appear while loading.
-   *
-   * @default "Loading"
-   */
-  @Prop() intlLoading: string = COMMON_TEXT.loading;
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @Prop({ reflect: true }) iconFlipRtl = false;
@@ -177,6 +178,22 @@ export class InputText
   @Prop() autocomplete: string;
 
   /**
+   * Specifies the type of content to help devices display an appropriate virtual keyboard.
+   * Read the native attribute's documentation on MDN for more info.
+   *
+   * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/inputmode)
+   */
+  @Prop() inputMode = "text";
+
+  /**
+   * Specifies the action label or icon for the Enter key on virtual keyboards.
+   * Read the native attribute's documentation on MDN for more info.
+   *
+   * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/enterkeyhint)
+   */
+  @Prop() enterKeyHint: string;
+
+  /**
    * Specifies a regex pattern the component's `value` must match for validation.
    * Read the native attribute's documentation on MDN for more info.
    *
@@ -194,6 +211,23 @@ export class InputText
 
   /** The component's value. */
   @Prop({ mutable: true }) value = "";
+
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @internal
+   */
+  @Prop({ mutable: true }) messages: Messages;
+
+  /**
+   * Use this property to override individual strings used by the component.
+   */
+  @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
+
+  @Watch("messageOverrides")
+  onMessagesChange(): void {
+    /* wired up by t9n util */
+  }
 
   @Watch("value")
   valueWatcher(newValue: string, previousValue: string): void {
@@ -214,7 +248,7 @@ export class InputText
 
   //--------------------------------------------------------------------------
   //
-  //  Private Properties
+  //  Private State/Properties
   //
   //--------------------------------------------------------------------------
 
@@ -246,6 +280,15 @@ export class InputText
 
   private userChangedValue = false;
 
+  @State() effectiveLocale: string;
+
+  @Watch("effectiveLocale")
+  effectiveLocaleChange(): void {
+    updateMessages(this, this.effectiveLocale);
+  }
+
+  @State() defaultMessages: Messages;
+
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -253,6 +296,9 @@ export class InputText
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
+    connectLocalized(this);
+    connectMessages(this);
+
     this.scale = getElementProp(this.el, "scale", this.scale);
     this.inlineEditableEl = this.el.closest("calcite-inline-editable");
     if (this.inlineEditableEl) {
@@ -271,14 +317,17 @@ export class InputText
   disconnectedCallback(): void {
     disconnectLabel(this);
     disconnectForm(this);
+    disconnectLocalized(this);
+    disconnectMessages(this);
+
     this.mutationObserver?.disconnect();
     this.el.removeEventListener("calciteInternalHiddenInputChange", this.hiddenInputChangeHandler);
   }
 
-  componentWillLoad(): void {
+  async componentWillLoad(): Promise<void> {
     setUpLoadableComponent(this);
-
     this.requestedIcon = setRequestedIcon({}, this.icon, "text");
+    await setUpMessages(this);
   }
 
   componentDidLoad(): void {
@@ -311,11 +360,7 @@ export class InputText
   /**
    * Fires each time a new value is typed.
    */
-  @Event({ cancelable: true }) calciteInputTextInput: EventEmitter<{
-    element: HTMLInputElement;
-    nativeEvent: MouseEvent | KeyboardEvent | InputEvent;
-    value: string;
-  }>;
+  @Event({ cancelable: true }) calciteInputTextInput: EventEmitter<void>;
 
   /**
    * Fires each time a new value is typed and committed.
@@ -391,11 +436,14 @@ export class InputText
     this.emitChangeIfUserModified();
   };
 
-  private inputTextFocusHandler = (event: FocusEvent): void => {
+  private clickHandler = (event: MouseEvent): void => {
     const slottedActionEl = getSlotted(this.el, "action");
     if (event.target !== slottedActionEl) {
       this.setFocus();
     }
+  };
+
+  private inputTextFocusHandler = (): void => {
     this.calciteInternalInputTextFocus.emit({
       element: this.childEl,
       value: this.value
@@ -503,11 +551,7 @@ export class InputText
     }
 
     if (nativeEvent) {
-      const calciteInputTextInputEvent = this.calciteInputTextInput.emit({
-        element: this.childEl,
-        nativeEvent,
-        value: this.value
-      });
+      const calciteInputTextInputEvent = this.calciteInputTextInput.emit();
 
       if (calciteInputTextInputEvent.defaultPrevented) {
         this.value = this.previousValue;
@@ -527,13 +571,13 @@ export class InputText
     const dir = getElementDir(this.el);
     const loader = (
       <div class={CSS.loader}>
-        <calcite-progress label={this.intlLoading} type="indeterminate" />
+        <calcite-progress label={this.messages.loading} type="indeterminate" />
       </div>
     );
 
     const inputClearButton = (
       <button
-        aria-label={this.intlClear || TEXT.clear}
+        aria-label={this.messages.clear}
         class={CSS.clearButton}
         disabled={this.disabled || this.readOnly}
         onClick={this.clearInputTextValue}
@@ -566,8 +610,8 @@ export class InputText
         }}
         defaultValue={this.defaultValue}
         disabled={this.disabled ? true : null}
-        enterKeyHint={this.el.enterKeyHint}
-        inputMode={this.el.inputMode}
+        enterKeyHint={this.enterKeyHint}
+        inputMode={this.inputMode}
         maxLength={this.maxLength}
         minLength={this.minLength}
         name={this.name}
@@ -587,7 +631,7 @@ export class InputText
     );
 
     return (
-      <Host onClick={this.inputTextFocusHandler} onKeyDown={this.keyDownHandler}>
+      <Host onClick={this.clickHandler} onKeyDown={this.keyDownHandler}>
         <div class={{ [CSS.inputWrapper]: true, [CSS_UTILITY.rtl]: dir === "rtl" }}>
           {this.prefixText ? prefixText : null}
           <div class={CSS.wrapper}>

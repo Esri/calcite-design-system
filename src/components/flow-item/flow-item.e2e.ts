@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, defaults, disabled, focusable, hidden, renders, slots } from "../../tests/commonTests";
+import { accessible, defaults, disabled, focusable, hidden, renders, slots, t9n } from "../../tests/commonTests";
 import { CSS, SLOTS } from "./resources";
 import { html } from "../../../support/formatting";
 
@@ -56,6 +56,8 @@ describe("calcite-flow-item", () => {
     focusable(`<calcite-flow-item show-back-button>test</calcite-flow-item>`, {
       shadowFocusTargetSelector: "calcite-action"
     }));
+
+  it("supports translations", () => t9n("calcite-flow-item"));
 
   it("showBackButton", async () => {
     const page = await newE2EPage();

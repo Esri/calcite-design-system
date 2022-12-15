@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, defaults, focusable, renders, hidden } from "../../tests/commonTests";
+import { accessible, defaults, focusable, renders, hidden, t9n } from "../../tests/commonTests";
 import { formatTimePart } from "../../utils/time";
 import { CSS } from "./resources";
 
@@ -1053,4 +1053,6 @@ describe("calcite-time-picker", () => {
       expect(meridiemStart).toBeTruthy();
     });
   });
+
+  it("suuports translation", () => t9n("<calcite-time-picker></calcite-time-picker>"));
 });

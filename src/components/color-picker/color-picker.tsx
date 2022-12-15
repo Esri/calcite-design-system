@@ -29,8 +29,7 @@ import {
   DEFAULT_STORAGE_KEY_PREFIX,
   DIMENSIONS,
   HSV_LIMITS,
-  RGB_LIMITS,
-  TEXT
+  RGB_LIMITS
 } from "./resources";
 
 import { Direction, focusElement, getElementDir, isPrimaryPointerButton } from "../../utils/dom";
@@ -54,7 +53,16 @@ import { throttle } from "lodash-es";
 
 import { clamp } from "../../utils/math";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import { Messages } from "./assets/color-picker/t9n";
 import { isActivationKey } from "../../utils/key";
+import {
+  connectMessages,
+  disconnectMessages,
+  setUpMessages,
+  T9nComponent,
+  updateMessages
+} from "../../utils/t9n";
+import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import { NumberingSystem } from "../../utils/locale";
 import {
   setUpLoadableComponent,
@@ -68,9 +76,12 @@ const throttleFor60FpsInMs = 16;
 @Component({
   tag: "calcite-color-picker",
   styleUrl: "color-picker.scss",
-  shadow: true
+  shadow: true,
+  assetsDirs: ["assets"]
 })
-export class ColorPicker implements InteractiveComponent, LoadableComponent {
+export class ColorPicker
+  implements InteractiveComponent, LoadableComponent, LocalizedComponent, T9nComponent
+{
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -333,6 +344,16 @@ export class ColorPicker implements InteractiveComponent, LoadableComponent {
   /** Specifies the storage ID for colors. */
   @Prop({ reflect: true }) storageId: string;
 
+  /**
+   * Use this property to override individual strings used by the component.
+   */
+  @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
+
+  @Watch("messageOverrides")
+  onMessagesChange(): void {
+    /* wired up by t9n util */
+  }
+
   /** Specifies the Unicode numeral system used by the component for localization. */
   @Prop({ reflect: true }) numberingSystem: NumberingSystem;
 
@@ -429,6 +450,8 @@ export class ColorPicker implements InteractiveComponent, LoadableComponent {
 
   private sliderThumbState: "idle" | "hover" | "drag" = "idle";
 
+  @State() defaultMessages: Messages;
+
   @State() colorFieldAndSliderInteractive = false;
 
   @State() channelMode: ColorMode = "rgb";
@@ -436,6 +459,20 @@ export class ColorPicker implements InteractiveComponent, LoadableComponent {
   @State() channels: [number, number, number] = this.toChannels(DEFAULT_COLOR);
 
   @State() dimensions = DIMENSIONS.m;
+
+  @State() effectiveLocale = "";
+
+  @Watch("effectiveLocale")
+  effectiveLocaleChange(): void {
+    updateMessages(this, this.effectiveLocale);
+  }
+
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @internal
+   */
+  @Prop({ mutable: true }) messages: Messages;
 
   @State() savedColors: string[] = [];
 
@@ -887,7 +924,7 @@ export class ColorPicker implements InteractiveComponent, LoadableComponent {
   //
   //--------------------------------------------------------------------------
 
-  componentWillLoad(): void {
+  async componentWillLoad(): Promise<void> {
     setUpLoadableComponent(this);
 
     const { allowEmpty, color, format, value } = this;
@@ -912,6 +949,13 @@ export class ColorPicker implements InteractiveComponent, LoadableComponent {
     if (this.storageId && localStorage.getItem(storageKey)) {
       this.savedColors = JSON.parse(localStorage.getItem(storageKey));
     }
+
+    await setUpMessages(this);
+  }
+
+  connectedCallback(): void {
+    connectLocalized(this);
+    connectMessages(this);
   }
 
   componentDidLoad(): void {
@@ -921,6 +965,8 @@ export class ColorPicker implements InteractiveComponent, LoadableComponent {
   disconnectedCallback(): void {
     document.removeEventListener("pointermove", this.globalPointerMoveHandler);
     document.removeEventListener("pointerup", this.globalPointerUpHandler);
+    disconnectLocalized(this);
+    disconnectMessages(this);
   }
 
   componentDidRender(): void {
@@ -988,7 +1034,7 @@ export class ColorPicker implements InteractiveComponent, LoadableComponent {
             ref={this.initColorFieldAndSlider}
           />
           <div
-            aria-label={vertical ? this.intlValue : this.intlSaturation}
+            aria-label={vertical ? messages.value : messages.saturation}
             aria-valuemax={vertical ? HSV_LIMITS.v : HSV_LIMITS.s}
             aria-valuemin="0"
             aria-valuenow={(vertical ? color?.saturationv() : color?.value()) || "0"}
@@ -1000,7 +1046,7 @@ export class ColorPicker implements InteractiveComponent, LoadableComponent {
             tabindex="0"
           />
           <div
-            aria-label={this.intlHue}
+            aria-label={messages.hue}
             aria-valuemax={HSV_LIMITS.h}
             aria-valuemin="0"
             aria-valuenow={color?.round().hue() || DEFAULT_COLOR.round().hue()}
@@ -1059,12 +1105,11 @@ export class ColorPicker implements InteractiveComponent, LoadableComponent {
               )}
             </div>
             {alphaEnabled ? this.renderOpacitySection() : null}
-          </div>
         )}
         {noSaved ? null : (
           <div class={{ [CSS.savedColorsSection]: true, [CSS.section]: true }}>
             <div class={CSS.header}>
-              <label>{intlSaved}</label>
+              <label>{messages.saved}</label>
               <div class={CSS.savedColorsButtons}>
                 <calcite-button
                   appearance="transparent"
@@ -1072,7 +1117,7 @@ export class ColorPicker implements InteractiveComponent, LoadableComponent {
                   color="neutral"
                   disabled={noColor}
                   iconStart="minus"
-                  label={intlDeleteColor}
+                  label={messages.deleteColor}
                   onClick={this.deleteColor}
                   scale={hexInputScale}
                   type="button"
@@ -1083,7 +1128,7 @@ export class ColorPicker implements InteractiveComponent, LoadableComponent {
                   color="neutral"
                   disabled={noColor}
                   iconStart="plus"
-                  label={intlSaveColor}
+                  label={messages.saveColor}
                   onClick={this.saveColor}
                   scale={hexInputScale}
                   type="button"
@@ -1167,9 +1212,9 @@ export class ColorPicker implements InteractiveComponent, LoadableComponent {
   };
 
   private renderChannelsTabTitle = (channelMode: this["channelMode"]): VNode => {
-    const { channelMode: activeChannelMode, intlRgb, intlHsv } = this;
+    const { channelMode: activeChannelMode, messages } = this;
     const selected = channelMode === activeChannelMode;
-    const label = channelMode === "rgb" ? intlRgb : intlHsv;
+    const label = channelMode === "rgb" ? messages.rgb : messages.hsv;
 
     return (
       <calcite-tab-title
@@ -1185,29 +1230,15 @@ export class ColorPicker implements InteractiveComponent, LoadableComponent {
   };
 
   private renderChannelsTab = (channelMode: this["channelMode"]): VNode => {
-    const {
-      channelMode: activeChannelMode,
-      channels,
-      intlB,
-      intlBlue,
-      intlG,
-      intlGreen,
-      intlH,
-      intlHue,
-      intlR,
-      intlRed,
-      intlS,
-      intlSaturation,
-      intlV,
-      intlValue
-    } = this;
-
+    const { channelMode: activeChannelMode, channels, messages } = this;
     const selected = channelMode === activeChannelMode;
     const isRgb = channelMode === "rgb";
-    const channelLabels = isRgb ? [intlR, intlG, intlB] : [intlH, intlS, intlV];
+    const channelLabels = isRgb
+      ? [messages.r, messages.g, messages.b]
+      : [messages.h, messages.s, messages.v];
     const channelAriaLabels = isRgb
-      ? [intlRed, intlGreen, intlBlue]
-      : [intlHue, intlSaturation, intlValue];
+      ? [messages.red, messages.green, messages.blue]
+      : [messages.hue, messages.saturation, messages.value];
     const direction = getElementDir(this.el);
 
     return (
@@ -1241,6 +1272,7 @@ export class ColorPicker implements InteractiveComponent, LoadableComponent {
       data-channel-index={index}
       dir={direction}
       label={ariaLabel}
+      lang={this.effectiveLocale}
       numberButtonType="none"
       numberingSystem={this.numberingSystem}
       onCalciteInputChange={this.handleChannelChange}
