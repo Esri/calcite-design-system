@@ -3,7 +3,9 @@ export const CSS = {
   close: "close",
   imageContainer: "image-container",
   chipIcon: "chip-icon",
-  closeIcon: "close-icon"
+  closeIcon: "close-icon",
+  contentSlotted: "content--slotted",
+  container: "container"
 };
 
 export const SLOTS = {

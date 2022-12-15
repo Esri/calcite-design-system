@@ -6,6 +6,7 @@
   --calcite-chip-spacing-unit-s: theme("spacing.1");
   .image-container {
     @apply h-5 w-5;
+    padding-inline-start: 1px;
   }
 }
 :host([scale="m"]) {
@@ -24,7 +25,7 @@
   --calcite-chip-spacing-unit-s: theme("spacing.2");
   .image-container {
     @apply h-8 w-8;
-    padding-inline-start: theme("spacing.1");
+    padding-inline-start: theme("spacing.2");
   }
 }
 
@@ -45,22 +46,40 @@
   @apply inline-flex h-full max-w-full items-center;
 }
 
-.title {
+:host .title {
   @apply truncate;
+  padding-block: 0;
 }
 
-:host span {
-  padding-block: 0;
+:host .content--slotted .title {
   padding-inline: var(--calcite-chip-spacing-unit-l);
 }
 
-:host([closable]) span {
+:host([icon]) .content--slotted .title {
+  padding-inline: var(--calcite-chip-spacing-unit-l);
+}
+
+:host([closable]) .content--slotted .title {
   padding-inline: var(--calcite-chip-spacing-unit-l) var(--calcite-chip-spacing-unit-s);
 }
 
-:host([icon]:not([closable])) span {
-  padding-block: 0;
-  padding-inline: var(--calcite-chip-spacing-unit-l);
+:host([closable][icon]) .container:not(.content--slotted) .title {
+  padding-inline: 0 var(--calcite-chip-spacing-unit-s);
+}
+
+:host([icon]:not([closable])) .container:not(.content--slotted) .chip-icon {
+  margin-block: 0;
+  margin-inline: auto;
+}
+
+:host([scale="s"][icon]:not([closable])) .container:not(.content--slotted) {
+  @apply w-6 h-6;
+}
+:host([scale="m"][icon]:not([closable])) .container:not(.content--slotted) {
+  @apply w-8 h-8;
+}
+:host([scale="l"][icon]:not([closable])) .container:not(.content--slotted) {
+  @apply w-11 h-11;
 }
 
 :host button {
@@ -68,22 +87,17 @@
     transition-default
     text-color-1
     m-0
-    inline-flex
-    max-h-full
-    min-h-full
     cursor-pointer
     items-center
-    self-stretch
     border-none
     bg-transparent;
   -webkit-appearance: none;
-  border-start-start-radius: 0;
-  border-start-end-radius: 50px;
-  border-end-end-radius: 50px;
-  border-end-start-radius: 0;
-  padding-block: 0;
+  display: flex;
+  border-radius: 50%;
   padding-inline: var(--calcite-chip-spacing-unit-s);
   color: inherit;
+  align-content: center;
+  justify-content: center;
 
   // close button focus styles
   --calcite-chip-transparent-hover: var(--calcite-button-transparent-hover);
@@ -98,6 +112,27 @@
   &:active {
     background-color: var(--calcite-chip-transparent-press);
   }
+}
+:host([closable]) .content--slotted .title {
+  padding-inline: var(--calcite-chip-spacing-unit-l) var(--calcite-chip-spacing-unit-s);
+}
+
+:host([scale="s"]) button {
+  inline-size: 16px;
+  block-size: 16px;
+  margin-inline-end: 2px;
+}
+
+:host([scale="m"]) button {
+  inline-size: 24px;
+  block-size: 24px;
+  margin-inline-end: 4px;
+}
+
+:host([scale="l"]) button {
+  inline-size: 32px;
+  block-size: 32px;
+  margin-inline-end: 8px;
 }
 
 //slotted image
@@ -118,38 +153,13 @@
     ease-in-out;
   margin-inline-end: 0;
   margin-inline-start: var(--calcite-chip-spacing-unit-l);
-  border-start-start-radius: 0;
-  border-start-end-radius: 50px;
-  border-end-end-radius: 50px;
-  border-end-start-radius: 0;
 }
 
-// solid
-:host([color="blue"]) {
-  border-color: transparent;
-  background-color: var(--calcite-ui-info);
-  color: var(--calcite-ui-text-inverse);
+:host {
+  @apply text-color-1 bg-transparent;
 }
 
-:host([color="red"]) {
-  border-color: transparent;
-  background-color: var(--calcite-ui-danger);
-  color: var(--calcite-ui-text-inverse);
-}
-
-:host([color="yellow"]) {
-  border-color: transparent;
-  background-color: var(--calcite-ui-warning);
-  color: $blk-220;
-}
-
-:host([color="green"]) {
-  border-color: transparent;
-  background-color: var(--calcite-ui-success);
-  color: $blk-220;
-}
-
-:host([color="grey"]) {
+:host([kind="neutral"]) {
   border-color: transparent;
   background-color: var(--calcite-ui-foreground-2);
   color: var(--calcite-ui-text-1);
@@ -163,52 +173,76 @@
   }
 }
 
-:host([appearance="clear"]),
-:host([appearance="transparent"]) {
-  @apply text-color-1 bg-transparent;
-}
+:host([kind="inverse"]) {
+  border-color: transparent;
+  background-color: var(--calcite-ui-inverse);
+  @apply text-color-inverse;
 
-// clear is deprecated. use transparent instead.
-:host([color="blue"][appearance="clear"]),
-:host([color="blue"][appearance="transparent"]) {
-  border-color: var(--calcite-ui-info);
+  button,
+  .close-icon {
+    @apply text-color-inverse;
+  }
+
   .chip-icon {
-    color: var(--calcite-ui-icon-color, var(--calcite-ui-info));
+    color: var(--calcite-ui-icon-color, var(--calcite-ui-text-inverse));
   }
 }
 
-:host([color="red"][appearance="clear"]),
-:host([color="red"][appearance="transparent"]) {
-  border-color: var(--calcite-ui-danger);
+:host([kind="brand"]) {
+  border-color: transparent;
+  background-color: var(--calcite-ui-brand);
+  color: var(--calcite-ui-text-inverse);
+  button,
+  .close-icon {
+    @apply text-color-inverse;
+  }
+
   .chip-icon {
-    color: var(--calcite-ui-icon-color, var(--calcite-ui-danger));
+    color: var(--calcite-ui-icon-color, var(--calcite-ui-text-inverse));
   }
 }
 
-:host([color="yellow"][appearance="clear"]),
-:host([color="yellow"][appearance="transparent"]) {
-  border-color: var(--calcite-ui-warning);
-  .chip-icon {
-    color: var(--calcite-ui-icon-color, var(--calcite-ui-warning));
+:host([appearance="outline-fill"]),
+:host([appearance="outline"]) {
+  @apply text-color-1 bg-foreground-1;
+  button,
+  .close-icon {
+    @apply text-color-3;
   }
-}
-
-:host([color="green"][appearance="clear"]),
-:host([color="green"][appearance="transparent"]) {
-  border-color: var(--calcite-ui-success);
-  .chip-icon {
-    color: var(--calcite-ui-icon-color, var(--calcite-ui-success));
-  }
-}
-
-:host([color="grey"][appearance="clear"]),
-:host([color="grey"][appearance="transparent"]) {
-  border-color: var(--calcite-ui-border-1);
   .chip-icon {
     color: var(--calcite-ui-icon-color, var(--calcite-ui-text-3));
   }
 }
 
+:host([appearance="outline-fill"]) {
+  @apply bg-foreground-1;
+}
+
+:host([appearance="outline"]) {
+  @apply bg-transparent;
+}
+
+:host([kind="neutral"][appearance="outline-fill"]),
+:host([kind="neutral"][appearance="outline"]) {
+  border-color: var(--calcite-ui-border-1);
+}
+
+:host([kind="inverse"][appearance="outline-fill"]),
+:host([kind="inverse"][appearance="outline"]) {
+  border-color: var(--calcite-ui-border-inverse);
+}
+
+:host([kind="brand"][appearance="outline-fill"]),
+:host([kind="brand"][appearance="outline"]) {
+  border-color: var(--calcite-ui-brand);
+}
+
+:host([kind="brand"][appearance="solid"]),
+:host([kind="inverse"][appearance="solid"]) {
+  button {
+    outline-color: var(--calcite-ui-text-inverse);
+  }
+}
 :host([closed]) {
   display: none;
 }
