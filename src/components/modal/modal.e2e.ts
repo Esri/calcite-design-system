@@ -11,13 +11,6 @@ describe("calcite-modal properties", () => {
 
   it("has slots", () => slots("calcite-modal", SLOTS));
 
-  it("adds localized strings set via intl-* props", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-modal intl-close="test"></calcite-modal>`);
-    const button = await page.find("calcite-modal >>> .close");
-    expect(button).toEqualAttribute("aria-label", "test");
-  });
-
   it("should hide closeButton when disabled", async () => {
     const page = await newE2EPage();
     await page.setContent("<calcite-modal></calcite-modal>");
@@ -359,7 +352,7 @@ describe("calcite-modal accessibility checks", () => {
 
   it("closes and allows re-opening when Escape key is pressed", async () => {
     const page = await newE2EPage();
-    await page.setContent(`<calcite-modal intl-close="test"></calcite-modal>`);
+    await page.setContent(`<calcite-modal ></calcite-modal>`);
     await skipAnimations(page);
     const modal = await page.find("calcite-modal");
     await modal.setProperty("open", true);
@@ -376,7 +369,7 @@ describe("calcite-modal accessibility checks", () => {
 
   it("closes when Escape key is pressed and modal is open on page load", async () => {
     const page = await newE2EPage();
-    await page.setContent(`<calcite-modal intl-close="test" open></calcite-modal>`);
+    await page.setContent(`<calcite-modal  open></calcite-modal>`);
     const modal = await page.find("calcite-modal");
     await page.waitForChanges();
     expect(modal).toHaveAttribute("open");
@@ -393,7 +386,7 @@ describe("calcite-modal accessibility checks", () => {
 
   it("closes and allows re-opening when Close button is clicked", async () => {
     const page = await newE2EPage();
-    await page.setContent(`<calcite-modal intl-close="test"></calcite-modal>`);
+    await page.setContent(`<calcite-modal ></calcite-modal>`);
     await skipAnimations(page);
     const modal = await page.find("calcite-modal");
     modal.setProperty("open", true);
@@ -411,7 +404,7 @@ describe("calcite-modal accessibility checks", () => {
 
   it("should close when the scrim is clicked", async () => {
     const page = await newE2EPage();
-    await page.setContent(`<calcite-modal intl-close="test"></calcite-modal>`);
+    await page.setContent(`<calcite-modal ></calcite-modal>`);
     const modal = await page.find("calcite-modal");
     modal.setProperty("open", true);
     await page.waitForChanges();
@@ -423,7 +416,7 @@ describe("calcite-modal accessibility checks", () => {
 
   it("should not close when the scrim is clicked", async () => {
     const page = await newE2EPage();
-    await page.setContent(`<calcite-modal outside-close-disabled intl-close="test"></calcite-modal>`);
+    await page.setContent(`<calcite-modal outside-close-disabled ></calcite-modal>`);
     const modal = await page.find("calcite-modal");
     modal.setProperty("open", true);
     await page.waitForChanges();

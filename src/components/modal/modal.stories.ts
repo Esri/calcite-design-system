@@ -25,7 +25,6 @@ export const simple = (): string => html`
     ${boolean("fullscreen", false)}
     ${boolean("docked", false)}
     ${boolean("escape-disabled", false)}
-    intl-close="${text("intl-close", "Close")}"
   >
     <h3 slot="header">Small Modal</h3>
     <div slot="content">
@@ -51,7 +50,6 @@ export const darkThemeRTLCustomSize_TestOnly = (): string => html`
     ${boolean("fullscreen", false)}
     ${boolean("docked", false)}
     ${boolean("escape-disabled", false)}
-    intl-close="${text("intl-close", "Close")}"
   >
     <h3 slot="header">Small Modal</h3>
     <div slot="content">

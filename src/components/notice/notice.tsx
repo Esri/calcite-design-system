@@ -120,14 +120,6 @@ export class Notice
    */
   @Prop({ reflect: true }) icon: string | boolean;
 
-  /**
-   * Accessible name for the close button.
-   *
-   * @default "Close"
-   * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`.
-   */
-  @Prop({ reflect: false }) intlClose: string;
-
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
 
@@ -146,7 +138,6 @@ export class Notice
    */
   @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
 
-  @Watch("intlClose")
   @Watch("messageOverrides")
   onMessagesChange(): void {
     /* wired up by t9n util */
