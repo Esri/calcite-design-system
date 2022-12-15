@@ -155,7 +155,7 @@ button {
 
 //slotted image
 .image-container {
-  @apply rounded-half inline-flex overflow-hidden;
+  @apply inline-flex overflow-hidden;
 }
 
 slot[name="image"]::slotted(*) {
