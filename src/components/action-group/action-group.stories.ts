@@ -41,3 +41,39 @@ export const gridCenteringOfActionsInAGroup = (): string => html`
     </calcite-action-group>
   </div>
 `;
+
+export const arabicLocale_TestOnly = (): string => html`<div style="width:400px">
+  <calcite-action-group expanded lang="ar">
+    <calcite-dropdown slot="menu-actions"> </calcite-dropdown>
+  </calcite-action-group>
+</div>`;
+
+export const germanLocale_TestOnly = (): string => html`<div style="width:400px">
+  <calcite-action-group expanded lang="de">
+    <calcite-dropdown slot="menu-actions"> </calcite-dropdown>
+  </calcite-action-group>
+</div>`;
+
+export const norwegianLocale_TestOnly = (): string => html`<div style="width:400px">
+  <calcite-action-group expanded lang="no">
+    <calcite-dropdown slot="menu-actions"> </calcite-dropdown>
+  </calcite-action-group>
+</div>`;
+
+export const ChineseLocale_TestOnly = (): string => html`<div style="width:400px">
+  <calcite-action-group expanded lang="zh-CN">
+    <calcite-dropdown slot="menu-actions"> </calcite-dropdown>
+  </calcite-action-group>
+</div>`;
+
+export const GreekLocale_TestOnly = (): string => html`<div style="width:400px">
+  <calcite-action-group expanded lang="el">
+    <calcite-dropdown slot="menu-actions"> </calcite-dropdown>
+  </calcite-action-group>
+</div>`;
+
+export const TurkishLocale_TestOnly = (): string => html`<div style="width:400px">
+  <calcite-action-group expanded lang="tr">
+    <calcite-dropdown slot="menu-actions"> </calcite-dropdown>
+  </calcite-action-group>
+</div>`;

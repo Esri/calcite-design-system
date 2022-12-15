@@ -146,7 +146,7 @@ export class TabNav {
     // if every tab title is active select the first tab.
     if (
       this.tabTitles.length &&
-      this.tabTitles.every((title) => !title.active) &&
+      this.tabTitles.every((title) => !title.selected) &&
       !this.selectedTab
     ) {
       this.tabTitles[0].getTabIdentifier().then((tab) => {
@@ -234,12 +234,8 @@ export class TabNav {
     event.preventDefault();
   }
 
-  @Listen("calciteTabsActivate") activateTabHandler(
-    event: CustomEvent<TabChangeEventDetail>
-  ): void {
-    this.calciteTabChange.emit({
-      tab: this.selectedTab
-    });
+  @Listen("calciteTabsActivate") activateTabHandler(event: CustomEvent<void>): void {
+    this.calciteTabChange.emit();
 
     event.stopPropagation();
     event.preventDefault();
@@ -252,7 +248,7 @@ export class TabNav {
    */
   @Listen("calciteInternalTabTitleRegister")
   updateTabTitles(event: CustomEvent<TabID>): void {
-    if ((event.target as HTMLCalciteTabTitleElement).active) {
+    if ((event.target as HTMLCalciteTabTitleElement).selected) {
       this.selectedTab = event.detail;
     }
   }
@@ -283,10 +279,8 @@ export class TabNav {
 
   /**
    * Emits when the selected `calcite-tab` changes.
-   *
-   * @see [TabChangeEventDetail](https://github.com/Esri/calcite-components/blob/master/src/components/tab/interfaces.ts#L1)
    */
-  @Event({ cancelable: false }) calciteTabChange: EventEmitter<TabChangeEventDetail>;
+  @Event({ cancelable: false }) calciteTabChange: EventEmitter<void>;
 
   /**
    * @internal

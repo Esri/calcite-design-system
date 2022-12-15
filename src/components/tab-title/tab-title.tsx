@@ -48,26 +48,11 @@ export class TabTitle implements InteractiveComponent {
    * When `true`, the component and its respective `calcite-tab` contents are selected.
    *
    * Only one tab can be selected within the `calcite-tabs` parent.
-   *
-   * @deprecated Use `selected` instead.
-   */
-  @Prop({ reflect: true, mutable: true }) active = false;
-
-  @Watch("active")
-  activeHandler(value: boolean): void {
-    this.selected = value;
-  }
-
-  /**
-   * When `true`, the component and its respective `calcite-tab` contents are selected.
-   *
-   * Only one tab can be selected within the `calcite-tabs` parent.
    */
   @Prop({ reflect: true, mutable: true }) selected = false;
 
   @Watch("selected")
-  selectedHandler(value: boolean): void {
-    this.active = value;
+  selectedHandler(): void {
     if (this.selected) {
       this.emitActiveTab(false);
     }
@@ -119,14 +104,6 @@ export class TabTitle implements InteractiveComponent {
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
-    const { selected, active } = this;
-
-    if (selected) {
-      this.active = selected;
-    } else if (active) {
-      this.activeHandler(active);
-    }
-
     this.setupTextContentObserver();
     this.parentTabNavEl = this.el.closest("calcite-tab-nav");
     this.parentTabsEl = this.el.closest("calcite-tabs");
@@ -295,10 +272,8 @@ export class TabTitle implements InteractiveComponent {
 
   /**
    * Fires when a `calcite-tab` is selected. Emits the `tab` property, or the index position.
-   *
-   * @see [TabChangeEventDetail](https://github.com/Esri/calcite-components/blob/master/src/components/tab/interfaces.ts#L1)
    */
-  @Event({ cancelable: false }) calciteTabsActivate: EventEmitter<TabChangeEventDetail>;
+  @Event({ cancelable: false }) calciteTabsActivate: EventEmitter<void>;
 
   /**
    * Fires when a `calcite-tab` is selected (`event.details`).
@@ -415,7 +390,7 @@ export class TabTitle implements InteractiveComponent {
     this.calciteInternalTabsActivate.emit(payload);
 
     if (userTriggered) {
-      this.calciteTabsActivate.emit(payload);
+      this.calciteTabsActivate.emit();
     }
   }
 

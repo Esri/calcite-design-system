@@ -9,15 +9,24 @@ import {
   Method,
   Prop,
   State,
-  VNode
+  VNode,
+  Watch
 } from "@stencil/core";
 import { guid } from "../../utils/guid";
 import { Scale } from "../interfaces";
 import { LabelableComponent, connectLabel, disconnectLabel } from "../../utils/label";
 import { connectForm, disconnectForm, FormComponent, HiddenFormInputSlot } from "../../utils/form";
-import { TEXT } from "./resources";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { isActivationKey } from "../../utils/key";
+import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
+import {
+  connectMessages,
+  disconnectMessages,
+  setUpMessages,
+  T9nComponent,
+  updateMessages
+} from "../../utils/t9n";
+import { Messages } from "./assets/rating/t9n";
 import {
   setUpLoadableComponent,
   setComponentLoaded,
@@ -28,10 +37,17 @@ import {
 @Component({
   tag: "calcite-rating",
   styleUrl: "rating.scss",
-  shadow: true
+  shadow: true,
+  assetsDirs: ["assets"]
 })
 export class Rating
-  implements LabelableComponent, FormComponent, InteractiveComponent, LoadableComponent
+  implements
+    LabelableComponent,
+    FormComponent,
+    InteractiveComponent,
+    LoadableComponent,
+    LocalizedComponent,
+    T9nComponent
 {
   //--------------------------------------------------------------------------
   //
@@ -72,18 +88,16 @@ export class Rating
   @Prop({ reflect: true }) name: string;
 
   /**
-   * Accessible name for the component.
+   * Made into a prop for testing purposes only
    *
-   * @default "Rating"
+   * @internal
    */
-  @Prop() intlRating: string = TEXT.rating;
+  @Prop({ mutable: true }) messages: Messages;
 
   /**
-   * Accessible name for each star. The `${num}` in the string will be replaced by the number.
-   *
-   * @default "Stars: ${num}"
+   * Use this property to override individual strings used by the component.
    */
-  @Prop() intlStars: string = TEXT.stars;
+  @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
 
   /**
    * When `true`, the component must have a value in order for the form to submit.
@@ -92,6 +106,11 @@ export class Rating
    */
   @Prop({ reflect: true }) required = false;
 
+  @Watch("messageOverrides")
+  onMessagesChange(): void {
+    /* wired up by t9n util */
+  }
+
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -99,11 +118,14 @@ export class Rating
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
+    connectLocalized(this);
+    connectMessages(this);
     connectLabel(this);
     connectForm(this);
   }
 
-  componentWillLoad(): void {
+  async componentWillLoad(): Promise<void> {
+    await setUpMessages(this);
     setUpLoadableComponent(this);
   }
 
@@ -112,6 +134,8 @@ export class Rating
   }
 
   disconnectedCallback(): void {
+    disconnectLocalized(this);
+    disconnectMessages(this);
     disconnectLabel(this);
     disconnectForm(this);
   }
@@ -129,7 +153,7 @@ export class Rating
   /**
    * Fires when the component's value changes.
    */
-  @Event({ cancelable: false }) calciteRatingChange: EventEmitter<{ value: number }>;
+  @Event({ cancelable: false }) calciteRatingChange: EventEmitter<void>;
 
   //--------------------------------------------------------------------------
   //
@@ -176,7 +200,7 @@ export class Rating
                 <calcite-icon icon="star-f" scale={this.scale} />
               </div>
             )}
-            <span class="visually-hidden">{this.intlStars.replace("${num}", `${i}`)}</span>
+            <span class="visually-hidden">{this.messages.stars.replace("${num}", `${i}`)}</span>
           </label>
           <input
             checked={i === this.value}
@@ -203,7 +227,7 @@ export class Rating
   }
 
   render() {
-    const { disabled, intlRating, showChip, scale, count, average } = this;
+    const { disabled, messages, showChip, scale, count, average } = this;
 
     return (
       <Fragment>
@@ -214,7 +238,7 @@ export class Rating
           onPointerLeave={() => (this.hoverValue = null)}
           onTouchEnd={() => (this.hoverValue = null)}
         >
-          <legend class="visually-hidden">{intlRating}</legend>
+          <legend class="visually-hidden">{messages.rating}</legend>
           {this.renderStars()}
         </fieldset>
         {(count || average) && showChip ? (
@@ -240,7 +264,7 @@ export class Rating
 
   private updateValue(value: number) {
     this.value = value;
-    this.calciteRatingChange.emit({ value });
+    this.calciteRatingChange.emit();
   }
 
   private onKeyboardPressed = (event: KeyboardEvent): void => {
@@ -284,6 +308,15 @@ export class Rating
   formEl: HTMLFormElement;
 
   defaultValue: Rating["value"];
+
+  @State() effectiveLocale = "";
+
+  @Watch("effectiveLocale")
+  effectiveLocaleChange(): void {
+    updateMessages(this, this.effectiveLocale);
+  }
+
+  @State() defaultMessages: Messages;
 
   @State() hoverValue: number;
 

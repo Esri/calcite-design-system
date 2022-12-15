@@ -50,6 +50,11 @@ describe("calcite-date-picker-month-header", () => {
       dateMonthHeader.activeDate = now;
       dateMonthHeader.selectedDate = now;
       dateMonthHeader.localeData = localeData;
+      dateMonthHeader.messages = {
+        nextMonth: "Next month",
+        prevMonth: "Previous month",
+        year: "Year"
+      };
 
       document.body.innerHTML = "";
       document.body.append(dateMonthHeader);
@@ -74,7 +79,11 @@ describe("calcite-date-picker-month-header", () => {
       dateMonthHeader.activeDate = now;
       dateMonthHeader.selectedDate = now;
       dateMonthHeader.localeData = localeData;
-      dateMonthHeader.intlYear = "Year";
+      dateMonthHeader.messages = {
+        nextMonth: "Next month",
+        prevMonth: "Previous month",
+        year: "Year"
+      };
 
       document.body.innerHTML = "";
       document.body.append(dateMonthHeader);

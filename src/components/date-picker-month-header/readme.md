@@ -4,18 +4,15 @@
 
 ## Properties
 
-| Property        | Attribute         | Description                                                              | Type                         | Default     |
-| --------------- | ----------------- | ------------------------------------------------------------------------ | ---------------------------- | ----------- |
-| `activeDate`    | --                | Focused date with indicator (will become selected date if user proceeds) | `Date`                       | `undefined` |
-| `headingLevel`  | `heading-level`   | Specifies the number at which section headings should start.             | `1 \| 2 \| 3 \| 4 \| 5 \| 6` | `undefined` |
-| `intlNextMonth` | `intl-next-month` | Accessible name for the component's next month button.                   | `string`                     | `undefined` |
-| `intlPrevMonth` | `intl-prev-month` | Accessible name for the component's previous month button.               | `string`                     | `undefined` |
-| `intlYear`      | `intl-year`       | Accessible name for the component's year input.                          | `string`                     | `undefined` |
-| `localeData`    | --                | CLDR locale data for translated calendar info                            | `DateLocaleData`             | `undefined` |
-| `max`           | --                | Specifies the latest allowed date (`"yyyy-mm-dd"`).                      | `Date`                       | `undefined` |
-| `min`           | --                | Specifies the earliest allowed date (`"yyyy-mm-dd"`).                    | `Date`                       | `undefined` |
-| `scale`         | `scale`           | Specifies the size of the component.                                     | `"l" \| "m" \| "s"`          | `undefined` |
-| `selectedDate`  | --                | Already selected date.                                                   | `Date`                       | `undefined` |
+| Property       | Attribute       | Description                                                              | Type                         | Default     |
+| -------------- | --------------- | ------------------------------------------------------------------------ | ---------------------------- | ----------- |
+| `activeDate`   | --              | Focused date with indicator (will become selected date if user proceeds) | `Date`                       | `undefined` |
+| `headingLevel` | `heading-level` | Specifies the number at which section headings should start.             | `1 \| 2 \| 3 \| 4 \| 5 \| 6` | `undefined` |
+| `localeData`   | --              | CLDR locale data for translated calendar info                            | `DateLocaleData`             | `undefined` |
+| `max`          | --              | Specifies the latest allowed date (`"yyyy-mm-dd"`).                      | `Date`                       | `undefined` |
+| `min`          | --              | Specifies the earliest allowed date (`"yyyy-mm-dd"`).                    | `Date`                       | `undefined` |
+| `scale`        | `scale`         | Specifies the size of the component.                                     | `"l" \| "m" \| "s"`          | `undefined` |
+| `selectedDate` | --              | Already selected date.                                                   | `Date`                       | `undefined` |
 
 ## Events
 

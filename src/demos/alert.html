@@ -21,11 +21,12 @@
       .small,
       .medium,
       .large,
+      .brand,
       .info,
       .success,
       .warning,
       .danger,
-      .auto-dismiss-speed,
+      .auto-close-speed,
       .alert-insert-in-dom,
       .setfocus {
         margin: 0 auto;
@@ -35,7 +36,7 @@
         grid-gap: 50px;
       }
 
-      .auto-dismiss-speed {
+      .auto-close-speed {
         grid-template-columns: repeat(3, 1fr);
       }
 
@@ -43,6 +44,7 @@
         grid-template-columns: repeat(2, 1fr);
       }
 
+      .brand,
       .info,
       .success,
       .warning,
@@ -74,7 +76,7 @@
       // example for alerts appended to dom
       function createExampleAlert(id) {
         const exampleAlert = [
-          "<calcite-alert id=" + id + " color='red'>",
+          "<calcite-alert id=" + id + " kind='danger'>",
           "<div slot='title'>Something failed</div>",
           "<div slot='message'>" + id + " That thing you wanted to do didn't work as expected</div>",
           "<calcite-link slot='link' title='my action' appearance='inline'>Take action</calcite-link>",
@@ -85,7 +87,7 @@
           document.querySelector("body").insertAdjacentHTML("beforeend", exampleAlert);
         }
         // open the alert we just created
-        document.querySelector("#" + id).setAttribute("active", "");
+        document.querySelector("#" + id).setAttribute("open", "");
       }
     </script>
   </head>
@@ -106,6 +108,55 @@
             <div>Small</div>
           </div>
 
+          <!-- BRAND -->
+          <div class="brand">
+            <div class="right-aligned-text">Brand</div>
+
+            <div>
+              <calcite-button
+                appearance="minimal"
+                title="small default"
+                scale="s"
+                onclick="document.querySelector('#default-s').setAttribute('open', '')"
+              >
+                Default
+              </calcite-button>
+            </div>
+
+            <div>
+              <calcite-button
+                appearance="minimal"
+                title="default, small, autoclose, icon, title"
+                scale="s"
+                onclick="document.querySelector('#default-s-autoclose').setAttribute('open', '')"
+              >
+                autoclose
+              </calcite-button>
+            </div>
+
+            <div>
+              <calcite-button
+                appearance="minimal"
+                title="default, small, default, icon, title"
+                scale="s"
+                onclick="document.querySelector('#default-s-icon').setAttribute('open', '')"
+              >
+                Default, icon
+              </calcite-button>
+            </div>
+
+            <div>
+              <calcite-button
+                appearance="minimal"
+                title="default, small, autoclose, icon, title"
+                scale="s"
+                onclick="document.querySelector('#default-s-icon-link').setAttribute('open', '')"
+              >
+                Default, icon, link
+              </calcite-button>
+            </div>
+          </div>
+
           <!-- INFO -->
           <div class="info">
             <div class="right-aligned-text">Info</div>
@@ -115,7 +166,7 @@
                 appearance="minimal"
                 title="small default"
                 scale="s"
-                onclick="document.querySelector('#default-s').setAttribute('active', '')"
+                onclick="document.querySelector('#default-s-info').setAttribute('open', '')"
               >
                 Default
               </calcite-button>
@@ -124,11 +175,11 @@
             <div>
               <calcite-button
                 appearance="minimal"
-                title="default, small, autodismiss, icon, title"
+                title="default, small, autoclose, icon, title"
                 scale="s"
-                onclick="document.querySelector('#default-s-autodismiss').setAttribute('active', '')"
+                onclick="document.querySelector('#default-s-info-autoclose').setAttribute('open', '')"
               >
-                Autodismiss
+                autoclose
               </calcite-button>
             </div>
 
@@ -137,7 +188,7 @@
                 appearance="minimal"
                 title="default, small, default, icon, title"
                 scale="s"
-                onclick="document.querySelector('#default-s-icon').setAttribute('active', '')"
+                onclick="document.querySelector('#default-s-info-icon').setAttribute('open', '')"
               >
                 Default, icon
               </calcite-button>
@@ -146,9 +197,9 @@
             <div>
               <calcite-button
                 appearance="minimal"
-                title="default, small, autodismiss, icon, title"
+                title="default, small, autoclose, icon, title"
                 scale="s"
-                onclick="document.querySelector('#default-s-icon-link').setAttribute('active', '')"
+                onclick="document.querySelector('#default-s-info-icon-link').setAttribute('open', '')"
               >
                 Default, icon, link
               </calcite-button>
@@ -164,7 +215,7 @@
                 appearance="minimal"
                 title="small default"
                 scale="s"
-                onclick="document.querySelector('#default-s-success').setAttribute('active', '')"
+                onclick="document.querySelector('#default-s-success').setAttribute('open', '')"
               >
                 Default
               </calcite-button>
@@ -173,20 +224,20 @@
             <div>
               <calcite-button
                 appearance="minimal"
-                title="default, small, autodismiss, icon, title, green"
+                title="default, small, autoclose, icon, title, success"
                 scale="s"
-                onclick="document.querySelector('#default-s-success-autodismiss').setAttribute('active', '')"
+                onclick="document.querySelector('#default-s-success-autoclose').setAttribute('open', '')"
               >
-                Autodismiss
+                autoclose
               </calcite-button>
             </div>
 
             <div>
               <calcite-button
                 appearance="minimal"
-                title="default, small, default, icon, title, green"
+                title="default, small, default, icon, title, success"
                 scale="s"
-                onclick="document.querySelector('#default-s-success-icon').setAttribute('active', '')"
+                onclick="document.querySelector('#default-s-success-icon').setAttribute('open', '')"
               >
                 Default, icon
               </calcite-button>
@@ -195,9 +246,9 @@
             <div>
               <calcite-button
                 appearance="minimal"
-                title="default, small, autodismiss, icon, title, green"
+                title="default, small, autoclose, icon, title, success"
                 scale="s"
-                onclick="document.querySelector('#default-s-success-icon-link').setAttribute('active', '')"
+                onclick="document.querySelector('#default-s-success-icon-link').setAttribute('open', '')"
               >
                 Default, icon, link
               </calcite-button>
@@ -213,7 +264,7 @@
                 appearance="minimal"
                 title="small default"
                 scale="s"
-                onclick="document.querySelector('#default-s-warning').setAttribute('active', '')"
+                onclick="document.querySelector('#default-s-warning').setAttribute('open', '')"
               >
                 Default
               </calcite-button>
@@ -222,20 +273,20 @@
             <div>
               <calcite-button
                 appearance="minimal"
-                title="default, small, autodismiss, icon, title, yellow"
+                title="default, small, autoclose, icon, title, warning"
                 scale="s"
-                onclick="document.querySelector('#default-s-warning-autodismiss').setAttribute('active', '')"
+                onclick="document.querySelector('#default-s-warning-autoclose').setAttribute('open', '')"
               >
-                Autodismiss
+                autoclose
               </calcite-button>
             </div>
 
             <div>
               <calcite-button
                 appearance="minimal"
-                title="default, small, default, icon, title, yellow"
+                title="default, small, default, icon, title, warning"
                 scale="s"
-                onclick="document.querySelector('#default-s-warning-icon').setAttribute('active', '')"
+                onclick="document.querySelector('#default-s-warning-icon').setAttribute('open', '')"
               >
                 Default, icon
               </calcite-button>
@@ -244,9 +295,9 @@
             <div>
               <calcite-button
                 appearance="minimal"
-                title="default, small, autodismiss, icon, title, yellow"
+                title="default, small, autoclose, icon, title, warning"
                 scale="s"
-                onclick="document.querySelector('#default-s-warning-icon-link').setAttribute('active', '')"
+                onclick="document.querySelector('#default-s-warning-icon-link').setAttribute('open', '')"
               >
                 Default, icon, link
               </calcite-button>
@@ -262,7 +313,7 @@
                 appearance="minimal"
                 title="small default"
                 scale="s"
-                onclick="document.querySelector('#default-s-danger').setAttribute('active', '')"
+                onclick="document.querySelector('#default-s-danger').setAttribute('open', '')"
               >
                 Default
               </calcite-button>
@@ -271,20 +322,20 @@
             <div>
               <calcite-button
                 appearance="minimal"
-                title="default, small, autodismiss, icon, title, red"
+                title="default, small, autoclose, icon, title, danger"
                 scale="s"
-                onclick="document.querySelector('#default-s-danger-autodismiss').setAttribute('active', '')"
+                onclick="document.querySelector('#default-s-danger-autoclose').setAttribute('open', '')"
               >
-                Autodismiss
+                autoclose
               </calcite-button>
             </div>
 
             <div>
               <calcite-button
                 appearance="minimal"
-                title="default, small, default, icon, title, red"
+                title="default, small, default, icon, title, danger"
                 scale="s"
-                onclick="document.querySelector('#default-s-danger-icon').setAttribute('active', '')"
+                onclick="document.querySelector('#default-s-danger-icon').setAttribute('open', '')"
               >
                 Default, icon
               </calcite-button>
@@ -293,9 +344,9 @@
             <div>
               <calcite-button
                 appearance="minimal"
-                title="default, small, autodismiss, icon, title, red"
+                title="default, small, autoclose, icon, title, danger"
                 scale="s"
-                onclick="document.querySelector('#default-s-danger-icon-link').setAttribute('active', '')"
+                onclick="document.querySelector('#default-s-danger-icon-link').setAttribute('open', '')"
               >
                 Default, icon, link
               </calcite-button>
@@ -312,6 +363,55 @@
             <div>Medium</div>
           </div>
 
+          <!-- BRAND -->
+          <div class="brand">
+            <div class="right-aligned-text">Brand</div>
+
+            <div>
+              <calcite-button
+                appearance="minimal"
+                title="small default"
+                scale="s"
+                onclick="document.querySelector('#default-m').setAttribute('open', '')"
+              >
+                Default
+              </calcite-button>
+            </div>
+
+            <div>
+              <calcite-button
+                appearance="minimal"
+                title="default, small, autoclose, icon, title"
+                scale="s"
+                onclick="document.querySelector('#default-m-autoclose').setAttribute('open', '')"
+              >
+                autoclose
+              </calcite-button>
+            </div>
+
+            <div>
+              <calcite-button
+                appearance="minimal"
+                title="default, small, default, icon, title"
+                scale="s"
+                onclick="document.querySelector('#default-m-icon').setAttribute('open', '')"
+              >
+                Default, icon
+              </calcite-button>
+            </div>
+
+            <div>
+              <calcite-button
+                appearance="minimal"
+                title="default, small, autoclose, icon, title"
+                scale="s"
+                onclick="document.querySelector('#default-m-icon-link').setAttribute('open', '')"
+              >
+                Default, icon, link
+              </calcite-button>
+            </div>
+          </div>
+
           <!-- INFO -->
           <div class="info">
             <div class="right-aligned-text">Info</div>
@@ -321,7 +421,7 @@
                 appearance="minimal"
                 title="medium default"
                 scale="s"
-                onclick="document.querySelector('#default-m').setAttribute('active', '')"
+                onclick="document.querySelector('#default-m-info').setAttribute('open', '')"
               >
                 Default
               </calcite-button>
@@ -330,11 +430,11 @@
             <div>
               <calcite-button
                 appearance="minimal"
-                title="default, medium, autodismiss, icon, title"
+                title="default, medium, autoclose, icon, title"
                 scale="s"
-                onclick="document.querySelector('#default-m-autodismiss').setAttribute('active', '')"
+                onclick="document.querySelector('#default-m-info-autoclose').setAttribute('open', '')"
               >
-                Autodismiss
+                autoclose
               </calcite-button>
             </div>
 
@@ -343,7 +443,7 @@
                 appearance="minimal"
                 title="default, medium, default, icon, title"
                 scale="s"
-                onclick="document.querySelector('#default-m-icon').setAttribute('active', '')"
+                onclick="document.querySelector('#default-m-info-icon').setAttribute('open', '')"
               >
                 Default, icon
               </calcite-button>
@@ -352,9 +452,9 @@
             <div>
               <calcite-button
                 appearance="minimal"
-                title="default, medium, autodismiss, icon, title"
+                title="default, medium, autoclose, icon, title"
                 scale="s"
-                onclick="document.querySelector('#default-m-icon-link').setAttribute('active', '')"
+                onclick="document.querySelector('#default-m-info-icon-link').setAttribute('open', '')"
               >
                 Default, icon, link
               </calcite-button>
@@ -370,7 +470,7 @@
                 appearance="minimal"
                 title="medium default"
                 scale="s"
-                onclick="document.querySelector('#default-m-success').setAttribute('active', '')"
+                onclick="document.querySelector('#default-m-success').setAttribute('open', '')"
               >
                 Default
               </calcite-button>
@@ -379,20 +479,20 @@
             <div>
               <calcite-button
                 appearance="minimal"
-                title="default, medium, autodismiss, icon, title, green"
+                title="default, medium, autoclose, icon, title, success"
                 scale="s"
-                onclick="document.querySelector('#default-m-success-autodismiss').setAttribute('active', '')"
+                onclick="document.querySelector('#default-m-success-autoclose').setAttribute('open', '')"
               >
-                Autodismiss
+                autoclose
               </calcite-button>
             </div>
 
             <div>
               <calcite-button
                 appearance="minimal"
-                title="default, medium, default, icon, title, green"
+                title="default, medium, default, icon, title, success"
                 scale="s"
-                onclick="document.querySelector('#default-m-success-icon').setAttribute('active', '')"
+                onclick="document.querySelector('#default-m-success-icon').setAttribute('open', '')"
               >
                 Default, icon
               </calcite-button>
@@ -401,9 +501,9 @@
             <div>
               <calcite-button
                 appearance="minimal"
-                title="default, medium, autodismiss, icon, title, green"
+                title="default, medium, autoclose, icon, title, success"
                 scale="s"
-                onclick="document.querySelector('#default-m-success-icon-link').setAttribute('active', '')"
+                onclick="document.querySelector('#default-m-success-icon-link').setAttribute('open', '')"
               >
                 Default, icon, link
               </calcite-button>
@@ -419,7 +519,7 @@
                 appearance="minimal"
                 title="medium default"
                 scale="s"
-                onclick="document.querySelector('#default-m-warning').setAttribute('active', '')"
+                onclick="document.querySelector('#default-m-warning').setAttribute('open', '')"
               >
                 Default
               </calcite-button>
@@ -428,20 +528,20 @@
             <div>
               <calcite-button
                 appearance="minimal"
-                title="default, medium, autodismiss, icon, title, yellow"
+                title="default, medium, autoclose, icon, title, warning"
                 scale="s"
-                onclick="document.querySelector('#default-m-warning-autodismiss').setAttribute('active', '')"
+                onclick="document.querySelector('#default-m-warning-autoclose').setAttribute('open', '')"
               >
-                Autodismiss
+                autoclose
               </calcite-button>
             </div>
 
             <div>
               <calcite-button
                 appearance="minimal"
-                title="default, medium, default, icon, title, yellow"
+                title="default, medium, default, icon, title, warning"
                 scale="s"
-                onclick="document.querySelector('#default-m-warning-icon').setAttribute('active', '')"
+                onclick="document.querySelector('#default-m-warning-icon').setAttribute('open', '')"
               >
                 Default, icon
               </calcite-button>
@@ -450,9 +550,9 @@
             <div>
               <calcite-button
                 appearance="minimal"
-                title="default, medium, autodismiss, icon, title, yellow"
+                title="default, medium, autoclose, icon, title, warning"
                 scale="s"
-                onclick="document.querySelector('#default-m-warning-icon-link').setAttribute('active', '')"
+                onclick="document.querySelector('#default-m-warning-icon-link').setAttribute('open', '')"
               >
                 Default, icon, link
               </calcite-button>
@@ -468,7 +568,7 @@
                 appearance="minimal"
                 title="medium default"
                 scale="s"
-                onclick="document.querySelector('#default-m-danger').setAttribute('active', '')"
+                onclick="document.querySelector('#default-m-danger').setAttribute('open', '')"
               >
                 Default
               </calcite-button>
@@ -477,20 +577,20 @@
             <div>
               <calcite-button
                 appearance="minimal"
-                title="default, medium, autodismiss, icon, title, red"
+                title="default, medium, autoclose, icon, title, danger"
                 scale="s"
-                onclick="document.querySelector('#default-m-danger-autodismiss').setAttribute('active', '')"
+                onclick="document.querySelector('#default-m-danger-autoclose').setAttribute('open', '')"
               >
-                Autodismiss
+                autoclose
               </calcite-button>
             </div>
 
             <div>
               <calcite-button
                 appearance="minimal"
-                title="default, medium, default, icon, title, red"
+                title="default, medium, default, icon, title, danger"
                 scale="s"
-                onclick="document.querySelector('#default-m-danger-icon').setAttribute('active', '')"
+                onclick="document.querySelector('#default-m-danger-icon').setAttribute('open', '')"
               >
                 Default, icon
               </calcite-button>
@@ -499,9 +599,9 @@
             <div>
               <calcite-button
                 appearance="minimal"
-                title="default, medium, autodismiss, icon, title, red"
+                title="default, medium, autoclose, icon, title, danger"
                 scale="s"
-                onclick="document.querySelector('#default-m-danger-icon-link').setAttribute('active', '')"
+                onclick="document.querySelector('#default-m-danger-icon-link').setAttribute('open', '')"
               >
                 Default, icon, link
               </calcite-button>
@@ -518,6 +618,55 @@
             <div>Large</div>
           </div>
 
+          <!-- BRAND -->
+          <div class="brand">
+            <div class="right-aligned-text">Brand</div>
+
+            <div>
+              <calcite-button
+                appearance="minimal"
+                title="small default"
+                scale="s"
+                onclick="document.querySelector('#default-l').setAttribute('open', '')"
+              >
+                Default
+              </calcite-button>
+            </div>
+
+            <div>
+              <calcite-button
+                appearance="minimal"
+                title="default, small, autoclose, icon, title"
+                scale="s"
+                onclick="document.querySelector('#default-l-autoclose').setAttribute('open', '')"
+              >
+                autoclose
+              </calcite-button>
+            </div>
+
+            <div>
+              <calcite-button
+                appearance="minimal"
+                title="default, small, default, icon, title"
+                scale="s"
+                onclick="document.querySelector('#default-l-icon').setAttribute('open', '')"
+              >
+                Default, icon
+              </calcite-button>
+            </div>
+
+            <div>
+              <calcite-button
+                appearance="minimal"
+                title="default, small, autoclose, icon, title"
+                scale="s"
+                onclick="document.querySelector('#default-l-icon-link').setAttribute('open', '')"
+              >
+                Default, icon, link
+              </calcite-button>
+            </div>
+          </div>
+
           <!-- INFO -->
           <div class="info">
             <div class="right-aligned-text">Info</div>
@@ -527,7 +676,7 @@
                 appearance="minimal"
                 title="large default"
                 scale="s"
-                onclick="document.querySelector('#default-l').setAttribute('active', '')"
+                onclick="document.querySelector('#default-l-info').setAttribute('open', '')"
               >
                 Default
               </calcite-button>
@@ -536,11 +685,11 @@
             <div>
               <calcite-button
                 appearance="minimal"
-                title="default, large, autodismiss, icon, title"
+                title="default, large, autoclose, icon, title"
                 scale="s"
-                onclick="document.querySelector('#default-l-autodismiss').setAttribute('active', '')"
+                onclick="document.querySelector('#default-l-info-autoclose').setAttribute('open', '')"
               >
-                Autodismiss
+                autoclose
               </calcite-button>
             </div>
 
@@ -549,7 +698,7 @@
                 appearance="minimal"
                 title="default, large, default, icon, title"
                 scale="s"
-                onclick="document.querySelector('#default-l-icon').setAttribute('active', '')"
+                onclick="document.querySelector('#default-l-info-icon').setAttribute('open', '')"
               >
                 Default, icon
               </calcite-button>
@@ -558,9 +707,9 @@
             <div>
               <calcite-button
                 appearance="minimal"
-                title="default, large, autodismiss, icon, title"
+                title="default, large, autoclose, icon, title"
                 scale="s"
-                onclick="document.querySelector('#default-l-icon-link').setAttribute('active', '')"
+                onclick="document.querySelector('#default-l-info-icon-link').setAttribute('open', '')"
               >
                 Default, icon, link
               </calcite-button>
@@ -576,7 +725,7 @@
                 appearance="minimal"
                 title="large default"
                 scale="s"
-                onclick="document.querySelector('#default-l-success').setAttribute('active', '')"
+                onclick="document.querySelector('#default-l-success').setAttribute('open', '')"
               >
                 Default
               </calcite-button>
@@ -585,20 +734,20 @@
             <div>
               <calcite-button
                 appearance="minimal"
-                title="default, large, autodismiss, icon, title, green"
+                title="default, large, autoclose, icon, title, success"
                 scale="s"
-                onclick="document.querySelector('#default-l-success-autodismiss').setAttribute('active', '')"
+                onclick="document.querySelector('#default-l-success-autoclose').setAttribute('open', '')"
               >
-                Autodismiss
+                autoclose
               </calcite-button>
             </div>
 
             <div>
               <calcite-button
                 appearance="minimal"
-                title="default, large, default, icon, title, green"
+                title="default, large, default, icon, title, success"
                 scale="s"
-                onclick="document.querySelector('#default-l-success-icon').setAttribute('active', '')"
+                onclick="document.querySelector('#default-l-success-icon').setAttribute('open', '')"
               >
                 Default, icon
               </calcite-button>
@@ -607,9 +756,9 @@
             <div>
               <calcite-button
                 appearance="minimal"
-                title="default, large, autodismiss, icon, title, green"
+                title="default, large, autoclose, icon, title, success"
                 scale="s"
-                onclick="document.querySelector('#default-l-success-icon-link').setAttribute('active', '')"
+                onclick="document.querySelector('#default-l-success-icon-link').setAttribute('open', '')"
               >
                 Default, icon, link
               </calcite-button>
@@ -625,7 +774,7 @@
                 appearance="minimal"
                 title="large default"
                 scale="s"
-                onclick="document.querySelector('#default-l-warning').setAttribute('active', '')"
+                onclick="document.querySelector('#default-l-warning').setAttribute('open', '')"
               >
                 Default
               </calcite-button>
@@ -634,20 +783,20 @@
             <div>
               <calcite-button
                 appearance="minimal"
-                title="default, large, autodismiss, icon, title, yellow"
+                title="default, large, autoclose, icon, title, warning"
                 scale="s"
-                onclick="document.querySelector('#default-l-warning-autodismiss').setAttribute('active', '')"
+                onclick="document.querySelector('#default-l-warning-autoclose').setAttribute('open', '')"
               >
-                Autodismiss
+                autoclose
               </calcite-button>
             </div>
 
             <div>
               <calcite-button
                 appearance="minimal"
-                title="default, large, default, icon, title, yellow"
+                title="default, large, default, icon, title, warning"
                 scale="s"
-                onclick="document.querySelector('#default-l-warning-icon').setAttribute('active', '')"
+                onclick="document.querySelector('#default-l-warning-icon').setAttribute('open', '')"
               >
                 Default, icon
               </calcite-button>
@@ -656,9 +805,9 @@
             <div>
               <calcite-button
                 appearance="minimal"
-                title="default, large, autodismiss, icon, title, yellow"
+                title="default, large, autoclose, icon, title, warning"
                 scale="s"
-                onclick="document.querySelector('#default-l-warning-icon-link').setAttribute('active', '')"
+                onclick="document.querySelector('#default-l-warning-icon-link').setAttribute('open', '')"
               >
                 Default, icon, link
               </calcite-button>
@@ -674,7 +823,7 @@
                 appearance="minimal"
                 title="large default"
                 scale="s"
-                onclick="document.querySelector('#default-l-danger').setAttribute('active', '')"
+                onclick="document.querySelector('#default-l-danger').setAttribute('open', '')"
               >
                 Default
               </calcite-button>
@@ -683,20 +832,20 @@
             <div>
               <calcite-button
                 appearance="minimal"
-                title="default, large, autodismiss, icon, title, red"
+                title="default, large, autoclose, icon, title, danger"
                 scale="s"
-                onclick="document.querySelector('#default-l-danger-autodismiss').setAttribute('active', '')"
+                onclick="document.querySelector('#default-l-danger-autoclose').setAttribute('open', '')"
               >
-                Autodismiss
+                autoclose
               </calcite-button>
             </div>
 
             <div>
               <calcite-button
                 appearance="minimal"
-                title="default, large, default, icon, title, red"
+                title="default, large, default, icon, title, danger"
                 scale="s"
-                onclick="document.querySelector('#default-l-danger-icon').setAttribute('active', '')"
+                onclick="document.querySelector('#default-l-danger-icon').setAttribute('open', '')"
               >
                 Default, icon
               </calcite-button>
@@ -705,9 +854,9 @@
             <div>
               <calcite-button
                 appearance="minimal"
-                title="default, large, autodismiss, icon, title, red"
+                title="default, large, autoclose, icon, title, danger"
                 scale="s"
-                onclick="document.querySelector('#default-l-danger-icon-link').setAttribute('active', '')"
+                onclick="document.querySelector('#default-l-danger-icon-link').setAttribute('open', '')"
               >
                 Default, icon, link
               </calcite-button>
@@ -721,11 +870,11 @@
         ************************************************************
       -->
         <div class="second-container">
-          <!-- Removes all the active alerts -->
+          <!-- Removes all the open alerts -->
           <div>
             <calcite-button
               title="close and remove all alerts"
-              color="red"
+              kind="danger"
               scale="s"
               icon-start="x-circle"
               onclick="closeAlerts()"
@@ -737,7 +886,7 @@
               const closeAlerts = () => {
                 const alertRemoval = document.querySelectorAll("calcite-alert");
                 alertRemoval.forEach((alert) => {
-                  alert.removeAttribute("active");
+                  alert.removeAttribute("open");
                 });
               };
             </script>
@@ -765,27 +914,27 @@
             </calcite-radio-group>
             <script>
               const updatePlacement = (placement) => {
-                const activeAlerts = document.querySelectorAll("calcite-alert");
-                if (!activeAlerts.length) return;
-                activeAlerts.forEach((alert) => alert.setAttribute("placement", placement));
+                const openAlerts = document.querySelectorAll("calcite-alert");
+                if (!openAlerts.length) return;
+                openAlerts.forEach((alert) => alert.setAttribute("placement", placement));
               };
             </script>
           </div>
           <div class="second-container-margin">
-            <!-- updates the speed of the autodismiss progress bar i.e. fast, medium, slow -->
-            <p>Auto-dismiss speed</p>
+            <!-- updates the speed of the autoclose progress bar i.e. fast, medium, slow -->
+            <p>auto-close speed</p>
             <calcite-radio-group width="full">
-              <calcite-radio-group-item value="Fast" onclick="autoDismissSpeed('fast');">Fast</calcite-radio-group-item>
-              <calcite-radio-group-item value="Medium" onclick="autoDismissSpeed('medium');" checked
+              <calcite-radio-group-item value="Fast" onclick="autocloseSpeed('fast');">Fast</calcite-radio-group-item>
+              <calcite-radio-group-item value="Medium" onclick="autocloseSpeed('medium');" checked
                 >Medium
               </calcite-radio-group-item>
-              <calcite-radio-group-item value="Slow" onclick="autoDismissSpeed('slow');">Slow</calcite-radio-group-item>
+              <calcite-radio-group-item value="Slow" onclick="autocloseSpeed('slow');">Slow</calcite-radio-group-item>
             </calcite-radio-group>
             <script>
-              const autoDismissSpeed = (speed) => {
-                const activeAlerts = document.querySelectorAll("calcite-alert[auto-dismiss][active]");
-                if (!activeAlerts.length) return;
-                activeAlerts.forEach((alert) => alert.setAttribute("auto-dismiss-duration", speed));
+              const autocloseSpeed = (speed) => {
+                const openAlerts = document.querySelectorAll("calcite-alert[auto-close][open]");
+                if (!openAlerts.length) return;
+                openAlerts.forEach((alert) => alert.setAttribute("auto-close-duration", speed));
               };
             </script>
           </div>
@@ -813,7 +962,7 @@
             </div>
           </div>
 
-          <!-- setFocus method focuses slotted link or close button on current active alert  -->
+          <!-- setFocus method focuses slotted link or close button on current open alert  -->
           <div class="second-container-margin">
             <p>Using the setFocus() method (once opened)</p>
             <div>
@@ -823,7 +972,7 @@
 
               <script>
                 const focusItems = () => {
-                  document.querySelector("calcite-alert[active]").setFocus();
+                  document.querySelector("calcite-alert[open]").setFocus();
                 };
               </script>
             </div>
@@ -836,16 +985,16 @@
       * SMALL SCALE
       ******************************************************************************************************
     -->
-      <!-- Test prop for small info-->
+      <!-- Test prop for small brand-->
       <div>
         <calcite-alert label="this is a default alert" id="default-s" scale="s">
           <div slot="title">Hello there!</div>
           <div slot="message">This is an alert with a general piece of information. Cool, innit?</div>
         </calcite-alert>
 
-        <calcite-alert label="this is an alert" id="default-s-autodismiss" scale="s" auto-dismiss icon>
+        <calcite-alert label="this is an alert" id="default-s-autoclose" scale="s" auto-close icon>
           <div slot="title">Hello there!</div>
-          <div slot="message">This is an auto-dismiss message</div>
+          <div slot="message">This is an auto-close message</div>
           <calcite-link slot="link" title="my action"> Do thing </calcite-link>
         </calcite-alert>
 
@@ -861,19 +1010,50 @@
         </calcite-alert>
       </div>
 
+      <!-- Test prop for small info-->
+      <div>
+        <calcite-alert label="this is a default alert" id="default-s-info" scale="s" kind="info">
+          <div slot="title">Hello there!</div>
+          <div slot="message">This is an alert with a general piece of information. Cool, innit?</div>
+        </calcite-alert>
+
+        <calcite-alert label="this is an alert" id="default-s-info-autoclose" scale="s" kind="info" auto-close icon>
+          <div slot="title">Hello there!</div>
+          <div slot="message">This is an auto-close message</div>
+          <calcite-link slot="link" title="my action"> Do thing </calcite-link>
+        </calcite-alert>
+
+        <calcite-alert label="this is a default alert with icon" id="default-s-info-icon" scale="s" kind="info" icon>
+          <div slot="title">Hello there!</div>
+          <div slot="message">This is a default alert message with an alert.</div>
+        </calcite-alert>
+
+        <calcite-alert
+          label="this is a default alert with icon and link"
+          id="default-s-info-icon-link"
+          scale="s"
+          kind="info"
+          icon
+        >
+          <div slot="title">Hello there!</div>
+          <div slot="message">This is a default alert message with an an icon and link.</div>
+          <calcite-link slot="link" title="my action"> Do thing </calcite-link>
+        </calcite-alert>
+      </div>
+
       <!-- Test prop for small success-->
       <div>
-        <calcite-alert label="this is a default success" id="default-s-success" scale="s" color="green">
+        <calcite-alert label="this is a default success" id="default-s-success" scale="s" kind="success">
           <div slot="title">Hello there!</div>
           <div slot="message">Success, let's goo!!</div>
         </calcite-alert>
 
         <calcite-alert
           label="this is a success"
-          id="default-s-success-autodismiss"
+          id="default-s-success-autoclose"
           scale="s"
-          color="green"
-          auto-dismiss
+          kind="success"
+          auto-close
           icon
         >
           <div slot="title">Hello there!</div>
@@ -885,7 +1065,7 @@
           label="this is a default success with icon"
           id="default-s-success-icon"
           scale="s"
-          color="green"
+          kind="success"
           icon
         >
           <div slot="title">Hello there!</div>
@@ -896,7 +1076,7 @@
           label="this is a default success with icon and link"
           id="default-s-success-icon-link"
           scale="s"
-          color="green"
+          kind="success"
           icon
         >
           <div slot="title">Hello there!</div>
@@ -907,17 +1087,17 @@
 
       <!-- Test prop for small warning-->
       <div>
-        <calcite-alert label="this is a default warning" id="default-s-warning" scale="s" color="yellow">
+        <calcite-alert label="this is a default warning" id="default-s-warning" scale="s" kind="warning">
           <div slot="title">Hello there!</div>
           <div slot="message">This is a warning!</div>
         </calcite-alert>
 
         <calcite-alert
           label="this is a warning"
-          id="default-s-warning-autodismiss"
+          id="default-s-warning-autoclose"
           scale="s"
-          color="yellow"
-          auto-dismiss
+          kind="warning"
+          auto-close
           icon
         >
           <div slot="title">Hello there!</div>
@@ -929,7 +1109,7 @@
           label="this is a default warning with icon"
           id="default-s-warning-icon"
           scale="s"
-          color="yellow"
+          kind="warning"
           icon
         >
           <div slot="title">Hello there!</div>
@@ -940,7 +1120,7 @@
           label="this is a default warning with icon and link"
           id="default-s-warning-icon-link"
           scale="s"
-          color="yellow"
+          kind="warning"
           icon
         >
           <div slot="title">Hello there!</div>
@@ -951,25 +1131,24 @@
 
       <!-- Test prop for small danger-->
       <div>
-        <calcite-alert label="this is a default danger" id="default-s-danger" scale="s" color="red">
+        <calcite-alert label="this is a default danger" id="default-s-danger" scale="s" kind="danger">
           <div slot="title">Hello there!</div>
           <div slot="message">This is a danger area.</div>
         </calcite-alert>
 
-        <calcite-alert
-          label="this is a danger"
-          id="default-s-danger-autodismiss"
-          scale="s"
-          color="red"
-          auto-dismiss
-          icon
-        >
+        <calcite-alert label="this is a danger" id="default-s-danger-autoclose" scale="s" kind="danger" auto-close icon>
           <div slot="title">Hello there!</div>
           <div slot="message">You can not enter here.</div>
           <calcite-link slot="link" title="my action"> Do thing </calcite-link>
         </calcite-alert>
 
-        <calcite-alert label="this is a default danger with icon" id="default-s-danger-icon" scale="s" color="red" icon>
+        <calcite-alert
+          label="this is a default danger with icon"
+          id="default-s-danger-icon"
+          scale="s"
+          kind="danger"
+          icon
+        >
           <div slot="title">Hello there!</div>
           <div slot="message">Access denied.</div>
         </calcite-alert>
@@ -978,7 +1157,7 @@
           label="this is a default danger with icon and link"
           id="default-s-danger-icon-link"
           scale="s"
-          color="red"
+          kind="danger"
           icon
         >
           <div slot="title">Hello there!</div>
@@ -992,16 +1171,16 @@
         * MEDIUM SCALE
         ******************************************************
       -->
-      <!-- Test prop for medium info-->
+      <!-- Test prop for medium brand-->
       <div>
         <calcite-alert label="this is a default alert" id="default-m" scale="m">
           <div slot="title">Hello there!</div>
           <div slot="message">This is an alert with a general piece of information. Cool, innit?</div>
         </calcite-alert>
 
-        <calcite-alert label="this is an alert" id="default-m-autodismiss" scale="m" auto-dismiss icon>
+        <calcite-alert label="this is an alert" id="default-m-autoclose" scale="m" auto-close icon>
           <div slot="title">Hello there!</div>
-          <div slot="message">This is an auto-dismiss message</div>
+          <div slot="message">This is an auto-close message</div>
           <calcite-link slot="link" title="my action"> Do thing </calcite-link>
         </calcite-alert>
 
@@ -1017,19 +1196,50 @@
         </calcite-alert>
       </div>
 
+      <!-- Test prop for medium info-->
+      <div>
+        <calcite-alert label="this is a default alert" id="default-m-info" scale="m" kind="info">
+          <div slot="title">Hello there!</div>
+          <div slot="message">This is an alert with a general piece of information. Cool, innit?</div>
+        </calcite-alert>
+
+        <calcite-alert label="this is an alert" id="default-m-info-autoclose" scale="m" kind="info" auto-close icon>
+          <div slot="title">Hello there!</div>
+          <div slot="message">This is an auto-close message</div>
+          <calcite-link slot="link" title="my action"> Do thing </calcite-link>
+        </calcite-alert>
+
+        <calcite-alert label="this is a default alert with icon" id="default-m-info-icon" kind="info" scale="m" icon>
+          <div slot="title">Hello there!</div>
+          <div slot="message">This is a default alert message with an alert.</div>
+        </calcite-alert>
+
+        <calcite-alert
+          label="this is a default alert with icon and link"
+          id="default-m-info-icon-link"
+          kind="info"
+          scale="m"
+          icon
+        >
+          <div slot="title">Hello there!</div>
+          <div slot="message">This is a default alert message with an an icon and link.</div>
+          <calcite-link slot="link" title="my action"> Do thing </calcite-link>
+        </calcite-alert>
+      </div>
+
       <!-- Test prop for medium success-->
       <div>
-        <calcite-alert label="this is a default success" id="default-m-success" scale="m" color="green">
+        <calcite-alert label="this is a default success" id="default-m-success" scale="m" kind="success">
           <div slot="title">Hello there!</div>
           <div slot="message">Success, let's goo!!</div>
         </calcite-alert>
 
         <calcite-alert
           label="this is a success"
-          id="default-m-success-autodismiss"
+          id="default-m-success-autoclose"
           scale="m"
-          color="green"
-          auto-dismiss
+          kind="success"
+          auto-close
           icon
         >
           <div slot="title">Hello there!</div>
@@ -1041,7 +1251,7 @@
           label="this is a default success with icon"
           id="default-m-success-icon"
           scale="m"
-          color="green"
+          kind="success"
           icon
         >
           <div slot="title">Hello there!</div>
@@ -1052,7 +1262,7 @@
           label="this is a default success with icon and link"
           id="default-m-success-icon-link"
           scale="m"
-          color="green"
+          kind="success"
           icon
         >
           <div slot="title">Hello there!</div>
@@ -1063,17 +1273,17 @@
 
       <!-- Test prop for medium warning-->
       <div>
-        <calcite-alert label="this is a default warning" id="default-m-warning" scale="m" color="yellow">
+        <calcite-alert label="this is a default warning" id="default-m-warning" scale="m" kind="warning">
           <div slot="title">Hello there!</div>
           <div slot="message">This is a warning!</div>
         </calcite-alert>
 
         <calcite-alert
           label="this is a warning"
-          id="default-m-warning-autodismiss"
+          id="default-m-warning-autoclose"
           scale="m"
-          color="yellow"
-          auto-dismiss
+          kind="warning"
+          auto-close
           icon
         >
           <div slot="title">Hello there!</div>
@@ -1085,7 +1295,7 @@
           label="this is a default warning with icon"
           id="default-m-warning-icon"
           scale="m"
-          color="yellow"
+          kind="warning"
           icon
         >
           <div slot="title">Hello there!</div>
@@ -1096,7 +1306,7 @@
           label="this is a default warning with icon and link"
           id="default-m-warning-icon-link"
           scale="m"
-          color="yellow"
+          kind="warning"
           icon
         >
           <div slot="title">Hello there!</div>
@@ -1107,25 +1317,24 @@
 
       <!-- Test prop for medium danger-->
       <div>
-        <calcite-alert label="this is a default danger" id="default-m-danger" scale="m" color="red">
+        <calcite-alert label="this is a default danger" id="default-m-danger" scale="m" kind="danger">
           <div slot="title">Hello there!</div>
           <div slot="message">This is a danger area.</div>
         </calcite-alert>
 
-        <calcite-alert
-          label="this is a danger"
-          id="default-m-danger-autodismiss"
-          scale="m"
-          color="red"
-          auto-dismiss
-          icon
-        >
+        <calcite-alert label="this is a danger" id="default-m-danger-autoclose" scale="m" kind="danger" auto-close icon>
           <div slot="title">Hello there!</div>
           <div slot="message">You can not enter here.</div>
           <calcite-link slot="link" title="my action"> Do thing </calcite-link>
         </calcite-alert>
 
-        <calcite-alert label="this is a default danger with icon" id="default-m-danger-icon" scale="m" color="red" icon>
+        <calcite-alert
+          label="this is a default danger with icon"
+          id="default-m-danger-icon"
+          scale="m"
+          kind="danger"
+          icon
+        >
           <div slot="title">Hello there!</div>
           <div slot="message">Access denied.</div>
         </calcite-alert>
@@ -1134,7 +1343,7 @@
           label="this is a default danger with icon and link"
           id="default-m-danger-icon-link"
           scale="m"
-          color="red"
+          kind="danger"
           icon
         >
           <div slot="title">Hello there!</div>
@@ -1148,16 +1357,17 @@
         * LARGE SCALE
         ******************************************************
       -->
-      <!-- Test prop for large info-->
+
+      <!-- Test prop for large brand-->
       <div>
         <calcite-alert label="this is a default alert" id="default-l" scale="l">
           <div slot="title">Hello there!</div>
           <div slot="message">This is an alert with a general piece of information. Cool, innit?</div>
         </calcite-alert>
 
-        <calcite-alert label="this is an alert" id="default-l-autodismiss" scale="l" auto-dismiss icon>
+        <calcite-alert label="this is an alert" id="default-l-autoclose" scale="l" auto-close icon>
           <div slot="title">Hello there!</div>
-          <div slot="message">This is an auto-dismiss message</div>
+          <div slot="message">This is an auto-close message</div>
           <calcite-link slot="link" title="my action"> Do thing </calcite-link>
         </calcite-alert>
 
@@ -1173,19 +1383,50 @@
         </calcite-alert>
       </div>
 
+      <!-- Test prop for large info-->
+      <div>
+        <calcite-alert label="this is a default alert" id="default-info-l" scale="l" kind="info">
+          <div slot="title">Hello there!</div>
+          <div slot="message">This is an alert with a general piece of information. Cool, innit?</div>
+        </calcite-alert>
+
+        <calcite-alert label="this is an alert" id="default-l-info-autoclose" scale="l" kind="info" auto-close icon>
+          <div slot="title">Hello there!</div>
+          <div slot="message">This is an auto-close message</div>
+          <calcite-link slot="link" title="my action"> Do thing </calcite-link>
+        </calcite-alert>
+
+        <calcite-alert label="this is a default alert with icon" id="default-l-info-icon" scale="l" kind="info" icon>
+          <div slot="title">Hello there!</div>
+          <div slot="message">This is a default alert message with an alert.</div>
+        </calcite-alert>
+
+        <calcite-alert
+          label="this is a default alert with icon and link"
+          id="default-l-info-icon-link"
+          scale="l"
+          kind="info"
+          icon
+        >
+          <div slot="title">Hello there!</div>
+          <div slot="message">This is a default alert message with an an icon and link.</div>
+          <calcite-link slot="link" title="my action"> Do thing </calcite-link>
+        </calcite-alert>
+      </div>
+
       <!-- Test prop for large success-->
       <div>
-        <calcite-alert label="this is a default success" id="default-l-success" scale="l" color="green">
+        <calcite-alert label="this is a default success" id="default-l-success" scale="l" kind="success">
           <div slot="title">Hello there!</div>
           <div slot="message">Success, let's goo!!</div>
         </calcite-alert>
 
         <calcite-alert
           label="this is a success"
-          id="default-l-success-autodismiss"
+          id="default-l-success-autoclose"
           scale="l"
-          color="green"
-          auto-dismiss
+          kind="success"
+          auto-close
           icon
         >
           <div slot="title">Hello there!</div>
@@ -1197,7 +1438,7 @@
           label="this is a default success with icon"
           id="default-l-success-icon"
           scale="l"
-          color="green"
+          kind="success"
           icon
         >
           <div slot="title">Hello there!</div>
@@ -1208,7 +1449,7 @@
           label="this is a default success with icon and link"
           id="default-l-success-icon-link"
           scale="l"
-          color="green"
+          kind="success"
           icon
         >
           <div slot="title">Hello there!</div>
@@ -1219,17 +1460,17 @@
 
       <!-- Test prop for large warning-->
       <div>
-        <calcite-alert label="this is a default warning" id="default-l-warning" scale="l" color="yellow">
+        <calcite-alert label="this is a default warning" id="default-l-warning" scale="l" kind="warning">
           <div slot="title">Hello there!</div>
           <div slot="message">This is a warning!</div>
         </calcite-alert>
 
         <calcite-alert
           label="this is a warning"
-          id="default-l-warning-autodismiss"
+          id="default-l-warning-autoclose"
           scale="l"
-          color="yellow"
-          auto-dismiss
+          kind="warning"
+          auto-close
           icon
         >
           <div slot="title">Hello there!</div>
@@ -1241,7 +1482,7 @@
           label="this is a default warning with icon"
           id="default-l-warning-icon"
           scale="l"
-          color="yellow"
+          kind="warning"
           icon
         >
           <div slot="title">Hello there!</div>
@@ -1252,7 +1493,7 @@
           label="this is a default warning with icon and link"
           id="default-l-warning-icon-link"
           scale="l"
-          color="yellow"
+          kind="warning"
           icon
         >
           <div slot="title">Hello there!</div>
@@ -1263,25 +1504,24 @@
 
       <!-- Test prop for large danger-->
       <div>
-        <calcite-alert label="this is a default danger" id="default-l-danger" scale="l" color="red">
+        <calcite-alert label="this is a default danger" id="default-l-danger" scale="l" kind="danger">
           <div slot="title">Hello there!</div>
           <div slot="message">This is a danger area.</div>
         </calcite-alert>
 
-        <calcite-alert
-          label="this is a danger"
-          id="default-l-danger-autodismiss"
-          scale="l"
-          color="red"
-          auto-dismiss
-          icon
-        >
+        <calcite-alert label="this is a danger" id="default-l-danger-autoclose" scale="l" kind="danger" auto-close icon>
           <div slot="title">Hello there!</div>
           <div slot="message">You can not enter here.</div>
           <calcite-link slot="link" title="my action"> Do thing </calcite-link>
         </calcite-alert>
 
-        <calcite-alert label="this is a default danger with icon" id="default-l-danger-icon" scale="l" color="red" icon>
+        <calcite-alert
+          label="this is a default danger with icon"
+          id="default-l-danger-icon"
+          scale="l"
+          kind="danger"
+          icon
+        >
           <div slot="title">Hello there!</div>
           <div slot="message">Access denied.</div>
         </calcite-alert>
@@ -1290,7 +1530,7 @@
           label="this is a default danger with icon and link"
           id="default-l-danger-icon-link"
           scale="l"
-          color="red"
+          kind="danger"
           icon
         >
           <div slot="title">Hello there!</div>
