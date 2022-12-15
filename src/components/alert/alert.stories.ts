@@ -232,7 +232,7 @@ export const autoClosableeRetainsCloseButton_TestOnly = (): string => html`
       --calcite-duration-factor: 0;
     }
   </style>
-  <calcite-alert auto-close auto-close-duration="medium" open scale="m" kind="blue">
+  <calcite-alert auto-close auto-close-duration="medium" open scale="m" kind="info">
     <div slot="title">Here's a general bit of information</div>
     <div slot="message">Some kind of contextually relevant content</div>
     <calcite-link slot="link" title="my action" role="presentation"> Take action </calcite-link>
