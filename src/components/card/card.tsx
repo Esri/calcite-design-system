@@ -71,28 +71,6 @@ export class Card implements ConditionalSlotComponent, LocalizedComponent, T9nCo
   /** When `true`, the component is selectable. */
   @Prop({ reflect: true }) selectable = false;
 
-  /**
-   * Accessible name when the component is loading.
-   *
-   * @default "Loading"
-   * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`
-   */
-  @Prop() intlLoading?: string;
-
-  /**
-   * When `selectable` is `true`, the accessible name for the component's checkbox for selection.
-   *
-   * @default "Select"
-   */
-  @Prop({ reflect: false }) intlSelect?: string;
-
-  /**
-   * When `selectable` is `true`, the accessible name for the component's checkbox for deselection.
-   *
-   * @default "Deselect"
-   */
-  @Prop({ reflect: false }) intlDeselect?: string;
-
   /** Sets the placement of the thumbnail defined in the `thumbnail` slot. */
   @Prop({ reflect: true }) thumbnailPosition: LogicalFlowPosition = "block-start";
 
@@ -108,9 +86,6 @@ export class Card implements ConditionalSlotComponent, LocalizedComponent, T9nCo
    */
   @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
 
-  @Watch("intlLoading")
-  @Watch("intlDeselect")
-  @Watch("intlSelect")
   @Watch("messageOverrides")
   onMessagesChange(): void {
     /* wired up by t9n util */

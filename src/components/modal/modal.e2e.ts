@@ -22,7 +22,7 @@ describe("calcite-modal properties", () => {
     const page = await newE2EPage();
     await page.setContent("<calcite-modal></calcite-modal>");
     const modal = await page.find("calcite-modal");
-    modal.setProperty("disableCloseButton", true);
+    modal.setProperty("closeButtonDisabled", true);
     await page.waitForChanges();
     const closeButton = await page.find("calcite-modal >>> .close");
     expect(closeButton).toBe(null);
@@ -294,7 +294,7 @@ describe("calcite-modal accessibility checks", () => {
   it("traps focus within the modal when open and disabled close button", async () => {
     const page = await newE2EPage();
     await page.setContent(
-      `<calcite-modal disable-close-button>
+      `<calcite-modal close-button-disabled>
         <div slot="content">
           <button class="btn-1">Focus1</button>
           <button class="btn-2">Focus1</button>
@@ -338,7 +338,7 @@ describe("calcite-modal accessibility checks", () => {
       }));
 
     it("focuses content if there is no close button", async () =>
-      focusable(createModalHTML(focusableContentHTML, "disable-close-button"), {
+      focusable(createModalHTML(focusableContentHTML, "close-button-disabled"), {
         focusTargetSelector: `.${focusableContentTargetClass}`
       }));
 
@@ -423,7 +423,7 @@ describe("calcite-modal accessibility checks", () => {
 
   it("should not close when the scrim is clicked", async () => {
     const page = await newE2EPage();
-    await page.setContent(`<calcite-modal disable-outside-close intl-close="test"></calcite-modal>`);
+    await page.setContent(`<calcite-modal outside-close-disabled intl-close="test"></calcite-modal>`);
     const modal = await page.find("calcite-modal");
     modal.setProperty("open", true);
     await page.waitForChanges();
@@ -433,9 +433,9 @@ describe("calcite-modal accessibility checks", () => {
     expect(await modal.getProperty("open")).toBe(true);
   });
 
-  it("does not close when Escape is pressed and disable-escape is set", async () => {
+  it("does not close when Escape is pressed and escape-disabled is set", async () => {
     const page = await newE2EPage();
-    await page.setContent(`<calcite-modal disable-escape></calcite-modal>`);
+    await page.setContent(`<calcite-modal escape-disabled></calcite-modal>`);
     const modal = await page.find("calcite-modal");
     await modal.setProperty("open", true);
     await page.waitForChanges();

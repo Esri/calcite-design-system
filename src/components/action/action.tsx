@@ -12,7 +12,7 @@ import {
   Build
 } from "@stencil/core";
 import { Alignment, Appearance, Scale } from "../interfaces";
-import { CSS, TEXT, SLOTS } from "./resources";
+import { CSS, SLOTS } from "./resources";
 import { guid } from "../../utils/guid";
 import { createObserver } from "../../utils/observers";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
@@ -83,21 +83,6 @@ export class Action
   @Prop({ reflect: true }) indicator = false;
 
   /**
-   * When `indicator` is `true`, specifies the accessible context of the `indicator`.
-   *
-   * @default "Indicator present"
-   */
-  @Prop() intlIndicator: string = TEXT.indicator;
-
-  /**
-   * Specifies the text label to display while loading.
-   *
-   * @default "Loading"
-   * @deprecated - translations are now built-in, if you need to override a string, please use `messageOverrides`
-   */
-  @Prop() intlLoading?: string;
-
-  /**
    * Specifies the label of the component. If no label is provided, the label inherits what's provided for the `text` prop.
    */
   @Prop() label: string;
@@ -134,8 +119,6 @@ export class Action
    */
   @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
 
-  @Watch("intlLoading")
-  @Watch("intlIndicator")
   @Watch("messageOverrides")
   onMessagesChange(): void {
     /* wired up by t9n util */
@@ -295,7 +278,6 @@ export class Action
       buttonId,
       messages
     } = this;
-
     const ariaLabel = `${label || text}${indicator ? ` (${messages.indicator})` : ""}`;
 
     const buttonClasses = {

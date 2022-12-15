@@ -44,20 +44,6 @@ export class BlockSection implements LocalizedComponent, T9nComponent {
   // --------------------------------------------------------------------------
 
   /**
-   * Accessible name for the component's collapse button.
-   *
-   * @deprecated - translations are now built-in, if you need to override a string, please use `messageOverrides`
-   */
-  @Prop() intlCollapse: string;
-
-  /**
-   * Accessible name for the component's expand button.
-   *
-   * @deprecated - translations are now built-in, if you need to override a string, please use `messageOverrides`
-   */
-  @Prop() intlExpand: string;
-
-  /**
    * When `true`, expands the component and its contents.
    */
   @Prop({ reflect: true, mutable: true }) open = false;
@@ -93,8 +79,6 @@ export class BlockSection implements LocalizedComponent, T9nComponent {
    */
   @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
 
-  @Watch("intlCollapse")
-  @Watch("intlExpand")
   @Watch("messageOverrides")
   onMessagesChange(): void {
     /* wired up by t9n util */

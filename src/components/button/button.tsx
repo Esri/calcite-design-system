@@ -87,14 +87,6 @@ export class Button
   @Prop({ reflect: true }) iconStart: string;
 
   /**
-   * Accessible name when the component is loading.
-   *
-   * @default "Loading"
-   * @deprecated - translations are now built-in, if you need to override a string, please use `messageOverrides`
-   */
-  @Prop() intlLoading?: string;
-
-  /**
    * When `true`, a busy indicator is displayed and interaction is disabled.
    */
   @Prop({ reflect: true }) loading = false;
@@ -166,7 +158,6 @@ export class Button
     }
   }
 
-  @Watch("intlLoading")
   @Watch("messageOverrides")
   onMessagesChange(): void {
     /** referred in t9n util */
