@@ -87,20 +87,6 @@ export class ActionBar
   }
 
   /**
-   * Specifies the label of the expand icon when the component is collapsed.
-   *
-   * @deprecated - translations are now built-in, if you need to override a string, please use `messageOverrides`
-   */
-  @Prop() intlExpand: string;
-
-  /**
-   * Specifies the label of the collapse icon when the component is expanded.
-   *
-   * @deprecated - translations are now built-in, if you need to override a string, please use `messageOverrides`
-   */
-  @Prop() intlCollapse: string;
-
-  /**
    *  The layout direction of the actions.
    */
   @Prop({ reflect: true }) layout: Extract<"horizontal" | "vertical", Layout> = "vertical";
@@ -139,8 +125,6 @@ export class ActionBar
    */
   @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
 
-  @Watch("intlCollapse")
-  @Watch("intlExpand")
   @Watch("messageOverrides")
   onMessagesChange(): void {
     /* wired up by t9n util */
@@ -348,7 +332,6 @@ export class ActionBar
       <ExpandToggle
         el={el}
         expanded={expanded}
-        // rename intl properties for 1.0
         intlCollapse={messages.collapse}
         intlExpand={messages.expand}
         position={position}
