@@ -63,6 +63,10 @@
   margin-inline: auto;
 }
 
+.container:not(.image--slotted) .image-container {
+  display: none;
+}
+
 :host([scale="s"][closable]) .container:not(.content--slotted) .image-container {
   margin-inline-end: theme("spacing[0.5]");
 }

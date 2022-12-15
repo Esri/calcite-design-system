@@ -5,7 +5,8 @@ export const CSS = {
   chipIcon: "chip-icon",
   closeIcon: "close-icon",
   contentSlotted: "content--slotted",
-  container: "container"
+  container: "container",
+  imageSlotted: "image--slotted"
 };
 
 export const SLOTS = {

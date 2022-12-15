@@ -11,7 +11,6 @@ import {
   State,
   Build
 } from "@stencil/core";
-import { getSlotted } from "../../utils/dom";
 import { guid } from "../../utils/guid";
 import { CSS, SLOTS, ICONS } from "./resources";
 import { Appearance, DeprecatedEventPayload, Kind, Scale } from "../interfaces";
@@ -36,6 +35,7 @@ import {
   componentLoaded
 } from "../../utils/loadable";
 import { createObserver } from "../../utils/observers";
+import { slotChangeHasAssignedElement } from "../../utils/dom";
 
 /**
  * @slot - A slot for adding text.
@@ -187,8 +187,7 @@ export class Chip
   private updateHasContent() {
     const slottedContent = this.el.textContent.trim().length > 0 || this.el.childNodes.length > 0;
     this.hasContent =
-      (getSlotted(this.el, SLOTS.image) || this.el.childNodes.length === 1) &&
-      this.el.childNodes[0]?.nodeName === "#text"
+      this.el.childNodes.length > 0 && this.el.childNodes[0]?.nodeName === "#text"
         ? this.el.textContent?.trim().length > 0
         : slottedContent;
   }
@@ -196,6 +195,10 @@ export class Chip
   private setupTextContentObserver() {
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
   }
+
+  private handleSlotImageChange = (event: Event): void => {
+    this.hasImage = slotChangeHasAssignedElement(event);
+  };
 
   //--------------------------------------------------------------------------
   //
@@ -212,6 +215,9 @@ export class Chip
 
   /** determine if there is slotted content for styling purposes */
   @State() private hasContent = false;
+
+  /** determine if there is slotted image for styling purposes */
+  @State() private hasImage = false;
   //--------------------------------------------------------------------------
   //
   //  Render Methods
@@ -219,14 +225,11 @@ export class Chip
   //--------------------------------------------------------------------------
 
   renderChipImage(): VNode {
-    const { el } = this;
-    const hasChipImage = getSlotted(el, SLOTS.image);
-
-    return hasChipImage ? (
+    return (
       <div class={CSS.imageContainer} key="image">
-        <slot name={SLOTS.image} />
+        <slot name={SLOTS.image} onSlotchange={this.handleSlotImageChange} />
       </div>
-    ) : null;
+    );
   }
 
   render(): VNode {
@@ -256,7 +259,13 @@ export class Chip
     );
 
     return (
-      <div class={{ [CSS.container]: true, [CSS.contentSlotted]: this.hasContent }}>
+      <div
+        class={{
+          [CSS.container]: true,
+          [CSS.contentSlotted]: this.hasContent,
+          [CSS.imageSlotted]: this.hasImage
+        }}
+      >
         {this.renderChipImage()}
         {this.icon ? iconEl : null}
         <span class={CSS.title} id={this.guid}>
