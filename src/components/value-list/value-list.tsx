@@ -237,6 +237,8 @@ export class ValueList<
 
   /**
    * Emits when any of the list item selections have changed.
+   *
+   * @deprecated – This event will be removed in a future release.
    */
   @Event({ cancelable: false }) calciteListChange: EventEmitter<
     Map<string, HTMLCalciteValueListItemElement>
@@ -244,6 +246,8 @@ export class ValueList<
 
   /**
    * Emits when the order of the list has changed.
+   *
+   * @deprecated – This event will be removed in a future release.
    */
   @Event({ cancelable: false }) calciteListOrderChange: EventEmitter<any[]>;
 

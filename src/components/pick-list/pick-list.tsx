@@ -180,6 +180,8 @@ export class PickList<
 
   /**
    * Emits when any of the `calcite-pick-list-item` selections have changed.
+   *
+   * @deprecated – This event will be removed in a future release.
    */
   @Event({ cancelable: false }) calciteListChange: EventEmitter<
     Map<string, HTMLCalcitePickListItemElement>
