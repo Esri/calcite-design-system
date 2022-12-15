@@ -104,22 +104,22 @@ describe("calcite-flow-item", () => {
       <calcite-flow style="height: 300px">
         <calcite-flow-item heading="Flow heading" id="flowOrPanel">
           <calcite-block heading="Block example" summary="Some subtext" collapsible open>
-            <calcite-notice active>
+            <calcite-notice open>
               <div slot="message">An excellent assortment of content.</div>
             </calcite-notice>
           </calcite-block>
           <calcite-block heading="Block example" summary="Some subtext" collapsible open>
-            <calcite-notice active>
+            <calcite-notice open>
               <div slot="message">An excellent assortment of content.</div>
             </calcite-notice>
           </calcite-block>
           <calcite-block heading="Block example" summary="Some subtext" collapsible open>
-            <calcite-notice active>
+            <calcite-notice open>
               <div slot="message">An excellent assortment of content.</div>
             </calcite-notice>
           </calcite-block>
           <calcite-block heading="Block example" summary="Some subtext" collapsible open>
-            <calcite-notice active>
+            <calcite-notice open>
               <div slot="message">An excellent assortment of content.</div>
             </calcite-notice>
           </calcite-block>
