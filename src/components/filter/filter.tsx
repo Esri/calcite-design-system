@@ -14,7 +14,6 @@ import {
 import { debounce } from "lodash-es";
 import { CSS, DEBOUNCE_TIMEOUT, ICONS } from "./resources";
 import { Scale } from "../interfaces";
-import { focusElement } from "../../utils/dom";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { filter } from "../../utils/filter";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
@@ -36,7 +35,9 @@ import {
 @Component({
   tag: "calcite-filter",
   styleUrl: "filter.scss",
-  shadow: true,
+  shadow: {
+    delegatesFocus: true
+  },
   assetsDirs: ["assets"]
 })
 export class Filter
@@ -184,7 +185,7 @@ export class Filter
   async setFocus(): Promise<void> {
     await componentLoaded(this);
 
-    focusElement(this.textInput);
+    this.el?.focus();
   }
 
   // --------------------------------------------------------------------------

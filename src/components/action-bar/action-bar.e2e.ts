@@ -236,8 +236,7 @@ describe("calcite-action-bar", () => {
         </calcite-action-bar>
       `,
       {
-        focusId: "expand-toggle",
-        focusTargetSelector: "calcite-action-bar"
+        focusTargetSelector: "calcite-action"
       }
     ));
 
