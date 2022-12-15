@@ -153,7 +153,7 @@ export class Rating
   /**
    * Fires when the component's value changes.
    */
-  @Event({ cancelable: false }) calciteRatingChange: EventEmitter<{ value: number }>;
+  @Event({ cancelable: false }) calciteRatingChange: EventEmitter<void>;
 
   //--------------------------------------------------------------------------
   //
@@ -264,7 +264,7 @@ export class Rating
 
   private updateValue(value: number) {
     this.value = value;
-    this.calciteRatingChange.emit({ value });
+    this.calciteRatingChange.emit();
   }
 
   private onKeyboardPressed = (event: KeyboardEvent): void => {
