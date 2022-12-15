@@ -12,23 +12,23 @@
 
 ## Properties
 
-| Property             | Attribute       | Description                                                                                  | Type                                               | Default      |
-| -------------------- | --------------- | -------------------------------------------------------------------------------------------- | -------------------------------------------------- | ------------ |
-| `appearance`         | `appearance`    | Specifies the appearance style of the component.                                             | `"solid" \| "transparent"`                         | `"solid"`    |
-| `closable`           | `closable`      | When `true`, a close button is added to the component.                                       | `boolean`                                          | `false`      |
-| `closed`             | `closed`        | When `true`, hides the component.                                                            | `boolean`                                          | `false`      |
-| `color`              | `color`         | Specifies the color for the component.                                                       | `"blue" \| "green" \| "grey" \| "red" \| "yellow"` | `"grey"`     |
-| `dismissLabel`       | `dismiss-label` | Accessible name for the component's close button.                                            | `string`                                           | `TEXT.close` |
-| `icon`               | `icon`          | Specifies an icon to display.                                                                | `string`                                           | `undefined`  |
-| `iconFlipRtl`        | `icon-flip-rtl` | When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). | `boolean`                                          | `false`      |
-| `scale`              | `scale`         | Specifies the size of the component.                                                         | `"l" \| "m" \| "s"`                                | `"m"`        |
-| `value` _(required)_ | `value`         | The component's value.                                                                       | `any`                                              | `undefined`  |
+| Property             | Attribute           | Description                                                                                  | Type                                               | Default     |
+| -------------------- | ------------------- | -------------------------------------------------------------------------------------------- | -------------------------------------------------- | ----------- |
+| `appearance`         | `appearance`        | Specifies the appearance style of the component.                                             | `"solid" \| "transparent"`                         | `"solid"`   |
+| `closable`           | `closable`          | When `true`, a close button is added to the component.                                       | `boolean`                                          | `false`     |
+| `closed`             | `closed`            | When `true`, hides the component.                                                            | `boolean`                                          | `false`     |
+| `color`              | `color`             | Specifies the color for the component.                                                       | `"blue" \| "green" \| "grey" \| "red" \| "yellow"` | `"grey"`    |
+| `icon`               | `icon`              | Specifies an icon to display.                                                                | `string`                                           | `undefined` |
+| `iconFlipRtl`        | `icon-flip-rtl`     | When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). | `boolean`                                          | `false`     |
+| `messageOverrides`   | `message-overrides` | Use this property to override individual strings used by the component.                      | `Messages`                                         | `undefined` |
+| `scale`              | `scale`             | Specifies the size of the component.                                                         | `"l" \| "m" \| "s"`                                | `"m"`       |
+| `value` _(required)_ | `value`             | The component's value.                                                                       | `any`                                              | `undefined` |
 
 ## Events
 
-| Event              | Description                                                                                                                                               | Type               |
-| ------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------ |
-| `calciteChipClose` | Fires when the dismiss button is clicked. **Note:**: The `el` event payload props is deprecated, please use the event's `target`/`currentTarget` instead. | `CustomEvent<any>` |
+| Event              | Description                                                                                                                                             | Type               |
+| ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------ |
+| `calciteChipClose` | Fires when the close button is clicked. **Note:**: The `el` event payload props is deprecated, please use the event's `target`/`currentTarget` instead. | `CustomEvent<any>` |
 
 ## Methods
 
