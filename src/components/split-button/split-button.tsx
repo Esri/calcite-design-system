@@ -11,7 +11,9 @@ import { InteractiveComponent, updateHostInteraction } from "../../utils/interac
 @Component({
   tag: "calcite-split-button",
   styleUrl: "split-button.scss",
-  shadow: true
+  shadow: {
+    delegatesFocus: true
+  }
 })
 export class SplitButton implements InteractiveComponent {
   @Element() el: HTMLCalciteSplitButtonElement;

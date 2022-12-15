@@ -9,7 +9,13 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### ⚠ BREAKING CHANGES
 
-- **notice:** Removed deprecated properties.
+- Removed the `focusId` parameter from `action-bar` and
+  `action-pad`'s `setFocus` method
+
+* **action-bar, action-pad:** Removed `focusId` paramter `setFocus`
+  method, focus is delegated to the first focusable element.
+
+* **notice:** Removed deprecated properties.
 
 Removed the property `active`, use `open` instead.
 Removed the property `dimissible`, use `closable` property instead.

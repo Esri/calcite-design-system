@@ -39,7 +39,9 @@ export interface PaginationDetail {
 @Component({
   tag: "calcite-pagination",
   styleUrl: "pagination.scss",
-  shadow: true,
+  shadow: {
+    delegatesFocus: true
+  },
   assetsDirs: ["assets"]
 })
 export class Pagination implements LocalizedComponent, LocalizedComponent, T9nComponent {

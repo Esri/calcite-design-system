@@ -42,7 +42,9 @@ import {
   assetsDirs: ["assets"],
   tag: "calcite-date-picker",
   styleUrl: "date-picker.scss",
-  shadow: true
+  shadow: {
+    delegatesFocus: true
+  }
 })
 export class DatePicker implements LocalizedComponent, T9nComponent {
   //--------------------------------------------------------------------------
