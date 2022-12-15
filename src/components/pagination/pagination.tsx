@@ -59,25 +59,9 @@ export class Pagination implements LocalizedComponent, LocalizedComponent, T9nCo
    */
   @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
 
-  @Watch("textLabelNext")
-  @Watch("textLabelPrevious")
   @Watch("messageOverrides")
   onMessagesChange(): void {
     /* wired up by t9n util */
-  }
-
-  getExtraMessageOverrides(): Partial<Messages> {
-    const extraOverrides: Partial<Messages> = {};
-
-    if (this.textLabelNext) {
-      extraOverrides.next = this.textLabelNext;
-    }
-
-    if (this.textLabelPrevious) {
-      extraOverrides.previous = this.textLabelPrevious;
-    }
-
-    return extraOverrides;
   }
 
   /** Specifies the number of items per page. */
@@ -93,20 +77,6 @@ export class Pagination implements LocalizedComponent, LocalizedComponent, T9nCo
 
   /** Specifies the total number of items. */
   @Prop({ reflect: true }) total = 0;
-
-  /**
-   * Accessible name for the component's next button.
-   *
-   * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`
-   */
-  @Prop() textLabelNext: string;
-
-  /**
-   * Accessible name for the component's previous button.
-   *
-   * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`
-   */
-  @Prop() textLabelPrevious: string;
 
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
