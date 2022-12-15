@@ -11,385 +11,343 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 - **pagination:** Removed `event.detail` payload from events.
 
-* Removed the `event.detail` property on the event
-  `calcitePaginationChange`, use `event.target` instead.
+  - Removed the `event.detail` property on the event
+    `calcitePaginationChange`, use `event.target` instead.
 
 - **dropdown:** Removed `event.detail` payload from events.
 
-* Removed the `event.detail` property on the event
-  `calciteDropdownSelect`, use `event.target` instead.
+  - Removed the `event.detail` property on the event
+    `calciteDropdownSelect`, use `event.target` instead.
 
 - **rating:** Removed `event.detail` payload from events.
 
-* Removed the `event.detail` property on the event
-  `calciteRatingChange`, use `event.target` instead.
+  - Removed the `event.detail` property on the event
+    `calciteRatingChange`, use `event.target` instead.
 
-- **inline-editable,input,input-text,input-number:** Removed deprecated intl\* & accessible label properties.
+- **inline-editable,input,input-text,input-number:** Removed deprecated `intl\*` & accessible label properties.
 
-* inline-editable:
+- **inline-editable:**
 
-- Removed the property` intlEnableEditing` , use
-  `messsageOverrides.enableEditing` instead.
-- Removed the property `intlCancelEditing` use
-  `messageOverrides.cancelEditing` instead.
-- Removed the property `intlConfirmChanges` use
-  `messageOverrides.confirmChanges` instead.
+  - Removed the property` intlEnableEditing`, use `messsageOverrides.enableEditing` instead.
+  - Removed the property `intlCancelEditing`, use `messageOverrides.cancelEditing` instead.
+  - Removed the property `intlConfirmChanges`, use `messageOverrides.confirmChanges` instead.
 
-* input-number:
+- **input-number:**
 
-- Removed the property `intlClear` , use `messsageOverrides.clear`
-  instead.
-- Removed the property `intlLoading` , use `messsageOverrides.loading`
-  instead.
+  - Removed the property `intlClear`, use `messsageOverrides.clear` instead.
+  - Removed the property `intlLoading`, use `messsageOverrides.loading` instead.
 
-* input-text:
+- **input-text:**
 
-- Removed the property `intlClear` , use `messsageOverrides.clear`
-  instead.
-- Removed the property `intlLoading` , use `messsageOverrides.loading`
-  instead.
+  - Removed the property `intlClear`, use `messsageOverrides.clear` instead.
+  - Removed the property `intlLoading`, use `messsageOverrides.loading` instead.
 
-* input:
+- **input:**
 
-- Removed the property `intlClear` , use `messsageOverrides.clear`
-  instead.
-- Removed the property `intlLoading` , use `messsageOverrides.loading`
-  instead.
+  - Removed the property `intlClear`, use `messsageOverrides.clear` instead.
+  - Removed the property `intlLoading`, use `messsageOverrides.loading` instead.
 
-* **scrim,rating,time-picker,input-time-picker,value-list:** Removed deprecated intl\* & accessible label properties.
+- **scrim,rating,time-picker,input-time-picker,value-list:** Removed deprecated `intl\*` & accessible label properties.
 
-- rating:
+- **rating:**
 
-* Removed the property `intlStars` , use `messsageOverrides.stars`
-  instead.
-* Removed the property `intlRating` , use `messsageOverrides.rating`
-  instead.
+  - Removed the property `intlStars` , use `messsageOverrides.stars` instead.
+  - Removed the property `intlRating` , use `messsageOverrides.rating` instead.
 
-- scrim:
+- **scrim:**
 
-* Removed the property `intlLoading` , use `messsageOverrides.loading`
-  instead.
+  - Removed the property `intlLoading` , use `messsageOverrides.loading` instead.
 
-- time-picker:
+- **time-picker:**
 
-* Removed the property `intlHour`, use `messsageOverrides.hour` instead.
-* Removed the property `intlHourDown`, use `messsageOverrides.hourDown`
-  instead.
-* Removed the property `intlHourUp`, use `messsageOverrides.hourUp`
-  instead.
-* Removed the property `intlMeridiem`, use `messsageOverrides.meridiem`
-  instead.
-* Removed the property `intlMeridiemDown`, use
-  `messsageOverrides.meridiemDown` instead.
-* Removed the property `intlMeridiemUp`, use
-  `messsageOverrides.meridiemUp` instead.
-* Removed the property `intlMinute`, use `messsageOverrides.minute`
-  instead.
-* Removed the property `intlMinuteUp`, use `messsageOverrides.minuteUp`
-  instead.
-* Removed the property `intlMinuteDown`, use
-  `messsageOverrides.minuteDown` instead.
-* Removed the property `intlSecond`, use `messsageOverrides.second`
-  instead.
-* Removed the property `intlSecondUp`, use `messsageOverrides.secondUp`
-  instead.
-* Removed the property `intlSecondDown`, use
-  `messsageOverrides.secondDown` instead.
+  - Removed the property `intlHour`, use `messsageOverrides.hour` instead.
+  - Removed the property `intlHourDown`, use `messsageOverrides.hourDown` instead.
+  - Removed the property `intlHourUp`, use `messsageOverrides.hourUp` instead.
+  - Removed the property `intlMeridiem`, use `messsageOverrides.meridiem` instead.
+  - Removed the property `intlMeridiemDown`, use `messsageOverrides.meridiemDown` instead.
+  - Removed the property `intlMeridiemUp`, use `messsageOverrides.meridiemUp` instead.
+  - Removed the property `intlMinute`, use `messsageOverrides.minute` instead.
+  - Removed the property `intlMinuteUp`, use `messsageOverrides.minuteUp` instead.
+  - Removed the property `intlMinuteDown`, use `messsageOverrides.minuteDown` instead.
+  - Removed the property `intlSecond`, use `messsageOverrides.second` instead.
+  - Removed the property `intlSecondUp`, use `messsageOverrides.secondUp` instead.
+  - Removed the property `intlSecondDown`, use `messsageOverrides.secondDown` instead.
 
-- input-time-picker:
+- **input-time-picker:**
 
-* Removed the property `intlHour`, use `messsageOverrides.hour` instead.
-* Removed the property `intlHourDown`, use `messsageOverrides.hourDown`
-  instead.
-* Removed the property `intlHourUp`, use `messsageOverrides.hourUp`
-  instead.
-* Removed the property `intlMeridiem`, use `messsageOverrides.meridiem`
-  instead.
-* Removed the property `intlMeridiemDown`, use
-  `messsageOverrides.meridiemDown` instead.
-* Removed the property `intlMeridiemUp`, use
-  `messsageOverrides.meridiemUp` instead.
-* Removed the property `intlMinute`, use `messsageOverrides.minute`
-  instead.
-* Removed the property `intlMinuteUp`, use `messsageOverrides.minuteUp`
-  instead.
-* Removed the property `intlMinuteDown`, use
-  `messsageOverrides.minuteDown` instead.
-* Removed the property `intlSecond`, use `messsageOverrides.second`
-  instead.
-* Removed the property `intlSecondUp`, use `messsageOverrides.secondUp`
-  instead.
-* Removed the property `intlSecondDown`, use
-  `messsageOverrides.secondDown` instead.
+  - Removed the property `intlHour`, use `messsageOverrides.hour` instead.
+  - Removed the property `intlHourDown`, use `messsageOverrides.hourDown` instead.
+  - Removed the property `intlHourUp`, use `messsageOverrides.hourUp` instead.
+  - Removed the property `intlMeridiem`, use `messsageOverrides.meridiem` instead.
+  - Removed the property `intlMeridiemDown`, use`messsageOverrides.meridiemDown` instead.
+  - Removed the property `intlMeridiemUp`, use `messsageOverrides.meridiemUp` instead.
+  - Removed the property `intlMinute`, use `messsageOverrides.minute` instead.
+  - Removed the property `intlMinuteUp`, use `messsageOverrides.minuteUp` instead.
+  - Removed the property `intlMinuteDown`, use `messsageOverrides.minuteDown` instead.
+  - Removed the property `intlSecond`, use `messsageOverrides.second` instead.
+  - Removed the property `intlSecondUp`, use `messsageOverrides.secondUp` instead.
+  - Removed the property `intlSecondDown`, use `messsageOverrides.secondDown` instead.
 
-- value-list:
+- **value-list:**
 
-* Removed the property `intlDragHandleActive` , use
-  `messsageOverrides.dragHandleActive` instead.
-* Removed the property `intlDragHandleChange` , use
-  `messsageOverrides.dragHandleChange` instead.
-* Removed the property `intlDragHandleCommit` , use
-  `messsageOverrides.dragHandleCommit` instead.
-* Removed the property `intlDragHandleIdle` , use
-  `messsageOverrides.dragHandleIdle` instead.
+  - Removed the property `intlDragHandleActive`, use `messsageOverrides.dragHandleActive` instead.
+  - Removed the property `intlDragHandleChange`, use `messsageOverrides.dragHandleChange` instead.
+  - Removed the property `intlDragHandleCommit`, use `messsageOverrides.dragHandleCommit` instead.
+  - Removed the property `intlDragHandleIdle`, use `messsageOverrides.dragHandleIdle` instead.
 
-- **chip,card,combobox,date-picker,flow,flow-item,filter, input-date-picker:** Removed deprecated intl\* & accessible label properties.
+- **chip,card,combobox,date-picker,flow,flow-item,filter, input-date-picker:** Removed deprecated `intl\*` & accessible label properties.
 
-* card:
+- **card**:
 
-- Removed the property` intlLoading` , use `messsageOverrides.loading`
-  instead.
-- Removed the property `intlSelect` use `messageOverrides.select`
-  instead.
-- Removed the property `intlDeselect` use `messageOverrides.deselect`
-  instead.
+  - Removed the property `intlLoading` , use `messsageOverrides.loading`
+    instead.
+  - Removed the property `intlSelect` use `messageOverrides.select`
+    instead.
+  - Removed the property `intlDeselect` use `messageOverrides.deselect`
+    instead.
 
-* chip:
+- **chip**:
 
-- Removed the property `dismissLabel` , use
-  `messsageOverrides.dismissLabel ` instead.
+  - Removed the property `dismissLabel` , use
+    `messsageOverrides.dismissLabel ` instead.
 
-* color-picker:
+- **color-picker:**
+
   - Removed the property `intlB` , use `messsageOverrides.b` instead.
-
-- Removed the property `intlBlue` , use `messsageOverrides.blue`
-  instead.
-- Removed the property `intlDeleteColor` , use
-  `messsageOverrides.deleteColor` instead.
+  - Removed the property `intlBlue` , use `messsageOverrides.blue`
+    instead.
+  - Removed the property `intlDeleteColor` , use
+    `messsageOverrides.deleteColor` instead.
   - Removed the property `intlG` , use `messsageOverrides.g` instead.
-- Removed the property `intlGreen` , use `messsageOverrides.green`
-  instead.
+  - Removed the property `intlGreen` , use `messsageOverrides.green`
+    instead.
   - Removed the property `intlH` , use `messsageOverrides.h` instead.
-- Removed the property `intlHsv` , use `messsageOverrides.hsv` instead.
-- Removed the property `intlHex` , use `messsageOverrides.hex` instead.
-- Removed the property `intlHue` , use `messsageOverrides.hue` instead.
-- Removed the property `intlNoColor` , use `messsageOverrides.noColor`
-  instead.
+  - Removed the property `intlHsv` , use `messsageOverrides.hsv` instead.
+  - Removed the property `intlHex` , use `messsageOverrides.hex` instead.
+  - Removed the property `intlHue` , use `messsageOverrides.hue` instead.
+  - Removed the property `intlNoColor` , use `messsageOverrides.noColor`
+    instead.
   - Removed the property `intlR` , use `messsageOverrides.r` instead.
-- Removed the property `intlRed` , use `messsageOverrides.red` instead.
-- Removed the property `intlRgb` , use `messsageOverrides.rgb` instead.
+  - Removed the property `intlRed` , use `messsageOverrides.red` instead.
+  - Removed the property `intlRgb` , use `messsageOverrides.rgb` instead.
   - Removed the property `intlS` , use `messsageOverrides.s` instead.
-- Removed the property `intlSaturation` , use
-  `messsageOverrides.saturation` instead.
-- Removed the property `intlSaveColor` , use
-  `messsageOverrides.saveColor` instead.
-- Removed the property `intlSaved` , use `messsageOverrides.saved`
-  instead.
+  - Removed the property `intlSaturation` , use
+    `messsageOverrides.saturation` instead.
+  - Removed the property `intlSaveColor` , use
+    `messsageOverrides.saveColor` instead.
+  - Removed the property `intlSaved` , use `messsageOverrides.saved`
+    instead.
   - Removed the property `intlV` , use `messsageOverrides.v` instead.
-- Removed the property `intlValue` , use `messsageOverrides.value`
-  instead.
+  - Removed the property `intlValue` , use `messsageOverrides.value`
+    instead.
 
-* combobox:
+- **combobox:**
 
-- Removed the property `intlRemoveTag` , use
-  `messsageOverrides.removeTag` instead.
+  - Removed the property `intlRemoveTag` , use
+    `messsageOverrides.removeTag` instead.
 
-* date-picker
+- **date-picker:**
 
-- Removed the property `intlNextMonth`, use `messageOverrides.nextMonth`
-  instead.
-- Removed the property `intlPrevMonth`, use `messageOverrides.prevMonth`
-  instead.
-- Removed the property `intlYear`, use `messageOverrides.year` instead.
+  - Removed the property `intlNextMonth`, use `messageOverrides.nextMonth`
+    instead.
+  - Removed the property `intlPrevMonth`, use `messageOverrides.prevMonth`
+    instead.
+  - Removed the property `intlYear`, use `messageOverrides.year` instead.
 
-* flow-item:
+- **flow-item:**
 
-- Removed the property `intlBack` , use `messsageOverrides.back`
-  instead.
-- Removed the property `intlClose`, use `messageOverrides.close`
-  instead.
-- Removed the property `intlOptions` , use `messsageOverrides.options`
-  instead.
+  - Removed the property `intlBack` , use `messsageOverrides.back`
+    instead.
+  - Removed the property `intlClose`, use `messageOverrides.close`
+    instead.
+  - Removed the property `intlOptions` , use `messsageOverrides.options`
+    instead.
 
-* filter:
+- **filter:**
 
-- Removed the property `intlClear`, use `messsageOverrides.clear`
-  instead.
-- Removed the property `intlLabel`, use `messageOverrides.label`
-  instead.
+  - Removed the property `intlClear`, use `messsageOverrides.clear`
+    instead.
+  - Removed the property `intlLabel`, use `messageOverrides.label`
+    instead.
 
-* input-date-picker:
+- **input-date-picker:**
 
-- Removed the property `intlNextMonth`, use `messageOverrides.nextMonth`
-  instead.
-- Removed the property `intlPrevMonth`, use `messageOverrides.prevMonth`
-  instead.
-- Removed the property `intlYear`, use `messageOverrides.year` instead.
+  - Removed the property `intlNextMonth`, use `messageOverrides.nextMonth`
+    instead.
+  - Removed the property `intlPrevMonth`, use `messageOverrides.prevMonth`
+    instead.
+  - Removed the property `intlYear`, use `messageOverrides.year` instead.
+
 - **action,action-bar,action-group,action-pad,alert,block-section,block,button:** Removed deprecated `intl*` properties , use
   `messageOverrides` property instead.
 
-* action:
+- **action:**
 
-- Removed the property `intlLoading` , use `messsageOverrides.loading`
-  instead.
-- Removed the property `intlIndicator`, use `messageOverrides.indicator`
-  instead.
+  - Removed the property `intlLoading` , use `messsageOverrides.loading`
+    instead.
+  - Removed the property `intlIndicator`, use `messageOverrides.indicator`
+    instead.
 
-* action-bar:
+- **action-bar:**
 
-- Removed the property `intlExpand` , use `messsageOverrides.expand`
-  instead.
-- Removed the property `intlCollapse`, use `messageOverrides.collapse`
-  instead.
+  - Removed the property `intlExpand` , use `messsageOverrides.expand`
+    instead.
+  - Removed the property `intlCollapse`, use `messageOverrides.collapse`
+    instead.
 
-* action-group:
+- **action-group:**
 
-- Removed the property `intlMore` , use `messsageOverrides.more`
-  instead.
+  - Removed the property `intlMore` , use `messsageOverrides.more`
+    instead.
 
-* action-pad:
+- **action-pad**:
 
-- Removed the property `intlExpand` , use `messsageOverrides.expand`
-  instead.
-- Removed the property `intlCollapse`, use `messageOverrides.collapse`
-  instead.
+  - Removed the property `intlExpand` , use `messsageOverrides.expand`
+    instead.
+  - Removed the property `intlCollapse`, use `messageOverrides.collapse`
+    instead.
 
-* alert:
+- **alert**:
 
-- Removed the property `intlClose`, use `messageOverrides.close`
-  instead.
+  - Removed the property `intlClose`, use `messageOverrides.close`
+    instead.
 
-* block:
+- **block**:
 
-- Removed the property `intlExpand` , use `messsageOverrides.expand`
-  instead.
-- Removed the property `intlCollapse`, use `messageOverrides.collapse`
-  instead.
-- Removed the property `intlLoading` , use `messsageOverrides.loading`
-  instead.
-- Removed the property `intlOptions`, use `messageOverrides.options`
-  instead.
+  - Removed the property `intlExpand` , use `messsageOverrides.expand`
+    instead.
+  - Removed the property `intlCollapse`, use `messageOverrides.collapse`
+    instead.
+  - Removed the property `intlLoading` , use `messsageOverrides.loading`
+    instead.
+  - Removed the property `intlOptions`, use `messageOverrides.options`
+    instead.
 
-* block-section:
+- **block-section:**
 
-- Removed the property `intlExpand` , use `messsageOverrides.expand`
-  instead.
-- Removed the property `intlCollapse`, use `messageOverrides.collapse`
-  instead.
+  - Removed the property `intlExpand` , use `messsageOverrides.expand`
+    instead.
+  - Removed the property `intlCollapse`, use `messageOverrides.collapse`
+    instead.
 
-* button:
+- **button:**
 
-- Removed the property `intlLoading` , use `messsageOverrides.loading`
-  instead.
-
-Signed-off-by: dependabot[bot] <support@github.com>
-Co-authored-by: JC Franco <jfranco@esri.com>
-Co-authored-by: Ben Elan <benelan@users.noreply.github.com>
-Co-authored-by: jona7150 <jturpin@esri.com>
-Co-authored-by: Ben Elan <belan@esri.com>
-Co-authored-by: Calcite Admin <calcite-admin@esri.com>
-Co-authored-by: jcfranco <jcfranco@users.noreply.github.com>
-Co-authored-by: Kitty Hurley <khurley@esri.com>
-Co-authored-by: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>
-Co-authored-by: Eliza Khachatryan <eli97736@esri.com>
-Co-authored-by: github-actions[bot] <github-actions[bot]@users.noreply.github.com>
-Co-authored-by: Matt Driscoll <mdriscoll@esri.com>
-Co-authored-by: Alison Stump <alisonailea@users.noreply.github.com>
+  - Removed the property `intlLoading` , use `messsageOverrides.loading`
+    instead.
 
 - **popover, dropdown, modal, pick-list-item, value-list-item:** Renamed `disable*` properties.
 
-* Dropdown
-* Renamed the property `disableCloseOnSelect`, use
-  `closeOnSelectDisabled` instead.
-* Modal
-* Renamed the property `disableCloseButton`, use `closeButtonDisabled`
-  instead.
-* Renamed the property `disableFocusTrap`, use `focusTrapDisabled`
-  instead.
-* Renamed the property `disableOutsideClose`, use `outsideCloseDisabled`
-  instead.
+- **dropdown:**
+
+  - Renamed the property `disableCloseOnSelect`, use
+    `closeOnSelectDisabled` instead.
+
+- **modal:**
+
+  - Renamed the property `disableCloseButton`, use `closeButtonDisabled`
+    instead.
+  - Renamed the property `disableFocusTrap`, use `focusTrapDisabled`
+    instead.
+  - Renamed the property `disableOutsideClose`, use `outsideCloseDisabled`
+    instead.
   - Renamed the property `disableEscape`, use `escapeDisabled` instead.
-* PickListItem
-* Renamed the property `disableDeselect`, use `deselectDisabled`
-  instead.
-* Popover
+
+- **pick-list-item:**
+
+  - Renamed the property `disableDeselect`, use `deselectDisabled`
+    instead.
+
+- **popover:**
+
   - Renamed the property `disableFlip`, use `flipDisabled` instead.
-* Renamed the property `disableFocusTrap`, use `focusTrapDisabled`
-  instead.
-* Renamed the property `disablePointer`, use `pointerDisabled` instead.
-* ValueListItem
-* Renamed the property `disableDeselect`, use `deselectDisabled`
-  instead.
+  - Renamed the property `disableFocusTrap`, use `focusTrapDisabled`
+    instead.
+  - Renamed the property `disablePointer`, use `pointerDisabled` instead.
+
+- **value-list-item:**
+
+  - Renamed the property `disableDeselect`, use `deselectDisabled`
+    instead.
 
 - **input-date-picker:** Removed the `calciteDatePickerChange` event, use
   `calciteInputDatePickerChange` instead.
 
-* **date-picker:** Removed the `start` and `end` properties, set `value`
+- **date-picker:** Removed the `start` and `end` properties, set `value`
   as an array with the start as the first value and the end as the second
   value instead.
 
 - **combobox:** Renamed event.
 
-* Renamed the event `calciteComboboxChipDismiss`, use
-  `calciteComboboxChipClose` instead.
+  - Renamed the event `calciteComboboxChipDismiss`, use
+    `calciteComboboxChipClose` instead.
 
 - **alert:** Renamed properties.
 
-* Renamed the property `autoDismiss`, use `autoClose` instead.
-* Renamed the property `autoDismissDuration`, use `autoCloseDuration`
-  instead.
+  - Renamed the property `autoDismiss`, use `autoClose` instead.
+  - Renamed the property `autoDismissDuration`, use `autoCloseDuration`
+    instead.
 
 - **combobox:** Removed `event.detail` payload from events and added
   properties `selectedItems` and `filteredItems`.
 
-* Removed the `event.detail` property on the event
-  `calciteComboboxChange`, use `event.target.selectedItems` instead.
-* Removed the `event.detail` property on the event
-  `calciteComboboxFilterChange`, use `event.target.filteredItems` or
-  `event.target.value` instead.
+  - Removed the `event.detail` property on the event
+    `calciteComboboxChange`, use `event.target.selectedItems` instead.
+  - Removed the `event.detail` property on the event
+    `calciteComboboxFilterChange`, use `event.target.filteredItems` or
+    `event.target.value` instead.
 
 - **chip:** Renamed event.
 
-* Renamed the event `calciteChipDismiss`, use `calciteChipClose`
-  instead.
+  - Renamed the event `calciteChipDismiss`, use `calciteChipClose`
+    instead.
 
 - **tip:** Renamed property.
 
-* Renamed the property `nonDismissible`, use `closeDisabled` instead.
+  - Renamed the property `nonDismissible`, use `closeDisabled` instead.
 
 - **date-picker:** Removed `event.detail` payload from events.
 
-* Removed the `event.detail` property on the event
-  `calciteDatePickerChange`, use `event.target` instead.
-* Removed the `event.detail` property on the event
-  `calciteDatePickerRangeChange`, use `event.target` instead.
+  - Removed the `event.detail` property on the event
+    `calciteDatePickerChange`, use `event.target` instead.
+  - Removed the `event.detail` property on the event
+    `calciteDatePickerRangeChange`, use `event.target` instead.
 
-* **modal:** Removed deprecated properties and method.
+- **modal:** Removed deprecated properties and method.
 
-- Removed the property `active`, use `open` instead.
-- Removed the property noPadding, use `--calcite-modal-padding` CSS
-  property instead.
-- Removed the method `focusElement`, use `setFocus` method instead.
-- Removed the CSS property ` --calcite-modal-content-text`.
-- Removed the CSS property `--calcite-modal-padding-large`.
-- Removed the CSS property `--calcite-modal-title-text`.
+  - Removed the property `active`, use `open` instead.
+  - Removed the property noPadding, use `--calcite-modal-padding` CSS
+    property instead.
+  - Removed the method `focusElement`, use `setFocus` method instead.
+  - Removed the CSS property ` --calcite-modal-content-text`.
+  - Removed the CSS property `--calcite-modal-padding-large`.
+  - Removed the CSS property `--calcite-modal-title-text`.
 
-* **pagination:** Removed deprecated event.
+- **pagination:** Removed deprecated event.
 
-Removed the event `calcitePaginationUpdate` event, use
-`calcitePaginationChange` event instead.
+  - Removed the event `calcitePaginationUpdate` event, use
+    `calcitePaginationChange` event instead.
 
 - **loader:** Removed deprecated properties.
 
-* Removed the property `active`, use global attribute `hidden` instead.
-* Removed the property `noPadding`, use `--calcite-loader-padding` CSS
-  property instead.
+  - Removed the property `active`, use global attribute `hidden` instead.
+  - Removed the property `noPadding`, use `--calcite-loader-padding` CSS
+    property instead.
 
-* **label:** The default display for label is now `flex` instead of
+- **label:** The default display for label is now `flex` instead of
   `inline`.
 
   - Use `--calcite-label-margin-bottom` CSS variable to disable space when
     in `layout` is `inline`.
 
-* **tabs:** Removed slot.
+- **tabs:** Removed slot.
 
   - Removed the slot `tab-nav`, use `title-group` instead.
 
-* **dropdown:** Removed slot.
+- **dropdown:** Removed slot.
 
   - Removed the slot `dropdown-trigger`, use `trigger` instead.
 
-* **action-menu:** Removed event.
+- **action-menu:** Removed event.
 
   - Removed the event `calciteActionMenuOpenChange`, use
     `calciteActionMenuOpen` instead.
