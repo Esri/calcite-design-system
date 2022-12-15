@@ -87,6 +87,9 @@ export class PickListItem
    */
   @Prop({ reflect: true }) icon: ICON_TYPES | null = null;
 
+  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
+  @Prop({ reflect: true }) iconFlipRtl = false;
+
   /**
    * Label and accessible name for the component. Appears next to the icon.
    */
@@ -308,7 +311,7 @@ export class PickListItem
   // --------------------------------------------------------------------------
 
   renderIcon(): VNode {
-    const { icon } = this;
+    const { icon, iconFlipRtl } = this;
 
     if (!icon) {
       return null;
@@ -322,7 +325,9 @@ export class PickListItem
         }}
         onClick={this.pickListClickHandler}
       >
-        {icon === ICON_TYPES.square ? <calcite-icon icon={ICONS.checked} scale="s" /> : null}
+        {icon === ICON_TYPES.square ? (
+          <calcite-icon flipRtl={iconFlipRtl} icon={ICONS.checked} scale="s" />
+        ) : null}
       </span>
     );
   }
